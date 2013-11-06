@@ -791,7 +791,9 @@ public class UseSkillRequest
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or a libram skill
 
-		if ( skillId == SkillPool.ODE_TO_BOOZE || SkillDatabase.isLibramSkill( skillId ) )
+		if ( skillId == SkillPool.ODE_TO_BOOZE ||
+		     SkillDatabase.isLibramSkill( skillId ) ||
+		     SkillDatabase.isNonMpCostSkill( skillId ) )
 		{
 			return;
 		}
@@ -831,8 +833,8 @@ public class UseSkillRequest
 		}
 
 		if ( UseSkillRequest.canSwitchToItem( UseSkillRequest.WIZARD_HAT ) &&
-			!KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) &&
-			UseSkillRequest.isValidSwitch( EquipmentManager.HAT ) )
+		     !KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) &&
+		     UseSkillRequest.isValidSwitch( EquipmentManager.HAT ) )
 		{
 			( new EquipmentRequest( UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT ) ).run();
 		}
@@ -874,10 +876,15 @@ public class UseSkillRequest
 			return;
 		}
 
+		// Optimizing equipment can involve changing equipment.
+		// Save a checkpoint so we can restore previous equipment.
+
+		SpecialOutfit.createImplicitCheckpoint();
 		UseSkillRequest.optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 		{
+			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 
@@ -889,6 +896,8 @@ public class UseSkillRequest
 		}
 		this.useSkillLoop();
 		this.isRunning = false;
+
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private void useSkillLoop()
@@ -952,11 +961,12 @@ public class UseSkillRequest
 
 				int recoverMP = mpPerCast * currentCast;
 
-				SpecialOutfit.createImplicitCheckpoint();
 				if ( MoodManager.isExecuting() )
 				{
 					recoverMP = Math.min( Math.max( recoverMP, MoodManager.getMaintenanceCost() ), maximumMP );
 				}
+
+				SpecialOutfit.createImplicitCheckpoint();
 				RecoveryManager.recoverMP( recoverMP  );
 				SpecialOutfit.restoreImplicitCheckpoint();
 
@@ -1181,13 +1191,6 @@ public class UseSkillRequest
 		if ( bestTool == equippedTool)
 		{
 			return;
-		}
-
-		// If a weaker tool is equipped, it trumps the best tool.
-		// Unequip it.
-		if ( equippedTool != null)
-		{
-			( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ) ).run();
 		}
 
 		// Get best tool into inventory

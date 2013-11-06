@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -114,7 +115,7 @@ public class AccordionsCommand
 			output.append( "</td>" );
 
 			output.append( "<td>" );
-			boolean have = item.getCount( KoLConstants.inventory ) > 0;
+			boolean have = item.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( item );
 			boolean today = found.contains( item );
 			output.append( have ? "yes" : "no" );
 			output.append( "/" );
