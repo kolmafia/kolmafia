@@ -206,6 +206,7 @@ public class Modifiers
 	public static final int MYS_LIMIT = 101;
 	public static final int MOX_LIMIT = 102;
 	public static final int SONG_DURATION = 103;
+	public static final int PRISMATIC_DAMAGE = 104;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -671,6 +672,10 @@ public class Modifiers
 		{ "Song Duration",
 		  Pattern.compile( "Song Duration: ([+-]\\d+) Adventures" ), 
 		  Pattern.compile( "Song Duration: " + EXPR )
+		},
+		{ "Prismatic Damage",
+		  null,
+		  null,
 		},
 	};
 
@@ -1248,8 +1253,24 @@ public class Modifiers
 		this.expressions = null;
 	};
 
+	private double derivePrismaticDamage()
+	{
+		double damage = this.doubles[ Modifiers.COLD_DAMAGE ];
+		damage = Math.min( damage, this.doubles[ Modifiers.HOT_DAMAGE ] );
+		damage = Math.min( damage, this.doubles[ Modifiers.SLEAZE_DAMAGE ] );
+		damage = Math.min( damage, this.doubles[ Modifiers.SPOOKY_DAMAGE ] );
+		damage = Math.min( damage, this.doubles[ Modifiers.STENCH_DAMAGE ] );
+		this.doubles[ Modifiers.PRISMATIC_DAMAGE ] = damage;
+		return damage;
+	};
+
 	public double get( final int index )
 	{
+		if ( index == Modifiers.PRISMATIC_DAMAGE )
+		{
+			return this.derivePrismaticDamage();
+		}
+
 		if ( index < 0 || index >= this.doubles.length )
 		{
 			return 0.0;
@@ -1262,12 +1283,7 @@ public class Modifiers
 	{
 		if ( name.equals( "Prismatic Damage" ) )
 		{
-			double damage = this.doubles[ Modifiers.COLD_DAMAGE ];
-			damage = Math.min( damage, this.doubles[ Modifiers.HOT_DAMAGE ] );
-			damage = Math.min( damage, this.doubles[ Modifiers.SLEAZE_DAMAGE ] );
-			damage = Math.min( damage, this.doubles[ Modifiers.SPOOKY_DAMAGE ] );
-			damage = Math.min( damage, this.doubles[ Modifiers.STENCH_DAMAGE ] );
-			return damage;
+			return this.derivePrismaticDamage();
 		}
 
 		int index = Modifiers.findName( Modifiers.doubleModifiers, name );
