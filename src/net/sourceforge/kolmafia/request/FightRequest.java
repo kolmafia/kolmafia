@@ -2690,6 +2690,16 @@ public class FightRequest
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
+		// You groan and loosen your overtaxed belt.
+		// Y'know, you're full, but you could probably make room for <i>one more thing</i>...
+		if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
+		{
+			Preferences.increment( "_pantsgivingFullness" );
+			String updateMessage = "Pantsgiving increases max fullness by one to " + KoLCharacter.getFullnessLimit() + ".";
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+
 		int adventure = KoLAdventure.lastAdventureId();
 
 		// Handle location counting after each fight, regardless of won/loss/runaway etc
@@ -3084,16 +3094,6 @@ public class FightRequest
 			if ( responseText.contains( "You move a bone on the abacus to record your victory" ) )
 			{
 				Preferences.increment( "boneAbacusVictories", 1 );
-			}
-
-			// You groan and loosen your overtaxed belt.  
-			// Y'know, you're full, but you could probably make room for <i>one more thing</i>...
-			if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
-			{
-				Preferences.increment( "_pantsgivingFullness" );
-				String updateMessage = "Pantsgiving increases max fullness by one to " + KoLCharacter.getFullnessLimit() + ".";
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
 			}
 
 			// Give your summoned combat entity some experience
