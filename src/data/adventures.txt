@@ -325,6 +325,8 @@ Events	adventure=362	false	outdoor	A Yawning Abyssal Portal
 
 Events	adventure=363	false	indoor	The Space Odyssey Discotheque
 
+Events	adventure=365	false	outdoor	The Spirit World
+
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level
 Psychoses	adventure=303	false	outdoor	Doubt Man's Level
