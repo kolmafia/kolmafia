@@ -64,7 +64,7 @@ Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
 Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
 Battlefield (No Uniform)	SEMIRARE	Prior to Always
 Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
-Chapel	SEMIRARE	The Time This Fire
+Vanya's Castle Chapel	SEMIRARE	The Time This Fire
 Chemistry Class	SEMIRARE	Mrs. K, the Chemistry Teacher
 Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
 Cobb's Knob Harem	SEMIRARE	Hands On
