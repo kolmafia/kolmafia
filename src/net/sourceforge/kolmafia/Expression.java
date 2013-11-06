@@ -364,6 +364,9 @@ public class Expression
 			case 'M':
 				v = HolidayDatabase.getMoonlight();
 				break;
+			case 'N':
+				v = KoLCharacter.hasSkill( "Accordion Appreciation" ) ? 2.0 : 1.0;
+				break;
 			case 'R':
 				v = KoLCharacter.getReagentPotionDuration();
 				break;
