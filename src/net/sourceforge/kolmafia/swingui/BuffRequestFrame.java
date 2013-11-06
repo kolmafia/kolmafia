@@ -325,15 +325,15 @@ public class BuffRequestFrame
 			{
 				return 0;
 			}
-			else if ( buffId > 4000 && buffId < 5000 )
+			else if ( SkillDatabase.isSaucerorBuff( buffId ) )
 			{
 				return 1;
 			}
-			else if ( buffId > 2000 && buffId < 3000 )
+			else if ( SkillDatabase.isTurtleTamerBuff( buffId ) )
 			{
 				return 2;
 			}
-			else if ( buffId > 6000 && buffId < 7000 )
+			else if ( SkillDatabase.isAccordionThiefSong( buffId ) )
 			{
 				return 3;
 			}

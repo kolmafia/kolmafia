@@ -700,9 +700,9 @@ public class SkillDatabase
 		}
 
 		BuffTool [] tools =
-			( skillId > 2000 && skillId < 3000 ) ? UseSkillRequest.TAMER_TOOLS :
-			( skillId > 4000 && skillId < 5000 ) ? UseSkillRequest.SAUCE_TOOLS :
-			( skillId > 6000 && skillId < 7000 ) ? UseSkillRequest.THIEF_TOOLS :
+			( SkillDatabase.isTurtleTamerBuff( skillId ) ) ? UseSkillRequest.TAMER_TOOLS :
+			( SkillDatabase.isSaucerorBuff( skillId ) ) ? UseSkillRequest.SAUCE_TOOLS :
+			( SkillDatabase.isAccordionThiefSong( skillId ) ) ? UseSkillRequest.THIEF_TOOLS :
 			null;
 
 		if ( tools == null )
@@ -771,6 +771,21 @@ public class SkillDatabase
 	public static final boolean isBuff( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.BUFF );
+	}
+
+	public static final boolean isTurtleTamerBuff( final int skillId )
+	{
+		return ( skillId > 2000 && skillId < 3000 && SkillDatabase.isBuff( skillId ) );
+	}
+
+	public static final boolean isSaucerorBuff( final int skillId )
+	{
+		return ( skillId > 4000 && skillId < 5000 && SkillDatabase.isBuff( skillId ) );
+	}
+
+	public static final boolean isAccordionThiefSong( final int skillId )
+	{
+		return ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) );
 	}
 
 	/**

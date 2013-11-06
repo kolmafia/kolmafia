@@ -148,10 +148,7 @@ public class MoodTrigger
 			if ( SkillDatabase.contains( skillName ) )
 			{
 				this.skillId = SkillDatabase.getSkillId( skillName );
-				this.isThiefTrigger =
-					this.skillId > 6000 &&
-					this.skillId < 7000 &&
-					SkillDatabase.isBuff( this.skillId );
+				this.isThiefTrigger = SkillDatabase.isAccordionThiefSong( skillId );
 			}
 		}
 

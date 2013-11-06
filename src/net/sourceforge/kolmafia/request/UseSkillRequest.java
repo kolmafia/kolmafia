@@ -714,15 +714,15 @@ public class UseSkillRequest
 
 		if ( isBuff )
 		{
-			if ( skillId > 2000 && skillId < 3000 )
+			if ( SkillDatabase.isTurtleTamerBuff( skillId ) )
 			{
 				UseSkillRequest.prepareTool( UseSkillRequest.TAMER_TOOLS, skillId );
 			}
-			else if ( skillId > 4000 && skillId < 5000 )
+			else if ( SkillDatabase.isSaucerorBuff( skillId ) )
 			{
 				UseSkillRequest.prepareTool( UseSkillRequest.SAUCE_TOOLS, skillId );
 			}
-			else if ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) )
+			else if ( SkillDatabase.isAccordionThiefSong( skillId ) )
 			{
 				UseSkillRequest.prepareTool( UseSkillRequest.THIEF_TOOLS, skillId );
 			}

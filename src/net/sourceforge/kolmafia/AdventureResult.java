@@ -738,7 +738,7 @@ public class AdventureResult
 				if ( SkillDatabase.contains( skillName ) )
 				{
 					int skillId = SkillDatabase.getSkillId( skillName );
-					if ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) )
+					if ( SkillDatabase.isAccordionThiefSong( skillId ) )
 					{
 						name = "\u266B " + name;
 					}
