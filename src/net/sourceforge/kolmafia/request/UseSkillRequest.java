@@ -722,7 +722,7 @@ public class UseSkillRequest
 			{
 				UseSkillRequest.prepareTool( UseSkillRequest.SAUCE_TOOLS, skillId );
 			}
-			else if ( skillId > 6000 && skillId < 7000 )
+			else if ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) )
 			{
 				UseSkillRequest.prepareTool( UseSkillRequest.THIEF_TOOLS, skillId );
 			}
