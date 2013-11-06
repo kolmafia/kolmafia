@@ -137,7 +137,7 @@ public class AccordionsCommand
 			output.append( "<tr>" );
 
 			output.append( "<td colspan=4>" );
-			output.append( accordion.getEnchantments() );
+			output.append( Modifiers.evaluateModifiers( accordion.getEnchantments() ) );
 			output.append( "</td>" );
 
 			output.append( "</tr>" );
@@ -171,14 +171,14 @@ public class AccordionsCommand
 			if ( itemId == ItemPool.AUTOCALLIOPE )
 			{
 				// Special case to prevent stretching table way wide
-				this.enchantments = "Prismatic Damage: +2";
+				this.enchantments = "Prismatic Damage: [2*N]";
 			}
 			else
 			{
 				String enchantments = mods.getString( "Modifiers" );
-				// Assumption: modifier lists end with ", Class: "Accordion Thief", Song Duration: xxx"
-				int index = enchantments.indexOf( ", Class" );
-				this.enchantments = enchantments.substring( 0, index );
+				enchantments = Modifiers.trimModifiers( enchantments, "Class" );
+				enchantments = Modifiers.trimModifiers( enchantments, "Song Duration" );
+				this.enchantments = enchantments;
 			}
 		}
 
