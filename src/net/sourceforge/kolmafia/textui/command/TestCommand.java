@@ -42,6 +42,7 @@ import java.nio.charset.Charset;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -226,6 +227,17 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "relstring" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test relstring RELSTRING" );
+				return;
+			}
+			AdventureResult result = ItemDatabase.itemFromRelString( split[ 1 ] );
+			RequestLogger.printLine( "returned " + result );
+			return;
+		}
 		if ( command.equals( "result" ) )
 		{
 			if ( split.length < 2 )
