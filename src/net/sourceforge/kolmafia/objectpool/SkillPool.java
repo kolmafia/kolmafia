@@ -150,6 +150,7 @@ public class SkillPool
 	public static final int TEAR_WAVE = 7145;
 	public static final int WINK = 7168;
 	public static final int TALK_ABOUT_POLITICS = 7169;
+	public static final int POCKET_CRUMBS = 7170;
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;
