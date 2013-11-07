@@ -97,7 +97,7 @@ public class PulverizePanel
 	{
 		super.setEnabled( isEnabled );
 
-		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
+		if ( this.buttons != null && !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
 			this.buttons[ 3 ].setEnabled( false );
 		}
