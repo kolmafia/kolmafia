@@ -126,6 +126,7 @@ public class UseSkillCommand
 			{
 				return request.getMaximumCast() > 0;
 			}
+
 			RequestThread.postRequest( request );
 		}
 		return true;

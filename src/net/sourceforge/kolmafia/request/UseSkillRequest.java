@@ -792,6 +792,7 @@ public class UseSkillRequest
 		// ode to booze or a libram skill
 
 		if ( skillId == SkillPool.ODE_TO_BOOZE ||
+		     skillId == SkillPool.GLORIOUS_LUNCH ||
 		     SkillDatabase.isLibramSkill( skillId ) ||
 		     SkillDatabase.isNonMpCostSkill( skillId ) )
 		{
@@ -879,12 +880,10 @@ public class UseSkillRequest
 		// Optimizing equipment can involve changing equipment.
 		// Save a checkpoint so we can restore previous equipment.
 
-		SpecialOutfit.createImplicitCheckpoint();
 		UseSkillRequest.optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 
@@ -896,8 +895,6 @@ public class UseSkillRequest
 		}
 		this.useSkillLoop();
 		this.isRunning = false;
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private void useSkillLoop()
