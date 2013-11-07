@@ -4582,19 +4582,19 @@ public class FightRequest
 				return;
 			}
 
-			TagNode [] tables = node.getElementsByName( "table", true );
-			for ( int i = 0; i < tables.length; ++i )
-			{
-				TagNode table = tables[i];
-				table.getParent().removeChild( table );
-			}
-
 			TagNode inode = node.findElementByName( "img", true );
 			if ( status.famaction )
 			{
 				FightRequest.processFamiliarAction( node, inode, status );
 				status.famaction = false;
 				return;
+			}
+
+			TagNode [] tables = node.getElementsByName( "table", true );
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				table.getParent().removeChild( table );
 			}
 
 			FightRequest.processTable( node, status );
