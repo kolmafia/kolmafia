@@ -5231,6 +5231,16 @@ public abstract class ChoiceManager
 				return;
 			}
 
+			// Make sure that KoL currently allows the chosen choice
+
+			if ( !ChoiceManager.decisionAvailable( decision, request.responseText ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Requested choice (" + decision + ") for choice #" + choice + " is not currently available." );
+				ChoiceCommand.printChoices();
+				request.showInBrowser( true );
+				return;
+			}
+
 			request.addFormField( "whichchoice", String.valueOf( choice ) );
 			request.addFormField( "option", decision );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
@@ -5244,7 +5254,7 @@ public abstract class ChoiceManager
 		String option = "choiceAdventure" + choice;
 		String decision = Preferences.getString( option );
 
-		// If choice zero is not "Manual Control", adjust it to an actual choice
+		// If choice decision is not "Manual Control", adjust it to an actual option
 
 		decision = ChoiceManager.specialChoiceDecision1( choice, decision, Integer.MAX_VALUE, responseText );
 
@@ -5257,8 +5267,8 @@ public abstract class ChoiceManager
 
 		decision = ChoiceManager.specialChoiceDecision2( choice, decision, Integer.MAX_VALUE, responseText );
 
-		// Manual choice requested, or unsupported choice
-		if ( decision.equals( "0" ) || decision.equals( "" ) )
+		// Currently unavailable decision, manual choice requested, or unsupported choice
+		if ( !ChoiceManager.decisionAvailable( decision, responseText ) || decision.equals( "0" ) || decision.equals( "" ) )
 		{
 			return 0;
 		}
@@ -8938,6 +8948,18 @@ public abstract class ChoiceManager
 		}
 
 		return decision;
+	}
+
+	private static final boolean decisionAvailable( String decision, final String responseText )
+	{
+		if ( decision.equals( "0" ) || decision.equals( "" ) )
+		{
+			return true;
+		}
+
+		// *** make sure that the decision is available in the responseText
+
+		return true;
 	}
 
 	public static final Object findOption( final Object[] options, final int decision )
