@@ -4567,18 +4567,6 @@ public class FightRequest
 				return;
 			}
 
-			// Tables often appear in fight results to hold images.
-			TagNode inode = node.findElementByName( "img", true );
-			if ( inode != null )
-			{
-				String alt = inode.getAttributeByName( "alt" );
-				if ( alt != null && alt.equals( "Enemy's Hit Points" ) )
-				{
-					// Don't process Monster Manuel
-					return;
-				}
-			}
-
 			// Items have "rel" strings.
 			String cl = node.getAttributeByName( "class" );
 			String rel = node.getAttributeByName( "rel" );
@@ -4589,6 +4577,14 @@ public class FightRequest
 				return;
 			}
 
+			TagNode [] tables = node.getElementsByName( "table", true );
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				table.getParent().removeChild( table );
+			}
+
+			TagNode inode = node.findElementByName( "img", true );
 			if ( status.famaction )
 			{
 				FightRequest.processFamiliarAction( node, inode, status );
@@ -4596,280 +4592,13 @@ public class FightRequest
 				return;
 			}
 
-			StringBuffer text = node.getText();
-			String str = text.toString();
+			FightRequest.processTable( node, status );
 
-			if ( inode == null )
+			for ( int i = 0; i < tables.length; ++i )
 			{
-				// No image. Parse combat damage.
-				FightRequest.handleRaver( str, status );
-
-				int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
-					FightRequest.parseHaikuDamage( str ) :
-					FightRequest.parseNormalDamage( str );
-				if ( damage != 0 )
-				{
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterAttribute( action, damage, HEALTH );
-					}
-					MonsterStatusTracker.damageMonster( damage );
-				}
-
-				// If it's not combat damage, perhaps it's a stat gain or loss
-				else if ( str.startsWith( "You gain" ) || str.startsWith( "You lose" ) )
-				{
-					status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
-				}
-
-				// The tootlers tootle! The singers all sing!
-				// You've accomplished a wonderful, glorious thing!
-				// Come raise a glass high, and come join in the revel!
-				// We're all celebrating! You went up a level!
-
-				else if ( FightRequest.anapest && str.indexOf( "You went up a level" ) != -1 )
-				{
-					String msg = "You gain a Level!";
-					status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
-				}
-
-				return;
+				TagNode table = tables[i];
+				FightRequest.processNode( table, status );
 			}
-
-			// Look for items and effects first
-			String onclick = inode.getAttributeByName( "onclick" );
-			if ( onclick != null )
-			{
-				if ( onclick.startsWith( "descitem" ) &&
-					str.indexOf( "An item drops:" ) == -1 )
-				{
-					Matcher m = INT_PATTERN.matcher( onclick );
-					if ( !m.find() )
-					{
-						return;
-					}
-
-					int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
-					AdventureResult result = ItemPool.get( itemId, 1 );
-					ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
-					if ( str.indexOf( "Item unequipped:" ) != -1 )
-					{	// Item removed by Zombo
-						EquipmentManager.discardEquipment( itemId );
-					}
-					return;
-				}
-
-				Matcher m = EFF_PATTERN.matcher( onclick );
-				if ( m.find() )
-				{
-					// Gain/loss of effect
-					status.shouldRefresh = true;
-					String effect = EffectDatabase.getEffectName( m.group( 1 ) );
-					if ( effect == null )
-					{
-						return;
-					}
-					// For prettiness
-					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					if ( FightRequest.haiku || FightRequest.anapest )
-					{	// the haiku doesn't name the effect
-						munged = "You acquire an effect: " + effect;
-					}
-					ResultProcessor.processEffect( effect, munged );
-					if ( effect.equalsIgnoreCase( Effect.HAIKU_STATE_OF_MIND.effectName() ) )
-					{
-						FightRequest.haiku = true;
-						if ( status.logMonsterHealth )
-						{
-							FightRequest.logMonsterAttribute( action, 17, HEALTH );
-						}
-						MonsterStatusTracker.damageMonster( 17 );
-					}
-					else if ( effect.equalsIgnoreCase( Effect.JUST_THE_BEST_ANAPESTS.effectName() ) )
-					{
-						FightRequest.anapest = true;
-					}
-					return;
-				}
-			}
-
-			String src = inode.getAttributeByName( "src" );
-
-			if ( src == null ) return;
-
-			String image = src.substring( src.lastIndexOf( "/" ) + 1 );
-
-			// Attempt to identify combat items
-			String itemName = inode.getAttributeByName( "title" );
-			int itemId = ItemDatabase.getItemId( itemName );
-			if ( itemId != -1 && image.equals( ItemDatabase.getImage( itemId ) ) )
-			{
-				status.lastCombatItem = itemId;
-			}
-
-			if ( image.equals( "hp.gif" ) &&
-			     ( str.indexOf( "regains" ) != -1 ||
-			       str.indexOf( "She looks about" ) != -1 ) )
-			{
-				// The monster heals itself
-				Matcher m = INT_PATTERN.matcher( str );
-				int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-				}
-				MonsterStatusTracker.healMonster( healAmount );
-
-				status.shouldRefresh = true;
-				return;
-			}
-
-			if ( image.equals( "nicesword.gif" ) )
-			{
-				// You modify monster attack power
-				Matcher m = SPACE_INT_PATTERN.matcher( str );
-				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, ATTACK );
-				}
-				MonsterStatusTracker.lowerMonsterAttack( damage );
-				return;
-			}
-
-			if ( image.equals( "whiteshield.gif" ) )
-			{
-				// You modify monster defense
-				Matcher m = INT_PATTERN.matcher( str );
-				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, DEFENSE );
-				}
-				MonsterStatusTracker.lowerMonsterDefense( damage );
-				return;
-			}
-
-			// If you have Just the Best Anapests and go to the
-			// haiku dungeon, you see ... anapests!
-
-			if ( FightRequest.anapest )
-			{
-				FightRequest.processAnapestResult( node, inode, image, status );
-				return;
-			}
-
-			if ( FightRequest.haiku )
-			{
-				FightRequest.processHaikuResult( node, inode, image, status );
-				return;
-			}
-
-			if ( image.equals( "meat.gif" ) )
-			{
-				// Adjust for Can Has Cyborger
-				str = StringUtilities.singleStringReplace( str, "gets", "gain" );
-				str = StringUtilities.singleStringReplace( str, "Meets", "Meat" );
-
-				// Adjust for The Sea
-				str = StringUtilities.singleStringReplace( str, "manage to grab", "gain" );
-
-				// If we are in The Themthar Hills and we have
-				// seen the "you won" comment, the nuns take
-				// the meat.
-
-				status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
-				return;
-			}
-
-			if ( image.equals( "hp.gif" ) ||
-			     image.equals( "mp.gif" ) )
-			{
-				// You gain HP or MP
-				if ( status.mosquito )
-				{
-					status.mosquito = false;
-					Matcher m = INT_PATTERN.matcher( str );
-					int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterAttribute( action, damage, HEALTH );
-					}
-					MonsterStatusTracker.damageMonster( damage );
-				}
-
-				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
-				return;
-			}
-
-			if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
-			{
-				FightRequest.processFamiliarAction( node, inode, status );
-				return;
-			}
-
-			if ( image.equals( "hkatana.gif" ) )
-			{
-				// You struck with your haiku katana. Pull the
-				// damage out of the img tag if we can
-				if ( FightRequest.foundVerseDamage( inode, action, status ) )
-				{
-
-					return;
-				}
-			}
-
-			if ( image.equals( "realdolphin_r.gif" ) )
-			{
-				// You are slowed too much by the water, and a
-				// stupid dolphin swims up and snags a seaweed
-				// before you can grab it.
-
-				// Inside this table is another table with
-				// another image of the stolen dolphin item.
-
-				TagNode tnode = node.findElementByName( "table", true );
-				if ( tnode == null )
-				{
-					return;
-				}
-
-				TagNode inode2 = tnode.findElementByName( "img", true );
-				if ( inode2 == null )
-				{
-					return;
-				}
-
-				String onclick2 = inode2.getAttributeByName( "onclick" );
-				if ( onclick2 == null || !onclick2.startsWith( "descitem" ) )
-				{
-					return;
-				}
-
-				Matcher m = INT_PATTERN.matcher( onclick2 );
-				String descid = m.find() ? m.group() : null;
-
-				if ( descid == null )
-				{
-					return;
-				}
-
-				itemId = ItemDatabase.getItemIdFromDescription( descid );
-				if ( itemId == -1 )
-				{
-					return;
-				}
-
-				AdventureResult result = ItemPool.get( itemId, 1 );
-				String message = "A dolphin stole: " + result.getName();
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-				Preferences.setString( "dolphinItem", result.getName() );
-				return;
-			}
-
-			// Combat item usage: process the children of this node
-			// to pick up damage to the monster and stat gains
 		}
 		else if ( name.equals( "p" ) )
 		{
@@ -5024,6 +4753,297 @@ public class FightRequest
 				continue;
 			}
 		}
+	}
+
+	private static void processTable( TagNode node, TagStatus status )
+	{
+		StringBuffer action = status.action;
+		StringBuffer text = node.getText();
+		String str = text.toString();
+
+		// Tables often appear in fight results to hold images.
+		TagNode inode = node.findElementByName( "img", true );
+		if ( inode != null )
+		{
+			String alt = inode.getAttributeByName( "alt" );
+			if ( alt != null && alt.equals( "Enemy's Hit Points" ) )
+			{
+				// Don't process Monster Manuel
+				return;
+			}
+		}
+
+		if ( inode == null )
+		{
+			// No image. Parse combat damage.
+			FightRequest.handleRaver( str, status );
+
+			int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
+				FightRequest.parseHaikuDamage( str ) :
+				FightRequest.parseNormalDamage( str );
+			if ( damage != 0 )
+			{
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				}
+				MonsterStatusTracker.damageMonster( damage );
+			}
+
+			// If it's not combat damage, perhaps it's a stat gain or loss
+			else if ( str.startsWith( "You gain" ) || str.startsWith( "You lose" ) )
+			{
+				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+			}
+
+			// The tootlers tootle! The singers all sing!
+			// You've accomplished a wonderful, glorious thing!
+			// Come raise a glass high, and come join in the revel!
+			// We're all celebrating! You went up a level!
+
+			else if ( FightRequest.anapest && str.indexOf( "You went up a level" ) != -1 )
+			{
+				String msg = "You gain a Level!";
+				status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
+			}
+
+			return;
+		}
+
+		// Look for items and effects first
+		String onclick = inode.getAttributeByName( "onclick" );
+		if ( onclick != null )
+		{
+			if ( onclick.startsWith( "descitem" ) &&
+			     str.indexOf( "An item drops:" ) == -1 )
+			{
+				Matcher m = INT_PATTERN.matcher( onclick );
+				if ( !m.find() )
+				{
+					return;
+				}
+
+				int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
+				AdventureResult result = ItemPool.get( itemId, 1 );
+				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
+				if ( str.indexOf( "Item unequipped:" ) != -1 )
+				{	// Item removed by Zombo
+					EquipmentManager.discardEquipment( itemId );
+				}
+				return;
+			}
+
+			Matcher m = EFF_PATTERN.matcher( onclick );
+			if ( m.find() )
+			{
+				// Gain/loss of effect
+				status.shouldRefresh = true;
+				String effect = EffectDatabase.getEffectName( m.group( 1 ) );
+				if ( effect == null )
+				{
+					return;
+				}
+				// For prettiness
+				String munged = StringUtilities.singleStringReplace( str, "(", " (" );
+				if ( FightRequest.haiku || FightRequest.anapest )
+				{	// the haiku doesn't name the effect
+					munged = "You acquire an effect: " + effect;
+				}
+				ResultProcessor.processEffect( effect, munged );
+				if ( effect.equalsIgnoreCase( Effect.HAIKU_STATE_OF_MIND.effectName() ) )
+				{
+					FightRequest.haiku = true;
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterAttribute( action, 17, HEALTH );
+					}
+					MonsterStatusTracker.damageMonster( 17 );
+				}
+				else if ( effect.equalsIgnoreCase( Effect.JUST_THE_BEST_ANAPESTS.effectName() ) )
+				{
+					FightRequest.anapest = true;
+				}
+				return;
+			}
+		}
+
+		String src = inode.getAttributeByName( "src" );
+
+		if ( src == null ) return;
+
+		String image = src.substring( src.lastIndexOf( "/" ) + 1 );
+
+		// Attempt to identify combat items
+		String itemName = inode.getAttributeByName( "title" );
+		int itemId = ItemDatabase.getItemId( itemName );
+		if ( itemId != -1 && image.equals( ItemDatabase.getImage( itemId ) ) )
+		{
+			status.lastCombatItem = itemId;
+		}
+
+		if ( image.equals( "hp.gif" ) &&
+		     ( str.indexOf( "regains" ) != -1 ||
+		       str.indexOf( "She looks about" ) != -1 ) )
+		{
+			// The monster heals itself
+			Matcher m = INT_PATTERN.matcher( str );
+			int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
+			}
+			MonsterStatusTracker.healMonster( healAmount );
+
+			status.shouldRefresh = true;
+			return;
+		}
+
+		if ( image.equals( "nicesword.gif" ) )
+		{
+			// You modify monster attack power
+			Matcher m = SPACE_INT_PATTERN.matcher( str );
+			int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, ATTACK );
+			}
+			MonsterStatusTracker.lowerMonsterAttack( damage );
+			return;
+		}
+
+		if ( image.equals( "whiteshield.gif" ) )
+		{
+			// You modify monster defense
+			Matcher m = INT_PATTERN.matcher( str );
+			int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
+			}
+			MonsterStatusTracker.lowerMonsterDefense( damage );
+			return;
+		}
+
+		// If you have Just the Best Anapests and go to the
+		// haiku dungeon, you see ... anapests!
+
+		if ( FightRequest.anapest )
+		{
+			FightRequest.processAnapestResult( node, inode, image, status );
+			return;
+		}
+
+		if ( FightRequest.haiku )
+		{
+			FightRequest.processHaikuResult( node, inode, image, status );
+			return;
+		}
+
+		if ( image.equals( "meat.gif" ) )
+		{
+			// Adjust for Can Has Cyborger
+			str = StringUtilities.singleStringReplace( str, "gets", "gain" );
+			str = StringUtilities.singleStringReplace( str, "Meets", "Meat" );
+
+			// Adjust for The Sea
+			str = StringUtilities.singleStringReplace( str, "manage to grab", "gain" );
+
+			// If we are in The Themthar Hills and we have
+			// seen the "you won" comment, the nuns take
+			// the meat.
+
+			status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
+			return;
+		}
+
+		if ( image.equals( "hp.gif" ) ||
+		     image.equals( "mp.gif" ) )
+		{
+			// You gain HP or MP
+			if ( status.mosquito )
+			{
+				status.mosquito = false;
+				Matcher m = INT_PATTERN.matcher( str );
+				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				}
+				MonsterStatusTracker.damageMonster( damage );
+			}
+
+			status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+			return;
+		}
+
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		{
+			FightRequest.processFamiliarAction( node, inode, status );
+			return;
+		}
+
+		if ( image.equals( "hkatana.gif" ) )
+		{
+			// You struck with your haiku katana. Pull the
+			// damage out of the img tag if we can
+			if ( FightRequest.foundVerseDamage( inode, action, status ) )
+			{
+
+				return;
+			}
+		}
+
+		if ( image.equals( "realdolphin_r.gif" ) )
+		{
+			// You are slowed too much by the water, and a
+			// stupid dolphin swims up and snags a seaweed
+			// before you can grab it.
+
+			// Inside this table is another table with
+			// another image of the stolen dolphin item.
+
+			TagNode tnode = node.findElementByName( "table", true );
+			if ( tnode == null )
+			{
+				return;
+			}
+
+			TagNode inode2 = tnode.findElementByName( "img", true );
+			if ( inode2 == null )
+			{
+				return;
+			}
+
+			String onclick2 = inode2.getAttributeByName( "onclick" );
+			if ( onclick2 == null || !onclick2.startsWith( "descitem" ) )
+			{
+				return;
+			}
+
+			Matcher m = INT_PATTERN.matcher( onclick2 );
+			String descid = m.find() ? m.group() : null;
+
+			if ( descid == null )
+			{
+				return;
+			}
+
+			itemId = ItemDatabase.getItemIdFromDescription( descid );
+			if ( itemId == -1 )
+			{
+				return;
+			}
+
+			AdventureResult result = ItemPool.get( itemId, 1 );
+			String message = "A dolphin stole: " + result.getName();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			Preferences.setString( "dolphinItem", result.getName() );
+			return;
+		}
+
+		// Combat item usage: process the children of this node
+		// to pick up damage to the monster and stat gains
 	}
 
 	public static final Pattern KISS_PATTERN = Pattern.compile( "(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?" );
