@@ -2400,6 +2400,11 @@ public class FightRequest
 			Preferences.increment( "_pantsgivingBanish" );
 		}
 
+		else if ( skillNumber == SkillPool.POCKET_CRUMBS && responseText.contains( "pocket next to the crumbs" ) )
+		{
+			Preferences.increment( "_pantsgivingCrumbs" );
+		}
+
 		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
 		{
 			Preferences.setString( "_nanorhinoBanishedMonster", monster );
