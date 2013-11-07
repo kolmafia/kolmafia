@@ -1129,7 +1129,7 @@ public abstract class UseLinkDecorator
 
 			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
 			useType = whiteCount + " white";
-			useLocation = "forestvillage.php?action=mystic";
+			useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
 			break;
 
 		// Special handling for star charts, lines, and stars, where

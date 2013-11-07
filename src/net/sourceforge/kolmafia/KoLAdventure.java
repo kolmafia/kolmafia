@@ -529,7 +529,7 @@ public class KoLAdventure
 			AdventureResult transfunctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
 			if ( !InventoryManager.hasItem( transfunctioner ) )
 			{
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "forestvillage.php?action=mystic" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=forestvillage&action=fv_mystic" ) );
 				GenericRequest pixelRequest = KoLAdventure.ZONE_UNLOCK.constructURLString( "choice.php?pwd=" + 
 					GenericRequest.passwordHash + "&whichchoice=664&option=1&choiceform1" );
 				// The early steps cannot be skipped
