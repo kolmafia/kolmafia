@@ -4582,9 +4582,9 @@ public class FightRequest
 				return;
 			}
 
-			TagNode inode = node.findElementByName( "img", true );
 			if ( status.famaction )
 			{
+				TagNode inode = node.findElementByName( "img", true );
 				FightRequest.processFamiliarAction( node, inode, status );
 				status.famaction = false;
 				return;
