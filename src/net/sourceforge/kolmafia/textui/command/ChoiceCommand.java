@@ -112,7 +112,7 @@ public class ChoiceCommand
 		}		
 		ChoiceManager.processChoiceAdventure( decision );
 	}
-	
+
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
 
 	public static TreeMap parseChoices()
@@ -143,7 +143,21 @@ public class ChoiceCommand
 		}
 		return rv;
 	}
-	
+
+	public static boolean optionAvailable( final String decision, final String responseText)
+	{
+		Matcher m = OPTION_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			if ( m.group( 1 ).equals( decision ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}	
+
 	public static void printChoices()
 	{
 		TreeMap choices = ChoiceCommand.parseChoices();

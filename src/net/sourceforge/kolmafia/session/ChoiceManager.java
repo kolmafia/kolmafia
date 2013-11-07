@@ -5233,7 +5233,7 @@ public abstract class ChoiceManager
 
 			// Make sure that KoL currently allows the chosen choice
 
-			if ( !ChoiceManager.decisionAvailable( decision, request.responseText ) )
+			if ( !ChoiceCommand.optionAvailable( decision, request.responseText ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Requested choice (" + decision + ") for choice #" + choice + " is not currently available." );
 				ChoiceCommand.printChoices();
@@ -5268,7 +5268,7 @@ public abstract class ChoiceManager
 		decision = ChoiceManager.specialChoiceDecision2( choice, decision, Integer.MAX_VALUE, responseText );
 
 		// Currently unavailable decision, manual choice requested, or unsupported choice
-		if ( !ChoiceManager.decisionAvailable( decision, responseText ) || decision.equals( "0" ) || decision.equals( "" ) )
+		if ( decision.equals( "0" ) || decision.equals( "" ) || !ChoiceCommand.optionAvailable( decision, responseText ) )
 		{
 			return 0;
 		}
@@ -8950,18 +8950,6 @@ public abstract class ChoiceManager
 		return decision;
 	}
 
-	private static final boolean decisionAvailable( String decision, final String responseText )
-	{
-		if ( decision.equals( "0" ) || decision.equals( "" ) )
-		{
-			return true;
-		}
-
-		// *** make sure that the decision is available in the responseText
-
-		return true;
-	}
-
 	public static final Object findOption( final Object[] options, final int decision )
 	{
 		for ( int i = 0; i < options.length; ++i )
@@ -9063,7 +9051,7 @@ public abstract class ChoiceManager
 		Object chosen = ChoiceManager.findOption( options, StringUtilities.parseInt( decision ) );
 
 		// If the player doesn't want to "complete the outfit", nothing to do
-		if ( chosen != null && !chosen.toString().equals( "complete the outfit" ) )
+		if ( chosen == null || !chosen.toString().equals( "complete the outfit" ) )
 		{
 			return decision;
 		}
