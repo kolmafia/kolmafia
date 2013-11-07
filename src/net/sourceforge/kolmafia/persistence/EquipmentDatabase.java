@@ -663,6 +663,12 @@ public class EquipmentDatabase
 		}
 	}
 
+	public static final boolean isSpecialAccordion( final int itemId )
+	{
+		return ( EquipmentDatabase.getItemType( itemId ).contains( "accordion" ) &&
+			itemId != ItemPool.TOY_ACCORDION && itemId != ItemPool.ANTIQUE_ACCORDION );
+	}
+	
 	public static final Stat getWeaponStat( final int itemId )
 	{
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );

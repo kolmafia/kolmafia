@@ -1779,6 +1779,12 @@ public class EquipmentManager
 			}
 		}
 
+		if ( KoLCharacter.getClassType() != KoLCharacter.ACCORDION_THIEF &&
+			EquipmentDatabase.isSpecialAccordion( itemId ) )
+		{
+			return false;
+		}
+		
 		String requirement = EquipmentDatabase.getEquipRequirement( itemId );
 		int req;
 
