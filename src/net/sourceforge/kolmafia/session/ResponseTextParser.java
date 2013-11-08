@@ -1014,7 +1014,6 @@ public class ResponseTextParser
 		RequestLogger.updateSessionLog( message );
 		KoLCharacter.addAvailableSkill( skillName );
 		KoLCharacter.updateStatus();
-		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
 		DiscoCombatHelper.learnSkill( skillName );
 		ConcoctionDatabase.setRefreshNeeded( true );

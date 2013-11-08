@@ -3236,6 +3236,8 @@ Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie 
 Ass Over Teakettle	Initiative: +50
 Assaulted with Pepper	Monster Level: +20
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
+Avatar of the Storm Tortoise	Initiative: +100, Maximum MP: +200, MP Regen Min: 30, MP Regen Max: 40
 Axe Wound	Muscle: -5
 Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 # B-b-brr!
@@ -3284,7 +3286,10 @@ Blade Rolling	Moxie Percent: +100
 Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
+Blessing of She-Who-Was	Mysticality: +5, Spooky Damage: +5
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
+Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Block-Rockin' Beet	Damage Reduction: 15
 Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
@@ -4030,6 +4035,7 @@ Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
 Patched In	Mysticality Percent: +20
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
+Patient Smile	Experience (Muscle): +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
@@ -4259,6 +4265,7 @@ Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
 # Spike-and-span: Makes you look like a spiny skelelton
 Spiky Hair	Muscle: +6, Moxie: +6
+# Spiky Shell: Damages attacking opponents
 Spirit Bubble	Damage Reduction: 10, Spooky Damage: +10, Spooky Spell Damage: +10
 Spirit of Alph	Muscle Percent: +10
 # Spirit of Bacon Grease: All Spells Cast Are Sleazy
@@ -4272,6 +4279,7 @@ Spirit of Peppermint	Spell Damage: +10
 # Spirit of Wormwood: All Spells Cast Are Spooky
 Spirit of Wormwood	Spell Damage: +10
 # Spirit of Nothing: Removes any of the other Flavour of Magic effects
+# Spirit Pariah
 Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
@@ -4305,6 +4313,7 @@ Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10,
 # Sticks and Stones: +50 Damage vs. Skeletons
 Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
+Stiff Upper Lip	Damage Reduction: 10
 Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 Stinking Cloud	Stench Resistance: +1
@@ -4556,6 +4565,7 @@ Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
+# Butts of Steel Improves the accuracy and damage of your Butt skills
 Chip on your Shoulder	PvP Fights: +5
 Claws of the Walrus	Weapon Damage: +7
 Cold-Blooded Fearlessness	Spooky Resistance: +2
@@ -4612,6 +4622,7 @@ Never Late for Dinner	Adventures: +10, Initiative: +50
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
+# Pizza Lover You really, really like pizza
 Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Precision of the Penguin	Critical Hit Percent: [Y]
@@ -4636,6 +4647,8 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Superhuman Cocktailcrafting
 # Tao of the Terrapin
 # Tempuramancy
+# Testudinal Teachings Your familiars gain weight faster
+The Long View	Adventures: +3
 # The Way of Sauce
 Thick-Skinned (Skill)	Maximum HP: +10, Maximum MP: +10
 Thief Among the Honorable	Item Drop: +5
