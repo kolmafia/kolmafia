@@ -7406,6 +7406,12 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "flickeringPixel8", true );
 			}
+
+			break;
+
+		case 658:
+			// Debasement
+			ResultProcessor.processItem( ItemPool.GOLD_PIECE, -30 );
 			break;
 
 		case 689:
