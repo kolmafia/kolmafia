@@ -2377,12 +2377,7 @@ public abstract class KoLCharacter
 
 	public static final int currentPrismaticDamage()
 	{
-		int coldDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.COLD_DAMAGE );
-		int hotDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.HOT_DAMAGE );
-		int sleazeDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_DAMAGE );
-		int spookyDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_DAMAGE );
-		int stenchDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.STENCH_DAMAGE );
-		return Math.min( coldDamage, Math.min( hotDamage, Math.min( sleazeDamage, Math.min( spookyDamage, stenchDamage ) ) ) );
+		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
 	}
 
 	/**
