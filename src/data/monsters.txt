@@ -1514,16 +1514,16 @@ stiff disco dancer	disco_flexible.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: 
 vandal kid	vandalkid.gif	HP: [0.75*(min(MUS-3,200)+max(ML,0))] Def: [min(MUS-3,200)+max(ML,0)] Atk: [min(MOX-3,200)+max(ML,0)] Exp: [(min(STAT-3,200)+max(ML,0))/4] Init: 50 P: dude	carton of rotten eggs (15)	slingshot (5)	spray paint (10)
 suburban security civilian	paulblart.gif	HP: [0.75*(min(MUS+3,300)+max(ML,0))] Def: [min(MUS+3,300)+max(ML,0)] Atk: [min(MOX+3,300)+max(ML,0)] Exp: [(min(STAT+3,300)+max(ML,0))/4] Init: -10000 P: dude	security flashlight (10)	unused walkie-talkie (1)	Way More Tears&trade; pepper spray (15)
 kid who is too old to be Trick-or-Treating	tooold.gif	HP: [0.75*(min(MUS,250)+max(ML,0))] Def: [min(MUS,250)+max(ML,0)] Atk: [min(MOX,250)+max(ML,0)] Exp: [(min(STAT,250)+max(ML,0))/4] Init: 50 P: dude	bottle of whiskey (15)	Effermint&trade; tablets (10)	sturdy cane (5)
-All-Hallow's Steve	steve.gif	HP: [0.75*(MUS+30+max(ML,0))] Def: [MUS+30+max(ML,0)] Atk: [MOX+30+max(ML,0)] Exp: [(STAT+30+max(ML,0))/4] Init: 90 P: dude	All-Hallow's Steve's fright wig (c100)
+All-Hallow's Steve	steve.gif	HP: [0.75*(MUS+30+max(ML,0))] Def: [MUS+30+max(ML,0)] Atk: [MOX+30+max(ML,0)] Exp: [(STAT+30+max(ML,0))/4] Init: 90 P: dude	All-Hallow's Steve's fright wig (n100)
 
 # Accordion Thief Revamp Lead-in
 depressing French accordionist	wanderacc1.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	Bal-musette accordion (a0)
 lively Cajun accordionist	wanderacc2.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	Cajun accordion (a0)
 quirky indie-rock accordionist	wanderacc3.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	quirky accordion (a0)
-Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P: dude	Skipper's accordion (100)
+Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P: dude	Skipper's accordion (n100)
 
 # The Spirit World
-spirit alarm clock	spiritalclock.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit bell (n100)
+spirit alarm clock	spiritalclock.gif	HP: [0.75*(min(MUS+5,1000)+max(ML,0))] Def: [min(MUS+5,1000)+max(ML,0)] Atk: [min(MOX+5,1000)+max(ML,0)] Exp: [(min(STAT+5,1000)+max(ML,0))/4] Init: -10000 P: undead	spirit bell (n100)
 spirit bedbug	spiritbug.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit faucet	spiritfaucet.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit pea	spiritpea.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)

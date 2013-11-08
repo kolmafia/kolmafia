@@ -243,6 +243,7 @@ public class FightRequest
 
 	private static boolean castNoodles = false;
 	private static boolean castClubFoot = false;
+	private static boolean castShellUp = false;
 	private static boolean castAccordionBash = false;
 	private static boolean castCleesh = false;
 	private static boolean insultedPirate = false;
@@ -510,6 +511,11 @@ public class FightRequest
 	public static final boolean canCastClubFoot()
 	{
 		return !FightRequest.castClubFoot;
+	}
+
+	public static final boolean canCastShellUp()
+	{
+		return !FightRequest.castShellUp;
 	}
 
 	public static final boolean canCastAccordionBash()
@@ -1237,6 +1243,16 @@ public class FightRequest
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castClubFoot )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Shell Up" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.castShellUp )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -5449,6 +5465,7 @@ public class FightRequest
 		IslandManager.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
+		FightRequest.castShellUp = false;
 		FightRequest.castAccordionBash = false;
 		FightRequest.castCleesh = false;
 		FightRequest.insultedPirate = false;
@@ -6062,6 +6079,10 @@ public class FightRequest
 
 		case SkillPool.CLUBFOOT:
 			FightRequest.castClubFoot = true;
+			return;
+			
+		case SkillPool.SHELL_UP:
+			FightRequest.castShellUp = true;
 			return;
 			
 		case SkillPool.ACCORDION_BASH:
