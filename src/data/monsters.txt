@@ -1372,13 +1372,13 @@ pork butterfly	porkbutterfly.gif	Atk: 180 Def: 240 HP: 300 Init: 50 E: sleaze P:
 salaminder	salaminder.gif	Atk: 200 Def: 200 HP: 300 Init: 100 E: hot P: beast
 cold cutter	coldcutter.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: cold P: construct
 The Beefhemoth	beefhemoth.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: beast
-tin can conspirator	gourd_can.gif	Atk: 18 Def: 22 HP: 25 Init: 50 P: construct	razor-sharp can lid (0)	razor-sharp can lid (0)	censored can label (c0)
-goblin conspirator	gourd_goblin.gif	Atk: 20 Def: 20 HP: 25 Init: 50 P: goblin	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	Illuminati earpiece (c0)
-spider conspirator	gourd_spider.gif	Atk: 22 Def: 18 HP: 25 Init: 50 P: bug	spider web (0)	spider web (0)
-canned goblin conspirator	gourd_cangoblin.gif	Atk: 26 Def: 32 HP: 35 Init: 50 P: construct	razor-sharp can lid (0)	Knob Goblin firecracker (0)
-spider-goblin conspirator	gourd_spidergob.gif	Atk: 32 Def: 26 HP: 35 Init: 50 P: horror	spider web (0)	Knob Goblin firecracker (0)
-tin spider conspirator	gourd_canspider.gif	Atk: 28 Def: 28 HP: 35 Init: 50 P: construct	razor-sharp can lid (0)	spider web (0)
-Fnord the Unspeakable	gourd_fnord.gif	Atk: 38 Def: 38 HP: 50 Init: 75 P: horror	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)
+tin can conspirator	gourd_can.gif	Atk: 18 Def: 22 HP: 25 Init: 50 P: construct	razor-sharp can lid (0)	razor-sharp can lid (0)	censored can label (c0)	sharp tin strip (0)
+goblin conspirator	gourd_goblin.gif	Atk: 20 Def: 20 HP: 25 Init: 50 P: goblin	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	goblin collarbone (0)	Illuminati earpiece (c0)
+spider conspirator	gourd_spider.gif	Atk: 22 Def: 18 HP: 25 Init: 50 P: bug	spider web (0)	spider web (0)	wad of spider silk (0)
+canned goblin conspirator	gourd_cangoblin.gif	Atk: 26 Def: 32 HP: 35 Init: 50 P: construct	razor-sharp can lid (0)	Knob Goblin firecracker (0)	sharp tin strip (0)	goblin collarbone (0)
+spider-goblin conspirator	gourd_spidergob.gif	Atk: 32 Def: 26 HP: 35 Init: 50 P: horror	spider web (0)	Knob Goblin firecracker (0)	wad of spider silk (0)	goblin collarbone (0)
+tin spider conspirator	gourd_canspider.gif	Atk: 28 Def: 28 HP: 35 Init: 50 P: construct	razor-sharp can lid (0)	spider web (0)	sharp tin strip (0)	wad of spider silk (0)
+Fnord the Unspeakable	gourd_fnord.gif	Atk: 38 Def: 38 HP: 50 Init: 75 P: horror	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)	sharp tin strip (0)	wad of spider silk (0)	goblin collarbone (0)
 fearsome giant squid	bath_octopus.gif	Atk: 125 Def: 125 HP: 140 Init: 500 P: fish	old chum (0)
 ferocious roc	bath_pelican.gif	Atk: 120 Def: 130 HP: 140 Init: 500 P: beast	old chum (0)
 giant man-eating shark	bath_whale.gif	Atk: 130 Def: 120 HP: 140 Init: 500 P: fish	old chum (0)
