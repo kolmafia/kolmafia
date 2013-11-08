@@ -374,6 +374,12 @@ public class CampgroundRequest
 			return;
 		}
 
+		if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
+		{
+			KoLmafia.updateDisplay( MafiaState.PENDING, "You don't have any time left for that" );
+			return;
+		}
+
 		super.run();
 	}
 
