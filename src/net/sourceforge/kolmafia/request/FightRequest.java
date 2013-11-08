@@ -330,14 +330,6 @@ public class FightRequest
 		INVALID_WITH_RANGED_ATTACK.add( "skill shieldbutt" );
 		INVALID_WITH_RANGED_ATTACK.add( "2015" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill kneebutt" );
-		INVALID_WITH_RANGED_ATTACK.add( "2103" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee combo" );
-		INVALID_WITH_RANGED_ATTACK.add( "2105" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill head + shield combo" );
-		INVALID_WITH_RANGED_ATTACK.add( "2106" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill knee + shield combo" );
-		INVALID_WITH_RANGED_ATTACK.add( "2107" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee + shield combo" );
 	}
 
 	// Skills which require a shield
@@ -346,12 +338,6 @@ public class FightRequest
 	{
 		INVALID_WITHOUT_SHIELD.add( "2005" );
 		INVALID_WITHOUT_SHIELD.add( "skill shieldbutt" );
-		INVALID_WITHOUT_SHIELD.add( "2105" );
-		INVALID_WITHOUT_SHIELD.add( "skill head + shield combo" );
-		INVALID_WITHOUT_SHIELD.add( "2106" );
-		INVALID_WITHOUT_SHIELD.add( "skill knee + shield combo" );
-		INVALID_WITHOUT_SHIELD.add( "2107" );
-		INVALID_WITHOUT_SHIELD.add( "skill head + knee + shield combo" );
 	}
 
 	private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<String>();

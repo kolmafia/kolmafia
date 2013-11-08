@@ -3441,7 +3441,6 @@ public abstract class KoLCharacter
 
 		// Add derived skills based on base skills
 
-		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
 		KoLConstants.summoningSkills.sort();
 		KoLConstants.remedySkills.sort();
@@ -3630,37 +3629,6 @@ public abstract class KoLCharacter
 	public static final void addAvailableCombatSkill( final String name )
 	{
 		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getInstance( name ) );
-	}
-
-	/**
-	 * Adds derived skills to appropriate lists
-	 */
-
-	public static final void addDerivedSkills()
-	{
-		if ( KoLCharacter.classtype.startsWith( "Tu" ) )
-		{
-			boolean head = KoLCharacter.hasSkill( "Headbutt" );
-			boolean knee = KoLCharacter.hasSkill( "Kneebutt" );
-			boolean shield = KoLCharacter.hasSkill( "Shieldbutt" );
-
-			if ( head && knee )
-			{
-				KoLCharacter.addAvailableSkill( "Head + Knee Combo" );
-			}
-			if ( head && shield )
-			{
-				KoLCharacter.addAvailableSkill( "Head + Shield Combo" );
-			}
-			if ( knee && shield )
-			{
-				KoLCharacter.addAvailableSkill( "Knee + Shield Combo" );
-			}
-			if ( head && knee && shield )
-			{
-				KoLCharacter.addAvailableSkill( "Head + Knee + Shield Combo" );
-			}
-		}
 	}
 
 	private static final void addCombatSkill( final String name )

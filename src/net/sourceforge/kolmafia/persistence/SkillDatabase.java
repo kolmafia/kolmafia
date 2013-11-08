@@ -908,10 +908,6 @@ public class SkillDatabase
 			// Auto-HP-Permed
 			return false;
 
-		case SkillPool.HEAD_KNEE:
-		case SkillPool.HEAD_SHIELD:
-		case SkillPool.KNEE_SHIELD:
-		case SkillPool.HEAD_KNEE_SHIELD:
 		case SkillPool.SPIRIT_CAYENNE:
 		case SkillPool.SPIRIT_PEPPERMINT:
 		case SkillPool.SPIRIT_GARLIC:

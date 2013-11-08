@@ -765,13 +765,6 @@ public class StationaryButtonDecorator
 			name = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( name, "fire " ), "bottle-" );
 			break;
 
-		case 2103:	// Head + Knee Combo
-		case 2105:	// Head + Shield Combo
-		case 2106:	// Knee + Shield Combo
-		case 2107:	// Head + Knee + Shield Combo
-			name = name.substring( 0, name.length() - 6 );
-			break;
-
 		case 1003:	// thrust-smack
 			name = "thrust";
 			break;
