@@ -1415,7 +1415,7 @@
 1414	Black Day	coupon.gif	6eaa7a64ccc96eed78675082f126d197	use 1 post-holiday sale coupon
 1415
 1416	Blessing of the War Snapper	warsnapper.gif	a4f41cbc762014a973b3f4136d1ac71e	cast 1 blessing of the war snapper
-1417
+1417	Grand Blessing of the War Snapper	warsnapper.gif	29ff63fe512f5b2a2cfebb5e818525ee
 1418
 1419	Blessing of She-Who-Was	shewhowas.gif	59bee1ad7fdeab97e571d5736e982d90 cast 1 blessing of she-who-was
 1420
