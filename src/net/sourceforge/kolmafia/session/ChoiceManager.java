@@ -2870,7 +2870,8 @@ public abstract class ChoiceManager
 		// Choice 808 is Silence at Last.
 		new ChoiceAdventure(
 			"Events", "choiceAdventure808", "The Spirit World",
-			new Object[] { new Option( "gain spirit bed piece" ) } ),
+			new Object[] { new Option( "gain spirit bed piece" ),
+						new Option( "fight spirit alarm clock" ) } ),
 			
 	};
 
@@ -8944,6 +8945,14 @@ public abstract class ChoiceManager
 			}
 			return decision;
 		}
+	
+		// Silence at last
+		case 808:
+			// Abort if you want to fight spirit alarm clock but it isn't available.
+			if ( decision.equals( "2" ) && !responseText.contains( "nightstand wasn't here before" ) )
+			{
+				return "0";
+			}
 		
 		}
 

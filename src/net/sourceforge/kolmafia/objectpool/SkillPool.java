@@ -87,6 +87,7 @@ public class SkillPool
 	public static final int HIBERNATE = 1027;
 	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
+	public static final int SHELL_UP = 2028;
 	public static final int ENTANGLING_NOODLES = 3004;
 	public static final int TRANSCENDENTAL_NOODLES = 3006;
 	public static final int BANDAGES = 3009;

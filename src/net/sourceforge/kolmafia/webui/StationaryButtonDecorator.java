@@ -63,14 +63,18 @@ public class StationaryButtonDecorator
 	private static final boolean builtInSkill( final String skillId )
 	{
 		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) 
-			&& !KoLCharacter.getClassName().equals( "Seal Clubber" )
-			&& !KoLCharacter.getClassName().equals( "Disco Bandit" )
-			&& !KoLCharacter.getClassName().equals( "Accordion Thief" ) )
+			&& ( KoLCharacter.getClassName().equals( "Pastamancer" )
+			|| KoLCharacter.getClassName().equals( "Sauceror" ) ) )
 		{
 			return true;
 		}
 
 		if ( skillId.equals( String.valueOf( SkillPool.CLUBFOOT ) ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
+		{
+			return true;
+		}
+
+		if ( skillId.equals( String.valueOf( SkillPool.SHELL_UP ) ) && KoLCharacter.getClassName().equals( "Turtle Tamer") )
 		{
 			return true;
 		}
@@ -368,9 +372,8 @@ public class StationaryButtonDecorator
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) 
-			&& !KoLCharacter.getClassName().equals( "Seal Clubber" )
-			&& !KoLCharacter.getClassName().equals( "Disco Bandit" )
-			&& !KoLCharacter.getClassName().equals( "Accordion Thief" ) )
+			&& ( KoLCharacter.getClassName().equals( "Pastamancer" )
+			|| KoLCharacter.getClassName().equals( "Sauceror" ) ) )
 		{
 			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Entangling Noodles" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
@@ -386,6 +389,15 @@ public class StationaryButtonDecorator
 				KoLConstants.availableCombatSkills.contains( clubFootRequest );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "1033", enabled );
+		}
+
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Shell Up" ) && KoLCharacter.getClassName().equals( "Turtle Tamer") )
+		{
+			UseSkillRequest shellUpRequest = UseSkillRequest.getInstance( "Shell Up" );
+			boolean enabled = FightRequest.getCurrentRound() > 0 &&
+				KoLConstants.availableCombatSkills.contains( shellUpRequest );
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "2028", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Accordion Bash" ) && KoLCharacter.getClassName().equals( "Accordion Thief") )
