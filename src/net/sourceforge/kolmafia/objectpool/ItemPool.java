@@ -1649,6 +1649,7 @@ public class ItemPool
 	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int BONSAI_TREE = 6120;
 	public static final int LUCKY_CAT_STATUE = 6122;
+	public static final int GOLD_PIECE = 6130;
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
 	public static final int PIXEL_POWER_CELL = 6155;
