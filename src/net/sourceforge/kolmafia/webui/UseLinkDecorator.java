@@ -1478,6 +1478,9 @@ public abstract class UseLinkDecorator
 		case ItemPool.SCORCHED_STONE_SPHERE:
 			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=349" );
 
+		case ItemPool.GOLD_PIECE:
+			return new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" );
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty

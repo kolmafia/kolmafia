@@ -314,3 +314,14 @@ FDKOL Requisitions Tent	fdkol	FDKOL hotcakes	5000
 The Hidden Tavern	hiddentavern	Fog Murderer	500	ROW175
 The Hidden Tavern	hiddentavern	Cursed Punch	500	ROW173
 The Hidden Tavern	hiddentavern	Bowl of Scorpions	500	ROW174
+
+Chinatown Shops	c	fortune cookie	40
+Chinatown Shops	c	brass abacus	150
+Chinatown Shops	c	cheap Chinese beer	250
+Chinatown Shops	c	bottle of limeade	300
+Chinatown Shops	c	rhinoceros horn	375
+Chinatown Shops	c	furry pink pillow	500
+Chinatown Shops	c	novelty tattoo sleeves	1000
+Chinatown Shops	c	toy taijijian	1000
+Chinatown Shops	c	bonsai tree	1500
+Chinatown Shops	c	lucky cat statue	2000
