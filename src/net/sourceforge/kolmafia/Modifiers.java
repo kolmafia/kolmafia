@@ -2355,13 +2355,20 @@ public class Modifiers
 
 	public static final String parseDamageReduction( final String text )
 	{
-		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
-		if ( matcher.find() )
+		if ( !text.contains( "Damage Reduction:" ) )
 		{
-			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
+			return null;
 		}
 
-		return null;
+		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
+		int dr = 0;
+
+		while ( matcher.find() )
+		{
+			dr += StringUtilities.parseInt( matcher.group( 2 ) );
+		}
+
+		return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + dr;
 	}
 
 	private static final Pattern SINGLE_PATTERN =

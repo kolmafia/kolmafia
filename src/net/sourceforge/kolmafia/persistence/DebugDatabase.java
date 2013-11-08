@@ -1022,7 +1022,9 @@ public class DebugDatabase
 		// Several modifiers can appear outside the "Enchantments"
 		// section of the item description.
 
-		// Damage Reduction can appear in either place
+		// If we extracted Damage Reduction from the enchantments, we
+		// included shield DR as well, but for shields that have no
+		// enchantments, get DR here.
 		if ( !known.contains( "Damage Reduction" ) )
 		{
 			String dr = Modifiers.parseDamageReduction( text );
@@ -1089,6 +1091,12 @@ public class DebugDatabase
 			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
+				// Damage Reduction can appear in several
+				// places. Combine them all.
+				if ( mod.startsWith("Damage Reduction" ) )
+				{
+					mod = Modifiers.parseDamageReduction( text );
+				}
 				known = DebugDatabase.appendModifier( known, mod );
 				continue;
 			}

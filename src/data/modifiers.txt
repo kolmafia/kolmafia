@@ -414,6 +414,9 @@ Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effe
 # Pantaloons of Hatred: Reduce enemy defense by 10%
 # Pantaloons of Hatred: Generates a lot of static electricity
 Pantaloons of Hatred	Adventures: +4, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
+# Pantsgiving: Lets you cram in slightly more food.
+# Pantsgiving: Improves resting
+# Pantsgiving: Lets you use various Thanksgivingy skills
 Pantsgiving	Experience: +2, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Item Drop: +15, Meat Drop: +30, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Softcore Only
 Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
@@ -1438,7 +1441,7 @@ Loathing Legion pizza stone	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resi
 Loathing Legion tape measure	Critical Hit Percent: +10, Softcore Only
 Medallion of the Ventrilo Prince	Moxie Percent: +12
 Mer-kin begsign	Weakens Monster, Meat Drop: [40*zone(The Sea)]
-Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
+Mer-kin roundshield	Damage Reduction: 19, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin stopwatch	Adventures: +3, Initiative: [50*zone(The Sea)]
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Microplushie: Bropane	Weapon Damage: +3
@@ -1640,7 +1643,7 @@ moxie magnet	Moxie Controls MP
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 oil lamp	Sleaze Damage: +5, Hot Damage: +5
-old-school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
+old-school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
 optimal spreadsheet	Muscle: 10, Mysticality: 10, Moxie: 10, PvP Fights: 5, Monster Level: 20
 orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
 # oyster basket
@@ -1676,7 +1679,7 @@ rusty compass	Initiative: +30
 rxr shield	Damage Absorption: +10, Damage Reduction: 6
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 scissor duck	Mysticality: +5
-sealhide buckler	Damage Reduction: 7
+sealhide buckler	Damage Reduction: 17
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
 security flashlight	Monster Level: -10
@@ -1749,7 +1752,7 @@ sturdy cane	PvP Fights: +4, Fumble: 2, Initiative: -25
 sucker bucket	Candy Drop: +50
 # tailbone shield: Deals 80-100 Stench Damage to attackers
 tailbone shield	Stench Damage: +40, Damage Reduction: 16
-teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
+teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 # thought balloon
 # tiny black hole: Allows Pickpocketing
 tiny black hole	Pickpocket Chance: +25, Initiative: -200
@@ -1759,9 +1762,9 @@ tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 turtling rod	Class: "Turtle Tamer"
-velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
+velcro shield	Mysticality Percent: +10, Damage Reduction: 24, Weapon Drop: +25
 vengeful spirit	Hot Spell Damage: +80
-vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
+vinyl shield	Moxie Percent: +10, Damage Reduction: 24, Monster Level: +25
 voodoo doll	Mysticality: +1
 wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
 warm fur	Hot Damage: +60
