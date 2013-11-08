@@ -6902,7 +6902,7 @@
 6885	spirit gum	791109479	spiritgum.gif	usable	t,d	5
 6886	spirit pillow	837578037	spiritpillow.gif	reusable	t	0
 6887	spirit sheet	873296406	spiritsheet.gif	reusable	t	0
-6888	spirit mattress	225865373	spiritmattress.gif	reusable	t	0
+6888	spirit mattress	225865373	spiritmattress.gif	reusable	t	0	spirit mattresses
 6889	spirit blanket	806445121	spiritblanket.gif	reusable	t	0
 6890	spirit bed	528640837	spiritbed.gif	usable	t	0
-
+6891	spirit bell	691928915	spiritbell.gif	accessory		0
