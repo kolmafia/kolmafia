@@ -2044,6 +2044,7 @@ sparkly engagement ring	0	none
 special sauce glove	10	none
 sphygmomanometer	160	Mys: 65
 spiky turtle shoulderpads	130	Mus: 50
+spirit bell	0	none
 spooky glove	60	Mys: 15
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30

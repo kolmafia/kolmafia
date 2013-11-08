@@ -414,9 +414,6 @@ Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effe
 # Pantaloons of Hatred: Reduce enemy defense by 10%
 # Pantaloons of Hatred: Generates a lot of static electricity
 Pantaloons of Hatred	Adventures: +4, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
-# Pantsgiving: Lets you cram in slightly more food.
-# Pantsgiving: Improves resting
-# Pantsgiving: Lets you use various Thanksgivingy skills
 Pantsgiving	Experience: +2, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Item Drop: +15, Meat Drop: +30, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Softcore Only
 Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
@@ -2334,6 +2331,8 @@ special sauce glove	Class: "Sauceror", Single Equip
 sphygmomanometer	Maximum HP: +60, HP Regen Min: 5, HP Regen Max: 10
 # spiky turtle shoulderpads: Damages Attacking Opponent
 spiky turtle shoulderpads	Damage Absorption: +75, Single Equip
+# spirit bell: Gain the favor of the Turtle Spirits more quickly
+spirit bell	Muscle: +5, Mysticality: +5, Maximum HP: +10, Maximum MP: +10, Class: "Turtle Tamer"
 spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15, Single Equip
 stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip

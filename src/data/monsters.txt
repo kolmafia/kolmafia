@@ -1523,6 +1523,7 @@ quirky indie-rock accordionist	wanderacc3.gif	HP: [0.75*(min(MUS-3,10000)+max(ML
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P: dude	Skipper's accordion (100)
 
 # The Spirit World
+spirit alarm clock	spiritalclock.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit bell (n100)
 spirit bedbug	spiritbug.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit faucet	spiritfaucet.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit pea	spiritpea.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
