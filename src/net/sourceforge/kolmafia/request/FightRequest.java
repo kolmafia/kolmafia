@@ -4599,12 +4599,17 @@ public class FightRequest
 				table.getParent().removeChild( table );
 			}
 
-			FightRequest.processTable( node, status );
+			boolean processChildren = FightRequest.processTable( node, status );
 
 			for ( int i = 0; i < tables.length; ++i )
 			{
 				TagNode table = tables[i];
 				FightRequest.processNode( table, status );
+			}
+
+			if ( !processChildren )
+			{
+				return;
 			}
 		}
 		else if ( name.equals( "p" ) )
@@ -4762,12 +4767,8 @@ public class FightRequest
 		}
 	}
 
-	private static void processTable( TagNode node, TagStatus status )
+	private static boolean processTable( TagNode node, TagStatus status )
 	{
-		StringBuffer action = status.action;
-		StringBuffer text = node.getText();
-		String str = text.toString();
-
 		// Tables often appear in fight results to hold images.
 		TagNode inode = node.findElementByName( "img", true );
 		if ( inode != null )
@@ -4776,9 +4777,13 @@ public class FightRequest
 			if ( alt != null && alt.equals( "Enemy's Hit Points" ) )
 			{
 				// Don't process Monster Manuel
-				return;
+				return false;
 			}
 		}
+
+		StringBuffer action = status.action;
+		StringBuffer text = node.getText();
+		String str = text.toString();
 
 		if ( inode == null )
 		{
@@ -4814,7 +4819,7 @@ public class FightRequest
 				status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
 			}
 
-			return;
+			return false;
 		}
 
 		// Look for items and effects first
@@ -4827,7 +4832,7 @@ public class FightRequest
 				Matcher m = INT_PATTERN.matcher( onclick );
 				if ( !m.find() )
 				{
-					return;
+					return false;
 				}
 
 				int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
@@ -4837,7 +4842,7 @@ public class FightRequest
 				{	// Item removed by Zombo
 					EquipmentManager.discardEquipment( itemId );
 				}
-				return;
+				return false;
 			}
 
 			Matcher m = EFF_PATTERN.matcher( onclick );
@@ -4848,7 +4853,7 @@ public class FightRequest
 				String effect = EffectDatabase.getEffectName( m.group( 1 ) );
 				if ( effect == null )
 				{
-					return;
+					return false;
 				}
 				// For prettiness
 				String munged = StringUtilities.singleStringReplace( str, "(", " (" );
@@ -4870,13 +4875,13 @@ public class FightRequest
 				{
 					FightRequest.anapest = true;
 				}
-				return;
+				return false;
 			}
 		}
 
 		String src = inode.getAttributeByName( "src" );
 
-		if ( src == null ) return;
+		if ( src == null ) return false;
 
 		String image = src.substring( src.lastIndexOf( "/" ) + 1 );
 
@@ -4902,7 +4907,7 @@ public class FightRequest
 			MonsterStatusTracker.healMonster( healAmount );
 
 			status.shouldRefresh = true;
-			return;
+			return false;
 		}
 
 		if ( image.equals( "nicesword.gif" ) )
@@ -4915,7 +4920,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, ATTACK );
 			}
 			MonsterStatusTracker.lowerMonsterAttack( damage );
-			return;
+			return false;
 		}
 
 		if ( image.equals( "whiteshield.gif" ) )
@@ -4928,7 +4933,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
 			}
 			MonsterStatusTracker.lowerMonsterDefense( damage );
-			return;
+			return false;
 		}
 
 		// If you have Just the Best Anapests and go to the
@@ -4937,13 +4942,13 @@ public class FightRequest
 		if ( FightRequest.anapest )
 		{
 			FightRequest.processAnapestResult( node, inode, image, status );
-			return;
+			return false;
 		}
 
 		if ( FightRequest.haiku )
 		{
 			FightRequest.processHaikuResult( node, inode, image, status );
-			return;
+			return false;
 		}
 
 		if ( image.equals( "meat.gif" ) )
@@ -4960,7 +4965,7 @@ public class FightRequest
 			// the meat.
 
 			status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
-			return;
+			return false;
 		}
 
 		if ( image.equals( "hp.gif" ) ||
@@ -4980,13 +4985,13 @@ public class FightRequest
 			}
 
 			status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
-			return;
+			return false;
 		}
 
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 		{
 			FightRequest.processFamiliarAction( node, inode, status );
-			return;
+			return false;
 		}
 
 		if ( image.equals( "hkatana.gif" ) )
@@ -4996,7 +5001,7 @@ public class FightRequest
 			if ( FightRequest.foundVerseDamage( inode, action, status ) )
 			{
 
-				return;
+				return false;
 			}
 		}
 
@@ -5012,19 +5017,19 @@ public class FightRequest
 			TagNode tnode = node.findElementByName( "table", true );
 			if ( tnode == null )
 			{
-				return;
+				return false;
 			}
 
 			TagNode inode2 = tnode.findElementByName( "img", true );
 			if ( inode2 == null )
 			{
-				return;
+				return false;
 			}
 
 			String onclick2 = inode2.getAttributeByName( "onclick" );
 			if ( onclick2 == null || !onclick2.startsWith( "descitem" ) )
 			{
-				return;
+				return false;
 			}
 
 			Matcher m = INT_PATTERN.matcher( onclick2 );
@@ -5032,13 +5037,13 @@ public class FightRequest
 
 			if ( descid == null )
 			{
-				return;
+				return false;
 			}
 
 			itemId = ItemDatabase.getItemIdFromDescription( descid );
 			if ( itemId == -1 )
 			{
-				return;
+				return false;
 			}
 
 			AdventureResult result = ItemPool.get( itemId, 1 );
@@ -5046,11 +5051,12 @@ public class FightRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			Preferences.setString( "dolphinItem", result.getName() );
-			return;
+			return false;
 		}
 
 		// Combat item usage: process the children of this node
 		// to pick up damage to the monster and stat gains
+		return true;
 	}
 
 	public static final Pattern KISS_PATTERN = Pattern.compile( "(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?" );
