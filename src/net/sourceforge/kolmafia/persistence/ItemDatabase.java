@@ -831,7 +831,6 @@ public class ItemDatabase
 		int unitCost = ItemDatabase.unitCostByName.get( name ).intValue();
 		int start = ItemDatabase.advStartByName.get( name ).intValue();
 		int end = ItemDatabase.advEndByName.get( name ).intValue();
-		int conditional = ItemDatabase.advCheckConditional( name );
 		
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
@@ -846,7 +845,7 @@ public class ItemDatabase
 		// 1-3 adventures
 
 		// Consumables that generate no adventures do not benefit from ode or milk.
-		double average = ( start + end ) / 2.0 - advs + conditional;
+		double average = ( start + end ) / 2.0 - advs;
 		boolean benefit = ( average != 0.0 );
 
 		double gain0 = benefit ? ( average ) : 0.0;
@@ -917,36 +916,6 @@ public class ItemDatabase
 
 		// With three effects and munchies pill, average + unitCost * 3 + 2
 		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
-	}
-
-	private static final int advCheckConditional( final String name )
-	{
-		if ( ItemDatabase.isMartini( ItemDatabase.getItemId( name ) ) )
-		{
-			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) 
-				|| Preferences.getBoolean( "autoTuxedo" ) && EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
-				&& ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
-			{
-				return 2;
-			}
-			return 0;
-		}
-		if ( ItemDatabase.isLasagna( ItemDatabase.getItemId( name ) ) )
-		{
-			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY 
-				&& ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) 
-				|| Preferences.getBoolean( "autoGarish" ) && ( KoLCharacter.canInteract()
-				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
-				|| InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
-			{
-				return 5;
-			}
-			return 0;
-		}
-		return 0;
 	}
 
 	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
@@ -1932,6 +1901,51 @@ public class ItemDatabase
 		return ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
+	private static final double conditionalExtraAdventures( final String name, final boolean perUnit )
+	{
+		int itemId = ItemDatabase.getItemId( name );
+		int fullness = ItemDatabase.getFullness( name );
+		if ( ItemDatabase.isMartini ( itemId ) )
+		{
+			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) 
+				|| Preferences.getBoolean( "autoTuxedo" ) && EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
+				&& ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
+			{
+				return perUnit ? ( 2.0 / fullness ) : 2.0;
+			}
+			return 0.0;
+		}
+		if ( ItemDatabase.isLasagna( itemId ) )
+		{
+			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY 
+				&& ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) 
+				|| Preferences.getBoolean( "autoGarish" ) && ( KoLCharacter.canInteract()
+				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
+				|| InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
+			{
+				return perUnit ? ( 5.0 / fullness ) : 5.0;
+			}
+			return 0.0;
+		}
+		if ( ItemDatabase.isPizza( itemId ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
+		{
+			return perUnit ? 1.0 : fullness;
+		}
+		return 0.0;
+	}
+
+	private static final double conditionalStatMultiplier( final String name )
+	{
+		if ( ItemDatabase.isPizza( ItemDatabase.getItemId( name ) ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
+		{
+			return 2.0;
+		}
+		return 1.0;
+	}
+
 	public static final double getAdventureRange( final String name )
 	{
 		if ( name == null )
@@ -1973,6 +1987,8 @@ public class ItemDatabase
 			return 0.0;
 		}
 
+		range += ItemDatabase.conditionalExtraAdventures( cname, perUnit );
+		
 		return range.doubleValue();
 	}
 
@@ -1996,6 +2012,7 @@ public class ItemDatabase
 
 		String muscle = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
 		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
+		muscleFactor *= ItemDatabase.conditionalStatMultiplier( name );
 		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor );
 		return range == null ? "+0.0" : range;
 	}
@@ -2020,6 +2037,7 @@ public class ItemDatabase
 
 		String mysticality = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
 		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
+		mysticalityFactor *= ItemDatabase.conditionalStatMultiplier( name );
 		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
 		return range == null ? "+0.0" : range;
 	}
@@ -2044,6 +2062,7 @@ public class ItemDatabase
 
 		String moxie = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
+		moxieFactor *= ItemDatabase.conditionalStatMultiplier( name );
 		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor );
 		return range == null ? "+0.0" : range;
 	}
@@ -2461,6 +2480,23 @@ public class ItemDatabase
 		case ItemPool.FISHY_FISH_LASAGNA:
 		case ItemPool.GNAT_LASAGNA:
 		case ItemPool.LONG_PORK_LASAGNA:
+			return true;
+		}
+		return false;
+	}
+	
+	public static final boolean isPizza( final int itemId )
+	{
+		// Could just detect pizza in the name, but KoL tends to break that in time
+		switch ( itemId )
+		{
+		case ItemPool.PLAIN_PIZZA:
+		case ItemPool.SAUSAGE_PIZZA:
+		case ItemPool.GOAT_CHEESE_PIZZA:
+		case ItemPool.MUSHROOM_PIZZA:
+		case ItemPool.WHITE_CHOCOLATE_AND_TOMATO_PIZZA:
+		case ItemPool.SLICE_OF_PIZZA:
+		case ItemPool.INCREDIBLE_PIZZA:
 			return true;
 		}
 		return false;

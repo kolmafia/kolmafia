@@ -156,6 +156,10 @@ public class ItemPool
 	public static final int KNOB_GOBLIN_PANTS = 309;
 	public static final int KNOB_GOBLIN_POLEARM = 310;
 	public static final int GOAT_CHEESE = 322;
+	public static final int PLAIN_PIZZA = 323;
+	public static final int SAUSAGE_PIZZA = 324;
+	public static final int GOAT_CHEESE_PIZZA = 325;
+	public static final int MUSHROOM_PIZZA = 326;
 	public static final int TENDER_HAMMER = 338;
 	public static final int LAB_KEY = 339;
 	public static final int SELTZER = 344;
@@ -331,6 +335,7 @@ public class ItemPool
 	public static final int DIRTY_MARTINI = 948;
 	public static final int GROGTINI = 949;
 	public static final int CHERRY_BOMB = 950;
+	public static final int WHITE_CHOCOLATE_AND_TOMATO_PIZZA = 958;
 	public static final int MAID = 1000;
 	public static final int TEQUILA = 1004;
 	public static final int VODKA_MARTINI = 1009;
@@ -1622,6 +1627,7 @@ public class ItemPool
 	public static final int TRANQUIL_SILENCE_RECORD_USED = 5974;
 	public static final int MENACING_SILENCE_RECORD = 5975;
 	public static final int MENACING_SILENCE_RECORD_USED = 5976;
+	public static final int SLICE_OF_PIZZA = 5978;
 	public static final int BOSS_HELM = 6002;
 	public static final int BOSS_CLOAK = 6003;
 	public static final int BOSS_SWORD = 6004;
@@ -1632,6 +1638,7 @@ public class ItemPool
 	public static final int BOSS_BELT = 6009;
 	public static final int TRIPPLES = 6027;
 	public static final int DRESS_PANTS = 6030;
+	public static final int INCREDIBLE_PIZZA = 6038;
 	public static final int OIL_PAN = 6042;
 	public static final int MISTY_CLOAK = 6047;
 	public static final int MISTY_ROBE = 6048;
