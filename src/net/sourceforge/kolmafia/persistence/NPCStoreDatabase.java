@@ -217,6 +217,12 @@ public class NPCStoreDatabase
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
+		else if ( storeId.equals( "c" ) )
+		{
+			// Chinatown Shops
+			// This is not a perfect check, some quest progress must be made before the shop is available
+			return KoLConstants.campground.indexOf( ItemPool.get( ItemPool.SUSPICIOUS_JAR, 1 ) ) != -1;
+		}
 		else if ( storeId.equals( "h" ) )
 		{
 			int level = KoLCharacter.getLevel();
