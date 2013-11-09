@@ -3698,6 +3698,7 @@ Ghostly Shell	Damage Absorption: +80
 Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
+Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
 Gnawed-Off Arm	Muscle: -5
 # Gnollivision: Makes you look like a one-eyed Gnoll
 # Gnomedome: Makes you look like a menacing lawn gnome
