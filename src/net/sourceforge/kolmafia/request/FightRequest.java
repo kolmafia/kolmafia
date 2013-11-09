@@ -1943,6 +1943,11 @@ public class FightRequest
 			{
 				Preferences.increment( "_stinkyCheeseCount", stinkyCount );
 			}
+			// Increment Pantsgiving counter
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
+			{
+				Preferences.increment( "_pantsgivingCount", 1 );				
+			}
 
 			// If this is the first round, then register the
 			// opponent you are fighting against.
