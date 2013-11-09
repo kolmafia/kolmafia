@@ -1457,6 +1457,12 @@ public class KoLAdventure
 			"Your familiar can't breathe underwater.",
 		},
 
+		// It wouldn't be safe to go in there dressed like you are. You should consider a Mer-kin disguise.
+		{
+			"You should consider a Mer-kin disguise.",
+			"You aren't wearing a Mer-kin disguise.",
+		},
+
 		// Attempting to enter the Cola Wars Battlefield with level > 5
 		{
 			"The temporal rift in the plains has closed",
