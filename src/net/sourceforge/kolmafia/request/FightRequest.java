@@ -2756,6 +2756,11 @@ public class FightRequest
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
 
+			if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
+			{
+				KoLCharacter.getFamiliar().addTestTeachExperience();
+			}
+			
 			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 			switch ( familiar.getId() )
 			{

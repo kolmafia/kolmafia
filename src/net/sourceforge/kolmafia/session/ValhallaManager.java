@@ -426,6 +426,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
 		Preferences.setInteger( "miniAdvClass", 0 );
+		Preferences.setString( "testudinalTeachings", "" );
 		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
