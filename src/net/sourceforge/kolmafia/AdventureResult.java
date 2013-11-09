@@ -742,6 +742,10 @@ public class AdventureResult
 					{
 						name = "\u266B " + name;
 					}
+					if ( SkillDatabase.isExpression( skillId ) )
+					{
+						name = "\u263A " + name;
+					}
 				}
 			}
 		}
