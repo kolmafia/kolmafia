@@ -3239,6 +3239,8 @@ Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie 
 Ass Over Teakettle	Initiative: +50
 Assaulted with Pepper	Monster Level: +20
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
+Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
 # Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
 Avatar of the Storm Tortoise	Initiative: +100, Maximum MP: +200, MP Regen Min: 30, MP Regen Max: 40
 Axe Wound	Muscle: -5
@@ -3310,6 +3312,10 @@ Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, S
 # Boner Battalion: BONERS HO!
 # Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
+# Boon of She-Who-Was: Your melee attacks deal Spooky Damage
+Boon of She-Who-Was	Weapon Damage: +20
+# Boon of the Storm Tortoise: Your melee attacks restore some MP
+# Boon of the War Snapper: Your melee attacks restore some HP
 Bootyliciousness	Item Drop: +10
 Bored Stiff	Spooky Damage: +100
 Bottle in front of Me	Spell Damage: +15
@@ -3698,6 +3704,7 @@ Ghostly Shell	Damage Absorption: +80
 Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
+Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
 Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
 Gnawed-Off Arm	Muscle: -5
 # Gnollivision: Makes you look like a one-eyed Gnoll
@@ -3714,6 +3721,7 @@ Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent
 Got Your Boots On	Moxie Percent: +10
 Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
 Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
