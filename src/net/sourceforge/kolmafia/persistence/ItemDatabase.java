@@ -2174,7 +2174,6 @@ public class ItemDatabase
 		case ItemPool.ANEMONE_MINE_MAP:
 		case ItemPool.DIVE_BAR_MAP:
 		case ItemPool.SKATE_PARK_MAP:
-		case ItemPool.SUSHI_ROLLING_MAT:
 			return true;
 		}
 		return false;
