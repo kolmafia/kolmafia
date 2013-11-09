@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -204,6 +205,44 @@ public class FamiliarData
 		this.setWeight();
 	}
 
+	public final void addTestTeachExperience()
+	{
+		String rawTTPref = Preferences.getString( "testudinalTeachings" );
+		String[] splitTTPref = rawTTPref.split( "\\|" );
+
+		// Check Familiar Testudinal Teachings experience	
+		for ( int i = 0 ; i < splitTTPref.length ; ++i )
+		{
+			String[] it = splitTTPref[ i ].split( ":" );
+			if ( it.length == 2 )
+			{
+				if ( this.id == Integer.parseInt( it[ 0 ] ) )
+				{
+					int newCount = Integer.parseInt( it[ 1 ] ) + 1;
+					if ( newCount >= 6 )
+					{
+						this.experience++;
+						newCount = 0;
+					}
+					String newTTProperty = it[ 0 ] + ":" + String.valueOf( newCount );
+					String newTTPref = StringUtilities.globalStringReplace( rawTTPref,
+						splitTTPref[ i ], newTTProperty );
+					Preferences.setString( "testudinalTeachings", newTTPref );
+					return;
+				}					
+			}
+		}
+		
+		// Familiar not found, so add it
+		String delimiter = "";
+		if ( rawTTPref.length() > 0 )
+		{
+			delimiter = "|";
+		}
+		String newTTPref = rawTTPref + delimiter + String.valueOf( this.id ) + ":1";
+		Preferences.setString( "testudinalTeachings", newTTPref );
+	}
+	
 	public final void recognizeCombatUse()
 	{
 		int singleFamiliarRun = getSingleFamiliarRun();
