@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -194,6 +193,11 @@ public class FamiliarData
 		}
 
 		this.experience += 1 + experienceModifier;
+		
+		if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
+		{
+			KoLCharacter.getFamiliar().addTestTeachExperience();
+		}
 
 		this.setWeight();
 	}
