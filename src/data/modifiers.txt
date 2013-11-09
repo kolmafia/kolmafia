@@ -4293,6 +4293,7 @@ Spirit of Peppermint	Spell Damage: +10
 Spirit of Wormwood	Spell Damage: +10
 # Spirit of Nothing: Removes any of the other Flavour of Magic effects
 # Spirit Pariah
+Spirit Souvenirs	Maximum MP: +10, MP Regen Min: 8, MP Regen Max: 10
 Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
