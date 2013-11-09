@@ -1905,6 +1905,7 @@ public class ItemDatabase
 	{
 		int itemId = ItemDatabase.getItemId( name );
 		int fullness = ItemDatabase.getFullness( name );
+		int inebriety = ItemDatabase.getInebriety( name );
 		if ( ItemDatabase.isMartini ( itemId ) )
 		{
 			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
@@ -1912,7 +1913,7 @@ public class ItemDatabase
 				|| Preferences.getBoolean( "autoTuxedo" ) && EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
 				&& ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
 			{
-				return perUnit ? ( 2.0 / fullness ) : 2.0;
+				return perUnit ? ( 2.0 / inebriety ) : 2.0;
 			}
 			return 0.0;
 		}
@@ -1987,8 +1988,8 @@ public class ItemDatabase
 			return 0.0;
 		}
 
-		range += ItemDatabase.conditionalExtraAdventures( cname, perUnit );
-		
+		range += ItemDatabase.conditionalExtraAdventures( cname, perUnit );			
+
 		return range.doubleValue();
 	}
 
