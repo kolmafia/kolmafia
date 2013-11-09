@@ -1944,9 +1944,9 @@ public class FightRequest
 				Preferences.increment( "_stinkyCheeseCount", stinkyCount );
 			}
 			// Increment Pantsgiving counter
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ), EquipmentManager.PANTS ) )
 			{
-				Preferences.increment( "_pantsgivingCount", 1 );				
+				Preferences.increment( "_pantsgivingCount", 1 );
 			}
 
 			// If this is the first round, then register the
@@ -2755,11 +2755,6 @@ public class FightRequest
 			}
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
-
-			if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
-			{
-				KoLCharacter.getFamiliar().addTestTeachExperience();
-			}
 			
 			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 			switch ( familiar.getId() )
