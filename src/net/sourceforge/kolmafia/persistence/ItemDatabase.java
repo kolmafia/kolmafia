@@ -2164,8 +2164,7 @@ public class ItemDatabase
 		//* For these purposes, a virtual item is an item that has a non-negative
 		//* item number in KoL but does not (can not?) exist in inventory.  These 
 		//* items can be obtained, for example from an NPC store, but they are 
-		//* "used" immediately.  Presently the sea maps are the only virtual items 
-		//* tracked here and the only place the atrribute is used is the 
+		//* "used" immediately.  Presently the only place the atrribute is used is the 
 		//* ash function, is_displayable().  By definition, if it can't exist
 		//* in inventory then it cannot be moved to a Display Case.
 		switch ( itemId )
@@ -2175,6 +2174,7 @@ public class ItemDatabase
 		case ItemPool.ANEMONE_MINE_MAP:
 		case ItemPool.DIVE_BAR_MAP:
 		case ItemPool.SKATE_PARK_MAP:
+		case ItemPool.SUSHI_ROLLING_MAT:
 			return true;
 		}
 		return false;
