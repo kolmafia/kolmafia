@@ -110,7 +110,7 @@ public class FamiliarData
 		this.id = id;
 		this.name = name;
 		this.race = id == -1 ? "(none)" : FamiliarDatabase.getFamiliarName( id );
-		this.beeware = this.race != null && this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
+		this.beeware = this.race != null && this.race.contains( "b" ) || this.race.contains( "B" );
 
 		this.weight = weight;
 		this.item = item;
@@ -196,7 +196,7 @@ public class FamiliarData
 		
 		if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
 		{
-			KoLCharacter.getFamiliar().addTestTeachExperience();
+			this.addTestTeachExperience();
 		}
 
 		this.setWeight();
