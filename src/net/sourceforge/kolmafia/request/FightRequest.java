@@ -3396,7 +3396,7 @@ public class FightRequest
 
 		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
 		{
-			int ML = Math.max( 0, MonsterStatusTracker.getMonsterBaseAttack() );
+			int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() - MonsterStatusTracker.getMonsterAttackModifier() );
 			Preferences.increment( "flyeredML", ML );
 			AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
@@ -3785,10 +3785,10 @@ public class FightRequest
 		return 0;
 	}
 
-	public static Pattern HAIKU_PATTERN = Pattern.compile( "<td valign=center[^>]*>(.*?)</td>" );
-	private static Pattern INT_PATTERN = Pattern.compile( "\\d+" );
-	private static Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d+" );
-	private static Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
+	public static final Pattern HAIKU_PATTERN = Pattern.compile( "<td valign=center[^>]*>(.*?)</td>" );
+	private static final Pattern INT_PATTERN = Pattern.compile( "\\d+" );
+	private static final Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d+" );
+	private static final Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
 
 	private static final int parseHaikuDamage( final String text )
 	{
@@ -4433,14 +4433,14 @@ public class FightRequest
 		return null;
 	}
 
-	private static Pattern FUMBLE_PATTERN =
+	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern MOSQUITO_PATTERN =
 		Pattern.compile( "sucks some blood out of your opponent and injects it into you." );
 	private static final Pattern ADORABLE_SEAL_PATTERN =
 		Pattern.compile( "greedily sucks the vital juices from the wound" );
-	private static Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
-	private static Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
+	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
+	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 
 	private static final void specialFamiliarDamage( final StringBuffer text, TagStatus status )
 	{
