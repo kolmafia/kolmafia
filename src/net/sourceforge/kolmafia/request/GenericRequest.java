@@ -167,6 +167,7 @@ public class GenericRequest
 
 	public boolean isExternalRequest = false;
 	public boolean isChatRequest = false;
+	public boolean isDescRequest = false;
 
 	protected List<String> data;
 	private boolean dataChanged = true;
@@ -495,6 +496,8 @@ public class GenericRequest
 			this.formURLString.startsWith( "chat.php" ) ||
 			this.formURLString.startsWith( "newchatmessages.php" ) ||
 			this.formURLString.startsWith( "submitnewchat.php" );
+
+		this.isDescRequest = this.formURLString.startsWith( "desc_" );
 
 		return this;
 	}
@@ -2066,7 +2069,7 @@ public class GenericRequest
 			}
 
 			ChoiceManager.processChoiceAdventure();
-			return !LoginRequest.isInstanceRunning();
+			return false;
 		}
 
 		if ( this.redirectLocation.startsWith( "ocean.php" ) )
@@ -2199,7 +2202,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( !this.isChatRequest )
+		if ( !this.isChatRequest && !this.isDescRequest )
 		{
 			EventManager.checkForNewEvents( this.responseText );
 		}
@@ -2221,7 +2224,7 @@ public class GenericRequest
 			KoLCharacter.liberateKing();
 		}
 
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest && !this.isDescRequest )
 		{
 			// Handle choices BEFORE result processing
 			ChoiceManager.postChoice1( this );
@@ -2258,7 +2261,7 @@ public class GenericRequest
 
 		this.processResults();
 
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest && !this.isDescRequest )
 		{
 			// Handle choices AFTER result processing
 			GenericRequest.choiceHandled = !this.responseText.contains( "choice.php" );
