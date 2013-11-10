@@ -2908,6 +2908,11 @@ public abstract class ChoiceManager
 	public static void initializeAfterChoice()
 	{
 		ChoiceManager.action = PostChoiceAction.INITIALIZE;
+		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
+		request.constructURLString( "choice.php" );
+		request.run();
+		RequestLogger.printLine( "Encounter: " + Preferences.getString( "lastEncounter" ) );
+		ChoiceCommand.printChoices();
 	}
 
 	public static void ascendAfterChoice()

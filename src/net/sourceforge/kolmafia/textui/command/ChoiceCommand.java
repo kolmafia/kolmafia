@@ -68,6 +68,7 @@ public class ChoiceCommand
 		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You aren't in a choice adventure." );
+			return;
 		}
 		if ( parameters.equals( "" ) )
 		{
