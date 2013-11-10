@@ -1100,8 +1100,7 @@ public class GenericRequest
 			// battle actions are not hindered.
 			KoLmafia.forceContinue();
 
-			String pref = Preferences.getString( "lastAdventure" );
-			KoLAdventure nextLocation = AdventureDatabase.getAdventure( pref );
+			KoLAdventure current = KoLAdventure.lastVisitedLocation;
 			int oldTurns = KoLCharacter.getCurrentRun();
 
 			Value v = interpreter.execute( "main", new String[]
@@ -1116,7 +1115,7 @@ public class GenericRequest
 
 			if ( KoLCharacter.getCurrentRun() != oldTurns )
 			{
-				KoLAdventure.setNextLocation( nextLocation, pref );
+				KoLAdventure.setNextAdventure( current );
 				RecoveryManager.runBetweenBattleChecks( true );
 			}
 
@@ -2786,8 +2785,7 @@ public class GenericRequest
 		KoLAdventure.lastVisitedLocation = null;
 		KoLAdventure.lastLocationName = null;
 		KoLAdventure.lastLocationURL = location;
-		Preferences.setString( "lastAdventure", "None" );
-		KoLCharacter.updateSelectedLocation( null );
+		KoLAdventure.setNextAdventure( "None" );
 
 		int adventure = KoLAdventure.getAdventureCount();
 		RequestLogger.printLine();

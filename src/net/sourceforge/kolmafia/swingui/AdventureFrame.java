@@ -147,6 +147,16 @@ public class AdventureFrame
 		}
 	}
 
+	public KoLAdventure getSelectedAdventure()
+	{
+		if ( AdventureFrame.adventureSelector == null )
+		{
+			return null;
+		}
+
+		return AdventureFrame.adventureSelector.getSelectedAdventure();
+	}
+
 	public static final void updateSelectedAdventure( final KoLAdventure location )
 	{
 		if ( AdventureFrame.adventureSelector == null )
@@ -154,7 +164,10 @@ public class AdventureFrame
 			return;
 		}
 
-		AdventureFrame.adventureSelector.updateSelectedAdventure( location );
+		if ( AdventureFrame.adventureSelector.getSelectedAdventure() != location )
+		{
+			AdventureFrame.adventureSelector.updateSelectedAdventure( location );
+		}
 	}
 
 	public static final void updateSafetyDetails()

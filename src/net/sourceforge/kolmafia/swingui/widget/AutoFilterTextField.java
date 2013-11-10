@@ -354,13 +354,18 @@ public class AutoFilterTextField
 
 			if ( AutoFilterTextField.this.list != null )
 			{
+				JList list = AutoFilterTextField.this.list; 
 				if ( AutoFilterTextField.this.model.getSize() == 1 )
 				{
-					AutoFilterTextField.this.list.setSelectedIndex( 0 );
+					list.setSelectedIndex( 0 );
 				}
-				else if ( AutoFilterTextField.this.list.getSelectedIndices().length != 1 )
+				else if ( list.getSelectedIndices().length == 1 )
 				{
-					AutoFilterTextField.this.list.clearSelection();
+					list.ensureIndexIsVisible( list.getSelectedIndex() );
+				}
+				else
+				{
+					list.clearSelection();
 				}
 			}
 		}

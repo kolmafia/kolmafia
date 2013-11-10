@@ -1405,7 +1405,7 @@ public class UseItemRequest
 		{
 			// If we are about to use an item which can use adventures, set location to "None"
 			// for the benefit of betweenBattleScripts
-			Preferences.setString( "lastAdventure", "None" );
+			Preferences.setString( "nextAdventure", "None" );
 			RecoveryManager.runBetweenBattleChecks( true );
 		}
 
@@ -2194,19 +2194,17 @@ public class UseItemRequest
 					{
 						adv = AdventurePool.NOOB_CAVE;
 					}
-					KoLAdventure req = AdventureDatabase.getAdventureByURL(
-						"adventure.php?snarfblat=" + adv );
-					req.overrideAdventuresUsed( 0 );	// don't trigger counters
+					KoLAdventure req = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + adv );
 					// Must do some trickery here to
 					// prevent the adventure location from
 					// being changed, and the conditions
 					// reset.
-					String la = Preferences.getString( "lastAdventure" );
-					Preferences.setString( "lastAdventure",
-						req.getAdventureName() );
+					String next = Preferences.getString( "nextAdventure" );
+					KoLAdventure.setNextAdventure( req );
+					req.overrideAdventuresUsed( 0 );	// don't trigger counters
 					RequestThread.postRequest( req );
 					req.overrideAdventuresUsed( -1 );
-					Preferences.setString( "lastAdventure", la );
+					KoLAdventure.setNextAdventure( next );
 					(UseItemRequest.getInstance( item )).run();
 				}
 				finally

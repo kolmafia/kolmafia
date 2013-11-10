@@ -246,7 +246,7 @@ public class DreadsylvaniaRequest
 			{
 				return false;
 			}
-			KoLAdventure.setNextLocation( name );
+			KoLAdventure.setNextAdventure( name );
 			// Don't need to log this: it will redirect to adventure.php
 			// message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
 			return true;

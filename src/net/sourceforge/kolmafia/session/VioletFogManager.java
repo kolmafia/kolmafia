@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -603,7 +604,6 @@ public abstract class VioletFogManager
 		if ( source == 71 )
 		{
 			// We got diverted from where we thought we were going
-			Preferences.setString( "lastAdventure", "A Journey to the Center of Your Mind" );
 			// Switch location to the trip of choice.
 			String name = "";
 			if ( decision.equals( "1" ) )
@@ -620,6 +620,7 @@ public abstract class VioletFogManager
 			}
 
 			Preferences.setString( "chosenTrip", name );
+			KoLAdventure.setNextAdventure( name );
 			return true;
 		}
 

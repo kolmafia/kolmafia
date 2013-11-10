@@ -2277,8 +2277,7 @@ public class RelayRequest
 	 * @param nextAdventure
 	 * @return <b>true</b> if a pseudoresponse was displayed and the RelayRequest should stop before run()-ing.
 	 */
-	private boolean sendWarnings( KoLAdventure adventure, String adventureName,
-		String nextAdventure )
+	private boolean sendWarnings( KoLAdventure adventure, String adventureName, String nextAdventure )
 	{
 		String path = this.getBasePath();
 		String urlString = this.getURLString();
@@ -2326,7 +2325,7 @@ public class RelayRequest
 
 			KoLmafia.forceContinue();
 
-			Preferences.setString( "lastAdventure", nextAdventure );
+			Preferences.setString( "nextAdventure", nextAdventure );
 			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
 
 			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )

@@ -175,7 +175,7 @@ public class AdventureSelectPanel
 		contentHolder.add( zonePanel, BorderLayout.NORTH );
 		contentHolder.add( new GenericScrollPane( this.locationSelect ), BorderLayout.CENTER );
 
-		this.locationSelect.addListSelectionListener( new ConditionChangeListener() );
+		this.locationSelect.addListSelectionListener( new AdventureSelectListener() );
 
 		JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
 
@@ -218,11 +218,15 @@ public class AdventureSelectPanel
 		}
 	}
 
+	public KoLAdventure getSelectedAdventure()
+	{
+		return (KoLAdventure) this.locationSelect.getSelectedValue();
+	}
+
 	public void updateFromPreferences()
 	{
+		KoLAdventure location = AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) );
 		GoalManager.clearGoals();
-		String pref = Preferences.getString( "lastAdventure" );
-		KoLAdventure location = AdventureDatabase.getAdventure( pref );
 		this.updateSelectedAdventure( location );
 	}
 
@@ -248,6 +252,7 @@ public class AdventureSelectPanel
 
 		if ( this.zoneSelect instanceof AutoFilterTextField )
 		{
+			this.locationSelect.clearSelection();
 			( (AutoFilterTextField) this.zoneSelect ).setText( location.getZone() );
 		}
 		else
@@ -255,16 +260,7 @@ public class AdventureSelectPanel
 			( (JComboBox) this.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
 		}
 
-		if ( this.locationSelect.getSelectedValue() == location && Preferences.getInteger( "currentBountyItem" ) == 0 )
-		{
-			return;
-		}
-
-		synchronized ( this.locationSelect )
-		{
-			this.locationSelect.setSelectedValue( location, true );
-			this.locationSelect.ensureIndexIsVisible( this.locationSelect.getSelectedIndex() );
-		}
+		this.locationSelect.setSelectedValue( location, true );
 	}
 
 	public synchronized void addSelectedLocationListener( final ListSelectionListener listener )
@@ -340,10 +336,10 @@ public class AdventureSelectPanel
 		}
 	}
 
-	private class ConditionChangeListener
+	private class AdventureSelectListener
 		implements ListSelectionListener, ListDataListener
 	{
-		public ConditionChangeListener()
+		public AdventureSelectListener()
 		{
 			GoalManager.getGoals().addListDataListener( this );
 			AdventureSelectPanel.this.fillDefaultConditions();
@@ -354,6 +350,12 @@ public class AdventureSelectPanel
 			if ( KoLmafia.isAdventuring() )
 			{
 				return;
+			}
+
+			KoLAdventure location = AdventureSelectPanel.this.getSelectedAdventure();
+			if ( location != null )
+			{
+				KoLAdventure.setNextAdventure( location );
 			}
 
 			AdventureSelectPanel.this.fillDefaultConditions();
@@ -399,7 +401,7 @@ public class AdventureSelectPanel
 		{
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
-			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
+			KoLAdventure request = AdventureSelectPanel.this.getSelectedAdventure();
 			if ( request == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "No location selected." );
@@ -525,7 +527,7 @@ public class AdventureSelectPanel
 
 	private String getDefaultConditions()
 	{
-		KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
+		KoLAdventure location = this.getSelectedAdventure();
 		AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
 		return (String) this.locationConditions.get( 0 );
 	}

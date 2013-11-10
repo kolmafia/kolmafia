@@ -625,6 +625,7 @@ user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
+user	nextAdventure
 user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue

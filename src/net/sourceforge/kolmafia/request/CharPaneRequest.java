@@ -82,7 +82,6 @@ public class CharPaneRequest
 	private static int turnsThisRun = 0;
 
 	private static boolean inValhalla = false;
-	private static boolean checkNewLocation = false;
 
 	public static boolean compactCharacterPane = false;
 	public static boolean familiarBelowEffects = false;
@@ -99,7 +98,6 @@ public class CharPaneRequest
 		CharPaneRequest.canInteract = false;
 		CharPaneRequest.turnsThisRun = 0;
 		CharPaneRequest.inValhalla = false;
-		CharPaneRequest.checkNewLocation = false;
 	}
 
 	@Override
@@ -140,11 +138,6 @@ public class CharPaneRequest
 		{
 			ConcoctionDatabase.setPullsRemaining( -1 );
 		}
-	}
-
-	public static final void setCheckNewLocation( final boolean check )
-	{
-		CharPaneRequest.checkNewLocation = check;
 	}
 
 	public static boolean processResults( String responseText )
@@ -217,7 +210,7 @@ public class CharPaneRequest
 			CharPaneRequest.handleExpandedMode( responseText );
 		}
 
-		CharPaneRequest.checkNewLocation( responseText );
+		CharPaneRequest.setLastAdventure( responseText );
 		CharPaneRequest.refreshEffects( responseText );
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
 
@@ -801,48 +794,42 @@ public class CharPaneRequest
 	}
 
 	private static Pattern compactLastAdventurePattern =
-		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"adventure.php\\?snarfblat=([\\d]+)\">.*?</a>:</td>" );
+		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"(adventure.php\\?snarfblat=([\\d]+))\">.*?</a>:</td>" );
 	private static Pattern expandedLastAdventurePattern =
-		Pattern.compile( ">Last Adventure.*?<a.*? href=\"adventure.php\\?snarfblat=([^\"]+)\">(.*?)</a>.*?</table>" );
+		Pattern.compile( "<a.*href=\"(.*)\".*>Last Adventure:</a>.*?<a.*? href=\"(adventure.php\\?snarfblat=([^\"]+))\">(.*?)</a>.*?</table>" );
 
-	private static final void checkNewLocation( final String responseText )
+	private static final void setLastAdventure( final String responseText )
 	{
-		if ( !CharPaneRequest.checkNewLocation )
+		String adventureId = null;
+		String adventureName = null;
+		String adventureURL = null;
+		String container = null;
+		if ( CharPaneRequest.compactCharacterPane )
 		{
-			return;
+			Matcher matcher = CharPaneRequest.compactLastAdventurePattern.matcher( responseText );
+			if ( matcher.find() )
+			{
+				adventureId = matcher.group( 3 );
+				adventureName = matcher.group( 1 );
+				adventureURL = matcher.group( 2 );
+			}
+		}
+		else
+		{
+			Matcher matcher = CharPaneRequest.expandedLastAdventurePattern.matcher( responseText );
+			if ( matcher.find() )
+			{
+				adventureId = matcher.group( 3 );
+				adventureName = matcher.group( 4 );
+				adventureURL = matcher.group( 2 );
+				container = matcher.group( 1 );
+			}
 		}
 
-		CharPaneRequest.checkNewLocation = false;
-
-		boolean compact = CharPaneRequest.compactCharacterPane;
-
-		Pattern pattern = compact ?
-			CharPaneRequest.compactLastAdventurePattern :
-			CharPaneRequest.expandedLastAdventurePattern;
-		Matcher lastAdventureMatcher = pattern.matcher( responseText );
-		if ( !lastAdventureMatcher.find() )
+		if ( adventureName != null )
 		{
-			return;
+			KoLAdventure.setLastAdventure( adventureId, adventureName, adventureURL, container );
 		}
-
-		String adventureName = compact ? lastAdventureMatcher.group( 1 ) : lastAdventureMatcher.group( 2 );
-		String adventureId = compact ? lastAdventureMatcher.group( 2 ) : lastAdventureMatcher.group( 1 );
-
-		CharPaneRequest.checkNewLocation( adventureName, adventureId );
-	}
-
-	private static final void checkNewLocation( final String adventureName, final String adventureId )
-	{
-		// check if we already know this location
-		String adventureURL = "adventure.php?snarfblat=" + adventureId;
-		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
-		if ( adventure != null )
-		{
-			return;
-		}
-
-		RequestLogger.printLine( "Adding new location: " + adventureName + " - " + adventureURL );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "location", adventureId + " " + adventureName );
 	}
 
 	private static Pattern compactFamiliarWeightPattern =
@@ -1059,10 +1046,8 @@ public class CharPaneRequest
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
-		if ( adventureURL.startsWith( "adventure.php" ) )
-		{
-			CharPaneRequest.checkNewLocation( adventureName, adventureId );
-		}
+		String container = lastadv.getString( "container" );
+		KoLAdventure.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );
