@@ -1109,7 +1109,7 @@ public class KoLAdventure
 		// If we get this far, then it is safe to run the request
 		// (without spamming the server).
 
-		KoLAdventure.setNextLocation( this, this.adventureName );
+		KoLAdventure.setNextAdventure( this );
 
 		if ( RecoveryManager.isRecoveryPossible() )
 		{
@@ -1124,53 +1124,72 @@ public class KoLAdventure
 		RequestThread.postRequest( this.request );
 	}
 
-	public static final void setNextLocation( final KoLAdventure location, final String name )
+	public static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
-		KoLAdventure.lastVisitedLocation = location;
-		KoLAdventure.lastLocationName = name;
-		Preferences.setString( "lastAdventure", name );
-
-		if ( location == null )
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
+		if ( adventure == null )
 		{
-			return;
+			// We could use "container" to pick the zone the adventure goes in
+			RequestLogger.printLine( "Adding new location: " + adventureName + " - " + adventureURL );
+			adventure = new KoLAdventure( "Override", "adventure.php", adventureId, adventureName );
+			AdventureDatabase.addAdventure( adventure );
 		}
 
-		AdventureFrame.updateSelectedAdventure( location );
+		KoLAdventure.setLastAdventure( adventure );
+	}
 
-		if ( location.adventureId == null )
-		{
-			// Prevent NullPointerException for nonstandard locations
-			return;
-		}
+	public static final void setLastAdventure( final KoLAdventure adventure )
+	{
+		String adventureId = adventure.adventureId;
+		String adventureName = adventure.adventureName;
+		String adventureURL = adventure.formSource;
+
+		KoLAdventure.lastVisitedLocation = adventure;
+		KoLAdventure.lastLocationName = adventureName;
+		KoLAdventure.lastLocationURL = adventureURL;
+		Preferences.setString( "lastAdventure", adventureName );
+
+		KoLAdventure.setNextAdventure( adventure );
 
 		// If you were able to access some hidden city areas you must have unlocked them so update quest status
-		if ( location.adventureId.equals( AdventurePool.HIDDEN_APARTMENT_ID ) && Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
+		if ( adventureId.equals( AdventurePool.HIDDEN_APARTMENT_ID ) &&
+		     Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
 		{
 			Preferences.setInteger( "hiddenApartmentProgress", 1 );
 		}
-		else if ( location.adventureId.equals( AdventurePool.HIDDEN_HOSPITAL_ID ) && Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
+		else if ( adventureId.equals( AdventurePool.HIDDEN_HOSPITAL_ID ) &&
+			  Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
 		{
 			Preferences.setInteger( "hiddenHospitalProgress", 1 );
 		}
-		else if ( location.adventureId.equals( AdventurePool.HIDDEN_OFFICE_ID ) && Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
+		else if ( adventureId.equals( AdventurePool.HIDDEN_OFFICE_ID ) &&
+			  Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
 		{
 			Preferences.setInteger( "hiddenOfficeProgress", 1 );
 		}
-		else if ( location.adventureId.equals( AdventurePool.HIDDEN_BOWLING_ALLEY_ID ) && Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
+		else if ( adventureId.equals( AdventurePool.HIDDEN_BOWLING_ALLEY_ID ) &&
+			  Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
 		{
 			Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
 		}
 	}
 
-	public static final void setNextLocation( final String name )
+	public static final void setNextAdventure( final String adventureName )
 	{
-		// Update selected adventure information in order to
-		// keep the GUI synchronized.
+		KoLAdventure.setNextAdventure( AdventureDatabase.getAdventure( adventureName ) );
+		EncounterManager.registerAdventure( adventureName );
+	}
 
-		KoLAdventure location = AdventureDatabase.getAdventure( name );
-		KoLAdventure.setNextLocation( location, name );
-		KoLAdventure.lastLocationURL = location.request.getURLString();
-		EncounterManager.registerAdventure( name );
+	public static final void setNextAdventure( final KoLAdventure adventure )
+	{
+		if ( adventure == null )
+		{
+			return;
+		}
+
+		Preferences.setString( "nextAdventure", adventure.adventureName );
+		AdventureFrame.updateSelectedAdventure( adventure );
+		KoLCharacter.updateSelectedLocation( adventure );
 	}
 
 	public static final KoLAdventure lastVisitedLocation()
@@ -1182,12 +1201,8 @@ public class KoLAdventure
 	{
 		KoLAdventure location = KoLAdventure.lastVisitedLocation;
 
-		if ( location == null || !StringUtilities.isNumeric( location.adventureId ) )
-		{
-			return 0;
-		}
-
-		return StringUtilities.parseInt( location.adventureId );
+		return  location == null || !StringUtilities.isNumeric( location.adventureId ) ?
+			0 : StringUtilities.parseInt( location.adventureId );
 	}
 
 	public static final String lastAdventureIdString()
@@ -1936,7 +1951,7 @@ public class KoLAdventure
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
-		KoLAdventure.setNextLocation( KoLAdventure.lastVisitedLocation, location );
+		KoLAdventure.setLastAdventure( KoLAdventure.lastVisitedLocation );
 		EncounterManager.registerAdventure( location );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;

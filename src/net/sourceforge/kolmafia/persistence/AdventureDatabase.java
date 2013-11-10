@@ -647,7 +647,6 @@ public class AdventureDatabase
 			}
 			if ( urlString.contains( "snarfblat=" ) )
 			{
-				CharPaneRequest.setCheckNewLocation( true );
 				return "Unknown adventure";
 			}
 			return null;

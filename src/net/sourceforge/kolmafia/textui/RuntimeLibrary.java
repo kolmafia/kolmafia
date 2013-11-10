@@ -5333,19 +5333,14 @@ public abstract class RuntimeLibrary
 
 	public static Value my_location( Interpreter interpreter )
 	{
-		String location = Preferences.getString( "lastAdventure" );
-		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest", true ) : DataTypes.parseLocationValue( location, true );
+		String location = Preferences.getString( "nextAdventure" );
+		return DataTypes.parseLocationValue( location, true );
 	}
 
 	public static Value set_location( Interpreter interpreter, final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
-		if ( adventure != null &&
-			!Preferences.getString( "lastAdventure" ).equals( adventure.getAdventureName() ) )
-		{
-			Preferences.setString( "lastAdventure", adventure.getAdventureName() );
-			AdventureFrame.updateSelectedAdventure( adventure );
-		}
+		KoLAdventure.setNextAdventure( adventure );
 		return DataTypes.VOID_VALUE;
 	}
 

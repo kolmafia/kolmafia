@@ -2468,6 +2468,9 @@ public class FightRequest
 			return;
 		}
 
+		// If this was an item-generated monster, reset
+		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
+
 		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
 
 		// If we won, the fight is over for sure. It might be over
