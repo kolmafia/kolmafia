@@ -2068,7 +2068,7 @@ public class GenericRequest
 			}
 
 			ChoiceManager.processChoiceAdventure();
-			return false;
+			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "ocean.php" ) )
