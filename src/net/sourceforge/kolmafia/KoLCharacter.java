@@ -1085,6 +1085,18 @@ public abstract class KoLCharacter
 		return 0;
 	}
 
+	public static final String getClassStun( final String classType )
+	{
+		return
+			classType.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
+			classType.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
+			classType.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
+			classType.equals( KoLCharacter.SAUCEROR ) ? "Entangling Noodles" :
+			classType.equals( KoLCharacter.DISCO_BANDIT ) ? "Entangling Noodles" :
+			classType.equals( KoLCharacter.ACCORDION_THIEF ) ? "Accordion Bash" :
+			"Entangling Noodles";
+	}
+
 	/**
 	 * Accessor method to retrieve the level of this character.
 	 *
