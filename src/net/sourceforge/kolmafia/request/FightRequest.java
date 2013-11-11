@@ -502,27 +502,6 @@ public class FightRequest
 		return matcher.find();
 	}
 
-	public static final boolean canCastNoodles()
-	{
-		return !FightRequest.castNoodles ||
-			MonsterStatusTracker.getLastMonsterName().equals( "spaghetti demon" );
-	}
-
-	public static final boolean canCastClubFoot()
-	{
-		return !FightRequest.castClubFoot;
-	}
-
-	public static final boolean canCastShellUp()
-	{
-		return !FightRequest.castShellUp;
-	}
-
-	public static final boolean canCastAccordionBash()
-	{
-		return !FightRequest.castAccordionBash;
-	}
-
 	public static final boolean canOlfact()
 	{
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );

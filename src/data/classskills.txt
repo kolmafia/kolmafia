@@ -213,7 +213,7 @@
 2032	Spirit Snap	5	10	0	6
 2033	Blessing of She-Who-Was	3	30	999	7
 2034	Butts of Steel	0	0	0	8
-2035	Testudinal Teachings	0	0	0	10
+2035	Testudinal Teachings	0	0	0	9
 2036	Pizza Lover	0	0	0	4
 2037	Blessing of the Storm Tortoise	3	50	999	11
 2038	The Long View	0	0	0	12

@@ -106,16 +106,13 @@ public class CustomCombatPanel
 	protected CardLayout combatCards;
 	public JComboBox availableScripts;
 
-	private static ImageIcon stealImg, entangleImg, clubFootImg, shellUpImg, accordionBashImg;
+	private static ImageIcon stealImg, stunImg;
 	private static ImageIcon potionImg, olfactImg, puttyImg;
 	private static ImageIcon antidoteImg, restoreImg, safeImg;
 	static
 	{
 		CustomCombatPanel.stealImg = CustomCombatPanel.getImage( "knobsack.gif" );
-		CustomCombatPanel.entangleImg = CustomCombatPanel.getImage( "entnoodles.gif" );
-		CustomCombatPanel.clubFootImg = CustomCombatPanel.getImage( "clubfoot.gif" );
-		CustomCombatPanel.shellUpImg = CustomCombatPanel.getImage( "shellup.gif" );
-		CustomCombatPanel.accordionBashImg = CustomCombatPanel.getImage( "acc1.gif" );
+		CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "entnoodles.gif" );
 		CustomCombatPanel.potionImg = CustomCombatPanel.getImage( "exclam.gif" );
 		CustomCombatPanel.olfactImg = CustomCombatPanel.getImage( "footprints.gif" );
 		CustomCombatPanel.puttyImg = CustomCombatPanel.getImage( "sputtycopy.gif" );
@@ -248,44 +245,51 @@ public class CustomCombatPanel
 			MouseListener listener = new SpecialPopListener();
 			special.addMouseListener( listener );
 
-			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
-			boolean isTurtleTamer = KoLCharacter.getClassName().equals( "Turtle Tamer" );
-			boolean isDiscoBandit = KoLCharacter.getClassName().equals( "Disco Bandit" );
-			boolean isAccordionThief = KoLCharacter.getClassName().equals( "Accordion Thief" );
+			String stunSkill = KoLCharacter.getClassStun();
+			if ( stunSkill.equals( "Club Foot" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "clubfoot.gif" );
+			}
+			else if ( stunSkill.equals( "Shell Up" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shellup.gif" );
+			}
+			else if ( stunSkill.equals( "Entangling Noodles" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "entnoodles.gif" );
+			}
+			else if ( stunSkill.equals( "Accordion Bash" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "accordionbash.gif" );
+			}
+			else if ( stunSkill.equals( "Broadside" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "broadside.gif" );
+			}
+			else if ( stunSkill.equals( "Corpse Pile" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "corpsepile.gif" );
+			}
+			else if ( stunSkill.equals( "Blend" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "jarl_blend.gif" );
+			}
+			else if ( stunSkill.equals( "Shadow Noodles" ) )
+			{
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shadownoodles.gif" );
+			}
 			
 			this.stealLabel =
 				this.label(
 					special, listener, CustomCombatPanel.stealImg,
 					"Pickpocketing will be tried (if appropriate) with non-CCS actions." );
-			if ( isSealClubber ) 
-			{
-				this.stunLabel =
-					this.label(
-						special, listener, CustomCombatPanel.clubFootImg,
-						"Club Foot will be cast before non-CCS actions." );
-			}
-			else if ( isTurtleTamer ) 
-			{
-				this.stunLabel =
-					this.label(
-						special, listener, CustomCombatPanel.shellUpImg,
-						"Shell Up will be cast before non-CCS actions." );
-			}
-			else if ( isAccordionThief ) 
-			{
-				this.stunLabel =
-					this.label(
-						special, listener, CustomCombatPanel.accordionBashImg,
-						"Accordion Bash will be cast before non-CCS actions." );
-			}
-			else
-			{
-				this.stunLabel =
-					this.label(
-						special, listener, CustomCombatPanel.entangleImg,
-						"Entangling Noodles will be cast before non-CCS actions." );
-			}
-			this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
+
+			this.stunLabel =
+				this.label(
+					special, listener, CustomCombatPanel.stunImg,
+					stunSkill + " will be cast before non-CCS actions." );
+
+					this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
 			this.puttyLabel = this.label( special, listener, CustomCombatPanel.puttyImg, null );
 			this.potionLabel =
 				this.label(
@@ -304,9 +308,7 @@ public class CustomCombatPanel
 
 			this.specialPopup = new JPopupMenu( "Special Actions" );
 			this.stealItem = this.checkbox( this.specialPopup, listener, "Pickpocket before simple actions" );
-			this.stunItem = this.checkbox( this.specialPopup, listener, isSealClubber ? "Cast Club Foot before simple actions" : 
-																		isAccordionThief ? "Cast Accordion Bash before simple actions" :
-																		isTurtleTamer ? "Cast Shell Up before simple actions" : "Cast Noodles before simple actions" );
+			this.stunItem = this.checkbox( this.specialPopup, listener, "Cast " + stunSkill + " before simple actions" );
 			this.specialPopup.addSeparator();
 
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );
@@ -355,26 +357,7 @@ public class CustomCombatPanel
 
 			CustomCombatPanel.this.actionSelect.setSelectedItem( Preferences.getString( "battleAction" ) );
 
-			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
-			boolean isTurtleTamer = KoLCharacter.getClassName().equals( "Turtle Tamer" );
-			boolean isDiscoBandit = KoLCharacter.getClassName().equals( "Disco Bandit" );
-			boolean isAccordionThief = KoLCharacter.getClassName().equals( "Accordion Thief" );
-			boolean isPastamancer = KoLCharacter.getClassName().equals( "Pastamancer" );
-			boolean isSauceror = KoLCharacter.getClassName().equals( "Sauceror" );
-
-			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) && ( isPastamancer || isSauceror ) )
-			{
-				this.stunItem.setEnabled( true );
-			}
-			else if ( KoLCharacter.hasSkill( "Club Foot" ) && isSealClubber )
-			{
-				this.stunItem.setEnabled( true );
-			}
-			else if ( KoLCharacter.hasSkill( "Shell Up" ) && isTurtleTamer )
-			{
-				this.stunItem.setEnabled( true );
-			}
-			else if ( KoLCharacter.hasSkill( "Accordion Bash" ) && isAccordionThief )
+			if ( KoLCharacter.hasSkill( KoLCharacter.getClassStun() ) )
 			{
 				this.stunItem.setEnabled( true );
 			}

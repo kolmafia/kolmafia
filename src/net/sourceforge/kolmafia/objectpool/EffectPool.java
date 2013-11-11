@@ -53,6 +53,16 @@ public class EffectPool
 			HAIKU_STATE_OF_MIND( "Haiku State of Mind", 548 ),
 			JUST_THE_BEST_ANAPESTS( "Just the Best Anapests", 1003 ),
 
+			WAR_BLESSING_1( "Blessing of the War Snapper", 1416 ),
+			WAR_BLESSING_2( "Grand Blessing of the War Snapper", 1417 ),
+			WAR_BLESSING_3( "Glorious Blessing of the War Snapper", 1418 ),
+			SHE_WHO_WAS_BLESSING_1( "Blessing of She-Who-Was", 1419 ),
+			SHE_WHO_WAS_BLESSING_2( "Grand Blessing of She-Who-Was", 1420 ),
+			SHE_WHO_WAS_BLESSING_3( "Glorious Blessing of She-Who-Was", 1421 ),
+			STORM_BLESSING_1( "Blessing of the Storm Tortoise", 1422 ),
+			STORM_BLESSING_2( "Grand Blessing of the Storm Tortoise", 1423 ),
+			STORM_BLESSING_3( "Glorious Blessing of the Storm Tortoise", 1424 ),
+			
 			HALF_ASTRAL( "Half-Astral", 183 ),
 			PERFUME( "Knob Goblin Perfume", 9 ),
 			ABSINTHE( "Absinthe-Minded", 357 ),
