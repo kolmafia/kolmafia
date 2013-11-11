@@ -1137,7 +1137,7 @@ public class KoLAdventure
 	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "adventure.php\\?snarfblat=([\\d]+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=([\\d]+)" );
 
-	public static final void setLastAdventure( String adventureId, final String adventureName, String adventureURL, final String container )
+	public static final KoLAdventure setLastAdventure( String adventureId, final String adventureName, String adventureURL, final String container )
 	{
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
 		if ( adventure == null )
@@ -1177,6 +1177,7 @@ public class KoLAdventure
 
 		KoLAdventure.setLastAdventure( adventure );
 		KoLAdventure.locationLogged = true;
+		return adventure;
 	}
 
 	public static final void setLastAdventure( final KoLAdventure adventure )
@@ -1194,8 +1195,6 @@ public class KoLAdventure
 		KoLAdventure.lastLocationName = adventure.getPrettyAdventureName( adventureURL );
 		KoLAdventure.lastLocationURL = adventureURL;
 		Preferences.setString( "lastAdventure", adventureName );
-
-		KoLAdventure.setNextAdventure( adventure );
 
 		// If you were able to access some hidden city areas you must have unlocked them so update quest status
 		if ( adventureId.equals( AdventurePool.HIDDEN_APARTMENT_ID ) &&
@@ -2012,6 +2011,7 @@ public class KoLAdventure
 		// keep the GUI synchronized.
 
 		KoLAdventure.setLastAdventure( KoLAdventure.lastVisitedLocation );
+		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
 		EncounterManager.registerAdventure( location );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
