@@ -305,7 +305,7 @@ public abstract class CombatActionManager
 						ItemPool.NEW_WAVE_BLING, 1 ) ) ? "try to steal an item" : "skip";
 				case 2:
 					return Preferences.getBoolean( "autoEntangle" ) ?
-						KoLCharacter.getClassStun( KoLCharacter.getClassName() ) :
+						KoLCharacter.getClassStun() :
 						"skip";
 				case 3:
 					return "special action";

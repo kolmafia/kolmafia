@@ -175,7 +175,10 @@ public abstract class KoLCharacter
 		KoLCharacter.TURTLE_TAMER_RANKS.add( "Asp Master" );
 		KoLCharacter.TURTLE_TAMER_RANKS.add( "Turtle Tamer" );
 	}
-
+	public static final String WAR_BLESSING = "War";
+	public static final String STORM_BLESSING = "Storm";
+	public static final String SHE_WHO_WAS_BLESSING = "She-who-was";
+	
 	public static final String PASTAMANCER = "Pastamancer";
 	private static final List<String> PASTAMANCER_RANKS = new ArrayList<String>();
 	static
@@ -1085,16 +1088,18 @@ public abstract class KoLCharacter
 		return 0;
 	}
 
-	public static final String getClassStun( final String classType )
+	public static final String getClassStun()
 	{
 		return
-			classType.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
-			classType.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
-			classType.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
-			classType.equals( KoLCharacter.SAUCEROR ) ? "Entangling Noodles" :
-			classType.equals( KoLCharacter.DISCO_BANDIT ) ? "Entangling Noodles" :
-			classType.equals( KoLCharacter.ACCORDION_THIEF ) ? "Accordion Bash" :
-			"Entangling Noodles";
+			( KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) && KoLCharacter.getFury() > 0 ) ? "Club Foot" :
+			( KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) && KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ) ? "Shell Up" :
+			KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
+			KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR ) ? "Entangling Noodles" :
+			( KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF ) && EquipmentManager.wieldingAccordion() ) ? "Accordion Bash" :
+			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_BORIS ) ? "Broadside" :
+			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
+			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? "Blend" :
+			"Shadow Noodles";
 	}
 
 	/**
@@ -1164,6 +1169,52 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.setFury( KoLCharacter.fury - decFury );
 	}		
+	
+	public static final String getBlessingType()
+	{
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) )
+		{
+			return KoLCharacter.WAR_BLESSING;
+		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) )
+		{
+			return KoLCharacter.SHE_WHO_WAS_BLESSING;
+		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
+		{
+			return KoLCharacter.STORM_BLESSING;
+		}
+		return null;
+	}
+
+	public static final int getBlessingLevel()
+	{
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) )
+		{
+			return 1;
+		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) )
+		{
+			return 2;
+		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
+		{
+			return 3;
+		}
+		return 0;	
+	}
 	
 	public static final int getDiscoMomentum()
 	{

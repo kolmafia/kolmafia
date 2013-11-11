@@ -1482,6 +1482,12 @@ public class EquipmentManager
 		return type.equals( "knife" );
 	}
 
+	public static final boolean wieldingAccordion()
+	{
+		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return type.equals( "accordion" );
+	}
+
 	/**
 	 * Accessor method to determine if character is currently using a shield
 	 *

@@ -62,24 +62,7 @@ public class StationaryButtonDecorator
 
 	private static final boolean builtInSkill( final String skillId )
 	{
-		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) 
-			&& ( KoLCharacter.getClassName().equals( "Pastamancer" )
-			|| KoLCharacter.getClassName().equals( "Sauceror" ) ) )
-		{
-			return true;
-		}
-
-		if ( skillId.equals( String.valueOf( SkillPool.CLUBFOOT ) ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
-		{
-			return true;
-		}
-
-		if ( skillId.equals( String.valueOf( SkillPool.SHELL_UP ) ) && KoLCharacter.getClassName().equals( "Turtle Tamer") )
-		{
-			return true;
-		}
-
-		if ( skillId.equals( String.valueOf( SkillPool.ACCORDION_BASH ) ) && KoLCharacter.getClassName().equals( "Accordion Thief") )
+		if ( skillId.equals( String.valueOf( SkillDatabase.getSkillId( KoLCharacter.getClassStun() ) ) ) )
 		{
 			return true;
 		}
@@ -371,42 +354,14 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "jiggle", enabled );
 		}
 
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) 
-			&& ( KoLCharacter.getClassName().equals( "Pastamancer" )
-			|| KoLCharacter.getClassName().equals( "Sauceror" ) ) )
+		String classStun = KoLCharacter.getClassStun();
+		if ( !inBirdForm && KoLCharacter.hasSkill( classStun ) )
 		{
-			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Entangling Noodles" );
+			UseSkillRequest stunRequest = UseSkillRequest.getInstance( classStun );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( noodleRequest );
+				KoLConstants.availableCombatSkills.contains( stunRequest );
 			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "3004", enabled );
-		}
-
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Club Foot" ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
-		{
-			UseSkillRequest clubFootRequest = UseSkillRequest.getInstance( "Club Foot" );
-			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( clubFootRequest );
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "1033", enabled );
-		}
-
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Shell Up" ) && KoLCharacter.getClassName().equals( "Turtle Tamer") )
-		{
-			UseSkillRequest shellUpRequest = UseSkillRequest.getInstance( "Shell Up" );
-			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( shellUpRequest );
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "2028", enabled );
-		}
-
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Accordion Bash" ) && KoLCharacter.getClassName().equals( "Accordion Thief") )
-		{
-			UseSkillRequest accordionBashRequest = UseSkillRequest.getInstance( "Accordion Bash" );
-			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( accordionBashRequest );
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "6032", enabled );
+				urlString, buffer, actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
