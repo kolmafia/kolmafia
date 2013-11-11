@@ -428,7 +428,7 @@ public class AdventureDatabase
 		// Mining in disguise count as adventures.
 		if ( adventureURL.startsWith( "mining.php" ) )
 		{
-			String mine = AdventureDatabase.extractField( adventureURL, "mine" );
+			String mine = GenericRequest.extractField( adventureURL, "mine" );
 			if ( mine == null )
 			{
 				return null;
@@ -437,7 +437,7 @@ public class AdventureDatabase
 		}
 
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
+		adventureURL = GenericRequest.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
 		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
@@ -450,40 +450,6 @@ public class AdventureDatabase
 		return  location.getRequest() instanceof ClanRumpusRequest ||
 			location.getRequest() instanceof RichardRequest
 			? null : location;
-	}
-
-	public static final String removeField( final String urlString, final String field )
-	{
-		int start = urlString.indexOf( field );
-		if ( start == -1 )
-		{
-			return urlString;
-		}
-
-		int end = urlString.indexOf( "&", start );
-		if ( end == -1 )
-		{
-			String prefix = urlString.substring( 0, start - 1 );
-			return prefix;
-		}
-
-		String prefix = urlString.substring( 0, start );
-		String suffix = urlString.substring( end + 1 );
-		return prefix + suffix;
-	}
-
-	public static final String extractField( final String urlString, final String field )
-	{
-		int start = urlString.indexOf( field );
-		if ( start == -1 )
-		{
-			return null;
-		}
-
-		int end = urlString.indexOf( "&", start );
-		return ( end == -1 ) ?
-			urlString.substring( start ) :
-			urlString.substring( start, end );
 	}
 
 	public static final KoLAdventure getAdventure( final String adventureName )

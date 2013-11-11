@@ -999,6 +999,40 @@ public class GenericRequest
 		return dataBuffer.toString();
 	}
 
+	public static final String removeField( final String urlString, final String field )
+	{
+		int start = urlString.indexOf( field );
+		if ( start == -1 )
+		{
+			return urlString;
+		}
+
+		int end = urlString.indexOf( "&", start );
+		if ( end == -1 )
+		{
+			String prefix = urlString.substring( 0, start - 1 );
+			return prefix;
+		}
+
+		String prefix = urlString.substring( 0, start );
+		String suffix = urlString.substring( end + 1 );
+		return prefix + suffix;
+	}
+
+	public static final String extractField( final String urlString, final String field )
+	{
+		int start = urlString.indexOf( field );
+		if ( start == -1 )
+		{
+			return null;
+		}
+
+		int end = urlString.indexOf( "&", start );
+		return ( end == -1 ) ?
+			urlString.substring( start ) :
+			urlString.substring( start, end );
+	}
+
 	private boolean shouldUpdateDebugLog()
 	{
 		return RequestLogger.isDebugging() && ( !this.isChatRequest || Preferences.getBoolean( "logChatRequests" ) );
