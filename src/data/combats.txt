@@ -64,7 +64,7 @@ Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
 Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
-Barrel full of Barrels	-1	mimic (Bottom 2 Rows)	mimic (Middle 2 Rows)	mimic (Top 2 Rows)
+The Barrel Full of Barrels	-1	mimic (Bottom 2 Rows)	mimic (Middle 2 Rows)	mimic (Top 2 Rows)
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1

@@ -144,6 +144,10 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", adventureId );
 		}
+		else if ( formSource.equals( "mining.php" ) )
+		{
+			this.addFormField( "mine", adventureId );
+		}
 		else if ( formSource.equals( "place.php" ) && adventureId.equals( "cloudypeak2" ) )
 		{
 			this.addFormField( "whichplace", "mclargehuge" );
