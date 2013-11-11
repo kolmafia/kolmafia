@@ -800,10 +800,13 @@ public class LockableListModel
 
 				++visibleIndex;
 			}
-			else if ( visibleIndex < this.visibleElements.size() && this.visibleElements.get( visibleIndex ) == element )
+			else
 			{
-				this.visibleElements.remove( visibleIndex );
-				this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
+				if ( visibleIndex < this.visibleElements.size() && this.visibleElements.get( visibleIndex ) == element )
+				{
+					this.visibleElements.remove( visibleIndex );
+					this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
+				}
 			}
 		}
 

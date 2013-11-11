@@ -80,8 +80,6 @@ public class AutoFilterTextField
 	protected boolean asEQ, asLT, asGT;
 	protected boolean notChecked;
 
-	private FilterDelayThread thread;
-
 	private static final Pattern QTYSEARCH_PATTERN = Pattern.compile(
 		"\\s*#\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
 
@@ -152,14 +150,14 @@ public class AutoFilterTextField
 
 	public void actionPerformed( final ActionEvent e )
 	{
-		this.prepareUpdate();
+		this.update();
 	}
 
 	@Override
 	public void setText( final String text )
 	{
 		super.setText( text );
-		this.prepareUpdate();
+		this.update();
 	}
 
 	public boolean isVisible( final Object element )
@@ -263,7 +261,6 @@ public class AutoFilterTextField
 		return -1;
 	}
 
-
 	public static final int getResultQuantity( final Object element )
 	{
 		if ( element == null )
@@ -299,7 +296,7 @@ public class AutoFilterTextField
 		return -1;
 	}
 
-	public synchronized void update()
+	public void update()
 	{
 		try
 		{
@@ -379,61 +376,12 @@ public class AutoFilterTextField
 		}
 	}
 
-	public synchronized void prepareUpdate()
-	{
-		if ( AutoFilterTextField.this.thread != null )
-		{
-			AutoFilterTextField.this.thread.prepareUpdate();
-			return;
-		}
-
-		AutoFilterTextField.this.thread = new FilterDelayThread();
-
-		AutoFilterTextField.this.thread.start();
-	}
-
 	private class FilterListener
 		extends KeyAdapter
 	{
 		@Override
 		public void keyReleased( final KeyEvent e )
 		{
-			AutoFilterTextField.this.prepareUpdate();
-		}
-	}
-
-	private class FilterDelayThread
-		extends Thread
-	{
-		private boolean updating = true;
-
-		@Override
-		public void run()
-		{
-			PauseObject pauser = new PauseObject();
-
-			while ( this.updating )
-			{
-				this.updating = false;
-				pauser.pause( 100 );
-			}
-
-			SwingUtilities.invokeLater( new FilterRunnable() );
-		}
-
-		public void prepareUpdate()
-		{
-			this.updating = true;
-		}
-	}
-
-	private class FilterRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			AutoFilterTextField.this.thread = null;
-
 			AutoFilterTextField.this.update();
 		}
 	}
