@@ -694,7 +694,7 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.TURTLE_POWER:
-			maximumCast = KoLCharacter.getBlessingLevel() == 3 ? 1 : 0;
+			maximumCast = KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean( "_turtlePowerCast" ) ? 1 : 0;
 			break;
 		}
 
@@ -1631,6 +1631,10 @@ public class UseSkillRequest
 
 		case SkillPool.THATS_NOT_A_KNIFE:
 			Preferences.setBoolean( "_discoKnife", true );
+			break;
+
+		case SkillPool.TURTLE_POWER:
+			Preferences.setBoolean( "_turtlePowerCast", true );
 			break;
 
 		case SkillPool.SUMMON_BONERS:
