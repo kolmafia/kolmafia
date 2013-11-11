@@ -1134,9 +1134,10 @@ public class KoLAdventure
 		RequestThread.postRequest( this.request );
 	}
 
-	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "adventure.php\\?snarfblat=([^\"]+)" );
+	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "adventure.php\\?snarfblat=([\\d]+)" );
+	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=([\\d]+)" );
 
-	public static final void setLastAdventure( String adventureId, final String adventureName, final String adventureURL, final String container )
+	public static final void setLastAdventure( String adventureId, final String adventureName, String adventureURL, final String container )
 	{
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
 		if ( adventure == null )
@@ -1153,7 +1154,13 @@ public class KoLAdventure
 				adventurePage = adventureURL;
 			}
 
-			if ( adventureId.equals( "" ) )
+			if ( adventurePage.equals( "mining.php" ) )
+			{
+				Matcher matcher= KoLAdventure.MINE_PATTERN.matcher( adventureURL );
+				adventureId = matcher.find() ? matcher.group( 1 ) : "0";
+				adventureURL = adventurePage + "?mine=" + adventureId;
+			}
+			else if ( adventureId.equals( "" ) )
 			{
 				Matcher matcher= KoLAdventure.ADVENTUREID_PATTERN.matcher( adventureURL );
 				adventureId = matcher.find() ? matcher.group( 1 ) : "0";
