@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -426,6 +425,17 @@ public class AdventureDatabase
 			return AdventureDatabase.adventureLookup.get( "barrel.php" );
 		}
 
+		// Mining in disguise count as adventures.
+		if ( adventureURL.startsWith( "mining.php" ) )
+		{
+			String mine = AdventureDatabase.extractField( adventureURL, "mine" );
+			if ( mine == null )
+			{
+				return null;
+			}
+			return AdventureDatabase.adventureLookup.get( "mining.php?" + mine );
+		}
+
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
@@ -460,6 +470,20 @@ public class AdventureDatabase
 		String prefix = urlString.substring( 0, start );
 		String suffix = urlString.substring( end + 1 );
 		return prefix + suffix;
+	}
+
+	public static final String extractField( final String urlString, final String field )
+	{
+		int start = urlString.indexOf( field );
+		if ( start == -1 )
+		{
+			return null;
+		}
+
+		int end = urlString.indexOf( "&", start );
+		return ( end == -1 ) ?
+			urlString.substring( start ) :
+			urlString.substring( start, end );
 	}
 
 	public static final KoLAdventure getAdventure( final String adventureName )
@@ -717,29 +741,8 @@ public class AdventureDatabase
 			{
 				return null;
 			}
-			if ( urlString.contains( "mine=1" ) )
-			{
-				return "Itznotyerzitz Mine (in Disguise)";
-			}
-			if ( urlString.contains( "mine=2" ) )
-			{
-				return "The Knob Shaft (Mining)";
-			}
-			if ( urlString.contains( "mine=3" ) )
-			{
-				return "Anemone Mine (Mining)";
-			}
-			if ( urlString.contains( "mine=4" ) )
-			{
-				return "The Gummi Mine (in Disguise)";
-			}
-
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
-		}
-		else if ( urlString.startsWith( "pyramid.php" ) )
-		{
-			return PyramidRequest.getPyramidLocationString( urlString );
 		}
 		else if ( urlString.startsWith( "sea_merkin.php" ) )
 		{

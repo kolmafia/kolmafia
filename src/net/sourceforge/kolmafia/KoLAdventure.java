@@ -1295,6 +1295,10 @@ public class KoLAdventure
 		{
 			return null;
 		}
+		if ( urlString.startsWith( "mining.php" ) && urlString.contains( "intro=1" ) )
+		{
+			return null;
+		}
 		return AdventureDatabase.getAdventureByURL( urlString );
 	}
 
