@@ -88,6 +88,7 @@ public class SkillPool
 	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
 	public static final int SHELL_UP = 2028;
+	public static final int SPIRIT_VACATION = 2027;
 	public static final int WAR_BLESSING = 2030;
 	public static final int SHE_WHO_WAS_BLESSING = 2033;
 	public static final int PIZZA_LOVER = 2036;
