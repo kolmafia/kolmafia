@@ -62,6 +62,7 @@ public class EffectPool
 			STORM_BLESSING_1( "Blessing of the Storm Tortoise", 1422 ),
 			STORM_BLESSING_2( "Grand Blessing of the Storm Tortoise", 1423 ),
 			STORM_BLESSING_3( "Glorious Blessing of the Storm Tortoise", 1424 ),
+			SPIRIT_PARIAH( "Spirit Pariah", 1431 ),
 			
 			HALF_ASTRAL( "Half-Astral", 183 ),
 			PERFUME( "Knob Goblin Perfume", 9 ),

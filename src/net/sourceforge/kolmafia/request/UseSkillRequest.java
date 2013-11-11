@@ -682,8 +682,21 @@ public class UseSkillRequest
 		case SkillPool.DEEP_VISIONS:
 			maximumCast = KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
 			break;
-		}
 
+		case SkillPool.WAR_BLESSING:
+		case SkillPool.SHE_WHO_WAS_BLESSING:
+		case SkillPool.STORM_BLESSING:
+			maximumCast = KoLCharacter.getBlessingLevel() != -1 ? 1 : 0;
+			break;
+
+		case SkillPool.SPIRIT_BOON:
+			maximumCast = KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
+			break;
+
+		case SkillPool.TURTLE_POWER:
+			maximumCast = KoLCharacter.getBlessingLevel() == 3 ? 1 : 0;
+			break;
+		}
 
 		return maximumCast;
 	}
