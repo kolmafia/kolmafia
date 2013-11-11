@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -233,6 +234,14 @@ public class KoLAdventure
 		if ( urlString.startsWith( "pyramid.php" ) )
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
+		}
+		if ( urlString.startsWith( "basement.php" ) )
+		{
+			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+		}
+		if ( urlString.startsWith( "cellar.php" ) )
+		{
+			return TavernRequest.cellarLocationString( urlString );
 		}
 		return this.adventureName;
 	}
@@ -1124,18 +1133,42 @@ public class KoLAdventure
 		RequestThread.postRequest( this.request );
 	}
 
-	public static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
+	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "adventure.php\\?snarfblat=([^\"]+)" );
+
+	public static final void setLastAdventure( String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
 		if ( adventure == null )
 		{
-			// We could use "container" to pick the zone the adventure goes in
+			int index = adventureURL.indexOf( "?" );
+			String adventurePage;
+
+			if ( index != -1 )
+			{
+				adventurePage = adventureURL.substring( 0, index );
+			}
+			else
+			{
+				adventurePage = adventureURL;
+			}
+
+			if ( adventureId.equals( "" ) )
+			{
+				Matcher matcher= KoLAdventure.ADVENTUREID_PATTERN.matcher( adventureURL );
+				adventureId = matcher.find() ? matcher.group( 1 ) : "0";
+			}
+
 			RequestLogger.printLine( "Adding new location: " + adventureName + " - " + adventureURL );
-			adventure = new KoLAdventure( "Override", "adventure.php", adventureId, adventureName );
+
+			// We could use "container" to pick the zone the adventure goes in
+
+			// Detach strings from the responseText
+			adventure = new KoLAdventure( "Override", new String( adventurePage ), new String( adventureId ), new String( adventureName ) );
 			AdventureDatabase.addAdventure( adventure );
 		}
 
 		KoLAdventure.setLastAdventure( adventure );
+		KoLAdventure.locationLogged = true;
 	}
 
 	public static final void setLastAdventure( final KoLAdventure adventure )
@@ -1237,7 +1270,7 @@ public class KoLAdventure
 			return false;
 		}
 
-		if ( urlString.indexOf( "?" ) == -1 )
+		if ( !urlString.contains( "?" ) )
 		{
 			return true;
 		}

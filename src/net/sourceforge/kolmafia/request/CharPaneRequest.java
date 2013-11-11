@@ -794,13 +794,12 @@ public class CharPaneRequest
 	}
 
 	private static Pattern compactLastAdventurePattern =
-		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"(adventure.php\\?snarfblat=([\\d]+))\">.*?</a>:</td>" );
+		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]*)\">.*?</a>:</td>" );
 	private static Pattern expandedLastAdventurePattern =
-		Pattern.compile( "<a.*href=\"(.*)\".*>Last Adventure:</a>.*?<a.*? href=\"(adventure.php\\?snarfblat=([^\"]+))\">(.*?)</a>.*?</table>" );
+		Pattern.compile( "<a.*href=\"([^\"]*)\".*>Last Adventure:</a>.*?<a.*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>" );
 
 	private static final void setLastAdventure( final String responseText )
 	{
-		String adventureId = null;
 		String adventureName = null;
 		String adventureURL = null;
 		String container = null;
@@ -809,7 +808,6 @@ public class CharPaneRequest
 			Matcher matcher = CharPaneRequest.compactLastAdventurePattern.matcher( responseText );
 			if ( matcher.find() )
 			{
-				adventureId = matcher.group( 3 );
 				adventureName = matcher.group( 1 );
 				adventureURL = matcher.group( 2 );
 			}
@@ -819,8 +817,7 @@ public class CharPaneRequest
 			Matcher matcher = CharPaneRequest.expandedLastAdventurePattern.matcher( responseText );
 			if ( matcher.find() )
 			{
-				adventureId = matcher.group( 3 );
-				adventureName = matcher.group( 4 );
+				adventureName = matcher.group( 3 );
 				adventureURL = matcher.group( 2 );
 				container = matcher.group( 1 );
 			}
@@ -828,7 +825,7 @@ public class CharPaneRequest
 
 		if ( adventureName != null )
 		{
-			KoLAdventure.setLastAdventure( adventureId, adventureName, adventureURL, container );
+			KoLAdventure.setLastAdventure( "", adventureName, adventureURL, container );
 		}
 	}
 

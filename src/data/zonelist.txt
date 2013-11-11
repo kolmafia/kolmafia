@@ -19,7 +19,7 @@ The Sea	The Sea	The Sea
 
 Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
-Tower	Plains	Fernswarthy's Tower
+Fernswarthy's Tower	Plains	Fernswarthy's Tower
 Beanstalk	Beanstalk	Above the Beanstalk
 RabbitHole	Plains	Down the Rabbit Hole
 Suburbs	Suburbs	The Suburbs of Dis

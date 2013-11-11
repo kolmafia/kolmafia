@@ -420,16 +420,6 @@ public class AdventureDatabase
 			adventureURL = adventureURL.substring( 1 );
 		}
 
-		if ( adventureURL.startsWith( "basement.php" ) )
-		{
-			return null;
-		}
-
-		if ( adventureURL.startsWith( "cellar.php" ) )
-		{
-			return null;
-		}
-
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
@@ -637,14 +627,6 @@ public class AdventureDatabase
 	{
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			if ( urlString.contains( "snarfblat=118" ) )
-			{
-				return null;
-			}
-			if ( urlString.contains( "snarfblat=122" ) )
-			{
-				return "Oasis in the Desert";
-			}
 			if ( urlString.contains( "snarfblat=" ) )
 			{
 				return "Unknown adventure";
@@ -655,10 +637,6 @@ public class AdventureDatabase
 		{
 			return "Barrel Full of Barrels";
 		}
-		else if ( urlString.startsWith( "basement.php" ) )
-		{
-			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
-		}
 		else if ( urlString.startsWith( "cave.php" ) )
 		{
 			if ( urlString.contains( "action=sanctum" ) )
@@ -666,10 +644,6 @@ public class AdventureDatabase
 				return "Nemesis Cave: Inner Sanctum";
 			}
 			return null;
-		}
-		else if ( urlString.startsWith( "cellar.php" ) )
-		{
-			return TavernRequest.cellarLocationString( urlString );
 		}
 		else if ( urlString.startsWith( "dwarffactory.php" ) )
 		{
