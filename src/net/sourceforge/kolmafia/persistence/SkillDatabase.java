@@ -695,7 +695,13 @@ public class SkillDatabase
 			{
 				return KoLCharacter.getBlessingLevel() * 5;
 			}
-			return actualDuration;
+			if ( KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER &&
+				( skillId == SkillPool.WAR_BLESSING || 
+				skillId == SkillPool.SHE_WHO_WAS_BLESSING || 
+				skillId == SkillPool.STORM_BLESSING ) )
+			{
+				return 10;
+			}
 		}
 
 		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
