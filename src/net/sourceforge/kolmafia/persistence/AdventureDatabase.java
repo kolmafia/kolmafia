@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AdventureDatabase
 	extends KoLDatabase
 {
+	private static final Pattern SNARF_PATTERN = Pattern.compile( "snarfblat=(\\d+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );
 	private static final LockableListModel adventures = new LockableListModel();
 	private static final AdventureArray allAdventures = new AdventureArray();
@@ -634,11 +635,8 @@ public class AdventureDatabase
 	{
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			if ( urlString.contains( "snarfblat=" ) )
-			{
-				return "Unknown adventure";
-			}
-			return null;
+			Matcher matcher = AdventureDatabase.SNARF_PATTERN.matcher( urlString );
+			return matcher.find() ? "Unknown Adventure #" + matcher.group(1) : null;
 		}
 		else if ( urlString.startsWith( "cave.php" ) )
 		{

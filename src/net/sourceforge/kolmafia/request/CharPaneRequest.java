@@ -823,9 +823,21 @@ public class CharPaneRequest
 			}
 		}
 
-		if ( adventureName != null )
+		CharPaneRequest.setLastAdventure( "", adventureName, adventureURL, container );
+	}
+
+	private static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
+	{
+		if ( adventureName == null )
 		{
-			KoLAdventure.setLastAdventure( "", adventureName, adventureURL, container );
+			return;
+		}
+
+		KoLAdventure adventure = KoLAdventure.setLastAdventure( adventureId, adventureName, adventureURL, container );
+
+		if ( KoLmafia.isRefreshing() )
+		{
+			KoLAdventure.setNextAdventure( adventure );
 		}
 	}
 
@@ -1044,7 +1056,7 @@ public class CharPaneRequest
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
 		String container = lastadv.getString( "container" );
-		KoLAdventure.setLastAdventure( adventureId, adventureName, adventureURL, container );
+		CharPaneRequest.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );
