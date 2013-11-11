@@ -1413,7 +1413,7 @@
 1412	Extra-Sharp Weapon	straightrazor.gif	68acb17c4731eef699ca1e3f8db79704	use 1 nail file
 1413	Litterbug	beetle.gif	d2684d87f37e7d1e46dc32bf7bcafaa9	use 1 old candy wrapper
 1414	Black Day	coupon.gif	6eaa7a64ccc96eed78675082f126d197	use 1 post-holiday sale coupon
-1415	Spirit Souvenirs	palmtree.gif	549a7ba16dfab9b1a866f399a966760a cast 1 Spirit Souvenirs
+1415	Spirit Souvenirs	palmtree.gif	549a7ba16dfab9b1a866f399a966760a	cast 1 spirit vacation
 1416	Blessing of the War Snapper	warsnapper.gif	a4f41cbc762014a973b3f4136d1ac71e	cast 1 blessing of the war snapper
 1417	Grand Blessing of the War Snapper	warsnapper.gif	29ff63fe512f5b2a2cfebb5e818525ee
 1418	Glorious Blessing of the War Snapper	warsnapper.gif	d5fe1fd75a3536adb4aee52a7c8b64e4

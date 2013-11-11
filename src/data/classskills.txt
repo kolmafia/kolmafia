@@ -186,7 +186,7 @@
 2005	Shieldbutt	5	10	0	10
 2006	Armorcraftiness	0	0	0	5
 2007	Ghostly Shell	4	6	5	4
-2008	Reptilian Fortitude	4	10	5	9
+2008	Reptilian Fortitude	4	10	5	10
 2009	Empathy of the Newt	4	15	5	8
 2010	Tenacity of the Snapper	4	8	5	6
 2011	Wisdom of the Elder Tortoises	0	0	0	11
