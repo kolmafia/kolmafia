@@ -243,6 +243,7 @@ public class KoLAdventure
 		{
 			return TavernRequest.cellarLocationString( urlString );
 		}
+		// *** could do something with barrel.php here
 		return this.adventureName;
 	}
 
@@ -1173,6 +1174,11 @@ public class KoLAdventure
 
 	public static final void setLastAdventure( final KoLAdventure adventure )
 	{
+		if ( adventure == null )
+		{
+			return;
+		}
+
 		String adventureId = adventure.adventureId;
 		String adventureName = adventure.adventureName;
 		String adventureURL = adventure.formSource;
@@ -1285,6 +1291,10 @@ public class KoLAdventure
 
 	private static KoLAdventure findAdventure( final String urlString )
 	{
+		if ( urlString.equals( "barrel.php" ) )
+		{
+			return null;
+		}
 		return AdventureDatabase.getAdventureByURL( urlString );
 	}
 
