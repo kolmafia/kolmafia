@@ -141,11 +141,6 @@ public class BasementDecorator
 
 	public static final void addBasementSpoilers( final StringBuffer buffer )
 	{
-		if ( !BasementRequest.checkBasement( false, buffer.toString() ) )
-		{
-			return;
-		}
-
 		buffer.insert(
 			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/" + KoLConstants.BASEMENT_JS + "\"></script></head>" );
 
@@ -292,9 +287,6 @@ public class BasementDecorator
 		final String choice2 )
 	{
 		String text = buffer.toString();
-
-		// Update level string and such for the session log.
-		BasementRequest.checkBasement( false, text );
 
 		buffer.setLength( 0 );
 

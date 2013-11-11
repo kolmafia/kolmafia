@@ -237,7 +237,7 @@ public class KoLAdventure
 		}
 		if ( urlString.startsWith( "basement.php" ) )
 		{
-			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+			return BasementRequest.getBasementLevelName();
 		}
 		if ( urlString.startsWith( "cellar.php" ) )
 		{
@@ -1191,7 +1191,7 @@ public class KoLAdventure
 		String adventureURL = adventure.formSource;
 
 		KoLAdventure.lastVisitedLocation = adventure;
-		KoLAdventure.lastLocationName = adventureName;
+		KoLAdventure.lastLocationName = adventure.getPrettyAdventureName( adventureURL );
 		KoLAdventure.lastLocationURL = adventureURL;
 		Preferences.setString( "lastAdventure", adventureName );
 
@@ -1951,6 +1951,11 @@ public class KoLAdventure
 
 		String lastURL = KoLAdventure.lastLocationURL;
 
+		if ( lastURL.equals( "basement.php" ) )
+		{
+			return true;
+		}
+
 		// See if we've been redirected away from the URL that started
 		// us adventuring
 
@@ -1967,9 +1972,10 @@ public class KoLAdventure
 			KoLAdventure again = KoLAdventure.findAdventureAgain( responseText );
 			if ( again != null && again != KoLAdventure.lastVisitedLocation )
 			{
-				location = again.adventureName;
+				location = again.getPrettyAdventureName( urlString );
 				KoLAdventure.lastVisitedLocation = again;
 				KoLAdventure.lastLocationName = location;
+				KoLAdventure.lastLocationURL = urlString;
 			}
 		}
 		else if ( urlString.equals( "cove.php" ) )

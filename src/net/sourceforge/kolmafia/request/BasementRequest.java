@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -237,17 +238,7 @@ public class BasementRequest
 	@Override
 	public void processResults()
 	{
-		BasementRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
-	public static final void parseResponse( final String location, final String responseText )
-	{
-		if ( !location.startsWith( "basement.php" ) )
-		{
-			return;
-		}
-
-		BasementRequest.checkBasement( false, responseText );
+		BasementRequest.checkBasement( false, this.responseText );
 	}
 
 	public static final String getBasementAction( final String text )
@@ -270,6 +261,11 @@ public class BasementRequest
 	public static final int getBasementLevel()
 	{
 		return BasementRequest.basementLevel;
+	}
+
+	public static final String getBasementLevelName()
+	{
+		return "Fernswarthy's Basement (Level " + BasementRequest.basementLevel + ")";
 	}
 
 	public static final String getBasementLevelSummary()
@@ -1068,6 +1064,7 @@ public class BasementRequest
 		}
 
 		BasementRequest.basementLevel = StringUtilities.parseInt( levelMatcher.group( 1 ) );
+		KoLAdventure.lastLocationName = BasementRequest.getBasementLevelName();
 	}
 
 	public static final void checkBasement()
@@ -1075,7 +1072,12 @@ public class BasementRequest
 		BasementRequest.checkBasement( true, BasementRequest.lastResponseText );
 	}
 
-	public static final boolean checkBasement( final boolean autoSwitch, final String responseText )
+	public static final void checkBasement( final String responseText )
+	{
+		BasementRequest.checkBasement( false, responseText );
+	}
+
+	public static final void checkBasement( final boolean autoSwitch, final String responseText )
 	{
 		BasementRequest.lastResponseText = responseText;
 
@@ -1084,27 +1086,27 @@ public class BasementRequest
 
 		if ( BasementRequest.checkForReward( responseText ) )
 		{
-			return false;
+			return;
 		}
 
 		if ( BasementRequest.checkForElementalTest( autoSwitch, responseText ) )
 		{
-			return true;
+			return;
 		}
 
 		if ( BasementRequest.checkForStatTest( autoSwitch, responseText ) )
 		{
-			return true;
+			return;
 		}
 
 		if ( BasementRequest.checkForDrainTest( autoSwitch, responseText ) )
 		{
-			return true;
+			return;
 		}
 
 		if ( !BasementRequest.checkForMonster( responseText ) )
 		{
-			return false;
+			return;
 		}
 
 		BasementRequest.basementTestCurrent = 0;
@@ -1120,8 +1122,6 @@ public class BasementRequest
 		{
 			BasementRequest.changeBasementOutfit( "damage" );
 		}
-
-		return true;
 	}
 
 	private static final void getStatBoosters( final ArrayList<AdventureResult> sourceList, final ArrayList<StatBooster> targetList )
