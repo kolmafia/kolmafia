@@ -3243,6 +3243,9 @@ Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sl
 Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
 # Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
 Avatar of the Storm Tortoise	Initiative: +100, Maximum MP: +200, MP Regen Min: 30, MP Regen Max: 40
+# Avatar of the War Snapper: You take very little damage in combat
+# Avatar of the War Snapper: Your regular attacks always hit
+# Avatar of the War Snapper: You can unleash the Rage of the War Snapper
 Axe Wound	Muscle: -5
 Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 # B-b-brr!
@@ -3534,6 +3537,9 @@ Disco Smirk	Moxie: +10
 Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
 Disquiet Riot	Combat Rate: -20
+Disdain of She-Who-Was	Mysticality: +5, Spooky Damage: +5
+Disdain of the Storm Tortoise	Initiative: +5, Maximum MP: +10
+Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Dizzy with Rage	Moxie Percent: -10
 Dog Breath	Stench Damage: 30, Hot Resistance: 3, Spooky Resistance: 3, Combat Rate: 5
 Don't Rest Ye, Bold Adventurer	Experience: +1
@@ -3705,6 +3711,7 @@ Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
 Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
+Glorious Blessing of the Storm Tortoise	Initiative: +15, Maximum MP: +30
 Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
 Gnawed-Off Arm	Muscle: -5
 # Gnollivision: Makes you look like a one-eyed Gnoll
@@ -3722,6 +3729,7 @@ Got Your Boots On	Moxie Percent: +10
 Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
 Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
+Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
 Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20

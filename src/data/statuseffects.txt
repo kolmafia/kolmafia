@@ -1417,24 +1417,24 @@
 1416	Blessing of the War Snapper	warsnapper.gif	a4f41cbc762014a973b3f4136d1ac71e	cast 1 blessing of the war snapper
 1417	Grand Blessing of the War Snapper	warsnapper.gif	29ff63fe512f5b2a2cfebb5e818525ee
 1418	Glorious Blessing of the War Snapper	warsnapper.gif	d5fe1fd75a3536adb4aee52a7c8b64e4
-1419	Blessing of She-Who-Was	shewhowas.gif	59bee1ad7fdeab97e571d5736e982d90 cast 1 blessing of she-who-was
+1419	Blessing of She-Who-Was	shewhowas.gif	59bee1ad7fdeab97e571d5736e982d90	cast 1 blessing of she-who-was
 1420	Grand Blessing of She-Who-Was	shewhowas.gif	24c3afc5f02d936871c85faf9541bb6f
 1421	Glorious Blessing of She-Who-Was	shewhowas.gif	0b5a3794fd822152e3d7870265c6b656
 1422	Blessing of the Storm Tortoise	stormtort.gif	d9f801759b87d26bfc93d71667b2a91f	cast 1 blessing of the storm tortoise
-1423
-1424
-1425
-1426
-1427
+1423	Grand Blessing of the Storm Tortoise	stormtort.gif	8438b5f69ec27dbe4dbec031d32254bf
+1424	Glorious Blessing of the Storm Tortoise	stormtort.gif	1172e06f1272bc4aaf756d029727061e
+1425	Disdain of the War Snapper	warsnapper.gif	93b24d449fa590fe8c9f6977a7ceeb14	cast 1 blessing of the war snapper
+1426	Disdain of She-Who-Was	shewhowas.gif	eeb18022ca70afef97ebb9666f5a30a0	cast 1 blessing of she-who-was
+1427	Disdain of the Storm Tortoise	stormtort.gif	d85a509d245b74877cb94d1398690a79	cast 1 blessing of the storm tortoise
 1428	Stiff Upper Lip	stiffupperlip.gif	7540194a1a1adc6bea1c1b1c13fba303	cast 1 stiff upper lip
 1429	Patient Smile	patientsmile.gif	61fa55a3bc2562c6e84fbd6708913496	cast 1 patient smile
 1430	Spiky Shell	spikyshell.gif	3f7fc667ad1ef70249262b5d1990a43f	cast 1 spiky shell
 1431	Spirit Pariah	spirit.gif	ebb5d19ac49df70d177b883534214cc1
-1432
-1433	Avatar of She-Who-Was	shewhowas.gif	68262434e21355f4b543a125ed49271d
-1434	Avatar of the Storm Tortoise	stormtort.gif	a21d9d0069c6a5fd027e48cf928dea65
-1435	Boon of the War Snapper	warsnapper.gif	f8a9c0246239721f7d2c8dfd15a78a06
-1436	Boon of She-Who-Was	shewhowas.gif	6d96a6c7101b7996eecb51d68cfff305
-1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e
+1432	Avatar of the War Snapper	warsnapper.gif	d7b0d7a56d0042e1580ca2ff6552bd76	cast 1 turtle power
+1433	Avatar of She-Who-Was	shewhowas.gif	68262434e21355f4b543a125ed49271d	cast 1 turtle power
+1434	Avatar of the Storm Tortoise	stormtort.gif	a21d9d0069c6a5fd027e48cf928dea65	cast 1 turtle power
+1435	Boon of the War Snapper	warsnapper.gif	f8a9c0246239721f7d2c8dfd15a78a06	cast 1 spirit boon
+1436	Boon of She-Who-Was	shewhowas.gif	6d96a6c7101b7996eecb51d68cfff305	cast 1 spirit boon
+1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e	cast 1 spirit boon
 1438	Spirit Bubble	sphere.gif	e0175cc5f83e7d239a7535bde4154ef3	use 1 spirit gum
 1439	Spirit Schooled	spiritbed.gif	72f14039f806484867a6db8ee483dfab
