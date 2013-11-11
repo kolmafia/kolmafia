@@ -1213,6 +1213,10 @@ public abstract class KoLCharacter
 		{
 			return 3;
 		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SPIRIT_PARIAH ) ) )
+		{
+			return -1;
+		}
 		return 0;	
 	}
 	

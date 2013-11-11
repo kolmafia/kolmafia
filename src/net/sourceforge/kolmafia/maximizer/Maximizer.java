@@ -238,6 +238,10 @@ public class Maximizer
 				case 1:
 					isSpecial = true;
 				}
+				if ( Maximizer.eval.checkEffectConstraints( name ) )
+				{
+					continue;
+				}
 				sources = EffectDatabase.getAllActions( name );
 				cmd = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !sources.hasNext() )

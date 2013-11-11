@@ -691,6 +691,10 @@ public class SkillDatabase
 
 		if ( type != SkillDatabase.BUFF )
 		{
+			if ( skillId == SkillPool.SPIRIT_BOON )
+			{
+				return KoLCharacter.getBlessingLevel() * 5;
+			}
 			return actualDuration;
 		}
 

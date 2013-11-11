@@ -784,6 +784,48 @@ public class Evaluator
 		return 0;
 	}
 
+	boolean checkEffectConstraints( String name )
+	{
+		// Return true if effect cannot be gained due to current other effects
+		if ( name.equals( "Boon of She-Who-Was" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING;
+		}
+		if ( name.equals( "Boon of the Storm Tortoise" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING;
+		}
+		if ( name.equals( "Boon of the War Snapper" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING;
+		}
+		if ( name.equals( "Avatar of She-Who-Was" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() != 3;
+		}
+		if ( name.equals( "Avatar of the Storm Tortoise" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING || KoLCharacter.getBlessingLevel() != 3;
+		}
+		if ( name.equals( "Avatar of the War Snapper" ) )
+		{
+			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING || KoLCharacter.getBlessingLevel() != 3;
+		}
+		if ( name.equals( "Blessing of She-Who-Was" ) )
+		{
+			return KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+		}
+		if ( name.equals( "Blessing of the Storm Tortoise" ) )
+		{
+			return KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+		}
+		if ( name.equals( "Blessing of the War Snapper" ) )
+		{
+			return KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+		}
+		return false;
+	}
+
 	void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
 		throws MaximizerInterruptedException
 	{
