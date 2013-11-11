@@ -285,7 +285,7 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "basement.php" ) )
 		{
-			BasementRequest.parseResponse( location, responseText );
+			BasementRequest.checkBasement( responseText );
 		}
 
 		else if ( location.startsWith( "bedazzle.php" ) )

@@ -425,6 +425,12 @@ public class AdventureDatabase
 			return AdventureDatabase.adventureLookup.get( "barrel.php" );
 		}
 
+		// Visiting the basement counts as an adventure
+		if ( adventureURL.startsWith( "basement.php" ) )
+		{
+			return AdventureDatabase.adventureLookup.get( "basement.php" );
+		}
+
 		// Mining in disguise count as adventures.
 		if ( adventureURL.startsWith( "mining.php" ) )
 		{
