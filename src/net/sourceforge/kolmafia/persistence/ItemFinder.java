@@ -320,8 +320,10 @@ public class ItemFinder
 		}
 
 		// restore from last step iff we filtered _everything_
-		if ( nameList.size() == 0 )
+		if ( nameList.isEmpty() )
+		{
 			nameList.addAll( nameListCopy );
+		}
 	}
 
 	private static final void conditionalRemove( Iterator<String> iterator, boolean condition )
@@ -517,10 +519,18 @@ public class ItemFinder
 
 	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
 	{
+		AdventureResult firstMatch = null;
+		firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemList, ItemFinder.matchType, false );
+		if ( firstMatch != null )
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = firstMatch;
+			return items;
+		}
+
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
 		boolean isMeatMatch = false;
-		AdventureResult firstMatch = null;
 		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < itemNames.length; ++i )
