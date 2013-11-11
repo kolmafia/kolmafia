@@ -420,13 +420,24 @@ public class AdventureDatabase
 			adventureURL = adventureURL.substring( 1 );
 		}
 
+		// Barrel smashes count as adventures.
+		if ( adventureURL.startsWith( "barrel.php" ) )
+		{
+			return AdventureDatabase.adventureLookup.get( "barrel.php" );
+		}
+
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
 		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
-		return location == null ||
-			location.getRequest() instanceof ClanRumpusRequest ||
+		if ( location == null )
+		{
+			return null;
+		}
+
+		// *** Why exclude these?
+		return  location.getRequest() instanceof ClanRumpusRequest ||
 			location.getRequest() instanceof RichardRequest
 			? null : location;
 	}
@@ -632,10 +643,6 @@ public class AdventureDatabase
 				return "Unknown adventure";
 			}
 			return null;
-		}
-		else if ( urlString.startsWith( "barrel.php" ) )
-		{
-			return "Barrel Full of Barrels";
 		}
 		else if ( urlString.startsWith( "cave.php" ) )
 		{
