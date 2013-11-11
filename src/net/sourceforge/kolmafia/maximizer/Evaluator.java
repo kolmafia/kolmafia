@@ -813,15 +813,25 @@ public class Evaluator
 		}
 		if ( name.equals( "Blessing of She-Who-Was" ) )
 		{
-			return KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
+				KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING ||
+				KoLCharacter.getBlessingLevel() == -1;
 		}
 		if ( name.equals( "Blessing of the Storm Tortoise" ) )
 		{
-			return KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
+				KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ||
+				KoLCharacter.getBlessingLevel() == -1;
 		}
 		if ( name.equals( "Blessing of the War Snapper" ) )
 		{
-			return KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING || KoLCharacter.getBlessingLevel() == -1;
+			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
+				KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING ||
+				KoLCharacter.getBlessingLevel() == -1;
+		}
+		if ( name.equals( "Distain of She-Who-Was" ) || name.equals( "Distain of the Storm Tortoise" ) || name.equals( "Distain of the War Snapper" ) )
+		{
+			return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
 		}
 		return false;
 	}
