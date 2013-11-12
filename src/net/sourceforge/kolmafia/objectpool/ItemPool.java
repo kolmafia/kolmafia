@@ -914,6 +914,9 @@ public class ItemPool
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
 	public static final int BOXTOP = 3473;
+	public static final int DULL_FISH_SCALE = 3486;
+	public static final int ROUGH_FISH_SCALE = 3487;
+	public static final int PRISTINE_FISH_SCALE = 3488;
 	public static final int FISH_SCIMITAR = 3492;
 	public static final int FISH_STICK = 3493;
 	public static final int FISH_BAZOOKA = 3494;

@@ -1691,15 +1691,21 @@ public abstract class ChoiceManager
 		// The Economist of Scales
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure310", "Madness Reef",
-			new Object[] { new Option( "rough fish scale", "rough fish scale" ),
-				       new Option( "pristine fish scale", "pristine fish scale" ),
-				       "skip adventure" } ),
+			new Object[] { new Option( "get 1 rough fish scale", 1, "rough fish scale" ),
+				       new Option( "get 1 pristine fish scale", 2, "pristine fish scale" ),
+				       new Option( "get multiple rough fish scales", 4, "rough fish scale" ),
+				       new Option( "get multiple pristine fish scales", 5, "pristine fish scale" ),
+				       new Option( "skip adventure", 6 )  } ),
 		// The Economist of Scales
 		// This trades 10 dull fish scales in.
 		new Object[]{ IntegerPool.get(310), IntegerPool.get(1),
-		  new AdventureResult( "dull fish scale", -10 ) },
+		  ItemPool.get( ItemPool.DULL_FISH_SCALE, -10 ) },
 		new Object[]{ IntegerPool.get(310), IntegerPool.get(2),
-		  new AdventureResult( "rough fish scale", -10 ) },
+		  ItemPool.get( ItemPool.ROUGH_FISH_SCALE, -10 ) },
+		new Object[]{ IntegerPool.get(310), IntegerPool.get(4),
+		  ItemPool.get( ItemPool.DULL_FISH_SCALE, 10 ) },
+		new Object[]{ IntegerPool.get(310), IntegerPool.get(5),
+		  ItemPool.get( ItemPool.ROUGH_FISH_SCALE, 10 ) },
 
 		// Heavily Invested in Pun Futures
 		new ChoiceAdventure(
