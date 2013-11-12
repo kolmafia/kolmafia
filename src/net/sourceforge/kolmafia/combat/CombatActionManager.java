@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -304,9 +305,15 @@ public abstract class CombatActionManager
 					return Preferences.getBoolean( "autoSteal" ) && KoLCharacter.hasEquipped( ItemPool.get(
 						ItemPool.NEW_WAVE_BLING, 1 ) ) ? "try to steal an item" : "skip";
 				case 2:
-					return Preferences.getBoolean( "autoEntangle" ) ?
-						KoLCharacter.getClassStun() :
-						"skip";
+					String classStun = KoLCharacter.getClassStun();
+					// Sometimes classStun isn't available or doesn't stun, don't return it in those cases
+					if ( ( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 ) ||
+						( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING ) ||
+						( classStun.equals( "Accordion Bash" ) && !EquipmentManager.wieldingAccordion() ) )
+					{
+						classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
+					}
+					return Preferences.getBoolean( "autoEntangle" ) && !classStun.equals( "none" ) ? classStun : "skip";
 				case 3:
 					return "special action";
 				default:

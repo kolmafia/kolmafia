@@ -355,11 +355,18 @@ public class StationaryButtonDecorator
 		}
 
 		String classStun = KoLCharacter.getClassStun();
+		// Some skills can be available in combat but aren't always stuns. Disable if so or change to Shadow Noodles if appropriate.
+		if ( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING )
+		{
+			classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
+		}
 		if ( !inBirdForm && KoLCharacter.hasSkill( classStun ) )
 		{
 			UseSkillRequest stunRequest = UseSkillRequest.getInstance( classStun );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
 				KoLConstants.availableCombatSkills.contains( stunRequest );
+			// Only enable Club Foot when character has Fury, as it's only a stun then.
+			enabled &= !( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
 		}
