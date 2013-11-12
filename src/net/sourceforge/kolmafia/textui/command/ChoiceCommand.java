@@ -125,7 +125,8 @@ public class ChoiceCommand
 			return rv;
 		}
 
-		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
+		int choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
+		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 		if ( possibleDecisions == null )
 		{
 			possibleDecisions = new Object[][] { null, null, {} };
