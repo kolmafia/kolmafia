@@ -1134,7 +1134,7 @@ public class KoLAdventure
 		RequestThread.postRequest( this.request );
 	}
 
-	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "adventure.php\\?snarfblat=([\\d]+)" );
+	private static final Pattern ADVENTUREID_PATTERN = Pattern.compile( "snarfblat=([\\d]+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=([\\d]+)" );
 
 	public static final KoLAdventure setLastAdventure( String adventureId, final String adventureName, String adventureURL, final String container )
@@ -1160,10 +1160,25 @@ public class KoLAdventure
 				adventureId = matcher.find() ? matcher.group( 1 ) : "0";
 				adventureURL = adventurePage + "?mine=" + adventureId;
 			}
-			else if ( adventureId.equals( "" ) )
+			else if ( adventurePage.equals( "adventure.php" ) )
 			{
-				Matcher matcher= KoLAdventure.ADVENTUREID_PATTERN.matcher( adventureURL );
-				adventureId = matcher.find() ? matcher.group( 1 ) : "0";
+				if ( adventureId.equals( "" ) )
+				{
+					Matcher matcher= KoLAdventure.ADVENTUREID_PATTERN.matcher( adventureURL );
+					adventureId = matcher.find() ? matcher.group( 1 ) : "0";
+				}
+			}
+			else if ( adventurePage.equals( "main.php" ) )
+			{
+				// This is "(none)" after a new ascension
+				return null;
+			}
+			else
+			{
+				// Don't register as an adventure, but save name
+				Preferences.setString( "lastAdventure", adventureName );
+				RequestLogger.updateSessionLog( "Unknown last adventure: id = '" + adventureId + "' name = '" + adventureName + "' URL = '" + adventureURL + "' container = '" + container + "'" );
+				return null;
 			}
 
 			RequestLogger.printLine( "Adding new location: " + adventureName + " - " + adventureURL );

@@ -646,14 +646,6 @@ public class AdventureDatabase
 			}
 			return null;
 		}
-		else if ( urlString.startsWith( "dwarffactory.php" ) )
-		{
-			if ( urlString.contains( "action=ware" ) )
-			{
-				return "Dwarven Factory Warehouse";
-			}
-			return null;
-		}
 		else if ( urlString.startsWith( "guild.php?action=chal" ) )
 		{
 			return "Guild Challenge";
