@@ -526,6 +526,14 @@ public class RelayAgent
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
 			ChoiceManager.processChoiceAdventure( this.request, ChoiceManager.lastResponseText );
+			if ( KoLmafia.refusesContinue() )
+			{
+				// Resubmit the choice request to let the user see it again
+				KoLmafia.forceContinue();
+				request.constructURLString( "choice.php" );
+				RequestThread.postRequest( this.request );
+				RelayAgent.errorRequest = null;
+			}
 		}
 		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
 		{
