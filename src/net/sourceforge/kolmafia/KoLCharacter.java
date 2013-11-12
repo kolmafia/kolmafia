@@ -1091,15 +1091,15 @@ public abstract class KoLCharacter
 	public static final String getClassStun()
 	{
 		return
-			( KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) && KoLCharacter.getFury() > 0 ) ? "Club Foot" :
-			( KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) && KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ) ? "Shell Up" :
+			KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
+			KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
 			KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
 			KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR ) ? "Entangling Noodles" :
-			( KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF ) && EquipmentManager.wieldingAccordion() ) ? "Accordion Bash" :
+			KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF ) ? "Accordion Bash" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_BORIS ) ? "Broadside" :
 			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? "Blend" :
-			"Shadow Noodles";
+			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
 	/**

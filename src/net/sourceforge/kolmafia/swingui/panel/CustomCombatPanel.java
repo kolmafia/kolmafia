@@ -253,6 +253,10 @@ public class CustomCombatPanel
 			else if ( stunSkill.equals( "Shell Up" ) )
 			{
 				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shellup.gif" );
+				if ( KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING )
+				{
+					stunSkill = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
+				}
 			}
 			else if ( stunSkill.equals( "Entangling Noodles" ) )
 			{
@@ -274,7 +278,7 @@ public class CustomCombatPanel
 			{
 				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "jarl_blend.gif" );
 			}
-			else if ( stunSkill.equals( "Shadow Noodles" ) )
+			if ( stunSkill.equals( "Shadow Noodles" ) )
 			{
 				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shadownoodles.gif" );
 			}
@@ -284,12 +288,22 @@ public class CustomCombatPanel
 					special, listener, CustomCombatPanel.stealImg,
 					"Pickpocketing will be tried (if appropriate) with non-CCS actions." );
 
-			this.stunLabel =
-				this.label(
-					special, listener, CustomCombatPanel.stunImg,
-					stunSkill + " will be cast before non-CCS actions." );
+			if ( stunSkill.equals( "none" ) )
+			{				
+				this.stunLabel =
+					this.label(
+						special, listener, CustomCombatPanel.stunImg,
+						"No stun available. Set considerShadowNoodles = true to use Shadow Noodles." );
+			}
+			else
+			{				
+				this.stunLabel =
+					this.label(
+						special, listener, CustomCombatPanel.stunImg,
+						stunSkill + " will be cast before non-CCS actions." );
+			}
 
-					this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
+			this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
 			this.puttyLabel = this.label( special, listener, CustomCombatPanel.puttyImg, null );
 			this.potionLabel =
 				this.label(
@@ -308,7 +322,14 @@ public class CustomCombatPanel
 
 			this.specialPopup = new JPopupMenu( "Special Actions" );
 			this.stealItem = this.checkbox( this.specialPopup, listener, "Pickpocket before simple actions" );
-			this.stunItem = this.checkbox( this.specialPopup, listener, "Cast " + stunSkill + " before simple actions" );
+			if ( stunSkill.equals( "none" ) )
+			{
+				this.stunItem = this.checkbox( this.specialPopup, listener, "No stun available. Set considerShadowNoodles = true to use Shadow Noodles." );
+			}
+			else
+			{
+				this.stunItem = this.checkbox( this.specialPopup, listener, "Cast " + stunSkill + " before simple actions" );
+			}
 			this.specialPopup.addSeparator();
 
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );

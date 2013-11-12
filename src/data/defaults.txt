@@ -328,6 +328,7 @@ user	chessboardsCleared	0
 user	chosenTrip
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
+user	considerShadowNoodles	false
 user	counterScript
 user	concertVisited	false
 user	cozyCounter6332	0
@@ -527,7 +528,6 @@ user	lastGalleryUnlock	-1
 user	lastGoofballBuy	-1
 user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
-user	lastHiddenCityAscension	0
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
 user	lastHippyCall	-1
