@@ -115,6 +115,7 @@ public class ChoiceCommand
 	}
 
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
+	private static final Pattern LINK_PATTERN = Pattern.compile( "href='choice.php\\?.*option=(\\d+)'" );
 
 	public static TreeMap parseChoices()
 	{
@@ -123,6 +124,7 @@ public class ChoiceCommand
 		{
 			return rv;
 		}
+
 		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
 		if ( possibleDecisions == null )
 		{
@@ -134,6 +136,7 @@ public class ChoiceCommand
 		while ( m.find() )
 		{
 			int decision = Integer.parseInt( m.group( 1 ) );
+			Integer key = IntegerPool.get( decision );
 			Object option = ChoiceManager.findOption( options, decision );
 			String text = m.group( 2 );
 			if ( option != null )
@@ -142,12 +145,40 @@ public class ChoiceCommand
 			}
 			rv.put( IntegerPool.get( decision ), text );
 		}
+
+		m = LINK_PATTERN.matcher( ChoiceManager.lastResponseText );
+		while ( m.find() )
+		{
+			int decision = Integer.parseInt( m.group( 1 ) );
+			Integer key = IntegerPool.get( decision );
+			if ( rv.get( key ) != null )
+			{
+				continue;
+			}
+			Object option = ChoiceManager.findOption( options, decision );
+			String text = "(secret choice)";
+			if ( option != null )
+			{
+				text = text + " (" + option.toString() + ")";
+			}
+			rv.put( key, text );
+		}
+
 		return rv;
 	}
 
 	public static boolean optionAvailable( final String decision, final String responseText)
 	{
 		Matcher m = OPTION_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			if ( m.group( 1 ).equals( decision ) )
+			{
+				return true;
+			}
+		}
+
+		m = LINK_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			if ( m.group( 1 ).equals( decision ) )
