@@ -155,6 +155,7 @@ public class EffectPool
 	public static final int EAU_DE_TORTUE_ID = 263;
 	public static final int FORM_OF_BIRD_ID = 511;
 
+	public static final int SPIRIT_PARIAH_ID = 1431;
 	public static final int SOUL_CRUSHING_HEADACHE_ID = 465;
 	public static final int COVERED_IN_SLIME_ID = 633;
 	public static final int EVERYTHING_LOOKS_YELLOW_ID = 790;

@@ -555,6 +555,9 @@
 7170	Pocket Crumbs	5	0	0
 7171	Air Dirty Laundry	5	0	0
 7172	Steal Accordion	5	0	0
+7173	Rage of the War Snapper	5	0	0
+7174	Voice of She-Who-Was	5	0	0
+7175	Will of the Storm Tortoise	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

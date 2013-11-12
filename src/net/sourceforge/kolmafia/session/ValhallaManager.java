@@ -392,6 +392,7 @@ public class ValhallaManager
 		Preferences.setString( "currentWheelPosition", "muscle" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+		Preferences.setInteger( "guardTurtlesFreed", 0 );
 		Preferences.setInteger( "carboLoading", 0 );
 		Preferences.setInteger( "sugarCounter4178", 0 );
 		Preferences.setInteger( "sugarCounter4179", 0 );
@@ -426,6 +427,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
 		Preferences.setInteger( "miniAdvClass", 0 );
+		Preferences.setInteger( "turtleBlessingTurns", 0 );
 		Preferences.setString( "testudinalTeachings", "" );
 		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
 		// Copied monsters
