@@ -665,12 +665,20 @@ public abstract class ChoiceManager
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
 			"choiceAdventure80", "Haunted Library",
-			new Object[] { "background history", "cooking recipe", "other options", "skip adventure" } ),
+			new Object[] { "background history",
+				       "cooking recipe",
+				       "other options",
+				       "skip adventure",
+				       new Option( "unlock second floor", 99 ) } ),
 
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
 			"choiceAdventure81", "Haunted Library",
-			new Object[] { "gallery quest", "cocktailcrafting recipe", "muscle substats", "skip adventure" } ),
+			new Object[] { "gallery quest",
+				       "cocktailcrafting recipe",
+				       "muscle substats",
+				       "skip adventure",
+				       new Option( "unlock second floor", 99 ) } ),
 
 		// One NightStand (simple white)
 		new ChoiceAdventure(
