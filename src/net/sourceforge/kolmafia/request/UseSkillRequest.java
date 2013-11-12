@@ -684,11 +684,20 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.WAR_BLESSING:
-		case SkillPool.SHE_WHO_WAS_BLESSING:
-		case SkillPool.STORM_BLESSING:
-			maximumCast = KoLCharacter.getBlessingLevel() != -1 ? 1 : 0;
+			maximumCast = ( KoLCharacter.getBlessingLevel() != -1 ||
+				KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING ) ? 1 : 0;
 			break;
-
+		
+		case SkillPool.SHE_WHO_WAS_BLESSING:
+			maximumCast = ( KoLCharacter.getBlessingLevel() != -1 ||
+				KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING ) ? 1 : 0;
+			break;
+		
+		case SkillPool.STORM_BLESSING:
+			maximumCast = ( KoLCharacter.getBlessingLevel() != -1 ||
+				KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ) ? 1 : 0;
+			break;
+		
 		case SkillPool.SPIRIT_BOON:
 			maximumCast = KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
 			break;
@@ -1460,6 +1469,12 @@ public class UseSkillRequest
 			return true;
 		}
 
+		if ( responseText.contains( "You're already blessed" ) )
+		{
+			UseSkillRequest.lastUpdate = "You already have that blessing.";
+			return true;
+		}
+
 		// You think your stomach has had enough for one day.
 		if ( responseText.indexOf( "enough for one day" ) != -1 )
 		{
@@ -1635,6 +1650,13 @@ public class UseSkillRequest
 
 		case SkillPool.TURTLE_POWER:
 			Preferences.setBoolean( "_turtlePowerCast", true );
+			Preferences.setInteger( "turtleBlessingTurns", 0 );
+			break;
+
+		case SkillPool.WAR_BLESSING:
+		case SkillPool.SHE_WHO_WAS_BLESSING:
+		case SkillPool.STORM_BLESSING:
+			Preferences.setInteger( "turtleBlessingTurns", 0 );
 			break;
 
 		case SkillPool.SUMMON_BONERS:

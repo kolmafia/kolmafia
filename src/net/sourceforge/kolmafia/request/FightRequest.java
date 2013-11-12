@@ -1928,6 +1928,17 @@ public class FightRequest
 				Preferences.increment( "_pantsgivingCount", 1 );
 			}
 
+			// Increment Turtle Blessing counter
+			int blessingLevel = KoLCharacter.getBlessingLevel();
+			if ( blessingLevel > 0 )
+			{
+				Preferences.increment( "turtleBlessingTurns", 1 );
+			}
+			else
+			{
+				Preferences.setInteger( "turtleBlessingTurns", 0 );
+			}
+			
 			// If this is the first round, then register the
 			// opponent you are fighting against.
 
