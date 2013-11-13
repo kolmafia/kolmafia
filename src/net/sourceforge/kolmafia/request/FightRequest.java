@@ -2100,6 +2100,19 @@ public class FightRequest
 				TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
+				  ( encounter.equalsIgnoreCase( "Possessed Can of Linguine-Os" ) ||
+				    encounter.equalsIgnoreCase( "Possessed Can of Creepy Pasta" ) ||
+				    encounter.equalsIgnoreCase( "Frozen Bag of Tortellini" ) ||
+				    encounter.equalsIgnoreCase( "Possessed Jar of Alphredo™" ) ||
+				    encounter.equalsIgnoreCase( "Box of Crafty Dinner" )
+				    ) )
+			{
+				TurnCounter.stopCounting( "Event Monster window begin" );
+				TurnCounter.stopCounting( "Event Monster window end" );
+				TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
+			}
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "menacing thug" ) ||
 				    encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
 				    encounter.equalsIgnoreCase( "hunting seal" ) ||

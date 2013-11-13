@@ -1438,3 +1438,27 @@
 1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e	cast 1 spirit boon
 1438	Spirit Bubble	sphere.gif	e0175cc5f83e7d239a7535bde4154ef3	use 1 spirit gum
 1439	Spirit Schooled	spiritbed.gif	72f14039f806484867a6db8ee483dfab
+1440
+1441
+1442
+1443
+1444
+1445
+1446
+1447
+1448
+1449
+1450
+1451
+1452
+1453
+1454
+1455
+1456
+1457
+1458
+1459	Blessing of the Hot Linguine	linguinispoon.gif	868e6edb45c276c30db7fee03713039c	use 1 spoonful of Linguine-Os
+1460	Blessing of the Frozen Tortellini	tortelinus.gif	c6ed6eb619950fd4e56242748857f05b	use 1 freezer-burned frost-bitten tortellini
+1461	Blessing of the Stinking Alphredo&trade;	alphredo.gif	9ec25859336babf49ea198cfd49026ec	use 1 blob of Alphredo™
+1462	Blessing of the Pervy Noodles	pastalighthouses.gif	b385ad40a44a9bae9195b33338b281fa	use 1 handful of crafty noodles
+1463	Blessing of the Creepy Pasta	boobooboo.gif	b35f8c2f4e485f88f07fd9394df41ec6	use 1 tangled mass of creepy pasta

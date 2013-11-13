@@ -1475,6 +1475,12 @@ public class UseSkillRequest
 			return true;
 		}
 
+		if ( responseText.contains( "not attuned to any particular Turtle Spirit" ) )
+		{
+			UseSkillRequest.lastUpdate = "You haven't got a Blessing, so can't get a Boon.";
+			return true;
+		}
+
 		// You think your stomach has had enough for one day.
 		if ( responseText.indexOf( "enough for one day" ) != -1 )
 		{
