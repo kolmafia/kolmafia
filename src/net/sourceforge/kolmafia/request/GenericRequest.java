@@ -192,7 +192,6 @@ public class GenericRequest
 	public static boolean isBarrelSmash = false;
 	public static boolean ascending = false;
 	public static String itemMonster = null;
-	public static boolean choiceHandled = true;
 	private static boolean suppressUpdate = false;
 
 	public static void reset()
@@ -1211,7 +1210,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( !GenericRequest.choiceHandled && !ChoiceManager.canWalkAway() )
+		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
 			return true;
@@ -1470,7 +1469,6 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "choice.php" ) )
 		{
-			GenericRequest.choiceHandled = false;
 			ChoiceManager.preChoice( this );
 		}
 
@@ -2048,7 +2046,6 @@ public class GenericRequest
 			this.constructURLString( this.redirectLocation, this.redirectMethod.equals( "POST" ) );
 			if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
-				GenericRequest.choiceHandled = false;
 				ChoiceManager.preChoice( this );
 			}
 			return false;
@@ -2257,7 +2254,7 @@ public class GenericRequest
 			KoLCharacter.liberateKing();
 		}
 
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest && !this.isDescRequest )
+		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
 		{
 			// Handle choices BEFORE result processing
 			ChoiceManager.postChoice1( this );
@@ -2294,10 +2291,9 @@ public class GenericRequest
 
 		this.processResults();
 
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest && !this.isDescRequest )
+		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
 		{
 			// Handle choices AFTER result processing
-			GenericRequest.choiceHandled = !this.responseText.contains( "choice.php" );
 			ChoiceManager.postChoice2( this );
 		}
 

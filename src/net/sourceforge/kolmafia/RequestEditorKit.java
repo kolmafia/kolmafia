@@ -1909,7 +1909,7 @@ public class RequestEditorKit
 			while ( i > 0 )
 			{
 				// Say what the choice will give you
-				Object spoiler = ChoiceManager.choiceSpoiler( choice, i, spoilers[ 2 ] ); 
+				Object spoiler = ChoiceManager.choiceSpoiler( choice, i, spoilers[ 2 ] );
 
 				// If we have nothing to say about this option, don't say anything
 				if ( spoiler == null )

@@ -1236,7 +1236,14 @@ public class KoLAdventure
 
 	public static final void setNextAdventure( final String adventureName )
 	{
-		KoLAdventure.setNextAdventure( AdventureDatabase.getAdventure( adventureName ) );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( adventureName );
+		if ( adventure == null )
+		{
+			Preferences.setString( "nextAdventure", adventureName );
+			KoLCharacter.updateSelectedLocation( null );
+			return;
+		}
+		KoLAdventure.setNextAdventure( adventure );
 		EncounterManager.registerAdventure( adventureName );
 	}
 

@@ -88,7 +88,7 @@ public class RecoveryManager
 		return	!RecoveryManager.isRecoveryActive() &&
 			FightRequest.currentRound == 0 &&
 			!FightRequest.inMultiFight &&	
-			( GenericRequest.choiceHandled || ChoiceManager.canWalkAway() ) &&
+			( !ChoiceManager.handlingChoice || ChoiceManager.canWalkAway() ) &&
 			!CharPaneRequest.inValhalla();
 	}
 
