@@ -417,7 +417,7 @@ public class UseItemRequest
 			return 0;
 		}
 
-		if ( !GenericRequest.choiceHandled && !ChoiceManager.canWalkAway() )
+		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
 			UseItemRequest.limiter = "choice adventure in progress";
 			return 0;

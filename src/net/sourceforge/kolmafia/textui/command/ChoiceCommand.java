@@ -65,7 +65,7 @@ public class ChoiceCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )
+		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You aren't in a choice adventure." );
 			return;
@@ -106,11 +106,14 @@ public class ChoiceCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That isn't one of your choices." );
 			return;
 		}
-		if (always) {
-		    String pref = "choiceAdventure" + ChoiceManager.lastChoice;
-		    RequestLogger.printLine( pref + " => " + decision );
-		    Preferences.setInteger( pref, decision );
+
+		if (always)
+		{
+			String pref = "choiceAdventure" + ChoiceManager.currentChoice();
+			RequestLogger.printLine( pref + " => " + decision );
+			Preferences.setInteger( pref, decision );
 		}		
+
 		ChoiceManager.processChoiceAdventure( decision );
 	}
 
@@ -120,12 +123,12 @@ public class ChoiceCommand
 	public static TreeMap parseChoices()
 	{
 		TreeMap rv = new TreeMap();
-		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )
+		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
 		{
 			return rv;
 		}
 
-		int choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
+		int choice = ChoiceManager.currentChoice();
 		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 		if ( possibleDecisions == null )
 		{
@@ -206,10 +209,11 @@ public class ChoiceCommand
 	{
 		TreeMap choices = ChoiceCommand.parseChoices();
 		Iterator i = choices.entrySet().iterator();
+		int choice = ChoiceManager.currentChoice();
 		while ( i.hasNext() )
 		{
 			Map.Entry e = (Map.Entry) i.next();
-			RequestLogger.updateSessionLog( "choice " + ChoiceManager.lastChoice + "/" + e.getKey() + ": " + e.getValue() );
+			RequestLogger.updateSessionLog( "choice " + choice + "/" + e.getKey() + ": " + e.getValue() );
 			RequestLogger.printLine( "<b>choice " + e.getKey() + "</b>: " + e.getValue() );
 		}
 	}

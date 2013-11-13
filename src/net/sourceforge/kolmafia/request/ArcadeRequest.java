@@ -408,10 +408,10 @@ public class ArcadeRequest
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
 
-	public static final void logSpaceTripAction( final String responseText )
+	public static final void logSpaceTripAction( final String responseText, final int lastChoice, final int lastDecision )
 	{
 		// Called when we are about to take a choice in SpaceTrip
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		String action = ArcadeRequest.findChoiceName( lastDecision );
 		if ( action == null )
 		{
 			return;
@@ -421,7 +421,7 @@ public class ArcadeRequest
                 boolean log = false;
 
 		// Don't log navigation around the space ship or base
-		switch ( ChoiceManager.lastChoice )
+		switch ( lastChoice )
 		{
 		case 468:	// Starbase Hub
 			if ( !action.equals( "Visit the General Store" ) &&
@@ -498,7 +498,7 @@ public class ArcadeRequest
 
 	private final static Pattern TOTAL_SCORE_PATTERN = Pattern.compile( "Total Score:.*?<b>([0123456789,]*)</b>", Pattern.DOTALL );
 
-	public static final void postChoiceSpaceTrip( final GenericRequest request )
+	public static final void postChoiceSpaceTrip( final GenericRequest request, final int lastChoice, final int lastDecision )
 	{
 		// Called when we have taken a choice in SpaceTrip
 
@@ -506,7 +506,7 @@ public class ArcadeRequest
 		String responseText = request.responseText;
 
 		// Log action appropriately
-		ArcadeRequest.logSpaceTripAction( responseText );
+		ArcadeRequest.logSpaceTripAction( responseText, lastChoice, lastDecision );
 
 		// If ten of your crew members have time to come to our big
 		// party, I'm sure it would be wonderful for everybody!
@@ -710,9 +710,9 @@ public class ArcadeRequest
 
 	private final static Pattern DEMONSTAR_MOVE_PATTERN = Pattern.compile( "mv=([-01]+)(,|%2C)([-01]+)" );
 
-	private static final String parseDemonStarAction( final GenericRequest request )
+	private static final String parseDemonStarAction( final GenericRequest request, final int lastDecision )
 	{
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		String action = ArcadeRequest.findChoiceName( lastDecision );
 		// Actions like "Mine" or "Fight"
 		if ( action != null )
 		{
@@ -765,10 +765,10 @@ public class ArcadeRequest
 		return null;
 	}
 
-	public static final void postChoiceDemonStar( final GenericRequest request )
+	public static final void postChoiceDemonStar( final GenericRequest request, final int lastDecision )
 	{
 		// Called when we have taken a choice in DemonStar
-		String action = ArcadeRequest.parseDemonStarAction( request );
+		String action = ArcadeRequest.parseDemonStarAction( request, lastDecision );
 		if ( action != null )
 		{
 			// Log the action the player took
@@ -936,10 +936,10 @@ public class ArcadeRequest
 
 	private final static Pattern FINAL_SCORE_PATTERN = Pattern.compile( "FINAL SCORE:? ([0123456789,]*)", Pattern.DOTALL );
 
-	public static final void postChoiceDungeonFist( final GenericRequest request )
+	public static final void postChoiceDungeonFist( final GenericRequest request, final int lastDecision )
 	{
 		// Called when we have taken a choice in Dungeon Fist!
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		String action = ArcadeRequest.findChoiceName( lastDecision );
 		if ( action != null )
 		{
 			// Log the action the player took
@@ -1482,12 +1482,12 @@ public class ArcadeRequest
 		ArcadeRequest.logText( buffer.toString() );
 	}
 
-	public static final void postChoiceFightersOfFighting( final GenericRequest request )
+	public static final void postChoiceFightersOfFighting( final GenericRequest request, final int lastDecision )
 	{
 		String text = request.responseText;
 		// If this is the very first round of the match, parse and log
 		// the threat
-		if ( ChoiceManager.lastDecision == 6 )
+		if ( lastDecision == 6 )
 		{
 			ArcadeRequest.logRound( text );
 			return;
@@ -1644,17 +1644,17 @@ public class ArcadeRequest
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
 
-	public static final void logMetoidAction( final String responseText )
+	public static final void logMetoidAction( final String responseText, final int lastChoice, final int lastDecision )
 	{
 		// Called when we are about to take a choice in SpaceTrip
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		String action = ArcadeRequest.findChoiceName( lastDecision );
 		if ( action == null )
 		{
 			return;
 		}
 
 		// Don't log navigation around the space ship or base
-		switch ( ChoiceManager.lastChoice )
+		switch ( lastChoice )
 		{
 		case 488:	// Bridge
 			if ( action.equals( "Load up SpaceMall" ) )
@@ -1687,7 +1687,7 @@ public class ArcadeRequest
 
 	private final static Pattern GUARD_PATTERN = Pattern.compile( "The room was guarded by a fierce (.*?)!", Pattern.DOTALL );
 
-	public static final void postChoiceMeteoid( final GenericRequest request )
+	public static final void postChoiceMeteoid( final GenericRequest request, final int lastChoice, final int lastDecision )
 	{
 		// Called when we have taken a choice in Meteoid
 
@@ -1695,7 +1695,7 @@ public class ArcadeRequest
 		String responseText = request.responseText;
 
 		// Log action appropriately
-		ArcadeRequest.logMetoidAction( responseText );
+		ArcadeRequest.logMetoidAction( responseText, lastChoice, lastDecision );
 
 		// The room was guarded by a fierce <monster>!
 		Matcher guardMatcher = GUARD_PATTERN.matcher( responseText );

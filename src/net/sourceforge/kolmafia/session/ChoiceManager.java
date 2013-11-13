@@ -92,8 +92,9 @@ public abstract class ChoiceManager
 {
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
-	public static int lastChoice = 0;
-	public static int lastDecision = 0;
+	public static boolean handlingChoice = false;
+	private static int lastChoice = 0;
+	private static int lastDecision = 0;
 	public static String lastResponseText = "";
 	private static int skillUses = 0;
 	private static boolean canWalkAway;
@@ -112,6 +113,11 @@ public abstract class ChoiceManager
 		Pattern.compile( "value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?" ),
 		Pattern.compile( "choice.php\\?whichchoice=(\\d+)" ),
 	};
+
+	public static int currentChoice()
+	{
+		return ChoiceManager.handlingChoice ? ChoiceManager.lastChoice : 0;
+	}
 
 	public static int extractChoice( final String responseText )
 	{
@@ -5308,6 +5314,8 @@ public abstract class ChoiceManager
 
 	public static final void preChoice( final GenericRequest request )
 	{
+		ChoiceManager.handlingChoice = true;
+
 		String choice = request.getFormField( "whichchoice" );
 		String option = request.getFormField( "option" );
 
@@ -5736,27 +5744,27 @@ public abstract class ChoiceManager
 		case 475: case 476: case 477: case 478: case 479:
 		case 480: case 481: case 482: case 483: case 484:
 			// Space Trip
-			ArcadeRequest.postChoiceSpaceTrip( request );
+			ArcadeRequest.postChoiceSpaceTrip( request, ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 			break;
 
 		case 471:
 			// DemonStar
-			ArcadeRequest.postChoiceDemonStar( request );
+			ArcadeRequest.postChoiceDemonStar( request, ChoiceManager.lastDecision );
 			break;
 
 		case 485:
 			// Fighters Of Fighting
-			ArcadeRequest.postChoiceFightersOfFighting( request );
+			ArcadeRequest.postChoiceFightersOfFighting( request, ChoiceManager.lastDecision );
 			break;
 
 		case 486:
 			// Dungeon Fist!
-			ArcadeRequest.postChoiceDungeonFist( request );
+			ArcadeRequest.postChoiceDungeonFist( request, ChoiceManager.lastDecision );
 			break;
 
 		case 488: case 489: case 490: case 491:
 			// Meteoid
-			ArcadeRequest.postChoiceMeteoid( request );
+			ArcadeRequest.postChoiceMeteoid( request, ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 			break;
 
 		case 529:
@@ -6604,6 +6612,7 @@ public abstract class ChoiceManager
 
 		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
 		{
+			// This was a visit
 			return;
 		}
 
@@ -7193,7 +7202,7 @@ public abstract class ChoiceManager
 
 			// Set all folder slots from the response text
 			EquipmentRequest.parseFolders( text );
-			return;
+			break;
 
 		case 786:
 			if( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
@@ -7204,8 +7213,16 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		if ( text.contains( "choice.php" ) )
+		{
+			ChoiceManager.visitChoice( request );
+			return;
+		}
+
+		ChoiceManager.handlingChoice = false;
+
 		PostChoiceAction action = ChoiceManager.action;
-		if ( action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
+		if ( action != PostChoiceAction.NONE )
 		{
 			ChoiceManager.action = PostChoiceAction.NONE;
 			switch ( action )
@@ -9194,17 +9211,15 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				int decision = StringUtilities.parseInt ( matcher.group( 1 ) );
-				String desc = "unknown";
-				Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
-				if ( possibleDecisions != null && decision > 0 &&
-				     decision <= possibleDecisions[ 2 ].length )
-				{
-					desc = possibleDecisions[ 2 ][ decision - 1 ].toString();
-				}
+				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
+				String desc =
+					spoilers == null ?
+					"unknown" :
+					ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] ).toString();
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				// For now, leave the raw URL in the log in case some analysis
 				// tool is relying on it.
-				//return true;
+				//return true;xxx
 			}
 		}
 

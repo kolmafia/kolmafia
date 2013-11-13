@@ -877,16 +877,14 @@ public class AdventureRequest
 		int index = responseText.indexOf( "<body>" );
 
 		// Skip past the Adventure Results
-		int boldIndex = responseText.indexOf( "Results:</b>", index );
-
-		// If there are none, start in the HTML body again.
-		if ( boldIndex == -1 )
+		int resultsIndex = responseText.indexOf( "<div id=\"results\">", index );
+		if ( resultsIndex != -1 )
 		{
-			boldIndex = index;
+			index = responseText.indexOf( "</div>", resultsIndex );
 		}
 
-		boldIndex = responseText.indexOf( "<b>", boldIndex ) + 3;
-		if ( boldIndex == 2 )
+		int boldIndex = responseText.indexOf( "<b>", index );
+		if ( boldIndex == -1 )
 		{
 			return "";
 		}
@@ -898,7 +896,7 @@ public class AdventureRequest
 			return "";
 		}
 
-		return responseText.substring( boldIndex, endBoldIndex );
+		return responseText.substring( boldIndex + 3, endBoldIndex );
 	}
 
 	private static final int parseArea( final String urlString )
