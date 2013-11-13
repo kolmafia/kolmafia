@@ -785,6 +785,9 @@ public class LockableListModel
 	private void updateSingleFilter( final boolean refresh )
 	{
 		int visibleIndex = 0;
+		int low = -1;
+		int high = -1;
+		boolean adding = true;
 
 		for ( int i = 0; i < this.actualElements.size(); ++i )
 		{
@@ -794,8 +797,22 @@ public class LockableListModel
 			{
 				if ( visibleIndex == this.visibleElements.size() || this.visibleElements.get( visibleIndex ) != element )
 				{
+					if ( low == -1 )
+					{
+						low = high = visibleIndex;
+						adding = true;
+					}
+					else if ( !adding )
+					{
+						this.fireIntervalRemoved( this, low, high );
+						low = high = visibleIndex;
+						adding = true;
+					}
+					else
+					{
+						high += 1;
+					}
 					this.visibleElements.add( visibleIndex, element );
-					this.fireIntervalAdded( this, visibleIndex, visibleIndex );
 				}
 
 				++visibleIndex;
@@ -804,9 +821,35 @@ public class LockableListModel
 			{
 				if ( visibleIndex < this.visibleElements.size() && this.visibleElements.get( visibleIndex ) == element )
 				{
+					if ( low == -1 )
+					{
+						low = high = visibleIndex;
+						adding = false;
+					}
+					else if ( adding )
+					{
+						this.fireIntervalAdded( this, low, high );
+						low = high = visibleIndex;
+						adding = false;
+					}
+					else
+					{
+						high += 1;
+					}
 					this.visibleElements.remove( visibleIndex );
-					this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
 				}
+			}
+		}
+
+		if ( low != -1 )
+		{
+			if ( adding )
+			{
+				this.fireIntervalAdded( this, low, high );
+			}
+			else
+			{
+				this.fireIntervalRemoved( this, low, high );
 			}
 		}
 
