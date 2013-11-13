@@ -2103,7 +2103,7 @@ public class FightRequest
 				  ( encounter.equalsIgnoreCase( "Possessed Can of Linguine-Os" ) ||
 				    encounter.equalsIgnoreCase( "Possessed Can of Creepy Pasta" ) ||
 				    encounter.equalsIgnoreCase( "Frozen Bag of Tortellini" ) ||
-				    encounter.equalsIgnoreCase( "Possessed Jar of Alphredo™" ) ||
+				    encounter.equalsIgnoreCase( "Possessed Jar of Alphredo&trade;" ) ||
 				    encounter.equalsIgnoreCase( "Box of Crafty Dinner" )
 				    ) )
 			{

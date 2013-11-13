@@ -1499,7 +1499,7 @@ wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MO
 wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Exp: [(STAT+4+max(ML,0))/4] Init: 40 P: construct	twisted piece of wire (25)	twisted piece of wire (10)
 X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Exp: [(STAT+6+max(ML,0))/4+100] Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)
 
-# A Stinking Abyssal Portal
+# Abyssal Portals
 scout seal	scoutseal.gif	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (c30)	crystalline seal eye (c0)
 bulwark bull seal	bullseal.gif	HP: 100 Def: 55 Atk: 50 Init: -10000 P: demon	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
 official seal	officialseal.gif	HP: 300 Def: 110 Atk: 110 Init: 70 P: demon	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
@@ -1532,5 +1532,5 @@ spirit pea	spiritpea.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,5
 Possessed Can of Linguine-Os	mystwander1.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
 Possessed Can of Creepy Pasta	mystwander2.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
 Frozen Bag of Tortellini	mystwander3.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo™	mystwander4.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Possessed Jar of Alphredo&trade;	mystwander4.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
 Box of Crafty Dinner	mystwander5.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)
