@@ -1091,6 +1091,7 @@ public abstract class KoLCharacter
 	public static final String getClassStun()
 	{
 		return
+			KoLCharacter.classtype == null ? "none" :
 			KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
 			KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
 			KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
