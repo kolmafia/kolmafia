@@ -877,10 +877,21 @@ public class AdventureRequest
 		int index = responseText.indexOf( "<body>" );
 
 		// Skip past the Adventure Results
-		int resultsIndex = responseText.indexOf( "<div id=\"results\">", index );
-		if ( resultsIndex != -1 )
+		int brIndex = responseText.indexOf( "Results:</b>", index );
+		if ( brIndex != -1 )
 		{
-			index = responseText.indexOf( "</div>", resultsIndex );
+			int resultsIndex = responseText.indexOf( "<div id=\"results\">", index );
+			if ( resultsIndex != -1 )
+			{
+				// KoL was nice enough to put results into a div for us
+				index = responseText.indexOf( "</div>", resultsIndex );
+			}
+			else
+			{
+				// There is no results div, but it doesn't mean that
+				// there aren't results. Nothing like consistency. Not.
+				index = brIndex;
+			}
 		}
 
 		int boldIndex = responseText.indexOf( "<b>", index );
