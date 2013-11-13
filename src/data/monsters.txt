@@ -1527,3 +1527,10 @@ spirit alarm clock	spiritalclock.gif	HP: [0.75*(min(MUS+5,1000)+max(ML,0))] Def:
 spirit bedbug	spiritbug.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit faucet	spiritfaucet.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
 spirit pea	spiritpea.gif	HP: [0.75*(min(MUS-5,500)+max(ML,0))] Def: [min(MUS-5,500)+max(ML,0)] Atk: [min(MOX-5,500)+max(ML,0)] Exp: [(min(STAT-5,500)+max(ML,0))/4] Init: -10000 P: undead	spirit gum (5)
+
+# Spellcaster Revamp Lead-in
+Possessed Can of Linguine-Os	mystwander1.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	mystwander2.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	mystwander3.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo™	mystwander4.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	mystwander5.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: [min(MUS-3,500)+max(ML,0)] Atk: [min(MOX-3,500)+max(ML,0)] Exp: [(min(STAT-3,500)+max(ML,0))/4] Init: -10000 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)

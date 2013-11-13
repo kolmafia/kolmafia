@@ -3293,9 +3293,14 @@ Blade Rolling	Moxie Percent: +100
 # Blessed by the RNG: ???
 Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
+Blessing of the Creepy Pasta	Spooky Spell Damage: +20, Sleaze Resistance: +2
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of She-Who-Was	Mysticality: +5, Spooky Damage: +5
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Blessing of the Frozen Tortellini	Cold Spell Damage: +20, Stench Resistance: +2
+Blessing of the Hot Linguine	Hot Spell Damage: +20, Cold Resistance: +2
+Blessing of the Pervy Noodles	Sleaze Spell Damage: +20, Hot Resistance: +2
+Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resistance: +2
 Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Block-Rockin' Beet	Damage Reduction: 15
@@ -5119,6 +5124,7 @@ black snowcone	Effect: "Black Tongue", Effect Duration: 20
 black tear	Effect: "Weepy, Creepy", Effect Duration: 1
 blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
 blob of acid	Effect: "Lord of Acid", Effect Duration: 50
+blob of Alphredo&trade;	Effect: "Blessing of the Stinking Alphredo™", Effect Duration: 10
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
@@ -5297,6 +5303,7 @@ foetid seal tear Effect: "Abyssal Tears", Effect Duration: 20
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
 fragment of Jarlsberg's soul	Free Pull
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
+freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
 frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"
@@ -5348,6 +5355,7 @@ half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
 hand turkey outline	Free Pull
 handful of Crotchety Pine needles	Effect: "Crotchety, Pining", Effect Duration: 100
 handful of Laughing Willow bark	Effect: "Barking Mad", Effect Duration: 100
+handful of crafty noodles	Effect: "Blessing of the Pervy Noodles", Effect Duration: 10
 handful of hand chalk	Effect: "Chalky Hand", Effect Duration: 5
 handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
@@ -5579,6 +5587,7 @@ spooky nuggets	Effect: "Spooky Weapon", Effect Duration: 5
 spooky powder	Effect: "Spookypants", Effect Duration: 5
 spooky rattling cigar box	Free Pull
 spooky sap	Effect: "Sugar Rush", Effect Duration: 5
+spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 squamous polyp	Free Pull
 stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
@@ -5600,6 +5609,7 @@ sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
+tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
 teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
