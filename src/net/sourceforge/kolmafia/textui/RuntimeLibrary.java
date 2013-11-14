@@ -2051,7 +2051,7 @@ public abstract class RuntimeLibrary
 			String string = value.toString();
 			try
 			{
-				return new Value( StringUtilities.parseIntInternal1( string, true ) );
+				return new Value( StringUtilities.parseLongInternal1( string, true ) );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -2061,7 +2061,7 @@ public abstract class RuntimeLibrary
 
 			try
 			{
-				int retval = StringUtilities.parseIntInternal2( string );
+				long retval = StringUtilities.parseLongInternal2( string );
 				Exception ex = interpreter.runtimeException( "The string \"" + string + "\" is not an integer; returning " + retval );
 				RequestLogger.printLine( ex.getMessage() );
 				return new Value( retval );
