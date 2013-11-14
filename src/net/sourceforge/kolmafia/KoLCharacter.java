@@ -4216,7 +4216,10 @@ public abstract class KoLCharacter
 
 	public static final void setEnthroned( final FamiliarData familiar )
 	{
-		KoLCharacter.currentEnthroned = KoLCharacter.addFamiliar( familiar );
+		KoLCharacter.currentEnthroned =
+			familiar == null ?
+			FamiliarData.NO_FAMILIAR :
+			KoLCharacter.addFamiliar( familiar );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
