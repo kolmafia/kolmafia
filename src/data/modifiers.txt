@@ -4658,6 +4658,7 @@ Precision of the Penguin	Critical Hit Percent: [Y]
 # Salacious Cocktailcrafting
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
 Seething of the Snow Leopard	Weapon Damage: [2*Y]
+Sensitive Fingers	Pickpocket Chance: +10
 Sick Pythons	Weapon Damage: +20
 Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
