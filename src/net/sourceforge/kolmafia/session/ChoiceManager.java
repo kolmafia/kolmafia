@@ -6610,13 +6610,14 @@ public abstract class ChoiceManager
 	{
 		// Things that can or need to be done AFTER processing results.
 
+		String text = request.responseText;
+
 		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
 		{
 			// This was a visit
+			ChoiceManager.handlingChoice = text.contains( "choice.php" );
 			return;
 		}
-
-		String text = request.responseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{
