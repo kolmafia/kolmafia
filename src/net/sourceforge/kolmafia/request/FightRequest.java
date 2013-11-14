@@ -4262,6 +4262,7 @@ public class FightRequest
 		public int lastCombatItem = -1;
 		public String monsterName;
 		public boolean seahorse;
+		public boolean dolphin;
 
 		public TagStatus()
 		{
@@ -4782,6 +4783,8 @@ public class FightRequest
 	{
 		// Tables often appear in fight results to hold images.
 		TagNode inode = node.findElementByName( "img", true );
+		String onclick = null;
+
 		if ( inode != null )
 		{
 			String alt = inode.getAttributeByName( "alt" );
@@ -4790,6 +4793,39 @@ public class FightRequest
 				// Don't process Monster Manuel
 				return false;
 			}
+
+			onclick = inode.getAttributeByName( "onclick" );
+		}
+
+		if ( status.dolphin )
+		{
+			status.dolphin = false;
+
+			if ( onclick == null )
+			{
+				return false;
+			}
+
+			Matcher m = INT_PATTERN.matcher( onclick );
+			String descid = m.find() ? m.group() : null;
+
+			if ( descid == null )
+			{
+				return false;
+			}
+
+			int itemId = ItemDatabase.getItemIdFromDescription( descid );
+			if ( itemId == -1 )
+			{
+				return false;
+			}
+
+			AdventureResult result = ItemPool.get( itemId, 1 );
+			String message = "A dolphin stole: " + result.getName();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			Preferences.setString( "dolphinItem", result.getName() );
+			return false;
 		}
 
 		StringBuffer action = status.action;
@@ -4834,7 +4870,6 @@ public class FightRequest
 		}
 
 		// Look for items and effects first
-		String onclick = inode.getAttributeByName( "onclick" );
 		if ( onclick != null )
 		{
 			if ( onclick.startsWith( "descitem" ) &&
@@ -5025,43 +5060,7 @@ public class FightRequest
 			// Inside this table is another table with
 			// another image of the stolen dolphin item.
 
-			TagNode tnode = node.findElementByName( "table", true );
-			if ( tnode == null )
-			{
-				return false;
-			}
-
-			TagNode inode2 = tnode.findElementByName( "img", true );
-			if ( inode2 == null )
-			{
-				return false;
-			}
-
-			String onclick2 = inode2.getAttributeByName( "onclick" );
-			if ( onclick2 == null || !onclick2.startsWith( "descitem" ) )
-			{
-				return false;
-			}
-
-			Matcher m = INT_PATTERN.matcher( onclick2 );
-			String descid = m.find() ? m.group() : null;
-
-			if ( descid == null )
-			{
-				return false;
-			}
-
-			itemId = ItemDatabase.getItemIdFromDescription( descid );
-			if ( itemId == -1 )
-			{
-				return false;
-			}
-
-			AdventureResult result = ItemPool.get( itemId, 1 );
-			String message = "A dolphin stole: " + result.getName();
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			Preferences.setString( "dolphinItem", result.getName() );
+			status.dolphin = true;
 			return false;
 		}
 
