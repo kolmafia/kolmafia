@@ -1454,7 +1454,9 @@ public class EquipmentRequest
 		if ( action.equals( "equip" ) )
 		{
 			// Detect failure to equip
-			if ( !responseText.contains( "You equip an item" ) && !responseText.contains( "Item equipped" ) )
+			if ( !responseText.contains( "You equip an item" ) &&
+			     !responseText.contains( "Item equipped" ) &&
+			     !responseText.contains( "equips an item" ) )
 			{
 				return;
 			}
