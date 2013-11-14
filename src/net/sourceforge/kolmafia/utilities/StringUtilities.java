@@ -780,7 +780,7 @@ public class StringUtilities
 		{
 			string = string.substring( 1 );
 		}
-		
+
 		if ( string.length() == 0 )
 		{
 			return 0;
@@ -852,17 +852,81 @@ public class StringUtilities
 
 	public static final long parseLong( String string )
 	{
+		return StringUtilities.parseLongInternal1( string, false );
+	}
+
+	public static final long parseLongInternal1( String string, boolean throwException )
+		throws NumberFormatException
+	{
 		if ( string == null )
 		{
 			return 0L;
 		}
 
+		// Remove commas anywhere in the string
+		string = StringUtilities.globalStringDelete( string, "," );
+
+		// Remove whitespace from front and end of string
+		string = string.trim();
+
+		// Remove + sign from start of string
 		if ( string.startsWith( "+" ) )
 		{
 			string = string.substring( 1 );
 		}
 
-		string = StringUtilities.globalStringDelete( string, "," );
+		if ( string.length() == 0 )
+		{
+			return 0L;
+		}
+
+		if ( StringUtilities.isNumeric( string ) )
+		{
+			try
+			{
+				return Long.parseLong( string );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger.printLine( string + " is out of range, returning 0" );
+				return 0L;
+			}
+		}
+
+		String fstring = string.substring( 0, string.length() - 1 );
+		if ( StringUtilities.isFloat( fstring ) )
+		{
+			char ch = string.charAt( string.length() - 1 );
+			double base = StringUtilities.parseDouble( fstring );
+			double multiplier = 1.0f;
+			
+			switch ( ch )
+			{
+			case 'k':
+			case 'K':
+				multiplier = 1000.0;
+				break;
+			case 'm':
+			case 'M':
+				multiplier = 1000000.0;
+				break;
+			}
+			
+			return (long) ( base * multiplier );
+		}
+
+		if ( throwException )
+		{
+			throw new NumberFormatException( string );
+		}
+
+		return StringUtilities.parseLongInternal2( string );
+	}
+
+	public static final long parseLongInternal2( String string )
+		throws NumberFormatException
+	{
+		string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
 
 		if ( string.length() == 0 )
 		{
@@ -875,6 +939,7 @@ public class StringUtilities
 		}
 		catch ( NumberFormatException e )
 		{
+			RequestLogger.printLine( string + " is out of range, returning 0" );
 			return 0L;
 		}
 	}
