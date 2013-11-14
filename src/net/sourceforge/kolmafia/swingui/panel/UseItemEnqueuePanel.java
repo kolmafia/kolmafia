@@ -669,6 +669,11 @@ public class UseItemEnqueuePanel
 
 			if ( UseItemEnqueuePanel.this.food && KoLCharacter.inZombiecore() )
 			{
+				// No hotdogs in Zombiecore
+				if ( creation.hotdog )
+				{
+					return false;
+				}
 				// If you don't have a GGG equipped, show only brains or a steel lasagna
 				int fam = KoLCharacter.getFamiliar().getId();
 				if ( fam != FamiliarPool.GHOST )
@@ -685,6 +690,11 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.isJarlsberg() && ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) )
 			{
+				// No hotdogs for Jarlsberg
+				if ( creation.hotdog )
+				{
+					return false;
+				}
 				AdventureResult item = creation.getItem();
 				String name = item != null ? item.getName() : null;
 				if ( creation.getMixingMethod() != CraftingType.JARLS && name != null &&

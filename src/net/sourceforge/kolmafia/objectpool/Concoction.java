@@ -112,6 +112,7 @@ public class Concoction
 	public int freeTotal;
 
 	public boolean special;
+	public boolean hotdog;
 	public boolean fancydog;
 
 	private int fullness, inebriety, spleenhit;

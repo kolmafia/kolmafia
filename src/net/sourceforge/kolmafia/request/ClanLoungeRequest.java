@@ -335,6 +335,7 @@ public class ClanLoungeRequest
 		{
 			String itemName = (String) HOTDOG_DATA[i][0];
 			Concoction concoction = new Concoction( itemName );
+			concoction.hotdog = true;
 			ClanLoungeRequest.HOTDOG_NAMES.add( itemName );
 			ClanLoungeRequest.ALL_HOTDOGS.add( concoction );
 			if ( i > 0 )
