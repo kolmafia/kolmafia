@@ -104,6 +104,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.OSCUS,
 		MPRestoreItemList.QUARK,
 		new MPRestoreItem( "CSA all-purpose soap", 1000, false ),
+		new MPRestoreItem( "pixel energy tank", 1000, false ),
 		new MPRestoreItem( "high-pressure seltzer bottle", 175, true ),
 		new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "fancy blue potion", 100, false ),

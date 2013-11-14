@@ -5921,7 +5921,7 @@
 5904
 5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0
 5906	pixel pill	439085798	pixelpill.gif	usable	t	0
-5907	pixel energy tank	337369749	pixeltank.gif	usable, combat	t	0
+5907	pixel energy tank	337369749	pixeltank.gif	hpmp, combat	t	0
 5908	ChibiBuddy&trade; (on)	413382594	chibibuddy.gif	reusable		0	ChibiBuddies&trade; (on)
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots

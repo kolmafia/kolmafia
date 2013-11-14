@@ -103,6 +103,7 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.NUNS,
 		HPRestoreItemList.HOTTUB,
 		new HPRestoreItem( "Camp Scout pup tent", 1000 ),
+		new HPRestoreItem( "pixel energy tank", 1000 ),
 		new HPRestoreItem( "extra-strength red potion", 200 ),
 		new HPRestoreItem( "red pixel potion", 110 ),
 		new HPRestoreItem( "really thick bandage", 109 ),
