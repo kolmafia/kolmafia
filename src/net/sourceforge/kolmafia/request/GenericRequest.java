@@ -2803,6 +2803,10 @@ public class GenericRequest
 			itemName = "a suspicious address";
 			break;
 
+		case ItemPool.CHEF_BOY_BUSINESS_CARD:
+			itemName = "Chef Boy, R&D's business card";
+			break;
+
 		default:
 			return;
 		}

@@ -3093,6 +3093,10 @@ public class FightRequest
 			{
 				ResultProcessor.removeItem( ItemPool.SUSPICIOUS_ADDRESS );
 			}
+			else if ( monster.equalsIgnoreCase( "Chef Boy, R&amp;D" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.CHEF_BOY_BUSINESS_CARD );
+			}
 			else if ( monster.equalsIgnoreCase( "drunk pygmy" ) )
 			{
 				if ( responseText.contains( "notices the Bowl of Scorpions" ) )

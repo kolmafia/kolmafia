@@ -2150,6 +2150,8 @@ hamethyst earring	Muscle: +3, Critical Hit Percent: +5
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
+# hazardous sauce dosimeter: Lets you gather more Soulsauce
+hazardous sauce dosimeter	Class: "Sauceror"
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 head mirror	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Surgeonosity: +1
 heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
@@ -5275,6 +5277,7 @@ evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5]
 evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5]
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
+experimental carbon fiber pasta additive	Class: "Pastamancer"
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated"
 extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
