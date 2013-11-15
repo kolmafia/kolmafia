@@ -233,10 +233,10 @@
 3002
 3003	Ravioli Shurikens	5	4	0	1
 3004	Entangling Noodles	5	3	0	2
-3005	Cannelloni Cannon	5	6	0	4
+3005	Cannelloni Cannon	5	8	0	4
 3006	Pastamastery	1	10	0	5
-3007	Stuffed Mortar Shell	5	13	0	8
-3008	Weapon of the Pastalord	5	24	0	10
+3007	Stuffed Mortar Shell	5	8	0	8
+3008	Weapon of the Pastalord	5	32	0	10
 3009	Lasagna Bandages	7	6	0	3
 3010	Leash of Linguini	3	12	10	11
 3011	Spirit of Rigatoni	0	0	0	7
@@ -247,12 +247,27 @@
 3016	Tolerance of the Kitchen	0	0	0	13
 3017	Flavour of Magic	0	0	0	14
 3018	Transcendental Noodlecraft	0	0	0	15
-3019	Fearful Fettucini	5	24	0
+3019	Fearful Fettucini	5	32	0
 3020	Spaghetti Spear	5	1	0	0
 3021	Tempuramancy	0	0	0
-3022	Candyblast	5	6	0
-3023	Stringozzi Serpent	5	13	0
+3022	Candyblast	5	8	0
+3023	Stringozzi Serpent	5	16	0
 3024	Canticle of Carboloading	3	10	0
+3025	Utensil Twist	5	1	0	1
+3026	Transcendent Al Dente	2	0	10	2
+3027	Bind Vampieroghi	3	12	0	3
+3028	Arched Eyebrow of the Archmage	9	10	10	4
+3029	Bind Vermincelli	3	30	0	5
+3030	Bringing Up the Rear	0	0	0	6
+3031	Bind Angel Hair Wisp	3	60	0	7
+3032	Shield of the Pastalord	3	20	10	8
+3033	Bind Undead Elbow Macaroni	3	100	0	9
+3034	Thrall Unit Tactics	0	0	0	10
+3035	Bind Penne Dreadful	3	150	0	11
+3036	Subtle and Quick to Anger	0	0	0	12
+3037	Bind Lasagmbie	3	200	0	13
+3038	Wizard Squint	9	10	10	14
+3039	Bind Spice Ghost	3	250	0	15
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
