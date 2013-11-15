@@ -6911,3 +6911,8 @@
 6894	blob of Alphredo&trade;	214678093	alphredo.gif	usable	t,d	5
 6895	handful of crafty noodles	594037699	pastalighthouses.gif	usable	t,d	5
 6896	tangled mass of creepy pasta	677130598	boobooboo.gif	usable	t,d	5
+6897
+6898	Chef Boy, R&D's business card	189658738	buscard.gif	reusable		0
+6899
+6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
+6901	hazardous sauce dosimeter	396445866	dosimeter.gif	accessory		0

@@ -1881,6 +1881,7 @@ hamethyst earring	50	Mys: 10
 hamethyst necklace	50	Mys: 10
 hamethyst ring	50	Mys: 10
 hardened slime belt	200	Mys: 200
+hazardous sauce dosimeter	0	none
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
 hemp string	70	Mys: 20
