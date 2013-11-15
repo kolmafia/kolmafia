@@ -853,6 +853,7 @@ public class SkillDatabase
 		case SkillPool.HIBERNATE:
 		case SkillPool.SPIRIT_VACATION:
 		case SkillPool.THATS_NOT_A_KNIFE:
+		case SkillPool.TRANSCENDENTAL_DENTE:
 			return true;
 		default:
 			return false;

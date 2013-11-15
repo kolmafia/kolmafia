@@ -101,6 +101,7 @@ public class SkillPool
 	public static final int COCOON = 3012;
 	public static final int SPAGHETTI_SPEAR = 3020;
 	public static final int CARBOLOADING = 3024;
+	public static final int TRANSCENDENTAL_DENTE = 3026;
 	public static final int SPIRIT_CAYENNE = 3101;
 	public static final int SPIRIT_PEPPERMINT = 3102;
 	public static final int SPIRIT_GARLIC = 3103;
