@@ -309,11 +309,14 @@ public abstract class CombatActionManager
 					// Sometimes classStun isn't available or doesn't stun, don't return it in those cases
 					if ( ( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 ) ||
 						( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING ) ||
+						( classStun.equals( "Soul Bubble" ) && KoLCharacter.getSoulsauce() < 5  ) ||
 						( classStun.equals( "Accordion Bash" ) && !EquipmentManager.wieldingAccordion() ) )
 					{
 						classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 					}
-					return Preferences.getBoolean( "autoEntangle" ) && !classStun.equals( "none" ) ? classStun : "skip";
+					return Preferences.getBoolean( "autoEntangle" ) &&
+						!( KoLCharacter.inClasscore2() && KoLCharacter.getMonsterLevelAdjustment() > 75 ) &&
+						!classStun.equals( "none" ) ? classStun : "skip";
 				case 3:
 					return "special action";
 				default:
