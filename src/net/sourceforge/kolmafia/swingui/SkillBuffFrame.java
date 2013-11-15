@@ -196,13 +196,13 @@ public class SkillBuffFrame
 				"Spaghetti Breakfast", "_spaghettiBreakfast", "boolean", "true",
 			},
 			{
-				"Pastamastery", "noodleSummons", "variable", "noodlesummons",
+				"Pastamastery", "noodleSummons", "integer", "1",
 			},
 			{
 				"Canticle of Carboloading", "_carboLoaded", "boolean", "true",
 			},
 			{
-				"Advanced Saucecrafting", "reagentSummons", "variable", "reagentsummons",
+				"Advanced Saucecrafting", "reagentSummons", "integer", "1",
 			},
 			{
 				"That's Not a Knife", "_discoKnife", "boolean", "true",
@@ -313,23 +313,7 @@ public class SkillBuffFrame
 				}
 				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "variable" ) )
 				{
-					if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "noodlesummons" ) )
-					{
-						int maxCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
-						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= maxCast;
-					}
-					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "reagentsummons" ) )
-					{
-						int maxCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
-						if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
-							( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 ) ) ||
-							InventoryManager.getCount( ItemPool.SAUCEBLOB_BELT ) > 0 ) )
-						{
-							maxCast += 3;
-						}
-						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= maxCast;
-					}
-					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "tomesummons" ) )
+					if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "tomesummons" ) )
 					{
 						int maxCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ), 0 ) :
 							Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );

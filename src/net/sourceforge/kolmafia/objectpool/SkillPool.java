@@ -85,6 +85,7 @@ public class SkillPool
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
 	public static final int HIBERNATE = 1027;
+	public static final int FURIOUS_WALLOP = 1032;
 	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
 	public static final int SHELL_UP = 2028;
