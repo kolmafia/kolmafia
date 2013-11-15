@@ -549,12 +549,8 @@ public class UseSkillRequest
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.TWINKLY_WAD ), maximumCast );
 			break;
 
-		// Transcendental Noodlecraft affects # of summons for
-		// Pastamastery
-
-		case SkillPool.TRANSCENDENTAL_NOODLES:
-			maximumCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
-			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
+		case SkillPool.PASTAMASTERY:
+			maximumCast = ( Preferences.getInteger( "noodleSummons" ) == 0 ) ? 1 : 0;
 			break;
 
 		// Canticle of Carboloading can be cast once per day.
@@ -562,18 +558,8 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_carboLoaded" ) ? 0 : 1;
 			break;
 
-		// The Way of Sauce affects # of summons for Advanced
-		// Saucecrafting. So does the Gravyskin Belt of the Sauceblob
-
-		case SkillPool.WAY_OF_SAUCE:
-			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
-			if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
-			     ( KoLCharacter.hasEquipped( UseSkillRequest.SAUCEBLOB_BELT ) ||
-			       UseSkillRequest.SAUCEBLOB_BELT.getCount( KoLConstants.inventory ) > 0 ) )
-			{
-				maximumCast += 3;
-			}
-			maximumCast = Math.max( maximumCast - Preferences.getInteger( "reagentSummons" ), 0 );
+		case SkillPool.ADVANCED_SAUCECRAFTING:
+			maximumCast = ( Preferences.getInteger( "reagentSummons" ) == 0 ) ? 1 : 0;
 			break;
 
 		case SkillPool.ADVANCED_COCKTAIL:
@@ -1680,7 +1666,7 @@ public class UseSkillRequest
 			}
 			break;
 
-		case SkillPool.TRANSCENDENTAL_NOODLES:
+		case SkillPool.PASTAMASTERY:
 			Preferences.increment( "noodleSummons", count );
 			break;
 
@@ -1689,7 +1675,7 @@ public class UseSkillRequest
 			Preferences.increment( "carboLoading", 1 );
 			break;
 
-		case SkillPool.WAY_OF_SAUCE:
+		case SkillPool.ADVANCED_SAUCECRAFTING:
 			Preferences.increment( "reagentSummons", count );
 			break;
 
