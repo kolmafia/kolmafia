@@ -96,7 +96,7 @@ public class SkillPool
 	public static final int SPIRIT_BOON = 2039;
 	public static final int TURTLE_POWER = 2041;
 	public static final int ENTANGLING_NOODLES = 3004;
-	public static final int TRANSCENDENTAL_NOODLES = 3006;
+	public static final int PASTAMASTERY = 3006;
 	public static final int BANDAGES = 3009;
 	public static final int COCOON = 3012;
 	public static final int SPAGHETTI_SPEAR = 3020;
@@ -108,7 +108,7 @@ public class SkillPool
 	public static final int SPIRIT_WORMWOOD = 3104;
 	public static final int SPIRIT_BACON = 3105;
 	public static final int SPIRIT_NOTHING = 3106;
-	public static final int WAY_OF_SAUCE = 4006;
+	public static final int ADVANCED_SAUCECRAFTING = 4006;
 	public static final int JALAPENO_SAUCESPHERE = 4008;
 	public static final int JABANERO_SAUCESPHERE = 4011;
 	public static final int SALSABALL = 4020;
