@@ -13,7 +13,6 @@
 #
 # Questionable data:
 #
-# Count Bakula
 # Crazy Bastard
 # Hypnotist of Hey Deze
 #
@@ -277,7 +276,7 @@ conservationist hippy	conhippy.gif	Atk: 64 Def: 68 HP: 70 Init: 40 P: hippy E: s
 Cookie-baking Thing from Beyond Time			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 corpulent zobmie	fatzombie.gif	Atk: 54 Def: 49 HP: 50 Init: 50 E: spooky Meat: 60-90 P: undead	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 corrosive algae	prim_alga.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: plant	memory of a C (20)	memory of a T (20)
-Count Bakula		HP: 80 Def: 72 Atk: 80 ED: spooky	Talisman of Bakula (100)
+Count Bakula		HP: 80 Def: 72 Atk: 80 P: dude Init: 10000	Talisman of Bakula (100)
 crate	crate.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 P: construct
 craven carven raven	stone_raven.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] Exp: [(min(50,STAT)+ML)/4] Init: -10000 P: construct	shiny stones (100)
 Crazy Bastard		HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
