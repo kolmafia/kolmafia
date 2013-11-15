@@ -376,29 +376,37 @@ public class UseSkillRequest
 
 	public void setBuffCount( int buffCount )
 	{
-		if ( SkillDatabase.isNonMpCostSkill( skillId ) )
-		{
-			this.buffCount = buffCount;
-			return;
-		}
-
-		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
-		if ( mpCost == 0 )
-		{
-			this.buffCount = buffCount;
-			return;
-		}
-
 		int maxPossible = 0;
-		int availableMP = KoLCharacter.getCurrentMP();
-
-		if ( SkillDatabase.isLibramSkill( this.skillId ) )
+		
+		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
-			maxPossible = SkillDatabase.libramSkillCasts( availableMP );
+			maxPossible = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( skillId );
 		}
 		else
 		{
-			maxPossible = Math.min( this.getMaximumCast(), availableMP / mpCost );
+			if ( SkillDatabase.isNonMpCostSkill( skillId ) )
+			{
+				this.buffCount = buffCount;
+				return;
+			}
+
+			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
+			if ( mpCost == 0 )
+			{
+				this.buffCount = buffCount;
+				return;
+			}
+
+			int availableMP = KoLCharacter.getCurrentMP();
+
+			if ( SkillDatabase.isLibramSkill( this.skillId ) )
+			{
+				maxPossible = SkillDatabase.libramSkillCasts( availableMP );
+			}
+			else
+			{
+				maxPossible = Math.min( this.getMaximumCast(), availableMP / mpCost );
+			}
 		}
 
 		if ( buffCount < 1 )
@@ -947,6 +955,13 @@ public class UseSkillRequest
 				return;
 			}
 
+			if ( KoLCharacter.getSoulsauce() < SkillDatabase.getSoulsauceCost( this.skillId ) )
+			{
+				UseSkillRequest.lastUpdate = "Your maximum soulsauce is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}				
+			
 			// Find out how many times we can cast with current MP
 
 			int currentCast = this.availableCasts( castsRemaining, mpPerCast );
@@ -1069,6 +1084,10 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
 			currentCast = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else if ( SkillDatabase.isSoulsauceSkill( this.skillId ) )
+		{
+			currentCast = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( this.skillId );
 		}
 		else
 		{
@@ -1789,6 +1808,11 @@ public class UseSkillRequest
 			KoLConstants.usableSkills.sort();
 		}
 
+		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
+		{
+			KoLCharacter.decrementSoulsauce( SkillDatabase.getSoulsauceCost( skillId ) * count );
+		}
+		
 		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 
 		return false;
@@ -1897,7 +1921,7 @@ public class UseSkillRequest
 
 		return -1;
 	}
-
+	
 	private static final int getCount( final String urlString, int skillId )
 	{
 		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
@@ -1916,6 +1940,10 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( skillId ) )
 		{
 			maxcasts = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else if ( SkillDatabase.isSoulsauceSkill( skillId ) )
+		{
+			maxcasts = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( skillId );
 		}
 		else
 		{

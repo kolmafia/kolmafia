@@ -159,6 +159,12 @@ public class SkillPool
 	public static final int WINK = 7168;
 	public static final int TALK_ABOUT_POLITICS = 7169;
 	public static final int POCKET_CRUMBS = 7170;
+	public static final int SOUL_BUBBLE = 7182;
+	public static final int SOUL_FINGER = 7183;
+	public static final int SOUL_BLAZE = 7184;
+	public static final int SOUL_FOOD = 7185;
+	public static final int SOUL_ROTATION = 7186;
+	public static final int SOUL_FUNK = 7187;
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;

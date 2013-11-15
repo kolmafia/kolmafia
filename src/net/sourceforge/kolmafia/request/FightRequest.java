@@ -215,6 +215,9 @@ public class FightRequest
 	private static final Pattern DISCO_MOMENTUM_PATTERN =
 		Pattern.compile( "discomo(\\d).gif" );
 	
+	private static final Pattern SOULSAUCE_PATTERN =
+		Pattern.compile( "You absorb (\\d+) Soulsauce" );
+	
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
@@ -2692,6 +2695,13 @@ public class FightRequest
 
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
+
+		// Check for Soulsauce gain
+		Matcher SoulsauceMatcher = FightRequest.SOULSAUCE_PATTERN.matcher( FightRequest.lastResponseText );
+		if ( SoulsauceMatcher.find() )
+		{
+			KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( SoulsauceMatcher.group( 1 ) ) );
+		}
 
 		// Lose Disco Momentum
 		KoLCharacter.resetDiscoMomentum();

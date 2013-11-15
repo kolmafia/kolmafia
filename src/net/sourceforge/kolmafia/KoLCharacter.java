@@ -309,6 +309,7 @@ public abstract class KoLCharacter
 	private static int[] triggerItem = new int[ 3 ];
 
 	private static int fury = 0;
+	private static int soulsauce = 0;
 	private static int disco_momentum = 0;
 	
 	public static final int MAX_BASEPOINTS = 65535;
@@ -609,6 +610,7 @@ public abstract class KoLCharacter
 		KoLCharacter.incrementPrime = 25L;
 
 		KoLCharacter.fury = 0;
+		KoLCharacter.soulsauce = 0;
 		KoLCharacter.disco_momentum = 0;
 		
 		KoLCharacter.pvpRank = 0;
@@ -1095,7 +1097,7 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
 			KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
 			KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
-			KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR ) ? "Entangling Noodles" :
+			KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR ) ? "Soul Bubble" :
 			KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF ) ? "Accordion Bash" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_BORIS ) ? "Broadside" :
 			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
@@ -1146,7 +1148,7 @@ public abstract class KoLCharacter
 	public static final int getFuryLimit()
 	{
 		// 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in additon
-		return ( !KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) || !KoLCharacter.hasSkill( "Wrath of the Wolverine" ) ) ? 0 :
+		return ( KoLCharacter.classtype == null || !KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) || !KoLCharacter.hasSkill( "Wrath of the Wolverine" ) ) ? 0 :
 			KoLCharacter.hasSkill( "Ire of the Orca" ) ? 5 : 3;
 	}
 	
@@ -1220,6 +1222,31 @@ public abstract class KoLCharacter
 		}
 		return 0;	
 	}
+	
+	public static final int getSoulsauce()
+	{
+		return KoLCharacter.soulsauce;
+	}
+	
+	public static final void setSoulsauce( final int newSoulsauce )
+	{
+		KoLCharacter.soulsauce = newSoulsauce > 0 ? newSoulsauce : 0;
+	}
+
+	public static final void resetSoulsauce()
+	{
+		KoLCharacter.soulsauce = 0;
+	}
+	
+	public static final void incrementSoulsauce( final int incSoulsauce )
+	{
+		KoLCharacter.setSoulsauce( KoLCharacter.soulsauce + incSoulsauce );
+	}		
+	
+	public static final void decrementSoulsauce( final int decSoulsauce )
+	{
+		KoLCharacter.setSoulsauce( KoLCharacter.soulsauce - decSoulsauce );
+	}		
 	
 	public static final int getDiscoMomentum()
 	{

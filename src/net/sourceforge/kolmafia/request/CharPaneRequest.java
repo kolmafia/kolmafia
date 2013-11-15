@@ -564,6 +564,18 @@ public class CharPaneRequest
 		{
 			KoLCharacter.setFury( 0 );
 		}
+		
+		pattern = Pattern.compile( "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<" );
+		matcher = pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			int soulsauce = StringUtilities.parseInt( matcher.group( 1 ) );
+			KoLCharacter.setSoulsauce( soulsauce );
+		}
+		else
+		{
+			KoLCharacter.setSoulsauce( 0 );
+		}
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )
@@ -1058,6 +1070,12 @@ public class CharPaneRequest
 		String container = lastadv.getString( "container" );
 		CharPaneRequest.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
+		int fury = JSON.getInt( "fury" );
+		KoLCharacter.setFury( fury );
+		
+		int soulsauce = JSON.getInt( "soulsauce" );
+		KoLCharacter.setSoulsauce( soulsauce );
+		
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );

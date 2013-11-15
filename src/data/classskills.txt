@@ -589,6 +589,18 @@
 7173	Rage of the War Snapper	5	0	0
 7174	Voice of She-Who-Was	5	0	0
 7175	Will of the Storm Tortoise	5	0	0
+7176
+7177
+7178
+7179
+7180
+7181
+7182	Soul Bubble	5	0	0
+7183	Soul Finger	5	0	0
+7184	Soul Blaze	5	0	0
+7185	Soul Food	2	0	0
+7186	Soul Rotation	3	0	10
+7187	Soul Funk	3	0	10
 
 # Skills granted by books on your Mystical Bookshelf
 
