@@ -4587,6 +4587,7 @@ Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
 # Audacity of the Otter Critical hits do 3x damage
 Barrel Chested	Muscle Percent: +50
+# Batter Up! Autokills and banishes monster
 Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
