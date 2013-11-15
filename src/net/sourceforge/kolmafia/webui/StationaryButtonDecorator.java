@@ -367,6 +367,8 @@ public class StationaryButtonDecorator
 				KoLConstants.availableCombatSkills.contains( stunRequest );
 			// Only enable Club Foot when character has Fury, as it's only a stun then.
 			enabled &= !( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 );
+			// In Class Act 2, Stuns don't work at +76 and higher monster level
+			enabled &= !( KoLCharacter.inClasscore2() && KoLCharacter.getMonsterLevelAdjustment() > 75 );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
 		}
