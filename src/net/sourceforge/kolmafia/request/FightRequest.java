@@ -2700,7 +2700,11 @@ public class FightRequest
 		Matcher SoulsauceMatcher = FightRequest.SOULSAUCE_PATTERN.matcher( FightRequest.lastResponseText );
 		if ( SoulsauceMatcher.find() )
 		{
-			KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( SoulsauceMatcher.group( 1 ) ) );
+			String gainSoulsauce = SoulsauceMatcher.group( 1 );
+			KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( gainSoulsauce ) );
+			String updateMessage = "You gain " + gainSoulsauce + " Soulsauce";
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
 		}
 
 		// Lose Disco Momentum

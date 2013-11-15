@@ -321,9 +321,6 @@ public class SkillDatabase
 
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
-		// Seal Clubber skills half price as number doubled, guessing this might be true on other classes too
-		Boolean revamped = ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER && KoLCharacter.getClassType() != KoLCharacter.SAUCEROR ); 
-	
 		if ( ( skillId / 1000 == 11 ) || ( skillId / 1000 == 12 ) )
 		{
 			return 0;
@@ -334,35 +331,35 @@ public class SkillDatabase
 		default:
 			return 0;
 		case 1:
-			return revamped ? 125 : 250;
+			return 125;
 		case 2:
-			return revamped ? 250 : 500;
+			return 250;
 		case 3:
-			return revamped ? 500 : 1000;
+			return 500;
 		case 4:
-			return revamped ? 750 : 1500;
+			return 750;
 		case 5:
-			return revamped ? 1250 : 2500;
+			return 1250;
 		case 6:
-			return revamped ? 1750 : 3500;
+			return 1750;
 		case 7:
-			return revamped ? 2500 : 5000;
+			return 2500;
 		case 8:
-			return revamped ? 3250 : 6500;
+			return 3250;
 		case 9:
-			return revamped ? 4000 : 8000;
+			return 4000;
 		case 10:
-			return revamped ? 5000 : 10000;
+			return 5000;
 		case 11:
-			return revamped ? 6250 : 12500;
+			return 6250;
 		case 12:
-			return revamped ? 7500 : 15000;
+			return 7500;
 		case 13:
-			return revamped ? 10000 : 20000;
+			return 10000;
 		case 14:
-			return revamped ? 12500 : 25000;
+			return 12500;
 		case 15:
-			return revamped ? 15000 : 30000;
+			return 15000;
 		}
 	}
 
