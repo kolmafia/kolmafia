@@ -851,6 +851,7 @@ public class SkillDatabase
 		case SkillPool.SUMMON_MINION:
 		case SkillPool.SUMMON_HORDE:
 		case SkillPool.HIBERNATE:
+		case SkillPool.FURIOUS_WALLOP:
 		case SkillPool.SPIRIT_VACATION:
 		case SkillPool.THATS_NOT_A_KNIFE:
 		case SkillPool.TRANSCENDENTAL_DENTE:
