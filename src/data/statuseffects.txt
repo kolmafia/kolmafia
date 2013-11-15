@@ -1450,11 +1450,11 @@
 1449
 1450
 1451
-1452
-1453
-1454
+1452	Icy Glare	icyglare.gif	686ad281d115c58b18820a32c786c950	cast 1 icy glare
+1453	Wry Smile	wrysmile.gif	4923ae22d27d9e69d4700eb3e3d7ca9f	cast 1 wry smile
+1454	Antibiotic Saucesphere	antibiosphere.gif	82aeaeb6a9cdc1c891e17321b88b040c	cast 1 antibiotic saucesphere
 1455
-1456
+1456	Simmering	simmer.gif	dad03f361c134a577b1eb9d818711d8e	cast 1 simmer
 1457
 1458
 1459	Blessing of the Hot Linguine	linguinispoon.gif	868e6edb45c276c30db7fee03713039c	use 1 spoonful of Linguine-Os

@@ -283,27 +283,43 @@
 4000	Sauce Contemplation	3	1	5	0
 4001
 4002
-4003	Stream of Sauce	5	3	0	1
+4003	Stream of Sauce	5	2	0	2
 4004	Expert Panhandling	0	0	0	3
-4005	Saucestorm	5	10	0	6
+4005	Saucestorm	5	6	0	5
 4006	Advanced Saucecrafting	1	10	0	5
 4007	Elemental Saucesphere	4	10	5	4
 4008	Jalape&ntilde;o Saucesphere	4	5	5	7
-4009	Wave of Sauce	5	16	0	8
+4009	Wave of Sauce	5	10	0	7
 4010	Intrinsic Spiciness	0	0	0	9
-4011	Jaba&ntilde;ero Saucesphere	4	10	5	10
-4012	Saucegeyser	5	28	0	11
+4011	Master Saucier	0	0	0	10
+4012	Saucegeyser	5	24	0	11
 4013
 4014	Saucy Salve	5	4	0	2
 4015	Impetuous Sauciness	0	0	0	12
 4016	Diminished Gag Reflex	0	0	0	13
-4017	Immaculate Seasoning	0	0	0	14
+4017	Irrepressible Spunk	0	0	0	14
 4018	The Way of Sauce	0	0	0	15
 4019	Scarysauce	4	10	5
 4020	Salsaball	5	1	0	0
 4021	Deep Saucery	0	0	0
 4022	Surge of Icing	5	10	0
 4023	K&auml;seso&szlig;esturm	5	10	0
+4024	Curse of Vichyssoise	5	2	0	1
+4025	Simmer	3	0	10	1
+4026	Icy Glare	9	10	10	3
+4027	Soul Saucery	0	0	0	6
+4028	Inner Sauce	0	0	0	4
+4029	Curse of Marinara	5	4	0	6
+4030	Itchy Curse Finger	0	0	0	8
+4031	Curse of the Thousand Islands	5	6	0	8
+4032	Saucecicle	5	12	0	9
+4033	Antibiotic Saucesphere	4	15	5	10
+4034	Curse of Weaksauce	5	8	0	12
+4035	Wry Smile	9	10	10	13
+4036
+4037	Sauce Monocle	3	20	10	14
+4038	Blood Sugar Sauce Magic	3	0	999	15
+4039	Saucemaven	0	0	0	11
 
 # Skills available to Bandits
 

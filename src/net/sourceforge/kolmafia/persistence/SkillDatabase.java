@@ -855,6 +855,8 @@ public class SkillDatabase
 		case SkillPool.SPIRIT_VACATION:
 		case SkillPool.THATS_NOT_A_KNIFE:
 		case SkillPool.TRANSCENDENTAL_DENTE:
+		case SkillPool.SIMMER:
+		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
 			return true;
 		default:
 			return false;
