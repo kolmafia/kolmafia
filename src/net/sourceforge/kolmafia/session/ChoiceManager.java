@@ -8885,7 +8885,7 @@ public abstract class ChoiceManager
 		// Action Elevator
 		case 780:
 			// If Boss dead, skip, else if thrice-cursed, fight spirit, if not, get cursed.
-			if ( decision.equals( "1" ) && Preferences.getInteger( "hiddenApartmentProgress" ) >= 7 )
+			if ( decision.equals( "1" ) )
 			{
 				return ( Preferences.getInteger( "hiddenApartmentProgress" ) >= 7 ? "6" :
 							KoLConstants.activeEffects.contains( ChoiceManager.CURSE3_EFFECT ) ? "1" : "2" );
