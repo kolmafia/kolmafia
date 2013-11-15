@@ -4853,6 +4853,17 @@ public class FightRequest
 		if ( inode == null )
 		{
 			// No image. Parse combat damage.
+
+			// Camera flashes
+			// A monster caught on the film
+			// Back to yearbook club.
+
+			if ( FightRequest.haiku && str.contains( "Back to yearbook club" ) )
+			{
+				FightRequest.handleYearbookCamera( str, status );
+				return false;
+			}
+
 			FightRequest.handleRaver( str, status );
 
 			int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
@@ -4891,7 +4902,7 @@ public class FightRequest
 		if ( onclick != null )
 		{
 			if ( onclick.startsWith( "descitem" ) &&
-			     str.indexOf( "An item drops:" ) == -1 )
+			     !str.contains( "An item drops:" ) )
 			{
 				Matcher m = INT_PATTERN.matcher( onclick );
 				if ( !m.find() )
@@ -5079,6 +5090,30 @@ public class FightRequest
 			// another image of the stolen dolphin item.
 
 			status.dolphin = true;
+			return false;
+		}
+
+		if ( image.equals( "camera.gif" ) )
+		{
+			if ( status.lastCombatItem == ItemPool.CAMERA )
+			{
+				// Your camera begins to shake, rattle and roll.
+				// You've already got a camera with a monster in it.
+				// This moment is too horrifying to commit to film.
+
+				if ( !str.contains( "shake, rattle and roll" ) )
+				{
+					return false;
+				}
+				action.append( MonsterStatusTracker.getLastMonsterName() );
+				action.append( " copied" );
+				FightRequest.logText( action, status );
+				status.lastCombatItem = -1;
+			}
+			else
+			{
+				FightRequest.handleYearbookCamera( str, status );
+			}
 			return false;
 		}
 
@@ -5451,7 +5486,7 @@ public class FightRequest
 
 		return true;
 	}
-	
+
 	private static void handleRaver( String text, TagStatus status )
 	{
 		if ( status.ravers && NemesisDecorator.specialRaverMove( text ) )
@@ -5461,6 +5496,16 @@ public class FightRequest
 			buffer.append( " uses a special move!" );
 			FightRequest.logText( buffer, status );
 		}
+	}
+
+	private static void handleYearbookCamera( String text, TagStatus status )
+	{
+		Preferences.setBoolean( "yearbookCameraPending", true );
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( status.monsterName );
+		buffer.append( " photographed for Yearbook Club" );
+		FightRequest.logText( buffer, status );
 	}
 
 	private static final void logText( StringBuilder buffer, final TagStatus status )

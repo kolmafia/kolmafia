@@ -6421,10 +6421,36 @@ public abstract class ChoiceManager
 			}
 			else if ( ChoiceManager.lastDecision == 3 )
 			{
+				// You walk into the Yearbook Club and collar the kid with all
+				// the camera equipment from yesterday. "Let me check your
+				// memory card," he says, plugging the camera into a computer.
+				// "Yup! You got it! Nice work. Here's your reward -- a nice
+				// new accessory for that camera! If you're interested, now we
+				// need a picture of a <b>monster</b>. You up for it?"
+				//
+				// You walk back into the Yearbook Club, a little tentatively.
+				// "All right! Let's see what you've got!" the camera kid
+				// says, and plugs your camera into a computer. "Aw, man, you
+				// didn't get it? Well, I'll give you another chance.  If you
+				// can still get us a picture of a <b>monster</b> and bring it
+				// in tomorrow, you're still in the Club."
+				//
+				// You poke your head into the Yearbook Club room, but the
+				// camera kid's packing up all the equipment and putting it
+				// away. "Sorry, gotta go," he says, "but remember, you've
+				// gotta get a picture of a <b>monster</b> for tomorrow, all
+				// right? We're counting on you."
+
+				if ( text.contains( "You got it!" ) )
+				{
+					Preferences.setString( "yearbookCameraTarget", "" );
+					Preferences.setBoolean( "yearbookCameraPending", false );
+				}
+
 				Matcher matcher = YEARBOOK_TARGET_PATTERN.matcher( text );
 				if ( matcher.find() )
 				{
-					Preferences.setString( "_yearbookCameraTarget", matcher.group( 1 ) );
+					Preferences.setString( "yearbookCameraTarget", matcher.group( 1 ) );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 4 )

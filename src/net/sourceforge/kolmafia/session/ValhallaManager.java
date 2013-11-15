@@ -433,6 +433,8 @@ public class ValhallaManager
 		Preferences.setInteger( "miniAdvClass", 0 );
 		Preferences.setInteger( "turtleBlessingTurns", 0 );
 		Preferences.setString( "testudinalTeachings", "" );
+		Preferences.setString( "yearbookCameraTarget", "" );
+		Preferences.setBoolean( "yearbookCameraPending", false );
 		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
