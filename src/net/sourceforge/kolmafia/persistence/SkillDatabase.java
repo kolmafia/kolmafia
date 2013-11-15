@@ -857,12 +857,55 @@ public class SkillDatabase
 		case SkillPool.TRANSCENDENTAL_DENTE:
 		case SkillPool.SIMMER:
 		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
+		case SkillPool.SOUL_BUBBLE:
+		case SkillPool.SOUL_FINGER:
+		case SkillPool.SOUL_BLAZE:
+		case SkillPool.SOUL_FOOD:
+		case SkillPool.SOUL_ROTATION:
+		case SkillPool.SOUL_FUNK:
 			return true;
 		default:
 			return false;
 		}
 	}
 
+	public static final boolean isSoulsauceSkill( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.SOUL_BUBBLE:
+		case SkillPool.SOUL_FINGER:
+		case SkillPool.SOUL_BLAZE:
+		case SkillPool.SOUL_FOOD:
+		case SkillPool.SOUL_ROTATION:
+		case SkillPool.SOUL_FUNK:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public static final int getSoulsauceCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.SOUL_BUBBLE:
+			return 5;
+		case SkillPool.SOUL_FINGER:
+			return 40;
+		case SkillPool.SOUL_BLAZE:
+			return 100;
+		case SkillPool.SOUL_FOOD:
+			return 5;
+		case SkillPool.SOUL_ROTATION:
+			return 25;
+		case SkillPool.SOUL_FUNK:
+			return 50;
+		default:
+			return 0;
+		}
+	}
+	
 	/**
 	 * Utility method used to determine if the given skill can be made permanent
 	 */
