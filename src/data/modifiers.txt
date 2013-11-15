@@ -4287,7 +4287,9 @@ Song of Starch	Maximum HP Percent: +50
 # Song of the Glorious Lunch: Food Sounds Great!
 Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
 # Soul Freeze: Brrrrrrr...
+# Soul Funk: Deal some <font color=green>Stench Damage</font> every round
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
+Soulerskates	Initiative: +30
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Sour Softshoe	Meat Drop: [2*min(T,50)], Item Drop: [min(T,50)]
 Spangled Star	Monster Level: +10
