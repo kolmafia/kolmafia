@@ -3635,6 +3635,17 @@ public abstract class KoLCharacter
 				KoLCharacter.addAvailableSkill( "Spirit of Nothing" );
 			}
 
+			// Soul Saucery gives you access to six other skills
+			if ( skill.getSkillName().equals( "Soul Saucery" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Soul Bubble" );
+				KoLCharacter.addAvailableSkill( "Soul Finger" );
+				KoLCharacter.addAvailableSkill( "Soul Blaze" );
+				KoLCharacter.addAvailableSkill( "Soul Food" );
+				KoLCharacter.addAvailableSkill( "Soul Rotation" );
+				KoLCharacter.addAvailableSkill( "Soul Funk" );
+			}
+
 			break;
 
 		case SkillDatabase.SUMMON:
