@@ -345,6 +345,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "KOLHS " );
 		}
+		else if ( KoLCharacter.inClasscore2() )
+		{
+			sessionStream.print( "Class Act II: A Class For Pigs " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

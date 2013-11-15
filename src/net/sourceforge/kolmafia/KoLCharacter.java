@@ -2898,8 +2898,10 @@ public abstract class KoLCharacter
 
 			// If we were in Hardcore or a path that limits skills, automatically recall skills
 			// Paths that require you to choose your class at the end will refresh skills later
-			else if ( wasInHardcore || oldPath.equals( "Trendy" ) || oldPath.equals( "Class Act" )
-					  || oldPath.equals( "Way of the Surprising Fist" ) )
+			else if ( wasInHardcore || oldPath.equals( "Trendy" )
+			       || oldPath.equals( "Class Act" )
+			       || oldPath.equals( "Way of the Surprising Fist" )
+			       || oldPath.equals( "Class Act II: A Class For Pigs" ) )
 			{
 				// Normal permed skills
 				RequestThread.postRequest( new CharSheetRequest() );
@@ -3169,6 +3171,11 @@ public abstract class KoLCharacter
 	public static final boolean inHighschool()
 	{
 		return KoLCharacter.ascensionPath.equals( "KOLHS" );
+	}
+
+	public static final boolean inClasscore2()
+	{
+		return KoLCharacter.ascensionPath.equals( "Class Act II: A Class For Pigs" );
 	}
 
 	public static final boolean isUnarmed()

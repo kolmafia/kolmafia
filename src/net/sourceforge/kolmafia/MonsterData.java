@@ -123,6 +123,11 @@ public class MonsterData
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
+	private int class2Factor()
+	{
+		return KoLCharacter.inClasscore2() ? 2 : 1;
+	}
+
 	public int getHP()
 	{
 		if ( this.health == null )
@@ -494,7 +499,7 @@ public class MonsterData
 	{
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / this.getBeeosity() ) / 8.0;
+			return ( this.getAttack() / this.getBeeosity() ) * class2Factor() / 8.0;
 		}
 		if ( this.experience instanceof Integer )
 		{
@@ -504,7 +509,7 @@ public class MonsterData
 		{
 			this.experience = compile( this.experience );
 		}
-		return ((MonsterExpression) this.experience).eval() / 2.0;
+		return ((MonsterExpression) this.experience).eval() * class2Factor() / 2.0;
 	}
 
 	public boolean willUsuallyMiss()

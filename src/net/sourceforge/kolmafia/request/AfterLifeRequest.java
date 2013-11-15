@@ -497,6 +497,12 @@ public class AfterLifeRequest
 			case 14:
 				builder.append( "a BIG!" );
 				break;
+			case 15:
+				builder.append( "a KOLHS" );
+				break;
+			case 16:
+				builder.append( "a Class Act II: A Class For Pigs" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

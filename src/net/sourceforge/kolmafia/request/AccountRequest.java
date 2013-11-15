@@ -665,6 +665,10 @@ public class AccountRequest
 		{
 			path = "KOLHS";
 		}
+		else if ( path.equals( "16" ) )
+		{
+			path = "Class Act II: A Class For Pigs";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
