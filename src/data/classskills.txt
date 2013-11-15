@@ -148,7 +148,7 @@
 1011	Hide of the Walrus	0	0	0	7
 1012	Claws of the Walrus	0	0	0	8
 1013
-1014	Eye of the Stoat	0	0	0	6
+1014	Batter Up!	5	0	0	6
 1015	Rage of the Reindeer	3	10	10	11
 1016	Pulverize	0	0	0	15
 1017	Double-Fisted Skull Smashing	0	0	0	12
@@ -165,7 +165,7 @@
 1028	Cold Shoulder	0	0	0	3
 1029	Wrath of the Wolverine	0	0	0	4
 1030	Buoyancy of the Beluga	0	0	0	5
-1031	Scowl of the Auk	9	8	10	6
+1031	Scowl of the Auk	9	10	10	6
 1032	Furious Wallop	5	5	0	7
 1033	Club Foot	5	8	0	8
 1034	Seething of the Snow Leopard	0	0	0	9
