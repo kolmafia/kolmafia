@@ -6445,6 +6445,12 @@ public abstract class ChoiceManager
 				{
 					Preferences.setString( "yearbookCameraTarget", "" );
 					Preferences.setBoolean( "yearbookCameraPending", false );
+					Preferences.increment( "yearbookCameraUpgrades", 1, 20, false );
+					if ( KoLCharacter.getAscensions() != Preferences.getInteger( "lastYearbookCameraAscension" ) )
+					{
+						Preferences.setInteger( "lastYearbookCameraAscension", KoLCharacter.getAscensions() );
+						Preferences.increment( "yearbookCameraAscensions", 1, 20, false );
+					}
 				}
 
 				Matcher matcher = YEARBOOK_TARGET_PATTERN.matcher( text );
@@ -7197,18 +7203,6 @@ public abstract class ChoiceManager
 		case 704:
 			// Playing the Catalog Card
 			DreadScrollManager.handleLibrary( text );
-			break;
-
-		case 772:
-			if ( ChoiceManager.lastDecision == 3 && text.contains( "Yup! You got it!" ) )
-			{
-				Preferences.increment( "yearbookCameraUpgrades", 1, 20, false );
-				if ( KoLCharacter.getAscensions() != Preferences.getInteger( "lastYearbookCameraAscension" ) )
-				{
-					Preferences.setInteger( "lastYearbookCameraAscension", KoLCharacter.getAscensions() );
-					Preferences.increment( "yearbookbCameraAscensions", 1, 20, false );
-				}
-			}
 			break;
 
 		case 774:
