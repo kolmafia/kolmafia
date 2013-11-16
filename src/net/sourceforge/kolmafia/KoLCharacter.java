@@ -1158,6 +1158,11 @@ public abstract class KoLCharacter
 		KoLCharacter.fury = newFury > furyLimit ? furyLimit : newFury < 0 ? 0 : newFury;
 	}
 
+	public static final void setFuryNoCheck( final int newFury )
+	{
+		KoLCharacter.fury = newFury;
+	}
+
 	public static final void resetFury()
 	{
 		fury = 0;

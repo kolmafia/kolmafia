@@ -558,11 +558,11 @@ public class CharPaneRequest
 		if ( matcher != null && matcher.find() )
 		{
 			int fury = StringUtilities.parseInt( matcher.group( 1 ) );
-			KoLCharacter.setFury( fury );
+			KoLCharacter.setFuryNoCheck( fury );
 		}
 		else
 		{
-			KoLCharacter.setFury( 0 );
+			KoLCharacter.setFuryNoCheck( 0 );
 		}
 		
 		pattern = Pattern.compile( "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<" );
@@ -1071,7 +1071,7 @@ public class CharPaneRequest
 		CharPaneRequest.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
 		int fury = JSON.getInt( "fury" );
-		KoLCharacter.setFury( fury );
+		KoLCharacter.setFuryNoCheck( fury );
 		
 		int soulsauce = JSON.getInt( "soulsauce" );
 		KoLCharacter.setSoulsauce( soulsauce );
