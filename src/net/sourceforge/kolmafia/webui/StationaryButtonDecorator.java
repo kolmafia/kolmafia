@@ -499,6 +499,19 @@ public class StationaryButtonDecorator
 
 		actionBuffer.append( "</td></tr></table>" );
 		actionBuffer.append( "</center></div>" );
+
+		/*
+		int closeDivs = buffer.indexOf( "<a href=\"#end\"", insertionPoint );
+		if ( closeDivs != -1 )
+		{
+			// Emulate CAB
+			actionBuffer.append( "<div class=content id='content_'>" );
+			actionBuffer.append( "<div id='effdiv' style='display: none'></div>" );
+			actionBuffer.append( "<div style='overflow: auto'>" );
+			buffer.insert( closeDivs, "</div></div>" );
+		}
+		*/
+
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );

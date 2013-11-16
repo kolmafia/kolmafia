@@ -285,6 +285,17 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "state" ) )
+		{
+			if ( split.length >= 2 )
+			{
+				int index = parameters.indexOf( " " );
+				String state = parameters.substring( index + 1 ).trim();
+				RequestLogger.printLine( KoLmafia.getSaveState( state ) );
+			}
+			return;
+		}
+
 		if ( TestCommand.contents == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "no HTML loaded." );
