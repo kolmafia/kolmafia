@@ -6637,11 +6637,11 @@ public abstract class ChoiceManager
 		// Things that can or need to be done AFTER processing results.
 
 		String text = request.responseText;
+		ChoiceManager.handlingChoice = text.contains( "choice.php" );
 
 		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
 		{
 			// This was a visit
-			ChoiceManager.handlingChoice = text.contains( "choice.php" );
 			return;
 		}
 
@@ -7245,8 +7245,6 @@ public abstract class ChoiceManager
 			ChoiceManager.visitChoice( request );
 			return;
 		}
-
-		ChoiceManager.handlingChoice = false;
 
 		PostChoiceAction action = ChoiceManager.action;
 		if ( action != PostChoiceAction.NONE )
