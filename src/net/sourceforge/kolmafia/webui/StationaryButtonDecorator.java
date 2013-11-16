@@ -337,16 +337,6 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
 		}
 
-		if ( !inBirdForm && 
-		     KoLCharacter.getClassName().equals( "Pastamancer" ) &&
-		     !Preferences.getString( "pastamancerGhostType" ).equals( "" ))
-		{
-			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				FightRequest.canStillSummon();
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "summon", enabled );
-		}
-
 		if ( EquipmentManager.usingChefstaff() )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0;
@@ -578,11 +568,6 @@ public class StationaryButtonDecorator
 				buffer.append( "action=chefstaff" );
 				isEnabled &= !FightRequest.alreadyJiggled();
 			}
-			else if ( action.equals( "summon" ) )
-			{
-				buffer.append( "action=summon" );
-				isEnabled &= FightRequest.canStillSummon();
-			}
 			else if ( action.equals( "insult" ) )
 			{
 				buffer.append( "action=useitem&whichitem=" );
@@ -707,9 +692,10 @@ public class StationaryButtonDecorator
 			}
 		}
 
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) 
-			|| action.equals( "attack" ) || action.equals( "script" ) || action.equals( "insult" )
-			|| action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) ||
+		     action.equals( "attack" ) || action.equals( "script" ) ||
+		     action.equals( "insult" ) ||
+		     action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
 		{
 			return action;
 		}

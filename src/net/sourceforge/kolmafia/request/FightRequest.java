@@ -124,8 +124,6 @@ public class FightRequest
 	extends GenericRequest
 {
 	// Character-class permissions
-	private static boolean canSummon = false;
-
 	private static final PauseObject PAUSER = new PauseObject();
 	public static final FightRequest INSTANCE = new FightRequest();
 
@@ -255,7 +253,6 @@ public class FightRequest
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
 	private static boolean canStomp = false;
-	private static boolean summonedGhost = false;
 	public static boolean haiku = false;
 	public static boolean anapest = false;
 	public static boolean papier = false;
@@ -434,7 +431,6 @@ public class FightRequest
 
 	public static final void initialize()
 	{
-		FightRequest.canSummon = KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 	}
 
 	public static final void resetKisses()
@@ -558,23 +554,6 @@ public class FightRequest
 	public static boolean initializingAfterFight()
 	{
 		return FightRequest.initializeAfterFight;
-	}
-
-	public static final boolean canStillSummon()
-	{
-		// Return true if you can still summon during this battle.
-
-		// Must be a Pastamancer
-		if ( !FightRequest.canSummon )
-		{
-			return false;
-		}
-
-		// Look for active buttons that allow you to summon
-		// <input type=hidden name=action value="summon">
-
-		String responseText = FightRequest.lastResponseText;
-		return responseText.indexOf( "<input type=hidden name=action value=\"summon\">" ) != -1;
 	}
 
 	public static final boolean wonInitiative()
@@ -961,20 +940,6 @@ public class FightRequest
 			return;
 		}
 
-		// Summon a ghost if requested.
-
-		if ( FightRequest.nextAction.equals( "summon ghost" ) )
-		{
-			if ( FightRequest.canStillSummon() )
-			{
-				this.addFormField( "action", "summon" );
-				return;
-			}
-
-			--FightRequest.preparatoryRounds;
-			this.nextRound( null );
-			return;
-		}
 
 		// Jiggle chefstaff if the action says to jiggle and we're
 		// wielding a chefstaff. Otherwise, skip this action.
@@ -2163,7 +2128,6 @@ public class FightRequest
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parsePirateInsult( responseText );
 		FightRequest.parseGrubUsage( responseText );
-		FightRequest.parseGhostSummoning( responseText );
 		FightRequest.parseFlyerUsage( responseText );
 		FightRequest.parseLassoUsage( responseText );
 
@@ -3132,23 +3096,6 @@ public class FightRequest
 				Preferences.increment( "boneAbacusVictories", 1 );
 			}
 
-			// Give your summoned combat entity some experience
-			if ( FightRequest.summonedGhost )
-			{
-				// The Angel Hair Wisp can leave the battle
-				// before you win. We'll check if the summoned
-				// entity is still present by looking for its
-				// image.
-
-				int guardian = KoLCharacter.findGuardianByImage( responseText );
-				if ( guardian != -1 )
-				{
-					// Legendary Regalia of the Pasta Master
-					int exp = EquipmentManager.isWearingOutfit( OutfitPool.LEGENDARY_PASTA_REGALIA ) ? 2 : 1;
-					Preferences.increment( "pastamancerGhostExperience", exp );
-				}
-			}
-
 			QuestManager.updateQuestData( responseText, monster );
 		}
 
@@ -3427,68 +3374,6 @@ public class FightRequest
 			GoalManager.updateProgress( result );
 			usedFlyer = true;
 		}
-	}
-
-	private static final void parseGhostSummoning( final String responseText )
-	{
-
-		String name = null;
-		String type = null;
-
-		KoLCharacter.ensureUpdatedPastaGuardians();
-		for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
-		{
-			Object [] entity = KoLCharacter.PASTA_GUARDIANS[i];
-			Pattern pattern = (Pattern)entity[3];
-			Matcher matcher = pattern.matcher( responseText );
-			if ( matcher.find() )
-			{
-				name = matcher.group(1);
-				type = (String)entity[0];
-				break;
-			}
-		}
-
-		if ( name == null )
-		{
-			return;
-		}
-
-		FightRequest.summonedGhost = true;
-
-		// If we have a new Pasta Guardian, reset type and experience
-		if ( !type.equals( Preferences.getString( "pastamancerGhostType" ) ) )
-		{
-			Preferences.setString( "pastamancerGhostType", type );
-			Preferences.setInteger( "pastamancerGhostExperience", 0 );
-		}
-
-		// Spaghetti Elementals change their name as they grow
-		if ( !name.equals( Preferences.getString( "pastamancerGhostName" ) ) )
-		{
-			Preferences.setString( "pastamancerGhostName", name );
-		}
-
-		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
-		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 15 : 10;
-
-		// You are mentally exhausted by the effort of summoning <name>.
-		if ( responseText.indexOf( "You are mentally exhausted" ) != -1 )
-		{
-			uses = limit;
-		}
-
-		// Your brain feels tired.
-		else if ( responseText.indexOf( "Your brain feels tired" ) != -1 && uses < limit - 2 )
-		{
-			uses = limit - 2;
-		}
-		else
-		{
-			++uses;
-		}
-
-		Preferences.setInteger( "pastamancerGhostSummons", uses );
 	}
 
 	private static final Pattern LASSO_PATTERN =
@@ -5552,7 +5437,6 @@ public class FightRequest
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.squeezedStressBall = false;
-		FightRequest.summonedGhost = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
 
@@ -6003,7 +5887,6 @@ public class FightRequest
 		     FightRequest.nextAction.equals( "runaway" ) ||
 		     FightRequest.nextAction.equals( "abort" ) ||
 		     FightRequest.nextAction.equals( "steal" ) ||
-		     FightRequest.nextAction.equals( "summon ghost" ) ||
 		     // If we have Cunctatitis and decide to procrastinate,
 		     // we did nothing
 		     ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) &&
@@ -6445,10 +6328,6 @@ public class FightRequest
 		{
 			FightRequest.registerRequest( false, "fight.php?steal" );
 		}
-		else if ( action.startsWith( "summon" ) )
-		{
-			FightRequest.registerRequest( false, "fight.php?summon" );
-		}
 		else if ( action.equals( "chefstaff" ) )
 		{
 			FightRequest.registerRequest( false, "fight.php?chefstaff" );
@@ -6540,18 +6419,6 @@ public class FightRequest
 			if ( shouldLogAction )
 			{
 				action.append( "attacks!" );
-			}
-		}
-		else if ( urlString.indexOf( "summon" ) != -1 )
-		{
-			FightRequest.nextAction = "summon ghost";
-			if ( shouldLogAction )
-			{
-				action.append( "summons " );
-				action.append( Preferences.getString( "pastamancerGhostName" ) );
-				action.append( " the " );
-				action.append( Preferences.getString( "pastamancerGhostType" ) );
-				action.append( "!" );
 			}
 		}
 		else if ( urlString.indexOf( "chefstaff" ) != -1 )
