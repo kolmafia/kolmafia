@@ -1050,10 +1050,14 @@ public class KoLAdventure
 			}
 		}
 
-		if ( this.areaSummary != null && !KoLCharacter.inZombiecore() && this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" )
-				&& !KoLCharacter.hasEquipped( ItemPool.get(	ItemPool.BEZOAR_RING, 1 ) ) )
+		if ( this.areaSummary != null &&
+		     !KoLCharacter.inZombiecore() &&
+		     this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
+		     !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			InventoryManager.retrieveItem( ItemPool.ANTIDOTE );
+			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 
 		if ( !KoLmafia.permitsContinue() )
