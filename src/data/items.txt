@@ -3898,7 +3898,7 @@
 3881	fouet de tortue-dressage	372027690	whip.gif	weapon	q	0
 3882	encoded cult documents	803938411	documents.gif	none	q	0
 3883	cult memo	706925963	document.gif	reusable	q	0
-3884	decoded cult documents	361604348	documents.gif	guardian, reusable	q	0
+3884	decoded cult documents	361604348	documents.gif	reusable	q	0
 3885	vial of red slime	404702785	vial.gif	multiple	q,d	33	vials of red slime
 3886	vial of yellow slime	343218750	vial.gif	multiple	q,d	33	vials of yellow slime
 3887	vial of blue slime	667810358	vial.gif	multiple	q,d	33	vials of blue slime
