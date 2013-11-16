@@ -614,14 +614,6 @@ public class RequestLogger
 			return;
 		}
 
-		// Anything else that doesn't submit an actual form
-		// should not be registered.
-
-		if ( urlString.indexOf( "?" ) == -1 )
-		{
-			return;
-		}
-
 		// Call ClanLoungeSwimmingPool first because it's an instance of ChoiceManager.
 		if ( ( request instanceof ClanLoungeSwimmingPoolRequest || isExternal ) && ClanLoungeSwimmingPoolRequest.registerRequest( urlString ) )
 		{
@@ -635,6 +627,14 @@ public class RequestLogger
 		if ( urlString.startsWith( "choice" ) )
 		{
 			ChoiceManager.registerRequest( urlString );
+			return;
+		}
+
+		// Anything else that doesn't submit an actual form
+		// should not be registered.
+
+		if ( urlString.indexOf( "?" ) == -1 )
+		{
 			return;
 		}
 
@@ -1274,5 +1274,16 @@ public class RequestLogger
 
 		RequestLogger.wasLastRequestSimple = true;
 		RequestLogger.updateSessionLog( urlString );
+	}
+
+	public static final void registerLastLocation()
+	{
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + KoLAdventure.lastLocationName;
+
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
 	}
 }

@@ -3100,8 +3100,7 @@ public class FightRequest
 		}
 
 		FightRequest.clearInstanceData();
-		FightRequest.inMultiFight = won &&
-			FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
+		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 	}
 
 	public static final String getSpecialAction()
@@ -6366,6 +6365,10 @@ public class FightRequest
 
 		if ( urlString.equals( "fight.php" ) || urlString.indexOf( "ireallymeanit=" ) != -1 )
 		{
+			if ( FightRequest.inMultiFight )
+			{
+				RequestLogger.registerLastLocation();
+			}
 			return true;
 		}
 
