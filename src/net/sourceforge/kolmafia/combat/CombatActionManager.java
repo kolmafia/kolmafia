@@ -412,11 +412,6 @@ public abstract class CombatActionManager
 			return action;
 		}
 
-		if ( action.startsWith( "summon" ) && action.endsWith( "ghost" ) )
-		{
-			return "summon pastamancer ghost";
-		}
-
 		if ( action.startsWith( "abort" ) )
 		{
 			if ( action.indexOf( "after" ) != -1 )
@@ -611,11 +606,6 @@ public abstract class CombatActionManager
 		if ( action.equals( "skip" ) || action.startsWith( "note" ) )
 		{
 			return "skip";
-		}
-
-		if ( action.startsWith( "summon" ) && action.endsWith( "ghost" ) )
-		{
-			return "summon ghost";
 		}
 
 		if ( action.startsWith( "consult" ) )

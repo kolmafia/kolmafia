@@ -399,10 +399,6 @@ public class Macrofier
 				macro.append( "pickpocket\n" );
 			}
 		}
-		else if ( action.equals( "summon ghost" ) )
-		{
-			macro.append( "summonspirit\n" );
-		}
 		else if ( action.equals( "jiggle" ) )
 		{
 			if ( EquipmentManager.usingChefstaff() )
