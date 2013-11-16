@@ -9202,6 +9202,13 @@ public abstract class ChoiceManager
 			return false;
 		}
 
+		if ( urlString.equals( "choice.php" ) )
+		{
+			// Continuing after a multi-fight
+			RequestLogger.registerLastLocation();
+			return true;
+		}
+
 		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
 		if ( matcher.find() )
 		{
@@ -9244,7 +9251,7 @@ public abstract class ChoiceManager
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				// For now, leave the raw URL in the log in case some analysis
 				// tool is relying on it.
-				//return true;xxx
+				//return true;
 			}
 		}
 
