@@ -154,7 +154,6 @@ public class UseItemRequest
 	public static String limiter = "";
 	private static AdventureResult lastFruit = null;
 	private static AdventureResult lastUntinker = null;
-	private static boolean lastLook = false;
 	private static boolean retrying = false;
 
 	protected final int consumptionType;
@@ -330,19 +329,6 @@ public class UseItemRequest
 		case ItemPool.SALTWATERBED:
 		case ItemPool.SPIRIT_BED:
 			return CampgroundRequest.getCurrentBed() != null;
-
-		case ItemPool.MACARONI_FRAGMENTS:
-		case ItemPool.SHIMMERING_TENDRILS:
-		case ItemPool.SCINTILLATING_POWDER:
-		case ItemPool.PARANORMAL_RICOTTA:
-		case ItemPool.SMOKING_TALON:
-		case ItemPool.VAMPIRE_GLITTER:
-		case ItemPool.WINE_SOAKED_BONE_CHIPS:
-		case ItemPool.CRUMBLING_RAT_SKULL:
-		case ItemPool.TWITCHING_TRIGGER_FINGER:
-		case ItemPool.DECODED_CULT_DOCUMENTS:
-			String ghost = Preferences.getString( "pastamancerGhostType" );
-			return !ghost.equals( "" );
 		}
 
 		return false;
@@ -1139,24 +1125,6 @@ public class UseItemRequest
 		case ItemPool.GAUZE_HAMMOCK:
 			AdventureResult bed = CampgroundRequest.getCurrentBed();
 			if ( bed != null && !UseItemRequest.confirmReplacement( bed.getName() ) )
-			{
-				return;
-			}
-			break;
-
-		case ItemPool.MACARONI_FRAGMENTS:
-		case ItemPool.SHIMMERING_TENDRILS:
-		case ItemPool.SCINTILLATING_POWDER:
-		case ItemPool.PARANORMAL_RICOTTA:
-		case ItemPool.SMOKING_TALON:
-		case ItemPool.VAMPIRE_GLITTER:
-		case ItemPool.WINE_SOAKED_BONE_CHIPS:
-		case ItemPool.CRUMBLING_RAT_SKULL:
-		case ItemPool.TWITCHING_TRIGGER_FINGER:
-		case ItemPool.DECODED_CULT_DOCUMENTS:
-
-			String ghost = Preferences.getString( "pastamancerGhostType" );
-			if ( !ghost.equals( "" ) && !UseItemRequest.confirmReplacement( ghost ) )
 			{
 				return;
 			}
@@ -2007,30 +1975,6 @@ public class UseItemRequest
 					UseItemRequest.lastFruit.getNegation() );
 				UseItemRequest.lastFruit = null;
 			}
-			return;
-
-		case ItemPool.CRYSTAL_ORB:
-			if ( UseItemRequest.lastLook )
-			{	// [look] rather than [use]
-				return;
-			}
-			String oldType = Preferences.getString( "pastamancerGhostType" );
-			String oldName = Preferences.getString( "pastamancerGhostName" );
-			int oldExp = Preferences.getInteger( "pastamancerGhostExperience" );
-			String newType = Preferences.getString( "pastamancerOrbedType" );
-			String newName = Preferences.getString( "pastamancerOrbedName" );
-			int newExp = Preferences.getInteger( "pastamancerOrbedExperience" );
-
-			Preferences.setString( "pastamancerGhostType", newType );
-			Preferences.setString( "pastamancerGhostName", newName );
-			Preferences.setInteger( "pastamancerGhostExperience", newExp );
-			Preferences.setString( "pastamancerOrbedType", oldType );
-			Preferences.setString( "pastamancerOrbedName", oldName );
-			Preferences.setInteger( "pastamancerOrbedExperience", oldExp );
-
-			if ( oldType.equals( "" ) ) oldType = "nothing";
-			if ( newType.equals( "" ) ) newType = "nothing";
-			KoLmafia.updateDisplay( "Exchanged " + newType + " (now in use) with " + oldType + " (now in orb)." );
 			return;
 
 		// If it's a gift package, get the inner message
@@ -3800,48 +3744,6 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.MACARONI_FRAGMENTS:
-		case ItemPool.SHIMMERING_TENDRILS:
-		case ItemPool.SCINTILLATING_POWDER:
-		case ItemPool.PARANORMAL_RICOTTA:
-		case ItemPool.SMOKING_TALON:
-		case ItemPool.VAMPIRE_GLITTER:
-		case ItemPool.WINE_SOAKED_BONE_CHIPS:
-		case ItemPool.CRUMBLING_RAT_SKULL:
-		case ItemPool.TWITCHING_TRIGGER_FINGER:
-		case ItemPool.DECODED_CULT_DOCUMENTS:
-
-			KoLCharacter.ensureUpdatedPastaGuardians();
-			for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
-			{
-				Object [] entity = KoLCharacter.PASTA_GUARDIANS[i];
-				int summonItem = ((Integer)entity[1]).intValue();
-				if ( itemId != summonItem )
-				{
-					continue;
-				}
-
-				Pattern pattern = (Pattern)entity[2];
-				matcher = pattern.matcher( responseText );
-				if ( !matcher.find() )
-				{
-					break;
-				}
-
-				Preferences.setString( "pastamancerGhostType", (String)entity[0] );
-				Preferences.setString( "pastamancerGhostName", matcher.group(1) );
-				Preferences.setInteger( "pastamancerGhostExperience", 0 );
-				return;
-			}
-
-			// The decoded cult documents are reusable, whether or
-			// not the summon succeeded.
-			if ( item.getItemId() != ItemPool.DECODED_CULT_DOCUMENTS )
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
-
 		case ItemPool.BOOZEHOUND_TOKEN:
 
 			// You'd take this thing to a bar and see what you can
@@ -4757,6 +4659,8 @@ public class UseItemRequest
 			return "Singer's Faithful Ocelot";
 		case ItemPool.DRESCHER_BOOK:
 			return "Drescher's Annoying Noise";
+		case ItemPool.DECODED_CULT_DOCUMENTS:
+			return "Bind Spaghetti Elemental";
 		}
 
 		return null;
@@ -5134,7 +5038,6 @@ public class UseItemRequest
 		UseItemRequest.lastItemUsed = item;
 		UseItemRequest.currentItemId = itemId;
 		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
-		UseItemRequest.lastLook = urlString.indexOf( "action=look" ) != -1;
 
 		if ( urlString.startsWith( "inv_booze.php" ) )
 		{

@@ -547,7 +547,6 @@ user	lastPaperStrip4141
 user	lastPaperStrip4142
 user	lastPaperStrip4143
 user	lastPaperStrip4144
-user	lastPastamancerGhostReset	-1
 user	lastPirateEphemera
 user	lastPirateEphemeraReset	-1
 user	lastPirateInsult1	false
@@ -635,13 +634,6 @@ user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	parasolUsed	0
-user	pastamancerGhostExperience	0
-user	pastamancerGhostName
-user	pastamancerGhostSummons	0
-user	pastamancerGhostType
-user	pastamancerOrbedExperience	0
-user	pastamancerOrbedName
-user	pastamancerOrbedType
 user	pendingMapReflections	0
 user	photocopyMonster
 user	pieStuffing

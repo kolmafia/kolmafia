@@ -154,10 +154,10 @@ public class PastaThrallData
 			"spiceghost.gif",
 			"t_spiceghost.gif",
 		},
-
-		/*
 		{
 			"Spaghetti Elemental",
+			IntegerPool.get( 8 ),
+			"Bind Spaghetti Elemental",
 			// "I guess you need a name, huh?" you reply. "I'll
 			// call you... um... SshoKodo. That'll do."
 			Pattern.compile( "I'll call you... *um... *([^.]*). * That'll do." ),
@@ -170,7 +170,10 @@ public class PastaThrallData
 				"spagelem1.gif",
 				"spagelem2.gif",
 			},
+			"t_spagdemon.gif"
 		},
+
+		/*
 		{
 			"Boba Fettucini",
 			IntegerPool.get( ItemPool.TWITCHING_TRIGGER_FINGER ),

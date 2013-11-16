@@ -4196,15 +4196,7 @@ public class FightRequest
 			// Note if we are fighting Outside the Club
 			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
 
-			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
-			{
-				String name = Preferences.getString( "pastamancerGhostName" );
-				this.ghost = name.equals( "" ) ? null : name;
-			}
-			else
-			{
-				this.ghost = null;
-			}
+			this.ghost = null;
 		}
 
 		public void setFamiliar( final String image )

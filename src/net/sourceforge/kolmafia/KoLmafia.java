@@ -655,7 +655,6 @@ public abstract class KoLmafia
 		Preferences.setInteger( "nunsVisits", 0 );
 		Preferences.setBoolean( "oscusSodaUsed", false );
 		Preferences.setBoolean( "outrageousSombreroUsed", false );
-		Preferences.setInteger( "pastamancerGhostSummons", 0 );
 		Preferences.setInteger( "prismaticSummons", 0 );
 		Preferences.setBoolean( "rageGlandVented", false );
 		Preferences.setInteger( "reagentSummons", 0 );
