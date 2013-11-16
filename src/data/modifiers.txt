@@ -3204,6 +3204,7 @@ Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +20
 Aided and Abetted	Damage Reduction: [L]
+Al Dente Inferno	Maximum MP: +20, MP Regen Min: 18, MP Regen Max: 20
 Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
@@ -3231,6 +3232,7 @@ Apoplectic with Rage	Mysticality Percent: -10
 Aquarius Rising	Spell Damage: +30
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
+Arched Eyebrow of the Archmage	Spell Damage: +10
 Aries Rising	Weapon Damage: +30
 Armor-Plated	Damage Reduction: 10
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -4211,6 +4213,7 @@ Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Sharp Weapon: +3-5 Weapon Damage
 # Sheepskinned: Your regular attacks deal Sleaze damage
 Shepherd's Breath	Stench Damage: +30
+# Shield of the Pastalord: Reduces physical damage taken by 30%
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
@@ -4560,6 +4563,7 @@ Wintry Breath	Cold Damage: +20
 Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
+Wizard Squint	Spell Critical Percent: +10
 Woad Warrior	Muscle: +25
 # Wolf's Bane: +50 Damage vs. Werewolves
 World's Shortest Giant	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
@@ -4688,6 +4692,7 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Spleen of Steel
 # Sticky Fingers Pickpocketing also gives Meat
 # Stomach of Steel
+Subtle and Quick to Anger	Spell Damage Percent: +10
 # Super-Advanced Meatsmithing
 # Superhuman Cocktailcrafting
 # Tao of the Terrapin

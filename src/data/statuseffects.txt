@@ -1438,11 +1438,11 @@
 1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e	cast 1 spirit boon
 1438	Spirit Bubble	sphere.gif	e0175cc5f83e7d239a7535bde4154ef3	use 1 spirit gum
 1439	Spirit Schooled	spiritbed.gif	72f14039f806484867a6db8ee483dfab
-1440
-1441
-1442
+1440	Al Dente Inferno	aldente.gif	82312722d436aa645de6fae8bb46248d	cast 1 Transcendent Al Dente
+1441	Arched Eyebrow of the Archmage	archedeyebrow.gif	5f23a4cf752852e76b41382ea55b0fe5	cast 1 Arched Eyebrow of the Archmage
+1442	Wizard Squint	wizardsquint.gif	c45dd6c1c32e93a32ce0fdab13181289	cast 1 Wizard Squint
 1443
-1444
+1444	Shield of the Pastalord	pastashield.gif	eb116f9a2d9c1259e404a22447eb2b85	cast 1 Shield of the Pastalord
 1445
 1446
 1447
@@ -1453,7 +1453,7 @@
 1452	Icy Glare	icyglare.gif	686ad281d115c58b18820a32c786c950	cast 1 icy glare
 1453	Wry Smile	wrysmile.gif	4923ae22d27d9e69d4700eb3e3d7ca9f	cast 1 wry smile
 1454	Antibiotic Saucesphere	antibiosphere.gif	82aeaeb6a9cdc1c891e17321b88b040c	cast 1 antibiotic saucesphere
-1455
+1455	Sauce Monocle	saucemonocle.gif	23241f2b2e7a5948bc38ee5b501f0fb1	cast 1 sauce monocle
 1456	Simmering	simmer.gif	dad03f361c134a577b1eb9d818711d8e	cast 1 simmer
 1457
 1458	Blood Sugar Sauce Magic	saucedrops.gif	482968ee1b70ea9ddaf3579d0ff3101c	cast 1 Blood Sugar Sauce Magic
