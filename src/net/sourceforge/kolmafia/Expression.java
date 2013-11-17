@@ -372,6 +372,9 @@ public class Expression
 			case 'N':
 				v = KoLCharacter.hasSkill( "Accordion Appreciation" ) ? 2.0 : 1.0;
 				break;
+			case 'P':
+				v = KoLCharacter.currentPastaThrall.getLevel();
+				break;
 			case 'R':
 				v = KoLCharacter.getReagentPotionDuration();
 				break;

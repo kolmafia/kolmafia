@@ -754,6 +754,9 @@ public abstract class KoLmafia
 		// Forget what is trendy
 		TrendyRequest.reset();
 
+		// Initialize pasta thralls, regardless of character class
+		PastaThrallData.initialize();
+
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 

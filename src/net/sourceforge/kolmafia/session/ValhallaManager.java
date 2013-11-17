@@ -436,6 +436,14 @@ public class ValhallaManager
 		Preferences.setString( "yearbookCameraTarget", "" );
 		Preferences.setBoolean( "yearbookCameraPending", false );
 		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
+		Preferences.setString( "pastaThrall1", "" );
+		Preferences.setString( "pastaThrall2", "" );
+		Preferences.setString( "pastaThrall3", "" );
+		Preferences.setString( "pastaThrall4", "" );
+		Preferences.setString( "pastaThrall5", "" );
+		Preferences.setString( "pastaThrall6", "" );
+		Preferences.setString( "pastaThrall7", "" );
+		Preferences.setString( "pastaThrall8", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "envyfishMonster", "" );

@@ -33,6 +33,7 @@
 #	L - player Level
 #	M - total Moonlight (0..9)
 #	N - AccordioN Appreciation ( 1 without skill, 2 with skill )
+#	P - Pasta Thrall level
 #	R - Reagent potion duration
 #	S - Spleenness
 #	T - Turns remaining of this effect
@@ -2839,6 +2840,19 @@ woolen cravat	Familiar Weight: +5
 Clancy's sackbut	HP Regen Min: [C], HP Regen Max: [C*2], MP Regen Min: [C], MP Regen Max: [C*2]
 Clancy's crumhorn	Volleyball: [5*C]
 Clancy's lute	Fairy: [5*C]
+
+# Pasta Thrall section of modifiers.txt
+# level 5 ability: min(floor(P/5),1)*X
+# level 10 ability: floor(P/10)*X
+
+Angel Hair Wisp		Initiative: [5*P]
+Lasagmbie	Meat Drop: [20+(2*P)], Spooky Spell Damage: [floor(P/10)*10]
+Penne Dreadful	Damage Reduction: [floor(P/10)*10]
+Spaghetti Elemental	Spell Damage: [floor(P/10)*5]
+Spice Ghost	Item Drop: [10+P]
+Undead Elbow Macaroni	Weapon Damage: [min(floor(P/5),1)*2*P], Critical Hit Percent: [floor(P/10)*10]
+Vampieroghi	Maximum HP: [floor(P/10)*50]
+Vermincelli	Maximum MP: [floor(P/10)*30]
 
 # Familiars section of modifiers.txt
 

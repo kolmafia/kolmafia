@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.Speculation;
@@ -1796,6 +1797,17 @@ public class UseSkillRequest
 
 		case SkillPool.DEEP_VISIONS:
 			DreadScrollManager.handleDeepDarkVisions( responseText );
+			break;
+
+		case SkillPool.BIND_VAMPIEROGHI:
+		case SkillPool.BIND_VERMINCELLI:
+		case SkillPool.BIND_ANGEL_HAIR_WISP:
+		case SkillPool.BIND_UNDEAD_ELBOW_MACARONI:
+		case SkillPool.BIND_PENNE_DREADFUL:
+		case SkillPool.BIND_LASAGMBIE:
+		case SkillPool.BIND_SPICE_GHOST:
+		case SkillPool.BIND_SPAGHETTI_ELEMENTAL:
+			PastaThrallData.handleBinding( skillId, responseText );
 			break;
 		}
 
