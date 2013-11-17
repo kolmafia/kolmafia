@@ -302,8 +302,11 @@ public class StationaryButtonDecorator
 		}
 
 		StationaryButtonDecorator.removeUnsafeButtons();
-		
-		int insertionPoint = buffer.indexOf( "<body" );
+
+		int insertionPoint = buffer.indexOf( "</head>" );
+		buffer.insert( insertionPoint, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
+
+		insertionPoint = buffer.indexOf( "<body" );
 		if ( insertionPoint == -1 )
 		{
 			return;
@@ -312,7 +315,7 @@ public class StationaryButtonDecorator
 
 		StringBuffer actionBuffer = new StringBuffer();
 
-		actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
+		actionBuffer.append( "<div id=\"topbar\"><div id=\"mafiabuttons\"><center>" );
 		actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
 
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
@@ -498,28 +501,18 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "</select>" );
 
 		actionBuffer.append( "</td></tr></table>" );
-		actionBuffer.append( "</center></div>" );
-
-		/*
-		int closeDivs = buffer.indexOf( "<a href=\"#end\"", insertionPoint );
-		if ( closeDivs != -1 )
-		{
-			// Emulate CAB
-			actionBuffer.append( "<div class=content id='content_'>" );
-			actionBuffer.append( "<div id='effdiv' style='display: none'></div>" );
-			actionBuffer.append( "<div style='overflow: auto'>" );
-			buffer.insert( closeDivs, "</div></div>" );
-		}
-		*/
+		actionBuffer.append( "</center></div></div><div class=content id='content_'>" );
 
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		if ( !Preferences.getBoolean( "macroLens" ) )
 		{	// this would make it impossible to type numbers in the macro field!
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 		}
-	}
+
+		}
 
 	private static final void addFightButton( final String urlString, final StringBuffer response,
 		final StringBuffer buffer, final String action, boolean isEnabled )
