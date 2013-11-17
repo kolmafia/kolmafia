@@ -376,6 +376,11 @@ public abstract class KoLCharacter
 	// Companion data (Avatar of Jarlsberg)
 	private static Companion companion = null;
 
+	// Pastamancer Pasta Thralls
+
+	public static final LockableListModel pastaThralls = new LockableListModel();
+	public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
+
 	// Snow Suit decoration
 	private static Snowsuit snowsuit = null;
 
@@ -494,6 +499,9 @@ public abstract class KoLCharacter
 		KoLCharacter.arenaWins = 0;
 		KoLCharacter.isUsingStabBat = false;
 		KoLCharacter.companion = null;
+
+		KoLCharacter.pastaThralls.clear();
+		KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
 
 		KoLCharacter.stillsAvailable = -1;
 		KoLCharacter.tripleReagent = false;
@@ -903,16 +911,16 @@ public abstract class KoLCharacter
 		}
 
 		if ( classType.equals( KoLCharacter.SEAL_CLUBBER ) ||
-			classType.equals( KoLCharacter.TURTLE_TAMER ) ||
-			classType.equals( KoLCharacter.AVATAR_OF_BORIS ) ||
-			classType.equals( KoLCharacter.ZOMBIE_MASTER ) )
+		     classType.equals( KoLCharacter.TURTLE_TAMER ) ||
+		     classType.equals( KoLCharacter.AVATAR_OF_BORIS ) ||
+		     classType.equals( KoLCharacter.ZOMBIE_MASTER ) )
 		{
 			return 0;
 		}
 
 		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
-			classType.equals( KoLCharacter.PASTAMANCER ) ||
-			classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) )
+		     classType.equals( KoLCharacter.PASTAMANCER ) ||
+		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) )
 		{
 			return 1;
 		}
@@ -4192,6 +4200,91 @@ public abstract class KoLCharacter
 		return KoLCharacter.familiars;
 	}
 
+	/*
+	 * Pasta Thralls
+	 */
+
+	public static final LockableListModel getPastaThrallList()
+	{
+		return KoLCharacter.pastaThralls;
+	}
+
+	public static final PastaThrallData currentPastaThrall()
+	{
+		return KoLCharacter.currentPastaThrall;
+	}
+
+	public static final PastaThrallData findPastaThrall( final String type )
+	{
+		if ( KoLCharacter.classtype != KoLCharacter.PASTAMANCER )
+		{
+			return null;
+		}
+
+		if ( PastaThrallData.NO_THRALL.getType().equals( type ) )
+		{
+			return PastaThrallData.NO_THRALL;
+		}
+
+		// Don't even look if you are an Avatar
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() )
+		{
+			return null;
+		}
+
+		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
+		KoLCharacter.pastaThralls.toArray( thrallArray );
+
+		for ( int i = 0; i < thrallArray.length; ++i )
+		{
+			PastaThrallData thrall = thrallArray[ i ];
+			if ( thrall.getType().equals( type ) )
+			{
+				return thrall;
+			}
+		}
+
+		return null;
+	}
+
+	public static final PastaThrallData findPastaThrall( final int thrallId )
+	{
+		if ( KoLCharacter.classtype != KoLCharacter.PASTAMANCER )
+		{
+			return null;
+		}
+
+		if ( thrallId == 0 )
+		{
+			return PastaThrallData.NO_THRALL;
+		}
+
+		// Don't even look if you are an Avatar
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() )
+		{
+			return null;
+		}
+
+		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
+		KoLCharacter.pastaThralls.toArray( thrallArray );
+
+		for ( int i = 0; i < thrallArray.length; ++i )
+		{
+			PastaThrallData thrall = thrallArray[ i ];
+			if ( thrall.getId() == thrallId )
+			{
+				return thrall;
+			}
+		}
+
+		return null;
+	}
+
+	public static final void setPastaThrall( final PastaThrallData thrall )
+	{
+		KoLCharacter.currentPastaThrall = thrall;
+	}
+
 	/**
 	 * Returns the string used on the character pane to detrmine how many points remain until the character's next
 	 * level.
@@ -4659,6 +4752,17 @@ public abstract class KoLCharacter
 		// Add familiar effects based on calculated weight adjustment.
 
 		newModifiers.applyFamiliarModifiers( familiar, equipment[ EquipmentManager.FAMILIAR ] );
+
+		// Add Pasta Thrall effects
+
+		if ( KoLCharacter.classtype == KoLCharacter.PASTAMANCER )
+		{
+			PastaThrallData thrall = KoLCharacter.currentPastaThrall;
+			if ( thrall != PastaThrallData.NO_THRALL )
+			{
+				newModifiers.add( Modifiers.getModifiers( thrall.getType() ) );
+			}
+		}
 
 		// Add in strung-up quartet.
 

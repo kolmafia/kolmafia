@@ -35,13 +35,17 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -54,6 +58,7 @@ public class PastaThrallData
 	{
 		// Thrall type
 		// Thrall ID
+		// Setting name
 		// Skill to bind
 		// Pattern to find name when first summoned
 		// Pattern to find name when subsequently summoned
@@ -63,7 +68,8 @@ public class PastaThrallData
 		{
 			"Vampieroghi",
 			IntegerPool.get( 1 ),
-			"Bind Vampieroghi",
+			"pastaThrall1",
+			IntegerPool.get( SkillPool.BIND_VAMPIEROGHI ),
 			// My name is written in blood across the history of
 			// time . . . but you can call me <name>.
 			Pattern.compile( "but you can call me ([^.]*)\\." ),
@@ -76,7 +82,8 @@ public class PastaThrallData
 		{
 			"Vermincelli",
 			IntegerPool.get( 2 ),
-			"Bind Vermincelli",
+			"pastaThrall2",
+			IntegerPool.get( SkillPool.BIND_VERMINCELLI ),
 			// I think little <name> will be the best helper.
 			Pattern.compile( "I think little (.*?) will be the best helper\\." ),
 			// You summon a tangled mass of noodles. There is a
@@ -89,7 +96,8 @@ public class PastaThrallData
 		{
 			"Angel Hair Wisp",
 			IntegerPool.get( 3 ),
-			"Bind Angel Hair Wisp",
+			"pastaThrall3",
+			IntegerPool.get( SkillPool.BIND_ANGEL_HAIR_WISP ),
 			// "You must call me <name>. You must give me form. I
 			// must live."
 			Pattern.compile( "You must call me ([^.]*])\\." ),
@@ -103,7 +111,8 @@ public class PastaThrallData
 		{
 			"Undead Elbow Macaroni",
 			IntegerPool.get( 4 ),
-			"Bind Undead Elbow Macaroni",
+			"pastaThrall4",
+			IntegerPool.get( SkillPool.BIND_UNDEAD_ELBOW_MACARONI ),
 			// "<name>. My name is <name>."
 			Pattern.compile( "My name is ([^.]*)\\." ),
 			// You focus your thoughts and call out to <name>. He
@@ -116,7 +125,8 @@ public class PastaThrallData
 		{
 			"Penne Dreadful",
 			IntegerPool.get( 5 ),
-			"Bind Penne Dreadful",
+			"pastaThrall5",
+			IntegerPool.get( SkillPool.BIND_PENNE_DREADFUL ),
 			// "All right, palookah," the private eye says, opening
 			// his mouth for the first time, "the name's
 			// <name>. I'm a gumshoe. You know, a shamus, a
@@ -132,7 +142,8 @@ public class PastaThrallData
 		{
 			"Lasagmbie",
 			IntegerPool.get( 6 ),
-			"Bind Lasagmbie",
+			"pastaThrall6",
+			IntegerPool.get( SkillPool.BIND_LASAGMBIE ),
 			// Okay. See you on the other side, <name>.
 			Pattern.compile( "See you on the other side, (.*?)\\." ),
 			// You conjure up a good-sized sheet of lasagna, and
@@ -144,7 +155,8 @@ public class PastaThrallData
 		{
 			"Spice Ghost",
 			IntegerPool.get( 7 ),
-			"Bind Spice Ghost",
+			"pastaThrall7",
+			IntegerPool.get( SkillPool.BIND_SPICE_GHOST ),
 			// My name is <name>, and I am in your debt.
 			Pattern.compile( "My name is ([^,]*), and I am in your debt\\." ),
 			// You conjure up a swirling cloud of spicy dried
@@ -157,7 +169,8 @@ public class PastaThrallData
 		{
 			"Spaghetti Elemental",
 			IntegerPool.get( 8 ),
-			"Bind Spaghetti Elemental",
+			"pastaThrall8",
+			IntegerPool.get( SkillPool.BIND_SPAGHETTI_ELEMENTAL ),
 			// "I guess you need a name, huh?" you reply. "I'll
 			// call you... um... SshoKodo. That'll do."
 			Pattern.compile( "I'll call you... *um... *([^.]*). * That'll do." ),
@@ -211,6 +224,26 @@ public class PastaThrallData
 		return data == null ? 0 : ((Integer)data[ 1 ]).intValue();
 	}
 
+	public static String dataToSetting( Object[] data )
+	{
+		return data == null ? "" : (String)data[ 2 ];
+	}
+
+	public static int dataToSkillId( Object[] data )
+	{
+		return data == null ? 0 : ((Integer)data[ 3 ]).intValue();
+	}
+
+	public static Pattern dataToPattern1( Object[] data )
+	{
+		return data == null ? null : (Pattern)data[ 4 ];
+	}
+
+	public static Pattern dataToPattern2( Object[] data )
+	{
+		return data == null ? null : (Pattern)data[ 5 ];
+	}
+
 	public static Object[] idToData( final int id )
 	{
 		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
@@ -224,30 +257,101 @@ public class PastaThrallData
 		return null;
 	}
 
+	public static Object[] skillIdToData( final int skillId )
+	{
+		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
+		{
+			Object[] data = PastaThrallData.PASTA_THRALLS[ i ];
+			if ( PastaThrallData.dataToSkillId( data ) == skillId )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
 	public static String idToType( final int id )
 	{
-		return PastaThrallData.dataToType( PastaThrallData.idToData( id ) );
+		return id == 0 ? "(none)" : PastaThrallData.dataToType( PastaThrallData.idToData( id ) );
 	}
 
 	public static final PastaThrallData NO_THRALL = new PastaThrallData( 0 );
 
+	public static void initialize()
+	{
+		LockableListModel thralls = KoLCharacter.getPastaThrallList();
+		if ( !thralls.contains( PastaThrallData.NO_THRALL ) )
+		{
+			thralls.add( PastaThrallData.NO_THRALL );
+		}
+
+		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
+		{
+			Object[] data = PastaThrallData.PASTA_THRALLS[ i ];
+			PastaThrallData thrall = new PastaThrallData( data );
+			if ( !thralls.contains( thrall ) )
+			{
+				thralls.add( thrall );
+			}
+			thrall.updateFromSetting();
+		}
+
+		Collections.sort( thralls );
+	}
+
+	private Object[] data;
 	private final int id;
 	private final String type;
-	private String name;
-	private int experience;
 	private int level;
+	private String name;
+
+	public PastaThrallData( final Object [] data )
+	{
+		this.data = data;
+		this.id = PastaThrallData.dataToId( data );
+		this.type = PastaThrallData.dataToType( data );
+		this.level = 0;
+		this.name = "";
+	}
 
 	public PastaThrallData( final int id )
 	{
-		this( id, "", 1 );
+		this( PastaThrallData.idToData( id ) );
 	}
 
-	public PastaThrallData( final int id, final String name, final int level )
+	public void updateFromSetting()
 	{
-		this.id = id;
-		this.type = id == 0 ? "(none)" : PastaThrallData.idToType( id );
+		if ( this.data == null )
+		{
+			return;
+		}
+
+		String setting = Preferences.getString( PastaThrallData.dataToSetting( this.data ) );
+		int comma = setting.indexOf( "," );
+		String levelString = comma == -1 ? setting.trim() : setting.substring( 0, comma ).trim();
+		String name = comma == -1 ? "" : setting.substring( comma +1 ).trim();
+
+		this.level = levelString.equals( "" ) ? 0 : StringUtilities.parseInt( levelString );
 		this.name = name;
-		this.level = level;
+	}
+
+	private void updateSetting()
+	{
+		if ( this.data == null )
+		{
+			return;
+		}
+
+		String settingName = PastaThrallData.dataToSetting( this.data );
+		if ( this.name.equals( "" ) )
+		{
+			Preferences.setString( settingName, String.valueOf( this.level) );
+		}
+		else
+		{
+			String value = String.valueOf( this.level) + "," + this.name;
+			Preferences.setString( settingName, value );
+		}
 	}
 
 	public int getId()
@@ -260,40 +364,39 @@ public class PastaThrallData
 		return this.type;
 	}
 
-	public String getName()
-	{
-		return this.name;
-	}
-
-	public final void setName( final String name )
-	{
-		this.name = name;
-	}
-
-	public int getExperience()
-	{
-		return this.experience;
-	}
-
-	public void setExperience( final int experience )
-	{
-		this.experience = experience;
-	}
-
 	public int getLevel()
 	{
 		return this.level;
 	}
 
-	public void setLevel( final int level )
+	public String getName()
 	{
-		this.level = level;
+		return this.name;
+	}
+
+	public void update( final int level, final String name )
+	{
+		boolean change = false;
+		if ( level != 0 && level != this.level )
+		{
+			this.level = level;
+			change = true;
+		}
+		if ( name != null && !name.equals( this.name ) )
+		{
+			this.name = new String( name );
+			change = true;
+		}
+		if ( change )
+		{
+			this.updateSetting();
+		}
 	}
 
 	@Override
 	public String toString()
 	{
-		return this.id == -1 ? "(none)" : this.type + " (lvl. " + this.getLevel() + ")";
+		return this.id == 0 ? "(none)" : this.type + " (lvl. " + this.getLevel() + ")";
 	}
 
 	@Override
@@ -310,6 +413,37 @@ public class PastaThrallData
 
 	public int compareTo( final PastaThrallData td )
 	{
-		return this.type.compareToIgnoreCase( td.type );
+		return this.id - td.id;
+	}
+
+	public static void handleBinding( final int skillId, final String responseText )
+	{
+		Object[] data = PastaThrallData.skillIdToData( skillId );
+		if ( data == null )
+		{
+			return;
+		}
+
+		PastaThrallData thrall = KoLCharacter.findPastaThrall( PastaThrallData.dataToId( data ) );
+		if ( thrall == null )
+		{
+			return;
+		}
+
+		KoLCharacter.setPastaThrall( thrall );
+
+		Matcher matcher = PastaThrallData.dataToPattern1( data ).matcher( responseText );
+		if ( matcher.find() )
+		{
+			thrall.update( 0, matcher.group( 1 ) );
+			return;
+		}
+
+		matcher = PastaThrallData.dataToPattern2( data ).matcher( responseText );
+		if ( matcher.find() )
+		{
+			thrall.update( 0, matcher.group( 1 ) );
+			return;
+		}
 	}
 }

@@ -103,6 +103,14 @@ public class SkillPool
 	public static final int SPAGHETTI_SPEAR = 3020;
 	public static final int CARBOLOADING = 3024;
 	public static final int TRANSCENDENTAL_DENTE = 3026;
+	public static final int BIND_VAMPIEROGHI = 3027;
+	public static final int BIND_VERMINCELLI = 3029;
+	public static final int BIND_ANGEL_HAIR_WISP = 3031;
+	public static final int BIND_UNDEAD_ELBOW_MACARONI = 3033;
+	public static final int BIND_PENNE_DREADFUL = 3035;
+	public static final int BIND_LASAGMBIE = 3037;
+	public static final int BIND_SPICE_GHOST = 3039;
+	public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
 	public static final int SPIRIT_CAYENNE = 3101;
 	public static final int SPIRIT_PEPPERMINT = 3102;
 	public static final int SPIRIT_GARLIC = 3103;

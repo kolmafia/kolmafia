@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -229,6 +230,8 @@ public class CharPaneRequest
 		{
 			CharPaneRequest.checkFamiliar( responseText );
 		}
+
+		CharPaneRequest.checkPastaThrall( responseText );
 
 		// Mana cost adjustment may have changed
 
@@ -895,10 +898,6 @@ public class CharPaneRequest
 		Pattern.compile( "otherimages/clancy_([123])(_att)?.gif.*?L\\. (\\d+)", Pattern.DOTALL );
 	private static Pattern expandedClancyPattern =
 		Pattern.compile( "<b>Clancy</b>.*?Level <b>(\\d+)</b>.*?otherimages/clancy_([123])(_att)?.gif", Pattern.DOTALL );
-	private static Pattern mediumPattern =
-		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
-	private static Pattern snowsuitPattern =
-		Pattern.compile( "snowface([1-5]).gif" );
 
 	public static AdventureResult SACKBUT = ItemPool.get( ItemPool.CLANCY_SACKBUT, 1 );
 	public static AdventureResult CRUMHORN = ItemPool.get( ItemPool.CLANCY_CRUMHORN, 1 );
@@ -976,6 +975,31 @@ public class CharPaneRequest
 		}
 	}
 
+	private static Pattern pastaThrallPattern =
+		Pattern.compile( "desc_guardian.php.*?itemimages/(.*?.gif).*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>", Pattern.DOTALL );
+
+	private static final void checkPastaThrall( final String responseText )
+	{
+		Pattern pattern = CharPaneRequest.pastaThrallPattern;
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String image = matcher.group( 1 );
+			String name = matcher.group( 2 );
+			String levelString = matcher.group( 3 );
+			String type = matcher.group( 4 );
+			PastaThrallData thrall = KoLCharacter.findPastaThrall( type );
+			if ( thrall != null && thrall != PastaThrallData.NO_THRALL )
+			{
+				KoLCharacter.setPastaThrall( thrall );
+				thrall.update( StringUtilities.parseInt( levelString ), name );
+			}
+		}
+	}
+
+	private static Pattern mediumPattern =
+		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
+
 	private static final void checkMedium( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.mediumPattern;
@@ -1034,6 +1058,9 @@ public class CharPaneRequest
 			return null;
 		}
 	}
+
+	private static Pattern snowsuitPattern =
+		Pattern.compile( "snowface([1-5]).gif" );
 
 	private static final void checkSnowsuit( final String responseText )
 	{
@@ -1187,6 +1214,16 @@ public class CharPaneRequest
 				FamiliarData medium = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
 				medium.setCharges( aura );
 			}
+		}
+
+		int thrallId = JSON.getInt( "pastathrall" );
+		int thrallLevel = JSON.getInt( "pastathralllevel" );
+
+		PastaThrallData thrall = KoLCharacter.findPastaThrall( thrallId );
+		if ( thrall != null && thrall != PastaThrallData.NO_THRALL )
+		{
+			KoLCharacter.setPastaThrall( thrall );
+			thrall.update( thrallLevel, null );
 		}
 	}
 

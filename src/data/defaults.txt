@@ -634,6 +634,14 @@ user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	parasolUsed	0
+user	pastaThrall1
+user	pastaThrall2
+user	pastaThrall3
+user	pastaThrall4
+user	pastaThrall5
+user	pastaThrall6
+user	pastaThrall7
+user	pastaThrall8
 user	pendingMapReflections	0
 user	photocopyMonster
 user	pieStuffing
