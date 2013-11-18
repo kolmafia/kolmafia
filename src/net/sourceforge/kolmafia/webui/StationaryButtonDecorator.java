@@ -315,7 +315,11 @@ public class StationaryButtonDecorator
 
 		StringBuffer actionBuffer = new StringBuffer();
 
-		actionBuffer.append( "<div id=\"topbar\"><div id=\"mafiabuttons\"><center>" );
+		// *** Start of 'topbar' div
+		actionBuffer.append( "<div id=\"topbar\">" );
+
+		// *** Start of 'mafiabuttons' div
+		actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
 		actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
 
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
@@ -500,13 +504,27 @@ public class StationaryButtonDecorator
 
 		actionBuffer.append( "</select>" );
 
-		actionBuffer.append( "</td></tr></table>" );
-		actionBuffer.append( "</center></div></div><div class=content id='content_'>" );
+		actionBuffer.append( "</td></tr></table></center>" );
+		actionBuffer.append( "</div>" );
+		// *** End of 'mafiabuttons' div
+
+		actionBuffer.append( "</div>" );
+		// *** End of 'topbar' div
+
+		// *** Start of 'content' div
+		actionBuffer.append( "<div class=content id='content_'>" );
+		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
+
+		// *** Start of 'overflow' div
+		actionBuffer.append( "<div style='overflow: auto;'>" );
 
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
-		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		StringUtilities.insertBefore( buffer, "</body>", "</div></div>" );
+		// *** End of 'overflow' div
+		// *** End of 'content' div
+
 		if ( !Preferences.getBoolean( "macroLens" ) )
 		{	// this would make it impossible to type numbers in the macro field!
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
