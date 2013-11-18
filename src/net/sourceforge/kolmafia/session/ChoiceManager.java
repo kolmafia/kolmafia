@@ -5111,6 +5111,12 @@ public abstract class ChoiceManager
 				return "model airship";
 			}
 			break;
+		case 793:
+			if ( decision == 4 )
+			{
+				return "gift shop";
+			}
+			break;
 		}
 
 		// Iterate through the spoilers and find the one corresponding to the decision
@@ -9206,7 +9212,7 @@ public abstract class ChoiceManager
 		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
 		if ( matcher.find() )
 		{
-			int choice = StringUtilities.parseInt ( matcher.group( 1 ) );
+			int choice = StringUtilities.parseInt( matcher.group( 1 ) );
 			switch ( choice )
 			{
 			case 443:
@@ -9236,7 +9242,7 @@ public abstract class ChoiceManager
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
 			if ( matcher.find() )
 			{
-				int decision = StringUtilities.parseInt ( matcher.group( 1 ) );
+				int decision = StringUtilities.parseInt( matcher.group( 1 ) );
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 				String desc =
 					spoilers == null ?
