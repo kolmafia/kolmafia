@@ -455,7 +455,13 @@ public class ResponseTextParser
 			Matcher m = ResponseTextParser.DESCITEM_PATTERN.matcher( location );
 			if ( m.find() )
 			{
-				ConsequenceManager.parseItemDesc( m.group( 1 ), responseText );
+				String descid = m.group( 1 );
+				ConsequenceManager.parseItemDesc( descid, responseText );
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				if ( itemId == ItemPool.YEARBOOK_CAMERA )
+				{
+					ItemDatabase.parseYearbookCamera( responseText );
+				}
 			}
 		}
 

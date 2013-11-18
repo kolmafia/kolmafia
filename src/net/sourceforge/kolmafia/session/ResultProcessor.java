@@ -1830,8 +1830,12 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.YEARBOOK_CAMERA:
-			ResultProcessor.checkCamera();
+		{
+			String desc = DebugDatabase.rawItemDescriptionText( ItemPool.YEARBOOK_CAMERA );
+			int upgrades = ItemDatabase.parseYearbookCamera( desc );
+			Preferences.setInteger( "yearbookCameraAscensions", upgrades );
 			break;
+		}
 
 		case ItemPool.BEER_BATTERED_ACCORDION:
 		case ItemPool.BARITONE_ACCORDION:
@@ -2028,103 +2032,5 @@ public class ResultProcessor
 			KoLCharacter.makeCharitableDonation( donation );
 			return;
 		}
-	}
-
-	private static void checkCamera()
-	{
-		String desc = DebugDatabase.rawItemDescriptionText( ItemPool.YEARBOOK_CAMERA );
-
-		int upgrades;
-		if ( desc.contains( "Blinding" ) )
-		{
-			upgrades = 21;
-		}
-		else if ( desc.contains( "Viewfinder" ) )
-		{
-			upgrades = 20;
-		}
-		else if ( desc.contains( "Light" ) )
-		{
-			upgrades = 19;
-		}
-		else if ( desc.contains( "Shutter" ) )
-		{
-			upgrades = 18;
-		}
-		else if ( desc.contains( "Polarizing" ) )
-		{
-			upgrades = 17;
-		}
-		else if ( desc.contains( "Case" ) )
-		{
-			upgrades = 16;
-		}
-		else if ( desc.contains( "Tilt" ) )
-		{
-			upgrades = 15;
-		}
-		else if ( desc.contains( "Release" ) )
-		{
-			upgrades = 14;
-		}
-		else if ( desc.contains( "Batteries" ) )
-		{
-			upgrades = 13;
-		}
-		else if ( desc.contains( "Tripod" ) )
-		{
-			upgrades = 12;
-		}
-		else if ( desc.contains( "Strap" ) )
-		{
-			upgrades = 11;
-		}
-		else if ( desc.contains( "Grip" ) )
-		{
-			upgrades = 10;
-		}
-		else if ( desc.contains( "800mm" ) )
-		{
-			upgrades = 9;
-		}
-		else if ( desc.contains( "20mm" ) )
-		{
-			upgrades = 8;
-		}
-		else if ( desc.contains( "2:1" ) )
-		{
-			upgrades = 7;
-		}
-		else if ( desc.contains( "400mm" ) )
-		{
-			upgrades = 6;
-		}
-		else if ( desc.contains( "24mm" ) )
-		{
-			upgrades = 5;
-		}
-		else if ( desc.contains( "1:1" ) )
-		{
-			upgrades = 4;
-		}
-		else if ( desc.contains( "200m" ) )
-		{
-			upgrades = 3;
-		}
-		else if ( desc.contains( "28mm" ) )
-		{
-			upgrades = 2;
-		}
-		else if ( desc.contains( "1:2" ) )
-		{
-			upgrades = 1;
-		}
-		else
-		{
-			upgrades = 0;
-		}
-
-		Preferences.setInteger( "yearbookCameraUpgrades", upgrades );
-		Preferences.setInteger( "yearbookCameraAscensions", upgrades );
 	}
 }
