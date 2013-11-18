@@ -1,14 +1,22 @@
 #page {
-	display:table;
-	width: 100%;
 	height: 100%;
 }
 #mafiabuttons {
-	display: table-row;
+	position: absolute;
+	width: 100%;
+	top: 0px;
+	left: 0px;
 }
 #content_ {
-	height: 100%;
-	display: table-row;
+	position: fixed;
+	top: 66px;
+	margin: 0px;
+	padding: 0px;	
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	overflow: auto;
 }
 #btnwrap{
     width: 100%;

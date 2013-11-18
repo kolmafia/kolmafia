@@ -305,7 +305,8 @@ public class StationaryButtonDecorator
 
 		// Add stylesheet that controls header/page content when stationary buttons used
 		int insertionPoint = buffer.indexOf( "</head>" );
-		buffer.insert( insertionPoint, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
+		buffer.insert( insertionPoint, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/" + KoLConstants.STATIONARYBUTTONS_CSS + "\">" );
+		buffer.insert( insertionPoint, "<script src=\"http://code.jquery.com/jquery-1.9.1.js\"></script><script src=\"/" + KoLConstants.STATIONARYBUTTONS_JS + "\"></script>" );
 		
 		insertionPoint = buffer.indexOf( "<body" );
 		if ( insertionPoint == -1 )
@@ -316,8 +317,8 @@ public class StationaryButtonDecorator
 
 		StringBuffer actionBuffer = new StringBuffer();
 
-		// *** Start of 'topbar' div
-		actionBuffer.append( "<div id=\"topbar\">" );
+		// *** Start of 'page' div
+		actionBuffer.append( "<div id=\"page\">" );
 		
 		// *** Start of 'mafiabuttons' div
 		actionBuffer.append( "<div id=\"mafiabuttons\">" );
@@ -516,9 +517,6 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "</div>" );
 		// *** End of 'mafiabuttons' div
 
-		actionBuffer.append( "</div>" );
-		// *** End of 'topbar' div
-
 		// *** Start of 'content_' div
 		actionBuffer.append( "<div class='content' id='content_'>" );
 		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
@@ -529,6 +527,9 @@ public class StationaryButtonDecorator
 		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		// *** End of 'content_' div
 		
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		// *** End of 'page' div
+
 		if ( !Preferences.getBoolean( "macroLens" ) )
 		{	// this would make it impossible to type numbers in the macro field!
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
