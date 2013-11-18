@@ -1177,6 +1177,11 @@ public class KoLAdventure
 				// This is "(none)" after a new ascension
 				return null;
 			}
+			else if ( adventurePage.startsWith( "lair" ) )
+			{
+				// OK, we don't care about the Sorceress' Lair
+				return null;
+			}
 			else
 			{
 				// Don't register as an adventure, but save name
