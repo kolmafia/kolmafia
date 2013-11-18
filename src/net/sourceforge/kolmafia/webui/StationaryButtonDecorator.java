@@ -515,14 +515,10 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "<div class=content id='content_'>" );
 		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
 
-		// *** Start of 'overflow' div
-		actionBuffer.append( "<div style='overflow: auto;'>" );
-
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
-		StringUtilities.insertBefore( buffer, "</body>", "</div></div>" );
-		// *** End of 'overflow' div
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		// *** End of 'content' div
 
 		if ( !Preferences.getBoolean( "macroLens" ) )
