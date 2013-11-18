@@ -8048,7 +8048,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
-				return ArcadeRequest.autoDungeonFist( stepCount );
+				return ArcadeRequest.autoDungeonFist( stepCount, responseText );
 			}
 			return decision;
 
