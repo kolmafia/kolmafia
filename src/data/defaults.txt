@@ -976,6 +976,7 @@ user	_pantsgivingFullness	0
 user	_pantsgivingBanish	0
 user	_pantsgivingCount	0
 user	_pantsgivingCrumbs	0
+user	_pastaAdditive	false
 user	_pasteDrops	0
 user	_photocopyUsed	false
 user	_pieDrops	0
