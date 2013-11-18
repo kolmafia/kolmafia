@@ -297,6 +297,12 @@ public class StorageRequest
 			}
 		}
 
+		if ( KoLCharacter.inFistcore() && this.moveType == PULL_MEAT_FROM_STORAGE )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot remove meat from storage in Fistcore" );
+			return;
+		}
+
 		// Let TransferItemRequest handle it
 		super.run();
 	}
@@ -317,6 +323,8 @@ public class StorageRequest
 	// <b>You have 178,634,761 meat in long-term storage.</b>
 	private static final Pattern STORAGEMEAT_PATTERN =
 		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
+	private static final Pattern STORAGEMEAT_FIST_PATTERN =
+		Pattern.compile( "thinking about the ([\\d,]+) you currently have" );
 
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "<span class=\"pullsleft\">(\\d+)</span>" );
 
@@ -338,13 +346,15 @@ public class StorageRequest
 			return;
 		}
 
-		Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
+		Matcher meatInStorageMatcher = KoLCharacter.inFistcore() ?
+		        StorageRequest.STORAGEMEAT_FIST_PATTERN.matcher( responseText ) :
+		        StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
 		if ( meatInStorageMatcher.find() )
 		{
 			int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
 			KoLCharacter.setStorageMeat( meat );
 		}
-		else if ( responseText.indexOf( "Hagnk doesn't have any of your meat" ) != -1 )
+		else if ( responseText.contains( "Hagnk doesn't have any of your meat" ) )
 		{
 			KoLCharacter.setStorageMeat( 0 );
 		}
