@@ -424,6 +424,7 @@ public interface KoLConstants
 	public static final String ONFOCUS_JS = "onfocus.1.js";
 	public static final String PALINSHELVES_JS = "palinshelves.1.js";
 	public static final String SORTTABLE_JS = "sorttable.2.js";
+	public static final String STATIONARYBUTTONS_CSS = "stationarybuttons.css";
 
 	public static final String[] RELAY_FILES =
 	{
@@ -438,6 +439,7 @@ public interface KoLConstants
 		ONFOCUS_JS,
 		PALINSHELVES_JS,
 		SORTTABLE_JS,
+		STATIONARYBUTTONS_CSS,
 	};
 
 
