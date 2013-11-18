@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -57,10 +58,13 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -332,8 +336,10 @@ public class TestCommand
 		if ( command.equals( "fight" ) )
 		{
 			int round = split.length > 1 ? StringUtilities.parseInt( split[ 1 ].trim() ) : -1;
+			String adventureName = split.length > 2 ? split[ 2 ].trim() : Preferences.getString( "nextAdventure" );
 			if ( round >= 0 )
 			{
+				KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( adventureName ) );
 				String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
 				MonsterStatusTracker.setNextMonsterName( encounter );
 				FightRequest.currentRound = round;

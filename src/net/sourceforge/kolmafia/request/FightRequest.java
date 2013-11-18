@@ -4528,6 +4528,16 @@ public class FightRequest
 			StringBuffer text = node.getText();
 			String str = text.toString();
 
+			// Camera flashes
+			// A monster caught on the film
+			// Back to yearbook club.
+
+			if ( FightRequest.haiku && str.contains( "Back to yearbook club" ) )
+			{
+				FightRequest.handleYearbookCamera( str, status );
+				return;
+			}
+
 			if ( FightRequest.handleFuzzyDice( str, status ) )
 			{
 				return;
@@ -4728,18 +4738,6 @@ public class FightRequest
 
 		if ( inode == null )
 		{
-			// No image. Parse combat damage.
-
-			// Camera flashes
-			// A monster caught on the film
-			// Back to yearbook club.
-
-			if ( FightRequest.haiku && str.contains( "Back to yearbook club" ) )
-			{
-				FightRequest.handleYearbookCamera( str, status );
-				return false;
-			}
-
 			FightRequest.handleRaver( str, status );
 
 			int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
