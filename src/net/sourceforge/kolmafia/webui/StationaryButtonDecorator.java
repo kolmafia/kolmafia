@@ -303,9 +303,10 @@ public class StationaryButtonDecorator
 
 		StationaryButtonDecorator.removeUnsafeButtons();
 
+		// Add stylesheet that controls header/page content when stationary buttons used
 		int insertionPoint = buffer.indexOf( "</head>" );
-		buffer.insert( insertionPoint, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
-
+		buffer.insert( insertionPoint, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/" + KoLConstants.STATIONARYBUTTONS_CSS + "\">" );
+		
 		insertionPoint = buffer.indexOf( "<body" );
 		if ( insertionPoint == -1 )
 		{
@@ -315,12 +316,12 @@ public class StationaryButtonDecorator
 
 		StringBuffer actionBuffer = new StringBuffer();
 
-		// *** Start of 'topbar' div
-		actionBuffer.append( "<div id=\"topbar\">" );
-
+		// *** Start of 'page' div
+		actionBuffer.append( "<div id=\"page\">" );
+		
 		// *** Start of 'mafiabuttons' div
 		actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
-		actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
+		actionBuffer.append( "<table width=\"95%\"><tr><td align=left><div id=\"btnwrap\">" );
 
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
@@ -487,7 +488,7 @@ public class StationaryButtonDecorator
 			StationaryButtonDecorator.reloadCombatHotkeyMap();
 		}
 
-		actionBuffer.append( "</td><td align=right>" );
+		actionBuffer.append( "</div></td><td align=right>" );
 		actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
 
 		actionBuffer.append( "<option>- update hotkeys -</option>" );
@@ -508,19 +509,19 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "</div>" );
 		// *** End of 'mafiabuttons' div
 
-		actionBuffer.append( "</div>" );
-		// *** End of 'topbar' div
-
-		// *** Start of 'content' div
-		actionBuffer.append( "<div class=content id='content_'>" );
+		// *** Start of 'content_' div
+		actionBuffer.append( "<div id='content_'>" );
 		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
 
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
 		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
-		// *** End of 'content' div
+		// *** End of 'content_' div
 
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		// *** End of 'page' div
+		
 		if ( !Preferences.getBoolean( "macroLens" ) )
 		{	// this would make it impossible to type numbers in the macro field!
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
