@@ -2029,7 +2029,7 @@ public class KoLAdventure
 		}
 		else if ( urlString.startsWith( "choice.php" ) )
 		{
-			// Redirected to a fight. We may or may not be
+			// Redirected to a choice. We may or may not be
 			// adventuring where we thought we were.
 		}
 

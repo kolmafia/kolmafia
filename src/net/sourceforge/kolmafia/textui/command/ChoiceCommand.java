@@ -194,6 +194,20 @@ public class ChoiceCommand
 		return false;
 	}	
 
+	public static String actionOption( final String action, final String responseText)
+	{
+		Matcher m = OPTION_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			if ( m.group( 2 ).equals( action ) )
+			{
+				return m.group( 1 );
+			}
+		}
+
+		return null;
+	}	
+
 	public static void printChoices()
 	{
 		TreeMap choices = ChoiceCommand.parseChoices();

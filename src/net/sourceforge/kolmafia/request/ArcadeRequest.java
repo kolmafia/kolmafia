@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArcadeRequest
@@ -1100,10 +1102,16 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( buffer.indexOf( "You drop your token into" ) != -1 )
+		// If you've finished the game once, KoL gives you a "Finish
+		// from Memory" button which will give you 30 tickets. In that
+		// case, it is pointless for us to provide a similar button.
+
+		if ( buffer.indexOf( "You drop your token into" ) != -1 &&
+		     buffer.indexOf( "Finish from Memory" ) == -1 )
 		{
 			ChoiceManager.addGoalButton( buffer, "30 Game Grid tickets" );
 		}
+
 		StringUtilities.singleStringReplace( buffer, "</body>",
 			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
 	}
@@ -1112,12 +1120,20 @@ public class ArcadeRequest
 		"3111111111111111111111111111112112111111111111111111111111121" +
 		"1111111111111111211122211111121111111111111111122211133111113";
 		
-	public static final String autoDungeonFist( int stepCount )
+	public static final String autoDungeonFist( final int stepCount, final String responseText )
 	{
 		if ( stepCount < 0 || stepCount >= FistScript.length() )
 		{
 			return "0";
 		}
+
+		// If you've won this game before, you can finish it automatically
+		String option = ChoiceCommand.actionOption( "Finish from Memory", responseText );
+		if ( option != null )
+		{
+			return option;
+		}
+
 		RelayRequest.specialCommandStatus = "<progress value=" + stepCount +
 			" max=" + FistScript.length() +
 			" style=\"width: 100%;\">Dungeon Fist! step " + stepCount +
