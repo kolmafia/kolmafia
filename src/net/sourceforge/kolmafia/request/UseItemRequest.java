@@ -948,6 +948,10 @@ public class UseItemRequest
 		case ItemPool.FOLDER_23:
 			UseItemRequest.limiter = "folder holder";
 			return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
+
+		case ItemPool.PASTA_ADDITIVE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pastaAdditive" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4466,6 +4470,10 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.SPIRIT_MATTRESS, -1 );
 				ResultProcessor.processItem( ItemPool.SPIRIT_BLANKET, -1 );
 			}
+			return;
+
+		case ItemPool.PASTA_ADDITIVE:
+			Preferences.setBoolean( "_pastaAdditive", true );
 			return;
 		}
 	}
