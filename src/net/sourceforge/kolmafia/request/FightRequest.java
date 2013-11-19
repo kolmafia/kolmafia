@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.lang.Math;
@@ -744,8 +745,9 @@ public class FightRequest
 		{
 			FightRequest.isUsingConsultScript = true;
 			String scriptName = FightRequest.nextAction.substring( "consult".length() ).trim();
+			List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
 
-			Interpreter consultInterpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+			Interpreter consultInterpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 			if ( consultInterpreter != null )
 			{
 				int initialRound = FightRequest.currentRound;
@@ -755,7 +757,29 @@ public class FightRequest
 				parameters[1] = MonsterStatusTracker.getLastMonsterName();
 				parameters[2] = FightRequest.lastResponseText;
 
+				File scriptFile = scriptFiles.get( 0 );
+				String startMessage = "Starting consult script: " + scriptFile.getName();
+				String finishMessage = "Finished consult script: " + scriptFile.getName();
+
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( startMessage );
+				}
+				if ( consultInterpreter.isTracing() )
+				{
+					consultInterpreter.trace( startMessage );
+				}
+
 				consultInterpreter.execute( "main", parameters );
+
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( finishMessage );
+				}
+				if ( consultInterpreter.isTracing() )
+				{
+					consultInterpreter.trace( finishMessage );
+				}
 
 				if ( KoLmafia.refusesContinue() )
 				{
@@ -763,7 +787,11 @@ public class FightRequest
 				}
 				else if ( initialRound == FightRequest.currentRound )
 				{
-					if ( FightRequest.nextAction.equals( FightRequest.consultScriptThatDidNothing ) )
+					if ( FightRequest.nextAction == null )
+					{
+						FightRequest.nextAction = "abort";
+					}
+					else if ( FightRequest.nextAction.equals( FightRequest.consultScriptThatDidNothing ) )
 					{
 						FightRequest.nextAction = "abort";
 					}
