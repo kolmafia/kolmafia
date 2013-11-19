@@ -44,10 +44,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -486,7 +486,7 @@ public class SkillDatabase
 		case SkillPool.CANNELLONI_CANNON:
 		case SkillPool.STUFFED_MORTAR_SHELL:
 		case SkillPool.WEAPON_PASTALORD:
-			if ( KoLCharacter.currentPastaThrall() != null && KoLCharacter.hasSkill( "Thrall Unit Tactics" ) )
+			if ( KoLCharacter.currentPastaThrall() != PastaThrallData.NO_THRALL && KoLCharacter.hasSkill( "Thrall Unit Tactics" ) )
 			{
 				thrallReduced = true;
 			}
