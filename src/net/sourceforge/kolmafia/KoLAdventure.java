@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -119,7 +120,7 @@ public class KoLAdventure
 	private final boolean isNonCombatsOnly;
 
 	private static final Pattern ADVENTURE_AGAIN = Pattern.compile( "<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>" );
-
+	private static final HashSet<String> unknownAdventures = new HashSet<String>();
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given specifications.
@@ -1182,9 +1183,15 @@ public class KoLAdventure
 				// OK, we don't care about the Sorceress' Lair
 				return null;
 			}
+			else if ( KoLAdventure.unknownAdventures.contains( adventureName ) )
+			{
+				// If we've already logged this one, don't do it again
+				return null;
+			}
 			else
 			{
 				// Don't register as an adventure, but save name
+				KoLAdventure.unknownAdventures.add( adventureName );
 				Preferences.setString( "lastAdventure", adventureName );
 				RequestLogger.updateSessionLog( "Unknown last adventure: id = '" + adventureId + "' name = '" + adventureName + "' URL = '" + adventureURL + "' container = '" + container + "'" );
 				return null;
