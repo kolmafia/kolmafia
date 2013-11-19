@@ -236,7 +236,7 @@ public class CallScriptCommand
 					}
 					return;
 				}
-				
+
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
@@ -246,9 +246,29 @@ public class CallScriptCommand
 					try
 					{
 						interpreter.cloneRelayScript( caller );
+						String startMessage = "Starting ASH script: " + scriptFile.getName();
+						String finishMessage = "Finished ASH script: " + scriptFile.getName();
+						interpreter.resetTracing();
+
 						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 						{
+							if ( RequestLogger.isDebugging() )
+							{
+								RequestLogger.updateDebugLog( startMessage );
+							}
+							if ( interpreter.isTracing() )
+							{
+								interpreter.trace( startMessage );
+							}
 							interpreter.execute( "main", arguments );
+							if ( RequestLogger.isDebugging() )
+							{
+								RequestLogger.updateDebugLog( finishMessage );
+							}
+							if ( interpreter.isTracing() )
+							{
+								interpreter.trace( finishMessage );
+							}
 						}
 					}
 					finally

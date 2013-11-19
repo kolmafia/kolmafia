@@ -38,12 +38,14 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Stack;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -81,7 +83,6 @@ public class Interpreter
 	private static Stack interpreterStack = new Stack();
 
 	private String currentState = Interpreter.STATE_NORMAL;
-	private PrintStream traceStream = NullStream.INSTANCE;
 	private int traceIndentation = 0;
 	public Profiler profiler;
 
@@ -101,6 +102,26 @@ public class Interpreter
 	// For use in ASH relay scripts
 	private RelayRequest relayRequest = null;
 	private StringBuffer serverReplyBuffer = null;
+
+	// GLOBAL control of tracing
+	private static PrintStream traceStream = NullStream.INSTANCE;
+
+	public static boolean isTracing()
+	{
+		return Interpreter.traceStream != NullStream.INSTANCE;
+	}
+
+	public static final void openTraceStream()
+	{
+		Interpreter.traceStream =
+			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", Interpreter.traceStream, true );
+	}
+
+	public static final void closeTraceStream()
+	{
+		RequestLogger.closeStream( Interpreter.traceStream );
+		Interpreter.traceStream = NullStream.INSTANCE;
+	}
 
 	public Interpreter()
 	{
@@ -238,7 +259,7 @@ public class Interpreter
 	private static final String indentation = " " + " " + " ";
 	public static final void indentLine( final PrintStream stream, final int indent )
 	{
-		if ( stream != null )
+		if ( stream != null && stream != NullStream.INSTANCE )
 		{
 			for ( int i = 0; i < indent; ++i )
 			{
@@ -256,7 +277,7 @@ public class Interpreter
 			this.parser = new Parser( scriptFile, stream, null );
 			this.scope = parser.parse();
 			this.resetTracing();
-			if ( this.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				this.printScope( this.scope );
 			}
@@ -344,7 +365,7 @@ public class Interpreter
 
 		if ( executeTopLevel )
 		{
-			if ( this.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				this.trace( "Executing top-level commands" );
 			}
@@ -359,7 +380,7 @@ public class Interpreter
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			if ( this.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				this.trace( "Executing main function" );
 			}
@@ -476,20 +497,18 @@ public class Interpreter
 
 	// **************** Tracing *****************
 
-	public final boolean isTracing()
-	{
-		return this.traceStream != NullStream.INSTANCE;
-	}
-
 	public final void resetTracing()
 	{
 		this.traceIndentation = 0;
-		this.traceStream = RequestLogger.getDebugStream();
+		this.traceStream = Interpreter.traceStream;
 	}
 
 	private final void indentLine( final int indent )
 	{
-		Interpreter.indentLine( this.traceStream, indent );
+		if ( this.isTracing() )
+		{
+			Interpreter.indentLine( this.traceStream, indent );
+		}
 	}
 
 	public final void traceIndent()
@@ -504,8 +523,11 @@ public class Interpreter
 
 	public final void trace( final String string )
 	{
-		this.indentLine( this.traceIndentation );
-		this.traceStream.println( string );
+		if ( Interpreter.isTracing() )
+		{
+			this.indentLine( this.traceIndentation );
+			this.traceStream.println( string );
+		}
 	}
 
 	public final void captureValue( final Value value )

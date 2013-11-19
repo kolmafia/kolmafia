@@ -370,10 +370,21 @@ public class RequestLogger
 				return originalStream;
 			}
 
-			originalStream.close();
+			RequestLogger.closeStream( originalStream );
 		}
 
 		return LogStream.openStream( filename, false );
+	}
+
+	public static final void closeStream( final PrintStream stream )
+	{
+		try
+		{
+			stream.close();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	public static final void openStandard()
@@ -388,7 +399,7 @@ public class RequestLogger
 
 	public static final void closeMirror()
 	{
-		RequestLogger.mirrorStream.close();
+		RequestLogger.closeStream( RequestLogger.mirrorStream );
 		RequestLogger.mirrorStream = NullStream.INSTANCE;
 	}
 
@@ -408,7 +419,7 @@ public class RequestLogger
 
 	public static final void closeSessionLog()
 	{
-		RequestLogger.sessionStream.close();
+		RequestLogger.closeStream( RequestLogger.sessionStream );
 		RequestLogger.sessionStream = NullStream.INSTANCE;
 	}
 
@@ -447,14 +458,8 @@ public class RequestLogger
 
 	public static final void closeDebugLog()
 	{
-		try
-		{
-			RequestLogger.debugStream.close();
-			RequestLogger.debugStream = NullStream.INSTANCE;
-		}
-		catch ( Exception e )
-		{
-		}
+		RequestLogger.closeStream( RequestLogger.debugStream );
+		RequestLogger.debugStream = NullStream.INSTANCE;
 	}
 
 	public static final void updateDebugLog()
@@ -502,14 +507,8 @@ public class RequestLogger
 
 	public static final void closeTraceStream()
 	{
-		try
-		{
-			RequestLogger.traceStream.close();
-			RequestLogger.traceStream = NullStream.INSTANCE;
-		}
-		catch ( Exception e )
-		{
-		}
+		RequestLogger.closeStream( RequestLogger.traceStream );
+		RequestLogger.traceStream = NullStream.INSTANCE;
 	}
 
 	private static StringBuilder traceBuffer = new StringBuilder();

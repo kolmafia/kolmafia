@@ -1716,6 +1716,15 @@ public class KoLAdventure
 			MafiaState.PENDING
 		},
 
+		// That's too far to walk, and
+		// <a href=clan_dreadsylvania.php?place=carriage>the Carriageman</a>
+		// isn't drunk enough to take you there.
+		{
+			"That's too far to walk",
+			"The Carriageman isn't drunk enough to take you there.",
+			MafiaState.PENDING
+		},
+
 		// This part of the city is awfully unremarkable, now that
 		// you've cleared that ancient protector spirit out.
 		{

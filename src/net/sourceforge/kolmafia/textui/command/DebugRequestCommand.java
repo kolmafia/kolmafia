@@ -35,12 +35,14 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.textui.Interpreter;
+
 public class DebugRequestCommand
 	extends AbstractCommand
 {
 	public DebugRequestCommand()
 	{
-		this.usage = " [on] | off | trace [ [on] | off ]- start or stop logging of debugging data.";
+		this.usage = " [on] | off | trace [ [on] | off ] | ash [ [on] | off ]- start or stop logging of debugging data.";
 	}
 
 	@Override
@@ -67,6 +69,18 @@ public class DebugRequestCommand
 			else if ( command.equals( "off" ) )
 			{
 				RequestLogger.closeTraceStream();
+			}
+		}
+		else if ( command.equals( "ash" ) )
+		{
+			command = split.length < 2 ? "" : split[ 1 ];
+			if ( command.equals( "" ) || command.equals( "on" ) )
+			{
+				Interpreter.openTraceStream();
+			}
+			else if ( command.equals( "off" ) )
+			{
+				Interpreter.closeTraceStream();
 			}
 		}
 	}

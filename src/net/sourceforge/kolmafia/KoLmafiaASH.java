@@ -99,9 +99,17 @@ public abstract class KoLmafiaASH
 			return false;
 		}
 
+		String startMessage = "Starting relay script: " + toExecute.getName();
+		String finishMessage = "Finished relay script: " + toExecute.getName();
+
 		if ( RequestLogger.isDebugging() )
 		{
-			RequestLogger.updateDebugLog( "Executing relay script: " + toExecute.getName() );
+			RequestLogger.updateDebugLog( startMessage );
+		}
+
+		if ( relayScript.isTracing() )
+		{
+			relayScript.trace( startMessage );
 		}
 
 		synchronized ( relayScript )
@@ -131,6 +139,16 @@ public abstract class KoLmafiaASH
 			}
 
 			relayScript.finishRelayScript();
+
+			if ( RequestLogger.isDebugging() )
+			{
+				RequestLogger.updateDebugLog( finishMessage );
+			}
+
+			if ( relayScript.isTracing() )
+			{
+				relayScript.trace( finishMessage );
+			}
 
 			return written != 0;
 		}
