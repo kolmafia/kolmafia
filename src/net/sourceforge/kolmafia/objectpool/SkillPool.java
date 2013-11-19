@@ -96,11 +96,16 @@ public class SkillPool
 	public static final int STORM_BLESSING = 2037;
 	public static final int SPIRIT_BOON = 2039;
 	public static final int TURTLE_POWER = 2041;
+	public static final int RAVIOLI_SHURIKENS = 3003;
 	public static final int ENTANGLING_NOODLES = 3004;
+	public static final int CANNELLONI_CANNON = 3005;
 	public static final int PASTAMASTERY = 3006;
+	public static final int STUFFED_MORTAR_SHELL = 3007;
+	public static final int WEAPON_PASTALORD = 3008;
 	public static final int BANDAGES = 3009;
 	public static final int COCOON = 3012;
 	public static final int SPAGHETTI_SPEAR = 3020;
+	public static final int STRINGOZZI = 3023;
 	public static final int CARBOLOADING = 3024;
 	public static final int TRANSCENDENTAL_DENTE = 3026;
 	public static final int BIND_VAMPIEROGHI = 3027;

@@ -37,10 +37,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class PastaThrallCommand
 	extends AbstractCommand
 {

@@ -454,6 +454,7 @@ public class SkillDatabase
 		}
 
 		String classType = null;
+		boolean thrallReduced = false;
 
 		switch ( skillId )
 		{
@@ -479,6 +480,17 @@ public class SkillDatabase
 		case SkillPool.MAGIC_MISSILE:
 			return Math.max(
 				Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
+
+		case SkillPool.STRINGOZZI:
+		case SkillPool.RAVIOLI_SHURIKENS:
+		case SkillPool.CANNELLONI_CANNON:
+		case SkillPool.STUFFED_MORTAR_SHELL:
+		case SkillPool.WEAPON_PASTALORD:
+			if ( KoLCharacter.currentPastaThrall() != null && KoLCharacter.hasSkill( "Thrall Unit Tactics" ) )
+			{
+				thrallReduced = true;
+			}
+			break;
 		}
 
 		if ( classType != null )
@@ -503,6 +515,11 @@ public class SkillDatabase
 		if ( cost == 0 )
 		{
 			return 0;
+		}
+
+		if ( thrallReduced )
+		{
+			cost = cost / 2;
 		}
 
 		int adjustment = KoLCharacter.getManaCostAdjustment( SkillDatabase.isCombat( skillId ) );
