@@ -299,7 +299,7 @@ public class StorageRequest
 
 		if ( KoLCharacter.inFistcore() && this.moveType == PULL_MEAT_FROM_STORAGE )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot remove meat from storage in Fistcore" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot remove meat from storage while in Fistcore." );
 			return;
 		}
 
