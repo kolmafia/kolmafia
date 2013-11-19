@@ -500,6 +500,7 @@ public abstract class KoLCharacter
 		KoLCharacter.isUsingStabBat = false;
 		KoLCharacter.companion = null;
 
+		KoLCharacter.currentPastaThrall = PastaThrallData.NO_THRALL;
 		KoLCharacter.pastaThralls.clear();
 		KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
 
