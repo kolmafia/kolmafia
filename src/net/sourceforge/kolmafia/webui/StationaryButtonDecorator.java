@@ -34,6 +34,10 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,7 +56,10 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
+import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -541,6 +548,27 @@ public class StationaryButtonDecorator
 		boolean forceFocus = true;
 
 		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
+
+		int choice = ChoiceManager.currentChoice();
+		if ( choice != 0 )
+		{
+			TreeMap choices = ChoiceCommand.parseChoices( false );
+			Iterator i = choices.entrySet().iterator();
+			StringBuilder actionBuffer = new StringBuilder();
+			while ( i.hasNext() )
+			{
+				Map.Entry e = (Map.Entry) i.next();
+				name = (String) e.getValue();
+				actionBuffer.setLength( 0 );
+				actionBuffer.append( "choice.php?whichchoice=" );
+				actionBuffer.append( choice );
+				actionBuffer.append( "&option=" );
+				actionBuffer.append( ((Integer) e.getKey()).intValue() );
+				actionBuffer.append( "&pwd=" );
+				actionBuffer.append( GenericRequest.passwordHash );
+				StationaryButtonDecorator.addButton( buffer, name, actionBuffer.toString(), true, false );
+			}
+		}
 	}
 
 	public static final void addNonCombatButtons( final StringBuffer response, final StringBuffer buffer )
