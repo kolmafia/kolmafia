@@ -333,7 +333,7 @@ public class RelayRequest
 				String category = SkillDatabase.getSkillCategory( StringUtilities.parseInt( skillId ) );
 				if ( !category.equals( "conditional" ) )
 				{
-					StationaryButtonDecorator.addButton( skillId );
+					StationaryButtonDecorator.addSkillButton( skillId );
 				}
 			}
 		}
