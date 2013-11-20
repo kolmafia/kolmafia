@@ -64,6 +64,9 @@ public class PastaThrallData
 		// Pattern to find name when subsequently summoned
 		// Image file name
 		// Tiny image file name
+		// Level 1 Power
+		// Level 5 Power
+		// Level 10 Power
 
 		{
 			"Vampieroghi",
@@ -78,6 +81,9 @@ public class PastaThrallData
 			Pattern.compile( "inflated with ([^']*)'s presence" ),
 			"vampieroghi.gif",
 			"t_vampieroghi.gif",
+			"Damage and restore HP during combat",
+			"Dispel negative effects after combat",
+			"Maximum HP: +60",
 		},
 		{
 			"Vermincelli",
@@ -92,6 +98,9 @@ public class PastaThrallData
 			Pattern.compile( "rustling sound as (.*?) chews his way into the world" ),
 			"vermincelli.gif",
 			"t_vermincelli.gif",
+			"Damage and restore MP during combat",
+			"Attack and poison foe during combat",
+			"Maximum MP: +30",
 		},
 		{
 			"Angel Hair Wisp",
@@ -107,6 +116,9 @@ public class PastaThrallData
 			Pattern.compile( "A chill perm ?eates the air as (.*?)'s spirit enters it\\." ),
 			"angelwisp.gif",
 			"t_angelwisp.gif",
+			"Initiative: +5 per level",
+			"Prevent enemy critical hits",
+			"Blocks enemy attacks",
 		},
 		{
 			"Undead Elbow Macaroni",
@@ -121,6 +133,9 @@ public class PastaThrallData
 			Pattern.compile( "You focus your thoughts and call out to (.*?)\\." ),
 			"macaroni.gif",
 			"t_macaroni.gif",
+			"Muscle can't be lower than Mysticality",
+			"Weapon Damage: +2 per level",
+			"Critical Hit Percentage: +10",
 		},
 		{
 			"Penne Dreadful",
@@ -138,6 +153,9 @@ public class PastaThrallData
 			Pattern.compile( "it appears and (.*?) possesses it" ),
 			"pennedreadful.gif",
 			"t_pennedreadful.gif",
+			"Moxie can't be lower than Mysticality",
+			"Delevel at start of combat",
+			"Damage Reduction: +10",
 		},
 		{
 			"Lasagmbie",
@@ -151,6 +169,9 @@ public class PastaThrallData
 			Pattern.compile( "a wet thud as ([^']*)'s spirit lands in it" ),
 			"lasagmbie.gif",
 			"t_lasagmbie.gif",
+			"Meat Drop: +20 + 2 per level",
+			"Attacks for Spooky Damage",
+			"Spooky Spell Damage: +10",
 		},
 		{
 			"Spice Ghost",
@@ -165,6 +186,9 @@ public class PastaThrallData
 			Pattern.compile( "crackle of psychokinetic energy as (.*?) possesses it\\." ),
 			"spiceghost.gif",
 			"t_spiceghost.gif",
+			"Item Drop: +10 + 1 per level",
+			"spice drop 10/day",
+			"Increases duration of Entangling Noodles",
 		},
 		{
 			"Spaghetti Elemental",
@@ -179,11 +203,11 @@ public class PastaThrallData
 			// Spaghetti. Soon you feel a familiar presence, and
 			// pull SshoKodo into the material world.
 			Pattern.compile( "and pull (.*?) into the material world\\." ),
-			new String[] {
-				"spagelem1.gif",
-				"spagelem2.gif",
-			},
-			"t_spagdemon.gif"
+			"spagelem1.gif",
+			"t_spagdemon.gif",
+			"Experience: 1-ceil(level/3)",
+			"Prevents first attack",
+			"Spell Damage: +5",
 		},
 
 		/*
@@ -242,6 +266,31 @@ public class PastaThrallData
 	public static Pattern dataToPattern2( Object[] data )
 	{
 		return data == null ? null : (Pattern)data[ 5 ];
+	}
+
+	public static String dataToImage( Object[] data )
+	{
+		return data == null ? null : (String)data[ 6 ];
+	}
+
+	public static String dataToTinyImage( Object[] data )
+	{
+		return data == null ? null : (String)data[ 7 ];
+	}
+
+	public static String dataToLevel1Ability( Object[] data )
+	{
+		return data == null ? null : (String)data[ 8 ];
+	}
+
+	public static String dataToLevel5Ability( Object[] data )
+	{
+		return data == null ? null : (String)data[ 9 ];
+	}
+
+	public static String dataToLevel10Ability( Object[] data )
+	{
+		return data == null ? null : (String)data[ 10 ];
 	}
 
 	public static Object[] idToData( final int id )
@@ -304,6 +353,7 @@ public class PastaThrallData
 	private final String type;
 	private int level;
 	private String name;
+	private String mods;
 
 	public PastaThrallData( final Object [] data )
 	{
@@ -312,6 +362,15 @@ public class PastaThrallData
 		this.type = PastaThrallData.dataToType( data );
 		this.level = 0;
 		this.name = "";
+
+		if ( this.id != 0 )
+		{
+			Modifiers mods = Modifiers.getModifiers( this.type );
+			if ( mods != null )
+			{
+				this.mods = mods.getString( "Modifiers" );
+			}
+		}
 	}
 
 	public PastaThrallData( final int id )
@@ -372,6 +431,40 @@ public class PastaThrallData
 	public String getName()
 	{
 		return this.name;
+	}
+
+	public String getLevel1Ability()
+	{
+		return this.data == null ? "" : PastaThrallData.dataToLevel1Ability( this.data );
+	}
+
+	public String getLevel5Ability()
+	{
+		return this.data == null ? "" : PastaThrallData.dataToLevel5Ability( this.data );
+	}
+
+	public String getLevel10Ability()
+	{
+		return this.data == null ? "" : PastaThrallData.dataToLevel10Ability( this.data );
+	}
+
+	public String getCurrentModifiers()
+	{
+		if ( this.mods == null )
+		{
+			return "";
+		}
+
+		PastaThrallData current = KoLCharacter.currentPastaThrall();
+		try
+		{
+			KoLCharacter.setPastaThrall( this );
+			return Modifiers.evaluateModifiers( this.mods );
+		}
+		finally
+		{
+			KoLCharacter.setPastaThrall( current );
+		}
 	}
 
 	public void update( final int level, final String name )

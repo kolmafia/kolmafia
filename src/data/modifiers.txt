@@ -2845,7 +2845,7 @@ Clancy's lute	Fairy: [5*C]
 # level 5 ability: min(floor(P/5),1)*X
 # level 10 ability: floor(P/10)*X
 
-Angel Hair Wisp		Initiative: [5*P]
+Angel Hair Wisp	Initiative: [5*P]
 Lasagmbie	Meat Drop: [20+(2*P)], Spooky Spell Damage: [floor(P/10)*10]
 Penne Dreadful	Damage Reduction: [floor(P/10)*10]
 Spaghetti Elemental	Spell Damage: [floor(P/10)*5]
