@@ -52,9 +52,17 @@ public class PastaThrallCommand
 
 		output.append( "<table border=2 cols=3>" );
 		output.append( "<tr>" );
-		output.append( "<th>Pasta Thrall</th>" );
-		output.append( "<th>Level</th>" );
+		output.append( "<th rowspan=3>Pasta Thrall</th>" );
 		output.append( "<th>Name</th>" );
+		output.append( "<th>Ability at Level 1</th>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<th>Level</th>" );
+		output.append( "<th>Ability at Level 5</th>" );
+		output.append( "</tr>" );
+		output.append( "<tr>" );
+		output.append( "<th>Current Modifiers</th>" );
+		output.append( "<th>Ability at Level 10</th>" );
 		output.append( "</tr>" );
 
 		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
@@ -70,18 +78,34 @@ public class PastaThrallCommand
 			}
 
 			output.append( "<tr>" );
-
-			output.append( "<td>" );
+			output.append( "<td rowspan=3>" );
 			output.append( thrall.getType() );
 			output.append( "</td>" );
-
-			output.append( "<td>" );
-			output.append( thrall.getLevel() );
-			output.append( "</td>" );
-
 			output.append( "<td>" );
 			output.append( thrall.getName() );
 			output.append( "</td>" );
+			output.append( "<td>" );
+			output.append( thrall.getLevel1Ability() );
+			output.append( "</td>" );
+			output.append( "</tr>" );
+
+			output.append( "<tr>" );
+			output.append( "<td>" );
+			output.append( thrall.getLevel() );
+			output.append( "</td>" );
+			output.append( "<td>" );
+			output.append( thrall.getLevel5Ability() );
+			output.append( "</td>" );
+			output.append( "</tr>" );
+
+			output.append( "<tr>" );
+			output.append( "<td>" );
+			output.append( thrall.getCurrentModifiers() );
+			output.append( "</td>" );
+			output.append( "<td>" );
+			output.append( thrall.getLevel10Ability() );
+			output.append( "</td>" );
+			output.append( "</tr>" );
 		}
 
 		output.append( "</table>" );
