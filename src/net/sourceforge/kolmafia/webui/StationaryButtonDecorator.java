@@ -334,12 +334,14 @@ public class StationaryButtonDecorator
 		// *** Start of 'btnwrap' div
 		actionBuffer.append( "<div id=\"btnwrap\">" );
 
-		int body = buffer.indexOf( "<body>" );
-		if ( urlString.startsWith( "fight.php" ) && FightRequest.getCurrentRound() > 0 )
+		boolean inCombat = urlString.startsWith( "fight.php" ) && FightRequest.getCurrentRound() > 0;
+		boolean inChoice = urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", buffer.indexOf( "<body>" ) + 1 ) != -1;
+
+		if ( inCombat )
 		{
-			StationaryButtonDecorator.addFightButtons( urlString, actionBuffer );
+			StationaryButtonDecorator.addCombatButtons( urlString, actionBuffer );
 		}
-		else if ( urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", body ) != -1 )
+		else if ( inChoice )
 		{
 			StationaryButtonDecorator.addChoiceButtons( actionBuffer );
 		}
@@ -351,24 +353,32 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "</div>" );
 		// *** End of 'btnwrap' div
 
-		actionBuffer.append( "</td><td align=right>" );
-		actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
+		actionBuffer.append( "</td>" );
 
-		actionBuffer.append( "<option>- update hotkeys -</option>" );
-
-		for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
+		// If you are either in combat or finished with one, give the
+		// user the opportunity to update hot keys.
+		if ( !inChoice )
 		{
-			actionBuffer.append( "<option>" );
-			actionBuffer.append( i );
-			actionBuffer.append( ": " );
+			actionBuffer.append( "<td align=right valign=top>" );
+			actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
 
-			actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
-			actionBuffer.append( "</option>" );
+			actionBuffer.append( "<option>- update hotkeys -</option>" );
+
+			for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
+			{
+				actionBuffer.append( "<option>" );
+				actionBuffer.append( i );
+				actionBuffer.append( ": " );
+
+				actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
+				actionBuffer.append( "</option>" );
+			}
+
+			actionBuffer.append( "</select>" );
+			actionBuffer.append( "</td>" );
 		}
 
-		actionBuffer.append( "</select>" );
-
-		actionBuffer.append( "</td></tr></table></center>" );
+		actionBuffer.append( "</tr></table></center>" );
 
 		actionBuffer.append( "</div>" );
 		// *** End of 'mafiabuttons' div
@@ -393,7 +403,7 @@ public class StationaryButtonDecorator
 
 	}
 
-	public static final void addFightButtons( final String urlString, final StringBuffer actionBuffer )
+	public static final void addCombatButtons( final String urlString, final StringBuffer actionBuffer )
 	{
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
