@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
@@ -5491,6 +5492,14 @@ public abstract class ChoiceManager
 			     text.indexOf( "ridiculous trophy case" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WING, -3 ) );
+			}
+			break;
+
+		case 191:
+			// Chatterboxing
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "find a valuable trinket that looks promising" ) )
+			{
+				BanishManager.banishMonster( "chatty pirate", "chatterboxing" );
 			}
 			break;
 

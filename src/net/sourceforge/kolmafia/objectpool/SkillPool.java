@@ -83,6 +83,7 @@ public class SkillPool
 	public static final int SPAGHETTI_BREAKFAST = 101;
 	public static final int SHADOW_NOODLES = 102;
 	public static final int WALRUS_TONGUE = 1010;
+	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
 	public static final int HIBERNATE = 1027;
 	public static final int FURIOUS_WALLOP = 1032;
@@ -144,6 +145,7 @@ public class SkillPool
 	public static final int INIGOS = 6028;
 	public static final int ACCORDION_BASH = 6032;
 	public static final int MAGIC_MISSILE = 7009;
+	public static final int CREEPY_GRIN = 7015;
 	public static final int MAYFLY_SWARM = 7024;
 	public static final int VICIOUS_TALON_SLASH = 7038;
 	public static final int WING_BUFFET = 7039;
@@ -157,6 +159,7 @@ public class SkillPool
 	public static final int HOBO_JOKE = 7050;
 	public static final int HOBO_DANCE = 7051;
 	public static final int SUMMON_HOBO = 7052;
+	public static final int STINKEYE = 7095;
 	public static final int BADLY_ROMANTIC_ARROW = 7108;
 	public static final int BOXING_GLOVE_ARROW = 7109;
 	public static final int POISON_ARROW = 7110;
