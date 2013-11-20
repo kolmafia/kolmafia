@@ -5150,14 +5150,14 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	public static final void processChoiceAdventure()
+	public static final void processRedirectedChoiceAdventure( final String redirectLocation )
 	{
-		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, null );
+		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, redirectLocation, null );
 	}
 
 	public static final void processChoiceAdventure( final String responseText )
 	{
-		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, responseText );
+		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, "choice.php", responseText );
 	}
 
 	public static final void processChoiceAdventure( int decision )
@@ -5170,17 +5170,17 @@ public abstract class ChoiceManager
 		request.addFormField( "pwd", GenericRequest.passwordHash );
 		request.run();
 
-		ChoiceManager.processChoiceAdventure( request, request.responseText );
+		ChoiceManager.processChoiceAdventure( request, "choice.php", request.responseText );
 	}
 
-	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
+	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.  One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
 		// Get rid of extra fields - like "action=auto"
-		request.constructURLString( "choice.php" );
+		request.constructURLString( initialURL );
 
 		if ( responseText == null )
 		{
@@ -9187,7 +9187,7 @@ public abstract class ChoiceManager
 	{
 		String responseText = ChoiceManager.lastResponseText;
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
-		ChoiceManager.processChoiceAdventure( request, responseText );
+		ChoiceManager.processChoiceAdventure( request, "choice.php", responseText );
 
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );

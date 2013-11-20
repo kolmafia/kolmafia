@@ -525,12 +525,12 @@ public class RelayAgent
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
-			ChoiceManager.processChoiceAdventure( this.request, ChoiceManager.lastResponseText );
+			ChoiceManager.processChoiceAdventure( this.request, "choice.php", ChoiceManager.lastResponseText );
 			if ( KoLmafia.refusesContinue() )
 			{
 				// Resubmit the choice request to let the user see it again
 				KoLmafia.forceContinue();
-				request.constructURLString( "choice.php" );
+				request.constructURLString( "choice.php?forceoption=0" );
 				RequestThread.postRequest( this.request );
 				RelayAgent.errorRequest = null;
 			}
