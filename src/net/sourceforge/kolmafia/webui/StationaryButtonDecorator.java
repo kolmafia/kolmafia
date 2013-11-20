@@ -75,7 +75,7 @@ public class StationaryButtonDecorator
 		return false;
 	}
 
-	public static final void addButton( final String skillId )
+	public static final void addSkillButton( final String skillId )
 	{
 		if ( skillId == null || skillId.equals( "none" ) )
 		{
@@ -99,7 +99,7 @@ public class StationaryButtonDecorator
 			// Remove built-in skills.
 			if ( StationaryButtonDecorator.builtInSkill( old ) )
 			{
-				StationaryButtonDecorator.removeButton( i, buttons );
+				StationaryButtonDecorator.removeSkill( i, buttons );
 				continue;
 			}
 
@@ -125,14 +125,14 @@ public class StationaryButtonDecorator
 		// If all buttons are in use, remove oldest and insert at end.
 		if ( insertIndex == 0 )
 		{
-			StationaryButtonDecorator.removeButton( 1, buttons );
+			StationaryButtonDecorator.removeSkill( 1, buttons );
 			insertIndex = buttons;
 		}
 
 		Preferences.setString( "stationaryButton" + insertIndex, skillId );
 	}
 
-	private static final void removeButton( final int index, int buttons )
+	private static final void removeSkill( final int index, int buttons )
 	{
 		for ( int i = index ; i <= buttons; ++i )
 		{
@@ -141,7 +141,7 @@ public class StationaryButtonDecorator
 		}
 	}
 
-	public static final void removeUnsafeButtons()
+	public static final void removeBuiltInSkills()
 	{
 		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
 		int maximumIndex = buttons + 1;
@@ -154,7 +154,7 @@ public class StationaryButtonDecorator
 			// Remove built-in skills.
 			if ( StationaryButtonDecorator.builtInSkill( old ) )
 			{
-				StationaryButtonDecorator.removeButton( i, buttons );
+				StationaryButtonDecorator.removeSkill( i, buttons );
 				continue;
 			}
 			i++;
@@ -301,7 +301,7 @@ public class StationaryButtonDecorator
 			return;
 		}
 
-		StationaryButtonDecorator.removeUnsafeButtons();
+		StationaryButtonDecorator.removeBuiltInSkills();
 
 		// Add stylesheet that controls header/page content when stationary buttons used
 		int insertionPoint = buffer.indexOf( "</head>" );
@@ -327,33 +327,88 @@ public class StationaryButtonDecorator
 		// *** Start of 'btnwrap' div
 		actionBuffer.append( "<div id=\"btnwrap\">" );
 
-		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		int body = buffer.indexOf( "<body>" );
+		if ( urlString.startsWith( "fight.php" ) && FightRequest.getCurrentRound() > 0 )
 		{
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "script", true );
-
-			StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", FightRequest.getCurrentRound() > 0 );
+			StationaryButtonDecorator.addFightButtons( urlString, actionBuffer );
+		}
+		else if ( urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", body ) != -1 )
+		{
+			StationaryButtonDecorator.addChoiceButtons( actionBuffer );
 		}
 		else
 		{
-			StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
+			StationaryButtonDecorator.addNonCombatButtons( buffer, actionBuffer );
+		}
 
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+		actionBuffer.append( "</div>" );
+		// *** End of 'btnwrap' div
+
+		actionBuffer.append( "</td><td align=right>" );
+		actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
+
+		actionBuffer.append( "<option>- update hotkeys -</option>" );
+
+		for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
+		{
+			actionBuffer.append( "<option>" );
+			actionBuffer.append( i );
+			actionBuffer.append( ": " );
+
+			actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
+			actionBuffer.append( "</option>" );
+		}
+
+		actionBuffer.append( "</select>" );
+
+		actionBuffer.append( "</td></tr></table></center>" );
+
+		actionBuffer.append( "</div>" );
+		// *** End of 'mafiabuttons' div
+
+		// *** Start of 'content_' div
+		actionBuffer.append( "<div class='content' id='content_'>" );
+		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
+
+		buffer.insert( insertionPoint, actionBuffer.toString() );
+
+		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		// *** End of 'content_' div
+		
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		// *** End of 'page' div
+
+		if ( !Preferences.getBoolean( "macroLens" ) )
+		{	// this would make it impossible to type numbers in the macro field!
+			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+		}
+
+	}
+
+	public static final void addFightButtons( final String urlString, final StringBuffer actionBuffer )
+	{
+		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		{
+			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "attack", FightRequest.getCurrentRound() > 0 );
+		}
+		else
+		{
+			StationaryButtonDecorator.addFightButton( actionBuffer, "attack", FightRequest.getCurrentRound() > 0 );
+			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, false );
 		}
 
 		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
 		if ( KoLCharacter.canPickpocket() )
 		{
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "steal", FightRequest.canStillSteal() );
 		}
 
 		if ( EquipmentManager.usingChefstaff() )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0;
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "jiggle", enabled );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "jiggle", enabled );
 		}
 
 		String classStun = KoLCharacter.getClassStun();
@@ -371,37 +426,32 @@ public class StationaryButtonDecorator
 			enabled &= !( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 );
 			// In Class Act 2, Stuns don't work at +76 and higher monster level
 			enabled &= !( KoLCharacter.inClasscore2() && KoLCharacter.getMonsterLevelAdjustment() > 75 );
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
+			StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
 				FightRequest.canOlfact();
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "19", enabled );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "19", enabled );
 		}
 
 		if ( !inBirdForm && FightRequest.canPirateInsult() )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0;
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "insult", enabled );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "insult", enabled );
 		}
 
 		if ( !inBirdForm && FightRequest.canJamFlyer() )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0;
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "jam flyer", enabled );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "jam flyer", enabled );
 		}
 
 		if ( !inBirdForm && FightRequest.canRockFlyer() )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0;
-			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "rock flyer", enabled );
+			StationaryButtonDecorator.addFightButton( actionBuffer, "rock flyer", enabled );
 		}
 
 		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
@@ -460,12 +510,7 @@ public class StationaryButtonDecorator
 			}
 
 			// Show this skill.
-			StationaryButtonDecorator.addFightButton(
-				urlString,
-				buffer,
-				actionBuffer,
-				action,
-				FightRequest.getCurrentRound() > 0 );
+			StationaryButtonDecorator.addFightButton( actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 		}
 
 		// Add conditionally available combat skills
@@ -478,12 +523,7 @@ public class StationaryButtonDecorator
 			String action = String.valueOf( actionId );
 			if ( actionId >= 7000 && actionId < 8000 )
 			{
-				StationaryButtonDecorator.addFightButton(
-					urlString,
-					buffer,
-					actionBuffer,
-					action,
-					FightRequest.getCurrentRound() > 0 );
+				StationaryButtonDecorator.addFightButton( actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 		}
 
@@ -491,151 +531,108 @@ public class StationaryButtonDecorator
 		{
 			StationaryButtonDecorator.reloadCombatHotkeyMap();
 		}
+	}
 
-		actionBuffer.append( "</div>" );
-		// *** End of 'btnwrap' div
-
-		actionBuffer.append( "</td><td align=right>" );
-		actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
-
-		actionBuffer.append( "<option>- update hotkeys -</option>" );
-
-		for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
-		{
-			actionBuffer.append( "<option>" );
-			actionBuffer.append( i );
-			actionBuffer.append( ": " );
-
-			actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
-			actionBuffer.append( "</option>" );
-		}
-
-		actionBuffer.append( "</select>" );
-
-		actionBuffer.append( "</td></tr></table></center>" );
-
-		actionBuffer.append( "</div>" );
-		// *** End of 'mafiabuttons' div
-
-		// *** Start of 'content_' div
-		actionBuffer.append( "<div class='content' id='content_'>" );
-		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
-
-		buffer.insert( insertionPoint, actionBuffer.toString() );
-
-		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
-		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
-		// *** End of 'content_' div
-		
-		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
-		// *** End of 'page' div
-
-		if ( !Preferences.getBoolean( "macroLens" ) )
-		{	// this would make it impossible to type numbers in the macro field!
-			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
-		}
-
-		}
-
-	private static final void addFightButton( final String urlString, final StringBuffer response,
-		final StringBuffer buffer, final String action, boolean isEnabled )
+	public static final void addChoiceButtons( final StringBuffer buffer )
 	{
-		boolean forceFocus = false;
-		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		String name = "auto";
+		String action = "choice.php?action=auto";
+		boolean isEnabled = true;
+		boolean forceFocus = true;
+
+		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
+	}
+
+	public static final void addNonCombatButtons( final StringBuffer response, final StringBuffer buffer )
+	{
+		String name = "again";
+		String action = getAdventureAgainLocation( response );;
+		boolean isEnabled = !action.equals( "main.php" );
+		boolean forceFocus = true;
+
+		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
+	}
+
+	private static final void addScriptButton( final String urlString, final StringBuffer buffer, final boolean forceFocus )
+	{
+		String name;
+		String action;
+		boolean isEnabled = true;
+
+		if ( urlString.endsWith( "action=script" ) )
 		{
-			forceFocus = action.equals( "script" );
+			name = "abort";
+			action = "fight.php?action=abort";
 		}
 		else
 		{
-			forceFocus = action.equals( "attack" );
+			name = "script";
+			action = "fight.php?action=custom";
 		}
 
+		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
+	}
+
+	private static final void addFightButton( final StringBuffer buffer, final String action, boolean isEnabled )
+	{
+		boolean forceFocus = action.equals( "attack" );
 		String name = StationaryButtonDecorator.getActionName( action );
-		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
-		int body = response.indexOf( "<body>" );
-		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php", body + 1 ) != -1 )
+		StringBuilder actionBuffer = new StringBuilder( "fight.php?action=" );
+
+		if ( action.equals( "attack" ) || action.equals( "steal" ) )
 		{
-			if ( forceFocus )
-			{
-				name = "auto";
-			}
-
-			buffer.append( "choice.php?action=auto" );
+			actionBuffer.append( action );
 		}
-		else if ( FightRequest.getCurrentRound() == 0 )
+		else if ( action.equals( "jiggle" ) )
 		{
-			String location = getAdventureAgainLocation( response );
-			buffer.append( location );
-			isEnabled &= !location.equals( "main.php" );
+			actionBuffer.append( "chefstaff" );
+			isEnabled &= !FightRequest.alreadyJiggled();
 		}
-		else
+		else if ( action.equals( "insult" ) )
 		{
-			buffer.append( "fight.php?" );
+			int itemId =
+				KoLCharacter.inBeecore() ?
+				ItemPool.MARAUDER_MOCKERY_MANUAL :
+				ItemPool.PIRATE_INSULT_BOOK;
 
-			if ( action.equals( "script" ) )
+			if ( KoLConstants.inventory.contains( ItemPool.get( itemId, 1 ) ) )
 			{
-				buffer.append( "action=" );
-
-				if ( urlString.endsWith( "action=script" ) && isEnabled )
-				{
-					name = "abort";
-					buffer.append( "abort" );
-				}
-				else
-				{
-					buffer.append( "custom" );
-				}
-			}
-			else if ( action.equals( "attack" ) || action.equals( "steal" ) )
-			{
-				buffer.append( "action=" );
-				buffer.append( action );
-			}
-			else if ( action.equals( "jiggle" ) )
-			{
-				buffer.append( "action=chefstaff" );
-				isEnabled &= !FightRequest.alreadyJiggled();
-			}
-			else if ( action.equals( "insult" ) )
-			{
-				buffer.append( "action=useitem&whichitem=" );
-				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) )
-					&& !KoLCharacter.inBeecore() )
-				{
-					buffer.append( "2947" );
-				}
-				else if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) )
-					&& KoLCharacter.inBeecore() )
-				{
-					buffer.append( "5120" );
-				}
-				else
-				{
-					isEnabled = false;
-				}
-			}
-			else if ( action.equals( "jam flyer" ) )
-			{
-				buffer.append( "action=useitem&whichitem=2404" );
-			}
-			else if ( action.equals( "rock flyer" ) )
-			{
-				buffer.append( "action=useitem&whichitem=2405" );
+				actionBuffer.append( "useitem&whichitem=" );
+				actionBuffer.append( String.valueOf( itemId ) );
 			}
 			else
 			{
-				buffer.append( "action=skill&whichskill=" );
-				buffer.append( action );
-				int skillID = StringUtilities.parseInt( action );
-				UseSkillRequest actionRequest = UseSkillRequest.getInstance( skillID );
-				isEnabled &= KoLConstants.availableCombatSkills.contains( actionRequest );
+				isEnabled = false;
 			}
 		}
+		else if ( action.equals( "jam flyer" ) )
+		{
+			actionBuffer.append( "useitem&whichitem=2404" );
+		}
+		else if ( action.equals( "rock flyer" ) )
+		{
+			actionBuffer.append( "useitem&whichitem=2405" );
+		}
+		else
+		{
+			actionBuffer.append( "skill&whichskill=" );
+			actionBuffer.append( action );
+			int skillID = StringUtilities.parseInt( action );
+			UseSkillRequest actionRequest = UseSkillRequest.getInstance( skillID );
+			isEnabled &= KoLConstants.availableCombatSkills.contains( actionRequest );
+		}
 
+		StationaryButtonDecorator.addButton( buffer, name, actionBuffer.toString(), isEnabled, forceFocus );
+	}
+
+	private static final void addButton( final StringBuffer buffer, final String name, final String action,
+					     final boolean isEnabled, final boolean forceFocus )
+	{
+		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+		buffer.append( action );
 		buffer.append( "';void(0);\" value=\"" );
 		buffer.append( name );
-
 		buffer.append( "\"" );
 
 		if ( forceFocus )
