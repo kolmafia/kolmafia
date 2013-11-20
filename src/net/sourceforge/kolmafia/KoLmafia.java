@@ -110,6 +110,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -686,6 +687,7 @@ public abstract class KoLmafia
 		
 		Preferences.resetDailies();
 		ConsequenceManager.updateOneDesc();
+		BanishManager.resetRollover();
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
@@ -799,6 +801,9 @@ public abstract class KoLmafia
 		// Retrieve the contents of the closet.
 		ClosetRequest.refresh();
 
+		// Load Banished monsters
+		BanishManager.loadBanishedMonsters();
+
 		// Retrieve Custom Outfit list
 
 		RequestThread.postRequest( new CustomOutfitRequest() );
@@ -898,6 +903,7 @@ public abstract class KoLmafia
 
 		// Clear preferences
 		Preferences.setString( "banishingShoutMonsters", "" );
+		BanishManager.resetAvatar();
 
 		// Hermit items depend on character class
 		HermitRequest.initialize();

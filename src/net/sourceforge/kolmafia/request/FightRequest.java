@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -2400,19 +2401,43 @@ public class FightRequest
 			FightRequest.canOlfact = false;
 		}
 
-		else if ( skillNumber == SkillPool.TALK_ABOUT_POLITICS && responseText.contains( "won't be seeing" ) )
+		// Banish skills, assume success if in Dis or Haiku
+		// Banishing Shout has lots of success messages.  Check for the failure message instead
+		else if ( skillNumber == SkillPool.BANISHING_SHOUT && !responseText.contains( "but this foe refuses" ))
+		{
+			BanishManager.banishMonster( monster, "banishing shout" );
+		}
+		else if ( skillNumber == SkillPool.HOWL_ALPHA && ( responseText.contains( "your opponent turns and runs" ) || FightRequest.haiku || FightRequest.anapest ) )
+		{
+			BanishManager.banishMonster( monster, "howl of the alpha" );
+		}
+		else if ( skillNumber == SkillPool.CREEPY_GRIN && ( responseText.contains( "an even creepier grin" ) || FightRequest.haiku || FightRequest.anapest ) )
+		{
+			Preferences.setBoolean( "_vmaskBanisherUsed", true );
+			BanishManager.banishMonster( monster, "v for vivala mask" );
+		}
+		else if ( skillNumber == SkillPool.STINKEYE && ( responseText.contains( "You fix an extremely disdainful eye" ) || FightRequest.haiku || FightRequest.anapest ) )
+		{
+			Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
+			BanishManager.banishMonster( monster, "stinky cheese eye" );
+		}
+		else if ( skillNumber == SkillPool.UNLEASH_NANITES && ( responseText.contains( "You roar with sudden power" ) || FightRequest.haiku || FightRequest.anapest ) )
+		{
+			BanishManager.banishMonster( monster, "nanorhino" );
+		}
+		else if ( skillNumber == SkillPool.BATTER_UP ) // Need response text for success for sanity check
+		{
+			BanishManager.banishMonster( monster, "batter up!" );
+		}
+		else if ( skillNumber == SkillPool.TALK_ABOUT_POLITICS && ( responseText.contains( "won't be seeing" ) || FightRequest.haiku || FightRequest.anapest ) )
 		{
 			Preferences.increment( "_pantsgivingBanish" );
+			BanishManager.banishMonster( monster, "pantsgiving" );
 		}
 
 		else if ( skillNumber == SkillPool.POCKET_CRUMBS && responseText.contains( "pocket next to the crumbs" ) )
 		{
 			Preferences.increment( "_pantsgivingCrumbs" );
-		}
-
-		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
-		{
-			Preferences.setString( "_nanorhinoBanishedMonster", monster );
 		}
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
@@ -2484,22 +2509,6 @@ public class FightRequest
 		{
 			// The fight is not over, none of the stuff below needs to be checked
 			return;
-		}
-
-		// Banishing Shout has lots of success messages.  Check for the failure message instead
-		if ( ( skillNumber == SkillPool.BANISHING_SHOUT && !responseText.contains( "but this foe refuses" ) ) ||
-		     ( skillNumber == SkillPool.HOWL_ALPHA && responseText.contains( "your opponent turns and runs" ) ) )
-		{
-			String pref = monster;
-			String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
-			for ( int i = 0; i < monsters.length && i < 2; ++i )
-			{
-				if ( monsters[ i ].length() > 0 )
-				{
-					pref += "|" + monsters[ i ];
-				}
-			}
-			Preferences.setString( "banishingShoutMonsters", pref );
 		}
 
 		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
@@ -2629,18 +2638,6 @@ public class FightRequest
 		            && !KoLCharacter.inBigcore() )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
-		}
-
-		// Vivala mask skill Creepy Grin used
-		if ( responseText.contains( "an even creepier grin" ) )
-		{
-			Preferences.setBoolean( "_vmaskBanisherUsed", true );
-		}
-
-		// stinky cheese eye Give Your Opponent the Stinkeye skill used
-		else if ( responseText.contains( "You fix an extremely disdainful eye" ) )
-		{
-			Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
 		}
 
 		// You hug him with your filthy rotting arms.
@@ -5941,16 +5938,7 @@ public class FightRequest
 				if ( responseText.contains( "turns tail and runs" ) )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
-					String pref = MonsterStatusTracker.getLastMonsterName();
-					String[] monsters = Preferences.getString( "_jiggleCheesedMonsters" ).split( "\\|" );
-					for ( int i = 0; i < monsters.length; ++i )
-					{
-						if ( monsters[ i ].length() > 0 )
-						{
-							pref += "|" + monsters[ i ];
-						}
-					}
-					Preferences.setString( "_jiggleCheesedMonsters", pref );
+					BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "staff of the standalone cheese" );
 				}
 				break;
 
@@ -6203,8 +6191,57 @@ public class FightRequest
 				MonsterStatusTracker.healMonster( 16 );
 			}
 			break;
-		}
 
+		// Handle item banishers, assume success in Haiku or Dis
+		case ItemPool.CRYSTAL_SKULL:
+			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "crystal skull" );
+			}
+			break;
+		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
+			if ( responseText.contains( "surprisingly loud bang, and your opponent flees in terror" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "divine champagne popper" );
+			}
+			break;
+		case ItemPool.HAROLDS_HAMMER:
+			if ( responseText.contains( "opponent cringes and walks away" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "harold's bell" );
+			}
+			break;
+		case ItemPool.INDIGO_TAFFY:
+			if ( responseText.contains( "ink clears, your opponent is nowhere to be found" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "pulled indigo taffy" );
+			}
+			break;
+		case ItemPool.CLASSY_MONKEY:
+			if ( responseText.contains( "Your opponent turns tail and runs away screaming" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "classy monkey" );
+			}
+			break;
+		case ItemPool.DIRTY_STINKBOMB:
+			if ( responseText.contains( "your opponent flees the scene in disgust" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "dirty stinkbomb" );
+			}
+			break;
+		case ItemPool.DEATHCHUCKS:
+			if ( responseText.contains( "opponent slowly backs away, running off once he gets far enough away from you" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "deathchucks" );
+			}
+			break;
+		case ItemPool.COCKTAIL_NAPKIN:
+			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "cocktail napkin" );
+			}
+			break;
+		}		
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );

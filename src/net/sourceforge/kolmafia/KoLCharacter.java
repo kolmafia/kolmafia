@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -1888,7 +1889,12 @@ public abstract class KoLCharacter
 
 	public static final void setCurrentRun( final int currentRun )
 	{
+		boolean changed = KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0;
 		KoLCharacter.currentRun = currentRun;
+		if ( changed )
+		{
+			BanishManager.update();
+		}
 	}
 
 	/**

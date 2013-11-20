@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -3348,9 +3349,7 @@ public class DailyDeedsPanel
 	{
 		public BanishedDaily()
 		{
-			this.addListener( "banishingShoutMonsters" );
-			this.addListener( "_jiggleCheesedMonsters" );
-			this.addListener( "_nanorhinoBanishedMonster" );
+			this.addListener( "banishedMonsters" );
 			this.addLabel( "" );
 		}
 
@@ -3363,39 +3362,11 @@ public class DailyDeedsPanel
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_CHEESE );
 			boolean nanoBan = KoLCharacter.findFamiliar( FamiliarPool.NANORHINO ) != null;
 
-			// None of the currently tracked banishers can be active simultaneously
-			String pref = "";
-			if ( borisBan )
-			{
-				pref = "banishingShoutMonsters";
-			}
-			if ( zombieBan )
-			{
-				pref = "banishingShoutMonsters";
-			}
-			if ( jarlBan )
-			{
-				pref = "_jiggleCheesedMonsters";
-			}
-			if ( nanoBan )
-			{
-				pref = "_nanorhinoBanishedMonster";
-			} 
-
-			String text = "Banished monsters: ";
-			if ( !pref.equals( "" ) )
-			{
-				text = text + Preferences.getString( pref ).replaceAll( "\\|", ", " );
-				text = text.trim();
-				while ( text.endsWith( "," ) )
-				{
-					text = text.substring( 0, text.length() - 1 );
-					text = text.trim();
-				}
-			}
+			String list = BanishManager.getBanishList();
+			String text = "Banished monsters: " + list;
 
 			this.setText( text );
-			this.setShown( borisBan || zombieBan || jarlBan || nanoBan );
+			this.setShown( borisBan || zombieBan || jarlBan || nanoBan || list.length() > 0 );
 		}
 	}
 

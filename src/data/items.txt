@@ -6913,6 +6913,6 @@
 6896	tangled mass of creepy pasta	677130598	boobooboo.gif	usable	t,d	5	tangled masses of creepy pasta
 6897
 6898	Chef Boy, R&D's business card	189658738	buscard.gif	reusable		0
-6899
+6899	Thwaitgold bee statuette	287861273	thwaitant.gif	none		0
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
 6901	hazardous sauce dosimeter	396445866	dosimeter.gif	accessory		0

@@ -154,6 +154,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -1396,6 +1397,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "monster_phylum", DataTypes.PHYLUM_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "is_banished", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
@@ -5644,6 +5648,12 @@ public abstract class RuntimeLibrary
 
 		Phylum phylum = monster.getPhylum();
 		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString() );
+	}
+
+	public static Value is_banished( Interpreter interpreter, final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		return DataTypes.makeBooleanValue( BanishManager.isBanished( (String) monster.getName() ) );
 	}
 
 	public static Value item_drops( Interpreter interpreter )

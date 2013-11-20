@@ -712,6 +712,7 @@ public class ItemPool
 	public static final int CARONCH_MAP = 2950;
 	public static final int FRATHOUSE_BLUEPRINTS = 2951;
 	public static final int CHARRRM_BRACELET = 2953;
+	public static final int COCKTAIL_NAPKIN = 2956;
 	public static final int RUM_CHARRRM = 2957;
 	public static final int RUM_BRACELET = 2959;
 	public static final int RIGGING_SHAMPOO = 2963;
@@ -1467,6 +1468,7 @@ public class ItemPool
 	public static final int TEACHINGS_OF_THE_FIST = 5220;
 	public static final int FAT_LOOT_TOKEN = 5221;
 	public static final int CLIP_ART_BOOK = 5223;
+	public static final int CRYSTAL_SKULL = 5231;
 	public static final int BORROWED_TIME = 5232;
 	public static final int BOX_OF_HAMMERS = 5233;
 	public static final int FIELD_GAR_POTION = 5257;
@@ -1656,6 +1658,7 @@ public class ItemPool
 	public static final int GEEKY_BOOK = 6071;
 	public static final int LED_CLOCK = 6072;
 	public static final int HAGGIS_SOCKS = 6080;
+	public static final int CLASSY_MONKEY = 6097;
 	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int STRANGE_GOGGLES = 6118;
 	public static final int BONSAI_TREE = 6120;
