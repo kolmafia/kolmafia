@@ -880,6 +880,11 @@ public class UseSkillRequest
 			return;
 		}
 
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		UseSkillRequest.lastUpdate = "";
 
 		if ( this.buffCount == 0 )
