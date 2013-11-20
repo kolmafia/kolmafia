@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 public class ClanLoungeSwimmingPoolRequest
 	extends GenericRequest
 {
-
 	// Default to GET_OUT
 	public static final int HANDSTAND = 1;
 	public static final int GET_OUT = 2;
@@ -76,6 +75,11 @@ public class ClanLoungeSwimmingPoolRequest
 		this.action = action;
 	}
 
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
 	/**
 	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
 	 * gains were made.
@@ -91,8 +95,8 @@ public class ClanLoungeSwimmingPoolRequest
 
 			this.constructURLString( "choice.php" );
 			this.addFormField( "whichchoice", "585" );
-			this.addFormField( "action", "flip" );
 			this.addFormField( "option", "1" );
+			this.addFormField( "action", "flip" );
 			break;
 
 		case ClanLoungeSwimmingPoolRequest.GET_OUT:
@@ -100,8 +104,8 @@ public class ClanLoungeSwimmingPoolRequest
 
 			this.constructURLString( "choice.php" );
 			this.addFormField( "whichchoice", "585" );
-			this.addFormField( "action", "leave" );
 			this.addFormField( "option", "1" );
+			this.addFormField( "action", "leave" );
 			break;
 
 		case ClanLoungeSwimmingPoolRequest.SAY:
@@ -109,9 +113,9 @@ public class ClanLoungeSwimmingPoolRequest
 
 			this.constructURLString( "choice.php" );
 			this.addFormField( "whichchoice", "585" );
+			this.addFormField( "option", "1" );
 			this.addFormField( "action", "say" );
 			//this.addFormField( "say", "" );
-			this.addFormField( "option", "1" );
 			break;
 
 		case ClanLoungeSwimmingPoolRequest.CLOSE_EYES:
@@ -119,8 +123,8 @@ public class ClanLoungeSwimmingPoolRequest
 
 			this.constructURLString( "choice.php" );
 			this.addFormField( "whichchoice", "585" );
-			this.addFormField( "action", "blink" );
 			this.addFormField( "option", "1" );
+			this.addFormField( "action", "blink" );
 			break;
 
 		case ClanLoungeSwimmingPoolRequest.TREASURE:
@@ -128,8 +132,8 @@ public class ClanLoungeSwimmingPoolRequest
 
 			this.constructURLString( "choice.php" );
 			this.addFormField( "whichchoice", "585" );
-			this.addFormField( "action", "treasure" );
 			this.addFormField( "option", "1" );
+			this.addFormField( "action", "treasure" );
 			break;
 
 		default:
@@ -147,7 +151,7 @@ public class ClanLoungeSwimmingPoolRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "whichchoice=585" ) == -1 || responseText == null )
+		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=585" ) || responseText == null )
 		{
 			return;
 		}

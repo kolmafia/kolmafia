@@ -2098,7 +2098,7 @@ public class GenericRequest
 				return true;
 			}
 
-			ChoiceManager.processChoiceAdventure();
+			ChoiceManager.processRedirectedChoiceAdventure( this.redirectLocation );
 			return true;
 		}
 
