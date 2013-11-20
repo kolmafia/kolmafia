@@ -1696,12 +1696,12 @@ public abstract class RuntimeLibrary
 		if ( batched != null )
 		{
 			Iterator i = batched.entrySet().iterator();
-			while ( i.hasNext() )
+			while ( i.hasNext() && KoLmafia.permitsContinue() )
 			{
 				Map.Entry e = (Map.Entry) i.next();
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( (String) e.getKey(),
-					((StringBuffer) e.getValue()).toString() );
-				if ( !KoLmafia.permitsContinue() ) break;
+				String command = (String) e.getKey();
+				String parameters = ((StringBuffer) e.getValue()).toString();
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( command, parameters );
 			}
 			interpreter.batched = null;
 		}

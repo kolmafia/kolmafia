@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -56,7 +58,7 @@ public class ClosetCommand
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
 		if ( parameters.startsWith( "list" ) )
 		{
@@ -81,16 +83,25 @@ public class ClosetCommand
 			return;
 		}
 
-		if ( !parameters.startsWith( "take" ) && !parameters.startsWith( "put" ) )
+		boolean isTake;
+		if ( parameters.startsWith( "take" ) )
+		{
+			parameters = parameters.substring( 4 ).trim();
+			isTake = true;
+		}
+		else if ( parameters.startsWith( "put" ) )
+		{
+			parameters = parameters.substring( 3 ).trim();
+			isTake = false;
+		}
+		else
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid closet command." );
 			return;
 		}
 
-		boolean isTake = parameters.startsWith( "take" );
-		AdventureResult[] itemList =
-			ItemFinder.getMatchingItemList(
-				isTake ? KoLConstants.closet : KoLConstants.inventory, parameters.substring( 4 ).trim() );
+		List source = isTake ? KoLConstants.closet : KoLConstants.inventory;
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( source, parameters );
 
 		if ( itemList.length == 0 )
 		{
@@ -98,19 +109,28 @@ public class ClosetCommand
 		}
 
 		int meatAttachmentCount = 0;
+		int meatCount = 0;
+		int hatCount = 0;
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
 			AdventureResult item = itemList[ i ];
 			if ( item.getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ClosetRequest(
-					isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET,
-					item.getCount() ) );
-
+				meatCount += item.getCount();
+				meatAttachmentCount += 1;
 				itemList[ i ] = null;
-				++meatAttachmentCount;
 			}
+			else if ( EquipmentDatabase.isHat( item )  )
+			{
+				hatCount += 1;
+			}
+		}
+
+		if ( meatCount > 0 )
+		{
+			int moveType = isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET;
+			RequestThread.postRequest( new ClosetRequest( moveType, meatCount ) );
 		}
 
 		if ( meatAttachmentCount == itemList.length )
@@ -118,17 +138,13 @@ public class ClosetCommand
 			return;
 		}
 
-		RequestThread.postRequest( new ClosetRequest(
-			parameters.startsWith( "take" ) ? ClosetRequest.CLOSET_TO_INVENTORY : ClosetRequest.INVENTORY_TO_CLOSET,
-			itemList ) );
+		int moveType = isTake ? ClosetRequest.CLOSET_TO_INVENTORY : ClosetRequest.INVENTORY_TO_CLOSET;
+		RequestThread.postRequest( new ClosetRequest( moveType, itemList ) );
 		
-		for ( int i = 0; i < itemList.length; ++i )
+		// update "Hatter" daily deed
+		if ( hatCount > 0 )
 		{
-			// update "Hatter" daily deed
-			if ( EquipmentDatabase.isHat( itemList[ i ] ) )
-			{
-				PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
-			}
+			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 		}
 	}
 }
