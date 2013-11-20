@@ -82,7 +82,7 @@ public class ChoiceCommand
 		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
 		int decision = 0;
-		TreeMap choices = ChoiceCommand.parseChoices();
+		TreeMap choices = ChoiceCommand.parseChoices( true );
 		if ( StringUtilities.isNumeric( parameters ) )
 		{
 			decision = StringUtilities.parseInt( parameters );
@@ -120,7 +120,7 @@ public class ChoiceCommand
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
 	private static final Pattern LINK_PATTERN = Pattern.compile( "href='choice.php\\?.*option=(\\d+)'" );
 
-	public static TreeMap parseChoices()
+	public static TreeMap parseChoices( final boolean spoilers )
 	{
 		TreeMap rv = new TreeMap();
 		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
@@ -141,11 +141,14 @@ public class ChoiceCommand
 		{
 			int decision = Integer.parseInt( m.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
-			Object option = ChoiceManager.findOption( options, decision );
 			String text = m.group( 2 );
-			if ( option != null )
+			if ( spoilers )
 			{
-				text = text + " (" + option.toString() + ")";
+				Object option = ChoiceManager.findOption( options, decision );
+				if ( option != null )
+				{
+					text = text + " (" + option.toString() + ")";
+				}
 			}
 			rv.put( IntegerPool.get( decision ), text );
 		}
@@ -159,11 +162,14 @@ public class ChoiceCommand
 			{
 				continue;
 			}
-			Object option = ChoiceManager.findOption( options, decision );
 			String text = "(secret choice)";
-			if ( option != null )
+			if ( spoilers )
 			{
-				text = text + " (" + option.toString() + ")";
+				Object option = ChoiceManager.findOption( options, decision );
+				if ( option != null )
+				{
+					text = text + " (" + option.toString() + ")";
+				}
 			}
 			rv.put( key, text );
 		}
@@ -210,7 +216,7 @@ public class ChoiceCommand
 
 	public static void printChoices()
 	{
-		TreeMap choices = ChoiceCommand.parseChoices();
+		TreeMap choices = ChoiceCommand.parseChoices( true );
 		Iterator i = choices.entrySet().iterator();
 		while ( i.hasNext() )
 		{
@@ -221,7 +227,7 @@ public class ChoiceCommand
 	
 	public static void logChoices()
 	{
-		TreeMap choices = ChoiceCommand.parseChoices();
+		TreeMap choices = ChoiceCommand.parseChoices( true );
 		Iterator i = choices.entrySet().iterator();
 		int choice = ChoiceManager.currentChoice();
 		while ( i.hasNext() )
