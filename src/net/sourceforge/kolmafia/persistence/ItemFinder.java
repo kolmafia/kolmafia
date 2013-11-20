@@ -391,10 +391,52 @@ public class ItemFinder
 			itemCount = 0;
 			parameters = parameters.substring( 1 ).trim();
 		}
-		else if ( parameters.indexOf( "\u00B6" ) == -1 &&
-			ItemDatabase.getItemId( parameters, 1 ) != -1 )
+
+		List<String> matchList;
+
+		if ( parameters.contains( "\u00B6" ) )
 		{
-			itemCount = 1;
+			// At least one item is specified by item IF
+			if ( parameters.contains( "," ) )
+			{
+				// We can't parse multiple items of this sort
+				if ( errorOnFailure )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "More than one item specified by item ID." );
+				}
+				return null;
+			}
+
+			int spaceIndex = parameters.indexOf( ' ' );
+			if ( spaceIndex != -1 )
+			{
+				String itemCountString = parameters.substring( 0, spaceIndex );
+
+				if ( StringUtilities.isNumeric( itemCountString ) )
+				{
+					itemCount = StringUtilities.parseInt( itemCountString );
+					parameters = parameters.substring( spaceIndex + 1 ).trim();
+				}
+			}
+
+			int itemId = StringUtilities.parseInt( parameters.substring( 1 ) );
+			String name = ItemDatabase.getItemName( itemId );
+			if ( name == null )
+			{
+				if ( errorOnFailure )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown item ID " + itemId );
+				}
+				return null;
+			}
+			matchList = new ArrayList<String>();
+			matchList.add( name );
+		}
+		else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
+		{
+			// The entire parameter is a single item
+			matchList = new ArrayList<String>();
+			matchList.add( parameters.trim() );
 		}
 		else
 		{
@@ -410,21 +452,9 @@ public class ItemFinder
 					parameters = parameters.substring( spaceIndex + 1 ).trim();
 				}
 			}
-		}
 
-		List<String> matchList;
-		if ( parameters.startsWith( "\u00B6" ) )
-		{
-			matchList = new ArrayList<String>();
-			String name = ItemDatabase.getItemName(
-				StringUtilities.parseInt( parameters.substring( 1 ) ) );
-			if ( name != null )
-			{
-				matchList.add( name );
-			}
-		}
-		else
-		{
+			// This is not right for "1 seal tooth, 2 turtle totem, 3 stolen accordion"
+			// since the first count is trimmed off
 			matchList = ItemFinder.getMatchingNames( parameters );
 		}
 
