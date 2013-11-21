@@ -1895,6 +1895,22 @@ public class Modifiers
 			return true;
 		}
 
+		// Inner sauce MP regen depends on class
+		if ( name.equals( "inner sauce" ) )
+		{
+			if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+			{
+				this.set( Modifiers.MP_REGEN_MIN, 3.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 4.0 );
+			}
+			else
+			{
+				this.set( Modifiers.MP_REGEN_MIN, 1.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 1.0 );
+			}
+			return true;
+		}
+		
 		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )
