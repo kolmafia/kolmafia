@@ -254,9 +254,8 @@ public class PastaThrallData
 	{
 		for ( int i = 0; i < PastaThrallData.THRALL_ARRAY.length; ++i )
 		{
-			String type = PastaThrallData.dataToType( PASTA_THRALLS[ i ] );
-			PastaThrallData.THRALL_ARRAY[ i ] = type;
-			PastaThrallData.CANONICAL_THRALL_ARRAY[ i ] = StringUtilities.getCanonicalName( type );
+			PastaThrallData.THRALL_ARRAY[ i ] = PastaThrallData.dataToType( PASTA_THRALLS[ i ] );
+			PastaThrallData.CANONICAL_THRALL_ARRAY[ i ] = PastaThrallData.dataToCanonicalType( PASTA_THRALLS[ i ] );
 		}
 		Arrays.sort( PastaThrallData.THRALL_ARRAY );
 	};

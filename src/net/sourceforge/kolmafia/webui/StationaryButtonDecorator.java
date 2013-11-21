@@ -337,6 +337,10 @@ public class StationaryButtonDecorator
 		boolean inCombat = urlString.startsWith( "fight.php" ) && FightRequest.getCurrentRound() > 0;
 		boolean inChoice = urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", buffer.indexOf( "<body>" ) + 1 ) != -1;
 
+		// You can have either hot keys or the macro editor, since the
+		// former make it impossible to type numbers in the macro field
+		boolean useHotKeys = !Preferences.getBoolean( "macroLens" );
+
 		if ( inCombat )
 		{
 			StationaryButtonDecorator.addCombatButtons( urlString, actionBuffer );
@@ -357,7 +361,7 @@ public class StationaryButtonDecorator
 
 		// If you are either in combat or finished with one, give the
 		// user the opportunity to update hot keys.
-		if ( !inChoice )
+		if ( useHotKeys && !inChoice )
 		{
 			actionBuffer.append( "<td align=right valign=top>" );
 			actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
@@ -389,15 +393,19 @@ public class StationaryButtonDecorator
 
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
-		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
+		if ( useHotKeys )
+		{
+			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
+		}
+
 		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		// *** End of 'content_' div
 		
 		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		// *** End of 'page' div
 
-		if ( !Preferences.getBoolean( "macroLens" ) )
-		{	// this would make it impossible to type numbers in the macro field!
+		if ( useHotKeys )
+		{
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 		}
 
