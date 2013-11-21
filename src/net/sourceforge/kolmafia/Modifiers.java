@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -1895,9 +1896,11 @@ public class Modifiers
 			return true;
 		}
 
-		// Inner sauce MP regen depends on class
-		if ( name.equals( "inner sauce" ) )
+		int skillId = SkillDatabase.getSkillId( name );
+		
+		switch ( skillId )
 		{
+		case SkillPool.INNER_SAUCE:
 			if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
 			{
 				this.set( Modifiers.MP_REGEN_MIN, 3.0 );
