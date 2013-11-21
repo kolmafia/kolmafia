@@ -14,7 +14,6 @@
 # Questionable data:
 #
 # Crazy Bastard
-# Hypnotist of Hey Deze
 #
 # Scaling monsters:
 #
@@ -513,7 +512,7 @@ hung-over half-orc hobo	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	
 Hunter-Gatherer Cave Elf			tooth (15)	tooth (5)
 hunting seal	huntingseal.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: demon
 hustled spectre	poolghost.gif	Atk: 25 Def: 22 HP: 35 Init: 100 P: undead	cube of billiard chalk (100)
-Hypnotist of Hey Deze		HP: 80 Def: 45 Atk: 50	hypnodisk (100)
+Hypnotist of Hey Deze		HP: 85 Def: 115 Atk: 85 Init: 10000 P: dude	hypnodisk (100)
 Ice Cube	icecube.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental
 ice skate	iceskate.gif	Atk: 400 Def: 450 HP: 600 Meat: 80-120 P: fish	collapsible baton (0)	skate blade (0)	skate skin (0)	spangly unitard (0)
 Iiti Kitty	mummycat.gif	Atk: 165 Def: 148 HP: 150 Init: 75 P: undead	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)	crumbling rat skull (c0)	Iiti Kitty Gumdrop (c0)
