@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -92,6 +93,7 @@ public class DataTypes
 	public static final int TYPE_ELEMENT = 109;
 	public static final int TYPE_COINMASTER = 110;
 	public static final int TYPE_PHYLUM = 111;
+	public static final int TYPE_THRALL = 112;
 
 	public static final int TYPE_STRICT_STRING = 1000;
 	public static final int TYPE_AGGREGATE = 1001;
@@ -138,6 +140,7 @@ public class DataTypes
 	public static final Type ELEMENT_TYPE = new Type( "element", DataTypes.TYPE_ELEMENT );
 	public static final Type COINMASTER_TYPE = new Type( "coinmaster", DataTypes.TYPE_COINMASTER );
 	public static final Type PHYLUM_TYPE = new Type( "phylum", DataTypes.TYPE_PHYLUM );
+	public static final Type THRALL_TYPE = new Type( "thrall", DataTypes.TYPE_THRALL );
 
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
@@ -205,6 +208,7 @@ public class DataTypes
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", (Object) null );
+	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -231,6 +235,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.ELEMENT_TYPE );
 		simpleTypes.add( DataTypes.COINMASTER_TYPE );
 		simpleTypes.add( DataTypes.PHYLUM_TYPE );
+		simpleTypes.add( DataTypes.THRALL_TYPE );
 	}
 
 	// For each simple data type X, we supply:
@@ -577,6 +582,28 @@ public class DataTypes
 		return new Value( DataTypes.PHYLUM_TYPE, name );
 	}
 
+	public static final Value parseThrallValue( String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.THRALL_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.THRALL_INIT;
+		}
+
+		Object [] data = PastaThrallData.typeToData( name );
+		if ( data == null )
+		{
+			return returnDefault ? DataTypes.THRALL_INIT : null;
+		}
+
+		name = PastaThrallData.dataToType( data );
+		return new Value( DataTypes.THRALL_TYPE, name, data );
+	}
+
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )
@@ -711,6 +738,15 @@ public class DataTypes
 		return new Value( DataTypes.FAMILIAR_TYPE, num, name );
 	}
 
+	public static final Value makeThrallValue( final PastaThrallData thrall )
+	{
+		if ( thrall == null || thrall == PastaThrallData.NO_THRALL )
+		{
+			return DataTypes.THRALL_INIT;
+		}
+		return new Value( DataTypes.THRALL_TYPE, thrall.getType(), thrall.getData() );
+	}
+
 	// Also supply:
 	// public static final String promptForValue()
 
@@ -757,6 +793,9 @@ public class DataTypes
 
 		case TYPE_PHYLUM:
 			return (String) InputFieldUtilities.input( message, MonsterDatabase.PHYLUM_ARRAY );
+
+		case TYPE_THRALL:
+			return (String) InputFieldUtilities.input( message, PastaThrallData.THRALL_ARRAY );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );

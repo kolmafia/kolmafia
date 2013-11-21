@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -121,7 +122,7 @@ public class PastaThrallData
 			"Blocks enemy attacks",
 		},
 		{
-			"Undead Elbow Macaroni",
+			"Elbow Macaroni",
 			IntegerPool.get( 4 ),
 			"pastaThrall4",
 			IntegerPool.get( SkillPool.BIND_UNDEAD_ELBOW_MACARONI ),
@@ -238,6 +239,16 @@ public class PastaThrallData
 		*/
 	};
 
+	public static final String [] THRALL_ARRAY = new String[ PastaThrallData.PASTA_THRALLS.length ];
+	static
+	{
+		for ( int i = 0; i < PastaThrallData.THRALL_ARRAY.length; ++i )
+		{
+			PastaThrallData.THRALL_ARRAY[ i ] = PastaThrallData.dataToType( PASTA_THRALLS[ i ] );
+		}
+		Arrays.sort( PastaThrallData.THRALL_ARRAY );
+	};
+
 	public static String dataToType( Object[] data )
 	{
 		return data == null ? "" : (String)data[ 0 ];
@@ -299,6 +310,19 @@ public class PastaThrallData
 		{
 			Object[] data = PastaThrallData.PASTA_THRALLS[ i ];
 			if ( PastaThrallData.dataToId( data ) == id )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public static Object[] typeToData( final String type )
+	{
+		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
+		{
+			Object[] data = PastaThrallData.PASTA_THRALLS[ i ];
+			if ( type.equals( PastaThrallData.dataToType( data ) ) )
 			{
 				return data;
 			}
@@ -411,6 +435,11 @@ public class PastaThrallData
 			String value = String.valueOf( this.level) + "," + this.name;
 			Preferences.setString( settingName, value );
 		}
+	}
+
+	public Object [] getData()
+	{
+		return this.data;
 	}
 
 	public int getId()

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
@@ -471,6 +472,39 @@ public class ProxyRecordValue
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? 0 : fam.getCharges();
+		}
+	}
+
+	public static class ThrallProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "name", DataTypes.STRING_TYPE )
+			.add( "level", DataTypes.INT_TYPE )
+			.add( "current_modifiers", DataTypes.STRING_TYPE )
+			.finish( "thrall proxy" );
+
+		public ThrallProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public String get_name()
+		{
+			PastaThrallData thrall = KoLCharacter.findPastaThrall( this.contentString );
+			return thrall == null ? "" : thrall.getName();
+		}
+
+		public int get_level()
+		{
+			PastaThrallData thrall = KoLCharacter.findPastaThrall( this.contentString );
+			return thrall == null ? 0 : thrall.getLevel();
+		}
+
+		public String get_current_modifiers()
+		{
+			PastaThrallData thrall = KoLCharacter.findPastaThrall( this.contentString );
+			return thrall == null ? "" : thrall.getCurrentModifiers();
 		}
 	}
 
