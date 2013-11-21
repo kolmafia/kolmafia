@@ -68,6 +68,7 @@ public class PastaThrallData
 		// Level 1 Power
 		// Level 5 Power
 		// Level 10 Power
+		// Canonical Thrall type
 
 		{
 			"Vampieroghi",
@@ -85,6 +86,7 @@ public class PastaThrallData
 			"Damage and restore HP during combat",
 			"Dispel negative effects after combat",
 			"Maximum HP: +60",
+			StringUtilities.getCanonicalName( "Vampieroghi" ),
 		},
 		{
 			"Vermincelli",
@@ -102,6 +104,7 @@ public class PastaThrallData
 			"Damage and restore MP during combat",
 			"Attack and poison foe during combat",
 			"Maximum MP: +30",
+			StringUtilities.getCanonicalName( "Vermincelli" ),
 		},
 		{
 			"Angel Hair Wisp",
@@ -120,6 +123,7 @@ public class PastaThrallData
 			"Initiative: +5 per level",
 			"Prevent enemy critical hits",
 			"Blocks enemy attacks",
+			StringUtilities.getCanonicalName( "Angel Hair Wisp" ),
 		},
 		{
 			"Elbow Macaroni",
@@ -137,6 +141,7 @@ public class PastaThrallData
 			"Muscle can't be lower than Mysticality",
 			"Weapon Damage: +2 per level",
 			"Critical Hit Percentage: +10",
+			StringUtilities.getCanonicalName( "Elbow Macaroni" ),
 		},
 		{
 			"Penne Dreadful",
@@ -157,6 +162,7 @@ public class PastaThrallData
 			"Moxie can't be lower than Mysticality",
 			"Delevel at start of combat",
 			"Damage Reduction: +10",
+			StringUtilities.getCanonicalName( "Penne Dreadful" ),
 		},
 		{
 			"Lasagmbie",
@@ -173,6 +179,7 @@ public class PastaThrallData
 			"Meat Drop: +20 + 2 per level",
 			"Attacks for Spooky Damage",
 			"Spooky Spell Damage: +10",
+			StringUtilities.getCanonicalName( "Lasagmbie" ),
 		},
 		{
 			"Spice Ghost",
@@ -190,6 +197,7 @@ public class PastaThrallData
 			"Item Drop: +10 + 1 per level",
 			"spice drop 10/day",
 			"Increases duration of Entangling Noodles",
+			StringUtilities.getCanonicalName( "Spice Ghost" ),
 		},
 		{
 			"Spaghetti Elemental",
@@ -209,6 +217,7 @@ public class PastaThrallData
 			"Experience: 1-ceil(level/3)",
 			"Prevents first attack",
 			"Spell Damage: +5",
+			StringUtilities.getCanonicalName( "Spaghetti Elemental" ),
 		},
 
 		/*
@@ -240,11 +249,14 @@ public class PastaThrallData
 	};
 
 	public static final String [] THRALL_ARRAY = new String[ PastaThrallData.PASTA_THRALLS.length ];
+	public static final String [] CANONICAL_THRALL_ARRAY = new String[ PastaThrallData.PASTA_THRALLS.length ];
 	static
 	{
 		for ( int i = 0; i < PastaThrallData.THRALL_ARRAY.length; ++i )
 		{
-			PastaThrallData.THRALL_ARRAY[ i ] = PastaThrallData.dataToType( PASTA_THRALLS[ i ] );
+			String type = PastaThrallData.dataToType( PASTA_THRALLS[ i ] );
+			PastaThrallData.THRALL_ARRAY[ i ] = type;
+			PastaThrallData.CANONICAL_THRALL_ARRAY[ i ] = StringUtilities.getCanonicalName( type );
 		}
 		Arrays.sort( PastaThrallData.THRALL_ARRAY );
 	};
@@ -304,6 +316,11 @@ public class PastaThrallData
 		return data == null ? null : (String)data[ 10 ];
 	}
 
+	public static String dataToCanonicalType( Object[] data )
+	{
+		return data == null ? "" : (String)data[ 11 ];
+	}
+
 	public static Object[] idToData( final int id )
 	{
 		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
@@ -319,10 +336,18 @@ public class PastaThrallData
 
 	public static Object[] typeToData( final String type )
 	{
+		// Do fuzzy matching
+		List<String> matchingNames = StringUtilities.getMatchingNames( PastaThrallData.CANONICAL_THRALL_ARRAY, type );
+		if ( matchingNames.size() != 1 )
+		{
+			return null;
+		}
+
+		String name = matchingNames.get( 0 );
 		for ( int i = 0; i < PastaThrallData.PASTA_THRALLS.length; ++i )
 		{
 			Object[] data = PastaThrallData.PASTA_THRALLS[ i ];
-			if ( type.equals( PastaThrallData.dataToType( data ) ) )
+			if ( name.equals( PastaThrallData.dataToCanonicalType( data ) ) )
 			{
 				return data;
 			}

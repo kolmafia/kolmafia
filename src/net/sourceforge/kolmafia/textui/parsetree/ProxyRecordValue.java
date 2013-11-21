@@ -479,14 +479,24 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "id", DataTypes.INT_TYPE )
 			.add( "name", DataTypes.STRING_TYPE )
 			.add( "level", DataTypes.INT_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
+			.add( "tinyimage", DataTypes.STRING_TYPE )
+			.add( "skill", DataTypes.SKILL_TYPE )
 			.add( "current_modifiers", DataTypes.STRING_TYPE )
 			.finish( "thrall proxy" );
 
 		public ThrallProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public int get_id()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? 0 : PastaThrallData.dataToId( data );
 		}
 
 		public String get_name()
@@ -499,6 +509,24 @@ public class ProxyRecordValue
 		{
 			PastaThrallData thrall = KoLCharacter.findPastaThrall( this.contentString );
 			return thrall == null ? 0 : thrall.getLevel();
+		}
+
+		public String get_image()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : PastaThrallData.dataToImage( data );
+		}
+
+		public String get_tinyimage()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : PastaThrallData.dataToTinyImage( data );
+		}
+
+		public Value get_skill()
+		{
+			Object [] data = (Object [])this.content;
+			return DataTypes.makeSkillValue( data == null ? 0 : PastaThrallData.dataToSkillId( data ) );
 		}
 
 		public String get_current_modifiers()

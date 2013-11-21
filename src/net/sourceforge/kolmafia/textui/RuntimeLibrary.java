@@ -355,6 +355,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.CLASS_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.THRALL_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
@@ -422,6 +424,11 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
@@ -2256,6 +2263,16 @@ public abstract class RuntimeLibrary
 	public static Value to_phylum( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parsePhylumValue( value.toString(), true );
+	}
+
+	public static Value to_thrall( Interpreter interpreter, final Value value )
+	{
+		if ( value.getType().equals( DataTypes.TYPE_INT ) )
+		{
+			return DataTypes.makeThrallValue( (int) value.intValue() );
+		}
+
+		return DataTypes.parseThrallValue( value.toString(), true );
 	}
 
 	public static Value to_plural( Interpreter interpreter, final Value item ) {
