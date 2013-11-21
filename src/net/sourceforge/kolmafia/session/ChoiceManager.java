@@ -135,7 +135,6 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
-	private static final Pattern URL_FORCEOPTION_PATTERN = Pattern.compile( "forceoption=(\\d+)" );
 	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -145,6 +144,7 @@ public abstract class ChoiceManager
 	private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile( "(\\d+) wings??<br>" );
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "Chamber <b>#(\\d+)</b>" );
 	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
+	private static final Pattern UNPERM_PATTERN = Pattern.compile( "Turning (.+)(?: \\(HP\\)) into (\\d+) karma." );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -3745,7 +3745,6 @@ public abstract class ChoiceManager
 		case 417:
 		case 418:
 			// The Barracks
-			result = new Object[ 3 ];
 			result = HaciendaManager.getSpoilers( choice );
 			return result;
 			
@@ -6647,6 +6646,18 @@ public abstract class ChoiceManager
 			// worm-riding hooks. Handled as part of item
 			// acquisition of the latter
 			return;
+
+		case 812:
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Matcher matcher = ChoiceManager.UNPERM_PATTERN.matcher( ChoiceManager.lastResponseText );
+				if ( matcher.find() )
+				{
+					KoLCharacter.removeAvailableSkill( matcher.group( 1 ) );
+					Preferences.increment( "bankedKarma", Integer.parseInt( matcher.group( 2 ) ) );
+				}
+			}
+			return;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -9364,6 +9375,7 @@ public abstract class ChoiceManager
 		case 801: // A Reanimated Conversation
 		case 804: // Trick or Treat!
 		// case 807: // Breaker Breaker!
+		case 812: // The Unpermery
 			ChoiceManager.canWalkAway = true;
 			break;
 
