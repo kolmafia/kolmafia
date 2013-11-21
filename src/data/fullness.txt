@@ -112,7 +112,7 @@ club sandwich	3	5	awesome	9-10	18-24	0	0
 cob of corn	1	2	crappy	1	0	10-15	0
 cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
-cold hi mein	5	7	awesome	21-28	71-75	30-35	15-20	5 Cold Breath (combat skill)
+cold hi mein	5	7	awesome	23-26	71-75	30-35	15-20	5 Cold Breath (combat skill)
 cold mashed potatoes	1	4	awesome	4-5	0	0	0
 congratulatory cake	3	1	crappy	3	0	0	0
 consummate bacon	3	1	decent	4-5	10-20	20-30	0
@@ -298,7 +298,7 @@ handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 happy birthday, claude! cake	3	1	crappy	3	0	0	0
 hell broth	4	3	good	7-14	-5-9	0	-5-9
-hell ramen	6	6	awesome	22-29	23-28	23-28	23-28	20-29 meat
+hell ramen	6	6	awesome	23-27	23-28	23-28	23-28	20-29 meat
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
 herbal stuffing	4	7	awesome	15-21	0	0	70-75
 high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
@@ -307,7 +307,7 @@ holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
 hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30
-hot hi mein	5	7	awesome	21-28	71-75	15-20	30-35	5 Hot Breath (combat skill)
+hot hi mein	5	7	awesome	23-26	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
@@ -522,7 +522,7 @@ sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
 skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
-sleazy hi mein	5	7	awesome	21-28	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
+sleazy hi mein	5	7	awesome	23-26	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 sleeping dog	2	1	awesome	9-10	0	0	0	acquire Dog Tired skill
 slice of pizza	1	1	good	3	12-15	12-15	12-15
 slick fish meat	1	1	good	2-3	0	0	4-8	5/15 Fishy
@@ -548,7 +548,7 @@ spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
 sponge cake	2	3	decent	3-5	0	0	5-10
-spooky hi mein	5	7	awesome	21-28	15-20	71-75	30-35	5 Spooky Breath (combat skill)
+spooky hi mein	5	7	awesome	23-26	15-20	71-75	30-35	5 Spooky Breath (combat skill)
 spooky lo mein	4	6	awesome	14-22	0	0	33-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
 spooky shroomkabob	2	1	decent	2-5	0	0	6-11
@@ -560,7 +560,7 @@ stale baguette	3	1	decent	3-6	0	0	0	lose 3 HP
 stalk of asparagus	1	1	crappy	1	0	1-3	0
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
-stinky hi mein	5	7	awesome	21-28	30-35	71-75	15-20	5 Stinky Breath (combat skill)
+stinky hi mein	5	7	awesome	23-26	30-35	71-75	15-20	5 Stinky Breath (combat skill)
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
 stolen sushi	6	6	good	12-14	15-20	15-20	15-20
 stomach turnover	2	2	awesome	7-9	5-10	15-20	15-20

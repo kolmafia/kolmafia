@@ -237,6 +237,10 @@ public class ItemPool
 	public static final int SONAR = 563;
 	public static final int HERMIT_SCRIPT = 567;
 	public static final int LUCIFER = 571;
+	public static final int HELL_RAMEN = 578;
+	public static final int FETTUCINI_INCONNU = 583;
+	public static final int SPAGHETTI_WITH_SKULLHEADS = 584;
+	public static final int GNOCCHETTI_DI_NIETZSCHE = 585;
 	public static final int REMEDY = 588;
 	public static final int TINY_HOUSE = 592;
 	public static final int EXTREME_AMULET = 594;
@@ -439,6 +443,11 @@ public class ItemPool
 	public static final int GRIMACITE_GUAYABERA = 1546;
 	public static final int VODKA_GIBSON = 1569;
 	public static final int GIBSON = 1570;
+	public static final int HOT_HI_MEIN = 1592;
+	public static final int COLD_HI_MEIN = 1593;
+	public static final int SPOOKY_HI_MEIN = 1594;
+	public static final int STINKY_HI_MEIN = 1595;
+	public static final int SLEAZY_HI_MEIN = 1596;
 	public static final int CATALYST = 1605;
 	public static final int ULTIMATE_WAD = 1606;
 	public static final int C_CLOCHE = 1615;
@@ -1406,6 +1415,7 @@ public class ItemPool
 	public static final int ASTRAL_PILSNER = 5044;
 	public static final int LARS_THE_CYBERIAN = 5053;
 	public static final int CREEPY_VOODOO_DOLL = 5062;
+	public static final int SPAGHETTI_CON_CALAVERAS = 5065;
 	public static final int TINY_BLACK_HOLE = 5069;
 	public static final int RUSSIAN_ICE = 5073;
 	public static final int STRESS_BALL = 5109;
