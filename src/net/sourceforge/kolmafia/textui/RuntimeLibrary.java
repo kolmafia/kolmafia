@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -1008,6 +1009,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_companion", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_thrall", DataTypes.THRALL_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
@@ -4194,6 +4198,11 @@ public abstract class RuntimeLibrary
 			return DataTypes.STRING_INIT;
 		}
 		return new Value( KoLCharacter.getCompanion().toString() );
+	}
+
+	public static Value my_thrall( Interpreter interpreter )
+	{
+		return DataTypes.makeThrallValue( KoLCharacter.currentPastaThrall() );
 	}
 
 	// Random other functions related to current in-game

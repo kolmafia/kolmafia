@@ -741,19 +741,9 @@ public class StationaryButtonDecorator
 
 	private static final String getActionName( final String action )
 	{
-		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		if ( action.equals( "attack" ) )
 		{
-			if ( action.equals( "script" ) )
-			{
-				return FightRequest.getCurrentRound() == 0 ? "again" : "script";
-			}
-		}
-		else
-		{
-			if ( action.equals( "attack" ) )
-			{
-				return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
-			}
+			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
 		}
 
 		if ( action.equals( "steal" ) || action.equals( "jiggle" ) ||
