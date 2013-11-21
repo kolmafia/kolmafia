@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
@@ -3602,6 +3601,29 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.battleSkillNames.add( skillname );
 		}
+	}
+
+	public static final void removeAvailableSkill( final String name )
+	{
+		String message = "Unlearning skill: " + name;
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		UseSkillRequest skill = UseSkillRequest.getInstance( name );
+
+		KoLConstants.availableSkills.remove( skill );
+		KoLConstants.availableSkillsMap.remove( skill );
+		KoLConstants.usableSkills.remove( skill );
+		KoLConstants.summoningSkills.remove( skill );
+		KoLConstants.usableSkills.remove( skill );
+		KoLConstants.remedySkills.remove( skill );
+		KoLConstants.selfOnlySkills.remove( skill );
+		KoLConstants.buffSkills.remove( skill );
+		KoLConstants.songSkills.remove( skill );
+		KoLConstants.expressionSkills.remove( skill );
+		KoLCharacter.battleSkillNames.remove( "skill " + name.toLowerCase() );
+		KoLCharacter.updateStatus();
+		ConcoctionDatabase.setRefreshNeeded( true );
+		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 	}
 
 	/**
