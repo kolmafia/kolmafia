@@ -129,6 +129,7 @@ public class SkillPool
 	public static final int SALSABALL = 4020;
 	public static final int SIMMER = 4025;
 	public static final int BLOOD_SUGAR_SAUCE_MAGIC = 4038;
+	public static final int SAUCEMAVEN = 4039;
 	public static final int DISCO_NAP = 5007;
 	public static final int ADVENTURER_OF_LEISURE = 5011;
 	public static final int ADVANCED_COCKTAIL = 5014;

@@ -1935,6 +1935,17 @@ public class ItemDatabase
 		{
 			return perUnit ? 1.0 : fullness;
 		}
+		if ( ItemDatabase.isSaucy( itemId ) && KoLCharacter.hasSkill( SkillPool.SAUCEMAVEN ) )
+		{
+			if ( KoLCharacter.isMysticalityClass() )
+			{
+				return perUnit ? ( 10.0 / fullness ) : 5.0;
+			}
+			else
+			{
+				return perUnit ? ( 5.0 / fullness ) : 5.0;
+			}
+		}
 		return 0.0;
 	}
 
@@ -2472,7 +2483,7 @@ public class ItemDatabase
 		}
 		return false;
 	}
-		
+
 	public static final boolean isLasagna( final int itemId )
 	{
 		switch ( itemId )
@@ -2484,7 +2495,25 @@ public class ItemDatabase
 		}
 		return false;
 	}
-	
+	public static final boolean isSaucy( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.COLD_HI_MEIN:
+		case ItemPool.HOT_HI_MEIN:
+		case ItemPool.SLEAZY_HI_MEIN:
+		case ItemPool.SPOOKY_HI_MEIN:
+		case ItemPool.STINKY_HI_MEIN:
+		case ItemPool.HELL_RAMEN:
+		case ItemPool.FETTUCINI_INCONNU:
+		case ItemPool.SPAGHETTI_WITH_SKULLHEADS:
+		case ItemPool.GNOCCHETTI_DI_NIETZSCHE:
+		case ItemPool.SPAGHETTI_CON_CALAVERAS:
+			return true;
+		}
+		return false;
+	}
+
 	public static final boolean isPizza( final int itemId )
 	{
 		// Could just detect pizza in the name, but KoL tends to break that in time
