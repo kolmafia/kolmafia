@@ -208,7 +208,7 @@ public class DataTypes
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", (Object) null );
-	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, "none", (Object) null );
+	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -600,8 +600,9 @@ public class DataTypes
 			return returnDefault ? DataTypes.THRALL_INIT : null;
 		}
 
+		int id = PastaThrallData.dataToId( data );
 		name = PastaThrallData.dataToType( data );
-		return new Value( DataTypes.THRALL_TYPE, name, data );
+		return new Value( DataTypes.THRALL_TYPE, id, name, data );
 	}
 
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
@@ -744,7 +745,19 @@ public class DataTypes
 		{
 			return DataTypes.THRALL_INIT;
 		}
-		return new Value( DataTypes.THRALL_TYPE, thrall.getType(), thrall.getData() );
+		return new Value( DataTypes.THRALL_TYPE, thrall.getId(), thrall.getType(), thrall.getData() );
+	}
+
+	public static final Value makeThrallValue( final int num )
+	{
+		Object [] data = PastaThrallData.idToData( num );
+		if ( data == null )
+		{
+			return DataTypes.THRALL_INIT;
+		}
+
+		String name = PastaThrallData.dataToType( data );
+		return new Value( DataTypes.THRALL_TYPE, num, name, data );
 	}
 
 	// Also supply:

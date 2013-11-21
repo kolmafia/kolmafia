@@ -104,6 +104,14 @@ public class Value
 		this.content = content;
 	}
 
+	public Value( final Type type, final long contentLong, final String contentString, final Object content )
+	{
+		this.type = type;
+		this.contentLong = contentLong;
+		this.contentString = contentString;
+		this.content = content;
+	}
+
 	public Value( final Value original )
 	{
 		this.type = original.type;
