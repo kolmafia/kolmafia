@@ -4658,8 +4658,7 @@ Hunter's Sprint	Initiative: +100
 # Impetuous Sauciness: +5 reagent potion duration
 Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 # Inner Sauce MP Regen Min: 3, MP Regen Max: 4 for Sauceror, MP Regen Min: 1, MP Regen Max: 1 for non-Sauceror
-Inner Sauce	MP Regen Min: 2, MP Regen Max: 3, Class: "Sauceror"
-Inner Sauce	MP Regen Min: 1, MP Regen Max: 1
+Inner Sauce	none
 # Intrinsic Spiciness Sauce Spell Damage: +10
 # Ire of the Orca Fury capacity increases to 5 gallons
 Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
