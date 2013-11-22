@@ -454,7 +454,7 @@ gluttonous ghuol	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 2
 gnarly gnome	gnarlgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	clockwork key (n5)	clockwork key (n5)	flange (5)
 gnasty gnome	gnasgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	clockwork key (n5)	clockwork key (n5)	flange (5)
 gnefarious gnome	gnefgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	sprocket (15)	cog (15)	flange (5)
-Gnollish Bodybuilder		HP: 5 Def: 9 Atk: 10 EA: sleaze Meat: 17-26	gnoll teeth (5)	gnoll lips (5)	enchanted barbell (0)
+Gnollish Bodybuilder		HP: 5 Def: 9 Atk: 10 EA: sleaze Meat: 17-26 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)	enchanted barbell (0)
 Gnollish Crossdresser	dk_cross.gif	Atk: 11 Def: 9 HP: 5 Init: 60 E: sleaze EA: sleaze Meat: 19-28 P: humanoid	gnoll teeth (5)	frilly skirt (25)	maiden wig (25)	frilly shirt (c5)	Gnollish Crossdress (c0)
 Gnollish Flyslayer	dk_swatter.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 17-26 P: humanoid	gnoll teeth (5)	gnoll lips (5)	Gnollish flyswatter (25)	Enchanted Flyswatter (c0)
 Gnollish Gearhead	dk_gearhead.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 17-26 P: humanoid	Gnollish toolbox (75)	gnoll lips (5)	oily rag (b0)	folder (Knight Writer) (c0)	Gearhead Goo (c0)

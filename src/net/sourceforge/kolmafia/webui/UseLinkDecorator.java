@@ -550,8 +550,6 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
 	{
-		String use;
-		
 		if ( !ItemDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
 		{
 			return null;
@@ -564,6 +562,11 @@ public abstract class UseLinkDecorator
 			if ( itemId  == ItemPool.MOSQUITO_LARVA )
 			{
 				return new UseLink( itemId, "council", "council.php" );
+			}
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
 			}
 
 			return new UseLink( itemId, "grow", "inv_familiar.php?whichitem=" );
@@ -584,6 +587,7 @@ public abstract class UseLinkDecorator
 				}
 
 				uses.add( new UseLink( itemId, itemCount, "smash", "inv_use.php?which=1&whichitem=" ) );
+
 				if  ( uses.size() == 1 )
 				{
 					return uses.get( 0 );
@@ -592,12 +596,31 @@ public abstract class UseLinkDecorator
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
 
-			case ItemPool.HOT_WING:
-				return new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" );
+			case ItemPool.HOT_WING: {
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
+				if ( KoLCharacter.canEat() )
+				{
+					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
+				}
+
+				uses.add( new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" ) );
+
+				if  ( uses.size() == 1 )
+				{
+					return uses.get( 0 );
+				}
+
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 			}
 
 			if ( !KoLCharacter.canEat() )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
 			}
@@ -612,6 +635,11 @@ public abstract class UseLinkDecorator
 		case KoLConstants.CONSUME_DRINK:
 
 			if ( !KoLCharacter.canDrink() )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
 			}
@@ -645,6 +673,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
 			switch ( itemId )
 			{
 			case ItemPool.RUSTY_HEDGE_TRIMMERS:
@@ -663,7 +696,7 @@ public abstract class UseLinkDecorator
 					"inv_use.php?which=" + page + "&whichitem=" );
 			}
 
-			use = getPotionSpeculation( "use multiple", itemId );
+			String use = getPotionSpeculation( "use multiple", itemId );
 			if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
 			{
 				return new UseLink( itemId, useCount, use, "#" );
@@ -681,6 +714,11 @@ public abstract class UseLinkDecorator
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
 
 			switch ( itemId )
 			{
@@ -709,7 +747,9 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 
 			case ItemPool.ENCHANTED_BEAN:
-				return new UseLink( itemId, "plant", "place.php?whichplace=plains&action=garbage_grounds" );
+				return  KoLCharacter.getLevel() < 10 ?
+					null :
+					new UseLink( itemId, "plant", "place.php?whichplace=plains&action=garbage_grounds" );
 
 			case ItemPool.SPOOKY_SAPLING:
 			case ItemPool.SPOOKY_MAP:
@@ -843,6 +883,11 @@ public abstract class UseLinkDecorator
 			}
 
 		case KoLConstants.CONSUME_GUARDIAN:
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
 			return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 
 		case KoLConstants.EQUIP_HAT:
