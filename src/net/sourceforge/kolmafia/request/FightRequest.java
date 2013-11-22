@@ -323,18 +323,6 @@ public class FightRequest
 		"quickbasic elemental"
 	};
 
-	// Skills which cannot be used with a ranged weapon
-	private static final HashSet<String> INVALID_WITH_RANGED_ATTACK = new HashSet<String>();
-	static
-	{
-		INVALID_WITH_RANGED_ATTACK.add( "2003" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill headbutt" );
-		INVALID_WITH_RANGED_ATTACK.add( "2005" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill shieldbutt" );
-		INVALID_WITH_RANGED_ATTACK.add( "2015" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill kneebutt" );
-	}
-
 	// Skills which require a shield
 	private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
 	static
@@ -1422,24 +1410,6 @@ public class FightRequest
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_SOLO );
 	}
 
-	public static final boolean isInvalidRangedAttack( final String action )
-	{
-		if ( !INVALID_WITH_RANGED_ATTACK.contains( action.toLowerCase() ) )
-		{
-			return false;
-		}
-
-		int weaponId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
-
-		if ( EquipmentDatabase.getWeaponType( weaponId ) == WeaponType.RANGED )
-		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless with ranged weapons." );
-			return true;
-		}
-
-		return false;
-	}
-
 	public static final boolean isInvalidShieldlessAttack( final String action )
 	{
 		if ( !INVALID_WITHOUT_SHIELD.contains( action.toLowerCase() ) )
@@ -1477,8 +1447,7 @@ public class FightRequest
 
 	public static final boolean isInvalidAttack( final String action )
 	{
-		return FightRequest.isInvalidRangedAttack( action ) ||
-		       FightRequest.isInvalidShieldlessAttack( action ) ||
+		return FightRequest.isInvalidShieldlessAttack( action ) ||
 		       FightRequest.isInvalidLocationAttack( action );
 	}
 
