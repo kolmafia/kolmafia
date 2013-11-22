@@ -60,12 +60,14 @@ public class BanishManager
 		final String name;
 		final int duration;
 		final int queueSize;
+		final boolean isTurnFree;
 		
-		public Banisher( final String name, final int duration, final int queueSize )
+		public Banisher( final String name, final int duration, final int queueSize, final boolean isTurnFree )
 		{
 			this.name = name;
 			this.duration = duration;
 			this.queueSize = queueSize;
+			this.isTurnFree = isTurnFree;
 		}
 		
 		public final String getName()
@@ -75,36 +77,43 @@ public class BanishManager
 		
 		public final int getDuration()
 		{
-			return this.duration;
+			// returns actual duration of banish after the turn used, which varies depending if that turn is free
+			int turnCost = this.isTurnFree ? 0 : 1;
+			return this.duration - turnCost;
 		}
 		
 		public final int getQueueSize()
 		{
 			return this.queueSize;
 		}
+		
+		public final boolean isTurnFree()
+		{
+			return this.isTurnFree;
+		}
 	}
 	
 	// Format is name of banisher, duration of banisher (999 resets at rollover, 9999 resets at ascension/avatar drop),
-	// how many monsters can be banished at once from this source.
+	// how many monsters can be banished at once from this source, whether banish is turn free.
 	private static final Banisher[] BANISHER = new Banisher[]
 	{
-		new Banisher( "crystal skull", 20, 1 ),
-		new Banisher( "divine champagne popper", 5, 1 ),
-		new Banisher( "nanorhino", 999, 1 ),
-		new Banisher( "harold's bell", 20, 1 ),
-		new Banisher( "batter up!", 999, 1 ),
-		new Banisher( "v for vivala mask", 10, 1 ),
-		new Banisher( "stinky cheese eye", 10, 1 ),
-		new Banisher( "pantsgiving", 30, 1 ),
-		new Banisher( "pulled indigo taffy", 20, 1 ),
-		new Banisher( "banishing shout", 9999, 3 ),
-		new Banisher( "howl of the alpha", 9999, 3 ),
-		new Banisher( "classy monkey", 20, 1 ),
-		new Banisher( "staff of the standalone cheese", 999, 5 ),
-		new Banisher( "dirty stinkbomb",999, 1 ),
-		new Banisher( "deathchucks", 999, 1 ),
-		new Banisher( "cocktail napkin", 20, 1 ),
-		new Banisher( "chatterboxing", 20, 1 ),
+		new Banisher( "crystal skull", 20, 1, false ),
+		new Banisher( "divine champagne popper", 5, 1, true ),
+		new Banisher( "nanorhino", 999, 1, false ),
+		new Banisher( "harold's bell", 20, 1, false ),
+		new Banisher( "batter up!", 999, 1, false ),
+		new Banisher( "v for vivala mask", 10, 1, true ),
+		new Banisher( "stinky cheese eye", 10, 1, true ),
+		new Banisher( "pantsgiving", 30, 1, false ),
+		new Banisher( "pulled indigo taffy", 20, 1, true ),
+		new Banisher( "banishing shout", 9999, 3, false ),
+		new Banisher( "howl of the alpha", 9999, 3, false ),
+		new Banisher( "classy monkey", 20, 1, false ),
+		new Banisher( "staff of the standalone cheese", 999, 5, false ),
+		new Banisher( "dirty stinkbomb",999, 1, true ),
+		new Banisher( "deathchucks", 999, 1, true ),
+		new Banisher( "cocktail napkin", 20, 1, true ),
+		new Banisher( "chatterboxing", 20, 1, true ),
 	};
 
 	private static class BanishedMonster
@@ -266,7 +275,8 @@ public class BanishManager
 		{
 			BanishManager.removeOldestBanish( banishName );
 		}
-		BanishManager.addBanishedMonster( monsterName, banishName, KoLCharacter.getCurrentRun() + 1 );
+		int turnCost = BanishManager.findBanisher( banishName ).isTurnFree() ? 0 : 1;
+		BanishManager.addBanishedMonster( monsterName, banishName, KoLCharacter.getCurrentRun() + turnCost );
 		BanishManager.saveBanishedMonsters();
 		
 		// Legacy support
@@ -421,5 +431,33 @@ public class BanishManager
 		}
 
 		return banishList.toString();
+	}
+
+	public static final String[][] getBanishData()
+	{
+		BanishManager.recalculate();
+
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+
+		int banish = 0;
+		int count = BanishManager.banishedMonsters.size();
+		
+		if ( count > 0 )
+		{
+			String[][] banishData = new String[count][4];
+			while ( it.hasNext() )
+			{
+				BanishedMonster current = it.next();
+				banishData[banish][0] = current.monsterName;
+				banishData[banish][1] = current.banishName;
+				banishData[banish][2] = String.valueOf( current.turnBanished );
+				int banisherDuration = BanishManager.findBanisher( current.banishName ).getDuration();
+				banishData[banish][3] = String.valueOf( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() );
+				banish++;
+			}
+			return banishData;
+		}
+
+		return null;
 	}
 }
