@@ -58,24 +58,32 @@ public class UneffectCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( parameters.indexOf( "," ) != -1 )
+		if ( parameters.contains( "," ) )
 		{
-			String[] effects = parameters.split( "\\s*,\\s*" );
-			for ( int i = 0; i < effects.length; ++i )
+			// See if the whole parameter, comma and all,
+			// matches an effect.
+			if ( EffectDatabase.getEffectId( parameters.trim() ) == -1 )
 			{
-				this.run( "uneffect", effects[ i ] );
-			}
+				// Nope. It is a list of effects. Assume that
+				// none contain a comma.
+				String[] effects = parameters.split( "\\s*,\\s*" );
+				for ( int i = 0; i < effects.length; ++i )
+				{
+					this.run( "uneffect", effects[ i ] );
+				}
 
-			return;
+				return;
+			}
 		}
 
-		List matchingEffects = EffectDatabase.getMatchingNames( parameters );
+		List matchingEffects = EffectDatabase.getMatchingNames( parameters.trim() );
 		if ( matchingEffects.isEmpty() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown effect: " + parameters );
 			return;
 		}
-		else if ( matchingEffects.size() > 1 )
+
+		if ( matchingEffects.size() > 1 )
 		{
 			// If there's only one shruggable buff on the list, then
 			// that's probably the one the player wants.

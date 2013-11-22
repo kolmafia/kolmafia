@@ -516,7 +516,7 @@ public class EffectDatabase
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List<String> matchingNames = getMatchingNames( parameters );
+		List<String> matchingNames = EffectDatabase.getMatchingNames( parameters );
 
 		if ( matchingNames.size() != 0 )
 		{
@@ -552,7 +552,7 @@ public class EffectDatabase
 
 			String effectNameString = parameters.substring( durationString.length() ).trim();
 
-			matchingNames = getMatchingNames( effectNameString );
+			matchingNames = EffectDatabase.getMatchingNames( effectNameString );
 
 			if ( matchingNames.size() == 0 )
 			{
