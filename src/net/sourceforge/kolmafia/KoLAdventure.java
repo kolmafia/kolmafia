@@ -1101,13 +1101,6 @@ public class KoLAdventure
 				}
 			}
 
-			if ( FightRequest.isInvalidRangedAttack( action ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR,
-					"Your selected attack skill is useless with ranged weapons." );
-				return;
-			}
-
 			if ( FightRequest.isInvalidShieldlessAttack( action ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR,
