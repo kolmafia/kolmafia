@@ -716,6 +716,17 @@ public class SkillDatabase
 			{
 				return 10;
 			}
+			if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER &&
+				( skillId == SkillPool.BIND_VAMPIEROGHI ||
+				skillId == SkillPool.BIND_VERMINCELLI ||
+				skillId == SkillPool.BIND_ANGEL_HAIR_WISP ||
+				skillId == SkillPool.BIND_UNDEAD_ELBOW_MACARONI ||
+				skillId == SkillPool.BIND_PENNE_DREADFUL ||
+				skillId == SkillPool.BIND_LASAGMBIE ||
+				skillId == SkillPool.BIND_SPICE_GHOST ) )
+			{
+				return 10;
+			}
 		}
 
 		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )

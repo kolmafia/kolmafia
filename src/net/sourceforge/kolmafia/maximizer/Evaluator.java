@@ -53,8 +53,10 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -786,52 +788,57 @@ public class Evaluator
 
 	boolean checkEffectConstraints( String name )
 	{
-		// Return true if effect cannot be gained due to current other effects
-		if ( name.equals( "Boon of She-Who-Was" ) )
+		int effectId = EffectDatabase.getEffectId( name );
+		
+		// Return true if effect cannot be gained due to current other effects or class
+		switch ( effectId )
 		{
+		case EffectPool.BOON_OF_SHE_WHO_WAS:
 			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING;
-		}
-		if ( name.equals( "Boon of the Storm Tortoise" ) )
-		{
+
+		case EffectPool.BOON_OF_THE_STORM_TORTOISE:
 			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING;
-		}
-		if ( name.equals( "Boon of the War Snapper" ) )
-		{
+
+		case EffectPool.BOON_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING;
-		}
-		if ( name.equals( "Avatar of She-Who-Was" ) )
-		{
+
+		case EffectPool.AVATAR_OF_SHE_WHO_WAS:
 			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() != 3;
-		}
-		if ( name.equals( "Avatar of the Storm Tortoise" ) )
-		{
+
+		case EffectPool.AVATAR_OF_THE_STORM_TORTOISE:
 			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING || KoLCharacter.getBlessingLevel() != 3;
-		}
-		if ( name.equals( "Avatar of the War Snapper" ) )
-		{
+
+		case EffectPool.AVATAR_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING || KoLCharacter.getBlessingLevel() != 3;
-		}
-		if ( name.equals( "Blessing of She-Who-Was" ) )
-		{
+
+		case EffectPool.BLESSING_OF_SHE_WHO_WAS:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING ||
 				KoLCharacter.getBlessingLevel() == -1;
-		}
-		if ( name.equals( "Blessing of the Storm Tortoise" ) )
-		{
+
+		case EffectPool.BLESSING_OF_THE_STORM_TORTOISE:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ||
 				KoLCharacter.getBlessingLevel() == -1;
-		}
-		if ( name.equals( "Blessing of the War Snapper" ) )
-		{
+
+		case EffectPool.BLESSING_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING ||
 				KoLCharacter.getBlessingLevel() == -1;
-		}
-		if ( name.equals( "Distain of She-Who-Was" ) || name.equals( "Distain of the Storm Tortoise" ) || name.equals( "Distain of the War Snapper" ) )
-		{
+
+		case EffectPool.DISTAIN_OF_SHE_WHO_WAS:
+		case EffectPool.DISTAIN_OF_THE_STORM_TORTOISE:
+		case EffectPool.DISTAIN_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
+		
+		case EffectPool.BLOODY_POTATO_BITS:
+		case EffectPool.SLINKING_NOODLE_GLOB:
+		case EffectPool.WHISPERING_STRANDS:
+		case EffectPool.MACARONI_COATING:
+		case EffectPool.PENNE_FEDORA:
+		case EffectPool.PASTA_EYEBALL:
+		case EffectPool.SPICE_HAZE:
+			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 		}
 		return false;
 	}

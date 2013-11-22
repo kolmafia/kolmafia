@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
@@ -359,7 +360,8 @@ public class Maximizer
 					{
 						if ( includeAll )
 						{
-							text = "(learn to " + cmd + ", or get it from a buffbot)";
+							boolean isBuff = SkillDatabase.isBuff( SkillDatabase.getSkillId( skillName ) );
+							text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
 							cmd = "";
 						}
 						else continue;
