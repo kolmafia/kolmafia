@@ -53,6 +53,10 @@ public class AccordionsCommand
 {
 	static final Accordion [] ACCORDIONS = 
 	{
+		new Accordion( ItemPool.STOLEN_ACCORDION, "starter item" ),
+		new Accordion( ItemPool.ROCK_N_ROLL_LEGEND, "Epic Weapon" ),
+		new Accordion( ItemPool.SQUEEZEBOX_OF_THE_AGES, "Legendary Epic Weapon" ),
+		new Accordion( ItemPool.TRICKSTER_TRIKITIXA, "Your Nemesis" ),
 		new Accordion( ItemPool.BEER_BATTERED_ACCORDION, "drunken half-orc hobo" ),
 		new Accordion( ItemPool.BARITONE_ACCORDION, "bar" ),
 		new Accordion( ItemPool.MAMAS_SQUEEZEBOX, "werecougar" ),
@@ -95,7 +99,7 @@ public class AccordionsCommand
 		output.append( "<tr>" );
 		output.append( "<th rowspan=2>Accordion</th>" );
 		output.append( "<th>Have/Today</th>" );
-		output.append( "<th>Monster</th>" );
+		output.append( "<th>Source</th>" );
 		output.append( "<th>Hands</th>" );
 		output.append( "<th>Song</th>" );
 		output.append( "</tr>" );
