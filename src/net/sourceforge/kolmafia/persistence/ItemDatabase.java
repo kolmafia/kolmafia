@@ -3026,4 +3026,30 @@ public class ItemDatabase
 
 		return upgrades;
 	}
+
+	public static boolean unusableInBeecore( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.BLACK_MARKET_MAP:
+		case ItemPool.BALL_POLISH:
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.COBBS_KNOB_MAP:
+			// These "B" items ARE usable in Beecore.
+		case ItemPool.ICE_BABY:
+		case ItemPool.JUGGLERS_BALLS:
+		case ItemPool.EYEBALL_PENDANT:
+		case ItemPool.SPOOKY_PUTTY_BALL:
+		case ItemPool.LOATHING_LEGION_ABACUS:
+		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+			// And so are these IOTM foldables
+		case ItemPool.ENCHANTED_BEAN:
+			// "using" this is really planting
+			return false;
+		}
+
+		return KoLCharacter.hasBeeosity( ItemDatabase.getItemName( itemId ) );
+	}
 }

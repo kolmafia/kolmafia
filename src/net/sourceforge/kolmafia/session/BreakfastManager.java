@@ -296,7 +296,7 @@ public class BreakfastManager
 					continue;
 				}
 
-				if ( skill.equals( "Summon Crimbo Candy" ) &&
+				if ( ( skill.equals( "Summon Crimbo Candy" ) || skill.equals( "Spaghetti Breakfast" ) ) &&
 				     KoLCharacter.inBeecore() )
 				{
 					continue;

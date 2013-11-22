@@ -650,7 +650,7 @@ public abstract class KoLCharacter
 		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
 
 		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
-			 KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
+		     KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
 		{
 			// No bonus fullness is available in these paths
 			return baseFullness;
