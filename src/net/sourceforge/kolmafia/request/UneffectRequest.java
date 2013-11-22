@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -175,6 +176,58 @@ public class UneffectRequest
 		{
 			"Zomg WTF",
 			"Ag-grave-ation",
+		},
+		{
+			"Well-Rested",
+			"Hibernate",
+		},
+		{
+			"Blubbered Up",
+			"Blubber Up",
+		},
+		{
+			"Spirit Souvenirs",
+			"Spirit Vacation",
+		},
+		{
+			"Al Dente Inferno",
+			"Transcendent Al Dente",
+		},
+		{
+			"Bloody Potato Bits",
+			"Bind Vampieroghi",
+		},
+		{
+			"Slinking Noodle Glob",
+			"Bind Vermincelli",
+		},
+		{
+			"Whispering Strands",
+			"Bind Angel Hair Wisp",
+		},
+		{
+			"Macaroni Coating",
+			"Bind Undead Elbow Macaroni",
+		},
+		{
+			"Penne Fedora",
+			"Bind Penne Dreadful",
+		},
+		{
+			"Pasta Eyeball",
+			"Bind Lasagmbie",
+		},
+		{
+			"Spice Haze",
+			"Bind Spice Ghost",
+		},
+		{
+			"Simmering",
+			"Simmer",
+		},
+		{
+			"Soulerskates",
+			"Soul Rotation",
 		},
 	};
 
@@ -325,7 +378,74 @@ public class UneffectRequest
 				return data[ 0 ];
 			}
 		}
-
+		
+		// Some skills can produce different effects depending on current effects or class
+		int skillId = SkillDatabase.getSkillId( skillName );
+		
+		switch( skillId )
+		{
+		case SkillPool.SPIRIT_BOON:
+			if ( KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BOON_OF_SHE_WHO_WAS );
+			}
+			else if ( KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_STORM_TORTOISE );
+			}
+			else if ( KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_WAR_SNAPPER );
+			}
+			else
+			{
+				return "none";
+			}
+		case SkillPool.SHE_WHO_WAS_BLESSING:
+			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_SHE_WHO_WAS );
+			}
+			else
+			{
+				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_SHE_WHO_WAS );
+			}
+		case SkillPool.STORM_BLESSING:
+			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_THE_STORM_TORTOISE );
+			}
+			else
+			{
+				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_THE_STORM_TORTOISE );
+			}
+		case SkillPool.WAR_BLESSING:
+			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
+			{
+				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_THE_WAR_SNAPPER );
+			}
+			else
+			{
+				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_THE_WAR_SNAPPER );
+			}
+		case SkillPool.TURTLE_POWER:
+			if ( KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_SHE_WHO_WAS );
+			}
+			else if ( KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_STORM_TORTOISE );
+			}
+			else if ( KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING )
+			{
+				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_WAR_SNAPPER );
+			}
+			else
+			{
+				return "none";
+			}
+		}
 		return skillName;
 	}
 
