@@ -3329,6 +3329,7 @@ Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 # Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
+Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 # Bloody-minded	+50 Damage vs. Vampires
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
@@ -3950,6 +3951,7 @@ Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
+Macaroni Coating	Muscle: +10
 # Macho, Macho Dog: +50 Damage vs. Bugbears, +50 Damage vs. Werewolves
 Macho, Macho Dog	Muscle Percent: 50, Critical Hit Percent: 10
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
@@ -4078,6 +4080,7 @@ Overconfident	Monster Level: +30
 Overstimulated	Experience (Muscle): +5
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
+Pasta Eyeball	Meat Drop: +10
 Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
 Patched In	Mysticality Percent: +20
@@ -4087,6 +4090,7 @@ Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
 Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
+Penne Fedora	Moxie: +10
 Peppermint Bite	Muscle: +5
 Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Perceptive Pressure	Item Drop: +50
@@ -4272,6 +4276,7 @@ Slimily Speedy	Moxie Percent: +50
 Slimily Strong	Muscle Percent: +50
 Slimy Flavor	Sleaze Damage: +10, Sleaze Resistance: +2
 Slimy Hands	Sleaze Damage: +10
+Slinking Noodle Glob	Maximum MP: +15
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
 # Smokin': Damages Attacking Opponents
@@ -4313,6 +4318,7 @@ Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
 Spell Transfer Complete	Experience (Mysticality): +5
+Spice Haze	Item Drop: +5
 Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
 # Spike-and-span: Makes you look like a spiny skelelton
@@ -4565,6 +4571,7 @@ Well-Rested	Experience: +3
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 What's That Smell?	Stench Damage: +3
+Whispering Strands	Initiative: +10
 Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
 White Knuckles	Never Fumble
 White-boy Angst	Initiative: +50

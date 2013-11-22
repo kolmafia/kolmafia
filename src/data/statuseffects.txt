@@ -1443,13 +1443,13 @@
 1442	Wizard Squint	wizardsquint.gif	c45dd6c1c32e93a32ce0fdab13181289	cast 1 Wizard Squint
 1443
 1444	Shield of the Pastalord	pastashield.gif	eb116f9a2d9c1259e404a22447eb2b85	cast 1 Shield of the Pastalord
-1445
-1446
-1447
-1448
-1449
-1450
-1451
+1445	Bloody Potato Bits	bloodpotatoes.gif	625daaabac9631363265ad76243ae2ff	cast 1 Bind Vampieroghi
+1446	Slinking Noodle Glob	noodlemass.gif	ddd146d9cb8218b9130850badb3646c6	cast 1 Bind Vermincelli
+1447	Whispering Strands	wispbits.gif	3caed17f7ca320894e9dab8c4ff36465	cast 1 Bind Angel Hair Wisp
+1448	Macaroni Coating	macaronibits.gif	1c583f571675cc9b2e2ddccf239faaad	cast 1 Bind Undead Elbow Macaroni
+1449	Penne Fedora	pennehat.gif	96c06394b5519f721a433570eb168589	cast 1 Bind Penne Dreadful
+1450	Pasta Eyeball	eyeball.gif	cfe4325bc1ab8b593caf3de7c996609b	cast 1 Bind Lasagmbie
+1451	Spice Haze	disease.gif	12c05727244b97fd36daf49ed895f97a	cast 1 Bind Spice Ghost
 1452	Icy Glare	icyglare.gif	686ad281d115c58b18820a32c786c950	cast 1 icy glare
 1453	Wry Smile	wrysmile.gif	4923ae22d27d9e69d4700eb3e3d7ca9f	cast 1 wry smile
 1454	Antibiotic Saucesphere	antibiosphere.gif	82aeaeb6a9cdc1c891e17321b88b040c	cast 1 antibiotic saucesphere

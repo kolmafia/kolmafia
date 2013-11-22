@@ -155,7 +155,6 @@ public class EffectPool
 	public static final int EAU_DE_TORTUE_ID = 263;
 	public static final int FORM_OF_BIRD_ID = 511;
 
-	public static final int SPIRIT_PARIAH_ID = 1431;
 	public static final int SOUL_CRUSHING_HEADACHE_ID = 465;
 	public static final int COVERED_IN_SLIME_ID = 633;
 	public static final int EVERYTHING_LOOKS_YELLOW_ID = 790;
@@ -186,6 +185,26 @@ public class EffectPool
 	public static final int CURSE_OF_SLUGGISHNESS = 1310;
 	public static final int CURSE_OF_VULNERABILITY = 1305;
 	public static final int CURSE_OF_WEAKNESS = 1309;
+	public static final int BLESSING_OF_THE_WAR_SNAPPER = 1416;
+	public static final int BLESSING_OF_SHE_WHO_WAS = 1419;
+	public static final int BLESSING_OF_THE_STORM_TORTOISE = 1422;
+	public static final int DISTAIN_OF_THE_WAR_SNAPPER = 1425;
+	public static final int DISTAIN_OF_SHE_WHO_WAS = 1426;
+	public static final int DISTAIN_OF_THE_STORM_TORTOISE = 1427;
+	public static final int SPIRIT_PARIAH_ID = 1431;
+	public static final int AVATAR_OF_THE_WAR_SNAPPER = 1432;
+	public static final int AVATAR_OF_SHE_WHO_WAS = 1433;
+	public static final int AVATAR_OF_THE_STORM_TORTOISE = 1434;
+	public static final int BOON_OF_THE_WAR_SNAPPER = 1435;
+	public static final int BOON_OF_SHE_WHO_WAS = 1436;
+	public static final int BOON_OF_THE_STORM_TORTOISE = 1437;
+	public static final int BLOODY_POTATO_BITS = 1445;
+	public static final int SLINKING_NOODLE_GLOB = 1446;
+	public static final int WHISPERING_STRANDS = 1447;
+	public static final int MACARONI_COATING = 1448;
+	public static final int PENNE_FEDORA = 1449;
+	public static final int PASTA_EYEBALL = 1450;
+	public static final int SPICE_HAZE = 1451;
 
 	public static final AdventureResult get( final String effectName )
 	{
