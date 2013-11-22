@@ -362,13 +362,9 @@ public class ItemFinder
 	public static final AdventureResult getFirstMatchingItem( List<?> sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
 		// Ignore spaces and tabs in front of the parameter string
+		parameters = parameters.trim();
 
-		while ( parameters.length() > 0 && ( parameters.charAt( 0 ) == ' ' || parameters.charAt( 0 ) == '\t' ) )
-		{
-			parameters = parameters.substring( 1 );
-		}
-
-		// If there's no valid strings passed in, return
+		// If there are no valid strings passed in, return
 		if ( parameters.length() == 0 )
 		{
 			if ( errorOnFailure )
@@ -383,9 +379,7 @@ public class ItemFinder
 
 		int itemCount = 1;
 
-		// First, allow for the person to type without specifying
-		// the amount, if the amount is 1.
-
+		// Allow the person to ask for all of the item from the source
 		if ( parameters.charAt( 0 ) == '*' )
 		{
 			itemCount = 0;
@@ -492,8 +486,7 @@ public class ItemFinder
 
 		if ( filterType == ItemFinder.CREATE_MATCH )
 		{
-			boolean skipNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" )
-				&& itemCount <= 0;
+			boolean skipNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" ) && itemCount <= 0;
 
 			if ( skipNPCs )
 			{
@@ -513,6 +506,10 @@ public class ItemFinder
 				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
 				ConcoctionDatabase.refreshConcoctions( true );
 			}
+		}
+		else if ( sourceList == null )
+		{
+			matchCount = 1;
 		}
 		else
 		{
@@ -544,13 +541,17 @@ public class ItemFinder
 
 	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList )
 	{
-		return getMatchingItemList( sourceList, itemList, true );
+		return ItemFinder.getMatchingItemList( sourceList, itemList, true );
 	}
 
 	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
 	{
-		AdventureResult firstMatch = null;
-		firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemList, ItemFinder.matchType, false );
+		return ItemFinder.getMatchingItemList( sourceList, itemList, ItemFinder.matchType, errorOnFailure );
+	}
+
+	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, int filterType, boolean errorOnFailure )
+	{
+		AdventureResult firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemList, filterType, false );
 		if ( firstMatch != null )
 		{
 			AdventureResult[] items = new AdventureResult[ 1 ];
@@ -594,7 +595,7 @@ public class ItemFinder
 
 			if ( !isMeatMatch )
 			{
-				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], ItemFinder.matchType, errorOnFailure );
+				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], filterType, errorOnFailure );
 			}
 
 			if ( firstMatch != null )
@@ -606,5 +607,4 @@ public class ItemFinder
 		AdventureResult[] result = new AdventureResult[ items.size() ];
 		return items.toArray( result );
 	}
-
 }

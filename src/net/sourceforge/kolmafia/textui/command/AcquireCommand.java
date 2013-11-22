@@ -47,28 +47,36 @@ public class AcquireCommand
 {
 	public AcquireCommand()
 	{
-		this.usage = "[?] <item> - ensure that you have item, creating or buying it if needed.";
+		this.usage = "[?] <item>[, <item>]... - ensure that you have item, creating or buying it if needed.";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-		{
-			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
-			if ( item != null )
-			{
-				RequestLogger.printLine( item + ": " +
-					InventoryManager.simRetrieveItem( item, true ) );
-			}
-			return;
-		}
-		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
-		if ( item != null )
+		boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
+		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+
+		AdventureResult[] items = ItemFinder.getMatchingItemList( null, parameters, ItemFinder.ANY_MATCH, true );
+
+		try
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			InventoryManager.retrieveItem( item, true );
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = items[ i ];
+
+				if ( checking )
+				{
+					RequestLogger.printLine( item + ": " + InventoryManager.simRetrieveItem( item, true ) );
+				}
+				else
+				{
+					InventoryManager.retrieveItem( item, true );
+				}
+			}
+		}
+		finally
+		{
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
