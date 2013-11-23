@@ -148,7 +148,7 @@
 1011	Hide of the Walrus	0	0	0	7
 1012	Claws of the Walrus	0	0	0	8
 1013
-1014	Batter Up!	5	0	0	6
+1014	Batter Up!	5	0	0	11
 1015	Rage of the Reindeer	3	10	10	11
 1016	Pulverize	0	0	0	15
 1017	Double-Fisted Skull Smashing	0	0	0	12
@@ -170,7 +170,7 @@
 1033	Club Foot	5	8	0	8
 1034	Seething of the Snow Leopard	0	0	0	9
 1035	Ire of the Orca	0	0	0	10
-1036	Thirst of the Weasel	0	0	0	11
+1036	Thirst of the Weasel	0	0	0	6
 1037	Cavalcade of Fury	5	15	0	12
 1038	Northern Explosion	5	16	0	13
 1039	Precision of the Penguin	0	0	0	14
