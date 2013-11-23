@@ -354,7 +354,7 @@ public class UntinkerRequest
 		}
 		else
 		{
-			link = "<font size=1>[<a href=\"adventure.php?snarfblat=18\">Degrassi Knoll</a>]</font>";
+			link = "<font size=1>[<a href=\"adventure.php?snarfblat=354\">Degrassi Knoll Garage</a>]</font>";
 		}
 
 		buffer.insert( index + test.length(), link );
