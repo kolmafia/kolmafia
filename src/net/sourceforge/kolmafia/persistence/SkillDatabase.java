@@ -705,27 +705,32 @@ public class SkillDatabase
 
 		if ( type != SkillDatabase.BUFF )
 		{
-			if ( skillId == SkillPool.SPIRIT_BOON )
+			switch ( skillId )
 			{
+			case SkillPool.SPIRIT_BOON:
 				return KoLCharacter.getBlessingLevel() * 5;
-			}
-			if ( KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER &&
-				( skillId == SkillPool.WAR_BLESSING || 
-				skillId == SkillPool.SHE_WHO_WAS_BLESSING || 
-				skillId == SkillPool.STORM_BLESSING ) )
-			{
-				return 10;
-			}
-			if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER &&
-				( skillId == SkillPool.BIND_VAMPIEROGHI ||
-				skillId == SkillPool.BIND_VERMINCELLI ||
-				skillId == SkillPool.BIND_ANGEL_HAIR_WISP ||
-				skillId == SkillPool.BIND_UNDEAD_ELBOW_MACARONI ||
-				skillId == SkillPool.BIND_PENNE_DREADFUL ||
-				skillId == SkillPool.BIND_LASAGMBIE ||
-				skillId == SkillPool.BIND_SPICE_GHOST ) )
-			{
-				return 10;
+
+			case SkillPool.WAR_BLESSING:
+			case SkillPool.SHE_WHO_WAS_BLESSING:
+			case SkillPool.STORM_BLESSING:
+				if ( KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER )
+				{
+					return 10;
+				}
+				break;
+				
+			case SkillPool.BIND_VAMPIEROGHI:
+			case SkillPool.BIND_VERMINCELLI:
+			case SkillPool.BIND_ANGEL_HAIR_WISP:
+			case SkillPool.BIND_UNDEAD_ELBOW_MACARONI:
+			case SkillPool.BIND_PENNE_DREADFUL:
+			case SkillPool.BIND_LASAGMBIE:
+			case SkillPool.BIND_SPICE_GHOST:
+				if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+				{
+					return 10;
+				}
+				break;
 			}
 		}
 

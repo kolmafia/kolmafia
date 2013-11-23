@@ -794,13 +794,13 @@ public class Evaluator
 		switch ( effectId )
 		{
 		case EffectPool.BOON_OF_SHE_WHO_WAS:
-			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING;
+			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.BOON_OF_THE_STORM_TORTOISE:
-			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING;
+			return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING || KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.BOON_OF_THE_WAR_SNAPPER:
-			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING;
+			return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING || KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.AVATAR_OF_SHE_WHO_WAS:
 			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() != 3;
@@ -814,17 +814,20 @@ public class Evaluator
 		case EffectPool.BLESSING_OF_SHE_WHO_WAS:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING ||
-				KoLCharacter.getBlessingLevel() == -1;
+				KoLCharacter.getBlessingLevel() == -1 ||
+				KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.BLESSING_OF_THE_STORM_TORTOISE:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING ||
-				KoLCharacter.getBlessingLevel() == -1;
+				KoLCharacter.getBlessingLevel() == -1 ||
+				KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.BLESSING_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER ||
 				KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING ||
-				KoLCharacter.getBlessingLevel() == -1;
+				KoLCharacter.getBlessingLevel() == -1 ||
+				KoLCharacter.getBlessingLevel() == 4;
 
 		case EffectPool.DISTAIN_OF_SHE_WHO_WAS:
 		case EffectPool.DISTAIN_OF_THE_STORM_TORTOISE:

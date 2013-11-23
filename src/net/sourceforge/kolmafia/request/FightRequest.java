@@ -1896,7 +1896,7 @@ public class FightRequest
 
 			// Increment Turtle Blessing counter
 			int blessingLevel = KoLCharacter.getBlessingLevel();
-			if ( blessingLevel > 0 )
+			if ( blessingLevel > 0 && blessingLevel < 4 )
 			{
 				Preferences.increment( "turtleBlessingTurns", 1 );
 			}
