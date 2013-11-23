@@ -698,6 +698,7 @@ public class KoLmafiaCLI
 		new ClearBufferCommand().register( "clear" ).register( "cls" ).register( "reset" );
 		new CliRefCommand().register( "help" ).register( "which" );
 		new ClosetCommand().register( "closet" );
+		new CoinmasterCommand().register( "coinmaster" );
 		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
 		new ComparisonShopCommand().register( "cheapest" ).register( "expensive" );
 		new CompleteQuestCommand().register( "maze" ).

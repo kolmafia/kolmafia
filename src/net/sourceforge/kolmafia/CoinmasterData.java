@@ -61,6 +61,7 @@ public class CoinmasterData
 	implements Comparable<CoinmasterData>
 {
 	private final String master;
+	private final String nickname;
 	private final Class requestClass;
 	private final String URL;
 	private String token;
@@ -86,6 +87,7 @@ public class CoinmasterData
 
 	public CoinmasterData( 
 		final String master,
+		final String nickname,
 		final Class requestClass,
 		final String URL,
 		final String token,
@@ -109,6 +111,7 @@ public class CoinmasterData
 		final Map<String, Integer> itemRows )
 	{
 		this.master = master;
+		this.nickname = nickname;
 		this.requestClass = requestClass;
 		this.URL = URL;
 		this.token = token;
@@ -138,6 +141,11 @@ public class CoinmasterData
 	public final String getMaster()
 	{
 		return this.master;
+	}
+
+	public final String getNickname()
+	{
+		return this.nickname;
 	}
 
 	public final Class getRequestClass()
@@ -413,27 +421,6 @@ public class CoinmasterData
 		{
 			Constructor constructor = requestClass.getConstructor( parameters );
 			Object [] initargs = new Object[ 0 ];
-			return (CoinMasterRequest) constructor.newInstance( initargs );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
-	public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-	{
-		Class requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 2 ] ;
-		parameters[ 0 ] = String.class;
-		parameters[ 1 ] = AdventureResult.class;
-
-		try
-		{
-			Constructor constructor = requestClass.getConstructor( parameters );
-			Object [] initargs = new Object[ 2 ];
-			initargs[ 0 ] = action;
-			initargs[ 1 ] = it;
 			return (CoinMasterRequest) constructor.newInstance( initargs );
 		}
 		catch ( Exception e )

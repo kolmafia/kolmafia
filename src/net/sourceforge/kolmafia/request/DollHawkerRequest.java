@@ -53,6 +53,7 @@ public class DollHawkerRequest
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
 			DollHawkerRequest.master,
+			"dollhawker",
 			DollHawkerRequest.class,
 			"shop.php?whichshop=elvishp2",
 			"isotope",

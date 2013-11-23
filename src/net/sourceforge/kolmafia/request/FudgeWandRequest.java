@@ -68,6 +68,7 @@ public class FudgeWandRequest
 	public static final CoinmasterData FUDGEWAND =
 		new CoinmasterData(
 			FudgeWandRequest.master,
+			"fudge",
 			FudgeWandRequest.class,
 			"choice.php?whichchoice=562",
 			"fudgecule",

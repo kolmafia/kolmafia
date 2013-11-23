@@ -68,6 +68,7 @@ public class DimemasterRequest
 	public static final CoinmasterData HIPPY =
 		new CoinmasterData(
 			DimemasterRequest.master,
+			"dimemaster",
 			DimemasterRequest.class,
 			"bigisland.php?place=camp&whichcamp=1",
 			"dime",

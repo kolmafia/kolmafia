@@ -60,6 +60,7 @@ public class SwaggerShopRequest
 	public static final CoinmasterData SWAGGER_SHOP =
 		new CoinmasterData(
 			SwaggerShopRequest.master,
+			"swagger",
 			SwaggerShopRequest.class,
 			"peevpee.php?place=shop",
 			"swagger",

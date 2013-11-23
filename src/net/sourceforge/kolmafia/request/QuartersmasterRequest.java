@@ -68,6 +68,7 @@ public class QuartersmasterRequest
 	public static final CoinmasterData FRATBOY =
 		new CoinmasterData(
 			"Quartersmaster",
+			"quartersmaster",
 			QuartersmasterRequest.class,
 			"bigisland.php?place=camp&whichcamp=2",
 			"quarter",

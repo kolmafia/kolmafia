@@ -60,6 +60,7 @@ public class VendingMachineRequest
 	public static final CoinmasterData VENDING_MACHINE =
 		new CoinmasterData(
 			VendingMachineRequest.master,
+			"vendingmachine",
 			VendingMachineRequest.class,
 			"shop.php?whichshop=damachine",
 			"fat loot token",

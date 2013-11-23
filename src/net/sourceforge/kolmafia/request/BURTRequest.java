@@ -66,6 +66,7 @@ public class BURTRequest
 	public static final CoinmasterData BURT =
 		new CoinmasterData(
 			BURTRequest.master,
+			"BURT",
 			BURTRequest.class,
 			"inv_use.php?whichitem=5683&ajax=1",
 			"BURT",

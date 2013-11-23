@@ -64,6 +64,7 @@ public class AWOLQuartermasterRequest
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
 			AWOLQuartermasterRequest.master,
+			"awol",
 			AWOLQuartermasterRequest.class,
 			"inv_use.php?whichitem=5116&ajax=1",
 			"commendation",

@@ -68,6 +68,7 @@ public class BigBrotherRequest
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
 			BigBrotherRequest.master,
+			"bigbrother",
 			BigBrotherRequest.class,
 			"monkeycastle.php?who=2",
 			"sand dollar",

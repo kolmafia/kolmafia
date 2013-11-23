@@ -69,6 +69,7 @@ public class MrStoreRequest
 	public static final CoinmasterData MR_STORE =
 		new CoinmasterData(
 			MrStoreRequest.master,
+			"mrstore",
 			MrStoreRequest.class,
 			"mrstore.php",
 			"Mr. A",

@@ -61,6 +61,7 @@ public class ShoreGiftShopRequest
 	public static final CoinmasterData SHORE_GIFT_SHOP =
 		new CoinmasterData(
 			ShoreGiftShopRequest.master,
+			"shore",
 			ShoreGiftShopRequest.class,
 			"shop.php?whichshop=shore",
 			"Shore Inc. Ship Trip Scrip",

@@ -53,6 +53,7 @@ public class IsotopeSmitheryRequest
 	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
 			IsotopeSmitheryRequest.master,
+			"isotopesmithery",
 			IsotopeSmitheryRequest.class,
 			"shop.php?whichshop=elvishp1",
 			"isotope",

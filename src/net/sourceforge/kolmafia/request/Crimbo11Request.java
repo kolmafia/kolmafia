@@ -64,6 +64,7 @@ public class Crimbo11Request
 	public static final CoinmasterData CRIMBO11 =
 		new CoinmasterData(
 			Crimbo11Request.master,
+			"crimbo11",
 			Crimbo11Request.class,
 			"crimbo11.php",
 			"Candy Credit",

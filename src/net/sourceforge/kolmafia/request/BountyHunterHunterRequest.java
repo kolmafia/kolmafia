@@ -73,6 +73,7 @@ public class BountyHunterHunterRequest
 	public static final CoinmasterData BHH =
 		new CoinmasterData(
 			BountyHunterHunterRequest.master,
+			"hunter",
 			BountyHunterHunterRequest.class,
 			"bhh.php",
 			"lucre",
