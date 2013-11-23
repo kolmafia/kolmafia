@@ -86,6 +86,16 @@ public class DollHawkerRequest
 		super( DollHawkerRequest.DOLLHAWKER, action );
 	}
 
+	public DollHawkerRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( DollHawkerRequest.DOLLHAWKER, action, attachments );
+	}
+
+	public DollHawkerRequest( final String action, final AdventureResult attachment )
+	{
+		super( DollHawkerRequest.DOLLHAWKER, action, attachment );
+	}
+
 	public DollHawkerRequest( final String action, final int itemId, final int quantity )
 	{
 		super( DollHawkerRequest.DOLLHAWKER, action, itemId, quantity );
@@ -93,12 +103,7 @@ public class DollHawkerRequest
 
 	public DollHawkerRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public DollHawkerRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( DollHawkerRequest.DOLLHAWKER, action, itemId );
 	}
 
 	public static final boolean registerRequest( final String urlString )

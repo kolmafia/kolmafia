@@ -91,6 +91,16 @@ public class AltarOfBonesRequest
 		super( AltarOfBonesRequest.ALTAR_OF_BONES, action );
 	}
 
+	public AltarOfBonesRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, attachments );
+	}
+
+	public AltarOfBonesRequest( final String action, final AdventureResult attachment )
+	{
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, attachment );
+	}
+
 	public AltarOfBonesRequest( final String action, final int itemId, final int quantity )
 	{
 		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, itemId, quantity );
@@ -98,12 +108,7 @@ public class AltarOfBonesRequest
 
 	public AltarOfBonesRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public AltarOfBonesRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, itemId );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

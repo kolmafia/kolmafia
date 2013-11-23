@@ -107,6 +107,16 @@ public class QuartersmasterRequest
 		super( QuartersmasterRequest.FRATBOY, action );
 	}
 
+	public QuartersmasterRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( QuartersmasterRequest.FRATBOY, action, attachments );
+	}
+
+	public QuartersmasterRequest( final String action, final AdventureResult attachment )
+	{
+		super( QuartersmasterRequest.FRATBOY, action, attachment );
+	}
+
 	public QuartersmasterRequest( final String action, final int itemId, final int quantity )
 	{
 		super( QuartersmasterRequest.FRATBOY, action, itemId, quantity );
@@ -114,12 +124,7 @@ public class QuartersmasterRequest
 
 	public QuartersmasterRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public QuartersmasterRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( QuartersmasterRequest.FRATBOY, action, itemId );
 	}
 
 	@Override

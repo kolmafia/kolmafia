@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -348,7 +349,7 @@ public class CoinmasterData
 	{
 		if ( this.itemRows == null )
 		{
-			return null;
+			return IntegerPool.get( itemId );
 		}
 		String name = ItemDatabase.getCanonicalName( itemId );
 		Integer row = this.itemRows.get( name );
@@ -433,6 +434,27 @@ public class CoinmasterData
 			Object [] initargs = new Object[ 2 ];
 			initargs[ 0 ] = action;
 			initargs[ 1 ] = it;
+			return (CoinMasterRequest) constructor.newInstance( initargs );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public CoinMasterRequest getRequest( final String action, final AdventureResult [] items )
+	{
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 2 ] ;
+		parameters[ 0 ] = String.class;
+		parameters[ 1 ] = AdventureResult[].class;
+
+		try
+		{
+			Constructor constructor = requestClass.getConstructor( parameters );
+			Object [] initargs = new Object[ 2 ];
+			initargs[ 0 ] = action;
+			initargs[ 1 ] = items;
 			return (CoinMasterRequest) constructor.newInstance( initargs );
 		}
 		catch ( Exception e )

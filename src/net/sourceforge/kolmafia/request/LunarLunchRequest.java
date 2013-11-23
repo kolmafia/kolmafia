@@ -91,6 +91,16 @@ public class LunarLunchRequest
 		super( LunarLunchRequest.LUNAR_LUNCH, action );
 	}
 
+	public LunarLunchRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( LunarLunchRequest.LUNAR_LUNCH, action, attachments );
+	}
+
+	public LunarLunchRequest( final String action, final AdventureResult attachment )
+	{
+		super( LunarLunchRequest.LUNAR_LUNCH, action, attachment );
+	}
+
 	public LunarLunchRequest( final String action, final int itemId, final int quantity )
 	{
 		super( LunarLunchRequest.LUNAR_LUNCH, action, itemId, quantity );
@@ -98,12 +108,7 @@ public class LunarLunchRequest
 
 	public LunarLunchRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public LunarLunchRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( LunarLunchRequest.LUNAR_LUNCH, action, itemId );
 	}
 
 	public static final void buy( final int itemId, final int count )

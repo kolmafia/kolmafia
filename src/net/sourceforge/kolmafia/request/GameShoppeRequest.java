@@ -105,6 +105,16 @@ public class GameShoppeRequest
 		super( GameShoppeRequest.GAMESHOPPE, action );
 	}
 
+	public GameShoppeRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( GameShoppeRequest.GAMESHOPPE, action, attachments );
+	}
+
+	public GameShoppeRequest( final String action, final AdventureResult attachment )
+	{
+		super( GameShoppeRequest.GAMESHOPPE, action, attachment );
+	}
+
 	public GameShoppeRequest( final String action, final int itemId, final int quantity )
 	{
 		super( GameShoppeRequest.GAMESHOPPE, action, itemId, quantity );
@@ -112,12 +122,7 @@ public class GameShoppeRequest
 
 	public GameShoppeRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public GameShoppeRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( GameShoppeRequest.GAMESHOPPE, action, itemId );
 	}
 
 	public static String canBuy()

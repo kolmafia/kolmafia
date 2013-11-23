@@ -92,23 +92,37 @@ public class ShoreGiftShopRequest
 	public ShoreGiftShopRequest( final String action )
 	{
 		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action );
-		this.addFormField( "pwd" );
+	}
+
+	public ShoreGiftShopRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, attachments );
+	}
+
+	public ShoreGiftShopRequest( final String action, final AdventureResult attachment )
+	{
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, attachment );
 	}
 
 	public ShoreGiftShopRequest( final String action, final int itemId, final int quantity )
 	{
 		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, itemId, quantity );
-		this.addFormField( "pwd" );
 	}
 
 	public ShoreGiftShopRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, itemId );
 	}
 
-	public ShoreGiftShopRequest( final String action, final AdventureResult ar )
+	@Override
+	public void run()
 	{
-		this( action, ar.getItemId(), ar.getCount() );
+		if ( this.action != null )
+		{
+			this.addFormField( "pwd" );
+		}
+
+		super.run();
 	}
 
 	@Override

@@ -103,6 +103,16 @@ public class TerrifiedEagleInnRequest
 		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action );
 	}
 
+	public TerrifiedEagleInnRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, attachments );
+	}
+
+	public TerrifiedEagleInnRequest( final String action, final AdventureResult attachment )
+	{
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, attachment );
+	}
+
 	public TerrifiedEagleInnRequest( final String action, final int itemId, final int quantity )
 	{
 		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, itemId, quantity );
@@ -110,12 +120,7 @@ public class TerrifiedEagleInnRequest
 
 	public TerrifiedEagleInnRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public TerrifiedEagleInnRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, itemId );
 	}
 
 	@Override

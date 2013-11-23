@@ -64,11 +64,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinMasterRequest
 	extends GenericRequest
 {
-	private final CoinmasterData data;
+	protected final CoinmasterData data;
 
 	protected String action = null;
-	protected int itemId = -1;
-	protected int quantity = 0;
+	protected AdventureResult[] attachments;
 
 	public CoinMasterRequest( final CoinmasterData data )
 	{
@@ -86,44 +85,32 @@ public class CoinMasterRequest
 		}
 	}
 
+	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult [] attachments )
+	{
+		this( data, action );
+		this.attachments = attachments;
+	}
+
+	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult attachment )
+	{
+		this( data, action, new AdventureResult[] { attachment } );
+	}
+
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId, final int quantity )
 	{		
-		this( data, action );
-
-		this.itemId = itemId;
-		String itemField = this.data.getItemField();
-		if ( itemField != null )
-		{
-			if ( this.data.getRow( this.itemId ) != null )
-			{
-				this.addFormField( itemField, String.valueOf( this.data.getRow( this.itemId ) ) );
-			}
-			else
-			{
-				this.addFormField( itemField, String.valueOf( itemId ) );
-			}
-		}
-		this.setQuantity( quantity );
+		this( data, action, new AdventureResult( itemId, quantity ) );
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId )
 	{
-		this( data, action, itemId, 1 );
-	}
-
-	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult ar )
-	{
-		this( data, action, ar.getItemId(), ar.getCount() );
+		this( data, action, new AdventureResult( itemId, 1 ) );
 	}
 
 	public final void setQuantity( final int quantity )
 	{
-		this.quantity = quantity;
-		String countField = this.data.getCountField();
-		if ( countField != null )
-		{
-			this.addFormField( countField, String.valueOf( quantity ) );
-		}
+		// Kludge for the use of CoinmasterPurchaseRequest
+		AdventureResult ar = attachments[ 0 ];
+		attachments[ 0 ] = ar.getInstance( quantity );
 	}
 
 	public static void visit( final CoinmasterData data )
@@ -204,6 +191,27 @@ public class CoinMasterRequest
 		RequestThread.postRequest( this );
 	}
 
+	public void setItem( final AdventureResult item )
+	{
+		String itemField = this.data.getItemField();
+		if ( itemField != null )
+		{
+			int itemId = item.getItemId();
+			this.addFormField( itemField, String.valueOf( this.data.getRow( itemId ) ) );
+		}
+	}
+
+	public int setCount( final AdventureResult item )
+	{
+		int count = item.getCount();
+		String countField = this.data.getCountField();
+		if ( countField != null )
+		{
+			this.addFormField( countField, String.valueOf( count ) );
+		}
+		return count;
+	}
+
 	@Override
 	public void run()
 	{
@@ -220,38 +228,53 @@ public class CoinMasterRequest
 		// Suit up for a visit
 		this.equip();
 
-		// If we cannot specify the count, we must get 1 at a time.
-		int visits = data.getCountField() == null ? this.quantity : 1;
 		String master = data.getMaster();
 
-		int i = 1;
-
-		do
+		if ( attachments != null )
 		{
-			if ( visits > 1 )
+			for ( int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i )
 			{
-				KoLmafia.updateDisplay( "Visiting the " + master + " (" + i + " of " + visits + ")..." );
-			}
-			else if ( visits == 1 )
-			{
-				KoLmafia.updateDisplay( "Visiting the " + master + "..." );
-			}
+				AdventureResult ar = this.attachments[ i ];
+				this.setItem( ar );
+				int count = this.setCount( ar );
 
-			super.run();
+				// If we cannot specify the count, we must get 1 at a time.
 
-			if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
-				return;
-			}
+				int visits = data.getCountField() == null ? count : 1;
+				int visit = 0;
 
-			if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
-				return;
+				while ( KoLmafia.permitsContinue() && ++visit <= visits );
+				{
+					if ( visits > 1 )
+					{
+						KoLmafia.updateDisplay( "Visiting the " + master + " (" + visit + " of " + visits + ")..." );
+					}
+					else if ( visits == 1 )
+					{
+						KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+					}
+
+					super.run();
+
+					if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
+						return;
+					}
+
+					if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
+						return;
+					}
+				}
 			}
 		}
-		while ( KoLmafia.permitsContinue() && ++i <= visits );
+		else
+		{
+			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+			super.run();
+		}
 
 		if ( KoLmafia.permitsContinue() && this.action != null )
 		{

@@ -91,6 +91,16 @@ public class CrimboCartelRequest
 		super( CrimboCartelRequest.CRIMBO_CARTEL, action );
 	}
 
+	public CrimboCartelRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( CrimboCartelRequest.CRIMBO_CARTEL, action, attachments );
+	}
+
+	public CrimboCartelRequest( final String action, final AdventureResult attachment )
+	{
+		super( CrimboCartelRequest.CRIMBO_CARTEL, action, attachment );
+	}
+
 	public CrimboCartelRequest( final String action, final int itemId, final int quantity )
 	{
 		super( CrimboCartelRequest.CRIMBO_CARTEL, action, itemId, quantity );
@@ -98,12 +108,7 @@ public class CrimboCartelRequest
 
 	public CrimboCartelRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public CrimboCartelRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( CrimboCartelRequest.CRIMBO_CARTEL, action, itemId );
 	}
 
 	@Override

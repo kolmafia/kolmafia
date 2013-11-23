@@ -102,6 +102,16 @@ public class MrStoreRequest
 		super( MrStoreRequest.MR_STORE, action );
 	}
 
+	public MrStoreRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( MrStoreRequest.MR_STORE, action, attachments );
+	}
+
+	public MrStoreRequest( final String action, final AdventureResult attachment )
+	{
+		super( MrStoreRequest.MR_STORE, action, attachment );
+	}
+
 	public MrStoreRequest( final String action, final int itemId, final int quantity )
 	{
 		super( MrStoreRequest.MR_STORE, action, itemId, quantity );
@@ -109,12 +119,7 @@ public class MrStoreRequest
 
 	public MrStoreRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public MrStoreRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( MrStoreRequest.MR_STORE, action, itemId );
 	}
 
 	@Override

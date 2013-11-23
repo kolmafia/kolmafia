@@ -131,6 +131,16 @@ public class HermitRequest
 		super( HermitRequest.HERMIT, action );
 	}
 
+	public HermitRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( HermitRequest.HERMIT, action, attachments );
+	}
+
+	public HermitRequest( final String action, final AdventureResult attachment )
+	{
+		super( HermitRequest.HERMIT, action, attachment );
+	}
+
 	public HermitRequest( final String action, final int itemId, final int quantity )
 	{
 		super( HermitRequest.HERMIT, action, itemId, quantity );
@@ -138,12 +148,7 @@ public class HermitRequest
 
 	public HermitRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public HermitRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( HermitRequest.HERMIT, action, itemId, 1 );
 	}
 
 	public HermitRequest( final int itemId, final int quantity )
@@ -201,6 +206,23 @@ public class HermitRequest
 		HermitRequest.HERMIT.registerPurchaseRequests();
 	}
 
+	private final int worthlessItemsNeeded()
+	{
+		if ( this.attachments == null )
+		{
+			return 0;
+		}
+
+		int count = 0;
+		for ( int i = 0; i < this.attachments.length; ++i )
+		{
+			AdventureResult attachment = this.attachments[ i ];
+			count += attachment.getCount();
+		}
+
+		return count;
+	}
+
 	/**
 	 * Executes the <code>HermitRequest</code>. This will trade the item specified in the character's
 	 * <code>KoLSettings</code> for their worthless trinket; if the character has no worthless trinkets, this method
@@ -210,28 +232,33 @@ public class HermitRequest
 	@Override
 	public void run()
 	{
+		// If we are simply visiting, we need no worthless items
+		if ( this.attachments == null )
+		{
+			super.run();
+			return;
+		}
+
+		int count = this.worthlessItemsNeeded();
+
 		// If we have a hermit script, read it now
 		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 		}
 
+		int worthless = HermitRequest.getWorthlessItemCount( false );
+
 		// If we want to make a trade, fetch enough worthless items
-		if ( HermitRequest.getWorthlessItemCount( false ) < this.quantity )
+		if ( worthless < count )
 		{
-			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
+			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( count ) );
+			worthless = HermitRequest.getWorthlessItemCount( false );
 		}
 
-		// Otherwise, we are simply visiting and don't need any
-
-		if ( HermitRequest.getWorthlessItemCount( false ) < this.quantity )
+		if ( worthless < count )
 		{
 			return;
-		}
-
-		if ( this.quantity > 0 )
-		{
-			this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount( false ) ) );
 		}
 
 		super.run();
@@ -259,7 +286,7 @@ public class HermitRequest
 			return;
 		}
 
-		if ( this.itemId == -1 )
+		if ( this.attachments == null )
 		{
 			return;
 		}

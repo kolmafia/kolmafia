@@ -106,6 +106,16 @@ public class BountyHunterHunterRequest
 		super( BountyHunterHunterRequest.BHH, action );
 	}
 
+	public BountyHunterHunterRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( BountyHunterHunterRequest.BHH, action, attachments );
+	}
+
+	public BountyHunterHunterRequest( final String action, final AdventureResult attachment )
+	{
+		super( BountyHunterHunterRequest.BHH, action, attachment );
+	}
+
 	public BountyHunterHunterRequest( final String action, final int itemId, final int quantity )
 	{
 		super( BountyHunterHunterRequest.BHH, action, itemId, quantity );
@@ -113,12 +123,7 @@ public class BountyHunterHunterRequest
 
 	public BountyHunterHunterRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public BountyHunterHunterRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( BountyHunterHunterRequest.BHH, action, itemId );
 	}
 
 	@Override

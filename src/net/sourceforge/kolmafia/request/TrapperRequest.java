@@ -98,6 +98,16 @@ public class TrapperRequest
 		super( TrapperRequest.TRAPPER, action );
 	}
 
+	public TrapperRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( TrapperRequest.TRAPPER, action, attachments );
+	}
+
+	public TrapperRequest( final String action, final AdventureResult attachment )
+	{
+		super( TrapperRequest.TRAPPER, action, attachment );
+	}
+
 	public TrapperRequest( final String action, final int itemId, final int quantity )
 	{
 		super( TrapperRequest.TRAPPER, action, itemId, quantity );
@@ -105,12 +115,7 @@ public class TrapperRequest
 
 	public TrapperRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public TrapperRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( TrapperRequest.TRAPPER, action, itemId );
 	}
 
 	public TrapperRequest( final int itemId, final int quantity )

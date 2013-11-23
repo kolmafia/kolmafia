@@ -90,14 +90,19 @@ public class FDKOLRequest
 		super( FDKOLRequest.FDKOL );
 	}
 
+	public FDKOLRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( FDKOLRequest.FDKOL, action, attachments );
+	}
+
+	public FDKOLRequest( final String action, final AdventureResult attachment )
+	{
+		super( FDKOLRequest.FDKOL, action, attachment );
+	}
+
 	public FDKOLRequest( final String action, final int itemId, final int quantity )
 	{
 		super( FDKOLRequest.FDKOL, action, itemId, quantity );
-	}
-
-	public FDKOLRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
 	}
 
 	public static void parseResponse( final String location, final String responseText )
