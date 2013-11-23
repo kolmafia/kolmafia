@@ -77,7 +77,7 @@ public class CoinMasterPurchaseRequest
 
 		this.timestamp = 0L;
 
-		this.request = data.getRequest( data.getBuyAction(), this.item );
+		this.request = data.getRequest( data.getBuyAction(), new AdventureResult[] { this.item } );
 	}
 
 	public CoinmasterData getData()

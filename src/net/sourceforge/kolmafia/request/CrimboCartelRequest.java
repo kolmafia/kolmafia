@@ -58,6 +58,7 @@ public class CrimboCartelRequest
 	public static final CoinmasterData CRIMBO_CARTEL =
 		new CoinmasterData(
 			CrimboCartelRequest.master,
+			"cartel",
 			CrimboCartelRequest.class,
 			"crimbo09.php",
 			"Crimbuck",

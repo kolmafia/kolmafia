@@ -70,6 +70,7 @@ public class TerrifiedEagleInnRequest
 	public static final CoinmasterData TERRIFIED_EAGLE_INN =
 		new CoinmasterData(
 			TerrifiedEagleInnRequest.master,
+			"dreadsylvania",
 			TerrifiedEagleInnRequest.class,
 			"shop.php?whichshop=dv",
 			"Freddy Kruegerand",

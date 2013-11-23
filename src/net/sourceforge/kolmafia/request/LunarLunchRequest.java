@@ -58,6 +58,7 @@ public class LunarLunchRequest
 	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
 			LunarLunchRequest.master,
+			"lunarlunch",
 			LunarLunchRequest.class,
 			"shop.php?whichshop=elvishp3",
 			"isotope",

@@ -63,6 +63,7 @@ public class FreeSnackRequest
 	public static final CoinmasterData FREESNACKS =
 		new CoinmasterData(
 			FreeSnackRequest.master,
+			"snacks",
 			FreeSnackRequest.class,
 			"gamestore.php",
 			"snack voucher",

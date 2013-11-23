@@ -72,6 +72,7 @@ public class HermitRequest
 	public static final CoinmasterData HERMIT =
 		new CoinmasterData(
 			"Hermit",
+			"hermit",
 			HermitRequest.class,
 			"hermit.php",
 			"worthless item",

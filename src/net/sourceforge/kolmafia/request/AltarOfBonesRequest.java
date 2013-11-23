@@ -58,6 +58,7 @@ public class AltarOfBonesRequest
 	public static final CoinmasterData ALTAR_OF_BONES =
 		new CoinmasterData(
 			AltarOfBonesRequest.master,
+			"bonealtar",
 			AltarOfBonesRequest.class,
 			"bone_altar.php",
 			"bone chips",

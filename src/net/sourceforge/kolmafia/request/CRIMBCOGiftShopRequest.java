@@ -58,6 +58,7 @@ public class CRIMBCOGiftShopRequest
 	public static final CoinmasterData CRIMBCO_GIFT_SHOP =
 		new CoinmasterData(
 			CRIMBCOGiftShopRequest.master,
+			"CRIMBCO",
 			CRIMBCOGiftShopRequest.class,
 			"crimbo10.php",
 			"CRIMBCO scrip",

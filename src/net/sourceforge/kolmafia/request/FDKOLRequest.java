@@ -62,6 +62,7 @@ public class FDKOLRequest
 	public static final CoinmasterData FDKOL =
 		new CoinmasterData(
 			FDKOLRequest.master,
+			"FDKOL",
 			FDKOLRequest.class,
 			"shop.php?whichshop=fdkol",
 			"FDKOL commendation",

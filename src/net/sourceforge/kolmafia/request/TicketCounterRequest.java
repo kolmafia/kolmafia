@@ -59,6 +59,7 @@ public class TicketCounterRequest
 	public static final CoinmasterData TICKET_COUNTER =
 		new CoinmasterData(
 			TicketCounterRequest.master,
+			"arcade",
 			TicketCounterRequest.class,
 			"arcade.php",
 			"ticket",

@@ -133,8 +133,9 @@ public class CoinMasterRequest
 			return;
 		}
 
+		String action = data.getBuyAction();
 		String itemName = it.getName();
-		if ( !data.canBuyItem( itemName ) )
+		if ( action == null || !data.canBuyItem( itemName ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy " + itemName + " from " + data.getMaster() );
 			return;
@@ -147,8 +148,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String action = data.getBuyAction();
-		CoinMasterRequest request = data.getRequest( action, it );
+		CoinMasterRequest request = data.getRequest( action, new AdventureResult[] { it } );
 		request.transact( data );
 	}
 
@@ -175,7 +175,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		CoinMasterRequest request = data.getRequest( action, it );
+		CoinMasterRequest request = data.getRequest( action, new AdventureResult[] { it } );
 		request.transact( data );
 	}
 

@@ -65,6 +65,7 @@ public class TrapperRequest
 	public static final CoinmasterData TRAPPER =
 		new CoinmasterData(
 			TrapperRequest.master,
+			"trapper",
 			TrapperRequest.class,
 			"shop.php?whichshop=trapper",
 			"yeti fur",

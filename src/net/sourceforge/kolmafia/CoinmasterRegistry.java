@@ -97,11 +97,14 @@ public abstract class CoinmasterRegistry
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];
+	public static final String [] NICKNAMES = new String[ COINMASTERS.length ];
 	static
 	{
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
-			MASTERS[ i ] = StringUtilities.getCanonicalName( COINMASTERS[ i ].getMaster() );
+			CoinmasterData cm = COINMASTERS[ i ];
+			MASTERS[ i ] = StringUtilities.getCanonicalName( cm.getMaster() );
+			NICKNAMES[ i ] = StringUtilities.getCanonicalName( cm.getNickname() );
 			COINMASTERS[ i ].registerPurchaseRequests();
 		}
 	};
@@ -114,7 +117,7 @@ public abstract class CoinmasterRegistry
 
 	public static CoinmasterData findCoinmaster( final String master )
 	{
-		List matchingNames = StringUtilities.getMatchingNames( MASTERS, master );
+		List<String> matchingNames = StringUtilities.getMatchingNames( MASTERS, master );
 
 		int size = matchingNames.size();
 
@@ -124,7 +127,7 @@ public abstract class CoinmasterRegistry
 		}
 
 		String match = ( size == 1 ) ?
-			(String) matchingNames.get( 0 ) :
+			matchingNames.get( 0 ) :
 			StringUtilities.getCanonicalName( master ).trim();
 
 		for ( int i = 0; i < MASTERS.length; ++i )
@@ -135,6 +138,27 @@ public abstract class CoinmasterRegistry
 			}
 		}
 
+		return null;
+	}
+
+	public static CoinmasterData findCoinmasterByNickname( final String nickname )
+	{
+		List<String> matchingNames = StringUtilities.getMatchingNames( NICKNAMES, nickname );
+
+		if ( matchingNames.size() != 1 )
+		{
+			return null;
+		}
+
+		String name = matchingNames.get( 0 );
+		for ( int i = 0; i < COINMASTERS.length; ++i )
+		{
+			CoinmasterData data = COINMASTERS[ i ];
+			if ( name.equals( data.getNickname() ) )
+			{
+				return data;
+			}
+		}
 		return null;
 	}
 

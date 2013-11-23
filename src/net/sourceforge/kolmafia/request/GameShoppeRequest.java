@@ -67,6 +67,7 @@ public class GameShoppeRequest
 	public static final CoinmasterData GAMESHOPPE =
 		new CoinmasterData(
 			GameShoppeRequest.master,
+			"gameshoppe",
 			GameShoppeRequest.class,
 			"gamestore.php",
 			"store credit",
