@@ -262,14 +262,16 @@ public abstract class UseLinkDecorator
 					continue;
 				}
 
-				// Find start of table row containing it
-				pos = buffer.lastIndexOf( "<tr", pos );
+				// Find start of table containing it
+				pos = buffer.lastIndexOf( "<table", pos );
 				if ( pos == -1 )
 				{
 					continue;
 				}
 
+				UseLinkDecorator.deferred.append( "<tr>" );
 				UseLinkDecorator.deferred.append( buffer.substring( pos ) );
+				UseLinkDecorator.deferred.append( "</table>" );
 				UseLinkDecorator.deferred.append( "</tr>" );
 			}
 		}
