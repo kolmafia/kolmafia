@@ -86,6 +86,16 @@ public class IsotopeSmitheryRequest
 		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action );
 	}
 
+	public IsotopeSmitheryRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, attachments );
+	}
+
+	public IsotopeSmitheryRequest( final String action, final AdventureResult attachment )
+	{
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, attachment );
+	}
+
 	public IsotopeSmitheryRequest( final String action, final int itemId, final int quantity )
 	{
 		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, itemId, quantity );
@@ -93,12 +103,7 @@ public class IsotopeSmitheryRequest
 
 	public IsotopeSmitheryRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public IsotopeSmitheryRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, itemId );
 	}
 
 	public static final boolean registerRequest( final String urlString )

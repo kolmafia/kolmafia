@@ -118,6 +118,16 @@ public class BigBrotherRequest
 		super( BigBrotherRequest.BIG_BROTHER, action );
 	}
 
+	public BigBrotherRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( BigBrotherRequest.BIG_BROTHER, action, attachments );
+	}
+
+	public BigBrotherRequest( final String action, final AdventureResult attachment )
+	{
+		super( BigBrotherRequest.BIG_BROTHER, action, attachment );
+	}
+
 	public BigBrotherRequest( final String action, final int itemId, final int quantity )
 	{
 		super( BigBrotherRequest.BIG_BROTHER, action, itemId, quantity );
@@ -125,12 +135,7 @@ public class BigBrotherRequest
 
 	public BigBrotherRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public BigBrotherRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( BigBrotherRequest.BIG_BROTHER, action, itemId );
 	}
 
 	@Override

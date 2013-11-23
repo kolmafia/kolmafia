@@ -140,21 +140,32 @@ public class FudgeWandRequest
 		super( FudgeWandRequest.FUDGEWAND, action );
 	}
 
+	public FudgeWandRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( FudgeWandRequest.FUDGEWAND, action, attachments );
+	}
+
+	public FudgeWandRequest( final String action, final AdventureResult attachment )
+	{
+		super( FudgeWandRequest.FUDGEWAND, action, attachment );
+	}
+
 	public FudgeWandRequest( final String action, final int itemId, final int quantity )
 	{
 		super( FudgeWandRequest.FUDGEWAND, action, itemId, quantity );
-		String option = FudgeWandRequest.idToOption( itemId );
-		this.addFormField( "option", option );
 	}
 
 	public FudgeWandRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
+		super( FudgeWandRequest.FUDGEWAND, action, itemId );
 	}
 
-	public FudgeWandRequest( final String action, final AdventureResult ar )
+	@Override
+	public void setItem( final AdventureResult item )
 	{
-		this( action, ar.getItemId(), ar.getCount() );
+		int itemId = item.getItemId();
+		String option = FudgeWandRequest.idToOption( itemId );
+		this.addFormField( "option", option );
 	}
 
 	@Override

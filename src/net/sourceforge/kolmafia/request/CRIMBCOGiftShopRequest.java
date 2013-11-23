@@ -91,6 +91,16 @@ public class CRIMBCOGiftShopRequest
 		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action );
 	}
 
+	public CRIMBCOGiftShopRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, attachments );
+	}
+
+	public CRIMBCOGiftShopRequest( final String action, final AdventureResult attachment )
+	{
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, attachment );
+	}
+
 	public CRIMBCOGiftShopRequest( final String action, final int itemId, final int quantity )
 	{
 		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, itemId, quantity );
@@ -98,12 +108,7 @@ public class CRIMBCOGiftShopRequest
 
 	public CRIMBCOGiftShopRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public CRIMBCOGiftShopRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, itemId );
 	}
 
 	@Override

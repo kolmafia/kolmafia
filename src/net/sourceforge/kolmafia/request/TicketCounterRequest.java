@@ -92,6 +92,16 @@ public class TicketCounterRequest
 		super( TicketCounterRequest.TICKET_COUNTER, action );
 	}
 
+	public TicketCounterRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( TicketCounterRequest.TICKET_COUNTER, action, attachments );
+	}
+
+	public TicketCounterRequest( final String action, final AdventureResult attachment )
+	{
+		super( TicketCounterRequest.TICKET_COUNTER, action, attachment );
+	}
+
 	public TicketCounterRequest( final String action, final int itemId, final int quantity )
 	{
 		super( TicketCounterRequest.TICKET_COUNTER, action, itemId, quantity );
@@ -99,12 +109,7 @@ public class TicketCounterRequest
 
 	public TicketCounterRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public TicketCounterRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( TicketCounterRequest.TICKET_COUNTER, action, itemId );
 	}
 
 	public static boolean parseResponse( final String urlString, final String responseText )

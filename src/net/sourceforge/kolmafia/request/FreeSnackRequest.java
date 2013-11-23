@@ -96,6 +96,16 @@ public class FreeSnackRequest
 		super( FreeSnackRequest.FREESNACKS, action );
 	}
 
+	public FreeSnackRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( FreeSnackRequest.FREESNACKS, action, attachments );
+	}
+
+	public FreeSnackRequest( final String action, final AdventureResult attachment )
+	{
+		super( FreeSnackRequest.FREESNACKS, action, attachment );
+	}
+
 	public FreeSnackRequest( final String action, final int itemId, final int quantity )
 	{
 		super( FreeSnackRequest.FREESNACKS, action, itemId, quantity );
@@ -103,12 +113,7 @@ public class FreeSnackRequest
 
 	public FreeSnackRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public FreeSnackRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( FreeSnackRequest.FREESNACKS, action, itemId );
 	}
 
 	@Override

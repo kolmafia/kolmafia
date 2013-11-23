@@ -390,7 +390,7 @@ public class ItemFinder
 
 		if ( parameters.contains( "\u00B6" ) )
 		{
-			// At least one item is specified by item IF
+			// At least one item is specified by item ID
 			if ( parameters.contains( "," ) )
 			{
 				// We can't parse multiple items of this sort

@@ -90,14 +90,21 @@ public class Crimbo11Request
 	public Crimbo11Request()
 	{
 		super( Crimbo11Request.CRIMBO11 );
-
-		// Visit Uncle Crimbo to get Candy Credit balance
-		this.addFormField( "place", "tradeincandy" );
 	}
 
 	public Crimbo11Request( final String action )
 	{
 		super( Crimbo11Request.CRIMBO11, action );
+	}
+
+	public Crimbo11Request( final String action, final AdventureResult [] attachments )
+	{
+		super( Crimbo11Request.CRIMBO11, action, attachments );
+	}
+
+	public Crimbo11Request( final String action, final AdventureResult attachment )
+	{
+		super( Crimbo11Request.CRIMBO11, action, attachment );
 	}
 
 	public Crimbo11Request( final String action, final int itemId, final int quantity )
@@ -107,12 +114,7 @@ public class Crimbo11Request
 
 	public Crimbo11Request( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public Crimbo11Request( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( Crimbo11Request.CRIMBO11, action, itemId );
 	}
 
 	private static String placeString( final String urlString )
@@ -140,6 +142,13 @@ public class Crimbo11Request
 	public static String canBuy()
 	{
 		return null;
+	}
+
+	@Override
+	public void run()
+	{
+		this.addFormField( "place", "tradeincandy" );
+		super.run();
 	}
 
 	@Override

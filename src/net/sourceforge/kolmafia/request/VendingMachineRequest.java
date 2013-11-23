@@ -91,23 +91,37 @@ public class VendingMachineRequest
 	public VendingMachineRequest( final String action )
 	{
 		super( VendingMachineRequest.VENDING_MACHINE, action );
-		this.addFormField( "pwd" );
+	}
+
+	public VendingMachineRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( VendingMachineRequest.VENDING_MACHINE, action, attachments );
+	}
+
+	public VendingMachineRequest( final String action, final AdventureResult attachment )
+	{
+		super( VendingMachineRequest.VENDING_MACHINE, action, attachment );
 	}
 
 	public VendingMachineRequest( final String action, final int itemId, final int quantity )
 	{
 		super( VendingMachineRequest.VENDING_MACHINE, action, itemId, quantity );
-		this.addFormField( "pwd" );
 	}
 
 	public VendingMachineRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
+		super( VendingMachineRequest.VENDING_MACHINE, action, itemId );
 	}
 
-	public VendingMachineRequest( final String action, final AdventureResult ar )
+	@Override
+	public void run()
 	{
-		this( action, ar.getItemId(), ar.getCount() );
+		if ( this.action != null )
+		{
+			this.addFormField( "pwd" );
+		}
+
+		super.run();
 	}
 
 	@Override

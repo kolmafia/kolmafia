@@ -118,19 +118,33 @@ public class BURTRequest
 		super( BURTRequest.BURT, action );
 	}
 
+	public BURTRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( BURTRequest.BURT, action, attachments );
+	}
+
+	public BURTRequest( final String action, final AdventureResult attachment )
+	{
+		super( BURTRequest.BURT, action, attachment );
+	}
+
 	public BURTRequest( final String action, final int itemId, final int quantity )
 	{
-		super( BURTRequest.BURT, action, BURTRequest.itemIdToPrice( itemId ), quantity );
+		super( BURTRequest.BURT, action, itemId, quantity );
 	}
 
 	public BURTRequest( final String action, final int itemId )
 	{
-		this( action, BURTRequest.itemIdToPrice( itemId ), 1 );
+		super( BURTRequest.BURT, action, itemId );
 	}
 
-	public BURTRequest( final String action, final AdventureResult ar )
+	@Override
+	public void setItem( final AdventureResult item )
 	{
-		this( action, ar.getItemId(), ar.getCount() );
+		// The item field is the buy price; the number of BURTS spent
+		String itemField = this.data.getItemField();
+		int itemId = item.getItemId();
+		this.addFormField( itemField, String.valueOf( BURTRequest.itemIdToPrice( itemId ) ) );
 	}
 
 	@Override

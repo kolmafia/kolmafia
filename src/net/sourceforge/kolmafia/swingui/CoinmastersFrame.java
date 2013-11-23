@@ -547,7 +547,7 @@ public class CoinmastersFrame
 			this.add( this.buyPanel, BorderLayout.CENTER );
 		}
 
-		public Object[] getDesiredItems()
+		public AdventureResult[] getDesiredItems()
 		{
 			Object[] items = this.buyPanel.getSelectedValues();
 			return this.getDesiredBuyItems( items, false );
@@ -567,7 +567,7 @@ public class CoinmastersFrame
 					return;
 				}
 
-				Object[] items = Crimbo11Panel.this.getDesiredItems();
+				AdventureResult[] items = Crimbo11Panel.this.getDesiredItems();
 				if ( items == null )
 				{
 					return;
@@ -603,7 +603,7 @@ public class CoinmastersFrame
 					return;
 				}
 
-				Object[] items = Crimbo11Panel.this.getDesiredItems();
+				AdventureResult[] items = Crimbo11Panel.this.getDesiredItems();
 				if ( items == null )
 				{
 					return;
@@ -862,9 +862,9 @@ public class CoinmastersFrame
 			return this.data.getRequest();
 		}
 
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		public CoinMasterRequest getRequest( final String action, final AdventureResult [] items )
 		{
-			return this.data.getRequest( action, it );
+			return this.data.getRequest( action, items );
 		}
 
 		public final void setTitle()
@@ -954,34 +954,30 @@ public class CoinmastersFrame
 			RequestThread.postRequest( this.getRequest() );
 		}
 
-		protected void execute( final String action, final Object [] items )
+		protected void execute( final String action, final AdventureResult [] items )
 		{
 			this.execute( action, items, null );
 		}
 
-		protected void execute( final String action, final Object [] items, final String extraAction )
+		protected void execute( final String action, final AdventureResult [] items, final String extraAction )
 		{
 			if ( items.length == 0 )
 			{
 				return;
 			}
 
-			for ( int i = 0; i < items.length; ++i )
+			CoinMasterRequest request = this.getRequest( action, items );
+			if ( extraAction != null )
 			{
-				AdventureResult it = (AdventureResult)items[i];
-				CoinMasterRequest request = this.getRequest( action, it );
-				if ( extraAction != null )
-				{
-					request.addFormField( extraAction );
-				}
-				RequestThread.postRequest( request );
+				request.addFormField( extraAction );
 			}
+			RequestThread.postRequest( request );
 
 			// Update our token count in the title
 			this.setTitle();
 		}
 
-		public Object[] getDesiredBuyItems( Object[] items, final boolean fromStorage )
+		public AdventureResult[] getDesiredBuyItems( Object[] items, final boolean fromStorage )
 		{
 			if ( items.length == 0 )
 			{
@@ -1051,14 +1047,14 @@ public class CoinmastersFrame
 				return null;
 			}
 
-			Object[] desiredItems = new Object[ neededSize ];
+			AdventureResult[] desiredItems = new AdventureResult[ neededSize ];
 			neededSize = 0;
 
 			for ( int i = 0; i < items.length; ++i )
 			{
 				if ( items[ i ] != null )
 				{
-					desiredItems[ neededSize++ ] = items[ i ];
+					desiredItems[ neededSize++ ] = (AdventureResult)items[ i ];
 				}
 			}
 
@@ -1137,7 +1133,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					Object[] items = SellPanel.this.getDesiredItems( "Selling" );
+					AdventureResult[] items = SellPanel.this.getDesiredItems( "Selling" );
 					if ( items == null )
 					{
 						return;
@@ -1241,7 +1237,7 @@ public class CoinmastersFrame
 			{
 			}
 
-			public Object[] getDesiredItems( final boolean fromStorage )
+			public AdventureResult[] getDesiredItems( final boolean fromStorage )
 			{
 				Object[] items = this.getSelectedValues();
 				return CoinmasterPanel.this.getDesiredBuyItems( items, fromStorage );
@@ -1261,7 +1257,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					Object[] items = BuyPanel.this.getDesiredItems( false );
+					AdventureResult[] items = BuyPanel.this.getDesiredItems( false );
 					if ( items == null )
 					{
 						return;
@@ -1283,7 +1279,7 @@ public class CoinmastersFrame
 				@Override
 				protected void execute()
 				{
-					Object[] items = BuyPanel.this.getDesiredItems( true );
+					AdventureResult[] items = BuyPanel.this.getDesiredItems( true );
 					if ( items == null )
 					{
 						return;

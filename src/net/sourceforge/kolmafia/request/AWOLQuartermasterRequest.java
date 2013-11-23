@@ -99,20 +99,35 @@ public class AWOLQuartermasterRequest
 		super( AWOLQuartermasterRequest.AWOL, action );
 	}
 
+	public AWOLQuartermasterRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( AWOLQuartermasterRequest.AWOL, action, attachments );
+	}
+
+	public AWOLQuartermasterRequest( final String action, final AdventureResult attachment )
+	{
+		super( AWOLQuartermasterRequest.AWOL, action, attachment );
+	}
+
 	public AWOLQuartermasterRequest( final String action, final int itemId, final int quantity )
 	{
 		super( AWOLQuartermasterRequest.AWOL, action, itemId, quantity );
-		this.addFormField( "doit", "69" );
 	}
 
 	public AWOLQuartermasterRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
+		super( AWOLQuartermasterRequest.AWOL, action, itemId );
 	}
 
-	public AWOLQuartermasterRequest( final String action, final AdventureResult ar )
+	@Override
+	public void run()
 	{
-		this( action, ar.getItemId(), ar.getCount() );
+		if ( this.attachments != null )
+		{
+			this.addFormField( "doit", "69" );
+		}
+
+		super.run();
 	}
 
 	@Override

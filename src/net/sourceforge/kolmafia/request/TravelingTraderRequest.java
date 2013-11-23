@@ -100,6 +100,16 @@ public class TravelingTraderRequest
 		super( TravelingTraderRequest.TRAVELER, action );
 	}
 
+	public TravelingTraderRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( TravelingTraderRequest.TRAVELER, action, attachments );
+	}
+
+	public TravelingTraderRequest( final String action, final AdventureResult attachment )
+	{
+		super( TravelingTraderRequest.TRAVELER, action, attachment );
+	}
+
 	public TravelingTraderRequest( final String action, final int itemId, final int quantity )
 	{
 		super( TravelingTraderRequest.TRAVELER, action, itemId, quantity );
@@ -107,12 +117,7 @@ public class TravelingTraderRequest
 
 	public TravelingTraderRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public TravelingTraderRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( TravelingTraderRequest.TRAVELER, action, itemId );
 	}
 
 	@Override

@@ -98,6 +98,11 @@ public class SwaggerShopRequest
 		super( SwaggerShopRequest.SWAGGER_SHOP, action );
 	}
 
+	public SwaggerShopRequest( final String action, final AdventureResult attachment )
+	{
+		super( SwaggerShopRequest.SWAGGER_SHOP, action, attachment );
+	}
+
 	public SwaggerShopRequest( final String action, final int itemId, final int quantity )
 	{
 		super( SwaggerShopRequest.SWAGGER_SHOP, action, itemId, quantity );
@@ -105,12 +110,7 @@ public class SwaggerShopRequest
 
 	public SwaggerShopRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public SwaggerShopRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( SwaggerShopRequest.SWAGGER_SHOP, action, itemId );
 	}
 
 	@Override

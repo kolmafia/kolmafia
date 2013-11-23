@@ -108,6 +108,16 @@ public class DimemasterRequest
 		super( DimemasterRequest.HIPPY, action );
 	}
 
+	public DimemasterRequest( final String action, final AdventureResult [] attachments )
+	{
+		super( DimemasterRequest.HIPPY, action, attachments );
+	}
+
+	public DimemasterRequest( final String action, final AdventureResult attachment )
+	{
+		super( DimemasterRequest.HIPPY, action, attachment );
+	}
+
 	public DimemasterRequest( final String action, final int itemId, final int quantity )
 	{
 		super( DimemasterRequest.HIPPY, action, itemId, quantity );
@@ -115,12 +125,7 @@ public class DimemasterRequest
 
 	public DimemasterRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
-	}
-
-	public DimemasterRequest( final String action, final AdventureResult ar )
-	{
-		this( action, ar.getItemId(), ar.getCount() );
+		super( DimemasterRequest.HIPPY, action, itemId );
 	}
 
 	@Override
