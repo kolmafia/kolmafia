@@ -119,7 +119,7 @@ public class PastaThrallData
 			// enters it. "I live..."
 			Pattern.compile( "A chill perm ?eates the air as (.*?)'s spirit enters it\\." ),
 			"angelwisp.gif",
-			"t_angelwisp.gif",
+			"t_wisp.gif",
 			"Initiative: +5 per level",
 			"Prevent enemy critical hits",
 			"Blocks enemy attacks",
@@ -137,7 +137,7 @@ public class PastaThrallData
 			// feet.
 			Pattern.compile( "You focus your thoughts and call out to (.*?)\\." ),
 			"macaroni.gif",
-			"t_macaroni.gif",
+			"t_elbowmac.gif",
 			"Muscle can't be lower than Mysticality",
 			"Weapon Damage: +2 per level",
 			"Critical Hit Percentage: +10",
@@ -158,7 +158,7 @@ public class PastaThrallData
 			// stillness as it appears and <name> possesses it.
 			Pattern.compile( "it appears and (.*?) possesses it" ),
 			"pennedreadful.gif",
-			"t_pennedreadful.gif",
+			"t_dreadful.gif",
 			"Moxie can't be lower than Mysticality",
 			"Delevel at start of combat",
 			"Damage Reduction: +10",
