@@ -391,12 +391,13 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "<div class='content' id='content_'>" );
 		actionBuffer.append( "<div id='effdiv' style='display: none;'></div>" );
 
+		// *** Start of 'extra' div
+		actionBuffer.append( "<div>" );
+
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
-		if ( useHotKeys )
-		{
-			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
-		}
+		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
+		// *** End of 'extra' div
 
 		StringUtilities.insertBefore( buffer, "</body>", "</div>" );
 		// *** End of 'content_' div
@@ -406,6 +407,7 @@ public class StationaryButtonDecorator
 
 		if ( useHotKeys )
 		{
+			StringUtilities.insertBefore( buffer, "</head>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 		}
 
