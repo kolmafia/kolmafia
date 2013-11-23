@@ -5679,6 +5679,10 @@ public abstract class RuntimeLibrary
 	public static Value is_banished( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
 		return DataTypes.makeBooleanValue( BanishManager.isBanished( (String) monster.getName() ) );
 	}
 
