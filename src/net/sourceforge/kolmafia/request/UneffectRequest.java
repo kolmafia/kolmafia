@@ -229,6 +229,42 @@ public class UneffectRequest
 			"Soulerskates",
 			"Soul Rotation",
 		},
+		{
+			"Disdain of the War Snapper",
+			"Blessing of the War Snapper",
+		},
+		{
+			"Disdain of She-Who-Was",
+			"Blessing of She-Who-Was",
+		},
+		{
+			"Disdain of the Storm Tortoise",
+			"Blessing of the Storm Tortoise",
+		},
+		{
+			"Avatar of the War Snapper",
+			"Turtle Power",
+		},
+		{
+			"Avatar of She-Who-Was",
+			"Turtle Power",
+		},
+		{
+			"Avatar of the Storm Tortoise",
+			"Turtle Power",
+		},
+		{
+			"Boon of the War Snapper",
+			"Spirit Boon",
+		},
+		{
+			"Boon of She-Who-Was",
+			"Spirit Boon",
+		},
+		{
+			"Boon of the Storm Tortoise",
+			"Spirit Boon",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
@@ -356,6 +392,7 @@ public class UneffectRequest
 
 	public static final String effectToSkill( final String effectName )
 	{
+		// Handle effects where skill name and effect name don't match with a lookup
 		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
 		{
 			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
@@ -370,15 +407,6 @@ public class UneffectRequest
 
 	public static final String skillToEffect( final String skillName )
 	{
-		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
-		{
-			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
-			if ( skillName.equalsIgnoreCase( data[ 1 ] ) )
-			{
-				return data[ 0 ];
-			}
-		}
-		
 		// Some skills can produce different effects depending on current effects or class
 		int skillId = SkillDatabase.getSkillId( skillName );
 		
@@ -446,6 +474,17 @@ public class UneffectRequest
 				return "none";
 			}
 		}
+
+		// Handle remaining skills where skill name and effect name don't match with a lookup
+		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
+		{
+			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
+			if ( skillName.equalsIgnoreCase( data[ 1 ] ) )
+			{
+				return data[ 0 ];
+			}
+		}
+		
 		return skillName;
 	}
 
