@@ -1027,19 +1027,22 @@ public abstract class KoLCharacter
 	{
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) )
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) )
 		{
 			return KoLCharacter.WAR_BLESSING;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) )
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) )
 		{
 			return KoLCharacter.SHE_WHO_WAS_BLESSING;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) ||
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
 		{
 			return KoLCharacter.STORM_BLESSING;
 		}
@@ -1065,6 +1068,12 @@ public abstract class KoLCharacter
 			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
 		{
 			return 3;
+		}
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) ||
+			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
+		{
+			return 4;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SPIRIT_PARIAH ) ) )
 		{
