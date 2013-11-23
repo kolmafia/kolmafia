@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
@@ -111,6 +112,9 @@ public class ClanLoungeRequest
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
 	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
 	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
+	private static final AdventureResult CURSE1_EFFECT = new AdventureResult( "Once-Cursed", 1, true );
+	private static final AdventureResult CURSE2_EFFECT = new AdventureResult( "Twice-Cursed", 1, true );
+	private static final AdventureResult CURSE3_EFFECT = new AdventureResult( "Thrice-Cursed", 1, true );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -691,6 +695,17 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.HOTTUB:
+			// If on the Hidden Apartment Quest, and have a Curse, ask if you are sure you want to lose it ?
+			boolean cursed = KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE1_EFFECT ) ||
+				KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE2_EFFECT ) ||
+				KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE3_EFFECT );
+			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 )
+			{
+				if ( !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
+				{
+					break;
+				}
+			}
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "hottub" );
 			break;
