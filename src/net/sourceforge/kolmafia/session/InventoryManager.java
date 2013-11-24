@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -762,7 +763,7 @@ public abstract class InventoryManager
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
 
-		if ( !scriptSaysBuy && shouldUseMall && !InventoryManager.hasAnyIngredient( itemId ) )
+		if ( shouldUseMall && !scriptSaysBuy && !InventoryManager.hasAnyIngredient( itemId ) )
 		{
 			if ( sim )
 			{
@@ -775,7 +776,7 @@ public abstract class InventoryManager
 			}
 			else
 			{
-				boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+				boolean defaultBuy = InventoryManager.cheaperToBuy( item, missingCount );
 				scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 0, defaultBuy );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -788,19 +789,26 @@ public abstract class InventoryManager
 
 		boolean shouldUseNPCStore =
 			Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
-				NPCStoreDatabase.contains( item.getName() );
+			NPCStoreDatabase.contains( item.getName() );
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{
 			if ( sim )
 			{
-				return "buy";
+				return shouldUseNPCStore ? "buy from NPC" : "buy";
 			}
 
-			ArrayList< ? > results = StoreManager.searchMall( item );
-			KoLmafia.makePurchases(
-				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
-			StoreManager.updateMallPrice( item, results );
+			// If buying from the mall will leave the item in storage, use only NPCs
+			boolean onlyNPC = !KoLCharacter.canInteract();
+			ArrayList<PurchaseRequest> results = 
+				onlyNPC ?
+				StoreManager.searchNPCs( item ) :
+				StoreManager.searchMall( item );
+			KoLmafia.makePurchases( results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
+			if ( !onlyNPC )
+			{
+				StoreManager.updateMallPrice( item, results );
+			}
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -1672,24 +1680,9 @@ public abstract class InventoryManager
 
 	private static boolean shouldUseMall( final AdventureResult item )
 	{
-		if ( !KoLCharacter.canInteract() )
-		{
-			return false;
-		}
-
-		int itemId = item.getItemId();
-
-		if ( !ItemDatabase.isTradeable( itemId ) )
-		{
-			return false;
-		}
-
-		if ( !Preferences.getBoolean( "autoSatisfyWithMall" ) )
-		{
-			return false;
-		}
-
-		return true;
+		return  KoLCharacter.canInteract() &&
+			ItemDatabase.isTradeable( item.getItemId() ) &&
+			Preferences.getBoolean( "autoSatisfyWithMall" );
 	}
 
 	public static final void registerListener( final int itemId, final PreferenceListener listener )
