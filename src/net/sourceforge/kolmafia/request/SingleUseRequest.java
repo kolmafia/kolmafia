@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -101,6 +102,14 @@ public class SingleUseRequest
 	@Override
 	public void run()
 	{
+		AdventureResult item = this.ingredients[ 0 ];
+		int itemId = item.getItemId();
+		if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too scared of bees to use " + item.getName() + " to create " + this.getName() );
+			return;
+		}
+
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
@@ -109,12 +118,11 @@ public class SingleUseRequest
 			return;
 		}
 
-		int use = this.ingredients[ 0 ].getItemId();
-		int type = ItemDatabase.getConsumptionType( use );
+		int type = ItemDatabase.getConsumptionType( itemId );
 		int count = this.getQuantityNeeded();
 
-		if ( count > 1 && (type == KoLConstants.CONSUME_USE ||
-			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_USABLE )) )
+		if ( count > 1 &&
+		     (type == KoLConstants.CONSUME_USE || ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_USABLE )) )
 		{
 			// We have to create one at a time.
 			for ( int i = 1; i <= count; ++i )
