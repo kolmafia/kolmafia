@@ -580,6 +580,10 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( "Overconfident" );
 
+		removableEffects = new HashSet<String>();
+		removeWithSkillMap.put( "Blood Sugar Sauce Magic", removableEffects );
+		removableEffects.add( "Blood Sugar Sauce Magic" );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();	
 	}
 	
@@ -743,7 +747,9 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( effect.getCount() == Integer.MAX_VALUE && this.effectId != Effect.OVERCONFIDENT.effectId() )
+		if ( effect.getCount() == Integer.MAX_VALUE &&
+		     this.effectId != EffectPool.OVERCONFIDENT &&
+		     this.effectId != EffectPool.BLOOD_SUGAR_SAUCE_MAGIC )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is intrinsic and cannot be removed." );
 			return;

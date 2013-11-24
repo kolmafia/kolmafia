@@ -39,99 +39,99 @@ public class EffectPool
 {
 	public enum Effect
 	{
-			ON_THE_TRAIL( "On the Trail", 331 ),
-			EAU_DE_TORTUE( "Eau de Tortue", 263 ),
+		ON_THE_TRAIL( "On the Trail", 331 ),
+		EAU_DE_TORTUE( "Eau de Tortue", 263 ),
 
-			ODE( "Ode to Booze", 71 ),
-			MILK( "Got Milk", 211 ),
-			GLORIOUS_LUNCH( "Song of the Glorious Lunch", 1005 ),
+		ODE( "Ode to Booze", 71 ),
+		MILK( "Got Milk", 211 ),
+		GLORIOUS_LUNCH( "Song of the Glorious Lunch", 1005 ),
 
-			FORM_OF_BIRD( "Form of...Bird!", 511 ),
-			SHAPE_OF_MOLE( "Shape of...Mole!", 510 ),
-			FORM_OF_ROACH( "Form of...Cockroach!", 509 ),
+		FORM_OF_BIRD( "Form of...Bird!", 511 ),
+		SHAPE_OF_MOLE( "Shape of...Mole!", 510 ),
+		FORM_OF_ROACH( "Form of...Cockroach!", 509 ),
 
-			HAIKU_STATE_OF_MIND( "Haiku State of Mind", 548 ),
-			JUST_THE_BEST_ANAPESTS( "Just the Best Anapests", 1003 ),
+		HAIKU_STATE_OF_MIND( "Haiku State of Mind", 548 ),
+		JUST_THE_BEST_ANAPESTS( "Just the Best Anapests", 1003 ),
 
-			WAR_BLESSING_1( "Blessing of the War Snapper", 1416 ),
-			WAR_BLESSING_2( "Grand Blessing of the War Snapper", 1417 ),
-			WAR_BLESSING_3( "Glorious Blessing of the War Snapper", 1418 ),
-			WAR_AVATAR( "Avatar of the War Snapper", 1432 ),
-			SHE_WHO_WAS_BLESSING_1( "Blessing of She-Who-Was", 1419 ),
-			SHE_WHO_WAS_BLESSING_2( "Grand Blessing of She-Who-Was", 1420 ),
-			SHE_WHO_WAS_BLESSING_3( "Glorious Blessing of She-Who-Was", 1421 ),
-			SHE_WHO_WAS_AVATAR( "Avatar of She-Who-Was", 1433 ),
-			STORM_BLESSING_1( "Blessing of the Storm Tortoise", 1422 ),
-			STORM_BLESSING_2( "Grand Blessing of the Storm Tortoise", 1423 ),
-			STORM_BLESSING_3( "Glorious Blessing of the Storm Tortoise", 1424 ),
-			STORM_AVATAR( "Avatar of the Storm Tortoise", 1434 ),
-			SPIRIT_PARIAH( "Spirit Pariah", 1431 ),
+		WAR_BLESSING_1( "Blessing of the War Snapper", 1416 ),
+		WAR_BLESSING_2( "Grand Blessing of the War Snapper", 1417 ),
+		WAR_BLESSING_3( "Glorious Blessing of the War Snapper", 1418 ),
+		WAR_AVATAR( "Avatar of the War Snapper", 1432 ),
+		SHE_WHO_WAS_BLESSING_1( "Blessing of She-Who-Was", 1419 ),
+		SHE_WHO_WAS_BLESSING_2( "Grand Blessing of She-Who-Was", 1420 ),
+		SHE_WHO_WAS_BLESSING_3( "Glorious Blessing of She-Who-Was", 1421 ),
+		SHE_WHO_WAS_AVATAR( "Avatar of She-Who-Was", 1433 ),
+		STORM_BLESSING_1( "Blessing of the Storm Tortoise", 1422 ),
+		STORM_BLESSING_2( "Grand Blessing of the Storm Tortoise", 1423 ),
+		STORM_BLESSING_3( "Glorious Blessing of the Storm Tortoise", 1424 ),
+		STORM_AVATAR( "Avatar of the Storm Tortoise", 1434 ),
+		SPIRIT_PARIAH( "Spirit Pariah", 1431 ),
 			
-			HALF_ASTRAL( "Half-Astral", 183 ),
-			PERFUME( "Knob Goblin Perfume", 9 ),
-			ABSINTHE( "Absinthe-Minded", 357 ),
-			HYDRATED( "Ultrahydrated", 275 ),
+		HALF_ASTRAL( "Half-Astral", 183 ),
+		PERFUME( "Knob Goblin Perfume", 9 ),
+		ABSINTHE( "Absinthe-Minded", 357 ),
+		HYDRATED( "Ultrahydrated", 275 ),
 
-			EXPERT_OILINESS( "Expert Oiliness", 37 ),
-			SLIPPERY_OILINESS( "Slippery Oiliness", 101 ),
-			STABILIZING_OILINESS( "Stabilizing Oiliness", 100 ),
+		EXPERT_OILINESS( "Expert Oiliness", 37 ),
+		SLIPPERY_OILINESS( "Slippery Oiliness", 101 ),
+		STABILIZING_OILINESS( "Stabilizing Oiliness", 100 ),
 
-			ASTRAL_SHELL( "Astral Shell", 52 ),
-			ELEMENTAL_SPHERE( "Elemental Saucesphere", 53 ),
-			GHOSTLY_SHELL( "Ghostly Shell", 18 ),
+		ASTRAL_SHELL( "Astral Shell", 52 ),
+		ELEMENTAL_SPHERE( "Elemental Saucesphere", 53 ),
+		GHOSTLY_SHELL( "Ghostly Shell", 18 ),
 
-			PURPLE_TONGUE( "Purple Tongue", 139 ),
-			GREEN_TONGUE( "Green Tongue", 140 ),
-			ORANGE_TONGUE( "Orange Tongue", 141 ),
-			RED_TONGUE( "Red Tongue", 142 ),
-			BLUE_TONGUE( "Blue Tongue", 143 ),
-			BLACK_TONGUE( "Black Tongue", 144 ),
+		PURPLE_TONGUE( "Purple Tongue", 139 ),
+		GREEN_TONGUE( "Green Tongue", 140 ),
+		ORANGE_TONGUE( "Orange Tongue", 141 ),
+		RED_TONGUE( "Red Tongue", 142 ),
+		BLUE_TONGUE( "Blue Tongue", 143 ),
+		BLACK_TONGUE( "Black Tongue", 144 ),
 
-			BLUE_CUPCAKE( "Cupcake of Choice", 184 ),
-			GREEN_CUPCAKE( "The Cupcake of Wrath", 188 ),
-			ORANGE_CUPCAKE( "Shiny Happy Cupcake", 185 ),
-			PURPLE_CUPCAKE( "Tiny Bubbles in the Cupcake", 186 ),
-			PINK_CUPCAKE( "Your Cupcake Senses Are Tingling", 187 ),
+		BLUE_CUPCAKE( "Cupcake of Choice", 184 ),
+		GREEN_CUPCAKE( "The Cupcake of Wrath", 188 ),
+		ORANGE_CUPCAKE( "Shiny Happy Cupcake", 185 ),
+		PURPLE_CUPCAKE( "Tiny Bubbles in the Cupcake", 186 ),
+		PINK_CUPCAKE( "Your Cupcake Senses Are Tingling", 187 ),
 
-			HOTFORM( "Hotform", 189 ),
-			COLDFORM( "Coldform", 190 ),
-			SPOOKYFORM( "Spookyform", 191 ),
-			STENCHFORM( "Stenchform", 192 ),
-			SLEAZEFORM( "Sleazeform", 193 ),
+		HOTFORM( "Hotform", 189 ),
+		COLDFORM( "Coldform", 190 ),
+		SPOOKYFORM( "Spookyform", 191 ),
+		STENCHFORM( "Stenchform", 192 ),
+		SLEAZEFORM( "Sleazeform", 193 ),
 
-			CHALKY_HAND( "Chalky Hand", 221),
+		CHALKY_HAND( "Chalky Hand", 221),
 
-			FISHY( "Fishy", 549 ),
-			BEE_SMELL( "Float Like a Butterfly, Smell Like a Bee", 845 ),
+		FISHY( "Fishy", 549 ),
+		BEE_SMELL( "Float Like a Butterfly, Smell Like a Bee", 845 ),
 
-			EARTHEN_FIST( "Earthen Fist", 907 ),
-			HARDLY_POISONED( "Hardly Poisoned at All", 8 ),
-			INIGO( "Inigo's Incantation of Inspiration", 716 ),
-			TELEPORTITIS( "Teleportitis", 58 ),
-			TRANSPONDENT( "Transpondent", 846 ),
-			WUSSINESS( "Wussiness", 43 ),
+		EARTHEN_FIST( "Earthen Fist", 907 ),
+		HARDLY_POISONED( "Hardly Poisoned at All", 8 ),
+		INIGO( "Inigo's Incantation of Inspiration", 716 ),
+		TELEPORTITIS( "Teleportitis", 58 ),
+		TRANSPONDENT( "Transpondent", 846 ),
+		WUSSINESS( "Wussiness", 43 ),
 
-			DOWN_THE_RABBIT_HOLE( "Down the Rabbit Hole", 725 ),
+		DOWN_THE_RABBIT_HOLE( "Down the Rabbit Hole", 725 ),
 
-			GOOFBALL_WITHDRAWAL( "Goofball Withdrawal", 111 ),
-			CURSED_BY_RNG( "Cursed by The RNG", 217 ),
-			MAJORLY_POISONED( "Majorly Poisoned", 264 ),
-			A_LITTLE_BIT_POISONED( "A Little Bit Poisoned", 282 ),
-			SOMEWHAT_POISONED( "Somewhat Poisoned", 283 ),
-			REALLY_QUITE_POISONED( "Really Quite Poisoned", 284 ),
-			TOAD_IN_THE_HOLE( "Toad In The Hole", 436 ),
-			CORSICAN_BLESSING( "Brother Corsican's Blessing", 460 ),
-			REALLY_DEEP_BREATH( "Really Deep Breath", 623 ),
-			COATED_IN_SLIME( "Coated in Slime", 633 ),
-			KUNG_FU_FIGHTING( "Kung Fu Fighting", 806 ),
-			WET_WILLIED( "Wet Willied", 838),
-			GARISH( "Gar-ish", 918 ),
-			HAUNTING_LOOKS( "Haunting Looks", 937 ),
-			DEAD_SEXY( "Dead Sexy", 938 ),
-			VAMPIN( "Vampin'", 939 ),
-			YIFFABLE_YOU( "Yiffable You", 940 ),
-			BONE_US_ROUND( "The Bone Us Round", 941 ),
-			OVERCONFIDENT( "Overconfident", 1011 );
+		GOOFBALL_WITHDRAWAL( "Goofball Withdrawal", 111 ),
+		CURSED_BY_RNG( "Cursed by The RNG", 217 ),
+		MAJORLY_POISONED( "Majorly Poisoned", 264 ),
+		A_LITTLE_BIT_POISONED( "A Little Bit Poisoned", 282 ),
+		SOMEWHAT_POISONED( "Somewhat Poisoned", 283 ),
+		REALLY_QUITE_POISONED( "Really Quite Poisoned", 284 ),
+		TOAD_IN_THE_HOLE( "Toad In The Hole", 436 ),
+		CORSICAN_BLESSING( "Brother Corsican's Blessing", 460 ),
+		REALLY_DEEP_BREATH( "Really Deep Breath", 623 ),
+		COATED_IN_SLIME( "Coated in Slime", 633 ),
+		KUNG_FU_FIGHTING( "Kung Fu Fighting", 806 ),
+		WET_WILLIED( "Wet Willied", 838),
+		GARISH( "Gar-ish", 918 ),
+		HAUNTING_LOOKS( "Haunting Looks", 937 ),
+		DEAD_SEXY( "Dead Sexy", 938 ),
+		VAMPIN( "Vampin'", 939 ),
+		YIFFABLE_YOU( "Yiffable You", 940 ),
+		BONE_US_ROUND( "The Bone Us Round", 941 ),
+		OVERCONFIDENT( "Overconfident", 1011 );
 
 		private final String name;
 		private final int id;
@@ -173,6 +173,7 @@ public class EffectPool
 	public static final int TIMER8_ID = 880;
 	public static final int TIMER9_ID = 881;
 	public static final int TIMER10_ID = 882;
+	public static final int OVERCONFIDENT = 1011;
 	public static final int DEEP_TAINTED_MIND_ID = 1217;
 	public static final int TOUCHED_BY_A_GHOST = 1276;
 	public static final int CHILLED_TO_THE_BONE = 1277;
@@ -208,6 +209,7 @@ public class EffectPool
 	public static final int PENNE_FEDORA = 1449;
 	public static final int PASTA_EYEBALL = 1450;
 	public static final int SPICE_HAZE = 1451;
+	public static final int BLOOD_SUGAR_SAUCE_MAGIC = 1458;
 
 	public static final AdventureResult get( final String effectName )
 	{
