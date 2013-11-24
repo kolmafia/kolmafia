@@ -584,6 +584,14 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Blood Sugar Sauce Magic", removableEffects );
 		removableEffects.add( "Blood Sugar Sauce Magic" );
 
+		removableEffects = new HashSet<String>();
+		removeWithSkillMap.put( "Spirit of Nothing", removableEffects );
+		removableEffects.add( "Spirit of Cayenne" );
+		removableEffects.add( "Spirit of Peppermint" );
+		removableEffects.add( "Spirit of Garlic" );
+		removableEffects.add( "Spirit of Wormwood" );
+		removableEffects.add( "Spirit of Bacon Grease" );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();	
 	}
 	
@@ -628,6 +636,30 @@ public class UneffectRequest
 		}
 	}
 
+	public static String getUneffectSkill( final String effectName )
+	{
+		Iterator skillIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
+		while ( skillIterator.hasNext() )
+		{
+			Entry removable = (Entry) skillIterator.next();
+			Set removables = (Set) removable.getValue();
+
+			if ( !removables.contains( effectName ) )
+			{
+				continue;
+			}
+
+			String skillName =  (String) removable.getKey();
+
+			if ( KoLCharacter.hasSkill( skillName ) )
+			{
+				return "cast " + skillName;
+			}
+		}
+
+		return "";
+	}
+
 	private String getAction()
 	{
 		String name = this.effect.getName();
@@ -665,18 +697,12 @@ public class UneffectRequest
 			return "uneffect " + name;
 		}
 
-		// Iterate over the effects that can be removed with skills or items
-		// other than remedies.
-
-		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY );
-
-		Iterator removableIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
-
 		// See if it can be removed by a skill.
 
-		while ( removableIterator.hasNext() )
+		Iterator skillIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
+		while ( skillIterator.hasNext() )
 		{
-			Entry removable = (Entry) removableIterator.next();
+			Entry removable = (Entry) skillIterator.next();
 			Set removables = (Set) removable.getValue();
 
 			if ( !removables.contains( name ) )
@@ -696,11 +722,12 @@ public class UneffectRequest
 
 		// See if it can be removed by an item.
 
-		removableIterator = UneffectRequest.REMOVABLE_BY_ITEM.iterator();
+		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY );
 
-		while ( removableIterator.hasNext() )
+		Iterator itemIterator = UneffectRequest.REMOVABLE_BY_ITEM.iterator();
+		while ( itemIterator.hasNext() )
 		{
-			Entry removable = (Entry) removableIterator.next();
+			Entry removable = (Entry) itemIterator.next();
 			Set removables = (Set) removable.getValue();
 
 			if ( !removables.contains( name ) )
