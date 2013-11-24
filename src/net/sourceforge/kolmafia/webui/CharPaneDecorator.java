@@ -712,7 +712,7 @@ public class CharPaneDecorator
 			return index < 0 ? -1 : buffer.lastIndexOf( "<hr width=50%>", index );
 		}
 
-		return buffer.indexOf( "<center><p><b><font size=2>Intrinsics:" );
+		return buffer.indexOf( "<center><b><font size=2>Intrinsics:" );
 	}
 
 	private static final int getFamiliarIndex( final StringBuffer buffer )
@@ -763,6 +763,24 @@ public class CharPaneDecorator
 			}
 
 			startIndex = effectIndex;
+		}
+
+		int endIndex = buffer.indexOf( "</table>", startIndex );
+		if ( endIndex == -1 )
+		{
+			return null;
+		}
+		endIndex += 8;
+
+		return buffer.substring( startIndex, endIndex );
+	}
+
+	private static final String getIntrinsicsText( final StringBuffer buffer )
+	{
+		int startIndex = CharPaneDecorator.getIntrinsicIndex( buffer );
+		if ( startIndex == -1 )
+		{
+			return null;
 		}
 
 		int endIndex = buffer.indexOf( "</table>", startIndex );
@@ -981,9 +999,21 @@ public class CharPaneDecorator
 			}
 		}
 
-		// Finally, replace all of the shrug off links associated with
-		// this response text.
+		// Replace all of the shrug off links associated with this response text.
+		CharPaneDecorator.addEffectLinks( buffer, text, startingIndex, lastAppendIndex );
+	}
 
+	private static final void addShrugIntrinsicLinks( final StringBuffer buffer )
+	{
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
+		// Replace all of the shrug off links associated with this response text.
+		CharPaneDecorator.addEffectLinks( buffer, text, text.indexOf( "<tr>" ), 0 );
+	}
+
+	private static final void addEffectLinks( final StringBuffer buffer, final String text, int startingIndex, int lastAppendIndex )
+	{
 		while ( startingIndex != -1 )
 		{
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
@@ -1004,7 +1034,6 @@ public class CharPaneDecorator
 			}
 
 			String effectName = effect.getName();
-			int duration = effect.getCount();
 			String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
 			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
@@ -1056,6 +1085,7 @@ public class CharPaneDecorator
 			boolean isRemovable = UneffectRequest.isRemovable( effectName );
 			boolean needsCocoa = UneffectRequest.needsCocoa( effectName );
 			boolean isTimer = effectName.startsWith( "Timer " );
+			int duration = effect.getCount();
 			boolean isIntrinsic = duration == Integer.MAX_VALUE;
 
 			// Add a removal link to the duration for buffs which
@@ -1064,13 +1094,13 @@ public class CharPaneDecorator
 
 			String removeAction =
 				needsCocoa ? "use 1 hot Dreadsylvanian cocoa" : 
-				isIntrinsic || !isRemovable ? "" :
+				isIntrinsic ? UneffectRequest.getUneffectSkill( effectName ) :
+				!isRemovable ? "" :
 				MoodManager.getDefaultAction( "gain_effect", effectName );
 
 			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
 			{
-				buffer.append( StringUtilities.getEntityEncode(
-					Preferences.getString( "olfactedMonster" ) ) );
+				buffer.append( StringUtilities.getEntityEncode( Preferences.getString( "olfactedMonster" ) ) );
 				buffer.append( ", " );
 			}
 			else if ( effectName.equalsIgnoreCase( "Shape of...Mole!" ) )
@@ -1148,6 +1178,11 @@ public class CharPaneDecorator
 			}
 
 			buffer.append( ")" );
+
+			if ( isIntrinsic )
+			{
+				continue;
+			}
 
 			// Add the up-arrow icon for buffs which can be maintained, based
 			// on information known to the mood maintenance module.
@@ -1330,6 +1365,22 @@ public class CharPaneDecorator
 
 	private static final void decorateIntrinsics( final StringBuffer buffer )
 	{
+		String intrinsicsText = CharPaneDecorator.getIntrinsicsText( buffer );
+
+		// If there are no intrinsics on the charpane, nothing to do.
+		if ( intrinsicsText == null || !Preferences.getBoolean( "relayAddsUpArrowLinks" ))
+		{
+			return;
+		}
+
+		// Otherwise, make a buffer to manipulate intrinsic text in
+		StringBuffer intrinsics = new StringBuffer( intrinsicsText );
+
+		// Add links to intrinsics
+		CharPaneDecorator.addShrugIntrinsicLinks( intrinsics );
+
+		// Replace existing effects table with what we generated
+		StringUtilities.singleStringReplace( buffer, intrinsicsText, intrinsics.toString() );
 	}
 
 	public static final void updateFromPreferences()
