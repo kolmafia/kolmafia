@@ -901,6 +901,14 @@ public class Concoction
 			return alreadyHave;
 		}
 
+		if ( this.mixingMethod == CraftingType.SINGLE_USE || this.mixingMethod == CraftingType.MULTI_USE )
+		{
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( this.ingredientArray[ 0 ].getItemId() ) )
+			{
+				return alreadyHave;
+			}
+		}
+
 		if ( this.mixingMethod == CraftingType.COINMASTER )
 		{
 			// Check if Coin Master is available
