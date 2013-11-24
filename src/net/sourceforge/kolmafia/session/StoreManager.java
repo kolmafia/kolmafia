@@ -479,6 +479,27 @@ public abstract class StoreManager
 		return results;
 	}
 
+	public static final ArrayList<PurchaseRequest> searchNPCs( final AdventureResult item )
+	{
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
+		int itemId = item.getItemId();
+		if ( itemId <= 0 )
+		{
+			// This should not happen.
+			return results;
+		}
+
+		String itemName = ItemDatabase.getItemDataName( IntegerPool.get( itemId ) );
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+
+		if ( request != null )
+		{
+			results.add( request );
+		}
+
+		return results;
+	}
+
 	/**
 	 * Utility method used to search the mall for a search string
 	 */
