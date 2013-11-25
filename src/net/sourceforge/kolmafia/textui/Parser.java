@@ -717,6 +717,12 @@ public class Parser
 		// function scope to allow recursion.
 
 		UserDefinedFunction f = new UserDefinedFunction( functionName, functionType, variableReferences );
+
+		if ( f.overridesLibraryFunction() )
+		{
+			throw this.overridesLibraryFunctionException( functionName, variableReferences );
+		}
+
 		UserDefinedFunction existing = parentScope.findFunction( f );
 
 		if ( existing != null && existing.getScope() != null )
@@ -3730,6 +3736,15 @@ public class Parser
 		buffer.append( "Function '" );
 		Parser.appendFunction( buffer, name, params );
 		buffer.append( "' defined multiple times" );
+		return this.parseException( buffer.toString() );
+	}
+
+	private final ScriptException overridesLibraryFunctionException( final String name, final VariableReferenceList params )
+	{
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "Function '" );
+		Parser.appendFunction( buffer, name, params );
+		buffer.append( "' overrides a library function" );
 		return this.parseException( buffer.toString() );
 	}
 

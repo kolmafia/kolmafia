@@ -118,6 +118,35 @@ public abstract class Function
 		return this.variableReferences.iterator();
 	}
 
+	public boolean paramsMatch( final Function that )
+	{
+		// The types of the other function's parameters must exactly
+		// match the types of this function's parameters
+
+		Iterator it1 = this.getReferences();
+		Iterator it2 = that.getReferences();
+
+		while ( it1.hasNext() && it2.hasNext() )
+		{
+			VariableReference p1 = (VariableReference) it1.next();
+			VariableReference p2 = (VariableReference) it2.next();
+
+			if ( !p1.getType().equals( p2.getType() ) )
+			{
+				return false;
+			}
+		}
+
+		// There must be the same number of parameters
+
+		if ( it1.hasNext() || it2.hasNext() )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	public boolean paramsMatch( final ValueList params, boolean exact )
 	{
 		if ( params == null )
