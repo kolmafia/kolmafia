@@ -1455,7 +1455,7 @@
 1454	Antibiotic Saucesphere	antibiosphere.gif	82aeaeb6a9cdc1c891e17321b88b040c	cast 1 antibiotic saucesphere
 1455	Sauce Monocle	saucemonocle.gif	23241f2b2e7a5948bc38ee5b501f0fb1	cast 1 sauce monocle
 1456	Simmering	simmer.gif	dad03f361c134a577b1eb9d818711d8e	cast 1 simmer
-1457
+1457	Blood Sugar Sauce Magic	saucedrops.gif	2283eb9a3ee756de0c56f379307527f6	cast 1 Blood Sugar Sauce Magic
 1458	Blood Sugar Sauce Magic	saucedrops.gif	482968ee1b70ea9ddaf3579d0ff3101c	cast 1 Blood Sugar Sauce Magic
 1459	Blessing of the Hot Linguine	linguinispoon.gif	868e6edb45c276c30db7fee03713039c	use 1 spoonful of Linguine-Os
 1460	Blessing of the Frozen Tortellini	tortelinus.gif	c6ed6eb619950fd4e56242748857f05b	use 1 freezer-burned frost-bitten tortellini

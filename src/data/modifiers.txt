@@ -3323,7 +3323,8 @@ Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resist
 Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Block-Rockin' Beet	Damage Reduction: 15
-Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: +30
+# Blood Sugar Sauce Magic Maximum HP Percent: -30, Maximum MP Percent: +30 (-10/+10 as non sauceror)
+Blood Sugar Sauce Magic	none
 Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 # Bloody-minded: +50 Damage vs. Vampires
