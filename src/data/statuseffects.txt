@@ -891,7 +891,7 @@
 890	Fratty Flavor	frattyflavor.gif	22cf04e489f80c7c33dd61b1db002c83	chew 1 orc paste
 891	Demonic Flavor	demonflavor.gif	e3c76f82c7375637c010c5d1a9191d53	chew 1 demonic paste
 892	Indescribable Flavor	confused.gif	15d187797ebb2345dceab35056e24bea	chew 1 indescribably horrible paste
-893
+893	SuperStar	star.gif	f714bcf83baff1001755e3e9398ac035
 894	Gobliny Flavor	goblinflavor.gif	7a24a42040f804e93cbdb26a979b3539	chew 1 goblin paste
 895	Piratey Flavor	pirateflavor.gif	f4ebb3ee66b5022ddbe311d726db3df0	chew 1 pirate paste
 896	Chlorophyll Flavor	leafflavor.gif	536f53d8fe7c2d623b234193b2d17084	chew 1 chlorophyll paste
