@@ -747,28 +747,9 @@ public class FightRequest
 				parameters[2] = FightRequest.lastResponseText;
 
 				File scriptFile = scriptFiles.get( 0 );
-				String startMessage = "Starting consult script: " + scriptFile.getName();
-				String finishMessage = "Finished consult script: " + scriptFile.getName();
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( startMessage );
-				}
-				if ( consultInterpreter.isTracing() )
-				{
-					consultInterpreter.trace( startMessage );
-				}
-
+				KoLmafiaASH.logScriptExecution( "Starting consult script: ", scriptFile.getName(), consultInterpreter );
 				consultInterpreter.execute( "main", parameters );
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( finishMessage );
-				}
-				if ( consultInterpreter.isTracing() )
-				{
-					consultInterpreter.trace( finishMessage );
-				}
+				KoLmafiaASH.logScriptExecution( "Finished consult script: ", scriptFile.getName(), consultInterpreter );
 
 				if ( KoLmafia.refusesContinue() )
 				{

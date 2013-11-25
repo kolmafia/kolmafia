@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia.moods;
 
+import java.io.File;
+
 import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
@@ -576,14 +579,19 @@ public class RecoveryManager
 		{
 			return false;
 		}
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+
+		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
+			File scriptFile = scriptFiles.get( 0 );
+			KoLmafiaASH.logScriptExecution( "Starting recovery script: ", scriptFile.getName(), interpreter );
 			Value v = interpreter.execute( "main", new String[]
 			{
 				type,
 				String.valueOf( needed )
 			} );
+			KoLmafiaASH.logScriptExecution( "Finished recovery script: ", scriptFile.getName(), interpreter );
 			return v != null && v.intValue() != 0;
 		}
 		return false;
