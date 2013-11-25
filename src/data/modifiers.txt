@@ -4409,6 +4409,7 @@ Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+# SuperStar: You earned a gold star
 Superhuman Sarcasm	Moxie Percent: +100
 Surreally Buff	Muscle Percent: +20
 Suspicious Gaze	Initiative: +20
