@@ -170,7 +170,7 @@ public class UserDefinedFunction
 		for ( int i = 0; i < functions.length; ++i )
 		{
 			Function function = functions[ i ];
-			if ( this.paramsMatch( function, false ) )
+			if ( this.paramsMatch( function, true ) )
 			{
 				return true;
 			}

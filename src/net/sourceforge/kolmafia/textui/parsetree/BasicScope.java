@@ -230,7 +230,7 @@ public abstract class BasicScope
 			if ( options[ i ] instanceof UserDefinedFunction )
 			{
 				UserDefinedFunction existing = (UserDefinedFunction) options[ i ];
-				if ( f.paramsMatch( existing, false ) )
+				if ( f.paramsMatch( existing, true ) )
 				{
 					return existing;
 				}
