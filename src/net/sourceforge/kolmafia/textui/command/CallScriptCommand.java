@@ -224,7 +224,9 @@ public class CallScriptCommand
 
 						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 						{
+							KoLmafiaASH.logScriptExecution( "Starting ASH script: ", scriptFile.getName(), interpreter );
 							interpreter.execute( "main", arguments );
+							KoLmafiaASH.logScriptExecution( "Finished ASH script: ", scriptFile.getName(), interpreter );
 						}
 
 						long t1 = System.nanoTime();
@@ -246,29 +248,13 @@ public class CallScriptCommand
 					try
 					{
 						interpreter.cloneRelayScript( caller );
-						String startMessage = "Starting ASH script: " + scriptFile.getName();
-						String finishMessage = "Finished ASH script: " + scriptFile.getName();
 						interpreter.resetTracing();
 
 						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 						{
-							if ( RequestLogger.isDebugging() )
-							{
-								RequestLogger.updateDebugLog( startMessage );
-							}
-							if ( interpreter.isTracing() )
-							{
-								interpreter.trace( startMessage );
-							}
+							KoLmafiaASH.logScriptExecution( "Starting ASH script: ", scriptFile.getName(), interpreter );
 							interpreter.execute( "main", arguments );
-							if ( RequestLogger.isDebugging() )
-							{
-								RequestLogger.updateDebugLog( finishMessage );
-							}
-							if ( interpreter.isTracing() )
-							{
-								interpreter.trace( finishMessage );
-							}
+							KoLmafiaASH.logScriptExecution( "Finished ASH script: ", scriptFile.getName(), interpreter );
 						}
 					}
 					finally

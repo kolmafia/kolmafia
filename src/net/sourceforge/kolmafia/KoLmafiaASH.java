@@ -61,6 +61,29 @@ public abstract class KoLmafiaASH
 
 	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
+	public static final void logScriptExecution( final String prefix, final String scriptName, Interpreter script )
+	{
+		boolean isDebugging = RequestLogger.isDebugging();
+		boolean isTracing = script.isTracing();
+
+		if ( !isDebugging && !isTracing )
+		{
+			return;
+		}
+
+		String message = prefix + scriptName;
+
+		if ( isDebugging )
+		{
+			RequestLogger.updateDebugLog( message );
+		}
+
+		if ( isTracing )
+		{
+			script.trace( message );
+		}
+	}
+
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
 		String script = Preferences.getString( "masterRelayOverride" );
@@ -99,21 +122,10 @@ public abstract class KoLmafiaASH
 			return false;
 		}
 
-		String startMessage = "Starting relay script: " + toExecute.getName();
-		String finishMessage = "Finished relay script: " + toExecute.getName();
-
-		if ( RequestLogger.isDebugging() )
-		{
-			RequestLogger.updateDebugLog( startMessage );
-		}
-
-		if ( relayScript.isTracing() )
-		{
-			relayScript.trace( startMessage );
-		}
-
 		synchronized ( relayScript )
 		{
+			KoLmafiaASH.logScriptExecution( "Starting relay script: ", toExecute.getName(), relayScript );
+
 			RelayRequest relayRequest = new RelayRequest( false );
 			relayRequest.cloneURLString( request );
 
@@ -140,15 +152,7 @@ public abstract class KoLmafiaASH
 
 			relayScript.finishRelayScript();
 
-			if ( RequestLogger.isDebugging() )
-			{
-				RequestLogger.updateDebugLog( finishMessage );
-			}
-
-			if ( relayScript.isTracing() )
-			{
-				relayScript.trace( finishMessage );
-			}
+			KoLmafiaASH.logScriptExecution( "Finished relay script: ", toExecute.getName(), relayScript );
 
 			return written != 0;
 		}

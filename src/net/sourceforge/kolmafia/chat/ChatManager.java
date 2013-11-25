@@ -577,7 +577,8 @@ public abstract class ChatManager
 			return;
 		}
 
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter == null )
 		{
 			return;
@@ -610,7 +611,12 @@ public abstract class ChatManager
 		}
 
 		ChatManager.validChatReplyRecipients.add( sender );
+
+		File scriptFile = scriptFiles.get( 0 );
+		KoLmafiaASH.logScriptExecution( "Starting chat script: ", scriptFile.getName(), interpreter );
 		interpreter.execute( "main", scriptParameters );
+		KoLmafiaASH.logScriptExecution( "Finished chat script: ", scriptFile.getName(), interpreter );
+
 		ChatManager.validChatReplyRecipients.remove( sender );
 
 		return;

@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.io.File;
+
 import java.lang.ref.WeakReference;
 
 import java.util.ArrayList;
@@ -90,6 +92,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -1358,22 +1362,27 @@ public abstract class InventoryManager
 	private static boolean invokeBuyScript(
 		final AdventureResult item, final int quantity, final int ingredientLevel, final boolean defaultBuy )
 	{
-		String scriptName = Preferences.getString( "buyScript" );
+		String scriptName = Preferences.getString( "buyScript" ).trim();
 		if ( scriptName.length() == 0 )
 		{
 			return defaultBuy;
 		}
-		Interpreter interpreter = KoLmafiaASH.getInterpreter(
-			KoLmafiaCLI.findScriptFile( scriptName ) );
+
+		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
-			return interpreter.execute( "main", new String[]
+			File scriptFile = scriptFiles.get( 0 );
+			KoLmafiaASH.logScriptExecution( "Starting buy script: ", scriptFile.getName(), interpreter );
+			Value v = interpreter.execute( "main", new String[]
 			{
 				item.getName(),
 				String.valueOf( quantity ),
 				String.valueOf( ingredientLevel ),
 				String.valueOf( defaultBuy )
-			} ).intValue() != 0;
+			} );
+			KoLmafiaASH.logScriptExecution( "Finished buy script: ", scriptFile.getName(), interpreter );
+			return v != null && v.intValue() != 0;
 		}
 		return defaultBuy;
 	}
