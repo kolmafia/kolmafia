@@ -118,7 +118,7 @@ public abstract class Function
 		return this.variableReferences.iterator();
 	}
 
-	public boolean paramsMatch( final Function that )
+	public boolean paramsMatch( final Function that, boolean exact )
 	{
 		// The types of the other function's parameters must exactly
 		// match the types of this function's parameters
@@ -128,13 +128,20 @@ public abstract class Function
 
 		while ( it1.hasNext() && it2.hasNext() )
 		{
-			VariableReference p1 = (VariableReference) it1.next();
-			VariableReference p2 = (VariableReference) it2.next();
+			Type p1Type = ((VariableReference) it1.next()).getType();
+			Type p2Type = ((VariableReference) it2.next()).getType();;
 
-			if ( !p1.getType().equals( p2.getType() ) )
+			if ( p1Type.equals( p2Type ) )
 			{
-				return false;
+				continue;
 			}
+
+			if ( !exact && Parser.validCoercion( p1Type, p2Type, "parameter" ) )
+			{
+				continue;
+			}
+
+			return false;
 		}
 
 		// There must be the same number of parameters
