@@ -1500,6 +1500,11 @@ public class Parser
 			}
 
 			this.readToken(); // )
+
+			if ( condition == null )
+			{
+				throw this.parseException( "\"switch ()\" requires an expression" );
+			}
 		}
 
 		Type type = condition.getType();
