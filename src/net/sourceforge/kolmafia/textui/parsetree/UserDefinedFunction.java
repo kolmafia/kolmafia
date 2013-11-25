@@ -42,6 +42,7 @@ import java.util.Stack;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 public class UserDefinedFunction
 	extends Function
@@ -160,6 +161,22 @@ public class UserDefinedFunction
 		}
 
 		return this.getType().initialValue();
+	}
+
+	public boolean overridesLibraryFunction()
+	{
+		Function[] functions = RuntimeLibrary.functions.findFunctions( this.name );
+
+		for ( int i = 0; i < functions.length; ++i )
+		{
+			Function function = functions[ i ];
+			if ( this.paramsMatch( function ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

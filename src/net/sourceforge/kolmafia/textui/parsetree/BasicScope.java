@@ -216,36 +216,6 @@ public abstract class BasicScope
 		return null;
 	}
 
-	private boolean isMatchingFunction( final UserDefinedFunction existing, final UserDefinedFunction f )
-	{
-		// The types of the new function's parameters
-		// must exactly match the types of the existing
-		// function's parameters
-
-		Iterator it1 = existing.getReferences();
-		Iterator it2 = f.getReferences();
-
-		while ( it1.hasNext() && it2.hasNext() )
-		{
-			VariableReference p1 = (VariableReference) it1.next();
-			VariableReference p2 = (VariableReference) it2.next();
-
-			if ( !p1.getType().equals( p2.getType() ) )
-			{
-				return false;
-			}
-		}
-
-		// There must be the same number of parameters
-
-		if ( it1.hasNext() || it2.hasNext() )
-		{
-			return false;
-		}
-
-		return true;
-	}
-
 	public UserDefinedFunction findFunction( final UserDefinedFunction f )
 	{
 		if ( f.getName().equals( "main" ) )
@@ -260,7 +230,7 @@ public abstract class BasicScope
 			if ( options[ i ] instanceof UserDefinedFunction )
 			{
 				UserDefinedFunction existing = (UserDefinedFunction) options[ i ];
-				if ( this.isMatchingFunction( existing, f ) )
+				if ( existing.paramsMatch( f ) )
 				{
 					return existing;
 				}
