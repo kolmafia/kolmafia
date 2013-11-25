@@ -995,6 +995,10 @@ public class CharPaneRequest
 				thrall.update( StringUtilities.parseInt( levelString ), name );
 			}
 		}
+		else
+		{
+			KoLCharacter.setPastaThrall( PastaThrallData.NO_THRALL );
+		}
 	}
 
 	private static Pattern mediumPattern =
@@ -1220,10 +1224,13 @@ public class CharPaneRequest
 		int thrallLevel = JSON.getInt( "pastathralllevel" );
 
 		PastaThrallData thrall = KoLCharacter.findPastaThrall( thrallId );
-		if ( thrall != null && thrall != PastaThrallData.NO_THRALL )
+		if ( thrall != null )
 		{
 			KoLCharacter.setPastaThrall( thrall );
-			thrall.update( thrallLevel, null );
+			if ( thrall != PastaThrallData.NO_THRALL )
+			{
+				thrall.update( thrallLevel, null );
+			}
 		}
 	}
 

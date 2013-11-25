@@ -893,6 +893,7 @@ public class SkillDatabase
 		case SkillPool.SOUL_FOOD:
 		case SkillPool.SOUL_ROTATION:
 		case SkillPool.SOUL_FUNK:
+		case SkillPool.DISMISS_PASTA_THRALL:
 			return true;
 		default:
 			return false;

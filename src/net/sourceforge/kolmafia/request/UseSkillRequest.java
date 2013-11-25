@@ -1818,6 +1818,10 @@ public class UseSkillRequest
 		case SkillPool.BIND_SPAGHETTI_ELEMENTAL:
 			PastaThrallData.handleBinding( skillId, responseText );
 			break;
+
+		case SkillPool.DISMISS_PASTA_THRALL:
+			PastaThrallData.handleDismissal( responseText );
+			break;
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )
