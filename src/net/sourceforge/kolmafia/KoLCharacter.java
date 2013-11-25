@@ -4320,6 +4320,30 @@ public abstract class KoLCharacter
 
 	public static final void setPastaThrall( final PastaThrallData thrall )
 	{
+		if ( KoLCharacter.currentPastaThrall == thrall )
+		{
+			return;
+		}
+
+		if ( thrall == PastaThrallData.NO_THRALL )
+		{
+			UseSkillRequest skill = UseSkillRequest.getInstance( "Dismiss Pasta Thrall" );
+			KoLConstants.availableSkills.remove( skill );
+			KoLConstants.availableSkillsMap.remove( skill );
+			KoLConstants.usableSkills.remove( skill );
+			KoLConstants.summoningSkills.remove( skill );
+		}
+		else if ( KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL )
+		{
+			UseSkillRequest skill = UseSkillRequest.getInstance( "Dismiss Pasta Thrall" );
+			KoLConstants.availableSkills.add( skill );
+			KoLConstants.availableSkillsMap.put( skill, null );
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.summoningSkills.add( skill );
+			KoLConstants.summoningSkills.sort();
+		}
+
 		KoLCharacter.currentPastaThrall = thrall;
 	}
 

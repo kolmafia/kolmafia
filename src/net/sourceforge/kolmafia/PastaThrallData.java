@@ -592,4 +592,9 @@ public class PastaThrallData
 			return;
 		}
 	}
+
+	public static void handleDismissal( final String responseText )
+	{
+		KoLCharacter.setPastaThrall( PastaThrallData.NO_THRALL );
+	}
 }
