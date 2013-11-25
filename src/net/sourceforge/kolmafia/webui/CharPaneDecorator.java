@@ -897,7 +897,7 @@ public class CharPaneDecorator
 		}
 		else
 		{
-			effects.append( "<center><p><b><font size=2>Effects:</font></b></p></center>" );
+			effects.append( "<center><p><b><font size=2>Effects:</font></b>" );
 		}
 		effects.append( "<table></table>" );
 

@@ -2787,6 +2787,7 @@ public class UseItemRequest
 		case ItemPool.WALBERG_BOOK:
 		case ItemPool.OCELOT_BOOK:
 		case ItemPool.DRESCHER_BOOK:
+		case ItemPool.DECODED_CULT_DOCUMENTS:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.contains( "didn't like to read" ) )
 			{

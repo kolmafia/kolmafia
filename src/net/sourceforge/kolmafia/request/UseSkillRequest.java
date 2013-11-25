@@ -1469,7 +1469,9 @@ public class UseSkillRequest
 		}
 
 		if ( responseText.contains( "You can't use that skill" ) && 
-			skillId != SkillPool.ADVANCED_SAUCECRAFTING && skillId != SkillPool.ADVANCED_COCKTAIL )
+		     skillId != SkillPool.ADVANCED_SAUCECRAFTING &&
+		     skillId != SkillPool.ADVANCED_COCKTAIL &&
+		     skillId != SkillPool.PASTAMASTERY )
 		{
 			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
 			return true;
