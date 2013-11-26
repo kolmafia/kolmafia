@@ -6843,6 +6843,17 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 299:
+			// Down at the Hatch
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// The first time you take option 2, you
+				// release Big Brother. Subsequent times, you
+				// release other creatures.
+				Preferences.setBoolean( "bigBrotherRescued", true );
+			}
+			break;
+
 		case 304:
 			// A Vent Horizon
 

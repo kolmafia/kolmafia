@@ -130,12 +130,12 @@ public class GameShoppeRequest
 	{
 		if ( KoLCharacter.isHardcore() )
 		{
-			return "You are in Hardcore and the credit reader is broken..";
+			return "You are in Hardcore and the credit reader is broken.";
 		}
 
 		if ( KoLCharacter.inRonin() )
 		{
-			return "You are in Ronin and the credit reader is broken..";
+			return "You are in Ronin and the credit reader is broken.";
 		}
 
 		return null;

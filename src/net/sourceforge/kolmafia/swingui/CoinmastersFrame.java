@@ -58,8 +58,11 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -525,6 +528,25 @@ public class CoinmastersFrame
 		{
 			super( BigBrotherRequest.BIG_BROTHER );
 		}
+
+		public boolean canBuy( AdventureResult item )
+		{
+			int itemId = item.getItemId();
+			if ( ItemDatabase.isVirtualItem( itemId ) )
+			{
+				return !ItemDatabase.haveVirtualItem( itemId );
+			}
+			switch ( itemId )
+			{
+			case ItemPool.DAMP_OLD_BOOT:
+				return !Preferences.getBoolean( "dampOldBootPurchased" );
+			case ItemPool.BLACK_GLASS:
+				return BigBrotherRequest.BLACK_GLASS.getCount( KoLConstants.inventory ) == 0;
+			case ItemPool.FOLDER_19:
+				return KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
+			}
+			return true;
+		}
 	}
 
 	private class Crimbo11Panel
@@ -952,6 +974,10 @@ public class CoinmastersFrame
 		public void check()
 		{
 			RequestThread.postRequest( this.getRequest() );
+			if ( this.buyPanel != null )
+			{
+				this.buyPanel.filterItems();
+			}
 		}
 
 		protected void execute( final String action, final AdventureResult [] items )
@@ -972,6 +998,11 @@ public class CoinmastersFrame
 				request.addFormField( extraAction );
 			}
 			RequestThread.postRequest( request );
+
+			if ( this.buyPanel != null )
+			{
+				this.buyPanel.filterItems();
+			}
 
 			// Update our token count in the title
 			this.setTitle();
@@ -1059,6 +1090,11 @@ public class CoinmastersFrame
 			}
 
 			return desiredItems;
+		}
+
+		public boolean canBuy( AdventureResult item )
+		{
+			return true;
 		}
 
 		public class SellPanel
@@ -1185,6 +1221,7 @@ public class CoinmastersFrame
 				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
 				this.getElementList().setVisibleRowCount( 6 );
 				this.setEnabled( true );
+				this.filterItems();
 			}
 
 			public BuyPanel()
@@ -1202,6 +1239,7 @@ public class CoinmastersFrame
 
 				this.setButtons( true, listeners );
 				this.setEnabled( true );
+				this.filterItems();
 			}
 
 			public void addButton( final JButton button, final boolean save )
@@ -1235,6 +1273,12 @@ public class CoinmastersFrame
 			@Override
 			public void addMovers()
 			{
+			}
+
+			@Override
+			public AutoFilterTextField getWordFilter()
+			{
+				return new BuyableFilterField();
 			}
 
 			public AdventureResult[] getDesiredItems( final boolean fromStorage )
@@ -1294,6 +1338,20 @@ public class CoinmastersFrame
 				public String toString()
 				{
 					return "from storage";
+				}
+			}
+
+			private class BuyableFilterField
+				extends FilterItemField
+			{
+				@Override
+				public boolean isVisible( final Object element )
+				{
+					if ( !( element instanceof AdventureResult ) )
+					{
+						return false;
+					}
+					return CoinmasterPanel.this.canBuy( (AdventureResult)element ) && super.isVisible( element );
 				}
 			}
 		}

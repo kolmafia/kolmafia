@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class BigBrotherRequest
@@ -64,6 +66,7 @@ public class BigBrotherRequest
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? sand dollar" );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
+	public static final AdventureResult BLACK_GLASS = ItemPool.get( ItemPool.BLACK_GLASS, 1 );
 
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
@@ -151,33 +154,77 @@ public class BigBrotherRequest
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			if ( location.indexOf( "who=2" ) != -1 )
+			if ( !location.contains( "who=2" ) || !responseText.contains( "sand dollar" ) )
 			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
+				return;
 			}
+
+			// We know for sure that we have rescued Big Brother
+			// this ascension
+			Preferences.setBoolean( "bigBrotherRescued", true );
+
+			// Parse current coin balances
+			CoinMasterRequest.parseBalance( data, responseText );
+
+			// Look at his inventory
+			Preferences.setBoolean( "dampOldBootPurchased", !responseText.contains( "damp old boot" ) );
+			Preferences.setBoolean( "mapToMadnessReefPurchased", !responseText.contains( "map to Madness Reef" ) );
+			Preferences.setBoolean( "mapToTheMarinaraTrenchPurchased", !responseText.contains( "map to the Marinara Trench" ) );
+			Preferences.setBoolean( "mapToAnemoneMinePurchased", !responseText.contains( "map to Anemone Mine" ) );
+			Preferences.setBoolean( "mapToTheDiveBarPurchased", !responseText.contains( "map to the Dive Bar" ) );
+			Preferences.setBoolean( "mapToTheSkateParkPurchased", !responseText.contains( "map to the Skate Park" ) );
 
 			return;
 		}
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
+
+		int itemId = CoinMasterRequest.extractItemId( data, location );
+		switch ( itemId )
+		{
+		case ItemPool.MADNESS_REEF_MAP:
+			if ( responseText.contains( "Big Brother shows you the map" ) )
+			{
+				Preferences.setBoolean( "mapToMadnessReefPurchased", true );
+			}
+			break;
+		case ItemPool.MARINARA_TRENCH_MAP:
+			if ( responseText.contains( "Big Brother shows you the map" ) )
+			{
+				Preferences.setBoolean( "mapToTheMarinaraTrenchPurchased", true );
+			}
+			break;
+		case ItemPool.ANEMONE_MINE_MAP:
+			if ( responseText.contains( "Big Brother shows you the map" ) )
+			{
+				Preferences.setBoolean( "mapToAnemoneMinePurchased", true );
+			}
+			break;
+		case ItemPool.DIVE_BAR_MAP:
+			if ( responseText.contains( "Big Brother shows you the map" ) )
+			{
+				Preferences.setBoolean( "mapToTheDiveBarPurchased", true );
+			}
+			break;
+		case ItemPool.SKATE_PARK_MAP:
+			if ( responseText.contains( "Big Brother shows you the map" ) )
+			{
+				Preferences.setBoolean( "mapToTheSkateParkPurchased", true );
+			}
+			break;
+		}
 	}
 
 	private static void update()
 	{
-		// Since the aerated diving gear and items you can craft from it persist across ascensions,
-		// possession of one does not actually mean Big Brother has been rescued.
-		BigBrotherRequest.rescuedBigBrother = 
-			InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 ||
-			InventoryManager.getAccessibleCount( BigBrotherRequest.CRAPPY_MASK ) > 0 ||
-			InventoryManager.getAccessibleCount( BigBrotherRequest.SCHOLAR_MASK ) > 0 ||
-			InventoryManager.getAccessibleCount( BigBrotherRequest.GLADIATOR_MASK ) > 0 ||
-			InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
+		// Definitive checks that we've rescued Big Brother:
+		// - We saw it happen
+		// - You have a bubblin' stone (a quest item)
+		// - We have visited his store
 
-		if ( !BigBrotherRequest.rescuedBigBrother )
-		{
-			return;
-		}
+		BigBrotherRequest.rescuedBigBrother = 
+			Preferences.getBoolean( "bigBrotherRescued" ) ||
+			InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
 
 		if ( InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 )
 		{

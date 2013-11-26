@@ -489,6 +489,15 @@ public abstract class InventoryManager
 			return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
 		}
 
+		// If it is a virtual item, see if we already bought it
+		if ( ItemDatabase.isVirtualItem( itemId ) )
+		{
+			if ( ItemDatabase.haveVirtualItem( itemId ) )
+			{
+				return sim ? "have" : "";
+			}
+		}
+
 		int availableCount = item.getCount( KoLConstants.inventory );
 		int missingCount = item.getCount() - availableCount;
 
@@ -722,6 +731,12 @@ public abstract class InventoryManager
 				}
 
 				RequestThread.postRequest( creator );
+
+				if ( ItemDatabase.isVirtualItem( itemId ) && ItemDatabase.haveVirtualItem( itemId ) )
+				{
+					return "";
+				}
+
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )

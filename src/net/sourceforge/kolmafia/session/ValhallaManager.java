@@ -467,6 +467,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "fistTeachingsRoad", false);
 		Preferences.setBoolean( "fistTeachingsNinjaSnowmen", false);
 		// The Sea
+		Preferences.setBoolean( "bigBrotherRescued", false );
+		Preferences.setBoolean( "dampOldBootPurchased", false );
 		Preferences.setInteger( "dreadScroll1", 0 );
 		Preferences.setInteger( "dreadScroll2", 0 );
 		Preferences.setInteger( "dreadScroll3", 0 );
@@ -482,6 +484,11 @@ public class ValhallaManager
 		Preferences.setInteger( "lastCouncilVisit", 0 );
 		Preferences.setInteger( "merkinVocabularyMastery", 0 );
 		Preferences.setString( "lassoTraining", "" );
+		Preferences.setBoolean( "mapToMadnessReefPurchased", false );
+		Preferences.setBoolean( "mapToTheMarinaraTrenchPurchased", false );
+		Preferences.setBoolean( "mapToAnemoneMinePurchased", false );
+		Preferences.setBoolean( "mapToTheDiveBarPurchased", false );
+		Preferences.setBoolean( "mapToTheSkateParkPurchased", false );
 		Preferences.setString( "merkinLockkeyMonster", "" );
 		Preferences.setString( "merkinQuestPath", "none" );
 		Preferences.setString( "seahorseName", "" );

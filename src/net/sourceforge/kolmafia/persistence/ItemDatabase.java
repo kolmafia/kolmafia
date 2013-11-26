@@ -2190,6 +2190,24 @@ public class ItemDatabase
 		}
 		return false;
 	}
+	
+	public static final boolean haveVirtualItem( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MADNESS_REEF_MAP:
+			return Preferences.getBoolean( "mapToMadnessReefPurchased" );
+		case ItemPool.MARINARA_TRENCH_MAP:
+			return Preferences.getBoolean( "mapToTheMarinaraTrenchPurchased" );
+		case ItemPool.ANEMONE_MINE_MAP:
+			return Preferences.getBoolean( "mapToAnemoneMinePurchased" );
+		case ItemPool.DIVE_BAR_MAP:
+			return Preferences.getBoolean( "mapToTheDiveBarPurchased" );
+		case ItemPool.SKATE_PARK_MAP:
+			return Preferences.getBoolean( "mapToTheSkateParkPurchased" );
+		}
+		return false;
+	}
 
 	/**
 	 * Returns true if the item is tradeable, otherwise false
