@@ -130,7 +130,6 @@ The General Store	m	Ben-Gal&trade; Balm	24
 The General Store	m	glittery mascara	24
 The General Store	m	hair spray	24
 The General Store	m	fortune cookie	40
-The General Store	m	beer cartilage	50
 The General Store	m	chewing gum on a string	50
 The General Store	m	spray paint	50
 The General Store	m	fermenting powder	70
@@ -138,9 +137,6 @@ The General Store	m	soda water	70
 The General Store	m	casino pass	100
 The General Store	m	hermit permit	100
 The General Store	m	marshmallow	100
-The General Store	m	magicalness-in-a-can	200
-The General Store	m	strongness elixir	200
-The General Store	m	moxie weed	200
 The General Store	m	oyster basket	300
 The General Store	m	party hat	300
 The General Store	m	M-242	300

@@ -1364,11 +1364,11 @@ box of Batter Mix of Hope	pa_muffin.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: we
 carton of Eggs of Confidence	pa_eggs.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 loaf of Bread of Wonder	pa_bread.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 bundle of Meat of Happiness	pa_meat.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird	the kindest cold cut (c0)
-groast	groast.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: spooky P: undead	ectoplasm <i>au jus</i> (c0)
-bacon snake	baconsnake.gif	Atk: 220 Def: 200 HP: 300 Init: 75 E: sleaze P: beast
-pork butterfly	porkbutterfly.gif	Atk: 180 Def: 240 HP: 300 Init: 50 E: sleaze P: bug
-salaminder	salaminder.gif	Atk: 200 Def: 200 HP: 300 Init: 100 E: hot P: beast
-cold cutter	coldcutter.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: cold P: construct
+groast	groast.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: spooky P: undead Meat: 200-300	ectoplasm <i>au jus</i> (c0)
+bacon snake	baconsnake.gif	Atk: 220 Def: 200 HP: 300 Init: 75 E: sleaze P: beast Meat: 200-300
+pork butterfly	porkbutterfly.gif	Atk: 180 Def: 240 HP: 300 Init: 50 E: sleaze P: bug Meat: 200-300
+salaminder	salaminder.gif	Atk: 200 Def: 200 HP: 300 Init: 100 E: hot P: beast Meat: 200-300
+cold cutter	coldcutter.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: cold P: construct Meat: 200-300
 The Beefhemoth	beefhemoth.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: beast
 tin can conspirator	gourd_can.gif	Atk: 18 Def: 22 HP: 25 Init: 50 P: construct	razor-sharp can lid (0)	razor-sharp can lid (0)	censored can label (c0)	sharp tin strip (0)
 goblin conspirator	gourd_goblin.gif	Atk: 20 Def: 20 HP: 25 Init: 50 P: goblin	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	goblin collarbone (0)	Illuminati earpiece (c0)
