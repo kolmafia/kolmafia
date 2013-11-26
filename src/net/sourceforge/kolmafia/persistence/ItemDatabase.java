@@ -3035,6 +3035,7 @@ public class ItemDatabase
 		case ItemPool.BALL_POLISH:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.COBBS_KNOB_MAP:
+		case ItemPool.BINDER_CLIP:
 			// These "B" items ARE usable in Beecore.
 		case ItemPool.ICE_BABY:
 		case ItemPool.JUGGLERS_BALLS:
