@@ -2683,14 +2683,28 @@ public abstract class RuntimeLibrary
 
 	public static Value sell( Interpreter interpreter, final Value master, final Value countValue, final Value itemValue )
 	{
-		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-		AdventureResult item = new AdventureResult( (int) itemValue.intValue(), count );
-		CoinMasterRequest.sell( data, item );
+
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		int itemId = (int) itemValue.intValue();
+
+		// We could always go through the CLI, but if we are not
+		// batching, we can go directly to the coinmaster
+		if ( interpreter.batched != null )
+		{
+			String cmd = "coinmaster";
+			String prefix = "sell " + data.getNickname();
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, count + " \u00B6" + itemId );
+		}
+		else
+		{
+			AdventureResult item = new AdventureResult( itemId, count );
+			CoinMasterRequest.sell( data, item );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
