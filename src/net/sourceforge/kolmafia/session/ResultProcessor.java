@@ -1867,6 +1867,10 @@ public class ResultProcessor
 				Preferences.setString( "_stolenAccordions", buffer.toString() );
 			}
 			break;
+
+		case ItemPool.DAMP_OLD_BOOT:
+			Preferences.setBoolean( "dampOldBootPurchased", true );
+			break;
 		}
 
 		// Gaining items can achieve goals.

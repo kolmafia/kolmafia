@@ -127,7 +127,7 @@ public class GearChangeFrame
 
 	private final static AdventureResult fakeHand = ItemPool.get( ItemPool.FAKE_HAND, 1 );
 	private final static AdventureResult crownOfThrones = ItemPool.get( ItemPool.HATSEAT, 1 );
-	private final static AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
+	public final static AdventureResult FOLDER_HOLDER = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
 
 	public GearChangeFrame()
 	{
@@ -584,8 +584,8 @@ public class GearChangeFrame
 				KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
 			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( isEnabled && hasCardSleeve );
 
-			boolean hasFolderHolder = GearChangeFrame.folderHolder.getCount( KoLConstants.inventory ) > 0 ||
-				KoLCharacter.hasEquipped( GearChangeFrame.folderHolder );
+			boolean hasFolderHolder = GearChangeFrame.FOLDER_HOLDER.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
 			boolean inHighSchool = KoLCharacter.inHighschool();
 
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( isEnabled && hasFolderHolder );

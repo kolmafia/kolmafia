@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -218,70 +219,81 @@ public class CoinMasterRequest
 		CoinmasterData data = this.data;
 
 		// See if the Coin Master is accessible
-		String reason = data.accessible();
-		if ( reason != null )
+		boolean justVisiting = attachments == null;
+		if ( !justVisiting )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
-			return;
+			String reason = data.accessible();
+			if ( reason != null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, reason );
+				return;
+			}
 		}
 
-		// Suit up for a visit
-		this.equip();
-
-		String master = data.getMaster();
-
-		if ( attachments != null )
+		try
 		{
-			for ( int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i )
+			// Suit up for a visit
+			SpecialOutfit.createImplicitCheckpoint();
+			this.equip();
+
+			String master = data.getMaster();
+
+			if ( justVisiting )
 			{
-				AdventureResult ar = this.attachments[ i ];
-				this.setItem( ar );
-				int count = this.setCount( ar );
-
-				// If we cannot specify the count, we must get 1 at a time.
-
-				int visits = data.getCountField() == null ? count : 1;
-				int visit = 0;
-
-				while ( KoLmafia.permitsContinue() && ++visit <= visits );
+				KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+				super.run();
+			}
+			else
+			{
+				for ( int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i )
 				{
-					if ( visits > 1 )
-					{
-						KoLmafia.updateDisplay( "Visiting the " + master + " (" + visit + " of " + visits + ")..." );
-					}
-					else if ( visits == 1 )
-					{
-						KoLmafia.updateDisplay( "Visiting the " + master + "..." );
-					}
+					AdventureResult ar = this.attachments[ i ];
+					this.setItem( ar );
+					int count = this.setCount( ar );
 
-					super.run();
+					// If we cannot specify the count, we must get 1 at a time.
 
-					if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
-					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
-						return;
-					}
+					int visits = data.getCountField() == null ? count : 1;
+					int visit = 0;
 
-					if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
+					while ( KoLmafia.permitsContinue() && ++visit <= visits );
 					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
-						return;
+						if ( visits > 1 )
+						{
+							KoLmafia.updateDisplay( "Visiting the " + master + " (" + visit + " of " + visits + ")..." );
+						}
+						else if ( visits == 1 )
+						{
+							KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+						}
+
+						super.run();
+
+						if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
+						{
+							KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
+							break;
+						}
+
+						if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
+						{
+							KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
+							break;
+						}
 					}
 				}
 			}
-		}
-		else
-		{
-			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
-			super.run();
-		}
 
-		if ( KoLmafia.permitsContinue() && this.action != null )
-		{
-			KoLmafia.updateDisplay( master + " successfully looted!" );
+			if ( KoLmafia.permitsContinue() && this.action != null )
+			{
+				KoLmafia.updateDisplay( master + " successfully looted!" );
+			}
 		}
-
-		this.unequip();
+		finally
+		{
+			this.unequip();
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 	}
 
 	public void equip()
@@ -418,28 +430,12 @@ public class CoinMasterRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
-	public static final void buyStuff( final CoinmasterData data, final String urlString )
+	public static final int extractItemId( final CoinmasterData data, final String urlString )
 	{
-		if ( data == null )
-		{
-			return;
-		}
-
 		Matcher itemMatcher = data.getItemMatcher( urlString );
 		if ( !itemMatcher.find() )
 		{
-			return;
-		}
-
-		Matcher countMatcher = data.getCountMatcher( urlString );
-		int count = 1;
-		if ( countMatcher != null )
-		{
-			if ( !countMatcher.find() )
-			{
-				return;
-			}
-			count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+			return -1;
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
@@ -451,10 +447,65 @@ public class CoinMasterRequest
 				if ( itemId == entry.getValue() )
 				{
 					// This is the actual itemId
-					itemId = ItemDatabase.getItemId( entry.getKey(), 1 );
+					return ItemDatabase.getItemId( entry.getKey(), 1 );
 				}
 			}
+			return -1;
 		}
+
+		return itemId;
+	}
+
+	public static final int extractCount( final CoinmasterData data, final String urlString )
+	{
+		Matcher countMatcher = data.getCountMatcher( urlString );
+		if ( countMatcher != null )
+		{
+			if ( !countMatcher.find() )
+			{
+				return 0;
+			}
+			return StringUtilities.parseInt( countMatcher.group( 1 ) );
+		}
+
+		return 1;
+	}
+
+	public static final int itemBuyPrice( final CoinmasterData data, final int itemId )
+	{
+		LockableListModel items = data.getBuyItems();
+		AdventureResult item = AdventureResult.findItem( itemId, items );
+		String name = item.getName();
+		Map prices = data.getBuyPrices();
+		return CoinmastersDatabase.getPrice( name, prices );
+	}
+
+	public static final int itemSellPrice( final CoinmasterData data, final int itemId )
+	{
+		String name = ItemDatabase.getItemName( itemId );
+		Map prices = data.getSellPrices();
+		return CoinmastersDatabase.getPrice( name, prices );
+	}
+
+	public static final void buyStuff( final CoinmasterData data, final String urlString )
+	{
+		if ( data == null )
+		{
+			return;
+		}
+
+		int itemId = CoinMasterRequest.extractItemId( data, urlString );
+		if ( itemId == -1 )
+		{
+			return;
+		}
+
+		int count = CoinMasterRequest.extractCount( data, urlString );
+		if ( count == 0 )
+		{
+			return;
+		}
+
 		String storageAction = data.getStorageAction();
 		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
 
@@ -463,15 +514,11 @@ public class CoinMasterRequest
 
 	public static final void buyStuff( final CoinmasterData data, final int itemId, final int count, final boolean storage )
 	{
-		LockableListModel items = data.getBuyItems();
-		AdventureResult item = AdventureResult.findItem( itemId, items );
-		String name = item.getName();
-		Map prices = data.getBuyPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
+		int price = CoinMasterRequest.itemBuyPrice( data, itemId );
 		int cost = count * price;
 
 		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
-		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
+		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName + ( storage ? " from storage" : "" ) );
@@ -484,57 +531,35 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher itemMatcher = data.getItemMatcher( urlString );
-		if ( !itemMatcher.find() )
+		int itemId = CoinMasterRequest.extractItemId( data, urlString );
+		if ( itemId == -1 )
 		{
 			return;
 		}
 
-		AdventureResult tokenItem = data.getItem();
-		String tradeAll = data.getTradeAllAction();
-		String property = data.getProperty();
 		String storageAction = data.getStorageAction();
 		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		if ( data.getRows() != null )
-		{
-			// itemId above is actually the row
-			for ( Entry<String, Integer> entry : data.getRows().entrySet() )
-			{
-				if ( itemId == entry.getValue() )
-				{
-					// This is the actual itemId
-					itemId = ItemDatabase.getItemId( entry.getKey(), 1 );
-				}
-			}
-		}
-		LockableListModel items = data.getBuyItems();
-		AdventureResult item = AdventureResult.findItem( itemId, items );
-		String name = item.getName();
-		Map prices = data.getBuyPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
 
-		int count = 1;
-
-		Matcher countMatcher = data.getCountMatcher( urlString );
-		if ( countMatcher != null )
+		int count = CoinMasterRequest.extractCount( data, urlString );
+		if ( count == 0 )
 		{
-			if ( countMatcher.find() )
-			{
-				count = StringUtilities.parseInt( countMatcher.group(1) );
-			}
-			else if ( tradeAll != null && urlString.indexOf( tradeAll ) != -1 )
-			{
-				int available =
-					storage ? tokenItem.getCount( KoLConstants.storage ) :
-					property != null ? Preferences.getInteger( property ) :
-					tokenItem.getCount( KoLConstants.inventory );
-				count = available / price;
-			}
-			else
+			String tradeAll = data.getTradeAllAction();
+
+			if ( tradeAll == null || !urlString.contains( tradeAll ) )
 			{
 				return;
 			}
+
+			AdventureResult tokenItem = data.getItem();
+			String property = data.getProperty();
+
+			int available =
+				storage ? tokenItem.getCount( KoLConstants.storage ) :
+				property != null ? Preferences.getInteger( property ) :
+				tokenItem.getCount( KoLConstants.inventory );
+
+			int price = CoinMasterRequest.itemBuyPrice( data, itemId );
+			count = available / price;
 		}
 
 		CoinMasterRequest.completePurchase( data, itemId, count, storage );
@@ -542,21 +567,16 @@ public class CoinMasterRequest
 
 	public static final void completePurchase( final CoinmasterData data, final int itemId, final int count, final boolean storage )
 	{
-		AdventureResult tokenItem = data.getItem();
-		String property = data.getProperty();
-		LockableListModel items = data.getBuyItems();
-		AdventureResult item = AdventureResult.findItem( itemId, items );
-		String name = item.getName();
-		Map prices = data.getBuyPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
-
+		int price = CoinMasterRequest.itemBuyPrice( data, itemId );
 		int cost = count * price;
 
+		String property = data.getProperty();
 		if ( property != null && !storage )
 		{
 			Preferences.increment( property, -cost );
 		}
 
+		AdventureResult tokenItem = data.getItem();
 		if ( tokenItem != null )
 		{
 			AdventureResult current = tokenItem.getInstance( -cost );
@@ -604,13 +624,11 @@ public class CoinMasterRequest
 
 	public static final void sellStuff( final CoinmasterData data, final int itemId, final int count )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		Map prices = data.getSellPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
+		int price = CoinMasterRequest.itemSellPrice( data, itemId );
 		int cost = count * price;
 
 		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
-		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
+		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + count + " " + itemName + " for " + cost + " " + tokenName );
@@ -648,9 +666,7 @@ public class CoinMasterRequest
 
 	public static final void completeSale( final CoinmasterData data, final int itemId, final int count )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		Map prices = data.getSellPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
+		int price = CoinMasterRequest.itemSellPrice( data, itemId );
 		int cost = count * price;
 
 		AdventureResult item = new AdventureResult( itemId, -count );

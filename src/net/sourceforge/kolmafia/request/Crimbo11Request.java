@@ -140,11 +140,6 @@ public class Crimbo11Request
 		return null;
 	}
 
-	public static String canBuy()
-	{
-		return null;
-	}
-
 	@Override
 	public void run()
 	{
