@@ -97,7 +97,7 @@ public class Interpreter
 	private boolean hadPendingState;
 
 	// For use by RuntimeLibrary's CLI command batching feature
-	LinkedHashMap<String, StringBuffer> batched;
+	LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched;
 
 	// For use in ASH relay scripts
 	private RelayRequest relayRequest = null;

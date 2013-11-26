@@ -1621,34 +1621,30 @@ public abstract class RuntimeLibrary
 
 	private static void batchCommand( Interpreter interpreter, String cmd, String prefix, String params )
 	{
-		LinkedHashMap<String, StringBuffer> batched = interpreter.batched;
+		LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched = interpreter.batched;
 		if ( batched == null )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd,
-				prefix == null ? params : (prefix + " " + params) );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, prefix == null ? params : (prefix + " " + params) );
 			return;
 		}
-		StringBuffer buf = (StringBuffer) batched.get( cmd );
+
+		LinkedHashMap<String, StringBuilder> prefixMap = batched.get( cmd );
+		if ( prefixMap == null )
+		{
+			// First instance of this command
+			prefixMap = new LinkedHashMap<String, StringBuilder>();
+			batched.put( cmd, prefixMap );
+		}
+
+		String key = prefix == null ? "" : prefix;
+		StringBuilder buf = prefixMap.get( prefix );
 		if ( buf == null )
-		{	// First instance of this command
-			buf = new StringBuffer();
-			if ( prefix != null )
-			{
-				buf.append( prefix );
-				buf.append( " " );
-			}
-			buf.append( params );
-			batched.put( cmd, buf );
-		}
-		else if ( prefix != null &&
-			!buf.substring( 0, prefix.length() ).equals( prefix ) )
-		{	// Have seen this command, but with a different subcommand -
-			// can't queue it.
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, prefix + " " + params );
-			return;
+		{
+			buf = new StringBuilder( params );
+			prefixMap.put( prefix, buf );
 		}
 		else
-		{	// Have seen this command, and prefix (if any) matches
+		{
 			buf.append( ", " );
 			buf.append( params );
 		}
@@ -1700,23 +1696,30 @@ public abstract class RuntimeLibrary
 	{
 		if ( interpreter.batched == null )
 		{
-			interpreter.batched = new LinkedHashMap<String, StringBuffer>();
+			interpreter.batched = new LinkedHashMap<String, LinkedHashMap<String, StringBuilder>>();
 		}
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value batch_close( Interpreter interpreter )
 	{
-		LinkedHashMap batched = interpreter.batched;
+		LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched = interpreter.batched;
 		if ( batched != null )
 		{
-			Iterator i = batched.entrySet().iterator();
-			while ( i.hasNext() && KoLmafia.permitsContinue() )
+			Iterator i1 = batched.entrySet().iterator();
+			while ( i1.hasNext() && KoLmafia.permitsContinue() )
 			{
-				Map.Entry e = (Map.Entry) i.next();
-				String command = (String) e.getKey();
-				String parameters = ((StringBuffer) e.getValue()).toString();
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( command, parameters );
+				Map.Entry e1 = (Map.Entry) i1.next();
+				String cmd = (String) e1.getKey();
+				LinkedHashMap<String, StringBuilder> prefixes = (LinkedHashMap<String, StringBuilder>) e1.getValue();
+				Iterator i2 = prefixes.entrySet().iterator();
+				while ( i2.hasNext() && KoLmafia.permitsContinue() )
+				{
+					Map.Entry e2 = (Map.Entry) i2.next();
+					String prefix = (String) e2.getKey();
+					String params = ((StringBuilder) e2.getValue()).toString();
+					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, prefix.equals( "" ) ? params : (prefix + " " + params) );
+				}
 			}
 			interpreter.batched = null;
 		}
