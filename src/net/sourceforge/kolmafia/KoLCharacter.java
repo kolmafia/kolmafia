@@ -1850,6 +1850,19 @@ public abstract class KoLCharacter
 		       KoLCharacter.getAdjustedMysticality() ), KoLCharacter.getAdjustedMoxie() );
 	}
 
+	public static final int getBaseMainstat()
+	{
+		switch ( KoLCharacter.mainStat() )
+		{
+		case MUSCLE:
+			return getBaseMuscle();
+		case MYSTICALITY:
+			return getBaseMysticality();
+		default:
+			return getBaseMoxie();
+		}
+	}
+	
 	/**
 	 * Accessor method to set the number of adventures the character has left to spend in this session.
 	 *

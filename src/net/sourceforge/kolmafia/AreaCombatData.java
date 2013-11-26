@@ -66,6 +66,7 @@ public class AreaCombatData
 	private int minEvade;
 	private int maxEvade;
 	private int poison;
+	private int jumpChance;
 
 	private final int combats;
 	private int weights;
@@ -93,6 +94,7 @@ public class AreaCombatData
 		this.minEvade = Integer.MAX_VALUE;
 		this.maxEvade = 0;
 		this.poison = Integer.MAX_VALUE;
+		this.jumpChance = Integer.MAX_VALUE;
 	}
 
 	public void recalculate()
@@ -101,6 +103,7 @@ public class AreaCombatData
 		this.maxHit = 0;
 		this.minEvade = Integer.MAX_VALUE;
 		this.maxEvade = 0;
+		this.jumpChance = 100;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -139,6 +142,20 @@ public class AreaCombatData
 		if ( defense > this.maxHit )
 		{
 			this.maxHit = defense;
+		}
+		
+		int monsterInit = monster.getInitiative();
+		int monsterLevel = KoLCharacter.getMonsterLevelAdjustment();
+		int baseMainstat = KoLCharacter.getBaseMainstat();
+		int initBonus = (int) KoLCharacter.getInitiativeAdjustment();
+		int jumpChance = AreaCombatData.jumpChance( monsterInit, attack, monsterLevel, baseMainstat, initBonus );
+		if ( jumpChance < 0 )
+		{
+			jumpChance = 0;
+		}
+		if ( jumpChance < this.jumpChance )
+		{
+			this.jumpChance = jumpChance;
 		}
 	}
 
@@ -391,7 +408,8 @@ public class AreaCombatData
 		double maxEvadePercent = AreaCombatData.hitPercent( moxie, this.maxEvade );
 		int minPerfectEvade = AreaCombatData.perfectHit( moxie, this.minEvade() );
 		int maxPerfectEvade = AreaCombatData.perfectHit( moxie, this.maxEvade );
-
+		int jumpChance = this.jumpChance;
+		
 		// statGain constants
 		double experienceAdjustment = KoLCharacter.getExperienceAdjustment();
 
@@ -423,6 +441,10 @@ public class AreaCombatData
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( this.getRateString(
 			minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox", fullString ) );
+		
+		buffer.append( "<br><b>Jump Chance</b>: " );
+		buffer.append( jumpChance + "%" );
+		
 		buffer.append( "<br><b>Combat Rate</b>: " );
 
 		if ( this.combats > 0 )
@@ -590,6 +612,19 @@ public class AreaCombatData
 		Phylum phylum = monster.getPhylum();
 		int init = monster.getInitiative();
 
+		int monsterLevel = KoLCharacter.getMonsterLevelAdjustment();
+		int baseMainstat = KoLCharacter.getBaseMainstat();
+		int initBonus = (int) KoLCharacter.getInitiativeAdjustment();
+		int jumpChance = AreaCombatData.jumpChance( init, attack, monsterLevel, baseMainstat, initBonus );
+		if ( jumpChance < 0 )
+		{
+			jumpChance = 0;
+		}
+		else if ( jumpChance > 100 )
+		{
+			jumpChance = 100;
+		}
+
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + AreaCombatData.elementColor( element ) + "><b>" );
 		if ( monster.getPoison() < Integer.MAX_VALUE )
@@ -617,6 +652,8 @@ public class AreaCombatData
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + AreaCombatData.elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );
+		buffer.append( "%</font>, Jump Chance: <font color=" + AreaCombatData.elementColor( ea ) + ">" );
+		buffer.append( this.format( jumpChance ) );
 		buffer.append( "%</font><br>Phylum: " + phylum + ", Init: " + init + ", Atk: " + attack + ", Def: " + defense);
 		buffer.append( "<br>HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format( statGain ) );
 
@@ -822,5 +859,20 @@ public class AreaCombatData
 	public String getZone()
 	{
 		return zone;
+	}
+
+	public static final int jumpChance( final int monsterInit, final int monsterAttack, final int monsterLevel, final int baseMainstat, final int initBonus )
+	{
+		return ( 100 - monsterInit ) + initBonus + Math.max( 0, baseMainstat - monsterAttack ) - AreaCombatData.initPenalty( monsterLevel );
+	}
+
+	public static final int initPenalty( final int monsterLevel )
+	{
+		return monsterLevel <= 20 ? 0 :
+			monsterLevel <= 40 ? ( monsterLevel - 20 ) :
+			monsterLevel <= 60 ? ( 20 + 2 * ( monsterLevel - 40 ) ) :
+			monsterLevel <= 80 ? ( 60 + 3 * ( monsterLevel - 60 ) ) :
+			monsterLevel <= 100 ? ( 120 + 4 * ( monsterLevel - 80 ) ) :
+			( 200 + 5 * ( monsterLevel - 100 ) );
 	}
 }
