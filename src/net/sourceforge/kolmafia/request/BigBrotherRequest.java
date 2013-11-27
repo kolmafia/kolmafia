@@ -109,8 +109,6 @@ public class BigBrotherRequest
 	private static AdventureResult self = null;
 	private static AdventureResult familiar = null;
 	private static boolean rescuedBigBrother = false;
-	private static boolean waterBreathingFamiliar = false;
-	private static boolean wetWillyActive = false;
 
 	public BigBrotherRequest()
 	{
@@ -253,12 +251,6 @@ public class BigBrotherRequest
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 
-		// Check if the familiar is inherently water breathing
-		BigBrotherRequest.waterBreathingFamiliar = familiar.waterBreathing();
-		
-		// Wet Willied allows any familiar to breathe underwater
-		BigBrotherRequest.wetWillyActive  = KoLConstants.activeEffects.contains( EffectPool.get( Effect.WET_WILLIED ) );
-
 		// For the dancing frog, the amphibious tophat is the best familiar equipment
 		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
 		     InventoryManager.getAccessibleCount( BigBrotherRequest.AMPHIBIOUS_TOPHAT ) > 0 )
@@ -289,7 +281,7 @@ public class BigBrotherRequest
 			return "You don't have the right equipment to adventure underwater.";
 		}
 
-		if ( !BigBrotherRequest.waterBreathingFamiliar && !BigBrotherRequest.wetWillyActive && BigBrotherRequest.familiar == null )
+		if ( BigBrotherRequest.familiar == null && !KoLCharacter.currentBooleanModifier( "Underwater Familiar" ) )
 		{
 			return "Your familiar doesn't have the right equipment to adventure underwater.";
 		}
@@ -307,8 +299,7 @@ public class BigBrotherRequest
 			RequestThread.postRequest( request );
 		}
 
-		if ( !BigBrotherRequest.wetWillyActive && !BigBrotherRequest.waterBreathingFamiliar &&
-		     !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
+		if ( !KoLCharacter.currentBooleanModifier( "Underwater Familiar" ) )
 		{
 			EquipmentRequest request = new EquipmentRequest( familiar );
 			RequestThread.postRequest( request );

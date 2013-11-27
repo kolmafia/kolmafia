@@ -313,10 +313,8 @@ public class Evaluator
 			}
 			else if ( keyword.equals( "sea" ) )
 			{
-				this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
-					(1 << Modifiers.UNDERWATER_FAMILIAR);
-				this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
-					(1 << Modifiers.UNDERWATER_FAMILIAR);
+				this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
+				this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
 				index = -1;
 				continue;
 			}
