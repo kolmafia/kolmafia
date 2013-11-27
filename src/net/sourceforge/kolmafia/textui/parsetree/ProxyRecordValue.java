@@ -784,6 +784,7 @@ public class ProxyRecordValue
 			.add( "raw_attack", DataTypes.INT_TYPE )
 			.add( "raw_defense", DataTypes.INT_TYPE )
 			.add( "base_initiative", DataTypes.INT_TYPE )
+			.add( "raw_initiative", DataTypes.INT_TYPE )
 			.add( "attack_element", DataTypes.ELEMENT_TYPE )
 			.add( "defense_element", DataTypes.ELEMENT_TYPE )
 			.add( "physical_resistance", DataTypes.INT_TYPE )
@@ -834,6 +835,11 @@ public class ProxyRecordValue
 		public int get_base_initiative()
 		{
 			return ((MonsterData) this.content).getInitiative();
+		}
+
+		public int get_raw_initiative()
+		{
+			return ((MonsterData) this.content).getRawInitiative();
 		}
 
 		public Value get_attack_element()

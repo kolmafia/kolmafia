@@ -333,6 +333,16 @@ public class MonsterStatusTracker
 		return MonsterStatusTracker.monsterData.willUsuallyMiss( MonsterStatusTracker.defenseModifier + defenseModifier );
 	}
 
+	public static final int getMonsterRawInitiative()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return 0;
+		}
+
+		return MonsterStatusTracker.monsterData.getRawInitiative();
+	}
+
 	public static final int getMonsterInitiative()
 	{
 		if ( MonsterStatusTracker.monsterData == null )
@@ -341,16 +351,6 @@ public class MonsterStatusTracker
 		}
 
 		return MonsterStatusTracker.monsterData.getInitiative();
-	}
-
-	public static final int getMonsterAdjustedInitiative()
-	{
-		if ( MonsterStatusTracker.monsterData == null )
-		{
-			return 0;
-		}
-
-		return MonsterStatusTracker.monsterData.getAdjustedInitiative();
 	}
 
 	public static final int getJumpChance()

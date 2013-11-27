@@ -1408,12 +1408,6 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "monster_initiative", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "monster_adjusted_initiative", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.MONSTER_TYPE };
-		functions.add( new LibraryFunction( "monster_adjusted_initiative", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] {};
 		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -5942,22 +5936,6 @@ public abstract class RuntimeLibrary
 		}
 
 		return new Value( monster.getInitiative() );
-	}
-
-	public static Value monster_adjusted_initiative( Interpreter interpreter )
-	{
-		return new Value( MonsterStatusTracker.getMonsterAdjustedInitiative() );
-	}
-
-	public static Value monster_adjusted_initiative( Interpreter interpreter, final Value arg )
-	{
-		MonsterData monster = (MonsterData) arg.rawValue();
-		if ( monster == null )
-		{
-			return DataTypes.ZERO_VALUE;
-		}
-
-		return new Value( monster.getAdjustedInitiative() );
 	}
 
 	public static Value monster_hp( Interpreter interpreter )
