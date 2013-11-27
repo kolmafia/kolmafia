@@ -1637,11 +1637,11 @@ public abstract class RuntimeLibrary
 		}
 
 		String key = prefix == null ? "" : prefix;
-		StringBuilder buf = prefixMap.get( prefix );
+		StringBuilder buf = prefixMap.get( key );
 		if ( buf == null )
 		{
 			buf = new StringBuilder( params );
-			prefixMap.put( prefix, buf );
+			prefixMap.put( key, buf );
 		}
 		else
 		{
