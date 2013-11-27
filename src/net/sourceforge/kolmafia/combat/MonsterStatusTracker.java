@@ -333,6 +333,36 @@ public class MonsterStatusTracker
 		return MonsterStatusTracker.monsterData.willUsuallyMiss( MonsterStatusTracker.defenseModifier + defenseModifier );
 	}
 
+	public static final int getMonsterInitiative()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return 0;
+		}
+
+		return MonsterStatusTracker.monsterData.getInitiative();
+	}
+
+	public static final int getMonsterAdjustedInitiative()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return 0;
+		}
+
+		return MonsterStatusTracker.monsterData.getAdjustedInitiative();
+	}
+
+	public static final int getJumpChance()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return 0;
+		}
+
+		return MonsterStatusTracker.monsterData.getJumpChance();
+	}
+
 	public static int getPoisonLevel()
 	{
 		if ( MonsterStatusTracker.monsterData == null )

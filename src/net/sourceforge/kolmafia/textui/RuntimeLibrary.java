@@ -1398,6 +1398,18 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "monster_defense", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_initiative", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_initiative", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_adjusted_initiative", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_adjusted_initiative", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -1411,6 +1423,27 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "is_banished", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
@@ -5659,6 +5692,38 @@ public abstract class RuntimeLibrary
 		return new Value( monster.getDefense() );
 	}
 
+	public static Value monster_initiative( Interpreter interpreter )
+	{
+		return new Value( MonsterStatusTracker.getMonsterInitiative() );
+	}
+
+	public static Value monster_initiative( Interpreter interpreter, final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		return new Value( monster.getInitiative() );
+	}
+
+	public static Value monster_adjusted_initiative( Interpreter interpreter )
+	{
+		return new Value( MonsterStatusTracker.getMonsterAdjustedInitiative() );
+	}
+
+	public static Value monster_adjusted_initiative( Interpreter interpreter, final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		return new Value( monster.getAdjustedInitiative() );
+	}
+
 	public static Value monster_hp( Interpreter interpreter )
 	{
 		return new Value( MonsterStatusTracker.getMonsterHealth() );
@@ -5701,6 +5766,113 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 		return DataTypes.makeBooleanValue( BanishManager.isBanished( (String) monster.getName() ) );
+	}
+
+	public static Value jump_chance( Interpreter interpreter )
+	{
+		return new Value( MonsterStatusTracker.getJumpChance() );
+	}
+
+	public static Value jump_chance( Interpreter interpreter, final Value arg )
+	{
+		if ( arg.getType().equals( DataTypes.TYPE_MONSTER ) )
+		{
+			MonsterData monster = (MonsterData) arg.rawValue();
+			if ( monster == null )
+			{
+				return DataTypes.ZERO_VALUE;
+			}
+			return new Value( monster.getJumpChance() );
+		}
+		
+		if ( arg.getType().equals( DataTypes.TYPE_LOCATION ) )
+		{
+			KoLAdventure adventure = (KoLAdventure) arg.rawValue();
+			AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+
+			int monsterCount = data == null ? 0 : data.getMonsterCount();
+			int jumpChance = data == null ? 0 : 100;
+		
+			for ( int i = 0; i < monsterCount; ++i )
+			{
+				int monsterJumpChance = data.getMonster( i ).getJumpChance();
+				if ( jumpChance > monsterJumpChance && data.getWeighting( i ) > 0 )
+				{
+					jumpChance = monsterJumpChance;
+				}
+			}
+			return new Value( jumpChance );
+		}
+		return DataTypes.ZERO_VALUE;
+	}
+
+	public static Value jump_chance( Interpreter interpreter, final Value arg, final Value init )
+	{
+		int initiative = (int) init.intValue();
+		if ( arg.getType().equals( DataTypes.TYPE_MONSTER ) )
+		{
+			MonsterData monster = (MonsterData) arg.rawValue();
+			if ( monster == null )
+			{
+				return DataTypes.ZERO_VALUE;
+			}
+			return new Value( monster.getJumpChance( initiative ) );
+		}
+		
+		if ( arg.getType().equals( DataTypes.TYPE_LOCATION ) )
+		{
+			KoLAdventure adventure = (KoLAdventure) arg.rawValue();
+			AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+
+			int monsterCount = data == null ? 0 : data.getMonsterCount();
+			int jumpChance = data == null ? 0 : 100;
+		
+			for ( int i = 0; i < monsterCount; ++i )
+			{
+				int monsterJumpChance = data.getMonster( i ).getJumpChance( initiative );
+				if ( jumpChance > monsterJumpChance && data.getWeighting( i ) > 0 )
+				{
+					jumpChance = monsterJumpChance;
+				}
+			}
+			return new Value( jumpChance );
+		}
+		return DataTypes.ZERO_VALUE;
+	}
+
+	public static Value jump_chance( Interpreter interpreter, final Value arg, final Value init, final Value ml )
+	{
+		int initiative = (int) init.intValue();
+		int monsterLevel = (int) ml.intValue();
+		if ( arg.getType().equals( DataTypes.TYPE_MONSTER ) )
+		{
+			MonsterData monster = (MonsterData) arg.rawValue();
+			if ( monster == null )
+			{
+				return DataTypes.ZERO_VALUE;
+			}
+			return new Value( monster.getJumpChance( initiative, monsterLevel ) );
+		}
+		
+		if ( arg.getType().equals( DataTypes.TYPE_LOCATION ) )
+		{
+			KoLAdventure adventure = (KoLAdventure) arg.rawValue();
+			AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+
+			int monsterCount = data == null ? 0 : data.getMonsterCount();
+			int jumpChance = data == null ? 0 : 100;
+		
+			for ( int i = 0; i < monsterCount; ++i )
+			{
+				int monsterJumpChance = data.getMonster( i ).getJumpChance( initiative, monsterLevel );
+				if ( jumpChance > monsterJumpChance && data.getWeighting( i ) > 0 )
+				{
+					jumpChance = monsterJumpChance;
+				}
+			}
+			return new Value( jumpChance );
+		}
+		return DataTypes.ZERO_VALUE;
 	}
 
 	public static Value item_drops( Interpreter interpreter )

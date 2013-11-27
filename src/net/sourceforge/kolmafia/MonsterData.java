@@ -281,6 +281,55 @@ public class MonsterData
 		return (int) ((MonsterExpression) this.initiative).eval();
 	}
 
+	public int getAdjustedInitiative()
+	{
+		return this.getAdjustedInitiative( KoLCharacter.getMonsterLevelAdjustment() );
+	}
+
+	public int getAdjustedInitiative( final int monsterLevel )
+	{
+		int baseInit = this.getInitiative();
+		if ( baseInit == -1 )
+		{
+			return -1;
+		}
+		else
+		{
+			return baseInit + this.initPenalty( monsterLevel );
+		}
+	}
+
+	public int getJumpChance()
+	{
+		if ( this.initiative == null )
+		{
+			return -1;
+		}
+		return getJumpChance( (int) KoLCharacter.getInitiativeAdjustment() );
+	}
+
+	public int getJumpChance( final int initBonus )
+	{
+		int jumpChance = 100 - this.getAdjustedInitiative() + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
+		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
+	}
+
+	public int getJumpChance( final int initBonus, final int monsterLevel )
+	{
+		int jumpChance = 100 - this.getInitiative() + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() ) - this.initPenalty( monsterLevel );
+		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
+	}
+
+	public static final int initPenalty( final int monsterLevel )
+	{
+		return monsterLevel <= 20 ? 0 :
+			monsterLevel <= 40 ? ( monsterLevel - 20 ) :
+			monsterLevel <= 60 ? ( 20 + 2 * ( monsterLevel - 40 ) ) :
+			monsterLevel <= 80 ? ( 60 + 3 * ( monsterLevel - 60 ) ) :
+			monsterLevel <= 100 ? ( 120 + 4 * ( monsterLevel - 80 ) ) :
+			( 200 + 5 * ( monsterLevel - 100 ) );
+	}
+
 	public Element getAttackElement()
 	{
 		return this.attackElement;

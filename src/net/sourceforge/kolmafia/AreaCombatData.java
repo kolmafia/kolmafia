@@ -144,15 +144,7 @@ public class AreaCombatData
 			this.maxHit = defense;
 		}
 		
-		int monsterInit = monster.getInitiative();
-		int monsterLevel = KoLCharacter.getMonsterLevelAdjustment();
-		int baseMainstat = KoLCharacter.getBaseMainstat();
-		int initBonus = (int) KoLCharacter.getInitiativeAdjustment();
-		int jumpChance = AreaCombatData.jumpChance( monsterInit, attack, monsterLevel, baseMainstat, initBonus );
-		if ( jumpChance < 0 )
-		{
-			jumpChance = 0;
-		}
+		int jumpChance = monster.getJumpChance();
 		if ( jumpChance < this.jumpChance )
 		{
 			this.jumpChance = jumpChance;
@@ -611,19 +603,7 @@ public class AreaCombatData
 
 		Phylum phylum = monster.getPhylum();
 		int init = monster.getInitiative();
-
-		int monsterLevel = KoLCharacter.getMonsterLevelAdjustment();
-		int baseMainstat = KoLCharacter.getBaseMainstat();
-		int initBonus = (int) KoLCharacter.getInitiativeAdjustment();
-		int jumpChance = AreaCombatData.jumpChance( init, attack, monsterLevel, baseMainstat, initBonus );
-		if ( jumpChance < 0 )
-		{
-			jumpChance = 0;
-		}
-		else if ( jumpChance > 100 )
-		{
-			jumpChance = 100;
-		}
+		int jumpChance = monster.getJumpChance();
 
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + AreaCombatData.elementColor( element ) + "><b>" );
@@ -859,20 +839,5 @@ public class AreaCombatData
 	public String getZone()
 	{
 		return zone;
-	}
-
-	public static final int jumpChance( final int monsterInit, final int monsterAttack, final int monsterLevel, final int baseMainstat, final int initBonus )
-	{
-		return ( 100 - monsterInit ) + initBonus + Math.max( 0, baseMainstat - monsterAttack ) - AreaCombatData.initPenalty( monsterLevel );
-	}
-
-	public static final int initPenalty( final int monsterLevel )
-	{
-		return monsterLevel <= 20 ? 0 :
-			monsterLevel <= 40 ? ( monsterLevel - 20 ) :
-			monsterLevel <= 60 ? ( 20 + 2 * ( monsterLevel - 40 ) ) :
-			monsterLevel <= 80 ? ( 60 + 3 * ( monsterLevel - 60 ) ) :
-			monsterLevel <= 100 ? ( 120 + 4 * ( monsterLevel - 80 ) ) :
-			( 200 + 5 * ( monsterLevel - 100 ) );
 	}
 }
