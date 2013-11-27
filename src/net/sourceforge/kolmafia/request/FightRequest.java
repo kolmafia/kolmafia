@@ -1236,6 +1236,18 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Wink at" ) )
+		{
+			// You can only shoot 1 badly romantic arrow per day
+
+			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
+			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		else if ( skillName.equals( "Fire a boxing-glove arrow" ) )
 		{
 			// You can only shoot 5 boxing-glove arrows per day
@@ -6065,6 +6077,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.BADLY_ROMANTIC_ARROW:
+		case SkillPool.WINK:
 			Preferences.increment( "_badlyRomanticArrows", 1 );
 			break;
 

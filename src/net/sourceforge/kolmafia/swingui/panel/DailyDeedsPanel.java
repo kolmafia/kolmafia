@@ -3027,18 +3027,23 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			FamiliarData angel = KoLCharacter.findFamiliar( FamiliarPool.OBTUSE_ANGEL );
-			boolean oa = angel != null && angel.canEquip() ;
-			String text = Preferences.getInteger( "_badlyRomanticArrows" ) > 0 ?
-				"Romantic Arrow used" :
-				"Romantic Arrow not used yet";
-			String monster = Preferences.getString( "romanticTarget" );
-			int left = Preferences.getInteger( "_romanticFightsLeft" );
-			if ( !monster.equals( "" ) && left > 0 )
+			FamiliarData reanimator = KoLCharacter.findFamiliar( FamiliarPool.REANIMATOR );
+			boolean show = ( angel != null && angel.canEquip() ) || ( reanimator != null && reanimator.canEquip() ) ;
+			String text = "";
+			if ( show )
 			{
-				text = text + ", now " + monster + " (" + left + " left)";
+				text = Preferences.getInteger( "_badlyRomanticArrows" ) > 0 ?
+					"Romantic Arrow used" :
+					"Romantic Arrow not used yet";
+				String monster = Preferences.getString( "romanticTarget" );
+				int left = Preferences.getInteger( "_romanticFightsLeft" );
+				if ( !monster.equals( "" ) && left > 0 )
+				{
+					text = text + ", now " + monster + " (" + left + " left)";
+				}
 			}
 			this.setText( text );
-			this.setShown( oa );
+			this.setShown( show );
 		}
 	}
 
