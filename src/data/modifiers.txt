@@ -4571,7 +4571,7 @@ Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Well-Rested	Experience: +3
 # Well Excuuuuse Me!: Makes you look like a wacky pirate
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
-# Wet Willied: Your familiar can breathe underwater
+Wet Willied	Underwater Familiar
 What's That Smell?	Stench Damage: +3
 Whispering Strands	Initiative: +10
 Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
