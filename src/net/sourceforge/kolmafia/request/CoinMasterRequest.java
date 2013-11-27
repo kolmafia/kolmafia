@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -249,12 +250,12 @@ public class CoinMasterRequest
 			}
 			else
 			{
-				boolean isSelling = this.action != null && this.action.equals( data.getSellAction() );
+				boolean keepSingleton = this.action != null && this.action.equals( data.getSellAction() ) && !KoLCharacter.canInteract();
 
 				for ( int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i )
 				{
 					AdventureResult ar = this.attachments[ i ];
-					boolean singleton = isSelling && KoLConstants.singletonList.contains( ar );
+					boolean singleton = keepSingleton && KoLConstants.singletonList.contains( ar );
 
 					this.setItem( ar );
 					int count = this.setCount( ar, singleton );
