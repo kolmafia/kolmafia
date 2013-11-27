@@ -202,9 +202,13 @@ public class CoinMasterRequest
 		}
 	}
 
-	public int setCount( final AdventureResult item )
+	public int setCount( final AdventureResult item, final boolean singleton )
 	{
 		int count = item.getCount();
+		if ( singleton )
+		{
+			count = TransferItemRequest.keepSingleton( item, count );
+		}
 		String countField = this.data.getCountField();
 		if ( countField != null )
 		{
@@ -245,11 +249,15 @@ public class CoinMasterRequest
 			}
 			else
 			{
+				boolean isSelling = this.action != null && this.action.equals( data.getSellAction() );
+
 				for ( int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i )
 				{
 					AdventureResult ar = this.attachments[ i ];
+					boolean singleton = isSelling && KoLConstants.singletonList.contains( ar );
+
 					this.setItem( ar );
-					int count = this.setCount( ar );
+					int count = this.setCount( ar, singleton );
 
 					// If we cannot specify the count, we must get 1 at a time.
 
