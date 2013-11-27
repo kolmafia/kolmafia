@@ -233,7 +233,7 @@ public abstract class TransferItemRequest
 
 				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
 				{
-					availableCount = keepSingleton( item, availableCount );
+					availableCount = TransferItemRequest.keepSingleton( item, availableCount );
 				}
 
 				if ( availableCount <= 0 )
@@ -274,7 +274,7 @@ public abstract class TransferItemRequest
 		return subinstances;
 	}
 
-	public int keepSingleton( final AdventureResult item, final int count )
+	public static int keepSingleton( final AdventureResult item, final int count )
 	{
 		// We're doing something dangerous with a singleton item
 
