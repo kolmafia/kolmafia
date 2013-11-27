@@ -514,7 +514,7 @@
 7096	Bashing Slam Smash	5	15	0
 7097	Turtle of Seven Tails	5	15	0
 7098	Noodles of Fire	5	15	0
-7099	Saucemageddon	5	35	0
+7099	Saucemageddon	5	24	0
 7100	Funk Bluegrass Fusion	5	10	0
 7101	Extreme High Note	5	15	0
 7102	Goldensh&ouml;wer	5	0	0
