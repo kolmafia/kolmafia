@@ -131,9 +131,12 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CraftRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -149,6 +152,7 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -1647,11 +1651,6 @@ public abstract class RuntimeLibrary
 
 	// Support for batching of server requests
 
-	private static void batchCommand( Interpreter interpreter, String cmd, String params )
-	{
-		RuntimeLibrary.batchCommand( interpreter, cmd, null, params );
-	}
-
 	private static void batchCommand( Interpreter interpreter, String cmd, String prefix, String params )
 	{
 		LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched = interpreter.batched;
@@ -2725,13 +2724,12 @@ public abstract class RuntimeLibrary
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int itemId = (int) itemValue.intValue();
 
-		// We could always go through the CLI, but if we are not
-		// batching, we can go directly to the coinmaster
 		if ( interpreter.batched != null )
 		{
 			String cmd = "coinmaster";
 			String prefix = "sell " + data.getNickname();
-			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, count + " \u00B6" + itemId );
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
 		}
 		else
 		{
@@ -2837,11 +2835,19 @@ public abstract class RuntimeLibrary
 
 	public static Value empty_closet( Interpreter interpreter )
 	{
-		RuntimeLibrary.batchCommand( interpreter, "closet", "empty" );
+		if ( interpreter.batched != null )
+		{
+			RuntimeLibrary.batchCommand( interpreter, "closet", null, "empty" );
+		}
+		else
+		{
+			ClosetRequest request = new ClosetRequest( ClosetRequest.EMPTY_CLOSET );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value put_closet( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2849,7 +2855,20 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "closet", "put", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "closet";
+			String prefix = "put";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			ClosetRequest request = new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, ItemPool.get( itemId, count ) );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2861,34 +2880,88 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put " + meat + " meat" );
+		if ( interpreter.batched != null )
+		{
+			String cmd = "closet";
+			String prefix = "put";
+			String params = meat + " meat";
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			ClosetRequest request = new ClosetRequest( ClosetRequest.MEAT_TO_CLOSET, (int) meat );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value item )
+	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value itemValue )
 	{
+		int itemId = (int) itemValue.intValue();
 		int price = (int) priceValue.intValue();
 		int limit = (int) limitValue.intValue();
 
-		RuntimeLibrary.batchCommand( interpreter, "shop", "put", "* \u00B6" + (int) item.intValue() + " @ " + price + " limit " + limit );
+		if ( interpreter.batched != null )
+		{
+			String cmd = "shop";
+			String prefix = "put";
+			String params = "* \u00B6" + itemId + " @ " + price + " limit " + limit;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult [] items = new AdventureResult[ 1 ];
+			int [] prices = new int[ 1 ];
+			int [] limits = new int[ 1 ];
+
+			AdventureResult item = ItemPool.get( itemId, 1 );
+			items[ 0 ] = item.getInstance( item.getCount( KoLConstants.inventory ) );
+			prices[ 0 ] = price;
+			limits[ 0 ] = limit;
+
+			AutoMallRequest request = new AutoMallRequest( items, prices, limits );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value item )
+	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
 	{
-		int price = (int) priceValue.intValue();
-		int limit = (int) limitValue.intValue();
 		int qty = (int) qtyValue.intValue();
 		if ( qty <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "shop", "put", qty + " \u00B6" + (int) item.intValue() + " @ " + price + " limit " + limit );
+		int itemId = (int) itemValue.intValue();
+		int price = (int) priceValue.intValue();
+		int limit = (int) limitValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "shop";
+			String prefix = "put";
+			String params = qty + " \u00B6" + itemId + " @ " + price + " limit " + limit;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult [] items = new AdventureResult[ 1 ];
+			int [] prices = new int[ 1 ];
+			int [] limits = new int[ 1 ];
+
+			items[ 0 ] = ItemPool.get( itemId, qty );
+			prices[ 0 ] = price;
+			limits[ 0 ] = limit;
+
+			AutoMallRequest request = new AutoMallRequest( items, prices, limits );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_stash( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value put_stash( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2896,11 +2969,27 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "stash", "put", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "stash";
+			String prefix = "put";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = ItemPool.get( itemId, count );
+			ClanStashRequest request = new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_display( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value put_display( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2908,11 +2997,26 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "display", "put", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "display";
+			String prefix = "put";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = ItemPool.get( itemId, count );
+			DisplayCaseRequest request = new DisplayCaseRequest( items, true );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value take_closet( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2920,7 +3024,21 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "closet", "take", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "closet";
+			String prefix = "take";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			ClosetRequest request = new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, ItemPool.get( itemId, count ) );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2932,23 +3050,55 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + meat + " meat" );
+		if ( interpreter.batched != null )
+		{
+			String cmd = "closet";
+			String prefix = "take";
+			String params = meat + " meat";
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			ClosetRequest request = new ClosetRequest( ClosetRequest.MEAT_TO_INVENTORY, (int) meat );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_shop( Interpreter interpreter, final Value item )
+	public static Value take_shop( Interpreter interpreter, final Value itemValue )
 	{
-		RuntimeLibrary.batchCommand( interpreter, "shop", "take", "all \u00B6" + item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "shop";
+			String prefix = "take";
+			String params = "all \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			List list = StoreManager.getSoldItemList();
+			SoldItem soldItem = new SoldItem( itemId, 0, 0, 0, 0 );
+			int index = list.indexOf( soldItem );
+
+			if ( index < 0 )
+			{
+				return RuntimeLibrary.continueValue();
+			}
+
+			soldItem = (SoldItem) list.get( index );
+
+			int count = soldItem.getQuantity();
+
+			ManageStoreRequest request = new ManageStoreRequest( itemId, count );
+			RequestThread.postRequest( request );
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_shop( Interpreter interpreter, final Value num, final Value item )
-	{
-		RuntimeLibrary.batchCommand( interpreter, "shop", "take", num.intValue() + " \u00B6" + item.intValue() );
-		return RuntimeLibrary.continueValue();
-	}
-
-	public static Value take_storage( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value take_shop( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2956,11 +3106,25 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "hagnk", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "shop";
+			String prefix = "take";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			ManageStoreRequest request = new ManageStoreRequest( itemId, count );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_display( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value take_storage( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2968,11 +3132,24 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "display", "take", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "hagnk";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, null, params );
+		}
+		else
+		{
+			StorageRequest request = new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, ItemPool.get( itemId, count ) );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_stash( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value take_display( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2980,11 +3157,27 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "stash", "take", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "display";
+			String prefix = "take";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = ItemPool.get( itemId, count );
+			DisplayCaseRequest request = new DisplayCaseRequest( items, false );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value autosell( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value take_stash( Interpreter interpreter, final Value countValue, final Value itemValue )
 	{
 		int count = (int) countValue.intValue();
 		if ( count <= 0 )
@@ -2992,7 +3185,50 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( interpreter, "sell", count + " \u00B6" + (int) item.intValue() );
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "stash";
+			String prefix = "take";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = ItemPool.get( itemId, count );
+			ClanStashRequest request = new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS );
+			RequestThread.postRequest( request );
+		}
+
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value autosell( Interpreter interpreter, final Value countValue, final Value itemValue )
+	{
+		int count = (int) countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		int itemId = (int) itemValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "sell";
+			String params = count + " \u00B6" + itemId;
+			RuntimeLibrary.batchCommand( interpreter, cmd, null, params );
+		}
+		else
+		{
+			AdventureResult[] items = new AdventureResult[ 1 ];
+			items[ 0 ] = ItemPool.get( itemId, count );
+			AutoSellRequest request = new AutoSellRequest( items );
+			RequestThread.postRequest( request );
+		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
