@@ -602,7 +602,7 @@ public class AreaCombatData
 		Element element = ed == Element.NONE ? ea : ed;
 
 		Phylum phylum = monster.getPhylum();
-		int init = monster.getRawInitiative();
+		int init = monster.getInitiative();
 		int jumpChance = monster.getJumpChance();
 
 		// Color the monster name according to its element
