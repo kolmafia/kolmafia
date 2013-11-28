@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,12 +43,15 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -60,7 +65,6 @@ public class FaxBotDatabase
 	extends KoLDatabase
 {
 	final static String LOCATION = "http://www.hogsofdestiny.com/faxbot/faxbot.xml";
-	final static String LOCATION2 = "http://67.23.43.49/faxbot/faxbot.xml";
 
 	private static boolean isInitialized = false;
 	private static boolean faxBotConfigured = false;
@@ -91,8 +95,7 @@ public class FaxBotDatabase
 
 		KoLmafia.updateDisplay( "Configuring available monsters." );
 
-		if ( !FaxBotDatabase.configureFaxBot( LOCATION ) &&
-		     !FaxBotDatabase.configureFaxBot( LOCATION2 ) )
+		if ( !FaxBotDatabase.configureFaxBot( LOCATION ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load Faxbot configuration" );
 		}
@@ -137,7 +140,10 @@ public class FaxBotDatabase
 		FaxBotDatabase.faxBotConfigured = false;
 		FaxBotDatabase.faxBotError = false;
 
-		( new DynamicBotFetcher( URL ) ).start();
+		File local = new File( KoLConstants.DATA_LOCATION, "faxbot.xml" );
+		FileUtilities.downloadFile( URL, local, true );
+		
+		( new DynamicBotFetcher( local.toURI().toString() ) ).start();
 
 		PauseObject pauser = new PauseObject();
 
