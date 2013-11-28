@@ -140,10 +140,7 @@ public class FaxBotDatabase
 		FaxBotDatabase.faxBotConfigured = false;
 		FaxBotDatabase.faxBotError = false;
 
-		File local = new File( KoLConstants.DATA_LOCATION, "faxbot.xml" );
-		FileUtilities.downloadFile( URL, local, true );
-		
-		( new DynamicBotFetcher( local.toURI().toString() ) ).start();
+		( new DynamicBotFetcher( URL ) ).start();
 
 		PauseObject pauser = new PauseObject();
 
@@ -323,12 +320,15 @@ public class FaxBotDatabase
 
 			try
 			{
+				File local = new File( KoLConstants.DATA_LOCATION, "faxbot.xml" );
+				FileUtilities.downloadFile( this.location, local, true );
+		
 				// Get an instance of document builder
 				DocumentBuilder db = dbf.newDocumentBuilder();
 
 				// Parse using builder to get DOM
 				// representation of the XML file
-				dom = db.parse( this.location );
+				dom = db.parse( local );
 			}
 			catch (ParserConfigurationException pce)
 			{
