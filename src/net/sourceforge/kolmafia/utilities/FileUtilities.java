@@ -43,7 +43,6 @@ import java.io.OutputStream;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 import java.nio.channels.FileChannel;
 
@@ -240,20 +239,37 @@ public class FileUtilities
 
 	public static final void downloadFile( final String remote, final File local )
 	{
-		// Assume that a file with content is good
-		if ( local.exists() && local.length() > 0 )
+		// Assume that any file with content is good
+		FileUtilities.downloadFile( remote, local, false );
+	}
+
+	public static final void downloadFile( final String remote, final File local, boolean probeLastModified )
+	{
+		if ( !local.exists() || local.length() == 0 )
 		{
+			// If we don't have it cached, don't probe
+			probeLastModified = false;
+		}
+		else if ( !probeLastModified )
+		{
+			// If we are not probing, assume that a file with content is good
 			return;
 		}
 
-		URLConnection connection;
+		HttpURLConnection connection;
 		try
 		{
-			connection = new URL( null, remote ).openConnection();
+			connection = (HttpURLConnection) new URL( null, remote ).openConnection();
 		}
 		catch ( IOException e )
 		{
 			return;
+		}
+
+		if ( probeLastModified )
+		{
+			//This isn't perfect, because the user could've modified the file themselves, but it's better than nothing.
+			connection.setIfModifiedSince( local.lastModified() );
 		}
 
 		if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
@@ -279,7 +295,24 @@ public class FileUtilities
 		InputStream istream = null;
 		try
 		{
-			istream = connection.getInputStream();
+			switch ( connection.getResponseCode() ) {
+			case 200:
+				istream = connection.getInputStream();
+				break;
+			case 304:
+				//Requested variant not modified, fall through.
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Not modified: " + remote );
+				}
+
+				if ( RequestLogger.isTracing() )
+				{
+					RequestLogger.trace( "Not modified: " + remote );
+				}
+			default:
+				return;
+			}
 		}
 		catch ( IOException e )
 		{
