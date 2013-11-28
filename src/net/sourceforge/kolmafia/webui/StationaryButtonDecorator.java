@@ -444,6 +444,8 @@ public class StationaryButtonDecorator
 		{
 			classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 		}
+
+		int classStunId = SkillDatabase.getSkillId( classStun );
 		if ( !inBirdForm && KoLCharacter.hasSkill( classStun ) )
 		{
 			UseSkillRequest stunRequest = UseSkillRequest.getInstance( classStun );
@@ -451,9 +453,11 @@ public class StationaryButtonDecorator
 				KoLConstants.availableCombatSkills.contains( stunRequest );
 			// Only enable Club Foot when character has Fury, as it's only a stun then.
 			enabled &= !( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 );
+			// Only enable Soul Bubble when character has 5 Soulsauce, as it's only a stun then.
+			enabled &= !( classStun.equals( "Soul Bubble" ) && KoLCharacter.getSoulsauce() < 5 );
 			// In Class Act 2, Stuns don't work at +76 and higher monster level
 			enabled &= !( KoLCharacter.inClasscore2() && KoLCharacter.getMonsterLevelAdjustment() > 75 );
-			StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf( SkillDatabase.getSkillId( classStun ) ), enabled );
+			StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf( classStunId ), enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
@@ -547,9 +551,9 @@ public class StationaryButtonDecorator
 		{
 			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableCombatSkills.get( i );
 			int actionId = current.getSkillId();
-			String action = String.valueOf( actionId );
-			if ( actionId >= 7000 && actionId < 8000 )
+			if ( actionId >= 7000 && actionId < 8000 && actionId != classStunId )
 			{
+				String action = String.valueOf( actionId );
 				StationaryButtonDecorator.addFightButton( actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 		}
