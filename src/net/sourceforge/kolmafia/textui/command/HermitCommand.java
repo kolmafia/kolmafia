@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.lang.Integer;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -58,12 +60,12 @@ public class HermitCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		int cloverCount = HermitRequest.cloverCount();
-
 		if ( !KoLmafia.permitsContinue() )
 		{
 			return;
 		}
+
+		int cloverCount = HermitRequest.cloverCount();
 
 		if ( parameters.equals( "" ) )
 		{
@@ -77,43 +79,53 @@ public class HermitCommand
 		{
 			int spaceIndex = parameters.indexOf( " " );
 			count = StringUtilities.parseInt( parameters.substring( 0, spaceIndex ) );
-			parameters = parameters.substring( spaceIndex ).trim();
+			parameters = parameters.substring( spaceIndex );
 		}
 		else if ( parameters.charAt( 0 ) == '*' )
 		{
 			int spaceIndex = parameters.indexOf( " " );
-			count = HermitRequest.getWorthlessItemCount();
-			parameters = parameters.substring( spaceIndex ).trim();
+			count = Integer.MAX_VALUE;
+			parameters = parameters.substring( spaceIndex );
 		}
 
+		parameters = parameters.toLowerCase().trim();
 		int itemId = -1;
-		parameters = parameters.toLowerCase();
 
-		for ( int i = 0; i < KoLConstants.hermitItems.size() && itemId == -1; ++i )
+		for ( int i = 0; i < KoLConstants.hermitItems.size(); ++i )
 		{
-			if ( KoLConstants.hermitItems.get( i ).toString().toLowerCase().indexOf( parameters ) != -1 )
+			AdventureResult item = (AdventureResult) KoLConstants.hermitItems.get( i );
+			String name = item.getName();
+			if ( name.toLowerCase().contains( parameters ) )
 			{
 				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 				{
-					RequestLogger.printLine( ( (AdventureResult) KoLConstants.hermitItems.get( i ) ).getName() );
+					RequestLogger.printLine( name );
 					return;
 				}
 
-				itemId = ( (AdventureResult) KoLConstants.hermitItems.get( i ) ).getItemId();
-				if ( itemId == ItemPool.TEN_LEAF_CLOVER && count != 1 )
-				{
-					count = Math.min( count, cloverCount );
-				}
+				itemId = item.getItemId();
+				break;
 			}
 		}
 
 		if ( itemId == -1 )
 		{
-			KoLmafia.updateDisplay(
-				MafiaState.ERROR, "You can't get a " + parameters + " from the hermit today." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get a " + parameters + " from the hermit today." );
 			return;
 		}
 
-		RequestThread.postRequest( new HermitRequest( itemId, count ) );
+		// "*" for clovers means all the hermit has available today.
+		// For any other item, it means as many as you can get with 
+		// the worthless items you currently have
+
+		count =
+			itemId == ItemPool.TEN_LEAF_CLOVER ?
+			Math.min( count, cloverCount ) :
+			Math.min( count, HermitRequest.getWorthlessItemCount() );
+
+		if ( count > 0 )
+		{
+			RequestThread.postRequest( new HermitRequest( itemId, count ) );
+		}
 	}
 }
