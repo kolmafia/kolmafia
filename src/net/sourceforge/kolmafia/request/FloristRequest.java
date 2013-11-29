@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -53,9 +54,34 @@ public class FloristRequest
 
 	private static final Pattern FLOWER_PATTERN =
 		Pattern.compile( "<tr><td>([^>]*?)</td><td width.*?plant(\\d+)\\.gif.*?plant(\\d+)?\\.gif.*?plant(\\d+)?\\.gif.*?" );
+
 	private static final Pattern LOCATION_PATTERN = Pattern.compile( "Ah, <b>(.*)</b>!" );
+	public static String getLocation( final String responseText )
+	{
+		Matcher matcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
+		return matcher.find() ? matcher.group( 1 ).toLowerCase() : null;
+	}
+
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
+	public static int getOption( final String urlString )
+	{
+		Matcher matcher = FloristRequest.OPTION_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final Pattern PLANT_PATTERN = Pattern.compile( "plant=(\\d+)" );
+	public static int getPlant( final String urlString )
+	{
+		Matcher matcher = FloristRequest.PLANT_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final Pattern DIG_PATTERN = Pattern.compile( "plnti=(\\d)" );
+	public static int getDigIndex( final String urlString )
+	{
+		Matcher matcher = FloristRequest.DIG_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
 
 	public static final Map<String, ArrayList<Florist>> floristPlants = new HashMap<String, ArrayList<Florist>>();
 
@@ -236,8 +262,16 @@ public class FloristRequest
 			return;
 		}
 
-		if ( urlString.contains( "option=1" ) )
+		switch ( FloristRequest.getOption( urlString ) )
 		{
+		case 1:
+		{
+			int plant = FloristRequest.getPlant( urlString );
+			if ( plant == 0 )
+			{
+				return;
+			}
+
 			// The location is already full of plants
 			if ( responseText.contains( "You need to dig up a space." ) )
 			{
@@ -250,31 +284,26 @@ public class FloristRequest
 				return;
 			}
 
-			Matcher locMatcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
-			Matcher plantMatcher = FloristRequest.PLANT_PATTERN.matcher( urlString );
-			if ( !locMatcher.find() || !plantMatcher.find() )
+			String location = FloristRequest.getLocation( responseText );
+			if ( location == null )
 			{
 				// Something went wrong and somehow wasn't caught by the previous cases
 				return;
 			}
-			String location = locMatcher.group( 1 ).toLowerCase();
-			int plant = StringUtilities.parseInt( plantMatcher.group( 1 ) );
 			FloristRequest.addPlant( location, plant );
+			return;
 		}
 
-		else if ( urlString.contains( "option=2" ) && responseText.contains( "You dig up a plant." ) )
-		{
-			Matcher locMatcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
-			locMatcher.find();
-			String location = locMatcher.group( 1 ).toLowerCase();
-			Matcher digMatcher = FloristRequest.DIG_PATTERN.matcher( urlString );
-			digMatcher.find();
-			int digIndex = StringUtilities.parseInt( digMatcher.group( 1 ) );
-			FloristRequest.digPlant( location, digIndex );
-		}
+		case 2:
+			if ( responseText.contains( "You dig up a plant." ) )
+			{
+				String location = FloristRequest.getLocation( responseText );
+				int digIndex = FloristRequest.getDigIndex( urlString );
+				FloristRequest.digPlant( location, digIndex );
+			}
+			return;
 
-		else if ( urlString.contains( "option=4" ) )
-		{
+		case 4:
 			if ( responseText.contains( "The Florist Friar's Cottage" ) )
 			{
 				FloristRequest.setHaveFlorist( true );
@@ -302,6 +331,7 @@ public class FloristRequest
 				}
 				FloristRequest.floristPlants.put( location, plantList );
 			}
+			return;
 		}
 	}
 
@@ -370,5 +400,56 @@ public class FloristRequest
 
 		plants.remove( digIndex );
 		FloristRequest.floristPlants.put( location, plants );
+	}
+
+	public static boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "whichchoice=720" ) == -1 )
+		{
+			return false;
+		}
+
+		int option = FloristRequest.getOption( urlString );
+		String message = null;
+
+		switch (option )
+		{
+		case 1:
+		{
+			int plantId = FloristRequest.getPlant( urlString );
+			if ( plantId > 0 )
+			{
+				Florist plant = Florist.getFlower( plantId );
+				message = "Planting a " + plant;
+			}
+			break;
+		}
+		case 2:
+		{
+			int digIndex = FloristRequest.getDigIndex( urlString );
+			if ( digIndex >= 0 )
+			{
+				message = "Digging up plant # " + ( digIndex + 1 );
+			}
+			break;
+		}
+		case 4:
+			// Visiting the Florist Friar
+			return true;
+		}
+
+		if ( message != null )
+		{
+			RequestLogger.printLine();
+			RequestLogger.printLine( message );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+
+			return true;
+		}
+
+		// Unknown. Log it.
+		return false;
 	}
 }

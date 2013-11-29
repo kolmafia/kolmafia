@@ -204,7 +204,6 @@ public class ClanLoungeSwimmingPoolRequest
 		return null;
 	}
 
-
 	public static boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "whichchoice=585" ) == -1 )

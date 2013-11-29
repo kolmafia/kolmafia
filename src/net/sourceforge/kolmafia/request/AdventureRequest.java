@@ -79,7 +79,6 @@ public class AdventureRequest
 	extends GenericRequest
 {
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
 	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
 
@@ -403,12 +402,7 @@ public class AdventureRequest
 		}
 		else if ( urlString.startsWith( "choice.php" ) )
 		{
-			Matcher matcher = AdventureRequest.CHOICE_PATTERN.matcher( responseText );
-			int choice = 0;
-			if ( matcher.find() )
-			{
-				choice = StringUtilities.parseInt( matcher.group(1) );
-			}
+			int choice = ChoiceManager.extractChoice( responseText );
 			encounter = parseChoiceEncounter( urlString, choice, responseText );
 			type = choiceType( choice );
 		}
@@ -666,15 +660,15 @@ public class AdventureRequest
 			return null;
 		}
 
-		// No "encounter" for Safety Shelter maps
-		if ( choice == 535 || choice == 536 )
+		switch ( choice )
 		{
-			return null;
-		}
-
-		// No "encounter" for Vamping Out
-		if ( choice == 546 )
-		{
+		case 535: // Deep Inside Ronald, Baby
+		case 536: // Deep Inside Grimace, Bow Chick-a Bow Bow	
+		case 585: // Screwing Around!
+		case 720: // The Florist Friar's Cottage
+		case 774: // Opening up the Folder Holder
+		case 801: // A Reanimated Conversation
+		case 807: // Breaker Breaker!
 			return null;
 		}
 
