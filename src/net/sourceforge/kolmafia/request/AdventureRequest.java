@@ -665,7 +665,9 @@ public class AdventureRequest
 		case 535: // Deep Inside Ronald, Baby
 		case 536: // Deep Inside Grimace, Bow Chick-a Bow Bow	
 		case 585: // Screwing Around!
+		case 595: // Fire! I... have made... fire!
 		case 720: // The Florist Friar's Cottage
+		case 767: // Tales of Dread
 		case 774: // Opening up the Folder Holder
 		case 801: // A Reanimated Conversation
 		case 807: // Breaker Breaker!
