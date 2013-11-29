@@ -756,9 +756,13 @@ public abstract class InventoryManager
 		// stock. We tried the former above. Now try the latter.
 
 		boolean shouldUseCoinmasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER && shouldUseCoinmasters )
+		if ( shouldUseCoinmasters && KoLConstants.hermitItems.contains( item ) &&
+		     ( !shouldUseMall || InventoryManager.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
 		{
-			itemCount = HermitRequest.cloverCount();
+			itemCount =
+				itemId == ItemPool.TEN_LEAF_CLOVER ?
+				HermitRequest.cloverCount() :
+				PurchaseRequest.MAX_QUANTITY;
 
 			if ( itemCount > 0 )
 			{
@@ -1366,10 +1370,13 @@ public abstract class InventoryManager
 	  Cost(X) = 12.5 * ( 17 - X ) Meat
 	 */
 
+	public static PurchaseRequest CHEWING_GUM = NPCStoreDatabase.getPurchaseRequest( "chewing gum on a string" );
+
 	public static int currentWorthlessItemCost()
 	{
 		int x = InventoryManager.getStarterItemCount();
-		return (int) Math.ceil( 12.5 * ( 17 - x ) );
+		int gumPrice = InventoryManager.CHEWING_GUM.getPrice();
+		return (int) Math.ceil( ( gumPrice / 4.0 ) * ( 17 - x ) );
 	}
 
 	// *** End of worthless item handling

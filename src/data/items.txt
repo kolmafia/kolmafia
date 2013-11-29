@@ -887,8 +887,8 @@
 870	fetus-smashing club	869858134	club2.gif	weapon		0	fetus-smashing clubs
 871	meatcar model	777055201	carneck.gif	familiar	t,d	75	meatcar models
 872	Time Juice	16431643	timejuice.gif	usable		0	bottles of Time Juice
-873	rolling pin	76494676	rollingpin.gif	usable	t,d	250	rolling pins
-874	unrolling pin	12394676	unrolling.gif	usable	t,d	250	unrolling pins
+873	rolling pin	76494676	rollingpin.gif	reusable	t,d	250	rolling pins
+874	unrolling pin	12394676	unrolling.gif	reusable	t,d	250	unrolling pins
 875	crazy bastard sword	762223212	bsword.gif	weapon	t	0	crazy bastard swords
 876	incredibly dense meat gem	245686542	meatgem.gif	accessory	t	0	incredibly dense meat gems
 877	Talisman of Baio	731512144	baiotal.gif	accessory	t	0	Talismen of Baio
