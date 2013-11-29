@@ -9366,6 +9366,7 @@ public abstract class ChoiceManager
 
 		return spoilers;
 	}
+
 	public static boolean canWalkAway()
 	{
 		return ChoiceManager.canWalkAway;

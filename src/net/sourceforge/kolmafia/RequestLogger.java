@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
@@ -549,6 +550,8 @@ public class RequestLogger
 			return;
 		}
 
+		// Anything past this is not an "adventure" per se
+
 		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		if ( ( request instanceof FightRequest || isExternal ) && FightRequest.registerRequest( isExternal, urlString ) )
@@ -613,8 +616,15 @@ public class RequestLogger
 			return;
 		}
 
-		// Call ClanLoungeSwimmingPool first because it's an instance of ChoiceManager.
+		// The Clan Lounge Swimming Pool is an instance of choice.php
 		if ( ( request instanceof ClanLoungeSwimmingPoolRequest || isExternal ) && ClanLoungeSwimmingPoolRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// The Florist is an instance of choice.php
+		if ( ( request instanceof FloristRequest || isExternal ) && FloristRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

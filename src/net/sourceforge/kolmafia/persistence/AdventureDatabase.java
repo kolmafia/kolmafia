@@ -443,8 +443,15 @@ public class AdventureDatabase
 			return AdventureDatabase.adventureLookup.get( "mining.php?" + mine );
 		}
 
+		// Adventuring in the barracks after the Nemesis has been defeated
+		if ( adventureURL.startsWith( "volcanoisland.php" ) && adventureURL.contains( "action=tuba" ) )
+		{
+			return AdventureDatabase.getAdventure( "The Island Barracks" );
+		}
+
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = GenericRequest.removeField( adventureURL, "pwd" );
+		adventureURL = GenericRequest.removeField( adventureURL, "blech" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
 		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
