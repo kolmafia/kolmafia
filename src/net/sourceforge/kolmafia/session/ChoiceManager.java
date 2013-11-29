@@ -5474,6 +5474,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		String urlString = request.getURLString();
 		ChoiceManager.lastResponseText = request.responseText;
 		String text = ChoiceManager.lastResponseText;
 
@@ -5715,13 +5716,20 @@ public abstract class ChoiceManager
 			HaciendaManager.parseRoom( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
 			break;
 
+		case 440:
+			// Puttin' on the Wax
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				HaciendaManager.parseRecording( urlString, text );
+			}
+			break;
+
 		case 443:
 			// Chess Puzzle
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				// Option 1 is "Play"
-				String location = request.getURLString();
-				RabbitHoleManager.parseChessMove( location, text );
+				RabbitHoleManager.parseChessMove( urlString, text );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -6122,7 +6130,7 @@ public abstract class ChoiceManager
 
 		case 720:
 			// The Florist Friar's Cottage
-			FloristRequest.parseResponse( request.getURLString() , text );
+			FloristRequest.parseResponse( urlString , text );
 			return;
 
 		case 721:
@@ -7363,6 +7371,11 @@ public abstract class ChoiceManager
 		case 360:
 			// Wumpus Hunt
 			WumpusManager.visitChoice( ChoiceManager.lastResponseText );
+			break;
+
+		case 440:
+			// Puttin' on the Wax
+			HaciendaManager.preRecording( ChoiceManager.lastResponseText );
 			break;
 
 		case 460:

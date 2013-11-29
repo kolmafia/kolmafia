@@ -159,6 +159,12 @@ public class EffectPool
 	public static final int FORM_OF_BIRD_ID = 511;
 
 	public static final int SOUL_CRUSHING_HEADACHE_ID = 465;
+	public static final int THE_BALLAD_OF_RICHIE_THINGFINDER = 530;
+	public static final int BENETTONS_MEDLEY_OF_DIVERSITY = 531;
+	public static final int ELRONS_EXPLOSIVE_ETUDE = 532;
+	public static final int CHORALE_OF_COMPANIONSHIP = 533;
+	public static final int PRELUDE_OF_PRECISION = 534;
+	public static final int DONHOS_BUBBLY_BALLAD = 614;
 	public static final int COVERED_IN_SLIME_ID = 633;
 	public static final int EVERYTHING_LOOKS_YELLOW_ID = 790;
 	public static final int EVERYTHING_LOOKS_BLUE_ID = 791;
