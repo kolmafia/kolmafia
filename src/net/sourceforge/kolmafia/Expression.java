@@ -318,6 +318,16 @@ public class Expression
 							  -1;
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
+			case 'a':
+				v = KoLCharacter.getClassName().toLowerCase().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'd':
+				v = KoLCharacter.hasSkill( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'g':
+				AdventureResult item = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1 );
+				v = KoLCharacter.hasEquipped( item ) ? 1 : 0;
+				break;
 			case 'A':
 				v = KoLCharacter.getAscensions();
 				break;
@@ -368,9 +378,6 @@ public class Expression
 				break;
 			case 'M':
 				v = HolidayDatabase.getMoonlight();
-				break;
-			case 'N':
-				v = KoLCharacter.hasSkill( "Accordion Appreciation" ) ? 2.0 : 1.0;
 				break;
 			case 'P':
 				v = KoLCharacter.currentPastaThrall.getLevel();

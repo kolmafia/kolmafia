@@ -1896,37 +1896,6 @@ public class Modifiers
 			return true;
 		}
 
-		int skillId = SkillDatabase.getSkillId( name );
-		
-		switch ( skillId )
-		{
-		case SkillPool.INNER_SAUCE:
-			if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
-			{
-				this.set( Modifiers.MP_REGEN_MIN, 3.0 );
-				this.set( Modifiers.MP_REGEN_MAX, 4.0 );
-			}
-			else
-			{
-				this.set( Modifiers.MP_REGEN_MIN, 1.0 );
-				this.set( Modifiers.MP_REGEN_MAX, 1.0 );
-			}
-			return true;
-			
-		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
-			if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
-			{
-				this.set( Modifiers.HP_PCT, -30.0 );
-				this.set( Modifiers.MP_PCT, 30.0 );
-			}
-			else
-			{
-				this.set( Modifiers.HP_PCT, -10.0 );
-				this.set( Modifiers.MP_PCT, 10.0 );
-			}
-			return true;
-		}
-		
 		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )

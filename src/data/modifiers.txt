@@ -18,6 +18,10 @@
 #	This returns the number of turns remaining of the effect uniquely matching text.
 # Resistance function: res(text)
 #	This returns the number of resistance levels for the listed element
+# Class function: class(text)
+#	This has a value of 1 if the players class matches the text.
+# Skill function: skill(text)
+#	This has a value of 1 if the player has the skill matching the text.
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
 #	A - number of Ascensions
@@ -32,7 +36,6 @@
 #	J - 1 on Festival of Jarlsberg, 0 otherwise
 #	L - player Level
 #	M - total Moonlight (0..9)
-#	N - AccordioN Appreciation ( 1 without skill, 2 with skill )
 #	P - Pasta Thrall level
 #	R - Reagent potion duration
 #	S - Spleenness
@@ -680,10 +683,10 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-Foot Dwarven mattock	Weakens Monster
 # 7-inch discus: On Critical Hit Percent: Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
-Accordion of Jordion	Item Drop: [5*N], Meat Drop: [10*N], Class: "Accordion Thief", Song Duration: 14
+Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat Drop: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 14
 # Ax of L'rose
 BRICKO sword	Weapon Damage: +6
-Bal-musette accordion	PvP Fights: [4*N], Class: "Accordion Thief", Song Duration: 10
+Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Barney's rake	Spooky Damage: +3, Muscle: +3
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
@@ -695,7 +698,7 @@ Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
 Byte	Spell Damage Percent: +100, Spell Critical Percent: +15
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 C.H.U.M. knife	Stench Damage: +30
-Cajun accordion	Maximum HP: [15*N], Maximum MP: [15*N], Class: "Accordion Thief", Song Duration: 10
+Cajun accordion	Maximum HP: [15*(1+skill(Accordion Appreciation))], Maximum MP: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Chelonian Morningstar	Muscle: +11, Never Fumble
 Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
@@ -779,12 +782,12 @@ Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
 Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
 # Red Rover BB gun: You'll Put Your Eye Out!
 Red Rover BB gun	Critical Hit Percent: +3
-Rock and Roll Legend	Moxie: [7*N], Class: "Accordion Thief", Song Duration: 10
+Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # Ruby Rod
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB Combat Damage: +15
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7
-Skipper's accordion	Pickpocket Chance: [10*N], Moxie Percent: [15*N], Class: "Accordion Thief", Song Duration: 10
+Skipper's accordion	Pickpocket Chance: [10*(1+skill(Accordion Appreciation))], Moxie Percent: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
 Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical Hit Percent: +10, Class: "Seal Clubber"
@@ -792,7 +795,7 @@ Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critic
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
-Squeezebox of the Ages	Moxie: [11*N], Ranged Damage: [15*N], Class: "Accordion Thief", Song Duration: 15
+Squeezebox of the Ages	Moxie: [11*(1+skill(Accordion Appreciation))], Ranged Damage: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 # Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
@@ -845,7 +848,7 @@ Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold D
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 # The Trickster's Trikitixa: Special Attack: Extreme High Note
-The Trickster's Trikitixa	Moxie: [15*N], Ranged Damage: [23*N], Item Drop: [11*N], Class: "Accordion Thief", Song Duration: 20
+The Trickster's Trikitixa	Moxie: [15*(1+skill(Accordion Appreciation))], Ranged Damage: [23*(1+skill(Accordion Appreciation))], Item Drop: [11*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
 Trusty	Muscle: +5
@@ -871,12 +874,12 @@ Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative:
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
-accord ion	Hot Damage: [10*N], Class: "Accordion Thief", Song Duration: 10
-accordion file	MP Regen Min: [2*N], MP Regen Max: [4*N], Class: "Accordion Thief", Song Duration: 10
-accordionoid rocca	Damage Reduction: [10*N], Class: "Accordion Thief", Song Duration: 18
+accord ion	Hot Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
+accordion file	MP Regen Min: [2*(1+skill(Accordion Appreciation))], MP Regen Max: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
+accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 acoustic guitarrr	Meat Drop: +8
 # airblaster gun: Blasts Air (Duh.)
-alarm accordion	Adventures: [3*N], Initiative: [20*N], Class: "Accordion Thief", Song Duration: 20
+alarm accordion	Adventures: [3*(1+skill(Accordion Appreciation))], Initiative: [20*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
@@ -894,14 +897,14 @@ astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical Hit Percent: +
 astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
 astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
 astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
-autocalliope	Spooky Damage: [2*N], Stench Damage: [2*N], Hot Damage: [2*N], Cold Damage: [2*N], Sleaze Damage: [2*N], Class: "Accordion Thief", Song Duration: 15
+autocalliope	Spooky Damage: [2*(1+skill(Accordion Appreciation))], Stench Damage: [2*(1+skill(Accordion Appreciation))], Hot Damage: [2*(1+skill(Accordion Appreciation))], Cold Damage: [2*(1+skill(Accordion Appreciation))], Sleaze Damage: [2*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 # automatic catapult
 bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
-baritone accordion	HP Regen Min: [2*N], HP Regen Max: [4*N], Class: "Accordion Thief", Song Duration: 7
+baritone accordion	HP Regen Min: [2*(1+skill(Accordion Appreciation))], HP Regen Max: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 7
 basic meat crossbow	Moxie: +1
 basic meat spork	Muscle: +3, Weapon Damage: +3
 basic meat staff	Mysticality: +1
@@ -909,7 +912,7 @@ basic meat sword	Muscle: +1
 bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
 beaver spear	Muscle: +5, Weapon Damage: +10
-beer-battered accordion	Sleaze Damage: [2*N], Class: "Accordion Thief", Song Duration: 6
+beer-battered accordion	Sleaze Damage: [2*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 6
 beer bong	Stench Damage: +15, Monster Level: +5
 beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 beer-soaked mop	Sleaze Damage: +3
@@ -925,7 +928,7 @@ blammer	Critical Hit Percent: +7, Weakens Monster
 blunt icepick	Cold Damage: +15
 boilgun	Hot Damage: +8, Maximum MP: +10
 # bone and arrow: +30 Damage vs. Skeletons
-bone bandoneon	Spooky Damage: [7*N], Class: "Accordion Thief", Song Duration: 11
+bone bandoneon	Spooky Damage: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 11
 # bone crusher: +30 Damage vs. Skeletons
 bone flute	Spooky Damage: +11
 bone rattle	Spooky Damage: +4
@@ -1067,7 +1070,7 @@ frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
-ghost accordion	Spooky Damage: [5*N], Booze Drop: [15*N], Class: "Accordion Thief", Song Duration: 16
+ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
 giant artisanal rice peeler	Spell Damage: +15
 giant cactus quill	Critical Hit Percent: +7, Maximum HP: +30
 giant candy cane	Candy Drop: +40
@@ -1095,7 +1098,7 @@ grassy cutlass	Weapon Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
 groping claw	Weakens Monster, Spooky Damage: +30
-guancertina	Stench Damage: [4*N], Class: "Accordion Thief", Song Duration: 9
+guancertina	Stench Damage: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 9
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
@@ -1154,7 +1157,7 @@ lupine sword	Spooky Damage: +9, Synergetic
 machetito	Weapon Damage: +9
 magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
-mama's squeezebox	Moxie: [3*N], Class: "Accordion Thief", Song Duration: 8
+mama's squeezebox	Moxie: [3*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 8
 mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 massive sitar	Mysticality: +12, Spell Damage: +20
 meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
@@ -1162,7 +1165,7 @@ miniature deck cannon	Ranged Damage: +25, HP Regen Min: 10, HP Regen Max: 20, MP
 muculent machete	Muscle: +2, Meat Drop: +5
 nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
 ninja mop	Weapon Damage: +5
-non-Euclidean non-accordion	Initiative: [15*N], Class: "Accordion Thief", Song Duration: 15
+non-Euclidean non-accordion	Initiative: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 # non-stick pugil stick: On Critical Hit Percent:  Stuns Opponent
 non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
@@ -1184,9 +1187,9 @@ papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality
 papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 parasitic claw	Weapon Damage: [min(L,15)]
 # pasta spoon
-peace accordion	Stench Damage: [12*N], Class: "Accordion Thief", Song Duration: 19
+peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 19
 penguin whip	Meat Drop: +3
-pentatonic accordion	Cold Damage: [9*N], Class: "Accordion Thief", Song Duration: 12
+pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
 perforated battle paddle	Weapon Damage: +10
 pernicious cudgel	Slime Hates It: +1, Sleaze Damage: +30, Critical Hit Percent: +10
 pestoblade	Muscle: +3, Stench Damage: +3
@@ -1211,10 +1214,10 @@ pottery yo-yo	Hot Damage: +5
 poutine pole	Mysticality: +3, Sleaze Damage: +3
 prehistoric spear	Critical Hit Percent: +5
 projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
-pygmy concertinette	Weapon Damage: [10*N], Class: "Accordion Thief", Song Duration: 17
+pygmy concertinette	Weapon Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 17
 pygmy spear	Muscle: +7
 # quantum disintegrator pistol: +15 Damage vs. Bugbears
-quirky accordion	Monster Level: [5*N], Class: "Accordion Thief", Song Duration: 10
+quirky accordion	Monster Level: [5*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 rainbow crossbow	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 ram stick	Moxie: +5
 ram-battering staff	Hot Spell Damage: +10, Moxie: +5
@@ -1352,7 +1355,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
-zombie accordion	Ranged Damage: [50*N], Item Drop: +[5*N], Additional Song, Single Equip, Class: "Accordion Thief", Song Duration: 20
+zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: +[5*(1+skill(Accordion Appreciation))], Additional Song, Single Equip, Class: "Accordion Thief", Song Duration: 20
 
 # Offhand section of modifiers.txt
 
@@ -3323,8 +3326,7 @@ Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resist
 Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Block-Rockin' Beet	Damage Reduction: 15
-# Blood Sugar Sauce Magic Maximum HP Percent: -30, Maximum MP Percent: +30 (-10/+10 as non sauceror)
-Blood Sugar Sauce Magic	none
+Blood Sugar Sauce Magic	Maximum HP Percent: [-10-20*class(Sauceror)], Maximum MP Percent: [10+20*class(Sauceror)]
 Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 # Bloody-minded: +50 Damage vs. Vampires
@@ -4666,8 +4668,7 @@ Hunter's Sprint	Initiative: +100
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Indefatigable	HP Regen Min: +16, HP Regen Max: +20
-# Inner Sauce MP Regen Min: 3, MP Regen Max: 4 for Sauceror, MP Regen Min: 1, MP Regen Max: 1 for non-Sauceror
-Inner Sauce	none
+Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
 # Intrinsic Spiciness Sauce Spell Damage: +10
 # Ire of the Orca Fury capacity increases to 5 gallons
 Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5

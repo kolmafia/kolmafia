@@ -1,0 +1,125 @@
+1
+# List of restorative items
+# Valid expressions:
+# HP - Current max HP
+# MP - Current max MP
+# L - Level
+# Valid functions: min, max, floor, ceiling, class, skill, equipped
+# Type is one of item, skill, loc
+# Name, Type, HP Min, HP Max, MP Min, MP Max
+A Relaxing Hot Tub	loc	[HP]	[HP]	0	0
+ancient Magi-Wipes	item	50	60	50	60
+ancient turtle shell powder	item	80	100	0	0
+April Shower	loc	0	0	1000	1000
+banana spritzer	item	0	0	40	100
+beer-scented teddy bear	item	15	20	0	0
+black cherry soda	item	0	0	9	11
+Blatantly Canadian	item	0	0	20	25
+blue paisley oyster egg	item	0	0	30	35
+blue pixel potion	item	0	0	50	80
+blue polka-dot oyster egg	item	0	0	30	35
+blue striped oyster egg	item	0	0	30	35
+bottle of Monsieur Bubble	item	0	0	45	65
+bottle of Vangoghbitussin	item	100	100	100	100
+Camp Scout pup tent	item	1000	1000	0	0
+# Special - handled in code.
+Campground	loc	1	1	0	0
+can of CRIMBCOLA	item	0	0	80	100
+Cannelloni Cocoon	skill	HP	HP	0	0
+carbonated soy milk	item	0	0	70	80
+carbonated water lily	item	0	0	60	70
+cast	item	15	20	0	0
+cartoon heart	item	40	60	0	0
+Cherry Cloaca Cola	item	0	0	7	9
+Cloaca-Cola	item	0	0	[10*(1+equipped(Dyspepsi-Cola-issue canteen))]	[14*(1+equipped(Dyspepsi-Cola-issue canteen))]
+comfy pillow	item	20	30	0	0
+Comfy Sofa	loc	[L*5-1]	[L*5+1]	[L*5-1]	[L*5+1]
+cotton candy bale	item	41	82	41	82
+cotton candy cone	item	26	52	26	52
+cotton candy pillow	item	34	68	34	68
+cotton candy pinch	item	7	15	7	15
+cotton candy plug	item	19	38	19	38
+cotton candy skoshe	item	15	30	15	30
+cotton candy smidgen	item	11	23	11	23
+creepy ginger ale	item	0	0	35	45
+CSA all-purpose soap	item	0	0	1000	1000
+delicious shimmering moth	item	0	0	30	40
+Devour Minions	skill	[max(HP*0.5,20)]	[max(HP*0.5,20)]	0	0
+Diet Cloaca Cola	item	0	0	7	9
+Disco Nap	skill	[20*(1+skill(Adventurer of Leisure))]	[20*(1+skill(Adventurer of Leisure))]	0	0
+Doc Galaktik's Ailment Ointment	item	8	10	0	0
+Doc Galaktik's Curative Nostrum	loc	1	1	0	0
+Doc Galaktik's Fizzy Invigorating Tonic	loc	0	0	1	1
+Doc Galaktik's Homeopathic Elixir	item	18	20	0	0
+Doc Galaktik's Pungent Unguent	item	3	5	0	0
+Doc Galaktik's Restorative Balm	item	13	15	0	0
+dueling turtles	item	10	20	10	20
+Dyspepsi-Cola	item	0	0	[10*(1+equipped(Dyspepsi-Cola-issue canteen))]	[14*(1+equipped(Dyspepsi-Cola-issue canteen))]
+elven magi-pack	item	0	0	40	50
+elven medi-pack	item	86	89	0	0
+extra-strength red potion	item	190	210	0	0
+filthy poultice	item	80	120	0	0
+forest tears	item	5	10	0	0
+gauze garter	item	80	120	0	0
+generic healing potion	item	[floor(L*4.05)]	[floor(L*4.95)]	0	0
+generic mana potion	item	0	0	[floor(L*2.25)]	[floor(L*2.75)]
+generic restorative potion	item	[floor(L*4.05)]	[floor(L*4.95)]	[floor(L*2.25)]	[floor(L*2.75)]
+green pixel potion	item	40	60	30	40
+heart of dark chocolate	item	40	50	0	0
+high-pressure seltzer bottle	item	0	0	150	200
+honey-dipped locust	item	30	40	30	40
+Knob Goblin seltzer	item	0	0	8	12
+Knob Goblin superseltzer	item	0	0	25	29
+Lasanga Bandages	skill	10	30	0	0
+Laugh It Off	skill	1	2	0	0
+magical mystery juice	item	0	0	[floor(L*1.5)+4]	[floor(L*1.5)+6]
+maple syrup	item	20	30	20	30
+Marquis de Poivre soda	item	0	0	30	40
+Medicinal Herb's medicinal herbs	item	[HP]	[HP]	0	0
+Monstar energy beverage	item	0	0	70	80
+Mountain Stream soda	item	0	0	6	9
+myrrh-soaked, chocolate-covered bacon bath ball	item	0	0	30	45
+Nardz energy beverage	item	0	0	50	70
+natural fennel soda	item	0	0	80	120
+natto marble soda	item	0	0	5	10
+New Cloaca-Cola	item	0	0	140	160
+Notes from the Elfpocalypse, Chapter I	item	30	40	30	40
+Notes from the Elfpocalypse, Chapter II	item	30	40	30	40
+Notes from the Elfpocalypse, Chapter III	item	30	40	30	40
+Notes from the Elfpocalypse, Chapter IV	item	30	40	30	40
+Notes from the Elfpocalypse, Chapter V	item	30	40	30	40
+Notes from the Elfpocalypse, Chapter VI	item	30	40	30	40
+Nunnery (Frat Warrior)	loc	1000	1000	1000	1000
+Nunnery (War Hippy)	loc	1000	1000	0	0
+Oscus's neverending soda	item	0	0	200	300
+palm-frond fan	item	35	45	35	45
+personal massager	item	8	10	0	0
+phonics down	item	46	50	46	50
+pixel orb	item	[HP]	[HP]	[MP]	[MP]
+pixellated candy heart	item	4	5	0	0
+Platinum Yendorian Express Card	item	0	0	[MP]	[MP]
+plump juicy grub	item	90	100	0	0
+Pok&euml;mann band-aid	item	100	100	0	0
+# Potion of healing may need special handling
+potion of healing	item	14	16	14	16
+really thick bandage	item	100	120	0	0
+red paisley oyster egg	item	30	35	0	0
+red pixel potion	item	100	120	0	0
+red polka-dot oyster egg	item	30	35	0	0
+red potion	item	90	110	0	0
+red striped oyster egg	item	30	35	0	0
+Regular Cloaca Cola	item	0	0	7	9
+scented massage oil	item	[HP]	[HP]	0	0
+scroll of drastic healing	item	[HP]	[HP]	0	0
+soda water	item	0	0	3	5
+sugar shard	item	10	20	5	10
+tiny house	item	20	24	20	24
+tobiko marble soda	item	0	0	5	10
+Tongue of the Walrus	skill	30	40	0	0
+tonic water	item	0	0	30	50
+unrefined Mountain Stream syrup	item	0	0	50	60
+warm El Vibrato drone	item	[HP]	[HP]	0	0
+wasabi marble soda	item	0	0	5	10
+Wint-O-Fresh mint	item	0	0	3	5
+Wolfman Nardz	item	0	0	200	300
+your own black heart	item	0	0	[MP]	[MP}
