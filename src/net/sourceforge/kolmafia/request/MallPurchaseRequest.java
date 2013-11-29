@@ -346,13 +346,14 @@ public class MallPurchaseRequest
 
 		AdventureResult item = results.get( 0 );
 
-		if ( item.getItemId() == -1 )
+		int received = item.getItemId();
+		int itemId = MallPurchaseRequest.extractItemId( urlString );
+		int count = item.getCount();
+
+		if ( received == -1 )
 		{
 			KoLmafia.updateDisplay( "Wrong item received - possibly its name or plural has changed." );
 
-			// Assume that KoL really is giving us the item we asked for.
-			int itemId = MallPurchaseRequest.extractItemId( urlString );
-			int count = item.getCount();
 			String name = item.getName();
 
 			if ( count > 1 )
@@ -368,11 +369,16 @@ public class MallPurchaseRequest
 
 			item = new AdventureResult( itemId, count );
 		}
+		else if ( received != itemId )
+		{
+			// Assume that KoL really gave us the item we asked for.
+			item = new AdventureResult( itemId, count );
+		}
 
 		if ( itemMatcher.group( 2 ) == null)
 		{
 			// Add the item to inventory
-			ResultProcessor.processItem( item.getItemId(), item.getCount() );
+			ResultProcessor.processItem( itemId, count );
 		}
 		else
 		{
