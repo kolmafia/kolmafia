@@ -2592,10 +2592,8 @@ public class UseItemRequest
 		case ItemPool.ROLLING_PIN:
 
 			// Rolling pins remove dough from your inventory.
-			// They are not consumed by being used
 
 			ResultProcessor.processItem( ItemPool.DOUGH, 0 - InventoryManager.getCount( ItemPool.DOUGH ) );
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.UNROLLING_PIN:
@@ -2604,7 +2602,6 @@ public class UseItemRequest
 			// They are not consumed by being used
 
 			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.EXPRESS_CARD:
