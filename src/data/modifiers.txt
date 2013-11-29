@@ -949,7 +949,7 @@ bucket of anniversary lard	Muscle: +1, Mysticality: +1, Moxie: +1
 buffalo blade	Muscle: +5, Hot Damage: +3, Sleaze Damage: +2
 bugbear-smiting sword	Weapon Damage: +10, Muscle: +10
 butterfly knife	Moxie: +6
-calavera concertina	Moxie: [3*N], Song Duration: 7
+calavera concertina	Moxie: [3*(1+skill(Accordion Appreciation))], Song Duration: 7
 can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 can of fake snow	Cold Damage: +5
 can of maces	Weapon Damage: +2, Sleaze Resistance: +1
