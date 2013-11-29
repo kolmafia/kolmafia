@@ -34,7 +34,11 @@
 package net.sourceforge.kolmafia.session;
 
 import java.lang.StringBuilder;
+
 import java.util.ArrayList;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -42,6 +46,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -442,11 +447,11 @@ public class HaciendaManager
 		}
 		return result;
 	}
-private static String getWingSpoilers( final int spoiler )
+
+	private static String getWingSpoilers( final int spoiler )
 	{
 		String haciendaLayout = Preferences.getString( "haciendaLayout" );
 		Boolean questComplete = Preferences.getString( "questG04Nemesis" ).equals( "finished" );
-		String result = "";
 		int wingNumber = spoiler/9;
 	
 		String wing = haciendaLayout.substring( wingNumber*9, wingNumber*9+9 );
@@ -456,15 +461,30 @@ private static String getWingSpoilers( final int spoiler )
 		int cluesLocated = HaciendaManager.countString( wing.toLowerCase(), "c" );
 		int rewardsFound = HaciendaManager.countString( wing, "R" );
 		int rewardsLocated = HaciendaManager.countString( wing, "r" );
-	
-		result = questComplete ? ( 6 - rewardsFound ) + " rewards left, " + rewardsLocated + " located." : 
-			( 3 - keysFound - cluesLocated ) + " keys or clues left, " + keysLocated + " keys located.";
-	
-		if ( questComplete && spoiler == 9 )
+
+		StringBuilder result = new StringBuilder();
+
+		if ( questComplete )
 		{
-			return ( result + ", make recordings" );
+			result.append( 6 - rewardsFound );
+			result.append( " rewards left, " );
+			result.append( rewardsLocated );
+			result.append( " located" );
+			if ( spoiler == 9 )
+			{
+				result.append( ", make recordings" );
+			}
+			result.append( "." );
 		}
-		return result;
+		else
+		{
+			result.append( 3 - keysFound - cluesLocated );
+			result.append( " keys or clues left, " );
+			result.append( keysLocated );
+			result.append( " keys located." );
+		}
+
+		return result.toString();
 	}
 
 	private static int countString( String inString, String lookFor )
@@ -481,5 +501,91 @@ private static String getWingSpoilers( final int spoiler )
 		}
 	
 		return result;
+	}
+
+	// <option value="530" >The Ballad of Richie Thingfinder (0/10)</option>
+
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=\"?(\\d+)\"? *>(.*?) \\((\\d+)/(\\d+)\\)</option>" );
+
+	private static final Object [][] RECORDINGS =
+	{
+		{
+			IntegerPool.get( EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER ),
+			"_thingfinderCasts",
+		},
+		{
+			IntegerPool.get( EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY ),
+			"_benettonsCasts",
+		},
+		{
+			IntegerPool.get( EffectPool.ELRONS_EXPLOSIVE_ETUDE ),
+			"_elronsCasts",
+		},
+		{
+			IntegerPool.get( EffectPool.CHORALE_OF_COMPANIONSHIP ),
+			"_companionshipCasts",
+		},
+		{
+			IntegerPool.get( EffectPool.PRELUDE_OF_PRECISION ),
+			"_precisionCasts",
+		},
+		{
+			IntegerPool.get( EffectPool.DONHOS_BUBBLY_BALLAD ),
+			"_donhosCasts",
+		},
+	};
+
+	private static String effectIdToSetting( final int effectId )
+	{
+		for ( int i = 0; i < HaciendaManager.RECORDINGS.length; ++i )
+		{
+			Object [] recording = HaciendaManager.RECORDINGS[ i ];
+			if ( effectId == ((Integer)recording[0]).intValue() )
+			{
+				return (String)recording[1];
+			}
+		}
+		return null;
+	}
+
+	public static void preRecording( final String text )
+	{
+		Matcher matcher = HaciendaManager.OPTION_PATTERN.matcher( text );
+		while ( matcher.find() )
+		{
+			int effectId = StringUtilities.parseInt( matcher.group( 1 ) );
+			String effect = matcher.group( 1 );
+			int used = StringUtilities.parseInt( matcher.group( 3 ) );
+			int max = StringUtilities.parseInt( matcher.group( 4 ) );
+			String setting = HaciendaManager.effectIdToSetting( effectId );
+			if ( setting != null )
+			{
+				Preferences.setInteger( setting, used );
+			}
+		}
+	}
+
+	// choice.php?whicheffect=530&times=3&pwd&whichchoice=440&option=1
+	private static final Pattern WHICHEFFECT_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
+	private static final Pattern TIMES_PATTERN = Pattern.compile( "times=(\\d+)" );
+
+	public static void parseRecording( final String urlString, final String text )
+	{
+		if ( !text.contains( "You acquire" ) )
+		{
+			return;
+		}
+
+		Matcher matcher = HaciendaManager.WHICHEFFECT_PATTERN.matcher( urlString );
+		int effectId = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		matcher = HaciendaManager.TIMES_PATTERN.matcher( urlString );
+		int times = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		String setting = HaciendaManager.effectIdToSetting( effectId );
+		if ( setting != null )
+		{
+			Preferences.increment( setting, times );
+		}
+
+		HaciendaManager.preRecording( text );
 	}
 }
