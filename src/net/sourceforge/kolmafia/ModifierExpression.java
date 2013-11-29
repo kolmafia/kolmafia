@@ -68,7 +68,7 @@ public class ModifierExpression
 	@Override
 	protected String validBytecodes()
 	{
-		return super.validBytecodes() + "ABCDEFGHIJLMNPRSTUWXY";
+		return super.validBytecodes() + "ABCDEFGHIJLMPRSTUWXY";
 	}
 
 	@Override
@@ -97,6 +97,14 @@ public class ModifierExpression
 		if ( this.optional( "res(" ) )
 		{
 			return this.literal( this.until( ")" ).toLowerCase(), 'b' );
+		}
+		if ( this.optional( "class(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'a' );
+		}
+		if ( this.optional( "skill(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'd' );
 		}
 
 		return null;

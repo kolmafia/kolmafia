@@ -176,7 +176,7 @@ public class AccordionsCommand
 			if ( itemId == ItemPool.AUTOCALLIOPE )
 			{
 				// Special case to prevent stretching table way wide
-				this.enchantments = "Prismatic Damage: [2*N]";
+				this.enchantments = "Prismatic Damage: [2*(1+skill(Accordion Appreciation))]";
 			}
 			else
 			{
