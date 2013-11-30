@@ -497,6 +497,7 @@ public class ValhallaManager
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();
 		BanishManager.resetAscension();
+		BugbearManager.resetStatus();
 
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

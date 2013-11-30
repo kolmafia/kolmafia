@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -356,46 +357,6 @@ public class FightRequest
 			"defiled nook",
 			"cyrptNookEvilness",
 		},
-	};
-	
-	private static final String[][] BUGBEAR_BIODATA =
-	{
-		{
-			"hypodermic bugbear",
-			"biodataMedbay"
-		},
-		{
-			"scavenger bugbear",
-			"biodataWasteProcessing"
-		},
-		{
-			"batbugbear",
-			"biodataSonar"
-		},
-		{
-			"bugbear scientist",
-			"biodataScienceLab"
-		},
-		{
-			"bugaboo",
-			"biodataMorgue"
-		},
-		{
-			"black ops bugbear",
-			"biodataSpecialOps"
-		},
-		{
-			"battlesuit bugbear type",
-			"biodataEngineering"
-		},
-		{
-			"ancient unspeakable bugbear",
-			"biodataNavigation"
-		},
-		{
-			"trendy bugbear chef",
-			"biodataGalley"
-		}
 	};
 
 	// Make an HTML cleaner
@@ -5287,7 +5248,7 @@ public class FightRequest
 	
 	private static boolean handleKeyotron( String text, TagStatus status )
 	{
-		if ( text.indexOf( "key-o-tron" ) == -1 )
+		if ( !text.contains( "key-o-tron" ) )
 		{
 			return false;
 		}
@@ -5295,35 +5256,25 @@ public class FightRequest
 		// Your key-o-tron emits 2 short tones, indicating that it has successfully processed biometric data from this subject.
 		// Your key-o-tron emits a short buzz, indicating that it has already collected enough biometric data of this type.
 		
-		if ( text.indexOf( "already collected" ) != -1 )
+		if ( text.contains( "already collected" ) )
 		{
+			// Synchronize in case played turns out of KoLmafia
+			Object[] data = BugbearManager.bugbearToData( status.monsterName );
+			BugbearManager.setBiodata( data, BugbearManager.dataToLevel( data ) * 3 );
 			return true;
 		}
 		
 		FightRequest.logText( text, status );
 
-		String setting = null;
-		String monster = status.monsterName;
-		for ( int i = 0; i < FightRequest.BUGBEAR_BIODATA.length; ++i )
-		{
-			if ( monster.equals( BUGBEAR_BIODATA[i][0] ) )
-			{
-				setting = BUGBEAR_BIODATA[i][1];
-				break;
-			}
-		}
-
-		if ( setting == null )
-		{
-			return false;
-		}
-
 		Matcher matcher = FightRequest.KEYOTRON_PATTERN.matcher( text );
-		if ( matcher.find() )
+		if ( !matcher.find() )
 		{
-			Preferences.setInteger( setting, StringUtilities.parseInt( matcher.group( 1 ) ) );
+			return true;
 		}
-		
+
+		Object[] data = BugbearManager.bugbearToData( status.monsterName );
+		BugbearManager.setBiodata( data, matcher.group( 1 ) );
+
 		return true;
 	}
 
