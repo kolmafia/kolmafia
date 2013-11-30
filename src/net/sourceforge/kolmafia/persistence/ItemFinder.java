@@ -413,16 +413,34 @@ public class ItemFinder
 				}
 			}
 
-			int itemId = StringUtilities.parseInt( parameters.substring( 1 ) );
-			String name = ItemDatabase.getItemName( itemId );
-			if ( name == null )
+			// KoL has an item whose name includes a pilcrow
+			// character. Handle it
+			String name = parameters;
+
+			// If the pilcrow character is first, it is followed by an item ID
+			if ( name.startsWith( "\u00B6" ) )
 			{
+				int itemId = StringUtilities.parseInt( parameters.substring( 1 ) );
+				name = ItemDatabase.getItemName( itemId );
+				if ( name == null )
+				{
+					if ( errorOnFailure )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown item ID " + itemId );
+					}
+					return null;
+				}
+			}
+			else if ( ItemDatabase.getItemId( parameters, 1 ) == -1 )
+			{
+				// This is not the item with a pilcrow character
 				if ( errorOnFailure )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown item ID " + itemId );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown item " + name );
 				}
 				return null;
 			}
+
 			matchList = new ArrayList<String>();
 			matchList.add( name );
 		}
