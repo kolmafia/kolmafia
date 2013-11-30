@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 
@@ -1721,15 +1722,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.KEYOTRON:
-			Preferences.setInteger( "biodataEngineering", 0 );
-			Preferences.setInteger( "biodataGalley", 0 );
-			Preferences.setInteger( "biodataMedbay", 0 );
-			Preferences.setInteger( "biodataMorgue", 0 );
-			Preferences.setInteger( "biodataNavigation", 0 );
-			Preferences.setInteger( "biodataScienceLab", 0 );
-			Preferences.setInteger( "biodataSonar", 0 );
-			Preferences.setInteger( "biodataSpecialOps", 0 );
-			Preferences.setInteger( "biodataWasteProcessing", 0 );
+			BugbearManager.resetStatus();
 			Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
 			break;
 

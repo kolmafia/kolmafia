@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -4736,45 +4737,22 @@ public class UseItemRequest
 
 	private static final void getBugbearBiodataLevels( String responseText )
 	{
-		int medbay = 0;
-		int wasteProcessing = 0;
-		int sonar = 0;
-		int scienceLab = 0;
-		int morgue = 0;
-		int specialOps = 0;
-		int engineering = 0;
-		int navigation = 0;
-		int galley = 0;
-
 		Matcher matcher = UseItemRequest.KEYOTRON_PATTERN.matcher( responseText );
 
-		if ( matcher.find() )
-		{
-			medbay = StringUtilities.parseInt( matcher.group( 1 ) );
-			wasteProcessing = StringUtilities.parseInt( matcher.group( 2 ) );
-			sonar = StringUtilities.parseInt( matcher.group( 3 ) );
-			scienceLab = StringUtilities.parseInt( matcher.group( 4 ) );
-			morgue = StringUtilities.parseInt( matcher.group( 5 ) );
-			specialOps = StringUtilities.parseInt( matcher.group( 6 ) );
-			engineering = StringUtilities.parseInt( matcher.group( 7 ) );
-			navigation = StringUtilities.parseInt( matcher.group( 8 ) );
-			galley = StringUtilities.parseInt( matcher.group( 9 ) );
-		}
-		else
+		if ( !matcher.find() )
 		{
 			return;
 		}
 
-		Preferences.setInteger( "biodataMedbay", medbay );
-		Preferences.setInteger( "biodataWasteProcessing", wasteProcessing );
-		Preferences.setInteger( "biodataSonar", sonar );
-		Preferences.setInteger( "biodataScienceLab", scienceLab );
-		Preferences.setInteger( "biodataMorgue", morgue );
-		Preferences.setInteger( "biodataSpecialOps", specialOps );
-		Preferences.setInteger( "biodataEngineering", engineering );
-		Preferences.setInteger( "biodataNavigation", navigation );
-		Preferences.setInteger( "biodataGalley", galley );
-		Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
+		for ( int i = 1; i <= 9; ++i )
+		{
+			Object [] data = BugbearManager.idToData( i );
+			if ( data == null )
+			{
+				continue;
+			}
+			BugbearManager.setBiodata( data, matcher.group( i ) );
+		}
 
 		return;
 	}

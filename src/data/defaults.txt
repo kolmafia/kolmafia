@@ -628,6 +628,7 @@ user	mmgDisabled	false
 user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0
+user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
@@ -788,6 +789,15 @@ user	stationaryButton2
 user	stationaryButton3
 user	stationaryButton4
 user	stationaryButton5
+user	statusEngineering	0
+user	statusGalley	0
+user	statusMedbay	0
+user	statusMorgue	0
+user	statusNavigation	0
+user	statusScienceLab	0
+user	statusSonar	0
+user	statusSpecialOps	0
+user	statusWasteProcessing	0
 user	styxPixieVisited	false
 user	sugarCounter4178	0
 user	sugarCounter4179	0
