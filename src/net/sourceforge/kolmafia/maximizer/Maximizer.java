@@ -91,6 +91,7 @@ public class Maximizer
 		"_stickers",
 		"_folderholder",
 		"_cardsleeve",
+		"_smithsness",
 	};
 
 	static MaximizerSpeculation best;

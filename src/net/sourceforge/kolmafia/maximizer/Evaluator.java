@@ -909,6 +909,16 @@ public class Evaluator
 			}
 		}
 
+		boolean smithsnessUseful = false;
+		{
+			Modifiers mods = Modifiers.getModifiers( "_smithsness" );
+			if ( mods != null &&
+				this.getScore( mods ) - nullScore > 0.0 )
+			{
+				smithsnessUseful = true;
+			}
+		}
+
 		boolean brimstoneUseful = false;
 		{
 			Modifiers mods = Modifiers.getModifiers( "_brimstone" );
@@ -1164,6 +1174,8 @@ public class Evaluator
 
 				if ( ( hoboPowerUseful &&
 						mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
+					( smithsnessUseful &&
+						mods.get( Modifiers.SMITHSNESS ) > 0.0 ) ||
 					( brimstoneUseful &&
 						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
 					( cloathingUseful &&

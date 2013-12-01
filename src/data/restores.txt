@@ -25,7 +25,7 @@ Camp Scout pup tent	item	1000	1000	0	0
 # Special - handled in code.
 Campground	loc	1	1	0	0
 can of CRIMBCOLA	item	0	0	80	100
-Cannelloni Cocoon	skill	HP	HP	0	0
+Cannelloni Cocoon	skill	[HP]	[HP]	0	0
 carbonated soy milk	item	0	0	70	80
 carbonated water lily	item	0	0	60	70
 cast	item	15	20	0	0
@@ -70,7 +70,7 @@ high-pressure seltzer bottle	item	0	0	150	200
 honey-dipped locust	item	30	40	30	40
 Knob Goblin seltzer	item	0	0	8	12
 Knob Goblin superseltzer	item	0	0	25	29
-Lasanga Bandages	skill	10	30	0	0
+Lasagna Bandages	skill	10	30	0	0
 Laugh It Off	skill	1	2	0	0
 magical mystery juice	item	0	0	[floor(L*1.5)+4]	[floor(L*1.5)+6]
 maple syrup	item	20	30	20	30
@@ -122,4 +122,4 @@ warm El Vibrato drone	item	[HP]	[HP]	0	0
 wasabi marble soda	item	0	0	5	10
 Wint-O-Fresh mint	item	0	0	3	5
 Wolfman Nardz	item	0	0	200	300
-your own black heart	item	0	0	[MP]	[MP}
+your own black heart	item	0	0	[MP]	[MP]

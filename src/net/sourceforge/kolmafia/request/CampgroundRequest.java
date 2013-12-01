@@ -915,6 +915,10 @@ public class CampgroundRequest
 			"Summon Rad Libs"
 		},
 		{
+			"The Smith's Tome",
+			"Summon Smithsness"
+		},
+		{
 			// The bookshelf currently says:
 			// "McPhee's Grimoire of Hilarious Item Summoning"
 			// gives access to "Summon Hilarious Items".

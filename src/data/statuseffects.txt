@@ -1465,3 +1465,13 @@
 1464
 1465	Soulerskates	soulskate.gif	aefd370dd9a358e1fad37c072c24f043	cast 1 Soul Rotation
 1466	Soul Funk	soulfunk.gif	791362820015af19b7c23085a1b6cc30	cast 1 Soul Funk
+1467
+1468
+1469
+1470
+1471
+1472
+1473
+1474
+1475
+1476	Merry Smithsness	sad.gif	70b571b8fe1e18020dd5e0974156807f	use 1 Flaskfull of Hollow

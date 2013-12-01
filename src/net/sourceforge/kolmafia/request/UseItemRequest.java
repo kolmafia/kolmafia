@@ -2686,6 +2686,7 @@ public class UseItemRequest
 		case ItemPool.SUGAR_BOOK:
 		case ItemPool.CLIP_ART_BOOK:
 		case ItemPool.RAD_LIB_BOOK:
+		case ItemPool.SMITH_BOOK:
 			// Grimoires
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
@@ -4496,6 +4497,8 @@ public class UseItemRequest
 			return "Summon Clip Art";
 		case ItemPool.RAD_LIB_BOOK:
 			return "Summon Rad Libs";
+		case ItemPool.SMITH_BOOK:
+			return "Summon Smithsness";
 		case ItemPool.HILARIOUS_BOOK:
 			return "Summon Hilarious Objects";
 		case ItemPool.TASTEFUL_BOOK:

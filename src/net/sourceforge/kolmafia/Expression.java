@@ -373,6 +373,9 @@ public class Expression
 			case 'J':
 				v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0 : 0.0;
 				break;
+			case 'K':
+				v = Modifiers.smithsness;
+				break;
 			case 'L':
 				v = KoLCharacter.getLevel();
 				break;

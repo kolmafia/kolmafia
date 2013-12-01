@@ -105,7 +105,8 @@ public class UseSkillRequest
 		"Summon Sugar Sheets",
 		// Summon Clip Art requires extra parameters
 		// "Summon Clip Art",
-		"Summon Rad Libs"
+		"Summon Rad Libs",
+		"Summon Smithsness"
 	};
 
 	public static final String[] LIBRAM_SKILLS =
@@ -298,6 +299,10 @@ public class UseSkillRequest
 
 		case SkillPool.RAD_LIB:
 			this.addFormField( "preaction", "summonradlibs" );
+			break;
+
+		case SkillPool.SMITHSNESS:
+			this.addFormField( "preaction", "summonsmithsness" );
 			break;
 
 		case SkillPool.HILARIOUS:
@@ -520,6 +525,11 @@ public class UseSkillRequest
 
 		case SkillPool.RAD_LIB:
 			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_radlibSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+			break;
+
+		case SkillPool.SMITHSNESS:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_smithsnessSummons" ), 0 ) :
 				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
 
@@ -1746,6 +1756,12 @@ public class UseSkillRequest
 			ConcoctionDatabase.setRefreshNeeded( false );
 			break;
 
+		case SkillPool.SMITHSNESS:
+			Preferences.increment( "_smithsnessSummons", count );
+			Preferences.increment( "tomeSummons", count );
+			ConcoctionDatabase.setRefreshNeeded( false );
+			break;
+
 		case SkillPool.HILARIOUS:
 			Preferences.increment( "grimoire1Summons", 1 );
 			break;
@@ -1887,6 +1903,11 @@ public class UseSkillRequest
 		if ( action.equals( "radlibs" ) )
 		{
 			return SkillPool.RAD_LIB;
+		}
+
+		if ( action.equals( "smithsness" ) )
+		{
+			return SkillPool.SMITHSNESS;
 		}
 
 		if ( action.equals( "hilariousitems" ) )
