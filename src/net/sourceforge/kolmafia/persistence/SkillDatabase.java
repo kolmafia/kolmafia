@@ -202,6 +202,7 @@ public class SkillDatabase
 		case SkillPool.SUGAR:
 		case SkillPool.CLIP_ART:
 		case SkillPool.RAD_LIB:
+		case SkillPool.SMITHSNESS:
 		case SkillPool.CANDY_HEART:
 		case SkillPool.PARTY_FAVOR:
 		case SkillPool.LOVE_SONG:
@@ -1044,6 +1045,8 @@ public class SkillDatabase
 			return ItemPool.CLIP_ART_BOOK;
 		case SkillPool.RAD_LIB:
 			return ItemPool.RAD_LIB_BOOK;
+		case SkillPool.SMITHSNESS:
+			return ItemPool.SMITH_BOOK;
 		case SkillPool.CANDY_HEART:
 			return ItemPool.CANDY_BOOK;
 		case SkillPool.PARTY_FAVOR:

@@ -612,6 +612,7 @@
 8002	Summon Sugar Sheets	1	2	0
 8003	Summon Clip Art	1	2	0
 8004	Summon Rad Libs	1	2	0
+8005	Summon Smithsness	1	2	0
 8100	Summon Candy Hearts	1	0	0
 8101	Summon Party Favor	1	0	0
 8102	Summon Love Song	1	0	0

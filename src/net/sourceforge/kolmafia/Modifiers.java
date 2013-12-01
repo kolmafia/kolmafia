@@ -91,6 +91,7 @@ public class Modifiers
 	public static String currentFamiliar = "";
 	public static String mainhandClass = "";
 	public static double hoboPower = 0.0;
+	public static double smithsness = 0.0;
 	public static double currentWeight = 0.0;
 	public static boolean unarmed = false;
 
@@ -208,6 +209,7 @@ public class Modifiers
 	public static final int MOX_LIMIT = 102;
 	public static final int SONG_DURATION = 103;
 	public static final int PRISMATIC_DAMAGE = 104;
+	public static final int SMITHSNESS = 105;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -677,6 +679,10 @@ public class Modifiers
 		{ "Prismatic Damage",
 		  null,
 		  null,
+		},
+		{ "Smithsness",
+		  Pattern.compile( "([+-]\\d+) Smithsness" ),
+		  Pattern.compile( "Smithsness: " + EXPR )
 		},
 	};
 

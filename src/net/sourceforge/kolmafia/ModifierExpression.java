@@ -68,7 +68,7 @@ public class ModifierExpression
 	@Override
 	protected String validBytecodes()
 	{
-		return super.validBytecodes() + "ABCDEFGHIJLMPRSTUWXY";
+		return super.validBytecodes() + "ABCDEFGHIJKLMPRSTUWXY";
 	}
 
 	@Override

@@ -247,6 +247,12 @@ public class SkillBuffFrame
 				"Summon Rad Libs", "_radlibSummons", "variable", "tomesummons",
 			},
 			{
+				"Summon Smithsness", "_smithsnessSummons", "variable", "tomesummons",
+			},
+			{
+				"Dummy", "tomeSummons", "variable", "tomesummons",
+			},
+			{
 				"Summon Hilarious Objects", "grimoire1Summons", "integer", "1",
 			},
 			{

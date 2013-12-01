@@ -2179,6 +2179,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the total Smithsness
+	 *
+	 * @return Total Smithsness
+	 */
+
+	public static final int getSmithsness()
+	{
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.SMITHSNESS );
+	}
+
+	/**
 	 * Accessor method to retrieve the player's Clownosity
 	 *
 	 * @return Clownosity
@@ -4737,8 +4748,6 @@ public abstract class KoLCharacter
 			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, applyIntrinsics, taoFactor );
 		}
 
-		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
-
 		// Consider fake hands
 		int fakeHands = EquipmentManager.getFakeHands();
 		if ( fakeHands > 0 )
@@ -4785,6 +4794,10 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers(
 				( (AdventureResult) effects.get( i ) ).getName() ) );
 		}
+
+		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
+
+		Modifiers.smithsness = newModifiers.get( Modifiers.SMITHSNESS );
 
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
