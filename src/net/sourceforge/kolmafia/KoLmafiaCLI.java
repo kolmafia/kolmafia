@@ -667,6 +667,7 @@ public class KoLmafiaCLI
 		new BreakfastCommand().register( "breakfast" );
 		new BudgetCommand().register( "budget" );
 		new BuffbotCommand().register( "buffbot" );
+		new BugbearsCommand().register( "bugbears" );
 		new BurnMpCommand().register( "burn" );
 		new BuyCommand().register( "buy" ).register( "mallbuy" );
 		new CacheCommand().register( "cache" );
