@@ -2307,6 +2307,7 @@ This Charming Flan	COOK	handful of Smithereens	pickled egg
 Irish Coffee, English Heart	MIX	handful of Smithereens	cup of lukewarm tea
 Strikes Again Bigmouth	MIX	handful of Smithereens	fermenting powder
 Paint A Vulgar Pitcher	MIX	handful of Smithereens	plain old beer
+Flaskfull of Hollow	ACOMBINE	handful of Smithereens	handful of Smithereens
 Louder Than Bomb	COMBINE	handful of Smithereens	Ben-Gal&trade; Balm
 Golden Light	COMBINE	handful of Smithereens	glittery mascara
 Handsome Devil	COMBINE	handful of Smithereens	hair spray
