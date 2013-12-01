@@ -894,6 +894,10 @@ public class RequestEditorKit
 					"place.php?whichplace=knoll_friendly" :
 					"place.php?whichplace=knoll_hostile";
 			}
+			else if ( locname.contains( "A Small Pyramid" ) )
+			{
+				url = "place.php?whichplace=desertbeach&action=db_pyramid1";
+			}
 			else
 			{
 				KoLAdventure adventure = AdventureDatabase.getAdventure( locname );

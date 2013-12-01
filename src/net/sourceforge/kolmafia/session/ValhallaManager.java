@@ -411,6 +411,8 @@ public class ValhallaManager
 		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setInteger( "mayflyExperience", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
+		Preferences.setInteger( "twinpeakProgress", 0 );
+		Preferences.setInteger( "gnasirProgress", 0 );
 		Preferences.setString( "louvreLayout", "" );
 		Preferences.setInteger( "pendingMapReflections", 0 );
 		Preferences.setString( "violetFogLayout", "" );

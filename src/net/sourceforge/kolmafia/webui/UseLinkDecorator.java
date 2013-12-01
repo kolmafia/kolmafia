@@ -788,7 +788,6 @@ public abstract class UseLinkDecorator
 			case ItemPool.CRUDE_SCULPTURE:
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			case ItemPool.DOLPHIN_WHISTLE:
-			case ItemPool.DRUM_MACHINE:
 			case ItemPool.ENVYFISH_EGG:
 			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.RAIN_DOH_MONSTER:
@@ -801,6 +800,20 @@ public abstract class UseLinkDecorator
 				// doesn't work ajaxified.
 
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+
+			case ItemPool.DRUM_MACHINE:
+				if ( Preferences.getInteger( "desertExploration" ) == 100 )
+				{
+					// This will redirect to a sandworm fight
+					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+				}
+				if ( InventoryManager.getCount( ItemPool.WORM_RIDING_HOOKS ) > 0 )
+				{
+					// This will explore the desert
+					return new UseLink( itemId, 1, "wormride", "inv_use.php?which=3&whichitem=" );
+				}
+				// *** what happens if you try to use a drum machine with no hooks?
+				return null;
 
 			case ItemPool.GONG:
 				// No use link if already under influence.
@@ -904,7 +917,18 @@ public abstract class UseLinkDecorator
 			switch ( itemId )
 			{
 			case ItemPool.WORM_RIDING_HOOKS:
-				return new UseLink( itemId, itemCount, "wormride", "place.php?whichplace=desertbeach&action=db_pyramid1" );
+
+				// Can you even get the hooks if the desert is fully explored?
+				if ( Preferences.getInteger( "desertExploration" ) == 100 )
+				{
+					return null;
+				}
+				// If you have no drum machine yet, give a link to the Oasis
+				if ( InventoryManager.getCount( ItemPool.DRUM_MACHINE ) == 0 )
+				{
+					return new UseLink( 0, "oasis", "adventure.php?snarfblat=122" );
+				}
+				return new UseLink( ItemPool.DRUM_MACHINE, 1, "wormride", "inv_use.php?which=3&whichitem=" );
 
 			case ItemPool.PIXEL_CHAIN_WHIP:
 			case ItemPool.PIXEL_MORNING_STAR:
@@ -1528,6 +1552,15 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GOLD_PIECE:
 			return new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" );
+
+		case ItemPool.STONE_ROSE:
+			return new UseLink( itemId, InventoryManager.getCount( itemId ), "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
+
+		case ItemPool.WORM_RIDING_MANUAL_PAGE:
+			int count = InventoryManager.getCount( itemId );
+			return count < 15 ?
+				new UseLink( itemId, count, "javascript:return false;" ) :
+				new UseLink( itemId, count, "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
 
 		default:
 

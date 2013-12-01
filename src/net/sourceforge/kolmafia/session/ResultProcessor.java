@@ -1420,7 +1420,6 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
-			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_PAGE, -15 );
 			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step10" );
 			break;
 			

@@ -1313,19 +1313,14 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
 		{
-			CreateItemRequest staff = CreateItemRequest.getInstance( ItemPool.STAFF_OF_ED );
-			if ( staff != null && staff.getQuantityPossible() > 0 )
+			if ( Preferences.getBoolean( "autoCraft" ) )
 			{
-				staff.setQuantityNeeded( 1 );
-				staff.run();
-			}
-			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
-			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
-			if ( ( KoLConstants.inventory.contains( hooks ) ||
-			       KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) &&
-			     KoLConstants.inventory.contains( machine ) )
-			{
-				UseItemRequest.getInstance( machine ).run();
+				CreateItemRequest staff = CreateItemRequest.getInstance( ItemPool.STAFF_OF_ED );
+				if ( staff != null && staff.getQuantityPossible() > 0 )
+				{
+					staff.setQuantityNeeded( 1 );
+					staff.run();
+				}
 			}
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
