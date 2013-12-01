@@ -6638,21 +6638,36 @@ public abstract class ChoiceManager
 
 		case 805:
 			// A Sietch in Time
+			int gnasirProgress = Preferences.getInteger( "gnasirProgress" );
+
+			// Annoyingly, the option numbers change as you turn
+			// things in. Therefore, we must look at response text
+
 			if ( text.contains( "give the stone rose to Gnasir" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.STONE_ROSE );
+				gnasirProgress |= 1;
+				Preferences.setInteger( "gnasirProgress", gnasirProgress );
 			}
 			else if ( text.contains( "hold up the bucket of black paint" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.BLACK_PAINT );
+				gnasirProgress |= 2;
+				Preferences.setInteger( "gnasirProgress", gnasirProgress );
 			}
 			else if ( text.contains( "hand Gnasir the glass jar" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.KILLING_JAR );
+				gnasirProgress |= 4;
+				Preferences.setInteger( "gnasirProgress", gnasirProgress );
 			}
-			// Turn in 15 worm-riding manual pages to get
-			// worm-riding hooks. Handled as part of item
-			// acquisition of the latter
+			// You hand him the pages, and he shuffles them into their correct order and inspects them carefully. 
+			else if ( text.contains( "hand him the pages" ) )
+			{
+				ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_PAGE, -15 );
+				gnasirProgress |= 8;
+				Preferences.setInteger( "gnasirProgress", gnasirProgress );
+			}
 			return;
 
 		case 812:

@@ -2958,6 +2958,10 @@ public class UseItemRequest
 					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
 
+				int gnasirProgress = Preferences.getInteger( "gnasirProgress" );
+				gnasirProgress |= 16;
+				Preferences.setInteger( "gnasirProgress", gnasirProgress );
+
 				QuestManager.incrementDesertExploration( 30 );
 				return;
 			}
