@@ -6155,6 +6155,12 @@ public class FightRequest
 				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "cocktail napkin" );
 			}
 			break;
+		case ItemPool.LOUDER_THAN_BOMB:
+			if ( responseText.contains( "opponent is nowhere to be seen" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "louder than bomb" );
+			}
+			break;
 		}		
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{

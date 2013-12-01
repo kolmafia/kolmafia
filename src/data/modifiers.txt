@@ -4307,6 +4307,9 @@ Slimy Hands	Sleaze Damage: +10
 Slinking Noodle Glob	Maximum MP: +15
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
+Smithsness Cheer	Smithsness: +10
+Smithsness Dinner	Smithsness: +10
+Smithsness Presence	Smithsness: +10
 # Smokin': Damages Attacking Opponents
 Smoky Third Eye	Mysticality: +10
 Smooth Movements	Combat Rate: -5
@@ -5041,6 +5044,7 @@ Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
+Every Day is Like This Sundae	Effect: "Smithsness Dinner", Effect Duration: 100
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
@@ -5061,6 +5065,7 @@ Huggler Radio	Free Pull
 Hunger&trade; Sauce	Effect: "The Tunger&trade;"
 Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
 Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
+Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
@@ -5096,6 +5101,7 @@ Mer-kin strongjuice	Effect: "Juiced Out", Effect Duration: 30
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Milk Studs	Effect: "Milk Studly", Effect Duration: 15
+Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
 Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 Moping Artistic Goth Kid	Free Pull
 Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
@@ -5135,6 +5141,7 @@ Sorcerers of the Shore Grimoire	Free Pull
 Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
+Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
