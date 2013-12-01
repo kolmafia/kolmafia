@@ -1475,7 +1475,7 @@
 1474
 1475
 1476	Merry Smithsness	sad.gif	70b571b8fe1e18020dd5e0974156807f	use 1 Flaskfull of Hollow
-1477
-1478
-1479
+1477	Smithsness Presence	pressie.gif	d9f8d188f80c67098f12bc003d818c31	use 1 handful of Smithereens
+1478	Smithsness Dinner	knifefork.gif	ae70de517e8c59ef0e439dc65ed5ef3e	eat 1 Every Day is Like This Sundae
+1479	Smithsness Cheer	pitcher.gif	3a1466f4da531d2f0c2d6dbbe0eac90a	drink 1 Irish Coffee, English Heart
 1480	Jittery	coffeecup.gif	485fac0c54a59ca331f768cc9ea1158d	eat 1 cup of lukewarm tea

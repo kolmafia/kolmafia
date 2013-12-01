@@ -7001,15 +7001,15 @@
 7004	Flaskfull of Hollow	672262828	flask.gif	usable	t,d	5
 7005	lump of Brituminous coal	748294269	britcoal.gif	none	t,d	5
 7006	handful of Smithereens	369373238	smithereens.gif	usable	t,d	5
-7007
-7008
-7009
-7010
-7011
-7012
-7013
-7014
-7015
+7007	Every Day is Like This Sundae	881495842	sundae.gif	food	t,d	5
+7008	Miserable Pie	290619505	pie.gif	food	t,d	5
+7009	This Charming Flan	291859713	flan.gif	food	t,d	5
+7010	Irish Coffee, English Heart	765363494	coffeecup.gif	drink	t,d	5
+7011	Strikes Again Bigmouth	700690331	bigmouth.gif	drink	t,d	5
+7012	Paint A Vulgar Pitcher	312337542	pitcher.gif	drink	t,d	5
+7013	Golden Light	729111647	goldenlight.gif	none, combat	t,d	5
+7014	Louder Than Bomb	479465363	louderthanbomb.gif	none, combat	t,d	5
+7015	Handsome Devil	978538288	handsomedevil.gif	none, combat	t,d	5
 7016	Work is a Four Letter Sword	712781340	worksword.gif	weapon	t,d	5
 7017	Staff of the Headmaster's Victuals	540540309	headmasterstaff.gif	weapon	t,d	5
 7018	Sheila Take a Crossbow	795004453	sheilabow.gif	weapon	t,d	5

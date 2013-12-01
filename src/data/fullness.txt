@@ -212,6 +212,7 @@ elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
 ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
+every day is like this sundae	2	1	good	0	0	0	0	100 Smithsness Dinner (+10 Smithsness)
 evil boring spaghetti	3	3	good	6-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
 evil delicious noodles	3	3	good	6-11	0	0	1-45	10 A Little Bit Evil (+2 ML)
 evil delicious spicy noodles	3	5	awesome	7-15	0	1-66	0	10 A Little Bit Evil (+2 ML)
@@ -394,6 +395,7 @@ manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
 menudo	2	2	decent	2-7	14-18	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
+miserable pie	2	1	awesome	0	0	0	0	50 Smithsness Dinner (+10 Smithsness)
 mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
@@ -618,6 +620,7 @@ tempura radish bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
 tempura radish bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	5-15	80 Fishy
 tempura radish bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	75-95	80 Fishy
 tempura radish bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
+this charming flan	2	1	EPIC	0	0	0	0
 three-tiered wedding cake	35	1	crappy	34-39	0	0	0
 throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
 thyme jelly donut	1	4	awesome	3-5	15-30	15-30	15-30	+5 turns of a current effect

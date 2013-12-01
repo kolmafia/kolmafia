@@ -125,6 +125,7 @@ public class BanishManager
 		new Banisher( "deathchucks", -1, 1, true, ROLLOVER_RESET ),
 		new Banisher( "cocktail napkin", 20, 1, true, TURN_RESET ),
 		new Banisher( "chatterboxing", 20, 1, true, TURN_RESET ),
+		new Banisher( "louder than bomb", 20, 1, true, TURN_RESET ),
 	};
 
 	private static class BanishedMonster

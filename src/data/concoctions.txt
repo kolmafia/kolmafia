@@ -2301,6 +2301,15 @@ boilgun	JUNK, ROW192	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eter
 swordzall	JUNK, ROW190	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 
 # Smith Tome
+Every Day is Like This Sundae	COOK	handful of Smithereens	cool whip
+Miserable Pie	COOK	handful of Smithereens	Gnollish pie tin
+This Charming Flan	COOK	handful of Smithereens	pickled egg
+Irish Coffee, English Heart	MIX	handful of Smithereens	cup of lukewarm tea
+Strikes Again Bigmouth	MIX	handful of Smithereens	fermenting powder
+Paint A Vulgar Pitcher	MIX	handful of Smithereens	plain old beer
+Louder Than Bomb	COMBINE	handful of Smithereens	Ben-Gal&trade; Balm
+Golden Light	COMBINE	handful of Smithereens	glittery mascara
+Handsome Devil	COMBINE	handful of Smithereens	hair spray
 Hairpiece On Fire	SMITH	lump of Brituminous coal	maiden wig
 Vicar's Tutu	SMITH	lump of Brituminous coal	frilly skirt
 Hand in Glove	SMITH	lump of Brituminous coal	dirty hobo gloves
