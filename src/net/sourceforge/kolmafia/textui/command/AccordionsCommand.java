@@ -76,6 +76,7 @@ public class AccordionsCommand
 		new Accordion( ItemPool.BAL_MUSETTE_ACCORDION, "depressing French accordionist" ),
 		new Accordion( ItemPool.CAJUN_ACCORDION, "lively Cajun accordionist" ),
 		new Accordion( ItemPool.QUIRKY_ACCORDION, "quirky indie-rock accordionist" ),
+		new Accordion( ItemPool.SHAKESPEARES_SISTERS_ACCORDION, "smithed using The Smith's Tome" ),
 	};
 
 	public AccordionsCommand()

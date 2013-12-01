@@ -798,7 +798,7 @@ Saucepanic	Experience (Mysticality): +2, Smithsness: +5, Mysticality Percent: [2
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB Combat Damage: +15
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7
 # Shakespeare's Sister's Accordion: Has a cool Cadenza
-Shakespeare's Sister's Accordion	Mana Cost: -1, Smithsness: +5, Moxie Percent: [2*K], Class: "Accordion Thief", Song Duration: 15
+Shakespeare's Sister's Accordion	Mana Cost: [-1*(1+skill(Accordion Appreciation))], Smithsness: [5*(1+skill(Accordion Appreciation))], Moxie Percent: [2*K], Class: "Accordion Thief", Song Duration: 15
 Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Pickpocket Chance: +5, Smithsness: +5, Initiative: [K]
 Skipper's accordion	Pickpocket Chance: [10*(1+skill(Accordion Appreciation))], Moxie Percent: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
