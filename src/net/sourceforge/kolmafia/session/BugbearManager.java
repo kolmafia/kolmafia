@@ -64,7 +64,7 @@ public class BugbearManager
 		Preferences.setInteger( "mothershipProgress", 0 );
 	}
 
-	private static final Object[][] BUGBEAR_DATA =
+	public static final Object[][] BUGBEAR_DATA =
 	{
 		{
 			"Medbay",
@@ -106,7 +106,7 @@ public class BugbearManager
 			"Morgue",
 			IntegerPool.get( 5 ),
 			"bugaboo",
-			new Object [] {
+			new String [] {
 				"The Defiled Nook",
 				"Post-Cyrpt Cemetary",
 			},
@@ -145,7 +145,7 @@ public class BugbearManager
 			"Galley",
 			IntegerPool.get( 9 ),
 			"trendy bugbear chef",
-			new Object [] {
+			new String [] {
 				"The Battlefield (Frat Uniform)",
 				"The Battlefield (Hippy Uniform)",
 			},
@@ -180,7 +180,7 @@ public class BugbearManager
 		Object zones = data[ 3 ];
 		return  zones instanceof String ? (String)zones :
 			zones instanceof String[] ? ((String[])zones)[0] :
-			null;
+			"";
 	}
 
 	public static String dataToBugbearZone2( Object[] data )
@@ -191,9 +191,9 @@ public class BugbearManager
 		}
 
 		Object zones = data[ 3 ];
-		return  zones instanceof String ? null :
+		return  zones instanceof String ? "" :
 			zones instanceof String[] ? ((String[])zones)[1] :
-			null;
+			"";
 	}
 
 	public static int dataToLevel( Object[] data )
