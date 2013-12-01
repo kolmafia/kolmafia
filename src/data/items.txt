@@ -7001,3 +7001,30 @@
 7004	Flaskfull of Hollow	672262828	flask.gif	usable	t,d	5
 7005	lump of Brituminous coal	748294269	britcoal.gif	none	t,d	5
 7006	handful of Smithereens	369373238	smithereens.gif	usable	t,d	5
+7007
+7008
+7009
+7010
+7011
+7012
+7013
+7014
+7015
+7016	Work is a Four Letter Sword	712781340	worksword.gif	weapon	t,d	5
+7017	Staff of the Headmaster's Victuals	540540309	headmasterstaff.gif	weapon	t,d	5
+7018	Sheila Take a Crossbow	795004453	sheilabow.gif	weapon	t,d	5
+7019	A Light that Never Goes Out	374985164	lantern2.gif	offhand	t,d	5
+7020	Half a Purse	707928163	halfapurse.gif	offhand	t,d	5
+7021	Hairpiece On Fire	142527358	hairpiece.gif	hat	t,d	5
+7022	Vicar's Tutu	313692281	vicartutu.gif	pants	t,d	5
+7023	Hand in Glove	879557823	handinglove.gif	accessory	t,d	5
+7024	Meat Tenderizer is Murder	759083246	tenderizer.gif	weapon	t,d	5
+7025	Ouija Board, Ouija Board	291458810	ouijaboard.gif	offhand	t,d	5
+7026	Hand that Rocks the Ladle	745113648	handladle.gif	weapon	t,d	5
+7027	Saucepanic	929959166	saucepanic.gif	weapon	t,d	5
+7028	Frankly Mr. Shank	810584155	mrshank.gif	weapon	t,d	5
+7029	Shakespeare's Sister's Accordion	398774778	acc5.gif	weapon	t,d	5
+7030	third-hand lantern	689791506	lantern1.gif	offhand	t,d	5
+7031	loose purse strings	927549547	pursestrings.gif	offhand	t,d	5
+7032	pickled egg	648018534	pickledegg.gif	food	t,d	5
+7033	cup of lukewarm tea	663984491	coffeecup.gif	food	t,d	5

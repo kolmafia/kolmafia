@@ -28,6 +28,7 @@ Goggles of Loathing	200	Mys: 150
 Great Wolf's headband	300	Mus: 250
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
+Hairpiece On Fire	100	none
 Hat O' Nine Tails	10	none
 Helm of the Scream Emperor	120	none
 Hodgman's porkpie hat	200	Mox: 200
@@ -341,6 +342,7 @@ Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Uncle Hobo's gift baggy pants	200	Mox: 200
 Unkillable Skeleton's shinguards	300	Mus: 250
+Vicar's Tutu	100	none
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
 Warms-Your-Tush	300	Mox: 250
@@ -610,6 +612,7 @@ Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	175	Mus: 66	2-handed sword
 El Vibrato energy spear	200	Mus: 200	2-handed spear
 Flail of the Seven Aspects	200	Mus: 60	1-handed flail
+Frankly Mr. Shank	100	Mox: 0	1-handed knife
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Frosty's arm	200	Mus: 200	1-handed staff
 Frosty's nailbat	200	Mus: 200	2-handed club
@@ -628,6 +631,7 @@ Greek Pasta of Peril	90	Mys: 15	1-handed utensil
 Grimacite gat	150	Mox: 40	1-handed pistol
 Grimacite glaive	125	Mus: 47	2-handed polearm
 Hammer of Smiting	90	Mus: 15	1-handed club
+Hand that Rocks the Ladle	100	Mys: 0	1-handed utensil
 Hodgman's whackin' stick	200	Mus: 200	1-handed club
 Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
 Kentucky-fried meat staff	70	Mus: 20	2-handed staff
@@ -647,6 +651,7 @@ Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mayor Ghost's gavel	10	Mus: 0	1-handed club
+Meat Tenderizer is Murder	100	Mus: 0	1-handed club
 Meatcleaver	200	Mus: 200	2-handed sword
 Mer-kin digpick	200	Mus: 85	2-handed axe
 Mer-kin dodgeball	200	Mox: 85	2-handed dodgeball
@@ -669,8 +674,11 @@ Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
 Red Rover BB gun	50	Mox: 10	2-handed gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
+Saucepanic	100	Mys: 0	1-handed saucepan
 Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
+Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
+Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 Skipper's accordion	50	Mox: 10	2-handed accordion
 Sledgehammer of the V&aelig;lkyr	200	Mus: 60	1-handed club
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
@@ -691,6 +699,7 @@ Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
+Staff of the Headmaster's Victuals	10	Mys: 0	1-handed chefstaff
 Staff of the Healthy Breakfast	10	Mys: 0	1-handed chefstaff
 Staff of the Hearty Dinner	10	Mys: 0	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
@@ -730,6 +739,7 @@ Unkillable Skeleton's sawsword	300	Mus: 100	2-handed sword
 Wand of Nagamar	30	Mus: 0	1-handed wand
 White Dragon Fang	200	Mus: 200	1-handed sword
 Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
+Work is a Four Letter Sword	100	Mus: 0	1-handed sword
 Wrath of the Capsaician Pastalords	200	Mys: 60	1-handed utensil
 X-37 gun	160	Mox: 65	1-handed pistol
 Zim Merman's guitar	200	Mox: 85	2-handed guitar
@@ -1210,6 +1220,7 @@ zombie accordion	300	Mox: 250	1-handed accordion
 6-ball	30	none
 7-ball	30	none
 9-ball	30	none
+A Light that Never Goes Out	0	none
 Abyssal ember	100	Mus: 35
 BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
@@ -1236,6 +1247,7 @@ Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Great Wolf's left paw	300	Mus: 250
 Grey Guanon	0	Mys: 15
+Half a Purse	0	none
 HOA regulation book	350	Mus: 100	shield
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
@@ -1285,6 +1297,7 @@ Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
+Ouija Board, Ouija Board	0	none	shield
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
@@ -1411,6 +1424,7 @@ left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
 loadstone	95	Mys: 32
+loose purse strings	0	none
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -1538,6 +1552,7 @@ sturdy cane	50	Mus: 10
 sucker bucket	50	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
+third-hand lantern	0	none
 thought balloon	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
@@ -1620,6 +1635,7 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
+Hand in Glove	0	none
 HOA zombie eyes	300	Mys: 100
 Helps-You-Sleep	300	Mox: 100
 Hodgman's bow tie	200	Mys: 200

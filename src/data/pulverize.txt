@@ -414,5 +414,21 @@ BRICKO sword	BRICKO brick
 BRICKO pants	BRICKO brick
 BRICKO bulwark	BRICKO brick
 
+# Smithsness items
+Hairpiece On Fire	handful of Smithereens
+Vicar's Tutu	handful of Smithereens
+Hand in Glove	handful of Smithereens
+Work is a Four Letter Sword	handful of Smithereens
+Staff of the Headmaster's Victuals	handful of Smithereens
+Sheila Take a Crossbow	handful of Smithereens
+A Light that Never Goes Out	handful of Smithereens
+Half a Purse	handful of Smithereens
+Meat Tenderizer is Murder	handful of Smithereens
+Ouija Board, Ouija Board	handful of Smithereens
+Hand that Rocks the Ladle	handful of Smithereens
+Saucepanic	handful of Smithereens
+Frankly Mr. Shank	handful of Smithereens
+Shakespeare's Sister's Accordion	handful of Smithereens
+
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112

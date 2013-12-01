@@ -2299,3 +2299,19 @@ junk-mail shirt	JUNK, ROW187	jagged scrap metal	bent scrap metal (2)	Junk-Bond
 arm buzzer	JUNK, ROW191	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 boilgun	JUNK, ROW192	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 swordzall	JUNK, ROW190	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+
+# Smith Tome
+Hairpiece On Fire	SMITH	lump of Brituminous coal	maiden wig
+Vicar's Tutu	SMITH	lump of Brituminous coal	frilly skirt
+Hand in Glove	SMITH	lump of Brituminous coal	dirty hobo gloves
+Work is a Four Letter Sword	SMITH	lump of Brituminous coal	sword hilt
+Staff of the Headmaster's Victuals	SMITH	lump of Brituminous coal	big stick
+Sheila Take a Crossbow	SMITH	lump of Brituminous coal	crossbow string
+A Light that Never Goes Out	SMITH	lump of Brituminous coal	third-hand lantern
+Half a Purse	SMITH	lump of Brituminous coal	loose purse strings
+Meat Tenderizer is Murder	SMITH	lump of Brituminous coal	seal-clubbing club
+Ouija Board, Ouija Board	SMITH	lump of Brituminous coal	turtle totem
+Hand that Rocks the Ladle	SMITH	lump of Brituminous coal	pasta spoon
+Saucepanic	SMITH	lump of Brituminous coal	saucepan
+Frankly Mr. Shank	SMITH	lump of Brituminous coal	disco ball
+Shakespeare's Sister's Accordion	SMITH	lump of Brituminous coal	stolen accordion
