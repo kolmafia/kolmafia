@@ -533,6 +533,10 @@ public class HaciendaManager
 			IntegerPool.get( EffectPool.DONHOS_BUBBLY_BALLAD ),
 			"_donhosCasts",
 		},
+		{
+			IntegerPool.get( EffectPool.INIGOS_INCANTATION_OF_INSPIRATION ),
+			"_inigosCasts",
+		},
 	};
 
 	private static String effectIdToSetting( final int effectId )
