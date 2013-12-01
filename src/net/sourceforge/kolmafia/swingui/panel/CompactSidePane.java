@@ -561,6 +561,7 @@ public class CompactSidePane
 		int clown = KoLCharacter.getClownosity();
 		int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
 		int surgeon = KoLCharacter.currentBitmapModifier( Modifiers.SURGEONOSITY );
+		int smithsness = KoLCharacter.getSmithsness();
 		if ( hobo != 0 )
 		{
 			this.hoboLabel.setText( "Hobo: " );
@@ -580,6 +581,11 @@ public class CompactSidePane
 		{
 			this.hoboLabel.setText( "Clown: " );
 			this.hoboPowerLabel.setText( clown + "/4" );
+		}
+		else if ( smithsness != 0 )
+		{
+			this.hoboLabel.setText( "Smithsness: " );
+			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
 		}
 		else
 		{

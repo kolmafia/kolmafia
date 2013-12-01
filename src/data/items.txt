@@ -6917,8 +6917,8 @@
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
 6901	hazardous sauce dosimeter	396445866	dosimeter.gif	accessory		0
 6902
-6903
-6904
+6903	candied nuts	123175979	sack2.gif	usable	t,d	15
+6904	candied bolts	614960605	sack1.gif	usable	t,d	15
 6905
 6906
 6907

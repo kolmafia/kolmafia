@@ -5705,6 +5705,15 @@ public class FightRequest
 
 			return responseText.indexOf( "toss the pumpkin" ) != -1;
 
+		case ItemPool.GOLDEN_LIGHT:
+
+			// You toss the light at your opponent. It begins to oscillate
+			// wildly, growing brighter until it's all you can see, and then
+			// fades away, leaving not a trace of your foe behind.
+			// Or your foe's behind, for that matter.
+
+			return responseText.contains( "toss the light" );
+
 		case ItemPool.PEPPERMINT_PARASOL:
 
 			// You hold up the parasol, and a sudden freak gust of wind

@@ -1479,3 +1479,7 @@
 1478	Smithsness Dinner	knifefork.gif	ae70de517e8c59ef0e439dc65ed5ef3e	eat 1 Every Day is Like This Sundae
 1479	Smithsness Cheer	pitcher.gif	3a1466f4da531d2f0c2d6dbbe0eac90a	drink 1 Irish Coffee, English Heart
 1480	Jittery	coffeecup.gif	485fac0c54a59ca331f768cc9ea1158d	eat 1 cup of lukewarm tea
+1481
+1482
+1483	Nuts about Candy	candynuts.gif	d14e51d25f25275e0c0cd99a67adc3dc	use 1 candied nuts
+1484	Bolts about Candy	candybolts.gif	cd1dc4f3e9bfc1d3e99016a7b91ef6c9	use 1 candied bolts
