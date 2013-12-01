@@ -166,6 +166,7 @@ public class EffectPool
 	public static final int PRELUDE_OF_PRECISION = 534;
 	public static final int DONHOS_BUBBLY_BALLAD = 614;
 	public static final int COVERED_IN_SLIME_ID = 633;
+	public static final int INIGOS_INCANTATION_OF_INSPIRATION = 716;
 	public static final int EVERYTHING_LOOKS_YELLOW_ID = 790;
 	public static final int EVERYTHING_LOOKS_BLUE_ID = 791;
 	public static final int EVERYTHING_LOOKS_RED_ID = 792;
