@@ -1925,6 +1925,7 @@ public class ItemPool
 	public static final int CHEF_BOY_BUSINESS_CARD = 6898;
 	public static final int PASTA_ADDITIVE = 6900;
 	public static final int SMITH_BOOK = 7003;
+	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
