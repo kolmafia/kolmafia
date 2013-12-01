@@ -1475,3 +1475,7 @@
 1474
 1475
 1476	Merry Smithsness	sad.gif	70b571b8fe1e18020dd5e0974156807f	use 1 Flaskfull of Hollow
+1477
+1478
+1479
+1480	Jittery	coffeecup.gif	485fac0c54a59ca331f768cc9ea1158d	eat 1 cup of lukewarm tea
