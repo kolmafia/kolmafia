@@ -3360,6 +3360,7 @@ Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
+Bolts about Candy	Maximum MP: +50
 Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
 # Bone Homie: Bites Your Enemies
 # Boned Up: Makes you look like a Smart Skelton
@@ -4068,6 +4069,7 @@ Ninja, Please	Critical Hit Percent: +15, Spell Critical Percent: +15
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
 Nothing Is Impossible	Spell Damage Percent: +100
+Nuts about Candy	Maximum HP: +50
 # O Hai!
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
@@ -5244,7 +5246,9 @@ calm attention-deficit demon	Free Pull
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
 can of spinach	Effect: "Pop-eyed", Effect Duration: 10
+candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
 candied kobold	Effect: "Sugar Rush", Effect Duration: 3
+candied nuts	Effect: "Nuts about Candy", Effect Duration: 20
 candy brain	Effect: "Sugar Rush", Effect Duration: 15
 candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
