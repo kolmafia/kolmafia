@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
@@ -5885,6 +5886,14 @@ public abstract class ChoiceManager
 				{
 					Preferences.increment( "_fudgeWaspFights", 1 );
 				}
+			}
+			break;
+
+		case 588:
+			// Machines!
+			if ( text.contains( "The batbugbears around you start acting weird" ) )
+			{
+				BugbearManager.clearShipZone( "Sonar" );
 			}
 			break;
 

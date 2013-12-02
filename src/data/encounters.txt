@@ -3,7 +3,7 @@
 #
 # Adventure Area Name must match that in adventures.txt
 #
-# Type can be one of the following: STOP, SEMIRARE, CLOVER, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON
+# Type can be one of the following: STOP, SEMIRARE, CLOVER, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
 #
 
 ### Autostop Adventures
@@ -148,3 +148,21 @@ The Road to White Citadel	GLYPH	Breakfast of Champions
 The Sleazy Back Alley	GLYPH	For Sale By Squatter
 The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously
 Thugnderdome	GLYPH	Now You're a Hero
+
+### Bugbear mothership Adventures
+Medbay	BUGBEAR	Staph from the Staff
+Waste Processing	BUGBEAR	You're a Compactor Impacter!
+Waste Processing	BUGBEAR	Smell Bad!
+Sonar	BUGBEAR	Sayonara, Sonar!
+Science Lab	BUGBEAR	The Silence of the Scientists
+Science Lab	BUGBEAR	Room Fulla Spiders
+Morgue	BUGBEAR	Operation Successful, Patient Still Deceased
+Morgue	BUGBEAR	The Ghost in You
+Special Ops	BUGBEAR	Turn Off The Dark
+Special Ops	BUGBEAR	Fade to Black
+Engineering	BUGBEAR	An Engineered Success
+Engineering	BUGBEAR	No More Murderbots For You
+Navigation	BUGBEAR	Out of N-Space
+Navigation	BUGBEAR	The Water Cooler of Madness
+Galley	BUGBEAR	Darwin's Revenge
+Galley	BUGBEAR	Haute Dish
