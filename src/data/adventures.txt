@@ -71,6 +71,7 @@ Manor0	adventure=178	true	underground	The Haunted Wine Cellar (Northwest)		20 di
 Manor0	adventure=179	true	underground	The Haunted Wine Cellar (Northeast)		20 disintegrating cork
 Manor0	adventure=180	true	underground	The Haunted Wine Cellar (Southwest)		20 disintegrating cork
 Manor0	adventure=181	true	underground	The Haunted Wine Cellar (Southeast)		20 disintegrating cork
+Manor0	manor3=0	true	none	Summoning Chamber
 HiddenCity	adventure=341	false	indoor	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	false	indoor	The Hidden Hospital	1 dripping stone sphere
 HiddenCity	adventure=343	false	indoor	The Hidden Office Building	1 crackling stone sphere

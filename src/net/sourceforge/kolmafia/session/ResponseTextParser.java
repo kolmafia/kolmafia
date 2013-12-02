@@ -809,10 +809,10 @@ public class ResponseTextParser
 		else if ( location.startsWith( "crypt.php" ) )
 		{
 			// Check if crypt areas have unexpectedly vanished and correct if so
-			if ( !responseText.contains( "The Defiled Alcove" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 0 
-				|| !responseText.contains( "The Defiled Cranny" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) > 0
-				|| !responseText.contains( "The Defiled Niche" ) && Preferences.getInteger( "cyrptNicheEvilness" ) > 0
-				|| !responseText.contains( "The Defiled Nook" ) && Preferences.getInteger( "cyrptNookEvilness" ) > 0 )
+			if ( !responseText.contains( "The Defiled Alcove" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 0 ||
+			     !responseText.contains( "The Defiled Cranny" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) > 0 ||
+			     !responseText.contains( "The Defiled Niche" ) && Preferences.getInteger( "cyrptNicheEvilness" ) > 0 ||
+			     !responseText.contains( "The Defiled Nook" ) && Preferences.getInteger( "cyrptNookEvilness" ) > 0 )
 			{
 				if ( InventoryManager.hasItem( ItemPool.EVILOMETER ) )
 				{

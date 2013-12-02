@@ -171,6 +171,7 @@ Special Ops	-1	Black Ops Bugbear
 Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	skeletal reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skating Muse	toothless mastiff bitch
+Summoning Chamber	100	Lord Spookyraven
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0

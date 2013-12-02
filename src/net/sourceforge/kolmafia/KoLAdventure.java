@@ -1710,6 +1710,17 @@ public class KoLAdventure
 			MafiaState.PENDING
 		},
 
+		// The Summoning Chamber after Lord Spookyraven has been defeated
+		//
+		// You enter the Summoning Chamber.  The air is heavy with
+		// evil, and otherworldly whispers echo melodramatically
+		// through your mind
+		{
+			"otherworldly whispers",
+			"You already defeated Lord Spookyraven.",
+			MafiaState.PENDING
+		},
+
 		// That's too far to walk, and
 		// <a href=clan_dreadsylvania.php?place=carriage>the Carriageman</a>
 		// isn't drunk enough to take you there.
