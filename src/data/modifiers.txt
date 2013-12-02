@@ -717,7 +717,7 @@ Drowsy Sword	Weakens Monster, Monster Level: -10
 # Flail of the Seven Aspects: Special Attack: Turtle of Seven Tails
 Flail of the Seven Aspects	Muscle: +15, Never Fumble, Class: "Turtle Tamer"
 # Frankly Mr. Shank: Disco Bandit Combat Skills weaken enemies by an additional 25%
-Frankly Mr. Shank Smithsness: +5, Moxie Percent: [2*K], Class: "Disco Bandit"
+Frankly Mr. Shank	Smithsness: +5, Moxie Percent: [2*K], Class: "Disco Bandit"
 Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +15, Cold Damage: +30, Class: "Seal Clubber"
@@ -738,7 +738,7 @@ Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
 Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7
 # Hand that Rocks the Ladle: Eminently Twistable
-Hand that Rocks the Ladle Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Smithsness: +5, Mysticality Percent: [2*K], Class: "Pastamancer"
+Hand that Rocks the Ladle	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Smithsness: +5, Mysticality Percent: [2*K], Class: "Pastamancer"
 # Hodgman's whackin' stick: On Critical Hit Percent: Insanity!
 Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Kentucky-fried meat crossbow	Moxie: +5
@@ -764,7 +764,7 @@ Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: This gavel, specifically.
 Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
-Meat Tenderizer is Murder Weapon Damage Percent: +20, Smithsness: +5, Muscle Percent: [2*K], Class: "Seal Clubber"
+Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Muscle Percent: [2*K], Class: "Seal Clubber"
 Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
 Mer-kin digpick	Weapon Damage: +30
 Mer-kin dodgeball	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
@@ -827,7 +827,7 @@ Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, 
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
-Staff of the Headmaster's Victuals MP Regen Min: 2, MP Regen Max: 3, Sleaze Spell Damage: +5, Smithsness: +5, Spell Damage: [2*K]
+Staff of the Headmaster's Victuals	MP Regen Min: 2, MP Regen Max: 3, Sleaze Spell Damage: +5, Smithsness: +5, Spell Damage: [2*K]
 # Staff of the Healthy Breakfast: Jiggle: Recover Some HP
 Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4, Jiggle: "Restore HP"
 # Staff of the Hearty Dinner: Jiggle: Weaken Bad Guy
@@ -1503,7 +1503,7 @@ Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softc
 # Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Spell Damage: +20
 Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Ouija Board, Ouija Board: Gain the favor of the Turtle Spirits more quickly
-Ouija Board, Ouija Board Familiar Weight: +5, Smithsness: +5, Muscle Percent: [2*K], Class: "Turtle Tamer", Damage Reduction: 7
+Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Muscle Percent: [2*K], Class: "Turtle Tamer", Damage Reduction: 7
 # Raggedy Hippy doll
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Rain-Doh green lantern	Maximum MP: +20, Softcore Only
