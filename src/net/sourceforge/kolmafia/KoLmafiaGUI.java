@@ -389,8 +389,6 @@ public class KoLmafiaGUI
 			{
 				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
 			}
-
-			MushroomManager.initialize();
 		}
 		else if ( frameClass == SendMessageFrame.class )
 		{

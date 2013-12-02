@@ -165,6 +165,64 @@ public abstract class RequestThread
 		}
 	}
 
+	public static final void executeMethod( final Object object, final String method )
+	{
+		RequestThread.runInParallel( new ExecuteMethodRunnable( object, method ) );
+	}
+
+	private static class ExecuteMethodRunnable
+		implements Runnable
+	{
+		private Class objectClass;
+		private Object object;
+		private final String methodName;
+		private Method method;
+
+		public ExecuteMethodRunnable( final Object object, final String methodName )
+		{
+			if ( object instanceof Class )
+			{
+				this.objectClass = (Class) object;
+				this.object = null;
+			}
+			else
+			{
+				this.objectClass = object.getClass();
+				this.object = object;
+			}
+
+			this.methodName = methodName;
+			try
+			{
+				Class[] parameters = new Class[ 0 ];
+				this.method = this.objectClass.getMethod( methodName, parameters );
+			}
+			catch ( Exception e )
+			{
+				this.method = null;
+				KoLmafia.updateDisplay(
+					MafiaState.ERROR, "Could not invoke " + this.objectClass + "." + this.methodName );
+			}
+		}
+
+		public void run()
+		{
+			if ( this.method == null )
+			{
+				return;
+			}
+
+			try
+			{
+				Object[] args = new Object[ 0 ];
+				this.method.invoke( this.object, args );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+	}
+
 	/**
 	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
 	 */

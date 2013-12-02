@@ -56,6 +56,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -121,7 +122,9 @@ public class MushroomPlotPanel
 		this.setLayout( new CardLayout( 40, 40 ) );
 		this.add( completePanel, "" );
 
-		this.plotChanged();
+		// Do not try to load the current plot in the Swing thread.
+		// Do it in a separate thread.
+		RequestThread.executeMethod( this, "loadCurrentPlot" );
 	}
 
 	public void executeLayout()
@@ -212,22 +215,19 @@ public class MushroomPlotPanel
 		return panel;
 	}
 
-	/*
-	 * Method invoked by MushroomManager when the field has changed
-	 */
-
-	public void plotChanged()
+	public void loadCurrentPlot()
 	{
 		// Get the layout state of the field and update
+		String plot = MushroomManager.getMushroomManager( true );
 
-		this.currentData = MushroomManager.getMushroomManager( true ).split( ";" );
+		this.currentData = plot.split( ";" );
 
 		// Only update the layout data if you're
 		// not currently doing any layouts.
 
 		if ( !this.doingLayout )
 		{
-			this.layoutData = MushroomManager.getMushroomManager( true ).split( ";" );
+			this.layoutData = plot.split( ";" );
 		}
 
 		// With everything that you need updated,

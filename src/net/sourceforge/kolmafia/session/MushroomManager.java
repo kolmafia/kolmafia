@@ -171,7 +171,10 @@ public abstract class MushroomManager
 
 	public static final String getMushroomManager( final boolean isDataOnly )
 	{
-		MushroomManager.initialize();
+		if ( !MushroomManager.initialize() )
+		{
+			return "";
+		}
 		return MushroomManager.getMushroomManager( isDataOnly, MushroomManager.actualPlot );
 	}
 
@@ -599,32 +602,32 @@ public abstract class MushroomManager
 
 	public static final boolean initialize()
 	{
-		if ( !MushroomManager.ownsPlot() )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You haven't bought a mushroom plot yet." );
-			return false;
-		}
-
-		return true;
+		return MushroomManager.ownsPlot();
 	}
 
 	public static final boolean ownsPlot()
 	{
-		// If you can't go inside Degrassi Knoll, no go
+		if ( MushroomManager.ownsPlot )
+		{
+			return true;
+		}
 
+		// If you can't go inside Degrassi Knoll, no go
 		if ( !KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the mushroom fields." );
 			return false;
 		}
 
-		if ( MushroomManager.ownsPlot )
+		RequestThread.postRequest( new MushroomRequest() );
+
+		if ( !MushroomManager.ownsPlot )
 		{
-			return true;
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You haven't bought a mushroom plot yet." );
+			return false;
 		}
 
-		RequestThread.postRequest( new MushroomRequest() );
-		return MushroomManager.ownsPlot;
+		return true;
 	}
 
 	public static final void parsePlot( final String text )
@@ -643,15 +646,13 @@ public abstract class MushroomManager
 		Matcher plotMatcher = MushroomManager.PLOT_PATTERN.matcher( text );
 		MushroomManager.ownsPlot = plotMatcher.find();
 
-		// If there is no plot data, then we can assume that
-		// the person does not own a plot.  Return from the
-		// method if this is the case.  Otherwise, try to find
-		// all of the squares.
-
+		// If there is no plot data, we do not own a plot.
 		if ( !MushroomManager.ownsPlot )
 		{
 			return;
 		}
+
+		// Find all of the squares.
 
 		Matcher squareMatcher = MushroomManager.SQUARE_PATTERN.matcher( plotMatcher.group( 1 ) );
 
