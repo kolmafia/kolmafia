@@ -4745,7 +4745,7 @@ Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: allows wielding of chefstaves
 # Spleen of Steel
-# Sticky Fingers Pickpocketing also gives Meat
+# Sticky Fingers (skill): Pickpocketing also gives Meat
 # Stomach of Steel
 Subtle and Quick to Anger	Spell Damage Percent: +10
 # Super-Advanced Meatsmithing

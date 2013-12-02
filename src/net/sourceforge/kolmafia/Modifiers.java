@@ -2121,6 +2121,10 @@ public class Modifiers
 				{
 					name = "Thick-Skinned (Skill)";
 				}
+				else if ( name.equals( "Sticky Fingers" ) )
+				{
+					name = "Sticky Fingers (skill)";
+				}
 				this.add( Modifiers.getModifiers( name ) );
 			}
 		}
