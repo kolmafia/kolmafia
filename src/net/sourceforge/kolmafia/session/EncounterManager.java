@@ -61,10 +61,11 @@ public abstract class EncounterManager
 		SEAL,
 		FIST,
 		BORIS,
-		BADMOON
+		BADMOON,
+		BUGBEAR,
 	}
 
-	private static class Encounter
+	public static class Encounter
 	{
 		String location;
 		EncounterType encounterType;
@@ -75,6 +76,21 @@ public abstract class EncounterManager
 			location = row[ 0 ];
 			encounterType = EncounterType.valueOf( row[ 1 ]  );
 			encounter = row[ 2 ];
+		}
+
+		public String getLocation()
+		{
+			return this.location;
+		}
+
+		public EncounterType getEncounterType()
+		{
+			return this.encounterType;
+		}
+
+		public String getEncounter()
+		{
+			return this.encounter;
 		}
 	};
 
@@ -112,7 +128,7 @@ public abstract class EncounterManager
 
 	public void registerAdventure( final KoLAdventure adventureLocation )
 	{
-		registerAdventure( adventureLocation.getAdventureName() );
+		EncounterManager.registerAdventure( adventureLocation.getAdventureName() );
 	}
 
 	public static void registerAdventure( final String adventureName )
@@ -135,13 +151,14 @@ public abstract class EncounterManager
 		}
 	}
 
-	public static final String findEncounterForLocation( final String locationName, final EncounterType type )
+	public static final Encounter findEncounter( final String encounterName )
 	{
 		for ( int i = 0; i < specialEncounters.length; ++i )
 		{
-			if ( locationName.equalsIgnoreCase( specialEncounters[ i ].location ) && type.equals( specialEncounters[ i ].encounterType ) )
+			Encounter encounter = specialEncounters[ i ];
+			if ( encounterName.equalsIgnoreCase( encounter.encounter ) )
 			{
-				return specialEncounters[ i ].encounter;
+				return encounter;
 			}
 		}
 
@@ -150,20 +167,31 @@ public abstract class EncounterManager
 
 	public static final EncounterType encounterType( final String encounterName )
 	{
+		Encounter encounter = EncounterManager.findEncounter( encounterName );
+		return EncounterManager.encounterType( encounter, encounterName );
+	}
+
+	private static final EncounterType encounterType( final Encounter encounter, final String encounterName )
+	{
+		return  encounter != null ?
+			encounter.encounterType :
+			BadMoonManager.specialAdventure( encounterName ) ?
+			EncounterType.BADMOON :
+			EncounterType.NONE;
+	}
+
+	public static final String findEncounterForLocation( final String locationName, final EncounterType type )
+	{
 		for ( int i = 0; i < specialEncounters.length; ++i )
 		{
-			if ( encounterName.equalsIgnoreCase( specialEncounters[ i ].encounter ) )
+			Encounter encounter = specialEncounters[ i ];
+			if ( locationName.equalsIgnoreCase( encounter.location ) && type.equals( encounter.encounterType ) )
 			{
-				return specialEncounters[ i ].encounterType;
+				return encounter.encounter;
 			}
 		}
 
-		if ( BadMoonManager.specialAdventure( encounterName ) )
-		{
-			return EncounterType.BADMOON;
-		}
-
-		return EncounterType.NONE;
+		return null;
 	}
 
 	public static final boolean isAutoStop( final String encounterName )
@@ -195,7 +223,14 @@ public abstract class EncounterManager
 
 	private static void recognizeEncounter( final String encounterName, final String responseText )
 	{
-		EncounterType encounterType = encounterType( encounterName );
+		Encounter encounter = EncounterManager.findEncounter( encounterName );
+		EncounterType encounterType = EncounterManager.encounterType( encounter, encounterName );
+
+		if ( encounterType == EncounterType.BUGBEAR )
+		{
+			BugbearManager.registerEncounter( encounter, responseText );
+			return;
+		}
 
 		// You stop for a moment to catch your breath, and possibly a
 		// cold, and hear a wolf whistle from behind you. You spin

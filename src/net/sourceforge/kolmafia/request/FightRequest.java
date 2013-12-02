@@ -2656,29 +2656,29 @@ public class FightRequest
 		{
 			switch ( adventure )
 			{
-				case AdventurePool.MERKIN_COLOSSEUM:
-					// Do not increment round for wandering monsters
-					if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
-					       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
-					       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
-					       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
-					       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
-					       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
-					     // Do mark path chosen unless won round 15
-					     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
-					{
-						Preferences.setString( "merkinQuestPath", "gladiator" );
-					}
-					break;
+			case AdventurePool.MERKIN_COLOSSEUM:
+				// Do not increment round for wandering monsters
+				if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
+				       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
+				       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
+				       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
+				       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
+				       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
+				     // Do mark path chosen unless won round 15
+				     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
+				{
+					Preferences.setString( "merkinQuestPath", "gladiator" );
+				}
+				break;
 				
-				case AdventurePool.THE_DAILY_DUNGEON:
-					Preferences.increment( "_lastDailyDungeonRoom", 1 );
-					break;
+			case AdventurePool.THE_DAILY_DUNGEON:
+				Preferences.increment( "_lastDailyDungeonRoom", 1 );
+				break;
 					
-				case AdventurePool.ARID_DESERT:
-					int explored = KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) ? 2 : 1;
-					QuestManager.incrementDesertExploration( explored );
-					break;
+			case AdventurePool.ARID_DESERT:
+				int explored = KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) ? 2 : 1;
+				QuestManager.incrementDesertExploration( explored );
+				break;
 			}
 
 			if ( responseText.contains( "monstermanuel.gif" ) )
@@ -3029,6 +3029,10 @@ public class FightRequest
 				{
 					ResultProcessor.removeItem( ItemPool.BOWL_OF_SCORPIONS );
 				}
+			}
+			else if ( monster.equalsIgnoreCase( "bugbear robo-surgeon" ) )
+			{
+				BugbearManager.clearShipZone( "Medbay" );
 			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(

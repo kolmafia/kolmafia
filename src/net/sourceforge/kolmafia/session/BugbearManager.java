@@ -37,6 +37,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EncounterManager.Encounter;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BugbearManager
@@ -292,8 +294,14 @@ public class BugbearManager
 			return;
 		}
 
+		String statusSetting = BugbearManager.dataToStatusSetting( data );
+		if ( Preferences.getString( statusSetting ).equals( "cleared" ) )
+		{
+			return;
+		}
+
 		// Mark this ship zone cleared
-		Preferences.setString( BugbearManager.dataToStatusSetting( data ), "cleared" );
+		Preferences.setString( statusSetting, "cleared" );
 
 		// Calculate which level of the ship this zone is on
 		int level = BugbearManager.dataToLevel( data );
@@ -306,8 +314,8 @@ public class BugbearManager
 			{
 				continue;
 			}
-			String setting = BugbearManager.dataToStatusSetting( zoneData );
-			String status = Preferences.getString( setting );
+			String zoneSetting = BugbearManager.dataToStatusSetting( zoneData );
+			String status = Preferences.getString( zoneSetting );
 			if ( !status.equals( "cleared" ) )
 			{
 				return;
@@ -330,12 +338,25 @@ public class BugbearManager
 			{
 				continue;
 			}
-			String setting = BugbearManager.dataToStatusSetting( zoneData );
-			String status = Preferences.getString( setting );
+			String zoneSetting = BugbearManager.dataToStatusSetting( zoneData );
+			String status = Preferences.getString( zoneSetting );
 			if ( status.equals( "unlocked" ) )
 			{
-				Preferences.setString( setting, "open" );
+				Preferences.setString( zoneSetting, "open" );
 			}
 		}
 	}
+
+	public static void registerEncounter( final Encounter encounter, final String responseText )
+	{
+		// All BUGBEAR encounters indicate that a mothership zone has been cleared
+
+		String zone = encounter.getLocation();
+		String encounterName = encounter.getEncounter();
+
+		// We could look at the responseText here to confirm, if we wanted.
+
+		BugbearManager.clearShipZone( zone );
+	}
+
 }
