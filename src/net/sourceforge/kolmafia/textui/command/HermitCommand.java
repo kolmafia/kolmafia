@@ -121,7 +121,9 @@ public class HermitCommand
 		count =
 			itemId == ItemPool.TEN_LEAF_CLOVER ?
 			Math.min( count, cloverCount ) :
-			Math.min( count, HermitRequest.getWorthlessItemCount() );
+			count == Integer.MAX_VALUE ?
+			Math.min( count, HermitRequest.getWorthlessItemCount() ) :
+			count;
 
 		if ( count > 0 )
 		{
