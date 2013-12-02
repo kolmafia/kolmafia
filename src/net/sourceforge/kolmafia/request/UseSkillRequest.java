@@ -158,6 +158,7 @@ public class UseSkillRequest
 	{
 		new BuffTool( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 15, false, null ),
 		new BuffTool( ItemPool.FRYING_BRAINPAN, 15, false, null ),
+		new BuffTool( ItemPool.SAUCEPANIC, 10, false, null ),
 		new BuffTool( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 10, false, null ),
 		new BuffTool( ItemPool.OIL_PAN, 7, true, null ),
 		new BuffTool( ItemPool.FIVE_ALARM_SAUCEPAN, 5, false, null ),

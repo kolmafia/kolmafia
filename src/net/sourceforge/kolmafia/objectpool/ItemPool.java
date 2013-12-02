@@ -1927,6 +1927,7 @@ public class ItemPool
 	public static final int SMITH_BOOK = 7003;
 	public static final int GOLDEN_LIGHT = 7013;
 	public static final int LOUDER_THAN_BOMB = 7014;
+	public static final int SAUCEPANIC = 7027;
 	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
 
 	public static final AdventureResult get( String itemName, int count )
