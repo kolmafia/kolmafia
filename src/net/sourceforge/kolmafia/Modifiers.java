@@ -2041,6 +2041,11 @@ public class Modifiers
 		return mods.get( mod );
 	}
 
+	public static final double getNumericModifier( final FamiliarData fam, final String mod )
+	{
+		return Modifiers.getNumericModifier( fam, mod, fam.getModifiedWeight( false ), fam.getItem() );
+	}
+
 	public static final double getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item )
 	{
 		int familiarId = fam != null ? fam.getId() : -1;
@@ -2048,22 +2053,35 @@ public class Modifiers
 		{
 			return 0.0;
 		}
-		Modifiers tempMods = new Modifiers();
+
 		Modifiers.setFamiliar( fam );
-		if ( familiarId != FamiliarPool.HATRACK && familiarId != FamiliarPool.SCARECROW )
+
+		int weight = passedWeight;
+
+		Modifiers tempMods = new Modifiers();
+
+		// Mad Hatrack ... hats do not give their normal modifiers
+		// Fancypants Scarecrow ... pants do not give their normal modifiers
+		int type = ItemDatabase.getConsumptionType( item.getItemId() );
+		if ( ( familiarId != FamiliarPool.HATRACK || type != KoLConstants.EQUIP_HAT ) &&
+		     ( familiarId != FamiliarPool.SCARECROW || type != KoLConstants.EQUIP_PANTS ) )
 		{
-			// Mad Hatrack ... hats do not give their normal modifiers
-			// Fancypants Scarecrow ... pants do not give their normal modifiers
-			// (should I be checking the item is a hat or pants?)
+			// Add in all the modifiers bestowed by this item
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
+
+			// Apply weight modifiers right now
+			weight += (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT );
+			weight += (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+			weight += ( fam.getFeasted() ? 10 : 0 );
+			double percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0;
+			if ( percent != 0.0 )
+			{
+				weight = (int) Math.floor( weight + weight * percent );
+			}
 		}
-		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( fam.getFeasted() ? 10 : 0 );
-		double percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0;
-		if ( percent != 0.0 )
-		{
-			weight = (int) Math.floor( weight + weight * percent );
-		}
+
 		tempMods.lookupFamiliarModifiers( fam, weight, item );
+
 		return tempMods.get( mod );
 	}
 
