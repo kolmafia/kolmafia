@@ -3925,14 +3925,7 @@ public abstract class ChoiceManager
 			// Check for familiars
 			if ( !KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 			{
-				double eff = KoLCharacter.getCurrentModifiers().get( Modifiers.FAIRY_EFFECTIVENESS );
-				if ( eff == 0.0 && FamiliarDatabase.isFairyType( KoLCharacter.getFamiliar().getId() ) )
-				{
-					eff = 1.0;
-				}
-				int weight = KoLCharacter.getFamiliar().getModifiedWeight();
-
-				bonus = eff * ( Math.sqrt( 55 * weight ) + weight - 3 );
+				bonus = Modifiers.getNumericModifier( KoLCharacter.getFamiliar(), "Item Drop" );
 			}
 			// Check for Clancy
 			else if ( KoLCharacter.getCurrentInstrument() != null &&

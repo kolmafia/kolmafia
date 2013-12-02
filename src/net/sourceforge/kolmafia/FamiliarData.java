@@ -323,7 +323,7 @@ public class FamiliarData
 		this.feasted = feasted;
 
 		// Get modified weight excluding hidden weight modifiers
-		int delta = weight - this.getModifiedWeight( false );
+		int delta = weight - this.getModifiedWeight( false, true );
 		if ( delta != 0 )
 		{
 			// The following is informational, not an error, but it confuses people, so don't print it.
@@ -533,10 +533,15 @@ public class FamiliarData
 
 	public int getModifiedWeight()
 	{
-		return this.getModifiedWeight( true );
+		return this.getModifiedWeight( true, true );
 	}
 
-	private int getModifiedWeight( final boolean includeHidden )
+	public int getModifiedWeight( final boolean includeEquipment)
+	{
+		return this.getModifiedWeight( true, includeEquipment );
+	}
+
+	private int getModifiedWeight( final boolean includeHidden, final boolean includeEquipment )
 	{
 		// Start with base weight of familiar
 		int weight = this.weight;
@@ -547,10 +552,11 @@ public class FamiliarData
 		double hidden = current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 		double percent = current.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 
-		// If this is not the current familiar, adjust modifiers to
-		// reflect this familiar's current equipment.
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		if ( this != familiar )
+
+		// If this is not the current familiar or we are not
+		// considering equipment, subtract weight granted by equipment
+		if ( this != familiar || !includeEquipment )
 		{
 			// Subtract modifiers for current familiar's equipment
 			AdventureResult item = familiar.getItem();
@@ -564,7 +570,12 @@ public class FamiliarData
 					percent -= mods.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 				}
 			}
+		}
 
+		// If this is not the current familiar and we are considering
+		// equipment, add weight granted by equipment.
+		if ( this != familiar && includeEquipment )
+		{
 			// Add modifiers for this familiar's equipment
 			item = this.getItem();
 			if ( item != EquipmentRequest.UNEQUIP )

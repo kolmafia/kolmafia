@@ -181,5 +181,5 @@
 172	Adorable Space Buddy	starbuddy.gif	combat	6409	cute bow from beyond the stars	1	2	3	3
 173	Nosy Nose	nosynose.gif	none	6460	nosy nose ringy ring	1	3	1	2
 174	Mini-Adventurer	miniadv0.gif		6561	mini-Mr. Accessory	2	2	2	2
-175	Mechanical Songbird	mechbird.gif	none	6490	shiny brass tailfeathers	1	2	2	0
+175	Mechanical Songbird	mechbird.gif	item0	6490	shiny brass tailfeathers	1	2	2	0
 176	Reanimated Reanimator	reanimator.gif	none	6784	flask of embalming fluid	2	3	2	0

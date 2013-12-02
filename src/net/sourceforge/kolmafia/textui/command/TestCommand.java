@@ -43,10 +43,13 @@ import java.nio.charset.Charset;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -297,6 +300,24 @@ public class TestCommand
 				String state = parameters.substring( index + 1 ).trim();
 				RequestLogger.printLine( KoLmafia.getSaveState( state ) );
 			}
+			return;
+		}
+
+		if ( command.equals( "fairy" ) )
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( split.length >= 2 )
+			{
+				int index = parameters.indexOf( " " );
+				String race = parameters.substring( index + 1 ).trim();
+				familiar = KoLCharacter.findFamiliar( race );
+			}
+			if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
+			{
+				return;
+			}
+			double itemDrop = Modifiers.getNumericModifier( familiar, "Item Drop" );
+			RequestLogger.printLine( "Item Drop: " + itemDrop );
 			return;
 		}
 
