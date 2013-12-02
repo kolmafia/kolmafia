@@ -143,6 +143,10 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", adventureId );
 		}
+		else if ( formSource.equals( "manor3.php" ) )
+		{
+			this.addFormField( "place", "chamber" );
+		}
 		else if ( formSource.equals( "mining.php" ) )
 		{
 			this.addFormField( "mine", adventureId );
@@ -1079,10 +1083,6 @@ public class AdventureRequest
 
 	private static final boolean containsEncounter( final String formSource, final String responseText )
 	{
-		// The first round is unique in that there is no
-		// data fields.	 Therefore, it will equal fight.php
-		// exactly every single time.
-
 		if ( formSource.startsWith( "adventure.php" ) )
 		{
 			return true;
@@ -1093,19 +1093,19 @@ public class AdventureRequest
 		}
 		else if ( formSource.startsWith( "choice.php" ) )
 		{
-			return responseText.indexOf( "choice.php" ) != -1;
+			return responseText.contains( "choice.php" );
 		}
 		else if ( formSource.startsWith( "cave.php" ) )
 		{
-			return formSource.indexOf( "sanctum" ) != -1;
+			return formSource.contains( "sanctum" );
 		}
 		else if ( formSource.startsWith( "cobbsknob.php" ) )
 		{
-			return formSource.indexOf( "throneroom" ) != -1;
+			return formSource.contains( "throneroom" );
 		}
 		else if ( formSource.startsWith( "crypt.php" ) )
 		{
-			return formSource.indexOf( "action" ) != -1;
+			return formSource.contains( "action" );
 		}
 		else if ( formSource.startsWith( "cellar.php" ) )
 		{
@@ -1114,17 +1114,17 @@ public class AdventureRequest
 		}
 		else if ( formSource.startsWith( "palinshelves.php" ) )
 		{
-			return responseText.indexOf( "palinshelves.php" ) != -1;
+			return responseText.contains( "palinshelves.php" );
 		}
 		else if ( formSource.startsWith( "suburbandis.php" ) )
 		{
-			return formSource.indexOf( "action=dothis" ) != -1;
+			return formSource.contains( "action=dothis" );
 		}
 		else if ( formSource.startsWith( "tiles.php" ) )
 		{
 			// Only register initial encounter of Dvorak's Revenge
 			DvorakDecorator.saveResponse( responseText );
-			return responseText.indexOf( "I before E, except after C" ) != -1;
+			return responseText.contains( "I before E, except after C" );
 		}
 		else if ( formSource.startsWith( "barrel.php?smash" ) )
 		{
