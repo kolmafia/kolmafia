@@ -117,6 +117,11 @@ public class Interpreter
 			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", Interpreter.traceStream, true );
 	}
 
+	public static final void println( final String string )
+	{
+		Interpreter.traceStream.println( string );
+	}
+
 	public static final void closeTraceStream()
 	{
 		RequestLogger.closeStream( Interpreter.traceStream );

@@ -1641,7 +1641,7 @@ public class GenericRequest
 
 	private boolean postClientData()
 	{
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || Interpreter.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -1650,6 +1650,10 @@ public class GenericRequest
 			if ( RequestLogger.isTracing() )
 			{
 				RequestLogger.trace( "Requesting: " + this.requestURL() );
+			}
+			if ( Interpreter.isTracing() )
+			{
+				Interpreter.println( "Requesting: " + this.requestURL() );
 			}
 		}
 
@@ -1820,7 +1824,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || Interpreter.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -1829,6 +1833,10 @@ public class GenericRequest
 			if ( RequestLogger.isTracing() )
 			{
 				RequestLogger.trace( "Retrieved: " + this.requestURL() );
+			}
+			if ( Interpreter.isTracing() )
+			{
+				Interpreter.println( "Retrieved: " + this.requestURL() );
 			}
 		}
 
