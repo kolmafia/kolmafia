@@ -1543,11 +1543,12 @@ public class EquipmentManager
 
 	public static final int getAdjustedHitStat()
 	{
+		int hitStat;
 		switch ( getHitStatType() )
 		{
 		default:
 		case MUSCLE:
-			int hitStat = KoLCharacter.getAdjustedMuscle();
+			hitStat = KoLCharacter.getAdjustedMuscle();
 			if ( Modifiers.unarmed && KoLCharacter.hasSkill( "Master of the Surprising Fist" ) )
 			{
 				hitStat += 20;
@@ -1556,7 +1557,12 @@ public class EquipmentManager
 		case MYSTICALITY:
 			return KoLCharacter.getAdjustedMysticality();
 		case MOXIE:
-			return KoLCharacter.getAdjustedMoxie();
+			hitStat = KoLCharacter.getAdjustedMoxie();
+			if( EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill( "Crab Claw Technique" ) )
+			{
+				hitStat += 50;
+			}
+			return hitStat;
 		}
 	}
 
