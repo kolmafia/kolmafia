@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.DreadsylvaniaRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
@@ -487,6 +488,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "dwarffactory.php" ) )
 		{
 			DwarfFactoryRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "familiar.php" ) )
+		{
+			FamiliarRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "friars.php" ) )
