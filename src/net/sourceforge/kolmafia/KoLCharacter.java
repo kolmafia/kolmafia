@@ -4685,6 +4685,8 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( KoLmafia.statDay ) );
 		}
 
+		Modifiers.smithsness = KoLCharacter.getSmithsnessModifier( equipment, effects );
+
 		// Certain outfits give benefits to the character
 		// Need to do this before the individual items, so that Hobo Power
 		// from the outfit counts towards a Hodgman offhand.
@@ -4796,8 +4798,6 @@ public abstract class KoLCharacter
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
-
-		Modifiers.smithsness = newModifiers.get( Modifiers.SMITHSNESS );
 
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
@@ -5078,6 +5078,34 @@ public abstract class KoLCharacter
 		}
 	}
 
+	public static final double getSmithsnessModifier( AdventureResult[] equipment, List effects )
+	{
+		double smithsness = 0;
+		
+		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
+		{
+			AdventureResult item = equipment[ slot ];
+			if ( item != null )
+			{
+				String name = item.getName();
+				Modifiers imod = Modifiers.getModifiers( name );
+				if ( imod != null )
+				{
+					smithsness += imod.get( Modifiers.SMITHSNESS );
+				}
+			}
+		}
+		for ( int i = 0; i < effects.size(); ++i )
+		{
+			Modifiers emod = Modifiers.getModifiers( ( (AdventureResult) effects.get( i ) ).getName() );
+			if ( emod != null )
+			{
+				smithsness += emod.get( Modifiers.SMITHSNESS );
+			}
+		}
+		return smithsness;
+	}
+	
 	// Per-character settings that change each ascension
 
 	public static final void ensureUpdatedDwarfFactory()
