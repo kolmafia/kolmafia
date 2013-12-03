@@ -301,7 +301,6 @@ public class SkillBuffFrame
 			}
 		}
 		
-		@Override
 		public void update()
 		{
 			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
