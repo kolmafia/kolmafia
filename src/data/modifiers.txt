@@ -3345,6 +3345,7 @@ Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, M
 Blessing of the Frozen Tortellini	Cold Spell Damage: +20, Stench Resistance: +2
 Blessing of the Hot Linguine	Hot Spell Damage: +20, Cold Resistance: +2
 Blessing of the Pervy Noodles	Sleaze Spell Damage: +20, Hot Resistance: +2
+Blessing of the Spaghetto	Spell Damage: +40, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resistance: +2
 Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
@@ -5014,6 +5015,7 @@ Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
+Can of Spaghetto	Effect: "Blessing of the Spaghetto", Effect Duration: 20
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
 Cheshire Bitten	Free Pull
 Clan VIP Lounge invitation	Free Pull
