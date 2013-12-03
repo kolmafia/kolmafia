@@ -219,8 +219,10 @@ public class ValhallaManager
 		Preferences.setInteger( "lastBreakfast", -1 );
 
 		KoLmafia.resetCounters();
-		UntinkerRequest.reset();
 		ValhallaManager.resetPerAscensionCounters();
+
+		UntinkerRequest.reset();
+		KoLCharacter.setGuildStoreOpen( false );
 
 		KoLmafia.resetSession();
 	}
@@ -232,7 +234,6 @@ public class ValhallaManager
 		KoLmafia.refreshSession();
 
 		EquipmentManager.updateEquipmentLists();
-
 		ConcoctionDatabase.refreshConcoctions( true );
 
 		// Reset certain settings that the player almost certainly will
