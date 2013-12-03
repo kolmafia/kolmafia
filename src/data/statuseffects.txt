@@ -1462,7 +1462,7 @@
 1461	Blessing of the Stinking Alphredo&trade;	alphredo.gif	9ec25859336babf49ea198cfd49026ec	use 1 blob of Alphredo™
 1462	Blessing of the Pervy Noodles	pastalighthouses.gif	b385ad40a44a9bae9195b33338b281fa	use 1 handful of crafty noodles
 1463	Blessing of the Creepy Pasta	boobooboo.gif	b35f8c2f4e485f88f07fd9394df41ec6	use 1 tangled mass of creepy pasta
-1464
+1464	Blessing of the Spaghetto	ocan.gif	3a3149675a778e52d679781c1f9203ff	use 1 Can of Spaghetto
 1465	Soulerskates	soulskate.gif	aefd370dd9a358e1fad37c072c24f043	cast 1 Soul Rotation
 1466	Soul Funk	soulfunk.gif	791362820015af19b7c23085a1b6cc30	cast 1 Soul Funk
 1467

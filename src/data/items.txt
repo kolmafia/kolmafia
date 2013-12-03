@@ -6911,7 +6911,7 @@
 6894	blob of Alphredo&trade;	214678093	alphredo.gif	usable	t,d	5	blobs of Alphredo&trade;
 6895	handful of crafty noodles	594037699	pastalighthouses.gif	usable	t,d	5	handfuls of crafty noodles
 6896	tangled mass of creepy pasta	677130598	boobooboo.gif	usable	t,d	5	tangled masses of creepy pasta
-6897
+6897 	Can of Spaghetto	436656797	ocan.gif	usable	t,d	50
 6898	Chef Boy, R&D's business card	189658738	buscard.gif	reusable		0
 6899	Thwaitgold ant statuette	287861273	thwaitant.gif	none		0
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
