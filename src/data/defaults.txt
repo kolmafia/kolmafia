@@ -285,15 +285,6 @@ user	beeCounter	0
 user	beforePVPScript
 user	betweenBattleScript
 user	bigBrotherRescued	false
-user	biodataEngineering	0
-user	biodataGalley	0
-user	biodataMedbay	0
-user	biodataMorgue	0
-user	biodataNavigation	0
-user	biodataScienceLab	0
-user	biodataSonar	0
-user	biodataSpecialOps	0
-user	biodataWasteProcessing	0
 user	birdformCold	0
 user	birdformHot	0
 user	birdformRoc	0
