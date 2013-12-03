@@ -2388,11 +2388,10 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			boolean unlocked = KoLCharacter.getGuildStoreOpen();
 			this.setShown( KoLCharacter.isMoxieClass() &&
-				KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && unlocked );
-			this.setText( (10 - KoLCharacter.getStillsAvailable()) +
-				"/10 stills used" );
+				       KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && 
+				       KoLCharacter.getGuildStoreOpen() );
+			this.setText( (10 - KoLCharacter.getStillsAvailable()) + "/10 stills used" );
 		}
 	}
 

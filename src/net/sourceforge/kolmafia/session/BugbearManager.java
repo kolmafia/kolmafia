@@ -45,15 +45,6 @@ public class BugbearManager
 {
 	public static void resetStatus()
 	{
-		Preferences.setInteger( "biodataEngineering", 0 );
-		Preferences.setInteger( "biodataGalley", 0 );
-		Preferences.setInteger( "biodataMedbay", 0 );
-		Preferences.setInteger( "biodataMorgue", 0 );
-		Preferences.setInteger( "biodataNavigation", 0 );
-		Preferences.setInteger( "biodataScienceLab", 0 );
-		Preferences.setInteger( "biodataSonar", 0 );
-		Preferences.setInteger( "biodataSpecialOps", 0 );
-		Preferences.setInteger( "biodataWasteProcessing", 0 );
 		Preferences.setInteger( "statusEngineering", 0 );
 		Preferences.setInteger( "statusGalley", 0 );
 		Preferences.setInteger( "statusMedbay", 0 );
@@ -74,7 +65,6 @@ public class BugbearManager
 			"hypodermic bugbear",
 			"The Spooky Forest",
 			IntegerPool.get( 1 ),
-			"biodataMedbay",
 			"statusMedbay",
 		},
 		{
@@ -83,7 +73,6 @@ public class BugbearManager
 			"scavenger bugbear",
 			"The Sleazy Back Alley",
 			IntegerPool.get( 1 ),
-			"biodataWasteProcessing",
 			"statusWasteProcessing",
 		},
 		{
@@ -92,7 +81,6 @@ public class BugbearManager
 			"batbugbear",
 			"Guano Junction",
 			IntegerPool.get( 1 ),
-			"biodataSonar",
 			"statusSonar",
 		},
 		{
@@ -101,7 +89,6 @@ public class BugbearManager
 			"bugbear scientist",
 			"Cobb's Knob Laboratory",
 			IntegerPool.get( 2 ),
-			"biodataScienceLab",
 			"statusScienceLab"
 		},
 		{
@@ -113,7 +100,6 @@ public class BugbearManager
 				"Post-Cyrpt Cemetary",
 			},
 			IntegerPool.get( 2 ),
-			"biodataMorgue",
 			"statusMorgue",
 		},
 		{
@@ -122,7 +108,6 @@ public class BugbearManager
 			"black ops bugbear",
 			"Lair of the Ninja Snowmen",
 			IntegerPool.get( 2 ),
-			"biodataSpecialOps",
 			"statusSpecialOps",
 		},
 		{
@@ -131,7 +116,6 @@ public class BugbearManager
 			"battlesuit bugbear type",
 			"The Penultimate Fantasy Airship",
 			IntegerPool.get( 3 ),
-			"biodataEngineering",
 			"statusEngineering",
 		},
 		{
@@ -140,7 +124,6 @@ public class BugbearManager
 			"ancient unspeakable bugbear",
 			"The Haunted Gallery",
 			IntegerPool.get( 3 ),
-			"biodataNavigation",
 			"statusNavigation",
 		},
 		{
@@ -152,7 +135,6 @@ public class BugbearManager
 				"The Battlefield (Hippy Uniform)",
 			},
 			IntegerPool.get( 3 ),
-			"biodataGalley",
 			"statusGalley",
 		}
 	};
@@ -203,14 +185,9 @@ public class BugbearManager
 		return data == null ? 0 : ((Integer)data[ 4 ]).intValue();
 	}
 
-	public static String dataToBiodataSetting( Object[] data )
-	{
-		return data == null ? "" : (String)data[ 5 ];
-	}
-
 	public static String dataToStatusSetting( Object[] data )
 	{
-		return data == null ? "" : (String)data[ 6 ];
+		return data == null ? "" : (String)data[ 5 ];
 	}
 
 	public static Object[] idToData( final int id )
@@ -263,9 +240,6 @@ public class BugbearManager
 		{
 			return;
 		}
-
-		String biodataSetting = BugbearManager.dataToBiodataSetting( data );
-		Preferences.setInteger( biodataSetting, count );
 
 		String statusSetting = BugbearManager.dataToStatusSetting( data );
 		int level = BugbearManager.dataToLevel( data );
