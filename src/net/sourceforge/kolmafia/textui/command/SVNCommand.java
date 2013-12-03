@@ -217,6 +217,11 @@ public class SVNCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "No script matching " + params + " is currently installed." );
 			}
 		}
+		else if ( parameters.startsWith( "cleanup" ) )
+		{
+			SVNManager.doCleanup();
+			return;
+		}
 	}
 
 	/**

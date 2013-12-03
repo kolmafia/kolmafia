@@ -478,6 +478,13 @@ public class SVNManager
 
 		ourClientManager.getWCClient().doDelete( wcPath, force, false );
 	}*/
+	
+	public static void doCleanup()
+	{
+		initialize();
+		
+		RequestThread.postRequest( new CleanupRunnable() );
+	}
 
 	public static void doCheckout( SVNURL repo )
 	{
