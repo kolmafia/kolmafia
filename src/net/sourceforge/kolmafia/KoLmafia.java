@@ -769,6 +769,7 @@ public abstract class KoLmafia
 			// In Valhalla, parse the CharPane and abort further processing
 			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
 			RequestThread.postRequest( new CharPaneRequest() );
+			KoLCharacter.setGuildStoreOpen( false );
 			KoLmafia.isRefreshing = false;
 			return;
 		}
