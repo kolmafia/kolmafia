@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -65,12 +66,14 @@ public class FamiliarCommand
 			ShowDataCommand.show( "familiars " + parameters.substring( 4 ).trim() );
 			return;
 		}
-		else if ( parameters.length() == 0 )
+
+		if ( parameters.length() == 0 )
 		{
 			ShowDataCommand.show( "familiars" );
 			return;
 		}
-		else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
+
+		if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
 		{
 			if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 			{
@@ -80,7 +83,8 @@ public class FamiliarCommand
 			RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
 			return;
 		}
-		else if ( parameters.equalsIgnoreCase( "lock" ) )
+
+		if ( parameters.equalsIgnoreCase( "lock" ) )
 		{
 			if ( EquipmentManager.familiarItemLocked() )
 			{
@@ -95,7 +99,8 @@ public class FamiliarCommand
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 			return;
 		}
-		else if ( parameters.equalsIgnoreCase( "unlock" ) )
+
+		if ( parameters.equalsIgnoreCase( "unlock" ) )
 		{
 			if ( !EquipmentManager.familiarItemLocked() )
 			{
@@ -105,7 +110,8 @@ public class FamiliarCommand
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 			return;
 		}
-		else if ( parameters.indexOf( "(no change)" ) != -1 )
+
+		if ( parameters.indexOf( "(no change)" ) != -1 )
 		{
 			return;
 		}
@@ -114,7 +120,7 @@ public class FamiliarCommand
 		if ( parameters.startsWith( "naked " ) )
 		{
 			unequip = true;
-			parameters = parameters.substring( 6 );
+			parameters = parameters.substring( 6 ).trim();
 		}
 
 		List familiarList = KoLCharacter.getFamiliarList();
@@ -128,42 +134,54 @@ public class FamiliarCommand
 
 		List matchList = StringUtilities.getMatchingNames( familiars, parameters );
 
+		if ( matchList.size() == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + parameters + " for a familiar." );
+			return;
+		}
+
 		if ( matchList.size() > 1 )
 		{
 			RequestLogger.printList( matchList );
 			RequestLogger.printLine();
 
 			KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
+			return;
 		}
-		else if ( matchList.size() == 1 )
-		{
-			String race = (String) matchList.get( 0 );
-			FamiliarData change = null;
-			for ( int i = 0; i < familiars.length; ++i )
-			{
-				if ( race.equals( familiars[ i ] ) )
-				{
-					change = (FamiliarData) familiarList.get( i );
-					break;
-				}
-			}
 
-			if ( !change.canEquip() )
+		String race = (String) matchList.get( 0 );
+		FamiliarData change = null;
+		for ( int i = 0; i < familiars.length; ++i )
+		{
+			if ( race.equals( familiars[ i ] ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + race + " with your current restrictions." );
-			}
-			else if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-			{
-				RequestLogger.printLine( change.toString() );
-			}
-			else if ( KoLCharacter.getFamiliar() != null && !KoLCharacter.getFamiliar().equals( change ) )
-			{
-				RequestThread.postRequest( new FamiliarRequest( change, unequip ) );
+				change = (FamiliarData) familiarList.get( i );
+				break;
 			}
 		}
-		else
+
+		if ( !change.canEquip() )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + parameters + " for a familiar." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + race + " with your current restrictions." );
+			return;
+		}
+
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( change.toString() );
+			return;
+		}
+
+		FamiliarData current = KoLCharacter.getFamiliar();
+		if ( current != null && !current.equals( change ) )
+		{
+			RequestThread.postRequest( new FamiliarRequest( change ) );
+
+			// If we want the new familiar to be naked, unequip the familiar item
+			if ( KoLmafia.permitsContinue() && unequip )
+			{
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
+			}
 		}
 	}
 }
