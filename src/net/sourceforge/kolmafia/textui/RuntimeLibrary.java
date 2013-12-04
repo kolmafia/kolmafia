@@ -813,6 +813,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_closet_meat", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_storage_meat", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3933,6 +3936,11 @@ public abstract class RuntimeLibrary
 	public static Value my_closet_meat( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getClosetMeat() );
+	}
+
+	public static Value my_storage_meat( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getStorageMeat() );
 	}
 
 	public static Value my_adventures( Interpreter interpreter )
