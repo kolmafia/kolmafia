@@ -612,7 +612,7 @@ Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	175	Mus: 66	2-handed sword
 El Vibrato energy spear	200	Mus: 200	2-handed spear
 Flail of the Seven Aspects	200	Mus: 60	1-handed flail
-Frankly Mr. Shank	100	Mox: 0	1-handed knife
+Frankly Mr. Shank	100	Mus: 0	1-handed knife
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Frosty's arm	200	Mus: 200	1-handed staff
 Frosty's nailbat	200	Mus: 200	2-handed club
