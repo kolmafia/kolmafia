@@ -113,7 +113,7 @@ public class DebugModifiers
 		DebugModifiers.currentDesc = desc;
 		DebugModifiers.adjustments.put( key, "<td>" +
 			KoLConstants.ROUNDED_MODIFIER_FORMAT.format( mod ) + "</td><td>=&nbsp;" +
-			this.get( index ) + "</td>" );
+			KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.get( index ) ) + "</td>" );
 	}
 
 	public static void finish()
