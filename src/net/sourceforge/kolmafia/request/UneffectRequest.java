@@ -265,6 +265,10 @@ public class UneffectRequest
 			"Boon of the Storm Tortoise",
 			"Spirit Boon",
 		},
+		{
+			"Flimsy Shield of the Pastalord",
+			"Shield of the Pastalord",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
@@ -472,6 +476,15 @@ public class UneffectRequest
 			else
 			{
 				return "none";
+			}
+		case SkillPool.SHIELD_OF_THE_PASTALORD:
+			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
+			{
+				return EffectDatabase.getEffectName( EffectPool.SHIELD_OF_THE_PASTALORD );
+			}
+			else
+			{
+				return EffectDatabase.getEffectName( EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD );
 			}
 		}
 

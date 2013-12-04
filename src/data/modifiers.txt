@@ -3712,6 +3712,7 @@ Flamingly Floral	Hot Damage: +50
 Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 # Flayer Flavor: Makes you look like a mind flayer
+# Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
 Flop Sweat	Sleaze Resistance: +7
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
