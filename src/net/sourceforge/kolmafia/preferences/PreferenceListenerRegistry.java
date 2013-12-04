@@ -39,24 +39,80 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 public class PreferenceListenerRegistry
 {
-	private static final HashMap listenerMap = new HashMap();
+	// The registry of listeners:
+	private static final HashMap<String,ArrayList<WeakReference>> listenerMap = new HashMap<String,ArrayList<WeakReference>>();
+
+	// Logging
+	private static boolean logging = false;
+	public static final void setLogging( final boolean logging )
+	{
+		PreferenceListenerRegistry.logging = logging;
+	}
+
+	// Deferring
+	private static int deferring = 0;
+	private static HashSet<String> deferred = new HashSet<String>();
+
+	public static void deferListeners( boolean deferring )
+	{
+		// If we are deferring, increment defer level
+		if ( deferring )
+		{
+			PreferenceListenerRegistry.deferring += 1;
+			return;
+		}
+
+		// If we are undeferring but are not deferred, do nothing
+		if ( PreferenceListenerRegistry.deferring == 0 )
+		{
+			return;
+		}
+
+		// If we are undeferring and are still deferred, nothing more to do
+		if ( --PreferenceListenerRegistry.deferring > 0 )
+		{
+			return;
+		}
+
+		// We were deferred but are no longer deferred. Fire at Will!
+
+		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+
+		Iterator<String> it = PreferenceListenerRegistry.deferred.iterator();
+		while ( it.hasNext() )
+		{
+			String name = it.next();
+			ArrayList<WeakReference> listenerList = PreferenceListenerRegistry.listenerMap.get( name );
+			if ( logit )
+			{
+				int count = listenerList == null ? 0 : listenerList.size();
+				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+			}
+			PreferenceListenerRegistry.fireListeners( listenerList, null );
+		}
+
+		PreferenceListenerRegistry.deferred.clear();
+	}
 
 	public static final void registerListener( final String name, final PreferenceListener listener )
 	{
-		ArrayList listenerList = null;
+		ArrayList<WeakReference> listenerList = null;
 
 		synchronized ( listenerMap )
 		{
-			listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+			listenerList = PreferenceListenerRegistry.listenerMap.get( name );
 
 			if ( listenerList == null )
 			{
-				listenerList = new ArrayList();
+				listenerList = new ArrayList<WeakReference>();
 				PreferenceListenerRegistry.listenerMap.put( name, listenerList );
 			}
 		}
@@ -71,35 +127,80 @@ public class PreferenceListenerRegistry
 
 	public static final void firePreferenceChanged( final String name )
 	{
-		ArrayList listenerList = null;
+		ArrayList<WeakReference> listenerList = null;
 
 		synchronized ( listenerMap )
 		{
-			listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+			listenerList = PreferenceListenerRegistry.listenerMap.get( name );
 		}
 
-		fireListeners( listenerList, null );
+		if ( listenerList == null )
+		{
+			return;
+		}
+
+		if ( PreferenceListenerRegistry.deferring > 0 )
+		{
+			PreferenceListenerRegistry.deferred.add( name );
+			return;
+		}
+
+		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+		if ( logit )
+		{
+			int count = listenerList == null ? 0 : listenerList.size();
+			RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+		}
+
+		PreferenceListenerRegistry.fireListeners( listenerList, null );
 	}
 
 	public static final void fireAllPreferencesChanged()
 	{
-		HashSet notified = new HashSet();
-		HashSet listeners = new HashSet();
-
-		synchronized ( listenerMap )
+		if ( PreferenceListenerRegistry.deferring > 0 )
 		{
-			listeners.addAll( PreferenceListenerRegistry.listenerMap.values() );
+			Set<String> keys = PreferenceListenerRegistry.listenerMap.keySet();
+			Iterator<String> it = keys.iterator();
+			while ( it.hasNext() )
+			{
+				String name = it.next();
+				PreferenceListenerRegistry.deferred.add( name );
+			}
+			return;
 		}
 
-		Iterator i = listeners.iterator();
-
-		while ( i.hasNext() )
+		Set<Entry<String,ArrayList<WeakReference>>> entries = null;
+		synchronized ( PreferenceListenerRegistry.listenerMap )
 		{
-			fireListeners( (ArrayList) i.next(), notified );
+			entries = PreferenceListenerRegistry.listenerMap.entrySet();
+		}
+
+		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+		Iterator<Entry<String,ArrayList<WeakReference>>> i1 = entries.iterator();
+		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
+		while ( i1.hasNext() )
+		{
+			Entry<String,ArrayList<WeakReference>> entry = i1.next();
+			ArrayList<WeakReference> listenerList = entry.getValue();
+			if ( logit )
+			{
+				String name = entry.getKey();
+				int count = listenerList == null ? 0 : listenerList.size();
+				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+			}
+			listeners.add( listenerList );
+		}
+
+		Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
+		HashSet<PreferenceListener> notified = new HashSet<PreferenceListener>();
+
+		while ( i2.hasNext() )
+		{
+			PreferenceListenerRegistry.fireListeners( i2.next(), notified );
 		}
 	}
 
-	private static final void fireListeners( final ArrayList listenerList, final HashSet notified )
+	private static final void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<PreferenceListener> notified )
 	{
 		if ( listenerList == null )
 		{
@@ -108,11 +209,11 @@ public class PreferenceListenerRegistry
 
 		synchronized ( listenerList )
 		{
-			Iterator i = listenerList.iterator();
+			Iterator<WeakReference> i = listenerList.iterator();
 
 			while ( i.hasNext() )
 			{
-				WeakReference reference = (WeakReference) i.next();
+				WeakReference reference = i.next();
 
 				PreferenceListener listener = (PreferenceListener) reference.get();
 

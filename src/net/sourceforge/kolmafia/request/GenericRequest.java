@@ -2329,7 +2329,12 @@ public class GenericRequest
 			return;
 		}
 
-		if ( this.responseText.contains( "charpane.php" ) )
+		// Don't bother refreshing status if we are refreshing the
+		// session, since none of the requests made while that is
+		// happening change anything, even though KoL asks for a
+		// charpane refresh for many of them.
+
+		if ( this.responseText.contains( "charpane.php" ) && !KoLmafia.isRefreshing() )
 		{
 			ApiRequest.updateStatus( true );
 			RelayServer.updateStatus();

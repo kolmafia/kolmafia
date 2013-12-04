@@ -33,7 +33,10 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -42,7 +45,7 @@ public class DebugRequestCommand
 {
 	public DebugRequestCommand()
 	{
-		this.usage = " [on] | off | trace [ [on] | off ] | ash [ [on] | off ]- start or stop logging of debugging data.";
+		this.usage = " [on] | off | trace [ [on] | off ] | ash [ [on] | off ] | listener [ [on] | off ] - start or stop logging of debugging data.";
 	}
 
 	@Override
@@ -82,6 +85,22 @@ public class DebugRequestCommand
 			{
 				Interpreter.closeTraceStream();
 			}
+		}
+		else if ( command.equals( "listener" ) )
+		{
+			command = split.length < 2 ? "" : split[ 1 ];
+			if ( command.equals( "" ) || command.equals( "on" ) )
+			{
+				PreferenceListenerRegistry.setLogging( true );
+			}
+			else if ( command.equals( "off" ) )
+			{
+				PreferenceListenerRegistry.setLogging( false );
+			}
+		}
+		else
+		{
+			KoLmafia.updateDisplay( "I don't know how to debug " + command );
 		}
 	}
 }
