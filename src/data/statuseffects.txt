@@ -1441,7 +1441,7 @@
 1440	Al Dente Inferno	aldente.gif	82312722d436aa645de6fae8bb46248d	cast 1 Transcendent Al Dente
 1441	Arched Eyebrow of the Archmage	archedeyebrow.gif	5f23a4cf752852e76b41382ea55b0fe5	cast 1 Arched Eyebrow of the Archmage
 1442	Wizard Squint	wizardsquint.gif	c45dd6c1c32e93a32ce0fdab13181289	cast 1 Wizard Squint
-1443
+1443	Flimsy Shield of the Pastalord	pastashield.gif	8e3fc10ee63d1144f78c6231e5b9f21c	cast 1 Shield of the Pastalord
 1444	Shield of the Pastalord	pastashield.gif	eb116f9a2d9c1259e404a22447eb2b85	cast 1 Shield of the Pastalord
 1445	Bloody Potato Bits	bloodpotatoes.gif	625daaabac9631363265ad76243ae2ff	cast 1 Bind Vampieroghi
 1446	Slinking Noodle Glob	noodlemass.gif	ddd146d9cb8218b9130850badb3646c6	cast 1 Bind Vermincelli

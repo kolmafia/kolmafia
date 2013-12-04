@@ -112,6 +112,7 @@ public class SkillPool
 	public static final int BIND_VAMPIEROGHI = 3027;
 	public static final int BIND_VERMINCELLI = 3029;
 	public static final int BIND_ANGEL_HAIR_WISP = 3031;
+	public static final int SHIELD_OF_THE_PASTALORD = 3032;
 	public static final int BIND_UNDEAD_ELBOW_MACARONI = 3033;
 	public static final int BIND_PENNE_DREADFUL = 3035;
 	public static final int BIND_LASAGMBIE = 3037;

@@ -209,6 +209,8 @@ public class EffectPool
 	public static final int BOON_OF_THE_WAR_SNAPPER = 1435;
 	public static final int BOON_OF_SHE_WHO_WAS = 1436;
 	public static final int BOON_OF_THE_STORM_TORTOISE = 1437;
+	public static final int FLIMSY_SHIELD_OF_THE_PASTALORD = 1443;
+	public static final int SHIELD_OF_THE_PASTALORD = 1444;
 	public static final int BLOODY_POTATO_BITS = 1445;
 	public static final int SLINKING_NOODLE_GLOB = 1446;
 	public static final int WHISPERING_STRANDS = 1447;

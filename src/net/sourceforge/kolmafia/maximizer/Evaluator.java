@@ -832,6 +832,7 @@ public class Evaluator
 		case EffectPool.DISTAIN_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
 		
+		case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD:
 		case EffectPool.BLOODY_POTATO_BITS:
 		case EffectPool.SLINKING_NOODLE_GLOB:
 		case EffectPool.WHISPERING_STRANDS:
@@ -840,6 +841,9 @@ public class Evaluator
 		case EffectPool.PASTA_EYEBALL:
 		case EffectPool.SPICE_HAZE:
 			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
+
+		case EffectPool.SHIELD_OF_THE_PASTALORD:
+			return KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER;
 		}
 		return false;
 	}
