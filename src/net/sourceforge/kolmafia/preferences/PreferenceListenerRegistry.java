@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.preferences;
 import java.lang.ref.WeakReference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -159,36 +160,45 @@ public class PreferenceListenerRegistry
 	{
 		if ( PreferenceListenerRegistry.deferring > 0 )
 		{
-			Set<String> keys = PreferenceListenerRegistry.listenerMap.keySet();
-			Iterator<String> it = keys.iterator();
-			while ( it.hasNext() )
+			Set<String> keys = null;
+			synchronized ( PreferenceListenerRegistry.listenerMap )
 			{
-				String name = it.next();
-				PreferenceListenerRegistry.deferred.add( name );
+				keys = PreferenceListenerRegistry.listenerMap.keySet();
 			}
+			PreferenceListenerRegistry.deferred.addAll( keys );
 			return;
 		}
 
-		Set<Entry<String,ArrayList<WeakReference>>> entries = null;
-		synchronized ( PreferenceListenerRegistry.listenerMap )
-		{
-			entries = PreferenceListenerRegistry.listenerMap.entrySet();
-		}
+		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
 
 		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
-		Iterator<Entry<String,ArrayList<WeakReference>>> i1 = entries.iterator();
-		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
-		while ( i1.hasNext() )
+		if ( logit )
 		{
-			Entry<String,ArrayList<WeakReference>> entry = i1.next();
-			ArrayList<WeakReference> listenerList = entry.getValue();
-			if ( logit )
+			Set<Entry<String,ArrayList<WeakReference>>> entries = null;
+			synchronized ( PreferenceListenerRegistry.listenerMap )
 			{
+				entries = PreferenceListenerRegistry.listenerMap.entrySet();
+			}
+
+			Iterator<Entry<String,ArrayList<WeakReference>>> i1 = entries.iterator();
+			while ( i1.hasNext() )
+			{
+				Entry<String,ArrayList<WeakReference>> entry = i1.next();
+				ArrayList<WeakReference> listenerList = entry.getValue();
 				String name = entry.getKey();
 				int count = listenerList == null ? 0 : listenerList.size();
 				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+				listeners.add( listenerList );
 			}
-			listeners.add( listenerList );
+		}
+		else
+		{
+			Collection<ArrayList<WeakReference>> values = null;
+			synchronized ( PreferenceListenerRegistry.listenerMap )
+			{
+				values = PreferenceListenerRegistry.listenerMap.values();
+			}
+			listeners.addAll( values );
 		}
 
 		Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
