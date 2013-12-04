@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -1077,6 +1078,20 @@ public class CharPaneRequest
 	}
 
 	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
+		PreferenceListenerRegistry.deferListeners( true );
+		try
+		{
+			CharPaneRequest.parseStatusInternal( JSON );
+		}
+		finally
+		{
+			PreferenceListenerRegistry.deferListeners( false );
+		}
+	}
+
+	private static final void parseStatusInternal( final JSONObject JSON )
 		throws JSONException
 	{
 		int turnsThisRun = JSON.getInt( "turnsthisrun" );

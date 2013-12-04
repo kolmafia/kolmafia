@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -706,6 +707,8 @@ public abstract class KoLmafia
 
 	public static void refreshSession()
 	{
+		KoLmafia.setIsRefreshing( true );
+
 		KoLmafia.refreshSessionData();
 
 		AdventureFrame.updateFromPreferences();
@@ -733,12 +736,12 @@ public abstract class KoLmafia
 		{
 			KoLmafia.resetCounters( false );
 		}
+
+		KoLmafia.setIsRefreshing( false );
 	}
 
 	private static void refreshSessionData()
 	{
-		KoLmafia.isRefreshing = true;
-
 		KoLmafia.updateDisplay( "Refreshing session data..." );
 
 		// Load saved counters before any requests are made, since both
@@ -770,7 +773,6 @@ public abstract class KoLmafia
 			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
 			RequestThread.postRequest( new CharPaneRequest() );
 			KoLCharacter.setGuildStoreOpen( false );
-			KoLmafia.isRefreshing = false;
 			return;
 		}
 
@@ -862,8 +864,6 @@ public abstract class KoLmafia
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
-		KoLmafia.isRefreshing = false;
-
 		// Inventory may have changed
 		CoinmastersFrame.externalUpdate();
 
@@ -879,14 +879,18 @@ public abstract class KoLmafia
 		return KoLmafia.isRefreshing;
 	}
 
-	public static final void setIsRefreshing( final boolean isRefreshing )
+	private static final void setIsRefreshing( final boolean isRefreshing )
 	{
-		KoLmafia.isRefreshing = isRefreshing;
+		if ( KoLmafia.isRefreshing != isRefreshing )
+		{
+			KoLmafia.isRefreshing = isRefreshing;
+			PreferenceListenerRegistry.deferListeners( isRefreshing );
+		}
 	}
 
 	public static final void resetAfterAvatar()
 	{
-		KoLmafia.isRefreshing = true;
+		KoLmafia.setIsRefreshing( true );
 
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
@@ -899,8 +903,7 @@ public abstract class KoLmafia
 		// Clear skills first, since we no longer know Avatar skills
 		KoLCharacter.resetSkills();
 
-		GenericRequest request = new CharSheetRequest();
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( new CharSheetRequest() );
 
 		// Clear preferences
 		Preferences.setString( "banishingShoutMonsters", "" );
@@ -918,11 +921,11 @@ public abstract class KoLmafia
 		// Retrieve the bookshelf
 		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 
-		KoLmafia.isRefreshing = false;
-
 		// Finally, update available concoctions
 		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions( true );
+
+		KoLmafia.setIsRefreshing( false );
 
 		// Now we can finally run the player's kingLiberatedScript
 		if ( KoLCharacter.kingLiberated() )
