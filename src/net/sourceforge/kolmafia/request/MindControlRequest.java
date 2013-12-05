@@ -38,10 +38,12 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -78,7 +80,7 @@ public class MindControlRequest
 		}
 		else
 		{
-			this.addFormField( "whichitem", String.valueOf( MindControlRequest.RADIO.getItemId() ) );
+			this.addFormField( "whichitem", String.valueOf( ItemPool.DETUNED_RADIO ) );
 			this.addFormField( "tuneradio", String.valueOf( level ) );
 		}
 
@@ -117,9 +119,20 @@ public class MindControlRequest
 			return;
 		}
 
-		if ( KoLCharacter.knollAvailable() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
+		if ( KoLCharacter.knollAvailable() && MindControlRequest.RADIO.getCount( KoLConstants.inventory ) == 0 )
 		{
-			return;
+			try
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				if ( !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
+				{
+					return;
+				}
+			}
+			finally
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
 		}
 
 		KoLmafia.updateDisplay( "Resetting mind control device..." );
