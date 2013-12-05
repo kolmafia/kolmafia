@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
+import net.sourceforge.kolmafia.maximizer.Evaluator;
+
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -153,7 +155,8 @@ public class ManaBurnManager
 		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
 			AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
-			String skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
+			String effectName = currentEffect.getName();
+			String skillName = UneffectRequest.effectToSkill( effectName );
 
 			// Only cast if the player knows the skill
 
@@ -173,6 +176,12 @@ public class ManaBurnManager
 				continue;
 			}
 
+			// Don't cast if you are restricted by your current class/skills
+			if ( Evaluator.checkEffectConstraints( effectName ) )
+			{
+				continue;
+			}
+			
 			int priority = Preferences.getInteger( "skillBurn" + skillId ) + 100;
 			// skillBurnXXXX values offset by 100 so that missing prefs read
 			// as 100% by default.

@@ -784,7 +784,7 @@ public class Evaluator
 		return 0;
 	}
 
-	boolean checkEffectConstraints( String name )
+	public static boolean checkEffectConstraints( String name )
 	{
 		int effectId = EffectDatabase.getEffectId( name );
 		
