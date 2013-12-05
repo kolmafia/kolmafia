@@ -1112,8 +1112,17 @@ public class ArcadeRequest
 			ChoiceManager.addGoalButton( buffer, "30 Game Grid tickets" );
 		}
 
-		StringUtilities.singleStringReplace( buffer, "</body>",
-			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+		// With CAB or Stationary Buttons, need to put this inside the div's too.
+		if( buffer.indexOf( "</div></div></body>" ) != -1 )
+		{
+		StringUtilities.singleStringReplace( buffer, "</div></div></body>",
+			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></div></div></body>" );
+		}
+		else
+		{
+			StringUtilities.singleStringReplace( buffer, "</body>",
+				"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+		}
 	}
 	
 	private static final String FistScript = 
