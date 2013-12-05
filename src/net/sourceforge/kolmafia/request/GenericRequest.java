@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -1425,7 +1426,6 @@ public class GenericRequest
 		QuestManager.handleQuestChange( location, this.responseText );
 
 		this.formatResponse();
-		KoLCharacter.updateStatus();
 	}
 
 	public void execute()
@@ -1781,7 +1781,7 @@ public class GenericRequest
 			boolean shouldRetry = this.retryOnTimeout();
 			if ( !shouldRetry && this.processOnFailure() )
 			{
-				this.processResults();
+				this.processResponse();
 			}
 
 			GenericRequest.forceClose( istream );
@@ -1808,7 +1808,7 @@ public class GenericRequest
 			if ( this.processOnFailure() )
 			{
 				this.responseText = "";
-				this.processResults();
+				this.processResponse();
 			}
 
 			GenericRequest.forceClose( istream );
@@ -2190,11 +2190,16 @@ public class GenericRequest
 
 		try
 		{
+			PreferenceListenerRegistry.deferListeners( true );
 			this.processResponse();
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
+		}
+		finally
+		{
+			PreferenceListenerRegistry.deferListeners( false );
 		}
 
 		return true;
