@@ -6087,7 +6087,7 @@
 6070	sticky sword blade	543561396	ts_3.gif	none	t,d	1023
 6071	Thinknerd's Grimoire of Geeky Gifts	722194360	nerdgrimoire.gif	usable	t	0
 6072	confusing LED clock	829648981	ledclock.gif	usable	t	0
-6073	haggis-infused soap	551687728	haggissoap.gif	usable	t,d	5	bars of haggis-infused soap
+6073	haggis-infused soap	551687728	haggissoap.gif	multiple	t,d	5	bars of haggis-infused soap
 6074	magicberry tablets	211306489	magicberry.gif	usable	t,d	5	packs of magicberry tablets
 6075	37x37x37 puzzle cube	197804421	37cube.gif	usable	t,d	5	37x37x37 puzzle cubes
 6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5	bottles of McLeod's Hard Haggis-Ade
@@ -6999,8 +6999,8 @@
 7002
 7003	The Smith's Tome	806359423	book4.gif	usable	t	0
 7004	Flaskfull of Hollow	672262828	flask.gif	usable	t,d	5	Flasksfull of Hollow
-7005	lump of Brituminous coal	748294269	britcoal.gif	none	t,d	5
-7006	handful of Smithereens	369373238	smithereens.gif	usable	t,d	5
+7005	lump of Brituminous coal	748294269	britcoal.gif	none	t,d	5	lumps of Brituminous coal
+7006	handful of Smithereens	369373238	smithereens.gif	usable	t,d	5	handfuls of Smithereens
 7007	Every Day is Like This Sundae	881495842	sundae.gif	food	t,d	5	All Days are Like These Sundaes
 7008	Miserable Pie	290619505	pie.gif	food	t,d	5
 7009	This Charming Flan	291859713	flan.gif	food	t,d	5	These Charming Flans
