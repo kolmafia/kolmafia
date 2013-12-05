@@ -1123,7 +1123,12 @@ public class ItemDatabase
 
 		// If we found more than one item and the "items" string is not
 		// null, we probably have the plural.
-		String plural = null;
+		String plural = extractItemsPlural( count, items );
+		ItemDatabase.registerItem( itemId, itemName, descId, plural );
+	}
+
+	public static final String extractItemsPlural( final int count, final String items )
+	{
 		if ( count > 1 && items != null )
 		{
 			int space = items.indexOf( " " );
@@ -1133,12 +1138,11 @@ public class ItemDatabase
 				if ( StringUtilities.isNumeric( num ) &&
 				     StringUtilities.parseInt( num ) == count )
 				{
-					plural = items.substring( space + 1 );
+					return items.substring( space + 1 );
 				}
 			}
 		}
-
-		ItemDatabase.registerItem( itemId, itemName, descId, plural );
+		return null;
 	}
 
 	public static final void registerItem( final String itemName, final String descId, final String relString )
@@ -2568,6 +2572,25 @@ public class ItemDatabase
 	public static final int getConsumptionType( final String itemName )
 	{
 		return ItemDatabase.getConsumptionType( ItemDatabase.getItemId( itemName ) );
+	}
+
+	public static final boolean isMultiUsable( final int itemId )
+	{
+		if ( itemId <= 0 )
+		{
+			return false;
+		}
+
+		switch ( ItemDatabase.useTypeById.get( itemId ) )
+		{
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

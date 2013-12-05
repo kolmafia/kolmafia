@@ -2120,7 +2120,7 @@ public class FightRequest
 		FightRequest.shouldRefresh = false;
 
 		// Preprocess results and register new items
-		ResultProcessor.registerNewItems( responseText );
+		ResultProcessor.registerNewItems( true, responseText, null );
 
 		// Track disco skill sequences
 		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, macroMatcher );

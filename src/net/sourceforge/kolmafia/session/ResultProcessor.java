@@ -140,7 +140,7 @@ public class ResultProcessor
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
 	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>" );
 
-	public static void registerNewItems( String results )
+	public static String registerNewItems( boolean combatResults, String results, List<AdventureResult> data )
 	{
 		// Results now come in like this:
 		//
@@ -157,25 +157,77 @@ public class ResultProcessor
 		// <td valign=center class=effect><b>rusty metal shaft</b><br>was once your foe's, is now yours.<br>
 		// Beaters-up, keepers.</td></tr></table>
 		//
-		// Pre-process all such matches and register new items
+		// Pre-process all such matches and register new items.
+		// Check multi-usability and plurals
+		//
+		// If these are not combat results, add the items to inventory.
+		// (FightRequest wants to handle the items itself.)
+
+		StringBuffer buffer = new StringBuffer();
 
 		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
 		while ( itemMatcher.find() )
 		{
-			String relString = itemMatcher.group(1);
-			String itemName = itemMatcher.group(2);
-			String descId = itemMatcher.group(3);
-
-			// If we already know this descid, known item.
-			if ( ItemDatabase.getItemIdFromDescription( descId ) != -1 )
-			{
-				continue;
-			}
-
+			String relString = itemMatcher.group( 1 );
+			String itemName = itemMatcher.group( 2 );
+			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
 			String items = boldMatcher.find() ? boldMatcher.group(1) : null;
-			ItemDatabase.registerItem( itemName, descId, relString, items );
+
+			// If we don't know this descid, it's an unknown item.
+			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
+			{
+				ItemDatabase.registerItem( itemName, descId, relString, items );
+			}
+
+			// Extract item from the relstring
+			AdventureResult item = ItemDatabase.itemFromRelString( relString );
+			int itemId = item.getItemId();
+			int count = item.getCount();
+
+			// Check if multiusability conflicts with our expectations
+			boolean multi= ItemDatabase.relStringMultiusable( relString );
+			boolean ourMulti = ItemDatabase.isMultiUsable( itemId );
+			if ( multi != ourMulti )
+			{
+				String message =
+					(multi ) ?
+					itemName + " is multiusable, but KoLmafia thought it was not" :
+					itemName + " is not multiusable, but KoLmafia thought it was";
+
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+
+			// If we got more than one, check if plural name
+			// conflicts with our expectations
+			String plural = ItemDatabase.extractItemsPlural( count, items );
+			String ourPlural = plural == null ? null : ItemDatabase.getPluralName( itemId );
+			if ( plural != null && !plural.equals( ourPlural ) )
+			{
+				String message = "Unexpected plural of '" + itemName + "' found: " + plural;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				ItemDatabase.registerPlural( itemId, plural );
+			}
+
+			// If these are not combat results, process the
+			// acquisition and remove it from the buffer.
+			if ( !combatResults )
+			{
+				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
+				ResultProcessor.processItem( false, acquisition, item, data );
+				itemMatcher.appendReplacement( buffer, "" );
+			}
 		}
+
+		if ( buffer.length() > 0 )
+		{
+			itemMatcher.appendTail( buffer );
+			return buffer.toString();
+		}
+
+		return results;
 	}
 
 	public static boolean processResults( boolean combatResults, String results )
@@ -193,7 +245,14 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
 
-		ResultProcessor.registerNewItems( results );
+		// If items are wrapped in a table with a "rel" string, that
+		// precisely identifies what has been acquired.
+		//
+		// Process those first, registering new items, checking for
+		// plurals and multi-usability, and moving to inventory, before
+		// we strip out the HTML.
+
+		results = ResultProcessor.registerNewItems( combatResults, results, data );
 
 		boolean requiresRefresh = false;
 
