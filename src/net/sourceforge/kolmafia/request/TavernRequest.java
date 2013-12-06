@@ -231,7 +231,7 @@ public class TavernRequest
 
 		int row = ( ( square - 1 ) / 5 ) + 1;
 		int col = ( ( square - 1 ) % 5 ) + 1;
-		return "Tavern Cellar (row " + row + ", col " + col + ")";
+		return "The Typical Tavern Cellar (row " + row + ", col " + col + ")";
 	}
 
 	public static final void validateFaucetQuest()

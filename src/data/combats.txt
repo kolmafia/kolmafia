@@ -173,7 +173,6 @@ Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	
 The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skating Muse	toothless mastiff bitch
 Summoning Chamber	100	Lord Spookyraven
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
-Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
@@ -284,6 +283,7 @@ The Spooky Gravy Barrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spo
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
 The Themthar Hills	100	dirty thieving brigand
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
+The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Upper Chamber	100	tomb asp	tomb rat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0

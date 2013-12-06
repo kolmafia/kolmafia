@@ -432,6 +432,17 @@ public class AdventureDatabase
 			return AdventureDatabase.adventureLookup.get( "basement.php" );
 		}
 
+		// Visiting the tavern cellar might count as an adventure
+		if ( adventureURL.startsWith( "cellar.php" ) )
+		{
+			String explore = GenericRequest.extractField( adventureURL, "explore" );
+			if ( explore == null )
+			{
+				return null;
+			}
+			return AdventureDatabase.adventureLookup.get( "cellar.php" );
+		}
+
 		// Mining in disguise count as adventures.
 		if ( adventureURL.startsWith( "mining.php" ) )
 		{

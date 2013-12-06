@@ -227,7 +227,7 @@ public class TavernManager
 		}
 
 		// If the goal has not yet been found, then explore
-		KoLAdventure adventure = AdventureDatabase.getAdventure( "Tavern Cellar" );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( "The Typical Tavern Cellar" );
 
 		// Remember if we have already found the faucet
 		boolean hadFaucet = faucet != -1;
