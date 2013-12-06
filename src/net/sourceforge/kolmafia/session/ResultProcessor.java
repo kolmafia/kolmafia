@@ -1660,7 +1660,7 @@ public class ResultProcessor
 			if ( Preferences.getInteger( "lastArcadeAscension" ) < KoLCharacter.getAscensions() )
 			{
 				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
-				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 			}
 			break;
 
