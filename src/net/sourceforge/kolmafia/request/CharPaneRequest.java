@@ -189,7 +189,10 @@ public class CharPaneRequest
 		if ( turnsThisRun < CharPaneRequest.turnsThisRun ||
 		     turnsThisRun < mafiaTurnsThisRun )
 		{
-			return false;
+			// turnsThisRun = 426 CharPaneRequest.turnsThisRun = 426 mafiaTurnsThisRun = 427
+			// And yet, this was a new charpane. Don't process it, but don't respond with
+			// 304 Not Modified
+			return true;
 		}
 
 		CharPaneRequest.turnsThisRun = turnsThisRun;
