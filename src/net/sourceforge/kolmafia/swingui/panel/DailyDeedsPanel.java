@@ -3554,8 +3554,8 @@ public class DailyDeedsPanel
 
 			if ( !unlocked && unlockable )
 			{
-				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
 				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 				unlocked = true;
 			}
 

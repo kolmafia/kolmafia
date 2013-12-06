@@ -237,8 +237,9 @@ public class ArcadeRequest
 		{
 			if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
 			{
-				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 			}
+
 			if ( TicketCounterRequest.registerRequest( urlString ) )
 			{
 				return true;
@@ -1850,17 +1851,12 @@ public class ArcadeRequest
 
 		if ( !unlocked && unlockable )
 		{
-			RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
 			Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 			unlocked = true;
 		}
 
-		if ( !unlocked && !unlockable )
-		{
-			// Game Grid Arcade is not accessible
-		}
-
-		else if ( unlocked )
+		if ( unlocked )
 		{
 			ArcadeRequest request = new ArcadeRequest( "plumber" );
 			RequestThread.postRequest( request );

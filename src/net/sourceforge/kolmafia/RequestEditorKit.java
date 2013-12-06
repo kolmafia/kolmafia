@@ -264,7 +264,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "postwarisland.php" );
 		RequestEditorKit.maps.add( "beach.php" );
 		RequestEditorKit.maps.add( "pyramid.php" );
-		RequestEditorKit.maps.add( "town_wrong.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=town_wrong" );
 		RequestEditorKit.maps.add( "town_right.php" );
 		RequestEditorKit.maps.add( "manor.php" );
 		RequestEditorKit.maps.add( "manor2.php" );
