@@ -2601,6 +2601,7 @@ public class GenericRequest
 		int itemId = item.getItemId();
 		String itemName = null;
 		boolean consumed = false;
+		String nextAdventure = null;
 
 		switch ( itemId )
 		{
@@ -2637,6 +2638,7 @@ public class GenericRequest
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			itemName = "Orcish Frathouse Blueprints";
+			nextAdventure = "Frat House";
 			break;
 
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
@@ -2823,6 +2825,12 @@ public class GenericRequest
 			itemName = "Chef Boy, R&D's business card";
 			break;
 
+		case ItemPool.RUSTY_HEDGE_TRIMMERS:
+			itemName = "rusty hedge trimmers";
+			consumed = true;
+			nextAdventure = "Twin Peak";
+			break;
+
 		default:
 			return;
 		}
@@ -2832,17 +2840,27 @@ public class GenericRequest
 			ResultProcessor.processResult( item.getInstance( -1 ) );
 		}
 
-		KoLAdventure.lastVisitedLocation = null;
-		KoLAdventure.lastLocationName = null;
-		KoLAdventure.lastLocationURL = location;
-		KoLAdventure.setNextAdventure( "None" );
+		if ( nextAdventure == null )
+		{
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = location;
+			KoLAdventure.setNextAdventure( "None" );
+		}
+		else
+		{
+			KoLAdventure adventure = AdventureDatabase.getAdventure( nextAdventure );
+			KoLAdventure.setLastAdventure( adventure );
+			KoLAdventure.setNextAdventure( adventure );
+			EncounterManager.registerAdventure( adventure.getAdventureName() );
+		}
 
-		int adventure = KoLAdventure.getAdventureCount();
+		int count = KoLAdventure.getAdventureCount();
 		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + adventure + "] " + itemName );
+		RequestLogger.printLine( "[" + count + "] " + itemName );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + adventure + "] " + itemName );
+		RequestLogger.updateSessionLog( "[" + count + "] " + itemName );
 		GenericRequest.itemMonster = itemName;
 	}
 
