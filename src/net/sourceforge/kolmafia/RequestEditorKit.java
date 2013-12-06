@@ -1754,8 +1754,9 @@ public class RequestEditorKit
 
 	private static final void fixTavernCellar( final StringBuffer buffer )
 	{
-		// When you adventure in the Tavern Cellar, the Adventure Again
-		// link takes you to the map. Fix that link as follows:
+		// When you adventure in the Typical Tavern Cellar, the
+		// Adventure Again link takes you to the map. Fix that link
+		// as follows:
 		//
 		// (new) Explore Next Unexplored Square
 		// Go back to the Typical Tavern Cellar
