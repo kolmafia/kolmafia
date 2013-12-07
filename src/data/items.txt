@@ -6280,7 +6280,7 @@
 6263	Staff of the All-Steak	382298524	jarl_cs5.gif	weapon	q	0
 6264	Staff of Fruit Salad	380538584	jarl_cs7.gif	weapon	q	0
 6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
-6266	giant jar of protein powder	333160339	ppjar.gif	usable	t,d	124	giant jars of protein powder
+6266	giant jar of protein powder	333160339	ppjar.gif	multiple	t,d	124	giant jars of protein powder
 6267	giant grain of protein powder	335376132	ppgrain.gif	food	t,d	44	giant grains of protein powder
 6268	pec oil	548813486	pecoil.gif	usable	t,d	83	containers of pec oil
 6269	giant gym membership card	192410185	gymcard.gif	container	t,d	77	giant gym membership cards
