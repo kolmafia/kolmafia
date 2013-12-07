@@ -245,31 +245,33 @@ public class RequestEditorKit
 	private static final ArrayList<String> maps = new ArrayList<String>();
 	static
 	{
-		RequestEditorKit.maps.add( "plains.php" );
-		RequestEditorKit.maps.add( "plains2.php" );
-		RequestEditorKit.maps.add( "bathole.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=plains" );
+		RequestEditorKit.maps.add( "place.php?whichplace=bathole" );
 		RequestEditorKit.maps.add( "fernruin.php" );
 		RequestEditorKit.maps.add( "cobbsknob.php" );
-		RequestEditorKit.maps.add( "knob2.php" );
+		RequestEditorKit.maps.add( "cobbsknob.php?action=tolabs" );
+		RequestEditorKit.maps.add( "cobbsknob.php?action=tomenagerie" );
 		RequestEditorKit.maps.add( "cyrpt.php" );
-		RequestEditorKit.maps.add( "beanstalk.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=beanstalk" );
 		RequestEditorKit.maps.add( "woods.php" );
 		RequestEditorKit.maps.add( "friars.php" );
+		RequestEditorKit.maps.add( "pandamonium.php" );
 		RequestEditorKit.maps.add( "wormwood.php" );
 		RequestEditorKit.maps.add( "mountains.php" );
+		RequestEditorKit.maps.add( "tutorial.php" );
 		RequestEditorKit.maps.add( "place.php?whichplace=mclargehuge" );
 		RequestEditorKit.maps.add( "island.php" );
-		RequestEditorKit.maps.add( "cove.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=cove" );
 		RequestEditorKit.maps.add( "bigisland.php" );
 		RequestEditorKit.maps.add( "postwarisland.php" );
-		RequestEditorKit.maps.add( "beach.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=desertbeach" );
 		RequestEditorKit.maps.add( "pyramid.php" );
 		RequestEditorKit.maps.add( "place.php?whichplace=town_wrong" );
-		RequestEditorKit.maps.add( "town_right.php" );
-		RequestEditorKit.maps.add( "manor.php" );
-		RequestEditorKit.maps.add( "manor2.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=town_right" );
+		RequestEditorKit.maps.add( "place.php?whichplace=spookyraven1" );
+		RequestEditorKit.maps.add( "place.php?whichplace=spookyraven2" );
 		RequestEditorKit.maps.add( "manor3.php" );
-		RequestEditorKit.maps.add( "dungeons.php" );
+		RequestEditorKit.maps.add( "da.php" );
 		RequestEditorKit.maps.add( "canadia.php" );
 		RequestEditorKit.maps.add( "gnomes.php" );
 		RequestEditorKit.maps.add( "heydeze.php" );
@@ -645,7 +647,7 @@ public class RequestEditorKit
 
 		if ( addComplexFeatures )
 		{
-			if ( !location.contains( "?" ) && RequestEditorKit.maps.contains( location ) )
+			if ( RequestEditorKit.maps.contains( location ) )
 			{
 				buffer.insert(
 					buffer.indexOf( "</tr>" ),
