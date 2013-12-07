@@ -6906,12 +6906,12 @@
 6889	spirit blanket	806445121	spiritblanket.gif	reusable	t	0
 6890	spirit bed	528640837	spiritbed.gif	usable	t	0
 6891	spirit bell	691928915	spiritbell.gif	accessory		0
-6892	spoonful of Linguine-Os	752559812	linguinispoon.gif	usable	t,d	5	spoonsful of Linguine-Os
-6893	freezer-burned frost-bitten tortellini	806518055	tortelinus.gif	usable	t,d	5
-6894	blob of Alphredo&trade;	214678093	alphredo.gif	usable	t,d	5	blobs of Alphredo&trade;
-6895	handful of crafty noodles	594037699	pastalighthouses.gif	usable	t,d	5	handfuls of crafty noodles
-6896	tangled mass of creepy pasta	677130598	boobooboo.gif	usable	t,d	5	tangled masses of creepy pasta
-6897 	Can of Spaghetto	436656797	ocan.gif	usable	t,d	50
+6892	spoonful of Linguine-Os	752559812	linguinispoon.gif	multiple	t,d	5	spoonsful of Linguine-Os
+6893	freezer-burned frost-bitten tortellini	806518055	tortelinus.gif	multiple	t,d	5
+6894	blob of Alphredo&trade;	214678093	alphredo.gif	multiple	t,d	5	blobs of Alphredo&trade;
+6895	handful of crafty noodles	594037699	pastalighthouses.gif	multiple	t,d	5	handfuls of crafty noodles
+6896	tangled mass of creepy pasta	677130598	boobooboo.gif	multiple	t,d	5	tangled masses of creepy pasta
+6897	Can of Spaghetto	436656797	ocan.gif	multiple	t,d	50
 6898	Chef Boy, R&D's business card	189658738	buscard.gif	reusable		0
 6899	Thwaitgold ant statuette	287861273	thwaitant.gif	none		0
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
