@@ -60,7 +60,7 @@ public class PreferenceListenerRegistry
 
 	// Deferring
 	private static int deferring = 0;
-	private static HashSet<String> deferred = new HashSet<String>();
+	private static final HashSet<String> deferred = new HashSet<String>();
 
 	public static void deferListeners( boolean deferring )
 	{
@@ -87,20 +87,23 @@ public class PreferenceListenerRegistry
 
 		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
 
-		Iterator<String> it = PreferenceListenerRegistry.deferred.iterator();
-		while ( it.hasNext() )
+		synchronized( PreferenceListenerRegistry.deferred )
 		{
-			String name = it.next();
-			ArrayList<WeakReference> listenerList = PreferenceListenerRegistry.listenerMap.get( name );
-			if ( logit )
+			Iterator<String> it = PreferenceListenerRegistry.deferred.iterator();
+			while ( it.hasNext() )
 			{
-				int count = listenerList == null ? 0 : listenerList.size();
-				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+				String name = it.next();
+				ArrayList<WeakReference> listenerList = PreferenceListenerRegistry.listenerMap.get( name );
+				if ( logit )
+				{
+					int count = listenerList == null ? 0 : listenerList.size();
+					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+				}
+				PreferenceListenerRegistry.fireListeners( listenerList, null );
 			}
-			PreferenceListenerRegistry.fireListeners( listenerList, null );
+			PreferenceListenerRegistry.deferred.clear();
 		}
 
-		PreferenceListenerRegistry.deferred.clear();
 	}
 
 	public static final void registerListener( final String name, final PreferenceListener listener )
@@ -149,7 +152,7 @@ public class PreferenceListenerRegistry
 		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
 		if ( logit )
 		{
-			int count = listenerList == null ? 0 : listenerList.size();
+			int count = listenerList.size();
 			RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
 		}
 
