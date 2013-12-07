@@ -136,7 +136,7 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
-	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
+	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
 	private static final Pattern REANIMATOR_LEG_PATTERN = Pattern.compile( "(\\d+) legs??<br>" );
@@ -9271,9 +9271,11 @@ public abstract class ChoiceManager
 		}
 
 		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
+		int choice = 0;
+		int decision = 0;
 		if ( matcher.find() )
 		{
-			int choice = StringUtilities.parseInt( matcher.group( 1 ) );
+			choice = StringUtilities.parseInt( matcher.group( 1 ) );
 			switch ( choice )
 			{
 			case 443:
@@ -9303,7 +9305,7 @@ public abstract class ChoiceManager
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
 			if ( matcher.find() )
 			{
-				int decision = StringUtilities.parseInt( matcher.group( 1 ) );
+				decision = StringUtilities.parseInt( matcher.group( 1 ) );
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 				String desc =
 					spoilers == null ?
@@ -9314,6 +9316,13 @@ public abstract class ChoiceManager
 				// tool is relying on it.
 				//return true;
 			}
+		}
+
+		if ( choice == 0 && decision == 0 )
+		{
+			// forecoption=0 will redirect to the real choice.
+			// Don't bother logging it.
+			return true;
 		}
 
 		// By default, we log the url of any choice we take
