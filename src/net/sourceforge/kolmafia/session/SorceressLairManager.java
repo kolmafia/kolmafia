@@ -135,6 +135,8 @@ public abstract class SorceressLairManager
 
 	private static final AdventureResult [] ACCORDIONS = new AdventureResult[]
 	{
+		ItemPool.get( ItemPool.TOY_ACCORDION, 1 ),
+		ItemPool.get( ItemPool.ANTIQUE_ACCORDION, 1 ),
 		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ),
 		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
 		ItemPool.get( ItemPool.ROCK_N_ROLL_LEGEND, 1 ),
