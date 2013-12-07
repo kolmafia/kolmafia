@@ -5878,7 +5878,7 @@
 5861	good ash	221914773	disease.gif	usable	t,d	5
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
-5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	usable	d	5
+5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	multiple	d	5	papier-m&acirc;ch&eacute; globs
 5865	papier-mochi	392273161	machemochi.gif	usable	d	10
 5866	papier-m&acirc;chaeranthera	864484289	macheflower.gif	usable	d	15
 5867	papier-m&acirc;ch&eacute; toothpicks	267596873	machetoothpicks.gif	usable	d	20
