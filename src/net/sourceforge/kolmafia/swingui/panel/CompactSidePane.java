@@ -89,14 +89,15 @@ public class CompactSidePane
 	private final JPanel levelPanel;
 	private JProgressBar levelMeter;
 	private JLabel levelLabel, roninLabel, mcdLabel;
-	private JLabel musLabel, mysLabel, moxLabel;
+	private JLabel musLabel, mysLabel, moxLabel, classLabel, classValueLabel;
 	private JLabel fullLabel, drunkLabel, spleenLabel;
 	private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 	private JLabel familiarLabel;
 	private JLabel mlLabel, encLabel, initLabel;
 	private JLabel expLabel, meatDropLabel, itemDropLabel;
-	private JLabel hoboLabel, hoboPowerLabel;
-	private JLabel beeLabel, beeosityLabel;
+	private int MISC_LABELS = 4;
+	private JLabel[] miscLabel = new JLabel[ MISC_LABELS ];
+	private JLabel[] miscValueLabel = new JLabel[ MISC_LABELS ];
 	private JPopupMenu modPopup;
 	private JLabel modPopLabel;
 
@@ -154,19 +155,21 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 		panels[ panelCount ].setOpaque( false );
 
-		labelPanel = new JPanel( new GridLayout( 4, 1 ) );
+		labelPanel = new JPanel( new GridLayout( 5, 1 ) );
 		labelPanel.setOpaque( false );
 
 		labelPanel.add( new JLabel( "   HP: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( KoLCharacter.inZombiecore() ? "Horde: " : "   MP: ", JLabel.RIGHT ) );
+		labelPanel.add( this.classLabel = new JLabel( " ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Meat: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Adv: ", JLabel.RIGHT ) );
 
-		valuePanel = new JPanel( new GridLayout( 4, 1 ) );
+		valuePanel = new JPanel( new GridLayout( 5, 1 ) );
 		valuePanel.setOpaque( false );
 
 		valuePanel.add( this.hpLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.mpLabel = new JLabel( " ", JLabel.LEFT ) );
+		valuePanel.add( this.classValueLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.meatLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.advLabel = new JLabel( " ", JLabel.LEFT ) );
 
@@ -197,7 +200,7 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 		panels[ panelCount ].addMouseListener( new FamPopListener() );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 8, 2 ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( ( 6 + this.MISC_LABELS ), 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
@@ -210,10 +213,13 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( this.hoboLabel = new JLabel( " ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.hoboPowerLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( this.beeLabel = new JLabel( " ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.beeosityLabel = new JLabel( " ", JLabel.LEFT ) );
+		
+		for ( int i = 0; i < this.MISC_LABELS ; i++ )
+		{
+			panels[ panelCount ].add( this.miscLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( this.miscValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
+		}
+
 		this.modPopLabel = new JLabel();
 		this.modPopup = new JPopupMenu();
 		this.modPopup.insert( this.modPopLabel, 0 );
@@ -254,6 +260,8 @@ public class CompactSidePane
 		this.spleenLabel.setForeground( Color.BLACK );
 		this.hpLabel.setForeground( Color.BLACK );
 		this.mpLabel.setForeground( Color.BLACK );
+		this.classLabel.setForeground( Color.BLACK );
+		this.classValueLabel.setForeground( Color.BLACK );
 		this.meatLabel.setForeground( Color.BLACK );
 		this.advLabel.setForeground( Color.BLACK );
 		this.familiarLabel.setForeground( Color.BLACK );
@@ -263,8 +271,11 @@ public class CompactSidePane
 		this.expLabel.setForeground( Color.BLACK );
 		this.meatDropLabel.setForeground( Color.BLACK );
 		this.itemDropLabel.setForeground( Color.BLACK );
-		this.hoboPowerLabel.setForeground( Color.BLACK );
-		this.beeosityLabel.setForeground( Color.BLACK );
+		for ( int i = 0; i < this.MISC_LABELS ; i++ )
+		{
+			this.miscLabel[ i ].setForeground( Color.BLACK );
+			this.miscValueLabel[ i ].setForeground( Color.BLACK );
+		}
 	}
 
 	private class ModPopListener
@@ -537,7 +548,6 @@ public class CompactSidePane
 		this.mysLabel.setText( this.getStatText(
 			KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
 		this.moxLabel.setText( this.getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
-
 		this.fullLabel.setText( KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
 		this.drunkLabel.setText( KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
 		this.spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
@@ -547,6 +557,26 @@ public class CompactSidePane
 			KoLCharacter.inZombiecore() ?
 			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) :
 			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+		if ( KoLCharacter.getFuryLimit() > 0 )
+		{
+			this.classLabel.setText( "  Fury: " );
+			this.classValueLabel.setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
+		}
+		else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+		{
+			this.classLabel.setText( "Soulsauce: ");
+			this.classValueLabel.setText( KoLCharacter.getSoulsauce() + " / 100" );
+		}
+		else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT )
+		{
+			this.classLabel.setText( " Disco: " );
+			this.classValueLabel.setText( KoLCharacter.getDiscoMomentum() + " / 3" );
+		}
+		else
+		{
+			this.classLabel.setText( " " );
+			this.classValueLabel.setText( " " );
+		}		
 		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
                 this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
@@ -562,47 +592,47 @@ public class CompactSidePane
 		int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
 		int surgeon = KoLCharacter.currentBitmapModifier( Modifiers.SURGEONOSITY );
 		int smithsness = KoLCharacter.getSmithsness();
-		if ( hobo != 0 )
+		int count = 0;
+		if ( hobo != 0 && count < this.MISC_LABELS )
 		{
-			this.hoboLabel.setText( "Hobo: " );
-			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+			this.miscLabel[ count ].setText( "Hobo: " );
+			this.miscValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+			count++;
 		}
-		else if ( surgeon != 0 )
+		if ( smithsness != 0 && count < this.MISC_LABELS )
 		{
-			this.hoboLabel.setText( "Surgeon: " );
-			this.hoboPowerLabel.setText( surgeon + "/5" );
+			this.miscLabel[ count ].setText( "Smithsness: " );
+			this.miscValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
+			count++;
 		}
-		else if ( rave != 0 )
-		{
-			this.hoboLabel.setText( "Rave: " );
-			this.hoboPowerLabel.setText( rave + "/7" );
-		}
-		else if ( clown != 0 )
-		{
-			this.hoboLabel.setText( "Clown: " );
-			this.hoboPowerLabel.setText( clown + "/4" );
-		}
-		else if ( smithsness != 0 )
-		{
-			this.hoboLabel.setText( "Smithsness: " );
-			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
-		}
-		else
-		{
-			this.hoboLabel.setText( "" );
-			this.hoboPowerLabel.setText( "" );
-		}
-
-		if ( KoLCharacter.inBeecore() )
+		if ( KoLCharacter.inBeecore() && count < this.MISC_LABELS )
 		{
 			int bee = KoLCharacter.getBeeosity();
-			this.beeLabel.setText( "Bees: " );
-			this.beeosityLabel.setText( bee + "" );
+			this.miscLabel[ count ].setText( "Bees: " );
+			this.miscValueLabel[ count ].setText( bee + "" );
 		}
-		else
+		if ( surgeon != 0 && count < this.MISC_LABELS )
 		{
-			this.beeLabel.setText( "" );
-			this.beeosityLabel.setText( "" );
+			this.miscLabel[ count ].setText( "Surgeon: " );
+			this.miscValueLabel[ count ].setText( surgeon + "/5" );
+			count++;
+		}
+		if ( rave != 0 && count < this.MISC_LABELS )
+		{
+			this.miscLabel[ count ].setText( "Rave: " );
+			this.miscValueLabel[ count ].setText( rave + "/7" );
+			count++;
+		}
+		if ( clown != 0 && count < this.MISC_LABELS )
+		{
+			this.miscLabel[ count ].setText( "Clown: " );
+			this.miscValueLabel[ count ].setText( clown + "/4" );
+			count++;
+		}
+		for( int i = count ; i < MISC_LABELS ; i++ )
+		{
+			this.miscLabel[ i ].setText( "" );
+			this.miscValueLabel[ i ].setText( "" );
 		}
 
 		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
