@@ -6264,7 +6264,7 @@
 6247	cheap clip-on ninja tie	671347064	necktie.gif	multiple	t,d	5	cheap clip-on ninja ties
 6248	gamer slurry	580884090	soda.gif	multiple	t,d	5	cans of gamer slurry
 6249	dungeoneering kit	268731940	briefcase.gif	usable	t,d	300
-6250
+6250	numberwang	221248307	jicknumbers.gif	accessory		0
 6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
 6252	scroll of Puddingskin	885203992	scroll1.gif	usable	t,d	100	scrolls of Puddingskin
 6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable	t	0	Spellbooks of Walberg's Dim Bulb
