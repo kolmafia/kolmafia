@@ -1216,8 +1216,7 @@ public class ItemDatabase
 
 		if ( plural != null )
 		{
-			ItemDatabase.pluralById.set( itemId, plural );
-			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+			ItemDatabase.registerPlural( itemId, plural );
 		}
 		ItemDatabase.parseItemDescription( id, descId, power );
 
@@ -1232,6 +1231,37 @@ public class ItemDatabase
 	{
 		ItemDatabase.pluralById.set( itemId, plural );
 		ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), IntegerPool.get( itemId ) );
+	}
+
+	public static final void registerMultiUsability( final int itemId, final boolean multi )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		int attributes = ItemDatabase.getAttributes( itemId );
+
+		if ( multi )
+		{
+			// We think the item is single usable but it really is multiusable
+			if ( useType == KoLConstants.CONSUME_USE )
+			{
+				ItemDatabase.useTypeById.set( itemId, KoLConstants.CONSUME_MULTIPLE );
+			}
+			else
+			{
+				ItemDatabase.attributesById.set( itemId, attributes | ItemDatabase.ATTR_MULTIPLE );
+			}
+		}
+		else
+		{
+			// We think the item is multi usable but it really is single usable
+			if ( useType == KoLConstants.CONSUME_MULTIPLE )
+			{
+				ItemDatabase.useTypeById.set( itemId, KoLConstants.CONSUME_USE );
+			}
+			else
+			{
+				ItemDatabase.attributesById.set( itemId, attributes | ItemDatabase.ATTR_SINGLE );
+			}
+		}
 	}
 
 	private static void parseItemDescription( final Integer id, final String descId, int power )
@@ -1718,14 +1748,17 @@ public class ItemDatabase
 	public static final String getPluralName( final String name )
 	{
 		int itemId = ItemDatabase.getItemId( name );
-		String plural = pluralById.get( itemId );
-		return plural == null || plural.equals( "" ) ? name + "s" : plural;
+		if ( itemId == -1 )
+		{
+			return name + "s";
+		}
+		return ItemDatabase.getPluralName( itemId );
 	}
 
 	public static final String getPluralName( final int itemId )
 	{
 		String plural = pluralById.get( itemId );
-		return plural == null || plural.equals( "" ) ? ItemDatabase.getItemName( itemId ) + "s" : plural;
+		return plural == null || plural.equals( "" ) ? ItemDatabase.getItemDataName( itemId ) + "s" : plural;
 	}
 
 	public static final String getPluralById( final int itemId )
@@ -2374,22 +2407,52 @@ public class ItemDatabase
 
 	public static final boolean isUsable( final int itemId )
 	{
-		switch ( ItemDatabase.useTypeById.get( itemId ) )
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		int attributes = ItemDatabase.getAttributes( itemId );
+
+		switch ( useType )
 		{
+			// Explicit "use"
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.MESSAGE_DISPLAY:
+		case KoLConstants.INFINITE_USES:
+			// Special "use"
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
-		case KoLConstants.CONSUME_USE:
-		case KoLConstants.MESSAGE_DISPLAY:
-		case KoLConstants.INFINITE_USES:
-		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.GROW_FAMILIAR:
 		case KoLConstants.CONSUME_ZAP:
+			// Multi-use
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 			return true;
 		default:
+			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE | ItemDatabase.ATTR_SINGLE ) ) != 0;
+		}
+	}
+
+	public static final boolean isMultiUsable( final int itemId )
+	{
+		if ( itemId <= 0 )
+		{
 			return false;
+		}
+
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		int attributes = ItemDatabase.getAttributes( itemId );
+
+		switch ( useType )
+		{
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+			return ( attributes & ItemDatabase.ATTR_SINGLE ) == 0;
+		default:
+			return ( attributes & ItemDatabase.ATTR_MULTIPLE ) != 0;
 		}
 	}
 
@@ -2572,25 +2635,6 @@ public class ItemDatabase
 	public static final int getConsumptionType( final String itemName )
 	{
 		return ItemDatabase.getConsumptionType( ItemDatabase.getItemId( itemName ) );
-	}
-
-	public static final boolean isMultiUsable( final int itemId )
-	{
-		if ( itemId <= 0 )
-		{
-			return false;
-		}
-
-		switch ( ItemDatabase.useTypeById.get( itemId ) )
-		{
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
