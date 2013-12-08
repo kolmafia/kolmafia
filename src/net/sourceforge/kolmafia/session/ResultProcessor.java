@@ -197,6 +197,7 @@ public class ResultProcessor
 
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
+				ItemDatabase.registerMultiUsability( itemId, multi );
 			}
 
 			// If we got more than one, check if plural name
