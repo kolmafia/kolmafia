@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -898,6 +897,9 @@ public class Modifiers
 	public static final int EQUIPS_ON = 9;
 	public static final int FAMILIAR_EFFCT = 10;
 	public static final int JIGGLE = 11;
+	public static final int EQUALIZE_MUSCLE = 12;
+	public static final int EQUALIZE_MYST = 13;
+	public static final int EQUALIZE_MOXIE = 14;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -949,6 +951,18 @@ public class Modifiers
 		  Pattern.compile( "Jiggle: (.*?)$" ),
 		  Pattern.compile( "Jiggle: \"(.*?)\"" )
 		},
+		{ "Equalize Muscle",
+		  null,
+		  Pattern.compile( "Equalize Muscle: \"(.*?)\"" )
+		},
+		{ "Equalize Mysticality",
+		  null,
+		  Pattern.compile( "Equalize Mysticality: \"(.*?)\"" )
+		},
+		{ "Equalize Moxie",
+		  null,
+		  Pattern.compile( "Equalize Moxie: \"(.*?)\"" )
+		},
 	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
@@ -978,6 +992,7 @@ public class Modifiers
 		int mus = KoLCharacter.getBaseMuscle();
 		int mys = KoLCharacter.getBaseMysticality();
 		int mox = KoLCharacter.getBaseMoxie();
+
 		String equalize = this.getString( Modifiers.EQUALIZE );
 		if ( equalize.startsWith( "Mus" ) )
 		{
@@ -990,6 +1005,39 @@ public class Modifiers
 		else if ( equalize.startsWith( "Mox" ) )
 		{
 			mus = mys = mox;
+		}
+		else if ( equalize.startsWith( "High" ) )
+		{
+			int high = Math.max( Math.max( mus, mys ), mox );
+			mus = mys = mox = high;
+		}
+
+		String mus_equalize = this.getString( Modifiers.EQUALIZE_MUSCLE );
+		if ( mus_equalize.startsWith( "Mys" ) )
+		{
+			mus = mys;
+		}
+		else if ( mus_equalize.startsWith( "Mox" ) )
+		{
+			mus = mox;
+		}
+		String mys_equalize  = this.getString( Modifiers.EQUALIZE_MYST );
+		if ( mys_equalize.startsWith( "Mus" ) )
+		{
+			mys = mus;
+		}
+		else if ( mys_equalize.startsWith( "Mox" ) )
+		{
+			mys = mox;
+		}
+		String mox_equalize = this.getString( Modifiers.EQUALIZE_MOXIE );
+		if ( mox_equalize.startsWith( "Mus" ) )
+		{
+			mox = mus;
+		}
+		else if ( mox_equalize.startsWith( "Mys" ) )
+		{
+			mox = mys;
 		}
 
 		int mus_limit = (int) this.get( Modifiers.MUS_LIMIT );
@@ -1607,11 +1655,6 @@ public class Modifiers
 		}
 
 		// Add in string modifiers as appropriate.
-		// Note that there are '==' comparisons with the empty string here:
-		// this is safe because the initializing empty string for the
-		// strings array is contained in the same source file (in reset()),
-		// and is therefore guaranteed by Java to refer to the same string
-		// object, not merely an equal one.
 
 		String val;
 		val = mods.strings[ Modifiers.EQUALIZE ];
@@ -1641,6 +1684,21 @@ public class Modifiers
 		if ( !val.equals( "" ) )
 		{
 			this.strings[ Modifiers.FAMILIAR_TUNING ] = val;
+		}
+		val = mods.strings[ Modifiers.EQUALIZE_MUSCLE ];
+		if ( !val.equals( "" ) )
+		{
+			this.strings[ Modifiers.EQUALIZE_MUSCLE ] = val;
+		}
+		val = mods.strings[ Modifiers.EQUALIZE_MYST ];
+		if ( !val.equals( "" ) )
+		{
+			this.strings[ Modifiers.EQUALIZE_MYST ] = val;
+		}
+		val = mods.strings[ Modifiers.EQUALIZE_MOXIE ];
+		if ( !val.equals( "" ) )
+		{
+			this.strings[ Modifiers.EQUALIZE_MOXIE ] = val;
 		}
 
 		// OR in the bitmap modifiers (including all the boolean modifiers)
