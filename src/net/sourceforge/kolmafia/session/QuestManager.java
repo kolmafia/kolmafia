@@ -149,7 +149,14 @@ public class QuestManager
 			}
 			else if ( location.contains( "whichplace=desertbeach" ) )
 			{
-				handleBeachChange( responseText );
+				if ( location.contains( "action=db_pyramid1" ) )
+				{
+					parsePyramidChange( responseText );
+				}
+				else
+				{
+					handleBeachChange( responseText );
+				}
 			}
 			else if ( location.contains( "whichplace=mclargehuge" ) )
 			{
@@ -170,10 +177,6 @@ public class QuestManager
 		else if ( location.startsWith( "questlog" ) )
 		{
 			QuestLogRequest.registerQuests( false, location, responseText );
-		}
-		else if ( location.startsWith( "beach.php?action=woodencity" ) )
-		{
-			parsePyramidChange( responseText );
 		}
 		else if ( location.startsWith( "showplayer" ) )
 		{
