@@ -1945,6 +1945,7 @@ natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
 night-vision goggles	50	Mox: 10
 novelty tattoo sleeves	10	none
+numberwang	0	Mys: 35
 observational glasses	10	none
 offensive moustache	0	none
 old ball and chain	224	Mys: 200

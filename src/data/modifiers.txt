@@ -2233,6 +2233,7 @@ natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Item Drop (sporadic): 20, Meat Drop (sporadic): 20, Single Equip, Softcore Only
 novelty tattoo sleeves	Muscle: +6, PvP Fights: +1
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
+numberwang	PvP Fights: +5, Adventures: +5, Monster Level: +11, Initiative: +23, Maximum HP: +37, Maximum MP: +37, HP Regen Min: 6, HP Regen Max: 9, MP Regen Min: 6, MP Regen Max: 9, Single Equip
 observational glasses	Item Drop: +5
 offensive moustache	PvP Fights: +7, Single Equip
 old ball and chain	Initiative: -50, Cold Damage: +100, Single Equip
