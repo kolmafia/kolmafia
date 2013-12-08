@@ -300,15 +300,6 @@ public class MallPurchaseRequest
 
 	private static Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>", Pattern.DOTALL );
 
-	// You acquire an item: <b>tiny plastic Charity the Zombie Hunter</b> (stored in Hagnk's Ancestral Mini-Storage)
-	// You acquire <b>2 tiny plastic Charities the Zombie Hunters</b> (stored in Hagnk's Ancestral Mini-Storage)
-
-	// You acquire <b>11 limes</b><br>(That's ridiculous.  It's not even funny.) (stored in Hagnk's Ancestral Mini-Storage)
-	// You acquire <b>23 limes</b><font color=white>FNORD</font> (stored in Hagnk's Ancestral Mini-Storage)
-	// You acquire <b>37 limes</b><br>(In a row?!) (stored in Hagnk's Ancestral Mini-Storage)
-
-	public static Pattern ITEM_PATTERN = Pattern.compile( "You acquire .*?<b>(.*?)</b>.*?( \\(stored in Hagnk's Ancestral Mini-Storage\\))?</td>", Pattern.DOTALL );
-
 	// (You spent 1,900 meat from Hagnk's.<br />You have XXX meat left.)
 	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?", Pattern.DOTALL );
 
@@ -322,69 +313,14 @@ public class MallPurchaseRequest
 		// Mall stores themselves can only contain processable results
 		// when actually buying an item, and then only at the very top
 		// of the page.
+
 		Matcher tableMatcher = MallPurchaseRequest.TABLE_PATTERN.matcher( responseText );
 		if ( !tableMatcher.find() )
 		{
 			return;
 		}
 
-		Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( tableMatcher.group( 0 ) );
-		if ( !itemMatcher.find() )
-		{
-			return;
-		}
-
-		String result = itemMatcher.group( 0 );
-		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
-		ResultProcessor.processResults( false, result, results );
-
-		if ( results.isEmpty() )
-		{
-			// Shouldn't happen
-			return;
-		}
-
-		AdventureResult item = results.get( 0 );
-
-		int received = item.getItemId();
-		int itemId = MallPurchaseRequest.extractItemId( urlString );
-		int count = item.getCount();
-
-		if ( received == -1 )
-		{
-			KoLmafia.updateDisplay( "Wrong item received - possibly its name or plural has changed." );
-
-			String name = item.getName();
-
-			if ( count > 1 )
-			{
-				// Register new plural
-				ItemDatabase.registerPlural( itemId, name );
-			}
-			else
-			{
-				// Register new item name
-				ItemDatabase.registerItem( itemId );
-			}
-
-			item = new AdventureResult( itemId, count );
-		}
-		else if ( received != itemId )
-		{
-			// Assume that KoL really gave us the item we asked for.
-			item = new AdventureResult( itemId, count );
-		}
-
-		if ( itemMatcher.group( 2 ) == null)
-		{
-			// Add the item to inventory
-			ResultProcessor.processItem( itemId, count );
-		}
-		else
-		{
-			// Add the item to storage
-			AdventureResult.addResultToList( KoLConstants.storage, item );
-		}
+		AdventureResult result = MallPurchaseRequest.processItemFromMall( tableMatcher.group( 0 ) );
 
 		Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher( responseText );
 		if ( !meatMatcher.find() )
@@ -403,6 +339,52 @@ public class MallPurchaseRequest
 			ResultProcessor.processMeat( -cost );
 			KoLCharacter.updateStatus();
 		}
+	}
+
+	// You acquire an item: <b>tiny plastic Charity the Zombie Hunter</b> (stored in Hagnk's Ancestral Mini-Storage)
+	// You acquire <b>2 tiny plastic Charities the Zombie Hunters</b> (stored in Hagnk's Ancestral Mini-Storage)
+
+	// You acquire <b>11 limes</b><br>(That's ridiculous.  It's not even funny.) (stored in Hagnk's Ancestral Mini-Storage)
+	// You acquire <b>23 limes</b><font color=white>FNORD</font> (stored in Hagnk's Ancestral Mini-Storage)
+	// You acquire <b>37 limes</b><br>(In a row?!) (stored in Hagnk's Ancestral Mini-Storage)
+
+	public static Pattern ITEM_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\".*?\".*?( \\(stored in Hagnk's Ancestral Mini-Storage\\))?</td></tr></table>", Pattern.DOTALL );
+
+	public static final AdventureResult processItemFromMall( final String text )
+	{
+		// Items are now wrapped in KoL's standard "relstring" table"
+
+		Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( text );
+		if ( !itemMatcher.find() )
+		{
+			return null;
+		}
+
+		String result = itemMatcher.group( 0 );
+		boolean storage = itemMatcher.group( 1 ) != null;
+
+		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+		ResultProcessor.processResults( false, result, results );
+
+		if ( results.isEmpty() )
+		{
+			// Shouldn't happen
+			return null;
+		}
+
+		AdventureResult item = results.get( 0 );
+		if ( storage )
+		{
+			// Add the item to storage
+			AdventureResult.addResultToList( KoLConstants.storage, item );
+		}
+		else
+		{
+			// Add the item to inventory
+			ResultProcessor.processResult( item );
+		}
+
+		return item;
 	}
 
 	public static final boolean registerRequest( final String urlString )
