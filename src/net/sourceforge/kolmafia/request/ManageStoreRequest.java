@@ -295,33 +295,12 @@ public class ManageStoreRequest
 		{
 			// backoffice.php?qty=1&pwd&action=removeitem&itemid=362&ajax=1
 
-			Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( responseText );
-			if ( !itemMatcher.find() )
+			AdventureResult item = MallPurchaseRequest.processItemFromMall( responseText );
+			if ( item != null )
 			{
-				return;
+				StoreManager.removeItem( item.getItemId(), item.getCount() );
 			}
 
-			String result = itemMatcher.group( 0 );
-			ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
-			ResultProcessor.processResults( false, result, results );
-
-			if ( results.isEmpty() )
-			{
-				// Shouldn't happen
-				return;
-			}
-
-			AdventureResult item = results.get( 0 );
-			if ( itemMatcher.group( 2 ) == null)
-			{
-				ResultProcessor.processItem( item.getItemId(), item.getCount() );
-			}
-			else
-			{
-				AdventureResult.addResultToList( KoLConstants.storage, item );
-			}
-
-			StoreManager.removeItem( item.getItemId(), item.getCount() );
 			return;
 		}
 	}

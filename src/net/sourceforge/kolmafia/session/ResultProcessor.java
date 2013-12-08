@@ -164,6 +164,7 @@ public class ResultProcessor
 		// (FightRequest wants to handle the items itself.)
 
 		StringBuffer buffer = new StringBuffer();
+		boolean changed = false;
 
 		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
 		while ( itemMatcher.find() )
@@ -219,10 +220,11 @@ public class ResultProcessor
 				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
 				ResultProcessor.processItem( false, acquisition, item, data );
 				itemMatcher.appendReplacement( buffer, "" );
+				changed = true;
 			}
 		}
 
-		if ( buffer.length() > 0 )
+		if ( changed )
 		{
 			itemMatcher.appendTail( buffer );
 			return buffer.toString();
