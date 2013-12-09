@@ -159,7 +159,7 @@
 1022	Clobber	5	1	0	0
 1023	Harpoon!	5	30	0
 1024	Holiday Weight Gain	3	10	10
-1025	Iron Palm Technique	3	5	10
+1025	Iron Palm Technique	3	0	0
 1026
 1027	Hibernate	2	0	0	2
 1028	Cold Shoulder	0	0	0	3

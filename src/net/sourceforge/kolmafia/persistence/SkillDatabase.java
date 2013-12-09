@@ -881,6 +881,7 @@ public class SkillDatabase
 		case SkillPool.SMILE_OF_MR_A:
 		case SkillPool.SUMMON_MINION:
 		case SkillPool.SUMMON_HORDE:
+		case SkillPool.IRON_PALM_TECHNIQUE:
 		case SkillPool.HIBERNATE:
 		case SkillPool.FURIOUS_WALLOP:
 		case SkillPool.SPIRIT_VACATION:
