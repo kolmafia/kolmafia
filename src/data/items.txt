@@ -833,15 +833,15 @@
 816	tofu chow mein	17792757	bowl.gif	food	t,d	109	plates of tofu chow mein
 817	pr0n chow mein	17731257	bowl.gif	food	t,d	130	plates of pr0n chow mein
 818	plus sign	79993334	plus.gif	usable	q	0
-819	milky potion	300000011	exclam.gif	multiple, combat	t,d	60	milky potions
-820	swirly potion	301004011	exclam.gif	multiple, combat	t,d	60	swirly potions
-821	bubbly potion	701200031	exclam.gif	multiple, combat	t,d	60	bubbly potions
-822	smoky potion	371004011	exclam.gif	multiple, combat	t,d	60	smoky potions
-823	cloudy potion	307532051	exclam.gif	multiple, combat	t,d	60	cloudy potions
-824	effervescent potion	201030011	exclam.gif	multiple, combat	t,d	60	effervescent potions
-825	fizzy potion	206200011	exclam.gif	multiple, combat	t,d	60	fizzy potions
-826	dark potion	407001621	exclam.gif	multiple, combat	t,d	60	dark potions
-827	murky potion	301022011	exclam.gif	multiple, combat,	t,d	60	murky potions
+819	milky potion	300000011	exclam.gif	multiple, combat, single	t,d	60	milky potions
+820	swirly potion	301004011	exclam.gif	multiple, combat, single	t,d	60	swirly potions
+821	bubbly potion	701200031	exclam.gif	multiple, combat, single	t,d	60	bubbly potions
+822	smoky potion	371004011	exclam.gif	multiple, combat, single	t,d	60	smoky potions
+823	cloudy potion	307532051	exclam.gif	multiple, combat, single	t,d	60	cloudy potions
+824	effervescent potion	201030011	exclam.gif	multiple, combat, single	t,d	60	effervescent potions
+825	fizzy potion	206200011	exclam.gif	multiple, combat, single	t,d	60	fizzy potions
+826	dark potion	407001621	exclam.gif	multiple, combat, single	t,d	60	dark potions
+827	murky potion	301022011	exclam.gif	multiple, combat, single	t,d	60	murky potions
 828	baby killer bee	8374657	babya.gif	grow	t,d	76	baby killer bees
 829	anti-anti-antidote	82346664	poisoncup.gif	usable, combat, single	t,d	15	anti-anti-antidotes
 830	royal jelly	90050040	percent.gif	food	t,d	77	clumps of royal jelly
@@ -5756,7 +5756,7 @@
 5739	CSA fire-starting kit	572377360	briefcase.gif	usable	d	23
 5740	bag of GORP	237245113	baggie.gif	food	t,d	23	bags of GORP
 5741	water purification pills	652054747	goofballs.gif	drink	t,d	23
-5742	Camp Scout pup tent	713528231	tent1.gif	hp, single	t,d	23
+5742	Camp Scout pup tent	713528231	tent1.gif	hp, usable	t,d	23
 5743	CSA scoutmaster's &quot;water&quot;	941205636	waterbottle.gif	drink	t,d	23
 5744	bag of GORF	829141102	baggie.gif	food	t,d	23	bags of GORF
 5745	CSA discount card	928675328	librarycard.gif	multiple	t	0
