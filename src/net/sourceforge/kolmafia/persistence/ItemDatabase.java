@@ -1259,7 +1259,7 @@ public class ItemDatabase
 			}
 			else
 			{
-				ItemDatabase.attributesById.set( itemId, attributes | ItemDatabase.ATTR_SINGLE );
+				ItemDatabase.attributesById.set( itemId, attributes | ItemDatabase.ATTR_USABLE );
 			}
 		}
 	}
@@ -2430,7 +2430,7 @@ public class ItemDatabase
 		case KoLConstants.HPMP_RESTORE:
 			return true;
 		default:
-			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE | ItemDatabase.ATTR_SINGLE ) ) != 0;
+			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE ) ) != 0;
 		}
 	}
 
@@ -2450,7 +2450,7 @@ public class ItemDatabase
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
-			return ( attributes & ItemDatabase.ATTR_SINGLE ) == 0;
+			return ( attributes & ItemDatabase.ATTR_USABLE ) == 0;
 		default:
 			return ( attributes & ItemDatabase.ATTR_MULTIPLE ) != 0;
 		}
