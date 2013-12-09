@@ -844,6 +844,9 @@ public class Evaluator
 
 		case EffectPool.SHIELD_OF_THE_PASTALORD:
 			return KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER;
+
+		case EffectPool.SOULERSKATES:
+			return KoLCharacter.getClassType() != KoLCharacter.SAUCEROR;
 		}
 		return false;
 	}
