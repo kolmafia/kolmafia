@@ -237,7 +237,7 @@ public abstract class StoreManager
 					// Do not register new items discovered in your store,
 					// since the descid is not available
 					//
-					// ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ) );
+					// ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ), descId );
 					continue;
 				}
 
@@ -271,7 +271,7 @@ public abstract class StoreManager
 					// Do not register new items discovered in your store,
 					// since the descid is not available
 					//
-					// ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ) );
+					// ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ), descId );
 					continue;
 				}
 

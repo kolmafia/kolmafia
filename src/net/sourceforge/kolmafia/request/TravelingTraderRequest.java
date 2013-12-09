@@ -180,7 +180,7 @@ public class TravelingTraderRequest
 			// He wants something we don't know about?!  We have no
 			// way to register an item from just the descid, since
 			// the item number is not in the description text.
-			// ItemDatabase.registerItem( descId );
+			// ItemDatabase.registerItem( itemId, descId );
 			return;
 		}
 

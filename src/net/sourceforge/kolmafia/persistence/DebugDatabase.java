@@ -346,7 +346,7 @@ public class DebugDatabase
 
 		int type = ItemDatabase.getConsumptionType( itemId );
 		String descType = DebugDatabase.parseType( text );
-		int descPrimary = DebugDatabase.typeToPrimary( descType );
+		int descPrimary = DebugDatabase.typeToPrimary( descType, false );
 		if ( !typesMatch( type, descPrimary ) )
 		{
 			String primary = ItemDatabase.typeToPrimaryUsage( type );
@@ -512,7 +512,7 @@ public class DebugDatabase
 		return type.equals( "back item" ) ? "container" : type;
 	}
 
-	public static final int typeToPrimary( final String type )
+	public static final int typeToPrimary( final String type, final boolean multi )
 	{
 		// Type: <b>food <font color=#999999>(crappy)</font></b>
 		// Type: <b>food (decent)</b>
@@ -537,24 +537,16 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) )
-		{
-			return KoLConstants.CONSUME_USE;
-		}
-		if ( type.equals( "potion" ) )
+		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) || type.equals( "potion" ) )
 		{
 			// Although most potions end up being multi-usable, KoL
 			// almost always forgets to add that flag when the item
 			// is first introduced.
 			//
-			// Therefore, rather than generating bug reports
-			// because KoLmafia tries to multi-use a single-use
-			// item (which doesn't work), generate bug reports when
-			// KoLmafia single-uses when it could multi-use (which
-			// does work, but is slower.)
-			//
-			// return KoLConstants.CONSUME_MULTIPLE;
-			return KoLConstants.CONSUME_USE;
+			// We'll assume they are single-usable unless we are
+			// explicitly told otherwise in a "rel" string
+
+			return multi ? KoLConstants.CONSUME_MULTIPLE : KoLConstants.CONSUME_USE;
 		}
 		if ( type.equals( "familiar" ) )
 		{
@@ -1563,7 +1555,7 @@ public class DebugDatabase
 			String name = JSON.getString( "name" );
 			String descid = JSON.getString( "descid" );
 			RequestLogger.printLine( "Item \"" + name +"\" power incorrect: " + current + " should be " + power );
-			ItemDatabase.registerItem( itemId, name, descid, null, power );
+			ItemDatabase.registerItem( itemId, name, descid, null, power, false );
 		}
 		catch ( JSONException e )
 		{
@@ -1615,7 +1607,7 @@ public class DebugDatabase
 				String descid = JSON.getString( "descid" );
 
 				RequestLogger.printLine( "Shield \"" + name +"\" power incorrect: " + oldPower + " should be " + correctPower );
-				ItemDatabase.registerItem( itemId, name, descid, null, correctPower );
+				ItemDatabase.registerItem( itemId, name, descid, null, correctPower, false );
 			}
 			catch ( JSONException e )
 			{
