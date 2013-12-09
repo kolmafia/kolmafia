@@ -163,7 +163,7 @@ public class TerrifiedEagleInnRequest
 			if ( match == null )
 			{
 				// Unfortunately, there is no itemId in the table.
-				// ItemDatabase.registerItem( itemName, descId, "" );
+				// ItemDatabase.registerItem( itemId, itemName, descId );
 
 				// Print what goes in coinmasters.txt
 				StringBuilder printMe= new StringBuilder();

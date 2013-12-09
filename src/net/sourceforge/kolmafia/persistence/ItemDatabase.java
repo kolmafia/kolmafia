@@ -1049,6 +1049,24 @@ public class ItemDatabase
 		return value != null && value.equals( "1" );
 	}
 
+	public static final String extractItemsPlural( final int count, final String items )
+	{
+		if ( count > 1 && items != null )
+		{
+			int space = items.indexOf( " " );
+			if ( space != -1 )
+			{
+				String num = items.substring( 0, space );
+				if ( StringUtilities.isNumeric( num ) &&
+				     StringUtilities.parseInt( num ) == count )
+				{
+					return items.substring( space + 1 );
+				}
+			}
+		}
+		return null;
+	}
+
 	public static final void registerItem( final int itemId )
 	{
 		// This only works for items you own.
@@ -1086,82 +1104,13 @@ public class ItemDatabase
 			String name = JSON.getString( "name" );
 			String descid = JSON.getString( "descid" );
 			int power = JSON.getInt( "power" );
-			ItemDatabase.registerItem( itemId, name, descid, null, power );
+			ItemDatabase.registerItem( itemId, name, descid, null, power, false );
 		}
 		catch ( JSONException e )
 		{
 			KoLmafia.updateDisplay( "Error parsing JSON string!" );
 			StaticEntity.printStackTrace( e );
 		}
-	}
-
-	public static final void registerItem( final String itemName, final String descId, final String relString, final String items )
-	{
-		int itemId = -1;
-		int count = 1;
-
-		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
-		while ( matcher.find() )
-		{
-			String tag = matcher.group(1);
-			String value = matcher.group(2);
-			if ( tag.equals( "id" ) )
-			{
-				itemId = StringUtilities.parseInt( value );
-			}
-			else if ( tag.equals( "n" ) )
-			{
-				count = StringUtilities.parseInt( value );
-			}
-		}
-
-		// If we could not find the item id, nothing to do
-		if ( itemId < 0 )
-		{
-			return;
-		}
-
-		// If we found more than one item and the "items" string is not
-		// null, we probably have the plural.
-		String plural = extractItemsPlural( count, items );
-		ItemDatabase.registerItem( itemId, itemName, descId, plural );
-	}
-
-	public static final String extractItemsPlural( final int count, final String items )
-	{
-		if ( count > 1 && items != null )
-		{
-			int space = items.indexOf( " " );
-			if ( space != -1 )
-			{
-				String num = items.substring( 0, space );
-				if ( StringUtilities.isNumeric( num ) &&
-				     StringUtilities.parseInt( num ) == count )
-				{
-					return items.substring( space + 1 );
-				}
-			}
-		}
-		return null;
-	}
-
-	public static final void registerItem( final String itemName, final String descId, final String relString )
-	{
-		int itemId = ItemDatabase.relStringItemId( relString );
-		if ( itemId > 0 )
-		{
-			ItemDatabase.registerItem( itemId, itemName, descId, null );
-		}
-	}
-
-	public static final void registerItem( final int itemId, String itemName, String descId )
-	{
-		ItemDatabase.registerItem( itemId, itemName, descId, null );
-	}
-
-	public static final void registerItem( final int itemId, String itemName, String descId, final String plural )
-	{
-		ItemDatabase.registerItem( itemId, itemName, descId, plural, 0 );
 	}
 
 	public static void registerItem( int itemId, String descId )
@@ -1180,10 +1129,54 @@ public class ItemDatabase
 
 		String itemName = DebugDatabase.parseName( text );
 
-		ItemDatabase.registerItem( itemId, itemName, descId, null, 0 );
+		ItemDatabase.registerItem( itemId, itemName, descId, null, 0, false );
 	}
 
-	public static final void registerItem( final int itemId, String itemName, String descId, final String plural, final int power )
+	public static final void registerItem( final int itemId, String itemName, String descId )
+	{
+		ItemDatabase.registerItem( itemId, itemName, descId, null, 0, false );
+	}
+
+	public static final void registerItem( final String itemName, final String descId, final String relString, final String items )
+	{
+		// This works for any item that comes in to inventory accompanied by a relstring.
+
+		int itemId = -1;
+		int count = 1;
+		boolean multi = false;
+
+		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
+		while ( matcher.find() )
+		{
+			String tag = matcher.group(1);
+			String value = matcher.group(2);
+			if ( tag.equals( "id" ) )
+			{
+				itemId = StringUtilities.parseInt( value );
+			}
+			else if ( tag.equals( "n" ) )
+			{
+				count = StringUtilities.parseInt( value );
+			}
+			else if ( tag.equals( "m" ) )
+			{
+				multi = value.equals( "1" );
+			}
+		}
+
+		// If we could not find the item id, nothing to do
+		if ( itemId < 0 )
+		{
+			return;
+		}
+
+		// If we found more than one item and the "items" string is not
+		// null, we probably have the plural.
+		String plural = extractItemsPlural( count, items );
+		ItemDatabase.registerItem( itemId, itemName, descId, plural, 0, multi );
+	}
+
+	public static final void registerItem( final int itemId, String itemName, String descId, final String plural, final int power, final boolean multi )
 	{
 		if ( itemName == null )
 		{
@@ -1218,7 +1211,7 @@ public class ItemDatabase
 		{
 			ItemDatabase.registerPlural( itemId, plural );
 		}
-		ItemDatabase.parseItemDescription( id, descId, power );
+		ItemDatabase.parseItemDescription( id, descId, power, multi );
 
 		// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
@@ -1264,7 +1257,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static void parseItemDescription( final Integer id, final String descId, int power )
+	private static void parseItemDescription( final Integer id, final String descId, int power, boolean multi )
 	{
 		int itemId = id.intValue();
 
@@ -1287,7 +1280,7 @@ public class ItemDatabase
 
 		// Parse use type, access, and price from description
 		String type = DebugDatabase.parseType( text );
-		int usage = DebugDatabase.typeToPrimary( type );
+		int usage = DebugDatabase.typeToPrimary( type, multi );
 		ItemDatabase.useTypeById.set( itemId, usage );
 
 		String access = DebugDatabase.parseAccess( text );
@@ -1298,6 +1291,10 @@ public class ItemDatabase
 		attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFT : 0;
 		attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST : 0;
 		attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
+		if ( multi && usage != KoLConstants.CONSUME_MULTIPLE )
+		{
+			attrs |= ItemDatabase.ATTR_MULTIPLE;
+		}
 		ItemDatabase.attributesById.set( itemId, attrs );
 
 		int price = DebugDatabase.parsePrice( text );
@@ -2447,6 +2444,7 @@ public class ItemDatabase
 		switch ( useType )
 		{
 		case KoLConstants.CONSUME_MULTIPLE:
+			return true;
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
