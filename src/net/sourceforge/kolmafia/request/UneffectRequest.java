@@ -605,6 +605,10 @@ public class UneffectRequest
 		removableEffects.add( "Spirit of Wormwood" );
 		removableEffects.add( "Spirit of Bacon Grease" );
 
+		removableEffects = new HashSet<String>();
+		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
+		removableEffects.add( "Iron Palms" );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();	
 	}
 	
