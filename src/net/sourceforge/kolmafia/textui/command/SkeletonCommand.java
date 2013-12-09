@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class SkeletonCommand
@@ -105,6 +107,12 @@ public class SkeletonCommand
 		if ( option == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "I don't understand what a '" + parameters + "' skeleton is." );
+			return;
+		}
+
+		if ( !InventoryManager.retrieveItem( ItemPool.SKELETON ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You have no skeletons and can't get any with your current settings." );
 			return;
 		}
 
