@@ -1343,7 +1343,7 @@
 1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
 1344	Uncaged Power	faraday.gif	42a059ec52faec3eae460b5290f38b0f
-1345	Truthful	nopic.gif	91efff803038276ed174097fcbf3f0c2	use 1 sodium pentasomething
+1345	Truthful	angry.gif	91efff803038276ed174097fcbf3f0c2	use 1 sodium pentasomething
 1346	Slightly Larger Than Usual	moth.gif	544f2cfabb3b6764c04b75dd22630438
 1347	Mayeaugh	blankoutglob.gif	60664e31f3af2a0da746fb5102080eaa	use 1 glob of spoiled mayo
 1348	Once-Cursed	curse1.gif	a431a6af64d18d15a649c9932a225b9f

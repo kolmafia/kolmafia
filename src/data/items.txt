@@ -5691,7 +5691,7 @@
 5674	stuffed &quot;L&quot;	619356758	stuffedl.gif	none		0
 5675	watered-down Red Minotaur	762938251	redmin.gif	multiple	t,d	1	cans of watered-down Red Minotaur
 5676	pool torpedo	340353804	pooltorpedo.gif	none, combat	t,d	1
-5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t	0	pairs of Ze&trade; goggles
+5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t,d	1	pairs of Ze&trade; goggles
 5678	soggy used band-aid	737657801	soggybandaid.gif	none, combat	t	0
 5679	stylish swimsuit	129136271	speedo.gif	pants	t,d	1
 5680	lost key	891641724	lostkey.gif	usable	t	0

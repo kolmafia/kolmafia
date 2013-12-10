@@ -1298,7 +1298,7 @@ Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
-Ouija Board, Ouija Board	0	none	shield
+Ouija Board, Ouija Board	120	none	shield
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
