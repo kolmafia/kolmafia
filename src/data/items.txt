@@ -5240,7 +5240,7 @@
 5223	Tome of Clip Art	574526290	book3.gif	usable	t	0	Tomes of Clip Art
 5224	Ur-Donut	517311708	powderdonut.gif	food	t,d	30
 5225	The Bomb	779127476	bigbomb.gif	none, combat	t,d	30	Bombs
-5226	box of Familiar Jacks	197797892	famjacks.gif	usable	t,d	30
+5226	box of Familiar Jacks	197797892	famjacks.gif	usable	t,d	30	boxes of Familiar Jacks
 5227	bucket of wine	977325030	pail.gif	drink	t,d	30	buckets of wine
 5228	ultrafondue	599765578	fonduepot.gif	food	t,d	30
 5229	unbearable light	580600083	light.gif	none, combat	t,d	30

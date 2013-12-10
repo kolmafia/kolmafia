@@ -222,6 +222,13 @@ public class FightRequest
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
+	private static final Pattern NANORHINO_CHARGE1_PATTERN = 
+		Pattern.compile( "(\\d+)% charge" );
+	private static final Pattern NANORHINO_CHARGE2_PATTERN = 
+		Pattern.compile( "charge to (\\d+)%" );
+	private static final Pattern NANORHINO_BUFF_PATTERN = 
+		Pattern.compile( "<b>Nano(?:brawny|brainy|ballsy)</b><br>\\(duration: 50" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -2275,12 +2282,35 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
+		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+		int familiarId = familiar.getId();
+		
 		// <name> rubs its soles together, then stomps in place
 		// restlessly. Clearly, the violence it's done so far is
 		// only making it ache for some quality stomping.
-		if ( responseText.indexOf( "making it ache for some quality stomping" ) != -1 )
+		if ( familiarId == FamiliarPool.BOOTS && responseText.indexOf( "making it ache for some quality stomping" ) != -1 )
 		{
 			Preferences.setBoolean( "bootsCharged", true );
+		}
+
+		if ( familiarId == FamiliarPool.NANORHINO )
+		{
+			int currentCharge = Preferences.getInteger( "_nanorhinoCharge" );
+			// Did a skill use trigger a buff ?
+			// We cannot tell in Haiku/Anapest, so if we think it's fully charged but the image doesn't show that, assume buff gained.
+			Matcher NanorhinoBuffMatcher = FightRequest.NANORHINO_BUFF_PATTERN.matcher( responseText );
+			if ( NanorhinoBuffMatcher.find() ||
+				( ( FightRequest.haiku || FightRequest.anapest ) &&
+				KoLCharacter.getFamiliarImage() != "nanorhinoc.gif" &&
+				currentCharge == 100 ) )
+			{
+				Preferences.setInteger( "_nanorhinoCharge", 0 );
+			}
+			// Is it charged but we think it isn't?
+			else if ( KoLCharacter.getFamiliarImage() == "nanorhinoc.gif" && currentCharge != 100 )
+			{
+				Preferences.setInteger( "_nanorhinoCharge", 100 );
+			}
 		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
@@ -2688,7 +2718,6 @@ public class FightRequest
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
 			
-			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 			switch ( familiar.getId() )
 			{
 			case FamiliarPool.RIFTLET:
@@ -2923,9 +2952,35 @@ public class FightRequest
 
 			case FamiliarPool.STEAM_CHEERLEADER:
 				int dec = KoLCharacter.hasEquipped( ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR ) ? 1 : 2;
-				Preferences.decrement( "_cheerleaderSteam", dec, 0 );
+				int currentSteam = Preferences.getInteger( "_cheerleaderSteam" );
+				if ( currentSteam - dec < 0 )
+				{
+					dec = currentSteam;
+				}
+				Preferences.decrement( "_cheerleaderSteam", dec );
 				break;
-			
+
+			case FamiliarPool.NANORHINO:
+				int currentCharge = Preferences.getInteger( "_nanorhinoCharge" );
+				int newCharge = currentCharge + ( KoLCharacter.hasEquipped( ItemPool.NANORHINO_CREDIT_CARD, EquipmentManager.FAMILIAR ) ? 3 : 2 );
+				// Verify value if text visible
+				Matcher nanorhinoCharge1Matcher = FightRequest.NANORHINO_CHARGE1_PATTERN.matcher( responseText );
+				Matcher nanorhinoCharge2Matcher = FightRequest.NANORHINO_CHARGE2_PATTERN.matcher( responseText );
+				if ( nanorhinoCharge1Matcher.find() )
+				{
+					newCharge = StringUtilities.parseInt( nanorhinoCharge1Matcher.group( 1 ) );
+				}
+				else if ( nanorhinoCharge2Matcher.find() )
+				{
+					newCharge = StringUtilities.parseInt( nanorhinoCharge2Matcher.group( 1 ) );
+				}			
+				if( newCharge > 100 )
+				{
+					newCharge = 100;
+				}
+				Preferences.setInteger( "_nanorhinoCharge", newCharge );
+				break;
+
 			case FamiliarPool.REANIMATOR:
 				if ( responseText.contains( "injects an arm" )
 					|| responseText.contains( "reanimates an arm" )

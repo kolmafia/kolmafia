@@ -1630,6 +1630,7 @@ public class ItemPool
 	public static final int MEATSMITH_JAR = 5903;
 	public static final int JICK_JAR = 5905;
 	public static final int CHIBIBUDDY_ON = 5908;
+	public static final int NANORHINO_CREDIT_CARD = 5911;
 	public static final int BEET_MEDIOCREBAR = 5915;
 	public static final int CORN_MEDIOCREBAR = 5916;
 	public static final int CABBAGE_MEDIOCREBAR = 5917;
