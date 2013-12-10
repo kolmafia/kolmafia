@@ -620,6 +620,12 @@ public class CharPaneDecorator
 			buffer.append( "% steam" );
 			return buffer;
 
+		case FamiliarPool.NANORHINO:
+			int nanorhinoCharge = Preferences.getInteger( "_nanorhinoCharge" );
+			buffer.append( nanorhinoCharge );
+			buffer.append( "% charge" );
+			return buffer;
+
 		}
 
 		return null;
