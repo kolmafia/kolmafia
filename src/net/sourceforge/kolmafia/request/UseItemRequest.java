@@ -4522,21 +4522,6 @@ public class UseItemRequest
 			Preferences.setBoolean( "_pastaAdditive", true );
 			return;
 
-		case ItemPool.MINIBORG_HIVEMINDER:
-			// Either all 5 items are used up, or none of them are
-			if ( responseText.contains( "You acquire" ) )
-			{
-				ResultProcessor.removeItem( ItemPool.MINIBORG_STRANGLER );
-				ResultProcessor.removeItem( ItemPool.MINIBORG_STOMPER );
-				ResultProcessor.removeItem( ItemPool.MINIBORG_LASER );
-				ResultProcessor.removeItem( ItemPool.MINIBORG_BEEPER );
-			}
-			else
-			{
-				ResultProcessor.processItem( ItemPool.MINIBORG_HIVEMINDER, 1 );
-			}
-			return;
-
 		}
 	}
 

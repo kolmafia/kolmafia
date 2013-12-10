@@ -1773,6 +1773,8 @@ cozy bazooka	SUSE	bazooka cozy	fish bazooka
 
 McClusky file (complete)	SUSE	boring binder clip	McClusky file (page 1)	McClusky file (page 2)	McClusky file (page 3)	McClusky file (page 4)	McClusky file (page 5)
 
+Miniborg Destroy-O-Bot	SUSE	Miniborg hiveminder	Miniborg stomper	Miniborg strangler	Miniborg laser	Miniborg beeper
+
 # Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
