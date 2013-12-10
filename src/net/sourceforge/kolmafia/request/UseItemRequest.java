@@ -1139,6 +1139,43 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.SPICE_MELANGE:
+		case ItemPool.ULTRA_MEGA_SOUR_BALL:
+			boolean unfilledStomach = false;
+			boolean unfilledLiver = false;
+			String organ = null;
+			if ( KoLCharacter.canEat() && KoLCharacter.getFullness() < 3 )
+			{
+				unfilledStomach = true;
+			}
+			if ( KoLCharacter.canDrink() && KoLCharacter.getInebriety() < 3 )
+			{
+				unfilledLiver = true;
+			}
+			if ( !unfilledStomach && !unfilledLiver )
+			{
+				break;
+			}
+			if ( unfilledStomach && unfilledLiver )
+			{
+				organ = "stomach and liver";
+			}
+			else if ( unfilledStomach )
+			{
+				organ = "stomach";
+			}
+			else if ( unfilledLiver )
+			{
+				organ = "liver";
+			}
+
+			if ( !InputFieldUtilities.confirm( "A " + ItemDatabase.getItemName( itemId ) + "clears 3 " + organ +
+				  " and you have not filled that yet.  Are you sure you want to use it?" ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		switch ( this.consumptionType )
@@ -4484,6 +4521,22 @@ public class UseItemRequest
 		case ItemPool.PASTA_ADDITIVE:
 			Preferences.setBoolean( "_pastaAdditive", true );
 			return;
+
+		case ItemPool.MINIBORG_HIVEMINDER:
+			// Either all 5 items are used up, or none of them are
+			if ( responseText.contains( "You acquire" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.MINIBORG_STRANGLER );
+				ResultProcessor.removeItem( ItemPool.MINIBORG_STOMPER );
+				ResultProcessor.removeItem( ItemPool.MINIBORG_LASER );
+				ResultProcessor.removeItem( ItemPool.MINIBORG_BEEPER );
+			}
+			else
+			{
+				ResultProcessor.processItem( ItemPool.MINIBORG_HIVEMINDER, 1 );
+			}
+			return;
+
 		}
 	}
 

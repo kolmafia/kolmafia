@@ -3127,8 +3127,8 @@
 3110	Miniborg strangler	928240259	ministrangler.gif	none, combat reusable	t	0	Miniborg stranglers
 3111	Miniborg laser	386931733	minilaser.gif	none, combat reusable	t	0	Miniborg lasers
 3112	Miniborg beeper	687954236	minibeeper.gif	none, combat reusable	t	0	Miniborg beepers
-3113	Miniborg hiveminder	534973995	hiveminder.gif	none, combat reusable	t	0	Miniborg hiveminders
-3114	Miniborg Destroy-O-Bot	184372943	destroyobot.gif	none, combat reusable	t	0	Miniborg Destroy-O-Bots
+3113	Miniborg hiveminder	534973995	hiveminder.gif	usable, combat reusable	t	0	Miniborg hiveminders
+3114	Miniborg Destroy-O-Bot	184372943	destroyobot.gif	usable, combat reusable	t	0	Miniborg Destroy-O-Bots
 3115	old-fashioned Crimbo Pressie	194916307	pressie.gif	usable		0	old-fashioned Crimbo Pressies
 3116	stuffed Hodgman	533429176	stuffhodg.gif	message	g	0	stuffed Hodgmen
 3117	Libram of Divine Favors	899226971	book3.gif	usable	t	0	Librams of Divine Favors
