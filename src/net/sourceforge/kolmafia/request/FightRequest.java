@@ -3302,16 +3302,20 @@ public class FightRequest
 
 		if ( !insultMatcher.find() )
 		{
+			if ( responseText.contains( "The pirate stammers for a moment" ) )
+			{
+				insultedPirate = true;
+			}
 			return;
 		}
+
+		insultedPirate = true;
 
 		int insult = BeerPongRequest.findPirateRetort( insultMatcher.group( 1 ) );
 		if ( insult <= 0 )
 		{
 			return;
 		}
-
-		insultedPirate = true;
 		
 		KoLCharacter.ensureUpdatedPirateInsults();
 		if ( !Preferences.getBoolean( "lastPirateInsult" + insult ) )

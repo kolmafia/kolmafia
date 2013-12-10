@@ -976,7 +976,7 @@ public class ItemDatabase
 	//   g = gift item
 	//   t = transferable
 	//   n = number
-	//   m = multiusable
+	//   p = pulverizable
 	//   u = how can this be used?
 	//	 e = Eatable (food/drink) (inv_eat)
 	//	 b = Booze (inv_booze)
@@ -2404,6 +2404,8 @@ public class ItemDatabase
 
 	public static final boolean isUsable( final int itemId )
 	{
+		// Anything that you can manipulate with inv_use.php
+
 		int useType = ItemDatabase.useTypeById.get( itemId );
 		int attributes = ItemDatabase.getAttributes( itemId );
 
@@ -2413,13 +2415,6 @@ public class ItemDatabase
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
-			// Special "use"
-		case KoLConstants.CONSUME_EAT:
-		case KoLConstants.CONSUME_DRINK:
-		case KoLConstants.CONSUME_FOOD_HELPER:
-		case KoLConstants.CONSUME_DRINK_HELPER:
-		case KoLConstants.GROW_FAMILIAR:
-		case KoLConstants.CONSUME_ZAP:
 			// Multi-use
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.HP_RESTORE:
@@ -2433,10 +2428,7 @@ public class ItemDatabase
 
 	public static final boolean isMultiUsable( final int itemId )
 	{
-		if ( itemId <= 0 )
-		{
-			return false;
-		}
+		// Anything that you can manipulate with multiuse.php
 
 		int useType = ItemDatabase.useTypeById.get( itemId );
 		int attributes = ItemDatabase.getAttributes( itemId );
