@@ -371,15 +371,13 @@ public class ProxyRecordValue
 		public boolean get_usable()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id ) == KoLConstants.CONSUME_USE ||
-				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE );
+			return ItemDatabase.isUsable( id );
 		}
 
 		public boolean get_multi()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id ) == KoLConstants.CONSUME_MULTIPLE ||
-				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_MULTIPLE );
+			return ItemDatabase.isMultiUsable( id );
 		}
 
 		public boolean get_fancy()
