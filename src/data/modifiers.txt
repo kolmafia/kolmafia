@@ -1449,6 +1449,7 @@ Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8,
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
+KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
 LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 Loathing Legion abacus	Mana Cost (combat): -5, Softcore Only
 Loathing Legion can opener	Food Drop: +25, Softcore Only

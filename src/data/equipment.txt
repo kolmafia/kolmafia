@@ -1262,6 +1262,7 @@ Jarlsberg's pan (Cosmic portal mode)	0	none
 Kevlar balloon	10	none
 KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
+KoL Con X Treasure Map	10	none
 LARP carp	0	none
 Loathing Legion abacus	0	none
 Loathing Legion can opener	0	none
