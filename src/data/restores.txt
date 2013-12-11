@@ -95,6 +95,7 @@ Notes from the Elfpocalypse, Chapter V	item	30	40	30	40
 Notes from the Elfpocalypse, Chapter VI	item	30	40	30	40
 Nunnery (Frat Warrior)	loc	1000	1000	1000	1000
 Nunnery (War Hippy)	loc	1000	1000	0	0
+Okee-Dokee soda	item	0	0	25	50
 Oscus's neverending soda	item	0	0	200	300
 palm-frond fan	item	35	45	35	45
 personal massager	item	8	10	0	0
