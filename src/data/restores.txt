@@ -18,6 +18,7 @@ Blatantly Canadian	item	0	0	20	25
 blue paisley oyster egg	item	0	0	30	35
 blue pixel potion	item	0	0	50	80
 blue polka-dot oyster egg	item	0	0	30	35
+blue potion	item	0	0	40	60
 blue striped oyster egg	item	0	0	30	35
 bottle of Monsieur Bubble	item	0	0	45	65
 bottle of Vangoghbitussin	item	100	100	100	100
@@ -44,7 +45,7 @@ cotton candy smidgen	item	11	23	11	23
 creepy ginger ale	item	0	0	35	45
 CSA all-purpose soap	item	0	0	1000	1000
 delicious shimmering moth	item	0	0	30	40
-Devour Minions	skill	[max(HP*0.5,20)]	[max(HP*0.5,20)]	0	0
+Devour Minions	skill	[max(floor(HP*0.5),20)]	[max(floor(HP*0.5),20)]	0	0
 Diet Cloaca Cola	item	0	0	7	9
 Disco Nap	skill	[20*(1+skill(Adventurer of Leisure))]	[20*(1+skill(Adventurer of Leisure))]	0	0
 Doc Galaktik's Ailment Ointment	item	8	10	0	0
@@ -58,12 +59,14 @@ Dyspepsi-Cola	item	0	0	[10*(1+equipped(Dyspepsi-Cola-issue canteen))]	[14*(1+equ
 elven magi-pack	item	0	0	40	50
 elven medi-pack	item	86	89	0	0
 extra-strength red potion	item	190	210	0	0
+fancy blue potion	item	0	0	90	110
 filthy poultice	item	80	120	0	0
 forest tears	item	5	10	0	0
 gauze garter	item	80	120	0	0
 generic healing potion	item	[floor(L*4.05)]	[floor(L*4.95)]	0	0
 generic mana potion	item	0	0	[floor(L*2.25)]	[floor(L*2.75)]
 generic restorative potion	item	[floor(L*4.05)]	[floor(L*4.95)]	[floor(L*2.25)]	[floor(L*2.75)]
+gold star	item	0	0	20	30
 green pixel potion	item	40	60	30	40
 heart of dark chocolate	item	40	50	0	0
 high-pressure seltzer bottle	item	0	0	150	200
@@ -78,6 +81,7 @@ Marquis de Poivre soda	item	0	0	30	40
 Medicinal Herb's medicinal herbs	item	[HP]	[HP]	0	0
 Monstar energy beverage	item	0	0	70	80
 Mountain Stream soda	item	0	0	6	9
+Mountain Stream Code Black Alert	item	0	0	15	20
 myrrh-soaked, chocolate-covered bacon bath ball	item	0	0	30	45
 Nardz energy beverage	item	0	0	50	70
 natural fennel soda	item	0	0	80	120
@@ -95,6 +99,7 @@ Oscus's neverending soda	item	0	0	200	300
 palm-frond fan	item	35	45	35	45
 personal massager	item	8	10	0	0
 phonics down	item	46	50	46	50
+pixel energy tank	item	1000	1000	1000	1000
 pixel orb	item	[HP]	[HP]	[MP]	[MP]
 pixellated candy heart	item	4	5	0	0
 Platinum Yendorian Express Card	item	0	0	[MP]	[MP]

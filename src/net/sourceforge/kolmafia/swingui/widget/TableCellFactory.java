@@ -306,7 +306,7 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
+			double hpRestore = ItemDatabase.getRestoreHPAverage( advresult.getName() );
 			if ( hpRestore <= 0 )
 			{
 				return null;
@@ -314,11 +314,11 @@ public class TableCellFactory
 			int maxHP = KoLCharacter.getMaximumHP();
 			if ( hpRestore > maxHP )
 			{
-				return IntegerPool.get( maxHP );
+				return maxHP;
 			}
-			return IntegerPool.get( hpRestore );
+			return IntegerPool.get( (int) hpRestore );
 		case 5:
-			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
+			double mpRestore = ItemDatabase.getRestoreMPAverage( advresult.getName() );
 			if ( mpRestore <= 0 )
 			{
 				return null;
@@ -326,9 +326,9 @@ public class TableCellFactory
 			int maxMP = KoLCharacter.getMaximumMP();
 			if ( mpRestore > maxMP )
 			{
-				return IntegerPool.get( maxMP );
+				return maxMP;
 			}
-			return IntegerPool.get( mpRestore );
+			return IntegerPool.get( (int) mpRestore );
 		default:
 			return null;
 		}

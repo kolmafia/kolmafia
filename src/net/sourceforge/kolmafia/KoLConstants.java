@@ -400,6 +400,7 @@ public interface KoLConstants
 	public static final int OUTFITS_VERSION = 1;
 	public static final int PACKAGES_VERSION = 1;
 	public static final int PULVERIZE_VERSION = 2;
+	public static final int RESTORES_VERSION = 1;
 	public static final int QUESTSCOUNCIL_VERSION = 1;
 	public static final int QUESTSLOG_VERSION = 1;
 	public static final int SPLEENHIT_VERSION = 3;
