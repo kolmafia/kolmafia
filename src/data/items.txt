@@ -6919,9 +6919,9 @@
 6902
 6903	candied nuts	123175979	sack2.gif	usable	t,d	15	bags of candied nuts
 6904	candied bolts	614960605	sack1.gif	usable	t,d	15
-6905
-6906
-6907
+6905	gingerbread robot	419812071	c13cookie1.gif	food	t	0
+6906	petit 4.1	377234723	c13cookie2.gif	food	t	0
+6907	nut-shaped Crimbo cookie	497827794	c13cookie3.gif	food	t	0
 6908
 6909
 6910
