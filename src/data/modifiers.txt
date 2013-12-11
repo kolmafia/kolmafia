@@ -3765,6 +3765,7 @@ Gemini Rising	Maximum HP Percent: +100
 Ghostly Shell	Damage Absorption: +80
 # Ginger Fightis: Makes you look like a creepy ginger twin
 Ginger Snapped	Spooky Damage: +10
+Gingerbread Robust	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
 Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
@@ -4073,6 +4074,7 @@ Ninja, Please	Critical Hit Percent: +15, Spell Critical Percent: +15
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
 Nothing Is Impossible	Spell Damage Percent: +100
+Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Nuts about Candy	Maximum HP: +50
 # O Hai!
 Object Detection	Item Drop: +5
@@ -4131,6 +4133,7 @@ Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
+Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Phairly Balanced	Equalize: "High"
 Phairly Pheromonal	Familiar Weight: +4
 Pharmaceutically Cool	Experience Percent (Moxie): +20
@@ -5415,6 +5418,7 @@ giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration
 giant giant moth dust	Effect: "Slightly Larger Than Usual", Effect Duration: 50
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
+gingerbread robot	Effect: "Gingerbread Robust", Effect Duration: 20
 glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 glass of warm water	Free Pull
@@ -5522,6 +5526,7 @@ natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
+nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 oil-filled donut	Effect: "To Protect and Servo", Effect Duration: 50
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
@@ -5555,6 +5560,7 @@ perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
+petit 4.1	Effect: "Petit Force", Effect Duration: 20
 ph balancer	Effect: "Phairly Balanced", Effect Duration: 5
 phial of coldness	Effect: "Coldform", Effect Duration: 5
 phial of hotness	Effect: "Hotform", Effect Duration: 5
