@@ -2324,8 +2324,7 @@ public class RelayRequest
 			boolean isMana = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsMana" );
 
 			KoLmafia.forceContinue();
-
-			Preferences.setString( "nextAdventure", nextAdventure );
+			KoLAdventure.setNextAdventure( adventure );
 			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
 
 			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )

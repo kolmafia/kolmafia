@@ -98,45 +98,38 @@ public class BasementDecorator
 		}
 
 		int insertionPoint = buffer.indexOf( "<tr" );
-		if ( insertionPoint != -1 )
+		if ( insertionPoint == -1 )
 		{
-			StringBuffer actionBuffer = new StringBuffer();
-			actionBuffer.append( "<tr><td align=left>" );
-
-			BasementDecorator.addBasementButton( "action", buffer, actionBuffer, "auto", true );
-			BasementDecorator.addBasementButton( "rebuff", buffer, actionBuffer, "rebuff", false );
-			BasementDecorator.addBasementButton( "", buffer, actionBuffer, "refresh", true );
-
-			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
-			buffer.insert( insertionPoint, actionBuffer.toString() );
+			return;
 		}
+
+		StringBuffer actionBuffer = new StringBuffer( "<tr><td align=left>" );
+
+		StringBuilder autoAction = new StringBuilder();
+		autoAction.append( "document.location.href='basement.php?action=" );
+		autoAction.append( BasementRequest.getBasementAction( buffer.toString() ) );
+		autoAction.append( "'; void(0);" );
+
+		BasementDecorator.addBasementButton( "auto", autoAction.toString(), actionBuffer, true );
+		BasementDecorator.addBasementButton( "rebuff", "runBasementScript(); void(0);", actionBuffer, false );
+		BasementDecorator.addBasementButton( "refresh", "document.location.href='basement.php'; void(0);", actionBuffer, true );
+
+		actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
+		buffer.insert( insertionPoint, actionBuffer.toString() );
 	}
 
-	private static final void addBasementButton( final String parameter, final StringBuffer response,
-		final StringBuffer buffer, final String action, final boolean isEnabled )
+	private static final void addBasementButton( final String label, final String action, final StringBuffer buffer, final boolean isEnabled )
 	{
 		buffer.append( "<input type=\"button\" onClick=\"" );
-
-		if ( parameter.startsWith( "rebuff" ) )
-		{
-			buffer.append( "runBasementScript(); void(0);" );
-		}
-		else
-		{
-			buffer.append( "document.location.href='basement.php" );
-
-			if ( parameter.equals( "action" ) )
-			{
-				buffer.append( "?action=" );
-				buffer.append( BasementRequest.getBasementAction( response.toString() ) );
-			}
-
-			buffer.append( "'; void(0);" );
-		}
-
-		buffer.append( "\" value=\"" );
 		buffer.append( action );
-		buffer.append( "\"" + ( isEnabled ? "" : " disabled" ) + ">&nbsp;" );
+		buffer.append( "\" value=\"" );
+		buffer.append( label );
+		buffer.append( "\"" );
+		if ( !isEnabled )
+		{
+			buffer.append( " disabled" );
+		}
+		buffer.append( ">&nbsp;" );
 	}
 
 	public static final void addBasementSpoilers( final StringBuffer buffer )
