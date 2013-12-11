@@ -241,7 +241,7 @@ horseradish-infused vodka	5	1		12-13	0	0	0	15 Rad-ish
 hot choculate	5	4		10-15	9-10	9-10	9-10
 hot toady	4	4		6-10	7-8	7-8	7-8
 humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
-hundred headed ipa	2	13	awesome	0	0	0	0	20 Hoppyness
+hundred headed ipa	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
 ice-cold sir schlitz	1	1	crappy	1	0	0	0	2-4 MP
 ice-cold willer	1	1	crappy	1	0	0	0	3-4 MP
@@ -271,7 +271,7 @@ mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10
-mcleod's hard haggis-ade	2	2	decent	0	0	0	0
+mcleod's hard haggis-ade	2	2	decent	3-4	5-10	0	0	20 Hagg-ard (+10 Mus)
 mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)

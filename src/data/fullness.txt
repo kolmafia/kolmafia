@@ -159,7 +159,7 @@ crimbco reconstituted gruel	3	1		4-5	0	0	0	lose 10% boredom
 crimbcoids mints	1	1	good	3	10-20	10-20	10-20
 crimbcoloaf	3	1	decent	4-5	15-20	15-20	15-20
 crimbo pie	3	7	awesome	8-14	25-45	0	0
-cup of lukewarm tea	1	1	crappy	0	0	0	0	20 Jittery (+1-3 MP Regen)
+cup of lukewarm tea	1	1	crappy	1	0	0	0	20 Jittery (+1-3 MP Regen)
 cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
@@ -228,7 +228,7 @@ fdkol hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fettucini inconnu	6	6	awesome	22-27	0	0	47-52
-fiery wing	1	1	good	0	0	0	0	Hot Damage
+fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
@@ -445,7 +445,7 @@ personalized birthday cake	3	1	crappy	3	0	0	0
 petit 4.1	2	1	awesome	0	0	0	0	20 Petit Force (+100% all stats)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
-pickled egg	1	1	crappy	0	0	0	0
+pickled egg	1	1	crappy	1	1-2	1-2	1-2
 piece of wedding cake	2	1	decent	2-5	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 plain pizza	2	1	decent	2-4	0	0	0
@@ -664,7 +664,7 @@ ur-donut	1	1	good	2-3	65-85	65-85	65-85
 urinal cake	2	1	crappy	2	0	0	0
 valentine's day cake	3	1	crappy	3	0	0	0
 vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
-vampire chowder	4	4	good	0	0	0	0	
+vampire chowder	4	4	good	9-11	0	0	90-110	
 vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
 vegas volcano lava roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hotdog
