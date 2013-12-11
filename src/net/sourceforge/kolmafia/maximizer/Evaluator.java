@@ -1037,7 +1037,7 @@ public class Evaluator
 			{
 				continue;
 			}
-
+			
 			int auxSlot = -1;
 		gotItem:
 			{
@@ -1159,6 +1159,13 @@ public class Evaluator
 					mods = new Modifiers();
 				}
 
+				boolean wrongClass = false;
+				String classType = mods.getString( Modifiers.CLASS );
+				if ( classType != "" && !classType.equals( KoLCharacter.getClassType() ) )
+				{
+					wrongClass = true;
+				}
+
 				if ( mods.getBoolean( Modifiers.SINGLE ) )
 				{
 					item.singleFlag = true;
@@ -1181,7 +1188,7 @@ public class Evaluator
 
 				if ( ( hoboPowerUseful &&
 						mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
-					( smithsnessUseful &&
+					( smithsnessUseful && !wrongClass &&
 						mods.get( Modifiers.SMITHSNESS ) > 0.0 ) ||
 					( brimstoneUseful &&
 						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
