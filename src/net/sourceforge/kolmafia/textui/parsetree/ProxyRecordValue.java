@@ -236,6 +236,10 @@ public class ProxyRecordValue
 			.add( "fullness", DataTypes.INT_TYPE )
 			.add( "inebriety", DataTypes.INT_TYPE )
 			.add( "spleen", DataTypes.INT_TYPE )
+			.add( "minhp", DataTypes.INT_TYPE )
+			.add( "maxhp", DataTypes.INT_TYPE )
+			.add( "minmp", DataTypes.INT_TYPE )
+			.add( "maxmp", DataTypes.INT_TYPE )
 			.add( "notes", DataTypes.STRING_TYPE )
 			.add( "quest", DataTypes.BOOLEAN_TYPE )
 			.add( "gift", DataTypes.BOOLEAN_TYPE )
@@ -324,6 +328,26 @@ public class ProxyRecordValue
 		public int get_spleen()
 		{
 			return ItemDatabase.getSpleenHit( this.contentString );
+		}
+
+		public int get_minhp()
+		{
+			return ItemDatabase.getRestoreHPMin( this.contentString );
+		}
+
+		public int get_maxhp()
+		{
+			return ItemDatabase.getRestoreHPMax( this.contentString );
+		}
+
+		public int get_minmp()
+		{
+			return ItemDatabase.getRestoreMPMin( this.contentString );
+		}
+
+		public int get_maxmp()
+		{
+			return ItemDatabase.getRestoreMPMax( this.contentString );
 		}
 
 		public String get_notes()

@@ -442,6 +442,11 @@ public class Expression
 			case '\u0090':
 				v = KoLCharacter.getAdjustedHighestStat();
 				break;
+
+			// Valid with RestoreExpression:
+			case '\u0091':
+				v = KoLCharacter.getMaximumMP();
+				break;
 					
 			default:
 				if ( inst > '\u00FF' )
