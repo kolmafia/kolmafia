@@ -923,10 +923,10 @@
 906	Rock Pops	661544730	rockpops.gif	multiple, candy	t,d	25	packets of Rock Pops
 907	Mr. Mediocrebar	318155668	candybar.gif	multiple, candy	t,d	50	Mr. Mediocrebars
 908	Cold Hots candy	131117686	coldhots.gif	multiple, candy	t	0	Cold Hots candies
-909	Wint-O-Fresh mint	604262762	lifesaver.gif	multiple, candy	t	0	Wint-O-Fresh mints
+909	Wint-O-Fresh mint	604262762	lifesaver.gif	mp, multiple, candy	t	0	Wint-O-Fresh mints
 910	dwarf bread	751117717	dwarfbread.gif	food	t,d	21	loaves of dwarf bread
 911	Senior Mints	691129593	srmints.gif	multiple, candy	t	0	boxes of Senior Mints
-912	pixellated candy heart	333225619	pixheart.gif	multiple, candy	t	0	pixellated candy hearts
+912	pixellated candy heart	333225619	pixheart.gif	hp, multiple, candy	t	0	pixellated candy hearts
 913	candied kobold	613910927	percent.gif	multiple, candy	t	0	candied kobolds
 914	hand turkey outline	816521142	hand.gif	grow	t	0	hand turkey outlines
 915	candied yam pinky ring	162202765	pinkyring.gif	familiar	t,d	75	candied yam pinky rings
@@ -1701,7 +1701,7 @@
 1684	styrofoam sword	898396684	stysword.gif	weapon	t,d	65	styrofoam swords
 1685	styrofoam staff	591779885	stystaff.gif	weapon	t,d	65	styrofoam staves
 1686	styrofoam crossbow	750590302	stybow.gif	weapon	t,d	65	styrofoam crossbows
-1687	Platinum Yendorian Express Card	298008237	pyec.gif	reusable	t	0	Platinum Yendorian Express Cards
+1687	Platinum Yendorian Express Card	298008237	pyec.gif	mp, reusable	t	0	Platinum Yendorian Express Cards
 1688	cardboard crossbow	214072075	cardbow.gif	weapon	t,d	65	cardboard crossbows
 1689	blue ribbon	502744134	blueribbon.gif	accessory		0	blue ribbons
 1690	giant discarded bottlecap	875291892	bottlecap.gif	hat	t,d	205	giant discarded bottlecaps
@@ -3173,7 +3173,7 @@
 3156	El Vibrato punchcard (104 holes)	831927049	punchcard.gif	none, combat	t,d	104	El Vibrato punchcards (104 holes)
 3157	El Vibrato drone	118658618	drone1.gif	none	d	500	El Vibrato drones
 3158	sparking El Vibrato drone	628758189	drone2.gif	none, combat	d	500	sparkling El Vibrato drones
-3159	warm El Vibrato drone	808191546	drone3.gif	usable	d	500	warm El Vibrato drones
+3159	warm El Vibrato drone	808191546	drone3.gif	hp, usable	d	500	warm El Vibrato drones
 3160	humming El Vibrato drone	629633136	drone4.gif	usable	d	500	humming El Vibrato drones
 3161	glowing El Vibrato drone	585181402	drone5.gif	usable	d	500	glowing El Vibrato drones
 3162	El Vibrato helmet	290864430	elvhelmet.gif	hat	d	500	El Vibrato helmets
@@ -3407,7 +3407,7 @@
 3390	Staff of the Deepest Freeze	233793961	chefstaff9.gif	weapon		0	Staves of the Deepest Freeze
 3391	Frosty's iceball	380631575	styore.gif	none, combat reusable	d	10000	Frosty's iceballs
 3392	Oscus's garbage can lid	203629025	trashield.gif	offhand		0	Oscus's garbage can lids
-3393	Oscus's neverending soda	445347637	soda.gif	reusable	d	10000	Oscus's neverending sodas
+3393	Oscus's neverending soda	445347637	soda.gif	mp, reusable	d	10000	Oscus's neverending sodas
 3394	Oscus's flypaper pants	138953077	flypants.gif	pants		0	pairs of Oscus's flypaper pants
 3395	Hodgman's porkpie hat	667103288	porkpiehat.gif	hat		0	Hodgman's porkpie hats
 3396	Hodgman's lobsterskin pants	159000068	bpcords.gif	pants		0	pairs of Hodgman's lobsterskin pants
@@ -4606,7 +4606,7 @@
 4589	pixel whip	678588952	pixwhip.gif	weapon	t,d	15	pixel whip
 4590	pixel chain whip	637629378	pixwhip2.gif	weapon	d	65
 4591	pixel morning star	533398816	pixwhip3.gif	weapon	d	80
-4592	pixel orb	309280416	pixorb.gif	usable	t	0
+4592	pixel orb	309280416	pixorb.gif	hpmp, usable	t	0
 4593	pixellated moneybag	643478165	pixmoney.gif	multiple	t	0	pixellated moneybags
 4594	pixel cross	493000605	pixcross.gif	none, combat	t,d	35	pixel crosss
 4595	pixel holy water	484723817	pixvial.gif	none, combat	t,d	35	pixel holy waters
@@ -5512,7 +5512,7 @@
 5495	gummi ammonite	928879350	gummiamm.gif	usable, candy	t	0
 5496	gummi belemnite	924359139	gummibel.gif	usable, candy	t	0
 5497	all-year sucker	393461139	allyearsucker.gif	reusable		0
-5498	heart of dark chocolate	527570389	fudgeheart.gif	reusable		0
+5498	heart of dark chocolate	527570389	fudgeheart.gif	hp, reusable		0
 5499	Big Candy's tophat	831312511	tophat.gif	hat		0
 5500	Fuzzby	186886933	fuzzby.gif	reusable		0
 5501	Jackass Plumber home game	242884184	jplumber.gif	reusable		0

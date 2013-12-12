@@ -65,6 +65,10 @@ public class RestoreExpression
 		{
 			return this.literal( this.until( ")" ).toLowerCase(), 'a' );
 		}
+		if ( this.optional( "effect(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'e' );
+		}
 		if ( this.optional( "skill(" ) )
 		{
 			return this.literal( this.until( ")" ).toLowerCase(), 'd' );
@@ -80,6 +84,10 @@ public class RestoreExpression
 		if ( this.optional( "MP" ) )
 		{
 			return "\u0091";
+		}
+		if ( this.optional( "BASEMYS" ) )
+		{
+			return "\u0092";
 		}
 
 		return null;
