@@ -743,7 +743,6 @@ public class CharPaneRequest
 		int searchIndex = 0;
 		int onClickIndex = 0;
 
-		KoLConstants.recentEffects.clear();
 		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
 
 		while ( onClickIndex != -1 )
@@ -782,8 +781,10 @@ public class CharPaneRequest
 			visibleEffects.add( effect );
 		}
 
-		KoLmafia.applyEffects();
-		KoLConstants.activeEffects.retainAll( visibleEffects );
+		KoLConstants.recentEffects.clear();
+		KoLConstants.activeEffects.clear();
+		KoLConstants.activeEffects.addAll( visibleEffects );
+		KoLConstants.activeEffects.sort();
 
 		CharPaneRequest.startCounters();
 	}
