@@ -624,7 +624,7 @@
 607	Gauze Immateria	389753925	imm3.gif	none	q	0
 608	Plastic Wrap Immateria	825659594	imm4.gif	none	q	0
 609	S.O.C.K.	960388756	airboat.gif	none	q	0
-610	procrastination potion	130137455	potion1.gif	none, combat	t,d	138	procrastination potions
+610	procrastination potion	130137455	potion1.gif	multiple, combat	t,d	138	procrastination potions
 611	heavy D	502767848	heavyd.gif	none	t,d	135	heavy Ds
 612	original G	797650610	og.gif	none	t,d	143	original Gs
 613	plot hole	228721882	hole.gif	none, combat	t,d	128	plot holes
@@ -2358,9 +2358,9 @@
 2341	black pepper	386692175	blpepper.gif	none, combat	t,d	40	shakers of black pepper
 2342	black forest cake	233137570	blackcake.gif	food	t,d	40	slices of black forest cake
 2343	black forest ham	332243935	ham.gif	food	t,d	40	black forest hams
-2344	filthworm hatchling scent gland	568220082	scentgland.gif	usable	q	0
-2345	filthworm drone scent gland	444254702	scentgland.gif	usable	q	0
-2346	filthworm royal guard scent gland	811000314	scentgland.gif	usable	q	0
+2344	filthworm hatchling scent gland	568220082	scentgland.gif	multiple	q	0
+2345	filthworm drone scent gland	444254702	scentgland.gif	multiple	q	0
+2346	filthworm royal guard scent gland	811000314	scentgland.gif	multiple	q	0
 2347	heart of the filthworm queen	148218101	heart.gif	none	q	0
 2348	water pipe bomb	470150001	bong.gif	none, combat	t,d	150	water pipe bombs
 2349	gas balloon	183606177	nitrous.gif	none, combat	t,d	150	gas balloons
@@ -5843,7 +5843,7 @@
 5826	zombie hollandaise	717455927	gravy.gif	usable	t,d	5	tureens of zombie hollandaise
 5827	skeletal banana	331313479	bananabone.gif	multiple	t,d	5	bunch of skeletal bananas
 5828	gilt perfume bottle	320032645	jperfume.gif	multiple	t,d	5	gilt perfume bottles
-5829	janglin' bones	380726338	bonechips.gif	usable	t,d	5	janglin' bones
+5829	janglin' bones	380726338	bonechips.gif	multiple	t,d	5	janglin' bones
 5830	pygmy papers	185465428	briefcase.gif	multiple	t,d	5	pygmy papers
 5831	pygmy dart	756561090	ancientdart.gif	multiple	t,d	5	pygmy darts
 5832	secret mummy herbs and spices	785012152	disease.gif	multiple	t,d	5	secret mummy herbs and spices
@@ -5852,12 +5852,12 @@
 5835	scrunchie tourniquet	218745388	gauzegarter.gif	usable	t,d	5	scrunchie tourniquets
 5836	embezzler's oil	968949884	vial.gif	usable	t,d	5	vials of embezzler's oil
 5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5	tubes of Fu Manchu Wax
-5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	usable	t,d	5	Iiti Kitty Gumdrops
+5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	multiple	t,d	5	Iiti Kitty Gumdrops
 5839	ravenous eye	553037969	hungryeye.gif	multiple	t,d	5	ravenous eyes
 5840	Rogue Windmill Rouge	653603057	balm.gif	usable	t,d	5	tubs of Rogue Windmill Rouge
 5841	A muse-bouche	704527194	amusebouche.gif	multiple	t,d	5	muse-bouches
-5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5	gold toothbrushes
-5843	pirate cream pie	438610679	pie.gif	usable	t,d	5	pirate cream pies
+5842	gold toothbrush	397328678	toothbrush.gif	multiple	t,d	5	gold toothbrushes
+5843	pirate cream pie	438610679	pie.gif	multiple	t,d	5	pirate cream pies
 5844	una poca de gracia	764928766	music.gif	multiple	t,d	5	unas pocas de gracia
 5845	compressed air canister	564731061	canteen.gif	usable	t,d	5	compressed air canisters
 5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5	pieces of salt water taffy
@@ -6265,7 +6265,7 @@
 6248	gamer slurry	580884090	soda.gif	multiple	t,d	5	cans of gamer slurry
 6249	dungeoneering kit	268731940	briefcase.gif	usable	t,d	300
 6250	numberwang	221248307	jicknumbers.gif	accessory		0
-6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
+6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	multiple	t,d	100	scrolls of Protection from Bad Stuff
 6252	scroll of Puddingskin	885203992	scroll1.gif	usable	t,d	100	scrolls of Puddingskin
 6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable	t	0	Spellbooks of Walberg's Dim Bulb
 6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable	t	0	Spellbooks of Singer's Faithful Ocelot
@@ -6784,7 +6784,7 @@
 6767	artisanal homebrew gift package	773404966	crate.gif	none, curse		0
 6768
 6769	tin tam	577448815	tintam.gif	hat	t,d	40
-6770	tin cup	136358059	tincup1.gif	usable	t,d	5
+6770	tin cup	136358059	tincup1.gif	multiple	t,d	5
 6771	tin foil	262979335	tinfoil.gif	weapon	t,d	80
 6772	tin drum	976976166	tindrum.gif	weapon	t,d	55
 6773	tin roof (rusted)	281581398	tinroof.gif	usable	t	0	tin roofs (rusted)
@@ -6882,12 +6882,12 @@
 6865	cold mashed potatoes	955524104	coldmash.gif	food, combat	t,d	1	handfuls of cold mashed potatoes
 6866	whole turkey leg	847918903	bigturkeyleg.gif	food, combat	t,d	1
 6867	deviled egg	886155748	deviledegg.gif	food	t,d	2
-6868	finger exerciser	895527807	fingerciser.gif	usable	t,d	1
-6869	dented spoon	370832456	bentspoon.gif	usable	t,d	1
-6870	old love note	795402177	document.gif	usable	t,d	1
+6868	finger exerciser	895527807	fingerciser.gif	multiple	t,d	1
+6869	dented spoon	370832456	bentspoon.gif	multiple	t,d	1
+6870	old love note	795402177	document.gif	multiple	t,d	1
 6871	old-school beer pull tab	354368969	pulltab.gif	none, combat	t,d	1
 6872	nail file	496758740	nailfile.gif	usable	t,d	1
-6873	old candy wrapper	769989020	candywrapper.gif	usable	t,d	0
+6873	old candy wrapper	769989020	candywrapper.gif	multiple	t,d	0
 6874	gym membership card	264919912	gymmember.gif	usable	t,d	1
 6875	post-holiday sale coupon	343572534	coupon.gif	usable	t,d	1
 6876	dry cleaning receipt	738017170	receipt.gif	usable	t,d	1
