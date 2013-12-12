@@ -276,7 +276,10 @@ public class Expression
 				}
 				break;
 			case 'p':
-				v = StringUtilities.parseDouble( Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) ) );
+				String prefString = Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) );
+				v = prefString.contains( "true" ) ? 1 : 
+					prefString.contains( "false" ) ? 0 : 
+					StringUtilities.parseDouble( prefString );
 				break;
 			case 'm':
 				v = Math.min( s[ --sp ], s[ --sp ] );
