@@ -54,12 +54,15 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProxyRecordValue
 	extends RecordValue
@@ -240,6 +243,7 @@ public class ProxyRecordValue
 			.add( "maxhp", DataTypes.INT_TYPE )
 			.add( "minmp", DataTypes.INT_TYPE )
 			.add( "maxmp", DataTypes.INT_TYPE )
+			.add( "dailyusesleft", DataTypes.INT_TYPE )
 			.add( "notes", DataTypes.STRING_TYPE )
 			.add( "quest", DataTypes.BOOLEAN_TYPE )
 			.add( "gift", DataTypes.BOOLEAN_TYPE )
@@ -332,22 +336,27 @@ public class ProxyRecordValue
 
 		public int get_minhp()
 		{
-			return ItemDatabase.getRestoreHPMin( this.contentString );
+			return RestoresDatabase.getHPMin( StringUtilities.getCanonicalName( this.contentString ) );
 		}
 
 		public int get_maxhp()
 		{
-			return ItemDatabase.getRestoreHPMax( this.contentString );
+			return RestoresDatabase.getHPMax( StringUtilities.getCanonicalName( this.contentString ) );
 		}
 
 		public int get_minmp()
 		{
-			return ItemDatabase.getRestoreMPMin( this.contentString );
+			return RestoresDatabase.getMPMin( StringUtilities.getCanonicalName( this.contentString ) );
 		}
 
 		public int get_maxmp()
 		{
-			return ItemDatabase.getRestoreMPMax( this.contentString );
+			return RestoresDatabase.getMPMax( StringUtilities.getCanonicalName( this.contentString ) );
+		}
+
+		public int get_dailyusesleft()
+		{
+			return RestoresDatabase.getUsesLeft( StringUtilities.getCanonicalName( this.contentString ) );
 		}
 
 		public String get_notes()

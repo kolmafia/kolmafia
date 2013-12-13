@@ -6755,7 +6755,7 @@
 6738	jagged scrap metal	604483636	junkjagged.gif	none, combat	t,d	15	pieces of jagged scrap metal
 6739	bent scrap metal	575469506	junkbent.gif	usable	t,d	15	pieces of bent scrap metal
 6740	molten scrap metal	730390936	junkmolten.gif	none, combat	t,d	15	pieces of molten scrap metal
-6741	eternal car battery	708939693	junkbattery.gif	reusable		0
+6741	eternal car battery	708939693	junkbattery.gif	mp, reusable		0
 6742	junk band	972509168	junkring.gif	accessory	t,d	65
 6743	junk trunks	835736626	junkpants.gif	pants	t,d	65
 6744	junk-mail shirt	685262566	junkshirt.gif	shirt	t,d	65

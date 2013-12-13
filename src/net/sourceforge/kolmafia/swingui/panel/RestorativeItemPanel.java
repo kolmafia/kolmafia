@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -106,7 +107,12 @@ public class RestorativeItemPanel
 			case KoLConstants.MP_RESTORE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
-				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( item.getName() ) )
+				String itemName = item.getName();
+				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
+				{
+					return false;
+				}
+				if ( RestoresDatabase.getUsesLeft( itemName ) == 0 )
 				{
 					return false;
 				}
