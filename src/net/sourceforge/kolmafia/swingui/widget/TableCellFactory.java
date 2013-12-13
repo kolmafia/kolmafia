@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
@@ -306,7 +307,7 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			double hpRestore = ItemDatabase.getRestoreHPAverage( advresult.getName() );
+			double hpRestore = RestoresDatabase.getHPAverage( advresult.getName() );
 			if ( hpRestore <= 0 )
 			{
 				return null;
@@ -318,7 +319,7 @@ public class TableCellFactory
 			}
 			return IntegerPool.get( (int) hpRestore );
 		case 5:
-			double mpRestore = ItemDatabase.getRestoreMPAverage( advresult.getName() );
+			double mpRestore = RestoresDatabase.getMPAverage( advresult.getName() );
 			if ( mpRestore <= 0 )
 			{
 				return null;

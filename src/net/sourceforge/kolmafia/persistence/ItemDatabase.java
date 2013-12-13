@@ -131,12 +131,6 @@ public class ItemDatabase
 	private static final Map<String, String> qualityByName = new HashMap<String, String>();
 	private static final Map<String, String> notesByName = new HashMap<String, String>();
 	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
-
-	private static final Map<String, String> restoreTypeByName = new HashMap<String, String>();
-	private static final Map<String, String> restoreHPMinByName = new HashMap<String, String>();
-	private static final Map<String, String> restoreHPMaxByName = new HashMap<String, String>();
-	private static final Map<String, String> restoreMPMinByName = new HashMap<String, String>();
-	private static final Map<String, String> restoreMPMaxByName = new HashMap<String, String>();
 	
 	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
 	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
@@ -327,8 +321,6 @@ public class ItemDatabase
 		ItemDatabase.readConsumptionData( "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ItemDatabase.inebrietyByName );
 		ItemDatabase.readConsumptionData( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION , ItemDatabase.spleenHitByName );
 		ItemDatabase.readNonfillingData();
-
-		ItemDatabase.readRestoresData();
 
 		ItemDatabase.readFoldGroups();
 
@@ -624,35 +616,6 @@ public class ItemDatabase
 			{
 				ItemDatabase.notesByName.put( name, notes );
 			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	private static void readRestoresData()
-	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "restores.txt", KoLConstants.RESTORES_VERSION );
-
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			if ( data.length < 6 )
-				continue;
-
-			String name = StringUtilities.getCanonicalName( data[ 0 ] );
-			ItemDatabase.restoreTypeByName.put( name, data[ 1 ] );
-			ItemDatabase.restoreHPMinByName.put( name, data[ 2 ] );
-			ItemDatabase.restoreHPMaxByName.put( name, data[ 3 ] );
-			ItemDatabase.restoreMPMinByName.put( name, data[ 4 ] );
-			ItemDatabase.restoreMPMaxByName.put( name, data[ 5 ] );
 		}
 
 		try
@@ -3165,160 +3128,5 @@ public class ItemDatabase
 		}
 
 		return KoLCharacter.hasBeeosity( ItemDatabase.getItemName( itemId ) );
-	}
-	
-	private static final int getRestoreValue( String stringValue, String name )
-	{
-		if ( stringValue == null )
-		{
-			return -1;
-		}
-		int lb = stringValue.indexOf( "[" );
-		if ( lb == -1 )
-		{
-			return Integer.parseInt( stringValue );
-		}
-		int rb = stringValue.indexOf( "]", lb );
-		RestoreExpression expr = new RestoreExpression( stringValue.substring( lb + 1, rb ), name );
-		if( expr.hasErrors() )
-		{
-			KoLmafia.updateDisplay( "Error in restores.txt for item " + name + ", invalid expression " + stringValue );
-			return -1;
-		}
-		return (int) expr.eval();
-	}
-
-	public static final String getRestoreType( String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		return ItemDatabase.restoreTypeByName.get( StringUtilities.getCanonicalName( name ) );
-	}
-
-	public static final int getRestoreHPMin( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		String cname = StringUtilities.getCanonicalName( name );
-		String restoreHPMin = ItemDatabase.restoreHPMinByName.get( cname );
-		if ( restoreHPMin == null )
-		{
-			return 0;
-		}
-		return (int) Math.floor( ItemDatabase.getRestoreValue( restoreHPMin, cname ) );
-	}
-
-	public static final int getRestoreHPMax( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		String cname = StringUtilities.getCanonicalName( name );
-		String restoreHPMax = ItemDatabase.restoreHPMaxByName.get( cname );
-		if ( restoreHPMax == null )
-		{
-			return 0;
-		}
-		return (int) Math.ceil( ItemDatabase.getRestoreValue( restoreHPMax, cname ) );
-	}
-
-	public static final int getRestoreMPMin( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		String cname = StringUtilities.getCanonicalName( name );
-		String restoreMPMin = ItemDatabase.restoreMPMinByName.get( cname );
-		if ( restoreMPMin == null )
-		{
-			return 0;
-		}
-		return (int) Math.floor( ItemDatabase.getRestoreValue( restoreMPMin, cname ) );
-	}
-
-	public static final Integer getRestoreMPMax( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		String cname = StringUtilities.getCanonicalName( name );
-		String restoreMPMax = ItemDatabase.restoreMPMaxByName.get( cname );
-		if ( restoreMPMax == null )
-		{
-			return 0;
-		}
-		return (int) Math.ceil( ItemDatabase.getRestoreValue( restoreMPMax, cname ) );
-	}
-
-	public static final double getRestoreHPAverage( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		return ( ItemDatabase.getRestoreHPMax( name ) + ItemDatabase.getRestoreHPMin( name ) ) / 2.0;
-	}
-
-	public static final double getRestoreMPAverage( String name )
-	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		return ( ItemDatabase.getRestoreMPMax( name ) + ItemDatabase.getRestoreMPMin( name ) ) / 2.0;
-	}
-
-	public static final String getRestoreHPRange( String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		int restoreHPMin = ItemDatabase.getRestoreHPMin( name );
-		int restoreHPMax = ItemDatabase.getRestoreHPMax( name );
-		if ( restoreHPMin == 0 && restoreHPMax == 0 )
-		{
-			return null;
-		}
-		if ( restoreHPMin == restoreHPMax )
-		{
-			return Integer.toString( restoreHPMin );
-		}
-		return ( Integer.toString( restoreHPMin ) + "-" + Integer.toString( restoreHPMax ) );
-	}
-
-	public static final String getRestoreMPRange( String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		int restoreMPMin = ItemDatabase.getRestoreMPMin( name );
-		int restoreMPMax = ItemDatabase.getRestoreMPMax( name );
-		if ( restoreMPMin == 0 && restoreMPMax == 0 )
-		{
-			return null;
-		}
-		if ( restoreMPMin == restoreMPMax )
-		{
-			return Integer.toString( restoreMPMin );
-		}
-		return ( Integer.toString( restoreMPMin ) + "-" + Integer.toString( restoreMPMax ) );
 	}
 }
