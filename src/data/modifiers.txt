@@ -5499,11 +5499,11 @@ lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 llama lama cria	Free Pull
-lotion of coldness	Effect: "Cold Hands", Effect Duration: [R]
-lotion of hotness	Effect: "Hot Hands", Effect Duration: [R]
-lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R]
-lotion of spookiness	Effect: "Spooky Hands", Effect Duration: [R]
-lotion of stench	Effect: "Stinky Hands", Effect Duration: [R]
+lotion of coldness	Effect: "Cold Hands", Effect Duration: [R+5]
+lotion of hotness	Effect: "Hot Hands", Effect Duration: [R+5]
+lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R+5]
+lotion of spookiness	Effect: "Spooky Hands", Effect Duration: [R+5]
+lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 love song of icy revenge	Effect: "Cold Hearted", Effect Duration: 5
 love song of naughty innuendo	Effect: "Lustful Heart", Effect Duration: 5
