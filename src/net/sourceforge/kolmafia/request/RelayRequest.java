@@ -2286,6 +2286,13 @@ public class RelayRequest
 		AreaCombatData areaSummary;
 		boolean isNonCombatsOnly = false;
 
+		// basement.php is a KoLAdventure, but with no additional form
+		// fields, it simply shows you the current basement level.
+		if ( urlString.equals( "basement.php" ) )
+		{
+			return false;
+		}
+
 		if ( this.sendCounterWarning() )
 		{
 			return true;
