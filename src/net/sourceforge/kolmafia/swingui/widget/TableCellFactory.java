@@ -346,8 +346,12 @@ public class TableCellFactory
 
 	private static Object getAutosellString( int itemId, boolean raw )
 	{
-		int price = ItemDatabase.getPriceById( itemId );
-		
+		int price = 0;
+		if ( ItemDatabase.isDiscardable( itemId ) )
+		{
+			price = ItemDatabase.getPriceById( itemId );
+		}
+
 		if ( raw )
 		{
 			//if ( price < 0 ) price = 0;
