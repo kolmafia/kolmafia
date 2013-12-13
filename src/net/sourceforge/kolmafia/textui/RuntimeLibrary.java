@@ -932,6 +932,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "stun_skill", DataTypes.SKILL_TYPE, params ) );
+		
+		
 		// Equipment functions.
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -4273,6 +4277,19 @@ public abstract class RuntimeLibrary
 			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+	}
+
+	public static Value stun_skill( Interpreter interpreter )
+	{
+		String stunSkill = KoLCharacter.getClassStun();
+		int skill = -1;
+
+		if ( !stunSkill.equals( "none" ) )
+		{
+			skill = SkillDatabase.getSkillId( stunSkill );
+		}
+
+		return DataTypes.makeSkillValue( skill );
 	}
 
 	// Equipment functions.

@@ -118,6 +118,7 @@ Regular Cloaca Cola	item	0	0	7	9	0
 scented massage oil	item	[HP]	[HP]	0	0	0
 scroll of drastic healing	item	[HP]	[HP]	0	0	0
 soda water	item	0	0	3	5	0
+Soul Food	skill	0	0	15	15	0
 Spirit Vacation	skill	[HP]	[HP]	0	0	1
 sugar shard	item	10	20	5	10	0
 tiny house	item	20	24	20	24	0
