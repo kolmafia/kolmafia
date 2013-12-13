@@ -813,6 +813,7 @@ public class KoLmafiaCLI
 		new RelayBrowserCommand().register( "relay" );
 		new RepeatLineCommand().register( "repeat" );
 		new RestaurantCommand().register( "restaurant" ).registerSubstring( "brewery" );
+		new RestoresCommand().register( "restores" );
 		new SaveAsMoodCommand().register( "save as mood" );
 		new SearchMallCommand().register( "searchmall" );
 		new SendMessageCommand().register( "send" ).register( "kmail" ).register( "csend" );
