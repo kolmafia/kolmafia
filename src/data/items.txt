@@ -6282,7 +6282,7 @@
 6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
 6266	giant jar of protein powder	333160339	ppjar.gif	multiple	t,d	124	giant jars of protein powder
 6267	giant grain of protein powder	335376132	ppgrain.gif	food	t,d	44	giant grains of protein powder
-6268	pec oil	548813486	pecoil.gif	usable	t,d	83	containers of pec oil
+6268	pec oil	548813486	pecoil.gif	multiple	t,d	83	containers of pec oil
 6269	giant gym membership card	192410185	gymcard.gif	container	t,d	77	giant gym membership cards
 6270	Squat-Thrust Magazine	883915973	stmagazine.gif	multiple	t,d	64	Squat-Thrust Magazines
 6271	massive dumbbell	599065286	bigdumbbell.gif	none	q	0
