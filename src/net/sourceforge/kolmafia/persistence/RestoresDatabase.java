@@ -37,6 +37,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,8 +55,14 @@ import net.sourceforge.kolmafia.RestoreExpression;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -65,6 +73,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class RestoresDatabase
 	extends KoLDatabase
 {
+	private static final ArrayList<String> restoreNames = new ArrayList<String>();
 	private static final Map<String, String> typeByName = new HashMap<String, String>();
 	private static final Map<String, String> hpMinByName = new HashMap<String, String>();
 	private static final Map<String, String> hpMaxByName = new HashMap<String, String>();
@@ -81,6 +90,7 @@ public class RestoresDatabase
 
 	public static void reset()
 	{
+		RestoresDatabase.restoreNames.clear();
 		RestoresDatabase.typeByName.clear();
 		RestoresDatabase.hpMinByName.clear();
 		RestoresDatabase.hpMaxByName.clear();
@@ -107,6 +117,7 @@ public class RestoresDatabase
 			}
 			
 			String name = data[ 0 ];
+			RestoresDatabase.restoreNames.add( name );
 			RestoresDatabase.typeByName.put( name, data[ 1 ] );
 			RestoresDatabase.hpMinByName.put( name, data[ 2 ] );
 			RestoresDatabase.hpMaxByName.put( name, data[ 3 ] );
@@ -143,7 +154,19 @@ public class RestoresDatabase
 			StaticEntity.printStackTrace( e );
 		}
 	}
-	
+
+	public static final void setValue( String name, String type, int hpMin, int hpMax, int mpMin, int mpMax, int advCost, int usesLeft, String notes )
+	{
+		RestoresDatabase.typeByName.put( name, type );
+		RestoresDatabase.hpMinByName.put( name, Integer.toString( hpMin ) );
+		RestoresDatabase.hpMaxByName.put( name, Integer.toString( hpMax ) );
+		RestoresDatabase.mpMinByName.put( name, Integer.toString( mpMin ) );
+		RestoresDatabase.mpMaxByName.put( name, Integer.toString( mpMax ) );
+		RestoresDatabase.advCostByName.put( name, IntegerPool.get( advCost ) );
+		RestoresDatabase.usesLeftByName.put( name, Integer.toString( usesLeft ) );
+		RestoresDatabase.notesByName.put( name, notes );
+	}
+
 	private static final int getValue( String stringValue, String name )
 	{
 		if ( stringValue == null )
@@ -182,6 +205,11 @@ public class RestoresDatabase
 			return 0;
 		}
 
+		if ( name.equals( "Campground" ) || name.equals( "Free rests" ) )
+		{
+			return KoLCharacter.getRestingHP();
+		}
+
 		String hpMin = RestoresDatabase.hpMinByName.get( name );
 		if ( hpMin == null )
 		{
@@ -195,6 +223,11 @@ public class RestoresDatabase
 		if ( name == null )
 		{
 			return 0;
+		}
+
+		if ( name.equals( "Campground" ) || name.equals( "Free rests" ) )
+		{
+			return KoLCharacter.getRestingHP();
 		}
 
 		String hpMax = RestoresDatabase.hpMaxByName.get( name );
@@ -212,6 +245,11 @@ public class RestoresDatabase
 			return 0;
 		}
 
+		if ( name.equals( "Campground" ) || name.equals( "Free rests" ) )
+		{
+			return KoLCharacter.getRestingMP();
+		}
+
 		String mpMin = RestoresDatabase.mpMinByName.get( name );
 		if ( mpMin == null )
 		{
@@ -225,6 +263,11 @@ public class RestoresDatabase
 		if ( name == null )
 		{
 			return 0;
+		}
+
+		if ( name.equals( "Campground" ) || name.equals( "Free rests" ) )
+		{
+			return KoLCharacter.getRestingMP();
 		}
 
 		String mpMax = RestoresDatabase.mpMaxByName.get( name );
@@ -259,14 +302,14 @@ public class RestoresDatabase
 	{
 		if ( name == null )
 		{
-			return null;
+			return "";
 		}
 
 		int hpMin = RestoresDatabase.getHPMin( name );
 		int hpMax = RestoresDatabase.getHPMax( name );
 		if ( hpMin == 0 && hpMax == 0 )
 		{
-			return null;
+			return "";
 		}
 		if ( hpMin == hpMax )
 		{
@@ -279,14 +322,14 @@ public class RestoresDatabase
 	{
 		if ( name == null )
 		{
-			return null;
+			return "";
 		}
 
 		int mpMin = RestoresDatabase.getMPMin( name );
 		int mpMax = RestoresDatabase.getMPMax( name );
 		if ( mpMin == 0 && mpMax == 0 )
 		{
-			return null;
+			return "";
 		}
 		if ( mpMin == mpMax )
 		{
@@ -302,7 +345,7 @@ public class RestoresDatabase
 			return 0;
 		}
 
-		Integer advCost = RestoresDatabase.getAdvCost( name );
+		Integer advCost = RestoresDatabase.advCostByName.get( name );
 		if ( advCost == null )
 		{
 			return 0;
@@ -317,6 +360,10 @@ public class RestoresDatabase
 			return 0;
 		}
 
+		if ( name.equals( "Free rests" ) )
+		{
+			return Math.max( CampgroundRequest.freeRestsAvailable() - Preferences.getInteger( "timesRested" ), 0 );
+		}
 		String usesLeft = RestoresDatabase.usesLeftByName.get( name );
 		if ( usesLeft == null )
 		{
@@ -342,5 +389,90 @@ public class RestoresDatabase
 			return "";
 		}
 		return notes;
+	}
+
+	public static final Boolean restoreAvailable( String name, Boolean purchaseable )
+	{
+		String type = RestoresDatabase.getType( name );
+		
+		if( type.equals( "item" ) )
+		{
+			int itemId = ItemDatabase.getItemId( name );
+			if ( purchaseable )
+			{
+				return ( ItemDatabase.isTradeable( itemId ) || InventoryManager.getAccessibleCount( itemId ) > 0 );
+			}
+			return ( InventoryManager.getAccessibleCount( itemId ) > 0 );
+		}
+		if ( type.equals( "skill" ) )
+		{
+			return KoLCharacter.hasSkill( name );
+		}
+		if ( type.equals( "loc" ) )
+		{
+			if( name.equals( "A Relaxing Hot Tub" ) )
+			{
+				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
+					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() );
+			}
+			if ( name.equals( "April Shower" ) )
+			{
+				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
+					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
+					( !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "April Shower" ) );
+			}
+			if ( name.equals( "Campground" ) || name.equals( "Comfy Sofa" ) ||
+				name.contains( "Doc Galaktik's" ) )
+			{
+				return true;
+			}
+			if ( name.equals( "Free rests" ) )
+			{
+				return CampgroundRequest.freeRestsAvailable() > 0;
+			}
+			if ( name.equals( "Nunnery (Frat Warrior)" ) )
+			{
+				return Preferences.getString( "sidequestNunsCompleted" ).equals( "fratboy" );
+			}
+			if ( name.equals( "Nunnery (War Hippy)" ) )
+			{
+				return Preferences.getString( "sidequestNunsCompleted" ).equals( "hippy" );
+			}
+		}
+		return false;
+	}
+
+	public static final String[][] getRestoreData( String level )
+	{
+		Iterator<String> it = RestoresDatabase.restoreNames.iterator();
+
+		int restores = 0;
+		int count = RestoresDatabase.restoreNames.size();
+		
+		if ( count > 0 )
+		{
+			String[][] restoreData = new String[ count ][ 7 ];
+			while ( it.hasNext() )
+			{
+				String current = it.next();
+				if ( ( level.equals( "available" ) && RestoresDatabase.restoreAvailable( current, false ) ) ||
+					( level.equals( "obtainable" ) && RestoresDatabase.restoreAvailable( current, true ) ) ||
+					level.equals( "all" ) )
+				{
+					restoreData[ restores ][ 0 ] = current;
+					restoreData[ restores ][ 1 ] = RestoresDatabase.getType( current );
+					restoreData[ restores ][ 2 ] = RestoresDatabase.getHPRange( current );
+					restoreData[ restores ][ 3 ] = RestoresDatabase.getMPRange( current );
+					restoreData[ restores ][ 4 ] = String.valueOf( RestoresDatabase.getAdvCost( current ) );
+					int usesLeft = RestoresDatabase.getUsesLeft( current );
+					restoreData[ restores ][ 5 ] = usesLeft == -1 ? "Unlimited" : Integer.toString( usesLeft );
+					restoreData[ restores ][ 6 ] = RestoresDatabase.getNotes( current );
+					restores++;
+				}
+			}
+			return restoreData;
+		}
+
+		return null;
 	}
 }
