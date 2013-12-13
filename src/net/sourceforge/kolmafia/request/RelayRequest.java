@@ -2318,7 +2318,7 @@ public class RelayRequest
 			}
 		}
 
-		if ( nextAdventure != null && !this.data.isEmpty() && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
+		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
 		{
 			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
 			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
@@ -2344,7 +2344,7 @@ public class RelayRequest
 			this.waitForRecoveryToComplete();
 		}
 
-		if ( ( ( adventureName != null && !isNonCombatsOnly && !this.data.isEmpty() ) ||
+		if ( ( ( adventureName != null && !isNonCombatsOnly ) ||
 		       ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) ) &&
 		     ( this.sendFamiliarWarning() || this.sendKungFuWarning() ) )
 		{
