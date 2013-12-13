@@ -6861,7 +6861,7 @@
 6844	ironic mint	800270383	ironmint.gif	usable, candy	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
 6846	walkie talkie	879889967	walkietalkie.gif	reusable		0
-6847	killing jar	888987269	killingjar.gif	none, combat	t	0
+6847	killing jar	888987269	killingjar.gif	none, combat	t	88
 6848	security flashlight	327985938	flashlight.gif	offhand	t,d	40
 6849	Effermint&trade; tablets	230478466	effermint.gif	multiple	t,d	35
 6850	sturdy cane	183101962	cane.gif	offhand	t,d	40
