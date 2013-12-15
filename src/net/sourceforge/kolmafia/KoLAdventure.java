@@ -1785,6 +1785,12 @@ public class KoLAdventure
 			"Nothing more to do here today.",
 		},
 
+		// Your hoverbelt would totally do the trick to get you up there, only it's out of juice.
+		{
+			"it's out of juice",
+			"Your hoverbelt needs a new battery.",
+		},
+
 		// There's nothing left of Ol' Scratch but a crater and a
 		// stove.  Burnbarrel Blvd. is still hot, but it's no longer
 		// bothered.  Or worth bothering with.

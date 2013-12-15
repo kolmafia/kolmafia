@@ -71,6 +71,7 @@ bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
+breakfast mess	2	2	decent	0	0	0	0
 brimstone chicken sandwich	3	1	decent	4-6	-15-20	0	15-20
 brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
 brussels sprout stir-fry	3	1	decent	4	0	0	0	10 Healthy, Elfy, and Wise
@@ -673,6 +674,7 @@ vegas volcano lava roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hotdog
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
+warbear gyro	3	3	good	0	0	0	0	
 warm mushroom	2	1	decent	2-3	12-14	0	0
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
