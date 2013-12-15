@@ -88,6 +88,7 @@ Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
+Crimbo13	Holiday	Christmas 2013
 
 Override	Unsorted	Discoveries
 

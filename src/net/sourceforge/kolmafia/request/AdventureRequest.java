@@ -616,6 +616,8 @@ public class AdventureRequest
 				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
 				// Abyssal Portals
 				image.startsWith( "generalseal" ) ? "general seal" :
+				// Crimbo 13
+				image.startsWith( "warbear1" ) ? "Warbear Foot Soldier" :
 				null;
 		}
 

@@ -6927,10 +6927,10 @@
 6910
 6911
 6912
-6913
-6914
+6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
+6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0
 6915
-6916
+6916	warbear battery	546814651	wbattery.gif	multiple	t	0
 6917
 6918
 6919
