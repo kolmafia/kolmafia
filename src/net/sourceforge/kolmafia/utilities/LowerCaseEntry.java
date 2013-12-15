@@ -47,7 +47,7 @@ public class LowerCaseEntry
 	private Object value;
 	private String pairString, lowercase;
 
-	private LowerCaseEntry( final Entry<Object, Object> original )
+	public LowerCaseEntry( final Entry<Object, Object> original )
 	{
 		this.original = original;
 		this.key = original.getKey();

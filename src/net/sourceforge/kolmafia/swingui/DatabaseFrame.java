@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
 import java.util.Map.Entry;
 
 import javax.swing.ListSelectionModel;
@@ -79,6 +81,28 @@ public class DatabaseFrame
 		this.tabs.addTab( "Outfits", new ItemLookupPanel( DatabaseFrame.allOutfits, "outfit", "whichoutfit" ) );
 
 		this.setCenterComponent( this.tabs );
+	}
+
+	public static void addItem( final Integer id, final String itemName )
+	{
+		SimpleEntry entry = new SimpleEntry( id, itemName );
+		DatabaseFrame.allItems.add( new LowerCaseEntry( entry ) );
+		DatabaseFrame.allItems.sort( new IntegerEntryKeyComparator() );
+	}
+
+	private static class IntegerEntryKeyComparator
+		implements Comparator<LowerCaseEntry>
+	{
+		public int compare( LowerCaseEntry o1, LowerCaseEntry o2 )
+		{
+			Object key1 = o1.getKey();
+			Object key2 = o2.getKey();
+			if ( key1 instanceof Integer && key2 instanceof Integer )
+			{
+				return ((Integer)key1).compareTo( (Integer)key2 );
+			}
+			return 0;
+		}
 	}
 
 	private class ItemLookupPanel
