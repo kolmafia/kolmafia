@@ -88,6 +88,8 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.swingui.DatabaseFrame;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -1219,6 +1221,9 @@ public class ItemDatabase
 		Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 		ConcoctionPool.set( c );
 		ConcoctionDatabase.addUsableConcoction( c );
+
+		// Add the new item to the Internal Database
+		DatabaseFrame.addItem( id, itemName );
 	}
 
 	public static final void registerPlural( final int itemId, final String plural )
