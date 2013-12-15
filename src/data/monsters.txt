@@ -1535,4 +1535,4 @@ Box of Crafty Dinner	mystwander5.gif	HP: [0.75*(min(MUS-3,500)+max(ML,0))] Def: 
 Chef Boy, R&amp;D	chefboy.gif	HP: [0.75*(MUS+5)+max(ML,0))] Def: [(MUS+5)+max(ML,0)] Atk: [(MOX+5)+max(ML,0)] Exp: [(min(STAT+5,1000)+max(ML,0))/4] Init: -10000 P: dude Phys: 100
 
 # Crimbo 2013
-Warbear Foot Soldier	warbear13.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: beast	warbear whosit (100)
+Warbear Foot Soldier	warbear13.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: beast	warbear whosit (n100)

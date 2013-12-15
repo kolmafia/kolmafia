@@ -1925,6 +1925,7 @@ public class ItemPool
 	public static final int SPIRIT_BED = 6890;
 	public static final int CHEF_BOY_BUSINESS_CARD = 6898;
 	public static final int PASTA_ADDITIVE = 6900;
+	public static final int WARBEAR_WHOSIT = 6913;
 	public static final int SMITH_BOOK = 7003;
 	public static final int GOLDEN_LIGHT = 7013;
 	public static final int LOUDER_THAN_BOMB = 7014;

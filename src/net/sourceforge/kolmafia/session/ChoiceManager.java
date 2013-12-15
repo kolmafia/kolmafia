@@ -2894,7 +2894,14 @@ public abstract class ChoiceManager
 			"Events", "choiceAdventure808", "The Spirit World",
 			new Object[] { new Option( "gain spirit bed piece" ),
 						new Option( "fight spirit alarm clock" ) } ),
-			
+
+		// Choice 809 is Uncle Crimbo's Trailer
+		// Choice 810 is K.R.A.M.P.U.S. facility
+
+		// Choice 813 is What Warbears Are Good For
+		new ChoiceAdventure(
+			"Crimbo13", "choiceAdventure809", "Warbear Fortress (First Level)",
+			new Object[] { "Open K.R.A.M.P.U.S. facility" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7294,6 +7301,16 @@ public abstract class ChoiceManager
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
 			}
 			break;
+			
+		case 810:
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -100 );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -250 );
+			}
 		}
 
 		if ( text.contains( "choice.php" ) )
@@ -9426,6 +9443,7 @@ public abstract class ChoiceManager
 		case 801: // A Reanimated Conversation
 		case 804: // Trick or Treat!
 		// case 807: // Breaker Breaker!
+		case 810: // K.R.A.M.P.U.S. facility
 		case 812: // The Unpermery
 			ChoiceManager.canWalkAway = true;
 			break;
