@@ -107,6 +107,7 @@ chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
+cinnamon nutrition block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
 circular crimbcookie	2	1	awesome	8-10	0	0	0	10 Mystic Circle (+10% mys)
 club sandwich	3	5	awesome	9-10	18-24	0	0
 cob of corn	1	2	crappy	1	0	10-15	0
@@ -268,6 +269,7 @@ gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
+gingerbread nutrition block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread robot	2	1	awesome	0	0	0	0	20 Gingerbread Robust (+100% all stats)
 gingerbread stir-fry	3	1		3-7	0	0	0	10 Sugar Rush
 glass of baboon milk	1	2	decent	2	3-5	0	0
@@ -437,6 +439,7 @@ pear	1	4	good	3	0	15-20	0
 pear tart	3	7	awesome	8-14	0	25-45	0
 peche a la frog	3	1		3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
+peppermint nutrition block	3	1	decent	3-6	0	0	0	10 Forbear, Warbears! (+40 WarBear Armor Penetration)
 peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
 perfect breakfast	5	1	good	14-16	20-30	40-50	0
 perfect chef salad	5	1	good	14-16	10-20	40-50	10-20

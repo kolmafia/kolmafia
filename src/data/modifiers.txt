@@ -3722,6 +3722,7 @@ Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 # Foe-Splattered: Can't use Bifurcating Blow
 Fondid	Monster Level: +15
+# Forbear, Warbears!: +40 WarBear Armor Penetration
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
@@ -3974,6 +3975,7 @@ Liquid Courage	Experience: +3
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Litterbug	Monster Level: +25
 Livin' Large	Meat Drop: +10
+# Loaded Forwarbear: So-So Supercold Resistance (+2)
 Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10

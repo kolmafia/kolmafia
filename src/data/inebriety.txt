@@ -197,6 +197,7 @@ flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 flute of flat champagne	2	2	decent	2-6	0	15	0
 flying caipiranha	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 fog murderer	6	6	good	14-16	40-50	20-30	20-30
+fortified eggnog slurry	3	1	decent	3-6	0	0	0	10 Loaded Forwarbear (So-So Supercold Resistance)
 fountain 'soda'	3	5	decent	4-6	5-10	0	5-10	KOLHS
 fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (stench dmg)
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
@@ -238,6 +239,7 @@ hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
 horseradish-infused vodka	5	1		12-13	0	0	0	15 Rad-ish
+hot buttered rum	4	1	decent	6-10	0	0	0	20 Loaded Forwarbear (So-So Supercold Resistance)
 hot choculate	5	4		10-15	9-10	9-10	9-10
 hot toady	4	4		6-10	7-8	7-8	7-8
 humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
@@ -386,6 +388,7 @@ soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys e
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 spasmi dolorosi del rene champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
+spicy hot chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
