@@ -268,6 +268,8 @@ Holiday	adventure=173	true	outdoor	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	true	unknown	Lollipop Forest
 The Candy Diorama	adventure=275	true	unknown	Fudge Mountain
 
+Crimbo13	adventure=366	false	indoor	WarBear Fortress (First Level)
+
 Crimbo12	adventure=300	true	unknown	Crimbokutown Toy Factory
 
 Crimbo10	adventure=246	true	underground	Elf Alley
