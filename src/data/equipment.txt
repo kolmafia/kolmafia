@@ -1193,6 +1193,8 @@ vibrating cyborg knife	150	Mus: 55	1-handed sword
 villainous scythe	200	Mus: 150	2-handed polearm
 vorpal blade	90	Mus: 30	1-handed sword
 war tongs	180	Mys: 75	1-handed utensil
+warbear exhaust manifold	50	Mox: 0	2-handed accordion
+warbear oil pan	50	Mys: 0	1-handed saucepan
 weighted paperclip chain	40	Mus: 0	2-handed flail
 white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
@@ -2267,6 +2269,10 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
+warbear energy bracers	0	none
+warbear exo-arm	0	none
+warbear hoverbelt	100	none
+warbear laser beacon	0	none
 warm fur	225	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85

@@ -1483,8 +1483,8 @@
 1482	Loaded Forwarbear	campfire.gif	48a1293c0dbbb01bf76f2507b4ae4523
 1483	Nuts about Candy	candynuts.gif	d14e51d25f25275e0c0cd99a67adc3dc	use 1 candied nuts
 1484	Bolts about Candy	candybolts.gif	cd1dc4f3e9bfc1d3e99016a7b91ef6c9	use 1 candied bolts
-1485
-1486
+1485	Robocamo	wbhex.gif	0d17b4a6ae786765efc7378f80fe7b0c	use 1 warbear robo-camouflage unit
+1486	Polar Express	wbcola.gif	746eececed3413261ea31ca92209466e	use 1 Cloaca Cola Polar
 1487
 1488
 1489	Gingerbread Robust	c13cookie1.gif	d70c7005ccd4276a021cd634d20bc6d3	eat 1 gingerbread robot

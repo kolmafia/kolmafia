@@ -299,6 +299,8 @@ Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0
+WarBear Fortress (First Level)	100	Warbear Foot Soldier
+WarBear Fortress (Second Level)	100	Warbear Officer
 Wartime Frat House	0	War Hippy Spy: 0
 Wartime Frat House (Hippy Disguise)	80	War Pledge	Frat Warrior drill sergeant
 Wartime Hippy Camp	0	Orcish Frat Boy Spy: 0

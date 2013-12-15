@@ -2011,7 +2011,6 @@ teddy borg	CRIMBO07	iGoogly (2)	nanofiber cloth (2)	synthetic stuffing (4)
 toy deathbot	CRIMBO07	iGoogly (2)	LED block (3)
 toy maglev monorail	CRIMBO07	theoretical string (2)	LED block (3)	toy hoverpad (6)
 
-
 # Crimbo tools.  These are items which are created at Ugh Crimbo
 # after collecting enough components.
 
@@ -2024,7 +2023,6 @@ yo	CRIMBO07	stringy sinew	rock
 
 leaf tube	CRIMBO06	stringy sinew	big leaf
 lit cigar	COMBINE, NODISCOVERY	fire	leaf tube
-
 
 # Evil Crimbo toys.  These are items which are created by Lady Linnea
 # after collecting enough toy components.
@@ -2041,7 +2039,6 @@ toy crazy train	CRIMBO07	spooky length of string (2)	spooky wooden block (3)	spo
 toy mercenary	CRIMBO07	evil googly eye (2)	spooky wooden block (3)
 tree-eating kite	CRIMBO07	spooky length of string	spooky felt
 vampire duck-on-a-string	CRIMBO07	spooky length of string	evil googly eye (2)	spooky wooden block (2)	spooky toy wheel (2)
-
 
 # Future Crimbo toys.  These are items which are created by Uncle Crimborg
 # after collecting enough toy components.
@@ -2079,7 +2076,6 @@ parasitic strangleworm	COMBINE	wriggling tentacle	rigid carapace
 burrowgrub hive	COMBINE	chitinous pod	unstable DNA
 pair of ragged claws	COMBINE	mass of wriggling tentacles	pair of twitching claws
 
-
 # Crimbo 2011 items
 
 banana supersucker	COMBINE	bananagate	lollipop stick
@@ -2112,6 +2108,10 @@ giant yellow gummi bear	SUSE	giant yellow gummi ingot
 red drunki-bear	MIX	bottle of vodka	giant red gummi bear
 green drunki-bear	MIX	bottle of vodka	giant green gummi bear
 yellow drunki-bear	MIX	bottle of vodka	giant yellow gummi bear
+
+# Crimbo 2013 items
+
+warbear hoverbelt	MUSE	warbear hoverbelt piecepart (8)
 
 # Brushfire items
 

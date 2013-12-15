@@ -269,6 +269,8 @@ The Candy Diorama	adventure=274	true	unknown	Lollipop Forest
 The Candy Diorama	adventure=275	true	unknown	Fudge Mountain
 
 Crimbo13	adventure=366	false	indoor	WarBear Fortress (First Level)
+Crimbo13	adventure=367	false	indoor	WarBear Fortress (Second Level)
+Crimbo13	adventure=368	false	indoor	WarBear Fortress (Third Level)
 
 Crimbo12	adventure=300	true	unknown	Crimbokutown Toy Factory
 

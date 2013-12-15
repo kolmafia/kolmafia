@@ -1357,6 +1357,9 @@ vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 villainous scythe	Slime Hates It: +2, Weapon Damage Percent: +30, Critical Hit Percent: +20
 vorpal blade	Critical Hit Percent: +8
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
+warbear exhaust manifold	Stench Damage: +20, Class: "Accordion Thief", Song Duration: 10
+# warbear oil pan: Lets you sling hot grease!
+warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sauceror"
 weighted paperclip chain	Weapon Damage: +12
 white sword	Muscle: +2
 white whip	Experience: +1
@@ -2575,6 +2578,18 @@ velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initi
 vial of hot blood	Hot Resistance: +4, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
+# warbear energy bracers: Monster attacks reduce MP instead of HP
+warbear energy bracers	Class: "Pastamancer", Single Equip
+# warbear exo-arm: Increases the magnitude of your Smacks
+warbear exo-arm	Class: "Seal Clubber", Single Equip
+# warbear hoverbelt: Base Muscle Limited to 100
+# warbear hoverbelt: Base Mysticality Limited to 100
+# warbear hoverbelt: Base Moxie Limited to 100
+# warbear hoverbelt: Grants access to the upper floors of the Warbear fortress
+warbear hoverbelt	Single Equip
+# warbear laser beacon: Attracts Cool Lasers
+# warbear laser beacon: (Lasers respond to Disco Momentum)
+warbear laser beacon	Class: "Disco Bandit", Single Equip
 # water wings
 water-polo mitt	Weapon Damage: +30, Single Equip
 whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
@@ -4152,6 +4167,7 @@ Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
 Poetically Licensed	Mysticality Percent: 20, Muscle Percent: -20, Experience (Mysticality): 2, Spell Damage Percent: 10
+Polar Express	MP Regen Min: 10, MP Regen Max: 20
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
 # Polyphonic Yawn: Makes you look like a Drab Bard
@@ -4229,6 +4245,7 @@ Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Ripping, Dripping	Weapon Damage Percent: +50
 Riqueza de Pasta	Experience: 2
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
+# Robocamo: Beep Boop
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
@@ -5751,6 +5768,11 @@ violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 walkie talkie	Free Pull
+# warbear auto-anvil: Allows Meatsmithing without using an Adventure
+# warbear auto-anvil: (5x / day)
+# warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
+# warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
+warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10

@@ -609,7 +609,7 @@
 592	tiny house	827600946	house.gif	hpmp, multiple	t,d	107	tiny houses
 593	phonics down	826010619	feather.gif	hpmp, multiple	t,d	115	phonics downs
 594	amulet of extreme plot significance	176565081	amulet.gif	accessory	t,d	205	amulets of extreme plot significance
-595	scroll of drastic healing	112028117	scroll2.gif	hp	t,d	107	scrolls of drastic healing
+595	scroll of drastic healing	112028117	scroll2.gif	hp, usable	t,d	107	scrolls of drastic healing
 596	titanium assault umbrella	448385490	umbrella.gif	weapon	t,d	155	titanium assault umbrellas
 597	Mohawk wig	849663225	mohawk.gif	hat	t,d	155	Mohawk wigs
 598	the Slug Lord's map	902343064	map.gif	usable	q	0
@@ -6929,9 +6929,9 @@
 6912
 6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
 6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0
-6915
+6915	warbear hoverbelt	531580874	wbhoverbelt.gif	accessory		0
 6916	warbear battery	546814651	wbattery.gif	multiple	t	0
-6917
+6917	warbear badge	517026798	wbbadge.gif	none	t	0
 6918
 6919
 6920
@@ -6964,8 +6964,28 @@
 6947
 6948
 6949
-6970
-6971
+6950
+6951
+6952
+6953
+6954
+6955
+6956
+6957	warbear requisition box	587398908	wbpresent1.gif	usable	g	0
+6958	warbear exo-arm	336074564	wbexoarm.gif	accessory	t	0
+6959
+6960	warbear energy bracers	298186114	wbbracers.gif	accessory	t	0
+6961	warbear oil pan	172541223	wboilpan.gif	weapon	t	0
+6962	warbear laser beacon	192221665	wbbeacon.gif	accessory	t	0
+6963	warbear exhaust manifold	663072855	wbacc.gif	weapon	t	0
+6964
+6965	warbear auto-anvil	145721549	wbanvil.gif	usable	t	0
+6966	warbear induction oven	259839260	wboven.gif	usable	t	0
+6967	warbear chemistry lab	960408455	wbchemset.gif	usable	t	0
+6968	warbear officer requisition box	223861765	wbpresent2.gif	usable	g	0
+6969	warbear empathy chip	496033151	wbchip.gif	usable	t	0
+6970	warbear drone assembler	231753064	wbcapsule.gif	grow	t	0
+6971	warbear breakfast machine assembler	375809411	wbbbox.gif	usable	t	0
 6972
 6973
 6974
@@ -7028,3 +7048,29 @@
 7031	loose purse strings	927549547	pursestrings.gif	offhand	t,d	5	sets of loose purse strings
 7032	pickled egg	648018534	pickledegg.gif	food	t,d	5
 7033	cup of lukewarm tea	663984491	coffeecup.gif	food	t,d	5
+7034	warbear soda machine assembler	512081219	wbsoda.gif	usable	t	0
+7035	warbear black box	138516543	wbblackbox.gif	usable	t	0
+7036	warbear high-efficiency still	229779565	wbstill.gif	usable	t	0
+7037	warbear LP-ROM burner	448554185	wblprom.gif	usable	t	0
+7038	warbear gyrocopter	417127874	wbcopter.gif	none, curse	t	0
+7039	warbear robo-camouflage unit	788708885	wbhex.gif	multiple	t	0
+7040	warbear beeping telegram	621299563	wbtelegram.gif	none, curse	t	0
+7041	warbear procedural hilarity drone	844782285	wbjokebot.gif	none, curse	t	0
+7042	warbear metalworking primer	677296114	wbtablet.gif	usable	t	0
+7043	warbear sequential gaiety distribution system	615321845	wbgiftbot.gif	usable	t	0
+7044
+7045
+7046
+7047
+7048
+7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
+7050	warbear gyro	676764109	gyro.gif	food	t,d	1
+7051
+7052
+7053
+7054
+7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	
+7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0
+7057
+7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5
+7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0

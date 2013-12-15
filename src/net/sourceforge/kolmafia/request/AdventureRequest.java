@@ -618,6 +618,8 @@ public class AdventureRequest
 				image.startsWith( "generalseal" ) ? "general seal" :
 				// Crimbo 13
 				image.startsWith( "warbear1" ) ? "Warbear Foot Soldier" :
+				// image.startsWith( "warbear2" ) ? "Warbear Officer" :
+				// image.startsWith( "warbear3" ) ? "High-Ranking Warbear Officer" :
 				null;
 		}
 
