@@ -272,6 +272,7 @@ toy space helmet	175	Mox: 72
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
 viking helmet	20	none
+warbear foil hat	100	none
 water-polo cap	200	Mox: 85
 wax hat	50	Mus: 10
 webbed comic mask	10	none

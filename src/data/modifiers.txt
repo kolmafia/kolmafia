@@ -353,6 +353,8 @@ toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: 
 turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
+# warbear foil hat: (additional +10 lbs. to Robotic Familiars)
+warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
@@ -4246,6 +4248,8 @@ Ripping, Dripping	Weapon Damage Percent: +50
 Riqueza de Pasta	Experience: 2
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 # Robocamo: Beep Boop
+# Rolando's Rondo of Resisto: Superhuman Supercold Resistance (+5)
+Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
@@ -5647,6 +5651,7 @@ recording of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Durat
 recording of Elron's Explosive Etude	Effect: "Elron's Explosive Etude", Effect Duration: 20
 recording of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 20
 recording of Prelude of Precision	Effect: "Prelude of Precision", Effect Duration: 20
+recording of Rolando's Rondo of Resisto	Effect: "Rolando's Rondo of Resisto", Effect Duration: 20
 recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thingfinder", Effect Duration: 20
 red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
@@ -5771,6 +5776,7 @@ walkie talkie	Free Pull
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure
 # warbear auto-anvil: (5x / day)
 # warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
+# warbear jackhammer drill press: Increases the effectiveness of Pulverize
 # warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15

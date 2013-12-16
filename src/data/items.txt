@@ -6973,12 +6973,12 @@
 6956
 6957	warbear requisition box	587398908	wbpresent1.gif	usable	g	0
 6958	warbear exo-arm	336074564	wbexoarm.gif	accessory	t	0
-6959
+6959	warbear foil hat	195097050	wbfoilcap.gif	hat	t	0
 6960	warbear energy bracers	298186114	wbbracers.gif	accessory	t	0
 6961	warbear oil pan	172541223	wboilpan.gif	weapon	t	0
 6962	warbear laser beacon	192221665	wbbeacon.gif	accessory	t	0
 6963	warbear exhaust manifold	663072855	wbacc.gif	weapon	t	0
-6964
+6964	warbear jackhammer drill press	232820717	wbdrillpress.gif	usable	t	0
 6965	warbear auto-anvil	145721549	wbanvil.gif	usable	t	0
 6966	warbear induction oven	259839260	wboven.gif	usable	t	0
 6967	warbear chemistry lab	960408455	wbchemset.gif	usable	t	0
@@ -7065,7 +7065,7 @@
 7048
 7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
-7051
+7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25
 7052
 7053
 7054

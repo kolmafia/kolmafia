@@ -1791,6 +1791,14 @@ public class KoLAdventure
 			"Your hoverbelt needs a new battery.",
 		},
 
+		// You float up to the third story of the fortress, but all you
+		// find is a locked door with a keypad next to it, and you
+		// don't have a code.
+		{
+			"you don't have a code",
+			"You don't have a warbear badge.",
+		},
+
 		// There's nothing left of Ol' Scratch but a crater and a
 		// stove.  Burnbarrel Blvd. is still hot, but it's no longer
 		// bothered.  Or worth bothering with.

@@ -679,6 +679,7 @@ public class AdventureRequest
 		case 774: // Opening up the Folder Holder
 		case 801: // A Reanimated Conversation
 		case 807: // Breaker Breaker!
+		case 810: // K.R.A.M.P.U.S. facility
 			return null;
 		}
 
