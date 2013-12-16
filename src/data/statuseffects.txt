@@ -1491,6 +1491,6 @@
 1490	Petit Force	c13cookie2.gif	934aa3cc120f90a36618c7a5f35e7a6b	eat 1 petit 4.1
 1491	Nut-Rition	c13cookie3.gif	7424582a3e9202026e840bfccb7274a8	eat 1 nut-shaped Crimbo cookie
 1492	Reassured	reassured.gif	671ff2f265a9a566b00a976180372a3e	cast 1 psychokinetic hug
-1493
+1493	Eyes for Miles	eyes.gif	889ae743a4d0cc14105c135476fa0a66	use 1 warbear liquid lasers
 1494
 1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	use 1 recording of Rolando's Rondo of Resisto

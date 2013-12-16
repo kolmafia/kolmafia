@@ -1536,5 +1536,5 @@ Chef Boy, R&amp;D	chefboy.gif	HP: [0.75*(MUS+5)+max(ML,0))] Def: [(MUS+5)+max(ML
 
 # Crimbo 2013
 Warbear Foot Soldier	warbear12.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: beast	warbear whosit (n100)
-Warbear Office	warbear23.gif	P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)
+Warbear Office	warbear23.gif	P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
 High-Ranking Warbear Officer	warbear31.gif	Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)

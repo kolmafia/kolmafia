@@ -7059,14 +7059,14 @@
 7042	warbear metalworking primer	677296114	wbtablet.gif	usable	t	0
 7043	warbear sequential gaiety distribution system	615321845	wbgiftbot.gif	usable	t	0
 7044
-7045
+7045	antimatter wad	765113776	wbantiwad.gif	multiple	t,d	10
 7046
-7047
+7047	warbear liquid lasers	693638015	wbpotion.gif	usable	t,d	10
 7048
 7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
 7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25
-7052
+7052	warbear metalworking primer (used)	324746492	wbtablet.gif	reusable		0
 7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
 7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75
 7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	
