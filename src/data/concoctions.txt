@@ -2329,3 +2329,6 @@ Hand that Rocks the Ladle	SMITH	lump of Brituminous coal	pasta spoon
 Saucepanic	SMITH	lump of Brituminous coal	saucepan
 Frankly Mr. Shank	SMITH	lump of Brituminous coal	disco ball
 Shakespeare's Sister's Accordion	SMITH	lump of Brituminous coal	stolen accordion
+
+# Crimbo 2013
+warbear hoverbelt	MUSE	warbear hoverbelt piecepart (8)

@@ -3687,6 +3687,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
+Eyes for Miles	Meat Drop: +50, Item Drop: +25
 Eyes of the Dragon	Item Drop: [100*zone(The Sea)]
 Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Familial Ties	Familiar Weight (hidden): [10*zone(The Sea)]
@@ -5779,6 +5780,7 @@ walkie talkie	Free Pull
 # warbear auto-anvil: (5x / day)
 # warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
 # warbear jackhammer drill press: Increases the effectiveness of Pulverize
+warbear liquid lasers	Effect: "Eyes for Miles", Effect Duration: 20
 # warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
