@@ -1490,3 +1490,7 @@
 1489	Gingerbread Robust	c13cookie1.gif	d70c7005ccd4276a021cd634d20bc6d3	eat 1 gingerbread robot
 1490	Petit Force	c13cookie2.gif	934aa3cc120f90a36618c7a5f35e7a6b	eat 1 petit 4.1
 1491	Nut-Rition	c13cookie3.gif	7424582a3e9202026e840bfccb7274a8	eat 1 nut-shaped Crimbo cookie
+1492
+1493
+1494
+1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	use 1 recording of Rolando's Rondo of Resisto
