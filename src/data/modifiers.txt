@@ -2584,11 +2584,8 @@ walrus-tusk earring	Maximum HP: +10
 warbear energy bracers	Class: "Pastamancer", Single Equip
 # warbear exo-arm: Increases the magnitude of your Smacks
 warbear exo-arm	Class: "Seal Clubber", Single Equip
-# warbear hoverbelt: Base Muscle Limited to 100
-# warbear hoverbelt: Base Mysticality Limited to 100
-# warbear hoverbelt: Base Moxie Limited to 100
 # warbear hoverbelt: Grants access to the upper floors of the Warbear fortress
-warbear hoverbelt	Single Equip
+warbear hoverbelt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
 # warbear laser beacon: Attracts Cool Lasers
 # warbear laser beacon: (Lasers respond to Disco Momentum)
 warbear laser beacon	Class: "Disco Bandit", Single Equip
