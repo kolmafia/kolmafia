@@ -131,6 +131,10 @@
 106	Song of Bravado	6	100	10
 # Summon Annoyance: Cost: 11 swagger
 107	Summon Annoyance	1	0	0
+108
+109
+110
+111	Psychokinetic Hug	4	0	10
 
 # Skills available to Clubbers
 

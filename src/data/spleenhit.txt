@@ -52,7 +52,7 @@ greasy paste	4	4		5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
 groose grease	4	1		5-10	20-30	20-30	20-30	50 Just the Best Anapests
 guy made of bee pollen	3	8		6-10	18-60	18-60	18-60
 handful of moss	1	1		0	0	0	12-14
-handful of Smithereens	1	1		1	0	0	0	100 Smithsness Presence (Smithsness: +10)
+handful of Smithereens	1	1		1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
 hatorade	5	1		0	0	0	0	+1 PvP fight
 hippy paste	4	4		5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4		5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)

@@ -958,6 +958,14 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_pastaAdditive" ) ? 0 : 1;
+
+		case ItemPool.WARBEAR_BREAKFAST_MACHINE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_warbearBreakfastMachineUsed" ) ? 0 : 1;
+
+		case ItemPool.WARBEAR_SODA_MACHINE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_warbearSodaMachineUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4522,6 +4530,13 @@ public class UseItemRequest
 			Preferences.setBoolean( "_pastaAdditive", true );
 			return;
 
+		case ItemPool.WARBEAR_BREAKFAST_MACHINE:
+			Preferences.setBoolean( "_warbearBreakfastMachineUsed", true );
+			return;
+
+		case ItemPool.WARBEAR_SODA_MACHINE:
+			Preferences.setBoolean( "_warbearSodaMachineUsed", true );
+			return;
 		}
 	}
 

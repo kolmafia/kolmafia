@@ -356,6 +356,8 @@ viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
 warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
+# warbear foil hat: (additional +10 lbs. to Robotic Familiars)
+warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
 wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 willowy bonnet	Maximum MP: +40, Familiar Effect: "1xFairy, cap 18"
@@ -4230,6 +4232,7 @@ Raving Lunatic	Weapon Damage: +20
 Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
+Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
 Red Around the Gills	HP Regen Min: [140*zone(The Sea)], HP Regen Max: [150*zone(The Sea)], MP Regen Min: [140*zone(The Sea)], MP Regen Max: [150*zone(The Sea)]
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Red Misty-Eyed: +10 Damage against Seals

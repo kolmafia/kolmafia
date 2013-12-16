@@ -2900,7 +2900,7 @@ public abstract class ChoiceManager
 
 		// Choice 813 is What Warbears Are Good For
 		new ChoiceAdventure(
-			"Crimbo13", "choiceAdventure809", "Warbear Fortress (First Level)",
+			"Crimbo13", "choiceAdventure813", "Warbear Fortress (First Level)",
 			new Object[] { "Open K.R.A.M.P.U.S. facility" } ),
 	};
 
@@ -7311,6 +7311,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -250 );
 			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
