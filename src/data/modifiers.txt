@@ -356,8 +356,6 @@ viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
 warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
-# warbear foil hat: (additional +10 lbs. to Robotic Familiars)
-warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
 wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 willowy bonnet	Maximum MP: +40, Familiar Effect: "1xFairy, cap 18"
