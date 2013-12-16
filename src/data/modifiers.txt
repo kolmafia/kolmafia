@@ -2876,6 +2876,7 @@ unspeakable lozenges	Familiar Weight: +5
 velvet choker	Familiar Weight: +5
 # vicious spiked collar: +20 to Familiar Damage
 vicious spiked collar	Generic
+# warbear drone codes: Makes the drone better, faster, stronger
 wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
 woimbook	Familiar Weight: +5
