@@ -7067,7 +7067,7 @@
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
 7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25
 7052
-7053
+7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
 7054
 7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	
 7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0

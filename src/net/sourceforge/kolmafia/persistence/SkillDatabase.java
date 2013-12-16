@@ -896,6 +896,7 @@ public class SkillDatabase
 		case SkillPool.SOUL_ROTATION:
 		case SkillPool.SOUL_FUNK:
 		case SkillPool.DISMISS_PASTA_THRALL:
+		case SkillPool.PSYCHOKINETIC_HUG:
 			return true;
 		default:
 			return false;

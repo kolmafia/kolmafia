@@ -1931,6 +1931,8 @@ public class ItemPool
 	public static final int LOUDER_THAN_BOMB = 7014;
 	public static final int SAUCEPANIC = 7027;
 	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
+	public static final int WARBEAR_BREAKFAST_MACHINE = 7056;
+	public static final int WARBEAR_SODA_MACHINE = 7059;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -34,6 +34,7 @@ cartoon heart	item	40	60	0	0	0
 cast	item	15	20	0	0	0
 Cherry Cloaca Cola	item	0	0	7	9	0
 Cloaca-Cola	item	0	0	[10*(1+equipped(Dyspepsi-Cola-issue canteen))]	[14*(1+equipped(Dyspepsi-Cola-issue canteen))]	0
+Cloaca Cola Polar	item	0	0	160	200	0
 comfy pillow	item	20	30	0	0	0
 Comfy Sofa	loc	[L*5-1]	[L*5+1]	[L*5-1]	[L*5+1]	1
 cotton candy bale	item	41	82	41	82	0

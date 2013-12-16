@@ -712,6 +712,10 @@ public class UseSkillRequest
 		case SkillPool.TURTLE_POWER:
 			maximumCast = KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean( "_turtlePowerCast" ) ? 1 : 0;
 			break;
+
+		case SkillPool.PSYCHOKINETIC_HUG:
+			maximumCast = Preferences.getBoolean( "_psychokineticHugUsed" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -1486,6 +1490,10 @@ public class UseSkillRequest
 		     skillId != SkillPool.PASTAMASTERY )
 		{
 			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
+			if ( skillId == SkillPool.PSYCHOKINETIC_HUG )
+			{
+				Preferences.setBoolean( "_psychokineticHugUsed", true );
+			}
 			return true;
 		}
 
@@ -1782,6 +1790,10 @@ public class UseSkillRequest
 
 		case SkillPool.CRIMBO_CANDY:
 			Preferences.increment( "_candySummons", 1 );
+			break;
+
+		case SkillPool.PSYCHOKINETIC_HUG:
+			Preferences.setBoolean( "_psychokineticHugUsed", true );
 			break;
 
 		case SkillPool.CONJURE_EGGS:

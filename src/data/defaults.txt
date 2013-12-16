@@ -998,6 +998,7 @@ user	_poolGames	0
 user	_precisionCasts	0
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
+user	_psychokineticHugUsed	false
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
 user	_raveStealCount	0
@@ -1050,6 +1051,8 @@ user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
+user	_warbearBreakfastMachineUsed	false
+user	_warbearSodaMachineUsed	false
 user	_whiteRiceDrops	0
 user	_zapCount	0
 user	choiceAdventure2	2
