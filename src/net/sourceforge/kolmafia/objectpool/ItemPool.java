@@ -1926,11 +1926,15 @@ public class ItemPool
 	public static final int CHEF_BOY_BUSINESS_CARD = 6898;
 	public static final int PASTA_ADDITIVE = 6900;
 	public static final int WARBEAR_WHOSIT = 6913;
+	public static final int WARBEAR_EMPATHY_CHIP = 6969;
 	public static final int SMITH_BOOK = 7003;
 	public static final int GOLDEN_LIGHT = 7013;
 	public static final int LOUDER_THAN_BOMB = 7014;
 	public static final int SAUCEPANIC = 7027;
 	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
+	public static final int WARBEAR_METALWORKING_PRIMER = 7042;
+	public static final int WARBEAR_METALWORKING_PRIMER_USED = 7052;
+	public static final int WARBEAR_EMPATHY_CHIP_USED = 7053;
 	public static final int WARBEAR_BREAKFAST_MACHINE = 7056;
 	public static final int WARBEAR_SODA_MACHINE = 7059;
 

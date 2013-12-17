@@ -2832,6 +2832,10 @@ public class UseItemRequest
 		case ItemPool.OCELOT_BOOK:
 		case ItemPool.DRESCHER_BOOK:
 		case ItemPool.DECODED_CULT_DOCUMENTS:
+		case ItemPool.WARBEAR_METALWORKING_PRIMER:
+		case ItemPool.WARBEAR_METALWORKING_PRIMER_USED:
+		case ItemPool.WARBEAR_EMPATHY_CHIP:
+		case ItemPool.WARBEAR_EMPATHY_CHIP_USED:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.contains( "didn't like to read" ) )
 			{
@@ -4733,6 +4737,12 @@ public class UseItemRequest
 			return "Drescher's Annoying Noise";
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 			return "Bind Spaghetti Elemental";
+		case ItemPool.WARBEAR_METALWORKING_PRIMER:
+		case ItemPool.WARBEAR_METALWORKING_PRIMER_USED:
+			return "Shrap";
+		case ItemPool.WARBEAR_EMPATHY_CHIP:
+		case ItemPool.WARBEAR_EMPATHY_CHIP_USED:
+			return "Psychokinetic Hug";
 		}
 
 		return null;
