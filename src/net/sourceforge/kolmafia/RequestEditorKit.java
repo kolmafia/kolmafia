@@ -624,6 +624,7 @@ public class RequestEditorKit
 		RequestEditorKit.decorateLevelGain( buffer );
 		RequestEditorKit.addAbsintheLink( buffer );
 		RequestEditorKit.addTransponderLink( buffer );
+		RequestEditorKit.addBatteryLink( buffer );
 		RequestEditorKit.addFolioLink( buffer );
 		RequestEditorKit.addNewLocationLinks( buffer );
 
@@ -821,6 +822,28 @@ public class RequestEditorKit
 		}
 
 		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.TRANSPORTER_TRANSPONDER, 1, "use transponder", "inv_use.php?which=3&whichitem=" );
+		buffer.insert( index + test.length(), link.getItemHTML() );
+	}
+
+	private static final AdventureResult WARBEAR_BATTERY = ItemPool.get( ItemPool.WARBEAR_BATTERY, 1 );
+	private static final void addBatteryLink( final StringBuffer buffer )
+	{
+		// Your hoverbelt would totally do the trick to get you up
+		// there, only it's out of juice.
+
+		String test = "Your hoverbelt would totally do the trick to get you up there, only it's out of juice.";
+		int index = buffer.indexOf( test );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		if ( RequestEditorKit.WARBEAR_BATTERY.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return;
+		}
+
+		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.WARBEAR_BATTERY, 1, "install warbear battery", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
