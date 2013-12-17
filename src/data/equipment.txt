@@ -2117,6 +2117,7 @@ tiny die-cast Sneezy the Reindeer	0	none
 tiny die-cast stocking-stuffer elf	0	none
 tiny die-cast swarm a-swarming	0	none
 tiny die-cast Swiss hen		0	none
+tiny die-cast turtle mech	0	none
 tiny die-cast Uncle Hobo	0	none
 tiny die-cast Unionize the Elves Sign	0	none
 tiny die-cast Zeppo the Reindeer	0	none

@@ -2425,6 +2425,7 @@ tiny die-cast Sneezy the Reindeer	Stench Damage: +1
 tiny die-cast stocking-stuffer elf	Mysticality: +1
 tiny die-cast swarm a-swarming	Initiative: +20
 tiny die-cast Swiss hen	Weapon Damage Percent: +10
+tiny die-cast turtle mech	Familiar Weight: +2
 tiny die-cast Uncle Hobo	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Booze Drop: +1
 tiny die-cast Unionize the Elves Sign	Monster Level: +1
 tiny die-cast Zeppo the Reindeer	Spooky Damage: +1
