@@ -2399,6 +2399,26 @@ tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Singl
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 time halo	Adventures: +5, Unarmed, Single Equip
 tin star	Monster Level: +5, Moxie: +3
+tiny die-cast Bashful the Reindeer	Sleaze Damage: +1
+tiny die-cast Doc the Reindeer	HP Regen Min: 1, HP Regen Max: 2
+tiny die-cast Dopey the Reindeer	Weapon Damage: +2
+tiny die-cast factory worker elf	Spell Damage Percent: +5
+tiny die-cast Father Crimbo	Muscle: +5, Mysticality: +5, Moxie: +5, Food Drop: +10
+tiny die-cast gift-wrapping elf	Maximum HP: +5
+tiny die-cast golden ring	Adventures: +2
+tiny die-cast Grumpy the Reindeer	Muscle: +1
+# tiny die-cast Happy the Reindeer: Cold Damage
+tiny die-cast killing bird	PvP Fights: +2
+tiny die-cast middle-management elf	Booze Drop: +5
+tiny die-cast pencil-pusher elf Ranged	Damage: +2
+tiny die-cast ribbon-cutting Elfborg	Critical Hit Percent: +5
+tiny die-cast Sleepy the Reindeer	Maximum MP: +3
+tiny die-cast Sneezy the Reindeer	Stench Damage: +1
+tiny die-cast swarm a-swarming	Initiative: +20
+tiny die-cast Swiss hen	Weapon Damage Percent: +10
+tiny die-cast Uncle Hobo	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Booze Drop: +1
+tiny die-cast Unionize the Elves Sign	Monster Level: +1
+tiny die-cast Zeppo the Reindeer	Spooky Damage: +1
 tiny plastic 11 Dealer	Meat Drop: +4
 tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
@@ -3326,6 +3346,7 @@ Bat Attitude	Spell Damage Percent: +100
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
 # Batted Around: Makes you look like a perpendicular bat
+# Bearserker Bearrage: +20 WarBear Armor Penetration
 Beastly Flavor	Familiar Weight: +3
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # Bedraggled Dragoon: Makes you look like a drowned sailor
@@ -3574,6 +3595,7 @@ Cybernetic Muscles	Muscle Percent: +10
 # Daemon Duds: Makes you look like a clean room demo
 Dance Interpreter	Item Drop: +20
 Dances with Tweedles	Meat Drop: +40
+# Dances with Warbears: +10% Item Drops from WarBears
 Dancin' Drunk	Item Drop: +100
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
@@ -4613,6 +4635,10 @@ Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
+# Warbear Hunter: +10% Item Drops from WarBears
+# Warbear Hunter: +40 WarBear Armor Penetration
+# Warbear Hunter: So-So Supercold Resistance (+2)
+# Warbear on the Inside: So-So Supercold Resistance (+2)
 # Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
@@ -5775,11 +5801,16 @@ wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 walkie talkie	Free Pull
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure
 # warbear auto-anvil: (5x / day)
+warbear bearserker potion	Effect: "Bearserker Bearrage", Effect Duration: 20
 # warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
 # warbear jackhammer drill press: Increases the effectiveness of Pulverize
 warbear liquid lasers	Effect: "Eyes for Miles", Effect Duration: 20
+warbear liquid overcoat	Effect: "Warbear on the Inside", Effect Duration: 20
 # warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
+warbear rejuvenation potion	Effect: "New and Improved", Effect Duration: 20
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
+warbear superpotion	Effect: "Warbear Hunter", Effect Duration: 50
+warbear wardance potion	Effect: "Dances with Warbears", Effect Duration: 20
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
