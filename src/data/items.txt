@@ -6985,7 +6985,7 @@
 6968	warbear officer requisition box	223861765	wbpresent2.gif	usable	g	0
 6969	warbear empathy chip	496033151	wbchip.gif	usable	t	0
 6970	warbear drone assembler	231753064	wbcapsule.gif	grow	t	0
-6971	warbear breakfast machine assembler	375809411	wbbbox.gif	reusable	t	0
+6971	warbear breakfast machine assembler	375809411	wbbbox.gif	usable	t	0
 6972
 6973
 6974
