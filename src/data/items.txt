@@ -6932,9 +6932,9 @@
 6915	warbear hoverbelt	531580874	wbhoverbelt.gif	accessory		0
 6916	warbear battery	546814651	wbattery.gif	multiple	t	0
 6917	warbear badge	517026798	wbbadge.gif	none	t	0
-6918
-6919
-6920
+6918	warbear wardance potion	283899521	wbpotion.gif	usable	t	0
+6919	warbear bearserker potion	970200197	wbpotion.gif	usable	t	0
+6920	warbear liquid overcoat	896823676	wbpotion.gif	usable	t	0
 6921
 6922
 6923
@@ -6986,37 +6986,37 @@
 6969	warbear empathy chip	496033151	wbchip.gif	usable	t	0
 6970	warbear drone assembler	231753064	wbcapsule.gif	grow	t	0
 6971	warbear breakfast machine assembler	375809411	wbbbox.gif	usable	t	0
-6972
-6973
-6974
-6975
-6976
-6977
-6978
-6979
-6980
-6981
-6982
-6983
-6984
+6972	blind-packed die-cast metal toy	122067126	wbdiecast.gif	usable	t	0
+6973	tiny die-cast Bashful the Reindeer	620573722	dcreindeer.gif	accessory	t,d	5
+6974	tiny die-cast Doc the Reindeer	407638903	dcreindeer.gif	accessory	t,d	5
+6975	tiny die-cast Dopey the Reindeer	697146042	dcreindeer.gif	accessory	t,d	5
+6976	tiny die-cast Grumpy the Reindeer	575104114	dcreindeer.gif	accessory	t,d	5
+6977	tiny die-cast Happy the Reindeer	156277103	dcreindeer.gif	accessory	t,d	5
+6978	tiny die-cast Sleepy the Reindeer	725135432	dcreindeer.gif	accessory	t,d	5
+6979	tiny die-cast Sneezy the Reindeer	496305992	dcreindeer.gif	accessory	t,d	5
+6980	tiny die-cast Zeppo the Reindeer	801455555	dcreindeer.gif	accessory	t,d	5
+6981	tiny die-cast factory worker elf	792836209	dcelf.gif	accessory	t,d	5
+6982	tiny die-cast gift-wrapping elf	509908443	dcelf.gif	accessory	t,d	5
+6983	tiny die-cast middle-management elf	346868081	dcelf.gif	accessory	t,d	5
+6984	tiny die-cast pencil-pusher elf	791295153	dcelf.gif	accessory	t,d	5
 6985
-6986
+6986	tiny die-cast Unionize the Elves Sign	539685555	dcsign.gif	accessory	t,d	5
 6987
 6988
 6989
-6990
-6991
-6992
+6990	tiny die-cast Swiss hen	128673172	dcbird.gif	accessory	t,d	10
+6991	tiny die-cast killing bird	933754423	dcbird2.gif	accessory	t	0
+6992	tiny die-cast golden ring	196025684		dcring.gif	accessory	t,d	10
 6993
-6994
+6994	tiny die-cast swarm a-swarming	414298871	dcswarm.gif	accessory	t,d	10
 6995
 6996
-6997
+6997	tiny die-cast ribbon-cutting Elfborg	953156619	dcelfborg.gif	accessory	t,d	10
 6998
 6999
 7000
-7001
-7002
+7001	tiny die-cast Uncle Hobo	372614003	dchobo.gif	accessory	t	0
+7002	tiny die-cast Father Crimbo	537434639	dcfcrimbo.gif	accessory	t	0
 7003	The Smith's Tome	806359423	book4.gif	usable	t	0
 7004	Flaskfull of Hollow	672262828	flask.gif	multiple	t,d	5	Flasksfull of Hollow
 7005	lump of Brituminous coal	748294269	britcoal.gif	none	t,d	5	lumps of Brituminous coal
@@ -7060,9 +7060,9 @@
 7043	warbear sequential gaiety distribution system	615321845	wbgiftbot.gif	usable	t	0
 7044
 7045	antimatter wad	765113776	wbantiwad.gif	multiple	t,d	10
-7046
+7046	warbear superpotion	938549313	wbpotion.gif	usable	t,d	10
 7047	warbear liquid lasers	693638015	wbpotion.gif	usable	t,d	10
-7048
+7048	warbear rejuvenation potion	334843906	wbpotion.gif	usable	t,d	10
 7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
 7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25

@@ -1465,9 +1465,9 @@
 1464	Blessing of the Spaghetto	ocan.gif	3a3149675a778e52d679781c1f9203ff	use 1 Can of Spaghetto
 1465	Soulerskates	soulskate.gif	aefd370dd9a358e1fad37c072c24f043	cast 1 Soul Rotation
 1466	Soul Funk	soulfunk.gif	791362820015af19b7c23085a1b6cc30	cast 1 Soul Funk
-1467
-1468
-1469
+1467	Dances with Warbears	dance2.gif	d4302ddf9381c83b9ebb513290e94c0f	use 1 warbear wardance potion
+1468	Bearserker Bearrage	angry.gif	b1d5b04a2c892319b62566f16a0b464e	use 1 warbear bearserker potion
+1469	Warbear on the Inside	batgut.gif	4131d1de86680021f1dc13b5d6f79580	use 1 warbear liquid overcoat
 1470
 1471
 1472
@@ -1486,7 +1486,7 @@
 1485	Robocamo	wbhex.gif	0d17b4a6ae786765efc7378f80fe7b0c	use 1 warbear robo-camouflage unit
 1486	Polar Express	wbcola.gif	746eececed3413261ea31ca92209466e	use 1 Cloaca Cola Polar
 1487
-1488
+1488	Warbear Hunter	wbhat4.gif	4fb1858369eeb8839e418a0a9e636bd1	use 1 warbear superpotion
 1489	Gingerbread Robust	c13cookie1.gif	d70c7005ccd4276a021cd634d20bc6d3	eat 1 gingerbread robot
 1490	Petit Force	c13cookie2.gif	934aa3cc120f90a36618c7a5f35e7a6b	eat 1 petit 4.1
 1491	Nut-Rition	c13cookie3.gif	7424582a3e9202026e840bfccb7274a8	eat 1 nut-shaped Crimbo cookie
