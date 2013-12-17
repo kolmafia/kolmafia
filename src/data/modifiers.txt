@@ -2399,21 +2399,30 @@ tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Singl
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 time halo	Adventures: +5, Unarmed, Single Equip
 tin star	Monster Level: +5, Moxie: +3
+tiny die-cast arc-welding Elfborg	Meat Drop: +10
 tiny die-cast Bashful the Reindeer	Sleaze Damage: +1
+tiny die-cast blade a-spinning	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+tiny die-cast CrimboTown Toy Factory	Hot Damage: +1
+tiny die-cast death ray in a pear tree	Hot Damage: +2, Ranged Damage: +2
 tiny die-cast Doc the Reindeer	HP Regen Min: 1, HP Regen Max: 2
+tiny die-cast Don Crimbo	Moxie Percent: +5, Accessory Drop: +10
 tiny die-cast Dopey the Reindeer	Weapon Damage: +2
 tiny die-cast factory worker elf	Spell Damage Percent: +5
 tiny die-cast Father Crimbo	Muscle: +5, Mysticality: +5, Moxie: +5, Food Drop: +10
+tiny die-cast Father Crimborg	Mysticality Percent: +5, Hat Drop: +10
 tiny die-cast gift-wrapping elf	Maximum HP: +5
 tiny die-cast golden ring	Adventures: +2
+tiny die-cast goose a-laying	Item Drop: +5
 tiny die-cast Grumpy the Reindeer	Muscle: +1
 # tiny die-cast Happy the Reindeer: Cold Damage
 tiny die-cast killing bird	PvP Fights: +2
 tiny die-cast middle-management elf	Booze Drop: +5
 tiny die-cast pencil-pusher elf Ranged	Damage: +2
 tiny die-cast ribbon-cutting Elfborg	Critical Hit Percent: +5
+tiny die-cast Rudolphus of Crimborg	Muscle Percent: +5, Weapon Drop: +10
 tiny die-cast Sleepy the Reindeer	Maximum MP: +3
 tiny die-cast Sneezy the Reindeer	Stench Damage: +1
+tiny die-cast stocking-stuffer elf	Mysticality: +1
 tiny die-cast swarm a-swarming	Initiative: +20
 tiny die-cast Swiss hen	Weapon Damage Percent: +10
 tiny die-cast Uncle Hobo	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Booze Drop: +1

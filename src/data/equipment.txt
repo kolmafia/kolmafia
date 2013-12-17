@@ -2091,21 +2091,30 @@ tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 time halo	50	none
 tin star	60	Mys: 15
+tiny die-cast arc-welding Elfborg	0	none
 tiny die-cast Bashful the Reindeer	0	none
+tiny die-cast blade a-spinning	0	none
+tiny die-cast CrimboTown Toy Factory	0	none
+tiny die-cast death ray in a pear tree	0	none
 tiny die-cast Doc the Reindeer	0	none
+tiny die-cast Don Crimbo	0	none
 tiny die-cast Dopey the Reindeer	0	none
 tiny die-cast factory worker elf	0	none
 tiny die-cast Father Crimbo	0		none
+tiny die-cast Father Crimborg	0	none
 tiny die-cast gift-wrapping elf	0	none
 tiny die-cast golden ring	0	none
+tiny die-cast goose a-laying	0	none
 tiny die-cast Grumpy the Reindeer	0	none
 tiny die-cast Happy the Reindeer	0	none
 tiny die-cast killing bird	0	none
 tiny die-cast middle-management elf		0	none
 tiny die-cast pencil-pusher elf	0	none
 tiny die-cast ribbon-cutting Elfborg	0	none
+tiny die-cast Rudolphus of Crimborg	0	none
 tiny die-cast Sleepy the Reindeer	0		none
 tiny die-cast Sneezy the Reindeer	0	none
+tiny die-cast stocking-stuffer elf	0	none
 tiny die-cast swarm a-swarming	0	none
 tiny die-cast Swiss hen		0	none
 tiny die-cast Uncle Hobo	0	none
