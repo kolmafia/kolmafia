@@ -1459,7 +1459,7 @@
 1458	Blood Sugar Sauce Magic	saucedrops.gif	482968ee1b70ea9ddaf3579d0ff3101c	cast 1 Blood Sugar Sauce Magic
 1459	Blessing of the Hot Linguine	linguinispoon.gif	868e6edb45c276c30db7fee03713039c	use 1 spoonful of Linguine-Os
 1460	Blessing of the Frozen Tortellini	tortelinus.gif	c6ed6eb619950fd4e56242748857f05b	use 1 freezer-burned frost-bitten tortellini
-1461	Blessing of the Stinking Alphredo&trade;	alphredo.gif	9ec25859336babf49ea198cfd49026ec	use 1 blob of Alphredo™
+1461	Blessing of the Stinking Alphredo&trade;	alphredo.gif	9ec25859336babf49ea198cfd49026ec	use 1 blob of Alphredo&trade;
 1462	Blessing of the Pervy Noodles	pastalighthouses.gif	b385ad40a44a9bae9195b33338b281fa	use 1 handful of crafty noodles
 1463	Blessing of the Creepy Pasta	boobooboo.gif	b35f8c2f4e485f88f07fd9394df41ec6	use 1 tangled mass of creepy pasta
 1464	Blessing of the Spaghetto	ocan.gif	3a3149675a778e52d679781c1f9203ff	use 1 Can of Spaghetto

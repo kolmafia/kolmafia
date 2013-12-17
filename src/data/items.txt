@@ -7003,7 +7003,7 @@
 6986	tiny die-cast Unionize the Elves Sign	539685555	dcsign.gif	accessory	t,d	5
 6987	tiny die-cast CrimboTown Toy Factory	195194438	dcfactory.gif	accessory	t,d	5
 6988	tiny die-cast death ray in a pear tree	764058774	dcpartridge.gif	accessory	t,d	10
-6989
+6989	tiny die-cast turtle mech	936641160	dcturtle.gif	accessory	t,d	10
 6990	tiny die-cast Swiss hen	128673172	dcbird.gif	accessory	t,d	10
 6991	tiny die-cast killing bird	933754423	dcbird2.gif	accessory	t	0
 6992	tiny die-cast golden ring	196025684	dcring.gif	accessory	t,d	10

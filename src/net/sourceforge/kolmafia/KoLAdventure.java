@@ -1785,7 +1785,16 @@ public class KoLAdventure
 			"Nothing more to do here today.",
 		},
 
-		// Your hoverbelt would totally do the trick to get you up there, only it's out of juice.
+		// Between the wind and the weird spiky bits all over it, you
+		// can't make it to the second story of the fortress without
+		// some way of escaping gravity.
+		{
+			"some way of escaping gravity",
+			"You are not wearing a warbear hoverbelt.",
+		},
+
+		// Your hoverbelt would totally do the trick to get you up
+		// there, only it's out of juice.
 		{
 			"it's out of juice",
 			"Your hoverbelt needs a new battery.",
