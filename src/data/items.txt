@@ -6930,7 +6930,7 @@
 6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
 6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0
 6915	warbear hoverbelt	531580874	wbhoverbelt.gif	accessory		0
-6916	warbear battery	546814651	wbattery.gif	multiple	t	0
+6916	warbear battery	546814651	wbattery.gif	multiple	t	0	warbear batteries
 6917	warbear badge	517026798	wbbadge.gif	none	t	0
 6918	warbear wardance potion	283899521	wbpotion.gif	usable	t	0
 6919	warbear bearserker potion	970200197	wbpotion.gif	usable	t	0
@@ -6999,22 +6999,22 @@
 6982	tiny die-cast gift-wrapping elf	509908443	dcelf.gif	accessory	t,d	5
 6983	tiny die-cast middle-management elf	346868081	dcelf.gif	accessory	t,d	5
 6984	tiny die-cast pencil-pusher elf	791295153	dcelf.gif	accessory	t,d	5
-6985
+6985	tiny die-cast stocking-stuffer elf	946033785	dcelf.gif	accessory	t,d	5
 6986	tiny die-cast Unionize the Elves Sign	539685555	dcsign.gif	accessory	t,d	5
-6987
-6988
+6987	tiny die-cast CrimboTown Toy Factory	195194438	dcfactory.gif	accessory	t,d	5
+6988	tiny die-cast death ray in a pear tree	764058774	dcpartridge.gif	accessory	t,d	10
 6989
 6990	tiny die-cast Swiss hen	128673172	dcbird.gif	accessory	t,d	10
 6991	tiny die-cast killing bird	933754423	dcbird2.gif	accessory	t	0
-6992	tiny die-cast golden ring	196025684		dcring.gif	accessory	t,d	10
-6993
+6992	tiny die-cast golden ring	196025684	dcring.gif	accessory	t,d	10
+6993	tiny die-cast goose a-laying	597024784	dcbird3.gif	accessory	t,d	10
 6994	tiny die-cast swarm a-swarming	414298871	dcswarm.gif	accessory	t,d	10
-6995
-6996
+6995	tiny die-cast blade a-spinning	466652520	dcblade.gif	accessory	t,d	10
+6996	tiny die-cast arc-welding Elfborg	630112393	dcelfborg.gif	accessory	t,d	10
 6997	tiny die-cast ribbon-cutting Elfborg	953156619	dcelfborg.gif	accessory	t,d	10
-6998
-6999
-7000
+6998	tiny die-cast Rudolphus of Crimborg	780592166	dcrudolph.gif	accessory	t	0
+6999	tiny die-cast Father Crimborg	828222838	dcfcrimborg.gif	accessory	t	0
+7000	tiny die-cast Don Crimbo	564370471	dcdoncrimbo.gif	accessory	t	0
 7001	tiny die-cast Uncle Hobo	372614003	dchobo.gif	accessory	t	0
 7002	tiny die-cast Father Crimbo	537434639	dcfcrimbo.gif	accessory	t	0
 7003	The Smith's Tome	806359423	book4.gif	usable	t	0
