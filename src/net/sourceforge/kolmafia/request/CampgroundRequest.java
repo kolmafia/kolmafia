@@ -131,6 +131,14 @@ public class CampgroundRequest
 		ItemPool.CHEF,
 		ItemPool.CLOCKWORK_CHEF,
 
+		// Workshed
+		ItemPool.CHEMISTRY_LAB,
+		ItemPool.INDUCTION_OVEN,
+		ItemPool.LP_ROM_BURNER,
+		ItemPool.HIGH_EFFICIENCY_STILL,
+		ItemPool.AUTO_ANVIL,
+		ItemPool.JACKHAMMER_DRILL_PRESS,
+
 		// Garden
 		ItemPool.PUMPKIN,
 		ItemPool.HUGE_PUMPKIN,
@@ -526,6 +534,13 @@ public class CampgroundRequest
 			CampgroundRequest.parseKitchen( responseText );
 			return;
 		}
+
+		if ( action.equals( "workshed" ) )
+		{
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseWorkshed( responseText );
+			return;
+		}
 	}
 
 	private static final void parseCampground( final String responseText )
@@ -740,6 +755,17 @@ public class CampgroundRequest
 
 		boolean hasSushiMat = findImage( responseText, "sushimat.gif", ItemPool.SUSHI_ROLLING_MAT );
 		KoLCharacter.setSushiMat( hasSushiMat );
+	}
+
+	private static final void parseWorkshed( final String responseText )
+	{
+		// Do we need to remember these things in KoLCharacter?
+		findImage( responseText, "wbchemset.gif", ItemPool.CHEMISTRY_LAB );
+		findImage( responseText, "wboven.gif", ItemPool.INDUCTION_OVEN );
+		findImage( responseText, "wblprom.gif", ItemPool.LP_ROM_BURNER );
+		findImage( responseText, "wbstill.gif", ItemPool.HIGH_EFFICIENCY_STILL );
+		findImage( responseText, "wbanvil.gif", ItemPool.AUTO_ANVIL );
+		findImage( responseText, "wbdrillpress.gif", ItemPool.JACKHAMMER_DRILL_PRESS );
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
@@ -1074,7 +1100,8 @@ public class CampgroundRequest
 		// Dispatch campground requests from this class
 
 		if ( action.equals( "inspectdwelling" ) ||
-		     action.equals( "inspectkitchen" ))
+		     action.equals( "inspectkitchen" ) ||
+		     action.equals( "workshed" ) )
 		{
 			// Nothing to log.
 			return true;
