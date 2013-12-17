@@ -133,7 +133,7 @@
 107	Summon Annoyance	1	0	0
 108
 109
-110
+110	Shrap	5	0	0
 111	Psychokinetic Hug	4	0	10
 
 # Skills available to Clubbers

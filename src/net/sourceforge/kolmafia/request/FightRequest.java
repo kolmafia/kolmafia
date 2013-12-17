@@ -78,12 +78,10 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -6131,6 +6129,10 @@ public class FightRequest
 			KoLCharacter.setFamiliarImage( "medium_0.gif" );
 			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 			familiar.setCharges( 0 );
+			break;
+
+		case SkillPool.SHRAP:
+			ResultProcessor.removeItem( ItemPool.WARBEAR_WHOSIT );
 			break;
 		}
 	}
