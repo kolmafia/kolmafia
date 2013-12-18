@@ -1807,6 +1807,12 @@ public class FightRequest
 				}
 			}
 
+			// Adventuring in Warbear Fortress Level Three
+			if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
+			{
+				ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
+			}
+
 			// Wearing any piece of papier equipment really messes up the results
 			FightRequest.papier = FightRequest.usingPapierEquipment();
 
@@ -1937,13 +1943,6 @@ public class FightRequest
 			{			
 				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptNookEvilness", 25 );
-			}
-			else if ( encounter.equalsIgnoreCase( "High-Ranking Warbear Officer" ) )
-			{
-				if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
-				{
-					ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
-				}
 			}
 			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
