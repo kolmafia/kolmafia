@@ -476,7 +476,7 @@ public class Modifiers
 		  Pattern.compile( "Bonus Resting MP: " + EXPR )
 		},
 		{ "Critical Hit Percent",
-		  Pattern.compile( "([+-]\\d+)% Chance of Critical Hit" ),
+		  Pattern.compile( "([+-]\\d+)% [Cc]hance of Critical Hit" ),
 		  Pattern.compile( "Critical Hit Percent: " + EXPR )
 		},
 		{ "PvP Fights",

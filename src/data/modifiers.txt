@@ -4113,7 +4113,10 @@ Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
+# From "gong roach allstats" 
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+# From "1 warbear rejuvenation potion"
+New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
 Nightstalkin'	Critical Hit Percent: +10
