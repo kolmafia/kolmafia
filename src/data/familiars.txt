@@ -183,4 +183,4 @@
 174	Mini-Adventurer	miniadv0.gif		6561	mini-Mr. Accessory	2	2	2	2
 175	Mechanical Songbird	mechbird.gif	item0	6490	shiny brass tailfeathers	1	2	2	0
 176	Reanimated Reanimator	reanimator.gif	none	6784	flask of embalming fluid	2	3	2	0
-177	Warbear Drone	wbdronefam.gif	combat	7054	warbear drone codes	0	0	0	0
+177	Warbear Drone	wbdronefam.gif	combat	6970	warbear drone codes	0	0	0	0
