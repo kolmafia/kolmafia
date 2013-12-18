@@ -1927,6 +1927,7 @@ public class ItemPool
 	public static final int PASTA_ADDITIVE = 6900;
 	public static final int WARBEAR_WHOSIT = 6913;
 	public static final int WARBEAR_BATTERY = 6916;
+	public static final int WARBEAR_BADGE = 6917;
 	public static final int JACKHAMMER_DRILL_PRESS = 6964;
 	public static final int AUTO_ANVIL = 6965;
 	public static final int INDUCTION_OVEN = 6966;
