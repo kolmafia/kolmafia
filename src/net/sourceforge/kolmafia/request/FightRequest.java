@@ -1938,6 +1938,13 @@ public class FightRequest
 				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptNookEvilness", 25 );
 			}
+			else if ( encounter.equalsIgnoreCase( "High-Ranking Warbear Officer" ) )
+			{
+				if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
+				{
+					ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
+				}
+			}
 			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
