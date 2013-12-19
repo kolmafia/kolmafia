@@ -4506,8 +4506,9 @@ Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-# SuperStar: You earned a gold star
+# Superheated Guts: Serious Supercold Resistance (+3)
 Superhuman Sarcasm	Moxie Percent: +100
+# SuperStar: You earned a gold star
 Surreally Buff	Muscle Percent: +20
 Suspicious Gaze	Initiative: +20
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
@@ -4648,12 +4649,17 @@ Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
+# Warbear Blubber: Serious Supercold Resistance (+3)
+# Gift of the Warbear: +15% Item Drops from WarBears
 # Warbear Hunter: +10% Item Drops from WarBears
 # Warbear Hunter: +40 WarBear Armor Penetration
 # Warbear Hunter: So-So Supercold Resistance (+2)
+# Warbear Loot Lust: +15% Item Drops from WarBears
 # Warbear on the Inside: So-So Supercold Resistance (+2)
+# Warbear Warlust: +60 WarBear Armor Penetration
 # Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
 Warm Belly	Hot Damage: [+3*D]
+# Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
 # Water Wings: You believe you can float!
@@ -5814,7 +5820,11 @@ wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 walkie talkie	Free Pull
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure
 # warbear auto-anvil: (5x / day)
+warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
 warbear bearserker potion	Effect: "Bearserker Bearrage", Effect Duration: 20
+warbear blizzard mead	Effect: "Warbear Blubber", Effect Duration: 40
+warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
+warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40
 # warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
 # warbear jackhammer drill press: Increases the effectiveness of Pulverize
 warbear liquid lasers	Effect: "Eyes for Miles", Effect Duration: 20
@@ -5823,7 +5833,9 @@ warbear liquid overcoat	Effect: "Warbear on the Inside", Effect Duration: 20
 warbear rejuvenation potion	Effect: "New and Improved", Effect Duration: 20
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 warbear superpotion	Effect: "Warbear Hunter", Effect Duration: 50
+warbear thermoregulator bread	Effect: "Superheated Guts", Effect Duration: 40
 warbear wardance potion	Effect: "Dances with Warbears", Effect Duration: 20
+warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10

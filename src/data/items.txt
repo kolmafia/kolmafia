@@ -6935,12 +6935,12 @@
 6918	warbear wardance potion	283899521	wbpotion.gif	usable	t	0
 6919	warbear bearserker potion	970200197	wbpotion.gif	usable	t	0
 6920	warbear liquid overcoat	896823676	wbpotion.gif	usable	t	0
-6921
-6922
-6923
-6924
-6925
-6926
+6921	warbear feasting bread	925210445	wbbread.gif	food	t	0
+6922	warbear warrior bread	497948040	wbbread.gif	food	t	0
+6923	warbear thermoregulator bread	979720334	wbbread.gif	food	t	0
+6924	warbear feasting mead	386985316	wbgoblet.gif	drink	t	0
+6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0
+6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0
 6927
 6928
 6929
@@ -7065,7 +7065,7 @@
 7048	warbear rejuvenation potion	334843906	wbpotion.gif	usable	t,d	10
 7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
-7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25
+7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25	recordings of Rolando's Rondo of Resisto
 7052	warbear metalworking primer (used)	324746492	wbtablet.gif	reusable		0
 7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
 7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75

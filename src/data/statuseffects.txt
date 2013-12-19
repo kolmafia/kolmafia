@@ -1468,12 +1468,12 @@
 1467	Dances with Warbears	dance2.gif	d4302ddf9381c83b9ebb513290e94c0f	use 1 warbear wardance potion
 1468	Bearserker Bearrage	angry.gif	b1d5b04a2c892319b62566f16a0b464e	use 1 warbear bearserker potion
 1469	Warbear on the Inside	batgut.gif	4131d1de86680021f1dc13b5d6f79580	use 1 warbear liquid overcoat
-1470
-1471
-1472
-1473
-1474
-1475
+1470	Gift of the Warbear	wbpresent1.gif	1f67656460e0e30f86e9ac9cbf4263e0	eat 1 warbear feasting bread
+1471	Warriors, Come out to Playyyy	beerbottle.gif	554d5e8679608ce0ec5b02aa73a84e2e	eat 1 warbear warrior bread
+1472	Superheated Guts	fire.gif	fc595613076a15738a4ad97841166658	eat 1 warbear thermoregulator bread
+1473	Warbear Loot Lust	dollarsign.gif	25b94da495d7a611ee6ecadb2843cf14	drink 1 warbear feasting mead
+1474	Warbear Warlust	swords.gif	f8db6737312ffec597e751202b20af6b	drink 1 warbear bearserker mead
+1475	Warbear Blubber	sebashield.gif	d92b01c82af748b191714334c7bc9fce	drink 1 warbear blizzard mead
 1476	Merry Smithsness	sad.gif	70b571b8fe1e18020dd5e0974156807f	use 1 Flaskfull of Hollow
 1477	Smithsness Presence	pressie.gif	d9f8d188f80c67098f12bc003d818c31	chew 1 handful of Smithereens
 1478	Smithsness Dinner	knifefork.gif	ae70de517e8c59ef0e439dc65ed5ef3e	eat 1 Every Day is Like This Sundae
