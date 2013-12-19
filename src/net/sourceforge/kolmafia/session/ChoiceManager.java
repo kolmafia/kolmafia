@@ -9446,6 +9446,7 @@ public abstract class ChoiceManager
 		// case 807: // Breaker Breaker!
 		case 810: // K.R.A.M.P.U.S. facility
 		case 812: // The Unpermery
+		case 821: // LP-ROM burner
 			ChoiceManager.canWalkAway = true;
 			break;
 
