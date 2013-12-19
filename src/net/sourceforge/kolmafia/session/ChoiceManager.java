@@ -6696,6 +6696,29 @@ public abstract class ChoiceManager
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 	}
 
+	// <td align="center" valign="middle"><a href="choice.php?whichchoice=810&option=1&slot=7&pwd=xxx" style="text-decoration:none"><img alt='Toybot (Level 3)' title='Toybot (Level 3)' border=0 src='http://images.kingdomofloathing.com/otherimages/crimbotown/krampus_toybot.gif' /></a></td>
+	private static final Pattern URL_SLOT_PATTERN = Pattern.compile( "slot=(\\d+)" );
+	private static final Pattern BOT_PATTERN = Pattern.compile( "<td.*?<img alt='([^']*)'.*?</td>" );
+
+	private static String findKRAMPUSBot( final String urlString, final String responseText )
+	{
+		Matcher slotMatcher = ChoiceManager.URL_SLOT_PATTERN.matcher( urlString );
+		if ( !slotMatcher.find() )
+		{
+			return null;
+		}
+		String slotString = slotMatcher.group( 0 );
+		Matcher botMatcher = ChoiceManager.BOT_PATTERN.matcher( responseText );
+		while ( botMatcher.find() )
+		{
+			if ( botMatcher.group( 0 ).contains( slotString ) )
+			{
+				return botMatcher.group( 1 );
+			}
+		}
+		return null;
+	}
+
 	public static void postChoice2( final GenericRequest request )
 	{
 		// Things that can or need to be done AFTER processing results.
@@ -7278,8 +7301,7 @@ public abstract class ChoiceManager
 			// Opening up the Folder Holder
 
 			// Choice 1 is adding a folder.
-			if ( ChoiceManager.lastDecision == 1 &&
-			     text.contains( "You carefully place your new folder in the holder" ) )
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "You carefully place your new folder in the holder" ) )
 			{
 				// Figure out which one it was from the URL
 				String id = request.getFormField( "folder" );
@@ -7295,8 +7317,8 @@ public abstract class ChoiceManager
 			break;
 
 		case 786:
-			if( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
-				InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 && Preferences.getBoolean( "autoCraft" ) )
+			if ( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
+			     InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 )
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
 			}
@@ -7307,9 +7329,18 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -100 );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			else if ( ChoiceManager.lastDecision == 4 && text.contains( "You upgrade the robot!" ) )
 			{
-				ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -250 );
+				String bot = ChoiceManager.findKRAMPUSBot( request.getURLString(), text );
+				int cost =
+					( bot == null ) ? 0 :
+					bot.contains( "Level 2" ) ? 250 :
+					bot.contains( "Level 3" ) ? 500 :
+					0;
+				if ( cost != 0 )
+				{
+					ResultProcessor.processItem( ItemPool.WARBEAR_WHOSIT, -cost );
+				}
 			}
 			break;
 		}
