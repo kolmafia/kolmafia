@@ -6931,7 +6931,7 @@
 6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0
 6915	warbear hoverbelt	531580874	wbhoverbelt.gif	accessory		0
 6916	warbear battery	546814651	wbattery.gif	multiple	t	0	warbear batteries
-6917	warbear badge	517026798	wbbadge.gif	none	t	0
+6917	warbear badge	517026798	wbbadge.gif	none	t	0	warbear stinkin' badges
 6918	warbear wardance potion	283899521	wbpotion.gif	usable	t	0
 6919	warbear bearserker potion	970200197	wbpotion.gif	usable	t	0
 6920	warbear liquid overcoat	896823676	wbpotion.gif	usable	t	0
