@@ -429,9 +429,9 @@ vodka gibson	3	3	good	5-10	0	0	16-20
 vodka martini	3	1	decent	5-6	0	0	8-10
 vodka matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-warbear bearserker mead	3	1	awesome	0	0	0	0	40 Warbear Warlust (+60 WarBear Armor Penetration)
-warbear blizzard mead	3	1	awesome	0	0	0	0	40 Warbear Blubber (Serious Supercold resistance)
-warbear feasting mead	3	1	awesome	0	0	0	0	40 Warbear Loot Lust (+15% Items from WarBears)
+warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration)
+warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance)
+warbear feasting mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Loot Lust (+15% Items from WarBears)
 wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 water purification pills	3	1	decent	6	25-35	25-35	25-35
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
