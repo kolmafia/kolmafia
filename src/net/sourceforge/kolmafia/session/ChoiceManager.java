@@ -6690,6 +6690,13 @@ public abstract class ChoiceManager
 				}
 			}
 			return;
+		case 821:
+			// LP-ROM burner
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				HaciendaManager.parseRecording( urlString, text );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
