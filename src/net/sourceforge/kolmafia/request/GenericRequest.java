@@ -1249,14 +1249,6 @@ public class GenericRequest
 			StaticEntity.printStackTrace( "Backtrace triggered by page load" );
 		}
 
-		if ( location.indexOf( "clan" ) != -1 )
-		{
-			if ( location.indexOf( "action=leaveclan" ) != -1 || location.indexOf( "action=joinclan" ) != -1 )
-			{
-				ClanManager.clearCache();
-			}
-		}
-
 		if ( ResponseTextParser.hasResult( this.formURLString ) && this.stopForCounters() )
 		{
 			return;
@@ -2237,7 +2229,17 @@ public class GenericRequest
 			return;
 		}
 
-		if ( urlString.startsWith( "api.php" ) )
+		else if ( urlString.contains( "clan" ) )
+		{
+			if ( ( urlString.contains( "action=leaveclan" ) || urlString.contains( "action=joinclan" ) )
+			       && !this.responseText.contains( "You can't apply" )
+			       && !this.responseText.contains( "You're the clan leader" ) )
+			{
+				ClanManager.clearCache();
+			}
+		}
+
+		else if ( urlString.startsWith( "api.php" ) )
 		{
 			ApiRequest.parseResponse( urlString, this.responseText );
 			return;
@@ -2260,7 +2262,7 @@ public class GenericRequest
 		{
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
-		else if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
+		else if ( urlString.startsWith( "lair6.php" ) && urlString.contains( "place=6" ) )
 		{
 			KoLCharacter.liberateKing();
 		}
@@ -2270,8 +2272,6 @@ public class GenericRequest
 			// Handle choices BEFORE result processing
 			ChoiceManager.postChoice1( this );
 		}
-
-		int effectCount = KoLConstants.activeEffects.size();
 
 		if ( hasResult )
 		{
@@ -2468,8 +2468,8 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
 		}
 
-		if ( this.responseText.indexOf( "FARQUAR" ) != -1 ||
-		     this.responseText.indexOf( "Sleeping Near the Enemy" ) != -1 )
+		if ( this.responseText.contains( "FARQUAR" ) ||
+		     this.responseText.contains( "Sleeping Near the Enemy" ) )
 		{
 			// The password to the Dispensary is known!
 			Preferences.setInteger( "lastDispensaryOpen", KoLCharacter.getAscensions() );
@@ -2976,7 +2976,7 @@ public class GenericRequest
 
 	public void printRequestProperties()
 	{
-		this.printRequestProperties( this.requestURL(), this.formConnection );
+		GenericRequest.printRequestProperties( this.requestURL(), this.formConnection );
 	}
 
 	public synchronized static void printRequestProperties( final String URL, final HttpURLConnection formConnection )
@@ -2999,7 +2999,7 @@ public class GenericRequest
 
 	public void printHeaderFields()
 	{
-		this.printHeaderFields( this.requestURL(), this.formConnection );
+		GenericRequest.printHeaderFields( this.requestURL(), this.formConnection );
 	}
 
 	public synchronized static void printHeaderFields( final String URL, final HttpURLConnection formConnection )
