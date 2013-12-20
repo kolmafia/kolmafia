@@ -674,10 +674,10 @@ vegas volcano lava roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hotdog
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
-warbear feasting bread	3	1	awesome	0	0	0	0	40 Gift of the Warbear (+15% Items from WarBears)
+warbear feasting bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Gift of the Warbear (+15% Items from WarBears)
 warbear gyro	3	3	good	0	0	0	0	
-warbear thermoregulator bread	3	1	awesome	0	0	0	0	40 Superheated Guts (Serious Supercold resistance)
-warbear warrior bread	3	1	awesome	0	0	0	0	40 Warriors, Come out to Playyyy (+60 WarBear Armor Penetration)
+warbear thermoregulator bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Superheated Guts (Serious Supercold resistance)
+warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to Playyyy (+60 WarBear Armor Penetration)
 warm mushroom	2	1	decent	2-3	12-14	0	0
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
