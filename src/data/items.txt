@@ -7069,8 +7069,8 @@
 7052	warbear metalworking primer (used)	324746492	wbtablet.gif	reusable		0
 7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
 7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75
-7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	
+7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	0	breakfast messes
 7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0
-7057
+7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
 7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5
 7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0

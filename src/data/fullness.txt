@@ -71,7 +71,8 @@ bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
-breakfast mess	2	2	decent	0	0	0	0
+breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
+breakfast miracle	2	6	EPIC	0	0	0	0
 brimstone chicken sandwich	3	1	decent	4-6	-15-20	0	15-20
 brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
 brussels sprout stir-fry	3	1	decent	4	0	0	0	10 Healthy, Elfy, and Wise
@@ -271,7 +272,7 @@ gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
 gingerbread nutrition block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
-gingerbread robot	2	1	awesome	0	0	0	0	20 Gingerbread Robust (+100% all stats)
+gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
 gingerbread stir-fry	3	1		3-7	0	0	0	10 Sugar Rush
 glass of baboon milk	1	2	decent	2	3-5	0	0
 glass of goat's milk	1	1	crappy	1	0	0	0
@@ -412,7 +413,7 @@ nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nani
 nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 new and improved crimbco reconstituted gruel	4	1		7-8	0	0	0	lose 20% boredom
-nut-shaped crimbo cookie	2	1	awesome	0	0	0	0	20 Nut-Rition (+100% all stats)
+nut-shaped crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
 old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
@@ -446,7 +447,7 @@ perfect breakfast	5	1	good	14-16	20-30	40-50	0
 perfect chef salad	5	1	good	14-16	10-20	40-50	10-20
 perfect sandwich	5	1	good	14-16	10-20	40-50	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
-petit 4.1	2	1	awesome	0	0	0	0	20 Petit Force (+100% all stats)
+petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
@@ -675,7 +676,7 @@ video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hotdog
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
 warbear feasting bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Gift of the Warbear (+15% Items from WarBears)
-warbear gyro	3	3	good	0	0	0	0	
+warbear gyro	3	3	good	7-9	10-20	10-20	10-20	
 warbear thermoregulator bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Superheated Guts (Serious Supercold resistance)
 warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to Playyyy (+60 WarBear Armor Penetration)
 warm mushroom	2	1	decent	2-3	12-14	0	0
