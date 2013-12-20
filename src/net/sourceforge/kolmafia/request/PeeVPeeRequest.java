@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureMultiResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -133,18 +135,18 @@ public class PeeVPeeRequest
 
 	public static void parseResponse( final String location, final String responseText )
 	{
-		if ( location.indexOf( "place=shop" ) != -1 || location.indexOf( "action=buy" ) != -1 )
+		if ( location.contains( "place=shop" ) || location.contains( "action=buy" ) )
 		{
 			SwaggerShopRequest.parseResponse( location, responseText );
 			return;
 		}
 		
-		if ( location.indexOf( "place=fight" ) != -1 )
+		if ( location.contains( "place=fight" ) )
 		{
 			Matcher attacksMatcher = PeeVPeeRequest.ATTACKS_PATTERN.matcher( responseText );
 			KoLCharacter.setAttacksLeft( attacksMatcher.find() ? StringUtilities.parseInt( attacksMatcher.group( 1 ) ) : 0 );
 
-			if ( location.indexOf( "action=fight" ) != -1 )
+			if ( location.contains( "action=fight" ) )
 			{
 				// You may not attack players who are in Hardcore mode unless you are in Hardcore mode yourself.
 				// You can't attack a player against whom you've already won a fight today.
@@ -165,6 +167,14 @@ public class PeeVPeeRequest
 				     responseText.contains( "<tr><td>Sorry" ) )
 				{
 					RequestLogger.printLine( "Invalid target" );
+					return;
+				}
+
+
+				// <tr><td><p>Before entering combat, you must pledge your allegiance to a clan for the season.
+				if ( responseText.contains( "<td><p>Before entering combat" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ABORT, "You need to pledge allegiance to a clan first." );
 					return;
 				}
 
