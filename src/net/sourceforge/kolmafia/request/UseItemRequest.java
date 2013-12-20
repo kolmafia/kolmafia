@@ -966,6 +966,11 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_SODA_MACHINE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_warbearSodaMachineUsed" ) ? 0 : 1;
+
+		case ItemPool.WARBEAR_GYROCOPTER:
+		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_warbearGyrocopterUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4541,6 +4546,17 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_SODA_MACHINE:
 			Preferences.setBoolean( "_warbearSodaMachineUsed", true );
 			return;
+
+		case ItemPool.WARBEAR_GYROCOPTER:
+			if ( responseText.contains( "You input the address" ) )
+			{
+				ResultProcessor.processItem( ItemPool.WARBEAR_GYROCOPTER_BROKEN, 1 );
+			}
+			// fall through
+		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
+			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
+			return;
+
 		}
 	}
 
