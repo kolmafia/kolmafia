@@ -1940,7 +1940,9 @@ public class ItemPool
 	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
 	public static final int HIGH_EFFICIENCY_STILL = 7036;
 	public static final int LP_ROM_BURNER = 7037;
+	public static final int WARBEAR_GYROCOPTER = 7038;
 	public static final int WARBEAR_METALWORKING_PRIMER = 7042;
+	public static final int WARBEAR_GYROCOPTER_BROKEN = 7049;
 	public static final int WARBEAR_METALWORKING_PRIMER_USED = 7052;
 	public static final int WARBEAR_EMPATHY_CHIP_USED = 7053;
 	public static final int WARBEAR_BREAKFAST_MACHINE = 7056;
