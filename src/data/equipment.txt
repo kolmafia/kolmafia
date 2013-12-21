@@ -1223,7 +1223,7 @@ zombie accordion	300	Mox: 250	1-handed accordion
 6-ball	30	none
 7-ball	30	none
 9-ball	30	none
-A Light that Never Goes Out	0	none
+A Light that Never Goes Out	100	none
 Abyssal ember	100	Mus: 35
 BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
@@ -1250,7 +1250,7 @@ Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Great Wolf's left paw	300	Mus: 250
 Grey Guanon	0	Mys: 15
-Half a Purse	0	none
+Half a Purse	100	none
 HOA regulation book	350	Mus: 100	shield
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
@@ -1639,7 +1639,7 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
-Hand in Glove	0	none
+Hand in Glove	100	none
 HOA zombie eyes	300	Mys: 100
 Helps-You-Sleep	300	Mox: 100
 Hodgman's bow tie	200	Mys: 200
@@ -2091,36 +2091,36 @@ tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 time halo	50	none
 tin star	60	Mys: 15
-tiny die-cast arc-welding Elfborg	0	none
-tiny die-cast Bashful the Reindeer	0	none
-tiny die-cast blade a-spinning	0	none
-tiny die-cast CrimboTown Toy Factory	0	none
-tiny die-cast death ray in a pear tree	0	none
-tiny die-cast Doc the Reindeer	0	none
-tiny die-cast Don Crimbo	0	none
-tiny die-cast Dopey the Reindeer	0	none
-tiny die-cast factory worker elf	0	none
-tiny die-cast Father Crimbo	0	none
-tiny die-cast Father Crimborg	0	none
-tiny die-cast gift-wrapping elf	0	none
-tiny die-cast golden ring	0	none
-tiny die-cast goose a-laying	0	none
-tiny die-cast Grumpy the Reindeer	0	none
-tiny die-cast Happy the Reindeer	0	none
-tiny die-cast killing bird	0	none
-tiny die-cast middle-management elf	0	none
-tiny die-cast pencil-pusher elf	0	none
-tiny die-cast ribbon-cutting Elfborg	0	none
-tiny die-cast Rudolphus of Crimborg	0	none
-tiny die-cast Sleepy the Reindeer	0	none
-tiny die-cast Sneezy the Reindeer	0	none
-tiny die-cast stocking-stuffer elf	0	none
-tiny die-cast swarm a-swarming	0	none
-tiny die-cast Swiss hen	0	none
-tiny die-cast turtle mech	0	none
-tiny die-cast Uncle Hobo	0	none
-tiny die-cast Unionize the Elves Sign	0	none
-tiny die-cast Zeppo the Reindeer	0	none
+tiny die-cast arc-welding Elfborg	20	none
+tiny die-cast Bashful the Reindeer	10	none
+tiny die-cast blade a-spinning	20	none
+tiny die-cast CrimboTown Toy Factory	10	none
+tiny die-cast death ray in a pear tree	20	none
+tiny die-cast Doc the Reindeer	10	none
+tiny die-cast Don Crimbo	50	none
+tiny die-cast Dopey the Reindeer	10	none
+tiny die-cast factory worker elf	10	none
+tiny die-cast Father Crimbo	50	none
+tiny die-cast Father Crimborg	50	none
+tiny die-cast gift-wrapping elf	10	none
+tiny die-cast golden ring	20	none
+tiny die-cast goose a-laying	20	none
+tiny die-cast Grumpy the Reindeer	10	none
+tiny die-cast Happy the Reindeer	10	none
+tiny die-cast killing bird	20	none
+tiny die-cast middle-management elf	10	none
+tiny die-cast pencil-pusher elf	10	none
+tiny die-cast ribbon-cutting Elfborg	20	none
+tiny die-cast Rudolphus of Crimborg	50	none
+tiny die-cast Sleepy the Reindeer	10	none
+tiny die-cast Sneezy the Reindeer	10	none
+tiny die-cast stocking-stuffer elf	10	none
+tiny die-cast swarm a-swarming	20	none
+tiny die-cast Swiss hen	20	none
+tiny die-cast turtle mech	20	none
+tiny die-cast Uncle Hobo	50	none
+tiny die-cast Unionize the Elves Sign	10	none
+tiny die-cast Zeppo the Reindeer	10	none
 tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
 tiny plastic Ancient Unspeakable Bugbear	10	none
@@ -2300,10 +2300,10 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
-warbear energy bracers	0	none
-warbear exo-arm	0	none
+warbear energy bracers	100	none
+warbear exo-arm	100	none
 warbear hoverbelt	100	none
-warbear laser beacon	0	none
+warbear laser beacon	100	none
 warm fur	225	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85
