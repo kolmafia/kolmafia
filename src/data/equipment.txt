@@ -272,7 +272,16 @@ toy space helmet	175	Mox: 72
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
 viking helmet	20	none
+warbear electro-spiked helm	250	Mus: 110
+warbear fancy fedora	250	Mus: 110
+warbear feathered fedora	150	Mus: 60
 warbear foil hat	100	none
+warbear heated ushanka	250	Mus: 110
+warbear lined ushanka	150	Mus: 60
+warbear plain fedora	50	Mus: 10
+warbear plain helm	50	Mus: 10
+warbear plain ushanka	50	Mus: 10
+warbear spiked helm	150	Mus: 60
 water-polo cap	200	Mox: 85
 wax hat	50	Mus: 10
 webbed comic mask	10	none
@@ -484,6 +493,15 @@ troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
 union scalemail pants	50	Mox: 10
+warbear battle greaves	50	Mox: 10
+warbear bearserker greaves	250	Mox: 110
+warbear ceremonial party pants	150	Mox: 60
+warbear electric long johns	250	Mox: 110
+warbear fleece-lined long johns	150	Mox: 60
+warbear high festival pants	250	Mox: 110
+warbear long johns	50	Mox: 10
+warbear officer greaves	150	Mox: 60
+warbear party pants	50	Mox: 10
 wax pants	50	Mox: 10
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
@@ -2302,10 +2320,19 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
+warbear electric warscarf	0	Mys: 110
 warbear energy bracers	100	none
 warbear exo-arm	100	none
+warbear fleece-lined warscarf	0	Mys: 60
+warbear goggles	0	Mys: 10
 warbear hoverbelt	100	none
 warbear laser beacon	100	none
+warbear laser bowtie	0	Mys: 10
+warbear nuclear bowtie	0	Mys: 110
+warbear plasma bowtie	0	Mys: 60
+warbear polarized goggles	0	Mys: 110
+warbear snowblindness goggles	0	Mys: 60
+warbear warscarf	0	Mys: 10
 warm fur	225	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85

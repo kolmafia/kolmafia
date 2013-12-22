@@ -6942,35 +6942,35 @@
 6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0	goblets of warbear bearserker mead
 6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0	goblets of warbear blizzard mead
 6927	warbear helm fragment	128436136	wbhatpiece.gif	usable	t	0
-6928
-6929
-6930
-6931
-6932
-6933
-6934
-6935
-6936
+6928	warbear plain fedora	676763516	wbhat1.gif	hat		0	warbear plain fedorae
+6929	warbear feathered fedora	645920940	wbhat2.gif	hat		0	warbear feathered fedorae
+6930	warbear fancy fedora	757988817	wbhat3.gif	hat		0	warbear fancy fedorae
+6931	warbear plain helm	619956527	wbhat4.gif	hat		0
+6932	warbear spiked helm	925685132	wbhat5.gif	hat		0
+6933	warbear electro-spiked helm	391383743	wbhat6.gif	hat		0
+6934	warbear plain ushanka		wbhat7.gif	hat		0	warbear plain ushankae
+6935	warbear lined ushanka	179558288	wbhat8.gif	hat		0	warbear lined ushankae
+6936	warbear heated ushanka	882037902	wbhat9.gif	hat		0	warbear heated ushankae
 6937	warbear trouser fragment	209453224	wbpantspiece.gif	usable	t	0
-6938
-6939
-6940
-6941
-6942
-6943
-6944
-6945
-6946
+6938	warbear party pants	568208100	wbpants1.gif	pants		0	pairs of warbear party pants
+6939	warbear ceremonial party pants	339670010	wbpants2.gif	pants		0	pairs of warbear ceremonial party pants
+6940	warbear high festival pants	708378110	wbpants3.gif	pants		0	pairs of warbear high festival pants
+6941	warbear battle greaves	546479716	wbpants4.gif	pants		0	sets of warbear battle greaves
+6942	warbear officer greaves	527206902	wbpants5.gif	pants		0	sets of warbear officer greaves
+6943	warbear bearserker greaves	402946485	wbpants6.gif	pants		0	sets of warbear bearserker greaves
+6944	warbear long johns	512803851	wbpants7.gif	pants		0	pairs of warbear long johns
+6945	warbear fleece-lined long johns	329935063	wbpants8.gif	pants		0	pairs of warbear fleece-lined long johns
+6946	warbear electric long johns	247067813	wbpants9.gif	pants		0	pairs of warbear electric long johns
 6947	warbear accoutrements chunk	169714871	wbaccpiece.gif	usable	t	0
-6948
-6949
-6950
-6951
-6952
-6953
-6954
-6955
-6956
+6948	warbear goggles	624175711	wbgoggles1.gif	accessory		0	pairs of warbear goggles
+6949	warbear snowblindness goggles	911695895	wbgoggles2.gif	accessory		0	pairs of warbear snowblindness goggles
+6950	warbear polarized goggles	153309429	wbgoggles3.gif	accessory		0	pairs of warbear polarized goggles
+6951	warbear laser bowtie	645381754	wbbowtie1.gif	accessory		0
+6952	warbear plasma bowtie	208699736	wbbowtie2.gif	accessory		0
+6953	warbear nuclear bowtie	351508218	wbbowtie3.gif	accessory		0
+6954	warbear warscarf	883818378	wbscarf1.gif	accessory		0	warbear warscarves
+6955	warbear fleece-lined warscarf	734447249	wbscarf2.gif	accessory		0	warbear fleece-lined warscarves
+6956	warbear electric warscarf	629992109	wbscarf3.gif	accessory		0	warbear electric warscarves
 6957	warbear requisition box	587398908	wbpresent1.gif	usable	g	0
 6958	warbear exo-arm	336074564	wbexoarm.gif	accessory	t	0
 6959	warbear foil hat	195097050	wbfoilcap.gif	hat	t	0
