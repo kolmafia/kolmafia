@@ -2464,6 +2464,7 @@ tiny plastic Fudge Wizard	Spell Damage: +10
 tiny plastic G Imp	Monster Level: +1
 tiny plastic Gnollish crossdresser	Monster Level: +1
 tiny plastic Gnomester Blomester	Monster Level: +1
+tiny plastic GORM-8	Food Drop: +10
 tiny plastic Hank North, Photojournalist	Monster Level: +1
 tiny plastic Hellion	Monster Level: +1
 tiny plastic Iiti Kitty	Monster Level: +1
@@ -2589,6 +2590,7 @@ tiny plastic topiary golem	Monster Level: +1
 tiny plastic trollipop	Monster Level: +5
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
 tiny plastic undead elbow macaroni	Monster Level: +1
+tiny plastic warbear	Weapon Damage: +5
 tiny plastic warwelf	Monster Level: +1
 tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
