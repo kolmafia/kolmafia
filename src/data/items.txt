@@ -6922,8 +6922,8 @@
 6905	gingerbread robot	419812071	c13cookie1.gif	food	t	0
 6906	petit 4.1	377234723	c13cookie2.gif	food	t	0
 6907	nut-shaped Crimbo cookie	497827794	c13cookie3.gif	food	t	0
-6908
-6909
+6908	tiny plastic GORM-8	659385257	tpgorm8.gif	accessory	t	0
+6909	tiny plastic warbear	696919226	tpwarbear.gif	accessory	t	0
 6910
 6911
 6912
@@ -6941,7 +6941,7 @@
 6924	warbear feasting mead	386985316	wbgoblet.gif	drink	t	0	goblets of warbear feasting mead
 6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0	goblets of warbear bearserker mead
 6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0	goblets of warbear blizzard mead
-6927
+6927	warbear helm fragment	128436136	wbhatpiece.gif	usable	t	0
 6928
 6929
 6930
@@ -6951,7 +6951,7 @@
 6934
 6935
 6936
-6937
+6937	warbear trouser fragment	209453224	wbpantspiece.gif	usable	t	0
 6938
 6939
 6940
@@ -6961,7 +6961,7 @@
 6944
 6945
 6946
-6947
+6947	warbear accoutrements chunk	169714871	wbaccpiece.gif	usable	t	0
 6948
 6949
 6950

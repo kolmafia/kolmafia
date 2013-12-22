@@ -1920,7 +1920,7 @@ intergalactic pom poms	0	none
 ironic oversized sunglasses	40	Mys: 5
 jam band	200	Mys: 85
 jar of anniversary jam	10	none
-junk band	0	Mys: 15
+junk band	65	Mys: 15
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
 kumquartz ring	0	none
@@ -2156,6 +2156,7 @@ tiny plastic Fudge Wizard	0	none
 tiny plastic G Imp	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none
+tiny plastic GORM-8	10	none
 tiny plastic Hank North, Photojournalist	0	none
 tiny plastic Hellion	10	none
 tiny plastic Iiti Kitty	10	none
@@ -2207,7 +2208,7 @@ tiny plastic bee swarm	0	none
 tiny plastic beebee gunners	0	none
 tiny plastic beebee queue	0	none
 tiny plastic bitchin' meatcar	20	none
-tiny plastic black ops bugbear	0	none
+tiny plastic black ops bugbear	10	none
 tiny plastic blazing bat	0	none
 tiny plastic blood-faced volleyball	10	none
 tiny plastic blooper	10	none
@@ -2231,7 +2232,7 @@ tiny plastic fiendish can of asparagus	10	none
 tiny plastic filthy hippy jewelry maker	10	none
 tiny plastic fire servant	0	none
 tiny plastic fluffy bunny	10	none
-tiny plastic four-shadowed mime	0	Mys: 35
+tiny plastic four-shadowed mime	100	Mys: 35
 tiny plastic fruit golem	10	none
 tiny plastic fuzzy dice	10	none
 tiny plastic ghost pickle on a stick	10	none
@@ -2281,6 +2282,7 @@ tiny plastic topiary golem	10	none
 tiny plastic trollipop	0	none
 tiny plastic turtle tamer	20	none
 tiny plastic undead elbow macaroni	10	none
+tiny plastic warbear	10	none
 tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
 tiny plastic zmobie	10	none
@@ -2312,7 +2314,7 @@ wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
 witch wart	125	Mys: 47
-wool sock	0	Mox: 10
+wool sock	100	Mox: 10
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
