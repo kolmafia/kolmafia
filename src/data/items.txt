@@ -6938,9 +6938,9 @@
 6921	warbear feasting bread	925210445	wbbread.gif	food	t	0
 6922	warbear warrior bread	497948040	wbbread.gif	food	t	0
 6923	warbear thermoregulator bread	979720334	wbbread.gif	food	t	0
-6924	warbear feasting mead	386985316	wbgoblet.gif	drink	t	0
-6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0
-6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0
+6924	warbear feasting mead	386985316	wbgoblet.gif	drink	t	0	goblets of warbear feasting mead
+6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0	goblets of warbear bearserker mead
+6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0	goblets of warbear blizzard mead
 6927
 6928
 6929
