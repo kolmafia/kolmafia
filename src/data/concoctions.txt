@@ -2332,3 +2332,33 @@ Shakespeare's Sister's Accordion	SMITH	lump of Brituminous coal	stolen accordion
 
 # Crimbo 2013
 warbear hoverbelt	MUSE	warbear hoverbelt piecepart (8)
+
+warbear plain fedora	MUSE	warbear helm fragment (11)
+warbear feathered fedora	MUSE	warbear helm fragment (23)
+warbear fancy fedora	MUSE	warbear helm fragment (37)
+warbear plain helm	MUSE	warbear helm fragment (10)
+warbear spiked helm	MUSE	warbear helm fragment (22)
+warbear electro-spiked helm	MUSE	warbear helm fragment (36)
+warbear plain ushanka	MUSE	warbear helm fragment (9)
+warbear lined ushanka	MUSE	warbear helm fragment (21)
+warbear heated ushanka	MUSE	warbear helm fragment (35)
+
+warbear party pants	MUSE	warbear trouser fragment (11)
+warbear ceremonial party pants	MUSE	warbear trouser fragment (23)
+warbear high festival pants	MUSE	warbear trouser fragment (37)
+warbear battle greaves	MUSE	warbear trouser fragment (10)
+warbear officer greaves	MUSE	warbear trouser fragment (22)
+warbear bearserker greaves	MUSE	warbear trouser fragment (26)
+warbear long johns	MUSE	warbear trouser fragment (9)
+warbear fleece-lined long johns	MUSE	warbear trouser fragment (21)
+warbear electric long johns	MUSE	warbear trouser fragment (35)
+
+warbear goggles	MUSE	warbear accoutrements chunk (11)
+warbear snowblindness goggles	MUSE	warbear accoutrements chunk (23)
+warbear polarized goggles	MUSE	warbear accoutrements chunk (37)
+warbear laser bowtie	MUSE	warbear accoutrements chunk (10)
+warbear plasma bowtie	MUSE	warbear accoutrements chunk (22)
+warbear nuclear bowtie	MUSE	warbear accoutrements chunk (36)
+warbear warscarf	MUSE	warbear accoutrements chunk (9)
+warbear fleece-lined warscarf	MUSE	warbear accoutrements chunk (21)
+warbear electric warscarf	MUSE	warbear accoutrements chunk (35)
