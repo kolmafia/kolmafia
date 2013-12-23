@@ -6948,7 +6948,7 @@
 6931	warbear plain helm	619956527	wbhat4.gif	hat		0
 6932	warbear spiked helm	925685132	wbhat5.gif	hat		0
 6933	warbear electro-spiked helm	391383743	wbhat6.gif	hat		0
-6934	warbear plain ushanka		wbhat7.gif	hat		0	warbear plain ushankae
+6934	warbear plain ushanka	743185416	wbhat7.gif	hat		0	warbear plain ushankae
 6935	warbear lined ushanka	179558288	wbhat8.gif	hat		0	warbear lined ushankae
 6936	warbear heated ushanka	882037902	wbhat9.gif	hat		0	warbear heated ushankae
 6937	warbear trouser fragment	209453224	wbpantspiece.gif	usable	t	0

@@ -368,6 +368,8 @@ warbear heated ushanka	Weapon Damage Percent: -25, Spell Damage Percent: -50
 warbear plain fedora	Initiative: +25, Maximum HP: +50, Maximum MP: +50
 # warbear plain helm: +20 WarBear Armor Penetration
 warbear plain helm	Weapon Damage Percent: +25, Spell Damage Percent: +50
+# warbear plain ushanka: Slight Supercold Resistance
+warbear plain ushanka	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 # warbear spiked helm: +40 WarBear Armor Penetration
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
