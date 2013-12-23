@@ -2203,6 +2203,7 @@ tiny plastic Spunky Princess	10	none
 tiny plastic Susie	40	Mys: 5
 tiny plastic The Big Wisniewski	30	none
 tiny plastic The Man	30	none
+tiny plastic Toybot	10	none
 tiny plastic Trouser Snake	10	none
 tiny plastic Uncle Crimbo	20	none
 tiny plastic Uncle Crimboku	0	none

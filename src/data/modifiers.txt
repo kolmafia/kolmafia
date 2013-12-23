@@ -2525,6 +2525,7 @@ tiny plastic Spunky Princess	Monster Level: +1
 tiny plastic Susie	Muscle: +5, Mysticality: +5, Moxie: +5
 tiny plastic The Big Wisniewski	Food Drop: +3
 tiny plastic The Man	Meat Drop: +3
+tiny plastic Toybot	Accessory Drop: +10
 tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Muscle: +1, Mysticality: +1, Moxie: +1
 tiny plastic Uncle Crimboku Meat Drop: +5
@@ -5789,6 +5790,8 @@ shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
+single of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 10
+single of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 10
 sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
 skeletal banana	Effect: "Osseous George", Effect Duration: 30
