@@ -6924,7 +6924,7 @@
 6907	nut-shaped Crimbo cookie	497827794	c13cookie3.gif	food	t	0
 6908	tiny plastic GORM-8	659385257	tpgorm8.gif	accessory	t	0
 6909	tiny plastic warbear	696919226	tpwarbear.gif	accessory	t	0
-6910
+6910	tiny plastic Toybot	597154687	tptoybot.gif	accessory	t	0
 6911
 6912
 6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
@@ -6941,7 +6941,7 @@
 6924	warbear feasting mead	386985316	wbgoblet.gif	drink	t	0	goblets of warbear feasting mead
 6925	warbear bearserker mead	429406687	wbgoblet.gif	drink	t	0	goblets of warbear bearserker mead
 6926	warbear blizzard mead	409886355	wbgoblet.gif	drink	t	0	goblets of warbear blizzard mead
-6927	warbear helm fragment	128436136	wbhatpiece.gif	usable	t	0
+6927	warbear helm fragment	128436136	wbhatpiece.gif	multiple	t	0
 6928	warbear plain fedora	676763516	wbhat1.gif	hat		0	warbear plain fedorae
 6929	warbear feathered fedora	645920940	wbhat2.gif	hat		0	warbear feathered fedorae
 6930	warbear fancy fedora	757988817	wbhat3.gif	hat		0	warbear fancy fedorae
@@ -6951,7 +6951,7 @@
 6934	warbear plain ushanka	743185416	wbhat7.gif	hat		0	warbear plain ushankae
 6935	warbear lined ushanka	179558288	wbhat8.gif	hat		0	warbear lined ushankae
 6936	warbear heated ushanka	882037902	wbhat9.gif	hat		0	warbear heated ushankae
-6937	warbear trouser fragment	209453224	wbpantspiece.gif	usable	t	0
+6937	warbear trouser fragment	209453224	wbpantspiece.gif	multiple	t	0
 6938	warbear party pants	568208100	wbpants1.gif	pants		0	pairs of warbear party pants
 6939	warbear ceremonial party pants	339670010	wbpants2.gif	pants		0	pairs of warbear ceremonial party pants
 6940	warbear high festival pants	708378110	wbpants3.gif	pants		0	pairs of warbear high festival pants
@@ -6961,7 +6961,7 @@
 6944	warbear long johns	512803851	wbpants7.gif	pants		0	pairs of warbear long johns
 6945	warbear fleece-lined long johns	329935063	wbpants8.gif	pants		0	pairs of warbear fleece-lined long johns
 6946	warbear electric long johns	247067813	wbpants9.gif	pants		0	pairs of warbear electric long johns
-6947	warbear accoutrements chunk	169714871	wbaccpiece.gif	usable	t	0
+6947	warbear accoutrements chunk	169714871	wbaccpiece.gif	multiple	t	0
 6948	warbear goggles	624175711	wbgoggles1.gif	accessory		0	pairs of warbear goggles
 6949	warbear snowblindness goggles	911695895	wbgoggles2.gif	accessory		0	pairs of warbear snowblindness goggles
 6950	warbear polarized goggles	153309429	wbgoggles3.gif	accessory		0	pairs of warbear polarized goggles
@@ -7074,3 +7074,12 @@
 7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
 7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5
 7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0
+7060
+7061
+7062
+7063
+7064
+7065
+7066
+7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78
+7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78
