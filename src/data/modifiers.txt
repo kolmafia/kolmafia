@@ -3242,7 +3242,7 @@ Alice's Army Foil Wallman	Damage Reduction: 9
 
 # folder (barbarian): Increased physical damage as you take damage
 folder (blue)	Mysticality: +20
-folder (catfish)	Familiar Weight: [15*zone(The Sea)]
+folder (catfish)	Familiar Weight (hidden): [15*zone(The Sea)]
 folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop: [50*zone(The Sea)]
 folder (D-Team)	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
