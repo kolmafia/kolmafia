@@ -6,6 +6,7 @@
 
 agua de vida	4	4		5-10	0	0	0	empty agua de vida bottle
 ancient protein powder	1	1		0	12-14	0	0
+antimatter wad	2	3		5-7	-25	-25	-25
 antique bottle of cough syrup	1	6		0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 astral energy drink	8	1		6	0	0	0
 astronaut ice-cream	1	7		8-10	0	0	0

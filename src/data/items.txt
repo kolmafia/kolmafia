@@ -6925,7 +6925,7 @@
 6908	tiny plastic GORM-8	659385257	tpgorm8.gif	accessory	t	0
 6909	tiny plastic warbear	696919226	tpwarbear.gif	accessory	t	0
 6910	tiny plastic Toybot	597154687	tptoybot.gif	accessory	t	0
-6911
+6911	tiny plastic warbear fortress	525729807	tpfortress.gif	accessory	t	0
 6912
 6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
 6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0

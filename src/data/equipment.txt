@@ -2302,6 +2302,7 @@ tiny plastic trollipop	0	none
 tiny plastic turtle tamer	20	none
 tiny plastic undead elbow macaroni	10	none
 tiny plastic warbear	10	none
+tiny plastic warbear fortress 	10	none
 tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
 tiny plastic zmobie	10	none
