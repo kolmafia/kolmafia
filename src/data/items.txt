@@ -7074,7 +7074,7 @@
 7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
 7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5
 7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0
-7060
+7060	festive warbear bank	453898282	wbbank.gif	reusable		0
 7061
 7062
 7063
