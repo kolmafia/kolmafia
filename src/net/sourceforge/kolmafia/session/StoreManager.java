@@ -917,9 +917,8 @@ public abstract class StoreManager
 			soldItem = (SoldItem) soldItemList.get( index );
 
 			int amount = soldItem.getQuantity() + quantity;
-			price = soldItem.getPrice();
-			limit = soldItem.getLimit();
 			int lowest = soldItem.getLowest();
+			// The new price and limit override existing price and limit
 
 			soldItem = new SoldItem( itemId, amount, price, limit, lowest);
 
