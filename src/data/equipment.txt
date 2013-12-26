@@ -1446,7 +1446,7 @@ left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
 loadstone	95	Mys: 32
-loose purse strings	0	none
+loose purse strings	10	none
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -2184,6 +2184,7 @@ tiny plastic Knob Goblin bean counter	10	none
 tiny plastic Knob Goblin harem girl	10	none
 tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
+tiny plastic K.R.A.M.P.U.S.	10	none
 tiny plastic Lord Flameface	50	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
 tiny plastic MechaElf	0	none

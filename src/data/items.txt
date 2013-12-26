@@ -6926,7 +6926,7 @@
 6909	tiny plastic warbear	696919226	tpwarbear.gif	accessory	t	0
 6910	tiny plastic Toybot	597154687	tptoybot.gif	accessory	t	0
 6911	tiny plastic warbear fortress	525729807	tpfortress.gif	accessory	t	0
-6912
+6912	tiny plastic K.R.A.M.P.U.S.	718711066	tpkrampus.gif	accessory	t	0
 6913	warbear whosit	298390391	wbwhosit.gif	none	t	0
 6914	warbear hoverbelt piecepart	697406281	wbhoverpiece.gif	multiple	t	0
 6915	warbear hoverbelt	531580874	wbhoverbelt.gif	accessory		0
