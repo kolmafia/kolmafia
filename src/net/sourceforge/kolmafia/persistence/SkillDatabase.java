@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -737,7 +738,8 @@ public class SkillDatabase
 			return actualDuration;
 		}
 
-		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
+		if ( KoLConstants.inventory.contains( UseSkillRequest.WIZARD_HAT ) ||
+		     KoLCharacter.hasEquipped( UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT ) )
 		{
 			actualDuration += 5;
 		}
