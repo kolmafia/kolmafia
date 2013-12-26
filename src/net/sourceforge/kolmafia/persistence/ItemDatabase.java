@@ -593,7 +593,10 @@ public class ItemDatabase
 		ItemDatabase.muscleByName.put( name, muscle );
 		ItemDatabase.mysticalityByName.put( name, mysticality );
 		ItemDatabase.moxieByName.put( name, moxie );
-		ItemDatabase.notesByName.put( name, note );
+		if ( note != null && note.length() > 0 )
+		{
+			ItemDatabase.notesByName.put( name, note );
+		}
 	}
 
 	private static void readNonfillingData()

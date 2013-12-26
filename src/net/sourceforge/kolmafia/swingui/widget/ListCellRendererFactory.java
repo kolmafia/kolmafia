@@ -488,7 +488,7 @@ public class ListCellRendererFactory
 				this.appendRange( stringForm, ItemDatabase.getMysticalityRange( name ), "mys" );
 				this.appendRange( stringForm, ItemDatabase.getMoxieRange( name ), "mox" );
 				String notes = ItemDatabase.getNotes( name );
-				if ( notes != null )
+				if ( notes != null && notes.length() > 0 )
 				{
 					stringForm.append( ", " );
 					stringForm.append( notes );
