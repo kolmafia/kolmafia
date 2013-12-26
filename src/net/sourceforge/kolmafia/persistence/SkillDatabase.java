@@ -733,6 +733,8 @@ public class SkillDatabase
 				}
 				break;
 			}
+
+			return actualDuration;
 		}
 
 		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
@@ -758,15 +760,13 @@ public class SkillDatabase
 			BuffTool tool = tools[ i ];
 			int current = actualDuration + tool.getBonusTurns();
 
-			// If you have a buff weapon equipped, it determines
-			// the duration, even if a better one is in inventory
-			if ( tool.hasEquipped() )
+			if ( current <= inventoryDuration )
 			{
-				return current;
+				continue;
 			}
 
-			if ( current > inventoryDuration && 
-			     KoLConstants.inventory.contains( tool.getItem() ) && ( !tool.isClassLimited() || KoLCharacter.getClassType() == tool.getClassType() ) )
+			if ( ( tool.hasEquipped() || KoLConstants.inventory.contains( tool.getItem() ) ) &&
+			     ( !tool.isClassLimited() || KoLCharacter.getClassType() == tool.getClassType() ) )
 			{
 				inventoryDuration = current;
 			}
