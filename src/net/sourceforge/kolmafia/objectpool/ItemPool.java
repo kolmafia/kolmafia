@@ -1947,6 +1947,7 @@ public class ItemPool
 	public static final int WARBEAR_EMPATHY_CHIP_USED = 7053;
 	public static final int WARBEAR_BREAKFAST_MACHINE = 7056;
 	public static final int WARBEAR_SODA_MACHINE = 7059;
+	public static final int WARBEAR_BANK = 7060;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

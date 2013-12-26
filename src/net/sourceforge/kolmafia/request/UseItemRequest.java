@@ -971,6 +971,10 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_warbearGyrocopterUsed" ) ? 0 : 1;
+
+		case ItemPool.WARBEAR_BANK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_warbearBankUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4555,6 +4559,14 @@ public class UseItemRequest
 			// fall through
 		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
 			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
+			return;
+
+		case ItemPool.WARBEAR_BANK:
+			// You don't have 25 Meat to drop into the bank.
+			if ( !responseText.contains( "don't have" ) )
+			{
+				Preferences.setBoolean( "_warbearBankUsed", true );
+			}
 			return;
 
 		}
