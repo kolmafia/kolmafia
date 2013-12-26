@@ -2506,6 +2506,7 @@ tiny plastic Knob Goblin bean counter	Monster Level: +1
 tiny plastic Knob Goblin harem girl	Monster Level: +1
 tiny plastic Knob Goblin mad scientist	Monster Level: +1
 tiny plastic Knott Yeti	Monster Level: +1
+tiny plastic K.R.A.M.P.U.S.	Weapon Damage: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1, Single Equip
 tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 tiny plastic MechaElf	Monster Level: +4
