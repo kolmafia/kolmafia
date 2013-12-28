@@ -6429,7 +6429,7 @@
 6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
 6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50
-6415	flavorless gruel	352861418	soupbowl.gif	food	t,d	40
+6415	flavorless gruel	352861418	soupbowl.gif	food	t,d	40	bowls of flavorless gruel
 6416	mana curds	869235275	mueslix.gif	food	t,d	45	handfuls of mana curds
 6417	twist of lime	126733688	wiretwist.gif	none	t,d	25
 6418	pencil stub	209681472	pencilstub.gif	none, combat	t,d	60
