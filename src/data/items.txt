@@ -3068,7 +3068,7 @@
 3051	cursed cutlass	321086673	cursesword.gif	weapon		0	cursed cutlasss
 3052	cursed breeches	797230378	cursepants.gif	pants		0	cursed breechess
 3053	mood ring	878474444	choker.gif	accessory	g,d	5	mood rings
-3054	black candy heart	127960670	blackheart.gif	multiple, curse, candy	g,d	5	black candy hearts
+3054	black candy heart	127960670	blackheart.gif	usable, curse, candy	g,d	5	black candy hearts
 3055	cymbal syrup	342327364	potion4.gif	usable	g,d	0	bottles of cymbal syrup
 3056	metallic foil cat ears	835251732	catears.gif	hat, usable	t,d	35	metallic foil cat ears
 3057	nanofiber cloth	990761540	felt.gif	none	t,d	16	squares of nanofiber cloth
@@ -5912,14 +5912,14 @@
 5895	avatar of the Unconscious Collective	811180643	uclarva.gif	grow	t	0
 5896	blue canary nightlight	510070934	canarylight.gif	familiar	t,d	75
 5897	Unconscious Collective Dream Jar	141587766	dreamjar.gif	multiple	t	0
-5898	jar of psychoses (The Suspicious-Looking Guy)	661230888	analjar_full.gif	usable	t	0
-5899	jar of psychoses (The Captain of the Gourd)	710562556	analjar_full.gif	usable	t	0
-5900	jar of psychoses (The Crackpot Mystic)	209303055	analjar_full.gif	usable	t	0
-5901	jar of psychoses (The Old Man)	643517922	analjar_full.gif	usable	t	0
-5902	jar of psychoses (The Pretentious Artist)	782884590	analjar_full.gif	usable	t	0
-5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0
+5898	jar of psychoses (The Suspicious-Looking Guy)	661230888	analjar_full.gif	usable	t	0	jars of psychoses (The Suspicious-Looking Guy)
+5899	jar of psychoses (The Captain of the Gourd)	710562556	analjar_full.gif	usable	t	0	jars of psychoses (The Captain of the Gourd)
+5900	jar of psychoses (The Crackpot Mystic)	209303055	analjar_full.gif	usable	t	0	jars of psychoses (The Crackpot Mystic)
+5901	jar of psychoses (The Old Man)	643517922	analjar_full.gif	usable	t	0	jars of psychoses (The Old Man)
+5902	jar of psychoses (The Pretentious Artist)	782884590	analjar_full.gif	usable	t	0	jars of psychoses (The Pretentious Artist)
+5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0	jars of psychoses (The Meatsmith)
 5904
-5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0
+5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0	jars of psychoses (Jick)
 5906	pixel pill	439085798	pixelpill.gif	usable	t	0
 5907	pixel energy tank	337369749	pixeltank.gif	hpmp, combat	t	0
 5908	ChibiBuddy&trade; (on)	413382594	chibibuddy.gif	reusable		0	ChibiBuddies&trade; (on)
@@ -6996,13 +6996,13 @@
 6979	tiny die-cast Sneezy the Reindeer	496305992	dcreindeer.gif	accessory	t,d	5
 6980	tiny die-cast Zeppo the Reindeer	801455555	dcreindeer.gif	accessory	t,d	5
 6981	tiny die-cast factory worker elf	792836209	dcelf.gif	accessory	t,d	5
-6982	tiny die-cast gift-wrapping elf	509908443	dcelf.gif	accessory	t,d	5
-6983	tiny die-cast middle-management elf	346868081	dcelf.gif	accessory	t,d	5
+6982	tiny die-cast gift-wrapping elf	509908443	dcelf.gif	accessory	t,d	5	tiny die-cast gift-wrapping elves
+6983	tiny die-cast middle-management elf	346868081	dcelf.gif	accessory	t,d	5	tiny die-cast middle-management elves
 6984	tiny die-cast pencil-pusher elf	791295153	dcelf.gif	accessory	t,d	5
-6985	tiny die-cast stocking-stuffer elf	946033785	dcelf.gif	accessory	t,d	5
+6985	tiny die-cast stocking-stuffer elf	946033785	dcelf.gif	accessory	t,d	5	tiny die-cast stocking-stuffer elves 
 6986	tiny die-cast Unionize the Elves Sign	539685555	dcsign.gif	accessory	t,d	5
-6987	tiny die-cast CrimboTown Toy Factory	195194438	dcfactory.gif	accessory	t,d	5
-6988	tiny die-cast death ray in a pear tree	764058774	dcpartridge.gif	accessory	t,d	10
+6987	tiny die-cast CrimboTown Toy Factory	195194438	dcfactory.gif	accessory	t,d	5	tiny die-cast CrimboTown Toy Factories
+6988	tiny die-cast death ray in a pear tree	764058774	dcpartridge.gif	accessory	t,d	10	tiny die-cast death rays in pear trees
 6989	tiny die-cast turtle mech	936641160	dcturtle.gif	accessory	t,d	10
 6990	tiny die-cast Swiss hen	128673172	dcbird.gif	accessory	t,d	10
 6991	tiny die-cast killing bird	933754423	dcbird2.gif	accessory	t	0
@@ -7012,7 +7012,7 @@
 6995	tiny die-cast blade a-spinning	466652520	dcblade.gif	accessory	t,d	10
 6996	tiny die-cast arc-welding Elfborg	630112393	dcelfborg.gif	accessory	t,d	10
 6997	tiny die-cast ribbon-cutting Elfborg	953156619	dcelfborg.gif	accessory	t,d	10
-6998	tiny die-cast Rudolphus of Crimborg	780592166	dcrudolph.gif	accessory	t	0
+6998	tiny die-cast Rudolphus of Crimborg	780592166	dcrudolph.gif	accessory	t	0	tiny die-cast Rudolphi of Crimborg
 6999	tiny die-cast Father Crimborg	828222838	dcfcrimborg.gif	accessory	t	0
 7000	tiny die-cast Don Crimbo	564370471	dcdoncrimbo.gif	accessory	t	0
 7001	tiny die-cast Uncle Hobo	372614003	dchobo.gif	accessory	t	0
