@@ -603,6 +603,7 @@ user	mapToTheDiveBarPurchased	false
 user	mapToTheSkateParkPurchased	false
 user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+combat -tie;-combat -tie;initiative;exp;meat drop;item drop;2.0 meat, 1.0 item;item, sea;weapon dmg;ranged dmg;elemental dmg;spell dmg;adv;hot res;cold res;spooky res;stench res;sleaze res;all res;mp regen;ML, 0.001 slime res;4 clownosity;7 raveosity;+four songs
 user	maximizerMRUSize	5
+user	maximizerCombinationLimit	0
 user	maxManaBurn	1000
 user	mayflyExperience	0
 user	meansuckerPrice	400
