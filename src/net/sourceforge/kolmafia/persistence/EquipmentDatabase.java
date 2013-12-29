@@ -742,7 +742,12 @@ public class EquipmentDatabase
 
 	public static final boolean isChefStaff( final AdventureResult item )
 	{
-		return EquipmentDatabase.getItemType( item.getItemId() ).equals( "chefstaff" );
+		return EquipmentDatabase.isChefStaff( item.getItemId() );
+	}
+	
+	public static final boolean isChefStaff( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" );
 	}
 	
 	public static final boolean isHat( final AdventureResult item)
@@ -758,6 +763,16 @@ public class EquipmentDatabase
 	public static final boolean isContainer( final AdventureResult item )
 	{
 		return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_CONTAINER;
+	}
+
+	public static final boolean isMainhandOnly( final AdventureResult item )
+	{
+		return  EquipmentDatabase.isMainhandOnly( item.getItemId() );
+	}
+
+	public static final boolean isMainhandOnly( final int itemId )
+	{
+		return  EquipmentDatabase.isChefStaff( itemId ) || EquipmentDatabase.isSpecialAccordion( itemId ) || EquipmentDatabase.getHands( itemId ) != 1;
 	}
 
 	public static final int getPulverization( final String itemName )
