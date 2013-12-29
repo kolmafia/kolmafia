@@ -305,15 +305,7 @@ public abstract class CombatActionManager
 					return Preferences.getBoolean( "autoSteal" ) && KoLCharacter.hasEquipped( ItemPool.get(
 						ItemPool.NEW_WAVE_BLING, 1 ) ) ? "try to steal an item" : "skip";
 				case 2:
-					String classStun = KoLCharacter.getClassStun();
-					// Sometimes classStun isn't available or doesn't stun, don't return it in those cases
-					if ( ( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 ) ||
-						( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING ) ||
-						( classStun.equals( "Soul Bubble" ) && KoLCharacter.getSoulsauce() < 5  ) ||
-						( classStun.equals( "Accordion Bash" ) && !EquipmentManager.wieldingAccordion() ) )
-					{
-						classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
-					}
+					String classStun = CombatActionManager.getStun();
 					return Preferences.getBoolean( "autoEntangle" ) &&
 						!( KoLCharacter.inClasscore2() && KoLCharacter.getMonsterLevelAdjustment() > 75 ) &&
 						!classStun.equals( "none" ) ? classStun : "skip";
@@ -356,6 +348,20 @@ public abstract class CombatActionManager
 			action.startsWith( "\"" );
 	}
 
+	private static final String getStun()
+	{
+		String classStun = KoLCharacter.getClassStun();
+		// Sometimes classStun isn't available or doesn't stun, don't return it in those cases
+		if ( ( classStun.equals( "Club Foot" ) && KoLCharacter.getFury() == 0 ) ||
+			( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING ) ||
+			( classStun.equals( "Soul Bubble" ) && KoLCharacter.getSoulsauce() < 5  ) ||
+			( classStun.equals( "Accordion Bash" ) && !EquipmentManager.wieldingAccordion() ) )
+		{
+			classStun = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
+		}
+		return classStun;
+	}
+	
 	public static final String getLongCombatOptionName( String action )
 	{
 		if ( action == null )
@@ -405,6 +411,11 @@ public abstract class CombatActionManager
 		if ( action.equals( "skip" ) )
 		{
 			return "skip";
+		}
+
+		if ( action.equals( "stun" ) )
+		{
+			return "stun";
 		}
 
 		if ( action.startsWith( "note" ) )
@@ -653,6 +664,12 @@ public abstract class CombatActionManager
 			return CombatActionManager.getShortItemAction( action.substring( 4 ).trim() );
 		}
 
+		if ( action.equals( "stun" ) )
+		{
+			String name = CombatActionManager.getStun();
+			return name == null || name.equals( "none" ) ? "skip" : "skill" + SkillDatabase.getSkillId( name );
+		}
+		
 		if ( action.startsWith( "skill" ) )
 		{
 			String name = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );

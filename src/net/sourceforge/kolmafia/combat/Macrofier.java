@@ -338,6 +338,11 @@ public class Macrofier
 
 		action = CombatActionManager.getShortCombatOptionName( action );
 
+		if ( action.equals( "skip" ) )
+		{
+			return;
+		}
+		
 		if ( action.equals( "special" ) )
 		{
 			if ( FightRequest.waitingForSpecial )
