@@ -1075,7 +1075,7 @@ public class RequestEditorKit
 	{
 		StringUtilities.insertBefore(
 			buffer, "</html>",
-			"<script language=\"Javascript\"> var " + ChatPoller.getRightClickMenu() + " </script>" + "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script>" );
+			"<script language=\"Javascript\"> var notchat = true; var " + ChatPoller.getRightClickMenu() + " </script>" + "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script>" );
 
 		StringUtilities.insertBefore( buffer, "</body>", "<div id='menu' class='rcm'></div>" );
 	}
