@@ -1200,7 +1200,7 @@ public class EquipmentManager
 
 			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
+				if ( EquipmentDatabase.isMainhandOnly( currentItem ) || EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
 				{
 					continue;
 				}

@@ -1086,7 +1086,7 @@ public class Evaluator
 							}
 							// In any case, don't put this in an aux slot.
 						}
-						else if ( !this.requireShield )
+						else if ( !this.requireShield && !EquipmentDatabase.isMainhandOnly( id ) )
 						{
 							switch ( weaponType )
 							{

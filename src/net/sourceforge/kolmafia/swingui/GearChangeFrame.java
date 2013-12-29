@@ -1264,15 +1264,11 @@ public class GearChangeFrame
 			{
 				return false;
 			}
-			if ( EquipmentDatabase.getHands( currentItem.getName() ) != 1 )
+			if ( EquipmentDatabase.isMainhandOnly( currentItem.getItemId() ) )
 			{
 				return false;
 			}
 			if ( type != EquipmentDatabase.getWeaponType( currentItem.getName() ) )
-			{
-				return false;
-			}
-			if ( EquipmentDatabase.getItemType( currentItem.getItemId() ).equals( "chefstaff" ) )
 			{
 				return false;
 			}
