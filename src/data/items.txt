@@ -6841,7 +6841,7 @@
 6824	peace accordion	916719936	acc7.gif	weapon	t,d	50
 6825	alarm accordion	663112425	acc5.gif	weapon	t,d	50
 6826	All-Hallow's Steve's fright wig	870153445	frightwig.gif	hat		0
-6827	KoL Con X Treasure Map	275495976	map.gif	offhand	0
+6827	KoL Con X Treasure Map	275495976	map.gif	offhand		0
 6828	discocktail	225359522	martini.gif	drink	t	0
 6829
 6830
