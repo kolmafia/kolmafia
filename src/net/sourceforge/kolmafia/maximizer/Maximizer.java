@@ -169,6 +169,10 @@ public class Maximizer
 			{
 				Maximizer.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0 ) );
 			}
+			catch ( MaximizerLimitException e )
+			{
+				Maximizer.boosts.add( new Boost( "", "<font color=red>(hit combination limit, optimality not guaranteed)</font>", -1, null, 0.0 ) );
+			}
 			catch ( MaximizerInterruptedException e )
 			{
 				KoLmafia.forceContinue();

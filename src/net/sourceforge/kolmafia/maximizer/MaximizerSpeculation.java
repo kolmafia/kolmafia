@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -654,6 +655,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( this.exceeded )
 		{
 			throw new MaximizerExceededException();
+		}
+		long comboLimit = Preferences.getLong( "maximizerCombinationLimit" );
+		if ( comboLimit != 0 && Maximizer.bestChecked >= comboLimit )
+		{
+			throw new MaximizerLimitException();
 		}
 	}
 
