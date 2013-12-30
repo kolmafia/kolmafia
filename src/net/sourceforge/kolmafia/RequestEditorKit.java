@@ -664,7 +664,9 @@ public class RequestEditorKit
 			if ( buffer.indexOf( "showplayer.php" ) != -1 &&
 			     buffer.indexOf( "rcm.js" ) == -1 &&
 			     buffer.indexOf( "rcm.2.js" ) == -1 &&
-			     buffer.indexOf( "rcm.3.js" ) == -1 )
+			     buffer.indexOf( "rcm.3.js" ) == -1 &&
+			     buffer.indexOf( "rcm.20090915.js" ) == -1 &&
+			     buffer.indexOf( "rcm.20101215.js" ) == -1 )
 			{
 				RequestEditorKit.addChatFeatures( buffer );
 			}
