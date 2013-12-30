@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -157,6 +159,18 @@ public class CurseRequest
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot arrow that person." );
 			return;
+		}
+
+		if ( responseText.contains( "FAA regulations prevent" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already used a Warbear Gyrocopter today." );
+			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
+			return;
+		}
+
+		if ( responseText.contains( "You input the address" ) )
+		{
+			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
 		}
 
 		RequestLogger.updateSessionLog( "throw " + item +
