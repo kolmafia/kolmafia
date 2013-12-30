@@ -4551,12 +4551,6 @@ public class UseItemRequest
 			Preferences.setBoolean( "_warbearSodaMachineUsed", true );
 			return;
 
-		case ItemPool.WARBEAR_GYROCOPTER:
-			if ( responseText.contains( "You input the address" ) )
-			{
-				ResultProcessor.processItem( ItemPool.WARBEAR_GYROCOPTER_BROKEN, 1 );
-			}
-			// fall through
 		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
 			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
 			return;
