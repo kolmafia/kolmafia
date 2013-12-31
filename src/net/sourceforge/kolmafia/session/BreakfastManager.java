@@ -84,6 +84,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.TACO_FLIER, 1 ),
 		ItemPool.get( ItemPool.WARBEAR_SODA_MACHINE, 1 ),
 		ItemPool.get( ItemPool.WARBEAR_BREAKFAST_MACHINE, 1 ),
+		ItemPool.get( ItemPool.WARBEAR_BANK, 1 ),
 
 	};
 
