@@ -657,15 +657,6 @@ public class FightRequest
 				FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( macro );
 			}
 
-			// Added emergency break for hulking construct
-
-			else if ( problemFamiliar() &&
-				 MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Aborting combat automation due to Familiar that can stop automatic item usage." );
-				return;
-			}
-
 			// Adding machine should override custom combat scripts as well,
 			// since it's conditions-driven.
 
@@ -680,6 +671,11 @@ public class FightRequest
 
 			else if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
 			{
+				if ( problemFamiliar() )
+				{
+					KoLmafia.updateDisplay( MafiaState.ABORT, "Aborting combat automation due to Familiar that can stop automatic item usage." );
+					return;
+				}
 				this.handleHulkingConstruct();
 			}
 
@@ -1454,8 +1450,7 @@ public class FightRequest
 			FightRequest.clearInstanceData();
 		}
 
-		if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0
-			&& !FightRequest.isTrackingFights() )
+		if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 && !FightRequest.isTrackingFights() )
 		{
 			this.showInBrowser( true );
 		}
