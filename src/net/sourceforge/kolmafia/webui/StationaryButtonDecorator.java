@@ -312,6 +312,11 @@ public class StationaryButtonDecorator
 
 		// Add stylesheet that controls header/page content when stationary buttons used
 		int insertionPoint = buffer.indexOf( "</head>" );
+		if ( insertionPoint == -1 )
+		{
+			return;
+		}
+
 		buffer.insert( insertionPoint, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/" + KoLConstants.STATIONARYBUTTONS_CSS + "\">" );
 		buffer.insert( insertionPoint, "<script src=\"http://code.jquery.com/jquery-1.9.1.js\"></script><script src=\"/" + KoLConstants.STATIONARYBUTTONS_JS + "\"></script>" );
 		
