@@ -54,8 +54,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
-
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -331,7 +329,6 @@ public class ClanLoungeRequest
 
 	public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<String>();
 	public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<Concoction>();
-	public static final ArrayList<Concoction> FANCY_HOTDOGS = new ArrayList<Concoction>();
 
 	static
 	{
@@ -345,7 +342,6 @@ public class ClanLoungeRequest
 			if ( i > 0 )
 			{
 				concoction.fancydog = true;
-				ClanLoungeRequest.FANCY_HOTDOGS.add( concoction );
 			}
 		}
 	};
@@ -354,12 +350,6 @@ public class ClanLoungeRequest
 	{
 		// Remove all hot dogs from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_HOTDOGS );
-	}
-
-	public static final void resetFancyHotdogs()
-	{
-		// Remove fancy hot dogs from the usable list
-		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.FANCY_HOTDOGS );
 	}
 
 	private static final int hotdogNameToIndex( final String name )
@@ -609,6 +599,7 @@ public class ClanLoungeRequest
 		// If we have no Clan VIP Lounge key, nothing to do
 		if ( VIP_KEY.getCount( KoLConstants.inventory ) == 0 )
 		{
+			ClanLoungeRequest.resetHotdogs();
 			return false;
 		}
 
@@ -1116,14 +1107,14 @@ public class ClanLoungeRequest
 		}
 
 		boolean disabled = matcher.group(1) != null;
-		String itemIdString = matcher.group(2);
-		int itemId = StringUtilities.parseInt( itemIdString );
+		//String itemIdString = matcher.group(2);
+		//int itemId = StringUtilities.parseInt( itemIdString );
 		String name = matcher.group(3);
-		String supply = matcher.group(4);
-		String neededString = matcher.group(5);
-		int needed = neededString == null ? 0 : StringUtilities.parseInt( neededString );
-		String stockedString = matcher.group(6);
-		int stocked = stockedString == null ? 0 : StringUtilities.parseInt( stockedString );
+		//String supply = matcher.group(4);
+		//String neededString = matcher.group(5);
+		//int needed = neededString == null ? 0 : StringUtilities.parseInt( neededString );
+		//String stockedString = matcher.group(6);
+		//int stocked = stockedString == null ? 0 : StringUtilities.parseInt( stockedString );
 
 		// ClanLoungeRequest.registerHotDog( name, itemId, !disabled, supply, needed, stocked );
 
