@@ -4156,6 +4156,7 @@ public class UseItemRequest
 		case ItemPool.PUMPKIN_SEEDS:
 		case ItemPool.DRAGON_TEETH:
 		case ItemPool.BEER_SEEDS:
+		case ItemPool.WINTER_SEEDS:
 			CampgroundRequest.clearCrop();
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;

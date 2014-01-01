@@ -7083,3 +7083,13 @@
 7066
 7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78
 7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78
+7069	Discontent&trade; Winter Garden Catalog	828455718	wintercatalog.gif	usable	t	0
+7070	packet of winter seeds	862450709	winterseeds.gif	usable		0
+7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
+7072	ice harvest	978968903	iceharvest.gif	food	t,d	5
+7073
+7074
+7075
+7076
+7077	snow crab	597026192	snowcrab.gif	food	t,d	10
+7078	Ice Island Long Tea	946614164	iceislandtea.gif	drink	t,d	20
