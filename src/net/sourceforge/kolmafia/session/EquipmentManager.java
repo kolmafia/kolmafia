@@ -604,9 +604,11 @@ public class EquipmentManager
 			AdventureResult acc1 = EquipmentManager.getEquipment( ACCESSORY1 );
 			AdventureResult acc2 = EquipmentManager.getEquipment( ACCESSORY2 );
 			AdventureResult acc3 = EquipmentManager.getEquipment( ACCESSORY3 );
+			AdventureResult fam = EquipmentManager.getEquipment( FAMILIAR );
 
 			boolean sword = weapon.getItemId() == ItemPool.STINKY_CHEESE_SWORD ||
-				offhand.getItemId() == ItemPool.STINKY_CHEESE_SWORD;
+				offhand.getItemId() == ItemPool.STINKY_CHEESE_SWORD ||
+				fam.getItemId() == ItemPool.STINKY_CHEESE_SWORD;
 			boolean staff = weapon.getItemId() == ItemPool.STINKY_CHEESE_STAFF;
 			boolean diaper = pants.getItemId() == ItemPool.STINKY_CHEESE_DIAPER;
 			boolean wheel = offhand.getItemId() == ItemPool.STINKY_CHEESE_WHEEL;
