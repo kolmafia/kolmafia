@@ -592,7 +592,14 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden5.gif", ItemPool.FANCY_BEER_LABEL, 4 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden6.gif", ItemPool.FANCY_BEER_LABEL, 5 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 6 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden0.gif", ItemPool.ICE_HARVEST, 0 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden1.gif", ItemPool.ICE_HARVEST, 3 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden2.gif", ItemPool.ICE_HARVEST, 6 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden3.gif", ItemPool.ICE_HARVEST, 9 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden4.gif", ItemPool.ICE_HARVEST, 12 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden5.gif", ItemPool.ICE_HARVEST, 15 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden6.gif", ItemPool.ICE_HARVEST, 18 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden7.gif", ItemPool.ICE_HARVEST, 21 );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )

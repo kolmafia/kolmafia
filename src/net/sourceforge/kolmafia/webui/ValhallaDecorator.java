@@ -366,69 +366,64 @@ public class ValhallaDecorator
 		{
 			return;
 		}
-		boolean needSeparator = false;
 
-		buffer.append( "Garden: plant " );
+		buffer.append( "Garden: " );
+
+		buffer.append( "<form><select onchange=\"if (this.value) window.location.href=this.value\">" );
+		buffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Plant one</option>" );
+
 		if ( havePumpkin )
 		{
-			if ( needSeparator )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;" );
 			buffer.append( "+use+packet+of+pumpkin+seeds&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">pumpkin</a>" );
-			needSeparator = true;
+			buffer.append( "\">pumpkin" );
+			buffer.append( "</option>" );
 		}
+
 		if ( havePeppermint )
 		{
-			if ( needSeparator )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;" );
 			buffer.append( "+use+Peppermint+Pip+Packet&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">peppermint</a>" );
-			needSeparator = true;
+			buffer.append( "\">peppermint" );
+			buffer.append( "</option>" );
 		}
+
 		if ( haveSkeleton )
 		{
-			if ( needSeparator )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+dragon's+teeth;" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+dragon's+teeth;" );
 			buffer.append( "+use+packet+of+dragon's+teeth&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">skeleton</a>" );
-			needSeparator = true;
+			buffer.append( "\">skeleton" );
+			buffer.append( "</option>" );
 		}
+
 		if ( haveBeer )
 		{
-			if ( needSeparator )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+beer+seeds;" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+beer+seeds;" );
 			buffer.append( "+use+packet+of+beer+seeds&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">beer</a>" );
-			needSeparator = true;
+			buffer.append( "\">beer" );
+			buffer.append( "</option>" );
 		}
+
 		if ( haveWinter )
 		{
-			if ( needSeparator )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+winter+seeds;" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+winter+seeds;" );
 			buffer.append( "+use+packet+of+winter+seeds&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">winter</a>" );
-			needSeparator = true;
+			buffer.append( "\">winter" );
+			buffer.append( "</option>" );
 		}
+
+		buffer.append( "</select></form>" );
+
 		AdventureResult crop = CampgroundRequest.getCrop();
 		if ( crop != null )
 		{
