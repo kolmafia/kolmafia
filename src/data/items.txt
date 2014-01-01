@@ -7088,8 +7088,8 @@
 7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
 7072	ice harvest	978968903	iceharvest.gif	food	t,d	5	ice harvests
 7073
-7074
-7075
-7076
+7074	snow cleats	578113475	snowcleats.gif	usable	t,d	5
+7075	liquid ice pack	505129527	flask.gif	usable	t,d	5
+7076	snow boards	776202871	snowboards.gif	none	q	0
 7077	snow crab	597026192	snowcrab.gif	food	t,d	10
 7078	Ice Island Long Tea	946614164	iceislandtea.gif	drink	t,d	20

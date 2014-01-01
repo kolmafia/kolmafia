@@ -593,6 +593,7 @@ public interface KoLConstants
 		SHOPCLASS,	// Items made in Shop Class at KOLHS
 		BEER, // Items made with ingredients from A Beer Garden
 		JUNK, // Items made from using a Worse Homes and Gardens
+		WINTER, // Items made with ingredients from A Winter Garden
 	}
 
 	public enum CraftingRequirements

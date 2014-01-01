@@ -362,6 +362,9 @@ public class CreateItemRequest
 		case JUNK:
 			return new JunkMagazineRequest( conc );
 
+		case WINTER:
+			return new WinterGardenRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
