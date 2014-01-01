@@ -887,6 +887,10 @@ public abstract class UseLinkDecorator
 			case ItemPool.WORSE_HOMES_GARDENS:
 				return new UseLink( itemId, 1, "read", "shop.php?whichshop=junkmagazine" );
 
+			case ItemPool.SNOW_BERRIES:
+			case ItemPool.ICE_HARVEST:
+				return new UseLink( itemId, 1, "make stuff", "shop.php?whichshop=snowgarden" );
+
 			case ItemPool.TOMB_RATCHET:
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "inv_use.php?ajax=1&whichitem=" );
 

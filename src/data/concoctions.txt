@@ -2362,3 +2362,20 @@ warbear nuclear bowtie	MUSE	warbear accoutrements chunk (36)
 warbear warscarf	MUSE	warbear accoutrements chunk (9)
 warbear fleece-lined warscarf	MUSE	warbear accoutrements chunk (21)
 warbear electric warscarf	MUSE	warbear accoutrements chunk (35)
+
+# Winter Garden
+snow cleats	WINTER, ROW227	snow berries
+liquid ice pack	WINTER, ROW228	ice harvest
+snow crab	WINTER, ROW230	snow berries (2)
+Ice Island Long Tea	WINTER, ROW231	snow berries	ice harvest (3)
+snow boards	WINTER, ROW229	snow berries (2)
+# unfinished ice sculpture	WINTER, ROW232	snow berries (3)	ice harvest (3)
+# snow mobile	WINTER, ROW235	snow berries (3)	ice harvest (2)
+# ice bucket	WINTER, ROW236	ice harvest (3)
+# snow shovel	WINTER, ROW237	snow berries (4)	ice harvest
+# bod-ice	WINTER, ROW238	snow berries	ice harvest (4)
+# snow belt	WINTER, ROW239	snow berries (7)	ice harvest
+# ice nine	WINTER, ROW240	ice harvest (9)
+# ice house	WINTER, ROW233	ice harvest (8)
+# snow fort	WINTER, ROW241	snow berries (9)
+# snow machine	WINTER, ROW234	snow berries (30)	ice harvest (30)

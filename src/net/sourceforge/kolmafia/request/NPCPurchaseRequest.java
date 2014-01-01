@@ -527,7 +527,8 @@ public class NPCPurchaseRequest
 		     shopId.startsWith( "kolhs_" ) ||
 		     shopId.equals( "grandma" ) ||
 		     shopId.equals( "beergarden" ) ||
-		     shopId.equals( "junkmagazine" ) )
+		     shopId.equals( "junkmagazine" ) ||
+		     shopId.equals( "wintergarden" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
@@ -713,7 +714,8 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "mystic" ) ||
 			     shopId.startsWith( "kolhs_" ) ||
 			     shopId.equals( "grandma" ) ||
-			     shopId.equals( "beergarden" ) )
+			     shopId.equals( "beergarden" ) ||
+			     shopId.equals( "wintergarden" ) )
 			{
 				return NPCPurchaseRequest.registerShopRowRequest( urlString );
 			}

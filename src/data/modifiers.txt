@@ -3992,6 +3992,7 @@ Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 I Am the Slaw!	Monster Level: +20
+Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Ichorous Eyesight	Item Drop: +10
@@ -4442,6 +4443,7 @@ Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
 Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Snow Shoes	Combat Rate: -5
 So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
@@ -5624,6 +5626,7 @@ libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
+liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 llama lama cria	Free Pull
 lotion of coldness	Effect: "Cold Hands", Effect Duration: [R+5]
@@ -5806,6 +5809,7 @@ sleeping piano cat	Free Pull
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
+snow cleats	Effect: "Snow Shoes", Effect Duration: 30
 sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
