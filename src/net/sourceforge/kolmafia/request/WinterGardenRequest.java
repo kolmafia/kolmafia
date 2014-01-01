@@ -75,7 +75,7 @@ public class WinterGardenRequest
 	{
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
-		BeerGardenRequest.parseResponse( urlString, responseText );
+		WinterGardenRequest.parseResponse( urlString, responseText );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
