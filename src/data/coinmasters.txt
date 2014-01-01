@@ -133,7 +133,7 @@ Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 4
 Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 5
 Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 6
 Crimbo Cartel	buy	2000	snow hat
-Crimbo Cartel	buy	2000	snow belt
+Crimbo Cartel	buy	2000	snow belly
 Crimbo Cartel	buy	2000	snow pants
 Crimbo Cartel	buy	5000	pile of loose snow
 Crimbo Cartel	buy	10000	Crimbough

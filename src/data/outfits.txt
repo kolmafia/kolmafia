@@ -60,7 +60,7 @@
 59	Crappy Mer-kin Disguise	crappy Mer-kin mask, crappy Mer-kin tailpiece
 60	Mer-kin Gladiatorial Gear	Mer-kin gladiator mask, Mer-kin gladiator tailpiece
 61	Mer-kin Scholar's Vestments	Mer-kin scholar mask, Mer-kin scholar tailpiece
-62	Snowman Suit	snow hat, snow pants, snow belt
+62	Snowman Suit	snow hat, snow pants, snow belly
 63	Frigid Northlands Garb	sealhide hood, sealhide buckler, sealhide leggings
 64	Legendary Regalia of the Seal Crusher	Scalp of Gorgolok, Sledgehammer of the V&aelig;lkyr, Krakrox's Loincloth, Claw of the Infernal Seal
 65	Legendary Regalia of the Chelonian Overlord	Elder Turtle Shell, Flail of the Seven Aspects, Galapagosian Cuisses, Garter of the Turtle Poacher

@@ -2384,7 +2384,7 @@ sk8board	Initiative: +15
 skeleton skis	Initiative: +25, Cold Damage: +5, Spooky Damage: +5, Single Equip
 slime convention pin	Moxie: -1
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
-snow belt	Cold Damage: +6, Single Equip
+snow belly	Cold Damage: +6, Single Equip
 sock garters	Cold Resistance: +2, Single Equip
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
@@ -5169,6 +5169,7 @@ Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
+Discontent&trade; Winter Garden Catalog	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
 Dreadsylvanian grimlet	Effect: "Dreadful Fear", Effect Duration: 200

@@ -2068,7 +2068,7 @@ skeletal scabbard	100	none
 skeleton skis	100	none
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
-snow belt	50	Mys: 10
+snow belly	50	Mys: 10
 sock garters	150	Mys: 60
 solid baconstone earring	110	Mys: 40
 solid baconstone necklace	110	Mys: 40
