@@ -164,6 +164,7 @@ public class CampgroundRequest
 	public static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON, 1 );
 	public static final AdventureResult BARLEY = ItemPool.get( ItemPool.BARLEY, 1 );
 	public static final AdventureResult BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 1 );
+	public static final AdventureResult ICE_HARVEST = ItemPool.get( ItemPool.ICE_HARVEST, 1 );
 
 	private enum CropType
 	{
@@ -171,6 +172,7 @@ public class CampgroundRequest
 		PEPPERMINT,
 		SKELETON,
 		BEER,
+		WINTER,
 		;
 
 		@Override
@@ -192,6 +194,7 @@ public class CampgroundRequest
 		CROPMAP.put( SKELETON, CropType.SKELETON );
 		CROPMAP.put( BARLEY, CropType.BEER );
 		CROPMAP.put( BEER_LABEL, CropType.BEER );
+		CROPMAP.put( ICE_HARVEST, CropType.WINTER );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -204,6 +207,7 @@ public class CampgroundRequest
 		CampgroundRequest.SKELETON,
 		CampgroundRequest.BARLEY,
 		CampgroundRequest.BEER_LABEL,
+		CampgroundRequest.ICE_HARVEST,
 	};
 
 	public static void reset()
@@ -588,6 +592,7 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden5.gif", ItemPool.FANCY_BEER_LABEL, 4 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden6.gif", ItemPool.FANCY_BEER_LABEL, 5 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 6 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden1.gif", ItemPool.ICE_HARVEST, 3 );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )

@@ -1494,3 +1494,11 @@
 1493	Eyes for Miles	eyes.gif	889ae743a4d0cc14105c135476fa0a66	use 1 warbear liquid lasers
 1494	New and Improved	light.gif	d09b7ced217029dae850045f1d238d94	use 1 warbear rejuvenation potion
 1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	use 1 recording of Rolando's Rondo of Resisto
+1496
+1497
+1498
+1499
+1500
+1501
+1502	Berry Berry Cold	snowberries.gif	a2364ea596a977d372c77b1af7206905	eat 1 snow berries
+1503	Icy Demeanor	iceharvest.gif	fb3ab3e04e2a414c59075e333f35dd34	eat 1 ice harvest

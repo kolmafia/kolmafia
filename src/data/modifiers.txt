@@ -3422,6 +3422,7 @@ Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
+Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Bestial Sympathy	Familiar Weight: +3
 # Better Off Bread: Makes you look like a Bread Golem
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
@@ -3991,6 +3992,7 @@ Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 I Am the Slaw!	Monster Level: +20
+Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Ichorous Eyesight	Item Drop: +10
 Ichorous Intensity	Spell Damage Percent: +20
@@ -5595,6 +5597,7 @@ hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hungover chauvinist pig	Free Pull
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 incense bath ball	Effect: "Incensed", Effect Duration: 10
 infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
@@ -5802,6 +5805,7 @@ sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
