@@ -4365,7 +4365,7 @@
 4348	leftover Crimbo rations	827090683	crimbotin.gif	usable	t	0	tins of leftover Crimbo rations
 4349	snow hat	522903643	showhat.gif	hat		0	snow hats
 4350	snow pants	412087730	snowmanpants.gif	pants		0	pairs of snow pants
-4351	snow belt	899600672	snowbelt.gif	accessory		0	snow belts
+4351	snow belly	899600672	snowbelt.gif	accessory		0
 4352	pile of loose snow	195782497	snowpile.gif	grow	t	0	piles of loose snow
 4353	Crimbough	408066219	crimbough.gif	usable	t	0	Crimboughs
 4354	A Crimbo Carol, Ch. 1	913990837	book3.gif	usable	t	0	copies of A Crimbo Carol, Ch. 1
@@ -7068,7 +7068,7 @@
 7051	recording of Rolando's Rondo of Resisto	133347336	record.gif	usable	t,d	25	recordings of Rolando's Rondo of Resisto
 7052	warbear metalworking primer (used)	324746492	wbtablet.gif	reusable		0
 7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
-7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75
+7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75	sets of warbear drone codes
 7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	0	breakfast messes
 7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0
 7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
@@ -7086,7 +7086,7 @@
 7069	Discontent&trade; Winter Garden Catalog	828455718	wintercatalog.gif	usable	t	0
 7070	packet of winter seeds	862450709	winterseeds.gif	usable		0
 7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
-7072	ice harvest	978968903	iceharvest.gif	food	t,d	5
+7072	ice harvest	978968903	iceharvest.gif	food	t,d	5	ice harvests
 7073
 7074
 7075
