@@ -5407,7 +5407,7 @@
 5390	ridiculous cocktail	729068833	fruitym.gif	drink	t	0
 5391
 5392	Thwaitgold butterfly statuette	820209471	thwaitbutt.gif	none		0
-5393	scrap of sticky paper	990207150	tatpaper.gif	none	t,d	30
+5393	scrap of sticky paper	990207150	tatpaper.gif	none	t,d	30	scraps of sticky paper
 5394	sandpaper	133369800	document.gif	none	t,d	25	scraps of sandpaper
 5395	peppermint sprout	691356968	pep_sprout.gif	multiple, candy	t	0
 5396	peppermint twist	627296529	pep_twist.gif	multiple, candy, fancy	t	0
