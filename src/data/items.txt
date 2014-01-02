@@ -7081,8 +7081,8 @@
 7064
 7065
 7066
-7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78
-7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78
+7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78	singles of Inigo's Incantation of Inspiration
+7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78	singles of Donho's Bubbly Ballad
 7069	Discontent&trade; Winter Garden Catalog	828455718	wintercatalog.gif	usable	t	0
 7070	packet of winter seeds	862450709	winterseeds.gif	usable		0
 7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
