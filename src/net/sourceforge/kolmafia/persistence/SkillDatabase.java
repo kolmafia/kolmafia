@@ -71,6 +71,7 @@ public class SkillDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> skillById = new TreeMap<Integer, String>();
+	private static final Map<Integer, String> imageById = new TreeMap<Integer, String>();
 	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> skillByName = new TreeMap<String, Integer>();
 	private static final Map<Integer, Integer> mpConsumptionById = new HashMap<Integer, Integer>();
@@ -152,11 +153,12 @@ public class SkillDatabase
 
 			Integer id = Integer.valueOf( data[ 0 ] );
 			String name = data[ 1 ];
-			Integer type = Integer.valueOf( data[ 2 ] );
-			Integer mp = Integer.valueOf( data[ 3 ] );
-			Integer duration = Integer.valueOf( data[ 4 ] );
-			Integer level = ( data.length > 5 ) ? Integer.valueOf( data[ 5 ] ) : null;
-			SkillDatabase.addSkill( id, name, type, mp, duration, level );
+			String image = data[ 2 ];
+			Integer type = Integer.valueOf( data[ 3 ] );
+			Integer mp = Integer.valueOf( data[ 4 ] );
+			Integer duration = Integer.valueOf( data[ 5 ] );
+			Integer level = ( data.length > 6 ) ? Integer.valueOf( data[ 6 ] ) : null;
+			SkillDatabase.addSkill( id, name, image, type, mp, duration, level );
 		}
 
 		try
@@ -175,7 +177,7 @@ public class SkillDatabase
 		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
-	private static final void addSkill( final Integer skillId, final String name, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
+	private static final void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		String displayName = StringUtilities.getDisplayName( name );
@@ -183,6 +185,10 @@ public class SkillDatabase
 		SkillDatabase.dataNameById.put( skillId, name );
 		SkillDatabase.skillByName.put( canonicalName, skillId );
 
+		if ( image != null )
+		{
+			SkillDatabase.imageById.put( skillId, image );
+		}
 		SkillDatabase.skillTypeById.put( skillId, skillType );
 
 		SkillDatabase.mpConsumptionById.put( skillId, mpConsumption );
@@ -426,6 +432,18 @@ public class SkillDatabase
 	{
 		Object cat = SkillDatabase.skillCategoryById.get( IntegerPool.get( skillId ) );
 		return cat == null ? "" : (String) cat;
+	}
+
+	/**
+	 * Returns the image for an skill, given its Id.
+	 *
+	 * @param skillId The Id of the skill to lookup
+	 * @return The type of the corresponding skill
+	 */
+
+	public static final String getSkillImage( final int skillId )
+	{
+		return (String) SkillDatabase.imageById.get( IntegerPool.get( skillId ) );
 	}
 
 	/**

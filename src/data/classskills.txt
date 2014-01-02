@@ -1,6 +1,6 @@
-3
+4
 # Syntax is:
-# id	Name	Type	MP Cost	Duration[	Level]
+# id	Name	image	Type	MP Cost	Duration[	Level]
 # Type can be:
 #     0 (Passive)
 #     1 (Noncombat item summon)
@@ -13,217 +13,217 @@
 #     8 (Combat/Passive)
 #     9 (One-at-a-time Noncombat Expression)
 
-1	Liver of Steel	0	0	0
-2	Chronic Indigestion	5	5	0
-3	The Smile of Mr. A.	4	0	40
-4	Arse Shoot	4	5	0
-5	Stomach of Steel	0	0	0
-6	Spleen of Steel	0	0	0
+1	Liver of Steel	liver.gif	0	0	0
+2	Chronic Indigestion	fireball.gif	5	5	0
+3	The Smile of Mr. A.	gma.gif	4	0	40
+4	Arse Shoot	asshat.gif	4	5	0
+5	Stomach of Steel	stomach.gif	0	0	0
+6	Spleen of Steel	salspleen.gif.gif	0	0	0
 7
 8
 9
-10	Powers of Observatiogn	0	0	0
-11	Gnefarious Pickpocketing	0	0	0
-12	Torso Awaregness	0	0	0
-13	Gnomish Hardigness	0	0	0
-14	Cosmic Ugnderstanding	0	0	0
-15	CLEESH	5	10	0
+10	Powers of Observatiogn	eyesright.gif	0	0	0
+11	Gnefarious Pickpocketing	pocket.gif	0	0	0
+12	Torso Awaregness	wtee2.gif	0	0	0
+13	Gnomish Hardigness	stronggnome.gif	0	0	0
+14	Cosmic Ugnderstanding	brainstars.gif	0	0	0
+15	CLEESH	commacha.gif	5	10	0
 
 # The following Mr. Skills have the listed skill ID on the Character
 # Sheet, but need a different skill ID on the Use Skills page
 
-# 16	Summon Snowcone	1	5	0
-# 17	Summon Hilarious Objects	1	5	0
-# 18	Summon Candy Hearts	1	0	0
+# 16	Summon Snowcone		1	5	0
+# 17	Summon Hilarious Objects		1	5	0
+# 18	Summon Candy Hearts		1	0	0
 
-19	Transcendent Olfaction	5	40	0
-20	Really Expensive Jewelrycrafting	0	0	0
+19	Transcendent Olfaction	snout.gif	5	40	0
+20	Really Expensive Jewelrycrafting	ring.gif	0	0	0
 
 # Available only on the Bad Moon path
 
-21	Lust	0	0	0
-22	Gluttony	0	0	0
-23	Greed	0	0	0
-24	Sloth	0	0	0
-25	Wrath	0	0	0
-26	Envy	0	0	0
-27	Pride	0	0	0
+21	Lust	roman1.gif	0	0	0
+22	Gluttony	roman2.gif	0	0	0
+23	Greed	roman3.gif	0	0	0
+24	Sloth	roman4.gif	0	0	0
+25	Wrath	roman5.gif	0	0	0
+26	Envy	roman6.gif	0	0	0
+27	Pride	roman7.gif	0	0	0
 
 # Available from hobopolis skill books
 
-28	Awesome Balls of Fire	5	120	0
-29	Conjure Relaxing Campfire	5	30	0
-30	Snowclone	5	120	0
-31	Maximum Chill	5	30	0
-32	Eggsplosion	5	120	0
-33	Mudbath	5	30	0
+28	Awesome Balls of Fire	fire.gif	5	120	0
+29	Conjure Relaxing Campfire	campfire.gif	5	30	0
+30	Snowclone	cyclone.gif	5	120	0
+31	Maximum Chill	snowflake.gif	5	30	0
+32	Eggsplosion	egg.gif	5	120	0
+33	Mudbath	blooddrops.gif	5	30	0
 34
 35
-36	Grease Lightning	5	120	0
-37	Inappropriate Backrub	5	30	0
-38	Natural Born Scrabbler	0	0	0
-39	Thrift and Grift	0	0	0
-40	Abs of Tin	0	0	0
-41	Marginally Insane	0	0	0
-42	Raise Backup Dancer	5	120	0
-43	Creepy Lullaby	5	30	0
-44	Rainbow Gravitation	1	30	0
-45	Vent Rage Gland	3	15	0
-46	Slimy Sinews	0	0	0
-47	Slimy Synapses	0	0	0
-48	Slimy Shoulders	0	0	0
-49	Gothy Handwave	5	1	0
-50	Break It On Down	5	2	0
-51	Pop and Lock It	5	2	0
-52	Run Like the Wind	5	2	0
-53	Summon Crimbo Candy	1	3	0
-54	Unaccompanied Miner	0	0	0
-55	Volcanometeor Showeruption	5	0	0
-56	Wassail	5	30	0
-57	Toynado	5	120	0
-58	Fashionably Late	0	0	0
-59	Executive Narcolepsy	0	0	0
-60	Lunch Break	1	10	0
-61	Offensive Joke	5	15	0
-62	Managerial Manipulation	4	5	20
-63	Natural Born Skeleton Killer	0	0	0
-64	Miyagi Massage	3	5	1
-65	Salamander Kata	3	5	1
-66	Flying Fire Fist	5	0	0
-67	Stinkpalm	5	0	0
-68	Seven-Finger Strike	5	0	0
-69	Knuckle Sandwich	5	0	0
-70	Chilled Monkey Brain Technique	5	0	0
-71	Drunken Baby Style	5	0	0
-72	Worldpunch	3	11	1
-73	Zendo Kobushi Kancho	5	0	0
-74	Master of the Surprising Fist	0	0	0
-75	Summon &quot;Boner Battalion&quot;	3	200	30
-77	Torment Plant	5	5	0
-78	Pinch Ghost	5	5	0
-79	Tattle	5	7	0
-80	Thick-Skinned	0	0	0
-81	Chip on your Shoulder	0	0	0
-82	Request Sandwich	1	5	0
-83	Frigidalmatian	3	300	1
-84	Silent Slam	5	5	0
-85	Silent Squirt	5	10	0
-86	Silent Slice	5	5	0
-87	Walberg's Dim Bulb	3	5	10
-88	Singer's Faithful Ocelot	3	15	10
-89	Drescher's Annoying Noise	3	40	20
-90	Deep Dark Visions	3	100	10
-91	Dog Tired	0	0	0
-92	Club Earth	5	50	0
-93	Carbohydrate Cudgel	5	30	0
-94	Splattersmash	5	25	0
-95	Grab a Cold One	1	30	0
-96	Song of the North	6	100	10
-97	Turtleini	5	35	0
-98	Sauceshell	5	30	0
-99	Conspiratorial Whispers	5	25	0
-100	Song of Slowness	6	100	10
-101	Spaghetti Breakfast	1	30	0
-102	Shadow Noodles	5	30	0
-103	Song of Starch	6	100	10
-104	Splashdance	5	30	0
-105	Song of Sauce	6	100	10
-106	Song of Bravado	6	100	10
+36	Grease Lightning	greasebolt.gif	5	120	0
+37	Inappropriate Backrub	wink.gif	5	30	0
+38	Natural Born Scrabbler	nickel.gif	0	0	0
+39	Thrift and Grift	dollarsign.gif	0	0	0
+40	Abs of Tin	breastplate.gif	0	0	0
+41	Marginally Insane	halfcrazy.gif	0	0	0
+42	Raise Backup Dancer	tombstone.gif	5	120	0
+43	Creepy Lullaby	creepysleepy.gif	5	30	0
+44	Rainbow Gravitation	prismwad.gif	1	30	0
+45	Vent Rage Gland	ventrage.gif	3	15	0
+46	Slimy Sinews	slsinews.gif	0	0	0
+47	Slimy Synapses	slbrain.gif	0	0	0
+48	Slimy Shoulders	sebashield.gif	0	0	0
+49	Gothy Handwave	loop.gif	5	1	0
+50	Break It On Down	brokebone.gif	5	2	0
+51	Pop and Lock It	oaf.gif	5	2	0
+52	Run Like the Wind	fast.gif	5	2	0
+53	Summon Crimbo Candy	candypile.gif	1	3	0
+54	Unaccompanied Miner	mattock.gif	0	0	0
+55	Volcanometeor Showeruption	volcmeteor.gif	5	0	0
+56	Wassail	coffeecup.gif	5	30	0
+57	Toynado	vortex.gif	5	120	0
+58	Fashionably Late	watch.gif	0	0	0
+59	Executive Narcolepsy	boredeyes.gif	0	0	0
+60	Lunch Break	mpe.gif	1	10	0
+61	Offensive Joke	wink.gif	5	15	0
+62	Managerial Manipulation	necktie.gif	4	5	20
+63	Natural Born Skeleton Killer	skeldoll.gif	0	0	0
+64	Miyagi Massage	wosp_fist.gif	3	5	1
+65	Salamander Kata	wosp_sala.gif	3	5	1
+66	Flying Fire Fist	wosp_fire.gif	5	0	0
+67	Stinkpalm	wosp_stink.gif	5	0	0
+68	Seven-Finger Strike	wosp_seven.gif	5	0	0
+69	Knuckle Sandwich	wosp_knuckle.gif	5	0	0
+70	Chilled Monkey Brain Technique	wosp_monkey.gif	5	0	0
+71	Drunken Baby Style	wosp_drunk.gif	5	0	0
+72	Worldpunch	wosp_dirt.gif	3	11	1
+73	Zendo Kobushi Kancho	wosp_butt.gif	5	0	0
+74	Master of the Surprising Fist	wosp_fist.gif	0	0	0
+75	Summon &quot;Boner Battalion&quot;	fratskull.gif	3	200	30
+77	Torment Plant	baobab.gif	5	5	0
+78	Pinch Ghost	famspirit.gif	5	5	0
+79	Tattle	tattle.gif	5	7	0
+80	Thick-Skinned	yetifur.gif	0	0	0
+81	Chip on your Shoulder	bagofchips.gif	0	0	0
+82	Request Sandwich	sammich.gif	1	5	0
+83	Frigidalmatian	frigidal.gif	3	300	1
+84	Silent Slam	corclubcor.gif	5	5	0
+85	Silent Squirt	blooddrops.gif	5	10	0
+86	Silent Slice	soulknife.gif	5	5	0
+87	Walberg's Dim Bulb	blacklight.gif	3	5	10
+88	Singer's Faithful Ocelot	ocelot.gif	3	15	10
+89	Drescher's Annoying Noise	brokenflute.gif	3	40	20
+90	Deep Dark Visions	darkvision.gif	3	100	10
+91	Dog Tired	jarl_regdog.gif	0	0	0
+92	Club Earth	upsideturtle.gif	5	50	0
+93	Carbohydrate Cudgel	pasta.gif	5	30	0
+94	Splattersmash	splattersmash.gif	5	25	0
+95	Grab a Cold One	coldone.gif	1	30	0
+96	Song of the North	songnorth.gif	6	100	10
+97	Turtleini	turtleini.gif	5	35	0
+98	Sauceshell	sauceshell.gif	5	30	0
+99	Conspiratorial Whispers	whispers.gif	5	25	0
+100	Song of Slowness	songslow.gif	6	100	10
+101	Spaghetti Breakfast	spaghetti.gif	1	30	0
+102	Shadow Noodles	shadownoodles.gif	5	30	0
+103	Song of Starch	songstarch.gif	6	100	10
+104	Splashdance	splashdance.gif	5	30	0
+105	Song of Sauce	songsauce.gif	6	100	10
+106	Song of Bravado	songbravado.gif	6	100	10
 # Summon Annoyance: Cost: 11 swagger
-107	Summon Annoyance	1	0	0
+107	Summon Annoyance	angry.gif	1	0	0
 108
 109
-110	Shrap	5	0	0
-111	Psychokinetic Hug	4	0	10
+110	Shrap	junkjagged.gif	5	0	0
+111	Psychokinetic Hug	reassured.gif	4	0	10
 
 # Skills available to Clubbers
 
-1000	Seal Clubbing Frenzy	3	1	5	0
+1000	Seal Clubbing Frenzy	clubseal.gif	3	1	5	0
 1001
 1002
-1003	Thrust-Smack	5	3	0	4
-1004	Lunge Smack	5	1	0	1
-1005	Lunging Thrust-Smack	5	8	0	10
-1006	Super-Advanced Meatsmithing	0	0	0	5
-1007	Blubber Up	3	7	10	3
-1008	Fortitude of the Muskox	0	0	0	1
-1009	Audacity of the Otter	0	0	0	2
-1010	Tongue of the Walrus	2	10	0	9
-1011	Hide of the Walrus	0	0	0	7
-1012	Claws of the Walrus	0	0	0	8
+1003	Thrust-Smack	club.gif	5	3	0	4
+1004	Lunge Smack	club2.gif	5	1	0	1
+1005	Lunging Thrust-Smack	cudgel.gif	5	8	0	10
+1006	Super-Advanced Meatsmithing	hammer.gif	0	0	0	5
+1007	Blubber Up	sebashield.gif	3	7	10	3
+1008	Fortitude of the Muskox	smallheart.gif	0	0	0	1
+1009	Audacity of the Otter	3claws.gif	0	0	0	2
+1010	Tongue of the Walrus	tonguewalrus.gif	2	10	0	9
+1011	Hide of the Walrus	yakskin.gif	0	0	0	7
+1012	Claws of the Walrus	3clawsbig.gif	0	0	0	8
 1013
-1014	Batter Up!	5	0	0	11
-1015	Rage of the Reindeer	3	10	10	11
-1016	Pulverize	0	0	0	15
-1017	Double-Fisted Skull Smashing	0	0	0	12
-1018	Northern Exposure	0	0	0	13
-1019	Musk of the Moose	3	10	10	14
-1020	Snarl of the Timberwolf	9	10	10
+1014	Batter Up!	ballbat.gif	5	0	0	11
+1015	Rage of the Reindeer	reindeer.gif	3	10	10	11
+1016	Pulverize	blackhammer.gif	0	0	0	15
+1017	Double-Fisted Skull Smashing	2clubs.gif	0	0	0	12
+1018	Northern Exposure	blackcold.gif	0	0	0	13
+1019	Musk of the Moose	moosemusk.gif	3	10	10	14
+1020	Snarl of the Timberwolf	wolfmask.gif	9	10	10
 1021
-1022	Clobber	5	1	0	0
-1023	Harpoon!	5	30	0
-1024	Holiday Weight Gain	3	10	10
-1025	Iron Palm Technique	3	0	0
+1022	Clobber	clobber.gif	5	1	0	0
+1023	Harpoon!	hookspear.gif	5	30	0
+1024	Holiday Weight Gain	bathroomscale.gif	3	10	10
+1025	Iron Palm Technique	palmtree.gif	3	0	0
 1026
-1027	Hibernate	2	0	0	2
-1028	Cold Shoulder	0	0	0	3
-1029	Wrath of the Wolverine	0	0	0	4
-1030	Buoyancy of the Beluga	0	0	0	5
-1031	Scowl of the Auk	9	10	10	6
-1032	Furious Wallop	5	0	0	7
-1033	Club Foot	5	8	0	8
-1034	Seething of the Snow Leopard	0	0	0	9
-1035	Ire of the Orca	0	0	0	10
-1036	Thirst of the Weasel	0	0	0	6
-1037	Cavalcade of Fury	5	15	0	12
-1038	Northern Explosion	5	16	0	13
-1039	Precision of the Penguin	0	0	0	14
-1040	Pride of the Puffin	3	30	10	15
+1027	Hibernate	sleepy.gif	2	0	0	2
+1028	Cold Shoulder	snowflake.gif	0	0	0	3
+1029	Wrath of the Wolverine	dipshitfangs.gif	0	0	0	4
+1030	Buoyancy of the Beluga	beluga.gif	0	0	0	5
+1031	Scowl of the Auk	angry.gif	9	10	10	6
+1032	Furious Wallop	wallop.gif	5	0	0	7
+1033	Club Foot	clubfoot.gif	5	8	0	8
+1034	Seething of the Snow Leopard	madcat.gif	0	0	0	9
+1035	Ire of the Orca	orca.gif	0	0	0	10
+1036	Thirst of the Weasel	weasel.gif	0	0	0	6
+1037	Cavalcade of Fury	cavalcade.gif	5	15	0	12
+1038	Northern Explosion	northernexp.gif	5	16	0	13
+1039	Precision of the Penguin	reticle.gif	0	0	0	14
+1040	Pride of the Puffin	trophy.gif	3	30	10	15
 
 # Skills available to Tamers
 
-2000	Patience of the Tortoise	3	1	5	0
+2000	Patience of the Tortoise	tortpatience.gif	3	1	5	0
 2001
 2002
-2003	Headbutt	5	3	0	1
-2004	Skin of the Leatherback	0	0	0	2
-2005	Shieldbutt	5	10	0	10
-2006	Armorcraftiness	0	0	0	5
-2007	Ghostly Shell	4	6	5	4
-2008	Reptilian Fortitude	4	10	5	10
-2009	Empathy of the Newt	4	15	5	8
-2010	Tenacity of the Snapper	4	8	5	6
-2011	Wisdom of the Elder Tortoises	0	0	0	11
-2012	Astral Shell	4	10	5	12
+2003	Headbutt	headbutt.gif	5	3	0	1
+2004	Skin of the Leatherback	skin.gif	0	0	0	2
+2005	Shieldbutt	simpleshield.gif	5	10	0	10
+2006	Armorcraftiness	hatpants.gif	0	0	0	5
+2007	Ghostly Shell	ghosturtle.gif	4	6	5	4
+2008	Reptilian Fortitude	scharm.gif	4	10	5	10
+2009	Empathy of the Newt	empathy.gif	4	15	5	8
+2010	Tenacity of the Snapper	snapper.gif	4	8	5	6
+2011	Wisdom of the Elder Tortoises	wisdom.gif	0	0	0	11
+2012	Astral Shell	blackshell.gif	4	10	5	12
 2013
-2014	Amphibian Sympathy	0	0	0	3
-2015	Kneebutt	5	4	0	7
-2016	Cold-Blooded Fearlessness	0	0	0	13
+2014	Amphibian Sympathy	sympathy.gif	0	0	0	3
+2015	Kneebutt	kneebutt.gif	5	4	0	7
+2016	Cold-Blooded Fearlessness	blackskull.gif	0	0	0	13
 2017
 2018
 2019
-2020	Hero of the Half-Shell	0	0	0	14
-2021	Tao of the Terrapin	0	0	0	15
-2022	Spectral Snapper	5	20	0
-2023	Toss	5	1	0	0
-2024	Summon Leviatuga	5	40	0
-2025	Jingle Bells	4	5	5
-2026	Curiosity of Br'er Tarrypin	4	10	5
-2027	Spirit Vacation	2	0	0	1
-2028	Shell Up	5	6	0	5
-2029	Stiff Upper Lip	9	10	10	3
-2030	Blessing of the War Snapper	3	15	999	2
-2031	Spiky Shell	4	8	5	9
-2032	Spirit Snap	5	10	0	6
-2033	Blessing of She-Who-Was	3	30	999	7
-2034	Butts of Steel	0	0	0	8
-2035	Testudinal Teachings	0	0	0	9
-2036	Pizza Lover	0	0	0	4
-2037	Blessing of the Storm Tortoise	3	50	999	11
-2038	The Long View	0	0	0	12
-2039	Spirit Boon	3	30	5	13
-2040	Patient Smile	9	10	10	14
-2041	Turtle Power	3	100	10	15
+2020	Hero of the Half-Shell	halfshell.gif	0	0	0	14
+2021	Tao of the Terrapin	tao.gif	0	0	0	15
+2022	Spectral Snapper	ssnapper.gif	5	20	0
+2023	Toss	toss.gif	5	1	0	0
+2024	Summon Leviatuga	leviatuga.gif	5	40	0
+2025	Jingle Bells	jinglebells.gif	4	5	5
+2026	Curiosity of Br'er Tarrypin	curiosity.gif	4	10	5
+2027	Spirit Vacation	palmtree.gif	2	0	0	1
+2028	Shell Up	shellup.gif	5	6	0	5
+2029	Stiff Upper Lip	stiffupperlip.gif	9	10	10	3
+2030	Blessing of the War Snapper	warsnapper.gif	3	15	999	2
+2031	Spiky Shell	spikyshell.gif	4	8	5	9
+2032	Spirit Snap	spiritsnap.gif	5	10	0	6
+2033	Blessing of She-Who-Was	shewhowas.gif	3	30	999	7
+2034	Butts of Steel	steel.gif	0	0	0	8
+2035	Testudinal Teachings	sayturtle.gif	0	0	0	9
+2036	Pizza Lover	pizzaslice.gif	0	0	0	4
+2037	Blessing of the Storm Tortoise	stormtort.gif	3	50	999	11
+2038	The Long View	calendar.gif	0	0	0	12
+2039	Spirit Boon	spiritboon.gif	3	30	5	13
+2040	Patient Smile	patientsmile.gif	9	10	10	14
+2041	Turtle Power	turtlepower.gif	3	100	10	15
 # Butt combos removed in Tamer Revamp
 # 2103 Head + Knee Combo 5 8 0
 # 2105 Head + Shield Combo 5 9 0
@@ -232,219 +232,219 @@
 
 # Skills available to Pastamancers
 
-3000	Manicotti Meditation	3	1	5	0
+3000	Manicotti Meditation	mandala.gif	3	1	5	0
 3001
 3002
-3003	Ravioli Shurikens	5	4	0	1
-3004	Entangling Noodles	5	3	0	2
-3005	Cannelloni Cannon	5	8	0	4
-3006	Pastamastery	1	10	0	5
-3007	Stuffed Mortar Shell	5	8	0	8
-3008	Weapon of the Pastalord	5	32	0	10
-3009	Lasagna Bandages	7	6	0	3
-3010	Leash of Linguini	3	12	10	11
-3011	Spirit of Rigatoni	0	0	0	7
-3012	Cannelloni Cocoon	2	20	0	12
+3003	Ravioli Shurikens	ravshurikens.gif	5	4	0	1
+3004	Entangling Noodles	entnoodles.gif	5	3	0	2
+3005	Cannelloni Cannon	pastacannon.gif	5	8	0	4
+3006	Pastamastery	bowl.gif	1	10	0	5
+3007	Stuffed Mortar Shell	stuffshell.gif	5	8	0	8
+3008	Weapon of the Pastalord	ironspoon.gif	5	32	0	10
+3009	Lasagna Bandages	lasbandage.gif	7	6	0	3
+3010	Leash of Linguini	string.gif	3	12	10	11
+3011	Spirit of Rigatoni	rigatoni.gif	0	0	0	7
+3012	Cannelloni Cocoon	coccoon.gif	2	20	0	12
 3013
-3014	Spirit of Ravioli	0	0	0	9
-3015	Springy Fusilli	3	10	10	6
-3016	Tolerance of the Kitchen	0	0	0	13
-3017	Flavour of Magic	0	0	0	14
-3018	Transcendental Noodlecraft	0	0	0	15
-3019	Fearful Fettucini	5	32	0
-3020	Spaghetti Spear	5	1	0	0
-3021	Tempuramancy	0	0	0
-3022	Candyblast	5	8	0
-3023	Stringozzi Serpent	5	16	0
-3024	Canticle of Carboloading	3	10	0
-3025	Utensil Twist	5	1	0	1
-3026	Transcendent Al Dente	2	0	10	2
-3027	Bind Vampieroghi	3	12	0	3
-3028	Arched Eyebrow of the Archmage	9	10	10	4
-3029	Bind Vermincelli	3	30	0	5
-3030	Bringing Up the Rear	0	0	0	6
-3031	Bind Angel Hair Wisp	3	60	0	7
-3032	Shield of the Pastalord	3	20	10	8
-3033	Bind Undead Elbow Macaroni	3	100	0	9
-3034	Thrall Unit Tactics	0	0	0	10
-3035	Bind Penne Dreadful	3	150	0	11
-3036	Subtle and Quick to Anger	0	0	0	12
-3037	Bind Lasagmbie	3	200	0	13
-3038	Wizard Squint	9	10	10	14
-3039	Bind Spice Ghost	3	250	0	15
+3014	Spirit of Ravioli	ravioli.gif	0	0	0	9
+3015	Springy Fusilli	fusilli.gif	3	10	10	6
+3016	Tolerance of the Kitchen	blackfire.gif	0	0	0	13
+3017	Flavour of Magic	flavorofmagic.gif	0	0	0	14
+3018	Transcendental Noodlecraft	blacknoodles.gif	0	0	0	15
+3019	Fearful Fettucini	fearfulfet.gif	5	32	0
+3020	Spaghetti Spear	line.gif	5	1	0	0
+3021	Tempuramancy	batter.gif	0	0	0
+3022	Candyblast	candypile.gif	5	8	0
+3023	Stringozzi Serpent	scharm.gif	5	16	0
+3024	Canticle of Carboloading	carboloading.gif	3	10	0
+3025	Utensil Twist	pizzacut.gif	5	1	0	1
+3026	Transcendent Al Dente	aldente.gif	2	0	10	2
+3027	Bind Vampieroghi	t_vampieroghi.gif	3	12	0	3
+3028	Arched Eyebrow of the Archmage	archedeyebrow.gif	9	10	10	4
+3029	Bind Vermincelli	t_vermincelli.gif	3	30	0	5
+3030	Bringing Up the Rear	bringuptherear.gif	0	0	0	6
+3031	Bind Angel Hair Wisp	t_wisp.gif	3	60	0	7
+3032	Shield of the Pastalord	pastashield.gif	3	20	10	8
+3033	Bind Undead Elbow Macaroni	t_elbowmac.gif	3	100	0	9
+3034	Thrall Unit Tactics	tactics.gif	0	0	0	10
+3035	Bind Penne Dreadful	t_dreadful.gif	3	150	0	11
+3036	Subtle and Quick to Anger	quicktoanger.gif	0	0	0	12
+3037	Bind Lasagmbie	t_lasagmbie.gif	3	200	0	13
+3038	Wizard Squint	wizardsquint.gif	9	10	10	14
+3039	Bind Spice Ghost	t_spiceghost.gif	3	250	0	15
 3040
-3041	Bind Spaghetti Elemental	3	150	0
+3041	Bind Spaghetti Elemental	t_spagdemon.gif	3	150	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
-3101	Spirit of Cayenne	3	1	999
-3102	Spirit of Peppermint	3	1	999
-3103	Spirit of Garlic	3	1	999
-3104	Spirit of Wormwood	3	1	999
-3105	Spirit of Bacon Grease	3	1	999
-3106	Spirit of Nothing	3	1	0
+3101	Spirit of Cayenne		3	1	999
+3102	Spirit of Peppermint		3	1	999
+3103	Spirit of Garlic		3	1	999
+3104	Spirit of Wormwood		3	1	999
+3105	Spirit of Bacon Grease		3	1	999
+3106	Spirit of Nothing		3	1	0
 
 # Skills available to Saucerors
 
-4000	Sauce Contemplation	3	1	5	0
+4000	Sauce Contemplation	contemplation.gif	3	1	5	0
 4001
 4002
-4003	Stream of Sauce	5	2	0	2
-4004	Expert Panhandling	0	0	0	3
-4005	Saucestorm	5	6	0	5
-4006	Advanced Saucecrafting	1	10	0	5
-4007	Elemental Saucesphere	4	10	5	4
-4008	Jalape&ntilde;o Saucesphere	4	5	5	7
-4009	Wave of Sauce	5	10	0	7
-4010	Intrinsic Spiciness	0	0	0	9
-4011	Master Saucier	0	0	0	10
-4012	Saucegeyser	5	24	0	11
+4003	Stream of Sauce	saucestream.gif	5	2	0	2
+4004	Expert Panhandling	saucepan.gif	0	0	0	3
+4005	Saucestorm	raincloud.gif	5	6	0	5
+4006	Advanced Saucecrafting	lovepotion.gif	1	10	0	5
+4007	Elemental Saucesphere	elesphere.gif	4	10	5	4
+4008	Jalape&ntilde;o Saucesphere	pepsphere.gif	4	5	5	7
+4009	Wave of Sauce	saucewave.gif	5	10	0	7
+4010	Intrinsic Spiciness	pepper.gif	0	0	0	9
+4011	Master Saucier	mastersaucier.gif	0	0	0	10
+4012	Saucegeyser	saucegeyser.gif	5	24	0	11
 4013
-4014	Saucy Salve	5	4	0	2
-4015	Impetuous Sauciness	0	0	0	12
-4016	Diminished Gag Reflex	0	0	0	13
-4017	Irrepressible Spunk	0	0	0	14
-4018	The Way of Sauce	0	0	0	15
-4019	Scarysauce	4	10	5
-4020	Salsaball	5	1	0	0
-4021	Deep Saucery	0	0	0
-4022	Surge of Icing	5	10	0
-4023	K&auml;seso&szlig;esturm	5	10	0
-4024	Curse of Vichyssoise	5	2	0	1
-4025	Simmer	3	0	10	1
-4026	Icy Glare	9	10	10	3
-4027	Soul Saucery	0	0	0	6
-4028	Inner Sauce	0	0	0	4
-4029	Curse of Marinara	5	4	0	6
-4030	Itchy Curse Finger	0	0	0	8
-4031	Curse of the Thousand Islands	5	6	0	8
-4032	Saucecicle	5	12	0	9
-4033	Antibiotic Saucesphere	4	15	5	10
-4034	Curse of Weaksauce	5	8	0	12
-4035	Wry Smile	9	10	10	13
+4014	Saucy Salve	saucysalve.gif	5	4	0	2
+4015	Impetuous Sauciness	5alarm.gif	0	0	0	12
+4016	Diminished Gag Reflex	blackstench.gif	0	0	0	13
+4017	Irrepressible Spunk	spunk.gif	0	0	0	14
+4018	The Way of Sauce	potion9.gif	0	0	0	15
+4019	Scarysauce	scarysauce.gif	4	10	5
+4020	Salsaball	salsaball.gif	5	1	0	0
+4021	Deep Saucery	potion10.gif	0	0	0
+4022	Surge of Icing	icingsurge.gif	5	10	0
+4023	K&auml;seso&szlig;esturm	cheesestorm.gif	5	10	0
+4024	Curse of Vichyssoise	scurse1.gif	5	2	0	1
+4025	Simmer	simmer.gif	3	0	10	1
+4026	Icy Glare	icyglare.gif	9	10	10	3
+4027	Soul Saucery	soulsauce.gif	0	0	0	6
+4028	Inner Sauce	innersauce.gif	0	0	0	4
+4029	Curse of Marinara	scurse3.gif	5	4	0	6
+4030	Itchy Curse Finger	triggerfinger.gif	0	0	0	8
+4031	Curse of the Thousand Islands	scurse2.gif	5	6	0	8
+4032	Saucecicle	saucecicle.gif	5	12	0	9
+4033	Antibiotic Saucesphere	antibiosphere.gif	4	15	5	10
+4034	Curse of Weaksauce	scurse4.gif	5	8	0	12
+4035	Wry Smile	wrysmile.gif	9	10	10	13
 4036
-4037	Sauce Monocle	3	20	10	14
-4038	Blood Sugar Sauce Magic	3	0	999	15
-4039	Saucemaven	0	0	0	11
+4037	Sauce Monocle	saucemonocle.gif	3	20	10	14
+4038	Blood Sugar Sauce Magic	saucedrops.gif	3	0	999	15
+4039	Saucemaven	saucemaven.gif	0	0	0	11
 
 # Skills available to Bandits
 
-5000	Disco Aerobics	3	1	5	0
+5000	Disco Aerobics	discoball.gif	3	1	5	0
 5001
 5002
-5003	Disco Eye-Poke	5	2	0	1
-5004	Nimble Fingers	0	0	0	6
-5005	Disco Dance of Doom	5	3	0	2
-5006	Mad Looting Skillz	0	0	0	8
-5007	Disco Nap	2	8	0	3
-5008	Disco Dance II: Electric Boogaloo	5	4	0	4
-5009	Disco Fever	3	10	0	13
-5010	Overdeveloped Sense of Self Preservation	0	0	0	2
-5011	Adventurer of Leisure	0	0	0	11
-5012	Disco Face Stab	5	8	0	6
+5003	Disco Eye-Poke	eyepoke.gif	5	2	0	1
+5004	Nimble Fingers	glove.gif	0	0	0	6
+5005	Disco Dance of Doom	dance1.gif	5	3	0	2
+5006	Mad Looting Skillz	chest.gif	0	0	0	8
+5007	Disco Nap	sleepy.gif	2	8	0	3
+5008	Disco Dance II: Electric Boogaloo	dance2.gif	5	4	0	4
+5009	Disco Fever	discomask.gif	3	10	0	13
+5010	Overdeveloped Sense of Self Preservation	numberone.gif	0	0	0	2
+5011	Adventurer of Leisure	powernap.gif	0	0	0	11
+5012	Disco Face Stab	facestab.gif	5	8	0	6
 5013
-5014	Advanced Cocktailcrafting	1	10	0	5
-5015	Ambidextrous Funkslinging	0	0	0	12
-5016	Heart of Polyester	0	0	0	13
-5017	Smooth Movement	3	10	10	14
-5018	Superhuman Cocktailcrafting	0	0	0	15
-5019	Tango of Terror	5	8	0
-5021	Suckerpunch	5	1	0	0
-5022	Salacious Cocktailcrafting	0	0	0
-5023	Stealth Mistletoe	5	5	0
-5024	Kung Fu Hustler	0	0	0
-5025	Deft Hands	0	0	0	1
-5026	Disco State of Mind	5	0	0	3
-5027	Frantic Gyrations	5	0	0	4
-5028	That's Not a Knife	1	0	0	5
-5029	Tricky Knifework	0	0	0	7
-5030	Flashy Dancer	0	0	0	7
-5031	Disco Smirk	9	10	10	8
-5032	Disco Greed	0	0	0	9
-5033	Knife in the Dark	5	10	0	9
-5034	Disco Bravado	0	0	0	10
-5035	Disco Shank	5	13	0	10
-5036	Disco Dance 3: Back in the Habit	5	10	0	11
-5037	Disco Inferno	5	15	0	12
-5038	Sensitive Fingers	0	0	0	14
-5039	Disco Leer	9	10	10	15
+5014	Advanced Cocktailcrafting	shaker.gif	1	10	0	5
+5015	Ambidextrous Funkslinging	ambidex.gif	0	0	0	12
+5016	Heart of Polyester	blackwink.gif	0	0	0	13
+5017	Smooth Movement	footprints.gif	3	10	10	14
+5018	Superhuman Cocktailcrafting	fruitym.gif	0	0	0	15
+5019	Tango of Terror	terrortango.gif	5	8	0
+5021	Suckerpunch	hernia.gif	5	1	0	0
+5022	Salacious Cocktailcrafting	saltshaker.gif	0	0	0
+5023	Stealth Mistletoe	mistletoe.gif	5	5	0
+5024	Kung Fu Hustler	kungfu.gif	0	0	0
+5025	Deft Hands	glove.gif	0	0	0	1
+5026	Disco State of Mind	moxman.gif	5	0	0	3
+5027	Frantic Gyrations	spiral.gif	5	0	0	4
+5028	That's Not a Knife	knife.gif	1	0	0	5
+5029	Tricky Knifework	dv_remknife.gif	0	0	0	7
+5030	Flashy Dancer	flashydancer.gif	0	0	0	7
+5031	Disco Smirk	wink.gif	9	10	10	8
+5032	Disco Greed	dollarsign.gif	0	0	0	9
+5033	Knife in the Dark	knifedark.gif	5	10	0	9
+5034	Disco Bravado	discobravado.gif	0	0	0	10
+5035	Disco Shank	irondagger.gif	5	13	0	10
+5036	Disco Dance 3: Back in the Habit	dance3.gif	5	10	0	11
+5037	Disco Inferno	fire.gif	5	15	0	12
+5038	Sensitive Fingers	sensifingers.gif	0	0	0	14
+5039	Disco Leer	discoleer.gif	9	10	10	15
 
 # Skills available to Thieves
 
-6000	Moxie of the Mariachi	3	1	5	0
+6000	Moxie of the Mariachi	accordion.gif	3	1	5	0
 6001
 6002
-6003	Aloysius' Antiphon of Aptitude	4	40	5	11
-6004	The Moxious Madrigal	4	2	5	1
-6005	Cletus's Canticle of Celerity	4	4	5	3
-6006	The Polka of Plenty	4	7	5	5
-6007	The Magical Mojomuscular Melody	4	3	5	2
-6008	The Power Ballad of the Arrowsmith	4	5	5	4
-6009	Brawnee's Anthem of Absorption	4	13	5	8
-6010	Fat Leon's Phat Loot Lyric	4	11	5	7
-6011	The Psalm of Pointiness	4	15	5	9
-6012	Jackasses' Symphony of Destruction	4	9	5	6
-6013	Stevedave's Shanty of Superiority	4	30	5	10
-6014	The Ode to Booze	4	50	5	12
-6015	The Sonata of Sneakiness	4	20	5	13
-6016	Carlweather's Cantata of Confrontation	4	20	5	14
-6017	Ur-Kel's Aria of Annoyance	4	30	5	15
-6018	Dirge of Dreadfulness	4	9	5
+6003	Aloysius' Antiphon of Aptitude	antiphon.gif	4	40	5	11
+6004	The Moxious Madrigal	madrigal.gif	4	2	5	1
+6005	Cletus's Canticle of Celerity	celerity.gif	4	4	5	3
+6006	The Polka of Plenty	plenty.gif	4	7	5	5
+6007	The Magical Mojomuscular Melody	mojomusc.gif	4	3	5	2
+6008	The Power Ballad of the Arrowsmith	arrowsmith.gif	4	5	5	4
+6009	Brawnee's Anthem of Absorption	brawnees.gif	4	13	5	8
+6010	Fat Leon's Phat Loot Lyric	fatleons.gif	4	11	5	7
+6011	The Psalm of Pointiness	psalm.gif	4	15	5	9
+6012	Jackasses' Symphony of Destruction	jackasses.gif	4	9	5	6
+6013	Stevedave's Shanty of Superiority	superiority.gif	4	30	5	10
+6014	The Ode to Booze	odetobooze.gif	4	50	5	12
+6015	The Sonata of Sneakiness	sonata.gif	4	20	5	13
+6016	Carlweather's Cantata of Confrontation	cantata.gif	4	20	5	14
+6017	Ur-Kel's Aria of Annoyance	urkels.gif	4	30	5	15
+6018	Dirge of Dreadfulness	dirge.gif	4	9	5
 6019
-6020	The Ballad of Richie Thingfinder	4	50	5
-6021	Benetton's Medley of Diversity	4	50	5
-6022	Elron's Explosive Etude	4	50	5
-6023	Chorale of Companionship	4	50	5
-6024	Prelude of Precision	4	50	5
-6025	Sing	5	1	0	0
-6026	Donho's Bubbly Ballad	4	75	5
-6027	Cringle's Curative Carol	4	5	5
-6028	Inigo's Incantation of Inspiration	4	100	5
-6029	Dissonant Riff	5	2	0	1
-6030	Cadenza	5	0	0	2
-6031	Crab Claw Technique	0	0	0	3
-6032	Accordion Bash	5	5	0	4
-6033	Accordion Appreciation	0	0	0	5
-6034	Concerto de los Muertos	5	8	0	6
-6035	Five Finger Discount	0	0	0	7
-6036	Suspicious Gaze	9	10	10	8
-6037	Bawdy Refrain	5	11	0	9
-6038	Thief Among the Honorable	0	0	0	10
-6039	Sticky Fingers	0	0	0	11
-6040	Cone of Zydeco	5	15	0	12
-6041	Master Accordion Master Thief	0	0	0	13
-6042	Knowing Smile	9	10	10	14
-6043	Mariachi Memory	0	0	0	15
+6020	The Ballad of Richie Thingfinder	richie.gif	4	50	5
+6021	Benetton's Medley of Diversity	medley.gif	4	50	5
+6022	Elron's Explosive Etude	etude.gif	4	50	5
+6023	Chorale of Companionship	chorale.gif	4	50	5
+6024	Prelude of Precision	prelude.gif	4	50	5
+6025	Sing	breath.gif	5	1	0	0
+6026	Donho's Bubbly Ballad	bubblyballad.gif	4	75	5
+6027	Cringle's Curative Carol	curative.gif	4	5	5
+6028	Inigo's Incantation of Inspiration	incantation.gif	4	100	5
+6029	Dissonant Riff	brokenflute.gif	5	2	0	1
+6030	Cadenza	cadenza.gif	5	0	0	2
+6031	Crab Claw Technique	crabclaw.gif	0	0	0	3
+6032	Accordion Bash	accordionbash.gif	5	5	0	4
+6033	Accordion Appreciation	acc17.gif	0	0	0	5
+6034	Concerto de los Muertos	cdlm.gif	5	8	0	6
+6035	Five Finger Discount	dollarsign.gif	0	0	0	7
+6036	Suspicious Gaze	susgaze.gif	9	10	10	8
+6037	Bawdy Refrain	bawdyrefrain.gif	5	11	0	9
+6038	Thief Among the Honorable	thiefeyes.gif	0	0	0	10
+6039	Sticky Fingers	stickygloves.gif	0	0	0	11
+6040	Cone of Zydeco	zydecone.gif	5	15	0	12
+6041	Master Accordion Master Thief	moneybag.gif	0	0	0	13
+6042	Knowing Smile	coolsmile.gif	9	10	10	14
+6043	Mariachi Memory	mariachimem.gif	0	0	0	15
 
 # Skills granted conditionally
 
 7000
-7001	Give In To Your Vampiric Urges	5	0	0
-7002	Shake Hands	5	0	0
-7003	Hot Breath	5	5	0
-7004	Cold Breath	5	5	0
-7005	Spooky Breath	5	5	0
-7006	Stinky Breath	5	5	0
-7007	Sleazy Breath	5	5	0
+7001	Give In To Your Vampiric Urges	bakutal.gif	5	0	0
+7002	Shake Hands	buzzer.gif	5	0	0
+7003	Hot Breath	breath.gif	5	5	0
+7004	Cold Breath	breath.gif	5	5	0
+7005	Spooky Breath	breath.gif	5	5	0
+7006	Stinky Breath	breath.gif	5	5	0
+7007	Sleazy Breath	breath.gif	5	5	0
 # Moxious Maneuver was removed from KoL
 # 7008 Moxious Maneuver 5 0 0
-7009	Magic Missile	5	0	0
-7010	Fire red bottle-rocket	5	5	0
-7011	Fire blue bottle-rocket	5	5	0
-7012	Fire orange bottle-rocket	5	5	0
-7013	Fire purple bottle-rocket	5	5	0
-7014	Fire black bottle-rocket	5	5	0
-7015	Creepy Grin	5	30	0
-7016	Start Trash Fire	5	100	0
-7017	Overload Discarded Refrigerator	5	100	0
-7018	Trashquake	5	100	0
-7019	Zombo's Visage	5	100	0
-7020	Hypnotize Hobo	5	100	0
-7021	Ask Richard for a Bandage	5	0	0
-7022	Ask Richard for a Grenade	5	0	0
-7023	Ask Richard to Rough the Hobo Up a Bit	5	0	0
-7024	Summon Mayfly Swarm	5	0	0
-7025	Get a You-Eye View	5	30	0
+7009	Magic Missile	magmissile.gif	5	0	0
+7010	Fire red bottle-rocket	bottlerocket.gif	5	5	0
+7011	Fire blue bottle-rocket	bottlerocket.gif	5	5	0
+7012	Fire orange bottle-rocket	bottlerocket.gif	5	5	0
+7013	Fire purple bottle-rocket	bottlerocket.gif	5	5	0
+7014	Fire black bottle-rocket	bottlerocket.gif	5	5	0
+7015	Creepy Grin	waxlips.gif	5	30	0
+7016	Start Trash Fire	handcan.gif	5	100	0
+7017	Overload Discarded Refrigerator	littlefridge.gif	5	100	0
+7018	Trashquake	trashcan.gif	5	100	0
+7019	Zombo's Visage	zomboeye.gif	5	100	0
+7020	Hypnotize Hobo	spiral.gif	5	100	0
+7021	Ask Richard for a Bandage	wrapping.gif	5	0	0
+7022	Ask Richard for a Grenade	grenade.gif	5	0	0
+7023	Ask Richard to Rough the Hobo Up a Bit	buhobo.gif	5	0	0
+7024	Summon Mayfly Swarm	mayflies3.gif	5	0	0
+7025	Get a You-Eye View	evileye.gif	5	30	0
 7026
 7027
 7028
@@ -457,305 +457,305 @@
 7035
 7036
 7037
-7038	Vicious Talon Slash	5	5	0
-7039	All-You-Can-Beat Wing Buffet	5	10	0
-7040	Tunnel Upwards	5	0	0
-7041	Tunnel Downwards	5	0	0
-7042	Rise From Your Ashes	5	20	0
-7043	Antarctic Flap	5	20	0
-7044	The Statue Treatment	5	20	0
-7045	Feast on Carrion	5	20	0
-7046	Give Your Opponent &quot;The Bird&quot;	5	20	0
-7047	Ask the hobo for a drink	5	0	0
-7048	Ask the hobo for something to eat	5	0	0
-7049	Ask the hobo for some violence	5	0	0
-7050	Ask the hobo to tell you a joke	5	0	0
-7051	Ask the hobo to dance for you	5	0	0
-7052	Summon hobo underling	5	0	0
-7053	Rouse Sapling	5	15	0
-7054	Spray Sap	5	15	0
-7055	Put Down Roots	5	15	0
-7056	Fire off a Roman Candle	5	10	0
+7038	Vicious Talon Slash	gashes.gif	5	5	0
+7039	All-You-Can-Beat Wing Buffet	wings.gif	5	10	0
+7040	Tunnel Upwards	uparrow.gif	5	0	0
+7041	Tunnel Downwards	downarrow.gif	5	0	0
+7042	Rise From Your Ashes	fire.gif	5	20	0
+7043	Antarctic Flap	snowflake.gif	5	20	0
+7044	The Statue Treatment	stench.gif	5	20	0
+7045	Feast on Carrion	bonepile.gif	5	20	0
+7046	Give Your Opponent &quot;The Bird&quot;	wink.gif	5	20	0
+7047	Ask the hobo for a drink	beer.gif	5	0	0
+7048	Ask the hobo for something to eat	burger.gif	5	0	0
+7049	Ask the hobo for some violence	club.gif	5	0	0
+7050	Ask the hobo to tell you a joke	wink.gif	5	0	0
+7051	Ask the hobo to dance for you	footprints.gif	5	0	0
+7052	Summon hobo underling	hobohead.gif	5	0	0
+7053	Rouse Sapling	bansai.gif	5	15	0
+7054	Spray Sap	pastacone.gif	5	15	0
+7055	Put Down Roots	roots.gif	5	15	0
+7056	Fire off a Roman Candle	woodstub.gif	5	10	0
 7057
 7058
 7059
 7060
-7061	Spring Raindrop Attack	5	0	0
-7062	Summer Siesta	5	10	0
-7063	Falling Leaf Whirlwind	5	10	0
-7064	Winter's Bite Technique	5	10	0
-7065	The 17 Cuts	5	10	0
+7061	Spring Raindrop Attack	raindrop.gif	5	0	0
+7062	Summer Siesta	sleepy.gif	5	10	0
+7063	Falling Leaf Whirlwind	leaf.gif	5	10	0
+7064	Winter's Bite Technique	winterbite.gif	5	10	0
+7065	The 17 Cuts	17cuts.gif	5	10	0
 7066
 7067
 7068
-7069	Recite 'The Spirit of Crimbo'	5	0	0
-7070	Disarm	5	15	0
-7071	Entangle	5	15	0
+7069	Recite 'The Spirit of Crimbo'	scroll1.gif	5	0	0
+7070	Disarm	disarm.gif	5	15	0
+7071	Entangle	tentapants.gif	5	15	0
 7072
-7073	Strangle	5	15	0
-7074	Consume Burrowgrub	5	0	0
-7075	Play an Accordion Solo	5	10	0
-7076	Play a Guitar Solo	5	10	0
-7077	Play a Drum Solo	5	10	0
-7078	Play a Flute Solo	5	10	0
-7079	Furious Cleave	5	5	0
-7080	Mighty Shout	5	0	0
-7081	Open the Bag o' Tricks	5	0	0
-7082	Point at your opponent	5	0	0
-7083	Apprivoisez la tortue	5	3	0
+7073	Strangle	redneck.gif	5	15	0
+7074	Consume Burrowgrub	burrowgrub.gif	5	0	0
+7075	Play an Accordion Solo	accordion.gif	5	10	0
+7076	Play a Guitar Solo	guitar.gif	5	10	0
+7077	Play a Drum Solo	drummachine.gif	5	10	0
+7078	Play a Flute Solo	ocarina.gif	5	10	0
+7079	Furious Cleave	cleave.gif	5	5	0
+7080	Mighty Shout	shout.gif	5	0	0
+7081	Open the Bag o' Tricks	bagotricks.gif	5	0	0
+7082	Point at your opponent	foamfinger.gif	5	0	0
+7083	Apprivoisez la tortue	whip.gif	5	3	0
 7084
-7085	Ball Bust	5	0	0
-7086	Ball Sweat	5	0	0
-7087	Ball Sack	5	0	0
-7088	Net Gain	5	0	0
-7089	Net Loss	5	0	0
-7090	Net Neutrality	5	0	0
-7091	Blade Sling	5	0	0
-7092	Blade Roller	5	0	0
-7093	Blade Runner	5	0	0
-7094	Static Shock	5	0	0
-7095	Give Your Opponent the Stinkeye	5	0	0
-7096	Bashing Slam Smash	5	15	0
-7097	Turtle of Seven Tails	5	15	0
-7098	Noodles of Fire	5	15	0
-7099	Saucemageddon	5	24	0
-7100	Funk Bluegrass Fusion	5	10	0
-7101	Extreme High Note	5	15	0
-7102	Goldensh&ouml;wer	5	0	0
-7103	Shoot Web	5	0	0
-7104	Wrath of the Volcano God	5	0	0
-7105	Wrath of the Lightning God	5	0	0
-7106	Wrath of the Trickster God	5	0	0
-7107	Spew Poison	5	0	0
-7108	Fire a badly romantic arrow	5	0	0
-7109	Fire a boxing-glove arrow	5	0	0
-7110	Fire a poison arrow	5	0	0
-7111	Fire a fingertrap arrow	5	0	0
-7112	Nuclear Breath	5	10	0
-7113	Squeeze Stress Ball	5	0	0
-7114	Throw Shield	5	0	0
-7115	Release the Boots	5	0	0
-7116	Feed	5	0	0
-7117	Siphon Spirit	5	0	0
-7118	Swirl Cloak	5	0	0
+7085	Ball Bust	dodgeball.gif	5	0	0
+7086	Ball Sweat	dodgeball.gif	5	0	0
+7087	Ball Sack	dodgeball.gif	5	0	0
+7088	Net Gain	dragnet.gif	5	0	0
+7089	Net Loss	dragnet.gif	5	0	0
+7090	Net Neutrality	dragnet.gif	5	0	0
+7091	Blade Sling	switchblade.gif	5	0	0
+7092	Blade Roller	switchblade.gif	5	0	0
+7093	Blade Runner	switchblade.gif	5	0	0
+7094	Static Shock	hate_pants.gif	5	0	0
+7095	Give Your Opponent the Stinkeye	sc_eye.gif	5	0	0
+7096	Bashing Slam Smash	sledge.gif	5	15	0
+7097	Turtle of Seven Tails	7aspects.gif	5	15	0
+7098	Noodles of Fire	capspoon.gif	5	15	0
+7099	Saucemageddon	windsorpan.gif	5	24	0
+7100	Funk Bluegrass Fusion	seegerbanjo.gif	5	10	0
+7101	Extreme High Note	trikitixa.gif	5	15	0
+7102	Goldensh&ouml;wer	blackrum.gif	5	0	0
+7103	Shoot Web	web.gif	5	0	0
+7104	Wrath of the Volcano God	gaze_v.gif	5	0	0
+7105	Wrath of the Lightning God	gaze_l.gif	5	0	0
+7106	Wrath of the Trickster God	gaze_t.gif	5	0	0
+7107	Spew Poison	poison.gif	5	0	0
+7108	Fire a badly romantic arrow	arrow_heart.gif	5	0	0
+7109	Fire a boxing-glove arrow	arrow_glove.gif	5	0	0
+7110	Fire a poison arrow	arrow_poison.gif	5	0	0
+7111	Fire a fingertrap arrow	arrow_trap.gif	5	0	0
+7112	Nuclear Breath	fire.gif	5	10	0
+7113	Squeeze Stress Ball	stressball.gif	5	0	0
+7114	Throw Shield	opshield.gif	5	0	0
+7115	Release the Boots	boot.gif	5	0	0
+7116	Feed	vampirefangs.gif	5	0	0
+7117	Siphon Spirit	crystaldecanter.gif	5	0	0
+7118	Swirl Cloak	ffcloak.gif	5	0	0
 7119
-7120	Quick Attack	5	0	0
-7121	Rive Armor	5	0	0
-7122	Brutal Strike	5	0	0
-7123	First Aid	5	0	0
-7124	Firebolt	5	0	0
-7125	Chillblain	5	0	0
-7126	Forceblast	5	0	0
-7127	Vampiric Tendrils	5	0	0
-7128	Draw New Tiles	5	0	0
-7129	Run Away	5	0	0
+7120	Quick Attack		5	0	0
+7121	Rive Armor		5	0	0
+7122	Brutal Strike		5	0	0
+7123	First Aid		5	0	0
+7124	Firebolt		5	0	0
+7125	Chillblain		5	0	0
+7126	Forceblast		5	0	0
+7127	Vampiric Tendrils		5	0	0
+7128	Draw New Tiles		5	0	0
+7129	Run Away		5	0	0
 7130
-7131	Kodiak Moment	5	0	0
-7132	Grizzly Scene	5	0	0
-7133	Bear-Backrub	5	0	0
-7134	Bear-ly Legal	5	0	0
-7135	Bear Hug	5	0	0
-7136	I Can Bearly Hear You Over the Applause	5	0	0
-7137	Unleash Nanites	5	0	0
-7138	Air Blast	5	0	0
-7139	Haggis Kick	5	3	0
-7140	Play Hog Fiddle	5	0	0
+7131	Kodiak Moment	bearpic.gif	5	0	0
+7132	Grizzly Scene	slashes.gif	5	0	0
+7133	Bear-Backrub	bear_backrub.gif	5	0	0
+7134	Bear-ly Legal	beararm_left.gif	5	0	0
+7135	Bear Hug	bear_hug.gif	5	0	0
+7136	I Can Bearly Hear You Over the Applause	bear_applause.gif	5	0	0
+7137	Unleash Nanites	unleashnanites.gif	5	0	0
+7138	Air Blast	airzooka.gif	5	0	0
+7139	Haggis Kick	haggissocks.gif	5	3	0
+7140	Play Hog Fiddle	dulcimerpants.gif	5	0	0
 7141
-7142	Rage Flame	5	0	0
-7143	Doubt Shackles	5	0	0
-7144	Fear Vapor	5	0	0
-7145	Tear Wave	5	0	0
+7142	Rage Flame	angergun.gif	5	0	0
+7143	Doubt Shackles	doubtgun.gif	5	0	0
+7144	Fear Vapor	feargun.gif	5	0	0
+7145	Tear Wave	regretgun.gif	5	0	0
 7146
 7147
 7148
 7149
-7150	Fire Death Ray	5	0	0
-7151	Stomp Ass	5	0	0
-7152	Brand	5	0	0
-7153	Violent Gaze	5	0	0
-7154	Mosh	5	0	0
-7155	Chilling Grip	5	0	0
-7156	Static Shock	5	0	0
-7157	Hateful Gaze	5	0	0
-7158	Tighten Girdle	5	0	0
-7159	Hide Behind a Tree	5	0	0
-7160	Dive Into a Puddle	5	0	0
-7161	Hide Under a Rock	5	0	0
+7150	Fire Death Ray	sphat5.gif	5	0	0
+7151	Stomp Ass	vio_boots.gif	5	0	0
+7152	Brand	vio_brand.gif	5	0	0
+7153	Violent Gaze	vio_lens.gif	5	0	0
+7154	Mosh	vio_pants.gif	5	0	0
+7155	Chilling Grip	hate_stone.gif	5	0	0
+7156	Static Shock	hate_pants.gif	5	0	0
+7157	Hateful Gaze	hate_lens.gif	5	0	0
+7158	Tighten Girdle	hate_girdle.gif	5	0	0
+7159	Hide Behind a Tree	bansai.gif	5	0	0
+7160	Dive Into a Puddle	waves.gif	5	0	0
+7161	Hide Under a Rock	bigrock.gif	5	0	0
 7162
-7163	Hammer Ghost	5	0	0
-7164	Fire Rocket	5	0	0
-7165	Great Slash	5	0	0
-7166	Get a Good Whiff of This Guy	5	0	0
-7167	Blinding Flash	5	0	0
-7168	Wink at	5	0	0
-7169	Talk About Politics	5	0	0
-7170	Pocket Crumbs	5	0	0
-7171	Air Dirty Laundry	5	0	0
-7172	Steal Accordion	5	0	0
-7173	Rage of the War Snapper	5	0	0
-7174	Voice of She-Who-Was	5	0	0
-7175	Will of the Storm Tortoise	5	0	0
+7163	Hammer Ghost	nopic.gif	5	0	0
+7164	Fire Rocket	nopic.gif	5	0	0
+7165	Great Slash	nopic.gif	5	0	0
+7166	Get a Good Whiff of This Guy	nopic.gif	5	0	0
+7167	Blinding Flash	camera.gif	5	0	0
+7168	Wink at	wink.gif	5	0	0
+7169	Talk About Politics	banishingshout.gif	5	0	0
+7170	Pocket Crumbs	disease.gif	5	0	0
+7171	Air Dirty Laundry	oilyrag.gif	5	0	0
+7172	Steal Accordion	stealaccordion.gif	5	0	0
+7173	Rage of the War Snapper	warsnapper.gif	5	0	0
+7174	Voice of She-Who-Was	shewhowas.gif	5	0	0
+7175	Will of the Storm Tortoise	stormtort.gif	5	0	0
 7176
 7177
 7178
 7179
 7180
 7181
-7182	Soul Bubble	5	0	0
-7183	Soul Finger	5	0	0
-7184	Soul Blaze	5	0	0
-7185	Soul Food	2	0	0
-7186	Soul Rotation	3	0	10
-7187	Soul Funk	3	0	10
-7188	Dismiss Pasta Thrall	1	0	0
+7182	Soul Bubble	soulbubble.gif	5	0	0
+7183	Soul Finger	soulfinger.gif	5	0	0
+7184	Soul Blaze	soulblaze.gif	5	0	0
+7185	Soul Food		2	0	0
+7186	Soul Rotation		3	0	10
+7187	Soul Funk		3	0	10
+7188	Dismiss Pasta Thrall		1	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
-8000	Summon Snowcones	1	2	0
-8001	Summon Stickers	1	2	0
-8002	Summon Sugar Sheets	1	2	0
-8003	Summon Clip Art	1	2	0
-8004	Summon Rad Libs	1	2	0
-8005	Summon Smithsness	1	2	0
-8100	Summon Candy Hearts	1	0	0
-8101	Summon Party Favor	1	0	0
-8102	Summon Love Song	1	0	0
-8103	Summon BRICKOs	1	0	0
-8104	Summon Dice	1	0	0
-8105	Summon Resolutions	1	0	0
-8106	Summon Taffy	1	0	0
-8200	Summon Hilarious Objects	1	5	0
-8201	Summon Tasteful Items	1	5	0
-8202	Summon Alice's Army Cards	1	5	0
-8203	Summon Geeky Gifts	1	5	0
+8000	Summon Snowcones		1	2	0
+8001	Summon Stickers		1	2	0
+8002	Summon Sugar Sheets		1	2	0
+8003	Summon Clip Art		1	2	0
+8004	Summon Rad Libs		1	2	0
+8005	Summon Smithsness		1	2	0
+8100	Summon Candy Hearts		1	0	0
+8101	Summon Party Favor		1	0	0
+8102	Summon Love Song		1	0	0
+8103	Summon BRICKOs		1	0	0
+8104	Summon Dice		1	0	0
+8105	Summon Resolutions		1	0	0
+8106	Summon Taffy		1	0	0
+8200	Summon Hilarious Objects		1	5	0
+8201	Summon Tasteful Items		1	5	0
+8202	Summon Alice's Army Cards		1	5	0
+8203	Summon Geeky Gifts		1	5	0
 
 # Skills available to Avatars of Boris
 
-11000	Mighty Axing	5	0	0
+11000	Mighty Axing	mightyaxing.gif	5	0	0
 
 # Fighting
-11001	Cleave	5	5	0	1
-11002	Ferocity	0	0	0	2
-11003	Broadside	5	10	0	3
-11004	Sick Pythons	0	0	0	4
-11005	Pep Talk	3	1	1	5
-11006	Throw Trusty	5	7	0	6
-11007	Legendary Luck	0	0	0	7
-11008	Song of Cockiness	6	15	20	8
-11009	Legendary Impatience	0	0	0	9
-11010	Bifurcating Blow	5	10	0	10
+11001	Cleave	axecleave.gif	5	5	0	1
+11002	Ferocity	angry.gif	0	0	0	2
+11003	Broadside	broadside.gif	5	10	0	3
+11004	Sick Pythons	scharm.gif	0	0	0	4
+11005	Pep Talk	peptalk.gif	3	1	1	5
+11006	Throw Trusty	throwtrusty.gif	5	7	0	6
+11007	Legendary Luck	clover.gif	0	0	0	7
+11008	Song of Cockiness	superiority.gif	6	15	20	8
+11009	Legendary Impatience	clock.gif	0	0	0	9
+11010	Bifurcating Blow	bifblow.gif	5	10	0	10
 
 # Yelling
-11011	Intimidating Bellow	5	3	0	1
-11012	Legendary Bravado	0	0	0	2
-11013	Song of Accompaniment	6	10	20	3
-11014	Big Lungs	0	0	0	4
-11015	Song of Solitude	6	15	20	5
-11016	Good Singing Voice	0	0	0	6
-11017	Song of Fortune	6	10	20	7
-11018	Louder Bellows	0	0	0	8
-11019	Song of Battle	6	10	20	9
-11020	Banishing Shout	5	50	0	10
+11011	Intimidating Bellow	breath.gif	5	3	0	1
+11012	Legendary Bravado	exclam.gif	0	0	0	2
+11013	Song of Accompaniment	chorale.gif	6	10	20	3
+11014	Big Lungs	lung.gif	0	0	0	4
+11015	Song of Solitude	song_sol.gif	6	15	20	5
+11016	Good Singing Voice	brokenflute.gif	0	0	0	6
+11017	Song of Fortune	song_fortune.gif	6	10	20	7
+11018	Louder Bellows	louder.gif	0	0	0	8
+11019	Song of Battle	song_battle.gif	6	10	20	9
+11020	Banishing Shout	banishingshout.gif	5	50	0	10
 
 # Eating
-11021	Demand Sandwich	1	5	0	1
-11022	Legendary Girth	0	0	0	2
-11023	Song of the Glorious Lunch	6	10	5	3
-11024	Big Boned	0	0	0	4
-11025	Legendary Appetite	0	0	0	5
-11026	Heroic Belch	5	5	0	6
-11027	Hungry Eyes	0	0	0	7
-11028	More to Love	0	0	0	8
-11029	Barrel Chested	0	0	0	9
-11030	Gourmand	0	0	0	10
+11021	Demand Sandwich	sammich.gif	1	5	0	1
+11022	Legendary Girth	girth.gif	0	0	0	2
+11023	Song of the Glorious Lunch	song_lunch.gif	6	10	5	3
+11024	Big Boned	bigbone.gif	0	0	0	4
+11025	Legendary Appetite	stomach.gif	0	0	0	5
+11026	Heroic Belch	belch.gif	5	5	0	6
+11027	Hungry Eyes	eyes.gif	0	0	0	7
+11028	More to Love	candyheart.gif	0	0	0	8
+11029	Barrel Chested	powderkeg.gif	0	0	0	9
+11030	Gourmand	knifefork.gif	0	0	0	10
 
 # Healing
-11031	Laugh It Off	2	1	0
+11031	Laugh It Off	hahahaha.gif	2	1	0
 
 # Skills available to Zombie Masters
 
-12000	Infectious Bite	5	0	0
+12000	Infectious Bite	breath.gif	5	0	0
 
 # Hunger of the Zombie
 
-12001	Bite Minion	2	1	0	1
-12002	Lure Minions	2	0	0	2
-12003	Undying Greed	0	0	0	3
-12004	Hunter's Sprint	0	0	0	4
-12005	Insatiable Hunger	0	0	0	5
-12006	Devour Minions	7	4	0	6
-12007	Indefatigable	0	0	0	7
-12008	Skullcracker	0	0	0	8
-12009	Neurogourmet	0	0	0	9
-12010	Ravenous Pounce	5	2	0	10
+12001	Bite Minion	turkeyleg.gif	2	1	0	1
+12002	Lure Minions	birdbrain.gif	2	0	0	2
+12003	Undying Greed	zombiegreed.gif	0	0	0	3
+12004	Hunter's Sprint	fast.gif	0	0	0	4
+12005	Insatiable Hunger	stomach.gif	0	0	0	5
+12006	Devour Minions	gnashteeth.gif	7	4	0	6
+12007	Indefatigable	wallshield.gif	0	0	0	7
+12008	Skullcracker	brokeskull.gif	0	0	0	8
+12009	Neurogourmet	realbrain.gif	0	0	0	9
+12010	Ravenous Pounce	gashes.gif	5	2	0	10
 
 # Anger of the Zombie
 
-12011	Distracting Minion	5	1	0	1
-12012	Plague Claws	5	0	0	2
-12013	Flesh Mob	5	3	0	3
-12014	Elemental Obliviousness	0	0	0	4
-12015	Vigor Mortis	0	0	0	5
-12016	Virulence	0	0	0	6
-12017	Bilious Burst	5	5	0	7
-12018	Unyielding Flesh	0	0	0	8
-12019	Corpse Pile	5	3	0	9
-12020	Howl of the Alpha	5	9	0	10
+12011	Distracting Minion	eyesleft.gif	5	1	0	1
+12012	Plague Claws	3clawsbig.gif	5	0	0	2
+12013	Flesh Mob	bonepile.gif	5	3	0	3
+12014	Elemental Obliviousness	elesphere.gif	0	0	0	4
+12015	Vigor Mortis	strboost.gif	0	0	0	5
+12016	Virulence	dna.gif	0	0	0	6
+12017	Bilious Burst	light.gif	5	5	0	7
+12018	Unyielding Flesh	disarm.gif	0	0	0	8
+12019	Corpse Pile	corpsepile.gif	5	3	0	9
+12020	Howl of the Alpha	exclam.gif	5	9	0	10
 
 # Master of the Zombie
 
-12021	Summon Minion	3	0	0	1
-12022	Zombie Chow	3	1	0	2
-12023	Smash & Graaagh	5	2	0	3
-12024	Scavenge	3	2	0	4
-12025	Meat Shields	5	1	0	5
-12026	Summon Horde	1	0	0	6
-12027	His Master's Voice	0	0	0	7
-12028	Ag-grave-ation	3	3	0	8
-12029	Disquiet Riot	3	5	0	9
-12030	Zombie Maestro	8	9	0	10
+12021	Summon Minion	littleman.gif	3	0	0	1
+12022	Zombie Chow	cdish.gif	3	1	0	2
+12023	Smash & Graaagh	sack1.gif	5	2	0	3
+12024	Scavenge	trashcan.gif	3	2	0	4
+12025	Meat Shields	meat.gif	5	1	0	5
+12026	Summon Horde	horde.gif	1	0	0	6
+12027	His Master's Voice	dotdotdot.gif	0	0	0	7
+12028	Ag-grave-ation	tombstone.gif	3	3	0	8
+12029	Disquiet Riot	louder.gif	3	5	0	9
+12030	Zombie Maestro	operamask.gif	8	9	0	10
 
 # Summoning
-12031	Recruit Zombie	1	0	0
+12031	Recruit Zombie	zombhead.gif	1	0	0
 
 # Avatar of Jarlsberg
 
-14000	Curdle	5	0	0
-14001	Conjure Eggs	1	10	0
-14002	Conjure Dough	1	30	0
-14003	Boil	5	5	0
-14004	Fry	5	20	0
-14005	Egg Man	3	15	999
-14006	Early Riser	0	0	0
-14007	The Most Important Meal	0	0	0
-14008	Coffeesphere	3	10	20
+14000	Curdle	curdle.gif	5	0	0
+14001	Conjure Eggs	cosmic_egg.gif	1	10	0
+14002	Conjure Dough	cosmic_dough.gif	1	30	0
+14003	Boil	jarl_boil.gif	5	5	0
+14004	Fry	jarl_fry.gif	5	20	0
+14005	Egg Man	jarl_eggman.gif	3	15	999
+14006	Early Riser	clock.gif	0	0	0
+14007	The Most Important Meal	numberone.gif	0	0	0
+14008	Coffeesphere	jarl_coffee.gif	3	10	20
 14009
 14010
-14011	Conjure Vegetables	1	10	0
-14012	Conjure Cheese	1	30	0
-14013	Slice	5	20	0
-14014	Chop	5	5	0
-14015	Radish Horse	3	15	999
-14016	Working Lunch	0	0	0
-14017	Lunch Like a King	0	0	0
-14018	Oilsphere	3	10	20
+14011	Conjure Vegetables	cosmic_veg.gif	1	10	0
+14012	Conjure Cheese	cosmic_cheese.gif	1	30	0
+14013	Slice	jarl_chop.gif	5	20	0
+14014	Chop	ginsu.gif	5	5	0
+14015	Radish Horse	jarl_horse.gif	3	15	999
+14016	Working Lunch	knifefork.gif	0	0	0
+14017	Lunch Like a King	goldcrown.gif	0	0	0
+14018	Oilsphere	jarl_oil.gif	3	10	20
 14019
 14020
-14021	Conjure Meat Product	1	30	0
-14022	Conjure Potato	1	10	0
-14023	Bake	5	5	0
-14024	Grill	5	30	0
-14025	Hippotatomous	3	15	999
-14026	Food Coma	0	0	0
-14027	Never Late for Dinner	0	0	0
-14028	Gristlesphere	3	10	20
+14021	Conjure Meat Product	cosmic_meat.gif	1	30	0
+14022	Conjure Potato	cosmic_potato.gif	1	10	0
+14023	Bake	oven.gif	5	5	0
+14024	Grill	jarl_grill.gif	5	30	0
+14025	Hippotatomous	jarl_hippo.gif	3	15	999
+14026	Food Coma	sleepy.gif	0	0	0
+14027	Never Late for Dinner	jarl_neverlate.gif	0	0	0
+14028	Gristlesphere	jarl_gristle.gif	3	10	20
 14029
 14030
-14031	Conjure Cream	1	30	0
-14032	Conjure Fruit	1	10	0
-14033	Freeze	5	5	0
-14034	Blend	5	7	0
-14035	Cream Puff	3	15	999
-14036	Nightcap	0	0	0
-14037	Best Served Cold	0	0	0
-14038	Chocolatesphere	3	10	20
+14031	Conjure Cream	cosmic_cream.gif	1	30	0
+14032	Conjure Fruit	cosmic_fruit.gif	1	10	0
+14033	Freeze	snowflake.gif	5	5	0
+14034	Blend	jarl_blend.gif	5	7	0
+14035	Cream Puff	jarl_creampuff.gif	3	15	999
+14036	Nightcap	martini.gif	0	0	0
+14037	Best Served Cold	jarl_revenge.gif	0	0	0
+14038	Chocolatesphere	jarl_choco.gif	3	10	20
