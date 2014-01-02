@@ -449,12 +449,13 @@ public class ValhallaManager
 		Preferences.setString( "pastaThrall8", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
+		Preferences.setString( "crudeMonster", "" );
 		Preferences.setString( "envyfishMonster", "" );
+		Preferences.setString( "iceSculptureMonster", "" );
 		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "rainDohMonster", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "waxMonster", "" );
-		Preferences.setString( "crudeMonster", "" );
 		// Way of the Surprising Fist
 		Preferences.setInteger( "charitableDonations", 0 );
 		Preferences.setInteger( "fistSkillsKnown", 0 );

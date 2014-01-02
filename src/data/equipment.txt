@@ -1142,6 +1142,7 @@ slime-covered speargun	200	Mox: 200	1-handed pistol
 slime-covered staff	200	Mys: 200	2-handed staff
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
+snow shovel	100	Mus: 0	2-handed polearm
 soap knife	200	Mus: 60	1-handed knife
 soul knife	100	Mus: 0	1-handed knife
 soup-chucks	15	Mus: 0	2-handed flail
@@ -1433,6 +1434,7 @@ hors d'oeuvre tray	110	Mus: 40	shield
 hot plate	60	Mus: 15	shield
 hypnodisk	200	none
 ice baby	0	none
+ice bucket	0	none
 incredibly creepy marionette	110	Mys: 40
 ivory cue ball	30	none
 jar of frostigkraut	0	Mys: 35
