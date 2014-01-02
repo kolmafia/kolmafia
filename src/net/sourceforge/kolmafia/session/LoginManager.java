@@ -183,7 +183,6 @@ public class LoginManager
 		ClanManager.clearCache();
 
 		CampgroundRequest.reset();
-		MushroomManager.reset();
 		HermitRequest.reset();
 		SpecialOutfit.forgetCheckpoints();
 
