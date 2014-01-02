@@ -5657,10 +5657,21 @@ public class FightRequest
 			// -POOF- noise, you take snap a picture of him. Your
 			// camera begins to shake, rattle and roll.
 
-			if ( responseText.indexOf( "old-timey <i>-POOF-</i> noise" ) != -1 )
+			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
 			{
 				Preferences.setString( "cameraMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.increment( "camerasUsed" );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
+		case ItemPool.UNFINISHED_ICE_SCULPTURE:
+			// With a flourish of chisels and chainsaws, you make a
+			// passable ice sculpture in the likeness of your foe.
+			if ( responseText.contains( "flourish of chisels" ) )
+			{
+				Preferences.setString( "iceSculptureMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}

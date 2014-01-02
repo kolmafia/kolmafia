@@ -444,6 +444,7 @@ user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
+user	iceSculptureMonster
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	jungCharge	0
 user	kingLiberated	false
@@ -936,6 +937,7 @@ user	_hoboUnderlingSummons	0
 user	_hotTubSoaks	0
 user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
+user	_iceSculptureUsed	false
 user	_inigosCasts	0
 user	_interviewVlad	false
 user	_interviewIsabella	false

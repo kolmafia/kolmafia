@@ -2669,6 +2669,14 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.ICE_SCULPTURE:
+			itemName = "ice sculpture";
+			Preferences.setString( "iceSculptureMonster", "" );
+			Preferences.setBoolean( "_iceSculptureUsed", true );
+			consumed = true;
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		case ItemPool.PHOTOCOPIED_MONSTER:
 			itemName = "photocopied monster";
 			Preferences.setString( "photocopyMonster", "" );

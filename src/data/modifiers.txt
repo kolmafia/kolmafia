@@ -1322,6 +1322,7 @@ slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit
 slime-covered staff	Spell Damage: +60, Initiative: -10
 # slingshot
 smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
+snow shovel	Muscle: +10, Mysticality: +10, Moxie: +10, Weapon Damage Percent: +100
 # soul knife: Can harm True Mimes
 soup-chucks	Hot Damage: +2
 soylent staff	Mysticality: +4, Spell Damage: +10
@@ -1670,6 +1671,7 @@ hors d'oeuvre tray	Initiative: +20, Damage Reduction: 7
 hot plate	Hot Damage: +3, Damage Reduction: +3
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
+ice bucket	Item Drop: +20
 incredibly creepy marionette	Mysticality: +3
 ivory cue ball	Item Drop: +5
 # jar of frostigkraut: Deals Cold Damage every round

@@ -2369,10 +2369,10 @@ liquid ice pack	WINTER, ROW228	ice harvest
 snow crab	WINTER, ROW230	snow berries (2)
 Ice Island Long Tea	WINTER, ROW231	snow berries	ice harvest (3)
 snow boards	WINTER, ROW229	snow berries (2)
-# unfinished ice sculpture	WINTER, ROW232	snow berries (3)	ice harvest (3)
+unfinished ice sculpture	WINTER, ROW232	snow berries (3)	ice harvest (3)
 # snow mobile	WINTER, ROW235	snow berries (3)	ice harvest (2)
-# ice bucket	WINTER, ROW236	ice harvest (3)
-# snow shovel	WINTER, ROW237	snow berries (4)	ice harvest
+ice bucket	WINTER, ROW236	ice harvest (3)
+snow shovel	WINTER, ROW237	snow berries (4)	ice harvest
 # bod-ice	WINTER, ROW238	snow berries	ice harvest (4)
 # snow belt	WINTER, ROW239	snow berries (7)	ice harvest
 # ice nine	WINTER, ROW240	ice harvest (9)
