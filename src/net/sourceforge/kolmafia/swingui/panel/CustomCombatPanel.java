@@ -79,6 +79,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -246,43 +248,19 @@ public class CustomCombatPanel
 			special.addMouseListener( listener );
 
 			String stunSkill = KoLCharacter.getClassStun();
-			if ( stunSkill.equals( "Club Foot" ) )
+			if ( stunSkill.equals( "Shell Up" ) )
 			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "clubfoot.gif" );
-			}
-			else if ( stunSkill.equals( "Shell Up" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shellup.gif" );
 				if ( KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING )
 				{
 					stunSkill = Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 				}
 			}
-			else if ( stunSkill.equals( "Entangling Noodles" ) )
+			int stunId = SkillDatabase.getSkillId( stunSkill );
+			if ( stunId > 0 )
 			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "entnoodles.gif" );
+				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( SkillDatabase.getSkillImage( stunId ) );
 			}
-			else if ( stunSkill.equals( "Accordion Bash" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "accordionbash.gif" );
-			}
-			else if ( stunSkill.equals( "Broadside" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "broadside.gif" );
-			}
-			else if ( stunSkill.equals( "Corpse Pile" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "corpsepile.gif" );
-			}
-			else if ( stunSkill.equals( "Blend" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "jarl_blend.gif" );
-			}
-			if ( stunSkill.equals( "Shadow Noodles" ) )
-			{
-				CustomCombatPanel.stunImg = CustomCombatPanel.getImage( "shadownoodles.gif" );
-			}
-			
+
 			this.stealLabel =
 				this.label(
 					special, listener, CustomCombatPanel.stealImg,
