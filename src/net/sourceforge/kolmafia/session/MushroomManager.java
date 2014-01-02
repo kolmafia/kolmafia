@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.MushroomRequest;
 
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
@@ -77,7 +79,6 @@ public abstract class MushroomManager
 	// 13 14 15 16
 
 	private static final String[][] actualPlot = new String[ 4 ][ 4 ];
-	private static boolean ownsPlot = false;
 
 	// Empty spot
 	public static final int EMPTY = 0;
@@ -154,16 +155,6 @@ public abstract class MushroomManager
 		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  EMPTY  },  // STINKY
 		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  }   // GLOOMY
 	};
-
-	/**
-	 * static final method which resets the state of the mushroom
-	 * plot. This should be used whenever the login process is restarted.
-	 */
-
-	public static final void reset()
-	{
-		MushroomManager.ownsPlot = false;
-	}
 
 	/**
 	 * Utility method which returns a two-dimensional array showing the arrangement of the plot.
@@ -600,14 +591,14 @@ public abstract class MushroomManager
 	 * Utility method used to initialize the state of the plot into the one-dimensional array.
 	 */
 
-	public static final boolean initialize()
-	{
-		return MushroomManager.ownsPlot();
-	}
-
 	public static final boolean ownsPlot()
 	{
-		if ( MushroomManager.ownsPlot )
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastMushroomPlot" );
+	}
+
+	private static final boolean initialize()
+	{
+		if ( MushroomManager.ownsPlot() )
 		{
 			return true;
 		}
@@ -621,7 +612,7 @@ public abstract class MushroomManager
 
 		RequestThread.postRequest( new MushroomRequest() );
 
-		if ( !MushroomManager.ownsPlot )
+		if ( !MushroomManager.ownsPlot() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You haven't bought a mushroom plot yet." );
 			return false;
@@ -644,16 +635,16 @@ public abstract class MushroomManager
 		}
 
 		Matcher plotMatcher = MushroomManager.PLOT_PATTERN.matcher( text );
-		MushroomManager.ownsPlot = plotMatcher.find();
 
-		// If there is no plot data, we do not own a plot.
-		if ( !MushroomManager.ownsPlot )
+		if ( !plotMatcher.find() )
 		{
 			return;
 		}
 
-		// Find all of the squares.
+		// Remember that we have bought a plot this ascension
+		Preferences.setInteger( "lastMushroomPlot", KoLCharacter.getAscensions() );
 
+		// Find all of the squares.
 		Matcher squareMatcher = MushroomManager.SQUARE_PATTERN.matcher( plotMatcher.group( 1 ) );
 
 		for ( int row = 0; row < 4; ++row )

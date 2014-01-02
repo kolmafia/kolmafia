@@ -5216,28 +5216,18 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( RuntimeLibrary.maximizerResults, m.size() - lastEquipIndex );
 		ArrayValue value = new ArrayValue( type );
 
-		int cutIndex;
-		Boost boo;
-		String text;
-		String cmd;
-		Double boost;
-		AdventureResult arEffect;
-		AdventureResult arItem;
-		String skill;
-
 		for ( int i = lastEquipIndex; i < m.size(); ++i )
 		{
-			boo = ( (Boost) m.get( i ) );
-
-			text = boo.toString();
-			cmd = boo.getCmd();
-			boost = boo.getBoost();
-			arEffect = boo.isEquipment() ? null : boo.getItem();
-			arItem = boo.getItem( false );
-			skill = cmd.startsWith( "cast" ) ? UneffectRequest.effectToSkill( arEffect.getName() ) : null;
+			Boost boo = ( (Boost) m.get( i ) );
+			String text = boo.toString();
+			String cmd = boo.getCmd();
+			Double boost = boo.getBoost();
+			AdventureResult arEffect = boo.isEquipment() ? null : boo.getItem();
+			AdventureResult arItem = boo.getItem( false );
+			String skill = cmd.startsWith( "cast" ) ? UneffectRequest.effectToSkill( arEffect.getName() ) : null;
 
 			// remove the (+ X) from the display text, that info is in the score
-			cutIndex = boo.toString().indexOf( " (" );
+			int cutIndex = boo.toString().indexOf( " (" );
 			if ( cutIndex != -1 )
 			{
 				text = text.substring( 0, cutIndex );
@@ -5248,10 +5238,8 @@ public abstract class RuntimeLibrary
 			rec.aset( 0, DataTypes.parseStringValue( text ), null );
 			rec.aset( 1, DataTypes.parseStringValue( cmd ), null );
 			rec.aset( 2, new Value( boost ), null );
-			rec.aset(
-				3, arEffect == null ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( arEffect.getName(), true ), null );
-			rec.aset(
-				4, arItem == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( arItem.getName(), true ), null );
+			rec.aset( 3, arEffect == null ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( arEffect.getName(), true ), null );
+			rec.aset( 4, arItem == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( arItem.getName(), true ), null );
 			rec.aset( 5, skill == null ? DataTypes.SKILL_INIT : DataTypes.parseSkillValue( skill, true ), null );
 		}
 
