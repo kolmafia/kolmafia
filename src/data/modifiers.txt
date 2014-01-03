@@ -3316,6 +3316,8 @@ pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
 saltwaterbed	Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Initiative Penalty: [10*zone(The Sea)]
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
+# snow fort 10 turns of Snow Fortified (+25% item drop, +50% meat drop, +50 max MP, +100 max HP)
+snow fort	Base Resting HP: +65, Base Resting MP: +65
 # spirit bed 20 turns of Spirit Schooled (+20% max MP)
 # spooky scarecrow
 stained mattress	Sleaze Resistance: +2
@@ -4451,6 +4453,7 @@ Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
 Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Snow Fortified	Item Drop: +25, Meat Drop: +50, Maximum MP: +50, Maximum HP: +100
 Snow Shoes	Combat Rate: -5
 So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10

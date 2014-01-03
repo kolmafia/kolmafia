@@ -63,7 +63,7 @@ public class CampgroundRequest
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions|Taffy) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
-		Pattern.compile( "/rest(\\d+|a|b)(tp)?(_free)?.gif" );
+		Pattern.compile( "/rest(\\d+|a|b|c)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
@@ -93,6 +93,7 @@ public class CampgroundRequest
 		ItemPool.TWIG_HOUSE,
 		ItemPool.GINGERBREAD_HOUSE,
 		ItemPool.HOBO_FORTRESS,
+		ItemPool.SNOW_FORT,
 
 		// Bedding
 		ItemPool.BEANBAG_CHAIR,
@@ -138,6 +139,7 @@ public class CampgroundRequest
 		ItemPool.HIGH_EFFICIENCY_STILL,
 		ItemPool.AUTO_ANVIL,
 		ItemPool.JACKHAMMER_DRILL_PRESS,
+		ItemPool.SNOW_MACHINE,
 
 		// Garden
 		ItemPool.PUMPKIN,
@@ -165,6 +167,7 @@ public class CampgroundRequest
 	public static final AdventureResult BARLEY = ItemPool.get( ItemPool.BARLEY, 1 );
 	public static final AdventureResult BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 1 );
 	public static final AdventureResult ICE_HARVEST = ItemPool.get( ItemPool.ICE_HARVEST, 1 );
+	public static final AdventureResult FROST_FLOWER = ItemPool.get( ItemPool.FROST_FLOWER, 1 );
 
 	private enum CropType
 	{
@@ -195,6 +198,7 @@ public class CampgroundRequest
 		CROPMAP.put( BARLEY, CropType.BEER );
 		CROPMAP.put( BEER_LABEL, CropType.BEER );
 		CROPMAP.put( ICE_HARVEST, CropType.WINTER );
+		CROPMAP.put( FROST_FLOWER, CropType.WINTER );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -208,6 +212,7 @@ public class CampgroundRequest
 		CampgroundRequest.BARLEY,
 		CampgroundRequest.BEER_LABEL,
 		CampgroundRequest.ICE_HARVEST,
+		CampgroundRequest.FROST_FLOWER,
 	};
 
 	public static void reset()
@@ -594,7 +599,7 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 6 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden0.gif", ItemPool.ICE_HARVEST, 0 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden1.gif", ItemPool.ICE_HARVEST, 3 );
-		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden2.gif", ItemPool.ICE_HARVEST, 6 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden2.gif", ItemPool.FROST_FLOWER, 1 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden3.gif", ItemPool.ICE_HARVEST, 9 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden4.gif", ItemPool.ICE_HARVEST, 12 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "wintergarden5.gif", ItemPool.ICE_HARVEST, 15 );
@@ -655,6 +660,10 @@ public class CampgroundRequest
 		{
 			dwelling = "11";
 		}
+		else if ( dwelling.equals( "c" ) )
+		{
+			dwelling = "12";
+		}
 
 		int itemId = -1;
 		switch ( StringUtilities.parseInt( dwelling ) )
@@ -696,6 +705,9 @@ public class CampgroundRequest
 			break;
 		case 11:
 			itemId = ItemPool.GIANT_FARADAY_CAGE;
+			break;
+		case 12:
+			itemId = ItemPool.SNOW_FORT;
 			break;
 		default:
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
@@ -778,6 +790,7 @@ public class CampgroundRequest
 		findImage( responseText, "wbstill.gif", ItemPool.HIGH_EFFICIENCY_STILL );
 		findImage( responseText, "wbanvil.gif", ItemPool.AUTO_ANVIL );
 		findImage( responseText, "wbdrillpress.gif", ItemPool.JACKHAMMER_DRILL_PRESS );
+		findImage( responseText, "snowmachine.gif", ItemPool.SNOW_MACHINE );
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
@@ -877,6 +890,8 @@ public class CampgroundRequest
 		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 		case ItemPool.GINORMOUS_PUMPKIN:
+		case ItemPool.GIANT_FARADAY_CAGE:
+		case ItemPool.SNOW_FORT:
 			return true;
 		}
 		return false;
@@ -906,6 +921,10 @@ public class CampgroundRequest
 			return 9;
 		case ItemPool.HOBO_FORTRESS:
 			return 10;
+		case ItemPool.GIANT_FARADAY_CAGE:
+			return 11;
+		case ItemPool.SNOW_FORT:
+			return 12;
 		}
 		return 0;
 	}
