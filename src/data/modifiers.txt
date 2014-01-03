@@ -4902,7 +4902,7 @@ Subtle and Quick to Anger	Spell Damage Percent: +10
 The Long View	Adventures: +3
 # The Way of Sauce
 Thick-Skinned (Skill)	Maximum HP: +10, Maximum MP: +10
-Thief Among the Honorable	Item Drop: +5
+Thief Among the Honorable	Item Drop: +5, Meat Drop: +10
 # Thirst of the Weasel Your Smacks restore 1-2 HP per gallon of Fury
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
