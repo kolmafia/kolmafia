@@ -1502,3 +1502,4 @@
 1501	Ice Packed	snowflake.gif	b89596dab94f72256f21840f3a1f4f7b	use 1 liquid ice pack
 1502	Berry Berry Cold	snowberries.gif	a2364ea596a977d372c77b1af7206905	eat 1 snow berries
 1503	Icy Demeanor	iceharvest.gif	fb3ab3e04e2a414c59075e333f35dd34	eat 1 ice harvest
+1504	Snow Fortified	snowfort.gif	e93fdb6c60c4c23ca17194151dcc61b8
