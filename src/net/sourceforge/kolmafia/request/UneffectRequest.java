@@ -269,6 +269,10 @@ public class UneffectRequest
 			"Flimsy Shield of the Pastalord",
 			"Shield of the Pastalord",
 		},
+		{
+			"Visions of the Deep Dark Deeps",
+			"Deep Dark Visions",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )

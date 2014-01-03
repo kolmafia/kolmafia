@@ -68,7 +68,7 @@
 42	Raise Backup Dancer	tombstone.gif	5	120	0
 43	Creepy Lullaby	creepysleepy.gif	5	30	0
 44	Rainbow Gravitation	prismwad.gif	1	30	0
-45	Vent Rage Gland	ventrage.gif	3	15	0
+45	Vent Rage Gland	ventrage.gif	3	15	5
 46	Slimy Sinews	slsinews.gif	0	0	0
 47	Slimy Synapses	slbrain.gif	0	0	0
 48	Slimy Shoulders	sebashield.gif	0	0	0
@@ -163,7 +163,7 @@
 1022	Clobber	clobber.gif	5	1	0	0
 1023	Harpoon!	hookspear.gif	5	30	0
 1024	Holiday Weight Gain	bathroomscale.gif	3	10	10
-1025	Iron Palm Technique	palmtree.gif	3	0	0
+1025	Iron Palm Technique	palmtree.gif	3	0	999
 1026
 1027	Hibernate	sleepy.gif	2	0	0	2
 1028	Cold Shoulder	snowflake.gif	0	0	0	3
@@ -276,13 +276,13 @@
 3041	Bind Spaghetti Elemental	t_spagdemon.gif	3	150	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
-
-3101	Spirit of Cayenne		3	1	999
-3102	Spirit of Peppermint		3	1	999
-3103	Spirit of Garlic		3	1	999
-3104	Spirit of Wormwood		3	1	999
-3105	Spirit of Bacon Grease		3	1	999
-3106	Spirit of Nothing		3	1	0
+# Remade in Pastamancer revamp, now 7176-7181
+# 3101	Spirit of Cayenne		3	1	999
+# 3102	Spirit of Peppermint		3	1	999
+# 3103	Spirit of Garlic		3	1	999
+# 3104	Spirit of Wormwood		3	1	999
+# 3105	Spirit of Bacon Grease		3	1	999
+# 3106	Spirit of Nothing		3	1	0
 
 # Skills available to Saucerors
 
@@ -595,12 +595,12 @@
 7173	Rage of the War Snapper	warsnapper.gif	5	0	0
 7174	Voice of She-Who-Was	shewhowas.gif	5	0	0
 7175	Will of the Storm Tortoise	stormtort.gif	5	0	0
-7176
-7177
-7178
-7179
-7180
-7181
+7176	Spirit of Cayenne		3	0	999
+7177	Spirit of Peppermint		3	0	999
+7178	Spirit of Garlic		3	0	999
+7179	Spirit of Wormwood		3	0	999
+7180	Spirit of Bacon Grease		3	0	999
+7181	Spirit of Nothing		3	0	0
 7182	Soul Bubble	soulbubble.gif	5	0	0
 7183	Soul Finger	soulfinger.gif	5	0	0
 7184	Soul Blaze	soulblaze.gif	5	0	0
@@ -638,7 +638,7 @@
 11002	Ferocity	angry.gif	0	0	0	2
 11003	Broadside	broadside.gif	5	10	0	3
 11004	Sick Pythons	scharm.gif	0	0	0	4
-11005	Pep Talk	peptalk.gif	3	1	1	5
+11005	Pep Talk	peptalk.gif	3	1	999	5
 11006	Throw Trusty	throwtrusty.gif	5	7	0	6
 11007	Legendary Luck	clover.gif	0	0	0	7
 11008	Song of Cockiness	superiority.gif	6	15	20	8
@@ -705,14 +705,14 @@
 # Master of the Zombie
 
 12021	Summon Minion	littleman.gif	3	0	0	1
-12022	Zombie Chow	cdish.gif	3	1	0	2
+12022	Zombie Chow	cdish.gif	3	1	10	2
 12023	Smash & Graaagh	sack1.gif	5	2	0	3
-12024	Scavenge	trashcan.gif	3	2	0	4
+12024	Scavenge	trashcan.gif	3	2	10	4
 12025	Meat Shields	meat.gif	5	1	0	5
 12026	Summon Horde	horde.gif	1	0	0	6
 12027	His Master's Voice	dotdotdot.gif	0	0	0	7
-12028	Ag-grave-ation	tombstone.gif	3	3	0	8
-12029	Disquiet Riot	louder.gif	3	5	0	9
+12028	Ag-grave-ation	tombstone.gif	3	3	10	8
+12029	Disquiet Riot	louder.gif	3	5	10	9
 12030	Zombie Maestro	operamask.gif	8	9	0	10
 
 # Summoning

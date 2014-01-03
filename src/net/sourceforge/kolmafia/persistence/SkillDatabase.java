@@ -907,6 +907,12 @@ public class SkillDatabase
 		case SkillPool.SPIRIT_VACATION:
 		case SkillPool.THATS_NOT_A_KNIFE:
 		case SkillPool.TRANSCENDENTAL_DENTE:
+		case SkillPool.SPIRIT_CAYENNE:
+		case SkillPool.SPIRIT_PEPPERMINT:
+		case SkillPool.SPIRIT_GARLIC:
+		case SkillPool.SPIRIT_WORMWOOD:
+		case SkillPool.SPIRIT_BACON:
+		case SkillPool.SPIRIT_NOTHING:
 		case SkillPool.SIMMER:
 		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
 		case SkillPool.SOUL_BUBBLE:

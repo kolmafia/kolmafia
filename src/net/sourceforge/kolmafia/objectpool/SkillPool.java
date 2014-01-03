@@ -62,6 +62,7 @@ public class SkillPool
 	public static final int CRIMBO_CANDY = 53;
 	public static final int VOLCANOMETEOR = 55;
 	public static final int LUNCH_BREAK = 60;
+	public static final int MANAGERIAL_MANIPULATION = 62;
 	public static final int MIYAGI_MASSAGE = 64;
 	public static final int SALAMANDER_KATA = 65;
 	public static final int FLYING_FIRE_FIST = 66;

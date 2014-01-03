@@ -980,7 +980,8 @@ user	_lookingGlass	false
 user	_lunchBreak	false
 user	_madTeaParty	false
 user	_mayflowerDrops	0
-user	_mayflySummons	0
+user	_mayflowerDrops	0
+user	_managerialManipulationUsed	false
 user	_mediumSiphons	0
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
