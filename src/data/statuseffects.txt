@@ -1497,7 +1497,7 @@
 1496
 1497
 1498
-1499
+1499	Frosty	frostflower.gif	96acd407d01178a54bda490e1c1561e2	use 1 frost flower
 1500	Snow Shoes	snowcleats.gif	54fb4f652159642ad0f30620af017189	use 1 snow cleats
 1501	Ice Packed	snowflake.gif	b89596dab94f72256f21840f3a1f4f7b	use 1 liquid ice pack
 1502	Berry Berry Cold	snowberries.gif	a2364ea596a977d372c77b1af7206905	eat 1 snow berries
