@@ -716,6 +716,10 @@ public class UseSkillRequest
 		case SkillPool.PSYCHOKINETIC_HUG:
 			maximumCast = Preferences.getBoolean( "_psychokineticHugUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.MANAGERIAL_MANIPULATION:
+			maximumCast = Preferences.getBoolean( "_managerialManipulationUsed" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -1515,6 +1519,13 @@ public class UseSkillRequest
 			return true;
 		}
 
+		if ( responseText.contains( "You can only declare one Employee of the Month per day" ) )
+		{
+			UseSkillRequest.lastUpdate = "You can only declare one Employee of the Month per day.";
+			Preferences.setBoolean( "_managerialManipulationUsed", true );
+			return true;
+		}
+
 		// You think your stomach has had enough for one day.
 		if ( responseText.contains( "enough for one day" ) )
 		{
@@ -1794,6 +1805,10 @@ public class UseSkillRequest
 
 		case SkillPool.PSYCHOKINETIC_HUG:
 			Preferences.setBoolean( "_psychokineticHugUsed", true );
+			break;
+
+		case SkillPool.MANAGERIAL_MANIPULATION:
+			Preferences.setBoolean( "_managerialManipulationUsed", true );
 			break;
 
 		case SkillPool.CONJURE_EGGS:
