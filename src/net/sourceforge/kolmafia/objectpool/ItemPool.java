@@ -1953,6 +1953,7 @@ public class ItemPool
 	public static final int ICE_HARVEST = 7072;
 	public static final int UNFINISHED_ICE_SCULPTURE = 7079;
 	public static final int ICE_SCULPTURE = 7080;
+	public static final int ICE_HOUSE = 7081;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

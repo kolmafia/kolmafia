@@ -6247,7 +6247,16 @@ public class FightRequest
 				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "louder than bomb" );
 			}
 			break;
-		}		
+		case ItemPool.ICE_HOUSE:
+			// You toss the ice house on the ground, and your opponent enters it.
+			// You slam the door and laugh all the way to the Museum, where you put
+			// the house on display with it still inside it.
+			if ( responseText.contains( "toss the ice house" ) )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "ice house" );
+			}
+			break;
+		}
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );

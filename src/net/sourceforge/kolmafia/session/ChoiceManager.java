@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -79,10 +78,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.session.BanishManager;
-import net.sourceforge.kolmafia.session.BugbearManager;
-import net.sourceforge.kolmafia.session.HaciendaManager;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
@@ -6697,6 +6692,14 @@ public abstract class ChoiceManager
 				HaciendaManager.parseRecording( urlString, text );
 			}
 			break;
+
+		case 836:
+			// Adventures Who Live in Ice Houses...
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				BanishManager.removeBanishByBanisher( "ice house" );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -8393,7 +8396,7 @@ public abstract class ChoiceManager
 			// If the player is looking for the model airship,
 			// then update their preferences so that KoLmafia
 			// automatically switches things for them.
-			int option4Mask = ( responseText.indexOf( "Gallivant down to the head" ) != -1 ? 1 : 0 ) << 2;
+			int option4Mask = ( responseText.contains( "Gallivant down to the head" ) ? 1 : 0 ) << 2;
 
 			if ( option4Mask > 0 && GoalManager.hasGoal( ChoiceManager.MODEL_AIRSHIP ) )
 			{
