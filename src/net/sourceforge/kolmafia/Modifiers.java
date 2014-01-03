@@ -1041,17 +1041,17 @@ public class Modifiers
 		}
 
 		int mus_limit = (int) this.get( Modifiers.MUS_LIMIT );
-		if ( mus_limit > 0 )
+		if ( mus_limit > 0 && mus > mus_limit )
 		{
 			mus = mus_limit;
 		}
 		int mys_limit = (int) this.get( Modifiers.MYS_LIMIT );
-		if ( mys_limit > 0 )
+		if ( mys_limit > 0 && mys > mys_limit )
 		{
 			mys = mys_limit;
 		}
 		int mox_limit = (int) this.get( Modifiers.MOX_LIMIT );
-		if ( mox_limit > 0 )
+		if ( mox_limit > 0 && mox > mox_limit )
 		{
 			mox = mox_limit;
 		}
