@@ -656,6 +656,7 @@ anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 asbestos apron	Hot Resistance: +3
 astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
 chamoisole	Slime Resistance: +3
@@ -1174,6 +1175,7 @@ hothammer	Hot Damage: +50
 huge mirror shard	Weapon Damage: +5
 huge mosquito proboscis	HP Regen Min: 8, HP Regen Max: 12, Maximum HP: +20
 huge spoon	Spell Damage: +10
+ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5
 ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
@@ -1760,6 +1762,8 @@ snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 # snapdragon pistil: All Spells Cast Are Hot
 snapdragon pistil	Spell Critical Percent: +5
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
+# snow mobile: Makes Spells Way Cooler
+snow mobile	Maximum MP: +20
 snowstick	Cold Spell Damage: +80
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
@@ -2387,6 +2391,7 @@ skeleton skis	Initiative: +25, Cold Damage: +5, Spooky Damage: +5, Single Equip
 slime convention pin	Moxie: -1
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 snow belly	Cold Damage: +6, Single Equip
+snow belt	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Adventures: +8, Single Equip
 sock garters	Cold Resistance: +2, Single Equip
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
@@ -3843,6 +3848,7 @@ Frio Como Helado	Cold Damage: +10
 Frisky Spirit	Moxie: +15
 Frog In Your Throat	Muscle: +25
 From Nantucket	Experience (Moxie): +5
+Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
 # Frosty the Hitman: +0-2 <font color=blue>Cold Damage</font>
@@ -5533,6 +5539,7 @@ fragment of Jarlsberg's soul	Free Pull
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
 frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
+frost flower	Effect: "Frosty", Effect Duration: 50
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"
 fry-oil-flavored Hob-O	Effect: "Cholestoriffic"

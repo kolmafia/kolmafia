@@ -7087,7 +7087,7 @@
 7070	packet of winter seeds	862450709	winterseeds.gif	usable		0
 7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
 7072	ice harvest	978968903	iceharvest.gif	food	t,d	5	ice harvests
-7073
+7073	frost flower	920213989	frostflower.gif	usable	t	0
 7074	snow cleats	578113475	snowcleats.gif	usable	t,d	5
 7075	liquid ice pack	505129527	flask.gif	usable	t,d	5
 7076	snow boards	776202871	snowboards.gif	none	q	0
@@ -7096,7 +7096,11 @@
 7079	unfinished ice sculpture	922017254	icesculpt.gif	none, combat		0
 7080	ice sculpture	123744220	icesculpt2.gif	usable	q	0
 7081	ice house	957880072	icehouse.gif	none, combat	t	0
-7082
-7083
+7082	snow machine	945560112	snowmachine.gif	usable	t	0
+7083	snow mobile	734321513	snowmobile.gif	offhand	q	0
 7084	ice bucket	658452002	icebucket.gif	offhand	q	0
 7085	snow shovel	583581544	snowshovel.gif	weapon	q	0
+7086	bod-ice	512058876	bodice.gif	shirt	q	0
+7087	snow belt	654186523	snow_belt.gif	accessory	q	0
+7088	ice nine	306945089	icenine.gif	weapon	q	0
+7089	snow fort	977873244	snowfort.gif	usable	t	0
