@@ -742,7 +742,7 @@ Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Ban
 # Cloaca-Cola-issue combat knife: Drains MP on Successful Hit
 Coily&trade;	Moxie Percent: +15, Item Drop: +10, Meat Drop: +25
 Crimbo sword	Weapon Damage: +5
-Crimbo ukelele	Item Drop: +10
+Crimbo ukulele	Item Drop: +10
 # Crimbomination Contraption
 Disco Banjo	Moxie: +7, Class: "Disco Bandit", DB Combat Damage: +3
 Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
