@@ -2223,7 +2223,7 @@
 2206	time sleigh	361244140	seligh.gif	none		0	time sleighs
 2207	lucky Crimbo tiki necklace	826928029	tikineck.gif	accessory	t	0	lucky Crimbo tiki necklaces
 2208	bobble-hip hula elf doll	784659271	huladoll.gif	offhand	t	0	bobble-hip hula elves doll
-2209	Crimbo ukelele	707103901	ukelele.gif	weapon	t	0	Crimbo ukeleles
+2209	Crimbo ukulele	707103901	ukelele.gif	weapon	t	0	Crimbo ukuleles
 2210	Tiki lighter	132311575	tikilighter.gif	offhand	t	0	Tiki lighters
 2211	deck of tropical cards	750777542	carddeck.gif	offhand	t	0	deck of tropical cardses
 2212	tropical paperweight	811103172	paperweight.gif	offhand	t	0	tropical paperweights
@@ -7105,4 +7105,4 @@
 7088	ice nine	306945089	icenine.gif	weapon	q	0
 7089	snow fort	977873244	snowfort.gif	usable	t	0
 7090
-7091	Skully's hot chocolate	154879893	smartskull.gif	food	t	0
+7091	Skully's hot chocolate	154879893	smartskull.gif	food	t	0	mugs of Skully's hot chocolate
