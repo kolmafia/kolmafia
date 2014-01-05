@@ -535,6 +535,7 @@ sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
 skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
+skully's hot chocolate	1	1	decent	0	0	0	0
 sleazy hi mein	5	7	awesome	23-26	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 sleeping dog	2	1	awesome	9-10	0	0	0	acquire Dog Tired skill
 slice of pizza	1	1	good	3	12-15	12-15	12-15

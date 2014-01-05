@@ -520,7 +520,7 @@
 519	Radiant Personality	light.gif	be2f929df46d63924049628a0efcb854	gong roach moxie
 520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0	gong roach mysticality
 521	Ack! Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52	gong roach muscle
-522	New and Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2	gong roach allstats
+522	New, Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2	gong roach allstats
 523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4	gong roach itemdrop
 524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5	gong roach ML
 525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd	chew 1 glimmering phoenix feather
@@ -1503,3 +1503,4 @@
 1502	Berry Berry Cold	snowberries.gif	a2364ea596a977d372c77b1af7206905	eat 1 snow berries
 1503	Icy Demeanor	iceharvest.gif	fb3ab3e04e2a414c59075e333f35dd34	eat 1 ice harvest
 1504	Snow Fortified	snowfort.gif	e93fdb6c60c4c23ca17194151dcc61b8
+1505	Skull Full of Hot Chocolate	smartskull.gif	1c9209273b920040572d06208b4d39de	eat 1 Skully's hot chocolate
