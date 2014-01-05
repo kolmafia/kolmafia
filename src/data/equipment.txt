@@ -625,7 +625,7 @@ Chester's bag of candy	200	Mox: 200	2-handed bag
 Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 Coily&trade;	200	Mox: 200	2-handed spring
 Crimbo sword	100	Mus: 35	2-handed sword
-Crimbo ukelele	80	Mox: 20	2-handed guitar
+Crimbo ukulele	80	Mox: 20	2-handed guitar
 Crimbomination Contraption	100	Mus: 0	2-handed club
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
