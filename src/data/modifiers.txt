@@ -4182,9 +4182,7 @@ Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
-# From "gong roach allstats" 
-New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
-# From "1 warbear rejuvenation potion"
+New, Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
@@ -4419,6 +4417,7 @@ Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Skeletal Buddy	Experience: +2
 # Ski Ballin': Makes you look like an eXtreme cross-country hippy
+Skull Full of Hot Chocolate	Cold Resistance: +2
 # Skunkulated: Take stench damage every round of combat
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
@@ -5285,6 +5284,7 @@ Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
+Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 Small Medium	Free Pull
 Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
 Sorcerers of the Shore Grimoire	Free Pull

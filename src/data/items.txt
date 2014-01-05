@@ -7104,3 +7104,5 @@
 7087	snow belt	654186523	snow_belt.gif	accessory	q	0
 7088	ice nine	306945089	icenine.gif	weapon	q	0
 7089	snow fort	977873244	snowfort.gif	usable	t	0
+7090
+7091	Skully's hot chocolate	154879893	smartskull.gif	food	t	0
