@@ -1175,10 +1175,19 @@ public class GenericRequest
 	}
 
 	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=([^&]*)" );
-
 	public static final int getHowMuch( final String urlString )
 	{
-		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
+		return GenericRequest.getNumericField( urlString, GenericRequest.HOWMUCH_PATTERN );
+	}
+
+	public static final int getWhichItem( final String urlString )
+	{
+		return GenericRequest.getNumericField( urlString, GenericRequest.WHICHITEM_PATTERN );
+	}
+
+	public static final int getNumericField( final String urlString, final Pattern pattern )
+	{
+		Matcher matcher = pattern.matcher( urlString );
 		if ( matcher.find() )
 		{
 			// KoL allows any old crap in the input field. It
@@ -1318,12 +1327,11 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
 		{
-			Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( location );
-			if ( !itemMatcher.find() )
+			int comedyItemID = GenericRequest.getWhichItem( location );
+			if ( comedyItemID == -1 )
 			{
 				return;
 			}
-			int comedyItemID = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 			String comedy;
 			boolean offhand = false;

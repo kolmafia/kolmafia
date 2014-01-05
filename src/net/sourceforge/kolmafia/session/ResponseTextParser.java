@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -322,6 +323,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "campground.php" ) )
 		{
 			CampgroundRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "cafe.php" ) )
+		{
+			ChezSnooteeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "cave.php" ) )

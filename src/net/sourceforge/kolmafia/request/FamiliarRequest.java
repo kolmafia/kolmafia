@@ -59,7 +59,6 @@ public class FamiliarRequest
 	private static final Pattern FAMID_PATTERN = Pattern.compile( "famid=(-?\\d+)" );
 	private static final Pattern NEWFAM_PATTERN = Pattern.compile( "newfam=(\\d+)" );
 	private static final Pattern WHICHFAM_PATTERN = Pattern.compile( "whichfam=(-?\\d+)" );
-	private static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	private static int getFamId( final String urlString )
 	{
@@ -76,12 +75,6 @@ public class FamiliarRequest
 	private static int getWhichFam( final String urlString )
 	{
 		Matcher matcher = FamiliarRequest.WHICHFAM_PATTERN.matcher( urlString );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
-	}
-
-	private static int getWhichItem( final String urlString )
-	{
-		Matcher matcher = FamiliarRequest.WHICHITEM_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
@@ -463,7 +456,7 @@ public class FamiliarRequest
 			}
 
 			int whichfam = FamiliarRequest.getWhichFam( urlString );
-			int whichitem = FamiliarRequest.getWhichItem( urlString );
+			int whichitem = GenericRequest.getWhichItem( urlString );
 			FamiliarRequest.equipFamiliar( whichfam, whichitem );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 

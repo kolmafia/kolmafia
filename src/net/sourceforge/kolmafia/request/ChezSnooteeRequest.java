@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChezSnooteeRequest
@@ -134,6 +136,60 @@ public class ChezSnooteeRequest
 		}
 	}
 
+	protected void parseResponse()
+	{
+		// If this is an internal request, we'll follow it up with a
+		// call to api.php, which will update fullness for us.
+
+		// ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		// cafe.php?cafeid=1&pwd&action=CONSUME%21&whichitem=806
+		if ( !urlString.startsWith( "cafe.php" ) || !urlString.contains( "cafeid=1" ) )
+		{
+			return;
+		}
+
+		// If we were not attempting to consume an item, nothing to do
+		if ( !urlString.contains( "action=CONSUME" ) )
+		{
+			return;
+		}
+
+		// If consumption failed, nothing to do
+		if ( !responseText.contains( "You gain" ) )
+		{
+			return;
+		}
+
+		// If we are displaying fullness, we'll pick up the change via the charpane
+		if ( responseText.contains( "Fullness" ) )
+		{
+			return;
+		}
+
+		// Figure out which item this is
+		int itemId = GenericRequest.getWhichItem( urlString );
+		if ( itemId == -1 )
+		{
+			return;
+		}
+
+		String itemName = ChezSnooteeRequest.cafeItemName( itemId );
+		if ( itemName == null )
+		{
+			return;
+		}
+
+		int fullness = ItemDatabase.getFullness( itemName );
+		if ( fullness > 0 )
+		{
+			Preferences.increment( "currentFullness", fullness );
+		}
+	}
+
 	public static final boolean onMenu( final String name )
 	{
 		return KoLConstants.restaurantItems.contains( name );
@@ -169,6 +225,21 @@ public class ChezSnooteeRequest
 	public static final void reset()
 	{
 		CafeRequest.reset( KoLConstants.restaurantItems );
+	}
+
+	private static final String cafeItemName( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case -1:
+			return "Peche a la Frog";
+		case -2:
+			return "As Jus Gezund Heit";
+		case -3:
+			return "Bouillabaise Coucher Avec Moi";
+		default:
+			return ItemDatabase.getItemName( itemId );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
