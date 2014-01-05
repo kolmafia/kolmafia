@@ -198,15 +198,20 @@ public class CafeRequest
 			return;
 		}
 
-		// Successful purchase/consumption
+		// Successful purchase/consumption. Let subclass deal with with it
 
+		this.parseResponse();
+
+		KoLmafia.updateDisplay( "Goodie purchased." );
+	}
+
+	protected void parseResponse()
+	{
 		int fullness = ItemDatabase.getFullness( this.itemName );
 		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) ) // if fullness display is on, ResultProcessor will handle incrementing fullness
 		{
 			Preferences.increment( "currentFullness", fullness );
 		}
-
-		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
 
 	protected static void addMenuItem( final LockableListModel menu, final String itemName, final int price )
