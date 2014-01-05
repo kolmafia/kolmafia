@@ -598,11 +598,6 @@ public abstract class MushroomManager
 
 	private static final boolean initialize()
 	{
-		if ( MushroomManager.ownsPlot() )
-		{
-			return true;
-		}
-
 		// If you can't go inside Degrassi Knoll, no go
 		if ( !KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
