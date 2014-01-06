@@ -1296,17 +1296,17 @@ scrumdiddlyumptious solution	SUSE, NOBEE	delectable catalyst	scrumptious reagent
 
 # Reagent potions.
 
-Connery's Elixir of Audacity	SSAUCE, SX3	scrumdiddlyumptious solution	cocktail onion
-Hawking's Elixir of Brilliance	SSAUCE, SX3	scrumdiddlyumptious solution	tangerine
-Ferrigno's Elixir of Power	SSAUCE, SX3	scrumdiddlyumptious solution	kiwi
-blackberry polite	SSAUCE, SX3	scrumdiddlyumptious solution	blackberry
-cologne of contempt	SSAUCE, SX3	scrumdiddlyumptious solution	dill
-concentrated cordial of concentration	SSAUCE, SX3	scrumdiddlyumptious solution	tonic water
-potent potion of potency	SSAUCE, SX3	scrumdiddlyumptious solution	kumquat
-eyedrops of the ocelot	SSAUCE, SX3	scrumdiddlyumptious solution	raspberry
-peach lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	peach
-pear lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	pear
-plum lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	plum
+Connery's Elixir of Audacity	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	cocktail onion
+Hawking's Elixir of Brilliance	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	tangerine
+Ferrigno's Elixir of Power	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	kiwi
+blackberry polite	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	blackberry
+cologne of contempt	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	dill
+concentrated cordial of concentration	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	tonic water
+potent potion of potency	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	kumquat
+eyedrops of the ocelot	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	raspberry
+peach lozenge	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	peach
+pear lozenge	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	pear
+plum lozenge	SSAUCE, WAY, SX3	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
 fluid of fudge-finding	SSAUCE	scrumdiddlyumptious solution	superheated fudge
@@ -1317,11 +1317,11 @@ lotion of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
 lotion of stench	SAUCE, SX3	scrumptious reagent	stench powder
 lotion of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 
-phial of hotness	SAUCE	scrumdiddlyumptious solution	hot cluster
-phial of coldness	SAUCE	scrumdiddlyumptious solution	cold cluster
-phial of spookiness	SAUCE	scrumdiddlyumptious solution	spooky cluster
-phial of stench	SAUCE	  scrumdiddlyumptious solution	stench cluster
-phial of sleaziness	SAUCE	scrumdiddlyumptious solution	sleaze cluster
+phial of hotness	SAUCE, WAY	scrumdiddlyumptious solution	hot cluster
+phial of coldness	SAUCE, WAY	scrumdiddlyumptious solution	cold cluster
+phial of spookiness	SAUCE, WAY	scrumdiddlyumptious solution	spooky cluster
+phial of stench	SAUCE, WAY	  scrumdiddlyumptious solution	stench cluster
+phial of sleaziness	SAUCE, WAY	scrumdiddlyumptious solution	sleaze cluster
 
 # Deep Sauces
 
@@ -1340,11 +1340,11 @@ sleaze clusterbomb	COMBINE	length of old fuse	sleaze cluster
 spooky clusterbomb	COMBINE	length of old fuse	spooky cluster
 stench clusterbomb	COMBINE	length of old fuse	stench cluster
 
-Dreadsylvanian cold-fashioned	MIX	eau de mort	cold cluster
-Dreadsylvanian hot toddy	MIX	eau de mort	hot cluster
-Dreadsylvanian slithery nipple	MIX	eau de mort	sleaze cluster
-Dreadsylvanian grimlet	MIX	eau de mort	spooky cluster
-Dreadsylvanian dank and stormy	MIX	eau de mort	stench cluster
+Dreadsylvanian cold-fashioned	MIX_FANCY	eau de mort	cold cluster
+Dreadsylvanian hot toddy	MIX_FANCY	eau de mort	hot cluster
+Dreadsylvanian slithery nipple	MIX_FANCY	eau de mort	sleaze cluster
+Dreadsylvanian grimlet	MIX_FANCY	eau de mort	spooky cluster
+Dreadsylvanian dank and stormy	MIX_FANCY	eau de mort	stench cluster
 
 Dreadsylvanian cold pocket	COOK_FANCY	bone flour	cold cluster
 Dreadsylvanian hot pocket	COOK_FANCY	bone flour	hot cluster

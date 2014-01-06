@@ -6565,11 +6565,11 @@
 6548	cooling iron helmet	832188756	dv_hihelm.gif	usable	t	0
 6549	cooling iron breastplate	284257225	dv_hichest.gif	usable	t	0
 6550	cooling iron greaves	970137723	dv_higreaves.gif	usable	t	0
-6551	hot cluster	537386546	cluster.gif	none	t,d	500
-6552	cold cluster	768750520	cluster.gif	none	t,d	500
-6553	spooky cluster	407716567	cluster.gif	none	t,d	500
-6554	stench cluster	472355222	cluster.gif	none	t,d	500
-6555	sleaze cluster	859360841	cluster.gif	none	t,d	500
+6551	hot cluster	537386546	cluster.gif	none, fancy	t,d	500
+6552	cold cluster	768750520	cluster.gif	none, fancy	t,d	500
+6553	spooky cluster	407716567	cluster.gif	none, fancy	t,d	500
+6554	stench cluster	472355222	cluster.gif	none, fancy	t,d	500
+6555	sleaze cluster	859360841	cluster.gif	none, fancy	t,d	500
 6556	phial of hotness	958585577	hotvial.gif	usable	t	0	phials of hotness
 6557	phial of coldness	552997486	coldvial.gif	usable	t	0	phials of coldness
 6558	phial of spookiness	581859871	spookyvial.gif	usable	t	0	phials of spookiness
