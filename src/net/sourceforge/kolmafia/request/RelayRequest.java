@@ -155,6 +155,7 @@ public class RelayRequest
 	private static String CONFIRM_LIBRARY = "confirm11";
 	private static String CONFIRM_WINEGLASS = "confirm12";
 	private static String CONFIRM_COLOSSEUM = "confirm13";
+	private static String CONFIRM_GREMLINS = "confirm14";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -996,6 +997,52 @@ public class RelayRequest
 			"You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
 
 		this.sendGeneralWarning( "iblubbercandle.gif", message, CONFIRM_SEAL, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendGremlinWarning( final KoLAdventure adventure )
+	{
+		if ( adventure == null )
+		{
+			return false;
+		}
+
+		String location = adventure.getAdventureId();
+
+		// If they aren't going to the War Gremlin zones, no problem
+		if ( !location.equals( AdventurePool.JUNKYARD_BARREL_ID ) && 
+			!location.equals( AdventurePool.JUNKYARD_REFRIGERATOR_ID ) && 
+			!location.equals( AdventurePool.JUNKYARD_TIRES_ID ) && 
+			!location.equals( AdventurePool.JUNKYARD_CAR_ID ) )
+		{
+			return false;
+		}
+
+		// If user has already confirmed he wants to do it, accept it
+		if ( this.getFormField( CONFIRM_GREMLINS ) != null )
+		{
+			return false;
+		}
+
+		// If they've completed the quest, don't worry
+		if ( !Preferences.getString( "sidequestJunkyardCompleted" ).equals( "none" ) )
+		{
+			return false;
+		}
+
+		// If they have the Molybdenum Magnet, no warning needed
+		if ( InventoryManager.getCount( ItemPool.MOLYBDENUM_MAGNET ) > 0 )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are about to fight Gremlins, but do not have the Molybdenum Magnet. If you are sure you want to do this, click on the image to proceed.";
+
+		this.sendGeneralWarning( "magnet2.gif", message, CONFIRM_GREMLINS, "checked=1" );
 
 		return true;
 	}
@@ -2364,6 +2411,11 @@ public class RelayRequest
 		}
 
 		if ( this.sendColosseumWarning( adventure ) )
+		{
+			return true;
+		}
+
+		if ( this.sendGremlinWarning( adventure ) )
 		{
 			return true;
 		}
