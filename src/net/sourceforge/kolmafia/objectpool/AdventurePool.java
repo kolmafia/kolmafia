@@ -91,9 +91,13 @@ public class AdventurePool
 	public static final int WINE_CELLAR_NORTHWEST = 178;
 	public static final int WINE_CELLAR_SOUTHEAST = 181;
 	public static final int JUNKYARD_BARREL = 182;
+	public static final String JUNKYARD_BARREL_ID = "182";
 	public static final int JUNKYARD_REFRIGERATOR = 183;
+	public static final String JUNKYARD_REFRIGERATOR_ID = "183";
 	public static final int JUNKYARD_TIRES = 184;
+	public static final String JUNKYARD_TIRES_ID = "184";
 	public static final int JUNKYARD_CAR = 185;
+	public static final String JUNKYARD_CAR_ID = "185";
 	public static final int SEASIDE_MEGALOPOLIS = 206;
 	public static final int MERKIN_COLOSSEUM = 210;
 	public static final String MERKIN_COLOSSEUM_ID = "210";
