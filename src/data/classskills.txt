@@ -608,6 +608,7 @@
 7186	Soul Rotation		3	0	10
 7187	Soul Funk		3	0	10
 7188	Dismiss Pasta Thrall		1	0	0
+7189	Spray Hot Grease	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

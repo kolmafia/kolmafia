@@ -591,6 +591,12 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Pocket Crumbs" );
 			KoLCharacter.addAvailableSkill( "Air Dirty Laundry" );
 			break;
+		case ItemPool.WARBEAR_OIL_PAN:
+			if( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+			{
+				KoLCharacter.addAvailableSkill( "Spray Hot Grease" );
+			}
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
