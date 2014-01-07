@@ -1320,7 +1320,7 @@ lotion of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 phial of hotness	SAUCE, WAY	scrumdiddlyumptious solution	hot cluster
 phial of coldness	SAUCE, WAY	scrumdiddlyumptious solution	cold cluster
 phial of spookiness	SAUCE, WAY	scrumdiddlyumptious solution	spooky cluster
-phial of stench	SAUCE, WAY	  scrumdiddlyumptious solution	stench cluster
+phial of stench	SAUCE, WAY	scrumdiddlyumptious solution	stench cluster
 phial of sleaziness	SAUCE, WAY	scrumdiddlyumptious solution	sleaze cluster
 
 # Deep Sauces
