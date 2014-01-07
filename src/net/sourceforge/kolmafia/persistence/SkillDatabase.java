@@ -146,7 +146,7 @@ public class SkillDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 5 )
+			if ( data.length < 6 )
 			{
 				continue;
 			}
