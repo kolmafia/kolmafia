@@ -560,3 +560,15 @@ The Shore, Inc. Gift Shop	buy	3	cheap toaster	ROW179
 The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
+
+# Things you can buy with a warbear black box
+
+Warbear Black Box	buy	10	blind-packed die-cast metal toy	ROW224
+Warbear Black Box	buy	50	warbear helm fragment	ROW221
+Warbear Black Box	buy	50	warbear trouser fragment	ROW222
+Warbear Black Box	buy	50	warbear accoutrements chunk	ROW223
+Warbear Black Box	buy	100	warbear requisition box	ROW225
+Warbear Black Box	buy	200	warbear dress greaves	ROW242
+Warbear Black Box	buy	300	warbear dress bracers	ROW243
+Warbear Black Box	buy	400	warbear dress helmet	ROW244
+Warbear Black Box	buy	500	warbear officer requisition box	ROW226

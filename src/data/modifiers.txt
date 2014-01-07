@@ -353,6 +353,7 @@ toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: 
 turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
+warbear dress helmet	Moxie: +10, Booze Drop: +25
 # warbear electro-spiked helm: +60 WarBear Armor Penetration
 # warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
 warbear electro-spiked helm	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
@@ -606,6 +607,7 @@ warbear battle greaves	Weapon Damage Percent: +25, Spell Damage Percent: +50
 # warbear bearserker greaves: Troubling Vulnerability to All Elements (-5)
 warbear bearserker greaves	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 # warbear ceremonial party pants: +10% Item Drops from WarBears
+warbear dress greaves	Muscle: +10, Food Drop: +25
 # warbear electric long johns: Serious Supercold Resistance
 warbear electric long johns	Weapon Damage Percent: -25, Spell Damage Percent: -50
 # warbear fleece-lined long johns: So-So Supercold Resistance
@@ -2654,6 +2656,7 @@ velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initi
 vial of hot blood	Hot Resistance: +4, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
+warbear dress bracers	Mysticality: +10, Candy Drop: +25, Single Equip
 # warbear electric warscarf: Serious Supercold Resistance
 warbear electric warscarf	Weapon Damage Percent: -25, Spell Damage Percent: -50, Single Equip
 # warbear energy bracers: Monster attacks reduce MP instead of HP
@@ -5029,6 +5032,7 @@ Uncle Hobo's Rags	Candy Drop: +15
 Vestments of the Treeslayer	Damage Reduction: 5
 Vile Vagrant Vestments	Mana Cost (stackable): -5
 Violent Vestments	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
+Warbear Dress Armor	Item Drop: +10
 War Hippy Fatigues	Stench Damage: +15
 Wax Wardrobe	Moxie: +7
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10

@@ -496,6 +496,7 @@ union scalemail pants	50	Mox: 10
 warbear battle greaves	50	Mox: 10
 warbear bearserker greaves	250	Mox: 110
 warbear ceremonial party pants	150	Mox: 60
+warbear dress greaves	100	Mox: 35
 warbear electric long johns	250	Mox: 110
 warbear fleece-lined long johns	150	Mox: 60
 warbear high festival pants	250	Mox: 110
@@ -591,6 +592,7 @@ supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
+warbear dress helmet	100	Mox: 35
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
 wumpus-hair sweater	110	Mus: 40
@@ -2329,6 +2331,7 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
+warbear dress bracers	100	Mys: 35
 warbear electric warscarf	0	Mys: 110
 warbear energy bracers	100	none
 warbear exo-arm	100	none

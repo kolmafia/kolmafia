@@ -149,6 +149,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
+import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -159,7 +160,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.NullStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class RequestLogger
@@ -1251,6 +1251,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof VolcanoIslandRequest || isExternal ) && VolcanoIslandRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof WarbearBoxRequest || isExternal ) && WarbearBoxRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

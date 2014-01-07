@@ -7106,3 +7106,6 @@
 7089	snow fort	977873244	snowfort.gif	usable	t	0
 7090
 7091	Skully's hot chocolate	154879893	smartskull.gif	food	t	0	mugs of Skully's hot chocolate
+7092	warbear dress helmet	136945982	wbo_helm.gif	hat	t	0
+7093	warbear dress bracers	486728461	wbo_bracers.gif	accessory	t	0
+7094	warbear dress greaves	381238105	wbo_greaves.gif	pants	t	0
