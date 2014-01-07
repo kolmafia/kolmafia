@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CrimboCafeRequest
 	extends CafeRequest
 {
-	public static final boolean AVAILABLE = true;
+	public static final boolean AVAILABLE = false;
 	public static final String CAFEID = "10";
 	public static final Object[][] MENU_DATA =
 	{
