@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -150,6 +151,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel terrifiedEagleInnPanel = null;
 	private CoinmasterPanel BURTPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
+	private CoinmasterPanel warbearBoxPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -291,6 +293,11 @@ public class CoinmastersFrame
 		fdkolPanel = new fdkolPanel();
 		panel.add( fdkolPanel );
 		this.selectorPanel.addPanel( fdkolPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		warbearBoxPanel = new WarbearBoxPanel();
+		panel.add( warbearBoxPanel );
+		this.selectorPanel.addPanel( warbearBoxPanel.getPanelSelector(), panel );
 
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
@@ -819,6 +826,15 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class WarbearBoxPanel
+		extends CoinmasterPanel
+	{
+		public WarbearBoxPanel()
+		{
+			super( WarbearBoxRequest.WARBEARBOX );
+		}
+	}
+
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
@@ -1114,7 +1130,7 @@ public class CoinmastersFrame
 			}
 
 			@Override
-			public void setEnabled( final boolean isEnabled )
+			public final void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
 				this.buttons[ 0 ].setEnabled( CoinmasterPanel.this.enabled() );
@@ -1440,7 +1456,7 @@ public class CoinmastersFrame
 				}
 			}
 
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 			stringForm.append( "<html>" );
 			if ( !show )
 			{

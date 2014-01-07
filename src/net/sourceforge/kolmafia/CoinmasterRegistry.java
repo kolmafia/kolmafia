@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -94,6 +95,7 @@ public abstract class CoinmasterRegistry
 		TrapperRequest.TRAPPER,
 		TravelingTraderRequest.TRAVELER,
 		VendingMachineRequest.VENDING_MACHINE,
+		WarbearBoxRequest.WARBEARBOX,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];

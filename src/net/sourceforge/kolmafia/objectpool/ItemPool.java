@@ -1938,6 +1938,7 @@ public class ItemPool
 	public static final int LOUDER_THAN_BOMB = 7014;
 	public static final int SAUCEPANIC = 7027;
 	public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
+	public static final int WARBEAR_BLACK_BOX = 7035;
 	public static final int HIGH_EFFICIENCY_STILL = 7036;
 	public static final int LP_ROM_BURNER = 7037;
 	public static final int WARBEAR_GYROCOPTER = 7038;
