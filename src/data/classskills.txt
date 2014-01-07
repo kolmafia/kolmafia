@@ -390,7 +390,7 @@
 6016	Carlweather's Cantata of Confrontation	cantata.gif	4	20	5	14
 6017	Ur-Kel's Aria of Annoyance	urkels.gif	4	30	5	15
 6018	Dirge of Dreadfulness	dirge.gif	4	9	5
-6019
+6019	Gemelli's March of Testery	nutsack.gif	3	15	5
 6020	The Ballad of Richie Thingfinder	richie.gif	4	50	5
 6021	Benetton's Medley of Diversity	medley.gif	4	50	5
 6022	Elron's Explosive Etude	etude.gif	4	50	5
@@ -427,7 +427,7 @@
 7006	Stinky Breath	breath.gif	5	5	0
 7007	Sleazy Breath	breath.gif	5	5	0
 # Moxious Maneuver was removed from KoL
-# 7008 Moxious Maneuver 5 0 0
+# 7008	Moxious Maneuver	moxman.gif	5	0	0
 7009	Magic Missile	magmissile.gif	5	0	0
 7010	Fire red bottle-rocket	bottlerocket.gif	5	5	0
 7011	Fire blue bottle-rocket	bottlerocket.gif	5	5	0
@@ -539,16 +539,16 @@
 7117	Siphon Spirit	crystaldecanter.gif	5	0	0
 7118	Swirl Cloak	ffcloak.gif	5	0	0
 7119
-7120	Quick Attack		5	0	0
-7121	Rive Armor		5	0	0
-7122	Brutal Strike		5	0	0
-7123	First Aid		5	0	0
-7124	Firebolt		5	0	0
-7125	Chillblain		5	0	0
-7126	Forceblast		5	0	0
-7127	Vampiric Tendrils		5	0	0
-7128	Draw New Tiles		5	0	0
-7129	Run Away		5	0	0
+7120	Quick Attack	gashes.gif	5	0	0
+7121	Rive Armor	brokeshield.gif	5	0	0
+7122	Brutal Strike	angry.gif	5	0	0
+7123	First Aid	bandaid.gif	5	0	0
+7124	Firebolt	fire.gif	5	0	0
+7125	Chillblain	snowflake.gif	5	0	0
+7126	Forceblast	belch.gif	5	0	0
+7127	Vampiric Tendrils	stench.gif	5	0	0
+7128	Draw New Tiles	swaptiles.gif	5	0	0
+7129	Run Away	footprints.gif	5	0	0
 7130
 7131	Kodiak Moment	bearpic.gif	5	0	0
 7132	Grizzly Scene	slashes.gif	5	0	0
@@ -595,12 +595,12 @@
 7173	Rage of the War Snapper	warsnapper.gif	5	0	0
 7174	Voice of She-Who-Was	shewhowas.gif	5	0	0
 7175	Will of the Storm Tortoise	stormtort.gif	5	0	0
-7176	Spirit of Cayenne		3	0	999
-7177	Spirit of Peppermint		3	0	999
-7178	Spirit of Garlic		3	0	999
-7179	Spirit of Wormwood		3	0	999
-7180	Spirit of Bacon Grease		3	0	999
-7181	Spirit of Nothing		3	0	0
+7176	Spirit of Cayenne	flavorofmagic.gif	3	0	999
+7177	Spirit of Peppermint	flavorofmagic.gif	3	0	999
+7178	Spirit of Garlic	flavorofmagic.gif	3	0	999
+7179	Spirit of Wormwood	flavorofmagic.gif	3	0	999
+7180	Spirit of Bacon Grease	flavorofmagic.gif	3	0	999
+7181	Spirit of Nothing	flavorofmagic.gif	3	0	0
 7182	Soul Bubble	soulbubble.gif	5	0	0
 7183	Soul Finger	soulfinger.gif	5	0	0
 7184	Soul Blaze	soulblaze.gif	5	0	0
