@@ -2288,6 +2288,8 @@ public abstract class KoLCharacter
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
 		case SLIME:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.SLIME_RESISTANCE );
+		case SUPERCOLD:
+			return (int) KoLCharacter.currentModifiers.get( Modifiers.SUPERCOLD_RESISTANCE );
 		default:
 			return 0;
 		}

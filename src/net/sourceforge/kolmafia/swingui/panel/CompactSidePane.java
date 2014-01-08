@@ -683,6 +683,7 @@ public class CompactSidePane
 		this.addElement( buf, "Spooky", Modifiers.SPOOKY_DAMAGE );
 		this.addElement( buf, "Sleaze", Modifiers.SLEAZE_DAMAGE );
 		this.addSlime( buf );
+		this.addSupercold( buf );
 		buf.append( "<tr><td>Weapon</td><td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.WEAPON_DAMAGE ) ) );
@@ -951,6 +952,23 @@ public class CompactSidePane
 			buf.append( "Expected dmg " );
 			buf.append( KoLConstants.COMMA_FORMAT.format( Math.ceil( Math.pow( Math.max( 0, 11 - turns ), 2.727 ) * ( 100.0 - percent ) * KoLCharacter.getMaximumHP() / 10000.0 ) ) );
 		}
+		buf.append( "</td><td>" );
+		buf.append( KoLConstants.MODIFIER_FORMAT.format( resist ) );
+		buf.append( " (" );
+		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( percent ) );
+		buf.append( "%)</td></tr>" );
+	}
+
+	private void addSupercold( StringBuffer buf )
+	{
+		int resist = (int) KoLCharacter.currentNumericModifier(
+			Modifiers.SUPERCOLD_RESISTANCE );
+		double percent = KoLCharacter.elementalResistanceByLevel( resist, false );
+		if ( resist == 0 )
+		{
+			return;	// skip this row entirely, it's all zeros
+		}
+		buf.append( "<tr><td>Supercold</td><td colspan=2>" );
 		buf.append( "</td><td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format( resist ) );
 		buf.append( " (" );

@@ -68,7 +68,8 @@ public class MonsterDatabase
 		SLEAZE( "sleaze" ),
 		SPOOKY( "spooky" ),
 		STENCH( "stench" ),
-		SLIME( "slime" );
+		SLIME( "slime" ),
+		SUPERCOLD( "supercold" );
 
 		private final String name;
 

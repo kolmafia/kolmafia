@@ -355,22 +355,19 @@ turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 warbear dress helmet	Moxie: +10, Booze Drop: +25
 # warbear electro-spiked helm: +60 WarBear Armor Penetration
-# warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
-warbear electro-spiked helm	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
+warbear electro-spiked helm	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 # warbear fancy fedora: +15% Item Drops from WarBears
 warbear fancy fedora	Initiative: -25, Maximum HP: -50, Maximum MP: -50
 # warbear feathered fedora: +10% Item Drops from WarBears
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
 warbear foil hat	Familiar Weight: +5, Class: "Turtle Tamer"
-# warbear heated ushanka: Serious Supercold Resistance
-warbear heated ushanka	Weapon Damage Percent: -25, Spell Damage Percent: -50
-# warbear lined ushanka: So-So Supercold Resistance
+warbear heated ushanka	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50
+warbear lined ushanka: Supercold Resistance: +2
 # warbear plain fedora: +5% Item Drops from WarBears
 warbear plain fedora	Initiative: +25, Maximum HP: +50, Maximum MP: +50
 # warbear plain helm: +20 WarBear Armor Penetration
 warbear plain helm	Weapon Damage Percent: +25, Spell Damage Percent: +50
-# warbear plain ushanka: Slight Supercold Resistance
-warbear plain ushanka	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
+warbear plain ushanka	Supercold Resistance: +2, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 # warbear spiked helm: +40 WarBear Armor Penetration
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
@@ -409,7 +406,6 @@ Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, 
 El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, MP regen, cap 31"
 Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "1xBarrr, cap 30"
-# Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Great Wolf's beastly trousers	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Weapon Damage Percent: +50, Familiar Weight: +10, Familiar Effect: "1xPotato, 1.5xWhelp"
 # Greatest American Pants: Amazing Super Powers
 Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +50, Softcore Only, Familiar Effect: "1.5xVolley, 2.5xBarrr, 2xLep, cap 25"
@@ -604,17 +600,14 @@ union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 # warbear battle greaves: +20 WarBear Armor Penetration
 warbear battle greaves	Weapon Damage Percent: +25, Spell Damage Percent: +50
 # warbear bearserker greaves: +60 WarBear Armor Penetration
-# warbear bearserker greaves: Troubling Vulnerability to All Elements (-5)
-warbear bearserker greaves	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
+warbear bearserker greaves	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 # warbear ceremonial party pants: +10% Item Drops from WarBears
 warbear dress greaves	Muscle: +10, Food Drop: +25
-# warbear electric long johns: Serious Supercold Resistance
-warbear electric long johns	Weapon Damage Percent: -25, Spell Damage Percent: -50
-# warbear fleece-lined long johns: So-So Supercold Resistance
+warbear electric long johns	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50
+warbear fleece-lined long johns: Supercold Resistance: +2
 # warbear high festival pants: +15% Item Drops from WarBears
 warbear high festival pants	Initiative: -25, Maximum HP: -50, Maximum MP: -50
-# warbear long johns: Slight Supercold Resistance
-warbear long johns	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
+warbear long johns	Supercold Resistance: +2, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 # warbear officer greaves: +40 WarBear Armor Penetration
 # warbear party pants: +5% Item Drops from WarBears
 warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50
@@ -2657,14 +2650,12 @@ vial of hot blood	Hot Resistance: +4, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
 warbear dress bracers	Mysticality: +10, Candy Drop: +25, Single Equip
-# warbear electric warscarf: Serious Supercold Resistance
-warbear electric warscarf	Weapon Damage Percent: -25, Spell Damage Percent: -50, Single Equip
+warbear electric warscarf	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Single Equip
 # warbear energy bracers: Monster attacks reduce MP instead of HP
 warbear energy bracers	Class: "Pastamancer", Single Equip
 # warbear exo-arm: Increases the magnitude of your Smacks
 warbear exo-arm	Class: "Seal Clubber", Single Equip
-# warbear fleece-lined warscarf: So-So Supercold Resistance
-warbear fleece-lined warscarf	Single Equip
+warbear fleece-lined warscarf	Supercold Resistance: +2, Single Equip
 # warbear goggles: +5% Item Drops from WarBears
 warbear goggles	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Single Equip
 # warbear hoverbelt: Grants access to the upper floors of the Warbear fortress
@@ -2675,16 +2666,14 @@ warbear laser beacon	Class: "Disco Bandit", Single Equip
 # warbear laser bowtie: +20 WarBear Armor Penetration
 warbear laser bowtie	Weapon Damage Percent: +25, Spell Damage Percent: +50, Single Equip
 # warbear nuclear bowtie: +60 WarBear Armor Penetration
-# warbear nuclear bowtie: Troubling Vulnerability to All Elements (-5)
-warbear nuclear bowtie	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip
+warbear nuclear bowtie	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip
 # warbear plasma bowtie: +40 WarBear Armor Penetration
 warbear plasma bowtie	Single Equip
 # warbear polarized goggles: +15% Item Drops from WarBears
 warbear polarized goggles	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip
 # warbear snowblindness goggles: +10% Item Drops from WarBears
 warbear snowblindness goggles	Single Equip
-# warbear warscarf: Slight Supercold Resistance
-warbear warscarf	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Single Equip
+warbear warscarf	Supercold Resistance: +1, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Single Equip
 # water wings
 water-polo mitt	Weapon Damage: +30, Single Equip
 whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
@@ -4095,7 +4084,7 @@ Liquid Courage	Experience: +3
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Litterbug	Monster Level: +25
 Livin' Large	Meat Drop: +10
-# Loaded Forwarbear: So-So Supercold Resistance (+2)
+Loaded Forwarbear	Supercold Resistance: +2
 Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10
@@ -4353,8 +4342,7 @@ Ripping, Dripping	Weapon Damage Percent: +50
 Riqueza de Pasta	Experience: 2
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 # Robocamo: Beep Boop
-# Rolando's Rondo of Resisto: Superhuman Supercold Resistance (+5)
-Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
+Rolando's Rondo of Resisto	Supercold Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
@@ -4579,7 +4567,7 @@ Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-# Superheated Guts: Serious Supercold Resistance (+3)
+Superheated Guts	Supercold Resistance: +3
 Superhuman Sarcasm	Moxie Percent: +100
 # SuperStar: You earned a gold star
 Surreally Buff	Muscle Percent: +20
@@ -4722,13 +4710,13 @@ Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
-# Warbear Blubber: Serious Supercold Resistance (+3)
+Warbear Blubber	Supercold Resistance: +3
 # Gift of the Warbear: +15% Item Drops from WarBears
 # Warbear Hunter: +10% Item Drops from WarBears
 # Warbear Hunter: +40 WarBear Armor Penetration
-# Warbear Hunter: So-So Supercold Resistance (+2)
+Warbear Hunter	Supercold Resistance: +2
 # Warbear Loot Lust: +15% Item Drops from WarBears
-# Warbear on the Inside: So-So Supercold Resistance (+2)
+Warbear on the Inside	Supercold Resistance: +2
 # Warbear Warlust: +60 WarBear Armor Penetration
 # Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
 Warm Belly	Hot Damage: [+3*D]
@@ -5542,6 +5530,7 @@ floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 foetid seal tear Effect: "Abyssal Tears", Effect Duration: 20
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
+fortified eggnog slurry	Effect: "Loaded Forwarbear", Effect Duration: 10
 fragment of Jarlsberg's soul	Free Pull
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
@@ -5612,6 +5601,7 @@ holly-flavored Hob-O	Effect: "Holiday Bliss"
 homeless hobo spirit	Free Pull
 honey stick	Effect: "Stuck That Way", Effect Duration: 10
 honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
+hot buttered rum	Effect: "Loaded Forwarbear", Effect Duration: 20
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hungover chauvinist pig	Free Pull
@@ -5831,6 +5821,7 @@ sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
+spicy hot chocolate	Effect: "Loaded Forwarbear", Effect Duration: 30
 spirit gum	Effect: "Spirit Bubble", Effect Duration: 10
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
