@@ -209,6 +209,7 @@ public class Modifiers
 	public static final int SONG_DURATION = 103;
 	public static final int PRISMATIC_DAMAGE = 104;
 	public static final int SMITHSNESS = 105;
+	public static final int SUPERCOLD_RESISTANCE = 106;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -682,6 +683,10 @@ public class Modifiers
 		{ "Smithsness",
 		  Pattern.compile( "([+-]\\d+) Smithsness" ),
 		  Pattern.compile( "Smithsness: " + EXPR )
+		},
+		{ "Supercold Resistance",
+		  null,
+		  Pattern.compile( "Supercold Resistance: " + EXPR )
 		},
 	};
 
@@ -2772,6 +2777,10 @@ public class Modifiers
 		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
 		{
 			level = "+5";
+		}
+		else if ( enchantment.indexOf( "Stunning" ) != -1 )
+		{
+			level = "+7";
 		}
 		else if ( enchantment.indexOf( "Sublime" ) != -1 )
 		{

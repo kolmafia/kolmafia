@@ -318,6 +318,7 @@ public class Expression
 							  elem.equals( "spooky" ) ? Modifiers.SPOOKY_RESISTANCE :
 							  elem.equals( "stench" ) ? Modifiers.STENCH_RESISTANCE :
 							  elem.equals( "slime" ) ? Modifiers.SLIME_RESISTANCE :
+							  elem.equals( "supercold" ) ? Modifiers.SUPERCOLD_RESISTANCE :
 							  -1;
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
