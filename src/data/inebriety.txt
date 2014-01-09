@@ -244,11 +244,10 @@ hot choculate	5	4		10-15	9-10	9-10	9-10
 hot toady	4	4		6-10	7-8	7-8	7-8
 humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
 hundred headed ipa	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
-ice island long tea	4	1	awesome	0	0	0	0
+ice island long tea	4	1	awesome	18-22	15-30	15-30	15-30
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
 ice-cold sir schlitz	1	1	crappy	1	0	0	0	2-4 MP
 ice-cold willer	1	1	crappy	1	0	0	0	3-4 MP
-ice island long tea	4	1	awesome	0	0	0	0
 icy mushroom wine	3	6	awesome	10-14	0	12-15	0
 imp ale	1	1	crappy	1	7-8	0	-5	8-10 MP
 infinitesimal ipa	3	1		3-8	0	0	0

@@ -318,7 +318,7 @@ hot hi mein	5	7	awesome	23-26	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
-ice harvest	1	1	good	0	0	0	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
+ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 imitation white russian	2	6	good	4-6	5-10	5-10	5-10
 immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
@@ -535,7 +535,7 @@ sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
 skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
-skully's hot chocolate	1	1	decent	0	0	0	0
+skully's hot chocolate	1	1	decent	1-3	0	0	0	10 Skull Full of Hot Chocolate (+2 cold resistance)
 sleazy hi mein	5	7	awesome	23-26	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 sleeping dog	2	1	awesome	9-10	0	0	0	acquire Dog Tired skill
 slice of pizza	1	1	good	3	12-15	12-15	12-15
@@ -548,8 +548,8 @@ sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 sneaky pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
-snow berries	1	1	good	0	0	0	0	30 Berry Berry Cold (+10 Cold Damage, +20 Cold Spell Damage)
-snow crab	1	1	EPIC	0	0	0	0
+snow berries	1	1	good	2-3	3-5	3-5	3-5	30 Berry Berry Cold (+10 Cold Damage, +20 Cold Spell Damage)
+snow crab	1	1	EPIC	5-7	10-20	10-20	10-20
 soylent red and green	3	5		4-5	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
 spaghetti breakfast	1	1	crappy	6	0	0	0	
