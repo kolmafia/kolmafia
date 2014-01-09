@@ -90,7 +90,6 @@ public class BreakfastManager
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
 	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
-	private static final boolean useToys = Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 
 	public static void getBreakfast( final boolean runComplete )
 	{
@@ -102,13 +101,16 @@ public class BreakfastManager
 			checkRumpusRoom();
 			checkVIPLounge();
 			readGuildManual();
-			useToys();
-			useCSAKit();
 			getHermitClovers();
 			harvestGarden();
 			visitBigIsland();
 			visitVolcanoIsland();
 			checkJackass();
+			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			{
+				useToys();
+				useCSAKit();
+			}
 		}
 
 		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -126,10 +128,6 @@ public class BreakfastManager
 
 	private static void useCSAKit()
 	{
-		if ( !useToys )
-		{
-			return;
-		}
 		if ( InventoryManager.getAccessibleCount( ItemPool.CSA_FIRE_STARTING_KIT ) > 0 && Preferences.getInteger( "choiceAdventure595" ) != 0 )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ) ) );
@@ -207,25 +205,22 @@ public class BreakfastManager
 
 	private static void useToys()
 	{
-		if ( useToys )
+		for ( int i = 0; i < toys.length; ++i )
 		{
-			for ( int i = 0; i < toys.length; ++i )
+			AdventureResult toy = toys[ i ];
+			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( toy.getName() ) )
 			{
-				AdventureResult toy = toys[ i ];
-				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( toy.getName() ) )
+				continue;
+			}
+			if ( InventoryManager.hasItem( toy ) )
+			{
+				int slot = KoLCharacter.equipmentSlot( toy );
+				RequestThread.postRequest( UseItemRequest.getInstance( toy ) );
+				KoLmafia.forceContinue();
+				if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
 				{
-					continue;
-				}
-				if ( InventoryManager.hasItem( toy ) )
-				{
-					int slot = KoLCharacter.equipmentSlot( toy );
-					RequestThread.postRequest( UseItemRequest.getInstance( toy ) );
+					RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
 					KoLmafia.forceContinue();
-					if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
-					{
-						RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
-						KoLmafia.forceContinue();
-					}
 				}
 			}
 		}
