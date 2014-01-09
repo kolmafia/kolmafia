@@ -607,7 +607,7 @@
 7185	Soul Food		2	0	0
 7186	Soul Rotation		3	0	10
 7187	Soul Funk		3	0	10
-7188	Dismiss Pasta Thrall		1	0	0
+7188	Dismiss Pasta Thrall		3	0	0
 7189	Spray Hot Grease	wboilpan.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
