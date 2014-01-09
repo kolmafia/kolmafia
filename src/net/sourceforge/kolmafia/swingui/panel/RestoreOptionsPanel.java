@@ -213,7 +213,7 @@ public class RestoreOptionsPanel
 	private void setSelectedIndex( final JComboBox option, final String property )
 	{
 		int desiredIndex = (int) ( Preferences.getFloat( property ) * 20.0f + 1 );
-		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );
+		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() - 1 ) );
 	}
 
 	private class CheckboxListener
