@@ -155,7 +155,12 @@ public class BanishManager
 			return this.turnBanished;
 		}
 	}
-	
+
+	public static final void clearCache()
+	{
+		BanishManager.banishedMonsters.clear();
+	}
+
 	public static final void loadBanishedMonsters()
 	{
 		BanishManager.banishedMonsters.clear();
@@ -490,6 +495,10 @@ public class BanishManager
 				else if ( resetType == Reset.AVATAR_RESET )
 				{
 					banishData[ banish ][ 3 ] = "Until Prism Break";
+				}
+				else if ( resetType == Reset.NEVER_RESET )
+				{
+					banishData[ banish ][ 3 ] = "Until Ice House opened";
 				}
 				banish++;
 			}
