@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
+
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
@@ -181,6 +183,7 @@ public class LoginManager
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
 		ClanManager.clearCache();
+		BanishManager.clearCache();
 
 		CampgroundRequest.reset();
 		HermitRequest.reset();
