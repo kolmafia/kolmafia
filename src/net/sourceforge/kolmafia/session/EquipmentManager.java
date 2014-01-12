@@ -1664,10 +1664,16 @@ public class EquipmentManager
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			AdventureResult piece = pieces[ i ];
-			if ( !KoLCharacter.hasEquipped( piece ) && !InventoryManager.retrieveItem( piece ) )
+			if ( KoLCharacter.hasEquipped( piece ) || InventoryManager.hasItem( piece ) )
 			{
-				return false;
+				continue;
 			}
+			if ( InventoryManager.getAccessibleCount( piece ) > 0 )
+			{
+				InventoryManager.retrieveItem( piece );
+				continue;
+			}
+			return false;
 		}
 
 		return true;
