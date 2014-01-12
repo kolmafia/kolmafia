@@ -291,8 +291,8 @@ public class KoLAdventure
 		String holiday = HolidayDatabase.getHoliday();
 
 		if ( holiday.equals( "El Dia De Los Muertos Borrachos" ) ||
-			holiday.equals( "Feast of Boris" ) ||
-			holiday.equals( "Talk Like a Pirate Day" ) )
+		     holiday.equals( "Feast of Boris" ) ||
+		     holiday.equals( "Talk Like a Pirate Day" ) )
 		{
 			return true;
 		}
@@ -1034,8 +1034,7 @@ public class KoLAdventure
 		}
 
 		if ( this.getAdventureId().equals( AdventurePool.THE_SHORE_ID ) &&
-		     ( ( !KoLCharacter.inFistcore() && KoLCharacter.getAvailableMeat() < 500 ) ||
-		     ( KoLCharacter.getAvailableMeat() < 5 ) ) )
+		     KoLCharacter.getAvailableMeat() < ( KoLCharacter.inFistcore() ? 5 : 500 ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds for shore vacation." );
 			return;
