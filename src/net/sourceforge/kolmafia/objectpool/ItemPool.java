@@ -1552,6 +1552,7 @@ public class ItemPool
 	public static final int DARK_CHOCOLATE_HEART = 5498;
 	public static final int JACKASS_PLUMBER_GAME = 5501;
 	public static final int TRIVIAL_AVOCATIONS_GAME = 5502;
+	public static final int PACK_OF_POGS = 5505;
 	public static final int WHAT_CARD = 5511;
 	public static final int WHEN_CARD = 5512;
 	public static final int WHO_CARD = 5513;

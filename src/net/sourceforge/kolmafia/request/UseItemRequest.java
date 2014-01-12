@@ -1325,6 +1325,11 @@ public class UseItemRequest
 				iterations = (origCount + 19) / 20;
 				this.itemUsed = this.itemUsed.getInstance( (origCount + 19) % 20 + 1 );
 			}
+			else if ( itemId == ItemPool.PACK_OF_POGS )
+			{	// If not divisible by 11, make the first iteration short
+				iterations = (origCount + 10) / 11;
+				this.itemUsed = this.itemUsed.getInstance( (origCount + 10) % 11 + 1 );
+			}
 			else switch ( this.consumptionType )
 			{
 			case  KoLConstants.INFINITE_USES:
@@ -1371,6 +1376,10 @@ public class UseItemRequest
 			if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
 			{	// the first iteration may have been short
 				this.itemUsed = this.itemUsed.getInstance( 20 );
+			}
+			else if ( itemId == ItemPool.PACK_OF_POGS )
+			{	// the first iteration may have been short
+				this.itemUsed = this.itemUsed.getInstance( 11 );
 			}
 
 			if ( ( isSealFigurine || isBRICKOMonster ) && KoLmafia.permitsContinue() )

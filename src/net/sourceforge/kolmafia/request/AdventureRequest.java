@@ -1156,8 +1156,7 @@ public class AdventureRequest
 		String zone = AdventureDatabase.getZone( this.adventureName );
 		if ( zone != null && zone.equals( "The Sea" ) )
 		{
-			return KoLConstants.activeEffects.contains(
-				EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
+			return KoLConstants.activeEffects.contains( EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
 		}
 		return 1;
 	}
