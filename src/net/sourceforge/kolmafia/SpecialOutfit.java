@@ -121,7 +121,7 @@ public class SpecialOutfit
 				return false;
 			}
 
-			if ( InventoryManager.getAccessibleCount( piece ) <= this.pieceCount( piece ) )
+			if ( InventoryManager.getAccessibleCount( piece ) < this.pieceCount( piece ) )
 			{
 				return false;
 			}
