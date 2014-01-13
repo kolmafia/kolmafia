@@ -65,7 +65,7 @@ public abstract class SystemTrayFrame
 {
 	private static WindowsTrayIcon icon = null;
 
-	public static final void addTrayIcon()
+	public synchronized static final void addTrayIcon()
 	{
 		if ( SystemTrayFrame.icon != null )
 		{
@@ -85,8 +85,8 @@ public abstract class SystemTrayFrame
 
 			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
 
-			SystemTrayFrame.icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
-			SystemTrayFrame.icon.addMouseListener( new SetVisibleListener() );
+			WindowsTrayIcon icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
+			icon.addMouseListener( new SetVisibleListener() );
 
 			TrayIconPopup popup = new TrayIconPopup();
 			popup.addMenuItem( new ShowMainWindowPopupItem() );
@@ -97,7 +97,8 @@ public abstract class SystemTrayFrame
 			popup.addMenuItem( new LogoutPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
-			SystemTrayFrame.icon.setPopup( popup );
+			icon.setPopup( popup );
+			SystemTrayFrame.icon = icon;
 			SystemTrayFrame.updateToolTip();
 		}
 		catch ( Exception e )
