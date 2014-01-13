@@ -9472,28 +9472,31 @@ public abstract class ChoiceManager
 
 	private static void setCanWalkAway( final int choice )
 	{
+		ChoiceManager.canWalkAway = ChoiceManager.canWalkFromChoice( choice );
+	}
+
+	public static boolean canWalkFromChoice( int choice )
+	{
 		switch ( choice )
 		{
 		case 603: // Skeletons and The Closet
 		case 664: // The Crackpot Mystic's Shed
 		case 720: // The Florist Friar's Cottage
 		case 767: // Tales of Dread
-		case 774: // Opening up the Folder Holder
 		case 770: // The Institute for Canadian Studies
+		case 774: // Opening up the Folder Holder
 		case 792: // The Degrassi Knoll Gym
 		case 793: // Welcome to The Shore, Inc.
 		case 801: // A Reanimated Conversation
 		case 804: // Trick or Treat!
-		// case 807: // Breaker Breaker!
 		case 810: // K.R.A.M.P.U.S. facility
 		case 812: // The Unpermery
 		case 821: // LP-ROM burner
-			ChoiceManager.canWalkAway = true;
-			break;
+		case 836: // Adventures Who Live in Ice Houses...
+			return true;
 
 		default:
-			ChoiceManager.canWalkAway = false;
-			break;
+			return false;
 		}
 	}
 }
