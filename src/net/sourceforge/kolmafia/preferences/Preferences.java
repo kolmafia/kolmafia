@@ -106,7 +106,7 @@ public class Preferences
 	 * settings are modified.
 	 */
 
-	public static final void reset( final String username )
+	public static synchronized final void reset( final String username )
 	{
 		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
 
@@ -783,7 +783,7 @@ public class Preferences
 		}
 	}
 
-	public static void resetDailies()
+	public static synchronized void resetDailies()
 	{
 		Iterator<String> i = Preferences.userValues.keySet().iterator();
 		while ( i.hasNext() )

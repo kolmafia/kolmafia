@@ -308,6 +308,16 @@ public class MonsterDatabase
 
 		return new AdventureResult( name, (count << 16) | prefix );
 	}
+	
+	private synchronized static final void initializeMonsterStrings()
+	{
+		if ( MonsterDatabase.MONSTER_STRINGS == null )
+		{
+			String[] monsterData = new String[ MonsterDatabase.MONSTER_DATA.size() ];
+			MonsterDatabase.MONSTER_DATA.keySet().toArray( monsterData );
+			MonsterDatabase.MONSTER_STRINGS = monsterData;
+		}
+	}
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
@@ -327,11 +337,7 @@ public class MonsterDatabase
 			return null;
 		}
 
-		if ( MonsterDatabase.MONSTER_STRINGS == null )
-		{
-			MonsterDatabase.MONSTER_STRINGS = new String[ MonsterDatabase.MONSTER_DATA.size() ];
-			MonsterDatabase.MONSTER_DATA.keySet().toArray( MonsterDatabase.MONSTER_STRINGS );
-		}
+		initializeMonsterStrings();
 
 		List<String> matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
 

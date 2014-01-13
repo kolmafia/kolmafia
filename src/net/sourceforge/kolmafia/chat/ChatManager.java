@@ -218,7 +218,7 @@ public abstract class ChatManager
 		RequestThread.postRequest( new ChannelColorsRequest() );
 	}
 
-	public static final String getLastFaxBotMessage()
+	public static synchronized final String getLastFaxBotMessage()
 	{
 		if ( ChatManager.faxbotMessage != null )
 		{

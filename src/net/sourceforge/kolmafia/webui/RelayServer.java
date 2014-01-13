@@ -78,15 +78,14 @@ public class RelayServer
 		RelayServer.updateStatus = true;
 	}
 
-	public static final void startThread()
+	public static synchronized final void startThread()
 	{
-		if ( RelayServer.relayThread != null )
+		if ( RelayServer.relayThread == null )
 		{
-			return;
+			Thread relayServer = new Thread( RelayServer.INSTANCE, "LocalRelayServer" );
+			relayServer.start();
+			RelayServer.relayThread = relayServer;
 		}
-
-		RelayServer.relayThread = new Thread( RelayServer.INSTANCE, "LocalRelayServer" );
-		RelayServer.relayThread.start();
 	}
 
 	public static final int getPort()

@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class PrefTraceCommand
 	extends AbstractCommand
 {
-	private static ArrayList audience = null;	// keeps listeners from being GC'd
+	private static ArrayList<Listener> audience = null;	// keeps listeners from being GC'd
 
 	public PrefTraceCommand()
 	{
@@ -53,39 +53,39 @@ public class PrefTraceCommand
 	}
 
 	@Override
-	public void run( String command, final String parameters )
+	public synchronized void run( String command, final String parameters )
 	{
 		if ( audience != null )
 		{
 			audience = null;
 			RequestLogger.printLine( "Previously watched prefs have been cleared." );
 		}
-	
+
 		if ( parameters.equals( "" ) )
 		{
 			return;
 		}
-		
+
 		String[] prefList = parameters.split( "\\s*,\\s*" );
-		audience = new ArrayList();
+		audience = new ArrayList<Listener>();
 		for ( int i = 0; i < prefList.length; ++i )
 		{
-			audience.add( new Listener( prefList[ i ] ) );		
+			audience.add( new Listener( prefList[ i ] ) );
 		}
 	}
-	
+
 	private static class Listener
 		implements PreferenceListener
 	{
 		String name;
-		
+
 		public Listener( String name )
 		{
 			this.name = name;
 			PreferenceListenerRegistry.registerListener( name, this );
 			this.update();
 		}
-		
+
 		public void update()
 		{
 			String msg = "ptrace: " + this.name + " = " +
@@ -96,7 +96,7 @@ public class PrefTraceCommand
 				StaticEntity.printStackTrace( msg );
 				// msg also gets displayed in CLI
 			}
-			else 
+			else
 			{
 				RequestLogger.printLine( msg );
 			}

@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class ItemTraceCommand
 	extends AbstractCommand
 {
-	private static ArrayList audience = null;	// keeps listeners from being GC'd
+	private static ArrayList<Listener> audience = null;	// keeps listeners from being GC'd
 
 	public ItemTraceCommand()
 	{
@@ -57,24 +57,24 @@ public class ItemTraceCommand
 	}
 
 	@Override
-	public void run( String command, final String parameters )
+	public synchronized void run( String command, final String parameters )
 	{
 		if ( audience != null )
 		{
 			audience = null;
 			RequestLogger.printLine( "Previously watched items have been cleared." );
 		}
-	
+
 		if ( parameters.equals( "" ) )
 		{
 			return;
 		}
-		
+ 
 		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
-		audience = new ArrayList();
+		audience = new ArrayList<Listener>();
 		for ( int i = 0; i < itemList.length; ++i )
 		{
-			audience.add( new Listener( (AdventureResult) itemList[ i ] ) );		
+			audience.add( new Listener( (AdventureResult) itemList[ i ] ) );
 		}
 	}
 	
@@ -82,14 +82,14 @@ public class ItemTraceCommand
 		implements PreferenceListener
 	{
 		AdventureResult item;
-		
+
 		public Listener( AdventureResult item )
 		{
 			this.item = item;
 			InventoryManager.registerListener( item.getItemId(), this );
 			this.update();
 		}
-		
+
 		public void update()
 		{
 			String msg = "itrace: " + this.item.getName() + " = " +
