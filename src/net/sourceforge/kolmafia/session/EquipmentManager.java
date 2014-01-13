@@ -1664,7 +1664,7 @@ public class EquipmentManager
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			AdventureResult piece = pieces[ i ];
-			if ( KoLCharacter.hasEquipped( piece ) || InventoryManager.hasItem( piece ) )
+			if ( KoLCharacter.hasEquipped( piece ) || KoLConstants.inventory.contains( piece ) )
 			{
 				continue;
 			}
