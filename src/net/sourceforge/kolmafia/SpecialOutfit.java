@@ -246,7 +246,7 @@ public class SpecialOutfit
 
 	public AdventureResult[] getPieces()
 	{
-		return ( AdventureResult[] ) this.pieces.values().toArray();
+		return this.pieces.values().toArray( new AdventureResult[ this.pieces.values().size() ] );
 	}
 
 	public static int pieceHash( final AdventureResult piece )
