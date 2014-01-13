@@ -96,6 +96,10 @@ public class OrcChasmRequest
 		{
 			ResultProcessor.removeItem( ItemPool.MINIATURE_SUSPENSION_BRIDGE );
 		}
+		else if ( responseText.contains( "snow boards" ) )
+		{
+			ResultProcessor.processItem( ItemPool.SNOW_BOARDS, -1 * InventoryManager.getCount( ItemPool.SNOW_BOARDS ) );
+		}
 	}
 
 	private static final void ensureUpdatedChasm()
