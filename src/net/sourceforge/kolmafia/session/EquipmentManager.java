@@ -1660,23 +1660,7 @@ public class EquipmentManager
 
 	public static final boolean retrieveOutfit( final SpecialOutfit outfit )
 	{
-		AdventureResult[] pieces = outfit.getPieces();
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			AdventureResult piece = pieces[ i ];
-			if ( KoLCharacter.hasEquipped( piece ) || KoLConstants.inventory.contains( piece ) )
-			{
-				continue;
-			}
-			if ( InventoryManager.getAccessibleCount( piece ) > 0 )
-			{
-				InventoryManager.retrieveItem( piece );
-				continue;
-			}
-			return false;
-		}
-
-		return true;
+		return outfit != null && outfit.retrieve();
 	}
 
 	public static final boolean addOutfitConditions( final KoLAdventure adventure )

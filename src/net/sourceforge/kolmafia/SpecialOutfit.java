@@ -34,17 +34,17 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpecialOutfit
@@ -57,7 +57,8 @@ public class SpecialOutfit
 
 	private int outfitId;
 	private String outfitName;
-	private final ArrayList<AdventureResult> pieces;
+	private final HashMap<Integer, AdventureResult> pieces;
+
 	private int hash;
 
 	public static final String NO_CHANGE = " - No Change - ";
@@ -73,20 +74,54 @@ public class SpecialOutfit
 		// The name is normally a substring of the equipment page,
 		// and would keep that entire page in memory if not copied.
 		this.outfitName = new String( outfitName );
-		this.pieces = new ArrayList<AdventureResult>();
+		this.pieces = new HashMap<Integer, AdventureResult>();
 		this.hash = 0;
+	}
+
+	public int pieceCount( AdventureResult piece )
+	{
+		int type = EquipmentManager.itemIdToEquipmentType( piece.getItemId() );
+
+		// Everything aside from weapons and accessories can only be equipped once.
+		if ( type != EquipmentManager.WEAPON && type != EquipmentManager.ACCESSORY1 )
+		{
+			return this.pieces.values().contains( piece ) ? 1 : 0;
+		}
+
+		int count = 0;
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
+		{
+			AdventureResult outfitPiece = this.pieces.get( slot );
+			if ( null == outfitPiece )
+			{
+				continue;
+			}
+
+			if ( piece.getItemId() == outfitPiece.getItemId() )
+			{
+				count++;
+			}
+		}
+
+		return count;
 	}
 
 	public boolean hasAllPieces()
 	{
-		for ( int i = 0; i < this.pieces.size(); ++i )
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
 		{
-			if ( !InventoryManager.hasItem( (AdventureResult) this.pieces.get( i ) ) )
+			AdventureResult piece = this.pieces.get( slot );
+			if ( null == piece )
+			{
+				continue;
+			}
+
+			if ( !EquipmentManager.canEquip( piece.getName() ) )
 			{
 				return false;
 			}
 
-			if ( !EquipmentManager.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() ) )
+			if ( InventoryManager.getAccessibleCount( piece ) <= this.pieceCount( piece ) )
 			{
 				return false;
 			}
@@ -100,13 +135,51 @@ public class SpecialOutfit
 		return this.isWearing( -1 );
 	}
 
+	public boolean isWearing( AdventureResult piece, int type )
+	{
+		if ( type == EquipmentManager.ACCESSORY1 || type == EquipmentManager.ACCESSORY2 || type == EquipmentManager.ACCESSORY3 )
+		{
+			int accessoryCount = ( KoLCharacter.hasEquipped( piece, EquipmentManager.ACCESSORY1  ) ? 1 : 0 )
+					+ ( KoLCharacter.hasEquipped( piece, EquipmentManager.ACCESSORY2  ) ? 1 : 0 )
+					+ ( KoLCharacter.hasEquipped( piece, EquipmentManager.ACCESSORY3  ) ? 1 : 0 );
+
+			if ( accessoryCount < this.pieceCount( piece ) )
+			{
+				return false;
+			}
+		}
+		else if ( type == EquipmentManager.WEAPON 
+			|| ( type == EquipmentManager.OFFHAND && ItemDatabase.getConsumptionType( piece.getItemId() ) == KoLConstants.EQUIP_WEAPON ))
+		{
+			int weaponCount = ( KoLCharacter.hasEquipped( piece, EquipmentManager.WEAPON  ) ? 1 : 0 )
+					+ ( KoLCharacter.hasEquipped( piece, EquipmentManager.OFFHAND  ) ? 1 : 0 );
+			
+			if ( weaponCount < this.pieceCount( piece ) )
+			{
+				return false;
+			}
+		}
+		else if ( !KoLCharacter.hasEquipped( piece, type ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	public boolean isWearing( int hash )
 	{
 		if ( ( hash & this.hash ) != this.hash ) return false;
 
-		for ( int i = 0; i < this.pieces.size(); ++i )
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
 		{
-			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get( i ) ) )
+			AdventureResult piece = this.pieces.get( slot );
+			if ( null == piece )
+			{
+				continue;
+			}
+
+			if ( !this.isWearing( piece, slot ) )
 			{
 				return false;
 			}
@@ -124,10 +197,15 @@ public class SpecialOutfit
 	{
 		if ( ( hash & this.hash ) != this.hash ) return false;
 
-		for ( int i = 0; i < this.pieces.size(); ++i )
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
 		{
-			if ( !KoLCharacter.hasEquipped( equipment,
-				(AdventureResult) this.pieces.get( i ) ) )
+			AdventureResult piece = this.pieces.get( slot );
+			if ( null == piece )
+			{
+				continue;
+			}
+
+			if ( !KoLCharacter.hasEquipped( equipment, piece ) )
 			{
 				return false;
 			}
@@ -136,11 +214,39 @@ public class SpecialOutfit
 		return true;
 	}
 
+	public boolean retrieve()
+	{
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
+		{
+			AdventureResult piece = this.pieces.get( slot );
+			if ( null == piece )
+			{
+				continue;
+			}
+
+			if ( this.isWearing( piece, slot ) )
+			{
+				continue;
+			}
+
+			int pieceCount = this.pieceCount( piece );
+
+			if ( InventoryManager.getAccessibleCount( piece ) >= pieceCount )
+			{
+				InventoryManager.retrieveItem( new AdventureResult( piece.getItemId(), pieceCount ) );
+				continue;
+			}
+
+			this.updateDisplayMissing();
+			return false;
+		}
+
+		return true;
+	}
+
 	public AdventureResult[] getPieces()
 	{
-		AdventureResult[] piecesArray = new AdventureResult[ this.pieces.size() ];
-		this.pieces.toArray( piecesArray );
-		return piecesArray;
+		return ( AdventureResult[] ) this.pieces.values().toArray();
 	}
 
 	public static int pieceHash( final AdventureResult piece )
@@ -167,9 +273,73 @@ public class SpecialOutfit
 	{
 		if ( piece != EquipmentRequest.UNEQUIP )
 		{
-			this.pieces.add( piece );
+			int type = EquipmentManager.itemIdToEquipmentType( piece.getItemId() );
+			
+			if ( null != this.pieces.get( type ) )
+			{
+				// If a weapon is already equipped, set this piece to the offhand slot.
+				// If it is an accessory, find the next empty accessory slot.
+				if ( type == EquipmentManager.WEAPON )
+				{
+					type = EquipmentManager.OFFHAND;
+				}
+				else if ( type == EquipmentManager.ACCESSORY1 )
+				{
+					type = EquipmentManager.ACCESSORY2;
+					if ( null != this.pieces.get( type ) )
+					{
+						type = EquipmentManager.ACCESSORY3;
+					}
+				}
+			}
+
+			this.pieces.put( IntegerPool.get( type ), piece );
 			this.hash |= SpecialOutfit.pieceHash( piece );
 		}
+	}
+
+	private void updateDisplayMissing()
+	{
+		ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
+		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
+		{
+			AdventureResult piece = this.pieces.get( slot );
+			if ( null == piece )
+			{
+				continue;
+			}
+
+			boolean skip = false;
+			for ( int i = 0; i < missing.size(); i++ )
+			{
+				if ( missing.get( i ).getItemId() == piece.getItemId() )
+				{
+					skip = true;
+					break;
+				}
+			}
+			if ( skip )
+			{
+				continue;
+			}
+
+			int pieceCount = this.pieceCount( piece );
+			int accessibleCount = InventoryManager.getAccessibleCount( piece );
+
+			if ( accessibleCount < pieceCount )
+			{
+				missing.add( new AdventureResult( piece.getItemId(), pieceCount - accessibleCount ) );
+				continue;
+			}
+		}
+		
+		for ( int i = 0; i < missing.size(); i++ )
+		{
+			AdventureResult item = missing.get( i );
+			RequestLogger.printLine( MafiaState.ERROR, "You need " + item.getCount() + " more " + item.getName() + " to continue." );
+		}
+		KoLmafia.updateDisplay(
+			MafiaState.ERROR, "Unable to wear outfit " + this.getName() + "." );
 	}
 
 	@Override
