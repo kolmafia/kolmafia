@@ -1955,6 +1955,7 @@ public class ItemPool
 	public static final int SNOW_BERRIES = 7071;
 	public static final int ICE_HARVEST = 7072;
 	public static final int FROST_FLOWER = 7073;
+	public static final int SNOW_BOARDS = 7076;
 	public static final int UNFINISHED_ICE_SCULPTURE = 7079;
 	public static final int ICE_SCULPTURE = 7080;
 	public static final int ICE_HOUSE = 7081;
