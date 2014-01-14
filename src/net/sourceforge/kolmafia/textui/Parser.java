@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
 import net.sourceforge.kolmafia.textui.parsetree.Else;
 import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
-import net.sourceforge.kolmafia.textui.parsetree.Expression;
 import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
 import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -76,6 +75,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
+import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNodeList;
@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.textui.parsetree.SortBy;
 import net.sourceforge.kolmafia.textui.parsetree.StaticScope;
 import net.sourceforge.kolmafia.textui.parsetree.Switch;
 import net.sourceforge.kolmafia.textui.parsetree.SwitchScope;
+import net.sourceforge.kolmafia.textui.parsetree.TernaryExpression;
 import net.sourceforge.kolmafia.textui.parsetree.Try;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
@@ -830,12 +831,13 @@ public class Parser
 
 		// Otherwise, we must initialize the variable.
 
-		Type ltype = t.getBaseType();
 		Value rhs;
 
 		if ( this.currentToken().equals( "=" ) )
 		{
 			this.readToken(); // Eat the equals sign
+
+			Type ltype = t.getBaseType();
 			rhs = this.parseExpression( scope );
 
 			if ( rhs == null )
@@ -2516,7 +2518,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator, this ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
@@ -2531,7 +2533,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator, this ) );
 			if ( lhs.getType() != DataTypes.INT_TYPE && lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"~\" operator requires an integer or boolean value" );
@@ -2550,7 +2552,7 @@ public class Parser
 					throw this.parseException( "Value expected" );
 				}
 
-				lhs = new Expression( lhs, null, new Operator( operator, this ) );
+				lhs = new Operation( lhs, new Operator( operator, this ) );
 			}
 		}
 		else if ( this.currentToken().equals( "remove" ) )
@@ -2564,7 +2566,7 @@ public class Parser
 				throw this.parseException( "Aggregate reference expected" );
 			}
 
-			lhs = new Expression( lhs, null, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator, this ) );
 		}
 		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
@@ -2625,7 +2627,7 @@ public class Parser
 						"Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 				}
 
-				lhs = new Expression( conditional, lhs, rhs );
+				lhs = new TernaryExpression( conditional, lhs, rhs );
 			}
 			else
 			{
@@ -2642,7 +2644,7 @@ public class Parser
 						"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 				}
 
-				lhs = new Expression( lhs, rhs, oper );
+				lhs = new Operation( lhs, rhs, oper );
 			}
 		}
 		while ( true );
