@@ -564,7 +564,7 @@ public class IslandManager
 			// subsequent exhale at a squad of hippies standing
 			// nearby. You watch all of them fall to the ground,
 			// gasping for air.
-			"solar plexus",
+			"subsequent exhale",
 
 			// You see a Grillmaster flinging hot kabobs as fast as
 			// he can make them. He skewers one, two, three, four,
