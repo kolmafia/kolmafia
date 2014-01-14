@@ -38,35 +38,94 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-public abstract class Expression
-	extends Value
+public class Operation
+	extends Expression
 {
-	Value lhs;
-	Value rhs;
+	Operator oper;
 
-	public Value getLeftHandSide()
+	public Operation( final Value lhs, final Value rhs, final Operator oper )
 	{
-		return this.lhs;
+		this.lhs = lhs;
+		this.rhs = rhs;
+		this.oper = oper;
 	}
 
-	public Value getRightHandSide()
+	public Operation( final Value lhs, final Operator oper )
 	{
-		return this.rhs;
+		this.lhs = lhs;
+		this.rhs = null;
+		this.oper = oper;
 	}
 
 	@Override
-	public String toQuotedString()
+	public Type getType()
 	{
-		return this.toString();
+		Type leftType = this.lhs.getType();
+
+		// Unary operators have no right hand side
+		if ( this.rhs == null )
+		{
+			return leftType;
+		}
+
+		Type rightType = this.rhs.getType();
+
+		// String concatenation always yields a string
+		if ( this.oper.equals( "+" ) && ( leftType.equals( DataTypes.TYPE_STRING ) || rightType.equals( DataTypes.TYPE_STRING ) ) )
+		{
+			return DataTypes.STRING_TYPE;
+		}
+
+		// If it's an integer operator, must be integers
+		if ( this.oper.isInteger() )
+		{
+			return DataTypes.INT_TYPE;
+		}
+
+		// If it's a logical operator, must be both integers or both
+		// booleans
+		if ( this.oper.isLogical() )
+		{
+			return leftType;
+		}
+
+		// If it's not arithmetic, it's boolean
+		if ( !this.oper.isArithmetic() )
+		{
+			return DataTypes.BOOLEAN_TYPE;
+		}
+
+		// Coerce int to float
+		if ( leftType.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			return DataTypes.FLOAT_TYPE;
+		}
+
+		// Otherwise result is whatever is on right
+		return rightType;
+	}
+
+	@Override
+	public Value execute( final Interpreter interpreter )
+	{
+		return this.oper.applyTo( interpreter, this.lhs, this.rhs );
+	}
+
+	@Override
+	public String toString()
+	{
+		if ( this.rhs == null )
+		{
+			return this.oper.toString() + " " + this.lhs.toQuotedString();
+		}
+
+		return "( " + this.lhs.toQuotedString() + " " + this.oper.toString() + " " + this.rhs.toQuotedString() + " )";
 	}
 
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		this.lhs.print( stream, indent + 1 );
-		if ( this.rhs != null )
-		{
-			this.rhs.print( stream, indent + 1 );
-		}
+		this.oper.print( stream, indent );
+		super.print( stream, indent );
 	}
 }
