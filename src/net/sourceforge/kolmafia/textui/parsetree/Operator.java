@@ -379,7 +379,7 @@ public class Operator
 		return result;
 	}
 
-	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
+	public Value applyTo( final Interpreter interpreter, final Value lhs )
 	{
 		interpreter.traceIndent();
 		if ( interpreter.isTracing() )
@@ -409,6 +409,83 @@ public class Operator
 		interpreter.traceIndent();
 		if ( interpreter.isTracing() )
 		{
+			interpreter.trace( "Operand: " + lhs );
+		}
+
+		Value leftValue = lhs.execute( interpreter );
+		interpreter.captureValue( leftValue );
+		if ( leftValue == null )
+		{
+			leftValue = DataTypes.VOID_VALUE;
+		}
+
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
+		}
+		interpreter.traceUnindent();
+
+		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		{
+			interpreter.traceUnindent();
+			return null;
+		}
+
+		Value result;
+
+		// Unary Operators
+		if ( this.operator.equals( "!" ) )
+		{
+			result = DataTypes.makeBooleanValue( leftValue.intValue() == 0 );
+		}
+		else if ( this.operator.equals( "~" ) )
+		{
+			long val = leftValue.intValue();
+			result =
+				leftValue.getType().equals( DataTypes.TYPE_BOOLEAN ) ?
+				DataTypes.makeBooleanValue( val == 0 ) :
+				DataTypes.makeIntValue( ~val );
+		}
+		else if ( this.operator.equals( "-" ) )
+		{
+			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
+			{
+				result = DataTypes.makeIntValue( 0 - leftValue.intValue() );
+			}
+			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
+			{
+				result = DataTypes.makeFloatValue( 0.0 - leftValue.floatValue() );
+			}
+			else
+			{
+				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
+			}
+		}
+		else
+		{
+			throw Interpreter.runtimeException( "Internal error: unknown unary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
+		}
+
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "<- " + result );
+		}
+
+		interpreter.traceUnindent();
+		return result;
+	}
+
+	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
+	{
+		interpreter.traceIndent();
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Operator: " + this.operator );
+		}
+
+		interpreter.traceIndent();
+		if ( interpreter.isTracing() )
+		{
 			interpreter.trace( "Operand 1: " + lhs );
 		}
 
@@ -428,56 +505,6 @@ public class Operator
 		{
 			interpreter.traceUnindent();
 			return null;
-		}
-
-		// Unary Operators
-		if ( this.operator.equals( "!" ) )
-		{
-			Value result = DataTypes.makeBooleanValue( leftValue.intValue() == 0 );
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "<- " + result );
-			}
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "~" ) )
-		{
-			long val = leftValue.intValue();
-			Value result =
-				leftValue.getType().equals( DataTypes.TYPE_BOOLEAN ) ?
-				DataTypes.makeBooleanValue( val == 0 ) :
-				DataTypes.makeIntValue( ~val );
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "<- " + result );
-			}
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "-" ) && rhs == null )
-		{
-			Value result = null;
-			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
-			{
-				result = DataTypes.makeIntValue( 0 - leftValue.intValue() );
-			}
-			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
-			{
-				result = DataTypes.makeFloatValue( 0.0 - leftValue.floatValue() );
-			}
-			else
-			{
-				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
-			}
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "<- " + result );
-			}
-			interpreter.traceUnindent();
-			return result;
 		}
 
 		// Unknown operator
@@ -642,7 +669,7 @@ public class Operator
 		}
 
 		// Unknown operator
-		throw Interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
+		throw Interpreter.runtimeException( "Internal error: unknown binary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 	}
 
 	@Override
