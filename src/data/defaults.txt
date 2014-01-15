@@ -432,6 +432,7 @@ user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	haciendaLayout	000000000000000000
+user	hardcorePVPWarning	false
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0

@@ -789,6 +789,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			case ItemPool.DOLPHIN_WHISTLE:
 			case ItemPool.ENVYFISH_EGG:
+			case ItemPool.ICE_SCULPTURE:
 			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.RAIN_DOH_MONSTER:
 			case ItemPool.SHAKING_CAMERA:

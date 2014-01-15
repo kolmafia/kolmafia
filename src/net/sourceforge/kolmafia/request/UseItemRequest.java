@@ -5456,6 +5456,7 @@ public class UseItemRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 		case ItemPool.ENVYFISH_EGG:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.ICE_SCULPTURE:
 		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.RAIN_DOH_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
