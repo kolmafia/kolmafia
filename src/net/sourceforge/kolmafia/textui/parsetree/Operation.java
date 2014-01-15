@@ -108,7 +108,9 @@ public class Operation
 	@Override
 	public Value execute( final Interpreter interpreter )
 	{
-		return this.oper.applyTo( interpreter, this.lhs, this.rhs );
+		return  this.rhs == null ?
+			this.oper.applyTo( interpreter, this.lhs ) :
+			this.oper.applyTo( interpreter, this.lhs, this.rhs );
 	}
 
 	@Override

@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
+import net.sourceforge.kolmafia.textui.parsetree.Concatenate;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
 import net.sourceforge.kolmafia.textui.parsetree.Else;
 import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
@@ -2638,13 +2639,32 @@ public class Parser
 					throw this.parseException( "Value expected" );
 				}
 
-				if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+
+				Type ltype = lhs.getType();
+				Type rtype = rhs.getType();
+
+				if ( oper.equals( "+" ) && ( ltype.equals( DataTypes.TYPE_STRING ) || rtype.equals( DataTypes.TYPE_STRING ) ) )
+				{
+					// String concatenation
+					if ( lhs instanceof Concatenate )
+					{
+						Concatenate conc = (Concatenate) lhs;
+						conc.addString( rhs );
+					}
+					else
+					{
+						lhs = new Concatenate( lhs, rhs );
+					}
+				}
+				else if ( !Parser.validCoercion( ltype, rtype, oper ) )
 				{
 					throw this.parseException(
 						"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 				}
-
-				lhs = new Operation( lhs, rhs, oper );
+				else
+				{
+					lhs = new Operation( lhs, rhs, oper );
+				}
 			}
 		}
 		while ( true );
