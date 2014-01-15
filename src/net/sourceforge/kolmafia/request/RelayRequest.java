@@ -156,6 +156,7 @@ public class RelayRequest
 	private static String CONFIRM_WINEGLASS = "confirm12";
 	private static String CONFIRM_COLOSSEUM = "confirm13";
 	private static String CONFIRM_GREMLINS = "confirm14";
+	private static String CONFIRM_HARDCOREPVP = "confirm15";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -1043,6 +1044,55 @@ public class RelayRequest
 			"You are about to fight Gremlins, but do not have the Molybdenum Magnet. If you are sure you want to do this, click on the image to proceed.";
 
 		this.sendGeneralWarning( "magnet2.gif", message, CONFIRM_GREMLINS, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendHardcorePVPWarning( final String urlString )
+	{
+		// Don't remind a second time in a session if you decide not to do it.
+		if ( this.getFormField( CONFIRM_HARDCOREPVP ) != null )
+		{
+			return false;
+		}
+
+		// If not talking to King, ignore
+		String place = this.getFormField( "place" );
+		if ( place == null || !place.equals( "6" ) )
+		{
+			return false;
+		}
+
+		// If they're not in hardcore, then ignore
+		if ( !KoLCharacter.isHardcore() )
+		{
+			return false;
+		}
+
+		// If they've not asked for the warning, then ignore
+		if ( !Preferences.getBoolean( "hardcorePVPWarning" ) )
+		{
+			return false;
+		}
+
+		// If no Hippy Stone intact, then ignore
+		if ( !KoLCharacter.getHippyStoneBroken() )
+		{
+			return false;
+		}
+
+		// If no PVP fights left, then ignore
+		if ( KoLCharacter.getAttacksLeft() == 0 )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
+
+		this.sendGeneralWarning( "swords.gif", message, CONFIRM_HARDCOREPVP, "checked=1" );
 
 		return true;
 	}
@@ -2431,6 +2481,11 @@ public class RelayRequest
 		}
 
 		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
+		{
+			return true;
+		}
+
+		if ( path.startsWith( "lair6.php" ) && this.sendHardcorePVPWarning( urlString ) )
 		{
 			return true;
 		}
