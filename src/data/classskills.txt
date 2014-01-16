@@ -609,6 +609,15 @@
 7187	Soul Funk		3	0	10
 7188	Dismiss Pasta Thrall		3	0	0
 7189	Spray Hot Grease	wboilpan.gif	5	0	0
+7190
+7191
+7192
+7193
+7194
+7195
+7196
+7197
+7198	Throw Frostball	nopic.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

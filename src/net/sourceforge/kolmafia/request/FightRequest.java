@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -2565,15 +2566,69 @@ public class FightRequest
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
 
-		int bountyItemId = Preferences.getInteger( "currentBountyItem" );
-		if ( MonsterStatusTracker.dropsItem( bountyItemId ) )
+		String easyBountyString = Preferences.getString( "currentEasyBountyItem" );
+		int index = easyBountyString.indexOf( ":" );
+		if ( index != -1 )
 		{
-			AdventureResult bountyItem = ItemPool.get( bountyItemId, 1 );
-			String bountyItemName = bountyItem.getName();
-
-			if ( responseText.indexOf( bountyItemName ) == -1 && !problemFamiliar() )
+			String easyBountyItemName = easyBountyString.substring( 0, index );
+			String easyBountyMonsterName = BountyDatabase.getMonster( easyBountyItemName );
+			int easyBountyItemCount = StringUtilities.parseInt( easyBountyString.substring( index + 1, easyBountyString.length() ) );
+			
+			if ( monster.equals( easyBountyMonsterName ) && !responseText.contains( easyBountyItemName ) && !problemFamiliar() )
 			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Bounty item failed to drop from expected monster." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Easy bounty item failed to drop from expected monster." );
+			}
+			if ( responseText.contains( easyBountyItemName ) )
+			{
+				easyBountyItemCount++;
+				Preferences.setString( "currentEasyBountyItem", easyBountyItemName + ":" + easyBountyItemCount );
+				String updateMessage = "You acquire a bounty item: " + easyBountyItemName;
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
+		}
+
+		String hardBountyString = Preferences.getString( "currentHardBountyItem" );
+		index = hardBountyString.indexOf( ":" );
+		if ( index != -1 )
+		{
+			String hardBountyItemName = hardBountyString.substring( 0, index );
+			String hardBountyMonsterName = BountyDatabase.getMonster( hardBountyItemName );
+			int hardBountyItemCount = StringUtilities.parseInt( hardBountyString.substring( index + 1, hardBountyString.length() ) );
+			
+			if ( monster.equals( hardBountyMonsterName ) && !responseText.contains( hardBountyItemName ) && !problemFamiliar() )
+			{
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Hard bounty item failed to drop from expected monster." );
+			}
+			if ( responseText.contains( hardBountyItemName ) )
+			{
+				hardBountyItemCount++;
+				Preferences.setString( "currentHardBountyItem", hardBountyItemName + ":" + hardBountyItemCount );
+				String updateMessage = "You acquire a bounty item " + hardBountyItemName;
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
+		}
+
+		String specialBountyString = Preferences.getString( "currentSpecialBountyItem" );
+		index = specialBountyString.indexOf( ":" );
+		if ( index != -1 )
+		{
+			String specialBountyItemName = specialBountyString.substring( 0, index );
+			String specialBountyMonsterName = BountyDatabase.getMonster( specialBountyItemName );
+			int specialBountyItemCount = StringUtilities.parseInt( specialBountyString.substring( index + 1, specialBountyString.length() ) );
+			
+			if ( monster.equals( specialBountyMonsterName ) && !responseText.contains( specialBountyItemName ) && !problemFamiliar() )
+			{
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Special bounty item failed to drop from expected monster." );
+			}
+			if ( responseText.contains( specialBountyItemName ) )
+			{
+				specialBountyItemCount++;
+				Preferences.setString( "currentSpecialBountyItem", specialBountyItemName + ":" + specialBountyItemCount );
+				String updateMessage = "You acquire a bounty item " + specialBountyItemName;
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
 			}
 		}
 
