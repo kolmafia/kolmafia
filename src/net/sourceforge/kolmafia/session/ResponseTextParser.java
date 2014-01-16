@@ -305,7 +305,7 @@ public class ResponseTextParser
 			MoneyMakingGameRequest.parseResponse( location, responseText, false );
 		}
 
-		else if ( location.startsWith( "bhh.php" ) )
+		else if ( location.startsWith( "bounty.php" ) )
 		{
 			BountyHunterHunterRequest.parseResponse( location, responseText );
 		}

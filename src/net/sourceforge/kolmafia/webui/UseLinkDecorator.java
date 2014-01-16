@@ -1569,18 +1569,6 @@ public abstract class UseLinkDecorator
 
 		default:
 
-			// Bounty items get a count and a link to the Bounty
-			// Hunter Hunter.
-
-			if ( ItemDatabase.isBountyItem( itemId ) )
-			{
-				if ( itemId != Preferences.getInteger( "currentBountyItem" ) )
-				{
-					Preferences.setInteger( "currentBountyItem", itemId );
-				}
-				useType = String.valueOf( InventoryManager.getCount( itemId ) );
-				useLocation = "bhh.php";
-			}
 		}
 
 		if ( useType == null || useLocation == null )

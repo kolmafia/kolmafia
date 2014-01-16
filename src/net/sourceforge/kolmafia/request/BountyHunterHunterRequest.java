@@ -45,12 +45,14 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -75,7 +77,7 @@ public class BountyHunterHunterRequest
 			BountyHunterHunterRequest.master,
 			"hunter",
 			BountyHunterHunterRequest.class,
-			"bhh.php",
+			"bounty.php",
 			"lucre",
 			"You don't have any filthy lucre",
 			false,
@@ -133,101 +135,170 @@ public class BountyHunterHunterRequest
 		BountyHunterHunterRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
-	private static final Pattern ZOMBIE_BOUNTY_PATTERN = Pattern.compile( "you've promised to bring him (\\d+) (.*?) from" );
+	private static final Pattern EASY_PATTERN = Pattern.compile( "Easy Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern HARD_PATTERN = Pattern.compile( "Hard Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
+	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
+	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
+
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			// I'm still waiting for you to bring me 5 discarded
-			// pacifiers, Bounty Hunter!
-
-			// Zombiecore
-			// Watching this reminds you of the fact that you've promised
-			// to bring him 8 chunks of hobo gristle from
-			// the half-orc hoboes in The Sleazy Back Alley.
-
-			Matcher matcher;
-			if ( KoLCharacter.inZombiecore() )
-			{
-				matcher = BountyHunterHunterRequest.ZOMBIE_BOUNTY_PATTERN.matcher( responseText );
-			}
-			else
-			{
-				matcher = BountyHunterHunterRequest.BOUNTY_PATTERN.matcher( responseText );
-			}
-
-			if ( matcher.find() )
-			{
-				int count = StringUtilities.parseInt( matcher.group(1) );
-				String name = matcher.group(2);
-				AdventureResult ar = new AdventureResult( name, count, false );
-				Preferences.setInteger( "currentBountyItem", ar.getItemId() );
-			}
-
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				// He turned in a bounty for a lucre
-				BountyHunterHunterRequest.abandonBounty();
-			}
+			BountyHunterHunterRequest.parseEasy( responseText );
+			BountyHunterHunterRequest.parseHard( responseText );
+			BountyHunterHunterRequest.parseSpecial( responseText );
 			return;
 		}
 		
-		if ( action.equals( "abandonbounty" ) )
+		if ( action.equals( "takelow" ) )
 		{
-			// Can't hack it, eh? Well, that's okay. I'm sure some other 
-			// Bounty Hunter will step up. Maybe you should try something 
-			// more appropriate to your Bounty Hunting skills.
-
-			// Zombiecore
-			// You shrug, deciding to hell with it.
-			// He has plenty enough bits of gristle and things
-			// to keep him happy for a while.
-
-			if ( responseText.contains( "Can't hack it, eh?" ) ||
-			     responseText.contains( "to hell with it" ) )
+			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
 			{
-				BountyHunterHunterRequest.abandonBounty();
+				return;
 			}
+
+			BountyHunterHunterRequest.parseEasy( responseText );
+
+			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
+			//AdventureFrame.updateSelectedAdventure( adventure );
+			return;
+		}
+
+		if ( action.equals( "takehigh" ) )
+		{
+			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
+			{
+				return;
+			}
+
+			BountyHunterHunterRequest.parseHard( responseText );
+
+			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
+			//AdventureFrame.updateSelectedAdventure( adventure );
+			return;
+		}
+
+		if ( action.equals( "takespecial" ) )
+		{
+			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
+			{
+				return;
+			}
+
+			BountyHunterHunterRequest.parseSpecial( responseText );
+
+			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
+			//AdventureFrame.updateSelectedAdventure( adventure );
+			return;
+		}
+
+		if ( action.equals( "giveup_low" ) )
+		{
+			Preferences.setString( "currentEasyBountyItem", "" );
+			return;
 		}
 		
-		if ( action.equals( "takebounty" ) )
+		if ( action.equals( "giveup_high" ) )
 		{
-			// All right, then!  Get out there and collect those empty aftershave bottles!
-			if ( !responseText.contains( "All right, then!" ) &&
-			     !responseText.contains( "Okay then, I'll see what I can do" ) )
-			{
-				return;
-			}
-			Matcher idMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( location );
-			if ( !idMatcher.find() )
-			{
-				return;
-			}
-
-			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
-			Preferences.setInteger( "currentBountyItem", itemId );
-
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
-			AdventureFrame.updateSelectedAdventure( adventure );
+			Preferences.setString( "currentHardBountyItem", "" );
+			return;
 		}
-
+		
+		if ( action.equals( "giveup_spe" ) )
+		{
+			Preferences.setString( "currentSpecialBountyItem", "" );
+			return;
+		}
+		
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
-	private static final void abandonBounty()
+	private static final void parseEasy( final String responseText )
 	{
-		int itemId = Preferences.getInteger( "currentBountyItem" );
-		if ( itemId == 0 )
+		Matcher bountyItemMatcher = BountyHunterHunterRequest.EASY_PATTERN.matcher( responseText );
+
+		if ( !bountyItemMatcher.find() )
 		{
+			Preferences.setString( "currentEasyBountyItem", "" );
 			return;
 		}
 
-		AdventureResult item = new AdventureResult( itemId, 1 );
-		ResultProcessor.processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
-		Preferences.setInteger( "currentBountyItem", 0 );
+		String plural = bountyItemMatcher.group( 2 );
+		String bountyItem = BountyDatabase.getName( plural );
+		
+		Matcher bountyQtyMatcher = BountyHunterHunterRequest.EASY_QTY_PATTERN.matcher( responseText );
+
+		int bountyQty;
+		if ( !bountyQtyMatcher.find() )
+		{
+			bountyQty = 0;
+		}
+		else
+		{
+			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
+		}
+
+		Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyQty );
+	}
+
+	private static final void parseHard( final String responseText )
+	{
+		Matcher bountyItemMatcher = BountyHunterHunterRequest.HARD_PATTERN.matcher( responseText );
+
+		if ( !bountyItemMatcher.find() )
+		{
+			Preferences.setString( "currentHardBountyItem", "" );
+			return;
+		}
+
+		String plural = bountyItemMatcher.group( 2 );
+		String bountyItem = BountyDatabase.getName( plural );
+		
+		Matcher bountyQtyMatcher = BountyHunterHunterRequest.HARD_QTY_PATTERN.matcher( responseText );
+
+		int bountyQty;
+		if ( !bountyQtyMatcher.find() )
+		{
+			bountyQty = 0;
+		}
+		else
+		{
+			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
+		}
+
+		Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyQty );
+	}
+
+	private static final void parseSpecial( final String responseText )
+	{
+		Matcher bountyItemMatcher = BountyHunterHunterRequest.SPECIAL_PATTERN.matcher( responseText );
+
+		if ( !bountyItemMatcher.find() )
+		{
+			Preferences.setString( "currentSpecialBountyItem", "" );
+			return;
+		}
+
+		String plural = bountyItemMatcher.group( 2 );
+		String bountyItem = BountyDatabase.getName( plural );
+		
+		Matcher bountyQtyMatcher = BountyHunterHunterRequest.SPECIAL_QTY_PATTERN.matcher( responseText );
+
+		int bountyQty;
+		if ( !bountyQtyMatcher.find() )
+		{
+			bountyQty = 0;
+		}
+		else
+		{
+			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
+		}
+
+		Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyQty );
 	}
 
 	public static String accessible()
@@ -237,7 +308,7 @@ public class BountyHunterHunterRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "bhh.php" ) )
+		if ( !urlString.startsWith( "bounty.php" ) )
 		{
 			return false;
 		}
@@ -250,28 +321,78 @@ public class BountyHunterHunterRequest
 			return true;
 		}
 
-		if ( action.equals( "takebounty" ) )
+		if ( action.equals( "takelow" ) )
 		{
-			Matcher idMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
-			if ( !idMatcher.find() )
+			Matcher bountyItemMatcher = BountyHunterHunterRequest.EASY_PATTERN.matcher( urlString );
+			if ( !bountyItemMatcher.find() )
 			{
 				return true;
 			}
 			
-			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
-			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
-			String plural = ItemDatabase.getPluralName( itemId );
+			String plural = bountyItemMatcher.group( 2 );
+			String bountyItem = BountyDatabase.getName( plural );
+			int bountyNumber = BountyDatabase.getNumber( bountyItem );
 			
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
+			RequestLogger.updateSessionLog( "accept easy bounty assignment to collect " + bountyNumber + " " + plural );
 			
 			return true;
 		}
 
-		if ( action.equals( "abandonbounty" ) )
+		if ( action.equals( "takehigh" ) )
+		{
+			Matcher bountyItemMatcher = BountyHunterHunterRequest.HARD_PATTERN.matcher( urlString );
+			if ( !bountyItemMatcher.find() )
+			{
+				return true;
+			}
+			
+			String plural = bountyItemMatcher.group( 2 );
+			String bountyItem = BountyDatabase.getName( plural );
+			int bountyNumber = BountyDatabase.getNumber( bountyItem );
+			
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "accept hard bounty assignment to collect " + bountyNumber + " " + plural );
+			
+			return true;
+		}
+
+		if ( action.equals( "takespecial" ) )
+		{
+			Matcher bountyItemMatcher = BountyHunterHunterRequest.SPECIAL_PATTERN.matcher( urlString );
+			if ( !bountyItemMatcher.find() )
+			{
+				return true;
+			}
+			
+			String plural = bountyItemMatcher.group( 2 );
+			String bountyItem = BountyDatabase.getName( plural );
+			int bountyNumber = BountyDatabase.getNumber( bountyItem );
+			
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "accept specialty bounty assignment to collect " + bountyNumber + " " + plural );
+			
+			return true;
+		}
+
+		if ( action.equals( "giveup_low" ) )
 		{
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "abandon bounty assignment" );
+			RequestLogger.updateSessionLog( "abandon easy bounty assignment" );
+			return true;
+		}
+
+		if ( action.equals( "giveup_high" ) )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "abandon hard bounty assignment" );
+			return true;
+		}
+
+		if ( action.equals( "giveup_spe" ) )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "abandon special bounty assignment" );
 			return true;
 		}
 

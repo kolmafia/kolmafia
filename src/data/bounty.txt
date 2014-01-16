@@ -1,0 +1,15 @@
+1
+# List of bounties
+# Single Name, Plural Name, Type, Image, Number, Monster, Location
+
+# Easy
+crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed Knob Goblin
+drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider
+
+# Hard
+absence of moss	absences of moss	hard	blank.gif	10	rolling stone
+spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
+
+# Special
+unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue
+glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse
