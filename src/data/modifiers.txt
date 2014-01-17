@@ -4015,6 +4015,7 @@ Indescribable Flavor	Spell Damage: +30
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
 # Inner Dog: +50 Damage vs. Zombies, +50 Damage vs. Percent: 10
+Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
 # Innuendo Shopping
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Inscrutable exoskeleton	Damage Absorption: +300
