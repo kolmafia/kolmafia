@@ -6995,10 +6995,10 @@
 6978	tiny die-cast Sleepy the Reindeer	725135432	dcreindeer.gif	accessory	t,d	5
 6979	tiny die-cast Sneezy the Reindeer	496305992	dcreindeer.gif	accessory	t,d	5
 6980	tiny die-cast Zeppo the Reindeer	801455555	dcreindeer.gif	accessory	t,d	5
-6981	tiny die-cast factory worker elf	792836209	dcelf.gif	accessory	t,d	5
+6981	tiny die-cast factory worker elf	792836209	dcelf.gif	accessory	t,d	5	tiny die-cast factory worker elves
 6982	tiny die-cast gift-wrapping elf	509908443	dcelf.gif	accessory	t,d	5	tiny die-cast gift-wrapping elves
 6983	tiny die-cast middle-management elf	346868081	dcelf.gif	accessory	t,d	5	tiny die-cast middle-management elves
-6984	tiny die-cast pencil-pusher elf	791295153	dcelf.gif	accessory	t,d	5
+6984	tiny die-cast pencil-pusher elf	791295153	dcelf.gif	accessory	t,d	5	tiny die-cast pencil-pusher elves
 6985	tiny die-cast stocking-stuffer elf	946033785	dcelf.gif	accessory	t,d	5	tiny die-cast stocking-stuffer elves 
 6986	tiny die-cast Unionize the Elves Sign	539685555	dcsign.gif	accessory	t,d	5
 6987	tiny die-cast CrimboTown Toy Factory	195194438	dcfactory.gif	accessory	t,d	5	tiny die-cast CrimboTown Toy Factories

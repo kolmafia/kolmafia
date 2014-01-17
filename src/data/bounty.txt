@@ -5,10 +5,12 @@
 # Easy
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed Knob Goblin
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider
+bean-shaped rock	bean-shaped rocks	easy	bean.gif	40	beanbat
 
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
+warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate
 
 # Special
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue
