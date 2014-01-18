@@ -1056,6 +1056,9 @@ user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
 user	_turtlePowerCast	false
 user	_ultraMegaSourBallUsed	false
+user	_untakenEasyBountyItem	
+user	_untakenHardBountyItem	
+user	_untakenSpecialBountyItem	
 user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
