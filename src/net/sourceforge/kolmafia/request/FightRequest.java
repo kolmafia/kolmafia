@@ -228,6 +228,9 @@ public class FightRequest
 	private static final Pattern NANORHINO_BUFF_PATTERN = 
 		Pattern.compile( "<b>Nano(?:brawny|brainy|ballsy)</b><br>\\(duration: 50" );
 
+	private static final Pattern BOUNTY_ITEM_PATTERN =
+		Pattern.compile( "acquire a bounty item: <b>(.*?)</b></td></tr></table>\\((\\d+) of" );
+	
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -2563,72 +2566,76 @@ public class FightRequest
 			FightRequest.transmogrifyNemesisWeapon( true );
 		}
 
+		// If known bounty item we can set the preference correctly based on number found so far
+		Matcher bountyItemMatcher = FightRequest.BOUNTY_ITEM_PATTERN.matcher( responseText );
+		if( bountyItemMatcher.find() )
+		{
+			String bountyItem = bountyItemMatcher.group( 1 );
+			int bountyCount = StringUtilities.parseInt( bountyItemMatcher.group( 2 ) );
+			String bountyType = BountyDatabase.getType( bountyItem );
+			
+			if ( bountyType.equals( "easy" ) )
+			{
+				Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
+			}
+			else if ( bountyType.equals( "hard" ) )
+			{
+				Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
+			}
+			else if ( bountyType.equals( "special" ) )
+			{
+				Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
+			}
+			String updateMessage = "You acquire a bounty item: " + bountyItem;
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
-
-		String easyBountyString = Preferences.getString( "currentEasyBountyItem" );
-		int index = easyBountyString.indexOf( ":" );
-		if ( index != -1 )
+		else
 		{
-			String easyBountyItemName = easyBountyString.substring( 0, index );
-			String easyBountyMonsterName = BountyDatabase.getMonster( easyBountyItemName );
-			int easyBountyItemCount = StringUtilities.parseInt( easyBountyString.substring( index + 1, easyBountyString.length() ) );
+			String easyBountyString = Preferences.getString( "currentEasyBountyItem" );
+			int index = easyBountyString.indexOf( ":" );
+			if ( index != -1 )
+			{
+				String easyBountyItemName = easyBountyString.substring( 0, index );
+				String easyBountyMonsterName = BountyDatabase.getMonster( easyBountyItemName );
 			
-			if ( monster.equals( easyBountyMonsterName ) && !responseText.contains( easyBountyItemName ) && !problemFamiliar() )
-			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Easy bounty item failed to drop from expected monster." );
+				if ( monster.equals( easyBountyMonsterName ) && !responseText.contains( easyBountyItemName ) && !problemFamiliar() )
+				{
+					KoLmafia.updateDisplay( MafiaState.PENDING, "Easy bounty item failed to drop from expected monster." );
+				}
 			}
-			if ( responseText.contains( easyBountyItemName ) )
-			{
-				easyBountyItemCount++;
-				Preferences.setString( "currentEasyBountyItem", easyBountyItemName + ":" + easyBountyItemCount );
-				String updateMessage = "You acquire a bounty item: " + easyBountyItemName;
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
-			}
-		}
 
-		String hardBountyString = Preferences.getString( "currentHardBountyItem" );
-		index = hardBountyString.indexOf( ":" );
-		if ( index != -1 )
-		{
-			String hardBountyItemName = hardBountyString.substring( 0, index );
-			String hardBountyMonsterName = BountyDatabase.getMonster( hardBountyItemName );
-			int hardBountyItemCount = StringUtilities.parseInt( hardBountyString.substring( index + 1, hardBountyString.length() ) );
-			
-			if ( monster.equals( hardBountyMonsterName ) && !responseText.contains( hardBountyItemName ) && !problemFamiliar() )
+			String hardBountyString = Preferences.getString( "currentHardBountyItem" );
+			index = hardBountyString.indexOf( ":" );
+			if ( index != -1 )
 			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Hard bounty item failed to drop from expected monster." );
-			}
-			if ( responseText.contains( hardBountyItemName ) )
-			{
-				hardBountyItemCount++;
-				Preferences.setString( "currentHardBountyItem", hardBountyItemName + ":" + hardBountyItemCount );
-				String updateMessage = "You acquire a bounty item " + hardBountyItemName;
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
-			}
-		}
+				String hardBountyItemName = hardBountyString.substring( 0, index );
+				String hardBountyMonsterName = BountyDatabase.getMonster( hardBountyItemName );
 
-		String specialBountyString = Preferences.getString( "currentSpecialBountyItem" );
-		index = specialBountyString.indexOf( ":" );
-		if ( index != -1 )
-		{
-			String specialBountyItemName = specialBountyString.substring( 0, index );
-			String specialBountyMonsterName = BountyDatabase.getMonster( specialBountyItemName );
-			int specialBountyItemCount = StringUtilities.parseInt( specialBountyString.substring( index + 1, specialBountyString.length() ) );
-			
-			if ( monster.equals( specialBountyMonsterName ) && !responseText.contains( specialBountyItemName ) && !problemFamiliar() )
-			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Special bounty item failed to drop from expected monster." );
+				if ( monster.equals( hardBountyMonsterName ) && !responseText.contains( hardBountyItemName ) && !problemFamiliar() )
+				{
+					KoLmafia.updateDisplay( MafiaState.PENDING, "Hard bounty item failed to drop from expected monster." );
+				}
 			}
-			if ( responseText.contains( specialBountyItemName ) )
+
+			String specialBountyString = Preferences.getString( "currentSpecialBountyItem" );
+			index = specialBountyString.indexOf( ":" );
+			if ( index != -1 )
 			{
-				specialBountyItemCount++;
-				Preferences.setString( "currentSpecialBountyItem", specialBountyItemName + ":" + specialBountyItemCount );
-				String updateMessage = "You acquire a bounty item " + specialBountyItemName;
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
+				String specialBountyItemName = specialBountyString.substring( 0, index );
+				String specialBountyMonsterName = BountyDatabase.getMonster( specialBountyItemName );
+
+				if ( monster.equals( specialBountyMonsterName ) && !responseText.contains( specialBountyItemName ) && !problemFamiliar() )
+				{
+					KoLmafia.updateDisplay( MafiaState.PENDING, "Special bounty item failed to drop from expected monster." );
+				}
 			}
 		}
 
