@@ -67,6 +67,7 @@ public class BountyDatabase
 {
 	private static final ArrayList<String> bountyNames = new ArrayList<String>();
 	private static final Map<String, String> bountyByPlural = new HashMap<String, String>();
+	private static final Map<String, String> pluralByName = new HashMap<String, String>();
 	private static final Map<String, String> typeByName = new HashMap<String, String>();
 	private static final Map<String, String> imageByName = new HashMap<String, String>();
 	private static final Map<String, Integer> numberByName = new HashMap<String, Integer>();
@@ -81,6 +82,7 @@ public class BountyDatabase
 	{
 		BountyDatabase.bountyNames.clear();
 		BountyDatabase.bountyByPlural.clear();
+		BountyDatabase.pluralByName.clear();
 		BountyDatabase.typeByName.clear();
 		BountyDatabase.imageByName.clear();
 		BountyDatabase.numberByName.clear();
@@ -105,6 +107,7 @@ public class BountyDatabase
 			String name = data[ 0 ];
 			BountyDatabase.bountyNames.add( name );
 			BountyDatabase.bountyByPlural.put( data[ 1 ], name );
+			BountyDatabase.pluralByName.put( name, data[ 1 ] );
 			BountyDatabase.typeByName.put( name, data[ 2 ] );
 			BountyDatabase.imageByName.put( name, data[ 3 ] );
 			int number = StringUtilities.parseInt( data[ 4 ] );
@@ -126,6 +129,7 @@ public class BountyDatabase
 	{
 		BountyDatabase.bountyNames.add( name );
 		BountyDatabase.bountyByPlural.put( plural, name );
+		BountyDatabase.pluralByName.put( name, plural );
 		BountyDatabase.typeByName.put( name, type );
 		BountyDatabase.imageByName.put( name, image );
 		BountyDatabase.numberByName.put( name, IntegerPool.get( number ) );
@@ -140,6 +144,16 @@ public class BountyDatabase
 		}
 		
 		return BountyDatabase.bountyByPlural.get( plural );
+	}
+
+	public static final String getPlural( String name )
+	{
+		if ( name == null )
+		{
+			return null;
+		}
+		
+		return BountyDatabase.pluralByName.get( name );
 	}
 
 	public static final String getType( String name )

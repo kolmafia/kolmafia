@@ -138,6 +138,9 @@ public class BountyHunterHunterRequest
 	private static final Pattern EASY_PATTERN = Pattern.compile( "Easy Bounty!  Come back when you've collected (\\d+) (.*?) from" );
 	private static final Pattern HARD_PATTERN = Pattern.compile( "Hard Bounty!  Come back when you've collected (\\d+) (.*?) from" );
 	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?>(\\d+) (.*?) from.*?takelow" );
+	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?>(\\d+) (.*?) from.*?takehigh" );
+	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?center>(\\d+) (.*?) from.*?takespecial" );
 	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
 	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
 	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
@@ -156,13 +159,9 @@ public class BountyHunterHunterRequest
 		
 		if ( action.equals( "takelow" ) )
 		{
-			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
-			{
-				return;
-			}
-
-			BountyHunterHunterRequest.parseEasy( responseText );
-
+			Preferences.setString( "currentEasyBountyItem", Preferences.getString( "_untakenEasyBountyItem" ) + ":0" );
+			Preferences.setString( "_untakenEasyBountyItem", "" );
+			
 			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
 			//AdventureFrame.updateSelectedAdventure( adventure );
 			return;
@@ -170,12 +169,8 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takehigh" ) )
 		{
-			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
-			{
-				return;
-			}
-
-			BountyHunterHunterRequest.parseHard( responseText );
+			Preferences.setString( "currentHardBountyItem", Preferences.getString( "_untakenHardBountyItem" ) + ":0" );
+			Preferences.setString( "_untakenHardBountyItem", "" );
 
 			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
 			//AdventureFrame.updateSelectedAdventure( adventure );
@@ -184,12 +179,8 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takespecial" ) )
 		{
-			if ( !responseText.contains( "Okay! Come back when you've gotten the goods!" ) )
-			{
-				return;
-			}
-
-			BountyHunterHunterRequest.parseSpecial( responseText );
+			Preferences.setString( "currentSpecialBountyItem", Preferences.getString( "_untakenSpecialBountyItem" ) + ":0" );
+			Preferences.setString( "_untakenSpecialBountyItem", "" );
 
 			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
 			//AdventureFrame.updateSelectedAdventure( adventure );
@@ -224,12 +215,24 @@ public class BountyHunterHunterRequest
 		if ( !bountyItemMatcher.find() )
 		{
 			Preferences.setString( "currentEasyBountyItem", "" );
+			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_EASY_PATTERN.matcher( responseText );
+			
+			if( bountyUntakenMatcher.find() )
+			{
+				String plural = bountyUntakenMatcher.group( 2 );
+				String bountyItem = BountyDatabase.getName( plural );
+				Preferences.setString( "_untakenEasyBountyItem", bountyItem );
+			}
+			else
+			{
+				Preferences.setString( "_untakenEasyBountyItem", "" );
+			}
 			return;
 		}
 
 		String plural = bountyItemMatcher.group( 2 );
 		String bountyItem = BountyDatabase.getName( plural );
-		
+
 		Matcher bountyQtyMatcher = BountyHunterHunterRequest.EASY_QTY_PATTERN.matcher( responseText );
 
 		int bountyQty;
@@ -241,7 +244,7 @@ public class BountyHunterHunterRequest
 		{
 			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
 		}
-
+		
 		Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyQty );
 	}
 
@@ -252,6 +255,18 @@ public class BountyHunterHunterRequest
 		if ( !bountyItemMatcher.find() )
 		{
 			Preferences.setString( "currentHardBountyItem", "" );
+			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_HARD_PATTERN.matcher( responseText );
+			
+			if( bountyUntakenMatcher.find() )
+			{
+				String plural = bountyUntakenMatcher.group( 2 );
+				String bountyItem = BountyDatabase.getName( plural );
+				Preferences.setString( "_untakenHardBountyItem", bountyItem );
+			}
+			else
+			{
+				Preferences.setString( "_untakenHardBountyItem", "" );
+			}
 			return;
 		}
 
@@ -280,6 +295,18 @@ public class BountyHunterHunterRequest
 		if ( !bountyItemMatcher.find() )
 		{
 			Preferences.setString( "currentSpecialBountyItem", "" );
+			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_SPECIAL_PATTERN.matcher( responseText );
+			
+			if( bountyUntakenMatcher.find() )
+			{
+				String plural = bountyUntakenMatcher.group( 2 );
+				String bountyItem = BountyDatabase.getName( plural );
+				Preferences.setString( "_untakenSpecialBountyItem", bountyItem );
+			}
+			else
+			{
+				Preferences.setString( "_untakenSpecialBountyItem", "" );
+			}
 			return;
 		}
 
@@ -323,15 +350,9 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takelow" ) )
 		{
-			Matcher bountyItemMatcher = BountyHunterHunterRequest.EASY_PATTERN.matcher( urlString );
-			if ( !bountyItemMatcher.find() )
-			{
-				return true;
-			}
-			
-			String plural = bountyItemMatcher.group( 2 );
-			String bountyItem = BountyDatabase.getName( plural );
-			int bountyNumber = BountyDatabase.getNumber( bountyItem );
+			String bountyName = Preferences.getString( "_untakenEasyBountyItem" );
+			int bountyNumber = BountyDatabase.getNumber( bountyName );
+			String plural = BountyDatabase.getPlural( bountyName );
 			
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "accept easy bounty assignment to collect " + bountyNumber + " " + plural );
@@ -341,15 +362,9 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takehigh" ) )
 		{
-			Matcher bountyItemMatcher = BountyHunterHunterRequest.HARD_PATTERN.matcher( urlString );
-			if ( !bountyItemMatcher.find() )
-			{
-				return true;
-			}
-			
-			String plural = bountyItemMatcher.group( 2 );
-			String bountyItem = BountyDatabase.getName( plural );
-			int bountyNumber = BountyDatabase.getNumber( bountyItem );
+			String bountyName = Preferences.getString( "_untakenHardBountyItem" );
+			int bountyNumber = BountyDatabase.getNumber( bountyName );
+			String plural = BountyDatabase.getPlural( bountyName );
 			
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "accept hard bounty assignment to collect " + bountyNumber + " " + plural );
@@ -359,15 +374,9 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takespecial" ) )
 		{
-			Matcher bountyItemMatcher = BountyHunterHunterRequest.SPECIAL_PATTERN.matcher( urlString );
-			if ( !bountyItemMatcher.find() )
-			{
-				return true;
-			}
-			
-			String plural = bountyItemMatcher.group( 2 );
-			String bountyItem = BountyDatabase.getName( plural );
-			int bountyNumber = BountyDatabase.getNumber( bountyItem );
+			String bountyName = Preferences.getString( "_untakenSpecialBountyItem" );
+			int bountyNumber = BountyDatabase.getNumber( bountyName );
+			String plural = BountyDatabase.getPlural( bountyName );
 			
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "accept specialty bounty assignment to collect " + bountyNumber + " " + plural );
