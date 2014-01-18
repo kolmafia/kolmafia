@@ -3274,6 +3274,7 @@ folder (yellow)	Muscle: +15, Moxie: +15
 BRICKO pyramid	Base Resting HP: +34, Base Resting MP: +35
 Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
 Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
+Lazybones&trade; recliner	Spooky Resistance: +2
 # Loudmouth Larry Lamprey
 Meat maid	Adventures: +4
 Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
