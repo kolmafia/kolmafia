@@ -11,7 +11,9 @@ drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spid
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
 warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate
+worthless piece of yellow glass	worthless pieces of yellow glass	hard	asterisk.gif	6	kobold
 
 # Special
 glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse
+pile of country guano	piles of country guano	special	guano.gif	8	country bat
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue

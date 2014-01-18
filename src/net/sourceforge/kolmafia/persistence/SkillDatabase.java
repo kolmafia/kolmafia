@@ -1034,6 +1034,10 @@ public class SkillDatabase
 		case SkillPool.SPIRIT_NOTHING:
 			// Derived skills
 			return false;
+
+		case SkillPool.GEMELLIS_MARCH_OF_TESTERY:
+			// Skills players can't get
+			return false;
 		}
 
 		switch ( skillId / 1000 )

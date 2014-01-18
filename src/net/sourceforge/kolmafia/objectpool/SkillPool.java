@@ -122,12 +122,6 @@ public class SkillPool
 	public static final int BIND_LASAGMBIE = 3037;
 	public static final int BIND_SPICE_GHOST = 3039;
 	public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
-	public static final int SPIRIT_CAYENNE = 7176;
-	public static final int SPIRIT_PEPPERMINT = 7177;
-	public static final int SPIRIT_GARLIC = 7178;
-	public static final int SPIRIT_WORMWOOD = 7179;
-	public static final int SPIRIT_BACON = 7180;
-	public static final int SPIRIT_NOTHING = 7181;
 	public static final int ADVANCED_SAUCECRAFTING = 4006;
 	public static final int JALAPENO_SAUCESPHERE = 4008;
 	public static final int JABANERO_SAUCESPHERE = 4011;
@@ -142,6 +136,7 @@ public class SkillPool
 	public static final int SUCKERPUNCH = 5021;
 	public static final int THATS_NOT_A_KNIFE = 5028;
 	public static final int ODE_TO_BOOZE = 6014;
+	public static final int GEMELLIS_MARCH_OF_TESTERY = 6019;
 	public static final int THINGFINDER = 6020;
 	public static final int BENETTONS = 6021;
 	public static final int ELRONS = 6022;
@@ -182,6 +177,12 @@ public class SkillPool
 	public static final int WINK = 7168;
 	public static final int TALK_ABOUT_POLITICS = 7169;
 	public static final int POCKET_CRUMBS = 7170;
+	public static final int SPIRIT_CAYENNE = 7176;
+	public static final int SPIRIT_PEPPERMINT = 7177;
+	public static final int SPIRIT_GARLIC = 7178;
+	public static final int SPIRIT_WORMWOOD = 7179;
+	public static final int SPIRIT_BACON = 7180;
+	public static final int SPIRIT_NOTHING = 7181;
 	public static final int SOUL_BUBBLE = 7182;
 	public static final int SOUL_FINGER = 7183;
 	public static final int SOUL_BLAZE = 7184;
