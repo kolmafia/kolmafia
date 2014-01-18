@@ -141,6 +141,7 @@ public abstract class ChoiceManager
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "Chamber <b>#(\\d+)</b>" );
 	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
 	private static final Pattern UNPERM_PATTERN = Pattern.compile( "Turning (.+)(?: \\(HP\\)) into (\\d+) karma." );
+	private static final Pattern ICEHOUSE_PATTERN = Pattern.compile( "perfectly-preserved (.*?), right" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -2897,6 +2898,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Crimbo13", "choiceAdventure813", "Warbear Fortress (First Level)",
 			new Object[] { "Open K.R.A.M.P.U.S. facility" } ),
+		
+		// Choice 836 is Adventures Who Live in Ice Houses...
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7699,6 +7702,22 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "reanimatorWings", 0 );
 			}
 			break;
+		}
+
+		case 836:
+		{
+			// Adventures Who Live in Ice Houses...
+			Matcher matcher = ChoiceManager.ICEHOUSE_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				String icehouseMonster = matcher.group( 1 ).toLowerCase();
+				String knownBanishes = Preferences.getString( "banishedMonsters" );
+				if ( !knownBanishes.contains( icehouseMonster ) )
+				{
+					// If not already known to be banished, add it
+					BanishManager.banishMonster( icehouseMonster, "ice house" );
+				}
+			}
 		}
 		}
 	}
