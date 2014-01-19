@@ -221,7 +221,10 @@ public class BountyHunterHunterRequest
 			{
 				String plural = bountyUntakenMatcher.group( 2 );
 				String bountyItem = BountyDatabase.getName( plural );
-				Preferences.setString( "_untakenEasyBountyItem", bountyItem );
+				if ( bountyItem != null )
+				{
+					Preferences.setString( "_untakenEasyBountyItem", bountyItem );
+				}
 			}
 			else
 			{
@@ -261,7 +264,10 @@ public class BountyHunterHunterRequest
 			{
 				String plural = bountyUntakenMatcher.group( 2 );
 				String bountyItem = BountyDatabase.getName( plural );
-				Preferences.setString( "_untakenHardBountyItem", bountyItem );
+				if ( bountyItem != null )
+				{
+					Preferences.setString( "_untakenHardBountyItem", bountyItem );
+				}
 			}
 			else
 			{
@@ -301,7 +307,10 @@ public class BountyHunterHunterRequest
 			{
 				String plural = bountyUntakenMatcher.group( 2 );
 				String bountyItem = BountyDatabase.getName( plural );
-				Preferences.setString( "_untakenSpecialBountyItem", bountyItem );
+				if ( bountyItem != null )
+				{
+					Preferences.setString( "_untakenSpecialBountyItem", bountyItem );
+				}
 			}
 			else
 			{
