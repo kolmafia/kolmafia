@@ -72,6 +72,7 @@ public class BountyDatabase
 	private static final Map<String, String> imageByName = new HashMap<String, String>();
 	private static final Map<String, Integer> numberByName = new HashMap<String, Integer>();
 	private static final Map<String, String> monsterByName = new HashMap<String, String>();
+	private static final Map<String, String> nameByMonster = new HashMap<String, String>();
 
 	static
 	{
@@ -87,6 +88,7 @@ public class BountyDatabase
 		BountyDatabase.imageByName.clear();
 		BountyDatabase.numberByName.clear();
 		BountyDatabase.monsterByName.clear();
+		BountyDatabase.nameByMonster.clear();
 
 		BountyDatabase.readData();
 	}
@@ -113,6 +115,7 @@ public class BountyDatabase
 			int number = StringUtilities.parseInt( data[ 4 ] );
 			BountyDatabase.numberByName.put( name, IntegerPool.get( number ) );
 			BountyDatabase.monsterByName.put( name, data[ 5 ] );
+			BountyDatabase.nameByMonster.put( data[ 5 ], name );
 		}
 
 		try
@@ -134,6 +137,7 @@ public class BountyDatabase
 		BountyDatabase.imageByName.put( name, image );
 		BountyDatabase.numberByName.put( name, IntegerPool.get( number ) );
 		BountyDatabase.monsterByName.put( name, monster );
+		BountyDatabase.nameByMonster.put( monster, name );
 	}
 
 	public static final String getName( String plural )
@@ -144,6 +148,16 @@ public class BountyDatabase
 		}
 		
 		return BountyDatabase.bountyByPlural.get( plural );
+	}
+
+	public static final String getNameByMonster( String monster )
+	{
+		if ( monster == null )
+		{
+			return null;
+		}
+		
+		return BountyDatabase.nameByMonster.get( monster );
 	}
 
 	public static final String getPlural( String name )

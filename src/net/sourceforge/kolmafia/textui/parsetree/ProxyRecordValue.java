@@ -427,18 +427,14 @@ public class ProxyRecordValue
 
 		public Value get_bounty()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( id );
-			return adventure == null ?
-			       DataTypes.LOCATION_INIT :
-			       DataTypes.parseLocationValue( adventure.getAdventureName(), true );
+			// Items can no longer be bounty items
+			return DataTypes.LOCATION_INIT;
 		}
 
 		public int get_bounty_count()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			AdventureResult bounty = AdventureDatabase.getBounty( id );
-			return bounty == null ? 0 : bounty.getCount();
+			// Items can no longer be bounty items
+			return 0;
 		}
 
 		public CoinmasterData get_seller()

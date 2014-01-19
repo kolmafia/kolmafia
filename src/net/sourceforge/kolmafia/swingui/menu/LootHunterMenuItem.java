@@ -85,7 +85,9 @@ public class LootHunterMenuItem
 		@Override
 		protected void execute()
 		{
-			GenericRequest hunterRequest = new BountyHunterHunterRequest();
+			// Needs COMPLETE rewrite
+			KoLmafia.updateDisplay( MafiaState.ERROR, "This option not currently available due to KoL Bounty Hunter Hunter change." );
+			/* GenericRequest hunterRequest = new BountyHunterHunterRequest();
 			RequestThread.postRequest( hunterRequest );
 
 			StringBuffer label = new StringBuffer();
@@ -161,7 +163,7 @@ public class LootHunterMenuItem
 				return;
 			}
 
-			RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", wrapper.getChoice() ) );
+			RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", wrapper.getChoice() ) );*/
 		}
 	}
 

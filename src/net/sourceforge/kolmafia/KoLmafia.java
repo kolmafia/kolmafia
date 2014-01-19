@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -1200,15 +1201,6 @@ public abstract class KoLmafia
 		KoLmafia.forceContinue();
 		KoLmafia.abortAfter = null;
 
-		boolean checkBounty = false;
-		AdventureResult bounty = null;
-
-		if ( isAdventure && ( bounty = AdventureDatabase.currentBounty() ) != null )
-		{
-			AdventureResult ar = AdventureDatabase.getBounty( (KoLAdventure) request );
-			checkBounty = ar != null && bounty.getItemId() == ar.getItemId();
-		}
-
 		if ( deferConcoctionRefresh )
 		{
 			ConcoctionDatabase.deferRefresh( true );
@@ -1229,10 +1221,44 @@ public abstract class KoLmafia
 				--currentIteration;
 			}
 
-			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
+			// Check if bounties completed, and hand in if so
+			boolean completeBounty = false;
+			String currentBounty = Preferences.getString( "currentEasyBountyItem" );
+			int bountySeperator = currentBounty.indexOf( ":" );
+			if ( bountySeperator != -1 )
+			{
+				String bountyName = currentBounty.substring( 0, bountySeperator );
+				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				{
+					completeBounty = true;
+				}
+			}
+			currentBounty = Preferences.getString( "currentHardBountyItem" );
+			bountySeperator = currentBounty.indexOf( ":" );
+			if ( bountySeperator != -1 )
+			{
+				String bountyName = currentBounty.substring( 0, bountySeperator );
+				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				{
+					completeBounty = true;
+				}
+			}
+			currentBounty = Preferences.getString( "currentSpecialBountyItem" );
+			bountySeperator = currentBounty.indexOf( ":" );
+			if ( bountySeperator != -1 )
+			{
+				String bountyName = currentBounty.substring( 0, bountySeperator );
+				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				{
+					completeBounty = true;
+				}
+			}
+			if ( completeBounty )
 			{
 				RequestThread.postRequest( new BountyHunterHunterRequest() );
-				checkBounty = false;
 			}
 		}
 

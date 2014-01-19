@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -260,16 +262,6 @@ public class AdventureDatabase
 			{
 				AdventureDatabase.conditionLookup.put( name, new String( data[ 5 ] ) );
 			}
-
-			if ( data.length <= 6 )
-			{
-				continue;
-			}
-
-			if ( !data[ 6 ].equals( "" ) )
-			{
-				AdventureDatabase.bountyLookup.put( name, new String( data[ 6 ] ) );
-			}
 		}
 
 		try
@@ -314,6 +306,14 @@ public class AdventureDatabase
 				for ( int i = 2; i < data.length; ++i )
 				{
 					combat.addMonster( data[ i ] );
+					// Does it drop a bounty, if so add it to the bounty lookup by area
+					String bountyName = BountyDatabase.getNameByMonster( data[ i ].toLowerCase() );
+					if ( bountyName != null )
+					{
+						int bountyNumber = BountyDatabase.getNumber( bountyName );
+						String bountyPlural = BountyDatabase.getPlural( bountyName );
+						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyNumber + " " + bountyPlural );
+					}
 				}
 				AdventureDatabase.areaCombatData.put( data[ 0 ], combat );
 			}
@@ -357,7 +357,7 @@ public class AdventureDatabase
 				continue;
 			}
 
-			bounty = StringUtilities.getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
+			bounty = bounty.substring( bounty.indexOf( " " ) + 1 );
 			if ( AdventureDatabase.locationByBounty.get( bounty ) != null )
 			{
 				// Only store the first location
@@ -507,22 +507,16 @@ public class AdventureDatabase
 		return zoneLookup.get( location );
 	}
 
-	public static final KoLAdventure getBountyLocation( final int itemId )
-	{
-		return AdventureDatabase.getBountyLocation( ItemDatabase.getItemName( itemId ) );
-	}
-
 	public static final KoLAdventure getBountyLocation( final String item )
 	{
-		return item == null ? null : AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( item ) );
+		return item == null ? null : AdventureDatabase.locationByBounty.get( item );
 	}
 
-	public static final AdventureResult getBounty( final int itemId )
+	public static final AdventureResult getBounty( final String item )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		if ( name == null )
+		if ( item == null )
 			return null;
-		KoLAdventure adventure = AdventureDatabase.getBountyLocation( name );
+		KoLAdventure adventure = AdventureDatabase.getBountyLocation( item );
 		if ( adventure == null )
 			return null;
 		return AdventureDatabase.getBounty( adventure );
@@ -543,10 +537,22 @@ public class AdventureDatabase
 		return new AdventureResult( name, count, false );
 	}
 
-	public static final AdventureResult currentBounty()
+	public static final AdventureResult currentEasyBounty()
 	{
-		int bountyItem = Preferences.getInteger( "currentBountyItem" );
-		return bountyItem == 0 ? null : AdventureDatabase.getBounty( bountyItem );
+		String bountyItem = Preferences.getString( "currentEasyBountyItem" );
+		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
+	}
+
+	public static final AdventureResult currentHardBounty()
+	{
+		String bountyItem = Preferences.getString( "currentHardBountyItem" );
+		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
+	}
+
+	public static final AdventureResult currentSpecialBounty()
+	{
+		String bountyItem = Preferences.getString( "currentSpecialBountyItem" );
+		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
 	}
 
 	public static final String getDefaultConditions( final KoLAdventure adventure )
@@ -560,12 +566,30 @@ public class AdventureDatabase
 		// the item you need to hunt for.
 
 		String adventureName = adventure.getAdventureName();
-		int bountyId = Preferences.getInteger( "currentBountyItem" );
+		String bounty = AdventureDatabase.bountyLookup.get( adventureName );
 
-		if ( bountyId != 0 )
+		String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
+		if ( !easyBountyId.equals( "" ) && easyBountyId != null )
 		{
-			String bounty = AdventureDatabase.bountyLookup.get( adventureName );
-			if ( bounty != null && !bounty.equals( "" ) && ItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
+			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
+			{
+				return bounty;
+			}
+		}
+
+		String hardBountyId = Preferences.getString( "currentHardBountyItem" );
+		if ( !hardBountyId.equals( "" ) && hardBountyId != null )
+		{
+			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
+			{
+				return bounty;
+			}
+		}
+
+		String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
+		if ( !specialBountyId.equals( "" ) && specialBountyId != null )
+		{
+			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
 			{
 				return bounty;
 			}
