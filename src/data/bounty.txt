@@ -6,7 +6,7 @@
 bean-shaped rock	bean-shaped rocks	easy	bean.gif	35	beanbat
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed Knob Goblin
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider
-piece of triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid
+triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid
 
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone
