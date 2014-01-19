@@ -40,6 +40,7 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -72,6 +73,7 @@ public class AdventureResult
 	protected static final int FULLSTAT_PRIORITY = 4;
 	private static final int ITEM_PRIORITY = 5;
 	private static final int EFFECT_PRIORITY = 6;
+	private static final int BOUNTY_ITEM_PRIORITY = 6;
 
 	public static final int PSEUDO_ITEM_PRIORITY = 99;
 
@@ -217,6 +219,10 @@ public class AdventureResult
 		if ( name.equals( AdventureResult.FULLSTATS ) )
 		{
 			return AdventureResult.FULLSTAT_PRIORITY;
+		}
+		if ( BountyDatabase.getType( name ) != null )
+		{
+			return AdventureResult.BOUNTY_ITEM_PRIORITY;
 		}
 		if ( EffectDatabase.contains( name ) )
 		{
@@ -395,6 +401,11 @@ public class AdventureResult
 		return this.priority == AdventureResult.ITEM_PRIORITY;
 	}
 
+	public boolean isBountyItem()
+	{
+		return this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY;
+	}
+
 	public boolean isMeat()
 	{
 		return this.priority == AdventureResult.MEAT_PRIORITY;
@@ -472,6 +483,10 @@ public class AdventureResult
 
 	public String getPluralName( final int count )
 	{
+		if ( this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY )
+		{
+			return count == 1 ? this.getName() : BountyDatabase.getPlural( this.getName() );
+		}
 		return count == 1 ? this.getName() : ItemDatabase.getPluralById( this.itemId );
 	}
 
@@ -766,6 +781,11 @@ public class AdventureResult
 		}
 
 		if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
+		{
+			return this.name.toLowerCase();
+		}
+
+		if ( this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY )
 		{
 			return this.name.toLowerCase();
 		}
