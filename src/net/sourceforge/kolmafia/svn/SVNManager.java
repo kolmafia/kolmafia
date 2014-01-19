@@ -1188,6 +1188,10 @@ public class SVNManager
 			{
 				UUID = m.group( 1 ) + StringUtilities.globalStringReplace( repo.getPath().substring( 4 ), "/", "-" );
 			}
+			else if ( repo.getHost().contains( "github" ) )
+			{
+				UUID = StringUtilities.globalStringReplace( repo.getPath().substring( 1 ), "/", "-" );
+			}
 		}
 		return UUID;
 	}
