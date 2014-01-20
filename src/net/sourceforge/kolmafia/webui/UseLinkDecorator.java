@@ -608,7 +608,7 @@ public abstract class UseLinkDecorator
 
 				uses.add( new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" ) );
 
-				if  ( uses.size() == 1 )
+				if ( uses.size() == 1 )
 				{
 					return uses.get( 0 );
 				}
@@ -779,6 +779,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.WALKIE_TALKIE:
 			case ItemPool.SUSPICIOUS_ADDRESS:
 			case ItemPool.CHEF_BOY_BUSINESS_CARD:
+			case ItemPool.GRIMSTONE_MASK:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
