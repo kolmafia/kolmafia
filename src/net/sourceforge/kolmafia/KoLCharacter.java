@@ -5093,7 +5093,11 @@ public abstract class KoLCharacter
 				Modifiers imod = Modifiers.getModifiers( name );
 				if ( imod != null )
 				{
-					smithsness += imod.get( Modifiers.SMITHSNESS );
+					String classType = imod.getString( Modifiers.CLASS );
+					if ( classType == "" || classType.equals( KoLCharacter.getClassType() ) )
+					{
+						smithsness += imod.get( Modifiers.SMITHSNESS );
+					}
 				}
 			}
 		}
