@@ -184,3 +184,5 @@
 175	Mechanical Songbird	mechbird.gif	item0	6490	shiny brass tailfeathers	1	2	2	0
 176	Reanimated Reanimator	reanimator.gif	none	6784	flask of embalming fluid	2	3	2	0
 177	Warbear Drone	wbdronefam.gif	combat	6970	warbear drone codes	3	2	2	0
+178	Grimstone Golem	grimgolem.gif	item0,meat0	7064	grimstone galoshes	0	0	0	0
+179	Grim Brother	grimbrother.gif	stat0,meat0	7062	Grim Brothers' story book	0	0	0	0

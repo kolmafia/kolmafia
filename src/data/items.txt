@@ -1515,7 +1515,7 @@
 1498	McPhee's Grimoire of Hilarious Object Summoning	609823250	book2.gif	usable	t	0	McPhee's Grimoires of Hilarious Object Summoning
 1499	whoopie cushion	900614362	whoopee.gif	message	g,d	5	whoopie cushions
 1500	fake fake vomit	486691439	vomitjar.gif	none	g,d	5	jars of fake fake vomit
-1501	explosion-flavored chewing gum	553549138	chicle.gif	usable, candy	g,d	5	squares of explosion-flavored chewing gum
+1501	explosion-flavored chewing gum	553549138	chicle.gif	multiple, candy	g,d	5	squares of explosion-flavored chewing gum
 1502	clown hammer	574804473	clownham.gif	weapon	g,d	5	clown hammers
 1503	rubber emo roe	466647669	roe.gif	message	g,d	5	rubber emo roe
 1504	yellow snowcone	902814366	snowcone.gif	multiple	g,d	5	yellow snowcones
@@ -7075,12 +7075,12 @@
 7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5	bottles of Cloaca Cola Polar
 7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0
 7060	festive warbear bank	453898282	wbbank.gif	reusable		0
-7061
-7062
-7063
-7064
+7061	grimstone mask	133403008	grimstonemask.gif	usable	t	0
+7062	praying Grim Brother	594207949	grimbrotherpray.gif	grow	t	0
+7063	Grim Brothers' story book	138096530	sadtale.gif	familiar	t,d	75
+7064	hibernating Grimstone Golem	886576180	grimgolem_sleep.gif	grow	t	0
 7065
-7066
+7066	grimstone galoshes	237987663	grimstonegal.gif	familiar	t,d	75
 7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78	singles of Inigo's Incantation of Inspiration
 7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78	singles of Donho's Bubbly Ballad
 7069	Discontent&trade; Winter Garden Catalog	828455718	wintercatalog.gif	usable	t	0

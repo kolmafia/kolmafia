@@ -2730,6 +2730,7 @@ wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
+Grim Brothers' story book	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
 # Li'l Businessman Kit: Lets your familiar make deals
 Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
@@ -2821,6 +2822,7 @@ gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*zone(The Sea
 # gnomish tennis elbow: Lets your gnome attack enemies
 gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 green pixie spog	Familiar Weight: +5
+grimstone galoshes	Familiar Weight: +5
 # guard turtle collar: +10 to Familiar Damage
 guard turtle collar	Generic
 half-height unicycle	Familiar Weight: +5
@@ -5597,6 +5599,7 @@ handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
 heart necklace	Free Pull
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+hibernating Grimstone Golem	Free Pull
 hibernating robot reindeer	Free Pull
 holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 holly-flavored Hob-O	Effect: "Holiday Bliss"
@@ -5734,6 +5737,7 @@ potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
 powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
 powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
+praying Grim Brother	Free Pull
 press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30
 pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
 pressurized potion of perspicacity	Effect: "Perspicacious Pressure", Effect Duration: [R]
