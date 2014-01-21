@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia.request;
 import java.io.File;
 import java.io.IOException;
 
-import java.lang.Math;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -55,7 +53,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -2573,8 +2570,12 @@ public class FightRequest
 			String bountyItem = bountyItemMatcher.group( 1 );
 			int bountyCount = StringUtilities.parseInt( bountyItemMatcher.group( 2 ) );
 			String bountyType = BountyDatabase.getType( bountyItem );
-			
-			if ( bountyType.equals( "easy" ) )
+
+			if ( bountyType == null )
+			{
+				KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
+			}
+			else if ( bountyType.equals( "easy" ) )
 			{
 				Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
 			}
@@ -2585,10 +2586,6 @@ public class FightRequest
 			else if ( bountyType.equals( "special" ) )
 			{
 				Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
 			}
 			String updateMessage = "You acquire a bounty item: " + bountyItem;
 			RequestLogger.updateSessionLog( updateMessage );
@@ -4606,7 +4603,7 @@ public class FightRequest
 
 			if ( FightRequest.haiku && str.contains( "Back to yearbook club" ) )
 			{
-				FightRequest.handleYearbookCamera( str, status );
+				FightRequest.handleYearbookCamera( status );
 				return;
 			}
 
@@ -5058,7 +5055,7 @@ public class FightRequest
 			}
 			else
 			{
-				FightRequest.handleYearbookCamera( str, status );
+				FightRequest.handleYearbookCamera( status );
 			}
 			return false;
 		}
@@ -5434,7 +5431,7 @@ public class FightRequest
 		}
 	}
 
-	private static void handleYearbookCamera( String text, TagStatus status )
+	private static void handleYearbookCamera( TagStatus status )
 	{
 		Preferences.setBoolean( "yearbookCameraPending", true );
 
