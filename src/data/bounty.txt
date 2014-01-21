@@ -12,7 +12,7 @@ triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid
 
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone
-distintegrating cork	distintegrating corks	hard	cork.gif	20	Haunted Wine Cellar
+distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier
 rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
 warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate

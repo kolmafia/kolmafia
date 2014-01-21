@@ -1925,6 +1925,35 @@ public class ResultProcessor
 		case ItemPool.DAMP_OLD_BOOT:
 			Preferences.setBoolean( "dampOldBootPurchased", true );
 			break;
+
+		case ItemPool.GRIMSTONE_MASK:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.getEnthroned().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ) ) )
+				{
+					Preferences.increment( "_grimstoneMaskDropsCrown" );
+				}
+				else
+				{
+					Preferences.increment( "_grimstoneMaskDrops" );
+				}
+			}
+			break;
+
+		case ItemPool.GRIM_FAIRY_TALE:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.getEnthroned().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER ) ) )
+				{
+					Preferences.increment( "_grimFairyTaleDropsCrown" );
+				}
+				else
+				{
+					Preferences.increment( "_grimFairyTaleDrops" );
+				}
+			}
+			break;
+
 		}
 
 		// Gaining items can achieve goals.
