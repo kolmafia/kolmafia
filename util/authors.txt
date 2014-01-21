@@ -1,4 +1,5 @@
 bigfreak = bigfreak <bigfreak@users.sourceforge.net>
+darzil = Darzil <darzil@users.sourceforge.net>
 doctorrotelle = DoctorRotelle <doctorrotelle@users.sourceforge.net>
 DoctorRotelle = DoctorRotelle <DoctorRotelle@users.sourceforge.net>
 fewli0 = fewli0 <fewli0@users.sourceforge.net>
