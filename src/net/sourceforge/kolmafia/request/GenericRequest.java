@@ -2076,8 +2076,8 @@ public class GenericRequest
 			// to complete the fight before you can continue.
 
 			if ( this == ChoiceManager.CHOICE_HANDLER ||
-				this instanceof AdventureRequest ||
-				this instanceof BasementRequest )
+			     this instanceof AdventureRequest ||
+			     this instanceof BasementRequest )
 			{
 				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
 				if ( pos != -1 )
