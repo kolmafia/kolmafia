@@ -6696,6 +6696,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 835:
+			// Barely Tales
+			if ( ChoiceManager.lastDecision != 0 )
+			{
+				Preferences.setBoolean( "_grimBuff", true );
+			}
+			break;
+
 		case 836:
 			// Adventures Who Live in Ice Houses...
 			if ( ChoiceManager.lastDecision == 1 )
@@ -9511,6 +9519,7 @@ public abstract class ChoiceManager
 		case 810: // K.R.A.M.P.U.S. facility
 		case 812: // The Unpermery
 		case 821: // LP-ROM burner
+		case 835: // Barely Tales
 		case 836: // Adventures Who Live in Ice Houses...
 			return true;
 

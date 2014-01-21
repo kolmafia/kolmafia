@@ -928,6 +928,7 @@ user	_gnomeAdv	0
 user	_gongDrops	0
 user	_gothKidFights	0
 user	_gothKidCharge	0
+user	_grimBuff	false
 user	_grimFairyTaleDrops	0
 user	_grimFairyTaleDropsCrown	0
 user	_grimoireGeekySummons	0
