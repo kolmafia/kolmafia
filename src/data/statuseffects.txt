@@ -1504,3 +1504,14 @@
 1503	Icy Demeanor	iceharvest.gif	fb3ab3e04e2a414c59075e333f35dd34	eat 1 ice harvest
 1504	Snow Fortified	snowfort.gif	e93fdb6c60c4c23ca17194151dcc61b8
 1505	Skull Full of Hot Chocolate	smartskull.gif	1c9209273b920040572d06208b4d39de	eat 1 Skully's hot chocolate
+1506
+1507
+1508
+1509
+1510
+1511
+1512
+1513
+1514
+1515
+1515	Hare-Brained	hare.gif	fc1d8018dbb987f7fe731f3dc92402ad
