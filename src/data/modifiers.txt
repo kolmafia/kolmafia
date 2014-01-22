@@ -3075,8 +3075,8 @@ Throne:Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Ma
 Throne:Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Gluttonous Green Ghost	Food Drop: +15
 Throne:Green Pixie	Maximum HP: +10, Maximum MP: +10
-Throne:Grim Brother	Combat Frequency: +5
-Throne:Grimstone Golem	Combat Frequency: -5
+Throne:Grim Brother	Combat Rate: +5
+Throne:Grimstone Golem	Combat Rate: -5
 Throne:Grinning Turtle	Experience (Muscle): +2
 Throne:Grouper Groupie	Meat Drop: +20
 Throne:Grue	Mysticality Percent: +15
