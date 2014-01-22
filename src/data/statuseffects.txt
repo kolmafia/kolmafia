@@ -1372,7 +1372,7 @@
 1371	Flyin' Drunk	wings.gif	e25fcfcce0a9b70f094f65daef95a6d6	drink 1 bottle of Race Car Red
 1372	Covetin' Drunk	dollarsign.gif	e0ef3fd85372e5a92b55f34cf067e56e	drink 1 bottle of Greedy Dog
 1373	Dancin' Drunk	dance2.gif	6f3566f9e7fd09ffaaf9bd160d0d2a2d	drink 1 bottle of Lambada Lambic
-1374
+1374	Comprehensively Nourished	juice.gif	b14645c381a93b2d74e8c097979c8ec3
 1375	Tingling Feeling	tincup1.gif	91b2830c561b74bcbcca410423a21ad3	use 1 tin cup
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear
 1377	Abyssal Sweat	teardrop.gif	2d5d270c8cb8017c1d33b5a6327d7ffd	use 1 cold seal sweat

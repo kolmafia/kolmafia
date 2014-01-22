@@ -7079,7 +7079,7 @@
 7062	praying Grim Brother	594207949	grimbrotherpray.gif	grow	t	0
 7063	Grim Brothers' story book	138096530	sadtale.gif	familiar	t,d	75
 7064	hibernating Grimstone Golem	886576180	grimgolem_sleep.gif	grow	t	0
-7065
+7065	grim fairy tale	881494471	sadtale.gif	multiple	t	0
 7066	grimstone galoshes	237987663	grimstonegal.gif	familiar	t,d	75
 7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78	singles of Inigo's Incantation of Inspiration
 7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78	singles of Donho's Bubbly Ballad
