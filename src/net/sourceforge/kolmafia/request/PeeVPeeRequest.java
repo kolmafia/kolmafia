@@ -236,6 +236,14 @@ public class PeeVPeeRequest
 						won = winner.equals( me );
 					}
 				}
+
+				if ( you == null )
+				{
+					// Something went wrong.  Ideally we won't get here, but this will at least
+					// prevent looping through failed attacks
+					KoLmafia.updateDisplay( MafiaState.ABORT, "Something went wrong with executing your PvP fights" );
+					return;
+				}
 				
 				StringBuilder buf = new StringBuilder( "You challenged " );
 				buf.append( you );
