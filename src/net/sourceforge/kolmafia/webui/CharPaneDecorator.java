@@ -626,6 +626,16 @@ public class CharPaneDecorator
 			buffer.append( "% charge" );
 			return buffer;
 
+		case FamiliarPool.GRIMSTONE_GOLEM:
+			buffer.append( Preferences.getString( "_grimstoneMaskDrops" ) );
+			buffer.append( "/1" );
+			return buffer;
+
+		case FamiliarPool.GRIM_BROTHER:
+			buffer.append( Preferences.getString( "_grimFairyTaleDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		}
 
 		return null;
