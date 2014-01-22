@@ -3602,6 +3602,7 @@ Cool Spirit	Cold Damage: +20, Cold Spell Damage: +20
 Coming Up Roses	MP Regen Min: 10, MP Regen Max: 20
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
+Comprehensively Nourished	Experience: +2
 Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
 Concha de Tortuga	HP Regen Min: 6, HP Regen Max: 8
