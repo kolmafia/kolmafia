@@ -142,7 +142,7 @@ public class BountyDatabase
 
 	public static final String getName( String plural )
 	{
-		if ( plural == null )
+		if ( plural == null || plural.equals( "" ) )
 		{
 			return null;
 		}
@@ -152,7 +152,7 @@ public class BountyDatabase
 
 	public static final String getNameByMonster( String monster )
 	{
-		if ( monster == null )
+		if ( monster == null || monster.equals( "" ) )
 		{
 			return null;
 		}
@@ -162,7 +162,7 @@ public class BountyDatabase
 
 	public static final String getPlural( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 		{
 			return null;
 		}
@@ -172,7 +172,7 @@ public class BountyDatabase
 
 	public static final String getType( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 		{
 			return null;
 		}
@@ -182,7 +182,7 @@ public class BountyDatabase
 
 	public static final String getImage( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 		{
 			return null;
 		}
@@ -192,7 +192,7 @@ public class BountyDatabase
 
 	public static final int getNumber( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 		{
 			return 0;
 		}
@@ -202,7 +202,7 @@ public class BountyDatabase
 
 	public static final String getMonster( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 		{
 			return null;
 		}
