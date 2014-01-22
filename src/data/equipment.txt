@@ -265,6 +265,7 @@ sugar chapeau	100	none
 superhero mask	10	none
 surgical mask	155	Mys: 62
 suspicious-looking fedora	60	Mox: 15
+sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 tin tam	100	none
@@ -419,6 +420,7 @@ gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
 gold lam&eacute; pants	100	Mox: 35
 grass skirt	80	Mox: 25
+gym shorts	100	Mox: 35
 hardened slime pants	200	Mox: 200
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
@@ -1785,6 +1787,7 @@ actual reality goggles	10	none
 albatross necklace	90	Mys: 15
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
+ankleweights	100	Mys: 35
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 aquamariner's necklace	200	Mys: 85
@@ -2112,6 +2115,7 @@ stuffed shoulder parrot	80	Mys: 25
 stuffed walrus	10	none
 super-strong air freshener	150	Mys: 50
 support cummerbund	100	Mys: 35
+sweat socks	25	none
 tap shoes	90	Mys: 30
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
@@ -2332,19 +2336,19 @@ vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
 warbear dress bracers	100	Mys: 35
-warbear electric warscarf	0	Mys: 110
+warbear electric warscarf	250	Mys: 110
 warbear energy bracers	100	none
 warbear exo-arm	100	none
-warbear fleece-lined warscarf	0	Mys: 60
-warbear goggles	0	Mys: 10
+warbear fleece-lined warscarf	150	Mys: 60
+warbear goggles	50	Mys: 10
 warbear hoverbelt	100	none
 warbear laser beacon	100	none
-warbear laser bowtie	0	Mys: 10
-warbear nuclear bowtie	0	Mys: 110
-warbear plasma bowtie	0	Mys: 60
-warbear polarized goggles	0	Mys: 110
-warbear snowblindness goggles	0	Mys: 60
-warbear warscarf	0	Mys: 10
+warbear laser bowtie	50	Mys: 10
+warbear nuclear bowtie	250	Mys: 110
+warbear plasma bowtie	150	Mys: 60
+warbear polarized goggles	250	Mys: 110
+warbear snowblindness goggles	150	Mys: 60
+warbear warscarf	50	Mys: 10
 warm fur	225	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85

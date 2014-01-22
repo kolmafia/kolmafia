@@ -366,6 +366,7 @@ knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+10
 kumquat	1	2	decent	2	0	0	0
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
 laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
+leftover canap&eacute;s	2	2	decent	0	0	0	0
 lemon	1	1	crappy	1	0	0	0
 lemon meringue pie	3	2	decent	3-9	8-10	0	0
 lemon popsicle	1	1	decent	2	0	0	0

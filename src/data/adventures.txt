@@ -348,3 +348,12 @@ Psychoses	adventure=314	false	indoor	Chinatown Tenement	30 gold piece
 Psychoses	adventure=316	false	outdoor	The Gourd!
 Psychoses	adventure=317	false	indoor	The Tower of Procedurally-Generated Skeletons
 Psychoses	adventure=318	false	outdoor	The Old Man's Bathtime Adventures
+
+Skid Row	adventure=369	false	indoor	Inner Wolf Gym
+
+The Prince's Ball	adventure=374	false	none	The Prince's Restroom
+The Prince's Ball	adventure=375	false	none	The Prince's Dance Floor
+The Prince's Ball	adventure=376	false	none	The Prince's Kitchen
+The Prince's Ball	adventure=377	false	none	The Prince's Balcony
+The Prince's Ball	adventure=378	false	none	The Prince's Lounge
+The Prince's Ball	adventure=379	false	none	The Prince's Canapes Table

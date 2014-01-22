@@ -345,6 +345,7 @@ sucker kabuto	Damage Reduction: 5, Familiar Effect: "Atk, cap 12"
 sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xLep, 1xFairy, cap 2"
 suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Familiar Effect: "atk, 1xFairy, cap 15"
+sweatband	PvP Fights: +2, Damage Reduction: 5
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 tin tam	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Familiar Effect: "MP regen, cap 25"
@@ -520,6 +521,7 @@ gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 gnauga hide skirt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25"
 grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
+gym shorts	PvP Fights: +2, Initiative: +20
 hardened slime pants	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
 hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 2xGhuol, cap 32"
@@ -2064,6 +2066,7 @@ actual reality goggles	Single Equip, Free Pull
 albatross necklace	Mysticality Percent: +10, Single Equip
 amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 amulet of extreme plot significance	Maximum MP: +30
+ankleweights	PvP Fights: +4, Experience: +1, Single Equip
 anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
@@ -2427,6 +2430,7 @@ stuffed walrus	Synergetic
 super-strong air freshener	Stench Resistance: +2, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 support cummerbund	Maximum HP: +20
 surgical mask	Maximum MP: +40, Surgeonosity: +1
+sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaze Spell Damage: +5
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
@@ -4233,6 +4237,7 @@ Orc Chops	Muscle: +50
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
 # Osseous George: Makes you look like a skeletal monkey
+Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Over the Ocean	Experience: [min(100,T/5)]
 Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
@@ -4462,6 +4467,7 @@ Socialismydia	Item Drop: -50
 Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50)]
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
+Soles of Glass	Initiative: +20
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 # Something's Amistress: Makes you look like the remains of a jilted mistress
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
@@ -5269,6 +5275,7 @@ Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Durati
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
+Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
 Pain Dip	Effect: "The HeyDezebound Heart"
 PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
 Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
