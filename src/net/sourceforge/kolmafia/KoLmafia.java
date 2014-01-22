@@ -1228,10 +1228,13 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				if( bountyName != "" )
 				{
-					completeBounty = true;
+					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+					{
+						completeBounty = true;
+					}
 				}
 			}
 			currentBounty = Preferences.getString( "currentHardBountyItem" );
@@ -1239,10 +1242,13 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				if( bountyName != "" )
 				{
-					completeBounty = true;
+					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+					{
+						completeBounty = true;
+					}
 				}
 			}
 			currentBounty = Preferences.getString( "currentSpecialBountyItem" );
@@ -1250,10 +1256,13 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				if( bountyName != "" )
 				{
-					completeBounty = true;
+					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
+					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+					{
+						completeBounty = true;
+					}
 				}
 			}
 			if ( completeBounty )
