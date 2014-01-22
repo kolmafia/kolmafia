@@ -115,6 +115,7 @@ Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 The Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	upgraded ram: 2	Knott Slanding: -1
+Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin
@@ -339,6 +340,12 @@ The Arrrboretum	0
 The Knob Shaft (Mining)	0
 The Limerick Dungeon	0
 The Poker Room	0
+The Prince's Restroom	0
+The Prince's Dance Floor	0
+The Prince's Kitchen	0
+The Prince's Balcony	0
+The Prince's Lounge	0
+The Prince's Canapes Table	0
 The Roulette Tables	0
 The Shore, Inc. Travel Agency	0
 Vanya's Castle Chapel	0

@@ -7109,3 +7109,53 @@
 7092	warbear dress helmet	136945982	wbo_helm.gif	hat	t	0
 7093	warbear dress bracers	486728461	wbo_bracers.gif	accessory	t	0
 7094	warbear dress greaves	381238105	wbo_greaves.gif	pants	t	0
+7095	sweatband	382391260	sweatband.gif	hat	t,d	10
+7096	gym shorts	829875273	gymshorts.gif	pants	t,d	15
+7097	ankleweights	828600115	ankleweights.gif	accessory	t,d	20
+7098	sweat socks	384604274	sweatsocks.gif	accessory	t,d	5
+7099	pint of sweat	733018685	moonshine.gif	none, combat	d	0
+7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12
+7101	Five Second Energy&trade;	796432016	5secondenergy.gif	multiple	t,d	5
+7102
+7103
+7104
+7105
+7106
+7107
+7108
+7109
+7110
+7111
+7112
+7113
+7114
+7115
+7116
+7117
+7118
+7119
+7120
+7121
+7122
+7123
+7124
+7125
+7126
+7127
+7128
+7129	leftover canap&eacute;s	479093989	canapes.gif	food	t,d	8
+7130
+7131
+7132	Outer Wolf&trade; cologne	888903284	wolfcologne.gif	multiple	t,d	135
+7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0
+7134
+7135
+7136
+7137
+7138
+7139
+7140
+7141
+7142
+7143
+7144	odd silver coin	809302450	silvercoin.gif	none	d	55

@@ -2899,7 +2899,29 @@ public abstract class ChoiceManager
 			"Crimbo13", "choiceAdventure813", "Warbear Fortress (First Level)",
 			new Object[] { "Open K.R.A.M.P.U.S. facility" } ),
 		
-		// Choice 836 is Adventures Who Live in Ice Houses...
+		// Choice 830 is Cooldown
+		new ChoiceAdventure(
+			"Skid Row", "choiceAdventure830", "Cooldown",
+			new Object[] { "+Wolf Offence or +Wolf Defence",
+				       "+Wolf Elemental Attacks or +Rabbit",
+				       "Improved Howling! or +Wolf Lung Capacity" } ),
+		// Choice 832 is Shower Power
+		new ChoiceAdventure(
+			"Skid Row", "choiceAdventure832", "Shower Power",
+			new Object[] { "+Wolf Offence",
+				       "+Wolf Defence" } ),
+		// Choice 833 is Vendie, Vidi, Vici
+		new ChoiceAdventure(
+			"Skid Row", "choiceAdventure833", "Vendie, Vidi, Vici",
+			new Object[] { "+Wolf Elemental Attacks",
+				       "+Rabbit" } ),
+		// Choice 834 is Back Room Dealings
+		new ChoiceAdventure(
+			"Skid Row", "choiceAdventure834", "Back Room Dealings",
+			new Object[] { "Improved Howling!",
+				       "+Wolf Lung Capacity" } ),
+
+	   // Choice 836 is Adventures Who Live in Ice Houses...
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

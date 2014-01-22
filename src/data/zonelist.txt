@@ -82,6 +82,9 @@ Ellsbury's Claim	Antique Maps	Ellsbury's Claim
 
 Psychoses	Psychoses	Psychoses
 
+Skid Row	Mountain	Skid Row
+The Prince's Ball	Woods	The Prince's Ball
+
 Item-Driven	Item-Driven	Item-Driven Zones
 
 Unsorted	Unsorted	No Category
