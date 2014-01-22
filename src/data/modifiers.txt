@@ -3370,6 +3370,7 @@ Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Ancestral Disapproval	Mysticality Percent: +10
 And Your Family, Too	Familiar Weight: -10
+Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
@@ -3918,6 +3919,7 @@ Gristlesphere	Monster Level: +20
 # Groast Out: Makes you look like a groast
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
+Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Guild by Association: Makes you look like a rabid MMO addict
 Gummibrain	Mysticality: +100
