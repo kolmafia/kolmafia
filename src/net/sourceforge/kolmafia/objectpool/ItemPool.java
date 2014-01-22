@@ -1952,6 +1952,7 @@ public class ItemPool
 	public static final int WARBEAR_SODA_MACHINE = 7059;
 	public static final int WARBEAR_BANK = 7060;
 	public static final int GRIMSTONE_MASK = 7061;
+	public static final int GRIM_FAIRY_TALE = 7065;
 	public static final int WINTER_SEEDS = 7070;
 	public static final int SNOW_BERRIES = 7071;
 	public static final int ICE_HARVEST = 7072;
