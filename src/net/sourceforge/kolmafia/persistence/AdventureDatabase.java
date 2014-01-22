@@ -313,6 +313,7 @@ public class AdventureDatabase
 						int bountyNumber = BountyDatabase.getNumber( bountyName );
 						String bountyPlural = BountyDatabase.getPlural( bountyName );
 						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyNumber + " " + bountyPlural );
+						KoLmafia.updateDisplay( "Added: " + bountyName + " as " + bountyNumber + " " + bountyPlural );
 					}
 				}
 				AdventureDatabase.areaCombatData.put( data[ 0 ], combat );
@@ -358,7 +359,8 @@ public class AdventureDatabase
 			}
 
 			bounty = bounty.substring( bounty.indexOf( " " ) + 1 );
-			if ( AdventureDatabase.locationByBounty.get( bounty ) != null )
+			String singleBounty = BountyDatabase.getName( bounty );
+			if ( AdventureDatabase.locationByBounty.get( singleBounty ) != null )
 			{
 				// Only store the first location
 				continue;
@@ -366,7 +368,7 @@ public class AdventureDatabase
 
 			String adventureName = (String) bountyEntry.getKey();
 			KoLAdventure adventure = AdventureDatabase.getAdventure( adventureName );
-			AdventureDatabase.locationByBounty.put( bounty, adventure );
+			AdventureDatabase.locationByBounty.put( singleBounty, adventure );
 		}
 	}
 

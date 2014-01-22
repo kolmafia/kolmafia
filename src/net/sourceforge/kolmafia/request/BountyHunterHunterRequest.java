@@ -41,15 +41,19 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -149,31 +153,43 @@ public class BountyHunterHunterRequest
 		
 		if ( action.equals( "takelow" ) )
 		{
-			Preferences.setString( "currentEasyBountyItem", Preferences.getString( "_untakenEasyBountyItem" ) + ":0" );
-			Preferences.setString( "_untakenEasyBountyItem", "" );
-			
-			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
-			//AdventureFrame.updateSelectedAdventure( adventure );
+			String currentUntakenBounty = Preferences.getString( "_untakenEasyBountyItem" );
+			if ( !currentUntakenBounty.equals( "" ) )
+			{
+				Preferences.setString( "currentEasyBountyItem", currentUntakenBounty + ":0" );
+				Preferences.setString( "_untakenEasyBountyItem", "" );
+			}
+
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
+			AdventureFrame.updateSelectedAdventure( adventure );
 			return;
 		}
 
 		if ( action.equals( "takehigh" ) )
 		{
-			Preferences.setString( "currentHardBountyItem", Preferences.getString( "_untakenHardBountyItem" ) + ":0" );
-			Preferences.setString( "_untakenHardBountyItem", "" );
+			String currentUntakenBounty = Preferences.getString( "_untakenHardBountyItem" );
+			if ( !currentUntakenBounty.equals( "" ) )
+			{
+				Preferences.setString( "currentHardBountyItem", currentUntakenBounty + ":0" );
+				Preferences.setString( "_untakenHardBountyItem", "" );
+			}
 
-			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
-			//AdventureFrame.updateSelectedAdventure( adventure );
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
+			AdventureFrame.updateSelectedAdventure( adventure );
 			return;
 		}
 
 		if ( action.equals( "takespecial" ) )
 		{
-			Preferences.setString( "currentSpecialBountyItem", Preferences.getString( "_untakenSpecialBountyItem" ) + ":0" );
-			Preferences.setString( "_untakenSpecialBountyItem", "" );
+			String currentUntakenBounty = Preferences.getString( "_untakenSpecialBountyItem" );
+			if ( !currentUntakenBounty.equals( "" ) )
+			{
+				Preferences.setString( "currentSpecialBountyItem", currentUntakenBounty + ":0" );
+				Preferences.setString( "_untakenSpecialBountyItem", "" );
+			}
 
-			//KoLAdventure adventure = AdventureDatabase.getBountyLocation( bountyItem );
-			//AdventureFrame.updateSelectedAdventure( adventure );
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
+			AdventureFrame.updateSelectedAdventure( adventure );
 			return;
 		}
 
