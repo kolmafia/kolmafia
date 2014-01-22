@@ -313,7 +313,6 @@ public class AdventureDatabase
 						int bountyNumber = BountyDatabase.getNumber( bountyName );
 						String bountyPlural = BountyDatabase.getPlural( bountyName );
 						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyNumber + " " + bountyPlural );
-						KoLmafia.updateDisplay( "Added: " + bountyName + " as " + bountyNumber + " " + bountyPlural );
 					}
 				}
 				AdventureDatabase.areaCombatData.put( data[ 0 ], combat );
