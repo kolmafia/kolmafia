@@ -27,4 +27,4 @@ pile of country guano	piles of country guano	special	guano.gif	8	country bat
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig
-greasy string 	lengths of greasy string 	special	string.gif	8	salaminder
+greasy string	lengths of greasy string 	special	string.gif	8	salaminder
