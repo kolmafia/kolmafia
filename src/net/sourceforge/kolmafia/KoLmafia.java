@@ -524,7 +524,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( KoLmafia.continuationState != MafiaState.PENDING )
+		if ( KoLmafia.continuationState != MafiaState.PENDING || state == MafiaState.ABORT )
 		{
 			KoLmafia.continuationState = state;
 		}
