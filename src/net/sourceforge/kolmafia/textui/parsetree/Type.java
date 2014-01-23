@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -141,6 +142,10 @@ public class Type
 		{
 			return ProxyRecordValue.CoinmasterProxy._type;
 		}
+		if ( this == DataTypes.BOUNTY_TYPE )
+		{
+			return ProxyRecordValue.BountyProxy._type;
+		}
 		if ( this == DataTypes.THRALL_TYPE )
 		{
 			return ProxyRecordValue.ThrallProxy._type;
@@ -190,6 +195,8 @@ public class Type
 			return DataTypes.COINMASTER_INIT;
 		case DataTypes.TYPE_PHYLUM:
 			return DataTypes.PHYLUM_INIT;
+		case DataTypes.TYPE_BOUNTY:
+			return DataTypes.BOUNTY_INIT;
 		case DataTypes.TYPE_THRALL:
 			return DataTypes.THRALL_INIT;
 		}
@@ -232,6 +239,8 @@ public class Type
 			return DataTypes.parseCoinmasterValue( name, returnDefault );
 		case DataTypes.TYPE_PHYLUM:
 			return DataTypes.parsePhylumValue( name, returnDefault );
+		case DataTypes.TYPE_BOUNTY:
+			return DataTypes.parseBountyValue( name, returnDefault );
 		case DataTypes.TYPE_THRALL:
 			return DataTypes.parseThrallValue( name, returnDefault );
 		}
@@ -290,6 +299,9 @@ public class Type
 			break;
 		case DataTypes.TYPE_PHYLUM:
 			this.addValues( list, MonsterDatabase.PHYLUM_ARRAY, 1, -1 );
+			break;
+		case DataTypes.TYPE_BOUNTY:
+			this.addValues( list, BountyDatabase.entrySet() );
 			break;
 		case DataTypes.TYPE_THRALL:
 			this.addValues( list, PastaThrallData.THRALL_ARRAY );

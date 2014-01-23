@@ -140,6 +140,11 @@ public class BountyDatabase
 		BountyDatabase.nameByMonster.put( monster, name );
 	}
 
+	public static final String[] entrySet()
+	{
+		return BountyDatabase.bountyNames.toArray( new String[ BountyDatabase.bountyNames.size() ] );
+	}
+
 	public static final String getName( String plural )
 	{
 		if ( plural == null || plural.equals( "" ) )

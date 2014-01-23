@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -499,6 +500,53 @@ public class ProxyRecordValue
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? 0 : fam.getCharges();
+		}
+	}
+
+	public static class BountyProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "plural", DataTypes.STRING_TYPE )
+			.add( "type", DataTypes.STRING_TYPE )
+			.add( "number", DataTypes.INT_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
+			.add( "monster", DataTypes.STRING_TYPE )
+			.finish( "bounty proxy" );
+
+		public BountyProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public String get_plural()
+		{
+			String plural = BountyDatabase.getPlural( this.contentString );
+			return plural == null ? "" : plural;
+		}
+
+		public String get_type()
+		{
+			String type = BountyDatabase.getType( this.contentString );
+			return type == null ? "" : type;
+		}
+
+		public int get_number()
+		{
+			int number = BountyDatabase.getNumber( this.contentString );
+			return number;
+		}
+
+		public String get_image()
+		{
+			String image = BountyDatabase.getImage( this.contentString );
+			return image == null ? "" : image;
+		}
+
+		public String get_monster()
+		{
+			String monster = BountyDatabase.getMonster( this.contentString );
+			return monster == null ? "" : monster;
 		}
 	}
 
