@@ -10,6 +10,7 @@ drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spid
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat
 triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid
+bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Counter
 
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone
@@ -18,6 +19,7 @@ rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
 warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate
 worthless piece of yellow glass	worthless pieces of yellow glass	hard	asterisk.gif	6	kobold
+spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder
 
 # Special
 glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse
@@ -25,3 +27,4 @@ pile of country guano	piles of country guano	special	guano.gif	8	country bat
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig
+greasy string 	lengths of greasy string 	special	string.gif	8	salaminder
