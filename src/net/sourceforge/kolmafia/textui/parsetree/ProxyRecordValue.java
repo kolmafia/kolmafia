@@ -256,8 +256,6 @@ public class ProxyRecordValue
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
 			.add( "fancy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy", DataTypes.BOOLEAN_TYPE )
-			.add( "bounty", DataTypes.LOCATION_TYPE )
-			.add( "bounty_count", DataTypes.INT_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.add( "name_length", DataTypes.INT_TYPE )
@@ -424,18 +422,6 @@ public class ProxyRecordValue
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
 			return ItemDatabase.isCandyItem( id );
-		}
-
-		public Value get_bounty()
-		{
-			// Items can no longer be bounty items
-			return DataTypes.LOCATION_INIT;
-		}
-
-		public int get_bounty_count()
-		{
-			// Items can no longer be bounty items
-			return 0;
 		}
 
 		public CoinmasterData get_seller()
@@ -758,7 +744,7 @@ public class ProxyRecordValue
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
 			.add( "environment", DataTypes.STRING_TYPE )
-			.add( "bounty", DataTypes.ITEM_TYPE )
+			.add( "bounty", DataTypes.BOUNTY_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
 			.add( "kisses", DataTypes.INT_TYPE )
@@ -798,8 +784,8 @@ public class ProxyRecordValue
 		{
 			AdventureResult bounty = AdventureDatabase.getBounty( (KoLAdventure) this.content );
 			return bounty == null ?
-			       DataTypes.ITEM_INIT :
-			       DataTypes.parseItemValue( bounty.getName(), true );
+			       DataTypes.BOUNTY_INIT :
+			       DataTypes.parseBountyValue( BountyDatabase.getName( bounty.getName() ), true );
 		}
 
 		public String get_combat_queue()
