@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 import net.sourceforge.kolmafia.maximizer.Evaluator;
 
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -178,6 +180,12 @@ public class ManaBurnManager
 
 			// Don't cast if you are restricted by your current class/skills
 			if ( Evaluator.checkEffectConstraints( effectName ) )
+			{
+				continue;
+			}
+			
+			// Check against blacklist
+			if ( ManaBurnManager.blacklistManaBurnCast( skillId ) )
 			{
 				continue;
 			}
@@ -359,4 +367,13 @@ public class ManaBurnManager
 		return buf.toString();
 	}
 
+	private static final boolean blacklistManaBurnCast( int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.DEEP_VISIONS:
+			return true;
+		}
+		return false;
+	}
 }
