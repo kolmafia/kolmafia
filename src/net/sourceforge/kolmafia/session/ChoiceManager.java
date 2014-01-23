@@ -9543,6 +9543,8 @@ public abstract class ChoiceManager
 		case 821: // LP-ROM burner
 		case 835: // Barely Tales
 		case 836: // Adventures Who Live in Ice Houses...
+		case 844: // The Portal to Horrible Parents
+		case 845: // Rumpelstiltskin's Workshop
 			return true;
 
 		default:

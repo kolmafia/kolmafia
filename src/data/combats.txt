@@ -96,6 +96,7 @@ Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dreadsylvanian Castle	-1	cold skeleton	cold vampire	hot skeleton	hot vampire	sleaze skeleton	sleaze vampire	spooky skeleton	spooky vampire (Dreadsylvanian)	stench skeleton	stench vampire	The Unkillable Skeleton: 0	Count Drunkula: 0
 Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association: 0
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
+Eager Rice Burrows	-1	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
@@ -109,6 +110,7 @@ The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary
 Galley	100	angry cavebugbear	trendy bugbear chef
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	skullbat	doughbat	vampire bat
+Gumdrop Forest	-1	candied pecan tree	licorice snake	tricksy pixie
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
@@ -174,6 +176,7 @@ Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	
 The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skating Muse	toothless mastiff bitch
 Summoning Chamber	100	Lord Spookyraven
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
+Sweet-Ade Lake	-1	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
@@ -313,6 +316,7 @@ Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin: 2	spider gremli
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin: 2
 Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	scavenger bugbear
 Whitey's Grove	75	Knight in White Satin	white chocolate golem	white lion	whitesnake
+Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
 
 # Areas with no combat data
 
@@ -333,6 +337,7 @@ Post-Quest Bugbear Pens	0
 Pump Up Moxie	0
 Pump Up Muscle	0
 Pump Up Mysticality	0
+Rumpelstiltskin's Workshop	0
 # St. Sneaky Pete's Day is unusual in that although it has no combats,
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1

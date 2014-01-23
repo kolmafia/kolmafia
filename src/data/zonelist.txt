@@ -84,6 +84,8 @@ Psychoses	Psychoses	Psychoses
 
 Skid Row	Mountain	Skid Row
 The Prince's Ball	Woods	The Prince's Ball
+Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children
+The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves
 
 Item-Driven	Item-Driven	Item-Driven Zones
 

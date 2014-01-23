@@ -262,6 +262,7 @@ junk yard	2	1	good	4-5	4-5	4-5	4-5
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
+large tankard of ale	2	4	good	0	0	0	0
 le roi	3	1	good	8-10	0	0	30-40
 locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry
 lollipop drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss
@@ -281,6 +282,7 @@ mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
+mid-level medieval mead	1	7	awesome	0	0	0	0
 mimosette	3	3	good	5-10	16-20	0	0
 mint yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50
