@@ -280,6 +280,10 @@ public class Value
 			}
 			return new ProxyRecordValue.CoinmasterProxy( this );
 		}
+		if ( this.type == DataTypes.BOUNTY_TYPE )
+		{
+			return new ProxyRecordValue.BountyProxy( this );
+		}
 		if ( this.type == DataTypes.THRALL_TYPE )
 		{
 			return new ProxyRecordValue.ThrallProxy( this );

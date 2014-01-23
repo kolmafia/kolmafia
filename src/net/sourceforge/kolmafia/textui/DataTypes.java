@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -94,6 +95,7 @@ public class DataTypes
 	public static final int TYPE_COINMASTER = 110;
 	public static final int TYPE_PHYLUM = 111;
 	public static final int TYPE_THRALL = 112;
+	public static final int TYPE_BOUNTY = 113;
 
 	public static final int TYPE_STRICT_STRING = 1000;
 	public static final int TYPE_AGGREGATE = 1001;
@@ -140,6 +142,7 @@ public class DataTypes
 	public static final Type ELEMENT_TYPE = new Type( "element", DataTypes.TYPE_ELEMENT );
 	public static final Type COINMASTER_TYPE = new Type( "coinmaster", DataTypes.TYPE_COINMASTER );
 	public static final Type PHYLUM_TYPE = new Type( "phylum", DataTypes.TYPE_PHYLUM );
+	public static final Type BOUNTY_TYPE = new Type( "bounty", DataTypes.TYPE_BOUNTY );
 	public static final Type THRALL_TYPE = new Type( "thrall", DataTypes.TYPE_THRALL );
 
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
@@ -208,6 +211,7 @@ public class DataTypes
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", (Object) null );
+	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
 	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
@@ -235,6 +239,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.ELEMENT_TYPE );
 		simpleTypes.add( DataTypes.COINMASTER_TYPE );
 		simpleTypes.add( DataTypes.PHYLUM_TYPE );
+		simpleTypes.add( DataTypes.BOUNTY_TYPE );
 		simpleTypes.add( DataTypes.THRALL_TYPE );
 	}
 
@@ -603,6 +608,27 @@ public class DataTypes
 		int id = PastaThrallData.dataToId( data );
 		name = PastaThrallData.dataToType( data );
 		return new Value( DataTypes.THRALL_TYPE, id, name, data );
+	}
+
+	public static final Value parseBountyValue( final String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.BOUNTY_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.BOUNTY_INIT;
+		}
+
+		String plural = BountyDatabase.getPlural( name );
+		if ( plural == null )
+		{
+			return returnDefault ? DataTypes.BOUNTY_INIT : null;
+		}
+
+		return new Value( DataTypes.BOUNTY_TYPE, name );
 	}
 
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
