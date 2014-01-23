@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -644,6 +645,12 @@ public class AreaCombatData
 
 		this.appendItemList( buffer, monster.getItems(), monster.getPocketRates(), fullString );
 
+		String bounty = BountyDatabase.getNameByMonster( monster.getName() );
+		if ( bounty != null )
+		{
+			buffer.append( "<br>" + bounty + " (bounty)" );
+		}
+		
 		return buffer.toString();
 	}
 
@@ -706,10 +713,6 @@ public class AreaCombatData
 			{
 			case '0':
 				buffer.append( " (unknown drop rate)" );
-				break;
-
-			case 'b':
-				buffer.append( " (bounty)" );
 				break;
 
 			case 'n':
