@@ -772,6 +772,7 @@ public class Modifiers
 	public static final int GENERIC = 23;
 	public static final int UNARMED = 24;
 	public static final int NOPULL = 25;
+	public static final int LASTS_ONE_DAY = 26;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -878,6 +879,10 @@ public class Modifiers
 		{ "No Pull",
 		  null,
 		  Pattern.compile( "No Pull" )
+		},
+		{ "Lasts until Rollover",
+		  null,
+		  Pattern.compile( "This item will disappear at the end of the day" )
 		},
 	};
 
@@ -2486,6 +2491,20 @@ public class Modifiers
 		if ( matcher.find() )
 		{
 			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.SOFTCORE );
+		}
+
+		return null;
+	}
+
+	private static final Pattern LASTS_ONE_DAY_PATTERN =
+		Pattern.compile( "This item will disappear at the end of the day" );
+
+	public static final String parseLastsOneDay( final String text )
+	{
+		Matcher matcher = Modifiers.LASTS_ONE_DAY_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.LASTS_ONE_DAY );
 		}
 
 		return null;

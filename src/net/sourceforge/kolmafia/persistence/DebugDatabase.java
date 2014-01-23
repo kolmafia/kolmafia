@@ -1029,6 +1029,9 @@ public class DebugDatabase
 		String softcore = Modifiers.parseSoftcoreOnly( text );
 		known = DebugDatabase.appendModifier( known, softcore );
 
+		String lastsOneDay = Modifiers.parseLastsOneDay( text );
+		known = DebugDatabase.appendModifier( known, lastsOneDay );
+
 		String freepull = Modifiers.parseFreePull( text );
 		known = DebugDatabase.appendModifier( known, freepull );
 
