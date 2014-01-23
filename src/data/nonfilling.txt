@@ -17,3 +17,4 @@ figurine of a slippery seal	6
 figurine of a stinking seal	6
 figurine of an ancient seal	6
 figurine of an armored seal	9
+lupine appetite hormones	15

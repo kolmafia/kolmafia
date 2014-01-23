@@ -646,6 +646,11 @@ public abstract class KoLCharacter
 			baseFullness++;
 		}
 
+		if ( Preferences.getBoolean( "_lupineHormonesUsed" ) )
+		{
+			baseFullness += 3;
+		}
+
 		// Pantsgiving
 		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
 
@@ -1026,23 +1031,23 @@ public abstract class KoLCharacter
 	public static final String getBlessingType()
 	{
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) )
 		{
 			return KoLCharacter.WAR_BLESSING;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) )
 		{
 			return KoLCharacter.SHE_WHO_WAS_BLESSING;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
 		{
 			return KoLCharacter.STORM_BLESSING;
 		}
@@ -1052,26 +1057,26 @@ public abstract class KoLCharacter
 	public static final int getBlessingLevel()
 	{
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) )
 		{
 			return 1;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) )
 		{
 			return 2;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
 		{
 			return 3;
 		}
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
 		{
 			return 4;
 		}
