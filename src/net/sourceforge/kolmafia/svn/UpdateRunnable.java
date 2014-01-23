@@ -88,7 +88,6 @@ public class UpdateRunnable
 			// If we're updating it, make sure the project is already checked out first
 			try
 			{
-				SVNManager.SVN_LOCK.lock();
 				if ( !SVNWCUtil.isWorkingCopyRoot( new File( KoLConstants.SVN_DIRECTORY, UUID ) ) )
 				{
 					KoLmafia.updateDisplay( "No existing project named " + UUID +
@@ -101,10 +100,6 @@ public class UpdateRunnable
 				// Shouldn't happen, print a stack trace
 				StaticEntity.printStackTrace( e );
 				return;
-			}
-			finally
-			{
-				SVNManager.SVN_LOCK.unlock();
 			}
 
 			this.WCDir = SVNManager.doDirSetup( UUID );
@@ -122,17 +117,12 @@ public class UpdateRunnable
 
 			try
 			{
-				SVNManager.SVN_LOCK.lock();
 				this.repo = SVNManager.getClientManager().getStatusClient().doStatus( this.WCDir, false ).getURL();
 			}
 			catch ( SVNException e )
 			{
 				error( e );
 				return;
-			}
-			finally
-			{
-				SVNManager.SVN_LOCK.unlock();
 			}
 		}
 
@@ -148,17 +138,12 @@ public class UpdateRunnable
 
 		try
 		{
-			SVNManager.SVN_LOCK.lock();
 			SVNManager.update( this.WCDir, this.revision, true );
 		}
 		catch ( SVNException e )
 		{
 			error( e );
 			return;
-		}
-		finally
-		{
-			SVNManager.SVN_LOCK.unlock();
 		}
 	}
 

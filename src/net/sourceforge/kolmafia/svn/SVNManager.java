@@ -1253,11 +1253,26 @@ public class SVNManager
 			}
 		};
 
-		RequestThread.postRequest( runMe );
+		if ( SVN_LOCK.tryLock() )
+		{
+			try
+			{
+				RequestThread.postRequest( runMe );
 
-		showCommitMessages();
+				showCommitMessages();
 
-		Preferences.setBoolean( "_svnUpdated", true );
+				Preferences.setBoolean( "_svnUpdated", true );
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
+			}
+		}
+		else
+		{
+			RequestLogger.printLine( "SVN busy; update operation cancelled." );
+			return;
+		}
 
 		if ( Preferences.getBoolean( "syncAfterSvnUpdate" ) )
 		{
@@ -1339,10 +1354,24 @@ public class SVNManager
 
 		initialize();
 
-		RequestThread.postRequest( new UpdateRunnable( project ) );
-
-		pushUpdates();
-		showCommitMessages();
+		if ( SVN_LOCK.tryLock() ) // if we're locked, bounce requests to update an individual script immediately
+		{
+			try
+			{
+				RequestThread.postRequest( new UpdateRunnable( project ) );
+				pushUpdates();
+				showCommitMessages();
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
+			}
+		}
+		else
+		{
+			//RequestLogger.printLine( "SVN busy; duplicate update operation cancelled." );
+			return;
+		}
 
 		if ( Preferences.getBoolean( "svnInstallDependencies" ) )
 			checkDependencies();
