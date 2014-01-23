@@ -1228,7 +1228,7 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != "" )
+				if( !bountyName.equals( "" ) )
 				{
 					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
 					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
@@ -1242,7 +1242,7 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != "" )
+				if( !bountyName.equals( "" ) )
 				{
 					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
 					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
@@ -1256,7 +1256,7 @@ public abstract class KoLmafia
 			if ( bountySeperator != -1 )
 			{
 				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != "" )
+				if( !bountyName.equals( "" ) )
 				{
 					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
 					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
