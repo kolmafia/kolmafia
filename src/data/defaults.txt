@@ -756,6 +756,7 @@ user	sidequestOrchardCompleted	none
 user	singleFamiliarRun	0
 user	skateParkStatus	war
 user	skillBurn3	-100
+user	skillBurn90	-100
 user	skillBurn1019	-100
 user	skillBurn5017	-100
 user	skillBurn6014	-100
