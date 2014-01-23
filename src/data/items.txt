@@ -7149,10 +7149,10 @@
 7132	Outer Wolf&trade; cologne	888903284	wolfcologne.gif	multiple	t,d	135
 7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0
 7134
-7135
+7135	witch's bread	263669405	jarl_slicedbread.gif	food	t,d	169
 7136
 7137
-7138
+7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250
 7139
 7140
 7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99
@@ -7165,11 +7165,11 @@
 7148
 7149
 7150
-7151
-7152
-7153
+7151	straw	334274463	straw.gif	none	q	0
+7152	leather	508238232	leather.gif	none	q	0
+7153	clay	226651015	clay.gif	none	q	0
 7154
-7155
+7155	parchment	694164451	parchment.gif	none	q	0
 7156
 7157
 7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18
@@ -7181,3 +7181,7 @@
 7164
 7165
 7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19
+7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
+7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
+7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9
+7175	small golem	534983731	smallgolem.gif	none, combat	d	23

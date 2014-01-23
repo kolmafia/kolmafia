@@ -4744,6 +4744,7 @@ Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
+Wallflowering	Damage Absorption: +100, Damage Reduction: 10
 Warbear Blubber	Supercold Resistance: +3
 # Gift of the Warbear: +15% Item Drops from WarBears
 # Warbear Hunter: +10% Item Drops from WarBears
@@ -4787,12 +4788,14 @@ Wintergreen Warmongery	Muscle: +30
 Wintry Breath	Cold Damage: +20
 Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
+Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Wizard Squint	Spell Critical Percent: +10
 Woad Warrior	Muscle: +25
 # Wolf's Bane: +50 Damage vs. Werewolves
 World's Shortest Giant	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Wreathed in Merriment	Moxie Percent: +10
+Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Wry Smile	Experience (Mysticality): +1
 Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
@@ -5767,6 +5770,7 @@ pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
+portable wall	Effect: "Wallflowering", Effect Duration: 20
 possibility potion	Effect: "Always In Motion", Effect Duration: 10
 post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1
 potent potion of potency	Effect: "Ponderous Potency", Effect Duration: [R]
@@ -5864,6 +5868,7 @@ sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
 small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
+smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 snakebite	Effect: "Sweet Tooth", Effect Duration: 30
@@ -5972,6 +5977,7 @@ white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 30
 willyweed	Effect: "Wet Willied", Effect Duration: 30
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
+witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 wizard action figure	Free Pull
 worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
