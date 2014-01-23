@@ -7116,35 +7116,35 @@
 7099	pint of sweat	733018685	moonshine.gif	none, combat	d	0
 7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12
 7101	Five Second Energy&trade;	796432016	5secondenergy.gif	multiple	t,d	5
-7102
-7103
+7102	pixie axie	782213297	pixieaxie.gif	usable	t	0
+7103	sour powder	862764546	scpowder.gif	usable	t,d	22
 7104
-7105
-7106
-7107
-7108
-7109
-7110
-7111
-7112
-7113
-7114
-7115
-7116
-7117
-7118
+7105	anise-flavored venom	654980495	gooball.gif	none, combat	t,d	14
+7106	snakebite	715124072	juice.gif	drink	t,d	18
+7107	candy stick	202447685	stick.gif	weapon	t,d	41
+7108	candied pecan	546984617	pecan.gif	food	t,d	4
+7109	pecan pie	169369859	pecanpie.gif	food	t,d	16
+7110	chocolate-stained collar	861056216	chococollar.gif	familiar	t,d	75
+7111	candy mountain oyster	673390532	chococherry.gif	food	t,d	8
+7112	chocotini	828828825	martini.gif	drink	t,d	45
+7113	chocolate rabbit's foot	939609317	chocofoot.gif	accessory	t,d	42
+7114	candy carrot	757744387	chococarrot.gif	food	t,d	3
+7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33
+7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60
+7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37
+7118	mulberry	367312771	mulberry.gif	food	t,d	12
 7119
-7120
+7120	lemony scales	780957222	lemonscales.gif	multiple	t,d	5
 7121
 7122
 7123
-7124
-7125
-7126
-7127
-7128
+7124	lemonhead caviar	851844462	caviar.gif	usable	t,d	95
+7125	gummi sword	709368500	gummisword.gif	weapon	t,d	66
+7126	small gummi fin	439308820	gummifin.gif	usable	t,d	15
+7127	chocolate cow bone	503627122	chocobone.gif	weapon	t,d	44
+7128	gummi fang	812782963	gummifang.gif	usable	t,d	17
 7129	leftover canap&eacute;s	479093989	canapes.gif	food	t,d	8
-7130
+7130	magnum of fancy champagne	250150954	champagne.gif	drink	t,d	66
 7131
 7132	Outer Wolf&trade; cologne	888903284	wolfcologne.gif	multiple	t,d	135
 7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0
@@ -7155,7 +7155,29 @@
 7138
 7139
 7140
-7141
+7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99
 7142
 7143
 7144	odd silver coin	809302450	silvercoin.gif	none	d	55
+7145
+7146
+7147
+7148
+7149
+7150
+7151
+7152
+7153
+7154
+7155
+7156
+7157
+7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18
+7159
+7160
+7161
+7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3
+7163
+7164
+7165
+7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19

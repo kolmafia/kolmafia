@@ -1963,6 +1963,7 @@ public class ItemPool
 	public static final int ICE_HOUSE = 7081;
 	public static final int SNOW_MACHINE = 7082;
 	public static final int SNOW_FORT = 7089;
+	public static final int LUPINE_APPETITE_HORMONES = 7133;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

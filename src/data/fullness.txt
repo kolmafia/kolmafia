@@ -80,6 +80,11 @@ bucket of honey	1	4	good	3	0	0	0	50 Sugar Rush
 bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
 c.h.u.m. chum	3	1	crappy	1	0	0	0	20 Majorly Poisoned
 cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
+candied pecan	1	1	decent	0	0	0	0
+candy carrot	1	3	good	0	0	0	0
+candy carrot cake	4	8	awesome	0	0	0	0
+candy mountain oyster	1	3	decent	0	0	0	0
+can of adultwitch&trade;	2	4	decent	0	0	0	0
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 can of sardines	1	4	awesome	3-4	20-25	0	0
 can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
@@ -233,6 +238,7 @@ fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fettucini inconnu	6	6	awesome	22-27	0	0	47-52
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
+fireman's lunch	2	4	decent	0	0	0	0
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
@@ -407,6 +413,7 @@ mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
 mugcake	1	1	crappy	1	0	0	0
+mulberry	1	5	good	0	0	0	0
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
 mushroom pizza	3	2	good	3-10	0	15-18	0
 nailswurst	2	1	crappy	0	0	0	0	1 PvP Fight
@@ -441,6 +448,7 @@ peach	1	4	good	3	0	0	15-20
 peach pie	3	7	awesome	8-14	0	0	25-45
 pear	1	4	good	3	0	15-20	0
 pear tart	3	7	awesome	8-14	0	25-45	0
+pecan pie	3	5	good	0	0	0	0
 peche a la frog	3	1		3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
 peppermint nutrition block	3	1	decent	3-6	0	0	0	10 Forbear, Warbears! (+40 WarBear Armor Penetration)
@@ -457,6 +465,7 @@ piece of wedding cake	2	1	decent	2-5	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 plain pizza	2	1	decent	2-4	0	0	0
 plum	1	4	good	3	15-20	0	0
+plumber's lunch	2	4	decent	0	0	0	0
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
 poisonous caviar	3	5	good	8	0	0	0	50 Majorly Poisoned
 popcorn	1	1	decent	2	0	0	0

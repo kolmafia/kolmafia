@@ -506,6 +506,7 @@ warbear long johns	50	Mox: 10
 warbear officer greaves	150	Mox: 60
 warbear party pants	50	Mox: 10
 wax pants	50	Mox: 10
+weasel stomping pants	80	Mys: 25
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
 wumpus-hair loincloth	100	Mox: 35
@@ -851,18 +852,21 @@ can of maces	50	Mox: 10	1-handed club
 can-you-dig-it?	10	Mus: 0	1-handed spade
 candy knife	150	Mus: 40	1-handed knife
 candy knuckles	10	Mus: 0	1-handed knuckles
+candy stick	80	Mys: 25	1-handed staff
 cardboard crossbow	60	Mox: 15	2-handed crossbow
 cardboard katana	30	Mus: 0	1-handed sword
 cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
 cardboard wakizashi	30	Mus: 0	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
+carrot-on-a-stick	120	Mox: 45	1-handed flail
 cast-iron legacy paddle	190	Mus: 80	2-handed club
 charming flute	170	Mox: 70	2-handed flute
 cheap plastic blowgun	25	Mox: 0	1-handed blowgun
 cheap plastic bottle opener	30	Mys: 0	1-handed utensil
 cheap plastic kazoo	50	Mox: 10	1-handed kazoo
 chisel	10	Mus: 0	1-handed knife
+chocolate cow bone	100	Mus: 35	1-handed club
 chopsticks	75	Mys: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
 chrome staff	110	Mus: 40	2-handed staff
@@ -983,6 +987,7 @@ grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 groping claw	225	Mus: 200	1-handed claw
 guancertina	50	Mox: 10	2-handed accordion
+gummi sword	120	Mus: 45	1-handed sword
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-size scalpel	155	Mus: 62	1-handed knife
@@ -1849,6 +1854,7 @@ chintzy noodle ring	120	Mys: 45
 chintzy saucepan earring	120	Mys: 45
 chintzy seal pendant	120	Mus: 45
 chintzy turtle brooch	120	Mus: 45
+chocolate rabbit's foot	0	Mys: 5
 clingfilm slippers	150	Mys: 60
 clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10

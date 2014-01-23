@@ -614,6 +614,7 @@ warbear long johns	Supercold Resistance: +2, Cold Resistance: +2, Hot Resistance
 # warbear party pants: +5% Item Drops from WarBears
 warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50
 wax pants	Moxie: +7, Initiative: +10, Familiar Effect: "atk, 3xBarrr, cap 12"
+weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip
 weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
@@ -1002,12 +1003,14 @@ can of fake snow	Cold Damage: +5
 can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 # can-you-dig-it?
 candy knuckles	Weapon Damage: +25
+candy stick	Spell Damage Percent: +50, Candy Drop: +40
 cardboard crossbow	Moxie: +3, Weapon Damage: +3
 cardboard katana	Weapon Damage: +3, Synergetic
 cardboard staff	Mysticality: +3, Weapon Damage: +3
 cardboard sword	Muscle: +3, Weapon Damage: +3
 cardboard wakizashi	Damage Reduction: 2, Synergetic
 carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
+carrot-on-a-stick	Moxie: +7, Candy Drop: +50
 cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 # charming flute: +20 Damage vs. Snakes
 charming flute	Moxie: +8
@@ -1015,6 +1018,8 @@ charming flute	Moxie: +8
 cheap plastic bottle opener	Sleaze Damage: +2
 cheap plastic kazoo	Monster Level: +10
 # chisel
+# chocolate cow bone: Candilicious Smacks!
+chocolate cow bone	Candy Drop: +30
 chopsticks	Initiative: +20, Spell Damage: +12
 chrome crossbow	Moxie: +7, Adventures: +3
 chrome staff	Mysticality: +7, Adventures: +3
@@ -1146,6 +1151,7 @@ grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
 groping claw	Weakens Monster, Spooky Damage: +30
 guancertina	Stench Damage: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 9
+gummi sword	Muscle: +7, Candy Drop: +50
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
@@ -2131,6 +2137,7 @@ chintzy noodle ring	Mysticality: +12, Muscle: +6, Class: "Pastamancer", Single E
 chintzy saucepan earring	Mysticality: +12, Moxie: +6, Class: "Sauceror", Single Equip
 chintzy seal pendant	Muscle: +12, Moxie: +6, Class: "Seal Clubber", Single Equip
 chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer", Single Equip
+chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 clingfilm slippers	Spell Damage: +15, Single Equip
 clown shoes	Maximum MP: +7, Clownosity: +1
 clownskin belt	Maximum MP: +15, Clownosity: +2
@@ -2788,6 +2795,7 @@ candied yam pinky ring	Familiar Weight: +5
 charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
 chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 chocolate spurs	Familiar Weight: +5
+chocolate-stained collar	Candy Drop: +25, Generic
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
 crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
@@ -3436,6 +3444,7 @@ Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Bestial Sympathy	Familiar Weight: +3
+Beta Carotene Overdose	Item Drop: +50
 # Better Off Bread: Makes you look like a Bread Golem
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
@@ -3913,6 +3922,7 @@ Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Greaser Lightnin'	Moxie: +5, Item Drop: [25*loc(Art Class)]
+Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
 Greedy Resolve	Meat Drop: +30
 # Green, Uneasy: Makes you look like a frog
 Greasy Flavor	Weapon Damage: +30
@@ -3927,6 +3937,7 @@ Grulched	Stench Damage: +25, Monster Level: +20
 Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Guild by Association: Makes you look like a rabid MMO addict
+# Gummi Badass: Deal damage to attackers
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
@@ -3980,6 +3991,7 @@ Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Hiding in Plain Sight	Initiative: +100
+High Blood Chocolate Content	Candy Drop: +30
 Highland Sheen	Moxie: +10
 Hip to Be Square Dancin'	Item Drop: +10
 Hippy Flavor	Mysticality: +15
@@ -4014,6 +4026,7 @@ Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Ichorous Eyesight	Item Drop: +10
 Ichorous Intensity	Spell Damage Percent: +20
 Impregnably Delicious	Damage Reduction: 30
+Improved Candy Vision	Candy Drop: +25
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
@@ -4251,6 +4264,7 @@ Patched In	Mysticality Percent: +20
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Patient Smile	Experience (Muscle): +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
+Pecan Pied Piper	Candy Drop: +25
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
 Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
@@ -4490,6 +4504,7 @@ Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Perc
 Soulerskates	Initiative: +30
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Sour Softshoe	Meat Drop: [2*min(T,50)], Item Drop: [min(T,50)]
+Sourpuss	Candy Drop: +50
 Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
@@ -4593,6 +4608,8 @@ Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
 Sweet and Yellow	Ranged Damage: +30, Initiative: +10
+Sweet Taste	Candy Drop: +10
+Sweet Tooth	Candy Drop: +40
 Sweet, Nuts	Mysticality: +5
 Swimming Head	Item Drop: [25*zone(The Sea)]
 # Swimming with Sharks: Makes you a better diver
@@ -4790,6 +4807,7 @@ You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Read The Manual	Experience (Mysticality): +9
 # You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
+You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
 You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
@@ -5401,15 +5419,20 @@ brigand brittle	Effect: "Bandananit", Effect Duration: 50
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
+can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
 can of spinach	Effect: "Pop-eyed", Effect Duration: 10
 candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
 candied kobold	Effect: "Sugar Rush", Effect Duration: 3
 candied nuts	Effect: "Nuts about Candy", Effect Duration: 20
+candied pecan	Effect: "Sugar Rush", Effect Duration: 10
 candy brain	Effect: "Sugar Rush", Effect Duration: 15
+candy carrot	Effect: "Improved Candy Vision", Effect Duration: 10
+candy carrot cake	Effect: "Improved Candy Vision", Effect Duration: 30
 candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
+candy mountain oyster	Effect: "Sugar Rush", Effect Duration: 10
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
@@ -5425,6 +5448,7 @@ children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
 chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
+chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
 chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 class five ecto-larva	Free Pull
 clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
@@ -5535,6 +5559,7 @@ filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duratio
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
 finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
+fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 fish juice box	Effect: "Fishy", Effect Duration: 20
 fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
@@ -5593,6 +5618,7 @@ groupie spangles	Effect: "Spangled Star", Effect Duration: 5
 gummi ammonite	Effect: "Sugar Rush", Effect Duration: 100
 gummi belemnite	Effect: "Sugar Rush", Effect Duration: 100
 gummi canary	Effect: "Gummiskin", Effect Duration: 1
+gummi fang	Effect: "Gummi Badass", Effect Duration: 5
 gummi salamander	Effect: "Gummiheart", Effect Duration: 1
 gummi snake	Effect: "Gummibrain", Effect Duration: 1
 gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
@@ -5613,6 +5639,7 @@ handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
 heart necklace	Free Pull
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 hibernating Grimstone Golem	Free Pull
 hibernating robot reindeer	Free Pull
 holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
@@ -5647,6 +5674,7 @@ jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
+lemonhead caviar	Effect: "Sourpuss", Effect Duration: 30
 lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
@@ -5710,6 +5738,7 @@ peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 pec oil	Effect: "Oiled-Up", Effect Duration: 20
+pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfectly ordinary frog	Free Pull
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
@@ -5737,6 +5766,7 @@ pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
+plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 possibility potion	Effect: "Always In Motion", Effect Duration: 10
 post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1
 potent potion of potency	Effect: "Ponderous Potency", Effect Duration: [R]
@@ -5833,12 +5863,15 @@ skeletal banana	Effect: "Osseous George", Effect Duration: 30
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
+small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 snow cleats	Effect: "Snow Shoes", Effect Duration: 30
 sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
+sour powder	Effect: "Puckered Up", Effect Duration: 5
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 spicy hot chocolate	Effect: "Loaded Forwarbear", Effect Duration: 30

@@ -1504,26 +1504,27 @@
 1503	Icy Demeanor	iceharvest.gif	fb3ab3e04e2a414c59075e333f35dd34	eat 1 ice harvest
 1504	Snow Fortified	snowfort.gif	e93fdb6c60c4c23ca17194151dcc61b8
 1505	Skull Full of Hot Chocolate	smartskull.gif	1c9209273b920040572d06208b4d39de	eat 1 Skully's hot chocolate
-1506
-1507
-1508
-1509
+1506	Puckered Up	scpowder.gif	ff6bd325dc34a8c0a3d26bf198aa7cab	use 1 sour powder
+1507	Sweet Tooth	juice.gif	13ee76889ad55d0355d1ed05d320ee81	drink 1 snakebite
+1508	Pecan Pied Piper	pecanpie.gif	edf7471c51c3a52079f19fd2df750c38	eat 1 pecan pie
+1509	Improved Candy Vision	chococarrot.gif	99e4260655dff20a4fc9942f775644cc	eat 1 candy carrot
 1510
-1511
-1512
-1513
-1514
+1511	Sourpuss	blackcat.gif	8df9ad83a9170f099dc5172edd0353ab	use 1 lemonhead caviar
+1512	Sweet Taste	breath.gif	4e9ed01de7cd42e5b61e52d32fc9a95b	use 1 small gummi fin
+1513	Gummi Badass	gummifang.gif	518fdacd5c59a3c3f65159be2f377c25	use 1 gummi fang
+1514	High Blood Chocolate Content	martini.gif	d05608302ed1e950fc9f1cb4d66bbf5c	drink 1 chocotini
 1515
 1515	Hare-Brained	hare.gif	fc1d8018dbb987f7fe731f3dc92402ad
 1516
-1517
+1517	You're Not Cooking	5alarm.gif	1e0ce86b4ead7ec72e8cad58f3056d96	eat 1 fireman's lunch
 1518
 1519
 1520
-1521
+1521	Greasy Visage	manwich.gif	3f41c1fbe67aec22203d8cb445fe48e0	eat 1 can of Adultwitch&trade;
 1522
 1523
 1524
 1525
 1526
 1527	Outer Wolf&trade;	wolfcologne.gif	2c2e97dafe42ecc74abcf34e2f658526	use 1 Outer Wolf&trade; cologne
+1528	Beta Carotene Overdose	carrot.gif	a1cd039e46bc396a7504be504a77dd9f	use 1 hi-octane carrot juice

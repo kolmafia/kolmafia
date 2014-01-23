@@ -977,6 +977,11 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_BANK:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_warbearBankUsed" ) ? 0 : 1;
+
+		case ItemPool.LUPINE_APPETITE_HORMONES:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_lupineHormonesUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -4575,6 +4580,10 @@ public class UseItemRequest
 			{
 				Preferences.setBoolean( "_warbearBankUsed", true );
 			}
+			return;
+
+		case ItemPool.LUPINE_APPETITE_HORMONES:
+			Preferences.setBoolean( "_lupineHormonesUsed", true );
 			return;
 
 		}

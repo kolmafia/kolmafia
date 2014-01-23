@@ -100,6 +100,7 @@ cement mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied
 chakra libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
+chocotini	3	5	good	0	0	0	0
 chunky mary	4	1	good	11-13	0	0	30-40
 cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
@@ -269,6 +270,7 @@ lumineux limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP)
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
 mad train wine	3	1	crappy	3-4	0	0	0
 mae west	4	6	awesome	14-18	0	0	40-47
+magnum of fancy champagne	6	6	awesome	0	0	0	0
 maiali sifilitici pinot noir	1	10	EPIC	6-10	60	60	60
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
@@ -383,6 +385,7 @@ sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage!
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
+snakebite	1	4	crappy	0	0	0	0
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)

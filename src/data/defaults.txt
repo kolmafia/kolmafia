@@ -986,6 +986,7 @@ user	_leafblowerML	1
 user	_legendaryBeat	false
 user	_lookingGlass	false
 user	_lunchBreak	false
+user	_lupineHormonesUsed	false
 user	_madTeaParty	false
 user	_mayflowerDrops	0
 user	_mayflowerDrops	0
