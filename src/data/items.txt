@@ -7150,7 +7150,7 @@
 7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0
 7134
 7135	witch's bread	263669405	jarl_slicedbread.gif	food	t,d	169
-7136
+7136	witch's brew	957763940	coffeecup.gif	usable	t,d	250
 7137
 7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250
 7139
@@ -7174,14 +7174,19 @@
 7157
 7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18
 7159
-7160
+7160	ice cream sandwich	808729527	jarl_icsandwich.gif	food	t,d	17
 7161
 7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3
 7163
-7164
+7164	nachos of the night	950915178	jarl_nachos.gif	food	t,d	22
 7165
 7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19
 7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
 7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
 7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9
+7170	scroll case	857398089	scrollcase.gif	usable	t,d	21
+7171	jug of "wine"	781777602	jug.gif	usable	t,d	18
+7172
+7173	crappy camera	693235331	camera.gif	none, combat	t,d	25
+7174
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23

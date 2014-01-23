@@ -3605,6 +3605,7 @@ Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Slea
 Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 Cold Sweat	Cold Resistance: +7
+Cold Throat	Cold Spell Damage: +50, Spell Damage Percent: +100
 Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
@@ -3918,6 +3919,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
 Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
+Grape Expectations	Maximum HP: +50, Maximum MP: +25
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
@@ -4144,6 +4146,7 @@ Material Witness	Meat Drop: +10
 # Mayeaugh: Deals Sleaze Damage every round.
 Meatwise	Meat Drop: +35
 Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
+Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
 Memories of Puppy Love	Moxie: +20
@@ -4205,6 +4208,7 @@ Neutered Nostrils	Stench Resistance: +2
 New, Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Newt Gets In Your Eyes	Moxie: +25
+Night of the Nachos	Spooky Spell Damage: +50, Spell Damage Percent: +100
 Night Vision	Meat Drop: +30
 Nightstalkin'	Critical Hit Percent: +10
 # Nihao You Doin'?: Makes you look like a lucky cat statue
@@ -4789,6 +4793,7 @@ Wintry Breath	Cold Damage: +20
 Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
 Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20
+Witch's Brood	Hot Spell Damage: +50, Cold Spell Damage: +50, Stench Spell Damage: +50, Spooky Spell Damage: +50, Sleaze Spell Damage: +50
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Wizard Squint	Spell Critical Percent: +10
 Woad Warrior	Muscle: +25
@@ -5655,6 +5660,7 @@ hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hungover chauvinist pig	Free Pull
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 incense bath ball	Effect: "Incensed", Effect Duration: 10
 infant sandworm	Free Pull
@@ -5673,6 +5679,7 @@ jitterbug larva	Free Pull
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
+jug of "wine"	Effect: "Grape Expectations", Effect Duration: 40
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
@@ -5709,6 +5716,7 @@ motivational poster	Effect: "Loco Motives", Effect Duration: 10
 myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 mysterious chest	Free Pull
 nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
+nachos of the night	Effect: "Night of the Nachos", Effect Duration: 20
 natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
@@ -5840,6 +5848,7 @@ salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
 scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
+scroll case	Effect: "Medieval Mage Mayhem", Effect Duration: 30
 scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20
 scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80
 scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
@@ -5978,6 +5987,7 @@ willyweed	Effect: "Wet Willied", Effect Duration: 30
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
+witch's brew	Effect: "Witch's Brood", Effect Duration: 50
 wizard action figure	Free Pull
 worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10

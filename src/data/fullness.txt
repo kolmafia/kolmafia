@@ -324,6 +324,7 @@ hot hi mein	5	7	awesome	23-26	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
+ice cream sandwich	2	4	decent	0	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)
 ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 imitation white russian	2	6	good	4-6	5-10	5-10	5-10
@@ -416,6 +417,7 @@ mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	0	0	0	0
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
 mushroom pizza	3	2	good	3-10	0	15-18	0
+nachos of the night	2	1	decent	0	0	0	0	20 Night of the Nachos (+50 Spooky Spell Damage, +100% Spell Damage)
 nailswurst	2	1	crappy	0	0	0	0	1 PvP Fight
 nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
