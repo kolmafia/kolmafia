@@ -1517,15 +1517,17 @@
 1515	Hare-Brained	hare.gif	fc1d8018dbb987f7fe731f3dc92402ad
 1516
 1517	You're Not Cooking	5alarm.gif	1e0ce86b4ead7ec72e8cad58f3056d96	eat 1 fireman's lunch
-1518
+1518	Cold Throat	jarl_icsandwich.gif	2db4d24aca055d5d39b1efe2c9310dc6	eat 1 ice cream sandwich
 1519
-1520
+1520	Night of the Nachos	jarl_nachos.gif	52ff8259bd96098b2b37bcb18335a840	eat 1 nachos of the night
 1521	Greasy Visage	manwich.gif	3f41c1fbe67aec22203d8cb445fe48e0	eat 1 can of Adultwitch&trade;
 1522	Wreathed in Smoke	puff.gif	986517ae0aa8e3092d670add5e399db6	use 1 smudge stick
-1523
-1524
+1523	Medieval Mage Mayhem	swords.gif	01f37903ec36954a9760d0d7c03555cb	use 1 scroll case
+1524	Grape Expectations	grapes.gif	136e0b819ca5d6c4b235773948e3b707	use 1 jug of "wine"
 1525	Wallflowering	wallshield.gif	c1523388efe838f1488a732aa4e889ae	use 1 portable wall
 1526
 1527	Outer Wolf&trade;	wolfcologne.gif	2c2e97dafe42ecc74abcf34e2f658526	use 1 Outer Wolf&trade; cologne
 1528	Beta Carotene Overdose	carrot.gif	a1cd039e46bc396a7504be504a77dd9f	use 1 hi-octane carrot juice
 1529	Witch Breaded	jarl_slicedbread.gif	4a9abdb7924970063747d4025eff3830	eat 1 witch's bread
+1530
+1531	Witch's Brood	coffeecup.gif	d7155b6c8d8cf7fc7fb005d8f2b9d027	use 1 witch's brew
