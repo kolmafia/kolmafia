@@ -2547,6 +2547,10 @@ public class DailyDeedsPanel
 			this.addListener( "bootsCharged" );
 			this.addListener( "_tokenDrops" );
 			this.addListener( "_transponderDrops" );
+			this.addListener( "_grimstoneMaskDrops" );
+			this.addListener( "_grimstoneMaskDropsCrown" );
+			this.addListener( "_grimFairyTaleDrops" );
+			this.addListener( "_grimFairyTaleDropsCrown" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
@@ -2860,6 +2864,46 @@ public class DailyDeedsPanel
 				buffer.append( jungDrops );
 				buffer.append( "/1 psycho jar" );
 				if ( jungDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData grimBrother = KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER );
+			int grimFairyDrops = Preferences.getInteger( "_grimFairyTaleDrops" );
+			if ( ( grimBrother != null && grimBrother.canEquip() ) || grimFairyDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( grimFairyDrops );
+				buffer.append( "/5 fairy tale" );
+				if ( grimFairyDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData grimGolem = KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM );
+			int grimMaskDrops = Preferences.getInteger( "_grimstoneMaskDrops" );
+			if ( ( grimGolem != null && grimGolem.canEquip() ) || grimMaskDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( grimMaskDrops );
+				buffer.append( "/1 grim mask" );
+				if ( grimMaskDrops != 1 ) buffer.append( "s" );
 				shown = true;
 				count++;
 			}
