@@ -760,10 +760,8 @@ public class FamiliarData
 			return itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT;
 
 		case FamiliarPool.HAND:
-			// Disembodied Hand can equip one-handed weapons
-			// Disembodied Hand cannot equip chefstaves
-			if ( EquipmentDatabase.getHands( itemId ) == 1 &&
-			     !EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" ) )
+			// Disembodied Hand can't equip Mainhand only items
+			if ( !EquipmentDatabase.isMainhandOnly( itemId ) )
 			{
 				return true;
 			}
