@@ -273,7 +273,7 @@
 272	Heart of Lavender	candyheart.gif	280ae237b5bb6ba02d9b1cd17719b84e	use 1 lavender candy heart
 273	Heart of Yellow	candyheart.gif	63f75386af7076f2dddae1aad2ba9069	use 1 yellow candy heart
 274	Heart of Green	candyheart.gif	c5981aab5e82b8b7acaa03836f2b8207	use 1 green candy heart
-275	Ultrahydrated	raindrop.gif	ec7f2f9d649f3de48a27c5eaa1147afe	adventure 1 Oasis in the Desert
+275	Ultrahydrated	raindrop.gif	ec7f2f9d649f3de48a27c5eaa1147afe	adventure 1 The Oasis
 276	Disco Inferno	discoball.gif	72ebc0a6df7f0525c08ecae2904535e7	#DB combo
 277	Disco Nirvana	discoball.gif	f6763ce5ad70a6e3d7f388ff5043e3cd	#DB combo
 278	Disco Concentration	discoball.gif	a52f3893d9736c8541e13224d11cf00a	#DB combo
