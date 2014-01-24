@@ -273,6 +273,10 @@ public class UneffectRequest
 			"Visions of the Deep Dark Deeps",
 			"Deep Dark Visions",
 		},
+		{
+			"Sticky Fingers",
+			null,
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
