@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -1379,9 +1380,6 @@ public class RequestEditorKit
 					monsterData.append( rate );
 					monsterData.append( " pp only)" );
 					break;
-				case 'b':
-					monsterData.append( " (bounty)" );
-					break;
 				case 'n':
 					monsterData.append( " (" );
 					monsterData.append( rate );
@@ -1406,6 +1404,19 @@ public class RequestEditorKit
 					monsterData.append( ")" );
 				}
 			}
+		}
+		String bounty = BountyDatabase.getNameByMonster( monsterName );
+		if ( bounty != null )
+		{
+			if ( items.isEmpty() )
+			{
+			monsterData.append( "<br />Drops: " );			
+			}
+			else
+			{
+				monsterData.append( ", " );
+			}
+			monsterData.append( bounty + " (bounty)" );
 		}
 
 		IslandDecorator.appendMissingGremlinTool( monsterData );

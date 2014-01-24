@@ -430,6 +430,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_bounty", DataTypes.BOUNTY_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
@@ -2299,6 +2302,14 @@ public abstract class RuntimeLibrary
 	public static Value to_phylum( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parsePhylumValue( value.toString(), true );
+	}
+
+	public static Value to_bounty( Interpreter interpreter, final Value value )
+	{
+		String stringValue = value.toString();
+		int numberIndex = stringValue.indexOf( ":" );
+		return numberIndex != -1 ? DataTypes.parseBountyValue( stringValue.substring( 0, numberIndex ), true ) :
+			DataTypes.parseBountyValue( stringValue, true );
 	}
 
 	public static Value to_thrall( Interpreter interpreter, final Value value )

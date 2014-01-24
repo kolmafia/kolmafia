@@ -70,7 +70,7 @@ public class BountyDatabase
 	private static final Map<String, String> pluralByName = new HashMap<String, String>();
 	private static final Map<String, String> typeByName = new HashMap<String, String>();
 	private static final Map<String, String> imageByName = new HashMap<String, String>();
-	private static final Map<String, Integer> numberByName = new HashMap<String, Integer>();
+	private static final Map<String, String> numberByName = new HashMap<String, String>();
 	private static final Map<String, String> monsterByName = new HashMap<String, String>();
 	private static final Map<String, String> nameByMonster = new HashMap<String, String>();
 
@@ -112,8 +112,7 @@ public class BountyDatabase
 			BountyDatabase.pluralByName.put( name, data[ 1 ] );
 			BountyDatabase.typeByName.put( name, data[ 2 ] );
 			BountyDatabase.imageByName.put( name, data[ 3 ] );
-			int number = StringUtilities.parseInt( data[ 4 ] );
-			BountyDatabase.numberByName.put( name, IntegerPool.get( number ) );
+			BountyDatabase.numberByName.put( name, data[ 4 ] );
 			BountyDatabase.monsterByName.put( name, data[ 5 ] );
 			BountyDatabase.nameByMonster.put( data[ 5 ], name );
 		}
@@ -135,7 +134,7 @@ public class BountyDatabase
 		BountyDatabase.pluralByName.put( name, plural );
 		BountyDatabase.typeByName.put( name, type );
 		BountyDatabase.imageByName.put( name, image );
-		BountyDatabase.numberByName.put( name, IntegerPool.get( number ) );
+		BountyDatabase.numberByName.put( name, Integer.toString( number ) );
 		BountyDatabase.monsterByName.put( name, monster );
 		BountyDatabase.nameByMonster.put( monster, name );
 	}
@@ -201,8 +200,9 @@ public class BountyDatabase
 		{
 			return 0;
 		}
-
-		return (int) BountyDatabase.numberByName.get( name );
+		
+		String numberString = BountyDatabase.numberByName.get( name );
+		return numberString == null ? 0 : (int) StringUtilities.parseInt( numberString );
 	}
 
 	public static final String getMonster( String name )
