@@ -116,8 +116,9 @@ public class GnomeTinkerRequest
 	public static final boolean parseCreation( final String urlString, final String responseText )
 	{
 		// Gnorman deftly assembles your items into something new.
+		// Gnorman deftly assembles your items into some new stuff.
 
-		if ( responseText.indexOf( "Gnorman deftly assembles your items into something new" ) == -1 )
+		if ( !responseText.contains( "Gnorman deftly assembles your items" ) )
 		{
 			return true;
 		}
