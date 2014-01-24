@@ -3009,7 +3009,12 @@ public class Parser
 			StringBuffer buf = new StringBuffer( this.currentLine );
 			int length = name.length();
 
-			if ( name.endsWith( "es" ) )
+			if ( name.endsWith( "ies" ) )
+			{
+				buf.delete( length - 3, length );
+				buf.insert( length - 3, "y" );
+			}
+			else if ( name.endsWith( "es" ) )
 			{
 				buf.delete( length - 2, length );
 			}
