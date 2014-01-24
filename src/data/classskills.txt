@@ -609,9 +609,9 @@
 7187	Soul Funk		3	0	10
 7188	Dismiss Pasta Thrall		3	0	0
 7189	Spray Hot Grease	wboilpan.gif	5	0	0
-7190
-7191
-7192
+7190	Huff	huff.gif	5	0	0
+7191	Puff	andpuff.gif	5	0	0
+7192	Blow House Down	wind.gif	5	0	0
 7193
 7194
 7195
