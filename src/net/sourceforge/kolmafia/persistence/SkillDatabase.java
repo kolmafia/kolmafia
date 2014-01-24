@@ -1200,6 +1200,11 @@ public class SkillDatabase
 
 	public static final boolean contains( final String skillName )
 	{
+		if ( skillName == null )
+		{
+			return false;
+		}
+
 		return Arrays.binarySearch( SkillDatabase.canonicalNames, StringUtilities.getCanonicalName( skillName ) ) >= 0;
 	}
 
