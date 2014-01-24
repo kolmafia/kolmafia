@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.maximizer.Evaluator;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -333,6 +335,12 @@ public class MoodTrigger
 	public boolean shouldExecute( final int multiplicity )
 	{
 		if ( KoLmafia.refusesContinue() )
+		{
+			return false;
+		}
+
+		// Don't cast if you are restricted by your current class/skills
+		if ( Evaluator.checkEffectConstraints( this.effect.getName() ) )
 		{
 			return false;
 		}

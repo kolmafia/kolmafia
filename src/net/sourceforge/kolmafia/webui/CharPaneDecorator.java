@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
+import net.sourceforge.kolmafia.maximizer.Evaluator;
+
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
@@ -972,6 +974,12 @@ public class CharPaneDecorator
 				String effectName = currentEffect.getName();
 				int effectId = EffectDatabase.getEffectId( effectName );
 				String escapedEffectName = StringUtilities.getEntityEncode( effectName );
+
+				if ( Evaluator.checkEffectConstraints( effectName ) )
+				{
+					// Don't include effects that you cannot cast
+					continue;
+				}
 
 				String descriptionId = EffectDatabase.getDescriptionId( effectId );
 
