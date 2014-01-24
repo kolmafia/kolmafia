@@ -275,7 +275,7 @@ public class UneffectRequest
 		},
 		{
 			"Sticky Fingers",
-			null,
+			"",
 		},
 	};
 
