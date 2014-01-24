@@ -123,11 +123,13 @@ public class GnomeTinkerRequest
 			return true;
 		}
 
-		Matcher matcher = GnomeTinkerRequest.ITEM_PATTERN.matcher( urlString );
-		while ( matcher.find() )
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, 1 );
+
+		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			ResultProcessor.processItem( itemId, -1 );
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), -quantity );
 		}
 
 		return false;
