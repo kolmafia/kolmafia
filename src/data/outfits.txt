@@ -102,3 +102,4 @@
 101	Dreadful Skeleton Suit	Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Skeleton's shinguards
 102	Cool Irons	cool iron helmet, cool iron breastplate, cool iron greaves
 103	Warbear Dress Armor	warbear dress greaves, warbear dress bracers, warbear dress helmet
+104	sweatband, gym shorts, ankleweights

@@ -706,11 +706,14 @@ turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
 white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
+# witch's bra: All Spells Cast Are Cold
+witch's bra	Spell Damage Percent: +50, Cold Spell Damage: +50
 wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30, Maximum MP: +30
 yak anorak	MP Regen Min: 3, MP Regen Max: 4
 
 # Weapons section of modifiers.txt
 
+&quot;honey&quot; dipper	Stench Damage: +20, Stench Spell Damage: +25, Spell Damage Percent: +30
 17-alarm Saucepan	Mysticality: +11, Hot Spell Damage: +15
 # 25-meat staff
 4-dimensional guitar	Ranged Damage: +7, Critical Hit Percent: +15
@@ -1200,6 +1203,8 @@ leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP
 # left bear arm: Lets you act like a bear
 left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10
 # lead yo-yo
+# licorice whip: Candiful Crits
+licorice whip	Critical Hit Percent: +5
 linoleum crossbow	Moxie: +7, Spell Damage: +7
 linoleum staff	Mysticality: +7, Spell Damage: +7
 linoleum sword	Muscle: +7, Spell Damage: +7
@@ -1406,6 +1411,8 @@ white whip	Experience: +1
 wholeberd	Weapon Damage: +6
 wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
 witty rapier	Experience (Mysticality): +2
+# wolf whistle: Blowable for massive <font color=blueviolet>Sleaze Damage</font>
+wolf whistle	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Sleaze Damage: +100
 wooden axe	Muscle: +3
 wooden stakes	Weapon Damage: +1
 world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
@@ -1755,8 +1762,10 @@ security flashlight	Monster Level: -10
 set of jacks	Experience (Moxie): +2
 sewer turtle	Stench Damage: +1, Damage Reduction: 1
 shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
+silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
+skull gearshift knob	Spooky Damage: +20, Spooky Spell Damage: +25, Spell Damage Percent: +30
 slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 slippery when wet shield	Damage Absorption: +10, Damage Reduction: 6
@@ -2031,6 +2040,7 @@ Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +
 Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
 Scandalously Skimpy Bikini	Four Songs, Single Equip
 Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
+Sketcherz&trade;	Sleaze Damage: +20, Sleaze Spell Damage: +25, Spell Damage Percent: +30
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
 Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
@@ -2226,6 +2236,7 @@ hamethyst earring	Muscle: +3, Critical Hit Percent: +5
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
+hare pin	Moxie Percent: +20, Initiative: +40, Single Equip
 # hazardous sauce dosimeter: Lets you gather more Soulsauce
 hazardous sauce dosimeter	Class: "Sauceror"
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
@@ -3726,6 +3737,7 @@ Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Dizzy with Rage	Moxie Percent: -10
 Dog Breath	Stench Damage: 30, Hot Resistance: 3, Spooky Resistance: 3, Combat Rate: 5
 Don't Rest Ye, Bold Adventurer	Experience: +1
+Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
@@ -3962,6 +3974,7 @@ Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
+Hare-o-dynamic	Initiative: +300
 # Haunting Looks
 Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
@@ -4299,6 +4312,7 @@ Poetically Licensed	Mysticality Percent: 20, Muscle Percent: -20, Experience (My
 Polar Express	MP Regen Min: 10, MP Regen Max: 20
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
+Polonoia	Monster Level: +50
 # Polyphonic Yawn: Makes you look like a Drab Bard
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
@@ -4378,6 +4392,7 @@ Riqueza de Pasta	Experience: 2
 # Robocamo: Beep Boop
 Rolando's Rondo of Resisto	Supercold Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Rootin' Around	Candy Drop: +25
+Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
 Salamander In Your Stomach	Mysticality: +25
@@ -5066,6 +5081,7 @@ Violent Vestments	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
 Warbear Dress Armor	Item Drop: +10
 War Hippy Fatigues	Stench Damage: +15
 Wax Wardrobe	Moxie: +7
+Workoutfit	PvP Fights: +4
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 # Yendorian Finery	Be careful! New moon tonight.
 eXtreme Cold-Weather Gear	Cold Resistance: +5
@@ -5313,6 +5329,7 @@ Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
+R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
@@ -5607,6 +5624,7 @@ gingerbread robot	Effect: "Gingerbread Robust", Effect Duration: 20
 glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 glass of warm water	Free Pull
+glass slipper	Effect: "Don't Step to Your Stepmother", Effect Duration: 10
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 glowing frisbee	Free Pull
@@ -5644,6 +5662,7 @@ handful of hand chalk	Effect: "Chalky Hand", Effect Duration: 5
 handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
 handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
+hare brush	Effect: "Hare-o-dynamic", Effect Duration: 10
 heart necklace	Free Pull
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
@@ -5778,6 +5797,7 @@ pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
+polo trophy	Effect: "Polonoia", Effect Duration: 15
 portable wall	Effect: "Wallflowering", Effect Duration: 20
 possibility potion	Effect: "Always In Motion", Effect Duration: 10
 post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1

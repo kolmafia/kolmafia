@@ -114,6 +114,7 @@ chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
+cinnamon cannoli	1	4	awesome	0	0	0	0
 cinnamon nutrition block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
 circular crimbcookie	2	1	awesome	8-10	0	0	0	10 Mystic Circle (+10% mys)
 club sandwich	3	5	awesome	9-10	18-24	0	0

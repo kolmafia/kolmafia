@@ -598,11 +598,13 @@ tuxedo shirt	100	Mus: 35
 warbear dress helmet	100	Mox: 35
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
+witch's bra	200	Mys: 85
 wumpus-hair sweater	110	Mus: 40
 yak anorak	115	Mus: 42
 
 # Weapons section of equipment.txt
 
+&quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
 17-alarm Saucepan	90	Mys: 15	1-handed saucepan
 25-meat staff	70	Mus: 20	2-handed staff
 4-dimensional guitar	130	Mox: 50	2-handed guitar
@@ -1033,6 +1035,7 @@ lawnmower blade	120	Mus: 45	2-handed sword
 lead pipe	175	Mus: 72	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yoyo
 leechknife	125	Mus: 47	1-handed knife
+licorice whip	10	Mus: 0	1-handed whip
 linoleum crossbow	100	Mox: 35	2-handed crossbow
 linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
@@ -1232,6 +1235,7 @@ white whip	10	Mus: 0	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
 wiffle-flail	75	Mus: 22	2-handed flail
 witty rapier	150	Mus: 60	1-handed sword
+wolf whistle	200	Mox: 85	1-handed whistle
 wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	Mus: 0	2-handed spear
 world's smallest violin	150	Mox: 60	1-handed violin
@@ -1522,8 +1526,10 @@ security flashlight	50	Mys: 10
 set of jacks	20	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
+silver cow creamer	0	Mys: 85
 silver sausage	0	none
 six-rainbow shield	190	Mus: 70	shield
+skull gearshift knob	0	Mus: 60
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
 slippery when wet shield	100	Mus: 35	shield
@@ -1762,6 +1768,7 @@ Ring of the Sewer Snake	150	Mys: 60
 Saccharine Maple pendant	75	Mys: 22
 Scandalously Skimpy Bikini	0	Mys: 10
 Senior LAAAAME merit badge	0	none
+Sketcherz&trade;	0	Mys: 60
 Slow Talkin' Elliot's dogtags	200	Mys: 45
 Sneaky Pete's breath spray	80	Mys: 25
 Space Trip safety headphones	100	Mys: 35
@@ -1935,6 +1942,7 @@ hamethyst earring	50	Mys: 10
 hamethyst necklace	50	Mys: 10
 hamethyst ring	50	Mys: 10
 hardened slime belt	200	Mys: 200
+hare pin	0	Mox: 85
 hazardous sauce dosimeter	0	none
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
