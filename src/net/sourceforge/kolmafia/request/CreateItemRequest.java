@@ -1533,9 +1533,9 @@ public class CreateItemRequest
 		return buffer.toString();
 	}
 
-	private static final AdventureResult [] findIngredients( final String urlString )
+	public static final AdventureResult [] findIngredients( final String urlString )
 	{
-		if ( urlString.startsWith( "craft.php" ) && urlString.indexOf( "target" ) != -1 )
+		if ( urlString.startsWith( "craft.php" ) && urlString.contains( "target" ) )
 		{
 			// Crafting is going to make an item from ingredients.
 			// Return the ingredients we think will be used.
@@ -1550,27 +1550,18 @@ public class CreateItemRequest
 			return ConcoctionDatabase.getIngredients( itemId );
 		}
 
+		Matcher matcher =
+			urlString.startsWith( "craft.php" ) ?
+			CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString ) :
+			CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
+
 		AdventureResultArray ingredients = new AdventureResultArray();
-		Matcher matcher;
-
-		if ( urlString.startsWith( "craft.php" ) )
+		while ( matcher.find() )
 		{
-			matcher = CreateItemRequest.CRAFT_PATTERN_1.matcher( urlString );
-			while ( matcher.find() )
-			{
-				ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
-			}
-		}
-		else
-		{
-			matcher = CreateItemRequest.ITEMID_PATTERN.matcher( urlString );
-			while ( matcher.find() )
-			{
-				ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
-			}
+			ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
 		}
 
-		if ( urlString.indexOf( "action=wokcook" ) != -1 )
+		if ( urlString.contains( "action=wokcook" ) )
 		{
 			ingredients.add( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) );
 			ingredients.add( ItemPool.get( ItemPool.MSG, 1 ) );
@@ -1584,10 +1575,11 @@ public class CreateItemRequest
 		return ItemPool.get( StringUtilities.parseInt( itemId ), 1 );
 	}
 
-	private static final int getQuantity( final String urlString, final AdventureResult [] ingredients, int multiplier )
+	public static final int getQuantity( final String urlString, final AdventureResult [] ingredients, int multiplier )
 	{
-		if ( urlString.indexOf( "max=on" ) == -1 &&
-		     urlString.indexOf( "smashall=1" ) == -1 )
+		if ( !urlString.contains( "max=on" ) &&
+		     !urlString.contains( "smashall=1" ) &&
+		     !urlString.contains( "makeall=on" ) )
 		{
 			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			return matcher.find() ?
