@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
@@ -129,5 +130,20 @@ public class GnomeTinkerRequest
 		}
 
 		return false;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "gnomes.php" ) || !urlString.contains( "action=tinksomething" ) )
+		{
+			return false;
+		}
+
+		String line = CreateItemRequest.getCreationCommand( "Tinker", urlString, 1, false );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( line );
+
+		return true;
 	}
 }

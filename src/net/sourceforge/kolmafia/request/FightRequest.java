@@ -2643,7 +2643,7 @@ public class FightRequest
 				Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
 			}
 			String updateMessage = "You acquire a bounty item: " + bountyItem;
-			AdventureResult result = AdventureResult.tallyItem(	bountyItem, false );
+			AdventureResult result = AdventureResult.tallyItem( bountyItem, false );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 			RequestLogger.updateSessionLog( updateMessage );
 			KoLmafia.updateDisplay( updateMessage );

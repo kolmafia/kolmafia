@@ -1299,7 +1299,7 @@ public class CreateItemRequest
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
-		// First, delegate subclasses, if it's a subclass request.
+		// Delegate to subclasses if appropriate
 
 		if ( urlString.startsWith( "sugarsheets.php" ) )
 		{
@@ -1327,12 +1327,12 @@ public class CreateItemRequest
 			return Crimbo07Request.registerRequest( urlString );
 		}
 
-		if ( urlString.indexOf( "action=makestaff" ) != -1 )
+		if ( urlString.contains( "action=makestaff" ) )
 		{
 			return ChefStaffRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.indexOf( "action=makepaste" ) != -1 || urlString.indexOf( "action=makestuff" ) != -1 )
+		if ( urlString.contains( "action=makepaste" ) || urlString.contains( "action=makestuff" ) )
 		{
 			return CombineMeatRequest.registerRequest( urlString );
 		}
@@ -1350,6 +1350,11 @@ public class CreateItemRequest
 			}
 
 			return false;
+		}
+
+		if ( urlString.startsWith( "gnomes.php" ) )
+		{
+			return GnomeTinkerRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "inv_use.php" ) )
@@ -1389,12 +1394,13 @@ public class CreateItemRequest
 				return false;
 			}
 
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Use " + tool );
+
+			// *** Should do this after we get response text back
 			AdventureResult item = new AdventureResult( ingredient, 1 );
 			int quantity = item.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Use " + tool );
 
 			return true;
 		}
@@ -1403,49 +1409,44 @@ public class CreateItemRequest
 		// all we do is parse out the ingredients which were used
 		// and then print the attempt to the screen.
 
+		String command = null;
 		int multiplier = 1;
 		boolean usesTurns = false;
-		boolean isCreationURL = false;
-
-		StringBuilder command = new StringBuilder();
 
 		if ( urlString.startsWith( "craft.php" ) )
 		{
-			if ( urlString.indexOf( "action=pulverize" ) != -1 )
+			if ( urlString.contains( "action=pulverize" ) )
 			{
 				return false;
 			}
-			else if ( urlString.indexOf( "action=craft" ) == -1 )
+
+			if ( !urlString.contains( "action=craft" ) )
 			{
 				return true;
 			}
-			else if ( urlString.indexOf( "mode=combine" ) != -1 )
+
+			if ( urlString.contains( "mode=combine" ) )
 			{
-				isCreationURL = true;
-				command.append( "Combine " );
+				command = "Combine";
 			}
-			else if ( urlString.indexOf( "mode=cocktail" ) != -1 )
+			else if ( urlString.contains( "mode=cocktail" ) )
 			{
-				isCreationURL = true;
-				command.append( "Mix " );
+				command = "Mix";
 				usesTurns = !KoLCharacter.hasBartender();
 			}
-			else if ( urlString.indexOf( "mode=cook" ) != -1 )
+			else if ( urlString.contains( "mode=cook" ) )
 			{
-				isCreationURL = true;
-				command.append( "Cook " );
+				command = "Cook";
 				usesTurns = !KoLCharacter.hasChef();
 			}
-			else if ( urlString.indexOf( "mode=smith" ) != -1 )
+			else if ( urlString.contains( "mode=smith" ) )
 			{
-				isCreationURL = true;
-				command.append( "Smith " );
+				command = "Smith";
 				usesTurns = true;
 			}
-			else if ( urlString.indexOf( "mode=jewelry" ) != -1 )
+			else if ( urlString.contains( "mode=jewelry" ) )
 			{
-				isCreationURL = true;
-				command.append( "Ply " );
+				command = "Ply";
 				usesTurns = true;
 			}
 			else
@@ -1456,40 +1457,57 @@ public class CreateItemRequest
 		}
 		else if ( urlString.startsWith( "guild.php" ) )
 		{
-			if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+			if ( urlString.contains( "action=stillbooze" ) || urlString.contains( "action=stillfruit" ) )
 			{
-				isCreationURL = true;
-				command.append( "Distill " );
+				command = "Distill";
 			}
-			else if ( urlString.indexOf( "action=wokcook" ) != -1 )
+			else if ( urlString.contains( "action=wokcook" ) )
 			{
-				isCreationURL = true;
-				command.append( "Wok " );
+				command = "Wok";
 				usesTurns = true;
 			}
-			else if ( urlString.indexOf( "action=malussmash" ) != -1 )
+			else if ( urlString.contains( "action=malussmash" ) )
 			{
-				isCreationURL = true;
-				command.append( "Pulverize " );
+				command = "Pulverize";
 				multiplier = 5;
 			}
-		}
-		else if ( urlString.startsWith( "gnomes.php" ) )
-		{
-			if ( urlString.indexOf( "action=tinksomething" ) != -1 )
+			else
 			{
-				isCreationURL = true;
-				command.append( "Tinker " );
+				return false;
 			}
 		}
-
-		if ( !isCreationURL )
+		else
 		{
 			return false;
 		}
 
-		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
+		String line = CreateItemRequest.getCreationCommand( command, urlString, multiplier, usesTurns );
 
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( line );
+
+		// *** We should deduct ingredients after we have verified that the creation worked.
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
+		CreateItemRequest.useIngredients( urlString, ingredients, quantity );
+
+		return true;
+	}
+
+	public static final String getCreationCommand( final String command, final String urlString, final int multiplier, final boolean usesTurns )
+	{
+		StringBuilder buffer = new StringBuilder();
+
+		if ( usesTurns )
+		{
+			buffer.append( "[" );
+			buffer.append( String.valueOf( KoLAdventure.getAdventureCount() + 1 ) );
+			buffer.append( "] " );
+		}
+
+		buffer.append( command );
+
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -1500,27 +1518,19 @@ public class CreateItemRequest
 				continue;
 			}
 
+			buffer.append( ' ' );
+
 			if ( i > 0 )
 			{
-				command.append( " + " );
+				buffer.append( "+ " );
 			}
 
-			command.append( quantity );
-			command.append( ' ' );
-			command.append( item.getName() );
+			buffer.append( quantity );
+			buffer.append( ' ' );
+			buffer.append( item.getName() );
 		}
 
-		if ( usesTurns )
-		{
-			command.insert( 0, "[" + ( KoLAdventure.getAdventureCount() + 1 ) + "] " );
-		}
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( command.toString() );
-
-		CreateItemRequest.useIngredients( urlString, ingredients, quantity );
-
-		return true;
+		return buffer.toString();
 	}
 
 	private static final AdventureResult [] findIngredients( final String urlString )
