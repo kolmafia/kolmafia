@@ -72,6 +72,7 @@ public class CampgroundRequest
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
+	private static AdventureResult currentWorkshedItem = null;
 
 	public static final AdventureResult BIG_ROCK = ItemPool.get( ItemPool.BIG_ROCK, 1 );
 
@@ -221,6 +222,7 @@ public class CampgroundRequest
 		CampgroundRequest.currentDwellingLevel = 0;
 		CampgroundRequest.currentDwelling = null;
 		CampgroundRequest.currentBed = null;
+		CampgroundRequest.currentWorkshedItem = null;
 	}
 
 	private final String action;
@@ -784,13 +786,34 @@ public class CampgroundRequest
 	private static final void parseWorkshed( final String responseText )
 	{
 		// Do we need to remember these things in KoLCharacter?
-		findImage( responseText, "wbchemset.gif", ItemPool.CHEMISTRY_LAB );
-		findImage( responseText, "wboven.gif", ItemPool.INDUCTION_OVEN );
-		findImage( responseText, "wblprom.gif", ItemPool.LP_ROM_BURNER );
-		findImage( responseText, "wbstill.gif", ItemPool.HIGH_EFFICIENCY_STILL );
-		findImage( responseText, "wbanvil.gif", ItemPool.AUTO_ANVIL );
-		findImage( responseText, "wbdrillpress.gif", ItemPool.JACKHAMMER_DRILL_PRESS );
-		findImage( responseText, "snowmachine.gif", ItemPool.SNOW_MACHINE );
+		if ( findImage( responseText, "wbchemset.gif", ItemPool.CHEMISTRY_LAB ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.CHEMISTRY_LAB );
+		}
+		else if ( findImage( responseText, "wboven.gif", ItemPool.INDUCTION_OVEN ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.INDUCTION_OVEN );
+		}
+		else if ( findImage( responseText, "wblprom.gif", ItemPool.LP_ROM_BURNER ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.LP_ROM_BURNER );
+		}
+		else if ( findImage( responseText, "wbstill.gif", ItemPool.HIGH_EFFICIENCY_STILL ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.HIGH_EFFICIENCY_STILL );
+		}
+		else if ( findImage( responseText, "wbanvil.gif", ItemPool.AUTO_ANVIL ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.AUTO_ANVIL );
+		}
+		else if ( findImage( responseText, "wbdrillpress.gif", ItemPool.JACKHAMMER_DRILL_PRESS ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.JACKHAMMER_DRILL_PRESS );
+		}
+		else if ( findImage( responseText, "snowmachine.gif", ItemPool.SNOW_MACHINE ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.SNOW_MACHINE );
+		}
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
@@ -876,6 +899,26 @@ public class CampgroundRequest
 		CampgroundRequest.currentBed = bed;
 	}
 
+	public static AdventureResult getCurrentWorkshedItem()
+	{
+		return currentWorkshedItem;
+	}
+	
+	public static void setCurrentWorkshedItem( int itemId )
+	{
+		AdventureResult	workshedItem = ItemPool.get( itemId, 1 );
+		CampgroundRequest.setCurrentWorkshedItem( workshedItem );
+	}
+
+	public static void setCurrentWorkshedItem( AdventureResult workshedItem )
+	{
+		if ( CampgroundRequest.getCurrentWorkshedItem() != null )
+		{
+			CampgroundRequest.removeCampgroundItem( CampgroundRequest.getCurrentWorkshedItem() );
+		}
+		CampgroundRequest.currentWorkshedItem = workshedItem;
+	}
+
 	public static boolean isDwelling( final int itemId )
 	{
 		switch ( itemId )
@@ -944,6 +987,22 @@ public class CampgroundRequest
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.SALTWATERBED:
 		case ItemPool.SPIRIT_BED:
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isWorkshedItem( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.JACKHAMMER_DRILL_PRESS:
+		case ItemPool.AUTO_ANVIL:
+		case ItemPool.INDUCTION_OVEN:
+		case ItemPool.CHEMISTRY_LAB:
+		case ItemPool.HIGH_EFFICIENCY_STILL:
+		case ItemPool.LP_ROM_BURNER:
+		case ItemPool.SNOW_MACHINE:
 			return true;
 		}
 		return false;
