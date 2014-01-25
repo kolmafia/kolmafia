@@ -100,8 +100,6 @@ public class AdventureDatabase
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
 
-	private static final HashMap<String, KoLAdventure> locationByBounty = new HashMap<String, KoLAdventure>();
-
 	// This should be removed eventually
 	private static final String[][] OLD_LOCATIONS =
 	{
@@ -342,33 +340,6 @@ public class AdventureDatabase
 		{
 			AdventureDatabase.addAdventure( AdventureDatabase.getAdventure( i ) );
 		}
-
-		AdventureDatabase.locationByBounty.clear();
-
-		Iterator bountyIterator = AdventureDatabase.bountyLookup.entrySet().iterator();
-
-		while ( bountyIterator.hasNext() )
-		{
-			Entry bountyEntry = (Entry) bountyIterator.next();
-
-			String bounty = (String) bountyEntry.getValue();
-			if ( bounty == null || bounty.equals( "" ) )
-			{
-				continue;
-			}
-
-			bounty = bounty.substring( bounty.indexOf( " " ) + 1 );
-			String singleBounty = BountyDatabase.getName( bounty );
-			if ( AdventureDatabase.locationByBounty.get( singleBounty ) != null )
-			{
-				// Only store the first location
-				continue;
-			}
-
-			String adventureName = (String) bountyEntry.getKey();
-			KoLAdventure adventure = AdventureDatabase.getAdventure( adventureName );
-			AdventureDatabase.locationByBounty.put( singleBounty, adventure );
-		}
 	}
 
 	public static final void addAdventure( final KoLAdventure location )
@@ -508,21 +479,6 @@ public class AdventureDatabase
 		return zoneLookup.get( location );
 	}
 
-	public static final KoLAdventure getBountyLocation( final String item )
-	{
-		return item == null ? null : AdventureDatabase.locationByBounty.get( item );
-	}
-
-	public static final AdventureResult getBounty( final String item )
-	{
-		if ( item == null )
-			return null;
-		KoLAdventure adventure = AdventureDatabase.getBountyLocation( item );
-		if ( adventure == null )
-			return null;
-		return AdventureDatabase.getBounty( adventure );
-	}
-
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
 	{
 		String adventureName = adventure.getAdventureName();
@@ -538,24 +494,6 @@ public class AdventureDatabase
 		return new AdventureResult( name, count, false );
 	}
 
-	public static final AdventureResult currentEasyBounty()
-	{
-		String bountyItem = Preferences.getString( "currentEasyBountyItem" );
-		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
-	}
-
-	public static final AdventureResult currentHardBounty()
-	{
-		String bountyItem = Preferences.getString( "currentHardBountyItem" );
-		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
-	}
-
-	public static final AdventureResult currentSpecialBounty()
-	{
-		String bountyItem = Preferences.getString( "currentSpecialBountyItem" );
-		return bountyItem == "" || bountyItem == null ? null : AdventureDatabase.getBounty( bountyItem );
-	}
-
 	public static final String getDefaultConditions( final KoLAdventure adventure )
 	{
 		if ( adventure == null )
@@ -563,8 +501,7 @@ public class AdventureDatabase
 			return "none";
 		}
 
-		// If you're currently doing a bounty, return
-		// the item you need to hunt for.
+		// If you're currently doing a bounty, +1 filthy lucre.
 
 		String adventureName = adventure.getAdventureName();
 		String bounty = AdventureDatabase.bountyLookup.get( adventureName );
@@ -574,7 +511,7 @@ public class AdventureDatabase
 		{
 			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
 			{
-				return bounty;
+				return "+1 filthy lucre";
 			}
 		}
 
@@ -583,7 +520,7 @@ public class AdventureDatabase
 		{
 			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
 			{
-				return bounty;
+				return "+1 filthy lucre";
 			}
 		}
 
@@ -592,7 +529,7 @@ public class AdventureDatabase
 		{
 			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
 			{
-				return bounty;
+				return "+1 filthy lucre";
 			}
 		}
 

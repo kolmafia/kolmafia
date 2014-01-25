@@ -160,8 +160,15 @@ public class BountyHunterHunterRequest
 				Preferences.setString( "_untakenEasyBountyItem", "" );
 			}
 
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
-			AdventureFrame.updateSelectedAdventure( adventure );
+			String bountyLocation = BountyDatabase.getLocation( currentUntakenBounty );
+			if ( bountyLocation != null )
+			{
+				KoLAdventure adventure = AdventureDatabase.getAdventure( bountyLocation );
+				if ( adventure != null )
+				{
+					AdventureFrame.updateSelectedAdventure( adventure );
+				}
+			}
 			return;
 		}
 
@@ -174,8 +181,15 @@ public class BountyHunterHunterRequest
 				Preferences.setString( "_untakenHardBountyItem", "" );
 			}
 
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
-			AdventureFrame.updateSelectedAdventure( adventure );
+			String bountyLocation = BountyDatabase.getLocation( currentUntakenBounty );
+			if ( bountyLocation != null )
+			{
+				KoLAdventure adventure = AdventureDatabase.getAdventure( bountyLocation );
+				if ( adventure != null )
+				{
+					AdventureFrame.updateSelectedAdventure( adventure );
+				}
+			}
 			return;
 		}
 
@@ -188,8 +202,15 @@ public class BountyHunterHunterRequest
 				Preferences.setString( "_untakenSpecialBountyItem", "" );
 			}
 
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( currentUntakenBounty );
-			AdventureFrame.updateSelectedAdventure( adventure );
+			String bountyLocation = BountyDatabase.getLocation( currentUntakenBounty );
+			if ( bountyLocation != null )
+			{
+				KoLAdventure adventure = AdventureDatabase.getAdventure( bountyLocation );
+				if ( adventure != null )
+				{
+					AdventureFrame.updateSelectedAdventure( adventure );
+				}
+			}
 			return;
 		}
 
