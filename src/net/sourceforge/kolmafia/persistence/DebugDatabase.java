@@ -207,6 +207,7 @@ public class DebugDatabase
 			this.map.put( name, text );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.tag;
@@ -478,7 +479,8 @@ public class DebugDatabase
 	{
 		StringBuilder accessTypes = new StringBuilder();
 
-		if ( text.contains( "Quest Item" ) )
+		if ( text.contains( "Quest Item" ) ||
+		     text.contains( "This item will disappear at the end of the day." ) )
 		{
 			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.QUEST_FLAG );
 		}

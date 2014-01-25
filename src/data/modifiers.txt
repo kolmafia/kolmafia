@@ -532,6 +532,7 @@ hot daub stand	Hot Damage: +9, Hot Spell Damage: +9, Familiar Effect: "hot atk, 
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xBarrr, 6xGhuol, cap 10"
 junk trunks	Muscle: +5, Familiar Effect: "cap 15"
 leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
+lemon drop trousers	Candy Drop: +50, Lasts until Rollover
 leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 liar's pants	Moxie: +5, Muscle: +5, Mysticality: +5, Hot Damage: +10, Softcore Only, Familiar Effect: "hot atk, cold atk, cap 25"
@@ -681,6 +682,7 @@ hairshirt	Monster Level: [50-10*G]
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
 junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
+lemon shirt	Candy Drop: +50, Lasts until Rollover
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 metal band T-shirt	Monster Level: +15
@@ -3964,6 +3966,7 @@ Hairless and Airless	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: 
 Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
+Halloweeny	Spooky Damage: +25
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 # Ham(ster)-Handed: Makes you look like a skeletal hamster
 Hammered	Weapon Damage Percent: +50

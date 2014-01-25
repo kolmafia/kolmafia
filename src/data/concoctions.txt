@@ -2379,3 +2379,9 @@ ice nine	WINTER, ROW240	ice harvest (9)
 ice house	WINTER, ROW233	ice harvest (8)
 snow fort	WINTER, ROW241	snow berries (9)
 snow machine	WINTER, ROW234	snow berries (30)	ice harvest (30)
+
+# Grimstone Mask content
+
+lemon drop trousers	MUSE	lemony scales (6)
+lemon party hat	MUSE	lemony scales (4)
+lemon shirt	MUSE	lemony scales (5)
