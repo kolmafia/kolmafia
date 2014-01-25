@@ -73,6 +73,7 @@ public class BountyDatabase
 	private static final Map<String, String> numberByName = new HashMap<String, String>();
 	private static final Map<String, String> monsterByName = new HashMap<String, String>();
 	private static final Map<String, String> nameByMonster = new HashMap<String, String>();
+	private static final Map<String, String> locationByName = new HashMap<String, String>();
 
 	static
 	{
@@ -89,6 +90,7 @@ public class BountyDatabase
 		BountyDatabase.numberByName.clear();
 		BountyDatabase.monsterByName.clear();
 		BountyDatabase.nameByMonster.clear();
+		BountyDatabase.locationByName.clear();
 
 		BountyDatabase.readData();
 	}
@@ -101,7 +103,7 @@ public class BountyDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 6 )
+			if ( data.length < 7 )
 			{
 				continue;
 			}
@@ -115,6 +117,7 @@ public class BountyDatabase
 			BountyDatabase.numberByName.put( name, data[ 4 ] );
 			BountyDatabase.monsterByName.put( name, data[ 5 ] );
 			BountyDatabase.nameByMonster.put( data[ 5 ], name );
+			BountyDatabase.locationByName.put( name, data[ 6 ] );
 		}
 
 		try
@@ -127,7 +130,7 @@ public class BountyDatabase
 		}
 	}
 
-	public static final void setValue( String name, String plural, String type, String image, int number, String monster )
+	public static final void setValue( String name, String plural, String type, String image, int number, String monster, String location )
 	{
 		BountyDatabase.bountyNames.add( name );
 		BountyDatabase.bountyByPlural.put( plural, name );
@@ -137,6 +140,7 @@ public class BountyDatabase
 		BountyDatabase.numberByName.put( name, Integer.toString( number ) );
 		BountyDatabase.monsterByName.put( name, monster );
 		BountyDatabase.nameByMonster.put( monster, name );
+		BountyDatabase.locationByName.put( name, location );
 	}
 
 	public static final String[] entrySet()
@@ -213,5 +217,15 @@ public class BountyDatabase
 		}
 
 		return BountyDatabase.monsterByName.get( name );
+	}
+
+	public static final String getLocation( String name )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return null;
+		}
+
+		return BountyDatabase.locationByName.get( name );
 	}
 }

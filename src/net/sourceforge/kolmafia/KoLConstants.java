@@ -379,7 +379,7 @@ public interface KoLConstants
 	// The current version number of each data file
 
 	public static final int ADVENTURES_VERSION = 5;
-	public static final int BOUNTY_VERSION = 1;
+	public static final int BOUNTY_VERSION = 2;
 	public static final int BUFFBOTS_VERSION = 1;
 	public static final int CLASSSKILLS_VERSION = 4;
 	public static final int COINMASTERS_VERSION = 2;

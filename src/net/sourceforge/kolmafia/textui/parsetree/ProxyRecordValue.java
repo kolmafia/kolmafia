@@ -498,6 +498,7 @@ public class ProxyRecordValue
 			.add( "number", DataTypes.INT_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "monster", DataTypes.STRING_TYPE )
+			.add( "location", DataTypes.STRING_TYPE )
 			.finish( "bounty proxy" );
 
 		public BountyProxy( Value obj )
@@ -533,6 +534,12 @@ public class ProxyRecordValue
 		{
 			String monster = BountyDatabase.getMonster( this.contentString );
 			return monster == null ? "" : monster;
+		}
+
+		public String get_location()
+		{
+			String location = BountyDatabase.getLocation( this.contentString );
+			return location == null ? "" : location;
 		}
 	}
 
