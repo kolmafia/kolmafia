@@ -1488,6 +1488,7 @@ oil lamp	120	Mus: 45
 old-school flying disc	220	Mus: 200	shield
 optimal spreadsheet	0	none
 orcish stud-finder	85	Mys: 27
+ornate dowsing rod	10	none
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield

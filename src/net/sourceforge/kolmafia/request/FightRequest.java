@@ -2821,7 +2821,16 @@ public class FightRequest
 				break;
 					
 			case AdventurePool.ARID_DESERT:
-				int explored = KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) ? 2 : 1;
+				int explored = 1;
+				if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) )
+				{
+					explored += 1;
+				}
+				else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) &&
+				          KoLConstants.activeEffects.contains( EffectPool.get( Effect.HYDRATED ) ) )
+				{
+					explored += 2;
+				}
 				QuestManager.incrementDesertExploration( explored );
 				break;
 			}
