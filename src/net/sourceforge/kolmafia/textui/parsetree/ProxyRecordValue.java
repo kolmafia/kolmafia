@@ -497,8 +497,8 @@ public class ProxyRecordValue
 			.add( "type", DataTypes.STRING_TYPE )
 			.add( "number", DataTypes.INT_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
-			.add( "monster", DataTypes.STRING_TYPE )
-			.add( "location", DataTypes.STRING_TYPE )
+			.add( "monster", DataTypes.MONSTER_TYPE )
+			.add( "location", DataTypes.LOCATION_TYPE )
 			.finish( "bounty proxy" );
 
 		public BountyProxy( Value obj )
@@ -530,16 +530,16 @@ public class ProxyRecordValue
 			return image == null ? "" : image;
 		}
 
-		public String get_monster()
+		public Value get_monster()
 		{
 			String monster = BountyDatabase.getMonster( this.contentString );
-			return monster == null ? "" : monster;
+			return DataTypes.parseMonsterValue( monster == null ? "" : monster, true );
 		}
 
-		public String get_location()
+		public Value get_location()
 		{
 			String location = BountyDatabase.getLocation( this.contentString );
-			return location == null ? "" : location;
+			return DataTypes.parseLocationValue( location == null ? "" : location, true );
 		}
 	}
 
@@ -792,7 +792,7 @@ public class ProxyRecordValue
 			AdventureResult bounty = AdventureDatabase.getBounty( (KoLAdventure) this.content );
 			return bounty == null ?
 			       DataTypes.BOUNTY_INIT :
-			       DataTypes.parseBountyValue( BountyDatabase.getName( bounty.getName() ), true );
+			       DataTypes.parseBountyValue( bounty.getName(), true );
 		}
 
 		public String get_combat_queue()
