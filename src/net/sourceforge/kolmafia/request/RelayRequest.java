@@ -157,6 +157,14 @@ public class RelayRequest
 	private static String CONFIRM_COLOSSEUM = "confirm13";
 	private static String CONFIRM_GREMLINS = "confirm14";
 	private static String CONFIRM_HARDCOREPVP = "confirm15";
+	private static String CONFIRM_DESERT_UNHYDRATED = "confirm16";
+
+	private static boolean ignoreDesertWarning = false;
+
+	public static final void reset()
+	{
+		RelayRequest.ignoreDesertWarning = false;
+	}
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -1013,9 +1021,9 @@ public class RelayRequest
 
 		// If they aren't going to the War Gremlin zones, no problem
 		if ( !location.equals( AdventurePool.JUNKYARD_BARREL_ID ) && 
-			!location.equals( AdventurePool.JUNKYARD_REFRIGERATOR_ID ) && 
-			!location.equals( AdventurePool.JUNKYARD_TIRES_ID ) && 
-			!location.equals( AdventurePool.JUNKYARD_CAR_ID ) )
+		     !location.equals( AdventurePool.JUNKYARD_REFRIGERATOR_ID ) &&
+		     !location.equals( AdventurePool.JUNKYARD_TIRES_ID ) &&
+		     !location.equals( AdventurePool.JUNKYARD_CAR_ID ) )
 		{
 			return false;
 		}
@@ -1048,7 +1056,7 @@ public class RelayRequest
 		return true;
 	}
 
-	private boolean sendHardcorePVPWarning( final String urlString )
+	private boolean sendHardcorePVPWarning()
 	{
 		// Don't remind a second time in a session if you decide not to do it.
 		if ( this.getFormField( CONFIRM_HARDCOREPVP ) != null )
@@ -1075,7 +1083,7 @@ public class RelayRequest
 			return false;
 		}
 
-		// If no Hippy Stone intact, then ignore
+		// If Hippy Stone is intact, then ignore
 		if ( !KoLCharacter.getHippyStoneBroken() )
 		{
 			return false;
@@ -1093,6 +1101,48 @@ public class RelayRequest
 			"You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
 
 		this.sendGeneralWarning( "swords.gif", message, CONFIRM_HARDCOREPVP, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendUnhydratedDesertWarning()
+	{
+		// Only send this warning once per session
+		if ( RelayRequest.ignoreDesertWarning )
+		{
+			return false;
+		}
+
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_DESERT_UNHYDRATED ) != null )
+		{
+			RelayRequest.ignoreDesertWarning = true;
+			return false;
+		}
+
+		// If they aren't in the desert, no problem
+		if ( !AdventurePool.ARID_DESERT_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// Either The Oasis isn't open, or all reason to care about hydration is gone
+		int explored = Preferences.getInteger( "desertExploration" );
+		if ( explored == 0 || explored == 100 )
+		{
+			return false;
+		}
+
+		// If they are already Ultrahydrated, no problem
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.HYDRATED ) ) )
+		{
+			return false;
+		}
+
+		String message =
+			"You are about to adventure unhydrated in the desert.  Click the image below to proceed.";
+
+		this.sendGeneralWarning( "poison.gif", message, CONFIRM_DESERT_UNHYDRATED, "checked=1" );
 
 		return true;
 	}
@@ -2344,7 +2394,7 @@ public class RelayRequest
 				InventoryManager.retrieveItem( ItemPool.BALLOON_MONKEY );
 			}
 		}
-
+		
 		// If it gets this far, it's a normal file.  Go ahead and
 		// process it accordingly.
 
@@ -2480,12 +2530,17 @@ public class RelayRequest
 			return true;
 		}
 
+		if ( this.sendUnhydratedDesertWarning() )
+		{
+			return true;
+		}
+
 		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
 		{
 			return true;
 		}
 
-		if ( path.startsWith( "lair6.php" ) && this.sendHardcorePVPWarning( urlString ) )
+		if ( path.startsWith( "lair6.php" ) && this.sendHardcorePVPWarning() )
 		{
 			return true;
 		}

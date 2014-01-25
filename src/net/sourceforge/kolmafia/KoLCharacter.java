@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -550,6 +551,8 @@ public abstract class KoLCharacter
 		ConcoctionDatabase.refreshConcoctions( true );
 		ItemDatabase.setVariableConsumables();
 		ItemDatabase.calculateAdventureRanges();
+
+		RelayRequest.reset();
 
 		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
 
