@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -85,75 +85,41 @@ public class LootHunterMenuItem
 		@Override
 		protected void execute()
 		{
-			// Needs COMPLETE rewrite
-			KoLmafia.updateDisplay( MafiaState.ERROR, "This option not currently available due to KoL Bounty Hunter Hunter change." );
-			/* GenericRequest hunterRequest = new BountyHunterHunterRequest();
+			GenericRequest hunterRequest = new BountyHunterHunterRequest();
 			RequestThread.postRequest( hunterRequest );
 
-			StringBuffer label = new StringBuffer();
-			StringBuffer description = new StringBuffer();
 			IntWrapper wrapper = new IntWrapper();
 
-			Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
 			List bounties = new ArrayList();
-			while ( bountyMatcher.find() && bounties.size() < 3 )
+			String[] results = new String[2];
+			
+			// Add Easy Bounty Item
+			String untakenBounty = Preferences.getString( "_untakenEasyBountyItem" );
+			if ( !untakenBounty.equals( "" ) )
 			{
-				int itemId = StringUtilities.parseInt( bountyMatcher.group( 1 ) );
-				String item = ItemDatabase.getItemName( itemId );
-				if ( item == null )
-				{
-					continue;
-				}
+				results = LootHunterMenuItem.buildInformation( "easy", untakenBounty, 0 );
+				bounties.add( new PossibleSelection( results[ 0 ], results[ 1 ], 1, wrapper ) );
+			}
 
-				KoLAdventure location = AdventureDatabase.getBountyLocation( item );
-				if ( location == null )
-				{
-					continue;
-				}
+			// Add Hard Bounty Item
+			untakenBounty = Preferences.getString( "_untakenHardBountyItem" );
+			if ( !untakenBounty.equals( "" ) )
+			{
+				results = LootHunterMenuItem.buildInformation( "hard", untakenBounty, 0 );
+				bounties.add( new PossibleSelection( results[ 0 ], results[ 1 ], 2, wrapper ) );
+			}
 
-				AdventureResult bountyInfo = AdventureDatabase.getBounty( itemId );
-				AreaCombatData locationInfo = location.getAreaSummary();
-
-				label.setLength( 0 );
-				label.append( "<b>" );
-				label.append( String.valueOf( bountyInfo.getCount() ) );
-				label.append( " " );
-				label.append( StringUtilities.getEntityEncode( ItemDatabase.getPluralById( itemId ) ) );
-				label.append( "</b> from " );
-				label.append( location.getAdventureName() );
-
-				description.setLength( 0 );
-				description.append( "<i>Combat rate: " );
-				description.append( String.valueOf( Math.round( locationInfo.areaCombatPercent() ) ) );
-				description.append( "%; " );
-				description.append( String.valueOf( locationInfo.countMonstersDroppingItem( itemId ) ) );
-				description.append( "/" );
-				description.append( String.valueOf( locationInfo.getAvailableMonsterCount() ) );
-				description.append( " monsters drop bounty item.</i>" );
-
-				bounties.add( new PossibleSelection( label.toString(), description.toString(), itemId, wrapper ) );
+			// Add Speciality Bounty Item
+			untakenBounty = Preferences.getString( "_untakenSpecialBountyItem" );
+			if ( !untakenBounty.equals( "" ) )
+			{
+				results = LootHunterMenuItem.buildInformation( "speciality", untakenBounty, 0 );
+				bounties.add( new PossibleSelection( results[ 0 ], results[ 1 ], 3, wrapper ) );
 			}
 
 			if ( bounties.isEmpty() )
 			{
-				int bounty = Preferences.getInteger( "currentBountyItem" );
-				if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You've already turned in a bounty today." );
-					return;
-				}
-
-				if ( bounty > 0 )
-				{
-					KoLAdventure location = AdventureDatabase.getBountyLocation( bounty );
-					AdventureFrame.updateSelectedAdventure( location );
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You're already hunting " + ItemDatabase.getPluralName( bounty ) + " in " + location.getAdventureName() + "." );
-				}
-				else
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You're already on a bounty hunt." );
-				}
-
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No more bounties available today." );
 				return;
 			}
 
@@ -162,8 +128,19 @@ public class LootHunterMenuItem
 			{
 				return;
 			}
-
-			RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", wrapper.getChoice() ) );*/
+			
+			switch ( wrapper.getChoice() )
+			{
+			case 1:
+				RequestThread.postRequest( new BountyHunterHunterRequest( "takelow" ) );
+				break;
+			case 2:
+				RequestThread.postRequest( new BountyHunterHunterRequest( "takehigh" ) );
+				break;
+			case 3:
+				RequestThread.postRequest( new BountyHunterHunterRequest( "takespecial" ) );
+				break;
+			}
 		}
 	}
 
@@ -210,5 +187,62 @@ public class LootHunterMenuItem
 		int result = JOptionPane.showOptionDialog( null, choicePanel, title, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, dialogOptions, null );
 
 		return (result == 0);
+	}
+	
+	private static final String[] buildInformation( String type, String item, int number )
+	{
+		StringBuffer label = new StringBuffer();
+		StringBuffer description = new StringBuffer();
+
+		if ( item == null || item.equals( "" ) )
+		{
+			label.setLength( 0 );
+			label.append( "<b>No " );
+			label.append( type );
+			label.append( " bounty available." );
+			description.setLength( 0 );
+		}
+		else
+		{
+			String location = BountyDatabase.getLocation( item );
+			if ( location != null )
+			{
+				KoLAdventure adventure = AdventureDatabase.getAdventure( location );
+				if ( adventure != null )
+				{
+					AreaCombatData locationInfo = adventure.getAreaSummary();
+
+					int totalNumber = BountyDatabase.getNumber( item );
+					String plural = BountyDatabase.getPlural( item );
+					if ( plural != null )
+					{
+						label.setLength( 0 );
+						label.append( "Get <b>" );
+						if ( number != 0 )
+						{
+							label.append( String.valueOf( totalNumber - number ) );
+							label.append( " of " );
+						}
+						label.append( String.valueOf( totalNumber ) );
+						label.append( " " );
+						label.append( plural );
+						label.append( "</b> from " );
+						label.append( adventure.getAdventureName() );
+
+						description.setLength( 0 );
+						description.append( "<i>Combat rate: " );
+						description.append( String.valueOf( Math.round( locationInfo.areaCombatPercent() ) ) );
+						description.append( "%; " );
+						description.append( "1/" );
+						description.append( String.valueOf( locationInfo.getAvailableMonsterCount() ) );
+						description.append( " monsters drop bounty item.</i>" );
+					}
+				}
+			}
+		}
+		String[] results = new String[2];
+		results[ 0 ] = label.toString();
+		results[ 1 ] = description.toString();
+		return results;
 	}
 }
