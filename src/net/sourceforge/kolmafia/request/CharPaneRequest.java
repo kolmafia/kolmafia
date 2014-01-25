@@ -45,15 +45,12 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.PastaThrallData;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
@@ -1115,10 +1112,12 @@ public class CharPaneRequest
 		int maxhp = JSON.getInt( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );
 
-		// *** Temporary, I hope: api.php reports the size of your
-		// *** Horde as mp/maxmp - but sometimes is inaccurate.
-		// *** Bug report filed.
-		if ( !KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inZombiecore() )
+		{
+			int horde = JSON.getInt( "horde" );
+			KoLCharacter.setMP( horde, horde, horde );
+		}
+		else
 		{
 			int mp = JSON.getInt( "mp" );
 			int maxmp = JSON.getInt( "maxmp" );
