@@ -70,11 +70,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -646,7 +648,7 @@ public class AdventureSelectPanel
 			JComponentUtilities.setComponentSize( this.safetyDisplay, 100, 100 );
 			this.add( safetyScroller, BorderLayout.CENTER );
 
-			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
+			CharacterListenerRegistry.addCharacterListener( new CharacterListener( this ) );
 
 			this.setSafetyString();
 		}

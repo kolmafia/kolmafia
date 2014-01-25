@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
+
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
@@ -389,9 +391,6 @@ public abstract class KoLCharacter
 	private static boolean tripleReagent = false;
 	private static boolean guildStoreStateKnown = false;
 
-	// Listener-driven container items
-
-	private static final List<KoLCharacterListener> listenerList = new ArrayList<KoLCharacterListener>();
 	private static boolean beanstalkArmed = false;
 	private static KoLAdventure selectedLocation;
 
@@ -4395,36 +4394,6 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Adds a new <code>KoLCharacterListener</code> to the list of listeners listening to this
-	 * <code>KoLCharacter</code>.
-	 *
-	 * @param listener The listener to be added to the listener list
-	 */
-
-	public static final void addCharacterListener( final KoLCharacterListener listener )
-	{
-		if ( listener != null && !KoLCharacter.listenerList.contains( listener ) )
-		{
-			KoLCharacter.listenerList.add( listener );
-		}
-	}
-
-	/**
-	 * Removes an existing <code>KoLCharacterListener</code> from the list of listeners listening to this
-	 * <code>KoLCharacter</code>.
-	 *
-	 * @param listener The listener to be removed from the listener list
-	 */
-
-	public static final void removeCharacterListener( final KoLCharacterListener listener )
-	{
-		if ( listener != null )
-		{
-			KoLCharacter.listenerList.remove( listener );
-		}
-	}
-
-	/**
 	 * Returns the character's zapping wand, if any
 	 */
 
@@ -4624,13 +4593,7 @@ public abstract class KoLCharacter
 
 	public static final void updateStatus()
 	{
-		KoLCharacterListener[] listenerArray = new KoLCharacterListener[ KoLCharacter.listenerList.size() ];
-		KoLCharacter.listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-		{
-			listenerArray[ i ].updateStatus();
-		}
+		CharacterListenerRegistry.updateStatus();
 
 		// Allow Daily Deeds to change state based on character status
 		PreferenceListenerRegistry.firePreferenceChanged( "(character)" );

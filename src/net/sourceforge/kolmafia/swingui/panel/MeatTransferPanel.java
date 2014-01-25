@@ -38,9 +38,11 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -78,7 +80,7 @@ public class MeatTransferPanel
 		this.transferType = transferType;
 		this.refreshCurrentAmount();
 
-		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new AmountRefresher() ) );
+		CharacterListenerRegistry.addCharacterListener( new CharacterListener( new AmountRefresher() ) );
 	}
 
 	private static String getTitle( final int transferType )

@@ -31,38 +31,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.listener;
 
-public class KoLCharacterAdapter
-	implements KoLCharacterListener
+public interface Listener
 {
-	private final Runnable statusUpdater;
-
-	public KoLCharacterAdapter()
-	{
-		this( null );
-	}
-
-	public KoLCharacterAdapter( final Runnable statusUpdater )
-	{
-		this( statusUpdater, null );
-	}
-
-	public KoLCharacterAdapter( final Runnable statusUpdater, final Runnable listUpdater )
-	{
-		this.statusUpdater = statusUpdater;
-	}
-
-	public void updateStatus()
-	{
-		if ( this.statusUpdater != null )
-		{
-			this.statusUpdater.run();
-		}
-	}
-
-	public boolean isStatusListener()
-	{
-		return this.statusUpdater != null;
-	}
+	public void update();
 }

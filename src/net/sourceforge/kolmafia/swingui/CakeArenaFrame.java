@@ -52,7 +52,9 @@ import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -69,19 +71,28 @@ public class CakeArenaFrame
 {
 	private JTable familiarTable;
 	private LockableListModel opponents;
+	private CharacterListener familiarListener;
 
 	public CakeArenaFrame()
 	{
 		super( "Susie's Secret Bedroom!" );
 
 		this.setCenterComponent( new CakeArenaPanel() );
-		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
+		this.familiarListener = new CharacterListener( new FamiliarRefresher() );
+		CharacterListenerRegistry.addCharacterListener( this.familiarListener );
 	}
 
 	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
+	}
+
+	@Override
+	public void dispose()
+	{
+		CharacterListenerRegistry.removeCharacterListener( this.familiarListener );
+		super.dispose();
 	}
 
 	private class FamiliarRefresher
