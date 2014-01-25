@@ -1724,6 +1724,7 @@ oil lamp	Sleaze Damage: +5, Hot Damage: +5
 old-school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
 optimal spreadsheet	Muscle: 10, Mysticality: 10, Moxie: 10, PvP Fights: 5, Monster Level: 20
 orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
+# ornate dowsing rod: Aids in desert exploration
 # oyster basket
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6

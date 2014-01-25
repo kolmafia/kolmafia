@@ -7164,7 +7164,7 @@
 7147	polo trophy	264937416	trophy.gif	usable	t,d	78
 7148
 7149
-7150
+7150	ornate dowsing rod	814148239	dowsingrod.gif	offhand	q	0
 7151	straw	334274463	straw.gif	none	q	0
 7152	leather	508238232	leather.gif	none	q	0
 7153	clay	226651015	clay.gif	none	q	0
