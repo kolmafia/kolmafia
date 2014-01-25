@@ -1,32 +1,33 @@
-1
+2
 # List of bounties
-# Single Name, Plural Name, Type, Image, Number, Monster
+# Single Name, Plural Name, Type, Image, Number, Monster, Best Location
 
 # Easy
-bean-shaped rock	bean-shaped rocks	easy	bean.gif	35	beanbat
-bloodstained briquette	bloodstained briquettes	easy	briquette.gif	8	Knob Goblin Barbecue Team
-bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Counter
-crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed Knob Goblin
-drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider
-empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown
-pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat
-shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus
-triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid
+bean-shaped rock	bean-shaped rocks	easy	bean.gif	35	beanbat	The Beanbat Chamber
+bloodstained briquette	bloodstained briquettes	easy	briquette.gif	8	Knob Goblin Barbecue Team	The Outskirts of Cobb's Knob
+bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Counter	Cobb's Knob Treasury
+crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed Knob Goblin	A Barroom Brawl
+drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
+empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
+pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
+shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
+triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 
 # Hard
-absence of moss	absences of moss	hard	blank.gif	10	rolling stone
-beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant
-distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier
-rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub
-spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant
-spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder
-warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate
-worthless piece of yellow glass	worthless pieces of yellow glass	hard	asterisk.gif	6	kobold
+absence of moss	absences of moss	hard	blank.gif	10	rolling stone	The Oasis
+beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle in the Clouds in the Sky (Basement)
+length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
+distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar (automatic)
+rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub	The Haunted Bathroom
+spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant	The Hidden Office Building
+spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder	The eXtreme Slope
+warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate	The Poop Deck
+worthless piece of yellow glass	worthless pieces of yellow glass	hard	asterisk.gif	6	large kobold	The Dungeons of Doom
 
 # Special
-glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse
-greasy string	lengths of greasy string	special	string.gif	8	salaminder
-pile of country guano	piles of country guano	special	guano.gif	8	country bat
-pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame
-unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue
-wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig
+glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse	The Stately Pleasure Dome
+greasy string	lengths of greasy string	special	string.gif	8	salaminder	The Nightmare Meatrealm
+pile of country guano	piles of country guano	special	guano.gif	8	country bat	An Incredibly Strange Place (Bad Trip)
+pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
+unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue	Chinatown Shops
+wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig	The Red Queen's Garden
