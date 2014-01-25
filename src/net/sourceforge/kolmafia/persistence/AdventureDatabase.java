@@ -491,7 +491,12 @@ public class AdventureDatabase
 		int space = bounty.indexOf( " " );
 		int count = StringUtilities.parseInt( bounty.substring( 0, space ) );
 		String name = bounty.substring( space + 1 );
-		return new AdventureResult( name, count, false );
+		String single = BountyDatabase.getName( name );
+		if ( single == null )
+		{
+			return null;
+		}
+		return new AdventureResult( single, count );
 	}
 
 	public static final String getDefaultConditions( final KoLAdventure adventure )
@@ -505,11 +510,12 @@ public class AdventureDatabase
 
 		String adventureName = adventure.getAdventureName();
 		String bounty = AdventureDatabase.bountyLookup.get( adventureName );
+		String single = BountyDatabase.getName( bounty );
 
 		String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
 		if ( !easyBountyId.equals( "" ) && easyBountyId != null )
 		{
-			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
+			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
 			{
 				return "+1 filthy lucre";
 			}
@@ -518,7 +524,7 @@ public class AdventureDatabase
 		String hardBountyId = Preferences.getString( "currentHardBountyItem" );
 		if ( !hardBountyId.equals( "" ) && hardBountyId != null )
 		{
-			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
+			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
 			{
 				return "+1 filthy lucre";
 			}
@@ -527,7 +533,7 @@ public class AdventureDatabase
 		String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
 		if ( !specialBountyId.equals( "" ) && specialBountyId != null )
 		{
-			if ( bounty != null && !bounty.equals( "" ) && bounty.substring( bounty.indexOf( " " ) ).trim().equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
+			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
 			{
 				return "+1 filthy lucre";
 			}
