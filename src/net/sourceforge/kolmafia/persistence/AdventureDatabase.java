@@ -510,32 +510,37 @@ public class AdventureDatabase
 
 		String adventureName = adventure.getAdventureName();
 		String bounty = AdventureDatabase.bountyLookup.get( adventureName );
-		String single = BountyDatabase.getName( bounty );
 
-		String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
-		if ( !easyBountyId.equals( "" ) && easyBountyId != null )
+		if ( bounty != null && !bounty.equals( "" ) )
 		{
-			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
+			String bountyPlural = bounty.substring( bounty.indexOf( " " ) ).trim();
+			String bountyName = BountyDatabase.getName( bountyPlural );
+		
+			String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
+			if ( !easyBountyId.equals( "" ) && easyBountyId != null )
 			{
-				return "+1 filthy lucre";
+				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
+				{
+					return "+1 filthy lucre";
+				}
 			}
-		}
 
-		String hardBountyId = Preferences.getString( "currentHardBountyItem" );
-		if ( !hardBountyId.equals( "" ) && hardBountyId != null )
-		{
-			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
+			String hardBountyId = Preferences.getString( "currentHardBountyItem" );
+			if ( !hardBountyId.equals( "" ) && hardBountyId != null )
 			{
-				return "+1 filthy lucre";
+				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
+				{
+					return "+1 filthy lucre";
+				}
 			}
-		}
 
-		String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
-		if ( !specialBountyId.equals( "" ) && specialBountyId != null )
-		{
-			if ( single != null && !single.equals( "" ) && single.substring( single.indexOf( " " ) ).trim().equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
+			String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
+			if ( !specialBountyId.equals( "" ) && specialBountyId != null )
 			{
-				return "+1 filthy lucre";
+				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
+				{
+					return "+1 filthy lucre";
+				}
 			}
 		}
 
