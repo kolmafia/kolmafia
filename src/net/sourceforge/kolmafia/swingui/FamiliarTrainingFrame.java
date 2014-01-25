@@ -68,7 +68,6 @@ import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.FamiliarTool;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -78,6 +77,9 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -125,7 +127,7 @@ public class FamiliarTrainingFrame
 	private static boolean stop = false;
 
 	private final FamiliarTrainingPanel training;
-	private KoLCharacterAdapter weightListener;
+	private CharacterListener weightListener;
 
 	public static final int BASE = 1;
 	public static final int BUFFED = 2;
@@ -231,6 +233,7 @@ public class FamiliarTrainingFrame
 	public void dispose()
 	{
 		FamiliarTrainingFrame.stop = true;
+		CharacterListenerRegistry.removeCharacterListener( this.weightListener );
 		super.dispose();
 	}
 
@@ -298,8 +301,8 @@ public class FamiliarTrainingFrame
 			counterPanel.add( this.totalWeight );
 
 			// Make a refresher for the counters
-			FamiliarTrainingFrame.this.weightListener = new KoLCharacterAdapter( new TotalWeightRefresher() );
-			KoLCharacter.addCharacterListener( FamiliarTrainingFrame.this.weightListener );
+			FamiliarTrainingFrame.this.weightListener = new CharacterListener( new TotalWeightRefresher() );
+			CharacterListenerRegistry.addCharacterListener( FamiliarTrainingFrame.this.weightListener );
 
 			// Show the counters
 			buttonContainer.add( counterPanel, BorderLayout.SOUTH );

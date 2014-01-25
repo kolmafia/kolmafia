@@ -80,13 +80,15 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -127,7 +129,7 @@ public abstract class GenericFrame
 	protected String frameName;
 
 	public CompactSidePane sidepane = null;
-	public KoLCharacterAdapter refreshListener = null;
+	public CharacterListener refreshListener = null;
 
 	static
 	{
@@ -490,7 +492,7 @@ public abstract class GenericFrame
 
 		if ( this.refreshListener != null )
 		{
-			KoLCharacter.removeCharacterListener( this.refreshListener );
+			CharacterListenerRegistry.removeCharacterListener( this.refreshListener );
 		}
 
 		this.menuBar.dispose();
@@ -549,8 +551,8 @@ public abstract class GenericFrame
 		this.sidepane = new CompactSidePane();
 		this.sidepane.run();
 
-		this.refreshListener = new KoLCharacterAdapter( this.sidepane );
-		KoLCharacter.addCharacterListener( this.refreshListener );
+		this.refreshListener = new CharacterListener( this.sidepane );
+		CharacterListenerRegistry.addCharacterListener( this.refreshListener );
 
 		this.sidepane.setBackground( KoLConstants.ENABLED_COLOR );
 		this.framePanel.add( this.sidepane, BorderLayout.WEST );

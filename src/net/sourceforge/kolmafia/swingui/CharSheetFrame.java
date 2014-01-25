@@ -45,8 +45,10 @@ import javax.swing.JProgressBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -57,7 +59,7 @@ public class CharSheetFrame
 {
 	private final JLabel avatar;
 	private JProgressBar[] tnpDisplay;
-	private final KoLCharacterAdapter statusRefresher;
+	private final CharacterListener statusRefresher;
 
 	/**
 	 * Constructs a new character sheet, using the data located in the provided session.
@@ -84,10 +86,10 @@ public class CharSheetFrame
 		charSheetPanel.add( statusContainer, BorderLayout.NORTH );
 		charSheetPanel.add( summaryContainer, BorderLayout.CENTER );
 
-		this.statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
-		KoLCharacter.addCharacterListener( this.statusRefresher );
+		this.statusRefresher = new CharacterListener( new StatusRefreshRunnable() );
+		CharacterListenerRegistry.addCharacterListener( this.statusRefresher );
 
-		this.statusRefresher.updateStatus();
+		this.statusRefresher.update();
 		JComponentUtilities.setComponentSize( charSheetPanel, -1, 480 );
 
 		this.setCenterComponent( charSheetPanel );
@@ -96,7 +98,7 @@ public class CharSheetFrame
 	@Override
 	public void dispose()
 	{
-		KoLCharacter.removeCharacterListener( this.statusRefresher );
+		CharacterListenerRegistry.removeCharacterListener( this.statusRefresher );
 		super.dispose();
 	}
 

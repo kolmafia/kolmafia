@@ -31,9 +31,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.listener;
 
-public interface KoLCharacterListener
+public class CharacterListener
+	implements Listener
 {
-	public void updateStatus();
+	private final Runnable updater;
+
+	public CharacterListener()
+	{
+		this( null );
+	}
+
+	public CharacterListener( final Runnable updater )
+	{
+		this.updater = updater;
+	}
+
+	public void update()
+	{
+		if ( this.updater != null )
+		{
+			this.updater.run();
+		}
+	}
 }
