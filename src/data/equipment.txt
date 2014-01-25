@@ -431,6 +431,7 @@ hot daub stand	85	Mox: 27
 ironic jogging shorts	40	Mox: 5
 junk trunks	60	Mox: 15
 leather chaps	160	Mox: 65
+lemon drop trousers	50	Mox: 10
 leotarrrd	90	Mox: 30
 liar's pants	100	none
 los chinos	55	Mox: 12
@@ -572,6 +573,7 @@ hairshirt	150	Mus: 40
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
 junk-mail shirt	60	Mus: 15
+lemon shirt	50	Mus: 10
 letterman's jacket	200	Mus: 200
 loathing eagle baby-doll shirt	45	Mus: 7
 metal band T-shirt	40	Mus: 5

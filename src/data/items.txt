@@ -7136,8 +7136,8 @@
 7119
 7120	lemony scales	780957222	lemonscales.gif	multiple	t,d	5
 7121
-7122
-7123
+7122	lemon shirt	376721584	lemonshirt.gif	shirt	q	0
+7123	lemon drop trousers	815471195	lemonpants.gif	pants	q	0
 7124	lemonhead caviar	851844462	caviar.gif	usable	t,d	95
 7125	gummi sword	709368500	gummisword.gif	weapon	t,d	66
 7126	small gummi fin	439308820	gummifin.gif	usable	t,d	15

@@ -1398,7 +1398,7 @@
 1397	Milk Studly	milkstuds.gif	51ea6d6e1264fc3aab8656d33d5f309b	use 1 Milk Studs
 1398	Dweeby	dweebs.gif	6df499796f5af6ddca95e30d6b93ab9e	use 1 box of Dweebs
 1399	Just the Brown Ones	wandws.gif	bc3810e0ee6da266d6ce1cc4f9aaf512	use 1 bag of W&Ws
-1400
+1400	Halloweeny	mallowpumpkin.gif	62616f85083fa087b95261b086be933a	use 1 Tallowcreme Halloween Pumpkin
 1401	Hood Ridin'	redjamjar.gif	897524cce84cd40788c9a31b07cf2a33	use 1 little red jam
 1402	Spooky Blur	fast.gif	3596c59d5715ff20d8c6302da289fb8c	use 1 Whenchamacallit bar
 1403	Banono	8bitbanana.gif	bd78fb53fcfb951ca6b50ade15ec22df	use 1 8-bit banana
