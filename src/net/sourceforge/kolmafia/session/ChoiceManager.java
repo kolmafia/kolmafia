@@ -9529,6 +9529,8 @@ public abstract class ChoiceManager
 		switch ( choice )
 		{
 		case 603: // Skeletons and The Closet
+		case 627: // ChibiBuddy&trade; (on)
+		case 633: // ChibiBuddy&trade; (off)
 		case 664: // The Crackpot Mystic's Shed
 		case 720: // The Florist Friar's Cottage
 		case 767: // Tales of Dread
