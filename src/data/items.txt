@@ -7162,8 +7162,8 @@
 7145	cinnamon cannoli	463407306	cannoli.gif	food	t,d	99
 7146	expensive champagne	726657372	chamflute.gif	drink	t,d	99
 7147	polo trophy	264937416	trophy.gif	usable	t,d	78
-7148
-7149
+7148	fancy oil painting	848017783	oilpainting.gif	none	q	0
+7149	solid gold rosary	759330205	rosary.gif	usable	q	0
 7150	ornate dowsing rod	814148239	dowsingrod.gif	offhand	q	0
 7151	straw	334274463	straw.gif	none	q	0
 7152	leather	508238232	leather.gif	none	q	0
