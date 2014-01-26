@@ -572,3 +572,12 @@ Warbear Black Box	buy	200	warbear dress greaves	ROW242
 Warbear Black Box	buy	300	warbear dress bracers	ROW243
 Warbear Black Box	buy	400	warbear dress helmet	ROW244
 Warbear Black Box	buy	500	warbear officer requisition box	ROW226
+
+# Things you can buy with odd silver coins
+
+Paul's Boutique	buy	2	cinnamon cannoli	ROW245
+Paul's Boutique	buy	3	expensive champagne	ROW246
+Paul's Boutique	buy	3	polo trophy	ROW247
+Paul's Boutique	buy	4	fancy oil painting	ROW248
+Paul's Boutique	buy	5	solid gold rosary	ROW249
+Paul's Boutique	buy	5	ornate dowsing rod	ROW250

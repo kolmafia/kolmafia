@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
@@ -152,6 +153,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel BURTPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
 	private CoinmasterPanel warbearBoxPanel = null;
+	private CoinmasterPanel boutiquePanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -269,6 +271,11 @@ public class CoinmastersFrame
 		lunarLunchPanel = new LunarLunchPanel();
 		panel.add( lunarLunchPanel );
 		this.selectorPanel.addPanel( lunarLunchPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		boutiquePanel = new BoutiquePanel();
+		panel.add( boutiquePanel );
+		this.selectorPanel.addPanel( boutiquePanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -832,6 +839,15 @@ public class CoinmastersFrame
 		public WarbearBoxPanel()
 		{
 			super( WarbearBoxRequest.WARBEARBOX );
+		}
+	}
+
+	private class BoutiquePanel
+		extends CoinmasterPanel
+	{
+		public BoutiquePanel()
+		{
+			super( BoutiqueRequest.BOUTIQUE );
 		}
 	}
 
