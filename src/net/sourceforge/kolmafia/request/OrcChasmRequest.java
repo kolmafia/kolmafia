@@ -100,6 +100,10 @@ public class OrcChasmRequest
 		{
 			ResultProcessor.processItem( ItemPool.SNOW_BOARDS, -1 * InventoryManager.getCount( ItemPool.SNOW_BOARDS ) );
 		}
+		else if ( responseText.contains( "oil painting" ) )
+		{
+			ResultProcessor.processItem( ItemPool.FANCY_OIL_PAINTING, -1 * InventoryManager.getCount( ItemPool.FANCY_OIL_PAINTING ) );
+		}
 	}
 
 	private static final void ensureUpdatedChasm()

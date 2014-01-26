@@ -1965,6 +1965,7 @@ public class ItemPool
 	public static final int SNOW_FORT = 7089;
 	public static final int LUPINE_APPETITE_HORMONES = 7133;
 	public static final int ODD_SILVER_COIN = 7144;
+	public static final int FANCY_OIL_PAINTING = 7148;
 	public static final int DOWSING_ROD = 7150;
 
 	public static final AdventureResult get( String itemName, int count )
