@@ -2385,3 +2385,8 @@ snow machine	WINTER, ROW234	snow berries (30)	ice harvest (30)
 lemon drop trousers	MUSE	lemony scales (6)
 lemon party hat	MUSE	lemony scales (4)
 lemon shirt	MUSE	lemony scales (5)
+candy carrot cake	COOK_FANCY	candy carrot	wad of dough
+carrot-on-a-stick	COMBINE	candy carrot	candy stick
+snakebite	MIX	cream stout	anise-flavored venom
+pecan pie	COOK	candied pecan	pie crust
+chocotini	MIX_FANCY	vodka martini	candy mountain oyster

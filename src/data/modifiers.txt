@@ -3775,6 +3775,7 @@ Eau D'enmity	Monster Level: +5
 # Eau de Tortue: You smell like turtle pheromones
 Educated (Kinda)	Spooky Resistance: +5
 Educated (Sorta)	Sleaze Resistance: +5
+Egg Burps	Stench Spell Damage: +50, Spell Damage Percent: +100
 Egg on your Face	Stench Damage: +10
 Egg-cellent Vocabulary	Moxie Percent: +10
 Egg-headedness	Mysticality Percent: +10

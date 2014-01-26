@@ -388,7 +388,7 @@ sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage!
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-snakebite	1	4	crappy	0	0	0	0
+snakebite	1	4	crappy	0	0	0	0	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)

@@ -315,6 +315,7 @@ Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gr
 Near an Abandoned Refrigerator	100	A.M.C. gremlin	batwinged gremlin	spider gremlin: 2
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin: 2	spider gremlin
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin: 2
+Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	scavenger bugbear
 Whitey's Grove	75	Knight in White Satin	white chocolate golem	white lion	whitesnake
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan

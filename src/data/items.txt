@@ -7125,10 +7125,10 @@
 7108	candied pecan	546984617	pecan.gif	food	t,d	4
 7109	pecan pie	169369859	pecanpie.gif	food	t,d	16
 7110	chocolate-stained collar	861056216	chococollar.gif	familiar	t,d	75
-7111	candy mountain oyster	673390532	chococherry.gif	food	t,d	8
+7111	candy mountain oyster	673390532	chococherry.gif	food, fancy	t,d	8
 7112	chocotini	828828825	martini.gif	drink	t,d	45
 7113	chocolate rabbit's foot	939609317	chocofoot.gif	accessory	t,d	42
-7114	candy carrot	757744387	chococarrot.gif	food	t,d	3
+7114	candy carrot	757744387	chococarrot.gif	food, fancy	t,d	3
 7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33
 7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60
 7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37

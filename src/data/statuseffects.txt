@@ -1513,12 +1513,11 @@
 1512	Sweet Taste	breath.gif	4e9ed01de7cd42e5b61e52d32fc9a95b	use 1 small gummi fin
 1513	Gummi Badass	gummifang.gif	518fdacd5c59a3c3f65159be2f377c25	use 1 gummi fang
 1514	High Blood Chocolate Content	martini.gif	d05608302ed1e950fc9f1cb4d66bbf5c	drink 1 chocotini
-1515
 1515	Hare-Brained	hare.gif	fc1d8018dbb987f7fe731f3dc92402ad
 1516	Polonoia	trophy.gif	8051a251514e0a2d56b4f5b1081c83b7	use 1 polo trophy
 1517	You're Not Cooking	5alarm.gif	1e0ce86b4ead7ec72e8cad58f3056d96	eat 1 fireman's lunch
 1518	Cold Throat	jarl_icsandwich.gif	2db4d24aca055d5d39b1efe2c9310dc6	eat 1 ice cream sandwich
-1519
+1519	Egg Burps	egg.gif	e58bde7795aac6b425d4300a97a0c0df	eat 1 plumber's lunch
 1520	Night of the Nachos	jarl_nachos.gif	52ff8259bd96098b2b37bcb18335a840	eat 1 nachos of the night
 1521	Greasy Visage	manwich.gif	3f41c1fbe67aec22203d8cb445fe48e0	eat 1 can of Adultwitch&trade;
 1522	Wreathed in Smoke	puff.gif	986517ae0aa8e3092d670add5e399db6	use 1 smudge stick
