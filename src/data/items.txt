@@ -5736,7 +5736,7 @@
 5719	smoking grass	434336289	smokinggrass.gif	none, combat	t,d	23	blades of smoking grass
 5720	fiery wing	846565515	fierywing.gif	food	t	0
 5721	wings of fire	446914873	wingsoffire.gif	container	t	0	wingses of fire
-5722	fire hose	902073594	firehose.gif	weapon	t	0
+5722	FDKOL fire hose	902073594	firehose.gif	weapon	t	0
 5723	bottle of fire	819615103	firebottle.gif	multiple	t	0
 5724	molten brick	750075762	burnbrick.gif	none	t	0
 5725	hot daub	962493147	claybrick.gif	multiple	t	0	hot daubs
@@ -7135,7 +7135,7 @@
 7118	mulberry	367312771	mulberry.gif	food	t,d	12
 7119
 7120	lemony scales	780957222	lemonscales.gif	multiple	t,d	5
-7121
+7121	lemon party hat	309550870	lemonhat.gif	hat	q	0
 7122	lemon shirt	376721584	lemonshirt.gif	shirt	q	0
 7123	lemon drop trousers	815471195	lemonpants.gif	pants	q	0
 7124	lemonhead caviar	851844462	caviar.gif	usable	t,d	95
@@ -7168,12 +7168,12 @@
 7151	straw	334274463	straw.gif	none	q	0
 7152	leather	508238232	leather.gif	none	q	0
 7153	clay	226651015	clay.gif	none	q	0
-7154
+7154	filling	436315873	filling.gif	none	q	0
 7155	parchment	694164451	parchment.gif	none	q	0
 7156	glass	369061893	glass.gif	none	q	0
-7157
+7157	fire hose	472406679	hose.gif	pants	t,d	44
 7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18
-7159
+7159	plain paper hat	281098787	paperhat.gif	hat	t,d	24
 7160	ice cream sandwich	808729527	jarl_icsandwich.gif	food	t,d	17
 7161	&quot;honey&quot; dipper	597864286	honeydipper.gif	weapon	t,d	26
 7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3
@@ -7186,7 +7186,7 @@
 7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9
 7170	scroll case	857398089	scrollcase.gif	usable	t,d	21
 7171	jug of "wine"	781777602	jug.gif	usable	t,d	18
-7172
+7172	juggling ball	854077113	stressball.gif	t,d	22
 7173	crappy camera	693235331	camera.gif	none, combat	t,d	25
-7174
+7174	humble pie	123782132	pie.gif	food	t,d	26
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23

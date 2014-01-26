@@ -2899,6 +2899,15 @@ public abstract class ChoiceManager
 			"Crimbo13", "choiceAdventure813", "Warbear Fortress (First Level)",
 			new Object[] { "Open K.R.A.M.P.U.S. facility" } ),
 		
+		// Choice 822 is The Prince's Ball (In the Restroom)
+		// Choice 823 is The Prince's Ball (On the Dance Floor)
+		// Choice 824 is The Prince's Ball (In the Kitchen)
+		// Choice 825 is The Prince's Ball (On the Balcony)
+		// Choice 826 is The Prince's Ball (In the Lounge)
+		// Choice 827 is The Prince's Ball (At the Canap&eacute;s Table)
+
+		// Choice 829 is We All Wear Masks
+
 		// Choice 830 is Cooldown
 		new ChoiceAdventure(
 			"Skid Row", "choiceAdventure830", "Cooldown",
@@ -2921,7 +2930,50 @@ public abstract class ChoiceManager
 			new Object[] { "Improved Howling!",
 				       "+Wolf Lung Capacity" } ),
 
-	   // Choice 836 is Adventures Who Live in Ice Houses...
+		// Choice 836 is Adventures Who Live in Ice Houses...
+		
+		// Choice 837 is On Purple Pond
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure837", "On Purple Pond",
+			new Object[] { "find out the two children not invading",
+				       "+1 Moat",
+				       "gain Candy" } ),
+		// Choice 838 is General Mill
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure838", "General Mill",
+			new Object[] { "+1 Moat",
+				       "gain Candy" } ),
+		// Choice 839 is On The Sounds of the Undergrounds
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure839", "The Sounds of the Undergrounds",
+			new Object[] { "learn what the first two waves will be",
+				       "+1 Minefield Strength",
+				       "gain Candy" } ),
+		// Choice 840 is Hop on Rock Pops
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure840", "Hop on Rock Pops",
+			new Object[] { "+1 Minefield Strength",
+				       "gain Candy" } ),
+		// Choice 841 is Building, Structure, Edifice
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure841", "Building, Structure, Edifice",
+			new Object[] { "sometimes unlock candy in General Mill",
+				       "+2 Random Defense",
+				       "gain Candy" } ),
+		// Choice 842 is The Gingerbread Warehouse
+		new ChoiceAdventure(
+			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure842", "The Gingerbread Warehouse",
+			new Object[] { "+1 Wall Strength",
+				       "+1 Poison Jar",
+				       "+1 Anti-Aircraft Turret",
+				       "gain Candy" } ),
+
+		// Choice 844 is The Portal to Horrible Parents
+		// Choice 845 is Rumpelstiltskin's Workshop
+		// Choice 846 is Bartering for the Future of Innocent Children
+		// Choice 847 is Pick Your Poison
+		// Choice 848 is Where the Magic Happens
+		// Choice 850 is World of Bartercraft
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7804,6 +7856,10 @@ public abstract class ChoiceManager
 
 	private static int findBooPeakLevel( String decisionText )
 	{
+		if ( decisionText == null )
+		{
+			return 0;
+		}
 		if ( decisionText.equals( "Ask the Question" ) || decisionText.equals( "Talk to the Ghosts" ) ||
 			decisionText.equals( "I Wanna Know What Love Is" ) || decisionText.equals( "Tap Him on the Back" ) ||
 			decisionText.equals( "Avert Your Eyes" ) || decisionText.equals( "Approach a Raider" ) ||
