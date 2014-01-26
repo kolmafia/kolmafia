@@ -323,6 +323,7 @@ hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30
 hot hi mein	5	7	awesome	23-26	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
+humble pie	4	4	good	0	0	0	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 ice cream sandwich	2	4	decent	0	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)

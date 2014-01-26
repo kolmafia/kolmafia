@@ -185,6 +185,7 @@ jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
 leather aviator's cap	50	Mox: 10
 leather mask	60	Mox: 15
+lemon party hat	50	Mox: 10
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 longhaired hippy wig	200	Mox: 85
@@ -223,6 +224,7 @@ pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
+plain paper hat	150	Mox: 60
 plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
 pottery hat	45	none
@@ -405,6 +407,7 @@ electronic dulcimer pants	10	none
 extremely skinny jeans	200	Mox: 200
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
+fire hose	150	Mox: 60
 floaty rock pants	100	Mox: 35
 floral-print skirt	150	Mox: 50
 flowing hippy skirt	180	Mox: 75
@@ -942,7 +945,7 @@ fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
-fire hose	200	Mox: 85	2-handed hose
+FDKOL fire hose	200	Mox: 85	2-handed hose
 fire poi	190	Mox: 80	2-handed flail
 fish bazooka	200	Mox: 85	2-handed bazooka
 fish scimitar	200	Mus: 85	1-handed sword

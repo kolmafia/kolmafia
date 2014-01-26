@@ -259,6 +259,7 @@ knobby helmet turtle	Weapon Damage: +1, Familiar Effect: "atk, 2xFairy, cap 5"
 # leather aviator's cap: Kill 5% More Skeletons
 leather aviator's cap	Adventures: +5, Damage Reduction: 1, Familiar Effect: "atk, cap 12"
 leather mask	Muscle: +3, Moxie: -3, Familiar Effect: "sleaze atk, 1xBarrr, cap 15"
+lemon party hat	Candy Drop: +50, Lasts until Rollover
 lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
@@ -302,6 +303,7 @@ pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk
 pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
+plain paper hat	Cold Damage: +20, Cold Spell Damage: +25, Spell Damage Percent: +30
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 pointy red hat	Damage Reduction: 5, Familiar Effect: "1xVolley, 1xLep, cap 27"
 pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk, cap 11"
@@ -506,6 +508,7 @@ electronic dulcimer pants	Adventures: +2, Initiative: +25, Familiar Effect: "8xP
 extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xFairy"
 fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
 filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
+fire hose	Hot Damage: +20, Hot Spell Damage: +25, Spell Damage Percent: +30
 floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
 floral-print skirt	Stench Damage: +20, Monster Level: +5, Familiar Effect: "stench atk, 2xPotato, cap 15"
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
@@ -1103,7 +1106,7 @@ fear condenser	Spooky Damage: +10
 filthy pestle	Spell Damage: +7
 finger cymbals	Maximum MP: +20
 fire axe	Cold Damage: +200
-fire hose	Cold Damage: +200
+FDKOL fire hose	Cold Damage: +200
 fire poi	Hot Damage: +15, Moxie: +3
 fish bazooka	Moxie Percent: +5, Meat Drop: +10
 fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10

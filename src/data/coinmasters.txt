@@ -531,7 +531,7 @@ FDKOL Tent	buy	3	bottle of fire	ROW12
 FDKOL Tent	buy	100	FDKOL tattoo	ROW3
 FDKOL Tent	buy	500	fireman's helmet	ROW4
 FDKOL Tent	buy	1500	fire axe	ROW7
-FDKOL Tent	buy	1500	fire hose	ROW11
+FDKOL Tent	buy	1500	FDKOL fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 

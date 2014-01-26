@@ -355,6 +355,8 @@ The Candy Witch and the Relentless Child Thieves	adventure=370	false	outdoor	Swe
 The Candy Witch and the Relentless Child Thieves	adventure=371	false	outdoor	Eager Rice Burrows
 The Candy Witch and the Relentless Child Thieves	adventure=372	false	outdoor	Gumdrop Forest
 
+Woods	adventure=373	false	outdoor	A Deserted Stretch of I-911
+
 The Prince's Ball	adventure=374	false	none	The Prince's Restroom
 The Prince's Ball	adventure=375	false	none	The Prince's Dance Floor
 The Prince's Ball	adventure=376	false	none	The Prince's Kitchen
