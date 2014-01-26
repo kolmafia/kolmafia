@@ -2927,8 +2927,8 @@ public abstract class ChoiceManager
 		// Choice 834 is Back Room Dealings
 		new ChoiceAdventure(
 			"Skid Row", "choiceAdventure834", "Back Room Dealings",
-			new Object[] { "Improved Howling!",
-				       "+Wolf Lung Capacity" } ),
+			new Object[] { new Option( "Improved Howling!", 2 ),
+				       new Option( "+Wolf Lung Capacity", 3 ) } ),
 
 		// Choice 836 is Adventures Who Live in Ice Houses...
 		

@@ -1555,12 +1555,27 @@ lemonhead minnow	lemonfish.gif	Init: -10000 P: fish	lemonhead caviar (0)	lemony 
 school of gummi piranhas	gummifish.gif	Init: -10000 P: fish	gummi fang (0)	chocolate cow bone (0)
 chocolate hare	chocohare.gif	Init: -10000 P: beast	chocolate rabbit's foot (0)	candy carrot (0)
 chocolate-cherry prairie dog	ccprairie.gif	Init: -10000 P: beast	candy mountain oyster (0)	chocolate-stained collar (0)
-Rock Pop weasel	popweasel.gif	Init: -10000 P: beast	mulberry (0)
-candied pecan tree	pecantree.gif	Init: -10000 P: plant	candied pecan (0)
-licorice snake	licosnake.gif	Init: -10000 P: beast	anise-flavored venom (0)
-tricksy pixie	tricksiepixie.gif	Init: -10000 P: humanoid	sour powder (0)
+Rock Pop weasel	popweasel.gif	Init: -10000 P: beast	mulberry (0)	weasel stomping pants (0)
+candied pecan tree	pecantree.gif	Init: -10000 P: plant	candied pecan (0)	candy stick (0)
+licorice snake	licosnake.gif	Init: -10000 P: beast	anise-flavored venom (0)	licorice whip (0)
+tricksy pixie	tricksiepixie.gif	Init: -10000 P: humanoid	sour powder (0)	pixie axie (0)
 fire truck	firetruck.gif	Init: -10000 P: construct	fireman's lunch (0)	fire hose (0)
 ice cream truck	icecreamtruck.gif	Init: -10000 P: construct	ice cream sandwich (0)	plain paper hat (0)
 monster hearse	monsterhearse.gif	Init: -10000 P: construct	nachos of the night (0)	skull gearshift knob (0)
 sewer tanker	sewertruck.gif	Init: -10000 P: construct	plumber's lunch (0)	&quot;honey&quot; dipper (0)
 sketchy van	sketchyvan.gif	Init: -10000 P: construct	can of Adultwitch&trade; (0)	Sketcherz&trade; (0)
+befouled straw house	straw_stench.gif	Init: -10000 P: construct E: stench
+brick (suggestive pause) house	brick_sleaze.gif	Init: -10000 P: construct E: sleaze
+brick icehouse	brick_cold.gif	Init: -10000 P: construct E: cold
+brick kiln	brick_hot.gif	Init: -10000 P: construct E: hot
+brick mausoleum	brick_spooky.gif	Init: -10000 P: construct E: spooky
+brick outhouse	brick_stench.gif	Init: -10000 P: construct E: stench
+cold ironwood house	wood_cold.gif	Init: -10000 P: construct E: cold
+Dutch Angle straw house	straw_spooky.gif	Init: -10000 P: construct E: spooky
+frosty straw house	straw_cold.gif	Init: -10000 P: construct E: cold
+glowing ash house	wood_hot.gif	Init: -10000 P: construct E: hot
+oily straw house	straw_sleaze.gif	Init: -10000 P: construct E: sleaze
+pitch pine house	wood_stench.gif	Init: -10000 P: construct E: stench
+quaking aspen house	wood_sleaze.gif	Init: -10000 P: construct E: sleaze
+slippery elm house	wood_spooky.gif	Init: -10000 P: construct E: spooky
+steaming straw house	straw_hot.gif	Init: -10000 P: construct E: hot

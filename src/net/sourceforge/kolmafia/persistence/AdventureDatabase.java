@@ -711,6 +711,14 @@ public class AdventureDatabase
 				return "Trick-or-Treating";
 			}
 		}
+		else if ( urlString.startsWith( "place.php" ) )
+		{
+			if ( urlString.contains( "whichplace=ioty2014_wolf" ) && 
+				urlString.contains( "action=wolf_houserun" ) )
+			{
+				return "Unleash Your Inner Wolf";
+			}
+		}
 
 		return null;
 	}

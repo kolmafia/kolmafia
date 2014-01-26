@@ -350,6 +350,7 @@ Psychoses	adventure=317	false	indoor	The Tower of Procedurally-Generated Skeleto
 Psychoses	adventure=318	false	outdoor	The Old Man's Bathtime Adventures
 
 Skid Row	adventure=369	false	indoor	Inner Wolf Gym
+Skid Row	place=ioty2014_wolf	false	none	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	false	outdoor	Sweet-Ade Lake
 The Candy Witch and the Relentless Child Thieves	adventure=371	false	outdoor	Eager Rice Burrows
