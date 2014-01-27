@@ -111,14 +111,12 @@ import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
-import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
@@ -1223,48 +1221,10 @@ public abstract class KoLmafia
 
 			// Check if bounties completed, and hand in if so
 			boolean completeBounty = false;
-			String currentBounty = Preferences.getString( "currentEasyBountyItem" );
-			int bountySeperator = currentBounty.indexOf( ":" );
-			if ( bountySeperator != -1 )
-			{
-				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != null && !bountyName.equals( "" ) )
-				{
-					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
-					{
-						completeBounty = true;
-					}
-				}
-			}
-			currentBounty = Preferences.getString( "currentHardBountyItem" );
-			bountySeperator = currentBounty.indexOf( ":" );
-			if ( bountySeperator != -1 )
-			{
-				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != null && !bountyName.equals( "" ) )
-				{
-					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
-					{
-						completeBounty = true;
-					}
-				}
-			}
-			currentBounty = Preferences.getString( "currentSpecialBountyItem" );
-			bountySeperator = currentBounty.indexOf( ":" );
-			if ( bountySeperator != -1 )
-			{
-				String bountyName = currentBounty.substring( 0, bountySeperator );
-				if( bountyName != null && !bountyName.equals( "" ) )
-				{
-					int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeperator + 1 ) );
-					if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
-					{
-						completeBounty = true;
-					}
-				}
-			}
+			completeBounty |= BountyDatabase.checkBounty( "currentEasyBountyItem" );
+			completeBounty |= BountyDatabase.checkBounty( "currentHardBountyItem" );
+			completeBounty |= BountyDatabase.checkBounty( "currentSpecialBountyItem" );
+
 			if ( completeBounty )
 			{
 				RequestThread.postRequest( new BountyHunterHunterRequest() );
@@ -1651,7 +1611,7 @@ public abstract class KoLmafia
 			itemId = ItemPool.DISASSEMBLED_CLOVER;
 		}
 
-		AdventureResult itemToBuy = ItemPool.get( itemId, 0 );
+		//AdventureResult itemToBuy = ItemPool.get( itemId, 0 );
 		int initialCount = currentRequest.getCurrentCount();
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
