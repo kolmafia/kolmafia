@@ -305,7 +305,7 @@ public class AdventureDatabase
 				{
 					combat.addMonster( data[ i ] );
 					// Does it drop a bounty, if so add it to the bounty lookup by area
-					String bountyName = BountyDatabase.getNameByMonster( data[ i ].toLowerCase() );
+					String bountyName = BountyDatabase.getNameByMonster( data[ i ] );
 					if ( bountyName != null )
 					{
 						int bountyNumber = BountyDatabase.getNumber( bountyName );
