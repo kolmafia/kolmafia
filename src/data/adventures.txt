@@ -366,4 +366,5 @@ The Prince's Ball	adventure=378	false	none	The Prince's Lounge
 The Prince's Ball	adventure=379	false	none	The Prince's Canapes Table
 
 Rumpelstiltskin's Home For Children	adventure=380	false	outdoor	Ye Olde Medievale Villagee
+Rumpelstiltskin's Home For Children	adventure=381	false	outdoor	Portal to Terrible Parents
 Rumpelstiltskin's Home For Children	adventure=382	false	none	Rumpelstiltskin's Workshop

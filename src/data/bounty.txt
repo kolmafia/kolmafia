@@ -16,8 +16,9 @@ triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone	The Oasis
 beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle in the Clouds in the Sky (Basement)
-length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
+discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
 distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar (automatic)
+length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
 rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub	The Haunted Bathroom
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant	The Hidden Office Building
 spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder	The eXtreme Slope
@@ -29,5 +30,6 @@ glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Mus
 greasy string	lengths of greasy string	special	string.gif	8	salaminder	The Nightmare Meatrealm
 pile of country guano	piles of country guano	special	guano.gif	8	country bat	An Incredibly Strange Place (Bad Trip)
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
+pop art banana peel	pop art banana peels	special	bananapeel.gif	8	velvet underground dweller	Mt. Molehill
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue	Chinatown Shops
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig	The Red Queen's Garden

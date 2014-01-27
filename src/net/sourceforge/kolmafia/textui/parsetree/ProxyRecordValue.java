@@ -495,6 +495,7 @@ public class ProxyRecordValue
 		public static RecordType _type = new RecordBuilder()
 			.add( "plural", DataTypes.STRING_TYPE )
 			.add( "type", DataTypes.STRING_TYPE )
+			.add( "kol_internal_type", DataTypes.STRING_TYPE )
 			.add( "number", DataTypes.INT_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "monster", DataTypes.MONSTER_TYPE )
@@ -516,6 +517,16 @@ public class ProxyRecordValue
 		{
 			String type = BountyDatabase.getType( this.contentString );
 			return type == null ? "" : type;
+		}
+
+		public String get_kol_internal_type()
+		{
+			String type = BountyDatabase.getType( this.contentString );
+			return type == null ? "" :
+				type.equals( "easy" ) ? "low" :
+				type.equals( "hard" ) ? "high" :
+				type.equals( "special" ) ? "special" :
+				null;
 		}
 
 		public int get_number()
