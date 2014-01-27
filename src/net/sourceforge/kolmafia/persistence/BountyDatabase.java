@@ -34,27 +34,14 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RestoreExpression;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -227,5 +214,29 @@ public class BountyDatabase
 		}
 
 		return BountyDatabase.locationByName.get( name );
+	}
+
+	public static final boolean checkBounty( String pref )
+	{
+		String currentBounty = Preferences.getString( pref );
+		int bountySeparator = currentBounty.indexOf( ":" );
+		if ( bountySeparator != -1 )
+		{
+			String bountyName = currentBounty.substring( 0, bountySeparator );
+			if ( "null".equals( bountyName ) )
+			{
+				Preferences.setString( pref, "" );
+				return false;
+			}
+			if ( bountyName != null && !bountyName.equals( "" ) )
+			{
+				int currentBountyCount = StringUtilities.parseInt( currentBounty.substring( bountySeparator + 1 ) );
+				if ( currentBountyCount == BountyDatabase.getNumber( bountyName ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
