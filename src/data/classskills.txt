@@ -338,7 +338,7 @@
 5006	Mad Looting Skillz	chest.gif	0	0	0	8
 5007	Disco Nap	sleepy.gif	2	8	0	3
 5008	Disco Dance II: Electric Boogaloo	dance2.gif	5	4	0	4
-5009	Disco Fever	discomask.gif	3	10	0	13
+5009	Disco Fever	discomask.gif	3	10	10	13
 5010	Overdeveloped Sense of Self Preservation	numberone.gif	0	0	0	2
 5011	Adventurer of Leisure	powernap.gif	0	0	0	11
 5012	Disco Face Stab	facestab.gif	5	8	0	6
