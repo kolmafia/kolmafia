@@ -100,7 +100,7 @@ cement mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied
 chakra libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
-chocotini	3	5	good	0	0	0	0
+chocotini	3	5	good	7-8	0	0	10-20	30 High Blood Chocolate Content (+30% candy drop)
 chunky mary	4	1	good	11-13	0	0	30-40
 cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
@@ -283,7 +283,7 @@ mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
-mid-level medieval mead	1	7	awesome	0	0	0	0
+mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP
 mimosette	3	3	good	5-10	16-20	0	0
 mint yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50
@@ -298,6 +298,7 @@ more humanitini than humanitini	2	4	awesome	6-7	10-15	10-15	10-15	Restores HP
 morlock's mark bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morto moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
 mt. noob pale ale	2	1	good	3-6	0	0	0
+mulled berry wine	5	7	awesome	0	0	0	0	30 Sweet Nostalgia (+20 Candy Drop)
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
@@ -388,7 +389,7 @@ sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage!
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-snakebite	1	4	crappy	0	0	0	0	30 Sweet Tooth (+40% Candy Drops)
+snakebite	1	4	crappy	1	-1.5	-1.5	-1.5	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
