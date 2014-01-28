@@ -389,7 +389,7 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenEasyBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized easy bounty accepted" );
+				RequestLogger.printLine( "unrecognized or no easy bounty accepted" );
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );
@@ -406,7 +406,7 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenHardBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized hard bounty accepted" );
+				RequestLogger.printLine( "unrecognized or no hard bounty accepted" );
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );
@@ -423,7 +423,7 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenSpecialBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized special bounty accepted" );
+				RequestLogger.printLine( "unrecognized or no special bounty accepted" );
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );
