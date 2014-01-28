@@ -664,7 +664,7 @@ public class KoLmafiaCLI
 		new BangPotionsCommand().register( "!" ).register( "bang" ).register( "vials" );
 		new BanishesCommand().register( "banishes" );
 		new BasementCommand().register( "basement" );
-		new BreakfastCommand().register( "breakfast" );
+		new BountyCommand().register( "bounty" );
 		new BudgetCommand().register( "budget" );
 		new BuffbotCommand().register( "buffbot" );
 		new BugbearsCommand().register( "bugbears" );
