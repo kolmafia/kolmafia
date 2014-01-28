@@ -118,6 +118,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -178,6 +179,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
@@ -616,6 +618,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "faxbot", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Major functions which provide item-related
 		// information.
@@ -3265,6 +3270,25 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( new AdventureResult( (int) item.intValue(), count ) ) );
+	}
+
+	public static Value faxbot( Interpreter interpreter, final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		FaxBotDatabase.configure();
+		String botName = FaxBotDatabase.botName( 0 );
+		String monsterName = FaxBotDatabase.getFaxbotMonsterName( monster.getName() );
+		String command = FaxBotDatabase.getFaxbotCommand( monster.getName() );
+		if ( botName == null || monsterName == null || command == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+		return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command ) );
 	}
 
 	// Major functions which provide item-related

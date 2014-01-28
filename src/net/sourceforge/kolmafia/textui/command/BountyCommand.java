@@ -52,7 +52,7 @@ public class BountyCommand
 {
 	public BountyCommand()
 	{
-		this.usage = " (easy!hard!special) - List or optionally accept bounties";
+		this.usage = " (easy|hard|special) - List or optionally accept bounties";
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class BountyCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "bounty (easy!hard!special) - List or optionally accept bounties" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "bounty (easy|hard|special) - List or optionally accept bounties" );
 			return;
 		}
 

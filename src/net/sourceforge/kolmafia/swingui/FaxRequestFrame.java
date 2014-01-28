@@ -172,20 +172,20 @@ public class FaxRequestFrame
 
 	}
 
-	public static void requestFax( final String botName, final String monster, final String command )
+	public static boolean requestFax( final String botName, final String monster, final String command )
 	{
 		// Validate ability to receive a fax
 		if ( !FaxRequestFrame.canReceiveFax() )
 		{
 			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-			return;
+			return false;
 		}
 
 		// Make sure FaxBot is online
 		if ( !FaxRequestFrame.isBotOnline( botName ) )
 		{
 			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-			return;
+			return false;
 		}
 
 		// Make sure we can receive chat messages, either via KoLmafia chat or in the Relay Browser.
@@ -193,7 +193,7 @@ public class FaxRequestFrame
 		{
 			FaxRequestFrame.statusMessage = "You must be in chat so we can receive messages from " + botName;
 			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-			return;
+			return false;
 		}
 
 		// Do you already have a photocopied monster?
@@ -210,7 +210,7 @@ public class FaxRequestFrame
 			{
 				FaxRequestFrame.statusMessage = "You need to dispose of your photocopied " + current + " before you can receive a fax.";
 				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				return;
+				return false;
 			}
 
 			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.SEND_FAX );
@@ -261,7 +261,7 @@ public class FaxRequestFrame
 			{
 				FaxRequestFrame.statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
 				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				return;
+				return false;
 			}
 
 			// FaxBot just delivered a fax to your clan, please try again in 1 minute.
@@ -279,7 +279,7 @@ public class FaxRequestFrame
 			if ( !FaxRequestFrame.faxAvailable( botName, response ) )
 			{
 				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				return;
+				return false;
 			}
 
 			// Success! No need to retry
@@ -290,6 +290,7 @@ public class FaxRequestFrame
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX );
 		RequestThread.postRequest( request );
 		KoLmafia.enableDisplay();
+		return true;
 	}
 
 	private static boolean canReceiveFax()

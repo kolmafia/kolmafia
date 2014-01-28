@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -72,8 +74,10 @@ public class FaxBotDatabase
 
 	public static final LockableListModel faxbots = new LockableListModel();
 	public static final SortedListModel monsters = new SortedListModel();
-        public static final LockableListModel categories = new LockableListModel();
-        public static LockableListModel [] monstersByCategory;
+	public static final LockableListModel categories = new LockableListModel();
+	public static LockableListModel [] monstersByCategory;
+	private static final Map<String, String> monsterByActualName = new HashMap<String, String>();
+	private static final Map<String, String> commandByActualName = new HashMap<String, String>();
 
 	public static final void configure()
 	{
@@ -109,11 +113,14 @@ public class FaxBotDatabase
 			{
 				temp.add( monster.category );
 			}
+			
 		}
 
 		categories.add( "All Monsters" );
 		categories.addAll( temp );
 
+		FaxBotDatabase.monsterByActualName.clear();
+		
 		// Make one list for each category
 		monstersByCategory = new SortedListModel[ categories.size() ];
 		for ( int i = 0; i < categories.size(); ++i )
@@ -128,11 +135,24 @@ public class FaxBotDatabase
 				{
 					model.add( monster );
 				}
+				// Build actual name / command lookup
+				FaxBotDatabase.monsterByActualName.put( monster.actualName, monster.name );
+				FaxBotDatabase.commandByActualName.put( monster.actualName, monster.command );
 			}
 		}
 
 		KoLmafia.updateDisplay( "Fax list fetched." );
 		FaxBotDatabase.isInitialized = true;
+	}
+
+	public static final String getFaxbotMonsterName( String actualName )
+	{
+		return FaxBotDatabase.monsterByActualName.get( actualName );
+	}
+
+	public static final String getFaxbotCommand( String actualName )
+	{
+		return FaxBotDatabase.commandByActualName.get( actualName );
 	}
 
 	private static final boolean configureFaxBot( final String URL )
@@ -223,15 +243,17 @@ public class FaxBotDatabase
 		implements Comparable<Monster>
 	{
 		private final String name;
+		private final String actualName;
 		private final String command;
 		private final String category;
 
 		private final String stringForm;
 		private final String lowerCaseStringForm;
 
-		public Monster( final String name, final String command, final String category )
+		public Monster( final String name, final String actualName, final String command, final String category )
 		{
 			this.name = name;
+			this.actualName = actualName;
 			this.command = command;
 			this.category = category;
 			this.stringForm = name + " [" + command + "]";
@@ -241,6 +263,11 @@ public class FaxBotDatabase
 		public String getName()
 		{
 			return this.name;
+		}
+
+		public String getActualName()
+		{
+			return this.actualName;
 		}
 
 		public String getCommand()
@@ -387,9 +414,10 @@ public class FaxBotDatabase
                 private Monster getMonster( Element el )
 		{
                         String monster = getTextValue( el, "name" );
+                        String actualMonster = getTextValue( el, "actual_name" );
                         String command = getTextValue( el, "command" );
                         String category = getTextValue( el, "category" );
-                        return new Monster( monster, command, category );
+                        return new Monster( monster, actualMonster, command, category );
                 }
 
                 private String getTextValue( Element ele, String tagName )
