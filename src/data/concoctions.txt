@@ -2390,3 +2390,4 @@ carrot-on-a-stick	COMBINE	candy carrot	candy stick
 snakebite	MIX	cream stout	anise-flavored venom
 pecan pie	COOK	candied pecan	pie crust
 chocotini	MIX_FANCY	vodka martini	candy mountain oyster
+mulled berry wine	MIX	mulberry	boxed wine

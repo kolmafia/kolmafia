@@ -120,6 +120,7 @@ The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
 The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
 Twin Peak	SEMIRARE	Synecdoche, Twin Peak
 Whitey's Grove	SEMIRARE	Monty of County Crisco
+Ye Olde Medievale Villagee	SEMIRARE	Clay Is Great, But Leather Is Bether
 
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox

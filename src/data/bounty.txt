@@ -24,6 +24,7 @@ spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch account
 spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder	The eXtreme Slope
 warrrrrt	warrrrrts	hard	peyote.gif	6	warty pirate	The Poop Deck
 worthless piece of yellow glass	worthless pieces of yellow glass	hard	asterisk.gif	6	large kobold	The Dungeons of Doom
+sticky stardust	handfuls of sticky stardust	hard	disease.gif	6	Astronomer	The Hole in the Sky
 
 # Special
 glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse	The Stately Pleasure Dome
