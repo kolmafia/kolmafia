@@ -4631,10 +4631,11 @@ Superhuman Sarcasm	Moxie Percent: +100
 # SuperStar: You earned a gold star
 Surreally Buff	Muscle Percent: +20
 Suspicious Gaze	Initiative: +20
-Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
 Sweet and Yellow	Ranged Damage: +30, Initiative: +10
+Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
+Sweet Nostalgia	Candy Drop: +20
 Sweet Taste	Candy Drop: +10
 Sweet Tooth	Candy Drop: +40
 Sweet, Nuts	Mysticality: +5
@@ -5740,6 +5741,7 @@ milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 miniscule temporal rip	Free Pull
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
+mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30
 myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 mysterious chest	Free Pull
 nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20

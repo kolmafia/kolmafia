@@ -1508,7 +1508,7 @@
 1507	Sweet Tooth	juice.gif	13ee76889ad55d0355d1ed05d320ee81	drink 1 snakebite
 1508	Pecan Pied Piper	pecanpie.gif	edf7471c51c3a52079f19fd2df750c38	eat 1 pecan pie
 1509	Improved Candy Vision	chococarrot.gif	99e4260655dff20a4fc9942f775644cc	eat 1 candy carrot
-1510
+1510	Sweet Nostalgia	calendar.gif	ad2380f472379aff4801da2dd9d1d30f	drink 1 mulled berry wine
 1511	Sourpuss	blackcat.gif	8df9ad83a9170f099dc5172edd0353ab	use 1 lemonhead caviar
 1512	Sweet Taste	breath.gif	4e9ed01de7cd42e5b61e52d32fc9a95b	use 1 small gummi fin
 1513	Gummi Badass	gummifang.gif	518fdacd5c59a3c3f65159be2f377c25	use 1 gummi fang

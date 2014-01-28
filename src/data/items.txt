@@ -7132,8 +7132,8 @@
 7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33
 7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60
 7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37
-7118	mulberry	367312771	mulberry.gif	food	t,d	12
-7119
+7118	mulberry	367312771	mulberry.gif	food	t,d	12	traveling mulberries
+7119	mulled berry wine	922856680	coffeecup.gif	drink	t,d	57
 7120	lemony scales	780957222	lemonscales.gif	multiple	t,d	5
 7121	lemon party hat	309550870	lemonhat.gif	hat	q	0
 7122	lemon shirt	376721584	lemonshirt.gif	shirt	q	0

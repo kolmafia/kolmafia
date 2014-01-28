@@ -417,6 +417,7 @@ mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	0	0	0	0
+mulled berry wine	5	7	awesome	0	0	0	0	30 Sweet Nostalgia (+20 Candy Drop)
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
 mushroom pizza	3	2	good	3-10	0	15-18	0
 nachos of the night	2	1	decent	0	0	0	0	20 Night of the Nachos (+50 Spooky Spell Damage, +100% Spell Damage)

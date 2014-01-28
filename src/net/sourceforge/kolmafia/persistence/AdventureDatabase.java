@@ -303,14 +303,19 @@ public class AdventureDatabase
 				AreaCombatData combat = new AreaCombatData( data[0], combats );
 				for ( int i = 2; i < data.length; ++i )
 				{
-					combat.addMonster( data[ i ] );
+					String monsterName = data[ i ];
+					combat.addMonster( monsterName );
 					// Does it drop a bounty, if so add it to the bounty lookup by area
-					String bountyName = BountyDatabase.getNameByMonster( data[ i ] );
+					// Trim any trailing ":" and following text
+					int colonIndex = data[ i ].indexOf( ":" );
+					if ( colonIndex > 0 )
+					{
+						monsterName = monsterName.substring( 0, colonIndex );
+					}
+					String bountyName = BountyDatabase.getNameByMonster( monsterName );
 					if ( bountyName != null )
 					{
-						int bountyNumber = BountyDatabase.getNumber( bountyName );
-						String bountyPlural = BountyDatabase.getPlural( bountyName );
-						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyNumber + " " + bountyPlural );
+						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyName );
 					}
 				}
 				AdventureDatabase.areaCombatData.put( data[ 0 ], combat );
@@ -487,16 +492,8 @@ public class AdventureDatabase
 		{
 			return null;
 		}
-
-		int space = bounty.indexOf( " " );
-		int count = StringUtilities.parseInt( bounty.substring( 0, space ) );
-		String name = bounty.substring( space + 1 );
-		String single = BountyDatabase.getName( name );
-		if ( single == null )
-		{
-			return null;
-		}
-		return new AdventureResult( single, count );
+		int count = BountyDatabase.getNumber( bounty );
+		return new AdventureResult( bounty, count );
 	}
 
 	public static final String getDefaultConditions( final KoLAdventure adventure )
@@ -513,13 +510,10 @@ public class AdventureDatabase
 
 		if ( bounty != null && !bounty.equals( "" ) )
 		{
-			String bountyPlural = bounty.substring( bounty.indexOf( " " ) ).trim();
-			String bountyName = BountyDatabase.getName( bountyPlural );
-		
 			String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
 			if ( !easyBountyId.equals( "" ) && easyBountyId != null )
 			{
-				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
+				if ( bounty.equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
 				{
 					return "+1 filthy lucre";
 				}
@@ -528,7 +522,7 @@ public class AdventureDatabase
 			String hardBountyId = Preferences.getString( "currentHardBountyItem" );
 			if ( !hardBountyId.equals( "" ) && hardBountyId != null )
 			{
-				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
+				if ( bounty.equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
 				{
 					return "+1 filthy lucre";
 				}
@@ -537,7 +531,7 @@ public class AdventureDatabase
 			String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
 			if ( !specialBountyId.equals( "" ) && specialBountyId != null )
 			{
-				if ( bountyName != null && !bountyName.equals( "" ) && bountyName.equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
+				if ( bounty.equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
 				{
 					return "+1 filthy lucre";
 				}
