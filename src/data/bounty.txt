@@ -9,6 +9,7 @@ bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Cou
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed knob goblin	A Barroom Brawl
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
+important bat file	important bat files	easy	documents.gif	7	briefcase bat	Guano Junction
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
 triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
@@ -19,6 +20,7 @@ beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle 
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
 distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar (automatic)
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
+non-Euclidean hoof	non-Euclidean hooves	hard	hoof.gif	11	cubist bull	The Haunted Gallery
 rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub	The Haunted Bathroom
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant	The Hidden Office Building
 spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	 eXtreme Orcish snowboarder	The eXtreme Slope
