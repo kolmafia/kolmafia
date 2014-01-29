@@ -7186,7 +7186,7 @@
 7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9
 7170	scroll case	857398089	scrollcase.gif	usable	t,d	21
 7171	jug of "wine"	781777602	jug.gif	usable	t,d	18
-7172	juggling ball	854077113	stressball.gif	t,d	22
+7172	juggling ball	854077113	stressball.gif	multiple	t,d	22
 7173	crappy camera	693235331	camera.gif	none, combat	t,d	25
 7174	humble pie	123782132	pie.gif	food	t,d	26
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23
