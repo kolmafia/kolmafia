@@ -78,6 +78,7 @@ public class BountyCommand
 			output.append( BountyCommand.showDetail( "Easy", Preferences.getString( "currentEasyBountyItem" ), Preferences.getString( "_untakenEasyBountyItem" ) ) );
 			output.append( BountyCommand.showDetail( "Hard", Preferences.getString( "currentHardBountyItem" ), Preferences.getString( "_untakenHardBountyItem" ) ) );
 			output.append( BountyCommand.showDetail( "Special", Preferences.getString( "currentSpecialBountyItem" ), Preferences.getString( "_untakenSpecialBountyItem" ) ) );
+			output.append( "</table>" );
 		}
 		else if ( parameter.equalsIgnoreCase( "easy" ) )
 		{
