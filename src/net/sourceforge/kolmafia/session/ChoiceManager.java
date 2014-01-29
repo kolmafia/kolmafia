@@ -7438,6 +7438,13 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 829:
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				ResultProcessor.processItem( ItemPool.GRIMSTONE_MASK, -1 );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
