@@ -41,6 +41,7 @@ import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -128,6 +129,18 @@ public class BountyDatabase
 		BountyDatabase.monsterByName.put( name, monster );
 		BountyDatabase.nameByMonster.put( monster, name );
 		BountyDatabase.locationByName.put( name, location );
+		String printMe = "Unknown bounty:";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\t" + location;
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 	}
 
 	public static final String[] entrySet()

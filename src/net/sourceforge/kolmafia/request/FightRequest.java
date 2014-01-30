@@ -88,6 +88,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
+
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
@@ -224,9 +226,6 @@ public class FightRequest
 		Pattern.compile( "charge to (\\d+)%" );
 	private static final Pattern NANORHINO_BUFF_PATTERN = 
 		Pattern.compile( "<b>Nano(?:brawny|brainy|ballsy)</b><br>\\(duration: 50" );
-
-	private static final Pattern BOUNTY_ITEM_PATTERN =
-		Pattern.compile( "acquire a bounty item: <b>(.*?)</b></td></tr></table>\\((\\d+) of" );
 	
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -2618,37 +2617,10 @@ public class FightRequest
 			FightRequest.transmogrifyNemesisWeapon( true );
 		}
 
-		// If known bounty item we can set the preference correctly based on number found so far
-		Matcher bountyItemMatcher = FightRequest.BOUNTY_ITEM_PATTERN.matcher( responseText );
-		if( bountyItemMatcher.find() )
+		if ( responseText.contains( "acquire a bounty item:" ) )
 		{
-			String bountyItem = bountyItemMatcher.group( 1 );
-			int bountyCount = StringUtilities.parseInt( bountyItemMatcher.group( 2 ) );
-			String bountyType = BountyDatabase.getType( bountyItem );
-
-			if ( bountyType == null )
-			{
-				KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
-			}
-			else if ( bountyType.equals( "easy" ) )
-			{
-				Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
-			}
-			else if ( bountyType.equals( "hard" ) )
-			{
-				Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
-			}
-			else if ( bountyType.equals( "special" ) )
-			{
-				Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
-			}
-			String updateMessage = "You acquire a bounty item: " + bountyItem;
-			AdventureResult result = AdventureResult.tallyItem( bountyItem, false );
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-			RequestLogger.updateSessionLog( updateMessage );
-			KoLmafia.updateDisplay( updateMessage );
+			BountyHunterHunterRequest.parseFight( monster, KoLAdventure.lastVisitedLocation().getAdventureName(), responseText );
 		}
-
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
 		else
