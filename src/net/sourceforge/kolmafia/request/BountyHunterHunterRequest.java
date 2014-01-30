@@ -41,15 +41,18 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -132,9 +135,9 @@ public class BountyHunterHunterRequest
 	private static final Pattern EASY_PATTERN = Pattern.compile( "Easy Bounty!  Come back when you've collected (\\d+) (.*?) from" );
 	private static final Pattern HARD_PATTERN = Pattern.compile( "Hard Bounty!  Come back when you've collected (\\d+) (.*?) from" );
 	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty!  Come back when you've collected (\\d+) (.*?) from" );
-	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?>(\\d+) (.*?) from.*?takelow" );
-	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?>(\\d+) (.*?) from.*?takehigh" );
-	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?center>(\\d+) (.*?) from.*?takespecial" );
+	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takelow" );
+	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takehigh" );
+	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takespecial" );
 	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
 	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
 	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
@@ -246,11 +249,16 @@ public class BountyHunterHunterRequest
 			
 			if( bountyUntakenMatcher.find() )
 			{
-				String plural = bountyUntakenMatcher.group( 2 );
+				String plural = bountyUntakenMatcher.group( 3 );
 				String bountyItem = BountyDatabase.getName( plural );
 				if ( bountyItem != null )
 				{
 					Preferences.setString( "_untakenEasyBountyItem", bountyItem );
+				}
+				else
+				{
+					Preferences.setString( "_unknownEasyBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
+						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
 				}
 			}
 			else
@@ -274,8 +282,10 @@ public class BountyHunterHunterRequest
 		{
 			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
 		}
-		
-		Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyQty );
+		if ( bountyItem != null )
+		{
+			Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyQty );
+		}
 	}
 
 	private static final void parseHard( final String responseText )
@@ -294,6 +304,11 @@ public class BountyHunterHunterRequest
 				if ( bountyItem != null )
 				{
 					Preferences.setString( "_untakenHardBountyItem", bountyItem );
+				}
+				else
+				{
+					Preferences.setString( "_unknownHardBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
+						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
 				}
 			}
 			else
@@ -318,7 +333,10 @@ public class BountyHunterHunterRequest
 			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
 		}
 
-		Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyQty );
+		if ( bountyItem != null )
+		{
+			Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyQty );
+		}
 	}
 
 	private static final void parseSpecial( final String responseText )
@@ -337,6 +355,11 @@ public class BountyHunterHunterRequest
 				if ( bountyItem != null )
 				{
 					Preferences.setString( "_untakenSpecialBountyItem", bountyItem );
+				}
+				else
+				{
+					Preferences.setString( "_unknownSpecialBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
+						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
 				}
 			}
 			else
@@ -361,9 +384,114 @@ public class BountyHunterHunterRequest
 			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
 		}
 
-		Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyQty );
+		if ( bountyItem != null )
+		{
+			Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyQty );
+		}
 	}
 
+	private static final Pattern BOUNTY_ITEM_PATTERN =
+		Pattern.compile( "itemimages/(.*?) width=30 height=30></td><td align=center>You acquire a bounty item: <b>(.*?)</b></td></tr></table>\\((\\d+) of" );
+
+	public static final void parseFight( final String monster, final String location, final String responseText )
+	{
+		// First cut down responseText to the last image before the bounty, assumes image name is less than 30 characters,
+		// and that another won't be seen in that time
+		int imageIndex = responseText.indexOf( ".gif width=30 height=30></td><td align=center>You acquire a bounty item" );
+		String reducedResponseText = responseText;
+		if ( imageIndex > 30 )
+		{
+			reducedResponseText = responseText.substring( imageIndex - 30 );
+		}
+		
+		// If known bounty item we can set the preference correctly based on number found so far
+		Matcher bountyItemMatcher = BountyHunterHunterRequest.BOUNTY_ITEM_PATTERN.matcher( reducedResponseText );
+		if( bountyItemMatcher.find() )
+		{
+			String bountyItem = bountyItemMatcher.group( 2 );
+			int bountyCount = StringUtilities.parseInt( bountyItemMatcher.group( 3 ) );
+			String bountyType = BountyDatabase.getType( bountyItem );
+
+			if ( bountyType == null )
+			{
+				String bountyImage = bountyItemMatcher.group( 1 );
+				// Try to work out what the item should be
+				String unknownEasyBountyString = Preferences.getString( "_unknownEasyBountyItem" );
+				String unknownHardBountyString = Preferences.getString( "_unknownHardBountyItem" );
+				String unknownSpecialBountyString = Preferences.getString( "_unknownSpecialBountyItem" );
+				if ( !unknownEasyBountyString.equals( "" ) )
+				{
+					int bountyIndex = unknownEasyBountyString.indexOf( ":" );
+					int bountyIndex2 = unknownEasyBountyString.indexOf( ":", bountyIndex + 1 );
+					String unknownBountyImage = unknownEasyBountyString.substring( 0, bountyIndex );
+					int unknownBountyNumber = StringUtilities.parseInt( unknownEasyBountyString.substring( bountyIndex + 1, bountyIndex2 ) );
+					String unknownBountyPlural = unknownEasyBountyString.substring( bountyIndex2 + 1 );
+					if ( bountyImage.equals( unknownBountyImage ) )
+					{
+						// Looks like a match !
+						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
+							unknownBountyNumber, monster, location );
+						Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
+						Preferences.setString( "_unknownEasyBountyItem", "" );
+					}
+				}
+				else if ( !unknownHardBountyString.equals( "" ) )
+				{
+					int bountyIndex = unknownHardBountyString.indexOf( ":" );
+					int bountyIndex2 = unknownHardBountyString.indexOf( ":", bountyIndex + 1 );
+					String unknownBountyImage = unknownHardBountyString.substring( 0, bountyIndex );
+					int unknownBountyNumber = StringUtilities.parseInt( unknownHardBountyString.substring( bountyIndex + 1, bountyIndex2 ) );
+					String unknownBountyPlural = unknownHardBountyString.substring( bountyIndex2 + 1 );
+					if ( bountyImage.equals( unknownBountyImage ) )
+					{
+						// Looks like a match !
+						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
+							unknownBountyNumber, monster, location );
+						Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
+						Preferences.setString( "_unknownHardBountyItem", "" );
+					}
+				}
+				else if ( !unknownSpecialBountyString.equals( "" ) )
+				{
+					int bountyIndex = unknownSpecialBountyString.indexOf( ":" );
+					int bountyIndex2 = unknownSpecialBountyString.indexOf( ":", bountyIndex + 1 );
+					String unknownBountyImage = unknownSpecialBountyString.substring( 0, bountyIndex );
+					int unknownBountyNumber = StringUtilities.parseInt( unknownSpecialBountyString.substring( bountyIndex + 1, bountyIndex2 ) );
+					String unknownBountyPlural = unknownSpecialBountyString.substring( bountyIndex2 + 1 );
+					if ( bountyImage.equals( unknownBountyImage ) )
+					{
+						// Looks like a match !
+						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
+							unknownBountyNumber, monster, location );
+						Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
+						Preferences.setString( "_unknownSpecialBountyItem", "" );
+					}
+				}
+				else
+				{
+					KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
+				}
+			}
+			else if ( bountyType.equals( "easy" ) )
+			{
+				Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
+			}
+			else if ( bountyType.equals( "hard" ) )
+			{
+				Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
+			}
+			else if ( bountyType.equals( "special" ) )
+			{
+				Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
+			}
+			String updateMessage = "You acquire a bounty item: " + bountyItem;
+			AdventureResult result = AdventureResult.tallyItem( bountyItem, false );
+			AdventureResult.addResultToList( KoLConstants.tally, result );
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+	}
+	
 	public static String accessible()
 	{
 		return null;
@@ -389,7 +517,20 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenEasyBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized or no easy bounty accepted" );
+				String bounty = Preferences.getString( "_unknownEasyBountyItem" );
+				if ( !bounty.equals( "" ) )
+				{
+					int bountyIndex = bounty.indexOf( ":" );
+					int bountyIndex2 = bounty.indexOf( ":", bountyIndex + 1 );
+					int bountyNumber = StringUtilities.parseInt( bounty.substring( bountyIndex + 1, bountyIndex2 ) );
+					String plural = bounty.substring( bountyIndex2 + 1 );
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "accept unknown easy bounty assignment to collect " + bountyNumber + " " + plural );
+				}
+				else
+				{
+					RequestLogger.printLine( "no easy bounty accepted" );
+				}
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );
@@ -406,7 +547,20 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenHardBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized or no hard bounty accepted" );
+				String bounty = Preferences.getString( "_unknownHardBountyItem" );
+				if ( !bounty.equals( "" ) )
+				{
+					int bountyIndex = bounty.indexOf( ":" );
+					int bountyIndex2 = bounty.indexOf( ":", bountyIndex + 1 );
+					int bountyNumber = StringUtilities.parseInt( bounty.substring( bountyIndex + 1, bountyIndex2 ) );
+					String plural = bounty.substring( bountyIndex2 + 1 );
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "accept unknown hard bounty assignment to collect " + bountyNumber + " " + plural );
+				}
+				else
+				{
+					RequestLogger.printLine( "no hard bounty accepted" );
+				}
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );
@@ -423,7 +577,20 @@ public class BountyHunterHunterRequest
 			String bountyName = Preferences.getString( "_untakenSpecialBountyItem" );
 			if ( bountyName.equals( "" ) )
 			{
-				RequestLogger.printLine( "unrecognized or no special bounty accepted" );
+				String bounty = Preferences.getString( "_unknownSpecialBountyItem" );
+				if ( !bounty.equals( "" ) )
+				{
+					int bountyIndex = bounty.indexOf( ":" );
+					int bountyIndex2 = bounty.indexOf( ":", bountyIndex + 1 );
+					int bountyNumber = StringUtilities.parseInt( bounty.substring( bountyIndex + 1, bountyIndex2 ) );
+					String plural = bounty.substring( bountyIndex2 + 1 );
+					RequestLogger.updateSessionLog();
+					RequestLogger.updateSessionLog( "accept unknown speciality bounty assignment to collect " + bountyNumber + " " + plural );
+				}
+				else
+				{
+					RequestLogger.printLine( "no speciality bounty accepted" );
+				}
 				return true;
 			}
 			int bountyNumber = BountyDatabase.getNumber( bountyName );

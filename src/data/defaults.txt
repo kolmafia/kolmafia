@@ -1062,6 +1062,9 @@ user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
 user	_turtlePowerCast	false
 user	_ultraMegaSourBallUsed	false
+user	_unknownEasyBountyItem	
+user	_unknownHardBountyItem	
+user	_unknownSpecialBountyItem	
 user	_untakenEasyBountyItem	
 user	_untakenHardBountyItem	
 user	_untakenSpecialBountyItem	
