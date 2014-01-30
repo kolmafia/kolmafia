@@ -694,7 +694,10 @@ public abstract class WumpusManager
 	{
 		if ( WumpusManager.current == null )
 		{
-			return new String[ 0 ];
+			String[] results = new String[ 3 ];
+			results[ 0 ] = "";
+			results[ 1 ] = "";
+			return results;
 		}
 
 		String[] results = new String[ 6 ];
