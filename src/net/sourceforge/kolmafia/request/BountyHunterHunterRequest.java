@@ -445,7 +445,7 @@ public class BountyHunterHunterRequest
 					if ( bountyImage.equals( unknownBountyImage ) )
 					{
 						// Looks like a match !
-						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
+						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "hard", unknownBountyImage,
 							unknownBountyNumber, monster, location );
 						Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
 						Preferences.setString( "_unknownHardBountyItem", "" );
@@ -461,7 +461,7 @@ public class BountyHunterHunterRequest
 					if ( bountyImage.equals( unknownBountyImage ) )
 					{
 						// Looks like a match !
-						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
+						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "special", unknownBountyImage,
 							unknownBountyNumber, monster, location );
 						Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
 						Preferences.setString( "_unknownSpecialBountyItem", "" );
