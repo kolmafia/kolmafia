@@ -580,7 +580,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.GOAT_CHEESE:
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "place.php?whichplace=mclargehuge&action=trappercabin" );
 
-			case ItemPool.FORTUNE_COOKIE: {
+			case ItemPool.FORTUNE_COOKIE:
+			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
 				if ( KoLCharacter.canEat() )
@@ -598,7 +599,8 @@ public abstract class UseLinkDecorator
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
 
-			case ItemPool.HOT_WING: {
+			case ItemPool.HOT_WING:
+			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
 				if ( KoLCharacter.canEat() )
@@ -607,6 +609,25 @@ public abstract class UseLinkDecorator
 				}
 
 				uses.add( new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" ) );
+
+				if ( uses.size() == 1 )
+				{
+					return uses.get( 0 );
+				}
+
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+			case ItemPool.SNOW_BERRIES:
+			case ItemPool.ICE_HARVEST:
+			{
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+
+				if ( KoLCharacter.canEat() )
+				{
+					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
+				}
+
+				uses.add( new UseLink( itemId, 1, "make stuff", "shop.php?whichshop=snowgarden" ) );
 
 				if ( uses.size() == 1 )
 				{
@@ -889,9 +910,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.WORSE_HOMES_GARDENS:
 				return new UseLink( itemId, 1, "read", "shop.php?whichshop=junkmagazine" );
 
-			case ItemPool.SNOW_BERRIES:
-			case ItemPool.ICE_HARVEST:
-				return new UseLink( itemId, 1, "make stuff", "shop.php?whichshop=snowgarden" );
+			case ItemPool.ODD_SILVER_COIN:
+				return new UseLink( itemId, 1, "spend", "shop.php?whichshop=cindy" );
 
 			case ItemPool.TOMB_RATCHET:
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "inv_use.php?ajax=1&whichitem=" );
