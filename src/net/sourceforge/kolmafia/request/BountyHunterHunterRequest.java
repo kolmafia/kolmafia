@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -53,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -299,7 +301,7 @@ public class BountyHunterHunterRequest
 			
 			if( bountyUntakenMatcher.find() )
 			{
-				String plural = bountyUntakenMatcher.group( 2 );
+				String plural = bountyUntakenMatcher.group( 3 );
 				String bountyItem = BountyDatabase.getName( plural );
 				if ( bountyItem != null )
 				{
@@ -350,7 +352,7 @@ public class BountyHunterHunterRequest
 			
 			if( bountyUntakenMatcher.find() )
 			{
-				String plural = bountyUntakenMatcher.group( 2 );
+				String plural = bountyUntakenMatcher.group( 3 );
 				String bountyItem = BountyDatabase.getName( plural );
 				if ( bountyItem != null )
 				{
@@ -414,6 +416,9 @@ public class BountyHunterHunterRequest
 
 			if ( bountyType == null )
 			{
+				boolean matched = false;
+				// Convert monster name to correct case
+				String monsterTrueCase = MonsterDatabase.findMonster( monster, false ).getName();
 				String bountyImage = bountyItemMatcher.group( 1 );
 				// Try to work out what the item should be
 				String unknownEasyBountyString = Preferences.getString( "_unknownEasyBountyItem" );
@@ -430,12 +435,13 @@ public class BountyHunterHunterRequest
 					{
 						// Looks like a match !
 						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "easy", unknownBountyImage,
-							unknownBountyNumber, monster, location );
+							unknownBountyNumber, monsterTrueCase, location );
 						Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyCount );
 						Preferences.setString( "_unknownEasyBountyItem", "" );
+						matched = true;
 					}
 				}
-				else if ( !unknownHardBountyString.equals( "" ) )
+				if ( matched == false && !unknownHardBountyString.equals( "" ) )
 				{
 					int bountyIndex = unknownHardBountyString.indexOf( ":" );
 					int bountyIndex2 = unknownHardBountyString.indexOf( ":", bountyIndex + 1 );
@@ -446,12 +452,13 @@ public class BountyHunterHunterRequest
 					{
 						// Looks like a match !
 						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "hard", unknownBountyImage,
-							unknownBountyNumber, monster, location );
+							unknownBountyNumber, monsterTrueCase, location );
 						Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyCount );
 						Preferences.setString( "_unknownHardBountyItem", "" );
+						matched = true;
 					}
 				}
-				else if ( !unknownSpecialBountyString.equals( "" ) )
+				if ( matched == false && !unknownSpecialBountyString.equals( "" ) )
 				{
 					int bountyIndex = unknownSpecialBountyString.indexOf( ":" );
 					int bountyIndex2 = unknownSpecialBountyString.indexOf( ":", bountyIndex + 1 );
@@ -462,12 +469,13 @@ public class BountyHunterHunterRequest
 					{
 						// Looks like a match !
 						BountyDatabase.setValue( bountyItem, unknownBountyPlural, "special", unknownBountyImage,
-							unknownBountyNumber, monster, location );
+							unknownBountyNumber, monsterTrueCase, location );
 						Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyCount );
 						Preferences.setString( "_unknownSpecialBountyItem", "" );
+						matched = true;
 					}
 				}
-				else
+				if ( matched = false )
 				{
 					KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
 				}

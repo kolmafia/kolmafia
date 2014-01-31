@@ -9,6 +9,7 @@ bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Cou
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed knob goblin	A Barroom Brawl
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
+half-empty bottle of eyedrops	half-empty bottles of eyedrops	easy	eyedrops.gif	13	one-eyed Gnoll	The Degrassi Knoll Gym
 important bat file	important bat files	easy	documents.gif	7	briefcase bat	Guano Junction
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
@@ -17,6 +18,7 @@ triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone	The Oasis
 beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle in the Clouds in the Sky (Basement)
+burned-out arcanodiode	burned-out arcanodiodes	hard	diode.gif	12	MagiMechTech MechaMech	The Penultimate Fantasy Airship
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
 distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar (automatic)
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
@@ -34,5 +36,6 @@ greasy string	lengths of greasy string	special	string.gif	8	salaminder	The Night
 pile of country guano	piles of country guano	special	guano.gif	8	country bat	An Incredibly Strange Place (Bad Trip)
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
 pop art banana peel	pop art banana peels	special	bananapeel.gif	8	velvet underground dweller	Mt. Molehill
+purple butt	purple butts	special	asshat.gif	9	jungle baboon	The Jungles of Ancient Loathing
 unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue	Chinatown Shops
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig	The Red Queen's Garden
