@@ -85,6 +85,7 @@ public class PulverizePanel
 				new DequeueListener(),
 				new ClearListener(),
 				new PulverizeListener(),
+				new SmashbotListener(),
 				new WadbotListener(),
 		} );
 
@@ -420,6 +421,70 @@ public class PulverizePanel
 		public String toMessage()
 		{
 			return this.asMessage;
+		}
+	}
+
+	public class SmashbotListener
+		extends ThreadedListener
+	{
+		@Override
+		protected void execute()
+		{
+			if ( KoLConstants.pulverizeQueue.isEmpty() )
+			{
+				InputFieldUtilities.alert( "No items in queue!" );
+				return;
+			}
+
+			String message;
+			if ( KoLmafia.isPlayerOnline( "smashbot" ) )
+			{	// bot online
+				if ( KoLCharacter.canInteract() )
+				{
+					message = "Smashbot is online, and ready to SMASH!";
+				}
+				else
+				{
+					message = "Smashbot is online, but won't play with you in hardcore or ronin! Proceed at your own risk.";
+				}
+			}
+			else
+			{	// bot offline
+				if ( KoLCharacter.canInteract() )
+				{
+					message = "Smashbot is offline, so there will be a delay before you receive your smashed items.  Are you sure you want to continue?";
+				}
+				else
+				{
+					message = "Smashbot won't play with you in hardcore or ronin.  Smashbot isn't online, anyway.  Proceed at your own risk.";
+				}
+			}
+
+			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
+				new MsgOption[] {
+					new MsgOption( "receive results as is", "" ),
+					new MsgOption( "powders -> nuggets and nuggets -> wads", "wads" ),
+				}, null );
+			if ( selected == null )
+			{
+				return;
+			}
+
+			AdventureResult[] items =
+				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
+			KoLConstants.pulverizeQueue.toArray( items );
+			KoLConstants.pulverizeQueue.clear();
+			LockableListModel inv = (LockableListModel)
+				PulverizePanel.this.getElementList().getModel();
+			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
+			SendMessageCommand.send( "smashbot", selected.toMessage(),
+				items, false, true );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "send to smashbot";
 		}
 	}
 
