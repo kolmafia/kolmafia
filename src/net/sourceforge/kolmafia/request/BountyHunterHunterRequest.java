@@ -134,16 +134,6 @@ public class BountyHunterHunterRequest
 		BountyHunterHunterRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	private static final Pattern EASY_PATTERN = Pattern.compile( "Easy Bounty!  Come back when you've collected (\\d+) (.*?) from" );
-	private static final Pattern HARD_PATTERN = Pattern.compile( "Hard Bounty!  Come back when you've collected (\\d+) (.*?) from" );
-	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty!  Come back when you've collected (\\d+) (.*?) from" );
-	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takelow" );
-	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takehigh" );
-	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?/itemimages/(.*?) width.*?>(\\d+) (.*?) from.*?takespecial" );
-	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
-	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
-	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
-
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
@@ -240,14 +230,16 @@ public class BountyHunterHunterRequest
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
-	private static final void parseEasy( final String responseText )
+	private static final void parseBounty( final String responseText,
+					       Pattern takenPattern, Pattern untakenPattern, Pattern quantityPattern,
+					       String currentSetting, String untakenSetting, String unknownSetting )
 	{
-		Matcher bountyItemMatcher = BountyHunterHunterRequest.EASY_PATTERN.matcher( responseText );
+		Matcher bountyItemMatcher = takenPattern.matcher( responseText );
 
 		if ( !bountyItemMatcher.find() )
 		{
-			Preferences.setString( "currentEasyBountyItem", "" );
-			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_EASY_PATTERN.matcher( responseText );
+			Preferences.setString( currentSetting, "" );
+			Matcher bountyUntakenMatcher = untakenPattern.matcher( responseText );
 			
 			if( bountyUntakenMatcher.find() )
 			{
@@ -255,17 +247,19 @@ public class BountyHunterHunterRequest
 				String bountyItem = BountyDatabase.getName( plural );
 				if ( bountyItem != null )
 				{
-					Preferences.setString( "_untakenEasyBountyItem", bountyItem );
+					Preferences.setString( untakenSetting, bountyItem );
 				}
 				else
 				{
-					Preferences.setString( "_unknownEasyBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
-						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
+					Preferences.setString( unknownSetting,
+							       bountyUntakenMatcher.group( 1 ) + ":" +
+							       bountyUntakenMatcher.group( 2 ) + ":" +
+							       bountyUntakenMatcher.group( 3 ) );
 				}
 			}
 			else
 			{
-				Preferences.setString( "_untakenEasyBountyItem", "" );
+				Preferences.setString( untakenSetting, "" );
 			}
 			return;
 		}
@@ -273,123 +267,57 @@ public class BountyHunterHunterRequest
 		String plural = bountyItemMatcher.group( 2 );
 		String bountyItem = BountyDatabase.getName( plural );
 
-		Matcher bountyQtyMatcher = BountyHunterHunterRequest.EASY_QTY_PATTERN.matcher( responseText );
-
-		int bountyQty;
-		if ( !bountyQtyMatcher.find() )
-		{
-			bountyQty = 0;
-		}
-		else
-		{
-			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
-		}
 		if ( bountyItem != null )
 		{
-			Preferences.setString( "currentEasyBountyItem", bountyItem + ":" + bountyQty );
+			Matcher bountyQtyMatcher = quantityPattern.matcher( responseText );
+			int bountyQty = bountyQtyMatcher.find() ? StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) ) : 0;
+			Preferences.setString( currentSetting, bountyItem + ":" + bountyQty );
 		}
 	}
+
+	private static final Pattern EASY_PATTERN = Pattern.compile( "Easy Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takelow" );
+	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
+
+	private static final void parseEasy( final String responseText )
+	{
+		BountyHunterHunterRequest.parseBounty( responseText,
+						       BountyHunterHunterRequest.EASY_PATTERN,
+						       BountyHunterHunterRequest.UNTAKEN_EASY_PATTERN,
+						       BountyHunterHunterRequest.EASY_QTY_PATTERN,
+						       "currentEasyBountyItem",
+						       "_untakenEasyBountyItem",
+						       "_unknownEasyBountyItem" );
+	}
+
+	private static final Pattern HARD_PATTERN = Pattern.compile( "Hard Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takehigh" );
+	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
 
 	private static final void parseHard( final String responseText )
 	{
-		Matcher bountyItemMatcher = BountyHunterHunterRequest.HARD_PATTERN.matcher( responseText );
-
-		if ( !bountyItemMatcher.find() )
-		{
-			Preferences.setString( "currentHardBountyItem", "" );
-			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_HARD_PATTERN.matcher( responseText );
-			
-			if( bountyUntakenMatcher.find() )
-			{
-				String plural = bountyUntakenMatcher.group( 3 );
-				String bountyItem = BountyDatabase.getName( plural );
-				if ( bountyItem != null )
-				{
-					Preferences.setString( "_untakenHardBountyItem", bountyItem );
-				}
-				else
-				{
-					Preferences.setString( "_unknownHardBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
-						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
-				}
-			}
-			else
-			{
-				Preferences.setString( "_untakenHardBountyItem", "" );
-			}
-			return;
-		}
-
-		String plural = bountyItemMatcher.group( 2 );
-		String bountyItem = BountyDatabase.getName( plural );
-		
-		Matcher bountyQtyMatcher = BountyHunterHunterRequest.HARD_QTY_PATTERN.matcher( responseText );
-
-		int bountyQty;
-		if ( !bountyQtyMatcher.find() )
-		{
-			bountyQty = 0;
-		}
-		else
-		{
-			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
-		}
-
-		if ( bountyItem != null )
-		{
-			Preferences.setString( "currentHardBountyItem", bountyItem + ":" + bountyQty );
-		}
+		BountyHunterHunterRequest.parseBounty( responseText,
+						       BountyHunterHunterRequest.HARD_PATTERN,
+						       BountyHunterHunterRequest.UNTAKEN_HARD_PATTERN,
+						       BountyHunterHunterRequest.HARD_QTY_PATTERN,
+						       "currentHardBountyItem",
+						       "_untakenHardBountyItem",
+						       "_unknownHardBountyItem" );
 	}
+
+	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty!  Come back when you've collected (\\d+) (.*?) from" );
+	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takespecial" );
+	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
 
 	private static final void parseSpecial( final String responseText )
 	{
-		Matcher bountyItemMatcher = BountyHunterHunterRequest.SPECIAL_PATTERN.matcher( responseText );
-
-		if ( !bountyItemMatcher.find() )
-		{
-			Preferences.setString( "currentSpecialBountyItem", "" );
-			Matcher bountyUntakenMatcher = BountyHunterHunterRequest.UNTAKEN_SPECIAL_PATTERN.matcher( responseText );
-			
-			if( bountyUntakenMatcher.find() )
-			{
-				String plural = bountyUntakenMatcher.group( 3 );
-				String bountyItem = BountyDatabase.getName( plural );
-				if ( bountyItem != null )
-				{
-					Preferences.setString( "_untakenSpecialBountyItem", bountyItem );
-				}
-				else
-				{
-					Preferences.setString( "_unknownSpecialBountyItem", bountyUntakenMatcher.group( 1 ) + ":" +
-						bountyUntakenMatcher.group( 2 ) + ":" + bountyUntakenMatcher.group( 3 ) );
-				}
-			}
-			else
-			{
-				Preferences.setString( "_untakenSpecialBountyItem", "" );
-			}
-			return;
-		}
-
-		String plural = bountyItemMatcher.group( 2 );
-		String bountyItem = BountyDatabase.getName( plural );
-		
-		Matcher bountyQtyMatcher = BountyHunterHunterRequest.SPECIAL_QTY_PATTERN.matcher( responseText );
-
-		int bountyQty;
-		if ( !bountyQtyMatcher.find() )
-		{
-			bountyQty = 0;
-		}
-		else
-		{
-			bountyQty = StringUtilities.parseInt( bountyQtyMatcher.group( 1 ) );
-		}
-
-		if ( bountyItem != null )
-		{
-			Preferences.setString( "currentSpecialBountyItem", bountyItem + ":" + bountyQty );
-		}
+		BountyHunterHunterRequest.parseBounty( responseText,
+						       BountyHunterHunterRequest.SPECIAL_PATTERN,
+						       BountyHunterHunterRequest.UNTAKEN_SPECIAL_PATTERN,
+						       BountyHunterHunterRequest.SPECIAL_QTY_PATTERN,
+						       "currentSpecialBountyItem",
+						       "_untakenSpecialBountyItem",
+						       "_unknownSpecialBountyItem" );
 	}
 
 	private static final Pattern BOUNTY_ITEM_PATTERN =
