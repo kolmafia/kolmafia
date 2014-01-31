@@ -2957,7 +2957,7 @@ public abstract class ChoiceManager
 		// Choice 841 is Building, Structure, Edifice
 		new ChoiceAdventure(
 			"The Candy Witch and the Relentless Child Thieves", "choiceAdventure841", "Building, Structure, Edifice",
-			new Object[] { "sometimes unlock candy in General Mill",
+			new Object[] { "increase candy in another location",
 				       "+2 Random Defense",
 				       "gain Candy" } ),
 		// Choice 842 is The Gingerbread Warehouse
