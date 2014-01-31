@@ -445,7 +445,8 @@ public class PulverizePanel
 				}
 				else
 				{
-					message = "Smashbot is online, but won't play with you in hardcore or ronin! Proceed at your own risk.";
+					InputFieldUtilities.alert( "Smashbot is online, but won't play with you in hardcore or ronin!" );
+					return;
 				}
 			}
 			else
@@ -456,14 +457,16 @@ public class PulverizePanel
 				}
 				else
 				{
-					message = "Smashbot won't play with you in hardcore or ronin.  Smashbot isn't online, anyway.  Proceed at your own risk.";
+					InputFieldUtilities.alert( "Smashbot won't play with you in hardcore or ronin.  Smashbot isn't online, anyway." );
+					return;
 				}
 			}
 
 			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
 				new MsgOption[] {
-					new MsgOption( "receive results as is", "" ),
-					new MsgOption( "powders -> nuggets and nuggets -> wads", "wads" ),
+					new MsgOption( "receive results as is", "no malus" ),
+					new MsgOption( "powders -> nuggets", "nuggets" ),
+					new MsgOption( "also nuggets -> wads", "wads" ),
 				}, null );
 			if ( selected == null )
 			{
