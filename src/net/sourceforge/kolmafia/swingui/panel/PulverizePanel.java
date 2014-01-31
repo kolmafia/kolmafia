@@ -464,7 +464,7 @@ public class PulverizePanel
 
 			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
 				new MsgOption[] {
-					new MsgOption( "receive results as is", "no malus" ),
+					new MsgOption( "receive results as is", "" ),
 					new MsgOption( "powders -> nuggets", "nuggets" ),
 					new MsgOption( "also nuggets -> wads", "wads" ),
 				}, null );
