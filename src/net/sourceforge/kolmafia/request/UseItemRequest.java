@@ -3988,6 +3988,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.QUASIRELGIOUS_SCULPTURE:
+		case ItemPool.SOLID_GOLD_ROSARY:
 			if ( responseText.contains( "entire Cyrpt feels safer" ) )
 			{
 				// Can't abuse this, so queue a use item to get new Evilometer value

@@ -7158,7 +7158,7 @@
 7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99
 7142	hare brush	544012791	hairbrush.gif	usable	t,d	300
 7143	hare pin	531373932	harepin.gif	accessory		0
-7144	odd silver coin	809302450	silvercoin.gif	none	d	55
+7144	odd silver coin	809302450	silvercoin.gif	usable	d	55
 7145	cinnamon cannoli	463407306	cannoli.gif	food	t,d	99
 7146	expensive champagne	726657372	chamflute.gif	drink	t,d	99
 7147	polo trophy	264937416	trophy.gif	usable	t,d	78
