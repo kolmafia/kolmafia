@@ -263,7 +263,7 @@ junk yard	2	1	good	4-5	4-5	4-5	4-5
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
-large tankard of ale	2	4	good	0	0	0	0
+large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
 le roi	3	1	good	8-10	0	0	30-40
 locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry
 lollipop drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss
@@ -298,7 +298,7 @@ more humanitini than humanitini	2	4	awesome	6-7	10-15	10-15	10-15	Restores HP
 morlock's mark bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morto moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
 mt. noob pale ale	2	1	good	3-6	0	0	0
-mulled berry wine	5	7	awesome	0	0	0	0	30 Sweet Nostalgia (+20 Candy Drop)
+mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop)
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
@@ -389,7 +389,7 @@ sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage!
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-snakebite	1	4	crappy	1	-1.5	-1.5	-1.5	30 Sweet Tooth (+40% Candy Drops)
+snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
