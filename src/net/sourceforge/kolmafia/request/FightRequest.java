@@ -3131,10 +3131,18 @@ public class FightRequest
 				break;
 			}
 
+			// Booze Filler surveys the scene from atop the throne, and gains 1 Experience
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
-				responseText.indexOf( "gains 1 Experience" ) != -1 )
+			     responseText.contains( "throne, and gains 1 Experience" ) )
 			{
 				KoLCharacter.getEnthroned().addNonCombatExperience( 1 );
+			}
+
+			// Llama surveys the scene from your back, and gains 1 Experience.
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ) ) &&
+			     responseText.contains( "back, and gains 1 Experience" ) )
+			{
+				KoLCharacter.getBjorned().addNonCombatExperience( 1 );
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SNOW_SUIT, 1 ) ) )
@@ -3855,7 +3863,7 @@ public class FightRequest
 
 	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
-		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
 			FightRequest.processFamiliarAction( node, inode, status );
 			return;
@@ -4059,7 +4067,7 @@ public class FightRequest
 
 	private static final void processAnapestResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
-		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
 			FightRequest.processFamiliarAction( node, inode, status );
 			return;
@@ -4254,6 +4262,7 @@ public class FightRequest
 	{
 		public String familiar;
 		public String enthroned;
+		public String bjorned;
 		public final boolean doppel;
 		public String diceMessage;
 		public final String ghost;
@@ -4285,7 +4294,9 @@ public class FightRequest
 
 
 			FamiliarData enthroned = KoLCharacter.getEnthroned();
+			FamiliarData bjorned = KoLCharacter.getBjorned();
 			this.enthroned = enthroned.getImageLocation();
+			this.bjorned = bjorned.getImageLocation();
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
@@ -5044,7 +5055,7 @@ public class FightRequest
 			return false;
 		}
 
-		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
 			FightRequest.processFamiliarAction( node, inode, status );
 			return false;

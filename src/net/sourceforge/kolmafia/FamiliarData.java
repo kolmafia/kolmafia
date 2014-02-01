@@ -69,6 +69,8 @@ public class FamiliarData
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
+	// TODO: Match Bjorn Buddy familiar
+	// In Your Buddy Bjorn:
 	private static final Pattern REGISTER_PATTERN =
 		Pattern.compile( "<img(?<!In Your Crown of Thrones:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
@@ -364,6 +366,7 @@ public class FamiliarData
 		// Assume he has no familiar
 		FamiliarData first = FamiliarData.NO_FAMILIAR;
 		FamiliarData hatseat = FamiliarData.NO_FAMILIAR;
+		FamiliarData buddy = FamiliarData.NO_FAMILIAR;
 
 		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -409,6 +412,7 @@ public class FamiliarData
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );
 		KoLCharacter.setEnthroned( hatseat );
+		KoLCharacter.setBjorned( buddy );
 	}
 
 	public static final FamiliarData registerFamiliar( final int id, final int experience )

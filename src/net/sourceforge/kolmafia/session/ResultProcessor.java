@@ -1929,13 +1929,13 @@ public class ResultProcessor
 		case ItemPool.GRIMSTONE_MASK:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getEnthroned().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ) ) )
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ) ) )
 				{
-					Preferences.increment( "_grimstoneMaskDropsCrown" );
+					Preferences.increment( "_grimstoneMaskDrops" );
 				}
 				else
 				{
-					Preferences.increment( "_grimstoneMaskDrops" );
+					Preferences.increment( "_grimstoneMaskDropsCrown" );
 				}
 			}
 			break;
@@ -1943,13 +1943,13 @@ public class ResultProcessor
 		case ItemPool.GRIM_FAIRY_TALE:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getEnthroned().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER ) ) )
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER ) ) )
 				{
-					Preferences.increment( "_grimFairyTaleDropsCrown" );
+					Preferences.increment( "_grimFairyTaleDrops" );
 				}
 				else
 				{
-					Preferences.increment( "_grimFairyTaleDrops" );
+					Preferences.increment( "_grimFairyTaleDropsCrown" );
 				}
 			}
 			break;
