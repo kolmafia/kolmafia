@@ -1841,7 +1841,7 @@ public abstract class InventoryManager
 	
 	public static final AdventureResult BUDDY_BJORN = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
 
-	public static final void checkBjornBuddy()
+	public static final void checkBuddyBjorn()
 	{
 		// If we are wearing the Bjorn Buddy, we've already seen
 		// which familiar is riding in it
@@ -1850,14 +1850,14 @@ public abstract class InventoryManager
 			return;
 		}
 
-		// The Crown of Thrones is not trendy, but double check anyway
+		// Check if the Buddy Bjorn is Trendy
 		AdventureResult item = InventoryManager.BUDDY_BJORN;
 		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
 		{
 			return;
 		}
 
-		// See if we have a Crown of Thrones in inventory or closet
+		// See if we have a Buddy Bjorn in inventory or closet
 		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
 		if ( count == 0 )
 		{
