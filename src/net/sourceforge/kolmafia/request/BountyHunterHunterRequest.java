@@ -132,9 +132,27 @@ public class BountyHunterHunterRequest
 		BountyHunterHunterRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern COMPLETED_PATTERN = Pattern.compile( "turn in your (\\d+) (.*?) to the Bounty Hunter Hunter" );
+
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
+
+		// Check for completed bounties
+		Matcher completedMatcher = BountyHunterHunterRequest.COMPLETED_PATTERN.matcher( responseText );
+
+		while ( completedMatcher.find() )
+		{
+			int bountyCount = StringUtilities.parseInt( completedMatcher.group( 1 ) );
+			String bountyPlural = completedMatcher.group( 2 );
+			String bountyItem = BountyDatabase.getName( bountyPlural );
+			if ( bountyItem != null )
+			{
+				AdventureResult result = AdventureResult.tallyItem( bountyItem, -bountyCount, false );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
+			}
+		}	
+
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
@@ -256,15 +274,6 @@ public class BountyHunterHunterRequest
 			}
 			else
 			{
-				if ( BountyDatabase.checkBounty( currentSetting ) )
-				{
-					String bounty = Preferences.getString( currentSetting );
-					int separatorIndex = bounty.indexOf( ":" );
-					String bountyItem = bounty.substring( 0, separatorIndex );
-					int count = Integer.parseInt( bounty.substring( separatorIndex + 1 ) );
-					AdventureResult result = AdventureResult.tallyItem( bountyItem, -count, false );
-					AdventureResult.addResultToList( KoLConstants.tally, result );
-				}
 				Preferences.setString( untakenSetting, "" );
 			}
 			Preferences.setString( currentSetting, "" );
