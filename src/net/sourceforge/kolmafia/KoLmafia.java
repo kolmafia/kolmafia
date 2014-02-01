@@ -70,7 +70,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -610,7 +609,7 @@ public abstract class KoLmafia
 		// The password hash changes for each session
 		GenericRequest.passwordHash = "";
 		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
-		RequestThread.postRequest(  request );
+		RequestThread.postRequest( request );
 
 		// Just in case it's a new day...
 
@@ -749,6 +748,10 @@ public abstract class KoLmafia
 		CharPaneRequest.reset();
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
+
+		// Some things aren't properly set by KoL until main.php is loaded
+
+		RequestThread.postRequest( new GenericRequest( "main.php" ) );
 
 		// Get current moon phases
 
