@@ -2719,6 +2719,7 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 
 # Containers section of modifiers.txt
 
+Buddy Bjorn	Softcore Only
 Camp Scout backpack	Item Drop: +15, Softcore Only
 Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"

@@ -7190,3 +7190,28 @@
 7173	crappy camera	693235331	camera.gif	none, combat	t,d	25
 7174	humble pie	123782132	pie.gif	food	t,d	26
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23
+7176
+7177
+7178
+7179
+7180
+7181
+7182
+7183
+7184
+7185
+7186
+7187
+7188
+7189
+7190
+7191
+7192
+7193
+7194
+7195
+7196
+7197
+7198
+7199
+7200	Buddy Bjorn	697608546	buddybjorn.gif	container	t	0

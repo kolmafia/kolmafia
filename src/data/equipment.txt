@@ -2387,6 +2387,7 @@ yellow glowstick	20	none
 
 # Containers section of equipment.txt
 
+Buddy Bjorn	100	none
 Camp Scout backpack	0	none
 Cloak of Dire Shadows	120	none
 Drapes-You-Regally	300	Mox: 250
