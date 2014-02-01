@@ -4741,7 +4741,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, applyIntrinsics, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, applyIntrinsics, taoFactor );
 		}
 
 		// Consider fake hands
@@ -4936,7 +4936,7 @@ public abstract class KoLCharacter
 
 	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
 						     AdventureResult[] equipment, FamiliarData enthroned,
-						     boolean applyIntrinsics, int taoFactor )
+						     FamiliarData bjorned, boolean applyIntrinsics, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -5031,6 +5031,11 @@ public abstract class KoLCharacter
 		case ItemPool.HATSEAT:
 			// Apply enthroned familiar
 			newModifiers.add( Modifiers.getModifiers( "Throne:" + enthroned.getRace() ) );
+			break;
+
+		case ItemPool.BUDDY_BJORN:
+			// Apply bjorned familiar
+			newModifiers.add( Modifiers.getModifiers( "Throne:" + bjorned.getRace() ) );
 			break;
 		}
 
