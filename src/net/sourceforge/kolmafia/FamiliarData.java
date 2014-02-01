@@ -69,10 +69,8 @@ public class FamiliarData
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
-	// TODO: Match Bjorn Buddy familiar
-	// In Your Buddy Bjorn:
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img(?<!In Your Crown of Thrones:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -365,8 +363,8 @@ public class FamiliarData
 	{
 		// Assume he has no familiar
 		FamiliarData first = FamiliarData.NO_FAMILIAR;
-		FamiliarData hatseat = FamiliarData.NO_FAMILIAR;
-		FamiliarData buddy = FamiliarData.NO_FAMILIAR;
+		FamiliarData hatseat = null;
+		FamiliarData buddy = null;
 
 		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -385,9 +383,13 @@ public class FamiliarData
 				familiar.update( matcher );
 			}
 
-			if ( matcher.group( 6 ).indexOf( "kick out" ) != -1 )
+			if ( matcher.group( 6 ).contains( "kick out of Crown of Thrones" ) )
 			{
 				hatseat = familiar;
+			}
+			else if ( matcher.group( 6 ).contains( "kick out of Buddy Bjorn" ) )
+			{
+				buddy = familiar;
 			}
 
 			// First in the list might be equipped
@@ -398,7 +400,7 @@ public class FamiliarData
 		}
 
 		// He may have familiars but none are equipped.
-		if ( responseText.indexOf( "You do not currently have a familiar" ) != -1 )
+		if ( responseText.contains( "You do not currently have a familiar" ) )
 		{
 			first = FamiliarData.NO_FAMILIAR;
 		}
@@ -411,8 +413,8 @@ public class FamiliarData
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );
-		KoLCharacter.setEnthroned( hatseat );
-		KoLCharacter.setBjorned( buddy );
+		if ( hatseat != null ) KoLCharacter.setEnthroned( hatseat );
+		if ( buddy != null ) KoLCharacter.setBjorned( buddy );
 	}
 
 	public static final FamiliarData registerFamiliar( final int id, final int experience )

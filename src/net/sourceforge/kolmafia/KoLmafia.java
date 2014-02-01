@@ -854,9 +854,11 @@ public abstract class KoLmafia
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KEYOTRON ) );
 		}
 
-		// If we have a Crown of Thrones available and it's not
+		// If we have a Crown of Thrones and/or Buddy Bjorn available and it's not
 		// equipped, see which familiar is sitting in it, if any.
 		InventoryManager.checkCrownOfThrones();
+
+		InventoryManager.checkBuddyBjorn();
 
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();
