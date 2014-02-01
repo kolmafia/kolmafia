@@ -44,9 +44,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -226,7 +224,7 @@ public class BountyHunterHunterRequest
 			Preferences.setString( "currentSpecialBountyItem", "" );
 			return;
 		}
-		
+
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
@@ -238,9 +236,8 @@ public class BountyHunterHunterRequest
 
 		if ( !bountyItemMatcher.find() )
 		{
-			Preferences.setString( currentSetting, "" );
 			Matcher bountyUntakenMatcher = untakenPattern.matcher( responseText );
-			
+
 			if( bountyUntakenMatcher.find() )
 			{
 				String plural = bountyUntakenMatcher.group( 3 );
@@ -259,8 +256,18 @@ public class BountyHunterHunterRequest
 			}
 			else
 			{
+				if ( BountyDatabase.checkBounty( currentSetting ) )
+				{
+					String bounty = Preferences.getString( currentSetting );
+					int separatorIndex = bounty.indexOf( ":" );
+					String bountyItem = bounty.substring( 0, separatorIndex );
+					int count = Integer.parseInt( bounty.substring( separatorIndex + 1 ) );
+					AdventureResult result = AdventureResult.tallyItem( bountyItem, -count, false );
+					AdventureResult.addResultToList( KoLConstants.tally, result );
+				}
 				Preferences.setString( untakenSetting, "" );
 			}
+			Preferences.setString( currentSetting, "" );
 			return;
 		}
 
@@ -403,7 +410,7 @@ public class BountyHunterHunterRequest
 						matched = true;
 					}
 				}
-				if ( matched = false )
+				if ( matched == false )
 				{
 					KoLmafia.updateDisplay( "Bounty Item " + bountyItem + " not yet known to KoLMafia." );
 				}
