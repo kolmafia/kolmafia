@@ -1838,6 +1838,45 @@ public abstract class InventoryManager
 			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
 		}
 	}
+	
+	public static final AdventureResult BUDDY_BJORN = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
+
+	public static final void checkBjornBuddy()
+	{
+		// If we are wearing the Bjorn Buddy, we've already seen
+		// which familiar is riding in it
+		if ( KoLCharacter.hasEquipped( InventoryManager.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
+		{
+			return;
+		}
+
+		// The Crown of Thrones is not trendy, but double check anyway
+		AdventureResult item = InventoryManager.BUDDY_BJORN;
+		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
+		{
+			return;
+		}
+
+		// See if we have a Crown of Thrones in inventory or closet
+		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
+		if ( count == 0 )
+		{
+			return;
+		}
+
+		// See which familiar is riding in it.
+		String descId = ItemDatabase.getDescriptionId( ItemPool.BUDDY_BJORN );
+		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
+		RequestThread.postRequest( req );
+
+		// COT_PATTERN works for this
+		Matcher matcher = InventoryManager.COT_PATTERN.matcher( req.responseText );
+		if ( matcher.find() )
+		{
+			String race = matcher.group( 1 );
+			KoLCharacter.setBjorned( KoLCharacter.findFamiliar( race ) );
+		}
+	}
 
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
 

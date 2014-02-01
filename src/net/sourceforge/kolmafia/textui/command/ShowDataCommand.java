@@ -247,6 +247,10 @@ public class ShowDataCommand
 			if ( container != EquipmentRequest.UNEQUIP )
 			{
 				desiredStream.println( "Container: " + container );
+				if ( container.getItemId() == ItemPool.BUDDY_BJORN )
+				{
+					desiredStream.println( "Carrying: " + KoLCharacter.getBjorned() );
+				}
 			}
 
 			desiredStream.println();

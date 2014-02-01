@@ -140,6 +140,11 @@ public class EnthroneCommand
 				RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
 			}
 
+			else if ( KoLCharacter.getBjorned().equals( change ) )
+			{
+				RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
+			}
+
 			RequestThread.postRequest( new EquipmentRequest( HATSEAT, EquipmentManager.HAT ) );
 
 			if ( KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals( change ) )

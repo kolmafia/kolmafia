@@ -47,8 +47,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -81,7 +79,7 @@ public class FamiliarRequest
 	private FamiliarData changeTo;
 	private AdventureResult item;
 	private boolean locking;
-	private boolean enthrone;
+	private boolean enthrone, bjornify;
 
 	public FamiliarRequest()
 	{
@@ -151,6 +149,18 @@ public class FamiliarRequest
 		return rv;
 	}
 
+	public static FamiliarRequest bjornifyRequest( final FamiliarData changeTo )
+	{
+		FamiliarRequest rv = new FamiliarRequest();
+		rv.changeTo = changeTo;
+		rv.bjornify = true;
+		rv.addFormField( "action", "backpack" );
+		int id = changeTo.getId();
+		rv.addFormField( "famid", id <= 0 ? "0" : String.valueOf( id ) );
+		rv.addFormField( "ajax", "1" );
+		return rv;
+	}
+
 	@Override
 	protected boolean retryOnTimeout()
 	{
@@ -182,7 +192,8 @@ public class FamiliarRequest
 
 		if ( this.item != null )
 		{
-			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " with " + this.item.getName() + "..." );
+			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() +
+				  " with " + this.item.getName() + "..." );
 			super.run();
 			return;
 		}
@@ -212,6 +223,30 @@ public class FamiliarRequest
 				KoLmafia.updateDisplay( "Carrying " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " in the Crown of Thrones..." );
 			}
 		}
+		else if ( this.bjornify )
+		{
+			if ( EquipmentManager.getEquipment( EquipmentManager.CONTAINER ).getItemId() != ItemPool.BUDDY_BJORN )
+			{
+				return;
+			}
+
+			FamiliarData bjorned = KoLCharacter.getBjorned();
+
+			if ( bjorned.getId() == this.changeTo.getId() )
+			{
+				return;
+			}
+
+			if ( bjorned != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Kicking " + bjorned.getName() + " the " + bjorned.getRace() + " out of the bjorn..." );
+			}
+
+			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Carrying " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " in the Bjorn Buddy..." );
+			}
+		}
 		else	// !enthrone
 		{
 			if ( familiar.getId() == this.changeTo.getId() )
@@ -232,7 +267,7 @@ public class FamiliarRequest
 
 		super.run();
 
-		if ( !this.enthrone && this.changeTo.getId() == FamiliarPool.REANIMATOR )
+		if ( !this.enthrone && !this.bjornify && this.changeTo.getId() == FamiliarPool.REANIMATOR )
 		{
 			// Visit chat to familiar page to get current parts
 			KoLmafia.updateDisplay( "Getting current parts information for " + this.changeTo.getName() + " the " + this.changeTo.getRace() + "." );
@@ -243,6 +278,7 @@ public class FamiliarRequest
 		// leave equipment alone.
 
 		if ( this.enthrone ||
+		     this.bjornify ||
 		     familiar == FamiliarData.NO_FAMILIAR ||
 		     this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -553,6 +589,54 @@ public class FamiliarRequest
 			}
 
 			KoLCharacter.setEnthroned( fam );
+			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+
+			return true;
+		}
+
+		// See if we are putting the familiar into the Bjorn Buddy
+		if ( action.equals( "backpack" ) )
+		{
+			// Failure:
+			// You're not wearing a Bjorn Buddy.
+
+			if ( responseText.contains( "You're not wearing a Bjorn Buddy" ) )
+			{
+				return false;
+			}
+
+			int famid = FamiliarRequest.getFamId( urlString );
+			if ( famid < 0 )
+			{
+				return false;
+			}
+
+			// Success:
+			//
+			// Buddy Bjorn vacated.
+
+			if ( famid == 0 )
+			{
+				KoLCharacter.setBjorned( FamiliarData.NO_FAMILIAR );
+				return true;
+			}
+
+			// Success:
+			//
+			// Your Green Pixie, Al Coholic, is now safely in your Buddy Bjorn.
+
+			if ( !responseText.contains( "is now safely in your Buddy Bjorn" ) )
+			{
+				return false;
+			}
+
+			FamiliarData fam = KoLCharacter.findFamiliar( famid );
+			if ( fam == null || !fam.canEquip() )
+			{
+				return false;
+			}
+
+			KoLCharacter.setBjorned( fam );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 
 			return true;

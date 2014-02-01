@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -56,7 +55,7 @@ public class Speculation
 	private int MCD;
 	public AdventureResult[] equipment;
 	private ArrayList<AdventureResult> effects;
-	private FamiliarData familiar, enthroned;
+	private FamiliarData familiar, enthroned, bjorned;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -82,6 +81,7 @@ public class Speculation
 		}
 		this.familiar = KoLCharacter.currentFamiliar;
 		this.enthroned = KoLCharacter.currentEnthroned;
+		this.bjorned = KoLCharacter.currentBjorned;
 	}
 	
 	public void setMindControlLevel( int MCD )
@@ -97,6 +97,11 @@ public class Speculation
 	public void setEnthroned( FamiliarData familiar )
 	{
 		this.enthroned = familiar;
+	}
+
+	public void setBjorned( FamiliarData familiar )
+	{
+		this.bjorned = familiar;
 	}
 	
 	public FamiliarData getFamiliar()
@@ -142,6 +147,7 @@ public class Speculation
 			this.effects,
 			this.familiar,
 			this.enthroned,
+			this.bjorned,
 			true );
 		this.calculated = true;
 		return this.mods;
@@ -232,6 +238,20 @@ public class Speculation
 				this.setEnthroned( fam );
 				this.equip( EquipmentManager.HAT,
 					ItemPool.get( ItemPool.HATSEAT, 1 ) );
+			}
+			else if ( cmd.equals( "bjornify" ) )
+			{
+				int id = FamiliarDatabase.getFamiliarId( params );
+				if ( id == -1 && !params.equals( "none" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR,
+						"Unknown familiar: " + params );
+					return true;
+				}
+				FamiliarData fam = new FamiliarData( id );
+				this.setBjorned( fam );
+				this.equip( EquipmentManager.CONTAINER,
+					ItemPool.get( ItemPool.BUDDY_BJORN, 1 ) );
 			}
 			else if ( cmd.equals( "up" ) )
 			{
