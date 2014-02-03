@@ -88,6 +88,7 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = false;
 		this.enthrone = false;
+		this.bjornify = false;
 	}
 
 	public FamiliarRequest( final FamiliarData changeTo )
@@ -98,6 +99,7 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = false;
 		this.enthrone = false;
+		this.bjornify = false;
 
 		if ( this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -119,6 +121,7 @@ public class FamiliarRequest
 		this.item = item;
 		this.locking = false;
 		this.enthrone = false;
+		this.bjornify = false;
 
 		this.addFormField( "action", "equip" );
 		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
@@ -134,6 +137,7 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = true;
 		this.enthrone = false;
+		this.bjornify = false;
 		this.addFormField( "ajax", "1" );
 	}
 
@@ -777,6 +781,36 @@ public class FamiliarRequest
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "enthrone " + fam.toString() );
+			return true;
+		}
+
+		// See if we are putting the familiar into Buddy Bjorn
+		if ( action.equals( "backpack" ) )
+		{
+			int famid = FamiliarRequest.getFamId( urlString );
+			if ( famid < 0 )
+			{
+				return true;
+			}
+
+			if ( famid == 0 )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "bjornify none" );
+				return true;
+			}
+
+			FamiliarData fam = KoLCharacter.findFamiliar( famid );
+
+			// If we don't have the familiar or can't equip it,
+			// this request will fail, so don't log it.
+			if ( fam == null || fam == FamiliarData.NO_FAMILIAR || !fam.canEquip() )
+			{
+				return true;
+			}
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "bjornify " + fam.toString() );
 			return true;
 		}
 
