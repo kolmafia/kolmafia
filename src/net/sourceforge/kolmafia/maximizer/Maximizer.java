@@ -799,9 +799,13 @@ public class Maximizer
 		String slotname = EquipmentRequest.slotNames[ slot ];
 		AdventureResult item = Maximizer.best.equipment[ slot ];
 		FamiliarData enthroned = Maximizer.best.getEnthroned();
+		FamiliarData bjorned = Maximizer.best.getBjorned();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
-		if ( curr.equals( item ) && !( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned ) )
+		FamiliarData currBjorned = KoLCharacter.getBjorned();
+		if ( curr.equals( item ) &&
+			!( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
+			!( item.getItemId() == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -829,6 +833,10 @@ public class Maximizer
 			if ( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned )
 			{
 				cmd = "enthrone " + enthroned.getRace();
+			}
+			else if ( item.getItemId() == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
+			{
+				cmd = "bjornify " + bjorned.getRace();
 			}
 			else
 			{

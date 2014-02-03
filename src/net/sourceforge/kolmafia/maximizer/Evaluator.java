@@ -80,7 +80,8 @@ public class Evaluator
 	private int beeosity = 2;
 	private int booleanMask, booleanValue;
 	private ArrayList<FamiliarData> familiars;
-	private ArrayList<FamiliarData> enthronedFamiliars;
+	private ArrayList<FamiliarData> carriedFamiliars;
+	private int carriedFamiliarsNeeded = 0;
 
 	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -184,7 +185,7 @@ public class Evaluator
 		this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
 		this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
 		this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
-		this.enthronedFamiliars = tiebreaker.enthronedFamiliars = new ArrayList<FamiliarData>();
+		this.carriedFamiliars = tiebreaker.carriedFamiliars = new ArrayList<FamiliarData>();
 		this.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.min = new double[ Modifiers.DOUBLE_MODIFIERS ];
@@ -1205,8 +1206,6 @@ public class Evaluator
 						id == ItemPool.FOLDER_HOLDER ) ||
 					( cardsleeveUseful &&
 						id == ItemPool.CARD_SLEEVE ) ||
-					// Assume Crown of Thrones always useful, will discard later if no familiars help
-					( id == ItemPool.HATSEAT ) ||
 					( this.clownosity > 0 &&
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&
@@ -1217,6 +1216,13 @@ public class Evaluator
 						& usefulSynergies) != 0 ) )
 				{
 					item.automaticFlag = true;
+					break gotItem;
+				}
+
+				// If you have a familiar carried, we'll need to check 1 or 2 Familiars best carried
+				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
+				{
+					this.carriedFamiliarsNeeded++;
 					break gotItem;
 				}
 
@@ -1253,6 +1259,58 @@ public class Evaluator
 			if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 		}
 
+		FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
+		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
+
+		if ( this.carriedFamiliarsNeeded > 0 )
+		{
+			boolean useCarriedFamiliar = false;
+			double bestScore = 0;
+			double secondBestScore = 0;
+			// Check each familiar in hat to see if they are worthwhile
+			List familiarList = KoLCharacter.getFamiliarList();
+			String[] familiars = new String[ familiarList.size() ];
+			for ( int f = 0; f < familiarList.size(); ++f )
+			{
+				FamiliarData familiar = (FamiliarData) familiarList.get( f );
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.enthroneable() &&
+					!familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
+				{
+					MaximizerSpeculation spec = new MaximizerSpeculation();
+					CheckedItem item = null;
+					item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+					spec.attachment = item;
+					int useSlot = Evaluator.toUseSlot( EquipmentManager.HAT );
+					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+					spec.equipment[ useSlot ] = item;
+					spec.setEnthroned( familiar );
+					spec.setUnscored();
+					double score = spec.getScore();
+					if ( score > nullScore )
+					{
+						if ( score > bestScore )
+						{
+							useCarriedFamiliar = true;
+							secondBestScore = bestScore;
+							secondBestCarriedFamiliar = bestCarriedFamiliar;
+							bestScore = score;
+							bestCarriedFamiliar = familiar;
+						}
+						else if ( score > secondBestScore )
+						{
+							secondBestScore = score;
+							secondBestCarriedFamiliar = familiar;
+						}
+					}
+				}
+			}
+			this.carriedFamiliars.add( bestCarriedFamiliar );
+			if ( this.carriedFamiliarsNeeded > 1 )
+			{
+				this.carriedFamiliars.add( secondBestCarriedFamiliar );
+			}
+		}
+		
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			// If we currently have nothing equipped, also consider leaving nothing equipped
@@ -1283,50 +1341,15 @@ public class Evaluator
 				spec.equipment[ useSlot ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
 				{
-					Boolean useHat = false;
-					double bestScore = 0;
-					FamiliarData bestFamiliar = FamiliarData.NO_FAMILIAR;
-					// Check each familiar in hat to see if they are worthwhile
-					List familiarList = KoLCharacter.getFamiliarList();
-					String[] familiars = new String[ familiarList.size() ];
-					for ( int f = 0; f < familiarList.size(); ++f )
-					{
-						FamiliarData familiar = (FamiliarData) familiarList.get( f );
-						if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.enthroneable() &&
-							!familiar.equals( KoLCharacter.getFamiliar() ) && !this.enthronedFamiliars.contains( familiar ) )
-						{
-							spec.setEnthroned( familiar );
-							spec.setUnscored();
-							double score = spec.getScore();
-							if ( score > nullScore )
-							{
-								if ( score > bestScore )
-								{
-									useHat = true;
-									bestScore = score;
-									bestFamiliar = familiar;
-								}
-							}
-						}
-					}
-					if ( useHat == false )
-					{
-						item.automaticFlag = false;
-						continue;
-					}
-					// With Bjorn support need to pass best two not just best.
-					this.enthronedFamiliars.add( bestFamiliar );
-					spec.setEnthroned( bestFamiliar );
-					spec.setUnscored();
-					spec.getScore();
-					spec.failed = false;
+					spec.setEnthroned( bestCarriedFamiliar );
 				}
-				else
+				else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 				{
-					double score = spec.getScore();	// force evaluation
-					spec.failed = false;	// individual items are not expected
-											// to fulfill all requirements
+					spec.setBjorned( bestCarriedFamiliar );
 				}
+				double score = spec.getScore();	// force evaluation
+				spec.failed = false;	// individual items are not expected
+										// to fulfill all requirements
 
 				speculationList.add( spec );
 			}
@@ -1437,6 +1460,6 @@ public class Evaluator
 			}
 		}
 
-		spec.tryAll( this.familiars, this.enthronedFamiliars, usefulOutfits, outfitPieces, automatic );
+		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic );
 	}
 }
