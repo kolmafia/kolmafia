@@ -1273,8 +1273,8 @@ public class Evaluator
 			for ( int f = 0; f < familiarList.size(); ++f )
 			{
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
-				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.enthroneable() &&
-					!familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() &&
+				     !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					CheckedItem item = null;

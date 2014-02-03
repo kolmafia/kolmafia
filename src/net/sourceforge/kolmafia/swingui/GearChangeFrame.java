@@ -121,8 +121,8 @@ public class GearChangeFrame
 
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
-	private final EnthronableComboBox crownSelect;
-	private final BjornableComboBox bjornSelect;
+	private final CarriedFamiliarComboBox crownSelect;
+	private final CarriedFamiliarComboBox bjornSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox famLockCheckbox;
 	private FakeHandsSpinner fakeHands;
@@ -166,8 +166,8 @@ public class GearChangeFrame
 		}
 
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
-		this.crownSelect = new EnthronableComboBox( this.crownFamiliars );
-		this.bjornSelect = new BjornableComboBox( this.bjornFamiliars );
+		this.crownSelect = new CarriedFamiliarComboBox( this.crownFamiliars );
+		this.bjornSelect = new CarriedFamiliarComboBox( this.bjornFamiliars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
@@ -883,21 +883,10 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.familiars.clear();
 	}
 
-	private class EnthronableComboBox
+	private class CarriedFamiliarComboBox
 		extends JComboBox
 	{
-		public EnthronableComboBox( final LockableListModel model )
-		{
-			super( model );
-			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
-			this.setRenderer( renderer );
-		}
-	}
-
-	private class BjornableComboBox
-		extends JComboBox
-	{
-		public BjornableComboBox( final LockableListModel model )
+		public CarriedFamiliarComboBox( final LockableListModel model )
 		{
 			super( model );
 			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
@@ -1032,13 +1021,24 @@ public class GearChangeFrame
 		{
 			selectedFamiliar = currentFamiliar;
 		}
-		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
 
 		FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
-		this.updateEquipmentList( this.crownFamiliars, this.enthronableFamiliars( currentFamiliar ), enthronedFamiliar );
+		FamiliarData selectedThroneFamiliar = (FamiliarData) this.crownFamiliars.getSelectedItem();
+		if ( selectedThroneFamiliar == null )
+		{
+			selectedThroneFamiliar = enthronedFamiliar;
+		}
 
 		FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
-		this.updateEquipmentList( this.bjornFamiliars, this.bjornableFamiliars( currentFamiliar ), bjornedFamiliar );
+		FamiliarData selectedBjornFamiliar = (FamiliarData) this.bjornFamiliars.getSelectedItem();
+		if ( selectedBjornFamiliar == null )
+		{
+			selectedBjornFamiliar = bjornedFamiliar;
+		}
+
+		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
+		this.updateEquipmentList( this.crownFamiliars, this.carriableFamiliars( currentFamiliar, bjornedFamiliar ), selectedThroneFamiliar );
+		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
 	}
 
 	private List validHatItems( final AdventureResult currentHat )
@@ -1397,7 +1397,7 @@ public class GearChangeFrame
 		return familiar.canEquip();
 	}
 
-	private List enthronableFamiliars( final FamiliarData currentFamiliar )
+	private List carriableFamiliars( final FamiliarData exclude1, final FamiliarData exclude2 )
 	{
 		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
 
@@ -1408,55 +1408,14 @@ public class GearChangeFrame
 		{
 			FamiliarData fam = (FamiliarData) it.next();
 
-			// Cannot put current familiar into the throne
-			if ( fam == currentFamiliar )
+			// Cannot carry a familiar if it is current familiar or is carried elsewhere
+			if ( fam == exclude1 || fam == exclude2 )
 			{
 				continue;
 			}
 
-			// Certain familiars cannot ride in the throne
-			if ( !fam.enthroneable() )
-			{
-				continue;
-			}
-
-			// Only add it once
-			if ( familiars.contains( fam ) )
-			{
-				continue;
-			}
-
-			familiars.add( fam );
-		}
-
-		// Add "(none)"
-		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
-		{
-			familiars.add( FamiliarData.NO_FAMILIAR );
-		}
-
-		return familiars;
-	}
-
-	private List bjornableFamiliars( final FamiliarData currentFamiliar )
-	{
-		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
-
-		// Look at terrarium
-
-		Iterator it = KoLCharacter.getFamiliarList().iterator();
-		while ( it.hasNext() )
-		{
-			FamiliarData fam = (FamiliarData) it.next();
-
-			// Cannot put current familiar into the buddy bjorn
-			if ( fam == currentFamiliar )
-			{
-				continue;
-			}
-
-			// Certain familiars cannot ride in the buddy bjorn
-			if ( !fam.enthroneable() )
+			// Certain familiars cannot be carried
+			if ( !fam.canCarry() )
 			{
 				continue;
 			}

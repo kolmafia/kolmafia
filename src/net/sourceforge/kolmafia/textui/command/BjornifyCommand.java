@@ -129,7 +129,7 @@ public class BjornifyCommand
 				return;
 			}
 
-			if ( !change.enthroneable() )
+			if ( !change.canCarry() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't bjornify a " + change.getRace() + "!" );
 				return;
