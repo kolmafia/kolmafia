@@ -129,7 +129,7 @@ public class EnthroneCommand
 				return;
 			}
 
-			if ( !change.enthroneable() )
+			if ( !change.canCarry() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone a " + change.getRace() + "!" );
 				return;

@@ -694,7 +694,7 @@ public class FamiliarData
 		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
 
-	public boolean enthroneable()
+	public boolean canCarry()
 	{
 		switch ( this.id )
 		{
