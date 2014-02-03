@@ -90,6 +90,12 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		return super.toString();
 	}
 
+	public void setUnscored()
+	{
+		this.scored = false;
+		this.calculated = false;
+	}
+
 	public double getScore()
 	{
 		if ( this.scored ) return this.score;
@@ -178,20 +184,20 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		System.arraycopy( mark, 0, this.equipment, 0, EquipmentManager.ALL_SLOTS );
 	}
 
-	public void tryAll( ArrayList familiars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+	public void tryAll( ArrayList familiars, ArrayList enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
 		throws MaximizerInterruptedException
 	{
-		this.tryOutfits( usefulOutfits, outfitPieces, possibles );
+		this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles );
 		for ( int i = 0; i < familiars.size(); ++i )
 		{
 			this.setFamiliar( (FamiliarData) familiars.get( i ) );
 			possibles[ EquipmentManager.FAMILIAR ] =
 				possibles[ EquipmentManager.ALL_SLOTS + i ];
-			this.tryOutfits( usefulOutfits, outfitPieces, possibles );
+			this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles );
 		}
 	}
 
-	public void tryOutfits( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+	public void tryOutfits( ArrayList<FamiliarData> enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -204,7 +210,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			{
 				if ( idx == -1 )
 				{	// all pieces successfully put on
-					this.tryFamiliarItems( possibles );
+					this.tryFamiliarItems( enthronedFamiliars, possibles );
 					break;
 				}
 				AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
@@ -269,10 +275,10 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.restore( mark );
 		}
 
-		this.tryFamiliarItems( possibles );
+		this.tryFamiliarItems( enthronedFamiliars, possibles );
 	}
 
-	public void tryFamiliarItems( ArrayList[] possibles )
+	public void tryFamiliarItems( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -302,7 +308,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				}
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.FAMILIAR ] = item;
-				this.tryContainers( possibles );
+				this.tryContainers( enthronedFamiliars, possibles );
 				any = true;
 				this.restore( mark );
 			}
@@ -311,11 +317,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.equipment[ EquipmentManager.FAMILIAR ] = EquipmentRequest.UNEQUIP;
 		}
 
-		this.tryContainers( possibles );
+		this.tryContainers( enthronedFamiliars, possibles );
 		this.restore( mark );
 	}
 
-	public void tryContainers( ArrayList[] possibles )
+	public void tryContainers( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -333,7 +339,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				//}
 				//if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.CONTAINER ] = item;
-				this.tryAccessories( possibles, 0 );
+				this.tryAccessories( enthronedFamiliars, possibles, 0 );
 				any = true;
 				this.restore( mark );
 			}
@@ -342,11 +348,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.equipment[ EquipmentManager.CONTAINER ] = EquipmentRequest.UNEQUIP;
 		}
 
-		this.tryAccessories( possibles, 0 );
+		this.tryAccessories( enthronedFamiliars, possibles, 0 );
 		this.restore( mark );
 	}
 
-	public void tryAccessories( ArrayList[] possibles, int pos )
+	public void tryAccessories( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, int pos )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -395,7 +401,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						break;	// no room left - shouldn't happen
 					}
 
-					this.tryAccessories( possibles, pos + 1 );
+					this.tryAccessories( enthronedFamiliars, possibles, pos + 1 );
 					any = true;
 				}
 				this.restore( mark );
@@ -421,11 +427,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		this.trySwap( EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3 );
 		this.trySwap( EquipmentManager.ACCESSORY3, EquipmentManager.ACCESSORY1 );
 
-		this.tryHats( possibles );
+		this.tryHats( enthronedFamiliars, possibles );
 		this.restore( mark );
 	}
 
-	public void tryHats( ArrayList[] possibles )
+	public void tryHats( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -443,9 +449,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				}
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.HAT ] = item;
-				this.tryShirts( possibles );
-				any = true;
-				this.restore( mark );
+				if ( item.getItemId() == ItemPool.HATSEAT )
+				{
+					for ( FamiliarData f : enthronedFamiliars )
+					{
+						this.setEnthroned( f );
+						this.tryShirts( possibles );
+						any = true;
+						this.restore( mark );
+					}
+				}
+				else
+				{
+					this.tryShirts( possibles );
+					any = true;
+					this.restore( mark );
+				}
 			}
 
 			if ( any ) return;

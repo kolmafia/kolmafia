@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -79,6 +80,7 @@ public class Evaluator
 	private int beeosity = 2;
 	private int booleanMask, booleanValue;
 	private ArrayList<FamiliarData> familiars;
+	private ArrayList<FamiliarData> enthronedFamiliars;
 
 	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -182,6 +184,7 @@ public class Evaluator
 		this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
 		this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
 		this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
+		this.enthronedFamiliars = tiebreaker.enthronedFamiliars = new ArrayList<FamiliarData>();
 		this.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.min = new double[ Modifiers.DOUBLE_MODIFIERS ];
@@ -1202,6 +1205,8 @@ public class Evaluator
 						id == ItemPool.FOLDER_HOLDER ) ||
 					( cardsleeveUseful &&
 						id == ItemPool.CARD_SLEEVE ) ||
+					// Assume Crown of Thrones always useful, will discard later if no familiars help
+					( id == ItemPool.HATSEAT ) ||
 					( this.clownosity > 0 &&
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&
@@ -1276,9 +1281,52 @@ public class Evaluator
 				}
 				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ useSlot ] = item;
-				spec.getScore();	// force evaluation
-				spec.failed = false;	// individual items are not expected
-										// to fulfill all requirements
+				if ( item.getItemId() == ItemPool.HATSEAT )
+				{
+					Boolean useHat = false;
+					double bestScore = 0;
+					FamiliarData bestFamiliar = FamiliarData.NO_FAMILIAR;
+					// Check each familiar in hat to see if they are worthwhile
+					List familiarList = KoLCharacter.getFamiliarList();
+					String[] familiars = new String[ familiarList.size() ];
+					for ( int f = 0; f < familiarList.size(); ++f )
+					{
+						FamiliarData familiar = (FamiliarData) familiarList.get( f );
+						if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.enthroneable() &&
+							!familiar.equals( KoLCharacter.getFamiliar() ) && !this.enthronedFamiliars.contains( familiar ) )
+						{
+							spec.setEnthroned( familiar );
+							spec.setUnscored();
+							double score = spec.getScore();
+							if ( score > nullScore )
+							{
+								if ( score > bestScore )
+								{
+									useHat = true;
+									bestScore = score;
+									bestFamiliar = familiar;
+								}
+							}
+						}
+					}
+					if ( useHat == false )
+					{
+						item.automaticFlag = false;
+						continue;
+					}
+					// With Bjorn support need to pass best two not just best.
+					this.enthronedFamiliars.add( bestFamiliar );
+					spec.setEnthroned( bestFamiliar );
+					spec.setUnscored();
+					spec.getScore();
+					spec.failed = false;
+				}
+				else
+				{
+					double score = spec.getScore();	// force evaluation
+					spec.failed = false;	// individual items are not expected
+											// to fulfill all requirements
+				}
 
 				speculationList.add( spec );
 			}
@@ -1389,6 +1437,6 @@ public class Evaluator
 			}
 		}
 
-		spec.tryAll( this.familiars, usefulOutfits, outfitPieces, automatic );
+		spec.tryAll( this.familiars, this.enthronedFamiliars, usefulOutfits, outfitPieces, automatic );
 	}
 }
