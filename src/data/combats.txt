@@ -118,7 +118,6 @@ Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 The Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	upgraded ram: 2	Knott Slanding: -1
-Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin
@@ -253,6 +252,7 @@ The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accou
 The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
+The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
 The Knob Shaft	85	ghost miner
