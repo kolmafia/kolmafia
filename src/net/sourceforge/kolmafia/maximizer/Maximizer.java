@@ -798,8 +798,10 @@ public class Maximizer
 
 		String slotname = EquipmentRequest.slotNames[ slot ];
 		AdventureResult item = Maximizer.best.equipment[ slot ];
+		FamiliarData enthroned = Maximizer.best.getEnthroned();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
-		if ( curr.equals( item ) )
+		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
+		if ( curr.equals( item ) && !( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -812,6 +814,7 @@ public class Maximizer
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
+		spec.setEnthroned( enthroned );
 		double delta = spec.getScore() - current;
 		String cmd, text;
 		if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
@@ -823,7 +826,14 @@ public class Maximizer
 		}
 		else
 		{
-			cmd = "equip " + slotname + " " + item.getName();
+			if ( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned )
+			{
+				cmd = "enthrone " + enthroned.getRace();
+			}
+			else
+			{
+				cmd = "equip " + slotname + " " + item.getName();
+			}
 			text = cmd + " (";
 
 			CheckedItem checkedItem = (CheckedItem) item;
@@ -835,7 +845,10 @@ public class Maximizer
 			// is included should also be supported by retrieveItem(), so we don't need
 			// to take any special action here.  Displaying the method that will be used
 			// would still be useful, though.
-			if ( checkedItem.initial != 0 )
+			if ( curr.equals( item ) )
+			{
+			}
+			else if ( checkedItem.initial != 0 )
 			{
 				String method = InventoryManager.simRetrieveItem( item.getInstance( 1 ) );
 				if ( !method.equals( "have" ) )

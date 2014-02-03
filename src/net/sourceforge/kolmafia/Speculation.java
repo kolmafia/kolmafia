@@ -104,6 +104,16 @@ public class Speculation
 		this.bjorned = familiar;
 	}
 	
+	public FamiliarData getEnthroned()
+	{
+		return this.enthroned;
+	}
+
+	public FamiliarData getBjorned()
+	{
+		return this.bjorned;
+	}
+	
 	public FamiliarData getFamiliar()
 	{
 		return this.familiar;
