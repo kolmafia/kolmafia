@@ -155,6 +155,7 @@ public class EquipmentRequest
 		"folder3",
 		"folder4",
 		"folder5",
+		"buddy-bjorn",
 		"fakehand"
 	};
 
@@ -181,6 +182,7 @@ public class EquipmentRequest
 		"folder3",
 		"folder4",
 		"folder5",
+		"buddybjorn",
 		"fakehand"
 	};
 
@@ -272,6 +274,7 @@ public class EquipmentRequest
 		switch ( equipmentSlot )
 		{
 		case EquipmentManager.CROWN_OF_THRONES:
+		case EquipmentManager.BUDDY_BJORN:
 			break;
 		case EquipmentManager.STICKER1:
 		case EquipmentManager.STICKER2:
@@ -312,7 +315,7 @@ public class EquipmentRequest
 	private static final String chooseEquipmentLocation( final int slot )
 	{
 		return	slot < EquipmentManager.SLOTS ? "inv_equip.php" :
-			slot == EquipmentManager.CROWN_OF_THRONES ? "bogus.php" :
+			slot == EquipmentManager.CROWN_OF_THRONES || slot == EquipmentManager.BUDDY_BJORN ? "bogus.php" :
 			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
 			slot == EquipmentManager.CARD_SLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
@@ -1862,6 +1865,10 @@ public class EquipmentRequest
 			case 't':
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
 					"enthrone", text );
+				break;
+			case 'b':
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"bjornify", text );
 				break;
 			}
 		}

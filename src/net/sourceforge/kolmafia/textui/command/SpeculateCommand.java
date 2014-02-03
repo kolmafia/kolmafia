@@ -46,7 +46,7 @@ public class SpeculateCommand
 	public SpeculateCommand()
 	{
 		this.usage =
-			" MCD <num> | equip [<slot>] <item> | unequip <slot> | familiar <type> | enthrone <type> | up <eff> | uneffect <eff> | quiet ; [<another>;...] - predict modifiers.";
+			" MCD <num> | equip [<slot>] <item> | unequip <slot> | familiar <type> | enthrone <type> | bjornify <type> | up <eff> | uneffect <eff> | quiet ; [<another>;...] - predict modifiers.";
 
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}

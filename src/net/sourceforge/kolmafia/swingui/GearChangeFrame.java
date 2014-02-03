@@ -114,6 +114,7 @@ public class GearChangeFrame
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
 	private final SortedListModel crownFamiliars = new SortedListModel();
+	private final SortedListModel bjornFamiliars = new SortedListModel();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -121,12 +122,14 @@ public class GearChangeFrame
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
 	private final EnthronableComboBox crownSelect;
+	private final BjornableComboBox bjornSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox famLockCheckbox;
 	private FakeHandsSpinner fakeHands;
 
 	private final static AdventureResult fakeHand = ItemPool.get( ItemPool.FAKE_HAND, 1 );
 	private final static AdventureResult crownOfThrones = ItemPool.get( ItemPool.HATSEAT, 1 );
+	private final static AdventureResult buddyBjorn = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
 	public final static AdventureResult FOLDER_HOLDER = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
 
 	public GearChangeFrame()
@@ -164,6 +167,7 @@ public class GearChangeFrame
 
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
 		this.crownSelect = new EnthronableComboBox( this.crownFamiliars );
+		this.bjornSelect = new BjornableComboBox( this.bjornFamiliars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
@@ -529,6 +533,10 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement() );
 
+			rows.add(  new VerifiableElement( "Buddy Bjorn:", GearChangeFrame.this.bjornSelect ) );
+
+			rows.add( new VerifiableElement() );
+
 			element = new VerifiableElement( "Sticker:", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
 			GearChangeFrame.this.sticker1Label = element.getLabel();
 			rows.add( element );
@@ -577,6 +585,9 @@ public class GearChangeFrame
 			boolean hasCrownOfThrones = KoLCharacter.hasEquipped( GearChangeFrame.crownOfThrones );
 			GearChangeFrame.this.crownSelect.setEnabled( isEnabled && hasCrownOfThrones );
 
+			boolean hasBuddyBjorn = KoLCharacter.hasEquipped( GearChangeFrame.buddyBjorn );
+			GearChangeFrame.this.bjornSelect.setEnabled( isEnabled && hasBuddyBjorn );
+
 			boolean hasFakeHands = GearChangeFrame.this.fakeHands.getAvailableFakeHands() > 0;
 			GearChangeFrame.this.fakeHands.setEnabled( isEnabled && hasFakeHands );
 
@@ -618,6 +629,14 @@ public class GearChangeFrame
 		if ( familiar != enthronedFamiliar )
 		{
 			RequestThread.postRequest( FamiliarRequest.enthroneRequest( familiar ) );
+		}
+
+		// Buddy Bjorn
+		familiar = (FamiliarData) bjornSelect.getSelectedItem();
+		FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
+		if ( familiar != bjornedFamiliar )
+		{
+			RequestThread.postRequest( FamiliarRequest.bjornifyRequest( familiar ) );
 		}
 
 		// Card Sleeve
@@ -875,6 +894,17 @@ public class GearChangeFrame
 		}
 	}
 
+	private class BjornableComboBox
+		extends JComboBox
+	{
+		public BjornableComboBox( final LockableListModel model )
+		{
+			super( model );
+			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
+			this.setRenderer( renderer );
+		}
+	}
+
 	private class FamiliarComboBox
 		extends JComboBox
 	{
@@ -1006,6 +1036,9 @@ public class GearChangeFrame
 
 		FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
 		this.updateEquipmentList( this.crownFamiliars, this.enthronableFamiliars( currentFamiliar ), enthronedFamiliar );
+
+		FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
+		this.updateEquipmentList( this.bjornFamiliars, this.bjornableFamiliars( currentFamiliar ), bjornedFamiliar );
 	}
 
 	private List validHatItems( final AdventureResult currentHat )
@@ -1382,6 +1415,47 @@ public class GearChangeFrame
 			}
 
 			// Certain familiars cannot ride in the throne
+			if ( !fam.enthroneable() )
+			{
+				continue;
+			}
+
+			// Only add it once
+			if ( familiars.contains( fam ) )
+			{
+				continue;
+			}
+
+			familiars.add( fam );
+		}
+
+		// Add "(none)"
+		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
+		{
+			familiars.add( FamiliarData.NO_FAMILIAR );
+		}
+
+		return familiars;
+	}
+
+	private List bjornableFamiliars( final FamiliarData currentFamiliar )
+	{
+		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
+
+		// Look at terrarium
+
+		Iterator it = KoLCharacter.getFamiliarList().iterator();
+		while ( it.hasNext() )
+		{
+			FamiliarData fam = (FamiliarData) it.next();
+
+			// Cannot put current familiar into the buddy bjorn
+			if ( fam == currentFamiliar )
+			{
+				continue;
+			}
+
+			// Certain familiars cannot ride in the buddy bjorn
 			if ( !fam.enthroneable() )
 			{
 				continue;

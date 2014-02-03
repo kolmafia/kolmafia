@@ -115,10 +115,12 @@ public class EquipmentManager
 	public static final int FOLDER4 = 18;
 	public static final int FOLDER5 = 19;
 
-	// Count of all equipment slots: HAT to FOLDER5
-	public static final int ALL_SLOTS = 20;
+	public static final int BUDDY_BJORN = 20;
 
-	public static final int FAKEHAND = 20;
+	// Count of all equipment slots: HAT to FOLDER5
+	public static final int ALL_SLOTS = 21;
+
+	public static final int FAKEHAND = 21;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
@@ -292,6 +294,10 @@ public class EquipmentManager
 		else if ( itemId == ItemPool.HATSEAT )
 		{
 			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.HAT ], item );
+		}
+		else if ( itemId == ItemPool.BUDDY_BJORN )
+		{
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.CONTAINER ], item );
 		}
 		else
 		{
