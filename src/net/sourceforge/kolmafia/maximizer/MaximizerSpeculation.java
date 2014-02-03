@@ -339,9 +339,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				//}
 				//if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.CONTAINER ] = item;
-				this.tryAccessories( enthronedFamiliars, possibles, 0 );
-				any = true;
-				this.restore( mark );
+				if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+				{
+					for ( FamiliarData f : enthronedFamiliars )
+					{
+						this.setBjorned( f );
+						this.tryAccessories( enthronedFamiliars, possibles, 0 );
+						any = true;
+						this.restore( mark );
+					}
+				}
+				else
+				{
+					this.tryAccessories( enthronedFamiliars, possibles, 0 );
+					any = true;
+					this.restore( mark );
+				}
 			}
 
 			if ( any ) return;
@@ -453,10 +466,14 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					for ( FamiliarData f : enthronedFamiliars )
 					{
-						this.setEnthroned( f );
-						this.tryShirts( possibles );
-						any = true;
-						this.restore( mark );
+						// Cannot use same familiar for this and Bjorn
+						if( f != this.getBjorned() )
+						{
+							this.setEnthroned( f );
+							this.tryShirts( possibles );
+							any = true;
+							this.restore( mark );
+						}
 					}
 				}
 				else
