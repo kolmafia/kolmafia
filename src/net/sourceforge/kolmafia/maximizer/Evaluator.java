@@ -1175,6 +1175,12 @@ public class Evaluator
 					item.singleFlag = true;
 				}
 
+				// If you have a familiar carried, we'll need to check 1 or 2 Familiars best carried
+				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
+				{
+					this.carriedFamiliarsNeeded++;
+				}
+
 				if ( this.posEquip.contains( item ) )
 				{
 					item.automaticFlag = true;
@@ -1216,13 +1222,6 @@ public class Evaluator
 						& usefulSynergies) != 0 ) )
 				{
 					item.automaticFlag = true;
-					break gotItem;
-				}
-
-				// If you have a familiar carried, we'll need to check 1 or 2 Familiars best carried
-				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
-				{
-					this.carriedFamiliarsNeeded++;
 					break gotItem;
 				}
 
@@ -1344,7 +1343,7 @@ public class Evaluator
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						spec.setEnthroned( secondBestCarriedFamiliar );
-						item.automaticFlag = true;						
+						item.automaticFlag = true;
 					}
 					else
 					{
@@ -1356,7 +1355,7 @@ public class Evaluator
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						spec.setBjorned( secondBestCarriedFamiliar );
-						item.automaticFlag = true;						
+						item.automaticFlag = true;
 					}
 					else
 					{
