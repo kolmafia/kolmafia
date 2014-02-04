@@ -960,36 +960,6 @@ public class Evaluator
 			}
 		}
 
-		boolean stickersUseful = false;
-		{
-			Modifiers mods = Modifiers.getModifiers( "_stickers" );
-			if ( mods != null &&
-				this.getScore( mods ) - nullScore > 0.0 )
-			{
-				stickersUseful = true;
-			}
-		}
-
-		boolean folderholderUseful = false;
-		{
-			Modifiers mods = Modifiers.getModifiers( "_folderholder" );
-			if ( mods != null &&
-				this.getScore( mods ) - nullScore > 0.0 )
-			{
-				folderholderUseful = true;
-			}
-		}
-
-		boolean cardsleeveUseful = false;
-		{
-			Modifiers mods = Modifiers.getModifiers( "_cardsleeve" );
-			if ( mods != null &&
-				this.getScore( mods ) - nullScore > 0.0 )
-			{
-				cardsleeveUseful = true;
-			}
-		}
-
 		// This relies on the special sauce glove having a lower ID
 		// than any chefstaff.
 		boolean gloveAvailable = false;
@@ -1206,12 +1176,6 @@ public class Evaluator
 						mods.getRawBitmap( Modifiers.CLOATHING ) != 0 ) ||
 					( slimeHateUseful &&
 						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
-					( stickersUseful &&
-						EquipmentManager.isStickerWeapon( item ) ) ||
-					( folderholderUseful &&
-						id == ItemPool.FOLDER_HOLDER ) ||
-					( cardsleeveUseful &&
-						id == ItemPool.CARD_SLEEVE ) ||
 					( this.clownosity > 0 &&
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&
@@ -1347,6 +1311,7 @@ public class Evaluator
 				{
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
+						item.automaticFlag = true;
 						spec.setEnthroned( secondBestCarriedFamiliar );
 					}
 					else
@@ -1358,12 +1323,34 @@ public class Evaluator
 				{
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
+						item.automaticFlag = true;
 						spec.setBjorned( secondBestCarriedFamiliar );
 					}
 					else
 					{
 						spec.setBjorned( bestCarriedFamiliar );
 					}
+				}
+				else if ( EquipmentManager.isStickerWeapon( item ) )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.STICKER1 ] = current.equipment[ EquipmentManager.STICKER1 ];
+					spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
+					spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
+				}
+				else if ( item.getItemId() == ItemPool.CARD_SLEEVE )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
+				}
+				else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
+					spec.equipment[ EquipmentManager.FOLDER2 ] = current.equipment[ EquipmentManager.FOLDER2 ];
+					spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
+					spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
+					spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
 				}
 				spec.getScore();	// force evaluation
 				spec.failed = false;	// individual items are not expected
