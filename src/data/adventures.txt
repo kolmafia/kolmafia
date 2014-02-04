@@ -358,12 +358,12 @@ The Candy Witch and the Relentless Child Thieves	adventure=372	false	outdoor	Gum
 
 Woods	adventure=373	false	outdoor	A Deserted Stretch of I-911
 
-The Prince's Ball	adventure=374	false	none	The Prince's Restroom
-The Prince's Ball	adventure=375	false	none	The Prince's Dance Floor
-The Prince's Ball	adventure=376	false	none	The Prince's Kitchen
-The Prince's Ball	adventure=377	false	none	The Prince's Balcony
-The Prince's Ball	adventure=378	false	none	The Prince's Lounge
-The Prince's Ball	adventure=379	false	none	The Prince's Canapes Table
+The Prince's Ball	adventure=374	false	indoor	The Prince's Restroom
+The Prince's Ball	adventure=375	false	indoor	The Prince's Dance Floor
+The Prince's Ball	adventure=376	false	indoor	The Prince's Kitchen
+The Prince's Ball	adventure=377	false	outdoor	The Prince's Balcony
+The Prince's Ball	adventure=378	false	indoor	The Prince's Lounge
+The Prince's Ball	adventure=379	false	indoor	The Prince's Canapes Table
 
 Rumpelstiltskin's Home For Children	adventure=380	false	outdoor	Ye Olde Medievale Villagee
 Rumpelstiltskin's Home For Children	adventure=381	false	outdoor	Portal to Terrible Parents
