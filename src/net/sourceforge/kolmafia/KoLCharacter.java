@@ -5035,7 +5035,7 @@ public abstract class KoLCharacter
 
 		case ItemPool.BUDDY_BJORN:
 			// Apply bjorned familiar
-			newModifiers.add( Modifiers.getModifiers( "Throne:" + bjorned.getRace() ) );
+			newModifiers.add( Modifiers.getModifiers( "Bjorn:" + bjorned.getRace() ) );
 			break;
 		}
 
