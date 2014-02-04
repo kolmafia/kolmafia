@@ -1341,11 +1341,27 @@ public class Evaluator
 				spec.equipment[ useSlot ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
 				{
-					spec.setEnthroned( bestCarriedFamiliar );
+					if ( this.carriedFamiliarsNeeded > 1 )
+					{
+						spec.setEnthroned( secondBestCarriedFamiliar );
+						item.automaticFlag = true;						
+					}
+					else
+					{
+						spec.setEnthroned( bestCarriedFamiliar );
+					}
 				}
 				else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 				{
-					spec.setBjorned( bestCarriedFamiliar );
+					if ( this.carriedFamiliarsNeeded > 1 )
+					{
+						spec.setBjorned( secondBestCarriedFamiliar );
+						item.automaticFlag = true;						
+					}
+					else
+					{
+						spec.setBjorned( bestCarriedFamiliar );
+					}
 				}
 				double score = spec.getScore();	// force evaluation
 				spec.failed = false;	// individual items are not expected

@@ -818,7 +818,14 @@ public class Maximizer
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
-		spec.setEnthroned( enthroned );
+		if ( item.getItemId() == ItemPool.HATSEAT )
+		{
+			spec.setEnthroned( enthroned );
+		}
+		if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+		{
+			spec.setBjorned( bjorned );
+		}
 		double delta = spec.getScore() - current;
 		String cmd, text;
 		if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
