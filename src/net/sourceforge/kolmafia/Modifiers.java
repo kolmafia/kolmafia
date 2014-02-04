@@ -1748,6 +1748,10 @@ public class Modifiers
 			if ( mods.variable )
 			{
 				mods.override( name );
+				if ( changeName != null )
+				{
+					mods.name = changeName;
+				}
 			}
 			return mods;
 		}
