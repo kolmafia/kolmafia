@@ -5192,9 +5192,6 @@ _brimstone	Item Drop: 1, Meat Drop: 1, Monster Level: 1
 _cloathing	Item Drop: 1, Meat Drop: 1, Moxie: 1, Mysticality: 1, Muscle: 1
 _hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
 _slimeHate	Monster Level: [zone(The Slime Tube)]
-_stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Weapon Damage: +20, Spell Damage: +20
-_folderholder	Muscle: +20, Mysticality: +20, Moxie: +20, Familiar Weight: +5, Item Drop: +50, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Combat Rate: -5, Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Monster Level: +25, Initiative: +40, Initiative Penalty: 10, Item Drop Penalty: 10, Meat Drop Penalty: 10, Adventures: +5, PvP Fights: +5, Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Spell Damage Percent: +50
-_cardsleeve	Spell Damage: +45, Ranged Damage: +30, HP Regen Min: 30, HP Regen Max: 60, Initiative: +60, Weapon Damage: +30, Damage Reduction: +9, Critical Hit Percent: +3, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, PvP Fights: +6, Monster Level: +15
 _smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent: +2, Muscle Percent: +2, Weapon Damage: +1, Monster Level: +1, Spell Damage: +2, Initiative: +1, Maximum MP: +2, Maximum HP: +2
 
 # Everything Else section of modifiers.txt
