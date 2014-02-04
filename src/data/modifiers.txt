@@ -3884,7 +3884,7 @@ Frigid Weapon	Cold Damage: +3
 Frio Como Helado	Cold Damage: +10
 Frisky Spirit	Moxie: +15
 Frog In Your Throat	Muscle: +25
-From Nantucket	Experience (Moxie): +5
+From Nantucket	Experience (Moxie): +2
 Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
