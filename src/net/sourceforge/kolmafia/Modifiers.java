@@ -1722,9 +1722,16 @@ public class Modifiers
 
 	public static final Modifiers getModifiers( String name )
 	{
+		String changeName = null;
 		if ( name == null || name.equals( "" ) )
 		{
 			return null;
+		}
+
+		if ( name.startsWith( "Bjorn:" ) )
+		{
+			changeName = name;
+			name = "Throne:" + name.substring( 6 );
 		}
 
 		name = StringUtilities.getCanonicalName( name );
@@ -1754,6 +1761,10 @@ public class Modifiers
 
 		Modifiers newMods = new Modifiers();
 		newMods.name = name;
+		if ( changeName != null )
+		{
+			newMods.name = changeName;
+		}
 		double[] newDoubles = newMods.doubles;
 		int[] newBitmaps = newMods.bitmaps;
 		String[] newStrings = newMods.strings;
