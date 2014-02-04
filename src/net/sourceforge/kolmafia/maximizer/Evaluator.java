@@ -1225,6 +1225,12 @@ public class Evaluator
 					break gotItem;
 				}
 
+				// Always carry through familiar carrying items to speculation, but don't force them to go further
+				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
+				{
+					break gotItem;
+				}
+
 				String intrinsic = mods.getString( Modifiers.INTRINSIC_EFFECT );
 				if ( intrinsic.length() > 0 )
 				{
@@ -1264,8 +1270,11 @@ public class Evaluator
 		if ( this.carriedFamiliarsNeeded > 0 )
 		{
 			boolean useCarriedFamiliar = false;
-			double bestScore = 0;
-			double secondBestScore = 0;
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			MaximizerSpeculation secondBest = new MaximizerSpeculation();
+			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+			Arrays.fill( secondBest.equipment, EquipmentRequest.UNEQUIP );
+
 			// Check each familiar in hat to see if they are worthwhile
 			List familiarList = KoLCharacter.getFamiliarList();
 			String[] familiars = new String[ familiarList.size() ];
@@ -1284,22 +1293,18 @@ public class Evaluator
 					spec.equipment[ useSlot ] = item;
 					spec.setEnthroned( familiar );
 					spec.setUnscored();
-					double score = spec.getScore();
-					if ( score > nullScore )
+					if ( spec.compareTo( best ) > 0 )
 					{
-						if ( score > bestScore )
-						{
-							useCarriedFamiliar = true;
-							secondBestScore = bestScore;
-							secondBestCarriedFamiliar = bestCarriedFamiliar;
-							bestScore = score;
-							bestCarriedFamiliar = familiar;
-						}
-						else if ( score > secondBestScore )
-						{
-							secondBestScore = score;
-							secondBestCarriedFamiliar = familiar;
-						}
+						secondBest = (MaximizerSpeculation) best.clone();
+						best = (MaximizerSpeculation) spec.clone();
+						useCarriedFamiliar = true;
+						secondBestCarriedFamiliar = bestCarriedFamiliar;
+						bestCarriedFamiliar = familiar;
+					}
+					else if ( spec.compareTo( secondBest ) > 0 )
+					{
+						secondBest = (MaximizerSpeculation) spec.clone();
+						secondBestCarriedFamiliar = familiar;
 					}
 				}
 			}
@@ -1343,7 +1348,6 @@ public class Evaluator
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						spec.setEnthroned( secondBestCarriedFamiliar );
-						item.automaticFlag = true;
 					}
 					else
 					{
@@ -1355,14 +1359,13 @@ public class Evaluator
 					if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						spec.setBjorned( secondBestCarriedFamiliar );
-						item.automaticFlag = true;
 					}
 					else
 					{
 						spec.setBjorned( bestCarriedFamiliar );
 					}
 				}
-				double score = spec.getScore();	// force evaluation
+				spec.getScore();	// force evaluation
 				spec.failed = false;	// individual items are not expected
 										// to fulfill all requirements
 
