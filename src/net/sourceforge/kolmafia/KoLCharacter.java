@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -69,7 +71,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -4197,6 +4198,7 @@ public abstract class KoLCharacter
 			KoLCharacter.addFamiliar( familiar );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
+		NamedListenerRegistry.fireChange( "(throne)" );
 	}
 
 	public static final void setBjorned( final FamiliarData familiar )
@@ -4207,6 +4209,7 @@ public abstract class KoLCharacter
 			KoLCharacter.addFamiliar( familiar );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
+		NamedListenerRegistry.fireChange( "(bjorn)" );
 	}
 
 	/**

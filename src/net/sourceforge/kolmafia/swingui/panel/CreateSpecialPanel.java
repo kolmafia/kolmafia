@@ -53,14 +53,15 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -210,7 +211,7 @@ public class CreateSpecialPanel
 
 	private static class InvSlider
 		extends JSlider
-		implements ChangeListener, PreferenceListener
+		implements ChangeListener, Listener
 	{
 		public InvSlider()
 		{
@@ -227,7 +228,7 @@ public class CreateSpecialPanel
 			this.setSnapToTicks( true );
 			this.setPaintLabels( true );
 			this.addChangeListener( this );
-			PreferenceListenerRegistry.registerListener( "valueOfInventory", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "valueOfInventory", this );
 			this.update();
 		}
 
@@ -246,7 +247,7 @@ public class CreateSpecialPanel
 
 	private static class PrefSpinner
 		extends AutoHighlightSpinner
-		implements ChangeListener, PreferenceListener
+		implements ChangeListener, Listener
 	{
 		private String pref;
 
@@ -256,7 +257,7 @@ public class CreateSpecialPanel
 		// the spinner, the "stateChanged" method is called to change
 		// the setting, which will write it to the settings file.
 		//
-		// Since it is a PreferenceListener, whenever the setting
+		// Since it is a Listener, whenever the setting
 		// changes, the "update" method is called to adjust the widget.
 		//
 		// We do not want to write the settings file when we are
@@ -276,7 +277,7 @@ public class CreateSpecialPanel
 			this.update();
 
 			// Register to be informed when the setting changes
-			PreferenceListenerRegistry.registerListener( pref, this );
+			PreferenceListenerRegistry.registerPreferenceListener( pref, this );
 
 			// Register to be informed when the widget changes
 			this.addChangeListener( this );

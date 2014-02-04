@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.ListenerRegistry;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -91,11 +91,11 @@ public class DebugRequestCommand
 			command = split.length < 2 ? "" : split[ 1 ];
 			if ( command.equals( "" ) || command.equals( "on" ) )
 			{
-				PreferenceListenerRegistry.setLogging( true );
+				ListenerRegistry.setLogging( true );
 			}
 			else if ( command.equals( "off" ) )
 			{
-				PreferenceListenerRegistry.setLogging( false );
+				ListenerRegistry.setLogging( false );
 			}
 		}
 		else

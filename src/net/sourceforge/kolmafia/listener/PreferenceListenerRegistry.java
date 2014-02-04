@@ -31,57 +31,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.preferences;
+package net.sourceforge.kolmafia.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBox;
-
-import net.sourceforge.kolmafia.listener.Listener;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-
-public class PreferenceListenerCheckBox
-	extends JCheckBox
-	implements ActionListener, Listener
+public class PreferenceListenerRegistry
+	extends ListenerRegistry
 {
-	private String property;
+	// The registry of listeners:
+	private static final ListenerRegistry INSTANCE = new ListenerRegistry();
 
-	public PreferenceListenerCheckBox( String property )
+	public static void deferPreferenceListeners( boolean deferring )
 	{
-		this( "", property );
+		PreferenceListenerRegistry.INSTANCE.deferListeners( deferring );
 	}
 
-	public PreferenceListenerCheckBox( String label, String property )
+	public static final void registerPreferenceListener( final String name, final Listener listener )
 	{
-		super( label );
-
-		this.property = property;
-		PreferenceListenerRegistry.registerPreferenceListener( property, this );
-
-		this.update();
-		this.addActionListener( this );
+		PreferenceListenerRegistry.INSTANCE.registerListener( name, listener );
 	}
 
-	public void update()
+	public static final void firePreferenceChanged( final String name )
 	{
-		boolean isTrue = Preferences.getBoolean( this.property );
-
-		this.setSelected( isTrue );
+		PreferenceListenerRegistry.INSTANCE.fireListener( name );
 	}
 
-	public void actionPerformed( final ActionEvent e )
+	public static final void fireAllPreferencesChanged()
 	{
-		if ( Preferences.getBoolean( this.property ) == this.isSelected() )
-		{
-			return;
-		}
-
-		Preferences.setBoolean( this.property, this.isSelected() );
-		this.handleClick();
-	}
-
-	protected void handleClick()
-	{	
+		PreferenceListenerRegistry.INSTANCE.fireAllListeners();
 	}
 }

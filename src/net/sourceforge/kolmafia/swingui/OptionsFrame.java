@@ -93,8 +93,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1285,7 +1287,7 @@ public class OptionsFrame
 
 	private class PreferenceCheckBox
 		extends JPanel
-		implements PreferenceListener
+		implements Listener
 	{
 		private final String pref;
 		private final String tooltip;
@@ -1309,7 +1311,7 @@ public class OptionsFrame
 		private void configure()
 		{
 			this.setLayout( new FlowLayout( FlowLayout.LEFT, 1, 1 ) );
-			PreferenceListenerRegistry.registerListener( pref, this );
+			PreferenceListenerRegistry.registerPreferenceListener( pref, this );
 			this.box.addActionListener( new ActionListener()
 			{
 				public void actionPerformed( ActionEvent e )
@@ -1366,7 +1368,7 @@ public class OptionsFrame
 
 	protected class CustomizeDailyDeedsPanel
 		extends GenericPanel
-		implements ListDataListener, PreferenceListener
+		implements ListDataListener, Listener
 	{
 		private boolean isRefreshing = false;
 
@@ -1395,7 +1397,7 @@ public class OptionsFrame
 
 			this.builtInsList.addListDataListener( this );
 			this.deedsList.addListDataListener( this );
-			PreferenceListenerRegistry.registerListener( "dailyDeedsOptions", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "dailyDeedsOptions", this );
 		}
 
 		public CustomizeDailyDeedsPanel( final String string )

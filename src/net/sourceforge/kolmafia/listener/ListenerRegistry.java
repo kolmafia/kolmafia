@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.preferences;
+package net.sourceforge.kolmafia.listener;
 
 import java.lang.ref.WeakReference;
 
@@ -46,78 +46,82 @@ import java.util.Set;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-public class PreferenceListenerRegistry
+public class ListenerRegistry
 {
-	// The registry of listeners:
-	private static final HashMap<String,ArrayList<WeakReference>> listenerMap = new HashMap<String,ArrayList<WeakReference>>();
+	// A registry of listeners:
+	private final HashMap<Object,ArrayList<WeakReference>> listenerMap = new HashMap<Object,ArrayList<WeakReference>>();
 
-	// Logging
+	// Logging. For now, this applies to all types of listeners
 	private static boolean logging = false;
-	public static final void setLogging( final boolean logging )
+	public final static void setLogging( final boolean logging )
 	{
-		PreferenceListenerRegistry.logging = logging;
+		ListenerRegistry.logging = logging;
 	}
 
 	// Deferring
-	private static int deferring = 0;
-	private static final HashSet<String> deferred = new HashSet<String>();
+	private final HashSet<Object> deferred = new HashSet<Object>();
+	private int deferring = 0;
 
-	public static void deferListeners( boolean deferring )
+	public ListenerRegistry()
+	{
+	}
+
+	public void deferListeners( boolean deferring )
 	{
 		// If we are deferring, increment defer level
 		if ( deferring )
 		{
-			PreferenceListenerRegistry.deferring += 1;
+			this.deferring += 1;
 			return;
 		}
 
 		// If we are undeferring but are not deferred, do nothing
-		if ( PreferenceListenerRegistry.deferring == 0 )
+		if ( this.deferring == 0 )
 		{
 			return;
 		}
 
 		// If we are undeferring and are still deferred, nothing more to do
-		if ( --PreferenceListenerRegistry.deferring > 0 )
+		if ( --this.deferring > 0 )
 		{
 			return;
 		}
 
 		// We were deferred but are no longer deferred. Fire at Will!
 
-		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-		synchronized( PreferenceListenerRegistry.deferred )
+		synchronized( this.deferred )
 		{
-			Iterator<String> it = PreferenceListenerRegistry.deferred.iterator();
+			Iterator<Object> it = this.deferred.iterator();
 			while ( it.hasNext() )
 			{
-				String name = it.next();
-				ArrayList<WeakReference> listenerList = PreferenceListenerRegistry.listenerMap.get( name );
+				Object key = it.next();
+				ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
 				if ( logit )
 				{
 					int count = listenerList == null ? 0 : listenerList.size();
-					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
 				}
-				PreferenceListenerRegistry.fireListeners( listenerList, null );
+				this.fireListeners( listenerList, null );
 			}
-			PreferenceListenerRegistry.deferred.clear();
+			this.deferred.clear();
 		}
 
 	}
 
-	public static final void registerListener( final String name, final PreferenceListener listener )
+	public final void registerListener( final Object key, final Listener listener )
 	{
 		ArrayList<WeakReference> listenerList = null;
 
-		synchronized ( listenerMap )
+		synchronized ( this.listenerMap )
 		{
-			listenerList = PreferenceListenerRegistry.listenerMap.get( name );
+			listenerList = this.listenerMap.get( key );
 
 			if ( listenerList == null )
 			{
 				listenerList = new ArrayList<WeakReference>();
-				PreferenceListenerRegistry.listenerMap.put( name, listenerList );
+				this.listenerMap.put( key, listenerList );
 			}
 		}
 
@@ -129,13 +133,13 @@ public class PreferenceListenerRegistry
 		}
 	}
 
-	public static final void firePreferenceChanged( final String name )
+	public final void fireListener( final Object key )
 	{
 		ArrayList<WeakReference> listenerList = null;
 
-		synchronized ( listenerMap )
+		synchronized ( this.listenerMap )
 		{
-			listenerList = PreferenceListenerRegistry.listenerMap.get( name );
+			listenerList = this.listenerMap.get( key );
 		}
 
 		if ( listenerList == null )
@@ -143,77 +147,77 @@ public class PreferenceListenerRegistry
 			return;
 		}
 
-		if ( PreferenceListenerRegistry.deferring > 0 )
+		if ( this.deferring > 0 )
 		{
-			PreferenceListenerRegistry.deferred.add( name );
+			this.deferred.add( key );
 			return;
 		}
 
-		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 		if ( logit )
 		{
 			int count = listenerList.size();
-			RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+			RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
 		}
 
-		PreferenceListenerRegistry.fireListeners( listenerList, null );
+		this.fireListeners( listenerList, null );
 	}
 
-	public static final void fireAllPreferencesChanged()
+	public final void fireAllListeners()
 	{
-		if ( PreferenceListenerRegistry.deferring > 0 )
+		if ( this.deferring > 0 )
 		{
-			Set<String> keys = null;
-			synchronized ( PreferenceListenerRegistry.listenerMap )
+			Set<Object> keys = null;
+			synchronized ( this.listenerMap )
 			{
-				keys = PreferenceListenerRegistry.listenerMap.keySet();
+				keys = this.listenerMap.keySet();
 			}
-			PreferenceListenerRegistry.deferred.addAll( keys );
+			this.deferred.addAll( keys );
 			return;
 		}
 
 		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
 
-		boolean logit = PreferenceListenerRegistry.logging && RequestLogger.isDebugging();
+		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 		if ( logit )
 		{
-			Set<Entry<String,ArrayList<WeakReference>>> entries = null;
-			synchronized ( PreferenceListenerRegistry.listenerMap )
+			Set<Entry<Object,ArrayList<WeakReference>>> entries = null;
+			synchronized ( this.listenerMap )
 			{
-				entries = PreferenceListenerRegistry.listenerMap.entrySet();
+				entries = this.listenerMap.entrySet();
 			}
 
-			Iterator<Entry<String,ArrayList<WeakReference>>> i1 = entries.iterator();
+			Iterator<Entry<Object,ArrayList<WeakReference>>> i1 = entries.iterator();
 			while ( i1.hasNext() )
 			{
-				Entry<String,ArrayList<WeakReference>> entry = i1.next();
+				Entry<Object,ArrayList<WeakReference>> entry = i1.next();
+				Object key = entry.getKey();
 				ArrayList<WeakReference> listenerList = entry.getValue();
-				String name = entry.getKey();
 				int count = listenerList == null ? 0 : listenerList.size();
-				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + name + "\"" );
+				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
 				listeners.add( listenerList );
 			}
 		}
 		else
 		{
 			Collection<ArrayList<WeakReference>> values = null;
-			synchronized ( PreferenceListenerRegistry.listenerMap )
+			synchronized ( this.listenerMap )
 			{
-				values = PreferenceListenerRegistry.listenerMap.values();
+				values = this.listenerMap.values();
 			}
 			listeners.addAll( values );
 		}
 
 		Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
-		HashSet<PreferenceListener> notified = new HashSet<PreferenceListener>();
+		HashSet<Listener> notified = new HashSet<Listener>();
 
 		while ( i2.hasNext() )
 		{
-			PreferenceListenerRegistry.fireListeners( i2.next(), notified );
+			this.fireListeners( i2.next(), notified );
 		}
 	}
 
-	private static final void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<PreferenceListener> notified )
+	private final void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified )
 	{
 		if ( listenerList == null )
 		{
@@ -228,7 +232,7 @@ public class PreferenceListenerRegistry
 			{
 				WeakReference reference = i.next();
 
-				PreferenceListener listener = (PreferenceListener) reference.get();
+				Listener listener = (Listener) reference.get();
 
 				if ( listener == null )
 				{

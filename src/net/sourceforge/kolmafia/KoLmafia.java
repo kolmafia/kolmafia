@@ -65,6 +65,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
@@ -82,7 +84,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -889,7 +890,7 @@ public abstract class KoLmafia
 		if ( KoLmafia.isRefreshing != isRefreshing )
 		{
 			KoLmafia.isRefreshing = isRefreshing;
-			PreferenceListenerRegistry.deferListeners( isRefreshing );
+			PreferenceListenerRegistry.deferPreferenceListeners( isRefreshing );
 		}
 	}
 

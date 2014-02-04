@@ -38,8 +38,9 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PrefTraceCommand
@@ -70,26 +71,25 @@ public class PrefTraceCommand
 		audience = new ArrayList<Listener>();
 		for ( int i = 0; i < prefList.length; ++i )
 		{
-			audience.add( new Listener( prefList[ i ] ) );
+			audience.add( new PreferenceListener( prefList[ i ] ) );
 		}
 	}
 
-	private static class Listener
-		implements PreferenceListener
+	private static class PreferenceListener
+		implements Listener
 	{
 		String name;
 
-		public Listener( String name )
+		public PreferenceListener( String name )
 		{
 			this.name = name;
-			PreferenceListenerRegistry.registerListener( name, this );
+			PreferenceListenerRegistry.registerPreferenceListener( name, this );
 			this.update();
 		}
 
 		public void update()
 		{
-			String msg = "ptrace: " + this.name + " = " +
-				Preferences.getString( this.name );
+			String msg = "ptrace: " + this.name + " = " + Preferences.getString( this.name );
 			RequestLogger.updateSessionLog( msg );
 			if ( RequestLogger.isDebugging() )
 			{

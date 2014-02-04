@@ -71,6 +71,9 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -78,7 +81,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 
@@ -97,7 +99,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GearChangeFrame
 	extends GenericFrame
-	implements PreferenceListener
 {
 	private static GearChangeFrame INSTANCE = null;
 
@@ -113,8 +114,12 @@ public class GearChangeFrame
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
+
 	private final SortedListModel crownFamiliars = new SortedListModel();
+	private final ThroneListener throneListener;
+
 	private final SortedListModel bjornFamiliars = new SortedListModel();
+	private final BjornListener bjornListener;
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -183,11 +188,13 @@ public class GearChangeFrame
 
 		GearChangeFrame.INSTANCE = this;
 
-		RequestThread.executeMethodAfterInitialization( this, "validateSelections" );
-	}
+		this.throneListener = new ThroneListener();
+		NamedListenerRegistry.registerNamedListener( "(throne)", this.throneListener );
 
-	public void update()
-	{
+		this.bjornListener = new BjornListener();
+		NamedListenerRegistry.registerNamedListener( "(bjorn)", this.bjornListener );
+
+		RequestThread.executeMethodAfterInitialization( this, "validateSelections" );
 	}
 
 	public static void showModifiers( Object value, boolean isFamiliarItem )
@@ -781,6 +788,34 @@ public class GearChangeFrame
 		}
 
 		GearChangeFrame.INSTANCE.fakeHands.updateFakeHands();
+	}
+
+	private class ThroneListener
+		implements Listener
+	{
+		public void update()
+		{
+			FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
+			FamiliarData selectedThroneFamiliar = (FamiliarData) GearChangeFrame.this.crownFamiliars.getSelectedItem();
+			if ( enthronedFamiliar != selectedThroneFamiliar )
+			{
+				GearChangeFrame.this.crownFamiliars.setSelectedItem( enthronedFamiliar );
+			}
+		}
+	}
+
+	private class BjornListener
+		implements Listener
+	{
+		public void update()
+		{
+			FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
+			FamiliarData selectedBjornFamiliar = (FamiliarData) GearChangeFrame.this.bjornFamiliars.getSelectedItem();
+			if ( bjornedFamiliar != selectedBjornFamiliar )
+			{
+				GearChangeFrame.this.bjornFamiliars.setSelectedItem( bjornedFamiliar );
+			}
+		}
 	}
 
 	private class EquipmentComboBox

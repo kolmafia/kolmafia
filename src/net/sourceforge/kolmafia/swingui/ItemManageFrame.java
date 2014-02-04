@@ -60,13 +60,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -711,7 +712,7 @@ public class ItemManageFrame
 
 	public static class PrefPopup
 		extends JComboBox
-		implements ActionListener, PreferenceListener
+		implements ActionListener, Listener
 	{
 		private String pref;
 
@@ -725,7 +726,7 @@ public class ItemManageFrame
 			super( items.split( "\\|" ) );
 			this.pref = pref;
 			this.addActionListener( this );
-			PreferenceListenerRegistry.registerListener( pref, this );
+			PreferenceListenerRegistry.registerPreferenceListener( pref, this );
 			this.update();
 		}
 

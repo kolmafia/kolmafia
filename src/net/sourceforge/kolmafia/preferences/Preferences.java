@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;

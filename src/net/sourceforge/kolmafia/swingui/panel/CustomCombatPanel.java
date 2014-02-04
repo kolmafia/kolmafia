@@ -79,10 +79,11 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
@@ -217,7 +218,7 @@ public class CustomCombatPanel
 
 	private class SpecialActionsPanel
 		extends GenericPanel
-		implements PreferenceListener
+		implements Listener
 	{
 		private final JPanel special;
 		private final JPopupMenu specialPopup;
@@ -337,15 +338,15 @@ public class CustomCombatPanel
 			( (BorderLayout) this.container.getLayout() ).setHgap( 0 );
 			( (BorderLayout) this.container.getLayout() ).setVgap( 0 );
 
-			PreferenceListenerRegistry.registerListener( "autoSteal", this );
-			PreferenceListenerRegistry.registerListener( "autoEntangle", this );
-			PreferenceListenerRegistry.registerListener( "autoOlfact", this );
-			PreferenceListenerRegistry.registerListener( "autoPutty", this );
-			PreferenceListenerRegistry.registerListener( "autoPotionID", this );
-			PreferenceListenerRegistry.registerListener( "autoAntidote", this );
-			PreferenceListenerRegistry.registerListener( "autoManaRestore", this );
-			PreferenceListenerRegistry.registerListener( "safePickpocket", this );
-			PreferenceListenerRegistry.registerListener( "(skill)", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoSteal", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoEntangle", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoOlfact", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoPutty", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoPotionID", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoAntidote", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "autoManaRestore", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "safePickpocket", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "(skill)", this );
 
 			this.update();
 		}
@@ -547,13 +548,13 @@ public class CustomCombatPanel
 
 	public class CombatComboBox
 		extends JComboBox
-		implements ActionListener, PreferenceListener
+		implements ActionListener, Listener
 	{
 		public CombatComboBox()
 		{
 			super( CombatActionManager.getAvailableLookups() );
 			this.addActionListener( this );
-			PreferenceListenerRegistry.registerListener( "customCombatScript", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "customCombatScript", this );
 		}
 
 		public void update()

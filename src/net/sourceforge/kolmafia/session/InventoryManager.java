@@ -61,6 +61,10 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -71,8 +75,6 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -107,7 +109,6 @@ public abstract class InventoryManager
 	private static final int BULK_PURCHASE_AMOUNT = 30;
 	private static final GenericRequest FAMEQUIP_REMOVER = new GenericRequest( "familiar.php?pwd&action=unequip" );
 
-	private static final ArrayListArray listeners = new ArrayListArray();
 	private static int askedAboutCrafting = 0;
 	private static boolean cloverProtectionEnabled = true;
 
@@ -1716,88 +1717,9 @@ public abstract class InventoryManager
 			Preferences.getBoolean( "autoSatisfyWithMall" );
 	}
 
-	public static final void registerListener( final int itemId, final PreferenceListener listener )
-	{
-		if ( itemId < 1 )
-		{
-			return;
-		}
-
-		ArrayList<WeakReference<PreferenceListener>> list = InventoryManager.listeners.get( itemId );
-		if ( list == null )
-		{
-			list = new ArrayList<WeakReference<PreferenceListener>>();
-			InventoryManager.listeners.set( itemId, list );
-		}
-
-		list.add( new WeakReference<PreferenceListener>( listener ) );
-	}
-
 	public static final void fireInventoryChanged( final int itemId )
 	{
-		ArrayList<WeakReference<PreferenceListener>> list = InventoryManager.listeners.get( itemId );
-		if ( list != null )
-		{
-			Iterator<WeakReference<PreferenceListener>> i = list.iterator();
-			while ( i.hasNext() )
-			{
-				WeakReference<PreferenceListener> reference = i.next();
-				if ( reference == null )
-				{
-					i.remove();
-					continue;
-				}
-				PreferenceListener listener = reference.get();
-
-				if ( listener == null )
-				{
-					i.remove();
-				}
-				else
-				{
-					try
-					{
-						listener.update();
-					}
-					catch ( Exception e )
-					{
-						// Don't let a botched listener interfere with
-						// the code that modified the inventory.
-
-						StaticEntity.printStackTrace( e );
-					}
-				}
-			}
-		}
-	}
-
-	private static class ArrayListArray
-	{
-		private final ArrayList<ArrayList<WeakReference<PreferenceListener>>> internalList = new ArrayList<ArrayList<WeakReference<PreferenceListener>>>( ItemDatabase.maxItemId() );
-
-		public ArrayListArray()
-		{
-			int max = ItemDatabase.maxItemId();
-			for ( int i = 0; i <= max; ++i )
-			{
-				this.internalList.add( null );
-			}
-		}
-
-		public ArrayList<WeakReference<PreferenceListener>> get( final int index )
-		{
-			if ( index < 0 || index >= this.internalList.size() )
-			{
-				return null;
-			}
-
-			return this.internalList.get( index );
-		}
-
-		public void set( final int index, final ArrayList<WeakReference<PreferenceListener>> value )
-		{
-			this.internalList.set( index, value );
-		}
+		ItemListenerRegistry.fireItemChanged( itemId );
 	}
 
 	private static Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );

@@ -58,6 +58,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -67,8 +71,6 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -86,7 +88,7 @@ import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 
 public class DailyDeedsPanel
 	extends Box
-	implements PreferenceListener
+	implements Listener
 {
 	public static final AdventureResult GREAT_PANTS = ItemPool.get( ItemPool.GREAT_PANTS, 1 );
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
@@ -304,7 +306,7 @@ public class DailyDeedsPanel
 		}
 
 		RequestThread.executeMethodAfterInitialization( this, "populate" );
-		PreferenceListenerRegistry.registerListener( "dailyDeedsOptions", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "dailyDeedsOptions", this );
 	}
 
 	public void populate()
@@ -1046,7 +1048,7 @@ public class DailyDeedsPanel
 
 	public abstract static class Daily
 		extends Box
-		implements ActionListener, PreferenceListener
+		implements ActionListener, Listener
 	{
 		private ArrayList<JButton> buttons;
 		private JLabel label;
@@ -1058,12 +1060,12 @@ public class DailyDeedsPanel
 
 		public void addListener( String preference )
 		{
-			PreferenceListenerRegistry.registerListener( preference, this );
+			PreferenceListenerRegistry.registerPreferenceListener( preference, this );
 		}
 
 		public void addItem( int itemId )
 		{
-			InventoryManager.registerListener( itemId, this );
+			ItemListenerRegistry.registerItemListener( itemId, this );
 		}
 
 		public JButton addButton( String command )
