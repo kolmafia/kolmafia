@@ -70,7 +70,6 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -624,7 +623,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.formSource.indexOf( "adventure.php" ) == -1 )
+		if ( !this.formSource.contains( "adventure.php" ) )
 		{
 			this.isValidAdventure = true;
 			return;
@@ -922,7 +921,7 @@ public class KoLAdventure
 				return;
 			}
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
-			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
+			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.contains( "grove.gif" );
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -933,16 +932,33 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ) )
+		if ( this.zone.equals( "McLarge" ) )
 		{
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge" ) );
-			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
+			if ( this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
+			if ( this.adventureId.equals( AdventurePool.ITZNOTYERZITZ_MINE_ID ) || 
+			     this.adventureId.equals( AdventurePool.GOATLET_ID ) )
+			{
+				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TRAPPER.getPref() ), QuestDatabase.STARTED );
+			}
+			else if ( this.adventureId.equals( AdventurePool.NINJA_SNOWMEN_ID ) ||
+			          this.adventureId.equals( AdventurePool.EXTREME_SLOPE_ID ) )
+			{
+				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TRAPPER.getPref() ), "step1" );
+			}
+			else if ( this.adventureId.equals( AdventurePool.ICY_PEAK_ID ) )
+			{
+				this.isValidAdventure = Preferences.getString( Quest.TRAPPER.getPref() ).equals( QuestDatabase.FINISHED );
+			}
+			else
+			{
+				this.isValidAdventure = true;
+			}
 
-			if ( visitedCouncil )
+			if ( !this.isValidAdventure && visitedCouncil )
 			{
 				KoLmafia.updateDisplay( "You must complete a trapper task first." );
 				return;

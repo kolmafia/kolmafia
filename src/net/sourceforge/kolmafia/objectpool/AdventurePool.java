@@ -72,6 +72,7 @@ public class AdventurePool
 	public static final String HAUNTED_BATHROOM_ID = "107";
 	public static final String HAUNTED_BEDROOM_ID = "108";
 	public static final String HAUNTED_BALLROOM_ID = "109";
+	public static final String ICY_PEAK_ID = "110";
 	public static final String SLEAZY_BACK_ALLEY_ID = "112";
 	public static final String HAUNTED_PANTRY_ID = "113";
 	public static final String OUTSKIRTS_OF_THE_KNOB_ID = "114";
@@ -112,9 +113,12 @@ public class AdventurePool
 	public static final int DEFILED_NICHE = 263;
 	public static final int DEFILED_NOOK = 264;
 	public static final int ITZNOTYERZITZ_MINE = 270;
+	public static final String ITZNOTYERZITZ_MINE_ID = "270";
 	public static final String GOATLET_ID = "271";
 	public static final int NINJA_SNOWMEN = 272;
+	public static final String NINJA_SNOWMEN_ID = "272";
 	public static final int EXTREME_SLOPE = 273;
+	public static final String EXTREME_SLOPE_ID = "273";
 	public static final int CLUMSINESS_GROVE = 277;
 	public static final int MAELSTROM_OF_LOVERS = 278;
 	public static final int GLACIER_OF_JERKS = 279;
