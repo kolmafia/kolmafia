@@ -6803,11 +6803,11 @@
 6786
 6787
 6788	blank diary	248829997	book3.gif	usable	t	0
-6789	boot knife	163394346	bootknife.gif	weapon	t,d	5
+6789	boot knife	163394346	bootknife.gif	weapon	t,d	5	boot knives
 6790	broken beer bottle	580982557	bottleknife.gif	weapon	t,d	5
 6791	sharpened spoon	256242909	spooknife.gif	weapon	t,d	5
-6792	candy knife	995423616	candyknife.gif	weapon	t,d	5
-6793	soap knife	312384075	soapknife.gif	weapon	t,d	5
+6792	candy knife	995423616	candyknife.gif	weapon	t,d	5	candy knives
+6793	soap knife	312384075	soapknife.gif	weapon	t,d	5	soap knives
 6794
 6795	disco horoscope (Aquarius)	400988957	horoscope.gif	multiple	t	0
 6796	disco horoscope (Pisces)	906812600	horoscope.gif	multiple	t	0
@@ -6971,7 +6971,7 @@
 6954	warbear warscarf	883818378	wbscarf1.gif	accessory		0	warbear warscarves
 6955	warbear fleece-lined warscarf	734447249	wbscarf2.gif	accessory		0	warbear fleece-lined warscarves
 6956	warbear electric warscarf	629992109	wbscarf3.gif	accessory		0	warbear electric warscarves
-6957	warbear requisition box	587398908	wbpresent1.gif	usable	g	0
+6957	warbear requisition box	587398908	wbpresent1.gif	usable	g	0	warbear requisition boxes
 6958	warbear exo-arm	336074564	wbexoarm.gif	accessory	t	0
 6959	warbear foil hat	195097050	wbfoilcap.gif	hat	t	0
 6960	warbear energy bracers	298186114	wbbracers.gif	accessory	t	0
@@ -6982,7 +6982,7 @@
 6965	warbear auto-anvil	145721549	wbanvil.gif	usable	t	0
 6966	warbear induction oven	259839260	wboven.gif	usable	t	0
 6967	warbear chemistry lab	960408455	wbchemset.gif	usable	t	0
-6968	warbear officer requisition box	223861765	wbpresent2.gif	usable	g	0
+6968	warbear officer requisition box	223861765	wbpresent2.gif	usable	g	0	warbear officer requisition boxes
 6969	warbear empathy chip	496033151	wbchip.gif	usable	t	0
 6970	warbear drone assembler	231753064	wbcapsule.gif	grow	t	0
 6971	warbear breakfast machine assembler	375809411	wbbbox.gif	usable	t	0
