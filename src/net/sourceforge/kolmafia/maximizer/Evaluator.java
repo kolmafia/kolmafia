@@ -82,6 +82,7 @@ public class Evaluator
 	private ArrayList<FamiliarData> familiars;
 	private ArrayList<FamiliarData> carriedFamiliars;
 	private int carriedFamiliarsNeeded = 0;
+	private boolean cardNeeded = false;
 
 	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -1151,6 +1152,11 @@ public class Evaluator
 					this.carriedFamiliarsNeeded++;
 				}
 
+				if ( id == ItemPool.CARD_SLEEVE )
+				{
+					this.cardNeeded = true;
+				}
+
 				if ( this.posEquip.contains( item ) )
 				{
 					item.automaticFlag = true;
@@ -1189,8 +1195,8 @@ public class Evaluator
 					break gotItem;
 				}
 
-				// Always carry through familiar carrying items to speculation, but don't force them to go further
-				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
+				// Always carry through items with changeable contents to speculation, but don't force them to go further
+				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN || id == ItemPool.CARD_SLEEVE )
 				{
 					break gotItem;
 				}
@@ -1228,6 +1234,7 @@ public class Evaluator
 			if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 		}
 
+		// Get best Familiars for Crown of Thrones and Buddy Bjorn
 		FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 
@@ -1249,12 +1256,10 @@ public class Evaluator
 				     !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
-					CheckedItem item = null;
-					item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+					CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
 					spec.attachment = item;
-					int useSlot = Evaluator.toUseSlot( EquipmentManager.HAT );
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
-					spec.equipment[ useSlot ] = item;
+					spec.equipment[ EquipmentManager.HAT ] = item;
 					spec.setEnthroned( familiar );
 					spec.setUnscored();
 					if ( spec.compareTo( best ) > 0 )
@@ -1279,6 +1284,36 @@ public class Evaluator
 			}
 		}
 		
+		// Get best Card for Card Sleeve
+		CheckedItem bestCard = null;
+		AdventureResult useCard = null;
+
+		if ( this.cardNeeded )
+		{
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+
+			// Check each card in sleeve to see if they are worthwhile
+			for ( int c = 4967; c <= 5007; c++ )
+			{
+				CheckedItem card = new CheckedItem( c, equipLevel, maxPrice, priceLevel );
+				if ( card.getCount() > 0 )
+				{
+					MaximizerSpeculation spec = new MaximizerSpeculation();
+					CheckedItem sleeve = new CheckedItem( ItemPool.CARD_SLEEVE, equipLevel, maxPrice, priceLevel );
+					spec.attachment = sleeve;
+					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+					spec.equipment[ EquipmentManager.OFFHAND ] = sleeve;
+					spec.equipment[ EquipmentManager.CARD_SLEEVE ] = card;
+					if ( spec.compareTo( best ) > 0 )
+					{
+						best = (MaximizerSpeculation) spec.clone();
+						bestCard = card;
+					}
+				}
+			}
+		}
+
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			// If we currently have nothing equipped, also consider leaving nothing equipped
@@ -1341,7 +1376,16 @@ public class Evaluator
 				else if ( item.getItemId() == ItemPool.CARD_SLEEVE )
 				{
 					MaximizerSpeculation current = new MaximizerSpeculation();
-					spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
+					if ( bestCard != null )
+					{
+						spec.equipment[ EquipmentManager.CARD_SLEEVE ] = bestCard;
+						useCard = (AdventureResult) bestCard;
+					}
+					else
+					{
+						spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
+						useCard = (AdventureResult) current.equipment[ EquipmentManager.CARD_SLEEVE ];
+					}
 				}
 				else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
 				{
@@ -1465,6 +1509,6 @@ public class Evaluator
 			}
 		}
 
-		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic );
+		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic, useCard );
 	}
 }
