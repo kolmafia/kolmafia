@@ -3097,7 +3097,7 @@ Throne:Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance:
 Throne:Feral Kobold	Item Drop: +15
 Throne:Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Flaming Face	Cold Resistance: +3
-Throne:Flaming Gravy Fairy	Hot Damage: +20	
+Throne:Flaming Gravy Fairy	Hot Damage: +20
 Throne:Frozen Gravy Fairy	Cold Damage: +20
 Throne:Frumious Bandersnatch	Experience: +2
 Throne:Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
