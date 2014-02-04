@@ -51,9 +51,10 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatSender;
 
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.persistence.Aliases;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.LoginRequest;

@@ -31,9 +31,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.preferences;
+package net.sourceforge.kolmafia.listener;
 
-public interface PreferenceListener
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
+public class ItemListenerRegistry
+	extends ListenerRegistry
 {
-	public void update();
+	// The registry of listeners:
+	private static final ListenerRegistry INSTANCE = new ListenerRegistry();
+
+	public static final void registerItemListener( final int itemId, final Listener listener )
+	{
+		if ( itemId < 1 )
+		{
+			return;
+		}
+
+		Integer key = IntegerPool.get( itemId );
+		ItemListenerRegistry.INSTANCE.registerListener( key, listener );
+	}
+
+	public static final void fireItemChanged( final int itemId )
+	{
+		Integer key = IntegerPool.get( itemId );
+		ItemListenerRegistry.INSTANCE.fireListener( key );
+	}
 }

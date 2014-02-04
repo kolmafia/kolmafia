@@ -54,10 +54,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -141,7 +142,7 @@ public class SkillBuffFrame
 
 	private class SkillBuffPanel
 		extends GenericPanel
-		implements PreferenceListener
+		implements Listener
 	{
 		public SkillBuffPanel()
 		{
@@ -297,7 +298,7 @@ public class SkillBuffFrame
 		{
 			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
 			{
-				PreferenceListenerRegistry.registerListener( DAILY_LIMITED_SKILLS[ i ][ 1 ], this );
+				PreferenceListenerRegistry.registerPreferenceListener( DAILY_LIMITED_SKILLS[ i ][ 1 ], this );
 			}
 		}
 		

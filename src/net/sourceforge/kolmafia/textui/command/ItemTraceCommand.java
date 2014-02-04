@@ -40,11 +40,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
+
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class ItemTraceCommand
 	extends AbstractCommand
@@ -74,26 +73,25 @@ public class ItemTraceCommand
 		audience = new ArrayList<Listener>();
 		for ( int i = 0; i < itemList.length; ++i )
 		{
-			audience.add( new Listener( (AdventureResult) itemList[ i ] ) );
+			audience.add( new ItemListener( (AdventureResult) itemList[ i ] ) );
 		}
 	}
 	
-	private static class Listener
-		implements PreferenceListener
+	private static class ItemListener
+		implements Listener
 	{
 		AdventureResult item;
 
-		public Listener( AdventureResult item )
+		public ItemListener( AdventureResult item )
 		{
 			this.item = item;
-			InventoryManager.registerListener( item.getItemId(), this );
+			ItemListenerRegistry.registerItemListener( item.getItemId(), this );
 			this.update();
 		}
 
 		public void update()
 		{
-			String msg = "itrace: " + this.item.getName() + " = " +
-				item.getCount( KoLConstants.inventory );
+			String msg = "itrace: " + this.item.getName() + " = " + item.getCount( KoLConstants.inventory );
 			RequestLogger.updateSessionLog( msg );
 			if ( RequestLogger.isDebugging() )
 			{

@@ -61,8 +61,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -86,7 +87,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChoiceOptionsPanel
 	extends JTabbedPane
-	implements PreferenceListener
+	implements Listener
 {
 	private final TreeMap choiceMap;
 	private final HashMap selectMap;
@@ -463,17 +464,17 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Item-Driven", "Item",
 			new CommandButton( "use 1 skeleton" ) );
 
-		PreferenceListenerRegistry.registerListener( "choiceAdventure*", this );
-		PreferenceListenerRegistry.registerListener( "violetFogGoal", this );
-		PreferenceListenerRegistry.registerListener( "louvreOverride", this );
-		PreferenceListenerRegistry.registerListener( "louvreDesiredGoal", this );
-		PreferenceListenerRegistry.registerListener( "barrelGoal", this );
-		PreferenceListenerRegistry.registerListener( "gongPath", this );
-		PreferenceListenerRegistry.registerListener( "oceanAction", this );
-		PreferenceListenerRegistry.registerListener( "oceanDestination", this );
-		PreferenceListenerRegistry.registerListener( "basementMallPrices", this );
-		PreferenceListenerRegistry.registerListener( "breakableHandling", this );
-		PreferenceListenerRegistry.registerListener( "addingScrolls", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "choiceAdventure*", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "violetFogGoal", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "louvreOverride", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "louvreDesiredGoal", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "barrelGoal", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "gongPath", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "oceanAction", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "oceanDestination", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "basementMallPrices", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "breakableHandling", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "addingScrolls", this );
 
 		this.loadSettings();
 

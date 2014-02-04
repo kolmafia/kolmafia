@@ -77,6 +77,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -87,7 +89,6 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -2190,7 +2191,7 @@ public class GenericRequest
 
 		try
 		{
-			PreferenceListenerRegistry.deferListeners( true );
+			PreferenceListenerRegistry.deferPreferenceListeners( true );
 			this.processResponse();
 		}
 		catch ( Exception e )
@@ -2199,7 +2200,7 @@ public class GenericRequest
 		}
 		finally
 		{
-			PreferenceListenerRegistry.deferListeners( false );
+			PreferenceListenerRegistry.deferPreferenceListeners( false );
 		}
 
 		return true;
