@@ -2678,6 +2678,14 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.SHAKING_CRAPPY_CAMERA:
+			itemName = "Shaking crappy camera";
+			Preferences.setString( "crappyCameraMonster", "" );
+			Preferences.setBoolean( "_crappyCameraUsed", true );
+			consumed = true;
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		case ItemPool.ICE_SCULPTURE:
 			itemName = "ice sculpture";
 			Preferences.setString( "iceSculptureMonster", "" );

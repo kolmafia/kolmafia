@@ -452,6 +452,7 @@ public class ValhallaManager
 		Preferences.setString( "pastaThrall8", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
+		Preferences.setString( "crappyCameraMonster", "" );
 		Preferences.setString( "crudeMonster", "" );
 		Preferences.setString( "envyfishMonster", "" );
 		Preferences.setString( "iceSculptureMonster", "" );
