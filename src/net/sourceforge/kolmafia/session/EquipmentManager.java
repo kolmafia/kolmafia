@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -945,15 +945,13 @@ public class EquipmentManager
 	{
 		EquipmentManager.lockedFamiliarItem =
 			lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
-		GearChangeFrame.updateFamiliarLock();
-		PreferenceListenerRegistry.firePreferenceChanged( "(familiarLock)" );
+		NamedListenerRegistry.fireChange( "(familiarLock)" );
 	}
 
 	public static final void lockFamiliarItem( FamiliarData familiar )
 	{
 		EquipmentManager.lockedFamiliarItem = familiar.getItem();
-		GearChangeFrame.updateFamiliarLock();
-		PreferenceListenerRegistry.firePreferenceChanged( "(familiarLock)" );
+		NamedListenerRegistry.fireChange( "(familiarLock)" );
 	}
 
 	public static final int getFakeHands()
@@ -966,7 +964,7 @@ public class EquipmentManager
 		if ( EquipmentManager.fakeHandCount != hands )
 		{
 			EquipmentManager.fakeHandCount = hands;
-			GearChangeFrame.updateFakeHands();
+			NamedListenerRegistry.fireChange( "(fakehands)" );
 		}
 	}
 

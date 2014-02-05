@@ -114,20 +114,16 @@ public class GearChangeFrame
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
-
 	private final SortedListModel crownFamiliars = new SortedListModel();
-	private final ThroneListener throneListener;
-
 	private final SortedListModel bjornFamiliars = new SortedListModel();
-	private final BjornListener bjornListener;
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
 
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
-	private final CarriedFamiliarComboBox crownSelect;
-	private final CarriedFamiliarComboBox bjornSelect;
+	private final ThroneComboBox crownSelect;
+	private final BjornComboBox bjornSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox famLockCheckbox;
 	private FakeHandsSpinner fakeHands;
@@ -171,8 +167,8 @@ public class GearChangeFrame
 		}
 
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
-		this.crownSelect = new CarriedFamiliarComboBox( this.crownFamiliars );
-		this.bjornSelect = new CarriedFamiliarComboBox( this.bjornFamiliars );
+		this.crownSelect = new ThroneComboBox( this.crownFamiliars );
+		this.bjornSelect = new BjornComboBox( this.bjornFamiliars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
@@ -187,12 +183,6 @@ public class GearChangeFrame
 		this.setCenterComponent( gearPanel );
 
 		GearChangeFrame.INSTANCE = this;
-
-		this.throneListener = new ThroneListener();
-		NamedListenerRegistry.registerNamedListener( "(throne)", this.throneListener );
-
-		this.bjornListener = new BjornListener();
-		NamedListenerRegistry.registerNamedListener( "(bjorn)", this.bjornListener );
 
 		RequestThread.executeMethodAfterInitialization( this, "validateSelections" );
 	}
@@ -418,7 +408,6 @@ public class GearChangeFrame
 			JPanel boxholder = new JPanel( new BorderLayout() );
 			boxholder.add( GearChangeFrame.this.famLockCheckbox );
 			rows.add( new VerifiableElement( "", boxholder ) );
-			GearChangeFrame.updateFamiliarLock();
 
 			rows.add( new VerifiableElement( "Outfit:", GearChangeFrame.this.outfitSelect ) );
 			rows.add( new VerifiableElement( "Custom:", GearChangeFrame.this.customSelect ) );
@@ -445,9 +434,7 @@ public class GearChangeFrame
 			GearChangeFrame.this.outfitSelect.setEnabled( isEnabled );
 			GearChangeFrame.this.customSelect.setEnabled( isEnabled );
 			GearChangeFrame.this.familiarSelect.setEnabled( isEnabled );
-
 			GearChangeFrame.this.outfitButton.setEnabled( isEnabled );
-			GearChangeFrame.updateFamiliarLock();
 
 			if ( isEnabled )
 			{
@@ -780,44 +767,6 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.offhands.clear();
 	}
 
-	public static final void updateFakeHands()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.fakeHands.updateFakeHands();
-	}
-
-	private class ThroneListener
-		implements Listener
-	{
-		public void update()
-		{
-			FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
-			FamiliarData selectedThroneFamiliar = (FamiliarData) GearChangeFrame.this.crownFamiliars.getSelectedItem();
-			if ( enthronedFamiliar != selectedThroneFamiliar )
-			{
-				GearChangeFrame.this.crownFamiliars.setSelectedItem( enthronedFamiliar );
-			}
-		}
-	}
-
-	private class BjornListener
-		implements Listener
-	{
-		public void update()
-		{
-			FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
-			FamiliarData selectedBjornFamiliar = (FamiliarData) GearChangeFrame.this.bjornFamiliars.getSelectedItem();
-			if ( bjornedFamiliar != selectedBjornFamiliar )
-			{
-				GearChangeFrame.this.bjornFamiliars.setSelectedItem( bjornedFamiliar );
-			}
-		}
-	}
-
 	private class EquipmentComboBox
 		extends JComboBox
 	{
@@ -926,6 +875,50 @@ public class GearChangeFrame
 			super( model );
 			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
 			this.setRenderer( renderer );
+		}
+	}
+
+	private class ThroneComboBox
+		extends CarriedFamiliarComboBox
+		implements Listener
+	{
+		public ThroneComboBox( final LockableListModel model )
+		{
+			super( model );
+			NamedListenerRegistry.registerNamedListener( "(throne)", this );
+			this.update();
+		}
+
+		public void update()
+		{
+			FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
+			FamiliarData selectedThroneFamiliar = (FamiliarData) this.getSelectedItem();
+			if ( enthronedFamiliar != selectedThroneFamiliar )
+			{
+				this.setSelectedItem( enthronedFamiliar );
+			}
+		}
+	}
+
+	private class BjornComboBox
+		extends CarriedFamiliarComboBox
+		implements Listener
+	{
+		public BjornComboBox( final LockableListModel model )
+		{
+			super( model );
+			NamedListenerRegistry.registerNamedListener( "(bjorn)", this );
+			this.update();
+		}
+
+		public void update()
+		{
+			FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
+			FamiliarData selectedBjornFamiliar = (FamiliarData) this.getSelectedItem();
+			if ( bjornedFamiliar != selectedBjornFamiliar )
+			{
+				this.setSelectedItem( bjornedFamiliar );
+			}
 		}
 	}
 
@@ -1484,7 +1477,7 @@ public class GearChangeFrame
 
 	private class FakeHandsSpinner
 		extends AutoHighlightSpinner
-		implements ChangeListener
+		implements ChangeListener, Listener
 	{
 		private int currentFakeHands = 0;
 		private int availableFakeHands = 0;
@@ -1492,8 +1485,9 @@ public class GearChangeFrame
 		public FakeHandsSpinner()
 		{
 			super();
-			this.updateFakeHands();
 			this.addChangeListener( this );
+			NamedListenerRegistry.registerNamedListener( "(fakehands)", this );
+			this.update();
 		}
 
 		public void stateChanged( final ChangeEvent e )
@@ -1521,7 +1515,7 @@ public class GearChangeFrame
 			return this.availableFakeHands;
 		}
 
-		public void updateFakeHands()
+		public void update()
 		{
 			int available = GearChangeFrame.fakeHand.getCount( KoLConstants.inventory );
 			this.currentFakeHands = EquipmentManager.getFakeHands();
@@ -1532,32 +1526,25 @@ public class GearChangeFrame
 
 	private class FamLockCheckbox
 		extends JCheckBox
-		implements ActionListener
+		implements ActionListener, Listener
 	{
 		public FamLockCheckbox()
 		{
 			super( "familiar item locked" );
 			this.addActionListener( this );
+			NamedListenerRegistry.registerNamedListener( "(familiarLock)", this );
+			this.update();
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 		}
-	}
 
-	public static void updateFamiliarLock()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
+		public void update()
 		{
-			return;
+			this.setSelected( EquipmentManager.familiarItemLocked() );
+			this.setEnabled( EquipmentManager.familiarItemLockable() );
 		}
-		FamLockCheckbox box = GearChangeFrame.INSTANCE.famLockCheckbox;
-		if ( box == null )
-		{
-			return;
-		}
-		box.setSelected( EquipmentManager.familiarItemLocked() );
-		box.setEnabled( EquipmentManager.familiarItemLockable() );
 	}
 }
