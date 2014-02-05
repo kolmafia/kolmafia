@@ -978,20 +978,16 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_warbearBankUsed" ) ? 0 : 1;
 
-		case ItemPool.JACKHAMMER_DRILL_PRESS:
-		case ItemPool.AUTO_ANVIL:
-		case ItemPool.INDUCTION_OVEN:
-		case ItemPool.CHEMISTRY_LAB:
-		case ItemPool.HIGH_EFFICIENCY_STILL:
-		case ItemPool.LP_ROM_BURNER:
-		case ItemPool.SNOW_MACHINE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_workshedItemUsed" ) ? 0 : 1;
-			
 		case ItemPool.LUPINE_APPETITE_HORMONES:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_lupineHormonesUsed" ) ? 0 : 1;
 
+		}
+
+		if ( CampgroundRequest.isWorkshedItem( itemId ) )
+		{
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_workshedItemUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4593,14 +4589,14 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.JACKHAMMER_DRILL_PRESS:
-		case ItemPool.AUTO_ANVIL:
-		case ItemPool.INDUCTION_OVEN:
-		case ItemPool.CHEMISTRY_LAB:
-		case ItemPool.HIGH_EFFICIENCY_STILL:
-		case ItemPool.LP_ROM_BURNER:
-		case ItemPool.SNOW_MACHINE:
-		
+		case ItemPool.LUPINE_APPETITE_HORMONES:
+			Preferences.setBoolean( "_lupineHormonesUsed", true );
+			return;
+
+		}
+
+		if ( CampgroundRequest.isWorkshedItem( itemId ) )
+		{
 			Preferences.setBoolean( "_workshedItemUsed", true );
 			if ( responseText.contains( "already rearranged your workshed" ) )
 			{
@@ -4610,11 +4606,6 @@ public class UseItemRequest
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.get( itemId, 1 ) );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			return;
-
-		case ItemPool.LUPINE_APPETITE_HORMONES:
-			Preferences.setBoolean( "_lupineHormonesUsed", true );
-			return;
-
 		}
 	}
 
