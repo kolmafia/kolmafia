@@ -958,6 +958,11 @@ public class KoLAdventure
 				this.isValidAdventure = true;
 			}
 
+			if ( this.isValidAdventure )
+			{
+				return;
+			}
+
 			if ( !this.isValidAdventure && visitedCouncil )
 			{
 				KoLmafia.updateDisplay( "You must complete a trapper task first." );
