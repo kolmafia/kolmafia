@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -596,6 +597,7 @@ public class ResultProcessor
 			{
 				RequestLogger.updateSessionLog( lastToken );
 			}
+
 			// Update Hatter deed since new hats may now be equippable
 			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 
@@ -1136,7 +1138,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.FAKE_HAND:
-			GearChangeFrame.updateFakeHands();
+			NamedListenerRegistry.fireChange( "(fakehands)" );
 			break;
 		}
 
