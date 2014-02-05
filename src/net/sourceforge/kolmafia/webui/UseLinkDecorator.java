@@ -815,6 +815,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.RAIN_DOH_MONSTER:
 			case ItemPool.SHAKING_CAMERA:
+			case ItemPool.SHAKING_CRAPPY_CAMERA:
 			case ItemPool.SHAKING_SKULL:
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
 			case ItemPool.WAX_BUGBEAR:

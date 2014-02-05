@@ -384,7 +384,7 @@ public class CustomCombatPanel
 			pref = text.length() > 0;
 			this.puttyLabel.setVisible( pref );
 			this.puttyItem.setSelected( pref );
-			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, Rain-Doh black box, 4-d camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
+			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, Rain-Doh black box, 4-d camera, crappy camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
 			pref = Preferences.getBoolean( "autoPotionID" );
 			this.potionLabel.setVisible( pref );
 			this.potionItem.setSelected( pref );
@@ -520,7 +520,7 @@ public class CustomCombatPanel
 					}
 					String option =
 						!state ? null : InputFieldUtilities.input(
-							"Use Spooky Putty sheet, Rain-Doh black box, 4-d camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
+							"Use Spooky Putty sheet, Rain-Doh black box, 4-d camera, crappy camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
 							"goals abort" );
 
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty", option == null ? "none" : option );

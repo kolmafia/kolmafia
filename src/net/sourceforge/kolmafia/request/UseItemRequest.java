@@ -3315,6 +3315,23 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.SHAKING_CRAPPY_CAMERA:
+
+			Preferences.setBoolean( "_crappyCameraUsed", true );
+
+			// You get the sense that the monster in this camera
+			// isn't ready to be developed just yet. It'll probably
+			// be ready tomorrow. And no, you can't speed it up by
+			// blowing on it.
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
+
+			ResultProcessor.processResult( item );
+
+			return;
+
 		case ItemPool.PHOTOCOPIED_MONSTER:
 
 			Preferences.setBoolean( "_photocopyUsed", true );
@@ -5489,6 +5506,7 @@ public class UseItemRequest
 		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.RAIN_DOH_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
+		case ItemPool.SHAKING_CRAPPY_CAMERA:
 		case ItemPool.SHAKING_SKULL:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 		case ItemPool.WAX_BUGBEAR:

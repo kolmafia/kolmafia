@@ -1969,6 +1969,8 @@ public class ItemPool
 	public static final int FANCY_OIL_PAINTING = 7148;
 	public static final int SOLID_GOLD_ROSARY = 7149;
 	public static final int DOWSING_ROD = 7150;
+	public static final int CRAPPY_CAMERA = 7173;
+	public static final int SHAKING_CRAPPY_CAMERA = 7176;
 	public static final int BUDDY_BJORN = 7200;
 
 	public static final AdventureResult get( String itemName, int count )

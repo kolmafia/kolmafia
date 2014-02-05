@@ -327,6 +327,7 @@ user	concertVisited	false
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
+user	crappyCameraMonster
 user	crimboTreeDays	7
 user	crudeMonster
 user	currentEasyBountyItem	
@@ -895,6 +896,7 @@ user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_coldOne	false
 user	_cosmicSixPackConjured	false
+user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
 user	_cursedKegUsed	false

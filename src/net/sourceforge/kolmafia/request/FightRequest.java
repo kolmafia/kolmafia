@@ -238,7 +238,9 @@ public class FightRequest
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
 	private static final AdventureResult RAINDOH_BOX = ItemPool.get( ItemPool.RAIN_DOH_BOX, 1);
 	private static final AdventureResult CAMERA = ItemPool.get( ItemPool.CAMERA, 1);
+	private static final AdventureResult CRAPPY_CAMERA = ItemPool.get( ItemPool.CRAPPY_CAMERA, 1);
 	private static final AdventureResult SHAKING_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
+	private static final AdventureResult SHAKING_CRAPPY_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
 	private static final AdventureResult PHOTOCOPIER = ItemPool.get( ItemPool.PHOTOCOPIER, 1);
 	private static final AdventureResult PHOTOCOPIED_MONSTER = ItemPool.get( ItemPool.PHOTOCOPIED_MONSTER, 1);
 
@@ -3246,9 +3248,11 @@ public class FightRequest
 				Preferences.getInteger( "_raindohCopiesMade" ) < 5 && totalCopies < 6;
 			boolean haveItem3 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
 				!KoLConstants.inventory.contains( FightRequest.SHAKING_CAMERA );
-			boolean haveItem4 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
+			boolean haveItem4 = KoLConstants.inventory.contains( FightRequest.CRAPPY_CAMERA ) &&
+				!KoLConstants.inventory.contains( FightRequest.SHAKING_CRAPPY_CAMERA );
+			boolean haveItem5 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
 				!KoLConstants.inventory.contains( FightRequest.PHOTOCOPIED_MONSTER );
-			if ( (haveItem || haveItem2 || haveItem3 || haveItem4 ) && shouldTag( pref, "autoPutty triggered" ) )
+			if ( (haveItem || haveItem2 || haveItem3 || haveItem4 || haveItem5 ) && shouldTag( pref, "autoPutty triggered" ) )
 			{
 				if ( haveItem )
 				{
@@ -3261,6 +3265,10 @@ public class FightRequest
 				else if ( haveItem3 )
 				{
 					items.add( String.valueOf( ItemPool.CAMERA ) );
+				}
+				else if ( haveItem4 )
+				{
+					items.add( String.valueOf( ItemPool.CRAPPY_CAMERA ) );
 				}
 				else
 				{
@@ -5102,6 +5110,20 @@ public class FightRequest
 				FightRequest.logText( action, status );
 				status.lastCombatItem = -1;
 			}
+			else if ( status.lastCombatItem == ItemPool.CRAPPY_CAMERA )
+			{
+				// With a dim flash of light and an accompanying old-timey -POOF- noise,
+				// you snap a picture of it. Your camera begins to shake, disconcertingly. 
+
+				if ( !str.contains( "shake, disconcertingly" ) )
+				{
+					return false;
+				}
+				action.append( MonsterStatusTracker.getLastMonsterName() );
+				action.append( " copied" );
+				FightRequest.logText( action, status );
+				status.lastCombatItem = -1;
+			}
 			else
 			{
 				FightRequest.handleYearbookCamera( status );
@@ -5769,6 +5791,20 @@ public class FightRequest
 			{
 				Preferences.setString( "cameraMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.increment( "camerasUsed" );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
+		case ItemPool.CRAPPY_CAMERA:
+
+			// With a dim flash of light and an accompanying old-timey
+			// -POOF- noise, you snap a picture of it. Your
+			// camera begins to shake, disconcertingly. 
+
+			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
+			{
+				Preferences.setString( "crappyCameraMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
