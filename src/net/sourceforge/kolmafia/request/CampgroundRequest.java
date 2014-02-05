@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,6 +143,7 @@ public class CampgroundRequest
 		ItemPool.AUTO_ANVIL,
 		ItemPool.JACKHAMMER_DRILL_PRESS,
 		ItemPool.SNOW_MACHINE,
+		ItemPool.SPINNING_WHEEL,
 
 		// Garden
 		ItemPool.PUMPKIN,
@@ -200,6 +203,20 @@ public class CampgroundRequest
 		CROPMAP.put( BEER_LABEL, CropType.BEER );
 		CROPMAP.put( ICE_HARVEST, CropType.WINTER );
 		CROPMAP.put( FROST_FLOWER, CropType.WINTER );
+	}
+
+	public static final List<Integer> workshedItems = new ArrayList<Integer>();
+
+	static
+	{
+		CampgroundRequest.workshedItems.add( ItemPool.JACKHAMMER_DRILL_PRESS );
+		CampgroundRequest.workshedItems.add( ItemPool.AUTO_ANVIL );
+		CampgroundRequest.workshedItems.add( ItemPool.INDUCTION_OVEN );
+		CampgroundRequest.workshedItems.add( ItemPool.CHEMISTRY_LAB );
+		CampgroundRequest.workshedItems.add( ItemPool.HIGH_EFFICIENCY_STILL );
+		CampgroundRequest.workshedItems.add( ItemPool.LP_ROM_BURNER );
+		CampgroundRequest.workshedItems.add( ItemPool.SNOW_MACHINE );
+		CampgroundRequest.workshedItems.add( ItemPool.SPINNING_WHEEL );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -994,18 +1011,7 @@ public class CampgroundRequest
 
 	public static boolean isWorkshedItem( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.JACKHAMMER_DRILL_PRESS:
-		case ItemPool.AUTO_ANVIL:
-		case ItemPool.INDUCTION_OVEN:
-		case ItemPool.CHEMISTRY_LAB:
-		case ItemPool.HIGH_EFFICIENCY_STILL:
-		case ItemPool.LP_ROM_BURNER:
-		case ItemPool.SNOW_MACHINE:
-			return true;
-		}
-		return false;
+		return CampgroundRequest.workshedItems.contains( itemId );
 	}
 
 	private static final String[][] BOOKS =

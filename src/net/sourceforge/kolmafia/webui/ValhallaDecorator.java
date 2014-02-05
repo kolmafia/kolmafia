@@ -248,9 +248,14 @@ public class ValhallaDecorator
 
 		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
 		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make an aerated diving helmet</a></nobr><br>" );
+			// Only suggest making a helmet if you don't already have all the items that can be made from it.
+			if ( !InventoryManager.hasItem( ItemPool.AERATED_DIVING_HELMET ) || !InventoryManager.hasItem( ItemPool.CRAPPY_MASK ) ||
+				!InventoryManager.hasItem( ItemPool.GLADIATOR_MASK ) || !InventoryManager.hasItem( ItemPool.SCHOLAR_MASK ) )
+			{
+				buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=" );
+				buffer.append( GenericRequest.passwordHash );
+				buffer.append( "\">make an aerated diving helmet</a></nobr><br>" );
+			}
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
@@ -305,6 +310,8 @@ public class ValhallaDecorator
 		ValhallaDecorator.switchSeeds( buffer );
 
 		ValhallaDecorator.switchCorrespondent( buffer );
+
+		ValhallaDecorator.switchWorkshed( buffer );
 	}
 
 	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
@@ -367,9 +374,9 @@ public class ValhallaDecorator
 			return;
 		}
 
-		buffer.append( "Garden: " );
+		buffer.append( "<nobr>Garden: " );
 
-		buffer.append( "<form><select onchange=\"if (this.value) window.location.href=this.value\">" );
+		buffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"garden\" onchange=\"if (this.value) window.location.href=this.value\">" );
 		buffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Plant one</option>" );
 
 		if ( havePumpkin )
@@ -437,7 +444,7 @@ public class ValhallaDecorator
 				: "Unknown";
 			buffer.append( " (currently " ).append( cropString ).append( ")" );
 		}
-		buffer.append( "<br>" );
+		buffer.append( "</nobr><br>" );
 	}
 
 	private static final Pattern EUDORA_PATTERN = Pattern.compile( "<option (selected='selected' )?value=\"(\\d)\">([\\w\\s]*)" );
@@ -486,7 +493,7 @@ public class ValhallaDecorator
 			}
 		}
 
-		buffer.append( "Eudora: use " );
+		buffer.append( "<nobr>Eudora: use " );
 		boolean multiple = false;
 		if ( havePenpal )
 		{
@@ -512,6 +519,63 @@ public class ValhallaDecorator
 		}
 
 		buffer.append( " (Currently " ).append( activeEudora ).append( ")" );
-		buffer.append( "<br>" );
+		buffer.append( "</nobr><br>" );
+	}
+
+	private static final void switchWorkshed( StringBuffer buffer )
+	{
+		boolean display = false;
+		boolean canChange = !Preferences.getBoolean( "_workshedItemUsed" );
+		StringBuilder workshedBuffer = new StringBuilder();
+
+		workshedBuffer.append( "<nobr>Workshed: " );
+
+		if ( canChange )
+		{
+			workshedBuffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select onchange=\"if (this.value) window.location.href=this.value\">" );
+			workshedBuffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Pick one</option>" );
+
+			for ( int i = 0; i < CampgroundRequest.workshedItems.size(); i++ )
+			{
+				AdventureResult item = ItemPool.get( CampgroundRequest.workshedItems.get( i ), 1 );
+				if ( InventoryManager.hasItem( item ) )
+				{
+					workshedBuffer.append( "<option style=\"background-color: #eeeeff\" " );
+					workshedBuffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
+					workshedBuffer.append( item.getName().replaceAll( " ", "+" ) );
+					workshedBuffer.append( ";+use+" );
+					workshedBuffer.append( item.getName().replaceAll( " ", "+" ) );
+					workshedBuffer.append( "&pwd=" );
+					workshedBuffer.append( GenericRequest.passwordHash );
+					workshedBuffer.append( "\">" );
+					workshedBuffer.append( item.getName().replace( "warbear ", "" ) );
+					workshedBuffer.append( "</option>" );
+
+					display = true;
+				}
+			}
+
+			workshedBuffer.append( "</select></form>" );
+		}
+		else
+		{
+			workshedBuffer.append( "already changed today" );
+		}
+
+		if ( !display && canChange )
+		{
+			return;
+		}
+
+		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+
+		if ( workshedItem != null )
+		{
+			workshedBuffer.append( " (currently " );
+			workshedBuffer.append( workshedItem.getName() );
+			workshedBuffer.append( ")" );
+		}
+		workshedBuffer.append( "</nobr><br>" );
+		buffer.append( workshedBuffer );
 	}
 }
