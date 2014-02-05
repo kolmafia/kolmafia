@@ -1225,7 +1225,7 @@ Vivian Vibrian Vumian Varr	iceguy4.gif	Init: 50 P: dude	dangerous jerkcicle (0)	
 Wacky Zack Flacky	iceguy3.gif	Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)
 
 # Feast of Boris
-Candied Yam Golem	yamgolem.gif	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] Exp: [(STAT-3)/4] Init: 100 P: construct	yam candy (c100)	candied yams (c100)
+Candied Yam Golem	yamgolem.gif	HP: [0.75*HP] Def: [min(10000,MUS-3)+max(ML,0)] Atk: [min(10000,MOX-3)+max(ML,0)] Exp: [(min(10000,STAT-3)+max(ML,0))/4] Init: 100 P: construct	yam candy (c100)	candied yams (c100)
 Malevolent Tofurkey	tofurkey.gif	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] Exp: [(STAT-3)/4] Init: 100 P: beast	tofurkey nugget (c100)	packet of tofurkey gravy (c100)	tofurkey gravy (c100)	tofurkey leg (c100)
 Possessed Can of Cranberry Sauce	crancan.gif	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] Exp: [(STAT-3)/4] Init: 100 P: undead	tube of cranberry Go-Goo (c100)	can-shaped gelatinous cranberry sauce (c100)
 Stuffing Golem	stuffgolem.gif	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] Exp: [(STAT-3)/4] Init: 100 P: construct	single-serving herbal stuffing (c100)	herbal stuffing (c100)
