@@ -735,6 +735,8 @@ user	rememberDesktopSize	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	romanticTarget
+user	rumpelstiltskinTurnsUsed	0
+user	rumpelstiltskinKidsRescued	0
 user	safePickpocket	true
 user	scriptMRULength	0
 user	scriptMRUList

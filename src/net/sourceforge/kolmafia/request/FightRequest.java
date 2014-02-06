@@ -2770,6 +2770,11 @@ public class FightRequest
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );
 		}
+		
+		if ( adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE )
+		{
+			Preferences.increment( "rumpelstiltskinTurnsUsed", 1 );
+		}
 
 		if ( won )
 		{
