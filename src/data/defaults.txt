@@ -319,6 +319,9 @@ user	chatServesUpdates	false
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
 user	chosenTrip
+user	cinderellaMinutesToMidnight	0
+user	cinderellaScore	0
+user	grimstoneMaskPath	
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
 user	considerShadowNoodles	false

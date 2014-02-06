@@ -142,6 +142,8 @@ public abstract class ChoiceManager
 	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
 	private static final Pattern UNPERM_PATTERN = Pattern.compile( "Turning (.+)(?: \\(HP\\)) into (\\d+) karma." );
 	private static final Pattern ICEHOUSE_PATTERN = Pattern.compile( "perfectly-preserved (.*?), right" );
+	private static final Pattern CINDERELLA_TIME_PATTERN = Pattern.compile( "<i>It is (\\d+) minute(?:s) to midnight.</i>" );
+	private static final Pattern CINDERELLA_SCORE_PATTERN = Pattern.compile( "score (?:is now|was) <b>(\\d+)</b>" );
 	private static final Pattern RUMPLE_MATERIAL_PATTERN = Pattern.compile( "alt=\"(.*?)\"></td><td valign=center>(\\d+)<" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
@@ -7447,13 +7449,55 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 822:
+		case 823:
+		case 824:
+		case 825:
+		case 826:
+		case 827:
+			// The Prince's Ball
+			if ( ChoiceManager.parseCinderellaTime() == false )
+			{
+				Preferences.decrement( "cinderellaMinutesToMidnight" );
+			}
+			Matcher matcher = ChoiceManager.CINDERELLA_SCORE_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				int score = StringUtilities.parseInt( matcher.group( 1 ) );
+				if ( score != -1 )
+				{
+					Preferences.setInteger( "cinderellaScore", score );
+				}
+			}
+			if ( text.contains( "Your final score was" ) )
+			{
+				Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
+				Preferences.setString( "grimstoneMaskPath", "" );
+			}
+			break;
+			
 		case 829:
 			// We all wear masks
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				ResultProcessor.processItem( ItemPool.GRIMSTONE_MASK, -1 );
+				Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 			}
-			if ( ChoiceManager.lastDecision == 4 )
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setInteger( "cinderellaMinutesToMidnight", 30 );
+				Preferences.setInteger( "cinderellaScore", 0 );
+				Preferences.setString( "grimstoneMaskPath", "stepmother" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "grimstoneMaskPath", "wolf" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "grimstoneMaskPath", "witch" );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
 			{
 				// We lose all Rumpelstiltskin ingredients
 				int straw = InventoryManager.getCount( ItemPool.STRAW );
@@ -7489,6 +7533,11 @@ public abstract class ChoiceManager
 				// Reset score
 				Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
 				Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
+				Preferences.setString( "grimstoneMaskPath", "gnome" );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Preferences.setString( "grimstoneMaskPath", "hare" );
 			}
 			break;
 	
@@ -7878,11 +7927,23 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 822:
+		case 823:
+		case 824:
+		case 825:
+		case 826:
+		case 827:
+			// The Prince's Ball
+			ChoiceManager.parseCinderellaTime();
+			Preferences.setString( "grimstoneMaskPath", "stepmother" );
+			break;
+
 		case 848:
 		case 849:
 		case 850:
 		{
 			// Where the Magic Happens & The Practice & World of Bartercraft
+			Preferences.setString( "grimstoneMaskPath", "gnome" );
 			// Update remaining materials
 			Matcher matcher = ChoiceManager.RUMPLE_MATERIAL_PATTERN.matcher( ChoiceManager.lastResponseText );
 			while ( matcher.find() )
@@ -9710,6 +9771,21 @@ public abstract class ChoiceManager
 		return spoilers;
 	}
 
+	private static boolean parseCinderellaTime()
+	{
+		Matcher matcher = ChoiceManager.CINDERELLA_TIME_PATTERN.matcher( ChoiceManager.lastResponseText );
+		while ( matcher.find() )
+		{
+			int time = StringUtilities.parseInt( matcher.group( 1 ) );
+			if ( time != -1 )
+			{
+				Preferences.setInteger( "cinderellaMinutesToMidnight", time );
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean canWalkAway()
 	{
 		return ChoiceManager.canWalkAway;
