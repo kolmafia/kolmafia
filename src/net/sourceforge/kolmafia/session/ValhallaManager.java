@@ -501,6 +501,9 @@ public class ValhallaManager
 		Preferences.setString( "merkinQuestPath", "none" );
 		Preferences.setString( "seahorseName", "" );
 		Preferences.setString( "workteaClue", "" );
+		// Grimstone Mask trackers
+		Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
+		Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();

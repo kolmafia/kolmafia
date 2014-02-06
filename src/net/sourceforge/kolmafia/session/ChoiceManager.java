@@ -7448,6 +7448,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 829:
+			// We all wear masks
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				ResultProcessor.processItem( ItemPool.GRIMSTONE_MASK, -1 );
@@ -7485,6 +7486,31 @@ public abstract class ChoiceManager
 				{
 					ResultProcessor.processItem( ItemPool.GLASS, -glass );
 				}
+				// Reset score
+				Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
+				Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
+			}
+			break;
+	
+		case 848:
+			// Where the Magic Happens
+			if ( text.contains( "one of h" ) || text.contains( "one child" ) )
+			{
+				Preferences.increment( "rumpelstiltskinKidsRescued", 1 );
+			}
+			else if ( text.contains( "three of their" ) || text.contains( "three kids" ) ||
+				text.contains( "three whole children" ) )
+			{
+				Preferences.increment( "rumpelstiltskinKidsRescued", 3 );
+			}
+			else if ( text.contains( "semi-precious children" ) || text.contains( "five kids" ) )
+			{
+				Preferences.increment( "rumpelstiltskinKidsRescued", 5 );
+			}
+			else if ( text.contains( "seven children" ) || text.contains( "seven kids" ) ||
+				text.contains( "seven of their not-so-precious-after-all children" ) )
+			{
+				Preferences.increment( "rumpelstiltskinKidsRescued", 7 );
 			}
 			break;
 		}

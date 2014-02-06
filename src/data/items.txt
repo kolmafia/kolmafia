@@ -7153,7 +7153,7 @@
 7136	witch's brew	957763940	coffeecup.gif	usable	t,d	250
 7137	witch's bra	140183119	bra.gif	shirt		0
 7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250
-7139	R&uuml;mpelstiltz	821730320	potion5.gif	usable	t	0
+7139	R&uuml;mpelstiltz	821730320	potion5.gif	multiple	t	0
 7140	spinning wheel	411606373	spinningwheel.gif	usable		0
 7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99
 7142	hare brush	544012791	hairbrush.gif	usable	t,d	300
