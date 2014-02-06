@@ -2930,6 +2930,13 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "Improved Howling!", 2 ),
 				       new Option( "+Wolf Lung Capacity", 3 ) } ),
 
+		// Choice 835 is Barely Tales
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure835", "Grim Brother",
+			new Object[] { "30 turns of +20 initiative",
+				       "30 turns of +20 max HP, +10 max MP",
+				       "30 turns of +10 Weapon Damage, +20 Spell Damage" } ),
+
 		// Choice 836 is Adventures Who Live in Ice Houses...
 		
 		// Choice 837 is On Purple Pond
