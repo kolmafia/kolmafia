@@ -142,6 +142,7 @@ public abstract class ChoiceManager
 	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
 	private static final Pattern UNPERM_PATTERN = Pattern.compile( "Turning (.+)(?: \\(HP\\)) into (\\d+) karma." );
 	private static final Pattern ICEHOUSE_PATTERN = Pattern.compile( "perfectly-preserved (.*?), right" );
+	private static final Pattern RUMPLE_MATERIAL_PATTERN = Pattern.compile( "alt=\"(.*?)\"></td><td valign=center>(\\d+)<" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7450,7 +7451,10 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				ResultProcessor.processItem( ItemPool.GRIMSTONE_MASK, -1 );
-				// We also lose all Rumpelstiltskin ingredients
+			}
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				// We lose all Rumpelstiltskin ingredients
 				int straw = InventoryManager.getCount( ItemPool.STRAW );
 				int leather = InventoryManager.getCount( ItemPool.LEATHER );
 				int clay = InventoryManager.getCount( ItemPool.CLAY );
@@ -7481,7 +7485,6 @@ public abstract class ChoiceManager
 				{
 					ResultProcessor.processItem( ItemPool.GLASS, -glass );
 				}
-
 			}
 			break;
 		}
@@ -7846,7 +7849,72 @@ public abstract class ChoiceManager
 					BanishManager.banishMonster( icehouseMonster, "ice house" );
 				}
 			}
+			break;
 		}
+
+		case 848:
+		case 849:
+		case 850:
+		{
+			// Where the Magic Happens & The Practice & World of Bartercraft
+			// Update remaining materials
+			Matcher matcher = ChoiceManager.RUMPLE_MATERIAL_PATTERN.matcher( ChoiceManager.lastResponseText );
+			while ( matcher.find() )
+			{
+				String material = matcher.group( 1 );
+				int number = StringUtilities.parseInt( matcher.group( 2 ) );
+				if ( material.equals( "straw" ) )
+				{
+					int straw = InventoryManager.getCount( ItemPool.STRAW );
+					if ( straw != number )
+					{
+						ResultProcessor.processItem( ItemPool.STRAW, number - straw );
+					}
+				}
+				else if ( material.equals( "leather" ) )
+				{
+					int leather = InventoryManager.getCount( ItemPool.LEATHER );
+					if ( leather != number )
+					{
+						ResultProcessor.processItem( ItemPool.LEATHER, number - leather );
+					}
+				}
+				else if ( material.equals( "clay" ) )
+				{
+					int clay = InventoryManager.getCount( ItemPool.CLAY );
+					if ( clay != number )
+					{
+						ResultProcessor.processItem( ItemPool.CLAY, number - clay );
+					}
+				}
+				else if ( material.equals( "filling" ) )
+				{
+					int filling = InventoryManager.getCount( ItemPool.FILLING );
+					if ( filling != number )
+					{
+						ResultProcessor.processItem( ItemPool.FILLING, number - filling );
+					}
+				}
+				else if ( material.equals( "parchment" ) )
+				{
+					int parchment = InventoryManager.getCount( ItemPool.PARCHMENT );
+					if ( parchment != number )
+					{
+						ResultProcessor.processItem( ItemPool.PARCHMENT, number - parchment );
+					}
+				}
+				else if ( material.equals( "glass" ) )
+				{
+					int glass = InventoryManager.getCount( ItemPool.GLASS );
+					if ( glass != number )
+					{
+						ResultProcessor.processItem( ItemPool.GLASS, number - glass );
+					}
+				}
+			}
+			break;
+		}
+
 		}
 	}
 
