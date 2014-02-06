@@ -504,6 +504,9 @@ public class ValhallaManager
 		// Grimstone Mask trackers
 		Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
 		Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
+		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
+		Preferences.setInteger( "cinderellaScore", 0 );
+		Preferences.setString( "grimstoneMaskPath", "" );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();
