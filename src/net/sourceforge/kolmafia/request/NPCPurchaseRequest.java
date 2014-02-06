@@ -586,6 +586,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "cindy" ) )
+		{
+			BoutiqueRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "fdkol" ) )
 		{
 			FDKOLRequest.parseResponse( urlString, responseText );
@@ -752,6 +758,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "trapper" ) )
 			{
 				return TrapperRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "cindy" ) )
+			{
+				return BoutiqueRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "fdkol" ) )
