@@ -2391,3 +2391,12 @@ snakebite	MIX	cream stout	anise-flavored venom
 pecan pie	COOK	candied pecan	pie crust
 chocotini	MIX_FANCY	vodka martini	candy mountain oyster
 mulled berry wine	MIX	mulberry	boxed wine
+smudge stick	RUMPLE, ROW251	straw	leather
+portable wall	RUMPLE, ROW252	straw	clay
+jug of &quot;wine&quot	RUMPLE, ROW255	straw	glass
+scroll case	RUMPLE, ROW254	straw	parchment
+humble pie	RUMPLE, ROW258	clay	filling
+small golem	RUMPLE, ROW259	clay	parchment
+crappy camera	RUMPLE, ROW257	leather	glass
+large tankard of ale	RUMPLE, ROW253	leather	clay
+juggling ball	RUMPLE, ROW256	leather	filling

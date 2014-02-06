@@ -1969,6 +1969,12 @@ public class ItemPool
 	public static final int FANCY_OIL_PAINTING = 7148;
 	public static final int SOLID_GOLD_ROSARY = 7149;
 	public static final int DOWSING_ROD = 7150;
+	public static final int STRAW = 7151;
+	public static final int LEATHER = 7152;
+	public static final int CLAY = 7153;
+	public static final int FILLING = 7154;
+	public static final int PARCHMENT = 7155;
+	public static final int GLASS = 7156;
 	public static final int CRAPPY_CAMERA = 7173;
 	public static final int SHAKING_CRAPPY_CAMERA = 7176;
 	public static final int BUDDY_BJORN = 7200;

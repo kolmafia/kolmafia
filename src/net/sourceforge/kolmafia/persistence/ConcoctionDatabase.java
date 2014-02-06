@@ -1970,6 +1970,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.WINTER, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.WINTER, 0 );
 
+		// Making stuff with Rumplestiltskin's Workshop is allowed when you have ingredients
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.RUMPLE );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.RUMPLE, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.RUMPLE, 0 );
+
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
 		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )
@@ -2209,6 +2214,10 @@ public class ConcoctionDatabase
 		{
 			result.append( "Shop Class" );
 		}
+		else if ( mixingMethod == CraftingType.RUMPLE )
+		{
+			result.append( "Rumpelstiltskin's Workshop" );
+		}
 		else if ( mixingMethod == CraftingType.ROLLING_PIN )
 		{
 			result.append( "rolling pin/unrolling pin" );
@@ -2292,6 +2301,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.WINTER )
 		{
 			result.append( "Winter Garden" );
+		}
+		else if ( mixingMethod == CraftingType.RUMPLE )
+		{
+			result.append( "Rumpelstiltskin's Workshop" );
 		}
 
 		if ( result.length() == 0 )
@@ -2906,6 +2919,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "WINTER" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.WINTER;
+		}
+
+		else if ( mix.equals( "RUMPLE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
