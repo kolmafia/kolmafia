@@ -7450,6 +7450,38 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				ResultProcessor.processItem( ItemPool.GRIMSTONE_MASK, -1 );
+				// We also lose all Rumpelstiltskin ingredients
+				int straw = InventoryManager.getCount( ItemPool.STRAW );
+				int leather = InventoryManager.getCount( ItemPool.LEATHER );
+				int clay = InventoryManager.getCount( ItemPool.CLAY );
+				int filling = InventoryManager.getCount( ItemPool.FILLING );
+				int parchment = InventoryManager.getCount( ItemPool.PARCHMENT );
+				int glass = InventoryManager.getCount( ItemPool.GLASS );
+				if ( straw > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.STRAW, -straw );
+				}
+				if ( leather > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.LEATHER, -leather );
+				}
+				if ( clay > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.CLAY, -clay );
+				}
+				if ( filling > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.FILLING, -filling );
+				}
+				if ( parchment > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.PARCHMENT, -parchment );
+				}
+				if ( glass > 0 )
+				{
+					ResultProcessor.processItem( ItemPool.GLASS, -glass );
+				}
+
 			}
 			break;
 		}

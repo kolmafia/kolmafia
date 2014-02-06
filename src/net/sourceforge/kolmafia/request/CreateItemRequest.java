@@ -365,6 +365,9 @@ public class CreateItemRequest
 		case WINTER:
 			return new WinterGardenRequest( conc );
 
+		case RUMPLE:
+			return new RumpleRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

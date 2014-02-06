@@ -528,7 +528,8 @@ public class NPCPurchaseRequest
 		     shopId.equals( "grandma" ) ||
 		     shopId.equals( "beergarden" ) ||
 		     shopId.equals( "junkmagazine" ) ||
-		     shopId.equals( "snowgarden" ) )
+		     shopId.equals( "snowgarden" ) ||
+		     shopId.equals( "rumple" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
@@ -562,18 +563,6 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "hiddentavern" ) )
-		{
-			// If Hidden Tavern not already unlocked, new items available
-			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
-			{
-				// Unlock Hidden Tavern
-				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
-				ConcoctionDatabase.setRefreshNeeded( true );
-			}
-			return;
-		}
-
 		if ( shopId.equals( "dv" ) )
 		{
 			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
@@ -603,6 +592,18 @@ public class NPCPurchaseRequest
 		     shopId.equals( "elvishp3" ) )
 		{
 			SpaaaceRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "hiddentavern" ) )
+		{
+			// If Hidden Tavern not already unlocked, new items available
+			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				// Unlock Hidden Tavern
+				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
 			return;
 		}
 	}
