@@ -248,14 +248,9 @@ public class ValhallaDecorator
 
 		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
 		{
-			// Only suggest making a helmet if you don't already have all the items that can be made from it.
-			if ( !InventoryManager.hasItem( ItemPool.AERATED_DIVING_HELMET ) || !InventoryManager.hasItem( ItemPool.CRAPPY_MASK ) ||
-				!InventoryManager.hasItem( ItemPool.GLADIATOR_MASK ) || !InventoryManager.hasItem( ItemPool.SCHOLAR_MASK ) )
-			{
-				buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=" );
-				buffer.append( GenericRequest.passwordHash );
-				buffer.append( "\">make an aerated diving helmet</a></nobr><br>" );
-			}
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make an aerated diving helmet</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
