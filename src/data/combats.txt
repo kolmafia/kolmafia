@@ -246,7 +246,7 @@ The Haunted Wine Cellar (Southeast)	100	possessed wine rack	skeletal sommelier
 The Heap	-1	Stench hobo	Oscus: 0
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit: 0
-The Hidden Bowling Alley	100	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	pygmy witch nurse	ancient protector spirit: 0
+The Hidden Bowling Alley	100	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	ancient protector spirit: 0
 The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy witch nurse	ancient protector spirit: 0
 The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit: 0
 The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer

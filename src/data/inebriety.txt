@@ -178,7 +178,7 @@ event horizon	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
 evil ducha de oro	4	4	awesome	12-16	8-10	0	50-75	10 A Little Bit Evil (+2 ML)
 evil horizontal tango	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
 evil roll in the hay	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
-expensive champagne	1	4	EPIC	0	0	0	0
+expensive champagne	1	4	EPIC	5-6	10-20	10-20	10-20	15-20 MP
 expired bottle of peppermint schnapps	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
 extra-slimy slimosa	2	4	awesome	6-7	0	0	20-30	10 In the Slimelight
 extra-spicy bloody mary	3	3	good	5-10	5-11	5-11	5-11
