@@ -1235,16 +1235,54 @@ public class Evaluator
 		}
 
 		// Get best Familiars for Crown of Thrones and Buddy Bjorn
+		// Assume current ones are best if in use
 		FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-
+		if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
+		{
+			bestCarriedFamiliar = KoLCharacter.getBjorned();
+		}
+		if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) )
+		{
+			secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
+		}
+		if ( bestCarriedFamiliar == FamiliarData.NO_FAMILIAR && !(secondBestCarriedFamiliar == FamiliarData.NO_FAMILIAR ) )
+		{
+			bestCarriedFamiliar = secondBestCarriedFamiliar;
+			secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
+		}
+		if ( secondBestCarriedFamiliar != FamiliarData.NO_FAMILIAR )
+		{
+			// Make sure best is better than secondBest !
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			MaximizerSpeculation secondBest = new MaximizerSpeculation();
+			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+			best.attachment = secondBest.attachment = item;
+			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+			Arrays.fill( secondBest.equipment, EquipmentRequest.UNEQUIP );
+			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
+			best.setEnthroned( bestCarriedFamiliar );
+			secondBest.setEnthroned( secondBestCarriedFamiliar );
+			if ( secondBest.compareTo( best ) > 0 )
+			{
+				FamiliarData temp = bestCarriedFamiliar;
+				bestCarriedFamiliar = secondBestCarriedFamiliar;
+				secondBestCarriedFamiliar = temp;
+			}
+		}
+		
 		if ( this.carriedFamiliarsNeeded > 0 )
 		{
 			boolean useCarriedFamiliar = false;
 			MaximizerSpeculation best = new MaximizerSpeculation();
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
+			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+			best.attachment = secondBest.attachment = item;
 			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
 			Arrays.fill( secondBest.equipment, EquipmentRequest.UNEQUIP );
+			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
+			best.setEnthroned( bestCarriedFamiliar );
+			secondBest.setEnthroned( secondBestCarriedFamiliar );
 
 			// Check each familiar in hat to see if they are worthwhile
 			List familiarList = KoLCharacter.getFamiliarList();
@@ -1256,7 +1294,6 @@ public class Evaluator
 				     !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
-					CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
 					spec.attachment = item;
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ EquipmentManager.HAT ] = item;
@@ -1283,7 +1320,7 @@ public class Evaluator
 				this.carriedFamiliars.add( secondBestCarriedFamiliar );
 			}
 		}
-		
+
 		// Get best Card for Card Sleeve
 		CheckedItem bestCard = null;
 		AdventureResult useCard = null;
