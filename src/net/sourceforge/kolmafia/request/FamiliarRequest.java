@@ -43,8 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-
-import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -207,12 +206,19 @@ public class FamiliarRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( this.enthrone )
 		{
+			FamiliarData enthroned = KoLCharacter.getEnthroned();
+
 			if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() != ItemPool.HATSEAT )
 			{
+				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !enthroned.equals( FamiliarData.NO_FAMILIAR ) )
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.HATSEAT, 1 ), EquipmentManager.HAT ) );
+					RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
+					SpecialOutfit.restoreImplicitCheckpoint();
+				}
 				return;
 			}
-
-			FamiliarData enthroned = KoLCharacter.getEnthroned();
 
 			if ( enthroned.getId() == this.changeTo.getId() )
 			{
@@ -231,12 +237,19 @@ public class FamiliarRequest
 		}
 		else if ( this.bjornify )
 		{
+			FamiliarData bjorned = KoLCharacter.getBjorned();
+
 			if ( EquipmentManager.getEquipment( EquipmentManager.CONTAINER ).getItemId() != ItemPool.BUDDY_BJORN )
 			{
+				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !bjorned.equals( FamiliarData.NO_FAMILIAR ) )
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ), EquipmentManager.CONTAINER ) );
+					RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
+					SpecialOutfit.restoreImplicitCheckpoint();
+				}
 				return;
 			}
-
-			FamiliarData bjorned = KoLCharacter.getBjorned();
 
 			if ( bjorned.getId() == this.changeTo.getId() )
 			{
