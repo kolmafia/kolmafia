@@ -6,6 +6,7 @@
 bean-shaped rock	bean-shaped rocks	easy	bean.gif	35	beanbat	The Beanbat Chamber
 bloodstained briquette	bloodstained briquettes	easy	briquette.gif	8	Knob Goblin Barbecue Team	The Outskirts of Cobb's Knob
 bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Counter	Cobb's Knob Treasury
+callused fingerbone	callused fingerbones	easy	fingerbone.gif	4	mariachi calavera	South of the Border
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed knob goblin	A Barroom Brawl
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
@@ -22,6 +23,7 @@ bit of wilted lettuce	bits of wilted lettuce	hard	lettuce.gif	4	Taco Cat	The Pal
 burned-out arcanodiode	burned-out arcanodiodes	hard	diode.gif	12	MagiMechTech MechaMech	The Penultimate Fantasy Airship
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
 distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar (automatic)
+dusty wing	dusty wings	hard	gnatwing.gif	8	plaque of locusts	The Arid, Extra-Dry Desert
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
 non-Euclidean hoof	non-Euclidean hooves	hard	hoof.gif	11	cubist bull	The Haunted Gallery
 rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub	The Haunted Bathroom
