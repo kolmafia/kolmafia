@@ -220,6 +220,7 @@ public class MonsterData
 
 	public int getDefense()
 	{
+		double reduceMonsterDefense = KoLCharacter.currentNumericModifier( Modifiers.REDUCE_ENEMY_DEFENSE ) / 100;
 		if ( this.defense == null )
 		{
 			return 0;
@@ -237,14 +238,14 @@ public class MonsterData
 				defense = Math.min( defense + 150, Math.max( 300, defense ) );
 			}
 			return (int) Math.floor( Math.max( 1, defense + ML() ) *
-			       getBeeosity() * EquipmentManager.getDefenseModifier() );
+			       getBeeosity() * ( 1 - reduceMonsterDefense ) );
 		}
 		if ( this.defense instanceof String )
 		{
 			this.defense = compile( this.defense );
 		}
 		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * 
-				getBeeosity() * EquipmentManager.getDefenseModifier() ) );
+				getBeeosity() * ( 1 - reduceMonsterDefense ) ) );
 	}
 
 	public int getRawDefense()
