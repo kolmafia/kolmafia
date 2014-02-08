@@ -1473,8 +1473,7 @@ Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Dama
 # Grey Guanon: Deals Stench Damage every round
 Grey Guanon	Stench Damage: +5
 Half a Purse	Experience: +1, Damage Reduction: 3, Smithsness: +5, Meat Drop: [2*K]
-# HOA regulation book: Reduce enemy defense by 20%
-HOA regulation book	Monster Level: -100, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 23
+HOA regulation book	Monster Level: -100, Reduce Enemy Defense: 20, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 23
 # Hodgman's almanac: Converts Hobo Power to Spell Damage
 Hodgman's almanac	Spell Damage: [1.2*H]
 # Hodgman's cane: Converts Hobo Power to HP and MP Regeneration
@@ -1590,8 +1589,7 @@ ancient stone head	Damage Reduction: 5
 # anniversary balloon
 anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
 antique shield	Initiative: -10, Damage Reduction: 15
-# antique spyglass: Reduce enemy defense by 15%
-antique spyglass	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 arm buzzer	Damage Reduction: 6, Maximum MP: +25
 # arrow'd heart balloon
 astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
@@ -3371,7 +3369,7 @@ Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
 # Abyssal Sweat: The first attack against you will always miss
-# Abyssal Tears: Reduce enemy defense by 20%
+Abyssal Tears	Reduce Enemy Defense: 20
 Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
@@ -4561,7 +4559,7 @@ Spooky Weapon	Spooky Damage: +3
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Stopping to Smell the Flowers	Experience: +3
-# Spore-Wreathed: Reduce enemy defense by 20%
+Spore-Wreathed	Reduce Enemy Defense: 20
 Springy Fusilli	Initiative: +40
 Spirit Schooled	Maximum MP Percent: +20
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
