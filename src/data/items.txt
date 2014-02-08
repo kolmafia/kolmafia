@@ -60,16 +60,16 @@
 43	worthless trinket	134561658	trinket.gif	none	d	0	worthless trinkets
 44	worthless gewgaw	727798834	gewgaw.gif	none	d	0	worthless gewgaws
 45	worthless knick-knack	561158049	knickknack.gif	none	d	0	worthless knick-knacks
-46	wooden figurine	520591514	statue.gif	none	t,d	45	wooden figurines
-47	hot buttered roll	424947000	roll.gif	food	t,d	45	hot buttered rolls
+46	wooden figurine	520591514	statue.gif	none	t,d	25	wooden figurines
+47	hot buttered roll	424947000	roll.gif	food	t,d	25	hot buttered rolls
 48	heart of rock and roll	855972490	heart.gif	none	t,d	101	hearts of rock and roll
 49	bowl of cottage cheese	721301736	ccheese.gif	food	t,d	31	bowls of cottage cheese
 50	Rock and Roll Legend	275331264	legend.gif	weapon	t,d	150	Rock and Roll Legends
 51	Knob Goblin Uberpants	555557301	uberpants.gif	pants	t,d	60	pairs of Knob Goblin Uberpants
-52	banjo strings	546702280	strings.gif	none	t,d	45	sets of banjo strings
+52	banjo strings	546702280	strings.gif	none	t,d	25	sets of banjo strings
 53	stone banjo	232520882	stonebanjo.gif	weapon	t,d	30	stone banjos
 54	Disco Banjo	244279521	discobanjo.gif	weapon	t,d	150	Disco Banjos
-55	jaba&ntilde;ero pepper	189906805	pepper.gif	none	t,d	45	jaba&ntilde;ero peppers
+55	jaba&ntilde;ero pepper	189906805	pepper.gif	none	t,d	25	jaba&ntilde;ero peppers
 56	heavy hot sauce	915847243	heavysauce.gif	none	t,d	101	heavy hot sauces
 57	5-Alarm Saucepan	695837819	5alarm.gif	weapon	t,d	150	5-Alarm Saucepans
 58	stone turtle	273862210	stoneturtle.gif	none	t,d	3	stone turtles
@@ -120,8 +120,8 @@
 103	spooky staff	258271045	staff.gif	weapon	t,d	50	spooky staves
 104	spooky scarecrow	238593881	scarecrow.gif	usable	t,d	55	spooky scarecrows
 105	bowl of lucky charms	402063497	charms.gif	food	t,d	35	bowls of lucky charms
-106	ketchup	926741886	ketchup.gif	food	t,d	45	bottles of ketchup
-107	catsup	392712771	ketchup.gif	food	t,d	45	bottles of catsup
+106	ketchup	926741886	ketchup.gif	food	t,d	25	bottles of ketchup
+107	catsup	392712771	ketchup.gif	food	t,d	25	bottles of catsup
 108	big stick	908197047	stick.gif	weapon	t,d	50	big sticks
 109	crossbow string	185370953	string.gif	none	t,d	50	crossbow strings
 110	basic meat staff	871109805	meatstaff.gif	weapon	t,d	25	basic meat staves
@@ -267,10 +267,10 @@
 250	screwdriver	643226474	rocks.gif	drink	t,d	65	screwdrivers
 251	martini	433591253	martini.gif	drink	t,d	65	martinis
 252	bloody beer	270292632	juice.gif	drink	t,d	60	bloody beers
-253	shot of orange schnapps	451965938	shot.gif	drink	t,d	120	shots of orange schnapps
-254	shot of grapefruit schnapps	520094760	shot.gif	drink	t,d	120	shots of grapefruit schnapps
+253	shot of orange schnapps	451965938	shot.gif	drink	t,d	35	shots of orange schnapps
+254	shot of grapefruit schnapps	520094760	shot.gif	drink	t,d	35	shots of grapefruit schnapps
 255	fine wine	289750888	wine.gif	drink	t,d	64	bottles of fine wine
-256	shot of tomato schnapps	345621185	shot.gif	drink	t,d	120	shots of tomato schnapps
+256	shot of tomato schnapps	345621185	shot.gif	drink	t,d	35	shots of tomato schnapps
 257	extra-spicy bloody mary	313835263	bloodymary.gif	drink	t,d	66	extra-spicy bloodies mary
 258	dense meat stack	964766953	meatstack.gif	none	t,d	1000	dense meat stacks
 259	white snake skin	830631869	snakeskin.gif	none	t,d	25	white snake skins
@@ -541,7 +541,7 @@
 524	papaya sling	537404035	rocks.gif	drink	t,d	57	papaya slings
 525	grue egg	901443551	egg.gif	grow, fancy		0	grue eggs
 526	Frobozz Real-Estate Company Instant House (TM)	538314813	house.gif	usable	q	0
-527	volleyball	630554300	volley.gif	usable	t,d	45	volleyballs
+527	volleyball	630554300	volley.gif	usable	t,d	25	volleyballs
 528	blood-faced volleyball	952613923	wilson.gif	grow	t,d	45	blood-faced volleyballs
 529	fertilized ghuol egg	266108177	egg.gif	grow	t,d	19	fertilized ghuol eggs
 530	spray paint	821779253	spraycan.gif	none	t,d	25	cans of spray paint
@@ -2298,8 +2298,8 @@
 2281	Manual of Transmission	696941703	book3.gif	reusable	q	0
 2282	Manual of Dexterity	659803917	book3.gif	reusable	q	0
 2283	seal-skull helmet	700561477	skullhelm.gif	hat	t,d	1	seal-skull helmets
-2284	petrified noodles	139204890	petnoodles.gif	none	t,d	45	clumps of petrified noodles
-2285	chisel	583794996	chisel.gif	weapon	t,d	45	chisels
+2284	petrified noodles	139204890	petnoodles.gif	none	t,d	25	clumps of petrified noodles
+2285	chisel	583794996	chisel.gif	weapon	t,d	25	chisels
 2286	Eye of Ed	818542757	biggem.gif	none	q	0
 2287	green glowstick	642392529	glowstick.gif	accessory		0	green glowstyx
 2288	encoder ring	643487866	encring.gif	accessory	g,d	5	encoder rings
@@ -3919,7 +3919,7 @@
 3902	figurine of a wretched-looking seal	239121823	sealfig1.gif	usable	d	75	figurines of wretched-looking seals
 3903	figurine of a cute baby seal	543169080	sealfig2.gif	usable	d	125	figurines of cute baby seals
 3904	figurine of an armored seal	877503554	sealfig3.gif	usable	d	250	figurines of armored seals
-3905	figurine of an ancient seal	956027175	sealfig4.gif	usable	d	45	figurines of ancient seals
+3905	figurine of an ancient seal	956027175	sealfig4.gif	usable	d	15	figurines of ancient seals
 3906	figurine of a sleek seal	149913053	sealfig5.gif	usable	d	200	figurines of sleek seals
 3907	figurine of a shadowy seal	507805347	sealfig6.gif	usable	d	150	figurines of shadowy seals
 3908	figurine of a stinking seal	181891006	sealfig7.gif	usable	d	150	figurines of stinking seals
@@ -4477,7 +4477,7 @@
 4460	snailmail hauberk	143480509	chainshirt.gif	shirt	t,d	160	snailmail hauberks
 4461	seal-brain elixir	441670255	potion5.gif	multiple	t,d	33	seal-brain elixirs
 4462	chocolate seal-clubbing club	914337293	choc1.gif	usable, candy	t	0	chocolate seal-clubbing clubs
-4463	chocolate turtle totem	704750003	choc2.gif	usable, candy	t	0	chocolate turtle totems
+4463	chocolate turtle totem	704750003	choctotem.gif	usable, candy	t	0	chocolate turtle totems
 4464	chocolate pasta spoon	799053536	choc3.gif	usable, candy	t	0	chocolate pasta spoons
 4465	chocolate saucepan	894875363	choc4.gif	usable, candy	t	0	chocolate saucepans
 4466	chocolate disco ball	181522203	choc5.gif	usable, candy	t	0	chocolate disco balls
@@ -5996,7 +5996,7 @@
 5979	huge gold coin	699945657	goldcoin.gif	none	t,d	250	huge gold coins
 5980	cartoon heart	588736683	cartoonheart.gif	hp, combat, usable	t,d	10
 5981	gold star	306265817	goldstar.gif	mp, combat, usable	t,d	10
-5982	tankard of ale	834422340	tankard.gif	drink	t,d	10
+5982	tankard of ale	834422340	tankard.gif	drink	t,d	10	tankards of ale
 5983	vial of holy water	636236146	vial2.gif	none, combat	t,d	50	vials of holy water
 5984	green cloth cap	661269930	clothhat.gif	hat	t,d	25
 5985	iron dagger	311675547	irondagger.gif	weapon	t,d	25
@@ -7069,7 +7069,7 @@
 7052	warbear metalworking primer (used)	324746492	wbtablet.gif	reusable		0
 7053	warbear empathy chip (used)	245553728	wbchip.gif	reusable		0
 7054	warbear drone codes	437376602	documents.gif	familiar	t,d	75	sets of warbear drone codes
-7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	0	breakfast messes
+7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	5	breakfast messes
 7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0
 7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
 7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5	bottles of Cloaca Cola Polar
@@ -7110,16 +7110,16 @@
 7093	warbear dress bracers	486728461	wbo_bracers.gif	accessory	t	0
 7094	warbear dress greaves	381238105	wbo_greaves.gif	pants	t	0
 7095	sweatband	382391260	sweatband.gif	hat	t,d	10
-7096	gym shorts	829875273	gymshorts.gif	pants	t,d	15
-7097	ankleweights	828600115	ankleweights.gif	accessory	t,d	20
-7098	sweat socks	384604274	sweatsocks.gif	accessory	t,d	5
-7099	pint of sweat	733018685	moonshine.gif	none, combat	d	0
-7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12
-7101	Five Second Energy&trade;	796432016	5secondenergy.gif	multiple	t,d	5
+7096	gym shorts	829875273	gymshorts.gif	pants	t,d	15	pairs of gym shorts)
+7097	ankleweights	828600115	ankleweights.gif	accessory	t,d	20	sets of ankleweights
+7098	sweat socks	384604274	sweatsocks.gif	accessory	t,d	5	pairs of sweat socks
+7099	pint of sweat	733018685	moonshine.gif	none, combat	d	0	pints of sweat
+7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12	copies of Jerks' Health&trade; Magazine
+7101	Five Second Energy&trade;	796432016	5secondenergy.gif	multiple	t,d	5	bottles of Five Second Energy&trade;
 7102	pixie axie	782213297	pixieaxie.gif	usable	t	0
 7103	sour powder	862764546	scpowder.gif	usable	t,d	22
 7104	licorice whip	786532174	whip.gif	weapon	t,d	32
-7105	anise-flavored venom	654980495	gooball.gif	none, combat	t,d	14
+7105	anise-flavored venom	654980495	gooball.gif	none, combat	t,d	14	globs of anise-flavored venom
 7106	snakebite	715124072	juice.gif	drink	t,d	18
 7107	candy stick	202447685	stick.gif	weapon	t,d	41
 7108	candied pecan	546984617	pecan.gif	food	t,d	4
@@ -7127,13 +7127,13 @@
 7110	chocolate-stained collar	861056216	chococollar.gif	familiar	t,d	75
 7111	candy mountain oyster	673390532	chococherry.gif	food, fancy	t,d	8
 7112	chocotini	828828825	martini.gif	drink	t,d	45
-7113	chocolate rabbit's foot	939609317	chocofoot.gif	accessory	t,d	42
+7113	chocolate rabbit's foot	939609317	chocofoot.gif	accessory	t,d	42	chocolate rabbits' feet
 7114	candy carrot	757744387	chococarrot.gif	food, fancy	t,d	3
 7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33
-7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60
-7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37
+7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60	carrots-on-sticks
+7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37	pairs of weasel stomping pants
 7118	mulberry	367312771	mulberry.gif	food	t,d	12	traveling mulberries
-7119	mulled berry wine	922856680	coffeecup.gif	drink	t,d	57
+7119	mulled berry wine	922856680	coffeecup.gif	drink	t,d	57	cups of mulled berry wine
 7120	lemony scales	780957222	lemonscales.gif	multiple	t,d	5
 7121	lemon party hat	309550870	lemonhat.gif	hat	q	0
 7122	lemon shirt	376721584	lemonshirt.gif	shirt	q	0
@@ -7155,8 +7155,8 @@
 7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250
 7139	R&uuml;mpelstiltz	821730320	potion5.gif	multiple	t	0
 7140	spinning wheel	411606373	spinningwheel.gif	usable		0
-7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99
-7142	hare brush	544012791	hairbrush.gif	usable	t,d	300
+7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99	glasses of hi-octane carrot juice
+7142	hare brush	544012791	hairbrush.gif	usable	t,d	300	hare brushes
 7143	hare pin	531373932	harepin.gif	accessory		0
 7144	odd silver coin	809302450	silvercoin.gif	usable	d	55
 7145	cinnamon cannoli	463407306	cannoli.gif	food	t,d	99	plates of cinnamon cannoli
@@ -7165,27 +7165,27 @@
 7148	fancy oil painting	848017783	oilpainting.gif	none	q	0
 7149	solid gold rosary	759330205	rosary.gif	usable	q	0
 7150	ornate dowsing rod	814148239	dowsingrod.gif	offhand	q	0
-7151	straw	334274463	straw.gif	none	q	0
-7152	leather	508238232	leather.gif	none	q	0
-7153	clay	226651015	clay.gif	none	q	0
-7154	filling	436315873	filling.gif	none	q	0
-7155	parchment	694164451	parchment.gif	none	q	0
-7156	glass	369061893	glass.gif	none	q	0
+7151	straw	334274463	straw.gif	none	q	0	piles of straw
+7152	leather	508238232	leather.gif	none	q	0	piles of leather
+7153	clay	226651015	clay.gif	none	q	0	lumps of clay
+7154	filling	436315873	filling.gif	none	q	0	piles of filling
+7155	parchment	694164451	parchment.gif	none	q	0	sheets of parchment
+7156	glass	369061893	glass.gif	none	q	0	sheets of glass
 7157	fire hose	472406679	hose.gif	pants	t,d	44
-7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18
+7158	fireman's lunch	411369188	lunchbox.gif	food	t,d	18	fireman's lunches
 7159	plain paper hat	281098787	paperhat.gif	hat	t,d	24
-7160	ice cream sandwich	808729527	jarl_icsandwich.gif	food	t,d	17
+7160	ice cream sandwich	808729527	jarl_icsandwich.gif	food	t,d	17	ice cream sandwiches
 7161	&quot;honey&quot; dipper	597864286	honeydipper.gif	weapon	t,d	26
-7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3
+7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3	plumber's lunches
 7163	skull gearshift knob	639725530	skullknob.gif	offhand	t,d	85
 7164	nachos of the night	950915178	jarl_nachos.gif	food	t,d	22
 7165	Sketcherz&trade;	853013827	kicks.gif	accessory	t,d	45
-7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19
+7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19	cans of Adultwitch&trade;
 7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
 7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
-7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9
+7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9	large tankards of ale
 7170	scroll case	857398089	scrollcase.gif	usable	t,d	21
-7171	jug of &quot;wine&quot	781777602	jug.gif	usable	t,d	18
+7171	jug of &quot;wine&quot;	781777602	jug.gif	multi	t,d	18	jugs, heh heh of &quot;wine&quot;
 7172	juggling ball	854077113	stressball.gif	multiple	t,d	22
 7173	crappy camera	693235331	camera.gif	none, combat	t,d	25
 7174	humble pie	123782132	pie.gif	food	t,d	26
