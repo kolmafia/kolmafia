@@ -138,8 +138,6 @@ public class EquipmentManager
 
 	private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
-	private static double defenseModifier = 1.0; // The Lost Glasses and Chester's Sunglasses
-
 	static
 	{
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
@@ -635,20 +633,6 @@ public class EquipmentManager
 				( diaper ? 1 : 0 ) +
 				( wheel ? 1 : 0 ) +
 				( eye ? 1 : 0 );
-		}
-
-		if ( old.getItemId() == ItemPool.LOST_GLASSES || item.getItemId() == ItemPool.LOST_GLASSES ||
-		     old.getItemId() == ItemPool.CHESTER_GLASSES || item.getItemId() == ItemPool.CHESTER_GLASSES )
-		{
-			EquipmentManager.defenseModifier = 1
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) ) ? 0.15 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_SLIPPERS, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_STAFF, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_LENS, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_STONE, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_PANTS, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_GIRDLE, 1 ) ) ? 0.1 : 0 )
-				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.CHESTER_GLASSES, 1 ) ) ? 0.15 : 0 );
 		}
 		
 		// If Tuxedo Shirt put on or off, and autoTuxedo not set, several booze adventure gains change
@@ -1577,11 +1561,6 @@ public class EquipmentManager
 			}
 			return hitStat;
 		}
-	}
-
-	public static final double getDefenseModifier()
-	{
-		return EquipmentManager.defenseModifier;
 	}
 
 	public static final boolean hasOutfit( final int id )

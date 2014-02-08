@@ -210,6 +210,7 @@ public class Modifiers
 	public static final int PRISMATIC_DAMAGE = 104;
 	public static final int SMITHSNESS = 105;
 	public static final int SUPERCOLD_RESISTANCE = 106;
+	public static final int REDUCE_ENEMY_DEFENSE = 107;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -687,6 +688,10 @@ public class Modifiers
 		{ "Supercold Resistance",
 		  null,
 		  Pattern.compile( "Supercold Resistance: " + EXPR )
+		},
+		{ "Reduce Enemy Defense",
+		  Pattern.compile( "Reduce enemy defense by (\\d+)%" ),
+		  Pattern.compile( "Reduce Enemy Defense: " + EXPR )
 		},
 	};
 

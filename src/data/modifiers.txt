@@ -102,8 +102,7 @@ Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
 Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 KoL Con 3-D Glasses	Familiar Effect: "8xLep, 1xFairy, cap 2"
-# Lens of Hatred: Reduce enemy defense by 10%
-Lens of Hatred	Meat Drop: +15, Spell Damage Percent: +60, Familiar Effect: "hot atk, 1xBarrr"
+Lens of Hatred	Meat Drop: +15, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 1xBarrr"
 # Lens of Violence: Allows you to discover your opponents' magical weaknesses
 Lens of Violence	Item Drop: +15, Weapon Damage Percent: +30, Critical Hit Percent: +5, Familiar Effect: "atk, 1xBarrr"
 MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -434,9 +433,8 @@ Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "S
 Orcish cargo shorts	Muscle: +3, Mysticality: -3, Familiar Effect: "sleaze atk, 2xGhuol, cap 15"
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer", Familiar Effect: "stench atk, 1xBarrr"
 Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effect: "stench atk, 1xPotato"
-# Pantaloons of Hatred: Reduce enemy defense by 10%
 # Pantaloons of Hatred: Generates a lot of static electricity
-Pantaloons of Hatred	Adventures: +4, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
+Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
 # Pantsgiving: Lets you cram in slightly more food.
 # Pantsgiving: Improves resting
 # Pantsgiving: Lets you use various Thanksgivingy skills
@@ -854,8 +852,7 @@ Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen 
 # Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
 Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
-# Staff of Simmering Hatred: Reduce enemy defense by 10%
-Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Spell Damage Percent: +200
+Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy Defense: 10, Spell Damage Percent: +200
 # Staff of the All-Steak: Jiggle: Massive Bonus to Item Drops
 # Staff of the All-Steak: (5 charges left today)
 Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "+Item"
@@ -1452,8 +1449,7 @@ Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Mox
 Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 # Codex of Capsaicin Conjuration: All Spells Cast Are Hot
 Codex of Capsaicin Conjuration	Spell Damage: +10
-# Cold Stone of Hatred: Reduce enemy defense by 10%
-Cold Stone of Hatred	Mysticality Percent: +20, Spell Damage Percent: +60
+Cold Stone of Hatred	Mysticality Percent: +20, Reduce Enemy Defense: 10, Spell Damage Percent: +60
 # Cookbook of the Damned: All Spells Cast Are Stinky
 Cookbook of the Damned	Spell Damage: +10
 Crimbo Elf creepy bobble-head	Spooky Damage: +10
@@ -1899,8 +1895,7 @@ Cat-Herding Prod	Muscle: +15, Mysticality: +15, Moxie: +15
 Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Chester's moustache	Sleaze Damage: +20, Class: "Disco Bandit", Single Equip, DB Combat Damage: +20
-# Chester's sunglasses: Reduce enemy defense by 15%
-Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Single Equip
+Chester's sunglasses	Moxie Percent: +15, Reduce Enemy Defense: 15, Sleaze Damage: +20, Single Equip
 Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day*
 # * This enchantment works even when this item is not equipped
@@ -1927,17 +1922,15 @@ Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip
-# Fuzzy Slippers of Hatred: Reduce enemy defense by 10%
 # Fuzzy Slippers of Hatred: Makes running more comfortable
-Fuzzy Slippers of Hatred	Combat Rate: -5, Spell Damage Percent: +60, Single Equip
+Fuzzy Slippers of Hatred	Combat Rate: -5, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 # Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
 # * This enchantment works even when this item is not equipped
 Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
 Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
-# Girdle of Hatred: Reduce enemy defense by 10%
 # Girdle of Hatred: Tightenable
-Girdle of Hatred	Initiative: +45, Spell Damage Percent: +60, Single Equip
+Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
 Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day*
 # * This enchantment works even when this item is not equipped
@@ -2058,8 +2051,7 @@ Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]
 # Talisman of Bakula: Hemophilia
 Talisman of Bakula	Single Equip
-# The Lost Glasses: Reduce enemy defense by 15%
-The Lost Glasses	Hot Resistance: +2, Single Equip
+The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
