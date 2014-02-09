@@ -2805,8 +2805,7 @@ public class FightRequest
 				{
 					explored += 1;
 				}
-				else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) &&
-				          KoLConstants.activeEffects.contains( EffectPool.get( Effect.HYDRATED ) ) )
+				else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) )
 				{
 					explored += 2;
 				}
