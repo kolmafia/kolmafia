@@ -11,7 +11,8 @@ crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed knob gobli
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
 half-empty bottle of eyedrops	half-empty bottles of eyedrops	easy	eyedrops.gif	13	one-eyed Gnoll	The Degrassi Knoll Gym
-important bat file	important bat files	easy	documents.gif	7	briefcase bat	Guano Junction
+handful of meatberries	handfuls of meatberries	easy	cran.gif	7	anglerbush	The Haunted Conservatory
+important bat file	important bat files	easy	documents.gif	6	briefcase bat	Guano Junction
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
 triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
