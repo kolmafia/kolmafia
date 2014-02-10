@@ -1936,6 +1936,7 @@ public class ItemPool
 	public static final int CHEMISTRY_LAB = 6967;
 	public static final int WARBEAR_EMPATHY_CHIP = 6969;
 	public static final int SMITH_BOOK = 7003;
+	public static final int HANDFUL_OF_SMITHEREENS = 7006;
 	public static final int GOLDEN_LIGHT = 7013;
 	public static final int LOUDER_THAN_BOMB = 7014;
 	public static final int SAUCEPANIC = 7027;
