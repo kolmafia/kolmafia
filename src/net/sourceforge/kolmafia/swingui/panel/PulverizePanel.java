@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 
 import net.sourceforge.kolmafia.request.PulverizeRequest;
@@ -133,7 +135,7 @@ public class PulverizePanel
 	public void addFilters()
 	{
 		JPanel filterPanel = new JPanel();
-		this.filters = new JCheckBox[ 7 ];
+		this.filters = new JCheckBox[ 8 ];
 
 		this.filters[ 0 ] = new JCheckBox( "twinkly", true );
 		this.filters[ 1 ] = new JCheckBox( "<html><font color=red>hot</html>", true );
@@ -141,9 +143,10 @@ public class PulverizePanel
 		this.filters[ 3 ] = new JCheckBox( "<html><font color=green>stench</html>", true );
 		this.filters[ 4 ] = new JCheckBox( "<html><font color=gray>spooky</html>", true );
 		this.filters[ 5 ] = new JCheckBox( "<html><font color=purple>sleaze</html>", true );
-		this.filters[ 6 ] = new JCheckBox( "other" );
+		this.filters[ 6 ] = new JCheckBox( "Smiths", true );
+		this.filters[ 7 ] = new JCheckBox( "other" );
 
-		for ( int i = 0; i < 7; ++i )
+		for ( int i = 0; i < 8; ++i )
 		{
 			filterPanel.add( this.filters[ i ] );
 			this.listenToCheckBox( this.filters[ i ] );
@@ -193,6 +196,7 @@ public class PulverizePanel
 		implements ListSelectionListener
 	{
 		boolean others = false;
+		boolean smiths = false;
 		int elemMask = 0;
 		int yieldMask = 0;
 
@@ -209,7 +213,8 @@ public class PulverizePanel
 		@Override
 		public synchronized void update()
 		{
-			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
+			this.smiths = PulverizePanel.this.filters[ 6 ].isSelected();
+			this.others = PulverizePanel.this.filters[ 7 ].isSelected();
 			this.elemMask =
 				(PulverizePanel.this.filters[ 0 ].isSelected() ?
 					EquipmentDatabase.ELEM_TWINKLY : 0) |
@@ -254,7 +259,11 @@ public class PulverizePanel
 				return false;
 			}
 
-			if ( pulver >= 0 )
+			if ( pulver == ItemPool.HANDFUL_OF_SMITHEREENS )
+			{
+				isVisibleWithFilter = this.smiths;
+			}
+			else if ( pulver >= 0 )
 			{
 				isVisibleWithFilter = this.others;
 			}
