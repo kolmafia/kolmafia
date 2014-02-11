@@ -346,6 +346,12 @@ public abstract class EncounterManager
 			Preferences.setBoolean( "_treasuryHaremMeatCollected", true );
 			return;
 		}
+
+		if ( encounterName.equals( "Fraction Traction = Inaction" ) )
+		{
+			Preferences.setInteger( "booPeakProgress", 98 );
+			return;
+		}
 	}
 
 	private static class RegisteredEncounter
