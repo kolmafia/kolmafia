@@ -136,8 +136,8 @@ public class FloristRequest
 		UPSEA_DAISY( 40, "Up Sea Daisy" ),
 		;
 
-		private int id;
-		private String name;
+		private final int id;
+		private final String name;
 
 		private Florist( int id, String name )
 		{
@@ -227,7 +227,7 @@ public class FloristRequest
 
 		GenericRequest forestVisit = new GenericRequest( "place.php?whichplace=forestvillage&action=fv_friar" );
 		RequestThread.postRequest( forestVisit );
-		if ( !forestVisit.responseText.contains( "The Florist Friar's Cottage" ) )
+		if ( forestVisit.responseText != null && !forestVisit.responseText.contains( "The Florist Friar's Cottage" ) )
 		{
 			FloristRequest.setHaveFlorist( false );
 			return;
