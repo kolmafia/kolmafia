@@ -1919,7 +1919,7 @@ public abstract class KoLCharacter
 
 	public static final void setCurrentRun( final int currentRun )
 	{
-		boolean changed = KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0;
+		boolean changed = KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0 && currentRun != 0;
 		KoLCharacter.currentRun = currentRun;
 		if ( changed )
 		{
