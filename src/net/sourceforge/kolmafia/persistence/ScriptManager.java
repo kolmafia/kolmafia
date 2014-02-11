@@ -37,6 +37,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +141,7 @@ public class ScriptManager
 		if ( force || !Preferences.getBoolean( "_svnRepoFileFetched" ) )
 		{
 			repoScripts.clear();
-			FileUtilities.downloadFile( REPO_FILE_LOCATION, KoLConstants.SVN_REPO_FILE, true);
+			FileUtilities.downloadFile( REPO_FILE_LOCATION, KoLConstants.SVN_REPO_FILE, true );
 			Preferences.setBoolean( "_svnRepoFileFetched", true );
 		}
 		JSONArray jArray = ScriptManager.getJSONArray();
@@ -197,6 +199,24 @@ public class ScriptManager
 			return;
 
 		ArrayList<Script> scripts = new ArrayList<Script>();
+		Set<SVNURL> alreadyInstalled = new HashSet<SVNURL>();
+
+		File[] currentWCs = KoLConstants.SVN_LOCATION.listFiles();
+
+		if ( currentWCs != null )
+		{
+			for ( File f : currentWCs )
+			{
+				try
+				{
+					alreadyInstalled.add( SVNManager.workingCopyToSVNURL( f ) );
+				}
+				catch ( SVNException e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
+			}
+		}
 
 		try
 		{
@@ -212,11 +232,13 @@ public class ScriptManager
 
 				Script script = ScriptFactory.fromJSON( jNext );
 
-				scripts.add( script );
+				// check uniqueness - if we've already installed the script, leave it out.
+				SVNURL jRepo = SVNURL.parseURIEncoded( script.getRepo() );
+				if ( !alreadyInstalled.contains( jRepo ) )
+					scripts.add( script );
 			}
-
 		}
-		catch ( JSONException e )
+		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 			return;
@@ -235,7 +257,7 @@ public class ScriptManager
 	{
 		installedScripts.clear();
 		File[] scripts = KoLConstants.SVN_LOCATION.listFiles();
-		
+
 		if ( scripts == null )
 			return;
 
