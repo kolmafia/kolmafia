@@ -1312,6 +1312,7 @@ public class ShowDescriptionTable
 							StaticEntity.printStackTrace( e );
 							return;
 						}
+						ScriptManager.updateRepoScripts( false );
 						ScriptManager.updateInstalledScripts();
 					}
 				} );
@@ -1344,7 +1345,10 @@ public class ShowDescriptionTable
 						File deleteMe = ( (InstalledScript) ob ).getScriptFolder();
 						SVNManager.deleteInstalledProject( deleteMe );
 						if ( !deleteMe.exists() )
+						{
 							ScriptManager.getInstalledScripts().remove( ob );
+							ScriptManager.updateRepoScripts( false );
+						}
 					}
 				} );
 			}
