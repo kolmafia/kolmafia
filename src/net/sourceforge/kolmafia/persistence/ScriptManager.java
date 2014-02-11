@@ -235,6 +235,9 @@ public class ScriptManager
 	{
 		installedScripts.clear();
 		File[] scripts = KoLConstants.SVN_LOCATION.listFiles();
+		
+		if ( scripts == null )
+			return;
 
 		for ( File script : scripts )
 		{
