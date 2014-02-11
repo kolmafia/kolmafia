@@ -41,10 +41,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /**
@@ -124,12 +122,13 @@ public class ScriptMenu
 	@Override
 	public JComponent[] getHeaders()
 	{
-		JComponent[] headers = new JComponent[ 3 ];
+		JComponent[] headers = new JComponent[ 4 ];
 
-		headers[ 0 ] = new LoadScriptMenuItem();
-		headers[ 1 ] = new InvocationMenuItem( "Refresh menu", GenericFrame.class, "compileScripts" );
-		headers[ 2 ] = new JMenuItem( "(Shift key to edit)" );
-		headers[ 2 ].setEnabled( false );
+		headers[ 0 ] = new DisplayFrameMenuItem( "Script Manager", "ScriptManageFrame" );
+		headers[ 1 ] = new LoadScriptMenuItem();
+		headers[ 2 ] = new InvocationMenuItem( "Refresh menu", GenericFrame.class, "compileScripts" );
+		headers[ 3 ] = new JMenuItem( "(Shift key to edit)" );
+		headers[ 3 ].setEnabled( false );
 
 		return headers;
 	}

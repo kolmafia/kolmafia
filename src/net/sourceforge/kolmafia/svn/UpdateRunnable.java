@@ -117,7 +117,7 @@ public class UpdateRunnable
 
 			try
 			{
-				this.repo = SVNManager.getClientManager().getStatusClient().doStatus( this.WCDir, false ).getURL();
+				this.repo = SVNManager.workingCopyToSVNURL( this.WCDir );
 			}
 			catch ( SVNException e )
 			{

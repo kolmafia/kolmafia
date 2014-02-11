@@ -44,6 +44,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,9 +64,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
@@ -81,7 +85,10 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.InstalledScript;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Script;
+import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -93,6 +100,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -312,6 +320,7 @@ public class ShowDescriptionTable
 
 		// Set columns > visibleColumnCount to not visible.
 		List<TableColumn> allColumns = getColumns( true );
+
 		for ( TableColumn t : allColumns )
 		{
 			TableColumnExt ext = (TableColumnExt) t;
@@ -1267,6 +1276,77 @@ public class ShowDescriptionTable
 			for ( int i = 0; i < items.length; ++i )
 			{
 				RequestThread.postRequest( new PulverizeRequest( (AdventureResult)items[ i ] ) );
+			}
+		}
+	}
+
+	protected class InstallScriptRunnable
+		extends ContextMenuListener
+	{
+		private ShowDescriptionTable table;
+
+		public InstallScriptRunnable( ShowDescriptionTable table )
+		{
+			this.table = table;
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			int row = this.table.getSelectedRow();
+			final Object ob = this.table.getValueAt( row, 0 );
+
+			if ( ob instanceof Script )
+			{
+				RequestThread.postRequest( new Runnable()
+				{
+					public void run()
+					{
+						String installMe = ( (Script) ob ).getRepo();
+						try
+						{
+							SVNManager.doCheckout( SVNURL.parseURIEncoded( installMe ) );
+						}
+						catch ( SVNException e )
+						{
+							StaticEntity.printStackTrace( e );
+							return;
+						}
+						ScriptManager.updateInstalledScripts();
+					}
+				} );
+			}
+		}
+	}
+
+	protected class DeleteScriptRunnable
+		extends ContextMenuListener
+	{
+		private ShowDescriptionTable table;
+
+		public DeleteScriptRunnable( ShowDescriptionTable table )
+		{
+			this.table = table;
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			int row = this.table.getSelectedRow();
+			final Object ob = this.table.getValueAt( row, 0 );
+
+			if ( ob instanceof InstalledScript )
+			{
+				RequestThread.postRequest( new Runnable()
+				{
+					public void run()
+					{
+						File deleteMe = ( (InstalledScript) ob ).getScriptFolder();
+						SVNManager.deleteInstalledProject( deleteMe );
+						if ( !deleteMe.exists() )
+							ScriptManager.getInstalledScripts().remove( ob );
+					}
+				} );
 			}
 		}
 	}

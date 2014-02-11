@@ -605,7 +605,7 @@ public class SVNManager
 		return failed;
 	}
 
-	public static void pushUpdates()
+	private static void pushUpdates()
 	{
 		pushUpdates( false );
 	}
@@ -1169,7 +1169,7 @@ public class SVNManager
 		return local != null ? local : remote;
 	}
 
-	private static String getFolderUUIDNoRemote( SVNURL repo )
+	public static String getFolderUUIDNoRemote( SVNURL repo )
 	{
 		String UUID = null;
 		Matcher m = SOURCEFORGE_PATTERN.matcher( repo.getPath() );
@@ -1403,7 +1403,11 @@ public class SVNManager
 		{
 			return;
 		}
-
+		deleteInstalledProject( project );
+	}
+	
+	public static void deleteInstalledProject( final File project )
+	{
 		RequestLogger.printLine( "Uninstalling project..." );
 		recursiveDelete( project );
 		if ( project.exists() )
@@ -1826,6 +1830,13 @@ public class SVNManager
 
 		return ourClientManager;
 	}
+	
+	public static SVNURL workingCopyToSVNURL( File WCDir )
+			throws SVNException
+	{
+			return SVNManager.getClientManager().getStatusClient().doStatus( WCDir, false ).getURL();
+	}
+
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
 	// there are a number of other examples there.

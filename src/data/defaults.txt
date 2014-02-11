@@ -199,6 +199,7 @@ global	visitLoungeHardcore	true
 global	visitLoungeSoftcore	true
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
+global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
 user	addingScrolls	-1

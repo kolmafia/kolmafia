@@ -41,14 +41,14 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.moods.HPRestoreItemList;
-import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.Script;
+import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
@@ -99,6 +99,28 @@ public class TableCellFactory
 		if ( result instanceof String || result instanceof Integer || result instanceof JButton )
 		{
 			return result;
+		}
+		if ( result instanceof Script )
+		{
+			return getScriptCell( columnIndex, isSelected, (Script) result );
+		}
+		return null;
+	}
+
+	private static Object getScriptCell( int columnIndex, boolean isSelected, Script result )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return result.getScriptName();
+		case 1:
+			return result.getAuthors();
+		case 2:
+			return result.getShortDesc();
+		case 3:
+			return result.getCategory();
+		case 4:
+			return result.getRepo();
 		}
 		return null;
 	}
@@ -432,6 +454,12 @@ public class TableCellFactory
 			return new String[]
 			{
 				"outfit name", "outfit ID",
+			};
+		}
+		else if ( originalModel == ScriptManager.getInstalledScripts() || originalModel == ScriptManager.getRepoScripts( false ) )
+		{
+			return new String[]
+			{ "Script Name", "Authors", "Description", "Category", "Repo"
 			};
 		}
 		return new String[]

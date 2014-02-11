@@ -49,8 +49,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
