@@ -128,7 +128,7 @@ public class ScriptManager
 
 	private static final LockableListModel installedScripts = new LockableListModel();
 	private static final LockableListModel repoScripts = new LockableListModel();
-	private static final String REPO_FILE_LOCATION = "https://gist.github.com/roippi/b1b9620aaa5ada9983f4/raw/d449160dbd67c2d2771a65890d5b8a652a0ac8b9/svnrepo.json"; //this will change.
+	private static final String REPO_FILE_LOCATION = "https://raw2.github.com/roippi/kolmafiasvnrepo/master/svnrepo.json"; //this will change.
 
 	static
 	{
