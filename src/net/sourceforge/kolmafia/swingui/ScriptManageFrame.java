@@ -146,7 +146,7 @@ public class ScriptManageFrame
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( managePanel, 640, 480 );
+			JComponentUtilities.setComponentSize( managePanel, 640, 380 );
 
 			this.textPane = new JTextPane();
 			textPane.setContentType( "text/html" );
