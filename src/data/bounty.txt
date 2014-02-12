@@ -42,5 +42,5 @@ pile of country guano	piles of country guano	special	guano.gif	8	country bat	An 
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
 pop art banana peel	pop art banana peels	special	bananapeel.gif	6	velvet underground dweller	Mt. Molehill
 purple butt	purple butts	special	asshat.gif	9	jungle baboon	The Jungles of Ancient Loathing
-unlucky claw	unlucky claws	special	boneclaw.gif	8	lucky cat statue	Chinatown Shops
+unlucky claw	unlucky claws	special	boneclaw.gif	13	lucky cat statue	Chinatown Shops
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig	The Red Queen's Garden
