@@ -1416,6 +1416,7 @@ public class ItemPool
 	public static final int LARS_THE_CYBERIAN = 5053;
 	public static final int CREEPY_VOODOO_DOLL = 5062;
 	public static final int SPAGHETTI_CON_CALAVERAS = 5065;
+	public static final int SMORE_GUN = 5066;
 	public static final int TINY_BLACK_HOLE = 5069;
 	public static final int RUSSIAN_ICE = 5073;
 	public static final int STRESS_BALL = 5109;
