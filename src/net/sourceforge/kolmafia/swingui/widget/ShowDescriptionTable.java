@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
+import com.centerkey.BareBonesBrowserLaunch;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 
 /*
@@ -1354,6 +1355,37 @@ public class ShowDescriptionTable
 			}
 		}
 	}
+	
+	protected class ShowThreadRunnable
+	extends ContextMenuListener
+{
+		private ShowDescriptionTable table;
+
+		public ShowThreadRunnable( ShowDescriptionTable table )
+		{
+			this.table = table;
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			int row = this.table.getSelectedRow();
+			final Object ob = this.table.getValueAt( row, 0 );
+
+			if ( ob instanceof Script )
+			{
+				RequestThread.postRequest( new Runnable()
+				{
+					public void run()
+					{
+						String ft = ( (Script) ob ).getForumThread();
+						if ( ft != null && !ft.equals( "" ) )
+							BareBonesBrowserLaunch.openURL( ft );
+					}
+				} );
+			}
+		}
+}
 
 	/*
 	 * And now a bunch of adapter functions.
