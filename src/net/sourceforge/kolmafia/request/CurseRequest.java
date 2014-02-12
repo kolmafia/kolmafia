@@ -61,6 +61,9 @@ public class CurseRequest
 
 	private AdventureResult itemUsed;
 
+	private static final AdventureResult SMORE_GUN = ItemPool.get( ItemPool.SMORE_GUN, 1 );
+	private static final AdventureResult MARSHMALLLOW = ItemPool.get( ItemPool.MARSHMALLOW, 1 );
+
 	public CurseRequest( final AdventureResult item )
 	{
 		this( item, KoLCharacter.getPlayerId(), "" );
@@ -107,6 +110,11 @@ public class CurseRequest
 			return;
 		}
 		AdventureResult item = ItemPool.get( StringUtilities.parseInt( m.group( 1 ) ), 1 );
+		if ( item.equals( CurseRequest.SMORE_GUN ) )
+		{
+			// When you "throw" a s'more gun at someone, marshmallows get used up
+			item = CurseRequest.MARSHMALLLOW;
+		}
 
 		m = CurseRequest.QTY_PATTERN.matcher( responseText );
 		if ( !m.find() )
@@ -128,28 +136,28 @@ public class CurseRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "You don't have that item" ) != -1 )
+		if ( responseText.contains( "You don't have that item" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Have not, throw not." );
 			return;
 		}
 
-		if ( responseText.indexOf( "No message?" ) != -1 ||
-			responseText.indexOf( "no message" ) != -1 )
+		if ( responseText.contains( "No message?" ) ||
+			responseText.contains( "no message" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That item requires a message." );
 			return;
 		}
 
-		if ( responseText.indexOf( "That player could not be found" ) != -1 )
+		if ( responseText.contains( "That player could not be found" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
 			return;
 		}
 
-		if ( responseText.indexOf( "try again later" ) != -1 ||
-			responseText.indexOf( "cannot be used" ) != -1 ||
-			responseText.indexOf( "can't use this item" ) != -1 )
+		if ( responseText.contains( "try again later" ) ||
+			responseText.contains( "cannot be used" ) ||
+			responseText.contains( "can't use this item" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't use the item on that player at the moment." );
 			return;
