@@ -45,12 +45,13 @@ public class Script
 	protected String category;
 	protected String repo;
 	protected String longDesc;
+	protected String forumThread;
 
 	public Script()
 	{
 	}
 
-	public Script( String name, String authors, String shortDesc, String repo, String longDesc, String category )
+	public Script( String name, String authors, String shortDesc, String repo, String longDesc, String category, String forumThread )
 	{
 		this.scriptName = name;
 		this.authors = authors;
@@ -58,6 +59,7 @@ public class Script
 		this.category = category;
 		this.repo = repo;
 		this.longDesc = longDesc;
+		this.forumThread = forumThread;
 
 		super.add( scriptName );
 		super.add( authors );
@@ -105,5 +107,10 @@ public class Script
 	public String getLongDesc()
 	{
 		return longDesc;
+	}
+
+	public String getForumThread()
+	{
+		return forumThread;
 	}
 }

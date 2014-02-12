@@ -66,8 +66,9 @@ public class ScriptManager
 			String category = jObj.getString( "category" );
 			String shortDesc = jObj.getString( "shortDesc" );
 			String longDesc = jObj.getString( "longDesc" );
+			String forumThread = jObj.getString( "forumThread" );
 
-			return new Script( name, author, shortDesc, repo, longDesc, category );
+			return new Script( name, author, shortDesc, repo, longDesc, category, forumThread );
 		}
 
 		public static Script fromFile( File scriptFolder )
@@ -93,7 +94,7 @@ public class ScriptManager
 			// we can still fetch info on the repo...
 			String uuid = SVNManager.getFolderUUIDNoRemote( repo );
 
-			return new InstalledScript( new Script( uuid, null, null, repo.toString(), null, null ), scriptFolder );
+			return new InstalledScript( new Script( uuid, null, null, repo.toString(), null, null, null ), scriptFolder );
 		}
 
 		private static JSONObject repoToJSONObject( SVNURL repo )

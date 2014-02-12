@@ -51,6 +51,7 @@ public class InstalledScript
 		this.repo = s.repo;
 		this.scriptName = s.scriptName;
 		this.shortDesc = s.shortDesc;
+		this.forumThread = s.forumThread;
 		this.scriptFolder = f;
 	}
 

@@ -43,6 +43,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
@@ -77,6 +78,8 @@ public class ScriptManageFrame
 			this.contextMenu.removeAll();
 
 			this.contextMenu.add( new ThreadedMenuItem( "Delete script", new DeleteScriptRunnable( this ) ) );
+			this.contextMenu.add( new JSeparator() );
+			this.contextMenu.add( new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) ) );
 		}
 	}
 
@@ -93,6 +96,8 @@ public class ScriptManageFrame
 			this.contextMenu.removeAll();
 
 			this.contextMenu.add( new ThreadedMenuItem( "Install script", new InstallScriptRunnable( this ) ) );
+			this.contextMenu.add( new JSeparator() );
+			this.contextMenu.add( new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) ) );
 		}
 	}
 
