@@ -735,7 +735,7 @@ Bloodbath	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky
 # Bonestabber: +30 Damage vs. Skeletons
 Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
-Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
+Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7, Adventures: +3
 Byte	Spell Damage Percent: +100, Spell Critical Percent: +15
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 C.H.U.M. knife	Stench Damage: +30

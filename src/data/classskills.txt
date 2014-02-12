@@ -536,7 +536,7 @@
 7114	Throw Shield	opshield.gif	5	0	0
 7115	Release the Boots	boot.gif	5	0	0
 7116	Feed	vampirefangs.gif	5	0	0
-7117	Siphon Spirit	crystaldecanter.gif	5	0	0
+7117	Siphon Spirits	crystaldecanter.gif	5	0	0
 7118	Swirl Cloak	ffcloak.gif	5	0	0
 7119
 7120	Quick Attack	gashes.gif	5	0	0
