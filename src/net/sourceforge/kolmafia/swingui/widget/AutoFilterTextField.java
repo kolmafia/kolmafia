@@ -37,30 +37,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JList;
-import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
+import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
-
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
@@ -241,6 +234,10 @@ public class AutoFilterTextField
 		if ( element instanceof Monster )
 		{
 			return ( (Monster) element ).toLowerCaseString();
+		}
+		if ( element instanceof Script )
+		{
+			return ( (Script) element ).getScriptName().toLowerCase();
 		}
 
 		return element.toString();

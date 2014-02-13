@@ -276,7 +276,7 @@ public class ScriptManager
 		}
 	}
 
-	public static LockableListModel getRepoScripts( boolean force )
+	public static LockableListModel getRepoScripts( )
 	{
 		return repoScripts;
 	}
