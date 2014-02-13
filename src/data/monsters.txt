@@ -1576,6 +1576,6 @@ frosty straw house	straw_cold.gif	Init: -10000 P: construct E: cold
 glowing ash house	wood_hot.gif	Init: -10000 P: construct E: hot
 oily straw house	straw_sleaze.gif	Init: -10000 P: construct E: sleaze
 pitch pine house	wood_stench.gif	Init: -10000 P: construct E: stench
-quaking aspen house	wood_sleaze.gif	Init: -10000 P: construct E: sleaze
-slippery elm house	wood_spooky.gif	Init: -10000 P: construct E: spooky
+quaking aspen house	wood_spooky.gif	Init: -10000 P: construct E: spooky
+slippery elm house	wood_sleaze.gif	Init: -10000 P: construct E: sleaze
 steaming straw house	straw_hot.gif	Init: -10000 P: construct E: hot

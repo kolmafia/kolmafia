@@ -602,6 +602,9 @@ public class EquipmentManager
 				KoLCharacter.addAvailableSkill( "Spray Hot Grease" );
 			}
 			break;
+		case ItemPool.WOLF_WHISTLE:
+			KoLCharacter.addAvailableSkill( "Blow Wolf Whistle" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
