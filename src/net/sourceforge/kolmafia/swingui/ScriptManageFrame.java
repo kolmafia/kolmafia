@@ -45,6 +45,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
@@ -147,47 +148,46 @@ public class ScriptManageFrame
 
 			JPanel top = layoutTopPanel();
 
-			JPanel managePanel = new JPanel( new BorderLayout() );
-			managePanel.add( manageScroller, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( managePanel, 640, 380 );
-
 			this.textPane = new JTextPane();
 			textPane.setContentType( "text/html" );
 			textPane.setText( "<html>Select a script for more details</html>" );
 			textPane.setBorder( BorderFactory.createEtchedBorder() );
 			textPane.setEditable( false );
-			textPane.setPreferredSize( new Dimension( getPreferredSize().width, 150 ) );
 
 			ScriptManageFrame.this.repoTable.getSelectionModel().addListSelectionListener( new LongDescriptionListener(
 				ScriptManageFrame.this.repoTable, textPane ) );
 
 			this.setContent( this.elements, true );
 			this.container.remove( this.eastContainer );
+
+			JSplitPane splitter = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true, manageScroller, textPane );
+			splitter.setBorder( null );
+			splitter.setResizeWeight( .7d ); //table gets 70% space by default
+
 			this.container.add( top, BorderLayout.NORTH );
-			this.container.add( managePanel, BorderLayout.CENTER );
-			this.container.add( textPane, BorderLayout.SOUTH );
+			this.container.add( splitter, BorderLayout.CENTER );
 		}
 
 		private JPanel layoutTopPanel()
 		{
 			JPanel top = new JPanel( new BorderLayout() );
-			JPanel topInnerLeft = new JPanel( new FlowLayout(FlowLayout.LEFT) );
+			JPanel topInnerLeft = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 			top.add( topInnerLeft, BorderLayout.WEST );
 			JPanel topInnerRight = new JPanel( new BorderLayout() );
 			top.add( topInnerRight, BorderLayout.EAST );
-	
+
 			JLabel baseLabel = new JLabel( "<html>Install new scripts from SVN here. </html>" );
 			topInnerLeft.add( baseLabel );
 
 			JLabel helpLabel = new JLabel( "<html><u>Hover for more info.</u></html>" );
 			topInnerLeft.add( helpLabel );
-			
+
 			helpLabel.setForeground( Color.blue.darker() );
 			helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
 			top.add( Box.createVerticalStrut( 25 ), BorderLayout.CENTER );
 
-			JLabel label = new JLabel( "Search: ");
+			JLabel label = new JLabel( "Search: " );
 			topInnerRight.add( label, BorderLayout.WEST );
 			JComponent filter = new AutoFilterTextField( ScriptManageFrame.this.repoTable.getDisplayModel() );
 			filter.setPreferredSize( new Dimension( 150, filter.getPreferredSize().height ) );
@@ -199,7 +199,7 @@ public class ScriptManageFrame
 				+ "Notable things you can do here:<br>"
 				+ "<ul><li>Click a header column to sort ascending/descending</li>"
 				+ "<li>Left-click a script to see more details on the bottom panel</li>"
-				+ "<li>Right-click to install (in future: more options)</li></ul></html>";
+				+ "<li>Right-click to install, go to the author's kolmafia.us forum thread, and/or see additional options</li></ul></html>";
 			helpLabel.setToolTipText( tooltip );
 
 			// remove delay and fade from tooltip
@@ -259,14 +259,13 @@ public class ScriptManageFrame
 			GenericScrollPane manageScroller = new GenericScrollPane( ScriptManageFrame.this.scriptTable );
 
 			JPanel top = new JPanel( new BorderLayout() );
-			JLabel baseLabel = new JLabel(
-				"<html>Manage current SVN-installed scripts.  Right click for associated options." );
+			JLabel baseLabel = new JLabel( "<html>Manage current SVN-installed scripts.  Right click for options." );
 			top.add( baseLabel, BorderLayout.WEST );
 			top.add( Box.createVerticalStrut( 25 ) );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( managePanel, 500, 400 );
+			JComponentUtilities.setComponentSize( managePanel, 640, 550 );
 
 			this.setContent( this.elements, true );
 			this.container.remove( this.eastContainer );
