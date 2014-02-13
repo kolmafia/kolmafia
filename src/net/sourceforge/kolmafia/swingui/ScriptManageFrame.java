@@ -153,6 +153,7 @@ public class ScriptManageFrame
 			textPane.setText( "<html>Select a script for more details</html>" );
 			textPane.setBorder( BorderFactory.createEtchedBorder() );
 			textPane.setEditable( false );
+			textPane.setMinimumSize( new Dimension(0,0) ); //allow JSplitPane to be squished all the way down
 
 			ScriptManageFrame.this.repoTable.getSelectionModel().addListSelectionListener( new LongDescriptionListener(
 				ScriptManageFrame.this.repoTable, textPane ) );
