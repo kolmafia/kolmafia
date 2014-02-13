@@ -53,7 +53,6 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
@@ -77,9 +76,19 @@ public class ScriptManageFrame
 
 			this.contextMenu.removeAll();
 
-			this.contextMenu.add( new ThreadedMenuItem( "Delete script", new DeleteScriptRunnable( this ) ) );
+			ThreadedMenuItem t = new ThreadedMenuItem( "Delete script", new DeleteScriptRunnable( this ) );
+			t.setIcon( JComponentUtilities.getImage( "xred.gif" ) );
+			this.contextMenu.add( t );
 			this.contextMenu.add( new JSeparator() );
-			this.contextMenu.add( new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) ) );
+			t = new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) );
+			t.setIcon( JComponentUtilities.getImage( "home.gif" ) );
+			this.contextMenu.add( t );
+			t = new ThreadedMenuItem( "Refresh script list", new RefreshScriptsRunnable() );
+			t.setIcon( JComponentUtilities.getImage( "reload.gif" ) );
+			this.contextMenu.add( t );
+			this.contextMenu.add( new ThreadedMenuItem( "Update this script", new UpdateScriptRunnable( this, false ) ) );
+			this.contextMenu.add( new ThreadedMenuItem( "Update all scripts", new UpdateScriptRunnable( this, true ) ) );
+
 		}
 	}
 
@@ -95,9 +104,18 @@ public class ScriptManageFrame
 
 			this.contextMenu.removeAll();
 
-			this.contextMenu.add( new ThreadedMenuItem( "Install script", new InstallScriptRunnable( this ) ) );
+			ThreadedMenuItem t = new ThreadedMenuItem( "Install script", new InstallScriptRunnable( this ) );
+			t.setIcon( JComponentUtilities.getImage( "icon_plus.gif" ) );
+			this.contextMenu.add( t  );
+			
 			this.contextMenu.add( new JSeparator() );
-			this.contextMenu.add( new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) ) );
+			
+			t = new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) );
+			t.setIcon( JComponentUtilities.getImage( "home.gif" ) );
+			this.contextMenu.add( t );
+			t = new ThreadedMenuItem( "Reload remote repository", new ReloadRepoRunnable() );
+			t.setIcon( JComponentUtilities.getImage( "reload.gif" ) );
+			this.contextMenu.add( t );
 		}
 	}
 
@@ -215,7 +233,7 @@ public class ScriptManageFrame
 	{
 		public ManageScriptsPanel()
 		{
-			super( "Refresh", null, true );
+			super( new Dimension(1,1), null, true );
 			GenericScrollPane manageScroller = new GenericScrollPane( ScriptManageFrame.this.scriptTable );
 
 			JPanel top = new JPanel( new FlowLayout( FlowLayout.LEFT ) );

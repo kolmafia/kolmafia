@@ -1357,8 +1357,8 @@ public class ShowDescriptionTable
 	}
 	
 	protected class ShowThreadRunnable
-	extends ContextMenuListener
-{
+		extends ContextMenuListener
+	{
 		private ShowDescriptionTable table;
 
 		public ShowThreadRunnable( ShowDescriptionTable table )
@@ -1385,7 +1385,102 @@ public class ShowDescriptionTable
 				} );
 			}
 		}
-}
+	}
+	
+	protected class RefreshScriptsRunnable
+		extends ContextMenuListener
+	{
+		public RefreshScriptsRunnable()
+		{
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			RequestThread.postRequest( new Runnable()
+			{
+				public void run()
+				{
+					ScriptManager.updateInstalledScripts();
+				}
+			} );
+		}
+
+	}
+	
+	protected class UpdateScriptRunnable
+		extends ContextMenuListener
+	{
+		private final ShowDescriptionTable table;
+		private final boolean all;
+
+		public UpdateScriptRunnable( ShowDescriptionTable table, boolean all )
+		{
+			this.table = table;
+			this.all = all;
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			if ( all )
+			{
+				RequestThread.postRequest( new Runnable()
+				{
+					public void run()
+					{
+						SVNManager.doUpdate();
+						ScriptManager.updateInstalledScripts();
+					}
+				} );
+			}
+			else
+			{
+				RequestThread.postRequest( new Runnable()
+				{
+					public void run()
+					{
+						Object ob = UpdateScriptRunnable.this.table.getValueAt( table.getSelectedRow(), 0 );
+
+						if ( ob instanceof Script )
+						{
+							try
+							{
+								SVNManager.doUpdate( SVNURL.parseURIEncoded( ( (Script) ob ).getRepo() ) );
+							}
+							catch ( SVNException e )
+							{
+								StaticEntity.printStackTrace( e );
+								return;
+							}
+							ScriptManager.updateInstalledScripts();
+						}
+					}
+				} );
+			}
+		}
+	}
+	
+	protected class ReloadRepoRunnable
+		extends ContextMenuListener
+	{
+		public ReloadRepoRunnable()
+		{
+		}
+
+		@Override
+		protected void executeAction()
+		{
+			RequestThread.postRequest( new Runnable()
+			{
+				public void run()
+				{
+					ScriptManager.updateRepoScripts( true );
+				}
+			} );
+		}
+
+	}
 
 	/*
 	 * And now a bunch of adapter functions.
