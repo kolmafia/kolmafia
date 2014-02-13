@@ -1380,7 +1380,7 @@ public class ShowDescriptionTable
 					{
 						String ft = ( (Script) ob ).getForumThread();
 						if ( ft != null && !ft.equals( "" ) )
-							BareBonesBrowserLaunch.openURL( ft );
+							BareBonesBrowserLaunch.openURL( Preferences.getString( "preferredWebBrowser" ), ft );
 					}
 				} );
 			}
