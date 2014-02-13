@@ -41,6 +41,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -53,11 +54,13 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
@@ -72,7 +75,7 @@ public class ScriptManageFrame
 			super( ScriptManager.getInstalledScripts(), 4, 4 );
 
 			ScriptManageFrame.doColumnSetup( this );
-			ScriptManageFrame.doHighlighterSetup ( this );
+			ScriptManageFrame.doHighlighterSetup( this );
 
 			this.contextMenu.removeAll();
 
@@ -97,19 +100,19 @@ public class ScriptManageFrame
 	{
 		public RepoManageTable()
 		{
-			super( ScriptManager.getRepoScripts( false ), 4, 4 );
+			super( ScriptManager.getRepoScripts(), 4, 4 );
 
 			ScriptManageFrame.doColumnSetup( this );
-			ScriptManageFrame.doHighlighterSetup ( this );
+			ScriptManageFrame.doHighlighterSetup( this );
 
 			this.contextMenu.removeAll();
 
 			ThreadedMenuItem t = new ThreadedMenuItem( "Install script", new InstallScriptRunnable( this ) );
 			t.setIcon( JComponentUtilities.getImage( "icon_plus.gif" ) );
-			this.contextMenu.add( t  );
-			
+			this.contextMenu.add( t );
+
 			this.contextMenu.add( new JSeparator() );
-			
+
 			t = new ThreadedMenuItem( "Open forum thread", new ShowThreadRunnable( this ) );
 			t.setIcon( JComponentUtilities.getImage( "home.gif" ) );
 			this.contextMenu.add( t );
@@ -142,30 +145,7 @@ public class ScriptManageFrame
 			super( new Dimension( 1, 1 ), null, true );
 			GenericScrollPane manageScroller = new GenericScrollPane( ScriptManageFrame.this.repoTable );
 
-			JPanel top = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-			JLabel baseLabel = new JLabel( "<html>Install new scripts from SVN here. </html>" );
-			top.add( baseLabel, FlowLayout.LEFT );
-
-			JLabel helpLabel = new JLabel( "<html><u>Hover for more info.</u></html>" );
-			top.add( helpLabel );
-			helpLabel.setForeground( Color.blue.darker() );
-			helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-
-			top.add( Box.createVerticalStrut( 20 ) );
-
-			String tooltip = "<html>On this panel you can install community-created scripts.<br>"
-				+ "Scripts so installed will automatically receive available updates when you perform the \"svn update\" command<br>"
-				+ "(which can be set to automatically run on login - look in General > Preferences > SVN).<br><br>"
-				+ "Notable things you can do here:<br>"
-				+ "<ul><li>Click a header column to sort ascending/descending</li>"
-				+ "<li>Left-click a script to see more details on the bottom panel</li>"
-				+ "<li>Right-click to install (in future: more options)</li></ul></html>";
-			helpLabel.setToolTipText( tooltip );
-
-			// remove delay and fade from tooltip
-			ToolTipManager.sharedInstance().registerComponent( helpLabel );
-			ToolTipManager.sharedInstance().setInitialDelay( 0 );
-			ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
+			JPanel top = layoutTopPanel();
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
@@ -182,9 +162,51 @@ public class ScriptManageFrame
 				ScriptManageFrame.this.repoTable, textPane ) );
 
 			this.setContent( this.elements, true );
+			this.container.remove( this.eastContainer );
 			this.container.add( top, BorderLayout.NORTH );
 			this.container.add( managePanel, BorderLayout.CENTER );
 			this.container.add( textPane, BorderLayout.SOUTH );
+		}
+
+		private JPanel layoutTopPanel()
+		{
+			JPanel top = new JPanel( new BorderLayout() );
+			JPanel topInnerLeft = new JPanel( new FlowLayout(FlowLayout.LEFT) );
+			top.add( topInnerLeft, BorderLayout.WEST );
+			JPanel topInnerRight = new JPanel( new BorderLayout() );
+			top.add( topInnerRight, BorderLayout.EAST );
+	
+			JLabel baseLabel = new JLabel( "<html>Install new scripts from SVN here. </html>" );
+			topInnerLeft.add( baseLabel );
+
+			JLabel helpLabel = new JLabel( "<html><u>Hover for more info.</u></html>" );
+			topInnerLeft.add( helpLabel );
+			
+			helpLabel.setForeground( Color.blue.darker() );
+			helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+
+			top.add( Box.createVerticalStrut( 25 ), BorderLayout.CENTER );
+
+			JLabel label = new JLabel( "Search: ");
+			topInnerRight.add( label, BorderLayout.WEST );
+			JComponent filter = new AutoFilterTextField( ScriptManageFrame.this.repoTable.getDisplayModel() );
+			filter.setPreferredSize( new Dimension( 150, filter.getPreferredSize().height ) );
+			topInnerRight.add( filter, BorderLayout.CENTER );
+
+			String tooltip = "<html>On this panel you can install community-created scripts.<br>"
+				+ "Scripts so installed will automatically receive available updates when you perform the \"svn update\" command<br>"
+				+ "(which can be set to automatically run on login - look in General > Preferences > SVN).<br><br>"
+				+ "Notable things you can do here:<br>"
+				+ "<ul><li>Click a header column to sort ascending/descending</li>"
+				+ "<li>Left-click a script to see more details on the bottom panel</li>"
+				+ "<li>Right-click to install (in future: more options)</li></ul></html>";
+			helpLabel.setToolTipText( tooltip );
+
+			// remove delay and fade from tooltip
+			ToolTipManager.sharedInstance().registerComponent( helpLabel );
+			ToolTipManager.sharedInstance().setInitialDelay( 0 );
+			ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
+			return top;
 		}
 
 		@Override
@@ -219,7 +241,7 @@ public class ScriptManageFrame
 			if ( row < 0 ) // this can happen during sorting, seems buggy to me...
 				return;
 
-			Object ob = table.getValueAt( row , 0 );
+			Object ob = table.getValueAt( row, 0 );
 
 			if ( ob instanceof Script )
 			{
@@ -233,20 +255,21 @@ public class ScriptManageFrame
 	{
 		public ManageScriptsPanel()
 		{
-			super( new Dimension(1,1), null, true );
+			super( new Dimension( 1, 1 ), null, true );
 			GenericScrollPane manageScroller = new GenericScrollPane( ScriptManageFrame.this.scriptTable );
 
-			JPanel top = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+			JPanel top = new JPanel( new BorderLayout() );
 			JLabel baseLabel = new JLabel(
 				"<html>Manage current SVN-installed scripts.  Right click for associated options." );
-			top.add( baseLabel );
-			top.add( Box.createVerticalStrut( 20 ) );
+			top.add( baseLabel, BorderLayout.WEST );
+			top.add( Box.createVerticalStrut( 25 ) );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
 			JComponentUtilities.setComponentSize( managePanel, 500, 400 );
 
 			this.setContent( this.elements, true );
+			this.container.remove( this.eastContainer );
 			this.container.add( top, BorderLayout.NORTH );
 			this.container.add( managePanel, BorderLayout.CENTER );
 		}
@@ -277,10 +300,10 @@ public class ScriptManageFrame
 		//no reordering of columns, that's just silly
 		table.getTableHeader().setReorderingAllowed( false );
 	}
-	
+
 	public static void doHighlighterSetup( JXTable t )
 	{
 		// light gray/blue
-		t.addHighlighter( HighlighterFactory.createSimpleStriping( new Color( 230, 240, 240 ) ) ); 
+		t.addHighlighter( HighlighterFactory.createSimpleStriping( new Color( 230, 240, 240 ) ) );
 	}
 }

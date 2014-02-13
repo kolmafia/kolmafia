@@ -456,7 +456,7 @@ public class TableCellFactory
 				"outfit name", "outfit ID",
 			};
 		}
-		else if ( originalModel == ScriptManager.getInstalledScripts() || originalModel == ScriptManager.getRepoScripts( false ) )
+		else if ( originalModel == ScriptManager.getInstalledScripts() || originalModel == ScriptManager.getRepoScripts() )
 		{
 			return new String[]
 			{ "Script Name", "Authors", "Description", "Category", "Repo"
