@@ -618,6 +618,7 @@
 7196	Spooky Blow	skull.gif	5	0	0
 7197	&quot;Blow&quot;	wink.gif	5	0	0
 7198	Throw Frostball	nopic.gif	5	0	0
+7199	Blow Wolf Whistle	wolfwhistle.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

@@ -430,5 +430,11 @@ Saucepanic	handful of Smithereens
 Frankly Mr. Shank	handful of Smithereens
 Shakespeare's Sister's Accordion	handful of Smithereens
 
+# Grim Mask Leaderboard First place rewards are not smashable
+silver cow creamer	nosmash
+wolf whistle	nosmash
+witch's bra	nosmash
+hare pin	nosmash
+
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112
