@@ -194,7 +194,7 @@ bog leech	bogleech.gif	Atk: 44 Def: 50 HP: 60 Init: 20 P: bug  Meat: 35	deliciou
 bog skeleton	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 P: undead E: spooky  Meat: 10	delicious swamp muck (0)	skeleton bone (0)
 bogart	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 P: humanoid  Meat: 30	fine aged cheddarwurst (0)	stolen meatpouch (0)
 bolt-cuttin' elf	elf_boltcutters.gif	Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
-Bonerdagon	bonedragon.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
+Bonerdagon	foss_wyrm.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
 bookbat	bookbat.gif	Atk: 51 Def: 44 HP: 55 Init: 70 P: construct	tattered scrap of paper (25)
 booth slime	boothslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of blue slime (f66)
 booty crab	bootycrab.gif	Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 286-334 E: sleaze Phys: 25 P: beast	Cap'm Caronch's nasty booty (100)
