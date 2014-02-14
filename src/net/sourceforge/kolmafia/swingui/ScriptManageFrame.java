@@ -139,8 +139,6 @@ public class ScriptManageFrame
 	private class InstallScriptsPanel
 		extends GenericPanel
 	{
-		private final JTextPane textPane;
-
 		public InstallScriptsPanel()
 		{
 			super( new Dimension( 1, 1 ), null, true );
@@ -148,12 +146,12 @@ public class ScriptManageFrame
 
 			JPanel top = layoutTopPanel();
 
-			this.textPane = new JTextPane();
+			JTextPane textPane = new JTextPane();
 			textPane.setContentType( "text/html" );
 			textPane.setText( "<html>Select a script for more details</html>" );
 			textPane.setBorder( BorderFactory.createEtchedBorder() );
 			textPane.setEditable( false );
-			textPane.setMinimumSize( new Dimension(0,0) ); //allow JSplitPane to be squished all the way down
+			textPane.setMinimumSize( new Dimension( 0, 0 ) ); //allow JSplitPane to be squished all the way down
 
 			ScriptManageFrame.this.repoTable.getSelectionModel().addListSelectionListener( new LongDescriptionListener(
 				ScriptManageFrame.this.repoTable, textPane ) );
@@ -248,6 +246,7 @@ public class ScriptManageFrame
 			{
 				comp.setText( ( (Script) ob ).getLongDesc() );
 			}
+
 		}
 	}
 
@@ -266,12 +265,27 @@ public class ScriptManageFrame
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( managePanel, 640, 550 );
+
+			JTextPane textPane = new JTextPane();
+			textPane.setContentType( "text/html" );
+			textPane.setText( "<html>Select a script for more details</html>" );
+			textPane.setBorder( BorderFactory.createEtchedBorder() );
+			textPane.setEditable( false );
+			textPane.setMinimumSize( new Dimension( 0, 0 ) ); //allow JSplitPane to be squished all the way down
+
+			ScriptManageFrame.this.scriptTable.getSelectionModel().addListSelectionListener( new LongDescriptionListener(
+				ScriptManageFrame.this.scriptTable, textPane ) );
 
 			this.setContent( this.elements, true );
 			this.container.remove( this.eastContainer );
+			
+			JSplitPane splitter = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true, manageScroller, textPane );
+			splitter.setBorder( null );
+			splitter.setResizeWeight( .7d );
+			JComponentUtilities.setComponentSize( splitter, 640, 550 );
+			
 			this.container.add( top, BorderLayout.NORTH );
-			this.container.add( managePanel, BorderLayout.CENTER );
+			this.container.add( splitter, BorderLayout.CENTER );
 		}
 
 		@Override
