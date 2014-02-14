@@ -488,7 +488,8 @@ public class ConcoctionDatabase
 			CraftingRequirements next = (CraftingRequirements) req.next();
 			if ( !ConcoctionDatabase.REQUIREMENT_MET.contains( next ) )
 			{
-				ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" + req.toString() + ").";
+				ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" +
+					ConcoctionDatabase.mixingMethodDescription( method, requirements ) + ").";
 				return false;
 			}
 		}
