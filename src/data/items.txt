@@ -6104,7 +6104,7 @@
 6087	Microplushie: Hippylase	923477881	microp2.gif	offhand	g,d	5	Microplushie: Hippylasers
 6088	Microplushie: Bropane	205300982	microp3.gif	offhand	g,d	5	Microplushie: Bropanes
 6089	Microplushie: Sororitrate	850647554	microp4.gif	offhand	g,d	5
-6090	Microplushie: Gothochondria	571727614	microp5.gif	offhand	g,d	5
+6090	Microplushie: Gothochondria	571727614	microp5.gif	offhand	g,d	5	Microplushie: Gothochondriae
 6091	Microplushie: Raverdrine	229101236	microp6.gif	offhand	g,d	5
 6092	Microplushie: Hobomosome	357915186	microp7.gif	offhand	g,d	5
 6093	Microplushie: Ermahgerdic Acid	675644361	microp8.gif	offhand	g,d	5
