@@ -343,7 +343,7 @@ public interface KoLConstants
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
 	public static final File RELAY_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
 	public static final File SVN_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY );
-	public static final File SVN_REPO_FILE = new File( KoLConstants.DATA_DIRECTORY, "svnrepo.json");
+	public static final File SVN_REPO_FILE = new File( KoLConstants.DATA_LOCATION, "svnrepo.json");
 
 	// All data files that can be overridden
 
