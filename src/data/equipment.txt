@@ -713,6 +713,7 @@ Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 Skipper's accordion	50	Mox: 10	2-handed accordion
 Sledgehammer of the V&aelig;lkyr	200	Mus: 60	1-handed club
+Sneaky Pete's basket	100	Mox: 0	1-handed basket
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
 Spirit Precipice	135	Mus: 45	2-handed sword
 Spooky Putty ball	100	Mox: 0	1-handed superball

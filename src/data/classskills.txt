@@ -770,3 +770,7 @@
 14036	Nightcap	martini.gif	0	0	0
 14037	Best Served Cold	jarl_revenge.gif	0	0	0
 14038	Chocolatesphere	jarl_choco.gif	3	10	20
+
+# Avatar of Sneaky Pete
+
+15000
