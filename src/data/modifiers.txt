@@ -3413,6 +3413,7 @@ Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Artificially Sweet	Moxie Percent: +100
+Ashen	Combat Rate: -15
 Aspect of the GravyPlum Fairy	Item Drop: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
 Ass Over Teakettle	Initiative: +50
@@ -5805,6 +5806,7 @@ philter of phorce	Effect: "Phorcefullness", Effect Duration: [R]
 physiostim pill	Effect: "Stimulated Body", Effect Duration: 10
 pickle-flavored chewing gum	Effect: "Mystic Pickleness", Effect Duration: 5
 piece of after eight	Effect: "Sugar Rush", Effect Duration: 5
+pile of ashes	Effect: "Ashen", Effect Duration: 20
 pill cup	Effect: "Pill Party!", Effect Duration: 30
 pine tar	Effect: "Sticky Hands", Effect Duration: 30
 pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
