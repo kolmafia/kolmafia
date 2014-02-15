@@ -848,6 +848,7 @@ public class KoLmafiaCLI
 		new TelescopeCommand().register( "telescope" );
 		new TestCommand().register( "test" );
 		new ThrowItemCommand().register( "throw" );
+		new TowerToShadowQuestCommand().register( "partialtower" );
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
