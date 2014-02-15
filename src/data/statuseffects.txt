@@ -1530,3 +1530,24 @@
 1529	Witch Breaded	jarl_slicedbread.gif	4a9abdb7924970063747d4025eff3830	eat 1 witch's bread
 1530	Hare-o-dynamic	hairbrush.gif	7ad1f1d35dc38d8a511481bd473243a5	use 1 hare brush
 1531	Witch's Brood	coffeecup.gif	d7155b6c8d8cf7fc7fb005d8f2b9d027	use 1 witch's brew
+1532
+1533
+1534
+1535
+1536
+1537
+1538
+1539
+1540
+1541
+1542
+1543
+1544
+1545
+1546
+1547
+1548
+1549
+1550
+1551
+1552	Jukebox Hero	jukebox.gif	80bb09a70dda2a2b0aa8538ae933d3d8
