@@ -3382,6 +3382,7 @@ Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
 All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
+All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
@@ -3458,6 +3459,7 @@ Beta Carotene Overdose	Item Drop: +50
 # Better Off Bread: Makes you look like a Bread Golem
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
+Biker Swagger	Monster Level: +30
 Bilious	Monster Level: +25, Slime Resistance: +1
 Bilious Brains	Mysticality Percent: +100
 Bilious Brawn	Muscle Percent: +100
@@ -3527,6 +3529,7 @@ Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
+Brooding	Combat Rate: +10
 Brother Corsican's Blessing	Experience (familiar): +2
 Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
@@ -3645,6 +3648,7 @@ Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry! It's from yesterday!
 Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
+Cowlick	Meat Drop: +50
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100
@@ -3818,6 +3822,7 @@ Far Out	Mysticality: +1
 Fast as Lightning	Initiative: +50
 Fastbreaker	Muscle Percent: +20
 Fat Leon's Phat Loot Lyric	Item Drop: +20
+Fauxhawk	Initiative: +50
 Fearless	Monster Level: -10
 Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 # Feeling a Little Wesley: Makes you look like Wesley J. "Wes" Campbell
@@ -4129,6 +4134,7 @@ Liquid Courage	Experience: +3
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Litterbug	Monster Level: +25
 Livin' Large	Meat Drop: +10
+Living Fast	Initiative: +100, Maximum HP Percent: -30
 Loaded Forwarbear	Supercold Resistance: +2
 Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Locks Like the Raven	Moxie: +15
@@ -4241,6 +4247,7 @@ Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +1
 Oh Snap	Experience (Moxie): +10
+Of Course It Looks Great	Item Drop: +100
 Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Oily Flavor	Muscle: +15
@@ -4316,6 +4323,7 @@ Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
 Polonoia	Monster Level: +50
 # Polyphonic Yawn: Makes you look like a Drab Bard
+Pompadour	Experience: +3
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
@@ -4469,7 +4477,8 @@ Sleazy Hands	Sleaze Damage: +10, Sleaze Spell Damage: +20, Hot Resistance: +2, S
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
-Slicked-Back Do	Moxie: +20
+# Slicked-Back Do Moxie: +20 - Guessing it will have changed?
+Slicked-Back Do	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
 Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
@@ -4850,13 +4859,17 @@ Abs of Tin	Maximum HP Percent: +10
 # Adventurer of Leisure +2 Free Rests/day
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
+Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 # Armorcraftiness
 # Audacity of the Otter Critical hits do 3x damage
 Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
+# Best Dressed You are aware of your torso.  It is awesome.
+Best Dressed	Experience (Moxie): +1
 Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
+# Born Showman (Moxie bonus based on audience engagement)
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 # Butts of Steel Improves the accuracy and damage of your Butt skills
@@ -4872,6 +4885,7 @@ Diminished Gag Reflex	Stench Resistance: +2
 Disco Bravado	Experience: [1+0.5*I]
 Disco Greed	Item Drop: [10*I]
 # Double-Fisted Skull Smashing
+Easy Riding	Experience (Moxie): +5
 Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat Improves your Smacks
@@ -4915,6 +4929,7 @@ Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: +10, Unarmed
 Master Saucier	Spell Damage Percent: +10
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
+Natural Dancer	Item Drop: +200
 # Neurogourmet: +1 Adventure per Brain Eaten
 Never Late for Dinner	Adventures: +10, Initiative: +50
 Nimble Fingers	Meat Drop: +20
@@ -4926,6 +4941,7 @@ Powers of Observatiogn	Item Drop: +10
 Precision of the Penguin	Critical Hit Percent: [Y]
 # Pulverize
 # Really Expensive Jewelrycrafting
+Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
 # Saucemaven Get more Adventures from the saucy food you eat
 # Salacious Cocktailcrafting
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
@@ -4961,6 +4977,7 @@ Tolerance of the Kitchen	Hot Resistance: +2
 # Transcendental Noodlecraft
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Undying Greed	Meat Drop: +25
+Unrepentant Thief Pickpocket Chance: +50
 Unyielding Flesh	Damage Absorption: +100, Damage Reduction: 5
 Vigor Mortis	Muscle Percent: +30
 # Virulence: Critical Hits Improve Infectious Bite

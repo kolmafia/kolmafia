@@ -1545,9 +1545,13 @@
 1544
 1545
 1546
-1547
-1548
-1549
-1550
-1551
+1547	Of Course It Looks Great	comb.gif	4247055cc289371ebc90aea1918be9a0	cast 1 Check Hair
+1548	All Revved Up	engine.gif	c03847a27acc6aeb75396f6b377232b9	cast 1 Rev Engine
+1549	Biker Swagger	swagger.gif	eaa6b258b1a4b9da5db2ae31392a3520	cast 1 Biker Swagger
+1550	Living Fast	fast.gif	9bcf5b01e28eaa05b9519bbd60c6500e	cast 1 Live Fast
+1551	Brooding	brood.gif	4904020a24d6ebc1085fa5484d6db58c	cast 1 Brood
 1552	Jukebox Hero	jukebox.gif	80bb09a70dda2a2b0aa8538ae933d3d8
+1553	Slicked-Back Do	slickback.gif	733893084c2634dc395c540ae9204929
+1554	Pompadour	petepadour.gif	a1d6cd8bd17acbe235f3a9b679871d15
+1555	Cowlick	cowlick.gif	6345c69dfd1bcd34dc51c4b92a842aa0
+1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f

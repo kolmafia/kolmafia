@@ -760,6 +760,14 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.isSneakyPete() )
 		{
 			int limit = 19;
+			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
+			{
+				limit += 10;
+			}
+			if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
+			{
+				limit += 5;
+			}
 			// There will be a skill that increases it
 			return limit;
 		}
@@ -969,6 +977,7 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_BORIS ) ? "Broadside" :
 			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? "Blend" :
+			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? "Snap Fingers" :
 			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
@@ -4090,6 +4099,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.isMoxieClass() ||
 		       KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.FORM_OF_BIRD ) ) ||
 		       KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND );
+	}
+
+	public static final boolean isTorsoAware()
+	{
+		return KoLCharacter.hasSkill( "Torso Awaregness" ) || KoLCharacter.hasSkill( "Best Dressed" );
 	}
 
 	/**

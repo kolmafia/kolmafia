@@ -95,7 +95,7 @@ public class FoldItemCommand
 		}
 
 		// Confirm that we'll be able to make this item
-		boolean canShirt = KoLCharacter.hasSkill( "Torso Awaregness" );
+		boolean canShirt = KoLCharacter.isTorsoAware();
 		if ( !canShirt && EquipmentDatabase.isShirt( target ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a shirt" );

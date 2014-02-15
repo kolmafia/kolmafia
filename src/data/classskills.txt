@@ -773,4 +773,43 @@
 
 # Avatar of Sneaky Pete
 
-15000
+# Loveable Rogue
+
+15001	Catchphrase	tattle.gif	5	4	0
+15002	Mixologist	shaker.gif	0	0	0
+15003	Throw Party	partyhat.gif	1	0	0
+15004	Fix Jukebox	jukebox.gif	5	25	0
+15005	Snap Fingers	bulb.gif	5	5	0
+15006	Shake It Off	candyheart.gif	2	30	0
+15007	Check Hair	comb.gif	3	30	10
+15008	Cocktail Magic	cocktailkit.gif	0	0	0
+15009	Make Friends	happy.gif	5	30	0
+15010	Natural Dancer	dance3.gif	0	0	0
+
+# Motorcycle Guy
+
+15011	Rev Engine	engine.gif	3	5	5
+15012	Born Showman	showman.gif	0	0	0
+15013	Pop Wheelie	wheelie.gif	5	10	0
+15014	Rowdy Drinker	sixpack.gif	0	0	0
+15015	Peel Out	peelout.gif	5	10	0
+15016	Easy Riding	motorbike.gif	0	0	0
+15017	Check Mirror	bikemirror.gif	0	0	0
+15018	Riding Tall	tallguy.gif	0	0	0
+15019	Biker Swagger	swagger.gif	3	30	10
+15020	Flash Headlight	headlight.gif	5	15	0
+
+# Dangerous Rebel
+
+15021	Insult	insult.gif	5	4	0
+15022	Best Dressed	btee.gif	0	0	0
+15023	Live Fast	fast.gif	3	5	10
+15024	Jump Shark	sharkfin.gif	5	25	0
+15025	Hard Drinker	bottle.gif	0	0	0
+15026	Smoke Break	cigarette.gif	5	10	0
+15027	Animal Magnetism	magnet.gif	0	0	0
+15028	Brood	brood.gif	3	20	10
+15029
+15030	Walk Away From Explosion	explode.gif	5	30	0
+15031	Incite Riot	fire.gif	1	0	0
+15032	Unrepentant Thief	moneybag.gif	0	0	0
