@@ -137,6 +137,7 @@ public abstract class KoLCharacter
 	public static final String ZOMBIE_MASTER = "Zombie Master";
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 	public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
+	public static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -645,6 +646,11 @@ public abstract class KoLCharacter
 
 		int baseFullness = 15;
 
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			baseFullness -= 10;
+		}
+
 		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
 		{
 			baseFullness++;
@@ -749,6 +755,12 @@ public abstract class KoLCharacter
 			{
 				limit += 5;
 			}
+			return limit;
+		}
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			int limit = 19;
+			// There will be a skill that increases it
 			return limit;
 		}
 		return
@@ -936,6 +948,7 @@ public abstract class KoLCharacter
 		}
 
 		if ( classType.equals( KoLCharacter.DISCO_BANDIT ) ||
+			classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ||
 			classType.equals( KoLCharacter.ACCORDION_THIEF ) )
 		{
 			return 2;
@@ -1169,6 +1182,7 @@ public abstract class KoLCharacter
 			classtype == 11 ? KoLCharacter.AVATAR_OF_BORIS :
 			classtype == 12 ? KoLCharacter.ZOMBIE_MASTER :
 			classtype == 14 ? KoLCharacter.AVATAR_OF_JARLSBERG :
+			classtype == 15 ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1240,6 +1254,7 @@ public abstract class KoLCharacter
 		return	classname.equals( KoLCharacter.AVATAR_OF_BORIS ) ? KoLCharacter.AVATAR_OF_BORIS :
 			classname.equals( KoLCharacter.ZOMBIE_MASTER ) ? KoLCharacter.ZOMBIE_MASTER :
 			classname.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? KoLCharacter.AVATAR_OF_JARLSBERG :
+			classname.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1277,7 +1292,13 @@ public abstract class KoLCharacter
 	public static final boolean isMoxieClass()
 	{
 		return	KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
-			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF;
+			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE;
+	}
+
+	public static final boolean isSneakyPete()
+	{
+		return KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE;
 	}
 
 	public static final Stat mainStat()
@@ -2834,7 +2855,8 @@ public abstract class KoLCharacter
 			}
 
 			// If leaving a path with a unique class, wait until player picks a new class.
-			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) )
+			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) &&
+				!oldPath.equals( AVATAR_OF_JARLSBERG ) && !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
 			{
 				// Run a user-supplied script
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );

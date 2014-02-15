@@ -843,6 +843,7 @@ Skipper's accordion	Pickpocket Chance: [10*(1+skill(Accordion Appreciation))], M
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
 Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical Hit Percent: +10, Class: "Seal Clubber"
+Sneaky Pete's basket	Moxie: +5, Initiative: +10, Item Drop: +10
 # Space Tourist Phaser: This Phaser is set to Fun
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
