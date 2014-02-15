@@ -4095,6 +4095,7 @@ Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -1
 Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
+Jukebox Hero	Item Drop: +300
 # Just the Best Anapests: Da da dee, da da dee
 Just the Brown Ones	Moxie: +15
 Kernel Panic!	Critical Hit Percent: +5
@@ -5697,6 +5698,7 @@ jitterbug larva	Free Pull
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
+jug of Sneaky Pete's Mojo	Free Pull
 jug of "wine"	Effect: "Grape Expectations", Effect Duration: 40
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
