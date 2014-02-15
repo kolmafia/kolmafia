@@ -277,6 +277,22 @@ public class UneffectRequest
 			"Sticky Fingers",
 			"",
 		},
+		{
+			"Check Hair",
+			"Of Course It Looks Great",
+		},
+		{
+			"Rev Engine",
+			"All Revved Up",
+		},
+		{
+			"Live Fast",
+			"Living Fast",
+		},
+		{
+			"Brood",
+			"Brooding",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
