@@ -7541,25 +7541,29 @@ public abstract class ChoiceManager
 			}
 			break;
 	
+		case 844:
+			// The Portal to Horrible Parents
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				RumpleManager.spyOnParents( text );
+			}
+			break;
+	
+		case 846:
+			// Bartering for the Future of Innocent Children
+			RumpleManager.pickParent( text );
+			break;
+
+		case 847:
+			// Pick Your Poison
+			RumpleManager.pickSin( text );
+			break;
+	
 		case 848:
 			// Where the Magic Happens
-			if ( text.contains( "one of h" ) || text.contains( "one child" ) )
+			if ( ChoiceManager.lastDecision != 4 )
 			{
-				Preferences.increment( "rumpelstiltskinKidsRescued", 1 );
-			}
-			else if ( text.contains( "three of their" ) || text.contains( "three kids" ) ||
-				text.contains( "three whole children" ) )
-			{
-				Preferences.increment( "rumpelstiltskinKidsRescued", 3 );
-			}
-			else if ( text.contains( "semi-precious children" ) || text.contains( "five kids" ) )
-			{
-				Preferences.increment( "rumpelstiltskinKidsRescued", 5 );
-			}
-			else if ( text.contains( "seven children" ) || text.contains( "seven kids" ) ||
-				text.contains( "seven of their not-so-precious-after-all children" ) )
-			{
-				Preferences.increment( "rumpelstiltskinKidsRescued", 7 );
+				RumpleManager.recordTrade( text );
 			}
 			break;
 		}
