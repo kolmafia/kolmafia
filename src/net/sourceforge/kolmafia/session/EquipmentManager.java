@@ -1745,7 +1745,7 @@ public class EquipmentManager
 
 		int type = ItemDatabase.getConsumptionType( itemId );
 
-		if ( type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
+		if ( type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.isTorsoAware() )
 		{
 			return false;
 		}

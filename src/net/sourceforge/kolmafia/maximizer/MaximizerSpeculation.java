@@ -499,7 +499,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( this.equipment[ EquipmentManager.SHIRT ] == null )
 		{
 			boolean any = false;
-			if ( KoLCharacter.hasSkill( "Torso Awaregness" )  )
+			if ( KoLCharacter.isTorsoAware()  )
 			{
 				ArrayList possible = possibles[ EquipmentManager.SHIRT ];
 				for ( int pos = 0; pos < possible.size(); ++pos )

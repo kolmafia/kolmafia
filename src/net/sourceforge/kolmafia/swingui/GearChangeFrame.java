@@ -1000,7 +1000,7 @@ public class GearChangeFrame
 		List pantsItems = this.validPantsItems( currentPants );
 		this.updateEquipmentList( this.pants, pantsItems, pantsItem );
 
-		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
+		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.isTorsoAware() );
 
 		AdventureResult weaponItem = (AdventureResult) this.equipment[ EquipmentManager.WEAPON ].getSelectedItem();
 		AdventureResult currentWeapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );

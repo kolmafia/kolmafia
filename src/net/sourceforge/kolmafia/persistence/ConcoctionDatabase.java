@@ -1988,7 +1988,7 @@ public class ConcoctionDatabase
 
 		// Other creatability flags
 
-		if ( KoLCharacter.hasSkill( "Torso Awaregness" ) )
+		if ( KoLCharacter.isTorsoAware() )
 		{
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TORSO );
 		}
