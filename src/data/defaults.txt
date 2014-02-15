@@ -681,7 +681,7 @@ user	questG04Nemesis	unstarted
 user	questG05Dark	unstarted
 user	questG06Delivery	unstarted
 user	questI01Scapegoat	unstarted
-user	questI02Beat 	unstarted
+user	questI02Beat	unstarted
 user	questL02Larva	unstarted
 user	questL03Rat	unstarted
 user	questL04Bat	unstarted
