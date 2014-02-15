@@ -46,9 +46,9 @@ public abstract class RumpleManager
 {
 	// <span class='guts'>You peer through the portal into a house full of activity.  Children are everywhere!  The portal lets you watch them and their parents without fear of being noticed. You see the father tearing down the blinds to peep out of the window. You watch some of the many children play for awhile, and then you see the mother reclined in an overstuffed chair eating a bag of bacon-flavored onion rings. You're distracted by yet more kids romping around, and when you look back you see the father trying to squeeze into a girdle. Then the portal shimmers and you see no more.</span>
 	private static final Pattern GUTS_PATTERN = Pattern.compile( "<span class='guts'>(.*?)</span>", Pattern.DOTALL );
-	private static final Pattern PATTERN1 = Pattern.compile( "without fear of being noticed. *([^.]*)", Pattern.DOTALL );
-	private static final Pattern PATTERN2 = Pattern.compile( "and then ([^.]*)", Pattern.DOTALL );
-	private static final Pattern PATTERN3 = Pattern.compile( "when you look back ([^.]*)", Pattern.DOTALL );
+	private static final Pattern PATTERN1 = Pattern.compile( "without fear of being noticed. *Y([^.]*)", Pattern.DOTALL );
+	private static final Pattern PATTERN2 = Pattern.compile( "and then y([^.]*)", Pattern.DOTALL );
+	private static final Pattern PATTERN3 = Pattern.compile( "when you look back y([^.]*)", Pattern.DOTALL );
 
 	private static final String NEITHER = "neither parent";
 	private static final String FATHER = "the father";
@@ -91,7 +91,7 @@ public abstract class RumpleManager
 			return;
 		}
 
-		String sin = matcher.group( 1 );
+		String sin = "Y" + matcher.group( 1 );
 		RequestLogger.printLine( sin );
 		RequestLogger.updateSessionLog( sin );
 
