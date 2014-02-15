@@ -1785,6 +1785,12 @@ public class KoLAdventure
 			"You already looted the temple in that square.",
 		},
 
+		// The portal is open! Head home and prepare to save some children!
+		{
+			"prepare to save some children",
+			"The portal is open.",
+		},
+
 		// It looks like things are running pretty smoothly at the
 		// factory right now -- there's nobody to fight.
 		{
