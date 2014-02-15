@@ -7270,9 +7270,9 @@
 7253
 7254
 7255
-7256
-7257
-7258
-7259
+7256	smoke grenade	567969134	grenade.gif	none, combat	q	0
+7257	molotov soda	159233269	molotov.gif	multiple	q	0
+7258	pile of ashes	556537464	hotrags.gif	multiple	q	0
+7259	crate of firebombs	267354751	crate.gif	multiple	t,d	50
 7260
 7261	Sneaky Pete's basket	209188345	basket.gif	weapon	q	0

@@ -1555,3 +1555,5 @@
 1554	Pompadour	petepadour.gif	a1d6cd8bd17acbe235f3a9b679871d15
 1555	Cowlick	cowlick.gif	6345c69dfd1bcd34dc51c4b92a842aa0
 1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f
+1557
+1558	Ashen	hotrags.gif	41fd29242e96444eff26393c15b4c16a	use 1 pile of ashes
