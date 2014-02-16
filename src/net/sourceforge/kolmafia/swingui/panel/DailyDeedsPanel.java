@@ -2390,9 +2390,10 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			this.setShown( KoLCharacter.isMoxieClass() &&
+			this.setShown( ( KoLCharacter.isMoxieClass() &&
 				       KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && 
-				       KoLCharacter.getGuildStoreOpen() );
+				       KoLCharacter.getGuildStoreOpen() ) ||
+					   KoLCharacter.hasSkill( "Mixology" ) );
 			this.setText( (10 - KoLCharacter.getStillsAvailable()) + "/10 stills used" );
 		}
 	}

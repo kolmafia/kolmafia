@@ -881,7 +881,7 @@ public class CreateItemRequest
 			}
 
 			// If we have a bartender, fancy mixing is now free
-			if ( KoLCharacter.hasBartender() )
+			if ( KoLCharacter.hasBartender() || KoLCharacter.hasSkill( "Cocktail Magic" ) )
 			{
 				return true;
 			}
@@ -1416,7 +1416,7 @@ public class CreateItemRequest
 			else if ( urlString.contains( "mode=cocktail" ) )
 			{
 				command = "Mix";
-				usesTurns = !KoLCharacter.hasBartender();
+				usesTurns = !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill( "Cocktail Magic" );
 			}
 			else if ( urlString.contains( "mode=cook" ) )
 			{
