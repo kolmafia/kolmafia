@@ -576,7 +576,7 @@ public class Concoction
 			}
 		}
 
-		if ( this.mixingMethod == CraftingType.STILL_BOOZE || this.mixingMethod == CraftingType.STILL_MIXER )
+		if ( this.mixingMethod == CraftingType.STILL )
 		{
 			ConcoctionDatabase.queuedStillsUsed += overAmount;
 		}
@@ -1012,8 +1012,7 @@ public class Concoction
 
 		// Still uses are also considered an ingredient.
 
-		if ( minMake > 0 && ( this.mixingMethod == CraftingType.STILL_MIXER ||
-			this.mixingMethod == CraftingType.STILL_BOOZE) )
+		if ( minMake > 0 && this.mixingMethod == CraftingType.STILL )
 		{
 			Concoction c = ConcoctionDatabase.stillsLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );

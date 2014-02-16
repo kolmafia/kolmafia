@@ -1869,18 +1869,11 @@ public class ConcoctionDatabase
 
 		if ( ConcoctionDatabase.stillsLimit.total > 0 )
 		{
-			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.STILL_MIXER );
-			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.STILL_BOOZE );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.STILL_MIXER, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.STILL_BOOZE, 0 );
-			ConcoctionDatabase.CREATION_COST.put( CraftingType.STILL_MIXER, Preferences.getInteger( "valueOfStill" ) );
-			ConcoctionDatabase.CREATION_COST.put( CraftingType.STILL_BOOZE, Preferences.getInteger( "valueOfStill" ) );
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.STILL );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.STILL, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.STILL, Preferences.getInteger( "valueOfStill" ) );
 		}
-		ConcoctionDatabase.EXCUSE.put( CraftingType.STILL_MIXER,
-			KoLCharacter.isMoxieClass() ? "You have no Still uses remaining."
-			: "Only moxie classes can use the Still." );
-
-		ConcoctionDatabase.EXCUSE.put( CraftingType.STILL_BOOZE,
+		ConcoctionDatabase.EXCUSE.put( CraftingType.STILL,
 			KoLCharacter.isMoxieClass() ? "You have no Still uses remaining."
 			: "Only moxie classes can use the Still." );
 
@@ -2171,11 +2164,7 @@ public class ConcoctionDatabase
 		{
 			result.append( "Meatsmithing (not Innabox)" );
 		}
-		else if ( mixingMethod == CraftingType.STILL_BOOZE )
-		{
-			result.append( "Nash Crosby's Still" );
-		}
-		else if ( mixingMethod == CraftingType.STILL_MIXER )
+		else if ( mixingMethod == CraftingType.STILL )
 		{
 			result.append( "Nash Crosby's Still" );
 		}
@@ -2540,15 +2529,10 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.SSMITH;
 		}
-		// Items requiring access to Nash Crosby's Still -- booze
-		else if ( mix.equals( "BSTILL" ) )
+		// Items requiring access to Nash Crosby's Still
+		else if ( mix.equals( "STILL" ) )
 		{
-			ConcoctionDatabase.mixingMethod = CraftingType.STILL_BOOZE;
-		}
-		// Items requiring Superhuman Cocktailcrafting -- mixer
-		else if ( mix.equals( "MSTILL" ) )
-		{
-			ConcoctionDatabase.mixingMethod = CraftingType.STILL_MIXER;
+			ConcoctionDatabase.mixingMethod = CraftingType.STILL;
 		}
 		// Items requiring access to the Wok of Ages
 		else if ( mix.equals( "WOK" ) )

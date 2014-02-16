@@ -542,6 +542,13 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		// The following does too, but is limited and needs extra parsing
+		if ( shopId.equals( "still" ) )
+		{
+			StillRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// The following does too, but wants a special message
 		if ( shopId.equals( "jarl" ) )
 		{
@@ -731,6 +738,12 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "starchart" ) )
 			{
 				return StarChartRequest.registerRequest( urlString );
+			}
+
+			// The following does too, but may be limited
+			if ( shopId.equals( "still" ) )
+			{
+				return StillRequest.registerRequest( urlString );
 			}
 
 			// The following does too, but wants a special message

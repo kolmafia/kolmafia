@@ -557,9 +557,7 @@ public interface KoLConstants
 		MIX,		// Items created with a Shaker or Cocktailcrafting Kit
 		SMITH,		// Items anybody can create with a tenderizing hammer or via Innabox
 		SSMITH,		// Items that can only be created with a tenderizing hammer, not via Innabox
-		// Items requiring access to Nash Crosby's Still
-		STILL_BOOZE,
-		STILL_MIXER,
+		STILL,		// Items requiring access to Nash Crosby's Still
 		WOK,		// Items requiring access to the Wok of Ages
 		MALUS,		// Items requiring access to the Malus of Forethought
 		JEWELRY,	// Items created with jewelry-making pliers

@@ -190,16 +190,6 @@ public class CreateItemRequest
 			formSource = "guild.php";
 			action = "malussmash";
 			break;
-
-		case STILL_MIXER:
-			formSource = "guild.php";
-			action = "stillfruit";
-			break;
-
-		case STILL_BOOZE:
-			formSource = "guild.php";
-			action = "stillbooze";
-			break;
 		}
 
 		this.constructURLString( formSource );
@@ -302,6 +292,9 @@ public class CreateItemRequest
 		{
 		case NOCREATE:
 			return null;
+
+		case STILL:
+			return new StillRequest( conc );
 
 		case STARCHART:
 			return new StarChartRequest( conc );
@@ -790,16 +783,9 @@ public class CreateItemRequest
 		}
 
 		int multiplier = 1;
-		boolean stills = false;
-
-		// Using the Still decrements available daily uses
-		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
-		{
-			stills = true;
-		}
 
 		// Using the Malus uses 5 ingredients at a time
-		else if ( urlString.indexOf( "action=malussmash" ) != -1 )
+		if ( urlString.indexOf( "action=malussmash" ) != -1 )
 		{
 			multiplier = 5;
 		}
@@ -817,11 +803,6 @@ public class CreateItemRequest
 		{
 			AdventureResult item = ingredients[i];
 			ResultProcessor.processItem( item.getItemId(), -quantity );
-		}
-
-		if ( stills )
-		{
-			KoLCharacter.decrementStillsAvailable( quantity );
 		}
 
 		return true;
@@ -1460,11 +1441,7 @@ public class CreateItemRequest
 		}
 		else if ( urlString.startsWith( "guild.php" ) )
 		{
-			if ( urlString.contains( "action=stillbooze" ) || urlString.contains( "action=stillfruit" ) )
-			{
-				command = "Distill";
-			}
-			else if ( urlString.contains( "action=wokcook" ) )
+			if ( urlString.contains( "action=wokcook" ) )
 			{
 				command = "Wok";
 				usesTurns = true;
