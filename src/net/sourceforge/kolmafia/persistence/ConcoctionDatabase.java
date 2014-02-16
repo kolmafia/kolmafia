@@ -1818,6 +1818,14 @@ public class ConcoctionDatabase
 				MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90 );
 			ConcoctionDatabase.EXCUSE.put( CraftingType.MIX_FANCY, null );
 		}
+		// If you are Sneaky Pete with Cocktail Magic, fancy mixing is free
+		else if ( KoLCharacter.hasSkill( "Cocktail Magic" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.MIX_FANCY );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.MIX_FANCY, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.MIX_FANCY, 0 );
+			ConcoctionDatabase.EXCUSE.put( CraftingType.MIX_FANCY, null );
+		}
 		// If we don't have a bartender, Inigo's makes mixing free
 /*		else if ( Inigo > 0 )
 		{
