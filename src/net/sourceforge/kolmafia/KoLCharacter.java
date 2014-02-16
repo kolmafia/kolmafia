@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.StillRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -4002,12 +4003,13 @@ public abstract class KoLCharacter
 
 	public static final int getStillsAvailable()
 	{
-		if ( !KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) || !KoLCharacter.isMoxieClass() )
+		if ( ( !KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && !KoLCharacter.hasSkill( "Mixologist" ) )
+			|| !KoLCharacter.isMoxieClass() )
 		{
 			return 0;
 		}
 		
-		if ( !KoLCharacter.getGuildStoreOpen() )
+		if ( !KoLCharacter.getGuildStoreOpen() && !KoLCharacter.isSneakyPete() )
 		{
 			// If we haven't unlocked the guild, the still isn't available.
 			return 0;
@@ -4018,7 +4020,7 @@ public abstract class KoLCharacter
 			// Avoid infinite recursion if this request fails, or indirectly
 			// calls getStillsAvailable();
 			KoLCharacter.stillsAvailable = 0;
-			RequestThread.postRequest( new GuildRequest( "still" ) );
+			RequestThread.postRequest( new GenericRequest( "shop.php?whichshop=still" ) );
 		}
 
 		return KoLCharacter.stillsAvailable;

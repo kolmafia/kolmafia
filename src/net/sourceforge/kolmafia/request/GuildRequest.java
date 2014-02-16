@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class GuildRequest
 	extends GenericRequest
 {
-	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "skillid=(\\d*)" );
 
 	public GuildRequest()
@@ -287,14 +286,6 @@ public class GuildRequest
 		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
 		String place = matcher.find() ? matcher.group( 1 ) : null;
 
-		if ( place != null && place.equals( "still" ) )
-		{
-			matcher = GuildRequest.STILLS_PATTERN.matcher( responseText );
-			int count =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-			KoLCharacter.setStillsAvailable( count );
-			return;
-		}
-
 		if ( place != null && place.equals( "paco" ) )
 		{
 			// "paco" assigns the meat car, white citadel, and dwarven factory quests
@@ -393,9 +384,7 @@ public class GuildRequest
 			return;
 		}
 
-		if ( action.equals( "stillbooze" ) ||
-		     action.equals( "stillfruit" ) ||
-		     action.equals( "wokcook" ) ||
+		if ( action.equals( "wokcook" ) ||
 		     action.equals( "malussmash" ) )
 		{
 			CreateItemRequest.parseGuildCreation( urlString, responseText );
@@ -447,8 +436,6 @@ public class GuildRequest
 		// action = makestaff
 		// action = wokcook
 		// action = malussmash
-		// action = stillfruit
-		// action = stillbooze
 
 		return false;
 	}

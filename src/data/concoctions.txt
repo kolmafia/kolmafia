@@ -5,7 +5,7 @@
 # Basic creation type (exactly one is required):
 # COMBINE, COOK, MIX, WOK, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
 # TINKER, STAFF, SUSHI, SUSE, MUSE, PHINEAS
-# BSTILL, MSTILL (booze & mixer upgrades, respectively)
+# STILL (booze & mixer upgrades)
 # SMITH (basic smithing that can be done by Innabox)
 # SSMITH (smithing you have to do yourself - always requires a skill)
 # CRIMBO05, CRIMBO06, CRIMBO07 (historical), CRIMBO12
@@ -741,23 +741,23 @@ Crimbojito	MIX_FANCY	bottle of rum	peppermint twist
 Sangria de Menthe	MIX_FANCY	boxed wine	peppermint twist
 
 # Item upgrades accessible with Crosby Nash's Still: Moxie class
-# characters with the Superhuman Cocktailcrafting skill
+# characters with the Superhuman Cocktailcrafting skill and Sneaky Pete
 
-bottle of Calcutta Emerald	BSTILL	bottle of gin
-bottle of Definit	BSTILL	bottle of vodka
-bottle of Domesticated Turkey	BSTILL	bottle of whiskey
-bottle of Jorge Sinsonte	BSTILL	bottle of tequila
-bottle of Lieutenant Freeman	BSTILL	bottle of rum
-bottle of Ooze-O	BSTILL	bottle of sewage schnapps
-bottle of Pete's Sake	BSTILL	bottle of sake
-boxed champagne	BSTILL	boxed wine
+bottle of Calcutta Emerald	STILL, ROW267	bottle of gin
+bottle of Definit	STILL, ROW270	bottle of vodka
+bottle of Domesticated Turkey	STILL, ROW271	bottle of whiskey
+bottle of Jorge Sinsonte	STILL, ROW269	bottle of tequila
+bottle of Lieutenant Freeman	STILL, ROW268	bottle of rum
+bottle of Ooze-O	STILL, ROW273	bottle of sewage schnapps
+bottle of Pete's Sake	STILL, ROW274	bottle of sake
+boxed champagne	STILL, ROW272	boxed wine
 
-cocktail onion	MSTILL	olive
-kiwi	MSTILL	lemon
-kumquat	MSTILL	orange
-raspberry	MSTILL	strawberry
-tangerine	MSTILL	grapefruit
-tonic water	MSTILL	soda water
+cocktail onion	STILL, ROW277	olive
+kiwi	STILL, ROW276	lemon
+kumquat	STILL, ROW278	orange
+raspberry	STILL, ROW280	strawberry
+tangerine	STILL, ROW275	grapefruit
+tonic water	STILL, ROW279	soda water
 
 # Super-advanced Meatsmithing base ingredients.  These items are used
 # later in the construction of meat-smithing weapons.
