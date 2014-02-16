@@ -1543,8 +1543,8 @@
 1542
 1543
 1544
-1545
-1546
+1545	Unmuffled	puff.gif	90d30cad0848f0bba514ee10a314f46e
+1546	Muffled	puff.gif	503a12c351437b8222fbf21d503d7660
 1547	Of Course It Looks Great	comb.gif	4247055cc289371ebc90aea1918be9a0	cast 1 Check Hair
 1548	All Revved Up	engine.gif	c03847a27acc6aeb75396f6b377232b9	cast 1 Rev Engine
 1549	Biker Swagger	swagger.gif	eaa6b258b1a4b9da5db2ae31392a3520	cast 1 Biker Swagger

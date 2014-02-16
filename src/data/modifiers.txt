@@ -4203,6 +4203,7 @@ Mortarfied	Damage Absorption: +100
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
+Muffled	Combat Rate: -10
 Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
@@ -4752,6 +4753,7 @@ Twinkly Weapon	Weapon Damage: +3
 Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 # Uncertain: Muscle and Moxie +/- ???
 # Unmotivated: You're feeling really unmotivated. 
+Unmuffled	Combat Rate: +10
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
