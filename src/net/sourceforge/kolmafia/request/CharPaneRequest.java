@@ -579,6 +579,28 @@ public class CharPaneRequest
 		{
 			KoLCharacter.setSoulsauce( 0 );
 		}
+
+		pattern = Pattern.compile( "<b>(\\d+ )?(Love|Hate|Bored)</td>" );
+		matcher = pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			if ( matcher.group( 2 ).equals( "Love" ) )
+			{
+				KoLCharacter.setAudience( StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			else if ( matcher.group( 2 ).equals( "Hate" ) )
+			{
+				KoLCharacter.setAudience( -StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			else if ( matcher.group( 2 ).equals( "Bored" ) )
+			{
+				KoLCharacter.setAudience( 0 );
+			}
+		}
+		else
+		{
+			KoLCharacter.setAudience( 0 );
+		}
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )

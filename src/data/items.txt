@@ -7274,5 +7274,5 @@
 7257	molotov soda	159233269	molotov.gif	multiple	q	0
 7258	pile of ashes	556537464	hotrags.gif	multiple	q	0
 7259	crate of firebombs	267354751	crate.gif	multiple	t,d	50
-7260
+7260	firebomb	431636703	molotov.gif	none, combat	t,d	5	firebombs
 7261	Sneaky Pete's basket	209188345	basket.gif	weapon	q	0

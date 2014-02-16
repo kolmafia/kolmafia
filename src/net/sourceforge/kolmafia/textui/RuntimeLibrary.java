@@ -812,6 +812,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_discomomentum", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_audience", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_maxfury", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3971,6 +3974,11 @@ public abstract class RuntimeLibrary
 	public static Value my_discomomentum( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getDiscoMomentum() );
+	}
+
+	public static Value my_audience( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getAudience() );
 	}
 
 	public static Value my_meat( Interpreter interpreter )
