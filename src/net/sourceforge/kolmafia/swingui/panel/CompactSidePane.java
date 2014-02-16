@@ -352,6 +352,11 @@ public class CompactSidePane
 			{
 				FamiliarData fam = (FamiliarData) it.next();
 
+				if ( fam == FamiliarData.NO_FAMILIAR )
+				{
+					continue;	// no menu item for this one
+				}
+
 				// If we cannot equip this familiar for some reason, skip it.
 				if ( !fam.canEquip() )
 				{
@@ -362,6 +367,7 @@ public class CompactSidePane
 				{
 					continue;	// no menu item for this one
 				}
+
 				if ( fam.getFavorite() )
 				{
 					famPopup.add( new FamiliarMenuItem( fam ) );
