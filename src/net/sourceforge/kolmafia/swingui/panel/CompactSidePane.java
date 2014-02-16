@@ -578,6 +578,11 @@ public class CompactSidePane
 			this.classLabel.setText( " Disco: " );
 			this.classValueLabel.setText( KoLCharacter.getDiscoMomentum() + " / 3" );
 		}
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			this.classLabel.setText( "  Aud: " );
+			this.classValueLabel.setText( KoLCharacter.getAudience() + " / 30" );
+		}
 		else
 		{
 			this.classLabel.setText( " " );

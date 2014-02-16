@@ -317,6 +317,7 @@ public abstract class KoLCharacter
 	private static int fury = 0;
 	private static int soulsauce = 0;
 	private static int disco_momentum = 0;
+	private static int audience = 0;
 	
 	public static final int MAX_BASEPOINTS = 65535;
 
@@ -1154,6 +1155,26 @@ public abstract class KoLCharacter
 		disco_momentum = 0;
 	}
 	
+	public static final int getAudience()
+	{
+		return KoLCharacter.audience;
+	}
+	
+	public static final void setAudience( final int newAudience )
+	{
+		KoLCharacter.audience = newAudience > 30 ? 30 : newAudience < -30 ? -30 : newAudience;
+	}
+
+	public static final void incrementAudience( final int incAudience )
+	{
+		KoLCharacter.setAudience( KoLCharacter.audience + incAudience );
+	}		
+	
+	public static final void decrementAudience( final int decAudience )
+	{
+		KoLCharacter.setAudience( KoLCharacter.audience - decAudience );
+	}		
+
 	public static final int getPvpRank()
 	{
 		return KoLCharacter.pvpRank;
