@@ -5908,6 +5908,7 @@ serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 shaking skull	No Pull
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
+shot of Sneaky Pete's Mojo	Free Pull
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
