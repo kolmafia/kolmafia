@@ -1849,12 +1849,12 @@ public class ConcoctionDatabase
 
 		// Mixing may require an additional skill.
 
-		if ( KoLCharacter.canSummonShore() )
+		if ( KoLCharacter.canSummonShore() || KoLCharacter.hasSkill( "Mixologist" ) )
 		{
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.AC );
 		}
 
-		if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
+		if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) || KoLCharacter.hasSkill( "Mixologist" ) )
 		{
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.SHC );
 		}
