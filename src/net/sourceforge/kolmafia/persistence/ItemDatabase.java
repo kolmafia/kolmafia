@@ -853,14 +853,19 @@ public class ItemDatabase
 
 		double gain0 = benefit ? ( average ) : 0.0;
 		double gain1 = benefit ? ( average + unitCost ) : 0.0;
+		double gain2 = benefit ? ( average + unitCost * 2.0 ) : 0.0;
 
 		// With no effects active, average
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, gain0 );
 
 		// With only one effect, average + unitCost
 		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, false, gain1 );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
 
-		// Only foods have effects 2-4
+		// With two effects, average + unitCost * 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, gain2 );
+
+		// Only foods have effects 3-4
 		if ( !isFood )
 		{
 			return;
@@ -886,7 +891,6 @@ public class ItemDatabase
 			munchieBonus = (double) munchieTotal / ( end-start + 1 );
 		}
 		
-		double gain2 = benefit ? ( average + unitCost * 2.0 ) : 0.0;
 		double gain3 = benefit ? ( average + unitCost * 3.0 ) : 0.0;
 		double gain0a = benefit ? ( average + munchieBonus ) : 0.0;
 		double gain1a = benefit ? ( average + unitCost + munchieBonus ) : 0.0;
@@ -897,7 +901,6 @@ public class ItemDatabase
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
 
 		// With two effects, average + unitCost * 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, gain2 );
 		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, false, gain2 );
 		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, false, gain2 );
 
