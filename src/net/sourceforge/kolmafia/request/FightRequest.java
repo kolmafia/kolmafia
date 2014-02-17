@@ -5476,11 +5476,11 @@ public class FightRequest
 		}
 
 		int evilness =
-			text.indexOf( "a single beep" ) != -1 ? 1 :
-			text.indexOf( "beeps three times" ) != -1 ? 3 :
-			text.indexOf( "three quick beeps" ) != -1 ? 3 :
-			text.indexOf( "five quick beeps" ) != -1 ? 5 :
-			text.indexOf( "loud" ) != -1 ? Preferences.getInteger( setting ) :
+			text.contains( "a single beep" ) ? 1 :
+			text.contains( "beeps three times" ) ? 3 :
+			text.contains( "three quick beeps" ) ? 3 :
+			text.contains( "five quick beeps" ) ? 5 :
+			text.contains( "loud" ) ? Preferences.getInteger( setting ) :
 			0;
 
 		if ( evilness == 0 )
@@ -5491,6 +5491,11 @@ public class FightRequest
 				return false;
 			}
 			evilness = StringUtilities.parseInt( m.group(1) );
+		}
+
+		if ( text.contains( "ghost vacuum sucks up some extra evil" ) )
+		{
+			evilness++;
 		}
 
 		Preferences.increment( setting, -evilness );
