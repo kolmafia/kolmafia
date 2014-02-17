@@ -632,6 +632,12 @@ user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0
 user	mothershipProgress	0
+user	peteMotorbikeTires	
+user	peteMotorbikeGasTank	
+user	peteMotorbikeHeadlight	
+user	peteMotorbikeCowling	
+user	peteMotorbikeMuffler	
+user	peteMotorbikeSeat	
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3

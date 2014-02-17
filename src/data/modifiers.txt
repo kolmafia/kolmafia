@@ -3206,6 +3206,27 @@ Throne:Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP 
 Throne:Wind-up Chattering Teeth	Muscle Percent: +15
 Throne:Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen Max: 5
 
+# Sneaky Pete's Motorbike section
+
+# Motorbike:Blacklight Bulb gives +2% desert exploration after every combat in the desert
+# Motorbike:Deep-Seat Cushions means you find extra Meat after combat 
+# Motorbike:Extra-Buoyant Tank allows access to Mysterious Island of Mystery
+# Motorbike:Extra-Loud Muffler means Rev Engine also grants: Unmuffled
+# Motorbike:Extra-Quiet Muffler means Rev Engine also grants: Muffled
+# Motorbike:Extra-Smelly Muffler means Peel Out also banishes enemies
+# Motorbike:Ghost Vacuum does more damage against undead
+# Motorbike:Large Capacity Tanks allows access to Desert Beach
+Motorbike:Massage Seat	HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
+Motorbike:Nitro-Burnin' Funny Tank	Initiative: +50
+# Motorbike:Party Bulb makes Flash Headlight deal prismatic damage
+# Motorbike:Racing Slicks allows you to Peel Out 20 times more per day
+# Motorbike:Rocket Launcher constantly fires military-grade rockets 
+Motorbike:Sissy Bar	Monster Level: -30
+# Motorbike:Snow Tires allows you to ascend The Mist-Shrouded Peak
+# Motorbike:Spiky Tires Pop Wheelie deals more damage
+Motorbike:Sweepy Red Light	Experience: +5
+# Motorbike:Ultrabright Yellow Bulb adds yellow ray to Flash Headlight
+
 # Snow Suit decoration section
 # Decoration names must match enum names in CharPaneRequest
 

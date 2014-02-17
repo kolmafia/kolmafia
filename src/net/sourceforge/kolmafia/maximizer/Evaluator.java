@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -852,6 +853,12 @@ public class Evaluator
 
 		case EffectPool.SOULERSKATES:
 			return KoLCharacter.getClassType() != KoLCharacter.SAUCEROR;
+		
+		case EffectPool.UNMUFFLED:
+			return !Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Loud Muffler" );
+		
+		case EffectPool.MUFFLED:
+			return !Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Quiet Muffler" );
 		}
 		return false;
 	}

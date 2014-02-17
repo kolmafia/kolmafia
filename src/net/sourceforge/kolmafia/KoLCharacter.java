@@ -3469,6 +3469,7 @@ public abstract class KoLCharacter
 		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
 		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
 		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
+		       Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
 		       Preferences.getString( "questG01Meatcar" ).equals( "finished" );
 	}
 
@@ -4906,6 +4907,18 @@ public abstract class KoLCharacter
 			{
 				newModifiers.add( Modifiers.getModifiers( thrall.getType() ) );
 			}
+		}
+
+		// If Sneaky Pete, add Motorbike effects
+
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeTires" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeGasTank" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeHeadlight" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeCowling" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeMuffler" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike:" + Preferences.getString( "peteMotorbikeSeat" ) ) );
 		}
 
 		// Add in strung-up quartet.

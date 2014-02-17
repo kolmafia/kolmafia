@@ -278,20 +278,28 @@ public class UneffectRequest
 			"",
 		},
 		{
-			"Check Hair",
 			"Of Course It Looks Great",
+			"Check Hair",
 		},
 		{
-			"Rev Engine",
 			"All Revved Up",
+			"Rev Engine",
 		},
 		{
-			"Live Fast",
 			"Living Fast",
+			"Live Fast",
 		},
 		{
-			"Brood",
 			"Brooding",
+			"Brood",
+		},
+		{
+			"Unmuffled",
+			"Rev Engine",
+		},
+		{
+			"Muffled",
+			"Rev Engine",
 		},
 	};
 

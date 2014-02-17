@@ -614,6 +614,11 @@ public class KoLAdventure
 		{
 			String trapper = Preferences.getString( Quest.TRAPPER.getPref() );
 			this.isValidAdventure = trapper.equals( "step3" ) || trapper.equals( "step4" );
+			if ( Preferences.getString( "peteMotorbikeTires" ) == "Snow Tires" )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
 			if ( !this.isValidAdventure )
 			{
 				return;
@@ -698,7 +703,8 @@ public class KoLAdventure
 		{
 			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
 							InventoryManager.hasItem( ItemPool.SKIFF ) ||
-							InventoryManager.hasItem( ItemPool.JUNK_JUNK );
+							InventoryManager.hasItem( ItemPool.JUNK_JUNK ) ||
+							Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" );
 			if ( this.isValidAdventure )
 			{
 				return;
