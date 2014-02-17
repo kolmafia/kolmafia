@@ -982,6 +982,18 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_lupineHormonesUsed" ) ? 0 : 1;
 
+		case ItemPool.BLANK_OUT_BOTTLE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_blankoutUsed" ) ? 0 : 1;
+
+		case ItemPool.CORRUPTED_STARDUST:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_corruptedStardustUsed" ) ? 0 : 1;
+
+		case ItemPool.PIXEL_ORB:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pixelOrbUsed" ) ? 0 : 1;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -4412,6 +4424,10 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
+			else
+			{
+				Preferences.setBoolean( "_blankoutUsed", true );
+			}
 			return;
 
 		case ItemPool.SONAR:
@@ -4608,6 +4624,14 @@ public class UseItemRequest
 
 		case ItemPool.LUPINE_APPETITE_HORMONES:
 			Preferences.setBoolean( "_lupineHormonesUsed", true );
+			return;
+
+		case ItemPool.CORRUPTED_STARDUST:
+			Preferences.setBoolean( "_corruptedStardustUsed", true );
+			return;
+
+		case ItemPool.PIXEL_ORB:
+			Preferences.setBoolean( "_pixelOrbUsed", true );
 			return;
 
 		}
