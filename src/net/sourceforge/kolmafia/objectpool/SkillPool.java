@@ -226,4 +226,10 @@ public class SkillPool
 	public static final int CONJURE_CREAM = 14031;
 	public static final int CONJURE_FRUIT = 14032;
 	public static final int CREAMPUFF = 14035;
+	public static final int THROW_PARTY = 15003;
+	public static final int FIX_JUKEBOX = 15004;
+	public static final int REV_ENGINE = 15011;
+	public static final int PEEL_OUT = 15015;
+	public static final int JUMP_SHARK = 15024;
+	public static final int INCITE_RIOT = 15031;
 }

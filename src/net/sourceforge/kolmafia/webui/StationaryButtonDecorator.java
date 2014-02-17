@@ -432,6 +432,12 @@ public class StationaryButtonDecorator
 		}
 
 		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			// If you are Sneaky Pete and can steal, you can also mug
+			StationaryButtonDecorator.addFightButton( actionBuffer, "7201", FightRequest.canStillSteal() );
+		}
+
 		if ( KoLCharacter.canPickpocket() )
 		{
 			StationaryButtonDecorator.addFightButton( actionBuffer, "steal", FightRequest.canStillSteal() );
@@ -765,14 +771,18 @@ public class StationaryButtonDecorator
 			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
 		}
 
+		if ( action.equals( "insult" ) )
+		{
+			return "pirate insult";
+		}
+		
 		if ( action.equals( "steal" ) || action.equals( "jiggle" ) ||
-		     action.equals( "attack" ) || action.equals( "script" ) ||
-		     action.equals( "insult" ) ||
+		     action.equals( "script" ) ||
 		     action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
 		{
 			return action;
 		}
-
+		
 		int skillId = StringUtilities.parseInt( action );
 		String name = SkillDatabase.getSkillName( skillId ).toLowerCase();
 
@@ -836,6 +846,7 @@ public class StationaryButtonDecorator
 		case 7061:	// Spring Raindrop Attack
 		case 7062:	// Summer Siesta
 		case 7064:	// Winter's Bite Technique
+		case 7201:	// Mug for the Audience
 			name = name.substring( 0, name.indexOf( " " ) );
 			break;
 

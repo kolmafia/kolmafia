@@ -9823,6 +9823,7 @@ public abstract class ChoiceManager
 		case 836: // Adventures Who Live in Ice Houses...
 		case 844: // The Portal to Horrible Parents
 		case 845: // Rumpelstiltskin's Workshop
+		case 859: // Upping your grade
 			return true;
 
 		default:

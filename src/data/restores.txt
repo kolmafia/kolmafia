@@ -118,6 +118,7 @@ red striped oyster egg	item	30	35	0	0	0
 Regular Cloaca Cola	item	0	0	7	9	0
 scented massage oil	item	[HP]	[HP]	0	0	0
 scroll of drastic healing	item	[HP]	[HP]	0	0	0
+Shake it off	skill	[HP]	[HP]	0	0	0
 soda water	item	0	0	3	5	0
 Soul Food	skill	0	0	15	15	0
 Spirit Vacation	skill	[HP]	[HP]	0	0	1

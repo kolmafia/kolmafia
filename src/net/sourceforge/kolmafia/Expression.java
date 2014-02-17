@@ -287,6 +287,9 @@ public class Expression
 			case 'x':
 				v = Math.max( s[ --sp ], s[ --sp ] );
 				break;
+			case 'a':
+				v = Math.abs( s[ --sp ] );
+				break;
 
 			case '#':
 				v = ((Double) this.literals.get( (int) s[ --sp ] )).doubleValue();
@@ -322,7 +325,7 @@ public class Expression
 							  -1;
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
-			case 'a':
+			case 'n':
 				v = KoLCharacter.getClassName().toLowerCase().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'd':
@@ -385,6 +388,9 @@ public class Expression
 				break;
 			case 'M':
 				v = HolidayDatabase.getMoonlight();
+				break;
+			case 'N':
+				v = KoLCharacter.getAudience();
 				break;
 			case 'P':
 				v = KoLCharacter.currentPastaThrall.getLevel();
@@ -626,6 +632,12 @@ public class Expression
 			rv = rv + this.expr() + "x";
 			this.expect( ")" );
 			return rv;
+		}
+		if ( this.optional( "abs(" ) )
+		{
+			rv = this.expr();
+			this.expect( ")" );
+			return rv + "a";
 		}
 		if ( this.optional( "pref(" ) )
 		{

@@ -1271,6 +1271,40 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Fix Jukebox" ) )
+		{
+			// You can only fix 3 Jukeboxes per day
+
+			if ( Preferences.getInteger( "_peteJukeboxFixed" ) >= 3 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Peel Out" ) )
+		{
+			// You can only Peel Out 10 times per day
+			// Need to add Motorbike support
+
+			if ( Preferences.getInteger( "_petePeeledOut" ) >= 10 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Jump Shark" ) )
+		{
+			// You can only jump the shark 3 times per day
+
+			if ( Preferences.getInteger( "_peteJumpedShark" ) >= 3 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		else if ( skillName.equals( "Nuclear Breath" ) )
 		{
 			// You can only use this skill if you have the Taste the Inferno effect
@@ -2424,6 +2458,25 @@ public class FightRequest
 			{
 				Preferences.increment( "_pantsgivingCrumbs" );
 			}
+			break;
+
+		case SkillPool.FIX_JUKEBOX:
+			if ( responseText.contains( "playing a rockin' tune" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				Preferences.increment( "_peteJukeboxFixed" );
+			}
+			break;
+
+		case SkillPool.PEEL_OUT:
+			if ( responseText.contains( "peel out" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				Preferences.increment( "_petePeeledOut" );
+			}
+			break;
+
+		case SkillPool.JUMP_SHARK:
+			// Do not yet have success message
+			Preferences.increment( "_peteJumpedShark" );
 			break;
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles

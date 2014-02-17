@@ -751,6 +751,9 @@ public class SkillDatabase
 					return 10;
 				}
 				break;
+
+			case SkillPool.REV_ENGINE:
+				return Math.max( Math.abs( KoLCharacter.getAudience() ), 5 );
 			}
 
 			return actualDuration;
@@ -923,6 +926,8 @@ public class SkillDatabase
 		case SkillPool.SOUL_FUNK:
 		case SkillPool.DISMISS_PASTA_THRALL:
 		case SkillPool.PSYCHOKINETIC_HUG:
+		case SkillPool.THROW_PARTY:
+		case SkillPool.INCITE_RIOT:
 			return true;
 		default:
 			return false;

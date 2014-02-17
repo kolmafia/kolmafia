@@ -4,7 +4,7 @@
 # + - * / ( ) have their usual mathematical meaning and precedence.
 # ^ is exponentiation, with the highest precedence.
 # Functions available:
-#	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y)
+#	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y) abs(x)
 # Location functions: loc(text) zone(text)
 #	These have a value of 1 if the current adventure location or zone contains the
 #	specified text, 0 elsewhere.
@@ -37,6 +37,7 @@
 #	K - Smithsness
 #	L - player Level
 #	M - total Moonlight (0..9)
+#	N - AudieNce
 #	P - Pasta Thrall level
 #	R - Reagent potion duration
 #	S - Spleenness
@@ -3413,7 +3414,7 @@ Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Artificially Sweet	Moxie Percent: +100
-Ashen	Combat Rate: -15
+Ashen	Combat Rate: -10
 Aspect of the GravyPlum Fairy	Item Drop: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
 Ass Over Teakettle	Initiative: +50
@@ -3530,7 +3531,7 @@ Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
-Brooding	Combat Rate: +10
+Brooding	Combat Rate: -10
 Brother Corsican's Blessing	Experience (familiar): +2
 Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
@@ -4872,7 +4873,7 @@ Best Dressed	Experience (Moxie): +1
 Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
-# Born Showman (Moxie bonus based on audience engagement)
+Born Showman	Moxie: [abs(ceil(N/2))]
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 # Butts of Steel Improves the accuracy and damage of your Butt skills
