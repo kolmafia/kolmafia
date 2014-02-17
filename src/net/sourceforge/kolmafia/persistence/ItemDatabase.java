@@ -838,7 +838,7 @@ public class ItemDatabase
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
 
-		// Adventure gain modifier #2 is Song of the Glorious Lunch, which adds
+		// Adventure gain modifier #2 is Song of the Glorious Lunch or Rowdy Drinker, which adds
 		// unitCost adventures to the result.
 
 		// Adventure gain modifier #3 is Gourmand or Neurogourmet, which adds
@@ -2025,8 +2025,9 @@ public class ItemDatabase
 		else if ( ItemDatabase.getRawInebriety( name ) != null )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
+			boolean rowdyDrinker = KoLCharacter.hasSkill( "Rowdy Drinker" );
 			range = ItemDatabase.getAdventureMap(
-				perUnit, odeEffect, false, false, false ).get( cname );
+				perUnit, odeEffect, rowdyDrinker, false, false ).get( cname );
 		}
 		else if ( ItemDatabase.getRawSpleenHit( name ) != null )
 		{

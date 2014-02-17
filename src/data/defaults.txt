@@ -1012,6 +1012,11 @@ user	_pantsgivingCount	0
 user	_pantsgivingCrumbs	0
 user	_pastaAdditive	false
 user	_pasteDrops	0
+user	_peteJukeboxFixed	0
+user	_peteJumpedShark	0
+user	_petePartyThrown	false
+user	_petePeeledOut	0
+user	_peteRiotIncited	false
 user	_photocopyUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0

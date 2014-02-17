@@ -720,6 +720,14 @@ public class UseSkillRequest
 		case SkillPool.MANAGERIAL_MANIPULATION:
 			maximumCast = Preferences.getBoolean( "_managerialManipulationUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.THROW_PARTY:
+			maximumCast = Preferences.getBoolean( "_petePartyThrown" ) ? 0 : 1;
+			break;
+
+		case SkillPool.INCITE_RIOT:
+			maximumCast = Preferences.getBoolean( "_peteRiotIncited" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -1867,6 +1875,13 @@ public class UseSkillRequest
 		case SkillPool.DISMISS_PASTA_THRALL:
 			PastaThrallData.handleDismissal( responseText );
 			break;
+
+		case SkillPool.THROW_PARTY:
+			Preferences.setBoolean( "_petePartyThrown", true );
+			break;			
+		case SkillPool.INCITE_RIOT:
+			Preferences.setBoolean( "_peteRiotIncited", true );
+			break;			
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )
