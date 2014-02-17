@@ -6895,7 +6895,7 @@
 6878	pocket lint (green)	285536907	lint.gif	reusable	t,d	0
 6879	pocket lint (white)	727221431	lint.gif	reusable	t,d	0
 6880	pocket lint (orange)	928718132	lint.gif	reusable	t,d	0
-6881	bowl of petunias	829960914	petuniabowl.gif	offhand		0
+6881	bowl of petunias	829960914	petuniabowl.gif	offhand		0	bowls of petunias
 6882	power sock	713414059	sock1.gif	accessory	t,d	1
 6883	wool sock	340341351	sock2.gif	accessory	t,d	1
 6884	moustache sock	115671108	sockdolager.gif	accessory	t,d	1
