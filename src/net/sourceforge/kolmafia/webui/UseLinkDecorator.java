@@ -869,7 +869,7 @@ public abstract class UseLinkDecorator
 					fam = FamiliarPool.BLACKBIRD;
 				}
 
-				if ( KoLCharacter.findFamiliar( fam) == null &&
+				if ( ( KoLCharacter.findFamiliar( fam ) == null || KoLCharacter.isSneakyPete() ) &&
 				     ( !InventoryManager.hasItem( item1 ) ||
 				       !InventoryManager.hasItem( item2 ) ) )
 				{
