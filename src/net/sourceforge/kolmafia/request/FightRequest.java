@@ -2861,7 +2861,7 @@ public class FightRequest
 				{
 					explored += 2;
 				}
-				else if ( Preferences.getString( "peteMotorbikeHeadlight" ) .equals( "Blacklight Bulb" ) )
+				if ( Preferences.getString( "peteMotorbikeHeadlight" ) .equals( "Blacklight Bulb" ) )
 				{
 					explored += 2;
 				}
