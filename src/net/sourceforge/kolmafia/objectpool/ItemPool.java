@@ -1549,6 +1549,7 @@ public class ItemPool
 	public static final int RED_DRUNKI_BEAR = 5482;
 	public static final int GREEN_DRUNKI_BEAR = 5483;
 	public static final int YELLOW_DRUNKI_BEAR = 5484;
+	public static final int PIXEL_ORB = 5492;
 	public static final int ALL_YEAR_SUCKER = 5497;
 	public static final int DARK_CHOCOLATE_HEART = 5498;
 	public static final int JACKASS_PLUMBER_GAME = 5501;
@@ -1740,6 +1741,7 @@ public class ItemPool
 	public static final int MERKIN_WEAKSAUCE = 6396;
 	public static final int PEANUT_SAUCE = 6397;
 	public static final int BLACK_GLASS = 6398;
+	public static final int CORRUPTED_STARDUST = 6408;
 	public static final int SHAKING_SKULL = 6412;
 	public static final int TALES_OF_DREAD = 6423;
 	public static final int DREADSYLVANIAN_SKELETON_KEY = 6424;
@@ -1981,6 +1983,7 @@ public class ItemPool
 	public static final int CRAPPY_CAMERA = 7173;
 	public static final int SHAKING_CRAPPY_CAMERA = 7176;
 	public static final int BUDDY_BJORN = 7200;
+	public static final int SMOKE_GRENADE = 7256;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

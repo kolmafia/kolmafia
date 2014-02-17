@@ -6456,6 +6456,12 @@ public class FightRequest
 				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "louder than bomb" );
 			}
 			break;
+		case ItemPool.SMOKE_GRENADE:
+			if ( responseText.contains( "flee in the ensuing confusion" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "smoke grenade" );
+			}
+			break;
 		case ItemPool.ICE_HOUSE:
 			// You toss the ice house on the ground, and your opponent enters it.
 			// You slam the door and laugh all the way to the Museum, where you put

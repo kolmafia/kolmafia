@@ -886,6 +886,7 @@ user	_banderRunaways	0
 user	_bearHugs	0
 user	_beerLensDrops	0
 user	_benettonsCasts	0
+user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
@@ -900,13 +901,14 @@ user	_carboLoaded	false
 user	_carnieCandyDrops	0
 user	_carrotNoseDrops	0
 user	_cheerleaderSteam	200
-user	_companionshipCasts	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_coldOne	false
+user	_companionshipCasts	0
+user	_corruptedStardustUsed	false
 user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
@@ -1026,6 +1028,7 @@ user	_peteRiotIncited	false
 user	_photocopyUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
+user	_pixelOrbUsed	false
 user	_pneumaticityPotionUsed	false
 user	_poisonArrows	0
 user	_poolGames	0

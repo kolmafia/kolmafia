@@ -4886,7 +4886,7 @@
 4869	paperclip pants	532076262	clippants.gif	pants		0
 4870	paperclip turban	915873755	clipturban.gif	hat		0
 4871	paperclip cape	594970408	clipcape.gif	container		0
-4872	glob of Blank-Out	440477610	blankoutglob.gif	none, combat		0
+4872	glob of Blank-Out	440477610	blankoutglob.gif	none, combat	q	0
 4873	photocopied monster	835898159	photocopy.gif	usable	q	0
 4874	gaudy key	996670647	gildedkey.gif	usable	q	0
 4875	BGE merchandise order form	176306118	document.gif	usable	t	0	BGE merchandise order forms
