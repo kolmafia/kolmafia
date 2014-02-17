@@ -1506,6 +1506,14 @@ public class UseSkillRequest
 			{
 				Preferences.setBoolean( "_psychokineticHugUsed", true );
 			}
+			if ( skillId == SkillPool.THROW_PARTY )
+			{
+				Preferences.setBoolean( "_petePartyThrown", true );
+			}
+			if ( skillId == SkillPool.INCITE_RIOT )
+			{
+				Preferences.setBoolean( "_peteRiotIncited", true );
+			}
 			return true;
 		}
 
