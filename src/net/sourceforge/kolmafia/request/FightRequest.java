@@ -1284,10 +1284,9 @@ public class FightRequest
 		}
 		else if ( skillName.equals( "Peel Out" ) )
 		{
-			// You can only Peel Out 10 times per day
-			// Need to add Motorbike support
-
-			if ( Preferences.getInteger( "_petePeeledOut" ) >= 10 )
+			// You can only Peel Out 10 times per day, 30 with Racing Slicks
+			int max = 10 + ( Preferences.getString( "peteMotorbikeTires").equals( "Racing Slicks" ) ? 20 : 0 );
+			if ( Preferences.getInteger( "_petePeeledOut" ) >= max )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -2859,6 +2858,10 @@ public class FightRequest
 					explored += 1;
 				}
 				else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) )
+				{
+					explored += 2;
+				}
+				else if ( Preferences.getString( "peteMotorbikeHeadlight" ) .equals( "Blacklight Bulb" ) )
 				{
 					explored += 2;
 				}

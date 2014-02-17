@@ -145,6 +145,12 @@ public abstract class ChoiceManager
 	private static final Pattern CINDERELLA_TIME_PATTERN = Pattern.compile( "<i>It is (\\d+) minute(?:s) to midnight.</i>" );
 	private static final Pattern CINDERELLA_SCORE_PATTERN = Pattern.compile( "score (?:is now|was) <b>(\\d+)</b>" );
 	private static final Pattern RUMPLE_MATERIAL_PATTERN = Pattern.compile( "alt=\"(.*?)\"></td><td valign=center>(\\d+)<" );
+	private static final Pattern MOTORBIKE_TIRES_PATTERN = Pattern.compile( "<b>Tires:</b> (.*?)?\\(" );
+	private static final Pattern MOTORBIKE_GASTANK_PATTERN = Pattern.compile( "<b>Gas Tank:</b> (.*?)?\\(");
+	private static final Pattern MOTORBIKE_HEADLIGHT_PATTERN = Pattern.compile( "<b>Headlight:</b> (.*?)?\\(" );
+	private static final Pattern MOTORBIKE_COWLING_PATTERN = Pattern.compile( "<b>Cowling:</b> (.*?)?\\(" );
+	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
+	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7566,6 +7572,97 @@ public abstract class ChoiceManager
 				RumpleManager.recordTrade( text );
 			}
 			break;
+		
+		case 860:
+			// Another Tired Retread
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeTires", "Racing Slicks" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeTires", "Spiky Tires" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeTires", "Snow Tires" );
+			}
+			break;
+		case 861:
+			// Station of the Gas
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeGasTank", "Large Capacity Tank" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeGasTank", "Extra-Buoyant Tank" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeGasTank", "Nitro-Burnin' Funny Tank" );
+			}
+			break;
+		case 862:
+			// Me and Cinderella Put It All Together
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeHeadlight", "Ultrabright Yellow Bulb" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeHeadlight", "Party Bulb" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeHeadlight", "Blacklight Bulb" );
+			}
+			break;
+		case 863:
+			// Endowing the Cowling
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeCowling", "Ghost Vacuum" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeCowling", "Rocket Launcher" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeCowling", "Sweepy Red Light" );
+			}
+			break;
+		case 864:
+			// Diving into the Mufflers
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeMuffler", "Extra-Loud Muffler" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeMuffler", "Extra-Quiet Muffler" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeMuffler", "Extra-Smelly Muffler" );
+			}
+			break;
+		case 865:
+			// Ayy, Sit on It
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "peteMotorbikeSeat", "Massage Seat" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "peteMotorbikeSeat", "Deep Seat Cushions" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setString( "peteMotorbikeSeat", "Sissy Bar" );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
@@ -8002,6 +8099,42 @@ public abstract class ChoiceManager
 						ResultProcessor.processItem( ItemPool.GLASS, number - glass );
 					}
 				}
+			}
+			break;
+		}
+
+		case 871:
+		{
+			// inspecting Motorbike
+			Matcher matcher = ChoiceManager.MOTORBIKE_TIRES_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeTires", matcher.group( 1 ).trim() );
+			}
+			matcher = ChoiceManager.MOTORBIKE_GASTANK_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeGasTank", matcher.group( 1 ).trim() );
+			}
+			matcher = ChoiceManager.MOTORBIKE_HEADLIGHT_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeHeadlight", matcher.group( 1 ).trim() );
+			}
+			matcher = ChoiceManager.MOTORBIKE_COWLING_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeCowling", matcher.group( 1 ).trim() );
+			}
+			matcher = ChoiceManager.MOTORBIKE_MUFFLER_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeMuffler", matcher.group( 1 ).trim() );
+			}
+			matcher = ChoiceManager.MOTORBIKE_SEAT_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "peteMotorbikeSeat", matcher.group( 1 ).trim() );
 			}
 			break;
 		}
@@ -9824,6 +9957,7 @@ public abstract class ChoiceManager
 		case 844: // The Portal to Horrible Parents
 		case 845: // Rumpelstiltskin's Workshop
 		case 859: // Upping your grade
+		case 871: // inspecting Motorbike
 			return true;
 
 		default:

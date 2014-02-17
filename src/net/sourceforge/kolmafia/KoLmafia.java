@@ -913,6 +913,12 @@ public abstract class KoLmafia
 
 		// Clear preferences
 		Preferences.setString( "banishingShoutMonsters", "" );
+		Preferences.setString( "peteMotorbikeTires", "" );
+		Preferences.setString( "peteMotorbikeGasTank", "" );
+		Preferences.setString( "peteMotorbikeHeadlight", "" );
+		Preferences.setString( "peteMotorbikeCowling", "" );
+		Preferences.setString( "peteMotorbikeMuffler", "" );
+		Preferences.setString( "peteMotorbikeSeat", "" );
 		BanishManager.resetAvatar();
 
 		// Hermit items depend on character class

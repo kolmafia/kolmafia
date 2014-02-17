@@ -784,6 +784,12 @@ public class RequestEditorKit
 			haveLinks = true;
 		}
 
+		else if ( KoLCharacter.isSneakyPete() && newLevel <= 15 )
+		{
+			links.append( " [<a href=\"da.php?place=gate3\">sneaky pete</a>]" );
+			haveLinks = true;
+		}
+
 		// Otherwise, if we are level 15 or less, the guild might have a skill for us
 		// Zombie Masters don't get access to new skills by gaining a level
 		else if ( newLevel <= 15 && !KoLCharacter.inZombiecore() )
