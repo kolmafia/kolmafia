@@ -584,7 +584,7 @@ public abstract class SorceressLairManager
 		// acquire the item and use it; use the
 		// default acquisition mechanisms.
 
-		boolean needStarfish = !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg();
+		boolean needStarfish = !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() & !KoLCharacter.isSneakyPete();
 
 		if ( !KoLCharacter.getFamiliarList().contains( SorceressLairManager.STARFISH ) && needStarfish )
 		{
@@ -791,7 +791,7 @@ public abstract class SorceressLairManager
 		requirements.addAll( SorceressLairManager.retrieveSqueezings() );
 		requirements.addAll( SorceressLairManager.retrieveScubaGear() );
 
-		if ( !KoLCharacter.inAxecore() )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.isSneakyPete() )
 		{
 			RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 		}
@@ -1276,7 +1276,7 @@ public abstract class SorceressLairManager
 
 		FamiliarData starfish = KoLCharacter.findFamiliar( "Star Starfish" );
 
-		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && starfish == null )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() && starfish == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a Star Starfish!" );
 			return requirements;
@@ -1318,7 +1318,7 @@ public abstract class SorceressLairManager
 
 		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, EquipmentManager.HAT ) );
 
-		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() )
 		{
 			RequestThread.postRequest( new FamiliarRequest( starfish ) );
 		}
@@ -2146,7 +2146,7 @@ public abstract class SorceressLairManager
 		}
 
 		// If you are an Avatar of Boris or a Zombie Master, you don't need - and can't use - familiars
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isSneakyPete() )
 		{
 			SorceressLairManager.familiarBattle( n, false );
 			return;
