@@ -852,26 +852,24 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP: {
-				int item1;
-				int item2;
+				int item;
 				int fam;
 
 				if ( KoLCharacter.inBeecore() )
 				{
-					item1 = ItemPool.BUSTED_WINGS;
-					item2 = ItemPool.BIRD_BRAIN;
+					item = ItemPool.RECONSTITUTED_CROW;
 					fam = FamiliarPool.CROW;
 				}
 				else
 				{
-					item1 = ItemPool.BROKEN_WINGS;
-					item2 = ItemPool.SUNKEN_EYES;
+					item = ItemPool.REASSEMBLED_BLACKBIRD;
 					fam = FamiliarPool.BLACKBIRD;
 				}
 
-				if ( ( KoLCharacter.findFamiliar( fam ) == null || KoLCharacter.isSneakyPete() ) &&
-				     ( !InventoryManager.hasItem( item1 ) ||
-				       !InventoryManager.hasItem( item2 ) ) )
+				// In Avatar paths you need item as well as familiar
+				if ( ( KoLCharacter.findFamiliar( fam ) == null || KoLCharacter.inAxecore() ||
+					KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() ) &&
+				     !InventoryManager.hasItem( item ) )
 				{
 					return null;
 				}
