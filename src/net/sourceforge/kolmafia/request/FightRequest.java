@@ -6560,6 +6560,15 @@ public class FightRequest
 			return 0;
 		}
 
+		// Peel Out allows 10 free runaways, 30 with Racing Slicks
+		if ( KoLCharacter.hasSkill( "Peel Out" ) )
+		{
+			int max = Preferences.getString( "peteMotorbikeTires" ).equals( "Racing Slicks" ) ? 30 : 10;
+			if ( Preferences.getInteger( "_petePeeledOut" ) < max )
+			{
+				return 100;
+			}
+		}
 		// Bandersnatch + Ode = weight/5 free runaways
 		if ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BANDER &&
 			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
