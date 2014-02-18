@@ -1189,6 +1189,27 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
 			break;
 
+		case ItemPool.BROKEN_WINGS:
+		case ItemPool.SUNKEN_EYES:
+			// If you are in an Avatar path or lack the blackbird/Crow, make it
+			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() ||
+				( KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD ) == null && KoLCharacter.findFamiliar( FamiliarPool.CROW ) == null &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ) )
+			{
+				ResultProcessor.autoCreate( ItemPool.REASSEMBLED_BLACKBIRD );
+			}
+			break;
+
+		case ItemPool.BUSTED_WINGS:
+		case ItemPool.BIRD_BRAIN:
+			// If you lack the Crow, make it
+			if ( KoLCharacter.findFamiliar( FamiliarPool.CROW ) == null &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.RECONSTITUTED_CROW, 1 ) ) )
+			{
+				ResultProcessor.autoCreate( ItemPool.RECONSTITUTED_CROW );
+			}
+			break;
+
 		case ItemPool.PIRATE_FLEDGES:
 			if ( !ResultProcessor.onlyAutosellDonationsCount && KoLCharacter.inFistcore() )
 			{
