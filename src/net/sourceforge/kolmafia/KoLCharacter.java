@@ -770,7 +770,6 @@ public abstract class KoLCharacter
 			{
 				limit += 5;
 			}
-			// There will be a skill that increases it
 			return limit;
 		}
 		return
@@ -1325,11 +1324,6 @@ public abstract class KoLCharacter
 		return	KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
 			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE;
-	}
-
-	public static final boolean isSneakyPete()
-	{
-		return KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE;
 	}
 
 	public static final Stat mainStat()
@@ -3155,6 +3149,11 @@ public abstract class KoLCharacter
 	public static final boolean inClasscore2()
 	{
 		return KoLCharacter.ascensionPath.equals( "Class Act II: A Class For Pigs" );
+	}
+
+	public static final boolean isSneakyPete()
+	{
+		return KoLCharacter.ascensionPath.equals( "Avatar of Sneaky Pete" );
 	}
 
 	public static final boolean isUnarmed()
