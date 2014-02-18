@@ -1130,6 +1130,11 @@ public class CharPaneRequest
 		int soulsauce = JSON.getInt( "soulsauce" );
 		KoLCharacter.setSoulsauce( soulsauce );
 		
+		int petelove = JSON.getInt( "petelove" );
+		int petehate = JSON.getInt( "petehate" );
+		int audience = petelove - petehate;
+		KoLCharacter.setAudience( audience );
+		
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );
