@@ -1153,8 +1153,9 @@ public class Evaluator
 					item.singleFlag = true;
 				}
 
-				// If you have a familiar carried, we'll need to check 1 or 2 Familiars best carried
-				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN )
+				// If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
+				if ( ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN ) &&
+					!KoLCharacter.isSneakyPete() && !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
 				{
 					this.carriedFamiliarsNeeded++;
 				}
@@ -1203,7 +1204,13 @@ public class Evaluator
 				}
 
 				// Always carry through items with changeable contents to speculation, but don't force them to go further
-				if ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN || id == ItemPool.CARD_SLEEVE )
+				if ( ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN ) &&
+					!KoLCharacter.isSneakyPete() && !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
+				{
+					break gotItem;
+				}
+				
+				if ( id == ItemPool.CARD_SLEEVE )
 				{
 					break gotItem;
 				}
