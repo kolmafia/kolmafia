@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.io.PrintStream;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -284,12 +282,14 @@ public class IslandManager
 
 	public static final int fratboysDefeatedPerBattle()
 	{
-		return IslandManager.sidequestFactor( "hippy" );
+		return IslandManager.sidequestFactor( "hippy" ) +
+		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 );
 	}
 
 	public static final int hippiesDefeatedPerBattle()
 	{
-		return IslandManager.sidequestFactor( "fratboy" );
+		return IslandManager.sidequestFactor( "fratboy" ) +
+		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 );
 	}
 
 	private static final String[] SIDEQUEST_PREFERENCES =
