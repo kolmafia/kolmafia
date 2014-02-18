@@ -4634,6 +4634,19 @@ public class UseItemRequest
 			Preferences.setBoolean( "_pixelOrbUsed", true );
 			return;
 
+		case ItemPool.JARLSBERG_SOUL_FRAGMENT:
+			if ( responseText.contains( "extra skill point" ) )
+			{
+				Preferences.increment( "jarlsbergPoints" );
+			}
+			return;
+
+		case ItemPool.SNEAKY_PETE_SHOT:
+			if ( responseText.contains( "extra skill point" ) )
+			{
+				Preferences.increment( "sneakyPetePoints" );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
