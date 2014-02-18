@@ -1703,6 +1703,7 @@ public class ItemPool
 	public static final int STAFF_OF_CREAM = 6265;
 	public static final int MARK_V_STEAM_HAT = 6290;
 	public static final int ROCKETSHIP = 6290;
+	public static final int JARLSBERG_SOUL_FRAGMENT = 6297;
 	public static final int MODEL_AIRSHIP = 6299;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
@@ -1983,6 +1984,7 @@ public class ItemPool
 	public static final int CRAPPY_CAMERA = 7173;
 	public static final int SHAKING_CRAPPY_CAMERA = 7176;
 	public static final int BUDDY_BJORN = 7200;
+	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int SMOKE_GRENADE = 7256;
 
 	public static final AdventureResult get( String itemName, int count )

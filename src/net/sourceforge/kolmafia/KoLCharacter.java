@@ -2839,6 +2839,16 @@ public abstract class KoLCharacter
 				int zombiePoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "zombiePoints", zombiePoints );
 			}
+			else if ( oldPath.equals( AVATAR_OF_JARLSBERG ) )
+			{
+				int jarlsbergPoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "jarlsbergPoints", jarlsbergPoints );
+			}
+			else if ( oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+			{
+				int sneakyPetePoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
+			}
 
 			// Ronin is lifted and we can interact freely with the Kingdom
 			KoLCharacter.setRonin( false );

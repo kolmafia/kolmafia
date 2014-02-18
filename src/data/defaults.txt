@@ -454,6 +454,7 @@ user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of t
 user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	jarlsbergPoints	0
 user	jungCharge	0
 user	kingLiberated	false
 user	kingLiberatedScript
@@ -792,6 +793,7 @@ user	skillLevel48	0
 user	slimelingFullness	0.0
 user	slimelingStacksDropped	0
 user	slimelingStacksDue	0
+user	sneakyPetePoints	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
