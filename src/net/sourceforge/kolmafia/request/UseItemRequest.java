@@ -2488,7 +2488,7 @@ public class UseItemRequest
 
 			// Boris didn't need no stinkin' familiars.
 			// Neither did Jarlsberg. They are surely crawling with germs.
-			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 			{
 				return;
 			}
