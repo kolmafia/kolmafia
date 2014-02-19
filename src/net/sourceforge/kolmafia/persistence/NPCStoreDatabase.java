@@ -217,6 +217,11 @@ public class NPCStoreDatabase
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
+		else if ( storeId.equals( "blackmarket" ) )
+		{
+			// Black Market
+			return QuestLogRequest.isBlackMarketAvailable();
+		}
 		else if ( storeId.equals( "c" ) )
 		{
 			// Chinatown Shops
@@ -297,11 +302,6 @@ public class NPCStoreDatabase
 		{
 			// The Knob Dispensary
 			return KoLCharacter.getDispensaryOpen();
-		}
-		else if ( storeId.equals( "l" ) )
-		{
-			// Black Market
-			return QuestLogRequest.isBlackMarketAvailable();
 		}
 		else if ( storeId.equals( "n" ) )
 		{
