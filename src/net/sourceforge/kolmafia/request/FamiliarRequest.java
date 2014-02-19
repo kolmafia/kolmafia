@@ -366,7 +366,8 @@ public class FamiliarRequest
 	{
 		// Boris has no need for familiars!
 		// Jarlsberg didn't trust any companion that he didn't summon himself.
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+		// Familiars weren't cool enough for Pete.
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 		{
 			return;
 		}
