@@ -63,9 +63,6 @@ import javax.swing.text.html.FormView;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
-
-import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -526,7 +523,9 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
-			if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() )
+			if ( !KoLCharacter.inAxecore() &&
+			     !KoLCharacter.inZombiecore() &&
+			     !KoLCharacter.isSneakyPete() )
 			{
 				SorceressLairManager.decorateFamiliars( buffer );
 			}
@@ -956,7 +955,7 @@ public class RequestEditorKit
 				url = adventure.getRequest().getURLString();
 			}
 
-			StringBuffer replace = new StringBuffer();
+			StringBuilder replace = new StringBuilder();
 			replace.append( "<a href=\"" );
 			replace.append( url );
 			replace.append( "\">" );
