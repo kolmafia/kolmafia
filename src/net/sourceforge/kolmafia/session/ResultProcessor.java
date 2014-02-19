@@ -1492,7 +1492,7 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.STONE_TRIANGLE, -4 );
 			Preferences.setInteger( "hiddenApartmentProgress", 8 );
 			Preferences.setInteger( "hiddenHospitalProgress", 8 );
-			Preferences.setInteger( "hiddenOfficerogress", 8 );
+			Preferences.setInteger( "hiddenOfficeProgress", 8 );
 			Preferences.setInteger( "hiddenBowlingAlleyProgress", 8 );
 			QuestDatabase.setQuestProgress( Quest.WORSHIP, QuestDatabase.FINISHED );
 			break;
