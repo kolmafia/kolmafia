@@ -7192,77 +7192,77 @@
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23
 7176	shaking crappy camera	708139348	camera.gif	usable	q	0
 7177	crappy waiter disguise	484405907	briefcase.gif	usable	t,d	45
-7178
+7178	Copperhead Charm	274926226	scharm2.gif	none	q	0
 7179	The First Pizza	402359444	pizza.gif	none	q	0
 7180
 7181
-7182
-7183
+7182	The Stankara Stone	236487266	stankara.gif	none	q	0
+7183	Murphy's Rancid Black Flag	773096068	blackflag.gif	none	q	0
 7184
 7185
 7186
 7187	unnamed cocktail	309414010	unnamedcock.gif	drink	t,d	36
-7188	handful of tips	119341267	tips.gif	multiple	t,d	5
+7188	handful of tips	119341267	tips.gif	multiple	t,d	5	handfuls of tips
 7189	unrequired jacket	404157987	smjacket.gif	shirt	t,d	75
 7190	tommy gun	546109765	tommygun.gif	weapon	t,d	99
-7191	drum of tommy ammo	623278441	tommyammo.gif	none	t,d	10
-7192	throwing knife	436917487	throwknife.gif	none, combat	t,d	20
+7191	drum of tommy ammo	623278441	tommyammo.gif	none	t,d	10	drums of tommy ammo
+7192	throwing knife	436917487	throwknife.gif	none, combat	t,d	20	throwing knives
 7193	throwing spoon	267631270	throwspoon.gif	none, combat	t,d	20
 7194	throwing fork	314681135	throwfork.gif	none, combat	t,d	20
-7195	breadchucks	713507766	breadchucks.gif	weapon	t,d	86
+7195	breadchucks	713507766	breadchucks.gif	weapon	t,d	86	sets of breadchucks
 7196	shuriken salad	465261096	shurikensalad.gif	none, combat	t,d	37
 7197	combat fan	932754535	combatfan.gif	weapon	t,d	79
 7198	red silk skirt	373891448	blackskirt.gif	pants	t,d	110
 7199	blowdart	759187918	blowknife.gif	none, combat	t,d	15
 7200	Buddy Bjorn	697608546	buddybjorn.gif	container	t	0
 7201
-7202
+7202	sweet roll Alabama	898366256	sweetroll.gif	food	t,d	25
 7203
-7204
-7205
-7206
-7207
-7208
-7209
+7204	lynyrd snare	657650786	snare.gif	usable	t,d	18
+7205	fleetwood chain	402329792	fchain.gif	weapon	t,d	25
+7206	Green Manalishi	801345677	rocks.gif	drink	t,d	32
+7207	black blade	439938643	blackknife.gif	weapon	t,d	55
+7208	fire of unknown origin	561023094	firebottle.gif	none, combat	t,d	27
+7209	eagle's milk	576019881	milk.gif	food	t,d	11
 7210
-7211
+7211	one pill	611180086	pill.gif	usable	t,d	30
 7212
 7213
 7214
 7215
-7216
+7216	lynyrd skin	301793399	lynyrdskin.gif	none	t,d	20
 7217
 7218
 7219
 7220
 7221	priceless diamond	200196154	baconstone.gif	none	t,d	500
 7222	Flamin' Whatshisname	411038614	rocks_f.gif	drink	t,d	38
-7223
+7223	lynyrd musk	321556530	lynyrdmusk.gif	multiple	t,d	22
 7224
 7225
 7226
 7227
-7228
-7229
-7230
+7228	red box	383471423	keepsakebox.gif	multiple	t,d	50
+7229	red red wine	929469529	wine.gif	drink	t,d	20
+7230	red rum	396027824	bottle.gif	drink	t,d	30
 7231
-7232
-7233
+7232	red velvet cake	514936643	blackcake.gif	food	t,d	20
+7233	red letter	643254878	redletter.gif	multiple	t,d	15
 7234
 7235
 7236
-7237
-7238
-7239
-7240
-7241
+7237	Red X Shield	840627724	redshield.gif	offhand	t,d	30
+7238	red badge	757374140	redbadge.gif	accessory	t,d	20
+7239	red shirt	816143588	btee.gif	shirt	t,d	20
+7240	red coat	204662218	redcoat.gif	shirt	t,d	25
+7241	red shoe	486558302	redshoe.gif	accessory	t,d	20
 7242
-7243
-7244
+7243	red button	531357424	redbutton.gif	none, combat	t,d	5	red buttons
+7244	red blood cells	656804734	redcells.gif	multiple	t,d	27
 7245
-7246
+7246	glark cable	841152773	glarkcable.gif	none, combat	t,d	20
 7247
-7248
+7248	red foxglove	485617110	foxglove.gif	multiple	t,d	75
 7249	Thwaitgold dragonfly statuette	435678216	thwaitdragon.gif	none		0
 7250
 7251	jug of Sneaky Pete's Mojo	517565036	cleaner.gif	usable	t	0

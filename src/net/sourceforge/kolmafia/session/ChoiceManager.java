@@ -2993,6 +2993,8 @@ public abstract class ChoiceManager
 
 		// Choice 851 is Shen Copperhead, Nightclub Owner
 		// Choice 852 is Shen Copperhead, Jerk
+		// Choice 853 is Shen Copperhead, Huge Jerk
+		// Choice 854 is Shen Copperhead, World's Biggest Jerk
 		// Choice 855 is Behind the 'Stache
 		new ChoiceAdventure(
 			"Town", "choiceAdventure855", "Behind the 'Stache",

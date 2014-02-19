@@ -587,6 +587,8 @@ pirate shirt	50	Mus: 10
 psycho sweater	100	Mus: 35
 punk rock jacket	145	Mus: 57
 red-and-green sweater	50	Mox: 35
+red coat	160	Mus: 65
+red shirt	150	Mus: 60
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
@@ -827,6 +829,7 @@ big stick	10	Mus: 0	2-handed staff
 big stirring stick	100	Mus: 35	2-handed staff
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 bindlestocking	200	Mus: 200	2-handed polearm
+black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
@@ -961,6 +964,7 @@ flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flaming sword	150	Mus: 60	1-handed sword
 flamingo mallet	70	Mus: 20	2-handed club
+fleetwood chain	155	Mus: 62	1-handed flail
 fluorescent lightbulb	50	Mus: 0	1-handed club
 frying brainpan	225	Mys: 200	1-handed saucepan
 flypaper staff	80	Mus: 25	2-handed staff
@@ -1350,6 +1354,7 @@ Ouija Board, Ouija Board	120	none	shield
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
+Red X Shield	180	Mus: 70	shield
 Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
@@ -2051,7 +2056,9 @@ rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
+red badge	150	Mys: 60
 red plastic baby	20	none
+red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
 rickety old unicycle	200	Mox: 200

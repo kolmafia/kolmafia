@@ -46,6 +46,7 @@ A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle o
 A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Brulee Torch of Fury	Spatula of Despair	Whisk of Misery
 A Massive Ziggurat	-1	dense liana	Protector Spectre: 0
 A Maze of Sewer Tunnels	95	C. H. U. M.	giant zombie goldfish	sewer gator	C. H. U. M. chieftain: 0
+A Mob of Zeppelin Protesters	-1	Blue Oyster cultist	eagle	fleet woodsman	Jefferson pilot	lynyrd skinner
 A Pile of Old Servers	100	antique database server
 A Scorching Abyssal Portal	100	scout seal
 A Skeleton Invasion!	100	skeleton invader	two skeleton invaders	three skeleton invaders	four skeleton invaders	five skeleton invaders
@@ -180,7 +181,7 @@ Sweet-Ade Lake	-1	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
-The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0
+The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker: 0	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 The Beanbat Chamber	100	beanbat	screambat: 0
@@ -194,7 +195,7 @@ The Caliginous Abyss	100	Eye in the Darkness: 13	Peanut: 1	School of Many: 13	Sl
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
-The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant
+The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
 The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
