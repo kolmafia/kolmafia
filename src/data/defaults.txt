@@ -1546,6 +1546,8 @@ user	choiceAdventure808	1
 user	choiceAdventure809	1
 user	choiceAdventure813	1
 user	choiceAdventure815	1
+user	choiceAdventure851	1
+user	choiceAdventure852	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true

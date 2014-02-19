@@ -120,7 +120,7 @@ Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 The Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	upgraded ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
-Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin
+Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin	Frozen Solid Snake: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
@@ -198,6 +198,7 @@ The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Ra
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
 The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
+The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 The Dark Elbow of the Woods	95	Demoninja	G imp	L imp
 The Dark Heart of the Woods	95	Fallen Archfiend	G imp	P imp

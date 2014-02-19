@@ -2990,6 +2990,16 @@ public abstract class ChoiceManager
 		// Choice 847 is Pick Your Poison
 		// Choice 848 is Where the Magic Happens
 		// Choice 850 is World of Bartercraft
+
+		// Choice 851 is Shen Copperhead, Nightclub Owner
+		// Choice 852 is Shen Copperhead, Jerk
+		// Choice 855 is Behind the 'Stache
+		new ChoiceAdventure(
+			"Town", "choiceAdventure855", "Behind the 'Stache",
+			new Object[] { "don't take initial damage in fights",
+				       "can get priceless diamond",
+				       "can make Flamin' Whatshisname",
+				       "get 4-5 random items" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

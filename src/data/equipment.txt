@@ -467,6 +467,7 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 pottery training pants	50	none
 pygmy briefs	165	Mox: 67
+red silk skirt	155	Mox: 62
 rusty metal greaves	150	Mus: 60
 scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
@@ -600,6 +601,7 @@ supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
+unrequired jacket	160	Mus: 65
 warbear dress helmet	100	Mox: 35
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
@@ -843,6 +845,7 @@ bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 boxing glove on a spring	55	Mox: 12	1-handed club
 brand new key	200	Mus: 85	1-handed knife
+breadchucks	155	Mus: 62	1-handed flail
 broken beer bottle	75	Mus: 10	1-handed knife
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 25	2-handed bow
@@ -887,6 +890,7 @@ clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
 club of corruption	20	Mus: 0	1-handed club
 club of the five seasons	150	Mus: 60	1-handed club
+combat fan	165	Mus: 67	1-handed flail
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
 corrupt club of corrupt corruption	80	Mus: 25	1-handed club
@@ -1217,6 +1221,7 @@ tin foil	100	Mus: 0	1-handed sword
 tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
+tommy gun	160	Mox: 65	2-handed rifle
 toy accordion	10	Mox: 0	2-handed accordion
 toy ray gun	175	Mox: 72	1-handed pistol
 toy taijijian	10	Mus: 0	1-handed sword
