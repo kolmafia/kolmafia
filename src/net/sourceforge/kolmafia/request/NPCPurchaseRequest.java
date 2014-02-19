@@ -151,9 +151,9 @@ public class NPCPurchaseRequest
 
 	public static String pickForm( final String storeId )
 	{
-		return  storeId.indexOf( "." ) != -1 ?
+		return  storeId.contains( "." ) ?
 			storeId :
-			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) ?
+			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) || storeId.equals( "blackmarket" ) ?
 			"shop.php" :
 			"store.php";
 	}

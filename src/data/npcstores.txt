@@ -118,13 +118,13 @@ The Knob Dispensary	k	Knob Goblin steroids	250
 The Knob Dispensary	k	Knob Goblin pet-buffing spray	250
 The Knob Dispensary	k	Knob Goblin learning pill	300
 
-Black Market	l	black cherry soda	80
-Black Market	l	Black Body&trade; spray	300
-Black Market	l	black facepaint	300
-Black Market	l	black sheepskin diploma	300
-Black Market	l	can of black paint	1000
-Black Market	l	forged identification documents	5000
-Black Market	l	exotic parrot egg	500000
+Black Market	blackmarket	black cherry soda	80	ROW283
+Black Market	blackmarket	Black Body&trade; spray	300	ROW286
+Black Market	blackmarket	black facepaint	300	ROW284
+Black Market	blackmarket	black sheepskin diploma	300	ROW285
+Black Market	blackmarket	can of black paint	1000	ROW282
+Black Market	blackmarket	forged identification documents	5000
+Black Market	blackmarket	exotic parrot egg	500000	ROW287
 
 The General Store	m	Ben-Gal&trade; Balm	24
 The General Store	m	glittery mascara	24
