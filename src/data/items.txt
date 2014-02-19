@@ -7266,7 +7266,7 @@
 7249	Thwaitgold dragonfly statuette	435678216	thwaitdragon.gif	none		0
 7250
 7251	jug of Sneaky Pete's Mojo	517565036	cleaner.gif	usable	t	0
-7252	shot of Sneaky Pete's Mojo	206268046	peteglass.gif	usable	t	0
+7252	shot of Sneaky Pete's Mojo	206268046	peteglass.gif	usable	t	0	shots of Sneaky Pete's Mojo
 7253
 7254
 7255
