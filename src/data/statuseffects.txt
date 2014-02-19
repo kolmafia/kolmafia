@@ -1532,17 +1532,17 @@
 1531	Witch's Brood	coffeecup.gif	d7155b6c8d8cf7fc7fb005d8f2b9d027	use 1 witch's brew
 1532	Crappily Disguised as a Waiter	chestache.gif	14f0260953749d2185ccab8a686c9b00	use 1 crappy waiter disguise
 1533	Ancient Annoying Serpent Poison	scharm.gif	81d92825729f8b3a913133c18e37a74c
-1534
+1534	The Two-Prong Crown	2prongcrown.gif	eb5ac31ab71f6d851ba6e2b395322263	drink 1 Green Manalishi
 1535
-1536
-1537
-1538
+1536	Larger	pill.gif	a8f6bbf1b3359ec5e91829637650b732
+1537	Small	pill.gif	a4436a4a5ee102cda7bdce04a5ec6631
+1538	Helping Comes Second	sweetroll.gif	2435e53ca950f69bf7f069627890c809	eat 1 sweet roll Alabama
 1539
-1540
+1540	Musky	stench.gif	faca8778bf8bda40e122a68e4dfa334b	use 1 lynyrd musk
 1541
 1542
 1543
-1544
+1544	Red Lettered	redletter.gif	356ddc655212d08ff92c46d83dd74ca3	use 1 red letter
 1545	Unmuffled	puff.gif	90d30cad0848f0bba514ee10a314f46e	cast 1 Rev Engine
 1546	Muffled	puff.gif	503a12c351437b8222fbf21d503d7660	cast 1 Rev Engine
 1547	Of Course It Looks Great	comb.gif	4247055cc289371ebc90aea1918be9a0	cast 1 Check Hair
@@ -1557,3 +1557,5 @@
 1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f
 1557
 1558	Ashen	hotrags.gif	41fd29242e96444eff26393c15b4c16a	use 1 pile of ashes
+1559	Extra-Thick Blood	redcells.gif	7043b17651302228b34b952f000245f0	use 1 red blood cells
+1562	Digitalis, Dig It	foxglove.gif	7df47f4e881611478b07795344dcfc4f	use 1 red foxglove

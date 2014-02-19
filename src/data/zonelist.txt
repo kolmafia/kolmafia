@@ -44,6 +44,7 @@ Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge
 Dungeon	Mountain	Dungeon Full of Dungeons
 Highlands	Mountain	Highlands
+The Red Zeppelin's Mooring	Mountain	The Red Zeppelin's Mooring
 
 Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid

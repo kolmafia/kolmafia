@@ -695,6 +695,8 @@ pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 punk rock jacket	Moxie: +8, Damage Reduction: 5
 # red-and-green sweater: Shocking!
+red coat	Ranged Damage: +25, Initiative: -25
+red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
@@ -979,6 +981,8 @@ big stirring stick	Mysticality: +5, Spell Damage: +5
 # bill bec-de-bardiche glaive-guisarme
 # bindlestocking: On Critical Hit Percent: Merry Crimbo!
 bindlestocking	Item Drop: +10, Weapon Damage: +25
+# black blade: Successful attacks restore some HP
+black blade	Spooky Damage: +10
 black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 black sword	Critical Hit Percent: +7, Weapon Damage: +7
 blammer	Critical Hit Percent: +7, Weakens Monster
@@ -1120,6 +1124,7 @@ flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
 flaming sword	Hot Damage: +20, Spell Critical Percent: +10, Never Fumble
 flamingo mallet	Monster Level: +4, Meat Drop: +5
+fleetwood chain	Weapon Damage: +5
 fluorescent lightbulb	Maximum MP: +30
 frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
@@ -1566,6 +1571,7 @@ Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Muscle Percent: [2
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Rainbow Jello Mould	Moxie Percent: +50
+Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Scepter of Loathing	Spell Critical Percent: +15, Spooky Resistance: +5, Critical Hit Percent: +15, Cloathing
 Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
@@ -2351,7 +2357,9 @@ rainbow pearl earring	Muscle: +15, Mysticality: +15, Moxie: +15, Cold Resistance
 rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: +200, Single Equip
 rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
+red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
 red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
 red-hot medallion	Hot Damage: +30, Single Equip
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
@@ -3748,6 +3756,7 @@ Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Devil Inside	Hot Damage: 30, Cold Resistance: 3, Spooky Resistance: 3
+Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
@@ -3838,6 +3847,7 @@ Extra-Sharp Weapon	Weapon Damage Percent: +30
 Extra-Wet	Hot Resistance: +3
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
@@ -4037,6 +4047,7 @@ Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Re
 Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 # HELLO WORLD!: Makes you look like a triad code wizard
+Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
 Hennaliciousness	Mysticality: +3
 Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
@@ -4148,6 +4159,7 @@ Kung Fu Fighting	Weapon Damage: [3*L]
 L'instinct F&eacute;lin	Moxie: +30
 La Bamba	Item Drop: +3
 Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
+Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Leo Rising	Meat Drop: +10
@@ -4238,6 +4250,8 @@ Muffled	Combat Rate: -15
 Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
+# Musky: You Smell Like a Lynyrd
+Musky	Stench Damage: +15
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 My Breakfast With Andrea	Meat Drop: [min(80,2*T)]
 Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
@@ -4419,6 +4433,7 @@ Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Perce
 Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
 Red Around the Gills	HP Regen Min: [140*zone(The Sea)], HP Regen Max: [150*zone(The Sea)], MP Regen Min: [140*zone(The Sea)], MP Regen Max: [150*zone(The Sea)]
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+Red Lettered	Monster Level: +15
 # Red Misty-Eyed: +10 Damage against Seals
 Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
 Red Neck	Muscle: +15, Moxie: -5
@@ -4527,6 +4542,9 @@ Slimy Flavor	Sleaze Damage: +10, Sleaze Resistance: +2
 Slimy Hands	Sleaze Damage: +10
 Slinking Noodle Glob	Maximum MP: +15
 Slippery Oiliness	Equalize: "Moxie"
+# Small: Base Muscle Limited to 50
+# Small: Base Mysticality Limited to 50
+# Small: Base Moxie Limited to 50
 Smelly Pants	Stench Resistance: +1
 Smithsness Cheer	Smithsness: +10
 Smithsness Dinner	Smithsness: +10
@@ -4733,6 +4751,7 @@ The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
 The Sweats	Stench Resistance: +5
 # The Tunger&trade;: +3 Adventures from the next thing you eat
+The Two-Prong Crown	Sleaze Damage: +30
 The Vitus Virus	Item Drop: +50, Experience: -5
 There Is A Spoon	Mysticality: +20
 # There is No Spoon
@@ -5310,6 +5329,7 @@ GameInformPowerDailyPro subscription card	Free Pull
 Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
 Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
+Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
@@ -5779,6 +5799,7 @@ love song of smoldering passion	Effect: "Fiery Heart", Effect Duration: 5
 love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
+lynyrd musk	Effect: "Musky", Effect Duration: 30
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 magicberry tablets	Effect: "Magic Tongue"
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
@@ -5804,6 +5825,7 @@ oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
 old candy wrapper	Effect: "Litterbug", Effect Duration: 5
 old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
+one pill	Effect Duration: 5
 orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
@@ -5906,6 +5928,9 @@ recording of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of 
 recording of Prelude of Precision	Effect: "Prelude of Precision", Effect Duration: 20
 recording of Rolando's Rondo of Resisto	Effect: "Rolando's Rondo of Resisto", Effect Duration: 20
 recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thingfinder", Effect Duration: 20
+red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
+red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
+red letter	Effect: "Red Lettered", Effect Duration: 20
 red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
 rehearsing dramatic hedgehog	Free Pull
@@ -5995,6 +6020,7 @@ suspicious stocking	Free Pull
 swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
+sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
