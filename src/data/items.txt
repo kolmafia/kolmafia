@@ -7191,9 +7191,9 @@
 7174	humble pie	123782132	pie.gif	food	t,d	26
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23
 7176	shaking crappy camera	708139348	camera.gif	usable	q	0
-7177
+7177	crappy waiter disguise	484405907	briefcase.gif	usable	t,d	45
 7178
-7179
+7179	The First Pizza	402359444	pizza.gif	none	q	0
 7180
 7181
 7182
@@ -7201,19 +7201,19 @@
 7184
 7185
 7186
-7187
-7188
-7189
-7190
-7191
-7192
-7193
-7194
-7195
-7196
-7197
-7198
-7199
+7187	unnamed cocktail	309414010	unnamedcock.gif	drink	t,d	36
+7188	handful of tips	119341267	tips.gif	multiple	t,d	5
+7189	unrequired jacket	404157987	smjacket.gif	shirt	t,d	75
+7190	tommy gun	546109765	tommygun.gif	weapon	t,d	99
+7191	drum of tommy ammo	623278441	tommyammo.gif	none	t,d	10
+7192	throwing knife	436917487	throwknife.gif	none, combat	t,d	20
+7193	throwing spoon	267631270	throwspoon.gif	none, combat	t,d	20
+7194	throwing fork	314681135	throwfork.gif	none, combat	t,d	20
+7195	breadchucks	713507766	breadchucks.gif	weapon	t,d	86
+7196	shuriken salad	465261096	shurikensalad.gif	none, combat	t,d	37
+7197	combat fan	932754535	combatfan.gif	weapon	t,d	79
+7198	red silk skirt	373891448	blackskirt.gif	pants	t,d	110
+7199	blowdart	759187918	blowknife.gif	none, combat	t,d	15
 7200	Buddy Bjorn	697608546	buddybjorn.gif	container	t	0
 7201
 7202
@@ -7235,8 +7235,8 @@
 7218
 7219
 7220
-7221
-7222
+7221	priceless diamond	200196154	baconstone.gif	none	t,d	500
+7222	Flamin' Whatshisname	411038614	rocks_f.gif	drink	t,d	38
 7223
 7224
 7225

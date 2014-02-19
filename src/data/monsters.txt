@@ -272,6 +272,7 @@ confused goth music student	lilgoth.gif	Atk: 9 Def: 8 HP: 9 Init: 50 P: dude	poc
 conjoined zmombie	2zombies.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/4] Init: 60 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)
 conservationist hippy	conhippy.gif	Atk: 64 Def: 68 HP: 70 Init: 40 P: hippy E: stench  Meat: 40	branch from the Great Tree (0)	super-strong air freshener (0)
 Cookie-baking Thing from Beyond Time			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+Copperhead Club bartender	coppertender.gif	Atk: 140 Def: 140 HP: 150 Init: 25 P: dude Meat: 160-240	handful of tips (0)	unnamed cocktail (0)	unrequired jacket (0)
 corpulent zobmie	fatzombie.gif	Atk: 54 Def: 49 HP: 50 Init: 50 E: spooky Meat: 60-90 P: undead	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 corrosive algae	prim_alga.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: plant	memory of a C (20)	memory of a T (20)
 Count Bakula		HP: 80 Def: 72 Atk: 80 P: dude Init: 10000	Talisman of Bakula (100)
@@ -372,6 +373,7 @@ eye in the darkness	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 E: spooky P:
 Fallen Archfiend	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
 Family Jewels	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 family of kobolds	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
+fan dancer	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 160-240	blowdart (0)	red silk skirt (0)	combat fan (0)
 fan slime	fanslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of yellow slime (f66)
 fancy bath slug	bathslug.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 Fearsome Wacken	wacken.gif	Atk: 90 Def: 81 HP: 200 Init: 60 P: beast	Crazyleg's razor (100)
@@ -408,6 +410,7 @@ french guard turtle	frenchturtle.gif	Atk: 140 Def: 126 HP: 140 Init: 140 P: beas
 frog	frog.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 8-12 P: beast	squashed frog (100)	frog lip-print (c0)
 Frosty	frosty.gif	BOSS HP: 350 Def: 450 Atk: 500 Init: 200 E: cold P: elemental	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's carrot (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's arm (f20)	Frosty's iceball (f20)	Frosty's snowball sack (f20)
 frozen duck	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
+Frozen Solid Snake	snakeboss1.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: cold	The First Pizza (n100)
 Fruit Golem	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherry (15)	orange (15)	lime (15)
 fudge monkey		HP: 100 Def: 72 Atk: 80 Init: 50 P: dude	fudgecule (c100)
 fudge oyster		HP: 130 Def: 90 Atk: 100 Init: 0 P: dude	fudgecule (c100)
@@ -642,6 +645,7 @@ mind flayer	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer co
 mine crab	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 200-300 P: fish	live nautical mine (n20)
 Mismatched Twins	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Arsonist	pengarson.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Capo	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: dude Meat: 320-480	tommy gun (0)	drum of tommy ammo (0)	drum of tommy ammo (0)
 Mob Penguin Caporegime		P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	pengdemo.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Enforcer		P: penguin	patent leather shoes (0)
@@ -683,6 +687,7 @@ Neptune, the Dog that Is a Respected Equal and Not a Pet	mc_respect2.gif	Atk: 45
 Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	mc_respect1.gif	Atk: 65 Def: 58 HP: 100 Init: 30 P: beast	respected companion biscuit (0)
 newt	newt.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 8-12 P: beast	eye of newt (100)
 Next-generation Frat Boy	emofrat.gif	Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150-200 E: sleaze P: orc	beaten-up Chucks (100)	white class ring (100)	kick-ass kicks (0)	beer helmet (0)	distressed denim pants (0)
+ninja dressed as a waiter	ninjawaiter.gif	Atk: 150 Def: 150 HP: 155 Init: 100 P: dude	crappy waiter disguise (0)	throwing knife (0)	throwing fork (0)
 Ninja Snowman (Chopsticks)	ninjarice.gif	Atk: 85 Def: 76 HP: 70 Init: 60 ED: cold P: elemental	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	pentatonic accordion (a0)
 Ninja Snowman (Hilt/Mask)	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 E: cold P: elemental	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)
 ninja snowman assassin	ninja_ass.gif	Atk: 150 Def: 135 HP: 0 Init: 150 E: cold P: elemental	ninja rope (n100)	ninja crampons (n100)	ninja carabiner (n100)
@@ -997,6 +1002,7 @@ vine gar	gar.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: beast	vinegar (50)	v
 violent fungus	prim_fung.gif	Atk: 20 Def: 18 HP: 25 Init: 50 P: plant	memory of some delicious amino acids (30)	memory of some delicious amino acids (30)
 W imp	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
+waiter dressed as a ninja	waiterninja.gif	Atk: 142 Def: 142 HP: 140 Init: 25 P: dude Meat: 40-60	crappy waiter disguise (0)	shuriken salad (0)	breadchucks (0)
 War Frat 110th Infantryman	warfratc.gif	Atk: 172 Def: 154 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (10)	giant foam finger (10)	keg shield (6)
 War Frat 151st Captain	warfrata2.gif	Atk: 180 Def: 166 HP: 205 Init: 50 E: sleaze P: orc	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (4)	distressed denim pants (5)	keg shield (5)	PADL Phone (2)	perforated battle paddle (15)	red class ring (31)
 War Frat 151st Infantryman	warfrata.gif	Atk: 170 Def: 157 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (12)	distressed denim pants (9)	keg shield (5)	perforated battle paddle (10)

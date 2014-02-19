@@ -1530,8 +1530,8 @@
 1529	Witch Breaded	jarl_slicedbread.gif	4a9abdb7924970063747d4025eff3830	eat 1 witch's bread
 1530	Hare-o-dynamic	hairbrush.gif	7ad1f1d35dc38d8a511481bd473243a5	use 1 hare brush
 1531	Witch's Brood	coffeecup.gif	d7155b6c8d8cf7fc7fb005d8f2b9d027	use 1 witch's brew
-1532
-1533
+1532	Crappily Disguised as a Waiter	chestache.gif	14f0260953749d2185ccab8a686c9b00	use 1 crappy waiter disguise
+1533	Ancient Annoying Serpent Poison	scharm.gif	81d92825729f8b3a913133c18e37a74c
 1534
 1535
 1536

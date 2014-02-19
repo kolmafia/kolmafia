@@ -57,6 +57,7 @@ The Sea	adventure=210	false	underwater	Mer-kin Colosseum
 The Sea	adventure=337	false	underwater	The Caliginous Abyss
 The Sea	mining=3	false	none	Anemone Mine (Mining)
 Town	adventure=112	true	outdoor	The Sleazy Back Alley	1 spider web|pail of pretentious paint|+3 distilled fortified wine
+Town	adventure=383	true	indoor	The Copperhead Club
 Manor1	adventure=113	true	indoor	The Haunted Pantry	1 razor-sharp can lid|pretentious palette|+3 tasty tart
 Manor1	adventure=102	true	indoor	The Haunted Kitchen	1 chef's hat|1 leftovers of indeterminate origin|+1 freezerburned ice cube
 Manor1	adventure=103	true	indoor	The Haunted Conservatory	1 Spookyraven gallery key

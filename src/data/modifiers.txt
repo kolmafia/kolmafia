@@ -570,6 +570,7 @@ plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar E
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
 pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
 pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
+red silk skirt	Experience (Moxie): +1, Hat Drop: +30
 rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
 sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
@@ -708,6 +709,7 @@ supportive bra	Moxie: +3
 surgical apron	Damage Reduction: 6, Surgeonosity: +1
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
+unrequired jacket	Initiative: +20
 white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
 # witch's bra: All Spells Cast Are Cold
@@ -995,6 +997,7 @@ bounty-hunting rifle	Item Drop: +15
 bow staff	Mysticality: +5, Weapon Damage: +3
 boxing glove on a spring	Moxie: +3, Weapon Damage: +4, Initiative: +10
 brand new key	Muscle Percent: +5, Weapon Damage: +20
+breadchucks	Weapon Damage: +10, Hot Damage: +10
 broken sword	Spooky Resistance: +1
 bubble bauble bow	Moxie: +3, Mysticality: +2, Item Drop: +5
 bubblewrap crossbow	Moxie: +3, Mysticality: +2
@@ -1042,6 +1045,7 @@ clockwork sword	Weapon Damage: +10, Critical Hit Percent: +15
 clown whip	Sleaze Resistance: +2, Clownosity: +2
 club of corruption	Weapon Damage: +3, Class: "Seal Clubber"
 club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
+combat fan	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 # cool whip
 corn holder	Spell Damage: +1
 corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
@@ -1390,6 +1394,7 @@ tin foil	Muscle Percent: +10, Weapon Damage Percent: +10, Experience (Muscle): +
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+tommy gun	Weapon Damage: +5
 toy accordion	Song Duration: 5
 toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # trout fang: 25% chance of poisoning opponent
@@ -3414,6 +3419,7 @@ Always In Motion	Initiative: +100
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Ancestral Disapproval	Mysticality Percent: +10
+Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 And Your Family, Too	Familiar Weight: -10
 Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
@@ -3674,6 +3680,7 @@ Covetin' Drunk	Meat Drop: +200
 Cowlick	Meat Drop: +50
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
+# Crappily Disguised as a Waiter: You almost look sort of like a waiter.
 Cravin' for a Ravin'	Meat Drop: +100
 Creepypasted	Spooky Damage: +50
 Crimbo Epiphany	Mysticality Percent: +10
@@ -5544,6 +5551,7 @@ cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 cosmic bucket	Free Pull
 cotton candy cocoon	Free Pull
 cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
+crappy waiter disguise	Effect: "Crappily Disguised as a Waiter"
 cream pie	Free Pull
 crimbo elfling	Free Pull
 crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
