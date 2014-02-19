@@ -40,6 +40,7 @@ sticky stardust	handfuls of sticky stardust	hard	disease.gif	6	Astronomer	The Ho
 glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse	The Stately Pleasure Dome
 greasy string	lengths of greasy string	special	string.gif	8	salaminder	The Nightmare Meatrealm
 grizzled stubble	handfuls of grizzled stubble	special	disease.gif	9	grizzled survivor	Domed City of Grimacia
+hickory daiquiri	hickory daiquiris	special	daquiri.gif	6	Sorrowful Hickory	The Clumsiness Grove
 pile of country guano	piles of country guano	special	guano.gif	8	country bat	An Incredibly Strange Place (Bad Trip)
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
 pop art banana peel	pop art banana peels	special	bananapeel.gif	6	velvet underground dweller	Mt. Molehill
