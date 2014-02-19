@@ -920,7 +920,7 @@ public class CampgroundRequest
 	{
 		return currentWorkshedItem;
 	}
-	
+
 	public static void setCurrentWorkshedItem( int itemId )
 	{
 		AdventureResult	workshedItem = ItemPool.get( itemId, 1 );
@@ -1095,7 +1095,7 @@ public class CampgroundRequest
 
 	private static void parseBookTitles( final String responseText )
 	{
-		if ( ( KoLCharacter.inBadMoon() || KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() ) &&
+		if ( ( KoLCharacter.inBadMoon() || KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isSneakyPete() ) &&
 		     !KoLCharacter.kingLiberated() )
 		{
 			// You can't use Mr. Skills in Bad Moon

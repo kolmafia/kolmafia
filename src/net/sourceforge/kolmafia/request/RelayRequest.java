@@ -1176,7 +1176,7 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 		{
 			return false;
 		}

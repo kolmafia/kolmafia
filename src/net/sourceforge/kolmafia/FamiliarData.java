@@ -143,7 +143,7 @@ public class FamiliarData
 	public final boolean canEquip()
 	{
 		// Familiars cannot be equipped in when you are an Avatar of Boris
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 		{
 			return false;
 		}

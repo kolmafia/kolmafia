@@ -330,6 +330,13 @@ public class FaxRequestFrame
 			return false;
 		}
 
+		// Are you an Avatar of Sneaky Pete?
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			FaxRequestFrame.statusMessage = "Have you ever seen a cool person use a fax machine? I didn't think so.";
+			return false;
+		}
+
 		// Try to visit the fax machine
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
 		RequestThread.postRequest( request );
