@@ -199,7 +199,7 @@ public class UseItemDecorator
 		// Add the link to visit The Black Market
 		StringBuilder link = new StringBuilder();
 		link.append( "<tr align=center><td>" );
-		link.append( "<a href=\"store.php?whichstore=l\">" );
+		link.append( "<a href=\"shop.php?whichshop=blackmarket\">" );
 		link.append( "[Shop at The Black Market]" );
 		link.append( "</a></td></tr>" );
 
