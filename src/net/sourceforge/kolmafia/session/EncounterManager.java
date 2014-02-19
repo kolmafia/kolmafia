@@ -347,7 +347,7 @@ public abstract class EncounterManager
 			return;
 		}
 
-		if ( encounterName.equals( "Fraction Traction = Inaction" ) )
+		if ( encounterName.equals( "Faction Traction = Inaction" ) )
 		{
 			Preferences.setInteger( "booPeakProgress", 98 );
 			return;
