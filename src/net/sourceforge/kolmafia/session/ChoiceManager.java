@@ -7663,6 +7663,11 @@ public abstract class ChoiceManager
 				Preferences.setString( "peteMotorbikeSeat", "Sissy Bar" );
 			}
 			break;
+
+		case 869:
+			// End of Pete Road
+			ChoiceManager.handleAfterAvatar();
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
