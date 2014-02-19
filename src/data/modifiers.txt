@@ -3571,7 +3571,7 @@ Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Busker Do
 Busy Bein' Delicious	Moxie: +5
 Butt-Rock Hair	Moxie Percent: +15
-Buy! Sell! Buy! Sell!	Meat Drop: [max(0,202-2*T)]
+Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
@@ -4050,11 +4050,12 @@ Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Hoppyness	Initiative: +100
 Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
-Horrid, Torrid Weapon	Damage Percent: +10
+Horrid, Torrid	Weapon Damage Percent: +10
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
 Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
 Hot Sweat	Hot Resistance: +7
+Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
 Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
 Hurricane Force	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -4167,6 +4168,7 @@ Loco Motives	Weapon Damage: +10, Initiative: +10
 # Lord of Acid: Makes you look like an acid blob
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
+Lucky Cat is Lucky	Item Drop: +5
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Macaroni Coating	Muscle: +10
@@ -4368,6 +4370,7 @@ Pronounced Potency	Weapon Damage: +5
 Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
+Puckered Up	Candy Drop: [min(T,50)]
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
 Puddingskin	Maximum HP: 20, Damage Reduction: 5
 Puissant Pressure	Muscle Percent: +300
@@ -4381,6 +4384,7 @@ Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max
 Puzzle Fury	Spell Damage Percent: +25
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
+Pyramid Power	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
 # QWOPped Up: Always Fumble
@@ -4784,8 +4788,8 @@ Using Protection	Mana Cost: -2
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
-# Video... Games: Familiar Damage +5
-Video... Games	Muscle 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5
+# Video... Games?: Familiar Damage +5
+Video... Games?	Muscle 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5
 Video Game Hot Dog	Item Drop: 25, Meat Drop: 25
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
@@ -5002,7 +5006,7 @@ Tolerance of the Kitchen	Hot Resistance: +2
 # Transcendental Noodlecraft
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Undying Greed	Meat Drop: +25
-Unrepentant Thief Pickpocket Chance: +50
+Unrepentant Thief	Pickpocket Chance: +50
 Unyielding Flesh	Damage Absorption: +100, Damage Reduction: 5
 Vigor Mortis	Muscle Percent: +30
 # Virulence: Critical Hits Improve Infectious Bite
