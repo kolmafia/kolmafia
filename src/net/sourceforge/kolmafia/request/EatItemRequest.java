@@ -150,6 +150,11 @@ public class EatItemRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( this.consumptionType == KoLConstants.CONSUME_FOOD_HELPER )
 		{
 			int count = this.itemUsed.getCount();

@@ -160,6 +160,11 @@ public class DrinkItemRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( this.consumptionType == KoLConstants.CONSUME_DRINK_HELPER )
 		{
 			int count = this.itemUsed.getCount();
