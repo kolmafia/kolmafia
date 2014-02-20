@@ -188,7 +188,7 @@ black widow	blackwidow.gif	Atk: 132 Def: 110 HP: 121 Init: 50 Meat: 40-60 "Reall
 Black-and-White-Ops Penguin	pengblackop.gif	Init: -10000 P: penguin	Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
 blackberry bush	blackbush.gif	Atk: 126 Def: 114 HP: 136 Init: 30 P: plant	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	white pixel (80)	white pixel (70)	white pixel (60)
-Blue Oyster cultist	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 P: dude Meat: 120-180	fire of unknown origin (0)	black  blade (0)
+Blue Oyster cultist	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 P: dude Meat: 80-120	fire of unknown origin (0)	black blade (0)
 blur	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 98-143 P: dude	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
 boaraffe	boaraffe.gif	Atk: 145 Def: 130 HP: 145 Init: 50 Meat: 80-120 P: beast	long pork (30)
 Bob Racecar	bobrace.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 96-138 P: dude	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)	folder (D-Team) (c0)
@@ -275,7 +275,7 @@ confused goth music student	lilgoth.gif	Atk: 9 Def: 8 HP: 9 Init: 50 P: dude	poc
 conjoined zmombie	2zombies.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/4] Init: 60 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)
 conservationist hippy	conhippy.gif	Atk: 64 Def: 68 HP: 70 Init: 40 P: hippy E: stench  Meat: 40	branch from the Great Tree (0)	super-strong air freshener (0)
 Cookie-baking Thing from Beyond Time			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Copperhead Club bartender	coppertender.gif	Atk: 140 Def: 140 HP: 150 Init: 25 P: dude Meat: 160-240	handful of tips (0)	unnamed cocktail (0)	unrequired jacket (0)
+Copperhead Club bartender	coppertender.gif	Atk: 140 Def: 140 HP: 150 Init: 25 P: dude Meat: 80-120	handful of tips (0)	unnamed cocktail (0)	unrequired jacket (0)
 corpulent zobmie	fatzombie.gif	Atk: 54 Def: 49 HP: 50 Init: 50 E: spooky Meat: 60-90 P: undead	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 corrosive algae	prim_alga.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: plant	memory of a C (20)	memory of a T (20)
 Count Bakula		HP: 80 Def: 72 Atk: 80 P: dude Init: 10000	Talisman of Bakula (100)
@@ -336,7 +336,7 @@ Dusken Raider Ghost	aboo_dipshit.gif	Atk: 72 Def: 68 HP: 40 Init: -10000 E: spoo
 Dyspepsi-Cola General	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	colasol2.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	colasol2.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)	lucky lighter (p5)
-eagle	eagle.gif	Atk: 145 Def: 135 HP: 140 Init: 75 P: beast	eagle's milk (0)
+eagle	eagle.gif	Atk: 145 Def: 135 HP: 140 Init: 75 P: beast	eagle's milk (0)	eagle feather (0)
 # Ed the Undying		Atk: 180 Def: 162 HP: 1
 Ed the Undying (1)	ed.gif	BOSS HP: 256 Def: 162 Atk: 180 Exp: [75+ML/4] Init: 10000 P: undead
 Ed the Undying (2)		BOSS HP: 256 Def: 162 Atk: 180 Exp: [75+ML/4] Init: -10000 P: undead
@@ -377,7 +377,7 @@ eye in the darkness	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 E: spooky P:
 Fallen Archfiend	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
 Family Jewels	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 family of kobolds	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
-fan dancer	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 160-240	blowdart (0)	red silk skirt (0)	combat fan (0)
+fan dancer	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 80-120	blowdart (0)	red silk skirt (0)	combat fan (0)
 fan slime	fanslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of yellow slime (f66)
 fancy bath slug	bathslug.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 Fearsome Wacken	wacken.gif	Atk: 90 Def: 81 HP: 200 Init: 60 P: beast	Crazyleg's razor (100)
@@ -400,7 +400,7 @@ Flaming Samurai	samurai.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: du
 Flaming Troll	flametroll.gif	Atk: 83 Def: 74 HP: 73 Init: 60 Meat: 32-48 P: humanoid	flaming talons (10)	Trollhouse cookies (40)
 Flange	flange.gif	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
 fleaman	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude	black pixel (0)	brown pixel (0)	brown pixel (0)
-fleet woodsman	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 P: dude Meat: 80-120	fleetwood chain (0)	Green Manalishi (0)
+fleet woodsman	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 P: dude Meat: 60-90	fleetwood chain (0)	Green Manalishi (0)
 Flint-Scraping Cave Elf			rock (15)	stick (10)	stick (5)
 floating platter of hors d'oeuvres	horstray.gif	Atk: 110 Def: 99 HP: 120 Init: -10000 ED: spooky P: construct	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d'oeuvre tray (4)
 flock of seagulls	seagulls.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: beast
@@ -532,7 +532,7 @@ irate mariachi	mariachi2.gif	Atk: 20 Def: 18 HP: 17 Init: 50 Meat: 4-6 P: dude	b
 Irritating Series of Random Encounters	encount.gif	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 112-168 P: beast	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
 jailbait orquette	orquette1.gif	HP: 80 Def: 45 Atk: 40 Init: 30 E: sleaze P: orc	orquette's phone number (c100)
 jamfish	jamfish.gif	Atk: 400 Def: 360 HP: 750 Init: -10000 "Majorly Poisoned" P: fish	jamfish jam (n5)	jellyfish gel (c10)	seaweed (n5)	jam band (n5)
-Jefferson pilot	pilot.gif	Atk: 140 Def: 140 HP: 145 Init: 25 P: dude Meat: 140-210	one pill (0)
+Jefferson pilot	pilot.gif	Atk: 140 Def: 140 HP: 145 Init: 25 P: dude Meat: 100-150	one pill (0)	Jefferson wings (0)
 Jocko Homo	jockohomo.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
 Johnringo, the Netdragger	merkindragger2.gif	Atk: 1250 Def: 1200 HP: 1500 Init: 100 P: mer-kin
 jungle baboon	orangutan.gif	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast	banana peel (0)	glass of baboon milk (0)
@@ -602,7 +602,7 @@ Lumpy, the Sinister Sauceblob (Inner Sanctum)	4_1.gif	BOSS Atk: 27 Def: 24 HP: 3
 Lumpy, the Sinister Sauceblob (The Nemesis' Lair)	4_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: slime	Newman's Own Trousers (100)
 Lumpy, the Sinister Sauceblob (Volcanic Cave)	4_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: slime 
 lynyrd	lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast	lynyrd skin (0)
-lynyrd skinner	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 P: dude Meat: 140-210	sweet roll Alabama (0)	lynyrd snare (0)	lynyrd musk (0)
+lynyrd skinner	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 P: dude Meat: 100-150	sweet roll Alabama (0)	Saturday Night Special (0)	lynyrd snare (0)	lynyrd musk (0)
 mad bugbears	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 P: beast
 mad flagellate	prim_flag.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: bug	memory of a G (20)	memory of a T (20)
 magic dragonfish	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 160-240 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
@@ -611,6 +611,7 @@ malevolent crop circle	cropcircle.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -1
 malevolent hair clog	hairclog.gif	Atk: 95 Def: 81 HP: 85 Init: 50 ED: spooky P: horror	gob of wet hair (40)
 malevolent magnetic field	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird	bottle of gin (0)
 Mammon the Elephant	mammon.gif	BOSS Atk: 150 Def: 135 HP: 50000 Init: 150 P: beast	avarice stone (100)
+man with the red buttons	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 120-180	red box (0)	red button (0)	big red button (0)
 man-eating plant	audrey.gif	Atk: 7 Def: 8 HP: 10 Init: 50 P: plant
 mariachi bandolero	bandolero.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
 mariachi bruiser	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
@@ -653,7 +654,7 @@ mind flayer	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer co
 mine crab	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 200-300 P: fish	live nautical mine (n20)
 Mismatched Twins	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Arsonist	pengarson.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Capo	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: dude Meat: 320-480	tommy gun (0)	drum of tommy ammo (0)	drum of tommy ammo (0)
+Mob Penguin Capo	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: dude Meat: 160-240	tommy gun (0)	drum of tommy ammo (0)	drum of tommy ammo (0)
 Mob Penguin Caporegime		P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	pengdemo.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Enforcer		P: penguin	patent leather shoes (0)
@@ -780,6 +781,10 @@ rampaging adding machine	adding.gif	Atk: 80 Def: 72 HP: 70 Init: 50 P: construct
 ratbat	ratbat.gif	Atk: 25 Def: 22 HP: 22 Init: 60 Meat: 18-28 P: beast	rat appendix (15)	ratgut (15)	ratarang (p5)	sonar-in-a-biscuit (15)
 rattlin' duck	duckrattle.gif	Atk: 175 Def: 155 HP: 190 Init: 60 Meat: 131-162 E: stench P: beast	fetid feather (10)	duct tape (5)
 Raver Giant	giant_raver.gif	Atk: 140 Def: 126 HP: 150 Init: 40 Meat: 120-180 P: humanoid	Angry Farmer candy (0)	giant needle (0)	Mick's IcyVapoHotness Rub (0)	rave whistle (5)
+red butler	redbutler.gif	Atk: 150 Def: 155 HP: 160 Init: 50 P: dude Meat: 60-90	red box (0)	glark cable (0)
+Red Herring	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 P: dude Meat: 100-150	red box (0)
+red skeleton	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (0)	red blood cells (0)
+Red Snapper	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat: 100-150	red box (0)
 regular old bat	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 18-28 P: beast	bat guano (15)	batgut (15)	bat wing (15)
 remains of a jilted mistress	mistress.gif	Atk: 164 Def: 139 HP: 145 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
 Renaissance Giant	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid	giant turkey leg (0)	Ye Olde Bawdy Limerick (0)	Ye Olde Meade (0)	Ye Olde Medieval Insult (0)
@@ -792,6 +797,7 @@ rock scorpion	scorpion.gif	Atk: 139 Def: 127 HP: 145 Init: 30 Meat: 165-237 P: b
 Rock-Banging Cave Elf			rock (8)	stick (7)	stick (15)
 roller skate	rollerskate.gif	Atk: 450 Def: 360 HP: 700 Init: 30 Meat: 80-120 P: fish	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate skates (0)
 rolling stone	rollingstone.gif	Atk: 137 Def: 126 HP: 135 Init: 50 P: elemental	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
+Ron "The Weasel" Copperhead	roncopper.gif	Atk: 165 Def: 170 HP: 180 Init: 100 P: dude Meat: 180-270	Copperhead Charm (rampant) (n100)
 rotund duck	duckfat.gif	Atk: 175 Def: 157 HP: 195 Init: 40 Meat: 240-369 P: beast	duct tape (6)
 Rudolphus of Crimborg			capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 running man	runningman.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	candy necklace (c0)	glowstick on a string (c0)	pacifier necklace (c0)
@@ -863,6 +869,7 @@ smut orc nailer	smutorc_nailer.gif	Atk: 75 Def: 70 HP: 65 Init: 50 P: orc	orcish
 smut orc pervert	smutorc_pervert.gif	Atk: 85 Def: 85 HP: 75 Init: 50 E: sleaze P: orc	smut orc keepsake box (n100)	smut orc sunglasses (c0)
 smut orc pipelayer	smutorc_layer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc	orcish rubber (0)	freshwater pearl necklace (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
 smut orc screwer	smutorc_screwer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc	backwoods screwdriver (0)	screwing pooch (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
+Snakeleton	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 P: beast E: spooky	The Shield of Brook (n100)
 Snow Queen	snowqueen.gif	Atk: 107 Def: 94 HP: 70 Init: 60 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Somerset Lopez, Demon Mariachi	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	6_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	El Sombrero De Lopez (100)
@@ -950,7 +957,9 @@ The Luter	theluter.gif	Atk: 75 Def: 67 HP: 100 Init: 50 P: undead	Clancy's lute 
 The Man	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
 The Mariachi With No Name	darkmariachi.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 The Master of Thieves	masterat.gif	Atk: 70 Def: 63 HP: 70 Init: 10000 P: dude	Platinum Yendorian Express Card (100)
+The Red Fox	redfox.gif	Atk: 166 Def: 155 HP: 170 Init: 200 P: dude Meat: 160-240	red foxglove (n100)
 The Sagittarian	sagittarian.gif	Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude	The Sagittarian's leisure pants (100)
+The Snake With Like Ten Heads	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: sleaze	The Eye of the Stars (n100)
 The Temporal Bandit	timebandit.gif	Atk: 36 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
 The Terrible Pinch	thepinch.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 100 P: humanoid	lecherous stone (100)
 The Thing with No Name	thething.gif	BOSS Atk: 200 Def: 225 HP: 1000 Init: -10000 P: humanoid	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)
@@ -1010,7 +1019,7 @@ vine gar	gar.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: beast	vinegar (50)	v
 violent fungus	prim_fung.gif	Atk: 20 Def: 18 HP: 25 Init: 50 P: plant	memory of some delicious amino acids (30)	memory of some delicious amino acids (30)
 W imp	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
-waiter dressed as a ninja	waiterninja.gif	Atk: 142 Def: 142 HP: 140 Init: 25 P: dude Meat: 40-60	crappy waiter disguise (0)	shuriken salad (0)	breadchucks (0)
+waiter dressed as a ninja	waiterninja.gif	Atk: 142 Def: 142 HP: 140 Init: 25 P: dude Meat: 20-30	crappy waiter disguise (0)	shuriken salad (0)	breadchucks (0)
 War Frat 110th Infantryman	warfratc.gif	Atk: 172 Def: 154 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (10)	giant foam finger (10)	keg shield (6)
 War Frat 151st Captain	warfrata2.gif	Atk: 180 Def: 166 HP: 205 Init: 50 E: sleaze P: orc	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (4)	distressed denim pants (5)	keg shield (5)	PADL Phone (2)	perforated battle paddle (15)	red class ring (31)
 War Frat 151st Infantryman	warfrata.gif	Atk: 170 Def: 157 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (12)	distressed denim pants (9)	keg shield (5)	perforated battle paddle (10)

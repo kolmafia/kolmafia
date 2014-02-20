@@ -1768,6 +1768,7 @@ rag doll	Muscle: +3
 red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 red China marble	Hot Spell Damage: +40
 # red balloon
+# red book Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10 (currently a duplicate - bug raised)
 red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 rice bowl	Food Drop: +20
 rusty compass	Initiative: +30

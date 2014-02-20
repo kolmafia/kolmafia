@@ -2064,7 +2064,7 @@ rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
 red badge	150	Mys: 60
-red masque	0	Mys: 65
+red masque	160	Mys: 65
 red plastic baby	20	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none

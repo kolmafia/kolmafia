@@ -153,9 +153,9 @@ Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	pouti
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
 The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty pirate	swarthy pirate
 McMillicancuddy's Pond	100	figure-skating duck	frozen duck
-Post-Cyrpt Cemetary	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
+Post-Cyrpt Cemetary	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
-Pre-Cyrpt Cemetary	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie
+Pre-Cyrpt Cemetary	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
 Professor Jacking's Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
@@ -253,7 +253,7 @@ The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy 
 The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit: 0
 The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
-The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
+The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2	The Snake With Like Ten Heads: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
@@ -278,6 +278,7 @@ The Poop Deck	100	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pi
 The Primordial Soup	-1	cluster of angry bacteria	corrosive algae	hostile amoeba	mad flagellate	violent fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
+The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	The Red Fox: 0	Ron "The Weasel" Copperhead: 0
 The Road to White Citadel	70	angry raccoon puppet	business hippy	eXtreme Sports Orcs
 The Royal Guard Chamber	100	filthworm royal guard
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
