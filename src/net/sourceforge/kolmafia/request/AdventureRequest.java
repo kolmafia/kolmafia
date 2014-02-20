@@ -538,6 +538,8 @@ public class AdventureRequest
 			// still be fought due to the Fax Machine.  Due to monster copying,
 			// any of these monsters can show up in any zone, or in no zone.
 			override =
+				// The Copperhead Club
+				image.equals( "coppertender" ) ? "Copperhead Club bartender" :
 				// The Old Landfill
 				image.equals( "js_bender" ) ? "junksprite bender" :
 				image.equals( "js_melter" ) ? "junksprite melter" :
