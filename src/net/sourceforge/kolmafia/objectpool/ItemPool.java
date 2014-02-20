@@ -1984,6 +1984,7 @@ public class ItemPool
 	public static final int CRAPPY_CAMERA = 7173;
 	public static final int SHAKING_CRAPPY_CAMERA = 7176;
 	public static final int BUDDY_BJORN = 7200;
+	public static final int LYNYRD_SNARE = 7204;
 	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int SMOKE_GRENADE = 7256;
 

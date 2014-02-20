@@ -2856,6 +2856,11 @@ public class GenericRequest
 			nextAdventure = "Twin Peak";
 			break;
 
+		case ItemPool.LYNYRD_SNARE:
+			itemName = "lynyrd snare";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}

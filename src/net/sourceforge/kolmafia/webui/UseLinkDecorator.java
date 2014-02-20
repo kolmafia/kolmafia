@@ -819,6 +819,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.SHAKING_SKULL:
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
 			case ItemPool.WAX_BUGBEAR:
+			case ItemPool.LYNYRD_SNARE:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
