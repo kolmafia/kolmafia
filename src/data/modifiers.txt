@@ -3436,7 +3436,6 @@ Always In Motion	Initiative: +100
 # Amorous Avarice: Meat Drop: +X
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 Ancestral Disapproval	Mysticality Percent: +10
 Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 And Your Family, Too	Familiar Weight: -10
