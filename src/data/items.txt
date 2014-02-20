@@ -169,7 +169,7 @@
 152	Colander of Em-er'il	135642556	collander.gif	hat		0	Colander of Em-er'ils
 153	Ancient Saucehelm	225252938	saucehat.gif	hat		0	Ancient Saucehelms
 154	Disco 'Fro Pick	674402305	pick.gif	hat		0	Disco 'Fro Picks
-155	El Sombrero De Lopez	156097981	hat2.gif	hat		0	El Sombrero De Lopezs
+155	El Sombrero De Lopez	156097981	hat2.gif	hat		0	Los Sombreros De Lopezes
 156	guild application	382799349	guildapp.gif	none		0	guild applications
 157	Dramatic&trade; range	300557156	oven.gif	usable	t,d	250	Dramatic&trade; ranges
 158	Gnollish pie tin	213655637	pietin.gif	none	t,d	15	Gnollish pie tins
@@ -896,7 +896,7 @@
 879	bottle of goofballs	185274556	goofballs.gif	usable		0	bottles of goofballs
 880	disbelief suspenders	199952990	suspenders.gif	accessory	t,d	95	pairs of disbelief suspenders
 881	supportive bra	368279831	bra.gif	shirt	t,d	55	supportive bras
-882	Blatantly Canadian	381677222	clearly.gif	mp, multiple	t,d	75	bottles of Blatantly Canadian
+882	Blatantly Canadian	381677222	clearly.gif	mp, multiple	t,d	75	Blatantly Canadians
 883	maple syrup	738043392	syrup.gif	food	t,d	100	bottles of maple syrup
 884	los chinos	733635174	chinos.gif	pants	t,d	60	pairs of los chinos
 885	wooden axe	685856324	axe.gif	weapon	t,d	65	wooden axes
@@ -3002,7 +3002,7 @@
 2985	copper ha'penny charrrm bracelet	560989736	pennycb.gif	accessory, usable	t,d	140	copper ha'penny charrrm bracelets
 2986	silver tongue charrrm	125233552	tonguecharm.gif	usable	t,d	110	silver tongue charrrms
 2987	silver tongue charrrm bracelet	133863244	tonguecb.gif	accessory, usable	t,d	140	silver tongue charrrm bracelets
-2988	bit of clingfilm	531316933	clingfilm.gif	multiple	d	60	bit of clingfilms
+2988	bit of clingfilm	531316933	clingfilm.gif	multiple	d	60	bits of clingfilm
 2989	clingfilm trousers	469451960	clingpants.gif	pants	d	155	pairs of clingfilm trousers
 2990	clingfilm cap	694192113	clinghat.gif	hat	d	155	clingfilm caps
 2991	clingfilm slippers	341276647	clingslippers.gif	accessory	d	155	clingfilm slipperss
@@ -4980,7 +4980,7 @@
 4963	solid state loom	816829820	interocitor.gif	familiar	t,d	75
 4964	Evilometer	402664251	evilometer.gif	reusable	q	0
 4965	Sorcerers of the Shore Grimoire	991520082	book3.gif	usable	t	0
-4966	Pack of Alice's Army Cards	814202201	aapack.gif	usable	t	0
+4966	Pack of Alice's Army Cards	814202201	aapack.gif	usable	t	0	Packs of Alice's Army Cards
 4967	Alice's Army Swordsman	842989556	aacard.gif	card	t,d	5	Alice's Army Swordsmen
 4968	Alice's Army Spearsman	115802013	aacard.gif	card	t,d	5	Alice's Army Spearsmen
 4969	Alice's Army Halberder	816871582	aacard.gif	card	t,d	5
@@ -5001,7 +5001,7 @@
 4984	Alice's Army Sniper	509113065	aacard.gif	card	t,d	15
 4985	Alice's Army Dervish	312591672	aacard.gif	card	t,d	15
 4986	Alice's Army Martyr	760613762	aacard.gif	card	t,d	15
-4987	Pack of Alice's Army Foil Cards	440406862	aapack.gif	usable	t	0
+4987	Pack of Alice's Army Foil Cards	440406862	aapack.gif	usable	t	0	Packs of Alice's Army Foil Cards
 4988	Alice's Army Foil Swordsman	976392363	aacard.gif	card	t,d	1000	Alice's Army Foil Swordsmen
 4989	Alice's Army Foil Spearsman	947180375	aacard.gif	card	t,d	1000	Alice's Army Foil Spearsmen
 4990	Alice's Army Foil Halberder	282212126	aacard.gif	card	t,d	1000
@@ -5690,7 +5690,7 @@
 5673	beery blood	558783586	juice.gif	drink	t	0
 5674	stuffed &quot;L&quot;	619356758	stuffedl.gif	none		0
 5675	watered-down Red Minotaur	762938251	redmin.gif	multiple	t,d	1	cans of watered-down Red Minotaur
-5676	pool torpedo	340353804	pooltorpedo.gif	none, combat	t,d	1
+5676	pool torpedo	340353804	pooltorpedo.gif	none, combat	t,d	1	pool torpedoes
 5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t,d	1	pairs of Ze&trade; goggles
 5678	soggy used band-aid	737657801	soggybandaid.gif	none, combat	t	0
 5679	stylish swimsuit	129136271	speedo.gif	pants	t,d	1
@@ -6428,7 +6428,7 @@
 6411	KoLHS Pep Squad Box	956862893	crate.gif	grow	t	0
 6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
-6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50
+6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50	clutches of dodecapede eggs
 6415	flavorless gruel	352861418	soupbowl.gif	food	t,d	40	bowls of flavorless gruel
 6416	mana curds	869235275	mueslix.gif	food	t,d	45	handfuls of mana curds
 6417	twist of lime	126733688	wiretwist.gif	none	t,d	25
@@ -6436,7 +6436,7 @@
 6419	giant giant moth dust	115337305	powder.gif	usable	t,d	42	piles of giant giant moth dust
 6420	glob of spoiled mayo	732163485	blankoutglob.gif	usable	t,d	37	globs of spoiled mayo
 6421	tonic djinn	944827285	djinnbottle.gif	usable	t,d	77
-6422	vampire chowder	749554356	soupbowl.gif	food	t,d	35
+6422	vampire chowder	749554356	soupbowl.gif	food	t,d	35	bowls of vampire chowder
 6423	Tales of Dread	885005203	book3.gif	reusable		0	copies of Tales of Dread
 6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0	Dreadsylvanian skeleton keys
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
@@ -6867,7 +6867,7 @@
 6850	sturdy cane	183101962	cane.gif	offhand	t,d	40
 6851	huge bowl of candy	614007421	candybowl.gif	usable	t	0
 6852	Ultra Mega Sour Ball	637571586	plasticball.gif	usable	t	0
-6853	carton of rotten eggs	407091480	eggcarton.gif	none, combat	t,d	10
+6853	carton of rotten eggs	407091480	eggcarton.gif	none, combat	t,d	10	cartons of rotten eggs
 6854	desert sightseeing pamphlet	653528614	pamphlet.gif	usable	q	0
 6855	a suspicious address	755826043	document.gif	reusable		0
 6856	Bal-musette accordion	831125179	acc3.gif	weapon	t,d	10
@@ -7216,17 +7216,17 @@
 7199	blowdart	759187918	blowknife.gif	none, combat	t,d	15
 7200	Buddy Bjorn	697608546	buddybjorn.gif	container	t	0
 7201
-7202	sweet roll Alabama	898366256	sweetroll.gif	food	t,d	25
+7202	sweet roll Alabama	898366256	sweetroll.gif	food	t,d	25	sweet rolls Alabama
 7203	Saturday Night Special	483778054	snspecial.gif	weapon	t,d	65
 7204	lynyrd snare	657650786	snare.gif	usable	t,d	18
 7205	fleetwood chain	402329792	fchain.gif	weapon	t,d	25
 7206	Green Manalishi	801345677	rocks.gif	drink	t,d	32
 7207	black blade	439938643	blackknife.gif	weapon	t,d	55
-7208	fire of unknown origin	561023094	firebottle.gif	none, combat	t,d	27
-7209	eagle's milk	576019881	milk.gif	food	t,d	11
+7208	fire of unknown origin	561023094	firebottle.gif	none, combat	t,d	27	fires of unknown origin
+7209	eagle's milk	576019881	milk.gif	food	t,d	11	glasses of eagle's milk
 7210	eagle feather	271002141	bigfeather.gif	usable	t,d	50
-7211	one pill	611180086	pill.gif	usable	t,d	30
-7212	Jefferson wings	582549414	jwings.gif	accessory	t,d	80
+7211	one pill	611180086	pill.gif	usable	t,d	30	some pills
+7212	Jefferson wings	582549414	jwings.gif	accessory	t,d	80	pairs of Jefferson wings
 7213
 7214	cheesy eagle sauce	889167026	soupbowl.gif	none	t,d	15
 7215
@@ -7237,14 +7237,14 @@
 7220
 7221	priceless diamond	200196154	baconstone.gif	none	t,d	500
 7222	Flamin' Whatshisname	411038614	rocks_f.gif	drink	t,d	38
-7223	lynyrd musk	321556530	lynyrdmusk.gif	multiple	t,d	22
+7223	lynyrd musk	321556530	lynyrdmusk.gif	multiple	t,d	22	cans of lynyrd musk
 7224	Kashmir sweater	348236587	redsweater.gif	shirt	t,d	120
 7225	custard pie	928282828	klpie.gif	food	t,d	47
-7226	tea for one	925327673	coffeecup.gif	food	t,d	36
-7227	bottle of Evermore	871251381	wine2.gif	drink	t,d	75
+7226	tea for one	925327673	coffeecup.gif	food	t,d	36	cups of tea for one
+7227	bottle of Evermore	871251381	wine2.gif	drink	t,d	75	bottles of Evermore
 7228	red box	383471423	keepsakebox.gif	multiple	t,d	50
-7229	red red wine	929469529	wine.gif	drink	t,d	20
-7230	red rum	396027824	bottle.gif	drink	t,d	30
+7229	red red wine	929469529	wine.gif	drink	t,d	20	bottles of red red wine
+7230	red rum	396027824	bottle.gif	drink	t,d	30	bottles of red rum
 7231
 7232	red velvet cake	514936643	blackcake.gif	food	t,d	20
 7233	red letter	643254878	redletter.gif	multiple	t,d	15
@@ -7258,7 +7258,7 @@
 7241	red shoe	486558302	redshoe.gif	accessory	t,d	20
 7242	big red button	725568970	bigredbutton.gif	none, combat	t,d	55
 7243	red button	531357424	redbutton.gif	none, combat	t,d	5	red buttons
-7244	red blood cells	656804734	redcells.gif	multiple	t,d	27
+7244	red blood cells	656804734	redcells.gif	multiple	t,d	27	globs of red blood cells
 7245	red eye	157179064	bigredeye.gif	usable	t,d	36
 7246	glark cable	841152773	glarkcable.gif	none, combat	t,d	20
 7247
