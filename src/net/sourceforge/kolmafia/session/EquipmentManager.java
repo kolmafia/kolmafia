@@ -605,6 +605,9 @@ public class EquipmentManager
 		case ItemPool.WOLF_WHISTLE:
 			KoLCharacter.addAvailableSkill( "Blow Wolf Whistle" );
 			break;
+		case ItemPool.TOMMY_GUN:
+			KoLCharacter.addAvailableSkill( "Unload Tommy Gun" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
