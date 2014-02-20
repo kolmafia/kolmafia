@@ -72,6 +72,7 @@ Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
 Cobb's Knob Laboratory	SEMIRARE	You Can Top Our Desserts, But You Can't Beat Our Meats
 Cobb's Knob Menagerie, Level 2	SEMIRARE	Rokay, Raggy!
 Cobb's Knob Treasury	SEMIRARE	Knob Goblin Embezzler
+The Copperhead Club	SEMIRARE	Where There's Smoke...
 Elf Alley	SEMIRARE	What a Tosser
 Exposure Esplanade	SEMIRARE	Cold Comfort
 Frat House	SEMIRARE	Sand in the Vaseline
