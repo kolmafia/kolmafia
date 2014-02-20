@@ -282,6 +282,11 @@ public class MonsterDatabase
 		{
 			int left = name.lastIndexOf( " (" );
 
+			if ( left == -1 )
+			{
+				return null;
+			}
+
 			countString = name.substring( left + 2, name.length() - 1 );
 
 			if ( !Character.isDigit( countString.charAt( 0 ) ) )

@@ -16,6 +16,7 @@ handful of meatberries	handfuls of meatberries	easy	cran.gif	7	anglerbush	The Ha
 important bat file	important bat files	easy	documents.gif	6	briefcase bat	Guano Junction
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
+suspicious mole	suspicious moles	easy	peyote.gif	13	Portly Abomination	Cobb's Knob Menagerie, Level 3
 triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 
 # Hard

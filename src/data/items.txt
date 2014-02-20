@@ -6856,7 +6856,7 @@
 6839	little red jam	347947486	redjamjar.gif	usable, candy	t,d	25
 6840	Whenchamacallit bar	812046783	whenbar.gif	usable, candy	t,d	25
 6841	8-bit banana	603852187	8bitbanana.gif	usable, candy	t,d	25
-6842	vial of blood simple syrup	976862806	bloodvial.gif	usable, candy	t,d	25
+6842	vial of blood simple syrup	976862806	bloodvial.gif	multiple, candy	t,d	25
 6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25
 6844	ironic mint	800270383	ironmint.gif	usable, candy	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
@@ -7195,12 +7195,12 @@
 7178	Copperhead Charm	274926226	scharm2.gif	none	q	0
 7179	The First Pizza	402359444	pizza.gif	none	q	0
 7180
-7181
+7181	The Eye of the Stars	888859456	stareye.gif	none	q	0
 7182	The Stankara Stone	236487266	stankara.gif	none	q	0
 7183	Murphy's Rancid Black Flag	773096068	blackflag.gif	none	q	0
-7184
+7184	The Shield of Brook	525514874	brookshield.gif	none	q	0
 7185	Red Zeppelin ticket	712218782	zepticket.gif	none	q	0
-7186
+7186	Copperhead Charm (rampant)	826581243	scharm.gif	none	q	0
 7187	unnamed cocktail	309414010	unnamedcock.gif	drink	t,d	36
 7188	handful of tips	119341267	tips.gif	multiple	t,d	5	handfuls of tips
 7189	unrequired jacket	404157987	smjacket.gif	shirt	t,d	75

@@ -171,6 +171,7 @@ spooky staff	COMBINE	spooky shrunken head	spooky stick
 
 snakehead charrrm	SUSE	gaudy key
 Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
+Talisman o' Nam	ACOMBINE	Copperhead Charm	Copperhead Charm (rampant)
 
 boxing glove on a spring	COMBINE	spring	boxing glove
 grass whistle	COMBINE	leaf of grass	leaf of grass
@@ -954,6 +955,7 @@ catskin cap	ASMITH	basic meat helmet	leathery cat skin
 clown wig	SMITH	basic meat helmet	clown skin
 demon-horned hat	SMITH	basic meat helmet	demon skin
 eelskin hat	ASMITH	basic meat helmet	eel skin
+lynyrdskin cap	ASMITH	helmet recipe	lynyrd skin
 nasty rat mask	ASMITH	basic meat helmet	leathery rat skin
 sea cowboy hat	ASMITH	helmet recipe	sea leather
 sponge helmet	ASMITH	basic meat helmet	slab of sponge
@@ -967,6 +969,7 @@ demonskin trousers	SMITH	demon skin	pants kit
 eelskin pants	ASMITH	eel skin	pants kit
 furry pants	ASMITH	furry fur	pants kit
 hippopotamus pants	ASMITH	hippopotamus skin	pants kit
+lynyrdskin breeches	ASMITH	pants kit	lynyrd skin
 penguin shorts	ASMITH	penguin skin	pants kit
 pink pinkslip slip	ASMITH	Mer-kin pinkslip	Mer-kin pinkslip
 square sponge pants	ASMITH	slab of sponge	basic meat pants
@@ -1013,6 +1016,7 @@ hippo skin buckler	ASMITH	buckler buckle	hippopotamus skin
 penguin skin buckler	ASMITH	buckler buckle	penguin skin
 yakskin buckler	ASMITH	buckler buckle	yak skin
 
+
 # Advanced Shields
 
 meat shield	ASMITH	buckler buckle	dense meat stack
@@ -1022,6 +1026,7 @@ spiky turtle shield	ASMITH	meat shield	hedgeturtle
 spongy shield	ASMITH	meat shield	slab of sponge
 tortoboggan shield	ASMITH	tortoboggan	tortoboggan
 
+
 # Shirts made of hides of various sorts.
 
 barskin cloak	ASMITH	shirt kit	bar skin
@@ -1030,6 +1035,7 @@ clownskin harness	ASMITH	shirt kit	clown skin
 demonskin jacket	ASMITH	shirt kit	demon skin
 gnauga hide vest	ASMITH	shirt kit	gnauga hide
 hipposkin poncho	ASMITH	shirt kit	hippopotamus skin
+lynyrdskin tunic	ASMITH	shirt kit	lynyrd skin
 tuxedo shirt	ASMITH	shirt kit	penguin skin
 white snakeskin duster	ASMITH	shirt kit	white snake skin
 yak anorak	ASMITH	shirt kit	yak skin
@@ -1050,6 +1056,7 @@ spiky turtle shoulderpads	ASMITH	hedgeturtle	hedgeturtle
 
 eXtreme nose ring	COMBINE	stone of eXtreme power	piercing post
 spooky glove	COOK	spooky fairy gravy	small leather glove
+
 
 # Things made of ores from the Anemone Mine
 
@@ -1074,11 +1081,13 @@ vinyl boots	ASMITH	waterlogged bootstraps	vinyl ore
 
 rusty staff	ASMITH	rusty compass	rusty piece of rebar
 
+
 # Time Trappings, smithable by anyone.
 
 time helmet	SMITH	petrified time	helmet recipe
 time trousers	SMITH	petrified time	pants kit
 time sword	SMITH	petrified time	sword hilt
+
 
 # Clothing of Loathing
 Belt of Loathing	SMITH	Girdle of Hatred	Novelty Belt Buckle of Violence
