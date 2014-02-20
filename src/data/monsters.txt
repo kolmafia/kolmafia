@@ -188,7 +188,7 @@ black widow	blackwidow.gif	Atk: 132 Def: 110 HP: 121 Init: 50 Meat: 40-60 "Reall
 Black-and-White-Ops Penguin	pengblackop.gif	Init: -10000 P: penguin	Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
 blackberry bush	blackbush.gif	Atk: 126 Def: 114 HP: 136 Init: 30 P: plant	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	white pixel (80)	white pixel (70)	white pixel (60)
-Blue Oyster cultist	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 P: dude Meat: 80-120	fire of unknown origin (0)	black blade (0)
+Blue Oyster cultist	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 P: dude Meat: 80-120	fire of unknown origin (0)	black blade (0)	cigarette lighter (0)
 blur	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 98-143 P: dude	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
 boaraffe	boaraffe.gif	Atk: 145 Def: 130 HP: 145 Init: 50 Meat: 80-120 P: beast	long pork (30)
 Bob Racecar	bobrace.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 96-138 P: dude	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)	folder (D-Team) (c0)

@@ -7234,7 +7234,7 @@
 7217	lynyrdskin cap	404954983	lynyrdhat.gif	hat	t,d	100
 7218	lynyrdskin tunic	797941411	lynyrdtunic.gif	shirt	t,d	100
 7219	lynyrdskin breeches	573732885	lynyrdpants.gif	pants	t,d	100
-7220
+7220	cigarette lighter	581675011	bic.gif	none, combat	t,d	40
 7221	priceless diamond	200196154	baconstone.gif	none	t,d	500
 7222	Flamin' Whatshisname	411038614	rocks_f.gif	drink	t,d	38
 7223	lynyrd musk	321556530	lynyrdmusk.gif	multiple	t,d	22	cans of lynyrd musk
