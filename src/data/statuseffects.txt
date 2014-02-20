@@ -1555,7 +1555,7 @@
 1554	Pompadour	petepadour.gif	a1d6cd8bd17acbe235f3a9b679871d15
 1555	Cowlick	cowlick.gif	6345c69dfd1bcd34dc51c4b92a842aa0
 1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f
-1557
+1557	Bored With Explosions	explode.gif	4f7a830edacc2436623b313a571f7b68
 1558	Ashen	hotrags.gif	41fd29242e96444eff26393c15b4c16a	use 1 pile of ashes
 1559	Extra-Thick Blood	redcells.gif	7043b17651302228b34b952f000245f0	use 1 red blood cells
 1560	Seeing Red	bigredeye.gif	6fe7958c7893ac4a315469d4915b573b	use 1 red eye

@@ -3560,6 +3560,7 @@ Boon of She-Who-Was	Weapon Damage: +20
 # Boon of the War Snapper: Your melee attacks restore some HP
 Bootyliciousness	Item Drop: +10
 Bored Stiff	Spooky Damage: +100
+# Bored With Explosions: You're just over them
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50 Damage vs. Zombies
