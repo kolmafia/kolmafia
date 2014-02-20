@@ -1402,6 +1402,8 @@ gnocchetti di Nietzsche	PASTA	Himalayan Hidalgo sauce	dry noodles
 sauce of the ages	SAUCE	scrumptious reagent	Knob sausage
 spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
+cheesy eagle sauce	SAUCE	scrumptious reagent	eagle's milk
+
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.
 

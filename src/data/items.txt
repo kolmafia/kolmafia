@@ -7228,7 +7228,7 @@
 7211	one pill	611180086	pill.gif	usable	t,d	30
 7212	Jefferson wings	582549414	jwings.gif	accessory	t,d	80
 7213
-7214
+7214	cheesy eagle sauce	889167026	soupbowl.gif	none	t,d	15
 7215
 7216	lynyrd skin	301793399	lynyrdskin.gif	none	t,d	20
 7217	lynyrdskin cap	404954983	lynyrdhat.gif	hat	t,d	100
