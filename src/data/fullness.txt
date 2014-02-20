@@ -614,7 +614,7 @@ t8r tots	1	1	crappy	1-2	0	0	0
 taco dan's taco stand taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
-tea for one	1	5	good	0	0	0	0	One For Tea (+10-15 MP Regen)
+tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)
 tempura avocado	1	5	EPIC	5-7	0	0	50
 tempura avocado bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	45-65	80 Fishy
 tempura avocado bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy
