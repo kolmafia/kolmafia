@@ -195,7 +195,7 @@ flaming knob	2	8	awesome	8-9	0	0	30-40	15 Gutterminded (+50 Sleaze Dam)
 flaming mohobo	2	8	awesome	8-9	15-20	15-20	15-20	15 Mo' Hobo (+10 Hobo power)
 flaming mushroom wine	3	6	awesome	10-14	12-15	0	0
 flaming sazerorc	2	8	awesome	8-9	30-40	0	0	15 Orc Chops (+50 Muscle)
-flamin' whatshisname	2	6	good	0	0	0	0
+flamin' whatshisname	2	6	good	5-7	20-25	10-15	0	-10-20 HP
 flask of amontillado	4	4	awesome	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 flute of flat champagne	2	2	decent	2-6	0	15	0
