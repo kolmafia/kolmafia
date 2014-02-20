@@ -263,6 +263,7 @@ lemon party hat	Candy Drop: +50, Lasts until Rollover
 lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
+lynyrdskin cap	Initiative: +25
 maiden wig	Familiar Effect: "2xPotato, cap 8"
 # makeshift turban: Interferes with your vision
 makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
@@ -539,6 +540,7 @@ leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 liar's pants	Moxie: +5, Muscle: +5, Mysticality: +5, Hot Damage: +10, Softcore Only, Familiar Effect: "hot atk, cold atk, cap 25"
 los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, cap 13"
+lynyrdskin breeches	Initiative: +25
 makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
 manly bloomers	Muscle: +6, Moxie: -3, Familiar Effect: "3xBarrr, 1xGhuol, cap 13"
 mariachi pants	Familiar Effect: "8xPotato, cap 2"
@@ -642,6 +644,7 @@ Grateful Undead T-shirt	Item Drop: +5
 Grimacite gown	Monster Level: [10*G]
 Grimacite guayabera	Monster Level: [10*G]
 Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
+Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Kiss the Knob apron	Maximum MP: +5
 Knob Goblin elite shirt	Muscle: +3
 Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
@@ -688,6 +691,7 @@ junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
 lemon shirt	Candy Drop: +50, Lasts until Rollover
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
+lynyrdskin tunic	Initiative: +25
 metal band T-shirt	Monster Level: +15
 midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
 origami pasties	Meat Drop: +30, Softcore Only
@@ -836,6 +840,7 @@ Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
 Red Rover BB gun	Critical Hit Percent: +3
 Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # Ruby Rod
+Saturday Night Special	Hot Resistance: +2
 # Saucepanic: Lets you gather more Soulsauce
 Saucepanic	Experience (Mysticality): +2, Smithsness: +5, Mysticality Percent: [2*K], Class: "Sauceror"
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
@@ -1296,6 +1301,7 @@ ram-battering staff	Hot Spell Damage: +10, Moxie: +5
 ratarang	Ranged Damage: +7, Moxie: +3
 rattail whip	Moxie: +5, Monster Level: +5
 rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
+red hot poker	Hot Damage: +15
 regret hose	Cold Damage: +10
 # remorseless knife: Successful hit causes bleeding.
 repeating crossbow	Moxie: +2, Critical Hit Percent: +15
@@ -1759,6 +1765,7 @@ polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1,
 pottery shield	Hot Damage: +5, Damage Reduction: 3
 pretty bouquet	Moxie: +3
 rag doll	Muscle: +3
+red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 red China marble	Hot Spell Damage: +40
 # red balloon
 red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
@@ -1967,6 +1974,7 @@ Iiti Kitty phone charm	Spooky Damage: +15, Single Equip
 Iron Beta of Industry	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, Single Equip
 # Item #13
 Jarlsberg's earring	Mysticality: +10
+Jefferson wings	Sleaze Damage: +20
 Jekyllin hide belt	Muscle: [9-M], Mysticality: [9-M], Moxie: [9-M], Item Drop: [15+5*M], Softcore Only
 Jolly Roger charrrm bracelet	Moxie: +5
 # Juju Mojo Mask: Big Mojo
@@ -2358,6 +2366,7 @@ rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: 
 rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
 red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
+red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
 red-hot medallion	Hot Damage: +30, Single Equip
@@ -2768,6 +2777,7 @@ Grim Brothers' story book	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
 # Li'l Businessman Kit: Lets your familiar make deals
 Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
+Little Red Book	Familiar Weight: +5
 # Loathing Legion helicopter: Familiar will act more often
 Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
 Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only, Generic
@@ -2775,7 +2785,6 @@ Meat detector	Familiar Weight: +5
 # MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks
 Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Pretty Predator Clawicure Kit	Familiar Weight: +5
-Red Book	Familiar Weight: +5
 S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
 # Snow Suit: Lets Your Familiar Do Various Tricks
 Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore Only, Generic
@@ -3426,6 +3435,7 @@ Always In Motion	Initiative: +100
 # Amorous Avarice: Meat Drop: +X
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 Ancestral Disapproval	Mysticality Percent: +10
 Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 And Your Family, Too	Familiar Weight: -10
@@ -3803,6 +3813,7 @@ Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: 
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 Dweeby	Mysticality: +15
+Eagle Eyes	Item Drop: +20
 # Earthen Fist: +10 damage to Fist techniques
 # Earthen Fist: Allows you to punch rocks without hurting yourself
 # Earworm: Get them out! Get them out!
@@ -4310,6 +4321,7 @@ On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
+One For Tea	MP Regen Min: 10, MP Regen Max: 15
 One Very Clear Eye	Item Drop: +100
 Ooh, Bitter!	Spooky Damage: +5
 Ooh, Salty!	Cold Damage: +5
@@ -4483,6 +4495,8 @@ Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2
 Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Seeing Colors	Mysticality Percent: +50
+# Seeing Red: Monsters will always hit you
+Seeing Red	Weapon Damage: +25, Weapon Damage Percent: +100
 Serenity	Moxie Percent: +15
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Sewer-Drenched	Stench Damage: +100
@@ -4728,6 +4742,7 @@ The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
 The Champion's Breakfast	Initiative: [min(60,2*T)]
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
+The Dark Lord Rides in Force Tonight	Spooky Damage: +40
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 The Glistening	Initiative: +20, Damage Reduction: 5
@@ -5497,6 +5512,7 @@ bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
 bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
+bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
 bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
 bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
@@ -5620,6 +5636,7 @@ double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
 drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
 dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
+eagle feather	Effect: "Eagle Eyes", Effect Duration: 20
 ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
@@ -5929,6 +5946,7 @@ recording of Prelude of Precision	Effect: "Prelude of Precision", Effect Duratio
 recording of Rolando's Rondo of Resisto	Effect: "Rolando's Rondo of Resisto", Effect Duration: 20
 recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thingfinder", Effect Duration: 20
 red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
+red eye	Effect: "Seeing Red", Effect Duration: 20
 red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 red letter	Effect: "Red Lettered", Effect Duration: 20
 red potion	Effect: "Healthy Red Glow", Effect Duration: 20
@@ -6024,6 +6042,7 @@ sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
+tea for one	Effect: "One For Tea", Effect Duration: 40
 teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
