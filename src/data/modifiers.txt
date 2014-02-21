@@ -4413,6 +4413,7 @@ Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
+Punchy, Murdery	Weapon Damage Percent: +50
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Purple Reign	Mysticality: [ceil(min(T,50)/2)], Mysticality Experience: [ceil(min(T,50)/10)]
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
@@ -5397,6 +5398,7 @@ Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 Moping Artistic Goth Kid	Free Pull
 Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
 Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
+Murderer's Punch	Effect: "Punchy, Murdery", Effect Duration: 40
 My Own Pen Pal kit	Free Pull
 Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
 Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30

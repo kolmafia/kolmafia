@@ -7245,7 +7245,7 @@
 7228	red box	383471423	keepsakebox.gif	multiple	t,d	50
 7229	red red wine	929469529	wine.gif	drink	t,d	20	bottles of red red wine
 7230	red rum	396027824	bottle.gif	drink	t,d	30	bottles of red rum
-7231
+7231	Murderer's Punch	502742318	chamfluteu.gif	drink	t,d	35	glasses of Murderer's Punch
 7232	red velvet cake	514936643	blackcake.gif	food	t,d	20
 7233	red letter	643254878	redletter.gif	multiple	t,d	15
 7234	red book	478361408	book4.gif	offhand	t,d	25

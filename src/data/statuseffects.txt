@@ -1541,7 +1541,7 @@
 1540	Musky	stench.gif	faca8778bf8bda40e122a68e4dfa334b	use 1 lynyrd musk
 1541	One For Tea	coffeecup.gif	c843df026dcac1c38beea90f2a2385e7	eat 1 tea for one
 1542	The Dark Lord Rides in Force Tonight	skull.gif	2d5d6f72ccf5ddea76563cb4d4defda9	drink 1 bottle of Evermore
-1543
+1543	Punchy, Murdery	chamfluteu.gif	1504d874c798baf947ead969d957a2b8	drink 1 Murderer's Punch
 1544	Red Lettered	redletter.gif	356ddc655212d08ff92c46d83dd74ca3	use 1 red letter
 1545	Unmuffled	puff.gif	90d30cad0848f0bba514ee10a314f46e	cast 1 Rev Engine
 1546	Muffled	puff.gif	503a12c351437b8222fbf21d503d7660	cast 1 Rev Engine
