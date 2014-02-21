@@ -369,6 +369,7 @@ public class UneffectRequest
 		case EffectPool.EVERYTHING_LOOKS_RED_ID:
 		case EffectPool.DEEP_TAINTED_MIND_ID:
 		case EffectPool.SPIRIT_PARIAH_ID:
+		case EffectPool.BORED_WITH_EXPLOSIONS:
 			return false;
 		default:
 			return true;

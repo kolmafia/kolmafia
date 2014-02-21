@@ -131,7 +131,8 @@ public class EffectPool
 		VAMPIN( "Vampin'", 939 ),
 		YIFFABLE_YOU( "Yiffable You", 940 ),
 		BONE_US_ROUND( "The Bone Us Round", 941 ),
-		OVERCONFIDENT( "Overconfident", 1011 );
+		OVERCONFIDENT( "Overconfident", 1011 ),
+		BORED_WITH_EXPLOSIONS( "Bored With Explosions", 1557 );
 
 		private final String name;
 		private final int id;
@@ -222,6 +223,7 @@ public class EffectPool
 	public static final int SOULERSKATES = 1465;
 	public static final int UNMUFFLED = 1545;
 	public static final int MUFFLED = 1546;
+	public static final int BORED_WITH_EXPLOSIONS = 1557;
 
 	public static final AdventureResult get( final String effectName )
 	{

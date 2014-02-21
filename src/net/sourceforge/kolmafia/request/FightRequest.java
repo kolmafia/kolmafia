@@ -1304,6 +1304,17 @@ public class FightRequest
 				return;
 			}
 		}
+		if ( skillName.equals( "Walk Away From Explosion" ) )
+		{
+			// You can't walk away from explosions whilst bored of them
+
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.BORED_WITH_EXPLOSIONS ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		else if ( skillName.equals( "Nuclear Breath" ) )
 		{
 			// You can only use this skill if you have the Taste the Inferno effect
@@ -2461,6 +2472,10 @@ public class FightRequest
 				Preferences.increment( "_pantsgivingBanish" );
 				BanishManager.banishMonster( monster, "pantsgiving" );
 			}
+			break;
+
+		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
+			BanishManager.banishMonster( monster, "walk away from explosion" );
 			break;
 
 		case SkillPool.POCKET_CRUMBS:

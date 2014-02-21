@@ -232,5 +232,6 @@ public class SkillPool
 	public static final int REV_ENGINE = 15011;
 	public static final int PEEL_OUT = 15015;
 	public static final int JUMP_SHARK = 15024;
+	public static final int WALK_AWAY_FROM_EXPLOSION = 15030;
 	public static final int INCITE_RIOT = 15031;
 }
