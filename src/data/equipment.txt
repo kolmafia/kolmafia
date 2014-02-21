@@ -1787,6 +1787,7 @@ Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
 Red Balloon of Valor	200	Mys: 85
+Red Fox glove	200	Mys: 50
 Ring of Fire	150	Mys: 60
 Ring of the Sewer Snake	150	Mys: 60
 Saccharine Maple pendant	75	Mys: 22

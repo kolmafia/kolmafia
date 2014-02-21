@@ -7261,7 +7261,7 @@
 7244	red blood cells	656804734	redcells.gif	multiple	t,d	27	globs of red blood cells
 7245	red eye	157179064	bigredeye.gif	usable	t,d	36
 7246	glark cable	841152773	glarkcable.gif	none, combat	t,d	20
-7247
+7247	Red Fox glove	259188676	redglove.gif	accessory	t,d	1000
 7248	red foxglove	485617110	foxglove.gif	multiple	t,d	75
 7249	Thwaitgold dragonfly statuette	435678216	thwaitdragon.gif	none		0
 7250

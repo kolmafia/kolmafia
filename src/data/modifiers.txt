@@ -2054,6 +2054,8 @@ Radio KoL Keychain	Muscle: +15
 Radio KoL Maracas	Item Drop: +15
 Radio KoL Patch	Moxie: +15
 Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
+# Red Fox glove: Regular Attacks Can't Miss
+Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip
 Ring of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +40, Single Equip
 Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
 Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
