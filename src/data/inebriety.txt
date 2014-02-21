@@ -303,6 +303,7 @@ morto moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
 mt. noob pale ale	2	1	good	3-6	0	0	0
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop)
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
+murderer's punch	3	6	good	8-10	10-20	0	0	40 Punchy, Murdery (+50% Weapon Damage)
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
 nachojito	3	1	good	8-10	0	0	30-40
