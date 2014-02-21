@@ -648,7 +648,7 @@ user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
-user	oilPeakProgress	310.66 
+user	oilPeakProgress	310.66
 user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
