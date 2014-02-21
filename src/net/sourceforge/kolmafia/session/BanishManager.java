@@ -118,6 +118,7 @@ public class BanishManager
 		new Banisher( "smoke grenade", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "banishing shout", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "howl of the alpha", -1, 3, false, Reset.AVATAR_RESET ),
+		new Banisher( "walk away from explosion", 30, 1, false, Reset.TURN_RESET ),
 		new Banisher( "classy monkey", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET ),
 		new Banisher( "dirty stinkbomb",-1, 1, true, Reset.ROLLOVER_RESET ),
