@@ -247,6 +247,7 @@ fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
 flavorless gruel	4	4	good	9-11	90-110	0	0	
+fleetwood mac 'n' cheese	6	8	awesome	0	0	0	0
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
 foie gras	1	2	decent	1-3	0	0	0	1 Beaten Up
 forbidden danish	1	4	awesome	3-5	0	45-75	0	30 Danish Cunning (+25% pickpocket)
