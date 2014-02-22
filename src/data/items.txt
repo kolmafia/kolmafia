@@ -7259,7 +7259,7 @@
 7242	big red button	725568970	bigredbutton.gif	none, combat	t,d	55
 7243	red button	531357424	redbutton.gif	none, combat	t,d	5	red buttons
 7244	red blood cells	656804734	redcells.gif	multiple	t,d	27	globs of red blood cells
-7245	red eye	157179064	bigredeye.gif	usable	t,d	36
+7245	red eye	157179064	bigredeye.gif	multiple	t,d	36
 7246	glark cable	841152773	glarkcable.gif	none, combat	t,d	20
 7247	Red Fox glove	259188676	redglove.gif	accessory	t,d	1000
 7248	red foxglove	485617110	foxglove.gif	multiple	t,d	75
