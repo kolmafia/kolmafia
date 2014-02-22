@@ -142,7 +142,7 @@ public class GameproManager
 		}
 		else if ( responseText.contains( "elemental alignment is totally neutral, so" ) )
 		{
-			bossPower = "Elemental Reistance";
+			bossPower = "Elemental Resistance";
 		}
 		else if ( responseText.contains( "spiky armor will do damage to you if you try to hit him i" ) )
 		{
