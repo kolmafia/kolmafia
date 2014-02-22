@@ -485,7 +485,7 @@ grave rober zmobie	zomshovel.gif	Atk: 58 Def: 53 HP: 50 Init: 50 E: spooky Meat:
 greasy duck	duckgreasy.gif	Atk: 173 Def: 162 HP: 185 Init: 70 Meat: 132-170 E: sleaze P: beast	flirtatious feather (10)	duct tape (5)
 Green Ops Soldier	warhipgr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: stench "Toad In The Hole" P: hippy	communications windchimes (3)	gas balloon (17)	gas balloon (3)	green clay bead (30)	green smoke bomb (6)	green smoke bomb (3)	henna face paint (8)	round green sunglasses (5)
 gritty pirate	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	true grit (30)	keel-haulin' knife (0)
-Groar	wingedyeti.gif	Atk: 120 Def: 108 HP: 250 Init: 50 E: cold P: beast
+Groar	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
 groovy pirate	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	buoybottoms (10)
 group of cultists	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 P: dude	memory of a cultist's robe (0)
 grouper groupie	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish	groupie bra (0)	groupie lipstick (0)	groupie spangles (c0)
