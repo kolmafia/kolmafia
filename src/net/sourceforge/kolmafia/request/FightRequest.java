@@ -1977,22 +1977,22 @@ public class FightRequest
 			}
 			// Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
 			else if ( encounter.equalsIgnoreCase( "conjoined zmombie" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
-			{			
+			{
 				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
 			}
 			else if ( encounter.equalsIgnoreCase( "huge ghoul" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
-			{			
+			{
 				Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptCrannyEvilness", 25 );
 			}
 			else if ( encounter.equalsIgnoreCase( "gargantulihc" ) && Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
-			{			
+			{
 				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptNicheEvilness", 25 );
 			}
 			else if ( encounter.equalsIgnoreCase( "giant skeelton" ) && Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
-			{			
+			{
 				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
 				Preferences.setInteger( "cyrptNookEvilness", 25 );
 			}
@@ -2486,7 +2486,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.FIX_JUKEBOX:
-			if ( responseText.contains( "The audience roars their approval" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "broken jukebox" ) || FightRequest.haiku || FightRequest.anapest )
 			{
 				Preferences.increment( "_peteJukeboxFixed" );
 			}
