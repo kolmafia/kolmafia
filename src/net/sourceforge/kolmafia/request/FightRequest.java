@@ -2486,10 +2486,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.FIX_JUKEBOX:
-			if ( responseText.contains( "broken jukebox" ) || FightRequest.haiku || FightRequest.anapest )
-			{
-				Preferences.increment( "_peteJukeboxFixed" );
-			}
+			Preferences.increment( "_peteJukeboxFixed" );
 			break;
 
 		case SkillPool.PEEL_OUT:
