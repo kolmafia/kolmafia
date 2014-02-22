@@ -51,7 +51,7 @@ bottle of calcutta emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of definit	3	2	decent	4-8	0	0	0
 bottle of domesticated turkey	3	2	decent	4-8	0	0	0
-bottle of evermore	3	5	decent	0	0	0	0	The Dark Lord Rides in Force Tonight (+40 Spooky Damage)
+bottle of evermore	3	5	decent	5-7	10-20	0	10-20	The Dark Lord Rides in Force Tonight (+40 Spooky Damage)
 bottle of fruity &quot;wine&quot;	2	5	good	4-5	2-5	2-5	2-5	KOLHS
 bottle of gin	3	1	crappy	3	0	0	0
 bottle of greedy dog	3	11	EPIC	18-20	40-60	40-60	40-60
@@ -227,7 +227,7 @@ green burlap	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Fullness 80 Gummibrain (+100 Myst)
 green eggnog	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 green giant	2	8	awesome	8-9	0	30-40	0	15 World's Shortest Giant (+2 Prismatic Res)
-green manalishi	3	4	good	0	0	0	0	20 The Two-Prong Crown (+30 Sleaze Damage)
+green manalishi	3	4	good	6-8	0	5-15	10-20	20 The Two-Prong Crown (+30 Sleaze Damage)
 green muslin	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 green velvet	2	1	good	4-5	5-10	5-10	5-10	Restores MP
 grimacider	3	5		3-6	0	0	0
@@ -433,7 +433,7 @@ tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 transylvania sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 typical tavern swill	3	1	decent	5-6	1-2	1-2	1-2
-unnamed cocktail	2	4	decent	0	0	0	0
+unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 uovo marcio shiraz	1	10	EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	1 PvP Fight
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
