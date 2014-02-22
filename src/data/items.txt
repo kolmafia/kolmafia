@@ -7227,9 +7227,9 @@
 7210	eagle feather	271002141	bigfeather.gif	usable	t,d	50
 7211	one pill	611180086	pill.gif	usable	t,d	30	some pills
 7212	Jefferson wings	582549414	jwings.gif	accessory	t,d	80	pairs of Jefferson wings
-7213
+7213	fleetwood macaroni	784835979	macaroni.gif	none	t,d	15	fleetwood macaroni noodles
 7214	cheesy eagle sauce	889167026	soupbowl.gif	none	t,d	15
-7215
+7215	fleetwood mac 'n' cheese	437041061	jarl_kraut.gif	food	t,d	66	bowls of fleetwood mac 'n' cheese
 7216	lynyrd skin	301793399	lynyrdskin.gif	none	t,d	20
 7217	lynyrdskin cap	404954983	lynyrdhat.gif	hat	t,d	100
 7218	lynyrdskin tunic	797941411	lynyrdtunic.gif	shirt	t,d	100

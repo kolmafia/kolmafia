@@ -438,3 +438,4 @@ hare pin	nosmash
 
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112
+fleetwood chain	fleetwood macaroni
