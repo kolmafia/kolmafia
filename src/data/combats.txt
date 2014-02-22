@@ -140,6 +140,7 @@ Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragge
 Mer-kin Elementary School	-1	Mer-kin monitor	Mer-kin punisher	Mer-kin teacher
 Mer-kin Gymnasium	-1	Mer-kin juicer	Mer-kin poseur	Mer-kin trainer
 Mer-kin Library	-1	Mer-kin alphabetizer	Mer-kin drifter	Mer-kin researcher
+Mist-Shrouded Peak	100	panicking Knott Yeti	Groar
 Morgue	-1	bugbear mortician	bugaboo
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
