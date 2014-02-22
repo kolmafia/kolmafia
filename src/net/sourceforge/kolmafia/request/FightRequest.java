@@ -2493,10 +2493,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.PEEL_OUT:
-			if ( responseText.contains( "peel out" ) || FightRequest.haiku || FightRequest.anapest )
-			{
-				Preferences.increment( "_petePeeledOut" );
-			}
+			Preferences.increment( "_petePeeledOut" );
 			break;
 
 		case SkillPool.JUMP_SHARK:
