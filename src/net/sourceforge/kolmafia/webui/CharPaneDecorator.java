@@ -464,8 +464,7 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.GIBBERER:
-			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
-				- Preferences.getInteger( "_hareAdv" ) ) );
+			buffer.append( Preferences.getString( "_gibbererAdv" ) );
 			buffer.append( " adv" );
 			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_gibbererCharge" ) );
@@ -473,8 +472,7 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.HARE:
-			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
-				-Preferences.getInteger( "_gibbererAdv" ) ) );
+			buffer.append( Preferences.getString( "_hareAdv" ) );
 			buffer.append( " adv" );
 			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_hareCharge" ) );
