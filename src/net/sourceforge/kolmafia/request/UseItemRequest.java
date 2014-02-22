@@ -4064,6 +4064,7 @@ public class UseItemRequest
 			else if ( responseText.indexOf( "dip into your future" ) != -1 )
 			{
 				KoLCharacter.updateStatus();
+				Preferences.increment( "extraRolloverAdventures", -20 );
 			}
 			return;
 
