@@ -763,7 +763,7 @@ pygmy assault squad	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 100-1
 pygmy blowgunner	pyg_blowgunner.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 80-120 P: dude	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)	pygmy dart (c10)
 pygmy bowler	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 P: dude Meat: 100-150	bowling ball (40)	imitation White Russian (25)	tiny bowler (5)
 pygmy headhunter	pyg_headhunter.gif	Atk: 146 Def: 138 HP: 150 Init: 30 E: sleaze Meat: 143-207 P: dude	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)	pygmy papers (c20)
-pygmy janitor	pyg_janitor	Atk: 142 Def: 150 HP: 155 Init: 10 P: dude Meat: 60-90	all-purpose cleaner (10)	book of matches (25)	jungle floor wax (25)	short-handled mop (10)
+pygmy janitor	pyg_janitor	Atk: 142 Def: 150 HP: 155 Init: 10 P: dude Meat: 60-90	all-purpose cleaner (10)	book of matches (20)	jungle floor wax (25)	short-handled mop (10)
 pygmy orderlies	pyg_orderlies	Atk: 152 Def: 142 HP: 158 Init: 20 P: dude Meat: 160-240	compression stocking (15)	midriff scrubs (5)	pill cup (25)
 pygmy shaman	pyg_shaman	Atk: 148 Def: 140 HP: 150 Init: 40 P: dude Meat: 100-150	colorful toad (20)	crude voodoo doll (5)	smirking shrunken head (15)
 pygmy witch accountant	pyg_acct	Atk: 150 Def: 138 HP: 148 Init: 50 P: dude Meat: 120-180	adder (20)	bone abacus (5)	short calculator (5)	McClusky file (page 1) (c100)	McClusky file (page 2) (c100)	McClusky file (page 3) (c100)	McClusky file (page 4) (c100)	McClusky file (page 5) (c100)
