@@ -614,7 +614,7 @@ public class KoLAdventure
 		{
 			String trapper = Preferences.getString( Quest.TRAPPER.getPref() );
 			this.isValidAdventure = trapper.equals( "step3" ) || trapper.equals( "step4" );
-			if ( Preferences.getString( "peteMotorbikeTires" ) == "Snow Tires" )
+			if ( Preferences.getString( "peteMotorbikeTires" ).equals( "Snow Tires" ) )
 			{
 				this.isValidAdventure = true;
 				return;
