@@ -236,7 +236,8 @@ public class NPCStoreDatabase
 			{
 				if ( !( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
 					InventoryManager.hasItem( ItemPool.SKIFF ) ||
-					InventoryManager.hasItem( ItemPool.JUNK_JUNK ) ) ||
+					InventoryManager.hasItem( ItemPool.JUNK_JUNK ) ||
+					Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ) ||
 					!EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
 				{
 					return false;
