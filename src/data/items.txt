@@ -6195,7 +6195,7 @@
 6178	cosmic vegetable	584585546	cosmic_veg.gif	none	q	0
 6179	cosmic cheese	199988586	cosmic_cheese.gif	none	q	0
 6180	cosmic potted meat product	925760507	cosmic_meat.gif	none	q	0
-6181	cosmic potato	354674167	cosmic_potato.gif	none	q	0
+6181	cosmic potato	354674167	cosmic_potato.gif	none	q	0	cosmic potatoes
 6182	cosmic cream	599950440	cosmic_cream.gif	none	q	0
 6183	cosmic fruit	134418895	cosmic_fruit.gif	none	q	0
 6184	Jarlsberg's hat	272618509	jarlhat.gif	hat	q	0
