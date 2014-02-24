@@ -84,12 +84,12 @@ can of adultwitch&trade;	2	4	decent	2-4	0	0	0	20 Greasy Visage (+50 Sleaze Spell
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 can of sardines	1	4	awesome	3-4	20-25	0	0
 can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
-candied pecan	1	1	decent	0	0	0	0
+candied pecan	1	1	decent	2	5-10	0	0
 candied yams	3	5	awesome	7-14	0	72-75	0
 candy cane	1	4	good	1-5	10-20	10-20	10-20
 candy cane pizza	4	1		6-11	0	0	0	10 Sugar Rush
 candy cane surprise	3	5		3-6	0	0	0
-candy carrot	1	3	good	0	0	0	0
+candy carrot	1	3	good	3	1-2	1-2	1-2
 candy carrot cake	4	8	awesome	0	0	0	0
 candy kneecapping stick	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 candy mountain oyster	1	3	decent	2	4-8	4-8	4-8	10 Sugar Rush
@@ -247,7 +247,7 @@ fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
 flavorless gruel	4	4	good	9-11	90-110	0	0	
-fleetwood mac 'n' cheese	6	8	awesome	0	0	0	0
+fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
 foie gras	1	2	decent	1-3	0	0	0	1 Beaten Up
 forbidden danish	1	4	awesome	3-5	0	45-75	0	30 Danish Cunning (+25% pickpocket)

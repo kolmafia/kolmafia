@@ -3002,6 +3002,27 @@ public abstract class ChoiceManager
 				       "can get priceless diamond",
 				       "can make Flamin' Whatshisname",
 				       "get 4-5 random items" } ),
+		// Choice 856 is This Looks Like a Good Bush for an Ambush
+		new ChoiceAdventure(
+			"The Red Zeppelin's Mooring", "choiceAdventure856", "This Looks Like a Good Bush for an Ambush",
+			new Object[] { "scare protestors (more with lynyrd gear)",
+				       "skip adventure" } ),
+		// Choice 857 is Bench Warrant
+		new ChoiceAdventure(
+			"The Red Zeppelin's Mooring", "choiceAdventure857", "Bench Warrant",
+			new Object[] { "creep protestors (more with sleaze damage/sleaze spell damage)",
+				       "skip adventure" } ),
+		// Choice 858 is Fire Up Above
+		new ChoiceAdventure(
+			"The Red Zeppelin's Mooring", "choiceAdventure858", "Fire Up Above",
+			new Object[] { "set fire to protestors (more with Flamin' Whatshisname)",
+				       "skip adventure" } ),
+		// Choice 866 is Methinks the Protesters Doth Protest Too Little
+		new ChoiceAdventure(
+			"The Red Zeppelin's Mooring", "choiceAdventure866", "Methinks the Protesters Doth Protest Too Little",
+			new Object[] { "scare protestors (more with lynyrd gear)",
+				       "creep protestors (more with sleaze damage/sleaze spell damage)",
+				       "set fire to protestors (more with Flamin' Whatshisname)" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
