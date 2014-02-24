@@ -9995,6 +9995,7 @@ public abstract class ChoiceManager
 		case 844: // The Portal to Horrible Parents
 		case 845: // Rumpelstiltskin's Workshop
 		case 859: // Upping your grade
+		case 867: // Sneaky Peterskills
 		case 871: // inspecting Motorbike
 			return true;
 
