@@ -5310,9 +5310,9 @@ public class UseItemRequest
 
 		case ItemPool.BLACK_MARKET_MAP: {
 
-			// As an Avatar of Boris or Jarlsberg, you can't use a blackbird,
+			// In some paths, you can't use a blackbird,
 			// but you must have the hatchling in your inventory.
-			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 			{
 				if ( !InventoryManager.retrieveItem( ItemPool.REASSEMBLED_BLACKBIRD ) )
 				{
