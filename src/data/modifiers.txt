@@ -1602,7 +1602,7 @@ Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Rege
 Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
 adhesive tape dolly	Moxie: +5
 ancient calendar	Adventures: +3, Damage Reduction: 4
-ancient hot dog wrapper	HP Regen Min: 30, HP Regen Max: 40, MP Regen Min: 30, MP Regen Max: 40
+ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
 ancient stone head	Damage Reduction: 5
 # anniversary balloon
