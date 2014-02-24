@@ -3482,6 +3482,16 @@ public abstract class KoLCharacter
 		       Preferences.getString( "questG01Meatcar" ).equals( "finished" );
 	}
 
+	public static final boolean mysteriousIslandAccessible()
+	{
+		// Last is a kludgy fix til we find out if this should be an unlock preference
+		return InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
+		       InventoryManager.hasItem( ItemPool.SKIFF ) ||
+		       InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
+		       Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
+			   KoLCharacter.kingLiberated();
+	}
+
 	/**
 	 * Accessor method to set the list of available skills.
 	 *
