@@ -7184,7 +7184,7 @@
 7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
 7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
 7169	large tankard of ale	602918186	tankard.gif	drink	t,d	9	large tankards of ale
-7170	scroll case	857398089	scrollcase.gif	usable	t,d	21
+7170	scroll case	857398089	scrollcase.gif	multiple	t,d	21
 7171	jug of &quot;wine&quot;	781777602	jug.gif	multiple	t,d	18	jugs, heh heh of &quot;wine&quot;
 7172	juggling ball	854077113	stressball.gif	multiple	t,d	22
 7173	crappy camera	693235331	camera.gif	none, combat	t,d	25

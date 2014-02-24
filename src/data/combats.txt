@@ -46,7 +46,7 @@ A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle o
 A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Brulee Torch of Fury	Spatula of Despair	Whisk of Misery
 A Massive Ziggurat	-1	dense liana	Protector Spectre: 0
 A Maze of Sewer Tunnels	95	C. H. U. M.	giant zombie goldfish	sewer gator	C. H. U. M. chieftain: 0
-A Mob of Zeppelin Protesters	-1	Blue Oyster cultist	eagle	fleet woodsman	Jefferson pilot	lynyrd skinner
+A Mob of Zeppelin Protesters	80	Blue Oyster cultist	eagle	fleet woodsman	Jefferson pilot	lynyrd skinner
 A Pile of Old Servers	100	antique database server
 A Scorching Abyssal Portal	100	scout seal
 A Skeleton Invasion!	100	skeleton invader	two skeleton invaders	three skeleton invaders	four skeleton invaders	five skeleton invaders
