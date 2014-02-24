@@ -701,10 +701,7 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "Island" ) )
 		{
-			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
-							InventoryManager.hasItem( ItemPool.SKIFF ) ||
-							InventoryManager.hasItem( ItemPool.JUNK_JUNK ) ||
-							Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" );
+			this.isValidAdventure = KoLCharacter.mysteriousIslandAccessible();
 			if ( this.isValidAdventure )
 			{
 				return;

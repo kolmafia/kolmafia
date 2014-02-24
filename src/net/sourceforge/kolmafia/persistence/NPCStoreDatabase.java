@@ -234,10 +234,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
-					InventoryManager.hasItem( ItemPool.SKIFF ) ||
-					InventoryManager.hasItem( ItemPool.JUNK_JUNK ) ||
-					Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ) ||
+				if ( !KoLCharacter.mysteriousIslandAccessible() ||
 					!EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
 				{
 					return false;
