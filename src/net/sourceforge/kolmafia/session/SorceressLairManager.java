@@ -1687,8 +1687,10 @@ public abstract class SorceressLairManager
 
 		if ( n == 3 )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			SorceressLairManager.familiarBattle( 3 );
-
+			SpecialOutfit.restoreImplicitCheckpoint();
+			
 			if ( KoLmafia.permitsContinue() )
 			{
 				++n;
@@ -1701,7 +1703,9 @@ public abstract class SorceressLairManager
 
 		if ( n == 4 )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			SorceressLairManager.familiarBattle( 4 );
+			SpecialOutfit.restoreImplicitCheckpoint();
 
 			if ( KoLmafia.permitsContinue() )
 			{
