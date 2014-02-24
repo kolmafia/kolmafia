@@ -97,6 +97,7 @@ The Briny Deeps	SEMIRARE	Deeps Impact
 The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
 The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
 The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
+The Copperhead Club	SEMIRARE	Where There's Smoke...
 The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
 The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
 The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure

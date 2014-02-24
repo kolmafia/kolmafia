@@ -237,9 +237,12 @@ public abstract class EncounterManager
 		// around and see <monster> that looks suspiciously like the
 		// ones you shot with a love arrow earlier.
 
+		// Some semirares can also be clover adventures, if a clover disappears it isn't a semi-rare
+		
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
-		     !EncounterManager.isRomanticEncounter( responseText ) )
+		     !EncounterManager.isRomanticEncounter( responseText ) &&
+			 !responseText.contains( "clover disappears" ) )
 		{
 			KoLCharacter.registerSemirare();
 			return;
