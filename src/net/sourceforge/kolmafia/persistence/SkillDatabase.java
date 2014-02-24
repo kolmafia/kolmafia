@@ -754,6 +754,9 @@ public class SkillDatabase
 
 			case SkillPool.REV_ENGINE:
 				return Math.max( Math.abs( KoLCharacter.getAudience() ), 5 );
+
+			case SkillPool.BIKER_SWAGGER:
+				return Math.max( Math.abs( KoLCharacter.getAudience() ), 10 );
 			}
 
 			return actualDuration;
