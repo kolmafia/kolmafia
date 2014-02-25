@@ -199,7 +199,7 @@ dreadsylvanian spooky pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear
 dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going (+500 Dreadsylvania Item Drop)
 dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
-eagle's milk	2	2	decent	0	0	0	0
+eagle's milk	2	2	decent	4	0	0	0
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
 electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
@@ -419,7 +419,7 @@ mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
 mugcake	1	1	crappy	1	0	0	0
-mulberry	1	5	good	0	0	0	0
+mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
 mushroom pizza	3	2	good	3-10	0	15-18	0
 nachos of the night	2	1	decent	2-4	0	0	0	20 Night of the Nachos (+50 Spooky Spell Damage, +100% Spell Damage)
