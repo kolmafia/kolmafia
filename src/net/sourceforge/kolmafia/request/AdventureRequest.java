@@ -409,6 +409,7 @@ public class AdventureRequest
 			int choice = ChoiceManager.extractChoice( responseText );
 			encounter = parseChoiceEncounter( urlString, choice, responseText );
 			type = choiceType( choice );
+			ChoiceManager.registerDeferredChoice( choice, encounter );
 		}
 		else
 		{
