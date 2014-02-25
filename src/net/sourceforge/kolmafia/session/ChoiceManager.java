@@ -10017,6 +10017,7 @@ public abstract class ChoiceManager
 		case 845: // Rumpelstiltskin's Workshop
 		case 859: // Upping your grade
 		case 867: // Sneaky Peterskills
+		case 870: // Hair Today
 		case 871: // inspecting Motorbike
 			return true;
 
