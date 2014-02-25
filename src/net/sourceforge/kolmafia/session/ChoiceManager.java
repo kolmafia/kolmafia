@@ -9805,8 +9805,8 @@ public abstract class ChoiceManager
 
 		if ( urlString.equals( "choice.php" ) )
 		{
-			// Continuing after a multi-fight
-			RequestLogger.registerLastLocation();
+			// Continuing after a multi-fight.
+			// Handle those when the real choice comes up.
 			return true;
 		}
 
@@ -9869,6 +9869,27 @@ public abstract class ChoiceManager
 		RequestLogger.updateSessionLog( urlString );
 
 		return true;
+	}
+
+	public static final void registerDeferredChoice( final int choice, final String encounter )
+	{
+		// If we couldn't find an encounter, do nothing
+		if ( encounter == null )
+		{
+			return;
+		}
+
+		switch ( choice )
+		{
+		case 620:	// A Blow Is Struck!
+		case 621:	// Hold the Line!
+		case 622:	// The Moment of Truth
+		case 634:	// Goodbye Fnord
+			// These all arise out of a multifight, rather than by
+			// visiting a location.
+			RequestLogger.registerLastLocation();
+			break;
+		}
 	}
 
 	public static final String findChoiceDecisionIndex( final String text, final String responseText )
