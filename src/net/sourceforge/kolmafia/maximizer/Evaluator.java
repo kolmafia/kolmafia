@@ -1154,13 +1154,15 @@ public class Evaluator
 				}
 
 				// If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
-				if ( ( id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN ) &&
+				// unless you specified not to change them
+				if ( ( ( id == ItemPool.HATSEAT && this.slots[ EquipmentManager.CROWN_OF_THRONES ] >= 0 ) 
+					|| ( id == ItemPool.BUDDY_BJORN && this.slots[ EquipmentManager.BUDDY_BJORN ] >= 0 ) ) &&
 					!KoLCharacter.isSneakyPete() && !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
 				{
 					this.carriedFamiliarsNeeded++;
 				}
 
-				if ( id == ItemPool.CARD_SLEEVE )
+				if ( id == ItemPool.CARD_SLEEVE && this.slots[ EquipmentManager.CARD_SLEEVE ] >= 0 )
 				{
 					this.cardNeeded = true;
 				}
@@ -1252,13 +1254,31 @@ public class Evaluator
 		// Assume current ones are best if in use
 		FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
+		FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
+		FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
 		if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
 		{
-			bestCarriedFamiliar = KoLCharacter.getBjorned();
+			// If we're not allowed to change the current familiar, blacklist it
+			if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
+			{
+				useBjornFamiliar = KoLCharacter.getBjorned();
+			}
+			else
+			{
+				bestCarriedFamiliar = KoLCharacter.getBjorned();
+			}
 		}
 		if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) )
 		{
-			secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
+			// If we're not allowed to change the current familiar, add it
+			if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
+			{
+				useCrownFamiliar = KoLCharacter.getEnthroned();
+			}
+			else
+			{
+				secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
+			}
 		}
 		if ( bestCarriedFamiliar == FamiliarData.NO_FAMILIAR && !(secondBestCarriedFamiliar == FamiliarData.NO_FAMILIAR ) )
 		{
@@ -1305,7 +1325,8 @@ public class Evaluator
 			{
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
 				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() &&
-				     !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) )
+				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
+					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					spec.attachment = item;
@@ -1395,7 +1416,11 @@ public class Evaluator
 				spec.equipment[ useSlot ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
 				{
-					if ( this.carriedFamiliarsNeeded > 1 )
+					if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
+					{
+						spec.setEnthroned( useCrownFamiliar );
+					}
+					else if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						item.automaticFlag = true;
 						spec.setEnthroned( secondBestCarriedFamiliar );
@@ -1407,7 +1432,11 @@ public class Evaluator
 				}
 				else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 				{
-					if ( this.carriedFamiliarsNeeded > 1 )
+					if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
+					{
+						spec.setBjorned( useBjornFamiliar );
+					}
+					else if ( this.carriedFamiliarsNeeded > 1 )
 					{
 						item.automaticFlag = true;
 						spec.setBjorned( secondBestCarriedFamiliar );
@@ -1560,6 +1589,6 @@ public class Evaluator
 			}
 		}
 
-		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic, useCard );
+		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic, useCard, useCrownFamiliar, useBjornFamiliar );
 	}
 }

@@ -184,20 +184,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		System.arraycopy( mark, 0, this.equipment, 0, EquipmentManager.ALL_SLOTS );
 	}
 
-	public void tryAll( ArrayList familiars, ArrayList enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles, AdventureResult bestCard )
+	public void tryAll( ArrayList familiars, ArrayList enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles,
+			AdventureResult bestCard, FamiliarData useCrownFamiliar, FamiliarData useBjornFamiliar )
 		throws MaximizerInterruptedException
 	{
-		this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard );
+		this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		for ( int i = 0; i < familiars.size(); ++i )
 		{
 			this.setFamiliar( (FamiliarData) familiars.get( i ) );
 			possibles[ EquipmentManager.FAMILIAR ] =
 				possibles[ EquipmentManager.ALL_SLOTS + i ];
-			this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard );
+			this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		}
 	}
 
-	public void tryOutfits( ArrayList<FamiliarData> enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles, AdventureResult bestCard )
+	public void tryOutfits( ArrayList<FamiliarData> enthronedFamiliars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles,
+			AdventureResult bestCard, FamiliarData useCrownFamiliar, FamiliarData useBjornFamiliar )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -210,7 +212,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			{
 				if ( idx == -1 )
 				{	// all pieces successfully put on
-					this.tryFamiliarItems( enthronedFamiliars, possibles, bestCard );
+					this.tryFamiliarItems( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 					break;
 				}
 				AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
@@ -275,10 +277,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.restore( mark );
 		}
 
-		this.tryFamiliarItems( enthronedFamiliars, possibles, bestCard );
+		this.tryFamiliarItems( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 	}
 
-	public void tryFamiliarItems( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard )
+	public void tryFamiliarItems( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard,
+			FamiliarData useCrownFamiliar, FamiliarData useBjornFamiliar	)
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -308,7 +311,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				}
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.FAMILIAR ] = item;
-				this.tryContainers( enthronedFamiliars, possibles, bestCard );
+				this.tryContainers( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 				any = true;
 				this.restore( mark );
 			}
@@ -317,11 +320,12 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.equipment[ EquipmentManager.FAMILIAR ] = EquipmentRequest.UNEQUIP;
 		}
 
-		this.tryContainers( enthronedFamiliars, possibles, bestCard );
+		this.tryContainers( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		this.restore( mark );
 	}
 
-	public void tryContainers( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard )
+	public void tryContainers( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard,
+			FamiliarData useCrownFamiliar, FamiliarData useBjornFamiliar )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -341,17 +345,27 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				this.equipment[ EquipmentManager.CONTAINER ] = item;
 				if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 				{
-					for ( FamiliarData f : enthronedFamiliars )
+					if ( useBjornFamiliar != FamiliarData.NO_FAMILIAR )
 					{
-						this.setBjorned( f );
-						this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard );
+						this.setBjorned( useBjornFamiliar );
+						this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar );
 						any = true;
 						this.restore( mark );
+					}					
+					else
+					{
+						for ( FamiliarData f : enthronedFamiliars )
+						{
+							this.setBjorned( f );
+							this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar );
+							any = true;
+							this.restore( mark );
+						}
 					}
 				}
 				else
 				{
-					this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard );
+					this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar );
 					any = true;
 					this.restore( mark );
 				}
@@ -361,11 +375,12 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			this.equipment[ EquipmentManager.CONTAINER ] = EquipmentRequest.UNEQUIP;
 		}
 
-		this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard );
+		this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar );
 		this.restore( mark );
 	}
 
-	public void tryAccessories( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, int pos, AdventureResult bestCard )
+	public void tryAccessories( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, int pos, AdventureResult bestCard,
+			FamiliarData useCrownFamiliar )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -414,7 +429,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						break;	// no room left - shouldn't happen
 					}
 
-					this.tryAccessories( enthronedFamiliars, possibles, pos + 1, bestCard );
+					this.tryAccessories( enthronedFamiliars, possibles, pos + 1, bestCard, useCrownFamiliar );
 					any = true;
 				}
 				this.restore( mark );
@@ -440,11 +455,12 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		this.trySwap( EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3 );
 		this.trySwap( EquipmentManager.ACCESSORY3, EquipmentManager.ACCESSORY1 );
 
-		this.tryHats( enthronedFamiliars, possibles, bestCard );
+		this.tryHats( enthronedFamiliars, possibles, bestCard, useCrownFamiliar );
 		this.restore( mark );
 	}
 
-	public void tryHats( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard )
+	public void tryHats( ArrayList<FamiliarData> enthronedFamiliars, ArrayList[] possibles, AdventureResult bestCard,
+			FamiliarData useCrownFamiliar )
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
@@ -464,15 +480,25 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				this.equipment[ EquipmentManager.HAT ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
 				{
-					for ( FamiliarData f : enthronedFamiliars )
+					if ( useCrownFamiliar != FamiliarData.NO_FAMILIAR )
 					{
-						// Cannot use same familiar for this and Bjorn
-						if( f != this.getBjorned() )
+						this.setEnthroned( useCrownFamiliar );
+						this.tryShirts( possibles, bestCard );
+						any = true;
+						this.restore( mark );
+					}
+					else
+					{
+						for ( FamiliarData f : enthronedFamiliars )
 						{
-							this.setEnthroned( f );
-							this.tryShirts( possibles, bestCard );
-							any = true;
-							this.restore( mark );
+							// Cannot use same familiar for this and Bjorn
+							if( f != this.getBjorned() )
+							{
+								this.setEnthroned( f );
+								this.tryShirts( possibles, bestCard );
+								any = true;
+								this.restore( mark );
+							}
 						}
 					}
 				}
