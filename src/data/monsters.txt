@@ -710,7 +710,7 @@ octopus gardener	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 80-120 P:
 Octorok	octorok.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	red pixel (70)	red pixel (70)	red pixel (70)
 off-duty Knob Goblin Elite Guard	kg_offdutyguard.gif	Atk: 30 Def: 22 HP: 30 Init: 50 Meat: 40-60 P: goblin	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
 oil baron	oilbaron.gif	Atk: 85 Def: 77 HP: 60 Init: 80 E: sleaze P: slime	bubblin' crude (100)	bubblin' crude (30)
-oil cartel	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 E: sleaze P: slime	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (15)
+oil cartel	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 E: sleaze P: slime	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (10)
 oil slick	oilslick.gif	Atk: 85 Def: 77 HP: 60 Init: 50 E: sleaze P: slime	bubblin' crude (100)
 oil tycoon	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 E: sleaze P: slime	bubblin' crude (100)	bubblin' crude (10)
 Ol' Scratch	olscratch.gif	BOSS Atk: 500 Def: 450 HP: 8000 Init: 150 E: hot P: demon	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stovepipe hat (0)	Ol' Scratch's infernal pitchfork (f20)	Ol' Scratch's manacles (f20)	Ol' Scratch's stove door (f20)
