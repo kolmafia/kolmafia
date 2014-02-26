@@ -9996,6 +9996,7 @@ public abstract class ChoiceManager
 	{
 		switch ( choice )
 		{
+		case 570: // GameInformPowerDailyPro Walkthru
 		case 603: // Skeletons and The Closet
 		case 627: // ChibiBuddy&trade; (on)
 		case 633: // ChibiBuddy&trade; (off)
