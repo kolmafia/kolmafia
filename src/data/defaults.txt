@@ -487,6 +487,7 @@ user	lastChasmReset	-1
 user	lastColosseumRoundWon	0
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
+user	lastDesertUnlock	-1
 user	lastDispensaryOpen	-1
 user	lastDoorCodeReset	-1
 user	lastDustyBottle2271
@@ -536,6 +537,7 @@ user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
 user	lastHippyCall	-1
+user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0

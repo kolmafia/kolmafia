@@ -3474,24 +3474,40 @@ public abstract class KoLCharacter
 
 	public static final boolean desertBeachAccessible()
 	{
-		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1 ) ) ||
-		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
-		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
-		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
-		       Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
-		       Preferences.getString( "questG01Meatcar" ).equals( "finished" );
+		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag
+		if ( Preferences.getInteger( "lastDesertUnlock" ) != KoLCharacter.getAscensions() )
+		{
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1 ) ) ||
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
+				Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
+				Preferences.getString( "questG01Meatcar" ).equals( "finished" ) ||
+				KoLCharacter.kingLiberated() )
+			{
+				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+			}
+		}
+		return Preferences.getInteger( "lastDesertUnlock" ) == KoLCharacter.getAscensions();
 	}
 
 	public static final boolean mysteriousIslandAccessible()
 	{
-		// Last is a kludgy fix til we find out if this should be an unlock preference
-		return InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
-		       InventoryManager.hasItem( ItemPool.SKIFF ) ||
-		       InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
-		       Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
-			   KoLCharacter.kingLiberated();
+		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag
+		if ( Preferences.getInteger( "lastIslandUnlock" ) != KoLCharacter.getAscensions() )
+		{
+			if ( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
+				InventoryManager.hasItem( ItemPool.SKIFF ) ||
+				InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
+				Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
+				KoLCharacter.kingLiberated() )
+			 {
+				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
+			}
+		}
+		return Preferences.getInteger( "lastIslandUnlock" ) == KoLCharacter.getAscensions();
 	}
-
+	
 	/**
 	 * Accessor method to set the list of available skills.
 	 *

@@ -1181,6 +1181,21 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.STICKER_SWORD );
 			break;
 
+		case ItemPool.BITCHIN_MEATCAR:
+		case ItemPool.DESERT_BUS_PASS:
+		case ItemPool.PUMPKIN_CARRIAGE:
+		case ItemPool.TIN_LIZZIE:
+			// Desert beach unlocked
+			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+			break;
+
+		case ItemPool.DINGHY_DINGY:
+		case ItemPool.SKIFF:
+		case ItemPool.JUNK_JUNK:
+			// Island unlocked
+			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
+			break;
+
 		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			ResultProcessor.processItem( ItemPool.TISSUE_PAPER_IMMATERIA, -1 );
