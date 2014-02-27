@@ -949,6 +949,7 @@ The Bat in the Spats	batinspats.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P:
 The Big Wisniewski	thisdude.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
 The Colollilossus		HP: 600 Def: 400 Atk: 400 Init: 0	all-year sucker (100)
+The Frattlesnake	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: Sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
 The Fudge Wizard		HP: 400 Def: 270 Atk: 300 Init: 100	wand of fudge control (100)
 the ghost of Phil Bunion	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 P: undead E: spooky  Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
 The Landscaper	landscaper.gif	BOSS Atk: 100 Def: 90 HP: 100000 Init: -10000 EA: hot Phys: 100 P: demon	The Landscaper's leafblower (100)

@@ -7194,7 +7194,7 @@
 7177	crappy waiter disguise	484405907	briefcase.gif	usable	t,d	45
 7178	Copperhead Charm	274926226	scharm2.gif	none	q	0
 7179	The First Pizza	402359444	pizza.gif	none	q	0
-7180
+7180	The Lacrosse Stick of Lacoronado	321891418	lacrosse.gif	none	q	0
 7181	The Eye of the Stars	888859456	stareye.gif	none	q	0
 7182	The Stankara Stone	236487266	stankara.gif	none	q	0
 7183	Murphy's Rancid Black Flag	773096068	blackflag.gif	none	q	0
