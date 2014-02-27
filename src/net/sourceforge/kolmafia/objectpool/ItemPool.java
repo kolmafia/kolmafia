@@ -1983,6 +1983,12 @@ public class ItemPool
 	public static final int GLASS = 7156;
 	public static final int CRAPPY_CAMERA = 7173;
 	public static final int SHAKING_CRAPPY_CAMERA = 7176;
+	public static final int FIRST_PIZZA = 7179;
+	public static final int LACROSSE_STICK = 7180;
+	public static final int EYE_OF_THE_STARS = 7181;
+	public static final int STANKARA_STONE = 7182;
+	public static final int MURPHYS_FLAG = 7183;
+	public static final int SHIELD_OF_BROOK = 7184;
 	public static final int TOMMY_GUN = 7190;
 	public static final int TOMMY_AMMO = 7191;
 	public static final int BUDDY_BJORN = 7200;
