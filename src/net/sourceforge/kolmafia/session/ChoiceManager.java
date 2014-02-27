@@ -8171,6 +8171,14 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeGasTank", matcher.group( 1 ).trim() );
+				if ( Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) )
+				{
+					Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+				}
+				else if ( Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) )
+				{
+					Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
+				}
 			}
 			matcher = ChoiceManager.MOTORBIKE_HEADLIGHT_PATTERN.matcher( ChoiceManager.lastResponseText );
 			if ( matcher.find() )
