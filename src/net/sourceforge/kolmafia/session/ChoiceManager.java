@@ -7642,10 +7642,12 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setString( "peteMotorbikeGasTank", "Large Capacity Tank" );
+				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
 				Preferences.setString( "peteMotorbikeGasTank", "Extra-Buoyant Tank" );
+				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			}
 			else if ( ChoiceManager.lastDecision == 3 )
 			{
