@@ -6834,6 +6834,22 @@ public abstract class ChoiceManager
 				BanishManager.removeBanishByBanisher( "ice house" );
 			}
 			break;
+
+		case 852:
+			// Shen Copperhead, Jerk
+		case 853:
+			// Shen Copperhead, Huge Jerk
+		case 854:
+			// Shen Copperhead, World's Biggest Jerk
+
+			// You will have exactly one of these items to ger rid of
+			ResultProcessor.removeItem( ItemPool.FIRST_PIZZA );
+			ResultProcessor.removeItem( ItemPool.LACROSSE_STICK );
+			ResultProcessor.removeItem( ItemPool.EYE_OF_THE_STARS );
+			ResultProcessor.removeItem( ItemPool.STANKARA_STONE );
+			ResultProcessor.removeItem( ItemPool.MURPHYS_FLAG );
+			ResultProcessor.removeItem( ItemPool.SHIELD_OF_BROOK );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
