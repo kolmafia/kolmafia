@@ -1494,9 +1494,9 @@
 1493	Eyes for Miles	eyes.gif	889ae743a4d0cc14105c135476fa0a66	use 1 warbear liquid lasers
 1494	New and Improved	light.gif	d09b7ced217029dae850045f1d238d94	use 1 warbear rejuvenation potion
 1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	use 1 recording of Rolando's Rondo of Resisto
-1496	Soles of Glass	glassslipper.gif	1b0f0ec668f5f70c96c4f55de8c61fff
-1497	Angry like the Wolf	wolfmask.gif	a8f0f79de690532da8d2e80d12b2b83e
-1498	Grumpy and Ornery	angry.gif	a7d08fbe7e345a227857cd9135b788a7
+1496	Soles of Glass	glassslipper.gif	1b0f0ec668f5f70c96c4f55de8c61fff	grim init
+1497	Angry like the Wolf	wolfmask.gif	a8f0f79de690532da8d2e80d12b2b83e	grim hpmp
+1498	Grumpy and Ornery	angry.gif	a7d08fbe7e345a227857cd9135b788a7	grim damage
 1499	Frosty	frostflower.gif	96acd407d01178a54bda490e1c1561e2	use 1 frost flower
 1500	Snow Shoes	snowcleats.gif	54fb4f652159642ad0f30620af017189	use 1 snow cleats
 1501	Ice Packed	snowflake.gif	b89596dab94f72256f21840f3a1f4f7b	use 1 liquid ice pack
