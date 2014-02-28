@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -632,6 +633,26 @@ public class Maximizer
 					else if ( pants == null || ( pants.getItemId() != ItemPool.GREAT_PANTS ) )
 					{
 						text = "(equip Greatest American Pants for " + name + ")";
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "grim" ) )
+				{
+					FamiliarData fam = KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER );
+					if ( fam == null )
+					{
+						if ( includeAll )
+						{
+							text = "(get a Grim Brother familiar for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getBoolean( "_grimBuff" ) )
+					{
 						cmd = "";
 					}
 				}
