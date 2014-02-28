@@ -275,7 +275,7 @@ lumineux limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP)
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
 mad train wine	3	1	crappy	3-4	0	0	0
 mae west	4	6	awesome	14-18	0	0	40-47
-magnum of fancy champagne	6	6	awesome	0	0	0	0
+magnum of fancy champagne	6	6	awesome	22-26	10-20	10-20	10-20	20-40 MP
 maiali sifilitici pinot noir	1	10	EPIC	6-10	60	60	60
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
