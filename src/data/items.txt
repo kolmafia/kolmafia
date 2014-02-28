@@ -6782,7 +6782,7 @@
 6765	bottle of Lambada Lambic	244327537	fancybrew.gif	drink	t,d	50
 6766	fancy tin beer can	916795901	fancycan.gif	multiple	t,d	30
 6767	artisanal homebrew gift package	773404966	crate.gif	none, curse		0
-6768
+6768	liquid bread	421778621	juice.gif	food	t,d	15
 6769	tin tam	577448815	tintam.gif	hat	t,d	40
 6770	tin cup	136358059	tincup1.gif	multiple	t,d	5
 6771	tin foil	262979335	tinfoil.gif	weapon	t,d	80
@@ -7276,3 +7276,8 @@
 7259	crate of firebombs	267354751	crate.gif	multiple	t,d	50	crates of firebombs
 7260	firebomb	431636703	molotov.gif	none, combat	t,d	5	firebombs
 7261	Sneaky Pete's basket	209188345	basket.gif	weapon	q	0
+7262
+7263
+7264
+7265
+7266	disposable instant camera	598914765	camera.gif	none, combat	t,d	28
