@@ -709,7 +709,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure84", "Haunted Bedroom",
 			new Object[] { "small meat boost", "mysticality substats",
-				       new Option( "Lord Spookyraven's spectacles", "Lord Spookyraven's spectacles" ) } ),
+				       new Option( "Lord Spookyraven's spectacles", "Lord Spookyraven's spectacles" ),
+				       new Option( "disposable instant camera", "disposable instant camera" ) } ),
 
 		// One NightStand (simple wooden)
 		new ChoiceAdventure(
