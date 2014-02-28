@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -2491,9 +2492,9 @@ public class DailyDeedsPanel
 	{
 		public RunawaysDaily()
 		{
-//			this.addItem( ItemPool.NAVEL_RING );
 			this.addListener( "_banderRunaways" );
 			this.addListener( "_navelRunaways" );
+			this.addListener( "_petePeeledOut" );
 			this.addLabel( "" );
 		}
 
@@ -2510,21 +2511,83 @@ public class DailyDeedsPanel
 			boolean nr = InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.NAVEL_RING );
 			boolean pp = InventoryManager.getCount( ItemPool.PEPPERMINT_PARASOL ) > 0;
+			boolean pl = KoLCharacter.hasSkill( SkillPool.PEEL_OUT );
 			boolean big = KoLCharacter.inBigcore();
-			this.setShown( !big && ( hba || hbo || gp || nr || pp ) );
+			boolean shown = !big && ( hba || hbo || gp || nr || pp || pl );
+			this.setShown( shown );
+			if ( !shown ) return;
+			boolean needComma = false;
 			String text = "Runaways: ";
-			if( hba && !hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
-			if( hba && hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
-			if( hbo && !hba ) text = text + Preferences.getInteger( "_banderRunaways" ) + " stomping boots" ;
-			if( ( hba || hbo ) && ( run || gp || nr || pp ) ) text = text + ", ";
-			if( run && !nr && !gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
-			if( nr && !gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
-			if( nr && !gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel+parasol";
-			if( nr && gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
-			if( nr && gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel+parasol";
-			if( !nr && gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap pants";
-			if( !nr && gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+parasol";
-			if( !nr && !gp && pp  ) text = text + Preferences.getInteger( "_navelRunaways" ) + " peppermint parasol";
+			if( hba && !hbo )
+			{
+				text += Preferences.getInteger( "_banderRunaways" ) + " bandersnatch";
+				needComma = true;
+			}
+			if( hba && hbo )
+			{
+				text += Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
+				needComma = true;
+			}
+			if( hbo && !hba )
+			{
+				text += Preferences.getInteger( "_banderRunaways" ) + " stomping boots" ;
+				needComma = true;
+			}
+			if( needComma && ( run || gp || nr || pp ) ) 
+			{
+				text += ", ";
+				needComma = false;
+			}
+			if( run && !nr && !gp && !pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " navel ring";
+				needComma = true;
+			}
+			if( nr && !gp && !pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " navel ring";
+				needComma = true;
+			}
+			if( nr && !gp && pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " navel+parasol";
+				needComma = true;
+			}
+			if( nr && gp && !pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
+				needComma = true;
+			}
+			if( nr && gp && pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " gap+navel+parasol";
+				needComma = true;
+			}
+			if( !nr && gp && !pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " gap pants";
+				needComma = true;
+			}
+			if( !nr && gp && pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " gap+parasol";
+				needComma = true;
+			}
+			if( !nr && !gp && pp )
+			{
+				text += Preferences.getInteger( "_navelRunaways" ) + " peppermint parasol";
+				needComma = true;
+			}
+			if ( needComma && pl )
+			{
+				text += ", ";
+				needComma = false;
+			}
+			if ( pl )
+			{
+				text += Preferences.getInteger( "_petePeeledOut" ) + " peelouts";
+				needComma = true;
+			}
 			this.setText( text );
 		}
 	}
