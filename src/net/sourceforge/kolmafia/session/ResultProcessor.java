@@ -1466,7 +1466,8 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SNAKEHEAD_CHARM:
-			if ( result.getCount( KoLConstants.inventory ) >= 2 )
+			if ( result.getCount( KoLConstants.inventory ) >= 2 &&
+				InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
 			{
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
