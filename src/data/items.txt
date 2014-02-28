@@ -7129,7 +7129,7 @@
 7112	chocotini	828828825	martini.gif	drink	t,d	45
 7113	chocolate rabbit's foot	939609317	chocofoot.gif	accessory	t,d	42	chocolate rabbits' feet
 7114	candy carrot	757744387	chococarrot.gif	food, fancy	t,d	3
-7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33
+7115	candy carrot cake	967713964	carrotcake.gif	food	t,d	33	pieces of candy carrot cake
 7116	carrot-on-a-stick	828213996	carrotstick.gif	weapon	t,d	60	carrots-on-sticks
 7117	weasel stomping pants	761082636	weaselpants.gif	pants	t,d	37	pairs of weasel stomping pants
 7118	mulberry	367312771	mulberry.gif	food	t,d	12	traveling mulberries
@@ -7144,7 +7144,7 @@
 7127	chocolate cow bone	503627122	chocobone.gif	weapon	t,d	44
 7128	gummi fang	812782963	gummifang.gif	usable	t,d	17
 7129	leftover canap&eacute;s	479093989	canapes.gif	food	t,d	8
-7130	magnum of fancy champagne	250150954	champagne.gif	drink	t,d	66
+7130	magnum of fancy champagne	250150954	champagne.gif	drink	t,d	66	magnums of fancy champagne
 7131	silver cow creamer	113497586	cowcreamer.gif	offhand		0
 7132	Outer Wolf&trade; cologne	888903284	wolfcologne.gif	multiple	t,d	135
 7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0

@@ -72,7 +72,7 @@ bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
-breakfast miracle	2	6	EPIC	0	0	0	0
+breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
 brimstone chicken sandwich	3	1	decent	4-6	-15-20	0	15-20
 brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
 brussels sprout stir-fry	3	1	decent	4	0	0	0	10 Healthy, Elfy, and Wise (8-10 HP Regen)
@@ -90,7 +90,7 @@ candy cane	1	4	good	1-5	10-20	10-20	10-20
 candy cane pizza	4	1		6-11	0	0	0	10 Sugar Rush
 candy cane surprise	3	5		3-6	0	0	0
 candy carrot	1	3	good	3	1-2	1-2	1-2
-candy carrot cake	4	8	awesome	0	0	0	0
+candy carrot cake	4	8	awesome	15-17	10-20	10-20	10-20
 candy kneecapping stick	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 candy mountain oyster	1	3	decent	2	4-8	4-8	4-8	10 Sugar Rush
 candy stake	1	4	good	1-5	10-20	10-20	10-20
@@ -501,7 +501,7 @@ rat scrapple	2	2	decent	2-7	0	0	10-12
 ravioli della hippy	3	3	good	4-12	0	19-23	0
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart (+100 Muscle)
 red herring velvet cake	5	1		14-19	0	0	0
-red velvet cake	2	4	decent	4-5	0	10-30	0	10-20 HP
+red velvet cake	2	4	decent	3-5	0	10-30	0	10-20 HP
 retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
 roasted duck	2	4	decent	3-4	0	7-12	0
