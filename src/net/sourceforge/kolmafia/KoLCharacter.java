@@ -88,7 +88,6 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.StillRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -1158,21 +1157,29 @@ public abstract class KoLCharacter
 	{
 		return KoLCharacter.audience;
 	}
+
+	public static final int getAudienceLimit()
+	{
+		return ( KoLCharacter.hasEquipped( ItemPool.PETE_JACKET, EquipmentManager.SHIRT ) ||
+		         KoLCharacter.hasEquipped( ItemPool.PETE_JACKET_COLLAR, EquipmentManager.SHIRT ) )
+		         ? 50 : 30;
+	}
 	
 	public static final void setAudience( final int newAudience )
 	{
-		KoLCharacter.audience = newAudience > 30 ? 30 : newAudience < -30 ? -30 : newAudience;
+		int limit = KoLCharacter.getAudienceLimit();
+		KoLCharacter.audience = newAudience > limit ? limit : newAudience < -limit ? -limit : newAudience;
 	}
 
 	public static final void incrementAudience( final int incAudience )
 	{
 		KoLCharacter.setAudience( KoLCharacter.audience + incAudience );
-	}		
+	}
 	
 	public static final void decrementAudience( final int decAudience )
 	{
 		KoLCharacter.setAudience( KoLCharacter.audience - decAudience );
-	}		
+	}
 
 	public static final int getPvpRank()
 	{
