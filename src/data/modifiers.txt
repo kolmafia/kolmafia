@@ -651,6 +651,7 @@ Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Moonthril Cuirass	Monster Level: [10*G]
 Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
+Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Single Equip
 # Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
 Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
@@ -3999,6 +4000,7 @@ Grape Expectations	Maximum HP: +50, Maximum MP: +25
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Greaser Lightnin'	Moxie: +5, Item Drop: [25*loc(Art Class)]
+Greasy Peasy	Sleaze Damage: +15
 Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
 Greedy Resolve	Meat Drop: +30
 # Green, Uneasy: Makes you look like a frog
@@ -5974,6 +5976,7 @@ resolution: be smarter	Effect: "Brilliant Resolve", Effect Duration: 20
 resolution: be stronger	Effect: "Strong Resolve", Effect Duration: 20
 resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
+robot grease	Effect: "Greasy Peasy", Effect Duration: 30
 roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30

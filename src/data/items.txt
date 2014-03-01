@@ -7283,16 +7283,16 @@
 7266	disposable instant camera	598914765	camera.gif	none, combat	t,d	28
 7267	Sneaky Pete's leather jacket (collar popped)	294002464	petejacket2.gif	shirt		0
 7268	Letter for Melvign the Gnome	938064910	envelope.gif	usable	q	0
-7269
+7269	Professor What garment	152834755	btee3.gif	none	q	0
 7270
-7271
+7271	Thinknerd Blind-Packed Toy	917011556	capsule.gif	usable	t,d	8
 7272
 7273
 7274
 7275
 7276
-7277
-7278
+7277	robot grease	726361717	groosegrease.gif	usable	t,d	12
+7278	returned Thinknerd package	802278358	tnpackage.gif	usable	t,d	45
 7279
 7280
 7281
@@ -7308,3 +7308,7 @@
 7291
 7292
 7293	can of V-11	912022253	v11.gif	usable	t	0
+7294
+7295
+7296
+7297	Professor What T-Shirt	665245234	btee3.gif	shirt	t,d	10
