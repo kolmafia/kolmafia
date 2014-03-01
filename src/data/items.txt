@@ -7264,7 +7264,7 @@
 7247	Red Fox glove	259188676	redglove.gif	accessory	t,d	1000
 7248	red foxglove	485617110	foxglove.gif	multiple	t,d	75
 7249	Thwaitgold dragonfly statuette	435678216	thwaitdragon.gif	none		0
-7250
+7250	Sneaky Pete's leather jacket	796748210	petejacket.gif	shirt	t	0
 7251	jug of Sneaky Pete's Mojo	517565036	cleaner.gif	usable	t	0
 7252	shot of Sneaky Pete's Mojo	206268046	peteglass.gif	usable	t	0	shots of Sneaky Pete's Mojo
 7253
@@ -7281,3 +7281,5 @@
 7264
 7265
 7266	disposable instant camera	598914765	camera.gif	none, combat	t,d	28
+7267	Sneaky Pete's leather jacket (collar popped)	294002464	petejacket2.gif	shirt		0
+7268	Letter for Melvign the Gnome	938064910	envelope.gif	usable	q	0

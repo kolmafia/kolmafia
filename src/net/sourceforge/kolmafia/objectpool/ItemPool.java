@@ -1993,8 +1993,10 @@ public class ItemPool
 	public static final int TOMMY_AMMO = 7191;
 	public static final int BUDDY_BJORN = 7200;
 	public static final int LYNYRD_SNARE = 7204;
+	public static final int PETE_JACKET = 7250;
 	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int SMOKE_GRENADE = 7256;
+	public static final int PETE_JACKET_COLLAR = 7267;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
