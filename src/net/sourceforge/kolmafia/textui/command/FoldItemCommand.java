@@ -198,6 +198,15 @@ public class FoldItemCommand
 			return;
 		}
 
+		// If Sneaky Pete's leather jacket is equipped, adjust it regardless of whether or not
+		// they have one in inventory, since this is probably what the user wants.
+		if ( targetName.startsWith( "Sneaky Pete's leather jacket" ) && slot != EquipmentManager.NONE )
+		{
+			GenericRequest request = new GenericRequest( "inventory.php?action=popcollar" );
+			RequestThread.postRequest( request );
+			return;
+		}
+
 		// track the equipment slot if Loathing Legion gear
 		// is being folded without being unequipped
 		int legionSlot = -1;
