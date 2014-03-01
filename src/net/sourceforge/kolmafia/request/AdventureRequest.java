@@ -662,7 +662,7 @@ public class AdventureRequest
 		// No "encounter" when moving on the chessboard
 		if ( choice == 443 && urlString.contains( "xy" ) )
 		{
-			return null;
+		return null;
 		}
 
 		// No "encounter" for certain arcade games
@@ -1119,10 +1119,6 @@ public class AdventureRequest
 		{
 			// Simply visiting the map is not an encounter.
 			return !formSource.equals( "cellar.php" );
-		}
-		else if ( formSource.startsWith( "palinshelves.php" ) )
-		{
-			return responseText.contains( "palinshelves.php" );
 		}
 		else if ( formSource.startsWith( "suburbandis.php" ) )
 		{

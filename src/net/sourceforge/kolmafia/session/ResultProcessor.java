@@ -1242,12 +1242,13 @@ public class ResultProcessor
 			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
 			break;
 
-		case ItemPool.PALINDROME_BOOK:
-			// If you get "I Love Me, Vol. I", you lose (some of)
+		case ItemPool.PALINDROME_BOOK_2:
+			// If you get "2 Love Me, Vol. 2", you lose
 			// the items you put on the shelves
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
-			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
-			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
+			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_RED_NUGGET, -1 );
+			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_OSTRICH_EGG, -1 );
+			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_DOG, -1 );
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
 			break;
 
