@@ -949,6 +949,7 @@ accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Cla
 acoustic guitarrr	Meat Drop: +8
 # airblaster gun: Blasts Air (Duh.)
 alarm accordion	Adventures: [3*(1+skill(Accordion Appreciation))], Initiative: [20*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
+amok putter	Hot Damage: +9, Cold Damage: +9, Initiative: +18
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
@@ -4415,6 +4416,7 @@ Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Puckered Up	Candy Drop: [min(T,50)]
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
+Puddingface	Sleaze Damage: +20
 Puddingskin	Maximum HP: 20, Damage Reduction: 5
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
@@ -5478,6 +5480,7 @@ abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
+amok pudding	Effect: "Puddingface", Effect Duration: 20
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
 arrowgram	Free Pull
 arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
