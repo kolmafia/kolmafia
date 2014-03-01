@@ -545,6 +545,8 @@ Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
+Sneaky Pete's leather jacket	100	none
+Sneaky Pete's leather jacket (collar popped)	100	none
 Thinknerd T-Shirt	10	none
 Ultracolor&trade; shirt	100	Mus: 35
 Unkillable Skeleton's breastplate	300	Mus: 250

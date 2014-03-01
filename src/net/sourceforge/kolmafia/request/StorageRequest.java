@@ -395,6 +395,11 @@ public class StorageRequest
 			return false;
 		}
 
+		if ( ( itemId == ItemPool.PETE_JACKET || itemId == ItemPool.PETE_JACKET_COLLAR ) && !KoLCharacter.isSneakyPete() )
+		{
+			return false;
+		}
+
 		return Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
 	}
 

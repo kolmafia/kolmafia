@@ -652,6 +652,10 @@ Moonthril Cuirass	Monster Level: [10*G]
 Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Single Equip
+# Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
+Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
+# Sneaky Pete's leather jacket (collar popped): The Audience Loves/Hates You Even More!
+Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monster Level: +30, PvP Fights: +4, Free Pull
 # Thinknerd T-Shirt	enchantment varies per player?
 Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
 # Unkillable Skeleton's breastplate: +10 to Familiar Damage
