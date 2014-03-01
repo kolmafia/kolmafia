@@ -1561,11 +1561,11 @@
 1560	Seeing Red	bigredeye.gif	6fe7958c7893ac4a315469d4915b573b	use 1 red eye
 1561
 1562	Digitalis, Dig It	foxglove.gif	7df47f4e881611478b07795344dcfc4f	use 1 red foxglove
-1563
-1564
+1563	EVISCERATE!	windupdalek.gif	64509743f6af073b6dd20ba3a9806ff6	use 1 wind-up Whatsian robot
+1564	Fangs and Pangs	windupfangs.gif	f960e95b0dea4897621ee39476281dac	use 1 wind-up vampire teeth
 1565
 1566
-1567
+1567	Red-Shirted Escort	windupensign.gif	dc17c9b50faf39da53dd21319077239f	use 1 wind-up ensign
 1568	Greasy Peasy	groosegrease.gif	c7e1b840864943c96a5b30340db41161	use 1 robot grease
 1569	Puddingface	puttypudding.gif	00392bc79e7c8b35ee02285e1cffbb3a	eat 1 amok pudding
 1570	It's Ridiculous	11.gif	a4bca522ab018b620d55d665d05fcbf0	use 1 can of V-11

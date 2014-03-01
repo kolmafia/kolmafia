@@ -1800,6 +1800,7 @@ Senior LAAAAME merit badge	0	none
 Sketcherz&trade;	0	Mys: 60
 Slow Talkin' Elliot's dogtags	200	Mys: 45
 Sneaky Pete's breath spray	80	Mys: 25
+Space Tourist palmdoctor	50	none
 Space Trip safety headphones	100	Mys: 35
 Star of Bravery	200	none
 Superhero Reboots	0	none
@@ -2047,6 +2048,7 @@ pig-iron bracers	90	Mys: 30
 pink glowstick	20	none
 pink plastic baby	20	none
 pirate fledges	140	Mys: 60
+plastic Duskwalker necklace	50	none
 plastic spider ring	0	none
 plastic vampire fangs	0	none
 plexiglass pendant	180	Mys: 75
@@ -2252,6 +2254,7 @@ tiny plastic Mr. Mination	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35
 tiny plastic Norville Rogers	0	none
 tiny plastic Orcish Frat Boy	10	none
+tiny plastic Professor What	10	none
 tiny plastic Protagonist	10	none
 tiny plastic Queen Bee	0	none
 tiny plastic Rene C. Corman	50	Mys: 10

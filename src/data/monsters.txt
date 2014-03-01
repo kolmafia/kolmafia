@@ -106,6 +106,7 @@ alert mariachi	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude	spangly
 Alphabet Giant	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 120-180 P: humanoid	heavy D (0)	original G (0)
 Amateur Elf			elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 amateur ninja	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 16-24 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
+amok putty	amokputty.gif	Init: 100 P: slime	amok pudding (0)
 ancient guardian statue	oldguardstatue.gif	Atk: 50 Def: 54 HP: 80 Init: 20 P: construct	ancient stone fist (0)	ancient stone head (0)
 ancient insane monk	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead	obsidian dagger (c100)	mossy stone sphere (c100)	rough stone sphere (c100)	smooth stone sphere (c100)	cracked stone sphere (c100)
@@ -966,6 +967,9 @@ The Terrible Pinch	thepinch.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 100 P: hum
 The Thing with No Name	thething.gif	BOSS Atk: 200 Def: 225 HP: 1000 Init: -10000 P: humanoid	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)
 The Thorax	thethorax.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	furious stone (100)
 The Whole Kingdom		HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: construct
+Thinknerd Moving Robot	tnbot2.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: 50 P: construct	robot grease (0)	returned Thinknerd package (c0)
+Thinknerd Sorting Robot	tnbot3.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
+Thinknerd Packing Robot	tnbot1.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
 three skeleton invaders		HP: 80 Def: 72 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
 Thug 1 and Thug 2	thug1thug2.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 500 P: humanoid	jealousy stone (100)
 Timmy Tofurkey	mc_tofu2.gif	Atk: 40 Def: 45 HP: 90 Init: 50 P: humanoid	sun-dried tofu (0)

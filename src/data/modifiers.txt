@@ -2070,6 +2070,7 @@ Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Sketcherz&trade;	Sleaze Damage: +20, Sleaze Spell Damage: +25, Spell Damage Percent: +30
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
+Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts until Rollover
 Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
 Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
 # Superhero Reboots: Help You Run Faster
@@ -2352,6 +2353,7 @@ pig-iron bracers	Mysticality: +8, Spell Damage: +10, Single Equip
 pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
+plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts until Rollover
 plastic spider ring	Mysticality: +3, Single Equip
 plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
@@ -2568,6 +2570,7 @@ tiny plastic Mr. Mination	Monster Level: +4
 tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
 tiny plastic Norville Rogers	Monster Level: +1
 tiny plastic Orcish Frat Boy	Monster Level: +1
+tiny plastic Professor What	Monster Level: +1
 tiny plastic Protagonist	Monster Level: +1
 tiny plastic Queen Bee	Maximum HP: +10
 tiny plastic Rene C. Corman	Mysticality Percent: +5, Spell Damage Percent: +25, Single Equip
@@ -3860,6 +3863,7 @@ Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 Everything Must Go!	Combat Rate: +10
 Everything's Zen	Experience Percent (Mysticality): +20
+# EVISCERATE!: Attacks enemies every round
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
@@ -3878,6 +3882,7 @@ Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Familial Ties	Familiar Weight (hidden): [10*zone(The Sea)]
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
+# Fangs and Pangs: Attacks enemies every round and restores HP
 Far Out	Mysticality: +1
 Fast as Lightning	Initiative: +50
 Fastbreaker	Muscle Percent: +20
@@ -4415,6 +4420,7 @@ Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resist
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Puckered Up	Candy Drop: [min(T,50)]
+Puddingface	Sleaze Damage: +20
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
 Puddingface	Sleaze Damage: +20
 Puddingskin	Maximum HP: 20, Damage Reduction: 5
@@ -4463,6 +4469,7 @@ Red Lettered	Monster Level: +15
 Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
 Red Neck	Muscle: +15, Moxie: -5
 Red Tongue	Meat Drop: +50
+# Red-Shirted Escort: Attracts enemy attention.
 Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Refuse Reflux	Stench Damage: [min(100,T)]
@@ -6125,7 +6132,10 @@ whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 30
 willyweed	Effect: "Wet Willied", Effect Duration: 30
+wind-up Whatsian robot	Effect: "EVISCERATE!", Effect Duration: 20
+wind-up ensign	Effect: "Red-Shirted Escort", Effect Duration: 20
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
+wind-up vampire teeth	Effect: "Fangs and Pangs", Effect Duration: 20
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 witch's brew	Effect: "Witch's Brood", Effect Duration: 50

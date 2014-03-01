@@ -7286,23 +7286,23 @@
 7269	Professor What garment	152834755	btee3.gif	none	q	0
 7270
 7271	Thinknerd Blind-Packed Toy	917011556	capsule.gif	usable	t,d	8
-7272
+7272	tiny plastic Professor What	869143496	tpguy.gif	accessory	t,d	6
 7273
 7274
 7275
 7276
 7277	robot grease	726361717	groosegrease.gif	usable	t,d	12
 7278	returned Thinknerd package	802278358	tnpackage.gif	usable	t,d	45
-7279
-7280
+7279	wind-up Whatsian robot	201589543	windupdalek.gif	usable	t,d	25
+7280	wind-up vampire teeth	323826338	windupfangs.gif	usable	t,d	25
 7281
 7282
-7283
+7283	wind-up ensign	346523065	windupensign.gif	usable	t,d	25
 7284
-7285
+7285	plastic Duskwalker necklace	912055933	vamphearneck.gif	accessory	q	0
 7286
 7287
-7288
+7288	Space Tourist palmdoctor	197726259	palmdoc.gif	offhand	q	0
 7289	amok putter	834019480	puttyputter.gif	weapon	t,d	19
 7290	amok pudding	390153181	puttypudding.gif	food	t,d	14
 7291
