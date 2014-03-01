@@ -584,7 +584,7 @@ public abstract class SorceressLairManager
 		// acquire the item and use it; use the
 		// default acquisition mechanisms.
 
-		boolean needStarfish = !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() & !KoLCharacter.isSneakyPete();
+		boolean needStarfish = !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete();
 
 		if ( !KoLCharacter.getFamiliarList().contains( SorceressLairManager.STARFISH ) && needStarfish )
 		{
