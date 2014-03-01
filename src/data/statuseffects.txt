@@ -1561,3 +1561,11 @@
 1560	Seeing Red	bigredeye.gif	6fe7958c7893ac4a315469d4915b573b	use 1 red eye
 1561
 1562	Digitalis, Dig It	foxglove.gif	7df47f4e881611478b07795344dcfc4f	use 1 red foxglove
+1563
+1564
+1565
+1566
+1567
+1568
+1569
+1570	It's Ridiculous	11.gif	a4bca522ab018b620d55d665d05fcbf0	use 1 can of V-11

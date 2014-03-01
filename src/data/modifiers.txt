@@ -4134,6 +4134,7 @@ Irresistible Resolve	Experience (Moxie): +2
 Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (Moxie): 2, Pickpocket Chance: 10
 It Didn't Kill You	Muscle Percent: +50
 # It's Electric!: Damages Attacking Opponents
+It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
@@ -5544,6 +5545,7 @@ cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
 can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
+can of V-11	Effect: "It's Ridiculous", Effect Duration: 111
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
 can of spinach	Effect: "Pop-eyed", Effect Duration: 10
 candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
