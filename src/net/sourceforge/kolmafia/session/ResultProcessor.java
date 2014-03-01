@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.session.HaciendaManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1991,6 +1990,14 @@ public class ResultProcessor
 				{
 					Preferences.increment( "_grimFairyTaleDropsCrown" );
 				}
+			}
+			break;
+
+		case ItemPool.PROFESSOR_WHAT_TSHIRT:
+			if ( RequestLogger.getLastURLString().equals( "place.php?whichplace=mountains&action=mts_melvin" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.PROFESSOR_WHAT_GARMENT );
+				ResponseTextParser.learnSkill( "Torso Awaregness" );
 			}
 			break;
 
