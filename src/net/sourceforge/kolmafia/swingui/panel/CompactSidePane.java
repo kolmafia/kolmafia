@@ -101,6 +101,10 @@ public class CompactSidePane
 	private JPopupMenu modPopup;
 	private JLabel modPopLabel;
 
+	// Sneaky Pete's Motorcycle
+	private JPopupMenu motPopup;
+	private JLabel motPopLabel;
+
 	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
 	private static final AdventureResult SLIMED = new AdventureResult( "Coated in Slime", 1, true );
 
@@ -200,6 +204,13 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 		panels[ panelCount ].addMouseListener( new FamPopListener() );
 
+		// Make a popup label for Sneaky Pete's motorcycle. Clicking on
+		// the motorcycle image (which replaces the familiar icon)
+		// activates it.
+		this.motPopLabel = new JLabel();
+		this.motPopup = new JPopupMenu();
+		this.motPopup.insert( this.motPopLabel, 0 );
+
 		panels[ ++panelCount ] = new JPanel( new GridLayout( ( 6 + this.MISC_LABELS ), 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
@@ -288,13 +299,19 @@ public class CompactSidePane
 				e.getX(), e.getY() );
 		}
 	}
-
 	private class FamPopListener
 		extends MouseAdapter
 	{
 		@Override
 		public void mousePressed( MouseEvent e )
 		{
+			if ( KoLCharacter.isSneakyPete() )
+			{
+				CompactSidePane.this.motPopup.show( e.getComponent(),
+								    e.getX(), e.getY() );
+				return;
+			}
+
 			JPopupMenu famPopup = new JPopupMenu();
 			if ( KoLCharacter.inAxecore() )
 			{
@@ -647,6 +664,143 @@ public class CompactSidePane
 			this.miscValueLabel[ i ].setText( "" );
 		}
 
+		try
+		{
+			String popText = CompactSidePane.modifierPopupText();
+			this.modPopLabel.setText( popText );
+		}
+		catch ( Exception e )
+		{
+			// Ignore errors - there seems to be a Java bug that
+			// occasionally gets triggered during the setText().
+		}
+
+		long currentLevel = KoLCharacter.calculateLastLevel();
+		long nextLevel = KoLCharacter.calculateNextLevel();
+		long totalPrime = KoLCharacter.getTotalPrime();
+
+		this.levelMeter.setMaximum( (int) (nextLevel - currentLevel) );
+		this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
+		this.levelMeter.setString( " " );
+
+		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + 
+			"&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) +
+			" subpoints needed)&nbsp;&nbsp;</html>" );
+
+		if ( KoLCharacter.inAxecore() )
+		{
+			AdventureResult item = KoLCharacter.getCurrentInstrument();
+			if ( item == null )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+			}
+			else
+			{
+				ImageIcon icon = ItemDatabase.getItemImage( item.getItemId() );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+			}
+			int level = KoLCharacter.getMinstrelLevel();
+			this.familiarLabel.setText( "Level " + level );
+		}
+		else if ( KoLCharacter.isJarlsberg() )
+		{
+			if ( KoLCharacter.getCompanion() == null )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+			}
+			else
+			{
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + KoLCharacter.getCompanion().imageName() );
+				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + KoLCharacter.getCompanion().imageName() );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+			}
+		}
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/motorbike.gif" );
+			ImageIcon icon = JComponentUtilities.getImage( "itemimages/motorbike.gif" );
+			this.familiarLabel.setIcon( icon );
+			icon.setImageObserver( this );
+
+			String popText = CompactSidePane.motorcyclePopupText();
+			try
+			{
+				this.motPopLabel.setText( popText );
+			}
+			catch ( Exception e )
+			{
+				// Ignore errors - there seems to be a Java bug that
+				// occasionally gets triggered during the setText().
+			}
+		}
+		else
+		{
+			FamiliarData current = KoLCharacter.getFamiliar();
+			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
+			int id = effective == null ? -1 : effective.getId();
+
+			if ( id == -1 )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+				this.familiarLabel.setText( "0 lbs." );
+			}
+			else
+			{
+				StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
+				ImageIcon icon = FamiliarDatabase.getCurrentFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+				int weight = current.getModifiedWeight();
+				this.familiarLabel.setText( "<HTML><center>" + weight +
+							    ( weight == 1 ? " lb." : " lbs." ) +
+							    ( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
+			}
+		}
+
+		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+	}
+
+	private static String motorcyclePopupText()
+	{
+		String tires = Preferences.getString( "peteMotorbikeTires" );
+		String gasTank = Preferences.getString( "peteMotorbikeGasTank" );
+		String headlight = Preferences.getString( "peteMotorbikeHeadlight" );
+		String cowling = Preferences.getString( "peteMotorbikeCowling" );
+		String muffler = Preferences.getString( "peteMotorbikeMuffler" );
+		String seat = Preferences.getString( "peteMotorbikeSeat" );
+
+		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
+		buf.append( "<tr><td>Tires</td><td>" );
+		buf.append( tires);
+		buf.append( "</td></tr>" );
+		buf.append( "<tr><td>Gas Tank</td><td>" );
+		buf.append( gasTank);
+		buf.append( "</td></tr>" );
+		buf.append( "<tr><td>Headlight</td><td>" );
+		buf.append( headlight);
+		buf.append( "</td></tr>" );
+		buf.append( "<tr><td>Cowling</td><td>" );
+		buf.append( cowling);
+		buf.append( "</td></tr>" );
+		buf.append( "<tr><td>Muffler</td><td>" );
+		buf.append( muffler);
+		buf.append( "</td></tr>" );
+		buf.append( "<tr><td>Seat</td><td>" );
+		buf.append( seat);
+		buf.append( "</td></tr>" );
+		buf.append( "</table></html>" );
+
+		return buf.toString();
+	}
+
+	private static String modifierPopupText()
+	{
 		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
 		int[] predicted = KoLCharacter.getCurrentModifiers().predict();
 		int mus = Math.max( 1, predicted[ Modifiers.BUFFED_MUS ] );
@@ -689,13 +843,13 @@ public class CompactSidePane
 		}
 
 		buf.append( "<tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>" );
-		this.addElement( buf, "Hot", Modifiers.HOT_DAMAGE );
-		this.addElement( buf, "Cold", Modifiers.COLD_DAMAGE );
-		this.addElement( buf, "Stench", Modifiers.STENCH_DAMAGE );
-		this.addElement( buf, "Spooky", Modifiers.SPOOKY_DAMAGE );
-		this.addElement( buf, "Sleaze", Modifiers.SLEAZE_DAMAGE );
-		this.addSlime( buf );
-		this.addSupercold( buf );
+		CompactSidePane.addElement( buf, "Hot", Modifiers.HOT_DAMAGE );
+		CompactSidePane.addElement( buf, "Cold", Modifiers.COLD_DAMAGE );
+		CompactSidePane.addElement( buf, "Stench", Modifiers.STENCH_DAMAGE );
+		CompactSidePane.addElement( buf, "Spooky", Modifiers.SPOOKY_DAMAGE );
+		CompactSidePane.addElement( buf, "Sleaze", Modifiers.SLEAZE_DAMAGE );
+		CompactSidePane.addSlime( buf );
+		CompactSidePane.addSupercold( buf );
 		buf.append( "<tr><td>Weapon</td><td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.WEAPON_DAMAGE ) ) );
@@ -840,90 +994,11 @@ public class CompactSidePane
 			buf.append( "</td></tr>" );
 		}
 		buf.append( "</table></html>" );
-		try
-		{
-			this.modPopLabel.setText( buf.toString() );
-		}
-		catch ( Exception e )
-		{
-			// Ignore errors - there seems to be a Java bug that
-			// occasionally gets triggered during the setText().
-		}
 
-		long currentLevel = KoLCharacter.calculateLastLevel();
-		long nextLevel = KoLCharacter.calculateNextLevel();
-		long totalPrime = KoLCharacter.getTotalPrime();
-
-		this.levelMeter.setMaximum( (int) (nextLevel - currentLevel) );
-		this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
-		this.levelMeter.setString( " " );
-
-		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + 
-			"&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) +
-			" subpoints needed)&nbsp;&nbsp;</html>" );
-
-		if ( KoLCharacter.inAxecore() )
-		{
-			AdventureResult item = KoLCharacter.getCurrentInstrument();
-			if ( item == null )
-			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-			}
-			else
-			{
-				ImageIcon icon = ItemDatabase.getItemImage( item.getItemId() );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-			}
-			int level = KoLCharacter.getMinstrelLevel();
-			this.familiarLabel.setText( "Level " + level );
-		}
-		else if ( KoLCharacter.isJarlsberg() )
-		{
-			if ( KoLCharacter.getCompanion() == null )
-			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-			}
-			else
-			{
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + KoLCharacter.getCompanion().imageName() );
-				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + KoLCharacter.getCompanion().imageName() );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-			}
-		}
-		else
-		{
-			FamiliarData current = KoLCharacter.getFamiliar();
-			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
-			int id = effective == null ? -1 : effective.getId();
-
-			if ( id == -1 )
-			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-				this.familiarLabel.setText( "0 lbs." );
-			}
-			else
-			{
-				StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
-				ImageIcon icon = FamiliarDatabase.getCurrentFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-				int weight = current.getModifiedWeight();
-				this.familiarLabel.setText( "<HTML><center>" + weight +
-							    ( weight == 1 ? " lb." : " lbs." ) +
-							    ( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
-			}
-		}
-
-		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+		return buf.toString();
 	}
 
-	private void addElement( StringBuffer buf, String name, int dmgModifier )
+	private static void addElement( StringBuffer buf, String name, int dmgModifier )
 	{
 		double wdmg = KoLCharacter.currentNumericModifier( dmgModifier );
 		double sdmg = KoLCharacter.currentNumericModifier(
@@ -948,7 +1023,7 @@ public class CompactSidePane
 		buf.append( "%)</td></tr>" );
 	}
 
-	private void addSlime( StringBuffer buf )
+	private static void addSlime( StringBuffer buf )
 	{
 		int resist = (int) KoLCharacter.currentNumericModifier(
 			Modifiers.SLIME_RESISTANCE );
@@ -971,7 +1046,7 @@ public class CompactSidePane
 		buf.append( "%)</td></tr>" );
 	}
 
-	private void addSupercold( StringBuffer buf )
+	private static void addSupercold( StringBuffer buf )
 	{
 		int resist = (int) KoLCharacter.currentNumericModifier(
 			Modifiers.SUPERCOLD_RESISTANCE );
