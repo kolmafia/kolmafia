@@ -298,6 +298,7 @@ The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
+Thinknerd Warehouse	100	amok putty	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 Throne Room	100	Knob Goblin King
 Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	Gnu Jack Gnome	vicious gnauga
 Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
