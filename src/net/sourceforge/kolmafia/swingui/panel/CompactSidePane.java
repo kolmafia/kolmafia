@@ -580,8 +580,9 @@ public class CompactSidePane
 		}
 		else if ( KoLCharacter.isSneakyPete() )
 		{
+			int limit = KoLCharacter.getAudienceLimit();
 			this.classLabel.setText( "  Aud: " );
-			this.classValueLabel.setText( KoLCharacter.getAudience() + " / 30" );
+			this.classValueLabel.setText( KoLCharacter.getAudience() + " / " + limit );
 		}
 		else
 		{
@@ -589,7 +590,7 @@ public class CompactSidePane
 			this.classValueLabel.setText( " " );
 		}		
 		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-                this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
+		this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 		this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );

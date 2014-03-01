@@ -555,51 +555,60 @@ public class CharPaneRequest
 			int newAdventures = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
 		}
-		
-		pattern = Pattern.compile( ">(\\d+) gal.</span>" );
-		matcher = pattern.matcher( responseText );
-		if ( matcher != null && matcher.find() )
+
+		if ( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER )
 		{
-			int fury = StringUtilities.parseInt( matcher.group( 1 ) );
-			KoLCharacter.setFuryNoCheck( fury );
-		}
-		else
-		{
-			KoLCharacter.setFuryNoCheck( 0 );
-		}
-		
-		pattern = Pattern.compile( "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<" );
-		matcher = pattern.matcher( responseText );
-		if ( matcher != null && matcher.find() )
-		{
-			int soulsauce = StringUtilities.parseInt( matcher.group( 1 ) );
-			KoLCharacter.setSoulsauce( soulsauce );
-		}
-		else
-		{
-			KoLCharacter.setSoulsauce( 0 );
+			pattern = Pattern.compile( ">(\\d+) gal.</span>" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int fury = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setFuryNoCheck( fury );
+			}
+			else
+			{
+				KoLCharacter.setFuryNoCheck( 0 );
+			}
 		}
 
-		pattern = Pattern.compile( "<b>(\\d+ )?(Love|Hate|Bored)</td>" );
-		matcher = pattern.matcher( responseText );
-		if ( matcher != null && matcher.find() )
+		else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
 		{
-			if ( matcher.group( 2 ).equals( "Love" ) )
+			pattern = Pattern.compile( "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
 			{
-				KoLCharacter.setAudience( StringUtilities.parseInt( matcher.group( 1 ) ) );
+				int soulsauce = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setSoulsauce( soulsauce );
 			}
-			else if ( matcher.group( 2 ).equals( "Hate" ) )
+			else
 			{
-				KoLCharacter.setAudience( -StringUtilities.parseInt( matcher.group( 1 ) ) );
+				KoLCharacter.setSoulsauce( 0 );
 			}
-			else if ( matcher.group( 2 ).equals( "Bored" ) )
+		}
+
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			pattern = Pattern.compile( "<b>(\\d+ )?(Love|Hate|Bored)</td>" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				if ( matcher.group( 2 ).equals( "Love" ) )
+				{
+					KoLCharacter.setAudience( StringUtilities.parseInt( matcher.group( 1 ) ) );
+				}
+				else if ( matcher.group( 2 ).equals( "Hate" ) )
+				{
+					KoLCharacter.setAudience( -StringUtilities.parseInt( matcher.group( 1 ) ) );
+				}
+				else if ( matcher.group( 2 ).equals( "Bored" ) )
+				{
+					KoLCharacter.setAudience( 0 );
+				}
+			}
+			else
 			{
 				KoLCharacter.setAudience( 0 );
 			}
-		}
-		else
-		{
-			KoLCharacter.setAudience( 0 );
 		}
 	}
 
