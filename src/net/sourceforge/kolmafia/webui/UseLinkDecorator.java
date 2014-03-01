@@ -1417,8 +1417,8 @@ public abstract class UseLinkDecorator
 		case ItemPool.BROKEN_WINGS:
 		case ItemPool.SUNKEN_EYES:
 
-			if ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) ||
-			     !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) ||
+			if ( ( ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) || !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) ) &&
+			         !InventoryManager.hasItem( ItemPool.REASSEMBLED_BLACKBIRD ) ) ||
 			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
 			{
 				return null;
