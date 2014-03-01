@@ -2272,7 +2272,8 @@
 2255	furry green turtle	789152841	fuzzyturtle.gif	hat	t,d	50	furry green turtles
 2256	furry green earmuffs	684854850	earmuffs.gif	accessory	t,d	50	sets of furry green earmuffs
 2257	reinforced furry underpants	415591001	furryunderpants.gif	accessory	t,d	35	pairs of reinforced furry underpants
-2258	&quot;I Love Me, Vol. I&quot;	969815696	book4.gif	message	q	0
+# This item likely no longer exists, and a new one with the same name was added
+# 2258	&quot;I Love Me, Vol. I&quot;	969815696	book4.gif	message	q	0
 2259	photograph of God	447128250	godphoto.gif	none	q	0
 2260	hard rock candy	827058631	rednugget.gif	none, candy	q	0
 2261	hard-boiled ostrich egg	406582855	egg.gif	none	q	0
@@ -7276,15 +7277,15 @@
 7259	crate of firebombs	267354751	crate.gif	multiple	t,d	50	crates of firebombs
 7260	firebomb	431636703	molotov.gif	none, combat	t,d	5	firebombs
 7261	Sneaky Pete's basket	209188345	basket.gif	weapon	q	0
-7262
-7263
-7264
-7265
+7262	&quot;I Love Me, Vol. I&quot;	191091046	book4.gif	usable	q	0
+7263	photograph of a dog	901451635	dogphoto.gif	none	q	0
+7264	photograph of a red nugget	557243674	nuggetphoto.gif	none	q	0
+7265	photograph of an ostrich egg	502235561	eggphoto.gif	none	q	0
 7266	disposable instant camera	598914765	camera.gif	none, combat	t,d	28
 7267	Sneaky Pete's leather jacket (collar popped)	294002464	petejacket2.gif	shirt, usable		0
 7268	Letter for Melvign the Gnome	938064910	envelope.gif	usable	q	0
 7269	Professor What garment	152834755	btee3.gif	none	q	0
-7270
+7270	&quot;2 Love Me, Vol. 2&quot;	532884141	book4.gif	reusable	q	0
 7271	Thinknerd Blind-Packed Toy	917011556	capsule.gif	usable	t,d	8
 7272	tiny plastic Professor What	869143496	tpguy.gif	accessory	t,d	6
 7273

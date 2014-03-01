@@ -564,12 +564,6 @@ public class RequestEditorKit
 		{
 			RequestEditorKit.addMultiuseModifiers( buffer );
 		}
-		else if ( location.startsWith( "palinshelves.php" ) )
-		{
-			StringUtilities.insertBefore(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.PALINSHELVES_JS + "\"></script>" );
-			StringUtilities.singleStringReplace( buffer, "<body>", "<body onload='palinshelve();'>" );
-		}
 		else if ( location.startsWith( "pandamonium.php" ) )
 		{
 			PandamoniumRequest.decoratePandamonium( location, buffer );

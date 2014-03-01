@@ -4421,9 +4421,8 @@ Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Puckered Up	Candy Drop: [min(T,50)]
 Puddingface	Sleaze Damage: +20
-# Pug Ugly: Makes you look like a Bangyomaman Warrior
-Puddingface	Sleaze Damage: +20
 Puddingskin	Maximum HP: 20, Damage Reduction: 5
+# Pug Ugly: Makes you look like a Bangyomaman Warrior
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater

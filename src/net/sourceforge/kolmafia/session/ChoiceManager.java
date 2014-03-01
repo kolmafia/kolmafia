@@ -3221,6 +3221,12 @@ public abstract class ChoiceManager
 			// Load the options of the dreadscroll with the correct responses
 			DreadScrollManager.decorate( buffer );
 			break;
+
+		case 872:
+			StringUtilities.insertBefore(
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.PALINSHELVES_JS + "\"></script>" );
+			StringUtilities.singleStringReplace( buffer, "<body>", "<body onload='palinshelve();'>" );
+			break;
 		}
 	}
 
@@ -10047,6 +10053,7 @@ public abstract class ChoiceManager
 		case 867: // Sneaky Peterskills
 		case 870: // Hair Today
 		case 871: // inspecting Motorbike
+		case 872: // Drawn Onward
 			return true;
 
 		default:

@@ -550,10 +550,7 @@ public class ItemPool
 	public static final int EYEBALL_PENDANT = 2226;
 	public static final int CALAVERA_CONCERTINA = 2234;
 	public static final int TURTLE_PHEROMONES = 2236;
-	public static final int PALINDROME_BOOK = 2258;
 	public static final int PHOTOGRAPH_OF_GOD = 2259;
-	public static final int HARD_ROCK_CANDY = 2260;
-	public static final int OSTRICH_EGG = 2261;
 	public static final int WET_STUNT_NUT_STEW = 2266;
 	public static final int MEGA_GEM = 2267;
 	public static final int STAFF_OF_FATS = 2268;
@@ -1996,8 +1993,13 @@ public class ItemPool
 	public static final int PETE_JACKET = 7250;
 	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int SMOKE_GRENADE = 7256;
+	public static final int PALINDROME_BOOK = 7262;
+	public static final int PHOTOGRAPH_OF_DOG = 7263;
+	public static final int PHOTOGRAPH_OF_RED_NUGGET = 7264;
+	public static final int PHOTOGRAPH_OF_OSTRICH_EGG = 7265;
 	public static final int PETE_JACKET_COLLAR = 7267;
 	public static final int PROFESSOR_WHAT_GARMENT = 7269;
+	public static final int PALINDROME_BOOK_2 = 7290;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
 
 	public static final AdventureResult get( String itemName, int count )

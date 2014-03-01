@@ -11,13 +11,13 @@ function palinshelve()
 
 	for ( var i = 0; i < selectors.length; ++i )
 	{
-		if ( selectors[i].name == "whichitem1" )
+		if ( selectors[i].name == "photo1" )
 			changeSelection( selectors[i], 2259 );
-		else if ( selectors[i].name == "whichitem2" )
-			changeSelection( selectors[i], 2260 );
-		else if ( selectors[i].name == "whichitem3" )
-			changeSelection( selectors[i], 493 );
-		else if ( selectors[i].name == "whichitem4" )
-			changeSelection( selectors[i], 2261 );
+		else if ( selectors[i].name == "photo2" )
+			changeSelection( selectors[i], 7264 );
+		else if ( selectors[i].name == "photo3" )
+			changeSelection( selectors[i], 7263 );
+		else if ( selectors[i].name == "photo4" )
+			changeSelection( selectors[i], 7265 );
 	}
 }

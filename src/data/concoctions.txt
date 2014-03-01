@@ -2301,7 +2301,7 @@ tin roof (rusted)	MUSE	fancy tin beer can (32)
 can of Br&uuml;talbr&auml;u	BEER, ROW214	handful of barley	cluster of hops
 can of Drooling Monk	BEER, ROW215	handful of barley	cluster of hops
 can of Impetuous Scofflaw	BEER, ROW216	handful of barley	cluster of hops
-liquid beer	BEER, ROW291	handful of barley	cluster of hops
+liquid bread	BEER, ROW291	handful of barley	cluster of hops
 bottle of Old Pugilist	BEER, ROW217	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 bottle of Professor Beer	BEER, ROW218	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 bottle of Rapier Witbier	BEER, ROW219	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
