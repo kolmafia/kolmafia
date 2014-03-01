@@ -5184,7 +5184,17 @@ public class UseItemRequest
 			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.JARLS_PAN ? ItemPool.JARLS_COSMIC_PAN : ItemPool.JARLS_PAN, 1 );
 			EquipmentManager.setEquipment( EquipmentManager.OFFHAND, after );
-			RequestLogger.printLine( "Twisted " + before + " into " + after );
+			RequestLogger.printLine( "Shook " + before + " into " + after );
+			return true;
+		}
+
+		// Special handing for shaking Sneaky Pete's leather jacket when it is equipped
+		if ( item == null && urlString.contains( "action=popcollar" ) )
+		{
+			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.SHIRT );
+			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.PETE_JACKET ? ItemPool.PETE_JACKET_COLLAR : ItemPool.PETE_JACKET, 1 );
+			EquipmentManager.setEquipment( EquipmentManager.SHIRT, after );
+			RequestLogger.printLine( "Popped " + before + " into " + after );
 			return true;
 		}
 

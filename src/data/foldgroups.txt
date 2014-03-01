@@ -24,3 +24,4 @@
 0	Boris's Helm	Boris's Helm (askew)
 0	bugged beanie	bugged balaclava
 0	Jarlsberg's pan (Cosmic portal mode)	Jarlsberg's pan
+0	Sneaky Pete's leather jacket	Sneaky Pete's leather jacket (collar popped)
