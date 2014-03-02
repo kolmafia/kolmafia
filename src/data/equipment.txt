@@ -1109,6 +1109,7 @@ pixel morning star	75	Mus: 22	1-handed whip
 pixel sword	50	Mus: 10	1-handed sword
 pixel whip	10	Mus: 0	1-handed whip
 plastic guitar	100	Mox: 35	2-handed guitar
+plastic replica blaster pistol	40	Mox: 0	1-handed
 plexiglass pikestaff	180	Mus: 75	2-handed club
 pocket theremin	35	Mox: 2	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
@@ -1693,6 +1694,7 @@ Frown Exerciser	10	Mys: 30
 Fuzzy Slippers of Hatred	200	Mox: 125
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
+Gary Claybender's Time Screwer	50	none
 Gauntlets of the Blood Moon	120	none
 Girdle of Hatred	200	Mus: 125
 Golden Mr. Accessory	0	none

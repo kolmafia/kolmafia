@@ -1285,6 +1285,7 @@ pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 pixel sword	Initiative: +15
 pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
+plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts until Rollover
 plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
 pointed stick	Critical Hit Percent: +2, Weapon Damage: +10
@@ -1953,6 +1954,7 @@ Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 # Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
 # * This enchantment works even when this item is not equipped
 Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
+Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts until Rollover
 Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 # Girdle of Hatred: Tightenable
 Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
@@ -3992,6 +3994,7 @@ Go Get 'Em, Tiger!	Muscle Percent: +15
 Gobliny Flavor	Damage Reduction: 5
 Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Good Karma	Mysticality: +5
+Good Motivator	Initiative: +25
 Good with the Ladies	Experience: +3
 Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 # Got Milk: You like food; food tastes good.
@@ -6134,6 +6137,7 @@ willyweed	Effect: "Wet Willied", Effect Duration: 30
 wind-up Whatsian robot	Effect: "EVISCERATE!", Effect Duration: 20
 wind-up ensign	Effect: "Red-Shirted Escort", Effect Duration: 20
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
+wind-up navigation droid	Effect: "Good Motivator", Effect Duration: 20
 wind-up vampire teeth	Effect: "Fangs and Pangs", Effect Duration: 20
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
