@@ -7290,7 +7290,7 @@
 7272	tiny plastic Professor What	869143496	tpguy.gif	accessory	t,d	6
 7273
 7274
-7275
+7275	tiny plastic Gary Claybender	356333776	tpguy.gif	accessory	t,d	5
 7276
 7277	robot grease	726361717	groosegrease.gif	usable	t,d	12
 7278	returned Thinknerd package	802278358	tnpackage.gif	usable	t,d	45
