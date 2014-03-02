@@ -7216,7 +7216,7 @@
 7198	red silk skirt	373891448	blackskirt.gif	pants	t,d	110
 7199	blowdart	759187918	blowknife.gif	none, combat	t,d	15
 7200	Buddy Bjorn	697608546	buddybjorn.gif	container	t	0
-7201
+7201	The Nuge's favorite crossbow	557294591	nugebow.gif	weapon	t	0
 7202	sweet roll Alabama	898366256	sweetroll.gif	food	t,d	25	sweet rolls Alabama
 7203	Saturday Night Special	483778054	snspecial.gif	weapon	t,d	65
 7204	lynyrd snare	657650786	snare.gif	usable	t,d	18

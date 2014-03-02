@@ -915,6 +915,7 @@ Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold D
 # Tales of the Word Realms: Lends Power to Your Words
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
+The Nuge's favorite crossbow	Ranged Damage: +30, Initiative: +100, Adventures: +5
 # The Trickster's Trikitixa: Special Attack: Extreme High Note
 The Trickster's Trikitixa	Moxie: [15*(1+skill(Accordion Appreciation))], Ranged Damage: [23*(1+skill(Accordion Appreciation))], Item Drop: [11*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 # Totally Gay Claymore
