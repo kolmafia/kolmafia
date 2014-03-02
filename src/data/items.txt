@@ -7309,7 +7309,7 @@
 7291
 7292
 7293	can of V-11	912022253	v11.gif	usable	t	0
-7294
-7295
-7296
+7294	elevennis shoes	396059885	11shoes.gif	accessory	t	0
+7295	elevent	700566589	elevent.gif	usable	t	0
+7296	elevenderizing hammer	927342745	11hammer.gif	weapon	t	0
 7297	Professor What T-Shirt	665245234	btee3.gif	shirt	t,d	10

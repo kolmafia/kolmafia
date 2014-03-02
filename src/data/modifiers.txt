@@ -1116,6 +1116,7 @@ eggbeater	Spell Damage: +2
 electric crutch	Spell Damage: +20
 # elephant stinger: 50% chance of poisoning opponent
 elephant stinger	Muscle: +3
+elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11
 # elven whittling knife: On Critical Hit Percent:  Whittles enemy down
 # especially homoerotic frat-paddle
 evil paper umbrella	Monster Level: +1
@@ -2211,6 +2212,7 @@ dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 eerie fetish	Spooky Resistance: +4, Single Equip
+elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11
 elven socks	Muscle: +1, Cold Resistance: +1
 enchanted handwarmer	Cold Resistance: +2, Hot Damage: +4, Single Equip
 enchanted toothpick	Spell Damage: +12, Single Equip

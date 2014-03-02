@@ -2414,3 +2414,8 @@ small golem	RUMPLE, ROW259	clay	parchment
 crappy camera	RUMPLE, ROW257	leather	glass
 large tankard of ale	RUMPLE, ROW253	leather	clay
 juggling ball	RUMPLE, ROW256	leather	filling
+
+# can of V-11
+elevenderizing hammer	SMITH, MANUAL	can of V-11	tenderizing hammer
+elevent	SMITH, MANUAL	can of V-11	barskin tent
+elevennis shoes	SMITH, MANUAL	can of V-11	clown shoes
