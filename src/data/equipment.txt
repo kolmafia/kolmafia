@@ -951,6 +951,7 @@ eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
 electric crutch	30	Mus: 0	1-handed staff
 elephant stinger	75	Mus: 22	2-handed spear
+elevenderizing hammer	115	Mus: 11	1-handed club
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
@@ -1924,6 +1925,7 @@ dope gangsta bling-bling	45	Mys: 7
 eXtreme mittens	110	Mys: 35
 eXtreme nose ring	100	Mys: 10
 eerie fetish	225	Mys: 200
+elevennis shoes	0	Mys: 11
 elven socks	30	none
 enchanted handwarmer	60	Mys: 15
 enchanted toothpick	80	Mys: 25
