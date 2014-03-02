@@ -2235,6 +2235,7 @@ tiny plastic Father McGruber	10	none
 tiny plastic Felonia	30	none
 tiny plastic Fudge Wizard	0	none
 tiny plastic G Imp	10	none
+tiny plastic Gary Claybender	10	none
 tiny plastic GORM-8	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none

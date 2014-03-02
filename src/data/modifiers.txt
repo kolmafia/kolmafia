@@ -2551,6 +2551,7 @@ tiny plastic Father McGruber	Monster Level: +1
 tiny plastic Felonia	Spooky Damage: +5
 tiny plastic Fudge Wizard	Spell Damage: +10
 tiny plastic G Imp	Monster Level: +1
+tiny plastic Gary Claybender	Monster Level: +1
 tiny plastic Gnollish crossdresser	Monster Level: +1
 tiny plastic Gnomester Blomester	Monster Level: +1
 tiny plastic GORM-8	Food Drop: +10
