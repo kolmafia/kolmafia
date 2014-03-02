@@ -8,8 +8,7 @@
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
 accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30
-amok pudding	2	4	decent	0	0	0	0
-amok pudding	2	4	decent	0	0	0	0	20 Puddingface (+20 Sleaze Damage)
+amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
 ancient frozen dinner	4	1	decent	4-8	0	8-10	0
 ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
 ancient unspeakable fruitcake	3	1	decent	3-6	15-20	15-20	15-20
