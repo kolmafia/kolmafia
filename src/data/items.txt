@@ -7289,7 +7289,7 @@
 7271	Thinknerd Blind-Packed Toy	917011556	capsule.gif	usable	t,d	8
 7272	tiny plastic Professor What	869143496	tpguy.gif	accessory	t,d	6
 7273
-7274
+7274	tiny plastic Duke Starkiller	112159313	tpguy.gif	accessory	t,d	5
 7275	tiny plastic Gary Claybender	356333776	tpguy.gif	accessory	t,d	5
 7276
 7277	robot grease	726361717	groosegrease.gif	usable	t,d	12
@@ -7297,7 +7297,7 @@
 7279	wind-up Whatsian robot	201589543	windupdalek.gif	usable	t,d	25
 7280	wind-up vampire teeth	323826338	windupfangs.gif	usable	t,d	25
 7281	wind-up navigation droid	299947144	windupr2d2.gif	usable	t,d	25
-7282
+7282	wind-up owl	810674665	windupowl.gif	usable	t,d	25
 7283	wind-up ensign	346523065	windupensign.gif	usable	t,d	25
 7284
 7285	plastic Duskwalker necklace	912055933	vamphearneck.gif	accessory	q	0
