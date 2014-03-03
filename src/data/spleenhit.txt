@@ -40,6 +40,7 @@ epic wad	1	15		5	140-150	140-150	140-150
 expensive cigar	1	7		1-2	0	0	0
 extra-strength strongness elixir	1	3		0	8-10	0	0
 fishy paste	4	4		5-10	18-22	18-22	18-22	10 Fishy
+five second energy&trade;	3	1		0	0	0	0	+3 PvP fight
 giant moxie weed	1	2		0	0	0	5-7
 glimmering buzzard feather	1	1		0	0	0	0	20 Carrion' On (+60% meat drop)
 glimmering great tit feather	1	1		0	0	0	0	20 The Great Tit's Blessing (+20 ML)
