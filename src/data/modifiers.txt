@@ -2549,6 +2549,7 @@ tiny plastic Crimbomination	Hot Damage: +1, Cold Damage: +1, Stench Damage: +1, 
 tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single Equip
 tiny plastic Don Crimbo	Weapon Damage Percent: +5
 tiny plastic Dr. Awkward	Never Fumble
+tiny plastic Duke Starkiller	Monster Level: +1
 tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 tiny plastic Father McGruber	Monster Level: +1
 tiny plastic Felonia	Spooky Damage: +5
@@ -4894,6 +4895,7 @@ Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
 # Weirdly Scientific: Makes you look like a Sub-Assistant Knob Mad Scientist
+Well Owl Be!	Mysticality: +10, Spell Damage: +10
 Well-Lubed	Weapon Damage Percent: +10
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
@@ -6142,6 +6144,7 @@ wind-up Whatsian robot	Effect: "EVISCERATE!", Effect Duration: 20
 wind-up ensign	Effect: "Red-Shirted Escort", Effect Duration: 20
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
 wind-up navigation droid	Effect: "Good Motivator", Effect Duration: 20
+wind-up owl	Effect: "Well Owl Be!", Effect Duration: 20
 wind-up vampire teeth	Effect: "Fangs and Pangs", Effect Duration: 20
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
