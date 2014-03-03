@@ -212,6 +212,7 @@ public class SkillPool
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
 	public static final int GLORIOUS_LUNCH = 11023;
+	public static final int BITE_MINION = 12001;
 	public static final int HOWL_ALPHA = 12020;
 	public static final int SUMMON_MINION = 12021;
 	public static final int SUMMON_HORDE = 12026;
@@ -230,6 +231,7 @@ public class SkillPool
 	public static final int THROW_PARTY = 15003;
 	public static final int FIX_JUKEBOX = 15004;
 	public static final int REV_ENGINE = 15011;
+	public static final int SHAKE_IT_OFF = 15006;
 	public static final int PEEL_OUT = 15015;
 	public static final int BIKER_SWAGGER = 15019;
 	public static final int JUMP_SHARK = 15024;

@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillRequest
@@ -995,7 +996,22 @@ public class UseSkillRequest
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
 			}				
-			
+
+			// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
+			// ask if you are sure you want to lose it ?
+			boolean cursed = KoLConstants.activeEffects.contains( new AdventureResult( "Once-Cursed", 1, true ) ) ||
+				KoLConstants.activeEffects.contains( new AdventureResult( "Twice-Cursed", 1, true ) ) ||
+				KoLConstants.activeEffects.contains( new AdventureResult( "Thrice-Cursed", 1, true ) );
+			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
+				this.skillId == SkillPool.SHAKE_IT_OFF ||
+				( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) )
+			{
+				if ( !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
+				{
+					return;
+				}
+			}
+
 			// Find out how many times we can cast with current MP
 
 			int currentCast = this.availableCasts( castsRemaining, mpPerCast );
@@ -1053,6 +1069,7 @@ public class UseSkillRequest
 			case SkillPool.DISCO_NAP:
 			case SkillPool.BANDAGES:
 			case SkillPool.COCOON:
+			case SkillPool.SHAKE_IT_OFF:
 
 				int healthRestored = HPRestoreItemList.getHealthRestored( this.skillName );
 				int maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );
