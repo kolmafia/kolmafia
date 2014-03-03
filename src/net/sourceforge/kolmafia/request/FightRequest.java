@@ -326,6 +326,7 @@ public class FightRequest
 		"infinite meat bug",
 		"knott slanding",
 		"master of thieves",
+		"the nuge",
 		"temporal bandit",
 		"pooltergeist (ultra-rare)",
 		"quickbasic elemental"
