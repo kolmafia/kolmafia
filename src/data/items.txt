@@ -1781,7 +1781,7 @@
 1764	Spookyraven library key	653413266	srkey1.gif	none	q	0
 1765	Spookyraven gallery key	704305147	srkey2.gif	none	q	0
 1766	Spookyraven ballroom key	693220171	srkey3.gif	none	q	0
-1767	pack of chewing gum	978937354	chiclepack.gif	multiple, candy	t,d	80	pack of chewing gums
+1767	pack of chewing gum	978937354	chiclepack.gif	multiple, candy	t,d	80	packs of chewing gum
 1768	Gnomish toolbox	365082043	gnomebox.gif	multiple	t,d	150	Gnomish toolboxs
 1769	fricasseed brains	771135411	chorizo.gif	food	t,d	20	plates of fricasseed brains
 1770	brains casserole	443946078	casserole.gif	food	t,d	35	brains casseroles
@@ -2817,7 +2817,7 @@
 2799	Mudflap-Girl Necklace	980061196	jsleazen.gif	accessory	t,d	3000	Mudflap-Girl Necklaces
 2800	Mudflap-Girl Ring	350379011	jsleazer.gif	accessory	t,d	3000	Mudflap-Girl Rings
 2801	vial of Gnomochloric acid	711346519	vial.gif	none	t,d	250	vials of Gnomochloric acid
-2802	flask of Gnomochloric acid	878374857	flask.gif	none	t,d	500	flask of Gnomochloric acid
+2802	flask of Gnomochloric acid	878374857	flask.gif	none	t,d	500	flasks of Gnomochloric acid
 2803	jug of Gnomochloric acid	916210085	jug.gif	none	t,d	2500	jugs of Gnomochloric acid
 2804	vial of hamethyst juice	973209856	vial.gif	multiple	t,d	200	vials of hamethyst juice
 2805	vial of baconstone juice	991129915	vial.gif	multiple	t,d	200	vials of baconstone juice
@@ -4987,7 +4987,7 @@
 4969	Alice's Army Halberder	816871582	aacard.gif	card	t,d	5
 4970	Alice's Army Guard	585472899	aacard.gif	card	t,d	5
 4971	Alice's Army Wallman	174155198	aacard.gif	card	t,d	5	Alice's Army Wallmen
-4972	Alice's Army Ninja	270094671	aacard.gif	card	t,d	5
+4972	Alice's Army Ninja	270094671	aacard.gif	card	t,d	5	Alice's Army Ninjae
 4973	Alice's Army Alchemist	862257791	aacard.gif	card	t,d	5
 4974	Alice's Army Page	355117500	aacard.gif	card	t,d	5
 4975	Alice's Army Shieldmaiden	303618798	aacard.gif	card	t,d	5
@@ -5000,7 +5000,7 @@
 4982	Alice's Army Coward	747881993	aacard.gif	card	t,d	10
 4983	Alice's Army Cleric	117206577	aacard.gif	card	t,d	10	Alice's Army Clerix
 4984	Alice's Army Sniper	509113065	aacard.gif	card	t,d	15
-4985	Alice's Army Dervish	312591672	aacard.gif	card	t,d	15
+4985	Alice's Army Dervish	312591672	aacard.gif	card	t,d	15	Alice's Army Dervishes
 4986	Alice's Army Martyr	760613762	aacard.gif	card	t,d	15
 4987	Pack of Alice's Army Foil Cards	440406862	aapack.gif	usable	t	0	Packs of Alice's Army Foil Cards
 4988	Alice's Army Foil Swordsman	976392363	aacard.gif	card	t,d	1000	Alice's Army Foil Swordsmen
@@ -5008,7 +5008,7 @@
 4990	Alice's Army Foil Halberder	282212126	aacard.gif	card	t,d	1000
 4991	Alice's Army Foil Guard	354378668	aacard.gif	card	t,d	1000
 4992	Alice's Army Foil Wallman	690685400	aacard.gif	card	t,d	1000	Alice's Army Foil Wallmen
-4993	Alice's Army Foil Ninja	922991566	aacard.gif	card	t,d	1000
+4993	Alice's Army Foil Ninja	922991566	aacard.gif	card	t,d	1000	Alice's Army Foil Ninjae
 4994	Alice's Army Foil Alchemist	148826234	aacard.gif	card	t,d	1000
 4995	Alice's Army Foil Page	396187611	aacard.gif	card	t,d	1000
 4996	Alice's Army Foil Shieldmaiden	427972743	aacard.gif	card	t,d	1000
@@ -5021,7 +5021,7 @@
 5003	Alice's Army Foil Coward	287329084	aacard.gif	card	t,d	5000
 5004	Alice's Army Foil Cleric	581085126	aacard.gif	card	t,d	5000	Alice's Army Foil Clerix
 5005	Alice's Army Foil Sniper	927064834	aacard.gif	card	t,d	20000
-5006	Alice's Army Foil Dervish	745741623	aacard.gif	card	t,d	20000
+5006	Alice's Army Foil Dervish	745741623	aacard.gif	card	t,d	20000	Alice's Army Foil Dervishes
 5007	Alice's Army Foil Martyr	267211165	aacard.gif	card	t,d	20000
 5008	Single Alice's Army Foil	358154228	aapack.gif	usable	t	0	Packets of Single Alice's Army Foils
 5009	card sleeve	251309076	cardsleeve.gif	offhand	t	0
@@ -5519,7 +5519,7 @@
 5501	Jackass Plumber home game	242884184	jplumber.gif	reusable		0
 5502	Trivial Avocations board game	155160111	triviagame.gif	reusable		0
 5503	Tickle-Me Emilio	644358901	emilio.gif	grow		0
-5504	blessed large box	948466295	lparen.gif	multiple	q	0
+5504	blessed large box	948466295	lparen.gif	multiple	q	0	blessed large boxes
 5505	pack of pogs	449463152	pogpack.gif	multiple	t	0	packs of pogs
 5506	jerky coins	806048402	jerkycoins.gif	food	t	0	stacks of jerky coins
 5507	Go-Wassail	499208335	gowassail.gif	drink	t	0
@@ -6856,7 +6856,7 @@
 6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	usable, candy	t,d	25
 6839	little red jam	347947486	redjamjar.gif	usable, candy	t,d	25
 6840	Whenchamacallit bar	812046783	whenbar.gif	usable, candy	t,d	25
-6841	8-bit banana	603852187	8bitbanana.gif	usable, candy	t,d	25
+6841	8-bit banana	603852187	8bitbanana.gif	usable, candy	t,d	25	8-bit bananananas
 6842	vial of blood simple syrup	976862806	bloodvial.gif	multiple, candy	t,d	25
 6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25
 6844	ironic mint	800270383	ironmint.gif	usable, candy	t,d	25
