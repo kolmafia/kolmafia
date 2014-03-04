@@ -876,17 +876,6 @@ public abstract class ChoiceManager
 		new Object[]{ IntegerPool.get(129), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
-		// Rod Nevada, Vendor
-		new ChoiceSpoiler(
-			"Plains", "choiceAdventure130", "Palindome",
-			new Object[] { new Option( "hard rock candy", "hard rock candy" ),
-				       "skip adventure" } ),
-		// Rod Nevada, Vendor
-		new Object[]{ IntegerPool.get(130), IntegerPool.get(1),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-
-		// Choice 131 is Dr. Awkward
-
 		// Let's Make a Deal!
 		new ChoiceAdventure(
 			"Beach", "choiceAdventure132", "Desert (Pre-Oasis)",
@@ -3024,6 +3013,15 @@ public abstract class ChoiceManager
 			new Object[] { "scare protestors (more with lynyrd gear)",
 				       "creep protestors (more with sleaze damage/sleaze spell damage)",
 				       "set fire to protestors (more with Flamin' Whatshisname)" } ),
+
+		// Rod Nevada, Vendor
+		new ChoiceSpoiler(
+			"Plains", "choiceAdventure873", "The Palindome",
+			new Object[] { new Option( "photograph of a red nugget", "photograph of a red nugget" ),
+				       "skip adventure" } ),
+		// Rod Nevada, Vendor
+		new Object[]{ IntegerPool.get(873), IntegerPool.get(1),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
