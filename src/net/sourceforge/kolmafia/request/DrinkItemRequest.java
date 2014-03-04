@@ -598,6 +598,20 @@ public class DrinkItemRequest
 
 		// The drink was consumed successfully
 		ResultProcessor.processResult( item.getNegation() );
+
+		// Swizzlers and twists of lime are consumed when you drink booze
+		int swizzlerCount = InventoryManager.getCount( ItemPool.SWIZZLER );
+		if ( swizzlerCount > 0 )
+		{
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SWIZZLER, Math.max( item.getCount(), swizzlerCount ) ) );
+		}
+
+		int limeCount = InventoryManager.getCount( ItemPool.TWIST_OF_LIME );
+		if ( limeCount > 0 )
+		{
+			ResultProcessor.processResult( ItemPool.get( ItemPool.TWIST_OF_LIME, Math.max( item.getCount(), limeCount ) ) );
+		}
+
 		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
