@@ -111,6 +111,7 @@ var numPreds = {
 	"missed": true,
 	"familiarattacked": true,
 	"pastround": true,
+	"snarfblat" : true,
 };
 
 var stringPreds = {
