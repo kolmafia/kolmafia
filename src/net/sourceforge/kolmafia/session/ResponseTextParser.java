@@ -306,11 +306,6 @@ public class ResponseTextParser
 			MoneyMakingGameRequest.parseResponse( location, responseText, false );
 		}
 
-		else if ( location.startsWith( "bounty.php" ) )
-		{
-			BountyHunterHunterRequest.parseResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "bigisland.php" ) || location.startsWith( "postwarisland.php" ) )
 		{
 			IslandRequest.parseResponse( location, responseText );
@@ -319,6 +314,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "bone_altar.php" ) )
 		{
 			AltarOfBonesRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "bounty.php" ) )
+		{
+			BountyHunterHunterRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "campground.php" ) )
@@ -978,18 +978,26 @@ public class ResponseTextParser
 
 	public static void learnSkillFromResponse( final String responseText )
 	{
-
+		boolean skillFound = false;
 		Matcher matcher = ResponseTextParser.NEWSKILL1_PATTERN.matcher( responseText );
-		if ( matcher.find() )
+		while ( matcher.find() )
 		{
 			ResponseTextParser.learnSkill( matcher.group( 2 ) );
+			skillFound = true;
+		}
+		if ( skillFound )
+		{
 			return;
 		}
 
 		matcher = ResponseTextParser.NEWSKILL3_PATTERN.matcher( responseText );
-		if ( matcher.find() )
+		while ( matcher.find() )
 		{
 			ResponseTextParser.learnSkill( matcher.group( 1 ) );
+			skillFound = true;
+		}
+		if ( skillFound )
+		{
 			return;
 		}
 	}
