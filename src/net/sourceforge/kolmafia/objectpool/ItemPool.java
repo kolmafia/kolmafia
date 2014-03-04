@@ -1741,6 +1741,7 @@ public class ItemPool
 	public static final int BLACK_GLASS = 6398;
 	public static final int CORRUPTED_STARDUST = 6408;
 	public static final int SHAKING_SKULL = 6412;
+	public static final int TWIST_OF_LIME = 6417;
 	public static final int TALES_OF_DREAD = 6423;
 	public static final int DREADSYLVANIAN_SKELETON_KEY = 6424;
 	public static final int BRASS_DREAD_FLASK = 6428;
@@ -1906,6 +1907,7 @@ public class ItemPool
 	public static final int GHOST_ACCORDION = 6823;
 	public static final int PEACE_ACCORDION = 6824;
 	public static final int ALARM_ACCORDION = 6825;
+	public static final int SWIZZLER = 6837;
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int KILLING_JAR = 6847;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
