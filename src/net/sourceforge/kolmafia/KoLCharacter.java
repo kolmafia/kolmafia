@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
@@ -5208,7 +5209,8 @@ public abstract class KoLCharacter
 				if ( imod != null )
 				{
 					String classType = imod.getString( Modifiers.CLASS );
-					if ( classType == "" || classType.equals( KoLCharacter.getClassType() ) )
+					if ( classType == "" || classType.equals( KoLCharacter.getClassType() ) &&
+						( slot != EquipmentManager.FAMILIAR || KoLCharacter.getFamiliar().equals( FamiliarPool.HAND ) ) )
 					{
 						smithsness += imod.get( Modifiers.SMITHSNESS );
 					}
