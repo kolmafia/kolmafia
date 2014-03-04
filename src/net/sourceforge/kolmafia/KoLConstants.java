@@ -423,7 +423,7 @@ public interface KoLConstants
 	public static final String CLI_HTML = "cli.html";
 	public static final String COMBATFILTER_JS = "combatfilter.1.js";
 	public static final String HOTKEYS_JS = "hotkeys.js";
-	public static final String MACROHELPER_JS = "macrohelper.2.js";
+	public static final String MACROHELPER_JS = "macrohelper.3.js";
 	public static final String ONFOCUS_JS = "onfocus.1.js";
 	public static final String PALINSHELVES_JS = "palinshelves.2.js";
 	public static final String SORTTABLE_JS = "sorttable.2.js";
