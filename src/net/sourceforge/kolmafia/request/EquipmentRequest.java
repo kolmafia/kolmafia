@@ -1052,6 +1052,7 @@ public class EquipmentRequest
 				     !result.contains( "You equip" ) &&
 				     !result.contains( "Item equipped" ) &&
 				     !result.contains( "equips an item" ) &&
+				     !result.contains( "as you put it on" ) &&
 				     !result.contains( "You take the existing card out of the sleeve to make room" ) &&
 				     !result.contains( "You apply the shiny sticker" ) &&
 				     !result.contains( "fold it into an impromptu sword" ) )
