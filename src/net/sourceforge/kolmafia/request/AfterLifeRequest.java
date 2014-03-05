@@ -129,13 +129,27 @@ public class AfterLifeRequest
 		{
 			// afterlife.php?action=scperm&whichskill=6027
 			// <td valign=center>You spend 100 Karma</td>
-			delta = -100;
+			if ( responseText.contains( "don't have enough Karma for that" ) )
+			{
+				RequestLogger.updateSessionLog( "You don't have enough Karma to perm that skill" );
+			}
+			else
+			{
+				delta = -100;
+			}
 		}
 		else if ( action.equals( "hcperm" ) )
 		{
 			// afterlife.php?action=hcperm&whichskill=6027
 			// <td valign=center>You spend 200 Karma</td>
-			delta = -200;
+			if ( responseText.contains( "don't have enough Karma for that" ) )
+			{
+				RequestLogger.updateSessionLog( "You don't have enough Karma to perm that skill" );
+			}
+			else
+			{
+				delta = -200;
+			}
 		}
 		else if ( action.equals( "returnskill" ) )
 		{
