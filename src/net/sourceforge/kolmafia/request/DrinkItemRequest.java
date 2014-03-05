@@ -603,13 +603,13 @@ public class DrinkItemRequest
 		int swizzlerCount = InventoryManager.getCount( ItemPool.SWIZZLER );
 		if ( swizzlerCount > 0 )
 		{
-			ResultProcessor.processResult( ItemPool.get( ItemPool.SWIZZLER, Math.max( item.getCount(), swizzlerCount ) ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SWIZZLER, Math.max( -item.getCount(), -swizzlerCount ) ) );
 		}
 
 		int limeCount = InventoryManager.getCount( ItemPool.TWIST_OF_LIME );
 		if ( limeCount > 0 )
 		{
-			ResultProcessor.processResult( ItemPool.get( ItemPool.TWIST_OF_LIME, Math.max( item.getCount(), limeCount ) ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.TWIST_OF_LIME, Math.max( -item.getCount(), -limeCount ) ) );
 		}
 
 		KoLCharacter.updateStatus();
