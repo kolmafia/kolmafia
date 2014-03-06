@@ -1061,6 +1061,7 @@ public class SkillDatabase
 		case 11:			// Avatar of Boris skills
 		case 12:			// Zombie Slayer skills
 		case 14:			// Avatar of Jarlsberg skills
+		case 15:			// Avatar of Sneaky Pete skills
 			return false;
 		}
 
