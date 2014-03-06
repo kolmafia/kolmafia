@@ -1224,7 +1224,6 @@ public class KoLAdventure
 		}
 
 		KoLAdventure.setLastAdventure( adventure );
-		KoLAdventure.locationLogged = true;
 		return adventure;
 	}
 
