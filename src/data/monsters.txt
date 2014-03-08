@@ -1610,4 +1610,4 @@ slippery elm house	wood_sleaze.gif	Init: -10000 P: construct E: sleaze
 steaming straw house	straw_hot.gif	Init: -10000 P: construct E: hot
 
 # Avatar of Sneaky Pete
-The Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
+Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
