@@ -38,9 +38,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,13 +63,10 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.BasementRequest;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -99,38 +94,6 @@ public class AdventureDatabase
 	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
-
-	// This should be removed eventually
-	private static final String[][] OLD_LOCATIONS =
-	{
-		
-		{
-			"Desert (Unhydrated)",
-			"The Arid, Extra-Dry Desert"
-		},
-		{
-			"Desert (Ultrahydrated)",
-			"The Arid, Extra-Dry Desert"
-		},
-		// Everything above here added to 16.1, remove after 16.2
-	};
-
-	// These should be removed eventually
-	private static final ArrayList<String> convertOldNameList = new ArrayList<String>();
-	private static final ArrayList<String> convertNewNameList = new ArrayList<String>();
-	private static String[] convertOldNameArray = null;
-	private static String[] convertNewNameArray = null;
-
-	static
-	{
-		for ( int i = 0; i < OLD_LOCATIONS.length; i++ )
-		{
-			AdventureDatabase.convertOldNameList.add( i, StringUtilities.getCanonicalName( OLD_LOCATIONS[i][0] ) );
-			AdventureDatabase.convertNewNameList.add( i, StringUtilities.getCanonicalName( OLD_LOCATIONS[i][1] ) );
-		}
-		convertOldNameArray = convertOldNameList.toArray( new String[ convertOldNameList.size() ] );
-		convertNewNameArray = convertNewNameList.toArray( new String[ convertNewNameList.size() ] );
-	}
 
 	static
 	{
@@ -862,22 +825,6 @@ public class AdventureDatabase
 			}
 
 			List matchingNames = StringUtilities.getMatchingNames( nameArray, adventureName );
-
-			// Beginning of block to remove when location name transition is done
-			if ( matchingNames.isEmpty() )
-			{
-				matchingNames = StringUtilities.getMatchingNames( AdventureDatabase.convertOldNameArray, adventureName );
-				if ( matchingNames.size() == 1 )
-				{
-					int index = AdventureDatabase.convertOldNameList.indexOf( (String) matchingNames.get( 0 ) );
-					matchingNames.remove( 0 );
-					String newName = AdventureDatabase.convertNewNameArray[ index ];
-					matchingNames.add( newName.toLowerCase() );
-					RequestLogger.printLine( "The string \"" + adventureName + "\" no longer "
-						+ "matches a location name; use \"" + newName + "\" instead" );
-				}
-			}
-			// End of block to remove when location name transition is done
 
 			if ( matchingNames.size() > 1 )
 			{
