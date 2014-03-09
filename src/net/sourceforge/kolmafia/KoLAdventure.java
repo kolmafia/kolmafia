@@ -1543,8 +1543,9 @@ public class KoLAdventure
 		},
 
 		// You need some sort of stench protection to adventure in there.
+		// You're going to need some sort of stench protection if you want to adventure here.
 		{
-			"You need some sort of stench protection",
+			"need some sort of stench protection",
 			"You need stench protection.",
 		},
 
