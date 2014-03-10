@@ -1469,6 +1469,7 @@ golden sausage	0	none
 green balloon	10	none
 green peawee marble	201	Mys: 85
 grisly shield	200	Mus: 150	shield
+hand of Mr. Cards	10	none
 handmade hobby horse	20	none
 heart-shaped balloon	10	none
 hippo skin buckler	90	Mus: 30	shield
@@ -2246,6 +2247,7 @@ tiny plastic Gnomester Blomester	10	none
 tiny plastic Hank North, Photojournalist	0	none
 tiny plastic Hellion	10	none
 tiny plastic Iiti Kitty	10	none
+tiny plastic Jared the Duskwalker	10	none
 tiny plastic Jarlsberg	30	none
 tiny plastic K.R.A.M.P.U.S.	10	none
 tiny plastic Knob Goblin King	30	none

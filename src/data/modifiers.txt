@@ -1701,6 +1701,8 @@ gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # green balloon
 green peawee marble	Stench Spell Damage: +30
 grisly shield	Damage Reduction: 13, Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +5
+# hand of Mr. Cards: Can be thrown
+hand of Mr. Cards	Muscle: +5, Mysticality: +5, Moxie: +5
 handmade hobby horse	Experience (Muscle): +2
 # heart-shaped balloon
 hippo skin buckler	Muscle: +5, Damage Reduction: 5
@@ -2562,6 +2564,7 @@ tiny plastic GORM-8	Food Drop: +10
 tiny plastic Hank North, Photojournalist	Monster Level: +1
 tiny plastic Hellion	Monster Level: +1
 tiny plastic Iiti Kitty	Monster Level: +1
+tiny plastic Jared the Duskwalker	Monster Level: +1
 tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
 tiny plastic Knob Goblin King	Muscle: +3
 tiny plastic Knob Goblin bean counter	Monster Level: +1
@@ -5199,7 +5202,7 @@ Violent Vestments	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
 Warbear Dress Armor	Item Drop: +10
 War Hippy Fatigues	Stench Damage: +15
 Wax Wardrobe	Moxie: +7
-Workoutfit	PvP Fights: +4
+Workoutfit	PvP Fights: +2
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 # Yendorian Finery	Be careful! New moon tonight.
 eXtreme Cold-Weather Gear	Cold Resistance: +5
