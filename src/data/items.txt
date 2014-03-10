@@ -6578,7 +6578,7 @@
 6560	phial of sleaziness	286554168	sleazevial.gif	usable	t	0	phials of sleaziness
 6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
 6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
-6563
+6563	hand of Mr. Cards	581824464	mrcards.gif	offhand		0
 6564	Dreadsylvanian hot pocket	365191722	hotpocket.gif	food	t	0
 6565	Dreadsylvanian cold pocket	970955510	hotpocket.gif	food	t	0
 6566	Dreadsylvanian spooky pocket	285862908	hotpocket.gif	food	t	0
@@ -7288,7 +7288,7 @@
 7270	&quot;2 Love Me, Vol. 2&quot;	532884141	book4.gif	reusable	q	0
 7271	Thinknerd Blind-Packed Toy	917011556	capsule.gif	usable	t,d	8
 7272	tiny plastic Professor What	869143496	tpguy.gif	accessory	t,d	6
-7273
+7273	tiny plastic Jared the Duskwalker	720377345	tpguy.gif	accessory	t,d	5
 7274	tiny plastic Duke Starkiller	112159313	tpguy.gif	accessory	t,d	5
 7275	tiny plastic Gary Claybender	356333776	tpguy.gif	accessory	t,d	5
 7276
@@ -7313,3 +7313,6 @@
 7295	elevent	700566589	elevent.gif	usable	t	0
 7296	elevenderizing hammer	927342745	11hammer.gif	weapon	t	0
 7297	Professor What T-Shirt	665245234	btee3.gif	shirt	t,d	10
+7298	heavy-duty bendy straw	540002924	bendystraw.gif	q	0
+7299	pellet of plant food	342274913	pellet.gif	q	0
+7300	sewing kit	386978970	sewingkit.gif	usable		0
