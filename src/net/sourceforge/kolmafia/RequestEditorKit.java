@@ -255,7 +255,6 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "woods.php" );
 		RequestEditorKit.maps.add( "friars.php" );
 		RequestEditorKit.maps.add( "pandamonium.php" );
-		RequestEditorKit.maps.add( "wormwood.php" );
 		RequestEditorKit.maps.add( "mountains.php" );
 		RequestEditorKit.maps.add( "tutorial.php" );
 		RequestEditorKit.maps.add( "place.php?whichplace=mclargehuge" );
@@ -269,6 +268,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "place.php?whichplace=town_right" );
 		RequestEditorKit.maps.add( "place.php?whichplace=spookyraven1" );
 		RequestEditorKit.maps.add( "place.php?whichplace=spookyraven2" );
+		RequestEditorKit.maps.add( "place.php?whichplace=wormwood" );
 		RequestEditorKit.maps.add( "manor3.php" );
 		RequestEditorKit.maps.add( "da.php" );
 		RequestEditorKit.maps.add( "canadia.php" );

@@ -1100,7 +1100,7 @@ public class CharPaneDecorator
 			if ( upkeepAction.endsWith( "absinthe" ) )
 			{
 				imageAction = "Go to Worm Wood";
-				upkeepAction = "wormwood.php";
+				upkeepAction = "place.php?whichplace=wormwood";
 			}
 
 			boolean isShruggable = UneffectRequest.isShruggable( effectName );

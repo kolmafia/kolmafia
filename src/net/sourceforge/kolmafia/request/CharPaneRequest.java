@@ -828,15 +828,15 @@ public class CharPaneRequest
 
 		if ( absintheCount > 8 )
 		{
-			TurnCounter.startCounting( absintheCount - 9, "Wormwood loc=151 loc=152 loc=153 wormwood.php", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 9, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
 		}
 		else if ( absintheCount > 4 )
 		{
-			TurnCounter.startCounting( absintheCount - 5, "Wormwood loc=151 loc=152 loc=153 wormwood.php", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 5, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
 		}
 		else if ( absintheCount > 0 )
 		{
-			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 wormwood.php", "tinybottle.gif" );
+			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
 		}
 	}
 
