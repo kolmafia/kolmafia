@@ -1592,13 +1592,20 @@ public class ResultProcessor
 		// If you acquire this item you've just completed Nemesis quest
 		// Contents of Hacienda for Accordion Thief changes
 		case ItemPool.BELT_BUCKLE_OF_LOPEZ:
-			HaciendaManager.questCompleted();
+			if ( combatResults )
+			{
+				HaciendaManager.questCompleted();
+			}
+			// fall through
 		case ItemPool.INFERNAL_SEAL_CLAW:
 		case ItemPool.TURTLE_POACHER_GARTER:
 		case ItemPool.SPAGHETTI_BANDOLIER:
 		case ItemPool.SAUCEBLOB_BELT:
 		case ItemPool.NEW_WAVE_BLING:
-			Preferences.setString( "questG04Nemesis", "finished" );
+			if ( combatResults )
+			{
+				Preferences.setString( "questG04Nemesis", "finished" );
+			}
 			break;
 
 		case ItemPool.PIXEL_CHAIN_WHIP:
