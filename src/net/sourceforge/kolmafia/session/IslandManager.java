@@ -1094,6 +1094,12 @@ public class IslandManager
 			test *= 2;
 		}
 
+		// Handle Pete's Motorbike with Rocket Launcher
+		if ( responseText.contains( "rocket launcher blasts 3 extra" ) )
+		{
+			delta += 3;
+		}
+
 		int last;
 		int current;
 
