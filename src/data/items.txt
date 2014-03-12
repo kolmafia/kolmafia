@@ -1235,7 +1235,7 @@
 1218	rat head balloon	515469755	ratbal.gif	familiar	g,d	500	rat head balloons
 1219	mini-zeppelin	957622815	zepbal.gif	offhand	g,d	1000	mini-zeppelins
 1220	Mr. Balloon	776019712	mrbal.gif	offhand	g,d	2500	Mr. Balloons
-1221	red balloon	814985131	redbal.gif	offhand	g,d	5000	red balloons
+1221	red balloon	814985131	redbal.gif	offhand, multiple	g,d	5000	red balloons
 1222	Mr. Eh?	712704501	mracc.gif	accessory	t	0	Mr. Ehs?
 1223	pimonkey item	888618370	1337.gif	none	t,d	0	pimonkey items
 1224	stainless steel shillelagh	413998190	ssshil.gif	weapon		0	stainless steel shillelaghs
