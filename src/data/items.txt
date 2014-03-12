@@ -7306,7 +7306,7 @@
 7288	Space Tourist palmdoctor	197726259	palmdoc.gif	offhand	q	0
 7289	amok putter	834019480	puttyputter.gif	weapon	t,d	19
 7290	amok pudding	390153181	puttypudding.gif	food	t,d	14
-7291
+7291	deactivated putty buddy	209378075	puttybuddyd.gif	grow	t,d	100
 7292
 7293	can of V-11	912022253	v11.gif	usable	t	0
 7294	elevennis shoes	396059885	11shoes.gif	accessory	t	0
