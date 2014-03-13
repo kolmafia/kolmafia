@@ -3387,6 +3387,7 @@ comfy blanket	Base Resting HP: +50
 comfy coffin	Spooky Resistance: +2
 cottage	Base Resting HP: +29, Base Resting MP: +30
 cuckoo clock	Adventures: +3
+elevent	Base Resting HP: +49, Base Resting MP: +50
 filth-encrusted futon	Stench Resistance: +2
 frigid air mattress	Cold Resistance: +2
 gauze hammock	Bonus Resting HP: +60
