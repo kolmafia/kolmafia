@@ -2002,6 +2002,7 @@ public class ItemPool
 	public static final int PETE_JACKET_COLLAR = 7267;
 	public static final int PROFESSOR_WHAT_GARMENT = 7269;
 	public static final int PALINDROME_BOOK_2 = 7270;
+	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
 
 	public static final AdventureResult get( String itemName, int count )
