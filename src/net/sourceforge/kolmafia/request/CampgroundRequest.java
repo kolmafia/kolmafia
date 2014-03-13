@@ -65,7 +65,7 @@ public class CampgroundRequest
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions|Taffy) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
-		Pattern.compile( "/rest(\\d+|a|b|c)(tp)?(_free)?.gif" );
+		Pattern.compile( "/rest(\\d+|a|b|c|d)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
@@ -97,6 +97,7 @@ public class CampgroundRequest
 		ItemPool.GINGERBREAD_HOUSE,
 		ItemPool.HOBO_FORTRESS,
 		ItemPool.SNOW_FORT,
+		ItemPool.ELEVENT,
 
 		// Bedding
 		ItemPool.BEANBAG_CHAIR,
@@ -683,6 +684,10 @@ public class CampgroundRequest
 		{
 			dwelling = "12";
 		}
+		else if ( dwelling.equals( "d" ) )
+		{
+			dwelling = "13";
+		}
 
 		int itemId = -1;
 		switch ( StringUtilities.parseInt( dwelling ) )
@@ -727,6 +732,9 @@ public class CampgroundRequest
 			break;
 		case 12:
 			itemId = ItemPool.SNOW_FORT;
+			break;
+		case 13:
+			itemId = ItemPool.ELEVENT;
 			break;
 		default:
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
@@ -952,6 +960,7 @@ public class CampgroundRequest
 		case ItemPool.GINORMOUS_PUMPKIN:
 		case ItemPool.GIANT_FARADAY_CAGE:
 		case ItemPool.SNOW_FORT:
+		case ItemPool.ELEVENT:
 			return true;
 		}
 		return false;
@@ -985,6 +994,8 @@ public class CampgroundRequest
 			return 11;
 		case ItemPool.SNOW_FORT:
 			return 12;
+		case ItemPool.ELEVENT:
+			return 13;
 		}
 		return 0;
 	}
