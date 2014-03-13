@@ -199,7 +199,7 @@ public class ListCellRendererFactory
 				return defaultComponent;
 			}
 
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 
 			stringForm.append( "<html><nobr>" );
 
@@ -259,7 +259,7 @@ public class ListCellRendererFactory
 
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 			boolean isHTML = false;
 
 			String name = icr.getName();
@@ -529,9 +529,9 @@ public class ListCellRendererFactory
 				boolean turnFreeOnly = Preferences.getBoolean( "showTurnFreeOnly" );
 				int modified = ( turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable() );
 				int initial = item.getItem().getCount( KoLConstants.inventory );
-				
+
 				// hack for clip art summons: if "no-summon" is checked, only show on-hand items
-				if ( item != null && item.getMixingMethod() == CraftingType.CLIPART && Preferences.getBoolean( "showNoSummonOnly" ) )
+				if ( item.getMixingMethod() == CraftingType.CLIPART && Preferences.getBoolean( "showNoSummonOnly" ) )
 				{
 					modified = initial;
 				}
@@ -643,7 +643,7 @@ public class ListCellRendererFactory
 				return defaultComponent;
 			}
 
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 
 			stringForm.append( "<html><nobr>" );
 
@@ -694,7 +694,7 @@ public class ListCellRendererFactory
 		@Override
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 			boolean isHTML = false;
 
 			stringForm.append( icr.getName() );
@@ -836,18 +836,27 @@ public class ListCellRendererFactory
 			{
 				if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 				{
-					int count = ar.getCount( KoLConstants.inventory );
-					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) ) )
+					int count;
+					Modifiers mods = Modifiers.getModifiers( ar.getName() );
+					if ( mods != null && mods.getBoolean( Modifiers.SINGLE ) )
 					{
-						++count;
+						count = 1;
 					}
-					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) ) )
+					else
 					{
-						++count;
-					}
-					if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) ) )
-					{
-						++count;
+						count = ar.getCount( KoLConstants.inventory );
+						if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) ) )
+						{
+							++count;
+						}
+						if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) ) )
+						{
+							++count;
+						}
+						if ( ar.equals( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) ) )
+						{
+							++count;
+						}
 					}
 					stringForm = ar.getName() + " (" + count + " max)";
 				}
@@ -891,7 +900,7 @@ public class ListCellRendererFactory
 			if ( value == null || !( value instanceof AdventureResult ) )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-			};
+			}
 
 			if ( isSelected )
 			{
@@ -903,7 +912,7 @@ public class ListCellRendererFactory
 			if ( effect == null )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-			};
+			}
 
 			String stringForm = ar.getName() + " (" + effect + ")";
 			if ( KoLCharacter.getFamiliar() == null || 
@@ -1089,7 +1098,7 @@ public class ListCellRendererFactory
 				return defaultComponent;
 			}
 
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 			stringForm.append( ar.getName() );
 			stringForm.append( " (" );
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
@@ -1127,7 +1136,7 @@ public class ListCellRendererFactory
 				return defaultComponent;
 			}
 
-			StringBuffer stringForm = new StringBuffer();
+			StringBuilder stringForm = new StringBuilder();
 			stringForm.append( ar.getName() );
 
 			int pulver = EquipmentDatabase.getPulverization( ar.getItemId() );
