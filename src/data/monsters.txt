@@ -407,7 +407,7 @@ floating platter of hors d'oeuvres	horstray.gif	Atk: 110 Def: 99 HP: 120 Init: -
 flock of seagulls	seagulls.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: beast
 Flock of Stab-Bats	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 51-80 P: beast	bat wing (30)	batblade (25)	batgut (30)
 fluffy bunny	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 7-9 P: beast	bunny liver (0)
-Foodie Giant	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 100 P: humanoid	chipotle wasabi cilantro aioli (0)	giant artisanal rice peeler (0)	giant heirloom grape tomato (0)
+Foodie Giant	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 100 P: humanoid	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)
 forest spirit	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 E: spooky P: undead	forest tears (30)	forest spirit rattle (c0)
 four skeleton invaders		HP: 110 Def: 99 Atk: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 four-shadowed mime	mime.gif	HP: [(min(50,MUS-3)+ML)*0.75] Def: [min(50,MUS-3)+ML] Atk: [min(50,MOX-3)+ML] Exp: [(min(50,STAT-3)+ML)/4] Init: -10000 P: horror	mime soul fragment (100)
@@ -478,7 +478,7 @@ Gorgolok, the Demonic Hellseal	1_4a.gif	BOSS Atk: 200 Def: 180 HP: 400 Init: 100
 Gorgolok, the Infernal Seal (Inner Sanctum)	1_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: demon	Scalp of Gorgolok (100)
 Gorgolok, the Infernal Seal (The Nemesis' Lair)	1_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: demon	Krakrox's Loincloth (100)
 Gorgolok, the Infernal Seal (Volcanic Cave)	1_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: demon 
-Goth Giant	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	awful poetry journal (0)	thin black candle (0)	Warm Subject gift certificate (0)	giant tube of black lipstick (c0)
+Goth Giant	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	awful poetry journal (15)	thin black candle (25)	Warm Subject gift certificate (5)	giant tube of black lipstick (c10)
 Grass Elemental	grasselemental.gif	Atk: 60 Def: 54 HP: 50 Init: 60 P: elemental	leaf of grass (0)	folder (Ex-Files) (c0)
 grassy pirate	grasspirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	grassy cutlass (10)
 grave rober	rober.gif	Atk: 22 Def: 19 HP: 12 Init: 80 P: dude	coffin lid (2)	dead guy's watch (5)	grave robbing shovel (50)	shysterweed (c0)
@@ -745,11 +745,11 @@ possessed can of tomatoes	tomatosoup.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 2-4 
 possessed pipe-organ	organ.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 possessed silverware drawer	silverware.gif	Atk: 5 Def: 3 HP: 6 Init: 50 P: undead	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
 possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)
-Possibility Giant	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	chaos butterfly (0)	plot hole (0)	probability potion (0)
+Possibility Giant	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	chaos butterfly (20)	plot hole (15)	probability potion (20)
 poutine ooze	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime	poutine (40)
 Pr Imp	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 48-58 P: demon	imp air (15)
 Pretty Fly	fly.gif	Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast
-Procrastination Giant	giant_procrast.gif	Atk: 125 Def: 112 HP: 150 Init: -10000 Meat: 120-180 P: humanoid	procrastination potion (0)
+Procrastination Giant	giant_procrast.gif	Atk: 125 Def: 112 HP: 150 Init: -10000 Meat: 120-180 P: humanoid	procrastination potion (25)
 Professor Jacking	profjacking.gif	Atk: 85 Def: 76 HP: 200 Init: 85 P: dude
 propaganda-spewin' elf	elf_propaganda.gif	Init: -10000 P: elf	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Protagonist	protag.gif	Atk: 100 Def: 90 HP: 80 Init: 80 Meat: 80-120 P: dude	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
@@ -759,7 +759,7 @@ psychedelic fur	carpet.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: weird	a creased pa
 pufferfish	pufferfish.gif	Atk: 400 Def: 450 HP: 750 Init: 100 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 pumped-up bass	pumpedbass.gif	Atk: 330 Def: 270 HP: 500 Init: 100 Meat: 160-240 P: fish	dull fish scale (n15)	beefy fish meat (n5)
 Pumpkin Tree			petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
-Punk Rock Giant	giant_punk.gif	Atk: 150 Def: 140 Atk: 150 Init: 50 Meat: 50 P: humanoid	giant safety pin (0)	punk rock jacket (0)	stolen sushi (0)	folder (smiley face) (c0)
+Punk Rock Giant	giant_punk.gif	Atk: 150 Def: 140 Atk: 150 Init: 50 Meat: 50 P: humanoid	giant safety pin (15)	punk rock jacket (10)	stolen sushi (30)	folder (smiley face) (c0)
 pygmy assault squad	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 100-150 P: dude	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 pygmy blowgunner	pyg_blowgunner.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 80-120 P: dude	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)	pygmy dart (c10)
 pygmy bowler	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 P: dude Meat: 100-150	bowling ball (40)	imitation White Russian (25)	tiny bowler (5)
@@ -781,14 +781,14 @@ raging bull	ragingbull.gif	Atk: 25 Def: 22 HP: 20 Init: 75 Meat: 24-36 P: dude	p
 rampaging adding machine	adding.gif	Atk: 80 Def: 72 HP: 70 Init: 50 P: construct
 ratbat	ratbat.gif	Atk: 25 Def: 22 HP: 22 Init: 60 Meat: 18-28 P: beast	rat appendix (15)	ratgut (15)	ratarang (p5)	sonar-in-a-biscuit (15)
 rattlin' duck	duckrattle.gif	Atk: 175 Def: 155 HP: 190 Init: 60 Meat: 131-162 E: stench P: beast	fetid feather (10)	duct tape (5)
-Raver Giant	giant_raver.gif	Atk: 140 Def: 126 HP: 150 Init: 40 Meat: 120-180 P: humanoid	Angry Farmer candy (0)	giant needle (0)	Mick's IcyVapoHotness Rub (0)	rave whistle (5)
+Raver Giant	giant_raver.gif	Atk: 140 Def: 126 HP: 150 Init: 40 Meat: 120-180 P: humanoid	Angry Farmer candy (25)	giant needle (20)	Mick's IcyVapoHotness Rub (20)	rave whistle (5)
 red butler	redbutler.gif	Atk: 150 Def: 155 HP: 160 Init: 50 P: dude Meat: 60-90	red box (15)	glark cable (30)
 Red Herring	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 P: dude Meat: 100-150	red box (20)
 red skeleton	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (15)	red blood cells (25)	red eye (5)
 Red Snapper	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat: 100-150	red box (30)
 regular old bat	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 18-28 P: beast	bat guano (15)	batgut (15)	bat wing (15)
 remains of a jilted mistress	mistress.gif	Atk: 164 Def: 139 HP: 145 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
-Renaissance Giant	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid	giant turkey leg (0)	Ye Olde Bawdy Limerick (0)	Ye Olde Meade (0)	Ye Olde Medieval Insult (0)
+Renaissance Giant	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid	giant turkey leg (10)	Ye Olde Bawdy Limerick (25)	Ye Olde Meade (15)	Ye Olde Medieval Insult (25)
 Rene C. Corman	reneccorman.gif	Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude	Thwaitgold maggot statuette (n100)
 revolting bugbear	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 E: stench P: beast
 revolving bugbear	revbugbear.gif	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast
@@ -901,7 +901,7 @@ spooky mummy	mummy.gif	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 8-15 E: spooky P: unde
 spooky vampire	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire collar (c4)
 Spookyraven Manor	manor.gif	HP: 120 Def: 72 Atk: 80 Init: 20 P: construct	collection of tiny spooky objects (0)
 Spunky Princess	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 88-132 P: dude	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
-Steampunk Giant	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid	brass gear (0)	brown felt tophat (0)	autocalliope (a0)
+Steampunk Giant	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid	brass gear (20)	brown felt tophat (5)	autocalliope (a0)
 Stella, the Demonic Turtle Poacher	2_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
 Stella, the Turtle Poacher (Inner Sanctum)	2_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	2_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: dude	Galapagosian Cuisses (100)
