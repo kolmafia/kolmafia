@@ -5474,7 +5474,7 @@ public class FightRequest
 
 	private static boolean handleEvilometer( String text, TagStatus status )
 	{
-		if ( text.indexOf( "Evilometer" ) == -1 )
+		if ( !text.contains( "Evilometer" ) && !text.contains( "ghost vacuum" ) )
 		{
 			return false;
 		}
@@ -5509,6 +5509,11 @@ public class FightRequest
 			text.contains( "loud" ) ? Preferences.getInteger( setting ) :
 			0;
 
+		if ( text.contains( "ghost vacuum sucks up some extra evil" ) )
+		{
+			evilness++;
+		}
+
 		if ( evilness == 0 )
 		{
 			Matcher m = BEEP_PATTERN.matcher( text );
@@ -5517,11 +5522,6 @@ public class FightRequest
 				return false;
 			}
 			evilness = StringUtilities.parseInt( m.group(1) );
-		}
-
-		if ( text.contains( "ghost vacuum sucks up some extra evil" ) )
-		{
-			evilness++;
 		}
 
 		Preferences.increment( setting, -evilness );
