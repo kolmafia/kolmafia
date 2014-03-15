@@ -124,14 +124,6 @@ public class ValhallaDecorator
 		return;
 	}
 
-	public static final void decorateAfterLife( final String location, final StringBuffer buffer )
-	{
-		if ( !location.startsWith( "afterlife.php" ) )
-		{
-			return;
-		}
-	}
-
 	private static final void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
 	{
 		for ( int i = 0; i < unpermedSkills.size(); ++i )
@@ -437,6 +429,7 @@ public class ValhallaDecorator
 				: ( cropName.contains( "barley" ) || cropName.contains( "beer label" ) ) ? "Beer Garden"
 				: ( cropName.contains( "ice harvest" ) || cropName.contains( "frost flower" ) ) ? "Winter Garden"
 				: "Unknown";
+			buffer.append( "</nobr><br><nobr>" );
 			buffer.append( " (currently " ).append( cropString ).append( ")" );
 		}
 		buffer.append( "</nobr><br>" );
@@ -513,7 +506,7 @@ public class ValhallaDecorator
 			multiple = true;
 		}
 
-		buffer.append( " (Currently " ).append( activeEudora ).append( ")" );
+		buffer.append( " (currently " ).append( activeEudora ).append( ")" );
 		buffer.append( "</nobr><br>" );
 	}
 
@@ -566,6 +559,7 @@ public class ValhallaDecorator
 
 		if ( workshedItem != null )
 		{
+			workshedBuffer.append( "</nobr><br><nobr>" );
 			workshedBuffer.append( " (currently " );
 			workshedBuffer.append( workshedItem.getName() );
 			workshedBuffer.append( ")" );
