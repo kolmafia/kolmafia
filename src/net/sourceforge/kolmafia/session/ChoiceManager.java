@@ -3221,10 +3221,42 @@ public abstract class ChoiceManager
 			break;
 
 		case 872:
-			StringUtilities.insertBefore(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.PALINSHELVES_JS + "\"></script>" );
-			StringUtilities.singleStringReplace( buffer, "<body>", "<body onload='palinshelve();'>" );
+			ChoiceManager.decorateDrawnOnward( buffer );
 			break;
+		}
+	}
+
+	private static final Pattern PHOTO_PATTERN = Pattern.compile( "<select name=\"(.*?)\".*?</select>" );
+
+	public static final void decorateDrawnOnward( final StringBuffer buffer )
+	{
+		Matcher matcher = ChoiceManager.PHOTO_PATTERN.matcher( buffer.toString() );
+		while ( matcher.find() )
+		{
+			String photo = matcher.group( 1 );
+			String find = matcher.group( 0 );
+			String replace = null;
+			if ( photo.equals( "photo1" ) && find.contains( "2259" ) )
+			{
+				replace = StringUtilities.singleStringReplace( find, "<option value=\"2259\">", "<option value=\"2259\" selected>" );
+			}
+			else if ( photo.equals( "photo2" ) && find.contains( "7264" ) )
+			{
+				replace = StringUtilities.singleStringReplace( find, "<option value=\"7264\">", "<option value=\"7264\" selected>" );
+			}
+			else if ( photo.equals( "photo3" ) && find.contains( "7263" ) )
+			{
+				replace = StringUtilities.singleStringReplace( find, "<option value=\"7263\">", "<option value=\"7263\" selected>" );
+			}
+			else if ( photo.equals( "photo4" ) && find.contains( "7265" ) )
+			{
+				replace = StringUtilities.singleStringReplace( find, "<option value=\"7265\">", "<option value=\"7265\" selected>" );
+			}
+
+			if ( replace != null )
+			{
+				StringUtilities.singleStringReplace( buffer, find, replace );
+			}
 		}
 	}
 
