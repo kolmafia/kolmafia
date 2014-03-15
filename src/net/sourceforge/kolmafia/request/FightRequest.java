@@ -2492,6 +2492,10 @@ public class FightRequest
 
 		case SkillPool.PEEL_OUT:
 			Preferences.increment( "_petePeeledOut" );
+			if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
+			{
+				BanishManager.banishMonster( monster, "peel out" );
+			}
 			break;
 
 		case SkillPool.JUMP_SHARK:

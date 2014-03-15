@@ -127,6 +127,7 @@ public class BanishManager
 		new Banisher( "chatterboxing", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "louder than bomb", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "ice house", -1, 1, false, Reset.NEVER_RESET ),
+		new Banisher( "peel out", -1, 1, true, Reset.AVATAR_RESET ),
 	};
 
 	private static class BanishedMonster
