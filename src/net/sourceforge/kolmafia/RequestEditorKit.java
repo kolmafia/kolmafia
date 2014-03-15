@@ -374,10 +374,6 @@ public class RequestEditorKit
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
-		else if ( location.startsWith( "afterlife.php" ) )
-		{
-			ValhallaDecorator.decorateAfterLife( location, buffer );
-		}
 		else if ( location.startsWith( "arcade.php" ) )
 		{
 			StringBuilder note = new StringBuilder( "Arcade (" );
@@ -1415,7 +1411,7 @@ public class RequestEditorKit
 			{
 				monsterData.append( ", " );
 			}
-			monsterData.append( bounty + " (bounty)" );
+			monsterData.append( bounty ).append( " (bounty)" );
 		}
 
 		IslandDecorator.appendMissingGremlinTool( monsterData );
