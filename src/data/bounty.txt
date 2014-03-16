@@ -23,7 +23,7 @@ triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 # Hard
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone	The Oasis
 beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle in the Clouds in the Sky (Basement)
-bit of wilted lettuce	bits of wilted lettuce	hard	lettuce.gif	4	Taco Cat	The Palindome
+bit of wilted lettuce	bits of wilted lettuce	hard	lettuce.gif	4	Taco Cat	Inside the Palindome
 burned-out arcanodiode	burned-out arcanodiodes	hard	diode.gif	12	MagiMechTech MechaMech	The Penultimate Fantasy Airship
 dirty coal button	dirty coal buttons	hard	coalbutton.gif	8	Ninja Snowman Janitor	Lair of the Ninja Snowmen
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
