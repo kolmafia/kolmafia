@@ -3236,21 +3236,33 @@ public abstract class ChoiceManager
 			String photo = matcher.group( 1 );
 			String find = matcher.group( 0 );
 			String replace = null;
-			if ( photo.equals( "photo1" ) && find.contains( "2259" ) )
+			if ( photo.equals( "photo1" ) )
 			{
-				replace = StringUtilities.singleStringReplace( find, "<option value=\"2259\">", "<option value=\"2259\" selected>" );
+				if ( find.contains( "2259" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "<option value=\"2259\">", "<option value=\"2259\" selected>" );
+				}
 			}
-			else if ( photo.equals( "photo2" ) && find.contains( "7264" ) )
+			else if ( photo.equals( "photo2" ) )
 			{
-				replace = StringUtilities.singleStringReplace( find, "<option value=\"7264\">", "<option value=\"7264\" selected>" );
+				if ( find.contains( "7264" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "<option value=\"7264\">", "<option value=\"7264\" selected>" );
+				}
 			}
-			else if ( photo.equals( "photo3" ) && find.contains( "7263" ) )
+			else if ( photo.equals( "photo3" ) )
 			{
-				replace = StringUtilities.singleStringReplace( find, "<option value=\"7263\">", "<option value=\"7263\" selected>" );
+				if ( find.contains( "7263" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "<option value=\"7263\">", "<option value=\"7263\" selected>" );
+				}
 			}
-			else if ( photo.equals( "photo4" ) && find.contains( "7265" ) )
+			else if ( photo.equals( "photo4" ) )
 			{
-				replace = StringUtilities.singleStringReplace( find, "<option value=\"7265\">", "<option value=\"7265\" selected>" );
+				if ( find.contains( "7265" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "<option value=\"7265\">", "<option value=\"7265\" selected>" );
+				}
 			}
 
 			if ( replace != null )
