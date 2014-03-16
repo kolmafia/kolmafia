@@ -398,7 +398,7 @@ public class TurnCounter
 		while ( it.hasNext() )
 		{
 			TurnCounter current = it.next();
-			if ( current.parsedLabel.equals( label ) )
+			if ( current.parsedLabel.equals( label ) && current.value >= KoLCharacter.getCurrentRun() )
 			{
 				return true;
 			}
@@ -465,7 +465,7 @@ public class TurnCounter
 			return Crimbo09Request.getTurnsUsed( request );
 		}
 
-		if ( path.equals( "craft.php" )	|| path.equals( "guild.php" ) )
+		if ( path.equals( "craft.php" ) || path.equals( "guild.php" ) )
 		{
 			return CreateItemRequest.getAdventuresUsed( request );
 		}
