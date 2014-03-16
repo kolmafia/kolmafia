@@ -428,6 +428,9 @@ public class AfterLifeRequest
 			case 14:
 				builder.append( "Avatar of Jarlsberg" );
 				break;
+			case 15:
+				builder.append( "Avatar of Sneaky Pete" );
+				break;
 			default:
 				builder.append( "(Class " );
 				builder.append( String.valueOf( pclass ) );
@@ -516,6 +519,9 @@ public class AfterLifeRequest
 				break;
 			case 16:
 				builder.append( "a Class Act II: A Class For Pigs" );
+				break;
+			case 17:
+				builder.append( "an Avatar of Sneaky Pete" );
 				break;
 			default:
 				builder.append( "(Path " );
