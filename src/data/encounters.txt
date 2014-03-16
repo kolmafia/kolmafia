@@ -15,7 +15,7 @@ The Enormous Greater-Than Sign	STOP	The Oracle Will See You Now
 Pre-Cyrpt Cemetary	STOP	A Grave Situation
 Post-Cyrpt Cemetary	STOP	A Grave Situation
 Tower Ruins	STOP	Take a Dusty Look!
-The Palindome	STOP	Drawn Onward
+Inside the Palindome	STOP	Drawn Onward
 # The following is unnecessary, since you can use "1 choice" as a goal
 Cobb's Knob Laboratory	STOP	Mr. Alarm, I Presarm
 The Haunted Ballroom	STOP	We'll All Be Flat

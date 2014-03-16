@@ -313,7 +313,7 @@ public abstract class BadMoonManager
 		// vulnerability to the opposite elements
 		{
 			"Strategy: Get Arts",
-			"The Palindome",
+			"Inside the Palindome",
 			"defeating Dr. Awkward",
 			EffectPool.get( "Paw swap", 10 ),
 			"So-So Cold Resistance. Double damage from Hot and Spooky",
