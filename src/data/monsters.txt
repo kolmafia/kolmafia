@@ -103,7 +103,7 @@ acoustic electric eel	electriceel.gif	Atk: 400 Def: 360 HP: 500 Init: 200 Meat: 
 actual orcish frat boy	1boy2cups.gif	HP: 100 Def: 63 Atk: 45 Init: 60 E: sleaze P: orc	plastic cup of beer (100)	plastic cup of beer (100)
 albino bat	whitebat.gif	Atk: 12 Def: 12 HP: 8 Init: 60 Meat: 16-26 P: beast	batgut (10)	bat guano (10)
 alert mariachi	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)	alarm accordion (a0)
-Alphabet Giant	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 120-180 P: humanoid	heavy D (0)	original G (0)
+Alphabet Giant	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 120-180 P: humanoid	heavy D (40)	original G (40)
 Amateur Elf			elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 amateur ninja	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 16-24 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 amok putty	amokputty.gif	Init: 100 P: slime	amok pudding (0)	amok putter (0)
@@ -394,7 +394,7 @@ filthy hippy jewelry maker	hippy1.gif	Atk: 39 Def: 35 HP: 30 Init: 70 E: stench 
 filthy hippy Vegan chef	hippy1.gif	Atk: 39 Def: 35 HP: 30 Init: 70 E: stench P: hippy	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (2)	filthy knitted dread sack (2)	filthy pestle (5)	patchouli incense stick (30)	double-barreled sling (0)	Spanish fly (c25)
 fire-breathing duck	duckfirebreath.gif	Atk: 177 Def: 154 HP: 185 Init: 50 Meat: 142-200 E: hot P: beast	flaming feather (10)	duct tape (5)
 fisherfish	fisherfish.gif	Atk: 550 Def: 427 HP: 650 Init: 100 Meat: 240-360 P: fish	glowing esca (n3)	halibut (c3)	rough fish scale (n3)
-Fitness Giant	giant_fitness.gif	Atk: 150 Def: 140 HP: 200 Init: 40 Meat: 100 P: humanoid	giant jar of protein powder (0)	pec oil (0)	Squat-Thrust Magazine
+Fitness Giant	giant_fitness.gif	Atk: 150 Def: 140 HP: 200 Init: 40 Meat: 100 P: humanoid	giant jar of protein powder (15)	pec oil (25)	Squat-Thrust Magazine (10)
 five skeleton invaders	bigskeleton5.gif	HP: 150 Def: 135 Atk: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 flame-broiled meat blob	meatblob.gif	Atk: 2 Def: 1 HP: 2 Init: 60 E: hot Meat: 4-7 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Samurai	samurai.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude
@@ -426,7 +426,7 @@ fudge weasel	fudgeweasel.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast	fudgecule
 funk particle	funkparticle.gif	Atk: 85 Def: 67 HP: 80 Init: 30 P: weird	fat bottom quark (0)
 funk sole brother	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 160-240 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Fur Tree			petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
-Furry Giant	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 120-180 EA: sleaze P: humanoid	furry fur (0)	disturbing fanfic (0)	wolf mask (0)
+Furry Giant	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 120-180 EA: sleaze P: humanoid	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
 G imp	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 24-36 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
 gang of hobo muggers	muggers.gif	Atk: 800 Def: 900 HP: 3000 Init: 300 P: hobo
 ganger	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 192-288 P: fish	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
@@ -690,7 +690,7 @@ Naughty Sorceress	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 
 Naughty Sorceress (2)	sorcblob.gif	BOSS Atk: 205 Def: 184 HP: 600 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: humanoid P: dude
 Naughty Sorceress (3)	bigsauce.gif	BOSS Atk: 9999999 Def: 8999999 HP: 9999999 Init: 10000 Exp: 500 P: dude	Instant Karma (c100)
 Naughty Sorority Nurse	warfratmd2.gif	Atk: 180 Def: 166 HP: 160 Init: 30 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
-Neckbeard Giant	giant_neckbeard.gif	Atk: 125 Def: 120 HP: 150 Init: 40 Meat: 150 P: humanoid	giant penguin keychain (0)	O'RLY manual (0)	open sauce (0)
+Neckbeard Giant	giant_neckbeard.gif	Atk: 125 Def: 120 HP: 150 Init: 40 Meat: 150 P: humanoid	giant penguin keychain (15)	O'RLY manual (15)	open sauce (25)
 Neil	neil.gif	Atk: 195 Def: 175 HP: 240 Init: 40 ED: stench Meat: 182-187 P: hippy	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
 Neptune flytrap	flytrap.gif	Atk: 450 Def: 360 HP: 700 Init: 125 "Really Quite Poisoned" P: plant	flytrap pellet (n30)	water-polo cap (c0)	wriggling flytrap pellet (c0)
 Neptune, the Dog that Is a Respected Equal and Not a Pet	mc_respect2.gif	Atk: 45 Def: 40 HP: 80 Init: 60 P: beast	respected companion biscuit (0)
