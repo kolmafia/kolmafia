@@ -7313,6 +7313,6 @@
 7295	elevent	700566589	elevent.gif	usable	t	0
 7296	elevenderizing hammer	927342745	11hammer.gif	weapon	t	0
 7297	Professor What T-Shirt	665245234	btee3.gif	shirt	t,d	10
-7298	heavy-duty bendy straw	540002924	bendystraw.gif	q	0
-7299	pellet of plant food	342274913	pellet.gif	q	0
+7298	heavy-duty bendy straw	540002924	bendystraw.gif	none	q	0
+7299	pellet of plant food	342274913	pellet.gif	none	q	0
 7300	sewing kit	386978970	sewingkit.gif	usable		0
