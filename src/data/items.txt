@@ -7299,7 +7299,7 @@
 7281	wind-up navigation droid	299947144	windupr2d2.gif	usable	t,d	25
 7282	wind-up owl	810674665	windupowl.gif	usable	t,d	25
 7283	wind-up ensign	346523065	windupensign.gif	usable	t,d	25
-7284
+7284	crying statue earrings	437592126	statueearrings.gif	accessory	q	0
 7285	plastic Duskwalker necklace	912055933	vamphearneck.gif	accessory	q	0
 7286	plastic replica blaster pistol	873925415	solopistol.gif	weapon	q	0
 7287	Gary Claybender's Time Screwer	208150506	timescrewer.gif	accessory	q	0
@@ -7307,7 +7307,7 @@
 7289	amok putter	834019480	puttyputter.gif	weapon	t,d	19
 7290	amok pudding	390153181	puttypudding.gif	food	t,d	14
 7291	deactivated putty buddy	209378075	puttybuddyd.gif	grow	t,d	100
-7292
+7292	putty coat	577027899	puttycoat.gif	familiar	t,d	75
 7293	can of V-11	912022253	v11.gif	usable	t	0
 7294	elevennis shoes	396059885	11shoes.gif	accessory	t	0
 7295	elevent	700566589	elevent.gif	usable	t	0

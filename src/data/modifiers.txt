@@ -2193,6 +2193,7 @@ copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
+crying statue earrings	Muscle: +5, Maximum HP: +100, Single Equip, Lasts until Rollover
 cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
@@ -2960,6 +2961,7 @@ portable motorcycle	Familiar Weight: +5
 # pretty pink bow: +10 lbs. of Ghoul Whelp
 prosthetic forehead	Familiar Weight: +5
 psychedelic bubble wand	Familiar Weight: +5
+putty coat	Familiar Weight: +5
 # quadroculars: Helps Your He-Boulder See Better (x4)
 quadroculars	Familiar Weight: +5
 # quake of arrows: Holds Heavier Arrows
@@ -3205,6 +3207,7 @@ Throne:Piano Cat	Meat Drop: +20
 Throne:Pottery Barn Owl	Hot Damage: +10
 Throne:Psychedelic Bear	Meat Drop: +20
 Throne:Purse Rat	Experience: +2
+Throne:Putty Buddy	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Ragamuffin Imp	Mysticality Percent: +15
 Throne:Reagnimated Gnome	Spooky Damage: +15
