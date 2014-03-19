@@ -7291,7 +7291,7 @@
 7273	tiny plastic Jared the Duskwalker	720377345	tpguy.gif	accessory	t,d	5
 7274	tiny plastic Duke Starkiller	112159313	tpguy.gif	accessory	t,d	5
 7275	tiny plastic Gary Claybender	356333776	tpguy.gif	accessory	t,d	5
-7276
+7276	tiny plastic Captain Kerkard	861434476	tpguy.gif	accessory	t,d	6
 7277	robot grease	726361717	groosegrease.gif	usable	t,d	12
 7278	returned Thinknerd package	802278358	tnpackage.gif	usable	t,d	45
 7279	wind-up Whatsian robot	201589543	windupdalek.gif	usable	t,d	25

@@ -2222,6 +2222,7 @@ tiny plastic Bonerdagon	30	none
 tiny plastic Boris	30	none
 tiny plastic Boss Bat	30	none
 tiny plastic Bugbear Captain	50	Mys: 10
+tiny plastic Captain Kerkard	0	none
 tiny plastic CRIMBCO HQ	0	none
 tiny plastic Charity the Zombie Hunter	10	none
 tiny plastic Cheshire bat	10	none
