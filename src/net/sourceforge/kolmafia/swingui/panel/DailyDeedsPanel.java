@@ -2392,10 +2392,10 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			this.setShown( ( KoLCharacter.isMoxieClass() &&
-				       KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && 
-				       KoLCharacter.getGuildStoreOpen() ) ||
-					   KoLCharacter.hasSkill( "Mixology" ) );
-			this.setText( (10 - KoLCharacter.getStillsAvailable()) + "/10 stills used" );
+			                 KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) &&
+			                 KoLCharacter.getGuildStoreOpen() ) ||
+			               KoLCharacter.hasSkill( "Mixologist" ) );
+			this.setText( ( 10 - KoLCharacter.getStillsAvailable() ) + "/10 stills used" );
 		}
 	}
 
