@@ -258,7 +258,7 @@ Chowder Golem	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 29-46 P: constr
 # Clan of Cave Bars		Atk: 30 Def: 30 HP: 30
 clan of cave bars	cavebars.gif	HP: [(min(200,MOX+20)+5*ML)*0.75] Def: [min(200,MUS+20)+5*ML] Atk: [min(200,MOX+20)+5*ML] Exp: [(min(200,STAT+20)+5*ML)/4] Init: -10000 Meat: 320-480 P: beast
 claw-foot bathtub	bathtub.gif	Atk: 90 Def: 90 HP: 100 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
-Claybender Sorcerer Ghost	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 E: spooky P: undead	A-Boo clue (n15)	Claybender glasses (0)	Polysniff Perfume (0)	folder (wizard) (c0)
+Claybender Sorcerer Ghost	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (n15)	Claybender glasses (0)	Polysniff Perfume (0)	folder (wizard) (c0)
 cleanly pirate	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 49-72 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
 clingy pirate	girlpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-78 P: pirate	bit of clingfilm (11)
 Cloaca-Cola Catapult Engineer	colaoff1.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
