@@ -1118,6 +1118,52 @@ public class Evaluator
 					break;
 				}
 
+				// Some items can only be equipped in certain paths in hardcore
+				// Will only affect characters who buy items for other paths whilst in run
+				
+				if ( KoLCharacter.isHardcore() )
+				{
+					switch ( id )
+					{
+					case ItemPool.BORIS_HELM:
+					case ItemPool.BORIS_HELM_ASKEW:
+						if ( !KoLCharacter.isAvatarOfBoris() )
+						{
+							continue;
+						}
+						break;
+					case ItemPool.RIGHT_BEAR_ARM:
+					case ItemPool.LEFT_BEAR_ARM:
+						if ( !KoLCharacter.isZombieMaster() )
+						{
+							continue;
+						}
+						break;
+					case ItemPool.JARLS_PAN:
+					case ItemPool.JARLS_COSMIC_PAN:
+						if ( !KoLCharacter.isJarlsberg() )
+						{
+							continue;
+						}
+						break;
+					case ItemPool.FOLDER_HOLDER:
+						if ( !KoLCharacter.inHighschool() )
+						{
+							continue;
+						}
+						break;
+					case ItemPool.PETE_JACKET:
+					case ItemPool.PETE_JACKET_COLLAR:
+						if ( !KoLCharacter.isSneakyPete() )
+						{
+							continue;
+						}
+						break;
+					default:
+						break;
+					}
+				}
+
 				if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
 				{
 					item.validate( maxPrice, priceLevel );
