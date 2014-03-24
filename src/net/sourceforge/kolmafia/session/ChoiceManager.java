@@ -5897,11 +5897,6 @@ public abstract class ChoiceManager
 				// Option 1 is "Play"
 				RabbitHoleManager.parseChessMove( urlString, text );
 			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
-				// Option 2 is "Walk away from the board"
-				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, 1 );
-			}
 			break;
 
 		case 450:
