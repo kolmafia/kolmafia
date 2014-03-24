@@ -1559,7 +1559,7 @@ public class KoLAdventure
 		// You try to enter the Haunted Library, but the door is locked. I guess this particular information doesn't want to be free.
 		{
 			"I guess this particular information doesn't want to be free",
-			"You need to Haunted Library key.",
+			"You need the Spookyraven library key.",
 		},
 
 		// Mining while drunk
