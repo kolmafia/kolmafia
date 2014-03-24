@@ -9629,14 +9629,14 @@ public abstract class ChoiceManager
 		// Working Holiday
 		case 786:
 		{
-			// If boss dead, show in browser, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you still need file
+			// If boss dead, fight accountant, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you still need file
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
 				boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
 				boolean hasMcCluskyFilePage5 = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE_PAGE5 ) > 0;
 				boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
-				return ( hiddenOfficeProgress >= 7 ? "4" :
+				return ( hiddenOfficeProgress >= 7 ? "3" :
 						hasMcCluskyFile ? "1" :
 						!hasBinderClip ? "2" : 
 						!hasMcCluskyFilePage5 ? "3" : "0" );
