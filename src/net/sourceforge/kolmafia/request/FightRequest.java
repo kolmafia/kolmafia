@@ -4787,6 +4787,12 @@ public class FightRequest
 				FightRequest.logText( text, status );
 			}
 
+			if ( str.contains( "search the seat's cushions" ) )
+			{
+				// We'll have already processed nunnery meat if this happens
+				status.nunnery = false;
+			}
+
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
