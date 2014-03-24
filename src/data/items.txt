@@ -2592,7 +2592,7 @@
 2574	ant pick	577092879	antpick.gif	familiar	t,d	75	ant picks
 2575	bronzed locust	991245163	locust1.gif	none, combat	t,d	55	bronzed locusts
 2576	honey-dipped locust	300470894	locust2.gif	hpmp, multiple, candy	t,d	115	honey-dipped locusts
-2577	giant cactus quill	604989033	quill.gif	weapon	t,d	155	giant catus quills
+2577	giant cactus quill	604989033	quill.gif	weapon	t,d	155	giant cactus quills
 2578	Staff of the Short Order Cook	445174128	chefstaff3.gif	weapon	d	25	Staves of the Short Order Cook
 2579	cactus fruit	241600811	cactusfruit.gif	food	t,d	35	cactus fruits
 2580	scorpion whip	661963442	scorpwhip.gif	weapon	t,d	25	scorpion whips
