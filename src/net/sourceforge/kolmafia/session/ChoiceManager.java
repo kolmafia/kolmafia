@@ -5590,11 +5590,6 @@ public abstract class ChoiceManager
 			Preferences.setInteger( "birdformStench", 0 );
 			break;
 
-		// An E.M.U. for Y.O.U.
-		case 539:
-			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
-			break;
-
 		// The Horror...
 		case 611:
 			if ( ChoiceManager.lastDecision == 2 ) // Flee

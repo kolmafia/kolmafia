@@ -2312,7 +2312,8 @@ public class FightRequest
 			}
 		}
 
-		if ( responseText.indexOf( "Axel screams, and lets go of your hand" ) != -1 )
+		if ( responseText.contains( "Axel screams, and lets go of your hand" ) || 
+			responseText.contains( "Axel Ottal wanders off" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your Spooky little girl ran off." );
