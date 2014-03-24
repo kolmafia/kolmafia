@@ -1556,6 +1556,12 @@ public class KoLAdventure
 			"You need cold protection.",
 		},
 
+		// You try to enter the Haunted Library, but the door is locked. I guess this particular information doesn't want to be free.
+		{
+			"I guess this particular information doesn't want to be free",
+			"You need to Haunted Library key.",
+		},
+
 		// Mining while drunk
 		{
 			"You're too drunk to spelunk, as it were",
