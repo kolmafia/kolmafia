@@ -1079,7 +1079,7 @@ public class Modifiers
 			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0);
 
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
-		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
+		double C = KoLCharacter.isMuscleClass() ? 1.5 : KoLCharacter.isSneakyPete() ? 1.3 : 1.0;
 		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.HP );
 		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
