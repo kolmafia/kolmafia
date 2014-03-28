@@ -6571,11 +6571,11 @@
 6553	spooky cluster	407716567	cluster.gif	none, fancy	t,d	500
 6554	stench cluster	472355222	cluster.gif	none, fancy	t,d	500
 6555	sleaze cluster	859360841	cluster.gif	none, fancy	t,d	500
-6556	phial of hotness	958585577	hotvial.gif	usable	t	0	phials of hotness
-6557	phial of coldness	552997486	coldvial.gif	usable	t	0	phials of coldness
-6558	phial of spookiness	581859871	spookyvial.gif	usable	t	0	phials of spookiness
-6559	phial of stench	747545081	stenchvial.gif	usable	t	0	phials of stench
-6560	phial of sleaziness	286554168	sleazevial.gif	usable	t	0	phials of sleaziness
+6556	phial of hotness	958585577	hotvial.gif	multiple	t	0	phials of hotness
+6557	phial of coldness	552997486	coldvial.gif	multiple	t	0	phials of coldness
+6558	phial of spookiness	581859871	spookyvial.gif	multiple	t	0	phials of spookiness
+6559	phial of stench	747545081	stenchvial.gif	multiple	t	0	phials of stench
+6560	phial of sleaziness	286554168	sleazevial.gif	multiple	t	0	phials of sleaziness
 6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
 6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
 6563	hand of Mr. Cards	581824464	mrcards.gif	offhand		0
