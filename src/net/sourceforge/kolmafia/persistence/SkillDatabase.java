@@ -833,7 +833,7 @@ public class SkillDatabase
 	{
 		// Shake it off is a passive as well as a non-combat heal
 		return SkillDatabase.isType( skillId, SkillDatabase.PASSIVE ) ||
-				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE ) || skillId == SkillPool.SHAKE_IT_OFF;
+				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
 	}
 
 	/**
