@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -131,7 +132,7 @@ public class ShowDescriptionList
 
 		if ( !isMoodList )
 		{
-			if ( displayModel.size() == 0 || !isEncyclopedia )
+			if ( displayModel.isEmpty() || !isEncyclopedia )
 			{
 				this.contextMenu.add( new ContextMenuItem( "Game description", new DescriptionRunnable() ) );
 			}
@@ -403,7 +404,7 @@ public class ShowDescriptionList
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 		return "http://kol.coldfront.net/thekolwiki/index.php/" +
-			StringUtilities.getURLEncode( name );
+			StringUtilities.getURLEncode( CharacterEntities.unescape( name ) );
 	}
 
 	public static final void showWikiDescription( final Object item )
