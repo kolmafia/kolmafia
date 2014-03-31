@@ -2477,8 +2477,11 @@ public class FightRequest
 			break;
 
 		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
-			BanishManager.banishMonster( monster, "walk away from explosion" );
-			break;
+			if ( !responseText.contains( "hear that it is still alive" ) )
+			{
+				BanishManager.banishMonster( monster, "walk away from explosion" );
+				break;
+			}
 
 		case SkillPool.POCKET_CRUMBS:
 			if ( responseText.contains( "pocket next to the crumbs" ) )
