@@ -213,7 +213,6 @@ public class AccountRequest
 
 	private static String fancyMenuStyle = "<input type=\"radio\" value=\"fancy\" checked=\"checked\"  name=\"menu\"/>Icons";
 	private static String compactMenuStyle = "<input type=\"radio\" value=\"compact\" checked=\"checked\"  name=\"menu\"/>Drop-Downs";
-	private static String normalMenuStyle = "<input type=\"radio\" value=\"normal\" checked=\"checked\"  name=\"menu\"/>Links";
 
 	private static final void parseInterfaceOptions( final String responseText )
 	{
@@ -285,7 +284,7 @@ public class AccountRequest
 
 		// <input class=button name="action" type=submit value="Drop Bad Moon">
 
-		if ( responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Bad Moon\">" ) != -1 )
+		if ( responseText.contains( "<input class=button name=\"action\" type=submit value=\"Drop Bad Moon\">" ) )
 		{
 			KoLCharacter.setHardcore( true );
 			KoLCharacter.setSign( "Bad Moon" );
@@ -422,7 +421,7 @@ public class AccountRequest
 
 		if ( action.equals( "Recall+Skills" ) )
 		{
-			if ( location.indexOf( "recallconfirm=1" ) != -1 )
+			if ( location.contains( "recallconfirm=1" ) )
 			{
 				// Recalling skills
 				RequestLogger.updateSessionLog();
@@ -435,7 +434,7 @@ public class AccountRequest
 		
 		// Check for failure to drop path before checking to see if a path was dropped
 		// For Boris, "You must abandon the Avatar of Boris before forsaking ronin."
-		if ( responseText.indexOf( "You must abandon" ) != -1 )
+		if ( responseText.contains( "You must abandon" ) )
 		{
 			return;
 		}
@@ -448,7 +447,7 @@ public class AccountRequest
 
 		if ( action.equals( "Forsake+Ronin" ) )
 		{
-			if ( location.indexOf( "unroninconfirm=1" ) != -1 )
+			if ( location.contains( "unroninconfirm=1" ) )
 			{
 				// Dropping from Softcore to Casual.
 				KoLCharacter.setRonin( false );
@@ -471,50 +470,13 @@ public class AccountRequest
 		     action.equals( "Drop+Boozetafarian" ) ||
 		     action.equals( "Drop+Oxygenarian" ) )
 		{
-			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
+			if ( location.contains( "unpathconfirm=1" ) )
 			{
 				// Dropping consumption restrictions
 				KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped consumption restrictions." );
 				RequestLogger.updateSessionLog();
-			}
-			return;
-		}
-
-		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Drop+Avatar+of+Boris&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Drop+Bugbear+Invasion&unpathconfirm=1&tab=account&pwd
-		if ( action.equals( "Drop+Bees+Hate+You" ) ||
-		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
-		     action.equals( "Drop+Trendy" ) ||
-		     action.equals( "Drop+Avatar+of+Boris" ) ||
-		     action.equals( "Drop+Bugbear+Invasion" ) ||
-			 action.equals( "Drop+Zombie+Slayer" ) ||
-			 action.equals( "Drop+Class+Act" ) )
-		{
-			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
-			{
-				// Dropping challenge path
-				String oldPath = KoLCharacter.getPath();
-				KoLCharacter.setPath( "None" );
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "Dropped " + oldPath );
-				RequestLogger.updateSessionLog();
-
-				// If we were in Beecore, we need to check the Telescope again
-				// Ditto for Bugbear Invasion
-				if ( oldPath.equals( "Bees Hate You" ) || oldPath.equals( "Bugbear Invasion" ) )
-				{
-					Preferences.setInteger( "lastTelescopeReset", -1 );
-					KoLCharacter.checkTelescope();
-				}
-
-				// If we drop Avatar of Boris, do we get here,
-				// or are we redirected to the "End of the
-				// Boris Road" choice adventure?
 			}
 			return;
 		}
@@ -553,6 +515,38 @@ public class AccountRequest
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped Bad Moon. You fool!" );
 				RequestLogger.updateSessionLog();
+			}
+			return;
+		}
+
+		// Anything not covered above is dropping a challenge path
+		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Avatar+of+Boris&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Bugbear+Invasion&unpathconfirm=1&tab=account&pwd
+		if ( action.startsWith( "Drop+" ) )
+		{
+			if ( location.contains( "unpathconfirm=1" ) )
+			{
+				// Dropping challenge path
+				String oldPath = KoLCharacter.getPath();
+				KoLCharacter.setPath( "None" );
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped " + oldPath );
+				RequestLogger.updateSessionLog();
+
+				// If we were in Beecore, we need to check the Telescope again
+				// Ditto for Bugbear Invasion
+				if ( oldPath.equals( "Bees Hate You" ) || oldPath.equals( "Bugbear Invasion" ) )
+				{
+					Preferences.setInteger( "lastTelescopeReset", -1 );
+					KoLCharacter.checkTelescope();
+				}
+
+				// If we drop Avatar of Boris, do we get here,
+				// or are we redirected to the "End of the
+				// Boris Road" choice adventure?
 			}
 			return;
 		}
