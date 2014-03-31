@@ -421,7 +421,7 @@ public class BanishManager
 		while ( it.hasNext() )
 		{
 			BanishedMonster current = it.next();
-			if ( current.getMonsterName().equals( monster ) )
+			if ( current.getMonsterName().equalsIgnoreCase( monster ) )
 			{
 				return true;
 			}

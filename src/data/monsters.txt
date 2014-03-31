@@ -285,7 +285,7 @@ craven carven raven	stone_raven.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS
 Crazy Bastard		HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
 creamy pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 creepy clown	clown.gif	Atk: 20 Def: 18 HP: 16 Init: 85 E: spooky Meat: 24-36 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)
-Creepy Ginger Twin	twins_ginger.gif	Atk: 95 Def: 86 HP: 95 Init: 30 P: dude	creepy ginger ale (15)	stolen necklace (5)	fireclutch (c0)
+Creepy Ginger Twin	twins_ginger.gif	Atk: 95 Def: 86 HP: 95 Init: 30 P: dude	creepy ginger ale (15)	stolen necklace (5)	fireclutch (c30)
 croqueteer	croqueteer.gif	HP: [(MUS+ML)*.75] Def: [MUS+ML] Atk: [MOX+ML] Exp: [(STAT+ML)/4] Init: 75 Meat: 48 P: dude	croquet hedgehog (0)	flamingo mallet (0)
 cruel dust mote	dustmote.gif	Atk: 75 Def: 67 HP: 100 Init: 40 P: weird	boulder (0)
 crusty hippy	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)

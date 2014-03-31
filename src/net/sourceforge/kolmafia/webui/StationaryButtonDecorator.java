@@ -562,7 +562,7 @@ public class StationaryButtonDecorator
 		{
 			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableCombatSkills.get( i );
 			int actionId = current.getSkillId();
-			if ( actionId >= 7000 && actionId < 8000 && actionId != classStunId )
+			if ( actionId >= 7000 && actionId < 8000 && actionId != classStunId && actionId != 7201 )
 			{
 				String action = String.valueOf( actionId );
 				StationaryButtonDecorator.addFightButton( actionBuffer, action, FightRequest.getCurrentRound() > 0 );
