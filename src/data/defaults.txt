@@ -928,6 +928,9 @@ user	_defectiveTokenChecked	false
 user	_demandSandwich	0
 user	_discoKnife	false
 user	_distentionPillUsed	false
+user	_dnaPotionsMade	0
+user	_dnaHybrid	false
+user	_dnaSyringe	
 user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_elronsCasts	0

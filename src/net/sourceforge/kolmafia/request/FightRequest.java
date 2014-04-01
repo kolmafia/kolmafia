@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -2338,6 +2339,13 @@ public class FightRequest
 		if ( responseText.indexOf( "into last week. It saves you some time, because you already beat" ) != -1 )
 		{
 			Preferences.increment( "_vmaskAdv", 1 );
+		}
+
+		// "Your opponent is shocked into inaction as you plunge the syringe into it and extract a sample of its DNA."
+		if ( responseText.contains( "plunge the syringe" ) )
+		{
+			Phylum dna = MonsterStatusTracker.getLastMonster().getPhylum();
+			Preferences.setString( "_dnaSyringe", dna.toString() );
 		}
 
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
