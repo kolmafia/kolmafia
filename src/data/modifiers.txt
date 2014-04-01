@@ -4118,6 +4118,28 @@ Hot Sweat	Hot Resistance: +7
 Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
 Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
+Human-Beast Hybrid	Weapon Damage: +30
+Human-Constellation Hybrid	Meat Drop: +50
+Human-Demon Hybrid	Hot Damage: +20, Hot Spell Damage: +20
+Human-Elemental Hybrid	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+Human-Elf Hybrid	Spell Damage Percent: +100, Candy Drop: +50
+Human-Fish Hybrid	Familiar Weight: +10
+Human-Goblin Hybrid	Food Drop: +50, Pickpocket Chance: +20
+Human-Hippy Hybrid	Maximum MP: +20, Experience: +1
+Human-Hobo Hybrid	Stench Damage: +20, Stench Spell Damage: +20
+Human-Human Hybrid	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10
+Human-Humanoid Hybrid	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Meat Drop: +20
+Human-Horror Hybrid	Critical Hit Percent: +10, Spell Critical Percent: +10
+Human-Insect Hybrid	Initiative: +25
+Human-Machine Hybrid	Damage Absorption: +50, Damage Reduction: +5, Familiar Weight: +5
+Human-Mer-Kin Hybrid	Monster Level: +25
+Human-Orc Hybrid	Maximum MP: +40, Experience: +1
+Human-Penguin Hybrid	Item Drop: +25
+Human-Pirate Hybrid	Booze Drop: +50, Gear Drop: +50
+Human-Plant Hybrid	Cold Damage: +20, Cold Spell Damage: +20
+Human-Sleaze Hybrid	Sleaze Damage: +20, Sleaze Spell Damage: +20
+Human-Weird Thing Hybrid	Experience: +4
+Human-Undead Hybrid	Spooky Damage: +20, Spooky Spell Damage: +20
 Hurricane Force	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Hustlin'	Initiative: +50, Item Drop: +10
 # Hyperbolic Hypothermia: Continually take damage
@@ -5378,6 +5400,28 @@ Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Fuzzby	Free Pull
 GameInformPowerDailyPro subscription card	Free Pull
 Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
+Gene Tonic: Beast	Effect: "Human-Beast Hybrid", Effect Duration: 30
+Gene Tonic: Constellation	Effect: "Human-Constellation Hybrid", Effect Duration: 30
+Gene Tonic: Construct	Effect: "Human-Machine Hybrid", Effect Duration: 30
+Gene Tonic: Demon	Effect: "Human-Demon Hybrid", Effect Duration: 30
+Gene Tonic: Dude	Effect: "Human-Human Hybrid", Effect Duration: 30
+Gene Tonic: Elemental	Effect: "Human-Elemental Hybrid", Effect Duration: 30
+Gene Tonic: Elf	Effect: "Human-Elf Hybrid", Effect Duration: 30
+Gene Tonic: Fish	Effect: "Human-Fish Hybrid", Effect Duration: 30
+Gene Tonic: Goblin	Effect: "Human-Goblin Hybrid", Effect Duration: 30
+Gene Tonic: Hippy	Effect: "Human-Hippy Hybrid", Effect Duration: 30
+Gene Tonic: Hobo	Effect: "Human-Hobo Hybrid", Effect Duration: 30
+Gene Tonic: Humanoid	Effect: "Human-Humanoid Hybrid", Effect Duration: 30
+Gene Tonic: Horror	Effect: "Human-Horror Hybrid", Effect Duration: 30
+Gene Tonic: Insect	Effect: "Human-Insect Hybrid", Effect Duration: 30
+Gene Tonic: Mer-Kin	Effect: "Human-Mer-Kin Hybrid", Effect Duration: 30
+Gene Tonic: Orc	Effect: "Human-Orc Hybrid", Effect Duration: 30
+Gene Tonic: Penguin	Effect: "Human-Penguin Hybrid", Effect Duration: 30
+Gene Tonic: Pirate	Effect: "Human-Pirate Hybrid", Effect Duration: 30
+Gene Tonic: Plant	Effect: "Human-Plant Hybrid", Effect Duration: 30
+Gene Tonic: Slime	Effect: "Human-Slime Hybrid", Effect Duration: 30
+Gene Tonic: Weird	Effect: "Human-Weird Thing Hybrid", Effect Duration: 30
+Gene Tonic: Undead	Effect: "Human-Undead Hybrid", Effect Duration: 30
 Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30

@@ -145,6 +145,7 @@ public class CampgroundRequest
 		ItemPool.JACKHAMMER_DRILL_PRESS,
 		ItemPool.SNOW_MACHINE,
 		ItemPool.SPINNING_WHEEL,
+		ItemPool.DNA_LAB,
 
 		// Garden
 		ItemPool.PUMPKIN,
@@ -218,6 +219,7 @@ public class CampgroundRequest
 		CampgroundRequest.workshedItems.add( ItemPool.LP_ROM_BURNER );
 		CampgroundRequest.workshedItems.add( ItemPool.SNOW_MACHINE );
 		CampgroundRequest.workshedItems.add( ItemPool.SPINNING_WHEEL );
+		CampgroundRequest.workshedItems.add( ItemPool.DNA_LAB );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -839,6 +841,10 @@ public class CampgroundRequest
 		{
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.SNOW_MACHINE );
 		}
+		else if ( findImage( responseText, "genelab.gif", ItemPool.DNA_LAB ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.DNA_LAB );
+		}
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
@@ -1219,6 +1225,14 @@ public class CampgroundRequest
 		if ( action.equals( "garden" ) )
 		{
 			message = "Harvesting your garden";
+		}
+		else if ( action.equals( "dnapotion" ) )
+		{
+			message = "Making a Gene Tonic";
+		}
+		else if ( action.equals( "dnainject" ) )
+		{
+			message = "Hybridizing yourself";
 		}
 		else if ( action.equals( "rest" ) )
 		{

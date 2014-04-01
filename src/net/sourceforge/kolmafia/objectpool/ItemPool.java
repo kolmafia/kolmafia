@@ -2003,6 +2003,7 @@ public class ItemPool
 	public static final int PALINDROME_BOOK_2 = 7270;
 	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+	public static final int DNA_LAB = 7382;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

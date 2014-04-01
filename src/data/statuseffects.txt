@@ -1569,3 +1569,40 @@
 1568	Greasy Peasy	groosegrease.gif	c7e1b840864943c96a5b30340db41161	use 1 robot grease
 1569	Puddingface	puttypudding.gif	00392bc79e7c8b35ee02285e1cffbb3a	eat 1 amok pudding
 1570	It's Ridiculous	11.gif	a4bca522ab018b620d55d665d05fcbf0	use 1 can of V-11
+1571
+1572
+1573
+1574
+1575
+1576
+1577
+1578
+1579
+1580
+1581
+1582
+1583
+1584
+1585
+1586	Human-Human Hybrid	dna.gif	455a48d85df002dd24d899acb1fb077f	use 1 Gene Tonic: Dude
+1587	Human-Beast Hybrid	dna.gif	ce16a1db58a85c824bb054aa9ffec3e2	use 1 Gene Tonic: Beast
+1588	Human-Machine Hybrid	dna.gif	f91d197834145d929be554c3f04f6df5	use 1 Gene Tonic: Construct
+1589	Human-Undead Hybrid	dna.gif	561232e82a27070b74234a800bed030a	use 1 Gene Tonic: Undead
+1590	Human-Humanoid Hybrid	dna.gif	a325d4475fb5d04a429eef9b1ae0ebf6	use 1 Gene Tonic: Humanoid
+1591	Human-Insect Hybrid	dna.gif	f38cd49774c8bf4fb078566bfbcbe1c5	use 1 Gene Tonic: Insect
+1592	Human-Hippy Hybrid	dna.gif	9cbcc1ce47c10a74999ce8176ac28740	use 1 Gene Tonic: Hippy
+1593	Human-Orc Hybrid	dna.gif	70bd70ae9c97e283e0dd0b69761527a3	use 1 Gene Tonic: Orc
+1594	Human-Demon Hybrid	dna.gif	c9e158dd212e574b5d8994a4ecceeb96	use 1 Gene Tonic: Demon
+1595	Human-Horror Hybrid	dna.gif	2b7332c181735cc08a1badd6063d2934	use 1 Gene Tonic: Horror
+1596	Human-Fish Hybrid	dna.gif	60b71c0828cfe97b411c5460dfeb3df3	use 1 Gene Tonic: Fish
+1597	Human-Goblin Hybrid	dna.gif	27568d443d8133a7426995ac22746751	use 1 Gene Tonic: Goblin
+1598	Human-Pirate Hybrid	dna.gif	7cd95c4cfddc002acb1b96c20ed8a011	use 1 Gene Tonic: Pirate
+1599	Human-Plant Hybrid	dna.gif	7392fa1e3059c0df3f21183e2e66133e	use 1 Gene Tonic: Plant
+1600	Human-Weird Thing Hybrid	dna.gif	673db1d51b09efcc4504a72171cac562	use 1 Gene Tonic: Weird
+1601	Human-Elf Hybrid	dna.gif	8110c7f7735212aa00d939f7b96d9bfd	use 1 Gene Tonic: Elf
+1602	Human-Mer-kin Hybrid	dna.gif	21bc179f79d08bc77215967656706f5a	use 1 Gene Tonic: Mer-kin
+1603	Human-Slime Hybrid	dna.gif	da611ba3a8dd7f2f387c62a3a14502f1	use 1 Gene Tonic: Slime
+1604	Human-Penguin Hybrid	dna.gif	7e25c896ef306e70a9608fae3f4a8d8a	use 1 Gene Tonic: Penguin
+1605	Human-Elemental Hybrid	dna.gif	1a94d9673d884b5a877f0a2bfe91ad5a	use 1 Gene Tonic: Elemental
+1606	Human-Constellation Hybrid	dna.gif	27ec1336404210e9257b5054c59ae624	use 1 Gene Tonic: Constellation
+1607	Human-Hobo Hybrid	dna.gif	c902209f9a321a70cfcb822c2a7411ee	use 1 Gene Tonic: Hobo
