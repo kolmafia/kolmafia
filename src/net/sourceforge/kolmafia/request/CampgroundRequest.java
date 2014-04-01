@@ -70,6 +70,7 @@ public class CampgroundRequest
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
 	private static final Pattern JUNG_PATTERN = Pattern.compile( "junggate_(\\d)" );
+	private static final Pattern DNA_PATTERN = Pattern.compile( "sample of <b>(.*?)</b> DNA" );
 
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
@@ -572,6 +573,28 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
+		
+		if ( action.equals( "dnapotion" ) )
+		{
+			if ( responseText.contains( "little bottle of gene tonic" ) )
+			{
+				Preferences.increment( "_dnaPotionsMade", 1 );
+			}
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseWorkshed( responseText );
+			return;
+		}
+		
+		if ( action.equals( "dnainject" ) )
+		{
+			if ( responseText.contains( "abominable genetic hybrid" ) )
+			{
+				Preferences.setBoolean( "_dnaHybrid", true );
+			}
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseWorkshed( responseText );
+			return;
+		}
 	}
 
 	private static final void parseCampground( final String responseText )
@@ -844,6 +867,23 @@ public class CampgroundRequest
 		else if ( findImage( responseText, "genelab.gif", ItemPool.DNA_LAB ) )
 		{
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.DNA_LAB );
+			Matcher dnaMatcher = DNA_PATTERN.matcher( responseText );
+			if ( dnaMatcher.find() )
+			{
+				Preferences.setString( "_dnaSyringe", dnaMatcher.group( 1 ) );
+			}
+			if ( responseText.contains( "lab needs to reorder the supplies" ) )
+			{
+				Preferences.setInteger( "_dnaPotionsMade", 3 );
+			}
+			if ( responseText.contains( "DNA extraction syringe is currently empty" ) )
+			{
+				Preferences.setString( "_dnaSyringe", "" );
+			}
+			if ( responseText.contains( "horrible abomination once today" ) )
+			{
+				Preferences.setBoolean( "_dnaHybrid", true );
+			}
 		}
 	}
 
