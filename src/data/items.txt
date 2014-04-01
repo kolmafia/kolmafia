@@ -5746,7 +5746,7 @@
 5728	foot-long hot daub	509723507	clayclub.gif	weapon		0
 5729	ballpark hot daub	445745528	claybomb.gif	none, combat	t	0
 5730	angst burger	459356574	burger.gif	food	t	0
-5731	5-hour acrimony	922162926	potion13.gif	drink	t	0
+5731	5-hour acrimony	922162926	potion13.gif	drink	t	0	5-hour acrimonies
 5732	blank note	174843191	whitecard.gif	usable		0
 5733	eerily silent box	679161714	blackcube.gif	usable		0
 5734	forbidden sausage	551619929	sausage.gif	food	t	0	forbidden danishes
@@ -7316,3 +7316,108 @@
 7298	heavy-duty bendy straw	540002924	bendystraw.gif	none	q	0
 7299	pellet of plant food	342274913	pellet.gif	none	q	0
 7300	sewing kit	386978970	sewingkit.gif	usable		0
+7301
+7302
+7303
+7304
+7305
+7306
+7307
+7308
+7309
+7310
+7311
+7312
+7313
+7314
+7315
+7316
+7317
+7318
+7319
+7320
+7321
+7322
+7323
+7324
+7325
+7326
+7327
+7328
+7329
+7330
+7331
+7332
+7333
+7334
+7335
+7336
+7337
+7338
+7339
+7340
+7341
+7342
+7343
+7344
+7345
+7346
+7347
+7348
+7349
+7350
+7351
+7352
+7353
+7354
+7355
+7356
+7357
+7358
+7359
+7360
+7361
+7362
+7363
+7364
+7365
+7366
+7367
+7368
+7369
+7370
+7371
+7372
+7373
+7374
+7375
+7376
+7377
+7378
+7379
+7380
+7381
+7382	Little Geneticist DNA-Splicing Lab	951406097	genelab.gif	usable	t	0
+7383	DNA extraction syringe	883789777	syringe3.gif	reusable, combat	q	0
+7384	Gene Tonic: Dude	505091265	genetonic.gif	multiple	t,d	25	Gene Tonics: Dude
+7385	Gene Tonic: Beast	680967658	genetonic.gif	multiple	t,d	25	Gene Tonics: Beast
+7386	Gene Tonic: Construct	227991248	genetonic.gif	multiple	t,d	25	Gene Tonics: Construct
+7387	Gene Tonic: Undead	211311952	genetonic.gif	multiple	t,d	25	Gene Tonics: Undead
+7388	Gene Tonic: Humanoid	384683792	genetonic.gif	multiple	t,d	25	Gene Tonics: Humanoid
+7389	Gene Tonic: Insect	145777737	genetonic.gif	multiple	t,d	25	Gene Tonics: Insect
+7390	Gene Tonic: Hippy	551885642	genetonic.gif	multiple	t,d	25	Gene Tonics: Hippy
+7391	Gene Tonic: Orc	847863218	genetonic.gif	multiple	t,d	25	Gene Tonics: Orc
+7392	Gene Tonic: Demon	449281969	genetonic.gif	multiple	t,d	25	Gene Tonics: Demon
+7393	Gene Tonic: Horror	476323288	genetonic.gif	multiple	t,d	25	Gene Tonics: Horror
+7394	Gene Tonic: Fish	560018709	genetonic.gif	multiple	t,d	25	Gene Tonics: Fish
+7395	Gene Tonic: Goblin	406218812	genetonic.gif	multiple	t,d	25	Gene Tonics: Goblin
+7396	Gene Tonic: Pirate	208135346	genetonic.gif	multiple	t,d	25	Gene Tonics: Pirate
+7397	Gene Tonic: Plant	988638983	genetonic.gif	multiple	t,d	25	Gene Tonics: Plant
+7398	Gene Tonic: Weird	129077996	genetonic.gif	multiple	t,d	25	Gene Tonics: Weird
+7399	Gene Tonic: Elf	567406349	genetonic.gif	multiple	t,d	25	Gene Tonics: Elf
+7400	Gene Tonic: Mer-kin	353860587	genetonic.gif	multiple	t,d	25	Gene Tonics: Mer-kin
+7401	Gene Tonic: Slime	255456865	genetonic.gif	multiple	t,d	25	Gene Tonics: Slime
+7402	Gene Tonic: Penguin	613788656	genetonic.gif	multiple	t,d	25	Gene Tonics: Penguin
+7403	Gene Tonic: Elemental	920197063	genetonic.gif	multiple	t,d	25	Gene Tonics: Elemental
+7404	Gene Tonic: Constellation	608792100	genetonic.gif	multiple	t,d	25	Gene Tonics: Constellation
+7405	Gene Tonic: Hobo	379866898	genetonic.gif	multiple	t,d	25	Gene Tonics: Hobo
