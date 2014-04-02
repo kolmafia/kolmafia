@@ -590,6 +590,7 @@ public class CampgroundRequest
 			if ( responseText.contains( "abominable genetic hybrid" ) )
 			{
 				Preferences.setBoolean( "_dnaHybrid", true );
+				Preferences.setString( "_dnaSyringe", "" );
 			}
 			CampgroundRequest.parseCampground( responseText );
 			CampgroundRequest.parseWorkshed( responseText );
