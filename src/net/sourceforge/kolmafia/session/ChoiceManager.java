@@ -2790,7 +2790,7 @@ public abstract class ChoiceManager
 		// Tower Most Tall
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure749", "Tower",
-			new Object[] { new Option( "learn shortcut", 5),
+			new Object[] { new Option( "learn shortcut", 5 ),
 				       new Option( "skip adventure", 6 ) },
 			7 ),
 
@@ -2912,7 +2912,8 @@ public abstract class ChoiceManager
 			"Skid Row", "choiceAdventure830", "Cooldown",
 			new Object[] { "+Wolf Offence or +Wolf Defence",
 				       "+Wolf Elemental Attacks or +Rabbit",
-				       "Improved Howling! or +Wolf Lung Capacity" } ),
+				       "Improved Howling! or +Wolf Lung Capacity",
+				       new Option( "Leave", 6 ) } ),
 		// Choice 832 is Shower Power
 		new ChoiceAdventure(
 			"Skid Row", "choiceAdventure832", "Shower Power",
