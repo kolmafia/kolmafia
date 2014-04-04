@@ -373,6 +373,7 @@ user	demonSummoned	false
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dnaSyringe
 user	dolphinItem
 user	doorCode
 user	dreadScroll1	0
@@ -930,7 +931,6 @@ user	_discoKnife	false
 user	_distentionPillUsed	false
 user	_dnaPotionsMade	0
 user	_dnaHybrid	false
-user	_dnaSyringe	
 user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_elronsCasts	0
