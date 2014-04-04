@@ -2345,7 +2345,7 @@ public class FightRequest
 		if ( responseText.contains( "plunge the syringe" ) )
 		{
 			Phylum dna = MonsterStatusTracker.getLastMonster().getPhylum();
-			Preferences.setString( "_dnaSyringe", dna.toString() );
+			Preferences.setString( "dnaSyringe", dna.toString() );
 		}
 
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();

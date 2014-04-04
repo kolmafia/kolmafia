@@ -871,15 +871,15 @@ public class CampgroundRequest
 			Matcher dnaMatcher = DNA_PATTERN.matcher( responseText );
 			if ( dnaMatcher.find() )
 			{
-				Preferences.setString( "_dnaSyringe", dnaMatcher.group( 1 ) );
+				Preferences.setString( "dnaSyringe", dnaMatcher.group( 1 ) );
+			}
+			else if ( responseText.contains( "DNA extraction syringe is currently empty" ) )
+			{
+				Preferences.setString( "dnaSyringe", "" );
 			}
 			if ( responseText.contains( "lab needs to reorder the supplies" ) )
 			{
 				Preferences.setInteger( "_dnaPotionsMade", 3 );
-			}
-			if ( responseText.contains( "DNA extraction syringe is currently empty" ) )
-			{
-				Preferences.setString( "_dnaSyringe", "" );
 			}
 			if ( responseText.contains( "horrible abomination once today" ) )
 			{
