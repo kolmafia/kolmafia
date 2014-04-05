@@ -322,7 +322,7 @@ Doctor Oh, the Junksprite Boss	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: 
 dodecapede	pede.gif	Atk: 12 Def: 10 HP: 8 Init: 60 "A Little Bit Poisoned" P: bug	clutch of dodecapede eggs (0)
 Don Crimbo		HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 dopey 7-Foot Dwarf	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 32-48 P: humanoid	miner's helmet (9)
-doughbat	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 17-27 P: beast	sonar-in-a-biscuit (20)	wad of dough (10)
+doughbat	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 17-27 P: beast	sonar-in-a-biscuit (10)	wad of dough (10)
 Dr. Awkward	drawkward.gif	BOSS Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	drabbard.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 66-96 P: dude	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a0)
 drowned sailor	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 E: spooky Meat: 120-180 P: undead	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
@@ -1344,13 +1344,13 @@ reanimated demon skeleton	foss_demon.gif	HP: 250 Def: 225 Atk: 250 Init: 50 Phys
 reanimated giant spider skeleton	foss_spider.gif	HP: 300 Def: 270 Atk: 300 Init: 50 Phys: 100 P: undead	fossilized necklace (c100)
 
 # Fernswarthy's Basement
-Beast with X Ears	earbeast.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror 
-Beast with X Eyes	eyebeast.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 10000 P: horror 
-X Stone Golem	stonegolem.gif	HP: [0.85*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: construct	Stone Golem pebbles (c0)
-X-headed Hydra	hydra.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast 
-Ghost of Fernswarthy's Grandfather	fernghost.gif	HP: [0.425*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
-X Bottles of Beer on a Golem	beergolem.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: construct 
-X-dimensional horror	dimhorror.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: -10000 Phys: 90 P: horror 
+Beast with X Ears	earbeast.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror 
+Beast with X Eyes	eyebeast.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 10000 P: horror 
+X Stone Golem	stonegolem.gif	HP: [0.85*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: construct	Stone Golem pebbles (c0)
+X-headed Hydra	hydra.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast 
+Ghost of Fernswarthy's Grandfather	fernghost.gif	HP: [0.425*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
+X Bottles of Beer on a Golem	beergolem.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: construct 
+X-dimensional horror	dimhorror.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: -10000 Phys: 90 P: horror 
 
 # Fires
 Servant Of Lord Flameface			molten brick (c5)
