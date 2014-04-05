@@ -978,12 +978,17 @@ public class CampgroundRequest
 
 	public static void setCurrentWorkshedItem( int itemId )
 	{
-		AdventureResult	workshedItem = ItemPool.get( itemId, 1 );
+		AdventureResult workshedItem = ItemPool.get( itemId, 1 );
 		CampgroundRequest.setCurrentWorkshedItem( workshedItem );
 	}
 
 	public static void setCurrentWorkshedItem( AdventureResult workshedItem )
 	{
+		if ( workshedItem.equals( CampgroundRequest.getCurrentWorkshedItem() ) )
+		{
+			return;
+		}
+
 		if ( CampgroundRequest.getCurrentWorkshedItem() != null )
 		{
 			CampgroundRequest.removeCampgroundItem( CampgroundRequest.getCurrentWorkshedItem() );
