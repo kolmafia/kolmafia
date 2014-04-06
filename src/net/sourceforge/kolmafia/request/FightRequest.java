@@ -4791,14 +4791,15 @@ public class FightRequest
 				return;
 			}
 
-			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost) != -1;
+			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost ) != -1;
 			if ( ghostAction && status.logFamiliar )
 			{
 				// Pastamancer ghost action
 				FightRequest.logText( text, status );
 			}
 
-			if ( str.contains( "search the seat's cushions" ) )
+			if ( status.nunnery && KoLCharacter.isSneakyPete() &&
+			     ( str.contains( "seat" ) || str.contains( "cushions" ) ) )
 			{
 				// We'll have already processed nunnery meat if this happens
 				status.nunnery = false;
