@@ -4013,12 +4013,19 @@ public class FightRequest
 			return;
 		}
 
+		if ( image.equals( "nun.gif" ) )
+		{
+			status.nunnery = false;
+			return;
+		}
+
 		String points = m.group();
 
 		if ( image.equals( "meat.gif" ) )
 		{
 			String message = "You gain " + points + " Meat";
 			ResultProcessor.processMeat( message, status.won, status.nunnery );
+			status.won = false;
 			status.shouldRefresh = true;
 			return;
 		}
@@ -4217,12 +4224,19 @@ public class FightRequest
 			return;
 		}
 
+		if ( image.equals( "nun.gif" ) )
+		{
+			status.nunnery = false;
+			return;
+		}
+
 		String points = m.group();
 
 		if ( image.equals( "meat.gif" ) )
 		{
 			String message = "You gain " + points + " Meat";
 			ResultProcessor.processMeat( message, status.won, status.nunnery );
+			status.won = false;
 			status.shouldRefresh = true;
 			return;
 		}
@@ -5132,7 +5146,6 @@ public class FightRequest
 		{
 			// A nun announces that she is taking the Meat. Subsequent Meat gains are not taken.
 			status.nunnery = false;
-			status.won = false;
 			return false;
 		}
 
@@ -5145,11 +5158,18 @@ public class FightRequest
 			// Adjust for The Sea
 			str = StringUtilities.singleStringReplace( str, "manage to grab", "gain" );
 
-			// If we are in The Themthar Hills and we have
-			// seen the "you won" comment, the nuns take
-			// the meat.
+			// Process the Meat gain. If we have seen WINWINWIN
+			// (status.won), it is the monster's Meat drop, as
+			// opposed to from your Hobo Monkey or similar extra
+			// source. If we are in the Themthar Hills
+			// (status.nunnery) and we have won, the nuns take it.
 
 			status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
+
+			// Only the first Meat drop after the WINWINWIN comment is the
+			// monster's drop. Don't do meatDropSpading for later drops.
+			status.won = false;
+
 			return false;
 		}
 
