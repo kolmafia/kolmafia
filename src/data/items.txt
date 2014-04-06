@@ -583,7 +583,7 @@
 566	bum cheek	523641844	bumcheek.gif	hat	t,d	25	bum cheeks
 567	hermit script	758815451	scroll2.gif	usable	q	0
 568	Double Bacon Beelzeburger	703442502	burger.gif	food	t,d	100	Double Bacon Beelzeburgers
-569	Lord of the Flies-sized fries	149932590	fries.gif	food	t,d	100	Lords of the Flieses-sized Fries
+569	Lord of the Flies-sized fries	149932590	fries.gif	food	t,d	100	Lords of the Flieses-sized fries
 570	Brimstone Chicken Sandwich	209737031	burger.gif	food	t,d	100	Brimstone Chicken Sandwiches
 571	Jumbo Dr. Lucifer	851122901	drlucifer.gif	food	t,d	50	Jumbo Dr. Lucifers
 572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	0	Children's Meals of the Damned
