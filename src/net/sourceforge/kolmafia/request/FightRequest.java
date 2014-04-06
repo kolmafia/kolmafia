@@ -4798,13 +4798,6 @@ public class FightRequest
 				FightRequest.logText( text, status );
 			}
 
-			if ( status.nunnery && KoLCharacter.isSneakyPete() &&
-			     ( str.contains( "seat" ) || str.contains( "cushions" ) ) )
-			{
-				// We'll have already processed nunnery meat if this happens
-				status.nunnery = false;
-			}
-
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
@@ -5132,6 +5125,14 @@ public class FightRequest
 		if ( FightRequest.haiku )
 		{
 			FightRequest.processHaikuResult( node, inode, image, status );
+			return false;
+		}
+
+		if ( image.equals( "nun.gif" ) )
+		{
+			// A nun announces that she is taking the Meat. Subsequent Meat gains are not taken.
+			status.nunnery = false;
+			status.won = false;
 			return false;
 		}
 
