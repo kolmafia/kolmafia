@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.Speculation;
 
@@ -728,6 +729,28 @@ public class UseSkillRequest
 
 		case SkillPool.INCITE_RIOT:
 			maximumCast = Preferences.getBoolean( "_peteRiotIncited" ) ? 0 : 1;
+			break;
+
+		case SkillPool.SUMMON_ANNOYANCE:
+			if ( Preferences.getInteger( "summonAnnoyanceCost" ) == 11 )
+			{
+				// If we made it this far, you should have the skill.
+				// Update its cost.
+				GenericRequest req = new GenericRequest(
+					"desc_skill.php?whichskill=" + this.skillId + "&self=true" );
+				RequestThread.postRequest( req );
+			}
+			if ( Preferences.getBoolean( "_summonAnnoyanceUsed" ) )
+			{
+				maximumCast = 0;
+				break;
+			}
+			if ( Preferences.getInteger( "availableSwagger" ) < Preferences.getInteger( "summonAnnoyanceCost" ) )
+			{
+				maximumCast = 0;
+				break;
+			}
+			maximumCast = 1;
 			break;
 		}
 
@@ -1903,10 +1926,15 @@ public class UseSkillRequest
 
 		case SkillPool.THROW_PARTY:
 			Preferences.setBoolean( "_petePartyThrown", true );
-			break;			
+			break;
 		case SkillPool.INCITE_RIOT:
 			Preferences.setBoolean( "_peteRiotIncited", true );
-			break;			
+			break;
+
+		case SkillPool.SUMMON_ANNOYANCE:
+			Preferences.setBoolean( "_summonAnnoyanceUsed", true );
+			Preferences.decrement( "availableSwagger", Preferences.getInteger( "summonAnnoyanceCost" ) );
+			break;
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )
