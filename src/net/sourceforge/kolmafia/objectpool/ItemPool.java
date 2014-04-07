@@ -1344,6 +1344,7 @@ public class ItemPool
 	public static final int PUMPKIN_CARRIAGE = 4769;
 	public static final int DESERT_BUS_PASS = 4770;
 	public static final int GINORMOUS_PUMPKIN = 4771;
+	public static final int ESSENCE_OF_ANNOYANCE = 4804;
 	public static final int SLEEPING_STOCKING = 4842;
 	public static final int KANSAS_TOYMAKER = 4843;
 	public static final int WASSAILING_BOOK = 4844;

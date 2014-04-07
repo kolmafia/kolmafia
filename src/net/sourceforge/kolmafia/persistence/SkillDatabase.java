@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -938,6 +937,7 @@ public class SkillDatabase
 		case SkillPool.PSYCHOKINETIC_HUG:
 		case SkillPool.THROW_PARTY:
 		case SkillPool.INCITE_RIOT:
+		case SkillPool.SUMMON_ANNOYANCE:
 			return true;
 		default:
 			return false;

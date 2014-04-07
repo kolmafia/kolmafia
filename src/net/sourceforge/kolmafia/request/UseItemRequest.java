@@ -4645,6 +4645,12 @@ public class UseItemRequest
 				Preferences.increment( "sneakyPetePoints" );
 			}
 			return;
+
+		case ItemPool.ESSENCE_OF_ANNOYANCE:
+			if ( responseText.contains( "You quaff" ) )
+			{
+				Preferences.decrement( "summonAnnoyanceCost", 1 );
+			}
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

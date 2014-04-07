@@ -83,6 +83,7 @@ public class SkillPool
 	public static final int GRAB_A_COLD_ONE = 95;
 	public static final int SPAGHETTI_BREAKFAST = 101;
 	public static final int SHADOW_NOODLES = 102;
+	public static final int SUMMON_ANNOYANCE = 107;
 	public static final int SHRAP = 110;
 	public static final int PSYCHOKINETIC_HUG = 111;
 	public static final int WALRUS_TONGUE = 1010;
