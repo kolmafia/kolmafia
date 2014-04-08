@@ -4133,7 +4133,7 @@ Human-Horror Hybrid	Critical Hit Percent: +10, Spell Critical Percent: +10
 Human-Insect Hybrid	Initiative: +25
 Human-Machine Hybrid	Damage Absorption: +50, Damage Reduction: +5, Familiar Weight: +5
 Human-Mer-Kin Hybrid	Monster Level: +25
-Human-Orc Hybrid	Maximum MP: +40, Experience: +1
+Human-Orc Hybrid	Maximum HP: +40, Experience: +1
 Human-Penguin Hybrid	Item Drop: +25
 Human-Pirate Hybrid	Booze Drop: +50, Gear Drop: +50
 Human-Plant Hybrid	Cold Damage: +20, Cold Spell Damage: +20
