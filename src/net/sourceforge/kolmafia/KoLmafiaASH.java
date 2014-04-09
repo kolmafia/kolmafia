@@ -64,7 +64,7 @@ public abstract class KoLmafiaASH
 	public static final void logScriptExecution( final String prefix, final String scriptName, Interpreter script )
 	{
 		boolean isDebugging = RequestLogger.isDebugging();
-		boolean isTracing = script.isTracing();
+		boolean isTracing = Interpreter.isTracing();
 
 		if ( !isDebugging && !isTracing )
 		{
@@ -87,15 +87,47 @@ public abstract class KoLmafiaASH
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
 		String script = Preferences.getString( "masterRelayOverride" );
+		String field = null;
 
 		if ( script.length() == 0 || request.getPath().startsWith( "relay_" ) )
 		{
 			script = request.getBasePath();
+			if ( script.equals( "place.php" ) )
+			{
+				field = request.getFormField( "whichplace" );
+			}
+			else if ( script.equals( "shop.php" ) )
+			{
+				field = request.getFormField( "whichshop" );
+			}
+			else if ( script.equals( "store.php" ) )
+			{
+				field = request.getFormField( "whichstore" );
+			}
+		}
+
+		if ( field != null )
+		{
+			String fullscript = script.substring( 0, script.length() - 4 ) + "." + field + ".ash";
+			File toExecute;
+			if ( KoLmafiaASH.relayScriptMap.containsKey( fullscript ) )
+			{
+				toExecute = KoLmafiaASH.relayScriptMap.get( fullscript );
+			}
+			else
+			{
+				toExecute = new File( KoLConstants.RELAY_LOCATION, fullscript );
+				KoLmafiaASH.relayScriptMap.put( fullscript, toExecute );
+			}
+			if ( toExecute.exists() )
+			{
+				return KoLmafiaASH.getClientHTML( request, toExecute );
+			}
 		}
 
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
-			File toExecute = (File) KoLmafiaASH.relayScriptMap.get( script );
+			File toExecute = KoLmafiaASH.relayScriptMap.get( script );
 			return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 		}
 
