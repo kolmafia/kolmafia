@@ -198,7 +198,7 @@ bog skeleton	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 P: undead E: spooky
 bogart	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 P: humanoid  Meat: 30	fine aged cheddarwurst (0)	stolen meatpouch (0)
 bolt-cuttin' elf	elf_boltcutters.gif	Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 Bonerdagon	foss_wyrm.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
-bookbat	bookbat.gif	Atk: 51 Def: 44 HP: 55 Init: 70 P: construct	tattered scrap of paper (25)
+bookbat	bookbat.gif	Atk: 51 Def: 44 HP: 55 Init: 70 P: construct	tattered scrap of paper (27)
 booth slime	boothslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of blue slime (f66)
 booty crab	bootycrab.gif	Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 286-334 E: sleaze Phys: 25 P: beast	Cap'm Caronch's nasty booty (100)
 Booze Giant	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c0)
@@ -322,7 +322,7 @@ Doctor Oh, the Junksprite Boss	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: 
 dodecapede	pede.gif	Atk: 12 Def: 10 HP: 8 Init: 60 "A Little Bit Poisoned" P: bug	clutch of dodecapede eggs (0)
 Don Crimbo		HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 dopey 7-Foot Dwarf	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 32-48 P: humanoid	miner's helmet (9)
-doughbat	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 17-27 P: beast	sonar-in-a-biscuit (10)	wad of dough (10)
+doughbat	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 17-27 P: beast	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	drawkward.gif	BOSS Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	drabbard.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 66-96 P: dude	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a0)
 drowned sailor	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 E: spooky Meat: 120-180 P: undead	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
