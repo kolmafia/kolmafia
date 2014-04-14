@@ -906,44 +906,6 @@ public class SkillDatabase
 		return skillType == null ? false : ( (Integer) skillType ).intValue() == type;
 	}
 
-	public static final boolean isNonMpCostSkill( final int skillId )
-	{
-		switch ( skillId )
-		{
-		case SkillPool.SMILE_OF_MR_A:
-		case SkillPool.SUMMON_MINION:
-		case SkillPool.SUMMON_HORDE:
-		case SkillPool.IRON_PALM_TECHNIQUE:
-		case SkillPool.HIBERNATE:
-		case SkillPool.FURIOUS_WALLOP:
-		case SkillPool.SPIRIT_VACATION:
-		case SkillPool.THATS_NOT_A_KNIFE:
-		case SkillPool.TRANSCENDENTAL_DENTE:
-		case SkillPool.SPIRIT_CAYENNE:
-		case SkillPool.SPIRIT_PEPPERMINT:
-		case SkillPool.SPIRIT_GARLIC:
-		case SkillPool.SPIRIT_WORMWOOD:
-		case SkillPool.SPIRIT_BACON:
-		case SkillPool.SPIRIT_NOTHING:
-		case SkillPool.SIMMER:
-		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
-		case SkillPool.SOUL_BUBBLE:
-		case SkillPool.SOUL_FINGER:
-		case SkillPool.SOUL_BLAZE:
-		case SkillPool.SOUL_FOOD:
-		case SkillPool.SOUL_ROTATION:
-		case SkillPool.SOUL_FUNK:
-		case SkillPool.DISMISS_PASTA_THRALL:
-		case SkillPool.PSYCHOKINETIC_HUG:
-		case SkillPool.THROW_PARTY:
-		case SkillPool.INCITE_RIOT:
-		case SkillPool.SUMMON_ANNOYANCE:
-			return true;
-		default:
-			return false;
-		}
-	}
-
 	public static final boolean isSoulsauceSkill( final int skillId )
 	{
 		switch ( skillId )
