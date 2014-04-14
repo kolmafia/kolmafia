@@ -97,7 +97,8 @@ public abstract class UseLinkDecorator
 
 		boolean inCombat = location.startsWith( "fight.php" );
 		boolean inChoice = location.startsWith( "choice.php" );
-		if ( !inCombat && !inChoice && buffer.indexOf( "You acquire" ) == -1 &&
+		if ( !inCombat && !inChoice &&
+		     buffer.indexOf( "You acquire" ) == -1 &&
 		     buffer.indexOf( "O hai, I made dis" ) == -1)
 		{
 			return;
@@ -183,6 +184,8 @@ public abstract class UseLinkDecorator
 
 	private static final Pattern ACQUIRE_PATTERN =
 		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
+
+	private static final Pattern BOUNTY_COUNT_PATTERN = Pattern.compile( "\\((\\d+) of (\\d+) found\\)" );
 	
 	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro )
 	{
@@ -198,43 +201,67 @@ public abstract class UseLinkDecorator
 			{
 				continue;
 			}
-				
-			int itemCount = 1;
-			String itemName = useLinkMatcher.group( 3 );
 
-			int spaceIndex = itemName.indexOf( " " );
-			if ( spaceIndex != -1 && useLinkMatcher.group( 2 ).indexOf( ":" ) == -1 )
+			// Get type of acquisition
+			String type = useLinkMatcher.group( 2 );
+			int pos = buffer.length();
+			boolean link = false;
+
+			// Special handling for bounty items
+			if ( type.contains( "bounty item" ) )
 			{
-				itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
-				itemName = itemName.substring( spaceIndex + 1 );
-			}
-
-			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
-			if ( itemId == -1 )
-			{
-				continue;
-			}
-
-			// Certain items get use special links to minimize the
-			// amount of scrolling to find the item again.
-
-			if ( location.startsWith( "inventory.php" ) ||
-			     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
-			{
-				switch ( itemId )
+				// Add link for visiting bounty hunter if the last bounty drops
+				Matcher matcher = UseLinkDecorator.BOUNTY_COUNT_PATTERN.matcher( text );
+				if ( matcher.find() )
 				{
-				case ItemPool.FOIL_BOW:
-				case ItemPool.FOIL_RADAR:
-				case ItemPool.FOIL_CAT_EARS:
-					specialLinkId = itemId;
-					specialLinkText = "fold";
-					break;
+					String bountyCount = matcher.group( 1 );
+					String bountyTotal = matcher.group( 2 );
+					if ( bountyCount.equals( bountyTotal ) )
+					{
+						UseLink useLink = new UseLink( "return to hunter", "bounty.php" );
+						useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ useLink.getItemHTML() );
+						link = true;
+					}
 				}
 			}
+			else
+			{
+				int itemCount = 1;
+				String itemName = useLinkMatcher.group( 3 );
 
-			// Possibly append a use link
-			int pos = buffer.length();
-			boolean link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, text, buffer );
+				int spaceIndex = itemName.indexOf( " " );
+				if ( spaceIndex != -1 && !type.contains( ":" ) )
+				{
+					itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
+					itemName = itemName.substring( spaceIndex + 1 );
+				}
+
+				int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
+				if ( itemId == -1 )
+				{
+					continue;
+				}
+
+				// Certain items get use special links to minimize the
+				// amount of scrolling to find the item again.
+
+				if ( location.startsWith( "inventory.php" ) ||
+				     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
+				{
+					switch ( itemId )
+					{
+					case ItemPool.FOIL_BOW:
+					case ItemPool.FOIL_RADAR:
+					case ItemPool.FOIL_CAT_EARS:
+						specialLinkId = itemId;
+						specialLinkText = "fold";
+						break;
+					}
+				}
+
+				// Possibly append a use link
+				link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, text, buffer );
+			}
 
 			// If we added no link, copy in the text verbatim
 			if ( !link )
@@ -1610,6 +1637,11 @@ public abstract class UseLinkDecorator
 		
 		protected UseLink()
 		{
+		}
+
+		public UseLink( String useType, String useLocation )
+		{
+			this( -1, 0, useType, useLocation, false );
 		}
 
 		public UseLink( int itemId, String useType, String useLocation )

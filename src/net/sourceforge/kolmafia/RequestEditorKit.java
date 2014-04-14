@@ -143,7 +143,6 @@ public class RequestEditorKit
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
 	private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN = Pattern.compile( "\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL );
-	private static final Pattern BOUNTY_ITEM_PATTERN = Pattern.compile( "acquire a bounty item: <b>(.*?)</b></td></tr></table>\\((\\d+) of (\\d+)" );
 
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
 	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
@@ -1161,23 +1160,7 @@ public class RequestEditorKit
 			}
 		}
 
-		// Add link for visiting bounty hunter if the last bounty drops
-		
-		Matcher matcher = RequestEditorKit.BOUNTY_ITEM_PATTERN.matcher( buffer );
-		if ( matcher.find() )
-		{
-			int bountyCount = StringUtilities.parseInt( matcher.group( 2 ) );
-			int bountyTotal = StringUtilities.parseInt( matcher.group( 3 ) );
-			if ( bountyCount == bountyTotal )
-			{
-				String message = " <font size=1>[<a href=\"bounty.php\">return to hunter</a>]</font>";
-				int bountyIndex = buffer.indexOf( "acquire a bounty item" );
-				bountyIndex = buffer.indexOf( "</td>", bountyIndex );
-				buffer.insert( bountyIndex, message );
-			}
-		}
-		
-		matcher = DwarfFactoryRequest.attackMessage( buffer );
+		Matcher matcher = DwarfFactoryRequest.attackMessage( buffer );
 		if ( matcher != null )
 		{
 			int attack = DwarfFactoryRequest.deduceAttack( matcher );
