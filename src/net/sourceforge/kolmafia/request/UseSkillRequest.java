@@ -387,19 +387,13 @@ public class UseSkillRequest
 	public void setBuffCount( int buffCount )
 	{
 		int maxPossible = 0;
-		
+
 		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
 			maxPossible = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( skillId );
 		}
 		else
 		{
-			if ( SkillDatabase.isNonMpCostSkill( skillId ) )
-			{
-				this.buffCount = buffCount;
-				return;
-			}
-
 			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
 			if ( mpCost == 0 )
 			{
@@ -799,7 +793,7 @@ public class UseSkillRequest
 
 		if ( Preferences.getBoolean( "switchEquipmentForBuffs" ) )
 		{
-			UseSkillRequest.reduceManaConsumption( skillId, isBuff );
+			UseSkillRequest.reduceManaConsumption( skillId );
 		}
 	}
 
@@ -855,15 +849,16 @@ public class UseSkillRequest
 		return -1;
 	}
 
-	private static final void reduceManaConsumption( final int skillId, final boolean isBuff )
+	private static final void reduceManaConsumption( final int skillId )
 	{
+		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or a libram skill
 
 		if ( skillId == SkillPool.ODE_TO_BOOZE ||
 		     skillId == SkillPool.GLORIOUS_LUNCH ||
 		     SkillDatabase.isLibramSkill( skillId ) ||
-		     SkillDatabase.isNonMpCostSkill( skillId ) )
+		     mpCost == 0 )
 		{
 			return;
 		}
@@ -878,8 +873,7 @@ public class UseSkillRequest
 
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i )
 		{
-			if ( SkillDatabase.getMPConsumptionById( skillId ) == 1 ||
-				KoLCharacter.currentNumericModifier( Modifiers.MANA_COST ) <= -3 )
+			if ( mpCost == 1 || KoLCharacter.currentNumericModifier( Modifiers.MANA_COST ) <= -3 )
 			{
 				return;
 			}
@@ -978,8 +972,14 @@ public class UseSkillRequest
 			return;
 		}
 
-		if ( SkillDatabase.isNonMpCostSkill( skillId ) )
+		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
+
+		if ( mpPerCast == 0 )
 		{
+			if ( this.buffCount == 0 )
+			{
+				return;
+			}
 			// If the skill doesn't use MP then MP restoring and checking can be skipped
 			this.addFormField( this.countFieldId, String.valueOf( this.buffCount ) );
 			super.run();
@@ -992,7 +992,6 @@ public class UseSkillRequest
 		int castsRemaining = this.buffCount;
 
 		int maximumMP = KoLCharacter.getMaximumMP();
-		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 		int maximumCast = maximumMP / mpPerCast;
 
 		// Save name so we can guarantee correct target later
@@ -1018,7 +1017,7 @@ public class UseSkillRequest
 				UseSkillRequest.lastUpdate = "Your maximum soulsauce is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
-			}				
+			}
 
 			// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
 			// ask if you are sure you want to lose it ?
