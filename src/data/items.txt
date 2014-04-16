@@ -4478,7 +4478,7 @@
 4460	snailmail hauberk	143480509	chainshirt.gif	shirt	t,d	160	snailmail hauberks
 4461	seal-brain elixir	441670255	potion5.gif	multiple	t,d	33	seal-brain elixirs
 4462	chocolate seal-clubbing club	914337293	choc1.gif	usable, candy	t	0	chocolate seal-clubbing clubs
-4463	chocolate turtle totem	704750003	choctotem.gif	usable, candy	t	0	chocolate turtle totems
+4463	chocolate turtle totem	704750003	chocototem.gif	usable, candy	t	0	chocolate turtle totems
 4464	chocolate pasta spoon	799053536	choc3.gif	usable, candy	t	0	chocolate pasta spoons
 4465	chocolate saucepan	894875363	choc4.gif	usable, candy	t	0	chocolate saucepans
 4466	chocolate disco ball	181522203	choc5.gif	usable, candy	t	0	chocolate disco balls
@@ -6594,7 +6594,7 @@
 6576	spooky clusterbomb	223005386	clusterbomb.gif	none, combat	t	0
 6577	stench clusterbomb	219152438	clusterbomb.gif	none, combat	t	0
 6578	sleaze clusterbomb	747352227	clusterbomb.gif	none, combat	t	0
-6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t	0
+6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t,d	3
 6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0	lengths of old fuse
 6581	dreadful box	269247615	dreadbox.gif	usable		0
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
