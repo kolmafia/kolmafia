@@ -37,12 +37,14 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -167,8 +169,9 @@ public class IslandDecorator
 	}
 
 	// Meat drops from dirty thieving brigands
-	private static final int BRIGAND_MIN = 800;
-	private static final int BRIGAND_MAX = 1250;
+	private static final MonsterData BRIGAND = MonsterDatabase.findMonster( "dirty thieving brigand", false );
+	private static final int BRIGAND_MIN = BRIGAND.getMinMeat();
+	private static final int BRIGAND_MAX = BRIGAND.getMaxMeat();
 
 	private static final String meatMessage()
 	{
