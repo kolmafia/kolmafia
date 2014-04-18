@@ -2272,7 +2272,8 @@
 2255	furry green turtle	789152841	fuzzyturtle.gif	hat	t,d	50	furry green turtles
 2256	furry green earmuffs	684854850	earmuffs.gif	accessory	t,d	50	sets of furry green earmuffs
 2257	reinforced furry underpants	415591001	furryunderpants.gif	accessory	t,d	35	pairs of reinforced furry underpants
-# This item likely no longer exists, and a new one with the same name was added
+# This item exists only in the inventory of people who did the old quest.
+# A new one with the same name was added.
 # 2258	&quot;I Love Me, Vol. I&quot;	969815696	book4.gif	message	q	0
 2259	photograph of God	447128250	godphoto.gif	none	q	0
 2260	hard rock candy	827058631	rednugget.gif	none, candy	q	0
