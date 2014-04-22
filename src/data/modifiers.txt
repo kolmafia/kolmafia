@@ -3195,7 +3195,7 @@ Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:Nosy Nose	Moxie Percent: 15
 Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne:Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne:Oily Woim	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Throne:Oily Woim	Item Drop: +10
 Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pair of Ragged Claws	Familiar Weight: +5
 Throne:Pair of Stomping Boots	Weapon Damage Percent: +10
