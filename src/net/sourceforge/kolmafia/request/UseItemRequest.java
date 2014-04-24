@@ -2879,39 +2879,20 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_EMPATHY_CHIP:
 		case ItemPool.WARBEAR_EMPATHY_CHIP_USED:
 		{
-			if ( KoLCharacter.inAxecore() && responseText.contains( "didn't like to read" ) )
+			if ( !responseText.contains( "You acquire a skill" ) )
 			{
-				UseItemRequest.lastUpdate = "Boris didn't like to read. ";
+				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			if ( KoLCharacter.inClasscore() && responseText.contains( "This item doesn't seem very classy." ) )
-			{
-				UseItemRequest.lastUpdate = "This item doesn't seem very classy. ";
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			if ( KoLCharacter.isJarlsberg() && responseText.contains( "Jarlsberg didn't read fiction." ) )
-			{
-				UseItemRequest.lastUpdate = "Jarlsberg didn't read fiction. ";
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			String skill = UseItemRequest.itemToSkill( itemId );
-			String bookClass = UseItemRequest.itemToClass( itemId );
-			boolean isRightClass = bookClass == null || bookClass.equals( KoLCharacter.getClassType() );
-			if ( skill == null || KoLCharacter.hasSkill( skill ) || !isRightClass )
-			{
 				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
 				{
 					ResultProcessor.processResult( item );
 				}
+				return;
+			}
+
+			String skill = UseItemRequest.itemToSkill( itemId );
+			if ( skill == null )
+			{
 				return;
 			}
 
