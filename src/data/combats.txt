@@ -288,7 +288,7 @@ The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
 The Spooky Forest	60	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1
-The Spooky Gravy Barrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
+The Spooky Gravy Burrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
 The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot

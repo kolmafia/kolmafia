@@ -3345,11 +3345,11 @@ public abstract class ChoiceManager
 		{
 		case 5:
 			// Heart of Very, Very Dark Darkness
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Barrow" );
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Burrow" );
 
 		case 7:
 			// How Depressing
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Barrow" );
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Burrow" );
 
 		case 85:
 			// One NightStand (simple wooden)
