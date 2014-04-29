@@ -2176,7 +2176,7 @@ makeshift yakuza mask	COMBINE	pair of rhinoceros horns	furry brown pillow
 
 # Giant's Castle
 
-Mark I Steam-Hat	COMBINE	brown felt top hat	brass gear
+Mark I Steam-Hat	COMBINE	brown felt tophat	brass gear
 Mark II Steam-Hat	COMBINE	Mark I Steam-Hat	brass gear
 Mark III Steam-Hat	COMBINE	Mark II Steam-Hat	brass gear
 Mark IV Steam-Hat	COMBINE	Mark III Steam-Hat	brass gear
