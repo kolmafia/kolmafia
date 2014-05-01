@@ -4785,6 +4785,7 @@ Swimming Head	Item Drop: [25*zone(The Sea)]
 # Swimming with Sharks: Makes you a better diver
 Swimming with Sharks	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)], Meat Drop: +20
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
+Takin' It Greasy	Sleaze Damage: +15
 # Taking the Plunge: Makes you look like a Gnollish Plungermaster
 # Talking Like a Pirate: Arrr.
 Tamarind Torment	Muscle: +5, Moxie: -5

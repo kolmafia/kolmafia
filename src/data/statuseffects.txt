@@ -1625,5 +1625,5 @@
 1624	Go-Gone	vinylboots.gif	0d22d78c83875d73a9d95a8224536e81	use 1 go-go potion
 1625	Shrimpin' Ain't Easy	shrimpcocktail.gif	433f929cdcd9c5598fd310442b866e6f	use 1 shrimp cocktail
 1626
-1627
+1627	Takin' It Greasy	groosegrease.gif	1ecd5486cb371daa243193f4d9054937	cast 1 Grease Up
 1628	Big Meat Big Prizes	meat.gif	7625b559611cef1d9089948c4b7170e7	use 1 Meat-inflating powder

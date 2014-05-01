@@ -135,6 +135,9 @@
 109
 110	Shrap	junkjagged.gif	5	0	0
 111	Psychokinetic Hug	reassured.gif	4	0	10
+112	Unoffendable	seenitall.gif	0	0	0
+113	Grease Up	reassured.gif	3	15	10
+114	Sloppy Secrets	knifefork.gif	0	0	0
 
 # Skills available to Clubbers
 
