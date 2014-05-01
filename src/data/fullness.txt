@@ -39,6 +39,7 @@ bat wing stir-fry	3	4	awesome	6-14	0	27-45	0
 bat-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
 bean burrito	3	1	decent	3-8	10-14	0	0
 beautiful soup	2	5	good	4-8	34-49	0	0
+beefy crunch pastaco	2	3	EPIC	0	0	0	0	40 Boletus Swoletus (+40 Mus)
 beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
 beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy
 beefy nigiri	2	1		4-8	8-16	0	0	20/30 Fishy
@@ -70,6 +71,7 @@ bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
+brain food pastaco	2	3	EPIC	0	0	0	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
@@ -152,6 +154,7 @@ consummate steak	4	1	decent	5-7	0	20-30	10-20
 consummate strawberries	3	1	decent	4-5	5-10	20-30	5-10
 consummate toast	2	1	decent	3	10-20	20-30	0
 consummate whipped cream	2	1	decent	3	5-10	20-30	5-10
+cool brunch pastaco	2	3	EPIC	0	0	0	0	40 Gyromitra Gymnastics (+40 Mox)
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
 cool mushroom	2	1	decent	2-3	0	12-15	0

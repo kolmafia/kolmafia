@@ -7454,9 +7454,9 @@
 7435
 7436
 7437	Pastaco shell	928119328	pastacoshell.gif	none	t,d	50
-7438
-7439
-7440
+7438	Beefy Crunch Pastaco	844110890	pastaco.gif	food	t,d	200
+7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
+7440	Cool Brunch Pastaco	551540652	pastaco.gif	food	t,d	200
 7441
 7442
 7443
