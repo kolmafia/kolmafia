@@ -7450,22 +7450,22 @@
 7431	Boletus Broletus mushroom	237336891	broshroom.gif	usable	t,d	100
 7432	Omphalotus Omphaloskepsis mushroom	627160828	eyeshroom.gif	usable	t,d	100
 7433	Gyromitra Dynomita mushroom	581920342	moxshroom.gif	usable	t,d	100
-7434
+7434	Helvella Haemophilia mushroom	869074721	veinshroom.gif	usable	t,d	150
 7435
-7436
+7436	Tremella Tarantella mushroom	983675607	danceshroom.gif	usable	t,d	200
 7437	Pastaco shell	928119328	pastacoshell.gif	none	t,d	50
 7438	Beefy Crunch Pastaco	844110890	pastaco.gif	food	t,d	200
 7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
 7440	Cool Brunch Pastaco	551540652	pastaco.gif	food	t,d	200
-7441
+7441	Medical Pastaco	647218771	pastaco.gif	food	t,d	300
 7442
-7443
-7444
-7445
-7446
-7447
+7443	Ludovico Pastaco	544225328	pastaco.gif	food	t,d	500
+7444	overpowering mushroom wine	640439068	wine.gif	drink	t,d	200
+7445	complex mushroom wine	934829009	wine.gif	drink	t,d	200
+7446	smooth mushroom wine	511757354	wine.gif	drink	t,d	200
+7447	blood-red mushroom wine	309672440	wine.gif	drink	t,d	300
 7448
-7449
+7449	swirling mushroom wine	199430283	wine.gif	drink	t,d	500
 7450	Taco Dan's Basic Taco Dan Taco	297432557	taco.gif	food	t,d	50
 7451	Taco Dan's Taco Fish Fish Taco	837122541	taco2.gif	food	t,d	100
 7452	Taco Dan's Super Taco-Riffic Taco Sauce!	868593024	ww_sauce.gif	none	t,d	150

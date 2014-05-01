@@ -36,6 +36,7 @@ black hole	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 blackfly chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
 blood light	1	6	awesome	3-4	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
+blood-red mushroom wine	4	3	EPIC	0	0	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
 bloody beer	1	1	decent	2	0	0	0	3-5 MP
 bloody kiwitini	3	15	awesome	14-16	20-40	20-40	20-40	10 First Blood Kiwi (+30 Spooky Dam)
 bloody mary	3	1	decent	5-6	1-2	1-2	1-2
@@ -109,6 +110,7 @@ cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
 cold one	1	1		6	0	0	0	
+complex mushroom wine	4	3	EPIC	0	0	0	0	80 Omphalotus Omnipresence (+40 Mys)
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 corpse island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
 corpse on the beach	6	5	awesome	19-23	0	71-75	0
@@ -322,6 +324,7 @@ oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
 oreille divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 over easy rider	3	1	good	8-10	0	0	30-40
+overpowering mushroom wine	4	3	EPIC	0	0	0	0	80 Boletus Swoletus (+40 Mus)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 paint a vulgar pitcher	2	1	EPIC	10-12	10-12	0	0
 pan-dimensional gargle blaster	5	13	EPIC	23-27	50-100	50-100	50-100
@@ -399,6 +402,7 @@ sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage! (+50% Weapon 
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
+smooth mushroom wine	4	3	EPIC	0	0	0	0	80 Gyromitra Gymnastics (+40 Mox)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
@@ -420,6 +424,7 @@ suffering sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 supernova champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP
 super-size brogurt	3	8	awesome	0	0	0	0
 suppurating sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
+swirling mushroom wine	4	3	EPIC	0	0	0	0	80 Tremella Tremens (+40 Item Drop)
 taco dan's taco stand chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
 tankard of ale	1	1	good	3	12-15	12-15	12-15

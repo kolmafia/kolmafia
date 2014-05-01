@@ -399,6 +399,7 @@ long pork chop sandwiches	2	8	good	3-9	0	25-35	0
 long pork lasagna	3	10	awesome	12-16	0	46-55	0
 lord of the flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
 lucky surprise egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
+ludovico pastaco	2	3	EPIC	0	0	0	0	40 Tremella Tremens (+40 Item Drop)
 magical ancient serpent roll	3	1		9-14	0	8-16	20-30	50/60 Fishy
 magical beefy maki	3	1		7-12	8-16	0	0	50/60 Fishy
 magical eleven oceans roll	3	1		9-14	20-30	20-30	28-46	50/60 Fishy
@@ -417,6 +418,7 @@ magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
+medical pastaco	2	3	decent	0	0	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
 miserable pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)

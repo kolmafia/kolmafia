@@ -1615,9 +1615,9 @@
 1614	Boletus Swoletus	broshroom.gif	4087fb39a65bef9b2d7aa78b02228809	use 1 Boletus Broletus mushroom
 1615	Omphalotus Omnipresence	eyeshroom.gif	66d3387487898d086a28011842b3c334	use 1 Omphalotus Omphaloskepsis mushroom
 1616	Gyromitra Gymnastics	moxshroom.gif	1e0ff0db0821cf7f5d912f9eb68b35eb	use 1 Gyromitra Dynomita mushroom
-1617
+1617	Helvella Health	veinshroom.gif	08ed5292e8725c40053d1abef7777a26	use 1 Helvella Haemophilia mushroom
 1618
-1619
+1619	Tremella Tremens	danceshroom.gif	44574510f82a471c2a622fd872de2a67	use 1 Tremella Tarantella mushroom
 1620	Broberry Brotality	brogurt2.gif	1634e115179a42a4cf7d64da38d939e1	drink 1 broberry brogurt
 1621	Brocolate Brostidigitation	brogurt2.gif	d29a8504558434e8fce2f4f8f4e0248a	drink 1 brocolate brogurt
 1622	French Bronilla Brogueishness	brogurt2.gif	1c6b7f4631c368941e866de755399d09	drink 1 French bronilla brogurt

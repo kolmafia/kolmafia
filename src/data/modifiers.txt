@@ -4101,6 +4101,7 @@ Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 # HELLO WORLD!: Makes you look like a triad code wizard
 Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
+Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Hennaliciousness	Mysticality: +3
 Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
@@ -4876,6 +4877,7 @@ Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Trash-Wrapped	Damage Reduction: 10
+Tremella Tremens	Item Drop: +40
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Triangle, Man	Muscle Percent: +10
@@ -5454,6 +5456,7 @@ Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
+Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
 Huggler Radio	Free Pull
 Hunger&trade; Sauce	Effect: "The Tunger&trade;"
 Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
@@ -5477,10 +5480,12 @@ Libram of Resolutions	Free Pull
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Loathing Legion jackhammer	Softcore Only
 Lobos Mints	Effect: "Lobos Fresh", Effect Duration: 20
+Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 March hat	Free Pull
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
+Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
 Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
@@ -5557,6 +5562,7 @@ Tome of Clip Art	Free Pull
 Tome of Rad Libs	Free Pull
 Tome of Snowcone Summoning	Free Pull
 Tome of Sugar Shummoning	Free Pull
+Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
 Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Unagnimated Gnome	Free Pull
 Uncle Greenspan's Bathroom Finance Guide	Effect: "Buy!  Sell!  Buy!  Sell!", Effect Duration: 100
@@ -5686,6 +5692,7 @@ cold-filtered water	Effect: "Purity of Spirit", Effect Duration: 10
 cologne of contempt	Effect: "Contemptible Emanations", Effect Duration: [R]
 colorful toad	Effect: "All Glory To the Toad", Effect Duration: 10
 comb jelly	Effect: "Jelly Combed", Effect Duration: 20
+complex mushroom wine	Effect: "Omphalotus Omnipresence", Effect Duration: 80
 compressed air canister	Effect: "Dug Out", Effect Duration: 30
 concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
 concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
@@ -5966,6 +5973,7 @@ orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 orcish rubber	Effect: "Using Protection", Effect Duration: 10
 organ grinder	Free Pull
 orphan baby yeti	Free Pull
+overpowering mushroom wine	Effect: "Boletus Swoletus", Effect Duration: 80
 panicked kernel	Free Pull
 panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
 papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect Duration: 40
@@ -6156,6 +6164,7 @@ swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
 sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
+swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
