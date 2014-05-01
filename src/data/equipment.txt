@@ -1,6 +1,7 @@
 2
 # Hats section of equipment.txt
 
+8-billed baseball cap	200	Mox: 85
 Admiral's hat	200	Mox: 85
 All-Hallow's Steve's fright wig	100	Mox: 35
 Ancient Saucehelm	100	Mys: 15
@@ -569,6 +570,7 @@ dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extra-see-thru nightie	200	Mus: 200
+extremely wet T-shirt	200	Mus: 85
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
@@ -995,6 +997,7 @@ giant fishhook	200	Mox: 85	2-handed spear
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 giant safety pin	155	Mus: 62	1-handed spear
+giant shrimp fork	200	Mus: 85	2-handed staff
 giant turkey leg	200	Mus: 200	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
 glistening staff	60	Mus: 15	2-handed staff
@@ -2166,6 +2169,7 @@ strawberyl necklace	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
 string of green beads	10	none
+string of moist beads	50	Mys: 10
 string of red beads	10	none
 stuffed carpenter	10	none
 stuffed mink	10	none

@@ -7440,7 +7440,7 @@
 7421	pencil thin mushroom	814218254	pencilmush.gif	none	q	0
 7422	Paradaisical Cheeseburger recipe	902389228	burgerrecipe.gif	offhand	q	0
 7423	salty sailor salt	707454166	disease.gif	none	q	0	handfuls of salty sailor salt
-7424
+7424	bike rental broupon	834379106	broupon.gif	none	q	0
 7425	Taco Dan's Taco Stand Cocktail Sauce Bottle	456199593	squeezebottle.gif	offhand	q	0
 7426	sprinkle shaker	689031956	shakerbottle.gif	offhand	q	0
 7427	sleight-of-hand mushroom	756249560	sleightshroom.gif	usable	q	0
@@ -7453,7 +7453,7 @@
 7434
 7435
 7436
-7437
+7437	Pastaco shell	928119328	pastacoshell.gif	none	t,d	50
 7438
 7439
 7440
@@ -7466,14 +7466,14 @@
 7447
 7448
 7449
-7450
-7451
-7452
-7453
-7454
-7455
-7456
-7457
+7450	Taco Dan's Basic Taco Dan Taco	297432557	taco.gif	food	t,d	50
+7451	Taco Dan's Taco Fish Fish Taco	837122541	taco2.gif	food	t,d	100
+7452	Taco Dan's Super Taco-Riffic Taco Sauce!	868593024	ww_sauce.gif	none	t,d	150
+7453	regular-size brogurt	151469149	brogurt.gif	drink	t,d	50
+7454	super-size brogurt	656614129	kegshield.gif	drink	t,d	150
+7455	broberry brogurt	359952982	brogurt2.gif	drink	t,d	500
+7456	brocolate brogurt	404149849	brogurt2.gif	drink	t,d	500
+7457	French bronilla brogurt	166749632	brogurt2.gif	drink	t,d	500
 7458
 7459
 7460
@@ -7484,14 +7484,14 @@
 7465
 7466	airplane charter: Spring Break Beach	661864709	aircharter.gif	usable	t	0
 7467
-7468
-7469
-7470
-7471
-7472
-7473
+7468	8-billed baseball cap	412867104	6hats.gif	hat	t,d	250
+7469	extremely wet T-shirt	324598123	wettshirt.gif	shirt	t,d	225
+7470	giant shrimp fork	280775816	shrimpstaff.gif	weapon	t,d	275
+7471	BROS Energy Drink	878945039	brosdrink.gif	usable	t,d	150
+7472	go-go potion	639048968	potion9.gif	usable	t,d	150
+7473	shrimp cocktail	274156264	shrimpcocktail.gif	usable	t,d	150
 7474
-7475
+7475	string of moist beads	774119595	chain.gif	accessory	t	0
 7476
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90

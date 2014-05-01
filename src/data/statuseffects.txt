@@ -1618,12 +1618,12 @@
 1617
 1618
 1619
-1620
-1621
-1622
-1623
-1624
-1625
+1620	Broberry Brotality	brogurt2.gif	1634e115179a42a4cf7d64da38d939e1	drink 1 broberry brogurt
+1621	Brocolate Brostidigitation	brogurt2.gif	d29a8504558434e8fce2f4f8f4e0248a	drink 1 brocolate brogurt
+1622	French Bronilla Brogueishness	brogurt2.gif	1c6b7f4631c368941e866de755399d09	drink 1 French bronilla brogurt
+1623	Tapped In	brosdrink.gif	fbaff541cf7dcb2d4d94dde752c28f33	use 1 BROS Energy Drink
+1624	Go-Gone	vinylboots.gif	0d22d78c83875d73a9d95a8224536e81	use 1 go-go potion
+1625	Shrimpin' Ain't Easy	shrimpcocktail.gif	433f929cdcd9c5598fd310442b866e6f	use 1 shrimp cocktail
 1626
 1627
 1628	Big Meat Big Prizes	meat.gif	7625b559611cef1d9089948c4b7170e7	use 1 Meat-inflating powder

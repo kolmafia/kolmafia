@@ -60,6 +60,7 @@
 
 # Hats section of modifiers.txt
 
+8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 # Admiral's hat: Skeleton Anger
 Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
 All-Hallow's Steve's fright wig	Sleaze Damage: +20, Spooky Resistance: +2, Candy Drop: +20
@@ -680,6 +681,7 @@ dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen 
 duct tape shirt	Moxie: +9, Meat Drop: +20
 eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 extra-see-thru nightie	Moxie Percent: +15
+extremely wet T-shirt	Moxie Percent: +10, Sleaze Damage: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 filthy hippy poncho	Mysticality: +3
 flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
@@ -1161,6 +1163,7 @@ giant driftwood sculpture	Moxie: +8, Weapon Damage: +15
 # giant fishhook
 giant foam finger	Damage Reduction: 3
 giant needle	Monster Level: +5
+giant shrimp fork	Mysticality Percent: +20, Spell Critical Percent: +10, Maximum MP: +100
 # gift-a-pult: Allows hurling of Gift Items
 glistening staff	Mysticality: +2, Sleaze Damage: +3
 # glow-in-the-dark dart gun: Super Accurate!
@@ -2479,6 +2482,7 @@ strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single 
 streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical Hit Percent: +5, Single Equip
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
+string of moist beads	Pants Drop: +10
 string of red beads	Muscle: +1
 stuffed carpenter	Synergetic
 # stuffed mink
@@ -3601,6 +3605,8 @@ Bright!	Maximum MP: +100
 Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
+Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
+Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
 # Broken Dancing
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
@@ -3956,6 +3962,7 @@ Fondid	Monster Level: +15
 Fratty Flavor	Moxie: +15
 Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Free Bird	Mysticality: +20
+French Bronilla Brogueishness	Moxie Percent: +100, Initiative: +100, Pickpocket Chance: +25
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
@@ -4004,6 +4011,7 @@ Gnawed-Off Arm	Muscle: -5
 # Gnollivision: Makes you look like a one-eyed Gnoll
 # Gnomedome: Makes you look like a menacing lawn gnome
 Go Get 'Em, Tiger!	Muscle Percent: +15
+# Go-Gone: +100% Gear Drops from Monsters
 # Goat Gotten: Makes you look like a dairy goat
 # Goblin in Black: Makes you look like a goblin conspirator
 Gobliny Flavor	Damage Reduction: 5
@@ -4579,6 +4587,7 @@ Shoesauce	Initiative: 30
 # Short on Options: Makes you look like a pygmy headhunter
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Shredding, Sweating	Weapon Damage Percent: +25
+Shrimpin' Ain't Easy	Familiar Weight: +5
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
 # Silent Running: Decreased chance of random PvP Attacks
 Silent Running	Combat Rate: -5
@@ -4781,6 +4790,7 @@ Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
 # Tango, O Gnat: Makes you look like a Tan Gnat
+Tapped In	Experience: +5
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
 # Taste the Inferno: It burns! It burns!
@@ -5361,6 +5371,7 @@ Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
+BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
 Can of Spaghetto	Effect: "Blessing of the Spaghetto", Effect Duration: 20
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
@@ -5401,6 +5412,7 @@ Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
 Fly-By-Knight Heraldry form	Free Pull
+French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Duration: 40
 Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
@@ -5623,6 +5635,8 @@ brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100
 breath mint	Effect: "Sugar Rush", Effect Duration: 3
 brick	Free Pull
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
+broberry brogurt	Effect: "Broberry Brotality", Effect Duration: 40
+brocolate brogurt	Effect: "Brocolate Brostidigitation", Effect Duration: 40
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
@@ -5814,6 +5828,7 @@ glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
+go-go potion	Effect: "Go-Gone", Effect Duration: 20
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
@@ -6082,6 +6097,7 @@ shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 shaking skull	No Pull
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 shot of Sneaky Pete's Mojo	Free Pull
+shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
