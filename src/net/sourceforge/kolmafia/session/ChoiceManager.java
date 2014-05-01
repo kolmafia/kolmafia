@@ -3023,7 +3023,23 @@ public abstract class ChoiceManager
 		// Rod Nevada, Vendor
 		new Object[]{ IntegerPool.get(873), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-	};
+
+		// Choice 918 is Yachtzee!
+		new ChoiceAdventure(
+			"Spring Break Beach", "choiceAdventure918", "Yachtzee!",
+			new Object[] { "get cocktail ingredients",
+				       "get 5k meat and random item",
+				       "get Beach Bucks" } ),
+
+		// Choice 919 is Break Time!
+		new ChoiceAdventure(
+			"Spring Break Beach", "choiceAdventure919", "Break Time!",
+			new Object[] { "get Beach Bucks",
+				       "+15ML on Sundaes",
+				       "+15ML on Burgers",
+				       "+15ML on Cocktails",
+				       "reset ML on monsters" } ),
+  };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 
