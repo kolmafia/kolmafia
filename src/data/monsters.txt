@@ -1611,3 +1611,9 @@ steaming straw house	straw_hot.gif	Init: -10000 P: construct E: hot
 
 # Avatar of Sneaky Pete
 Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
+
+# Spring Break Beach
+Sloppy Seconds Burger	ssd_burger.gif	HP: [0.75*(MUS+5+max(ML,0))] Def: [MUS+5+max(ML,0)] Atk: [MOX+5+max(ML,0)] Exp: [STAT+5+max(ML,0)] Init: -10000 P: weird E: sleaze	 Meat-inflating powder (0)
+Sloppy Seconds Cocktail	ssd_cocktail.gif	HP: [0.75*(MUS+5+max(ML,0))] Def: [MUS+5+max(ML,0)] Atk: [MOX+5+max(ML,0)] Exp: [STAT+5+max(ML,0)] Init: -10000 P: weird E: sleaze	 bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
+Sloppy Seconds Sundae	ssd_sundae.gif	HP: [0.75*(MUS+5+max(ML,0))] Def: [MUS+5+max(ML,0)] Atk: [MOX+5+max(ML,0)] Exp: [STAT+5+max(ML,0)] Init: -10000 P: weird E: sleaze	 possessed sugar cube (0)
+Fun-Guy Playmate	fun-gal1.gif	HP: 30 Def: 30 Atk: 30 Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (0)

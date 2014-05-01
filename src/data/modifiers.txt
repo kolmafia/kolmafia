@@ -3531,6 +3531,7 @@ Bestial Sympathy	Familiar Weight: +3
 Beta Carotene Overdose	Item Drop: +50
 # Better Off Bread: Makes you look like a Bread Golem
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
+Big Meat Big Prizes	Meat Drop: +50
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
 Biker Swagger	Monster Level: +30
 Bilious	Monster Level: +25, Slime Resistance: +1
@@ -3572,6 +3573,7 @@ Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
+Boletus Swoletus	Muscle: +40
 Bolts about Candy	Maximum MP: +50
 Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
 # Bone Homie: Bites Your Enemies
@@ -4044,6 +4046,7 @@ Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
 Gutballed	Muscle Percent: -300
 Gutterminded	Sleaze Damage: +50
+Gyromitra Gymnastics	Moxie: +40
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
 # Hairless and Airless: Makes you a better diver
@@ -4314,6 +4317,7 @@ Mucilaginous Muscle	Muscle Percent: +200
 Muffled	Combat Rate: -15
 Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
+Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
 Musk of the Moose	Combat Rate: +5
 # Musky: You Smell Like a Lynyrd
 Musky	Stench Damage: +15
@@ -4369,6 +4373,7 @@ Okee-Dokee, Smokee	Spell Damage Percent: +20
 Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Oleaginous Soles	Initiative: +40
 Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
+Omphalotus Omnipresence	Mysticality: +40
 On Pins and Needles	Initiative: +23
 # On the Homeo Path: Makes you look like a War Hippy Homeopath
 On the Shoulders of Giants	Mysticality Percent: +200
@@ -4598,6 +4603,7 @@ Sleazy Hands	Sleaze Damage: +10, Sleaze Spell Damage: +20, Hot Resistance: +2, S
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
+# Sleight of Mind: You See What Taco Dan Saw
 # Slicked-Back Do Moxie: +20 - Guessing it will have changed?
 Slicked-Back Do	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -5351,6 +5357,7 @@ BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
+Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
@@ -5397,6 +5404,7 @@ Fly-By-Knight Heraldry form	Free Pull
 Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
+Fun-Guy spore	Effect: "Mush-Mouth", Effect Duration: 11
 Fuzzby	Free Pull
 GameInformPowerDailyPro subscription card	Free Pull
 Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
@@ -5428,6 +5436,7 @@ Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
+Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Huggler Radio	Free Pull
 Hunger&trade; Sauce	Effect: "The Tunger&trade;"
@@ -5455,6 +5464,7 @@ Lobos Mints	Effect: "Lobos Fresh", Effect Duration: 20
 M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 March hat	Free Pull
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
+Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
 Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
@@ -5485,6 +5495,7 @@ O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
 Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Duration: 10
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
+Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
 Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
 Pain Dip	Effect: "The HeyDezebound Heart"
@@ -6082,6 +6093,7 @@ skeletal banana	Effect: "Osseous George", Effect Duration: 30
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
+sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
 small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50

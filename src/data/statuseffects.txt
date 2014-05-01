@@ -1606,3 +1606,24 @@
 1605	Human-Elemental Hybrid	dna.gif	1a94d9673d884b5a877f0a2bfe91ad5a	use 1 Gene Tonic: Elemental
 1606	Human-Constellation Hybrid	dna.gif	27ec1336404210e9257b5054c59ae624	use 1 Gene Tonic: Constellation
 1607	Human-Hobo Hybrid	dna.gif	c902209f9a321a70cfcb822c2a7411ee	use 1 Gene Tonic: Hobo
+1608
+1609
+1610
+1611
+1612	Sleight of Mind	sleightshroom.gif	a58bb0f5431e4b3a83ac5fcbe74b8959	use 1 sleight-of-hand mushroom
+1613	Mush-Mouth	spore.gif	9df2ff0a38fec33a032a9d5026f19d96	use 1 Fun-Guy spore
+1614	Boletus Swoletus	broshroom.gif	4087fb39a65bef9b2d7aa78b02228809	use 1 Boletus Broletus mushroom
+1615	Omphalotus Omnipresence	eyeshroom.gif	66d3387487898d086a28011842b3c334	use 1 Omphalotus Omphaloskepsis mushroom
+1616	Gyromitra Gymnastics	moxshroom.gif	1e0ff0db0821cf7f5d912f9eb68b35eb	use 1 Gyromitra Dynomita mushroom
+1617
+1618
+1619
+1620
+1621
+1622
+1623
+1624
+1625
+1626
+1627
+1628	Big Meat Big Prizes	meat.gif	7625b559611cef1d9089948c4b7170e7	use 1 Meat-inflating powder

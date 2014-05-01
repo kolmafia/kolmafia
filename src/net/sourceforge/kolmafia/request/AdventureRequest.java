@@ -541,6 +541,11 @@ public class AdventureRequest
 			override =
 				// The Copperhead Club
 				image.equals( "coppertender" ) ? "Copperhead Club bartender" :
+				// Spring Break Beach
+				image.equals( "ssd_burger" ) ? "Sloppy Seconds Burger" :
+				image.equals( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :
+				image.equals( "ssd_sundae" ) ? "Sloppy Seconds Sundae" :
+				image.startsWith( "fun-gal" ) ? "Fun-Guy Playmate" :
 				// The Old Landfill
 				image.equals( "js_bender" ) ? "junksprite bender" :
 				image.equals( "js_melter" ) ? "junksprite melter" :
