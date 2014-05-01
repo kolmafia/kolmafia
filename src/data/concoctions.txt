@@ -2419,3 +2419,8 @@ juggling ball	RUMPLE, ROW256	leather	filling
 elevenderizing hammer	SMITH, MANUAL	can of V-11	tenderizing hammer
 elevent	SMITH, MANUAL	can of V-11	barskin tent
 elevennis shoes	SMITH, MANUAL	can of V-11	clown shoes
+
+# Spring Break Beach
+Beefy Crunch Pastaco	COOK_FANCY	Pastaco shell	Boletus Broletus mushroom
+Brain Food Pastaco	COOK_FANCY	Pastaco shell	Omphalotus Omphaloskepsis mushroom
+Cool Brunch Pastaco	COOK_FANCY	Pastaco shell	Gyromitra Dynomita mushroom
