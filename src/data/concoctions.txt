@@ -2424,3 +2424,10 @@ elevennis shoes	SMITH, MANUAL	can of V-11	clown shoes
 Beefy Crunch Pastaco	COOK_FANCY	Pastaco shell	Boletus Broletus mushroom
 Brain Food Pastaco	COOK_FANCY	Pastaco shell	Omphalotus Omphaloskepsis mushroom
 Cool Brunch Pastaco	COOK_FANCY	Pastaco shell	Gyromitra Dynomita mushroom
+Medical Pastaco	COOK_FANCY	Pastaco shell	Helvella Haemophilia mushroom
+Ludovico Pastaco	COOK_FANCY	Pastaco shell	Tremella Tarantella mushroom
+overpowering mushroom wine	MIX_FANCY	mushroom fermenting solution	Boletus Broletus mushroom
+complex mushroom wine	MIX_FANCY	mushroom fermenting solution	Omphalotus Omphaloskepsis mushroom
+smooth mushroom wine	MIX_FANCY	mushroom fermenting solution	Gyromitra Dynomita mushroom
+blood-red mushroom wine	MIX_FANCY	mushroom fermenting solution	Helvella Haemophilia mushroom
+swirling mushroom wine	MIX_FANCY	mushroom fermenting solution	Tremella Tarantella mushroom
