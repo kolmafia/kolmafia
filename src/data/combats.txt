@@ -169,6 +169,7 @@ Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	toilet-
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
+Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Sonar	-1	batbugbear
 Sonofa Beach	10	lobsterfrogman
 Sorceress' Hedge Maze	100	topiary golem
@@ -226,6 +227,7 @@ The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate	creamy pirate	crusty pi
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
 The Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
+The Fun-Guy Mansion	100	Fun-Guy Playmate
 The Goatlet	100	dairy goat	drunk goat	sabre-toothed goat
 The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned goblin conspirator	spider-goblin conspirator	tin spider conspirator	Fnord the Unspeakable: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0

@@ -372,3 +372,7 @@ The Prince's Ball	adventure=379	false	indoor	The Prince's Canapes Table
 Rumpelstiltskin's Home For Children	adventure=380	false	outdoor	Ye Olde Medievale Villagee
 Rumpelstiltskin's Home For Children	adventure=381	false	outdoor	Portal to Terrible Parents
 Rumpelstiltskin's Home For Children	adventure=382	false	none	Rumpelstiltskin's Workshop
+
+Spring Break Beach	adventure=402	false	indoor	The Fun-Guy Mansion
+Spring Break Beach	adventure=403	false	indoor	Sloppy Seconds Diner
+Spring Break Beach	adventure=404	false	underwater	The Sunken Party Yacht
