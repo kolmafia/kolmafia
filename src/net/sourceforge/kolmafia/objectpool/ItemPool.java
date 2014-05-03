@@ -114,6 +114,7 @@ public class ItemPool
 	public static final int VALUABLE_TRINKET = 139;
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
+	public static final int ANTICHEESE = 142;
 	public static final int COTTAGE = 143;
 	public static final int BARBED_FENCE = 145;
 	public static final int DINGHY_PLANS = 146;
@@ -464,6 +465,7 @@ public class ItemPool
 	public static final int PURPLE_CUPCAKE = 1627;
 	public static final int PINK_CUPCAKE = 1628;
 	public static final int SPANISH_FLY = 1633;
+	public static final int BRICK = 1649;
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int JEWEL_EYED_WIZARD_HAT = 1653;
 	public static final int CITADEL_SATCHEL = 1656;
