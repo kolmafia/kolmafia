@@ -2009,6 +2009,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.ANTICHEESE:
+			if ( RequestLogger.getLastURLString().contains( "db_nukehouse ") )
+			{
+				Preferences.setInteger( "lastAnticheeseDay", KoLCharacter.getCurrentDays() );
+			}
+			break;
+
 		}
 
 		// Gaining items can achieve goals.

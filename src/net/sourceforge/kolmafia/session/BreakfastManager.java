@@ -111,6 +111,7 @@ public class BreakfastManager
 				useToys();
 				useCSAKit();
 			}
+			collectAnticheese();
 		}
 
 		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -625,5 +626,14 @@ public class BreakfastManager
 		}
 
 		return null;
+	}
+
+	private static void collectAnticheese()
+	{
+		if ( KoLCharacter.desertBeachAccessible() && KoLCharacter.getCurrentDays() >= Preferences.getInteger( "lastAnticheeseDay" ) + 5 )
+		{
+			GenericRequest request = new GenericRequest( "place.php?whichplace=desertbeach&action=db_nukehouse" );
+			RequestThread.postRequest( request );
+		}
 	}
 }

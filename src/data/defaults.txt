@@ -463,6 +463,7 @@ user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining
 user	lastAdventure
+user	lastAnticheeseDay	-5
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
 user	lastBangPotion819
@@ -636,12 +637,6 @@ user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0
 user	mothershipProgress	0
-user	peteMotorbikeTires	
-user	peteMotorbikeGasTank	
-user	peteMotorbikeHeadlight	
-user	peteMotorbikeCowling	
-user	peteMotorbikeMuffler	
-user	peteMotorbikeSeat	
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
@@ -665,6 +660,12 @@ user	pastaThrall6
 user	pastaThrall7
 user	pastaThrall8
 user	pendingMapReflections	0
+user	peteMotorbikeTires
+user	peteMotorbikeGasTank
+user	peteMotorbikeHeadlight
+user	peteMotorbikeCowling
+user	peteMotorbikeMuffler
+user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
 user	plantingDate

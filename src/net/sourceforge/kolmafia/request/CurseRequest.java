@@ -76,6 +76,7 @@ public class CurseRequest
 		this.addFormField( "action", "use" );
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 		this.addFormField( "targetplayer", target );
+		this.addMessage( message );
 	}
 
 	@Override
@@ -193,5 +194,25 @@ public class CurseRequest
 		}
 
 		return true;
+	}
+
+	private void addMessage( final String message )
+	{
+		if ( message.length() == 0 )
+		{
+			return;
+		}
+
+		if ( this.itemUsed.equals( ItemPool.get( ItemPool.BRICK, 1 ) ) )
+		{
+			this.addFormField( "message", message );
+			return;
+		}
+
+		String msg[] = message.split( "\\s*\\|\\s*" );
+		for ( int i = 0; i < msg.length; ++i )
+		{
+			this.addFormField( "text" + ((char) (i + 'a')), msg[i] );
+		}
 	}
 }

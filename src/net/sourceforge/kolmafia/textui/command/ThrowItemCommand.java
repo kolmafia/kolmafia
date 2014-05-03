@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -49,7 +48,7 @@ public class ThrowItemCommand
 {
 	public ThrowItemCommand()
 	{
-		this.usage = "[?] <item> at <player> [ || <message> ] - use item on someone else";
+		this.usage = "[?] <item> at <player> [ || <message part 1> | <message part 2> ... ] - use item on someone else";
 	}
 
 	@Override
@@ -61,7 +60,6 @@ public class ThrowItemCommand
 		{
 			msg = parameters.substring( splitPos + 2 ).trim();
 			parameters = parameters.substring( 0, splitPos ).trim();
-			RequestLogger.printLine( "(personalized messages not supported yet)" );
 		}
 		splitPos = parameters.indexOf( " at " );
 		if ( splitPos == -1 )
