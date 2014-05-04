@@ -6906,6 +6906,14 @@ public abstract class ChoiceManager
 			ResultProcessor.removeItem( ItemPool.MURPHYS_FLAG );
 			ResultProcessor.removeItem( ItemPool.SHIELD_OF_BROOK );
 			break;
+
+		case 918:
+			// Yachtzee!
+			if ( ChoiceManager.lastDecision == 3 && text.contains( "You open the captain's door" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.MOIST_BEADS, -InventoryManager.getCount( ItemPool.MOIST_BEADS ) ) );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
