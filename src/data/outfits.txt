@@ -103,3 +103,5 @@
 102	Cool Irons	cool iron helmet, cool iron breastplate, cool iron greaves
 103	Warbear Dress Armor	warbear dress greaves, warbear dress bracers, warbear dress helmet
 104	Workoutfit	sweatband, gym shorts, ankleweights
+105
+106	Brogre Brouture	Brogre brolo shirt, Brogre brorts, Brogre bucket hat
