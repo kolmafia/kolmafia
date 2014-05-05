@@ -7447,12 +7447,12 @@
 7428	Taco Dan's Taco Stand's Taco Receipt	439418291	tacoreceipt.gif	none	q	0
 7429	Beach Buck	348779004	beachbuck.gif	none	0	Beach Bucks
 7430	Fun-Guy spore	182698568	spore.gif	usable	t	0
-7431	Boletus Broletus mushroom	237336891	broshroom.gif	usable	t,d	100
-7432	Omphalotus Omphaloskepsis mushroom	627160828	eyeshroom.gif	usable	t,d	100
-7433	Gyromitra Dynomita mushroom	581920342	moxshroom.gif	usable	t,d	100
-7434	Helvella Haemophilia mushroom	869074721	veinshroom.gif	usable	t,d	150
-7435
-7436	Tremella Tarantella mushroom	983675607	danceshroom.gif	usable	t,d	200
+7431	Boletus Broletus mushroom	237336891	broshroom.gif	multiple	t,d	100
+7432	Omphalotus Omphaloskepsis mushroom	627160828	eyeshroom.gif	multiple	t,d	100
+7433	Gyromitra Dynomita mushroom	581920342	moxshroom.gif	multiple	t,d	100
+7434	Helvella Haemophilia mushroom	869074721	veinshroom.gif	multiple	t,d	150
+7435	Stemonitis Staticus mushroom	746083452	elecshroom.gif	multiple	t,d	150
+7436	Tremella Tarantella mushroom	983675607	danceshroom.gif	multiple	t,d	200
 7437	Pastaco shell	928119328	pastacoshell.gif	none	t,d	50
 7438	Beefy Crunch Pastaco	844110890	pastaco.gif	food	t,d	200
 7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
@@ -7477,7 +7477,7 @@
 7458
 7459
 7460
-7461
+7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0
 7462
 7463
 7464
