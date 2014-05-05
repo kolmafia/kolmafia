@@ -7458,13 +7458,13 @@
 7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
 7440	Cool Brunch Pastaco	551540652	pastaco.gif	food	t,d	200
 7441	Medical Pastaco	647218771	pastaco.gif	food	t,d	300
-7442
+7442 Energy Buzz Pastaco 930777622 pastaco.gif food t,d 300
 7443	Ludovico Pastaco	544225328	pastaco.gif	food	t,d	500
 7444	overpowering mushroom wine	640439068	wine.gif	drink	t,d	200
 7445	complex mushroom wine	934829009	wine.gif	drink	t,d	200
 7446	smooth mushroom wine	511757354	wine.gif	drink	t,d	200
 7447	blood-red mushroom wine	309672440	wine.gif	drink	t,d	300
-7448
+7448 buzzing mushroom wine 458192073 wine.gif drink t,d 300
 7449	swirling mushroom wine	199430283	wine.gif	drink	t,d	500
 7450	Taco Dan's Basic Taco Dan Taco	297432557	taco.gif	food	t,d	50
 7451	Taco Dan's Taco Fish Fish Taco	837122541	taco2.gif	food	t,d	100
@@ -7495,3 +7495,5 @@
 7476
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
+7479	sugar fairy	181763244	sugarfairy2.gif	usable	t,d	100
+7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300

@@ -87,6 +87,7 @@ brocolate brogurt	3	11	EPIC	0	0	0	0	40 Brocolate Brostidigitation (+100% Mys, +2
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
 buttery knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
+buzzing mushroom wine	4	3	EPIC	0	0	0	0	80 Stemonitis Storm
 caipifruta	3	3	good	5-10	16-20	0	0
 caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27

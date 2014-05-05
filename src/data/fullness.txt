@@ -225,6 +225,7 @@ elfin shortbread	3	2	decent	3-9	4-6	4-6	4-6
 elven <i>limbos</i> gingerbread	3	5	good	5-8	22-40	22-40	22-40	20 Yuletide Industry (+50% all stats)
 elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
+energy buzz pastaco	2	3	EPIC	0	0	0	0	40 Stemonitis Storm
 ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
 every day is like this sundae	2	1	good	4-6	0	4-6	0	100 Smithsness Dinner (+10 Smithsness)
