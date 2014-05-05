@@ -1627,3 +1627,6 @@
 1626
 1627	Takin' It Greasy	groosegrease.gif	1ecd5486cb371daa243193f4d9054937	cast 1 Grease Up
 1628	Big Meat Big Prizes	meat.gif	7625b559611cef1d9089948c4b7170e7	use 1 Meat-inflating powder
+1629
+1630	Dance of the Sugar Fairy	sugarfairy2.gif	34fa02c3e24337f6ae4727ef73843e53	use 1 sugar fairy
+1631	Sweet Incentive	sugarbunny.gif	45f064fc532fae42bde5ea6aa7bca317	use 1 sugar bunny

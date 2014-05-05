@@ -3781,6 +3781,7 @@ Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
 # Daemon Duds: Makes you look like a clean room demo
 Dance Interpreter	Item Drop: +20
+Dance of the Sugar Fairy	Item Drop: +25
 Dances with Tweedles	Meat Drop: +40
 # Dances with Warbears: +10% Item Drops from WarBears
 Dancin' Drunk	Item Drop: +100
@@ -4779,6 +4780,7 @@ Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
 Sweet and Yellow	Ranged Damage: +30, Initiative: +10
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
+Sweet Incentive	Familiar Weight: +5
 Sweet Nostalgia	Candy Drop: +20
 Sweet Taste	Candy Drop: +10
 Sweet Tooth	Candy Drop: +40
@@ -5413,6 +5415,7 @@ Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
+Energy Buzz Pastaco	Effect: "Stemonitis Storm", Effect Duration: 40
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Every Day is Like This Sundae	Effect: "Smithsness Dinner", Effect Duration: 100
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
@@ -5650,6 +5653,7 @@ brigand brittle	Effect: "Bandananit", Effect Duration: 50
 broberry brogurt	Effect: "Broberry Brotality", Effect Duration: 40
 brocolate brogurt	Effect: "Brocolate Brostidigitation", Effect Duration: 40
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
+buzzing mushroom wine	Effect: "Stemonitis Storm", Effect Duration: 80
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
 can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
@@ -6155,7 +6159,9 @@ strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30
 strawberry-flavored Hob-O	Effect: "Scariberi"
 stuffed-shirt scarecrow	Free Pull
 sugar banana	Effect: "Sweet and Yellow", Effect Duration: 10
+sugar bunny	Effect: "Sweet Incentive", Effect Duration: 20
 sugar cherry	Effect: "Sweet and Red", Effect Duration: 10
+sugar fairy	Effect: "Dance of the Sugar Fairy", Effect Duration: 20
 sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
