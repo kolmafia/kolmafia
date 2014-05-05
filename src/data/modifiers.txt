@@ -4724,6 +4724,7 @@ Stands Alone	Stench Damage: +10
 # Stark Raven Mad: Makes you look like a raven
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 Staying Frosty	Cold Damage: +100
+Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
 Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
@@ -5544,6 +5545,7 @@ Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
 Sorcerers of the Shore Grimoire	Free Pull
 Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
+Stemonitis Staticus mushroom	Effect: "Stemonitis Storm", Effect Duration: 10
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
