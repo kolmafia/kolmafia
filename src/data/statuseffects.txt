@@ -1630,3 +1630,7 @@
 1629
 1630	Dance of the Sugar Fairy	sugarfairy2.gif	34fa02c3e24337f6ae4727ef73843e53	use 1 sugar fairy
 1631	Sweet Incentive	sugarbunny.gif	45f064fc532fae42bde5ea6aa7bca317	use 1 sugar bunny
+1632
+1633	Desenfantasmada	ggg.gif	bcdac1c4cbd798f8b1f886ad37602ef0	drink 1 Rompeadores de Fantasmas
+1634	La Oscuridad Adentro	darkness.gif	6da14ec2a2bcb1f02a7ee8f06774f0f6	drink 1 La Fantasma y La Oscuridad
+1635	Sangre Brillante	snowflakes.gif	f75967278d427a50aa53e220ca2f6c46	drink 1 Fantasma en la M&aacute;quina

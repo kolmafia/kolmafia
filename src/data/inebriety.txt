@@ -188,6 +188,7 @@ expensive champagne	1	4	EPIC	5-6	10-20	10-20	10-20	15-20 MP
 expired bottle of peppermint schnapps	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
 extra-slimy slimosa	2	4	awesome	6-7	0	0	20-30	10 In the Slimelight (+50 Stench Dam)
 extra-spicy bloody mary	3	3	good	5-10	5-11	5-11	5-11
+fantasma en la m&aacute;quina	3	1	good	0	0	0	0
 fauna libre	2	1	good	4-5	0	10-20	0	5 Transcendental Wind (+50 Myst)
 feliz navidad	2	2	EPIC	10-13	10-20	10-20	25-50
 ferita del petto zinfandel	1	10	EPIC	6-10	60	60	60
@@ -272,6 +273,7 @@ junk yard	2	1	good	4-5	4-5	4-5	4-5
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
+la fantasma y la oscuridad	3	1	good	0	0	0	0	
 large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
 le roi	3	1	good	8-10	0	0	30-40
 locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
@@ -359,6 +361,7 @@ regular-size brogurt	1	5	good	0	0	0	0
 ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
 rockin' wagon	4	4	good	10-14	0	0	34-36
 roll in the hay	4	4	good	10-14	0	34-36	0
+rompeadores de fantasmas	3	1	good	0	0	0	0
 rum and cola	3	1	decent	5-6	0	0	10-12	14-16 MP
 russian ice	1	2	good	2-3	30-60	0	-5-10
 saison du lune	3	2	good	8-10	0	10-20	25-35

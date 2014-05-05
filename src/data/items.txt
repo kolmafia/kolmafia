@@ -7478,9 +7478,9 @@
 7459
 7460
 7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0
-7462
-7463
-7464
+7462	Brogre brorts	136188578	brorts.gif	pants		0
+7463	Brogre brolo shirt	624152936	brolo.gif	shirt		0
+7464	Brogre bucket hat	443458231	buckethat.gif	hat		0
 7465
 7466	airplane charter: Spring Break Beach	661864709	aircharter.gif	usable	t	0
 7467
@@ -7492,8 +7492,12 @@
 7473	shrimp cocktail	274156264	shrimpcocktail.gif	usable	t,d	150
 7474
 7475	string of moist beads	774119595	chain.gif	accessory	t	0
-7476
+7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
 7479	sugar fairy	181763244	sugarfairy2.gif	usable	t,d	100
 7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300
+7481
+7482	Rompeadores de Fantasmas	666506619	bottle.gif	drink	t,d	13
+7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13
+7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13

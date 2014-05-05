@@ -73,6 +73,7 @@ Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Minstrel Level: +1, Fa
 # Boris's Helm (askew): Regenerate MP based on Level
 Boris's Helm (askew)	Initiative: +25, Monster Level: +15, Weapon Damage Percent: +50, Minstrel Level: +1, Familiar Weight: +5, Free Pull, Familiar Effect: "atk, MP regen, cap 25"
 Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
+Brogre bucket hat	Combat Rate: +5
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
@@ -400,6 +401,7 @@ BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect: "sl
 BRICKO pants	Damage Absorption: +9, Familiar Effect: "1.5xVolley, 2xLep, 1xPotato, cap 22"
 Boss Bat britches	Moxie: +5, Familiar Effect: "atk, 3xGhuol, cap 16"
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone, Familiar Effect: "1xVolley, 1xLep"
+Brogre brorts	Monster Level: +10
 Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, cap 22"
 Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit", Familiar Effect: "sleaze atk, 1.5xGhuol"
@@ -637,6 +639,7 @@ ASCII shirt	Mysticality: +7
 # Ascension Souvenir T-Shirt
 BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
+Brogre brolo shirt	PvP Fights: +3
 Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
 Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
@@ -3800,6 +3803,7 @@ Deep-Tainted Mind	Mysticality Percent: -50
 Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
+Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Devil Inside	Hot Damage: 30, Cold Resistance: 3, Spooky Resistance: 3
 Digitalis, Dig It	Initiative: +75, Maximum HP: +200
@@ -4236,6 +4240,7 @@ Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping
 L'instinct F&eacute;lin	Moxie: +30
 La Bamba	Item Drop: +3
+La Oscuridad Adentro	Spooky Spell Damage: +13, Spooky Damage: +13, Experience (Mysticality): +3
 Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Leash of Linguini	Familiar Weight: +5
@@ -4545,6 +4550,7 @@ Salt Rockin'	Moxie: +30
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth: You really need a beer...
+Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
 Sappy Blood	Spooky Resistance: 3
 # Sated and Furious: Weapon Damage: +X, Spell Damage: +X
 Sauce Monocle	Spell Critical Percent: +15
@@ -5418,6 +5424,7 @@ Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
 Energy Buzz Pastaco	Effect: "Stemonitis Storm", Effect Duration: 40
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Every Day is Like This Sundae	Effect: "Smithsness Dinner", Effect Duration: 100
+Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
@@ -5476,6 +5483,7 @@ Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
 Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 KoLHS Pep Squad Box	Free Pull
+La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
 Libram of BRICKOs	Free Pull
 Libram of Candy Heart Summoning	Free Pull
 Libram of Divine Favors	Free Pull
@@ -5534,6 +5542,7 @@ Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
+Rompeadores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull

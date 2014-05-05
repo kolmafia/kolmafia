@@ -11,6 +11,7 @@ Big Candy's tophat	100	none
 Boris's Helm	100	none
 Boris's Helm (askew)	100	none
 Brimstone Beret	200	Mox: 30
+Brogre bucket hat	100	Mox: 35
 Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
 Colander of Em-er'il	100	Mys: 15
@@ -312,6 +313,7 @@ BRAINS shorts	200	Mox: 200
 BRICKO pants	90	none
 Boss Bat britches	65	Mox: 17
 Brimstone Boxers	200	Mox: 30
+Brogre brorts	100	Mox: 35
 Can-Can skirt	90	Mox: 15
 Cerebral Culottes	90	Mox: 30
 Chester's cutoffs	200	Mox: 200
@@ -529,6 +531,7 @@ ASCII shirt	90	Mus: 30
 Ascension Souvenir T-Shirt	15	none
 BGE 'cuddly critter' shirt	30	none
 BGE 'ferocious fruit' shirt	30	none
+Brogre brolo shirt	100	Mus: 35
 Chester's muscle shirt	200	Mus: 200
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
