@@ -5852,7 +5852,7 @@
 5833	brigand brittle	364101514	pepperbark.gif	multiple	t,d	5	bricks of brigand brittle
 5834	holistic headache remedy	541916407	bark2.gif	multiple	t,d	5	holistic headache remedies
 5835	scrunchie tourniquet	218745388	gauzegarter.gif	usable	t,d	5	scrunchie tourniquets
-5836	embezzler's oil	968949884	vial.gif	usable	t,d	5	vials of embezzler's oil
+5836	embezzler's oil	968949884	vial.gif	multiple	t,d	5	vials of embezzler's oil
 5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5	tubes of Fu Manchu Wax
 5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	multiple	t,d	5	Iiti Kitty Gumdrops
 5839	ravenous eye	553037969	hungryeye.gif	multiple	t,d	5	ravenous eyes
@@ -5861,7 +5861,7 @@
 5842	gold toothbrush	397328678	toothbrush.gif	multiple	t,d	5	gold toothbrushes
 5843	pirate cream pie	438610679	pie.gif	multiple	t,d	5	pirate cream pies
 5844	una poca de gracia	764928766	music.gif	multiple	t,d	5	unas pocas de gracia
-5845	compressed air canister	564731061	canteen.gif	usable	t,d	5	compressed air canisters
+5845	compressed air canister	564731061	canteen.gif	multiple	t,d	5	compressed air canisters
 5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5	pieces of salt water taffy
 5847	unholy water	163120400	vial.gif	multiple	t,d	5	vials of unholy water
 5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5	Bangyomaman battle juices
@@ -5881,9 +5881,9 @@
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
 5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	multiple	d	5	papier-m&acirc;ch&eacute; globs
-5865	papier-mochi	392273161	machemochi.gif	usable	d	10
+5865	papier-mochi	392273161	machemochi.gif	multiple	d	10
 5866	papier-m&acirc;chaeranthera	864484289	macheflower.gif	usable	d	15
-5867	papier-m&acirc;ch&eacute; toothpicks	267596873	machetoothpicks.gif	usable	d	20
+5867	papier-m&acirc;ch&eacute; toothpicks	267596873	machetoothpicks.gif	multiple	d	20
 5868	papier-m&acirc;ch&eacute;te	939197198	machemachete.gif	weapon	d	25
 5869	papier-m&acirc;chine gun	437061769	machegun.gif	weapon	d	30
 5870	papier-masque	716668190	machemasque.gif	accessory	d	35
@@ -6611,7 +6611,7 @@
 6592	optimal spreadsheet	389475336	spreadsheet.gif	offhand	t	0	optimal spreadsheets
 6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
 6594	hot Dreadsylvanian cocoa	267480689	coffeecup.gif	usable	t	0	cups of hot Dreadsylvanian cocoa
-6595	epic cluster	148546578	epiccluster.gif	usable	t	0
+6595	epic cluster	148546578	epiccluster.gif	multiple	t	0
 6596	intricate clockwork egg	687425467	egg.gif	usable	t	0
 6597	intricate clockwork birdhouse	984765474	cuckoobox.gif	usable		0
 6598	intricate clockwork disc	877017559	cuckoodisc.gif	none		0
@@ -6854,7 +6854,7 @@
 6835	bag of W&Ws	787691763	wandws.gif	multiple, candy	t,d	15	bags of W&Ws
 6836	PEEZ dispenser	168804605	peez.gif	usable	t,d	15
 6837	Swizzler	653273118	swizzler.gif	multiple, candy	t,d	15
-6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	usable, candy	t,d	25
+6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	multiple, candy	t,d	25
 6839	little red jam	347947486	redjamjar.gif	usable, candy	t,d	25
 6840	Whenchamacallit bar	812046783	whenbar.gif	usable, candy	t,d	25
 6841	8-bit banana	603852187	8bitbanana.gif	usable, candy	t,d	25	8-bit bananananas
@@ -7119,7 +7119,7 @@
 7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12	copies of Jerks' Health&trade; Magazine
 7101	Five Second Energy&trade;	796432016	5secondenergy.gif	multiple	t,d	5	bottles of Five Second Energy&trade;
 7102	pixie axie	782213297	pixieaxie.gif	usable	t	0
-7103	sour powder	862764546	scpowder.gif	usable	t,d	22
+7103	sour powder	862764546	scpowder.gif	multiple	t,d	22
 7104	licorice whip	786532174	whip.gif	weapon	t,d	32
 7105	anise-flavored venom	654980495	gooball.gif	none, combat	t,d	14	globs of anise-flavored venom
 7106	snakebite	715124072	juice.gif	drink	t,d	18
@@ -7140,11 +7140,11 @@
 7121	lemon party hat	309550870	lemonhat.gif	hat	q	0
 7122	lemon shirt	376721584	lemonshirt.gif	shirt	q	0
 7123	lemon drop trousers	815471195	lemonpants.gif	pants	q	0
-7124	lemonhead caviar	851844462	caviar.gif	usable	t,d	95
+7124	lemonhead caviar	851844462	caviar.gif	multiple	t,d	95
 7125	gummi sword	709368500	gummisword.gif	weapon	t,d	66
-7126	small gummi fin	439308820	gummifin.gif	usable	t,d	15
+7126	small gummi fin	439308820	gummifin.gif	multiple	t,d	15
 7127	chocolate cow bone	503627122	chocobone.gif	weapon	t,d	44
-7128	gummi fang	812782963	gummifang.gif	usable	t,d	17
+7128	gummi fang	812782963	gummifang.gif	multiple	t,d	17
 7129	leftover canap&eacute;s	479093989	canapes.gif	food	t,d	8
 7130	magnum of fancy champagne	250150954	champagne.gif	drink	t,d	66	magnums of fancy champagne
 7131	silver cow creamer	113497586	cowcreamer.gif	offhand		0
@@ -7157,13 +7157,13 @@
 7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250
 7139	R&uuml;mpelstiltz	821730320	potion5.gif	multiple	t	0
 7140	spinning wheel	411606373	spinningwheel.gif	usable		0
-7141	hi-octane carrot juice	648908742	juice.gif	usable	t,d	99	glasses of hi-octane carrot juice
-7142	hare brush	544012791	hairbrush.gif	usable	t,d	300	hare brushes
+7141	hi-octane carrot juice	648908742	juice.gif	multiple	t,d	99	glasses of hi-octane carrot juice
+7142	hare brush	544012791	hairbrush.gif	multiple	t,d	300	hare brushes
 7143	hare pin	531373932	harepin.gif	accessory		0
 7144	odd silver coin	809302450	silvercoin.gif	usable	d	55
 7145	cinnamon cannoli	463407306	cannoli.gif	food	t,d	99	plates of cinnamon cannoli
 7146	expensive champagne	726657372	chamflute.gif	drink	t,d	99	flutes of expensive champagne
-7147	polo trophy	264937416	trophy.gif	usable	t,d	78
+7147	polo trophy	264937416	trophy.gif	multiple	t,d	78
 7148	fancy oil painting	848017783	oilpainting.gif	none	q	0
 7149	solid gold rosary	759330205	rosary.gif	usable	q	0
 7150	ornate dowsing rod	814148239	dowsingrod.gif	offhand	q	0
@@ -7226,7 +7226,7 @@
 7207	black blade	439938643	blackknife.gif	weapon	t,d	55
 7208	fire of unknown origin	561023094	firebottle.gif	none, combat	t,d	27	fires of unknown origin
 7209	eagle's milk	576019881	milk.gif	food	t,d	11	glasses of eagle's milk
-7210	eagle feather	271002141	bigfeather.gif	usable	t,d	50
+7210	eagle feather	271002141	bigfeather.gif	multiple	t,d	50
 7211	one pill	611180086	pill.gif	usable	t,d	30	some pills
 7212	Jefferson wings	582549414	jwings.gif	accessory	t,d	80	pairs of Jefferson wings
 7213	fleetwood macaroni	784835979	macaroni.gif	none	t,d	15	fleetwood macaroni noodles
@@ -7443,9 +7443,9 @@
 7424	bike rental broupon	834379106	broupon.gif	none	q	0
 7425	Taco Dan's Taco Stand Cocktail Sauce Bottle	456199593	squeezebottle.gif	offhand	q	0
 7426	sprinkle shaker	689031956	shakerbottle.gif	offhand	q	0
-7427	sleight-of-hand mushroom	756249560	sleightshroom.gif	usable	q	0
+7427	sleight-of-hand mushroom	756249560	sleightshroom.gif	multiple	q	0
 7428	Taco Dan's Taco Stand's Taco Receipt	439418291	tacoreceipt.gif	none	q	0
-7429	Beach Buck	348779004	beachbuck.gif	none	0	Beach Bucks
+7429	Beach Buck	348779004	beachbuck.gif	none	0		Beach Bucks
 7430	Fun-Guy spore	182698568	spore.gif	usable	t	0
 7431	Boletus Broletus mushroom	237336891	broshroom.gif	multiple	t,d	100
 7432	Omphalotus Omphaloskepsis mushroom	627160828	eyeshroom.gif	multiple	t,d	100
@@ -7487,10 +7487,10 @@
 7468	8-billed baseball cap	412867104	6hats.gif	hat	t,d	250
 7469	extremely wet T-shirt	324598123	wettshirt.gif	shirt	t,d	225
 7470	giant shrimp fork	280775816	shrimpstaff.gif	weapon	t,d	275
-7471	BROS Energy Drink	878945039	brosdrink.gif	usable	t,d	150
-7472	go-go potion	639048968	potion9.gif	usable	t,d	150
-7473	shrimp cocktail	274156264	shrimpcocktail.gif	usable	t,d	150
-7474
+7471	BROS Energy Drink	878945039	brosdrink.gif	multiple	t,d	150
+7472	go-go potion	639048968	potion9.gif	multiple	t,d	150
+7473	shrimp cocktail	274156264	shrimpcocktail.gif	multiple	t,d	150
+7474	Yolo&trade; chocolates	828410259	necbrowafers.gif	usable	t,d	15
 7475	string of moist beads	774119595	chain.gif	accessory	t	0
 7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
@@ -7498,6 +7498,6 @@
 7479	sugar fairy	181763244	sugarfairy2.gif	usable	t,d	100
 7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300
 7481
-7482	Rompeadores de Fantasmas	666506619	bottle.gif	drink	t,d	13
-7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13
-7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13
+7482	Rompedores de Fantasmas	666506619	bottle.gif	drink	t,d	13	muchos Rompedores de Fantasmas
+7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13	botellas de La Fantasma y La Oscuridad
+7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13	botellas de Fantasma en la M&aacute;quina
