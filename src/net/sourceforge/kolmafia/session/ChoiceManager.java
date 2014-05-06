@@ -9711,6 +9711,16 @@ public abstract class ChoiceManager
 			{
 				return "0";
 			}
+			return decision;
+
+		// Break Time!
+		case 919:
+			// Abort if you have plundered the register too many times today
+			if ( decision.equals( "1" ) && responseText.contains( "You've already thoroughly" ) )
+			{
+				return "0";
+			}
+			return decision;
 		
 		}
 
