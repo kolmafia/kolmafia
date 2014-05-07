@@ -2788,7 +2788,6 @@ public class UseItemRequest
 		case ItemPool.RESOLUTION_BOOK:
 			// Others
 		case ItemPool.JEWELRY_BOOK:
-		case ItemPool.OLFACTION_BOOK:
 		case ItemPool.RAINBOWS_GRAVITY:
 		case ItemPool.RAGE_GLAND:
 		case ItemPool.KISSIN_COUSINS:
@@ -2878,8 +2877,35 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_METALWORKING_PRIMER_USED:
 		case ItemPool.WARBEAR_EMPATHY_CHIP:
 		case ItemPool.WARBEAR_EMPATHY_CHIP_USED:
+		case ItemPool.OFFENSIVE_JOKE_BOOK:
+		case ItemPool.COOKING_WITH_GREASE_BOOK:
+		case ItemPool.DINER_HANDBOOK:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) )
+			{
+				UseItemRequest.lastUpdate = "You can't learn that skill.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
+				{
+					ResultProcessor.processResult( item );
+				}
+				return;
+			}
+
+			String skill = UseItemRequest.itemToSkill( itemId );
+			if ( skill == null )
+			{
+				return;
+			}
+
+			ResponseTextParser.learnSkill( skill );
+
+			return;
+		}
+
+		case ItemPool.OLFACTION_BOOK:
+		{
+			if ( !responseText.contains( "smell has been elevated to a superhuman level" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -4847,6 +4873,12 @@ public class UseItemRequest
 		case ItemPool.WARBEAR_EMPATHY_CHIP:
 		case ItemPool.WARBEAR_EMPATHY_CHIP_USED:
 			return "Psychokinetic Hug";
+		case ItemPool.OFFENSIVE_JOKE_BOOK:
+			return "Unoffendable";
+		case ItemPool.COOKING_WITH_GREASE_BOOK:
+			return "Grease Up";
+		case ItemPool.DINER_HANDBOOK:
+			return "Sloppy Secrets";
 		}
 
 		return null;
