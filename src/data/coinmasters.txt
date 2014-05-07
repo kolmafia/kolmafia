@@ -581,3 +581,24 @@ Paul's Boutique	buy	3	polo trophy	ROW247
 Paul's Boutique	buy	4	fancy oil painting	ROW248
 Paul's Boutique	buy	5	solid gold rosary	ROW249
 Paul's Boutique	buy	5	ornate dowsing rod	ROW250
+
+# Things you can buy with Beach Bucks
+
+The Frozen Brogurt Stand	buy	1	regular-size brogurt	ROW293
+The Frozen Brogurt Stand	buy	3	super-size brogurt	ROW294
+The Frozen Brogurt Stand	buy	10	broberry brogurt	ROW295
+The Frozen Brogurt Stand	buy	10	brocolate brogurt	ROW296
+The Frozen Brogurt Stand	buy	10	French bronilla brogurt	ROW297
+Taco Dan's Taco Stand	buy	1	Taco Dan's Basic Taco Dan Taco	ROW298
+Taco Dan's Taco Stand	buy	2	Taco Dan's Taco Fish Fish Taco	ROW301
+Taco Dan's Taco Stand	buy	3	Taco Dan's Super Taco-Riffic Taco Sauce!	ROW300
+Taco Dan's Taco Stand	buy	1	Pastaco shell	ROW299
+Buff Jimmy's Souvenir Shop	buy	15	industrial strength anti-fungal spray	ROW310
+Buff Jimmy's Souvenir Shop	buy	100	one-day ticket to Spring Break Beach	ROW309
+Buff Jimmy's Souvenir Shop	buy	200	Brogre brolo shirt	ROW306
+Buff Jimmy's Souvenir Shop	buy	200	Brogre brorts	ROW305
+Buff Jimmy's Souvenir Shop	buy	200	Brogre bucket hat	ROW307
+Buff Jimmy's Souvenir Shop	buy	300	History's Most Offensive Jokes, Vol. IX	ROW302
+Buff Jimmy's Souvenir Shop	buy	300	Now You're Cooking With Grease	ROW303
+Buff Jimmy's Souvenir Shop	buy	300	Sloppy Seconds Diner Employee Handbook	ROW304
+Buff Jimmy's Souvenir Shop	buy	1000	Spring Break Beach tattoo coupon	ROW308

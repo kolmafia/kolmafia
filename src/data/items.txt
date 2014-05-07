@@ -7481,7 +7481,7 @@
 7462	Brogre brorts	136188578	brorts.gif	pants		0
 7463	Brogre brolo shirt	624152936	brolo.gif	shirt		0
 7464	Brogre bucket hat	443458231	buckethat.gif	hat		0
-7465
+7465	Spring Break Beach tattoo coupon	473298538	tattoupon.gi	usable	t	0
 7466	airplane charter: Spring Break Beach	661864709	aircharter.gif	usable	t	0
 7467	one-day ticket to Spring Break Beach	630595123	airdaypass.gif	usable	t	0
 7468	8-billed baseball cap	412867104	6hats.gif	hat	t,d	250

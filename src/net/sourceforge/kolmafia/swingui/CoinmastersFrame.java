@@ -73,6 +73,8 @@ import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.BrogurtRequest;
+import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
@@ -94,6 +96,7 @@ import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -154,6 +157,9 @@ public class CoinmastersFrame
 	private CoinmasterPanel fdkolPanel = null;
 	private CoinmasterPanel warbearBoxPanel = null;
 	private CoinmasterPanel boutiquePanel = null;
+	private CoinmasterPanel brogurtPanel = null;
+	private CoinmasterPanel buffJimmyPanel = null;
+	private CoinmasterPanel tacoDanPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -277,6 +283,21 @@ public class CoinmastersFrame
 		panel.add( boutiquePanel );
 		this.selectorPanel.addPanel( boutiquePanel.getPanelSelector(), panel );
 
+		panel = new JPanel( new BorderLayout() );
+		brogurtPanel = new BrogurtPanel();
+		panel.add( brogurtPanel );
+		this.selectorPanel.addPanel( brogurtPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		buffJimmyPanel = new BuffJimmyPanel();
+		panel.add( buffJimmyPanel );
+		this.selectorPanel.addPanel( buffJimmyPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		tacoDanPanel = new TacoDanPanel();
+		panel.add( tacoDanPanel );
+		this.selectorPanel.addPanel( tacoDanPanel.getPanelSelector(), panel );
+
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Special Events" );
@@ -392,6 +413,9 @@ public class CoinmastersFrame
 		isotopeSmitheryPanel.update();
 		dollhawkerPanel.update();
 		lunarLunchPanel.update();
+		brogurtPanel.update();
+		buffJimmyPanel.update();
+		tacoDanPanel.update();
 		awolPanel.update();
 		crimbo11Panel.update();
 		fudgeWandPanel.update();
@@ -821,6 +845,33 @@ public class CoinmastersFrame
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
+		}
+	}
+
+	private class BrogurtPanel
+		extends CoinmasterPanel
+	{
+		public BrogurtPanel()
+		{
+			super( BrogurtRequest.BROGURT );
+		}
+	}
+
+	private class BuffJimmyPanel
+		extends CoinmasterPanel
+	{
+		public BuffJimmyPanel()
+		{
+			super( BuffJimmyRequest.BUFF_JIMMY );
+		}
+	}
+
+	private class TacoDanPanel
+		extends CoinmasterPanel
+	{
+		public TacoDanPanel()
+		{
+			super( TacoDanRequest.TACO_DAN );
 		}
 	}
 

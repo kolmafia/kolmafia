@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.BrogurtRequest;
+import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
@@ -138,6 +140,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StillRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
@@ -809,6 +812,18 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof BrogurtRequest || isExternal ) && BrogurtRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof BuffJimmyRequest || isExternal ) && BuffJimmyRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof BURTRequest || isExternal ) && BURTRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
@@ -1212,6 +1227,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof SwaggerShopRequest || isExternal ) && SwaggerShopRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof TacoDanRequest || isExternal ) && TacoDanRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
