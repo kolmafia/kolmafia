@@ -214,7 +214,7 @@ public abstract class ChoiceManager
 
 	private static final String[][] OLD_MAN_PSYCHOSIS_SPOILERS =
 	{
-		{	"Draw a Monster with a Crayon",	"+1 Crayon, Add Cray-Kin" }, { "Build a Bubble Mountain", "+3 crew, -8-10 bubbles" },
+		{	"Draw a Monster with a Crayon",	"-1 Crayon, Add Cray-Kin" }, { "Build a Bubble Mountain", "+3 crew, -8-10 bubbles" },
 		{	"Ask Mom for More Bath Toys", "+2 crayons, +8-11 bubbles" }, { "Draw a Bunch of Coconuts with Crayons", "Block Ferocious roc, -2 crayons" },
 		{	"Splash in the Water", "Add Bristled Man-O-War" }, { "Draw a Big Storm Cloud on the Shower Wall", "Block Deadly Hydra, -3 crayons" },
 		{	"Knock an Action Figure Overboard", "+20-23 bubbles, -1 crew" }, { "Submerge Some Bubbles", "Block giant man-eating shark, -16 bubbles" },
