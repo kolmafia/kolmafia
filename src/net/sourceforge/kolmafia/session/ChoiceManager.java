@@ -6911,7 +6911,8 @@ public abstract class ChoiceManager
 			// Yachtzee!
 			if ( ChoiceManager.lastDecision == 3 && text.contains( "You open the captain's door" ) )
 			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.MOIST_BEADS, -InventoryManager.getCount( ItemPool.MOIST_BEADS ) ) );
+				int beads = Math.min( InventoryManager.getCount( ItemPool.MOIST_BEADS ), 100 );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.MOIST_BEADS, -beads ) );
 			}
 			break;
 		}
