@@ -39,8 +39,10 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.BrogurtRequest;
+import net.sourceforge.kolmafia.request.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -57,6 +59,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -75,6 +78,8 @@ public abstract class CoinmasterRegistry
 		BigBrotherRequest.BIG_BROTHER,
 		BountyHunterHunterRequest.BHH,
 		BoutiqueRequest.BOUTIQUE,
+		BrogurtRequest.BROGURT,
+		BuffJimmyRequest.BUFF_JIMMY,
 		BURTRequest.BURT,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
@@ -92,6 +97,7 @@ public abstract class CoinmasterRegistry
 		QuartersmasterRequest.FRATBOY,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
 		SwaggerShopRequest.SWAGGER_SHOP,
+		TacoDanRequest.TACO_DAN,
 		TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,
 		TicketCounterRequest.TICKET_COUNTER,
 		TrapperRequest.TRAPPER,

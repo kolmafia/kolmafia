@@ -613,6 +613,24 @@ public class NPCPurchaseRequest
 			}
 			return;
 		}
+
+		if( shopId.equals( "sbb_jimmy" ) )
+		{
+			BuffJimmyRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if( shopId.equals( "sbb_taco" ) )
+		{
+			TacoDanRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if( shopId.equals( "sbb_brogurt" ) )
+		{
+			BrogurtRequest.parseResponse( urlString, responseText );
+			return;
+		}
 	}
 
 	public static final boolean registerShopRowRequest( final String urlString )
@@ -782,6 +800,21 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "fdkol" ) )
 			{
 				return FDKOLRequest.registerRequest( urlString, true );
+			}
+
+			if ( shopId.equals( "sbb_jimmy" ) )
+			{
+				return BuffJimmyRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "sbb_taco" ) )
+			{
+				return TacoDanRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "sbb_brogurt" ) )
+			{
+				return BrogurtRequest.registerRequest( urlString );
 			}
 
 			return false;
