@@ -7458,13 +7458,13 @@
 7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
 7440	Cool Brunch Pastaco	551540652	pastaco.gif	food	t,d	200
 7441	Medical Pastaco	647218771	pastaco.gif	food	t,d	300
-7442 Energy Buzz Pastaco 930777622 pastaco.gif food t,d 300
+7442	Energy Buzz Pastaco	930777622	pastaco.gif	food	t,d	300
 7443	Ludovico Pastaco	544225328	pastaco.gif	food	t,d	500
 7444	overpowering mushroom wine	640439068	wine.gif	drink	t,d	200
 7445	complex mushroom wine	934829009	wine.gif	drink	t,d	200
 7446	smooth mushroom wine	511757354	wine.gif	drink	t,d	200
 7447	blood-red mushroom wine	309672440	wine.gif	drink	t,d	300
-7448 buzzing mushroom wine 458192073 wine.gif drink t,d 300
+7448	buzzing mushroom wine	458192073	wine.gif	drink	t,d	300
 7449	swirling mushroom wine	199430283	wine.gif	drink	t,d	500
 7450	Taco Dan's Basic Taco Dan Taco	297432557	taco.gif	food	t,d	50
 7451	Taco Dan's Taco Fish Fish Taco	837122541	taco2.gif	food	t,d	100
@@ -7474,16 +7474,16 @@
 7455	broberry brogurt	359952982	brogurt2.gif	drink	t,d	500
 7456	brocolate brogurt	404149849	brogurt2.gif	drink	t,d	500
 7457	French bronilla brogurt	166749632	brogurt2.gif	drink	t,d	500
-7458
-7459
-7460
+7458	History's Most Offensive Jokes, Vol. IX	455187460	book3.gif	usable	t	0
+7459	Now You're Cooking With Grease	986944827	book5.gif	usable	t	0
+7460	Sloppy Seconds Diner Employee Handbook	167862577	book2.gif	usable	t	0
 7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0
 7462	Brogre brorts	136188578	brorts.gif	pants		0
 7463	Brogre brolo shirt	624152936	brolo.gif	shirt		0
 7464	Brogre bucket hat	443458231	buckethat.gif	hat		0
 7465
 7466	airplane charter: Spring Break Beach	661864709	aircharter.gif	usable	t	0
-7467
+7467	one-day ticket to Spring Break Beach	630595123	airdaypass.gif	usable	t	0
 7468	8-billed baseball cap	412867104	6hats.gif	hat	t,d	250
 7469	extremely wet T-shirt	324598123	wettshirt.gif	shirt	t,d	225
 7470	giant shrimp fork	280775816	shrimpstaff.gif	weapon	t,d	275

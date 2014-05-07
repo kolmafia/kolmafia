@@ -5135,6 +5135,7 @@ Tolerance of the Kitchen	Hot Resistance: +2
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Undying Greed	Meat Drop: +25
 Unrepentant Thief	Pickpocket Chance: +50
+Unoffendable	Sleaze Resistance: +3
 Unyielding Flesh	Damage Absorption: +100, Damage Reduction: 5
 Vigor Mortis	Muscle Percent: +30
 # Virulence: Critical Hits Improve Infectious Bite

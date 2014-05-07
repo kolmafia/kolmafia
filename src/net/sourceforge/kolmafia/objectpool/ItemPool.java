@@ -2007,6 +2007,9 @@ public class ItemPool
 	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
 	public static final int DNA_LAB = 7382;
+	public static final int OFFENSIVE_JOKE_BOOK = 7458;
+	public static final int COOKING_WITH_GREASE_BOOK = 7459;
+	public static final int DINER_HANDBOOK = 7460;
 	public static final int MOIST_BEADS = 7475;
 
 	public static final AdventureResult get( String itemName, int count )

@@ -301,6 +301,10 @@ public class UneffectRequest
 			"Muffled",
 			"Rev Engine",
 		},
+		{
+			"Takin' It Greasy",
+			"Grease Up",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
