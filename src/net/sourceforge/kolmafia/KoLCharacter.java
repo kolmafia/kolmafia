@@ -4895,8 +4895,6 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.getModifiers(
 				( (AdventureResult) effects.get( i ) ).getName() ) );
-			}
-			newModifiers.add( Modifiers.getModifiers( name ) );
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
