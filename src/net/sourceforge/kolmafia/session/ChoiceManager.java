@@ -3038,7 +3038,8 @@ public abstract class ChoiceManager
 				       "+15ML on Sundaes",
 				       "+15ML on Burgers",
 				       "+15ML on Cocktails",
-				       "reset ML on monsters" } ),
+				       "reset ML on monsters",
+				       "leave without using a turn" } ),
   };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
