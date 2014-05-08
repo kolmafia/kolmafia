@@ -91,7 +91,7 @@ El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Fa
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
-Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"
+Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"
 Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
@@ -139,7 +139,7 @@ Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar
 Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6, Familiar Effect: "1xPotato, 1xGhoul, cap 37"
-Ze&trade; goggles	Item Drop: [25*zone(The Sea)], Familiar Effect: "Atk, cap 7"
+Ze&trade; goggles	Item Drop: [25*(zone(The Sea)+loc(The Sunken Party Yacht))], Familiar Effect: "Atk, cap 7"
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 8"
@@ -878,7 +878,7 @@ Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy Defen
 # Staff of the All-Steak: (5 charges left today)
 Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "+Item"
 Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
-Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +15, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
+Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +15, Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Staff of the Cream of the Cream: Jiggle: Attune to Monster's Essence
 # Staff of the Cream of the Cream: (5 charges left today)
 Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Olfact"
@@ -1072,8 +1072,8 @@ corn holder	Spell Damage: +1
 corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
 corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 costume sword	Weapon Damage: -10, Initiative: +30
-cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
-cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
+cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
+cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
 crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +10, PvP Fights: +6
 creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
 crowbar	Initiative: +25
@@ -1545,10 +1545,10 @@ Loathing Legion moondial	Adventures: +4, Softcore Only
 Loathing Legion pizza stone	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Damage Reduction: 6, Softcore Only
 Loathing Legion tape measure	Critical Hit Percent: +10, Softcore Only
 Medallion of the Ventrilo Prince	Moxie Percent: +12
-Mer-kin begsign	Weakens Monster, Meat Drop: [40*zone(The Sea)]
+Mer-kin begsign	Weakens Monster, Meat Drop: [40*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Mer-kin roundshield	Damage Reduction: 19, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
-Mer-kin stopwatch	Adventures: +3, Initiative: [50*zone(The Sea)]
-Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
+Mer-kin stopwatch	Adventures: +3, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))]
+Mer-kin takebag	Item Drop: [5+10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Microplushie: Bropane	Weapon Damage: +3
 Microplushie: Dorkonide	Muscle: +1, Mysticality: +1, Moxie: +1
 Microplushie: Ermahgerdic Acid	Hot Damage: +2
@@ -1700,7 +1700,7 @@ giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Red
 # giant stuffed bugbear
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
-glowing esca	Item Drop: [20*zone(The Sea)]
+glowing esca	Item Drop: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 glowstick on a string	Weapon Damage: +10, Raveosity: +1
 gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
@@ -2016,9 +2016,9 @@ MagiMechTech NanoMechaMech	Single Equip
 Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Mayor Ghost's sash	Item Drop: +30, Meat Drop: -30, Experience: -10, Single Equip
 # Mega Gem
-Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*zone(The Sea)], Single Equip
-Mer-kin eyeglasses	Maximum MP: -300, Experience (Mysticality): [20*zone(The Sea)], Single Equip
-Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*zone(The Sea)], Single Equip
+Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
+Mer-kin eyeglasses	Maximum MP: -300, Experience (Mysticality): [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
+Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 # Mer-kin prayerbeads: Makes you feel uneasy...
 Mer-kin waistrope	Mysticality Percent: +10
 Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
@@ -2124,8 +2124,8 @@ amulet of extreme plot significance	Maximum MP: +30
 ankleweights	PvP Fights: +4, Experience: +1, Single Equip
 anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
-aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
-aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
+aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
+aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 arrrgyle socks	Mysticality: +6
 astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
 astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
@@ -2216,7 +2216,7 @@ dirty hobo gloves	Stench Damage: +2, Single Equip
 disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
-diving muff	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
+diving muff	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
@@ -2358,8 +2358,8 @@ papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min:
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
-pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Item Drop: [30*zone(The Sea)], Single Equip
-pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Item Drop: [20*zone(The Sea)], Single Equip
+pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Item Drop: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
+pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Item Drop: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 phase-tuned shield generator belt	Single Equip
 phat turquoise bracelet	Mysticality: +5
@@ -2498,7 +2498,7 @@ sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaz
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
-teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
+teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 time halo	Adventures: +5, Unarmed, Single Equip
 tin star	Monster Level: +5, Moxie: +3
 tiny die-cast arc-welding Elfborg	Meat Drop: +10
@@ -2791,10 +2791,10 @@ makeshift cape	Item Drop: +5
 old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
-sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*zone(The Sea)], Critical Hit Percent: [15*zone(The Sea)]
+sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))], Critical Hit Percent: [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # sea mantle: +150% Physical Damage (Underwater Only)
-sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*zone(The Sea)]
-sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*zone(The Sea)]
+sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
+sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sealhide cloak	Cold Resistance: +2
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 teddybear backpack	Meat Drop: +10, Raveosity: +1
@@ -2893,7 +2893,7 @@ gnomish coal miner's lung	Equips On: "Reagnimated Gnome", Familiar Effect: "bloc
 # gnomish housemaid's kgnee: Lets your gnome help out around the house
 gnomish housemaid's kgnee	Equips On: "Reagnimated Gnome", Familiar Effect: "gain advs"
 # gnomish swimmer's ears: Makes you a better diver
-gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
+gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
 # gnomish tennis elbow: Lets your gnome attack enemies
 gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 green pixie spog	Familiar Weight: +5
@@ -3081,7 +3081,7 @@ Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Imitation Crab	Underwater Familiar
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Fam:Llama Lama	Volleyball: 0.5
-Fam:Magic Dragonfish	Spell Damage Percent: [min(2*W,100^zone(The Sea)*100)], Underwater Familiar
+Fam:Magic Dragonfish	Spell Damage Percent: [min(2*W,100^(zone(The Sea)+loc(The Sunken Party Yacht))*100)], Underwater Familiar
 Fam:Mechanical Songbird	Fairy: [1.0+0.5*zone(Dreadsylvania)]
 Fam:Midget Clownfish	Underwater Familiar
 Fam:Mini-Adventurer	Volleyball: [pref(miniAdvClass)*max(2-pref(miniAdvClass),0)*max(0,min(L-4,1))+max(3-pref(miniAdvClass),0)*max(pref(miniAdvClass)-1,0)] Leprechaun: [max(4-pref(miniAdvClass),0)*max(pref(miniAdvClass)-2,0)*max(0,min(L-9,1))+max(5-pref(miniAdvClass),0)*max(pref(miniAdvClass)-3,0)] Fairy: [max(6-pref(miniAdvClass),0)*max(pref(miniAdvClass)-4,0)*max(0,min(L-4,1))+max(7-pref(miniAdvClass),0)*max(pref(miniAdvClass)-5,0)*max(0,min(L-9,1))] Sombrero: [max(7-pref(miniAdvClass),0)*max(pref(miniAdvClass)-5,0)*max(0,min(L-14,1))]
@@ -3346,9 +3346,9 @@ Alice's Army Foil Wallman	Damage Reduction: 9
 
 # folder (barbarian): Increased physical damage as you take damage
 folder (blue)	Mysticality: +20
-folder (catfish)	Familiar Weight (hidden): [15*zone(The Sea)]
+folder (catfish)	Familiar Weight (hidden): [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
 folder (cyan)	Mysticality: +15, Moxie: +15
-folder (dancing dolphins)	Item Drop: [50*zone(The Sea)]
+folder (dancing dolphins)	Item Drop: [50*(zone(The Sea)+loc(The Sunken Party Yacht))]
 folder (D-Team)	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 folder (Ex-Files)	Combat Rate: +5
 folder (green)	Moxie: +20
@@ -3361,7 +3361,7 @@ folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
-folder (Seawolf)	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
+folder (Seawolf)	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 folder (skull and crossbones)	Combat Rate: -5
 folder (smiley face)	Experience (Muscle): +2
 folder (space skeleton)	Experience (Moxie): +2
@@ -3411,7 +3411,7 @@ house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
 # meat golem
 pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
 # pumpkin
-saltwaterbed	Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Initiative Penalty: [10*zone(The Sea)]
+saltwaterbed	Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # snow fort 10 turns of Snow Fortified (+25% item drop, +50% meat drop, +50 max MP, +100 max HP)
@@ -3607,7 +3607,7 @@ Breakfast Clubbed	Monster Level: [min(25,T)]
 Bright!	Maximum MP: +100
 Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
-Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
+Brined Liver	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
 # Broken Dancing
@@ -3743,7 +3743,7 @@ Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Flavor	Spell Damage: +30
 Crimbo Nostalgia	Experience: +5
 Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
-Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
+Crocodile Tear	Familiar Weight (hidden): [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Crotchety, Pining	Muscle Percent: +100
 Crud&eacute;	Sleaze Damage: +5
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
@@ -3831,7 +3831,7 @@ Dog Breath	Stench Damage: 30, Hot Resistance: 3, Spooky Resistance: 3, Combat Ra
 Don't Rest Ye, Bold Adventurer	Experience: +1
 Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
-Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
+Donho's Bubbly Ballad	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Down With Chow	Familiar Weight: +10
 Dragged Through the Coals	Hot Damage: +100
@@ -3880,7 +3880,7 @@ Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Embarrassed	Moxie Percent: -30
-Emotion Sickness	Item Drop: [(+25-D)*zone(The Sea)], Meat Drop: [2*(+25-D)*zone(The Sea)]
+Emotion Sickness	Item Drop: [(+25-D)*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: [2*(+25-D)*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Empathy	Familiar Weight: +5
 Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Engorged Weapon	Weapon Damage: +10
@@ -3905,9 +3905,9 @@ Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
 Eyes for Miles	Meat Drop: +50, Item Drop: +25
-Eyes of the Dragon	Item Drop: [100*zone(The Sea)]
+Eyes of the Dragon	Item Drop: [100*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
-Familial Ties	Familiar Weight (hidden): [10*zone(The Sea)]
+Familial Ties	Familiar Weight (hidden): [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
 # Fangs and Pangs: Attacks enemies every round and restores HP
@@ -3934,7 +3934,7 @@ Filled with Magic	Spell Damage Percent: +100
 # Filthworm Guard Stench
 # Filthworm Larva Stench
 # Finstrong: Makes you a better diver
-Finstrong	Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
+Finstrong	Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
 # First, Like, Do No Harm?: Makes you look like a Sorority Nurse
@@ -4035,7 +4035,7 @@ Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 Grape Expectations	Maximum HP: +50, Maximum MP: +25
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
-Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
+Greased-Up Familiar	Familiar Weight (hidden): [5*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Greaser Lightnin'	Moxie: +5, Item Drop: [25*loc(Art Class)]
 Greasy Peasy	Sleaze Damage: +15
 Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
@@ -4063,7 +4063,7 @@ Gyromitra Gymnastics	Moxie: +40
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
 # Hairless and Airless: Makes you a better diver
-Hairless and Airless	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
+Hairless and Airless	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
@@ -4223,7 +4223,7 @@ Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -100
 Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
-Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
+Juiced Up	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 Jukebox Hero	Item Drop: +300
 # Just the Best Anapests: Da da dee, da da dee
 Just the Brown Ones	Moxie: +15
@@ -4519,7 +4519,7 @@ Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
-Red Around the Gills	HP Regen Min: [140*zone(The Sea)], HP Regen Max: [150*zone(The Sea)], MP Regen Min: [140*zone(The Sea)], MP Regen Max: [150*zone(The Sea)]
+Red Around the Gills	HP Regen Min: [140*(zone(The Sea)+loc(The Sunken Party Yacht))], HP Regen Max: [150*(zone(The Sea)+loc(The Sunken Party Yacht))], MP Regen Min: [140*(zone(The Sea)+loc(The Sunken Party Yacht))], MP Regen Max: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Red Lettered	Monster Level: +15
 # Red Misty-Eyed: +10 Damage against Seals
@@ -4548,7 +4548,7 @@ Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Salt Rockin'	Moxie: +30
 # Salty Dogs: Makes you a better diver
-Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
+Salty Dogs	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Salty Mouth: You really need a beer...
 Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
 Sappy Blood	Spooky Resistance: 3
@@ -4791,9 +4791,9 @@ Sweet Nostalgia	Candy Drop: +20
 Sweet Taste	Candy Drop: +10
 Sweet Tooth	Candy Drop: +40
 Sweet, Nuts	Mysticality: +5
-Swimming Head	Item Drop: [25*zone(The Sea)]
+Swimming Head	Item Drop: [25*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Swimming with Sharks: Makes you a better diver
-Swimming with Sharks	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)], Meat Drop: +20
+Swimming with Sharks	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: +20
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Takin' It Greasy	Sleaze Damage: +15
 # Taking the Plunge: Makes you look like a Gnollish Plungermaster

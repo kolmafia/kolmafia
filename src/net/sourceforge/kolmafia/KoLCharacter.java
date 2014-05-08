@@ -2155,7 +2155,7 @@ public abstract class KoLCharacter
 	public static final double getCombatRateAdjustment()
 	{
 		double rate = KoLCharacter.currentModifiers.get( Modifiers.COMBAT_RATE );
-		if ( Modifiers.currentZone.indexOf( "the sea" ) != -1 )
+		if ( Modifiers.currentZone.contains( "the sea" ) || Modifiers.currentLocation.equals( "the sunken party yacht" ) )
 		{
 			rate += KoLCharacter.currentModifiers.get( Modifiers.UNDERWATER_COMBAT_RATE );
 		}
@@ -4895,6 +4895,8 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.getModifiers(
 				( (AdventureResult) effects.get( i ) ).getName() ) );
+			}
+			newModifiers.add( Modifiers.getModifiers( name ) );
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );

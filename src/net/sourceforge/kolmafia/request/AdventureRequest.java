@@ -1158,7 +1158,7 @@ public class AdventureRequest
 			return KoLCharacter.inFistcore() ? 5 : 3;
 		}
 		String zone = AdventureDatabase.getZone( this.adventureName );
-		if ( zone != null && zone.equals( "The Sea" ) )
+		if ( zone != null && ( zone.equals( "The Sea" ) || this.adventureId.equals( AdventurePool.SLOPPY_DINER_ID ) ) )
 		{
 			return KoLConstants.activeEffects.contains( EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
 		}

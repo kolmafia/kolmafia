@@ -513,7 +513,7 @@ public class Evaluator
 			else if ( keyword.startsWith( "com" ) )
 			{
 				index = Modifiers.COMBAT_RATE;
-				if ( Modifiers.currentZone.indexOf( "the sea" ) != -1 )
+				if ( Modifiers.currentZone.contains( "the sea" ) || Modifiers.currentLocation.equals( "the sunken party yacht" ) )
 				{
 					this.weight[ Modifiers.UNDERWATER_COMBAT_RATE ] = weight;
 				}
@@ -1061,8 +1061,8 @@ public class Evaluator
 							// 1H weapons from the shortlist if you can't
 							// equip them anyway.
 							if ( !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
-								!KoLCharacter.isJarlsberg() &&
-								!(KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) && gloveAvailable) )
+							     !KoLCharacter.isJarlsberg() &&
+							     !( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) && gloveAvailable ) )
 							{
 								continue;
 							}
