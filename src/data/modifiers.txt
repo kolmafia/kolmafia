@@ -2252,7 +2252,7 @@ gearbox necklace	Mysticality: +11, Maximum MP: +50
 giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
 # giant motorcycle boots: +10 Damage vs. Ghosts
-giant motorcycle boots	Muscle: +5
+giant motorcycle boots	Muscle: +5, Single Equip
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 giant pinky ring	Single Equip
 glacial clock	Cold Damage: +15
