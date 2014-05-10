@@ -1450,7 +1450,7 @@ public class FightRequest
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String zone = location != null ? location.getZone() : null;
 
-		if ( zone != null && ( !zone.equals( "The Sea" ) || location.equals( "Sloppy Seconds Diner" ) ) )
+		if ( zone != null && ( !zone.equals( "The Sea" ) || location.equals( "The Sunken Party Yacht" ) ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless out of water." );
 			return true;
