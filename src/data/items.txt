@@ -7490,7 +7490,7 @@
 7471	BROS Energy Drink	878945039	brosdrink.gif	multiple	t,d	150
 7472	go-go potion	639048968	potion9.gif	multiple	t,d	150
 7473	shrimp cocktail	274156264	shrimpcocktail.gif	multiple	t,d	150
-7474	Yolo&trade; chocolates	828410259	necbrowafers.gif	usable	t,d	15
+7474	Yolo&trade; chocolates	828410259	necbrowafers.gif	multiple	t,d	15
 7475	string of moist beads	774119595	chain.gif	accessory	t	0
 7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
