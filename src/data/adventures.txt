@@ -247,8 +247,8 @@ Wormwood	adventure=153	true	indoor	The Rogue Windmill	1 choiceadv
 Memories	adventure=204	true	outdoor	The Primordial Soup
 Memories	adventure=205	true	outdoor	The Jungles of Ancient Loathing
 Memories	adventure=206	true	indoor	Seaside Megalopolis
-Spaaace	adventure=265	true	indoor	Domed City of Ronaldus
-Spaaace	adventure=266	true	indoor	Domed City of Grimacia
+Spaaace	adventure=265	true	indoor	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
+Spaaace	adventure=266	true	indoor	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
 Spaaace	adventure=267	true	indoor	Hamburglaris Shield Generator
 
 Landscaper	adventure=224	true	outdoor	The Landscaper's Lair	3 grass clippings
