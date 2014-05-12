@@ -36,14 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
-
-import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -73,13 +66,14 @@ public class DadManager
 
 	private static Object [][] ELEMENTS =
 	{
+		// Starting with the third element, any number of skills can be listed, one per element
 		{ Element.NONE, "none", "" },
-		{ Element.HOT, "hot", "Awesome Balls of Fire" },
+		{ Element.HOT, "hot", "Awesome Balls of Fire", "Volcanometeor Showereruption" },
 		{ Element.COLD, "cold", "Snowclone" },
 		{ Element.STENCH, "stench", "Eggsplosion" },
 		{ Element.SPOOKY, "spooky", "Raise Backup Dancer" },
 		{ Element.SLEAZE, "sleaze", "Grease Lightning" },
-		{ Element.PHYSICAL, "physical", "Toynado" },
+		{ Element.PHYSICAL, "physical", "Toynado", "Shrap" },
 	};
 
 	private static Object[] search( Element element )
@@ -104,7 +98,19 @@ public class DadManager
 	public static String elementToSpell( Element element )
 	{
 		Object [] row = DadManager.search( element );
-		return row == null ? "Unknown" : (String) row[ 2 ];
+		if ( row == null )
+		{
+			return "Unknown";
+		}
+		for ( int i = 2; i < row.length; i++ )
+		{
+			String spell = (String) row[ i ];
+			if ( KoLCharacter.hasSkill( spell ) )
+			{
+				return spell;
+			}
+		}
+		return "Unknown";
 	}
 
 	public static Element intToElement( int index )
