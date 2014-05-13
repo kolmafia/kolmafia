@@ -5314,6 +5314,8 @@ Loc:Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Dro
 Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
+Loc:The Sunken Party Yacht	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
+
 # Synergies section of modifiers.txt
 # Synergies are triggered when an arbitrary combination of two or more
 # equipment items, passive skills, active effects, campground items, or

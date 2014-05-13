@@ -7149,7 +7149,7 @@
 7130	magnum of fancy champagne	250150954	champagne.gif	drink	t,d	66	magnums of fancy champagne
 7131	silver cow creamer	113497586	cowcreamer.gif	offhand		0
 7132	Outer Wolf&trade; cologne	888903284	wolfcologne.gif	multiple	t,d	135
-7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0
+7133	lupine appetite hormones	847345643	bloodvial.gif	usable	t	0	viales of lupine appetite hormones
 7134	wolf whistle	507327010	wolfwhistle.gif	weapon		0
 7135	witch's bread	263669405	jarl_slicedbread.gif	food	t,d	169
 7136	witch's brew	957763940	coffeecup.gif	usable	t,d	250
@@ -7497,7 +7497,7 @@
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
 7479	sugar fairy	181763244	sugarfairy2.gif	usable	t,d	100
 7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300
-7481
+7481	sweet tooth	904665141	sugartooth.gif	usable	t,d	1100	sweet teeth
 7482	Rompedores de Fantasmas	666506619	bottle.gif	drink	t,d	13	muchos Rompedores de Fantasmas
 7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13	botellas de La Fantasma y La Oscuridad
 7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13	botellas de Fantasma en la M&aacute;quina

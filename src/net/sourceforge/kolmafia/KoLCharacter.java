@@ -663,6 +663,11 @@ public abstract class KoLCharacter
 			baseFullness += 3;
 		}
 
+		if ( Preferences.getBoolean( "_sweetToothUsed" ) )
+		{
+			baseFullness++;
+		}
+
 		// Pantsgiving
 		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
 

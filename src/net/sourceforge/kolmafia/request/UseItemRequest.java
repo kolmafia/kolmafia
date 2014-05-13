@@ -988,12 +988,13 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_blankoutUsed" ) ? 0 : 1;
 
 		case ItemPool.CORRUPTED_STARDUST:
+		case ItemPool.PIXEL_ORB:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_corruptedStardustUsed" ) ? 0 : 1;
 
-		case ItemPool.PIXEL_ORB:
+		case ItemPool.SWEET_TOOTH:
 			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_pixelOrbUsed" ) ? 0 : 1;
+			return Preferences.getBoolean( "_sweetToothUsed" ) ? 0 : 1;
 
 		}
 
@@ -4632,11 +4633,8 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.CORRUPTED_STARDUST:
-			Preferences.setBoolean( "_corruptedStardustUsed", true );
-			return;
-
 		case ItemPool.PIXEL_ORB:
-			Preferences.setBoolean( "_pixelOrbUsed", true );
+			Preferences.setBoolean( "_corruptedStardustUsed", true );
 			return;
 
 		case ItemPool.JARLSBERG_SOUL_FRAGMENT:
@@ -4658,6 +4656,14 @@ public class UseItemRequest
 			{
 				Preferences.decrement( "summonAnnoyanceCost", 1 );
 			}
+			return;
+
+		case ItemPool.SWEET_TOOTH:
+			if ( responseText.contains( "You pop the sweet" ) || responseText.contains( "You already had" ) )
+			{
+				Preferences.setBoolean( "_sweetToothUsed", true );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
