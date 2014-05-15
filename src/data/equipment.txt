@@ -155,6 +155,7 @@ fuzzy earmuffs	130	Mys: 50
 fuzzy montera	130	Mox: 50
 ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
+ghast iron Garibaldi	170	Mox: 70
 giant discarded bottlecap	155	Mox: 62
 goat beard	60	Mox: 15
 gold crown	150	Mox: 60
@@ -553,6 +554,7 @@ Professor What T-Shirt	10	none
 Radio Free Jersey	0	none
 Sneaky Pete's leather jacket	100	none
 Sneaky Pete's leather jacket (collar popped)	100	none
+Stephen's lab coat	120	Mus: 45
 Thinknerd T-Shirt	10	none
 Ultracolor&trade; shirt	100	Mus: 35
 Unkillable Skeleton's breastplate	300	Mus: 250
@@ -1319,6 +1321,7 @@ Drunkula's wineglass	300	Mys: 100
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
+Elizabeth's Dollie	0	Mys: 45
 Engorged Sausages and You	100	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
@@ -1589,6 +1592,7 @@ snarling wolf shield	115	Mus: 42	shield
 snow mobile	100	none
 snowstick	225	Mys: 200
 sock monkey	110	Mys: 40
+sommelier's towel	0	Mys: 60
 spaghetti-box banjo	160	Mys: 150
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
@@ -1785,6 +1789,7 @@ Orange Star of Sacrifice	200	Mys: 85
 Order of the Silver Wossname	200	Mys: 85
 Oscus's pelt	200	Mys: 200
 Pendant of Fire	150	Mys: 60
+Pendant of Gargalesis	150	Mys: 60
 Pine-Fresh air freshener	50	Mys: 10
 Pink Heart of Spirit	200	Mys: 85
 Pocket Square of Loathing	200	Mys: 150

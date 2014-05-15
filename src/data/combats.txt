@@ -238,6 +238,7 @@ The Haunted Ballroom	80	floating platter of hors d'oeuvres	ghastly organist: 0	z
 The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made of Bees: 0
 The Haunted Bedroom	-1	Wardr&ouml;b nightstand	animated mahogany nightstand	animated ornate nightstand	animated rustic nightstand	elegant animated nightstand	cosmetics wraith: 0	remains of a jilted mistress: 0
 The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	Pooltergeist (Ultra-Rare): -1
+The Haunted Boiler Room	-1	coaltergeist	monstrous boiler	steam elemental
 The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey
 The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0
 The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef

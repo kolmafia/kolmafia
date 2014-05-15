@@ -226,6 +226,7 @@ fuzzy earmuffs	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 3, Familiar Effe
 fuzzy montera	Moxie: +7, Initiative: +7, Ranged Damage: +7, Familiar Effect: "1.5xVolley, cap 32"
 ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
+ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 gold crown	Sleaze Resistance: +3, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +10, Familiar Effect: "3xGhoul, cap 37"
@@ -662,6 +663,7 @@ Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3
 Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
 # Sneaky Pete's leather jacket (collar popped): The Audience Loves/Hates You Even More!
 Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monster Level: +30, PvP Fights: +4, Free Pull
+Stephen's lab coat	Monster Level: +10, Familiar Weight: +5
 # Thinknerd T-Shirt	enchantment varies per player?
 Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
 # Unkillable Skeleton's breastplate: +10 to Familiar Damage
@@ -1503,6 +1505,7 @@ Dallas Dynasty Falcon Crest shield	Cold Resistance: +5, Hot Resistance: +5, Slea
 Drunkula's wineglass	Familiar Weight: -30
 Dungeon Fist gauntlet	Weapon Damage: +25, Combat Rate: +5, Food Drop: -100
 Dyspepsi-Cola shield	Mysticality: +1, Damage Reduction: 4
+Elizabeth's Dollie	Cold Resistance: +4, Spooky Spell Damage: +25
 Ellsbury's skull	Item Drop: +10, Meat Drop: +10
 # Engorged Sausages and You: All Spells Cast Are Sleazy
 Engorged Sausages and You Spell Damage: +15, Food Drop: +20
@@ -1825,6 +1828,7 @@ snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 snow mobile	Maximum MP: +20, Lasts until Rollover
 snowstick	Cold Spell Damage: +80
 sock monkey	Moxie: +3
+sommelier's towel	Booze Drop: +50
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
@@ -2050,6 +2054,7 @@ Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +
 Order of the Silver Wossname	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +11, Meat Drop: +11, Single Equip
 Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastamancer", Single Equip
 Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
+Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Pine-Fresh air freshener	Stench Resistance: +1
 Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Single Equip, Cloathing
@@ -3594,6 +3599,7 @@ Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
+Boilermade	Cold Resistance: +5, Spooky Resistance: +5
 Boletus Swoletus	Muscle: +40
 Bolts about Candy	Maximum MP: +50
 Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
@@ -3610,6 +3616,7 @@ Boon of She-Who-Was	Weapon Damage: +20
 Bootyliciousness	Item Drop: +10
 Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
+Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50 Damage vs. Zombies
@@ -4006,6 +4013,7 @@ Full of Fruit, Yourself	Monster Level: -25
 Full of Vinegar	Weapon Damage: [+1*D]
 Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
+Funky Coal Patina	Moxie: +20
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
@@ -4740,6 +4748,7 @@ Spooky Weapon	Spooky Damage: +3
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Stopping to Smell the Flowers	Experience: +3
+Spookyravin'	Familiar Weight: +10
 Spore-Wreathed	Reduce Enemy Defense: 20
 Springy Fusilli	Initiative: +40
 Spirit Schooled	Maximum MP Percent: +20
@@ -5446,6 +5455,7 @@ Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 30
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
+Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
@@ -5586,6 +5596,7 @@ Sorcerers of the Shore Grimoire	Free Pull
 Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Stemonitis Staticus mushroom	Effect: "Stemonitis Storm", Effect Duration: 10
+Stephen's secret formula	Effect: "Spookyravin'", Effect Duration: 20
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
@@ -5729,6 +5740,7 @@ chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
 chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 class five ecto-larva	Free Pull
 clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
+coal dust	Effect: "Funky Coal Patina", Effect Duration: 15
 coffee sprite	Free Pull
 cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
@@ -5935,6 +5947,7 @@ homeless hobo spirit	Free Pull
 honey stick	Effect: "Stuck That Way", Effect Duration: 10
 honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
 hot buttered rum	Effect: "Loaded Forwarbear", Effect Duration: 20
+hot coal	Effect: "Fire Inside", Effect Duration: 15
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hungover chauvinist pig	Free Pull
@@ -6124,6 +6137,7 @@ recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thin
 red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
 red eye	Effect: "Seeing Red", Effect Duration: 20
 red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
+red hot boilermaker	Effect: "Boilermade", Effect Duration: 50
 red letter	Effect: "Red Lettered", Effect Duration: 20
 red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 red snowcone	Effect: "Red Tongue", Effect Duration: 20

@@ -185,6 +185,7 @@ delicious noodles	3	3	good	6-9	0	0	9-25
 delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
 delicious spicy noodles	3	5	awesome	7-15	0	29-33	0
 delicious swamp muck	5	4	decent	7-8	20-30	20-30	20-30
+deluxe layer cake	10	10	awesome	0	0	0	0
 desiccated apricot	1	2	decent	2	15-17	0	0
 devil dog	3	1	awesome	11-13	0	0	0	+5 PVP fights, 30 Devil Inside (+30 Hot Damage, +3 Cold/Spooky Res)
 devil's-food cake	3	1	crappy	3	0	0	0
