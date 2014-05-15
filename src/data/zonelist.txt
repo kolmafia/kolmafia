@@ -8,7 +8,7 @@ Manor	Town	Spookyraven Manor
 Manor0	Manor	Spookyraven (Cellar)
 Manor1	Manor	Spookyraven (First Floor)
 Manor2	Manor	Spookyraven (Second Floor)
-
+Manor3	Manor	Spookyraven (Third Floor)
 KOL High School	Town	KOL High School
 
 Clan Basement	Clan Basement	Clan Basement

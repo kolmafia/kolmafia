@@ -1572,12 +1572,12 @@
 1571
 1572
 1573
-1574
-1575
-1576
-1577
-1578
-1579
+1574	Permanent Halloween	record.gif	8aebe4e4ebe8abeaf9732029b6b78933	use 1 spooky sound effects record
+1575	Held Closer	tinydancer.gif	3736bbfc69923e3f2636c75a1880d128	use 1 tiny dancer
+1576	Moose Wisdom	reindeer.gif	c79edf4917f000ec7ad5954b4e63de8b	use 1 moose thought
+1577	Browbeaten	angry.gif	8dd72dbc026f425dc0c1f611b0fc9a86	use 1 old eyebrow pencil
+1578	Rosewater Mark	henna.gif	8a91d52e62469818d08d8bdd41b56111	use 1 old rosewater cream
+1579	Sepia Tan	lotion.gif	4f554939e1de2844d50364f31f4bc224	use 1 old bronzer
 1580
 1581
 1582

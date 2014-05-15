@@ -330,6 +330,7 @@ over easy rider	3	1	good	8-10	0	0	30-40
 overpowering mushroom wine	4	3	EPIC	0	0	0	0	80 Boletus Swoletus (+40 Mus)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 paint a vulgar pitcher	2	1	EPIC	10-12	10-12	0	0
+painting of a glass of wine	1	6	good	0	0	0	0
 pan-dimensional gargle blaster	5	13	EPIC	23-27	50-100	50-100	50-100
 papaya sling	3	1	decent	3-8	16-30	0	0
 papaya slung	3	2	decent	4-8	11-15	11-15	11-15

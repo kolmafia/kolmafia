@@ -7317,24 +7317,24 @@
 7298	heavy-duty bendy straw	540002924	bendystraw.gif	none	q	0
 7299	pellet of plant food	342274913	pellet.gif	none	q	0
 7300	sewing kit	386978970	sewingkit.gif	usable		0
-7301
-7302
-7303
-7304
-7305
-7306
-7307
-7308
-7309
-7310
-7311
+7301	Spookyraven billiards room key	481640214	srkey4.gif	none	q	0
+7302	Spookyraven library key	382709011	srkey1.gif	none	q	0
+7303	Lady Spookyraven's necklace	186449199	srnecklace.gif	none	q	0
+7304	telegram from Lady Spookyraven	514364304	document.gif	usable	q	0
+7305	Lady Spookyraven's powder puff	706943846	powderpuff.gif	none	q	0
+7306	Lady Spookyraven's finest gown	203797817	srgown.gif	none	q	0
+7307	Lady Spookyraven's dancing shoes	977647376	dancingshoes.gif	none	q	0
+7308	old eyebrow pencil	824523222	pencil.gif	multiple	t,d	40
+7309	old rosewater cream	853741426	tube.gif	multiple	t,d	40
+7310	old bronzer	846379862	balm.gif	multiple	t,d	40
+7311	elegant nightstick	593439220	nightstick.gif	weapon	t,d	75
 7312
 7313
-7314
-7315
-7316
+7314	dusty poppet	580089747	poppet.gif	none	q	0
+7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
+7316	antique jack-in-the-box	671902661	jackinthebox.gif	none	q	0
 7317
-7318
+7318	ghost of a necklace	978556354	ghostnecklace.gif	accessory	d	150
 7319
 7320
 7321
@@ -7348,24 +7348,24 @@
 7329
 7330
 7331
-7332
-7333
-7334
-7335
-7336
-7337
-7338
-7339
-7340
-7341
-7342
-7343
+7332	creepy doll head	933246480	dollhead.gif	offhand	t,d	99
+7333	droopy doll eye	314062101	dolleye.gif	none, combat	t,d	45
+7334	creepy voice box	741199199	voicebox.gif	offhand	t,d	120
+7335	haunted paddle-ball	707392144	paddleball2.gif	weapon	t,d	105
+7336	spooky sound effects record	343982532	record.gif	multiple	t,d	78
+7337	spooky alphabet block	432727108	spookyblock.gif	none, combat	t,d	85
+7338	tiny dancer	508227259	tinydancer.gif	multiple	t,d	135
+7339	spooky music box mechanism	649333486	musicbox.gif	none, combat	t,d	150
+7340	moose antlers	983883761	antlers2.gif	hat	t,d	125
+7341	moose thought	699156790	moosethought.gif	usable	t,d	62
+7342	moose chocolate	889905362	moosechocolate.gif	food	t,d	80
+7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130
 7344
-7345
+7345	ornate picture frame	394174454	pictureframe.gif	none, combat		0
 7346
-7347
-7348
-7349
+7347	ghost toga	926901212	ghosttoga.gif	shirt	t,d	95
+7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
+7349	ghost key	621906180	ghostkey.gif	none	t,d	44
 7350
 7351
 7352
