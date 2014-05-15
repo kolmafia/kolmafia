@@ -2432,3 +2432,7 @@ complex mushroom wine	MIX_FANCY	mushroom fermenting solution	Omphalotus Omphalos
 smooth mushroom wine	MIX_FANCY	mushroom fermenting solution	Gyromitra Dynomita mushroom
 blood-red mushroom wine	MIX_FANCY	mushroom fermenting solution	Helvella Haemophilia mushroom
 swirling mushroom wine	MIX_FANCY	mushroom fermenting solution	Tremella Tarantella mushroom
+
+# Spookyraven
+plaid bandage	MUSE	plaid swatch (2)
+plaid pocket square	MUSE	plaid swatch (4)
