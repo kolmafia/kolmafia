@@ -2992,6 +2992,7 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure876", "One Simple Nightstand",
 			new Object[] { new Option( "old leather wallet", 1 ),
 				       new Option( "muscle substats", 2 ),
+				       new Option( "muscle substats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),
 
 		// One Mahogany Nightstand
@@ -3000,6 +3001,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "old coin purse", 1 ),
 				       new Option( "take damage", 2 ),
 				       new Option( "quest item", 3 ),
+				       new Option( "gain more meat (with ghost key)", 4 ),
 				       new Option( "skip", 6 ) } ),
 
 		// One Ornate Nightstand
@@ -3009,23 +3011,25 @@ public abstract class ChoiceManager
 				       new Option( "mysticality substats", 2 ),
 				       new Option( "Lord Spookyraven's spectacles", 3 ),
 				       new Option( "disposable instant camera", 4 ),
+				       new Option( "mysticality substats (with ghost key)", 5 ),
 				       new Option( "skip", 6 ) } ),
 
 		// One Rustic Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure879", "One Rustic Nightstand",
-			new Object[] { "moxie (ballroom key step 1)",
-				       "empty drawer (ballroom key step 2)",
-				       "enter combat",
-				       new Option( "Engorged Sausages and You or ballroom key and moxie", "Engorged Sausages and You" ),
-				       new Option( "Engorged Sausages and You or ballroom key and combat", "Engorged Sausages and You" ),
-					   new Option( "skip" ) } ),
+			new Object[] { new Option( "moxie (ballroom key step 1)", 1 ),
+				       new Option( "empty drawer (ballroom key step 2)", 2 ),
+				       new Option( "enter combat with mistress (once only)", 3 ),
+				       new Option( "Engorged Sausages and You or ballroom key and moxie", 4 ),
+				       new Option( "moxie substats (with ghost key)", 5 ),
+					   new Option( "skip", 6 )} ),
 
 		// One Elegant Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
 			new Object[] { new Option( "Lady Spookyraven's finest gown", 1 ),
 				       new Option( "elegant nightstick", 2 ),
+				       new Option( "stats (with ghost key)", 2 ),
 				       new Option( "skip", 6 ) } ),
 
 		// Take a Look, it's in a Book!
@@ -8890,14 +8894,6 @@ public abstract class ChoiceManager
 				return
 					sausagesAvailable ? "4" :
 					KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "1" :
-					Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" :
-					"1";
-			}
-			else if ( decision.equals( "5" ) )
-			{
-				return
-					sausagesAvailable ? "4" :
-					KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "3" :
 					Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" :
 					"1";
 			}

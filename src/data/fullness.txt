@@ -478,6 +478,7 @@ petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
+pie man was not meant to eat	100	15	EPIC	0	0	0	0
 piece of wedding cake	2	1	decent	2-5	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 plain pizza	2	1	decent	2-4	0	0	0

@@ -614,6 +614,7 @@ lynyrd	lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast	lynyrd skin (0)
 lynyrd skinner	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 P: dude Meat: 100-150	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)
 mad bugbears	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 P: beast
 mad flagellate	prim_flag.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: bug	memory of a G (20)	memory of a T (20)
+mad wino	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 P: hobo	pie man was not meant to eat (0)	crazy hobo notebook (0)	Psychotic Train wine (0)
 magic dragonfish	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 160-240 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 MagiMechTech MechaMech	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent crop circle	cropcircle.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
@@ -850,7 +851,7 @@ skeletal cat	catskel.gif	Atk: 9 Def: 8 HP: 8 Init: 50 ED: spooky P: undead	pile 
 skeletal hamster	hamskel.gif	Atk: 8 Def: 7 HP: 7 Init: 50 ED: spooky P: undead	pile of dusty animal bones (100)	tiny canopic jar (c0)
 skeletal monkey	monkeyskel.gif	Atk: 9 Def: 8 HP: 8 Init: 300 ED: spooky P: undead	pile of dusty animal bones (100)	skeletal banana (c0)
 skeletal reindeer			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-skeletal sommelier	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 80-120 ED: spooky P: undead	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)	wine-soaked bone chips (c0)	ghost accordion (a0)
+skeletal sommelier	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 80-120 ED: spooky P: undead	tarnished tastevin (0)	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)	wine-soaked bone chips (c0)	ghost accordion (a0)
 skeleton invader		HP: 10 Def: 9 Atk: 10 Init: 50	bone chips (30)
 skeleton with a mop	mopskeleton.gif	Atk: 8 Def: 7 HP: 7 Init: 50 P: undead	beer-soaked mop (10)	ice-cold Willer (30)	ice-cold Willer (30)
 Skelter Butleton, the Butler Skeleton	buttleton.gif	Atk: 170 Def: 153 HP: 180 Init: 50 ED: spooky P: undead	silver shrimp fork (100)

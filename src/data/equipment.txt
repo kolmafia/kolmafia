@@ -2194,6 +2194,7 @@ support cummerbund	100	Mys: 35
 surgical mask	155	Mys: 62
 sweat socks	25	none
 tap shoes	90	Mys: 30
+tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 time halo	50	none
