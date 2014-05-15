@@ -2361,8 +2361,9 @@ public class Modifiers
 			double factor = this.get( Modifiers.SOMBRERO_EFFECTIVENESS );
 			if ( factor == 0.0 ) factor = 1.0;
 			// currentML is always >= 4, so we don't need to check for negatives
-			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ) *
-				(1.0 + Math.sqrt( Modifiers.currentML - 4.0 )) / 10.0, "Sombrero" );
+			int maxStats = 100; // this might change soon
+			this.add( Modifiers.EXPERIENCE, Math.max( factor * ( Modifiers.currentML / 4 ) *
+				    ( 0.1 + 0.005 * effective ), maxStats ), "Sombrero" );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
@@ -2423,7 +2424,7 @@ public class Modifiers
 		double effective = imods.get( Modifiers.VOLLEYBALL_WEIGHT );
 		if ( effective != 0.0 )
 		{
-			double factor = Math.sqrt( effective );
+			double factor = 2 + effective / 5;
 			this.add( Modifiers.EXPERIENCE, factor, name );
 		}
 
