@@ -1579,7 +1579,7 @@
 1578	Rosewater Mark	henna.gif	8a91d52e62469818d08d8bdd41b56111	use 1 old rosewater cream
 1579	Sepia Tan	lotion.gif	4f554939e1de2844d50364f31f4bc224	use 1 old bronzer
 1580
-1581
+1581	Funky Coal Patina	disease.gif	2d54480e5b598464064afda410ad1b81	use 1 coal dust
 1582	Bloodstain-Resistant	chapstick.gif	bd1a41c8b3ca3e893ab18835e9835710	use 1 bloodstain stick
 1583	Hardened Fabric	hardener.gif	e1867786a46ac85d7ac4daa28d335e86	use 1 fabric hardener
 1584	Industrial Strength Starch	box1.gif	31656485a0168a941731b595d97319ea	use 1 industrial strength starch
@@ -1606,7 +1606,7 @@
 1605	Human-Elemental Hybrid	dna.gif	1a94d9673d884b5a877f0a2bfe91ad5a	use 1 Gene Tonic: Elemental
 1606	Human-Constellation Hybrid	dna.gif	27ec1336404210e9257b5054c59ae624	use 1 Gene Tonic: Constellation
 1607	Human-Hobo Hybrid	dna.gif	c902209f9a321a70cfcb822c2a7411ee	use 1 Gene Tonic: Hobo
-1608
+1608	Spookyravin'	potion6.gif	07ca1f54611227fd3b2568a101d1f43b	use 1 Stephen's secret formula
 1609
 1610
 1611
@@ -1624,13 +1624,13 @@
 1623	Tapped In	brosdrink.gif	fbaff541cf7dcb2d4d94dde752c28f33	use 1 BROS Energy Drink
 1624	Go-Gone	vinylboots.gif	0d22d78c83875d73a9d95a8224536e81	use 1 go-go potion
 1625	Shrimpin' Ain't Easy	shrimpcocktail.gif	433f929cdcd9c5598fd310442b866e6f	use 1 shrimp cocktail
-1626
+1626	Boilermade	hotboilermaker.gif	f722212d9e6b0fae6b1c69a06e5f87d5	drink 1 red hot boilermaker
 1627	Takin' It Greasy	groosegrease.gif	1ecd5486cb371daa243193f4d9054937	cast 1 Grease Up
 1628	Big Meat Big Prizes	meat.gif	7625b559611cef1d9089948c4b7170e7	use 1 Meat-inflating powder
 1629	Yoloswagyoloswag	necbrowafers.gif	07ba317538a4ebd84856479021426f38	use 1 Yolo&trade; chocolates
 1630	Dance of the Sugar Fairy	sugarfairy2.gif	34fa02c3e24337f6ae4727ef73843e53	use 1 sugar fairy
 1631	Sweet Incentive	sugarbunny.gif	45f064fc532fae42bde5ea6aa7bca317	use 1 sugar bunny
-1632
+1632	Boschface	paintbrush.gif	670e46cb71e85891516ea3de40b0f8ea	use 1 Elizabeth's paintbrush
 1633	Desenfantasmada	ggg.gif	bcdac1c4cbd798f8b1f886ad37602ef0	drink 1 Rompeadores de Fantasmas
 1634	La Oscuridad Adentro	darkness.gif	6da14ec2a2bcb1f02a7ee8f06774f0f6	drink 1 La Fantasma y La Oscuridad
 1635	Sangre Brillante	snowflakes.gif	f75967278d427a50aa53e220ca2f6c46	drink 1 Fantasma en la M&aacute;quina

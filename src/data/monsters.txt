@@ -271,6 +271,7 @@ Cloaca-Cola Soldier	colasol1.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: dude	Cloaca-
 cloud of disembodied whiskers	whiskers.gif	Atk: 2 Def: 2 HP: 3 Init: 45 P: weird	shaving cream (20)
 clubfish	clubfish.gif	Atk: 350 Def: 360 HP: 600 Init: 100 Meat: 176-264 P: fish	dull fish scale (n15)	fish stick (n2)
 cluster of angry bacteria	prim_bact.gif	Atk: 20 Def: 18 HP: 25 Init: 50 P: bug	memory of an A (20)	memory of a G (20)
+coaltergeist	coaltergeist.gif	Atk: 152 Def: 138 HP: 150 Init: 25 P: undead	coal dust (0)	hot coal (0)	hot coal (0)
 Cobb's Knob oven	kg_oven.gif	Atk: 20 Def: 18 HP: 20 Init: 50 E: hot P: construct	oven mitts (5)	overcookie (20)
 Cold hobo	coldhobo5.gif	Atk: 350 Def: 315 HP: 500 Init: 100 E: cold P: hobo	hobo nickel (c15)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 collapsed mineshaft golem	minegolem.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
@@ -683,6 +684,7 @@ model skeleton	modelskeleton.gif	Atk: 76 Def: 81 HP: 85 Init: 25 P: construct E:
 modern zmobie	modernzombie.gif	Atk: 60 Def: 54 HP: 50 Init: 300 E: spooky P: undead
 moister oyster	moyster.gif	Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 80-120 P: fish	giant pearl (n100)
 monkey wrenchin' elf	elf_wrench.gif	Init: -10000 P: elf	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
+monstrous boiler	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: construct E: hot	chunk of hot iron (0)
 Monty Basingstoke-Pratt, IV	monty.gif	Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 174-215 E: sleaze P: orc	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 mother hellseal	motherseal.gif	Atk: 150 Def: 135 HP: 150 Init: 150 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
 Mother Slime	etube/stboss.gif	Atk: 1000 Def: 900 HP: 2950 Init: 300 EA: slime P: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
@@ -916,6 +918,7 @@ spooky music box	musicbox.gif	Atk: 79 Def: 81 HP: 80 Init: 25 P: construct E: sp
 spooky vampire	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire collar (c4)
 Spookyraven Manor	manor.gif	HP: 120 Def: 72 Atk: 80 Init: 20 P: construct	collection of tiny spooky objects (0)
 Spunky Princess	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 88-132 P: dude	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
+steam elemental	steamelemental.gif	Atk: 160 Def: 137 HP: 140 Init: 75 P: elemental E: hot
 Steampunk Giant	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 80-120 P: humanoid	brass gear (20)	brown felt tophat (5)	autocalliope (a0)
 Stella, the Demonic Turtle Poacher	2_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
 Stella, the Turtle Poacher (Inner Sanctum)	2_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	Elder Turtle Shell (100)

@@ -357,6 +357,7 @@ ralph ix cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 ram's face lager	1	2	decent	2	8-10	0	0	4-8 MP
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
 red dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
+red hot boilermaker	4	9	good	0	0	0	0	50 Boilermade (+5 Cold/Spooky Res)
 red-headed corpse	3	1	good	6-10	0	31-35	0
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP
 red rum	3	3	decent	4	0	0	0	20-30 HP

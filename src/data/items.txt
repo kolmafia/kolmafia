@@ -7333,12 +7333,12 @@
 7314	dusty poppet	580089747	poppet.gif	none	q	0
 7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
 7316	antique jack-in-the-box	671902661	jackinthebox.gif	none	q	0
-7317
+7317	jar of baby ghosts	971844897	ghostjar.gif	none	q	0
 7318	ghost of a necklace	978556354	ghostnecklace.gif	accessory	d	150
-7319
-7320
-7321
-7322
+7319	Elizabeth's Dollie	766048375	doll.gif	offhand	d	88
+7320	Elizabeth's paintbrush	266153233	paintbrush.gif	multiple	t,d	125
+7321	Stephen's lab coat	831015452	labcoat.gif	shirt	d	85
+7322	Stephen's secret formula	536575882	potion6.gif	multiple	t,d	75
 7323	Jacob's rung	115661219	jacobsrung.gif	weapon	t,d	125
 7324	haunted battery	150291229	wbattery.gif	multiple	t,d	90
 7325	electric snakebite	249000652	snakebite.gif	drink	t,d	85
@@ -7360,20 +7360,20 @@
 7341	moose thought	699156790	moosethought.gif	usable	t,d	62
 7342	moose chocolate	889905362	moosechocolate.gif	food	t,d	80
 7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130
-7344
+7344	ancient oil painting of yourself	538454114	rolledpainting.gif	none		0
 7345	ornate picture frame	394174454	pictureframe.gif	none, combat		0
 7346
 7347	ghost toga	926901212	ghosttoga.gif	shirt	t,d	95
 7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
 7349	ghost key	621906180	ghostkey.gif	none	t,d	44
-7350
+7350	picture of you	115824869	pictureofyou.gif	usable		0
 7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250
-7352
-7353
-7354
+7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
+7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55
+7354	red hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
 7355
-7356
-7357
+7356	hot coal	724775130	hotcoal.gif	multiple	t,d	88
+7357	coal dust	677190547	scpowder.gif	multiple	t,d	78
 7358
 7359	plaid swatch	537597651	plaidswatch.gif	multiple	t,d	65
 7360	plaid bandage	531905151	plaidbandage.gif	usable, combat	t,d	120
@@ -7389,15 +7389,15 @@
 7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111
 7371	crazy hobo notebook	539415366	blacknotebook.gif	none, combat	t,d	180
 7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350
-7373
+7373	sommelier's towel	233683477	somtowel.gif	offhand	t,d	150
 7374	tarnished tastevin	267963154	tastevin.gif	accessory	t,d	150
 7375
-7376
+7376	ghast iron ingot	705637457	gi_ingot.gif	none	t,d	100
 7377
-7378
+7378	ghast iron Garibaldi	945225891	gi_hat.gif	hat	t,d	250
 7379
 7380
-7381
+7381	Pendant of Gargalesis	202475813	fingernecklace.gif	accessory	t,d	150
 7382	Little Geneticist DNA-Splicing Lab	951406097	genelab.gif	usable	t	0
 7383	DNA extraction syringe	883789777	syringe3.gif	reusable, combat	q	0
 7384	Gene Tonic: Dude	505091265	genetonic.gif	multiple	t,d	25	Gene Tonics: Dude
@@ -7422,21 +7422,21 @@
 7403	Gene Tonic: Elemental	920197063	genetonic.gif	multiple	t,d	25	Gene Tonics: Elemental
 7404	Gene Tonic: Constellation	608792100	genetonic.gif	multiple	t,d	25	Gene Tonics: Constellation
 7405	Gene Tonic: Hobo	379866898	genetonic.gif	multiple	t,d	25	Gene Tonics: Hobo
-7406
+7406	Steam Card: Dungeon Fist (1)	253174686	steamcard.gif	usable	t,d	50
 7407
 7408
 7409
 7410
 7411
-7412
+7412	Steam Card: Meteoid (1)	560078181	steamcard.gif	usable	t,d	50
 7413
 7414
-7415
+7415	Steam Card: DemonStar (#1)	574333274	steamcard.gif	usable	t,d	50
 7416
 7417
 7418
 7419
-7420
+7420	Steam Card: Jackass Plumber (3)	464746510	steamcard.gif	usable	t,d	50
 7421	pencil thin mushroom	814218254	pencilmush.gif	none	q	0
 7422	Paradaisical Cheeseburger recipe	902389228	burgerrecipe.gif	offhand	q	0
 7423	salty sailor salt	707454166	disease.gif	none	q	0	handfuls of salty sailor salt
@@ -7501,3 +7501,16 @@
 7482	Rompedores de Fantasmas	666506619	bottle.gif	drink	t,d	13	muchos Rompedores de Fantasmas
 7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13	botellas de La Fantasma y La Oscuridad
 7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13	botellas de Fantasma en la M&aacute;quina
+7485
+7486
+7487
+7488
+7489
+7490
+7491
+7492
+7493
+7494
+7495
+7496
+7497	ghost formula	403230490	babybottle.gif	usable	q	0
