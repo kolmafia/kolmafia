@@ -123,11 +123,6 @@ public class MonsterData
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
-	private int class2Factor()
-	{
-		return KoLCharacter.inClasscore2() ? 2 : 1;
-	}
-
 	public int getHP()
 	{
 		if ( this.health == null )
@@ -189,6 +184,7 @@ public class MonsterData
 			}
 			if ( KoLCharacter.inBigcore() )
 			{
+				// The bonus attack from BIG cannot raise a monster's attack above 300
 				attack = Math.min( attack + 150, Math.max( 300, attack ) );
 			}
 			return (int) Math.floor( Math.max( 1, attack + ML() ) *
@@ -235,6 +231,7 @@ public class MonsterData
 			}
 			if ( KoLCharacter.inBigcore() )
 			{
+				// The bonus defense from BIG cannot raise a monster's defense above 300
 				defense = Math.min( defense + 150, Math.max( 300, defense ) );
 			}
 			return (int) Math.floor( Math.max( 1, defense + ML() ) *
@@ -296,7 +293,7 @@ public class MonsterData
 		}
 		else
 		{
-			return baseInit + this.initPenalty( monsterLevel );
+			return baseInit + initPenalty( monsterLevel );
 		}
 	}
 
@@ -549,7 +546,7 @@ public class MonsterData
 	{
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / this.getBeeosity() ) * class2Factor() / 8.0;
+			return ( this.getAttack() / this.getBeeosity() ) / 8.0 + ( ML() > 0 ? ML() : 0 ) / 24;
 		}
 		if ( this.experience instanceof Integer )
 		{
@@ -559,7 +556,7 @@ public class MonsterData
 		{
 			this.experience = compile( this.experience );
 		}
-		return ((MonsterExpression) this.experience).eval() * class2Factor() / 2.0;
+		return ((MonsterExpression) this.experience).eval() / 2.0 + ( ML() > 0 ? ML() : 0 ) / 24;
 	}
 
 	public boolean willUsuallyMiss()
