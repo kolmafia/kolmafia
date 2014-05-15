@@ -2506,6 +2506,7 @@ support cummerbund	Maximum HP: +20
 surgical mask	Maximum MP: +40, Surgeonosity: +1
 sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaze Spell Damage: +5
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
+tarnished tastevin	Booze Drop: +25, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip

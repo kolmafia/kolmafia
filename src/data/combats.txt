@@ -247,11 +247,7 @@ The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
 The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: o1	overdone flame-broiled meat blob: e1	undead elbow macaroni
 The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sheet ghost
 The Haunted Sorority House	-1	sexy sorority ghost	sexy sorority skeleton	sexy sorority vampire	sexy sorority werewolf	sexy sorority zombie
-The Haunted Wine Cellar (automatic)	100	possessed wine rack	skeletal sommelier
-The Haunted Wine Cellar (Northwest)	100	possessed wine rack	skeletal sommelier
-The Haunted Wine Cellar (Northeast)	100	possessed wine rack	skeletal sommelier
-The Haunted Wine Cellar (Southwest)	100	possessed wine rack	skeletal sommelier
-The Haunted Wine Cellar (Southeast)	100	possessed wine rack	skeletal sommelier
+The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino
 The Heap	-1	Stench hobo	Oscus: 0
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit: 0

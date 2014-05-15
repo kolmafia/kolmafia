@@ -7386,11 +7386,11 @@
 7367
 7368
 7369
-7370
-7371
-7372
+7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111
+7371	crazy hobo notebook	539415366	blacknotebook.gif	none, combat	t,d	180
+7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350
 7373
-7374
+7374	tarnished tastevin	267963154	tastevin.gif	accessory	t,d	150
 7375
 7376
 7377
