@@ -603,7 +603,6 @@ red coat	160	Mus: 65
 red shirt	150	Mus: 60
 red-and-green sweater	50	Mox: 35
 rhinestone cowboy shirt	100	Mus: 35
-rubber ribcage	0	Mus: 45	shield
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
@@ -1159,6 +1158,7 @@ right bear arm	100	Mus: 0	1-handed club
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
+rubber ribcage	120	Mus: 45	shield
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
@@ -2075,6 +2075,7 @@ pig-iron bracers	90	Mys: 30
 pink glowstick	20	none
 pink plastic baby	20	none
 pirate fledges	140	Mys: 60
+plaid pocket square	150	Mys: 50
 plastic Duskwalker necklace	50	none
 plastic spider ring	0	none
 plastic vampire fangs	0	none

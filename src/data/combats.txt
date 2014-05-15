@@ -243,6 +243,7 @@ The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit
 The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef
 The Haunted Laboratory	-1	Jacob's Adder	model skeleton	the gunk
 The Haunted Library	75	banshee librarian	bookbat	writing desk
+The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
 The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: o1	overdone flame-broiled meat blob: e1	undead elbow macaroni
 The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sheet ghost

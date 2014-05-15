@@ -2377,6 +2377,7 @@ pig-iron bracers	Mysticality: +8, Spell Damage: +10, Single Equip
 pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
+plaid pocket square	Meat Drop: +15
 plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts until Rollover
 plastic spider ring	Mysticality: +3, Single Equip
 plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
@@ -3584,6 +3585,7 @@ Block-Rockin' Beet	Damage Reduction: 15
 Blood Sugar Sauce Magic	Maximum HP Percent: [-10-20*class(Sauceror)], Maximum MP Percent: [10+20*class(Sauceror)]
 Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
+Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
 # Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
@@ -4089,6 +4091,7 @@ Hangdog	Sleaze Damage: 30, Hot Resistance: 3, Stench Resistance: 3, Initiative: 
 # Happy-go-meaty: Makes you look like a bundle of Meat of Happiness
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
+Hardened Fabric	Damage Reduction: 15
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
 Hare-o-dynamic	Initiative: +300
@@ -4195,6 +4198,7 @@ Inappropriate Spirit	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
 Indescribable Flavor	Spell Damage: +30
+Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
 # Inebriate Pride: Experience: +X
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
@@ -4210,6 +4214,7 @@ Insulated Trousers	Cold Resistance: +1
 Irresistible Resolve	Experience (Moxie): +2
 Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (Moxie): 2, Pickpocket Chance: 10
 It Didn't Kill You	Muscle Percent: +50
+It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 # It's Electric!: Damages Attacking Opponents
 It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Izchak's Blessing	Moxie Percent: +25
@@ -5653,6 +5658,7 @@ blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
 blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blob of Alphredo&trade;	Effect: "Blessing of the Stinking Alphredo™", Effect Duration: 10
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
+bloodstain stick	Effect: "Bloodstain-Resistant", Effect Duration: 20
 bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
@@ -5825,6 +5831,7 @@ extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
 eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R]
 eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
+fabric hardener	Effect: "Hardened Fabric", Effect Duration: 20
 fairy-worn boots	Free Pull
 fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
@@ -5982,6 +5989,7 @@ lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 lynyrd musk	Effect: "Musky", Effect Duration: 30
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 magicberry tablets	Effect: "Magic Tongue"
+mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]

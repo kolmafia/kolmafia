@@ -7375,17 +7375,17 @@
 7356
 7357
 7358
-7359
-7360
-7361
+7359	plaid swatch	537597651	plaidswatch.gif	multiple	t,d	65
+7360	plaid bandage	531905151	plaidbandage.gif	usable, combat	t,d	120
+7361	plaid pocket square	148023771	plaidsquare.gif	accessory	t,d	220
 7362
-7363
-7364
-7365
-7366
-7367
-7368
-7369
+7363	bloodstain stick	605475671	chapstick.gif	multiple	t,d	95
+7364	fabric softener	516341138	softener.gif	none, combat	t,d	110
+7365	fabric hardener	495764406	hardener.gif	multiple	t,d	110
+7366	bottle of laundry sherry	702261149	beerbottle.gif	drink	t,d	82
+7367	industrial strength starch	260206685	box1.gif	multiple	t,d	92
+7368	extra-flat panini	165632581	panini.gif	food	t,d	85
+7369	mangled finger	284259586	manglefinger.gif	multiple	t,d	9
 7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111
 7371	crazy hobo notebook	539415366	blacknotebook.gif	none, combat	t,d	180
 7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350

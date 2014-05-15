@@ -1580,10 +1580,10 @@
 1579	Sepia Tan	lotion.gif	4f554939e1de2844d50364f31f4bc224	use 1 old bronzer
 1580
 1581
-1582
-1583
-1584
-1585
+1582	Bloodstain-Resistant	chapstick.gif	bd1a41c8b3ca3e893ab18835e9835710	use 1 bloodstain stick
+1583	Hardened Fabric	hardener.gif	e1867786a46ac85d7ac4daa28d335e86	use 1 fabric hardener
+1584	Industrial Strength Starch	box1.gif	31656485a0168a941731b595d97319ea	use 1 industrial strength starch
+1585	It Tickles! It Tickles!	manglefinger.gif	a7d735fef459ede6a290c0a298f4b934	use 1 mangled finger
 1586	Human-Human Hybrid	dna.gif	455a48d85df002dd24d899acb1fb077f	use 1 Gene Tonic: Dude
 1587	Human-Beast Hybrid	dna.gif	ce16a1db58a85c824bb054aa9ffec3e2	use 1 Gene Tonic: Beast
 1588	Human-Machine Hybrid	dna.gif	f91d197834145d929be554c3f04f6df5	use 1 Gene Tonic: Construct

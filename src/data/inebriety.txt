@@ -58,6 +58,7 @@ bottle of gin	3	1	crappy	3	0	0	0
 bottle of greedy dog	3	11	EPIC	18-20	40-60	40-60	40-60
 bottle of jorge sinsonte	3	2	decent	4-8	0	0	0
 bottle of lambada lambic	3	11	EPIC	18-20	40-60	40-60	40-60
+bottle of laundry sherry	2	11	awesome	0	0	0	0
 bottle of lieutenant freeman	3	2	decent	4-8	0	0	0
 bottle of old pugilist	2	6	EPIC	10-12	20-30	20-30	20-30	20 Fightin' Drunk (+50 Mus, +10-20 HP regen)
 bottle of ooze-o	3	1	crappy	0	0	0	0	20 Really Quite Poisoned, lose 70 HP
