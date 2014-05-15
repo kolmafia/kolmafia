@@ -202,6 +202,7 @@ mesh cap	165	Mox: 50
 metallic foil cat ears	30	none
 miner's helmet	80	Mox: 25
 moist sailor's cap	200	Mox: 85
+moose antlers	110	Mox: 40
 muddy pirate hat	125	Mox: 47
 mullet wig	40	Mox: 5
 mummy costume	10	none
@@ -579,6 +580,7 @@ flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
 frilly shirt	20	none
+ghost toga	110	Mus: 40
 gingham blouse	100	Mus: 35
 gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
@@ -955,6 +957,7 @@ eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
 electric crutch	30	Mus: 0	1-handed staff
+elegant nightstick	90	Mus: 30	1-handed club
 elephant stinger	75	Mus: 22	2-handed spear
 elevenderizing hammer	115	Mus: 11	1-handed club
 elven whittling knife	100	Mus: 35	1-handed knife
@@ -1030,6 +1033,7 @@ hand-carved bokken	130	Mus: 30	1-handed sword
 hand-carved bow	130	Mox: 30	2-handed bow
 hand-carved staff	130	Mus: 30	2-handed staff
 happiness	165	Mox: 67	1-handed pistol
+haunted paddle-ball	110	Mox: 40	1-handed flail
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
@@ -1438,6 +1442,8 @@ clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
 coffin lid	50	Mus: 10	shield
 collapsible baton	200	Mys: 85
+creepy doll head	100	Mys: 35
+creepy voice box	120	Mys: 45
 cup of infinite pencils	150	Mus: 175
 cyborg doll	110	Mys: 40
 deck of lewd playing cards	75	Mys: 22
@@ -1964,6 +1970,7 @@ furry halo	50	none
 fuzzy bracelets	0	none
 garish pinky ring	50	Mys: 10
 gearbox necklace	180	Mys: 75
+ghost of a necklace	60	Mys: 15
 giant designer sunglasses	10	none
 giant diamond ring	0	none
 giant motorcycle boots	120	Mus: 45

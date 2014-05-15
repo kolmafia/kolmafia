@@ -279,6 +279,7 @@ mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
 metallic foil cat ears	Familiar Effect: "atk, cap 7"
 miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
+moose antlers	Critical Hit Percent: +5
 muddy pirate hat	Item Drop: +5, Initiative: +20, Familiar Effect: "1xFairy, cap 31"
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
@@ -690,6 +691,7 @@ flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
 flyest of shirts	Moxie: +5, Spell Damage: +5
 frilly shirt	Mysticality: +3
+ghost toga	Damage Reduction: 5, Spooky Damage: +10
 gingham blouse	Muscle: +5
 gnauga hide vest	Damage Reduction: 6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 goth kid t-shirt	Monster Level: +5
@@ -1119,6 +1121,7 @@ eXtreme meat staff	Mysticality: +7
 eXtreme meat sword	Muscle: +7
 eggbeater	Spell Damage: +2
 electric crutch	Spell Damage: +20
+elegant nightstick	Maximum HP: +30, Maximum MP: +15
 # elephant stinger: 50% chance of poisoning opponent
 elephant stinger	Muscle: +3
 elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11
@@ -1199,6 +1202,7 @@ hand-carved bokken	Muscle Percent: +5, Weapon Damage: +15, Critical Hit Percent:
 hand-carved bow	Moxie Percent: +10, Ranged Damage: +10, Initiative: +20
 hand-carved staff	Mysticality Percent: +10, Spell Damage: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 happiness	Hot Damage: +12
+haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 heavy leather-bound tome	Weakens Monster
 heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
@@ -1662,6 +1666,7 @@ charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
 coffin lid	Spooky Resistance: +1, Damage Reduction: 3
 collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
+creepy doll head	Spooky Damage: +15
 # cup of infinite pencils: Never runs out of pencils!
 cup of infinite pencils	Meat Drop: +15
 cyborg doll	Muscle: +3
@@ -2249,6 +2254,7 @@ furry halo	Familiar Weight: +5, Unarmed, Single Equip
 fuzzy bracelets	Muscle: +15, Mysticality: +15, Moxie: +15
 garish pinky ring	Maximum HP: +10, Maximum MP: +10
 gearbox necklace	Mysticality: +11, Maximum MP: +50
+ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
 # giant motorcycle boots: +10 Damage vs. Ghosts
@@ -3618,6 +3624,7 @@ Brooding	Combat Rate: -10
 Brother Corsican's Blessing	Experience (familiar): +2
 Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
+Browbeaten	Muscle: +10, Weapon Damage: +5, Experience (Muscle): +2
 # Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bubble Vision	Item Drop: [max(0,101-T)]
@@ -4101,6 +4108,7 @@ Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10
 # Heisenberglary: Muscle +/-X
 # Heisenberglary: Mysticality +/-Y
 # Heisenberglary: Moxie  +/-Z
+Held Closer	Item Drop: +20
 Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
@@ -4324,6 +4332,7 @@ Mmmmmelon	Item Drop: +30
 Mo' Hobo	Hobo Power: +10
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
+Moose Wisdom	Mysticality: +20
 More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Mortarfied	Damage Absorption: +100
 Mucilaginous Mentalism	Mysticality Percent: +200
@@ -4541,6 +4550,7 @@ Riqueza de Pasta	Experience: 2
 # Robocamo: Beep Boop
 Rolando's Rondo of Resisto	Supercold Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Rootin' Around	Candy Drop: +25
+Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
@@ -4575,6 +4585,7 @@ Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Seeing Colors	Mysticality Percent: +50
 # Seeing Red: Monsters will always hit you
 Seeing Red	Weapon Damage: +25, Weapon Damage Percent: +100
+Sepia Tan	Moxie: +10, Initiative: +20, Experience (Moxie): +2
 Serenity	Moxie Percent: +15
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Sewer-Drenched	Stench Damage: +100
@@ -5965,6 +5976,7 @@ mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 miniscule temporal rip	Free Pull
+moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
 mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30
@@ -5982,8 +5994,11 @@ oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
+old bronzer	Effect: "Sepia Tan", Effect Duration: 25
 old candy wrapper	Effect: "Litterbug", Effect Duration: 5
+old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
 old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
+old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 one pill	Effect Duration: 5
 orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
@@ -6164,6 +6179,7 @@ spooky nuggets	Effect: "Spooky Weapon", Effect Duration: 5
 spooky powder	Effect: "Spookypants", Effect Duration: 5
 spooky rattling cigar box	Free Pull
 spooky sap	Effect: "Sugar Rush", Effect Duration: 5
+spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
 spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 squamous polyp	Free Pull
 stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
@@ -6204,6 +6220,7 @@ tin cup	Effect: "Tingling Feeling", Effect Duration: 20
 tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
+tiny dancer	Effect: "Held Closer", Effect Duration: 20
 tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 too legit potion	Effect: "Hammertime", Effect Duration: 30

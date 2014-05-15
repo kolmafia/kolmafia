@@ -677,49 +677,12 @@ public abstract class ChoiceManager
 
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
-			"choiceAdventure80", "Haunted Library",
-			new Object[] { "background history",
-				       "cooking recipe",
-				       "other options",
-				       "skip adventure",
-				       new Option( "unlock second floor", 99 ) } ),
-
-		// Take a Look, it's in a Book!
-		new ChoiceSpoiler(
 			"choiceAdventure81", "Haunted Library",
 			new Object[] { "gallery quest",
 				       "cocktailcrafting recipe",
 				       "muscle substats",
 				       "skip adventure",
 				       new Option( "unlock second floor", 99 ) } ),
-
-		// One NightStand (simple white)
-		new ChoiceAdventure(
-			"Manor2", "choiceAdventure82", "Haunted Bedroom",
-			new Object[] { new Option( "old leather wallet", "old leather wallet" ),
-				       "muscle substats", "enter combat" } ),
-
-		// One NightStand (mahogany)
-		new ChoiceAdventure(
-			"Manor2", "choiceAdventure83", "Haunted Bedroom",
-			new Object[] { new Option( "old coin purse", "old coin purse" ),
-				       "enter combat", "quest item" } ),
-
-		// One NightStand (ornate)
-		new ChoiceAdventure(
-			"Manor2", "choiceAdventure84", "Haunted Bedroom",
-			new Object[] { "small meat boost", "mysticality substats",
-				       new Option( "Lord Spookyraven's spectacles", "Lord Spookyraven's spectacles" ),
-				       new Option( "disposable instant camera", "disposable instant camera" ) } ),
-
-		// One NightStand (simple wooden)
-		new ChoiceAdventure(
-			"Manor2", "choiceAdventure85", "Haunted Bedroom",
-			new Object[] { "moxie (ballroom key step 1)",
-				       "empty drawer (ballroom key step 2)",
-				       "enter combat",
-				       new Option( "Engorged Sausages and You or ballroom key and moxie", "Engorged Sausages and You" ),
-				       new Option( "Engorged Sausages and You or ballroom key and combat", "Engorged Sausages and You" ) } ),
 
 		// History is Fun!
 		new ChoiceSpoiler(
@@ -3023,6 +2986,55 @@ public abstract class ChoiceManager
 		// Rod Nevada, Vendor
 		new Object[]{ IntegerPool.get(873), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+
+		// One Simple Nightstand
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure876", "One Simple Nightstand",
+			new Object[] { new Option( "old leather wallet", 1 ),
+				       new Option( "muscle substats", 2 ),
+				       new Option( "skip", 6 ) } ),
+
+		// One Mahogany Nightstand
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure877", "One Mahogany Nightstand",
+			new Object[] { new Option( "old coin purse", 1 ),
+				       new Option( "take damage", 2 ),
+				       new Option( "quest item", 3 ),
+				       new Option( "skip", 6 ) } ),
+
+		// One Ornate Nightstand
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure878", "One Ornate Nightstand",
+			new Object[] { new Option( "small meat boost", 1 ),
+				       new Option( "mysticality substats", 2 ),
+				       new Option( "Lord Spookyraven's spectacles", 3 ),
+				       new Option( "disposable instant camera", 4 ),
+				       new Option( "skip", 6 ) } ),
+
+		// One Rustic Nightstand
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure879", "One Rustic Nightstand",
+			new Object[] { "moxie (ballroom key step 1)",
+				       "empty drawer (ballroom key step 2)",
+				       "enter combat",
+				       new Option( "Engorged Sausages and You or ballroom key and moxie", "Engorged Sausages and You" ),
+				       new Option( "Engorged Sausages and You or ballroom key and combat", "Engorged Sausages and You" ),
+					   new Option( "skip" ) } ),
+
+		// One Elegant Nightstand
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
+			new Object[] { new Option( "Lady Spookyraven's finest gown", 1 ),
+				       new Option( "elegant nightstick", 2 ),
+				       new Option( "skip", 6 ) } ),
+
+		// Take a Look, it's in a Book!
+		new ChoiceSpoiler(
+			"choiceAdventure888", "Haunted Library",
+			new Object[] { "background history",
+				       "cooking recipe",
+				       "other options",
+				       "skip adventure" } ),
 
 		// Choice 918 is Yachtzee!
 		new ChoiceAdventure(
