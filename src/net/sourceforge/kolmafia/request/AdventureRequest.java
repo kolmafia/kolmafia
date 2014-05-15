@@ -541,6 +541,8 @@ public class AdventureRequest
 			override =
 				// The Copperhead Club
 				image.equals( "coppertender" ) ? "Copperhead Club bartender" :
+				// Spookyraven
+				image.startsWith( "srpainting" ) ? "ancestral Spookyraven portrait" :
 				// Spring Break Beach
 				image.equals( "ssd_burger" ) ? "Sloppy Seconds Burger" :
 				image.equals( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :

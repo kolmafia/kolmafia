@@ -7339,15 +7339,15 @@
 7320
 7321
 7322
-7323
-7324
-7325
-7326
-7327
-7328
-7329
-7330
-7331
+7323	Jacob's rung	115661219	jacobsrung.gif	weapon	t,d	125
+7324	haunted battery	150291229	wbattery.gif	multiple	t,d	90
+7325	electric snakebite	249000652	snakebite.gif	drink	t,d	85
+7326	rubber ribcage	655931089	rubberribcage.gif	offhand	t,d	110
+7327	synthetic marrow	777813114	marrow.gif	multiple	t,d	80
+7328	funny bone	592113677	bigbone.gif	multiple	t,d	100
+7329	half-melted spoon	654957439	meltspoon.gif	weapon	t,d	120
+7330	the funk	618750346	potion4.gif	multiple	t,d	70
+7331	gunky chicken	570057278	gunkychicken.gif	food	t,d	55
 7332	creepy doll head	933246480	dollhead.gif	offhand	t,d	99
 7333	droopy doll eye	314062101	dolleye.gif	none, combat	t,d	45
 7334	creepy voice box	741199199	voicebox.gif	offhand	t,d	120
@@ -7367,7 +7367,7 @@
 7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
 7349	ghost key	621906180	ghostkey.gif	none	t,d	44
 7350
-7351
+7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250
 7352
 7353
 7354

@@ -241,6 +241,7 @@ The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	
 The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey
 The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0
 The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef
+The Haunted Laboratory	-1	Jacob's Adder	model skeleton	the gunk
 The Haunted Library	75	banshee librarian	bookbat	writing desk
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
 The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: o1	overdone flame-broiled meat blob: e1	undead elbow macaroni

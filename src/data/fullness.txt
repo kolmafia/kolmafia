@@ -312,6 +312,7 @@ grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
+gunky chicken	2	5	good	0	0	0	0	20 Gunky Dory (+50 HP, +4-10 HP regen)
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP Fights
 haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (+10 mox)
 halibut alfredo	4	1	awesome	10-15	0	0	0
