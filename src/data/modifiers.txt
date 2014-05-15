@@ -801,6 +801,7 @@ Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7
 Hand that Rocks the Ladle	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Smithsness: +5, Mysticality Percent: [2*K], Class: "Pastamancer"
 # Hodgman's whackin' stick: On Critical Hit Percent: Insanity!
 Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Jacob's rung	Maximum MP: +15, Spell Damage: +15
 Kentucky-fried meat crossbow	Moxie: +5
 Kentucky-fried meat staff	Mysticality: +5
 Kentucky-fried meat sword	Muscle: +5
@@ -885,6 +886,7 @@ Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +15, Init
 # Staff of the Cream of the Cream: (5 charges left today)
 Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Olfact"
 Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
+Staff of the Electric Range	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
@@ -1193,6 +1195,7 @@ gummi sword	Muscle: +7, Candy Drop: +50
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
+half-melted spoon	Spell Damage: +10, Hot Spell Damage: +10
 half-size scalpel	Weapon Damage Percent: +10, Surgeonosity: +1
 half-sized guitar	Moxie: +2, Ranged Damage: +4
 halfberd	Weapon Damage: +2
@@ -1796,6 +1799,7 @@ rice bowl	Food Drop: +20
 rusty compass	Initiative: +30
 # rusty old lantern
 rxr shield	Damage Absorption: +10, Damage Reduction: 6
+rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 scissor duck	Mysticality: +5
 sealhide buckler	Damage Reduction: 17
@@ -3478,6 +3482,7 @@ Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +5
 Ancestral Disapproval	Mysticality Percent: +10
 Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
 And Your Family, Too	Familiar Weight: -10
+# Angry Bone: +40 Damage vs. Undead
 Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
@@ -4402,6 +4407,7 @@ On Pins and Needles	Initiative: +23
 # On the Homeo Path: Makes you look like a War Hippy Homeopath
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
+Once Bitten Twice Fried	Maximum MP: +25, MP Regen Min: 2, MP Regen Max: 5
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
 One For Tea	MP Regen Min: 10, MP Regen Max: 15
@@ -5793,6 +5799,7 @@ eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 electric Kool-Aid	Effect: "Electric, Kool", Effect Duration: 50
+electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 # eleven-foot pole: You know... For traps.
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
@@ -5852,6 +5859,7 @@ fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
 fudge-shaped hole in space-time	Effect: "Things Man Was Not Meant to Eat", Effect Duration: 10
 fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
+funny bone	Effect: "Angry Bone", Effect Duration: 30
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
@@ -5892,6 +5900,7 @@ gummi salamander	Effect: "Gummiheart", Effect Duration: 1
 gummi snake	Effect: "Gummibrain", Effect Duration: 1
 gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
+gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
 hair oil	Effect: "Slicked-Back Do", Effect Duration: 10

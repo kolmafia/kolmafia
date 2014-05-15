@@ -1569,9 +1569,9 @@
 1568	Greasy Peasy	groosegrease.gif	c7e1b840864943c96a5b30340db41161	use 1 robot grease
 1569	Puddingface	puttypudding.gif	00392bc79e7c8b35ee02285e1cffbb3a	eat 1 amok pudding
 1570	It's Ridiculous	11.gif	a4bca522ab018b620d55d665d05fcbf0	use 1 can of V-11
-1571
-1572
-1573
+1571	Once Bitten Twice Fried	lightning.gif	c3d066600f508b1cb25b3676026c4b1c	drink 1 electric snakebite
+1572	Angry Bone	bigbone.gif	a2f2c6ba61e0d3c7e6510a41ffaab081	use 1 funny bone
+1573	Gunky Dory	gunkychicken.gif	6b92ab0508e4778b3521dfd5c141dec9	eat 1 gunky chicken
 1574	Permanent Halloween	record.gif	8aebe4e4ebe8abeaf9732029b6b78933	use 1 spooky sound effects record
 1575	Held Closer	tinydancer.gif	3736bbfc69923e3f2636c75a1880d128	use 1 tiny dancer
 1576	Moose Wisdom	reindeer.gif	c79edf4917f000ec7ad5954b4e63de8b	use 1 moose thought
