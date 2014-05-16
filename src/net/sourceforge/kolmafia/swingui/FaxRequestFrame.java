@@ -310,7 +310,7 @@ public class FaxRequestFrame
 		}
 
 		// Are you Trendy?
-		if ( KoLCharacter.isTrendy() )
+		if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() )
 		{
 			FaxRequestFrame.statusMessage = "Fax machines are out of style.";
 			return false;

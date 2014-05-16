@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.File;
 
-import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -59,9 +57,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
@@ -87,7 +83,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -219,7 +215,7 @@ public abstract class InventoryManager
 		}
 
 		int itemId = item.getItemId();
-		boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Items", item.getName() );
+		boolean allowed = Type69Request.isAllowed( "Items", item.getName() );
 
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
@@ -237,12 +233,12 @@ public abstract class InventoryManager
 		}
 
 		// Free Pulls from Hagnk's are accessible, except untrendy items for Trendy characters
-		if ( trendy )
+		if ( allowed )
 		{
 			count += item.getCount( KoLConstants.freepulls );
 		}
 
-		if ( KoLCharacter.canInteract() && trendy )
+		if ( KoLCharacter.canInteract() && allowed )
 		{
 			// Storage is always accessible once you are out of
 			// Ronin or have freed the king, but, again, the user
@@ -426,7 +422,7 @@ public abstract class InventoryManager
 	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
 		int itemId = item.getItemId();
-		boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Items", item.getName() );
+		boolean allowed = Type69Request.isAllowed( "Items", item.getName() );
 		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		Concoction concoction = ConcoctionPool.get( item.getName() );
 		boolean asked = false;
@@ -615,7 +611,7 @@ public abstract class InventoryManager
 
 		itemCount = item.getCount( KoLConstants.freepulls );
 
-		if ( itemCount > 0 && trendy )
+		if ( itemCount > 0 && allowed )
 		{
 			if ( sim )
 			{
@@ -637,7 +633,7 @@ public abstract class InventoryManager
 		// out of ronin and the user has not marked that location as
 		// inaccessible.
 
-		boolean shouldUseStorage = Preferences.getBoolean( "autoSatisfyWithStorage" ) && trendy;
+		boolean shouldUseStorage = Preferences.getBoolean( "autoSatisfyWithStorage" ) && allowed;
 		if ( shouldUseStorage && KoLCharacter.canInteract() )
 		{
 			itemCount = item.getCount( KoLConstants.storage );
@@ -663,7 +659,7 @@ public abstract class InventoryManager
 		// See if the item can be retrieved from the clan stash.  If it
 		// can, go ahead and pull as many items as possible from there.
 
-		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" ) && trendy;
+		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" ) && allowed;
 		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 		{
 			if ( !ClanManager.isStashRetrieved() )
@@ -695,7 +691,7 @@ public abstract class InventoryManager
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
 
-		boolean shouldUseMall = InventoryManager.shouldUseMall( item ) && trendy;
+		boolean shouldUseMall = InventoryManager.shouldUseMall( item ) && allowed;
 		boolean scriptSaysBuy = false;
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
@@ -844,7 +840,7 @@ public abstract class InventoryManager
 
 		// Use budgeted pulls if the item is available from storage.
 
-		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() && trendy )
+		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() && allowed )
 		{
 			int pullCount = Math.min( item.getCount( KoLConstants.storage ),
 				ConcoctionDatabase.getPullsBudgeted() );
@@ -1736,7 +1732,7 @@ public abstract class InventoryManager
 
 		// The Crown of Thrones is not trendy, but double check anyway
 		AdventureResult item = InventoryManager.CROWN_OF_THRONES;
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
+		if ( !Type69Request.isAllowed( "Items", item.getName() ) )
 		{
 			return;
 		}
@@ -1774,7 +1770,7 @@ public abstract class InventoryManager
 
 		// Check if the Buddy Bjorn is Trendy
 		AdventureResult item = InventoryManager.BUDDY_BJORN;
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
+		if ( !Type69Request.isAllowed( "Items", item.getName() ) )
 		{
 			return;
 		}

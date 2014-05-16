@@ -73,7 +73,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -240,7 +240,7 @@ public class ItemManageFrame
 				{
 					s = s.substring( 3 );
 				}
-				builder.append( s + "|" );
+				builder.append( s ).append( "|" );
 				builder.append( ( (ShowDescriptionTable) ( (InventoryPanel) comp ).scrollComponent )
 					.collectHeaderStates().toString() );
 			}
@@ -251,7 +251,7 @@ public class ItemManageFrame
 				{
 					s = s.substring( 3 );
 				}
-				builder.append( s + "|"  );
+				builder.append( s ).append( "|"  );
 				builder.append( ( (ShowDescriptionTable) ( (RestorativeItemPanel) comp ).scrollComponent )
 					.collectHeaderStates().toString() );
 			}
@@ -577,14 +577,14 @@ public class ItemManageFrame
 				return null;
 			}
 
-			// Trendy characters can't pull untrendy items
-			if ( KoLCharacter.isTrendy() )
+			// Unallowed items can't be pulled
+			if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() )
 			{
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult item = items[ i ];
 					String itemName = item.getName();
-					if ( !TrendyRequest.isTrendy( "Items", itemName ) )
+					if ( !Type69Request.isAllowed( "Items", itemName ) )
 					{
 						items[ i ] = null;
 					}

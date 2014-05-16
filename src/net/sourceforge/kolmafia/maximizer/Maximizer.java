@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -188,7 +188,7 @@ public class Maximizer
 				if ( Maximizer.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
 					EquipmentManager.getEquipment( slot ).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
+					equipLevel = Maximizer.emitSlot( slot, equipLevel, priceLevel, current );
 					alreadyDone[ slot ] = true;
 				}
 			}
@@ -197,7 +197,7 @@ public class Maximizer
 			{
 				if ( !alreadyDone[ slot ] )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
+					equipLevel = Maximizer.emitSlot( slot, equipLevel, priceLevel, current );
 				}
 			}
 		}
@@ -517,7 +517,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "Pool Table" ) )
+					else if ( !Type69Request.isAllowed( "Clan Item", "Pool Table" ) )
 					{
 						continue;
 					}
@@ -541,7 +541,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "April Shower" ) )
+					else if ( !Type69Request.isAllowed( "Clan Item", "April Shower" ) )
 					{
 						continue;
 					}
@@ -565,7 +565,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "Swimming Pool" ) )
+					else if ( !Type69Request.isAllowed( "Clan Item", "Swimming Pool" ) )
 					{
 						continue;
 					}
@@ -789,7 +789,7 @@ public class Maximizer
 		Maximizer.boosts.sort();
 	}
 
-	private static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
+	private static int emitSlot( int slot, int equipLevel, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point

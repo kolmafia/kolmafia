@@ -34,23 +34,16 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestoreExpression;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -62,7 +55,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -419,7 +412,7 @@ public class RestoresDatabase
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
 					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
-					( !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "April Shower" ) );
+					( Type69Request.isAllowed( "Clan Item", "April Shower" ) );
 			}
 			if ( name.equals( "Campground" ) || name.equals( "Comfy Sofa" ) ||
 				name.contains( "Doc Galaktik's" ) )

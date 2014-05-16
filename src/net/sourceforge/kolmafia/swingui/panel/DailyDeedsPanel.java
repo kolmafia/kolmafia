@@ -76,7 +76,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1275,8 +1275,8 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean as = Preferences.getBoolean( "_aprilShower" );
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "April Shower" );
-			this.setShown( ( !bm || kf ) && ( have || as ) && trendy );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "April Shower" );
+			this.setShown( ( !bm || kf ) && ( have || as ) && allowed );
 			this.setEnabled( !as );
 			box.setEnabled( !as );
 		}
@@ -2289,9 +2289,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Pool Table" );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "Pool Table" );
 			int nf = Preferences.getInteger( "_poolGames" );
-			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && trendy );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && allowed );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
 		}
@@ -2315,9 +2315,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Crimbo Tree" );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "Crimbo Tree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
-			this.setShown( ( !bm || kf ) && tree && trendy );
+			this.setShown( ( !bm || kf ) && tree && allowed );
 			this.setEnabled( ctd == 0 );
 			this.setText( ctd + " days to go." );
 		}
@@ -3176,7 +3176,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Fax Machine" );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "Fax Machine" );
 			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
 				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
 				|| Preferences.getBoolean( "_photocopyUsed" );
@@ -3189,7 +3189,7 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
-			this.setShown( photo || (!bm || kf) && have && trendy );
+			this.setShown( photo || (!bm || kf) && have && allowed );
 		}
 	}
 
@@ -3417,7 +3417,7 @@ public class DailyDeedsPanel
 			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 
-			this.setShown( !KoLCharacter.isTrendy() && ( have || active ) && ( !bm || kf ) );
+			this.setShown( Type69Request.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) );
 
 			setComboTarget(btn, "");
 		}
@@ -3504,8 +3504,8 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean sp = Preferences.getBoolean( "_olympicSwimmingPool" );
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Swimming Pool" );
-			this.setShown( ( !bm || kf ) && ( have || sp ) && trendy );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "Swimming Pool" );
+			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed );
 			this.setEnabled( !sp );
 		}
 	}

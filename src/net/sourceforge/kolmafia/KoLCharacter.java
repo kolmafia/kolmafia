@@ -90,7 +90,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -3601,7 +3601,7 @@ public abstract class KoLCharacter
 		KoLCharacter.addAvailableSkill( skill, false );
 	}
 
-	private static final void addAvailableSkill( final UseSkillRequest skill, final boolean checkTrendy )
+	private static final void addAvailableSkill( final UseSkillRequest skill, final boolean checkAllowed )
 	{
 		if ( skill == null )
 		{
@@ -3613,22 +3613,22 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( checkTrendy && KoLCharacter.isTrendy() )
+		if ( checkAllowed && ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() ) )
 		{
-			boolean isTrendy;
+			boolean isAllowed;
 			String skillName = skill.getSkillName();
 			if ( SkillDatabase.isBookshelfSkill( skillName ) )
 			{
 				int itemId = SkillDatabase.skillToBook( skillName );
 				skillName = ItemDatabase.getItemName( itemId );
-				isTrendy = TrendyRequest.isTrendy( "Bookshelf", skillName );
+				isAllowed = Type69Request.isAllowed( "Bookshelf", skillName );
 			}
 			else
 			{
-				isTrendy = TrendyRequest.isTrendy( "Skills", skillName );
+				isAllowed = Type69Request.isAllowed( "Skills", skillName );
 			}
 
-			if ( !isTrendy )
+			if ( !isAllowed )
 			{
 				return;
 			}
