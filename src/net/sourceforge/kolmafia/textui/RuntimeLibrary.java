@@ -155,6 +155,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -1597,6 +1598,18 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "is_trendy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_unrestricted", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "is_unrestricted", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "is_unrestricted", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "is_unrestricted", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// MMG support
 
@@ -6535,6 +6548,52 @@ public abstract class RuntimeLibrary
 			else
 			{
 				result = TrendyRequest.isTrendy( "Skills", key );
+			}
+		}
+		else
+		{
+			result = false;
+		}
+
+		return DataTypes.makeBooleanValue( result );
+	}
+
+	public static Value is_unrestricted( Interpreter interpreter, final Value thing )
+	{
+		// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Item".
+		String key = thing.toString();
+		Type type = thing.getType();
+		boolean result;
+
+		if ( type.equals( DataTypes.TYPE_STRING ) )
+		{
+
+			result =
+				Type69Request.isNotRestricted( "Items", key ) &&
+				Type69Request.isNotRestricted( "Bookshelf Books", key ) &&
+				Type69Request.isNotRestricted( "Skills", key ) &&
+				Type69Request.isNotRestricted( "Familiars", key ) &&
+				Type69Request.isNotRestricted( "Clan Items", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_ITEM ) )
+		{
+			result = Type69Request.isNotRestricted( "Items", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_FAMILIAR ) )
+		{
+			result = Type69Request.isNotRestricted( "Familiars", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_SKILL ) )
+		{
+			if ( SkillDatabase.isBookshelfSkill( key ) )
+			{
+				int itemId = SkillDatabase.skillToBook( key );
+				key = ItemDatabase.getItemName( itemId );
+				result = Type69Request.isNotRestricted( "Bookshelf Books", key );
+			}
+			else
+			{
+				result = Type69Request.isNotRestricted( "Skills", key );
 			}
 		}
 		else
