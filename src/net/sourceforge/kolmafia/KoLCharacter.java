@@ -404,6 +404,7 @@ public abstract class KoLCharacter
 	private static boolean isHardcore = false;
 	private static boolean inRonin = true;
 	private static boolean skillsRecalled = false;
+	private static boolean restricted = false;
 
 	private static int ascensions = 0;
 	private static String ascensionSign = NONE;
@@ -478,6 +479,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.isHardcore = false;
 		KoLCharacter.inRonin = true;
+		KoLCharacter.restricted = false;
 		KoLCharacter.inebriety = 0;
 		KoLCharacter.skillsRecalled = false;
 		KoLCharacter.hasStore = false;
@@ -2865,6 +2867,7 @@ public abstract class KoLCharacter
 
 			// Ronin is lifted and we can interact freely with the Kingdom
 			KoLCharacter.setRonin( false );
+			KoLCharacter.setRestricted( false );
 			CharPaneRequest.setInteraction( true );
 
 			// Storage is freely available
@@ -3022,6 +3025,16 @@ public abstract class KoLCharacter
 	public static final void setAscensions( final int ascensions )
 	{
 		KoLCharacter.ascensions = ascensions;
+	}
+
+	public static final void setRestricted( final boolean restricted )
+	{
+		KoLCharacter.restricted = restricted;
+	}
+
+	public static final boolean getRestricted()
+	{
+		return KoLCharacter.restricted;
 	}
 
 	/**

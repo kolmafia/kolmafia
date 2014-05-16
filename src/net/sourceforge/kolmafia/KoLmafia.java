@@ -785,6 +785,12 @@ public abstract class KoLmafia
 		GenericRequest request = new CharSheetRequest();
 		RequestThread.postRequest( request );
 
+		// This needs to happen after loading the charsheet
+		if ( KoLCharacter.getRestricted() )
+		{
+			// Initialize restricted list
+		}
+
 		// If you get redirected on the request for the character sheet,
 		// don't make any more requests.
 
