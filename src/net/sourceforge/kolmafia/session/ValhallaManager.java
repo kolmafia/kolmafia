@@ -351,6 +351,14 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Class Act II: A Class For Pigs " );
 		}
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			sessionStream.print( "Avatar of Sneaky Pete" );
+		}
+		else if ( KoLCharacter.inSlowcore() )
+		{
+			sessionStream.print( "Slow and Steady" );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

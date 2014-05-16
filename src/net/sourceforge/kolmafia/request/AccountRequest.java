@@ -667,6 +667,10 @@ public class AccountRequest
 		{
 			path = "Avatar of Sneaky Pete";
 		}
+		else if ( path.equals( "18" ) )
+		{
+			path = "Slow and Steady";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
