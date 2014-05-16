@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
@@ -83,9 +83,9 @@ public class CheckedItem
 			return;
 		}
 
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", this.getName() ) )
+		if ( Type69Request.isAllowed( "Items", this.getName() ) )
 		{
-			// Trendy characters can't buy or pull untrendy items, though the original code
+			// Unallowed items can't be bought or pulled, though the original code
 			// just reset everything to zero
 
 			this.initial = 0;

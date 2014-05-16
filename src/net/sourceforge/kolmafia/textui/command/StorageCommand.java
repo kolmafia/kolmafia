@@ -46,7 +46,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -202,11 +202,11 @@ public class StorageCommand
 					"You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
 			}
 
-			if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
+			if ( !Type69Request.isAllowed( "Items", itemName ) )
 			{
 				KoLmafia.updateDisplay(
 					MafiaState.ERROR,
-					itemName + " is not trendy enough for you." );
+					itemName + " is not allowed right now." );
 			}
 		}
 

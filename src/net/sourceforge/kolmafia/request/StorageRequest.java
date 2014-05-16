@@ -449,7 +449,7 @@ public class StorageRequest
 				// If we are still in a Trendy run or are pulling only
 				// "favorite things", we may have left items in storage.
 
-				if ( KoLCharacter.isTrendy() || urlString.indexOf( "favonly=1" ) != -1 )
+				if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() || urlString.contains( "favonly=1" ) )
 				{
 					StorageRequest.refresh();
 					KoLCharacter.updateStatus();

@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.RequestThread;
 public class Type69Request
 	extends GenericRequest
 {
-	// Types: "Items", Bookshelf Boooks", "Skills", "Familiars", "Clan Items".
+	// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Items".
 
 	private final static List<String> itemMap = new ArrayList<String>();
 	private final static List<String> bookshelfMap = new ArrayList<String>();
@@ -106,7 +106,7 @@ public class Type69Request
 		return list != null && Type69Request.isNotRestricted( list, key );
 	}
 
-	public static boolean isAllowed( final String type, final String key )
+	public static boolean isAllowed( String type, final String key )
 	{
 		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( type, key ) )
 		{
@@ -116,6 +116,16 @@ public class Type69Request
 		{
 			return true;
 		}
+
+		if ( type.equals( "Bookshelf" ) )
+		{
+			type = "Bookshelf Books";
+		}
+		else if ( type.equals( "Clan Item" ) )
+		{
+			type = "Clan Items";
+		}
+
 		List<String> list = Type69Request.typeToList( type );
 		return list != null && Type69Request.isNotRestricted( list, key );
 	}
@@ -200,7 +210,8 @@ public class Type69Request
 				{
 					continue;
 				}
-				object = object.substring( 0, object.length() - 9 );
+				int sub = ( i == splits.length - 1 ? 7 : 9 );
+				object = object.substring( 0, object.length() - sub );
 				list.add( object );
 			}
 		}

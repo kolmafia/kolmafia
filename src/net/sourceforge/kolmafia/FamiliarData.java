@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -154,8 +154,8 @@ public class FamiliarData
 			return false;
 		}
 
-		// Untrendy familiars cannot be equipped in Trendycore
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Familiars", this.race ) )
+		// Unallowed familiars cannot be equipped
+		if ( !Type69Request.isAllowed( "Familiars", this.race ) )
 		{
 			return false;
 		}
