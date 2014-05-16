@@ -283,7 +283,7 @@ public class CharSheetRequest
 		// could read the path in next, but it's easier to
 		// read it from the full response text.
 
-		if ( responseText.indexOf( "Sign:" ) != -1 )
+		if ( responseText.contains( "Sign:" ) )
 		{
 			while ( !cleanContent.nextToken().startsWith( "Sign:" ) )
 			{
@@ -292,7 +292,8 @@ public class CharSheetRequest
 			KoLCharacter.setSign( cleanContent.nextToken() );
 		}
 
-		// Is this where Path: optionally appears for Bees Hate You?
+		// This is where Path: optionally appears
+		KoLCharacter.setRestricted( responseText.contains( "type69" ) );
 
 		// Consumption restrictions have special messages.
 		//
@@ -301,34 +302,34 @@ public class CharSheetRequest
 		// "You may not consume any alcohol."
 
 		KoLCharacter.setConsumptionRestriction(
-			responseText.indexOf( "You may not eat or drink anything." ) != -1 ?
+			responseText.contains( "You may not eat or drink anything." ) ?
 			AscensionSnapshot.OXYGENARIAN :
-			responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ?
+			responseText.contains( "You may not eat any food or drink any non-alcoholic beverages." ) ?
 			AscensionSnapshot.BOOZETAFARIAN :
-			responseText.indexOf( "You may not consume any alcohol." ) != -1 ?
+			responseText.contains( "You may not consume any alcohol." ) ?
 			AscensionSnapshot.TEETOTALER :
 			AscensionSnapshot.NOPATH );
 
 		// You are in Hardcore mode, and may not receive items or buffs
 		// from other players.
 
-		boolean hardcore = responseText.indexOf( "You are in Hardcore mode" ) != -1;
+		boolean hardcore = responseText.contains( "You are in Hardcore mode" );
 		KoLCharacter.setHardcore( hardcore );
 
 		// You may not receive items from other players until you have
 		// played # more Adventures.
 
-		KoLCharacter.setRonin( responseText.indexOf( "You may not receive items from other players" ) != -1 );
+		KoLCharacter.setRonin( responseText.contains( "You may not receive items from other players" ) );
 
 		// Deduce interaction from above settings
 
 		CharPaneRequest.setInteraction();
 
 		// See if the player has a store
-		KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
+		KoLCharacter.setStore( responseText.contains( "Mall of Loathing" ) );
 
 		// See if the player has a display case
-		KoLCharacter.setDisplayCase( responseText.indexOf( "in the Museum" ) != -1 );
+		KoLCharacter.setDisplayCase( responseText.contains( "in the Museum" ) );
 
 		// Determine the player's current PvP rank
 
