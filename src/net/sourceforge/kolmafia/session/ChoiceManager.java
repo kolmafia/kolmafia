@@ -3029,7 +3029,7 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
 			new Object[] { new Option( "Lady Spookyraven's finest gown", 1 ),
 				       new Option( "elegant nightstick", 2 ),
-				       new Option( "stats (with ghost key)", 2 ),
+				       new Option( "stats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),
 
 		// Take a Look, it's in a Book!

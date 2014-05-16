@@ -105,6 +105,7 @@ The Dive Bar	SEMIRARE	Razor, Scooter
 The Goatlet	SEMIRARE	Natural Selection
 The Hallowed Halls	SEMIRARE	Through the Locking Glass
 The Haunted Billiards Room	SEMIRARE	A Shark's Chum
+The Haunted Boiler Room	SEMIRARE	Bram the Stoker
 The Haunted Kitchen	SEMIRARE	Play Misty For Me
 The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
 The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
