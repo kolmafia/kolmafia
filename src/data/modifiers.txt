@@ -523,6 +523,7 @@ furry kilt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
 furry pants	Sleaze Damage: +5, Familiar Effect: "1xPotato, 1xGhuol, MP regen, cap 37"
 furry skirt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
 gauze shorts	Damage Reduction: 3, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "1xBarrr, 1xGhuol, cap 42"
+ghast iron codpiece	Spooky Damage: +10, Hot Damage: +10
 giant discarded torn-up glove	Stench Damage: +5, Moxie: -10, Familiar Effect: "stench atk, 0.5xPotato, cap 38"
 gnauga hide chaps	Damage Absorption: +30, Familiar Effect: "atk, 4xBarrr, cap 20"
 gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
@@ -710,6 +711,7 @@ metal band T-shirt	Monster Level: +15
 midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
 origami pasties	Meat Drop: +30, Softcore Only
 pirate shirt	Moxie: +3
+plaid skirt	Initiative: +25, MP Regen Min: 6, MP Regen Max: 10
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 punk rock jacket	Moxie: +8, Damage Reduction: 5
 # red-and-green sweater: Shocking!
@@ -784,8 +786,6 @@ Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +15, Cold Damage: +30, Class: "Seal Clubber"
 Frosty's snowball sack	Cold Damage: +50
-giant safety pin	Weapon Damage: +10, Weakens Monster
-giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
 Gnollish autoplunger	Mysticality: +3
 # Gnollish flyswatter
@@ -1072,6 +1072,8 @@ clockwork sword	Weapon Damage: +10, Critical Hit Percent: +15
 clown whip	Sleaze Resistance: +2, Clownosity: +2
 club of corruption	Weapon Damage: +3, Class: "Seal Clubber"
 club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
+# coal shovel: Lets you hurl hot coals at your foes
+coal shovel	Hot Damage: +20
 combat fan	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 # cool whip
 corn holder	Spell Damage: +1
@@ -1163,6 +1165,7 @@ frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
+ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
 giant artisanal rice peeler	Spell Damage: +15
 giant cactus quill	Critical Hit Percent: +7, Maximum HP: +30
@@ -1173,7 +1176,9 @@ giant driftwood sculpture	Moxie: +8, Weapon Damage: +15
 # giant fishhook
 giant foam finger	Damage Reduction: 3
 giant needle	Monster Level: +5
+giant safety pin	Weapon Damage: +10, Weakens Monster
 giant shrimp fork	Mysticality Percent: +20, Spell Critical Percent: +10, Maximum MP: +100
+giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 # gift-a-pult: Allows hurling of Gift Items
 glistening staff	Mysticality: +2, Sleaze Damage: +3
 # glow-in-the-dark dart gun: Super Accurate!
@@ -1706,6 +1711,7 @@ foon of fleshiness	Mysticality: +3, Sleaze Spell Damage: +8
 foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
+ghast iron heater shield	Spooky Damage: +10, Hot Damage: +10, Damage Reduction: 11
 giant clay ashtray	Muscle: +5, Damage Reduction: 3
 giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
@@ -1934,6 +1940,7 @@ Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Boots of Twilight Whispers	Adventures: +3, Initiative: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Boris's ring	Muscle: +10
 Boss Bat bling	Muscle: +3, Moxie: +3
+Bram's choker	Moxie Percent: +10, Combat Rate: -5, PvP Fights: +3, Single Equip
 Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
 Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip, Brimstone
 C.A.R.N.I.V.O.R.E. button	Monster Level: +15
@@ -3810,6 +3817,7 @@ Dance of the Sugar Fairy	Item Drop: +25
 Dances with Tweedles	Meat Drop: +40
 # Dances with Warbears: +10% Item Drops from WarBears
 Dancin' Drunk	Item Drop: +100
+Dancin' Fool	Item Drop: +20
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
@@ -4220,6 +4228,7 @@ Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
+Is This Your Card?	Spell Damage Percent: +50
 Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (Moxie): 2, Pickpocket Chance: 10
 It Didn't Kill You	Muscle Percent: +50
 It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
@@ -4826,6 +4835,7 @@ Sweet, Nuts	Mysticality: +5
 Swimming Head	Item Drop: [25*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Swimming with Sharks: Makes you a better diver
 Swimming with Sharks	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: +20
+Swordholder	Weapon Damage Percent: +50
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Takin' It Greasy	Sleaze Damage: +15
 # Taking the Plunge: Makes you look like a Gnollish Plungermaster

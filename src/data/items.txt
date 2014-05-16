@@ -7371,14 +7371,14 @@
 7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
 7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55
 7354	red hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
-7355
+7355	coal shovel	154511416	coalshovel.gif	weapon	t,d	145
 7356	hot coal	724775130	hotcoal.gif	multiple	t,d	88
 7357	coal dust	677190547	scpowder.gif	multiple	t,d	78
-7358
+7358	Bram's choker	180395467	bramchoker.gif	accessory	t,d	250
 7359	plaid swatch	537597651	plaidswatch.gif	multiple	t,d	65
 7360	plaid bandage	531905151	plaidbandage.gif	usable, combat	t,d	120
 7361	plaid pocket square	148023771	plaidsquare.gif	accessory	t,d	220
-7362
+7362	plaid skirt	535670797	plaidskirt.gif	pants	t,d	300
 7363	bloodstain stick	605475671	chapstick.gif	multiple	t,d	95
 7364	fabric softener	516341138	softener.gif	none, combat	t,d	110
 7365	fabric hardener	495764406	hardener.gif	multiple	t,d	110
@@ -7393,10 +7393,10 @@
 7374	tarnished tastevin	267963154	tastevin.gif	accessory	t,d	150
 7375
 7376	ghast iron ingot	705637457	gi_ingot.gif	none	t,d	100
-7377
+7377	ghast iron cleaver	452918430	gi_cleaver.gif	weapon	t,d	200
 7378	ghast iron Garibaldi	945225891	gi_hat.gif	hat	t,d	250
-7379
-7380
+7379	ghast iron heater shield	665857015	gi_shield.gif	offhand	t,d	225
+7380	ghast iron codpiece	129597155	gi_codpiece.gif	pants	t,d	200
 7381	Pendant of Gargalesis	202475813	fingernecklace.gif	accessory	t,d	150
 7382	Little Geneticist DNA-Splicing Lab	951406097	genelab.gif	usable	t	0
 7383	DNA extraction syringe	883789777	syringe3.gif	reusable, combat	q	0
@@ -7422,21 +7422,21 @@
 7403	Gene Tonic: Elemental	920197063	genetonic.gif	multiple	t,d	25	Gene Tonics: Elemental
 7404	Gene Tonic: Constellation	608792100	genetonic.gif	multiple	t,d	25	Gene Tonics: Constellation
 7405	Gene Tonic: Hobo	379866898	genetonic.gif	multiple	t,d	25	Gene Tonics: Hobo
-7406	Steam Card: Dungeon Fist (1)	253174686	steamcard.gif	usable	t,d	50
-7407
-7408
-7409
-7410
-7411
-7412	Steam Card: Meteoid (1)	560078181	steamcard.gif	usable	t,d	50
-7413
-7414
+7406	Steam Card: Dungeon Fist (#1)	253174686	steamcard.gif	usable	t,d	50
+7407	Steam Card: Dungeon Fist (#2)	728516682	steamcard.gif	usable	t,d	50
+7408	Steam Card: Dungeon Fist (#3)	776266532	steamcard.gif	usable	t,d	50
+7409	Steam Card: Space Trip (#1)	165460081	steamcard.gif	usable	t,d	50
+7410	Steam Card: Space Trip (#2)	396704515	steamcard.gif	usable	t,d	50
+7411	Steam Card: Space Trip (#3)	484097374	steamcard.gif	usable	t,d	50
+7412	Steam Card: Meteoid (#1)	560078181	steamcard.gif	usable	t,d	50
+7413	Steam Card: Meteoid (#2)	533954397	steamcard.gif	usable	t,d	50
+7414	Steam Card: Meteoid (#3)	743757206	steamcard.gif	usable	t,d	50
 7415	Steam Card: DemonStar (#1)	574333274	steamcard.gif	usable	t,d	50
-7416
-7417
-7418
-7419
-7420	Steam Card: Jackass Plumber (3)	464746510	steamcard.gif	usable	t,d	50
+7416	Steam Card: DemonStar (#2)	372224310	steamcard.gif	usable	t,d	50
+7417	Steam Card: DemonStar (#3)	130683855	steamcard.gif	usable	t,d	50
+7418	Steam Card: Jackass Plumber (#1)	485152267	steamcard.gif	usable	t,d	50
+7419	Steam Card: Jackass Plumber (#2)	503786758	steamcard.gif	usable	t,d	50
+7420	Steam Card: Jackass Plumber (#3)	464746510	steamcard.gif	usable	t,d	50
 7421	pencil thin mushroom	814218254	pencilmush.gif	none	q	0
 7422	Paradaisical Cheeseburger recipe	902389228	burgerrecipe.gif	offhand	q	0
 7423	salty sailor salt	707454166	disease.gif	none	q	0	handfuls of salty sailor salt

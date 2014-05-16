@@ -1607,9 +1607,9 @@
 1606	Human-Constellation Hybrid	dna.gif	27ec1336404210e9257b5054c59ae624	use 1 Gene Tonic: Constellation
 1607	Human-Hobo Hybrid	dna.gif	c902209f9a321a70cfcb822c2a7411ee	use 1 Gene Tonic: Hobo
 1608	Spookyravin'	potion6.gif	07ca1f54611227fd3b2568a101d1f43b	use 1 Stephen's secret formula
-1609
-1610
-1611
+1609	Dancin' Fool	dancingshoes.gif	57f460f9d9ae98f086c984a6491e3386
+1610	Swordholder	swords.gif	d8cd2af4589547387589ba03454d442a
+1611	Is This Your Card?	carddeck.gif	96279d2043979e41a7fa0cfde64f4c9a
 1612	Sleight of Mind	sleightshroom.gif	a58bb0f5431e4b3a83ac5fcbe74b8959	use 1 sleight-of-hand mushroom
 1613	Mush-Mouth	spore.gif	9df2ff0a38fec33a032a9d5026f19d96	use 1 Fun-Guy spore
 1614	Boletus Swoletus	broshroom.gif	4087fb39a65bef9b2d7aa78b02228809	use 1 Boletus Broletus mushroom

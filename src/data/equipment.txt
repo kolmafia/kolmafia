@@ -422,6 +422,7 @@ furry kilt	150	Mox: 60
 furry pants	150	Mox: 60
 furry skirt	150	Mox: 60
 gauze shorts	170	Mox: 70
+ghast iron codpiece	170	Mox: 70
 giant discarded torn-up glove	155	Mox: 62
 gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
@@ -599,6 +600,7 @@ metal band T-shirt	40	Mus: 5
 midriff scrubs	160	Mus: 65
 origami pasties	100	none
 pirate shirt	50	Mus: 10
+plaid skirt	155	Mox: 62
 psycho sweater	100	Mus: 35
 punk rock jacket	145	Mus: 57
 red coat	160	Mus: 65
@@ -911,6 +913,7 @@ clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
 club of corruption	20	Mus: 0	1-handed club
 club of the five seasons	150	Mus: 60	1-handed club
+coal shovel	160	Mus: 65	2-handed polearm
 combat fan	165	Mus: 67	1-handed flail
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
@@ -996,6 +999,7 @@ frozen seal spine	140	Mus: 55	1-handed club
 frying brainpan	225	Mys: 200	1-handed saucepan
 ga-ga radio	125	Mox: 47	2-handed radio
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
+ghast iron cleaver	175	Mus: 72	1-handed club
 ghost accordion	140	Mox: 55	2-handed accordion
 giant artisanal rice peeler	150	Mys: 60	1-handed utensil
 giant cactus quill	160	Mus: 65	1-handed spear
@@ -1478,6 +1482,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
+ghast iron heater shield	0	Mus: 75	shield
 giant clay ashtray	60	none	shield
 giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
@@ -1690,6 +1695,7 @@ Bonerdagon necklace	80	Mys: 25
 Boots of Twilight Whispers	120	none
 Boris's ring	80	Mys: 25
 Boss Bat bling	65	Mys: 17
+Bram's choker	0	Mys: 50
 Brimstone Bracelet	200	Mys: 30
 Brimstone Brooch	200	Mys: 30
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
