@@ -7507,10 +7507,10 @@
 7488	triple-distilled turpentine	792003365	flask.gif	none	q	0
 7489	detartrated anhydrous sublicalc	277522897	potion1.gif	none	q	0
 7490	triatomaceous dust	237194343	powderpile2.gif	none	q	0
-7491
-7492
-7493
-7494
+7491	bottle of Chateau de Vinegar	650950724	wine2.gif	none	q	0
+7492	blasting soda	508369326	powder.gif	none	q	0
+7493	unstable fulminate	321705934	wine2.gif	offhand	q	0
+7494	wine bomb	152995888	wine2.gif	none	q	0
 7495	recipe: mortar-dissolving solution	581234431	burgerrecipe.gif	usable	q	0
 7496
 7497	ghost formula	403230490	babybottle.gif	usable	q	0

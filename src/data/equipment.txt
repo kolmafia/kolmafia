@@ -1661,6 +1661,7 @@ tortoboggan shield	100	Mus: 35	shield
 tropical paperweight	20	none
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
+unstable fulminate	0	none
 velcro shield	220	Mus: 85	shield
 vengeful spirit	225	Mys: 200
 vinyl shield	220	Mus: 85	shield
