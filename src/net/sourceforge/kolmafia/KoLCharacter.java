@@ -3179,6 +3179,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Avatar of Sneaky Pete" );
 	}
 
+	public static final boolean inSlowcore()
+	{
+		return KoLCharacter.ascensionPath.equals( "Slow and Steady" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
