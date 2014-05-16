@@ -944,21 +944,29 @@ public class RequestEditorKit
 				url = adventure.getRequest().getURLString();
 			}
 
-			StringBuilder replace = new StringBuilder();
-			replace.append( "<a href=\"" );
-			replace.append( url );
-			replace.append( "\">" );
-			replace.append( image );
-			replace.append( "</a>" );
-			StringUtilities.singleStringReplace( buffer, image, replace.toString() );
+			String search = matcher.group(0);
+			String replace;
 
-			replace.setLength( 0 );
-			replace.append( "<a class=nounder href=\"" );
-			replace.append( url );
-			replace.append( "\">" );
-			replace.append( boldloc );
-			replace.append( "</a>" );
-			StringUtilities.singleStringReplace( buffer, boldloc, replace.toString() );
+			// Make the image clickable to go to the url
+			StringBuilder rep = new StringBuilder();
+			rep.append( "<a href=\"" );
+			rep.append( url );
+			rep.append( "\">" );
+			rep.append( image );
+			rep.append( "</a>" );
+			replace = StringUtilities.singleStringReplace( search, image, rep.toString() );
+
+			// Make the location name clickable to go to the url
+			rep.setLength( 0 );
+			rep.append( "<a class=nounder href=\"" );
+			rep.append( url );
+			rep.append( "\">" );
+			rep.append( boldloc );
+			rep.append( "</a>" );
+			replace = StringUtilities.singleStringReplace( replace, boldloc, rep.toString() );
+
+			// Insert the replacements into the buffer
+			StringUtilities.singleStringReplace( buffer, search, replace );
 		}
 	}
 
