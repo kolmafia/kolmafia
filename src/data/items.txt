@@ -7501,16 +7501,16 @@
 7482	Rompedores de Fantasmas	666506619	bottle.gif	drink	t,d	13	muchos Rompedores de Fantasmas
 7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13	botellas de La Fantasma y La Oscuridad
 7484	Fantasma en la M&aacute;quina	233150638	pebblebrau.gif	drink	t,d	13	botellas de Fantasma en la M&aacute;quina
-7485
-7486
-7487
-7488
-7489
-7490
+7485	loosening powder	227739928	box2.gif	none	q	0
+7486	powdered castoreum	375353516	powderpile1.gif	none	q	0
+7487	drain dissolver	693095153	cometcleaner.gif	none	q	0
+7488	triple-distilled turpentine	792003365	flask.gif	none	q	0
+7489	detartrated anhydrous sublicalc	277522897	potion1.gif	none	q	0
+7490	triatomaceous dust	237194343	powderpile2.gif	none	q	0
 7491
 7492
 7493
 7494
-7495
+7495	recipe: mortar-dissolving solution	581234431	burgerrecipe.gif	usable	q	0
 7496
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
