@@ -274,6 +274,7 @@ wet stew	COOK	bird rib	lion oil
 wet stunt nut stew	COOK	wet stew	stunt nuts
 unfrosted Knob cake	COOK	Knob cake pan	Knob batter
 Knob cake	COOK_FANCY	unfrosted Knob cake	Knob frosting
+unstable fulminate	COOK_FANCY	bottle of Chateau de Vinegar	blasting soda
 
 Humpty Dumplings	COOK	eggman noodles	Vial of <i>jus de larmes</i>
 
