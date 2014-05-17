@@ -184,7 +184,7 @@ public class UntinkerRequest
 	public static final void parseResponse( final String location, final String responseText )
 	{
 		// If not forest village, or action not untinker or screwquest
-		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "quest" ) ) )
+		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "screwquest" ) ) )
 		{
 			return;
 		}
@@ -195,6 +195,12 @@ public class UntinkerRequest
 		   )
 		{
 			QuestDatabase.setQuestProgress( Quest.UNTINKER, QuestDatabase.STARTED );
+		}
+
+		// If the quest is still in progross, no need to check anything else
+		if ( location.contains( "fv_untinker_quest") )
+		{
+			return;
 		}
 
 		// Visiting the untinker removes screwdriver from inventory.

@@ -211,6 +211,7 @@ Bow-making Mummy			evil googly eye (10)	spooky felt (10)	spooky length of string
 Bowling Cricket	cricket.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 Box	box.gif	Atk: 150 Def: 135 HP: 150 E: sleaze Init: 70 P: constellation	line (30)	line (30)	line (30)
 Brainsweeper	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 45 Meat: 29-47 P: construct	disembodied brain (30)
+Bram the Stoker	bram.gif	Atk: 164 Def: 148 HP: 170 Init: 50 P: undead	Bram's choker (100)
 Bread Golem	breadgolem.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 26-41 P: construct	wad of dough (30)	eldritch dough (c0)
 breakdancing raver	breakdancer.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
 BRICKO airship	brickoairship.gif	Atk: 550 Def: 495 HP: 10000 Init: 175 P: construct	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)
@@ -432,6 +433,7 @@ fudge oyster		HP: 130 Def: 90 Atk: 100 Init: 0 P: dude	fudgecule (c100)
 fudge poodle	fudgepoodle.gif	Atk: 120 Def: 108 HP: 150 Init: 80 P: beast	fudgecule (c100)
 fudge vulture		HP: 100 Def: 72 Atk: 80 Init: 50 P: dude	fudgecule (c100)
 fudge weasel	fudgeweasel.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast	fudgecule (c100)
+full-length mirror	bigmirror.gif	Init: 50 P: construct
 funk particle	funkparticle.gif	Atk: 85 Def: 67 HP: 80 Init: 30 P: weird	fat bottom quark (0)
 funk sole brother	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 160-240 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Fur Tree			petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
