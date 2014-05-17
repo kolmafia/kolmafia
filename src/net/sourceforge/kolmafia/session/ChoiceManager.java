@@ -3040,6 +3040,21 @@ public abstract class ChoiceManager
 				       "other options",
 				       "skip adventure" } ),
 
+		// Choice 890 is Lights Out in the Storage Room
+		// Choice 891 is Lights Out in the Laundry Room
+		// Choice 892 is Lights Out in the Bathroom
+		// Choice 893 is Lights Out in the Kitchen
+		// Choice 894 is Lights Out in the Library
+		// Choice 895 is Lights Out in the Ballroom
+		// Choice 896 is Lights Out in the Gallery
+		// Choice 897 is Lights Out in the Bedroom
+		// Choice 898 is Lights Out in the Nursery
+		// Choice 899 is Lights Out in the Conservatory
+		// Choice 900 is Lights Out in the Billiards Room
+		// Choice 901 is Lights Out in the Wine Cellar
+		// Choice 902 is Lights Out in the Boiler Room
+		// Choice 903 is Lights Out in the Laboratory
+
 		// Choice 918 is Yachtzee!
 		new ChoiceAdventure(
 			"Spring Break Beach", "choiceAdventure918", "Yachtzee!",
@@ -3056,7 +3071,7 @@ public abstract class ChoiceManager
 				       "+15ML on Cocktails",
 				       "reset ML on monsters",
 				       "leave without using a turn" } ),
-  };
+	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 
@@ -6924,6 +6939,116 @@ public abstract class ChoiceManager
 			ResultProcessor.removeItem( ItemPool.SHIELD_OF_BROOK );
 			break;
 
+		case 890:
+			// Lights Out in the Storage Room
+			if ( text.contains( "BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Laundry Room" );
+			}
+			break;
+
+		case 891:
+			// Lights Out in the Laundry Room
+			if ( text.contains( "DO YOU SEE THE STAIN UPON MY TOWEL?" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Bathroom" );
+			}
+			break;
+
+		case 892:
+			// Lights Out in the Bathroom
+			if ( text.contains( "THE STAIN HAS BEEN LIFTED" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Kitchen" );
+			}
+			break;
+
+		case 893:
+			// Lights Out in the Kitchen
+			if ( text.contains( "xyzzy" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Library" );
+			}
+			break;
+
+		case 894:
+			// Lights Out in the Library
+			if ( text.contains( "xyzzy" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Ballroom" );
+			}
+			break;
+
+		case 895:
+			// Lights Out in the Ballroom
+			if ( text.contains( "xyzzy" ) )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Gallery" );
+			}
+			break;
+
+		case 896:
+			// Lights Out in the Gallery
+
+			// The correct option leads to a combat with Elizabeth.
+			// If you win, we will set "nextSpookyravenElizabethRoom" to "none"
+			break;
+
+		case 897:
+			// Lights Out in the Bedroom
+			if ( text.contains( "restock his medical kit in the nursery" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Nursery" );
+			}
+			break;
+
+		case 898:
+			// Lights Out in the Nursery
+			if ( text.contains( "This afternoon we're burying Crumbles" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Conservatory" );
+			}
+			break;
+
+		case 899:
+			// Lights Out in the Conservatory
+			if ( text.contains( "an engraved portrait of Crumbles" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Billiards Room" );
+			}
+			break;
+
+		case 900:
+			// Lights Out in the Billiards Room
+			if ( text.contains( "The wolf head has a particularly nasty expression on its face" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Wine Cellar" );
+			}
+			break;
+
+		case 901:
+			// Lights Out in the Wine Cellar
+			if ( text.contains( "Crumbles II (Wolf)" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Boiler Room" );
+			}
+			break;
+
+		case 902:
+			// Lights Out in the Boiler Room
+			if ( text.contains( "CRUMBLES II" ) )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Laboratory" );
+			}
+			break;
+
+		case 903:
+			// Lights Out in the Laboratory
+
+			// The correct option leads to a combat with Stephen.
+			// If you win, we will set "nextSpookyravenStephenRoom" to "none"
+			break;
+
 		case 918:
 			// Yachtzee!
 			if ( ChoiceManager.lastDecision == 3 && text.contains( "You open the captain's door" ) )
@@ -8285,6 +8410,24 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 890: // Lights Out in the Storage Room
+		case 891: // Lights Out in the Laundry Room
+		case 892: // Lights Out in the Bathroom
+		case 893: // Lights Out in the Kitchen
+		case 894: // Lights Out in the Library
+		case 895: // Lights Out in the Ballroom
+		case 896: // Lights Out in the Gallery
+		case 897: // Lights Out in the Bedroom
+		case 898: // Lights Out in the Nursery
+		case 899: // Lights Out in the Conservatory
+		case 900: // Lights Out in the Billiards Room
+		case 901: // Lights Out in the Wine Cellar
+		case 902: // Lights Out in the Boiler Room
+		case 903: // Lights Out in the Laboratory
+			Preferences.setInteger( "lastSpookyravenLightsOut", KoLCharacter.getCurrentRun() + 1 );
+			TurnCounter.stopCounting( "Spookyraven Lights Out" );
+			TurnCounter.startCounting( 37, "Spookyraven Lights Out loc=*", "bulb.gif" );
+			break;
 		}
 	}
 
