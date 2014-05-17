@@ -184,7 +184,7 @@ public class UntinkerRequest
 	public static final void parseResponse( final String location, final String responseText )
 	{
 		// If not forest village, or action not untinker or screwquest
-		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "screwquest" ) ) )
+		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "quest" ) ) )
 		{
 			return;
 		}
