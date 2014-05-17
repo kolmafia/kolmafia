@@ -802,7 +802,15 @@ public class ItemDatabase
 		}
 
 		String range = ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
-		return range == null ? "" : range;
+		if ( range == null )
+		{
+			return "";
+		}
+		if ( KoLCharacter.inSlowcore() )
+		{
+			return "0";
+		}
+		return range;
 	}
 
 	public static final void calculateAdventureRanges()
@@ -2004,6 +2012,11 @@ public class ItemDatabase
 	public static final double getAdventureRange( final String name )
 	{
 		if ( name == null )
+		{
+			return 0.0;
+		}
+
+		if ( KoLCharacter.inSlowcore() )
 		{
 			return 0.0;
 		}
