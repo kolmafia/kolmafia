@@ -590,6 +590,7 @@ user	lastSlimeVial3893
 user	lastSlimeVial3894
 user	lastSlimeVial3895
 user	lastSlimeVial3896
+user	lastSpookyravenLightsOut	-1
 user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
@@ -642,6 +643,8 @@ user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream s
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
 user	nextAdventure
+user	nextSpookyravenElizabethRoom	The Haunted Storage Room
+user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue

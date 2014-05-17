@@ -2016,6 +2016,19 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.ELIZABETH_DOLLIE:
+			if ( combatResults )
+			{
+				Preferences.setString( "nextSpookyravenElizabethRoom", "none" );
+			}
+			break;
+
+		case ItemPool.STEPHEN_LAB_COAT:
+			if ( combatResults )
+			{
+				Preferences.setString( "nextSpookyravenStephenRoom", "none" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.

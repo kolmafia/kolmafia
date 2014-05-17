@@ -2006,6 +2006,8 @@ public class ItemPool
 	public static final int PALINDROME_BOOK_2 = 7270;
 	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+	public static final int ELIZABETH_DOLLIE = 7319;
+	public static final int STEPHEN_LAB_COAT = 7321;
 	public static final int DNA_LAB = 7382;
 	public static final int BEACH_BUCK = 7429;
 	public static final int OFFENSIVE_JOKE_BOOK = 7458;

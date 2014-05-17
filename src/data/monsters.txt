@@ -113,7 +113,7 @@ ancient insane monk	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#33
 ancient protector spirit	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead	obsidian dagger (c100)	mossy stone sphere (c100)	rough stone sphere (c100)	smooth stone sphere (c100)	cracked stone sphere (c100)
 ancient temple guardian	guardstatue.gif	Atk: 70 Def: 72 HP: 100 Init: 60 P: construct	ancient stone fist (0)	ancient stone head (0)
 Anemone combatant	anemone.gif	HP: 600 Def: 585 Atk: 400 Init: 25 Meat: 80-120 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
-anglerbush	anglerbush.gif	Atk: 7 Def: 8 HP: 10 Init: 300 P: plant	meat stack (35)
+anglerbush	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant	meat stack (35)
 angry bugbear	angbugbear.gif	Atk: 15 Def: 14 HP: 12 Init: 50 P: beast
 angry pi&ntilde;ata	pinata.gif	Atk: 22 Def: 19 HP: 20 Init: 50 P: construct	pile of candy (100)
 angry raccoon puppet	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 16-24 P: construct	felt (2)	stuffing (2)	googly eye (2)
@@ -139,7 +139,7 @@ Bad ASCII Art	badascii.gif	Atk: 85 Def: 76 HP: 75 Init: 50 P: construct	ASCII sh
 Bailey's Beetle	warhipmo.gif	Atk: 195 Def: 175 HP: 210 Init: 70 E: stench P: hippy	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
 Baiowulf		HP: 20 Def: 13 Atk: 15 Init: 10000 P: dude	Talisman of Baio (100)
 Bangyomaman Warrior	bangyomama.gif	Atk: 150 Def: 126 HP: 160 Init: 20 P: dude	neurostim pill (0)	X-37 gun (0)	essence of heat (c100)	Bangyomaman battle juice (c0)
-banshee librarian	banshee.gif	Atk: 57 Def: 46 HP: 69 Init: -10000 ED: spooky P: undead	disintegrating quill pen (20)	killing jar (10)
+banshee librarian	banshee.gif	Atk: 28 Def: 25 HP: 30 Init: -10000 ED: spooky P: undead	disintegrating quill pen (20)	killing jar (10)
 bar	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 12-20 P: beast	bar skin (25)	baritone accordion (a0)
 # Baron von Ratsworth		Atk: 20 Def: 20 HP: 25
 Baron von Ratsworth	ratsworth.gif	BOSS HP: [HP*1.2] Def: [MUS+min(12,3+A)] Atk: [MOX+min(12,3+A)] Init: 80 P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)
@@ -202,7 +202,7 @@ bog skeleton	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 P: undead E: spooky
 bogart	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 P: humanoid Meat: 30	fine aged cheddarwurst (0)	stolen meatpouch (0)
 bolt-cuttin' elf	elf_boltcutters.gif	Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 Bonerdagon	foss_wyrm.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
-bookbat	bookbat.gif	Atk: 51 Def: 44 HP: 55 Init: 70 P: construct	tattered scrap of paper (27)
+bookbat	bookbat.gif	Atk: 26 Def: 24 HP: 26 Init: 70 P: construct	tattered scrap of paper (27)
 booth slime	boothslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of blue slime (f66)
 booty crab	bootycrab.gif	Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 286-334 E: sleaze Phys: 25 P: beast	Cap'm Caronch's nasty booty (100)
 Booze Giant	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c0)
@@ -256,13 +256,13 @@ caveman sorority girl	cavesorority.gif	Atk: 230 Def: 225 HP: 240 Init: 25 Meat: 
 cavewomyn hippy	cavewomyn.gif	Atk: 250 Def: 207 HP: 260 Init: 25 E: stench P: hippy	handful of pine needles (20)	handful of nuts and berries (20)	Spanish fly (c25)
 Cement Cobbler Penguin	pengcement.gif	Init: -10000 P: penguin	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 CH Imp	chimp.gif	Atk: 62 Def: 55 HP: 62 E: hot Init: 60 Meat: 26-36 P: demon	imp air (25)
-chalkdust wraith	chalkdust.gif	Atk: 20 Def: 18 HP: 10 Init: 50 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
+chalkdust wraith	chalkdust.gif	Atk: 25 Def: 23 HP: 25 Init: 50 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
 chatty pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-76 P: pirate
 Chester	chester.gif	BOSS HP: 8000 Def: 450 Atk: 500 Init: 200 E: sleaze P: dude	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
 Chowder Golem	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 29-46 P: construct
 # Clan of Cave Bars		Atk: 30 Def: 30 HP: 30
 clan of cave bars	cavebars.gif	HP: [(min(200,MOX+20)+5*ML)*0.75] Def: [min(200,MUS+20)+5*ML] Atk: [min(200,MOX+20)+5*ML] Exp: [(min(200,STAT+20)+5*ML)/4] Init: -10000 Meat: 320-480 P: beast
-claw-foot bathtub	bathtub.gif	Atk: 90 Def: 90 HP: 100 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
+claw-foot bathtub	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Claybender Sorcerer Ghost	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)
 cleanly pirate	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 49-72 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
 clingy pirate	girlpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-78 P: pirate	bit of clingfilm (11)
@@ -278,7 +278,7 @@ Cold hobo	coldhobo5.gif	Atk: 350 Def: 315 HP: 500 Init: 100 E: cold P: hobo	hobo
 collapsed mineshaft golem	minegolem.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 completely different spider	spider2.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 concert pianist	pianist.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude
-confused goth music student	lilgoth.gif	Atk: 9 Def: 8 HP: 9 Init: 50 P: dude	pocket theremin (10)	clove-flavored lip balm (c0)
+confused goth music student	lilgoth.gif	Atk: 24 Def: 21 HP: 24 Init: 50 P: dude	pocket theremin (10)	clove-flavored lip balm (c0)
 conjoined zmombie	2zombies.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/4] Init: 60 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)
 conservationist hippy	conhippy.gif	Atk: 64 Def: 68 HP: 70 Init: 40 P: hippy E: stench Meat: 40	branch from the Great Tree (0)	super-strong air freshener (0)
 Cookie-baking Thing from Beyond Time			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -300,7 +300,7 @@ crusty hippy	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: stench P: hippy	filth
 crusty hippy jewelry maker	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (5)	Spanish fly (c25)
 crusty hippy Vegan chef	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 crusty pirate	crustpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 ED: stench Meat: 52-76 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
-cubist bull	cubistbull.gif	Atk: 105 Def: 94 HP: 110 Init: 50 Meat: 160-240 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean non-accordion (a0)
+cubist bull	cubistbull.gif	Atk: 56 Def: 50 HP: 55 Init: 50 Meat: 160-240 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean non-accordion (a0)
 curmudgeonly pirate	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)
 cyborg policeman	cybercop.gif	Atk: 160 Def: 144 HP: 160 Init: 50 P: construct	physiostim pill (0)	protein paste (0)	oil-filled donut (c0)
 Cyrus the Virus		BOSS HP: 100000 Def: 100000 Atk: 100000 Init: 0 Phys: 100 P: plant
@@ -316,7 +316,7 @@ Decal-applying Elfborg			iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthe
 decent lumberjack	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 16-24 P: dude	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
 decent white shark	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 192-288 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
 Demon of New Wave	5_4a.gif	BOSS Atk: 200 Def: 180 HP: 500 Init: 100 Phys: 40 P: demon	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
-demonic icebox	demfridge.gif	Atk: 4 Def: 4 HP: 5 Meat: 4-6 Init: 50 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
+demonic icebox	demfridge.gif	Atk: 21 Def: 19 HP: 21 Meat: 4-6 Init: 50 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
 Demoninja	demoninja.gif	Atk: 48 Def: 27 HP: 48 Init: 75 E: hot Meat: 40-60 P: demon	demon skin (15)	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
 dense liana	liana.gif	Atk: 144 Def: 140 HP: 150 Init: -10000 P: plant	exotic jungle fruit (0)
 dirty hippy	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (5)	Spanish fly (c25)
@@ -361,7 +361,7 @@ elegant animated nightstand	nightstand5.gif	Atk: 55 Def: 50 HP: 65 Init: -10000 
 elephant (meatcar?) topiary animal	topi3.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)
 Elf Hobo	elfhobo7.gif	HP: 40 Def: 27 Atk: 30 Init: 50 P: hobo	bindlestocking (0)	bottle of rum (15)	bottle of tequila (15)	bottle of whiskey (15)	candy cane (15)	Crimbo candied pecan (15)	Crimbo fudge (15)	Crimbo peppermint bark (15)	eggnog (15)	Mad Train wine (15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)	white lightning (15)	Wint-O-Fresh mint (15)
 Elite Beer Bongadier	warfratbg2.gif	Atk: 190 Def: 184 HP: 230 Init: 50 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
-empty suit of armor	armor.gif	Atk: 115 Def: 103 HP: 120 Init: -10000 ED: spooky P: construct	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
+empty suit of armor	armor.gif	Atk: 60 Def: 54 HP: 60 Init: -10000 ED: spooky P: construct	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 endangered inflatable white tiger	inflatiger.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast
 enormous blob of gray goo	grayblob3.gif	Atk: [230] Def: [240] HP: [250] Init: 150 P: horror
 Enraged Cow	cow.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast
@@ -412,7 +412,7 @@ Flange	flange.gif	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	
 fleaman	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude	black pixel (0)	brown pixel (0)	brown pixel (0)
 fleet woodsman	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 P: dude Meat: 60-90	fleetwood chain (20)	Green Manalishi (15)
 Flint-Scraping Cave Elf			rock (15)	stick (10)	stick (5)
-floating platter of hors d'oeuvres	horstray.gif	Atk: 110 Def: 99 HP: 120 Init: -10000 ED: spooky P: construct	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d'oeuvre tray (4)
+floating platter of hors d'oeuvres	horstray.gif	Atk: 65 Def: 55 HP: 70 Init: -10000 ED: spooky P: construct	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d'oeuvre tray (4)
 flock of seagulls	seagulls.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: beast
 Flock of Stab-Bats	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 51-80 P: beast	bat wing (30)	batblade (25)	batgut (30)
 fluffy bunny	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 7-9 P: beast	bunny liver (0)
@@ -445,7 +445,7 @@ gaunt ghuol	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 18-
 gelatinous cube	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 20-30 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 generic duck	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 70-80 P: beast
 Georgepaul, the Balldodger	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 100 P: mer-kin
-ghastly organist	phantom.gif	Atk: 110 Def: 99 HP: 120 Init: 50 P: undead	opera mask (20)
+ghastly organist	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead	opera mask (20)
 ghost	cvghost.gif	Atk: 75 Def: 67 HP: 80 Init: 50 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 ghost miner	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 ghostly pickle factory worker	worker.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
@@ -504,7 +504,7 @@ grungy pirate	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	acou
 Guard Bugbear	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 20-28 P: beast	bugbear beanie (25)	bugbear bungguard (25)
 guard turtle	guardturtle4.gif	Atk: 140 Def: 126 HP: 140 Init: 140 P: beast	guard turtle shell (0)	guard turtle collar (0)
 Guy Made of Bees	beeguy.gif	BOSS Atk: 99999 Def: 89999 HP: [99999] Init: -10000 Exp: 40 P: horror	guy made of bee pollen (100)	handful of bees (p10)
-guy with a pitchfork, and his wife	gothic.gif	Atk: 110 Def: 99 HP: 120 Init: 50 Meat: 80-120 P: dude	pitchfork (5)
+guy with a pitchfork, and his wife	gothic.gif	Atk: 58 Def: 52 HP: 60 Init: 50 Meat: 80-120 P: dude	pitchfork (5)
 handsome mariachi	mariachi1.gif	Atk: 17 Def: 15 HP: 15 Init: 50 Meat: 4-6 P: dude	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
 Hangman's Tree			petrified wood (5)	spooky bark (10)	spooky sap (5)
 haunted skullabra	skullabra.gif	Atk: 48 Def: 52 HP: 50 Init: 30 P: undead E: spooky	moonberry wine cooler (0)	big dribbly candle (0)
@@ -620,11 +620,11 @@ mad wino	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 P: hobo	pie man was not 
 magic dragonfish	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 160-240 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 MagiMechTech MechaMech	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent crop circle	cropcircle.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
-malevolent hair clog	hairclog.gif	Atk: 95 Def: 81 HP: 85 Init: 50 ED: spooky P: horror	gob of wet hair (40)
+malevolent hair clog	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 ED: spooky P: horror	gob of wet hair (40)
 malevolent magnetic field	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird	bottle of gin (0)
 Mammon the Elephant	mammon.gif	BOSS Atk: 150 Def: 135 HP: 50000 Init: 150 P: beast	avarice stone (100)
 man with the red buttons	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 120-180	red box (15)	red button (0)	big red button (n1)
-man-eating plant	audrey.gif	Atk: 7 Def: 8 HP: 10 Init: 50 P: plant
+man-eating plant	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant
 mariachi bandolero	bandolero.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
 mariachi bruiser	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 mariachi calavera	mariachi3.gif	Atk: 22 Def: 19 HP: 30 Init: 50 P: undead	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)
@@ -741,7 +741,7 @@ overdone flame-broiled meat blob	meatblob.gif	Atk: 4 Def: 1 HP: 2 Init: 60 E: ho
 P imp	pimp.gif	Atk: 42 Def: 37 HP: 42 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
 panicking Knott Yeti	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Panty Raider Frat Boy	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
-paper towelgeist	ptowels.gif	Atk: 4 Def: 3 HP: 6 Init: 30 P: undead	cardboard katana (5)
+paper towelgeist	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead	cardboard katana (5)
 Peanut	peanut.gif	Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
 pencil golem	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct	pencil stub (0)
 pernicious puddle of pesto	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
@@ -750,7 +750,7 @@ pine bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: be
 plaid ghost	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead	plaid swatch (0)
 plaque of locusts	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)
-pooltergeist	poolter.gif	Atk: 20 Def: 18 HP: 25 Init: 70 P: undead	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
+pooltergeist	poolter.gif	Atk: 25 Def: 23 HP: 27 Init: 70 P: undead	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Pooltergeist (Ultra-Rare)		Atk: 20 Def: 18 HP: 25 Init: 70 P: undead	17-ball (100)
 pop-and-lock raver	popnlocker.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
 Pork Sword	porksword.gif	Atk: 162 Def: 145 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
@@ -758,9 +758,9 @@ Portly Abomination	abom.gif	Atk: 73 Def: 65 HP: 63 Init: 70 Meat: 61-91 P: horro
 possessed can of tomatoes	tomatosoup.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 2-4 P: undead	razor-sharp can lid (45)	tomato (60)	possessed tomato (p15)	folder (yellow) (c0)
 possessed laundry press	mangler.gif	Atk: 158 Def: 129 HP: 145 Init: -10000 P: construct	extra-flat panini (0)	industrial strength starch (0)	mangled finger (0)
 possessed pipe-organ	organ.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
-possessed silverware drawer	silverware.gif	Atk: 5 Def: 3 HP: 6 Init: 50 P: undead	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
+possessed silverware drawer	silverware.gif	Atk: 22 Def: 18 HP: 22 Init: 50 P: undead	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
 possessed toy chest	toybox.gif	Atk: 76 Def: 84 HP: 85 Init: -10000 P: weird	haunted paddle-ball (0)	spooky sound effects record (0)	spooky alphabet block (0)
-possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)
+possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct
 Possibility Giant	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	chaos butterfly (20)	plot hole (15)	probability potion (20)
 poutine ooze	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime	poutine (40)
 Pr Imp	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 48-58 P: demon	imp air (15)
@@ -775,7 +775,7 @@ psychedelic fur	carpet.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: weird	a creased pa
 pufferfish	pufferfish.gif	Atk: 400 Def: 450 HP: 750 Init: 100 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 pumped-up bass	pumpedbass.gif	Atk: 330 Def: 270 HP: 500 Init: 100 Meat: 160-240 P: fish	dull fish scale (n15)	beefy fish meat (n5)
 Pumpkin Tree			petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
-Punk Rock Giant	giant_punk.gif	Atk: 150 Def: 140 Atk: 150 Init: 50 Meat: 40-60 P: humanoid	giant safety pin (15)	punk rock jacket (10)	stolen sushi (30)	folder (smiley face) (c0)
+Punk Rock Giant	giant_punk.gif	Atk: 150 Def: 140 HP: 150 Init: 50 Meat: 40-60 P: humanoid	giant safety pin (15)	punk rock jacket (10)	stolen sushi (30)	folder (smiley face) (c0)
 pygmy assault squad	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 100-150 P: dude	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 pygmy blowgunner	pyg_blowgunner.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 80-120 P: dude	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)	pygmy dart (c10)
 pygmy bowler	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 P: dude Meat: 100-150	bowling ball (40)	imitation White Russian (25)	tiny bowler (5)
@@ -803,7 +803,7 @@ Red Herring	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 P: dude Meat: 100-
 red skeleton	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (15)	red blood cells (25)	red eye (5)
 Red Snapper	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat: 100-150	red box (30)
 regular old bat	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 18-28 P: beast	bat guano (15)	batgut (15)	bat wing (15)
-remains of a jilted mistress	mistress.gif	Atk: 164 Def: 139 HP: 145 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
+remains of a jilted mistress	mistress.gif	Atk: 65 Def: 60 HP: 65 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
 Renaissance Giant	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 80-120 P: humanoid	giant turkey leg (10)	Ye Olde Bawdy Limerick (25)	Ye Olde Meade (15)	Ye Olde Medieval Insult (25)
 Rene C. Corman	reneccorman.gif	Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude	Thwaitgold maggot statuette (n100)
 revolting bugbear	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 E: stench P: beast
@@ -852,11 +852,11 @@ Shub-Jigguwatt, Elder God of Violence	shub-jigguwatt.gif	BOSS HP: 3000 Atk: 4000
 Sinew-Stretching Cave Elf			stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
 sk8 gnome	sk8gnome.gif	Atk: 75 Def: 67 HP: 65 Init: 60 Meat: 56-84 P: humanoid	eXtreme mittens (0)	Mountain Stream soda (0)	gr8ps (40)	sk8board (5)	t8r tots (40)	folder (space skeleton) (c0)
 Skate Board member	boardskate.gif	Atk: 450 Def: 450 HP: 750 Init: 50 P: fish	S.A.V.E. flyer (0)	skate board (0)	skate skin (0)
-skeletal cat	catskel.gif	Atk: 9 Def: 8 HP: 8 Init: 50 ED: spooky P: undead	pile of dusty animal bones (100)
-skeletal hamster	hamskel.gif	Atk: 8 Def: 7 HP: 7 Init: 50 ED: spooky P: undead	pile of dusty animal bones (100)	tiny canopic jar (c0)
-skeletal monkey	monkeyskel.gif	Atk: 9 Def: 8 HP: 8 Init: 300 ED: spooky P: undead	pile of dusty animal bones (100)	skeletal banana (c0)
+skeletal cat	catskel.gif	Atk: 24 Def: 21 HP: 23 Init: 50 ED: spooky P: undead	pile of dusty animal bones (100)
+skeletal hamster	hamskel.gif	Atk: 23 Def: 20 HP: 22 Init: 50 ED: spooky P: undead	pile of dusty animal bones (100)	tiny canopic jar (c0)
+skeletal monkey	monkeyskel.gif	Atk: 24 Def: 21 HP: 23 Init: 300 ED: spooky P: undead	pile of dusty animal bones (100)	skeletal banana (c0)
 skeletal reindeer			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-skeletal sommelier	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 80-120 ED: spooky P: undead	tarnished tastevin (0)	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)	wine-soaked bone chips (c0)	ghost accordion (a0)
+skeletal sommelier	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 80-120 ED: spooky P: undead	tarnished tastevin (0)	sommelier's towel (0)	wine-soaked bone chips (c0)	ghost accordion (a0)
 skeleton invader		HP: 10 Def: 9 Atk: 10 Init: 50	bone chips (30)
 skeleton with a mop	mopskeleton.gif	Atk: 8 Def: 7 HP: 7 Init: 50 P: undead	beer-soaked mop (10)	ice-cold Willer (30)	ice-cold Willer (30)
 Skelter Butleton, the Butler Skeleton	buttleton.gif	Atk: 170 Def: 153 HP: 180 Init: 50 ED: spooky P: undead	silver shrimp fork (100)
@@ -864,7 +864,7 @@ Skinflute	skinflute.gif	Atk: 158 Def: 142 HP: 150 Init: 70 E: sleaze P: constell
 skleleton	skeleton.gif	Atk: 18 Def: 16 HP: 10 Init: 60 E: spooky P: undead	loose teeth (30)	skeleton bone (40)	skeleton bone (20)
 skullbat	skullbat.gif	Atk: 16 Def: 14 HP: 10 Init: 60 EA: spooky Meat: 25-37 P: beast	broken skull (40)	loose teeth (20)	sonar-in-a-biscuit (15)	smoking talon (c0)
 skulldozer	skulldozer.gif	Atk: [max(300,MOX)+5+ML] Def: [max(300,MUS)+5+ML] HP: [max(300,HP)+5+ML] Exp: [(max(300,STAT)+5+ML)/4] Init: -10000 E: spooky P: undead	skulldozer egg (0)
-skullery maid	skullery.gif	Atk: 3 Def: 3 HP: 4 Init: 50 P: undead	bottle of popskull (30)	dishrag (5)	Skullery Maid's Knee (c0)
+skullery maid	skullery.gif	Atk: 20 Def: 18 HP: 20 Init: 50 P: undead	bottle of popskull (30)	dishrag (5)	Skullery Maid's Knee (c0)
 Sleaze hobo	slhobo4.gif	Atk: 350 Def: 315 HP: 500 Init: 100 E: sleaze P: hobo	hobo nickel (c15)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
 sleeping Knob Goblin Guard	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 Meat: 4-6 P: goblin	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
 sleepy 7-Foot Dwarf	dwarf_sleepy.gif	Atk: 53 Def: 47 HP: 40 Init: -10000 Meat: 32-48 P: humanoid	miner's pants (9)
@@ -960,7 +960,7 @@ swarthy pirate	pirate1.gif	Atk: 63 Def: 56 HP: 53 Init: 65 Meat: 20-32 P: pirate
 Taco Cat	cacotat.gif	Atk: 139 Def: 131 HP: 145 Init: 30 Meat: 32-49 P: beast	cat appendix (30)	catgut (30)	taco shell (30)
 talking head	kasemhead.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: weird	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	evil paper umbrella (0)
 Tan Gnat	biggnat.gif	Atk: 136 Def: 127 HP: 128 Init: 50 P: bug	[2528] (40)	gnatwing (40)	suntan lotion of moxiousness (50)	glass of gnat milk (c0)
-tapdancing skeleton	hatskel.gif	Atk: 110 Def: 99 HP: 120 Init: 50 ED: spooky P: undead	tap shoes (5)	worn tophat (5)	janglin' bones (c0)
+tapdancing skeleton	hatskel.gif	Atk: 65 Def: 55 HP: 70 Init: 50 ED: spooky P: undead	tap shoes (5)	worn tophat (5)	janglin' bones (c0)
 Tektite	tektite.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	blue pixel (80)	white pixel (50)
 terrifying robot	terrorbot.gif	Atk: 170 Def: 153 HP: 170 Init: 50 P: construct	neurostim pill (0)	physiostim pill (0)
 tetchy pirate	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 32-48 P: pirate	bottle of rum (20)	cocktail napkin (10)
@@ -997,7 +997,7 @@ Thug 1 and Thug 2	thug1thug2.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 500 P: hu
 Timmy Tofurkey	mc_tofu2.gif	Atk: 40 Def: 45 HP: 90 Init: 50 P: humanoid	sun-dried tofu (0)
 Timmy Tofurkey cast member	mc_tofu1.gif	Atk: 60 Def: 63 HP: 110 Init: 20 P: dude	sun-dried tofu (0)
 tipsy pirate	tipsypirate.gif	Atk: 80 Def: 72 HP: 70 Init: 50 Meat: 36-54 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
-toilet papergeist	tpgeist.gif	Atk: 88 Def: 90 HP: 105 Init: -10000 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
+toilet papergeist	tpgeist.gif	Atk: 55 Def: 47 HP: 60 Init: -10000 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
 toilet-papered tree	shiv_tp.gif	Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
 tomb asp	tombasp.gif	Atk: 170 Def: 145 HP: 155 Init: 70 Meat: 80-120 "Really Quite Poisoned" P: beast	unidentified jerky (13)	charming flute (7)
 tomb bat	mummybat.gif	Atk: 175 Def: 157 HP: 180 Init: 50 Meat: 40-60 P: beast	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
@@ -1099,7 +1099,7 @@ wild seahorse	seahorse.gif	P: fish Phys: 100
 Wire-Crossin' Elf			elf resistance button (100)	handful of wires (c100)	live wire (0)
 witty pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	witty rapier (10)	silver tongue charrrm (10)
 wolfman	werewolf.gif	Atk: 3 Def: 2 HP: 2 Init: 50 Meat: 10-13 P: dude
-writing desk	ravendesk.gif	Atk: 53 Def: 51 HP: 62 Init: 50 P: construct	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
+writing desk	ravendesk.gif	Atk: 27 Def: 27 HP: 28 Init: 50 P: construct	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
 wumpus	wumpus.gif	Atk: 66 Def: 59 HP: 66 Init: 66 P: beast	memory of a glowing crystal (c0)	wumpus hair (n100)
 XXX pr0n	pr0n.gif	Atk: 75 Def: 67 HP: 68 Init: 60 Meat: 24-36 P: beast	f3d0r4 (15)	lowercase N (30)	pr0n legs (40)
 Yakisoba the Executioner	yakisoba.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Yakisoba's hat (100)	macaroni duck (100)
@@ -1110,9 +1110,9 @@ Zim Merman	zimmerman.gif	Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 209-325 E: ste
 zmobie	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky Meat: 29-43 P: undead	cranberries (20)	loose teeth (50)
 zobmie	zombie.gif	Atk: 19 Def: 17 HP: 10 Init: 60 E: spooky Meat: 28-40 P: undead	cranberries (20)	cranberries (20)
 Zol	zol.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: slime	green pixel (70)	green pixel (70)	green pixel (70)
-zombie chef	zombiechef.gif	Atk: 5 Def: 4 HP: 4 Init: 50 Meat: 6-8 P: undead	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)	zombie hollandaise (c0)
+zombie chef	zombiechef.gif	Atk: 22 Def: 19 HP: 20 Init: 50 Meat: 6-8 P: undead	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)	zombie hollandaise (c0)
 zombie duck	duckzombie.gif	Atk: 171 Def: 158 HP: 190 Init: 40 Meat: 127-174 E: spooky P: beast	duct tape (5)	frightful feather (10)
-zombie waltzers	zomwaltz.gif	Atk: 110 Def: 99 HP: 120 Init: 50 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
+zombie waltzers	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
 Zombo	zombo.gif	BOSS HP: 10000 Def: 450 Atk: 500 Init: 200 E: spooky P: undead	Prelude of Precision (0)	voodoo snuff (0)	Zombo's grievous greaves (0)	Zombo's shield (0)	Zombo's skullcap (0)	Zombo's empty eye (f20)	Zombo's shoulder blade (f20)	Zombo's skull ring (f20)
 
 # Talk Like a Pirate Day
