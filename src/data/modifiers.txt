@@ -875,6 +875,7 @@ Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Squeezebox of the Ages	Moxie: [11*(1+skill(Accordion Appreciation))], Ranged Damage: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
+Staff of Fats	Pool Skill: +5
 # Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
 Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
@@ -1312,7 +1313,7 @@ plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
 pointed stick	Critical Hit Percent: +2, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
-pool cue	Moxie: +3
+pool cue	Moxie: +5, Pool Skill: +3
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
 potato pistol	Moxie: +5, Sleaze Damage: +5
 pottery club	Hot Damage: +5
@@ -3689,7 +3690,8 @@ Celestial Vision	Item Drop: +30
 Cereal Killer	Experience: +200
 Chain Chain Chains	Spooky Damage: +10
 # Chalked Weapon: Regular Attacks Can't Miss
-Chalky Hand	Never Fumble, Weapon Damage: +3
+Chalked Weapon	Pool Skill: +5
+Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
 Chalky White Pallor	Mysticality Percent: +50
 Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
@@ -4835,7 +4837,7 @@ Sweet Tooth	Candy Drop: +40
 Sweet, Nuts	Mysticality: +5
 Swimming Head	Item Drop: [25*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Swimming with Sharks: Makes you a better diver
-Swimming with Sharks	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: +20
+Swimming with Sharks	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: +20, Pool Skill: +3
 Swordholder	Weapon Damage Percent: +50
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Takin' It Greasy	Sleaze Damage: +15

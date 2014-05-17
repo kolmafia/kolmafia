@@ -741,6 +741,7 @@ Spooky Putty ball	100	Mox: 0	1-handed superball
 Spooky Putty snake	10	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of Fats	100	Mys: 35	2-handed staff
 Staff of Fruit Salad	10	Mys: 0	1-handed chefstaff
 Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
@@ -1135,7 +1136,7 @@ plexiglass pikestaff	180	Mus: 75	2-handed club
 pocket theremin	35	Mox: 2	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
-pool cue	40	Mus: 0	2-handed staff
+pool cue	60	Mus: 15	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 pottery club	50	Mus: 0	1-handed club
