@@ -260,7 +260,8 @@ public class QuestLogRequest
 			{
 				handleQuestText( cut, source );
 			}
-			else if ( header.equals( "Miscellaneous Quests:" ) )
+			// First time I opened this today it said Miscellaneous quests, now says Other quests, so check for both
+			else if ( header.equals( "Other Quests:" ) || header.equals( "Miscellaneous Quests:" ) )
 			{
 				handleQuestText( cut, source );
 			}
