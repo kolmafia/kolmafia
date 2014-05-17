@@ -46,7 +46,7 @@ questM15Lol	A Quest, LOL	The Highland Lord told you that the Baron Rof L'm Fao, 
 
 # Sea Quests
 questS01OldGuy	An Old Guy and The Ocean	The Old Man, by The Sea, wants you to retrieve his boot. He says he dropped it off the side of his boat while he was fishing.	You've bought the Old Man's boot back from Big Brother. You should take it back to him.	You helped the Old Man retrieve his boot from The Sea. Marvelous!
-questS02Monkees	Hey, Hey, They're Sea Monkees	You rescued a strange, monkey-like creature from a Neptune Flytrap. He marked the location of his sea-floor home on your map -- maybe you should go talk to him.	
+questS02Monkees	Hey Hey, Find The Monkees	You rescued a strange, monkey-like creature from a Neptune Flytrap. He marked the location of his sea-floor home on your map -- maybe you should go talk to him.	You have rescued the entire family of Sea Monkees. Well, except for Dad, but we shouldn't talk about that.
 
 # Familiar Quests
 questF01Primordial	Primordial Fear	You remember floating aimlessly in the Primordial Soup. You wanted to do it some more.	You remember creating an unstoppable supervirus. Congratulations!
