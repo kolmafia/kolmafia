@@ -441,7 +441,11 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
+			// Don't reset Elemental Plane quests
+			if ( !questLogData[ i ][ 0 ].startsWith( "questE" ) )
+			{
+				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
+			}
 		}
 		Preferences.resetToDefault( "oilPeakProgress" );
 		Preferences.resetToDefault( "twinPeakProgress" );

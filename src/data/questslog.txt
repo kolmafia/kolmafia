@@ -43,6 +43,8 @@ questM12Pirate	I Rate, You Rate	A salty old pirate named Cap'm Caronch has offer
 questM13Escape	The Pretty Good Escape	Subject 37, in the Cobb's Knob Menagerie, wants you to find out what the scientists in the Cobb's Knob Laboratory are planning to do to him.	You've done a good turn, and helped Subject 37 make his escape from the Cobb's Knob Menagerie.
 questM14Bounty	A Bounty Hunter Is You!	The bounty hunter hunter wants you to collect [amount] [item] from [monster] on [location].	
 questM15Lol	A Quest, LOL	The Highland Lord told you that the Baron Rof L'm Fao, in his valley in the Big Mountains, has been overrun by monsters. Maybe you should try to fight your way through them to the gates of the Baron's fortress.	You have helped the Baron Rof L'm Fao with his monster problem. w00t!
+questM16Temple	The Hidden Legend of the Temple		You've discovered the Hidden Temple in the Distant Woods.
+questM17Babies	Lady Spookyraven's Babies		You saved all of Lady Spookyraven's beautiful, beautiful babies.  Precious babies.  Babies.
 
 # Sea Quests
 questS01OldGuy	An Old Guy and The Ocean	The Old Man, by The Sea, wants you to retrieve his boot. He says he dropped it off the side of his boat while he was fishing.	You've bought the Old Man's boot back from Big Brother. You should take it back to him.	You helped the Old Man retrieve his boot from The Sea. Marvelous!
@@ -58,3 +60,14 @@ questF05Clancy	The Minstrel Cycle	Clancy would like you to take him to the Typic
 # Item Quests
 questI01Scapegoat	Scapegoat	You must find and put a stop to whoever is controlling the army of lawn gnomes in The Landscaper's Lair.<p>You've got a hunch that it's probably somebody called The Landscaper, and that he probably lives in the hut marked "The Landscaper's Hut" on your map.<p>It's just a hunch, though.	You've defeated The Landscaper and claimed his obnoxious leafblower as your own.
 questI02Beat	The Quest for the Legendary Beat	You must defeat Professor Jacking in order to gain access to his laboratory and search for the Legendary Beat.	You've defeated Professor Jacking and gained unfettered access to his laboratory. Now... where's that Beat?	You've managed to find the Legendary Beat, which Professor Jacking had cleverly miniaturized and embedded in your own skin. Fresh!
+
+# Elemental Planes Quests
+questESlMushStash	Pencil-Thin Mush Stash		You retrieved Buff Jimmy's stash of pencil-thin mushrooms.
+questESlCheeseburger	Paradise Cheeseburger		You gathered all of the ingredients for Buff Jimmy's weird cheeseburger.
+questESlSalt	Lost Shaker of Salt		You retrieved Buff Jimmy's lost salt.
+questESlAudit	Audit-Tory Hallucinations		You prevented Taco Dan from getting audited.
+questESlCocktail	Cocktail as old as Cocktime		You facilitated Taco Dan's bold cocktail sauce experiment.
+questESlFish	Dirty Fishy Dish		You wrangled up some taco fish for Taco Dan.
+questESlBacteria	Cultural Studies		You gathered disgusting bacteria for Broden the Brogre.
+questESlSprinkles	A Light Sprinkle		You collected sprinkles for Broden the Brogre.
+questESlDebt	Beat Dead the Deadbeats		You collected Broden the Brogre's debts for him.
