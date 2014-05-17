@@ -6965,7 +6965,7 @@ public abstract class ChoiceManager
 
 		case 893:
 			// Lights Out in the Kitchen
-			if ( text.contains( "xyzzy" ) )
+			if ( text.contains( "If You Give a Demon a Brownie" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Library" );
 			}
@@ -6973,7 +6973,7 @@ public abstract class ChoiceManager
 
 		case 894:
 			// Lights Out in the Library
-			if ( text.contains( "xyzzy" ) )
+			if ( text.contains( "If You Give a Demon a Brownie" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Ballroom" );
 			}
@@ -6981,7 +6981,7 @@ public abstract class ChoiceManager
 
 		case 895:
 			// Lights Out in the Ballroom
-			if ( text.contains( "xyzzy" ) )
+			if ( text.contains( "The Flowerbed of Unearthly Delights" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Gallery" );
 			}
