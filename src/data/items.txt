@@ -2284,7 +2284,7 @@
 2265	wet stew	478803907	soupbowl.gif	food	t,d	25	bowls of wet stew
 2266	wet stunt nut stew	602051173	soupbowl.gif	none	q	0	bowls of wet stunt nut stew
 2267	Mega Gem	984316382	megagem.gif	accessory	q	0
-2268	Staff of Fats	654006777	poolcue.gif	none	q	0
+2268	Staff of Fats	654006777	poolcue.gif	weapon	q	0
 2269	sausage wonton	904562513	wonton.gif	food	t,d	215	sausage wontons
 2270	black belt	777827661	blackbelt.gif	accessory	t,d	80	black belts
 2271	dusty bottle of Merlot	163456429	wine2.gif	drink	t,d	35	dusty bottles of Merlot

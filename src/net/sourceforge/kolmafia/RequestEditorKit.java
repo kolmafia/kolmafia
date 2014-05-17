@@ -743,7 +743,14 @@ public class RequestEditorKit
 
 		if ( index == -1 )
 		{
-			return;
+			String test2 = "<b>You gain some Levels!</b>";
+			int index2 = buffer.indexOf( test2 );
+			if ( index2 == -1 )
+			{
+				return;
+			}
+			index = index2;
+			test = test2;
 		}
 
 		StringBuilder links = new StringBuilder();
