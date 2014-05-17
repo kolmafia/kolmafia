@@ -683,6 +683,15 @@ user	prismaticSummons	0
 user	promptAboutCrafting	1
 user	pyramidPosition	0
 user	pyramidBombUsed	false
+user	questESlAudit	unstarted
+user	questESlBacteria	unstarted
+user	questESlCheeseburger	unstarted
+user	questESlCocktail	unstarted
+user	questESlDebt	unstarted
+user	questESlFish	unstarted
+user	questESlMushStash	unstarted
+user	questESlSalt	unstarted
+user	questESlSprinkles	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted
@@ -727,6 +736,8 @@ user	questM12Pirate	unstarted
 user	questM13Escape	unstarted
 user	questM14Bounty	unstarted
 user	questM15Lol	unstarted
+user	questM16Temple	unstarted
+user	questM17Babies	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
