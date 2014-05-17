@@ -2437,7 +2437,9 @@ swirling mushroom wine	MIX_FANCY	mushroom fermenting solution	Tremella Tarantell
 # Spookyraven
 plaid bandage	MUSE	plaid swatch (2)
 plaid pocket square	MUSE	plaid swatch (4)
+plaid skirt	MUSE	plaid swatch (6)
 ghast iron ingot	SMITH	chunk of hot iron	hot coal
 ghast iron Garibaldi	SSMITH	ghast iron ingot	helmet recipe
 deluxe layer cake	COOK	moose chocolate	sheet cake
 Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
+doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye

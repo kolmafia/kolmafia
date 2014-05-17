@@ -2238,6 +2238,7 @@ disbelief suspenders	Sleaze Resistance: +1
 disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
 diving muff	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
+doll-eye amulet	Item Drop: [40*(zone(Manor0)+zone(Manor1)+zone(Manor2)+zone(Manor3))], Single Equip
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
