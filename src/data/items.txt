@@ -7362,7 +7362,7 @@
 7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130
 7344	ancient oil painting of yourself	538454114	rolledpainting.gif	none		0
 7345	ornate picture frame	394174454	pictureframe.gif	none, combat		0
-7346
+7346	doll-eye amulet	350318483	dolleyenecklace.gif	accessory	d	600
 7347	ghost toga	926901212	ghosttoga.gif	shirt	t,d	95
 7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
 7349	ghost key	621906180	ghostkey.gif	none	t,d	44

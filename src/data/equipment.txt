@@ -1954,6 +1954,7 @@ dirty hobo gloves	20	none
 disbelief suspenders	50	Mys: 10
 disembodied smile	20	none
 diving muff	200	Mys: 85
+doll-eye amulet	100	Mys: 35
 dope gangsta bling-bling	45	Mys: 7
 eXtreme mittens	110	Mys: 35
 eXtreme nose ring	100	Mys: 10
