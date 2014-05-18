@@ -193,6 +193,7 @@ public class CharPaneRequest
 		}
 
 		CharPaneRequest.turnsThisRun = turnsThisRun;
+		KoLCharacter.setTurnsPlayed( parseTurnsPlayed( responseText ) );
 
 		// Since we believe this update, synchronize with it
 		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
@@ -285,11 +286,22 @@ public class CharPaneRequest
 		Preferences.setInteger( "bankedKarma", karma );
 	}
 
-	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
-
+	public static final Pattern TURNS_THIS_RUN_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
 	private static final int parseTurnsThisRun( final String responseText )
 	{
-		Matcher matcher = CharPaneRequest.TURNS_PATTERN.matcher( responseText );
+		Matcher matcher = CharPaneRequest.TURNS_THIS_RUN_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		return -1;
+	}
+
+	public static final Pattern TURNS_PLAYED_PATTERN = Pattern.compile( "var turnsplayed = (\\d*);" );
+	private static final int parseTurnsPlayed( final String responseText )
+	{
+		Matcher matcher = CharPaneRequest.TURNS_PLAYED_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
 			return StringUtilities.parseInt( matcher.group( 1 ) );
@@ -1113,6 +1125,9 @@ public class CharPaneRequest
 	{
 		int turnsThisRun = JSON.getInt( "turnsthisrun" );
 		CharPaneRequest.turnsThisRun = turnsThisRun;
+
+		int turnsPlayed = JSON.getInt( "turnsplayed" );
+		KoLCharacter.setTurnsPlayed( turnsPlayed );
 
 		if ( KoLmafia.isRefreshing() )
 		{
