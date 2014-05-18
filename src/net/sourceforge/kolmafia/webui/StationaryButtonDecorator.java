@@ -712,7 +712,7 @@ public class StationaryButtonDecorator
 	}
 
 	private static final Pattern BODY_PATTERN = Pattern.compile( "<body>.*</body>", Pattern.DOTALL );
-	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<[aA] href=[\"']?([^\"'>]*)", Pattern.DOTALL );
+	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<[aA] (id=\"againlink\" )?href=[\"']?([^\"'>]*)", Pattern.DOTALL );
 
 	private static final String getAdventureAgainLocation( StringBuffer response )
 	{
@@ -732,7 +732,14 @@ public class StationaryButtonDecorator
 			// Skip Monster Manuel's link to a new factoid
 			// questlog.php?which=6&vl=p#mon1429
 
-			String link = m.group( 1 );
+			String again = m.group( 1 );
+			String link = m.group( 2 );
+			// If KoL says that this is the "adventure again" link, believe it
+			if ( again != null )
+			{
+				return link;
+			}
+
 			if ( !link.contains( "questlog.php" ) && !link.contains( "desc_item.php" ) )
 			{
 				return link;
