@@ -336,6 +336,7 @@ public abstract class KoLCharacter
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
 	private static int daycount = 0;
+	private static int turnsPlayed = 0;
 	private static int currentRun = 0;
 	private static boolean isFullnessIncreased = false;
 	private static int holidayManaCostReduction = 0;
@@ -1986,6 +1987,21 @@ public abstract class KoLCharacter
 		{
 			BanishManager.update();
 		}
+	}
+
+	/**
+	 * Accessor method to retrieve the total number of turns the character
+	 * has played across all ascensions.
+	 */
+
+	public static final int getTurnsPlayed()
+	{
+		return KoLCharacter.turnsPlayed;
+	}
+
+	public static final void setTurnsPlayed( final int turnsPlayed )
+	{
+		KoLCharacter.turnsPlayed = turnsPlayed;
 	}
 
 	/**
