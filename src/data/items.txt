@@ -7511,6 +7511,6 @@
 7492	blasting soda	508369326	powder.gif	none	q	0
 7493	unstable fulminate	321705934	wine2.gif	offhand	q	0
 7494	wine bomb	152995888	wine2.gif	none	q	0
-7495	recipe: mortar-dissolving solution	581234431	burgerrecipe.gif	usable	q	0
+7495	recipe: mortar-dissolving solution	581234431	burgerrecipe.gif	reusable	q	0
 7496
 7497	ghost formula	403230490	babybottle.gif	usable	q	0

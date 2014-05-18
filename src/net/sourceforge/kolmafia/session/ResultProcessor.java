@@ -2029,6 +2029,10 @@ public class ResultProcessor
 				Preferences.setString( "nextSpookyravenStephenRoom", "none" );
 			}
 			break;
+
+		case ItemPool.WINE_BOMB:
+			EquipmentManager.discardEquipment( ItemPool.UNSTABLE_FULMINATE );
+			break;
 		}
 
 		// Gaining items can achieve goals.
