@@ -7512,5 +7512,6 @@
 7493	unstable fulminate	321705934	wine2.gif	offhand	q	0
 7494	wine bomb	152995888	wine2.gif	none	q	0
 7495	recipe: mortar-dissolving solution	581234431	burgerrecipe.gif	reusable	q	0
-7496
+7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
+7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0

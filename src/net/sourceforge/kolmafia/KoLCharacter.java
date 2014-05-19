@@ -2883,7 +2883,6 @@ public abstract class KoLCharacter
 
 			// Ronin is lifted and we can interact freely with the Kingdom
 			KoLCharacter.setRonin( false );
-			KoLCharacter.setRestricted( false );
 			CharPaneRequest.setInteraction( true );
 
 			// Storage is freely available
@@ -2915,11 +2914,20 @@ public abstract class KoLCharacter
 			else if ( wasInHardcore || oldPath.equals( "Trendy" )
 			       || oldPath.equals( "Class Act" )
 			       || oldPath.equals( "Way of the Surprising Fist" )
-			       || oldPath.equals( "Class Act II: A Class For Pigs" ) )
+			       || oldPath.equals( "Class Act II: A Class For Pigs" )
+			       || KoLCharacter.getRestricted() )
 			{
 				// Normal permed skills
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
+
+			if ( oldPath.equals( "Trendy" ) || KoLCharacter.getRestricted() )
+			{
+				// Retrieve the bookshelf
+				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+			}
+
+			KoLCharacter.setRestricted( false );
 
 			// If leaving a path with a unique class, wait until player picks a new class.
 			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) &&
@@ -4266,7 +4274,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
 		{
 			return null;
 		}
@@ -4279,6 +4287,10 @@ public abstract class KoLCharacter
 			FamiliarData familiar = familiarArray[ i ];
 			if ( familiar.getId() == familiarId )
 			{
+				if ( !Type69Request.isAllowed( "Familiars", familiar.getName() ) )
+				{
+					return null;
+				}
 				return familiar;
 			}
 		}
