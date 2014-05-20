@@ -700,13 +700,6 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure90", "Haunted Ballroom",
 			new Object[] { "enter combat", "moxie substats", "skip adventure" } ),
 
-		// Louvre It or Leave It
-		new ChoiceSpoiler(
-			"choiceAdventure91", "Haunted Gallery",
-			new Object[] { "Enter the Drawing", "skip adventure" } ),
-
-		// Choices 92 - 104 are Escher print adventures
-
 		// Having a Medicine Ball
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure105", "Haunted Bathroom",
@@ -3039,6 +3032,13 @@ public abstract class ChoiceManager
 		// Choice 902 is Lights Out in the Boiler Room
 		// Choice 903 is Lights Out in the Laboratory
 
+		// Choices 904-913 are Escher print adventures
+
+		// Louvre It or Leave It
+		new ChoiceSpoiler(
+			"choiceAdventure914", "Haunted Gallery",
+			new Object[] { "Enter the Drawing", "skip adventure" } ),
+
 		// Choice 918 is Yachtzee!
 		new ChoiceAdventure(
 			"Spring Break Beach", "choiceAdventure918", "Yachtzee!",
@@ -3232,7 +3232,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		if ( choice >= 91 && choice <= 104 )
+		if ( choice >= 904 && choice <= 913 )
 		{
 			// Add "Go To Goal" button for the Louvre.
 			LouvreManager.addGoalButton( buffer );
@@ -7227,13 +7227,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 92: case 93: case 94: case 95: case 96:
-		case 97: case 98: case 99: case 100: case 101:
-		case 102: case 103: case 104:
-			// Choices in the Louvre
-			LouvreManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
-			break;
-
 		case 105:
 			if ( ChoiceManager.lastDecision == 3 )
 			{
@@ -8942,18 +8935,6 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
-		case 92: case 93: case 94: case 95: case 96:
-		case 97: case 98: case 99: case 100: case 101:
-		case 102: case 103: case 104:
-			// Choices in the Louvre
-
-			if ( decision.equals( "" ) )
-			{
-				return LouvreManager.handleChoice( choice, stepCount );
-			}
-
-			return decision;
-
 		// Dungeon Fist!
 		case 486:
 			if ( ChoiceManager.action == PostChoiceAction.NONE )
@@ -8997,6 +8978,17 @@ public abstract class ChoiceManager
 				return GameproManager.autoSolve( stepCount );
 			}
 			return "0";
+
+		case 904: case 905: case 906: case 907: case 908:
+		case 909: case 910: case 911: case 912: case 913:
+			// Choices in the Louvre
+
+			if ( decision.equals( "" ) )
+			{
+				return LouvreManager.handleChoice( choice, stepCount );
+			}
+
+			return decision;
 		}
 
 		return decision;
@@ -9108,14 +9100,6 @@ public abstract class ChoiceManager
 			}
 
 			return decision;
-
-		case 91:
-
-			// Sometimes, the choice adventure for the louvre
-			// loses track of whether to ignore the louvre or not.
-
-			LouvreManager.resetDecisions();
-			return Preferences.getInteger( "louvreGoal" ) != 0 ? "1" : "2";
 
 		// No sir, away! A papaya war is on!
 		case 127:
@@ -9918,6 +9902,14 @@ public abstract class ChoiceManager
 				return "0";
 			}
 			return decision;
+
+		case 914:
+
+			// Sometimes, the choice adventure for the louvre
+			// loses track of whether to ignore the louvre or not.
+
+			LouvreManager.resetDecisions();
+			return Preferences.getInteger( "louvreGoal" ) != 0 ? "1" : "2";
 
 		// Break Time!
 		case 919:
