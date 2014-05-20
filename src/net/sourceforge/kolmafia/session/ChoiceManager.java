@@ -675,14 +675,6 @@ public abstract class ChoiceManager
 			"choiceAdventure79", "Haunted Billiard Room",
 			new Object[] { "Spookyraven library key", "mysticality substats", "skip adventure" } ),
 
-		// Take a Look, it's in a Book!
-		new ChoiceSpoiler(
-			"choiceAdventure81", "Haunted Library",
-			new Object[] { "gallery quest",
-				       "cocktailcrafting recipe",
-				       "muscle substats",
-				       "skip adventure",
-				       new Option( "unlock second floor", 99 ) } ),
 
 		// History is Fun!
 		new ChoiceSpoiler(
@@ -3022,6 +3014,14 @@ public abstract class ChoiceManager
 			new Object[] { "background history",
 				       "cooking recipe",
 				       "other options",
+				       "skip adventure" } ),
+
+		// Take a Look, it's in a Book!
+		new ChoiceSpoiler(
+			"choiceAdventure889", "Haunted Library",
+			new Object[] { "gallery quest",
+				       "cocktailcrafting recipe",
+				       "muscle substats",
 				       "skip adventure" } ),
 
 		// Choice 890 is Lights Out in the Storage Room
