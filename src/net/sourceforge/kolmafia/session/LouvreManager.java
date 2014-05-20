@@ -57,45 +57,45 @@ public abstract class LouvreManager
 	private static final String LouvreLocationNames [] =
 	{
 		"Relativity", // 904
-		"The Persistence of Memory: clock/Dancin' Fool buff, Venus, Piet Mondrian", // 905
-		"Piet Mondrian: Scream, moxie, Adam", // 906
+		"The Persistence of Memory: shoes/Dancin' Fool (buff), Venus, Piet Mondrian", // 905
+		"Piet Mondrian: Scream, Moxie, Adam", // 906
 		"The Scream: Relativity, Venus, Manetwich", // 907
-		"The Birth of Venus: Swordholder buff, Nighthawks, Adam", // 908
-		"The Creation of Adam: Socrates, muscle, Sunday Afternoon", // 909
+		"The Birth of Venus: Swordholder (buff), Nighthawks, Adam", // 908
+		"The Creation of Adam: Socrates, Muscle, Sunday Afternoon", // 909
 		"The Death of Socrates: Relativity, Nighthawks, Pinot Renoir", // 910
-		"Nighthawks: Card buff, Persistence of Memory (clock), Sunday Afternoon", // 911
-		"Sunday Afternoon on the Island of La Grande Jatte: The Last Supper, myst, Piet Mondrian", // 912
-		"The Last Supper: Relativity, Persistence of Memory (clock), Vangoghbitussin", // 913
+		"Nighthawks: Is This Your Card? (buff), Persistence of Memory, Sunday Afternoon", // 911
+		"Sunday Afternoon on the Island of La Grande Jatte: The Last Supper, Mysticality, Piet Mondrian", // 912
+		"The Last Supper: Relativity, Persistence of Memory, Vangoghbitussin", // 913
 	};
 
 	private static final String LouvreShortLocationNames [] =
 	{
 		"Relativity",			// 904
-		"The Persistence of Memory: clock/dancing buff",		// 905
-		"Piet Mondrian",			// 906
-		"The Scream",	// 907
-		"The Birth of Venus",				// 908
-		"The Creation of Adam",			// 909
+		"The Persistence of Memory",	// 905
+		"Piet Mondrian",		// 906
+		"The Scream",			// 907
+		"The Birth of Venus",		// 908
+		"The Creation of Adam",		// 909
 		"The Death of Socrates",	// 910
-		"Nighthawks",	// 911
-		"Sunday Afternoon on the Island of La Grande Jatte",		// 912
-		"The Last Supper",			// 913
+		"Nighthawks",			// 911
+		"Sunday Afternoon on the Island of La Grande Jatte",	// 912
+		"The Last Supper",		// 913
 	};
 
 	// 0 = 92, 93, 94, or 95
 
 	private static final int LouvreLocationExits [][] =
 	{
-		{ 0, 0, 0 },	// 904
-		{ 7, 908, 906 },	// 905
-		{ 907, 6, 909 },	// 906
-		{ 904, 908, 1 },	// 907
-		{ 8, 911, 909 },	// 908
-		{ 910, 4, 912 },	// 909
-		{ 904, 911, 2 },	// 910
-		{ 9, 905, 912 },	// 911
-		{ 913, 5, 906 },	// 912
-		{ 904, 905, 3 },	// 913
+		{ 0, 0, 0 },			// 904
+		{ 7, 908, 906 },		// 905
+		{ 907, 6, 909 },		// 906
+		{ 904, 908, 1 },		// 907
+		{ 8, 911, 909 },		// 908
+		{ 910, 4, 912 },		// 909
+		{ 904, 911, 2 },		// 910
+		{ 9, 905, 912 },		// 911
+		{ 913, 5, 906 },		// 912
+		{ 904, 905, 3 },		// 913
 	};
 
 	public static final String LouvreGoals [] =
