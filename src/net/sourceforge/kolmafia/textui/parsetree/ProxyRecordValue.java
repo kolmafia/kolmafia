@@ -251,8 +251,9 @@ public class ProxyRecordValue
 			.add( "tradeable", DataTypes.BOOLEAN_TYPE )
 			.add( "discardable", DataTypes.BOOLEAN_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
-			.add( "reusable", DataTypes.BOOLEAN_TYPE )
+			.add( "combat_reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "usable", DataTypes.BOOLEAN_TYPE )
+			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
 			.add( "fancy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy", DataTypes.BOOLEAN_TYPE )
@@ -393,17 +394,22 @@ public class ProxyRecordValue
 			return ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
-		public boolean get_reusable()
+		public boolean get_combat_reusable()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id ) == KoLConstants.INFINITE_USES ||
-				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_REUSABLE | ItemDatabase.ATTR_COMBAT_REUSABLE );
+			return ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
 		public boolean get_usable()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
 			return ItemDatabase.isUsable( id );
+		}
+
+		public boolean get_reusable()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.getConsumptionType( id ) == KoLConstants.INFINITE_USES || ItemDatabase.getAttribute( id, ItemDatabase.ATTR_REUSABLE );
 		}
 
 		public boolean get_multi()
