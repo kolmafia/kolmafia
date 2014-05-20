@@ -1557,6 +1557,10 @@ vampire pearl ring	JEWEL	vampire pearl	ring setting
 
 torquoise ring	JEWEL	torquoise	ring setting
 
+dark hamethyst ring	JEWEL	black gold	hamethyst
+dark porquoise ring	JEWEL	black gold	porquoise
+dark baconstone ring	JEWEL	black gold	baconstone
+
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill
 

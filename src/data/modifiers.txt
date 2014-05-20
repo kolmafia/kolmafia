@@ -2227,6 +2227,12 @@ crystalline seal eye	Single Equip
 cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
+# dark baconstone ring: Spell Criticals Deal Extra Damage
+dark baconstone ring	Mysticality: +15
+# dark hamethyst ring: Critical Hits Deal Extra Damage
+dark hamethyst ring	Muscle: +15
+# dark porquoise ring: Makes Deleveling More Effective
+dark porquoise ring	Moxie: +15
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
 depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], Single Equip
@@ -2809,6 +2815,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
+black cloak	Spell Damage: +10
 cod cape	Stench Damage: +25, Combat Rate: +5
 ghost shawl	Spell Damage: +50, Spell Critical Percent: +5
 giant gym membership card	Weapon Damage: +15
@@ -3576,7 +3583,9 @@ Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Bitterskin	Slime Hates It: +1
 # Black Day: Get any one item from any store for 10% less Meat
+Black Eyes	Spell Damage Percent: +15
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
+# Black Lung: Stops Monsters from Attacking You
 Black Sweat	Spooky Resistance: +7
 Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
 Blackberry Politeness	Meat Drop: +20
@@ -4861,6 +4870,7 @@ Temporary Lycanthropy	Muscle Percent: [B]
 Tenacity of the Snapper	Weapon Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+Texas Elegance	Maximum HP: +30, Maximum MP: +30
 Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
@@ -5621,6 +5631,7 @@ Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Du
 Tales of Dread	Free Pull
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
+Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 The Groose in the Hoose	Free Pull
 The Kloop in the Coop	Free Pull
 The Smith's Tome Free Pull
@@ -5674,6 +5685,7 @@ big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 bitter pill	Effect: "Bitterskin", Effect Duration: 100
 black candy heart	Effect: "Heart of Black", Effect Duration: 10
+black eye shadow	Effect: "Black Eyes", Effect Duration: 10
 black eyedrops	Effect: "Hyphemariffic", Effect Duration: 10
 black facepaint	Effect: "Black Face", Effect Duration: 10
 black sheepskin diploma	Effect: "Erudite", Effect Duration: 10

@@ -85,6 +85,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -2908,6 +2910,13 @@ public class FightRequest
 					explored += 2;
 				}
 				QuestManager.incrementDesertExploration( explored );
+				break;
+				
+			case AdventurePool.BLACK_FOREST:
+				if ( responseText.contains( "discover the trail leading to the Black Market" ) )
+				{
+					QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+				}
 				break;
 			}
 
