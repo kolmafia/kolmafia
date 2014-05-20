@@ -1707,7 +1707,7 @@ public abstract class ChoiceManager
 		// A Shark's Chum
 		new ChoiceAdventure(
 			"Manor1", "choiceAdventure330", "Haunted Billiards Room",
-			new Object[] { "stats",
+			new Object[] { "stats and pool skill",
 				       new Option( "cube of billiard chalk", "cube of billiard chalk" ) } ),
 
 		// Choice 331 is Like That Time in Tortuga
@@ -7057,6 +7057,20 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.MOIST_BEADS, -beads ) );
 			}
 			break;
+		case 919:
+			// Choice 919 is Break Time!
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( text.contains( "You've already thoroughly" ) )
+				{
+					Preferences.setInteger( "_sloppyDinerBeachBucks", 4 );
+				}
+				else
+				{
+					Preferences.increment( "_sloppyDinerBeachBucks", 1 );
+				}
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -9871,7 +9885,7 @@ public abstract class ChoiceManager
 			// Abort if you have plundered the register too many times today
 			if ( decision.equals( "1" ) && responseText.contains( "You've already thoroughly" ) )
 			{
-				return "0";
+				return "6";
 			}
 			return decision;
 		
