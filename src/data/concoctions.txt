@@ -2423,6 +2423,9 @@ elevent	SMITH, MANUAL	can of V-11	barskin tent
 elevennis shoes	SMITH, MANUAL	can of V-11	clown shoes
 
 # Spring Break Beach
+sugar fairy	MUSE	possessed sugar cube
+sugar bunny	MUSE	possessed sugar cube (3)
+sweet tooth	MUSE	possessed sugar cube (11)
 Beefy Crunch Pastaco	COOK_FANCY	Pastaco shell	Boletus Broletus mushroom
 Brain Food Pastaco	COOK_FANCY	Pastaco shell	Omphalotus Omphaloskepsis mushroom
 Cool Brunch Pastaco	COOK_FANCY	Pastaco shell	Gyromitra Dynomita mushroom
