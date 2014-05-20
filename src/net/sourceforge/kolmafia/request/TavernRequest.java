@@ -41,6 +41,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -95,6 +98,18 @@ public class TavernRequest
 			return;
 		}
 
+		if ( location.contains( "place=barkeep" ) )
+		{
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.RAT.getPref() ), "started" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.RAT, "step1" );
+			}
+			if ( responseText.contains( "have a few drinks on the house" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.RAT, "finished" );
+			}
+		}
+	
 		if ( location.indexOf( "place=susguy" ) != -1 ) {
 			if ( responseText.indexOf( "Take some goofballs (for free!)") == -1) {
 				Preferences.setInteger("lastGoofballBuy", KoLCharacter.getAscensions());
@@ -315,6 +330,10 @@ public class TavernRequest
 		{
 			// Rat faucet, before and after turning off
 			replacement = '3';
+			if ( !Preferences.getString( "questL03Rat" ).startsWith( "step2" ) && !Preferences.getString( "questL03Rat" ).equals( "finished" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.RAT, "step2" );
+			}
 		}
 		else if ( request.responseText.indexOf( "is it Still a Mansion" ) != -1 )
 		{
