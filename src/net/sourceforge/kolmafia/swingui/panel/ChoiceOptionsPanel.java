@@ -1446,10 +1446,6 @@ public class ChoiceOptionsPanel
 		{
 			this.riseSelect.setSelectedIndex( 0 );
 		}
-		else if ( index == 99 )
-		{
-			this.riseSelect.setSelectedIndex( 4 );
-		}
 		else
 		{
 			this.riseSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure88" ) );
@@ -1463,10 +1459,6 @@ public class ChoiceOptionsPanel
 		else if ( index == 3 )
 		{
 			this.fallSelect.setSelectedIndex( 1 );
-		}
-		else if ( index == 99 )
-		{
-			this.riseSelect.setSelectedIndex( 3 );
 		}
 		else
 		{
