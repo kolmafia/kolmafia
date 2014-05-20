@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
@@ -228,7 +227,6 @@ public class GlobalMenuBar
 		helperMenu.add( new RelayBrowserMenuItem(
 			"The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
-		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", LouvreManager.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Wumpinator", WumpusManager.class, "invokeWumpinator" ) );
 	}
 

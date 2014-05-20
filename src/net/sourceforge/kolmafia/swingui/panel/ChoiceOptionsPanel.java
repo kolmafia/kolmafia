@@ -190,13 +190,9 @@ public class ChoiceOptionsPanel
 
 		this.louvreSelect = new JComboBox();
 		this.louvreSelect.addItem( "Ignore this adventure" );
-		for ( int i = 0; i < LouvreManager.LouvreGoals.length - 3; ++i )
+		for ( int i = 0; i < LouvreManager.LouvreGoals.length; ++i )
 		{
 			this.louvreSelect.addItem( LouvreManager.LouvreGoals[ i ] );
-		}
-		for ( int i = LouvreManager.LouvreGoals.length - 3; i < LouvreManager.LouvreGoals.length; ++i )
-		{
-			this.louvreSelect.addItem( "Boost " + LouvreManager.LouvreGoals[ i ] );
 		}
 
 		this.louvreSelect.addItem( "Boost Prime Stat" );

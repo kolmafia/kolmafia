@@ -542,7 +542,6 @@ user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
 user	lastKingLiberation	-1
-user	lastLouvreMap	0
 user	lastManorUnlock	-1
 user	lastMushroomPlot	-1
 user	lastMessageId
@@ -607,7 +606,6 @@ user	libramSummons	0
 user	libraryCardUsed	false
 user	louvreDesiredGoal	7
 user	louvreGoal	0
-user	louvreLayout
 user	louvreOverride
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05

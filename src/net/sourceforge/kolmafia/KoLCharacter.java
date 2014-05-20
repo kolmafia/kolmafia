@@ -614,7 +614,6 @@ public abstract class KoLCharacter
 		// Update all data which changes each ascension
 
 		VioletFogManager.reset();
-		LouvreManager.reset();
 		ItemDatabase.getDustyBottles();
 		KoLCharacter.ensureUpdatedAscensionCounters();
 		KoLCharacter.ensureUpdatedDwarfFactory();
