@@ -1093,23 +1093,7 @@ public abstract class ChoiceManager
 		// Choice 174 is The Last Stand, Bra
 		// Choice 175-176 are unknown
 
-		// The Blackberry Cobbler
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure177", "Black Forest",
-			new Object[] { new Option( "blackberry slippers", "blackberry slippers" ),
-				       new Option( "blackberry moccasins", "blackberry moccasins" ),
-				       new Option( "blackberry combat boots", "blackberry combat boots" ),
-				       new Option( "blackberry galoshes", "blackberry galoshes" ),
-				       "skip adventure" } ),
-		// The Blackberry Cobbler
-		new Object[]{ IntegerPool.get(177), IntegerPool.get(1),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerPool.get(177), IntegerPool.get(2),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerPool.get(177), IntegerPool.get(3),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerPool.get(177), IntegerPool.get(4),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
+		// Choice 177 was The Blackberry Cobbler
 
 		// Hammering the Armory
 		new ChoiceAdventure(
@@ -3071,6 +3055,54 @@ public abstract class ChoiceManager
 				       "+15ML on Cocktails",
 				       "reset ML on monsters",
 				       "leave without using a turn" } ),
+
+		// Choice 923 is All Over the Map
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure923", "Black Forest",
+			new Object[] { "fight blackberry bush or visit cobbler",
+				       "visit blacksmith",
+				       "visit black gold mine",
+				       "visit black church" } ),
+
+		// Choice 924 is You Found Your Thrill
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure924", "Blackberry",
+			new Object[] { "fight blackberry bush",
+				       "visit cobbler" } ),
+
+		// Choice 925 is The Blackest Smith
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure925", "Blacksmith",
+			new Object[] { new Option( "get black sword", 1 ),
+				       new Option( "get black shield", 2 ),
+				       new Option( "get black helmet", 3 ),
+				       new Option( "get black greaves", 4 ),
+				       new Option( "return to main choice", 6 ) } ),
+
+		// Choice 926 is Be Mine
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure926", "Black Gold Mine",
+			new Object[] { new Option( "get black gold", 1 ),
+				       new Option( "get Texas tea", 2 ),
+				       new Option( "get Black Lung effect", 3 ),
+				       new Option( "return to main choice", 6 ) } ),
+
+		// Choice 927 is Sunday Black Sunday
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure927", "Black Church",
+			new Object[] { new Option( "get defeated?", 1 ),
+				       new Option( "get black kettle drum", 2 ),
+				       new Option( "return to main choice", 6 ) } ),
+
+		// Choice 928 is The Blackberry Cobbler
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure928", "Blackberry Cobbler",
+			new Object[] { new Option( "get blackberry slippers", 1 ),
+				       new Option( "get blackberry moccasins", 2 ),
+				       new Option( "get blackberry combat boots", 3 ),
+				       new Option( "get blackberry galoshes", 4 ),
+				       new Option( "return to main choice", 6 ) } ),
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7940,6 +7972,13 @@ public abstract class ChoiceManager
 			// End of Pete Road
 			ChoiceManager.handleAfterAvatar();
 			break;
+
+		case 928:
+			// The Blackberry Cobbler
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				ResultProcessor.processItem( ItemPool.BLACKBERRY, -3 );
+			}
 		}
 
 		if ( text.contains( "choice.php" ) )

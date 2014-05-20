@@ -7515,3 +7515,15 @@
 7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
 7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0
+7499
+7500	black map	897134461	blackmap.gif	none	q	0
+7501	black gold	998488929	blackgold.gif	none	t,d	300
+7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75
+7503	dark hamethyst ring	818962641	blackring1.gif	accessory	t,d	250
+7504	dark baconstone ring	645675734	blackring2.gif	accessory	t,d	250
+7505	dark porquoise ring	649874077	blackring3.gif	accessory	t,d	250
+7506	little black book	501711263	blackbook.gif	offhand	t,d	145
+7507	black cloak	180794592	blackcloak.gif	container	t,d	145
+7508	black label	664446698	blacklabel.gif	none	t,d	65
+7509	Mornington crescent roll	346488001	croissant.gif	food	t,d	45
+7510	black eye shadow	744811732	compact.gif	usable	t,d	55

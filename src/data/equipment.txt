@@ -1483,7 +1483,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
-ghast iron heater shield	0	Mus: 75	shield
+ghast iron heater shield	180	Mus: 75	shield
 giant clay ashtray	60	none	shield
 giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
@@ -1697,7 +1697,7 @@ Bonerdagon necklace	80	Mys: 25
 Boots of Twilight Whispers	120	none
 Boris's ring	80	Mys: 25
 Boss Bat bling	65	Mys: 17
-Bram's choker	0	Mys: 50
+Bram's choker	170	Mys: 50
 Brimstone Bracelet	200	Mys: 30
 Brimstone Brooch	200	Mys: 30
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
@@ -1944,6 +1944,9 @@ crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
+dark baconstone ring	0	none
+dark hamethyst ring	0	none
+dark porquoise ring	0	none
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
@@ -2483,6 +2486,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
+black cloak	0	Mys: 75
 cod cape	225	Mox: 200
 ghost shawl	250	Mys: 200
 giant gym membership card	150	Mus: 75

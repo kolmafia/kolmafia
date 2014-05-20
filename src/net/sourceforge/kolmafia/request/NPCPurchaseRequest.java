@@ -50,10 +50,12 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -614,6 +616,16 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "blackmarket" ) )
+		{
+			// If Black Market not already unlocked, unlock it
+			if ( !QuestLogRequest.isBlackMarketAvailable() )
+			{
+				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
+			return;
+		}
 		if( shopId.equals( "sbb_jimmy" ) )
 		{
 			BuffJimmyRequest.parseResponse( urlString, responseText );

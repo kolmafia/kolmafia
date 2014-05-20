@@ -2466,50 +2466,6 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.ENCRYPTION_KEY, -1 );
 			return;
 
-		case ItemPool.BLACK_MARKET_MAP:
-
-			// "You try to follow the map, but you can't make head
-			// or tail of it. It keeps telling you to take paths
-			// through completely impenetrable foliage.
-			// What was it that the man in black told you about the
-			// map? Something about "as the crow flies?""
-
-			if ( responseText.indexOf( "can't make head or tail of it" ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "You need a guide.";
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
-
-			// Boris didn't need no stinkin' familiars.
-			// Neither did Jarlsberg. They are surely crawling with germs.
-			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
-			{
-				return;
-			}
-
-			String previous = Preferences.getString( "preBlackbirdFamiliar" );
-			if ( !previous.equals( "" ) )
-			{
-				FamiliarData blackbird = KoLCharacter.getFamiliar();
-				AdventureResult blackbirdItem = blackbird.getItem();
-
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", previous );
-				Preferences.setString( "preBlackbirdFamiliar", "" );
-
-				if ( blackbirdItem != null &&
-				     !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) &&
-				     KoLCharacter.getFamiliar().canEquip( blackbirdItem ) )
-				{
-					RequestThread.postRequest( new EquipmentRequest( blackbirdItem ) );
-				}
-			}
-
-			return;
-
 		case ItemPool.SPOOKY_MAP:
 
 			if ( InventoryManager.hasItem( ItemPool.SPOOKY_SAPLING ) && InventoryManager.hasItem( ItemPool.SPOOKY_FERTILIZER ) )

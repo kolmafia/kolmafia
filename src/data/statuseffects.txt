@@ -1634,3 +1634,6 @@
 1633	Desenfantasmada	ggg.gif	bcdac1c4cbd798f8b1f886ad37602ef0	drink 1 Rompeadores de Fantasmas
 1634	La Oscuridad Adentro	darkness.gif	6da14ec2a2bcb1f02a7ee8f06774f0f6	drink 1 La Fantasma y La Oscuridad
 1635	Sangre Brillante	snowflakes.gif	f75967278d427a50aa53e220ca2f6c46	drink 1 Fantasma en la M&aacute;quina
+1636	Black Lung	lung.gif	36bc12fde8bd48c834d55ee69a2da89e
+1637	Black Eyes	blackeyes.gif	536595ea7973e7b0af9789a4ecb4b56b	use 1 black eye shadow
+1638	Texas Elegance	coffeecup.gif	8fab0f02e9e6b0717beb8a93073afa03	use 1 Texas tea
