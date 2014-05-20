@@ -1180,6 +1180,10 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.STICKER_SWORD );
 			break;
 
+		case ItemPool.MOSQUITO_LARVA:
+			QuestDatabase.setQuestProgress( Quest.LARVA, "step1" );
+			break;
+
 		case ItemPool.BITCHIN_MEATCAR:
 		case ItemPool.DESERT_BUS_PASS:
 		case ItemPool.PUMPKIN_CARRIAGE:
