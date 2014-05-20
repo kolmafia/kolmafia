@@ -435,7 +435,7 @@ fudge oyster		HP: 130 Def: 90 Atk: 100 Init: 0 P: dude	fudgecule (c100)
 fudge poodle	fudgepoodle.gif	Atk: 120 Def: 108 HP: 150 Init: 80 P: beast	fudgecule (c100)
 fudge vulture		HP: 100 Def: 72 Atk: 80 Init: 50 P: dude	fudgecule (c100)
 fudge weasel	fudgeweasel.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast	fudgecule (c100)
-full-length mirror	bigmirror.gif	Init: 50 P: construct
+full-length mirror	bigmirror.gif	Atk: [MOX+ML] Def: [MUS+ML] HP: [(MUS+ML)*0.75] Exp: [(MOX+ML)/4] Init: 50 P: construct
 funk particle	funkparticle.gif	Atk: 85 Def: 67 HP: 80 Init: 30 P: weird	fat bottom quark (0)
 funk sole brother	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 160-240 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Fur Tree			petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)

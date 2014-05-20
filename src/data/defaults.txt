@@ -719,6 +719,8 @@ user	questL11Worship	unstarted
 user	questL11Manor	unstarted
 user	questL11Palindome	unstarted
 user	questL11Pyramid	unstarted
+user	questL11Shen	unstarted
+user	questL11Ron	unstarted
 user	questL12War	unstarted
 user	questL13Final	unstarted
 user	questM01Untinker	unstarted
@@ -738,6 +740,8 @@ user	questM14Bounty	unstarted
 user	questM15Lol	unstarted
 user	questM16Temple	unstarted
 user	questM17Babies	unstarted
+user	questM18Swamp	unstarted
+user	questM19Hippy	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
