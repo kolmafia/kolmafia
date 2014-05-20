@@ -406,7 +406,7 @@ filthy hippy jewelry maker	hippy1.gif	Atk: 39 Def: 35 HP: 30 Init: 70 E: stench 
 filthy hippy Vegan chef	hippy1.gif	Atk: 39 Def: 35 HP: 30 Init: 70 E: stench P: hippy	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (2)	filthy knitted dread sack (2)	filthy pestle (5)	patchouli incense stick (30)	double-barreled sling (0)	Spanish fly (c25)
 fire-breathing duck	duckfirebreath.gif	Atk: 177 Def: 154 HP: 185 Init: 50 Meat: 142-200 E: hot P: beast	flaming feather (10)	duct tape (5)
 fisherfish	fisherfish.gif	Atk: 550 Def: 427 HP: 650 Init: 100 Meat: 240-360 P: fish	glowing esca (n3)	halibut (c3)	rough fish scale (n3)
-Fitness Giant	giant_fitness.gif	Atk: 150 Def: 140 HP: 200 Init: 40 Meat: 80-120 P: humanoid	giant jar of protein powder (15)	pec oil (25)	Squat-Thrust Magazine (10)
+Fitness Giant	giant_fitness.gif	Atk: 150 Def: 140 HP: 200 Init: 40 Meat: 80-120 P: humanoid	giant gym membership card (0)	giant jar of protein powder (15)	pec oil (25)	Squat-Thrust Magazine (10)
 five skeleton invaders	bigskeleton5.gif	HP: 150 Def: 135 Atk: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 flame-broiled meat blob	meatblob.gif	Atk: 2 Def: 1 HP: 2 Init: 60 E: hot Meat: 4-7 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Samurai	samurai.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude
