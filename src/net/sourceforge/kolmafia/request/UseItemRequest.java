@@ -2111,7 +2111,7 @@ public class UseItemRequest
 
 		case ItemPool.DANCE_CARD:
 			TurnCounter.stopCounting( "Dance Card" );
-			TurnCounter.startCounting( 3, "Dance Card loc=109", "guildapp.gif" );
+			TurnCounter.startCounting( 3, "Dance Card loc=395", "guildapp.gif" );
 			return;
 
 		case ItemPool.TOASTER:
