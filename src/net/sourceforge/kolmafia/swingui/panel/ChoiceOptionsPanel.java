@@ -245,13 +245,11 @@ public class ChoiceOptionsPanel
 		this.riseSelect.addItem( "boost mysticality substats" );
 		this.riseSelect.addItem( "boost moxie substats" );
 		this.riseSelect.addItem( "acquire mysticality skill" );
-		this.riseSelect.addItem( "unlock second floor stairs" );
 
 		this.fallSelect = new JComboBox();
 		this.fallSelect.addItem( "ignore this adventure" );
 		this.fallSelect.addItem( "boost muscle substats" );
 		this.fallSelect.addItem( "reveal key in conservatory" );
-		this.fallSelect.addItem( "unlock second floor stairs" );
 
 		this.oceanDestSelect = new OceanDestinationComboBox();
 
@@ -1062,46 +1060,38 @@ public class ChoiceOptionsPanel
 		switch ( this.riseSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			Preferences.setString( "choiceAdventure80", "4" );
+			Preferences.setString( "choiceAdventure888", "4" );
 			break;
 
 		case 1: // Mysticality
-			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure888", "3" );
 			Preferences.setString( "choiceAdventure88", "1" );
 			break;
 
 		case 2: // Moxie
-			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure888", "3" );
 			Preferences.setString( "choiceAdventure88", "2" );
 			break;
 
 		case 3: // Mysticality Class Skill
-			Preferences.setString( "choiceAdventure80", "3" );
+			Preferences.setString( "choiceAdventure888", "3" );
 			Preferences.setString( "choiceAdventure88", "3" );
-			break;
-
-		case 4: // Second Floor
-			Preferences.setString( "choiceAdventure80", "99" );
 			break;
 		}
 
 		switch ( this.fallSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			Preferences.setString( "choiceAdventure81", "4" );
+			Preferences.setString( "choiceAdventure889", "4" );
 			break;
 
 		case 1: // Muscle
-			Preferences.setString( "choiceAdventure81", "3" );
+			Preferences.setString( "choiceAdventure889", "3" );
 			break;
 
 		case 2: // Gallery Key
-			Preferences.setString( "choiceAdventure81", "1" );
+			Preferences.setString( "choiceAdventure889", "1" );
 			Preferences.setString( "choiceAdventure87", "2" );
-			break;
-
-		case 3: // Second Floor
-			Preferences.setString( "choiceAdventure81", "99" );
 			break;
 		}
 
