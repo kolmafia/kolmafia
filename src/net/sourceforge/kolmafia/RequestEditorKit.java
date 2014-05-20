@@ -2299,7 +2299,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=109\">" );
+		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=395\">" );
 		if ( index != -1 )
 		{
 			String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another dance card</a>";
