@@ -78,7 +78,7 @@ Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
 ancient turtle shell helmet	35	Mox: 2
 anniversary concrete fedora	10	none
-antique helmet	200	Mus: 85
+antique helmet	150	Mus: 60
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 astral chapeau	50	none
@@ -299,7 +299,7 @@ wolfman mask	10	none
 wolfskull mask	225	Mox: 200
 wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
-worn tophat	125	Mox: 47
+worn tophat	85	Mox: 27
 wreath of laurels	200	Mox: 85
 wumpus-hair wig	100	Mox: 35
 yak toupee	100	Mox: 35
@@ -367,7 +367,7 @@ Warms-Your-Tush	300	Mox: 250
 Whoompa Fur Pants	110	Mox: 40
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
-antique greaves	200	Mus: 85
+antique greaves	150	Mus: 60
 astral shorts	50	none
 astral trousers	50	none
 astronaut pants	175	Mox: 72
@@ -632,7 +632,7 @@ yak anorak	115	Mus: 42
 &quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
 17-alarm Saucepan	90	Mys: 15	1-handed saucepan
 25-meat staff	70	Mus: 20	2-handed staff
-4-dimensional guitar	130	Mox: 50	2-handed guitar
+4-dimensional guitar	80	Mox: 25	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
@@ -814,7 +814,7 @@ ancient stone fist	85	Mus: 27	1-handed club
 anger blaster	85	Mox: 30	1-handed forearm replacement
 antique accordion	10	Mox: 0	2-handed accordion
 antique machete	155	Mus: 62	1-handed sword
-antique spear	200	Mus: 85	1-handed polearm
+antique spear	150	Mus: 60	1-handed polearm
 archaeologing shovel	10	Mus: 0	2-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
@@ -871,7 +871,7 @@ boxing glove on a spring	55	Mox: 12	1-handed club
 brand new key	200	Mus: 85	1-handed knife
 breadchucks	155	Mus: 62	1-handed flail
 broken beer bottle	75	Mus: 10	1-handed knife
-broken sword	135	Mus: 52	1-handed sword
+broken sword	85	Mus: 27	1-handed sword
 bubble bauble bow	80	Mox: 25	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
 bubblewrap staff	60	Mus: 15	2-handed staff
@@ -889,10 +889,10 @@ candy knife	150	Mus: 40	1-handed knife
 candy knuckles	10	Mus: 0	1-handed knuckles
 candy stick	80	Mys: 25	1-handed staff
 cardboard crossbow	60	Mox: 15	2-handed crossbow
-cardboard katana	30	Mus: 0	1-handed sword
+cardboard katana	55	Mus: 12	1-handed sword
 cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
-cardboard wakizashi	30	Mus: 0	1-handed sword
+cardboard wakizashi	60	Mus: 15	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
 carrot-on-a-stick	120	Mox: 45	1-handed flail
 cast-iron legacy paddle	190	Mus: 80	2-handed club
@@ -917,7 +917,7 @@ club of the five seasons	150	Mus: 60	1-handed club
 coal shovel	160	Mus: 65	2-handed polearm
 combat fan	165	Mus: 67	1-handed flail
 cool whip	10	Mus: 0	1-handed whip
-corn holder	20	Mys: 0	1-handed utensil
+corn holder	50	Mys: 10	1-handed utensil
 corrupt club of corrupt corruption	80	Mus: 25	1-handed club
 corrupt club of corruption	40	Mus: 5	1-handed club
 costume sword	10	Mus: 0	1-handed sword
@@ -947,7 +947,7 @@ diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
 disco ball	10	Mox: 0	1-handed disco ball
-dishrag	20	Mus: 0	1-handed whip
+dishrag	35	Mus: 2	1-handed whip
 double-barreled sling	70	Mox: 20	1-handed sling
 doubt cannon	85	Mox: 30	1-handed forearm replacement
 dreadful glove	200	Mus: 200	1-handed knife-glove
@@ -963,7 +963,7 @@ dwarvish war mattock	165	Mus: 67	1-handed axe
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
-eggbeater	25	Mys: 0	1-handed utensil
+eggbeater	55	Mys: 12	1-handed utensil
 electric crutch	30	Mus: 0	1-handed staff
 elegant nightstick	90	Mus: 30	1-handed club
 elephant stinger	75	Mus: 22	2-handed spear
@@ -1018,7 +1018,7 @@ gift-a-pult	50	Mox: 0	2-handed giftapult
 glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
 gnauga hide whip	20	Mus: 0	1-handed whip
-gnawed-up dog bone	50	Mus: 10	1-handed club
+gnawed-up dog bone	70	Mus: 20	1-handed club
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goblin autoblowgun	80	Mox: 25	2-handed blowgun
 goblin hunting spear	80	Mus: 25	2-handed spear
@@ -1124,7 +1124,7 @@ pernicious cudgel	200	Mus: 150	1-handed club
 pestoblade	50	Mus: 10	1-handed sword
 pewter claymore	155	Mus: 62	2-handed sword
 pipe wrench	150	Mus: 60	1-handed club
-pitchfork	125	Mus: 47	1-handed spear
+pitchfork	75	Mus: 22	1-handed spear
 pixel boomerang	50	Mox: 10	1-handed boomerang
 pixel chain whip	50	Mus: 10	1-handed whip
 pixel morning star	75	Mus: 22	1-handed whip
@@ -1133,10 +1133,10 @@ pixel whip	10	Mus: 0	1-handed whip
 plastic guitar	100	Mox: 35	2-handed guitar
 plastic replica blaster pistol	40	Mox: 0	1-handed
 plexiglass pikestaff	180	Mus: 75	2-handed club
-pocket theremin	35	Mox: 2	2-handed theremin
+pocket theremin	65	Mox: 17	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
-pool cue	60	Mus: 15	2-handed staff
+pool cue	50	Mus: 10	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 pottery club	50	Mus: 0	1-handed club
@@ -1184,7 +1184,7 @@ sealhide whip	35	Mus: 2	1-handed whip
 serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 sharpened spoon	100	Mus: 20	1-handed knife
-shiny butcherknife	30	Mys: 0	1-handed utensil
+shiny butcherknife	60	Mys: 15	1-handed utensil
 short-handled mop	165	Mus: 67	1-handed
 shuddersword	125	Mus: 45	2-handed sword
 silver cheese-slicer	140	Mys: 55	1-handed utensil
@@ -1295,15 +1295,15 @@ zombie accordion	300	Mox: 250	1-handed accordion
 # Off-hand section of equipment.txt
 
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
-1-ball	30	none
+1-ball	60	Mys: 15
 17-ball	200	none
-2-ball	30	none
-3-ball	30	none
-4-ball	30	none
-5-ball	30	none
-6-ball	30	none
-7-ball	30	none
-9-ball	30	none
+2-ball	60	Mys: 15
+3-ball	60	Mys: 15
+4-ball	60	Mys: 15
+5-ball	60	Mys: 15
+6-ball	60	Mys: 15
+7-ball	60	Mys: 15
+9-ball	60	Mys: 15
 A Light that Never Goes Out	100	none
 Abyssal ember	100	Mus: 35
 BRICKO bulwark	60	none	shield
@@ -1326,7 +1326,7 @@ Drunkula's wineglass	300	Mys: 100
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
-Elizabeth's Dollie	0	Mys: 45
+Elizabeth's Dollie	120	Mys: 45
 Engorged Sausages and You	100	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
@@ -1415,7 +1415,7 @@ ancient hot dog wrapper	0	Mys: 85
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
-antique shield	230	Mus: 85	shield
+antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
 arm buzzer	80	Mus: 25	shield
 arrow'd heart balloon	10	none
@@ -1501,7 +1501,7 @@ handmade hobby horse	20	none
 heart-shaped balloon	10	none
 hippo skin buckler	90	Mus: 30	shield
 hobo code binder	10	none
-hors d'oeuvre tray	110	Mus: 40	shield
+hors d'oeuvre tray	90	Mus: 25	shield
 hot plate	60	Mus: 15	shield
 hypnodisk	200	none
 ice baby	0	none
@@ -1517,6 +1517,7 @@ killer rag doll	110	Mys: 40
 left bear arm	0	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
+little black book	160	Mys: 65
 little round pebble	45	Mys: 7
 loadstone	95	Mys: 32
 loose purse strings	10	none
@@ -2211,7 +2212,7 @@ super-strong air freshener	150	Mys: 50
 support cummerbund	100	Mys: 35
 surgical mask	155	Mys: 62
 sweat socks	25	none
-tap shoes	90	Mys: 30
+tap shoes	90	Mys: 20
 tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
@@ -2337,7 +2338,7 @@ tiny plastic baby gravy fairy	10	none
 tiny plastic barrrnacle	10	none
 tiny plastic batbugbear	10	none
 tiny plastic beanbat	10	none
-tiny plastic bee swarm	0	none
+tiny plastic bee swarm	10	none
 tiny plastic beebee gunners	0	none
 tiny plastic beebee queue	0	none
 tiny plastic bitchin' meatcar	20	none
@@ -2363,7 +2364,7 @@ tiny plastic fat stack of cash	0	none
 tiny plastic fax machine	0	none
 tiny plastic fiendish can of asparagus	10	none
 tiny plastic filthy hippy jewelry maker	10	none
-tiny plastic fire servant	0	none
+tiny plastic fire servant	30	none
 tiny plastic fluffy bunny	10	none
 tiny plastic four-shadowed mime	100	Mys: 35
 tiny plastic fruit golem	10	none
@@ -2384,9 +2385,9 @@ tiny plastic lemon-in-the-box	10	none
 tiny plastic leprechaun	10	none
 tiny plastic levitating potato	10	none
 tiny plastic lobsterfrogman	10	none
-tiny plastic moneybee	0	none
+tiny plastic moneybee	10	none
 tiny plastic mosquito	10	none
-tiny plastic mumblebee	0	none
+tiny plastic mumblebee	10	none
 tiny plastic mutant elf	0	none
 tiny plastic ninja snowman	10	none
 tiny plastic pastamancer	20	none
