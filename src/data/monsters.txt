@@ -452,6 +452,7 @@ Georgepaul, the Balldodger	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 
 ghastly organist	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead	opera mask (20)
 ghost	cvghost.gif	Atk: 75 Def: 67 HP: 80 Init: 50 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 ghost miner	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
+ghost of Elizabeth Spookyraven	elizabeth.gif	Init: 100 P: undead	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghostly pickle factory worker	worker.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
 ghuol	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 30-36 P: undead	ghuol egg (25)	ghuol ears (25)
 giant bee	giantbee.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
@@ -930,6 +931,7 @@ Stella, the Turtle Poacher (Inner Sanctum)	2_1.gif	BOSS Atk: 27 Def: 24 HP: 30 I
 Stella, the Turtle Poacher (The Nemesis' Lair)	2_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: dude	Galapagosian Cuisses (100)
 Stella, the Turtle Poacher (Volcanic Cave)	2_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: dude 
 Stench hobo	stenchhobo1.gif	Atk: 350 Def: 315 HP: 500 Init: 100 E: stench P: hobo	hobo nickel (c15)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
+Stephen Spookyraven	steven.gif	Init: 100 P: undead	Stephen's secret formula (100)	Stephen's lab coat (100)
 Stocking-stuffing Zombie			evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 stone temple pirate	stone_pirate.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] Exp: [(min(50,STAT)+ML)/4] Init: -10000 P: construct	ancient poisoned dart (35)	eyepatch (15)
 stranglin' algae	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant	glob of green slime (n30)

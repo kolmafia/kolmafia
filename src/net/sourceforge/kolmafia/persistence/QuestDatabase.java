@@ -75,6 +75,7 @@ public class QuestDatabase
 			PALINDOME( "questL11Palindome" ),
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
+			MYST( "questG07Myst" ),
 			CITADEL( "questG02Whitecastle" ),
 			ARTIST( "questM02Artist" ),
 			GALAKTIK( "questM04Galaktic" ),

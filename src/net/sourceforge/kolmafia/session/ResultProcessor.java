@@ -1430,6 +1430,10 @@ public class ResultProcessor
 			ResultProcessor.receivedDisassembledClover = true;
 			break;
 
+		case ItemPool.EXORCISED_SANDWICH:
+			QuestDatabase.setQuestProgress( Quest.MYST, "step1" );
+			break;
+
 		case ItemPool.BAT_BANDANA:
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
 			break;

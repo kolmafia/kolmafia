@@ -4601,6 +4601,7 @@ Salt Rockin'	Moxie: +30
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Salty Mouth: You really need a beer...
+Salsa Satanica	Item Drop: +50
 Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
 Sappy Blood	Spooky Resistance: 3
 # Sated and Furious: Weapon Damage: +X, Spell Damage: +X

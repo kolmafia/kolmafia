@@ -3090,7 +3090,7 @@ public abstract class ChoiceManager
 		// Choice 927 is Sunday Black Sunday
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure927", "Black Church",
-			new Object[] { new Option( "get defeated?", 1 ),
+			new Object[] { new Option( "get 13 turns of Salsa Satanica or beaten up", 1 ),
 				       new Option( "get black kettle drum", 2 ),
 				       new Option( "return to main choice", 6 ) } ),
 
