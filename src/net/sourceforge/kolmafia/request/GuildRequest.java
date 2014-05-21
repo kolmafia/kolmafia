@@ -340,10 +340,15 @@ public class GuildRequest
 			{
 				ResultProcessor.processItem( ItemPool.BIG_KNOB_SAUSAGE, -1 );
 			}
-			// You hand the captured poltersandwich to Gorgonzola.
+			// Myst guild quests
 			if ( responseText.contains( "captured poltersandwich" ) )
 			{
 				ResultProcessor.processItem( ItemPool.EXORCISED_SANDWICH, -1 );
+				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.FINISHED );
+			}
+			else if ( responseText.contains( "poltersandwich" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.STARTED );
 			}
 		}
 

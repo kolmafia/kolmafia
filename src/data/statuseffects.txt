@@ -1637,3 +1637,4 @@
 1636	Black Lung	lung.gif	36bc12fde8bd48c834d55ee69a2da89e
 1637	Black Eyes	blackeyes.gif	536595ea7973e7b0af9789a4ecb4b56b	use 1 black eye shadow
 1638	Texas Elegance	coffeecup.gif	8fab0f02e9e6b0717beb8a93073afa03	use 1 Texas tea
+1639	Salsa Satanica	dance3.gif	3a8648677925f4849d2c913049752f88
