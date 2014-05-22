@@ -84,7 +84,8 @@ public class QuestDatabase
 			GENERATOR( "questF04Elves" ),
 			BUGBEAR( "questM03Bugbear" ),
 			UNTINKER( "questM01Untinker" ),
-			LOL( "questM15Lol" );
+			LOL( "questM15Lol" ),
+			SPOOKYRAVEN_NECKLACE( "questM20Necklace" );
 
 		private String pref;
 
@@ -448,6 +449,8 @@ public class QuestDatabase
 				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
 			}
 		}
+		Preferences.resetToDefault( "manorDrawerCount" );
+		Preferences.resetToDefault( "poolSkill" );
 		Preferences.resetToDefault( "oilPeakProgress" );
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );

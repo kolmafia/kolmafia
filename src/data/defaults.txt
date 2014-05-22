@@ -610,6 +610,7 @@ user	louvreOverride
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
+user	manorDrawerCount	0
 user	mapToMadnessReefPurchased	false
 user	mapToTheMarinaraTrenchPurchased	false
 user	mapToAnemoneMinePurchased	false
@@ -674,6 +675,7 @@ user	plantingDay	-1
 user	plantingLength
 user	plantingScript
 user	poolSharkCount	0
+user	poolSkill	0
 user	postAscensionScript
 user	preAscensionScript
 user	preBlackbirdFamiliar
@@ -740,6 +742,7 @@ user	questM16Temple	unstarted
 user	questM17Babies	unstarted
 user	questM18Swamp	unstarted
 user	questM19Hippy	unstarted
+user	questM20Necklace	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false

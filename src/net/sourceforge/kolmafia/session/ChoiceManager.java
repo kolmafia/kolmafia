@@ -151,6 +151,7 @@ public abstract class ChoiceManager
 	private static final Pattern MOTORBIKE_COWLING_PATTERN = Pattern.compile( "<b>Cowling:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
+	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -2955,6 +2956,13 @@ public abstract class ChoiceManager
 		// Rod Nevada, Vendor
 		new Object[]{ IntegerPool.get(873), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+
+		// Welcome To Our ool Table
+		new ChoiceAdventure(
+			"Manor1", "choiceAdventure875", "Pool Table",
+			new Object[] { "try to beat ghost",
+				       "improve pool skill",
+				       "skip" } ),
 
 		// One Simple Nightstand
 		new ChoiceAdventure(
@@ -7964,6 +7972,15 @@ public abstract class ChoiceManager
 		case 869:
 			// End of Pete Road
 			ChoiceManager.handleAfterAvatar();
+			break;
+
+		case 875:
+			// Welcome To Our ool Table
+			Matcher poolSkillMatcher = ChoiceManager.POOL_SKILL_PATTERN.matcher( text );
+			if ( poolSkillMatcher.find() )
+			{
+				Preferences.increment( "poolSkill", StringUtilities.parseInt( poolSkillMatcher.group( 1 ) ) );
+			}
 			break;
 
 		case 928:

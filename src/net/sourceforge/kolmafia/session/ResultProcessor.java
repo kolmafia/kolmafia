@@ -1541,6 +1541,22 @@ public class ResultProcessor
 			QuestDatabase.setQuestIfBetter( Quest.PIRATE, "step1" );
 			break;
 			
+		case ItemPool.BILLIARDS_KEY:
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step1" );
+			break;
+
+		case ItemPool.LIBRARY_KEY:
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step3" );
+			break;
+
+		case ItemPool.SPOOKYRAVEN_NECKLACE:
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step4" );
+			break;
+
+		case ItemPool.GHOST_NECKLACE:
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+			break;
+
 		case ItemPool.STEEL_LIVER:
 		case ItemPool.STEEL_STOMACH:
 		case ItemPool.STEEL_SPLEEN:

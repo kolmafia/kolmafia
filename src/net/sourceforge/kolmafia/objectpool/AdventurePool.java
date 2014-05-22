@@ -146,6 +146,7 @@ public class AdventurePool
 	public static final String ARID_DESERT_ID = "364";
 	public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
 	public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
+	public static final int HAUNTED_KITCHEN = 388;
 	public static final String YACHT_ID = "404";
 	public static final int BLACK_FOREST = 405;
 }

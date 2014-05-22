@@ -211,7 +211,7 @@ public class Modifiers
 	public static final int SMITHSNESS = 105;
 	public static final int SUPERCOLD_RESISTANCE = 106;
 	public static final int REDUCE_ENEMY_DEFENSE = 107;
-	public static final int POOL_SKILL = 107;
+	public static final int POOL_SKILL = 108;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 

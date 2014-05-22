@@ -803,6 +803,7 @@ public class KoLmafiaCLI
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
 		new PoolCommand().register( "pool" );
+		new PoolskillCommand().register( "poolskill" );
 		new PrefTraceCommand().register( "ptrace" );
 		new PripheaCommand().register( "priphea" );
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
