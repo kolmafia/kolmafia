@@ -210,7 +210,9 @@ public class FightRequest
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
 	private static final Pattern MULTIFIGHT_PATTERN =
 		Pattern.compile( "href=\"?/?fight.php" );
-	
+	private static final Pattern DRAWER_PATTERN =
+		Pattern.compile( "search through <b>(\\d+)</b> drawers" );
+
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
 	
@@ -2910,6 +2912,14 @@ public class FightRequest
 					explored += 2;
 				}
 				QuestManager.incrementDesertExploration( explored );
+				break;
+
+			case AdventurePool.HAUNTED_KITCHEN:
+				Matcher DrawerMatcher = FightRequest.DRAWER_PATTERN.matcher( responseText );
+				if ( DrawerMatcher.find() )
+				{
+					Preferences.increment( "manorDrawerCount", StringUtilities.parseInt( DrawerMatcher.group( 1 ) ) );
+				}
 				break;
 				
 			case AdventurePool.BLACK_FOREST:

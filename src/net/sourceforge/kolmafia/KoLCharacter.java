@@ -2253,6 +2253,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the player's Pool Skill from equipment/effects
+	 *
+	 * @return Pool Skill
+	 */
+
+	public static final int getPoolSkill()
+	{
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.POOL_SKILL );
+	}
+
+	/**
 	 * Accessor method to retrieve the total Hobo Power
 	 *
 	 * @return Total Hobo Power

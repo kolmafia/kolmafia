@@ -475,7 +475,6 @@ public class ItemPool
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int EXPRESS_CARD = 1687;
 	public static final int SWORD_PREPOSITIONS = 1734;
-	public static final int LIBRARY_KEY = 1764;
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;
 	public static final int PACK_OF_CHEWING_GUM = 1767;
@@ -2006,6 +2005,10 @@ public class ItemPool
 	public static final int PALINDROME_BOOK_2 = 7270;
 	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+	public static final int BILLIARDS_KEY = 7301;
+	public static final int LIBRARY_KEY = 7302;
+	public static final int SPOOKYRAVEN_NECKLACE = 7303;
+	public static final int GHOST_NECKLACE = 7318;
 	public static final int ELIZABETH_DOLLIE = 7319;
 	public static final int STEPHEN_LAB_COAT = 7321;
 	public static final int DNA_LAB = 7382;

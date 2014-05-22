@@ -50,6 +50,7 @@ questM16Temple	The Hidden Legend of the Temple		You've discovered the Hidden Tem
 questM17Babies	Lady Spookyraven's Babies		You saved all of Lady Spookyraven's beautiful, beautiful babies.  Precious babies.  Babies.
 questM18Swamp	Marty and His Swamp Problems	Marty the Lumberjack needs some items:	You helped Marty with his swamp problems.
 questM19Hippy	Give a Hippy a Boat...	Find a boat for that hippy near the <a class=nounder target=mainpane href=woods.php><b>Old Landfill</b></a>.  Maybe that magazine you found has some cool boat ideas in it.	
+questM20Necklace	Lady Spookyraven's Necklace	Search the Haunted Kitchen for the key to the Haunted Billiards Room.	Search the Haunted Billiards Room for the key to the Haunted Library.	Beat the ghost at pool.	Search desks in the Haunted Library until you find Lady Spookyraven's necklace.	Take the necklace to Lady Spookyraven in Spookyraven Manor.	You retrieved the necklace that totally belonged to Lady Spookyraven.
 
 # Sea Quests
 questS01OldGuy	An Old Guy and The Ocean	The Old Man, by The Sea, wants you to retrieve his boot. He says he dropped it off the side of his boat while he was fishing.	You've bought the Old Man's boot back from Big Brother. You should take it back to him.	You helped the Old Man retrieve his boot from The Sea. Marvelous!
