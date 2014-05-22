@@ -743,6 +743,7 @@ user	questM17Babies	unstarted
 user	questM18Swamp	unstarted
 user	questM19Hippy	unstarted
 user	questM20Necklace	unstarted
+user	questM21Dance	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false

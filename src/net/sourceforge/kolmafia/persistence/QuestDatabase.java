@@ -85,7 +85,9 @@ public class QuestDatabase
 			BUGBEAR( "questM03Bugbear" ),
 			UNTINKER( "questM01Untinker" ),
 			LOL( "questM15Lol" ),
-			SPOOKYRAVEN_NECKLACE( "questM20Necklace" );
+			SPOOKYRAVEN_NECKLACE( "questM20Necklace" ),
+			SPOOKYRAVEN_DANCE( "questM21Dance" ),
+			SPOOKYRAVEN_BABIES( "questM17Babies" );
 
 		private String pref;
 
@@ -159,6 +161,16 @@ public class QuestDatabase
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
+		}
+
+		// Some quests are weird and the completed quest vanishes when a new one starts!
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_BABIES.getPref() ), "unstarted" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "unstarted" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
 		}
 	}
 
