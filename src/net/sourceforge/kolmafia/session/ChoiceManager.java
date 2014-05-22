@@ -2975,7 +2975,7 @@ public abstract class ChoiceManager
 		// One Mahogany Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure877", "One Mahogany Nightstand",
-			new Object[] { new Option( "old coin purse", 1 ),
+			new Object[] { new Option( "old coin purse or half a memo", 1 ),
 				       new Option( "take damage", 2 ),
 				       new Option( "quest item", 3 ),
 				       new Option( "gain more meat (with ghost key)", 4 ),
@@ -2994,8 +2994,8 @@ public abstract class ChoiceManager
 		// One Rustic Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure879", "One Rustic Nightstand",
-			new Object[] { new Option( "moxie (ballroom key step 1)", 1 ),
-				       new Option( "empty drawer (ballroom key step 2)", 2 ),
+			new Object[] { new Option( "moxie", 1 ),
+				       new Option( "empty drawer", 2 ),
 				       new Option( "enter combat with mistress (once only)", 3 ),
 				       new Option( "Engorged Sausages and You or ballroom key and moxie", 4 ),
 				       new Option( "moxie substats (with ghost key)", 5 ),
@@ -3008,6 +3008,12 @@ public abstract class ChoiceManager
 				       new Option( "elegant nightstick", 2 ),
 				       new Option( "stats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),
+
+		// Off the Rack
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure880", "Bathroom Towel",
+			new Object[] { "get towel",
+				       "skip" } ),
 
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
