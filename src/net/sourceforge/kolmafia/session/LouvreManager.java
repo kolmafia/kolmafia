@@ -62,10 +62,10 @@ public abstract class LouvreManager
 		"The Scream: Relativity, Venus, Manetwich", // 907
 		"The Birth of Venus: Swordholder (buff), Nighthawks, Adam", // 908
 		"The Creation of Adam: Socrates, Muscle, Sunday Afternoon", // 909
-		"The Death of Socrates: Relativity, Nighthawks, Pinot Renoir", // 910
+		"The Death of Socrates: Relativity, Nighthawks, Vangoghbitussin", // 910
 		"Nighthawks: Is This Your Card? (buff), Persistence of Memory, Sunday Afternoon", // 911
 		"Sunday Afternoon on the Island of La Grande Jatte: The Last Supper, Mysticality, Piet Mondrian", // 912
-		"The Last Supper: Relativity, Persistence of Memory, Vangoghbitussin", // 913
+		"The Last Supper: Relativity, Persistence of Memory, Pinot Renoir", // 913
 	};
 
 	private static final String LouvreShortLocationNames [] =
