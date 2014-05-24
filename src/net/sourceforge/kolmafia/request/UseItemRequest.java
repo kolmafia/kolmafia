@@ -4401,6 +4401,14 @@ public class UseItemRequest
 			QuestDatabase.advanceQuest( Quest.BAT );
 			return;
 
+		case ItemPool.WORSE_HOMES_GARDENS:
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.HIPPY.getPref() ), "step1" ) )
+			{
+				return;
+			}
+			QuestDatabase.setQuestProgress( Quest.HIPPY, "step2" );
+			return;
+
 		case ItemPool.MERKIN_WORDQUIZ:
 			matcher = MERKIN_WORDQUIZ_PATTERN.matcher( responseText );
 			if ( matcher.find() )

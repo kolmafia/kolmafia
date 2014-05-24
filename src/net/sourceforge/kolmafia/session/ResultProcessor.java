@@ -1192,9 +1192,10 @@ public class ResultProcessor
 			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			break;
 
+		case ItemPool.JUNK_JUNK:
+			QuestDatabase.setQuestProgress( Quest.HIPPY, "step3" );
 		case ItemPool.DINGHY_DINGY:
 		case ItemPool.SKIFF:
-		case ItemPool.JUNK_JUNK:
 			// Island unlocked
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			break;
@@ -1563,6 +1564,10 @@ public class ResultProcessor
 
 		case ItemPool.GHOST_FORMULA:
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.FINISHED );
+			break;
+
+		case ItemPool.WORSE_HOMES_GARDENS:
+			QuestDatabase.setQuestProgress( Quest.HIPPY, "step1" );
 			break;
 
 		case ItemPool.STEEL_LIVER:
