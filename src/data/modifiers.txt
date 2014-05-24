@@ -5605,7 +5605,7 @@ Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
-Rompeadores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
+Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull

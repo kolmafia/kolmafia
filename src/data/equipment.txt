@@ -1945,9 +1945,9 @@ crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
-dark baconstone ring	0	none
-dark hamethyst ring	0	none
-dark porquoise ring	0	none
+dark baconstone ring	0	Mys: 47
+dark hamethyst ring	0	Mys: 47
+dark porquoise ring	0	Mys: 47
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
