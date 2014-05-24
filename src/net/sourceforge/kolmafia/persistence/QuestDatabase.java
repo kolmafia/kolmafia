@@ -87,7 +87,8 @@ public class QuestDatabase
 			LOL( "questM15Lol" ),
 			SPOOKYRAVEN_NECKLACE( "questM20Necklace" ),
 			SPOOKYRAVEN_DANCE( "questM21Dance" ),
-			SPOOKYRAVEN_BABIES( "questM17Babies" );
+			SPOOKYRAVEN_BABIES( "questM17Babies" ),
+			HIPPY( "questM19Hippy" );
 
 		private String pref;
 

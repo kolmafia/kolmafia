@@ -1553,6 +1553,10 @@ public class UseSkillRequest
 			{
 				Preferences.setBoolean( "_peteRiotIncited", true );
 			}
+			if ( skillId == SkillPool.SPAGHETTI_BREAKFAST )
+			{
+				Preferences.setBoolean( "_spaghettiBreakfast", true );
+			}
 			return true;
 		}
 
