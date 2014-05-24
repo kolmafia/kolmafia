@@ -936,7 +936,7 @@
 935	Pride of the Vampire	vampirefangs.gif	1be892a67365bfd314e3a4456665cac5
 936	Prince of Seaside Town	crown.gif	379b1014e45c59ddc795cac103390472
 937	Haunting Looks	famspirit.gif	c7a917e9cb59af786895110a9bdc00c1	use 1 ghostly body paint
-938	Dead Sexy	nopic.gif	1538dfcf845858a2b5d59b7e8eee0d86	use 1 necrotizing body spray
+938	Dead Sexy	zombhead.gif	1538dfcf845858a2b5d59b7e8eee0d86	use 1 necrotizing body spray
 939	Vampin'	vampirefangs.gif	29e8c2f8cd929bc59b4a569a0269d66c	use 1 bite-me-red lipstick
 940	Yiffable You	wolfmask.gif	31faf7e2b7adda23a4206bfad4499f53	use 1 whisker pencil
 941	The Bone Us Round	brokeskull.gif	9bc403e94e6faaeef0679a9c3f23a331	use 1 press-on ribs
@@ -1631,7 +1631,7 @@
 1630	Dance of the Sugar Fairy	sugarfairy2.gif	34fa02c3e24337f6ae4727ef73843e53	use 1 sugar fairy
 1631	Sweet Incentive	sugarbunny.gif	45f064fc532fae42bde5ea6aa7bca317	use 1 sugar bunny
 1632	Boschface	paintbrush.gif	670e46cb71e85891516ea3de40b0f8ea	use 1 Elizabeth's paintbrush
-1633	Desenfantasmada	ggg.gif	bcdac1c4cbd798f8b1f886ad37602ef0	drink 1 Rompeadores de Fantasmas
+1633	Desenfantasmada	ggg.gif	bcdac1c4cbd798f8b1f886ad37602ef0	drink 1 Rompedores de Fantasmas
 1634	La Oscuridad Adentro	darkness.gif	6da14ec2a2bcb1f02a7ee8f06774f0f6	drink 1 La Fantasma y La Oscuridad
 1635	Sangre Brillante	snowflakes.gif	f75967278d427a50aa53e220ca2f6c46	drink 1 Fantasma en la M&aacute;quina
 1636	Black Lung	lung.gif	36bc12fde8bd48c834d55ee69a2da89e
