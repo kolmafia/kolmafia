@@ -63,10 +63,10 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.LightsOutManager;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -176,6 +176,8 @@ public class RecoveryManager
 			KoLmafia.updateDisplay( KoLmafia.currentIterationString );
 			KoLmafia.currentIterationString = "";
 		}
+
+		LightsOutManager.checkCounter();
 
 		FightRequest.haveFought(); // reset flag
 

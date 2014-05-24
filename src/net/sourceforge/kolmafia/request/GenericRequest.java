@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -1110,6 +1111,12 @@ public class GenericRequest
 			if ( expired.getLabel().equals( "Fortune Cookie" ) )
 			{
 				message += " " + EatItemRequest.lastSemirareMessage();
+			}
+
+			else if ( expired.getLabel().equals( "Spookyraven Lights Out" ) )
+			{
+				RequestLogger.printLine( "hi" );
+				message += " " + LightsOutManager.message();
 			}
 
 			KoLmafia.updateDisplay( MafiaState.ERROR, message );

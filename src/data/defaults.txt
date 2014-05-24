@@ -589,7 +589,6 @@ user	lastSlimeVial3893
 user	lastSlimeVial3894
 user	lastSlimeVial3895
 user	lastSlimeVial3896
-user	lastSpookyravenLightsOut	-1
 user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
@@ -864,6 +863,7 @@ user	thanksMessage	Thank you for the donation!
 user	timesRested	99
 user	tomeSummons	0
 user	totalCharitableDonations	0
+user	trackLightsOut	false
 user	turtleBlessingTurns	0
 user	trapperOre	chrome ore
 user	twinPeakProgress	0

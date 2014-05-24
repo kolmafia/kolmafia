@@ -8478,7 +8478,7 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
-
+		
 		case 890: // Lights Out in the Storage Room
 		case 891: // Lights Out in the Laundry Room
 		case 892: // Lights Out in the Bathroom
@@ -8493,9 +8493,9 @@ public abstract class ChoiceManager
 		case 901: // Lights Out in the Wine Cellar
 		case 902: // Lights Out in the Boiler Room
 		case 903: // Lights Out in the Laboratory
-			Preferences.setInteger( "lastSpookyravenLightsOut", KoLCharacter.getCurrentRun() + 1 );
+			// Remove the counter if it exists so a new one can be made
+			// as soon as the next adventure is started
 			TurnCounter.stopCounting( "Spookyraven Lights Out" );
-			TurnCounter.startCounting( 37, "Spookyraven Lights Out loc=*", "bulb.gif" );
 			break;
 		}
 	}
