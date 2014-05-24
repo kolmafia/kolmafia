@@ -835,6 +835,7 @@ public class KoLmafiaCLI
 		new SlimeStackCommand().registerPrefix( "slime-stack");
 		new SorceressEntrywayCommand().register( "entryway" );
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
+		new SpookyravenCommand().register( "spookyraven" );
 		new StickersCommand().registerPrefix( "sticker" );
 		new StorageCommand().register( "hagnk" ).register( "pull" );
 		new GarbageCollectCommand().register("gc");

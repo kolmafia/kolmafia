@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -1140,7 +1141,7 @@ public class RelayRequest
 		}
 
 		String message =
-			"You are about to adventure unhydrated in the desert.  Click the image below to proceed.";
+			"You are about to adventure unhydrated in the desert.  Click the image above to proceed.";
 
 		this.sendGeneralWarning( "poison.gif", message, CONFIRM_DESERT_UNHYDRATED, "checked=1" );
 
@@ -2575,6 +2576,7 @@ public class RelayRequest
 		StringBuffer msg = null;
 		String image = null;
 		boolean cookie = false;
+		boolean lights = false;
 		expired = TurnCounter.getExpiredCounter( this, false );
 		while ( expired != null )
 		{
@@ -2596,6 +2598,10 @@ public class RelayRequest
 			if ( expired.getLabel().equals( "Fortune Cookie" ) )
 			{
 				cookie = true;
+			}
+			else if ( expired.getLabel().equals( "Spookyraven Lights Out" ) )
+			{
+				lights = true;
 			}
 			msg.append( "The " );
 			msg.append( expired.getLabel() );
@@ -2623,6 +2629,11 @@ public class RelayRequest
 			{
 				msg.append( "<br><br>" );
 				msg.append( EatItemRequest.lastSemirareMessage() );
+			}
+			else if ( lights )
+			{
+				msg.append( "<br><br>" );
+				msg.append( LightsOutManager.message() );
 			}
 			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER );
 			return true;
