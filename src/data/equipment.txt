@@ -256,6 +256,7 @@ slime-covered helmet	200	Mox: 200
 snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
+space beast fur hat	100	Mox: 35
 space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 60
@@ -483,6 +484,7 @@ slime-covered greaves	200	Mox: 200
 snailmail breeches	165	Mox: 67
 snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
+space beast fur pants	100	Mox: 35
 spandex anniversary shorts	10	none
 spangly mariachi pants	150	Mox: 60
 square sponge pants	200	Mox: 85
@@ -1207,6 +1209,9 @@ soap knife	200	Mus: 60	1-handed knife
 soul knife	100	Mus: 0	1-handed knife
 soup-chucks	15	Mus: 0	2-handed flail
 soylent staff	100	Mus: 35	2-handed staff
+space beast fur whip	20	Mus: 0	1-handed whip
+space heater	100	Mox: 35	1-handed laser cannon
+space needle	100	Mus: 35	1-handed sword
 spectral axe	150	Mus: 50	1-handed axe
 spiked femur	100	Mus: 35	1-handed club
 spooky bicycle chain	80	Mus: 25	1-handed flail
@@ -2003,6 +2008,7 @@ glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
 gold wedding ring	0	none
+government-issued night-vision goggles	25	none
 grandfather watch	225	Mys: 200
 gray bow tie	30	none
 green glowstick	20	none
@@ -2079,6 +2085,7 @@ ornamental sextant	200	Mys: 85
 oven mitts	45	Mys: 7
 over-the-shoulder Folder Holder	100	none
 pacifier necklace	150	Mox: 60
+pair of government shades	10	none
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none
 papier-masque	100	Mys: 20

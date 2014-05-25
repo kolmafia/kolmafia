@@ -364,6 +364,7 @@ red rum	3	3	decent	4	0	0	0	20-30 HP
 redrum	3	1	decent	5-6	0	15-30	0
 regular-size brogurt	1	5	good	0	0	0	0
 ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
+rocket fuel	3	4	good	0	0	0	0
 rockin' wagon	4	4	good	10-14	0	0	34-36
 roll in the hay	4	4	good	10-14	0	34-36	0
 rompedores de fantasmas	3	1	good	8-10	13	0	0	13 Desenfantasmada (+3 Mus exp, +2 spooky res)
@@ -417,11 +418,13 @@ snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
+space port	2	5	good	0	0	0	0
 spasmi dolorosi del rene champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
 spicy hot chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
+stealth bomber	3	6	awesome	0	0	0	0
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30	
