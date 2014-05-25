@@ -337,6 +337,9 @@ Events	adventure=363	false	indoor	The Space Odyssey Discotheque
 
 Events	adventure=365	false	outdoor	The Spirit World
 
+Events	adventure=408	true	outdoor	Some Scattered Smoking Debris
+Events	adventure=409	false	outdoor	A Crater Full of Space Beasts
+
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level
 Psychoses	adventure=303	false	outdoor	Doubt Man's Level
