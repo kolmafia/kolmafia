@@ -7527,3 +7527,40 @@
 7508	black label	664446698	blacklabel.gif	none	t,d	65
 7509	Mornington crescent roll	346488001	croissant.gif	food	t,d	45
 7510	black eye shadow	744811732	compact.gif	usable	t,d	55
+7511
+7512
+7513
+7514
+7515
+7516
+7517
+7518
+7519
+7520	burned government manual fragment	423402768	document.gif	usable	q	0
+7521	government cheese	213065981	goatcheese.gif	food	t,d	29
+7522	pair of government shades	734304226	bigglasses.gif	accessory	t,d	50
+7523	space junk	554976200	elecparts.gif	usable	t	0
+7524	government	611146854	beerbottle.gif	usable	t,d	40
+7525	alien drugs	385188810	pill.gif	usable	t,d	15
+7526	weird space book	658177559	book.gif	usable	q	0
+7527	alien force field disruptor bean	498890170	bean.gif	none	t,d	15
+7528	government-issued night-vision goggles	775124204	nvgoggles.gif	accessory	t,d	65
+7529	loaf of alien bread	840910856	baguette.gif	food	t,d	75
+7530	grilled cheese sandwich	393477410	sammich.gif	food	t,d	99
+7531	alien protein powder	595646868	powderpile2.gif	usable	t,d	75
+7532	rocket fuel	375972393	redmin.gif	drink	t,d	75
+7533	alien source code printout	951108754	punchcard.gif	usable	t	0
+7534	alien source code printout (used)	735936333	punchcard.gif	usable		0
+7535	stealth bomber	277101255	shot_f.gif	drink	t,d	99
+7536	space beast fur	798925250	spacefur.gif	none	t	0
+7537	twitching space egg	430294177	spaceegg.gif	grow	t	0
+7538	ramekin of space nuts	202943364	nutramekin.gif	familiar	t,d	75
+7539	space beast fur hat	821531220	sb_hat.gif	hat		0
+7540	space beast fur pants	915469627	sb_pants.gif	pants		0
+7541	space beast fur whip	874697090	sb_whip.gif	weapon		0
+7542	space invader	515198375	spaceinvader.gif	none, combat	t,d	95
+7543	space heater	702166900	spaceheater.gif	weapon	t,d	350
+7544	space bar	469450100	spacebar.gif	usable	t,d	200
+7545	space port	812670303	potion4.gif	drink	t,d	75	space bottles of space port
+7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
+7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150

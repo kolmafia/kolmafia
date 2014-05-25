@@ -2837,6 +2837,8 @@ public class UseItemRequest
 		case ItemPool.OFFENSIVE_JOKE_BOOK:
 		case ItemPool.COOKING_WITH_GREASE_BOOK:
 		case ItemPool.DINER_HANDBOOK:
+		case ItemPool.ALIEN_SOURCE_CODE:
+		case ItemPool.ALIEN_SOURCE_CODE_USED:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) )
 			{
@@ -4849,6 +4851,9 @@ public class UseItemRequest
 			return "Grease Up";
 		case ItemPool.DINER_HANDBOOK:
 			return "Sloppy Secrets";
+		case ItemPool.ALIEN_SOURCE_CODE:
+		case ItemPool.ALIEN_SOURCE_CODE_USED:
+			return "Alien Source Code";
 		}
 
 		return null;

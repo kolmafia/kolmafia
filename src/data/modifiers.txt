@@ -338,6 +338,7 @@ slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistanc
 snailmail coif	Muscle: +10, Damage Reduction: 8, Familiar Effect: "1xPotato, 1xFairy, cap 41"
 snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
+space beast fur hat	Damage Reduction: 5
 space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 spaghetti cult mask	Spell Damage Percent: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 38"
 spangly sombrero	Experience (Moxie): +3, Familiar Effect: "2xFairy, 2xPotato, cap 37"
@@ -587,6 +588,7 @@ slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, 
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
 snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
 snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
+space beast fur pants	Damage Reduction: 5
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 10xLep, cap 2"
 spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10, Familiar Effect: "2xFairy, 2xPotato, cap 37"
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30, Familiar Effect: "hot atk, 1xPotato"
@@ -1385,6 +1387,9 @@ snow shovel	Muscle: +10, Mysticality: +10, Moxie: +10, Weapon Damage Percent: +1
 # soul knife: Can harm True Mimes
 soup-chucks	Hot Damage: +2
 soylent staff	Mysticality: +4, Spell Damage: +10
+space beast fur whip	Damage Reduction: 5
+space heater	Hot Damage: +12, Cold Resistance: +2
+space needle	Weapon Damage: +10, Spooky Resistance: +2
 # spectral axe: +30 Damage vs. Ghosts
 spectral axe	Cold Damage: +15
 spiked femur	Spooky Damage: +6
@@ -2292,6 +2297,7 @@ gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 gold wedding ring	Adventures: +1, Single Equip
+government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
 gray bow tie	Moxie: +1, Spooky Resistance: +1
 green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
@@ -2379,6 +2385,7 @@ oven mitts	Hot Resistance: +2, Single Equip
 # over-the-shoulder Folder Holder: Softcore Only (Except for High School Students)
 over-the-shoulder Folder Holder	Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
+pair of government shades	Maximum HP: +10, Single Equip
 # pair of pearidot earrings: (only in the Candy Diorama)
 pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
@@ -3008,6 +3015,7 @@ quadroculars	Familiar Weight: +5
 # quake of arrows: Holds Heavier Arrows
 radioactive chew toy	Familiar Weight: +5
 rainbow tie	Familiar Weight: +5
+ramekin of space nuts	Familiar Weight: +5
 rat head balloon	Familiar Weight: -3, Generic
 rat tooth polish	Familiar Weight: +5
 rattlesnake enrager	Familiar Weight: +5
@@ -4209,6 +4217,7 @@ Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 I Am the Slaw!	Monster Level: +20
+I See Everything Thrice!	Item Drop: +33
 Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
@@ -4735,6 +4744,8 @@ Soulerskates	Initiative: +30
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Sour Softshoe	Meat Drop: [2*min(T,50)], Item Drop: [min(T,50)]
 Sourpuss	Candy Drop: +50
+Space Cowboy	Experience: +2
+Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
@@ -5070,6 +5081,7 @@ Zomg WTF	Monster Level: +30
 Abs of Tin	Maximum HP Percent: +10
 # Accordion Appreciation Double-strength enchantments on accordions
 # Adventurer of Leisure +2 Free Rests/day
+Alien Source Code	Maximum MP: +5
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
 Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
@@ -5299,6 +5311,7 @@ Seafaring Suit	Initiative: +100
 Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 Smoked Pottery	Hot Damage: +15
 Snowman Suit	Cold Damage: +15
+Space Beast Furs	Damage Reduction: 25
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Sucker Samurai Suit	Damage Reduction: 10
 Swashbuckling Getup	Moxie: +7
@@ -5659,6 +5672,7 @@ abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 # abyssal battle plans
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
+alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
 amok pudding	Effect: "Puddingface", Effect Duration: 20
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
@@ -5729,6 +5743,7 @@ brick	Free Pull
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
 broberry brogurt	Effect: "Broberry Brotality", Effect Duration: 40
 brocolate brogurt	Effect: "Brocolate Brostidigitation", Effect Duration: 40
+buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 buzzing mushroom wine	Effect: "Stemonitis Storm", Effect Duration: 80
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
@@ -5930,6 +5945,7 @@ go-go potion	Effect: "Go-Gone", Effect Duration: 20
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
+government	Effect: "I See Everything Thrice!", Effect Duration: 10
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
 green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duration: 20
 green candy heart	Effect: "Heart of Green", Effect Duration: 10

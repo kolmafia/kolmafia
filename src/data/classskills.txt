@@ -138,6 +138,7 @@
 112	Unoffendable	seenitall.gif	0	0	0
 113	Grease Up	reassured.gif	3	15	10
 114	Sloppy Secrets	knifefork.gif	0	0	0
+115	Alien Source Code	dna.gif	0	0	0
 
 # Skills available to Clubbers
 
@@ -624,6 +625,10 @@
 7199	Blow Wolf Whistle	wolfwhistle.gif	5	0	0
 7200	Unload Tommy Gun	tommygun.gif	5	0	0
 7201	Mug for the Audience	mug.gif	5	0	0
+7202
+7203
+7204
+7205	Heat Space	spaceheater.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

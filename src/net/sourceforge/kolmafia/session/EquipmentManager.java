@@ -608,6 +608,9 @@ public class EquipmentManager
 		case ItemPool.TOMMY_GUN:
 			KoLCharacter.addAvailableSkill( "Unload Tommy Gun" );
 			break;
+		case ItemPool.SPACE_HEATER:
+			KoLCharacter.addAvailableSkill( "Heat Space" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

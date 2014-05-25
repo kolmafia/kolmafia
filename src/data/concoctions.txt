@@ -2453,3 +2453,17 @@ ghast iron heater shield	SSMITH	ghast iron ingot	buckler buckle
 deluxe layer cake	COOK	moose chocolate	sheet cake
 Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
+
+# Crashed Space Ship
+government	COMBINE	anticheese	government cheese
+stealth bomber	MIX	government	rocket fuel
+buffed alien drugs	COMBINE	alien drugs	alien protein powder
+grilled cheese sandwich	COOK	loaf of alien bread	government cheese
+space invader	MUSE	space junk (5)
+space bar	MUSE	space junk (10)
+space port (3)	SUSE	space bar
+space needle	MUSE	space junk (15)
+space heater	MUSE	space junk (20)
+space beast fur hat	SMITH	space beast fur	basic meat helmet
+space beast fur pants	SMITH	space beast fur	basic meat pants
+space beast fur whip	SMITH	space beast fur	whip kit

@@ -305,11 +305,13 @@ goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
 good brain	1	1	good	3	5-7	5-7	5-7	Zombie Slayer
+government cheese	2	1	decent	0	0	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
+grilled cheese sandwich	3	6	awesome	0	0	0	0
 grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
@@ -397,6 +399,7 @@ liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experi
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
+loaf of alien bread	3	4	good	0	0	0	0
 lobster <i>qua</i> grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
