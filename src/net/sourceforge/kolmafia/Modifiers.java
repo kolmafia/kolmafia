@@ -2367,8 +2367,8 @@ public class Modifiers
 			if ( factor == 0.0 ) factor = 1.0;
 			// currentML is always >= 4, so we don't need to check for negatives
 			int maxStats = 100; // this might change soon
-			this.add( Modifiers.EXPERIENCE, Math.max( factor * ( Modifiers.currentML / 4 ) *
-				    ( 0.1 + 0.005 * effective ), maxStats ), "Sombrero" );
+			this.add( Modifiers.EXPERIENCE, Math.min( factor * ( Modifiers.currentML / 4 ) *
+			        ( 0.1 + 0.005 * effective ), maxStats ), "Sombrero" );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
