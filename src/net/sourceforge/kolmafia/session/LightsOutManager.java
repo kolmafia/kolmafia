@@ -75,7 +75,7 @@ public class LightsOutManager
 		}
 
 		String stephenRoom = Preferences.getString( "nextSpookyravenStephenRoom" );
-		if ( elizabethRoom.equals( "none" ) )
+		if ( stephenRoom.equals( "none" ) )
 		{
 			RequestLogger.printLine( "You have defeated Stephen Spookyraven" );
 		}
