@@ -153,6 +153,7 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false, null ),
 		new BuffTool( ItemPool.CHELONIAN_MORNINGSTAR, 10, false, null ),
 		new BuffTool( ItemPool.MACE_OF_THE_TORTOISE, 5, true, null ),
+		new BuffTool( ItemPool.OUIJA_BOARD, 2, false, null ),
 		new BuffTool( ItemPool.TURTLE_TOTEM, 0, false , null ),
 	};
 
