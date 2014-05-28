@@ -1402,6 +1402,11 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
+			// Recognize when you fail to eat the hot dog because you are too full
+			if ( responseText.contains( "You're too full" ) )
+			{
+				return;
+			}
 			// If consumption of a fancy hot dog failed, remember
 			if ( responseText.indexOf( "You aren't in the mood for any more fancy dogs today" ) != -1 )
 			{
@@ -1419,7 +1424,8 @@ public class ClanLoungeRequest
 				return;
 			}
 			int fullness = ClanLoungeRequest.hotdogIndexToFullness( index );
-			if ( fullness > 0 && !responseText.contains( "Fullness" ) ) // if fullness display is on, ResultProcessor will handle incrementing fullness
+			// if fullness display is on, ResultProcessor will handle incrementing fullness
+			if ( fullness > 0 && !responseText.contains( "Fullness" ) )
 			{
 				Preferences.increment( "currentFullness", fullness );
 			}
