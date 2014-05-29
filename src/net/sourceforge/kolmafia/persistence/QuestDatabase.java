@@ -88,7 +88,16 @@ public class QuestDatabase
 			SPOOKYRAVEN_NECKLACE( "questM20Necklace" ),
 			SPOOKYRAVEN_DANCE( "questM21Dance" ),
 			SPOOKYRAVEN_BABIES( "questM17Babies" ),
-			HIPPY( "questM19Hippy" );
+			HIPPY( "questM19Hippy" ),
+			JIMMY_MUSHROOM( "questESlMushStash" ),
+			JIMMY_CHEESEBURGER( "questESlCheeseburger" ),
+			JIMMY_SALT( "questESlSalt" ),
+			TACO_DAN_AUDIT( "questESlAudit" ),
+			TACO_DAN_COCKTAIL( "questESlCocktail" ),
+			TACO_DAN_FISH( "questESlFish" ),
+			BRODEN_BACTERIA( "questESlBacteria" ),
+			BRODEN_SPRINKLES( "questESlSprinkles" ),
+			BRODEN_DEBT( "questESlDebt" );
 
 		private String pref;
 

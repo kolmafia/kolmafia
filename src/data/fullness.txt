@@ -311,7 +311,7 @@ grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
-grilled cheese sandwich	3	6	awesome	0	0	0	0
+grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
 grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45

@@ -1641,13 +1641,20 @@ steaming straw house	straw_hot.gif	Init: -10000 P: construct E: hot
 Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
 
 # Spring Break Beach
-Sloppy Seconds Burger	ssd_burger.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [min(STAT+5,11111)+max(ML,0)] Init: -10000 P: weird E: sleaze	 Meat-inflating powder (0)
-Sloppy Seconds Cocktail	ssd_cocktail.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [min(STAT+5,11111)+max(ML,0)] Init: -10000 P: weird E: sleaze	 bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
-Sloppy Seconds Sundae	ssd_sundae.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [min(STAT+5,11111)+max(ML,0)] Init: -10000 P: weird E: sleaze	 possessed sugar cube (0)
-Fun-Guy Playmate	fun-gal1.gif	HP: 30 Def: 30 Atk: 30 Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (0)
+Sloppy Seconds Burger	ssd_burger.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: sleaze	 Meat-inflating powder (0)
+Sloppy Seconds Cocktail	ssd_cocktail.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: sleaze	 bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
+Sloppy Seconds Sundae	ssd_sundae.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: sleaze	 possessed sugar cube (0)
+Fun-Guy Playmate	fun-gal1.gif	HP: 30 Def: 30 Atk: 30 Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (0)	pencil thin mushroom (c0)
 broctopus	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: -10000 P: fish E: sleaze	BROS Energy Drink (0)	8-billed baseball cap (0)
 cocktail shrimp	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: -10000 P: fish E: sleaze	giant shrimp fork (0)	shrimp cocktail (0)
 taco fish	tacofish.gif	Atk: 375 Def: 300 HP: 500 Init: -10000 P: fish E: sleaze
 wild girl	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: -10000 P: dude E: sleaze	extremely wet T-shirt (0)	go-go potion (0)	string of moist beads (0)
 son of a son of a sailor	sonofsailor.gif	Atk: 350 Def: 350 HP: 600 Init: -10000 P: dude E: sleaze
 drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sleaze	bike rental broupon (c100)
+
+# Crashed Space Ship
+Government agent	gov_agent.gif	Atk: [MOX-5+max(ML,0)] Def: [MUS-5+max(ML,0)] HP: [0.75*(MUS-5+max(ML,0))] Exp: [(STAT-5+max(ML,0))/4] Init: 25 P: dude Meat: 60-90	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)
+perimeter defense sphere	defense_sphere.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 100 P: construct	space junk (10)	space junk (c15)
+illegal alien	illegal_alien.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 75 P: humanoid Meat: 52-78	alien drugs (15)	weird space book (c25)
+space beast	spacebeast3.gif	Atk: [MOX+5+max(ML,0)] Def: [MUS+5+max(ML,0)] HP: [0.75*(MUS+5+max(ML,0))] Exp: [(STAT+5+max(ML,0))/4] Init: 50 P: beast Meat: 163-245	space beast fur (100)
+space beast	matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast twitching space egg (n100)

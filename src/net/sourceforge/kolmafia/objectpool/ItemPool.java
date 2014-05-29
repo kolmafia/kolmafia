@@ -2019,6 +2019,7 @@ public class ItemPool
 	public static final int COOKING_WITH_GREASE_BOOK = 7459;
 	public static final int DINER_HANDBOOK = 7460;
 	public static final int MOIST_BEADS = 7475;
+	public static final int MIND_DESTROYER = 7476;
 	public static final int SWEET_TOOTH = 7481;
 	public static final int UNSTABLE_FULMINATE = 7493;
 	public static final int WINE_BOMB = 7494;

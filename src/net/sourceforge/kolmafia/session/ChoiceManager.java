@@ -3056,7 +3056,7 @@ public abstract class ChoiceManager
 		// Choice 918 is Yachtzee!
 		new ChoiceAdventure(
 			"Spring Break Beach", "choiceAdventure918", "Yachtzee!",
-			new Object[] { "get cocktail ingredients",
+			new Object[] { "get cocktail ingredients (sometimes Ultimate Mind Destroyer)",
 				       "get 5k meat and random item",
 				       "get Beach Bucks" } ),
 
@@ -3069,6 +3069,14 @@ public abstract class ChoiceManager
 				       "+15ML on Cocktails",
 				       "reset ML on monsters",
 				       "leave without using a turn" } ),
+
+		// Choice 920 is Eraser
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure920", "Eraser",
+			new Object[] { "reset Buff Jimmy quests",
+				       "reset Taco Dan quests",
+				       "reset Broden quests",
+				       "don't use it" } ),
 
 		// Choice 923 is All Over the Map
 		new ChoiceAdventure(
@@ -7095,6 +7103,35 @@ public abstract class ChoiceManager
 			// If you win, we will set "nextSpookyravenStephenRoom" to "none"
 			break;
 
+		case 915:
+			// Choice 915 is Et Tu, Buff Jimmy?
+			if ( text.contains( "skinny mushroom girls" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "But here's a few Beach Bucks as a token of my changes in gratitude" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, QuestDatabase.FINISHED );
+			}
+			else if ( text.contains( "not really into moving out of this hammock" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "So I'll just give you some Beach Bucks instead" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, QuestDatabase.FINISHED );
+				Preferences.setInteger( "buffJimmyIngredients", 0 );
+			}
+			else if ( text.contains( "sons of sons of sailors are" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.STARTED );
+				Preferences.setInteger( "buffJimmyIngredients", 0 );
+			}
+			else if ( text.contains( "So here's some Beach Bucks instead" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.FINISHED );
+			}
+			break;
 		case 918:
 			// Yachtzee!
 			if ( ChoiceManager.lastDecision == 3 && text.contains( "You open the captain's door" ) )
@@ -7115,6 +7152,31 @@ public abstract class ChoiceManager
 				{
 					Preferences.increment( "_sloppyDinerBeachBucks", 1 );
 				}
+			}
+			break;
+		case 920:
+			// Choice 920 is Eraser
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.UNSTARTED );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, QuestDatabase.UNSTARTED );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, QuestDatabase.UNSTARTED );
+			}
+			if ( ChoiceManager.lastDecision != 4 )
+			{
+				ResultProcessor.processItem( ItemPool.MIND_DESTROYER, -1 );
 			}
 			break;
 		}

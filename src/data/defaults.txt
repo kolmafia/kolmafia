@@ -304,6 +304,7 @@ user	breakfastCompleted	false
 user	buffBotCasting
 user	buffBotMessageDisposal	0
 user	buffBotPhilanthropyType	1
+user	buffJimmyIngredients	0
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript

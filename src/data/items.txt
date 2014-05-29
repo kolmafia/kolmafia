@@ -2960,7 +2960,7 @@
 2941	Steal This Candy	525080486	candy.gif	usable, candy	t,d	25	Steal These Candies
 2942	chocolate filthy lucre	512578714	lucre.gif	multiple, candy	t,d	35	chocolate filthy lucres
 2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	usable, candy	t,d	30	Angry Farmer's Wife Candies
-2944
+2944	the Jickinator	653861412	raygun.gif	none, combat		0
 2945	party hat	340531020	partyhat.gif	hat	t,d	50	party hats
 2946	V for Vivala mask	798085688	vivala.gif	accessory	t	0	V for Vivala masks
 2947	The Big Book of Pirate Insults	501433602	book4.gif	none, combat reusable	t,d	250	Big Books of Pirate Insults

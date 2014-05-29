@@ -69,9 +69,9 @@ questI01Scapegoat	Scapegoat	You must find and put a stop to whoever is controlli
 questI02Beat	The Quest for the Legendary Beat	You must defeat Professor Jacking in order to gain access to his laboratory and search for the Legendary Beat.	You've defeated Professor Jacking and gained unfettered access to his laboratory. Now... where's that Beat?	You've managed to find the Legendary Beat, which Professor Jacking had cleverly miniaturized and embedded in your own skin. Fresh!
 
 # Elemental Planes Quests
-questESlMushStash	Pencil-Thin Mush Stash		You retrieved Buff Jimmy's stash of pencil-thin mushrooms.
+questESlMushStash	Pencil-Thin Mush Stash	Find Buff Jimmy's mushrooms in the Fun-Guy Mansion	Take the mushrooms back to Buff Jimmy	You retrieved Buff Jimmy's stash of pencil-thin mushrooms.
 questESlCheeseburger	Paradise Cheeseburger		You gathered all of the ingredients for Buff Jimmy's weird cheeseburger.
-questESlSalt	Lost Shaker of Salt		You retrieved Buff Jimmy's lost salt.
+questESlSalt	Lost Shaker of Salt	Get the sea salt that Buff Jimmy wants from sons of sons of sailors on the Sunken Party Yacht.	Take the salt back to Buff Jimmy.	You retrieved Buff Jimmy's lost salt.
 questESlAudit	Audit-Tory Hallucinations		You prevented Taco Dan from getting audited.
 questESlCocktail	Cocktail as old as Cocktime		You facilitated Taco Dan's bold cocktail sauce experiment.
 questESlFish	Dirty Fishy Dish		You wrangled up some taco fish for Taco Dan.

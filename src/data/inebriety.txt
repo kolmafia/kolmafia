@@ -424,7 +424,7 @@ spiced rum	3	2	decent	4-8	0	0	17-30
 spicy hot chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
-stealth bomber	3	6	awesome	0	0	0	0
+stealth bomber	3	6	awesome	9-12	10-20	0	10-20
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30	
