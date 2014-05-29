@@ -3125,6 +3125,10 @@ public abstract class ChoiceManager
 				       new Option( "get blackberry galoshes", 4 ),
 				       new Option( "return to main choice", 6 ) } ),
 
+		// Choice 935 is Lost in Space... Ship
+		// Choice 936 is The Nerve Center
+		// Choice 937 is The Spacement
+		// Choice 938 is The Ship's Kitchen
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
