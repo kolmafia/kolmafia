@@ -105,4 +105,4 @@
 104	Workoutfit	sweatband, gym shorts, ankleweights
 105	Ghast Iron Gear	ghast iron codpiece, ghast iron Garibaldi, ghast iron heater shield
 106	Brogre Brouture	Brogre brolo shirt, Brogre brorts, Brogre bucket hat
-107	Space Beast Furs	space beast fur hat	space beast fur pants	space beast fur whip
+107	Space Beast Furs	space beast fur hat, space beast fur pants, space beast fur whip
