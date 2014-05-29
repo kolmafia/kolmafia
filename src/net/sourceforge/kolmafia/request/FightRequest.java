@@ -501,13 +501,15 @@ public class FightRequest
 	public static final boolean canJamFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.JAM_BAND_FLYERS, 1 ) )
-			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster();
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
+			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR );
 	}
 	
 	public static final boolean canRockFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.ROCK_BAND_FLYERS, 1 ) )
-			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster();
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
+			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR );
 	}
 	
 	public static void initializeAfterFight()

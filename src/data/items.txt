@@ -586,7 +586,7 @@
 569	Lord of the Flies-sized fries	149932590	fries.gif	food	t,d	100	Lords of the Flieses-sized fries
 570	Brimstone Chicken Sandwich	209737031	burger.gif	food	t,d	100	Brimstone Chicken Sandwiches
 571	Jumbo Dr. Lucifer	851122901	drlucifer.gif	food	t,d	50	Jumbo Dr. Lucifers
-572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	0	Children's Meals of the Damned
+572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	31	Children's Meals of the Damned
 573	delicious noodles	437720617	bowl.gif	food	t,d	33	bowls of delicious noodles
 574	delicious spicy noodles	336783365	bowl.gif	food	t,d	33	bowls of delicious spicy noodles
 575	painful penne pasta	175830905	bowl.gif	food	t,d	33	bowls of painful penne pasta

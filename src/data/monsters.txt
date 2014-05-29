@@ -1657,4 +1657,4 @@ Government agent	gov_agent.gif	Atk: [MOX-5+max(ML,0)] Def: [MUS-5+max(ML,0)] HP:
 perimeter defense sphere	defense_sphere.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 100 P: construct	space junk (10)	space junk (c15)
 illegal alien	illegal_alien.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 75 P: humanoid Meat: 52-78	alien drugs (15)	weird space book (c25)
 space beast	spacebeast3.gif	Atk: [MOX+5+max(ML,0)] Def: [MUS+5+max(ML,0)] HP: [0.75*(MUS+5+max(ML,0))] Exp: [(STAT+5+max(ML,0))/4] Init: 50 P: beast Meat: 163-245	space beast fur (100)
-space beast	matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast twitching space egg (n100)
+space beast matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast	twitching space egg (n100)
