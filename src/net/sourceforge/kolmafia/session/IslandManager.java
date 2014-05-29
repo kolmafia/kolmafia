@@ -1036,6 +1036,8 @@ public class IslandManager
 
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
+		// Mark flyering finished to stop code triggering when war is over, regardless of arena quest status.
+		Preferences.setInteger( "flyeredML", 10000 );
 		QuestDatabase.setQuestProgress( QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED );
 		CoinmastersFrame.externalUpdate();
 	}
