@@ -637,6 +637,15 @@ public class QuestDatabase
 		return false;
 	}
 
+	public static boolean isQuestFinished( Quest quest )
+	{
+		if ( quest == null )
+		{
+			return false;
+		}
+		return quest.getPref().equals( QuestDatabase.FINISHED );
+	}
+
 	public static String questStepAfter( Quest quest, String step )
 	{
 		if ( quest == null )
