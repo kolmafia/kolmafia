@@ -338,7 +338,7 @@ slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistanc
 snailmail coif	Muscle: +10, Damage Reduction: 8, Familiar Effect: "1xPotato, 1xFairy, cap 41"
 snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
-space beast fur hat	Damage Reduction: 5
+space beast fur hat	Damage Reduction: 5, Familiar Effect: "1xVolley"
 space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 spaghetti cult mask	Spell Damage Percent: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 38"
 spangly sombrero	Experience (Moxie): +3, Familiar Effect: "2xFairy, 2xPotato, cap 37"
@@ -588,7 +588,7 @@ slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, 
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
 snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
 snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
-space beast fur pants	Damage Reduction: 5
+space beast fur pants	Damage Reduction: 5, Familiar Effect: "1xVolley"
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 10xLep, cap 2"
 spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10, Familiar Effect: "2xFairy, 2xPotato, cap 37"
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30, Familiar Effect: "hot atk, 1xPotato"
@@ -3290,6 +3290,7 @@ Throne:Teddy Borg	Initiative: +20
 Throne:Temporal Riftlet	Initiative: +20
 Throne:Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne:Underworld Bonsai	Spell Damage Percent: +10
 Throne:Uniclops	Experience (Mysticality): +2

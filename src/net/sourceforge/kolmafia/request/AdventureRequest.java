@@ -630,6 +630,8 @@ public class AdventureRequest
 				image.startsWith( "warbear1" ) ? "Warbear Foot Soldier" :
 				image.startsWith( "warbear2" ) ? "Warbear Officer" :
 				image.startsWith( "warbear3" ) ? "High-Ranking Warbear Officer" :
+				// Crashed Space Beast
+				image.startsWith( "spacebeast" ) ? "space beast" :
 				null;
 		}
 

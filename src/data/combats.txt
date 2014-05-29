@@ -40,6 +40,7 @@
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: e1	Goomba: o1	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
 A Barroom Brawl	100	drunken 7-foot Dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
+A Crater Full of Space Beasts	100	space beast	space beast	matriarch: 0
 A Deserted Stretch of I-911	100	fire truck	ice cream truck	monster hearse	sewer tanker	sketchy van
 A Freezing Abyssal Portal	100	bulwark bull seal
 A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle of Meat of Happiness	carton of Eggs of Confidence	loaf of Bread of Wonder
@@ -84,6 +85,7 @@ Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin So
 Cobb's Knob Laboratory	100	Knob Goblin Alchemist: 1	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
+Some Scattered Smoking Debris	-1	Government agent	perimeter defense sphere	illegal alien
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
 CRIMBCO WC	100	Elf Hobo
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf

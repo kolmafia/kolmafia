@@ -3312,6 +3312,13 @@ public class FightRequest
 					ResultProcessor.removeItem( ItemPool.BOWL_OF_SCORPIONS );
 				}
 			}
+			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
+			{
+				if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
+				{
+					Preferences.increment( "buffJimmyIngredients", 1 );
+				}
+			}
 			else if ( monster.equalsIgnoreCase( "bugbear robo-surgeon" ) )
 			{
 				BugbearManager.clearShipZone( "Medbay" );
