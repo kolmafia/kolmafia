@@ -94,9 +94,9 @@ MONSTER	Stella, the Turtle Poacher 	2_3\.gif	"Stella, the Turtle Poacher (Volcan
 MONSTER	Spaghetti Elemental	3_1\.gif	"The Spaghetti Elemental (Inner Sanctum)"
 MONSTER	Spaghetti Elemental	3_2\.gif	"The Spaghetti Elemental (The Nemesis' Lair)
 MONSTER	Spaghetti Elemental	3_3\.gif	"The Spaghetti Elemental (Volcanic Cave)
-MONSTER Lumpy, the Sinister Sauceblob	4_1\.gif	"Lumpy, the Sinister Sauceblob (Inner Sanctum)"
-MONSTER Lumpy, the Sinister Sauceblob	4_2\.gif	"Lumpy, the Sinister Sauceblob (The Nemesis' Lair)
-MONSTER Lumpy, the Sinister Sauceblob	4_3\.gif	"Lumpy, the Sinister Sauceblob (Volcanic Cave)
+MONSTER	Lumpy, the Sinister Sauceblob	4_1\.gif	"Lumpy, the Sinister Sauceblob (Inner Sanctum)"
+MONSTER	Lumpy, the Sinister Sauceblob	4_2\.gif	"Lumpy, the Sinister Sauceblob (The Nemesis' Lair)
+MONSTER	Lumpy, the Sinister Sauceblob	4_3\.gif	"Lumpy, the Sinister Sauceblob (Volcanic Cave)
 MONSTER	Spirit of New Wave	5_1\.gif	"The Spirit of New Wave (Inner Sanctum)"
 MONSTER	Spirit of New Wave	5_2\.gif	"The Spirit of New Wave (The Nemesis' Lair)"
 MONSTER	Spirit of New Wave	5_3\.gif	"The Spirit of New Wave (Volcanic Cave)"

@@ -150,6 +150,7 @@ Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	
 Navigation	100	ancient unspeakable bugbear	N-space Virtual Assistant
 Neckback Crick	100	deadly venomtrout	water spider	Unearthed Monstrosity: 0
 Nemesis Cave	100	infernal seal larva	infernal seal spawn	vengeful turtle spectre	haunted soup tureen	slithering hollandaise glob	pernicious puddle of pesto	evil spaghetti cultist	evil spaghetti cult priest	talking head	psychedelic fur	evil vihuela-playing mariachi	evil trumpet-playing mariachi
+Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
 Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
@@ -228,7 +229,6 @@ The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowbo
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate	creamy pirate	crusty pirate	curmudgeonly pirate
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
-The Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Fun-Guy Mansion	100	Fun-Guy Playmate
 The Goatlet	100	dairy goat	drunk goat	sabre-toothed goat
 The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned goblin conspirator	spider-goblin conspirator	tin spider conspirator	Fnord the Unspeakable: 0
@@ -273,10 +273,10 @@ The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
 The Middle Chamber	100	Iiti Kitty	tomb bat	tomb servant
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
-The Noob Cave	100	crate
 The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
 The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
+The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
