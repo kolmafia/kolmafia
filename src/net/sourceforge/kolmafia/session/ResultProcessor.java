@@ -2053,6 +2053,34 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.THINKNERD_PACKAGE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_thinknerdPackageDrops" );
+			}
+			break;
+
+		case ItemPool.STEAM_FIST_1:
+		case ItemPool.STEAM_FIST_2:
+		case ItemPool.STEAM_FIST_3:
+		case ItemPool.STEAM_TRIP_1:
+		case ItemPool.STEAM_TRIP_2:
+		case ItemPool.STEAM_TRIP_3:
+		case ItemPool.STEAM_METEOID_1:
+		case ItemPool.STEAM_METEOID_2:
+		case ItemPool.STEAM_METEOID_3:
+		case ItemPool.STEAM_DEMON_1:
+		case ItemPool.STEAM_DEMON_2:
+		case ItemPool.STEAM_DEMON_3:
+		case ItemPool.STEAM_PLUMBER_1:
+		case ItemPool.STEAM_PLUMBER_2:
+		case ItemPool.STEAM_PLUMBER_3:
+			if ( combatResults )
+			{
+				Preferences.increment( "_steamCardDrops" );
+			}
+			break;
+
 		case ItemPool.ELIZABETH_DOLLIE:
 			if ( combatResults )
 			{
