@@ -2036,6 +2036,8 @@ public class ItemPool
 	public static final int PENCIL_THIN_MUSHROOM = 7421;
 	public static final int SAILOR_SALT = 7423;
 	public static final int BROUPON = 7424;
+	public static final int TACO_DAN_SAUCE_BOTTLE = 7425;
+	public static final int SPRINKLE_SHAKER = 7426;
 	public static final int TACO_DAN_RECEIPT = 7428;
 	public static final int BEACH_BUCK = 7429;
 	public static final int OFFENSIVE_JOKE_BOOK = 7458;
