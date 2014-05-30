@@ -301,6 +301,8 @@ user	borisPoints	0
 user	breakableHandling	1
 user	breakableHandling1964	2
 user	breakfastCompleted	false
+user	brodenBacteria	0
+user	brodenSprinkles	0
 user	buffBotCasting
 user	buffBotMessageDisposal	0
 user	buffBotPhilanthropyType	1
@@ -847,6 +849,8 @@ user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
+user	tacoDanCocktailSauce	0
+user	tacoDanFishMeat	0
 user	tavernLayout	0000000000000000000000000
 user	telescope1
 user	telescope2

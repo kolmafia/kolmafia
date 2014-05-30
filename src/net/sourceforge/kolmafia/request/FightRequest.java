@@ -212,6 +212,8 @@ public class FightRequest
 		Pattern.compile( "href=\"?/?fight.php" );
 	private static final Pattern DRAWER_PATTERN =
 		Pattern.compile( "search through <b>(\\d+)</b> drawers" );
+	private static final Pattern TACO_FISH_PATTERN =
+		Pattern.compile( "gain (\\d+) taco fish meat" );
 
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
@@ -3335,6 +3337,55 @@ public class FightRequest
 				if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
 				{
 					Preferences.increment( "buffJimmyIngredients", 1 );
+					if ( Preferences.getInteger( "buffJimmyIngredients" ) >= 15 )
+					{
+						QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, "step1" );
+					}
+				}
+			}
+			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Cocktail" ) )
+			{
+				if ( responseText.contains( "cocktail sauce bottle" ) || responseText.contains( "defeated foe with your bottle" ) )
+				{
+					Preferences.increment( "tacoDanCocktailSauce", 1 );
+					if ( Preferences.getInteger( "tacoDanCocktailSauce" ) >= 15 )
+					{
+						QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, "step1" );
+					}
+				}
+			}
+			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Sundae" ) )
+			{
+				if ( responseText.contains( "sprinkles off" ) )
+				{
+					Preferences.increment( "brodenSprinkles", 1 );
+					if ( Preferences.getInteger( "brodenSprinkles" ) >= 15 )
+					{
+						QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, "step1" );
+					}
+				}
+			}
+			else if ( monster.equalsIgnoreCase( "taco fish" ) )
+			{
+				Matcher FishMeatMatcher = FightRequest.TACO_FISH_PATTERN.matcher( responseText );
+				if ( FishMeatMatcher.find() )
+				{
+					Preferences.increment( "tacoDanFishMeat", StringUtilities.parseInt( FishMeatMatcher.group( 1 ) ) );
+				}
+					if ( Preferences.getInteger( "tacoDanFishMeat" ) >= 300 )
+					{
+						QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, "step1" );
+					}
+			}
+			else if ( monster.equalsIgnoreCase( "Fun-Guy Playmate" ) )
+			{
+				if ( responseText.contains( "hot tub with some more bacteria" ) )
+				{
+					Preferences.increment( "brodenBacteria", 1 );
+					if ( Preferences.getInteger( "brodenBacteria" ) >= 10 )
+					{
+						QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, "step1" );
+					}
 				}
 			}
 			else if ( monster.equalsIgnoreCase( "bugbear robo-surgeon" ) )
