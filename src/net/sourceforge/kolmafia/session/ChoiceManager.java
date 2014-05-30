@@ -3004,14 +3004,14 @@ public abstract class ChoiceManager
 		// One Elegant Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
-			new Object[] { new Option( "Lady Spookyraven's finest gown", 1 ),
+			new Object[] { new Option( "Lady Spookyraven's finest gown (once only)", 1 ),
 				       new Option( "elegant nightstick", 2 ),
 				       new Option( "stats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),
 
 		// Off the Rack
 		new ChoiceAdventure(
-			"Manor2", "choiceAdventure880", "Bathroom Towel",
+			"Manor2", "choiceAdventure882", "Bathroom Towel",
 			new Object[] { "get towel",
 				       "skip" } ),
 
