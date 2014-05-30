@@ -2455,7 +2455,7 @@ Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
 
 # Crashed Space Ship
-government	COMBINE	anticheese	government cheese
+government	ACOMBINE	anticheese	government cheese
 stealth bomber	MIX	government	rocket fuel
 buffed alien drugs	COMBINE	alien drugs	alien protein powder
 grilled cheese sandwich	COOK	loaf of alien bread	government cheese
