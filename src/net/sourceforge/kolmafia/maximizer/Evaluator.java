@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1370,7 +1371,7 @@ public class Evaluator
 			for ( int f = 0; f < familiarList.size(); ++f )
 			{
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
-				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() &&
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && Type69Request.isAllowed( "Familiars", familiar.getName() ) &&
 				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
 					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) )
 				{
