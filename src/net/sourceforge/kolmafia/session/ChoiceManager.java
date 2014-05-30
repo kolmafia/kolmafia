@@ -7116,6 +7116,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "But here's a few Beach Bucks as a token of my changes in gratitude" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, QuestDatabase.FINISHED );
+				ResultProcessor.processItem( ItemPool.PENCIL_THIN_MUSHROOM, -10 );
 			}
 			else if ( text.contains( "not really into moving out of this hammock" ) )
 			{
@@ -7134,6 +7135,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "So here's some Beach Bucks instead" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.FINISHED );
+				ResultProcessor.processItem( ItemPool.SAILOR_SALT, -50 );
 			}
 			break;
 		case 916:
@@ -7145,6 +7147,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "Here's a little Taco Dan's Taco Stand gratitude for ya" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, QuestDatabase.FINISHED );
+				ResultProcessor.processItem( ItemPool.TACO_DAN_RECEIPT, -10 );
 			}
 			else if ( text.contains( "fill it up with as many cocktail drippings" ) )
 			{
@@ -7155,6 +7158,7 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, QuestDatabase.FINISHED );
 				Preferences.setInteger( "tacoDanCocktailSauce", 0 );
+				ResultProcessor.processItem( ItemPool.TACO_DAN_SAUCE_BOTTLE, -1 );
 			}
 			else if ( text.contains( "get enough taco fish" ) )
 			{
@@ -7188,6 +7192,7 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.FINISHED );
 				Preferences.setInteger( "brodenSprinkles", 0 );
+				ResultProcessor.processItem( ItemPool.SPRINKLE_SHAKER, -1 );
 			}
 			else if ( text.contains( "There were like fifteen of these guys" ) )
 			{
@@ -7196,6 +7201,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "And they all had broupons, huh" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, QuestDatabase.FINISHED );
+				ResultProcessor.processItem( ItemPool.BROUPON, -15 );
 			}
 			break;
 		case 918:
