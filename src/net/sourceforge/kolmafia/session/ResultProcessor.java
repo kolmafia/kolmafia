@@ -2081,6 +2081,34 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.PENCIL_THIN_MUSHROOM:
+			if ( InventoryManager.getCount( ItemPool.PENCIL_THIN_MUSHROOM ) >= 10 )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, "step1" );
+			}
+			break;
+
+		case ItemPool.SAILOR_SALT:
+			if ( InventoryManager.getCount( ItemPool.SAILOR_SALT ) >= 50 )
+			{
+				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, "step1" );
+			}
+			break;
+
+		case ItemPool.TACO_DAN_RECEIPT:
+			if ( InventoryManager.getCount( ItemPool.TACO_DAN_RECEIPT ) >= 10 )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, "step1" );
+			}
+			break;
+
+		case ItemPool.BROUPON:
+			if ( InventoryManager.getCount( ItemPool.BROUPON ) >= 15 )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, "step1" );
+			}
+			break;
+
 		case ItemPool.ELIZABETH_DOLLIE:
 			if ( combatResults )
 			{

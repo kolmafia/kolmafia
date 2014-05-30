@@ -7120,6 +7120,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "not really into moving out of this hammock" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, QuestDatabase.STARTED );
+				Preferences.setInteger( "buffJimmyIngredients", 0 );
 			}
 			else if ( text.contains( "So I'll just give you some Beach Bucks instead" ) )
 			{
@@ -7129,11 +7130,72 @@ public abstract class ChoiceManager
 			else if ( text.contains( "sons of sons of sailors are" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.STARTED );
-				Preferences.setInteger( "buffJimmyIngredients", 0 );
 			}
 			else if ( text.contains( "So here's some Beach Bucks instead" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, QuestDatabase.FINISHED );
+			}
+			break;
+		case 916:
+			// Choice 916 is Taco Dan's Taco Stand's Taco Dan
+			if ( text.contains( "find those receipts" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "Here's a little Taco Dan's Taco Stand gratitude for ya" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, QuestDatabase.FINISHED );
+			}
+			else if ( text.contains( "fill it up with as many cocktail drippings" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, QuestDatabase.STARTED );
+				Preferences.setInteger( "tacoDanCocktailSauce", 0 );
+			}
+			else if ( text.contains( "sample of Taco Dan's Taco Stand's Tacoriffic Cocktail Sauce" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, QuestDatabase.FINISHED );
+				Preferences.setInteger( "tacoDanCocktailSauce", 0 );
+			}
+			else if ( text.contains( "get enough taco fish" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, QuestDatabase.STARTED );
+				Preferences.setInteger( "tacoDanFishMeat", 0 );
+			}
+			else if ( text.contains( "batch of those Taco Dan's Taco Stand's Taco Fish Tacos" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, QuestDatabase.FINISHED );
+				Preferences.setInteger( "tacoDanFishMeat", 0 );
+			}
+			break;
+		case 917:
+			// Choice 917 is Do You Even Brogurt
+			if ( text.contains( "need about ten shots of it" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, QuestDatabase.STARTED );
+				Preferences.setInteger( "brodenBacteria", 0 );
+			}
+			else if ( text.contains( "YOLO cup to spit the bacteria into" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, QuestDatabase.FINISHED );
+				Preferences.setInteger( "brodenBacteria", 0 );
+			}
+			else if ( text.contains( "loan you my sprinkle shaker to fill up" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.STARTED );
+				Preferences.setInteger( "brodenSprinkles", 0 );
+			}
+			else if ( text.contains( "can sell some deluxe brogurts" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.FINISHED );
+				Preferences.setInteger( "brodenSprinkles", 0 );
+			}
+			else if ( text.contains( "There were like fifteen of these guys" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "And they all had broupons, huh" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, QuestDatabase.FINISHED );
 			}
 			break;
 		case 918:
