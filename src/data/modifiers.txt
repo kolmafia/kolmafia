@@ -4208,7 +4208,7 @@ Human-Orc Hybrid	Maximum HP: +40, Experience: +1
 Human-Penguin Hybrid	Item Drop: +25
 Human-Pirate Hybrid	Booze Drop: +50, Gear Drop: +50
 Human-Plant Hybrid	Cold Damage: +20, Cold Spell Damage: +20
-Human-Sleaze Hybrid	Sleaze Damage: +20, Sleaze Spell Damage: +20
+Human-Slime Hybrid	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Human-Weird Thing Hybrid	Experience: +4
 Human-Undead Hybrid	Spooky Damage: +20, Spooky Spell Damage: +20
 Hurricane Force	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
