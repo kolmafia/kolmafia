@@ -1093,6 +1093,7 @@ user	_softwareGlitchTurnReceived	false
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_stabonicScrollUsed	false
+user	_steamCardDrops	0
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0
 user	_stinkyCheeseBanisherUsed	false
@@ -1109,6 +1110,7 @@ user	_taffyRareSummons	0
 user	_templeHiddenPower	false
 user	_tempuraAirUsed	false
 user	_thingfinderCasts	0
+user	_thinknerdPackageDrops	0
 user	_timeHelmetAdv	0
 user	_toastSummons	0
 user	_tokenDrops	0
