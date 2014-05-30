@@ -31,7 +31,7 @@ The Dive Bar	STOP	Ode to the Sea
 The Dive Bar	STOP	Boxing the Juke
 # Adventures that start the Around the World Quest
 Frat House	STOP	I Just Wanna Fly
-The Frat House (Bombed Back to the Stone Age)	STOP	Me Just Want Fly
+The Orcish Frat House (Bombed Back to the Stone Age)	STOP	Me Just Want Fly
 # Giant's castle end
 The Castle in the Clouds in the Sky (Top Floor)	STOP	Keep On Turnin' the Wheel in the Sky
 # Adventure in the Arid, Extra-Dry desert until you find the Oasis
@@ -140,6 +140,7 @@ Camp Logging Camp	GLYPH	Stumped
 Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
 The Arid, Extra-Dry Desert	GLYPH	How Dry I Am
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
+Noob Cave	GLYPH	How Do I Shot Web?
 Pre-Cyrpt Cemetary	GLYPH	They Hate That
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
 The Bugbear Pen	GLYPH	Bacon Bacon Bacon
@@ -147,7 +148,6 @@ The Defiled Nook	GLYPH	They Gave at the Morgue
 The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
 The "Fun" House	GLYPH	They Hate Mimes, Too
 The Limerick Dungeon	GLYPH	Thud
-The Noob Cave	GLYPH	How Do I Shot Web?
 The Penultimate Fantasy Airship	GLYPH	Number 163
 The Poker Room	GLYPH	It's In the Cards
 The Road to White Citadel	GLYPH	Breakfast of Champions
