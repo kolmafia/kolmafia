@@ -1354,7 +1354,6 @@ public class Evaluator
 		
 		if ( this.carriedFamiliarsNeeded > 0 )
 		{
-			boolean useCarriedFamiliar = false;
 			MaximizerSpeculation best = new MaximizerSpeculation();
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
 			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
@@ -1367,11 +1366,10 @@ public class Evaluator
 
 			// Check each familiar in hat to see if they are worthwhile
 			List familiarList = KoLCharacter.getFamiliarList();
-			String[] familiars = new String[ familiarList.size() ];
 			for ( int f = 0; f < familiarList.size(); ++f )
 			{
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
-				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && Type69Request.isAllowed( "Familiars", familiar.getName() ) &&
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && Type69Request.isAllowed( "Familiars", familiar.getRace() ) &&
 				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
 					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) )
 				{
@@ -1385,7 +1383,6 @@ public class Evaluator
 					{
 						secondBest = (MaximizerSpeculation) best.clone();
 						best = (MaximizerSpeculation) spec.clone();
-						useCarriedFamiliar = true;
 						secondBestCarriedFamiliar = bestCarriedFamiliar;
 						bestCarriedFamiliar = familiar;
 					}

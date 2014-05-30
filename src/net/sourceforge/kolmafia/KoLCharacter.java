@@ -102,7 +102,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -4297,7 +4296,7 @@ public abstract class KoLCharacter
 			FamiliarData familiar = familiarArray[ i ];
 			if ( familiar.getId() == familiarId )
 			{
-				if ( !Type69Request.isAllowed( "Familiars", familiar.getName() ) )
+				if ( !Type69Request.isAllowed( "Familiars", familiar.getRace() ) )
 				{
 					return null;
 				}
