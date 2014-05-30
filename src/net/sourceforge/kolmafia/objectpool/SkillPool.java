@@ -192,6 +192,7 @@ public class SkillPool
 	public static final int SOUL_FUNK = 7187;
 	public static final int DISMISS_PASTA_THRALL = 7188;
 	public static final int UNLOAD_TOMMY_GUN = 7200;
+	public static final int SHOVEL_HOT_COAL = 7203;
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;

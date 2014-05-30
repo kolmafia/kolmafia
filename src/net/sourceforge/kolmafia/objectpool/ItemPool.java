@@ -2013,6 +2013,9 @@ public class ItemPool
 	public static final int GHOST_NECKLACE = 7318;
 	public static final int ELIZABETH_DOLLIE = 7319;
 	public static final int STEPHEN_LAB_COAT = 7321;
+	public static final int CREEPY_VOICE_BOX = 7334;
+	public static final int COAL_SHOVEL = 7355;
+	public static final int HOT_COAL = 7356;
 	public static final int DNA_LAB = 7382;
 	public static final int BEACH_BUCK = 7429;
 	public static final int OFFENSIVE_JOKE_BOOK = 7458;

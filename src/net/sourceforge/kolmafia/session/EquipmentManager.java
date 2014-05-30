@@ -608,6 +608,12 @@ public class EquipmentManager
 		case ItemPool.TOMMY_GUN:
 			KoLCharacter.addAvailableSkill( "Unload Tommy Gun" );
 			break;
+		case ItemPool.CREEPY_VOICE_BOX:
+			KoLCharacter.addAvailableSkill( "Pull Voice Box String" );
+			break;
+		case ItemPool.COAL_SHOVEL:
+			KoLCharacter.addAvailableSkill( "Shovel Hot Coal" );
+			break;
 		case ItemPool.SPACE_HEATER:
 			KoLCharacter.addAvailableSkill( "Heat Space" );
 			break;
