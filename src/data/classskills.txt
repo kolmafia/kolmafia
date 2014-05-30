@@ -625,9 +625,9 @@
 7199	Blow Wolf Whistle	wolfwhistle.gif	5	0	0
 7200	Unload Tommy Gun	tommygun.gif	5	0	0
 7201	Mug for the Audience	mug.gif	5	0	0
-7202
-7203
-7204
+7202	Pull Voice Box String	Voicebox.gif	5	0	0
+7203	Shovel Hot Coal	Coalshovel.gif	5	0	0
+7204	Unleash the Greash	unleashgreash.gif	5	0	0
 7205	Heat Space	spaceheater.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf

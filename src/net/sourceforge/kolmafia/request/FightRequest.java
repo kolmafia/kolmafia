@@ -1357,6 +1357,17 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Shovel Hot Coal" ) )
+		{
+			// You can only use this skill if you have hot coal
+
+			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOT_COAL, 1 ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
@@ -2532,6 +2543,11 @@ public class FightRequest
 		// Casting Unload Tommy Gun uses Tommy Ammo
 		case SkillPool.UNLOAD_TOMMY_GUN:
 			ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
+			break;
+
+		// Casting Shovel Hot Coal uses Hot Coal
+		case SkillPool.SHOVEL_HOT_COAL:
+			ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
 			break;
 
 		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
