@@ -40,7 +40,7 @@
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: e1	Goomba: o1	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
 A Barroom Brawl	100	drunken 7-foot Dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
-A Crater Full of Space Beasts	100	space beast	space beast	matriarch: 0
+A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Deserted Stretch of I-911	100	fire truck	ice cream truck	monster hearse	sewer tanker	sketchy van
 A Freezing Abyssal Portal	100	bulwark bull seal
 A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle of Meat of Happiness	carton of Eggs of Confidence	loaf of Bread of Wonder
