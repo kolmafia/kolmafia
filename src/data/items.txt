@@ -7540,7 +7540,7 @@
 7521	government cheese	213065981	goatcheese.gif	food	t,d	29	pieces of government cheese
 7522	pair of government shades	734304226	bigglasses.gif	accessory	t,d	50	pairs of government shades
 7523	space junk	554976200	elecparts.gif	multiple	t	0	piles of space junk
-7524	government	611146854	beerbottle.gif	drink	t,d	40	bottles of government
+7524	government	611146854	beerbottle.gif	multiple	t,d	40	bottles of government
 7525	alien drugs	385188810	pill.gif	multiple	t,d	15	different alien drugs
 7526	weird space book	658177559	book.gif	usable	q	0	weird space books
 7527	alien force field disruptor bean	498890170	bean.gif	none	t,d	15	alien force field disruptor beans
