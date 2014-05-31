@@ -70,7 +70,7 @@ questI02Beat	The Quest for the Legendary Beat	You must defeat Professor Jacking 
 
 # Elemental Planes Quests
 questESlMushStash	Pencil-Thin Mush Stash	Find Buff Jimmy's mushrooms in the Fun-Guy Mansion	Take the mushrooms back to Buff Jimmy	You retrieved Buff Jimmy's stash of pencil-thin mushrooms.
-questESlCheeseburger	Paradise Cheeseburger	Gather the ingredients for Buff Jimmy's burger at the Sloppy Seconds Diner.		You gathered all of the ingredients for Buff Jimmy's weird cheeseburger.
+questESlCheeseburger	Paradise Cheeseburger	Gather the ingredients for Buff Jimmy's burger at the Sloppy Seconds Diner.	Take the ingredients back to Buff Jimmy.	You gathered all of the ingredients for Buff Jimmy's weird cheeseburger.
 questESlSalt	Lost Shaker of Salt	Get the sea salt that Buff Jimmy wants from sons of sons of sailors on the Sunken Party Yacht.	Take the salt back to Buff Jimmy.	You retrieved Buff Jimmy's lost salt.
 questESlAudit	Audit-Tory Hallucinations	Find the receipts Taco Dan lost while hallucinating in the Fun-Guy Mansion.	Take the receipts back to Taco Dan before he gets audited.	You prevented Taco Dan from getting audited.
 questESlCocktail	Cocktail as old as Cocktime	Gather cocktail sauce for Taco Dan at the Sloppy Seconds Diner.	Take the cocktail sauce back to Taco Dan.	You facilitated Taco Dan's bold cocktail sauce experiment.
