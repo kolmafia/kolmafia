@@ -83,7 +83,7 @@ public class CheckedItem
 			return;
 		}
 
-		if ( Type69Request.isAllowed( "Items", this.getName() ) )
+		if ( !Type69Request.isAllowed( "Items", this.getName() ) )
 		{
 			// Unallowed items can't be bought or pulled, though the original code
 			// just reset everything to zero
