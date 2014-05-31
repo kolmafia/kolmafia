@@ -5729,6 +5729,19 @@ public abstract class ChoiceManager
 			ResultProcessor.removeItem( ItemPool.FUNKY_JUNK_KEY );
 			break;
 
+		case 866:
+			// If you have a clover, this is a clover adventure.
+			// Otherwise it is a semirare
+			if ( InventoryManager.hasItem( ItemPool.TEN_LEAF_CLOVER ) )
+			{
+				ResultProcessor.removeItem( ItemPool.TEN_LEAF_CLOVER );
+			}
+			else
+			{
+				KoLCharacter.registerSemirare();
+			}
+			break;
+
 		}
 	}
 
