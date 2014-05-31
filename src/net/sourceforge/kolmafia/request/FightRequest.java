@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -210,6 +211,8 @@ public class FightRequest
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
 	private static final Pattern MULTIFIGHT_PATTERN =
 		Pattern.compile( "href=\"?/?fight.php" );
+	private static final Pattern FIGHTCHOICE_PATTERN =
+		Pattern.compile( "href=\"choice.php" );
 	private static final Pattern DRAWER_PATTERN =
 		Pattern.compile( "search through <b>(\\d+)</b> drawers" );
 	private static final Pattern TACO_FISH_PATTERN =
@@ -2621,7 +2624,7 @@ public class FightRequest
 		// If this was an item-generated monster, reset
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
 
-		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
+		boolean won = responseText.contains( "<!--WINWINWIN-->" );
 
 		// If we won, the fight is over for sure. It might be over
 		// anyway. We can detect this in one of two ways: if you have
@@ -2630,51 +2633,51 @@ public class FightRequest
 		// fight is continuing
 
 		if ( !won &&
-			responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+			responseText.contains( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 				"(show old combat form)" :
-				"action=fight.php" ) != -1 )
+				"action=fight.php" ) )
 		{
 			// The fight is not over, none of the stuff below needs to be checked
 			return;
 		}
 
-		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
+		if ( responseText.contains( "Your sugar chapeau slides" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,
 				"Your sugar chapeau shattered." );
 		}
 
-		if ( responseText.indexOf( "your sugar shank handle" ) != -1 )
+		if ( responseText.contains( "your sugar shank handle" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHANK,
 				"Your sugar shank shattered." );
 		}
 
-		if ( responseText.indexOf( "drop something as sticky as the sugar shield" ) != -1 )
+		if ( responseText.contains( "drop something as sticky as the sugar shield" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIELD,
 				"Your sugar shield shattered." );
 		}
 
-		if ( responseText.indexOf( "Your sugar shillelagh absorbs the shock" ) != -1 )
+		if ( responseText.contains( "Your sugar shillelagh absorbs the shock" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHILLELAGH,
 				"Your sugar shillelagh shattered." );
 		}
 
-		if ( responseText.indexOf( "Your sugar shirt falls apart" ) != -1 )
+		if ( responseText.contains( "Your sugar shirt falls apart" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIRT,
 				"Your sugar shirt shattered." );
 		}
 
-		if ( responseText.indexOf( "Your sugar shotgun falls apart" ) != -1 )
+		if ( responseText.contains( "Your sugar shotgun falls apart" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHOTGUN,
 				"Your sugar shotgun shattered." );
 		}
 
-		if ( responseText.indexOf( "Your sugar shorts crack" ) != -1 )
+		if ( responseText.contains( "Your sugar shorts crack" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
 				"Your sugar shorts shattered." );
@@ -3411,6 +3414,7 @@ public class FightRequest
 
 		FightRequest.clearInstanceData();
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
+		ChoiceManager.handlingChoice = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
 	}
 
 	public static final String getSpecialAction()
