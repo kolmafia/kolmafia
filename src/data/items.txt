@@ -7539,9 +7539,9 @@
 7520	burned government manual fragment	423402768	document.gif	usable	q	0
 7521	government cheese	213065981	goatcheese.gif	food	t,d	29
 7522	pair of government shades	734304226	bigglasses.gif	accessory	t,d	50
-7523	space junk	554976200	elecparts.gif	multiple	t	0
-7524	government	611146854	beerbottle.gif	usable	t,d	40
-7525	alien drugs	385188810	pill.gif	usable	t,d	15
+7523	space junk	554976200	elecparts.gif	multiple	t	0	piles of space junk
+7524	government	611146854	beerbottle.gif	drink	t,d	40	bottles of government
+7525	alien drugs	385188810	pill.gif	multiple	t,d	15	different alien drugs
 7526	weird space book	658177559	book.gif	usable	q	0
 7527	alien force field disruptor bean	498890170	bean.gif	none	t,d	15
 7528	government-issued night-vision goggles	775124204	nvgoggles.gif	accessory	t,d	65
@@ -7552,7 +7552,7 @@
 7533	alien source code printout	951108754	punchcard.gif	usable	t	0
 7534	alien source code printout (used)	735936333	punchcard.gif	usable		0
 7535	stealth bomber	277101255	shot_f.gif	drink	t,d	99
-7536	space beast fur	798925250	spacefur.gif	none	t	0
+7536	space beast fur	798925250	spacefur.gif	none	t	0	pieces of space beast fur
 7537	twitching space egg	430294177	spaceegg.gif	grow	t	0
 7538	ramekin of space nuts	202943364	nutramekin.gif	familiar	t,d	75
 7539	space beast fur hat	821531220	sb_hat.gif	hat		0
