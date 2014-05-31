@@ -2960,7 +2960,7 @@
 2941	Steal This Candy	525080486	candy.gif	usable, candy	t,d	25	Steal These Candies
 2942	chocolate filthy lucre	512578714	lucre.gif	multiple, candy	t,d	35	chocolate filthy lucres
 2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	usable, candy	t,d	30	Angry Farmer's Wife Candies
-2944	the Jickinator	653861412	raygun.gif	none, combat		0
+2944	the Jickinator	653861412	raygun.gif	none, combat	t	0
 2945	party hat	340531020	partyhat.gif	hat	t,d	50	party hats
 2946	V for Vivala mask	798085688	vivala.gif	accessory	t	0	V for Vivala masks
 2947	The Big Book of Pirate Insults	501433602	book4.gif	none, combat reusable	t,d	250	Big Books of Pirate Insults
@@ -6254,7 +6254,7 @@
 6235	Le Roi	686303923	jarl_leroi.gif	drink	q	0
 6236	Over Easy Rider	842512102	jarl_overeasy.gif	drink	q	0
 6237	cosmic six-pack	491592616	jarl_sixpack.gif	usable	q	0
-6238
+6238	the Jick-o-loser	811583951	bomb.gif	none, combat	t	0
 6239	cube of ectoplasm	299288653	cube.gif	multiple	t,d	5	cubes of ectoplasm
 6240	Illuminati earpiece	431498567	earpiece.gif	multiple	t,d	5	Illuminati earpieces
 6241	censored can label	309750078	censlabel.gif	multiple	t,d	5	censored can labels

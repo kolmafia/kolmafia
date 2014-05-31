@@ -981,19 +981,49 @@ public class DebugDatabase
 
 	private static final void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report )
 	{
+		ArrayList<String> known = new ArrayList<String>();
 		ArrayList<String> unknown = new ArrayList<String>();
-		String known = DebugDatabase.parseItemEnchantments( text, unknown, type );
+
+		// Get the known and unknown modifiers from the item description
+		DebugDatabase.parseItemEnchantments( text, known, unknown, type );
+
+		// Compare to what is already registered.
+		// Log differences and substitute formulas, as appropriate.
+		DebugDatabase.checkModifiers( name, known, report );
+
+		// Print the modifiers in the format modifiers.txt expects.
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
 
-	private static final void logModifierDatum( final String name, final String known, final ArrayList<String> unknown, final PrintStream report )
+	private static final void checkModifiers( final String name, final ArrayList<String> known, final PrintStream report )
+	{
+		// *** xxx ***
+
+		// Get the existing modifiers for the name
+		// For each modifier in known
+		//    if it is present in existing modifiers
+		//        if is an expression
+		//            evaluate it
+		//            replace string in known with expression
+		//        if does not match
+		//            log error with ***
+		//    else
+		//        log error with ***
+		// For each modifier in existing modifiers
+		//    if it is Familiar Effect
+		//        add to known
+		//    else
+		//        log error with ***
+	}
+
+	private static final void logModifierDatum( final String name, final ArrayList<String> known, final ArrayList<String> unknown, final PrintStream report )
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
 			Modifiers.writeModifierComment( report, name, unknown.get( i ) );
 		}
 
-		if ( known.equals( "" ) )
+		if ( known.size() == 0 )
 		{
 			if ( unknown.size() == 0 )
 			{
@@ -1002,16 +1032,30 @@ public class DebugDatabase
 		}
 		else
 		{
-			Modifiers.writeModifierString( report, name, known );
+			Modifiers.writeModifierString( report, name, DebugDatabase.createModifierString( known ) );
 		}
+	}
+
+	private static final String createModifierString( final ArrayList<String> modifiers )
+	{
+		StringBuilder buffer = new StringBuilder();
+		for ( String modifier : modifiers )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( ", " );
+			}
+			buffer.append( modifier );
+		}
+		return buffer.toString();
 	}
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown, final int type )
+	public static final void parseItemEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown, final int type )
 	{
-		String known = parseStandardEnchantments( text, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
+		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
 		// Several modifiers can appear outside the "Enchantments"
 		// section of the item description.
@@ -1019,53 +1063,42 @@ public class DebugDatabase
 		// If we extracted Damage Reduction from the enchantments, we
 		// included shield DR as well, but for shields that have no
 		// enchantments, get DR here.
-		if ( !known.contains( "Damage Reduction" ) )
+		if ( !DebugDatabase.containsModifier( known, "Damage Reduction" ) )
 		{
-			String dr = Modifiers.parseDamageReduction( text );
-			known = DebugDatabase.appendModifier( known, dr );
+			DebugDatabase.appendModifier( known, Modifiers.parseDamageReduction( text ) );
 		}
 
-		String single = Modifiers.parseSingleEquip( text );
-		known = DebugDatabase.appendModifier( known, single );
-
-		String softcore = Modifiers.parseSoftcoreOnly( text );
-		known = DebugDatabase.appendModifier( known, softcore );
-
-		String lastsOneDay = Modifiers.parseLastsOneDay( text );
-		known = DebugDatabase.appendModifier( known, lastsOneDay );
-
-		String freepull = Modifiers.parseFreePull( text );
-		known = DebugDatabase.appendModifier( known, freepull );
-
-		String effect = Modifiers.parseEffect( text );
-		known = DebugDatabase.appendModifier( known, effect );
-
-		String effectDuration = Modifiers.parseEffectDuration( text );
-		known = DebugDatabase.appendModifier( known, effectDuration );
-
-		String songDuration = Modifiers.parseSongDuration( text );
-		known = DebugDatabase.appendModifier( known, songDuration );
+		DebugDatabase.appendModifier( known, Modifiers.parseSingleEquip( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseSoftcoreOnly( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseLastsOneDay( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseFreePull( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseEffect( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseEffectDuration( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseSongDuration( text ) );
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
 		{
 			String familiar = DebugDatabase.parseFamiliar( text );
 			if ( familiar.equals( "any" ) )
 			{
-				known = DebugDatabase.appendModifier( known, "Generic" );
+				DebugDatabase.appendModifier( known, "Generic" );
 			}
 		}
-
-		return known;
 	}
 
-	private static final String parseStandardEnchantments( final String text, final ArrayList<String> unknown, final Pattern pattern )
+	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown, final int type )
 	{
-		String known = "";
+		ArrayList<String> known = new ArrayList<String>();
+		DebugDatabase.parseItemEnchantments( text, known, unknown, type );
+		return DebugDatabase.createModifierString( known );
+	}
 
+	private static final void parseStandardEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown, final Pattern pattern )
+	{
 		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
 		{
-			return known;
+			return;
 		}
 
 		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
@@ -1094,7 +1127,7 @@ public class DebugDatabase
 				{
 					mod = Modifiers.parseDamageReduction( text );
 				}
-				known = DebugDatabase.appendModifier( known, mod );
+				DebugDatabase.appendModifier( known, mod );
 				continue;
 			}
 
@@ -1103,13 +1136,41 @@ public class DebugDatabase
 				unknown.add( enchantment );
 			}
 		}
-
-		return known;
 	}
 
-	private static final String appendModifier( final String known, final String mod )
+	private static final boolean containsModifier( final ArrayList<String> modifiers, final String find )
 	{
-                return mod == null ? known : known.equals( "" ) ? mod : known + ", " + mod;
+		for ( String modifier : modifiers )
+		{
+			if ( modifier.startsWith( find ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static final void replaceModifier( final ArrayList<String> modifiers, String find, final String replace )
+	{
+		find = find + ":";
+		for ( int i = 0; i < modifiers.size(); ++i )
+		{
+			String modifier = modifiers.get( i );
+			if ( modifier.startsWith( find ) )
+			{
+				modifiers.set( i, replace );
+				return;
+			}
+		}
+		modifiers.add( replace );
+	}
+
+	private static final void appendModifier( final ArrayList<String> known, final String mod )
+	{
+		if ( mod != null )
+		{
+			known.add( mod );
+		}
 	}
 
 	// **********************************************************
@@ -1323,15 +1384,31 @@ public class DebugDatabase
 	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
 		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
 
+	public static final void parseEffectEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown )
+	{
+		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
+	}
+
 	public static final String parseEffectEnchantments( final String text, final ArrayList<String> unknown )
 	{
-		return parseStandardEnchantments( text, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
+		ArrayList<String> known = new ArrayList<String>();
+		DebugDatabase.parseEffectEnchantments( text, known, unknown );
+		return DebugDatabase.createModifierString( known );
 	}
 
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
+		ArrayList<String> known = new ArrayList<String>();
 		ArrayList<String> unknown = new ArrayList<String>();
-		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
+
+		// Get the known and unknown modifiers from the effect description
+		DebugDatabase.parseEffectEnchantments( text, known, unknown );
+
+		// Compare to what is already registered.
+		// Log differences and substitute formulas, as appropriate.
+		DebugDatabase.checkModifiers( name, known, report );
+
+		// Print the modifiers in the format modifiers.txt expects.
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
 

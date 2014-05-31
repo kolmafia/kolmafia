@@ -1604,7 +1604,7 @@ snarling wolf shield	115	Mus: 42	shield
 snow mobile	100	none
 snowstick	225	Mys: 200
 sock monkey	110	Mys: 40
-sommelier's towel	0	Mys: 60
+sommelier's towel	150	Mys: 60
 spaghetti-box banjo	160	Mys: 150
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield

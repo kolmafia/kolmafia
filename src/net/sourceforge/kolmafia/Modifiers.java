@@ -1771,17 +1771,31 @@ public class Modifiers
 			return null;
 		}
 
-		String string = (String) modifier;
+		Modifiers newMods = Modifiers.parseModifiers( name, (String) modifier );
 
-		Modifiers newMods = new Modifiers();
-		newMods.name = name;
 		if ( changeName != null )
 		{
 			newMods.name = changeName;
 		}
+		newMods.variable = newMods.override( name );
+		if ( newMods.variable || name.startsWith( "loc:" ) || name.startsWith( "zone:" ) )
+		{
+			newMods.bitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
+		}
+
+		Modifiers.modifiersByName.put( name, newMods );
+
+		return newMods;
+	}
+
+	public final static Modifiers parseModifiers( final String name, final String string )
+	{
+		Modifiers newMods = new Modifiers();
 		double[] newDoubles = newMods.doubles;
 		int[] newBitmaps = newMods.bitmaps;
 		String[] newStrings = newMods.strings;
+
+		newMods.name = name;
 
 		for ( int i = 0; i < newDoubles.length; ++i )
 		{
@@ -1886,14 +1900,6 @@ public class Modifiers
 		}
 
 		newStrings[ Modifiers.MODIFIERS ] = string;
-
-		newMods.variable = newMods.override( name );
-		if ( newMods.variable || name.startsWith( "loc:" ) || name.startsWith( "zone:" ) )
-		{
-			newBitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
-		}
-
-		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
 	}
