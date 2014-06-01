@@ -158,7 +158,7 @@ public class Parser
 
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
+			this.commandStream = new LineNumberReader( new InputStreamReader( istream, "UTF-8" ) );
 			this.currentLine = this.getNextLine();
 			this.lineNumber = this.commandStream.getLineNumber();
 			this.nextLine = this.getNextLine();
