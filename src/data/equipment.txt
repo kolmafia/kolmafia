@@ -1905,7 +1905,7 @@ bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
 black glass	0	none
 blackberry combat boots	180	Mus: 75
-blackberry galoshes	180	Mox: 75
+blackberry galoshes	180	Mox: 60
 blackberry moccasins	180	Mys: 75
 blackberry slippers	180	Mys: 75
 blue glowstick	20	none
