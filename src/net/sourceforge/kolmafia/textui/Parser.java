@@ -158,7 +158,7 @@ public class Parser
 
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( istream, "UTF-8" ) );
+			this.commandStream = new LineNumberReader( new InputStreamReader( this.istream, "UTF-8" ) );
 			this.currentLine = this.getNextLine();
 			this.lineNumber = this.commandStream.getLineNumber();
 			this.nextLine = this.getNextLine();
@@ -3480,6 +3480,7 @@ public class Parser
 
 	// **************** Tokenizer *****************
 
+	private static final char BOM = '\ufeff';
 	private String getNextLine()
 	{
 		try
@@ -3495,6 +3496,17 @@ public class Parser
 				if ( this.fullLine == null )
 				{
 					return null;
+				}
+
+				if ( this.fullLine.length() == 0 )
+				{
+					continue;
+				}
+
+				// If the line starts with a Unicode BOM, remove it.
+				if ( this.fullLine.charAt( 0 ) == Parser.BOM )
+				{
+					this.fullLine = this.fullLine.substring( 1 );
 				}
 
 				// Remove whitespace at front and end
