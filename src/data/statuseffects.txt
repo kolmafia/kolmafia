@@ -1643,7 +1643,7 @@
 1642	I See Everything Thrice!	eyes.gif	932c27137df3631cde77a7bf0d996eb4	use 1 government
 1643	Space Tripping	powderpile2.gif	5d62055fd15ac31f5dd1e1b7633de802	use 1 buffed alien drugs
 1644
-1645
+1645	Ashen Burps	hotashes.gif	181fabda066ddcf2adb97c2a13caf810	use 1 ash soda
 1646
 1647	Barbecue Saucy	gooball.gif	7f1b85ae4e6163c402ed2d2625022054	use 1 dollop of barbecue sauce
 1648

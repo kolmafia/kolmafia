@@ -7564,10 +7564,10 @@
 7545	space port	812670303	potion4.gif	drink	t,d	75	space bottles of space port
 7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
-7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35
-7549
+7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35	handfuls of hot ashes
+7549	ash soda	551667583	beerbottle.gif	usable	t,d	55	bottles of ash soda
 7550
-7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25
+7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25	dollops of barbecue sauce
 7552
-7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	35
-7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	35
+7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	35	shakers of dry rub
+7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	35	bottles of lighter fluid
