@@ -2887,6 +2887,7 @@ bone collar	Familiar Weight: +5
 bottle of Cochon Noir	Familiar Weight: +5
 # bottle of moontan lotion: Makes Familiar More Sensitive to Light
 bottle of perfume	Familiar Weight: +5
+box of hickory chips	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
 bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0, Equips On: "Baby Bugged Bugbear"

@@ -7329,7 +7329,7 @@
 7310	old bronzer	846379862	balm.gif	multiple	t,d	40
 7311	elegant nightstick	593439220	nightstick.gif	weapon	t,d	75
 7312	still grill	860803674	stillgrill.gif	grow	t	0
-7313
+7313	box of hickory chips	221201497	woodchips.gif	familiar	t,d	70
 7314	dusty poppet	580089747	poppet.gif	none	q	0
 7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
 7316	antique jack-in-the-box	671902661	jackinthebox.gif	none	q	0
