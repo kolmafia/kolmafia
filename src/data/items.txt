@@ -7328,7 +7328,7 @@
 7309	old rosewater cream	853741426	tube.gif	multiple	t,d	40
 7310	old bronzer	846379862	balm.gif	multiple	t,d	40
 7311	elegant nightstick	593439220	nightstick.gif	weapon	t,d	75
-7312
+7312	still grill	860803674	stillgrill.gif	grow	t	0
 7313
 7314	dusty poppet	580089747	poppet.gif	none	q	0
 7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
@@ -7564,3 +7564,10 @@
 7545	space port	812670303	potion4.gif	drink	t,d	75	space bottles of space port
 7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
+7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35
+7549
+7550
+7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25
+7552
+7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	35
+7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	35

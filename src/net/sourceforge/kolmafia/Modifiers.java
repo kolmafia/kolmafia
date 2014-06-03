@@ -212,6 +212,7 @@ public class Modifiers
 	public static final int SUPERCOLD_RESISTANCE = 106;
 	public static final int REDUCE_ENEMY_DEFENSE = 107;
 	public static final int POOL_SKILL = 108;
+	public static final int SURGEONOSITY = 109;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -698,6 +699,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Pool Skill" ),
 		  Pattern.compile( "Pool Skill: " + EXPR )
 		},
+		{ "Surgeonosity",
+		  null,
+		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -710,7 +715,6 @@ public class Modifiers
 	public static final int RAVEOSITY = 5;
 	public static final int MUTEX = 6;
 	public static final int MUTEX_VIOLATIONS = 7;
-	public static final int SURGEONOSITY = 8;
 
 	private static final Object[][] bitmapModifiers =
 	{
@@ -745,10 +749,6 @@ public class Modifiers
 		{ "Mutex Violations",
 		  null,
 		  null
-		},
-		{ "Surgeonosity",
-		  null,
-		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
 		},
 	};
 

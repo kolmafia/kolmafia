@@ -78,7 +78,6 @@ public class Evaluator
 	private int dump = 0;
 	private int clownosity = 0;
 	private int raveosity = 0;
-	private int surgeonosity = 0;
 	private int beeosity = 2;
 	private int booleanMask, booleanValue;
 	private ArrayList<FamiliarData> familiars;
@@ -306,11 +305,6 @@ public class Evaluator
 			else if ( keyword.equals( "raveosity" ) )
 			{
 				this.raveosity = (int) weight;
-				continue;
-			}
-			else if ( keyword.equals( "surgeonosity" ) )
-			{
-				this.surgeonosity = (int) weight;
 				continue;
 			}
 			else if ( keyword.equals( "beeosity" ) )
@@ -712,13 +706,6 @@ public class Evaluator
 			int osity = mods.getBitmap( Modifiers.RAVEOSITY );
 			score += Math.min( osity, this.raveosity );
 			if ( osity < this.raveosity )
-				this.failed = true;
-		}
-		if ( this.surgeonosity > 0 )
-		{
-			int osity = mods.getBitmap( Modifiers.SURGEONOSITY );
-			score += Math.min( osity, this.surgeonosity );
-			if ( osity < this.surgeonosity )
 				this.failed = true;
 		}
 		if ( !this.failed && this.booleanMask != 0 &&
@@ -1243,8 +1230,6 @@ public class Evaluator
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&
 						mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
-					( this.surgeonosity > 0 &&
-						mods.getRawBitmap( Modifiers.SURGEONOSITY ) != 0 ) ||
 					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
 						& usefulSynergies) != 0 ) )
 				{

@@ -3558,6 +3558,7 @@ Bailando, Fernando	Item Drop: 10
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 # Bandananit: Makes you look like a dirty thieving brigand
 Banono	Stench Damage: +40, Stench Spell Damage: +40
+Barbecue Saucy	Muscle: +15, Moxie: +15
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
 Bastard!	Weapon Damage: +12
@@ -5719,20 +5720,21 @@ blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
 bone bons	Effect: "Bone Chilling", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
-bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
-bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
-bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
 bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
-bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
 bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
-bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
 bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
+bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of Old Pugilist	Effect: "Fightin' Drunk", Effect Duration: 20
-bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
 bottle of Professor Beer	Effect: "Thinkin' Drunk", Effect Duration: 20
 bottle of Race Car Red	Effect: "Flyin' Drunk", Effect Duration: 20
 bottle of Rapier Witbier	Effect: "Jokin' Drunk", Effect Duration: 20
+bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
+bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
+bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
+bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
+bottle of lighter fluid	Effect: "Lit Up", Effect Duration: 10
+bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
 bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
@@ -5849,6 +5851,7 @@ disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
 discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
+dollop of barbecue sauce	Effect: "Barbecue Saucy", Effect Duration: 15
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 doppelshifter egg	Free Pull
 double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
@@ -6262,6 +6265,7 @@ stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
 sterno-flavored Hob-O	Effect: "Fire Down Below"
 stick-on gnome beard	Effect: "Gnomedome", Effect Duration: 100
+still grill	Free Pull
 strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30
 strawberry-flavored Hob-O	Effect: "Scariberi"
 stuffed-shirt scarecrow	Free Pull

@@ -307,8 +307,9 @@ public interface KoLConstants
 		"all res",
 		"mp regen",
 		"ML, 0.001 slime res",
-		"4 clownosity",
-		"7 raveosity",
+		"4 clownosity, -tie",
+		"7 raveosity, -tie",
+		"surgeonosity",
 		"+four songs",
 	};
 
