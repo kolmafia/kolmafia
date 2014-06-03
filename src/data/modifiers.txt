@@ -3537,6 +3537,7 @@ Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Artificially Sweet	Moxie Percent: +100
 Ashen	Combat Rate: -10
+Ashen Burps	Monster Level: +15
 Aspect of the GravyPlum Fairy	Item Drop: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
 Ass Over Teakettle	Initiative: +50
@@ -5682,6 +5683,7 @@ amok pudding	Effect: "Puddingface", Effect Duration: 20
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
 arrowgram	Free Pull
 arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
+ash soda	Effect: "Ashen Burps", Effect Duration: 15
 astral badger	Free Pull
 astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 bacon bath ball	Effect: "Pork Power", Effect Duration: 10
