@@ -4316,6 +4316,7 @@ Light-Headed	Mysticality Percent: -30
 # Like an Egyptian: Makes you look like a tomb servant
 # Limber as Mortimer: +100% Gear Drops from Monsters
 Liquid Courage	Experience: +3
+Lit Up	Hot Damage: +20, Hot Spell Damage: +20
 # Literally Insane
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Litterbug	Monster Level: +25
