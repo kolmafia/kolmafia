@@ -1646,3 +1646,6 @@
 1645
 1646
 1647	Barbecue Saucy	gooball.gif	7f1b85ae4e6163c402ed2d2625022054	use 1 dollop of barbecue sauce
+1648
+1649
+1650	Lit Up	lighterfluid.gif	38469ac56f66de5bcd552a8263d0d507	use 1 bottle of lighter fluid
