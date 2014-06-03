@@ -1333,6 +1333,7 @@ public class KoLAdventure
 		String location = AdventureDatabase.getUnknownName( urlString );
 		if ( location == null )
 		{
+			KoLAdventure.locationLogged = true;
 			return false;
 		}
 
