@@ -3189,6 +3189,7 @@ Throne:Flaming Gravy Fairy	Hot Damage: +20
 Throne:Frozen Gravy Fairy	Cold Damage: +20
 Throne:Frumious Bandersnatch	Experience: +2
 Throne:Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Galloping Grill	Spell Damage Percent: +10
 Throne:Gelatinous Cubeling	Familiar Weight: +5
 Throne:Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
