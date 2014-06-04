@@ -2433,12 +2433,14 @@ sweet tooth	MUSE	possessed sugar cube (11)
 Beefy Crunch Pastaco	COOK_FANCY	Pastaco shell	Boletus Broletus mushroom
 Brain Food Pastaco	COOK_FANCY	Pastaco shell	Omphalotus Omphaloskepsis mushroom
 Cool Brunch Pastaco	COOK_FANCY	Pastaco shell	Gyromitra Dynomita mushroom
-Medical Pastaco	COOK_FANCY	Pastaco shell	Helvella Haemophilia mushroom
+Energy Buzz Pastaco	COOK_FANCY	Pastaco shell	Stemonitis Staticus mushroom
 Ludovico Pastaco	COOK_FANCY	Pastaco shell	Tremella Tarantella mushroom
-overpowering mushroom wine	MIX_FANCY	mushroom fermenting solution	Boletus Broletus mushroom
-complex mushroom wine	MIX_FANCY	mushroom fermenting solution	Omphalotus Omphaloskepsis mushroom
-smooth mushroom wine	MIX_FANCY	mushroom fermenting solution	Gyromitra Dynomita mushroom
+Medical Pastaco	COOK_FANCY	Pastaco shell	Helvella Haemophilia mushroom
 blood-red mushroom wine	MIX_FANCY	mushroom fermenting solution	Helvella Haemophilia mushroom
+buzzing mushroom wine	MIX_FANCY	mushroom fermenting solution	Stemonitis Staticus mushroom
+complex mushroom wine	MIX_FANCY	mushroom fermenting solution	Omphalotus Omphaloskepsis mushroom
+overpowering mushroom wine	MIX_FANCY	mushroom fermenting solution	Boletus Broletus mushroom
+smooth mushroom wine	MIX_FANCY	mushroom fermenting solution	Gyromitra Dynomita mushroom
 swirling mushroom wine	MIX_FANCY	mushroom fermenting solution	Tremella Tarantella mushroom
 
 # Spookyraven
