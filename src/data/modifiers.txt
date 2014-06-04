@@ -4317,6 +4317,7 @@ Light-Headed	Mysticality Percent: -30
 # Like an Egyptian: Makes you look like a tomb servant
 # Limber as Mortimer: +100% Gear Drops from Monsters
 Liquid Courage	Experience: +3
+Liquidy Smoky	Mysticality: +15, Moxie: +15
 Lit Up	Hot Damage: +20, Hot Spell Damage: +20
 # Literally Insane
 Litterboxing	Stench Damage: +30, Item Drop: +15
@@ -4350,6 +4351,7 @@ Man's Worst Enemy	Familiar Weight: +5
 Marco Polarity	Experience (Mysticality): [L]
 Margaritish	Moxie Percent: [min(200,5*T)]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
+Marinated	Muscle: +15, Mysticality: +15
 Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 # Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
@@ -5742,6 +5744,7 @@ bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
 bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
+bowl of marinade	Effect: "Marinated", Effect Duration: 15
 box of Dweebs	Effect: "Dweeby", Effect Duration: 15
 box of sunshine	Free Pull
 brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100
@@ -6036,6 +6039,7 @@ lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 liquid bread	Effect: "Comprehensively Nourished", Effect Duration: 20
 liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
+liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
 little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 llama lama cria	Free Pull
 lotion of coldness	Effect: "Cold Hands", Effect Duration: [R+5]

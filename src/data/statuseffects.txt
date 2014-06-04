@@ -1644,8 +1644,8 @@
 1643	Space Tripping	powderpile2.gif	5d62055fd15ac31f5dd1e1b7633de802	use 1 buffed alien drugs
 1644
 1645	Ashen Burps	hotashes.gif	181fabda066ddcf2adb97c2a13caf810	use 1 ash soda
-1646
+1646	Liquidy Smoky	blooddrops.gif	2e136952836a7b649459208c0550b840	use 1 liquid smoke
 1647	Barbecue Saucy	gooball.gif	7f1b85ae4e6163c402ed2d2625022054	use 1 dollop of barbecue sauce
-1648
+1648	Marinated	soupbowl.gif	38dd66129b7abf01fff23f03d1dbdcfd	use 1 bowl of marinade
 1649
 1650	Lit Up	lighterfluid.gif	38469ac56f66de5bcd552a8263d0d507	use 1 bottle of lighter fluid
