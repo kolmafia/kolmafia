@@ -2505,8 +2505,8 @@ public class FightRequest
 			if ( !responseText.contains( "hear that it is still alive" ) )
 			{
 				BanishManager.banishMonster( monster, "walk away from explosion" );
-				break;
 			}
+			break;
 
 		case SkillPool.POCKET_CRUMBS:
 			if ( responseText.contains( "pocket next to the crumbs" ) )
@@ -2516,20 +2516,28 @@ public class FightRequest
 			break;
 
 		case SkillPool.FIX_JUKEBOX:
-			Preferences.increment( "_peteJukeboxFixed" );
+			if ( responseText.contains( "jukebox" ) )
+			{
+				Preferences.increment( "_peteJukeboxFixed" );
+			}
 			break;
 
 		case SkillPool.PEEL_OUT:
-			Preferences.increment( "_petePeeledOut" );
-			if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
+			if ( responseText.contains( "peel out" ) || responseText.contains( "peel out" ) )
 			{
-				BanishManager.banishMonster( monster, "peel out" );
+				Preferences.increment( "_petePeeledOut" );
+				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
+				{
+					BanishManager.banishMonster( monster, "peel out" );
+				}
 			}
 			break;
 
 		case SkillPool.JUMP_SHARK:
-			// Do not yet have success message
-			Preferences.increment( "_peteJumpedShark" );
+			if ( responseText.contains( "shark" ) )
+			{
+				Preferences.increment( "_peteJumpedShark" );
+			}
 			break;
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
@@ -2542,12 +2550,18 @@ public class FightRequest
 
 		// Casting Unload Tommy Gun uses Tommy Ammo
 		case SkillPool.UNLOAD_TOMMY_GUN:
-			ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
+			if ( responseText.contains( "firing the tommy gun" ) )
+			{
+				ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
+			}
 			break;
 
 		// Casting Shovel Hot Coal uses Hot Coal
 		case SkillPool.SHOVEL_HOT_COAL:
-			ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
+			if ( responseText.contains( "hot coal into the shovel" ) )
+			{
+				ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
+			}
 			break;
 
 		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
