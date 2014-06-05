@@ -942,6 +942,10 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.TOMB_RATCHET:
 			case ItemPool.CRUMBLING_WHEEL:
+				if ( !Preferences.getBoolean( "controlRoomUnlock" ) )
+				{
+					return null;
+				}
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "place.php?whichplace=pyramid&action=pyramid_control" );
 
 			default:
