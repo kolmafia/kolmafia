@@ -998,6 +998,7 @@ user	_hippyMeatCollected	false
 user	_hipsterAdv	0
 user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
+user	_hotAshesDrops	0
 user	_hotTubSoaks	0
 user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
