@@ -1765,6 +1765,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.HOT_ASHES:
+			if ( combatResults )
+			{
+				Preferences.increment( "_hotAshesDrops", 1 );
+			}
+			break;
+
 		case ItemPool.PSYCHOANALYTIC_JAR:
 			if ( combatResults )
 			{
