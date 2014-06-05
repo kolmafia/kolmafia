@@ -186,7 +186,7 @@
 177	Warbear Drone	wbdronefam.gif	combat	6970	warbear drone codes	3	2	2	0
 178	Grimstone Golem	grimgolem.gif	item0,meat0	7064	grimstone galoshes	0	2	3	3
 179	Grim Brother	grimbrother.gif	stat0,meat0	7062	Grim Brothers' story book	3	2	0	3
-180
+180	Miniature Sword & Martini Guy	smguy.gif	stat0,combat	7253	really tiny cocktail shaker	0	0	0	0
 181	Putty Buddy	puttybuddy.gif	combat	7291	putty coat	3	1	2	1
 182	Twitching Space Critter	spacebeastlet.gif	combat	7537	ramekin of space nuts	3	1	1	1
 183	Galloping Grill	galgrill.gif	stat1, combat	7312	box of hickory chips	0	0	0	0

@@ -4259,6 +4259,7 @@ Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (
 It Didn't Kill You	Muscle Percent: +50
 It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 # It's Electric!: Damages Attacking Opponents
+It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
@@ -6062,6 +6063,7 @@ mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
+mini-martini	Effect: "It's Not Even Funny", Effect Duration: 11
 miniscule temporal rip	Free Pull
 moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10

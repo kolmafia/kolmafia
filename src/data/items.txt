@@ -7269,9 +7269,9 @@
 7250	Sneaky Pete's leather jacket	796748210	petejacket.gif	shirt, usable	t	0
 7251	jug of Sneaky Pete's Mojo	517565036	cleaner.gif	usable	t	0
 7252	shot of Sneaky Pete's Mojo	206268046	peteglass.gif	usable	t	0	shots of Sneaky Pete's Mojo
-7253
-7254
-7255
+7253	Anniversary Miniature Sword & Martini Guy	938118912	smguy.gif	grow		0
+7254	really tiny cocktail shaker	961479323	tinyshaker.gif	familiar	t,d	75
+7255	mini-martini	265223654	minimartini.gif	drink	t,d	11
 7256	smoke grenade	567969134	grenade.gif	none, combat	q	0
 7257	molotov soda	159233269	molotov.gif	multiple	q	0
 7258	pile of ashes	556537464	hotrags.gif	multiple	q	0	piles of ashes
@@ -7366,7 +7366,7 @@
 7347	ghost toga	926901212	ghosttoga.gif	shirt	t,d	95
 7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
 7349	ghost key	621906180	ghostkey.gif	none	t,d	44
-7350	picture of you	115824869	pictureofyou.gif	usable		0
+7350	picture of you	115824869	pictureofyou.gif	usable		0	pictures of you by The Cure
 7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250
 7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
 7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55
