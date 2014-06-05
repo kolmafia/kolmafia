@@ -108,7 +108,6 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -213,10 +212,6 @@ public class FightRequest
 		Pattern.compile( "href=\"?/?fight.php" );
 	private static final Pattern FIGHTCHOICE_PATTERN =
 		Pattern.compile( "href=\"choice.php" );
-	private static final Pattern DRAWER_PATTERN =
-		Pattern.compile( "search through <b>(\\d+)</b> drawers" );
-	private static final Pattern TACO_FISH_PATTERN =
-		Pattern.compile( "gain (\\d+) taco fish meat" );
 
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
@@ -2899,60 +2894,6 @@ public class FightRequest
 
 		if ( won )
 		{
-			switch ( adventure )
-			{
-			case AdventurePool.MERKIN_COLOSSEUM:
-				// Do not increment round for wandering monsters
-				if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
-				       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
-				       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
-				       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
-				       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
-				       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
-				     // Do mark path chosen unless won round 15
-				     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
-				{
-					Preferences.setString( "merkinQuestPath", "gladiator" );
-				}
-				break;
-				
-			case AdventurePool.THE_DAILY_DUNGEON:
-				Preferences.increment( "_lastDailyDungeonRoom", 1 );
-				break;
-					
-			case AdventurePool.ARID_DESERT:
-				int explored = 1;
-				if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) )
-				{
-					explored += 1;
-				}
-				else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) )
-				{
-					explored += 2;
-				}
-				if ( Preferences.getString( "peteMotorbikeHeadlight" ).equals( "Blacklight Bulb" ) )
-				{
-					explored += 2;
-				}
-				QuestManager.incrementDesertExploration( explored );
-				break;
-
-			case AdventurePool.HAUNTED_KITCHEN:
-				Matcher DrawerMatcher = FightRequest.DRAWER_PATTERN.matcher( responseText );
-				if ( DrawerMatcher.find() )
-				{
-					Preferences.increment( "manorDrawerCount", StringUtilities.parseInt( DrawerMatcher.group( 1 ) ) );
-				}
-				break;
-				
-			case AdventurePool.BLACK_FOREST:
-				if ( responseText.contains( "discover the trail leading to the Black Market" ) )
-				{
-					QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
-				}
-				break;
-			}
-
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
@@ -3304,18 +3245,6 @@ public class FightRequest
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
-			else if ( monster.equalsIgnoreCase( "Wu Tang the Betrayer" ) )
-			{
-				Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
-			}
-			else if ( monster.equalsIgnoreCase( "Baron Von Ratsworth" ) )
-			{
-				TavernRequest.addTavernLocation( '6' );
-			}
-			else if ( monster.equalsIgnoreCase( "Wumpus" ) )
-			{
-				WumpusManager.reset();
-			}
 			else if ( monster.equalsIgnoreCase( "general seal" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.ABYSSAL_BATTLE_PLANS );
@@ -3333,62 +3262,6 @@ public class FightRequest
 				if ( responseText.contains( "notices the Bowl of Scorpions" ) )
 				{
 					ResultProcessor.removeItem( ItemPool.BOWL_OF_SCORPIONS );
-				}
-			}
-			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
-			{
-				if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
-				{
-					Preferences.increment( "buffJimmyIngredients", 1 );
-					if ( Preferences.getInteger( "buffJimmyIngredients" ) >= 15 )
-					{
-						QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, "step1" );
-					}
-				}
-			}
-			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Cocktail" ) )
-			{
-				if ( responseText.contains( "cocktail sauce bottle" ) || responseText.contains( "defeated foe with your bottle" ) )
-				{
-					Preferences.increment( "tacoDanCocktailSauce", 1 );
-					if ( Preferences.getInteger( "tacoDanCocktailSauce" ) >= 15 )
-					{
-						QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, "step1" );
-					}
-				}
-			}
-			else if ( monster.equalsIgnoreCase( "Sloppy Seconds Sundae" ) )
-			{
-				if ( responseText.contains( "sprinkles off" ) )
-				{
-					Preferences.increment( "brodenSprinkles", 1 );
-					if ( Preferences.getInteger( "brodenSprinkles" ) >= 15 )
-					{
-						QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, "step1" );
-					}
-				}
-			}
-			else if ( monster.equalsIgnoreCase( "taco fish" ) )
-			{
-				Matcher FishMeatMatcher = FightRequest.TACO_FISH_PATTERN.matcher( responseText );
-				if ( FishMeatMatcher.find() )
-				{
-					Preferences.increment( "tacoDanFishMeat", StringUtilities.parseInt( FishMeatMatcher.group( 1 ) ) );
-				}
-					if ( Preferences.getInteger( "tacoDanFishMeat" ) >= 300 )
-					{
-						QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, "step1" );
-					}
-			}
-			else if ( monster.equalsIgnoreCase( "Fun-Guy Playmate" ) )
-			{
-				if ( responseText.contains( "hot tub with some more bacteria" ) )
-				{
-					Preferences.increment( "brodenBacteria", 1 );
-					if ( Preferences.getInteger( "brodenBacteria" ) >= 10 )
-					{
-						QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, "step1" );
-					}
 				}
 			}
 			else if ( monster.equalsIgnoreCase( "bugbear robo-surgeon" ) )

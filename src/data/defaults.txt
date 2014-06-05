@@ -329,6 +329,7 @@ user	grimstoneMaskPath
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
 user	considerShadowNoodles	false
+user	controlRoomUnlock	false
 user	counterScript
 user	concertVisited	false
 user	cozyCounter6332	0
@@ -609,6 +610,7 @@ user	libraryCardUsed	false
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
+user	lowerChamberUnlock	false
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
@@ -628,6 +630,7 @@ user	meatDropSpading	false
 user	merkinQuestPath	none
 user	merkinLockkeyMonster
 user	merkinVocabularyMastery	0
+user	middleChamberUnlock	false
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3
