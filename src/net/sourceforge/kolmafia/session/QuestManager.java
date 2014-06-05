@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -61,6 +62,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -68,6 +70,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -77,14 +80,20 @@ public class QuestManager
 {
 	private static final Pattern ORE_PATTERN = Pattern.compile( "(asbestos|linoleum|chrome) ore[\\. ]" );
 	private static final Pattern BATHOLE_PATTERN = Pattern.compile( "bathole_(\\d)\\.gif" );
+	private static final Pattern DRAWER_PATTERN = Pattern.compile( "search through <b>(\\d+)</b> drawers" );
+	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
 
 	public static final void handleQuestChange( final String location, final String responseText )
 	{
 		if ( location.startsWith( "adventure" ) )
 		{
-			if ( location.indexOf( "216" ) != -1 )
+			if ( location.contains( "216" ) )
 			{
 				handleTrickOrTreatingChange( responseText );
+			}
+			else if ( location.contains( "406") || location.contains( "407" ) )
+			{
+				handlePyramidChange( location, responseText );
 			}
 			else if ( KoLCharacter.getInebriety() > 25 )
 			{
@@ -151,7 +160,7 @@ public class QuestManager
 			{
 				if ( location.contains( "action=db_pyramid1" ) )
 				{
-					parsePyramidChange( responseText );
+					handlePyramidChange( location, responseText );
 				}
 				else
 				{
@@ -172,6 +181,10 @@ public class QuestManager
 			else if ( location.contains( "whichplace=orc_chasm" ) )
 			{
 				handleChasmChange( responseText );
+			}
+			else if ( location.contains( "whichplace=pyramid" ) )
+			{
+				handlePyramidChange( location, responseText );
 			}
 		}
 		else if ( location.startsWith( "questlog" ) )
@@ -218,6 +231,58 @@ public class QuestManager
 		}
 	}
 
+	public static final void handlePyramidChange( final String location, final String responseText )
+	{
+		if ( location.contains( "action=db_pyramid1" ) )
+		{
+			// Unlock Pyramid
+			if ( responseText.contains( "the model bursts into flames and is quickly consumed" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
+			}
+		}
+		else if ( location.contains( "406" ) )
+		{
+			if ( responseText.contains( "Down Dooby-Doo Down Down" ) )
+			{
+				// Open Middle Chamber
+				Preferences.setBoolean( "middleChamberUnlock", true );
+			}
+		}
+		else if ( location.contains( "407" ) )
+		{
+			if ( responseText.contains( "Further Down Dooby-Doo Down Down" ) )
+			{
+				// Open Lower Chamber
+				Preferences.setBoolean( "lowerChamberUnlock", true );
+			}
+			else if ( responseText.contains( "Under Control" ) )
+			{
+				// Open Control Room
+				Preferences.setBoolean( "controlRoomUnlock", true );
+			}
+		}
+		else if ( location.contains( "whichplace=pyramid" ) )
+		{
+			// Verify settings based on images displayed, in case above steps were missed
+			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
+			if ( responseText.contains( "pyramid_middle.gif" ) )
+			{
+				Preferences.setBoolean( "middleChamberUnlock", true );
+			}
+			if ( responseText.contains( "pyramid_bottom" ) )
+			{
+				Preferences.setBoolean( "lowerChamberUnlock", true );
+			}
+			if ( responseText.contains( "pyramid_controlroom.gif" ) )
+			{
+				Preferences.setBoolean( "controlRoomUnlock", true );
+			}
+		}
+		return;
+	}
+	
+	
 	private static void handleWoodsChange( final String responseText )
 	{
 		if ( responseText.contains( "wcroad.gif" ) )
@@ -268,20 +333,6 @@ public class QuestManager
 		}
 
 		QuestDatabase.setQuestIfBetter( Quest.BAT, status );
-	}
-
-	private static void parsePyramidChange( String responseText )
-	{
-		// Suddenly, the model bursts into flames and is quickly consumed, leaving behind a pile of ash and a
-		// large hidden trapdoor. You open the trapdoor to find a flight of stone stairs, which appear to
-		// descend into an ancient buried pyramid.
-
-		// Well, /that/ wasn't quite what you expected.
-
-		if ( responseText.indexOf( "the model bursts into flames and is quickly consumed" ) != -1 )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
-		}
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )
@@ -647,6 +698,129 @@ public class QuestManager
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
 		}
-	}
+		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
+		{
+			if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
+			{
+				Preferences.increment( "buffJimmyIngredients", 1 );
+				if ( Preferences.getInteger( "buffJimmyIngredients" ) >= 15 )
+				{
+					QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, "step1" );
+				}
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Cocktail" ) )
+		{
+			if ( responseText.contains( "cocktail sauce bottle" ) || responseText.contains( "defeated foe with your bottle" ) )
+			{
+				Preferences.increment( "tacoDanCocktailSauce", 1 );
+				if ( Preferences.getInteger( "tacoDanCocktailSauce" ) >= 15 )
+				{
+					QuestDatabase.setQuestProgress( Quest.TACO_DAN_COCKTAIL, "step1" );
+				}
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Sundae" ) )
+		{
+			if ( responseText.contains( "sprinkles off" ) )
+			{
+				Preferences.increment( "brodenSprinkles", 1 );
+				if ( Preferences.getInteger( "brodenSprinkles" ) >= 15 )
+				{
+					QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, "step1" );
+				}
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "taco fish" ) )
+		{
+			Matcher FishMeatMatcher = QuestManager.TACO_FISH_PATTERN.matcher( responseText );
+			if ( FishMeatMatcher.find() )
+			{
+				Preferences.increment( "tacoDanFishMeat", StringUtilities.parseInt( FishMeatMatcher.group( 1 ) ) );
+				if ( Preferences.getInteger( "tacoDanFishMeat" ) >= 300 )
+				{
+					QuestDatabase.setQuestProgress( Quest.TACO_DAN_FISH, "step1" );
+				}
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "Fun-Guy Playmate" ) )
+		{
+			if ( responseText.contains( "hot tub with some more bacteria" ) )
+			{
+				Preferences.increment( "brodenBacteria", 1 );
+				if ( Preferences.getInteger( "brodenBacteria" ) >= 10 )
+				{
+					QuestDatabase.setQuestProgress( Quest.BRODEN_BACTERIA, "step1" );
+				}
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "Wu Tang the Betrayer" ) )
+		{
+			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
+		}
+		else if ( monster.equalsIgnoreCase( "Baron Von Ratsworth" ) )
+		{
+			TavernRequest.addTavernLocation( '6' );
+		}
+		else if ( monster.equalsIgnoreCase( "Wumpus" ) )
+		{
+			WumpusManager.reset();
+		}
 
+		int adventure = KoLAdventure.lastAdventureId();
+
+		switch ( adventure )
+		{
+		case AdventurePool.MERKIN_COLOSSEUM:
+			// Do not increment round for wandering monsters
+			if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
+			       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
+			       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
+			       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
+			       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
+			       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
+			     // Do mark path chosen unless won round 15
+			     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
+			{
+				Preferences.setString( "merkinQuestPath", "gladiator" );
+			}
+			break;
+
+		case AdventurePool.THE_DAILY_DUNGEON:
+			Preferences.increment( "_lastDailyDungeonRoom", 1 );
+			break;
+
+		case AdventurePool.ARID_DESERT:
+			int explored = 1;
+			if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) )
+			{
+				explored += 1;
+			}
+			else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) )
+			{
+				explored += 2;
+			}
+			if ( Preferences.getString( "peteMotorbikeHeadlight" ).equals( "Blacklight Bulb" ) )
+			{
+				explored += 2;
+			}
+			QuestManager.incrementDesertExploration( explored );
+			break;
+
+		case AdventurePool.HAUNTED_KITCHEN:
+			Matcher DrawerMatcher = QuestManager.DRAWER_PATTERN.matcher( responseText );
+			if ( DrawerMatcher.find() )
+			{
+				Preferences.increment( "manorDrawerCount", StringUtilities.parseInt( DrawerMatcher.group( 1 ) ) );
+			}
+			break;
+
+		case AdventurePool.BLACK_FOREST:
+			if ( responseText.contains( "discover the trail leading to the Black Market" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+			}
+			break;
+		}
+	}
 }

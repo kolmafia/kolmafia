@@ -477,6 +477,9 @@ public class QuestDatabase
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );
 		Preferences.resetToDefault( "desertExploration" );
+		Preferences.resetToDefault( "middleChamberUnlock" );
+		Preferences.resetToDefault( "lowerChamberUnlock" );
+		Preferences.resetToDefault( "controlRoomUnlock" );
 		Preferences.resetToDefault( "hiddenApartmentProgress" );
 		Preferences.resetToDefault( "hiddenHospitalProgress" );
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
