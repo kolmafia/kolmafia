@@ -836,16 +836,6 @@ public abstract class ChoiceManager
 
 		// Choice 133 is unknown
 
-		// Wheel In the Pyramid, Keep on Turning
-		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure134", "The Middle Chamber",
-			new Object[] { "Turn the wheel", "skip adventure" } ),
-
-		// Wheel In the Pyramid, Keep on Turning
-		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure135", "The Middle Chamber",
-			new Object[] { "Turn the wheel", "skip adventure" } ),
-
 		// Peace Wants Love
 		new ChoiceAdventure(
 			"Island", "choiceAdventure136", "Hippy Camp",
@@ -3124,6 +3114,14 @@ public abstract class ChoiceManager
 				       new Option( "get blackberry combat boots", 3 ),
 				       new Option( "get blackberry galoshes", 4 ),
 				       new Option( "return to main choice", 6 ) } ),
+
+		// Choice 929 is Control Freak
+		new ChoiceAdventure(
+			"Pyramid", "choiceAdventure929", "Control Room",
+			new Object[] { new Option( "turn lower chamber, lose wheel", 1 ),
+				       new Option( "turn lower chamber, lose ratchet", 2 ),
+				       new Option( "enter lower chamber", 5 ),
+				       new Option( "leave", 6 ) } ),
 
 		// Choice 935 is Lost in Space... Ship
 		// Choice 936 is The Nerve Center
@@ -8142,6 +8140,17 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.BLACKBERRY, -3 );
 			}
+
+		case 929:
+			// Control Freak
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "wooden wheel disintegrating" ) )
+			{
+				ResultProcessor.processItem( ItemPool.CRUMBLING_WHEEL, -1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 && text.contains( "snap the ratchet onto the peg" ) )
+			{
+				ResultProcessor.processItem( ItemPool.TOMB_RATCHET, -1 );
+			}
 		}
 
 		if ( text.contains( "choice.php" ) )
@@ -10489,6 +10498,7 @@ public abstract class ChoiceManager
 		case 870: // Hair Today
 		case 871: // inspecting Motorbike
 		case 872: // Drawn Onward
+		case 929: // Control Freak
 			return true;
 
 		default:

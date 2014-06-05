@@ -270,7 +270,7 @@ The Laugh Floor	100	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of 
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
 The Marinara Trench	95	diving belle	fisherfish	giant squid	Mer-kin diver
 The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
-The Middle Chamber	100	Iiti Kitty	tomb bat	tomb servant
+The Middle Chamber	100	tomb asp	tomb rat	tomb servant
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
 The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
@@ -300,7 +300,7 @@ The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
 The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
-The Upper Chamber	100	tomb asp	tomb rat	tomb servant
+The Upper Chamber	-1	Iiti Kitty	tomb bat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator

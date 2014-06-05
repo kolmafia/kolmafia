@@ -58,10 +58,6 @@ public class UseItemDecorator
 
 		switch ( itemId )
 		{
-		case ItemPool.TOMB_RATCHET:
-			UseItemDecorator.decorateTombRatchet( buffer );
-			break;
-
 		case ItemPool.BOO_CLUE:
 			UseItemDecorator.decorateBooClue( buffer );
 			break;
@@ -73,82 +69,6 @@ public class UseItemDecorator
 	}
 
 	// <table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><img src="http://images.kingdomofloathing.com/itemimages/ratchet.gif" width=30 height=30><br></center><blockquote>TEXT</blockquote></td></tr></table>
-
-	private static final AdventureResult TOMB_RATCHET = ItemPool.get( ItemPool.TOMB_RATCHET, 1);
-
-	private static void decorateTombRatchet( final StringBuffer buffer )
-	{
-		// You head down to the middle chamber of the buried pyramid
-		// and affix the ratchet to the mechanism on the wall.	You
-		// give it a mighty heave, and as it turns, the chamber rumbles
-		// as though some great weight was shifting beneath you.  Then
-		// the ratchet crumbles to powder.  Stupid cheap ratchet, only
-		// lasting thousands of years.
-
-		if ( buffer.indexOf( "Stupid cheap ratchet" ) == -1 )
-		{
-			return;
-		}
-
-		String search = "</blockquote></td></tr>";
-		int index = buffer.indexOf( search );
-
-		if ( index == -1 )
-		{
-			return;
-		}
-
-		// We will insert things before the end of the table
-		index += search.length();
-
-		// Show the current pyramid position
-		String pyramid = PyramidRequest.getPyramidHTML();
-		buffer.insert( index, pyramid );
-
-		StringBuilder link = new StringBuilder();
-
-		if ( !InventoryManager.hasItem( ItemPool.ANCIENT_BRONZE_TOKEN ) &&
-		     !InventoryManager.hasItem( ItemPool.ANCIENT_BOMB ) &&
-		     PyramidRequest.getPyramidPosition() == 4 )
-		{
-			link.append( "<tr align=center><td>" );
-			link.append( "<a href=\"pyramid.php?action=lower\">" );
-			link.append( "Pick up an ancient bronze token" );
-			link.append( "</a>" );
-		}
-
-		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_BRONZE_TOKEN ) &&
-		          PyramidRequest.getPyramidPosition() == 3 )
-		{
-			link.append( "<tr align=center><td>" );
-			link.append( "<a href=\"pyramid.php?action=lower\">" );
-			link.append( "Pick up an ancient bomb" );
-			link.append( "</a>" );
-		}
-
-		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_BOMB ) &&
-		          PyramidRequest.getPyramidPosition() == 1 )
-		{
-			link.append( "<tr align=center><td>" );
-			link.append( "<a href=\"pyramid.php?action=lower\">" );
-			link.append( "Use the ancient bomb" );
-			link.append( "</a>" );
-		}
-
-		// Give player a link to use another tomb ratchet
-		else if ( UseItemDecorator.TOMB_RATCHET.getCount( KoLConstants.inventory ) > 0 )
-		{
-			link.append( "<tr align=center><td>" );
-			link.append( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
-			link.append( String.valueOf( ItemPool.TOMB_RATCHET ) );
-			link.append( "&pwd=" );
-			link.append( GenericRequest.passwordHash );
-			link.append( "&ajax=1');void(0);\">Use another tomb ratchet</a>" );
-			link.append( "</td></tr>" );
-		}
-
-		buffer.insert( index, link.toString() );
-	}
 
 	private static void decorateBooClue( final StringBuffer buffer )
 	{
