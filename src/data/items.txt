@@ -7527,7 +7527,7 @@
 7508	black label	664446698	blacklabel.gif	none	t,d	65
 7509	Mornington crescent roll	346488001	croissant.gif	food	t,d	45
 7510	black eye shadow	744811732	compact.gif	usable	t,d	55
-7511
+7511	crumbling wooden wheel	503616859	woodenwheel.gif	none	q	0
 7512
 7513
 7514

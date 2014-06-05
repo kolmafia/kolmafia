@@ -941,7 +941,8 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, 1, "spend", "shop.php?whichshop=cindy" );
 
 			case ItemPool.TOMB_RATCHET:
-				return new UseLink( itemId, InventoryManager.getCount( itemId ), "inv_use.php?ajax=1&whichitem=" );
+			case ItemPool.CRUMBLING_WHEEL:
+				return new UseLink( itemId, InventoryManager.getCount( itemId ), "place.php?whichplace=pyramid&action=pyramid_control" );
 
 			default:
 
