@@ -53,7 +53,15 @@ public class PoolskillCommand
 		int drunkBonus = drunk - ( drunk > 10 ? ( drunk - 10 ) * 3 : 0 );
 		int equip = KoLCharacter.getPoolSkill();
 		int semiRare = Preferences.getInteger( "poolSharkCount" );
-		int semiRareBonus = semiRare > 10 ? 10 : semiRare;
+		int semiRareBonus = 0;
+		if ( semiRare > 25 )
+		{
+			semiRareBonus = 10;
+		}
+		else if ( semiRare > 0 )
+		{
+			semiRareBonus = (int) Math.floor( 2 * Math.sqrt( semiRare ) );
+		}		
 		int training  = Preferences.getInteger( "poolSkill" );
 		int poolSkill = equip + training + semiRareBonus + drunkBonus;
 		
