@@ -153,6 +153,8 @@ public class AdventurePool
 	public static final String HAUNTED_NURSERY_ID = "397";
 	public static final String HAUNTED_STORAGE_ROOM_ID = "398";
 	public static final String HAUNTED_WINE_CELLAR_ID = "401";
+	public static final String FUN_GUY_MANSION_ID = "402";
+	public static final String SLOPPY_SECONDS_DINER_ID = "403";
 	public static final String YACHT_ID = "404";
 	public static final int BLACK_FOREST = 405;
 	public static final String MIDDLE_CHAMBER_ID = "407";

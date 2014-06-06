@@ -820,6 +820,7 @@ user	skillBurn15028	-100
 user	skillLevel46	0
 user	skillLevel47	0
 user	skillLevel48	0
+user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
 user	slimelingStacksDropped	0
 user	slimelingStacksDue	0
@@ -1082,7 +1083,6 @@ user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_riftletAdv	0
 user	_romanticFightsLeft	0
-user	_sloppyDinerBeachBucks	0
 user	_sealFigurineUses	0
 user	_sealsSummoned	0
 user	_setOfJacksUsed	false
@@ -1093,6 +1093,8 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
+user	_sleazeAirportToday	false
+user	_sloppyDinerBeachBucks	0
 user	_smilesOfMrA	0
 user	_smithsnessSummons	0
 user	_snowSuitCount	0

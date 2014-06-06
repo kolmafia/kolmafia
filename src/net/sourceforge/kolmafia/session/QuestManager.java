@@ -99,6 +99,10 @@ public class QuestManager
 			{
 				handlePyramidChange( location, responseText );
 			}
+			else if ( location.contains( "402" ) || location.contains( "403" ) || location.contains( "404" ) )
+			{
+				handleAirportChange( location, responseText );
+			}
 			else if ( KoLCharacter.getInebriety() > 25 )
 			{
 				handleSneakyPeteChange( responseText );
@@ -205,6 +209,10 @@ public class QuestManager
 			else if ( location.contains( "whichplace=pyramid" ) )
 			{
 				handlePyramidChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
+			{
+				handleAirportChange( location, responseText );
 			}
 		}
 		else if ( location.startsWith( "questlog" ) )
@@ -356,6 +364,28 @@ public class QuestManager
 		return;
 	}
 	
+	public static final void handleAirportChange( final String location, final String responseText )
+	{
+		// Don't bother if it's always open
+		if ( Preferences.getBoolean( "sleazeAirportAlways" ) )
+		{
+			return;
+		}
+		// Detect if Airport is open today
+		if ( location.contains( "402" ) || location.contains( "403" ) ||
+			location.contains( "404" ) || location.contains( "whichplace=airport_sleaze" ) )		
+		{
+			Preferences.setBoolean( "_sleazeAirportToday", true );
+		}
+		else if ( location.contains( "whichplace=airport" ) )
+		{
+			if ( responseText.contains( "whichplace=airport_sleaze" ) )
+			{
+				Preferences.setBoolean( "_sleazeAirportToday", true );
+			}
+		}
+		return;
+	}
 	
 	private static void handleWoodsChange( final String responseText )
 	{
