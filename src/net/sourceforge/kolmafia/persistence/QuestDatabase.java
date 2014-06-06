@@ -473,6 +473,7 @@ public class QuestDatabase
 		}
 		Preferences.resetToDefault( "manorDrawerCount" );
 		Preferences.resetToDefault( "poolSkill" );
+		Preferences.resetToDefault( "currentExtremity" );
 		Preferences.resetToDefault( "oilPeakProgress" );
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );

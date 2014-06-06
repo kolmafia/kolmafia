@@ -1443,7 +1443,31 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
 			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			break;
-			
+
+		case ItemPool.KNOB_GOBLIN_CROWN:
+		case ItemPool.KNOB_GOBLIN_BALLS:
+		case ItemPool.KNOB_GOBLIN_CODPIECE:
+			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+			break;
+
+		case ItemPool.DODECAGRAM:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.CANDLES, 1 ) ) &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
+			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			break;
+
+		case ItemPool.CANDLES:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DODECAGRAM, 1 ) ) &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
+			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			break;
+
+		case ItemPool.BUTTERKNIFE:
+			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DODECAGRAM, 1 ) ) &&
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.CANDLES, 1 ) ) )
+			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			break;
+
 		case ItemPool.BONERDAGON_CHEST:
 			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
 			break;
@@ -2093,28 +2117,28 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.PENCIL_THIN_MUSHROOM:
-			if ( InventoryManager.getCount( ItemPool.PENCIL_THIN_MUSHROOM ) >= 10 )
+			if ( InventoryManager.getCount( ItemPool.PENCIL_THIN_MUSHROOM ) >= 9 )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_MUSHROOM, "step1" );
 			}
 			break;
 
 		case ItemPool.SAILOR_SALT:
-			if ( InventoryManager.getCount( ItemPool.SAILOR_SALT ) >= 50 )
+			if ( InventoryManager.getCount( ItemPool.SAILOR_SALT ) >= 49 )
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_SALT, "step1" );
 			}
 			break;
 
 		case ItemPool.TACO_DAN_RECEIPT:
-			if ( InventoryManager.getCount( ItemPool.TACO_DAN_RECEIPT ) >= 10 )
+			if ( InventoryManager.getCount( ItemPool.TACO_DAN_RECEIPT ) >= 9 )
 			{
 				QuestDatabase.setQuestProgress( Quest.TACO_DAN_AUDIT, "step1" );
 			}
 			break;
 
 		case ItemPool.BROUPON:
-			if ( InventoryManager.getCount( ItemPool.BROUPON ) >= 15 )
+			if ( InventoryManager.getCount( ItemPool.BROUPON ) >= 14 )
 			{
 				QuestDatabase.setQuestProgress( Quest.BRODEN_DEBT, "step1" );
 			}

@@ -91,6 +91,10 @@ public class QuestManager
 			{
 				handleTrickOrTreatingChange( responseText );
 			}
+			else if ( location.contains( "273") )
+			{
+				handleExtremityChange( responseText );
+			}
 			else if ( location.contains( "395") )
 			{
 				handleManorSecondFloorChange( location, responseText );
@@ -256,6 +260,7 @@ public class QuestManager
 		if ( responseText.contains( "you spy a crude stone staircase" ) || responseText.contains( "notice a set of crude carved stairs" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
+			Preferences.setInteger( "currentExtremity", 0 );			
 		}
 	}
 
@@ -637,6 +642,16 @@ public class QuestManager
 		}
 	}
 
+	private static final void handleExtremityChange( final String responseText )
+	{
+		if ( responseText.contains( "Discovering Your Extremity" ) ||
+			responseText.contains( "2 eXXtreme 4 U" ) ||
+			responseText.contains( "3 eXXXtreme 4ever 6pack" ) )
+		{
+			Preferences.increment( "currentExtremity" );
+		}
+	}
+
 	private static final void handleCouncilChange( final String responseText )
 	{
 		Preferences.setInteger( "lastCouncilVisit", KoLCharacter.getLevel() );
@@ -793,6 +808,10 @@ public class QuestManager
 			Preferences.decrement( "booPeakProgress", 2 );
 		}
 		
+		else if ( monster.equalsIgnoreCase( "panicking Knott Yeti" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step4" );
+		}
 		else if ( monster.equalsIgnoreCase( "pygmy witch accountant" ) )
 		{
 			// If you don't have McClusky File (complete), or McClusky File 5, and accountant doesn't drop file, you must have unlocked office boss

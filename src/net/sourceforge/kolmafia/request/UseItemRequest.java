@@ -2463,6 +2463,7 @@ public class UseItemRequest
 			// Using the map consumes the encryption key
 
 			ResultProcessor.processItem( ItemPool.ENCRYPTION_KEY, -1 );
+			QuestDatabase.setQuestProgress( Quest.GOBLIN, "step1" );
 			return;
 
 		case ItemPool.SPOOKY_MAP:
