@@ -636,6 +636,11 @@ public class CharPaneDecorator
 			buffer.append( "/5" );
 			return buffer;
 
+		case FamiliarPool.GALLOPING_GRILL:
+			buffer.append( Preferences.getString( "_hotAshesDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		}
 
 		return null;

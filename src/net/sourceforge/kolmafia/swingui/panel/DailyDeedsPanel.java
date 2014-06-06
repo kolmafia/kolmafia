@@ -2617,6 +2617,7 @@ public class DailyDeedsPanel
 			this.addListener( "_grimstoneMaskDropsCrown" );
 			this.addListener( "_grimFairyTaleDrops" );
 			this.addListener( "_grimFairyTaleDropsCrown" );
+			this.addListener( "_hotAshesDrops" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
@@ -2970,6 +2971,26 @@ public class DailyDeedsPanel
 				buffer.append( grimMaskDrops );
 				buffer.append( "/1 grim mask" );
 				if ( grimMaskDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData gallopingGrill = KoLCharacter.findFamiliar( FamiliarPool.GALLOPING_GRILL );
+			int grillDrops = Preferences.getInteger( "_hotAshesDrops" );
+			if ( ( gallopingGrill != null && gallopingGrill.canEquip() ) || grillDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( grillDrops );
+				buffer.append( " hot ashes" );
+				if ( grillDrops != 1 ) buffer.append( "s" );
 				shown = true;
 				count++;
 			}

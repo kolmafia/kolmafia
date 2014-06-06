@@ -201,6 +201,9 @@ public class BasementDecorator
 			case FamiliarPool.ANGRY_JUNG_MAN:
 				useful = Preferences.getInteger( "_jungDrops" ) < 1;
 				break;
+			case FamiliarPool.GALLOPING_GRILL:
+				useful = Preferences.getInteger( "_hotAshesDrops" ) < 5;
+				break;
 			}
 			if ( !useful ) continue;
 
