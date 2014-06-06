@@ -2010,6 +2010,8 @@ public class ItemPool
 	public static final int BILLIARDS_KEY = 7301;
 	public static final int LIBRARY_KEY = 7302;
 	public static final int SPOOKYRAVEN_NECKLACE = 7303;
+	public static final int SPOOKYRAVEN_TELEGRAM = 7304;
+	public static final int DUSTY_POPPET = 7314;
 	public static final int BABY_GHOSTS = 7317;
 	public static final int GHOST_NECKLACE = 7318;
 	public static final int ELIZABETH_DOLLIE = 7319;

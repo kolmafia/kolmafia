@@ -91,6 +91,10 @@ public class QuestManager
 			{
 				handleTrickOrTreatingChange( responseText );
 			}
+			else if ( location.contains( "395") )
+			{
+				handleManorSecondFloorChange( location, responseText );
+			}
 			else if ( location.contains( "406") || location.contains( "407" ) )
 			{
 				handlePyramidChange( location, responseText );
@@ -141,9 +145,9 @@ public class QuestManager
 		{
 			SorceressLairManager.handleQuestChange( location, responseText );
 		}
-		else if ( location.startsWith( "manor3" ) )
+		else if ( location.startsWith( "manor" ) )
 		{
-			WineCellarRequest.handleCellarChange( responseText );
+			handleManorFirstFloorChange( responseText );
 		}
 		else if ( location.startsWith( "pandamonium" ) )
 		{
@@ -181,6 +185,22 @@ public class QuestManager
 			else if ( location.contains( "whichplace=orc_chasm" ) )
 			{
 				handleChasmChange( responseText );
+			}
+			else if ( location.contains( "whichplace=manor1" ) )
+			{
+				handleManorFirstFloorChange( responseText );
+			}
+			else if ( location.contains( "whichplace=manor2" ) )
+			{
+				handleManorSecondFloorChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=manor3" ) )
+			{
+				// If here at all, Necklace and Dance quests are complete and second floor open
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );		
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );		
+				// Legacy code support
+				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 			}
 			else if ( location.contains( "whichplace=pyramid" ) )
 			{
@@ -229,6 +249,60 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 		}
+	}
+
+	private static void handleManorFirstFloorChange( final String responseText )
+	{
+		// Derive quest status from available rooms
+		if ( responseText.contains( "snarfblat=388" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
+		}
+		if ( responseText.contains( "whichplace=manor2" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+			// Legacy code support
+			Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( responseText.contains( "whichplace=manor4" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
+		}
+	}
+
+	private static void handleManorSecondFloorChange( final String location, final String responseText )
+	{
+		if ( location.contains( "action=manor2_ladys" ) )
+		{
+			if ( responseText.contains( "just want to dance" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, "step1" );
+			}
+		}
+		if ( location.contains( "395" ) )
+		{
+			if ( responseText.contains( "Having a Ball in the Ballroom" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
+			}
+		}
+		// Derive quest status from available rooms
+		if ( responseText.contains( "snarfblat=392" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, "step1" );
+		}
+		if ( responseText.contains( "snarfblat=395" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, "step3" );
+		}
+		if ( responseText.contains( "whichplace=manor3" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
+		}
+		// If here at all, Necklace quest is complete
+		QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+		// Legacy code support
+		Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 	}
 
 	public static final void handlePyramidChange( final String location, final String responseText )
