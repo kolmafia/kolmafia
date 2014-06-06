@@ -156,6 +156,7 @@ public class ItemPool
 	public static final int KNOB_GOBLIN_HELM = 308;
 	public static final int KNOB_GOBLIN_PANTS = 309;
 	public static final int KNOB_GOBLIN_POLEARM = 310;
+	public static final int KNOB_GOBLIN_CROWN = 313;
 	public static final int GOAT_CHEESE = 322;
 	public static final int PLAIN_PIZZA = 323;
 	public static final int SAUSAGE_PIZZA = 324;
@@ -378,6 +379,8 @@ public class ItemPool
 	public static final int PLEXIGLASS_POCKETWATCH = 1232;
 	public static final int PLEXIGLASS_PENDANT = 1235;
 	public static final int TOY_HOVERCRAFT = 1243;
+	public static final int KNOB_GOBLIN_BALLS = 1244;
+	public static final int KNOB_GOBLIN_CODPIECE = 1245;
 	public static final int BONERDAGON_VERTEBRA = 1247;
 	public static final int BONERDAGON_NECKLACE = 1248;
 	public static final int PRETENTIOUS_PAIL = 1258;
