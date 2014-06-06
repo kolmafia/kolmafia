@@ -378,5 +378,5 @@ Rumpelstiltskin's Home For Children	adventure=381	false	outdoor	Portal to Terrib
 Rumpelstiltskin's Home For Children	adventure=382	false	none	Rumpelstiltskin's Workshop
 
 Spring Break Beach	adventure=402	false	indoor	The Fun-Guy Mansion
-Spring Break Beach	adventure=403	false	indoor	Sloppy Seconds Diner
+Spring Break Beach	adventure=403	false	indoor	Sloppy Seconds Diner	4 choiceadv
 Spring Break Beach	adventure=404	false	underwater	The Sunken Party Yacht

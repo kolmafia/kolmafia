@@ -1006,6 +1006,23 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.FUN_GUY_MANSION_ID ) ||
+			this.adventureId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+			this.adventureId.equals( AdventurePool.YACHT_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "sleazeAirportAlways" ) || Preferences.getBoolean( "_sleazeAirportToday" );
+			if ( !unlocked )
+			{
+				// Visit the airport and take a look.
+
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=airport" ) );
+				unlocked = Preferences.getBoolean( "sleazeAirportAlways" ) || Preferences.getBoolean( "_sleazeAirportToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		this.isValidAdventure = true;
 	}
 

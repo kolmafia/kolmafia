@@ -4402,6 +4402,13 @@ public class UseItemRequest
 			QuestDatabase.advanceQuest( Quest.BAT );
 			return;
 
+		case ItemPool.SPRING_BEACH_CHARTER:
+			Preferences.setBoolean( "sleazeAirportAlways", true );
+			return;
+
+		case ItemPool.SPRING_BEACH_TICKET:
+			Preferences.setBoolean( "_sleazeAirportToday", true );
+			return;
 
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
