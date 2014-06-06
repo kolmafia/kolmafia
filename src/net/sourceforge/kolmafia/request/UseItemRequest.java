@@ -995,7 +995,6 @@ public class UseItemRequest
 		case ItemPool.SWEET_TOOTH:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_sweetToothUsed" ) ? 0 : 1;
-
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -4401,6 +4400,11 @@ public class UseItemRequest
 			}
 			// Sonars are single-use, so advance the quest by one step only
 			QuestDatabase.advanceQuest( Quest.BAT );
+			return;
+
+
+		case ItemPool.SPOOKYRAVEN_TELEGRAM:
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			return;
 
 		case ItemPool.WORSE_HOMES_GARDENS:

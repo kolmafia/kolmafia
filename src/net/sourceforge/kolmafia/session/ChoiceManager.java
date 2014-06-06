@@ -8635,6 +8635,11 @@ public abstract class ChoiceManager
 			break;
 		}
 		
+		case 875:
+			// Welcome To Our ool Table
+			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, "step2" );
+			break;			
+
 		case 890: // Lights Out in the Storage Room
 		case 891: // Lights Out in the Laundry Room
 		case 892: // Lights Out in the Bathroom

@@ -1558,6 +1558,10 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
 			break;
 
+		case ItemPool.DUSTY_POPPET:
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.STARTED );
+			break;
+
 		case ItemPool.BABY_GHOSTS:
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, "step1" );
 			break;

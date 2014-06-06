@@ -819,41 +819,57 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.zone.equals( "Spookyraven" ) )
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_KITCHEN_ID ) ||
+			this.adventureId.equals( AdventurePool.HAUNTED_CONSERVATORY_ID ) )
 		{
-			// It takes RNG luck at the Haunted Pantry to unlock
-			// the rest of Spookyraven Manor. Assume it is
-			// unlocked. However, we can verify that the zones that
-			// require keys are accessible.
+			// Haunted Kitchen & Conservatory
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_NECKLACE.getPref() ), QuestDatabase.UNSTARTED );
+			return;
+		}
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_LIBRARY_ID ) )
+		{
+			// Haunted Library
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
+			return;
+		}
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_BILLIARDS_ROOM_ID ) )
+		{
+			// Haunted Billiards Room
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.BILLIARDS_KEY );
+			return;
+		}
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_BATHROOM_ID ) ||
+			this.adventureId.equals( AdventurePool.HAUNTED_BEDROOM_ID ) ||
+			this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
+		{
+			// Haunted Bathroom, Bedroom & Gallery
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), QuestDatabase.STARTED );
+			return;
+		}
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_BALLROOM_ID ) )
+		{
+			// Haunted Ballroom
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "step2" );
+			return;
+		}
+		if ( this.adventureId.equals( AdventurePool.HAUNTED_LABORATORY_ID ) ||
+			this.adventureId.equals( AdventurePool.HAUNTED_NURSERY_ID ) ||
+			this.adventureId.equals( AdventurePool.HAUNTED_STORAGE_ROOM_ID ) )
+		{
+			// Haunted Lab, Nursery & Storage Room
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "step3" );
+			return;
+		}
 
-			if ( this.adventureId.equals( AdventurePool.HAUNTED_LIBRARY_ID ) )
-			{
-				// Haunted Library
-				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
-			}
+		if ( this.adventureId.equals( AdventurePool.MIDDLE_CHAMBER_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "middleChamberUnlock" );
+			return;
+		}
 
-			else if ( this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
-			{
-				// Haunted Gallery
-				this.isValidAdventure = InventoryManager.hasItem( ItemPool.GALLERY_KEY );
-			}
-
-			// It takes a special action to make the upstairs areas
-			// available. Assume they are accessible if the player
-			// can get into the library
-			else if ( this.adventureId.equals( AdventurePool.HAUNTED_BATHROOM_ID ) ||
-				  this.adventureId.equals( AdventurePool.HAUNTED_BEDROOM_ID ) )
-			{
-				// Haunted Bathroom & Bedroom
-				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
-			}
-
-			else if ( this.adventureId.equals( AdventurePool.HAUNTED_BALLROOM_ID ) )
-			{
-				// Haunted Ballroom
-				this.isValidAdventure = InventoryManager.hasItem( ItemPool.BALLROOM_KEY );
-			}
-
+		if ( this.adventureId.equals( AdventurePool.LOWER_CHAMBER_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "lowerChamberUnlock" );
 			return;
 		}
 
