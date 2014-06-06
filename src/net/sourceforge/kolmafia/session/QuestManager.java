@@ -138,6 +138,10 @@ public class QuestManager
 		{
 			handleFriarsChange( responseText );
 		}
+		else if ( location.startsWith( "whichplace=highlands&action=highlands_dude" ) )
+		{
+			handleHighlandsChange( responseText );
+		}
 		else if ( location.startsWith( "inv_use" ) )
 		{
 			if ( location.indexOf( "whichitem=5116" ) != -1 )
@@ -526,7 +530,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleChasmChange( final String responseText )
+	private static final void handleHighlandsChange( final String responseText )
 	{
 		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) )
 		{
@@ -544,6 +548,14 @@ public class QuestManager
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have bridged the Orc Chasm." );
 			}
 			QuestDatabase.setQuestProgress( Quest.TOPPING, "step1" );
+		}
+	}
+
+	private static final void handleChasmChange( final String responseText )
+	{
+		if ( responseText.contains( "trying to, like, order a pizza" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.TOPPING, "step2" );
 		}
 	}
 
