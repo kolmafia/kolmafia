@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -420,6 +419,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_MARKET_MAP:
 		case ItemPool.BALL_POLISH:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.BINDER_CLIP:
 			// These "B" items ARE usable in Beecore.
 		case ItemPool.ICE_BABY:
 		case ItemPool.JUGGLERS_BALLS:
