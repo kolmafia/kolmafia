@@ -1754,6 +1754,7 @@ kickback cookbook	Spell Damage: +20
 killer rag doll	Muscle: +3
 left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 lemonade marble	Cold Spell Damage: +45
+little black book	Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
 little round pebble	Initiative: +50
 loadstone	Meat Drop: +10
 # loose purse strings: Monsters Will Drop Additional Meat
