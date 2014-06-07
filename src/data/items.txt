@@ -7540,7 +7540,7 @@
 7521	government cheese	213065981	goatcheese.gif	food	t,d	29	pieces of government cheese
 7522	pair of government shades	734304226	bigglasses.gif	accessory	t,d	50	pairs of government shades
 7523	space junk	554976200	elecparts.gif	multiple	t	0	piles of space junk
-7524	government	611146854	beerbottle.gif	multiple	t,d	40	bottles of government
+7524	government	611146854	beerbottle.gif	usable	t,d	40	bottles of government
 7525	alien drugs	385188810	pill.gif	multiple	t,d	15	different alien drugs
 7526	weird space book	658177559	book.gif	usable	q	0	weird space books
 7527	alien force field disruptor bean	498890170	bean.gif	none	t,d	15	alien force field disruptor beans
@@ -7566,7 +7566,7 @@
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
 7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35	handfuls of hot ashes
 7549	ash soda	551667583	beerbottle.gif	usable	t,d	55	bottles of ash soda
-7550	liquid smoke	777197250	blooddrops.gif	usable	t,d	25	droplets of liquid smoke
+7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	25	droplets of liquid smoke
 7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25	dollops of barbecue sauce
 7552	bowl of marinade	972886583	soupbowl.gif	usable	t,d	25	bowls of marinade
 7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	35	shakers of dry rub
