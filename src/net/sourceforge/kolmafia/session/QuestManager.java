@@ -530,7 +530,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleHighlandsChange( final String responseText )
+	private static final void handleChasmChange( final String responseText )
 	{
 		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) )
 		{
@@ -551,7 +551,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleChasmChange( final String responseText )
+	private static final void handleHighlandsChange( final String responseText )
 	{
 		if ( responseText.contains( "trying to, like, order a pizza" ) )
 		{
