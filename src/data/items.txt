@@ -7565,7 +7565,7 @@
 7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
 7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35	handfuls of hot ashes
-7549	ash soda	551667583	beerbottle.gif	usable	t,d	55	bottles of ash soda
+7549	ash soda	551667583	beerbottle.gif	multiple	t,d	55	bottles of ash soda
 7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	25	droplets of liquid smoke
 7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25	dollops of barbecue sauce
 7552	bowl of marinade	972886583	soupbowl.gif	usable	t,d	25	bowls of marinade
