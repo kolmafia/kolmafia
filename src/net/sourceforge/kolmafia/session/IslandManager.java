@@ -69,8 +69,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandManager
 {
-	private static AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
-	private static AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
+	private static final AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
+	private static final AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
 	
 	public static final boolean isBattlefieldMonster()
 	{
@@ -667,7 +667,7 @@ public class IslandManager
 			// You see a Wartender pour too much lighter fluid on
 			// his grill and go up in a great ball of
 			// fire. Goodness gracious!
-			"lighter fluid",
+			"much lighter fluid",
 
 			// You see a Fire Spinner blow a gout of flame onto a
 			// Wartender's grill, charring all the Wartender's
@@ -758,7 +758,7 @@ public class IslandManager
 			// detonates a bomb underneath a Wartender's grill. An
 			// entire squad of frat boys run from the battlefield
 			// under the onslaught of red-hot coals.
-			"red-hot coals",
+			"red-hot coals.",
 
 			// You look over and see one of Jerry's Riggers placing
 			// land mines he made out of paperclips, rubber bands,
@@ -1079,7 +1079,6 @@ public class IslandManager
 		// Figure out how many enemies were defeated
 		String[][] table = IslandManager.fratboy ? IslandManager.FRAT_MESSAGES : IslandManager.HIPPY_MESSAGES;
 
-		int quests = 0;
 		int delta = 1;
 		int test = 2;
 
@@ -1087,7 +1086,6 @@ public class IslandManager
 		{
 			if ( IslandManager.findBattlefieldMessage( responseText, table[ i ] ) )
 			{
-				quests = i + 1;
 				delta = test;
 				break;
 			}
