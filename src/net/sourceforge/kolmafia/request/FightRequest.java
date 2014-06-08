@@ -2523,7 +2523,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.PEEL_OUT:
-			if ( responseText.contains( "peel out" ) || responseText.contains( "peel out" ) )
+			if ( responseText.contains( "peel out" ) || responseText.contains( "peels out" ) )
 			{
 				Preferences.increment( "_petePeeledOut" );
 				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
