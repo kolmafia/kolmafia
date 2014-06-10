@@ -99,8 +99,6 @@ public class EffectPool
 		STENCHFORM( "Stenchform", 192 ),
 		SLEAZEFORM( "Sleazeform", 193 ),
 
-		CHALKY_HAND( "Chalky Hand", 221),
-
 		FISHY( "Fishy", 549 ),
 		BEE_SMELL( "Float Like a Butterfly, Smell Like a Bee", 845 ),
 

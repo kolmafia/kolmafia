@@ -1582,53 +1582,6 @@ public class RelayRequest
 		return false;
 	}
 
-	private boolean sendBilliardsWarning( String adventureName )
-	{
-		if ( adventureName == null )
-			return false;
-
-		if ( !adventureName.equals( "The Haunted Billiards Room" ) )
-		{
-			return false;
-		}
-
-		if ( this.getFormField( CONFIRM_LIBRARY ) != null )
-		{
-			return false;
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.LIBRARY_KEY ) ) // library already unlocked, nothing to warn about
-		{
-			return false;
-		}
-
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.CHALKY_HAND ) ) || !InventoryManager.hasItem( ItemPool.POOL_CUE ) || !InventoryManager.hasItem( ItemPool.HAND_CHALK ) )
-		{
-			return false;
-		}
-
-		List<?> a = AdventureQueueDatabase.getZoneQueue( "The Haunted Billiards Room" );
-		List<?> b = AdventureQueueDatabase.getZoneNoncombatQueue( "The Haunted Billiards Room" );
-
-		// We still don't want to nag if delay() is still doing its thing for this zone.
-		if ( a != null && b != null && a.size() + b.size() < 5 )
-		{
-			return false;
-		}
-
-		this.sendOptionalWarning(
-			CONFIRM_LIBRARY,
-			"Since you have not yet unlocked the library, you may want to use Hand Chalk before adventuring here. <br>Click the image on the right to use the chalk, click the image on the left to proceed.",
-			"glove.gif",
-			"disease.gif",
-			"singleUse('inv_use.php','which=3&whichitem=" + ItemPool.HAND_CHALK + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
-			null,
-			null
-			);
-
-		return true;
-	}
-
 	private boolean sendMMGWarning()
 	{
 		if ( !Preferences.getBoolean( "mmgDisabled" ) )
@@ -2552,11 +2505,6 @@ public class RelayRequest
 		}
 
 		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
-		{
-			return true;
-		}
-
-		if ( adventureName != null && this.sendBilliardsWarning( adventureName ) )
 		{
 			return true;
 		}
