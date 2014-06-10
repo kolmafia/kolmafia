@@ -575,21 +575,21 @@ public abstract class ChoiceManager
 
 		// The Effervescent Fray
 		new ChoiceAdventure(
-			"Plains", "choiceAdventure40", "Cola Wars",
+			"Rift", "choiceAdventure40", "Cola Wars",
 			new Object[] { new Option( "Cloaca-Cola fatigues", "Cloaca-Cola fatigues" ),
 				       new Option( "Dyspepsi-Cola shield", "Dyspepsi-Cola shield" ),
 				       "mysticality substats" } ),
 
 		// Smells Like Team Spirit
 		new ChoiceAdventure(
-			"Plains", "choiceAdventure41", "Cola Wars",
+			"Rift", "choiceAdventure41", "Cola Wars",
 			new Object[] { new Option( "Dyspepsi-Cola fatigues", "Dyspepsi-Cola fatigues" ),
 				       new Option( "Cloaca-Cola helmet", "Cloaca-Cola helmet" ),
 				       "muscle substats" } ),
 
 		// What is it Good For?
 		new ChoiceAdventure(
-			"Plains", "choiceAdventure42", "Cola Wars",
+			"Rift", "choiceAdventure42", "Cola Wars",
 			new Object[] { new Option( "Dyspepsi-Cola helmet", "Dyspepsi-Cola helmet" ),
 				       new Option( "Cloaca-Cola shield", "Cloaca-Cola shield" ),
 				       "moxie substats" } ),
