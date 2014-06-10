@@ -1415,7 +1415,8 @@ public class GenericRequest
 
 		this.execute();
 
-		if ( this.responseCode != 200 )
+		// Response is ok or redirect
+		if ( this.responseCode != 200 && this.responseCode != 302 )
 		{
 			return;
 		}
