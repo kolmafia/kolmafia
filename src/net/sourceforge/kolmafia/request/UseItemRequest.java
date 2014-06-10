@@ -4408,7 +4408,15 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SPRING_BEACH_TICKET:
-			Preferences.setBoolean( "_sleazeAirportToday", true );
+			if ( !responseText.contains( "already have access to that place" ) )
+			{
+				Preferences.setBoolean( "_sleazeAirportToday", true );
+			}
+			else
+			{
+				// If you already have access it is not consumed
+				ResultProcessor.processResult( item );
+			}
 			return;
 
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:

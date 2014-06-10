@@ -214,6 +214,15 @@ public class QuestManager
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 			}
+			else if ( location.contains( "whichplace=manor4" ) )
+			{
+				// If here at all, Necklace and Dance quests are complete and second floor and basement open
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );		
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );		
+				QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
+				// Legacy code support
+				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+			}
 			else if ( location.contains( "whichplace=pyramid" ) )
 			{
 				handlePyramidChange( location, responseText );

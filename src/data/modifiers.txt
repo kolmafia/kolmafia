@@ -6327,6 +6327,7 @@ true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
+twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 10
 una poca de gracia	Effect: "Inocente, In a Sense", Effect Duration: 100
 unemployed hunchbacked minion	Free Pull
 unholy water	Effect: "Shocking Biology", Effect Duration: 30
