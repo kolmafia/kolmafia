@@ -5569,7 +5569,8 @@ public class UseItemRequest
 		case ItemPool.SHAKING_SKULL:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 		case ItemPool.WAX_BUGBEAR:
-			// Items that can redirect to a fight
+		case ItemPool.WHITE_PAGE:
+			// Items that can redirect to a fight that costs turns
 			turns = 1;
 			break;
 

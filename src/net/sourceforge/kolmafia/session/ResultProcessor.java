@@ -1357,6 +1357,7 @@ public class ResultProcessor
 
 		case ItemPool.CITADEL_SATCHEL:
 			ResultProcessor.processMeat( -300 );
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step6" );
 			break;
 
 		case ItemPool.HAROLDS_BELL:
@@ -1404,6 +1405,10 @@ public class ResultProcessor
 			break;
 		case ItemPool.GNOME_DEMODULIZER:
 			ResultProcessor.removeItem( ItemPool.CHOMSKYS_COMICS );
+			break;
+
+		case ItemPool.SHOPPING_LIST:
+			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.STARTED );
 			break;
 
 		case ItemPool.MUS_MANUAL:

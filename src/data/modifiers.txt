@@ -5042,6 +5042,7 @@ Wet Willied	Underwater Familiar
 What's That Smell?	Stench Damage: +3
 Whispering Strands	Initiative: +10
 Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
+White Blooded Maximum HP: +50
 White Knuckles	Never Fumble
 White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
@@ -6369,6 +6370,7 @@ wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 whisker pencil	Effect: "Yiffable You", Effect Duration: 30
+white blood cells	Effect: "White Blooded", Effect Duration: 50
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 30
 willyweed	Effect: "Wet Willied", Effect Duration: 30

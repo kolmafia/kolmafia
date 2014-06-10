@@ -76,6 +76,7 @@ public class QuestDatabase
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
 			MYST( "questG07Myst" ),
+			MEATCAR( "questG01Meatcar" ),
 			CITADEL( "questG02Whitecastle" ),
 			ARTIST( "questM02Artist" ),
 			GALAKTIK( "questM04Galaktic" ),
