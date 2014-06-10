@@ -5800,6 +5800,7 @@ coffee sprite	Free Pull
 cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
 cold seal sweat Effect: "Abyssal Sweat", Effect Duration: 20
+cold wad	Effect: "Cold Blooded", Effect Duration: 10
 cold-filtered water	Effect: "Purity of Spirit", Effect Duration: 10
 cologne of contempt	Effect: "Contemptible Emanations", Effect Duration: [R]
 colorful toad	Effect: "All Glory To the Toad", Effect Duration: 10
@@ -6007,6 +6008,7 @@ hot buttered rum	Effect: "Loaded Forwarbear", Effect Duration: 20
 hot coal	Effect: "Fire Inside", Effect Duration: 15
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
+hot wad	Effect: "Hot Blooded", Effect Duration: 10
 hungover chauvinist pig	Free Pull
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
@@ -6165,6 +6167,7 @@ pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
 pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration: [R]
 pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
 pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
+prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 probability potion	Effect: "Uncertain", Effect Duration: 10
 pulled blue taffy	Effect: "Blue Swayed", Effect Duration: 10
 pulled green taffy	Effect: "Soda Jerked", Effect Duration: 10
@@ -6247,6 +6250,7 @@ skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
 skeletal banana	Effect: "Osseous George", Effect Duration: 30
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
+sleaze wad	Effect: "Supafly", Effect Duration: 10
 sleeping piano cat	Free Pull
 sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
 small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
@@ -6271,10 +6275,12 @@ spooky powder	Effect: "Spookypants", Effect Duration: 5
 spooky rattling cigar box	Free Pull
 spooky sap	Effect: "Sugar Rush", Effect Duration: 5
 spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
+spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
 spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 squamous polyp	Free Pull
 stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
+stench wad	Effect: "Stenchtastic", Effect Duration: 10
 sterno-flavored Hob-O	Effect: "Fire Down Below"
 stick-on gnome beard	Effect: "Gnomedome", Effect Duration: 100
 still grill	Free Pull
