@@ -3127,6 +3127,11 @@ public abstract class ChoiceManager
 		// Choice 936 is The Nerve Center
 		// Choice 937 is The Spacement
 		// Choice 938 is The Ship's Kitchen
+
+		// Choice 940 is Let Your Fists Do The Walking
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure940", "white page",
+			new Object[] { "fight whitesnake", "fight white lion", "fight white chocolate golem", "fight white knight", "fight white elephant", "skip" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8150,6 +8155,13 @@ public abstract class ChoiceManager
 			else if ( ChoiceManager.lastDecision == 2 && text.contains( "snap the ratchet onto the peg" ) )
 			{
 				ResultProcessor.processItem( ItemPool.TOMB_RATCHET, -1 );
+			}
+
+		case 940:
+			// Let Your Fists Do The Walking
+			if ( ChoiceManager.lastDecision == 6 )
+			{
+				ResultProcessor.processItem( ItemPool.WHITE_PAGE, 1 );
 			}
 		}
 

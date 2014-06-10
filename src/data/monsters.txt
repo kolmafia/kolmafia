@@ -562,7 +562,7 @@ Keese	keese.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	blue pixel (70)	blue pi
 killer clownfish	clownfish.gif	Atk: 500 Def: 450 HP: 700 Init: 75 E: sleaze Meat: 240-360 P: horror	high-pressure seltzer bottle (n25)	midget clownfish (c1)	rough fish scale (n5)
 knight (Snake)	snaknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude	serpentine sword (5)	snake shield (5)
 knight (Wolf)	wolfknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude	lupine sword (5)	snarling wolf shield (5)
-Knight in White Satin	knight.gif	Atk: 38 Def: 33 HP: 21 Init: 70 Meat: 24-39 P: dude	white sword (15)	white satin pants (15)	white satin shield (8)
+Knight in White Satin	knight.gif	Atk: 38 Def: 33 HP: 21 Init: 70 Meat: 24-39 P: dude	white sword (15)	white satin pants (15)	white satin shield (8)	white page (0)
 Knob Goblin Accountant	kg_accountant.gif	Atk: 22 Def: 19 HP: 20 Init: 50 Meat: 40-60 P: goblin	flimsy clipboard (15)	meat stack (25)	accordion file (a0)
 Knob Goblin Alchemist	kg_alchemist.gif	Atk: 40 Def: 36 HP: 45 Init: 50 P: goblin	half-baked potion (25)	philosopher's scone (15)
 Knob Goblin Assistant Chef	kg_asstchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 Meat: 7-9 P: goblin	chef's hat (32)	Knob Goblin tongs (12)	Knob Goblin pants (8)
@@ -1099,6 +1099,7 @@ Weretaco	weretaco.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 26-41 P: beast	taco s
 Whatsian Commando Ghost	aboo_who.gif	Atk: 78 Def: 62 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	T.U.R.D.S. Key (15)	Whatsian Ionic Pliers (5)
 whiny pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	bilge wine (30)
 white chocolate golem	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct	white chocolate chips (50)	mother's secret recipe (p3)	White Chocolate Golem Seeds (c0)
+white elephant	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 P: beast Meat: 240-360	white blood cells (0)	white wine (0)	white elephant gift (0)
 white lion	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 24-36 P: beast	catgut (15)	lion oil (n20)
 whitesnake	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 8-13 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (n20)
 wild seahorse	seahorse.gif	P: fish Phys: 100

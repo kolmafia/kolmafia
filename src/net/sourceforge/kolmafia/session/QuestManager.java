@@ -87,7 +87,15 @@ public class QuestManager
 	{
 		if ( location.startsWith( "adventure" ) )
 		{
-			if ( location.contains( "216" ) )
+			if ( location.contains( "99" ) )
+			{
+				handleWhiteCitadelChange( responseText );
+			}
+			if ( location.contains( "100" ) )
+			{
+				handleWhiteysGroveChange( responseText );
+			}
+			else if ( location.contains( "216" ) )
 			{
 				handleTrickOrTreatingChange( responseText );
 			}
@@ -137,6 +145,10 @@ public class QuestManager
 		else if ( location.startsWith( "friars" ) )
 		{
 			handleFriarsChange( responseText );
+		}
+		else if ( location.startsWith( "guild" ) )
+		{
+			handleGuildChange( responseText );
 		}
 		else if ( location.startsWith( "whichplace=highlands&action=highlands_dude" ) )
 		{
@@ -274,6 +286,52 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 			Preferences.setInteger( "currentExtremity", 0 );			
+		}
+	}
+
+	private static void handleGuildChange( final String responseText )
+	{
+		if ( responseText.contains( "South of the Border" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.FINISHED );
+		}
+		if ( responseText.contains( "White Citadel near Whitey's Grove" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
+		}
+	}
+
+	private static void handleWhiteysGroveChange( final String responseText )
+	{
+		if ( responseText.contains( "It's A Sign!" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step1" );
+		}
+	}
+
+	private static void handleWhiteCitadelChange( final String responseText )
+	{
+		if ( responseText.contains( "Cheetahs Never Lose" ) )
+		{
+			if ( responseText.contains( "further down the Road to the White Citadel" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step3" );
+			}
+			else
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step2" );
+			}
+		}
+		if ( responseText.contains( "Summer Holiday" ) )
+		{
+			if ( responseText.contains( "unpack the hang glider" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step5" );
+			}
+			else
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step4" );
+			}
 		}
 	}
 

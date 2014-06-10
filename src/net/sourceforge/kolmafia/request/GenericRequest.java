@@ -2827,6 +2827,10 @@ public class GenericRequest
 			itemName = "Map to Safety Shelter Grimace Prime";
 			consumed = true;
 			break;
+		case ItemPool.WHITE_PAGE:
+			itemName = "white page";
+			consumed = true;
+			break;
 
 		case ItemPool.D10:
 			// Using a single D10 generates a monster.
