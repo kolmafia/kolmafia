@@ -361,6 +361,8 @@ public class QuestManager
 				// Open Control Room
 				Preferences.setBoolean( "controlRoomUnlock", true );
 			}
+			// If here, must have unlocked middle chamber
+			Preferences.setBoolean( "middleChamberUnlock", true );			
 		}
 		else if ( location.contains( "whichplace=pyramid" ) )
 		{
