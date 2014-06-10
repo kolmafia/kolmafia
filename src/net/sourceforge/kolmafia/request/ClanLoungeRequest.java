@@ -1472,7 +1472,14 @@ public class ClanLoungeRequest
 			}
 			m = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			int quantity = m.find() ? StringUtilities.parseInt( m.group(1) ) : 1;
-			ResultProcessor.processItem( item.getItemId(), -1 * quantity );
+			if ( urlString.contains( "hagnks=1" ) )
+			{
+				AdventureResult.removeResultFromList( KoLConstants.storage, ItemPool.get( item.getItemId(), -quantity ) );
+			}
+			else
+			{
+				ResultProcessor.processItem( item.getItemId(), -1 * quantity );
+			}
 			return;
 		}
 		else if ( action.equals( "unlockhotdog" ) )
