@@ -1585,18 +1585,6 @@ public abstract class UseLinkDecorator
 			itemId = ItemPool.STONE_WOOL;
 			break;
 
-		case ItemPool.ANCIENT_BOMB:
-		case ItemPool.ANCIENT_BRONZE_TOKEN:
-			if ( !InventoryManager.hasItem( ItemPool.TOMB_RATCHET ) )
-			{
-				return null;
-			}
-
-			useType = "ratchet";
-			useLocation = "inv_use.php?which=3&whichitem=";
-			itemId = ItemPool.TOMB_RATCHET;
-			break;
-
 		case ItemPool.MOSS_COVERED_STONE_SPHERE:
 			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=346" );
 
