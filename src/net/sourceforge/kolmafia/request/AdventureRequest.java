@@ -203,12 +203,6 @@ public class AdventureRequest
 					return;
 				}
 			}
-			else if ( this.adventureId.equals( AdventurePool.HAUNTED_WINE_CELLAR_ID ) )
-			{
-				// Replace with a (not-so-)randomly chosen corner
-				this.removeFormField( "snarfblat" );
-				this.addFormField( "snarfblat", String.valueOf( CellarDecorator.recommendCorner() ) );
-			}
 		}
 
 		else if ( this.formSource.equals( "barrel.php" ) )
