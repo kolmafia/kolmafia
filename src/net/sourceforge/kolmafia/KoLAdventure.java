@@ -1658,6 +1658,16 @@ public class KoLAdventure
 			"There are no Hippy soldiers left.",
 		},
 
+		// Spooky Gravy Burrow before told to go there:
+		// You should probably stay out of there unless you have a good
+		// reason to go in. Like if you were on a quest to find
+		// something in there, or something.
+		{
+			"You should probably stay out of there",
+			"You have not been given the quest to go there yet.",
+			MafiaState.PENDING
+		},
+
 		// Worm Wood while not Absinthe Minded
 		{
 			"For some reason, you can't find your way back there",
