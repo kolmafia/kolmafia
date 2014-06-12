@@ -27,7 +27,7 @@ bit of wilted lettuce	bits of wilted lettuce	hard	lettuce.gif	4	Taco Cat	Inside 
 burned-out arcanodiode	burned-out arcanodiodes	hard	diode.gif	12	MagiMechTech MechaMech	The Penultimate Fantasy Airship
 dirty coal button	dirty coal buttons	hard	coalbutton.gif	8	Ninja Snowman Janitor	Lair of the Ninja Snowmen
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
-distintegrating cork	distintegrating corks	hard	cork.gif	20	skeletal sommelier	The Haunted Wine Cellar
+distintegrating cork	distintegrating corks	hard	cork.gif	13	skeletal sommelier	The Haunted Wine Cellar
 dusty wing	dusty wings	hard	gnatwing.gif	8	plaque of locusts	The Arid, Extra-Dry Desert
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
 non-Euclidean hoof	non-Euclidean hooves	hard	hoof.gif	11	cubist bull	The Haunted Gallery
