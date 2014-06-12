@@ -562,7 +562,7 @@ Keese	keese.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	blue pixel (70)	blue pi
 killer clownfish	clownfish.gif	Atk: 500 Def: 450 HP: 700 Init: 75 E: sleaze Meat: 240-360 P: horror	high-pressure seltzer bottle (n25)	midget clownfish (c1)	rough fish scale (n5)
 knight (Snake)	snaknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude	serpentine sword (5)	snake shield (5)
 knight (Wolf)	wolfknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude	lupine sword (5)	snarling wolf shield (5)
-Knight in White Satin	knight.gif	Atk: 38 Def: 33 HP: 21 Init: 70 Meat: 24-39 P: dude	white sword (15)	white satin pants (15)	white satin shield (8)	white page (0)
+Knight in White Satin	knight.gif	Atk: 38 Def: 33 HP: 21 Init: 70 Meat: 24-39 P: dude	white sword (15)	white satin pants (15)	white satin shield (8)	white page (5)
 Knob Goblin Accountant	kg_accountant.gif	Atk: 22 Def: 19 HP: 20 Init: 50 Meat: 40-60 P: goblin	flimsy clipboard (15)	meat stack (25)	accordion file (a0)
 Knob Goblin Alchemist	kg_alchemist.gif	Atk: 40 Def: 36 HP: 45 Init: 50 P: goblin	half-baked potion (25)	philosopher's scone (15)
 Knob Goblin Assistant Chef	kg_asstchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 Meat: 7-9 P: goblin	chef's hat (32)	Knob Goblin tongs (12)	Knob Goblin pants (8)
