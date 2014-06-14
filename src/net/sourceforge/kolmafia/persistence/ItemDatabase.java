@@ -3129,7 +3129,6 @@ public class ItemDatabase
 	{
 		switch ( itemId )
 		{
-		case ItemPool.BLACK_MARKET_MAP:
 		case ItemPool.BALL_POLISH:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.COBBS_KNOB_MAP:

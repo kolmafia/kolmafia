@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -44,6 +45,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -55,6 +57,8 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
@@ -89,9 +93,9 @@ import net.sourceforge.kolmafia.webui.CellarDecorator;
 
 public class ResultProcessor
 {
-	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
-	private static Pattern TRAILING_INT_PATTERN = Pattern.compile( "(.*?)(?:\\s*\\((\\d+)\\))?" );
+	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
+	private static final Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
+	private static final Pattern TRAILING_INT_PATTERN = Pattern.compile( "(.*?)(?:\\s*\\((\\d+)\\))?" );
 
 	private static boolean receivedClover = false;
 	private static boolean receivedDisassembledClover = false;
@@ -1210,32 +1214,17 @@ public class ResultProcessor
 
 		case ItemPool.BROKEN_WINGS:
 		case ItemPool.SUNKEN_EYES:
-			// If you are in an Avatar path or lack the blackbird/Crow, make it
-			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() ||
-				( KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD ) == null && KoLCharacter.findFamiliar( FamiliarPool.CROW ) == null &&
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ) )
-			{
-				ResultProcessor.autoCreate( ItemPool.REASSEMBLED_BLACKBIRD );
-			}
+			// Make the blackbird so you don't need to have the familiar with you
+			ResultProcessor.autoCreate( ItemPool.REASSEMBLED_BLACKBIRD );
 			break;
 
 		case ItemPool.BUSTED_WINGS:
 		case ItemPool.BIRD_BRAIN:
-			// If you lack the Crow, make it
-			if ( KoLCharacter.findFamiliar( FamiliarPool.CROW ) == null &&
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.RECONSTITUTED_CROW, 1 ) ) )
-			{
-				ResultProcessor.autoCreate( ItemPool.RECONSTITUTED_CROW );
-			}
+			// Make the Crow so you don't need to have the familiar with you
+			ResultProcessor.autoCreate( ItemPool.RECONSTITUTED_CROW );
 			break;
 
 		case ItemPool.PIRATE_FLEDGES:
-			if ( !ResultProcessor.onlyAutosellDonationsCount && KoLCharacter.inFistcore() )
-			{
-				// Do you make a donation? You don't get Meat,
-				// but there is no message about donating it.
-				KoLCharacter.makeCharitableDonation( 3000 );
-			}
 			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.FINISHED );
 			break;
 
@@ -1507,6 +1496,23 @@ public class ResultProcessor
 			if ( result.getCount( KoLConstants.inventory ) >= 2 &&
 				InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
 			{
+				ResultProcessor.autoCreate( ItemPool.TALISMAN );
+			}
+			break;
+
+		case ItemPool.COPPERHEAD_CHARM:
+		case ItemPool.COPPERHEAD_CHARM_RAMPANT:
+			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) &&
+			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
+			{
+				Concoction conc = new Concoction( ItemPool.get( ItemPool.TALISMAN, 1 ),
+						CraftingType.ACOMBINE,
+						EnumSet.noneOf( KoLConstants.CraftingRequirements.class ),
+						EnumSet.noneOf( KoLConstants.CraftingMisc.class ),
+						0 );
+				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM, 1 ) );
+				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM_RAMPANT, 1 ) );
+				ConcoctionPool.set( conc );
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
 			break;
