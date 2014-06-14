@@ -1494,7 +1494,7 @@ public class ResultProcessor
 
 		case ItemPool.SNAKEHEAD_CHARM:
 			if ( result.getCount( KoLConstants.inventory ) >= 2 &&
-				InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
+			     InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
 			{
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
@@ -1513,7 +1513,10 @@ public class ResultProcessor
 				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM, 1 ) );
 				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM_RAMPANT, 1 ) );
 				ConcoctionPool.set( conc );
-				ResultProcessor.autoCreate( ItemPool.TALISMAN );
+				if ( InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
+				{
+					ResultProcessor.autoCreate( ItemPool.TALISMAN );
+				}
 			}
 			break;
 
