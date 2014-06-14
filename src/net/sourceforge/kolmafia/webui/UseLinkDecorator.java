@@ -397,13 +397,6 @@ public abstract class UseLinkDecorator
 		case ItemPool.BRIDGE:
 			return CraftingType.NOCREATE;
 
-		// Blackbird and crow components link to the black market map
-		case ItemPool.BROKEN_WINGS:
-		case ItemPool.SUNKEN_EYES:
-		case ItemPool.BUSTED_WINGS:
-		case ItemPool.BIRD_BRAIN:
-			return CraftingType.NOCREATE;
-
 		// The eyepatch can be combined, but is usually an outfit piece
 		// The dreadsack can be combined, but is usually an outfit piece
 		// The frilly skirt is usually used for the frathouse blueprints
@@ -879,32 +872,6 @@ public abstract class UseLinkDecorator
 				
 				// In-line use link does not work.
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
-
-			case ItemPool.BLACK_MARKET_MAP: {
-				int item;
-				int fam;
-
-				if ( KoLCharacter.inBeecore() )
-				{
-					item = ItemPool.RECONSTITUTED_CROW;
-					fam = FamiliarPool.CROW;
-				}
-				else
-				{
-					item = ItemPool.REASSEMBLED_BLACKBIRD;
-					fam = FamiliarPool.BLACKBIRD;
-				}
-
-				// In Avatar paths you need item as well as familiar
-				if ( ( KoLCharacter.findFamiliar( fam ) == null || KoLCharacter.inAxecore() ||
-					KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() ) &&
-				     !InventoryManager.hasItem( item ) )
-				{
-					return null;
-				}
-
-				return new UseLink( ItemPool.BLACK_MARKET_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
-			}
 
 			case ItemPool.COBBS_KNOB_MAP:
 
@@ -1443,40 +1410,6 @@ public abstract class UseLinkDecorator
 
 			useType = "old man";
 			useLocation = "place.php?whichplace=sea_oldman&action=oldman_oldman";
-			break;
-
-		// Link to use the Black Market Map if you get blackbird parts
-
-		case ItemPool.BROKEN_WINGS:
-		case ItemPool.SUNKEN_EYES:
-
-			if ( ( ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) || !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) ) &&
-			         !InventoryManager.hasItem( ItemPool.REASSEMBLED_BLACKBIRD ) ) ||
-			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
-			{
-				return null;
-			}
-
-			useType = "use map";
-			useLocation = "inv_use.php?which=3&whichitem=";
-			itemId = ItemPool.BLACK_MARKET_MAP;
-			break;
-
-		// Link to use the Black Market Map if you get crow parts
-
-		case ItemPool.BUSTED_WINGS:
-		case ItemPool.BIRD_BRAIN:
-
-			if ( !InventoryManager.hasItem( ItemPool.BUSTED_WINGS ) ||
-			     !InventoryManager.hasItem( ItemPool.BIRD_BRAIN ) ||
-			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
-			{
-				return null;
-			}
-
-			useType = "use map";
-			useLocation = "inv_use.php?which=3&whichitem=";
-			itemId = ItemPool.BLACK_MARKET_MAP;
 			break;
 
 		case ItemPool.GUNPOWDER:

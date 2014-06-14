@@ -61,10 +61,6 @@ public class UseItemDecorator
 		case ItemPool.BOO_CLUE:
 			UseItemDecorator.decorateBooClue( buffer );
 			break;
-
-		case ItemPool.BLACK_MARKET_MAP:
-			UseItemDecorator.decorateMarketMap( buffer );
-			break;
 		}
 	}
 
@@ -93,34 +89,6 @@ public class UseItemDecorator
 		link.append( "<tr align=center><td>" );
 		link.append( "<a href=\"adventure.php?snarfblat=296\">" );
 		link.append( "[Adventure at A-Boo Peak]" );
-		link.append( "</a></td></tr>" );
-
-		buffer.insert( index, link.toString() );
-	}
-
-	private static void decorateMarketMap( final StringBuffer buffer )
-	{
-		if ( buffer.indexOf( "The Black Market" ) == -1 )
-		{
-			return;
-		}
-
-		String search = "</blockquote></td></tr>";
-		int index = buffer.indexOf( search );
-
-		if ( index == -1 )
-		{
-			return;
-		}
-
-		// We will insert things before the end of the table
-		index += search.length();
-
-		// Add the link to visit The Black Market
-		StringBuilder link = new StringBuilder();
-		link.append( "<tr align=center><td>" );
-		link.append( "<a href=\"shop.php?whichshop=blackmarket\">" );
-		link.append( "[Shop at The Black Market]" );
 		link.append( "</a></td></tr>" );
 
 		buffer.insert( index, link.toString() );

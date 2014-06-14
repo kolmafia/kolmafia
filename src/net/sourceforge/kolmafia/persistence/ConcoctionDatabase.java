@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -355,83 +354,6 @@ public class ConcoctionDatabase
 	private static boolean pseudoItemMixingMethod( final CraftingType mixingMethod )
 	{
 		return mixingMethod == CraftingType.SUSHI;
-	}
-
-	public static final boolean isKnownCombination( final AdventureResult[] ingredients )
-	{
-		// Known combinations which could not be added because
-		// there are limitations in the item manager.
-
-		if ( ingredients.length == 2 )
-		{
-			// Handle meat stacks, which are created from fairy
-			// gravy and meat from yesterday.
-
-			if ( ingredients[ 0 ].getItemId() == ItemPool.GRAVY_BOAT && ingredients[ 1 ].getItemId() == ItemPool.MEAT_FROM_YESTERDAY )
-			{
-				return true;
-			}
-			if ( ingredients[ 1 ].getItemId() == ItemPool.GRAVY_BOAT && ingredients[ 0 ].getItemId() == ItemPool.MEAT_FROM_YESTERDAY )
-			{
-				return true;
-			}
-
-			// Handle plain pizza, which also allows flat dough
-			// to be used instead of wads of dough.
-
-			if ( ingredients[ 0 ].getItemId() == ItemPool.TOMATO && ingredients[ 1 ].getItemId() == ItemPool.DOUGH )
-			{
-				return true;
-			}
-			if ( ingredients[ 1 ].getItemId() == ItemPool.TOMATO && ingredients[ 0 ].getItemId() == ItemPool.FLAT_DOUGH )
-			{
-				return true;
-			}
-
-			// Handle catsup recipes, which only exist in the
-			// item table as ketchup recipes.
-
-			if ( ingredients[ 0 ].getItemId() == ItemPool.CATSUP )
-			{
-				ingredients[ 0 ] = ItemPool.get( ItemPool.KETCHUP, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-			if ( ingredients[ 1 ].getItemId() == ItemPool.CATSUP )
-			{
-				ingredients[ 1 ] = ItemPool.get( ItemPool.KETCHUP, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-
-			// Handle ice-cold beer recipes, which only uses the
-			// recipe for item #41 at this time.
-
-			if ( ingredients[ 0 ].getItemId() == ItemPool.WILLER )
-			{
-				ingredients[ 0 ] = ItemPool.get( ItemPool.SCHLITZ, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-			if ( ingredients[ 1 ].getItemId() == ItemPool.WILLER )
-			{
-				ingredients[ 1 ] = ItemPool.get( ItemPool.SCHLITZ, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-
-			// Handle cloaca recipes, which only exist in the
-			// item table as dyspepsi cola.
-
-			if ( ingredients[ 0 ].getItemId() == ItemPool.CLOACA_COLA )
-			{
-				ingredients[ 0 ] = ItemPool.get( ItemPool.DYSPEPSI_COLA, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-			if ( ingredients[ 1 ].getItemId() == ItemPool.CLOACA_COLA )
-			{
-				ingredients[ 1 ] = ItemPool.get( ItemPool.DYSPEPSI_COLA, 1 );
-				return ConcoctionDatabase.isKnownCombination( ingredients );
-			}
-		}
-
-		return ConcoctionPool.findConcoction( ingredients ) != null;
 	}
 
 	public static final SortedListModel getKnownUses( final int itemId )

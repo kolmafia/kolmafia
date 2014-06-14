@@ -416,7 +416,6 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
-		case ItemPool.BLACK_MARKET_MAP:
 		case ItemPool.BALL_POLISH:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.BINDER_CLIP:
@@ -5328,55 +5327,6 @@ public class UseItemRequest
 		case ItemPool.DRINK_ME_POTION:
 			Preferences.increment( "pendingMapReflections", count );
 			break;
-
-		case ItemPool.BLACK_MARKET_MAP: {
-
-			// In some paths, you can't use a blackbird,
-			// but you must have the hatchling in your inventory.
-			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
-			{
-				if ( !InventoryManager.retrieveItem( ItemPool.REASSEMBLED_BLACKBIRD ) )
-				{
-					return true;
-				}
-
-				// We are good to go.
-				break;
-			}
-
-			int needed = KoLCharacter.inBeecore() ?
-				FamiliarPool.CROW : FamiliarPool.BLACKBIRD;
-			int hatchling = needed == FamiliarPool.CROW ?
-				ItemPool.RECONSTITUTED_CROW : ItemPool.REASSEMBLED_BLACKBIRD;
-
-			if ( KoLCharacter.getFamiliar().getId() != needed )
-			{
-				AdventureResult map = UseItemRequest.lastItemUsed;
-
-				// Get the player's current blackbird.
-				FamiliarData blackbird = KoLCharacter.findFamiliar( needed );
-
-				// If there is no blackbird in the terrarium,
-				// grow one from the hatchling.
-				if ( blackbird == null )
-				{
-					( UseItemRequest.getInstance( ItemPool.get( hatchling, 1 ) ) ).run();
-					UseItemRequest.lastItemUsed = map;
-					blackbird = KoLCharacter.findFamiliar( needed );
-				}
-
-				// If still couldn't find it, bail
-				if ( blackbird == null )
-				{
-					return true;
-				}
-				FamiliarData familiar = KoLCharacter.getFamiliar();
-				Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
-				// Take the blackbird out of the terrarium
-				( new FamiliarRequest( blackbird ) ).run();
-			}
-			break;
-		}
 
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.DRONE:
