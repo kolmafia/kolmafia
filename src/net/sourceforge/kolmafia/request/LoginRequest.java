@@ -54,6 +54,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.LoginManager;
 
+import net.sourceforge.kolmafia.swingui.AnnouncementFrame;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayAgent;
@@ -66,6 +68,9 @@ public class LoginRequest
 		Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 	private static final Pattern PLAYERS_PATTERN =
 		Pattern.compile( "There are currently <b>(.*?)</b> players logged in." );
+	private static final Pattern ANNOUNCE_PATTERN =
+		Pattern.compile( "Announcements:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\">" +
+		                 "<center><table><tr><td><font size=2>(.*?)There are currently" );
 
 	private static LoginRequest lastRequest = null;
 	private static long lastLoginAttempt = 0;
@@ -156,6 +161,19 @@ public class LoginRequest
 		{
 			LoginRequest.playersOnline = StringUtilities.parseInt( playersMatcher.group( 1 ) );
 			KoLmafia.updateDisplay( LoginRequest.playersOnline + " players online." );
+		}
+
+		if ( Preferences.getBoolean( "showAnnouncements" ) )
+		{
+			Matcher announceMatcher = LoginRequest.ANNOUNCE_PATTERN.matcher( this.responseText );
+			if ( announceMatcher.find() )
+			{
+				String announcement = announceMatcher.group( 1 );
+				if ( announcement.contains( "<img" ) )
+				{
+					AnnouncementFrame.showRequest( announcement );
+				}
+			}
 		}
 
 		String challenge = challengeMatcher.group( 1 );
@@ -290,7 +308,7 @@ public class LoginRequest
 		// before you can log in again.
 
 		if ( this.responseText.indexOf( "wait a minute" ) != -1 ||
-                     this.responseText.indexOf( "wait a couple of minutes" ) != -1 )
+		     this.responseText.indexOf( "wait a couple of minutes" ) != -1 )
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 75 );
 			this.run();
