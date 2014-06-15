@@ -87,31 +87,30 @@ public class QuestManager
 	{
 		if ( location.startsWith( "adventure" ) )
 		{
-			if ( location.contains( "99" ) )
+			if ( location.contains( AdventurePool.ROAD_TO_WHITE_CITADEL_ID ) )
 			{
 				handleWhiteCitadelChange( responseText );
 			}
-			if ( location.contains( "100" ) )
+			if ( location.contains( AdventurePool.WHITEYS_GROVE_ID ) )
 			{
 				handleWhiteysGroveChange( responseText );
 			}
-			else if ( location.contains( "216" ) )
-			{
-				handleTrickOrTreatingChange( responseText );
-			}
-			else if ( location.contains( "273") )
+			else if ( location.contains( AdventurePool.EXTREME_SLOPE_ID ) )
 			{
 				handleExtremityChange( responseText );
 			}
-			else if ( location.contains( "395") )
+			else if ( location.contains( AdventurePool.HAUNTED_BALLROOM_ID ) )
 			{
 				handleManorSecondFloorChange( location, responseText );
 			}
-			else if ( location.contains( "406") || location.contains( "407" ) )
+			else if ( location.contains( AdventurePool.UPPER_CHAMBER_ID ) ||
+			          location.contains( AdventurePool.MIDDLE_CHAMBER_ID ) )
 			{
 				handlePyramidChange( location, responseText );
 			}
-			else if ( location.contains( "402" ) || location.contains( "403" ) || location.contains( "404" ) )
+			else if ( location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+			          location.contains( AdventurePool.FUN_GUY_MANSION_ID ) ||
+			          location.contains( AdventurePool.YACHT_ID ) )
 			{
 				handleAirportChange( location, responseText );
 			}
@@ -156,11 +155,11 @@ public class QuestManager
 		}
 		else if ( location.startsWith( "inv_use" ) )
 		{
-			if ( location.indexOf( "whichitem=5116" ) != -1 )
+			if ( location.contains( "whichitem=" + ItemPool.AWOL_COMMENDATION ) )
 			{
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
 			}
-			else if ( location.indexOf( "whichitem=5683" ) != -1 )
+			else if ( location.contains( "whichitem=" + ItemPool.BURT ) )
 			{
 				BURTRequest.parseResponse( location, responseText );
 			}
@@ -221,8 +220,8 @@ public class QuestManager
 			else if ( location.contains( "whichplace=manor3" ) )
 			{
 				// If here at all, Necklace and Dance quests are complete and second floor open
-				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );		
-				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );		
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 			}
@@ -338,7 +337,7 @@ public class QuestManager
 	private static void handleManorFirstFloorChange( final String responseText )
 	{
 		// Derive quest status from available rooms
-		if ( responseText.contains( "snarfblat=388" ) )
+		if ( responseText.contains( "snarfblat=" + AdventurePool.HAUNTED_KITCHEN_ID ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 		}
@@ -363,7 +362,7 @@ public class QuestManager
 				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, "step1" );
 			}
 		}
-		if ( location.contains( "395" ) )
+		if ( location.contains( AdventurePool.HAUNTED_BALLROOM_ID ) )
 		{
 			if ( responseText.contains( "Having a Ball in the Ballroom" ) )
 			{
@@ -371,11 +370,11 @@ public class QuestManager
 			}
 		}
 		// Derive quest status from available rooms
-		if ( responseText.contains( "snarfblat=392" ) )
+		if ( responseText.contains( "snarfblat=" + AdventurePool.HAUNTED_BATHROOM_ID ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, "step1" );
 		}
-		if ( responseText.contains( "snarfblat=395" ) )
+		if ( responseText.contains( "snarfblat=" + AdventurePool.HAUNTED_BALLROOM_ID ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, "step3" );
 		}
@@ -399,7 +398,7 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
 			}
 		}
-		else if ( location.contains( "406" ) )
+		else if ( location.contains( AdventurePool.UPPER_CHAMBER_ID ) )
 		{
 			if ( responseText.contains( "Down Dooby-Doo Down Down" ) )
 			{
@@ -407,7 +406,7 @@ public class QuestManager
 				Preferences.setBoolean( "middleChamberUnlock", true );
 			}
 		}
-		else if ( location.contains( "407" ) )
+		else if ( location.contains( AdventurePool.MIDDLE_CHAMBER_ID ) )
 		{
 			if ( responseText.contains( "Further Down Dooby-Doo Down Down" ) )
 			{
@@ -420,7 +419,7 @@ public class QuestManager
 				Preferences.setBoolean( "controlRoomUnlock", true );
 			}
 			// If here, must have unlocked middle chamber
-			Preferences.setBoolean( "middleChamberUnlock", true );			
+			Preferences.setBoolean( "middleChamberUnlock", true );
 		}
 		else if ( location.contains( "whichplace=pyramid" ) )
 		{
@@ -441,7 +440,7 @@ public class QuestManager
 		}
 		return;
 	}
-	
+
 	public static final void handleAirportChange( final String location, final String responseText )
 	{
 		// Don't bother if it's always open
@@ -450,8 +449,8 @@ public class QuestManager
 			return;
 		}
 		// Detect if Airport is open today
-		if ( location.contains( "402" ) || location.contains( "403" ) ||
-			location.contains( "404" ) || location.contains( "whichplace=airport_sleaze" ) )		
+		if ( location.contains( AdventurePool.FUN_GUY_MANSION_ID ) || location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+		     location.contains( AdventurePool.YACHT_ID ) || location.contains( "whichplace=airport_sleaze" ) )
 		{
 			Preferences.setBoolean( "_sleazeAirportToday", true );
 		}
@@ -464,7 +463,7 @@ public class QuestManager
 		}
 		return;
 	}
-	
+
 	private static void handleWoodsChange( final String responseText )
 	{
 		if ( responseText.contains( "wcroad.gif" ) )
@@ -473,7 +472,7 @@ public class QuestManager
 		}
 
 		// If we see the Hidden Temple, mark it as unlocked
-		if ( responseText.indexOf( "otherimages/woods/temple.gif" ) != -1 )
+		if ( responseText.contains( "otherimages/woods/temple.gif" ) )
 		{
 			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 		}
@@ -534,22 +533,22 @@ public class QuestManager
 
 	private static final void handleTrickOrTreatingChange( final String responseText )
 	{
-		if ( responseText.indexOf( "pull the pumpkin off of your head" ) != -1 )
+		if ( responseText.contains( "pull the pumpkin off of your head" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.PUMPKINHEAD_MASK );
 			return;
 		}
-		if ( responseText.indexOf( "gick all over your mummy costume" ) != -1 )
+		if ( responseText.contains( "gick all over your mummy costume" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.MUMMY_COSTUME );
 			return;
 		}
-		if ( responseText.indexOf( "unzipping the mask and throwing it behind you" ) != -1 )
+		if ( responseText.contains( "unzipping the mask and throwing it behind you" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.WOLFMAN_MASK );
 			return;
 		}
-		if ( responseText.indexOf( "Right on, brah. Here, have some gum." ) != -1 )
+		if ( responseText.contains( "Right on, brah. Here, have some gum." ) )
 		{
 			ResultProcessor.processItem( ItemPool.RUSSIAN_ICE, -1 );
 			return;
@@ -559,22 +558,22 @@ public class QuestManager
 	private static final void handleCell37( final String responseText )
 	{
 		// You pass the folder through the little barred window, and hear Subject 37 flipping through the pages
-		if ( responseText.indexOf( "pass the folder through" ) != -1 )
+		if ( responseText.contains( "pass the folder through" ) )
 		{
 			ResultProcessor.processItem( ItemPool.SUBJECT_37_FILE, -1 );
 		}
 		// You pass the GOTO through the window, and Subject 37 thanks you.
-		if ( responseText.indexOf( "pass the GOTO through" ) != -1 )
+		if ( responseText.contains( "pass the GOTO through" ) )
 		{
 			ResultProcessor.processItem( ItemPool.GOTO, -1 );
 		}
 		// You pass the little vial of of weremoose spit through the window.
-		if ( responseText.indexOf( "pass the little vial" ) != -1 )
+		if ( responseText.contains( "pass the little vial" ) )
 		{
 			ResultProcessor.processItem( ItemPool.WEREMOOSE_SPIT, -1 );
 		}
 		// You hand Subject 37 the glob of abominable blubber.
-		if ( responseText.indexOf( "hand Subject 37 the glob" ) != -1 )
+		if ( responseText.contains( "hand Subject 37 the glob" ) )
 		{
 			ResultProcessor.processItem( ItemPool.ABOMINABLE_BLUBBER, -1 );
 		}
@@ -888,7 +887,7 @@ public class QuestManager
 		{
 			Preferences.decrement( "booPeakProgress", 2 );
 		}
-		
+
 		else if ( monster.equalsIgnoreCase( "panicking Knott Yeti" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step4" );
