@@ -2455,7 +2455,7 @@ ghast iron heater shield	SSMITH	ghast iron ingot	buckler buckle
 deluxe layer cake	COOK	moose chocolate	sheet cake
 Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
-picture of you	ACOMBINE	ancient oil painting of yourself	ornate picture frame
+picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
 # Crashed Space Ship
 government	ACOMBINE	anticheese	government cheese
