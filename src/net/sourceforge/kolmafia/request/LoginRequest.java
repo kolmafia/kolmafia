@@ -163,7 +163,7 @@ public class LoginRequest
 			KoLmafia.updateDisplay( LoginRequest.playersOnline + " players online." );
 		}
 
-		if ( Preferences.getBoolean( "showAnnouncements" ) )
+		if ( Preferences.getBoolean( "showAnnouncements" ) && !Preferences.getBoolean( "_announcementShown" ) )
 		{
 			Matcher announceMatcher = LoginRequest.ANNOUNCE_PATTERN.matcher( this.responseText );
 			if ( announceMatcher.find() )

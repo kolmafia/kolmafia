@@ -200,6 +200,7 @@ global	visitLoungeHardcore	true
 global	visitLoungeSoftcore	true
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
+global	_announcementShown	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 

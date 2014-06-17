@@ -35,9 +35,15 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
+
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
+
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 public class AnnouncementFrame
@@ -76,6 +82,8 @@ public class AnnouncementFrame
 		}
 
 		AnnouncementFrame.display.setText( HTML );
+
+		Preferences.setBoolean( "_announcementShown", true );
 	}
 	
 	private class AnnouncementOptionPanel
