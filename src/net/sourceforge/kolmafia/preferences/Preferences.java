@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 
@@ -808,6 +810,23 @@ public class Preferences
 				Preferences.setString( name, val );
 			}
 		}
+	}
+
+	public static synchronized void resetGlobalDailies()
+	{
+		Iterator<String> i = Preferences.globalValues.keySet().iterator();
+		while ( i.hasNext() )
+		{
+			String name = i.next();
+			if ( name.startsWith( "_" ) )
+			{
+				String val = Preferences.globalNames.get( name );
+				if ( val == null ) val = "";
+				Preferences.setString( name, val );
+			}
+		}
+
+		Preferences.setInteger( "lastGlobalCounterDay", HolidayDatabase.getPhaseStep() );
 	}
 
 	public static boolean containsDefault( String key )

@@ -669,9 +669,6 @@ public abstract class KoLmafia
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
 
-		// there is only one GLOBAL _preference, the rest are USER and are reset by Preferences.resetDailies();
-		Preferences.resetToDefault( "_svnUpdated" );
-
 		// If this is called from a place that hits API.php first, these values will be up-to-date; don't touch
 		if ( resetStomach )
 		{
@@ -716,6 +713,7 @@ public abstract class KoLmafia
 		IslandManager.ensureUpdatedBigIsland();
 
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
+		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );
@@ -734,6 +732,11 @@ public abstract class KoLmafia
 		if ( shouldResetCounters )
 		{
 			KoLmafia.resetCounters( false );
+		}
+
+		if ( shouldResetGlobalCounters )
+		{
+			Preferences.resetGlobalDailies();
 		}
 
 		KoLmafia.setIsRefreshing( false );
