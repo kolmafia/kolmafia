@@ -1026,8 +1026,8 @@ public class UseSkillRequest
 				KoLConstants.activeEffects.contains( new AdventureResult( "Twice-Cursed", 1, true ) ) ||
 				KoLConstants.activeEffects.contains( new AdventureResult( "Thrice-Cursed", 1, true ) );
 			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
-				this.skillId == SkillPool.SHAKE_IT_OFF ||
-				( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) )
+				( this.skillId == SkillPool.SHAKE_IT_OFF ||
+				( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) ) )
 			{
 				if ( !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
 				{
