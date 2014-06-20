@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
+import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
@@ -138,7 +139,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
-import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -343,13 +343,17 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "choice.php" ) )
 		{
-			if ( location.indexOf( "whichchoice=562" ) != -1 )
+			if ( location.contains( "whichchoice=562" ) )
 			{
 				FudgeWandRequest.parseResponse( location, responseText );
 			}
-			else if ( location.indexOf( "whichchoice=585" ) != -1 )
+			else if ( location.contains( "whichchoice=585" ) )
 			{
 				ClanLoungeSwimmingPoolRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichchoice=922" ) )
+			{
+				SummoningChamberRequest.parseResponse( location, responseText );
 			}
 		}
 
@@ -616,11 +620,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "managestore.php" ) )
 		{
 			AutoMallRequest.parseTransfer( location, responseText );
-		}
-
-		else if ( location.startsWith( "manor3" ) )
-		{
-			WineCellarRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "mining.php" ) )

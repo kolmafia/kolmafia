@@ -139,6 +139,7 @@ import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StillRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
+import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -156,7 +157,6 @@ import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
-import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -583,6 +583,13 @@ public class RequestLogger
 
 		// We want to register visits to the You're the Fudge Wizard Now, Dog choice adventure before ChoiceManager.
 		if ( ( request instanceof FudgeWandRequest || isExternal ) && FudgeWandRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// We want to register visits to the Summoning Chamber choice adventure before ChoiceManager.
+		if ( ( request instanceof SummoningChamberRequest || isExternal ) && SummoningChamberRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1299,12 +1306,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof WarbearBoxRequest || isExternal ) && WarbearBoxRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof WineCellarRequest || isExternal ) && WineCellarRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
-import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;

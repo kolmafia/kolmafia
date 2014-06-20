@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.WineCellarRequest;
+import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -118,9 +118,8 @@ public class SummonDemonCommand
 			return;
 		}
 
-		WineCellarRequest demonSummon = new WineCellarRequest( demon );
+		SummoningChamberRequest demonSummon = new SummoningChamberRequest( demon );
 
-		KoLmafia.updateDisplay( "Summoning " + demon + "..." );
 		RequestThread.postRequest( demonSummon );
 	}
 }
