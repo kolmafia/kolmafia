@@ -1129,6 +1129,7 @@ public class ResultProcessor
 		case ItemPool.FAT_LOOT_TOKEN:
 		case ItemPool.FUDGECULE:
 		case ItemPool.FDKOL_COMMENDATION:
+		case ItemPool.WARBEAR_WHOSIT:
 		case ItemPool.KRUEGERAND:
 		case ItemPool.SHIP_TRIP_SCRIP:
 		case ItemPool.TWINKLY_WAD:
