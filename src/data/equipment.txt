@@ -1403,7 +1403,7 @@ Solstice Shield	0	none
 Spanish fly trap	10	none
 Stupid University Diploma	0	none
 Sword of the Brouhaha Prince	0	none
-Taco Dan's Taco Stand Cocktail Sauce Bottle	0	none
+Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 Tiki lighter	20	none
@@ -1416,7 +1416,7 @@ Whatsian Ionic Pliers	110	Mys: 40
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield
-ancient hot dog wrapper	0	Mys: 85
+ancient hot dog wrapper	200	Mys: 85
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
@@ -1443,7 +1443,7 @@ bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
 borg sock monkey	110	Mys: 40
 bottle of Goldschn&ouml;ckered	75	Mox: 22
-bowl of petunias	0	Mys: 44
+bowl of petunias	100	Mys: 44
 box	10	none
 box turtle	50	Mus: 10	shield
 box-in-the-box	20	none
@@ -1590,7 +1590,7 @@ security flashlight	50	Mys: 10
 set of jacks	20	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
-silver cow creamer	0	Mys: 85
+silver cow creamer	200	Mys: 85
 silver sausage	0	none
 six-rainbow shield	190	Mus: 70	shield
 skull gearshift knob	0	Mus: 60
@@ -1840,7 +1840,7 @@ Ring of the Sewer Snake	150	Mys: 60
 Saccharine Maple pendant	75	Mys: 22
 Scandalously Skimpy Bikini	0	Mys: 10
 Senior LAAAAME merit badge	0	none
-Sketcherz&trade;	0	Mys: 60
+Sketcherz&trade;	150	Mys: 60
 Slow Talkin' Elliot's dogtags	200	Mys: 45
 Sneaky Pete's breath spray	80	Mys: 25
 Space Tourist palmdoctor	50	none
@@ -1950,9 +1950,9 @@ crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
-dark baconstone ring	0	Mys: 47
-dark hamethyst ring	0	Mys: 47
-dark porquoise ring	0	Mys: 47
+dark baconstone ring	125	Mys: 47
+dark hamethyst ring	125	Mys: 47
+dark porquoise ring	125	Mys: 47
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
@@ -2072,7 +2072,7 @@ natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
 night-vision goggles	50	Mox: 10
 novelty tattoo sleeves	10	none
-numberwang	0	Mys: 35
+numberwang	100	Mys: 35
 observational glasses	10	none
 offensive moustache	0	none
 old ball and chain	224	Mys: 200
@@ -2113,7 +2113,7 @@ porquoise bracelet	50	Mys: 10
 porquoise eyebrow ring	50	Mys: 10
 porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
-power sock	0	Mys: 10
+power sock	100	Mys: 10
 pulled porquoise earring	110	Mys: 40
 pulled porquoise pendant	110	Mys: 40
 pulled porquoise ring	110	Mys: 40
