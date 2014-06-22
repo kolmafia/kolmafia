@@ -1389,7 +1389,7 @@ Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
-Paradaisical Cheeseburger recipe	0	none
+Paradaisical Cheeseburger recipe	10	none
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
@@ -1610,7 +1610,7 @@ speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
 spooky little girl	0	none
-sprinkle shaker	0	none
+sprinkle shaker	10	none
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75

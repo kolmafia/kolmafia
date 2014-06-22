@@ -2040,6 +2040,7 @@ public class ItemPool
 	public static final int STEAM_PLUMBER_2 = 7419;
 	public static final int STEAM_PLUMBER_3 = 7420;
 	public static final int PENCIL_THIN_MUSHROOM = 7421;
+	public static final int CHEESEBURGER_RECIPE = 7422;
 	public static final int SAILOR_SALT = 7423;
 	public static final int BROUPON = 7424;
 	public static final int TACO_DAN_SAUCE_BOTTLE = 7425;
