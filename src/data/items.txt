@@ -7329,7 +7329,7 @@
 7310	old bronzer	846379862	balm.gif	multiple	t,d	40
 7311	elegant nightstick	593439220	nightstick.gif	weapon	t,d	75
 7312	still grill	860803674	stillgrill.gif	grow	t	0
-7313	box of hickory chips	221201497	woodchips.gif	familiar	t,d	70
+7313	box of hickory chips	221201497	woodchips.gif	familiar	t,d	75
 7314	dusty poppet	580089747	poppet.gif	none	q	0
 7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
 7316	antique jack-in-the-box	671902661	jackinthebox.gif	none	q	0
@@ -7564,13 +7564,13 @@
 7545	space port	812670303	potion4.gif	drink	t,d	75	space bottles of space port
 7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
-7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	35	handfuls of hot ashes
-7549	ash soda	551667583	beerbottle.gif	multiple	t,d	55	bottles of ash soda
-7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	25	droplets of liquid smoke
-7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	25	dollops of barbecue sauce
-7552	bowl of marinade	972886583	soupbowl.gif	multiple	t,d	25	bowls of marinade
-7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	35	shakers of dry rub
-7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	35	bottles of lighter fluid
+7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	10	handfuls of hot ashes
+7549	ash soda	551667583	beerbottle.gif	multiple	t,d	20	bottles of ash soda
+7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	10	droplets of liquid smoke
+7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	10	dollops of barbecue sauce
+7552	bowl of marinade	972886583	soupbowl.gif	multiple	t,d	10	bowls of marinade
+7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	20	shakers of dry rub
+7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	10	bottles of lighter fluid
 7555	white page	643839454	document.gif	usable	t	0
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
 7557	white blood cells	819926103	redcells.gif	usable	t,d	15
