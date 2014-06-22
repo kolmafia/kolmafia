@@ -1951,8 +1951,8 @@ cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
 dark baconstone ring	125	Mys: 47
-dark hamethyst ring	125	Mys: 47
-dark porquoise ring	125	Mys: 47
+dark hamethyst ring	125	Mus: 47
+dark porquoise ring	125	Mox: 47
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
