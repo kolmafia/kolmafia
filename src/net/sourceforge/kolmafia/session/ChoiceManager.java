@@ -7143,6 +7143,7 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.JIMMY_CHEESEBURGER, QuestDatabase.FINISHED );
 				Preferences.setInteger( "buffJimmyIngredients", 0 );
+				ResultProcessor.processItem( ItemPool.CHEESEBURGER_RECIPE, -1 );
 			}
 			else if ( text.contains( "sons of sons of sailors are" ) )
 			{
