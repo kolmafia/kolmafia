@@ -66,6 +66,7 @@ jug-o-magicalness	1	3		0	0	8-10	0
 lavender paisley oyster egg	1	1		0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1		0	0	0	22-30
 lavender striped oyster egg	1	1		0	11-15	0	11-15
+liquid shifting time weirdness	2	6		4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
 magicalness-in-a-can	1	1		0	0	1-3	0
 mariner's friend cough drops	1	1		0	10-12	0	0
 mauve paisley oyster egg	1	1		0	0	22-30	0

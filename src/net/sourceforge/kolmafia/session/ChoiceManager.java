@@ -3132,6 +3132,11 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure940", "white page",
 			new Object[] { "fight whitesnake", "fight white lion", "fight white chocolate golem", "fight white knight", "fight white elephant", "skip" } ),
+
+		// Choice 955 is Time Cave.  Period.
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure955", "Time Cave",
+			new Object[] { "fight Adventurer echo", "time capsule" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

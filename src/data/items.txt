@@ -7590,13 +7590,13 @@
 7571	silent pea shooter	134044444	slingshot.gif	weapon	t,d	75
 7572	D roll	834168167	droll.gif	food	t,d	1
 7573	kiwi beak	184352187	kiwibeak.gif	weapon	t,d	75
-7574	New Zealand iced tea	878958277	icedtea.gif	drink	t,d	1
+7574	New Zealand iced tea	878958277	icedtea.gif	drink	t,d	1	glasses of New Zealand iced tea
 7575	droll monocle	800102166	monocle.gif	accessory	t,d	100
-7576	future drug: Muscularactum	750828547	goofballs.gif	multiple	t,d	25
-7577	future drug: Smartinex	199472783	goofballs.gif	multiple	t,d	25
-7578	future drug: Coolscaline	593531416	goofballs.gif	multiple	t,d	25
+7576	future drug: Muscularactum	750828547	goofballs.gif	multiple	t,d	25	bottles of Muscularactum
+7577	future drug: Smartinex	199472783	goofballs.gif	multiple	t,d	25	bottles of Smartinex
+7578	future drug: Coolscaline	593531416	goofballs.gif	multiple	t,d	25	bottles of Coolscaline
 7579	twitching time capsule	939147962	timecapsule.gif	usable	t	0
-7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50
+7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50	flasks of liquid shifting time weirdness
 7581	solid shifting time weirdness	395261869	confused.gif	familiar	t	0
 7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t,d	100
 7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t,d	100
