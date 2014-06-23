@@ -190,3 +190,5 @@
 181	Putty Buddy	puttybuddy.gif	combat	7291	putty coat	3	1	2	1
 182	Twitching Space Critter	spacebeastlet.gif	combat	7537	ramekin of space nuts	3	1	1	1
 183	Galloping Grill	galgrill.gif	stat1, combat	7312	box of hickory chips	0	0	0	0
+184
+185	Helix Fossil	foss_amm.gif	combat	7586		0	0	0	0

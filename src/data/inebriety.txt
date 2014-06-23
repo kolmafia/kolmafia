@@ -383,7 +383,7 @@ sangria del diablo	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
 sazerorc	2	1	good	4-5	10-20	0	0	5 Orc Chops (+50 Muscle)
 sazuruk-hai	2	4	awesome	6-7	20-30	0	0	10 Orc Chops (+50 Muscle)
 schr&ouml;dinger's thermos	0	1		0	0	0	0	random booze
-scotch on the rocks	3	11	EPIC	0	0	0	0	30 Hair on Your Chest
+scotch on the rocks	3	11	EPIC	0	0	0	0	30 Hair on Your Chest (+50% MP)
 scrawny stout	3	6		3-6	0	0	0
 screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
 screwdriver	3	1	decent	5-6	8-10	0	0

@@ -4334,6 +4334,7 @@ Light-Headed	Mysticality Percent: -30
 # Like an Egyptian: Makes you look like a tomb servant
 # Limber as Mortimer: +100% Gear Drops from Monsters
 Liquid Courage	Experience: +3
+Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Liquidy Smoky	Mysticality: +15, Moxie: +15
 Lit Up	Hot Damage: +20, Hot Spell Damage: +20
 # Literally Insane
@@ -6070,6 +6071,7 @@ lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 liquid bread	Effect: "Comprehensively Nourished", Effect Duration: 20
 liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
+liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
 little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 llama lama cria	Free Pull
