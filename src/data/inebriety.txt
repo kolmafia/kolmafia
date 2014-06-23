@@ -489,5 +489,6 @@ wrecked generator	5	5	EPIC	28-32	20-30	20-30	20-30
 ye olde meade	5	7	good	14-16	20-30	20-30	20-30
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
+new zealand iced tea	2	4	awesome	6-8	20-30	0	0	20 New Zeal (+40 HP, +20 MP)
 zmobie	3	3	good	5-10	0	16-20	0
 zoodriver	2	1	good	4-5	10-20	0	0	5 Rampage! (+50% Weapon Dam)

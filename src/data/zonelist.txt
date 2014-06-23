@@ -102,6 +102,7 @@ Crimbo13	Holiday	Christmas 2013
 Override	Unsorted	Discoveries
 
 Events	Events	Events
+Twitch	Town	Time-Twitching Tower
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005

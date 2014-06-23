@@ -1243,6 +1243,7 @@ ironic battle spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 keel-haulin' knife	Spell Damage: +17
+kiwi beak	Food Drop: +25, Booze Drop: +25
 kneecapping stick	Critical Hit Percent: +8
 knob bugle	Weakens Monster
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
@@ -1825,6 +1826,7 @@ security flashlight	Monster Level: -10
 set of jacks	Experience (Moxie): +2
 sewer turtle	Stench Damage: +1, Damage Reduction: 1
 shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
+silent pea shooter	Sleaze Damage: +10, Monster Level: +5
 silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 12
@@ -2122,6 +2124,8 @@ Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Pe
 Talisman of Bakula	Single Equip
 The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
+Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
+# Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
@@ -2253,6 +2257,7 @@ disembodied smile	Spooky Damage: +2, Single Equip
 diving muff	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 doll-eye amulet	Item Drop: [40*(zone(Manor0)+zone(Manor1)+zone(Manor2)+zone(Manor3))], Single Equip
 dope gangsta bling-bling	Moxie: +1
+droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
 eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 eerie fetish	Spooky Resistance: +4, Single Equip
@@ -2540,6 +2545,9 @@ tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Singl
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Single Equip
 time halo	Adventures: +5, Unarmed, Single Equip
+# time-twitching toolbelt: Reveals various Time-Forgotten Secrets
+# time-twitching toolbelt: (also in the Time-Twitching Tower)
+time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Item Drop: [60*zone(Twitch)], Single Equip
 tin star	Monster Level: +5, Moxie: +3
 tiny die-cast arc-welding Elfborg	Meat Drop: +10
 tiny die-cast Bashful the Reindeer	Sleaze Damage: +1
@@ -4426,6 +4434,7 @@ Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
 New, Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+New Zeal	Maximum HP: +40, Maximum MP: +20
 New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Newt Gets In Your Eyes	Moxie: +25
 Night of the Nachos	Spooky Spell Damage: +50, Spell Damage Percent: +100
@@ -4457,6 +4466,7 @@ Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Oleaginous Soles	Initiative: +40
 Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 Omphalotus Omnipresence	Mysticality: +40
+On a Roll	Food Drop: +25
 On Pins and Needles	Initiative: +23
 # On the Homeo Path: Makes you look like a War Hippy Homeopath
 On the Shoulders of Giants	Mysticality Percent: +200
@@ -4480,6 +4490,7 @@ Oriental Mysticism	Mysticality Percent: +5
 # Osseous George: Makes you look like a skeletal monkey
 Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Over the Ocean	Experience: [min(100,T/5)]
+Over-Familiar With Dactyls	Familiar Weight: +5
 Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
 Overstimulated	Experience (Muscle): +5
@@ -4708,9 +4719,7 @@ Slimy Flavor	Sleaze Damage: +10, Sleaze Resistance: +2
 Slimy Hands	Sleaze Damage: +10
 Slinking Noodle Glob	Maximum MP: +15
 Slippery Oiliness	Equalize: "Moxie"
-# Small: Base Muscle Limited to 50
-# Small: Base Mysticality Limited to 50
-# Small: Base Moxie Limited to 50
+Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Smelly Pants	Stench Resistance: +1
 Smithsness Cheer	Smithsness: +10
 Smithsness Dinner	Smithsness: +10
@@ -4925,10 +4934,13 @@ The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 The Solution	Weapon Damage: +25
 The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
+The Strength... of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
+The Style... of the Future	Moxie Percent: +50, Moxie: +15, Experience (Moxie): +3
 The Sweats	Stench Resistance: +5
 # The Tunger&trade;: +3 Adventures from the next thing you eat
 The Two-Prong Crown	Sleaze Damage: +30
 The Vitus Virus	Item Drop: +50, Experience: -5
+The Wisdom... of the Future	Mysticality Percent: +50, Mysticality: +15, Experience (Mysticality): +3
 There Is A Spoon	Mysticality: +20
 # There is No Spoon
 There Wolf	Weapon Damage Percent: +100
@@ -5491,6 +5503,7 @@ Crimbo P. R. E. S. S. I. E.	Free Pull
 Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
+D roll	Effect: "On a Roll", Effect Duration: 20
 Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
@@ -5517,6 +5530,7 @@ Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
 Fly-By-Knight Heraldry form	Free Pull
 French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Duration: 40
+Friendliness Beverage	Effect: "Over-Familiar With Dactyls", Effect Duration: 20
 Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
@@ -5607,6 +5621,7 @@ Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
 Murderer's Punch	Effect: "Punchy, Murdery", Effect Duration: 40
 My Own Pen Pal kit	Free Pull
 Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
+New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
 Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
@@ -5939,6 +5954,9 @@ fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 funny bone	Effect: "Angry Bone", Effect Duration: 30
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
+future drug: Muscularactum	Effect: "The Strength... of the Future", Effect Duration: 25
+future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
+future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100

@@ -7575,3 +7575,24 @@
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
 7557	white blood cells	819926103	redcells.gif	usable	t,d	15
 7558	white wine	911418189	whitewine.gif	drink	t,d	15
+7559
+7560
+7561
+7562
+7563
+7564
+7565
+7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
+7567	Chroner	783338147	chroner.gif	none		0	Chroners
+7569	Time Bandit Badge of Courage	312663379	banditbadge.gif	accessory		0
+7570	Friendliness Beverage	679252633	potion9.gif	multiple	t,d	15
+7571	silent pea shooter	134044444	slingshot.gif	weapon	t,d	75
+7572	D roll	834168167	droll.gif	food	t,d	1
+7573	kiwi beak	184352187	kiwibeak.gif	weapon	t,d	75
+7574	New Zealand iced tea	878958277	icedtea.gif	drink	t,d	1
+7575	droll monocle	800102166	monocle.gif	accessory	t,d	100
+7576	future drug: Muscularactum	750828547	goofballs.gif	multiple	t,d	25
+7577	future drug: Smartinex	199472783	goofballs.gif	multiple	t,d	25
+7578	future drug: Coolscaline	593531416	goofballs.gif	multiple	t,d	25
+7579	twitching time capsule	939147962	timecapsule.gif	usable	t	0
+7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50
