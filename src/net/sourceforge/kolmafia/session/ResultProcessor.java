@@ -1132,6 +1132,7 @@ public class ResultProcessor
 		case ItemPool.WARBEAR_WHOSIT:
 		case ItemPool.KRUEGERAND:
 		case ItemPool.SHIP_TRIP_SCRIP:
+		case ItemPool.CHRONER:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.GG_TOKEN:

@@ -1660,3 +1660,6 @@
 1659	The Strength... of the Future	strboost.gif	332e06d519892d99db38ab7f918b1edf	use 1 future drug: Muscularactum
 1660	The Wisdom... of the Future	realbrain.gif	5195b0d7c3f8baadb81831530ce6617b	use 1 future drug: Smartinex
 1661	The Style... of the Future	bigglasses.gif	77d99bc7b798752d3152f770128c4db6	use 1 future drug: Coolscaline
+1662
+1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
+1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks

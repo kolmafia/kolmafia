@@ -508,6 +508,7 @@ python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy
 quantum taco	0	1		0	0	0	0	random food
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
+rack of dinosaur ribs	3	11	EPIC	0	0	0	0	30 Meat the Flintstones
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
 rainbow spider fun roll	4	1	decent	6-10	0	0	0	3-5 plastic ingots
 raisin	1	1	crappy	1	0	0	0

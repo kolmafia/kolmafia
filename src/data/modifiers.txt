@@ -391,6 +391,7 @@ wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, c
 worn tophat	Moxie: +7, Initiative: +20, Familiar Effect: "1xBarrr, 1xLep, cap 31"
 wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
 wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Familiar Effect: "1xPotato, 1xGhuol, cap 25"
+yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10
 yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
 yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "1xVolley, 1xLep, cap 15"
@@ -631,6 +632,7 @@ wax pants	Moxie: +7, Initiative: +10, Familiar Effect: "atk, 3xBarrr, cap 12"
 weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip
 weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
+wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
 yakskin pants	Maximum MP: +25, Familiar Effect: "stench atk, 1xPotato, cap 35"
@@ -2126,6 +2128,8 @@ The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
+Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
+# Time Lord Badge of Honor: Proves your worth to the Time Bandits
 Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
@@ -3044,6 +3048,7 @@ smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
 smiley-face sticker	Experience: +3.16
 snow halo	Familiar Weight: +5
+solid shifting time weirdness	Adventures: +4, PvP Fights: +4, Generic
 solid state loom	Familiar Weight: +10
 spoon!	Familiar Weight: +5
 spruce juice	Familiar Weight: +5
@@ -4127,6 +4132,7 @@ Gutterminded	Sleaze Damage: +50
 Gyromitra Gymnastics	Moxie: +40
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
+Hair on Your Chest	Maximum MP Percent: +50
 # Hairless and Airless: Makes you a better diver
 Hairless and Airless	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
@@ -4367,6 +4373,7 @@ Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 # Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
 # Mayeaugh: Deals Sleaze Damage every round.
+Meat the Flintstones	Maximum HP Percent: +50
 Meatwise	Meat Drop: +35
 Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
@@ -6205,6 +6212,7 @@ pygmy dart	Effect: "Short of Breath", Effect Duration: 30
 pygmy papers	Effect: "Short on Options", Effect Duration: 30
 pygmy phone number	Effect: "Pygmy Drinking Buddy", Effect Duration: 15
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
+rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 recording of Benetton's Medley of Diversity	Effect: "Benetton's Medley of Diversity", Effect Duration: 20
@@ -6238,6 +6246,7 @@ roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
+scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 scroll case	Effect: "Medieval Mage Mayhem", Effect Duration: 30

@@ -7584,6 +7584,7 @@
 7565
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
 7567	Chroner	783338147	chroner.gif	none		0	Chroners
+7568	Time Lord Badge of Honor	648991303	lordbadge.gif	accessory		0
 7569	Time Bandit Badge of Courage	312663379	banditbadge.gif	accessory		0
 7570	Friendliness Beverage	679252633	potion9.gif	multiple	t,d	15
 7571	silent pea shooter	134044444	slingshot.gif	weapon	t,d	75
@@ -7596,3 +7597,9 @@
 7578	future drug: Coolscaline	593531416	goofballs.gif	multiple	t,d	25
 7579	twitching time capsule	939147962	timecapsule.gif	usable	t	0
 7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50
+7581	solid shifting time weirdness	395261869	confused.gif	familiar	t	0
+7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t,d	100
+7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t,d	100
+7584	yabba dabba doo rag	266406217	yabbadabba.gif	hat	t,d	300
+7585	wooly loincloth	735546546	loincloth.gif	pants	t,d	300
+7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
