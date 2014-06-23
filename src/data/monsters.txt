@@ -1653,9 +1653,15 @@ wild girl	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: -10000 P: dude E: sleaze	
 son of a son of a sailor	sonofsailor.gif	Atk: 350 Def: 350 HP: 600 Init: -10000 P: dude E: sleaze
 drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sleaze	bike rental broupon (c100)
 
-# Crashed Space Ship
+# Twitch 1 - Crashed Space Ship
 Government agent	gov_agent.gif	Atk: [MOX-5+max(ML,0)] Def: [MUS-5+max(ML,0)] HP: [0.75*(MUS-5+max(ML,0))] Exp: [(STAT-5+max(ML,0))/4] Init: 25 P: dude Meat: 60-90	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)
 perimeter defense sphere	defense_sphere.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 100 P: construct	space junk (10)	space junk (c15)
 illegal alien	illegal_alien.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 75 P: humanoid Meat: 52-78	alien drugs (15)	weird space book (c25)
 space beast	spacebeast3.gif	Atk: [MOX+5+max(ML,0)] Def: [MUS+5+max(ML,0)] HP: [0.75*(MUS+5+max(ML,0))] Exp: [(STAT+5+max(ML,0))/4] Init: 50 P: beast Meat: 163-245	space beast fur (100)
 space beast matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast	twitching space egg (n100)
+
+# Twitch 2 - The Cave Before Time
+droll	droll.gif	Atk: [max(min(MOX+5,500),5)+max(ML,0)] Def: [max(min(MUS+5,500),5)+max(ML,0)] HP: [0.75*(max(min(MUS+5,500),5)+max(ML,0))] Exp: [max(min(STAT+5,500),5)+max(ML,0)] Init: -10000 P: humanoid	D roll (20)	droll monocle (2)
+pterodactyl	pterodact.gif	Atk: [max(min(MOX-2,500),2)+max(ML,0)] Def: [max(min(MUS-2,500),2)+max(ML,0)] HP: [0.75*(max(min(MUS-2,500),2)+max(ML,0))] Exp: [max(min(STAT-2,500),2)+max(ML,0)] Init: -10000 P: beast	Friendliness Beverage (20)	silent pea shooter (2)
+sabre-toothed kiwi	stkiwi.gif	Atk: [max(min(MOX+1,500),4)+max(ML,0)] Def: [max(min(MUS+1,500),4)+max(ML,0)] HP: [0.75*(max(min(MUS+1,500),4)+max(ML,0))] Exp: [max(min(STAT+1,500),4)+max(ML,0)] Init: -10000 P: humanoid	New Zealand iced tea (20)	kiwi beak (2)	kiwi (5)	kiwi (5)
+Adventurer echo	advecho.gif	Atk: [max(min(MOX+5,500),4)+max(ML,0)] Def: [max(min(MUS+5,500),4)+max(ML,0)] HP: [0.75*(max(min(MUS+5,500),4)+max(ML,0))] Exp: [max(min(STAT+5,500),4)+max(ML,0)] Init: -10000 P: dude	Chroner (100)	Chroner (100)	Chroner (f50)

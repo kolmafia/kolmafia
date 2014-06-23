@@ -1647,8 +1647,16 @@
 1646	Liquidy Smoky	blooddrops.gif	2e136952836a7b649459208c0550b840	use 1 liquid smoke
 1647	Barbecue Saucy	gooball.gif	7f1b85ae4e6163c402ed2d2625022054	use 1 dollop of barbecue sauce
 1648	Marinated	soupbowl.gif	38dd66129b7abf01fff23f03d1dbdcfd	use 1 bowl of marinade
-1649
+1649	On a Roll	droll.gif	6754982da71835f0d687a8c9a0d395d1	eat 1 D roll
 1650	Lit Up	lighterfluid.gif	38469ac56f66de5bcd552a8263d0d507	use 1 bottle of lighter fluid
-1651
+1651	New Zeal	happy.gif	0b26566f8590bd8c9df13ffdfa72bf23	drink 1 New Zealand iced tea
 1652	White Blooded	redcells.gif	86b1fed994e95faf17098cce43d9d8e8	use 1 white blood cells
-
+1653
+1654
+1655
+1656
+1657
+1658	Over-Familiar With Dactyls	candyheart.gif	26b9812c9e89b5da8ebd0bf4c4e8a1d1	use 1 Friendliness Beverage
+1659	The Strength... of the Future	strboost.gif	332e06d519892d99db38ab7f918b1edf	use 1 future drug: Muscularactum
+1660	The Wisdom... of the Future	realbrain.gif	5195b0d7c3f8baadb81831530ce6617b	use 1 future drug: Smartinex
+1661	The Style... of the Future	bigglasses.gif	77d99bc7b798752d3152f770128c4db6	use 1 future drug: Coolscaline

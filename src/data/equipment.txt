@@ -1073,6 +1073,7 @@ ironic battle spoon	40	Mys: 5	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
 jungle drum	160	Mox: 65	2-handed drum
 keel-haulin' knife	150	Mys: 60	1-handed utensil
+kiwi beak	100	Mus: 35	1-handed sword
 kneecapping stick	90	Mus: 30	1-handed club
 knob bugle	60	Mox: 15	1-handed horn
 lawn dart	200	Mus: 200	1-handed club
@@ -1189,6 +1190,7 @@ sharpened spoon	100	Mus: 20	1-handed knife
 shiny butcherknife	60	Mys: 15	1-handed utensil
 short-handled mop	165	Mus: 67	1-handed
 shuddersword	125	Mus: 45	2-handed sword
+silent pea shooter	100	Mox: 35	1-handed slingshot
 silver cheese-slicer	140	Mys: 55	1-handed utensil
 silver pat&eacute; knife	140	Mys: 55	1-handed utensil
 silver shrimp fork	120	Mys: 45	1-handed utensil
@@ -1852,6 +1854,7 @@ Talisman of Baio	200	none
 Talisman of Bakula	200	none
 The Lost Glasses	0	Mys: 25
 The Ring	150	Mys: 60
+Time Bandit Badge of Courage	0	none
 Treads of Loathing	200	Mus: 150
 UV monocular	75	Mys: 22
 Uncle Hobo's belt	200	Mys: 200
@@ -1966,6 +1969,7 @@ disembodied smile	20	none
 diving muff	200	Mys: 85
 doll-eye amulet	100	Mys: 35
 dope gangsta bling-bling	45	Mys: 7
+droll monocle	100	Mys: 35
 eXtreme mittens	110	Mys: 35
 eXtreme nose ring	100	Mys: 10
 eerie fetish	225	Mys: 200
@@ -2224,6 +2228,7 @@ tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 time halo	50	none
+time-twitching toolbelt	100	none
 tin star	60	Mys: 15
 tiny die-cast Bashful the Reindeer	10	none
 tiny die-cast CrimboTown Toy Factory	10	none
