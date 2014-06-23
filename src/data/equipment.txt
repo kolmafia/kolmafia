@@ -303,6 +303,7 @@ wool hat	175	Mox: 72
 worn tophat	85	Mox: 27
 wreath of laurels	200	Mox: 85
 wumpus-hair wig	100	Mox: 35
+yabba dabba doo rag	110	Mox: 40
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
@@ -523,6 +524,7 @@ wax pants	50	Mox: 10
 weasel stomping pants	80	Mys: 25
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
+wooly loincloth	110	Mox: 40
 wumpus-hair loincloth	100	Mox: 35
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
@@ -1855,6 +1857,7 @@ Talisman of Bakula	200	none
 The Lost Glasses	0	Mys: 25
 The Ring	150	Mys: 60
 Time Bandit Badge of Courage	0	none
+Time Lord Badge of Honor	0	none
 Treads of Loathing	200	Mus: 150
 UV monocular	75	Mys: 22
 Uncle Hobo's belt	200	Mys: 200

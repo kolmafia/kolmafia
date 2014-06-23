@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
+import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
@@ -94,6 +95,7 @@ public abstract class CoinmasterRegistry
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
 		LunarLunchRequest.LUNAR_LUNCH,
 		MrStoreRequest.MR_STORE,
+		NeandermallRequest.NEANDERMALL,
 		QuartersmasterRequest.FRATBOY,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
 		SwaggerShopRequest.SWAGGER_SHOP,

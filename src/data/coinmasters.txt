@@ -602,3 +602,11 @@ Buff Jimmy's Souvenir Shop	buy	300	History's Most Offensive Jokes, Vol. IX	ROW30
 Buff Jimmy's Souvenir Shop	buy	300	Now You're Cooking With Grease	ROW303
 Buff Jimmy's Souvenir Shop	buy	300	Sloppy Seconds Diner Employee Handbook	ROW304
 Buff Jimmy's Souvenir Shop	buy	1000	Spring Break Beach tattoo coupon	ROW308
+
+# Things you can buy with Chroners
+
+The Neandermall	buy	5	rack of dinosaur ribs	ROW312
+The Neandermall	buy	5	scotch on the rocks	ROW313
+The Neandermall	buy	100	wooly loincloth	ROW315
+The Neandermall	buy	100	yabba dabba doo rag	ROW314
+The Neandermall	buy	300	strange helix fossil	ROW311
