@@ -7603,3 +7603,4 @@
 7584	yabba dabba doo rag	266406217	yabbadabba.gif	hat	t,d	300
 7585	wooly loincloth	735546546	loincloth.gif	pants	t,d	300
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
+7587	S.S. Ticket	840921614	zepticket.gif	familiar	t,d	75
