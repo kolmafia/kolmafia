@@ -724,6 +724,7 @@ user	questL08Trapper	unstarted
 user	questL09Topping	unstarted
 user	questL10Garbage	unstarted
 user	questL11MacGuffin	unstarted
+user	questL11Black	unstarted
 user	questL11Worship	unstarted
 user	questL11Manor	unstarted
 user	questL11Palindome	unstarted
@@ -910,6 +911,7 @@ user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false
 user	yearbookCameraTarget
 user	yearbookCameraUpgrades	0
+user	zeppelinProtestors	0
 user	zombiePoints	0
 user	_absintheDrops	0
 user	_aguaDrops	0
@@ -1599,6 +1601,7 @@ user	choiceAdventure853	1
 user	choiceAdventure854	1
 user	choiceAdventure873	1
 user	choiceAdventure881	1
+user	choiceAdventure921	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true

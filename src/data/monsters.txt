@@ -244,7 +244,7 @@ Buzzy Beetle	buzzy.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: bug	black pixel (50)	w
 C. H. U. M.	chum2.gif	Atk: 260 Def: 229 HP: 200 Init: -10000 P: humanoid	bottle of sewage schnapps (0)	C.H.U.M. lantern (0)	C.H.U.M. knife (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
 C. H. U. M. chieftain	chumchief.gif	Atk: 330 Def: 270 HP: 400 Init: 40 P: humanoid	C.H.U.M. knife (0)	bottle of sewage schnapps (0)	bottle of sewage schnapps (0)	sewer nuggets (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
 C.A.R.N.I.V.O.R.E. Operative	carnivore.gif	Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 258-500 ED: stench P: hippy	C.A.R.N.I.V.O.R.E. button (100)	Lockenstock&trade; sandals (0)	green clay bead (0)
-cabinet of Dr. Limpieza	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead	fabric softener (0)	bottle of laundry sherry (0)	bloodstain stick (0)	fabric hardener (0)
+cabinet of Dr. Limpieza	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead	fabric softener (0)	bottle of laundry sherry (0)	bloodstain stick (0)	fabric hardener (0)	blasting soda (c0)
 cactuary	cactuary.gif	Atk: 137 Def: 126 HP: 139 Init: 10 Meat: 80-120 P: plant	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Camel's Toe	cameltoe.gif	Atk: 158 Def: 142 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)	star (30)
 Carbuncle Top	carbuncletop.gif	BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	hilarious comedy prop (100)
@@ -765,7 +765,7 @@ possessed laundry press	mangler.gif	Atk: 158 Def: 129 HP: 145 Init: -10000 P: co
 possessed pipe-organ	organ.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 possessed silverware drawer	silverware.gif	Atk: 22 Def: 18 HP: 22 Init: 50 P: undead	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
 possessed toy chest	toybox.gif	Atk: 76 Def: 84 HP: 85 Init: -10000 P: weird	haunted paddle-ball (0)	spooky sound effects record (0)	spooky alphabet block (0)
-possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct
+possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct	bottle of Chateau de Vinegar (c0)
 Possibility Giant	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	chaos butterfly (20)	plot hole (15)	probability potion (20)
 poutine ooze	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime	poutine (40)
 Pr Imp	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 48-58 P: demon	imp air (15)

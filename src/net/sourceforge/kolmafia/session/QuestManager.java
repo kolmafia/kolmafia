@@ -80,6 +80,7 @@ public class QuestManager
 	private static final Pattern ORE_PATTERN = Pattern.compile( "(asbestos|linoleum|chrome) ore[\\. ]" );
 	private static final Pattern BATHOLE_PATTERN = Pattern.compile( "bathole_(\\d)\\.gif" );
 	private static final Pattern DRAWER_PATTERN = Pattern.compile( "search through <b>(\\d+)</b> drawers" );
+	private static final Pattern LIGHTER_PATTERN = Pattern.compile( "group of (\\d+) nearby protesters do the same" );
 	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
 
 	public static final void handleQuestChange( final String location, final String responseText )
@@ -97,6 +98,25 @@ public class QuestManager
 			else if ( location.contains( AdventurePool.EXTREME_SLOPE_ID ) )
 			{
 				handleExtremityChange( responseText );
+			}
+			else if ( location.contains( AdventurePool.AIRSHIP_ID ) ||
+					  location.contains( AdventurePool.CASTLE_BASEMENT_ID ) ||
+					  location.contains( AdventurePool.CASTLE_GROUND_ID ) ||
+					  location.contains( AdventurePool.CASTLE_TOP_ID ) )
+			{
+				handleBeanstalkChange( location, responseText );
+			}
+			else if ( location.contains( AdventurePool.ZEPPELIN_PROTESTORS_ID ) )
+			{
+				handleZeppelinMobChange( responseText );
+			}
+			else if ( location.contains( AdventurePool.RED_ZEPPELIN_ID ) )
+			{
+				handleZeppelinChange( responseText );
+			}
+			else if ( location.contains( AdventurePool.PALINDOME_ID ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 			}
 			else if ( location.contains( AdventurePool.HAUNTED_BALLROOM_ID ) )
 			{
@@ -122,6 +142,7 @@ public class QuestManager
 		{
 			if ( responseText.contains( "airship.gif" ) )
 			{
+				QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
 				KoLCharacter.armBeanstalk();
 			}
 		}
@@ -233,6 +254,10 @@ public class QuestManager
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 			}
+			else if ( location.contains( "whichplace=palindome" ) )
+			{
+				handlePalindomeChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=pyramid" ) )
 			{
 				handlePyramidChange( location, responseText );
@@ -240,6 +265,13 @@ public class QuestManager
 			else if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
 			{
 				handleAirportChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=zeppelin" ) )
+			{
+				if ( responseText.contains( "zep_mob1.gif" ) )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.RON, "step2" );
+				}
 			}
 		}
 		else if ( location.startsWith( "questlog" ) )
@@ -637,6 +669,7 @@ public class QuestManager
 		if ( responseText.indexOf( "immediately grows into an enormous beanstalk" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
 			QuestLogRequest.setBeanstalkPlanted();
 			if ( KoLmafia.isAdventuring() )
 			{
@@ -646,7 +679,77 @@ public class QuestManager
 
 		if ( responseText.contains( "dome.gif" ) )
 		{
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+		}
+	}
+
+	public static final void handleBeanstalkChange( final String location, final String responseText )
+	{
+		// If you can adventure in areas, it tells us about quests
+		if ( location.contains( AdventurePool.AIRSHIP_ID ) )
+		{
+			// Airship available
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
+		}
+		else if ( location.contains( AdventurePool.CASTLE_BASEMENT_ID ) )
+		{
+			// Castle basement available
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step6" );
+			if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Ground Floor" ) )
+			{
+				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step7" );
+			}
+		}
+		else if ( location.contains( AdventurePool.CASTLE_GROUND_ID ) )
+		{
+			// Castle Ground floor available
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step7" );
+			if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Top Floor" ) )
+			{
+				Preferences.setInteger( "lastCastleTopUnlock", KoLCharacter.getAscensions() );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step8" );
+			}
+		}
+		else if ( location.contains( AdventurePool.CASTLE_TOP_ID ) )
+		{
+			// Castle Top floor available
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step8" );
+		}
+	}
+
+	private static final void handleZeppelinMobChange( final String responseText )
+	{
+		if ( responseText.contains( "mob has cleared out" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.RON, "step2" );
+		}
+		else
+		{
+			QuestDatabase.setQuestIfBetter( Quest.RON, "step1" );
+		}
+	}
+
+	private static final void handleZeppelinChange( final String responseText )
+	{
+		if ( responseText.contains( "sneak aboard the Zeppelin" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.RON, "step3" );
+		}
+		else
+		{
+			QuestDatabase.setQuestIfBetter( Quest.RON, "step2" );
+		}
+	}
+
+	private static final void handlePalindomeChange( final String location, final String responseText )
+	{
+		if ( location.contains( "action=pal_mrlabel" ) )
+		{
+			if ( responseText.contains( "in the mood for a bowl of wet stunt nut stew" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step3" );
+			}
 		}
 	}
 
@@ -1009,6 +1112,25 @@ public class QuestManager
 			QuestManager.incrementDesertExploration( explored );
 			break;
 
+		case AdventurePool.ZEPPELIN_PROTESTORS:
+			Matcher LighterMatcher = QuestManager.LIGHTER_PATTERN.matcher( responseText );
+			if ( LighterMatcher.find() )
+			{
+				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( LighterMatcher.group( 1 ) ) );
+			}
+			else
+			{
+				Preferences.increment( "zeppelinProtestors", 1 );
+			}
+			break;
+
+		case AdventurePool.RED_ZEPPELIN:
+			if ( responseText.contains( "inevitable confrontation with Ron Copperhead" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.RON, "step4" );
+			}
+			break;
+
 		case AdventurePool.HAUNTED_KITCHEN:
 			Matcher DrawerMatcher = QuestManager.DRAWER_PATTERN.matcher( responseText );
 			if ( DrawerMatcher.find() )
@@ -1021,6 +1143,11 @@ public class QuestManager
 			if ( responseText.contains( "discover the trail leading to the Black Market" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+				QuestDatabase.setQuestProgress( Quest.BLACK, "step2" );
+			}
+			else
+			{
+				QuestDatabase.setQuestIfBetter( Quest.BLACK, "step1" );
 			}
 			break;
 		}

@@ -71,7 +71,6 @@ public class AdventurePool
 	public static final String SLEAZY_BACK_ALLEY_ID = "112";
 	public static final String HAUNTED_PANTRY_ID = "113";
 	public static final String OUTSKIRTS_OF_THE_KNOB_ID = "114";
-	public static final String PALINDOME_ID = "119";
 	public static final int THEMTHAR_HILLS = 126;
 	public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
 	public static final String FRAT_UNIFORM_BATTLEFIELD_ID = "132";
@@ -118,6 +117,9 @@ public class AdventurePool
 	public static final int GLACIER_OF_JERKS = 279;
 	public static final String HIDDEN_TEMPLE_ID = "280";
 	public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+	public static final String CASTLE_BASEMENT_ID = "322";
+	public static final String CASTLE_GROUND_ID = "323";
+	public static final String CASTLE_TOP_ID = "324";
 	public static final int THE_DAILY_DUNGEON = 325;
 	public static final int THE_HALLOWED_HALLS = 326;
 	public static final int SHOP_CLASS = 327;
@@ -141,6 +143,11 @@ public class AdventurePool
 	public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
 	public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
 	public static final int HAUNTED_KITCHEN = 388;
+	public static final int ZEPPELIN_PROTESTORS = 384;
+	public static final String ZEPPELIN_PROTESTORS_ID = "384";
+	public static final int RED_ZEPPELIN = 385;
+	public static final String RED_ZEPPELIN_ID = "385";
+	public static final String PALINDOME_ID = "386";
 	public static final String HAUNTED_KITCHEN_ID = "388";
 	public static final int HAUNTED_CONSERVATORY = 389;
 	public static final String HAUNTED_CONSERVATORY_ID = "389";

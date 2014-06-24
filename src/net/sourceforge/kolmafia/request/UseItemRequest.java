@@ -1130,12 +1130,18 @@ public class UseItemRequest
 		case ItemPool.MACGUFFIN_DIARY:
 			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
 			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, QuestDatabase.STARTED );
 			QuestDatabase.setQuestIfBetter( Quest.MANOR, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.SHEN, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.RON, QuestDatabase.STARTED );
 
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
+			return;
+
+		case ItemPool.PALINDROME_BOOK_2:
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
 			return;
 
 		case ItemPool.PUZZLE_PIECE:

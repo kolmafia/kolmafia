@@ -69,10 +69,13 @@ public class QuestDatabase
 			TOPPING( "questL09Topping" ),
 			GARBAGE( "questL10Garbage" ),
 			MACGUFFIN( "questL11MacGuffin" ),
+			BLACK( "questL11Black" ),
 			WORSHIP( "questL11Worship" ),
 			MANOR( "questL11Manor" ),
 			PYRAMID( "questL11Pyramid" ),
 			PALINDOME( "questL11Palindome" ),
+			SHEN( "questL11Shen" ),
+			RON( "questL11Ron" ),
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
 			MYST( "questG07Myst" ),
@@ -182,6 +185,10 @@ public class QuestDatabase
 		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "unstarted" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.BLACK, QuestDatabase.FINISHED );
 		}
 	}
 
@@ -479,6 +486,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );
 		Preferences.resetToDefault( "desertExploration" );
+		Preferences.resetToDefault( "zeppelinProtestors" );
 		Preferences.resetToDefault( "middleChamberUnlock" );
 		Preferences.resetToDefault( "lowerChamberUnlock" );
 		Preferences.resetToDefault( "controlRoomUnlock" );
