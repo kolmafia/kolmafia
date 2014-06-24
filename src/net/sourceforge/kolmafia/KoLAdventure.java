@@ -732,13 +732,25 @@ public class KoLAdventure
 			return;
 		}
 
-		// The Castle in the Clouds in the Sky is unlocked provided the
+		// The Castle Basement is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
-		if ( this.adventureId.equals( AdventurePool.GIANT_CASTLE_ID ) )
+		if ( this.adventureId.equals( AdventurePool.CASTLE_BASEMENT_ID ) )
 		{
 			this.isValidAdventure =
 				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.CASTLE_GROUND_ID ) )
+		{
+			this.isValidAdventure = Preferences.getInteger( "lastCastleGroundUnlock" ) == KoLCharacter.getAscensions();
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.CASTLE_TOP_ID ) )
+		{
+			this.isValidAdventure = Preferences.getInteger( "lastCastleTopUnlock" ) == KoLCharacter.getAscensions();
 			return;
 		}
 

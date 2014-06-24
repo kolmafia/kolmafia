@@ -152,6 +152,8 @@ public abstract class ChoiceManager
 	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
 	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
+	private static final Pattern BENCH_WARRANT_PATTERN = Pattern.compile( "creep <font color=blueviolet><b>(\\d+)</b></font> of them" );
+	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -3067,6 +3069,8 @@ public abstract class ChoiceManager
 				       "reset Taco Dan quests",
 				       "reset Broden quests",
 				       "don't use it" } ),
+
+		// Choice 921 is We'll All Be Flat
 
 		// Choice 923 is All Over the Map
 		new ChoiceAdventure(
@@ -6330,8 +6334,14 @@ public abstract class ChoiceManager
 			if ( text.contains( "New Area Unlocked" ) && text.contains( "The Ground Floor" ) )
 			{
 				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step7" );
 			}
 			break;			
+
+		case 679:
+			// Keep On Turnin' the Wheel in the Sky
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step9" );
+			break;
 
 		case 689:
 			// The Final Reward
@@ -7002,12 +7012,18 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 851:
+			// Shen Copperhead, Nightclub Owner
+			QuestDatabase.setQuestProgress( Quest.SHEN, "step1" );
+			break;
+
 		case 852:
 			// Shen Copperhead, Jerk
 		case 853:
 			// Shen Copperhead, Huge Jerk
 		case 854:
 			// Shen Copperhead, World's Biggest Jerk
+			QuestDatabase.advanceQuest( Quest.SHEN );
 
 			// You will have exactly one of these items to ger rid of
 			ResultProcessor.removeItem( ItemPool.FIRST_PIZZA );
@@ -8038,6 +8054,36 @@ public abstract class ChoiceManager
 			}
 			break;
 		
+		case 856:
+			// This Looks Like a Good Bush for an Ambush
+			Matcher lynyrdMatcher = ChoiceManager.LYNYRD_PATTERN.matcher( text );
+			if ( lynyrdMatcher.find() )
+			{
+				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( lynyrdMatcher.group( 1 ) ) );
+			}
+			break;
+
+		case 857:
+			// Bench Warrant
+			Matcher benchWarrantMatcher = ChoiceManager.BENCH_WARRANT_PATTERN.matcher( text );
+			if ( benchWarrantMatcher.find() )
+			{
+				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( benchWarrantMatcher.group( 1 ) ) );
+			}
+			break;
+
+		case 858:
+			// Fire Up Above
+			if ( text.contains( "three nearest protesters" ) )
+			{
+				Preferences.increment( "zeppelinProtestors", 3 );
+			}
+			else if ( text.contains( "Flamin' Whatshisname" ) )
+			{
+				Preferences.increment( "zeppelinProtestors", 10 );
+			}
+			break;
+
 		case 860:
 			// Another Tired Retread
 			if ( ChoiceManager.lastDecision == 1 )
@@ -8145,12 +8191,18 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 921:
+			// We'll All Be Flat
+			QuestDatabase.setQuestProgress( Quest.MANOR, "step1" );
+			break;
+
 		case 928:
 			// The Blackberry Cobbler
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				ResultProcessor.processItem( ItemPool.BLACKBERRY, -3 );
 			}
+			break;
 
 		case 929:
 			// Control Freak

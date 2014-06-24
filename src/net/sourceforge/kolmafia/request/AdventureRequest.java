@@ -844,24 +844,6 @@ public class AdventureRequest
 					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step6" );
 				}
 				break;
-			case 322:
-				// The Castle in the Clouds in the Sky (Basement)
-				
-				// All New Area Unlocked messages unlock the Ground Floor but check for it specifically in case future changes unlock areas with message.
-				if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Ground Floor" ) )
-				{
-					Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
-				}
-				break;
-			case 323:
-				// The Castle in the Clouds in the Sky (Ground Floor)
-				
-				// New Area Unlocked message unlocks the Top Floor but check for it specifically in case future changes unlock areas with message.
-				if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Top Floor" ) )
-				{
-					Preferences.setInteger( "lastCastleTopUnlock", KoLCharacter.getAscensions() );
-				}
-				break;
 			}
 		}
 		else if ( urlString.startsWith( "barrel.php" ) )

@@ -1206,12 +1206,29 @@ public class ResultProcessor
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			break;
 
+		case ItemPool.TISSUE_PAPER_IMMATERIA:
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step2" );
+			break;
+
+		case ItemPool.TIN_FOIL_IMMATERIA:
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step3" );
+			break;
+
+		case ItemPool.GAUZE_IMMATERIA:
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step4" );
+			break;
+
+		case ItemPool.PLASTIC_WRAP_IMMATERIA:
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step5" );
+			break;
+
 		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			ResultProcessor.processItem( ItemPool.TISSUE_PAPER_IMMATERIA, -1 );
 			ResultProcessor.processItem( ItemPool.TIN_FOIL_IMMATERIA, -1 );
 			ResultProcessor.processItem( ItemPool.GAUZE_IMMATERIA, -1 );
 			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step6" );
 			break;
 
 		case ItemPool.BROKEN_WINGS:
@@ -1234,8 +1251,18 @@ public class ResultProcessor
 			// If you get your father's MacGuffin diary, you lose
 			// your forged identification documents
 			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );
+			QuestDatabase.setQuestProgress( Quest.BLACK, "step3" );
 			// Automatically use the diary to open zones
 			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			break;
+
+		case ItemPool.FIRST_PIZZA:
+		case ItemPool.LACROSSE_STICK:
+		case ItemPool.EYE_OF_THE_STARS:
+		case ItemPool.STANKARA_STONE:
+		case ItemPool.MURPHYS_FLAG:
+		case ItemPool.SHIELD_OF_BROOK:
+			QuestDatabase.advanceQuest( Quest.SHEN );
 			break;
 
 		case ItemPool.PALINDROME_BOOK_2:
@@ -1245,14 +1272,22 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_RED_NUGGET, -1 );
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_OSTRICH_EGG, -1 );
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_DOG, -1 );
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
+			break;
+
+		case ItemPool.WET_STUNT_NUT_STEW:
+			// If you have been asked to get the stew, you now have it.
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PALINDOME.getPref() ), "step2" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step4" );
+			}
 			break;
 
 		case ItemPool.MEGA_GEM:
 			// If you get the Mega Gem, you lose your wet stunt nut
 			// stew
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step4" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step5" );
 			break;
 			
 		case ItemPool.HOLY_MACGUFFIN:
@@ -1270,6 +1305,10 @@ public class ResultProcessor
 				QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
 				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, QuestDatabase.FINISHED );
 			}
+			break;
+
+		case ItemPool.MORTAR_DISOLVING_RECIPE:
+			QuestDatabase.setQuestIfBetter( Quest.MANOR, "step2" );
 			break;
 
 		case ItemPool.SPOOKYRAVEN_SPECTACLES:
@@ -1504,6 +1543,14 @@ public class ResultProcessor
 
 		case ItemPool.COPPERHEAD_CHARM:
 		case ItemPool.COPPERHEAD_CHARM_RAMPANT:
+			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SHEN, QuestDatabase.FINISHED );
+			}
+			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
+			{		
+				QuestDatabase.setQuestProgress( Quest.RON, QuestDatabase.FINISHED );
+			}
 			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) &&
 			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
 			{
@@ -2176,6 +2223,7 @@ public class ResultProcessor
 
 		case ItemPool.WINE_BOMB:
 			EquipmentManager.discardEquipment( ItemPool.UNSTABLE_FULMINATE );
+			QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );			
 			break;
 		}
 

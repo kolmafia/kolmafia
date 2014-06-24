@@ -2057,6 +2057,7 @@ public class ItemPool
 	public static final int SWEET_TOOTH = 7481;
 	public static final int UNSTABLE_FULMINATE = 7493;
 	public static final int WINE_BOMB = 7494;
+	public static final int MORTAR_DISOLVING_RECIPE = 7495;
 	public static final int GHOST_FORMULA = 7497;
 	public static final int CRUMBLING_WHEEL = 7511;
 	public static final int ALIEN_SOURCE_CODE = 7533;
