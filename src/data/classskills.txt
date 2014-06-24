@@ -629,7 +629,7 @@
 7203	Shovel Hot Coal	Coalshovel.gif	5	0	0
 7204	Unleash the Greash	unleashgreash.gif	5	0	0
 7205	Heat Space	spaceheater.gif	5	0	0
-7206	Consult the Helix Fossil	5	0	0
+7206	Consult the Helix Fossil	foss_amm.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
