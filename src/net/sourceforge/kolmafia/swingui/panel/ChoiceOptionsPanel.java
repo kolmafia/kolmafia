@@ -416,9 +416,9 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
 		this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
 		this.addChoiceSelect( "Manor1", "Fall of Spookyraven", this.fallSelect );
-		this.addChoiceSelect( "Manor1", "Louvre Goal", this.louvreSelect );
-		this.addChoiceSelect( "Manor1", "Louvre Override", this.manualLouvre );
-		this.addChoiceSelect( "Manor1", "The Maidens", this.maidenSelect );
+		this.addChoiceSelect( "Manor2", "Louvre Goal", this.louvreSelect );
+		this.addChoiceSelect( "Manor2", "Louvre Override", this.manualLouvre );
+		this.addChoiceSelect( "Manor2", "The Maidens", this.maidenSelect );
 		this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
