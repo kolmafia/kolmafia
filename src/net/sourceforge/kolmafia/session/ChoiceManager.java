@@ -6334,13 +6334,13 @@ public abstract class ChoiceManager
 			if ( text.contains( "New Area Unlocked" ) && text.contains( "The Ground Floor" ) )
 			{
 				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
-				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step7" );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step8" );
 			}
 			break;			
 
 		case 679:
 			// Keep On Turnin' the Wheel in the Sky
-			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step9" );
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step10" );
 			break;
 
 		case 689:
