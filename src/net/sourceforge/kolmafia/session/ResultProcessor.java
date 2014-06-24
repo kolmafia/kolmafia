@@ -1207,19 +1207,19 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.TISSUE_PAPER_IMMATERIA:
-			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step2" );
-			break;
-
-		case ItemPool.TIN_FOIL_IMMATERIA:
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step3" );
 			break;
 
-		case ItemPool.GAUZE_IMMATERIA:
+		case ItemPool.TIN_FOIL_IMMATERIA:
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step4" );
 			break;
 
-		case ItemPool.PLASTIC_WRAP_IMMATERIA:
+		case ItemPool.GAUZE_IMMATERIA:
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step5" );
+			break;
+
+		case ItemPool.PLASTIC_WRAP_IMMATERIA:
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step6" );
 			break;
 
 		case ItemPool.SOCK:
@@ -1228,7 +1228,7 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.TIN_FOIL_IMMATERIA, -1 );
 			ResultProcessor.processItem( ItemPool.GAUZE_IMMATERIA, -1 );
 			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
-			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step6" );
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step7" );
 			break;
 
 		case ItemPool.BROKEN_WINGS:

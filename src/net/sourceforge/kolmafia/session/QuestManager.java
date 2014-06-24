@@ -690,31 +690,35 @@ public class QuestManager
 		{
 			// Airship available
 			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
+			if ( responseText.contains( "we're looking for the Four Immateria" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step2" );
+			}
 		}
 		else if ( location.contains( AdventurePool.CASTLE_BASEMENT_ID ) )
 		{
 			// Castle basement available
-			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step6" );
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step7" );
 			if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Ground Floor" ) )
 			{
 				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
-				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step7" );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step8" );
 			}
 		}
 		else if ( location.contains( AdventurePool.CASTLE_GROUND_ID ) )
 		{
 			// Castle Ground floor available
-			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step7" );
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step8" );
 			if ( responseText.contains( "New Area Unlocked" ) && responseText.contains( "The Top Floor" ) )
 			{
 				Preferences.setInteger( "lastCastleTopUnlock", KoLCharacter.getAscensions() );
-				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step8" );
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step9" );
 			}
 		}
 		else if ( location.contains( AdventurePool.CASTLE_TOP_ID ) )
 		{
 			// Castle Top floor available
-			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step8" );
+			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step9" );
 		}
 	}
 
