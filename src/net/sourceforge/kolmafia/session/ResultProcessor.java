@@ -1583,20 +1583,48 @@ public class ResultProcessor
 
 		case ItemPool.MOSS_COVERED_STONE_SPHERE:
 			Preferences.setInteger( "hiddenApartmentProgress", 7 );
+			QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.FINISHED );
+			if ( QuestDatabase.isQuestFinished( Quest.DOCTOR ) &&
+				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
+				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+			}
 			break;
 			
 		case ItemPool.DRIPPING_STONE_SPHERE:
 			Preferences.setInteger( "hiddenHospitalProgress", 7 );
+			QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.FINISHED );
+			if ( QuestDatabase.isQuestFinished( Quest.CURSES ) &&
+				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
+				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+			}
 			break;
 			
 		case ItemPool.CRACKLING_STONE_SPHERE:
 			// Lose McClusky File when you kill the Protector Spirit
 			ResultProcessor.processItem( ItemPool.MCCLUSKY_FILE, -1 );
 			Preferences.setInteger( "hiddenOfficeProgress", 7 );
+			QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.FINISHED );
+			if ( QuestDatabase.isQuestFinished( Quest.CURSES ) &&
+				 QuestDatabase.isQuestFinished( Quest.DOCTOR ) &&
+				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+			}
 			break;
 			
 		case ItemPool.SCORCHED_STONE_SPHERE:
 			Preferences.setInteger( "hiddenBowlingAlleyProgress", 7 );
+			QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.FINISHED );
+			if ( QuestDatabase.isQuestFinished( Quest.CURSES ) &&
+				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
+				 QuestDatabase.isQuestFinished( Quest.DOCTOR ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+			}
 			break;
 			
 		case ItemPool.ANCIENT_AMULET:

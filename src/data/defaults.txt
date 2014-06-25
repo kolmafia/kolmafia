@@ -732,6 +732,10 @@ user	questL11Pyramid	unstarted
 user	questL11Shen	unstarted
 user	questL11Ron	unstarted
 user	questL12War	unstarted
+user	questL11Curses	unstarted
+user	questL11Business	unstarted
+user	questL11Doctor	unstarted
+user	questL11Spare	unstarted
 user	questL13Final	unstarted
 user	questM01Untinker	unstarted
 user	questM02Artist	unstarted
