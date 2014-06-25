@@ -577,7 +577,7 @@ public class KoLAdventure
 
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
 				"place.php?whichplace=plains" ) );
-			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "dome.gif" ) != -1;
+			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.contains( "palinlink.gif" ) ;
 			return;
 		}
 
