@@ -270,6 +270,66 @@ public class QuestLogRequest
 				// encountered a section in questlog we don't know how to handle.
 			}
 		}
+
+		// Some quests vanish when completed but can be inferred by the presence of a new one
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_BABIES.getPref() ), QuestDatabase.UNSTARTED ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), QuestDatabase.UNSTARTED ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.BLACK, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step3" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), QuestDatabase.UNSTARTED ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.DESERT, QuestDatabase.FINISHED );
+		}
+
+		// Set (mostly historical) preferences we can set based on quest status
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) ||
+			QuestDatabase.isQuestFinished( Quest.MEATCAR ) )
+		{
+			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.ISLAND_WAR.getPref() ), QuestDatabase.STARTED ) ||
+			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PIRATE.getPref() ), QuestDatabase.UNSTARTED ) )
+		{
+			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( QuestDatabase.isQuestFinished( Quest.SPOOKYRAVEN_NECKLACE ) )
+		{
+			Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.GARBAGE.getPref() ), "step7" ) )
+		{
+			Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.GARBAGE.getPref() ), "step8" ) )
+		{
+			Preferences.setInteger( "lastCastleTopUnlock", KoLCharacter.getAscensions() );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step1" ) )
+		{
+			Preferences.setInteger( "lastTempleButtonsUnlock", KoLCharacter.getAscensions() );
+			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+		}
+		Preferences.setBoolean( "middleChamberUnlock", 
+			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), QuestDatabase.STARTED ) );
+		Preferences.setBoolean( "lowerChamberUnlock", 
+			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), "step1" ) );
+		Preferences.setBoolean( "controlRoomUnlock", 
+			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), "step2" ) );
 	}
 
 	private static void handleQuestText( String response, int source )

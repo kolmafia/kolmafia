@@ -426,7 +426,7 @@ public class QuestManager
 			// Unlock Pyramid
 			if ( responseText.contains( "the model bursts into flames and is quickly consumed" ) )
 			{
-				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, QuestDatabase.STARTED );
 			}
 		}
 		else if ( location.contains( AdventurePool.UPPER_CHAMBER_ID ) )
@@ -435,6 +435,7 @@ public class QuestManager
 			{
 				// Open Middle Chamber
 				Preferences.setBoolean( "middleChamberUnlock", true );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step1" );
 			}
 		}
 		else if ( location.contains( AdventurePool.MIDDLE_CHAMBER_ID ) )
@@ -443,30 +444,36 @@ public class QuestManager
 			{
 				// Open Lower Chamber
 				Preferences.setBoolean( "lowerChamberUnlock", true );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step2" );
 			}
 			else if ( responseText.contains( "Under Control" ) )
 			{
 				// Open Control Room
 				Preferences.setBoolean( "controlRoomUnlock", true );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step3" );
 			}
 			// If here, must have unlocked middle chamber
 			Preferences.setBoolean( "middleChamberUnlock", true );
+			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step1" );
 		}
 		else if ( location.contains( "whichplace=pyramid" ) )
 		{
 			// Verify settings based on images displayed, in case above steps were missed
-			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
+			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, QuestDatabase.STARTED );
 			if ( responseText.contains( "pyramid_middle.gif" ) )
 			{
 				Preferences.setBoolean( "middleChamberUnlock", true );
+				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step1" );
 			}
 			if ( responseText.contains( "pyramid_bottom" ) )
 			{
 				Preferences.setBoolean( "lowerChamberUnlock", true );
+				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step2" );
 			}
 			if ( responseText.contains( "pyramid_controlroom.gif" ) )
 			{
 				Preferences.setBoolean( "controlRoomUnlock", true );
+				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step3" );
 			}
 		}
 		return;

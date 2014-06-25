@@ -80,6 +80,7 @@ public class QuestDatabase
 			DOCTOR( "questL11Doctor" ),
 			BUSINESS( "questL11Business" ),
 			SPARE( "questL11Spare" ),
+			DESERT( "questL11Desert" ),
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
 			MYST( "questG07Myst" ),
@@ -179,27 +180,6 @@ public class QuestDatabase
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
-		}
-
-		// Some quests are weird and the completed quest vanishes when a new one starts!
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_BABIES.getPref() ), "unstarted" ) )
-		{
-			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
-		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "unstarted" ) )
-		{
-			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
-		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) )
-		{
-			QuestDatabase.setQuestProgress( Quest.BLACK, QuestDatabase.FINISHED );
-		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step3" ) )
-		{
-			QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.FINISHED );
 		}
 	}
 

@@ -1641,14 +1641,6 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
 			break;
 			
-		case ItemPool.WORM_RIDING_MANUAL_PAGE:
-			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step7" );
-			break;
-
-		case ItemPool.WORM_RIDING_HOOKS:
-			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step10" );
-			break;
-			
 		case ItemPool.CARONCH_MAP:
 			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.STARTED );
 			break;
