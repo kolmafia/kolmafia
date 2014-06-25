@@ -6822,6 +6822,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setInteger( "hiddenApartmentProgress", 1 );
+				QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.STARTED );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -6839,6 +6840,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setInteger( "hiddenHospitalProgress", 1 );
+				QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.STARTED );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -6856,6 +6858,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setInteger( "hiddenOfficeProgress", 1 );
+				QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.STARTED );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -6891,6 +6894,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
+				QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.STARTED );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -7767,6 +7771,10 @@ public abstract class ChoiceManager
 			if ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 )
 			{
 				ResultProcessor.processItem( ItemPool.NOSTRIL_OF_THE_SERPENT, -1 );
+			}
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.WORSHIP, "step2" );
 			}
 			break;
 

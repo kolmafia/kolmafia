@@ -1954,6 +1954,7 @@ public class FightRequest
 					if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 6 )
 					{
 						Preferences.setInteger( "hiddenApartmentProgress", 6 );
+						QuestDatabase.setQuestProgress( Quest.CURSES, "step1" );
 					}
 				}
 				else if ( adventure == AdventurePool.HIDDEN_HOSPITAL )
@@ -1961,6 +1962,7 @@ public class FightRequest
 					if ( Preferences.getInteger( "hiddenHospitalProgress" ) < 6 )
 					{
 						Preferences.setInteger( "hiddenHospitalProgress", 6 );
+						QuestDatabase.setQuestProgress( Quest.DOCTOR, "step1" );
 					}
 				}
 				else if ( adventure == AdventurePool.HIDDEN_OFFICE )
@@ -1968,6 +1970,7 @@ public class FightRequest
 					if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
 					{
 						Preferences.setInteger( "hiddenOfficeProgress", 6 );
+						QuestDatabase.setQuestProgress( Quest.BUSINESS, "step1" );
 					}
 				}
 				else if ( adventure == AdventurePool.HIDDEN_BOWLING_ALLEY )
@@ -1975,6 +1978,7 @@ public class FightRequest
 					if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 6 )
 					{
 						Preferences.setInteger( "hiddenBowlingAlleyProgress", 6 );
+						QuestDatabase.setQuestProgress( Quest.SPARE, "step1" );
 					}
 				}
  			}

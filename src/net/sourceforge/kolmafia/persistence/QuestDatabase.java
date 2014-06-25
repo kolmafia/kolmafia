@@ -76,6 +76,10 @@ public class QuestDatabase
 			PALINDOME( "questL11Palindome" ),
 			SHEN( "questL11Shen" ),
 			RON( "questL11Ron" ),
+			CURSES( "questL11Curses" ),
+			DOCTOR( "questL11Doctor" ),
+			BUSINESS( "questL11Business" ),
+			SPARE( "questL11Spare" ),
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
 			MYST( "questG07Myst" ),
@@ -189,6 +193,13 @@ public class QuestDatabase
 		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.BLACK, QuestDatabase.FINISHED );
+		}
+		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step3" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.FINISHED );
 		}
 	}
 
