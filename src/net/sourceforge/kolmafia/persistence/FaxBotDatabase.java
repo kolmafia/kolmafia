@@ -33,10 +33,15 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+
 import java.net.URI;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -50,6 +55,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 
@@ -66,23 +72,15 @@ import org.xml.sax.SAXException;
 public class FaxBotDatabase
 	extends KoLDatabase
 {
-	final static String LOCATION = "http://www.hogsofdestiny.com/faxbot/faxbot.xml";
-
 	private static boolean isInitialized = false;
 	private static boolean faxBotConfigured = false;
 	private static boolean faxBotError = false;
 
-	public static final LockableListModel faxbots = new LockableListModel();
-	public static final SortedListModel monsters = new SortedListModel();
-	public static final LockableListModel categories = new LockableListModel();
-	public static LockableListModel [] monstersByCategory;
-	private static final Map<String, String> monsterByActualName = new HashMap<String, String>();
-	private static final Map<String, String> commandByActualName = new HashMap<String, String>();
+	// List of bots from faxbots.txt
+	public static final ArrayList<BotData> botData = new ArrayList<BotData>();
 
-	public static final void configure()
-	{
-		FaxBotDatabase.configureFaxBot();
-	}
+	// List of faxbots named in config files.
+	public static final ArrayList<FaxBot> faxbots = new ArrayList<FaxBot>();
 
 	public static final void reconfigure()
 	{
@@ -90,77 +88,68 @@ public class FaxBotDatabase
 		FaxBotDatabase.configure();
 	}
 
-	private static final void configureFaxBot()
+	public static final void configure()
 	{
 		if ( FaxBotDatabase.isInitialized )
 		{
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Configuring available monsters." );
+		FaxBotDatabase.readFaxbotConfig();
+		FaxBotDatabase.configureFaxBots();
+	}
 
-		if ( !FaxBotDatabase.configureFaxBot( LOCATION ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load Faxbot configuration" );
-		}
+	private static final void readFaxbotConfig()
+	{
+		FaxBotDatabase.botData.clear();
 
-		// Iterate over all monsters and make a list of categories
-		SortedListModel temp = new SortedListModel();
-		for ( int i = 0; i < monsters.size(); ++i )
+		BufferedReader reader =
+			FileUtilities.getVersionedReader( "faxbots.txt", KoLConstants.FAXBOTS_VERSION );
+		String[] data;
+
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			Monster monster = (Monster)monsters.get( i );
-			if ( !temp.contains( monster.category ) )
+			if ( data.length > 1 )
 			{
-				temp.add( monster.category );
-			}
-			
-		}
-
-		categories.add( "All Monsters" );
-		categories.addAll( temp );
-
-		FaxBotDatabase.monsterByActualName.clear();
-		
-		// Make one list for each category
-		monstersByCategory = new SortedListModel[ categories.size() ];
-		for ( int i = 0; i < categories.size(); ++i )
-		{
-			String category = (String)categories.get( i );
-			SortedListModel model = new SortedListModel();
-			monstersByCategory[ i ] = model;
-			for ( int j = 0; j < monsters.size(); ++j )
-			{
-				Monster monster = (Monster)monsters.get( j );
-				if ( i == 0 || category.equals( monster.category ) )
-				{
-					model.add( monster );
-				}
-				// Build actual name / command lookup
-				FaxBotDatabase.monsterByActualName.put( monster.actualName, monster.name );
-				FaxBotDatabase.commandByActualName.put( monster.actualName, monster.command );
+				FaxBotDatabase.botData.add( new BotData( data[ 0 ].trim().toLowerCase(), data[ 1 ].trim() ) );
 			}
 		}
 
-		KoLmafia.updateDisplay( "Fax list fetched." );
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static final void configureFaxBots()
+	{
+		KoLmafia.updateDisplay( "Configuring faxable monsters." );
+
+		FaxBotDatabase.faxbots.clear();
+
+		for ( BotData data : FaxBotDatabase.botData )
+		{
+			FaxBotDatabase.configureFaxBot( data );
+		}
+
+		KoLmafia.updateDisplay( "Faxable monster lists fetched." );
 		FaxBotDatabase.isInitialized = true;
 	}
 
-	public static final String getFaxbotMonsterName( String actualName )
-	{
-		return FaxBotDatabase.monsterByActualName.get( actualName );
-	}
-
-	public static final String getFaxbotCommand( String actualName )
-	{
-		return FaxBotDatabase.commandByActualName.get( actualName );
-	}
-
-	private static final boolean configureFaxBot( final String URL )
+	private static final void configureFaxBot( final BotData data )
 	{
 		FaxBotDatabase.faxBotConfigured = false;
 		FaxBotDatabase.faxBotError = false;
+		KoLmafia.forceContinue();
 
-		( new DynamicBotFetcher( URL ) ).start();
+		( new DynamicBotFetcher( data ) ).start();
 
 		PauseObject pauser = new PauseObject();
 
@@ -170,23 +159,52 @@ public class FaxBotDatabase
 			pauser.pause( 200 );
 		}
 
-		return !FaxBotDatabase.faxBotError;
+		if ( FaxBotDatabase.faxBotError )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load " + data.name + " configuration from \"" + data.URL + "\"" );
+			return;
+		}
+	}
+
+	public static final FaxBot getFaxbot( final int i )
+	{
+		return ( i < 0 || i >= faxbots.size() ) ? null : FaxBotDatabase.faxbots.get(i);
 	}
 
 	public static final String botName( final int i )
 	{
-		if ( i >= faxbots.size() )
+		FaxBot bot = FaxBotDatabase.getFaxbot( i );
+		return bot == null ? null : bot.name;
+	}
+
+	public static class BotData
+	{
+		public final String name;
+		public final String URL;
+
+		public BotData( final String name, final String URL )
 		{
-			return null;
+			this.name = name;
+			this.URL = URL;
 		}
-		return ((FaxBot)faxbots.get(i)).name;
 	}
 
 	public static class FaxBot
 		implements Comparable<FaxBot>
 	{
+		// Who is this bot?
 		private final String name;
 		private final int playerId;
+
+		// What monsters does it serve?
+		public final SortedListModel monsters = new SortedListModel();
+
+		// Lists derived from the list of monsters
+		private final LockableListModel categories = new LockableListModel();
+		private LockableListModel [] monstersByCategory = new LockableListModel[0];
+
+		private final Map<String, String> monsterByActualName = new HashMap<String, String>();
+		private final Map<String, String> commandByActualName = new HashMap<String, String>();
 
 		public FaxBot( final String name, final String playerId )
 		{
@@ -207,6 +225,63 @@ public class FaxBotDatabase
 		public int getPlayerId()
 		{
 			return this.playerId;
+		}
+
+		public LockableListModel getCategories()
+		{
+			return this.categories;
+		}
+
+		public LockableListModel [] getMonstersByCategory()
+		{
+			return this.monstersByCategory;
+		}
+
+		public String getMonsterByActualName( final String actualName )
+		{
+			return this.monsterByActualName.get( actualName );
+		}
+
+		public String getCommandByActualName( final String actualName )
+		{
+			return this.commandByActualName.get( actualName );
+		}
+
+		public void addMonsters( final List<Monster> monsters )
+		{
+			SortedListModel tempCategories = new SortedListModel();
+			for ( Monster monster : monsters )
+			{
+				this.monsters.add( monster );
+				if ( !tempCategories.contains( monster.category ) )
+				{
+					tempCategories.add( monster.category );
+				}
+			}
+
+			this.categories.add( "All Monsters" );
+			this.categories.addAll( tempCategories );
+
+			this.monsterByActualName.clear();
+		
+			// Make one list for each category
+			this.monstersByCategory = new SortedListModel[ this.categories.size() ];
+			for ( int i = 0; i < this.categories.size(); ++i )
+			{
+				String category = (String)categories.get( i );
+				SortedListModel model = new SortedListModel();
+				this.monstersByCategory[ i ] = model;
+				for ( Monster monster : monsters )
+				{
+					if ( i == 0 || category.equals( monster.category ) )
+					{
+						model.add( monster );
+					}
+					// Build actual name / command lookup
+					this.monsterByActualName.put( monster.actualName, monster.name );
+					this.commandByActualName.put( monster.actualName, monster.command );
+				}
+			}
 		}
 
 		@Override
@@ -324,12 +399,12 @@ public class FaxBotDatabase
 	private static class DynamicBotFetcher
 		extends Thread
 	{
-		private final String location;
+		private final BotData data;
 
-		public DynamicBotFetcher( final String location )
+		public DynamicBotFetcher( final BotData data )
 		{
 			super( "DynamicBotFetcher" );
-			this.location = location;
+			this.data = data;
 		}
 
 		@Override
@@ -338,8 +413,6 @@ public class FaxBotDatabase
 			// Start with a clean slate
 			FaxBotDatabase.faxBotConfigured = false;
 			FaxBotDatabase.faxBotError = false;
-			FaxBotDatabase.faxbots.clear();
-			FaxBotDatabase.monsters.clear();
 			KoLmafia.forceContinue();
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -347,8 +420,8 @@ public class FaxBotDatabase
 
 			try
 			{
-				File local = new File( KoLConstants.DATA_LOCATION, "faxbot.xml" );
-				FileUtilities.downloadFile( this.location, local, true );
+				File local = new File( KoLConstants.DATA_LOCATION, this.data.name + ".xml" );
+				FileUtilities.downloadFile( this.data.URL, local, true );
 		
 				// Get an instance of document builder
 				DocumentBuilder db = dbf.newDocumentBuilder();
@@ -369,7 +442,6 @@ public class FaxBotDatabase
 
 			if ( dom == null )
 			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load faxbot configuration from " + this.location );
 				FaxBotDatabase.faxBotError = true;
 				return;
 			}
@@ -377,6 +449,7 @@ public class FaxBotDatabase
 			Element doc = dom.getDocumentElement();
 
 			// Get a nodelist of bots
+			ArrayList<FaxBot> bots = new ArrayList<FaxBot>();
 			NodeList bl = doc.getElementsByTagName( "botdata" );
 			if ( bl != null )
 			{
@@ -384,22 +457,33 @@ public class FaxBotDatabase
 				{
 					Element el = (Element)bl.item( i );
 					FaxBot fb = getFaxBot( el );
-					FaxBotDatabase.faxbots.add( fb );
+					bots.add( fb );
 				}
 			}
 
 			// Get a nodelist of monsters
 			NodeList fl = doc.getElementsByTagName( "monsterdata" );
+			ArrayList<Monster> monsters = new ArrayList<Monster>();
 			if ( fl != null )
 			{
 				for ( int i = 0; i < fl.getLength(); i++ )
 				{
 					Element el = (Element)fl.item( i );
-					Monster fax = getMonster( el );
-					FaxBotDatabase.monsters.add( fax );
+					Monster monster = getMonster( el );
+					monsters.add( monster );
 				}
 			}
 
+			// For each bot, add available monsters
+			for ( FaxBot bot : bots )
+			{
+				bot.addMonsters( monsters );
+			}
+
+			// Add the bots to the list of available bots
+			FaxBotDatabase.faxbots.addAll( bots );
+
+			// Say that this config file has been processed
 			FaxBotDatabase.faxBotConfigured = true;
 		}
 
@@ -408,6 +492,7 @@ public class FaxBotDatabase
                         String name = getTextValue( el, "name" );
                         String playerId = getTextValue( el, "playerid" );
                         ContactManager.registerPlayerId( name, playerId );
+			KoLmafia.updateDisplay( "Configuring " + name + " (" + playerId + ")" );
                         return new FaxBot( name, playerId );
                 }
 

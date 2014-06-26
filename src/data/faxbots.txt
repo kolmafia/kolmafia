@@ -1,0 +1,6 @@
+1
+# Bot	XML File URL
+
+faxbot	http://www.hogsofdestiny.com/faxbot/faxbot.xml
+faustbot	http://faust.kolbots.com/faustbot.xml
+easyfax	http://sourceforge.net/p/easyfax/code/HEAD/tree/Easyfax.xml?format=raw

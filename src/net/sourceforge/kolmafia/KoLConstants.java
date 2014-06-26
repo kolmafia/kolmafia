@@ -360,6 +360,7 @@ public interface KoLConstants
 		"defaults.txt",
 		"equipment.txt",
 		"familiars.txt",
+		"faxbots.txt",
 		"foldgroups.txt",
 		"fullness.txt",
 		"inebriety.txt",
@@ -392,6 +393,7 @@ public interface KoLConstants
 	public static final int ENCOUNTERS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 2;
+	public static final int FAXBOTS_VERSION = 1;
 	public static final int FOLDGROUPS_VERSION = 1;
 	public static final int FULLNESS_VERSION = 2;
 	public static final int INEBRIETY_VERSION = 2;
