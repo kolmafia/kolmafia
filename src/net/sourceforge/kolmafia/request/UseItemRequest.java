@@ -1133,10 +1133,17 @@ public class UseItemRequest
 			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestIfBetter( Quest.DESERT, QuestDatabase.STARTED );
 			QuestDatabase.setQuestIfBetter( Quest.MANOR, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, QuestDatabase.STARTED );
 			QuestDatabase.setQuestIfBetter( Quest.SHEN, QuestDatabase.STARTED );
 			QuestDatabase.setQuestIfBetter( Quest.RON, QuestDatabase.STARTED );
-
+			// If Hidden Temple already unlocked, this completes step 1 of Gotta Worship Them All, otherwise start it.
+			if ( Preferences.getInteger( "lastTempleUnlock" ) == KoLCharacter.getAscensions() )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.WORSHIP, "step1" );
+			}
+			else
+			{
+				QuestDatabase.setQuestIfBetter( Quest.WORSHIP, QuestDatabase.STARTED );
+			}
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 
@@ -2478,7 +2485,11 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
 				ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
+				// If quest Gotta Worship Them All is started, this completes step 1
+				if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), QuestDatabase.UNSTARTED ) )
+				{
+					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
+				}
 			}
 			else
 			{
