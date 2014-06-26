@@ -658,7 +658,7 @@ public class QuestDatabase
 		{
 			return false;
 		}
-		return quest.getPref().equals( QuestDatabase.FINISHED );
+		return Preferences.getString( quest.getPref() ).equals( QuestDatabase.FINISHED );
 	}
 
 	public static String questStepAfter( Quest quest, String step )
