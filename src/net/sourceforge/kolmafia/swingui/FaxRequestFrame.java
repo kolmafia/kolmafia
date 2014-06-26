@@ -411,7 +411,11 @@ public class FaxRequestFrame
 			return false;
 		}
 
-		if ( response.contains( "could not whitelist" ) )
+		// I am unable to whitelist to clan 'xxx', please verify faustbot (#2504770) is whitelisted. Thank you.
+		// I couldn't get into your clan
+		if ( response.contains( "could not whitelist" ) ||
+		     response.contains( "unable to whitelist" ) ||
+		     response.contains( "I couldn't get into your clan" ) )
 		{
 			FaxRequestFrame.statusMessage = botName + " is not on your clan's whitelist";
 			return false;
