@@ -8842,6 +8842,179 @@ public abstract class ChoiceManager
 		return 0;
 	}
 
+	private static final String lightsOutAutomation( final int choice, final String responseText )
+	{
+		int automation = Preferences.getInteger( "lightsOutAutomation" );
+		if ( automation == 0 )
+		{
+			return "0";
+		}
+		switch ( choice )
+		{
+		case 890:
+			if ( automation == 1 && responseText.contains( "Look Out the Window" ) )
+			{
+				return "3";
+			}
+			return "1";
+		case 891:
+			if ( automation == 1 && responseText.contains( "Check a Pile of Stained Sheets" ) )
+			{
+				return "3";
+			}
+			return "1";
+		case 892:
+			if ( automation == 1 && responseText.contains( "Inspect the Bathtub" ) )
+			{
+				return "3";
+			}
+			return "1";
+		case 893:
+			if ( automation == 1 && responseText.contains( "Make a Snack" ) )
+			{
+				return "4";
+			}
+			return "1";
+		case 894:
+			if ( automation == 1 && responseText.contains( "Go to the Children's Section" ) )
+			{
+				return "2";
+			}
+			return "1";
+		case 895:
+			if ( automation == 1 && responseText.contains( "Dance with Yourself" ) )
+			{
+				return "2";
+			}
+			return "1";
+		case 896:
+			if ( automation == 1 && responseText.contains( "Check out the Tormented Damned Souls Painting" ) )
+			{
+				return "4";
+			}
+			return "1";
+		case 897:
+			if ( responseText.contains( "Search for a light" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Search a nearby nightstand" ) )
+			{
+				return "3";
+			}
+			if ( responseText.contains( "Check a nightstand on your left" ) )
+			{
+				return "1";
+			}
+			return "2";
+		case 898:
+			if ( responseText.contains( "Search for a lamp" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Search over by the (gaaah) stuffed animals" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Examine the Dresser" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Open the bear and put your hand inside" ) )
+			{
+				return "1";
+			}
+			if ( responseText.contains( "Unlock the box" ) )
+			{
+				return "1";
+			}
+			return "2";
+		case 899:
+			if ( responseText.contains( "Make a torch" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Examine the Graves" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Examine the grave marked \"Crumbles\"" ) )
+			{
+				return "2";
+			}
+			return "2";
+		case 900:
+			if ( responseText.contains( "Search for a light" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "What the heck, let's explore a bit" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Examine the taxidermy heads" ) )
+			{
+				return "2";
+			}
+			return "2";
+		case 901:
+			if ( responseText.contains( "Try to find a light" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Keep your cool" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Investigate the wine racks" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "Examine the Pinot Noir rack" ) )
+			{
+				return "3";
+			}
+			return "2";
+		case 902:
+			if ( responseText.contains( "Look for a light" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Search the barrel" ) )
+			{
+				return "2";
+			}
+			if ( responseText.contains( "No, but I will anyway" ) )
+			{
+				return "2";
+			}
+			return "2";
+		case 903:
+			if ( responseText.contains( "Search for a light" ) )
+			{
+				return automation == 1 ? "1" : "2";
+			}
+			if ( responseText.contains( "Check it out" ) )
+			{
+				return "1";
+			}
+			if ( responseText.contains( "Examine the weird machines" ) )
+			{
+				return "3";
+			}
+			if ( responseText.contains( "Enter 23-47-99 and turn on the machine" ) )
+			{
+				return "1";
+			}
+			if ( responseText.contains( "Oh god " ) )
+			{
+				return "1";
+			}
+			return "2";
+		}
+		return "2";
+	}
+
 	private static void checkGuyMadeOfBees( final GenericRequest request )
 	{
 		KoLCharacter.ensureUpdatedGuyMadeOfBees();
@@ -9251,6 +9424,12 @@ public abstract class ChoiceManager
 			}
 
 			return decision;
+
+		case 890: case 891: case 892: case 893: case 894:
+		case 895: case 896: case 897: case 898: case 899:
+		case 900: case 901: case 902: case 903:
+			// Lights Out adventures
+			return ChoiceManager.lightsOutAutomation( choice, responseText );
 		}
 
 		return decision;
