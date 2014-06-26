@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -3306,9 +3307,16 @@ public abstract class RuntimeLibrary
 		}
 
 		FaxBotDatabase.configure();
-		String botName = FaxBotDatabase.botName( 0 );
-		String monsterName = FaxBotDatabase.getFaxbotMonsterName( monster.getName() );
-		String command = FaxBotDatabase.getFaxbotCommand( monster.getName() );
+		FaxBot bot = FaxBotDatabase.getFaxbot( 0 );
+		if ( bot == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		String botName = bot.getName();
+		String actualName = monster.getName();
+		String monsterName = bot.getMonsterByActualName( actualName );
+		String command = bot.getCommandByActualName( actualName );
 		if ( botName == null || monsterName == null || command == null )
 		{
 			return DataTypes.FALSE_VALUE;

@@ -40,7 +40,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -53,6 +56,7 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -61,6 +65,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
@@ -74,53 +79,69 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 public class FaxRequestFrame
 	extends GenericFrame
 {
-	private MonsterCategoryComboBox categorySelect;
-	private MonsterSelectPanel monsterSelect;
-	private int monsterIndex;
-
-	private static ShowDescriptionList [] monsterLists;
 	private static final int ROWS = 15;
 	private static final int LIMIT = 60;
 	private static final int DELAY = 200;
 
+	private CardLayoutSelectorPanel selectorPanel = null;
 	private static String statusMessage;
 
 	static
 	{
 		FaxBotDatabase.configure();
-		FaxRequestFrame.monsterLists = new ShowDescriptionList[ FaxBotDatabase.monstersByCategory.length ];
-		for ( int i = 0; i < FaxRequestFrame.monsterLists.length; ++i )
-		{
-			FaxRequestFrame.monsterLists[ i ] = new ShowDescriptionList( FaxBotDatabase.monstersByCategory[ i ], ROWS );
-		}
 	}
 
 	public FaxRequestFrame()
 	{
 		super( "Request a Fax" );
-		this.setCenterComponent( new FaxRequestPanel() );
+		this.selectorPanel = new CardLayoutSelectorPanel( "faxbots", "MMMMMMMMMMMM" );
+		for ( FaxBot bot : FaxBotDatabase.faxbots )
+		{
+			JPanel panel = new JPanel( new BorderLayout() );
+			FaxRequestPanel botPanel = new FaxRequestPanel( bot );
+			panel.add( botPanel );
+			this.selectorPanel.addPanel( bot.getName(), panel );
+		}
+		this.selectorPanel.setSelectedIndex( 0 );
+		this.setCenterComponent( this.selectorPanel );
+		this.add( new StatusPanel(), BorderLayout.SOUTH );
 	}
 
 	private class FaxRequestPanel
 		extends GenericPanel
 	{
-		String botName = FaxBotDatabase.botName( 0 );
+		private FaxBot bot;
 
-		public FaxRequestPanel()
+		public ShowDescriptionList [] monsterLists;
+		public int monsterIndex;
+		private MonsterCategoryComboBox categorySelect;
+		private MonsterSelectPanel monsterSelect;
+
+		public FaxRequestPanel( FaxBot bot )
 		{
 			super( "request", "online?", new Dimension( 75, 24 ), new Dimension( 200, 24) );
 
-			FaxRequestFrame.this.categorySelect = new MonsterCategoryComboBox();
-			FaxRequestFrame.this.monsterIndex = 0;
-			FaxRequestFrame.this.monsterSelect = new MonsterSelectPanel( FaxRequestFrame.monsterLists[0] );
+			this.bot = bot;
+
+			LockableListModel [] monstersByCategory = bot.getMonstersByCategory();
+			int categories = monstersByCategory.length;
+			this.monsterLists = new ShowDescriptionList[ categories ];
+			for ( int i = 0; i < categories; ++i )
+			{
+				this.monsterLists[ i ] = new ShowDescriptionList( monstersByCategory[ i ], ROWS );
+			}
+
+
+			this.categorySelect = new MonsterCategoryComboBox( this, bot );
+			this.monsterSelect = new MonsterSelectPanel( this.monsterLists[0] );
+			this.monsterIndex = 0;
 
 			VerifiableElement[] elements = new VerifiableElement[ 1 ];
-			elements[ 0 ] = new VerifiableElement( "Category: ", FaxRequestFrame.this.categorySelect );
+			elements[ 0 ] = new VerifiableElement( "Category: ", this.categorySelect );
 
 
 			this.setContent( elements );
-			this.add( FaxRequestFrame.this.monsterSelect, BorderLayout.CENTER );
-			this.add( new StatusPanel(), BorderLayout.SOUTH );
+			this.add( this.monsterSelect, BorderLayout.CENTER );
 		}
 
 		@Override
@@ -133,26 +154,27 @@ public class FaxRequestFrame
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			if ( FaxRequestFrame.this.categorySelect != null )
+			if ( this.categorySelect != null )
 			{
-				FaxRequestFrame.this.categorySelect.setEnabled( isEnabled );
+				this.categorySelect.setEnabled( isEnabled );
 			}
-			if ( FaxRequestFrame.this.monsterSelect != null )
+			if ( this.monsterSelect != null )
 			{
-				FaxRequestFrame.this.monsterSelect.setEnabled( isEnabled );
+				this.monsterSelect.setEnabled( isEnabled );
 			}
 		}
 
 		@Override
 		public void actionConfirmed()
 		{
-			int list = FaxRequestFrame.this.monsterIndex;
-			Object value = FaxRequestFrame.monsterLists[ list ].getSelectedValue();
+			int list = this.monsterIndex;
+			Object value = monsterLists[ list ].getSelectedValue();
 			if ( value == null )
 			{
 				return;
 			}
 
+			String botName = this.bot.getName();
 			Monster monster = (Monster)value;
 			String name = monster.getName();
 			String command = monster.getCommand();
@@ -163,6 +185,7 @@ public class FaxRequestFrame
 		@Override
 		public void actionCancelled()
 		{
+			String botName = this.bot.getName();
 			if ( FaxRequestFrame.isBotOnline( botName ) )
 			{
 				FaxRequestFrame.statusMessage = botName + " is online.";
@@ -234,56 +257,64 @@ public class FaxRequestFrame
 
 		String message = buf.toString();
 
-		while ( true )
+		try
 		{
-			KoLmafia.updateDisplay( message );
+			ChatManager.setFaxBot( botName );
 
-			// Clear last message, just in case.
-			ChatManager.getLastFaxBotMessage();
-
-			ChatSender.sendMessage( botName, command, false );
-
-			String response = null;
-			// Response is sent blue message. Can it fail?
-
-			int polls = LIMIT * 1000 / DELAY;
-			for ( int i = 0; i < polls; ++i )
+			while ( true )
 			{
-				response = ChatManager.getLastFaxBotMessage();
-				if ( response != null )
+				KoLmafia.updateDisplay( message );
+
+				// Clear last message, just in case.
+				ChatManager.getLastFaxBotMessage();
+
+				ChatSender.sendMessage( botName, command, false );
+
+				String response = null;
+				// Response is sent blue message. Can it fail?
+
+				int polls = LIMIT * 1000 / DELAY;
+				for ( int i = 0; i < polls; ++i )
 				{
-					break;
+					response = ChatManager.getLastFaxBotMessage();
+					if ( response != null )
+					{
+						break;
+					}
+					pauser.pause( DELAY );
 				}
-				pauser.pause( DELAY );
+
+				if ( response == null )
+				{
+					FaxRequestFrame.statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
+					KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
+					return false;
+				}
+
+				// FaxBot just delivered a fax to your clan, please try again in 1 minute.
+				if ( response.contains( "just delivered a fax" ) )
+				{
+					FaxRequestFrame.statusMessage = botName + " recently delivered another fax. Retrying in one minute.";
+					KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
+					KoLmafia.forceContinue();
+					StaticEntity.executeCountdown( "Countdown: ", 60 );
+					continue;
+				}
+
+				// parse FaxBot's response
+				if ( !FaxRequestFrame.faxAvailable( botName, response ) )
+				{
+					KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
+					return false;
+				}
+
+				// Success! No need to retry
+				break;
 			}
-
-			if ( response == null )
-			{
-				FaxRequestFrame.statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
-				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				return false;
-			}
-
-			// FaxBot just delivered a fax to your clan, please try again in 1 minute.
-			if ( response.indexOf( "just delivered a fax" ) != -1 )
-			{
-				FaxRequestFrame.statusMessage = botName + " recently delivered another fax. Retrying in one minute.";
-				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				KoLmafia.forceContinue();
-				StaticEntity.executeCountdown( "Countdown: ", 60 );
-
-				continue;
-			}
-
-			// parse FaxBot's response
-			if ( !FaxRequestFrame.faxAvailable( botName, response ) )
-			{
-				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
-				return false;
-			}
-
-			// Success! No need to retry
-			break;
+		}
+		finally
+		{
+			ChatManager.setFaxBot( null );
 		}
 
 		// The monster is there! retrieve it.
@@ -350,7 +381,7 @@ public class FaxRequestFrame
 		}
 
 		// Does your clan have a fax machine?
-		if ( request.responseText.indexOf( "You approach the fax machine" ) == -1 )
+		if ( !request.responseText.contains( "You approach the fax machine" ) )
 		{
 			FaxRequestFrame.statusMessage = "Your clan does not have a fax machine.";
 			return false;
@@ -361,18 +392,26 @@ public class FaxRequestFrame
 	private static boolean faxAvailable( final String botName, final String response )
 	{
 		// FaxBot has copied a Rockfish into your clan's Fax Machine.
-		if ( response.indexOf( "into your clan's Fax Machine" ) != -1 )
+		// Your monster has been delivered to your clan Fax Machine. Thank you for using FaustBot.
+		// Your fax is ready.
+		if ( response.contains( "into your clan's Fax Machine" ) ||
+		     response.contains( "delivered to your clan Fax Machine" ) ||
+		     response.contains( "Your fax is ready" ) )
 		{
 			return true;
 		}
 
-		if ( response.indexOf( "I do not understand your request" ) != -1 )
+		// Sorry, it appears you requested an invalid monster.
+		// I couldn't find that monster. Try sending "list" for a list of monster names.
+		if ( response.contains( "I do not understand your request" ) ||
+		     response.contains( "you requested an invalid monster" ) ||
+		     response.contains( "I couldn't find that monster" ) )
 		{
 			FaxRequestFrame.statusMessage = "Configuration error: unknown command sent to " + botName;
 			return false;
 		}
 
-		if ( response.indexOf( "could not whitelist" ) != -1 )
+		if ( response.contains( "could not whitelist" ) )
 		{
 			FaxRequestFrame.statusMessage = botName + " is not on your clan's whitelist";
 			return false;
@@ -409,13 +448,17 @@ public class FaxRequestFrame
 	private class MonsterCategoryComboBox
 		extends JComboBox
 	{
-		public MonsterCategoryComboBox()
+		FaxRequestPanel panel;
+
+		public MonsterCategoryComboBox( FaxRequestPanel panel, FaxBot bot )
 		{
 			super();
-			int count = FaxBotDatabase.categories.size();
+			this.panel = panel;
+			LockableListModel categories = bot.getCategories();
+			int count = categories.size();
 			for ( int i = 0; i < count; ++i )
 			{
-				addItem( FaxBotDatabase.categories.get( i ) );
+				addItem( categories.get( i ) );
 			}
 			addActionListener( new MonsterCategoryListener() );
 		}
@@ -426,8 +469,8 @@ public class FaxRequestFrame
 			public void actionPerformed( final ActionEvent e )
 			{
 				int index = MonsterCategoryComboBox.this.getSelectedIndex();
-				FaxRequestFrame.this.monsterIndex = index;
-				FaxRequestFrame.this.monsterSelect.setElementList( FaxRequestFrame.monsterLists[ index ] );
+				MonsterCategoryComboBox.this.panel.monsterIndex = index;
+				MonsterCategoryComboBox.this.panel.monsterSelect.setElementList( MonsterCategoryComboBox.this.panel.monsterLists[ index ] );
 			}
 		}
 	}

@@ -84,7 +84,6 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public abstract class ChatManager
 {
 	private static final LinkedList<Object> clanMessages = new RollingLinkedList( 20 );
-	private static ChatMessage faxbotMessage = null;
 	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
 	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<String, StyledChatBuffer>();
@@ -107,13 +106,15 @@ public abstract class ChatManager
 	private static LockableListModel triviaGameContacts = new LockableListModel();
 	private static ContactListFrame triviaGameContactListFrame = null;
 
+	private static String faxbot = null;
+	private static ChatMessage faxbotMessage = null;
+
 	public static final void reset()
 	{
 		ChatManager.dispose();
 		ChatPoller.reset();
 
 		ChatManager.clanMessages.clear();
-		ChatManager.faxbotMessage = null;
 		ChatManager.instantMessageBuffers.clear();
 		ChatManager.bufferEntries = new Entry[0];
 		ChatManager.activeChannels.clear();
@@ -123,6 +124,9 @@ public abstract class ChatManager
 		ChatManager.triviaGameIndex = 0;
 		ChatManager.triviaGameId = "[trivia0]";
 		ChatManager.triviaGameContacts.clear();
+
+		ChatManager.faxbot = null;
+		ChatManager.faxbotMessage = null;
 	}
 
 	public static final void resetChatLiteracy()
@@ -216,6 +220,11 @@ public abstract class ChatManager
 		new ChatPoller().start();
 
 		RequestThread.postRequest( new ChannelColorsRequest() );
+	}
+
+	public static final void setFaxBot( final String faxbot )
+	{
+		ChatManager.faxbot = faxbot;
 	}
 
 	public static synchronized final String getLastFaxBotMessage()
@@ -365,7 +374,7 @@ public abstract class ChatManager
 		String sender = message.getSender();
 		String recipient = message.getRecipient();
 
-		if ( sender.equals( "FaxBot" ) )
+		if ( ChatManager.faxbot != null && sender.equalsIgnoreCase( ChatManager.faxbot ) )
 		{
 			ChatManager.faxbotMessage = message;
 		}
