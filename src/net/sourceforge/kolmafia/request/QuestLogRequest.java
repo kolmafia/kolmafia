@@ -65,7 +65,7 @@ public class QuestLogRequest
 	private static boolean beanstalkPlanted = false;
 
 	private static final Pattern HEADER_PATTERN = Pattern.compile( "<b>([^<]*?[^>]*?)</b>(?:<p>|)<blockquote>", Pattern.DOTALL );
-	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>$|<p><b>)", Pattern.DOTALL );
+	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>$|<p><b>|<p></blockquote>)", Pattern.DOTALL );
 	private static final Pattern SEAHORSE_PATTERN = Pattern.compile( "You have tamed the mighty seahorse <b>(.*?)</b>", Pattern.DOTALL );
 
 	private static final Object[][] questlogDemons =
