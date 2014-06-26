@@ -104,6 +104,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox manualLouvre;
 	private final JComboBox billiardRoomSelect;
 	private final JComboBox riseSelect, fallSelect;
+	private final JComboBox lightsOutSelect;
 	private final OceanDestinationComboBox oceanDestSelect;
 	private final JComboBox oceanActionSelect;
 	private final JComboBox barrelSelect;
@@ -246,6 +247,11 @@ public class ChoiceOptionsPanel
 		this.fallSelect.addItem( "ignore this adventure" );
 		this.fallSelect.addItem( "boost muscle substats" );
 		this.fallSelect.addItem( "reveal key in conservatory" );
+
+		this.lightsOutSelect = new JComboBox();
+		this.lightsOutSelect.addItem( "show in browser" );
+		this.lightsOutSelect.addItem( "take quest option if available" );
+		this.lightsOutSelect.addItem( "skip adventure" );
 
 		this.oceanDestSelect = new OceanDestinationComboBox();
 
@@ -416,6 +422,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
 		this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
 		this.addChoiceSelect( "Manor1", "Fall of Spookyraven", this.fallSelect );
+		this.addChoiceSelect( "Manor1", "Lights Out", this.lightsOutSelect );
 		this.addChoiceSelect( "Manor2", "Louvre Goal", this.louvreSelect );
 		this.addChoiceSelect( "Manor2", "Louvre Override", this.manualLouvre );
 		this.addChoiceSelect( "Manor2", "The Maidens", this.maidenSelect );
@@ -904,7 +911,9 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure791", String.valueOf( this.hiddenZigguratSelect.getSelectedIndex() ) );
 
 		Preferences.setString( "choiceAdventure700", String.valueOf( this.kolhsCafeteriaSelect.getSelectedIndex() ) );
-		
+
+		Preferences.setInteger( "lightsOutAutomation", this.lightsOutSelect.getSelectedIndex() );
+
 		int dailyDungeonDoorIndex = this.dailyDungeonDoorSelect.getSelectedIndex();
 		String currentSetting = Preferences.getString( "choiceAdventure692" );
 		Preferences.setString( "choiceAdventure692", 
@@ -1172,7 +1181,8 @@ public class ChoiceOptionsPanel
 		this.propDeportmentSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure552" ) );
 		this.reloadedSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure553" ) );
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
- 
+		this.lightsOutSelect.setSelectedIndex( Preferences.getInteger( "lightsOutAutomation" ) );
+
 		int hiddenShrineNWIndex = Preferences.getInteger ( "choiceAdventure781" );
 		if ( hiddenShrineNWIndex <= 1 && hiddenShrineNWIndex >= 0 )
 		{

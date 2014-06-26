@@ -611,6 +611,7 @@ user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
 user	libramSummons	0
 user	libraryCardUsed	false
+user	lightsOutAutomation	0
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride

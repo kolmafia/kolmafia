@@ -1198,6 +1198,10 @@ public class ResultProcessor
 			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			break;
 
+		case ItemPool.RUSTY_SCREWDRIVER:
+			QuestDatabase.setQuestProgress( Quest.UNTINKER, "step1" );
+			break;
+
 		case ItemPool.JUNK_JUNK:
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step3" );
 		case ItemPool.DINGHY_DINGY:
