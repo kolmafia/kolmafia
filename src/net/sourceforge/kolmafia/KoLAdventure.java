@@ -569,7 +569,7 @@ public class KoLAdventure
 
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PALINDOME.getPref() ), QuestDatabase.STARTED ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.STARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -835,7 +835,7 @@ public class KoLAdventure
 			this.adventureId.equals( AdventurePool.HAUNTED_CONSERVATORY_ID ) )
 		{
 			// Haunted Kitchen & Conservatory
-			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_NECKLACE.getPref() ), QuestDatabase.UNSTARTED );
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED );
 			return;
 		}
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_LIBRARY_ID ) )
@@ -855,13 +855,13 @@ public class KoLAdventure
 			this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
 		{
 			// Haunted Bathroom, Bedroom & Gallery
-			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), QuestDatabase.STARTED );
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED );
 			return;
 		}
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_BALLROOM_ID ) )
 		{
 			// Haunted Ballroom
-			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "step2" );
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, "step2" );
 			return;
 		}
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_LABORATORY_ID ) ||
@@ -869,7 +869,7 @@ public class KoLAdventure
 			this.adventureId.equals( AdventurePool.HAUNTED_STORAGE_ROOM_ID ) )
 		{
 			// Haunted Lab, Nursery & Storage Room
-			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), "step3" );
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, "step3" );
 			return;
 		}
 
@@ -889,19 +889,19 @@ public class KoLAdventure
 		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )
 		{
-			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), QuestDatabase.STARTED ) )
+			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) && QuestDatabase.isQuestLaterThan( Quest.BAT, QuestDatabase.STARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step1" ) )
+			if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) && QuestDatabase.isQuestLaterThan( Quest.BAT, "step1" ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( AdventurePool.BOSSBAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
+			if ( this.adventureId.equals( AdventurePool.BOSSBAT_ID ) && QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -973,16 +973,16 @@ public class KoLAdventure
 			if ( this.adventureId.equals( AdventurePool.ITZNOTYERZITZ_MINE_ID ) || 
 			     this.adventureId.equals( AdventurePool.GOATLET_ID ) )
 			{
-				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TRAPPER.getPref() ), QuestDatabase.STARTED );
+				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.TRAPPER, QuestDatabase.STARTED );
 			}
 			else if ( this.adventureId.equals( AdventurePool.NINJA_SNOWMEN_ID ) ||
 			          this.adventureId.equals( AdventurePool.EXTREME_SLOPE_ID ) )
 			{
-				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TRAPPER.getPref() ), "step1" );
+				this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.TRAPPER, "step1" );
 			}
 			else if ( this.adventureId.equals( AdventurePool.ICY_PEAK_ID ) )
 			{
-				this.isValidAdventure = Preferences.getString( Quest.TRAPPER.getPref() ).equals( QuestDatabase.FINISHED );
+				this.isValidAdventure = QuestDatabase.isQuestFinished( Quest.TRAPPER );
 			}
 			else
 			{
@@ -1009,7 +1009,7 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "Highlands" ) )
 		{
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TOPPING.getPref() ), QuestDatabase.STARTED ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.TOPPING, QuestDatabase.STARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;

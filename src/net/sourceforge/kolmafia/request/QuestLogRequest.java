@@ -272,38 +272,38 @@ public class QuestLogRequest
 		}
 
 		// Some quests vanish when completed but can be inferred by the presence of a new one
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_BABIES.getPref() ), QuestDatabase.UNSTARTED ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.UNSTARTED ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.SPOOKYRAVEN_DANCE.getPref() ), QuestDatabase.UNSTARTED ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.UNSTARTED ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "step1" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.BLACK, QuestDatabase.FINISHED );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step3" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, "step3" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.CURSES, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestProgress( Quest.DOCTOR, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestProgress( Quest.BUSINESS, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestProgress( Quest.SPARE, QuestDatabase.FINISHED );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), QuestDatabase.UNSTARTED ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.PYRAMID, QuestDatabase.UNSTARTED ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.DESERT, QuestDatabase.FINISHED );
 		}
 
 		// Set (mostly historical) preferences we can set based on quest status
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.MACGUFFIN.getPref() ), "step1" ) ||
+		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "step1" ) ||
 			QuestDatabase.isQuestFinished( Quest.MEATCAR ) )
 		{
 			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.ISLAND_WAR.getPref() ), QuestDatabase.STARTED ) ||
-			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PIRATE.getPref() ), QuestDatabase.UNSTARTED ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.ISLAND_WAR, QuestDatabase.STARTED ) ||
+			QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) )
 		{
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 		}
@@ -311,25 +311,25 @@ public class QuestLogRequest
 		{
 			Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.GARBAGE.getPref() ), "step7" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.GARBAGE, "step7" ) )
 		{
 			Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.GARBAGE.getPref() ), "step8" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.GARBAGE, "step8" ) )
 		{
 			Preferences.setInteger( "lastCastleTopUnlock", KoLCharacter.getAscensions() );
 		}
-		if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), "step1" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, "step1" ) )
 		{
 			Preferences.setInteger( "lastTempleButtonsUnlock", KoLCharacter.getAscensions() );
 			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 		}
 		Preferences.setBoolean( "middleChamberUnlock", 
-			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), QuestDatabase.STARTED ) );
+			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, QuestDatabase.STARTED ) );
 		Preferences.setBoolean( "lowerChamberUnlock", 
-			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), "step1" ) );
+			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step1" ) );
 		Preferences.setBoolean( "controlRoomUnlock", 
-			QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PYRAMID.getPref() ), "step2" ) );
+			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step2" ) );
 	}
 
 	private static void handleQuestText( String response, int source )

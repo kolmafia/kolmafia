@@ -592,6 +592,15 @@ public class QuestDatabase
 		}
 	}
 
+	public static boolean isQuestLaterThan( Quest quest, String second )
+	{
+		if ( quest == null )
+		{
+			return false;
+		}
+		return QuestDatabase.isQuestLaterThan( Preferences.getString( quest.getPref() ), second );
+	}
+
 	public static boolean isQuestLaterThan( String first, String second )
 	{
 		if ( first.equals( QuestDatabase.UNSTARTED ) )

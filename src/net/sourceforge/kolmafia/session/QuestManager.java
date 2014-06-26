@@ -929,7 +929,7 @@ public class QuestManager
 	{
 		if ( monster.equalsIgnoreCase( "Screambat" ) )
 		{
-			if ( !QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
+			if ( !QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
 			{
 				QuestDatabase.advanceQuest( Quest.BAT );
 			}
