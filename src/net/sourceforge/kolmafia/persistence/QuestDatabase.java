@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -185,7 +186,7 @@ public class QuestDatabase
 
 	public static String titleToPref( final String title )
 	{
-		if ( title.indexOf( "White Citadel" ) != -1 )
+		if ( title.contains( "White Citadel" ) )
 		{
 			// Hard code this quest, for now. The familiar name in the middle of the string is annoying to
 			// deal with.
@@ -193,7 +194,8 @@ public class QuestDatabase
 		}
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 1 ].toLowerCase().indexOf( title.toLowerCase() ) != -1 )
+			// The title may contain other text, so check if quest title is contained in it
+			if ( title.toLowerCase().contains( questLogData[ i ][ 1 ].toLowerCase() ) )
 			{
 				return questLogData[ i ][ 0 ];
 			}
