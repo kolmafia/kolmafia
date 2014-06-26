@@ -100,7 +100,7 @@ public class TavernRequest
 
 		if ( location.contains( "place=barkeep" ) )
 		{
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.RAT.getPref() ), "started" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.RAT, "started" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.RAT, "step1" );
 			}

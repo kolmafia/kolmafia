@@ -2486,7 +2486,7 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 				// If quest Gotta Worship Them All is started, this completes step 1
-				if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.WORSHIP.getPref() ), QuestDatabase.UNSTARTED ) )
+				if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, QuestDatabase.UNSTARTED ) )
 				{
 					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
 				}
@@ -4412,7 +4412,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SONAR:
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
 			{
 				return;
 			}
@@ -4441,7 +4441,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.WORSE_HOMES_GARDENS:
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.HIPPY.getPref() ), "step1" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.HIPPY, "step1" ) )
 			{
 				return;
 			}

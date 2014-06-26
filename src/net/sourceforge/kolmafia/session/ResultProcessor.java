@@ -1277,7 +1277,7 @@ public class ResultProcessor
 
 		case ItemPool.WET_STUNT_NUT_STEW:
 			// If you have been asked to get the stew, you now have it.
-			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PALINDOME.getPref() ), "step2" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, "step2" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step4" );
 			}
