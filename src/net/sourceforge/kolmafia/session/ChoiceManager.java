@@ -9006,7 +9006,7 @@ public abstract class ChoiceManager
 			{
 				return "1";
 			}
-			if ( responseText.contains( "Oh god " ) )
+			if ( responseText.contains( "Oh god" ) )
 			{
 				return "1";
 			}
