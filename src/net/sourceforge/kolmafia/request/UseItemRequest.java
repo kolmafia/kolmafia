@@ -1147,10 +1147,6 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 
-		case ItemPool.PALINDROME_BOOK_2:
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
-			return;
-
 		case ItemPool.PUZZLE_PIECE:
 			SorceressLairManager.completeHedgeMaze();
 			return;
@@ -1935,7 +1931,7 @@ public class UseItemRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
+		if ( responseText.contains( "That item isn't usable in quantity" ) )
 		{
 			int attrs = ItemDatabase.getAttributes( item.getItemId() );
 			if ( ( attrs & ItemDatabase.ATTR_MULTIPLE ) == 0 )
@@ -1952,7 +1948,7 @@ public class UseItemRequest
 		// that can fail with a "too full" message, even though it's
 		// not a food.
 
-		if ( responseText.indexOf( "too full" ) != -1 )
+		if ( responseText.contains( "too full" ) )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -4666,6 +4662,10 @@ public class UseItemRequest
 			{
 				Preferences.setBoolean( "_sweetToothUsed", true );
 			}
+			return;
+
+		case ItemPool.PALINDROME_BOOK_2:
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
 			return;
 		}
 
