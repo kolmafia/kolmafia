@@ -125,6 +125,13 @@ public class AdventurePool
 	public static final int SHOP_CLASS = 327;
 	public static final int CHEMISTRY_CLASS = 328;
 	public static final int ART_CLASS = 329;
+	public static final String EDGE_OF_THE_SWAMP_ID = "330";
+	public static final String DARK_AND_SPOOKY_SWAMP_ID = "331";
+	public static final String CORPSE_BOG_ID = "332";
+	public static final String RUINED_WIZARDS_TOWER_ID = "333";
+	public static final String WILDLIFE_SANCTUARRRRRGH_ID = "334";
+	public static final String SWAMP_BEAVER_TERRITORY_ID = "335";
+	public static final String WEIRD_SWAMP_VILLAGE_ID = "336";
 	public static final int HIDDEN_APARTMENT = 341;
 	public static final String HIDDEN_APARTMENT_ID = "341";
 	public static final int HIDDEN_HOSPITAL = 342;

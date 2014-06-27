@@ -98,6 +98,7 @@ public class QuestDatabase
 			SPOOKYRAVEN_NECKLACE( "questM20Necklace" ),
 			SPOOKYRAVEN_DANCE( "questM21Dance" ),
 			SPOOKYRAVEN_BABIES( "questM17Babies" ),
+			SWAMP( "questM18Swamp" ),
 			HIPPY( "questM19Hippy" ),
 			JIMMY_MUSHROOM( "questESlMushStash" ),
 			JIMMY_CHEESEBURGER( "questESlCheeseburger" ),
@@ -487,6 +488,12 @@ public class QuestDatabase
 		Preferences.resetToDefault( "hiddenHospitalProgress" );
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
 		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
+		Preferences.resetToDefault( "maraisDarkUnlock" );
+		Preferences.resetToDefault( "maraisWildlifeUnlock" );
+		Preferences.resetToDefault( "maraisCorpseUnlock" );
+		Preferences.resetToDefault( "maraisWizardUnlock" );
+		Preferences.resetToDefault( "maraisBeaverUnlock" );
+		Preferences.resetToDefault( "maraisVillageUnlock" );
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );
 	}

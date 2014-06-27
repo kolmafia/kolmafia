@@ -1035,6 +1035,48 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.EDGE_OF_THE_SWAMP_ID ) )
+		{
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SWAMP, "unstarted" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.DARK_AND_SPOOKY_SWAMP_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisDarkUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.CORPSE_BOG_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisCorpseUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.RUINED_WIZARDS_TOWER_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisWizardUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.WILDLIFE_SANCTUARRRRRGH_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisWildlifeUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.WEIRD_SWAMP_VILLAGE_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisVillageUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.SWAMP_BEAVER_TERRITORY_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "maraisBeaverUnlock" );
+			return;
+		}
+
 		this.isValidAdventure = true;
 	}
 

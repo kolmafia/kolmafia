@@ -693,6 +693,9 @@ public class ItemPool
 	public static final int DUCT_TAPE = 2697;
 	public static final int SHRINKING_POWDER = 2704;
 	public static final int PARROT_CRACKER = 2710;
+	public static final int HAND_CARVED_BOKKEN = 2719;
+	public static final int HAND_CARVED_BOW = 2720;
+	public static final int HAND_CARVED_STAFF = 2721;
 	public static final int STEEL_STOMACH = 2742;
 	public static final int STEEL_LIVER = 2743;
 	public static final int STEEL_SPLEEN = 2744;
