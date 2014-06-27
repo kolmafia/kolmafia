@@ -150,6 +150,10 @@ public class QuestManager
 		{
 			BarrelDecorator.parseResponse( location, responseText );
 		}
+		else if ( location.startsWith( "canadia" ) )
+		{
+			handleCanadiaChange( location, responseText );
+		}
 		else if ( location.startsWith( "cobbsknob.php" ) )
 		{
 			if ( location.indexOf( "action=cell37" ) != -1 )
@@ -253,6 +257,10 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+			}
+			else if ( location.contains( "whichplace=marais" ) )
+			{
+				handleMaraisChange( responseText );
 			}
 			else if ( location.contains( "whichplace=palindome" ) )
 			{
@@ -761,6 +769,50 @@ public class QuestManager
 			{
 				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step3" );
 			}
+		}
+	}
+
+	private static final void handleCanadiaChange( final String location, final String responseText )
+	{
+		if ( location.contains( "action=lc_marty" ) )
+		{
+			if ( responseText.contains( "All right, Marty, I'll see what I can do" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SWAMP, QuestDatabase.STARTED );
+			}
+		}
+	}
+
+	private static final void handleMaraisChange( final String responseText )
+	{
+		// Detect unlocked areas
+		if ( responseText.contains( "The Edge of the Swamp" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.SWAMP, QuestDatabase.STARTED );
+		}
+		if ( responseText.contains( "The Dark and Spooky Swamp" ) )
+		{
+			Preferences.setBoolean( "maraisDarkUnlock", true );
+		}
+		if ( responseText.contains( "The Wildlife Sanctuarrrrrgh" ) )
+		{
+			Preferences.setBoolean( "maraisWildlifeUnlock", true );
+		}
+		if ( responseText.contains( "The Corpse Bog" ) )
+		{
+			Preferences.setBoolean( "maraisCorpseUnlock", true );
+		}
+		if ( responseText.contains( "The Ruined Wizard Tower" ) )
+		{
+			Preferences.setBoolean( "maraisWizardUnlock", true );
+		}
+		if ( responseText.contains( "Swamp Beaver Territory" ) )
+		{
+			Preferences.setBoolean( "maraisBeaverUnlock", true );
+		}
+		if ( responseText.contains( "The Weird Swamp Village" ) )
+		{
+			Preferences.setBoolean( "maraisVillageUnlock", true );
 		}
 	}
 

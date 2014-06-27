@@ -1681,6 +1681,12 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.FINISHED );
 			break;
 
+		case ItemPool.HAND_CARVED_BOKKEN:
+		case ItemPool.HAND_CARVED_BOW:
+		case ItemPool.HAND_CARVED_STAFF:
+			QuestDatabase.setQuestProgress( Quest.SWAMP, QuestDatabase.FINISHED );
+			break;
+
 		case ItemPool.WORSE_HOMES_GARDENS:
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step1" );
 			break;

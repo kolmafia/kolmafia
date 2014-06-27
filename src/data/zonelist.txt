@@ -65,7 +65,7 @@ MoxSign	Signed Zones	Moxie Sign
 BadMoon	Signed Zones	Bad Moon
 
 Little Canadia	Signed Zones	Little Canadia
-Le Marais Dègueulasse	Little Canadia	Le Marais Dègueulasse
+Le Marais D&egrave;gueulasse	Little Canadia	Le Marais D&egrave;gueulasse
 
 Astral	Astral	Astral Plane
 Wormwood	Wormwood	Worm Wood

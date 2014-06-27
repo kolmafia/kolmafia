@@ -2602,6 +2602,21 @@ public abstract class ChoiceManager
 
 		// Choice 695 is A Drawer of Chests
 
+		// Choice 696 is Stick a Fork In It
+		new ChoiceAdventure(
+			"Le Marais D&egrave;gueulasse", "choiceAdventure696", "Edge of the Swamp",
+			new Object[] { "unlock The Dark and Spooky Swamp", "unlock The Wildlife Sanctuarrrrrgh" } ),
+
+		// Choice 697 is Sophie's Choice
+		new ChoiceAdventure(
+			"Le Marais D&egrave;gueulasse", "choiceAdventure697", "Dark and Spooky Swamp",
+			new Object[] { "unlock The Corpse Bog", "unlock The Ruined Wizard Tower" } ),
+
+		// Choice 698 is From Bad to Worst
+		new ChoiceAdventure(
+			"Le Marais D&egrave;gueulasse", "choiceAdventure698", "Wildlife Sanctuarrrrrgh",
+			new Object[] { "unlock Swamp Beaver Territory", "unlock The Weird Swamp Village" } ),
+
 		// Choice 701 is Ators Gonna Ate
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure701", "Mer-kin Gymnasium",
@@ -3618,6 +3633,18 @@ public abstract class ChoiceManager
 			// I Wanna Be a Door
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "I Wanna Be a Door" );
 
+		case 696:
+			// Stick a Fork In It
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Stick a Fork In It" );
+
+		case 697:
+			// Sophie's Choice
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Sophie's Choice" );
+
+		case 698:
+			// From Bad to Worst
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "From Bad to Worst" );
+
 		case 700:
 			// Delirium in the Cafeterium
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Delirium in the Cafeterium" );
@@ -4432,6 +4459,27 @@ public abstract class ChoiceManager
 			result[ 7 ] = "leave, no turn spent";
 			return result;
 			
+		case 696:
+			// Stick a Fork In It
+			result = new String[ 2 ];
+			result[ 0 ] = Preferences.getBoolean( "maraisDarkUnlock" ) ? "Dark and Spooky Swamp already unlocked" : "unlock Dark and Spooky Swamp";
+			result[ 1 ] = Preferences.getBoolean( "maraisWildlifeUnlock" ) ? "The Wildlife Sanctuarrrrrgh already unlocked" : "unlock The Wildlife Sanctuarrrrrgh";
+			return result;
+
+		case 697:
+			// Sophie's Choice
+			result = new String[ 2 ];
+			result[ 0 ] = Preferences.getBoolean( "maraisCorpseUnlock" ) ? "The Corpse Bog already unlocked" : "unlock The Corpse Bog";
+			result[ 1 ] = Preferences.getBoolean( "maraisWizardUnlock" ) ? "The Ruined Wizard Tower already unlocked" : "unlock The Ruined Wizard Tower";
+			return result;
+
+		case 698:
+			// From Bad to Worst
+			result = new String[ 2 ];
+			result[ 0 ] = Preferences.getBoolean( "maraisBeaverUnlock" ) ? "Swamp Beaver Territory already unlocked" : "unlock Swamp Beaver Territory";
+			result[ 1 ] = Preferences.getBoolean( "maraisVillageUnlock" ) ? "The Weird Swamp Village already unlocked" : "unlock The Weird Swamp Village";
+			return result;
+
 		case 700:
 			// Delirium in the Cafeteria
 			result = new String[ 9 ];
@@ -7892,6 +7940,42 @@ public abstract class ChoiceManager
 			ChoiceManager.handleAfterAvatar();
 			break;
 
+		case 696:
+			// Stick a Fork In It
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "maraisDarkUnlock", true );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "maraisWildlifeUnlock", true );
+			}
+			break;
+
+		case 697:
+			// Sophie's Choice
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "maraisCorpseUnlock", true );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "maraisWizardUnlock", true );
+			}
+			break;
+
+		case 698:
+			// From Bad to Worst
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "maraisBeaverUnlock", true );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "maraisVillageUnlock", true );
+			}
+			break;
+
 		case 704:
 			// Playing the Catalog Card
 			DreadScrollManager.handleLibrary( text );
@@ -8842,6 +8926,35 @@ public abstract class ChoiceManager
 		return 0;
 	}
 
+	private static final String swampNavigation( final String responseText )
+	{
+		if ( responseText.contains( "facing north" ) || responseText.contains( "face north" ) ||
+			 responseText.contains( "indicate north" ) )
+		{
+			return "1";
+		}
+		if ( responseText.contains( "facing east" ) || responseText.contains( "face east" ) ||
+			 responseText.contains( "indicate east" ) )
+		{
+			return "2";
+		}
+		if ( responseText.contains( "facing south" ) || responseText.contains( "face south" ) ||
+			 responseText.contains( "indicate south" ) )
+		{
+			return "3";
+		}
+		if ( responseText.contains( "facing west" ) || responseText.contains( "face west" ) ||
+			 responseText.contains( "indicate west" ) )
+		{
+			return "4";
+		}
+		if ( responseText.contains( "And then..." ) )
+		{
+			return "1";
+		}
+		return "0";
+	}
+
 	private static final String lightsOutAutomation( final int choice, final String responseText )
 	{
 		int automation = Preferences.getInteger( "lightsOutAutomation" );
@@ -9414,6 +9527,16 @@ public abstract class ChoiceManager
 			}
 			return "0";
 
+		case 702:
+			// No Corn, Only Thorns
+			return ChoiceManager.swampNavigation( responseText );
+
+		case 890: case 891: case 892: case 893: case 894:
+		case 895: case 896: case 897: case 898: case 899:
+		case 900: case 901: case 902: case 903:
+			// Lights Out adventures
+			return ChoiceManager.lightsOutAutomation( choice, responseText );
+
 		case 904: case 905: case 906: case 907: case 908:
 		case 909: case 910: case 911: case 912: case 913:
 			// Choices in the Louvre
@@ -9424,12 +9547,6 @@ public abstract class ChoiceManager
 			}
 
 			return decision;
-
-		case 890: case 891: case 892: case 893: case 894:
-		case 895: case 896: case 897: case 898: case 899:
-		case 900: case 901: case 902: case 903:
-			// Lights Out adventures
-			return ChoiceManager.lightsOutAutomation( choice, responseText );
 		}
 
 		return decision;
