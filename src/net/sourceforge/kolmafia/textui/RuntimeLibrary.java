@@ -3306,22 +3306,33 @@ public abstract class RuntimeLibrary
 
 		FaxBotDatabase.configure();
 
-		for ( int i = 0; i < FaxBotDatabase.faxbots.size(); i++ )
+		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
-			FaxBot bot = FaxBotDatabase.getFaxbot( i );
 			if ( bot == null )
 			{
 				continue;
 			}
 			String botName = bot.getName();
-			String actualName = monster.getName();
-			String monsterName = bot.getMonsterByActualName( actualName );
-			String command = bot.getCommandByActualName( actualName );
-			if ( botName == null || monsterName == null || command == null )
+			if ( botName == null )
 			{
 				continue;
 			}
-			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command ) );
+			String actualName = monster.getName();
+			String monsterName = bot.getMonsterByActualName( actualName );
+			if ( monsterName == null )
+			{
+				continue;
+			}
+			String command = bot.getCommandByActualName( actualName );
+			if ( command == null )
+			{
+				continue;
+			}
+			if ( !FaxRequestFrame.isBotOnline( botName ) )
+			{
+				continue;
+			}
+			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command, false ) );
 		}
 		return DataTypes.FALSE_VALUE;
 	}
