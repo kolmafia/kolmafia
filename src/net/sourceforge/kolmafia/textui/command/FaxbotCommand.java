@@ -33,7 +33,11 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
@@ -49,7 +53,17 @@ public class FaxbotCommand
 	public void run( final String cmd, final String command )
 	{	
 		FaxBotDatabase.configure();
-		String botName = FaxBotDatabase.botName( 0 );
-		FaxRequestFrame.requestFax( botName, null, command );
+
+		for ( int i = 0; i < FaxBotDatabase.faxbots.size(); i++ )
+		{
+			FaxBot bot = FaxBotDatabase.getFaxbot( i );
+			if ( bot == null || !bot.hasCommand( command ) )
+			{
+				continue;
+			}
+			FaxRequestFrame.requestFax( bot.getName(), null, command );
+			return;
+		}
+		KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
 	}
 }

@@ -88,7 +88,6 @@ import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
-import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -180,7 +179,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.svn.SVNManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
@@ -3307,21 +3305,25 @@ public abstract class RuntimeLibrary
 		}
 
 		FaxBotDatabase.configure();
-		FaxBot bot = FaxBotDatabase.getFaxbot( 0 );
-		if ( bot == null )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
 
-		String botName = bot.getName();
-		String actualName = monster.getName();
-		String monsterName = bot.getMonsterByActualName( actualName );
-		String command = bot.getCommandByActualName( actualName );
-		if ( botName == null || monsterName == null || command == null )
+		for ( int i = 0; i < FaxBotDatabase.faxbots.size(); i++ )
 		{
-			return DataTypes.FALSE_VALUE;
+			FaxBot bot = FaxBotDatabase.getFaxbot( i );
+			if ( bot == null )
+			{
+				continue;
+			}
+			String botName = bot.getName();
+			String actualName = monster.getName();
+			String monsterName = bot.getMonsterByActualName( actualName );
+			String command = bot.getCommandByActualName( actualName );
+			if ( botName == null || monsterName == null || command == null )
+			{
+				continue;
+			}
+			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command ) );
 		}
-		return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command ) );
+		return DataTypes.FALSE_VALUE;
 	}
 
 	// Major functions which provide item-related
