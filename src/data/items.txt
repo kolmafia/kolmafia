@@ -4643,7 +4643,7 @@
 4624	pawn cookie	137520522	chesscookie.gif	food	t,d	100	pawn cookies
 4625	coffee pixie stick	936288573	cpstick.gif	multiple	d	50	coffee pixie sticks
 4626	superduperball	574320533	superball.gif	usable	d	10
-4627	finger cuffs	761041299	fingertrap.gif	usable, combat	d	10
+4627	finger cuffs	761041299	fingertrap.gif	usable, combat	d	10	finger cuffs
 4628	little parachute guy	185244129	paraguy.gif	none, combat	d	10
 4629	plastic spider ring	987547828	spiderring.gif	accessory	d	5
 4630	cheap plastic kazoo	776689112	kazoo.gif	weapon	d	55
@@ -5775,9 +5775,9 @@
 5756	hunter brain	436848196	realbrain.gif	food	q	0
 5757
 5758	Staff of Holiday Sensations	235701538	pepperstaff.gif	weapon	d	25
-5759	rusty staff	586597404	rustystaff.gif	weapon	t,d	140
-5760	slime-covered staff	325350654	slimestaff.gif	weapon	d	500
-5761	Staff of the Scummy Sink	270811344	scumsinkstaff.gif	weapon	d	25
+5759	rusty staff	586597404	rustystaff.gif	weapon	t,d	140	rusty staves
+5760	slime-covered staff	325350654	slimestaff.gif	weapon	d	500	slime-covered staves
+5761	Staff of the Scummy Sink	270811344	scumsinkstaff.gif	weapon	d	25	Staves of the Scummy Sink
 5762	flaming nose	449067753	flamenose.gif	familiar	t,d	75
 5763	Superhero Reboots	999275045	reboots.gif	accessory		0
 5764	fuzzy busby	191752711	fuzzybusby.gif	hat	d	200
@@ -7033,7 +7033,7 @@
 7014	Louder Than Bomb	479465363	louderthanbomb.gif	none, combat	t,d	5
 7015	Handsome Devil	978538288	handsomedevil.gif	none, combat	t,d	5
 7016	Work is a Four Letter Sword	712781340	worksword.gif	weapon	t,d	5	Works are Four Letter Swords
-7017	Staff of the Headmaster's Victuals	540540309	headmasterstaff.gif	weapon	t,d	5
+7017	Staff of the Headmaster's Victuals	540540309	headmasterstaff.gif	weapon	t,d	5	Staves of the Headmaster's Victuals
 7018	Sheila Take a Crossbow	795004453	sheilabow.gif	weapon	t,d	5	Sheila Takes Crossbows
 7019	A Light that Never Goes Out	374985164	lantern2.gif	offhand	t,d	5	Lights that Never Go Out
 7020	Half a Purse	707928163	halfapurse.gif	offhand	t,d	5	Half Purses
@@ -7367,7 +7367,7 @@
 7348	sheet cake	492711722	sheetcake.gif	food	t,d	110
 7349	ghost key	621906180	ghostkey.gif	none	t,d	44
 7350	picture of you	115824869	pictureofyou.gif	usable		0	pictures of you by The Cure
-7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250
+7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250	Staves of the Electric Range
 7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
 7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55
 7354	red hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
@@ -7483,7 +7483,7 @@
 7464	Brogre bucket hat	443458231	buckethat.gif	hat		0
 7465	Spring Break Beach tattoo coupon	473298538	tattoupon.gif	usable	t	0
 7466	airplane charter: Spring Break Beach	661864709	aircharter.gif	usable	t	0	airplane charters: Spring Break Beach
-7467	one-day ticket to Spring Break Beach	630595123	airdaypass.gif	usable	t	0
+7467	one-day ticket to Spring Break Beach	630595123	airdaypass.gif	usable	t	0	one-day tickets to Spring Break Beach
 7468	8-billed baseball cap	412867104	6hats.gif	hat	t,d	250
 7469	extremely wet T-shirt	324598123	wettshirt.gif	shirt	t,d	225
 7470	giant shrimp fork	280775816	shrimpstaff.gif	weapon	t,d	275
@@ -7495,8 +7495,8 @@
 7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
-7479	sugar fairy	181763244	sugarfairy2.gif	multiple	t,d	100
-7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300
+7479	sugar fairy	181763244	sugarfairy2.gif	multiple	t,d	100	sugar fairies
+7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300	sugar bunnies
 7481	sweet tooth	904665141	sugartooth.gif	usable	t,d	1100	sweet teeth
 7482	Rompedores de Fantasmas	666506619	bottle.gif	drink	t,d	13	muchos Rompedores de Fantasmas
 7483	La Fantasma y La Oscuridad	820008832	beerbottle.gif	drink	t,d	13	botellas de La Fantasma y La Oscuridad
@@ -7573,8 +7573,8 @@
 7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	10	bottles of lighter fluid
 7555	white page	643839454	document.gif	usable	t	0
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
-7557	white blood cells	819926103	redcells.gif	usable	t,d	15
-7558	white wine	911418189	whitewine.gif	drink	t,d	15
+7557	white blood cells	819926103	redcells.gif	usable	t,d	15	globs of white blood cells
+7558	white wine	911418189	whitewine.gif	drink	t,d	15	glasses of white wine
 7559
 7560
 7561
@@ -7598,8 +7598,8 @@
 7579	twitching time capsule	939147962	timecapsule.gif	usable	t	0
 7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50	flasks of liquid shifting time weirdness
 7581	solid shifting time weirdness	395261869	confused.gif	familiar	t	0
-7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t,d	100
-7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t,d	100
+7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t,d	100	racks of dinosaur ribs
+7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t,d	100	scotches on the rockses
 7584	yabba dabba doo rag	266406217	yabbadabba.gif	hat	t,d	300
 7585	wooly loincloth	735546546	loincloth.gif	pants	t,d	300
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
