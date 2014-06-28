@@ -238,12 +238,12 @@ public class FaxBotDatabase
 
 		public String getMonsterByActualName( final String actualName )
 		{
-			return this.monsterByActualName.get( actualName );
+			return this.monsterByActualName.get( StringUtilities.getCanonicalName( actualName ) );
 		}
 
 		public String getCommandByActualName( final String actualName )
 		{
-			return this.commandByActualName.get( actualName );
+			return this.commandByActualName.get( StringUtilities.getCanonicalName( actualName ) );
 		}
 
 		public void addMonsters( final List<Monster> monsters )
@@ -252,9 +252,10 @@ public class FaxBotDatabase
 			for ( Monster monster : monsters )
 			{
 				this.monsters.add( monster );
-				if ( !tempCategories.contains( monster.category ) )
+				String category = monster.category;
+				if ( !category.equals( "" ) && !category.equalsIgnoreCase( "none" ) && !tempCategories.contains( category ) )
 				{
-					tempCategories.add( monster.category );
+					tempCategories.add( category );
 				}
 			}
 
@@ -277,18 +278,20 @@ public class FaxBotDatabase
 						model.add( monster );
 					}
 					// Build actual name / command lookup
-					this.monsterByActualName.put( monster.actualName, monster.name );
-					this.commandByActualName.put( monster.actualName, monster.command );
+					String canonical = StringUtilities.getCanonicalName( monster.actualName );
+					this.monsterByActualName.put( canonical, monster.name );
+					this.commandByActualName.put( canonical, monster.command );
 				}
 			}
 		}
 
 		public boolean hasCommand( final String command )
 		{
+			String canonical = StringUtilities.getCanonicalName( command );
 			Collection<String> commands = this.commandByActualName.values();
 			for ( String cmd : commands )
 			{
-				if ( command.equalsIgnoreCase( cmd ) )
+				if ( cmd.equals( canonical ) )
 				{
 					return true;
 				}
@@ -405,7 +408,7 @@ public class FaxBotDatabase
 			}
 
 			Monster that = (Monster) o;
-			return this.name.compareTo( that.name );
+			return this.name.compareToIgnoreCase( that.name );
 		}
 	}
 
@@ -483,7 +486,10 @@ public class FaxBotDatabase
 				{
 					Element el = (Element)fl.item( i );
 					Monster monster = getMonster( el );
-					monsters.add( monster );
+					if ( monster != null )
+					{
+						monsters.add( monster );
+					}
 				}
 			}
 
@@ -512,8 +518,20 @@ public class FaxBotDatabase
 		private Monster getMonster( Element el )
 		{
 			String monster = getTextValue( el, "name" );
+			if ( monster.equals( "" ) || monster.equals( "none" ) )
+			{
+				return null;
+			}
 			String actualMonster = getTextValue( el, "actual_name" );
+			if ( actualMonster.equals( "" ) )
+			{
+				return null;
+			}
 			String command = getTextValue( el, "command" );
+			if ( command.equals( "" ) )
+			{
+				return null;
+			}
 			String category = getTextValue( el, "category" );
 			return new Monster( monster, actualMonster, command, category );
 		}

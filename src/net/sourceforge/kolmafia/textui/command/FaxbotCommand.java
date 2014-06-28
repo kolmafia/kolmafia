@@ -54,14 +54,26 @@ public class FaxbotCommand
 	{	
 		FaxBotDatabase.configure();
 
-		for ( int i = 0; i < FaxBotDatabase.faxbots.size(); i++ )
+		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
-			FaxBot bot = FaxBotDatabase.getFaxbot( i );
-			if ( bot == null || !bot.hasCommand( command ) )
+			if ( bot == null )
 			{
 				continue;
 			}
-			FaxRequestFrame.requestFax( bot.getName(), null, command );
+			String botName = bot.getName();
+			if ( botName == null )
+			{
+				continue;
+			}
+			if ( !bot.hasCommand( command ) )
+			{
+				continue;
+			}
+			if ( !FaxRequestFrame.isBotOnline( botName ) )
+			{
+				continue;
+			}
+			FaxRequestFrame.requestFax( botName, null, command, false );
 			return;
 		}
 		KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );

@@ -197,6 +197,11 @@ public class FaxRequestFrame
 
 	public static boolean requestFax( final String botName, final String monster, final String command )
 	{
+		return FaxRequestFrame.requestFax( botName, monster, command, true );
+	}
+
+	public static boolean requestFax( final String botName, final String monster, final String command, final boolean checkOnline )
+	{
 		// Validate ability to receive a fax
 		if ( !FaxRequestFrame.canReceiveFax() )
 		{
@@ -205,7 +210,7 @@ public class FaxRequestFrame
 		}
 
 		// Make sure FaxBot is online
-		if ( !FaxRequestFrame.isBotOnline( botName ) )
+		if ( checkOnline && !FaxRequestFrame.isBotOnline( botName ) )
 		{
 			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 			return false;
@@ -428,7 +433,7 @@ public class FaxRequestFrame
 		return false;
 	}
 
-	private static boolean isBotOnline( final String botName )
+	public static boolean isBotOnline( final String botName )
 	{
 		// Return false and set FaxRequestFrame.statusMessage to an appropriate
 		// message if the bot is NOT online.
