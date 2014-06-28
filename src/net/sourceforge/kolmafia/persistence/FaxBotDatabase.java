@@ -37,9 +37,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 
-import java.net.URI;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -263,7 +262,7 @@ public class FaxBotDatabase
 			this.categories.addAll( tempCategories );
 
 			this.monsterByActualName.clear();
-		
+
 			// Make one list for each category
 			this.monstersByCategory = new SortedListModel[ this.categories.size() ];
 			for ( int i = 0; i < this.categories.size(); ++i )
@@ -282,6 +281,20 @@ public class FaxBotDatabase
 					this.commandByActualName.put( monster.actualName, monster.command );
 				}
 			}
+		}
+
+		public boolean hasCommand( final String command )
+		{
+			Collection<String> commands = this.commandByActualName.values();
+			for ( String cmd : commands )
+			{
+				if ( command.equalsIgnoreCase( cmd ) )
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		@Override
@@ -422,7 +435,7 @@ public class FaxBotDatabase
 			{
 				File local = new File( KoLConstants.DATA_LOCATION, this.data.name + ".xml" );
 				FileUtilities.downloadFile( this.data.URL, local, true );
-		
+
 				// Get an instance of document builder
 				DocumentBuilder db = dbf.newDocumentBuilder();
 
@@ -487,44 +500,34 @@ public class FaxBotDatabase
 			FaxBotDatabase.faxBotConfigured = true;
 		}
 
-                private FaxBot getFaxBot( Element el )
+		private FaxBot getFaxBot( Element el )
 		{
-                        String name = getTextValue( el, "name" );
-                        String playerId = getTextValue( el, "playerid" );
-                        ContactManager.registerPlayerId( name, playerId );
+			String name = getTextValue( el, "name" );
+			String playerId = getTextValue( el, "playerid" );
+			ContactManager.registerPlayerId( name, playerId );
 			KoLmafia.updateDisplay( "Configuring " + name + " (" + playerId + ")" );
-                        return new FaxBot( name, playerId );
-                }
+			return new FaxBot( name, playerId );
+		}
 
-                private Monster getMonster( Element el )
+		private Monster getMonster( Element el )
 		{
-                        String monster = getTextValue( el, "name" );
-                        String actualMonster = getTextValue( el, "actual_name" );
-                        String command = getTextValue( el, "command" );
-                        String category = getTextValue( el, "category" );
-                        return new Monster( monster, actualMonster, command, category );
-                }
+			String monster = getTextValue( el, "name" );
+			String actualMonster = getTextValue( el, "actual_name" );
+			String command = getTextValue( el, "command" );
+			String category = getTextValue( el, "category" );
+			return new Monster( monster, actualMonster, command, category );
+		}
 
-                private String getTextValue( Element ele, String tagName )
+		private String getTextValue( Element ele, String tagName )
 		{
-                        NodeList nl = ele.getElementsByTagName( tagName );
-                        if ( nl != null && nl.getLength() > 0 )
-                        {
-                                Element el = (Element)nl.item(0);
-                                return el.getFirstChild().getNodeValue();
-                        }
+			NodeList nl = ele.getElementsByTagName( tagName );
+			if ( nl != null && nl.getLength() > 0 )
+			{
+				Element el = (Element)nl.item(0);
+				return el.getFirstChild().getNodeValue();
+			}
 
-                        return "";
-                }
-
-		private int getIntValue( Element ele, String tagName )
-		{
-                        String text = getTextValue( ele, tagName );
-                        if ( text == null )
-                        {
-                                return 0;
-                        }
-                        return StringUtilities.parseInt( text );
-                }
+			return "";
+		}
 	}
 }
