@@ -260,6 +260,11 @@ public class EatItemRequest
 			return;
 		}
 
+		if ( this.consumptionType == KoLConstants.CONSUME_MULTIPLE && this.itemUsed.getCount() > 1 )
+		{
+			this.addFormField( "action", "useitem" );
+		}
+
 		this.addFormField( "ajax", "1" );
 		this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 
