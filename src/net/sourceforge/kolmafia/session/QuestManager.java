@@ -857,7 +857,7 @@ public class QuestManager
 		// If we are done, update the quest
 		if ( explored == 100 )
 		{
-			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
+			QuestDatabase.setQuestProgress( Quest.DESERT, QuestDatabase.FINISHED );
 		}
 	}
 
