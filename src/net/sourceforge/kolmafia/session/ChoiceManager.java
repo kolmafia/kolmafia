@@ -10704,7 +10704,7 @@ public abstract class ChoiceManager
 				decision = StringUtilities.parseInt( matcher.group( 1 ) );
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 				String desc =
-					spoilers == null ?
+					spoilers == null || spoilers.length < 3 ?
 					"unknown" :
 					ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] ).toString();
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
