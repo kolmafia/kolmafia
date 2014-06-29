@@ -739,6 +739,9 @@ public abstract class KoLmafia
 			Preferences.resetGlobalDailies();
 		}
 
+		// No spurious adventure logging
+		KoLAdventure.locationLogged = true;
+
 		KoLmafia.setIsRefreshing( false );
 	}
 

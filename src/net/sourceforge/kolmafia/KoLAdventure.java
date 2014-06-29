@@ -1404,6 +1404,11 @@ public class KoLAdventure
 		// adventuring and save it for verification later. We also do
 		// some location specific setup.
 
+		if ( KoLmafia.isRefreshing() )
+		{
+			return false;
+		}
+
 		// See if this is a standard "adventure" in adventures.txt
 		KoLAdventure adventure = KoLAdventure.findAdventure( urlString );
 		if ( adventure != null )
@@ -1420,7 +1425,6 @@ public class KoLAdventure
 		String location = AdventureDatabase.getUnknownName( urlString );
 		if ( location == null )
 		{
-			// KoLAdventure.locationLogged = true;
 			return false;
 		}
 
@@ -2140,6 +2144,11 @@ public class KoLAdventure
 		// perhaps, being redirected. Given the old URL, the new URL,
 		// and the response, we can often do a better job of figuring
 		// out where we REALLY adventured - if anywhere.
+
+		if ( KoLmafia.isRefreshing() )
+		{
+			return true;
+		}
 
 		// Only do this once per adventure attempt.
 		if ( KoLAdventure.locationLogged )

@@ -2220,9 +2220,6 @@ public class GenericRequest
 
 	public void processResponse()
 	{
-		String urlString = this.getURLString();
-		boolean hasResult = ResponseTextParser.hasResult( this.formURLString );
-
 		if ( this.shouldUpdateDebugLog() )
 		{
 			String text = this.responseText;
@@ -2233,6 +2230,7 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( text );
 		}
 
+		String urlString = this.getURLString();
 		if ( urlString.startsWith( "charpane.php" ) )
 		{
 			long responseTimestamp =
@@ -2290,6 +2288,7 @@ public class GenericRequest
 			ChoiceManager.postChoice1( this );
 		}
 
+		boolean hasResult = ResponseTextParser.hasResult( this.formURLString );
 		if ( hasResult )
 		{
 			int initialHP = KoLCharacter.getCurrentHP();
