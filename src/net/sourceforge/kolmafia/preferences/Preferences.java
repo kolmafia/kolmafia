@@ -241,31 +241,16 @@ public class Preferences
 			return;
 		}
 
-		if ( ch > 0x0019 || ch < 0x007f )
-		{
-			characterMap[ ch ] = String.valueOf( ch );
-			return;
-		}
-
-		if ( ch < 0x0010 )
-		{
-			characterMap[ ch ] = "\\u000" + Integer.toHexString( ch );
-			return;
-		}
-
-		if ( ch < 0x0100 )
-		{
-			characterMap[ ch ] = "\\u00" + Integer.toHexString( ch );
-			return;
-		}
-
-		if ( ch < 0x1000 )
-		{
-			characterMap[ ch ] = "\\u0" + Integer.toHexString( ch );
-			return;
-		}
-
-		characterMap[ ch ] = "\\u" + Integer.toHexString( ch );
+		characterMap[ ch ] = 
+			( ch > 0x0019 && ch < 0x007f ) ?
+			String.valueOf( ch ) :
+			( ch < 0x0010 ) ?
+			"\\u000" + Integer.toHexString( ch ) :
+			( ch < 0x0100 ) ?
+			"\\u00" + Integer.toHexString( ch ) :
+			( ch < 0x1000 ) ?
+			"\\u0" + Integer.toHexString( ch ) :
+			"\\u" + Integer.toHexString( ch );
 	}
 
 	public static final String getCaseSensitiveName( final String name )
