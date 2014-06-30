@@ -1015,25 +1015,29 @@ public class StringUtilities
 			if ( text.length() < 80 )
 			{
 				result.append( text );
-				text = "";
+				break;
+			}
+
+			int spaceIndex = text.lastIndexOf( " ", 80 );
+			int breakIndex = text.lastIndexOf( "\n", spaceIndex );
+
+			if ( breakIndex != -1 )
+			{
+				result.append( text.substring( 0, breakIndex ) );
+				result.append( "\n" );
+				text = text.substring( breakIndex ).trim();
+			}
+			else if ( spaceIndex != -1 )
+			{
+				result.append( text.substring( 0, spaceIndex ).trim() );
+				result.append( "\n" );
+				text = text.substring( spaceIndex ).trim();
 			}
 			else
 			{
-				int spaceIndex = text.lastIndexOf( " ", 80 );
-				int breakIndex = text.lastIndexOf( "\n", spaceIndex );
-
-				if ( breakIndex != -1 )
-				{
-					result.append( text.substring( 0, breakIndex ) );
-					result.append( "\n" );
-					text = text.substring( breakIndex ).trim();
-				}
-				else
-				{
-					result.append( text.substring( 0, spaceIndex ).trim() );
-					result.append( "\n" );
-					text = text.substring( spaceIndex ).trim();
-				}
+				result.append( text.substring( 0, 80 ).trim() );
+				result.append( "\n" );
+				text = text.substring( 80 ).trim();
 			}
 		}
 
