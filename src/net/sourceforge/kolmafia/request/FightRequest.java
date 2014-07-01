@@ -3151,6 +3151,16 @@ public class FightRequest
 				familiar.setCharges( newCharges );
 				break;
 
+			case FamiliarPool.GRIMSTONE_GOLEM:
+				// Only charges if no mask has dropped today
+				if ( Preferences.getInteger( "_grimstoneMaskDrops" ) == 0 )
+				{
+					Preferences.increment( "grimstoneCharge", 1 );
+					int grimCharges = Preferences.getInteger( "grimstoneCharge" );
+					familiar.setCharges( grimCharges );
+				}
+				break;
+
 			case FamiliarPool.STEAM_CHEERLEADER:
 				int dec = KoLCharacter.hasEquipped( ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR ) ? 1 : 2;
 				int currentSteam = Preferences.getInteger( "_cheerleaderSteam" );

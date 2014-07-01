@@ -2150,6 +2150,8 @@ public class ResultProcessor
 				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ) ) )
 				{
 					Preferences.increment( "_grimstoneMaskDrops" );
+					Preferences.setInteger( "grimstoneCharge", 0 );
+					KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ).setCharges( 0 );
 				}
 				else
 				{

@@ -444,6 +444,7 @@ user	gourdItemCount	5
 user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	grimoire3Summons	0
+user	grimstoneCharge	0
 user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
