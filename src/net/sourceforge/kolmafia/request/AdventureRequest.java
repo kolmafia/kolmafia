@@ -1133,6 +1133,14 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( redirectLocation.contains( "place.php" ) )
+		{
+			AdventureRequest.ZONE_UNLOCK.run();
+			// Don't error out if it's just a redirect to a container zone
+			// eg. Using grimstone mask, with choice adventure autoselected
+			return;
+		}
+
 		RequestSynchFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
 		KoLmafia.updateDisplay( MafiaState.ABORT, "Unknown adventure type encountered." );
 	}
