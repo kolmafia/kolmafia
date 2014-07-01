@@ -627,8 +627,18 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.GRIMSTONE_GOLEM:
-			buffer.append( Preferences.getString( "_grimstoneMaskDrops" ) );
+			String gDrops = Preferences.getString( "_grimstoneMaskDrops" );
+			buffer.append( gDrops );
 			buffer.append( "/1" );
+			if ( gDrops.equals( "0" ) )
+			{
+				buffer.append( " next " );
+				int charges = Preferences.getInteger( "grimstoneCharge" );
+				if ( charges - 50 >= 0 )
+					buffer.append( "now" );
+				else
+					buffer.append( "@ " + ( 50 - charges ) );
+			}
 			return buffer;
 
 		case FamiliarPool.GRIM_BROTHER:
