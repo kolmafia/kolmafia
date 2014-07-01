@@ -1491,20 +1491,26 @@ public class ResultProcessor
 
 		case ItemPool.DODECAGRAM:
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.CANDLES, 1 ) ) &&
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
-			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			     KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			}
 			break;
 
 		case ItemPool.CANDLES:
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DODECAGRAM, 1 ) ) &&
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
-			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			     KoLConstants.inventory.contains( ItemPool.get( ItemPool.BUTTERKNIFE, 1 ) ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			}
 			break;
 
 		case ItemPool.BUTTERKNIFE:
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.DODECAGRAM, 1 ) ) &&
 				KoLConstants.inventory.contains( ItemPool.get( ItemPool.CANDLES, 1 ) ) )
-			QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			{
+				QuestDatabase.setQuestProgress( Quest.FRIAR, "step2" );
+			}
 			break;
 
 		case ItemPool.BONERDAGON_CHEST:
@@ -1592,7 +1598,7 @@ public class ResultProcessor
 				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
 				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step4" );
 			}
 			break;
 			
@@ -1603,7 +1609,7 @@ public class ResultProcessor
 				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
 				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step4" );
 			}
 			break;
 			
@@ -1616,7 +1622,7 @@ public class ResultProcessor
 				 QuestDatabase.isQuestFinished( Quest.DOCTOR ) &&
 				 QuestDatabase.isQuestFinished( Quest.SPARE ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step4" );
 			}
 			break;
 			
@@ -1627,7 +1633,7 @@ public class ResultProcessor
 				 QuestDatabase.isQuestFinished( Quest.BUSINESS ) &&
 				 QuestDatabase.isQuestFinished( Quest.DOCTOR ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step 4" );				
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step4" );
 			}
 			break;
 			
