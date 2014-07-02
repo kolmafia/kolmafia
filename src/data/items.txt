@@ -7037,7 +7037,7 @@
 7018	Sheila Take a Crossbow	795004453	sheilabow.gif	weapon	t,d	5	Sheila Takes Crossbows
 7019	A Light that Never Goes Out	374985164	lantern2.gif	offhand	t,d	5	Lights that Never Go Out
 7020	Half a Purse	707928163	halfapurse.gif	offhand	t,d	5	Half Purses
-7021	Hairpiece On Fire	142527358	hairpiece.gif	hat	t,d	5
+7021	Hairpiece On Fire	142527358	hairpiece.gif	hat	t,d	5	Hairpieces On Fire
 7022	Vicar's Tutu	313692281	vicartutu.gif	pants	t,d	5
 7023	Hand in Glove	879557823	handinglove.gif	accessory	t,d	5	Hands in Gloves
 7024	Meat Tenderizer is Murder	759083246	tenderizer.gif	weapon	t,d	5	Meat Tenderizers are Murder
