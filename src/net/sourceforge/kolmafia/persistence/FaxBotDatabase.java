@@ -291,7 +291,7 @@ public class FaxBotDatabase
 			Collection<String> commands = this.commandByActualName.values();
 			for ( String cmd : commands )
 			{
-				if ( cmd.equals( canonical ) )
+				if ( cmd.equalsIgnoreCase( canonical ) )
 				{
 					return true;
 				}
