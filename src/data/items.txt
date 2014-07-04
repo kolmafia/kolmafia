@@ -6223,7 +6223,7 @@
 6204	consummate cold cuts	795814665	jarl_coldcuts.gif	food	q	0	stacks of consummate cold cuts
 6205	consummate frankfurter	436739002	jarl_hotdog.gif	food	q	0
 6206	consummate french fries	143607187	jarl_fries.gif	food	q	0
-6207	consummate baked potato	727787941	jarl_bakedpotato.gif	food	q	0
+6207	consummate baked potato	727787941	jarl_bakedpotato.gif	food	q	0	consummate baked potatoes
 6208	acceptable vodka	144307688	jarl_vodka.gif	drink	q	0
 6209	consummate ice cream	135680484	jarl_icecream.gif	food	q	0
 6210	consummate whipped cream	254259040	jarl_wcream.gif	food	q	0
