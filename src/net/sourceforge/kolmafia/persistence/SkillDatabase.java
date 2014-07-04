@@ -973,7 +973,8 @@ public class SkillDatabase
 			return false;
 
 		case SkillPool.DOG_TIRED:
-			// sleeping dog
+		case SkillPool.HOLLOW_LEG:
+			// VIP lounge skills
 			return false;
 
 		case SkillPool.GOTHY_HANDWAVE:

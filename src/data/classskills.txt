@@ -139,6 +139,7 @@
 113	Grease Up	reassured.gif	3	15	10
 114	Sloppy Secrets	knifefork.gif	0	0	0
 115	Alien Source Code	dna.gif	0	0	0
+116	Hollow Leg	hollowleg.gif	0	0	0
 
 # Skills available to Clubbers
 

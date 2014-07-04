@@ -778,12 +778,21 @@ public abstract class KoLCharacter
 			}
 			return limit;
 		}
-		return
-			KoLCharacter.inAxecore() ? 4 :
-			KoLCharacter.inZombiecore() ? 4 :
-			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
-			KoLCharacter.canDrink() ? 14 :
-			0;
+
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
+		{
+			return 4;
+		}
+
+		if ( !KoLCharacter.canDrink() )
+		{
+			return 0;
+		}
+
+		int limit = 14;
+		if ( KoLCharacter.hasSkill( "Liver of Steel" ) ) limit += 5;
+		if ( KoLCharacter.hasSkill( "Hollow Leg" ) ) limit += 1;
+		return limit;
 	}
 
 	public static final boolean isFallingDown()
