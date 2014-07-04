@@ -1663,3 +1663,40 @@
 1662	Liquid Luck	blooddrops.gif	13911104896407aceda3c1ee4e2b670c	use 1 liquid shifting time weirdness
 1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
 1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks
+1665
+1666
+1667
+1668
+1669
+1670
+1671
+1672
+1673
+1674
+1675
+1676
+1677
+1678
+1679
+1680
+1681
+1682
+1683
+1684
+1685
+1686
+1687
+1688
+1689
+1690
+1691
+1692
+1693
+1694
+1695
+1696
+1697
+1698	On the Trolley	trolley.gif		d14c9c65bcd20ea9f399fa06127fa25f
+1699
+1700
+1701	Hip to the Jive	familiar25.gif	fc766ac280450bf9289d39605c447341

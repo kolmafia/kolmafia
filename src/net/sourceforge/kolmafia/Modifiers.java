@@ -213,6 +213,8 @@ public class Modifiers
 	public static final int REDUCE_ENEMY_DEFENSE = 107;
 	public static final int POOL_SKILL = 108;
 	public static final int SURGEONOSITY = 109;
+	public static final int FAMILIAR_DAMAGE = 110;
+	public static final int GEAR_DROP = 111;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -702,6 +704,14 @@ public class Modifiers
 		{ "Surgeonosity",
 		  null,
 		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
+		},
+		{ "Familiar Damage",
+		  Pattern.compile( "Familiar Damage ([+-]\\d+)" ),
+		  Pattern.compile( "Familiar Damage: " + EXPR )
+		},
+		{ "Gear Drop",
+		  Pattern.compile( "([+-]\\d+)% Gear Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Gear Drop: " + EXPR )
 		},
 	};
 

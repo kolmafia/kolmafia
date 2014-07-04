@@ -671,8 +671,7 @@ Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monste
 Stephen's lab coat	Monster Level: +10, Familiar Weight: +5
 # Thinknerd T-Shirt	enchantment varies per player?
 Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
-# Unkillable Skeleton's breastplate: +10 to Familiar Damage
-Unkillable Skeleton's breastplate	Experience (familiar): +1, Familiar Weight: +5, Class: "Turtle Tamer"
+Unkillable Skeleton's breastplate	Experience (familiar): +1, Familiar Weight: +5, Familiar Damage: +10, Class: "Turtle Tamer"
 Ye Olde Navy Fleece	Meat Drop: +10
 anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 asbestos apron	Hot Resistance: +3
@@ -1160,9 +1159,8 @@ fleetwood chain	Weapon Damage: +5
 fluorescent lightbulb	Maximum MP: +30
 frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
-# fouet de tortue-dressage: +10 to Familiar Damage
 foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
-fouet de tortue-dressage	Familiar Weight: +10
+fouet de tortue-dressage	Familiar Weight: +10, Familiar Damage: +10
 freezin' bindle	Item Drop: +10, Cold Damage: +25
 frigid hanky&#363;	Cold Damage: +6, Moxie: +2, Wiki Name: "frigid hankyu"
 frigid-ass club	Weapon Damage: +25, Monster Level: +15, Cold Damage: 15, Class: "Seal Clubber"
@@ -2953,8 +2951,7 @@ gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*(zone(The Se
 gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 green pixie spog	Familiar Weight: +5
 grimstone galoshes	Familiar Weight: +5
-# guard turtle collar: +10 to Familiar Damage
-guard turtle collar	Generic
+guard turtle collar	Familiar Damage: +10, Generic
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
 # homemade robot gear: +1 Gear
@@ -3012,7 +3009,7 @@ overclocked avian microprocessor	Familiar Weight: +5
 # oversized fish scaler: Allows familiar to scale fish
 oversized fish scaler	Familiar Effect: "attack", Generic
 palm-frond toupee	Familiar Weight: +5
-# penguin-smacking club: +15 to Familiar Damage
+penguin-smacking club	Familiar Damage: +15
 pet anemone	Familiar Weight: +5
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
@@ -3089,8 +3086,7 @@ toy six-seater hovercraft	Familiar Weight: -5
 # undissolvable contact lenses: Helps your Slimeling See Better
 unspeakable lozenges	Familiar Weight: +5
 velvet choker	Familiar Weight: +5
-# vicious spiked collar: +20 to Familiar Damage
-vicious spiked collar	Generic
+vicious spiked collar	Familiar Damage: +20, Generic
 # warbear drone codes: Makes the drone better, faster, stronger
 wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
@@ -3839,8 +3835,7 @@ Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
 # Curse of Impotence: -50 Damage vs. Ghosts
 # Curse of Impotence: -50 Damage vs. Vampires
 # Curse of Impotence: -50 Damage vs. Skeletons
-# Curse of Loneliness: Familiar Damage -20
-Curse of Loneliness	Familiar Weight: -20
+Curse of Loneliness	Familiar Damage: -20, Familiar Weight: -20
 Curse of Misfortune	Meat Drop: -100, Item Drop: -50
 Curse of Sluggishness	Initiative: -50
 Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
@@ -4087,7 +4082,7 @@ Gnawed-Off Arm	Muscle: -5
 # Gnollivision: Makes you look like a one-eyed Gnoll
 # Gnomedome: Makes you look like a menacing lawn gnome
 Go Get 'Em, Tiger!	Muscle Percent: +15
-# Go-Gone: +100% Gear Drops from Monsters
+Go-Gone	Gear Drop: +100
 # Goat Gotten: Makes you look like a dairy goat
 # Goblin in Black: Makes you look like a goblin conspirator
 Gobliny Flavor	Damage Reduction: 5
@@ -4189,6 +4184,7 @@ Hiding in Plain Sight	Initiative: +100
 High Blood Chocolate Content	Candy Drop: +30
 Highland Sheen	Moxie: +10
 Hip to Be Square Dancin'	Item Drop: +10
+Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
 Hippy Flavor	Mysticality: +15
 Hippy Stench	Combat Rate: +5
 Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
@@ -4333,7 +4329,7 @@ Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
 # Like an Egyptian: Makes you look like a tomb servant
-# Limber as Mortimer: +100% Gear Drops from Monsters
+Limber as Mortimer	Gear Drop: +100
 Liquid Courage	Experience: +3
 Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Liquidy Smoky	Mysticality: +15, Moxie: +15
@@ -4480,6 +4476,7 @@ On Pins and Needles	Initiative: +23
 # On the Homeo Path: Makes you look like a War Hippy Homeopath
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
+On the Trolley	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Once Bitten Twice Fried	Maximum MP: +25, MP Regen Min: 2, MP Regen Max: 5
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
@@ -4593,7 +4590,7 @@ Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical Hit Perc
 Radio Head	Moxie: +20
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
-# Raging Animal: Familiar Damage +30
+Raging Animal	Familiar Damage: +30
 Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Hot Damage: +15, Hot Resistance: +3, Cold Damage: +15, Cold Resistance: +3, Stench Damage: +15, Stench Resistance: +3, Spooky Damage: +15, Spooky Resistance: +3, Sleaze Damage: +15, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rampage!	Weapon Damage Percent: +50
@@ -5012,8 +5009,7 @@ Using Protection	Mana Cost: -2
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
-# Video... Games?: Familiar Damage +5
-Video... Games?	Muscle: 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5, Smithsness: 5
+Video... Games?	Muscle: 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5, Smithsness: 5, Familiar Damage: 5
 Video Game Hot Dog	Item Drop: 25, Meat Drop: 25
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
