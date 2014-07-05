@@ -77,6 +77,7 @@ public class ClanLoungeRequest
 	public static final int APRIL_SHOWER = 7;
 	public static final int SWIMMING_POOL = 8;
 	public static final int HOT_DOG_STAND = 9;
+	public static final int SPEAKEASY = 10;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -104,6 +105,8 @@ public class ClanLoungeRequest
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
 	private static final Pattern WHICHDOG_PATTERN = Pattern.compile( "whichdog=(-\\d*)" );
+	private static final Pattern LUCKY_LINDY_PATTERN = Pattern.compile( "burp-speak the number <b>(\\d+)</b>." );
+	private static final Pattern WHICH_SPEAKEASY_PATTERN = Pattern.compile( "drink=(\\d+)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
@@ -284,6 +287,58 @@ public class ClanLoungeRequest
 		},
 	};
 
+	public static final Object [][] SPEAKEASY_DATA = new Object[][]
+	{
+		{
+			"glass of \"milk\"",
+			IntegerPool.get( 1 ),
+			IntegerPool.get( 1 ),
+			IntegerPool.get( 250 )
+		},
+		{
+			"cup of \"tea\"",
+			IntegerPool.get( 2 ),
+			IntegerPool.get( 1 ),
+			IntegerPool.get( 250 )
+		},
+		{
+			"thermos of \"whiskey\"",
+			IntegerPool.get( 3 ),
+			IntegerPool.get( 1 ),
+			IntegerPool.get( 250 )
+		},
+		{
+			"Lucky Lindy",
+			IntegerPool.get( 4 ),
+			IntegerPool.get( 1 ),
+			IntegerPool.get( 500 )
+		},
+		{
+			"Bee's Knees",
+			IntegerPool.get( 5 ),
+			IntegerPool.get( 2 ),
+			IntegerPool.get( 500 )
+		},
+		{
+			"Hot Socks",
+			IntegerPool.get( 8 ),
+			IntegerPool.get( 3 ),
+			IntegerPool.get( 5000 )
+		},
+		{
+			"Flivver",
+			IntegerPool.get( 10 ),
+			IntegerPool.get( 2 ),
+			IntegerPool.get( 20000 )
+		},
+		{
+			"Sloppy Jalopy",
+			IntegerPool.get( 11 ),
+			IntegerPool.get( 5 ),
+			IntegerPool.get( 100000 ),
+		},
+	};
+
 	public static final int hotdogIdToIndex( int id )
 	{
 		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
@@ -371,6 +426,100 @@ public class ClanLoungeRequest
 	public static final boolean isFancyHotDog( String name )
 	{
 		return ClanLoungeRequest.HOTDOG_NAMES.indexOf( name ) > 0;
+	}
+
+	public static final int speakeasyIdToIndex( int id )
+	{
+		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
+		{
+			if ( id == ((Integer)ClanLoungeRequest.SPEAKEASY_DATA[i][1]).intValue() )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static final String speakeasyIdToName( int id )
+	{
+		int index = ClanLoungeRequest.speakeasyIdToIndex( id );
+		return index < 0 ? null : (String)ClanLoungeRequest.SPEAKEASY_DATA[index][0];
+	}
+
+	public static final String speakeasyIndexToName( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? null : (String)ClanLoungeRequest.SPEAKEASY_DATA[ index ][0];
+	}
+
+	public static final Integer speakeasyIndexToId( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.SPEAKEASY_DATA[ index ][1];
+	}
+
+	public static final Integer speakeasyIndexToInebriety( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.SPEAKEASY_DATA[ index ][2];
+	}
+
+	public static final Integer speakeasyIndexToCost( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.SPEAKEASY_DATA[ index ][3];
+	}
+
+	public static final Integer speakeasyNameToInebriety( final String name )
+	{
+		int index = ClanLoungeRequest.speakeasyNameToIndex( name );
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.SPEAKEASY_DATA[ index ][2];
+	}
+
+	public static final Integer speakeasyNameToCost( final String name )
+	{
+		int index = ClanLoungeRequest.speakeasyNameToIndex( name );
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.SPEAKEASY_DATA[ index ][3];
+	}
+
+	public static final AdventureResult speakeasyIndexToItem( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.SPEAKEASY_DATA[ index ][3];
+	}
+
+	public static final ArrayList<String> SPEAKEASY_NAMES = new ArrayList<String>();
+	public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
+
+	static
+	{
+		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
+		{
+			String itemName = (String) SPEAKEASY_DATA[i][0];
+			Concoction concoction = new Concoction( itemName );
+			concoction.speakeasy = true;
+			concoction.price = ClanLoungeRequest.speakeasyNameToCost( itemName );
+			ClanLoungeRequest.SPEAKEASY_NAMES.add( itemName );
+			ClanLoungeRequest.ALL_SPEAKEASY.add( concoction );
+		}
+	};
+
+	public static final void resetSpeakeasy()
+	{
+		// Remove all Speakeasy drinks from the usable list
+		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_SPEAKEASY );
+	}
+
+	private static final int speakeasyNameToIndex( final String name )
+	{
+		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( (String)ClanLoungeRequest.SPEAKEASY_DATA[i][0] ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static final boolean isSpeakeasyDrink( String name )
+	{
+		return speakeasyNameToIndex( name ) != -1;
 	}
 
 	public static final int findPoolGame( String tag )
@@ -568,6 +717,17 @@ public class ClanLoungeRequest
 		return request;
 	}
 
+	public static final ClanLoungeRequest buySpeakeasyDrinkRequest( final String name )
+	{
+		int index = ClanLoungeRequest.speakeasyNameToIndex( name );
+		if ( index < 0 )
+		{
+			return null;
+		}
+		ClanLoungeRequest request = new ClanLoungeRequest( SPEAKEASY, ClanLoungeRequest.speakeasyIndexToId( index ) );
+		return request;
+	}
+
 	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 	private static final GenericRequest VIP_KEY_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
@@ -664,6 +824,10 @@ public class ClanLoungeRequest
 		if ( urlString.indexOf( "hotdogstand" ) != -1 )
 		{
 			return "Hot Dog Stand";
+		}
+		if ( urlString.indexOf( "speakeasy" ) != -1 )
+		{
+			return "Speakeasy";
 		}
 		return null;
 	}
@@ -799,6 +963,19 @@ public class ClanLoungeRequest
 			else
 			{
 				this.addFormField( "action", "hotdogstand" );
+			}
+			break;
+
+		case ClanLoungeRequest.SPEAKEASY:
+			this.constructURLString( "clan_viplounge.php" );
+			if ( this.option != 0 )
+			{
+				this.addFormField( "preaction", "speakeasydrink" );
+				this.addFormField( "drink", String.valueOf( option ) );
+			}
+			else
+			{
+				this.addFormField( "action", "speakeasydrink" );
 			}
 			break;
 
@@ -1166,6 +1343,89 @@ public class ClanLoungeRequest
 		ConcoctionDatabase.refreshConcoctions( true );
 	}
 
+	private static void registerSpeakeasyDrink( String name, int id, boolean available )
+	{
+		StringBuilder buffer = new StringBuilder();
+		if ( !available)
+		{
+			buffer.append( "(unavailable) " );
+		}
+		buffer.append( name );
+		buffer.append( " (" );
+		buffer.append( String.valueOf( id ) );
+		buffer.append( ")" );
+
+		RequestLogger.printLine( buffer.toString() );
+	}
+
+	public static boolean availableSpeakeasyDrink( final String itemName )
+	{
+		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
+		Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get( index );
+		return ConcoctionDatabase.getUsables().contains( item );
+	}
+
+	private static Concoction addSpeakeasyDrink( final String itemName )
+	{
+		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
+		Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get( index );
+		return ConcoctionDatabase.getUsables().contains( item ) ? null : item;
+	}
+
+	private static final Pattern SPEAKEASY_ROW_PATTERN = Pattern.compile( "name=\"drink\" value=\"(\\d+)\"", Pattern.DOTALL );
+
+	private static void parseSpeakeasy( final String responseText )
+	{
+		// Rebuild list of available speakeasy drinks every time we visit
+		ClanLoungeRequest.resetSpeakeasy();
+
+		// Make a list of all currently available speakeasy drinks
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
+
+		Matcher speakeasyMatcher = SPEAKEASY_ROW_PATTERN.matcher( responseText );
+		while ( speakeasyMatcher.find() )
+		{
+			int speakeasyId = StringUtilities.parseInt ( speakeasyMatcher.group(0) );
+			int drinkIndex = ClanLoungeRequest.speakeasyIdToIndex( speakeasyId );
+			if ( drinkIndex >= 0 && drinkIndex < 12 )
+			{
+				String drinkName = ClanLoungeRequest.speakeasyIndexToName( drinkIndex );
+				Concoction speakeasyDrink = ClanLoungeRequest.addSpeakeasyDrink( drinkName );
+				if ( speakeasyDrink != null )
+				{
+					available.add( speakeasyDrink );
+				}
+			}
+		}
+
+		// Add speakeasy drinks en masse to the usables list
+		if ( available.size() > 0 )
+		{
+			ConcoctionDatabase.getUsables().addAll( available );
+		}
+
+		// Refresh available concoctions with currently available speakeasy drinks
+		ConcoctionDatabase.refreshConcoctions( true );
+
+		// Update number of drinks available
+		if ( responseText.contains( "have 3 more drinks" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 0 );
+		}
+		else if ( responseText.contains( "have 2 more drinks" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 1 );
+		}
+		else if ( responseText.contains( "have one more drinks" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 2 );
+		}
+		else if ( responseText.contains( "had your limit" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 3 );
+		}
+	}
+
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -1259,6 +1519,13 @@ public class ClanLoungeRequest
 				Preferences.setInteger( "_poolGames", 3 );
 			}
 
+			return;
+		}
+
+		if ( action.equals( "speakeasy" ) )
+		{
+			// Visiting the Speakeasy. See what's on offer
+			ClanLoungeRequest.parseSpeakeasy( responseText );
 			return;
 		}
 
@@ -1451,7 +1718,7 @@ public class ClanLoungeRequest
 
 			return;
 		}
-		else if ( action.equals( "hotdogsupply" ) )
+		if ( action.equals( "hotdogsupply" ) )
 		{
 			// You have put some hot dog making supplies into the
 			// hot dog cart man's hot dog cart supply crate.
@@ -1488,7 +1755,7 @@ public class ClanLoungeRequest
 			}
 			return;
 		}
-		else if ( action.equals( "unlockhotdog" ) )
+		if ( action.equals( "unlockhotdog" ) )
 		{
 			// <unlock message>
 			// <b>You have unlocked a new hot dog!</b>
@@ -1516,6 +1783,41 @@ public class ClanLoungeRequest
 				return;
 			}
 			ResultProcessor.processItem( item.getItemId(), -1 );
+			return;
+		}
+		if ( action.equals( "speakeasydrink" ) )
+		{
+			// Do nothing if consumption of a speakeasy drink failed
+			// Find failure messages and handle
+			Matcher m = WHICH_SPEAKEASY_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return;
+			}
+			int index = ClanLoungeRequest.speakeasyIdToIndex( StringUtilities.parseInt( m.group( 1 ) ) );
+			if ( index < 0 )
+			{
+				return;
+			}
+			String name = ClanLoungeRequest.speakeasyIndexToName( index );
+			if ( name.equals( "lucky lindy" ) )
+			{
+				Matcher ll = LUCKY_LINDY_PATTERN.matcher( responseText );
+				if ( ll.find() )
+				{
+					int srCounter = StringUtilities.parseInt( ll.group( 0 ) );
+					// Handle setting fortune cookie
+					TurnCounter.stopCounting( "Fortune Cookie" );
+					TurnCounter.stopCounting( "Semirare window begin" );
+					TurnCounter.stopCounting( "Semirare window end" );
+					TurnCounter.startCounting( srCounter, "Fortune Cookie", "fortune.gif" );
+				}
+			}
+			if ( index > 0 )
+			{
+				Preferences.increment( "_speakeasyDrinksDrunk", 1 );
+			}
+
 			return;
 		}
 	}
@@ -1705,6 +2007,21 @@ public class ClanLoungeRequest
 					return false;
 				}
 				message = "unlock " + hotdog;
+			}
+			else if ( action.equals( "speakeasydrink" ) )
+			{
+				//   clan_viplounge.php?preaction=speakeasydrink&drink=xxx
+				Matcher m = WHICH_SPEAKEASY_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				String speakeasyDrink = ClanLoungeRequest.speakeasyIdToName( StringUtilities.parseInt( m.group( 0 ) ) );
+				if ( speakeasyDrink == null )
+				{
+					return false;
+				}
+				message = "eat " + speakeasyDrink;
 			}
 			else
 			{

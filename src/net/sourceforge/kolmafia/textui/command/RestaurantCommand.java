@@ -46,9 +46,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestaurantCommand
@@ -286,6 +288,73 @@ public class RestaurantCommand
 		for ( int j = 0; j < count; ++j )
 		{
 			RequestThread.postRequest( ClanLoungeRequest.buyHotDogRequest( hotdog ) );	
+		}
+		return true;
+	}
+
+	public static boolean makeSpeakeasyRequest( final String command, final String parameters )
+	{
+		String[] splitParameters = AbstractCommand.splitCountAndName( parameters );
+		String speakeasyDrink = splitParameters[ 1 ];
+
+		// We claim any request to drink a Speakeasy drink
+		if ( !ClanLoungeRequest.isSpeakeasyDrink( speakeasyDrink ) )
+		{
+			return false;
+		}
+
+		if ( !ClanLoungeRequest.canVisitLounge() )
+		{
+			KoLmafia.updateDisplay( "Since you have no access to the Clan VIP lounge, you may not visit the Speakeasy." );
+			return true;
+		}
+
+		if ( !ClanLoungeRequest.availableSpeakeasyDrink( speakeasyDrink ) )
+		{
+			KoLmafia.updateDisplay( "The '" + speakeasyDrink + "' is not currently available in your clan" );
+			return true;
+		}
+
+		String countString = splitParameters[ 0 ];
+		int count = countString == null ? 1 : StringUtilities.parseInt( countString );
+
+		int drunkCount = Preferences.getInteger( "_speakeasyDrinksDrunk" );
+		if ( drunkCount >= 3 )
+		{
+			KoLmafia.updateDisplay( "You've already drunk three speakeasy drinks today." );
+			return true;
+		}
+		if ( count + drunkCount >= 3 )
+		{
+			KoLmafia.updateDisplay( "(You can only drink 3 speakeasy drinks per day; reducing count to " + ( 3 - drunkCount ) + ".)" );
+			count = 3 - drunkCount;
+		}
+
+		int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
+		int inebriety = ItemDatabase.getInebriety( speakeasyDrink );
+		if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
+		{
+			if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
+			{
+				return true;
+			}
+		}
+
+		if ( !command.equals( "drinksilent" ) && !DrinkItemRequest.askAboutOde( speakeasyDrink, inebriety, count ) )
+		{
+			return true;
+		}
+
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( speakeasyDrink );
+			return true;
+		}
+
+		// Everything checks out. Eat it!
+		for ( int j = 0; j < count; ++j )
+		{
+			RequestThread.postRequest( ClanLoungeRequest.buySpeakeasyDrinkRequest( speakeasyDrink ) );	
 		}
 		return true;
 	}

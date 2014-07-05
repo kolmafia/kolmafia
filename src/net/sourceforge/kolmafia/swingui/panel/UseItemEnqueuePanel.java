@@ -731,6 +731,12 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
+			if ( creation.speakeasy && 
+			     ( ConcoctionDatabase.queuedSpeakeasyDrink + Preferences.getInteger( "_speakeasyDrinksDrunk" ) >= 3 ) )
+			{
+				return false;
+			}
+
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{

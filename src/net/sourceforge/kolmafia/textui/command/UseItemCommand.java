@@ -121,6 +121,10 @@ public class UseItemCommand
 			{
 				return false;
 			}
+			if ( RestaurantCommand.makeSpeakeasyRequest( command, parameters ) )
+			{
+				return false;
+			}
 		}
 
 		// Now, handle the instance where the first item is actually

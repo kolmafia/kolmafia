@@ -109,6 +109,7 @@ public class ConcoctionDatabase
 	public static int queuedPullsUsed = 0;
 	public static int queuedMeatSpent = 0;
 	public static boolean queuedFancyDog = false;
+	public static int queuedSpeakeasyDrink = 0;
 
 	private static int queuedFullness = 0;
 	public static final LockableListModel queuedFood = new LockableListModel();
@@ -536,6 +537,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedFancyDog = true;
 		}
 
+		if ( c.speakeasy )
+		{
+			ConcoctionDatabase.queuedSpeakeasyDrink += 1;
+		}
+
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
 	}
 
@@ -637,6 +643,11 @@ public class ConcoctionDatabase
 		if ( qc.getConcoction().fancydog )
 		{
 			ConcoctionDatabase.queuedFancyDog = false;
+		}
+
+		if ( qc.getConcoction().speakeasy )
+		{
+			ConcoctionDatabase.queuedSpeakeasyDrink -= 1;
 		}
 
 		return qc;
@@ -890,6 +901,10 @@ public class ConcoctionDatabase
 		if ( ClanLoungeRequest.isHotDog( name ) )
 		{
 			request = ClanLoungeRequest.buyHotDogRequest( name );
+		}
+		else if ( ClanLoungeRequest.isSpeakeasyDrink( name ) )
+		{
+			request = ClanLoungeRequest.buySpeakeasyDrinkRequest( name );
 		}
 		else if ( HellKitchenRequest.onMenu( name ) )
 		{
