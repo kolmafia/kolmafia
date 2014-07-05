@@ -285,7 +285,7 @@ large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
 le roi	3	1	good	8-10	0	0	30-40
 locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 lollipop drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
-lucky lindy	1	1	good	0	0	0	0	semi-rare number
+lucky lindy	1	1	good	2-4	0	0	0	semi-rare number
 lumbering jack	3	1	decent	3-8	0	11-14	0
 lumineux limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP)
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
