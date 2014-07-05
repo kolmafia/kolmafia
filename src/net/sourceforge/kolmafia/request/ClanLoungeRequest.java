@@ -317,6 +317,12 @@ public class ClanLoungeRequest
 		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOG_DATA[ index ][2];
 	}
 
+	public static final Integer hotdogNameToFullness( final String name )
+	{
+		int index = ClanLoungeRequest.hotdogNameToIndex( name );
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOG_DATA[ index ][2];
+	}
+
 	public static final AdventureResult hotdogIndexToItem( int index )
 	{
 		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOG_DATA[ index ][3];

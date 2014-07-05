@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
@@ -338,9 +339,43 @@ public class Maximizer
 					}
 					else
 					{
-						item = ItemFinder.getFirstMatchingItem(
-							cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
-						if ( item == null && cmd.indexOf( "," ) == -1 )
+						String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
+						item = ItemFinder.getFirstMatchingItem( iName, false );
+						// Hot Dogs don't have items
+						if ( item == null && ClanLoungeRequest.isHotDog( iName ) )
+						{
+							if ( KoLCharacter.inBadMoon() )
+							{
+								continue;
+							}
+							else if ( !Type69Request.isAllowed( "Clan Item", "Hot Dog Stand" ) )
+							{
+								continue;
+							}
+							else if ( !haveVipKey )
+							{
+								if ( includeAll )
+								{
+									text = "( get access to the VIP lounge )";
+									cmd = "";
+								}
+								else continue;
+							}
+							// Fullness available?
+							int full = ClanLoungeRequest.hotdogNameToFullness( iName );
+							if ( full > 0 &&
+								KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
+							{
+								continue;
+							}
+							// Is it Fancy and has one been used?
+							if ( ClanLoungeRequest.isFancyHotDog( iName ) &&
+								Preferences.getBoolean( "_fancyHotDogEaten" ) )
+							{
+								continue;
+							}
+						}
+						else if ( item == null && !cmd.contains( "," ) )
 						{
 							if ( includeAll )
 							{
