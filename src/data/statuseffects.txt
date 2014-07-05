@@ -1289,15 +1289,15 @@
 1288	Cafeter&iacute;a Brujer&iacute;a	ma4buff4.gif	8983c8a24e162c4912277aa87c5f4826
 1289	Carne Obsesionada	ma4buff5.gif	d7ea19ce09aed28865d5b8552aa68725
 1290	Bailando, Fernando	ma4buff6.gif	4d1e69c40571a26b51cca3bb04dcb662
-1291	Macho, Macho Dog	hotdog_macho.gif	2f5f13814f9198966e689bfe93098a5b
-1292	Inner Dog	jarl_deluxedog.gif	73abfb2ae600af8c38acb21f444ccb4d
-1293	Top Dog	hotdog_sly.gif	0f072510150a80baaa64627b794a7139
-1294	Devil Inside	hotdog_hot.gif	09406849a16083bcfe48537b2cd1137d
-1295	Chill Out, Dog	hotdog_cold.gif	79c1fde9df0bb0d42fe063dd75b061fa
-1296	Scaredy Dog	hotdog_spooky.gif	17e17c59ee318d83bc9f094145261adb
-1297	Dog Breath	hotdog_stench.gif	b7a0cfb670076dc88479ac4b35339c9a
-1298	Hangdog	hotdog_sleaze.gif	3b5ecfa5953774999e709c9ea98328b5
-1299	Video Game Hot Dog	hotdog_vg.gif	e7d3f4c89ec772a9f9428d6f8e335d1b
+1291	Macho, Macho Dog	hotdog_macho.gif	2f5f13814f9198966e689bfe93098a5b	eat 1 savage macho dog
+1292	Inner Dog	jarl_deluxedog.gif	73abfb2ae600af8c38acb21f444ccb4d	eat 1 one with everything
+1293	Top Dog	hotdog_sly.gif	0f072510150a80baaa64627b794a7139	eat 1 sly dog
+1294	Devil Inside	hotdog_hot.gif	09406849a16083bcfe48537b2cd1137d	eat 1 devil dog
+1295	Chill Out, Dog	hotdog_cold.gif	79c1fde9df0bb0d42fe063dd75b061fa	eat 1 chilly dog
+1296	Scaredy Dog	hotdog_spooky.gif	17e17c59ee318d83bc9f094145261adb	eat 1 ghost dog
+1297	Dog Breath	hotdog_stench.gif	b7a0cfb670076dc88479ac4b35339c9a	eat 1 junkyard dog
+1298	Hangdog	hotdog_sleaze.gif	3b5ecfa5953774999e709c9ea98328b5	eat 1 wet dog
+1299	Video Game Hot Dog	hotdog_vg.gif	e7d3f4c89ec772a9f9428d6f8e335d1b	eat 1 video games hot dog
 1300	Here to Kick Ass	jarl_regdog.gif	dbfd261e20f3065f69f15cb5ce08b574	use 1 chicle de salchicha
 1301	Video... Games?	gg_def.gif	3d5280f646ac2a6b70e64eae72daa263	use 1 defective Game Grid token
 1302	First Blood Kiwi	dv_kiwi.gif	19c7cbbb9382a69baceb4ddee4630bbe	drink 1 blood kiwitini

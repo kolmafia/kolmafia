@@ -5809,6 +5809,7 @@ cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duratio
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
+chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
 chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
@@ -5867,6 +5868,7 @@ demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
 dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
+devil dog	Effect: "Devil Inside", Effect Duration: 30
 devilish folio	Effect: "Dis Abled", Effect Duration: 30
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
@@ -5965,6 +5967,7 @@ future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 2
 gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
+ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 ghost thread	Effect: "Ghost Finger", Effect Duration: 40
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
@@ -6057,6 +6060,7 @@ jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
 jug of Sneaky Pete's Mojo	Free Pull
 jug of "wine"	Effect: "Grape Expectations", Effect Duration: 40
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
+junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
@@ -6117,6 +6121,7 @@ old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
 old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
 old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 one pill	Effect Duration: 5
+one with everything	Effect: "Inner Dog", Effect Duration: 50
 orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
@@ -6245,6 +6250,7 @@ roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
+savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
@@ -6280,6 +6286,7 @@ sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleaze wad	Effect: "Supafly", Effect Duration: 10
 sleeping piano cat	Free Pull
 sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
+sly dog	Effect: "Top Dog", Effect Duration: 50
 small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
@@ -6370,6 +6377,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
+video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
@@ -6394,6 +6402,7 @@ warbear wardance potion	Effect: "Dances with Warbears", Effect Duration: 20
 warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
+wet dog	Effect: "Hangdog", Effect Duration: 30
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 white blood cells	Effect: "White Blooded", Effect Duration: 50
