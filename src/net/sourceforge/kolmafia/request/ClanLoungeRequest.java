@@ -1800,7 +1800,7 @@ public class ClanLoungeRequest
 				return;
 			}
 			String name = ClanLoungeRequest.speakeasyIndexToName( index );
-			if ( name.equals( "lucky lindy" ) )
+			if ( name.equals( "Lucky Lindy" ) )
 			{
 				Matcher ll = LUCKY_LINDY_PATTERN.matcher( responseText );
 				if ( ll.find() )
