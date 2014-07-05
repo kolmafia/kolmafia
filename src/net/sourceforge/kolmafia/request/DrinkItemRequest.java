@@ -63,7 +63,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class DrinkItemRequest
 	extends UseItemRequest
 {
-	private static int permittedOverdrink = 0;
+	public static int permittedOverdrink = 0;
 	private static int askedAboutOde = 0;
 	private static int askedAboutTuxedo = 0;
 	private static AdventureResult queuedDrinkHelper = null;
@@ -387,7 +387,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutOde( String itemName, final int inebriety, final int count )
+	public static final boolean askAboutOde( String itemName, final int inebriety, final int count )
 	{
 		// If we've already asked about ode, don't nag
 		if ( DrinkItemRequest.askedAboutOde == KoLCharacter.getUserId() )

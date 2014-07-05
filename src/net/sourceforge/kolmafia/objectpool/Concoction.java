@@ -114,6 +114,7 @@ public class Concoction
 	public boolean special;
 	public boolean hotdog;
 	public boolean fancydog;
+	public boolean speakeasy;
 
 	private int fullness, inebriety, spleenhit;
 	private double mainstatGain;

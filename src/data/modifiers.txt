@@ -5477,6 +5477,7 @@ ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
 Bangyomaman battle juice	Effect: "Pug Ugly", Effect Duration: 50
+Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
@@ -5574,6 +5575,7 @@ Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
+Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Huggler Radio	Free Pull
 Hunger&trade; Sauce	Effect: "The Tunger&trade;"
 Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30

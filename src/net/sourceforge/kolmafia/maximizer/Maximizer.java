@@ -375,6 +375,39 @@ public class Maximizer
 								continue;
 							}
 						}
+						// Speakeasy drinks don't have items
+						if ( item == null && ClanLoungeRequest.isSpeakeasyDrink( iName ) )
+						{
+							if ( KoLCharacter.inBadMoon() )
+							{
+								continue;
+							}
+							else if ( !Type69Request.isAllowed( "Clan Item", "Speakeasy" ) )
+							{
+								continue;
+							}
+							else if ( !haveVipKey )
+							{
+								if ( includeAll )
+								{
+									text = "( get access to the VIP lounge )";
+									cmd = "";
+								}
+								else continue;
+							}
+							// Inebriety available? We won't suggest things that'll cause overdrinking
+							int inebriety = ClanLoungeRequest.speakeasyNameToInebriety( iName );
+							if ( inebriety > 0 &&
+								KoLCharacter.getInebriety() + inebriety > KoLCharacter.getInebrietyLimit() )
+							{
+								continue;
+							}
+							// Have we had all three?
+							if ( Preferences.getInteger( "_speakeasyDrinksDrunk" ) >= 3 )
+							{
+								continue;
+							}
+						}
 						else if ( item == null && !cmd.contains( "," ) )
 						{
 							if ( includeAll )
