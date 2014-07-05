@@ -1794,7 +1794,7 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
-			int index = ClanLoungeRequest.speakeasyIdToIndex( StringUtilities.parseInt( m.group( 1 ) ) );
+			int index = ClanLoungeRequest.speakeasyIdToIndex( StringUtilities.parseInt( m.group( 0 ) ) );
 			if ( index < 0 )
 			{
 				return;
