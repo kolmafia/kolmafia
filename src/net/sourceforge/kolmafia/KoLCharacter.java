@@ -752,44 +752,37 @@ public abstract class KoLCharacter
 
 	public static final int getInebrietyLimit()
 	{
-		if ( KoLCharacter.isJarlsberg() )
-		{
-			int limit = 9;
-			if ( KoLCharacter.hasSkill( "Nightcap" ) )
-			{
-				limit += 5;
-			}
-			if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
-			{
-				limit += 5;
-			}
-			return limit;
-		}
-		if ( KoLCharacter.isSneakyPete() )
-		{
-			int limit = 19;
-			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
-			{
-				limit += 10;
-			}
-			if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
-			{
-				limit += 5;
-			}
-			return limit;
-		}
-
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
-		{
-			return 4;
-		}
-
 		if ( !KoLCharacter.canDrink() )
 		{
 			return 0;
 		}
 
+		// Default liver size, overridden below for various paths
 		int limit = 14;
+
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			limit = 9;
+			if ( KoLCharacter.hasSkill( "Nightcap" ) )
+			{
+				limit += 5;
+			}
+		}
+
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			limit = 19;
+			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
+			{
+				limit += 10;
+			}
+		}
+
+		else if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
+		{
+			limit = 4;
+		}
+
 		if ( KoLCharacter.hasSkill( "Liver of Steel" ) ) limit += 5;
 		if ( KoLCharacter.hasSkill( "Hollow Leg" ) ) limit += 1;
 		return limit;
