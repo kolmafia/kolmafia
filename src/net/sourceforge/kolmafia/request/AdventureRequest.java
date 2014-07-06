@@ -533,6 +533,17 @@ public class AdventureRequest
 			// still be fought due to the Fax Machine.  Due to monster copying,
 			// any of these monsters can show up in any zone, or in no zone.
 			override =
+				// Your Shadow
+				image.startsWith( "shadowsealclubber" ) ? "Your Shadow" :
+				image.startsWith( "shadowturtletamer" ) ? "Your Shadow" :
+				image.startsWith( "shadowpastamancer" ) ? "Your Shadow" :
+				image.startsWith( "shadowsauceror" ) ? "Your Shadow" :
+				image.startsWith( "shadowdiscobandit" ) ? "Your Shadow" :
+				image.startsWith( "shadowaccordionthief" ) ? "Your Shadow" :
+				image.startsWith( "shadowsealboris" ) ? "Your Shadow" :
+				image.startsWith( "shadowsealjarlsberg" ) ? "Your Shadow" :
+				image.startsWith( "shadowsealzombie" ) ? "Your Shadow" :
+				image.startsWith( "shadowsealpete" ) ? "Your Shadow" :
 				// The Copperhead Club
 				image.equals( "coppertender" ) ? "Copperhead Club bartender" :
 				// Spookyraven

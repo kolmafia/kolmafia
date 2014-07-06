@@ -1066,6 +1066,48 @@ public class QuestManager
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
 		}
+		else if ( monster.equalsIgnoreCase( "Beer Batter" ) ||
+			monster.equalsIgnoreCase( "best-selling novelist" ) ||
+			monster.equalsIgnoreCase( "Big Meat Golem" ) ||
+			monster.equalsIgnoreCase( "Bowling Cricket" ) ||
+			monster.equalsIgnoreCase( "Bronze Chef" ) ||
+			monster.equalsIgnoreCase( "concert pianist" ) ||
+			monster.equalsIgnoreCase( "the darkness" ) ||
+			monster.equalsIgnoreCase( "El Diablo" ) ||
+			monster.equalsIgnoreCase( "Electron Submarine" ) ||
+			monster.equalsIgnoreCase( "endangered inflatable white tiger" ) ||
+			monster.equalsIgnoreCase( "fancy bath slug" ) ||
+			monster.equalsIgnoreCase( "Fickle Finger of F8" ) ||
+			monster.equalsIgnoreCase( "Flaming Samurai" ) ||
+			monster.equalsIgnoreCase( "giant fried egg" ) ||
+			monster.equalsIgnoreCase( "Giant Desktop Globe" ) ||
+			monster.equalsIgnoreCase( "Ice Cube" ) ||
+			monster.equalsIgnoreCase( "malevolent crop circle" ) ||
+			monster.equalsIgnoreCase( "possessed pipe-organ" ) ||
+			monster.equalsIgnoreCase( "Pretty Fly" ) ||
+			monster.equalsIgnoreCase( "Tyrannosaurus Tex" ) ||
+			monster.equalsIgnoreCase( "Vicious Easel" ) )
+		{
+			QuestDatabase.advanceQuest( Quest.FINAL );
+		}
+		else if ( monster.equalsIgnoreCase( "Your Shadow" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step13" );
+		}
+		else if ( monster.equalsIgnoreCase( "Clancy" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step15" );
+		}
+		else if ( monster.equalsIgnoreCase( "The Naughty Sorceress (3)" ) ||
+			monster.equalsIgnoreCase( "The Avatar of Sneaky Pete" ) ||
+			monster.equalsIgnoreCase( "The Avatar of Boris" ) ||
+			monster.equalsIgnoreCase( "Principal Mooney" ) ||
+			monster.equalsIgnoreCase( "Rene C. Corman" ) ||
+			monster.equalsIgnoreCase( "The Avatar of Jarlsberg" ) ||
+			responseText.contains( "Thwaitgold bee statuette" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step16" );
+		}
 		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
 		{
 			if ( responseText.contains( "You consult the list and grab the next ingredient" ) )

@@ -2501,34 +2501,88 @@ public abstract class SorceressLairManager
 	{
 		// lair.php and lair1-6.php all can check for the same things.
 		// Work backwards from the end to see what zones are unlocked.
-		if ( responseText.indexOf( "ascend.php" ) != -1 )
+		// King deprismed
+		if ( responseText.contains( "gash.gif" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
 		}
-		else if ( responseText.indexOf( "#Map4" ) != -1 || responseText.indexOf( "towerup2.gif" ) != -1 )
+		// Naughty Sorceress defeated
+		else if ( responseText.contains( "kingprism1.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step16" );
+		}
+		// Familiar 2 defeated
+		else if ( responseText.contains( "chamber5.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step15" );
+		}
+		// Familiar 1 defeated
+		else if ( responseText.contains( "chamber4.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step14" );
+		}
+		// Shadow defeated
+		else if ( responseText.contains( "chamber3.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step13" );
+		}
+		// Deflect energy with mirror shard
+		else if ( responseText.contains( "chamber2.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step12" );
+		}
+		// Open Heavy door
+		else if ( responseText.contains( "chamber1.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step11" );
+		}
+		// Lower Monster 6 defeated
+		else if ( responseText.contains( "chamber0.gif" ) || responseText.contains( "tower6blank.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step10" );
+		}
+		// Lower Monster 5 defeated
+		else if ( responseText.contains( "tower5blank.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step9" );
+		}
+		// Lower Monster 4 defeated
+		else if ( responseText.contains( "tower4blank.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step8" );
+		}
+		// Lower Monster 3 defeated
+		else if ( responseText.contains( "tower4.gif" ) || responseText.contains( "tower3blank.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step7" );
+		}
+		// Lower Monster 2 defeated
+		else if ( responseText.contains( "tower2blank.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step6" );
+		}
+		// Lower Monster 1 defeated
+		else if ( responseText.contains( "tower1blank.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step5" );
 		}
-		else if ( responseText.indexOf( "#Map3" ) != -1 )
+		// Maze completed
+		else if ( responseText.contains( "gate squeaks open" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
 		}
-		else if ( responseText.indexOf( "#Map2" ) != -1 )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
-		}
-		// Cave done - third step
-		else if ( responseText.indexOf( "#Map" ) != -1 || responseText.indexOf( "cave22done" ) != -1 )
+		// Cave done
+		else if ( responseText.contains( "cave22done.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step3" );
 		}
-		// Huge mirror broken - second step
-		else if ( responseText.indexOf( "cave1mirrordone" ) != -1 )
+		// Huge mirror broken
+		else if ( responseText.contains( "cave1mirrordone" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step2" );
 		}
-		// Passed the three gates - first step
-		else if ( responseText.indexOf( "cave1mirror.gif" ) != -1 )
+		// Passed the three gates
+		else if ( responseText.contains( "cave1mirror.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step1" );
 		}

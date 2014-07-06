@@ -7359,7 +7359,7 @@
 7340	moose antlers	983883761	antlers2.gif	hat	t,d	125
 7341	moose thought	699156790	moosethought.gif	usable	t,d	62
 7342	moose chocolate	889905362	moosechocolate.gif	food	t,d	80
-7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130
+7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130	paintings of a glass of wine
 7344	ancient oil painting of yourself	538454114	rolledpainting.gif	none		0
 7345	ornate picture frame	394174454	pictureframe.gif	none, combat		0
 7346	doll-eye amulet	350318483	dolleyenecklace.gif	accessory	d	600

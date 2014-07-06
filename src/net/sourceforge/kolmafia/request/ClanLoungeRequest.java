@@ -1819,7 +1819,7 @@ public class ClanLoungeRequest
 					TurnCounter.startCounting( srCounter, "Fortune Cookie", "fortune.gif" );
 				}
 			}
-			if ( index > 0 )
+			if ( index >= 0 )
 			{
 				Preferences.increment( "_speakeasyDrinksDrunk", 1 );
 			}
