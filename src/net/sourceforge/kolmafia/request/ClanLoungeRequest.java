@@ -320,6 +320,12 @@ public class ClanLoungeRequest
 			IntegerPool.get( 500 )
 		},
 		{
+			"Sockdollager",
+			IntegerPool.get( 6 ),
+			IntegerPool.get( 2 ),
+			IntegerPool.get( 500 )
+		},
+		{
 			"Hot Socks",
 			IntegerPool.get( 8 ),
 			IntegerPool.get( 3 ),
@@ -1385,7 +1391,7 @@ public class ClanLoungeRequest
 		Matcher speakeasyMatcher = SPEAKEASY_ROW_PATTERN.matcher( responseText );
 		while ( speakeasyMatcher.find() )
 		{
-			int speakeasyId = StringUtilities.parseInt ( speakeasyMatcher.group(0) );
+			int speakeasyId = StringUtilities.parseInt ( speakeasyMatcher.group(1) );
 			int drinkIndex = ClanLoungeRequest.speakeasyIdToIndex( speakeasyId );
 			if ( drinkIndex >= 0 && drinkIndex < 12 )
 			{
@@ -1794,7 +1800,7 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
-			int index = ClanLoungeRequest.speakeasyIdToIndex( StringUtilities.parseInt( m.group( 0 ) ) );
+			int index = ClanLoungeRequest.speakeasyIdToIndex( StringUtilities.parseInt( m.group( 1 ) ) );
 			if ( index < 0 )
 			{
 				return;
@@ -1805,7 +1811,7 @@ public class ClanLoungeRequest
 				Matcher ll = LUCKY_LINDY_PATTERN.matcher( responseText );
 				if ( ll.find() )
 				{
-					int srCounter = StringUtilities.parseInt( ll.group( 0 ) );
+					int srCounter = StringUtilities.parseInt( ll.group( 1 ) );
 					// Handle setting fortune cookie
 					TurnCounter.stopCounting( "Fortune Cookie" );
 					TurnCounter.stopCounting( "Semirare window begin" );

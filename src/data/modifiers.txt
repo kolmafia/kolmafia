@@ -4242,6 +4242,7 @@ Ichorous Eyesight	Item Drop: +10
 Ichorous Intensity	Spell Damage Percent: +20
 Impregnably Delicious	Damage Reduction: 30
 Improved Candy Vision	Candy Drop: +25
+In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
@@ -5663,6 +5664,7 @@ Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 Small Medium	Free Pull
 Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
+Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Sorcerers of the Shore Grimoire	Free Pull
 Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
