@@ -2266,25 +2266,25 @@ public class FightRequest
 		}
 
 		// Check for equipment breakage that can happen at any time.
-		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
+		if ( responseText.contains( "Your antique helmet, weakened" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_HELMET,
 				"Your antique helmet broke." );
 		}
 
-		if ( responseText.indexOf( "sunders your antique spear" ) != -1 )
+		if ( responseText.contains( "sunders your antique spear" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_SPEAR,
 				"Your antique spear broke." );
 		}
 
-		if ( responseText.indexOf( "Your antique shield, weakened" ) != -1 )
+		if ( responseText.contains( "Your antique shield, weakened" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_SHIELD,
 				"Your antique shield broke." );
 		}
 
-		if ( responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
+		if ( responseText.contains( "Your antique greaves, weakened" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_GREAVES,
 				"Your antique greaves broke." );
@@ -2295,14 +2295,14 @@ public class FightRequest
 		// hundred years, you chuck the useless hunk of plastic as far
 		// from you as you can.
 
-		if ( responseText.indexOf( "You try to unlock your cyber-mattock" ) != -1 )
+		if ( responseText.contains( "You try to unlock your cyber-mattock" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.CYBER_MATTOCK,
 				"Your cyber-mattock broke." );
 		}
 
 		// "You sigh and discard the belt in a nearby trash can."
-		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
+		if ( responseText.contains( "You sigh and discard the belt" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.CHEAP_STUDDED_BELT,
 				"Your cheap studded belt broke." );
@@ -2311,7 +2311,7 @@ public class FightRequest
 		// "The adhesive on the fake piercing comes loose and it falls
 		// off. Looks like those things weren't meant to withstand as
 		// much sweat as your eyebrow is capable of producing."
-		if ( responseText.indexOf( "The adhesive on the fake piercing comes loose" ) != -1 )
+		if ( responseText.contains( "The adhesive on the fake piercing comes loose" ) )
 		{
 			EquipmentManager.breakEquipment( ItemPool.STICK_ON_EYEBROW_PIERCING,
 				"Your stick-on eyebrow piercing broke." );
@@ -2341,8 +2341,15 @@ public class FightRequest
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your Spooky little girl ran off." );
 		}
 
+		// He flicks his oiled switchblade at you and wrenches your weapon out of your hand.
+		// Luckily, it lands in your sack instead of on the grimy sea floor.
+		if ( responseText.contains( "sack instead of on the grimy sea floor" ) )
+		{
+			EquipmentManager.removeEquipment( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
+		}
+
 		// "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
-		if ( responseText.indexOf( "leaps on your opponent" ) != -1 )
+		if ( responseText.contains( "leaps on your opponent" ) )
 		{
 			float fullness = Math.max( Preferences.getFloat( "slimelingFullness" ) - 1.0F, 0.0F );
 			Preferences.setFloat( "slimelingFullness", fullness );
@@ -2351,13 +2358,13 @@ public class FightRequest
 		// "As you're trying to get away, you sink in the silty muck on
 		// the sea floor. You manage to get yourself unmired, but your
 		// greaves seem to have gotten instantly rusty in the process..."
-		if ( responseText.indexOf( "have gotten instantly rusty" ) != -1 )
+		if ( responseText.contains( "have gotten instantly rusty" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
 		}
 
-		if ( responseText.indexOf( "into last week. It saves you some time, because you already beat" ) != -1 )
+		if ( responseText.contains( "into last week. It saves you some time, because you already beat" ) )
 		{
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
@@ -2722,12 +2729,6 @@ public class FightRequest
 		if ( responseText.contains( "hurls a bag of weed killer" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.WEEDY_SKIRT );
-		}
-
-		if ( responseText.contains( "applies it to his switchblade" ) )
-		{
-			// The Mer-kin bladeswitcher unequips your weapon
-			EquipmentManager.removeEquipment( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 		}
 
 		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
