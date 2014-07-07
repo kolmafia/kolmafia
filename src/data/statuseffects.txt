@@ -1578,7 +1578,7 @@
 1577	Browbeaten	angry.gif	8dd72dbc026f425dc0c1f611b0fc9a86	use 1 old eyebrow pencil
 1578	Rosewater Mark	henna.gif	8a91d52e62469818d08d8bdd41b56111	use 1 old rosewater cream
 1579	Sepia Tan	lotion.gif	4f554939e1de2844d50364f31f4bc224	use 1 old bronzer
-1580
+1580	Fire Inside	hotcoal.gif	48161c6147069c2092eaeaa921b78de8	use 1 hot coal
 1581	Funky Coal Patina	disease.gif	2d54480e5b598464064afda410ad1b81	use 1 coal dust
 1582	Bloodstain-Resistant	chapstick.gif	bd1a41c8b3ca3e893ab18835e9835710	use 1 bloodstain stick
 1583	Hardened Fabric	hardener.gif	e1867786a46ac85d7ac4daa28d335e86	use 1 fabric hardener
