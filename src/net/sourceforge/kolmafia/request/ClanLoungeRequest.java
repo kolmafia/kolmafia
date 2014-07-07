@@ -772,6 +772,7 @@ public class ClanLoungeRequest
 		if ( VIP_KEY.getCount( KoLConstants.inventory ) == 0 )
 		{
 			ClanLoungeRequest.resetHotdogs();
+			ClanLoungeRequest.resetSpeakeasy();
 			return false;
 		}
 
@@ -981,7 +982,7 @@ public class ClanLoungeRequest
 			}
 			else
 			{
-				this.addFormField( "action", "speakeasydrink" );
+				this.addFormField( "action", "speakeasy" );
 			}
 			break;
 
@@ -1166,7 +1167,7 @@ public class ClanLoungeRequest
 
 		ClanLoungeRequest.parseResponse( urlString, responseText );
 
-		if ( this.action == ClanLoungeRequest.HOT_DOG_STAND )
+		if ( this.action == ClanLoungeRequest.HOT_DOG_STAND || this.action == ClanLoungeRequest.SPEAKEASY )
 		{
 			ResponseTextParser.learnSkill( urlString, responseText );
 		}
