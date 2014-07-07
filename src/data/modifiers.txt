@@ -4001,6 +4001,7 @@ Filled with Magic	Spell Damage Percent: +100
 # Finstrong: Makes you a better diver
 Finstrong	Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Fire Down Below	Hot Damage: [min(100,T)]
+Fire Inside	Hot Damage: +25
 Fireproof Lips	Hot Resistance: +9
 # First, Like, Do No Harm?: Makes you look like a Sorority Nurse
 First Blood Kiwi	Spooky Damage: +30
@@ -5499,6 +5500,7 @@ Clan VIP Lounge invitation	Free Pull
 Clan VIP Lounge key	Free Pull
 Clan looking glass	Free Pull
 Clan shower	Free Pull
+Clan speakeasy	Free Pull
 Climate Colada	Effect: "Weather, Man", Effect Duration: 20
 Cold Hots candy	Effect: "Sugar Rush"
 Comet Drop	Effect: "Heal Thy Nanoself", Effect Duration: 1

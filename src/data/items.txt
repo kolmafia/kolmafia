@@ -5072,7 +5072,7 @@
 5053	Lars the Cyberian	577012386	book4.gif	reusable	t,d	55	copies of Lars the Cyberian
 5054	intriguing puzzle box	730537805	riffpuzzle.gif	reusable	t,d	23	intriguing puzzle boxes
 5055	obnoxious riddle	528846909	obnoxious.gif	none	t,d	22	obnoxious riddles
-5056
+5056	best joke ever	557559413	book.gif	usable	g	0
 5057	Atomic Comic	290365150	czarcomic.gif	usable	t,d	6	copies of Atomic Comic
 5058	Red Pill	700689696	pill.gif	usable	t,d	42	Red Pills
 5059	Skullhead's Screw	211071564	skullyscrew.gif	none, combat	t	0	Skullhead's Screws
@@ -5123,7 +5123,7 @@
 5104	fish juice box	568920711	fishjuice.gif	multiple	t,d	45	fish juice boxes
 5105	paint bomb	870472784	paintbomb.gif	none, combat	t,d	35
 5106	hideous egg	738192395	hideousegg.gif	none	t	0	hideous eggs
-5107
+5107	Jeppson's Malort	192683451	blackrum.gif	drink	t	0
 5108	fistful of ashes	499891496	disease.gif	none	d	0	fistsful of ashes
 5109	stress ball	217719453	stressball.gif	offhand	t,d	40
 5110	Li'l Businessman Kit	557750320	businesskit.gif	familiar	t,d	75
@@ -7604,3 +7604,4 @@
 7585	wooly loincloth	735546546	loincloth.gif	pants	t,d	300
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
 7587	S.S. Ticket	840921614	zepticket.gif	familiar	t,d	75
+7588	Clan speakeasy	590707870	crate.gif	usable	t	0
