@@ -37,7 +37,7 @@ black hole	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 blackfly chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
 blood light	1	6	awesome	3-4	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
-blood-red mushroom wine	4	3	EPIC	0	0	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
+blood-red mushroom wine	4	3	EPIC	22-26	60-90	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
 bloody beer	1	1	decent	2	0	0	0	3-5 MP
 bloody kiwitini	3	15	awesome	14-16	20-40	20-40	20-40	10 First Blood Kiwi (+30 Spooky Dam)
 bloody mary	3	1	decent	5-6	1-2	1-2	1-2
@@ -89,7 +89,7 @@ brocolate brogurt	3	11	EPIC	0	0	0	0	40 Brocolate Brostidigitation (+100% Mys, +2
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
 buttery knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
-buzzing mushroom wine	4	3	EPIC	0	0	0	0	80 Stemonitis Storm
+buzzing mushroom wine	4	3	EPIC	22-26	0	60-90	0	80 Stemonitis Storm
 caipifruta	3	3	good	5-10	16-20	0	0
 caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27
@@ -113,7 +113,7 @@ cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
 cold one	1	1		6	0	0	0	
-complex mushroom wine	4	3	EPIC	0	0	0	0	80 Omphalotus Omnipresence (+40 Mys)
+complex mushroom wine	4	3	EPIC	22-24	0	100-140	0	80 Omphalotus Omnipresence (+40 Mys)
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 corpse island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
 corpse on the beach	6	5	awesome	19-23	0	71-75	0
@@ -208,7 +208,7 @@ flaming sazerorc	2	8	awesome	8-9	30-40	0	0	15 Orc Chops (+50 Muscle)
 flamin' whatshisname	2	6	good	5-7	20-25	10-15	0	-10-20 HP
 flask of amontillado	4	4	awesome	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
-flivver	2	1	EPIC	0	0	0	0
+flivver	2	1	EPIC	12-13	10-20	10-20	10-20	50-100 MP
 flute of flat champagne	2	2	decent	2-6	0	15	0
 flying caipiranha	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 fog murderer	6	6	good	14-16	40-50	20-30	20-30
@@ -337,7 +337,7 @@ oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
 oreille divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 over easy rider	3	1	good	8-10	0	0	30-40
-overpowering mushroom wine	4	3	EPIC	0	0	0	0	80 Boletus Swoletus (+40 Mus)
+overpowering mushroom wine	4	3	EPIC	22-24	100-140	0	0	80 Boletus Swoletus (+40 Mus)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 paint a vulgar pitcher	2	1	EPIC	10-12	10-12	0	0
 painting of a glass of wine	1	6	good	3	0	0	30-60
@@ -372,7 +372,7 @@ red rum	3	3	decent	4	0	0	0	20-30 HP
 redrum	3	1	decent	5-6	0	15-30	0
 regular-size brogurt	1	5	good	0	0	0	0
 ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
-rocket fuel	3	4	good	0	0	0	0
+rocket fuel	3	4	good	7-11	0	0	10-20
 rockin' wagon	4	4	good	10-14	0	0	34-36
 roll in the hay	4	4	good	10-14	0	34-36	0
 rompedores de fantasmas	3	1	good	8-10	13	0	0	13 Desenfantasmada (+3 Mus exp, +2 spooky res)
@@ -422,14 +422,14 @@ sloppy jalopy	5	1	awesome	0	0	0	0	acquire Hollow Leg (+1 Liver)
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-smooth mushroom wine	4	3	EPIC	0	0	0	0	80 Gyromitra Gymnastics (+40 Mox)
+smooth mushroom wine	4	3	EPIC	22-24	0	0	100-140	80 Gyromitra Gymnastics (+40 Mox)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 sockdollager	2	1	awesome	6-8	0	0	0	25 In a Lather (+20 Prismatic Dam, +40 Prismatic Spell Dam, +20 Ranged/Weapon Dam, +50% Weapon Dam, +40 Spell Dam, +50% Spell Dam)
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
-space port	2	5	good	0	0	0	0
+space port	2	5	good	5-6	10-20	10-20	10-20
 spasmi dolorosi del rene champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
 spicy hot chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
@@ -447,7 +447,7 @@ suffering sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 supernova champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP
 super-size brogurt	3	8	awesome	0	0	0	0
 suppurating sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
-swirling mushroom wine	4	3	EPIC	0	0	0	0	80 Tremella Tremens (+40 Item Drop)
+swirling mushroom wine	4	3	EPIC	22-26	0	0	60-90	80 Tremella Tremens (+40 Item Drop)
 taco dan's taco stand chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
 tankard of ale	1	1	good	3	12-15	12-15	12-15
