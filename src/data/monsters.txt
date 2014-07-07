@@ -288,7 +288,7 @@ cosmetics wraith	makeupwraith.gif	Atk: 65 Def: 55 HP: 65 Init: 50 P: undead E: s
 Count Bakula	bakula.gif	Atk: 80 Def: 72 HP: 80 P: dude Init: 10000	Talisman of Bakula (100)
 crate	crate.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 P: construct
 craven carven raven	stone_raven.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] Exp: [(min(50,STAT)+ML)/4] Init: -10000 P: construct	shiny stones (100)
-Crazy Bastard	bastard.gif	Atk: 20	Def: 18 HP: 25 crazy bastard sword (100)
+Crazy Bastard	bastard.gif	Atk: 20 Def: 18 HP: 25	crazy bastard sword (100)
 creamy pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 creepy clown	clown.gif	Atk: 20 Def: 18 HP: 16 Init: 85 E: spooky Meat: 24-36 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)
 creepy doll	creepydoll.gif	Atk: 88 Def: 76 HP: 75 Init: 25 P: construct E: spooky	droopy doll eye (0)	creepy doll head (0)	creepy voice box (0)
