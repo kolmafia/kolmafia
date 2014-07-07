@@ -25,7 +25,7 @@ backwoods screwdriver	3	4	good	7-8	20-25	0	0
 banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
 bartles and braaains wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
 barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
-bee's knees	2	1	awesome	0	0	0	0	25 On the Trolley (+100% all stats)
+bee's knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights
 beignet milgranet	1	2	awesome	3-5	30-40	30-40	30-40	100 Sugar Rush
@@ -259,7 +259,7 @@ horizontal tango	4	4	good	10-14	0	34-36	0
 horseradish-infused vodka	5	1		12-13	0	0	0	15 Rad-ish (+25% Mox)
 hot buttered rum	4	1	decent	6-10	0	0	0	20 Loaded Forwarbear (So-So Supercold Resistance)
 hot choculate	5	4		10-15	9-10	9-10	9-10
-hot socks	3	1	awesome	0	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
+hot socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4		6-10	7-8	7-8	7-8
 humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
 hundred headed ipa	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
@@ -491,7 +491,7 @@ white canadian	3	1	decent	5-6	10-12	0	0	3 Canadianity
 white dreadsylvanian	1	20	EPIC	7-9	10-20	10-20	10-20	50 Whitesloshed (+500 Dreadsylvania Item Drops)
 white hyborian	3	2	decent	5-6	21-24	0	0
 white lightning	3	3	good	5-10	0	0	0	3 Temporary Blindness
-white wine	2	1	good	0	0	0	0
+white wine	2	1	good	5-6	8-10	8-10	8-10
 white xanadian	2	2	awesome	5-8	12-18	0	0	10 Flashing Eyes (+30% meat drop)
 white-label gin	3	1	good	8-10	3-5	3-5	3-5
 wine spritzer	3	1	decent	5-6	0	8-10	0
