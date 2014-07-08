@@ -1775,7 +1775,7 @@ Lead Zeta of Chastity	200	Mys: 85
 Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	160	Mys: 65
-Lord Spookyraven's ear trumpet	150	Mys: 40
+Lord Spookyraven's ear trumpet	150	Mys: 20
 Lord Spookyraven's spectacles	10	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
@@ -1939,7 +1939,7 @@ chintzy noodle ring	120	Mys: 45
 chintzy saucepan earring	120	Mys: 45
 chintzy seal pendant	120	Mus: 45
 chintzy turtle brooch	120	Mus: 45
-chocolate rabbit's foot	0	Mys: 5
+chocolate rabbit's foot	40	Mys: 5
 clingfilm slippers	150	Mys: 60
 clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
