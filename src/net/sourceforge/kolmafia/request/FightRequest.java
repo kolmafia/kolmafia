@@ -206,6 +206,8 @@ public class FightRequest
 		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points" );
 	private static final Pattern YELLOW_WORD_PATTERN =
 		Pattern.compile( "She said... <font color=yellow>(.*?)</font>..." );
+	private static final Pattern BLUE_WORD_PATTERN =
+		Pattern.compile( "drinks that don't exist, like <font color=blue>(.*?)</font>" );
 	private static final Pattern SPACE_HELMET_PATTERN =
 		Pattern.compile( "Opponent HP: (\\d+)" );
 	private static final Pattern SLIMED_PATTERN =
@@ -2386,8 +2388,21 @@ public class FightRequest
 			if ( yellowWordMatcher.find() )
 			{
 				String yellowWord = yellowWordMatcher.group( 1 );
-				RequestLogger.printLine( "Detective Skull Yellow Word found: " + yellowWord );
+				RequestLogger.printLine( "<font color=\"blue\">Detective Skull Yellow Word found: " + yellowWord + "</font>" );
 				RequestLogger.updateSessionLog( "Detective Skull Yellow Word found: " + yellowWord );
+			}
+		}
+
+		// If they're not shooting you, they're ordering drinks that don't exist,
+		// like <font color=blue>spinach margaritas</font>.  can you believe it?
+		if ( responseText.contains( "ordering drinks that don't exist" ) )
+		{
+			Matcher blueWordMatcher = FightRequest.BLUE_WORD_PATTERN.matcher( responseText );
+			if ( blueWordMatcher.find() )
+			{
+				String blueWord = blueWordMatcher.group( 1 );
+				RequestLogger.printLine( "<font color=\"blue\">Copperhead Bartender Blue Word found: " + blueWord + "</font>" );
+				RequestLogger.updateSessionLog( "Copperhead Bartender Blue Word found: " + blueWord );
 			}
 		}
 

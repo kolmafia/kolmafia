@@ -113,6 +113,8 @@ public class UseItemRequest
 		Pattern.compile( "resolve to do it again" );
 	private static final Pattern MERKIN_WORDQUIZ_PATTERN =
 		Pattern.compile( "Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>" );
+	private static final Pattern PURPLE_WORD_PATTERN =
+		Pattern.compile( "don't forget <font color=purple><b><i>(.*?)</i></b></font>" );
 
 	// It goes [Xd12] feet, and doesn't hit anything interesting.
 	private static final Pattern ARROW_PATTERN =
@@ -2142,9 +2144,17 @@ public class UseItemRequest
 			// "Even though your name isn't Lee, you're flattered
 			// and hand over your dictionary."
 
-			if ( responseText.indexOf( "you're flattered" ) == -1 )
+			if ( !responseText.contains( "you're flattered" ) )
 			{
 				ResultProcessor.processResult( item );
+				// Oh, and don't forget <font color=purple><b><i>eJyu3</i></b></font>.  It's important.
+				Matcher purpleWordMatcher = UseItemRequest.PURPLE_WORD_PATTERN.matcher( responseText );
+				if ( purpleWordMatcher.find() )
+				{
+					String purpleWord = purpleWordMatcher.group( 1 );
+					RequestLogger.printLine( "<font color=\"blue\">64735 Scroll Purple Word found: " + purpleWord + "</font>" );
+					RequestLogger.updateSessionLog( "64735 Scroll Purple Word found: " + purpleWord );
+				}
 			}
 			else
 			{
