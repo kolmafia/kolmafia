@@ -84,7 +84,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class UseItemEnqueuePanel
 	extends ItemListManagePanel
 {
-	private boolean food, booze, spleen;
+	private final boolean food, booze, spleen;
 	private final JCheckBox[] filters;
 	private final JTabbedPane queueTabs;
 
@@ -691,7 +691,7 @@ public class UseItemEnqueuePanel
 			if ( KoLCharacter.isJarlsberg() && ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) )
 			{
 				// No hotdogs for Jarlsberg
-				if ( creation.hotdog )
+				if ( creation.hotdog || creation.speakeasy )
 				{
 					return false;
 				}
@@ -707,6 +707,10 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.inHighschool() && UseItemEnqueuePanel.this.booze )
 			{
+				if ( creation.speakeasy )
+				{
+					return false;
+				}
 				AdventureResult item = creation.getItem();
 				if ( item == null )
 				{
