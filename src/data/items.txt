@@ -7598,10 +7598,10 @@
 7579	twitching time capsule	939147962	timecapsule.gif	usable	t	0
 7580	liquid shifting time weirdness	721228200	potion1.gif	multiple	t,d	50	flasks of liquid shifting time weirdness
 7581	solid shifting time weirdness	395261869	confused.gif	familiar	t	0
-7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t,d	100	racks of dinosaur ribs
-7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t,d	100	scotches on the rockses
-7584	yabba dabba doo rag	266406217	yabbadabba.gif	hat	t,d	300
-7585	wooly loincloth	735546546	loincloth.gif	pants	t,d	300
+7582	rack of dinosaur ribs	422059930	dinoribs.gif	food	t	0	racks of dinosaur ribs
+7583	scotch on the rocks	713320420	scotchrocks.gif	drink	t	0	scotches on the rockses
+7584	yabba dabba doo rag	266406217	yabbadabba.gif	hat	t	0
+7585	wooly loincloth	735546546	loincloth.gif	pants	t	0
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
 7587	S.S. Ticket	840921614	zepticket.gif	familiar	t,d	75
 7588	Clan speakeasy	590707870	crate.gif	usable	t	0
