@@ -250,6 +250,11 @@ public class FaxBotDatabase
 
 		public void addMonsters( final List<Monster> monsters )
 		{
+			// Build the list of monsters and derived mappings
+			this.monsters.clear();
+			this.monsterByActualName.clear();
+			this.monsterByCommand.clear();
+
 			SortedListModel tempCategories = new SortedListModel();
 			for ( Monster monster : monsters )
 			{
@@ -259,12 +264,23 @@ public class FaxBotDatabase
 				{
 					tempCategories.add( category );
 				}
+
+				// Build actual name / command lookup
+				String canonicalName = StringUtilities.getCanonicalName( monster.actualName );
+				this.monsterByActualName.put( canonicalName, monster );
+				String canonicalCommand = StringUtilities.getCanonicalName( monster.command );
+				this.monsterByCommand.put( canonicalCommand, monster );
 			}
 
+			// Create the canonical command list
+			Set<String> commands = this.monsterByCommand.keySet();
+			String[] array = new String[0];
+			this.canonicalCommands = commands.toArray( array );
+			Arrays.sort( this.canonicalCommands );
+
+			this.categories.clear();
 			this.categories.add( "All Monsters" );
 			this.categories.addAll( tempCategories );
-
-			this.monsterByActualName.clear();
 
 			// Make one list for each category
 			this.monstersByCategory = new SortedListModel[ this.categories.size() ];
@@ -279,19 +295,8 @@ public class FaxBotDatabase
 					{
 						model.add( monster );
 					}
-					// Build actual name / command lookup
-					String canonicalName = StringUtilities.getCanonicalName( monster.actualName );
-					this.monsterByActualName.put( canonicalName, monster );
-					String canonicalCommand = StringUtilities.getCanonicalName( monster.command );
-					this.monsterByCommand.put( canonicalCommand, monster );
 				}
 			}
-
-			// Create the canonical command list
-			Set<String> commands = this.monsterByCommand.keySet();
-			String[] array = new String[ commands.size() ];
-			this.canonicalCommands = commands.toArray( array );
-			Arrays.sort( this.canonicalCommands );
 		}
 
 		public List findMatchingCommands( final String command )
