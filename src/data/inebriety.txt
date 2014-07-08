@@ -370,7 +370,7 @@ red-headed corpse	3	1	good	6-10	0	31-35	0
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP
 red rum	3	3	decent	4	0	0	0	20-30 HP
 redrum	3	1	decent	5-6	0	15-30	0
-regular-size brogurt	1	5	good	0	0	0	0
+regular-size brogurt	1	5	good	2-3	15-30	0	15-30
 ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
 rocket fuel	3	4	good	7-11	0	0	10-20
 rockin' wagon	4	4	good	10-14	0	0	34-36
@@ -445,7 +445,7 @@ strawberry wine	3	1	decent	5-6	0	0	8-10
 strikes again bigmouth	2	1	awesome	7-9	0	0	7-9	50 Smithsness Cheer (Smithsness: +10)
 suffering sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 supernova champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP
-super-size brogurt	3	8	awesome	0	0	0	0
+super-size brogurt	3	8	awesome	12-13	50-100	0	50-100
 suppurating sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
 swirling mushroom wine	4	3	EPIC	22-26	0	0	60-90	80 Tremella Tremens (+40 Item Drop)
 taco dan's taco stand chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
