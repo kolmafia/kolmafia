@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -3306,33 +3307,31 @@ public abstract class RuntimeLibrary
 
 		FaxBotDatabase.configure();
 
+		String actualName = monster.getName();
 		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
 			if ( bot == null )
 			{
 				continue;
 			}
+
 			String botName = bot.getName();
 			if ( botName == null )
 			{
 				continue;
 			}
-			String actualName = monster.getName();
-			String monsterName = bot.getMonsterByActualName( actualName );
-			if ( monsterName == null )
+
+			Monster monsterObject = bot.getMonsterByActualName( actualName );
+			if ( monsterObject == null )
 			{
 				continue;
 			}
-			String command = bot.getCommandByActualName( actualName );
-			if ( command == null )
-			{
-				continue;
-			}
+
 			if ( !FaxRequestFrame.isBotOnline( botName ) )
 			{
 				continue;
 			}
-			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterName, command, false ) );
+			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterObject, false ) );
 		}
 		return DataTypes.FALSE_VALUE;
 	}

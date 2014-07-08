@@ -176,10 +176,7 @@ public class FaxRequestFrame
 
 			String botName = this.bot.getName();
 			Monster monster = (Monster)value;
-			String name = monster.getName();
-			String command = monster.getCommand();
-
-			FaxRequestFrame.requestFax( botName, name, command );
+			FaxRequestFrame.requestFax( botName, monster );
 		}
 
 		@Override
@@ -195,12 +192,12 @@ public class FaxRequestFrame
 
 	}
 
-	public static boolean requestFax( final String botName, final String monster, final String command )
+	public static boolean requestFax( final String botName, final Monster monster )
 	{
-		return FaxRequestFrame.requestFax( botName, monster, command, true );
+		return FaxRequestFrame.requestFax( botName, monster, true );
 	}
 
-	public static boolean requestFax( final String botName, final String monster, final String command, final boolean checkOnline )
+	public static boolean requestFax( final String botName, final Monster monster, final boolean checkOnline )
 	{
 		// Validate ability to receive a fax
 		if ( !FaxRequestFrame.canReceiveFax() )
@@ -245,6 +242,9 @@ public class FaxRequestFrame
 			RequestThread.postRequest( request );
 		}
 
+		String name = monster.getName();
+		String command = monster.getCommand();
+
 		// We can try several times...
 		PauseObject pauser = new PauseObject();
 
@@ -252,11 +252,8 @@ public class FaxRequestFrame
 		buf.append( "Asking " );
 		buf.append( botName );
 		buf.append( " to send a fax" );
-		if ( monster != null )
-		{
-			buf.append( " of " );
-			buf.append( monster );
-		}
+		buf.append( " of " );
+		buf.append( name );
 		buf.append( ": " );
 		buf.append( command );
 

@@ -33,11 +33,16 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
@@ -65,15 +70,29 @@ public class FaxbotCommand
 			{
 				continue;
 			}
-			if ( !bot.hasCommand( command ) )
+
+			List commands = bot.findMatchingCommands( command );
+			if ( commands.isEmpty() )
 			{
 				continue;
 			}
+
+			if ( commands.size() > 1 )
+			{
+				RequestLogger.printList( commands );
+				RequestLogger.printLine();
+
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + command + "] has too many matches in bot " + botName );
+				return;
+			}
+
 			if ( !FaxRequestFrame.isBotOnline( botName ) )
 			{
 				continue;
 			}
-			FaxRequestFrame.requestFax( botName, null, command, false );
+
+			Monster monster = bot.getMonsterByCommand( (String)commands.get( 0 ) );
+			FaxRequestFrame.requestFax( botName, monster, false );
 			return;
 		}
 		KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
