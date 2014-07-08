@@ -38,10 +38,11 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -202,8 +203,9 @@ public class FaxBotDatabase
 		private final LockableListModel categories = new LockableListModel();
 		private LockableListModel [] monstersByCategory = new LockableListModel[0];
 
-		private final Map<String, String> monsterByActualName = new HashMap<String, String>();
-		private final Map<String, String> commandByActualName = new HashMap<String, String>();
+		private final Map<String, Monster> monsterByActualName = new HashMap<String, Monster>();
+		private final Map<String, Monster> monsterByCommand = new HashMap<String, Monster>();
+		private String[] canonicalCommands;
 
 		public FaxBot( final String name, final String playerId )
 		{
@@ -236,14 +238,14 @@ public class FaxBotDatabase
 			return this.monstersByCategory;
 		}
 
-		public String getMonsterByActualName( final String actualName )
+		public Monster getMonsterByActualName( final String actualName )
 		{
 			return this.monsterByActualName.get( StringUtilities.getCanonicalName( actualName ) );
 		}
 
-		public String getCommandByActualName( final String actualName )
+		public Monster getMonsterByCommand( final String command )
 		{
-			return this.commandByActualName.get( StringUtilities.getCanonicalName( actualName ) );
+			return this.monsterByCommand.get( StringUtilities.getCanonicalName( command ) );
 		}
 
 		public void addMonsters( final List<Monster> monsters )
@@ -278,26 +280,24 @@ public class FaxBotDatabase
 						model.add( monster );
 					}
 					// Build actual name / command lookup
-					String canonical = StringUtilities.getCanonicalName( monster.actualName );
-					this.monsterByActualName.put( canonical, monster.name );
-					this.commandByActualName.put( canonical, monster.command );
+					String canonicalName = StringUtilities.getCanonicalName( monster.actualName );
+					this.monsterByActualName.put( canonicalName, monster );
+					String canonicalCommand = StringUtilities.getCanonicalName( monster.command );
+					this.monsterByCommand.put( canonicalCommand, monster );
 				}
 			}
+
+			// Create the canonical command list
+			Set<String> commands = this.monsterByCommand.keySet();
+			String[] array = new String[ commands.size() ];
+			this.canonicalCommands = commands.toArray( array );
+			Arrays.sort( this.canonicalCommands );
 		}
 
-		public boolean hasCommand( final String command )
+		public List findMatchingCommands( final String command )
 		{
 			String canonical = StringUtilities.getCanonicalName( command );
-			Collection<String> commands = this.commandByActualName.values();
-			for ( String cmd : commands )
-			{
-				if ( cmd.equalsIgnoreCase( canonical ) )
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return StringUtilities.getMatchingNames( this.canonicalCommands, canonical );
 		}
 
 		@Override
