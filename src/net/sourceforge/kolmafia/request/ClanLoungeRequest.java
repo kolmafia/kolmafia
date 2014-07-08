@@ -1796,6 +1796,10 @@ public class ClanLoungeRequest
 		{
 			// Do nothing if consumption of a speakeasy drink failed
 			// Find failure messages and handle
+			if ( responseText.contains( "We don't serve minors here, kid" ) )
+			{
+				return;
+			}
 			Matcher m = WHICH_SPEAKEASY_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{

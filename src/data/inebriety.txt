@@ -135,7 +135,7 @@ crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% ite
 csa cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50
 csa scoutmaster's &quot;water&quot;	3	3	good	9	20-30	20-30	20-30
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
-cup of "tea"	1	1	good	0	0	0	0
+cup of "tea"	1	1	good	2-3	0	75-100	0
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 cursed punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
@@ -228,7 +228,7 @@ gin and herring	3	1		7-11	0	0	0
 gin and tonic	3	3	good	5-10	0	16-20	0
 gin mint	2	2	EPIC	10-13	10-20	10-20	25-50
 gin-soaked blotter paper	1	3	decent	1-3	5-10	0	5-10
-glass of "milk"	1	1	good	0	0	0	0
+glass of "milk"	1	1	good	2-3	75-100	0	0
 gloomy mushroom wine	3	7	awesome	12-17	12-15	13-15	12-15	20 Gothy (+20 Myst, -10 Mus/Mox)
 go-wassail	1	1	EPIC	5-6	5-6	5-6	5-6
 golden mean	2	4	awesome	6-7	0	20-30	0	10 World's Shortest Giant (+2 Prismatic Res)
@@ -365,7 +365,7 @@ ralph ix cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 ram's face lager	1	2	decent	2	8-10	0	0	4-8 MP
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
 red dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
-red hot boilermaker	4	9	good	0	0	0	0	50 Boilermade (+5 Cold/Spooky Res)
+red hot boilermaker	4	9	good	11-13	25-30	10-14	10-14	50 Boilermade (+5 Cold/Spooky Res)
 red-headed corpse	3	1	good	6-10	0	31-35	0
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP
 red rum	3	3	decent	4	0	0	0	20-30 HP
@@ -459,7 +459,7 @@ tequila sunset	3	3	good	5-10	0	16-20	0
 tequila with training wheels	3	3	good	5-10	8-9	0	0
 the cooler out of space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the Darkness (+9 Spooky Res, +100 Spooky Dam)
 thermos full of knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
-thermos of "whiskey"	1	1	good	0	0	0	0
+thermos of "whiskey"	1	1	good	2-3	0	0	75-100
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP
 thriller ice	2	22	EPIC	14-16	10-20	10-20	10-20	30-40 MP
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
