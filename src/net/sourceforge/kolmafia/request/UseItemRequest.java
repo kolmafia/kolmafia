@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2152,8 +2153,8 @@ public class UseItemRequest
 				if ( purpleWordMatcher.find() )
 				{
 					String purpleWord = purpleWordMatcher.group( 1 );
-					RequestLogger.printLine( "<font color=\"blue\">64735 Scroll Purple Word found: " + purpleWord + "</font>" );
-					RequestLogger.updateSessionLog( "64735 Scroll Purple Word found: " + purpleWord );
+					RequestLogger.printLine( "<font color=\"blue\">64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
+					RequestLogger.updateSessionLog( "64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + "." );
 				}
 			}
 			else

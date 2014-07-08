@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -2388,8 +2389,8 @@ public class FightRequest
 			if ( yellowWordMatcher.find() )
 			{
 				String yellowWord = yellowWordMatcher.group( 1 );
-				RequestLogger.printLine( "<font color=\"blue\">Detective Skull Yellow Word found: " + yellowWord + "</font>" );
-				RequestLogger.updateSessionLog( "Detective Skull Yellow Word found: " + yellowWord );
+				RequestLogger.printLine( "<font color=\"blue\">Detective Skull Yellow Word found: " + yellowWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
+				RequestLogger.updateSessionLog( "Detective Skull Yellow Word found: " + yellowWord + " in clan " + ClanManager.getClanName( false ) + "." );
 			}
 		}
 
@@ -2401,8 +2402,8 @@ public class FightRequest
 			if ( blueWordMatcher.find() )
 			{
 				String blueWord = blueWordMatcher.group( 1 );
-				RequestLogger.printLine( "<font color=\"blue\">Copperhead Bartender Blue Word found: " + blueWord + "</font>" );
-				RequestLogger.updateSessionLog( "Copperhead Bartender Blue Word found: " + blueWord );
+				RequestLogger.printLine( "<font color=\"blue\">Copperhead Bartender Blue Word found: " + blueWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
+				RequestLogger.updateSessionLog( "Copperhead Bartender Blue Word found: " + blueWord + " in clan " + ClanManager.getClanName( false ) + "." );
 			}
 		}
 

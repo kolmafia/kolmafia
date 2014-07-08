@@ -633,7 +633,7 @@ super salad	3	11	awesome	13-16	30-50	32-40	31-40
 sweet roll alabama	4	4	good	9-11	15-20	5-10	0	30 Helping Comes Second (+20 Meat Drop, +25 Food Drop, +25 Booze Drop, +25 Candy Drop)
 t8r tots	1	1	crappy	1-2	0	0	0
 taco dan's basic taco dan taco	1	2	decent	2	10-20	10-20	10-20
-taco dan's taco fish fish taco	2	3	awesome	0	0	0	0
+taco dan's taco fish fish taco	2	3	awesome	7-9	40-60	40-60	40-60
 taco dan's taco stand taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
