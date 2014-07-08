@@ -204,6 +204,8 @@ public class FightRequest
 
 	private static final Pattern DETECTIVE_PATTERN =
 		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points" );
+	private static final Pattern YELLOW_WORD_PATTERN =
+		Pattern.compile( "She said... <font color=yellow>(.*?)</font>..." );
 	private static final Pattern SPACE_HELMET_PATTERN =
 		Pattern.compile( "Opponent HP: (\\d+)" );
 	private static final Pattern SLIMED_PATTERN =
@@ -2374,6 +2376,19 @@ public class FightRequest
 		{
 			Phylum dna = MonsterStatusTracker.getLastMonster().getPhylum();
 			Preferences.setString( "dnaSyringe", dna.toString() );
+		}
+
+		// Your Detective Skull's eyes glow yellow and it murmurs &quot;The dame said... That dame... She... 
+		// She said... <font color=yellow>sword</font>...&quot;
+		if ( responseText.contains( "Detective Skull's eyes glow yellow" ) )
+		{
+			Matcher yellowWordMatcher = FightRequest.YELLOW_WORD_PATTERN.matcher( responseText );
+			if ( yellowWordMatcher.find() )
+			{
+				String yellowWord = yellowWordMatcher.group( 1 );
+				RequestLogger.printLine( "Detective Skull Yellow Word found: " + yellowWord );
+				RequestLogger.updateSessionLog( "Detective Skull Yellow Word found: " + yellowWord );
+			}
 		}
 
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
