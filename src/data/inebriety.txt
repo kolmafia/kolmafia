@@ -113,7 +113,7 @@ cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
 cold one	1	1		6	0	0	0	
-complex mushroom wine	4	3	EPIC	22-24	0	100-140	0	80 Omphalotus Omnipresence (+40 Mys)
+complex mushroom wine	4	3	EPIC	22-24	0	100-150	0	80 Omphalotus Omnipresence (+40 Mys)
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 corpse island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
 corpse on the beach	6	5	awesome	19-23	0	71-75	0
@@ -337,7 +337,7 @@ oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
 oreille divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 over easy rider	3	1	good	8-10	0	0	30-40
-overpowering mushroom wine	4	3	EPIC	22-24	100-140	0	0	80 Boletus Swoletus (+40 Mus)
+overpowering mushroom wine	4	3	EPIC	22-24	100-150	0	0	80 Boletus Swoletus (+40 Mus)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 paint a vulgar pitcher	2	1	EPIC	10-12	10-12	0	0
 painting of a glass of wine	1	6	good	3	0	0	30-60
@@ -356,7 +356,7 @@ plastic cup of beer	1	1	crappy	1	0	0	0
 plum wine	2	8	good	4-8	14-20	0	0
 pointy mushroom wine	3	6	awesome	10-14	0	0	8-10
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
-psychotic train wine	6	11	awesome	0	0	0	0
+psychotic train wine	6	11	awesome	19-20	150-250	0	0
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP
 punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
@@ -418,11 +418,11 @@ slip 'n' slide	4	4	good	10-14	34-36	0	0
 slippery knob	2	4	awesome	6-7	0	0	20-30	10  Gutterminded (+50 Sleaze Dam)
 sloe comfortable zoo	2	4	awesome	6-7	20-30	0	0	10 Rampage! (+50% Weapon Dam)
 sloe comfortable zoo on fire	2	8	awesome	8-9	30-40	0	0	15 Rampage! (+50% Weapon Dam)
-sloppy jalopy	5	1	awesome	0	0	0	0	acquire Hollow Leg (+1 Liver)
+sloppy jalopy	5	1	awesome	18-22	20-40	20-40	20-40	acquire Hollow Leg (+1 Liver)
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-smooth mushroom wine	4	3	EPIC	22-24	0	0	100-140	80 Gyromitra Gymnastics (+40 Mox)
+smooth mushroom wine	4	3	EPIC	22-24	0	0	100-150	80 Gyromitra Gymnastics (+40 Mox)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops)
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 sockdollager	2	1	awesome	6-8	0	0	0	25 In a Lather (+20 Prismatic Dam, +40 Prismatic Spell Dam, +20 Ranged/Weapon Dam, +50% Weapon Dam, +40 Spell Dam, +50% Spell Dam)
