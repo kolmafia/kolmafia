@@ -352,6 +352,11 @@ public class Maximizer
 							{
 								continue;
 							}
+							// Jarlsberg and Zombie characters can't eat hot dogs
+							else if ( KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster() )
+							{
+								continue;
+							}
 							else if ( !haveVipKey )
 							{
 								if ( includeAll )
@@ -376,13 +381,18 @@ public class Maximizer
 							}
 						}
 						// Speakeasy drinks don't have items
-						if ( item == null && ClanLoungeRequest.isSpeakeasyDrink( iName ) )
+						else if ( item == null && ClanLoungeRequest.isSpeakeasyDrink( iName ) )
 						{
 							if ( KoLCharacter.inBadMoon() )
 							{
 								continue;
 							}
 							else if ( !Type69Request.isAllowed( "Clan Item", "Speakeasy" ) )
+							{
+								continue;
+							}
+							// Jarlsberg and Highschool characters can't drink at the speakeasy
+							else if ( KoLCharacter.isJarlsberg() || KoLCharacter.inHighschool() )
 							{
 								continue;
 							}
