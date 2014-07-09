@@ -37,7 +37,7 @@ black hole	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 blackfly chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
 blood light	1	6	awesome	3-4	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
-blood-red mushroom wine	4	3	EPIC	22-26	60-90	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
+blood-red mushroom wine	4	3	EPIC	22-26	50-100	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
 bloody beer	1	1	decent	2	0	0	0	3-5 MP
 bloody kiwitini	3	15	awesome	14-16	20-40	20-40	20-40	10 First Blood Kiwi (+30 Spooky Dam)
 bloody mary	3	1	decent	5-6	1-2	1-2	1-2
@@ -84,12 +84,12 @@ boxed champagne	3	2	decent	4-8	0	0	0
 boxed wine	3	1	crappy	3	0	0	0
 braincracker sweet	5	1		10-15	0	0	0	10 Sugar Rush
 breaded beer	4	5	EPIC	26-29	0	0	93-107
-broberry brogurt	3	11	EPIC	0	0	0	0	40 Broberry Brotality (+100% Mus, +10% Crit, +50 Meat drop)
-brocolate brogurt	3	11	EPIC	0	0	0	0	40 Brocolate Brostidigitation (+100% Mys, +20% Spell Crit, +25 Item drop)
+broberry brogurt	3	11	EPIC	15-18	100-200	0	0	40 Broberry Brotality (+100% Mus, +10% Crit, +50 Meat drop)
+brocolate brogurt	3	11	EPIC	15-18	0	100-200	0	40 Brocolate Brostidigitation (+100% Mys, +20% Spell Crit, +25 Item drop)
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
 buttery knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
-buzzing mushroom wine	4	3	EPIC	22-26	0	60-90	0	80 Stemonitis Storm
+buzzing mushroom wine	4	3	EPIC	22-26	0	50-100	0	80 Stemonitis Storm
 caipifruta	3	3	good	5-10	16-20	0	0
 caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27
@@ -214,7 +214,7 @@ flying caipiranha	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 fog murderer	6	6	good	14-16	40-50	20-30	20-30
 fortified eggnog slurry	3	1	decent	3-6	0	0	0	10 Loaded Forwarbear (So-So Supercold Resistance)
 fountain 'soda'	3	5	decent	4-6	5-10	0	5-10	KOLHS
-french bronilla brogurt	3	11	EPIC	0	0	0	0	40 French Bronilla Brogueishness (+100% Mox, +100 Init, +25 Pickpocket)
+french bronilla brogurt	3	11	EPIC	15-18	0	0	100-200	40 French Bronilla Brogueishness (+100% Mox, +100 Init, +25 Pickpocket)
 fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (+30 Stench Dam, +30 Stench Spell Dam)
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
 fuzzbump	4	4	good	10-14	34-36	0	0
@@ -305,7 +305,7 @@ melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fish
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP
 mimosette	3	3	good	5-10	16-20	0	0
-mini-martini	1	11	crappy	0	0	0	0	11 It's Not Even Funny
+mini-martini	1	11	crappy	1	0	0	0	11 It's Not Even Funny
 mint yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50
 mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
@@ -447,7 +447,7 @@ suffering sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 supernova champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP
 super-size brogurt	3	8	awesome	12-13	50-100	0	50-100
 suppurating sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
-swirling mushroom wine	4	3	EPIC	22-26	0	0	60-90	80 Tremella Tremens (+40 Item Drop)
+swirling mushroom wine	4	3	EPIC	22-26	0	0	50-100	80 Tremella Tremens (+40 Item Drop)
 taco dan's taco stand chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
 tankard of ale	1	1	good	3	12-15	12-15	12-15
