@@ -206,7 +206,7 @@ public class FightRequest
 	private static final Pattern DETECTIVE_PATTERN =
 		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points" );
 	private static final Pattern YELLOW_WORD_PATTERN =
-		Pattern.compile( "She said... <font color=yellow>(.*?)</font>..." );
+		Pattern.compile( "She said...  <font color=yellow>(.*?)</font>..." );
 	private static final Pattern BLUE_WORD_PATTERN =
 		Pattern.compile( "drinks that don't exist, like <font color=blue>(.*?)</font>" );
 	private static final Pattern SPACE_HELMET_PATTERN =
