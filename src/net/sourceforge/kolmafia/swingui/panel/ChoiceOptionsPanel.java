@@ -1220,7 +1220,7 @@ public class ChoiceOptionsPanel
 			System.out.println( "Invalid setting " + hiddenShrineSEIndex + " for choiceAdventure787." );
 		}
 		int hiddenApartmentIndex = Preferences.getInteger( "choiceAdventure780" );
-		if ( hiddenApartmentIndex <= 3  && hiddenApartmentIndex >= 0 )
+		if ( hiddenApartmentIndex <= 6  && hiddenApartmentIndex >= 0 )
 		{
 			this.hiddenApartmentSelect.setSelectedIndex( hiddenApartmentIndex == 1 ? 1 : hiddenApartmentIndex == 3 ? 2 : hiddenApartmentIndex == 6 ? 3 : 0 );
 		}
@@ -1238,7 +1238,7 @@ public class ChoiceOptionsPanel
 			System.out.println( "Invalid setting " + hiddenHospitalIndex + " for choiceAdventure784." );
 		}
 		int hiddenParkIndex = Preferences.getInteger( "choiceAdventure789");
-		if ( hiddenParkIndex <= 3 && hiddenParkIndex >= 0 )
+		if ( hiddenParkIndex <= 6 && hiddenParkIndex >= 0 )
 		{
 			this.hiddenParkSelect.setSelectedIndex( hiddenParkIndex == 1 ? 1 : hiddenParkIndex == 2 ? 2 : hiddenParkIndex == 6 ? 3 : 0 );
 		}
@@ -1256,7 +1256,7 @@ public class ChoiceOptionsPanel
 			System.out.println( "Invalid setting " + hiddenBowlingAlleyIndex + " for choiceAdventure788." );
 		}
 		int hiddenOfficeIndex = Preferences.getInteger( "choiceAdventure786");
-		if ( hiddenOfficeIndex <= 3 && hiddenOfficeIndex >= 0 )
+		if ( hiddenOfficeIndex <= 6 && hiddenOfficeIndex >= 0 )
 		{
 			this.hiddenOfficeSelect.setSelectedIndex( hiddenOfficeIndex == 1 ? 1 : hiddenOfficeIndex == 3 ? 2 : hiddenOfficeIndex == 6 ? 3 : 0 );
 		}
