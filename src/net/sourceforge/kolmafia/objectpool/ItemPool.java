@@ -2024,6 +2024,7 @@ public class ItemPool
 	public static final int ELIZABETH_DOLLIE = 7319;
 	public static final int STEPHEN_LAB_COAT = 7321;
 	public static final int CREEPY_VOICE_BOX = 7334;
+	public static final int SPOOKY_MUSIC_BOX_MECHANISM = 7339;
 	public static final int COAL_SHOVEL = 7355;
 	public static final int HOT_COAL = 7356;
 	public static final int DNA_LAB = 7382;
