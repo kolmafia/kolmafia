@@ -6564,6 +6564,12 @@ public class FightRequest
 				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "smoke grenade" );
 			}
 			break;
+		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
+			if ( responseText.contains( "slowly fades from view" ) || FightRequest.haiku || FightRequest.anapest )
+			{
+				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "spooky music box mechanism" );
+			}
+			break;
 		case ItemPool.ICE_HOUSE:
 			// You toss the ice house on the ground, and your opponent enters it.
 			// You slam the door and laugh all the way to the Museum, where you put

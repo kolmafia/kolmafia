@@ -1618,6 +1618,8 @@ user	choiceAdventure853	1
 user	choiceAdventure854	1
 user	choiceAdventure873	1
 user	choiceAdventure881	1
+user	choiceAdventure888	0
+user	choiceAdventure889	0
 user	choiceAdventure921	1
 
 user	unknownRecipe3542	true
