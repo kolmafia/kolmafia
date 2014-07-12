@@ -6064,7 +6064,7 @@ hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 incense bath ball	Effect: "Incensed", Effect Duration: 10
-industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Moxie: +20, Muscle: +20, Mysticality: +20
+# industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
