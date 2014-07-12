@@ -4331,7 +4331,7 @@
 4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0
 4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0
 4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0
-4315	Annual Ascot	804577053	ascot.gif	accessory	t,d	0
+4315	Annual Ascot	804577053	ascot.gif	accessory		0
 4316	Sledgehammer of the V&aelig;lkyr	139769370	sledge.gif	weapon	q	0
 4317	Flail of the Seven Aspects	601506510	7aspects.gif	weapon	q	0
 4318	Wrath of the Capsaician Pastalords	251972482	capspoon.gif	weapon	q	0

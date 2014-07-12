@@ -1914,6 +1914,88 @@ public class Modifiers
 		return newMods;
 	}
 
+	public final static TreeMap<String,String> getModifierMap( final String name )
+	{
+		TreeMap<String,String> map = new TreeMap<String,String>();
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods == null )
+		{
+			return map;
+		}
+
+		String enchantments = mods.getString( "Modifiers" );
+
+		// Iterate over string, pulling off modifiers
+		while ( enchantments != null )
+		{
+			// Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
+			int comma = enchantments.indexOf( "," );
+			if ( comma != -1 )
+			{
+				int bracket1 = enchantments.indexOf( "[" );
+				if ( bracket1 != -1 && bracket1 < comma )
+				{
+					int bracket2 = enchantments.indexOf( "]", bracket1 + 1 );
+					if ( bracket2 != -1 )
+					{
+						comma = enchantments.indexOf( ",", bracket2 + 1 );
+					}
+					else
+					{
+						// bogus: no close bracket
+						comma = -1;
+					}
+				}
+				else
+				{
+					int quote1 = enchantments.indexOf( "\"" );
+					if ( quote1 != -1 && quote1 < comma )
+					{
+						int quote2 = enchantments.indexOf( "\"", quote1 + 1 );
+						if ( quote2 != -1 )
+						{
+							comma = enchantments.indexOf( ",", quote2 + 1 );
+						}
+						else
+						{
+							// bogus: no close quote
+							comma = -1;
+						}
+					}
+				}
+			}
+
+			String string;
+			if ( comma == -1 )
+			{
+				string = enchantments;
+				enchantments = null;
+			}
+			else
+			{
+				string = enchantments.substring( 0, comma ).trim();
+				enchantments = enchantments.substring( comma + 1 ).trim();
+			}
+
+			String key, value;
+
+			int colon = string.indexOf( ":" );
+			if ( colon == -1 )
+			{
+				key = string;
+				value = null;
+			}
+			else
+			{
+				key = string.substring( 0, colon ).trim();
+				value = string.substring( colon + 1 ).trim();
+			}
+
+			map.put( key, value );
+		}
+		return map;
+	}
+
 	public final static String evaluateModifiers( final String modifiers )
 	{
 		// Nothing to do if no expressions
@@ -2698,7 +2780,9 @@ public class Modifiers
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String tag = Modifiers.modifierTag( Modifiers.doubleModifiers, enchantment.indexOf( "Underwater only" ) == -1 ? Modifiers.COMBAT_RATE : Modifiers.UNDERWATER_COMBAT_RATE );
+			String tag = enchantment.indexOf( "Underwater only" ) == -1 ?
+				Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.COMBAT_RATE ) :
+				"Combat Rate (Underwater)";
 			String level = matcher.group( 1 );
 			String rate =
 				level.equals( "more" ) ? "+5" :
@@ -2768,7 +2852,18 @@ public class Modifiers
 				{
 					return Modifiers.modifierTag( table, i );
 				}
-				return Modifiers.modifierTag( table, i ) + ": " + quote + matcher.group( 1 ) + quote;
+
+				String tag = Modifiers.modifierTag( table, i );
+
+				// Kludge for Slime (Really) Hates it
+				if ( tag.equals( "Slime Hates It" ) )
+				{
+					return
+						matcher.group( 1 ) == null ?
+						"Slime Hates It: +1" :
+						"Slime Hates It: +2";
+				}
+				return tag + ": " + quote + matcher.group( 1 ) + quote;
 			}
 		}
 
