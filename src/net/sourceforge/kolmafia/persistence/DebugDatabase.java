@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -987,8 +988,8 @@ public class DebugDatabase
 		// Get the known and unknown modifiers from the item description
 		DebugDatabase.parseItemEnchantments( text, known, unknown, type );
 
-		// Compare to what is already registered.
-		// Log differences and substitute formulas, as appropriate.
+		// Compare to what is already registered, logging differences
+		// and substituting expressions, as appropriate.
 		DebugDatabase.checkModifiers( name, known, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
@@ -997,23 +998,98 @@ public class DebugDatabase
 
 	private static final void checkModifiers( final String name, final ArrayList<String> known, final PrintStream report )
 	{
-		// *** xxx ***
+		// - Keep modifiers in the same order they are listed in the item description
+		// - If a modifier is variable (has an expression), evaluate
+		//   the expression and compare to the number in the  description
+		// - List extra modifiers (Familiar Effect, for example) at end
+		//   of parsed modifiers
 
 		// Get the existing modifiers for the name
-		// For each modifier in known
-		//    if it is present in existing modifiers
-		//        if is an expression
-		//            evaluate it
-		//            replace string in known with expression
-		//        if does not match
-		//            log error with ***
-		//    else
-		//        log error with ***
-		// For each modifier in existing modifiers
-		//    if it is Familiar Effect
-		//        add to known
-		//    else
-		//        log error with ***
+		TreeMap<String,String> map = Modifiers.getModifierMap( name );
+
+		// Look at each modifier in known
+		for ( int i = 0; i < known.size(); ++i )
+		{
+			String mod = known.get( i );
+			// Pull out the key & value
+			String key, value;
+
+			int colon = mod.indexOf( ":" );
+			if ( colon == -1 )
+			{
+				key = mod;
+				value = null;
+			}
+			else
+			{
+				key = mod.substring( 0, colon ).trim();
+				value = mod.substring( colon + 1 ).trim();
+			}
+
+			if ( map.containsKey( key ) )
+			{
+				String existing = map.get( key );
+				if ( existing == null )
+				{
+					// No value
+				}
+				else if ( existing.contains( "[" ) )
+				{
+					// Evaluate the expression
+					int lbracket = existing.indexOf( "[" );
+					int rbracket = existing.indexOf( "]" );
+					ModifierExpression expr = new ModifierExpression( existing.substring( lbracket + 1, rbracket ), name );
+					if ( expr.hasErrors() )
+					{
+						report.println( expr.getExpressionErrors() );
+					}
+					int descValue = StringUtilities.parseInt( value );
+					int modValue = (int)expr.eval();
+					if ( descValue == modValue )
+					{
+						// Good expression. Keep it
+						known.set( i, existing );
+					}
+					else
+					{
+						report.println( "# *** modifier " + key + ": " + existing + " evaluates to " + modValue + " but description says " + descValue );
+					}
+				}
+				else if ( !value.equals( existing ) )
+				{
+					// Value is not an expression and does not match
+					report.println( "# *** modifier " + key + ": " + existing + " should be " + key + ": " + value );
+				}
+
+				// Remove the key from map of existing modifiers
+				map.remove( key );
+			}
+			else
+			{
+				if ( value == null )
+				{
+					report.println( "# *** new enchantment: " + key + " seen" );
+				}
+				else
+				{
+					report.println( "# *** new enchantment: " + key + ": " + value + " seen" );
+				}
+			}
+		}
+
+		// For all modifiers in existing map that were not seen in description, add them to "known"
+		for ( String key : map.keySet() )
+		{
+			String value = map.get( key );
+			if ( value == null )
+			{
+				known.add( key );
+			}
+			else
+			{
+				known.add( key + ": " + value );
+			}
+		}
 	}
 
 	private static final void logModifierDatum( final String name, final ArrayList<String> known, final ArrayList<String> unknown, final PrintStream report )
@@ -1169,7 +1245,19 @@ public class DebugDatabase
 	{
 		if ( mod != null )
 		{
-			known.add( mod );
+			// If the value contains a quoted string, it can contain commas
+			if ( mod.contains( "\"" ) || !mod.contains( "," ) )
+			{
+				known.add( mod );
+				return;
+			}
+
+			// Otherwise, certain modifiers - "All Attributes: +5" - turn into multiple modifiers
+			String[] mods = mod.split( "," );
+			for ( int i = 0; i < mods.length; ++i )
+			{
+				known.add( mods[ i ].trim() );
+			}
 		}
 	}
 
