@@ -40,6 +40,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -170,6 +171,14 @@ public class DebugDatabase
 	private static final String ITEM_DATA = "itemdata.txt";
 	private static final StringArray rawItems = new StringArray();
 
+	private static final Comparator<String> ignoreCaseComparator = new Comparator<String>()
+	{
+		public int compare( String s1, String s2 )
+		{
+			return s1.compareToIgnoreCase( s2 );
+		}
+	};
+
 	private static class ItemMap
 	{
 		private final String tag;
@@ -180,7 +189,7 @@ public class DebugDatabase
 		{
 			this.tag = tag;
 			this.type = type;
-			this.map = new TreeMap<String, String>();
+			this.map = new TreeMap<String, String>( DebugDatabase.ignoreCaseComparator );
 		}
 
 		public String getTag()
