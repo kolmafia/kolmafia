@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -75,6 +76,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -1311,8 +1313,22 @@ public class ResultProcessor
 			}
 			break;
 
-		case ItemPool.MORTAR_DISOLVING_RECIPE:
+		case ItemPool.MORTAR_DISSOLVING_RECIPE:
 			QuestDatabase.setQuestIfBetter( Quest.MANOR, "step2" );
+			boolean hasSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
+			if ( hasSpecs )
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
+			}
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
+			if ( hasSpecs )
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
+			KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
+			                      ( hasSpecs ? "" : "NOT " ) +
+			                        "equipped." );
 			break;
 
 		case ItemPool.SPOOKYRAVEN_SPECTACLES:
@@ -2261,7 +2277,7 @@ public class ResultProcessor
 
 		case ItemPool.WINE_BOMB:
 			EquipmentManager.discardEquipment( ItemPool.UNSTABLE_FULMINATE );
-			QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );			
+			QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );
 			break;
 		}
 
