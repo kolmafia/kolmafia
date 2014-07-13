@@ -1048,7 +1048,7 @@ public class DebugDatabase
 					if ( descValue == modValue )
 					{
 						// Good expression. Keep it
-						known.set( i, existing );
+						known.set( i, key + ": " + existing );
 					}
 					else
 					{
