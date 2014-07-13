@@ -3540,6 +3540,7 @@ And Your Family, Too	Familiar Weight: -10
 # Angry Bone: +40 Damage vs. Undead
 Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
+# Antarctic Memories: Recover HP and MP after battle
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
 # Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7))
@@ -3578,7 +3579,7 @@ Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
 Badger Underfoot	Meat Drop: +20
-Bailando, Fernando	Item Drop: 10
+Bailando, Fernando	Item Drop: +10
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 # Bandananit: Makes you look like a dirty thieving brigand
 Banono	Stench Damage: +40, Stench Spell Damage: +40
@@ -3621,16 +3622,18 @@ Black Eyes	Spell Damage Percent: +15
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Black Lung: Stops Monsters from Attacking You
 Black Sweat	Spooky Resistance: +7
-Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
+# Black Tongue: Recover HP and MP after battle
+Black Tongue	Familiar Weight: +5, Experience (familiar): +2, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Blackberry Politeness	Meat Drop: +20
 Blade Rolling	Moxie Percent: +100
 # Blessed by the RNG: ???
 Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
-Blessing of the Creepy Pasta	Spooky Spell Damage: +20, Sleaze Resistance: +2
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of She-Who-Was	Mysticality: +5, Spooky Damage: +5
+# Blessing of Squirtlcthulli: Recover HP and MP after battle
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Blessing of the Creepy Pasta	Spooky Spell Damage: +20, Sleaze Resistance: +2
 Blessing of the Frozen Tortellini	Cold Spell Damage: +20, Stench Resistance: +2
 Blessing of the Hot Linguine	Hot Spell Damage: +20, Cold Resistance: +2
 Blessing of the Pervy Noodles	Sleaze Spell Damage: +20, Hot Resistance: +2
@@ -3639,15 +3642,15 @@ Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resist
 Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Block-Rockin' Beet	Damage Reduction: 15
+# Blood Porter
 Blood Sugar Sauce Magic	Maximum HP Percent: [-10-20*class(Sauceror)], Maximum MP Percent: [10+20*class(Sauceror)]
 Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
-# Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
-# Bloody-minded	+50 Damage vs. Vampires
+# Bloody-minded: +50% Damage vs. Vampires
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
@@ -3661,7 +3664,7 @@ Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, S
 # Boner Battalion: BONERS HO!
 # Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
-# Boon of She-Who-Was: Your melee attacks deal Spooky Damage
+# Boon of She-Who-Was: Your melee attacks deal <font color=gray>Spooky Damage</font>
 Boon of She-Who-Was	Weapon Damage: +20
 # Boon of the Storm Tortoise: Your melee attacks restore some MP
 # Boon of the War Snapper: Your melee attacks restore some HP
@@ -3671,7 +3674,7 @@ Bored Stiff	Spooky Damage: +100
 Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
-# Braaaains Over Braaaawwn: +50 Damage vs. Zombies
+# Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
@@ -3683,7 +3686,7 @@ Brilliant Resolve	Experience (Mysticality): +2
 Brined Liver	Initiative Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [20*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
-# Broken Dancing
+# Broken Dancing: You Can't Not Dance If You Don't Want To
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
@@ -3713,12 +3716,12 @@ Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
-Cancer Rising	Maximum MP Percent: +100
 # Canadianity: Makes you feel more Canadian
+Cancer Rising	Maximum MP Percent: +100
 Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Capricorn Rising	Item Drop: +5
 Carlweather's Cantata of Confrontation	Combat Rate: +5
-Carne Obsesionada	Meat Drop: 20
+Carne Obsesionada	Meat Drop: +20
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
@@ -3732,6 +3735,7 @@ Celestial Vision	Item Drop: +30
 # Censored Can: Makes you look like a tin can conspirator
 Cereal Killer	Experience: +200
 Chain Chain Chains	Spooky Damage: +10
+# Chalk Outline: Your Spookiness is Spookier
 # Chalked Weapon: Regular Attacks Can't Miss
 Chalked Weapon	Pool Skill: +5
 Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
@@ -3740,16 +3744,16 @@ Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 # Chef Brains-are-dee: Makes you look like a zombie chef
-Chief Executive Optimism	Item Drop: +15
 ChibiChanged&trade;	Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)], Familiar Weight: +5
+Chief Executive Optimism	Item Drop: +15
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
-Chill Out, Dog	Cold Damage: 30, Stench Resistance: 3, Sleaze Resistance: 3, Monster Level: 10
+Chill Out, Dog	Cold Damage: +30, Stench Resistance: +3, Sleaze Resistance: +3, Monster Level: +10
 # Chilled to the Bone: Enemies get 1 extra attack(s) against you per round
 Chilled to the Bone	Mana Cost: +3
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
-Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
+Chocolate Reign	Moxie: +10
 Chocolatesphere	Combat Rate: -15
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
@@ -3759,8 +3763,8 @@ Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
 Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Moxie Experience: [ceil(min(T,50)/10)]
 Cinnamouth	Hot Damage: +11
-Clean-Shaven	Moxie: +5
 # Clean to the Bone: Makes you look like a skullery maid
+Clean-Shaven	Moxie: +5
 # Clerical Aura: Makes you look like Father McGruber
 Cletus's Canticle of Celerity	Initiative: +20
 Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
@@ -3771,7 +3775,6 @@ Coated Arms	Weapon Damage: +15
 Cock of the Walk	Moxie Percent: +200
 Cockroach Scurry	Initiative: +50
 Coffeesphere	Combat Rate: +15
-Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
 Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Sleaze Resistance: +2
@@ -3779,14 +3782,13 @@ Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 Cold Sweat	Cold Resistance: +7
 Cold Throat	Cold Spell Damage: +50, Spell Damage Percent: +100
+Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorfully Concealed	Combat Rate (Underwater): -5
 # Comic Violence: Regular Attacks Can't Miss
-Cool, Catlike	Cold Damage: +40, Moxie: +30
-Cool Spirit	Cold Damage: +20, Cold Spell Damage: +20
-Coming Up Roses	MP Regen Min: 10, MP Regen Max: 20
+Coming Up Roses	HP Regen Min: 10, HP Regen Max: 20
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
 Comprehensively Nourished	Experience: +2
@@ -3800,12 +3802,14 @@ Consumed by Fear	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 10
 Consumed by Regret	Muscle Limit: 30, Mysticality Limit: 10, Moxie Limit: 30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
-Corona de la Salsa	Hot Damage: 5, Cold Damage: 5, Spooky Damage: 5, Stench Damage: 5, Sleaze Damage: 5
+Cool Spirit	Cold Damage: +20, Cold Spell Damage: +20
+Cool, Catlike	Cold Damage: +40, Moxie: +30
+Corona de la Salsa	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
 Corroded Weapon	Weapon Damage: -5
 # Corrupted: All Attributes +/- ???
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 Cosmic Flavor	Spell Critical Percent: +10
-# Cotton Mouthed: So dry! It's from yesterday!
+# Cotton Mouthed: So dry!  It's from yesterday!
 Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 Cowlick	Meat Drop: +50
@@ -3839,12 +3843,12 @@ Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
 # Curse of Exposure: Total Sleaze Vulnerability (-9)
 Curse of Forgetfulness	Experience: -25
 Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
-# Curse of Impotence: -50 Damage vs. Bugbears
-# Curse of Impotence: -50 Damage vs. Werewolves
-# Curse of Impotence: -50 Damage vs. Zombies
+# Curse of Impotence: -50% Damage vs. Bugbears
+# Curse of Impotence: -50% Damage vs. Werewolves
+# Curse of Impotence: -50% Damage vs. Zombies
 # Curse of Impotence: -50 Damage vs. Ghosts
-# Curse of Impotence: -50 Damage vs. Vampires
-# Curse of Impotence: -50 Damage vs. Skeletons
+# Curse of Impotence: -50% Damage vs. Vampires
+# Curse of Impotence: -50% Damage vs. Skeletons
 Curse of Loneliness	Familiar Damage: -20, Familiar Weight: -20
 Curse of Misfortune	Meat Drop: -100, Item Drop: -50
 Curse of Sluggishness	Initiative: -50
@@ -3856,7 +3860,7 @@ Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Muscle): 
 Cuts Like a Buttered Knife	Sleaze Damage: +50
 Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
-# Daemon Duds: Makes you look like a clean room demo
+# Daemon Duds: Makes you look like a clean room demon
 Dance Interpreter	Item Drop: +20
 Dance of the Sugar Fairy	Item Drop: +25
 Dances with Tweedles	Meat Drop: +40
@@ -3868,19 +3872,19 @@ Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
 # Dawn of the Goblin: Makes you look like a tribal goblin
 # Dead Sexy
-# Deadened palate: Bleah
+# Deadened Palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
 Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
-# Deep-Seated Rage: +100 Damage vs. Mer-kin
+# Deep-Seated Rage: +100% Damage vs. Mer-kin
 Deep-Tainted Mind	Mysticality Percent: -50
 Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
-Devil Inside	Hot Damage: 30, Cold Resistance: 3, Spooky Resistance: 3
+Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
 Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
@@ -3897,12 +3901,12 @@ Disco Nirvana	Meat Drop: +30
 Disco Smirk	Moxie: +10
 Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
-Disquiet Riot	Combat Rate: -20
 Disdain of She-Who-Was	Mysticality: +5, Spooky Damage: +5
 Disdain of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
+Disquiet Riot	Combat Rate: -20
 Dizzy with Rage	Moxie Percent: -10
-Dog Breath	Stench Damage: 30, Hot Resistance: 3, Spooky Resistance: 3, Combat Rate: 5
+Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3, Combat Rate: +5
 Don't Rest Ye, Bold Adventurer	Experience: +1
 Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
@@ -3931,7 +3935,7 @@ Dweeby	Mysticality: +15
 Eagle Eyes	Item Drop: +20
 # Earthen Fist: +10 damage to Fist techniques
 # Earthen Fist: Allows you to punch rocks without hurting yourself
-# Earworm: Get them out! Get them out!
+# Earworm: Get them out!  Get them out!
 Easily Embarrassed	Sleaze Vulnerability
 Eau D'enmity	Monster Level: +5
 # Eau de Tortue: You smell like turtle pheromones
@@ -3946,7 +3950,8 @@ Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
 El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 El Vibrations	Spell Damage Percent: +100
-Elbow Sauce	Weapon Damage Percent: 50
+Elbow Sauce	Weapon Damage Percent: +50
+# Electric, Kool
 Electrolit Up	Muscle: +30
 Electrolyte Fantastic	Experience Percent (Mysticality): +10
 Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
@@ -3964,17 +3969,23 @@ Enraged	Muscle Percent: +10
 # Ermahgerd, Burke: Makes you look like Special Agent Wallace Burke Corrigan
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
+# Eso S&iacute; Que Es
+# Everything Looks Blue
+# Everything Looks Red
+# Everything Looks Yellow
+# Everything Must Go!: You are much more attracted to monsters
+# Everything Must Go!: (so you can destroy them)
 Everything Must Go!	Combat Rate: +10
 Everything's Zen	Experience Percent (Mysticality): +20
 # EVISCERATE!: Attacks enemies every round
-# Existential Torment: Who are you? Who are you <i>really</i>?
+# Existential Torment: Who are you?  Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
-Extra-Sharp Weapon	Weapon Damage Percent: +30
-Extra-Wet	Hot Resistance: +3
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+Extra-Sharp Weapon	Weapon Damage Percent: +30
 Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
+Extra-Wet	Hot Resistance: +3
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
@@ -4013,9 +4024,9 @@ Finstrong	Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], 
 Fire Down Below	Hot Damage: [min(100,T)]
 Fire Inside	Hot Damage: +25
 Fireproof Lips	Hot Resistance: +9
-# First, Like, Do No Harm?: Makes you look like a Sorority Nurse
 First Blood Kiwi	Spooky Damage: +30
 First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# First, Like, Do No Harm?: Makes you look like a Sorority Nurse
 Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50
 # Fishy: -1 Adventure cost underwater
@@ -4029,6 +4040,7 @@ Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 # Flayer Flavor: Makes you look like a mind flayer
 # Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
+# Float Like a Butterfly, Smell Like a Bee: Bzzzzzz
 Flop Sweat	Sleaze Resistance: +7
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
@@ -4051,8 +4063,8 @@ Frio Como Helado	Cold Damage: +10
 Frisky Spirit	Moxie: +15
 Frog In Your Throat	Muscle: +25
 From Nantucket	Experience (Moxie): +2
-Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
+Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
 # Frosty the Hitman: +0-2 <font color=blue>Cold Damage</font>
 # Frosty the Hitman: +0-2 <font color=gray>Spooky Damage</font>
@@ -4081,6 +4093,7 @@ Gemini Rising	Maximum HP Percent: +100
 # Get Me Off This Crazy Thing!: Jane!
 # Ghost Finger: +100 Damage vs. Ghosts
 Ghostly Shell	Damage Absorption: +80
+# Gift of the Warbear: +15% Item Drops from WarBears
 # Ginger Fightis: Makes you look like a creepy ginger twin
 Ginger Snapped	Spooky Damage: +10
 Gingerbread Robust	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -4114,12 +4127,12 @@ Grape Expectations	Maximum HP: +50, Maximum MP: +25
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Greaser Lightnin'	Moxie: +5, Item Drop: [25*loc(Art Class)]
+Greasy Flavor	Weapon Damage: +30
 Greasy Peasy	Sleaze Damage: +15
 Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
 Greedy Resolve	Meat Drop: +30
-# Green, Uneasy: Makes you look like a frog
-Greasy Flavor	Weapon Damage: +30
 Green Tongue	Familiar Weight: +5, Experience (familiar): +2
+# Green, Uneasy: Makes you look like a frog
 Grilled	Muscle: -10
 # Grillin' Like a Villain: Makes you look like a toothy pirate
 Grimace	Monster Level: +25, Slime Resistance: +1
@@ -4134,6 +4147,7 @@ Guanified	Stench Damage: +10, Damage Reduction: -2
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
+Gunky Dory	Maximum HP: +50, HP Regen Min: 4, HP Regen Max: 10
 Gutballed	Muscle Percent: -300
 Gutterminded	Sleaze Damage: +50
 Gyromitra Gymnastics	Moxie: +40
@@ -4146,14 +4160,14 @@ Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP 
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Halloweeny	Spooky Damage: +25
-Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 # Ham(ster)-Handed: Makes you look like a skeletal hamster
+Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
-Hangdog	Sleaze Damage: 30, Hot Resistance: 3, Stench Resistance: 3, Initiative: 20
-# Happy-go-meaty: Makes you look like a bundle of Meat of Happiness
+Hangdog	Sleaze Damage: +30, Hot Resistance: +3, Stench Resistance: +3, Initiative: +20
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
+# Happy-go-meaty: Makes you look like a bundle of Meat of Happiness
 Hardened Fabric	Damage Reduction: 15
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
@@ -4162,11 +4176,11 @@ Hare-o-dynamic	Initiative: +300
 Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
 Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
-Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
 Healthy Blue Glow	MP Regen Min: 3, MP Regen Max: 4
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
 Healthy Red Glow	HP Regen Min: 6, HP Regen Max: 8
+Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
 Heart Aflame	Hot Damage: +50
 # Heart of Black: Damn, Gina
 Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
@@ -4204,6 +4218,7 @@ Hoity Toity	Item Drop: +30
 Holiday Bliss	Item Drop: +20, Meat Drop: +20
 Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
+# Hooked Up: Continually gain MP
 Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Hoppyness	Initiative: +100
@@ -4219,15 +4234,15 @@ Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
 Human-Beast Hybrid	Weapon Damage: +30
 Human-Constellation Hybrid	Meat Drop: +50
 Human-Demon Hybrid	Hot Damage: +20, Hot Spell Damage: +20
-Human-Elemental Hybrid	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+Human-Elemental Hybrid	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Human-Elf Hybrid	Spell Damage Percent: +100, Candy Drop: +50
 Human-Fish Hybrid	Familiar Weight: +10
 Human-Goblin Hybrid	Food Drop: +50, Pickpocket Chance: +20
 Human-Hippy Hybrid	Maximum MP: +20, Experience: +1
 Human-Hobo Hybrid	Stench Damage: +20, Stench Spell Damage: +20
+Human-Horror Hybrid	Critical Hit Percent: +10, Spell Critical Percent: +10
 Human-Human Hybrid	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10
 Human-Humanoid Hybrid	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Meat Drop: +20
-Human-Horror Hybrid	Critical Hit Percent: +10, Spell Critical Percent: +10
 Human-Insect Hybrid	Initiative: +25
 Human-Machine Hybrid	Damage Absorption: +50, Damage Reduction: 5, Familiar Weight: +5
 Human-Mer-kin Hybrid	Monster Level: +25
@@ -4236,8 +4251,9 @@ Human-Penguin Hybrid	Item Drop: +25
 Human-Pirate Hybrid	Booze Drop: +50, Gear Drop: +50
 Human-Plant Hybrid	Cold Damage: +20, Cold Spell Damage: +20
 Human-Slime Hybrid	Sleaze Damage: +20, Sleaze Spell Damage: +20
-Human-Weird Thing Hybrid	Experience: +4
 Human-Undead Hybrid	Spooky Damage: +20, Spooky Spell Damage: +20
+Human-Weird Thing Hybrid	Experience: +4
+# Hurricane Force: Here Comes the Story of You!
 Hurricane Force	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Hustlin'	Initiative: +50, Item Drop: +10
 # Hyperbolic Hypothermia: Continually take damage
@@ -4247,10 +4263,10 @@ Hyphemariffic	Spooky Resistance: +9
 I Am the Slaw!	Monster Level: +20
 I See Everything Thrice!	Item Drop: +33
 Ice Packed	HP Regen Min: 10, HP Regen Max: 15
-Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
-Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Ichorous Eyesight	Item Drop: +10
 Ichorous Intensity	Spell Damage Percent: +20
+Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
+Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Impregnably Delicious	Damage Reduction: 30
 Improved Candy Vision	Candy Drop: +25
 In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
@@ -4269,7 +4285,8 @@ Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
-# Inner Dog: +50 Damage vs. Zombies, +50 Damage vs. Percent: 10
+# Inner Dog: +50% Damage vs. Zombies
+# Inner Dog: +50 Damage vs. Ghosts
 Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
 # Innuendo Shopping
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
@@ -4279,7 +4296,7 @@ Insulated Trousers	Cold Resistance: +1
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
 Is This Your Card?	Spell Damage Percent: +50
-Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (Moxie): 2, Pickpocket Chance: 10
+Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Experience (Moxie): +2, Pickpocket Chance: +10
 It Didn't Kill You	Muscle Percent: +50
 It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 # It's Electric!: Damages Attacking Opponents
@@ -4297,10 +4314,10 @@ Jamming with the Jocks	Muscle: +5, Item Drop: [25*loc(Shop Class)]
 # Jay Walking: Makes you look like "Handyman" Jay Android
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
-# Jelly Combed	Makes you harder to hit (when underwater)
+# Jelly Combed: Makes you harder to hit (when underwater)
 Jerky, Boy	Mysticality Percent: +25
 Jiggu... What?	Mana Cost: +100
-# Jingle Jangle Jingle
+# Jingle Jangle Jingle: Familiar will act more often in combat
 # Jinkies!: Makes you look like Norville Rogers
 Jittery	MP Regen Min: 1, MP Regen Max: 3
 Jokin' Drunk	Moxie: +50, Pickpocket Chance: +20
@@ -4317,10 +4334,11 @@ Just the Brown Ones	Moxie: +15
 Kernel Panic!	Critical Hit Percent: +5
 Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
-# Kitty Littered: Makes you look like an Iiti Kitty 
+# Kitty Littered: Makes you look like an Iiti Kitty
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
-# Knob Goblin Perfume
+# Knob Goblin Perfume: You smell like a Knob Goblin harem girl!
+# Knob Goblin Perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 Knowing Smile	Experience (Moxie): +1
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
 Kung Fu Fighting	Weapon Damage: [3*L]
@@ -4346,7 +4364,7 @@ Liquid Courage	Experience: +3
 Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Liquidy Smoky	Mysticality: +15, Moxie: +15
 Lit Up	Hot Damage: +20, Hot Spell Damage: +20
-# Literally Insane
+# Literally Insane: Insane in the BRAIN!
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Litterbug	Monster Level: +25
 Livin' Large	Meat Drop: +10
@@ -4364,9 +4382,10 @@ Lucky Cat is Lucky	Item Drop: +5
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Macaroni Coating	Muscle: +10
-# Macho, Macho Dog: +50 Damage vs. Bugbears, +50 Damage vs. Werewolves
-Macho, Macho Dog	Muscle Percent: 50, Critical Hit Percent: 10
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
+# Macho, Macho Dog: +50% Damage vs. Bugbears
+# Macho, Macho Dog: +50% Damage vs. Werewolves
+Macho, Macho Dog	Muscle Percent: +50, Critical Hit Percent: +10
 Mad at Science	Muscle: +3
 # Magic Tongue: Everything tastes weird
 Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
@@ -4382,7 +4401,8 @@ Marinated	Muscle: +15, Mysticality: +15
 Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 # Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
-# Mayeaugh: Deals Sleaze Damage every round.
+# Mayeaugh: Deals <font color=purple>Sleaze Damage</font> every round.
+# Meat Shielded
 Meat the Flintstones	Maximum HP Percent: +50
 Meatwise	Meat Drop: +35
 Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
@@ -4411,7 +4431,7 @@ Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
 # Mister Master: Makes you look like a master of ceremonies
 Mistified	Damage Reduction: 30
-Mitre Cut	 Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
+Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Mmmmmelon	Item Drop: +30
 Mo' Hobo	Hobo Power: +10
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
@@ -4442,17 +4462,17 @@ Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Rege
 Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
-Nature's Bounty	Maximum HP: +300
+Nature's Bounty	Maximum HP: +300, HP Regen Min: 80, HP Regen Max: 100
 Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
-# Nerf'd: Less powerful than you were before
 Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
+# Nerf'd: Less powerful than you were before
 Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
-New, Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 New Zeal	Maximum HP: +40, Maximum MP: +20
 New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
+New, Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Night of the Nachos	Spooky Spell Damage: +50, Spell Damage Percent: +100
 Night Vision	Meat Drop: +30
@@ -4466,13 +4486,13 @@ No Worries	Experience: +3
 Nothing Is Impossible	Spell Damage Percent: +100
 Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Nuts about Candy	Maximum HP: +50
-# O Hai!
+# O Hai!: Effect Cat is Not Amused
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
+Of Course It Looks Great	Item Drop: +100
 Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +1
 Oh Snap	Experience (Moxie): +10
-Of Course It Looks Great	Item Drop: +100
 Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Oily Flavor	Muscle: +15
@@ -4531,6 +4551,7 @@ Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
+# Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
 Perspicacious Pressure	Mysticality Percent: +300
 Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Phairly Balanced	Equalize: "High"
@@ -4548,7 +4569,7 @@ Pisces Rising	Mysticality Percent: +50
 Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
-Poetically Licensed	Mysticality Percent: 20, Muscle Percent: -20, Experience (Mysticality): 2, Spell Damage Percent: 10
+Poetically Licensed	Mysticality Percent: +20, Muscle Percent: -20, Experience (Mysticality): +2, Spell Damage Percent: +10
 Polar Express	MP Regen Min: 10, MP Regen Max: 20
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
@@ -4561,10 +4582,12 @@ Pop-eyed	Weapon Damage: +30
 Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
+# Predjudicetidigitation: You are much less attracted to monsters
+# Predjudicetidigitation: (because you hate them)
 Predjudicetidigitation	Combat Rate: -10
 Prelude of Precision	Critical Hit Percent: +10
-Pretending to Pretend	Weapon Damage Percent: +100
 Prestidigysfunction	Mysticality Percent: -95
+Pretending to Pretend	Weapon Damage Percent: +100
 Preternatural Greed	Meat Drop: +100
 Pride of the Puffin	Monster Level: +10
 Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -4577,7 +4600,7 @@ Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Puckered Up	Candy Drop: [min(T,50)]
 Puddingface	Sleaze Damage: +20
-Puddingskin	Maximum HP: 20, Damage Reduction: 5
+Puddingskin	Maximum HP: +20, Damage Reduction: 5
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
@@ -4586,8 +4609,9 @@ Pumped Up	Muscle: +5
 Punchy, Murdery	Weapon Damage Percent: +50
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Purple Reign	Mysticality: [ceil(min(T,50)/2)], Mysticality Experience: [ceil(min(T,50)/10)]
+# Purple Tongue: Recover HP and MP after battle
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
-# Putting the Orc in Porcine: Makes you look like a smutorc pervert
+# Putting the Orc in Porcine: Makes you look like a smut orc pervert
 Puzzle Fury	Spell Damage Percent: +25
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
@@ -4607,12 +4631,13 @@ Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rampage!	Weapon Damage Percent: +50
 Rank Sweat	Stench Resistance: +7
-# Ravonovichy: Makes you look like Father Nikolai Ravonovich
 Rat-Faced	Moxie Percent: +10
 # Rattlin' Head: Makes you look like a forest spirit
 Rave Concentration	Item Drop: +30
 Rave Nirvana	Meat Drop: +50
+# Raving Lunatic: Continually take damage
 Raving Lunatic	Weapon Damage: +20
+# Ravonovichy: Makes you look like Father Nikolai Ravonovich
 Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
@@ -4634,7 +4659,7 @@ Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 # RIP AND TEAR: Makes you look like a Space Marine
 Ripping, Dripping	Weapon Damage Percent: +50
-Riqueza de Pasta	Experience: 2
+Riqueza de Pasta	Experience: +2
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 # Robocamo: Beep Boop
 Rolando's Rondo of Resisto	Supercold Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
@@ -4645,22 +4670,23 @@ Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
 Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
+Salsa Satanica	Item Drop: +50
 Salt Rockin'	Moxie: +30
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # Salty Mouth: You really need a beer...
-Salsa Satanica	Item Drop: +50
 Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
-Sappy Blood	Spooky Resistance: 3
+Sappy Blood	Spooky Resistance: +3
 # Sated and Furious: Weapon Damage: +X, Spell Damage: +X
-Sauce Monocle	Spell Critical Percent: +15
+Sauce Monocle	Spell Critical Percent: [5+10*class(Sauceror)]
 Saucefingers	Spell Damage Percent: +50
 Saucegoggles	MP Regen Min: 8, MP Regen Max: 10
 Saucemastery	Maximum HP: +3, Mysticality: +1
-Sausage Festive	MP Regen Min: 5, MP Regen Max: 10
+# Sausage Festive: Regenerate 5-10 HP/MP per Adventure
+Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
-Scaredy Dog	Spooky Damage: 30, Cold Resistance: 3, Sleaze Resistance: 3, Combat Rate: -5
+Scaredy Dog	Spooky Damage: +30, Cold Resistance: +3, Sleaze Resistance: +3, Combat Rate: -5
 Scariberi	Spooky Damage: [min(100,T)]
 # Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
@@ -4691,7 +4717,7 @@ Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 # Shocking Biology: Makes you look like an unholy diver
-Shoesauce	Initiative: 30
+Shoesauce	Initiative: +30
 # Short of Breath: Makes you look like a pygmy blowgunner
 # Short on Options: Makes you look like a pygmy headhunter
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -4707,9 +4733,14 @@ Simply Irresistible	Combat Rate: +5
 Simply Irritable	Monster Level: +15
 Simulation Stimulation	Experience (Moxie): +5
 Singer's Faithful Ocelot	Item Drop: +10
+# Single-Eyed Vision
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Skeletal Buddy	Experience: +2
+# Skeletal Cleric
+# Skeletal Rogue
+# Skeletal Warrior
+# Skeletal Wizard
 # Ski Ballin': Makes you look like an eXtreme cross-country hippy
 Skull Full of Hot Chocolate	Cold Resistance: +2
 # Skunkulated: Take stench damage every round of combat
@@ -4729,7 +4760,7 @@ Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
 Slimed Stomach	Sleaze Resistance: +1
-# Slimeform: Ewww.
+# Slimeform: Eww.
 Slimily Sagacious	Mysticality Percent: +50
 Slimily Speedy	Moxie Percent: +50
 Slimily Strong	Muscle Percent: +50
@@ -4744,6 +4775,7 @@ Smithsness Dinner	Smithsness: +10
 Smithsness Presence	Smithsness: +10
 # Smokin': Damages Attacking Opponents
 Smoky Third Eye	Mysticality: +10
+# Smooth Legs: You know how to use them.
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
@@ -4755,6 +4787,7 @@ So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
 Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50)]
+# Solar Flair: Continually take damage
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Soles of Glass	Initiative: +20
@@ -4807,6 +4840,7 @@ Spirit of Peppermint	Spell Damage: +10
 Spirit of Wormwood	Spell Damage: +10
 # Spirit of Nothing: Removes any of the other Flavour of Magic effects
 # Spirit Pariah
+Spirit Schooled	Maximum MP Percent: +20
 Spirit Souvenirs	Maximum MP: +10, MP Regen Min: 8, MP Regen Max: 10
 Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
@@ -4817,11 +4851,9 @@ Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
-Stopping to Smell the Flowers	Experience: +3
 Spookyravin'	Familiar Weight: +10
 Spore-Wreathed	Reduce Enemy Defense: 20
 Springy Fusilli	Initiative: +40
-Spirit Schooled	Maximum MP Percent: +20
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
 Squatting and Thrusting	Experience (Muscle): +3
@@ -4840,7 +4872,7 @@ Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, 
 Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # Stickler for Promptness: Familiar will act more often in combat
-# Sticks and Stones: +50 Damage vs. Skeletons
+# Sticks and Stones: +50% Damage vs. Skeletons
 Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
 Stiff Upper Lip	Damage Reduction: 10
@@ -4852,6 +4884,7 @@ Stinky Hands	Stench Damage: +10, Stench Spell Damage: +20, Hot Resistance: +2, S
 Stinky Weapon	Stench Damage: +3
 Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
+Stopping to Smell the Flowers	Experience: +3
 Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strawberry Alarm	Initiative: +50
@@ -4859,8 +4892,9 @@ Strength of Ten Ettins	Muscle Percent: +25
 Strong Grip	Muscle: +20
 Strong Resolve	Experience (Muscle): +2
 Strong Spirit	Muscle: +15
-# Stuck-Up Hair: Damages Attacking Opponents
+# Stubbly Legs: <s>Love is a battlefield</s>Legs are a stubble field
 Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
+# Stuck-Up Hair: Damages Attacking Opponents
 Stumpy	Initiative: -50
 Sugar High	Mysticality Percent: +30
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
@@ -4874,7 +4908,6 @@ Super Accuracy	Critical Hit Percent: +30
 Super Speed	Moxie Percent: +100
 Super Structure	Damage Absorption: +500, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
 Super Vision	Item Drop: +25
-Superveiny 9000	Maximum HP: +300
 Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
@@ -4882,6 +4915,7 @@ Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Mo
 Superheated Guts	Supercold Resistance: +3
 Superhuman Sarcasm	Moxie Percent: +100
 # SuperStar: You earned a gold star
+Superveiny 9000	Maximum HP: +300
 Surreally Buff	Muscle Percent: +20
 Suspicious Gaze	Initiative: +20
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
@@ -4907,7 +4941,7 @@ Tangled Up	Moxie Percent: -20
 Tapped In	Experience: +5
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
-# Taste the Inferno: It burns! It burns!
+# Taste the Inferno: It burns!  It burns!
 Taurus Rising	Muscle Percent: +50
 Tea-hee	Experience: +5
 Tearful, Fearful	Item Drop: +30
@@ -4940,12 +4974,13 @@ The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
 The Halls of Mysticality	Experience (Mysticality): +3
 The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [max(-1000,-T)], Mysticality Percent: [max(-1000,-T)], Moxie Percent: [max(-1000,-T)], Experience: [min(100,floor(T/5))]
-# The Kobold and the Kobeautiful: Makes you look like a large kobold 
+# The Kobold and the Kobeautiful: Makes you look like a large kobold
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)], 
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
+# The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
 The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -4962,8 +4997,8 @@ The Wisdom... of the Future	Mysticality Percent: +50, Mysticality: +15, Experien
 There Is A Spoon	Mysticality: +20
 # There is No Spoon
 There Wolf	Weapon Damage Percent: +100
-Thick-Skinned	Maximum HP: +50
 Thick, Sick	Damage Reduction: 5
+Thick-Skinned	Maximum HP: +50
 Thicker, Sicker	Damage Reduction: 15
 Thickest, Sickest	Damage Reduction: 30
 # Things Man Was Not Meant to Eat: Full of Loathing
@@ -4981,17 +5016,19 @@ Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
 Tingly Wrists	Mysticality: +5
 # Tinnitus
+# Tiny Bubbles in the Cupcake: Recover HP and MP after battle
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
-# Toad In The Hole: Continually take damage
 # To Protect and Servo: Makes you look like a cyborg policeman
+# Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-# Top Dog: +50 Damage vs. Vampires, +50 Damage vs. Skeletons
-Top Dog	Moxie Percent: 50, Critical Hit Percent: 10
+# Top Dog: +50% Damage vs. Vampires
+# Top Dog: +50% Damage vs. Skeletons
+Top Dog	Moxie Percent: +50, Pickpocket Chance: +10, Critical Hit Percent: 10
 Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
+Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
-Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Trash-Wrapped	Damage Reduction: 10
 Tremella Tremens	Item Drop: +40
 # Trepandation: Continually lose MP
@@ -5007,7 +5044,7 @@ Twenty-three Squid, Ew	Mysticality: +30
 Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
-# Two Left Feet
+Two Left Feet	Moxie: -5
 # Ultrahydrated: Glug, Glug
 Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 # Uncertain: Muscle and Moxie +/- ???
@@ -5021,8 +5058,15 @@ Using Protection	Mana Cost: -2
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
-Video... Games?	Muscle: 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5, Smithsness: 5, Familiar Damage: 5
-Video Game Hot Dog	Item Drop: 25, Meat Drop: 25
+Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
+# Video... Games?: +5% Damage vs. Bugbears
+# Video... Games?: +5% Damage vs. Werewolves
+# Video... Games?: +5% Damage vs. Zombies
+# Video... Games?: +5 Damage vs. Ghosts
+# Video... Games?: +5% Damage vs. Vampires
+# Video... Games?: +5% Damage vs. Skeletons
+# Video... Games?: +5 Damage vs. Undead
+Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: 5, Experience (Familiar): 5, Hat Drop: 5, Offhand Drop: 5, Pants Drop: 5, Shirt Drop: 5, Weapon Drop: 5
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
 Virgo Rising	Moxie Percent: +50
@@ -5031,14 +5075,12 @@ Visions of the Deep Dark Deeps	Spell Damage Percent: +50
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
 Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
-# Walking Carpet: Makes you look like a grouchy furry monster
-# Wanged: Unable to use obnoxious abbreviations
-# Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
+# Walking Carpet: Makes you look like a grouchy furry monster
 Wallflowering	Damage Absorption: +100, Damage Reduction: 10
+# Wanged: Unable to use obnoxious abbreviations
 Warbear Blubber	Supercold Resistance: +3
-# Gift of the Warbear: +15% Item Drops from WarBears
 # Warbear Hunter: +10% Item Drops from WarBears
 # Warbear Hunter: +40 WarBear Armor Penetration
 Warbear Hunter	Supercold Resistance: +2
@@ -5046,6 +5088,7 @@ Warbear Hunter	Supercold Resistance: +2
 Warbear on the Inside	Supercold Resistance: +2
 # Warbear Warlust: +60 WarBear Armor Penetration
 # Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
+# Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]
 # Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
@@ -5059,27 +5102,28 @@ Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
 # Weirdly Scientific: Makes you look like a Sub-Assistant Knob Mad Scientist
+# Well Excuuuuse Me!: Makes you look like a wacky pirate
 Well Owl Be!	Mysticality: +10, Spell Damage: +10
 Well-Lubed	Weapon Damage Percent: +10
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Well-Rested	Experience: +3
-# Well Excuuuuse Me!: Makes you look like a wacky pirate
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
+# Wet Willied: Your familiar can breathe underwater
 Wet Willied	Underwater Familiar
 What's That Smell?	Stench Damage: +3
 Whispering Strands	Initiative: +10
-Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
-White Blooded Maximum HP: +50
+White Blooded	Maximum HP: +50
 White Knuckles	Never Fumble
 White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
+Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
 # Wings: You believe you can fly!
 Winklered	Meat Drop: +40
 Winning Smile	Experience: +3
 Wintergreen Warmongery	Muscle: +30
-Wintry Breath	Cold Damage: +20
+Wintry Breath	Cold Damage: +10
 Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
 Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20
@@ -5087,7 +5131,7 @@ Witch's Brood	Hot Spell Damage: +50, Cold Spell Damage: +50, Stench Spell Damage
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Wizard Squint	Spell Critical Percent: +10
 Woad Warrior	Muscle: +25
-# Wolf's Bane: +50 Damage vs. Werewolves
+# Wolf's Bane: +50% Damage vs. Werewolves
 World's Shortest Giant	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Wreathed in Merriment	Moxie Percent: +10
 Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
@@ -5106,6 +5150,7 @@ You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Read The Manual	Experience (Mysticality): +4
 # You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
+# You're In Trouble: It was... the drinking fountain...
 You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
 You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
