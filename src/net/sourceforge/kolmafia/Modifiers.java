@@ -40,6 +40,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -666,15 +667,15 @@ public class Modifiers
 		  Pattern.compile( "Minstrel Level: " + EXPR )
 		},
 		{ "Muscle Limit",
-		  null,
+		  Pattern.compile( "Base Muscle Limited to (\\d+)" ),
 		  Pattern.compile( "Muscle Limit: " + EXPR )
 		},
 		{ "Mysticality Limit",
-		  null,
+		  Pattern.compile( "Base Mysticality Limited to (\\d+)" ),
 		  Pattern.compile( "Mysticality Limit: " + EXPR )
 		},
 		{ "Moxie Limit",
-		  null,
+		  Pattern.compile( "Base Moxie Limited to (\\d+)" ),
 		  Pattern.compile( "Moxie Limit: " + EXPR )
 		},
 		{ "Song Duration",
@@ -1203,6 +1204,10 @@ public class Modifiers
 		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
 	private static final String STENCH =
 		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
+	private static final String SLIME =
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SLIME_RESISTANCE ) + ": ";
+	private static final String SUPERCOLD =
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SUPERCOLD_RESISTANCE ) + ": ";
 
 	private static final String MOXIE = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MOX ) + ": ";
 	private static final String MUSCLE = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MUS ) + ": ";
@@ -1914,9 +1919,45 @@ public class Modifiers
 		return newMods;
 	}
 
+	private static final Comparator<String> modifierComparator = new Comparator<String>()
+	{
+		public int compare( String s1, String s2 )
+		{
+			if ( s1.equals( "HP Regen Min" ) )
+			{
+				if ( s2.equals( "HP Regen Max" ) )
+				{
+					return -1;
+				}
+			}
+			else if ( s1.equals( "HP Regen Max" ) )
+			{
+				if ( s2.equals( "HP Regen Min" ) )
+				{
+					return 1;
+				}
+			}
+			else if ( s1.equals( "MP Regen Min" ) )
+			{
+				if ( s2.equals( "MP Regen Max" ) )
+				{
+					return -1;
+				}
+			}
+			else if ( s1.equals( "MP Regen Max" ) )
+			{
+				if ( s2.equals( "MP Regen Min" ) )
+				{
+					return 1;
+				}
+			}
+			return s1.compareToIgnoreCase( s2 );
+		}
+	};
+
 	public final static TreeMap<String,String> getModifierMap( final String name )
 	{
-		TreeMap<String,String> map = new TreeMap<String,String>();
+		TreeMap<String,String> map = new TreeMap<String,String>( Modifiers.modifierComparator );
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
@@ -2947,12 +2988,7 @@ public class Modifiers
 
 		if ( enchantment.indexOf( "All Elements" ) != -1 )
 		{
-			return Modifiers.COLD + level + ", " + Modifiers.HOT + level + ", " + Modifiers.SLEAZE + level + ", " + Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level;
-		}
-
-		if ( enchantment.indexOf( "Cold" ) != -1 )
-		{
-			return Modifiers.COLD + level;
+			return Modifiers.HOT + level + ", " + Modifiers.COLD + level + ", " + Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level + ", " + Modifiers.SLEAZE + level;
 		}
 
 		if ( enchantment.indexOf( "Hot" ) != -1 )
@@ -2960,9 +2996,9 @@ public class Modifiers
 			return Modifiers.HOT + level;
 		}
 
-		if ( enchantment.indexOf( "Sleaze" ) != -1 )
+		if ( enchantment.indexOf( "Cold" ) != -1 )
 		{
-			return Modifiers.SLEAZE + level;
+			return Modifiers.COLD + level;
 		}
 
 		if ( enchantment.indexOf( "Spooky" ) != -1 )
@@ -2973,6 +3009,21 @@ public class Modifiers
 		if ( enchantment.indexOf( "Stench" ) != -1 )
 		{
 			return Modifiers.STENCH + level;
+		}
+
+		if ( enchantment.indexOf( "Sleaze" ) != -1 )
+		{
+			return Modifiers.SLEAZE + level;
+		}
+
+		if ( enchantment.indexOf( "Slime" ) != -1 )
+		{
+			return Modifiers.SLIME + level;
+		}
+
+		if ( enchantment.indexOf( "Supercold" ) != -1 )
+		{
+			return Modifiers.SUPERCOLD + level;
 		}
 
 		return null;
