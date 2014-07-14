@@ -1919,38 +1919,161 @@ public class Modifiers
 		return newMods;
 	}
 
+	private static final Object[][] COMPARISONS =
+	{
+		// Regen Min comes before Regen Max
+		{ "HP Regen Min",
+		  "HP Regen Max", IntegerPool.get( -1 ) },
+		{ "HP Regen Max",
+		  "HP Regen Min", IntegerPool.get( 1 ) },
+		{ "MP Regen Min",
+		  "MP Regen Max", IntegerPool.get( -1 ) },
+		{ "MP Regen Max",
+		  "MP Regen Min", IntegerPool.get( 1 ) },
+
+		// Muscle, Mysticality, Moxie
+		{ "Muscle",
+		  "Mysticality", IntegerPool.get( -1 ),
+		  "Moxie", IntegerPool.get( -1 ) },
+		{ "Mysticality",
+		  "Muscle", IntegerPool.get( 1 ),
+		  "Moxie", IntegerPool.get( -1 ) },
+		{ "Moxie",
+		  "Muscle", IntegerPool.get( 1 ),
+		  "Mysticality", IntegerPool.get( 1 ) },
+		{ "Muscle Percent",
+		  "Mysticality Percent", IntegerPool.get( -1 ),
+		  "Moxie Percent", IntegerPool.get( -1 ) },
+		{ "Mysticality Percent",
+		  "Muscle Percent", IntegerPool.get( 1 ),
+		  "Moxie Percent", IntegerPool.get( -1 ) },
+		{ "Moxie Percent",
+		  "Muscle Percent", IntegerPool.get( 1 ),
+		  "Mysticality Percent", IntegerPool.get( 1 ) },
+		{ "Experience (Muscle)",
+		  "Experience (Mysticality)", IntegerPool.get( -1 ),
+		  "Experience (Moxie)", IntegerPool.get( -1 ) },
+		{ "Experience (Mysticality)",
+		  "Experience (Muscle)", IntegerPool.get( 1 ),
+		  "Experience (Moxie)", IntegerPool.get( -1 ) },
+		{ "Experience (Moxie)",
+		  "Experience (Muscle)", IntegerPool.get( 1 ),
+		  "Experience (Mysticality)", IntegerPool.get( 1 ) },
+		{ "Experience Percent (Muscle)",
+		  "Experience Percent (Mysticality)", IntegerPool.get( -1 ),
+		  "Experience Percent (Moxie)", IntegerPool.get( -1 ) },
+		{ "Experience Percent (Mysticality)",
+		  "Experience Percent (Muscle)", IntegerPool.get( 1 ),
+		  "Experience Percent (Moxie)", IntegerPool.get( -1 ) },
+		{ "Experience Percent (Moxie)",
+		  "Experience Percent (Muscle)", IntegerPool.get( 1 ),
+		  "Experience Percent (Mysticality)", IntegerPool.get( 1 ) },
+		{ "Muscle Limit",
+		  "Mysticality Limit", IntegerPool.get( -1 ),
+		  "Moxie Limit", IntegerPool.get( -1 ) },
+		{ "Mysticality Limit",
+		  "Muscle Limit", IntegerPool.get( 1 ),
+		  "Moxie Limit", IntegerPool.get( -1 ) },
+		{ "Moxie Limit",
+		  "Muscle Limit", IntegerPool.get( 1 ),
+		  "Mysticality Limit", IntegerPool.get( 1 ) },
+
+		// Hot, Cold, Spooky, Stench, Sleaze
+		{ "Hot Resistance",
+		  "Cold Resistance", IntegerPool.get( -1 ),
+		  "Spooky Resistance", IntegerPool.get( -1 ),
+		  "Stench Resistance", IntegerPool.get( -1 ),
+		  "Sleaze Resistance", IntegerPool.get( -1 ) },
+		{ "Cold Resistance",
+		  "Hot Resistance", IntegerPool.get( 1 ),
+		  "Spooky Resistance", IntegerPool.get( -1 ),
+		  "Stench Resistance", IntegerPool.get( -1 ),
+		  "Sleaze Resistance", IntegerPool.get( -1 ) },
+		{ "Spooky Resistance",
+		  "Hot Resistance", IntegerPool.get( 1 ),
+		  "Cold Resistance", IntegerPool.get( 1 ),
+		  "Stench Resistance", IntegerPool.get( -1 ),
+		  "Sleaze Resistance", IntegerPool.get( -1 ) },
+		{ "Stench Resistance",
+		  "Hot Resistance", IntegerPool.get( 1 ),
+		  "Cold Resistance", IntegerPool.get( 1 ),
+		  "Spooky Resistance", IntegerPool.get( 1 ),
+		  "Sleaze Resistance", IntegerPool.get( -1 ) },
+		{ "Sleaze Resistance",
+		  "Hot Resistance", IntegerPool.get( 1 ),
+		  "Cold Resistance", IntegerPool.get( 1 ),
+		  "Spooky Resistance", IntegerPool.get( 1 ),
+		  "Stench Resistance", IntegerPool.get( 1 ) },
+		{ "Hot Damage",
+		  "Cold Damage", IntegerPool.get( -1 ),
+		  "Spooky Damage", IntegerPool.get( -1 ),
+		  "Stench Damage", IntegerPool.get( -1 ),
+		  "Sleaze Damage", IntegerPool.get( -1 ) },
+		{ "Cold Damage",
+		  "Hot Damage", IntegerPool.get( 1 ),
+		  "Spooky Damage", IntegerPool.get( -1 ),
+		  "Stench Damage", IntegerPool.get( -1 ),
+		  "Sleaze Damage", IntegerPool.get( -1 ) },
+		{ "Spooky Damage",
+		  "Hot Damage", IntegerPool.get( 1 ),
+		  "Cold Damage", IntegerPool.get( 1 ),
+		  "Stench Damage", IntegerPool.get( -1 ),
+		  "Sleaze Damage", IntegerPool.get( -1 ) },
+		{ "Stench Damage",
+		  "Hot Damage", IntegerPool.get( 1 ),
+		  "Cold Damage", IntegerPool.get( 1 ),
+		  "Spooky Damage", IntegerPool.get( 1 ),
+		  "Sleaze Damage", IntegerPool.get( -1 ) },
+		{ "Sleaze Damage",
+		  "Hot Damage", IntegerPool.get( 1 ),
+		  "Cold Damage", IntegerPool.get( 1 ),
+		  "Spooky Damage", IntegerPool.get( 1 ),
+		  "Stench Damage", IntegerPool.get( 1 ) },
+		{ "Hot Spell Damage",
+		  "Cold Spell Damage", IntegerPool.get( -1 ),
+		  "Spooky Spell Damage", IntegerPool.get( -1 ),
+		  "Stench Spell Damage", IntegerPool.get( -1 ),
+		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
+		{ "Cold Spell Damage",
+		  "Hot Spell Damage", IntegerPool.get( 1 ),
+		  "Spooky Spell Damage", IntegerPool.get( -1 ),
+		  "Stench Spell Damage", IntegerPool.get( -1 ),
+		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
+		{ "Spooky Spell Damage",
+		  "Hot Spell Damage", IntegerPool.get( 1 ),
+		  "Cold Spell Damage", IntegerPool.get( 1 ),
+		  "Stench Spell Damage", IntegerPool.get( -1 ),
+		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
+		{ "Stench Spell Damage",
+		  "Hot Spell Damage", IntegerPool.get( 1 ),
+		  "Cold Spell Damage", IntegerPool.get( 1 ),
+		  "Spooky Spell Damage", IntegerPool.get( 1 ),
+		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
+		{ "Sleaze Spell Damage",
+		  "Hot Spell Damage", IntegerPool.get( 1 ),
+		  "Cold Spell Damage", IntegerPool.get( 1 ),
+		  "Spooky Spell Damage", IntegerPool.get( 1 ),
+		  "Stench Spell Damage", IntegerPool.get( 1 ) },
+	};
+
 	private static final Comparator<String> modifierComparator = new Comparator<String>()
 	{
 		public int compare( String s1, String s2 )
 		{
-			if ( s1.equals( "HP Regen Min" ) )
+			for ( Object [] list : Modifiers.COMPARISONS )
 			{
-				if ( s2.equals( "HP Regen Max" ) )
+				if ( s1.equals( list[ 0 ] ) )
 				{
-					return -1;
+					for ( int index = 1; index < list.length; index += 2 )
+					{
+						if ( s2.equals( list[ index ] ) )
+						{
+							return ((Integer)list[ index + 1 ] ).intValue();
+						}
+					}
 				}
 			}
-			else if ( s1.equals( "HP Regen Max" ) )
-			{
-				if ( s2.equals( "HP Regen Min" ) )
-				{
-					return 1;
-				}
-			}
-			else if ( s1.equals( "MP Regen Min" ) )
-			{
-				if ( s2.equals( "MP Regen Max" ) )
-				{
-					return -1;
-				}
-			}
-			else if ( s1.equals( "MP Regen Max" ) )
-			{
-				if ( s2.equals( "MP Regen Min" ) )
-				{
-					return 1;
-				}
-			}
+
 			return s1.compareToIgnoreCase( s2 );
 		}
 	};
