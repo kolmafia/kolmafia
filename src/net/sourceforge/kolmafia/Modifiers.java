@@ -1977,83 +1977,6 @@ public class Modifiers
 		{ "Moxie Limit",
 		  "Muscle Limit", IntegerPool.get( 1 ),
 		  "Mysticality Limit", IntegerPool.get( 1 ) },
-
-		// Hot, Cold, Spooky, Stench, Sleaze
-		{ "Hot Resistance",
-		  "Cold Resistance", IntegerPool.get( -1 ),
-		  "Spooky Resistance", IntegerPool.get( -1 ),
-		  "Stench Resistance", IntegerPool.get( -1 ),
-		  "Sleaze Resistance", IntegerPool.get( -1 ) },
-		{ "Cold Resistance",
-		  "Hot Resistance", IntegerPool.get( 1 ),
-		  "Spooky Resistance", IntegerPool.get( -1 ),
-		  "Stench Resistance", IntegerPool.get( -1 ),
-		  "Sleaze Resistance", IntegerPool.get( -1 ) },
-		{ "Spooky Resistance",
-		  "Hot Resistance", IntegerPool.get( 1 ),
-		  "Cold Resistance", IntegerPool.get( 1 ),
-		  "Stench Resistance", IntegerPool.get( -1 ),
-		  "Sleaze Resistance", IntegerPool.get( -1 ) },
-		{ "Stench Resistance",
-		  "Hot Resistance", IntegerPool.get( 1 ),
-		  "Cold Resistance", IntegerPool.get( 1 ),
-		  "Spooky Resistance", IntegerPool.get( 1 ),
-		  "Sleaze Resistance", IntegerPool.get( -1 ) },
-		{ "Sleaze Resistance",
-		  "Hot Resistance", IntegerPool.get( 1 ),
-		  "Cold Resistance", IntegerPool.get( 1 ),
-		  "Spooky Resistance", IntegerPool.get( 1 ),
-		  "Stench Resistance", IntegerPool.get( 1 ) },
-		{ "Hot Damage",
-		  "Cold Damage", IntegerPool.get( -1 ),
-		  "Spooky Damage", IntegerPool.get( -1 ),
-		  "Stench Damage", IntegerPool.get( -1 ),
-		  "Sleaze Damage", IntegerPool.get( -1 ) },
-		{ "Cold Damage",
-		  "Hot Damage", IntegerPool.get( 1 ),
-		  "Spooky Damage", IntegerPool.get( -1 ),
-		  "Stench Damage", IntegerPool.get( -1 ),
-		  "Sleaze Damage", IntegerPool.get( -1 ) },
-		{ "Spooky Damage",
-		  "Hot Damage", IntegerPool.get( 1 ),
-		  "Cold Damage", IntegerPool.get( 1 ),
-		  "Stench Damage", IntegerPool.get( -1 ),
-		  "Sleaze Damage", IntegerPool.get( -1 ) },
-		{ "Stench Damage",
-		  "Hot Damage", IntegerPool.get( 1 ),
-		  "Cold Damage", IntegerPool.get( 1 ),
-		  "Spooky Damage", IntegerPool.get( 1 ),
-		  "Sleaze Damage", IntegerPool.get( -1 ) },
-		{ "Sleaze Damage",
-		  "Hot Damage", IntegerPool.get( 1 ),
-		  "Cold Damage", IntegerPool.get( 1 ),
-		  "Spooky Damage", IntegerPool.get( 1 ),
-		  "Stench Damage", IntegerPool.get( 1 ) },
-		{ "Hot Spell Damage",
-		  "Cold Spell Damage", IntegerPool.get( -1 ),
-		  "Spooky Spell Damage", IntegerPool.get( -1 ),
-		  "Stench Spell Damage", IntegerPool.get( -1 ),
-		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
-		{ "Cold Spell Damage",
-		  "Hot Spell Damage", IntegerPool.get( 1 ),
-		  "Spooky Spell Damage", IntegerPool.get( -1 ),
-		  "Stench Spell Damage", IntegerPool.get( -1 ),
-		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
-		{ "Spooky Spell Damage",
-		  "Hot Spell Damage", IntegerPool.get( 1 ),
-		  "Cold Spell Damage", IntegerPool.get( 1 ),
-		  "Stench Spell Damage", IntegerPool.get( -1 ),
-		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
-		{ "Stench Spell Damage",
-		  "Hot Spell Damage", IntegerPool.get( 1 ),
-		  "Cold Spell Damage", IntegerPool.get( 1 ),
-		  "Spooky Spell Damage", IntegerPool.get( 1 ),
-		  "Sleaze Spell Damage", IntegerPool.get( -1 ) },
-		{ "Sleaze Spell Damage",
-		  "Hot Spell Damage", IntegerPool.get( 1 ),
-		  "Cold Spell Damage", IntegerPool.get( 1 ),
-		  "Spooky Spell Damage", IntegerPool.get( 1 ),
-		  "Stench Spell Damage", IntegerPool.get( 1 ) },
 	};
 
 	private static final Comparator<String> modifierComparator = new Comparator<String>()
@@ -2071,10 +1994,11 @@ public class Modifiers
 							return ((Integer)list[ index + 1 ] ).intValue();
 						}
 					}
+					break;
 				}
 			}
 
-			return s1.compareToIgnoreCase( s2 );
+			return s1.compareTo( s2 );
 		}
 	};
 
