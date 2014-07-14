@@ -189,7 +189,7 @@ public class DebugDatabase
 		{
 			this.tag = tag;
 			this.type = type;
-			this.map = new TreeMap<String, String>( DebugDatabase.ignoreCaseComparator );
+			this.map = new TreeMap<String, String>( /* DebugDatabase.ignoreCaseComparator */ );
 		}
 
 		public String getTag()
