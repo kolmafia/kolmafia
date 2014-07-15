@@ -1722,7 +1722,7 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.SMILE_OF_MR_A:
-			Preferences.increment( "_smilesOfMrA" );
+			Preferences.increment( "_smilesOfMrA", count );
 			break;
 
 		case SkillPool.RAGE_GLAND:
