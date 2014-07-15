@@ -1827,12 +1827,12 @@ pirate hook	Weapon Damage: +3
 pixel grappling hook	Initiative: +40, Item Drop: +10
 pixel shield	Muscle: +5, Damage Reduction: 3
 plush alielf	Maximum HP: +30
-plush alien hamsterpus	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
+plush alien hamsterpus	Muscle Percent: [2*G], Mysticality Percent: [2*G], Moxie Percent: [2*G]
 plush dogcat	Maximum MP: +30
 plush ferrelf	Muscle: +5, Mysticality: +5, Moxie: +5
 plush hamsterpus	Maximum HP: +50, Maximum MP: +50
-plush mutated alielephant	Muscle Percent: +6, Mysticality Percent: +6, Moxie Percent: +6, Critical Hit Percent: +5
-plush mutated alielf	Muscle Percent: +2, Mysticality Percent: +2, Moxie Percent: +2
+plush mutated alielephant	Muscle Percent: [3*G], Mysticality Percent: [3*G], Moxie Percent: [3*G], Critical Hit Percent: +5
+plush mutated alielf	Muscle Percent: [G], Mysticality Percent: [G], Moxie Percent: [G]
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Muscle: +10, Damage Reduction: 9
 pottery shield	Hot Damage: +5, Damage Reduction: 3
@@ -5560,7 +5560,7 @@ _smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent
 
 # Foods section of modifiers.txt
 
-3vi1 pr0n m4nic0tti	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
+3vi1 pr0n m4nic0tti	Effect: "A Little Bit Evil", Effect Duration: 10
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
 Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -5607,6 +5607,7 @@ candy kneecapping stick	Effect: "Sugar Rush", Effect Duration: 5
 candy mountain oyster	Effect: "Sugar Rush", Effect Duration: 10
 carrot cake	Effect: "Pla-see-bo", Effect Duration: 10
 centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
+chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 chaos popcorn	Effect Duration: 5
 cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
@@ -5617,17 +5618,18 @@ cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
+devil dog	Effect: "Devil Inside", Effect Duration: 30
 dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 dwarf bread	Effect: "Dwarven Hardiness", Effect Duration: 5
 electric Kool-Aid	Effect: "Electric, Kool", Effect Duration: 50
 elven <i>limbos</i> gingerbread	Effect: "Yuletide Industry", Effect Duration: 20
 escargotsicle	Effect: "Extremely Poor Taste", Effect Duration: 10
-evil boring spaghetti	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
-evil delicious noodles	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
-evil delicious spicy noodles	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
-evil painful penne pasta	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
-evil ravioli della hippy	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
-evil spicy noodles	Effect: "A Little Bit Evil (Pastamancer)", Effect Duration: 10
+evil boring spaghetti	Effect: "A Little Bit Evil", Effect Duration: 10
+evil delicious noodles	Effect: "A Little Bit Evil", Effect Duration: 10
+evil delicious spicy noodles	Effect: "A Little Bit Evil", Effect Duration: 10
+evil painful penne pasta	Effect: "A Little Bit Evil", Effect Duration: 10
+evil ravioli della hippy	Effect: "A Little Bit Evil", Effect Duration: 10
+evil spicy noodles	Effect: "A Little Bit Evil", Effect Duration: 10
 exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
 expired can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 30
 festive sausage	Effect: "Sausage Festive", Effect Duration: 20
@@ -5637,6 +5639,7 @@ foie gras	Effect: "Beaten Up", Effect Duration: 1
 forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
 frozen danish	Effect: "Danish Cunning", Effect Duration: 30
 fudgesicle	Effect: "Fudge Headache", Effect Duration: 30
+ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 giant green gummi bear	Effect: "Gummibrain", Effect Duration: 40
 giant red gummi bear	Effect: "Gummiheart", Effect Duration: 40
 giant yellow gummi bear	Effect: "Gummiskin", Effect Duration: 40
@@ -5656,6 +5659,7 @@ ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
 jawbruiser	Effect: "Sugar Rush", Effect Duration: 5
+junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 king cookie	Effect: "The Royal We", Effect Duration: 30
 knight cookie	Effect: "Knightlife", Effect Duration: 30
@@ -5672,6 +5676,7 @@ natto pocky	Effect: "Ninja, Please", Effect Duration: 30
 nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 old chum	Effect: "Fishy", Effect Duration: 5
+one with everything	Effect: "Inner Dog", Effect Duration: 50
 packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 pawn cookie	Effect: "Pwnd", Effect Duration: 30
 pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
@@ -5686,6 +5691,7 @@ red drunki-bear	Effect: "Gummiheart", Effect Duration: 80
 roasted marshmallow	Effect: "Mallowed Out", Effect Duration: 3
 rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 rook cookie	Effect: "Towering Strength", Effect Duration: 30
+savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
@@ -5693,6 +5699,7 @@ skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 1
 sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 slick fish meat	Effect: "Fishy", Effect Duration: 5
 slimy sweetbreads	Effect: "Grimace", Effect Duration: 20
+sly dog	Effect: "Top Dog", Effect Duration: 50
 smashed danish	Effect: "Danish Cunning", Effect Duration: 30
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10
@@ -5712,14 +5719,17 @@ tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
 tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
 triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
-turtle soup	Effect: "A Little Bit Evil (Turtle Tamer)"
+turtle soup	Effect: "A Little Bit Evil"
 ultrafondue	Effect: "Fondid", Effect Duration: 30
 unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
+video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
 warbear thermoregulator bread	Effect: "Superheated Guts", Effect Duration: 40
 warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
 wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
+wet dog	Effect: "Hangdog", Effect Duration: 30
 wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
+witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
 yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
@@ -5731,6 +5741,7 @@ Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
 Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect Duration: 30
+Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Beignet Milgranet	Effect: "Sugar Rush", Effect Duration: 100
 Blood Light	Effect: "Bloody-minded", Effect Duration: 30
 Bone's Farm &quot;wine&quot;	Effect: "Sticks and Stones", Effect Duration: 30
@@ -5778,6 +5789,7 @@ Haymaker	Effect: "Fishy", Effect Duration: 15
 Herring Daiquiri	Effect: "Fishy", Effect Duration: 5
 Herring Wallbanger	Effect: "Fishy", Effect Duration: 10
 Herringtini	Effect: "Fishy", Effect Duration: 15
+Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Jackhammer	Effect: "Mortarfied", Effect Duration: 10
@@ -5807,6 +5819,7 @@ Slimosa	Effect: "In the Slimelight", Effect Duration: 5
 Slippery Knob	Effect: "Gutterminded", Effect Duration: 10
 Sloe Comfortable Zoo	Effect: "Rampage!", Effect Duration: 10
 Sloe Comfortable Zoo on Fire	Effect: "Rampage!", Effect Duration: 15
+Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Suffering Sinner	Effect: "Heart Aflame", Effect Duration: 5
 Suppurating Sinner	Effect: "Heart Aflame", Effect Duration: 10
@@ -5815,7 +5828,7 @@ Temps Tempranillo	Effect Duration: 5
 The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Duration: 30
 Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
 Zoodriver	Effect: "Rampage!", Effect Duration: 5
-an evil little sump'm sump'm	Effect: "A Little Bit Evil (Disco Bandit)", Effect Duration: 10
+an evil little sump'm sump'm	Effect: "A Little Bit Evil", Effect Duration: 10
 artisanal limoncello	Effect: "Sugar Rush", Effect Duration: 30
 berry-infused sake	Effect: "Warm Belly", Effect Duration: 1
 blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
@@ -5851,14 +5864,16 @@ discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 elven cellocello	Effect: "Sugar Rush", Effect Duration: 20
 elven moonshine	Effect: "Drunk With Power", Effect Duration: 20
-evil ducha de oro	Effect: "A Little Bit Evil (Disco Bandit)", Effect Duration: 10
-evil horizontal tango	Effect: "A Little Bit Evil (Disco Bandit)", Effect Duration: 10
-evil roll in the hay	Effect: "A Little Bit Evil (Disco Bandit)", Effect Duration: 10
+evil ducha de oro	Effect: "A Little Bit Evil", Effect Duration: 10
+evil horizontal tango	Effect: "A Little Bit Evil", Effect Duration: 10
+evil roll in the hay	Effect: "A Little Bit Evil", Effect Duration: 10
 expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 30
+fortified eggnog slurry	Effect: "Loaded Forwarbear", Effect Duration: 10
 gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 green eggnog	Effect: "Just the Best Anapests", Effect Duration: 50
 herringcello	Effect: "Sugar Rush", Effect Duration: 20
 honey mead	Effect: "Sugar Rush", Effect Duration: 5
+hot buttered rum	Effect: "Loaded Forwarbear", Effect Duration: 20
 lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
 melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
@@ -5885,6 +5900,7 @@ smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
 snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 soy cordial	Effect: "Electrolyte Fantastic", Effect Duration: 2
 soyburger juice	Effect: "Oversaturated Palate", Effect Duration: 1
+spicy hot chocolate	Effect: "Loaded Forwarbear", Effect Duration: 30
 swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80
 tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
@@ -5904,16 +5920,17 @@ world's most unappetizing beverage	Effect: "Literally Insane", Effect Duration: 
 37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 8-bit banana	Effect: "Banono", Effect Duration: 20
 A muse-bouche	Effect: "Pros Only", Effect Duration: 30
+ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Apathargic Bandersnatch	Free Pull
-ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
+BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
+BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Bangyomaman battle juice	Effect: "Pug Ugly", Effect Duration: 50
 Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
-Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
@@ -5922,10 +5939,9 @@ Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
 Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
-BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
-BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
+CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 Can of Spaghetto	Effect: "Blessing of the Spaghetto", Effect Duration: 20
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
 Cheshire Bitten	Free Pull
@@ -5945,10 +5961,9 @@ Crimbo P. R. E. S. S. I. E.	Free Pull
 Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
-CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
-# Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
+# Desert Bus pass: Allows Travel to Desert Beach
 Discontent&trade; Winter Garden Catalog	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
@@ -5982,8 +5997,8 @@ Gene Tonic: Fish	Effect: "Human-Fish Hybrid", Effect Duration: 30
 Gene Tonic: Goblin	Effect: "Human-Goblin Hybrid", Effect Duration: 30
 Gene Tonic: Hippy	Effect: "Human-Hippy Hybrid", Effect Duration: 30
 Gene Tonic: Hobo	Effect: "Human-Hobo Hybrid", Effect Duration: 30
-Gene Tonic: Humanoid	Effect: "Human-Humanoid Hybrid", Effect Duration: 30
 Gene Tonic: Horror	Effect: "Human-Horror Hybrid", Effect Duration: 30
+Gene Tonic: Humanoid	Effect: "Human-Humanoid Hybrid", Effect Duration: 30
 Gene Tonic: Insect	Effect: "Human-Insect Hybrid", Effect Duration: 30
 Gene Tonic: Mer-kin	Effect: "Human-Mer-kin Hybrid", Effect Duration: 30
 Gene Tonic: Orc	Effect: "Human-Orc Hybrid", Effect Duration: 30
@@ -5991,8 +6006,8 @@ Gene Tonic: Penguin	Effect: "Human-Penguin Hybrid", Effect Duration: 30
 Gene Tonic: Pirate	Effect: "Human-Pirate Hybrid", Effect Duration: 30
 Gene Tonic: Plant	Effect: "Human-Plant Hybrid", Effect Duration: 30
 Gene Tonic: Slime	Effect: "Human-Slime Hybrid", Effect Duration: 30
-Gene Tonic: Weird	Effect: "Human-Weird Thing Hybrid", Effect Duration: 30
 Gene Tonic: Undead	Effect: "Human-Undead Hybrid", Effect Duration: 30
+Gene Tonic: Weird	Effect: "Human-Weird Thing Hybrid", Effect Duration: 30
 Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
@@ -6001,15 +6016,14 @@ Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
-Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Huggler Radio	Free Pull
 Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
 Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
+Knob Goblin Mutagen	Effect: "Weirdly Scientific", Effect Duration: 30
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
-Knob Goblin Mutagen	Effect: "Weirdly Scientific", Effect Duration: 30
 Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 10
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
@@ -6059,18 +6073,19 @@ Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
 Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
 Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
-Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
 PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
+Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
 Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 PlexiPips	Effect: "Sole Soul", Effect Duration: 1
 Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
+R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
-R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
+# S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
@@ -6080,7 +6095,6 @@ Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Small Medium	Free Pull
 Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
-Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Sorcerers of the Shore Grimoire	Free Pull
 Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
@@ -6088,6 +6102,7 @@ Stemonitis Staticus mushroom	Effect: "Stemonitis Storm", Effect Duration: 10
 Stephen's secret formula	Effect: "Spookyravin'", Effect Duration: 20
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
+Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Swizzler	Effect: "Sugar Rush", Effect Duration: 5
@@ -6120,7 +6135,6 @@ Yolo&trade; chocolates	Effect: "Yoloswagyoloswag", Effect Duration: 5
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 a cute angel	Free Pull
 abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
-# abyssal battle plans
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 alien drugs	Effect: "Space Cowboy", Effect Duration: 15
@@ -6134,9 +6148,9 @@ astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 bad penguin egg	Free Pull
 bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
+bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
 bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
 bag of pygmy blood	Effect: "Blood-Rich", Effect Duration: 20
-bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
 baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 banana smoothie	Effect: "Bananas!", Effect Duration: [R]
@@ -6158,13 +6172,13 @@ black sheepskin diploma	Effect: "Erudite", Effect Duration: 10
 black snowcone	Effect: "Black Tongue", Effect Duration: 20
 black tear	Effect: "Weepy, Creepy", Effect Duration: 1
 blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
-blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blob of Alphredo&trade;	Effect: "Blessing of the Stinking Alphredo&trade;", Effect Duration: 10
+blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 bloodstain stick	Effect: "Bloodstain-Resistant", Effect Duration: 20
-blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
+blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
 bone bons	Effect: "Bone Chilling", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
@@ -6191,7 +6205,7 @@ buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
-can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
+can of Binarrrca	Effect: "Talking Like a Pirate", Effect Duration: 50, Free Pull
 can of V-11	Effect: "It's Ridiculous", Effect Duration: 111
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
 can of spinach	Effect: "Pop-eyed", Effect Duration: 10
@@ -6213,7 +6227,6 @@ cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duratio
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
-chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
 chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
@@ -6239,8 +6252,8 @@ cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 correction fluid	Effect: "The Solution", Effect Duration: 30
 corrupted data	Effect: "Corrupted", Effect Duration: 30
-cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 cosmic bucket	Free Pull
+cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 cotton candy cocoon	Free Pull
 cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 1
@@ -6253,15 +6266,15 @@ cursed microwave	Free Pull
 cursed pony keg	Free Pull
 custom avatar form	Free Pull
 cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
-cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
+cymbal syrup	Effect: "Tinnitus", Effect Duration: 20, Free Pull
 d12	Effect: "Bastard!", Effect Duration: 10
 # d20	Effect: "Natural 1", Effect Duration: 1
 # d20	Effect: "Natural 20", Effect Duration: 1
 # d20	Effect: "20/20 Vision", Effect Duration: 20d20
 dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
-deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deactivated nanobots	Free Pull
+deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
@@ -6269,7 +6282,6 @@ demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
 dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
-devil dog	Effect: "Devil Inside", Effect Duration: 30
 devilish folio	Effect: "Dis Abled", Effect Duration: 30
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
@@ -6297,7 +6309,7 @@ ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
-# eleven-foot pole: You know... For traps.
+# eleven-foot pole: You know...  For traps.
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
@@ -6324,13 +6336,14 @@ fabric hardener	Effect: "Hardened Fabric", Effect Duration: 20
 fairy-worn boots	Free Pull
 fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
+# fancy oil painting: Useful for Bridge-Building
 fat loot token	No Pull
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
 finger exerciser	Effect: "Strong Grip", Effect Duration: 20
-fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
 fire flower	Effect: "Flamingly Floral", Effect Duration: 10
+fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
 fish juice box	Effect: "Fishy", Effect Duration: 20
 fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 fishy pipe	Effect: "Fishy", Effect Duration: 10
@@ -6343,10 +6356,9 @@ floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
-fortified eggnog slurry	Effect: "Loaded Forwarbear", Effect Duration: 10
 fragment of Jarlsberg's soul	Free Pull
-freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
+freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost flower	Effect: "Frosty", Effect Duration: 50
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
@@ -6357,13 +6369,12 @@ fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 funny bone	Effect: "Angry Bone", Effect Duration: 30
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
-future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
 future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
+future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
 future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
-ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 ghost thread	Effect: "Ghost Finger", Effect Duration: 40
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
@@ -6426,7 +6437,6 @@ holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 homeless hobo spirit	Free Pull
 honey stick	Effect: "Stuck That Way", Effect Duration: 10
 honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
-hot buttered rum	Effect: "Loaded Forwarbear", Effect Duration: 20
 hot coal	Effect: "Fire Inside", Effect Duration: 15
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
@@ -6442,18 +6452,17 @@ irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 irritability potion	Effect: "Simply Irritable", Effect Duration: 20
 jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
+jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
 janglin' bones	Effect: "Bony Dancer", Effect Duration: 30
 jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
-jazz soap	Free Pull, Effect: "Jazz Hands", Effect Duration: 20
-jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
+jazz soap	Effect: "Jazz Hands", Effect Duration: 20, Free Pull
 jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
 jitterbug larva	Free Pull
+jug of &quot;wine&quot;	Effect: "Grape Expectations", Effect Duration: 40
+jug of Sneaky Pete's Mojo	Free Pull
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
-jug of Sneaky Pete's Mojo	Free Pull
-jug of "wine"	Effect: "Grape Expectations", Effect Duration: 40
-junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
@@ -6500,10 +6509,10 @@ natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
-oil-filled donut	Effect: "To Protect and Servo", Effect Duration: 50
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
+oil-filled donut	Effect: "To Protect and Servo", Effect Duration: 50
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
 old bronzer	Effect: "Sepia Tan", Effect Duration: 25
 old candy wrapper	Effect: "Litterbug", Effect Duration: 5
@@ -6511,11 +6520,10 @@ old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
 old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
 old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 one pill	Effect Duration: 5
-one with everything	Effect: "Inner Dog", Effect Duration: 50
-orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
 orange snowcone	Effect: "Orange Tongue", Effect Duration: 20
+orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orcish hand lotion	Effect: "Hairy Palms", Effect Duration: 10
 orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 orcish rubber	Effect: "Using Protection", Effect Duration: 10
@@ -6523,8 +6531,8 @@ organ grinder	Free Pull
 orphan baby yeti	Free Pull
 panicked kernel	Free Pull
 panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
-papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect Duration: 40
 papier-m&acirc;ch&eacute; toothpicks	Effect: "Eyes Wide Propped", Effect Duration: 40
+papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect Duration: 40
 papier-mochi	Effect: "Altered Wavelengths", Effect Duration: 40
 papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 passed-out psychedelic bear	Free Pull
@@ -6551,13 +6559,14 @@ piece of after eight	Effect: "Sugar Rush", Effect Duration: 5
 pile of ashes	Effect: "Ashen", Effect Duration: 20
 pill cup	Effect: "Pill Party!", Effect Duration: 30
 pine tar	Effect: "Sticky Hands", Effect Duration: 30
-pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 pink candy heart	Effect: "Heart of Pink", Effect Duration: 10
+pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
+# pixie axie: Helps witches find more candy
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 polo trophy	Effect: "Polonoia", Effect Duration: 15
 portable wall	Effect: "Wallflowering", Effect Duration: 20
@@ -6595,8 +6604,8 @@ pulled yellow taffy	Effect: "Sour Softshoe", Effect Duration: 10
 # pumpkin carriage: Allows Travel to Desert Beach
 pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
 puppet strings	Free Pull
-purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
+purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 pygmy bugbear shaman	Free Pull
 pygmy dart	Effect: "Short of Breath", Effect Duration: 30
 pygmy papers	Effect: "Short on Options", Effect Duration: 30
@@ -6634,7 +6643,6 @@ roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
-savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 scroll case	Effect: "Medieval Mage Mayhem", Effect Duration: 30
@@ -6651,8 +6659,8 @@ secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
 seegar butt	Effect: "Stinking Cloud", Effect Duration: 10
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
-shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 shaking skull	No Pull
+shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 shot of Sneaky Pete's Mojo	Free Pull
 shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
@@ -6669,18 +6677,18 @@ sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleaze wad	Effect: "Supafly", Effect Duration: 10
 sleeping piano cat	Free Pull
 sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
-sly dog	Effect: "Top Dog", Effect Duration: 50
 small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+# snow boards: Useful for Bridge-Building
 snow cleats	Effect: "Snow Shoes", Effect Duration: 30
 sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 sour powder	Effect: "Puckered Up", Effect Duration: 5
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
-spicy hot chocolate	Effect: "Loaded Forwarbear", Effect Duration: 30
+# spinning wheel: Turns air into Meat (once per day)
 spirit gum	Effect: "Spirit Bubble", Effect Duration: 10
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
@@ -6693,6 +6701,7 @@ spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
 spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
 spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 squamous polyp	Free Pull
+# steam-powered model rocketship: Allows access to the Hole in the Sky
 stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
 stench wad	Effect: "Stenchtastic", Effect Duration: 10
@@ -6709,13 +6718,13 @@ sugar cherry	Effect: "Sweet and Red", Effect Duration: 10
 sugar fairy	Effect: "Dance of the Sugar Fairy", Effect Duration: 20
 sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
-Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 superwater	Effect: "Ultrahydrated", Effect Duration: 50
 suspicious stocking	Free Pull
 swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
-sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
+# sweet tooth	Candy Drop: +40
+sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
@@ -6750,33 +6759,32 @@ unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 unused walkie-talkie	Free Pull
 unwound cymbal-playing monkey	Free Pull
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
+vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
 vial of blood simple syrup	Effect: "Blood-Gorged", Effect Duration: 20
 vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
-vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
-video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 walkie talkie	Free Pull
+# warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure
 # warbear auto-anvil: (5x / day)
 warbear bearserker potion	Effect: "Bearserker Bearrage", Effect Duration: 20
+# warbear chemistry lab: Lets you occasionally cook extra Potions
 # warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
 # warbear jackhammer drill press: Increases the effectiveness of Pulverize
 warbear liquid lasers	Effect: "Eyes for Miles", Effect Duration: 20
 warbear liquid overcoat	Effect: "Warbear on the Inside", Effect Duration: 20
-# warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
 warbear rejuvenation potion	Effect: "New and Improved", Effect Duration: 20
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 warbear superpotion	Effect: "Warbear Hunter", Effect Duration: 50
 warbear wardance potion	Effect: "Dances with Warbears", Effect Duration: 20
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
-wet dog	Effect: "Hangdog", Effect Duration: 30
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 white blood cells	Effect: "White Blooded", Effect Duration: 50
@@ -6789,7 +6797,6 @@ wind-up navigation droid	Effect: "Good Motivator", Effect Duration: 20
 wind-up owl	Effect: "Well Owl Be!", Effect Duration: 20
 wind-up vampire teeth	Effect: "Fangs and Pangs", Effect Duration: 20
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
-witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 witch's brew	Effect: "Witch's Brood", Effect Duration: 50
 wizard action figure	Free Pull
 worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10

@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -365,8 +366,8 @@ public class Modifiers
 		},
 		{ "Spell Damage Percent",
 		  new Object[] {
-			Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
-			Pattern.compile( "([+-]\\d+)% Spell Damage" ),
+			Pattern.compile( "Spell Damage ([+-][\\d.]+)%" ),
+			Pattern.compile( "([+-][\\d.]+)% Spell Damage" ),
 		  },
 		  Pattern.compile( "Spell Damage Percent: " + EXPR )
 		},
@@ -1920,96 +1921,110 @@ public class Modifiers
 		return newMods;
 	}
 
-	private static final Object[][] COMPARISONS =
+	public static class Modifier
 	{
-		// Regen Min comes before Regen Max
-		{ "HP Regen Min",
-		  "HP Regen Max", IntegerPool.get( -1 ) },
-		{ "HP Regen Max",
-		  "HP Regen Min", IntegerPool.get( 1 ) },
-		{ "MP Regen Min",
-		  "MP Regen Max", IntegerPool.get( -1 ) },
-		{ "MP Regen Max",
-		  "MP Regen Min", IntegerPool.get( 1 ) },
+		private final String name;
+		private String value;
 
-		// Muscle, Mysticality, Moxie
-		{ "Muscle",
-		  "Mysticality", IntegerPool.get( -1 ),
-		  "Moxie", IntegerPool.get( -1 ) },
-		{ "Mysticality",
-		  "Muscle", IntegerPool.get( 1 ),
-		  "Moxie", IntegerPool.get( -1 ) },
-		{ "Moxie",
-		  "Muscle", IntegerPool.get( 1 ),
-		  "Mysticality", IntegerPool.get( 1 ) },
-		{ "Muscle Percent",
-		  "Mysticality Percent", IntegerPool.get( -1 ),
-		  "Moxie Percent", IntegerPool.get( -1 ) },
-		{ "Mysticality Percent",
-		  "Muscle Percent", IntegerPool.get( 1 ),
-		  "Moxie Percent", IntegerPool.get( -1 ) },
-		{ "Moxie Percent",
-		  "Muscle Percent", IntegerPool.get( 1 ),
-		  "Mysticality Percent", IntegerPool.get( 1 ) },
-		{ "Experience (Muscle)",
-		  "Experience (Mysticality)", IntegerPool.get( -1 ),
-		  "Experience (Moxie)", IntegerPool.get( -1 ) },
-		{ "Experience (Mysticality)",
-		  "Experience (Muscle)", IntegerPool.get( 1 ),
-		  "Experience (Moxie)", IntegerPool.get( -1 ) },
-		{ "Experience (Moxie)",
-		  "Experience (Muscle)", IntegerPool.get( 1 ),
-		  "Experience (Mysticality)", IntegerPool.get( 1 ) },
-		{ "Experience Percent (Muscle)",
-		  "Experience Percent (Mysticality)", IntegerPool.get( -1 ),
-		  "Experience Percent (Moxie)", IntegerPool.get( -1 ) },
-		{ "Experience Percent (Mysticality)",
-		  "Experience Percent (Muscle)", IntegerPool.get( 1 ),
-		  "Experience Percent (Moxie)", IntegerPool.get( -1 ) },
-		{ "Experience Percent (Moxie)",
-		  "Experience Percent (Muscle)", IntegerPool.get( 1 ),
-		  "Experience Percent (Mysticality)", IntegerPool.get( 1 ) },
-		{ "Muscle Limit",
-		  "Mysticality Limit", IntegerPool.get( -1 ),
-		  "Moxie Limit", IntegerPool.get( -1 ) },
-		{ "Mysticality Limit",
-		  "Muscle Limit", IntegerPool.get( 1 ),
-		  "Moxie Limit", IntegerPool.get( -1 ) },
-		{ "Moxie Limit",
-		  "Muscle Limit", IntegerPool.get( 1 ),
-		  "Mysticality Limit", IntegerPool.get( 1 ) },
-	};
-
-	private static final Comparator<String> modifierComparator = new Comparator<String>()
-	{
-		public int compare( String s1, String s2 )
+		public Modifier( final String name, final String value ) 
 		{
-			for ( Object [] list : Modifiers.COMPARISONS )
+			this.name = name;
+			this.value = value;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public String getValue()
+		{
+			return this.value;
+		}
+
+		public void setValue( final String value)
+		{
+			this.value = value;
+		}
+
+		public String toString()
+		{
+			return ( value == null ) ? name : name + ": " + value;
+		}
+	}
+
+	public static class ModifierList
+		implements Iterable<Modifier>
+	{
+		private final LinkedList<Modifier> list;
+
+		public ModifierList() 
+		{
+			this.list = new LinkedList<Modifier>();
+		}
+
+		public Iterator<Modifier> iterator()
+		{
+			return this.list.iterator();
+		}
+
+		public int size()
+		{
+			return this.list.size();
+		}
+
+		public void addAll( final ModifierList list )
+		{
+			for ( Modifier modifier: list )
 			{
-				if ( s1.equals( list[ 0 ] ) )
+				this.addModifier( modifier );
+			}
+		}
+		public void addModifier( final Modifier modifier )
+		{
+			this.list.add( modifier );
+		}
+
+		public void addModifier( final String name, final String value )
+		{
+			this.addModifier( new Modifier( name, value ) );
+		}
+
+		public boolean containsModifier( final String name )
+		{
+			for ( Modifier modifier : this.list )
+			{
+				if ( name.equals( modifier.name ) )
 				{
-					for ( int index = 1; index < list.length; index += 2 )
-					{
-						if ( s2.equals( list[ index ] ) )
-						{
-							return ((Integer)list[ index + 1 ] ).intValue();
-						}
-					}
-					break;
+					return true;
 				}
 			}
-
-			return s1.compareTo( s2 );
+			return false;
 		}
-	};
 
-	public final static TreeMap<String,String> getModifierMap( final String name )
+		public Modifier removeModifier( final String name )
+		{
+			Iterator<Modifier> iterator = this.iterator();
+			while ( iterator.hasNext() )
+			{
+				Modifier modifier = iterator.next();
+				if ( name.equals( modifier.name ) )
+				{
+					iterator.remove();
+					return modifier;
+				}
+			}
+			return null;
+		}
+	}
+
+	public final static ModifierList getModifierList( final String name )
 	{
-		TreeMap<String,String> map = new TreeMap<String,String>( Modifiers.modifierComparator );
+		ModifierList list = new ModifierList();
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
-			return map;
+			return list;
 		}
 
 		String enchantments = mods.getString( "Modifiers" );
@@ -2080,9 +2095,10 @@ public class Modifiers
 				value = string.substring( colon + 1 ).trim();
 			}
 
-			map.put( key, value );
+			list.addModifier( key, value );
 		}
-		return map;
+
+		return list;
 	}
 
 	public final static String evaluateModifiers( final String modifiers )
