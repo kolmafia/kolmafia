@@ -1052,17 +1052,18 @@ public class DebugDatabase
 					{
 						report.println( expr.getExpressionErrors() );
 					}
-					int descValue = StringUtilities.parseInt( value );
-					int modValue = (int)expr.eval();
-					if ( descValue == modValue )
-					{
-						// Good expression. Keep it
-						known.set( i, key + ": " + existing );
-					}
 					else
 					{
-						report.println( "# *** modifier " + key + ": " + existing + " evaluates to " + modValue + " but description says " + descValue );
+						int descValue = StringUtilities.parseInt( value );
+						int modValue = (int)expr.eval();
+						if ( descValue != modValue )
+						{
+							report.println( "# *** modifier " + key + ": " + existing + " evaluates to " + modValue + " but description says " + descValue );
+						}
 					}
+
+					// Keep the expression, regardless
+					known.set( i, key + ": " + existing );
 				}
 				else if ( !value.equals( existing ) )
 				{

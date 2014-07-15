@@ -642,7 +642,8 @@ public class Modifiers
 		},
 		{ "Combat Mana Cost",
 		  Pattern.compile( "([+-]\\d+) MP to use Skills \\(in-combat only\\)" ),
-		  Pattern.compile( "Mana Cost \\(combat\\): " + EXPR )
+		  Pattern.compile( "Mana Cost \\(combat\\): " + EXPR ),
+		  "Mana Cost (combat)"
 		},
 		{ "Muscle Experience Percent",
 		  Pattern.compile( "([+-]\\d+)% to all Muscle Gains" ),
@@ -707,7 +708,7 @@ public class Modifiers
 		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
 		},
 		{ "Familiar Damage",
-		  Pattern.compile( "Familiar Damage ([+-]\\d+)" ),
+		  Pattern.compile( "([+-]\\d+) to Familiar Damage" ),
 		  Pattern.compile( "Familiar Damage: " + EXPR )
 		},
 		{ "Gear Drop",
@@ -882,11 +883,11 @@ public class Modifiers
 		  Pattern.compile( "Additional Song" )
 		},
 		{ "Adventure Underwater",
-		  Pattern.compile( "Lets you breathe underwater" ),
+		  Pattern.compile( "Lets you [bB]reathe [uU]nderwater" ),
 		  Pattern.compile( "Adventure Underwater" )
 		},
 		{ "Underwater Familiar",
-		  null,
+		  Pattern.compile( "Lets your Familiar Breathe Underwater" ),
 		  Pattern.compile( "Underwater Familiar" )
 		},
 		{ "Generic",
@@ -3035,17 +3036,7 @@ public class Modifiers
 
 		if ( enchantment.indexOf( "All Elements" ) != -1 )
 		{
-			return Modifiers.HOT + level + ", " + Modifiers.COLD + level + ", " + Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level + ", " + Modifiers.SLEAZE + level;
-		}
-
-		if ( enchantment.indexOf( "Hot" ) != -1 )
-		{
-			return Modifiers.HOT + level;
-		}
-
-		if ( enchantment.indexOf( "Cold" ) != -1 )
-		{
-			return Modifiers.COLD + level;
+			return Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level + ", " + Modifiers.HOT + level + ", " + Modifiers.COLD + level + ", " + Modifiers.SLEAZE + level;
 		}
 
 		if ( enchantment.indexOf( "Spooky" ) != -1 )
@@ -3056,6 +3047,16 @@ public class Modifiers
 		if ( enchantment.indexOf( "Stench" ) != -1 )
 		{
 			return Modifiers.STENCH + level;
+		}
+
+		if ( enchantment.indexOf( "Hot" ) != -1 )
+		{
+			return Modifiers.HOT + level;
+		}
+
+		if ( enchantment.indexOf( "Cold" ) != -1 )
+		{
+			return Modifiers.COLD + level;
 		}
 
 		if ( enchantment.indexOf( "Sleaze" ) != -1 )
