@@ -1947,9 +1947,45 @@ public class Modifiers
 			this.value = value;
 		}
 
+		public void eval()
+		{
+			int lb = this.value.indexOf( "[" );
+			if ( lb == -1 )
+			{
+				return;
+			}
+
+			int rb = this.value.indexOf( "]" );
+			if ( rb == -1 )
+			{
+				return;
+			}
+
+			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), this.name );
+			if ( expr.hasErrors() )
+			{
+				return;
+			}
+
+			int val = (int)expr.eval();
+			this.value = ( val > 0 ? "+" : "" ) + String.valueOf( val );
+		}
+
+		public void toString( final StringBuilder buffer )
+		{
+			buffer.append( name );
+			if ( value != null )
+			{
+				buffer.append( ": " );
+				buffer.append( value );
+			}
+		}
+
 		public String toString()
 		{
-			return ( value == null ) ? name : name + ": " + value;
+			StringBuilder buffer = new StringBuilder();
+			this.toString( buffer );
+			return buffer.toString();
 		}
 	}
 
@@ -2016,33 +2052,52 @@ public class Modifiers
 			}
 			return null;
 		}
+
+		public String toString()
+		{
+			StringBuilder buffer = new StringBuilder();
+			for ( Modifier modifier : this.list )
+			{
+				if ( buffer.length() > 0 )
+				{
+					buffer.append( ", " );
+				}
+
+				modifier.toString( buffer );
+			}
+			return buffer.toString();
+		}
 	}
 
 	public final static ModifierList getModifierList( final String name )
 	{
-		ModifierList list = new ModifierList();
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
-			return list;
+			return new ModifierList();
 		}
 
-		String enchantments = mods.getString( "Modifiers" );
+		return Modifiers.splitModifiers( mods.getString( "Modifiers" ) );
+	}
+
+	public final static ModifierList splitModifiers( String modifiers )
+	{
+		ModifierList list = new ModifierList();
 
 		// Iterate over string, pulling off modifiers
-		while ( enchantments != null )
+		while ( modifiers != null )
 		{
 			// Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
-			int comma = enchantments.indexOf( "," );
+			int comma = modifiers.indexOf( "," );
 			if ( comma != -1 )
 			{
-				int bracket1 = enchantments.indexOf( "[" );
+				int bracket1 = modifiers.indexOf( "[" );
 				if ( bracket1 != -1 && bracket1 < comma )
 				{
-					int bracket2 = enchantments.indexOf( "]", bracket1 + 1 );
+					int bracket2 = modifiers.indexOf( "]", bracket1 + 1 );
 					if ( bracket2 != -1 )
 					{
-						comma = enchantments.indexOf( ",", bracket2 + 1 );
+						comma = modifiers.indexOf( ",", bracket2 + 1 );
 					}
 					else
 					{
@@ -2052,13 +2107,13 @@ public class Modifiers
 				}
 				else
 				{
-					int quote1 = enchantments.indexOf( "\"" );
+					int quote1 = modifiers.indexOf( "\"" );
 					if ( quote1 != -1 && quote1 < comma )
 					{
-						int quote2 = enchantments.indexOf( "\"", quote1 + 1 );
+						int quote2 = modifiers.indexOf( "\"", quote1 + 1 );
 						if ( quote2 != -1 )
 						{
-							comma = enchantments.indexOf( ",", quote2 + 1 );
+							comma = modifiers.indexOf( ",", quote2 + 1 );
 						}
 						else
 						{
@@ -2072,13 +2127,13 @@ public class Modifiers
 			String string;
 			if ( comma == -1 )
 			{
-				string = enchantments;
-				enchantments = null;
+				string = modifiers;
+				modifiers = null;
 			}
 			else
 			{
-				string = enchantments.substring( 0, comma ).trim();
-				enchantments = enchantments.substring( comma + 1 ).trim();
+				string = modifiers.substring( 0, comma ).trim();
+				modifiers = modifiers.substring( comma + 1 ).trim();
 			}
 
 			String key, value;
@@ -2111,76 +2166,21 @@ public class Modifiers
 
 		// Otherwise, break apart the string and rebuild it with all
 		// expressions evaluated.
-		String[] mods = modifiers.split( ", " );
-		StringBuilder buffer = new StringBuilder();
-		for ( int i = 0; i < mods.length; ++i )
+		ModifierList list = Modifiers.splitModifiers( modifiers );
+		for ( Modifier modifier : list )
 		{
-			if ( i > 0 )
-			{
-				buffer.append( ", " );
-			}
-			String mod = mods[ i ];
-			int lb = mod.indexOf( "[" );
-			if ( lb == -1 )
-			{
-				buffer.append( mod );
-				continue;
-			}
-			int rb = mod.indexOf( "]", lb );
-			if ( rb == -1 )
-			{
-				buffer.append( mod );
-				continue;
-			}
-			int colon = mod.indexOf( ":" );
-			if ( colon == -1 )
-			{
-				buffer.append( mod );
-				continue;
-			}
-			String name = mod.substring( 0, colon );
-			ModifierExpression expr = new ModifierExpression( mod.substring( lb + 1, rb ), name );
-			if ( expr.hasErrors() )
-			{
-				buffer.append( mod );
-				continue;
-			}
-
-			int val = (int)expr.eval();
-
-			buffer.append( name );
-			buffer.append( ": " );
-			buffer.append( val > 0 ? "+" : "" );
-			buffer.append( val );
+			// Evaluate the modifier expression
+			modifier.eval();
 		}
-		return buffer.toString();
+
+		return list.toString();
 	}
 
 	public final static String trimModifiers( final String modifiers, final String remove )
 	{
-		String[] mods = modifiers.split( ", " );
-		StringBuilder buffer = new StringBuilder();
-		for ( int i = 0; i < mods.length; ++i )
-		{
-			if ( i > 0 )
-			{
-				buffer.append( ", " );
-			}
-			String mod = mods[ i ];
-			int colon = mod.indexOf( ":" );
-			if ( colon == -1 )
-			{
-				buffer.append( mod );
-				continue;
-			}
-			String name = mod.substring( 0, colon );
-			if ( name.equals( remove ) )
-			{
-				continue;
-			}
-			buffer.append( mod );
-		}
-		return buffer.toString();
+		ModifierList list = Modifiers.splitModifiers( modifiers );
+		list.removeModifier( remove );
+		return list.toString();
 	}
 
 	private boolean override( final String name )
