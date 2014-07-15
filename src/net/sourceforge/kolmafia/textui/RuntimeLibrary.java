@@ -215,8 +215,8 @@ public abstract class RuntimeLibrary
 		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE, DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE, DataTypes.SKILL_TYPE } );
 	
 	private static final RecordType svnInfoRec = new RecordType(
-		"{string url; int revision; string lastChangedAuthor; int lastChangedRev; string lastChangedDate}",
-		new String[] { "url", "revision", "lastChangedAuthor", "lastChangedRev", "lastChangedDate"}, 
+		"{string url; int revision; string last_changed_author; int last_changed_rev; string last_changed_date;}",
+		new String[] { "url", "revision", "last_changed_author", "last_changed_rev", "last_changed_date"}, 
 		new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE} );
 
 	public static final FunctionList functions = new FunctionList();
