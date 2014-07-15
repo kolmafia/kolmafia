@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -58,6 +59,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -171,14 +174,6 @@ public class DebugDatabase
 	private static final String ITEM_DATA = "itemdata.txt";
 	private static final StringArray rawItems = new StringArray();
 
-	private static final Comparator<String> ignoreCaseComparator = new Comparator<String>()
-	{
-		public int compare( String s1, String s2 )
-		{
-			return s1.compareToIgnoreCase( s2 );
-		}
-	};
-
 	private static class ItemMap
 	{
 		private final String tag;
@@ -189,7 +184,7 @@ public class DebugDatabase
 		{
 			this.tag = tag;
 			this.type = type;
-			this.map = new TreeMap<String, String>( /* DebugDatabase.ignoreCaseComparator */ );
+			this.map = new TreeMap<String, String>();
 		}
 
 		public String getTag()
@@ -961,12 +956,17 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_ACCESSORY ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_CONTAINER ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_FAMILIAR ) );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ), false );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ), false );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ), false );
 	}
 
 	private static final void checkItemModifierMap( final PrintStream report, final ItemMap imap )
+	{
+		DebugDatabase.checkItemModifierMap( report, imap, true );
+	}
+
+	private static final void checkItemModifierMap( final PrintStream report, final ItemMap imap, final boolean showAll )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -987,13 +987,13 @@ public class DebugDatabase
 		{
 			String name = (String) keys[ i ];
 			String text = map.get( name );
-			DebugDatabase.checkItemModifierDatum( name, text, type, report );
+			DebugDatabase.checkItemModifierDatum( name, text, type, report, showAll );
 		}
 	}
 
-	private static final void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report )
+	private static final void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report, final boolean showAll )
 	{
-		ArrayList<String> known = new ArrayList<String>();
+		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
 
 		// Get the known and unknown modifiers from the item description
@@ -1004,10 +1004,13 @@ public class DebugDatabase
 		DebugDatabase.checkModifiers( name, known, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
-		DebugDatabase.logModifierDatum( name, known, unknown, report );
+		if ( showAll || known.size() > 0 || unknown.size() > 0 )
+		{
+			DebugDatabase.logModifierDatum( name, known, unknown, report );
+		}
 	}
 
-	private static final void checkModifiers( final String name, final ArrayList<String> known, final PrintStream report )
+	private static final void checkModifiers( final String name, final ModifierList known, final PrintStream report )
 	{
 		// - Keep modifiers in the same order they are listed in the item description
 		// - If a modifier is variable (has an expression), evaluate
@@ -1016,30 +1019,18 @@ public class DebugDatabase
 		//   of parsed modifiers
 
 		// Get the existing modifiers for the name
-		TreeMap<String,String> map = Modifiers.getModifierMap( name );
+		ModifierList list = Modifiers.getModifierList( name );
 
 		// Look at each modifier in known
-		for ( int i = 0; i < known.size(); ++i )
+		for ( Modifier modifier : known )
 		{
-			String mod = known.get( i );
-			// Pull out the key & value
-			String key, value;
+			String key = modifier.getName();
+			String value = modifier.getValue();
 
-			int colon = mod.indexOf( ":" );
-			if ( colon == -1 )
+			Modifier current = list.removeModifier( key );
+			if ( current != null )
 			{
-				key = mod;
-				value = null;
-			}
-			else
-			{
-				key = mod.substring( 0, colon ).trim();
-				value = mod.substring( colon + 1 ).trim();
-			}
-
-			if ( map.containsKey( key ) )
-			{
-				String existing = map.get( key );
+				String existing = current.getValue();
 				if ( existing == null )
 				{
 					// No value
@@ -1065,16 +1056,13 @@ public class DebugDatabase
 					}
 
 					// Keep the expression, regardless
-					known.set( i, key + ": " + existing );
+					modifier.setValue( existing );
 				}
 				else if ( !value.equals( existing ) )
 				{
 					// Value is not an expression and does not match
 					report.println( "# *** modifier " + key + ": " + existing + " should be " + key + ": " + value );
 				}
-
-				// Remove the key from map of existing modifiers
-				map.remove( key );
 			}
 			else
 			{
@@ -1089,22 +1077,11 @@ public class DebugDatabase
 			}
 		}
 
-		// For all modifiers in existing map that were not seen in description, add them to "known"
-		for ( String key : map.keySet() )
-		{
-			String value = map.get( key );
-			if ( value == null )
-			{
-				known.add( key );
-			}
-			else
-			{
-				known.add( key + ": " + value );
-			}
-		}
+		// Add all modifiers in existing list that were not seen in description to "known"
+		known.addAll( list );
 	}
 
-	private static final void logModifierDatum( final String name, final ArrayList<String> known, final ArrayList<String> unknown, final PrintStream report )
+	private static final void logModifierDatum( final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
@@ -1124,16 +1101,16 @@ public class DebugDatabase
 		}
 	}
 
-	private static final String createModifierString( final ArrayList<String> modifiers )
+	private static final String createModifierString( final ModifierList modifiers )
 	{
 		StringBuilder buffer = new StringBuilder();
-		for ( String modifier : modifiers )
+		for ( Modifier modifier : modifiers )
 		{
 			if ( buffer.length() > 0 )
 			{
 				buffer.append( ", " );
 			}
-			buffer.append( modifier );
+			buffer.append( modifier.toString() );
 		}
 		return buffer.toString();
 	}
@@ -1141,7 +1118,7 @@ public class DebugDatabase
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	public static final void parseItemEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown, final int type )
+	public static final void parseItemEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
 		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
@@ -1151,7 +1128,7 @@ public class DebugDatabase
 		// If we extracted Damage Reduction from the enchantments, we
 		// included shield DR as well, but for shields that have no
 		// enchantments, get DR here.
-		if ( !DebugDatabase.containsModifier( known, "Damage Reduction" ) )
+		if ( !known.containsModifier( "Damage Reduction" ) )
 		{
 			DebugDatabase.appendModifier( known, Modifiers.parseDamageReduction( text ) );
 		}
@@ -1176,12 +1153,12 @@ public class DebugDatabase
 
 	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown, final int type )
 	{
-		ArrayList<String> known = new ArrayList<String>();
+		ModifierList known = new ModifierList();
 		DebugDatabase.parseItemEnchantments( text, known, unknown, type );
 		return DebugDatabase.createModifierString( known );
 	}
 
-	private static final void parseStandardEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown, final Pattern pattern )
+	private static final void parseStandardEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
@@ -1226,41 +1203,14 @@ public class DebugDatabase
 		}
 	}
 
-	private static final boolean containsModifier( final ArrayList<String> modifiers, final String find )
-	{
-		for ( String modifier : modifiers )
-		{
-			if ( modifier.startsWith( find ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static final void replaceModifier( final ArrayList<String> modifiers, String find, final String replace )
-	{
-		find = find + ":";
-		for ( int i = 0; i < modifiers.size(); ++i )
-		{
-			String modifier = modifiers.get( i );
-			if ( modifier.startsWith( find ) )
-			{
-				modifiers.set( i, replace );
-				return;
-			}
-		}
-		modifiers.add( replace );
-	}
-
-	private static final void appendModifier( final ArrayList<String> known, final String mod )
+	private static final void appendModifier( final ModifierList known, final String mod )
 	{
 		if ( mod != null )
 		{
 			// If the value contains a quoted string, it can contain commas
 			if ( mod.contains( "\"" ) || !mod.contains( "," ) )
 			{
-				known.add( mod );
+				known.addModifier( DebugDatabase.makeModifier( mod ) );
 				return;
 			}
 
@@ -1268,9 +1218,17 @@ public class DebugDatabase
 			String[] mods = mod.split( "," );
 			for ( int i = 0; i < mods.length; ++i )
 			{
-				known.add( mods[ i ].trim() );
+				known.addModifier( DebugDatabase.makeModifier( mods[ i ] ) );
 			}
 		}
+	}
+
+	private static final Modifier makeModifier( final String mod )
+	{
+		int colon = mod.indexOf( ":" );
+		String key = colon == -1 ? mod.trim() : mod.substring( 0, colon ).trim();
+		String value = colon == -1 ? null : mod.substring( colon + 1 ).trim();
+		return new Modifier( key, value );
 	}
 
 	// **********************************************************
@@ -1484,21 +1442,21 @@ public class DebugDatabase
 	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
 		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
 
-	public static final void parseEffectEnchantments( final String text, final ArrayList<String> known, final ArrayList<String> unknown )
+	public static final void parseEffectEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown )
 	{
 		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
 	}
 
 	public static final String parseEffectEnchantments( final String text, final ArrayList<String> unknown )
 	{
-		ArrayList<String> known = new ArrayList<String>();
+		ModifierList known = new ModifierList();
 		DebugDatabase.parseEffectEnchantments( text, known, unknown );
 		return DebugDatabase.createModifierString( known );
 	}
 
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
-		ArrayList<String> known = new ArrayList<String>();
+		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
 
 		// Get the known and unknown modifiers from the effect description
