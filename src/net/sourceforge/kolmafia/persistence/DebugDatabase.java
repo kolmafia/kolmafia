@@ -961,6 +961,8 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_ACCESSORY ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_CONTAINER ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_FAMILIAR ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ) );
 	}
 

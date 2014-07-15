@@ -2752,7 +2752,7 @@ public class Modifiers
 		return null;
 	}
 
-	private static final Pattern EFFECT_DURATION_PATTERN = Pattern.compile( "Duration(?<!Song Duration): <b>([\\d]*) Adventures</b>" );
+	private static final Pattern EFFECT_DURATION_PATTERN = Pattern.compile( "Duration(?<!Song Duration): <b>([\\d]*) Adventures?</b>" );
 
 	public static final String parseEffectDuration( final String text )
 	{
