@@ -1014,12 +1014,12 @@ public class DebugDatabase
 	{
 		// - Keep modifiers in the same order they are listed in the item description
 		// - If a modifier is variable (has an expression), evaluate
-		//   the expression and compare to the number in the  description
+		//   the expression and compare to the number in the description
 		// - List extra modifiers (Familiar Effect, for example) at end
-		//   of parsed modifiers
+		//   of parsed modifiers in the order they appear in modifiers.txt
 
 		// Get the existing modifiers for the name
-		ModifierList list = Modifiers.getModifierList( name );
+		ModifierList existing = Modifiers.getModifierList( name );
 
 		// Look at each modifier in known
 		for ( Modifier modifier : known )
@@ -1027,20 +1027,20 @@ public class DebugDatabase
 			String key = modifier.getName();
 			String value = modifier.getValue();
 
-			Modifier current = list.removeModifier( key );
+			Modifier current = existing.removeModifier( key );
 			if ( current != null )
 			{
-				String existing = current.getValue();
-				if ( existing == null )
+				String currentValue = current.getValue();
+				if ( currentValue == null )
 				{
 					// No value
 				}
-				else if ( existing.contains( "[" ) )
+				else if ( currentValue.contains( "[" ) )
 				{
 					// Evaluate the expression
-					int lbracket = existing.indexOf( "[" );
-					int rbracket = existing.indexOf( "]" );
-					ModifierExpression expr = new ModifierExpression( existing.substring( lbracket + 1, rbracket ), name );
+					int lbracket = currentValue.indexOf( "[" );
+					int rbracket = currentValue.indexOf( "]" );
+					ModifierExpression expr = new ModifierExpression( currentValue.substring( lbracket + 1, rbracket ), name );
 					if ( expr.hasErrors() )
 					{
 						report.println( expr.getExpressionErrors() );
@@ -1051,17 +1051,17 @@ public class DebugDatabase
 						int modValue = (int)expr.eval();
 						if ( descValue != modValue )
 						{
-							report.println( "# *** modifier " + key + ": " + existing + " evaluates to " + modValue + " but description says " + descValue );
+							report.println( "# *** modifier " + key + ": " + currentValue + " evaluates to " + modValue + " but description says " + descValue );
 						}
 					}
 
 					// Keep the expression, regardless
-					modifier.setValue( existing );
+					modifier.setValue( currentValue );
 				}
-				else if ( !value.equals( existing ) )
+				else if ( !value.equals( currentValue ) )
 				{
 					// Value is not an expression and does not match
-					report.println( "# *** modifier " + key + ": " + existing + " should be " + key + ": " + value );
+					report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
 				}
 			}
 			else
@@ -1078,7 +1078,7 @@ public class DebugDatabase
 		}
 
 		// Add all modifiers in existing list that were not seen in description to "known"
-		known.addAll( list );
+		known.addAll( existing );
 	}
 
 	private static final void logModifierDatum( final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
