@@ -7578,7 +7578,7 @@
 7559
 7560
 7561	giraffe-necked turtle	656897958	giraffeturt.gif	multiple	t,d	11
-7562
+7562	musk turtle	913587207	cologneturt.gif	multiple	t,d	8
 7563
 7564
 7565

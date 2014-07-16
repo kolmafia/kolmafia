@@ -1653,7 +1653,7 @@
 1652	White Blooded	redcells.gif	86b1fed994e95faf17098cce43d9d8e8	use 1 white blood cells
 1653
 1654	Adorable Lookout	giraffeturt.gif	e85e09a568eeded2ab88fe4f40852629	use 1 giraffe-necked turtle
-1655
+1655	High Colognic	cologneturt.gif	0adaec30303a64bf157312fe366d1ac2	use 1 musk turtle
 1656
 1657
 1658	Over-Familiar With Dactyls	candyheart.gif	26b9812c9e89b5da8ebd0bf4c4e8a1d1	use 1 Friendliness Beverage
