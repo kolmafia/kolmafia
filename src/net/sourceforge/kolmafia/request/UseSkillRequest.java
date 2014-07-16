@@ -2095,7 +2095,12 @@ public class UseSkillRequest
 		else
 		{
 			int MP = SkillDatabase.getMPConsumptionById( skillId );
-			maxcasts = MP == 0 ? 1 : availableMP / MP;
+			maxcasts = SkillDatabase.getMaxCasts( skillId );
+			maxcasts = maxcasts == -1 ? Integer.MAX_VALUE : maxcasts;
+			if ( MP != 0 )
+			{
+				maxcasts = Math.min( maxcasts, availableMP / MP );
+			}
 		}
 
 		if ( countMatcher.group( 1 ).startsWith( "*" ) )
