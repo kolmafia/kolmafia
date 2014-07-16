@@ -7571,7 +7571,7 @@
 7552	bowl of marinade	972886583	soupbowl.gif	multiple	t,d	10	bowls of marinade
 7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	20	shakers of dry rub
 7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	10	bottles of lighter fluid
-7555	white page	643839454	document.gif	usable	t	0
+7555	white page	643839454	document.gif	reusable	t	0
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
 7557	white blood cells	819926103	redcells.gif	usable	t,d	15	globs of white blood cells
 7558	white wine	911418189	whitewine.gif	drink	t,d	15	glasses of white wine
