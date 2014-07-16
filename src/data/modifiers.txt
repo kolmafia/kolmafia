@@ -4186,6 +4186,7 @@ Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Guild by Association: Makes you look like a rabid MMO addict
 # Gummi Badass: Deal damage to attackers
+Gummi-Grin	Experience (Muscle): +1
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
@@ -5067,6 +5068,7 @@ Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Top Dog: +50% Damage vs. Vampires
 # Top Dog: +50% Damage vs. Skeletons
 Top Dog	Moxie Percent: +50, Pickpocket Chance: +10, Critical Hit Percent: 10
+Tortious	Monster Level: +10
 Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
@@ -6416,6 +6418,7 @@ gummi fang	Effect: "Gummi Badass", Effect Duration: 5
 gummi salamander	Effect: "Gummiheart", Effect Duration: 1
 gummi snake	Effect: "Gummibrain", Effect Duration: 1
 gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
+gummi turtle	Effect: "Gummi-Grin", Effect Duration: 15
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
@@ -6505,6 +6508,7 @@ mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 miniscule temporal rip	Free Pull
+mocking turtle	Effect: "Tortious", Effect Duration: 15
 moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
