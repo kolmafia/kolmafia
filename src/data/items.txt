@@ -2250,7 +2250,7 @@
 2233	polka-dot bow tie	620090169	dotbowtie.gif	accessory	t,d	25	polka-dot bow ties
 2234	calavera concertina	458249860	calacordion.gif	weapon	t,d	45	calavera concertinas
 2235	ratarang	345804457	ratarang.gif	weapon	t,d	65	ratarangs
-2236	turtle pheromones	542676786	vial.gif	usable		0	vials of turtle pheromones
+2236	turtle pheromones	542676786	vial.gif	mulitple		0	vials of turtle pheromones
 2237	pygmy blowgun	680058972	tinyblowgun.gif	none, combat	t,d	122	pygmy blowguns
 2238	pygmy nose-bone	394311894	pygmybone.gif	accessory	t,d	150	pygmy nose-bones
 2239	big bad voodoo mask	448198252	voodoomask.gif	hat	t,d	165	big bad voodoo masks
@@ -7575,12 +7575,12 @@
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
 7557	white blood cells	819926103	redcells.gif	usable	t,d	15	globs of white blood cells
 7558	white wine	911418189	whitewine.gif	drink	t,d	15	glasses of white wine
-7559
-7560
+7559	gummi turtle	391089043	gummiturt.gif	multiple	t,d	7
+7560	turtle-shaped rock	997508634	turtlerock.gif	none, combat	t,d	7
 7561	giraffe-necked turtle	656897958	giraffeturt.gif	multiple	t,d	11
 7562	musk turtle	913587207	cologneturt.gif	multiple	t,d	8
 7563
-7564
+7564	mocking turtle	303348514	mockturt.gif	multiple	t,d	15
 7565
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
 7567	Chroner	783338147	chroner.gif	none		0	Chroners
