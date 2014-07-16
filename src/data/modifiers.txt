@@ -6453,7 +6453,7 @@ hot wad	Effect: "Hot Blooded", Effect Duration: 10
 hungover chauvinist pig	Free Pull
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 incense bath ball	Effect: "Incensed", Effect Duration: 10
-# industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
+industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
@@ -6735,7 +6735,6 @@ superwater	Effect: "Ultrahydrated", Effect Duration: 50
 suspicious stocking	Free Pull
 swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet nutcracker	Free Pull
-# sweet tooth	Candy Drop: +40
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
@@ -6760,6 +6759,7 @@ too legit potion	Effect: "Hammertime", Effect Duration: 30
 transporter transponder	Effect: "Transpondent", Effect Duration: 30
 true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
+turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 10
