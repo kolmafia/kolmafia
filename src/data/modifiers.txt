@@ -4249,6 +4249,7 @@ Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Hiding in Plain Sight	Initiative: +100
 High Blood Chocolate Content	Candy Drop: +30
+High Colognic	Combat Rate: +5
 Highland Sheen	Moxie: +10
 Hip to Be Square Dancin'	Item Drop: +10
 Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
@@ -6507,6 +6508,7 @@ miniscule temporal rip	Free Pull
 moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
+musk turtle	Effect: "High Colognic", Effect Duration: 15
 myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 mysterious chemical residue	Effect Duration: 5
 mysterious chest	Free Pull
