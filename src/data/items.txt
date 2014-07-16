@@ -2250,7 +2250,7 @@
 2233	polka-dot bow tie	620090169	dotbowtie.gif	accessory	t,d	25	polka-dot bow ties
 2234	calavera concertina	458249860	calacordion.gif	weapon	t,d	45	calavera concertinas
 2235	ratarang	345804457	ratarang.gif	weapon	t,d	65	ratarangs
-2236	turtle pheromones	542676786	vial.gif	mulitple		0	vials of turtle pheromones
+2236	turtle pheromones	542676786	vial.gif	multiple		0	vials of turtle pheromones
 2237	pygmy blowgun	680058972	tinyblowgun.gif	none, combat	t,d	122	pygmy blowguns
 2238	pygmy nose-bone	394311894	pygmybone.gif	accessory	t,d	150	pygmy nose-bones
 2239	big bad voodoo mask	448198252	voodoomask.gif	hat	t,d	165	big bad voodoo masks

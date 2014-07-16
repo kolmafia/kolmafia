@@ -1122,7 +1122,6 @@ public class Modifiers
 
 	public static final void overrideModifier( String name, Object value )
 	{
-		name = StringUtilities.getCanonicalName( name );
 		if ( value != null )
 		{
 			Modifiers.modifiersByName.put( name, value );
@@ -1761,7 +1760,6 @@ public class Modifiers
 			name = "Throne:" + name.substring( 6 );
 		}
 
-		name = StringUtilities.getCanonicalName( name );
 		Object modifier = Modifiers.modifiersByName.get( name );
 
 		if ( modifier == null )
@@ -2009,6 +2007,11 @@ public class Modifiers
 			return this.list.iterator();
 		}
 
+		public void clear()
+		{
+			this.list.clear();
+		}
+
 		public int size()
 		{
 			return this.list.size();
@@ -2016,10 +2019,7 @@ public class Modifiers
 
 		public void addAll( final ModifierList list )
 		{
-			for ( Modifier modifier: list )
-			{
-				this.addModifier( modifier );
-			}
+			this.list.addAll( list.list );
 		}
 		public void addModifier( final Modifier modifier )
 		{
@@ -2028,7 +2028,7 @@ public class Modifiers
 
 		public void addModifier( final String name, final String value )
 		{
-			this.addModifier( new Modifier( name, value ) );
+			this.list.add( new Modifier( name, value ) );
 		}
 
 		public boolean containsModifier( final String name )
@@ -2627,8 +2627,7 @@ public class Modifiers
 
 	public static final String getFamiliarEffect( final String itemName )
 	{
-		return (String) Modifiers.familiarEffectByName.get(
-			StringUtilities.getCanonicalName( itemName ) );
+		return (String) Modifiers.familiarEffectByName.get( itemName );
 	}
 
 	public void applyMinstrelModifiers( final int level, AdventureResult instrument )
@@ -3216,7 +3215,7 @@ public class Modifiers
 				continue;
 			}
 
-			String name = StringUtilities.getCanonicalName( data[ 0 ] );
+			String name = data[ 0 ];
 			if ( Modifiers.modifiersByName.containsKey( name ) )
 			{
 				KoLmafia.updateDisplay( "Duplicate modifiers for: " + name );
@@ -3621,8 +3620,7 @@ public class Modifiers
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String cname = StringUtilities.getCanonicalName( name );
-			Object modifiers = Modifiers.modifiersByName.get( cname );
+			Object modifiers = Modifiers.modifiersByName.get( name );
 			Modifiers.writeModifierItem( writer, name, modifiers );
 		}
 	}
@@ -3714,10 +3712,9 @@ public class Modifiers
 			RequestLogger.printLine( printMe );
 			RequestLogger.updateSessionLog( printMe );
 
-			String canon = StringUtilities.getCanonicalName( name );
-			if ( !Modifiers.modifiersByName.containsKey( canon ) )
+			if ( !Modifiers.modifiersByName.containsKey( name ) )
 			{
-				Modifiers.modifiersByName.put( canon, known );
+				Modifiers.modifiersByName.put( name, known );
 			}
 		}
 	}
