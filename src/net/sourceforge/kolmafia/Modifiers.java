@@ -1949,6 +1949,11 @@ public class Modifiers
 
 		public void eval()
 		{
+			if ( this.value == null )
+			{
+				return;
+			}
+
 			int lb = this.value.indexOf( "[" );
 			if ( lb == -1 )
 			{
