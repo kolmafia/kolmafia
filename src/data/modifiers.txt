@@ -2884,6 +2884,7 @@ giant gym membership card	Weapon Damage: +15
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
 old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
+oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))], Critical Hit Percent: [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
@@ -3553,6 +3554,7 @@ Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP
 # Abyssal Sweat: The first attack against you will always miss
 Abyssal Tears	Reduce Enemy Defense: 20
 Ack! Barred!	Muscle Percent: +30
+Adorable Lookout	Initiative: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +20
@@ -4091,6 +4093,7 @@ Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
+Fortunate Resolve	Item Drop: +5, Meat Drop: +5, Spell Damage: +5, Initiative: +10
 Fratty Flavor	Moxie: +15
 Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Free Bird	Mysticality: +20
@@ -5078,6 +5081,7 @@ Truly Gritty	Weapon Damage: +20, Muscle: +20
 Truthful	Monster Level: +40
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+Turtle Power	MP Regen Min: 4, MP Regen Max: 5
 Turtle Titters	Experience: +3
 Twenty-three Squid, Ew	Mysticality: +30
 Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
@@ -6380,6 +6384,7 @@ ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
 giant giant moth dust	Effect: "Slightly Larger Than Usual", Effect Duration: 50
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
+giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
@@ -6449,6 +6454,7 @@ infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
+irradiated turtle	Effect: "Turtle Power", Effect Duration: 15
 irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 irritability potion	Effect: "Simply Irritable", Effect Duration: 20
 jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5

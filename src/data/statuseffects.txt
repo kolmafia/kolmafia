@@ -1652,7 +1652,7 @@
 1651	New Zeal	happy.gif	0b26566f8590bd8c9df13ffdfa72bf23	drink 1 New Zealand iced tea
 1652	White Blooded	redcells.gif	86b1fed994e95faf17098cce43d9d8e8	use 1 white blood cells
 1653
-1654
+1654	Adorable Lookout	giraffeturt.gif	e85e09a568eeded2ab88fe4f40852629	use 1 giraffe-necked turtle
 1655
 1656
 1657
@@ -1700,3 +1700,5 @@
 1699	In a Lather	lather.gif	39fbcc199b06bc544b10609e4ebce693	drink 1 Sockdollager
 1700
 1701	Hip to the Jive	familiar25.gif	fc766ac280450bf9289d39605c447341	drink 1 Hot Socks
+1702
+1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle

@@ -7577,7 +7577,7 @@
 7558	white wine	911418189	whitewine.gif	drink	t,d	15	glasses of white wine
 7559
 7560
-7561
+7561	giraffe-necked turtle	656897958	giraffeturt.gif	multiple	t,d	11
 7562
 7563
 7564
@@ -7605,3 +7605,54 @@
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
 7587	S.S. Ticket	840921614	zepticket.gif	familiar	t,d	75
 7588	Clan speakeasy	590707870	crate.gif	usable	t	0
+7589
+7590
+7591
+7592
+7593
+7594
+7595
+7596
+7597
+7598
+7599
+7600
+7601
+7602
+7603
+7604
+7605
+7606
+7607
+7608
+7609
+7610
+7611
+7612
+7613
+7614
+7615
+7616
+7617
+7618
+7619
+7620
+7621
+7622
+7623
+7624
+7625
+7626
+7627
+7628
+7629
+7630
+7631
+7632
+7633
+7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
+7635
+7636
+7637
+7638
+7639	oil shell	394611498	oilshell.gif	container	t,d	15
