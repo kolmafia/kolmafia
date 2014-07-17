@@ -1702,3 +1702,4 @@
 1701	Hip to the Jive	familiar25.gif	fc766ac280450bf9289d39605c447341	drink 1 Hot Socks
 1702
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle
+1704	Colorful Gratitude	rrainbow.gif	77244b327a58e614101d0eaefafa7797	use 1 cigar box turtle
