@@ -3829,6 +3829,7 @@ Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
+Colorful Gratitude	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Colorfully Concealed	Combat Rate (Underwater): -5
 # Comic Violence: Regular Attacks Can't Miss
 Coming Up Roses	HP Regen Min: 10, HP Regen Max: 20
@@ -6241,6 +6242,7 @@ chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
 chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
 chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
+cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
 class five ecto-larva	Free Pull
 clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
 coal dust	Effect: "Funky Coal Patina", Effect Duration: 15

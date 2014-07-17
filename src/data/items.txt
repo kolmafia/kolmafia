@@ -7651,7 +7651,7 @@
 7632
 7633
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
-7635
+7635	cigar box turtle	889036974	cigarturt.gif	multiple	t,d	11
 7636
 7637
 7638
