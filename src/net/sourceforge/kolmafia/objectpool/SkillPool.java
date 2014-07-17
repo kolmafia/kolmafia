@@ -219,6 +219,7 @@ public class SkillPool
 	public static final int HOWL_ALPHA = 12020;
 	public static final int SUMMON_MINION = 12021;
 	public static final int SUMMON_HORDE = 12026;
+	public static final int RECRUIT_ZOMBIE = 12031;
 	public static final int CONJURE_EGGS = 14001;
 	public static final int CONJURE_DOUGH = 14002;
 	public static final int EGGMAN = 14005;
@@ -236,6 +237,7 @@ public class SkillPool
 	public static final int REV_ENGINE = 15011;
 	public static final int SHAKE_IT_OFF = 15006;
 	public static final int PEEL_OUT = 15015;
+	public static final int CHECK_MIRROR = 15017;
 	public static final int BIKER_SWAGGER = 15019;
 	public static final int JUMP_SHARK = 15024;
 	public static final int WALK_AWAY_FROM_EXPLOSION = 15030;

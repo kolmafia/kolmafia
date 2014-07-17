@@ -940,6 +940,8 @@ public class SkillDatabase
 		case SkillPool.SPIRIT_VACATION:
 		case SkillPool.TRANSCENDENTAL_DENTE:
 		case SkillPool.SIMMER:
+		case SkillPool.RECRUIT_ZOMBIE:
+		case SkillPool.CHECK_MIRROR:
 			return 1;
 		default:
 			return 0;
