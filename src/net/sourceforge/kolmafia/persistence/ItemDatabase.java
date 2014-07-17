@@ -946,7 +946,7 @@ public class ItemDatabase
 		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
 	}
 
-	private static final String extractStatRange( String range, double statFactor )
+	private static final String extractStatRange( String range, double statFactor, int statUnit )
 	{
 		if ( range == null )
 		{
@@ -967,12 +967,12 @@ public class ItemDatabase
 		if ( dashIndex == -1 )
 		{
 			double num = isNegative ? 0 - start : start;
-			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num );
+			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num / statUnit );
 		}
 
 		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
 		double num = ( start + end ) / ( isNegative ? -2.0 : 2.0 );
-		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num );
+		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num / statUnit );
 	}
 
 	/**
@@ -2061,6 +2061,36 @@ public class ItemDatabase
 		return range.doubleValue();
 	}
 
+	private static final int getStatUnit( final String name )
+	{
+		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
+		{
+			return 1;
+		}
+		int unit = 0;
+		Integer fullness = ItemDatabase.getRawFullness( name );
+		Integer inebriety = ItemDatabase.getRawInebriety( name );
+		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
+		
+		if ( fullness != null )
+		{
+			unit += fullness.intValue();
+		}
+		if ( inebriety != null )
+		{
+			unit += inebriety.intValue();
+		}
+		if ( spleenhit != null )
+		{
+			unit += spleenhit.intValue();
+		}
+		if ( unit == 0 )
+		{
+			unit = 1;
+		}
+		return unit;
+	}
+
 	public static final String getMuscleByName( final String name )
 	{
 		if ( name == null )
@@ -2082,7 +2112,8 @@ public class ItemDatabase
 		String muscle = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
 		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		muscleFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor );
+		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -2107,7 +2138,8 @@ public class ItemDatabase
 		String mysticality = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
 		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		mysticalityFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
+		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -2132,7 +2164,8 @@ public class ItemDatabase
 		String moxie = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		moxieFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor );
+		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
 
