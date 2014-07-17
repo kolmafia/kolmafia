@@ -908,18 +908,7 @@ public class SkillDatabase
 
 	public static final boolean isSoulsauceSkill( final int skillId )
 	{
-		switch ( skillId )
-		{
-		case SkillPool.SOUL_BUBBLE:
-		case SkillPool.SOUL_FINGER:
-		case SkillPool.SOUL_BLAZE:
-		case SkillPool.SOUL_FOOD:
-		case SkillPool.SOUL_ROTATION:
-		case SkillPool.SOUL_FUNK:
-			return true;
-		default:
-			return false;
-		}
+		return SkillDatabase.getSoulsauceCost( skillId ) > 0;
 	}
 
 	public static final int getSoulsauceCost( final int skillId )
@@ -942,7 +931,21 @@ public class SkillDatabase
 			return 0;
 		}
 	}
-	
+
+	public static final int getAdventureCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.HIBERNATE:
+		case SkillPool.SPIRIT_VACATION:
+		case SkillPool.TRANSCENDENTAL_DENTE:
+		case SkillPool.SIMMER:
+			return 1;
+		default:
+			return 0;
+		}
+	}
+
 	/**
 	 * Utility method used to determine if the given skill can be made permanent
 	 */
