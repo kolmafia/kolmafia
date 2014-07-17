@@ -7656,3 +7656,5 @@
 7637
 7638
 7639	oil shell	394611498	oilshell.gif	container	t,d	15
+7640	frozen turtle shell	370037546	coldshell.gif	container	t,d	20
+7641	shocked shell	654027361	zapshell.gif	container	t,d	20

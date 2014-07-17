@@ -2879,6 +2879,7 @@ auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
 black cloak	Spell Damage: +10
 cod cape	Stench Damage: +25, Combat Rate: +5
+frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"
 ghost shawl	Spell Damage: +50, Spell Critical Percent: +5
 giant gym membership card	Weapon Damage: +15
 hemp backpack	Item Drop: +2
@@ -2892,6 +2893,8 @@ sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(z
 sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sealhide cloak	Cold Resistance: +2
+# shocked shell: Deals physical damage every round
+shocked shell	Class: "Turtle Tamer"
 teddybear backpack	Meat Drop: +10, Raveosity: +1
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 wings of fire	Hot Damage: +25, Hot Spell Damage: +25
