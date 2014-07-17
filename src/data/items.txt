@@ -7579,7 +7579,7 @@
 7560	turtle-shaped rock	997508634	turtlerock.gif	none, combat	t,d	7
 7561	giraffe-necked turtle	656897958	giraffeturt.gif	multiple	t,d	11
 7562	musk turtle	913587207	cologneturt.gif	multiple	t,d	8
-7563
+7563	programmable turtle	618810208	logoturt.gif	usable	t,d	15
 7564	mocking turtle	303348514	mockturt.gif	multiple	t,d	15
 7565
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
@@ -7652,9 +7652,10 @@
 7633
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
 7635	cigar box turtle	889036974	cigarturt.gif	multiple	t,d	11
-7636
-7637
-7638
+7636	shellacked shell	205885786	shellackshell.gif	container	t,d	15
+7637	pillow shell	957866267	pillowshell.gif	container	t,d	15
+7638	whatsit-covered turtle shell	773195527	whatsitshell.gif	container	t,d	15
 7639	oil shell	394611498	oilshell.gif	container	t,d	15
 7640	frozen turtle shell	370037546	coldshell.gif	container	t,d	20
 7641	shocked shell	654027361	zapshell.gif	container	t,d	20
+7642	ingot turtle	997050687	ingotturt.gif	none, combat	t,d	25
