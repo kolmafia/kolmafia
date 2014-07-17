@@ -773,11 +773,9 @@ public class UseSkillRequest
 		{
 			this.lastStringForm = this.skillName + " (" + soulCost + " soulsauce)";
 		}
-		// We don't currently know the number of times this is permed, and thus cost
-		// Just say swagger instead of a specific amount
 		else if ( this.skillId == SkillPool.SUMMON_ANNOYANCE )
 		{
-			this.lastStringForm = this.skillName + " (some swagger)";
+			this.lastStringForm = this.skillName + " (" + Preferences.getInteger( "summonAnnoyanceCost" ) + " swagger)";
 		}
 		else
 		{
