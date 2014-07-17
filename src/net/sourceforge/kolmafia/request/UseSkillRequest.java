@@ -761,7 +761,28 @@ public class UseSkillRequest
 		}
 
 		this.lastReduction = KoLCharacter.getManaCostAdjustment();
-		this.lastStringForm = this.skillName + " (" + SkillDatabase.getMPConsumptionById( this.skillId ) + " mp)";
+		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
+		int advCost = SkillDatabase.getAdventureCost( this.skillId );
+		int soulCost = SkillDatabase.getSoulsauceCost( this.skillId );
+		// Currently only one of these costs will be true
+		if ( advCost > 0 )
+		{
+			this.lastStringForm = this.skillName + " (" + advCost + " adv)";
+		}
+		else if ( soulCost > 0 )
+		{
+			this.lastStringForm = this.skillName + " (" + soulCost + " soulsauce)";
+		}
+		// We don't currently know the number of times this is permed, and thus cost
+		// Just say swagger instead of a specific amount
+		else if ( this.skillId == SkillPool.SUMMON_ANNOYANCE )
+		{
+			this.lastStringForm = this.skillName + " (some swagger)";
+		}
+		else
+		{
+			this.lastStringForm = this.skillName + " (" + mpCost + " mp)";
+		}
 		return this.lastStringForm;
 	}
 

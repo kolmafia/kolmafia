@@ -224,6 +224,9 @@ public class Maximizer
 			Iterator<String> sources;
 			String cmd, text;
 			int price = 0;
+			int advCost = 0;
+			int mpCost = 0;
+			int soulsauceCost = 0;
 			if ( !hasEffect )
 			{
 				spec.addEffect( effect );
@@ -436,15 +439,20 @@ public class Maximizer
 				else if ( cmd.startsWith( "gong " ) )
 				{
 					item = ItemPool.get( ItemPool.GONG, 1 );
+					advCost = 3;
 				}
 				else if ( cmd.startsWith( "cast " ) )
 				{
 					String skillName = UneffectRequest.effectToSkill( name );
+					int skillId = SkillDatabase.getSkillId( skillName );
+					mpCost = SkillDatabase.getMPConsumptionById( skillId );
+					advCost = SkillDatabase.getAdventureCost( skillId );
+					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
 					if ( !KoLCharacter.hasSkill( skillName ) || UseSkillRequest.getInstance( skillName ).getMaximumCast() == 0 )
 					{
 						if ( includeAll )
 						{
-							boolean isBuff = SkillDatabase.isBuff( SkillDatabase.getSkillId( skillName ) );
+							boolean isBuff = SkillDatabase.isBuff( skillId );
 							text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
 							cmd = "";
 						}
@@ -838,17 +846,24 @@ public class Maximizer
 					}
 				}
 
+				text = text + " (";
+				if ( advCost > 0 )
+				{
+					text += advCost + " adv, ";
+				}
+				if ( mpCost > 0 )
+				{
+					text += mpCost + " mp, ";
+				}
+				if ( soulsauceCost > 0 )
+				{
+					text += soulsauceCost + " soulsauce, ";
+				}
 				if ( price > 0 )
 				{
-					text = text + " (" + KoLConstants.COMMA_FORMAT.format( price ) +
-						" meat, " +
-						KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+					text += KoLConstants.COMMA_FORMAT.format( price ) + " meat, ";
 				}
-				else
-				{
-					text = text + " (" + KoLConstants.MODIFIER_FORMAT.format(
-						delta ) + ")";
-				}
+				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 				if ( orFlag )
 				{
 					text = "...or " + text;
