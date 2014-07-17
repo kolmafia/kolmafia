@@ -269,7 +269,7 @@ ice-cold Sir Schlitz	1	1	crappy	1	0	0	0	2-4 MP
 ice-cold Willer	1	1	crappy	1	0	0	0	3-4 MP
 icy mushroom wine	3	6	awesome	10-14	0	12-15	0
 Imp Ale	1	1	crappy	1	7-8	0	-5	8-10 MP
-infinitesimal ipa	3	1		3-8	0	0	0
+Infinitesimal IPA	3	1		3-8	0	0	0
 Irish Coffee, English Heart	2	1	good	4-6	0	4-6	0	100 Smithsness Cheer (Smithsness: +10)
 Isotope Nog	4	5		6-11	0	0	0
 Jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied (+100 DA)
@@ -349,7 +349,7 @@ parisian cathouse	3	3	good	5-10	0	0	16-20
 passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
 perpendicular hula	4	4	good	10-14	0	0	34-36
-petite porter	3	4		3-5	0	0	0
+Petite Porter	3	4		3-5	0	0	0
 pink pony	4	4	good	10-14	25-27	0	8-10
 Plague of Locusts	2	8	awesome	8-9	0	0	30-40	15 Cockroach Scurry (+50 Init)
 plain old beer	1	1	crappy	1	0	0	0
@@ -392,7 +392,7 @@ Sazerorc	2	1	good	4-5	10-20	0	0	5 Orc Chops (+50 Muscle)
 Sazuruk-hai	2	4	awesome	6-7	20-30	0	0	10 Orc Chops (+50 Muscle)
 schr&ouml;dinger's thermos	0	1		0	0	0	0	random booze
 scotch on the rocks	3	11	EPIC	15-18	10-20	10-20	10-20	30 Hair on Your Chest (+50% MP)
-scrawny stout	3	6		3-6	0	0	0
+Scrawny Stout	3	6		3-6	0	0	0
 screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
 screwdriver	3	1	decent	5-6	8-10	0	0
 sham champagne	2	7	good	3-8	0	0	38-58	5-15 MP, 10 Shamboozled (+50% mox)
