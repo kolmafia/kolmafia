@@ -20,9 +20,9 @@ blue polka-dot oyster egg	1	1		0	0	0	11-15	31-35 MP
 blue striped oyster egg	1	1		0	11-15	0	0	31-35 MP
 bottle of melodramamine	1	1		0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
 bottle of ultravitamins	1	6		0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
-breathetastic&trade; premium canned air	5	13		20-25	60-70	60-70	60-70
+Breathetastic&trade; Premium Canned Air	5	13		20-25	60-70	60-70	60-70
 bug paste	4	4		5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
-can of red minotaur	3	1		0	0	0	0	+1 PvP fight, 5 Wings
+can of Red Minotaur	3	1		0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1		0	0	0	10-12
 carrot juice	3	1		4-5	0	0	0	10 Pla-see-bo (+10% item drop)
 chlorophyll paste	4	4		5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
@@ -30,7 +30,7 @@ coffee pixie stick	4	4		5-10	0	0	0
 cold wad	1	6		1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
 concentrated magicalness pill	1	2		0	0	5-7	0
 cosmic paste	4	4		5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
-crimbo paste	4	4		5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
+Crimbo paste	4	4		5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
 demonic paste	4	4		5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
 ectoplasmic paste	4	4		5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
 elemental paste	4	4		5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
@@ -40,7 +40,7 @@ epic wad	1	15		5	140-150	140-150	140-150
 expensive cigar	1	7		1-2	0	0	0
 extra-strength strongness elixir	1	3		0	8-10	0	0
 fishy paste	4	4		5-10	18-22	18-22	18-22	10 Fishy
-five second energy&trade;	3	1		0	0	0	0	+3 PvP fight
+Five Second Energy&trade;	3	1		0	0	0	0	+3 PvP fight
 giant moxie weed	1	2		0	0	0	5-7
 glimmering buzzard feather	1	1		0	0	0	0	20 Carrion' On (+60% meat drop)
 glimmering great tit feather	1	1		0	0	0	0	20 The Great Tit's Blessing (+20 ML)
@@ -56,24 +56,24 @@ groose grease	4	1		5-10	20-30	20-30	20-30	50 Just the Best Anapests
 guy made of bee pollen	3	8		6-10	18-60	18-60	18-60
 handful of moss	1	1		0	0	0	12-14
 handful of Smithereens	1	1		1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
-hatorade	5	1		0	0	0	0	+1 PvP fight
+Hatorade	5	1		0	0	0	0	+1 PvP fight
 hippy paste	4	4		5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4		5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
 hot wad	1	6		1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 indescribably horrible paste	4	4		5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
-instant karma	5	13		20-25	60-70	60-70	60-70
+Instant Karma	5	13		20-25	60-70	60-70	60-70
 jug-o-magicalness	1	3		0	0	8-10	0
 lavender paisley oyster egg	1	1		0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1		0	0	0	22-30
 lavender striped oyster egg	1	1		0	11-15	0	11-15
 liquid shifting time weirdness	2	6		4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
 magicalness-in-a-can	1	1		0	0	1-3	0
-mariner's friend cough drops	1	1		0	10-12	0	0
+Mariner's Friend cough drops	1	1		0	10-12	0	0
 mauve paisley oyster egg	1	1		0	0	22-30	0
 mauve polka-dot oyster egg	1	1		0	0	11-15	11-15
 mauve striped oyster egg	1	1		0	11-15	11-15	0
-medicinal herb's medicinal herbs	1	3		0	0	0	0	full heal
-mer-kin paste	4	4		5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
+Medicinal Herb's medicinal herbs	1	3		0	0	0	0	full heal
+Mer-kin paste	4	4		5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
 molotov soda	3	2		8-10	0	0	0
 moxie weed	1	1		0	0	0	1-3
 not-a-pipe	4	4		4-12	20-30	20-30	20-30
