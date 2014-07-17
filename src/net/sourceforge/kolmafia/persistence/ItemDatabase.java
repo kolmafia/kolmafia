@@ -1394,19 +1394,19 @@ public class ItemDatabase
 		String quality = DebugDatabase.parseQuality( text );
 
 		// Add consumption data for this session
-		String name = StringUtilities.getCanonicalName( itemName );
+		String canonical = StringUtilities.getCanonicalName( itemName );
 		if ( usage == KoLConstants.CONSUME_EAT )
 		{
-			ItemDatabase.fullnessByName.put( name, size );
+			ItemDatabase.fullnessByName.put( canonical, size );
 		}
 		else if ( usage == KoLConstants.CONSUME_DRINK )
 		{
-			ItemDatabase.inebrietyByName.put( name, size );
+			ItemDatabase.inebrietyByName.put( canonical, size );
 		}
-		ItemDatabase.setConsumptionData( name, size, level, quality, "0", "0", "0", "0", "unkown adventure yield" );
+		ItemDatabase.setConsumptionData( canonical, size, level, quality, "0", "0", "0", "0", "unkown adventure yield" );
 
 		// Print what goes in fullness.txt
-		String printMe = ItemDatabase.consumableString( name, size, level, quality, "0", "0", "0", "0", "" );
+		String printMe = ItemDatabase.consumableString( itemName, size, level, quality, "0", "0", "0", "0", "" );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 	}
