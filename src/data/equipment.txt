@@ -2513,11 +2513,14 @@ oil shell	50	Mus: 20
 old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
+pillow shell	10	none
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
 sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
+shellacked shell	10	none
 shocked shell	100	Mus: 50
 teddybear backpack	150	Mox: 75
 toy jet pack	175	Mys: 75
+whatsit-covered turtle shell	50	Mus: 20
 wings of fire	100	Mys: 100

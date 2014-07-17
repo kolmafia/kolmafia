@@ -2888,15 +2888,18 @@ old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
+pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))], Critical Hit Percent: [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # sea mantle: +150% Physical Damage (Underwater Only)
 sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*(zone(The Sea)+loc(The Sunken Party Yacht))]
 sealhide cloak	Cold Resistance: +2
+shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "Turtle Tamer"
 # shocked shell: Deals physical damage every round
 shocked shell	Class: "Turtle Tamer"
 teddybear backpack	Meat Drop: +10, Raveosity: +1
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
+whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
 wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
 # Familiar Items section of modifiers.txt
@@ -4890,6 +4893,7 @@ Spirit of Peppermint	Spell Damage: +10
 # Spirit of Wormwood: All Spells Cast Are Spooky
 Spirit of Wormwood	Spell Damage: +10
 # Spirit of Nothing: Removes any of the other Flavour of Magic effects
+Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
@@ -6611,6 +6615,7 @@ pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R
 pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
 prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 probability potion	Effect: "Uncertain", Effect Duration: 10
+programmable turtle	Effect: "Spiro Gyro", Effect Duration: 15
 pulled blue taffy	Effect: "Blue Swayed", Effect Duration: 10
 pulled green taffy	Effect: "Soda Jerked", Effect Duration: 10
 pulled indigo taffy	Effect: "Closer to Fine", Effect Duration: 10

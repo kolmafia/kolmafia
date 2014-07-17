@@ -1654,7 +1654,7 @@
 1653	Gummi-Grin	gummiturt.gif	c512deaca46c7d7edf9b55b23403273f	use 1 gummi turtle
 1654	Adorable Lookout	giraffeturt.gif	e85e09a568eeded2ab88fe4f40852629	use 1 giraffe-necked turtle
 1655	High Colognic	cologneturt.gif	0adaec30303a64bf157312fe366d1ac2	use 1 musk turtle
-1656
+1656	Spiro Gyro	logoturt.gif	2b4e1ef22657e9fe2d0f507f03c35458	use 1 programmable turtle
 1657	Tortious	mockturt.gif	e6162916d97df0696c215f5ee4af8d58	use 1 mocking turtle
 1658	Over-Familiar With Dactyls	candyheart.gif	26b9812c9e89b5da8ebd0bf4c4e8a1d1	use 1 Friendliness Beverage
 1659	The Strength... of the Future	strboost.gif	332e06d519892d99db38ab7f918b1edf	use 1 future drug: Muscularactum
