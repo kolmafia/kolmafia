@@ -690,7 +690,7 @@ public class FamiliarData
 
 	public boolean waterBreathing()
 	{
-		Modifiers mods = Modifiers.getModifiers( "fam:" + this.getRace() );
+		Modifiers mods = Modifiers.getModifiers( "Fam:" + this.getRace() );
 		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
 
