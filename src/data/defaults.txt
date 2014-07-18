@@ -1626,11 +1626,14 @@ user	choiceAdventure942	1
 user	choiceAdventure943	1
 user	choiceAdventure944	1
 user	choiceAdventure945	1
+user	choiceAdventure946	1
 user	choiceAdventure957	1
 user	choiceAdventure958	1
+user	choiceAdventure959	1
 user	choiceAdventure962	1
 user	choiceAdventure963	1
 user	choiceAdventure964	1
+user	choiceAdventure965	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
