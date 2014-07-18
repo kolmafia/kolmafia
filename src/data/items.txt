@@ -1279,7 +1279,7 @@
 1262	off-hand balloon	45856525	greenbal.gif	offhand	t	0	off-hand balloons
 1263	pygmy bugbear shaman	728686242	familiar39.gif	grow	t	0	pygmy bugbear shamen
 1264	tiny nose-bone fetish	397212048	nosebone.gif	familiar	t,d	75	tiny nose-bone fetishes
-1265	box of sunshine	151059179	chromebox.gif	multiple		0	boxes of sunshine
+1265	box of sunshine	151059179	chromebox.gif	multiple		0	boxen of sunshine
 1266	gloomy black mushroom	142099004	blackshroo.gif	message		0	gloomy black mushrooms
 1267	dead mimic	668445632	smallm.gif	usable	q	0
 1268	pine wand	183375623	slash.gif	zap	q	0
@@ -6666,7 +6666,7 @@
 6647
 6648	slide rule	729302490	sliderule.gif	weapon	t,d	40
 6649	Ogres and Oubliettes&trade; module	233884667	oandomodule.gif	multiple	t,d	30
-6650	Mountain Stream Code Black Alert	357261157	soda.gif	mp	t,d	15
+6650	Mountain Stream Code Black Alert	357261157	soda.gif	mp	t,d	15	cans of Mountain Stream Code Black Alert
 6651	twisted-up wet towel	870690670	wettowel.gif	weapon	t,d	10
 6652	stepmom's booze	387234257	wine2.gif	drink	t,d	10	bottles of stepmom's booze
 6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25
@@ -6674,7 +6674,7 @@
 6655	fountain 'soda'	930162345	fountaindrink.gif	drink	t,d	10	'fountain' sodas
 6656	illegal firecracker	236206665	bigfirecracker.gif	none, combat	t,d	20
 6657	pickelhaube	400228822	pickelhaube.gif	hat	t,d	35
-6658	hair oil	188501537	motoroil.gif	usable	t,d	15
+6658	hair oil	188501537	motoroil.gif	multiple	t,d	15	tubes of hair oil
 6659	scrap metal	682691090	scrapmetal.gif	multiple	t,d	20	heaps of scrap metal
 6660	school spirit socket set	600702041	gnomebox.gif	familiar	t,d	75
 6661	miniature suspension bridge	781798485	minibridge.gif	none	q	0
@@ -7380,13 +7380,13 @@
 7361	plaid pocket square	148023771	plaidsquare.gif	accessory	t,d	220
 7362	plaid skirt	535670797	plaidskirt.gif	pants	t,d	300
 7363	bloodstain stick	605475671	chapstick.gif	multiple	t,d	95
-7364	fabric softener	516341138	softener.gif	none, combat	t,d	110
+7364	fabric softener	516341138	softener.gif	none, combat	t,d	110	bottles of fabric softener
 7365	fabric hardener	495764406	hardener.gif	multiple	t,d	110
 7366	bottle of laundry sherry	702261149	beerbottle.gif	drink	t,d	82
 7367	industrial strength starch	260206685	box1.gif	multiple	t,d	92
 7368	extra-flat panini	165632581	panini.gif	food	t,d	85
 7369	mangled finger	284259586	manglefinger.gif	multiple	t,d	9
-7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111
+7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111	bottles of Psychotic Train wine
 7371	crazy hobo notebook	539415366	blacknotebook.gif	none, combat	t,d	180
 7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350
 7373	sommelier's towel	233683477	somtowel.gif	offhand	t,d	150
@@ -7526,7 +7526,7 @@
 7507	black cloak	180794592	blackcloak.gif	container	t,d	145
 7508	black label	664446698	blacklabel.gif	none	t,d	65
 7509	Mornington crescent roll	346488001	croissant.gif	food	t,d	45
-7510	black eye shadow	744811732	compact.gif	usable	t,d	55
+7510	black eye shadow	744811732	compact.gif	usable	t,d	55	compacts full of black eye shadow
 7511	crumbling wooden wheel	503616859	woodenwheel.gif	none	q	0
 7512
 7513
@@ -7579,7 +7579,7 @@
 7560	turtle-shaped rock	997508634	turtlerock.gif	none, combat	t,d	7
 7561	giraffe-necked turtle	656897958	giraffeturt.gif	multiple	t,d	11
 7562	musk turtle	913587207	cologneturt.gif	multiple	t,d	8
-7563	programmable turtle	618810208	logoturt.gif	usable	t,d	15
+7563	programmable turtle	618810208	logoturt.gif	multiple	t,d	15
 7564	mocking turtle	303348514	mockturt.gif	multiple	t,d	15
 7565
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
