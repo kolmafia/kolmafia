@@ -4834,12 +4834,12 @@ public abstract class KoLCharacter
 			&& (offhand == null || offhand == EquipmentRequest.UNEQUIP);
 
 		// Area-specific adjustments
-		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
-		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
+		newModifiers.add( Modifiers.getModifiers( "Loc:" + Modifiers.currentLocation ) );
+		newModifiers.add( Modifiers.getModifiers( "Zone:" + Modifiers.currentZone ) );
 
 		// Look at sign-specific adjustments
 		newModifiers.add( Modifiers.MONSTER_LEVEL, MCD, "MCD" );
-		newModifiers.add( Modifiers.getModifiers( "sign:" + KoLCharacter.ascensionSign ) );
+		newModifiers.add( Modifiers.getModifiers( "Sign:" + KoLCharacter.ascensionSign ) );
 
 		// If we are out of ronin/hardcore, look at stat day adjustments
 		if ( KoLCharacter.canInteract() && !KoLmafia.statDay.equals( "None" ) )
