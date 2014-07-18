@@ -2524,7 +2524,7 @@ public class Modifiers
 		weight = Math.max( 1, weight );
 		Modifiers.currentWeight = weight;
 
-		this.add( Modifiers.getModifiers( "fam:" + familiar.getRace() ) );
+		this.add( Modifiers.getModifiers( "Fam:" + familiar.getRace() ) );
 		if ( famItem != null )
 		{
 			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
