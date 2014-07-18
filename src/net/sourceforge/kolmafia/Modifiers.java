@@ -2527,7 +2527,9 @@ public class Modifiers
 		this.add( Modifiers.getModifiers( "Fam:" + familiar.getRace() ) );
 		if ( famItem != null )
 		{
-			this.add( Modifiers.getModifiers( famItem.getName() ) );
+			// "fameq" modifiers are generated when "Familiar Effect" is parsed
+			// from modifiers.txt
+			this.add( Modifiers.getModifiers( "fameq:" + famItem.getName() ) );
 		}
 
 		int cap = (int)this.get( Modifiers.FAMILIAR_WEIGHT_CAP );
