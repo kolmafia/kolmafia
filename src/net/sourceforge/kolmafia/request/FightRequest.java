@@ -1472,7 +1472,8 @@ public class FightRequest
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String zone = location != null ? location.getZone() : null;
 
-		if ( zone != null && ( !zone.equals( "The Sea" ) || location.equals( "The Sunken Party Yacht" ) ) )
+		if ( zone != null && !zone.equals( "The Sea" ) &&
+		     !location.getAdventureName().equals( "The Sunken Party Yacht" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless out of water." );
 			return true;
@@ -2430,13 +2431,13 @@ public class FightRequest
 			Matcher NanorhinoBuffMatcher = FightRequest.NANORHINO_BUFF_PATTERN.matcher( responseText );
 			if ( NanorhinoBuffMatcher.find() ||
 				( ( FightRequest.haiku || FightRequest.anapest ) &&
-				KoLCharacter.getFamiliarImage() != "nanorhinoc.gif" &&
+				!KoLCharacter.getFamiliarImage().equals( "nanorhinoc.gif" ) &&
 				currentCharge == 100 ) )
 			{
 				Preferences.setInteger( "_nanorhinoCharge", 0 );
 			}
 			// Is it charged but we think it isn't?
-			else if ( KoLCharacter.getFamiliarImage() == "nanorhinoc.gif" && currentCharge != 100 )
+			else if ( KoLCharacter.getFamiliarImage().equals( "nanorhinoc.gif" ) && currentCharge != 100 )
 			{
 				Preferences.setInteger( "_nanorhinoCharge", 100 );
 			}
