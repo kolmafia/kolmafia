@@ -3004,7 +3004,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "moxie", 1 ),
 				       new Option( "empty drawer", 2 ),
 				       new Option( "enter combat with mistress (once only)", 3 ),
-				       new Option( "Engorged Sausages and You or ballroom key and moxie", 4 ),
+				       new Option( "Engorged Sausages and You or moxie", 4 ),
 				       new Option( "moxie substats (with ghost key)", 5 ),
 					   new Option( "skip", 6 )} ),
 
@@ -9619,46 +9619,6 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
-		// One NightStand (simple wooden)
-		case 85:
-
-			boolean sausagesAvailable = responseText != null && responseText.contains( "Check under the nightstand" );
-
-			// If the player is looking for the ballroom key and
-			// doesn't have it, then update their decision so that
-			// KoLmafia automatically goes for it
-			if ( GoalManager.hasGoal( ChoiceManager.BALLROOM_KEY ) && !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-			{
-				// Always get the sausage book if it is available.
-				decision = "4";
-			}
-
-			// If the player wants the sausage book and it is
-			// available, take it.
-			if ( decision.equals( "4" ) )
-			{
-				return
-					sausagesAvailable ? "4" :
-					KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "1" :
-					Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" :
-					"1";
-			}
-
-			// Otherwise, if the player is specifically looking for
-			// things obtained from the combat, fight!
-			else
-			{
-				for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
-				{
-					if ( GoalManager.hasGoal( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
-					{
-						return "3";
-					}
-				}
-			}
-
-			return decision;
-
 		// No sir, away! A papaya war is on!
 		case 127:
 			switch ( StringUtilities.parseInt( decision ) )
@@ -10459,6 +10419,30 @@ public abstract class ChoiceManager
 			{
 				return "0";
 			}
+			return decision;
+
+		// One Rustic Nightstand
+		case 879:
+
+			boolean sausagesAvailable = responseText != null && responseText.contains( "Check under the nightstand" );
+
+			// If the player wants the sausage book and it is
+			// available, take it.
+			if ( decision.equals( "4" ) )
+			{
+				return sausagesAvailable ? "4" : "1";
+			}
+
+			// Otherwise, if the player is specifically looking for
+			// things obtained from the combat, fight!
+			for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
+			{
+				if ( GoalManager.hasGoal( ChoiceManager.MISTRESS_ITEMS[ i ] ) )
+				{
+					return "3";
+				}
+			}
+
 			return decision;
 
 		case 914:
