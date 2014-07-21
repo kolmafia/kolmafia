@@ -1548,6 +1548,9 @@ public class ResultProcessor
 
 			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
+			Preferences.setInteger( "booPeakProgress", 0 );
+			Preferences.setInteger( "twinPeakProgress", 15 );
+			Preferences.setInteger( "oilPeakProgress", 0 );
 			return;
 
 		case ItemPool.QUANTUM_EGG:
