@@ -4678,6 +4678,57 @@ public class UseItemRequest
 		case ItemPool.PALINDROME_BOOK_2:
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
 			return;
+
+		case ItemPool.STEAM_FIST_1:
+		case ItemPool.STEAM_FIST_2:
+		case ItemPool.STEAM_FIST_3:
+			if ( responseText.contains( "rub the three trading cards together" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STEAM_FIST_1, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_FIST_2, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_FIST_3, -1 );
+			}
+			return;
+		case ItemPool.STEAM_TRIP_1:
+		case ItemPool.STEAM_TRIP_2:
+		case ItemPool.STEAM_TRIP_3:
+			if ( responseText.contains( "rub the three trading cards together" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STEAM_TRIP_1, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_TRIP_2, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_TRIP_3, -1 );
+			}
+			return;
+		case ItemPool.STEAM_METEOID_1:
+		case ItemPool.STEAM_METEOID_2:
+		case ItemPool.STEAM_METEOID_3:
+			if ( responseText.contains( "rub the three trading cards together" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STEAM_METEOID_1, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_METEOID_2, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_METEOID_3, -1 );
+			}
+			return;
+		case ItemPool.STEAM_DEMON_1:
+		case ItemPool.STEAM_DEMON_2:
+		case ItemPool.STEAM_DEMON_3:
+			if ( responseText.contains( "rub the three trading cards together" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STEAM_DEMON_1, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_DEMON_2, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_DEMON_3, -1 );
+			}
+			return;
+		case ItemPool.STEAM_PLUMBER_1:
+		case ItemPool.STEAM_PLUMBER_2:
+		case ItemPool.STEAM_PLUMBER_3:
+			if ( responseText.contains( "rub the three trading cards together" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STEAM_PLUMBER_1, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_PLUMBER_2, -1 );
+				ResultProcessor.processItem( ItemPool.STEAM_PLUMBER_3, -1 );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

@@ -7422,21 +7422,21 @@
 7403	Gene Tonic: Elemental	920197063	genetonic.gif	multiple	t,d	25	Gene Tonics: Elemental
 7404	Gene Tonic: Constellation	608792100	genetonic.gif	multiple	t,d	25	Gene Tonics: Constellation
 7405	Gene Tonic: Hobo	379866898	genetonic.gif	multiple	t,d	25	Gene Tonics: Hobo
-7406	Steam Card: Dungeon Fist (#1)	253174686	steamcard.gif	usable	t,d	50
-7407	Steam Card: Dungeon Fist (#2)	728516682	steamcard.gif	usable	t,d	50
-7408	Steam Card: Dungeon Fist (#3)	776266532	steamcard.gif	usable	t,d	50
-7409	Steam Card: Space Trip (#1)	165460081	steamcard.gif	usable	t,d	50
-7410	Steam Card: Space Trip (#2)	396704515	steamcard.gif	usable	t,d	50
-7411	Steam Card: Space Trip (#3)	484097374	steamcard.gif	usable	t,d	50
-7412	Steam Card: Meteoid (#1)	560078181	steamcard.gif	usable	t,d	50
-7413	Steam Card: Meteoid (#2)	533954397	steamcard.gif	usable	t,d	50
-7414	Steam Card: Meteoid (#3)	743757206	steamcard.gif	usable	t,d	50
-7415	Steam Card: DemonStar (#1)	574333274	steamcard.gif	usable	t,d	50
-7416	Steam Card: DemonStar (#2)	372224310	steamcard.gif	usable	t,d	50
-7417	Steam Card: DemonStar (#3)	130683855	steamcard.gif	usable	t,d	50
-7418	Steam Card: Jackass Plumber (#1)	485152267	steamcard.gif	usable	t,d	50
-7419	Steam Card: Jackass Plumber (#2)	503786758	steamcard.gif	usable	t,d	50
-7420	Steam Card: Jackass Plumber (#3)	464746510	steamcard.gif	usable	t,d	50
+7406	Steam Card: Dungeon Fist (#1)	253174686	steamcard.gif	reusable	t,d	50
+7407	Steam Card: Dungeon Fist (#2)	728516682	steamcard.gif	reusable	t,d	50
+7408	Steam Card: Dungeon Fist (#3)	776266532	steamcard.gif	reusable	t,d	50
+7409	Steam Card: Space Trip (#1)	165460081	steamcard.gif	reusable	t,d	50
+7410	Steam Card: Space Trip (#2)	396704515	steamcard.gif	reusable	t,d	50
+7411	Steam Card: Space Trip (#3)	484097374	steamcard.gif	reusable	t,d	50
+7412	Steam Card: Meteoid (#1)	560078181	steamcard.gif	reusable	t,d	50
+7413	Steam Card: Meteoid (#2)	533954397	steamcard.gif	reusable	t,d	50
+7414	Steam Card: Meteoid (#3)	743757206	steamcard.gif	reusable	t,d	50
+7415	Steam Card: DemonStar (#1)	574333274	steamcard.gif	reusable	t,d	50
+7416	Steam Card: DemonStar (#2)	372224310	steamcard.gif	reusable	t,d	50
+7417	Steam Card: DemonStar (#3)	130683855	steamcard.gif	reusable	t,d	50
+7418	Steam Card: Jackass Plumber (#1)	485152267	steamcard.gif	reusable	t,d	50
+7419	Steam Card: Jackass Plumber (#2)	503786758	steamcard.gif	reusable	t,d	50
+7420	Steam Card: Jackass Plumber (#3)	464746510	steamcard.gif	reusable	t,d	50
 7421	pencil thin mushroom	814218254	pencilmush.gif	none	q	0
 7422	Paradaisical Cheeseburger recipe	902389228	burgerrecipe.gif	offhand	q	0
 7423	salty sailor salt	707454166	disease.gif	none	q	0	handfuls of salty sailor salt
