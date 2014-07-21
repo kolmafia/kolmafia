@@ -117,6 +117,8 @@ public class AdventurePool
 	public static final int GLACIER_OF_JERKS = 279;
 	public static final String HIDDEN_TEMPLE_ID = "280";
 	public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+	public static final String ABOO_PEAK_ID = "296";
+	public static final String OIL_PEAK_ID = "298";
 	public static final String CASTLE_BASEMENT_ID = "322";
 	public static final String CASTLE_GROUND_ID = "323";
 	public static final String CASTLE_TOP_ID = "324";

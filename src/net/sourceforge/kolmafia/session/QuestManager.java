@@ -173,9 +173,11 @@ public class QuestManager
 		{
 			handleGuildChange( responseText );
 		}
-		else if ( location.startsWith( "whichplace=highlands&action=highlands_dude" ) )
+		else if ( location.contains( "whichplace=highlands" ) ||
+			location.contains( AdventurePool.ABOO_PEAK_ID ) ||
+			location.contains( AdventurePool.OIL_PEAK_ID )	)
 		{
-			handleHighlandsChange( responseText );
+			handleHighlandsChange( location, responseText );
 		}
 		else if ( location.startsWith( "inv_use" ) )
 		{
@@ -665,11 +667,25 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleHighlandsChange( final String responseText )
+	private static final void handleHighlandsChange( final String location, final String responseText )
 	{
-		if ( responseText.contains( "trying to, like, order a pizza" ) )
+		if ( location.contains( "action=highlands_dude" ) && responseText.contains( "trying to, like, order a pizza" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.TOPPING, "step2" );
+		}
+		if ( location.contains( AdventurePool.ABOO_PEAK_ID ) && responseText.contains( "Come On Ghosty, Light My Pyre" ) ||
+			responseText.contains( "orcchasm/fire1.gif" ) )
+		{
+			Preferences.setInteger( "booPeakProgress", 0 );
+		}
+		if ( responseText.contains( "orcchasm/fire2.gif" ) )
+		{
+			Preferences.setInteger( "twinPeakProgress", 15 );
+		}
+		if ( location.contains( AdventurePool.OIL_PEAK_ID ) && responseText.contains( "Unimpressed with Pressure" ) ||
+			responseText.contains( "orcchasm/fire3.gif" ) )
+		{
+			Preferences.setInteger( "oilPeakProgress", 0 );
 		}
 	}
 

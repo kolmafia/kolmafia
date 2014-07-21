@@ -95,6 +95,7 @@ public abstract class ChoiceManager
 	public static String lastResponseText = "";
 	private static int skillUses = 0;
 	private static boolean canWalkAway;
+	private static int abooPeakLevel = 0;
 
 	private enum PostChoiceAction {
 		NONE,
@@ -5759,22 +5760,9 @@ public abstract class ChoiceManager
 
 		// The Horror...
 		case 611:
-			if ( ChoiceManager.lastDecision == 2 ) // Flee
-			{
-				// To find which step we're on, look at the responseText from the _previous_ request.  This should still be in lastResponseText.
-				int level = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) ) - 1;
-				if ( level < 1 )
-					break;
-				// We took 1 off the level since we didn't actually complete the level represented by that button.
-				// The formula is now progress = n*(n+1), where n is the number of levels completed.
-				// 0 (flee immediately): 0, breaks above
-				// 1: 2
-				// 2: 6
-				// 3: 12
-				// 4: 20
-				// 5 NOT handled here.  see postChoice1.
-				Preferences.decrement( "booPeakProgress", level * ( level + 1 ), 0 );
-			}
+			// To find which step we're on, look at the responseText from the _previous_ request.  This should still be in lastResponseText.
+			ChoiceManager.abooPeakLevel = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) );
+			// Handle changing the progress level in postChoice1 where we know the result.
 			break;
 
 		// Behind the world there is a door...
@@ -6315,25 +6303,24 @@ public abstract class ChoiceManager
 
 		case 611:
 			// The Horror...
-			// We need to detect if the choiceadv chain was completed OR we got beaten up.
-			// Fleeing is handled in preChoice
-			if ( text.contains( "You drop the book, trying to scrub" ) ||
-				text.contains( "Well, it wasn't easy, and it wasn't pleasant" ) ||
-				text.contains( "You survey the deserted battle site" ) ||
-				text.contains( "You toss the map aside with a smile" ) ||
-				text.contains( "Unlike your mom, it wasn't easy" ) ||
-				text.contains( "You finally cleared all the ghosts from the square" ) ||
-				text.contains( "You made it through the battle site" ) ||
-				text.contains( "Man, those Space Tourists are hardcore" ) ||
-				text.contains( "You stagger to your feet outside Pigherpes" ) ||
-				text.contains( "You clear out of the battle site, still a little" ) )
+			// We need to detect if the choiceadv step was completed OR we got beaten up.
+			// If we Flee, nothing changes
+			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.decrement( "booPeakProgress", 30, 0 );
+				if ( text.contains( "That's all the horror you can take" ) ) // AKA beaten up
+				{
+					Preferences.decrement( "booPeakProgress", 2, 0 );
+				}
+				else
+				{
+					Preferences.decrement( "booPeakProgress", 2 * ChoiceManager.abooPeakLevel, 0 );
+				}
+				if ( Preferences.getInteger( "booPeakProgress" ) < 0 )
+				{
+					Preferences.setInteger( "booPeakProgress", 0 );
+				}
 			}
-			else if ( text.contains( "That's all the horror you can take" ) ) // AKA beaten up
-			{
-				Preferences.decrement( "booPeakProgress", 2, 0 );
-			}
+			return;
 
 		case 614:
 			// Near the fog there is an... anvil?
@@ -6369,6 +6356,15 @@ public abstract class ChoiceManager
 			// Now It's Dark
 			// Twin Peak fourth choice
 			if ( text.contains( "When the lights come back" ) )
+			{
+				// the other three must be completed at this point.
+				Preferences.setInteger( "twinPeakProgress", 15 );
+			}
+			return;
+
+		case 618:
+			// Cabin Fever
+			if ( text.contains( "mercifully, the hotel explodes" ) )
 			{
 				// the other three must be completed at this point.
 				Preferences.setInteger( "twinPeakProgress", 15 );
