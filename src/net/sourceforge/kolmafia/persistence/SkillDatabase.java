@@ -1148,7 +1148,7 @@ public class SkillDatabase
 				continue;
 			}
 
-			list.add( UseSkillRequest.getInstance( skillId ) );
+			list.add( UseSkillRequest.getUnmodifiedInstance( skillId ) );
 		}
 
 		return list;
@@ -1221,7 +1221,7 @@ public class SkillDatabase
 
 			for ( int j = 0; j < categories[ i ].size(); ++j )
 			{
-				if ( !KoLConstants.availableSkills.contains( UseSkillRequest.getInstance( (String) categories[ i ].get( j ) ) ) )
+				if ( !KoLConstants.availableSkills.contains( UseSkillRequest.getUnmodifiedInstance( (String) categories[ i ].get( j ) ) ) )
 				{
 					categories[ i ].remove( j-- );
 				}
@@ -1406,7 +1406,7 @@ public class SkillDatabase
 
 	public static int getMaxCasts( int skillId )
 	{
-		UseSkillRequest skill = UseSkillRequest.getInstance( skillId );
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillId );
 		if ( skill == null )
 		{
 			return -1;

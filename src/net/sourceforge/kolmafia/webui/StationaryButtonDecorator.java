@@ -459,7 +459,7 @@ public class StationaryButtonDecorator
 		int classStunId = SkillDatabase.getSkillId( classStun );
 		if ( !inBirdForm && KoLCharacter.hasSkill( classStun ) )
 		{
-			UseSkillRequest stunRequest = UseSkillRequest.getInstance( classStun );
+			UseSkillRequest stunRequest = UseSkillRequest.getUnmodifiedInstance( classStun );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
 				KoLConstants.availableCombatSkills.contains( stunRequest );
 			// Only enable Club Foot when character has Fury, as it's only a stun then.
@@ -682,7 +682,7 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "skill&whichskill=" );
 			actionBuffer.append( action );
 			int skillID = StringUtilities.parseInt( action );
-			UseSkillRequest actionRequest = UseSkillRequest.getInstance( skillID );
+			UseSkillRequest actionRequest = UseSkillRequest.getUnmodifiedInstance( skillID );
 			isEnabled &= KoLConstants.availableCombatSkills.contains( actionRequest );
 		}
 

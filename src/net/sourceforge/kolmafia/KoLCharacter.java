@@ -3628,7 +3628,7 @@ public abstract class KoLCharacter
 
 	public static final void addAvailableSkill( final String name, final boolean checkTrendy )
 	{
-		KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( name ), checkTrendy );
+		KoLCharacter.addAvailableSkill( UseSkillRequest.getUnmodifiedInstance( name ), checkTrendy );
 	}
 
 	public static final void addAvailableSkill( final UseSkillRequest skill )
@@ -3790,7 +3790,7 @@ public abstract class KoLCharacter
 
 	public static final void addAvailableCombatSkill( final String name )
 	{
-		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getInstance( name ) );
+		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
 	}
 
 	private static final void addCombatSkill( final String name )
@@ -3807,7 +3807,7 @@ public abstract class KoLCharacter
 		String message = "Unlearning skill: " + name;
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
-		UseSkillRequest skill = UseSkillRequest.getInstance( name );
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( name );
 
 		KoLConstants.availableSkills.remove( skill );
 		KoLConstants.availableSkillsMap.remove( skill );
@@ -4548,7 +4548,7 @@ public abstract class KoLCharacter
 
 		if ( thrall == PastaThrallData.NO_THRALL )
 		{
-			UseSkillRequest skill = UseSkillRequest.getInstance( "Dismiss Pasta Thrall" );
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Dismiss Pasta Thrall" );
 			KoLConstants.availableSkills.remove( skill );
 			KoLConstants.availableSkillsMap.remove( skill );
 			KoLConstants.usableSkills.remove( skill );
@@ -4556,7 +4556,7 @@ public abstract class KoLCharacter
 		}
 		else if ( KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL )
 		{
-			UseSkillRequest skill = UseSkillRequest.getInstance( "Dismiss Pasta Thrall" );
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Dismiss Pasta Thrall" );
 			KoLConstants.availableSkills.add( skill );
 			KoLConstants.availableSkillsMap.put( skill, null );
 			KoLConstants.usableSkills.add( skill );

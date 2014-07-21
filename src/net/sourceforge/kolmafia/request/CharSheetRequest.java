@@ -364,7 +364,7 @@ public class CharSheetRequest
 			if ( SkillDatabase.contains( token ) )
 			{
 				String skillName = token;
-				UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
+				UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 				boolean shouldAddSkill = true;
 
 				if ( SkillDatabase.isBookshelfSkill( skillName ) )

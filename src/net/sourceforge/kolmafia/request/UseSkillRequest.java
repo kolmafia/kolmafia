@@ -267,9 +267,15 @@ public class UseSkillRequest
 			this.skillName = SkillDatabase.getSkillName( this.skillId );
 			this.isBuff = SkillDatabase.isBuff( this.skillId );
 		}
-		this.target = "yourself";
 
+		this.target = null;
 		this.addFormFields();
+	}
+
+	@Override
+	public void reconstructFields()
+	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	private static String chooseURL( final String skillName )
@@ -1376,36 +1382,20 @@ public class UseSkillRequest
 			return null;
 		}
 
-		skillName = StringUtilities.getCanonicalName( skillName );
-		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
+		String canonical = StringUtilities.getCanonicalName( skillName );
+		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( canonical );
 		if ( request == null )
 		{
 			request = new UseSkillRequest( skillName );
-			UseSkillRequest.ALL_SKILLS.put( skillName, request );
+			UseSkillRequest.ALL_SKILLS.put( canonical, request );
 		}
 
 		return request;
 	}
 
-	public static final UseSkillRequest getInstance( String skillName )
+	public static final UseSkillRequest getUnmodifiedInstance( final int skillId )
 	{
-		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
-		if ( request != null )
-		{
-			request.setTarget( KoLCharacter.getUserName() );
-			request.setBuffCount( 0 );
-		}
-		return request;
-	}
-
-	public static final UseSkillRequest getInstance( final int skillId )
-	{
-		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
-	{
-		return UseSkillRequest.getInstance( skillName, null, buffCount );
+		return UseSkillRequest.getUnmodifiedInstance( SkillDatabase.getSkillName( skillId ) );
 	}
 
 	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
@@ -1417,6 +1407,21 @@ public class UseSkillRequest
 			request.setBuffCount( buffCount );
 		}
 		return request;
+	}
+
+	public static final UseSkillRequest getInstance( String skillName )
+	{
+		return UseSkillRequest.getInstance( skillName, null, 0 );
+	}
+
+	public static final UseSkillRequest getInstance( final int skillId )
+	{
+		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
+	{
+		return UseSkillRequest.getInstance( skillName, null, buffCount );
 	}
 
 	public static final UseSkillRequest getInstance( final String skillName, final Concoction conc )
