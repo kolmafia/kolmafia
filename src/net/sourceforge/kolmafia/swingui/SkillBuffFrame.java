@@ -136,7 +136,7 @@ public class SkillBuffFrame
 				return;
 			}
 
-			SkillBuffFrame.this.skillSelect.setSelectedItem( UseSkillRequest.getInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
+			SkillBuffFrame.this.skillSelect.setSelectedItem( UseSkillRequest.getUnmodifiedInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
 		}
 	}
 

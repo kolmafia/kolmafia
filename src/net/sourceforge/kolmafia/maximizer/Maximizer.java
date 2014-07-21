@@ -448,7 +448,7 @@ public class Maximizer
 					mpCost = SkillDatabase.getMPConsumptionById( skillId );
 					advCost = SkillDatabase.getAdventureCost( skillId );
 					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
-					if ( !KoLCharacter.hasSkill( skillName ) || UseSkillRequest.getInstance( skillName ).getMaximumCast() == 0 )
+					if ( !KoLCharacter.hasSkill( skillName ) || UseSkillRequest.getUnmodifiedInstance( skillName ).getMaximumCast() == 0 )
 					{
 						if ( includeAll )
 						{

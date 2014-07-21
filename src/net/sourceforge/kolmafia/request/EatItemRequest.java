@@ -497,7 +497,7 @@ public class EatItemRequest
 		}
 
 		// If we don't have skill, all summons are used, and we can't get one, no need to ask
-		if ( ( !KoLCharacter.hasSkill( SkillPool.CLIP_ART ) || UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() == 0 )
+		if ( ( !KoLCharacter.hasSkill( SkillPool.CLIP_ART ) || UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() == 0 )
 			&& !KoLCharacter.canInteract() && !InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) )
 		{
 			return true;

@@ -1975,7 +1975,7 @@ public class ItemDatabase
 			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY 
 				&& ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) 
 				|| Preferences.getBoolean( "autoGarish" ) && ( KoLCharacter.canInteract()
-				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
+				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
 				|| InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
 			{
 				return perUnit ? ( 5.0 / fullness ) : 5.0;
