@@ -1184,7 +1184,7 @@ public class ListCellRendererFactory
 				{
 					stringForm.append( "C" );
 				}
-				
+
 				if ( (pulver & EquipmentDatabase.MALUS_UPGRADE ) != 0 )
 				{
 					stringForm.append( " upgrade" );

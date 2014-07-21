@@ -317,6 +317,41 @@ vial of hot blood	hot cluster
 warm fur	hot cluster
 wolfskull mask	spooky cluster
 
+# Dreadsylvania boss items turn into epic clusters
+Great Wolf's headband	epic cluster
+Great Wolf's right paw	epic cluster
+Great Wolf's left paw	epic cluster
+Great Wolf's rocket launcher	epic cluster
+Great Wolf's beastly trousers	epic cluster
+Drapes-You-Regally	epic cluster
+Warms-Your-Tush	epic cluster
+Covers-Your-Head	epic cluster
+Protects-Your-Junk	epic cluster
+Quiets-Your-Steps	epic cluster
+Helps-You-Sleep	epic cluster
+Mayor Ghost's khakis	epic cluster
+Mayor Ghost's cloak	epic cluster
+Mayor Ghost's toupee	epic cluster
+Mayor Ghost's sash	epic cluster
+Mayor Ghost's gavel	epic cluster
+zombie mariachi hat	epic cluster
+zombie accordion	epic cluster
+zombie mariachi pants	epic cluster
+HOA regulation book	epic cluster
+HOA zombie eyes	epic cluster
+Unkillable Skeleton's shield	epic cluster
+Unkillable Skeleton's sawsword	epic cluster
+Unkillable Skeleton's restless leg	epic cluster
+Unkillable Skeleton's skullcap	epic cluster
+Unkillable Skeleton's shinguards	epic cluster
+Unkillable Skeleton's breastplate	epic cluster
+Thunkula's drinking cap	epic cluster
+Drunkula's silky pants	epic cluster
+Drunkula's cape	epic cluster
+Drunkula's ring of haze	epic cluster
+Drunkula's wineglass	epic cluster
+Staff of the Roaring Hearth	epic cluster
+
 # Mr. Store equipment is not pulverizable.
 Mr. Accessory	nosmash
 Golden Mr. Accessory	nosmash

@@ -986,7 +986,10 @@ public class EquipmentDatabase
 		{
 			pulver |= ELEM_SLEAZE;
 		}
-
+		else
+		{
+			pulver = ItemDatabase.getItemId( name );
+		}
 		return pulver;
 	}
 
