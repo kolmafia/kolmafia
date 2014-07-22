@@ -216,7 +216,7 @@ public class Modifiers
 	public static final int POOL_SKILL = 108;
 	public static final int SURGEONOSITY = 109;
 	public static final int FAMILIAR_DAMAGE = 110;
-	public static final int GEAR_DROP = 111;
+	public static final int GEARDROP = 111;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 

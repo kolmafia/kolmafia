@@ -227,6 +227,9 @@ public class Maximizer
 			int advCost = 0;
 			int mpCost = 0;
 			int soulsauceCost = 0;
+			int duration = 0;
+			int usesRemaining = 0;
+			int itemsRemaining = 0;
 			if ( !hasEffect )
 			{
 				spec.addEffect( effect );
@@ -344,6 +347,11 @@ public class Maximizer
 					{
 						String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
 						item = ItemFinder.getFirstMatchingItem( iName, false );
+						Modifiers effMod = Modifiers.getModifiers( iName );
+						if ( effMod != null )
+						{
+							duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
+						}
 						// Hot Dogs don't have items
 						if ( item == null && ClanLoungeRequest.isHotDog( iName ) )
 						{
@@ -382,6 +390,10 @@ public class Maximizer
 							{
 								continue;
 							}
+							else
+							{
+								usesRemaining = 1;
+							}
 						}
 						// Speakeasy drinks don't have items
 						else if ( item == null && ClanLoungeRequest.isSpeakeasyDrink( iName ) )
@@ -416,7 +428,8 @@ public class Maximizer
 								continue;
 							}
 							// Have we had all three?
-							if ( Preferences.getInteger( "_speakeasyDrinksDrunk" ) >= 3 )
+							usesRemaining = 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" );
+							if ( usesRemaining <= 0 )
 							{
 								continue;
 							}
@@ -430,9 +443,14 @@ public class Maximizer
 							}
 							else continue;
 						}
-						else if ( item != null && UseItemRequest.maximumUses( item.getItemId() ) == 0 )
+						else if ( item != null )
 						{
-							continue;
+							int itemId = item.getItemId();
+							usesRemaining = UseItemRequest.maximumUses( itemId );
+							if ( usesRemaining <= 0 )
+							{
+								continue;
+							}
 						}
 					}
 				}
@@ -440,6 +458,7 @@ public class Maximizer
 				{
 					item = ItemPool.get( ItemPool.GONG, 1 );
 					advCost = 3;
+					duration = 20;
 				}
 				else if ( cmd.startsWith( "cast " ) )
 				{
@@ -448,7 +467,13 @@ public class Maximizer
 					mpCost = SkillDatabase.getMPConsumptionById( skillId );
 					advCost = SkillDatabase.getAdventureCost( skillId );
 					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
-					if ( !KoLCharacter.hasSkill( skillName ) || UseSkillRequest.getUnmodifiedInstance( skillName ).getMaximumCast() == 0 )
+					duration = SkillDatabase.getEffectDuration( skillId );
+					UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+					if ( skill != null )
+					{
+						usesRemaining = skill.getMaximumCast();
+					}
+					if ( !KoLCharacter.hasSkill( skillName ) || usesRemaining == 0 )
 					{
 						if ( includeAll )
 						{
@@ -471,6 +496,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 20;
+					usesRemaining = Preferences.getBoolean( "friarsBlessingReceived" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "hatter " ) )
 				{
@@ -490,6 +517,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 30;
+					usesRemaining = Preferences.getBoolean( "_madTeaParty" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "summon " ) )
 				{
@@ -523,6 +552,9 @@ public class Maximizer
 						{
 						}
 					}
+					// Existential Torment is 20 turns, but won't appear here as the effects are unknown
+					duration = 30;
+					usesRemaining = Preferences.getBoolean( "demonSummoned" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "concert " ) )
 				{
@@ -554,6 +586,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 20;
+					usesRemaining = Preferences.getBoolean( "concertVisited" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "telescope " ) )
 				{
@@ -574,6 +608,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 10;
+					usesRemaining = Preferences.getBoolean( "telescopeLookedHigh" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "ballpit" ) )
 				{
@@ -585,6 +621,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 20;
+					usesRemaining = Preferences.getBoolean( "_ballpit" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "jukebox" ) )
 				{
@@ -596,6 +634,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 10;
+					usesRemaining = Preferences.getBoolean( "_jukebox" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "pool " ) )
 				{
@@ -620,6 +660,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 10;
+					usesRemaining = 3 - Preferences.getInteger( "_poolGames" );
 				}
 				else if ( cmd.startsWith( "shower " ) )
 				{
@@ -644,6 +686,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 50;
+					usesRemaining = Preferences.getBoolean( "_aprilShower" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "swim " ) )
 				{
@@ -668,6 +712,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 50;
+					usesRemaining = Preferences.getBoolean( "_olympicSwimmingPool" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "styx " ) )
 				{
@@ -679,6 +725,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 10;
+					usesRemaining = Preferences.getBoolean( "styxPixieVisited" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "skate " ) )
 				{
@@ -696,6 +744,8 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 30;
+					usesRemaining = Preferences.getBoolean( buffPref ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "gap" ) )
 				{
@@ -721,6 +771,19 @@ public class Maximizer
 						text = "(equip Greatest American Pants for " + name + ")";
 						cmd = "";
 					}
+					if ( name.equals( "Super Skill" ) )
+					{
+						duration = 5;
+					}
+					else if ( name.equals( "Super Structure" ) || name.equals( "Super Accuracy" ) )
+					{
+						duration = 10;
+					}
+					else if ( name.equals( "Super Vision" ) || name.equals( "Super Speed" ) )
+					{
+						duration = 20;
+					}
+					usesRemaining = 5 - Preferences.getInteger( "_gapBuffs" );
 				}
 				else if ( cmd.startsWith( "grim" ) )
 				{
@@ -741,10 +804,13 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 30;
+					usesRemaining = Preferences.getBoolean( "_grimBuff" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "skeleton " ) )
 				{
 					item = ItemPool.get( ItemPool.SKELETON, 1 );
+					duration = 30;
 				}
 
 				if ( item != null )
@@ -844,6 +910,7 @@ public class Maximizer
 					{
 						continue;
 					}
+					itemsRemaining = item.getCount( KoLConstants.inventory );
 				}
 
 				text = text + " (";
@@ -864,6 +931,63 @@ public class Maximizer
 					text += KoLConstants.COMMA_FORMAT.format( price ) + " meat, ";
 				}
 				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+				if ( Preferences.getBoolean( "verboseMaximizer" ) )
+				{
+					boolean show = duration > 0 ||
+									( usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE ) ||
+									itemsRemaining > 0;
+					int count = 0;
+					if ( show )
+					{
+						text += " [";
+					}
+					if ( duration > 0 )
+					{
+						if ( duration == 999 )
+						{
+							text += "intrinsic";
+						}
+						else if ( duration == 1 )
+						{
+							text += "1 adv duration";
+						}
+						else
+						{
+							text += duration + " advs duration";
+						}
+						count++;
+					}
+					if ( usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE )
+					{
+						if ( count > 0 )
+						{
+							text += ", ";
+						}
+						if ( usesRemaining == 1 )
+						{
+							text += "1 use remaining";
+							count++;
+						}
+						else
+						{
+							text += usesRemaining + " uses remaining";
+							count++;
+						}
+					}
+					if ( itemsRemaining > 0 )
+					{
+						if ( count > 0 )
+						{
+							text += ", ";
+						}
+						text += itemsRemaining + " in inventory";
+						count++;
+					}
+					if ( show )
+					{
+						text += "]";
+					}
+				}
 				if ( orFlag )
 				{
 					text = "...or " + text;

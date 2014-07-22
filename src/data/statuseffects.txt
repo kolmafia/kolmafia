@@ -723,7 +723,7 @@
 722	Very Clean Guns	happiness.gif	6ab901c4e598d8c59f6d4539d4e07ae0	use 1 gun cleaning kit
 723	Gleaming White Teeth	goldfronts.gif	107f5321e020b856965a53d5bff93b08	use 1 mariachi toothpaste
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	use 1 Northern pemmican
-725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 DRINK ME potion
+725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 &quot;DRINK ME&quot; potion
 726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	hatter 4
 727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e	hatter 6
 728	Cat-Alyzed	blackcat.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	hatter 7
@@ -1061,7 +1061,7 @@
 1060
 1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
 1062	Three King-sized Sheets to the Wind	lifesaver.gif	0fa2345811faba8cd2aa846bed0b7c89	use 1 giant breath mint
-1063	Ski Ballin'	mueslix.gif	4837fd13d9d4d009dd2f16e15c7f2fad	use 1 enchanted meusli
+1063	Ski Ballin'	mueslix.gif	4837fd13d9d4d009dd2f16e15c7f2fad	use 1 enchanted muesli
 1064	Polyphonic Yawn	milk.gif	cda161500be5dc5d703918449233ac2b	use 1 glass of warm milk
 1065	Tango, O Gnat	milk.gif	127922a19726ca3ecea506ae805ed6f4	use 1 glass of gnat milk
 1066	Weirdly Scientific	lovepotion.gif	9b22f8d286e36373e666fed2a13f93d1	use 1 Knob Goblin Mutagen
@@ -1522,7 +1522,7 @@
 1521	Greasy Visage	manwich.gif	3f41c1fbe67aec22203d8cb445fe48e0	eat 1 can of Adultwitch&trade;
 1522	Wreathed in Smoke	puff.gif	986517ae0aa8e3092d670add5e399db6	use 1 smudge stick
 1523	Medieval Mage Mayhem	swords.gif	01f37903ec36954a9760d0d7c03555cb	use 1 scroll case
-1524	Grape Expectations	grapes.gif	136e0b819ca5d6c4b235773948e3b707	use 1 jug of "wine"
+1524	Grape Expectations	grapes.gif	136e0b819ca5d6c4b235773948e3b707	use 1 jug of &quot;wine&quot;
 1525	Wallflowering	wallshield.gif	c1523388efe838f1488a732aa4e889ae	use 1 portable wall
 1526	Rumpel-pumped	potion5.gif	6918fad1a568448b8415d255b295396e	use 1 R&uuml;mpelstiltz
 1527	Outer Wolf&trade;	wolfcologne.gif	2c2e97dafe42ecc74abcf34e2f658526	use 1 Outer Wolf&trade; cologne

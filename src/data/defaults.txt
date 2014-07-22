@@ -908,6 +908,7 @@ user	valueOfAdventure	500
 user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
+user	verboseMaximizer	false
 user	violetFogGoal	0
 user	violetFogLayout
 user	volcanoMaze1

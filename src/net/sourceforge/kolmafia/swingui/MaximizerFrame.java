@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
 
+import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -95,6 +96,7 @@ public class MaximizerFrame
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
 	private JCheckBox includeAll;
+	private PreferenceListenerCheckBox verboseSelect;
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 
@@ -210,6 +212,7 @@ public class MaximizerFrame
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
 			MaximizerFrame.this.includeAll = new JCheckBox( "effects with no direct source, skills you don't have, etc." );
+			MaximizerFrame.this.verboseSelect = new PreferenceListenerCheckBox( "show turns of effect and number of casts/items remaining", "verboseMaximizer" );
 
 			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
@@ -225,11 +228,12 @@ public class MaximizerFrame
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "buyable only" ) );
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 4 ];
+			VerifiableElement[] elements = new VerifiableElement[ 5 ];
 			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
 			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
 			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( "Include: ", MaximizerFrame.this.includeAll );
+			elements[ 3 ] = new VerifiableElement( "Verbose: ", MaximizerFrame.this.verboseSelect );
+			elements[ 4 ] = new VerifiableElement( "Include: ", MaximizerFrame.this.includeAll );
 
 			this.setContent( elements );
 		}
@@ -349,5 +353,4 @@ public class MaximizerFrame
 			return -1;
 		}
 	}
-
 }

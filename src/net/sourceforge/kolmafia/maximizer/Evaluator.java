@@ -593,6 +593,7 @@ public class Evaluator
 		this.weight[ Modifiers.PANTSDROP ] += fudge;
 		this.weight[ Modifiers.ACCESSORYDROP ] += fudge;
 		this.weight[ Modifiers.CANDYDROP ] += fudge;
+		this.weight[ Modifiers.GEARDROP ] += fudge;
 		this.weight[ Modifiers.FAIRY_WEIGHT ] += fudge;
 		this.weight[ Modifiers.FAIRY_EFFECTIVENESS ] += fudge;
 		this.weight[ Modifiers.SPORADIC_ITEMDROP ] += fudge;
