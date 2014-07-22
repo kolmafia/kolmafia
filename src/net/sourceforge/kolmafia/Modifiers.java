@@ -1793,7 +1793,7 @@ public class Modifiers
 			newMods.name = changeName;
 		}
 		newMods.variable = newMods.override( name );
-		if ( newMods.variable || name.startsWith( "loc:" ) || name.startsWith( "zone:" ) )
+		if ( newMods.variable || name.startsWith( "Loc:" ) || name.startsWith( "Zone:" ) )
 		{
 			newMods.bitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
 		}
@@ -3193,15 +3193,15 @@ public class Modifiers
 			return;
 		}
 
-		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
-		Modifiers.currentZone = location.getZone().toLowerCase();
+		Modifiers.currentLocation = location.getAdventureName();
+		Modifiers.currentZone = location.getZone();
 		AreaCombatData data = location.getAreaSummary();
 		Modifiers.currentML = Math.max( 4.0, data == null ? 0.0 : data.getAverageML() );
 	}
 
 	public static void setFamiliar( FamiliarData fam )
 	{
-		Modifiers.currentFamiliar = fam == null ? "" : fam.getRace().toLowerCase();
+		Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
 	}
 
 	static

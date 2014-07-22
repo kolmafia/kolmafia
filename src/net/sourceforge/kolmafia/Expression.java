@@ -297,16 +297,16 @@ public class Expression
 				
 			// Valid with ModifierExpression:
 			case 'l':
-				v = Modifiers.currentLocation.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
+				v = !Modifiers.currentLocation.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
 				break;
 			case 'z':
-				v = Modifiers.currentZone.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
+				v = !Modifiers.currentZone.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
 				break;
 			case 'w':
-				v = Modifiers.currentFamiliar.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
+				v = !Modifiers.currentFamiliar.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
 				break;
 			case 'h':
-				v = Modifiers.mainhandClass.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
+				v = !Modifiers.mainhandClass.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
 				break;
 			case 'e':
 				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
@@ -315,18 +315,19 @@ public class Expression
 				break;
 			case 'b':
 				String elem = (String) this.literals.get( (int) s[ --sp ] );
-				int element = elem.equals( "cold" ) ? Modifiers.COLD_RESISTANCE :
-							  elem.equals( "hot" ) ? Modifiers.HOT_RESISTANCE :
-							  elem.equals( "sleaze" ) ? Modifiers.SLEAZE_RESISTANCE :
-							  elem.equals( "spooky" ) ? Modifiers.SPOOKY_RESISTANCE :
-							  elem.equals( "stench" ) ? Modifiers.STENCH_RESISTANCE :
-							  elem.equals( "slime" ) ? Modifiers.SLIME_RESISTANCE :
-							  elem.equals( "supercold" ) ? Modifiers.SUPERCOLD_RESISTANCE :
-							  -1;
+				int element =
+					elem.equalsIgnoreCase( "cold" ) ? Modifiers.COLD_RESISTANCE :
+					elem.equalsIgnoreCase( "hot" ) ? Modifiers.HOT_RESISTANCE :
+					elem.equalsIgnoreCase( "sleaze" ) ? Modifiers.SLEAZE_RESISTANCE :
+					elem.equalsIgnoreCase( "spooky" ) ? Modifiers.SPOOKY_RESISTANCE :
+					elem.equalsIgnoreCase( "stench" ) ? Modifiers.STENCH_RESISTANCE :
+					elem.equalsIgnoreCase( "slime" ) ? Modifiers.SLIME_RESISTANCE :
+					elem.equalsIgnoreCase( "supercold" ) ? Modifiers.SUPERCOLD_RESISTANCE :
+					-1;
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
 			case 'n':
-				v = KoLCharacter.getClassName().toLowerCase().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				v = KoLCharacter.getClassName().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'd':
 				v = KoLCharacter.hasSkill( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
