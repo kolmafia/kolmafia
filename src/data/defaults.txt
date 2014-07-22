@@ -1630,6 +1630,8 @@ user	choiceAdventure946	1
 user	choiceAdventure957	1
 user	choiceAdventure958	1
 user	choiceAdventure959	1
+user	choiceAdventure960	1
+user	choiceAdventure961	1
 user	choiceAdventure962	1
 user	choiceAdventure963	1
 user	choiceAdventure964	1
