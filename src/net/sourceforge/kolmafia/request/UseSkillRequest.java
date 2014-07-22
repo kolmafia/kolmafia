@@ -991,9 +991,19 @@ public class UseSkillRequest
 		this.isRunning = false;
 	}
 
+	private static final AdventureResult ONCE_CURSED = new AdventureResult( "Once-Cursed", 1, true );
+	private static final AdventureResult TWICE_CURSED = new AdventureResult( "Twice-Cursed", 1, true );
+	private static final AdventureResult THRICE_CURSED = new AdventureResult( "Thrice-Cursed", 1, true );
+
 	private void useSkillLoop()
 	{
 		if ( KoLmafia.refusesContinue() )
+		{
+			return;
+		}
+
+		int castsRemaining = this.buffCount;
+		if ( castsRemaining == 0 )
 		{
 			return;
 		}
@@ -1002,20 +1012,29 @@ public class UseSkillRequest
 
 		if ( mpPerCast == 0 )
 		{
-			if ( this.buffCount == 0 )
-			{
-				return;
-			}
 			// If the skill doesn't use MP then MP restoring and checking can be skipped
-			this.addFormField( this.countFieldId, String.valueOf( this.buffCount ) );
+			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
 			super.run();
+			return;
+		}
+
+		boolean cursed =
+			KoLConstants.activeEffects.contains( UseSkillRequest.ONCE_CURSED ) ||
+			KoLConstants.activeEffects.contains( UseSkillRequest.TWICE_CURSED ) ||
+			KoLConstants.activeEffects.contains( UseSkillRequest.THRICE_CURSED );
+
+		// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
+		// ask if you are sure you want to lose it.
+		if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
+		     ( this.skillId == SkillPool.SHAKE_IT_OFF ||
+		       ( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) ) &&
+		     !InputFieldUtilities.confirm( "That will remove your Cursed effect. Are you sure?" ) )
+		{
 			return;
 		}
 
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
-
-		int castsRemaining = this.buffCount;
 
 		int maximumMP = KoLCharacter.getMaximumMP();
 		int maximumCast = maximumMP / mpPerCast;
@@ -1023,10 +1042,12 @@ public class UseSkillRequest
 		// Save name so we can guarantee correct target later
 
 		String originalTarget = this.target;
+		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
+		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
 
-		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
+		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{
-			if ( SkillDatabase.isLibramSkill( this.skillId ) )
+			if ( isLibramSkill )
 			{
 				mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 			}
@@ -1038,26 +1059,11 @@ public class UseSkillRequest
 				return;
 			}
 
-			if ( KoLCharacter.getSoulsauce() < SkillDatabase.getSoulsauceCost( this.skillId ) )
+			if ( soulsauceCost > 0 && KoLCharacter.getSoulsauce() < soulsauceCost )
 			{
 				UseSkillRequest.lastUpdate = "Your maximum soulsauce is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
-			}
-
-			// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
-			// ask if you are sure you want to lose it ?
-			boolean cursed = KoLConstants.activeEffects.contains( new AdventureResult( "Once-Cursed", 1, true ) ) ||
-				KoLConstants.activeEffects.contains( new AdventureResult( "Twice-Cursed", 1, true ) ) ||
-				KoLConstants.activeEffects.contains( new AdventureResult( "Thrice-Cursed", 1, true ) );
-			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
-				( this.skillId == SkillPool.SHAKE_IT_OFF ||
-				( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) ) )
-			{
-				if ( !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
-				{
-					return;
-				}
 			}
 
 			// Find out how many times we can cast with current MP
@@ -1069,7 +1075,9 @@ public class UseSkillRequest
 			// Also recover MP if an opera mask is worn, to maximize its benefit.
 			// (That applies only to AT buffs, but it's unlikely that an opera mask
 			// will be worn at any other time than casting one.)
-			boolean needExtra = currentCast < maximumCast && currentCast < castsRemaining &&
+			boolean needExtra =
+				currentCast < maximumCast &&
+				currentCast < castsRemaining &&
 				EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() == ItemPool.OPERA_MASK;
 
 			if ( currentCast == 0 || needExtra )

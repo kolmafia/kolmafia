@@ -392,23 +392,19 @@ public class LoginRequest
 		StringBuilder buf = new StringBuilder();
 		String delim = null;
 
-		Map headerFields = request.formConnection.getHeaderFields();
-		Iterator iterator = headerFields.entrySet().iterator();
+		Map<String,List<String>> headerFields = request.formConnection.getHeaderFields();
 
-		while ( iterator.hasNext() )
+		for ( Entry<String,List<String>> entry: headerFields.entrySet() )
 		{
-			Entry entry = (Entry) iterator.next();
-			String key = (String) entry.getKey();
+			String key = entry.getKey();
 			if ( key == null || !key.equals( "Set-Cookie" ) )
 			{
 				continue;
 			}
 
-			List cookies = (List)(entry.getValue());
-			Iterator citerator = cookies.iterator();
-			while ( citerator.hasNext() )
+			List<String> cookies = entry.getValue();
+			for ( String cookie : cookies )
 			{
-				String cookie = (String) citerator.next();
 				int semi = cookie.indexOf( ";" );
 				if ( semi != -1 )
 				{
