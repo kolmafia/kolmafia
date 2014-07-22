@@ -76,35 +76,35 @@ public class ModifierExpression
 	{
 		if ( this.optional( "loc(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'l' );
+			return this.literal( this.until( ")" ), 'l' );
 		}
 		if ( this.optional( "zone(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'z' );
+			return this.literal( this.until( ")" ), 'z' );
 		}
 		if ( this.optional( "fam(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'w' );
+			return this.literal( this.until( ")" ), 'w' );
 		}
 		if ( this.optional( "mainhand(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'h' );
+			return this.literal( this.until( ")" ), 'h' );
 		}
 		if ( this.optional( "effect(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'e' );
+			return this.literal( this.until( ")" ), 'e' );
 		}
 		if ( this.optional( "res(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'b' );
+			return this.literal( this.until( ")" ), 'b' );
 		}
 		if ( this.optional( "class(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'n' );
+			return this.literal( this.until( ")" ), 'n' );
 		}
 		if ( this.optional( "skill(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'd' );
+			return this.literal( this.until( ")" ), 'd' );
 		}
 
 		return null;

@@ -508,7 +508,7 @@ public class Evaluator
 			else if ( keyword.startsWith( "com" ) )
 			{
 				index = Modifiers.COMBAT_RATE;
-				if ( Modifiers.currentZone.contains( "the sea" ) || Modifiers.currentLocation.equals( "the sunken party yacht" ) )
+				if ( Modifiers.currentZone.equals( "The Sea" ) || Modifiers.currentLocation.equals( "The Sunken Party Yacht" ) )
 				{
 					this.weight[ Modifiers.UNDERWATER_COMBAT_RATE ] = weight;
 				}
