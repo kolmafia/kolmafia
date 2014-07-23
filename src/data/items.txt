@@ -7640,14 +7640,14 @@
 7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
 7622	button rouge	554636307	rouge.gif	multiple	t,d	5
 7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
-7624
-7625
-7626
-7627
+7624	lynyrd skinner toothblack	654913251	balm.gif	multiple	t,d	5
+7625	flask of rainwater	517339022	flask.gif	multiple	t,d	5
+7626	blue oyster badge	640439292	badge.gif	multiple	t,d	5
+7627	plastic Jefferson wings	191013836	jwings.gif	multiple	t,d	5
 7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
 7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5
-7630
-7631
+7630	black magic powder	916394459	powder.gif	multiple	t,d	5
+7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
 7632
 7633
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
