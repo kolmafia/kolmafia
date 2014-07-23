@@ -3553,6 +3553,8 @@ A Little Bit Evil (Turtle Tamer)	Monster Level: +2
 A Little Bit Frightening	Spooky Damage: [3*L]
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
+# A Short Trial: Makes you look like a pygmy witch lawyer
+# A Taste for Accounting: Makes you look like a pygmy witch accountant
 # A Taste of Rainbow: Increases stat gains from food
 Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
@@ -3604,6 +3606,7 @@ Armor-Plated	Damage Reduction: 10
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
+# Artisanal Retentive: Makes you look like a Foodie Giant
 Artificially Sweet	Moxie Percent: +100
 Ashen	Combat Rate: -10
 Ashen Burps	Monster Level: +15
@@ -3632,6 +3635,7 @@ Banono	Stench Damage: +40, Stench Spell Damage: +40
 Barbecue Saucy	Muscle: +15, Moxie: +15
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
+# Bartenderganger: Makes you look like a Copperhead Club bartender
 Bastard!	Weapon Damage: +12
 Basted	Sleaze Damage: +10, Damage Reduction: -2
 Bat Attitude	Spell Damage Percent: +100
@@ -4042,6 +4046,7 @@ Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Eyes for Miles	Meat Drop: +50, Item Drop: +25
 Eyes of the Dragon	Item Drop: [100*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Familial Ties	Familiar Weight (hidden): [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
+# Fan Dancing: Makes you look like a fan dancer
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
 # Fangs and Pangs: Attacks enemies every round and restores HP
@@ -4079,6 +4084,7 @@ Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50
 # Fishy: -1 Adventure cost underwater
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
+# Fit As a Poster: Makes you look like a Fitness giant
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Flame-Retardant Trousers	Hot Resistance: +1
@@ -4127,6 +4133,7 @@ Full Bottle in front of Me	Spell Damage Percent: +30
 Full of Fruit, Yourself	Monster Level: -25
 Full of Vinegar	Weapon Damage: [+1*D]
 Full of Wist	Experience: [min(L,11)]
+# Full Steam Ahead: Makes you look like a Steampunk Giant
 Full-Body Tan	Experience (Moxie): [L]
 Funky Coal Patina	Moxie: +20
 Fury of the Bells	Muscle Percent: +10
@@ -4441,6 +4448,7 @@ Mad at Science	Muscle: +3
 # Magic Tongue: Everything tastes weird
 Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
 Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
+# Majestic Neckbeard: Makes you look like a Neckbeard Giant
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
 Make Meat FA$T!	Meat Drop: +20
 Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)], Moxie Percent: [min(500,+5*T)]
@@ -4529,6 +4537,7 @@ Night Vision	Meat Drop: +30
 Night of the Nachos	Spooky Spell Damage: +50, Spell Damage Percent: +100
 Nightstalkin'	Critical Hit Percent: +10
 # Nihao You Doin'?: Makes you look like a lucky cat statue
+# Ninja in Waiting: Makes you look like a ninja dressed as a waiter
 Ninja, Please	Critical Hit Percent: +15, Spell Critical Percent: +15
 # Ninjas Just Tryin' to Get Paid: Makes you look like a salary ninja
 # No Squealer Healer: Makes you look like a Quiet Healer
@@ -4589,6 +4598,7 @@ Pasta Eyeball	Meat Drop: +10
 Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
 Patched In	Mysticality Percent: +20
+# Patchy Punk: Makes you look like a Punk Rock Giant
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Patient Smile	Experience (Muscle): +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
@@ -4771,6 +4781,7 @@ Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerabi
 Shoesauce	Initiative: +30
 # Short of Breath: Makes you look like a pygmy blowgunner
 # Short on Options: Makes you look like a pygmy headhunter
+# Shortie Shaman Shurprise: Makes you look like a pygmy shaman
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Shredding, Sweating	Weapon Damage Percent: +25
 Shrimpin' Ain't Easy	Familiar Weight: +5
@@ -5129,6 +5140,7 @@ Visions of the Deep Dark Deeps	Spell Damage Percent: +50
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
 Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
+# Waiting for Ninjas: Makes you look like a waiter dressed as a ninja
 Waking the Dead	Combat Rate: +20
 Walberg's Dim Bulb	Initiative: +10
 # Walking Carpet: Makes you look like a grouchy furry monster
@@ -5167,6 +5179,7 @@ Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Wet Willied	Underwater Familiar
 What's That Smell?	Stench Damage: +3
+# Which Nurse? Witch Nurse!: Makes you look like a pygmy witch nurse
 Whispering Strands	Initiative: +10
 White Blooded	Maximum HP: +50
 White Knuckles	Never Fumble
@@ -5993,6 +6006,7 @@ Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
+Fitspiration&trade; poster	Effect: "Fit As a Poster", Effect Duration: 50
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
 Fly-By-Knight Heraldry form	Free Pull
@@ -6169,6 +6183,7 @@ antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration
 antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
 arrowgram	Free Pull
 arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
+artisinal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Effect Duration: 50
 ash soda	Effect: "Ashen Burps", Effect Duration: 15
 astral badger	Free Pull
 astral mushroom	Effect: "Half-Astral", Effect Duration: 5
@@ -6313,6 +6328,7 @@ d12	Effect: "Bastard!", Effect Duration: 10
 # d20	Effect: "Natural 1", Effect Duration: 1
 # d20	Effect: "Natural 20", Effect Duration: 1
 # d20	Effect: "20/20 Vision", Effect Duration: 20d20
+dancing fan	Effect: "Fan Dancing", Effect Duration: 50
 dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deactivated nanobots	Free Pull
@@ -6354,6 +6370,7 @@ ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
+electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
 elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 # eleven-foot pole: You know...  For traps.
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
@@ -6425,6 +6442,7 @@ ghost thread	Effect: "Ghost Finger", Effect Duration: 40
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
 giant giant moth dust	Effect: "Slightly Larger Than Usual", Effect Duration: 50
+giant neckbeard	Effect: "Majestic Neckbeard", Effect Duration: 50
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
@@ -6575,6 +6593,8 @@ natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
+ninja eyeblack	Effect: "Waiting for Ninjas", Effect Duration: 50
+ninja fear powder	Effect: "Ninja in Waiting", Effect Duration: 50
 off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
@@ -6678,14 +6698,17 @@ pulled violet taffy	Effect: "Purple Reign", Effect Duration: 10
 pulled yellow taffy	Effect: "Sour Softshoe", Effect Duration: 10
 # pumpkin carriage: Allows Travel to Desert Beach
 pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
+punk patch	Effect: "Patchy Punk", Effect Duration: 50
 puppet strings	Free Pull
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
+pygmy adder oil	Effect: "A Taste for Accounting", Effect Duration: 50
 pygmy bugbear shaman	Free Pull
 pygmy dart	Effect: "Short of Breath", Effect Duration: 30
 pygmy papers	Effect: "Short on Options", Effect Duration: 30
 pygmy phone number	Effect: "Pygmy Drinking Buddy", Effect Duration: 15
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
+pygmy witchhazel	Effect: "Which Nurse? Witch Nurse!", Effect Duration: 50
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 recording of Benetton's Medley of Diversity	Effect: "Benetton's Medley of Diversity", Effect Duration: 20
@@ -6740,6 +6763,7 @@ shaking skull	No Pull
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
+short deposition	Effect: "A Short Trial", Effect Duration: 50
 shot of Sneaky Pete's Mojo	Free Pull
 shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
 siesta-ing Casagnova gnome	Free Pull
@@ -6782,6 +6806,7 @@ spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
 spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 squamous polyp	Free Pull
 # steam-powered model rocketship: Allows access to the Hole in the Sky
+steampunk potion	Effect: "Full Steam Ahead", Effect Duration: 50
 stench nugget	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
 stench wad	Effect: "Stenchtastic", Effect Duration: 10
@@ -6850,6 +6875,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
+voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 walkie talkie	Free Pull

@@ -1664,11 +1664,11 @@
 1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
 1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks
 1665
-1666
-1667
-1668
-1669
-1670
+1666	Fit As a Poster	fitposter.gif	acdd6405de02fe089f3bc36d752d61da	use 1 Fitspiration™ poster
+1667	Majestic Neckbeard	mohawk.gif	9cef3eea047dd7b8b2718b10eaaab0ed	use 1 giant neckbeard
+1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisinal hand-squeezed wheatgrass juice
+1669	Patchy Punk	punkpatch.gif	994185184974160db5c01ba484ed63e0	use 1 punk patch
+1670	Full Steam Ahead	bottle.gif	bf499d287023f4ebf41248f62456c457	use 1 steampunk potion
 1671
 1672
 1673
@@ -1676,21 +1676,21 @@
 1675
 1676
 1677
-1678
-1679
-1680
-1681
+1678	Shortie Shaman Shurprise	glowskull.gif	9e90d2cb828bec5d497085ba03a3b5ac	use 1 voodoo glowskull
+1679	A Taste for Accounting	vial.gif	1b23fff6cf95fb408356321340954942	use 1 pygmy adder oil
+1680	Which Nurse? Witch Nurse!	plant.gif	6fbb3800dd5b330b77d28810797ec576	use 1 pygmy witchhazel
+1681	A Short Trial	scroll2.gif	5ea557f8e320a4a65f0df2bd470e7532	use 1 short deposition
 1682
-1683
-1684
-1685
+1683	Bartenderganger	beaker.gif	cb75e0789f476e59dcd5f4a95436c055	use 1 electric copperhead potion
+1684	Ninja in Waiting	powder.gif	0432614357b02bc960023c6f58aed306	use 1 ninja fear powder
+1685	Waiting for Ninjas	lipstick.gif	3438adfe06c6d74a4d06262bcf35794b	use 1 ninja eyeblack
 1686
 1687
 1688
 1689
 1690
 1691
-1692
+1692	Fan Dancing	combatfan.gif	dacb0fff0402d337a92dcec95ff98ff4	use 1 dancing fan
 1693
 1694
 1695
