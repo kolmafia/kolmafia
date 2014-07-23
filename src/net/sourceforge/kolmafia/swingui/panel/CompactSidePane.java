@@ -619,7 +619,7 @@ public class CompactSidePane
 		int hobo = KoLCharacter.getHoboPower();
 		int clown = KoLCharacter.getClownosity();
 		int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
-		int surgeon = KoLCharacter.currentBitmapModifier( Modifiers.SURGEONOSITY );
+		int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
 		int smithsness = KoLCharacter.getSmithsness();
 		int count = 0;
 		if ( hobo != 0 && count < this.MISC_LABELS )
