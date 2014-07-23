@@ -236,6 +236,11 @@ public class ResponseTextParser
 			return false;
 		}
 
+		if ( location.startsWith( "dev" ) )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
