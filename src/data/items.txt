@@ -7618,11 +7618,11 @@
 7599
 7600
 7601
-7602
-7603
-7604
-7605
-7606
+7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
+7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
+7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
+7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5
+7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5
 7607
 7608
 7609
@@ -7630,21 +7630,21 @@
 7611
 7612
 7613
-7614
-7615
-7616
-7617
+7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
+7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5
+7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5
+7617	short deposition	629363955	scroll2.gif	multiple	t,d	5
 7618
-7619
-7620
-7621
+7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
+7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5
+7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
 7622
 7623
 7624
 7625
 7626
 7627
-7628
+7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
 7629
 7630
 7631
