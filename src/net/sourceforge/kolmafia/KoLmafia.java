@@ -618,6 +618,9 @@ public abstract class KoLmafia
 		RequestLogger.closeSessionLog();
 		RequestLogger.openSessionLog();
 
+		// Some things aren't properly set by KoL until main.php is loaded
+		RequestThread.postRequest( new GenericRequest( "main.php" ) );
+
 		// Get current moon phases
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );

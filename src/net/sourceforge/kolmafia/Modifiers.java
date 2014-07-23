@@ -223,7 +223,7 @@ public class Modifiers
 	private static final Object[][] doubleModifiers =
 	{
 		{ "Familiar Weight",
-		  Pattern.compile( "([+-]\\d+) to Familiar Weight" ),
+		  Pattern.compile( "([+-]\\d+) (to )?Familiar Weight" ),
 		  Pattern.compile( "Familiar Weight: " + EXPR )
 		},
 		{ "Monster Level",
@@ -611,7 +611,10 @@ public class Modifiers
 		  Pattern.compile( "Candy Drop: " + EXPR )
 		},
 		{ "DB Combat Damage",
-		  Pattern.compile( "([+-]\\d+) damage to Disco Bandit Combat Skills" ),
+		  new Object[] {
+		        Pattern.compile( "([+-]\\d+) damage to Disco Bandit Combat Skills" ),
+		        Pattern.compile( "([+-]\\d+) Disco Bandit Skill Damage" ),
+		  },
 		  Pattern.compile( "DB Combat Damage: " + EXPR )
 		},
 		{ "Sombrero Bonus",
