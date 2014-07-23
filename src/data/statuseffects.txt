@@ -1664,16 +1664,16 @@
 1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
 1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks
 1665
-1666	Fit As a Poster	fitposter.gif	acdd6405de02fe089f3bc36d752d61da	use 1 Fitspiration™ poster
+1666	Fit As a Poster	fitposter.gif	acdd6405de02fe089f3bc36d752d61da	use 1 Fitspiration&trade; poster
 1667	Majestic Neckbeard	mohawk.gif	9cef3eea047dd7b8b2718b10eaaab0ed	use 1 giant neckbeard
 1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisinal hand-squeezed wheatgrass juice
 1669	Patchy Punk	punkpatch.gif	994185184974160db5c01ba484ed63e0	use 1 punk patch
 1670	Full Steam Ahead	bottle.gif	bf499d287023f4ebf41248f62456c457	use 1 steampunk potion
 1671
 1672
-1673
-1674
-1675
+1673	Dazed, Confused	eyedrops.gif	0bbb2bd4013cdad2eb4e1db0c43a2642	use 1 Redeye&trade; Eyedrops
+1674	Dweeble-Minded	inhaler.gif	f425278c1d27a36dd530c0d1676efac7	use 1 Dweebisol&trade; inhaler
+1675	Motorhair	motoroil.gif	2d4d1a339f227b98ddc19b953e2ef302	use 1 Lewd Lemmy Hair Oil
 1676
 1677
 1678	Shortie Shaman Shurprise	glowskull.gif	9e90d2cb828bec5d497085ba03a3b5ac	use 1 voodoo glowskull

@@ -3923,6 +3923,7 @@ Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
 # Dawn of the Goblin: Makes you look like a tribal goblin
+# Dazed, Confused : Makes you look like a wastoid
 # Dead Sexy
 # Deadened Palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
@@ -3983,6 +3984,7 @@ Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: 
 # Dug Out: Makes you look like a spelunking astronaut
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
+# Dweeble-Minded: Makes you look like a dweebie
 Dweeby	Mysticality: +15
 # EVISCERATE!: Attacks enemies every round
 Eagle Eyes	Item Drop: +20
@@ -4498,6 +4500,7 @@ Moon'd	Experience: +5
 Moose Wisdom	Mysticality: +20
 More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Mortarfied	Damage Absorption: +100
+# Motorhair: Makes you look like a motorhead
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
@@ -5998,6 +6001,7 @@ Dark Jill-O-Lantern	Free Pull
 Discontent&trade; Winter Garden Catalog	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
+Dweebisol&trade; inhaler	Effect: "Dweeble-Minded", Effect Duration: 50
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
@@ -6064,6 +6068,7 @@ Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
 Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 KoLHS Pep Squad Box	Free Pull
+Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
 Libram of BRICKOs	Free Pull
 Libram of Candy Heart Summoning	Free Pull
 Libram of Divine Favors	Free Pull
@@ -6117,6 +6122,7 @@ Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
+Redeye&trade; Eyedrops	Effect: "Dazed, Confused ", Effect Duration: 50
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
