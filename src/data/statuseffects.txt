@@ -1684,14 +1684,14 @@
 1683	Bartenderganger	beaker.gif	cb75e0789f476e59dcd5f4a95436c055	use 1 electric copperhead potion
 1684	Ninja in Waiting	powder.gif	0432614357b02bc960023c6f58aed306	use 1 ninja fear powder
 1685	Waiting for Ninjas	lipstick.gif	3438adfe06c6d74a4d06262bcf35794b	use 1 ninja eyeblack
-1686
-1687
+1686	Buttons Rouged, Louisiana	rouge.gif	fbfc0982756e5202989cec1399fc8ae9	use 1 button rouge
+1687	Red, Red Skeleton	compact.gif	bf26f718a8147dbe40f96377f9ff32fb	use 1 Red Army camouflage kit
 1688
 1689
 1690
 1691
 1692	Fan Dancing	combatfan.gif	dacb0fff0402d337a92dcec95ff98ff4	use 1 dancing fan
-1693
+1693	Ecce Wino	afuescroll.gif	86a384173862fa48145337e08c459b16	use 1 page of the Necrohobocon
 1694
 1695
 1696

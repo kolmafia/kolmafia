@@ -3760,6 +3760,7 @@ Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Busker Do
 Busy Bein' Delicious	Moxie: +5
 Butt-Rock Hair	Moxie Percent: +15
+# Buttons Rouged, Louisiana: Makes you look like a man with the red buttons
 Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Cake Caked	Mysticality Percent: +50
@@ -3994,6 +3995,7 @@ Eagle Eyes	Item Drop: +20
 Easily Embarrassed	Sleaze Vulnerability
 Eau D'enmity	Monster Level: +5
 # Eau de Tortue: You smell like turtle pheromones
+# Ecce Wino: Makes you look like a mad wino
 Educated (Kinda)	Spooky Resistance: +5
 Educated (Sorta)	Sleaze Resistance: +5
 Egg Burps	Stench Spell Damage: +50, Spell Damage Percent: +100
@@ -4714,6 +4716,7 @@ Red Lettered	Monster Level: +15
 Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
 Red Neck	Muscle: +15, Moxie: -5
 Red Tongue	Meat Drop: +50
+# Red, Red Skeleton: Makes you look like a red skeleton
 # Red-Shirted Escort: Attracts enemy attention.
 Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
@@ -6121,6 +6124,7 @@ Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
+Red Army camouflage kit	Effect: "Red, Red Skeleton", Effect Duration: 50
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Redeye&trade; Eyedrops	Effect: "Dazed, Confused ", Effect Duration: 50
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
@@ -6261,6 +6265,7 @@ brigand brittle	Effect: "Bandananit", Effect Duration: 50
 buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
+button rouge	Effect: "Buttons Rouged, Louisiana", Effect Duration: 50
 cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
 can of Binarrrca	Effect: "Talking Like a Pirate", Effect Duration: 50, Free Pull
@@ -6626,6 +6631,7 @@ orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 orcish rubber	Effect: "Using Protection", Effect Duration: 10
 organ grinder	Free Pull
 orphan baby yeti	Free Pull
+page of the Necrohobocon	Effect: "Ecce Wino", Effect Duration: 50
 panicked kernel	Free Pull
 panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
 papier-m&acirc;ch&eacute; toothpicks	Effect: "Eyes Wide Propped", Effect Duration: 40

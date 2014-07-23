@@ -7638,14 +7638,14 @@
 7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
 7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5
 7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
-7622
-7623
+7622	button rouge	554636307	rouge.gif	multiple	t,d	5
+7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
 7624
 7625
 7626
 7627
 7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
-7629
+7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5
 7630
 7631
 7632
