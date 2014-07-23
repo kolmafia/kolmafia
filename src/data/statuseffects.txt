@@ -154,12 +154,12 @@
 153	Spookypants	demonpants.gif	83e4984577a731e8e6bb9d635092b051	use 1 spooky powder
 154	Smelly Pants	fatigues2.gif	34d33b93e87226a6a03dbaa09af69292	use 1 stench powder
 155	Sleaze-Resistant Trousers	yakpants.gif	ed2942d1ca5f87dd6f87f90507dd0f75	use 1 sleaze powder
-156	Twinkly Weapon	csword.gif	05616ca967054eee4f9d2fd34727c315	use 1 twinkly nugget
-157	Flaming Weapon	flame.gif	f1421b135e777cd1a778c596fef500b7	use 1 hot nugget
-158	Frigid Weapon	snowflake.gif	80131d07257f059a699368cf30fc670d	use 1 cold nugget
-159	Spooky Weapon	batblade.gif	d774d576335ec8cc8c061e6891ff41c5	use 1 spooky nugget
-160	Stinky Weapon	stench.gif	c927edbace02490d4c66ee8271c64e2e	use 1 stench nugget
-161	Sleazy Weapon	dripsword.gif	fe75c03d60169594193a0733c513a853	use 1 sleaze nugget
+156	Twinkly Weapon	csword.gif	05616ca967054eee4f9d2fd34727c315	use 1 twinkly nuggets
+157	Flaming Weapon	flame.gif	f1421b135e777cd1a778c596fef500b7	use 1 hot nuggets
+158	Frigid Weapon	snowflake.gif	80131d07257f059a699368cf30fc670d	use 1 cold nuggets
+159	Spooky Weapon	batblade.gif	d774d576335ec8cc8c061e6891ff41c5	use 1 spooky nuggets
+160	Stinky Weapon	stench.gif	c927edbace02490d4c66ee8271c64e2e	use 1 stench nuggets
+161	Sleazy Weapon	dripsword.gif	fe75c03d60169594193a0733c513a853	use 1 sleaze nuggets
 162	The Sonata of Sneakiness	sonata.gif	b757f23feb7f08bd250f63586e03cf4a	cast 1 The Sonata of Sneakiness
 163	Carlweather's Cantata of Confrontation	cantata.gif	06e123f9b46d3d180c97efc5ab0ad150	cast 1 Carlweather's Cantata of Confrontation
 164	Ur-Kel's Aria of Annoyance	urkels.gif	59a1ac48440e1ea1f869f2b37753f9cc	cast 1 Ur-Kel's Aria of Annoyance
