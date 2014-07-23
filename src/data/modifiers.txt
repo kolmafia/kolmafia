@@ -3671,6 +3671,7 @@ Bitterskin	Slime Hates It: +1
 Black Eyes	Spell Damage Percent: +15
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Black Lung: Stops Monsters from Attacking You
+# Black Magic? Woah, Man!: Makes you look like a black magic woman
 Black Sweat	Spooky Resistance: +7
 # Black Tongue: Recover HP and MP after battle
 Black Tongue	Familiar Weight: +5, Experience (familiar): +2, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
@@ -3881,6 +3882,7 @@ Crud&eacute;	Sleaze Damage: +5
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
 Crying, Dying	Item Drop: +60
+# Cult Fiction: Makes you look like a Blue Oyster cultist
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
 Cunctatitis: Initiative: -1000
 Cupcake of Choice	Item Drop: +30
@@ -4097,6 +4099,7 @@ Flamingly Floral	Hot Damage: +50
 Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 # Flayer Flavor: Makes you look like a mind flayer
+# Fleet Woodsman, Mac: Makes you look like a fleet woodsman
 # Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
 # Float Like a Butterfly, Smell Like a Bee: Bzzzzzz
 Flop Sweat	Sleaze Resistance: +7
@@ -4355,6 +4358,7 @@ Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
+# Into the Friar: Makes you look like a black friar
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
 Is This Your Card?	Spell Damage Percent: +50
@@ -4376,6 +4380,7 @@ Jamming with the Jocks	Muscle: +5, Item Drop: [25*loc(Shop Class)]
 # Jay Walking: Makes you look like "Handyman" Jay Android
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
+# Jeffersonian: Makes you look like a Jefferson pilot
 # Jelly Combed: Makes you harder to hit (when underwater)
 Jerky, Boy	Mysticality Percent: +25
 Jiggu... What?	Mana Cost: +100
@@ -4443,6 +4448,7 @@ Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lucky Cat is Lucky	Item Drop: +5
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
+# Lynyrd Prytynder: Makes you look like a lynyrd skinner
 Macaroni Coating	Muscle: +10
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 # Macho, Macho Dog: +50% Damage vs. Bugbears
@@ -6222,6 +6228,8 @@ black candy heart	Effect: "Heart of Black", Effect Duration: 10
 black eye shadow	Effect: "Black Eyes", Effect Duration: 10
 black eyedrops	Effect: "Hyphemariffic", Effect Duration: 10
 black facepaint	Effect: "Black Face", Effect Duration: 10
+black friar's tonsure	Effect: "Into the Friar", Effect Duration: 50
+black magic powder	Effect: "Black Magic? Woah, Man!", Effect Duration: 50
 black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 black sheepskin diploma	Effect: "Erudite", Effect Duration: 10
@@ -6233,6 +6241,7 @@ blob of Alphredo&trade;	Effect: "Blessing of the Stinking Alphredo&trade;", Effe
 blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 bloodstain stick	Effect: "Bloodstain-Resistant", Effect Duration: 20
+blue oyster badge	Effect: "Cult Fiction", Effect Duration: 50
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
@@ -6424,6 +6433,7 @@ fishy pipe	Effect: "Fishy", Effect Duration: 10
 flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
+flask of rainwater	Effect: "Fleet Woodsman, Mac", Effect Duration: 50
 flayed mind	Effect: "Flayer Flavor", Effect Duration: 50
 floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 floaty stone sphere	Free Pull
@@ -6583,6 +6593,7 @@ love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
 lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 lynyrd musk	Effect: "Musky", Effect Duration: 30
+lynyrd skinner toothblack	Effect: "Lynyrd Prytynder", Effect Duration: 50
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 mangled finger	Effect: "It Tickles!  It Tickles!", Effect Duration: 20
@@ -6673,6 +6684,7 @@ pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
 pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 # pixie axie: Helps witches find more candy
+plastic Jefferson wings	Effect: "Jeffersonian", Effect Duration: 50
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 polo trophy	Effect: "Polonoia", Effect Duration: 15
 portable wall	Effect: "Wallflowering", Effect Duration: 20

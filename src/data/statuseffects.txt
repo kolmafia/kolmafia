@@ -1686,14 +1686,14 @@
 1685	Waiting for Ninjas	lipstick.gif	3438adfe06c6d74a4d06262bcf35794b	use 1 ninja eyeblack
 1686	Buttons Rouged, Louisiana	rouge.gif	fbfc0982756e5202989cec1399fc8ae9	use 1 button rouge
 1687	Red, Red Skeleton	compact.gif	bf26f718a8147dbe40f96377f9ff32fb	use 1 Red Army camouflage kit
-1688
-1689
-1690
-1691
+1688	Lynyrd Prytynder	balm.gif	3009acb4128933839983a5cdd2898e59	use 1 lynyrd skinner toothblack
+1689	Fleet Woodsman, Mac	flask.gif	bfb0a8c0df4cbcd0ace3f8ebd9a08ad6	use 1 flask of rainwater
+1690	Cult Fiction	badge.gif	f258c7575d0f66c208879b8f33e55576	use 1 blue oyster badge
+1691	Jeffersonian	jwings.gif	73adbeda726877dfb7acde261536300b	use 1 plastic Jefferson wings
 1692	Fan Dancing	combatfan.gif	dacb0fff0402d337a92dcec95ff98ff4	use 1 dancing fan
 1693	Ecce Wino	afuescroll.gif	86a384173862fa48145337e08c459b16	use 1 page of the Necrohobocon
-1694
-1695
+1694	Black Magic? Woah, Man!	powder.gif	37c4ab904c0f0201bfbaf98eb7dda9aa	use 1 black magic powder
+1695	Into the Friar	tonsure.gif	3b2a050e5564c4e125f094eb71fb6f3b	use 1 black friar's tonsure
 1696
 1697
 1698	On the Trolley	trolley.gif	d14c9c65bcd20ea9f399fa06127fa25f	drink 1 Bee's Knees
