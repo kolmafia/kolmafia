@@ -617,14 +617,14 @@ lynyrd	lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast	lynyrd skin (0)
 lynyrd skinner	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 P: dude Meat: 100-150	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)
 mad bugbears	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 P: beast
 mad flagellate	prim_flag.gif	Atk: 25 Def: 18 HP: 20 Init: 50 P: bug	memory of a G (20)	memory of a T (20)
-mad wino	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 P: hobo	pie man was not meant to eat (0)	crazy hobo notebook (0)	Psychotic Train wine (0)
+mad wino	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 P: hobo	pie man was not meant to eat (0)	crazy hobo notebook (0)	Psychotic Train wine (0)	page of the Necrohobocon (c0)
 magic dragonfish	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 160-240 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 MagiMechTech MechaMech	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent crop circle	cropcircle.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 malevolent hair clog	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 ED: spooky P: horror	gob of wet hair (40)
 malevolent magnetic field	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird	bottle of gin (0)
 Mammon the Elephant	mammon.gif	BOSS Atk: 150 Def: 135 HP: 50000 Init: 150 P: beast	avarice stone (100)
-man with the red buttons	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 120-180	red box (15)	red button (0)	big red button (n1)
+man with the red buttons	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 120-180	red box (15)	red button (0)	big red button (n1)	button rouge (c0)
 man-eating plant	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant
 mariachi bandolero	bandolero.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
 mariachi bruiser	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
@@ -801,7 +801,7 @@ rattlin' duck	duckrattle.gif	Atk: 175 Def: 155 HP: 190 Init: 60 Meat: 131-162 E:
 Raver Giant	giant_raver.gif	Atk: 140 Def: 126 HP: 150 Init: 40 Meat: 120-180 P: humanoid	Angry Farmer candy (25)	giant needle (20)	Mick's IcyVapoHotness Rub (20)	rave whistle (5)
 red butler	redbutler.gif	Atk: 150 Def: 155 HP: 160 Init: 50 P: dude Meat: 60-90	red box (15)	glark cable (30)
 Red Herring	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 P: dude Meat: 100-150	red box (20)
-red skeleton	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (15)	red blood cells (25)	red eye (5)
+red skeleton	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (15)	red blood cells (25)	red eye (5)	Red Army camouflage kit (c0)
 Red Snapper	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat: 100-150	red box (30)
 regular old bat	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 18-28 P: beast	bat guano (15)	batgut (15)	bat wing (15)
 remains of a jilted mistress	mistress.gif	Atk: 65 Def: 60 HP: 65 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
