@@ -7625,9 +7625,9 @@
 7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5
 7607
 7608
-7609
-7610
-7611
+7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5
+7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
+7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5
 7612
 7613
 7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
