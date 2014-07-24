@@ -35,9 +35,9 @@ package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
-import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.NemesisManager;
 
@@ -188,7 +188,7 @@ public class NemesisDecorator
 	public static final void decorateRaverFight( final StringBuffer buffer )
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();
-		String moves[] = NemesisDecorator.findRaver( FightRequest.getLastMonsterName() );
+		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonsterName() );
 		if ( moves == null )
 		{
 			return;
@@ -214,7 +214,7 @@ public class NemesisDecorator
 
 	public static final boolean specialRaverMove( final String text )
 	{
-		String moves[] = NemesisDecorator.findRaver( FightRequest.getLastMonsterName() );
+		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonsterName() );
 		if ( moves == null )
 		{
 			return false;

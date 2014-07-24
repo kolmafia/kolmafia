@@ -139,7 +139,7 @@ public class Macrofier
 
 		// Begin monster-specific macrofication.
 
-		String monsterName = FightRequest.getLastMonsterName();
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
 
 		if ( Macrofier.macroInterpreter != null )
 		{

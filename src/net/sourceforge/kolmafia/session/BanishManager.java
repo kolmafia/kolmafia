@@ -40,6 +40,8 @@ import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -301,6 +303,11 @@ public class BanishManager
 			}
 		}
 		return null;
+	}
+
+	public static final void banishCurrentMonster( final String banishName )
+	{
+		BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), banishName );
 	}
 
 	public static final void banishMonster( final String monsterName, final String banishName )

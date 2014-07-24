@@ -63,6 +63,7 @@ import javax.swing.text.html.FormView;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
+
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -1204,7 +1205,7 @@ public class RequestEditorKit
 			matcher.appendTail( buffer );
 		}
 
-		String monster = FightRequest.getLastMonsterName();
+		String monster = MonsterStatusTracker.getLastMonsterName();
 
 		// We want to decorate battlefield monsters, whether or not you
 		// actually find them on the battlefield.
@@ -1311,7 +1312,7 @@ public class RequestEditorKit
 		monsterData.append( ", Type: " );
 		monsterData.append( MonsterStatusTracker.getMonsterPhylum().toString() );
 
-		String monsterName = FightRequest.getLastMonsterName();
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
 		if ( monsterName.indexOf( "pirate" ) != -1 && !( monsterName.equalsIgnoreCase( "Stone Temple Pirate" ) ) )
 		{
 			int count = BeerPongRequest.countPirateInsults();

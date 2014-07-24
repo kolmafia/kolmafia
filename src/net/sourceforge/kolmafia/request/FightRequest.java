@@ -483,24 +483,22 @@ public class FightRequest
 		AreaCombatData fcle = AdventureDatabase.getAreaCombatData( "The F'c'le" );
 		AreaCombatData poopDeck = AdventureDatabase.getAreaCombatData( "The Poop Deck" );
 		
-		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		
-		if( barr.hasMonster( monster )
-			|| belowdecks.hasMonster( monster )
-			|| cove.hasMonster( monster )
-			|| fcle.hasMonster( monster )
-			|| poopDeck.hasMonster( monster ) )
-		{
-			return true;
-		}
-		return false;
+		return ( barr.hasMonster( monster ) ||
+			 belowdecks.hasMonster( monster ) ||
+			 cove.hasMonster( monster ) ||
+			 fcle.hasMonster( monster ) ||
+			 poopDeck.hasMonster( monster ) );
 	}
 	
 	public static final boolean canPirateInsult()
 	{
-		return ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) )
-			|| KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) ) )
-			&& BeerPongRequest.countPirateInsults() != 8 && insultedPirate == false && isPirate();
+		return ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) ) ||
+			 KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) ) ) &&
+			BeerPongRequest.countPirateInsults() != 8 &&
+			insultedPirate == false &&
+			isPirate();
 	}
 	
 	public static final boolean canJamFlyer()
@@ -622,9 +620,10 @@ public class FightRequest
 
 		// Always let the user see rare monsters
 
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
 		for ( int i = 0; i < FightRequest.RARE_MONSTERS.length; ++i )
 		{
-			if ( MonsterStatusTracker.getLastMonsterName().indexOf( FightRequest.RARE_MONSTERS[ i ] ) != -1 )
+			if ( monsterName.contains( FightRequest.RARE_MONSTERS[ i ] ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "You have encountered the " + this.encounter );
 				FightRequest.nextAction = "abort";
@@ -675,7 +674,7 @@ public class FightRequest
 			// Adding machine should override custom combat scripts as well,
 			// since it's conditions-driven.
 
-			else if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
+			else if ( monsterName.equals( "rampaging adding machine" )
 				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
 				&& !FightRequest.waitingForSpecial )
 			{
@@ -684,7 +683,7 @@ public class FightRequest
 
 			// Hulking Constructs also require special handling
 
-			else if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
+			else if ( monsterName.equals( "hulking construct" ) )
 			{
 				if ( problemFamiliar() )
 				{
@@ -1013,6 +1012,8 @@ public class FightRequest
 				return;
 			}
 
+			String monsterName = MonsterStatusTracker.getLastMonsterName();
+
 			if ( item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
 			{
 				if ( itemCount < 1 )
@@ -1022,7 +1023,7 @@ public class FightRequest
 					return;
 				}
 
-				if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" ) )
+				if ( monsterName.equals( "rampaging adding machine" ) )
 				{
 					FightRequest.nextAction = "attack";
 					this.addFormField( "action", FightRequest.nextAction );
@@ -1764,7 +1765,7 @@ public class FightRequest
 			if ( action.startsWith( "custom" ) )
 			{
 				String file = Preferences.getBoolean( "debugPathnames" ) ? CombatActionManager.getStrategyLookupFile().getAbsolutePath() : CombatActionManager.getStrategyLookupName();
-				action = file + " [" + CombatActionManager.getEncounterKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
+				action = file + " [" + FightRequest.getCurrentKey() + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );
@@ -3749,6 +3750,7 @@ public class FightRequest
 	private static final void updateMonsterHealth( final String responseText )
 	{
 		StringBuffer action = new StringBuffer();
+		String monsterName = Preferences.getString( "lastEncounter" );
 
 		Matcher m = FightRequest.NS_ML_PATTERN.matcher( responseText );
 		if ( m.find() )
@@ -3756,7 +3758,7 @@ public class FightRequest
 			MonsterStatusTracker.resetAttackAndDefense();
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
+				action.append( monsterName );
 				action.append( " resets her attack power and defense modifiers!" );
 			}
 		}
@@ -3770,7 +3772,7 @@ public class FightRequest
 		if ( detectiveMatcher.find() )
 		{
 			FightRequest.getRound( action );
-			action.append( MonsterStatusTracker.getLastMonsterName() );
+			action.append( monsterName );
 			action.append( " shows detective skull health estimate of " );
 			action.append( detectiveMatcher.group( 1 ) );
 
@@ -3783,7 +3785,7 @@ public class FightRequest
 		if ( helmetMatcher.find() )
 		{
 			FightRequest.getRound( action );
-			action.append( MonsterStatusTracker.getLastMonsterName() );
+			action.append( monsterName );
 			action.append( " shows toy space helmet health estimate of " );
 			action.append( helmetMatcher.group( 1 ) );
 
@@ -3796,7 +3798,7 @@ public class FightRequest
 		if ( hp > 0 )
 		{
 			FightRequest.getRound( action );
-			action.append( MonsterStatusTracker.getLastMonsterName() );
+			action.append( monsterName );
 			action.append( " shows dwarvish war mattock health estimate of " );
 			action.append( hp );
 
@@ -3809,7 +3811,7 @@ public class FightRequest
 		if ( attack > 0 )
 		{
 			FightRequest.getRound( action );
-			action.append( MonsterStatusTracker.getLastMonsterName() );
+			action.append( monsterName );
 			action.append( " shows dwarvish war helmet attack rating of " );
 			action.append( attack );
 
@@ -3822,7 +3824,7 @@ public class FightRequest
 		if ( defense > 0 )
 		{
 			FightRequest.getRound( action );
-			action.append( MonsterStatusTracker.getLastMonsterName() );
+			action.append( monsterName );
 			action.append( " shows dwarvish war kilt defense rating of " );
 			action.append( defense );
 
@@ -3839,8 +3841,10 @@ public class FightRequest
 			return;
 		}
 
+		String monsterName = Preferences.getString( "lastEncounter" );
+
 		FightRequest.getRound( action );
-		action.append( MonsterStatusTracker.getLastMonsterName() );
+		action.append( monsterName );
 
 		if ( damage > 0 )
 		{
@@ -4435,6 +4439,7 @@ public class FightRequest
 		public boolean won = false;
 		public Matcher macroMatcher;
 		public int lastCombatItem = -1;
+		public MonsterData monster;
 		public String monsterName;
 		public boolean seahorse;
 		public boolean dolphin;
@@ -4460,7 +4465,8 @@ public class FightRequest
 
 			this.shouldRefresh = false;
 
-			this.monsterName = MonsterStatusTracker.getLastMonsterName();
+			this.monster = MonsterStatusTracker.getLastMonster();
+			this.monsterName = Preferences.getString( "lastEncounter" );
 
 			// Note if we are taming a wild seahorse
 			this.seahorse = this.monsterName.equals( "wild seahorse" );
@@ -5268,7 +5274,7 @@ public class FightRequest
 				{
 					return false;
 				}
-				action.append( MonsterStatusTracker.getLastMonsterName() );
+				action.append( status.monsterName );
 				action.append( " copied" );
 				FightRequest.logText( action, status );
 				status.lastCombatItem = -1;
@@ -5282,7 +5288,7 @@ public class FightRequest
 				{
 					return false;
 				}
-				action.append( MonsterStatusTracker.getLastMonsterName() );
+				action.append( status.monsterName );
 				action.append( " copied" );
 				FightRequest.logText( action, status );
 				status.lastCombatItem = -1;
@@ -5560,7 +5566,7 @@ public class FightRequest
 
 		String setting = null;
 
-		MonsterData monster = MonsterDatabase.findMonster( status.monsterName, false );
+		MonsterData monster = status.monster;
 		for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
 		{
 			String[] data = FightRequest.EVIL_ZONES[ i ];
@@ -5840,6 +5846,8 @@ public class FightRequest
 			return false;
 		}
 
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
+
 		switch ( itemId )
 		{
 		case ItemPool.COMMUNICATIONS_WINDCHIMES:
@@ -5920,7 +5928,7 @@ public class FightRequest
 			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
-				Preferences.setString( "spookyPuttyMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "spookyPuttyMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -5939,7 +5947,7 @@ public class FightRequest
 			if ( responseText.indexOf( "ghostly image of your opponent" ) != -1 )
 			{
 				Preferences.increment( "_raindohCopiesMade", 1 );
-				Preferences.setString( "rainDohMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "rainDohMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -5957,7 +5965,7 @@ public class FightRequest
 
 			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
 			{
-				Preferences.setString( "cameraMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "cameraMonster", monsterName );
 				Preferences.increment( "camerasUsed" );
 				Preferences.setString( "autoPutty", "" );
 				return true;
@@ -5972,7 +5980,7 @@ public class FightRequest
 
 			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
 			{
-				Preferences.setString( "crappyCameraMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "crappyCameraMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -5983,7 +5991,7 @@ public class FightRequest
 			// passable ice sculpture in the likeness of your foe.
 			if ( responseText.contains( "flourish of chisels" ) )
 			{
-				Preferences.setString( "iceSculptureMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "iceSculptureMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -5998,7 +6006,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "press the COPY button" ) != -1 )
 			{
-				Preferences.setString( "photocopyMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "photocopyMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -6017,7 +6025,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "the fish squirts out an egg" ) != -1 )
 			{
-				Preferences.setString( "envyfishMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "envyfishMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -6034,7 +6042,7 @@ public class FightRequest
 
 			if ( responseText.contains( "You toss the shavings" ) )
 			{
-				Preferences.setString( "waxMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "waxMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -6049,7 +6057,7 @@ public class FightRequest
 		case ItemPool.STICKY_CLAY_HOMUNCULUS:
 			if ( responseText.contains( "make a crude sculpture" ) )
 			{
-				Preferences.setString( "crudeMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "crudeMonster", monsterName );
 				return true;
 			}
 			return false;
@@ -6156,6 +6164,8 @@ public class FightRequest
 			return;
 		}
 
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
+
 		switch ( KoLCharacter.getEffectiveFamiliar().getId() )
 		{
 		case FamiliarPool.BLACK_CAT:
@@ -6245,7 +6255,7 @@ public class FightRequest
 				if ( responseText.contains( "turns tail and runs" ) )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
-					BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "staff of the standalone cheese" );
+					BanishManager.banishCurrentMonster( "staff of the standalone cheese" );
 				}
 				break;
 
@@ -6270,7 +6280,7 @@ public class FightRequest
 				if ( responseText.contains( "Your mind fills" ) )
 				{
 					Preferences.increment( "_jiggleCream", 1 );
-					Preferences.setString( "_jiggleCreamedMonster", MonsterStatusTracker.getLastMonsterName() );
+					Preferences.setString( "_jiggleCreamedMonster", monsterName );
 				}
 				break;
 			}
@@ -6339,7 +6349,7 @@ public class FightRequest
 		switch ( skillId )
 		{
 		case SkillPool.GOTHY_HANDWAVE:
-			NemesisDecorator.useGothyHandwave( MonsterStatusTracker.getLastMonsterName(), responseText );
+			NemesisDecorator.useGothyHandwave( monsterName, responseText );
 			break;
 
 		case SkillPool.VOLCANOMETEOR:
@@ -6508,67 +6518,67 @@ public class FightRequest
 		case ItemPool.CRYSTAL_SKULL:
 			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "crystal skull" );
+				BanishManager.banishCurrentMonster( "crystal skull" );
 			}
 			break;
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 			if ( responseText.contains( "surprisingly loud bang, and your opponent flees in terror" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "divine champagne popper" );
+				BanishManager.banishCurrentMonster( "divine champagne popper" );
 			}
 			break;
 		case ItemPool.HAROLDS_HAMMER:
 			if ( responseText.contains( "opponent cringes and walks away" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "harold's bell" );
+				BanishManager.banishCurrentMonster( "harold's bell" );
 			}
 			break;
 		case ItemPool.INDIGO_TAFFY:
 			if ( responseText.contains( "ink clears, your opponent is nowhere to be found" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "pulled indigo taffy" );
+				BanishManager.banishCurrentMonster( "pulled indigo taffy" );
 			}
 			break;
 		case ItemPool.CLASSY_MONKEY:
 			if ( responseText.contains( "Your opponent turns tail and runs away screaming" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "classy monkey" );
+				BanishManager.banishCurrentMonster( "classy monkey" );
 			}
 			break;
 		case ItemPool.DIRTY_STINKBOMB:
 			if ( responseText.contains( "your opponent flees the scene in disgust" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "dirty stinkbomb" );
+				BanishManager.banishCurrentMonster( "dirty stinkbomb" );
 			}
 			break;
 		case ItemPool.DEATHCHUCKS:
 			if ( responseText.contains( "opponent slowly backs away, running off once he gets far enough away from you" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "deathchucks" );
+				BanishManager.banishCurrentMonster( "deathchucks" );
 			}
 			break;
 		case ItemPool.COCKTAIL_NAPKIN:
 			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "cocktail napkin" );
+				BanishManager.banishCurrentMonster( "cocktail napkin" );
 			}
 			break;
 		case ItemPool.LOUDER_THAN_BOMB:
 			if ( responseText.contains( "opponent is nowhere to be seen" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "louder than bomb" );
+				BanishManager.banishCurrentMonster( "louder than bomb" );
 			}
 			break;
 		case ItemPool.SMOKE_GRENADE:
 			if ( responseText.contains( "flee in the ensuing confusion" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "smoke grenade" );
+				BanishManager.banishCurrentMonster( "smoke grenade" );
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
 			if ( responseText.contains( "slowly fades from view" ) || FightRequest.haiku || FightRequest.anapest )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "spooky music box mechanism" );
+				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
 			}
 			break;
 		case ItemPool.ICE_HOUSE:
@@ -6577,7 +6587,7 @@ public class FightRequest
 			// the house on display with it still inside it.
 			if ( responseText.contains( "toss the ice house" ) )
 			{
-				BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), "ice house" );
+				BanishManager.banishCurrentMonster( "ice house" );
 			}
 			break;
 		}
@@ -6654,11 +6664,6 @@ public class FightRequest
 		boolean rv = FightRequest.haveFought;
 		FightRequest.haveFought = false;
 		return rv;
-	}
-
-	public static final String getLastMonsterName()
-	{
-		return MonsterStatusTracker.getLastMonsterName();
 	}
 
 	public static final int freeRunawayChance()
@@ -6767,7 +6772,9 @@ public class FightRequest
 		}
 
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
+
 		StringBuilder action = new StringBuilder();
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
 
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.
@@ -6875,8 +6882,7 @@ public class FightRequest
 						if ( item.equalsIgnoreCase( "odor extractor" ) &&
 							!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 						{
-							Preferences.setString( "olfactedMonster",
-								MonsterStatusTracker.getLastMonsterName() );
+							Preferences.setString( "olfactedMonster", monsterName );
 							Preferences.setString( "autoOlfact", "" );
 							FightRequest.canOlfact = false;
 						}
@@ -6897,8 +6903,7 @@ public class FightRequest
 							if ( item.equalsIgnoreCase( "odor extractor" ) &&
 								!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 							{
-								Preferences.setString( "olfactedMonster",
-									MonsterStatusTracker.getLastMonsterName() );
+								Preferences.setString( "olfactedMonster", monsterName );
 								Preferences.setString( "autoOlfact", "" );
 							}
 
