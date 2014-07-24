@@ -1283,6 +1283,14 @@ public class UseItemRequest
 			return;
 		}
 
+		// If we were previously using multiuse.php but have reduced consumption to 1,
+		// switch to inv_use.php
+		if ( maximumUses == 1 && this.getPath().equals( "multiuse.php" ) )
+		{
+			this.constructURLString( "inv_use.php" );
+			this.addFormField( "whichitem", String.valueOf( this.itemUsed.getItemId() ) );
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.LUCIFER:
