@@ -7616,15 +7616,15 @@
 7597
 7598
 7599
-7600
+7600	haunted flame	710960621	flame.gif	multiple	t,d	5
 7601
 7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
 7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
 7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
 7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5
 7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5
-7607
-7608
+7607	vial of swamp vapors	283543513	vial.gif	multiple	t,d	5
+7608	turtle mud	795064257	wad.gif	multiple	t,d	5
 7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5
 7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
 7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5
