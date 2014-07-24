@@ -1674,13 +1674,13 @@
 1673	Dazed, Confused	eyedrops.gif	0bbb2bd4013cdad2eb4e1db0c43a2642	use 1 Redeye&trade; Eyedrops
 1674	Dweeble-Minded	inhaler.gif	f425278c1d27a36dd530c0d1676efac7	use 1 Dweebisol&trade; inhaler
 1675	Motorhair	motoroil.gif	2d4d1a339f227b98ddc19b953e2ef302	use 1 Lewd Lemmy Hair Oil
-1676
+1676	War is Hol	soupposter.gif	3aebc431d67f89ca610afcefc333998e	use 1 tomato soup poster
 1677
 1678	Shortie Shaman Shurprise	glowskull.gif	9e90d2cb828bec5d497085ba03a3b5ac	use 1 voodoo glowskull
 1679	A Taste for Accounting	vial.gif	1b23fff6cf95fb408356321340954942	use 1 pygmy adder oil
 1680	Which Nurse? Witch Nurse!	plant.gif	6fbb3800dd5b330b77d28810797ec576	use 1 pygmy witchhazel
 1681	A Short Trial	scroll2.gif	5ea557f8e320a4a65f0df2bd470e7532	use 1 short deposition
-1682
+1682	Straw Pole-Ish	stick.gif	1287573939615bc23b458cd0e31388e1	use 1 straw pole
 1683	Bartenderganger	beaker.gif	cb75e0789f476e59dcd5f4a95436c055	use 1 electric copperhead potion
 1684	Ninja in Waiting	powder.gif	0432614357b02bc960023c6f58aed306	use 1 ninja fear powder
 1685	Waiting for Ninjas	lipstick.gif	3438adfe06c6d74a4d06262bcf35794b	use 1 ninja eyeblack
