@@ -6669,7 +6669,7 @@
 6650	Mountain Stream Code Black Alert	357261157	soda.gif	mp	t,d	15	cans of Mountain Stream Code Black Alert
 6651	twisted-up wet towel	870690670	wettowel.gif	weapon	t,d	10
 6652	stepmom's booze	387234257	wine2.gif	drink	t,d	10	bottles of stepmom's booze
-6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25
+6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25	rolls of surgical tape
 6654	metal band T-shirt	387855470	btee2.gif	shirt	t,d	30
 6655	fountain 'soda'	930162345	fountaindrink.gif	drink	t,d	10	'fountain' sodas
 6656	illegal firecracker	236206665	bigfirecracker.gif	none, combat	t,d	20
@@ -7623,20 +7623,20 @@
 7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
 7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5
 7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5
-7607	vial of swamp vapors	283543513	vial.gif	multiple	t,d	5
-7608	turtle mud	795064257	wad.gif	multiple	t,d	5
-7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5
+7607	vial of swamp vapors	283543513	vial.gif	multiple	t,d	5	vials of swamp vapors
+7608	turtle mud	795064257	wad.gif	multiple	t,d	5	handfuls of turtle mud
+7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5	vials of Redeye&trade; Eyedrops
 7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
-7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5
+7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5	bottles of Lewd Lemmy Oil
 7612
 7613
 7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
-7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5
-7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5
+7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5	vials of pygmy adder oil
+7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5	sprigs of pygmy witchhazel
 7617	short deposition	629363955	scroll2.gif	multiple	t,d	5
 7618
 7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
-7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5
+7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5	pouches of ninja fear powder
 7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
 7622	button rouge	554636307	rouge.gif	multiple	t,d	5
 7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
@@ -7645,7 +7645,7 @@
 7626	blue oyster badge	640439292	badge.gif	multiple	t,d	5
 7627	plastic Jefferson wings	191013836	jwings.gif	multiple	t,d	5
 7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
-7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5
+7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5	pages of the Necrohobocon
 7630	black magic powder	916394459	powder.gif	multiple	t,d	5
 7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
 7632
