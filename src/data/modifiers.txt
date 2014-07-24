@@ -4252,6 +4252,7 @@ Gutballed	Muscle Percent: -300
 Gutterminded	Sleaze Damage: +50
 Gyromitra Gymnastics	Moxie: +40
 # HELLO WORLD!: Makes you look like a triad code wizard
+# Hag-gard: Makes you look like a swamp hag
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
 Hair on Your Chest	Maximum MP Percent: +50
@@ -4548,6 +4549,7 @@ Mortarfied	Damage Absorption: +100
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
+# Muddy Buddy: Makes you look like a mud turtle
 Muffled	Combat Rate: -15
 Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
@@ -4853,6 +4855,7 @@ Skeletal Buddy	Experience: +2
 # Skeletal Wizard
 # Ski Ballin': Makes you look like an eXtreme cross-country hippy
 Skull Full of Hot Chocolate	Cold Resistance: +2
+# Skulla, Brah: Makes you look like a haunted skullabra
 # Skunkulated: Take stench damage every round of combat
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
@@ -6414,6 +6417,7 @@ handful of Smithereens	Effect: "Smithsness Presence", Effect Duration: 100
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
 handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
 hare brush	Effect: "Hare-o-dynamic", Effect Duration: 10
+haunted flame	Effect: "Skulla, Brah", Effect Duration: 50
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 heart necklace	Free Pull
 Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
@@ -6885,6 +6889,7 @@ Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
 true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
+turtle mud	Effect: "Muddy Buddy", Effect Duration: 50
 turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
@@ -6908,6 +6913,7 @@ vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
+vial of swamp vapors	Effect: "Hag-gard", Effect Duration: 50
 vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50

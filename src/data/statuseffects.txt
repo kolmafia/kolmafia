@@ -1224,7 +1224,7 @@
 1223	Gutballed	dodgeball.gif	975e6ae633c34542ba8a809b5cfd6ead
 1224	Nettled	beatenup.gif	b141f7a3e4c9411996f111a18c867cf8
 1225	Skunkulated	stench.gif	9706294a1cc6e2a78bb5c5908de32359
-1226
+1226	Skulla, Brah	bigskull.gif	8efc44ec5eb79d8e1bbad6069c0c32d1	use 1 haunted flame
 1227	Stumpy	stumpy.gif	03e3abf27956d34d014f3a95d2063238
 1228	Visions of the Deep Dark Deeps	darkvision.gif	c3ff1a8473de3cfec2c8c4184475de37	cast 1 Deep Dark Visions
 1229	Sour Softshoe	taffy1.gif	837a60557fd5ce14e49b32aac622e5ed	use 1 pulled yellow taffy
@@ -1669,8 +1669,8 @@
 1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisinal hand-squeezed wheatgrass juice
 1669	Patchy Punk	punkpatch.gif	994185184974160db5c01ba484ed63e0	use 1 punk patch
 1670	Full Steam Ahead	bottle.gif	bf499d287023f4ebf41248f62456c457	use 1 steampunk potion
-1671
-1672
+1671	Hag-gard	vial.gif	f11dca7996e8407773255c7e4f5db990	use 1 vial of swamp vapors
+1672	Muddy Buddy	wad.gif	ff34d50d376d95c13de728105ac6f626	use 1 turtle mud
 1673	Dazed, Confused	eyedrops.gif	0bbb2bd4013cdad2eb4e1db0c43a2642	use 1 Redeye&trade; Eyedrops
 1674	Dweeble-Minded	inhaler.gif	f425278c1d27a36dd530c0d1676efac7	use 1 Dweebisol&trade; inhaler
 1675	Motorhair	motoroil.gif	2d4d1a339f227b98ddc19b953e2ef302	use 1 Lewd Lemmy Hair Oil
