@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
@@ -749,7 +751,7 @@ public class StationaryButtonDecorator
 		// If there is none, perhaps we fought a monster as a result of
 		// using an item.
 
-		String monster = FightRequest.getLastMonsterName();
+		String monster = MonsterStatusTracker.getLastMonsterName();
 
 		if ( monster.equals( "giant sandworm" ) )
 		{

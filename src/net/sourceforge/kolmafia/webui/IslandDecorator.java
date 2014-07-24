@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -48,7 +50,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -327,7 +328,7 @@ public class IslandDecorator
 		}
 
 		// Don't bother showing progress of the war if you've just won
-		String monster = FightRequest.getLastMonsterName();
+		String monster = MonsterStatusTracker.getLastMonsterName();
 		if ( monster.equalsIgnoreCase( "The Big Wisniewski" ) || monster.equalsIgnoreCase( "The Man" ) )
 		{
 			return;

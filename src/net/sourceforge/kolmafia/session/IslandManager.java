@@ -975,7 +975,7 @@ public class IslandManager
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.
-			RequestLogger.updateSessionLog( "Unknown monster found on battlefield: " + FightRequest.getLastMonsterName() );
+			RequestLogger.updateSessionLog( "Unknown monster found on battlefield: " + MonsterStatusTracker.getLastMonsterName() );
 			return;
 		}
 
