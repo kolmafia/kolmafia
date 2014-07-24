@@ -5001,6 +5001,7 @@ Stone-Faced	Damage Reduction: 3
 Stopping to Smell the Flowers	Experience: +3
 Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
+# Straw Pole-Ish: Makes you look like a Medieval strawman debator
 Strawberry Alarm	Initiative: +50
 Strength of Ten Ettins	Muscle Percent: +25
 Strong Grip	Muscle: +20
@@ -5197,6 +5198,7 @@ Walberg's Dim Bulb	Initiative: +10
 # Walking Carpet: Makes you look like a grouchy furry monster
 Wallflowering	Damage Absorption: +100, Damage Reduction: 10
 # Wanged: Unable to use obnoxious abbreviations
+# War is Hol: Makes you look like François Verte, Art Teacher
 Warbear Blubber	Supercold Resistance: +3
 # Warbear Hunter: +10% Item Drops from WarBears
 # Warbear Hunter: +40 WarBear Armor Penetration
@@ -6827,6 +6829,7 @@ still grill	Free Pull
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 stone wool	Effect: "Stone-Faced", Effect Duration: 5
 strange paste	Effect: "Weird Flavor", Effect Duration: 10
+straw pole	Effect: "Straw Pole-Ish", Effect Duration: 50
 strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30
 strawberry-flavored Hob-O	Effect: "Scariberi", Effect Duration: 1
 stuffed-shirt scarecrow	Free Pull
@@ -6877,6 +6880,7 @@ tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
 tiny dancer	Effect: "Held Closer", Effect Duration: 20
 tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
+tomato soup poster	Effect: "War is Hol", Effect Duration: 100
 tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Tome of Clip Art	Free Pull
 Tome of Rad Libs	Free Pull

@@ -7628,13 +7628,13 @@
 7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5	vials of Redeye&trade; Eyedrops
 7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
 7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5	bottles of Lewd Lemmy Oil
-7612
+7612	tomato soup poster	772276186	soupposter.gif	usable	t,d	5
 7613
 7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
 7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5	vials of pygmy adder oil
 7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5	sprigs of pygmy witchhazel
 7617	short deposition	629363955	scroll2.gif	multiple	t,d	5
-7618
+7618	straw pole	458688992	stick.gif	usable	t,d	5
 7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
 7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5	pouches of ninja fear powder
 7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
