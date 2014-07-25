@@ -7493,7 +7493,7 @@
 7474	Yolo&trade; chocolates	828410259	necbrowafers.gif	multiple	t,d	15
 7475	string of moist beads	774119595	chain.gif	accessory	t	0
 7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
-7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150
+7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150	satchels of Meat-inflating powder
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
 7479	sugar fairy	181763244	sugarfairy2.gif	multiple	t,d	100	sugar fairies
 7480	sugar bunny	155773031	sugarbunny.gif	multiple	t,d	300	sugar bunnies
@@ -7583,7 +7583,7 @@
 7564	mocking turtle	303348514	mockturt.gif	multiple	t,d	15
 7565
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
-7567	Chroner	783338147	chroner.gif	none		0	Chroners
+7567	Chroner	783338147	chroner.gif	none		0	Chroner
 7568	Time Lord Badge of Honor	648991303	lordbadge.gif	accessory		0
 7569	Time Bandit Badge of Courage	312663379	banditbadge.gif	accessory		0
 7570	Friendliness Beverage	679252633	potion9.gif	multiple	t,d	15
