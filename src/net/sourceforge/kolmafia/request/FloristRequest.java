@@ -313,7 +313,7 @@ public class FloristRequest
 			while ( matcher.find() )
 			{
 				ArrayList<Florist> plantList = new ArrayList<Florist>();
-				String location = matcher.group( 1 ).toLowerCase();
+				String location = matcher.group( 1 );
 				int flower1 = StringUtilities.parseInt( matcher.group( 2 ) );
 				int flower2 = StringUtilities.parseInt( matcher.group( 3 ) );
 				int flower3 = StringUtilities.parseInt( matcher.group( 4 ) );
