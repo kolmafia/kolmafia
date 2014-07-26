@@ -696,16 +696,11 @@ public class UseItemRequest
 		case ItemPool.BITE_LIPSTICK:
 		case ItemPool.WHISKER_PENCIL:
 		case ItemPool.PRESS_ON_RIBS:
-			if ( KoLConstants.activeEffects.contains(
-					EffectPool.get( Effect.HAUNTING_LOOKS ) ) ||
-				 KoLConstants.activeEffects.contains(
-					EffectPool.get( Effect.DEAD_SEXY ) ) ||
-				 KoLConstants.activeEffects.contains(
-					EffectPool.get( Effect.VAMPIN ) ) ||
-				 KoLConstants.activeEffects.contains(
-					EffectPool.get( Effect.YIFFABLE_YOU ) ) ||
-				 KoLConstants.activeEffects.contains(
-					EffectPool.get( Effect.BONE_US_ROUND ) ) )
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.HAUNTING_LOOKS ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.DEAD_SEXY ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.VAMPIN ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.YIFFABLE_YOU ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.BONE_US_ROUND ) ) )
 			{
 				UseItemRequest.limiter = "your current sexy costume";
 				return 0;
