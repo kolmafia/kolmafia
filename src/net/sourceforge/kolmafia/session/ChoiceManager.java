@@ -8169,6 +8169,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "Flamin' Whatshisname" ) )
 			{
 				Preferences.increment( "zeppelinProtestors", 10 );
+				ResultProcessor.processItem( ItemPool.FLAMIN_WHATSHISNAME, -1 );
 			}
 			break;
 
