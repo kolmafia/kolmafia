@@ -3602,6 +3602,7 @@ Adorable Lookout	Initiative: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +20
+# Agent's Shield: Makes you look like a Government agent
 Aided and Abetted	Damage Reduction: [L]
 Al Dente Inferno	Maximum MP: +20, MP Regen Min: 18, MP Regen Max: 20
 Alchemical, Brother	Mysticality Percent: +30
@@ -4804,6 +4805,7 @@ Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 School Spirited	Meat Drop: +100, Item Drop: +50
+# Science is Real: Makes you look like Mrs. K, the Chemistry Teacher
 Scorpio Rising	Initiative: +25
 Scowl of the Auk	Weapon Damage: +10
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
@@ -6091,6 +6093,7 @@ BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
 Bright Water	Effect: "Bright!", Effect Duration: 10
 BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
+bubblin' chemistry solution	Effect: "Science is Real", Effect Duration: 100
 buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
@@ -6379,6 +6382,7 @@ gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 government	Effect: "I See Everything Thrice!", Effect Duration: 10
+government-issue identification badge	Effect: "Agent's Shield", Effect Duration: 100
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
 greasy paste	Effect: "greasy Flavor", Effect Duration: 10
 green candy heart	Effect: "Heart of Green", Effect Duration: 10
