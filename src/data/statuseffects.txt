@@ -1703,3 +1703,12 @@
 1702
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle
 1704	Colorful Gratitude	rrainbow.gif	77244b327a58e614101d0eaefafa7797	use 1 cigar box turtle
+1705
+1706
+1707
+1708
+1709
+1710
+1711
+1712	Hollow Inside	hole.gif	8ed0a91226b1b94fc569d369a6d0c8a9	use 1 candy cigarette
+1713	The Grass...  Is Blue...	smokinggrass.gif	1de4e6dde568470adbb80603f210da5d	use 1 blue grass
