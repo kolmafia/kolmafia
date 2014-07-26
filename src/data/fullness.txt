@@ -111,7 +111,7 @@ chaos popcorn	1	1	decent	2	0	0	0
 cheezburger	3	1	awesome	11-13	5-12	5-12	5-12	50 Yes, Can Haz
 cherry	1	2	decent	2	0	0	0
 cherry pie	3	4	good	6-12	0	8-10	0
-children's meal of the damned	0	1	crappy	0	0	0	0
+Children's Meal of the Damned	0	1	crappy	0	0	0	0
 chilly dog	3	1	awesome	11-13	0	0	0	30 Chill Out, Dog (+30 Cold Dam, +3 Sleaze/Stench Res, +10 ML)
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
@@ -269,7 +269,7 @@ frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
-Genalen&trade; bottle	1	10	good	2-4	15-30	15-30	0	useless powder
+Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
 ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures	
@@ -401,7 +401,7 @@ liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
 loaf of alien bread	3	4	good	6-9	0	10-20	0
-Lobster <i>qua</i> grill	2	5	good	4-8	0	0	46-49
+Lobster <i>qua</i> Grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
 long pork lasagna	3	10	awesome	12-16	0	46-55	0
@@ -678,7 +678,7 @@ This Charming Flan	2	1	EPIC	10-12	10-12	0	0
 three-tiered wedding cake	35	1	crappy	34-39	0	0	0
 throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
 thyme jelly donut	1	4	awesome	3-5	15-30	15-30	15-30	+5 turns of a current effect
-Tiger-lily's Milk	1	1	crappy	1	5-10	0	0	5 Grrrrrrreat! (+10 mus exp)
+Tiger-lily's milk	1	1	crappy	1	5-10	0	0	5 Grrrrrrreat! (+10 mus exp)
 tin cup of mulligan stew	2	15	EPIC	14-20	308-760	308-760	308-760
 tin rations	3	1	good	8-10	3-5	3-5	3-5
 tiny frozen prehistoric meteorite jawbreaker	1	1	good	2	0	0	0
