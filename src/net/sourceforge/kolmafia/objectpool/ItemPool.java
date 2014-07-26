@@ -1998,10 +1998,12 @@ public class ItemPool
 	public static final int MURPHYS_FLAG = 7183;
 	public static final int SHIELD_OF_BROOK = 7184;
 	public static final int COPPERHEAD_CHARM_RAMPANT = 7186;
+	public static final int UNNAMED_COCKTAIL = 7187;
 	public static final int TOMMY_GUN = 7190;
 	public static final int TOMMY_AMMO = 7191;
 	public static final int BUDDY_BJORN = 7200;
 	public static final int LYNYRD_SNARE = 7204;
+	public static final int FLAMIN_WHATSHISNAME = 7222;
 	public static final int PETE_JACKET = 7250;
 	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int SMOKE_GRENADE = 7256;

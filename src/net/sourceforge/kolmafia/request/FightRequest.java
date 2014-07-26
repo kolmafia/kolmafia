@@ -2764,6 +2764,12 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.WEEDY_SKIRT );
 		}
 
+		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah! 
+		if ( responseText.contains( "flaming paper drifts into your unnamed cocktail" ) )
+		{
+			ResultProcessor.processItem( ItemPool.UNNAMED_COCKTAIL, -1 );
+		}
+
 		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
 		{
 			// Cozy weapons are two-handed, so they are necessarily in the weapon slot
