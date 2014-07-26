@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
 
@@ -711,11 +712,6 @@ public abstract class UseLinkDecorator
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
 
-			if ( useCount == 0 )
-			{
-				return null;
-			}
-
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
@@ -729,6 +725,14 @@ public abstract class UseLinkDecorator
 				// doesn't work ajaxified.
 
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+
+			case ItemPool.DANCE_CARD:
+				// No use link for a dance card if one is already active or another will expire in 3 turns.
+				if ( TurnCounter.isCounting( "Dance Card" ) || TurnCounter.getCounters( "", 3, 3 ).length() > 0 )
+				{
+					return null;
+				}
+				break;
 			}
 
 			if ( useCount == 1 )
