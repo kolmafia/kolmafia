@@ -1675,7 +1675,7 @@
 1674	Dweeble-Minded	inhaler.gif	f425278c1d27a36dd530c0d1676efac7	use 1 Dweebisol&trade; inhaler
 1675	Motorhair	motoroil.gif	2d4d1a339f227b98ddc19b953e2ef302	use 1 Lewd Lemmy Hair Oil
 1676	War is Hol	soupposter.gif	3aebc431d67f89ca610afcefc333998e	use 1 tomato soup poster
-1677
+1677	Science is Real	beaker.gif	f84505c164a428ada9cf4040e4a13b1d	use 1 bubblin' chemistry solution
 1678	Shortie Shaman Shurprise	glowskull.gif	9e90d2cb828bec5d497085ba03a3b5ac	use 1 voodoo glowskull
 1679	A Taste for Accounting	vial.gif	1b23fff6cf95fb408356321340954942	use 1 pygmy adder oil
 1680	Which Nurse? Witch Nurse!	plant.gif	6fbb3800dd5b330b77d28810797ec576	use 1 pygmy witchhazel
@@ -1694,7 +1694,7 @@
 1693	Ecce Wino	afuescroll.gif	86a384173862fa48145337e08c459b16	use 1 page of the Necrohobocon
 1694	Black Magic? Woah, Man!	powder.gif	37c4ab904c0f0201bfbaf98eb7dda9aa	use 1 black magic powder
 1695	Into the Friar	tonsure.gif	3b2a050e5564c4e125f094eb71fb6f3b	use 1 black friar's tonsure
-1696
+1696	Agent's Shield	badge.gif	b6ab61b042af87b2c36651750aba98bd	use 1 government-issue identification badge
 1697
 1698	On the Trolley	trolley.gif	d14c9c65bcd20ea9f399fa06127fa25f	drink 1 Bee's Knees
 1699	In a Lather	lather.gif	39fbcc199b06bc544b10609e4ebce693	drink 1 Sockdollager
