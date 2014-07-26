@@ -341,8 +341,8 @@ Events	adventure=408	true	outdoor	Some Scattered Smoking Debris
 Events	adventure=409	false	outdoor	A Crater Full of Space Beasts
 
 Twitch	adventure=410	false	underground	The Cave Before Time
-Twitch	adventure=411	false	unknown	The Bohemian Party
-Twitch	adventure=412	false	unknown	Moonshiner Woods
+Twitch	adventure=411	false	unknown	An Illicit Bohemian Party
+Twitch	adventure=412	false	unknown	Moonshiners' Woods
 
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level

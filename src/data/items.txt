@@ -7702,7 +7702,7 @@
 7683	blue grass	170458604	smokinggrass.gif	multiple	t,d	5
 7684	Time Lord Participation Mug	759232573	coffeecup.gif	offhand	t	0
 7685	Time Bandit Time Towel	506054693	towelcape.gif	container	t	0
-7686
+7686	Caveman Dan's favorite rock	915015071	danrock.gif	accessory		0
 7687	dog ointment	533961184	tube.gif	usable	t,d	100
 7688	gumshoes	858795245	tapshoes.gif	accessory	t,d	200
 7689	flapper floppers	698298413	sandals.gif	accessory	t	0

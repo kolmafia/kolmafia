@@ -1774,6 +1774,7 @@ C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
 Cat-Herding Prod	0	none
+Caveman Dan's favorite rock	100	Mus: 35
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
 cheap elven gloves	30	none
