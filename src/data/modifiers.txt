@@ -5678,7 +5678,6 @@ cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 cool jelly donut	Effect: "Filled with Magic", Effect Duration: 30
-crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
@@ -5755,7 +5754,6 @@ old chum	Effect: "Fishy", Effect Duration: 5
 packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 pawn cookie	Effect: "Pwnd", Effect Duration: 30
 pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
-penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 petit 4.1	Effect: "Petit Force", Effect Duration: 20
 plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
@@ -6622,7 +6620,7 @@ pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 pec oil	Effect: "Oiled-Up", Effect Duration: 20
 PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
-penquin paste	Effect: "Penguinny Flavor", Effect Duration: 10
+penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfectly ordinary frog	Free Pull
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
