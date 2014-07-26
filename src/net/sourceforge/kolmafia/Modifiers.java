@@ -707,12 +707,11 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Pool Skill" ),
 		  Pattern.compile( "Pool Skill: " + EXPR )
 		},
-		{ "Surgeonosity",
-		  null,
-		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
-		},
 		{ "Familiar Damage",
-		  Pattern.compile( "([+-]\\d+) to Familiar Damage" ),
+		  new Object[] {
+		        Pattern.compile( "([+-]\\d+) to Familiar Damage" ),
+		        Pattern.compile( "Familiar Damage ([+-]\\d+)" ),
+		  },
 		  Pattern.compile( "Familiar Damage: " + EXPR )
 		},
 		{ "Gear Drop",
@@ -936,6 +935,7 @@ public class Modifiers
 	public static final int EQUALIZE_MUSCLE = 12;
 	public static final int EQUALIZE_MYST = 13;
 	public static final int EQUALIZE_MOXIE = 14;
+	public static final int AVATAR = 15;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -984,7 +984,7 @@ public class Modifiers
 		  Pattern.compile( "Familiar Effect: \"(.*?)\"" )
 		},
 		{ "Jiggle",
-		  Pattern.compile( "Jiggle: (.*?)$" ),
+		  Pattern.compile( "Jiggle: *(.*?)$" ),
 		  Pattern.compile( "Jiggle: \"(.*?)\"" )
 		},
 		{ "Equalize Muscle",
@@ -998,6 +998,13 @@ public class Modifiers
 		{ "Equalize Moxie",
 		  null,
 		  Pattern.compile( "Equalize Moxie: \"(.*?)\"" )
+		},
+		{ "Avatar",
+		  new Object[] {
+		        Pattern.compile( "Makes you look like (?:a |an |the )?(?!doctor|gross doctor)(.++)" ),
+		        Pattern.compile( "Te hace ver como un (.++)" ),
+		  },
+		  Pattern.compile( "Avatar: \"(.*?)\"" )
 		},
 	};
 
