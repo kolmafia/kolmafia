@@ -60,7 +60,7 @@ c2
 
 # Hats section of modifiers.txt
 
-# 4-dimensional fez: +4 Maximum Hooch
+4-dimensional fez	Maximum Hooch: +4
 8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 # Admiral's hat: +50 Skeleton Anger
 Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
@@ -499,7 +499,7 @@ Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: 
 Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
 gym shorts	PvP Fights: +2, Initiative: +20
 hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
-# hep waders: +3 Maximum Hooch
+hep waders	Maximum Hooch: +3
 hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 2xGhuol, cap 32"
 hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
@@ -663,7 +663,7 @@ astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, 
 bat-ass leather jacket	Mysticality: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
-# birdbone corset: +2 Maximum Hooch
+birdbone corset	Maximum Hooch: +2
 bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts until Rollover
 Brogre brolo shirt	PvP Fights: +3
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
@@ -1131,8 +1131,7 @@ Knob Goblin scimitar	Muscle: +1
 Knob Goblin spatula	Spell Damage: +4
 Knob Goblin tongs	Spell Damage: +2
 KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
-# law-abiding citizen cane: +5 Maximum Hooch
-law-abiding citizen cane	Single Equip
+law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 lawnmower blade	Weapon Damage: +15
 lead pipe	Muscle: +6, Mysticality: +6
@@ -1953,7 +1952,7 @@ The Spirit of Crimbo	Free Pull
 third-hand lantern	Initiative: +5
 # thought balloon
 Tiki lighter	Experience: +1, Stat Tuning: "Moxie"
-# Time Lord Participation Mug: +3 Maximum Hooch
+Time Lord Participation Mug	Maximum Hooch: +3
 # tiny black hole: Allows Pickpocketing
 tiny black hole	Pickpocket Chance: +25, Initiative: -200
 tip jar	Meat Drop: +5
@@ -2026,8 +2025,7 @@ badge of authority	Monster Level: +10, Single Equip
 bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
 Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
 baneful bandolier	Ranged Damage: +30, Hat Drop: +30, Slime Hates It: +1, Pants Drop: +30
-# banjo kazoo mount: +2 Maximum Hooch
-banjo kazoo mount	Single Equip
+banjo kazoo mount	Maximum Hooch: +2, Single Equip
 bark bracelet	Damage Reduction: 2, Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
@@ -2182,6 +2180,7 @@ fancy black tie	Muscle Percent: +15, Single Equip
 filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: +5
 filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
+flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
 floaty rock necklace	Spell Critical Percent: +10, Single Equip
 # foam noodle
@@ -2241,6 +2240,7 @@ Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
 # groovy prism necklace: Deals a rainbow of damage to attackers
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
+gumshoes	Muscle Percent: +25, Experience (Muscle): +2, Single Equip
 gummi bowtie	Moxie: +5
 guts necklace	Stench Resistance: +4, Single Equip
 # haggis socks: Allows you to deliver disgusting kicks
@@ -2536,6 +2536,7 @@ slime convention pin	Moxie: -1
 # slime-covered necklace: +50 Damage against Slimes
 slime-covered necklace	Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200, Weapon Damage: [50*zone(The Slime Tube)]
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
+sneakeasies	Moxie Percent: +25, Experience (Moxie): +2, Single Equip
 Sneaky Pete's breath spray	Moxie: +10
 snow belly	Cold Damage: +6, Single Equip
 snow belt	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Adventures: +8, Single Equip, Lasts until Rollover
@@ -2939,7 +2940,7 @@ sealhide cloak	Cold Resistance: +2
 shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "Turtle Tamer"
 # shocked shell: Deals physical damage every round
 shocked shell	Class: "Turtle Tamer"
-# super-absorbent tarp: +2 Maximum Hooch
+super-absorbent tarp	Maximum Hooch: +2
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 teddybear backpack	Meat Drop: +10, Raveosity: +1
 Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
@@ -4341,7 +4342,7 @@ Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
 Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
 Holiday Bliss	Item Drop: +20, Meat Drop: +20
-# Hollow Inside: +6 Maximum Hooch
+Hollow Inside	Maximum Hooch: +6
 Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
 # Hooked Up: Continually gain MP
@@ -5210,6 +5211,7 @@ Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
 Two Left Feet	Moxie: -5
 # Ultrahydrated: Glug, Glug
+Unbarking Dogs	Familiar Weight: +10
 Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 # Uncertain: Muscle and Moxie +/- ???
 # Unmotivated: You're feeling really unmotivated. 
@@ -6277,6 +6279,7 @@ disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
 Discontent&trade; Winter Garden Catalog	Free Pull
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
+dog ointment	Effect: "Unbarking Dogs", Effect Duration: 20
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 dollop of barbecue sauce	Effect: "Barbecue Saucy", Effect Duration: 15
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10

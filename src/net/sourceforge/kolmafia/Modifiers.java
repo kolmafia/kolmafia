@@ -217,6 +217,7 @@ public class Modifiers
 	public static final int SURGEONOSITY = 109;
 	public static final int FAMILIAR_DAMAGE = 110;
 	public static final int GEARDROP = 111;
+	public static final int MAXIMUM_HOOCH = 112;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -707,6 +708,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Pool Skill" ),
 		  Pattern.compile( "Pool Skill: " + EXPR )
 		},
+		{ "Surgeonosity",
+		  null,
+		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
+		},
 		{ "Familiar Damage",
 		  new Object[] {
 		        Pattern.compile( "([+-]\\d+) to Familiar Damage" ),
@@ -717,6 +722,10 @@ public class Modifiers
 		{ "Gear Drop",
 		  Pattern.compile( "([+-]\\d+)% Gear Drops? [Ff]rom Monsters$" ),
 		  Pattern.compile( "Gear Drop: " + EXPR )
+		},
+		{ "Maximum Hooch",
+		  Pattern.compile( "([+-]\\d+) Maximum Hooch" ),
+		  Pattern.compile( "Maximum Hooch: " + EXPR )
 		},
 	};
 
