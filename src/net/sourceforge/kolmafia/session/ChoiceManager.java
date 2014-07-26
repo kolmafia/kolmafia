@@ -10684,10 +10684,15 @@ public abstract class ChoiceManager
 			{
 				decision = StringUtilities.parseInt( matcher.group( 1 ) );
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
-				String desc =
-					spoilers == null || spoilers.length < 3 ?
-					"unknown" :
-					ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] ).toString();
+				String desc = "unknown";
+				if ( spoilers != null && spoilers.length > 2 )
+				{
+					Object spoiler = ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] );
+					if ( spoiler != null )
+					{
+						desc = spoiler.toString();
+					}
+				}
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				// For now, leave the raw URL in the log in case some analysis
 				// tool is relying on it.

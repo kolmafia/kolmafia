@@ -2083,6 +2083,7 @@ candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 cannonball charrrm bracelet	Single Equip
 # Cat-Herding Prod: +10 Damage vs. Lions
 Cat-Herding Prod	Muscle: +15, Mysticality: +15, Moxie: +15
+Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Muscle): +3, Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 cement shoes	Mysticality: +20, Moxie: +20
