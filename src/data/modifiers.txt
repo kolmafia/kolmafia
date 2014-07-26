@@ -3606,6 +3606,7 @@ Afternoon Insight	Mysticality Percent: +20
 Aided and Abetted	Damage Reduction: [L]
 Al Dente Inferno	Maximum MP: +20, MP Regen Min: 18, MP Regen Max: 20
 Alchemical, Brother	Mysticality Percent: +30
+# Alien Resurrection: Makes you look like an illegal alien
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
@@ -5994,6 +5995,7 @@ adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 alien drugs	Effect: "Space Cowboy", Effect Duration: 15
+alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5

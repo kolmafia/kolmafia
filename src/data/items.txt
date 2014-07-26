@@ -7649,7 +7649,7 @@
 7630	black magic powder	916394459	powder.gif	multiple	t,d	5
 7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
 7632	government-issue identification badge	433047727	badge.gif	usable	t,d	5
-7633
+7633	alien hologram projector	636077233	wbaccpiece.gif	usable	t,d	5
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
 7635	cigar box turtle	889036974	cigarturt.gif	multiple	t,d	11
 7636	shellacked shell	205885786	shellackshell.gif	container	t,d	15

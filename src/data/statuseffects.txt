@@ -1695,7 +1695,7 @@
 1694	Black Magic? Woah, Man!	powder.gif	37c4ab904c0f0201bfbaf98eb7dda9aa	use 1 black magic powder
 1695	Into the Friar	tonsure.gif	3b2a050e5564c4e125f094eb71fb6f3b	use 1 black friar's tonsure
 1696	Agent's Shield	badge.gif	b6ab61b042af87b2c36651750aba98bd	use 1 government-issue identification badge
-1697
+1697	Alien Resurrection	wbaccpiece.gif	e6d969b7ed0ab645fb82e165aa32a0ad	use 1 alien hologram projector
 1698	On the Trolley	trolley.gif	d14c9c65bcd20ea9f399fa06127fa25f	drink 1 Bee's Knees
 1699	In a Lather	lather.gif	39fbcc199b06bc544b10609e4ebce693	drink 1 Sockdollager
 1700
