@@ -610,3 +610,10 @@ The Neandermall	buy	5	scotch on the rocks	ROW313
 The Neandermall	buy	100	wooly loincloth	ROW315
 The Neandermall	buy	100	yabba dabba doo rag	ROW314
 The Neandermall	buy	300	strange helix fossil	ROW311
+
+# Things you can buy with Chroners
+
+Legitimate Shoe Repair, Inc.	buy	25	dog ointment	ROW316
+Legitimate Shoe Repair, Inc.	buy	200	gumshoes	ROW317
+Legitimate Shoe Repair, Inc.	buy	400	flapper floppers	ROW318
+Legitimate Shoe Repair, Inc.	buy	600	sneakeasies	ROW319

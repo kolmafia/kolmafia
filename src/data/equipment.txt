@@ -1854,6 +1854,7 @@ fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
+flapper floppers	0	Mys: 35
 flashing novelty button	20	none
 floaty rock necklace	100	Mys: 35
 foam noodle	10	none
@@ -1904,6 +1905,7 @@ Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
 groovy prism necklace	150	Mys: 60
 grumpy old man charrrm bracelet	150	Mys: 60
+gumshoes	0	Mus: 10
 gummi bowtie	0	none
 guts necklace	225	Mys: 200
 haggis socks	10	none
@@ -2165,6 +2167,7 @@ Sketcherz&trade;	150	Mys: 60
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
+sneakeasies	0	Mox: 60
 Sneaky Pete's breath spray	80	Mys: 25
 snow belly	50	Mys: 10
 snow belt	100	none

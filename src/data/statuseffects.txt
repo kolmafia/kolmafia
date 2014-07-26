@@ -1712,3 +1712,4 @@
 1711
 1712	Hollow Inside	hole.gif	8ed0a91226b1b94fc569d369a6d0c8a9	use 1 candy cigarette
 1713	The Grass...  Is Blue...	smokinggrass.gif	1de4e6dde568470adbb80603f210da5d	use 1 blue grass
+1714	Unbarking Dogs	tube.gif	fc364122b4ff3b7a2d5de7f61613ce83

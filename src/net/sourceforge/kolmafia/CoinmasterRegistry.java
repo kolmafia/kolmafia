@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
@@ -97,6 +98,7 @@ public abstract class CoinmasterRegistry
 		MrStoreRequest.MR_STORE,
 		NeandermallRequest.NEANDERMALL,
 		QuartersmasterRequest.FRATBOY,
+		ShoeRepairRequest.SHOE_REPAIR,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
 		SwaggerShopRequest.SWAGGER_SHOP,
 		TacoDanRequest.TACO_DAN,
