@@ -561,7 +561,11 @@ public class AdventureResult
 			// Decide if the quantity increases or decreases
 			int sign = parsedGain.nextToken().startsWith( "gain" ) ? 1 : -1;
 			// Make sure we are looking at a number
-			String val = parsedGain.nextToken();
+			String val = "";
+			if ( parsedGain.hasMoreTokens() )
+			{
+				val = parsedGain.nextToken();
+			}
 			if ( !StringUtilities.isNumeric( val ) )
 			{
 				return null;
