@@ -54,6 +54,7 @@ A Skeleton Invasion!	100	skeleton invader	two skeleton invaders	three skeleton i
 A Stinking Abyssal Portal	100	scout seal
 A Terrifying Abyssal Portal	100	scout seal
 A Yawning Abyssal Portal	100	official seal
+An Illicit Bohemian Party	-1	hep cat	cigarette girl	Mob penguin entrepreneur
 An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 An Incredibly Strange Place (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
 An Incredibly Strange Place (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
@@ -147,6 +148,7 @@ Mist-Shrouded Peak	100	panicking Knott Yeti	Groar
 Morgue	-1	bugbear mortician	bugaboo
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
+Moonshiners' Woods	-1	Moonshriner	unstill	banjoccultist
 Navigation	100	ancient unspeakable bugbear	N-space Virtual Assistant
 Neckback Crick	100	deadly venomtrout	water spider	Unearthed Monstrosity: 0
 Nemesis Cave	100	infernal seal larva	infernal seal spawn	vengeful turtle spectre	haunted soup tureen	slithering hollandaise glob	pernicious puddle of pesto	evil spaghetti cultist	evil spaghetti cult priest	talking head	psychedelic fur	evil vihuela-playing mariachi	evil trumpet-playing mariachi

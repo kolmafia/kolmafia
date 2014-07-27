@@ -155,6 +155,8 @@ public abstract class ChoiceManager
 	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
 	private static final Pattern BENCH_WARRANT_PATTERN = Pattern.compile( "creep <font color=blueviolet><b>(\\d+)</b></font> of them" );
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
+	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
+	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -3157,6 +3159,21 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure955", "Time Cave",
 			new Object[] { "fight Adventurer echo", "time capsule" } ),
+
+		// Choice 973 is Shoe Repair Store
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure973", "Shoe Repair Store",
+			new Object[] { "visit shop", "exchange hooch for Chroners", "leave" } ),
+
+		// Choice 974 is Around The World
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure974", "Bohemian Party",
+			new Object[] { "get up to 5 hooch", "leave" } ),
+
+		// Choice 975 is Crazy Still After All These Years
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure975", "Moonshriner's Woods",
+			new Object[] { "swap 5 cocktail onions for 10 hooch", "leave" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8303,6 +8320,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.TOMB_RATCHET, -1 );
 			}
+			break;
 
 		case 940:
 			// Let Your Fists Do The Walking
@@ -8310,6 +8328,27 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.WHITE_PAGE, 1 );
 			}
+			break;
+
+		case 974:
+			// Around The World
+			Matcher pinkWordMatcher = ChoiceManager.PINK_WORD_PATTERN.matcher( text );
+			if ( pinkWordMatcher.find() )
+			{
+				String pinkWord = pinkWordMatcher.group( 1 );
+				RequestLogger.printLine( "<font color=\"blue\">Bohemian Party Pink Word found: " + pinkWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
+				RequestLogger.updateSessionLog( "Bohemian Party Pink Word found: " + pinkWord + " in clan " + ClanManager.getClanName( false ) + "." );
+			}
+			break;
+
+		case 975:
+			// Crazy Still After All These Years
+			Matcher stillMatcher = ChoiceManager.STILL_PATTERN.matcher( text );
+			if ( stillMatcher.find() )
+			{
+				ResultProcessor.processItem( ItemPool.COCKTAIL_ONION, -StringUtilities.parseInt( stillMatcher.group( 1 ) ) );
+			}
+			break;			
 		}
 
 		if ( text.contains( "choice.php" ) )
