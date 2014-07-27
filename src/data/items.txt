@@ -7704,6 +7704,6 @@
 7685	Time Bandit Time Towel	506054693	towelcape.gif	container	t	0
 7686	Caveman Dan's favorite rock	915015071	danrock.gif	accessory		0
 7687	dog ointment	533961184	tube.gif	usable	t,d	100
-7688	gumshoes	858795245	tapshoes.gif	accessory	t,d	200
+7688	gumshoes	858795245	tapshoes.gif	accessory	t	0
 7689	flapper floppers	698298413	sandals.gif	accessory	t	0
 7690	sneakeasies	929587115	kicks.gif	accessory	t	0
