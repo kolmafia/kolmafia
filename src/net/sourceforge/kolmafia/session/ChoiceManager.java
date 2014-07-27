@@ -3158,12 +3158,14 @@ public abstract class ChoiceManager
 		// Choice 955 is Time Cave.  Period.
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure955", "Time Cave",
-			new Object[] { "fight Adventurer echo", "time capsule" } ),
+			new Object[] { "fight Adventurer echo", "time capsule", "talk to caveman" } ),
 
 		// Choice 973 is Shoe Repair Store
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure973", "Shoe Repair Store",
-			new Object[] { "visit shop", "exchange hooch for Chroners", "leave" } ),
+			new Object[] { new Option( "visit shop", 1 ),
+						new Option( "exchange hooch for Chroners", 2 ),
+						new Option( "leave", 6 ) } ),
 
 		// Choice 974 is Around The World
 		new ChoiceAdventure(
@@ -10497,7 +10499,24 @@ public abstract class ChoiceManager
 				return "6";
 			}
 			return decision;
-		
+
+		// Shoe Repair Store
+		case 973:
+			// Leave if you have no hooch but have chosen to exchange hooch for chroners
+			if ( decision.equals( "2" ) && !responseText.contains( "Turn in Hooch" ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// Crazy Still After All These Years
+		case 975:
+			// Leave if you have less than 5 cocktail onions, even if you haven't decided to
+			if ( !responseText.contains( "Stick in the onions" ) )
+			{
+				return "2";
+			}
+			return decision;
 		}
 
 		return decision;
