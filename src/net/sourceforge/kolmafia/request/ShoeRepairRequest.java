@@ -134,20 +134,22 @@ public class ShoeRepairRequest
 
 	public static void parseResponse( final String location, final String responseText )
 	{
-		CoinmasterData data = ShoeRepairRequest.SHOE_REPAIR;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
+		if ( !location.contains( "whichshop=shoeshop" ) )
 		{
-			if ( location.contains( "whichshop=caveshop" ) )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-			}
-
 			return;
 		}
 
-		CoinMasterRequest.parseResponse( data, location, responseText );
+		CoinmasterData data = ShoeRepairRequest.SHOE_REPAIR;
+
+		String action = GenericRequest.getAction( location );
+		if ( action != null )
+		{
+			CoinMasterRequest.parseResponse( data, location, responseText );
+			return;
+		}
+
+		// Parse current coin balances
+		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
 	public static String accessible()
