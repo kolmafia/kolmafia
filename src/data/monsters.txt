@@ -750,7 +750,7 @@ perpendicular bat	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: bea
 pine bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 plaid ghost	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead	plaid swatch (0)
 plaque of locusts	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
-plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)
+plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)	flask flops (0)
 pooltergeist	poolter.gif	Atk: 25 Def: 23 HP: 27 Init: 70 P: undead	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Pooltergeist (Ultra-Rare)	poolter2.gif	Atk: 55 Def: 48 HP: 50 Init: 70 P: undead	17-ball (100)
 pop-and-lock raver	popnlocker.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
@@ -1661,7 +1661,7 @@ droll	droll.gif	Atk: [max(min(MOX+5,500),5)+max(ML,0)] Def: [max(min(MUS+5,500),
 pterodactyl	pterodact.gif	Atk: [max(min(MOX-2,500),2)+max(ML,0)] Def: [max(min(MUS-2,500),2)+max(ML,0)] HP: [0.75*(max(min(MUS-2,500),2)+max(ML,0))] Exp: [max(min(STAT-2,500),2)+max(ML,0)] Init: -10000 P: beast	Friendliness Beverage (20)	silent pea shooter (2)
 sabre-toothed kiwi	stkiwi.gif	Atk: [max(min(MOX+1,500),4)+max(ML,0)] Def: [max(min(MUS+1,500),4)+max(ML,0)] HP: [0.75*(max(min(MUS+1,500),4)+max(ML,0))] Exp: [max(min(STAT+1,500),4)+max(ML,0)] Init: -10000 P: humanoid	New Zealand iced tea (20)	kiwi beak (2)	kiwi (5)	kiwi (5)
 Adventurer echo	advecho.gif	Atk: [max(min(MOX+7,1000),20)+max(ML,0)] Def: [max(min(MUS+7,1000),20)+max(ML,0)] HP: [0.75*(max(min(MUS+7,1000),20)+max(ML,0))] Exp: [max(min(STAT+7,1000),20)+max(ML,0)] Init: -10000 P: dude	Chroner (100)	Chroner (100)	Chroner (f50)
-Caveman Dan	cavedan.gif		Caveman Dan's favorite rock (c100)
+Caveman Dan	cavedan.gif	Atk: [min(MOX+10,2000)+max(ML,0)] Def: [min(MUS+10,2000)+max(ML,0)] HP: [0.75*(min(MUS+10,2000)+max(ML,0))] Exp: [min(STAT+10,2000)+max(ML,0)] Init: -10000 P: dude	Caveman Dan's favorite rock (c100)
 
 # Twitch 3 - 1920's
 Moonshriner	moonstriner.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: dude Meat: 16-24	throwing candy (20)	4-dimensional fez (2)

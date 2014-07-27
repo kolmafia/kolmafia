@@ -2183,6 +2183,7 @@ filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Sin
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
+flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
 floaty rock necklace	Spell Critical Percent: +10, Single Equip
 # foam noodle
 fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
