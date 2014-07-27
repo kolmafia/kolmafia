@@ -6918,7 +6918,7 @@
 6899	Thwaitgold ant statuette	287861273	thwaitant.gif	none		0
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
 6901	hazardous sauce dosimeter	396445866	dosimeter.gif	accessory		0
-6902
+6902	flask flops	195465765	sandals.gif	accessory	t,d	5
 6903	candied nuts	123175979	sack2.gif	usable	t,d	15	bags of candied nuts
 6904	candied bolts	614960605	sack1.gif	usable	t,d	15	bags of candied bolts
 6905	gingerbread robot	419812071	c13cookie1.gif	food	t	0
