@@ -667,7 +667,7 @@ mind flayer	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer co
 mine crab	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 200-300 P: fish	live nautical mine (n20)
 Mismatched Twins	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Arsonist	pengarson.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Capo	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: penguin Meat: 160-240	tommy gun (5)	drum of tommy ammo (25)	drum of tommy ammo (25)
+Mob Penguin Capo	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: penguin Meat: 160-240	tommy gun (5)	drum of tommy ammo (30)	drum of tommy ammo (20)
 Mob Penguin Caporegime		P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	pengdemo.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Enforcer		P: penguin	patent leather shoes (0)
