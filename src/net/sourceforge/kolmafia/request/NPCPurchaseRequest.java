@@ -558,6 +558,29 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "hiddentavern" ) )
+		{
+			// If Hidden Tavern not already unlocked, new items available
+			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				// Unlock Hidden Tavern
+				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
+			return;
+		}
+
+		if ( shopId.equals( "blackmarket" ) )
+		{
+			// If Black Market not already unlocked, unlock it
+			if ( !QuestLogRequest.isBlackMarketAvailable() )
+			{
+				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
+			return;
+		}
+
 		// The following are coinmasters
 
 		if ( shopId.equals( "damachine" ) )
@@ -604,43 +627,33 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "hiddentavern" ) )
-		{
-			// If Hidden Tavern not already unlocked, new items available
-			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
-			{
-				// Unlock Hidden Tavern
-				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
-				ConcoctionDatabase.setRefreshNeeded( true );
-			}
-			return;
-		}
-
-		if ( shopId.equals( "blackmarket" ) )
-		{
-			// If Black Market not already unlocked, unlock it
-			if ( !QuestLogRequest.isBlackMarketAvailable() )
-			{
-				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
-				ConcoctionDatabase.setRefreshNeeded( true );
-			}
-			return;
-		}
-		if( shopId.equals( "sbb_jimmy" ) )
+		if ( shopId.equals( "sbb_jimmy" ) )
 		{
 			BuffJimmyRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
-		if( shopId.equals( "sbb_taco" ) )
+		if ( shopId.equals( "sbb_taco" ) )
 		{
 			TacoDanRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
-		if( shopId.equals( "sbb_brogurt" ) )
+		if ( shopId.equals( "sbb_brogurt" ) )
 		{
 			BrogurtRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "caveshop" ) )
+		{
+			NeandermallRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "shoeshop" ) )
+		{
+			ShoeRepairRequest.parseResponse( urlString, responseText );
 			return;
 		}
 	}
@@ -827,6 +840,16 @@ public class NPCPurchaseRequest
 			if ( shopId.startsWith( "sbb_brogurt" ) )
 			{
 				return BrogurtRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "caveshop" ) )
+			{
+				return NeandermallRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "shoeshop" ) )
+			{
+				return ShoeRepairRequest.registerRequest( urlString );
 			}
 
 			return false;
