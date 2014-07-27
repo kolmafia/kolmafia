@@ -445,6 +445,7 @@ public class ItemPool
 	public static final int GRIMACITE_GALOSHES = 1544;
 	public static final int GRIMACITE_GORGET = 1545;
 	public static final int GRIMACITE_GUAYABERA = 1546;
+	public static final int COCKTAIL_ONION = 1560;
 	public static final int VODKA_GIBSON = 1569;
 	public static final int GIBSON = 1570;
 	public static final int HOT_HI_MEIN = 1592;

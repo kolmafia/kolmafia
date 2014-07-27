@@ -332,6 +332,12 @@ public class ClanLoungeRequest
 			IntegerPool.get( 5000 )
 		},
 		{
+			"Phonus Balonus",
+			IntegerPool.get( 9 ),
+			IntegerPool.get( 3 ),
+			IntegerPool.get( 10000 )
+		},
+		{
 			"Flivver",
 			IntegerPool.get( 10 ),
 			IntegerPool.get( 2 ),

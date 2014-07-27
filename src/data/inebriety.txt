@@ -351,6 +351,7 @@ passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
 perpendicular hula	4	4	good	10-14	0	0	34-36
 Petite Porter	3	4		3-5	0	0	0
+Phonus Balonus	3	1	awesome	0	0	0	+? PVP fights
 pink pony	4	4	good	10-14	25-27	0	8-10
 Plague of Locusts	2	8	awesome	8-9	0	0	30-40	15 Cockroach Scurry (+50 Init)
 plain old beer	1	1	crappy	1	0	0	0

@@ -1637,6 +1637,9 @@ user	choiceAdventure962	1
 user	choiceAdventure963	1
 user	choiceAdventure964	1
 user	choiceAdventure965	1
+user	choiceAdventure973	0
+user	choiceAdventure974	0
+user	choiceAdventure975	0
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
