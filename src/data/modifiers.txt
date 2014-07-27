@@ -60,7 +60,7 @@ c2
 
 # Hats section of modifiers.txt
 
-4-dimensional fez	Maximum Hooch: +4
+4-dimensional fez	Maximum Hooch: +4, Familiar Effect: "atk, 1xLep, cap 12"
 8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 # Admiral's hat: +50 Skeleton Anger
 Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"

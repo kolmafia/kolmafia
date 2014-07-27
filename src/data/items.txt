@@ -7688,18 +7688,18 @@
 7669
 7670
 7671
-7672	law-abiding citizen cane	323809338	citizencane.gif	weapon	t,d	20
-7673	legitimate business on the beach	823551028	chamfluteu.gif	drink	t,d	5
-7674	hep waders	391859185	epicpants6.gif	pants	t,d	20
+7672	law-abiding citizen cane	323809338	citizencane.gif	weapon	t,d	20	law-abiding citizens cane
+7673	legitimate business on the beach	823551028	chamfluteu.gif	drink	t,d	5	legitimate businesses on the beach
+7674	hep waders	391859185	epicpants6.gif	pants	t,d	20	pairs of hep waders
 7675	jive turkey leg	618052075	bigturkeyleg.gif	food	t,d	5
 7676	birdbone corset	955569821	corset.gif	shirt	t,d	20
 7677	candy cigarette	616073484	cigarette.gif	multiple	t,d	5
-7678	4-dimensional fez	542696297	moonfez.gif	hat	t,d	20
-7679	throwing candy	141095488	candypile.gif	none, combat	t,d	15
+7678	4-dimensional fez	542696297	moonfez.gif	hat	t,d	20	4-dimensional feces
+7679	throwing candy	141095488	candypile.gif	none, combat	t,d	15	handfuls of throwing candy
 7680	super-absorbent tarp	630548310	crappytarp.gif	container	t,d	20
-7681	unquiet spirits	407747828	moonshine.gif	drink	t,d	5
+7681	unquiet spirits	407747828	moonshine.gif	drink	t,d	5	jars of unquiet spirits
 7682	banjo kazoo mount	319092231	kazoomount.gif	accessory	t,d	20
-7683	blue grass	170458604	smokinggrass.gif	multiple	t,d	5
+7683	blue grass	170458604	smokinggrass.gif	multiple	t,d	5	blades of blue grass
 7684	Time Lord Participation Mug	759232573	coffeecup.gif	offhand	t	0
 7685	Time Bandit Time Towel	506054693	towelcape.gif	container	t	0
 7686	Caveman Dan's favorite rock	915015071	danrock.gif	accessory		0
