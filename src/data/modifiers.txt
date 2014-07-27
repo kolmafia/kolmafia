@@ -395,7 +395,7 @@ wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, c
 worn tophat	Moxie: +5, Initiative: +15, Familiar Effect: "1xBarrr, 1xLep, cap 31"
 wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
 wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Familiar Effect: "1xPotato, 1xGhuol, cap 25"
-yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10
+yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "atk, 1xVolley, cap 27"
 yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
 yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "1xVolley, 1xLep, cap 15"
@@ -499,7 +499,7 @@ Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: 
 Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
 gym shorts	PvP Fights: +2, Initiative: +20
 hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
-hep waders	Maximum Hooch: +3
+hep waders	Maximum Hooch: +3, Familiar Effect: "1xPotato, 1xVolley, cap 12"
 hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 2xGhuol, cap 32"
 hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
@@ -644,7 +644,7 @@ weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip
 weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
 Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
-wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8
+wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "atk, 1xVolley, cap 27"
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
 yakskin pants	Maximum MP: +25, Familiar Effect: "stench atk, 1xPotato, cap 35"
