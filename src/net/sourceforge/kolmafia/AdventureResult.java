@@ -556,16 +556,16 @@ public class AdventureResult
 			// return the appropriate value
 
 			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
+			if ( parsedGain.countTokens() < 4 )
+			{
+				return null;
+			}
 			parsedGain.nextToken();		// Skip "You"
 
 			// Decide if the quantity increases or decreases
 			int sign = parsedGain.nextToken().startsWith( "gain" ) ? 1 : -1;
 			// Make sure we are looking at a number
-			String val = "";
-			if ( parsedGain.hasMoreTokens() )
-			{
-				val = parsedGain.nextToken();
-			}
+			String val = parsedGain.nextToken();
 			if ( !StringUtilities.isNumeric( val ) )
 			{
 				return null;
