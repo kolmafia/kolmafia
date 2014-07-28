@@ -4268,7 +4268,7 @@
 4249	miniature tophat	482740948	tophat.gif	familiar	t,d	75	miniature tophats
 4250	fisherman's sack	828704447	sack2.gif	multiple	q,d	99	fisherman sacks
 4251	fish-oil smoke bomb	180431667	smokebomb.gif	none, combat	q,d	33	fish-oil smoke bombs
-4252	vial of squid ink	710069136	vial.gif	usable, matchable	q,d	33
+4252	vial of squid ink	710069136	vial.gif	usable, matchable	q,d	33	vials of squid ink
 4253	potion of fishy speed	373271067	potion4.gif	usable	q,d	33	potions of fishy speed
 4254	spooky bark	264903640	spookybark.gif	multiple	t	0	scraps of spooky bark
 4255	Wolfman Nardz	646230301	monstar.gif	mp	t,d	50	cans of Wolfman Nardz
