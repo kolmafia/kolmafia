@@ -642,6 +642,16 @@ public class Concoction
 
 		this.allocated = 0;
 
+		if ( this.speakeasy )
+		{
+			this.initial = Math.min( KoLCharacter.getAvailableMeat() / this.price,
+						 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" ) );
+			this.creatable = 0;
+			this.total = this.initial;
+			this.visibleTotal = this.initial;
+			return;
+		}
+
 		if ( this.concoction == null && this.name != null )
 		{
 			this.initial =

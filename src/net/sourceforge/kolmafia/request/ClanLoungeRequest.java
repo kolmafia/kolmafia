@@ -1382,7 +1382,12 @@ public class ClanLoungeRequest
 	{
 		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
 		Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get( index );
-		return ConcoctionDatabase.getUsables().contains( item ) ? null : item;
+		if ( ConcoctionDatabase.getUsables().contains( item ) )
+		{
+			return null;
+		}
+		item.resetCalculations();
+		return item;
 	}
 
 	private static final Pattern SPEAKEASY_ROW_PATTERN = Pattern.compile( "name=\"drink\" value=\"(\\d+)\"", Pattern.DOTALL );

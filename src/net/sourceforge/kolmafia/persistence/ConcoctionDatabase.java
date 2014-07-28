@@ -539,7 +539,7 @@ public class ConcoctionDatabase
 
 		if ( c.speakeasy )
 		{
-			ConcoctionDatabase.queuedSpeakeasyDrink += 1;
+			ConcoctionDatabase.queuedSpeakeasyDrink += quantity;
 		}
 
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
@@ -647,7 +647,7 @@ public class ConcoctionDatabase
 
 		if ( qc.getConcoction().speakeasy )
 		{
-			ConcoctionDatabase.queuedSpeakeasyDrink -= 1;
+			ConcoctionDatabase.queuedSpeakeasyDrink -= quantity;
 		}
 
 		return qc;
