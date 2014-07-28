@@ -762,11 +762,6 @@ public abstract class UseLinkDecorator
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
 
-			if ( UseItemRequest.maximumUses( itemId ) == 0 )
-			{
-				return null;
-			}
-
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
