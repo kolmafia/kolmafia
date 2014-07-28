@@ -7049,7 +7049,7 @@
 7030	third-hand lantern	689791506	lantern1.gif	offhand	t,d	5
 7031	loose purse strings	927549547	pursestrings.gif	offhand	t,d	5	sets of loose purse strings
 7032	pickled egg	648018534	pickledegg.gif	food	t,d	5
-7033	cup of lukewarm tea	663984491	coffeecup.gif	food	t,d	5
+7033	cup of lukewarm tea	663984491	coffeecup.gif	food	t,d	5	cups of lukewarm tea
 7034	warbear soda machine assembler	512081219	wbsoda.gif	usable	t	0
 7035	warbear black box	138516543	wbblackbox.gif	usable	t	0
 7036	warbear high-efficiency still	229779565	wbstill.gif	usable	t	0

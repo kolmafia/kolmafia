@@ -2043,7 +2043,8 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.BRICKO_EYE:
-			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
+				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
 			{
 				Preferences.increment( "_brickoEyeSummons" );
 			}
@@ -2052,7 +2053,8 @@ public class ResultProcessor
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 		case ItemPool.DIVINE_CRACKER:
 		case ItemPool.DIVINE_FLUTE:
-			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
+				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
 			{
 				Preferences.increment( "_favorRareSummons" );
 			}
@@ -2061,7 +2063,8 @@ public class ResultProcessor
 		case ItemPool.YELLOW_TAFFY:
 		case ItemPool.GREEN_TAFFY:
 		case ItemPool.INDIGO_TAFFY:
-			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
+				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
 			{
 				Preferences.increment( "_taffyRareSummons" );
 			}
