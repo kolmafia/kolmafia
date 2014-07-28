@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -397,6 +398,10 @@ public abstract class ItemManagePanel
 				Concoction concoction = ( (Concoction) items[ i ] );
 				itemName = concoction.getName();
 				itemCount = concoction.getAvailable();
+				if ( ClanLoungeRequest.isSpeakeasyDrink( itemName ) )
+				{
+					itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
+				}
 			}
 
 			quantity =
