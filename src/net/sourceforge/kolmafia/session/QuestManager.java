@@ -48,8 +48,9 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -296,6 +297,10 @@ public class QuestManager
 		{
 			TavernManager.handleTavernChange( responseText );
 		}
+		else if ( location.startsWith( "town" ) )
+		{
+			handleTownChange( responseText );
+		}
 		else if ( location.startsWith( "trickortreat" ) )
 		{
 			handleTrickOrTreatingChange( responseText );
@@ -326,6 +331,26 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 			Preferences.setInteger( "currentExtremity", 0 );			
+		}
+	}
+
+	private static void handleTownChange( String responseText )
+	{
+		if ( responseText.contains( "town_tower" ) )
+		{
+			if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
+			{
+				Preferences.setBoolean( "timeTowerAvailable", true );
+				ConcoctionDatabase.setRefreshNeeded( false );
+			}
+		}
+		else
+		{
+			if ( Preferences.getBoolean( "timeTowerAvailable" ) )
+			{
+				Preferences.setBoolean( "timeTowerAvailable", false );
+				ConcoctionDatabase.setRefreshNeeded( false );
+			}
 		}
 	}
 
