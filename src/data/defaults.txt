@@ -888,6 +888,7 @@ user	testudinalTeachings
 user	textColors	crappy:#999999|good:green|awesome:blue|epic:#8a2be2|junk:gray|memento:olive|notavailable:gray
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99
+user	timeTowerAvailable	false
 user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false

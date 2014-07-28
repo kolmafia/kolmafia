@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class ShoeRepairRequest
 	extends CoinMasterRequest
 {
@@ -154,10 +156,10 @@ public class ShoeRepairRequest
 
 	public static String accessible()
 	{
-		// if ( !KoLCharacter.xxx() )
-		// {
-		//	return "You can't get to the Shoe Repair Shop";
-		// }
+		if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
+		{
+			return "You can't get to the Shoe Repair Shop";
+		}
 		return null;
 	}
 

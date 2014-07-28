@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class NeandermallRequest
 	extends CoinMasterRequest
 {
@@ -154,10 +156,10 @@ public class NeandermallRequest
 
 	public static String accessible()
 	{
-		// if ( !KoLCharacter.xxx() )
-		// {
-		//	return "You can't get to the Neandermall";
-		// }
+		if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
+		{
+			return "You can't get to the Neandermall";
+		}
 		return null;
 	}
 
