@@ -550,6 +550,13 @@ public class QuestManager
 			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 		}
 
+		// If we see the Black Market, update Black Market quest
+		if ( responseText.contains( "blackmarket.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.BLACK, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step1" );
+		}
+
 		// If we see the link to the empty Black Market, Wu Tang has been defeated
 		if ( responseText.indexOf( "action=emptybm" ) != -1 )
 		{
