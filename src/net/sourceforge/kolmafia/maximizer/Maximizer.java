@@ -1150,7 +1150,7 @@ public class Maximizer
 				delta ) + ")";
 		}
 
-		Boost boost = new Boost( cmd, text, slot, item, delta );
+		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned );
 		if ( equipLevel == -1 )
 		{	// called from CLI
 			boost.execute( true );
