@@ -231,7 +231,7 @@ KoL Con 3-D Glasses	Familiar Effect: "8xLep, 1xFairy, cap 2"
 # leather aviator's cap: Kill 5% More Skeletons
 leather aviator's cap	Adventures: +5, Damage Reduction: 1, Familiar Effect: "atk, cap 12"
 leather mask	Muscle: +3, Moxie: -3, Familiar Effect: "sleaze atk, 1xBarrr, cap 15"
-lemon party hat	Candy Drop: +50, Lasts until Rollover
+lemon party hat	Candy Drop: +50, Lasts Until Rollover
 Lens of Hatred	Meat Drop: +15, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 1xBarrr"
 # Lens of Violence: Allows you to discover your opponents' magical weaknesses
 Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Percent: +30, Familiar Effect: "atk, 1xBarrr"
@@ -520,7 +520,7 @@ Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber", Familia
 Leapin' Trousers	Adventures: +1, Muscle: +4, Mysticality: +4, Moxie: +4
 leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 2xGhuol, cap 31"
-lemon drop trousers	Candy Drop: +50, Lasts until Rollover
+lemon drop trousers	Candy Drop: +50, Lasts Until Rollover
 leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 liar's pants	Hot Damage: +10, Softcore Only, Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "hot atk, cold atk, cap 25"
@@ -664,7 +664,7 @@ bat-ass leather jacket	Mysticality: +10, Spooky Resistance: +1, Stench Resistanc
 BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
 birdbone corset	Maximum Hooch: +2
-bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts until Rollover
+bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts Until Rollover
 Brogre brolo shirt	PvP Fights: +3
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
@@ -706,7 +706,7 @@ junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
 Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Kiss the Knob apron	Maximum MP: +5
 Knob Goblin elite shirt	Muscle: +3
-lemon shirt	Candy Drop: +50, Lasts until Rollover
+lemon shirt	Candy Drop: +50, Lasts Until Rollover
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 lynyrdskin tunic	Initiative: +25
@@ -1104,7 +1104,7 @@ hothammer	Hot Damage: +50
 huge mirror shard	Weapon Damage: +5
 huge mosquito proboscis	HP Regen Min: 8, HP Regen Max: 12, Maximum HP: +20
 huge spoon	Spell Damage: +10
-ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5, Lasts until Rollover
+ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5, Lasts Until Rollover
 ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
@@ -1228,7 +1228,7 @@ pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 pixel sword	Initiative: +15
 pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
-plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts until Rollover
+plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts Until Rollover
 plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +7
 pointed stick	Critical Hit Percent: +5, Weapon Damage: +10
@@ -1333,7 +1333,7 @@ slime-covered staff	Spell Damage: +60, Initiative: -10
 # slingshot
 smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
 Sneaky Pete's basket	Moxie: +5, Initiative: +10, Item Drop: +10
-snow shovel	Muscle: +10, Mysticality: +10, Moxie: +10, Weapon Damage Percent: +100, Lasts until Rollover
+snow shovel	Muscle: +10, Mysticality: +10, Moxie: +10, Weapon Damage Percent: +100, Lasts Until Rollover
 # soap knife
 # soul knife: Can harm True Mimes
 soup-chucks	Hot Damage: +2
@@ -1521,7 +1521,7 @@ wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Dama
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Zim Merman's guitar	Ranged Damage: +20
-zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: +[5*(1+skill(Accordion Appreciation))], Additional Song, Class: "Accordion Thief", Single Equip, Song Duration: 20
+zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song, Class: "Accordion Thief", Single Equip, Song Duration: 20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 
 # Offhands section of modifiers.txt
@@ -1699,7 +1699,7 @@ hors d'oeuvre tray	Initiative: +15, Damage Reduction: 5
 hot plate	Hot Damage: +3, Damage Reduction: 3
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
-ice bucket	Item Drop: +20, Lasts until Rollover
+ice bucket	Item Drop: +20, Lasts Until Rollover
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 incredibly creepy marionette	Mysticality: +3
 ivory cue ball	Item Drop: +5
@@ -1879,12 +1879,12 @@ snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 snapdragon pistil	Spell Critical Percent: +5
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 # snow mobile: Makes Spells Way Cooler
-snow mobile	Maximum MP: +20, Lasts until Rollover
+snow mobile	Maximum MP: +20, Lasts Until Rollover
 snowstick	Cold Spell Damage: +80
 sock monkey	Moxie: +3
 Solstice Shield	Muscle Percent: [25*G], Mysticality Percent: [25*G], Moxie Percent: [25*G], Damage Absorption: +20
 sommelier's towel	Booze Drop: +50
-Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts until Rollover
+Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 # Spanish fly trap
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
@@ -2124,7 +2124,7 @@ Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 CRIMBCO lanyard	Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
-crying statue earrings	Muscle: +5, Maximum HP: +100, Single Equip, Lasts until Rollover
+crying statue earrings	Muscle: +5, Maximum HP: +100, Single Equip, Lasts Until Rollover
 # crystalline seal eye: +200% Item Drops from Seals
 crystalline seal eye	Single Equip
 cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
@@ -2205,7 +2205,7 @@ Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 garish pinky ring	Maximum HP: +10, Maximum MP: +10
 # Garter of the Turtle Poacher: Helps You Tame Turtles
 Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
-Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts until Rollover
+Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts Until Rollover
 Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 gearbox necklace	Mysticality: +11, Maximum MP: +50
 ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -2413,7 +2413,7 @@ Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, S
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
 plaid pocket square	Meat Drop: +15
-plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts until Rollover
+plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts Until Rollover
 plastic spider ring	Mysticality: +3, Single Equip
 # plastic vampire fangs: Makes You Thirst For Blood
 plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Softcore Only
@@ -2541,7 +2541,7 @@ Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 sneakeasies	Moxie Percent: +25, Experience (Moxie): +2, Single Equip
 Sneaky Pete's breath spray	Moxie: +10
 snow belly	Cold Damage: +6, Single Equip
-snow belt	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Adventures: +8, Single Equip, Lasts until Rollover
+snow belt	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Adventures: +8, Single Equip, Lasts Until Rollover
 sock garters	Cold Resistance: +2, Single Equip
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
@@ -5234,7 +5234,7 @@ Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 # Video... Games?: +5% Damage vs. Vampires
 # Video... Games?: +5% Damage vs. Skeletons
 # Video... Games?: +5 Damage vs. Undead
-Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: 5, Experience (Familiar): 5, Hat Drop: 5, Offhand Drop: 5, Pants Drop: 5, Shirt Drop: 5, Weapon Drop: 5
+Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: 5, Hat Drop: 5, Offhand Drop: 5, Pants Drop: 5, Shirt Drop: 5, Weapon Drop: 5
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
 Virgo Rising	Moxie Percent: +50
@@ -5506,7 +5506,7 @@ Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus	I Meant To Do That!
 Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
 Cool Irons	Damage Reduction: 20
-Crappy Mer-kin Disguise	Mus: +30, Mys: +30, Mox: +30
+Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
 Crimbo Duds	Item Drop: +5
 Crimborg Assault Armor	Ranged Damage: +20
 Cursed Zombie Pirate Costume	Spooky Damage: +30
@@ -5517,7 +5517,7 @@ Dreadful Ghost Suit	Spooky Damage: +50, Spooky Spell Damage: +50
 # Dreadful Pajamas: Makes you dream more frequently
 Dreadful Skeleton Suit	Sleaze Damage: +50, Sleaze Spell Damage: +50
 Dreadful Vampire Suit	Cold Damage: +50, Cold Spell Damage: +50
-Dreadful Werewolf Suit	Weapon Damage: +50, Spell Damage +50
+Dreadful Werewolf Suit	Weapon Damage: +50, Spell Damage: +50
 Dreadful Zombie Suit	Stench Damage: +50, Stench Spell Damage: +50
 Dwarvish War Uniform	Damage Reduction: 10
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3

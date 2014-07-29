@@ -914,9 +914,9 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "No Pull" )
 		},
-		{ "Lasts until Rollover",
-		  null,
-		  Pattern.compile( "This item will disappear at the end of the day" )
+		{ "Lasts Until Rollover",
+		  Pattern.compile( "This item will disappear at the end of the day" ),
+		  Pattern.compile( "Lasts Until Rollover" )
 		},
 	};
 
@@ -3139,40 +3139,35 @@ public class Modifiers
 
 	public static final void checkModifiers()
 	{
-		Object[] keys = Modifiers.modifiersByName.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
+		for ( String name : Modifiers.modifiersByName.keySet() )
 		{
-			String name = (String) keys[ i ];
-			Object modifier = Modifiers.modifiersByName.get( name );
+			Object modifiers = Modifiers.modifiersByName.get( name );
 
-			if ( modifier == null )
+			if ( modifiers == null )
 			{
 				RequestLogger.printLine( "Key \"" + name + "\" has no modifiers" );
 				continue;
 			}
 
-			if ( modifier instanceof Modifiers )
-			{
-				modifier = ((Modifiers) modifier).getString( Modifiers.MODIFIERS );
-			}
+			String modifierString =
+				( modifiers instanceof Modifiers ) ?
+				((Modifiers) modifiers).getString( Modifiers.MODIFIERS ) :
+				( modifiers instanceof String ) ?
+				(String) modifiers :
+				null;
 
-			if ( !( modifier instanceof String ) )
+			if ( modifierString == null )
 			{
-				RequestLogger.printLine( "Key \"" + name + "\" has bogus modifiers of class " + modifier.getClass().toString() );
+				RequestLogger.printLine( "Key \"" + name + "\" has bogus modifiers of class " + modifiers.getClass().toString() );
 				continue;
 			}
 
-			// It's a string. Check all modifiers.
-			// Familiar Effect has to be special-cased since its parameter contains commas.
-			String[] strings = ( (String) modifier ).replaceFirst(
-				"(, )?Familiar Effect: \"[^\"]+\"" , "" ).split( ", " );
-			for ( int j = 0; j < strings.length; ++j )
+			ModifierList list = Modifiers.splitModifiers( modifierString );
+
+			for ( Modifier modifier : list )
 			{
-				String mod = strings[ j ].trim();
-				if ( mod.equals( "" ) )
-				{
-					continue;
-				}
+				String mod = modifier.toString();
+
 				if ( Modifiers.findModifier( Modifiers.doubleModifiers, mod ) )
 				{
 					continue;
@@ -3186,10 +3181,6 @@ public class Modifiers
 					continue;
 				}
 				if ( Modifiers.findModifier( Modifiers.stringModifiers, mod ) )
-				{
-					continue;
-				}
-				if ( mod.startsWith( "Clownosity:" ) )
 				{
 					continue;
 				}
