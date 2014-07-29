@@ -10500,6 +10500,17 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
+		// All Over the Map
+		case 923:
+			// Manual control if the choice you want isn't available
+			if ( ( decision.equals( "2" ) && !responseText.contains( "Visit the blacksmith's cottage" ) ) ||
+				( decision.equals( "3" ) && !responseText.contains( "Go to the black gold mine" ) ) ||
+				( decision.equals( "4" ) && !responseText.contains( "Check out the black church" ) ) )
+			{
+				return "0";
+			}
+			return decision;
+
 		// Shoe Repair Store
 		case 973:
 			// Leave if you have no hooch but have chosen to exchange hooch for chroners
