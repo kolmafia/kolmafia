@@ -5049,7 +5049,7 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "_userMods" ) );
 		newModifiers.add( Modifiers.getModifiers( "fightMods" ) );
 
-		if ( Modifiers.currentLocation.equals( "the slime tube" ) )
+		if ( Modifiers.currentLocation.equals( "The Slime Tube" ) )
 		{
 			int hatred = (int) newModifiers.get( Modifiers.SLIME_HATES_IT );
 			if ( hatred > 0 )
