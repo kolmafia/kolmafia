@@ -2162,7 +2162,11 @@ public class Modifiers
 
 			String key, value;
 
-			int colon = string.indexOf( ":" );
+			// Every pattern for a modifier with a value separates
+			// the key with a colon and a single space. Therefore,
+			// split on precisely that string and trim neither the
+			// key nor the value.
+			int colon = string.indexOf( ": " );
 			if ( colon == -1 )
 			{
 				key = string;
@@ -2170,8 +2174,8 @@ public class Modifiers
 			}
 			else
 			{
-				key = string.substring( 0, colon ).trim();
-				value = string.substring( colon + 1 ).trim();
+				key = string.substring( 0, colon );
+				value = string.substring( colon + 2 );
 			}
 
 			list.addModifier( key, value );
