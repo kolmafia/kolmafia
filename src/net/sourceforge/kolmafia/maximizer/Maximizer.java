@@ -230,6 +230,7 @@ public class Maximizer
 			int duration = 0;
 			int usesRemaining = 0;
 			int itemsRemaining = 0;
+			int itemsCreatable = 0;
 			if ( !hasEffect )
 			{
 				spec.addEffect( effect );
@@ -860,6 +861,7 @@ public class Maximizer
 					{
 						Concoction c = ConcoctionPool.get( item );
 						price = c.price;
+						itemsCreatable = c.creatable;
 						int count = Math.max( 0, item.getCount() - c.initial );
 						if ( count > 0 )
 						{
@@ -933,6 +935,11 @@ public class Maximizer
 				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 				if ( Preferences.getBoolean( "verboseMaximizer" ) )
 				{
+					// In Hardcore/Ronin we are limted to what we can create or have
+					if ( !KoLCharacter.canInteract() )
+					{
+						usesRemaining = Math.min( usesRemaining, itemsRemaining + itemsCreatable );
+					}
 					boolean show = duration > 0 ||
 									( usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE ) ||
 									itemsRemaining > 0;
@@ -981,6 +988,15 @@ public class Maximizer
 							text += ", ";
 						}
 						text += itemsRemaining + " in inventory";
+						count++;
+					}
+					if ( itemsCreatable > 0 )
+					{
+						if ( count > 0 )
+						{
+							text += ", ";
+						}
+						text += itemsCreatable + " creatable";
 						count++;
 					}
 					if ( show )
