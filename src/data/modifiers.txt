@@ -3865,7 +3865,7 @@ Chow Downed	Familiar Weight: +5
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
-Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Moxie Experience: [ceil(min(T,50)/10)]
+Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Experience (Moxie): [ceil(min(T,50)/10)]
 Cinnamouth	Hot Damage: +11
 Clean to the Bone	Avatar: "skullery maid"
 Clean-Shaven	Moxie: +5
@@ -4659,7 +4659,7 @@ Ooh, Sour!	Stench Damage: +5
 Ooh, Sweet!	Hot Damage: +5
 Ooh, Umami!	Sleaze Damage: +5
 Optimist Primal	Familiar Weight: +5
-Orange Crusher	Muscle: [ceil(min(T,50)/2)], Muscle Experience: [ceil(min(T,50)/10)]
+Orange Crusher	Muscle: [ceil(min(T,50)/2)], Experience (Muscle): [ceil(min(T,50)/10)]
 Orange Tongue	Experience: +3
 Orc Chops	Muscle: +50
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
@@ -4750,7 +4750,7 @@ Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
 Punchy, Murdery	Weapon Damage Percent: +50
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
-Purple Reign	Mysticality: [ceil(min(T,50)/2)], Mysticality Experience: [ceil(min(T,50)/10)]
+Purple Reign	Mysticality: [ceil(min(T,50)/2)], Experience (Mysticality): [ceil(min(T,50)/10)]
 # Purple Tongue: Recover HP and MP after battle
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Putting the Orc in Porcine	Avatar: "smut orc pervert"
