@@ -895,6 +895,7 @@ user	trackLightsOut	false
 user	turtleBlessingTurns	0
 user	trapperOre	chrome ore
 user	twinPeakProgress	0
+user	uneffectWithHotTub	true
 user	usable1HWeapons	3
 user	usable1xAccs	1
 user	usable2HWeapons	1

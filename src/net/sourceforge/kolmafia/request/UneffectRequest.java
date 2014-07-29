@@ -625,6 +625,50 @@ public class UneffectRequest
 			removableEffects.add( "The Colors..." );
 			removableEffects.add( "\"The Disease\"" );
 		}
+		
+		// If it can be removed by Shake It Off, it can also be removed by Hot Tub
+		removableEffects = new HashSet<String>();
+		removeWithSkillMap.put( "Shake It Off", removableEffects );
+		removableEffects.add( "A Revolution in Your Mouth" );
+		removableEffects.add( "Affronted Decency" );
+		removableEffects.add( "All Covered In Whatsit" );
+		removableEffects.add( "Apathy" );
+		removableEffects.add( "Axe Wound" );
+		removableEffects.add( "Barking Dogs" );
+		removableEffects.add( "Beaten Up" );
+		removableEffects.add( "Beer in Your Shoes" );
+		removableEffects.add( "Bloody Hand" );
+		removableEffects.add( "Confused" );
+		removableEffects.add( "Consumed by Fear" );
+		removableEffects.add( "Corroded Weapon" );
+		removableEffects.add( "Cunctatitis" );
+		removableEffects.add( "Deadened palate" );
+		removableEffects.add( "Easily Embarrassed" );
+		removableEffects.add( "Embarrassed" );
+		removableEffects.add( "Existential Torment" );
+		removableEffects.add( "Flared Nostrils" );
+		removableEffects.add( "Grilled" );
+		removableEffects.add( "Half-Eaten Brain" );
+		removableEffects.add( "Hernia!" );
+		removableEffects.add( "Light-Headed" );
+		removableEffects.add( "Missing Fingers" );
+		removableEffects.add( "N-Spatial vision" );
+		removableEffects.add( "Natural 1" );
+		removableEffects.add( "Prestidigysfunction" );
+		removableEffects.add( "Rainy Soul Miasma" );
+		removableEffects.add( "Sleepy" );
+		removableEffects.add( "Socialismydia" );
+		removableEffects.add( "Strangulated" );
+		removableEffects.add( "Sunburned" );
+		removableEffects.add( "Tangled Up" );
+		removableEffects.add( "Temporary Blindness" );
+		removableEffects.add( "Tenuous Grip on Reality" );
+		removableEffects.add( "Tetanus" );
+		removableEffects.add( "Toad In The Hole" );
+		removableEffects.add( "Turned Into a Skeleton" );
+		removableEffects.add( "The Colors..." );
+		removableEffects.add( "\"The Disease\"" );
+		removableEffects.add( "Wussiness" );
 
 		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
@@ -716,6 +760,7 @@ public class UneffectRequest
 
 	private String getAction()
 	{
+		Boolean canRemoveWithHotTub = false;
 		String name = this.effect.getName();
 
 		// If there's an action defined in your mood, use it.
@@ -766,12 +811,28 @@ public class UneffectRequest
 
 			skillName = (String) removable.getKey();
 
+			// If Shake It Off can remove it, so can Hot Tub
+			if ( skillName.equals( "Shake It Off" ) )
+			{
+				canRemoveWithHotTub = true;
+			}
+
 			if ( KoLCharacter.hasSkill( skillName ) )
 			{
 				KoLmafia.updateDisplay( name + " will be removed by skill " + skillName + "..." );
 
 				return "cast " + skillName;
 			}
+		}
+
+		// Can we use Hot Tub to remove it, Hot Tubs available and allowed to use them ?
+		// In Hardcore or Ronin, antidotes are shorter of supply, so use Hot Tub in preference
+		if ( canRemoveWithHotTub && InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
+			!KoLCharacter.inBadMoon() && Preferences.getInteger( "_hotTubSoaks" ) < 5 &&
+			Preferences.getBoolean( "uneffectWithHotTub" ) && !KoLCharacter.canInteract() )
+		{
+			KoLmafia.updateDisplay( name + " will be removed by hot tub..." );
+			return "hottub";
 		}
 
 		// See if it can be removed by an item.
