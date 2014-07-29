@@ -3009,13 +3009,13 @@ public abstract class ChoiceManager
 				       new Option( "enter combat with mistress (once only)", 3 ),
 				       new Option( "Engorged Sausages and You or moxie", 4 ),
 				       new Option( "moxie substats (with ghost key)", 5 ),
-					   new Option( "skip", 6 )} ),
+				       new Option( "skip", 6 )} ),
 
 		// One Elegant Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
 			new Object[] { new Option( "Lady Spookyraven's finest gown (once only)", 1 ),
-				       new Option( "elegant nightstick", 2 ),
+				       new Option( "elegant nightstick", 2, "elegant nightstick" ),
 				       new Option( "stats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),
 
@@ -3107,17 +3107,17 @@ public abstract class ChoiceManager
 		// Choice 925 is The Blackest Smith
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure925", "Blacksmith",
-			new Object[] { new Option( "get black sword", 1 ),
-				       new Option( "get black shield", 2 ),
-				       new Option( "get black helmet", 3 ),
-				       new Option( "get black greaves", 4 ),
+			new Object[] { new Option( "get black sword", 1, "black sword" ),
+				       new Option( "get black shield", 2, "black shield" ),
+				       new Option( "get black helmet", 3, "black helmet" ),
+				       new Option( "get black greaves", 4, "black greaves" ),
 				       new Option( "return to main choice", 6 ) } ),
 
 		// Choice 926 is Be Mine
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure926", "Black Gold Mine",
-			new Object[] { new Option( "get black gold", 1 ),
-				       new Option( "get Texas tea", 2 ),
+			new Object[] { new Option( "get black gold", 1, "black gold" ),
+				       new Option( "get Texas tea", 2, "Texas tea" ),
 				       new Option( "get Black Lung effect", 3 ),
 				       new Option( "return to main choice", 6 ) } ),
 
@@ -3125,16 +3125,16 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure927", "Black Church",
 			new Object[] { new Option( "get 13 turns of Salsa Satanica or beaten up", 1 ),
-				       new Option( "get black kettle drum", 2 ),
+				       new Option( "get black kettle drum", 2, "black kettle drum" ),
 				       new Option( "return to main choice", 6 ) } ),
 
 		// Choice 928 is The Blackberry Cobbler
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure928", "Blackberry Cobbler",
-			new Object[] { new Option( "get blackberry slippers", 1 ),
-				       new Option( "get blackberry moccasins", 2 ),
-				       new Option( "get blackberry combat boots", 3 ),
-				       new Option( "get blackberry galoshes", 4 ),
+			new Object[] { new Option( "get blackberry slippers", 1, "blackberry slippers" ),
+				       new Option( "get blackberry moccasins", 2, "blackberry moccasins" ),
+				       new Option( "get blackberry combat boots", 3, "blackberry combat boots" ),
+				       new Option( "get blackberry galoshes", 4, "blackberry galoshes" ),
 				       new Option( "return to main choice", 6 ) } ),
 
 		// Choice 929 is Control Freak
@@ -3153,29 +3153,38 @@ public abstract class ChoiceManager
 		// Choice 940 is Let Your Fists Do The Walking
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure940", "white page",
-			new Object[] { "fight whitesnake", "fight white lion", "fight white chocolate golem", "fight white knight", "fight white elephant", "skip" } ),
+			new Object[] { "fight whitesnake",
+				       "fight white lion",
+				       "fight white chocolate golem",
+				       "fight white knight",
+				       "fight white elephant",
+				       "skip" } ),
 
 		// Choice 955 is Time Cave.  Period.
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure955", "Time Cave",
-			new Object[] { "fight Adventurer echo", "time capsule", "talk to caveman" } ),
+			new Object[] { "fight Adventurer echo",
+				       new Option( "time capsule", "time capsule" ),
+				       "talk to caveman" } ),
 
 		// Choice 973 is Shoe Repair Store
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure973", "Shoe Repair Store",
 			new Object[] { new Option( "visit shop", 1 ),
-						new Option( "exchange hooch for Chroners", 2 ),
-						new Option( "leave", 6 ) } ),
+				       new Option( "exchange hooch for Chroners", 2 ),
+				       new Option( "leave", 6 ) } ),
 
 		// Choice 974 is Around The World
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure974", "Bohemian Party",
-			new Object[] { "get up to 5 hooch", "leave" } ),
+			new Object[] { "get up to 5 hooch",
+				       "leave" } ),
 
 		// Choice 975 is Crazy Still After All These Years
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure975", "Moonshriner's Woods",
-			new Object[] { "swap 5 cocktail onions for 10 hooch", "leave" } ),
+			new Object[] { "swap 5 cocktail onions for 10 hooch",
+				       "leave" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
