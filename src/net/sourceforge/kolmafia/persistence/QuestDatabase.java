@@ -488,6 +488,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "hiddenHospitalProgress" );
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
 		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
+		Preferences.resetToDefault( "blackForestProgress" );
 		Preferences.resetToDefault( "maraisDarkUnlock" );
 		Preferences.resetToDefault( "maraisWildlifeUnlock" );
 		Preferences.resetToDefault( "maraisCorpseUnlock" );
