@@ -555,6 +555,7 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.BLACK, "step2" );
 			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step1" );
+			Preferences.setInteger( "blackForestProgress", 5 );
 		}
 
 		// If we see the link to the empty Black Market, Wu Tang has been defeated
@@ -1297,9 +1298,27 @@ public class QuestManager
 			{
 				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
 				QuestDatabase.setQuestProgress( Quest.BLACK, "step2" );
+				Preferences.setInteger( "blackForestProgress", 5 );
 			}
 			else
 			{
+				if ( responseText.contains( "find a row of blackberry bushes so thick" ) )
+				{
+					Preferences.setInteger( "blackForestProgress", 1 );
+				}
+				else if ( responseText.contains( "find a cozy black cottage nestled deep" ) )
+				{
+					Preferences.setInteger( "blackForestProgress", 2 );
+				}
+				else if ( responseText.contains( "spot a mineshaft sunk deep into the black depths" ) )
+				{
+					Preferences.setInteger( "blackForestProgress", 3 );
+				}
+				else if ( responseText.contains( "find a church that would be picturesque if it wasn't so sinister" ) )
+				{
+					Preferences.setInteger( "blackForestProgress", 4 );
+				}
+					
 				QuestDatabase.setQuestIfBetter( Quest.BLACK, "step1" );
 			}
 			break;
