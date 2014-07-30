@@ -3164,7 +3164,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure955", "Time Cave",
 			new Object[] { "fight Adventurer echo",
-				       new Option( "time capsule", "time capsule" ),
+				       new Option( "twitching time capsule", "twitching time capsule" ),
 				       "talk to caveman" } ),
 
 		// Choice 973 is Shoe Repair Store
