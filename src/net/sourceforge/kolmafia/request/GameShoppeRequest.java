@@ -222,6 +222,10 @@ public class GameShoppeRequest
 
 	public static String accessible()
 	{
+		if ( KoLCharacter.isHardcore() || KoLCharacter.inRonin() )
+		{
+			return "Characters in Hardcore or Ronin cannot redeem Game Shoppe credit.";
+		}
 		return null;
 	}
 

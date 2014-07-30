@@ -1714,6 +1714,7 @@ public class ResultProcessor
 
 		case ItemPool.WORSE_HOMES_GARDENS:
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step1" );
+			ConcoctionDatabase.setRefreshNeeded( false );
 			break;
 
 		case ItemPool.STEEL_LIVER:

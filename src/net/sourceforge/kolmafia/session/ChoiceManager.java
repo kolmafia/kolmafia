@@ -7575,6 +7575,7 @@ public abstract class ChoiceManager
 				// release other creatures.
 				Preferences.setBoolean( "bigBrotherRescued", true );
 				QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step2" );
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 			break;
 
