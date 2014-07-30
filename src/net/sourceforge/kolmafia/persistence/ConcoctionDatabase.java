@@ -1881,38 +1881,52 @@ public class ConcoctionDatabase
 
 		// KOLHS concoctions are "permitted" so that we can calculate
 		// how many items are allowed given available ingredients
+		// But only in KOLHS!
+		if ( KoLCharacter.inHighschool() )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CHEMCLASS );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.CHEMCLASS, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CHEMCLASS, 0 );
 
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CHEMCLASS );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.CHEMCLASS, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CHEMCLASS, 0 );
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.ARTCLASS );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.ARTCLASS, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.ARTCLASS, 0 );
 
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.ARTCLASS );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.ARTCLASS, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.ARTCLASS, 0 );
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SHOPCLASS );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.SHOPCLASS, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SHOPCLASS, 0 );
+		}
+		ConcoctionDatabase.EXCUSE.put(  CraftingType.CHEMCLASS, "You cannot make that as you are not at school." );
+		ConcoctionDatabase.EXCUSE.put(  CraftingType.ARTCLASS, "You cannot make that as you are not at school." );
+		ConcoctionDatabase.EXCUSE.put(  CraftingType.SHOPCLASS, "You cannot make that as you are not at school." );
 
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SHOPCLASS );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.SHOPCLASS, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SHOPCLASS, 0 );
-
-		// Making stuff with Beer Garden ingredients is always allowed
+		// Making stuff with Beer Garden ingredients needs
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.BEER );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.BEER, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BEER, 0 );
 
-		// Making stuff with the Junk Magazine is always allowed
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JUNK );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.JUNK, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JUNK, 0 );
+		// Making stuff with the Junk Magazine is requires the magazine
+		if ( InventoryManager.hasItem( ItemPool.WORSE_HOMES_GARDENS ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JUNK );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.JUNK, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JUNK, 0 );
+		}
+		ConcoctionDatabase.EXCUSE.put(  CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens." );		
 
 		// Making stuff with Winter Garden ingredients is always allowed
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.WINTER );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.WINTER, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.WINTER, 0 );
 
-		// Making stuff with Rumplestiltskin's Workshop is allowed when you have ingredients
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.RUMPLE );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.RUMPLE, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.RUMPLE, 0 );
+		// Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
+		if ( Preferences.getString( "grimstoneMaskPath" ).equals( "gnome" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.RUMPLE );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.RUMPLE, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.RUMPLE, 0 );
+		}
+		ConcoctionDatabase.EXCUSE.put(  CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that." );		
 
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
