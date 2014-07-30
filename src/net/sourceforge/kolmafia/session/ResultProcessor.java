@@ -1722,11 +1722,24 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.AZAZEL, QuestDatabase.FINISHED );
 			break;
 
+		case ItemPool.BATHYSPHERE:
+			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.WRIGGLING_FLYTRAP_PELLET:
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.BUBBLIN_STONE:
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step3" );
+			break;
+
 		case ItemPool.DAS_BOOT:
 		case ItemPool.FISHY_PIPE:
 		case ItemPool.FISH_MEAT_CRATE:
 		case ItemPool.DAMP_WALLET:
 			ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
+			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.PREGNANT_FLAMING_MUSHROOM:
@@ -1741,10 +1754,19 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
 			break;
 
+		case ItemPool.GRANDMAS_NOTE:
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step7" );
+			break;
+
 		case ItemPool.GRANDMAS_MAP:
 			ResultProcessor.processItem( ItemPool.GRANDMAS_NOTE, -1 );
 			ResultProcessor.processItem( ItemPool.FUCHSIA_YARN, -1 );
 			ResultProcessor.processItem( ItemPool.CHARTREUSE_YARN, -1 );
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step8" );
+			break;
+
+		case ItemPool.BLACK_GLASS:
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step12" );
 			break;
 
 		case ItemPool.SMALL_STONE_BLOCK:
@@ -2163,6 +2185,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.DAMP_OLD_BOOT:
+			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, "step1" );
 			Preferences.setBoolean( "dampOldBootPurchased", true );
 			break;
 

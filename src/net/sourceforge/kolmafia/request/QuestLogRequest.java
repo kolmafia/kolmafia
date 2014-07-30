@@ -330,6 +330,8 @@ public class QuestLogRequest
 			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step1" ) );
 		Preferences.setBoolean( "controlRoomUnlock", 
 			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step2" ) );
+		Preferences.setBoolean( "bigBrotherRescued", 
+			QuestDatabase.isQuestLaterThan( Quest.SEA_MONKEES, "step1" ) );
 	}
 
 	private static void handleQuestText( String response, int source )

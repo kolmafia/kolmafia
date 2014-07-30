@@ -64,6 +64,9 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -1871,14 +1874,17 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SUSHI, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SUSHI, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.SUSHI, "You cannot make sushi without a sushi-rolling mat." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.SUSHI, "You cannot make sushi without a sushi-rolling mat." );
 
 		// You can ask Grandma to make stuff if you have rescued her.
-		// We don't track that yet. Assume you have done so.
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.GRANDMA );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.GRANDMA, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.GRANDMA, 0 );
-
+		if ( QuestDatabase.isQuestLaterThan( Quest.SEA_MONKEES, "step8" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.GRANDMA );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.GRANDMA, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.GRANDMA, 0 );
+		}
+		ConcoctionDatabase.EXCUSE.put( CraftingType.GRANDMA, "You must rescue Grandma first." );
+		
 		// KOLHS concoctions are "permitted" so that we can calculate
 		// how many items are allowed given available ingredients
 		// But only in KOLHS!

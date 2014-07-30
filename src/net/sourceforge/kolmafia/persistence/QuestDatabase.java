@@ -100,6 +100,8 @@ public class QuestDatabase
 			SPOOKYRAVEN_BABIES( "questM17Babies" ),
 			SWAMP( "questM18Swamp" ),
 			HIPPY( "questM19Hippy" ),
+			SEA_OLD_GUY( "questS01OldGuy" ),
+			SEA_MONKEES( "questS02Monkees" ),
 			JIMMY_MUSHROOM( "questESlMushStash" ),
 			JIMMY_CHEESEBURGER( "questESlCheeseburger" ),
 			JIMMY_SALT( "questESlSalt" ),
@@ -495,6 +497,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "maraisWizardUnlock" );
 		Preferences.resetToDefault( "maraisBeaverUnlock" );
 		Preferences.resetToDefault( "maraisVillageUnlock" );
+		Preferences.resetToDefault( "corralUnlocked" );
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );
 	}

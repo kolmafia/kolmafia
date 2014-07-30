@@ -336,6 +336,7 @@ user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	counterScript
 user	concertVisited	false
+user	corralUnlocked	false
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
