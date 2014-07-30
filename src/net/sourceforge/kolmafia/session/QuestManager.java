@@ -800,6 +800,7 @@ public class QuestManager
 		else if ( location.contains( AdventurePool.MERKIN_OUTPOST_ID ) && responseText.contains( "Phew, that was a close one" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step9" );
+			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 		else if ( location.contains( AdventurePool.CALIGINOUS_ABYSS_ID) && responseText.contains( "I should get dinner on the table for the boys" ) )
 		{
