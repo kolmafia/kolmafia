@@ -134,6 +134,14 @@ public class QuestManager
 			{
 				handleAirportChange( location, responseText );
 			}
+			else if ( location.contains( AdventurePool.MARINARA_TRENCH_ID ) ||
+			          location.contains( AdventurePool.ANENOME_MINE_ID ) ||
+			          location.contains( AdventurePool.DIVE_BAR_ID ) ||
+			          location.contains( AdventurePool.MERKIN_OUTPOST_ID ) ||
+			          location.contains( AdventurePool.CALIGINOUS_ABYSS_ID ) )
+			{
+				handleSeaChange( location, responseText );
+			}
 			else if ( KoLCharacter.getInebriety() > 25 )
 			{
 				handleSneakyPeteChange( responseText );
@@ -199,6 +207,10 @@ public class QuestManager
 		{
 			handleManorFirstFloorChange( responseText );
 		}
+		else if ( location.startsWith( "monkeycastle" ) )
+		{
+			handleSeaChange( location, responseText );
+		}
 		else if ( location.startsWith( "pandamonium" ) )
 		{
 			// Quest starts the very instant you click on pandamonium.php
@@ -206,9 +218,9 @@ public class QuestManager
 		}
 		else if ( location.startsWith( "place.php" ) )
 		{
-			if ( location.contains( "whichplace=plains" ) )
+			if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
 			{
-				handlePlainsChange( responseText );
+				handleAirportChange( location, responseText );
 			}
 			else if ( location.contains( "whichplace=desertbeach" ) )
 			{
@@ -220,21 +232,6 @@ public class QuestManager
 				{
 					handleBeachChange( responseText );
 				}
-			}
-			else if ( location.contains( "whichplace=mclargehuge" ) )
-			{
-				if ( location.contains( "action=trappercabin" ) )
-				{
-					handleTrapperChange( responseText );
-				}
-				else if ( location.contains( "action=cloudypeak" ) )
-				{
-					handleMcLargehugeChange( responseText );
-				}
-			}
-			else if ( location.contains( "whichplace=orc_chasm" ) )
-			{
-				handleChasmChange( responseText );
 			}
 			else if ( location.contains( "whichplace=manor1" ) )
 			{
@@ -265,17 +262,36 @@ public class QuestManager
 			{
 				handleMaraisChange( responseText );
 			}
+			else if ( location.contains( "whichplace=mclargehuge" ) )
+			{
+				if ( location.contains( "action=trappercabin" ) )
+				{
+					handleTrapperChange( responseText );
+				}
+				else if ( location.contains( "action=cloudypeak" ) )
+				{
+					handleMcLargehugeChange( responseText );
+				}
+			}
+			else if ( location.contains( "whichplace=orc_chasm" ) )
+			{
+				handleChasmChange( responseText );
+			}
 			else if ( location.contains( "whichplace=palindome" ) )
 			{
 				handlePalindomeChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=plains" ) )
+			{
+				handlePlainsChange( responseText );
 			}
 			else if ( location.contains( "whichplace=pyramid" ) )
 			{
 				handlePyramidChange( location, responseText );
 			}
-			else if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
+			else if ( location.contains( "whichplace=sea_oldman" ) )
 			{
-				handleAirportChange( location, responseText );
+				handleSeaChange( location, responseText );
 			}
 			else if ( location.contains( "whichplace=zeppelin" ) )
 			{
@@ -288,6 +304,10 @@ public class QuestManager
 		else if ( location.startsWith( "questlog" ) )
 		{
 			QuestLogRequest.registerQuests( false, location, responseText );
+		}
+		else if ( location.startsWith( "seafloor" ) )
+		{
+			handleSeaChange( location, responseText );
 		}
 		else if ( location.startsWith( "showplayer" ) )
 		{
@@ -719,6 +739,123 @@ public class QuestManager
 			responseText.contains( "orcchasm/fire3.gif" ) )
 		{
 			Preferences.setInteger( "oilPeakProgress", 0 );
+		}
+	}
+
+	private static final void handleSeaChange( final String location, final String responseText )
+	{
+		if ( location.contains( "action=oldman_oldman" ) && responseText.contains( "have you found my boot yet?" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.STARTED );
+		}
+		// Little Brother
+		else if ( location.contains( "who=1" ) )
+		{
+			if ( responseText.contains( "wish my big brother was here" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step1" );
+			}
+			else if ( responseText.contains( "Wanna help me find Grandpa?" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step4" );
+			}
+			else if ( responseText.contains( "he's been actin' awful weird lately" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step10" );
+			}
+			else if ( responseText.contains( "Gonna need one of them seahorses" ) )
+			{
+				Preferences.setBoolean( "corralUnlocked", true );
+			}
+		}
+		// Big Brother
+		else if ( location.contains( "who=2" ) )
+		{
+			if ( responseText.contains( "I found this thing" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step11" );
+			}
+		}
+		// Grandpa
+		else if ( location.contains( "who=3" ) )
+		{
+			if ( responseText.contains( "bet those lousy Mer-kin up and kidnapped her" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step6" );
+			}
+		}
+		else if ( location.contains( AdventurePool.MARINARA_TRENCH_ID ) && responseText.contains( "Show me what you've found, Old Timer" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step5" );
+		}
+		else if ( location.contains( AdventurePool.ANENOME_MINE_ID ) && responseText.contains( "Sure, kid. I can teach you a thing or two" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step5" );
+		}
+		else if ( location.contains( AdventurePool.DIVE_BAR_ID ) && 
+				( responseText.contains( "What causes these things to form?" ) || responseText.contains( "what is that divine instrument?" ) ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step5" );
+		}
+		else if ( location.contains( AdventurePool.MERKIN_OUTPOST_ID ) && responseText.contains( "Phew, that was a close one" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step9" );
+		}
+		else if ( location.contains( AdventurePool.CALIGINOUS_ABYSS_ID) && responseText.contains( "I should get dinner on the table for the boys" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, QuestDatabase.FINISHED );
+		}
+		// Learn about quest progress if visiting sea floor
+		else if ( location.startsWith( "seafloor" ) )
+		{
+			if ( responseText.contains( "abyss" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step12" );
+			}
+			else if ( responseText.contains( "outpost" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step6" );
+			}
+			else if ( responseText.contains( "mine" ) && KoLCharacter.isMuscleClass() )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step4" );
+			}
+			else if ( responseText.contains( "trench" ) && KoLCharacter.isMysticalityClass() )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step4" );
+			}
+			else if ( responseText.contains( "divebar" ) && KoLCharacter.isMoxieClass() )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step4" );
+			}
+			else if( responseText.contains( "shipwreck" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step1" );
+			}
+			if ( responseText.contains( "corral" ) )
+			{
+				Preferences.setBoolean( "corralUnlocked", true );
+			}
+		}
+		// Learn about quest progress if visiting sea monkey castle
+		else if ( location.startsWith( "monkeycastle" ) )
+		{
+			if ( responseText.contains( "who=4" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, QuestDatabase.FINISHED );
+			}
+			else if ( responseText.contains( "whichshop=grandma" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step9" );
+			}
+			else if ( responseText.contains( "who=3" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step5" );
+			}
+			else if ( responseText.contains( "who=2" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step2" );
+			}
 		}
 	}
 

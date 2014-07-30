@@ -92,6 +92,10 @@ public class AdventurePool
 	public static final String JUNKYARD_TIRES_ID = "184";
 	public static final int JUNKYARD_CAR = 185;
 	public static final String JUNKYARD_CAR_ID = "185";
+	public static final String MARINARA_TRENCH_ID = "195";
+	public static final String ANENOME_MINE_ID = "196";
+	public static final String DIVE_BAR_ID = "197";
+	public static final String MERKIN_OUTPOST_ID = "198";
 	public static final int SEASIDE_MEGALOPOLIS = 206;
 	public static final int MERKIN_COLOSSEUM = 210;
 	public static final String MERKIN_COLOSSEUM_ID = "210";
@@ -134,6 +138,7 @@ public class AdventurePool
 	public static final String WILDLIFE_SANCTUARRRRRGH_ID = "334";
 	public static final String SWAMP_BEAVER_TERRITORY_ID = "335";
 	public static final String WEIRD_SWAMP_VILLAGE_ID = "336";
+	public static final String CALIGINOUS_ABYSS_ID = "337";
 	public static final int HIDDEN_APARTMENT = 341;
 	public static final String HIDDEN_APARTMENT_ID = "341";
 	public static final int HIDDEN_HOSPITAL = 342;
