@@ -1127,7 +1127,9 @@ public class UseItemRequest
 
 		case ItemPool.MACGUFFIN_DIARY:
 			// Make it a RelayRequest since we don't want a charpane refresh
-			RequestThread.postRequest( new RelayRequest( "diary.php?textversion=1" ) );
+			RelayRequest request = new RelayRequest( false );
+			request.constructURLString( "diary.php?textversion=1" );
+			RequestThread.postRequest( request );
 			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step2" );
 			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.FINISHED );
 			QuestDatabase.setQuestIfBetter( Quest.DESERT, QuestDatabase.STARTED );
