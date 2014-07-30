@@ -91,10 +91,8 @@ black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep
 black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
 blue traffic cone	Moxie: +3, Hot Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 bonedanna	Spooky Resistance: +3, Weapon Damage: +20, Familiar Effect: "atk, cap 30"
-# Boris's Helm: Regenerate MP based on Level
-Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Familiar Weight: +5, Free Pull, Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
-# Boris's Helm (askew): Regenerate MP based on Level
-Boris's Helm (askew)	Initiative: +25, Monster Level: +15, Weapon Damage Percent: +50, Familiar Weight: +5, Free Pull, Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
+Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Familiar Weight: +5, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Free Pull, Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
+Boris's Helm (askew)	Initiative: +25, Monster Level: +15, Weapon Damage Percent: +50, Familiar Weight: +5, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Free Pull, Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
 bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
 bowler	Muscle: +5, Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
 # brainwave-controlled unicorn horn: Enables Friendship.  And Goring.
