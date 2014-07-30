@@ -56,28 +56,28 @@ public class FloristRequest
 		Pattern.compile( "<tr><td>([^>]*?)</td><td width.*?plant(\\d+)\\.gif.*?plant(\\d+)?\\.gif.*?plant(\\d+)?\\.gif.*?" );
 
 	private static final Pattern LOCATION_PATTERN = Pattern.compile( "Ah, <b>(.*)</b>!" );
-	public static String getLocation( final String responseText )
+	private static String getLocation( final String responseText )
 	{
 		Matcher matcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
-		return matcher.find() ? matcher.group( 1 ).toLowerCase() : null;
+		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
-	public static int getOption( final String urlString )
+	private static int getOption( final String urlString )
 	{
 		Matcher matcher = FloristRequest.OPTION_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	private static final Pattern PLANT_PATTERN = Pattern.compile( "plant=(\\d+)" );
-	public static int getPlant( final String urlString )
+	private static int getPlant( final String urlString )
 	{
 		Matcher matcher = FloristRequest.PLANT_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	private static final Pattern DIG_PATTERN = Pattern.compile( "plnti=(\\d)" );
-	public static int getDigIndex( final String urlString )
+	private static int getDigIndex( final String urlString )
 	{
 		Matcher matcher = FloristRequest.DIG_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
