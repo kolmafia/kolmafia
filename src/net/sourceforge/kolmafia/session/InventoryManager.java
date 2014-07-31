@@ -820,11 +820,8 @@ public abstract class InventoryManager
 
 			// If buying from the mall will leave the item in storage, use only NPCs
 			boolean onlyNPC = !KoLCharacter.canInteract();
-			ArrayList<PurchaseRequest> results = 
-				onlyNPC ?
-				StoreManager.searchNPCs( item ) :
-				StoreManager.searchMall( item );
-			KoLmafia.makePurchases( results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
+			ArrayList<PurchaseRequest> results = onlyNPC ? StoreManager.searchNPCs( item ) : StoreManager.searchMall( item );
+			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			if ( !onlyNPC )
 			{
 				StoreManager.updateMallPrice( item, results );
@@ -969,9 +966,8 @@ public abstract class InventoryManager
 				return "buy";
 			}
 
-			ArrayList< ? > results = StoreManager.searchMall( item );
-			KoLmafia.makePurchases(
-				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
+			ArrayList<PurchaseRequest> results = StoreManager.searchMall( item );
+			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

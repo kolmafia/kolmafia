@@ -69,6 +69,7 @@ package net.java.dev.spellcast.utilities;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,6 +86,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages that can either be displayed or serialized in
@@ -217,6 +219,21 @@ public class ChatBuffer
 		}
 
 		this.content.setLength( 0 );
+	}
+
+	private static void printHTML( final HTMLDocument doc )
+	{
+		HTMLEditorKit kit = new HTMLEditorKit();
+		StringWriter writer = new StringWriter();
+		try
+		{
+			kit.write(writer, doc, 0, doc.getLength());
+		}
+		catch ( Exception e )
+		{
+		}
+		String s = writer.toString();
+		System.out.println( "HTML = \"" + s + "\"" );
 	}
 
 	/**
@@ -511,6 +528,8 @@ public class ChatBuffer
 
 					e.printStackTrace();
 				}
+
+				// ChatBuffer.printHTML( currentHTML );
 			}
 		}
 	}
