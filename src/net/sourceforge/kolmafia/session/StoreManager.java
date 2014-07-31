@@ -436,10 +436,75 @@ public abstract class StoreManager
 	 * Utility method used to search the mall for a specific item.
 	 */
 
+	private static final ArrayList<PurchaseRequest> getSavedSearch( Integer id, final int needed )
+	{
+		// Remove search results that are too old
+		StoreManager.flushCache();
+
+		// See if we have a saved search for this id
+		ArrayList<PurchaseRequest> results = StoreManager.mallSearches.get( id );
+
+		if ( results == null )
+		{
+			// Nothing saved
+			return null;
+		}
+
+		if ( results.size() == 0 )
+		{
+			// Nothing found last time we looked
+			return null;
+		}
+
+		// If we don't care how many are available, any saved search is
+		// good enough
+		if ( needed == 0 )
+		{
+			return results;
+		}
+
+		// See if the saved search will let you purchase enough of the item
+		int available = 0;
+
+		for ( PurchaseRequest result : results )
+		{
+			// If we can't use this request, ignore it
+			if ( !result.canPurchase() )
+			{
+				continue;
+			}
+
+			int count = result.getQuantity();
+
+			// If there is an unlimited number of this item
+			// available (because this is an NPC store), that is
+			// enough for anybody
+			if ( count == PurchaseRequest.MAX_QUANTITY )
+			{
+				return results;
+			}
+
+			// Accumulate available count
+			available += count;
+
+			// If we have found enough available items, this search
+			// is good enough
+			if ( available >= needed )
+			{
+				return results;
+			}
+		}
+
+		// Not enough
+		return null;
+	}
+
 	public static final ArrayList<PurchaseRequest> searchMall( final AdventureResult item )
 	{
 		int itemId = item.getItemId();
-		if ( itemId <= 0 )
+		int needed = item.getCount();
+
+		if ( itemId <= 0 || needed <= 0 )
 		{
 			// This should not happen.
 			return new ArrayList<PurchaseRequest>();
@@ -448,18 +513,14 @@ public abstract class StoreManager
 		Integer id = IntegerPool.get( itemId );
 		String name = ItemDatabase.getItemDataName( id );
 
-		StoreManager.flushCache();
-
-		ArrayList<PurchaseRequest> results = StoreManager.mallSearches.get( id );
-		if ( results != null && results.size() > 0 )
+		ArrayList<PurchaseRequest> results = StoreManager.getSavedSearch( id, needed );
+		if ( results != null )
 		{
 			KoLmafia.updateDisplay( "Using cached search results for " + name + "..." );
 			return results;
 		}
 
-		results = new ArrayList<PurchaseRequest>();
-
-		StoreManager.searchMall( "\"" + name + "\"", results, 10, false );
+		results = StoreManager.searchMall( "\"" + name + "\"", 0 );
 
 		// Flush CoinMasterPurchaseRequests
 		Iterator<PurchaseRequest> it = results.iterator();
@@ -482,6 +543,7 @@ public abstract class StoreManager
 	public static final ArrayList<PurchaseRequest> searchNPCs( final AdventureResult item )
 	{
 		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
+
 		int itemId = item.getItemId();
 		if ( itemId <= 0 )
 		{
@@ -504,7 +566,26 @@ public abstract class StoreManager
 	 * Utility method used to search the mall for a search string
 	 */
 
-	public static final void searchMall( final String searchString, final List resultSummary, final int maximumResults, boolean toString )
+	public static final ArrayList<PurchaseRequest> searchMall( final String searchString, final int maximumResults )
+	{
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
+
+		if ( searchString == null )
+		{
+			return results;
+		}
+
+		// Format the search string
+		String formatted = MallSearchRequest.getSearchString( searchString );
+
+		// Issue the search request
+		MallSearchRequest request = new MallSearchRequest( formatted, maximumResults, results, true );
+		RequestThread.postRequest( request );
+
+		return results;
+	}
+
+	public static final void searchMall( final String searchString, final int maximumResults, final List resultSummary )
 	{
 		resultSummary.clear();
 
@@ -513,24 +594,8 @@ public abstract class StoreManager
 			return;
 		}
 
-		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
-
-		// With the search string properly formatted, issue
-		// the search request.
-
-		RequestThread.postRequest( new MallSearchRequest(
-			MallSearchRequest.getSearchString( searchString ),
-			maximumResults, results, true ) );
-
-		if ( !toString )
-		{
-			resultSummary.addAll( results );
-			return;
-		}
-
-		PurchaseRequest[] resultsArray = new PurchaseRequest[ results.size() ];
-		results.toArray( resultsArray );
-
+		ArrayList<PurchaseRequest> results = StoreManager.searchMall( searchString, maximumResults );
+		PurchaseRequest[] resultsArray = results.toArray( new PurchaseRequest[0] );
 		TreeMap<Integer, Integer> prices = new TreeMap<Integer, Integer>();
 
 		for ( int i = 0; i < resultsArray.length; ++i )
@@ -611,7 +676,7 @@ public abstract class StoreManager
 		}
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
-			ArrayList results = StoreManager.searchMall( item );
+			ArrayList<PurchaseRequest> results = StoreManager.searchMall( item );
 			StoreManager.updateMallPrice( item, results );
 		}
 		return StoreManager.mallPrices.get( item.getItemId() );

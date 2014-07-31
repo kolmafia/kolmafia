@@ -63,7 +63,7 @@ public class SearchMallCommand
 			desiredLimit = StringUtilities.parseInt( splitup[ 1 ] );
 		}
 
-		StoreManager.searchMall( parameters, results, desiredLimit, true );
+		StoreManager.searchMall( parameters, desiredLimit, results );
 		RequestLogger.printList( results );
 	}
 }

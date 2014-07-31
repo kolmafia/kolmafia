@@ -217,6 +217,18 @@ public class ShowDescriptionList
 		return result;
 	}
 
+	public PurchaseRequest[] getSelectedPurchases()
+	{
+		// Obviously, this only works if the model contains PurchaseRequests
+		Object[] values = this.getSelectedValues();
+		PurchaseRequest[] result = new PurchaseRequest[ values.length ];
+		for ( int i = 0; i < values.length; ++i )
+		{
+			result[ i ] = (PurchaseRequest)values[ i ];
+		}
+		return result;
+	}
+
 	/**
 	 * Shows and hides the applicable context menu item. Actually all it does is show it -- the VM will handle hiding
 	 * it.

@@ -110,11 +110,7 @@ public class MallSearchRequest
 		this.addFormField( "max_price", "0" );
 		this.addFormField( "sortresultsby", "price" );
 		this.addFormField( "justitems", "0" );
-
-		if ( cheapestCount > 0 )
-		{
-			this.addFormField( "x_cheapest", String.valueOf( cheapestCount ) );
-		}
+		this.addFormField( "x_cheapest", String.valueOf( cheapestCount ) );
 
 		this.results = results;
 		this.retainAll = retainAll;

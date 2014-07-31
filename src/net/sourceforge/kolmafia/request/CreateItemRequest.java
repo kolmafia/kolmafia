@@ -541,8 +541,8 @@ public class CreateItemRequest
 			// It's always cheaper to buy wads of dough, so just do that.
 			// Using makePurchases directly because retrieveItem does not handle this recursion gracefully.
 			AdventureResult dough = ItemPool.get( ItemPool.DOUGH, this.quantityNeeded );
-			ArrayList results = StoreManager.searchMall( dough );
-			KoLmafia.makePurchases( results, results.toArray(), dough.getCount(), false, 50 );
+			ArrayList<PurchaseRequest> results = StoreManager.searchMall( dough );
+			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), dough.getCount(), false, 50 );
 		}
 
 		// If we don't have the correct tool, and the person wishes to

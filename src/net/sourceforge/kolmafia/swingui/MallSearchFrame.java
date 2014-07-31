@@ -243,8 +243,7 @@ public class MallSearchFrame
 
 			MallSearchFrame.this.currentlySearching = true;
 
-			MallSearchFrame.searchMall( new MallSearchRequest(
-				searchText, searchCount, MallSearchFrame.results, false ) );
+			MallSearchFrame.searchMall( new MallSearchRequest( searchText, searchCount, MallSearchFrame.results, false ) );
 
 			MallSearchFrame.this.currentlySearching = false;
 
@@ -266,7 +265,7 @@ public class MallSearchFrame
 				return;
 			}
 
-			Object[] purchases = MallSearchFrame.this.resultsList.getSelectedValues();
+			PurchaseRequest[] purchases = MallSearchFrame.this.resultsList.getSelectedPurchases();
 			if ( purchases == null || purchases.length == 0 )
 			{
 				this.setStatusMessage( "Please select a store from which to purchase." );
@@ -277,7 +276,7 @@ public class MallSearchFrame
 			for ( int i = 0; i < purchases.length; ++i )
 			{
 				defaultPurchases +=
-					( (PurchaseRequest) purchases[ i ] ).getQuantity() == PurchaseRequest.MAX_QUANTITY ? PurchaseRequest.MAX_QUANTITY : ( (PurchaseRequest) purchases[ i ] ).getLimit();
+					purchases[ i ].getQuantity() == PurchaseRequest.MAX_QUANTITY ? PurchaseRequest.MAX_QUANTITY :  purchases[ i ].getLimit();
 			}
 
 			int count = defaultPurchases;

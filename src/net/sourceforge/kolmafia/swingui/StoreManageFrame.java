@@ -684,7 +684,7 @@ public class StoreManageFrame
 			}
 
 			StoreManageFrame.searchLabel.setText( searchName );
-			StoreManager.searchMall( "\"" + searchName + "\"", StoreManageFrame.priceSummary, 10, true );
+			StoreManager.searchMall( "\"" + searchName + "\"", 10, StoreManageFrame.priceSummary );
 
 			KoLmafia.updateDisplay( "Price analysis complete." );
 		}

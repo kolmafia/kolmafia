@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
+import net.sourceforge.kolmafia.request.PurchaseRequest;
+
 import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -68,9 +70,9 @@ public class BuyCommand
 	{
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
-		for ( int i = 0; i < itemNames.length; ++i )
+		for ( String itemName : itemNames )
 		{
-			String[] pieces = itemNames[ i ].split( "@" );
+			String[] pieces = itemName.split( "@" );
 			AdventureResult match = ItemFinder.getFirstMatchingItem( pieces[ 0 ] );
 			if ( match == null )
 			{
@@ -78,8 +80,8 @@ public class BuyCommand
 			}
 			int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt( pieces[ 1 ] );
 
-			ArrayList results = StoreManager.searchMall( match );
-			KoLmafia.makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
+			ArrayList<PurchaseRequest> results = StoreManager.searchMall( match );
+			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), match.getCount(), false, priceLimit );
 			StoreManager.updateMallPrice( match, results );
 		}
 	}
