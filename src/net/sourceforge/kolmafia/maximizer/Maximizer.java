@@ -430,6 +430,7 @@ public class Maximizer
 							}
 							// Have we had all three?
 							usesRemaining = 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" );
+							price = ClanLoungeRequest.speakeasyNameToCost( iName );
 							if ( usesRemaining <= 0 )
 							{
 								continue;
@@ -913,6 +914,11 @@ public class Maximizer
 						continue;
 					}
 					itemsRemaining = item.getCount( KoLConstants.inventory );
+					// In Hardcore/Ronin we are limted to what we can create or have
+					if ( !KoLCharacter.canInteract() )
+					{
+						usesRemaining = Math.min( usesRemaining, itemsRemaining + itemsCreatable );
+					}
 				}
 
 				text = text + " (";
@@ -935,14 +941,9 @@ public class Maximizer
 				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 				if ( Preferences.getBoolean( "verboseMaximizer" ) )
 				{
-					// In Hardcore/Ronin we are limted to what we can create or have
-					if ( !KoLCharacter.canInteract() )
-					{
-						usesRemaining = Math.min( usesRemaining, itemsRemaining + itemsCreatable );
-					}
 					boolean show = duration > 0 ||
 									( usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE ) ||
-									itemsRemaining > 0;
+									itemsRemaining + itemsCreatable > 0;
 					int count = 0;
 					if ( show )
 					{
