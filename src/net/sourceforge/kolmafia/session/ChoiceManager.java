@@ -2996,8 +2996,8 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure878", "One Ornate Nightstand",
 			new Object[] { new Option( "small meat boost", 1 ),
 				       new Option( "mysticality substats", 2 ),
-				       new Option( "Lord Spookyraven's spectacles", 3 ),
-				       new Option( "disposable instant camera", 4 ),
+				       new Option( "Lord Spookyraven's spectacles", 3, "Lord Spookyraven's spectacles" ),
+				       new Option( "disposable instant camera", 4, "disposable instant camera" ),
 				       new Option( "mysticality substats (with ghost key)", 5 ),
 				       new Option( "skip", 6 ) } ),
 
@@ -3005,7 +3005,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure879", "One Rustic Nightstand",
 			new Object[] { new Option( "moxie", 1 ),
-				       new Option( "empty drawer", 2 ),
+				       new Option( "grouchy restless spirit or empty drawer", 2, "grouchy restless spirit" ),
 				       new Option( "enter combat with mistress (once only)", 3 ),
 				       new Option( "Engorged Sausages and You or moxie", 4 ),
 				       new Option( "moxie substats (with ghost key)", 5 ),
@@ -3014,7 +3014,7 @@ public abstract class ChoiceManager
 		// One Elegant Nightstand
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure880", "One Elegant Nightstand",
-			new Object[] { new Option( "Lady Spookyraven's finest gown (once only)", 1 ),
+			new Object[] { new Option( "Lady Spookyraven's finest gown (once only)", 1, "Lady Spookyraven's finest gown" ),
 				       new Option( "elegant nightstick", 2, "elegant nightstick" ),
 				       new Option( "stats (with ghost key)", 3 ),
 				       new Option( "skip", 6 ) } ),

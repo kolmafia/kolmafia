@@ -5722,6 +5722,7 @@ carrot cake	Effect: "Pla-see-bo", Effect Duration: 10
 centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
 chaos popcorn	Effect Duration: 5
 cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
+chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
@@ -5732,6 +5733,7 @@ cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
 D roll	Effect: "On a Roll", Effect Duration: 20
+devil dog	Effect: "Devil Inside", Effect Duration: 30
 dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 Dreadsylvanian cold pocket	Effect: "Dreadful Chill", Effect Duration: 200
 Dreadsylvanian hot pocket	Effect: "Dreadful Heat", Effect Duration: 200
@@ -5762,6 +5764,7 @@ foie gras	Effect: "Beaten Up", Effect Duration: 1
 forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
 frozen danish	Effect: "Danish Cunning", Effect Duration: 30
 fudgesicle	Effect: "Fudge Headache", Effect Duration: 30
+ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 giant green gummi bear	Effect: "Gummibrain", Effect Duration: 40
 giant red gummi bear	Effect: "Gummiheart", Effect Duration: 40
 giant yellow gummi bear	Effect: "Gummiskin", Effect Duration: 40
@@ -5783,6 +5786,7 @@ irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
 jawbruiser	Effect: "Sugar Rush", Effect Duration: 5
 jive turkey leg	Effect: "Hollow Inside", Effect Duration: 50
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
+junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 king cookie	Effect: "The Royal We", Effect Duration: 30
 knight cookie	Effect: "Knightlife", Effect Duration: 30
 knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
@@ -5801,6 +5805,7 @@ natto pocky	Effect: "Ninja, Please", Effect Duration: 30
 nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 old chum	Effect: "Fishy", Effect Duration: 5
+one with everything	Effect: "Inner Dog", Effect Duration: 50
 packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 pawn cookie	Effect: "Pwnd", Effect Duration: 30
 pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
@@ -5815,6 +5820,7 @@ red drunki-bear	Effect: "Gummiheart", Effect Duration: 80
 roasted marshmallow	Effect: "Mallowed Out", Effect Duration: 3
 rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 rook cookie	Effect: "Towering Strength", Effect Duration: 30
+savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
@@ -5823,6 +5829,7 @@ Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 1
 sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 slick fish meat	Effect: "Fishy", Effect Duration: 5
 slimy sweetbreads	Effect: "Grimace", Effect Duration: 20
+sly dog	Effect: "Top Dog", Effect Duration: 50
 smashed danish	Effect: "Danish Cunning", Effect Duration: 30
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10
@@ -5848,10 +5855,12 @@ turtle soup	Effect: "A Little Bit Evil"
 ultrafondue	Effect: "Fondid", Effect Duration: 30
 unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
 Ur-Donut	Effect: "Sugar Rush", Effect Duration: 10
+video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
 warbear thermoregulator bread	Effect: "Superheated Guts", Effect Duration: 40
 warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
 wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
+wet dog	Effect: "Hangdog", Effect Duration: 30
 wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
@@ -5867,6 +5876,7 @@ Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
 Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect Duration: 30
+Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Beignet Milgranet	Effect: "Sugar Rush", Effect Duration: 100
 berry-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Blood Light	Effect: "Bloody-minded", Effect Duration: 30
@@ -5956,6 +5966,7 @@ Herring Wallbanger	Effect: "Fishy", Effect Duration: 10
 herringcello	Effect: "Sugar Rush", Effect Duration: 20
 Herringtini	Effect: "Fishy", Effect Duration: 15
 honey mead	Effect: "Sugar Rush", Effect Duration: 5
+Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Jackhammer	Effect: "Mortarfied", Effect Duration: 10
@@ -6009,6 +6020,7 @@ slug of shochu	Effect: "Brined Liver", Effect Duration: 10
 slug of vodka	Effect: "Brined Liver", Effect Duration: 10
 smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
 snakebite	Effect: "Sweet Tooth", Effect Duration: 30
+Sockdollager	Effect: "In a Lather", Effect Duration: 25
 soy cordial	Effect: "Electrolyte Fantastic", Effect Duration: 2
 soyburger juice	Effect: "Oversaturated Palate", Effect Duration: 1
 Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
