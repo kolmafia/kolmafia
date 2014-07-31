@@ -914,11 +914,6 @@ public class Maximizer
 						continue;
 					}
 					itemsRemaining = item.getCount( KoLConstants.inventory );
-					// In Hardcore/Ronin we are limted to what we can create or have
-					if ( !KoLCharacter.canInteract() )
-					{
-						usesRemaining = Math.min( usesRemaining, itemsRemaining + itemsCreatable );
-					}
 				}
 
 				text = text + " (";
