@@ -128,6 +128,7 @@ public class UseSkillRequest
 		"Summon Tasteful Items",
 		"Summon Alice's Army Cards",
 		"Summon Geeky Gifts",
+		"Summon Confiscated Things",
 	};
 
 	public static String lastUpdate = "";
