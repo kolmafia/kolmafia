@@ -707,9 +707,10 @@ public class ItemDatabase
 
 	private static final void saveCanonicalNames()
 	{
-		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
-		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
-		Arrays.sort( ItemDatabase.canonicalNames );
+		String[] newArray = new String[ ItemDatabase.itemIdByName.size() ];
+		ItemDatabase.itemIdByName.keySet().toArray( newArray );
+		Arrays.sort( newArray );
+		ItemDatabase.canonicalNames = newArray;
 	}
 
 	private static final void saveConsumptionValues( String[] data, Map<String, Integer> map )
@@ -1561,7 +1562,7 @@ public class ItemDatabase
 		// that case, prefer complete versions containing the substring
 		// over truncated versions which are plurals.
 
-		List possibilities = StringUtilities.getMatchingNames( ItemDatabase.canonicalNames, canonicalName );
+		List possibilities = ItemDatabase.getMatchingNames( canonicalName );
 		if ( possibilities.size() == 1 )
 		{
 			return (String) possibilities.get( 0 );
