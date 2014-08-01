@@ -240,12 +240,10 @@ public abstract class ChatManager
 
 	public static final boolean isValidChatReplyRecipient( String playerName )
 	{
-		if ( validChatReplyRecipients.contains( playerName ) )
+		synchronized ( ChatManager.validChatReplyRecipients )
 		{
-			return true;
+			return validChatReplyRecipients.contains( playerName );
 		}
-
-		return false;
 	}
 
 	/**
@@ -580,6 +578,11 @@ public abstract class ChatManager
 			return;
 		}
 
+		ChatManager.invokeChatScript( sender, content, channel );
+	}
+
+	public static final void invokeChatScript( final String sender, final String content, final String channel )
+	{
 		String scriptName = Preferences.getString( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 		{
@@ -593,8 +596,8 @@ public abstract class ChatManager
 			return;
 		}
 
+		String name = scriptFiles.get( 0 ).getName();
 		int parameterCount = interpreter.getParser().getMainMethod().getVariableReferences().size();
-
 		String[] scriptParameters;
 
 		if ( parameterCount == 3 )
@@ -606,11 +609,7 @@ public abstract class ChatManager
 				channel
 			};
 		}
-		else if ( !"".equals( channel ) )
-		{
-			return;
-		}
-		else
+		else if ( channel != null && !channel.equals( "" ) )
 		{
 			scriptParameters = new String[]
 			{
@@ -618,17 +617,27 @@ public abstract class ChatManager
 				content
 			};
 		}
+		else
+		{
+			return;
+		}
 
-		ChatManager.validChatReplyRecipients.add( sender );
+		synchronized ( ChatManager.validChatReplyRecipients )
+		{
+			ChatManager.validChatReplyRecipients.add( sender );
+		}
 
-		File scriptFile = scriptFiles.get( 0 );
-		KoLmafiaASH.logScriptExecution( "Starting chat script: ", scriptFile.getName(), interpreter );
-		interpreter.execute( "main", scriptParameters );
-		KoLmafiaASH.logScriptExecution( "Finished chat script: ", scriptFile.getName(), interpreter );
+		synchronized ( interpreter )
+		{
+			KoLmafiaASH.logScriptExecution( "Starting chat script: ", name, interpreter );
+			interpreter.execute( "main", scriptParameters );
+			KoLmafiaASH.logScriptExecution( "Finished chat script: ", name, interpreter );
+		}
 
-		ChatManager.validChatReplyRecipients.remove( sender );
-
-		return;
+		synchronized ( ChatManager.validChatReplyRecipients )
+		{
+			ChatManager.validChatReplyRecipients.remove( sender );
+		}
 	}
 
 	public static final void broadcastEvent( final EventMessage message )
