@@ -266,6 +266,9 @@ public class SkillBuffFrame
 				"Summon Geeky Gifts", "_grimoireGeekySummons", "integer", "1",
 			},
 			{
+				"Summon Confiscated Things", "_grimoireConfiscatorSummons", "integer", "1",
+			},
+			{
 				"Demand Sandwich", "_demandSandwich", "integer", "3",
 			},
 			{
