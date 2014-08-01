@@ -360,6 +360,10 @@ public class UseSkillRequest
 			this.addFormField( "preaction", "summontaffy" );
 			break;
 
+		case SkillPool.CONFISCATOR:
+			this.addFormField( "preaction", "summonconfiscators" );
+			break;
+
 		default:
 			this.addFormField( "action", "Skillz." );
 			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
@@ -553,6 +557,10 @@ public class UseSkillRequest
 
 		case SkillPool.GEEKY:
 			maximumCast = Math.max( 1 - Preferences.getInteger( "_grimoireGeekySummons" ), 0 );
+			break;
+
+		case SkillPool.CONFISCATOR:
+			maximumCast = Math.max( 1 - Preferences.getInteger( "_grimoireConfiscatorSummons" ), 0 );
 			break;
 
 		// You can summon Crimbo candy once a day
@@ -1295,7 +1303,7 @@ public class UseSkillRequest
 		for ( int i = 0; i < options.length; ++i )
 		{
 			BuffTool tool = options[ i ];
-			if ( !tool.hasItem( false ) || ( tool.isClassLimited() && !(KoLCharacter.getClassType() == tool.getClassType()) ) )
+			if ( !tool.hasItem( false ) || ( tool.isClassLimited() && !( KoLCharacter.getClassType() == tool.getClassType() ) ) )
 			{
 				continue;
 			}
@@ -1891,6 +1899,10 @@ public class UseSkillRequest
 			Preferences.increment( "_grimoireGeekySummons", 1 );
 			break;
 
+		case SkillPool.CONFISCATOR:
+			Preferences.increment( "_grimoireConfiscatorSummons", 1 );
+			break;
+
 		case SkillPool.CRIMBO_CANDY:
 			Preferences.increment( "_candySummons", 1 );
 			break;
@@ -2096,6 +2108,11 @@ public class UseSkillRequest
 		if ( action.equals( "taffy" ) )
 		{
 			return SkillPool.TAFFY;
+		}
+
+		if ( action.equals( "summonconfiscators" ) )
+		{
+			return SkillPool.CONFISCATOR;
 		}
 
 		return -1;
