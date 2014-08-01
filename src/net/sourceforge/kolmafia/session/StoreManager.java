@@ -504,7 +504,7 @@ public abstract class StoreManager
 		int itemId = item.getItemId();
 		int needed = item.getCount();
 
-		if ( itemId <= 0 || needed <= 0 )
+		if ( itemId <= 0 )
 		{
 			// This should not happen.
 			return new ArrayList<PurchaseRequest>();
@@ -628,7 +628,7 @@ public abstract class StoreManager
 		}
 	}
 
-	public static final void maybeUpdateMallPrice( final AdventureResult item, final ArrayList results )
+	public static final void maybeUpdateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
 	{
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
@@ -636,7 +636,7 @@ public abstract class StoreManager
 		}
 	}
 
-	public static final void updateMallPrice( final AdventureResult item, final ArrayList results )
+	public static final void updateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
 	{
 		if ( item.getItemId() < 1 )
 		{
@@ -644,10 +644,8 @@ public abstract class StoreManager
 		}
 		int price = -1;
 		int qty = 5;
-		Iterator i = results.iterator();
-		while ( i.hasNext() )
+		for ( PurchaseRequest req: results )
 		{
-			PurchaseRequest req = (PurchaseRequest) i.next();
 			if ( req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat() )
 			{
 				continue;
@@ -676,7 +674,7 @@ public abstract class StoreManager
 		}
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
-			ArrayList<PurchaseRequest> results = StoreManager.searchMall( item );
+			ArrayList<PurchaseRequest> results = StoreManager.searchMall( item.getInstance( 5 ) );
 			StoreManager.updateMallPrice( item, results );
 		}
 		return StoreManager.mallPrices.get( item.getItemId() );
