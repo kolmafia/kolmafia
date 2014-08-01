@@ -1012,6 +1012,7 @@ user	_gothKidCharge	0
 user	_grimBuff	false
 user	_grimFairyTaleDrops	0
 user	_grimFairyTaleDropsCrown	0
+user	_grimoireConfiscatorSummons	0
 user	_grimoireGeekySummons	0
 user	_grimstoneMaskDrops	0
 user	_grimstoneMaskDropsCrown	0

@@ -2760,6 +2760,7 @@ public class UseItemRequest
 		case ItemPool.TASTEFUL_BOOK:
 		case ItemPool.CARD_GAME_BOOK:
 		case ItemPool.GEEKY_BOOK:
+		case ItemPool.CONFISCATOR_BOOK:
 			// Librams
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
@@ -4769,6 +4770,8 @@ public class UseItemRequest
 			return "Summon Alice's Army Cards";
 		case ItemPool.GEEKY_BOOK:
 			return "Summon Geeky Gifts";
+		case ItemPool.CONFISCATOR_BOOK:
+			return "Summon Confiscated Things";
 		case ItemPool.CANDY_BOOK:
 			return "Summon Candy Hearts";
 		case ItemPool.DIVINE_BOOK:

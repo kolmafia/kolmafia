@@ -6936,6 +6936,7 @@ temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
 tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 that gum you like	Effect: "Sugar Rush", Effect Duration: 5
+The Confiscator's Grimoire	Free Pull
 The Groose in the Hoose	Free Pull
 the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 The Kloop in the Coop	Free Pull

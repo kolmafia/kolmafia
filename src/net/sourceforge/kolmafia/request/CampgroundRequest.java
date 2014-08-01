@@ -1153,7 +1153,11 @@ public class CampgroundRequest
 		{
 			"Libram of Pulled Taffy",
 			"Summon Taffy"
-		}
+		},
+		{
+			"Confiscator's Grimoire",
+			"Summon Confiscated Things"
+		},
 	};
 
 	private static void parseBookTitles( final String responseText )

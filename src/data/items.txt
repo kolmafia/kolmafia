@@ -7707,3 +7707,19 @@
 7688	gumshoes	858795245	tapshoes.gif	accessory	t	0
 7689	flapper floppers	698298413	sandals.gif	accessory	t	0
 7690	sneakeasies	929587115	kicks.gif	accessory	t	0
+7691
+7692
+7693
+7694
+7695
+7696
+7697
+7698
+7699
+7700
+7701
+7702
+7703
+7704
+7705
+7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0

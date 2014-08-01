@@ -222,6 +222,7 @@ public class SkillDatabase
 		case SkillPool.TASTEFUL:
 		case SkillPool.CARDS:
 		case SkillPool.GEEKY:
+		case SkillPool.CONFISCATOR:
 
 			category = SkillDatabase.MR_SKILLS;
 			break;
@@ -1085,6 +1086,8 @@ public class SkillDatabase
 			return ItemPool.CARD_GAME_BOOK;
 		case SkillPool.GEEKY:
 			return ItemPool.GEEKY_BOOK;
+		case SkillPool.CONFISCATOR:
+			return ItemPool.CONFISCATOR_BOOK;
 		}
 
 		return -1;
