@@ -2240,7 +2240,7 @@ public class DailyDeedsPanel
 
 			ttips.addAll(Arrays.asList(tips));
 
-			this.addListener( "momFoodReceived" );
+			this.addListener( "_momFoodReceived" );
 			this.addListener( "questS02Monkees" );
 
 			box = this.addComboBox( choices, ttips, "Get Food from Mom" );
