@@ -2111,7 +2111,7 @@ public class UseSkillRequest
 			return SkillPool.TAFFY;
 		}
 
-		if ( action.equals( "summonconfiscators" ) )
+		if ( action.equals( "confiscators" ) )
 		{
 			return SkillPool.CONFISCATOR;
 		}
@@ -2169,7 +2169,7 @@ public class UseSkillRequest
 		}
 
 		int skillId = UseSkillRequest.getSkillId( urlString );
-                // Quick skills has (select a skill) with ID = 999
+		// Quick skills has (select a skill) with ID = 999
 		if ( skillId == -1 || skillId == 999 )
 		{
 			return false;
