@@ -1249,13 +1249,13 @@
 1248	Weepy, Creepy	blacktear.gif	427c10dbff5760b679f7711801a8ef2d
 1249	Tearful, Fearful	blacktear.gif	9e60b4709db66e4009923c3b6e04f206
 1250	Crying, Dying	blacktear.gif	352d8f08558abda2ed55290cde90b0aa
-1251	Hot Sweat	coffeecup.gif	39804e47edc35161c6e5d5879b4cdf40
-1252	Cold Sweat	poplight.gif	fff05f38cb94232e8aa0fd1bed90c075
-1253	Rank Sweat	jarl_cheeseslice.gif	11f4696b1418537788cc53fb955a8bf3
-1254	Black Sweat	cookies.gif	0f6cbd409e5fdbc1856c63f4b1ad2249
-1255	Flop Sweat	sammich.gif	ef840c1c6cc74d4b7d0491ac9ae14a9e
-1256	Mark of Candy Cain	candycane.gif	f1aea72e7aa044e2cd59f831f30618d2
-1257	Cereal Killer	mix.gif	49aec489233e24dd7f18eacd1a836ad0
+1251	Hot Sweat	coffeecup.gif	39804e47edc35161c6e5d5879b4cdf40	mom	hot
+1252	Cold Sweat	poplight.gif	fff05f38cb94232e8aa0fd1bed90c075	mom cold
+1253	Rank Sweat	jarl_cheeseslice.gif	11f4696b1418537788cc53fb955a8bf3	mom stench
+1254	Black Sweat	cookies.gif	0f6cbd409e5fdbc1856c63f4b1ad2249	mom spooky
+1255	Flop Sweat	sammich.gif	ef840c1c6cc74d4b7d0491ac9ae14a9e	mom sleaze
+1256	Mark of Candy Cain	candycane.gif	f1aea72e7aa044e2cd59f831f30618d2	mom critical
+1257	Cereal Killer	mix.gif	49aec489233e24dd7f18eacd1a836ad0	mom stats
 1258	Jiggu... What?	lightning.gif	499218be7c7f2e9fc54ce359c1ea529a
 1259	More Like a Suckrament	fish.gif	0c62a64c5e0586d7bbffa70e2c4cddee
 1260	A Hole in the World	stareffect.gif	70d27aadf5e48a2369de13385b6892e2

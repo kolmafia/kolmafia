@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -634,7 +635,14 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "monkeycastle" ) )
 		{
-			BigBrotherRequest.parseResponse( location, responseText );
+			if ( location.contains( "who=2" ) )
+			{
+				BigBrotherRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "who=4" ) )
+			{
+				MomRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "mrstore.php" ) )

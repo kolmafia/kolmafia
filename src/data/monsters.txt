@@ -1096,8 +1096,8 @@ Whatsian Commando Ghost	aboo_who.gif	Atk: 78 Def: 62 HP: 40 Init: -10000 E: spoo
 whiny pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	bilge wine (30)
 white chocolate golem	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct	white chocolate chips (50)	mother's secret recipe (p3)	White Chocolate Golem Seeds (c0)
 white elephant	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 P: beast Meat: 240-360	white blood cells (0)	white wine (0)	white elephant gift (0)
-white lion	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 24-36 P: beast	catgut (15)	lion oil (n20)
-whitesnake	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 8-13 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (n20)
+white lion	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 24-36 P: beast	catgut (15)	lion oil (20)
+whitesnake	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 8-13 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (20)
 wild seahorse	seahorse.gif	P: fish Phys: 100
 Wire-Crossin' Elf			elf resistance button (100)	handful of wires (c100)	live wire (0)
 witty pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	witty rapier (10)	silver tongue charrrm (10)

@@ -70,12 +70,15 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -153,6 +156,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Friars",
+		},
+		{
+			"Special", "Mom",
 		},
 		{
 			"Special", "Skate Park",
@@ -889,6 +895,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Friars" ) )
 		{
 			this.add( new FriarsDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Mom" ) )
+		{
+			this.add( new MomCombo() );
 		}
 		else if ( deedsString[ 1 ].equals( "Skate Park" ) )
 		{
@@ -2197,6 +2207,78 @@ public class DailyDeedsPanel
 			int ka = Preferences.getInteger( "knownAscensions" );
 			this.setShown( kf || lfc == ka );
 			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
+		}
+	}
+
+	public static class MomCombo
+		extends Daily
+	{
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn = null;
+
+		public MomCombo()
+		{
+			int len = MomRequest.FOOD.length;
+			ArrayList<Object> ttips = new ArrayList<Object>();
+			Object[] choices = new String[ len + 1 ];
+			choices[0] = "Mom Food";
+			Object[] tips = {
+				"Get Food from Mom",
+				"+7 Hot Resist, 50 turns",
+				"+7 Cold Resist, 50 turns",
+				"+7 Stench Resist, 50 turns",
+				"+7 Spooky Resist, 50 turns",
+				"+7 Sleaze Resist, 50 turns",
+				"+20% critical chance, 50 turns",
+				"+200 stats per fight, 50 turns",
+			};
+
+			for ( int i=1; i <= len ; ++i )
+			{
+				choices[i] =  (String)MomRequest.FOOD[ i - 1 ];
+			}
+
+			ttips.addAll(Arrays.asList(tips));
+
+			this.addListener( "momFoodReceived" );
+			this.addListener( "questS02Monkees" );
+
+			box = this.addComboBox( choices, ttips, "Get Food from Mom" );
+			box.addActionListener(new MomComboListener() );
+			this.add( Box.createRigidArea(new Dimension(5,1) ) );
+
+			// Initialize the GO button to do nothing.
+			btn = this.addComboButton( "", "Go!");
+		}
+
+		@Override
+		public void update()
+		{
+			this.setShown( QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) );
+			this.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) );
+			box.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) ); // this.setEnabled will not disable the combo box, for whatever reason
+		}
+
+		private class MomComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
+				if ( cb.getSelectedIndex() == 0 )
+				{
+					setComboTarget(btn, "");
+				}
+				else
+				{
+					String Choice = (String)cb.getSelectedItem().toString();
+
+					if ( Choice != null )
+					{
+						setComboTarget(btn, "mom " + Choice);
+					}
+				}
+			}
 		}
 	}
 
