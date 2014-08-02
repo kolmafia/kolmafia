@@ -50,8 +50,6 @@ public class MoonPhaseRequest
 	extends GenericRequest
 {
 	private static final Pattern MOONS_PATTERN = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" );
-	private static final Pattern MENU1_PATTERN = Pattern.compile( "(<select name=\"loc\".*?)</select>", Pattern.DOTALL );
-	private static final Pattern MENU2_PATTERN = Pattern.compile( "(<select name=location.*?)</select>", Pattern.DOTALL );
 
 	/**
 	 * The phases of the moons can be retrieved from the top menu, which
@@ -69,8 +67,14 @@ public class MoonPhaseRequest
 		return true;
 	}
 
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
 	/**
-	 * Runs the moon phase request, updating theas appropriate.
+	 * Runs the moon phase request, updating as appropriate.
 	 */
 
 	@Override
@@ -83,15 +87,23 @@ public class MoonPhaseRequest
 	@Override
 	public void processResults()
 	{
-		String parseText = this.responseText;
+		String text = this.responseText;
+
+		// We can no longer count on knowing the menu style from api.php
+		GenericRequest.topMenuStyle= 
+			text.indexOf( "awesomemenu.php" ) != -1 ?
+			GenericRequest.MENU_FANCY :
+			text.indexOf( "Function:" ) != -1 ?
+			GenericRequest.MENU_COMPACT :
+			GenericRequest.MENU_NORMAL;
 
 		// Get current phase of Ronald and Grimace
-		if ( parseText.indexOf( "minimoon" ) != -1 )
+		if ( text.indexOf( "minimoon" ) != -1 )
 		{
-			parseText = parseText.replaceAll( "minimoon", "" );
+			text = text.replaceAll( "minimoon", "" );
 		}
 
-		Matcher moonMatcher = MoonPhaseRequest.MOONS_PATTERN.matcher( parseText );
+		Matcher moonMatcher = MoonPhaseRequest.MOONS_PATTERN.matcher( text );
 		if ( moonMatcher.find() )
 		{
 			HolidayDatabase.setMoonPhases(
@@ -99,7 +111,9 @@ public class MoonPhaseRequest
 				StringUtilities.parseInt( moonMatcher.group( 2 ) ) - 1 );
 		}
 
-		KoLCharacter.setClan( this.responseText.indexOf( "clan_hall.php" ) != -1 );
+		// The following is not accurate for GenericRequest.MENU_FANCY,
+		// since the config section includes an icon for the clan hall
+		KoLCharacter.setClan( this.responseText.contains( "clan_hall.php" ) );
 	}
 
 	public static final void decorate( final StringBuffer buffer )
@@ -107,12 +121,9 @@ public class MoonPhaseRequest
 		if ( GenericRequest.topMenuStyle == GenericRequest.MENU_COMPACT )
 		{
 			MoonPhaseRequest.adjustCompactMenu( buffer );
-			StringUtilities.singleStringReplace( buffer, "parent.location.href=\"logout.php", "parent.location.href=\"/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 		}
-		else
-		{
-			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
-		}
+
+		StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 	}
 
 	public static final void adjustCompactMenu( final StringBuffer buffer )
@@ -129,7 +140,9 @@ public class MoonPhaseRequest
 		if ( Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
 			StringBuilder selectBuffer = new StringBuilder();
-			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
+			selectBuffer.append( "<div style='position: absolute; right: 0px; top: 0px;'><font size=-1>" );
+
+			selectBuffer.append( "<form name=\"gcli\">" );
 			selectBuffer.append( "<select id=\"scriptbar\">" );
 
 			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
@@ -152,19 +165,21 @@ public class MoonPhaseRequest
 			selectBuffer.append( GenericRequest.passwordHash );
 			selectBuffer.append( "'; void(0);" );
 			selectBuffer.append( "\">" );
-			selectBuffer.append( "</form></td>" );
+			selectBuffer.append( "</form>" );
+			selectBuffer.append( "</font></div>" );
 
-			int lastRowIndex = buffer.lastIndexOf( "</tr>" );
-			if ( lastRowIndex != -1 )
+			int index = buffer.indexOf( "</body>" );
+			if ( index != -1 )
 			{
-				buffer.insert( lastRowIndex, selectBuffer.toString() );
+				buffer.insert( index, selectBuffer.toString() );
 			}
 		}
 	}
 
+	private static final Pattern FUNCTION_MENU_PATTERN = Pattern.compile( "(<select name=\"loc\".*?)</select>", Pattern.DOTALL );
 	private static final void mafiatizeFunctionMenu( final StringBuffer buffer )
 	{
-		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );
+		Matcher menuMatcher = MoonPhaseRequest.FUNCTION_MENU_PATTERN.matcher( buffer.toString() );
 		if ( !menuMatcher.find() )
 		{
 			return;
@@ -181,9 +196,10 @@ public class MoonPhaseRequest
 		StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
 	}
 
+	private static final Pattern GOTO_MENU_PATTERN = Pattern.compile( "(<select name=location.*?)</select>", Pattern.DOTALL );
 	private static final void mafiatizeGotoMenu( final StringBuffer buffer )
 	{
-		Matcher menuMatcher = MoonPhaseRequest.MENU2_PATTERN.matcher( buffer.toString() );
+		Matcher menuMatcher = MoonPhaseRequest.GOTO_MENU_PATTERN.matcher( buffer.toString() );
 		if ( !menuMatcher.find() )
 		{
 			return;

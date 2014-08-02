@@ -561,6 +561,8 @@ public class AccountRequest
 
 		// Interface options
 
+		/*
+		// This is currently busted
 		int topmenu = flags.getInt( "topmenu" );
 		GenericRequest.topMenuStyle =
 			(topmenu == 2 ) ?
@@ -568,6 +570,7 @@ public class AccountRequest
 			(topmenu == 1 ) ?
 			GenericRequest.MENU_COMPACT :
 			GenericRequest.MENU_NORMAL;
+		*/
 
 		checked = flags.getInt( "compactchar" ) == 1;
 		CharPaneRequest.compactCharacterPane = checked;
