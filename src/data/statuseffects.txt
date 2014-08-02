@@ -1663,7 +1663,7 @@
 1662	Liquid Luck	blooddrops.gif	13911104896407aceda3c1ee4e2b670c	use 1 liquid shifting time weirdness
 1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
 1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks
-1665
+1665	Thuggity Yak	yaktat.gif	a7e34916ae29be49705af42b24cd8fba	use 1 temporary yak tattoo
 1666	Fit As a Poster	fitposter.gif	acdd6405de02fe089f3bc36d752d61da	use 1 Fitspiration&trade; poster
 1667	Majestic Neckbeard	mohawk.gif	9cef3eea047dd7b8b2718b10eaaab0ed	use 1 giant neckbeard
 1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisinal hand-squeezed wheatgrass juice
@@ -1713,3 +1713,11 @@
 1712	Hollow Inside	hole.gif	8ed0a91226b1b94fc569d369a6d0c8a9	use 1 candy cigarette
 1713	The Grass...  Is Blue...	smokinggrass.gif	1de4e6dde568470adbb80603f210da5d	use 1 blue grass
 1714	Unbarking Dogs	tube.gif	fc364122b4ff3b7a2d5de7f61613ce83
+1715	Superheroic	comicbook.gif	ce788923d4926d7e0d9eb5c79df5e903	use 1 confiscated comic book
+1716	OMG WTF	padl.gif	6d42437200f71df22ea77ea830e7c082	use 1 confiscated cell phone
+1717	Notably Lovely	foldednote.gif	c6194ce592a473418b13b3098112199c	use 1 confiscated love note
+1718
+1719
+1720
+1721
+1722	You're Rubber	rubbernub.gif	605249e881329b2edd554f74b0258ea8	use 1 rubber nubbin

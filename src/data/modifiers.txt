@@ -872,6 +872,8 @@ can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 # candy knife
 candy knuckles	Weapon Damage: +25
 candy stick	Spell Damage Percent: +50, Candy Drop: +40
+# cap gun: Bang Bang!
+cap gun	Muscle Limit: 200, Mysticality Limit: 200, Moxie Limit: 200
 cardboard crossbow	Moxie: +3, Weapon Damage: +3
 cardboard katana	Weapon Damage: +7, Synergetic
 cardboard staff	Mysticality: +3, Weapon Damage: +3
@@ -1226,12 +1228,15 @@ pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 pixel sword	Initiative: +15
 pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
+plastic nunchaku	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Initiative: +30
 plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts Until Rollover
 plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +7
 pointed stick	Critical Hit Percent: +5, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
 pool cue	Moxie: +5, Pool Skill: +3
+# portable cassette player: Has An Obnoxious Mix Tape Stuck In It
+portable cassette player	Combat Rate: +5, Monster Level: +5
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
 potato pistol	Moxie: +5, Sleaze Damage: +5
 pottery club	Hot Damage: +5
@@ -1414,6 +1419,7 @@ starchy staff	Mysticality: +3
 starchy sword	Muscle: +3
 steel sword	Weapon Damage: +15, HP Regen Min: 2, HP Regen Max: 4, Moxie: +5
 Stick-Knife of Loathing	Weapon Damage Percent: +100, Spell Damage Percent: +200, Cold Resistance: +5, Cloathing
+sticky hand whip	Item Drop: +5, Pickpocket Chance: +10, Meat Drop: +15
 # stinkin' bindle: On Critical: Deals 70-100 <font color=green>Stench Damage</font>
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
 stinky cheese sword	Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))], Softcore Only
@@ -2216,6 +2222,7 @@ giant pinky ring	Single Equip
 # Girdle of Hatred: Tightenable
 Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
 glacial clock	Cold Damage: +15
+glow-in-the-dark necklace	Mysticality Percent: +10, Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 10
 glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures: +3, Single Equip, Nonstackable Watch
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
@@ -2237,6 +2244,8 @@ Grimacite gauntlets	Meat Drop: +30, Muscle Percent: [10*G], Single Equip
 Grimacite girdle	Spell Damage: +20, Mysticality Percent: [10*G], Single Equip
 Grimacite go-go boots	Item Drop: +30, Moxie Percent: [10*G], Single Equip
 Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
+# Groll doll: Is The Best The Best The Best The Best The Best The Best The Best
+Groll doll	Single Equip
 # groovy prism necklace: Deals a rainbow of damage to attackers
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
@@ -4620,6 +4629,7 @@ Ninjas Just Tryin' to Get Paid	Avatar: "salary ninja"
 No Squealer Healer	Avatar: "Quiet Healer"
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
+Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Nothing Is Impossible	Spell Damage Percent: +100
 Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Nuts about Candy	Maximum HP: +50
@@ -4638,6 +4648,7 @@ Okee-Dokee Go!	Initiative: +20
 Okee-Dokee, Smokee	Spell Damage Percent: +20
 Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Oleaginous Soles	Initiative: +40
+OMG WTF	Mysticality: +10, Spell Damage: +10, Spell Critical Percent: +10
 Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 Omphalotus Omnipresence	Mysticality: +40
 On a Roll	Food Drop: +25
@@ -5063,6 +5074,7 @@ Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent:
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Superheated Guts	Supercold Resistance: +3
+Superheroic	Muscle: +10, Weapon Damage: +10, Critical Hit Percent: +10
 Superhuman Sarcasm	Moxie Percent: +100
 # SuperStar: You earned a gold star
 Superveiny 9000	Maximum HP: +300
@@ -5161,6 +5173,7 @@ Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
+Thuggity Yak	Avatar: "yakuza thug"
 Ticking Clock	Initiative: +30
 Tiffany's Breakfast	Item Drop: [min(40,T)]
 # Timer 1
@@ -5322,6 +5335,7 @@ You Read The Manual	Experience (Mysticality): +4
 You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
 # You're In Trouble: It was... the drinking fountain...
 You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
+You're Rubber	Damage Reduction: 20
 # You've Got a Stew Going!: +500% Item Drops from Monsters (Dreadsylvania only)
 You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
@@ -6227,6 +6241,9 @@ compressed air canister	Effect: "Dug Out", Effect Duration: 30
 concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
 concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
+confiscated cell phone	Effect: "OMG WTF", Effect Duration: 20
+confiscated comic book	Effect: "Superheroic", Effect Duration: 20
+confiscated love note	Effect: "Notably Lovely", Effect Duration: 20
 Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
 control crystal	Free Pull
 cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
@@ -6554,6 +6571,9 @@ kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 KoLHS Pep Squad Box	Free Pull
 kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
+# LCD game: Burger Belt
+# LCD game: Food Eater
+# LCD game: Garbage River
 lemonhead caviar	Effect: "Sourpuss", Effect Duration: 30
 lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
@@ -6807,6 +6827,7 @@ Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 roll of toilet paper	Free Pull
 roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
+rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
@@ -6933,6 +6954,7 @@ Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
+temporary yak tattoo	Effect: "Thuggity Yak", Effect Duration: 50
 tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 that gum you like	Effect: "Sugar Rush", Effect Duration: 5
