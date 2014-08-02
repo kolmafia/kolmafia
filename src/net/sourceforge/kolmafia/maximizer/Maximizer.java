@@ -522,9 +522,22 @@ public class Maximizer
 					duration = 30;
 					usesRemaining = Preferences.getBoolean( "_madTeaParty" ) ? 0 : 1;
 				}
+				else if ( cmd.startsWith( "mom " ) )
+				{
+					if ( !QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "_momFoodReceived" ) )
+					{
+						cmd = "";
+					}
+					duration = 50;
+					usesRemaining = Preferences.getBoolean( "_momFoodReceived" ) ? 0 : 1;
+				}
 				else if ( cmd.startsWith( "summon " ) )
 				{
-					if ( !Preferences.getString( Quest.MANOR.getPref() ).equals( QuestDatabase.FINISHED ) )
+					if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
 					{
 						continue;
 					}

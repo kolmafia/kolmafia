@@ -1075,6 +1075,7 @@ user	_managerialManipulationUsed	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mediumSiphons	0
+user	_momFoodReceived	false
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0

@@ -786,6 +786,7 @@ public class KoLmafiaCLI
 		new ModifierTraceCommand().register( "modtrace" );
 		new ModRefCommand().register( "modref" );
 		new MoleRefCommand().register( "moleref" );
+		new MomCommand().register( "mom" );
 		new MonsterDataCommand().register( "monsters" );
 		new MonsterLevelCommand().register( "mind-control" ).register( "mcd" );
 		new MoodCommand().registerPrefix( "mood" );
