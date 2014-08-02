@@ -3983,7 +3983,9 @@ Dancin' Drunk	Item Drop: +100
 Dancin' Fool	Item Drop: +20
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
+Dangerous Zone Song	Meat Drop: +25
 Danish Cunning	Pickpocket Chance: +25
+Dark Orchestral Song	Moxie: +5
 Dawn of the Goblin	Avatar: "tribal goblin"
 Dazed, Confused	Avatar: "wastoid"
 Dead Sexy	Avatar: "sexy zombie"
@@ -4166,6 +4168,7 @@ Flamingly Floral	Hot Damage: +50
 # Flared Nostrils: Extra-Vulnerable to Stench
 Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
+Flashy Dance Song	Item Drop: +10
 Flayer Flavor	Avatar: "mind flayer"
 Fleet Woodsman, Mac	Avatar: "fleet woodsman"
 # Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
@@ -4703,6 +4706,7 @@ Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 # Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
 Perspicacious Pressure	Mysticality Percent: +300
+Pet Shop Song	Initiative: +10
 Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Phairly Balanced: Equalize all your stats to your highest stat
 Phairly Balanced	Equalize: "High"
