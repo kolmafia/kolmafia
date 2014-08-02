@@ -277,16 +277,25 @@ public class EffectDatabase
 
 	public static final int getEffectId( final String effectName )
 	{
+		return EffectDatabase.getEffectId( effectName, false );
+	}
+
+	public static final int getEffectId( final String effectName, final boolean exact )
+	{
 		Object effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
 		if ( effectId != null )
 		{
 			return ( (Integer) effectId ).intValue();
 		}
+		else if ( exact )
+		{
+			return -1;
+		}
 
 		List<String> names = EffectDatabase.getMatchingNames( effectName );
 		if ( names.size() == 1 )
 		{
-			return EffectDatabase.getEffectId( names.get( 0 ) );
+			return EffectDatabase.getEffectId( names.get( 0 ), true );
 		}
 
 		return -1;

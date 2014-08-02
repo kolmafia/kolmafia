@@ -1357,7 +1357,7 @@ public class ItemDatabase
 
 		// Potions grant an effect. Check for a new effect.
 		String effectName = Modifiers.getStringModifier( itemName, "Effect" );
-		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName ) == -1 )
+		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName, true ) == -1 )
 		{
 			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
 			String command =

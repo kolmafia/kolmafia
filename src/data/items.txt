@@ -7617,7 +7617,7 @@
 7598
 7599
 7600	haunted flame	710960621	flame.gif	multiple	t,d	5
-7601
+7601	temporary yak tattoo	931696933	yaktat.gif	usable	t,d	5
 7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
 7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
 7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
@@ -7707,19 +7707,20 @@
 7688	gumshoes	858795245	tapshoes.gif	accessory	t	0
 7689	flapper floppers	698298413	sandals.gif	accessory	t	0
 7690	sneakeasies	929587115	kicks.gif	accessory	t	0
-7691
-7692
-7693
-7694
-7695
-7696
-7697
-7698
+7691	plastic nunchaku	669451492	rainbowchucks.gif	weapon	t,d	5
+7692	sticky hand whip	528673806	stickyhand.gif	weapon	t,d	5
+7693	glow-in-the-dark necklace	925597182	glownecklace.gif	accessory	t,d	5
+7694	Groll doll	819074817	grolldoll.gif	accessory	t,d	5
+7695	cap gun	394224194	sixshooter.gif	weapon	t,d	5
+7696	portable cassette player	829581477	walkman.gif	accessory	t,d	5
+7697	chewable paper	699346310	chewpaper.gif	none, curse	t,d	5
+7698	rubber spider	141472526	spiderring.gif	usable	t,d	5
 7699
-7700
-7701
-7702
-7703
-7704
-7705
+7700	confiscated comic book	236084375	comicbook.gif	usable	t,d	5
+7701	confiscated cell phone	111757604	padl.gif	usable	t,d	5
+7702	confiscated love note	626177889	foldednote.gif	usable	t,d	5
+7703	LCD game: Food Eater	366591883	lcdgame.gif	usable	t,d	5
+7704	LCD game: Garbage River	213977792	lcdgame.gif	usable	t,d	5
+7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
+7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
