@@ -265,7 +265,7 @@ public class CoinMasterRequest
 					int visits = data.getCountField() == null ? count : 1;
 					int visit = 0;
 
-					while ( KoLmafia.permitsContinue() && ++visit <= visits );
+					while ( KoLmafia.permitsContinue() && ++visit <= visits )
 					{
 						if ( visits > 1 )
 						{
