@@ -999,7 +999,7 @@ public class KoLmafiaCLI
 		}
 	}
 
-	static String buildRelayScriptMenu()
+	static public String buildRelayScriptMenu()
 	{
 		boolean any = false;
 		StringBuilder buf = new StringBuilder();

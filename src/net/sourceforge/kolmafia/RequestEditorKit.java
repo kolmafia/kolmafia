@@ -86,7 +86,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
-import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -130,6 +129,7 @@ import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
+import net.sourceforge.kolmafia.webui.TopMenuDecorator;
 import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -335,9 +335,7 @@ public class RequestEditorKit
 
 		if ( location.contains( "menu.php" ) )
 		{
-			MoonPhaseRequest.decorate( buffer );
-			StringUtilities.singleStringReplace( buffer, "</body>",
-				"<div style='position: absolute; right: 0px; bottom: 0px;'><font size=-1>" + KoLmafiaCLI.buildRelayScriptMenu() + "[<a href=\"" + location + "\">re</a>]</font></div></body>" );
+			TopMenuDecorator.decorate( buffer, location );
 			return;
 		}
 
