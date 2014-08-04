@@ -7715,7 +7715,7 @@
 7696	portable cassette player	829581477	walkman.gif	accessory	t,d	5
 7697	chewable paper	699346310	chewpaper.gif	none, curse	t,d	5
 7698	rubber spider	141472526	spiderring.gif	usable	t,d	5
-7699
+7699	&quot;KICK ME&quot; sign	612631396	kickmesign.gif	none, curse	t,d	5
 7700	confiscated comic book	236084375	comicbook.gif	usable	t,d	5
 7701	confiscated cell phone	111757604	padl.gif	usable	t,d	5
 7702	confiscated love note	626177889	foldednote.gif	usable	t,d	5
@@ -7724,3 +7724,4 @@
 7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
 7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
+7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
