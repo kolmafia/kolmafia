@@ -2530,6 +2530,7 @@ palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 pillow shell	10	none
 Rain-Doh red wings	100	none
+rubber cape	0	Mys: 85
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
 sea shawl	200	Mys: 85

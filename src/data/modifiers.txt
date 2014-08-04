@@ -2940,6 +2940,7 @@ palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
+rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
 # sea mantle: +150% Physical Damage (Underwater Only)
 sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))], Critical Hit Percent: [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
 # sea mantle: +150% Physical Damage (Underwater Only)
