@@ -396,7 +396,6 @@ public abstract class KoLCharacter
 	private static boolean tripleReagent = false;
 	private static boolean guildStoreStateKnown = false;
 
-	private static boolean beanstalkArmed = false;
 	private static KoLAdventure selectedLocation;
 
 	// Ascension-related variables
@@ -514,7 +513,6 @@ public abstract class KoLCharacter
 		KoLCharacter.stillsAvailable = -1;
 		KoLCharacter.tripleReagent = false;
 		KoLCharacter.guildStoreStateKnown = false;
-		KoLCharacter.beanstalkArmed = false;
 		KoLCharacter.AWOLtattoo = 0;
 
 		KoLCharacter.ascensions = 0;
@@ -2460,26 +2458,6 @@ public abstract class KoLCharacter
 	public static final int currentPrismaticDamage()
 	{
 		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
-	}
-
-	/**
-	 * Accessor method which indicates whether or not the the beanstalk has been armed this session.
-	 *
-	 * @return <code>true</code> if the beanstalk has been armed
-	 */
-
-	static final boolean beanstalkArmed()
-	{
-		return KoLCharacter.beanstalkArmed;
-	}
-
-	/**
-	 * Accessor method to indicate a change in state of the beanstalk
-	 */
-
-	public static final void armBeanstalk()
-	{
-		KoLCharacter.beanstalkArmed = true;
 	}
 
 	/**

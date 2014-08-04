@@ -765,9 +765,9 @@ public class KoLAdventure
 		}
 
 		// The beanstalk is unlocked when the player has planted a
-		// beanstalk -- but, the zone needs to be armed first.
+		// beanstalk -- but, the bean needs to be planted first.
 
-		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) && !KoLCharacter.beanstalkArmed() )
+		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) && !QuestDatabase.isQuestLaterThan( Quest.GARBAGE, QuestDatabase.STARTED ) )
 		{
 			// If the character is not at least level 10, they have
 			// no chance to get to the beanstalk
@@ -777,55 +777,29 @@ public class KoLAdventure
 				return;
 			}
 
-			if ( KoLCharacter.beanstalkArmed() )
-			{
-				this.isValidAdventure = true;
-				return;
-			}
-
-			// If the character has a S.O.C.K. or an intragalactic
-			// rowboat, they can get to the airship
-
-			if ( InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) ||
-			     InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) )
-			{
-				this.isValidAdventure = true;
-				KoLCharacter.armBeanstalk();
-				return;
-			}
-
-			if ( !QuestLogRequest.isBeanstalkPlanted() )
-			{
-				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
-
-				if ( !KoLAdventure.ZONE_UNLOCK.responseText.contains( "place.php?whichplace=beanstalk" ) )
-				{
-					// We see no beanstalk in the Nearby Plains.
-					// Acquire an enchanted bean and plant it.
-					if ( !KoLAdventure.getEnchantedBean() )
-					{
-						this.isValidAdventure = false;
-						return;
-					}
-
-					// Make sure the Council has given you the quest
-					RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-
-					// Use the enchanted bean by clicking on the coffee grounds.
-					KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
-					RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
-				}
-			}
-
-			// Visit the beanstalk container document. In the old
-			// days, that was necessary in order for the quest NCs
-			// to appear in the airship.
-
-			KoLAdventure.ZONE_UNLOCK.constructURLString( "beanstalk.php" );
+			KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
-			KoLCharacter.armBeanstalk();
+			if ( !KoLAdventure.ZONE_UNLOCK.responseText.contains( "place.php?whichplace=beanstalk" ) )
+			{
+				// We see no beanstalk in the Nearby Plains.
+				// Acquire an enchanted bean and plant it.
+				if ( !KoLAdventure.getEnchantedBean() )
+				{
+					this.isValidAdventure = false;
+					return;
+				}
+
+				// Make sure the Council has given you the quest
+				if ( !QuestDatabase.isQuestLaterThan( Quest.GARBAGE, "unstarted" ) )
+				{
+					RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+				}
+
+				// Use the enchanted bean by clicking on the coffee grounds.
+				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+			}
 			this.isValidAdventure = true;
 
 			return;
