@@ -54,78 +54,90 @@ public abstract class TopMenuDecorator
 			TopMenuDecorator.adjustCompactMenu( buffer );
 		}
 
-		// Add Quick Scripts menu
-		TopMenuDecorator.addQuickScriptsMenu( buffer );
+		int index = buffer.lastIndexOf( "</tr>" );
+		if ( index != -1 )
+		{
+			StringBuilder menuBuffer = new StringBuilder();
 
-		// Add Relay Script menu
-		TopMenuDecorator.addRelayScriptsMenu( buffer, location );
+			// Build a new element
+			// <td valign=center align=center class=tiny><div id='menus' style='margin: 0px; padding: 0px; display: inline'>
+			menuBuffer.append( "<td valign=center align=center class=tiny>" );
+			menuBuffer.append( "<div id='kolmafia' style='margin: 0px; padding: 0px; display: inline'>" );
+			menuBuffer.append( "<table cellpadding=0 cellspacing=0>" );
+
+			// Build Quick Scripts menu
+			TopMenuDecorator.addQuickScriptsMenu( menuBuffer );
+
+			// Build Relay Script menu
+			TopMenuDecorator.addRelayScriptsMenu( menuBuffer, location );
+
+			// Close the new row
+			menuBuffer.append( "</table></div></td>" );
+
+			// Insert menus into topmenu
+			buffer.insert( index, menuBuffer.toString() );
+		}
 
 		// Send any logout link through KoLmafia's logout command so we clean up the GUI
 		StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 	}
 
-	public static final void addQuickScriptsMenu( final StringBuffer buffer )
+	public static final void addQuickScriptsMenu( final StringBuilder buffer )
 	{
 		if ( !Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
 			return;
 		}
 
-		int bodyIndex = buffer.indexOf( "</body>" );
-		if ( bodyIndex == -1 )
-		{
-			return;
-		}
+		buffer.append( "<tr>" );
 
-		StringBuilder selectBuffer = new StringBuilder();
-		selectBuffer.append( "<div style='position: absolute; right: 0px; top: 0px;'><font size=-1>" );
+		buffer.append( "<td align=left valign=center class=tiny>" );
+		buffer.append( "<form name=\"gcli\">" );
 
-		selectBuffer.append( "<form name=\"gcli\">" );
-		selectBuffer.append( "<select id=\"scriptbar\">" );
-
+		buffer.append( "<select id=\"scriptbar\">" );
 		String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
-			selectBuffer.append( "<option value=\"" );
-			selectBuffer.append( scriptList[ i ] );
-			selectBuffer.append( "\">" );
-			selectBuffer.append( i + 1 );
-			selectBuffer.append( ": " );
-			selectBuffer.append( scriptList[ i ] );
-			selectBuffer.append( "</option>" );
+			buffer.append( "<option value=\"" );
+			buffer.append( scriptList[ i ] );
+			buffer.append( "\">" );
+			buffer.append( i + 1 );
+			buffer.append( ": " );
+			buffer.append( scriptList[ i ] );
+			buffer.append( "</option>" );
 		}
+		buffer.append( "</select>" );
 
-		selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-		selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
+		buffer.append( "&nbsp;" );
 
-		selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
-		selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + escape(script) + '&pwd=" );
-		selectBuffer.append( GenericRequest.passwordHash );
-		selectBuffer.append( "'; void(0);" );
-		selectBuffer.append( "\">" );
-		selectBuffer.append( "</form>" );
-		selectBuffer.append( "</font></div>" );
+		buffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
+		buffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
+		buffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + escape(script) + '&pwd=" );
+		buffer.append( GenericRequest.passwordHash );
+		buffer.append( "'; void(0);" );
+		buffer.append( "\">" );
 
-		buffer.insert( bodyIndex, selectBuffer.toString() );
+		buffer.append( "</form>" );
+		buffer.append( "</td>" );
+
+		buffer.append( "</tr>" );
 	}
 
-	public static final void addRelayScriptsMenu( final StringBuffer buffer, final String location )
+	public static final void addRelayScriptsMenu( final StringBuilder buffer, final String location )
 	{
-		int bodyIndex = buffer.indexOf( "</body>" );
-		if ( bodyIndex == -1 )
-		{
-			return;
-		}
+		buffer.append( "<tr>" );
 
-		StringBuilder selectBuffer = new StringBuilder();
-		selectBuffer.append( "<div style='position: absolute; right: 0px; bottom: 0px;'><font size=-1>" );
-		selectBuffer.append( KoLmafiaCLI.buildRelayScriptMenu() );
-		selectBuffer.append( "[<a href=\"" );
-		selectBuffer.append( location );
-		selectBuffer.append( "\">re</a>]" );
-		selectBuffer.append( "</font></div>" );
+		buffer.append( "<td align=left valign=center class=tiny>" );
+		buffer.append( KoLmafiaCLI.buildRelayScriptMenu() );
+		buffer.append( "</td>" );
 
-		buffer.insert( bodyIndex, selectBuffer.toString() );
+		buffer.append( "<td align=left valign=center>" );
+		buffer.append( "[<a href=\"" );
+		buffer.append( location );
+		buffer.append( "\">re</a>]" );
+		buffer.append( "</td>" );
+
+		buffer.append( "</tr>" );
 	}
 
 	public static final void adjustCompactMenu( final StringBuffer buffer )
