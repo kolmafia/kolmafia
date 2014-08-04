@@ -119,6 +119,10 @@ public class QuestManager
 			{
 				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 			}
+			else if ( location.contains( AdventurePool.POOP_DECK_ID ) )
+			{
+				handlePoopDeckChange( responseText );
+			}
 			else if ( location.contains( AdventurePool.HAUNTED_BALLROOM_ID ) )
 			{
 				handleManorSecondFloorChange( location, responseText );
@@ -383,6 +387,14 @@ public class QuestManager
 		if ( responseText.contains( "White Citadel near Whitey's Grove" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
+		}
+	}
+
+	private static void handlePoopDeckChange( final String responseText )
+	{
+		if ( responseText.contains( "unlocks a padlock on a trap door" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.FINISHED );
 		}
 	}
 

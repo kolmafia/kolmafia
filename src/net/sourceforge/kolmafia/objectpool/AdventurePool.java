@@ -78,6 +78,7 @@ public class AdventurePool
 	public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
 	public static final String HIPPY_UNIFORM_BATTLEFIELD_ID = "140";
 	public static final int FCLE = 158;
+	public static final String POOP_DECK_ID = "159";
 	public static final int YULETIDE = 163;
 	public static final String HOBOPOLIS_SEWERS_ID = "166";
 	public static final int HOBOPOLIS_TOWN_SQUARE = 167;
