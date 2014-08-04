@@ -1022,7 +1022,7 @@ public class KoLmafiaCLI
 
 		if ( any )
 		{
-			buf.append( "</select>&nbsp;" );
+			buf.append( "</select>" );
 			return buf.toString();
 		}
 		return "";
