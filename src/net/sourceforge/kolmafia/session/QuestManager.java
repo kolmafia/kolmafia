@@ -156,7 +156,6 @@ public class QuestManager
 			if ( responseText.contains( "airship.gif" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
-				KoLCharacter.armBeanstalk();
 			}
 		}
 		else if ( location.startsWith( "barrel" ) )
@@ -884,7 +883,6 @@ public class QuestManager
 		{
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
-			QuestLogRequest.setBeanstalkPlanted();
 			if ( KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have planted a beanstalk." );

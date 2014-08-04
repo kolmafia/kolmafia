@@ -2292,7 +2292,7 @@ public class UseItemRequest
 
 			if ( responseText.contains( "grows into an enormous beanstalk" ) )
 			{
-				QuestLogRequest.setBeanstalkPlanted();
+				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
 			}
 			else
 			{
