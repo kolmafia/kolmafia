@@ -763,10 +763,6 @@ public class QuestManager
 			{
 				QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, "step10" );
 			}
-			else if ( responseText.contains( "Gonna need one of them seahorses" ) )
-			{
-				Preferences.setBoolean( "corralUnlocked", true );
-			}
 		}
 		// Big Brother
 		else if ( location.contains( "who=2" ) )
@@ -777,11 +773,15 @@ public class QuestManager
 			}
 		}
 		// Grandpa
-		else if ( location.contains( "who=3" ) )
+		else if ( location.contains( "action=grandpastory" ) )
 		{
 			if ( responseText.contains( "bet those lousy Mer-kin up and kidnapped her" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.SEA_MONKEES, "step6" );
+			}
+			else if ( responseText.contains( "Gonna need one of them seahorses" ) )
+			{
+				Preferences.setBoolean( "corralUnlocked", true );
 			}
 		}
 		else if ( location.contains( AdventurePool.MARINARA_TRENCH_ID ) && responseText.contains( "Show me what you've found, Old Timer" ) )
