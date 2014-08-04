@@ -88,7 +88,8 @@ public class MomRequest
 	@Override
 	public void processResults()
 	{
-		if ( this.responseText == null || this.responseText.equals( "" ) )
+		if ( this.responseText == null || this.responseText.equals( "" ) ||
+			this.responseText.equals( "visit the Sea Monkees without some way of breathing underwater" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get to Mom Sea Monkee" );
 			return;
@@ -96,9 +97,10 @@ public class MomRequest
 
 		MomRequest.parseResponse( this.getURLString(), this.responseText );
 
-		if ( this.responseText.indexOf( "one of those per day." ) != -1 )
+		if ( !this.responseText.contains( "You acquire an effect" ) )
 		{
 			KoLmafia.updateDisplay( "You can only get one food a day from Mom Sea Monkee." );
+			Preferences.setBoolean( "_momFoodReceived", true );
 			return;
 		}
 
