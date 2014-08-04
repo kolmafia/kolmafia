@@ -902,13 +902,13 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "mp_cost", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "adv_cost", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "soulsauce_cost", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "turns_per_cast", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.SKILL_TYPE };
-		functions.add( new LibraryFunction( "adv_per_cast", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.SKILL_TYPE };
-		functions.add( new LibraryFunction( "soulsauce_per_cast", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.EFFECT_TYPE };
 		functions.add( new LibraryFunction( "have_effect", DataTypes.INT_TYPE, params ) );
@@ -4187,19 +4187,19 @@ public abstract class RuntimeLibrary
 		return new Value( SkillDatabase.getMPConsumptionById( (int) skill.intValue() ) );
 	}
 
-	public static Value turns_per_cast( Interpreter interpreter, final Value skill )
-	{
-		return new Value( SkillDatabase.getEffectDuration( (int) skill.intValue() ) );
-	}
-
-	public static Value adv_per_cast( Interpreter interpreter, final Value skill )
+	public static Value adv_cost( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getAdventureCost( (int) skill.intValue() ) );
 	}
 
-	public static Value soulsauce_per_cast( Interpreter interpreter, final Value skill )
+	public static Value soulsauce_cost( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getSoulsauceCost( (int) skill.intValue() ) );
+	}
+
+	public static Value turns_per_cast( Interpreter interpreter, final Value skill )
+	{
+		return new Value( SkillDatabase.getEffectDuration( (int) skill.intValue() ) );
 	}
 
 	public static Value have_effect( Interpreter interpreter, final Value arg )
