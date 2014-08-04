@@ -1670,6 +1670,10 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
 			break;
 			
+		case ItemPool.ANCIENT_BOMB:
+			ResultProcessor.processItem( ItemPool.ANCIENT_BRONZE_TOKEN, -1 );
+			break;
+
 		case ItemPool.CARONCH_MAP:
 			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.STARTED );
 			break;

@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -83,6 +84,7 @@ public class QuestManager
 	private static final Pattern DRAWER_PATTERN = Pattern.compile( "search through <b>(\\d+)</b> drawers" );
 	private static final Pattern LIGHTER_PATTERN = Pattern.compile( "group of (\\d+) nearby protesters do the same" );
 	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
+	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 
 	public static final void handleQuestChange( final String location, final String responseText )
 	{
@@ -540,6 +542,22 @@ public class QuestManager
 			{
 				Preferences.setBoolean( "controlRoomUnlock", true );
 				QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step3" );
+			}
+			Matcher LowerChamberMatcher = QuestManager.LOWER_CHAMBER_PATTERN.matcher( responseText );
+			if ( LowerChamberMatcher.find() )
+			{
+				PyramidRequest.setPyramidPosition( StringUtilities.parseInt( LowerChamberMatcher.group( 1 ) ) );
+			}
+			// Lower chamber parsing
+			if ( location.contains( "action=pyramid_state" ) )
+			{
+				if ( responseText.contains( "the rubble is gone" ) )
+				{
+					PyramidRequest.setPyramidPosition( 1 );
+					PyramidRequest.setPyramidBombUsed( true );
+					ResultProcessor.processItem( ItemPool.ANCIENT_BOMB, -1 );
+				}
+				// Add the rest when known
 			}
 		}
 		return;

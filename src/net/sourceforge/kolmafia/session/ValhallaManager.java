@@ -445,7 +445,7 @@ public class ValhallaManager
 		Preferences.setInteger( "singleFamiliarRun", 0 );
 		Preferences.setString( "plantingDate", "");
 		Preferences.setInteger( "plantingDay", -1);
-		Preferences.setInteger( "pyramidPosition", 0 );
+		Preferences.setInteger( "pyramidPosition", 1 );
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
 		Preferences.setInteger( "grimstoneCharge", 0 );
