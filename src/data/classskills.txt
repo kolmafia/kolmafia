@@ -170,7 +170,7 @@
 1024	Holiday Weight Gain	bathroomscale.gif	3	10	10
 1025	Iron Palm Technique	palmtree.gif	3	0	999
 1026
-1027	Hibernate	sleepy.gif	2	0	0	2
+1027	Hibernate	sleepy.gif	2	0	5	2
 1028	Cold Shoulder	snowflake.gif	0	0	0	3
 1029	Wrath of the Wolverine	dipshitfangs.gif	0	0	0	4
 1030	Buoyancy of the Beluga	beluga.gif	0	0	0	5
@@ -214,7 +214,7 @@
 2024	Summon Leviatuga	leviatuga.gif	5	40	0
 2025	Jingle Bells	jinglebells.gif	4	5	5
 2026	Curiosity of Br'er Tarrypin	curiosity.gif	4	10	5
-2027	Spirit Vacation	palmtree.gif	2	0	0	1
+2027	Spirit Vacation	palmtree.gif	2	0	10	1
 2028	Shell Up	shellup.gif	5	6	0	5
 2029	Stiff Upper Lip	stiffupperlip.gif	9	10	10	3
 2030	Blessing of the War Snapper	warsnapper.gif	3	15	999	2
@@ -807,7 +807,7 @@
 15014	Rowdy Drinker	sixpack.gif	0	0	0
 15015	Peel Out	peelout.gif	5	10	0
 15016	Easy Riding	motorbike.gif	0	0	0
-15017	Check Mirror	bikemirror.gif	0	0	0
+15017	Check Mirror	bikemirror.gif	0	0	999
 15018	Riding Tall	tallguy.gif	0	0	0
 15019	Biker Swagger	swagger.gif	3	30	10
 15020	Flash Headlight	headlight.gif	5	15	0
