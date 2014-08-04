@@ -1250,7 +1250,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.PIRATE_FLEDGES:
-			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.PIRATE, "step6");
 			break;
 
 		case ItemPool.MACGUFFIN_DIARY:
