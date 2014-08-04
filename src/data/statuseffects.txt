@@ -1249,7 +1249,7 @@
 1248	Weepy, Creepy	blacktear.gif	427c10dbff5760b679f7711801a8ef2d
 1249	Tearful, Fearful	blacktear.gif	9e60b4709db66e4009923c3b6e04f206
 1250	Crying, Dying	blacktear.gif	352d8f08558abda2ed55290cde90b0aa
-1251	Hot Sweat	coffeecup.gif	39804e47edc35161c6e5d5879b4cdf40	mom	hot
+1251	Hot Sweat	coffeecup.gif	39804e47edc35161c6e5d5879b4cdf40	mom hot
 1252	Cold Sweat	poplight.gif	fff05f38cb94232e8aa0fd1bed90c075	mom cold
 1253	Rank Sweat	jarl_cheeseslice.gif	11f4696b1418537788cc53fb955a8bf3	mom stench
 1254	Black Sweat	cookies.gif	0f6cbd409e5fdbc1856c63f4b1ad2249	mom spooky
