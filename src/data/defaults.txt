@@ -700,7 +700,7 @@ user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
 user	promptAboutCrafting	1
-user	pyramidPosition	0
+user	pyramidPosition	1
 user	pyramidBombUsed	false
 user	questESlAudit	unstarted
 user	questESlBacteria	unstarted

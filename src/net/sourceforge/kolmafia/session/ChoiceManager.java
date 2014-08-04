@@ -5754,16 +5754,6 @@ public abstract class ChoiceManager
 
 			break;
 
-		// Wheel In the Pyramid, Keep on Turning
-		case 134:
-		case 135:
-			PyramidRequest.setPyramidWheelPlaced();
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				PyramidRequest.advancePyramidPosition();
-			}
-			break;
-
 		// Start the Island War Quest
 		case 142:
 		case 146:
@@ -8328,10 +8318,12 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "wooden wheel disintegrating" ) )
 			{
 				ResultProcessor.processItem( ItemPool.CRUMBLING_WHEEL, -1 );
+				PyramidRequest.advancePyramidPosition();
 			}
 			else if ( ChoiceManager.lastDecision == 2 && text.contains( "snap the ratchet onto the peg" ) )
 			{
 				ResultProcessor.processItem( ItemPool.TOMB_RATCHET, -1 );
+				PyramidRequest.advancePyramidPosition();
 			}
 			break;
 

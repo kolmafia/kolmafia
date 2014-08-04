@@ -54,7 +54,6 @@ public class PyramidRequest
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images.kingdomofloathing.com/otherimages/pyramid/pyramid4_([\\d,]+)(b)?.gif" );
 	private static final Pattern WHEEL_PATTERN = Pattern
 		.compile( "http://images.kingdomofloathing.com/otherimages/pyramid/pyramid3(a|b).gif" );
-	private static Boolean pyramidWheelPlaced = null;
 	private static final PyramidRequest PYRAMID = new PyramidRequest();
 
 	public PyramidRequest()
@@ -213,16 +212,7 @@ public class PyramidRequest
 			return;
 		}
 
-                // If we got here, we might just be visiting the pyramid.
-
-		// Check whether the wheel is placed based on the Middle Chamber image
-		Matcher wheelMatcher = PyramidRequest.WHEEL_PATTERN.matcher( responseText );
-		if ( !wheelMatcher.find() )
-		{
-			return;
-		}
-		String wheel = wheelMatcher.group( 1 );
-		PyramidRequest.setPyramidWheelPlaced( wheel.equals( "b" ) );
+        // If we got here, we might just be visiting the pyramid.
 
 		Matcher matcher = PyramidRequest.IMAGE_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
@@ -421,7 +411,7 @@ public class PyramidRequest
 		{
 			Preferences.setInteger( "lastPyramidReset", KoLCharacter.getAscensions() );
 
-			Preferences.setInteger( "pyramidPosition", 0 );
+			Preferences.setInteger( "pyramidPosition", 1 );
 			Preferences.setBoolean( "pyramidBombUsed", false );
 		}
 	}
@@ -460,18 +450,6 @@ public class PyramidRequest
 
 	public static final int advancePyramidPosition()
 	{
-		// Since using the Middle Chamber to advance the pyramid position always places
-		// the wheel first, the first two cases only apply to using a tomb ratchet
-		if ( PyramidRequest.pyramidWheelPlaced == null )
-		{
-			RequestThread.postRequest( PyramidRequest.PYRAMID );
-			return PyramidRequest.getPyramidPosition();
-		}
-		if ( !PyramidRequest.pyramidWheelPlaced )
-		{
-			PyramidRequest.setPyramidWheelPlaced();
-			return PyramidRequest.getPyramidPosition();
-		}
 		int position = PyramidRequest.getPyramidPosition();
 		if ( ++position > 5 )
 		{
@@ -493,13 +471,4 @@ public class PyramidRequest
 		Preferences.setBoolean( "pyramidBombUsed", used );
 	}
 
-	public static final void setPyramidWheelPlaced()
-	{
-		PyramidRequest.setPyramidWheelPlaced( true );
-	}
-
-	private static final void setPyramidWheelPlaced( boolean wheelPlaced )
-	{
-		PyramidRequest.pyramidWheelPlaced = Boolean.valueOf( wheelPlaced );
-	}
 }
