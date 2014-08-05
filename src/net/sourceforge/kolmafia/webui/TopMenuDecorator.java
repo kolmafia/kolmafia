@@ -49,40 +49,58 @@ public abstract class TopMenuDecorator
 {
 	public static final void decorate( final StringBuffer buffer, final String location )
 	{
-		if ( GenericRequest.topMenuStyle == GenericRequest.MENU_COMPACT )
+		switch ( GenericRequest.topMenuStyle )
 		{
+		case GenericRequest.MENU_NORMAL:
+			// "normal" (links) style of topmenu.php
+			TopMenuDecorator.addScriptMenus( buffer, location );
+			break;
+
+		case GenericRequest.MENU_COMPACT:
+			// "compact" (dropdowns) style of topmenu.php
 			TopMenuDecorator.adjustCompactMenu( buffer );
-		}
+			TopMenuDecorator.addScriptMenus( buffer, location );
+			break;
 
-		int index = buffer.lastIndexOf( "</tr>" );
-		if ( index != -1 )
-		{
-			StringBuilder menuBuffer = new StringBuilder();
-
-			// Build a new element
-			// <td valign=center align=center class=tiny><div id='menus' style='margin: 0px; padding: 0px; display: inline'>
-			menuBuffer.append( "<td valign=center align=center class=tiny>" );
-			menuBuffer.append( "<div id='kolmafia' style='margin: 0px; padding: 0px; display: inline'>" );
-			menuBuffer.append( "<table cellpadding=0 cellspacing=0>" );
-
-			// Build Quick Scripts menu
-			TopMenuDecorator.addQuickScriptsMenu( menuBuffer );
-
-			// Build Relay Script menu
-			TopMenuDecorator.addRelayScriptsMenu( menuBuffer, location );
-
-			// Close the new row
-			menuBuffer.append( "</table></div></td>" );
-
-			// Insert menus into topmenu
-			buffer.insert( index, menuBuffer.toString() );
+		case GenericRequest.MENU_FANCY:
+			// "fancy" (icons) style of topmenu.php
+			break;
 		}
 
 		// Send any logout link through KoLmafia's logout command so we clean up the GUI
 		StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 	}
 
-	public static final void addQuickScriptsMenu( final StringBuilder buffer )
+	private static final void addScriptMenus( final StringBuffer buffer, final String location )
+	{
+		int index = buffer.lastIndexOf( "</tr>" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		StringBuilder menuBuffer = new StringBuilder();
+
+		// Build a new element
+		// <td valign=center align=center class=tiny><div id='menus' style='margin: 0px; padding: 0px; display: inline'>
+		menuBuffer.append( "<td valign=center align=center class=tiny>" );
+		menuBuffer.append( "<div id='kolmafia' style='margin: 0px; padding: 0px; display: inline'>" );
+		menuBuffer.append( "<table cellpadding=0 cellspacing=0>" );
+
+		// Build Quick Scripts menu
+		TopMenuDecorator.addQuickScriptsMenu( menuBuffer );
+
+		// Build Relay Script menu
+		TopMenuDecorator.addRelayScriptsMenu( menuBuffer, location );
+
+		// Close the new row
+		menuBuffer.append( "</table></div></td>" );
+
+		// Insert menus into topmenu
+		buffer.insert( index, menuBuffer.toString() );
+	}
+
+	private static final void addQuickScriptsMenu( final StringBuilder buffer )
 	{
 		if ( !Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
@@ -123,7 +141,7 @@ public abstract class TopMenuDecorator
 		buffer.append( "</tr>" );
 	}
 
-	public static final void addRelayScriptsMenu( final StringBuilder buffer, final String location )
+	private static final void addRelayScriptsMenu( final StringBuilder buffer, final String location )
 	{
 		buffer.append( "<tr>" );
 
@@ -140,7 +158,7 @@ public abstract class TopMenuDecorator
 		buffer.append( "</tr>" );
 	}
 
-	public static final void adjustCompactMenu( final StringBuffer buffer )
+	private static final void adjustCompactMenu( final StringBuffer buffer )
 	{
 		TopMenuDecorator.mafiatizeFunctionMenu( buffer );
 		TopMenuDecorator.mafiatizeGotoMenu( buffer );
