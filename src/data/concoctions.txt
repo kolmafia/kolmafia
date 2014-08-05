@@ -18,7 +18,7 @@
 # GRIMACITE (requires a depleted Grimacite hammer)
 # TORSO, WEAPON, ARMOR (smithing-related skills)
 # EXPENSIVE (jewelrymaking skill)
-# REAGENT, WAY, DEEP, PASTAMASTERY, TEMPURAMANCY (cooking)
+# REAGENT, WAY, DEEP, PASTAMASTERY, TRANSNOODLE, TEMPURAMANCY (cooking)
 # AC, SHC, SALACIOUS (cocktailcrafting skills)
 # NOBEE (cannot be make in Beecore)
 #
@@ -31,7 +31,7 @@
 #
 # Combinations of creation type & skill, for convenience:
 # WSMITH, ASMITH (skilled smithing)
-# PASTA, TEMPURA, SAUCE, SSAUCE, DSAUCE (skilled cooking)
+# PASTA, TNOODLE, TEMPURA, SAUCE, SSAUCE, DSAUCE (skilled cooking)
 # ACOCK, SCOCK, SACOCK (skilled mixing)
 # EJEWEL (skilled jewelrymaking)
 
@@ -2430,18 +2430,18 @@ elevennis shoes	SMITH, MANUAL	can of V-11	clown shoes
 sugar fairy	MUSE	possessed sugar cube
 sugar bunny	MUSE	possessed sugar cube (3)
 sweet tooth	MUSE	possessed sugar cube (11)
-Beefy Crunch Pastaco	COOK_FANCY	Pastaco shell	Boletus Broletus mushroom
-Brain Food Pastaco	COOK_FANCY	Pastaco shell	Omphalotus Omphaloskepsis mushroom
-Cool Brunch Pastaco	COOK_FANCY	Pastaco shell	Gyromitra Dynomita mushroom
-Energy Buzz Pastaco	COOK_FANCY	Pastaco shell	Stemonitis Staticus mushroom
-Ludovico Pastaco	COOK_FANCY	Pastaco shell	Tremella Tarantella mushroom
-Medical Pastaco	COOK_FANCY	Pastaco shell	Helvella Haemophilia mushroom
-blood-red mushroom wine	MIX_FANCY	mushroom fermenting solution	Helvella Haemophilia mushroom
-buzzing mushroom wine	MIX_FANCY	mushroom fermenting solution	Stemonitis Staticus mushroom
-complex mushroom wine	MIX_FANCY	mushroom fermenting solution	Omphalotus Omphaloskepsis mushroom
-overpowering mushroom wine	MIX_FANCY	mushroom fermenting solution	Boletus Broletus mushroom
-smooth mushroom wine	MIX_FANCY	mushroom fermenting solution	Gyromitra Dynomita mushroom
-swirling mushroom wine	MIX_FANCY	mushroom fermenting solution	Tremella Tarantella mushroom
+Beefy Crunch Pastaco	TNOODLE	Pastaco shell	Boletus Broletus mushroom
+Brain Food Pastaco	TNOODLE	Pastaco shell	Omphalotus Omphaloskepsis mushroom
+Cool Brunch Pastaco	TNOODLE	Pastaco shell	Gyromitra Dynomita mushroom
+Energy Buzz Pastaco	TNOODLE	Pastaco shell	Stemonitis Staticus mushroom
+Ludovico Pastaco	TNOODLE	Pastaco shell	Tremella Tarantella mushroom
+Medical Pastaco	TNOODLE	Pastaco shell	Helvella Haemophilia mushroom
+blood-red mushroom wine	SCOCK	mushroom fermenting solution	Helvella Haemophilia mushroom
+buzzing mushroom wine	SCOCK	mushroom fermenting solution	Stemonitis Staticus mushroom
+complex mushroom wine	SCOCK	mushroom fermenting solution	Omphalotus Omphaloskepsis mushroom
+overpowering mushroom wine	SCOCK	mushroom fermenting solution	Boletus Broletus mushroom
+smooth mushroom wine	SCOCK	mushroom fermenting solution	Gyromitra Dynomita mushroom
+swirling mushroom wine	SCOCK	mushroom fermenting solution	Tremella Tarantella mushroom
 
 # Spookyraven
 plaid bandage	MUSE	plaid swatch (2)
