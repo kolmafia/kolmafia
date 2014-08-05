@@ -33,9 +33,14 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -3886,6 +3891,10 @@ public abstract class ChoiceManager
 		case 801:
 			// A Reanimated Conversation
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "A Reanimated Conversation" );
+
+		case 918:
+			// Yachtzee!
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Yachtzee!" );
 		}
 			
 		return null;
@@ -5422,6 +5431,45 @@ public abstract class ChoiceManager
 			result[ 4 ] = "weird parts sometimes block enemy attacks";
 			result[ 5 ] = "get rid of all collected parts";
 			result[ 6 ] = "no changes";
+			return result;
+
+		case 918:
+		
+			// Yachtzee
+			result = new String[ 3 ];
+			// Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String today = sdf.format( date.getTime() );
+			String lastUMDDateString = Preferences.getString( "umdLastObtained" );
+			if ( lastUMDDateString != null && lastUMDDateString != "" )
+			{
+				try {
+					Date lastUMDDate = sdf.parse( lastUMDDateString );
+					Calendar compareDate = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+					compareDate.setTime( lastUMDDate );
+					compareDate.add( Calendar.DAY_OF_MONTH, 7 );
+					if ( date.compareTo( compareDate ) >= 0 )
+					{
+						result[ 0 ] = "get Ultimate Mind Destroyer";
+					}
+					else
+					{
+						result[ 0 ] = "get cocktail ingredients";
+					}
+				}
+				catch(ParseException ex) {
+					result[ 0 ] = "get cocktail ingredients (sometimes Ultimate Mind Destroyer)";
+					KoLmafia.updateDisplay( "Unable to parse " + lastUMDDateString );
+				}
+			}
+			else
+			{
+				// Change to "get Ultimate Mind Destroyer" after 12th August 2014
+				result[ 0 ] = "get cocktail ingredients (sometimes Ultimate Mind Destroyer)";
+			}
+			result[ 1 ] = "get 5k meat and random item";
+			result[ 2 ] = "get Beach Bucks";
 			return result;
 
 		}
@@ -8297,6 +8345,17 @@ public abstract class ChoiceManager
 			if ( poolSkillMatcher.find() )
 			{
 				Preferences.increment( "poolSkill", StringUtilities.parseInt( poolSkillMatcher.group( 1 ) ) );
+			}
+			break;
+
+		case 918:
+			// Yachtzee!
+			if ( text.contains( "Ultimate Mind Destroyer" ) )
+			{
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String today = sdf.format( date.getTime() );
+				Preferences.setString( "umdLastObtained", today );
 			}
 			break;
 
