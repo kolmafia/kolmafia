@@ -218,8 +218,6 @@ public class LoginManager
 			RequestThread.postRequest(  request );
 		}
 
-		ContactManager.registerPlayerId( username, String.valueOf( KoLCharacter.getUserId() ) );
-
 		if ( Preferences.getString( "spadingData" ).length() > 10 )
 		{
 			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +

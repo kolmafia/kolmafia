@@ -2153,8 +2153,9 @@ public class UseItemRequest
 				if ( purpleWordMatcher.find() )
 				{
 					String purpleWord = purpleWordMatcher.group( 1 );
-					RequestLogger.printLine( "<font color=\"blue\">64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
-					RequestLogger.updateSessionLog( "64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + "." );
+					String message = "64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + ".";
+					RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+					RequestLogger.updateSessionLog( message );
 				}
 			}
 			else

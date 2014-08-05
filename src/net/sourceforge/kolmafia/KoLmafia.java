@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -829,8 +830,8 @@ public abstract class KoLmafia
 
 		// if the Cyrpt quest is active, force evilometer refresh
 		// (if we don't know evil levels already)
-		if ( Preferences.getString( Quest.CYRPT.getPref() ).equals( QuestDatabase.STARTED )
-			|| Preferences.getString( Quest.CYRPT.getPref() ).indexOf( "step" ) != -1 )
+		if ( Preferences.getString( Quest.CYRPT.getPref() ).equals( QuestDatabase.STARTED ) ||
+		     Preferences.getString( Quest.CYRPT.getPref() ).indexOf( "step" ) != -1 )
 		{
 			if ( Preferences.getInteger( "cyrptTotalEvilness" ) == 0 )
 			{
@@ -873,10 +874,22 @@ public abstract class KoLmafia
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();
 
-		// Visit lounge and check hotdog stand and speakeasy.
-		// As a side effect, report on whether you have a present waiting
-		ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
-		ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+		// Look up the current clan
+		ClanManager.resetClanId();
+		String clanName = ClanManager.getClanName( true );
+		if ( KoLCharacter.hasClan() )
+		{
+			RequestLogger.printLine( "You are currently a member of " + clanName );
+
+			// Visit lounge and check hotdog stand and speakeasy.
+			// As a side effect, report on whether you have a present waiting
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+		}
+		else
+		{
+			RequestLogger.printLine( "You are not currently a member of a clan." );
+		}
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 

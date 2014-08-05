@@ -2391,8 +2391,9 @@ public class FightRequest
 			if ( yellowWordMatcher.find() )
 			{
 				String yellowWord = yellowWordMatcher.group( 1 );
-				RequestLogger.printLine( "<font color=\"blue\">Detective Skull Yellow Word found: " + yellowWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
-				RequestLogger.updateSessionLog( "Detective Skull Yellow Word found: " + yellowWord + " in clan " + ClanManager.getClanName( false ) + "." );
+				String message = "Detective Skull Yellow Word found: " + yellowWord + " in clan " + ClanManager.getClanName( false ) + ".";
+				RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
 			}
 		}
 
@@ -2404,8 +2405,9 @@ public class FightRequest
 			if ( blueWordMatcher.find() )
 			{
 				String blueWord = blueWordMatcher.group( 1 );
-				RequestLogger.printLine( "<font color=\"blue\">Copperhead Bartender Blue Word found: " + blueWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
-				RequestLogger.updateSessionLog( "Copperhead Bartender Blue Word found: " + blueWord + " in clan " + ClanManager.getClanName( false ) + "." );
+				String message = "Copperhead Bartender Blue Word found: " + blueWord + " in clan " + ClanManager.getClanName( false ) + ".";
+				RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
 			}
 		}
 

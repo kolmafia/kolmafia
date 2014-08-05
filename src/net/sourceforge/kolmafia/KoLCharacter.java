@@ -437,11 +437,6 @@ public abstract class KoLCharacter
 
 		KoLCharacter.username = newUserName;
 		Preferences.reset( KoLCharacter.username );
-		KoLCharacter.reset();
-	}
-
-	private static final void reset()
-	{
 		KoLCharacter.reset( true );
 	}
 
@@ -832,6 +827,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.userId = userId;
 		KoLCharacter.playerId = String.valueOf( userId );
+		ContactManager.registerPlayerId( KoLCharacter.username, String.valueOf( userId ) );
 	}
 
 	/**

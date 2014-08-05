@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -108,9 +107,5 @@ public class MoonPhaseRequest
 				StringUtilities.parseInt( moonMatcher.group( 1 ) ) - 1,
 				StringUtilities.parseInt( moonMatcher.group( 2 ) ) - 1 );
 		}
-
-		// The following is not accurate for GenericRequest.MENU_FANCY,
-		// since the config section includes an icon for the clan hall
-		KoLCharacter.setClan( this.responseText.contains( "clan_hall.php" ) );
 	}
 }

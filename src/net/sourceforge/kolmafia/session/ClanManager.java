@@ -124,14 +124,22 @@ public abstract class ClanManager
 		ClanManager.stashContents.clear();
 	}
 
-	public static final void setStashRetrieved()
+	public static final void resetClanId()
 	{
-		ClanManager.stashRetrieved = true;
+		ClanManager.clanId = 0;
+		ClanManager.clanName = null;
+		KoLCharacter.setClan( false );
 	}
 
-	public static final boolean isStashRetrieved()
+	private static final void retrieveClanIdAndName()
 	{
-		return ClanManager.stashRetrieved;
+		if ( ClanManager.clanId != 0 )
+		{
+			return;
+		}
+
+		ProfileRequest request = new ProfileRequest( KoLCharacter.getUserName() );
+		RequestThread.postRequest( request );
 	}
 
 	public static final int getClanId()
@@ -158,6 +166,17 @@ public abstract class ClanManager
 	public static final void setClanName( String name )
 	{
 		ClanManager.clanName = name;
+		KoLCharacter.setClan( name != null );
+	}
+
+	public static final boolean isStashRetrieved()
+	{
+		return ClanManager.stashRetrieved;
+	}
+
+	public static final void setStashRetrieved()
+	{
+		ClanManager.stashRetrieved = true;
 	}
 
 	public static final SortedListModel getStash()
@@ -174,17 +193,6 @@ public abstract class ClanManager
 		}
 
 		return ClanManager.rankList;
-	}
-
-	private static final void retrieveClanIdAndName()
-	{
-		if ( ClanManager.clanId != 0 )
-		{
-			return;
-		}
-
-		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
-		RequestThread.postRequest( clanIdLookup );
 	}
 
 	private static final void updateCurrentMembers()
