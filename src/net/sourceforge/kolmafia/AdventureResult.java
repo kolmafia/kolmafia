@@ -433,7 +433,7 @@ public class AdventureResult
 		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
 		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
 
-			return AdventureResult.dustyBottleName( this.itemId );
+			return ItemDatabase.dustyBottleName( this.itemId );
 
 		case ItemPool.MILKY_POTION:
 		case ItemPool.SWIRLY_POTION:
@@ -1153,19 +1153,6 @@ public class AdventureResult
 		return itemName + " of " + effect;
 	}
 
-	public static final String dustyBottleName( final int itemId )
-	{
-		String itemName = ItemDatabase.getItemDataName( itemId );
-
-		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
-		if ( glyph == 0 )
-		{
-			return itemName;
-		}
-
-		return StringUtilities.globalStringReplace( itemName, " of", " of " + ItemDatabase.glyphType( glyph ) );
-	}
-
 	public static final String slimeVialName( final int itemId )
 	{
 		String itemName = ItemDatabase.getItemDataName( itemId );
@@ -1207,9 +1194,8 @@ public class AdventureResult
 
 	public static final String punchCardName( final int itemId )
 	{
-		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		for ( Object [] punchcard: ItemDatabase.PUNCHCARDS )
 		{
-			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
 			if ( ( (Integer) punchcard[0]).intValue() == itemId )
 			{
 				return (String) punchcard[2];

@@ -91,7 +91,6 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
-import net.sourceforge.kolmafia.webui.CellarDecorator;
 
 public class ResultProcessor
 {
@@ -938,15 +937,6 @@ public class ResultProcessor
 				BarrelDecorator.gainItem( result );
 			}
 
-			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) )
-			{
-				int adv = KoLAdventure.lastAdventureId();
-				if ( adv >= AdventurePool.WINE_CELLAR_NORTHWEST && adv <= AdventurePool.WINE_CELLAR_SOUTHEAST )
-				{
-					CellarDecorator.gainItem( adv, result );
-				}
-			}
-
 			if ( HermitRequest.isWorthlessItem( result.getItemId() ) )
 			{
 				result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
@@ -1329,22 +1319,6 @@ public class ResultProcessor
 			KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
 			                      ( hasSpecs ? "" : "NOT " ) +
 			                        "equipped." );
-			break;
-
-		case ItemPool.SPOOKYRAVEN_SPECTACLES:
-			// When you get the spectacles, identify dusty bottles.
-			// If you have not ascended, you need to put them on -
-			// which we leave to the player - but otherwise, they
-			// work from inventory.
-
-			// Temporary bandaid until we figure out how this gets
-			// out of synch. Not that it's harmful to do this.
-			Preferences.setInteger( "lastDustyBottleReset", -1 );
-
-			if ( KoLCharacter.getAscensions() > 0 )
-			{
-				ItemDatabase.identifyDustyBottles();
-			}
 			break;
 
 		case ItemPool.MOLYBDENUM_MAGNET:

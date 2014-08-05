@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
-import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class AdventureRequest

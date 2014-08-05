@@ -172,7 +172,87 @@ public class ItemDatabase
 		}
 	}
 
-	private static Object[][] ALIASES = {
+	public static Object[][] PUNCHCARDS =
+	{
+		// Verbs
+		{ IntegerPool.get( 3146 ),
+		  "El Vibrato punchcard (115 holes)",
+		  "El Vibrato punchcard (ATTACK)"
+		},
+		{ IntegerPool.get( 3147 ),
+		  "El Vibrato punchcard (97 holes)",
+		  "El Vibrato punchcard (REPAIR)"
+		},
+		{ IntegerPool.get( 3148 ),
+		  "El Vibrato punchcard (129 holes)",
+		  "El Vibrato punchcard (BUFF)"
+		},
+		{ IntegerPool.get( 3149 ),
+		  "El Vibrato punchcard (213 holes)",
+		  "El Vibrato punchcard (MODIFY)"
+		},
+		{ IntegerPool.get( 3150 ),
+		  "El Vibrato punchcard (165 holes)",
+		  "El Vibrato punchcard (BUILD)"
+		},
+
+		// Objects
+		{ IntegerPool.get( 3151 ),
+		  "El Vibrato punchcard (142 holes)",
+		  "El Vibrato punchcard (TARGET)"
+		},
+		{ IntegerPool.get( 3152 ),
+		  "El Vibrato punchcard (216 holes)",
+		  "El Vibrato punchcard (SELF)"
+		},
+		{ IntegerPool.get( 3153 ),
+		  "El Vibrato punchcard (88 holes)",
+		  "El Vibrato punchcard (FLOOR)"
+		},
+		{ IntegerPool.get( 3154 ),
+		  "El Vibrato punchcard (182 holes)",
+		  "El Vibrato punchcard (DRONE)"
+		},
+		{ IntegerPool.get( 3155 ),
+		  "El Vibrato punchcard (176 holes)",
+		  "El Vibrato punchcard (WALL)"
+		},
+		{ IntegerPool.get( 3156 ),
+		  "El Vibrato punchcard (104 holes)",
+		  "El Vibrato punchcard (SPHERE)"
+		}
+	};
+
+	public static Object[][] DUSTY_BOTTLES =
+	{
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MERLOT ),
+		  "dusty bottle of Merlot",
+		  "dusty bottle of average Merlot",
+		},
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_PORT ),
+		  "dusty bottle of Port",
+		  "dusty bottle of vinegar Port",
+		},
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR ),
+		  "dusty bottle of Pinot Noir",
+		  "dusty bottle of spooky Pinot Noir",
+		},
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL ),
+		  "dusty bottle of Zinfandel",
+		  "dusty bottle of great Zinfandel",
+		},
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MARSALA ),
+		  "dusty bottle of Marsala",
+		  "dusty bottle of glassy Marsala",
+		},
+		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MUSCAT ),
+		  "dusty bottle of Muscat",
+		  "dusty bottle of bad Muscat",
+		}
+	};
+
+	private static Object[][] ALIASES =
+	{
 		{ IntegerPool.get( 4577 ), "bugged bonnet" },
 		{ IntegerPool.get( 4578 ), "bugged meat stabbing club" },
 		{ IntegerPool.get( 4579 ), "bugged Knob Goblin love potion" },
@@ -596,6 +676,47 @@ public class ItemDatabase
 		}
 	}
 
+	private static final void cloneConsumptionData( final String name, final String alias )
+	{
+		int size = 0;
+
+		Integer fullness = ItemDatabase.getRawFullness( name );
+		if ( fullness != null )
+		{
+			ItemDatabase.fullnessByName.put( alias, fullness );
+			size = fullness.intValue();
+		}
+
+		Integer inebriety = ItemDatabase.getRawInebriety( name );
+		if ( inebriety != null )
+		{
+			ItemDatabase.inebrietyByName.put( alias, inebriety );
+			size = inebriety.intValue();
+		}
+
+		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
+		if ( spleenhit != null )
+		{
+			ItemDatabase.spleenHitByName.put( alias, spleenhit );
+			size = spleenhit.intValue();
+		}
+
+		if ( size == 0 )
+		{
+			return;
+		}
+
+		Integer level = ItemDatabase.levelReqByName.get( name );
+		String quality = ItemDatabase.qualityByName.get( name );
+		String adventures = ItemDatabase.getAdvRangeByName( name );
+		String muscle = ItemDatabase.muscleByName.get( name );
+		String mysticality = ItemDatabase.mysticalityByName.get( name );
+		String moxie = ItemDatabase.moxieByName.get( name );
+		String note = ItemDatabase.notesByName.get( name );
+
+		ItemDatabase.setConsumptionData( alias, size, level == null ? 1 : level.intValue(), quality, adventures, muscle, mysticality, moxie, note );
+	}
+
 	private static void readNonfillingData()
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "nonfilling.txt", KoLConstants.NONFILLING_VERSION );
@@ -676,32 +797,42 @@ public class ItemDatabase
 		ItemDatabase.nameById.put( id, "worthless item" );
 		ItemDatabase.itemIdByName.put( "worthless item", id );
 
-		// Set aliases for the El Vibrato punch cards
-		for ( int i = 0; i < RequestEditorKit.PUNCHCARDS.length; ++i )
+		// Set aliases for the dusty bottles
+		for ( Object[] dusty : ItemDatabase.DUSTY_BOTTLES )
 		{
-			Object [] punchcard = RequestEditorKit.PUNCHCARDS[i];
-			id = (Integer) punchcard[0];
+			id = (Integer) dusty[0];
+			String name = StringUtilities.getCanonicalName( (String) dusty[1] );
+			String alias = StringUtilities.getCanonicalName( (String) dusty[2] );
+			String plural = StringUtilities.singleStringReplace( alias, "bottle", "bottles" );
+			ItemDatabase.itemIdByName.put( alias, id );
+			ItemDatabase.itemIdByPlural.put( plural, id );
+			ItemDatabase.cloneConsumptionData( name, alias );
+		}
 
+		// Set aliases for the El Vibrato punch cards
+		for ( Object[] punchcard : ItemDatabase.PUNCHCARDS )
+		{
+			id = (Integer) punchcard[0];
 			String alias = StringUtilities.getCanonicalName( (String) punchcard[2] );
-			itemIdByName.put( alias, id );
 			String plural = StringUtilities.singleStringReplace( alias, "punchcard", "punchcards" );
-			itemIdByPlural.put( plural, id );
+			ItemDatabase.itemIdByName.put( alias, id );
+			ItemDatabase.itemIdByPlural.put( plural, id );
 		}
 
 		// Add names of all the sushi
 		id = IntegerPool.get( -1 );
-		for ( int i = 0; i < SushiRequest.SUSHI.length; ++i )
+		for ( String sushi : SushiRequest.SUSHI )
 		{
-			String name = StringUtilities.getCanonicalName( SushiRequest.SUSHI[i] );
-			itemIdByName.put( name, id );
+			String name = StringUtilities.getCanonicalName( sushi );
+			ItemDatabase.itemIdByName.put( name, id );
 		}
 
 		// Miscellaneous aliases for untypeable item names
-		for ( int i = 0; i < ItemDatabase.ALIASES.length; ++i )
+		for ( Object[] alias : ItemDatabase.ALIASES )
 		{
-			ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName(
-				(String) ItemDatabase.ALIASES[ i ][ 1 ] ),
-				ItemDatabase.ALIASES[ i ][ 0 ] );
+			id = (Integer) alias[0];
+			String name = StringUtilities.getCanonicalName( (String) alias[ 1 ] );
+			ItemDatabase.itemIdByName.put( name, id );
 		}
 	}
 
@@ -2853,212 +2984,22 @@ public class ItemDatabase
 
 	// Support for dusty bottles of wine
 
-	public static final void identifyDustyBottles()
-	{
-		int lastAscension = Preferences.getInteger( "lastDustyBottleReset" );
-		if ( lastAscension == KoLCharacter.getAscensions() )
-		{
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Identifying dusty bottles..." );
-
-		// Identify the six dusty bottles
-
-		for ( int i = 2271; i <= 2276; ++i )
-		{
-			if ( !ItemDatabase.identifyDustyBottle( i ) )
-			{
-				return;	// don't mark data valid if identification failed!
-			}
-		}
-
-		Preferences.setInteger( "lastDustyBottleReset", KoLCharacter.getAscensions() );
-		Preferences.setInteger( "wineCellarProgress", 0 );
-
-		// Set the consumption data
-
-		ItemDatabase.setDustyBottles();
-	}
-
-	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
-
-	private static final boolean identifyDustyBottle( final int itemId )
-	{
-		String glyph = "";
-
-		String description = DebugDatabase.rawItemDescriptionText( itemId, true );
-		if ( description == null )
-		{
-			return false;
-		}
-		Matcher matcher = ItemDatabase.GLYPH_PATTERN.matcher( description );
-		if ( !matcher.find() )
-		{
-			return false;
-		}
-		glyph = matcher.group( 1 );
-
-		Preferences.setString( "lastDustyBottle" + itemId, glyph );
-		return true;
-	}
-
-	public static final void getDustyBottles()
-	{
-		int lastAscension = Preferences.getInteger( "lastDustyBottleReset" );
-		int current = KoLCharacter.getAscensions();
-		if ( lastAscension < current )
-		{
-			AdventureResult spectacles = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
-			if ( (current > 0 && spectacles.getCount( KoLConstants.inventory ) > 0 ) ||
-			     (current == 0 && KoLCharacter.hasEquipped( spectacles )) )
-			{
-				ItemDatabase.identifyDustyBottles();
-				return;
-			}
-
-			for ( int i = 2271; i <= 2276; ++i )
-			{
-				Preferences.setString( "lastDustyBottle" + i, "" );
-			}
-		}
-
-		ItemDatabase.setDustyBottles();
-	}
-
-	private static final void setDustyBottles()
-	{
-		ItemDatabase.setDustyBottle( 2271 );
-		ItemDatabase.setDustyBottle( 2272 );
-		ItemDatabase.setDustyBottle( 2273 );
-		ItemDatabase.setDustyBottle( 2274 );
-		ItemDatabase.setDustyBottle( 2275 );
-		ItemDatabase.setDustyBottle( 2276 );
-	}
-
-	private static final void setDustyBottle( final int itemId )
-	{
-		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
-		String type = "dusty";
-
-		switch ( glyph )
-		{
-		case 0:
-			// Unidentified
-			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0", null );
-			break;
-		case 1: // "Prince"
-			// "You drink the wine. You've had better, but you've
-			// had worse."
-			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10", null );
-			type = "average";
-			break;
-		case 2:
-			// "You guzzle the entire bottle of wine before you
-			// realize that it has turned into vinegar. Bleeah."
-			ItemDatabase.setDustyBottle( itemId, 0, "0", "0", "0", "0",
-				"10 Full of Vinegar (+weapon damage)" );
-			type = "vinegar";
-			break;
-		case 3: // "Widget"
-			// "You drink the bottle of wine, then belch up a cloud
-			// of foul-smelling green smoke. Looks like this wine
-			// was infused with wormwood. Spoooooooky."
-			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-20", "3-6",
-				"10 Kiss of the Black Fairy (+spooky damage)" );
-			type = "spooky";
-			break;
-		case 4: // "Snake"
-			// "This wine is fantastic! You gulp down the entire
-			// bottle, and feel great!"
-			ItemDatabase.setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15", null );
-			type = "great";
-			break;
-		case 5: // "Pitchfork"
-			// "You drink the wine. It tastes pretty good, but when
-			// you get to the bottom, it's full of sediment, which
-			// turns out to be powdered glass. Ow."
-			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10",
-				"lose 60-70% HP" );
-			type = "glassy";
-			break;
-		case 6:
-			// "You drink the wine, but it seems to have gone
-			// bad. Not in the "turned to vinegar" sense, but the
-			// "turned to crime" sense. It perpetrates some
-			// violence against you on the inside."
-			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0",
-				"lose 80-90% HP" );
-			type = "bad";
-			break;
-		}
-
-		if ( !type.equals( "dusty" ) )
-		{
-			String name = StringUtilities.globalStringReplace( ItemDatabase.getItemName( itemId ), " of", " of " + type );
-			String plural = StringUtilities.globalStringReplace( ItemDatabase.getPluralById( itemId ), " of", " of " + type );
-			ItemDatabase.registerItemAlias( itemId, name, plural );
-		}
-	}
-
-	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
-		final String muscle, final String mysticality, final String moxie, final String note )
-	{
-		String name = StringUtilities.getCanonicalName( ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) ) );
-		ItemDatabase.inebrietyByName.put( name, IntegerPool.get( inebriety ) );
-		ItemDatabase.setConsumptionData( name, inebriety, adventures, muscle, mysticality, moxie, note );
-	}
-
 	public static final String dustyBottleType( final int itemId )
 	{
-		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
-		switch ( glyph )
-		{
-		case 1:
-			return "average wine";
-		case 2:
-			return "vinegar (Full of Vinegar)";
-		case 3:
-			return "spooky wine (Kiss of the Black Fairy)";
-		case 4:
-			return "great wine";
-		case 5:
-			return "glassy wine";
-		case 6:
-			return "bad wine";
-		}
-		return "";
-	}
-
-	public static final String glyphType( final int glyph )
-	{
-		switch ( glyph )
-		{
-		case 1:
-			return "average";
-		case 2:
-			return "vinegar";
-		case 3:
-			return "spooky";
-		case 4:
-			return "great";
-		case 5:
-			return "glassy";
-		case 6:
-			return "bad";
-		}
-		return "dusty";
-	}
-
-	public static final String shortDustyBottleType( final int itemId )
-	{
-		return ItemDatabase.glyphType( Preferences.getInteger( "lastDustyBottle" + itemId ) );
+		return
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_MERLOT ) ? "average" :
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_PORT ) ? "vinegar" :
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR ) ? "spooky" :
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL ) ? "great" :
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_MARSALA ) ? "glassy" :
+			( itemId == ItemPool.DUSTY_BOTTLE_OF_MUSCAT ) ? "bad" :
+			"dusty";
 	}
 
 	public static final String dustyBottleName( final int itemId )
 	{
-		String type = ItemDatabase.shortDustyBottleType( itemId );
 		String name = ItemDatabase.getItemName( itemId );
+		String type = ItemDatabase.dustyBottleType( itemId );
 		return type.equals( "dusty" ) ? name : StringUtilities.globalStringReplace( name, " of", " of " + type );
 	}
 
