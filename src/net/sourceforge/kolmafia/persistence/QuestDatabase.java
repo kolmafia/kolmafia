@@ -260,10 +260,15 @@ public class QuestDatabase
 		{
 			return handleWarStatus( details );
 		}
-		if ( pref.equals( "questG04Nemesis" ) && details.indexOf( "Demonic Lord of Revenge" ) != -1 )
+		if ( pref.equals( "questG04Nemesis" ) && details.contains( "Demonic Lord of Revenge" ) )
 		{
 			// Hard code the end of the nemesis quest, for now. We could eventually programmatically handle
 			// the <demon name> in the response.
+			return QuestDatabase.FINISHED;
+		}
+		if ( pref.equals( "questM12Pirate" ) && details.contains( "Oh, and also you've managed to scam your way belowdecks, which is cool" ) )
+		{
+			// Hard code the end of the pirate quest, as it step 6 matches the final text also.
 			return QuestDatabase.FINISHED;
 		}
 		if ( pref.equals( Quest.TOPPING.getPref() ) && details.contains( "The Highland Lord wants you to light" ) )
