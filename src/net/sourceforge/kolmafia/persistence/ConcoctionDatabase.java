@@ -1717,6 +1717,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.PASTA );
 		}
 
+		if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
+		{
+			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TRANSNOODLE );
+		}
+
 		if ( KoLCharacter.hasSkill( "Tempuramancy" ) )
 		{
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TEMPURAMANCY );
@@ -2306,6 +2311,9 @@ public class ConcoctionDatabase
 		if ( mixingRequirements.contains( CraftingRequirements.PASTA ) )
 			result.append( " (Pastamastery)" );
 
+		if ( mixingRequirements.contains( CraftingRequirements.TRANSNOODLE ) )
+			result.append( " (Transcendental Noodlecraft)" );
+
 		if ( mixingRequirements.contains( CraftingRequirements.TEMPURAMANCY ) )
 			result.append( " (Tempuramancy)" );
 
@@ -2684,6 +2692,11 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
 		}
+		// Requires Transcendental Noodlecraft
+		else if ( mix.equals( "TRANSNOODLE" ) )
+		{
+			ConcoctionDatabase.requirements.add( CraftingRequirements.TRANSNOODLE );
+		}
 		// Requires Tempuramancy
 		else if ( mix.equals( "TEMPURAMANCY" ) )
 		{
@@ -2730,6 +2743,12 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
+		}
+		// Items requiring Transcendental Noodlecraft
+		else if ( mix.equals( "TNOODLE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.TRANSNOODLE );
 		}
 		// Items requiring Tempuramancy
 		else if ( mix.equals( "TEMPURA" ) )

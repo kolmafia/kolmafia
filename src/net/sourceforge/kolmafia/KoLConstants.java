@@ -613,6 +613,7 @@ public interface KoLConstants
 		WAY, // Requires The Way of Sauce
 		DEEP_SAUCERY,
 		PASTA,
+		TRANSNOODLE, // Requires Transcendental Noodlecraft
 		TEMPURAMANCY, // Requires Tempuramancy
 		AC, // Requires Advanced Cocktailcrafting
 		SHC, // Requires Superhuman Cocktailcrafting
