@@ -301,6 +301,7 @@ Vending Machine	buy	1	Boris's ring	ROW96
 Vending Machine	buy	1	Jarlsberg's earring	ROW97
 Vending Machine	buy	1	Sneaky Pete's breath spray	ROW98
 Vending Machine	buy	1	potato sprout	ROW99
+Vending Machine	buy	1	sewing kit	ROW292
 Vending Machine	buy	15	Spellbook: Walberg's Dim Bulb	ROW101
 Vending Machine	buy	15	Spellbook: Singer's Faithful Ocelot	ROW102
 Vending Machine	buy	15	Spellbook: Drescher's Annoying Noise	ROW103
