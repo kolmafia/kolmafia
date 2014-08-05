@@ -143,7 +143,10 @@ public class Concoction
 		else
 		{
 			this.yield = Math.max( concoction.getCount(), 1 );
-			this.name = concoction.getName();
+
+			int itemId = concoction.getItemId();
+			String name = concoction.getName();
+			this.name = itemId == -1 ? name : ItemDatabase.getItemDataName( itemId );
 
 			this.isReagentPotion = this.mixingMisc.contains( CraftingMisc.TRIPLE_SAUCE );
 
