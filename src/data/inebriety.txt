@@ -167,12 +167,12 @@ dry martini	3	3	good	5-10	0	0	8-10
 dry vodka martini	3	3	good	5-10	0	0	8-10
 ducha de oro	4	4	good	10-14	8-10	25-27	0
 Dump Truck	2	8	awesome	8-9	30-40	0	0	15 Mortarfied (+100 DA)
-dusty bottle of Marsala	2	1	crappy	0	0	0	0
-dusty bottle of Merlot	2	1	crappy	0	0	0	0
-dusty bottle of Muscat	2	1	crappy	0	0	0	0
-dusty bottle of Pinot Noir	2	1	crappy	0	0	0	0
-dusty bottle of Port	2	1	crappy	0	0	0	0
-dusty bottle of Zinfandel	2	1	crappy	0	0	0	0
+dusty bottle of Marsala	2	1	good	6-8	5-10	5-10	5-10	lose 60-70% HP
+dusty bottle of Merlot	2	1	decent	3-4	5-10	5-10	5-10
+dusty bottle of Muscat	2	1	decent	3-5	0	0	0	lose 80-90% HP
+dusty bottle of Pinot Noir	2	1	decent	3-4	3-6	15-20	3-6	10 Kiss of the Black Fairy (+spooky damage)
+dusty bottle of Port	1	1	decent	2	0	0	0	10 Full of Vinegar (+weapon damage)
+dusty bottle of Zinfandel	2	1	good	5-7	10-15	10-15	10-15
 Earth and Firewater	2	4	awesome	6-7	0	20-30	0	10 Elemental Mastery (+5 Prismatic Dam)
 Earth, Wind and Firewater	2	8	awesome	8-9	0	30-40	0	15 Elemental Mastery (+5 Prismatic Dam)
 Ecto-Cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Booing Radly (+50 dmg vs. Ghosts)

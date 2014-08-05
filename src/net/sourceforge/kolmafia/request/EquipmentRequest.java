@@ -1316,14 +1316,6 @@ public class EquipmentRequest
 		// Check if familiar equipment is locked
 		FamiliarData.checkLockedItem( responseText );
 
-		// If Lord Spookyraven's spectacles are now equipped, identify
-		// the dusty bottles, if necessary.
-
-		if ( KoLCharacter.hasEquipped( EquipmentRequest.SPECTACLES ) )
-		{
-			ItemDatabase.identifyDustyBottles();
-		}
-
 		// If he's wearing a custom outfit, do additional processing
 		EquipmentRequest.wearCustomOutfit( location );
 

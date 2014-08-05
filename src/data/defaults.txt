@@ -503,13 +503,6 @@ user	lastCounterDay	-1
 user	lastDesertUnlock	-1
 user	lastDispensaryOpen	-1
 user	lastDoorCodeReset	-1
-user	lastDustyBottle2271
-user	lastDustyBottle2272
-user	lastDustyBottle2273
-user	lastDustyBottle2274
-user	lastDustyBottle2275
-user	lastDustyBottle2276
-user	lastDustyBottleReset	-1
 user	lastDwarfDiceRolls
 user	lastDwarfDigitRunes	-------
 user	lastDwarfEquipmentRunes
@@ -924,7 +917,6 @@ user	volcanoMaze5
 user	warProgress	unstarted
 user	waxMonster
 user	welcomeBackAdv	0
-user	wineCellarProgress	0
 user	workteaClue
 user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false

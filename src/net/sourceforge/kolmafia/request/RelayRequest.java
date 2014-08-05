@@ -2281,33 +2281,35 @@ public class RelayRequest
 		{
 			String descId = this.getFormField( "whichitem" );
 
-			if ( descId != null )
+			// Show the Wiki, if that is desired
+			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
-				// Show the Wiki, if that is desired
-				if ( showWikiLink( descId ) )
+				String itemName = ItemDatabase.getItemName( descId );
+				String location = ShowDescriptionList.getWikiLocation( itemName );
+				if ( location != null )
 				{
-					String itemName = ItemDatabase.getItemName( descId );
-					String location = ShowDescriptionList.getWikiLocation( itemName );
-					if ( location != null )
-					{
-						this.pseudoResponse( "HTTP/1.1 302 Found", location );
-						return;
-					}
+					this.pseudoResponse( "HTTP/1.1 302 Found", location );	
+					return;
 				}
 			}
 		}
 
-		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
+		if ( path.startsWith( "desc_effect.php" ) )
 		{
 			String descId = this.getFormField( "whicheffect" );
-			String effectName = EffectDatabase.getEffectName( descId );
-			AdventureResult effect = new AdventureResult( effectName, 1, true );
-			String location = ShowDescriptionList.getWikiLocation( effect );
 
-			if ( location != null )
+			// Show the Wiki, if that is desired
+			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
-				this.pseudoResponse( "HTTP/1.1 302 Found", location );
-				return;
+				String effectName = EffectDatabase.getEffectName( descId );
+				AdventureResult effect = new AdventureResult( effectName, 1, true );
+				String location = ShowDescriptionList.getWikiLocation( effect );
+
+				if ( location != null )
+				{
+					this.pseudoResponse( "HTTP/1.1 302 Found", location );
+					return;
+				}
 			}
 		}
 
@@ -2616,19 +2618,6 @@ public class RelayRequest
 
 	private static boolean showWikiLink( final String item )
 	{
-		if ( !Preferences.getBoolean( "relayAddsWikiLinks" ) )
-			return false;
-
-		switch ( ItemDatabase.getItemIdFromDescription( item ) )
-		{
-		case 2271: // dusty bottle of Merlot
-		case 2272: // dusty bottle of Port
-		case 2273: // dusty bottle of Pinot Noir
-		case 2274: // dusty bottle of Zinfandel
-		case 2275: // dusty bottle of Marsala
-		case 2276: // dusty bottle of Muscat
-			return false;
-		}
-		return true;
+		return Preferences.getBoolean( "relayAddsWikiLinks" );
 	}
 }

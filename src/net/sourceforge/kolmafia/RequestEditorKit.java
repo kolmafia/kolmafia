@@ -117,7 +117,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
-import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
@@ -546,10 +545,6 @@ public class RequestEditorKit
 		{
 			MallSearchRequest.decorateMallSearch( buffer );
 		}
-		else if ( location.startsWith( "manor3.php" ) )
-		{
-			RequestEditorKit.addWineCellarSpoilers( buffer );
-		}
 		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.decorate( location, buffer );
@@ -608,7 +603,6 @@ public class RequestEditorKit
 		// rather than just one or two.
 
 		RequestEditorKit.changePunchcardNames( buffer );
-		RequestEditorKit.identifyDustyBottles( buffer );
 		RequestEditorKit.changePotionImages( buffer );
 		RequestEditorKit.decorateLevelGain( buffer );
 		RequestEditorKit.addAbsintheLink( buffer );
@@ -1479,45 +1473,6 @@ public class RequestEditorKit
 		}
 	}
 
-	private static final void addWineCellarSpoilers( final StringBuffer buffer )
-	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-		// Change dusty bottle names in item dropdown
-		RequestEditorKit.changeDustyBottleNames( buffer );
-		CellarDecorator.decorate( buffer );
-	}
-
-	private static final void identifyDustyBottles( final StringBuffer buffer )
-	{
-		if ( buffer.indexOf( "wine2.gif" ) == -1 )
-		{
-			return;
-		}
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-
-		for ( int i = 2271; i <= 2276; ++i )
-		{
-			String oldName = ItemDatabase.getItemName( i );
-			if ( buffer.indexOf( oldName ) == -1 )
-			{
-				continue;
-			}
-
-			String type = ItemDatabase.shortDustyBottleType( i );
-			String newName = StringUtilities.globalStringReplace( oldName, " of", " of " + type );
-			String oldPlural = ItemDatabase.getPluralById( i );
-			String newPlural = StringUtilities.globalStringReplace( oldPlural, " of", " of " + type );
-			StringUtilities.globalStringReplace( buffer, oldName + "</b>", newName + "</b>" );
-			StringUtilities.globalStringReplace( buffer, oldPlural + "</b>", newPlural + "</b>" );
-		}
-	}
-
 	private static final void changePotionImages( final StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "exclam.gif" ) == -1 &&
@@ -1633,57 +1588,6 @@ public class RequestEditorKit
 		}
 	}
 
-	public static Object[][] PUNCHCARDS =
-	{
-		// Verbs
-		{ IntegerPool.get( 3146 ),
-		  "El Vibrato punchcard (115 holes)",
-		  "El Vibrato punchcard (ATTACK)"
-		},
-		{ IntegerPool.get( 3147 ),
-		  "El Vibrato punchcard (97 holes)",
-		  "El Vibrato punchcard (REPAIR)"
-		},
-		{ IntegerPool.get( 3148 ),
-		  "El Vibrato punchcard (129 holes)",
-		  "El Vibrato punchcard (BUFF)"
-		},
-		{ IntegerPool.get( 3149 ),
-		  "El Vibrato punchcard (213 holes)",
-		  "El Vibrato punchcard (MODIFY)"
-		},
-		{ IntegerPool.get( 3150 ),
-		  "El Vibrato punchcard (165 holes)",
-		  "El Vibrato punchcard (BUILD)"
-		},
-
-		// Objects
-		{ IntegerPool.get( 3151 ),
-		  "El Vibrato punchcard (142 holes)",
-		  "El Vibrato punchcard (TARGET)"
-		},
-		{ IntegerPool.get( 3152 ),
-		  "El Vibrato punchcard (216 holes)",
-		  "El Vibrato punchcard (SELF)"
-		},
-		{ IntegerPool.get( 3153 ),
-		  "El Vibrato punchcard (88 holes)",
-		  "El Vibrato punchcard (FLOOR)"
-		},
-		{ IntegerPool.get( 3154 ),
-		  "El Vibrato punchcard (182 holes)",
-		  "El Vibrato punchcard (DRONE)"
-		},
-		{ IntegerPool.get( 3155 ),
-		  "El Vibrato punchcard (176 holes)",
-		  "El Vibrato punchcard (WALL)"
-		},
-		{ IntegerPool.get( 3156 ),
-		  "El Vibrato punchcard (104 holes)",
-		  "El Vibrato punchcard (SPHERE)"
-		},
-	};
-
 	private static final void changePunchcardNames( final StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "El Vibrato punchcard" ) == -1 )
@@ -1691,110 +1595,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		for ( int i = 0; i < PUNCHCARDS.length; ++i )
+		for ( Object[] punchcard: ItemDatabase.PUNCHCARDS )
 		{
-			Object [] punchcard = PUNCHCARDS[i];
-			if ( buffer.indexOf( (String) punchcard[1] ) != -1 )
-			{
-				StringUtilities.globalStringReplace( buffer, (String) punchcard[1], (String) punchcard[2] );
-			}
-		}
-	}
-
-	private static final Pattern GLYPH_PATTERN = Pattern.compile( "title=\"Arcane Glyph #(\\d)\"" );
-
-	private static final void changeDustyBottleNames( final StringBuffer buffer )
-	{
-		ItemDatabase.getDustyBottles();
-
-		int glyphs[] = new int[ 3 ];
-
-		Matcher matcher = RequestEditorKit.GLYPH_PATTERN.matcher( buffer );
-
-		if ( !matcher.find() )
-		{
-			return;
-		}
-		glyphs[ 0 ] = StringUtilities.parseInt( matcher.group( 1 ) );
-
-		if ( !matcher.find() )
-		{
-			return;
-		}
-		glyphs[ 1 ] = StringUtilities.parseInt( matcher.group( 1 ) );
-
-		if ( !matcher.find() )
-		{
-			return;
-		}
-		glyphs[ 2 ] = StringUtilities.parseInt( matcher.group( 1 ) );
-
-		// We are looking at the glyphs in the Wine Cellar or are
-		// pouring wines into the pedestal. See what we've done so far.
-
-		int done = Preferences.getInteger( "wineCellarProgress" );
-
-		GoalManager.clearGoals();
-
-		// If we have poured all three wines, nothing more to do.
-		if ( done == 3 )
-		{
-			return;
-		}
-
-		boolean haveGoals = false;
-
-		// Determine which wines correspond to which glyph
-		String name = null;
-		for ( int i = 2271; i <= 2276; ++i )
-		{
-			int glyph = Preferences.getInteger( "lastDustyBottle" + i );
-			for ( int j = done; j < 3; ++j )
-			{
-				if ( glyph != glyphs[ j ] )
-				{
-					continue;
-				}
-
-				AdventureResult wine = ItemPool.get( i, 1 );
-				if ( !KoLConstants.inventory.contains( wine ) )
-				{
-					if ( !haveGoals )
-					{
-						// Updating the location does not work if we have goals already
-						AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
-					}
-					// Add the wine to the goals
-					GoalManager.addGoal( wine );
-					haveGoals = true;
-				}
-
-				if ( j == done )
-				{
-					// Point to the wine in the dropdown
-					name = ItemDatabase.getItemName( i );
-				}
-
-				break;
-			}
-		}
-
-		// Set the name
-		if ( name != null )
-		{
+			String name = (String) punchcard[1];
 			if ( buffer.indexOf( name ) != -1 )
 			{
-				// He has some of the correct wine in inventory. Highlight it.
-				String find = ">" + name;
-				String replace = " selected>--&gt;" + name + "&lt;--";
-				StringUtilities.globalStringReplace( buffer, find, replace );
-			}
-			else
-			{
-				// He has none of the correct wine. Tell him what to get.
-				String find = "- select a bottle -";
-				String replace = "(you need a " + name + ")";
-				StringUtilities.globalStringReplace( buffer, find, replace );
+				StringUtilities.globalStringReplace( buffer, name, (String) punchcard[2] );
 			}
 		}
 	}

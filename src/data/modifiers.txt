@@ -5950,6 +5950,8 @@ Drunken Astrophysicist	Effect: "Heisenberglary", Effect Duration: 15
 Drunken Neurologist	Effect: "Heisenberglary", Effect Duration: 10
 Drunken Philosopher	Effect: "Heisenberglary", Effect Duration: 5
 Dump Truck	Effect: "Mortarfied", Effect Duration: 15
+dusty bottle of Pinot Noir	Effect: "Kiss of the Black Fairy", Effect Duration: 10
+dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
 Earth and Firewater	Effect: "Elemental Mastery", Effect Duration: 10
 Earth, Wind and Firewater	Effect: "Elemental Mastery", Effect Duration: 15
 Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30

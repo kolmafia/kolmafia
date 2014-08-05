@@ -42,13 +42,12 @@ public class DustyBottlesCommand
 {
 	public DustyBottlesCommand()
 	{
-		this.usage = " - list the dusty bottles of wine you've identified.";
+		this.usage = " - list the dusty bottles of wine.";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		ItemDatabase.getDustyBottles();
 		for ( int i = 2271; i <= 2276; ++i )
 		{
 			String bottle = ItemDatabase.getItemName( i );
