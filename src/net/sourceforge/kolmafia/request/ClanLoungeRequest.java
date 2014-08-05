@@ -1185,8 +1185,8 @@ public class ClanLoungeRequest
 	{
 		if ( !clan.equals( ClanManager.getClanName( false ) ) )
 		{
-			RequestLogger.printLine( "You are currently a member of " + clan );
 			ClanManager.setClanName( clan );
+			ClanManager.setClanId( 0 );
 		}
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );

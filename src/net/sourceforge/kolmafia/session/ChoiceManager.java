@@ -8400,8 +8400,9 @@ public abstract class ChoiceManager
 			if ( pinkWordMatcher.find() )
 			{
 				String pinkWord = pinkWordMatcher.group( 1 );
-				RequestLogger.printLine( "<font color=\"blue\">Bohemian Party Pink Word found: " + pinkWord + " in clan " + ClanManager.getClanName( false ) + ".</font>" );
-				RequestLogger.updateSessionLog( "Bohemian Party Pink Word found: " + pinkWord + " in clan " + ClanManager.getClanName( false ) + "." );
+				String message = "Bohemian Party Pink Word found: " + pinkWord + " in clan " + ClanManager.getClanName( false ) + ".";
+				RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
 			}
 			break;
 
