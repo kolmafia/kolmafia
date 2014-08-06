@@ -2255,6 +2255,12 @@ public class FightRequest
 
 		String monster = MonsterStatusTracker.getLastMonsterName();
 
+		// First round quest update
+		if ( FightRequest.currentRound == 1 )
+		{
+			QuestManager.updateQuestFightStarted( responseText, monster );
+		}
+		
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText );
 
@@ -2952,7 +2958,11 @@ public class FightRequest
 			Preferences.increment( "rumpelstiltskinTurnsUsed", 1 );
 		}
 
-		if ( won )
+		if ( !won )
+		{
+			QuestManager.updateQuestFightLost( responseText, monster );
+		}
+		else
 		{
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{

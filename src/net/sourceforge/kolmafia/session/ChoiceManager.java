@@ -5895,6 +5895,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 189:
+			// O Cap'm, My Cap'm
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step15" );
+			}
+			break;
+
 		case 191:
 			// Chatterboxing
 			if ( ChoiceManager.lastDecision == 2 && text.contains( "find a valuable trinket that looks promising" ) )

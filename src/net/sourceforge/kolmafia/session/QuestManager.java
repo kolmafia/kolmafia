@@ -389,6 +389,30 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
 		}
+		if ( responseText.contains( "Once you have completed the weapon" ) ||
+			responseText.contains( "Once you have smithed the Epic Weapon" ) ||
+			responseText.contains( "When you get the Epic Weapon built" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
+		}
+		if ( responseText.contains( "Clownlord Beelzebozo" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step1" );
+		}
+		if ( responseText.contains( "have some people searching" ) ||
+			responseText.contains( "As soon as we have located your Nemesis's lair" ) ||
+			responseText.contains( "Err, once we figure out out where he's hiding" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step3" );
+		}
+		if ( responseText.contains( "in the Big Mountains" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+		}
+		if ( responseText.contains( "That is not the artifact we're looking for" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step6" );
+		}
 	}
 
 	private static void handlePoopDeckChange( final String responseText )
@@ -1323,6 +1347,36 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step16" );
 		}
+		else if ( monster.equalsIgnoreCase( "The Clownlord Beelzebozo" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step2" );
+		}
+		else if ( monster.equalsIgnoreCase( "menacing thug" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
+		}
+		else if ( monster.equalsIgnoreCase( "Mob Penguin hitman" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
+		}
+		else if ( monster.equalsIgnoreCase( "hunting seal" ) ||
+			monster.equalsIgnoreCase( "turtle trapper" ) ||
+			monster.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
+			monster.equalsIgnoreCase( "b&eacute;arnaise zombie" ) ||
+			monster.equalsIgnoreCase( "flock of seagulls" ) ||
+			monster.equalsIgnoreCase( "mariachi bandolero" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
+		}
+		else if ( monster.equalsIgnoreCase( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Spaghetti Elemental (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Spirit of New Wave (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
+		}
 		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
 		{
 			if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
@@ -1488,6 +1542,57 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.BLACK, "step1" );
 			}
 			break;
+		}
+	}
+
+	/** After we lose a fight, some quests may need to be updated.  Centralize handling for it here.
+	 * @param responseText The text from (at least) the losing round of the fight
+	 * @param monster The monster which beat us up.
+	 */
+	public static void updateQuestFightLost( String responseText, String monster )
+	{
+		if ( monster.equalsIgnoreCase( "menacing thug" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
+		}
+		else if ( monster.equalsIgnoreCase( "Mob Penguin hitman" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
+		}
+		else if ( monster.equalsIgnoreCase( "hunting seal" ) ||
+			monster.equalsIgnoreCase( "turtle trapper" ) ||
+			monster.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
+			monster.equalsIgnoreCase( "b&eacute;arnaise zombie" ) ||
+			monster.equalsIgnoreCase( "flock of seagulls" ) ||
+			monster.equalsIgnoreCase( "mariachi bandolero" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step11" );
+		}
+		else if ( monster.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
+			monster.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
+			monster.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
+			monster.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
+			monster.equalsIgnoreCase( "Jocko Homo" ) ||
+			monster.equalsIgnoreCase( "The Mariachi With No Name" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
+		}
+	}
+
+	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
+	 * @param responseText The text from (at least) the first round of the fight
+	 * @param monster The monster
+	 */
+	public static void updateQuestFightStarted( String responseText, String monster )
+	{
+		if ( monster.equalsIgnoreCase( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Spaghetti Elemental (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Spirit of New Wave (Volcanic Cave)" ) ||
+			monster.equalsIgnoreCase( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
 		}
 	}
 }

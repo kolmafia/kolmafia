@@ -1763,6 +1763,24 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.SPIRALING_SHAPE );
 			break;
 
+		case ItemPool.SCALP_OF_GORGOLOK:
+		case ItemPool.ELDER_TURTLE_SHELL:
+		case ItemPool.COLANDER_OF_EMERIL:
+		case ItemPool.ANCIENT_SAUCEHELM:
+		case ItemPool.DISCO_FRO_PICK:
+		case ItemPool.EL_SOMBRERO_DE_LOPEZ:
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step5" );
+			break;
+
+		case ItemPool.KRAKROXS_LOINCLOTH:
+		case ItemPool.GALAPAGOSIAN_CUISSES:
+		case ItemPool.ANGELHAIR_CULOTTES:
+		case ItemPool.NEWMANS_OWN_TROUSERS:
+		case ItemPool.VOLARTTAS_BELLBOTTOMS:
+		case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
+			break;
+
 		case ItemPool.HELLSEAL_DISGUISE:
 			ResultProcessor.processItem( ItemPool.HELLSEAL_HIDE, -6 );
 			ResultProcessor.processItem( ItemPool.HELLSEAL_BRAIN, -6 );
@@ -1788,7 +1806,7 @@ public class ResultProcessor
 		case ItemPool.NEW_WAVE_BLING:
 			if ( combatResults )
 			{
-				Preferences.setString( "questG04Nemesis", "finished" );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.FINISHED );
 			}
 			break;
 
@@ -2122,6 +2140,7 @@ public class ResultProcessor
 			// final assassin, but since this dropped we won the fight
 			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
 			TurnCounter.stopCounting( "Nemesis Assassin window end" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
 			break;
 
 		case ItemPool.YEARBOOK_CAMERA:

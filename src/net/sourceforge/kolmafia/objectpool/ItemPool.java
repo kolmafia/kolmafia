@@ -118,6 +118,12 @@ public class ItemPool
 	public static final int COTTAGE = 143;
 	public static final int BARBED_FENCE = 145;
 	public static final int DINGHY_PLANS = 146;
+	public static final int SCALP_OF_GORGOLOK = 150;
+	public static final int ELDER_TURTLE_SHELL = 151;
+	public static final int COLANDER_OF_EMERIL = 152;
+	public static final int ANCIENT_SAUCEHELM = 153;
+	public static final int DISCO_FRO_PICK = 154;
+	public static final int EL_SOMBRERO_DE_LOPEZ = 155;
 	public static final int RANGE = 157;
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
@@ -1167,6 +1173,12 @@ public class ItemPool
 	public static final int WOLFMAN_MASK = 4260;
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
+	public static final int KRAKROXS_LOINCLOTH = 4267;
+	public static final int GALAPAGOSIAN_CUISSES = 4268;
+	public static final int ANGELHAIR_CULOTTES = 4269;
+	public static final int NEWMANS_OWN_TROUSERS = 4270;
+	public static final int VOLARTTAS_BELLBOTTOMS = 4271;
+	public static final int LEDERHOSEN_OF_THE_NIGHT = 4272;
 	public static final int UNDERWORLD_ACORN = 4274;
 	public static final int CRAPPY_MASK = 4282;
 	public static final int GLADIATOR_MASK = 4284;
