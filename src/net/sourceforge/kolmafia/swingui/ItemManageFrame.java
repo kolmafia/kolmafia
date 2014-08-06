@@ -346,8 +346,9 @@ public class ItemManageFrame
 
 	public static void updatePullsBudgeted( final int pullsBudgeted )
 	{
-		ItemManageFrame.pullBudgetSpinner1.setValue( IntegerPool.get( pullsBudgeted ) );
-		ItemManageFrame.pullBudgetSpinner2.setValue( IntegerPool.get( pullsBudgeted ) );
+		Integer value = IntegerPool.get( pullsBudgeted );
+		ItemManageFrame.pullBudgetSpinner1.setValue( value );
+		ItemManageFrame.pullBudgetSpinner2.setValue( value );
 	}
 
 	private class JunkItemsPanel
@@ -695,17 +696,46 @@ public class ItemManageFrame
 		extends AutoHighlightSpinner
 		implements ChangeListener
 	{
+		private boolean changing = true;
+
 		public PullBudgetSpinner()
 		{
 			super();
 			this.setAlignmentX( 0.0f );
 			this.addChangeListener( this );
+			this.changing = false;
 		}
 
 		public void stateChanged( ChangeEvent e )
 		{
+			if ( this.changing )
+			{
+				return;
+			}
+
 			int desired = InputFieldUtilities.getValue( this, 0 );
-			ConcoctionDatabase.setPullsBudgeted( desired );
+			if ( desired != ConcoctionDatabase.getPullsBudgeted() )
+			{
+				this.changing = true;
+				ConcoctionDatabase.setPullsBudgeted( desired );
+				this.changing = false;
+				RequestThread.runInParallel( new RefreshConcoctionsRunnable( desired ) );
+			}
+		}
+	}
+
+	private static class RefreshConcoctionsRunnable
+		implements Runnable
+	{
+		private int desired;
+
+		public RefreshConcoctionsRunnable( final int desired )
+		{
+			this.desired = desired;
+		}
+
+		public void run()
+		{
 			ConcoctionDatabase.refreshConcoctions( true );
 		}
 	}
