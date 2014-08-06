@@ -87,6 +87,7 @@ public class QuestDatabase
 			MYST( "questG07Myst" ),
 			MEATCAR( "questG01Meatcar" ),
 			CITADEL( "questG02Whitecastle" ),
+			NEMESIS( "questG04Nemesis" ),
 			ARTIST( "questM02Artist" ),
 			GALAKTIK( "questM04Galaktic" ),
 			AZAZEL( "questM10Azazel" ),
@@ -256,17 +257,11 @@ public class QuestDatabase
 	public static String findQuestProgress( String pref, String details )
 	{
 		// Special handling due to multiple endings
-		if ( pref.equals( "questL12War" ) )
+		if ( pref.equals( Quest.ISLAND_WAR.getPref() ) )
 		{
 			return handleWarStatus( details );
 		}
-		if ( pref.equals( "questG04Nemesis" ) && details.contains( "Demonic Lord of Revenge" ) )
-		{
-			// Hard code the end of the nemesis quest, for now. We could eventually programmatically handle
-			// the <demon name> in the response.
-			return QuestDatabase.FINISHED;
-		}
-		if ( pref.equals( "questM12Pirate" ) && details.contains( "Oh, and also you've managed to scam your way belowdecks, which is cool" ) )
+		if ( pref.equals( Quest.PIRATE.getPref() ) && details.contains( "Oh, and also you've managed to scam your way belowdecks, which is cool" ) )
 		{
 			// Hard code the end of the pirate quest, as it step 6 matches the final text also.
 			return QuestDatabase.FINISHED;

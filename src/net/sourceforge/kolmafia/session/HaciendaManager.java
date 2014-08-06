@@ -155,7 +155,7 @@ public class HaciendaManager
 		Preferences.setString( "haciendaLayout", haciendaLayout );
 
 		// Check if quest completion was properly completed, and if not, update Hacienda layout
-		if ( Preferences.getString( "questG04Nemesis" ).equals( "finished" ) )
+		if ( QuestDatabase.isQuestFinished( Quest.NEMESIS ) )
 		{
 			if ( HaciendaManager.countString( haciendaLayout.toLowerCase(), "f" ) > 0 )
 			{
@@ -172,7 +172,7 @@ public class HaciendaManager
 			String room = haciendaLayout.substring( i*3, i*3+3 );
 
 			// Nemesis quest complete, so no fights encountered, and pattern is now two rewards and one Key/clue
-			if ( Preferences.getString( "questG04Nemesis" ).equals( "finished" ) )
+			if ( QuestDatabase.isQuestFinished( Quest.NEMESIS ) )
 			{
 				for ( int j=0 ; j < 3 ; j++ )
 				{
@@ -372,7 +372,7 @@ public class HaciendaManager
 	private static String getSpoiler( final int spoiler )
 	{
 		String haciendaLayout = Preferences.getString( "haciendaLayout" );
-		Boolean questComplete = Preferences.getString( "questG04Nemesis" ).equals( "finished" );
+		Boolean questComplete = QuestDatabase.isQuestFinished( Quest.NEMESIS );
 		String result = "";
 		int roomNumber = spoiler/3;
 		
@@ -451,7 +451,7 @@ public class HaciendaManager
 	private static String getWingSpoilers( final int spoiler )
 	{
 		String haciendaLayout = Preferences.getString( "haciendaLayout" );
-		Boolean questComplete = Preferences.getString( "questG04Nemesis" ).equals( "finished" );
+		Boolean questComplete = QuestDatabase.isQuestFinished( Quest.NEMESIS );
 		int wingNumber = spoiler/9;
 	
 		String wing = haciendaLayout.substring( wingNumber*9, wingNumber*9+9 );

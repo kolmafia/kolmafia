@@ -298,7 +298,7 @@ public class KoLAdventure
 
 		// Nemesis assassins.
 
-		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) && !Preferences.getString( "questG04Nemesis" ).equals( "unstarted" ) )
+		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) && QuestDatabase.isQuestLaterThan( Quest.NEMESIS, "step5" ) )
 		{
 			return true;
 		}
