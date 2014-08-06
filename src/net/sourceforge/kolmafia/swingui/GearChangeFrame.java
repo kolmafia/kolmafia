@@ -1448,6 +1448,12 @@ public class GearChangeFrame
 				continue;
 			}
 
+			// Certain familiars can not be equipped in certain paths
+			if ( !fam.canEquip() )
+			{
+				continue;
+			}
+
 			// Only add it once
 			if ( familiars.contains( fam ) )
 			{
