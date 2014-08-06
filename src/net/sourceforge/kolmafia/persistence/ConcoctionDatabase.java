@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -1298,9 +1299,10 @@ public class ConcoctionDatabase
 			}
 
 			if ( considerPulls &&
-				ar.getItemId() > 0 &&
-				item.getPrice() <= 0 &&
-				ItemDatabase.meetsLevelRequirement( item.getName() ) )
+			     ar.getItemId() > 0 &&
+			     item.getPrice() <= 0 &&
+			     ItemDatabase.meetsLevelRequirement( item.getName() ) &&
+			     Type69Request.isAllowed( "Items", ar.getName() ) )
 			{
 				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
 			}
