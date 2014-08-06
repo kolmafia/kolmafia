@@ -345,6 +345,12 @@ public class MoodTrigger
 			return false;
 		}
 
+		// Don't cast it if you can't
+		if ( this.skill != null && !KoLCharacter.hasSkill( this.skill.getSkillName() ) )
+		{
+			return false;
+		}
+
 		if ( this.type.equals( "unconditional" ) || this.effect == null )
 		{
 			return true;
