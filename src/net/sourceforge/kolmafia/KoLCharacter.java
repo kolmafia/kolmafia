@@ -3707,8 +3707,6 @@ public abstract class KoLCharacter
 		case SkillDatabase.SONG:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
-			KoLConstants.selfOnlySkills.add( skill );
-			KoLConstants.selfOnlySkills.sort();
 			KoLConstants.songSkills.add( skill );
 			KoLConstants.songSkills.sort();
 			break;
@@ -3732,12 +3730,9 @@ public abstract class KoLCharacter
 		case SkillDatabase.EXPRESSION:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
-			KoLConstants.selfOnlySkills.add( skill );
-			KoLConstants.selfOnlySkills.sort();
 			KoLConstants.expressionSkills.add( skill );
 			KoLConstants.expressionSkills.sort();
 			break;
-
 		}
 	}
 
