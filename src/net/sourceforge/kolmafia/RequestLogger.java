@@ -317,6 +317,12 @@ public class RequestLogger
 		{
 			boolean addedColor = false;
 
+			// Temporary workaround for Java bug
+			if ( message.startsWith( "/" ) )
+			{
+				colorBuffer.append( "<span>" );
+			}
+
 			if ( state == MafiaState.ERROR || state == MafiaState.ABORT )
 			{
 				addedColor = true;
@@ -352,6 +358,12 @@ public class RequestLogger
 			if ( message.indexOf( "<" ) == -1 && message.indexOf( KoLConstants.LINE_BREAK ) != -1 )
 			{
 				colorBuffer.append( "</pre>" );
+			}
+
+			// Temporary workaround for Java bug
+			if ( message.startsWith( "/" ) )
+			{
+				colorBuffer.append( "</span>" );
 			}
 
 			StringUtilities.globalStringDelete( colorBuffer, "<html>" );
