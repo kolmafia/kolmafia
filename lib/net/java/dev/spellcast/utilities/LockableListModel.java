@@ -54,19 +54,19 @@ import javax.swing.MutableComboBoxModel;
  * convenience purposes only.
  */
 
-public class LockableListModel
-	extends AbstractListModel
-	implements Cloneable, List, ListModel, ComboBoxModel, MutableComboBoxModel
+public class LockableListModel<E>
+	extends AbstractListModel<E>
+	implements Cloneable, List<E>, ListModel<E>, ComboBoxModel<E>, MutableComboBoxModel<E>
 {
 	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
 	private boolean actionListenerFired = false;
 	
-	protected ArrayList actualElements;
-	private ArrayList visibleElements;
-	private ArrayList mirrorList;
+	protected ArrayList<E> actualElements;
+	private ArrayList<E> visibleElements;
+	private ArrayList<WeakReference<LockableListModel<E>>> mirrorList;
 
-	protected Object selectedValue;
+ E selectedValue;
 	protected ListElementFilter currentFilter;
 
 	/**
@@ -75,37 +75,37 @@ public class LockableListModel
 
 	public LockableListModel()
 	{
-		this.actualElements = new ArrayList();
-		this.visibleElements = new ArrayList();
-		this.mirrorList = new ArrayList();
+		this.actualElements = new ArrayList<E>();
+		this.visibleElements = new ArrayList<E>();
+		this.mirrorList = new ArrayList<WeakReference<LockableListModel<E>>>();
 
 		this.selectedValue = null;
 		this.currentFilter = LockableListModel.NO_FILTER;
 	}
 
-	public LockableListModel( final Collection c )
+	public LockableListModel( final Collection<E> c )
 	{
 		this();
 		this.addAll( c );
 	}
 
-	private LockableListModel( final LockableListModel l )
+	private LockableListModel( final LockableListModel<E> l )
 	{
 		this( l, LockableListModel.NO_FILTER );
 	}
 
-	private LockableListModel( final LockableListModel l, final ListElementFilter f )
+	private LockableListModel( final LockableListModel<E> l, final ListElementFilter f )
 	{
 		synchronized ( l.actualElements )
 		{
 			this.actualElements = l.actualElements;
-			this.visibleElements = new ArrayList();
+			this.visibleElements = new ArrayList<E>();
 
 			this.selectedValue = null;
 			this.currentFilter = f == null ? LockableListModel.NO_FILTER : f;
-			this.mirrorList = new ArrayList();
+			this.mirrorList = new ArrayList<WeakReference<LockableListModel<E>>>();
 
-			l.mirrorList.add( new WeakReference( this ) );
+			l.mirrorList.add( new WeakReference<LockableListModel<E>>( this ) );
 
 			if ( f == LockableListModel.NO_FILTER )
 			{
@@ -122,14 +122,14 @@ public class LockableListModel
 		}
 	}
 
-	private LockableListModel getNextMirror( final Iterator it )
+	private LockableListModel<E> getNextMirror( final Iterator<WeakReference<LockableListModel<E>>> it )
 	{
 		while ( it.hasNext() )
 		{
-			WeakReference ref = (WeakReference) it.next();
+			WeakReference<LockableListModel<E>> ref = it.next();
 			if ( ref.get() != null )
 			{
-				return (LockableListModel) ref.get();
+				return ref.get();
 			}
 
 			it.remove();
@@ -152,10 +152,10 @@ public class LockableListModel
 			Collections.sort( this.visibleElements, c );
 			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					break;
@@ -215,7 +215,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#add(int,Object)} for more information regarding this function.
 	 */
 
-	public void add( final int index, final Object element )
+	public void add( final int index, final E element )
 	{
 		if ( element == null )
 		{
@@ -233,10 +233,10 @@ public class LockableListModel
 
 			this.addVisibleElement( index, element );
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					return;
@@ -247,7 +247,7 @@ public class LockableListModel
 		}
 	}
 
-	private void addVisibleElement( final int index, final Object element )
+	private void addVisibleElement( final int index, final E element )
 	{
 		if ( !this.currentFilter.isVisible( element ) )
 		{
@@ -263,7 +263,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#add(Object)} for more information regarding this function.
 	 */
 
-	public boolean add( final Object o )
+	public boolean add( final E o )
 	{
 		if ( o == null )
 		{
@@ -282,7 +282,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#addAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean addAll( final Collection c )
+	public boolean addAll( final Collection<? extends E> c )
 	{
 		synchronized ( this.actualElements )
 		{
@@ -294,7 +294,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more information regarding this function.
 	 */
 
-	public boolean addAll( final int index, final Collection c )
+	public boolean addAll( final int index, final Collection<? extends E> c )
 	{
 		synchronized ( this.actualElements )
 		{
@@ -316,10 +316,10 @@ public class LockableListModel
 
 			this.clearVisibleElements();
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					return;
@@ -356,7 +356,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#containsAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean containsAll( final Collection c )
+	public boolean containsAll( final Collection<?> c )
 	{
 		return this.actualElements.containsAll( c );
 	}
@@ -375,7 +375,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#get(int)} for more information regarding this function.
 	 */
 
-	public Object get( final int index )
+	public E get( final int index )
 	{
 		if ( index < 0 || index >= this.actualElements.size() )
 		{
@@ -419,7 +419,7 @@ public class LockableListModel
 	 */
 
 	private class ListModelIterator
-		implements ListIterator
+		implements ListIterator<E>
 	{
 		private int nextIndex, previousIndex;
 		private boolean isIncrementing;
@@ -446,19 +446,19 @@ public class LockableListModel
 			return this.nextIndex < LockableListModel.this.actualElements.size();
 		}
 
-		public Object next()
+		public E next()
 		{
 			this.isIncrementing = true;
-			Object nextObject = LockableListModel.this.get( this.nextIndex );
+			E nextObject = LockableListModel.this.get( this.nextIndex );
 			++this.nextIndex;
 			++this.previousIndex;
 			return nextObject;
 		}
 
-		public Object previous()
+		public E previous()
 		{
 			this.isIncrementing = false;
-			Object previousObject = LockableListModel.this.get( this.previousIndex );
+			E previousObject = LockableListModel.this.get( this.previousIndex );
 			--this.nextIndex;
 			--this.previousIndex;
 			return previousObject;
@@ -474,7 +474,7 @@ public class LockableListModel
 			return this.previousIndex;
 		}
 
-		public void add( final Object o )
+		public void add( final E o )
 		{
 			LockableListModel.this.add( this.nextIndex, o );
 			++this.nextIndex;
@@ -497,7 +497,7 @@ public class LockableListModel
 			}
 		}
 
-		public void set( final Object o )
+		public void set( final E o )
 		{
 			LockableListModel.this.set( this.isIncrementing ? this.nextIndex - 1 : this.previousIndex + 1, o );
 		}
@@ -507,7 +507,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#iterator()} for more information regarding this function.
 	 */
 
-	public Iterator iterator()
+	public Iterator<E> iterator()
 	{
 		return new ListModelIterator();
 	}
@@ -516,7 +516,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.Vector#lastElement()} for more information regarding this function.
 	 */
 
-	public Object lastElement()
+	public E lastElement()
 	{
 		return this.actualElements.isEmpty() ? null : this.actualElements.get( this.actualElements.size() - 1 );
 	}
@@ -534,7 +534,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#listIterator()} for more information regarding this function.
 	 */
 
-	public ListIterator listIterator()
+	public ListIterator<E> listIterator()
 	{
 		return new ListModelIterator();
 	}
@@ -543,7 +543,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#listIterator(int)} for more information regarding this function.
 	 */
 
-	public ListIterator listIterator( final int index )
+	public ListIterator<E> listIterator( final int index )
 	{
 		return new ListModelIterator( index );
 	}
@@ -552,7 +552,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#remove(int)} for more information regarding this function.
 	 */
 
-	public Object remove( final int index )
+	public E remove( final int index )
 	{
 		synchronized ( this.actualElements )
 		{
@@ -566,15 +566,15 @@ public class LockableListModel
 				this.updateFilter( false );
 			}
 
-			Object originalValue = this.actualElements.get( index );
+			E originalValue = this.actualElements.get( index );
 			this.actualElements.remove( index );
 
 			this.removeVisibleElement( index, originalValue );
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					return originalValue;
@@ -587,7 +587,7 @@ public class LockableListModel
 		}
 	}
 
-	private void removeVisibleElement( final int index, final Object element )
+	private void removeVisibleElement( final int index, final E element )
 	{
 		if ( !this.currentFilter.isVisible( element ) )
 		{
@@ -615,18 +615,16 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#removeAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean removeAll( final Collection c )
+	public boolean removeAll( final Collection<?> c )
 	{
 		synchronized ( this.actualElements )
 		{
 			int originalSize = this.actualElements.size();
 
-			Object current;
 			Iterator it = c.iterator();
-
 			while ( it.hasNext() )
 			{
-				current = it.next();
+				Object current = it.next();
 				if ( current != null )
 				{
 					this.remove( current );
@@ -641,7 +639,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#retainAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean retainAll( final Collection c )
+	public boolean retainAll( final Collection<?> c )
 	{
 		synchronized ( this.actualElements )
 		{
@@ -661,10 +659,10 @@ public class LockableListModel
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#set(int,Object)} for more information regarding this function.
+	 * Please refer to {@link java.util.List#set(int,E)} for more information regarding this function.
 	 */
 
-	public Object set( final int index, final Object element )
+	public E set( final int index, final E element )
 	{
 		synchronized ( this.actualElements )
 		{
@@ -678,13 +676,13 @@ public class LockableListModel
 				this.updateFilter( false );
 			}
 
-			Object originalValue = this.actualElements.set( index, element );
+			E originalValue = this.actualElements.set( index, element );
 			this.setVisibleElement( index, element, originalValue );
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					return originalValue;
@@ -697,7 +695,7 @@ public class LockableListModel
 		}
 	}
 
-	private void setVisibleElement( final int index, final Object element, final Object originalValue )
+	private void setVisibleElement( final int index, final E element, final E originalValue )
 	{
 		int visibleIndex = this.computeVisibleIndex( index );
 
@@ -739,7 +737,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#subList(int,int)} for more information regarding this function.
 	 */
 
-	public List subList( final int fromIndex, final int toIndex )
+	public List<E> subList( final int fromIndex, final int toIndex )
 	{
 		return this.actualElements.subList( fromIndex, toIndex );
 	}
@@ -757,7 +755,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#toArray(Object[])} for more information regarding this function.
 	 */
 
-	public Object[] toArray( final Object[] a )
+	public <T> T[] toArray( final T[] a )
 	{
 		return this.actualElements.toArray( a );
 	}
@@ -768,10 +766,10 @@ public class LockableListModel
 		{
 			this.updateSingleFilter( refresh );
 
-			Iterator it = this.mirrorList.iterator();
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
+				LockableListModel<E> mirror = this.getNextMirror( it );
 				if ( mirror == null )
 				{
 					return;
@@ -791,7 +789,7 @@ public class LockableListModel
 
 		for ( int i = 0; i < this.actualElements.size(); ++i )
 		{
-			Object element = this.actualElements.get( i );
+			E element = this.actualElements.get( i );
 
 			if ( this.currentFilter.isVisible( element ) )
 			{
@@ -891,7 +889,7 @@ public class LockableListModel
 		this.currentFilter = newFilter == null ? LockableListModel.NO_FILTER : newFilter;
 	}
 
-	public int getIndexOf( final Object o )
+	public int getIndexOf( final E o )
 	{
 		return this.visibleElements.indexOf( o );
 	}
@@ -900,7 +898,7 @@ public class LockableListModel
 	 * Please refer to {@link javax.swing.ListModel#getElementAt(int)} for more information regarding this function.
 	 */
 
-	public Object getElementAt( final int index )
+	public E getElementAt( final int index )
 	{
 		return index < 0 || index >= this.visibleElements.size() ? null : this.visibleElements.get( index );
 	}
@@ -943,7 +941,7 @@ public class LockableListModel
 
 	public void setSelectedItem( final Object o )
 	{
-		this.selectedValue = o;
+		this.selectedValue = (E)o;
 		this.fireContentsChanged( this, -1, -1 );
 	}
 
@@ -962,7 +960,7 @@ public class LockableListModel
 	 * function.
 	 */
 
-	public void addElement( final Object element )
+	public void addElement( final E element )
 	{
 		this.add( element );
 	}
@@ -972,7 +970,7 @@ public class LockableListModel
 	 * regarding this function.
 	 */
 
-	public void insertElementAt( final Object element, final int index )
+	public void insertElementAt( final E element, final int index )
 	{
 		this.add( element );
 	}
@@ -1039,7 +1037,7 @@ public class LockableListModel
 		cloneCopy.visibleElements = new ArrayList();
 		cloneCopy.visibleElements.addAll( this.visibleElements );
 
-		cloneCopy.mirrorList = new ArrayList();
+		cloneCopy.mirrorList = new ArrayList<WeakReference<LockableListModel<E>>>();
 
 		cloneCopy.currentFilter = this.currentFilter;
 		cloneCopy.selectedValue = null;
@@ -1075,9 +1073,9 @@ public class LockableListModel
 	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public LockableListModel getMirrorImage()
+	public LockableListModel<E> getMirrorImage()
 	{
-		return new LockableListModel( this );
+		return new LockableListModel<E>( this );
 	}
 
 	/**
@@ -1090,8 +1088,8 @@ public class LockableListModel
 	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public LockableListModel getMirrorImage( final ListElementFilter filter )
+	public LockableListModel<E> getMirrorImage( final ListElementFilter filter )
 	{
-		return new LockableListModel( this, filter );
+		return new LockableListModel<E>( this, filter );
 	}
 }

@@ -62,6 +62,14 @@ import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 
+// The following are objects that go into various global data lists.
+// Perhaps we should have a DataModel.java?
+
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
+
 public interface KoLConstants
 	extends UtilityConstants
 {
@@ -116,7 +124,7 @@ public interface KoLConstants
 	// at any time.
 
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
-	public static final LockableListModel existingFrames = new LockableListModel();
+	public static final LockableListModel<String> existingFrames = new LockableListModel<String>();
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
@@ -270,8 +278,8 @@ public interface KoLConstants
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
 
-	public static final LockableListModel scripts = new LockableListModel();
-	public static final LockableListModel bookmarks = new LockableListModel();
+	public static final LockableListModel<File> scripts = new LockableListModel<File>();
+	public static final LockableListModel<String> bookmarks = new LockableListModel<String>();
 
 	public static String [] maximizerExpressions =
 	{
@@ -712,43 +720,43 @@ public interface KoLConstants
 	// global in order to ensure that any element of KoLmafia can
 	// access session-specific information.
 
-	public static final SortedListModel saveStateNames = new SortedListModel();
+	public static final SortedListModel<String> saveStateNames = new SortedListModel<String>();
 
-	public static final SortedListModel inventory = new SortedListModel();
-	public static final SortedListModel closet = new SortedListModel();
-	public static final SortedListModel storage = new SortedListModel();
-	public static final SortedListModel freepulls = new SortedListModel();
-	public static final SortedListModel nopulls = new SortedListModel();
-	public static final SortedListModel collection = new SortedListModel();
-	public static final SortedListModel campground = new SortedListModel();
-	public static final SortedListModel pulverizeQueue = new SortedListModel();
+	public static final SortedListModel<AdventureResult> inventory = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> closet = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> storage = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> freepulls = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> nopulls = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> collection = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> campground = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> pulverizeQueue = new SortedListModel<AdventureResult>();
 
-	public static final LockableListModel usableSkills = new LockableListModel();
-	public static final LockableListModel summoningSkills = new LockableListModel();
-	public static final LockableListModel remedySkills = new LockableListModel();
-	public static final LockableListModel selfOnlySkills = new LockableListModel();
-	public static final LockableListModel buffSkills = new LockableListModel();
-	public static final LockableListModel songSkills = new LockableListModel();
-	public static final LockableListModel expressionSkills = new LockableListModel();
-	public static final LockableListModel availableSkills = new LockableListModel();
-	public static final IdentityHashMap availableSkillsMap = new IdentityHashMap();
-	public static final LockableListModel availableCombatSkills = new LockableListModel();
-	public static final IdentityHashMap availableCombatSkillsMap = new IdentityHashMap();
-	public static final LockableListModel permedSkills = new LockableListModel();
-	public static final LockableListModel combatSkills = new LockableListModel();
+	public static final LockableListModel<UseSkillRequest> usableSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> summoningSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> remedySkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> selfOnlySkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> buffSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> songSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> expressionSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> availableSkills = new LockableListModel<UseSkillRequest>();
+	public static final IdentityHashMap<UseSkillRequest,Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest,Object>();
+	public static final LockableListModel<UseSkillRequest> availableCombatSkills = new LockableListModel<UseSkillRequest>();
+	public static final IdentityHashMap<UseSkillRequest,Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest,Object>();
+	public static final LockableListModel<UseSkillRequest> permedSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> combatSkills = new LockableListModel<UseSkillRequest>();
 
-	public static final LockableListModel activeEffects = new LockableListModel();
+	public static final LockableListModel<AdventureResult> activeEffects = new LockableListModel<AdventureResult>();
 	public static final ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
 
-	public static final LockableListModel hermitItems = new LockableListModel();
-	public static final LockableListModel restaurantItems = new LockableListModel();
-	public static final LockableListModel microbreweryItems = new LockableListModel();
-	public static final LockableListModel kitchenItems = new LockableListModel();
-	public static final LockableListModel cafeItems = new LockableListModel();
+	public static final LockableListModel<AdventureResult> hermitItems = new LockableListModel<AdventureResult>();
+	public static final LockableListModel<String> restaurantItems = new LockableListModel<String>();
+	public static final LockableListModel<String> microbreweryItems = new LockableListModel<String>();
+	public static final LockableListModel<String> kitchenItems = new LockableListModel<String>();
+	public static final LockableListModel<Concoction> cafeItems = new LockableListModel<Concoction>();
 
-	public static final SortedListModel tally = new SortedListModel();
-	public static final LockableListModel adventureList = new LockableListModel();
-	public static final SortedListModel encounterList = new SortedListModel();
+	public static final SortedListModel<AdventureResult> tally = new SortedListModel<AdventureResult>();
+	public static final LockableListModel<RegisteredEncounter> adventureList = new LockableListModel<RegisteredEncounter>();
+	public static final SortedListModel<RegisteredEncounter> encounterList = new SortedListModel<RegisteredEncounter>();
 
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.

@@ -42,11 +42,11 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
  */
 
-public class SortedListModelArray
+public class SortedListModelArray<E>
 {
-	private final ArrayList<SortedListModel> internalList = new ArrayList<SortedListModel>();
+	private final ArrayList<SortedListModel<E>> internalList = new ArrayList<SortedListModel<E>>();
 
-	public SortedListModel get( final int index )
+	public SortedListModel<E> get( final int index )
 	{
 		if ( index < 0 )
 		{
@@ -58,10 +58,10 @@ public class SortedListModelArray
 			this.internalList.add( null );
 		}
 
-		return (SortedListModel) this.internalList.get( index );
+		return this.internalList.get( index );
 	}
 
-	public void set( final int index, final SortedListModel value )
+	public void set( final int index, final SortedListModel<E> value )
 	{
 		while ( index >= this.internalList.size() )
 		{

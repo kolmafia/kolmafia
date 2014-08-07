@@ -516,12 +516,12 @@ public class Concoction
 		return foundMatch;
 	}
 
-	public void queue( final LockableListModel globalChanges, final ArrayList localChanges, final int amount )
+	public void queue( final LockableListModel<AdventureResult> globalChanges, final ArrayList<AdventureResult> localChanges, final int amount )
 	{
 		this.queue( globalChanges, localChanges, amount, true );
 	}
 
-	public void queue( final LockableListModel globalChanges, final ArrayList localChanges, final int amount, boolean adjust )
+	public void queue( final LockableListModel<AdventureResult> globalChanges, final ArrayList<AdventureResult> localChanges, final int amount, boolean adjust )
 	{
 		if ( amount <= 0 )
 		{
@@ -696,10 +696,10 @@ public class Concoction
 		int itemId = ingredient.getItemId();
 		if ( itemId >= 0 )
 		{
-			SortedListModel uses = ConcoctionDatabase.knownUses.get( itemId );
+			SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get( itemId );
 			if ( uses == null )
 			{
-				uses = new SortedListModel();
+				uses = new SortedListModel<AdventureResult>();
 				ConcoctionDatabase.knownUses.set( ingredient.getItemId(), uses );
 			}
 
