@@ -90,6 +90,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -153,18 +155,23 @@ public class RelayRequest
 	private static String CONFIRM_SEAL = "confirm8";
 	private static String CONFIRM_ARCADE = "confirm9";
 	private static String CONFIRM_KUNGFU = "confirm10";
-	private static String CONFIRM_LIBRARY = "confirm11";
+	private static String CONFIRM_POOL_SKILL = "confirm11";
 	private static String CONFIRM_WINEGLASS = "confirm12";
 	private static String CONFIRM_COLOSSEUM = "confirm13";
 	private static String CONFIRM_GREMLINS = "confirm14";
 	private static String CONFIRM_HARDCOREPVP = "confirm15";
 	private static String CONFIRM_DESERT_UNHYDRATED = "confirm16";
+	private static String CONFIRM_MOHAWK_WIG = "confirm17";
 
 	private static boolean ignoreDesertWarning = false;
+	private static boolean ignoreMohawkWigWarning = false;
+	private static boolean ignorePoolSkillWarning = false;
 
 	public static final void reset()
 	{
+		RelayRequest.ignorePoolSkillWarning = false;
 		RelayRequest.ignoreDesertWarning = false;
+		RelayRequest.ignoreMohawkWigWarning = false;
 	}
 
 	public RelayRequest( final boolean allowOverride )
@@ -961,9 +968,9 @@ public class RelayRequest
 			warning.toString(),
 			"hand.gif",
 			image,
-			"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + weapon.getItemId() + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
+			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + weapon.getItemId() + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
 			"/images/closet.gif",
-			"singleUse('fillcloset.php','action=closetpush&whichitem=" + weapon.getItemId() + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);"
+			"\"#\" onClick=\"singleUse('fillcloset.php','action=closetpush&whichitem=" + weapon.getItemId() + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\""
 			);
 
 		return true;
@@ -1140,10 +1147,213 @@ public class RelayRequest
 			return false;
 		}
 
-		String message =
-			"You are about to adventure unhydrated in the desert.  Click the image above to proceed.";
+		StringBuilder warning = new StringBuilder();
 
-		this.sendGeneralWarning( "poison.gif", message, CONFIRM_DESERT_UNHYDRATED, "checked=1" );
+		warning.append( "You are about to adventure unhydrated in the desert. " );
+		warning.append( "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. " );
+		warning.append( "If you want to visit the Oasis to get unhyrdated, click the icon on the right to adventure. " );
+
+		this.sendOptionalWarning(
+			CONFIRM_DESERT_UNHYDRATED,
+			warning.toString(),
+			"poison.gif",
+			"raindrop.gif",
+			"\"adventure.php?snarfblat=122\"",
+			null,
+			null
+			);
+
+		return true;
+	}
+
+	private boolean sendMohawkWigWarning()
+	{
+		// Only send this warning once per session
+		if ( RelayRequest.ignoreMohawkWigWarning )
+		{
+			return false;
+		}
+
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_MOHAWK_WIG ) != null )
+		{
+			RelayRequest.ignoreMohawkWigWarning = true;
+			return false;
+		}
+
+		// If they aren't in the Castle Top, no problem
+		if ( !AdventurePool.CASTLE_TOP_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they have already turned the chore wheel, no problem
+		if ( QuestDatabase.isQuestLaterThan( Quest.GARBAGE, "step9" ) )
+		{
+			return false;
+		}
+
+		// If they are already wearing the Wig, no problem
+		if ( KoLCharacter.hasEquipped( ItemPool.MOHAWK_WIG , EquipmentManager.HAT ) )
+		{
+			return false;
+		}
+
+		// If they don't have the Wig, no problem
+		if ( !InventoryManager.hasItem( ItemPool.MOHAWK_WIG ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "You are about to adventure without your Mohawk Wig in the Castle. " );
+		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
+		warning.append( "If you want to put the hat on first, click the icon on the right. " );
+
+		this.sendOptionalWarning(
+			CONFIRM_MOHAWK_WIG,
+			warning.toString(),
+			"hand.gif",
+			"mohawk.gif",
+			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.MOHAWK_WIG + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
+			null,
+			null
+			);
+
+		return true;
+	}
+
+	private boolean sendPoolSkillWarning()
+	{
+		// Only send this warning once per session
+		if ( RelayRequest.ignorePoolSkillWarning )
+		{
+			return false;
+		}
+
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_POOL_SKILL ) != null )
+		{
+			RelayRequest.ignorePoolSkillWarning = true;
+			return false;
+		}
+
+		// If they aren't in the Billiards Room, no problem
+		if ( !AdventurePool.HAUNTED_BILLIARDS_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they have already have the library key, no problem
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.LIBRARY_KEY, 1 ) ) )
+		{
+			return false;
+		}
+
+		// Calculate current pool skill
+		int drunk = KoLCharacter.getInebriety();
+		int drunkBonus = drunk - ( drunk > 10 ? ( drunk - 10 ) * 3 : 0 );
+		int equip = KoLCharacter.getPoolSkill();
+		int semiRare = Preferences.getInteger( "poolSharkCount" );
+		int semiRareBonus = 0;
+		if ( semiRare > 25 )
+		{
+			semiRareBonus = 10;
+		}
+		else if ( semiRare > 0 )
+		{
+			semiRareBonus = (int) Math.floor( 2 * Math.sqrt( semiRare ) );
+		}		
+		int training  = Preferences.getInteger( "poolSkill" );
+		int poolSkill = equip + training + semiRareBonus + drunkBonus;
+		
+		// If pool skill 18 or greater, no problem (based on current spading, no failures at 18)
+		if ( poolSkill >= 18 )
+		{
+			return false;
+		}
+
+		// Just consider the common items, pool cue and hand chalk
+		String image2 = null;
+		String action2 = null;
+		String image3 = null;
+		String action3 = null;
+
+		// If they don't have the Pool Cue equipped, but do have it it's an option
+		if ( !KoLCharacter.hasEquipped( ItemPool.POOL_CUE , EquipmentManager.WEAPON ) &&
+			InventoryManager.hasItem( ItemPool.POOL_CUE ) )
+		{
+			image2 = "poolcue.gif";
+			action2 = "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.POOL_CUE + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"";
+		}
+
+		// If they don't have the Chalky Hand effect, but do have hand chalk, it's an option
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.CHALKY_HAND ) ) &&
+			InventoryManager.hasItem( ItemPool.HAND_CHALK ) )
+		{
+			image3 = "disease.gif";
+			action3 = "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem=" + ItemPool.HAND_CHALK + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"";
+		}
+
+		if ( image2 == null && image3 != null )
+		{
+			image2 = image3;
+			image3 = null;
+			action2 = action3;
+			action3 = null;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		if ( poolSkill >= 14 )
+		{
+			warning.append( "You can't guarantee beating the hustler. You have " + poolSkill + " pool skill and need 18 to guarantee it. " );
+		}
+		else
+		{
+			warning.append( "You cannot beat the hustler. You have " + poolSkill + " pool skill and need 14 to have a chance, and 18 to guarantee it. " );
+		}
+
+		if ( drunk < 10 )
+		{
+			warning.append( "<br>Drinking more may help, giving an extra one pool skill per drunk up to 10." );
+		}
+
+		if ( image2 == null )
+		{
+			warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon to adventure. " );
+		}
+		else
+		{
+			warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon on the left to adventure. " );
+		}
+		if ( image3 == null )
+		{
+			if ( image2 == "poolcue.gif" )
+			{
+				warning.append( "<br>If you want to wield the cue first, for an extra three skill, click the icon on the right. " );
+			}
+			else if ( image2 == "disease.gif" )
+			{
+				warning.append( "<br>If you want to use hand chalk first, for an extra three skill, click the icon on the right. " );
+			}
+		}
+		else if ( image3 == "disease.gif" )
+		{
+			warning.append( "<br>If you want to wield the cue first, for an extra three skill, click the icon in the middle. " );
+			warning.append( "<br>If you want to use hand chalk first, for an extra three skill, click the icon in the right. " );
+		}
+
+		this.sendOptionalWarning(
+			CONFIRM_POOL_SKILL,
+			warning.toString(),
+			"glove.gif",
+			image2,
+			action2,
+			image3,
+			action3
+			);
 
 		return true;
 	}
@@ -1631,9 +1841,9 @@ public class RelayRequest
 			warning.toString(),
 			"hand.gif",
 			"dr_wineglass.gif",
-			"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
+			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
 			"/images/closet.gif",
-			"singleUse('fillcloset.php','action=closetpush&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);"
+			"\"#\" onClick=\"singleUse('fillcloset.php','action=closetpush&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\""
 			);
 
 		return true;
@@ -1728,9 +1938,9 @@ public class RelayRequest
 			warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 			// perform optional action, do not (yet) adventure.
 			warning.append( "<td align=center valign=center><div id=\"optionalAction1\" style=\"padding: 4px 4px 4px 4px\">" );
-			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"" );
+			warning.append( "<a style=\"text-decoration: none\" href=" );
 			warning.append( action2 );
-			warning.append( "\"><img src=\"" );
+			warning.append( "><img src=\"" );
 			if ( !image2.startsWith( "/" ) )
 			{
 				warning.append( "/images/itemimages/" );
@@ -1745,9 +1955,9 @@ public class RelayRequest
 			warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 			// perform optional action, do not (yet) adventure.
 			warning.append( "<td align=center valign=center><div id=\"optionalAction2\" style=\"padding: 4px 4px 4px 4px\">" );
-			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"" );
+			warning.append( "<a style=\"text-decoration: none\" href=" );
 			warning.append( action3 );
-			warning.append( "\"><img src=\"" );
+			warning.append( "><img src=\"" );
 			if ( !image3.startsWith( "/" ) )
 			{
 				warning.append( "/images/itemimages/" );
@@ -2487,6 +2697,16 @@ public class RelayRequest
 		}
 
 		if ( this.sendUnhydratedDesertWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendMohawkWigWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendPoolSkillWarning() )
 		{
 			return true;
 		}
