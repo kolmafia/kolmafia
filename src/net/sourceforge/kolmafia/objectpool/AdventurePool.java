@@ -71,6 +71,7 @@ public class AdventurePool
 	public static final String SLEAZY_BACK_ALLEY_ID = "112";
 	public static final String HAUNTED_PANTRY_ID = "113";
 	public static final String OUTSKIRTS_OF_THE_KNOB_ID = "114";
+	public static final String OASIS_ID = "122";
 	public static final int THEMTHAR_HILLS = 126;
 	public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
 	public static final String FRAT_UNIFORM_BATTLEFIELD_ID = "132";
