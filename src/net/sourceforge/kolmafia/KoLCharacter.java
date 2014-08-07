@@ -284,17 +284,37 @@ public abstract class KoLCharacter
 	public static final int MALE = -1;
 	public static final int FEMALE = 1;
 
+	// Things that cannot be changed
+
 	private static String username = "";
-	private static String avatar = "";
 	private static int userId = 0;
 	private static String playerId = "0";
+
+	// Ascension-related variables
+
+	private static boolean isHardcore = false;
+	private static boolean inRonin = true;
+	private static boolean skillsRecalled = false;
+	private static boolean restricted = false;
+
+	private static int ascensions = 0;
+	private static String ascensionSign = NONE;
+	private static ZodiacType ascensionSignType = ZodiacType.NONE;
+	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
+	private static String ascensionPath = NONE;
+	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
+
+	// Things which can change over the course of playing
+
+	private static String avatar = "";
 	private static String classname = "";
 	private static String classtype = null;
+	private static int gender = 0;
+	public static int AWOLtattoo = 0;
+
 	private static int currentLevel = 1;
 	private static long decrementPrime = 0;
 	private static long incrementPrime = 25;
-	private static int gender = 0;
-	public static int AWOLtattoo = 0;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
@@ -330,11 +350,6 @@ public abstract class KoLCharacter
 	private static int currentRun = 0;
 	private static boolean isFullnessIncreased = false;
 	private static int holidayManaCostReduction = 0;
-
-	// Status pane data which is rendered whenever
-	// the user changes equipment, effects, and familiar
-
-	private static Modifiers currentModifiers = new Modifiers();
 
 	// Travel information
 
@@ -389,21 +404,7 @@ public abstract class KoLCharacter
 
 	private static KoLAdventure selectedLocation;
 
-	// Ascension-related variables
-
-	private static boolean isHardcore = false;
-	private static boolean inRonin = true;
-	private static boolean skillsRecalled = false;
-	private static boolean restricted = false;
-
-	private static int ascensions = 0;
-	private static String ascensionSign = NONE;
-	private static ZodiacType ascensionSignType = ZodiacType.NONE;
-	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
-	private static String ascensionPath = NONE;
-	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
-
 	private static int autoAttackAction = 0;
 	private static String autosellMode = "";
 	private static boolean ignoreZoneWarnings = false;
@@ -421,6 +422,11 @@ public abstract class KoLCharacter
 		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
 		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
 	};
+
+	// Status pane data which is rendered whenever
+	// the user changes equipment, effects, and familiar
+
+	private static Modifiers currentModifiers = new Modifiers();
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All
