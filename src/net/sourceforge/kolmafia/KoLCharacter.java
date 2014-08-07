@@ -268,15 +268,6 @@ public abstract class KoLCharacter
 		KoLCharacter.ACCORDION_THIEF_RANKS.add( "Accordion Thief" );
 	}
 
-	private static final AdventureResult[] WANDS = new AdventureResult[]
-   	{
-		ItemPool.get( ItemPool.PINE_WAND, 1 ),
-		ItemPool.get( ItemPool.EBONY_WAND, 1 ),
-		ItemPool.get( ItemPool.HEXAGONAL_WAND, 1 ),
-		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
-		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
-	};
-
 	public static final String[] ZODIACS = new String[]
 	{
 		"Mongoose",
@@ -418,6 +409,18 @@ public abstract class KoLCharacter
 	private static boolean ignoreZoneWarnings = false;
 	private static boolean lazyInventory = false;
 	private static boolean unequipFamiliar = false;
+
+	// Put things that allocate AdventureResult objects AFTER previous
+	// static data has been initialized.
+
+	private static final AdventureResult[] WANDS = new AdventureResult[]
+   	{
+		ItemPool.get( ItemPool.PINE_WAND, 1 ),
+		ItemPool.get( ItemPool.EBONY_WAND, 1 ),
+		ItemPool.get( ItemPool.HEXAGONAL_WAND, 1 ),
+		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
+		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
+	};
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All
