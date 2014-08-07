@@ -1842,15 +1842,7 @@ public abstract class RuntimeLibrary
 		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
 		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
-		// Temporary workaround for Java bug
-		if ( parameters.startsWith( "/" ) )
-		{
-			RequestLogger.printLine( "<span>" + parameters + "</span>" );
-		}
-		else
-		{
-			RequestLogger.printLine( parameters );
-		}
+		RequestLogger.printLine( parameters );
 		RequestLogger.getSessionStream().println( "> " + parameters );
 
 		return DataTypes.VOID_VALUE;
