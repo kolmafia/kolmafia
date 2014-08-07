@@ -1828,10 +1828,11 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = string.toString();
 
-		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
-		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
 
 		RequestLogger.getSessionStream().println( "> " + parameters );
+
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -1839,11 +1840,14 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = string.toString();
 
-		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+
+		RequestLogger.getSessionStream().println( "> " + parameters );
+
 		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.printLine( parameters );
-		RequestLogger.getSessionStream().println( "> " + parameters );
 
 		return DataTypes.VOID_VALUE;
 	}
@@ -1852,14 +1856,19 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = string.toString();
 
-		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
-		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+
+		RequestLogger.getSessionStream().println( "> " + parameters );
 
 		String colorString = color.toString();
-		colorString = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( colorString, "\"" ), "<" );
+
+		colorString = StringUtilities.globalStringDelete( colorString, "\"" );
+		colorString = StringUtilities.globalStringDelete( colorString, "<" );
+
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
-		RequestLogger.getSessionStream().println( " > " + parameters );
 
 		return DataTypes.VOID_VALUE;
 	}
