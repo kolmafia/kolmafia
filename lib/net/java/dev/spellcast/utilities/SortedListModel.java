@@ -42,8 +42,8 @@ import java.util.Collection;
  * <code>List</code>.
  */
 
-public class SortedListModel
-	extends LockableListModel
+public class SortedListModel<E>
+	extends LockableListModel<E>
 {
 	/**
 	 * Constructs a new <code>SortedListModel</code>. In essence, all this class does is call the constructor for the
@@ -61,7 +61,7 @@ public class SortedListModel
 	 */
 
 	@Override
-	public void add( final int index, final Object element )
+	public void add( final int index, final E element )
 	{
 		if ( element == null )
 		{
@@ -76,7 +76,7 @@ public class SortedListModel
 	 */
 
 	@Override
-	public boolean add( final Object o )
+	public boolean add( final E o )
 	{
 		if ( o == null )
 		{
@@ -103,7 +103,7 @@ public class SortedListModel
 	 */
 
 	@Override
-	public boolean addAll( final int index, final Collection c )
+	public boolean addAll( final int index, final Collection<? extends E> c )
 	{
 		synchronized (this.actualElements )
 		{
@@ -251,7 +251,8 @@ public class SortedListModel
 
 	private int compare( final Comparable left, final Comparable right )
 	{
-		return left instanceof String || right instanceof String ?
-			left.toString().compareToIgnoreCase( right.toString() ) : left.compareTo( right );
+		return  left instanceof String || right instanceof String ?
+			left.toString().compareToIgnoreCase( right.toString() ) :
+			left.compareTo( right );
 	}
 }

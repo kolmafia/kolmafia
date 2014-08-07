@@ -96,9 +96,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase
 {
-	private static final SortedListModel EMPTY_LIST = new SortedListModel();
-	private static final SortedListModel creatableList = new SortedListModel();
-	private static final LockableListModel usableList = new LockableListModel();
+	private static final SortedListModel<AdventureResult> EMPTY_LIST = new SortedListModel<AdventureResult>();
+	private static final SortedListModel<CreateItemRequest> creatableList = new SortedListModel<CreateItemRequest>();
+	private static final LockableListModel<Concoction> usableList = new LockableListModel<Concoction>();
 
 	public static String excuse;	// reason why creation is impossible
 
@@ -116,16 +116,16 @@ public class ConcoctionDatabase
 	public static int queuedSpeakeasyDrink = 0;
 
 	private static int queuedFullness = 0;
-	public static final LockableListModel queuedFood = new LockableListModel();
-	private static final SortedListModel queuedFoodIngredients = new SortedListModel();
+	public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<QueuedConcoction>();
+	private static final SortedListModel<AdventureResult> queuedFoodIngredients = new SortedListModel<AdventureResult>();
 
 	private static int queuedInebriety = 0;
-	public static final LockableListModel queuedBooze = new LockableListModel();
-	private static final SortedListModel queuedBoozeIngredients = new SortedListModel();
+	public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<QueuedConcoction>();
+	private static final SortedListModel<AdventureResult> queuedBoozeIngredients = new SortedListModel<AdventureResult>();
 
 	private static int queuedSpleenHit = 0;
-	public static final LockableListModel queuedSpleen = new LockableListModel();
-	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
+	public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<QueuedConcoction>();
+	private static final SortedListModel<AdventureResult> queuedSpleenIngredients = new SortedListModel<AdventureResult>();
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction clipArtLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
@@ -133,7 +133,7 @@ public class ConcoctionDatabase
 	public static final Concoction turnFreeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 
-	public static final SortedListModelArray knownUses = new SortedListModelArray();
+	public static final SortedListModelArray<AdventureResult> knownUses = new SortedListModelArray<AdventureResult>();
 
 	public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
 	public static final Map<CraftingType, Integer> ADVENTURE_USAGE = new EnumMap<CraftingType, Integer>(CraftingType.class);
@@ -158,7 +158,7 @@ public class ConcoctionDatabase
 
 	public static final void resetQueue()
 	{
-		LockableListModel queue = ConcoctionDatabase.queuedFood;
+		LockableListModel<QueuedConcoction> queue = ConcoctionDatabase.queuedFood;
 		while ( queue.size() > 0 )
 		{
 			ConcoctionDatabase.pop( true, false, false );
@@ -361,13 +361,13 @@ public class ConcoctionDatabase
 		return mixingMethod == CraftingType.SUSHI;
 	}
 
-	public static final SortedListModel getKnownUses( final int itemId )
+	public static final SortedListModel<AdventureResult> getKnownUses( final int itemId )
 	{
 		SortedListModel uses = ConcoctionDatabase.knownUses.get( itemId );
 		return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
 	}
 
-	public static final SortedListModel getKnownUses( final AdventureResult item )
+	public static final SortedListModel<AdventureResult> getKnownUses( final AdventureResult item )
 	{
 		return ConcoctionDatabase.getKnownUses( item.getItemId() );
 	}
@@ -446,7 +446,7 @@ public class ConcoctionDatabase
 		return AdventureResult.parseResult( data );
 	}
 
-	public static final SortedListModel getQueuedIngredients( boolean food, boolean booze, boolean spleen )
+	public static final LockableListModel<AdventureResult> getQueuedIngredients( boolean food, boolean booze, boolean spleen )
 	{
 		return food ? ConcoctionDatabase.queuedFoodIngredients :
 			booze ? ConcoctionDatabase.queuedBoozeIngredients :
@@ -455,8 +455,8 @@ public class ConcoctionDatabase
 
 	public static final void push( final Concoction c, final int quantity )
 	{
-		LockableListModel queue;
-		LockableListModel queuedIngredients;
+		LockableListModel<QueuedConcoction> queue;
+		LockableListModel<AdventureResult> queuedIngredients;
 
 		int id = c.getItemId();
 		int consumpt = ItemDatabase.getConsumptionType( id );
@@ -490,7 +490,7 @@ public class ConcoctionDatabase
 		int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
 		// Queue the ingredients used by this concoction
-		ArrayList ingredients = new ArrayList();
+		ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
 		c.queue( queuedIngredients, ingredients, quantity );
 
 		// Adjust lists to account for what just changed
@@ -551,8 +551,8 @@ public class ConcoctionDatabase
 
 	public static final QueuedConcoction pop( boolean food, boolean booze, boolean spleen )
 	{
-		LockableListModel queue;
-		LockableListModel queuedIngredients;
+		LockableListModel<QueuedConcoction> queue;
+		LockableListModel<AdventureResult> queuedIngredients;
 
 		if ( food )
 		{
@@ -663,17 +663,17 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.usableList.sort();
 	}
 
-	public static final LockableListModel getUsables()
+	public static final LockableListModel<Concoction> getUsables()
 	{
 		return ConcoctionDatabase.usableList;
 	}
 
-	public static final SortedListModel getCreatables()
+	public static final SortedListModel<CreateItemRequest> getCreatables()
 	{
 		return ConcoctionDatabase.creatableList;
 	}
 
-	public static final LockableListModel getQueue( boolean food, boolean booze, boolean spleen )
+	public static final LockableListModel<QueuedConcoction> getQueue( boolean food, boolean booze, boolean spleen )
 	{
 		return	food ? ConcoctionDatabase.queuedFood :
 			booze ? ConcoctionDatabase.queuedBooze :
@@ -2953,7 +2953,7 @@ public class ConcoctionDatabase
 	{
 		private final Concoction concoction;
 		private final int count;
-		private final ArrayList ingredients;
+		private final ArrayList<AdventureResult> ingredients;
 		private final int meat;
 		private final int pulls;
 		private final int tomes;
@@ -2961,7 +2961,7 @@ public class ConcoctionDatabase
 		private final int adventures;
 		private final int freeCrafts;
 
-		public QueuedConcoction( final Concoction c, final int count, final ArrayList ingredients,
+		public QueuedConcoction( final Concoction c, final int count, final ArrayList<AdventureResult> ingredients,
 					 final int meat, final int pulls, final int tomes, final int stills,
 					 final int adventures, final int freeCrafts )
 		{
@@ -2986,7 +2986,7 @@ public class ConcoctionDatabase
 			return this.count;
 		}
 
-		public ArrayList getIngredients()
+		public ArrayList<AdventureResult> getIngredients()
 		{
 			return this.ingredients;
 		}

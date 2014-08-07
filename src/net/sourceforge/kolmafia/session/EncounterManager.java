@@ -357,7 +357,7 @@ public abstract class EncounterManager
 		}
 	}
 
-	private static class RegisteredEncounter
+	public static class RegisteredEncounter
 		implements Comparable<RegisteredEncounter>
 	{
 		private final String type;
