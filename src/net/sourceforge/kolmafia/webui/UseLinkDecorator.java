@@ -1546,6 +1546,14 @@ public abstract class UseLinkDecorator
 				new UseLink( itemId, count, "javascript:return false;" ) :
 				new UseLink( itemId, count, "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
 
+		case ItemPool.FIRST_PIZZA:
+		case ItemPool.LACROSSE_STICK:
+		case ItemPool.EYE_OF_THE_STARS:
+		case ItemPool.STANKARA_STONE:
+		case ItemPool.MURPHYS_FLAG:
+		case ItemPool.SHIELD_OF_BROOK:
+			return new UseLink( itemId, 1, "copperhead club", "adventure.php?snarfblat=383" );
+
 		default:
 
 		}
