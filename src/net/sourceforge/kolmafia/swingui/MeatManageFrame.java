@@ -90,7 +90,7 @@ public class MeatManageFrame
 			super( "Donations to the Greater Good", "donate", "explode", new Dimension( 80, 20 ), new Dimension(
 				240, 20 ) );
 
-			LockableListModel heroes = new LockableListModel();
+			LockableListModel<String> heroes = new LockableListModel<String>();
 			heroes.add( "Statue of Boris" );
 			heroes.add( "Statue of Jarlsberg" );
 			heroes.add( "Statue of Sneaky Pete" );

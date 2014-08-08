@@ -81,7 +81,7 @@ public abstract class CombatActionManager
 		CombatActionManager.loadStrategyLookup( CombatActionManager.getStrategyLookupName() );
 	}
 
-	public static final LockableListModel getAvailableLookups()
+	public static final LockableListModel<String> getAvailableLookups()
 	{
 		String[] list = DataUtilities.list( KoLConstants.CCS_LOCATION );
 

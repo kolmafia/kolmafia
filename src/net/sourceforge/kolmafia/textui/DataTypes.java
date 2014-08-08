@@ -803,7 +803,7 @@ public class DataTypes
 			return (String) InputFieldUtilities.input( message, DataTypes.BOOLEANS );
 
 		case TYPE_LOCATION: {
-			LockableListModel inputs = AdventureDatabase.getAsLockableListModel();
+			LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
 			KoLAdventure initial = AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) );
 			KoLAdventure value = (KoLAdventure) InputFieldUtilities.input( message, inputs, initial );
 			return value == null ? null : value.getAdventureName();

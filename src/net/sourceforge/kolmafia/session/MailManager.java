@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.request.MailboxRequest;
 
 public abstract class MailManager
 {
-	public static final Map mailboxes = new TreeMap();
+	public static final Map<String,SortedListModel<KoLMailMessage>> mailboxes = new TreeMap<String,SortedListModel<KoLMailMessage>>();
 	static
 	{
 		MailManager.mailboxes.put( "Inbox", new SortedListModel() );
@@ -70,13 +70,13 @@ public abstract class MailManager
 	{
 		String oldMessageId = Preferences.getString( "lastMessageId" );
 
-		SortedListModel inbox = MailManager.getMessages( "Inbox" );
+		SortedListModel<KoLMailMessage> inbox = MailManager.getMessages( "Inbox" );
 		if ( inbox.isEmpty() )
 		{
 			return false;
 		}
 
-		KoLMailMessage latest = (KoLMailMessage) inbox.get( 0 );
+		KoLMailMessage latest = inbox.get( 0 );
 		String newMessageId = latest.getMessageId();
 
 		Preferences.setString( "lastMessageId", newMessageId );
@@ -87,9 +87,9 @@ public abstract class MailManager
 	 * Returns a list containing the messages within the specified mailbox.
 	 */
 
-	public static final SortedListModel getMessages( final String mailbox )
+	public static final SortedListModel<KoLMailMessage> getMessages( final String mailbox )
 	{
-		return (SortedListModel) MailManager.mailboxes.get( mailbox );
+		return MailManager.mailboxes.get( mailbox );
 	}
 
 	/**
@@ -102,7 +102,7 @@ public abstract class MailManager
 
 	public static KoLMailMessage addMessage( final String boxname, final String message )
 	{
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
+		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
 
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
@@ -119,7 +119,7 @@ public abstract class MailManager
 	{
 		RequestThread.postRequest( new MailboxRequest( boxname, message, "delete" ) );
 
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
+		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 		{
@@ -139,7 +139,7 @@ public abstract class MailManager
 		RequestThread.postRequest( new MailboxRequest( boxname, messages, "delete" ) );
 
 		int messageIndex;
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
+		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[ i ] );
@@ -156,7 +156,7 @@ public abstract class MailManager
 	{
 		RequestThread.postRequest( new MailboxRequest( boxname, message, "save" ) );
 
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
+		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 		{
@@ -176,7 +176,7 @@ public abstract class MailManager
 		RequestThread.postRequest( new MailboxRequest( boxname, messages, "save" ) );
 
 		int messageIndex;
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
+		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[ i ] );

@@ -358,7 +358,7 @@ public class BuffBotHome
 	 * if there is a need to display the messages in some list form.
 	 */
 
-	public static final LockableListModel getMessages()
+	public static final LockableListModel<BuffMessage> getMessages()
 	{
 		return BuffBotHome.messages;
 	}

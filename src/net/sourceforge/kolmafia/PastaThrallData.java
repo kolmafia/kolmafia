@@ -376,7 +376,7 @@ public class PastaThrallData
 
 	public static void initialize()
 	{
-		LockableListModel thralls = KoLCharacter.getPastaThrallList();
+		LockableListModel<PastaThrallData> thralls = KoLCharacter.getPastaThrallList();
 		if ( !thralls.contains( PastaThrallData.NO_THRALL ) )
 		{
 			thralls.add( PastaThrallData.NO_THRALL );

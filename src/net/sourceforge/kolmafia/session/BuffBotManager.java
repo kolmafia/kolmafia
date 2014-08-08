@@ -47,6 +47,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -98,7 +99,7 @@ public abstract class BuffBotManager
 	private static List<String> whiteList = new ArrayList<String>();
 
 	private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
-	private static final SortedListModel buffCostTable = new SortedListModel();
+	private static final SortedListModel<Offering> buffCostTable = new SortedListModel<Offering>();
 
 	public static final Pattern MEAT_PATTERN =
 		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
@@ -166,7 +167,7 @@ public abstract class BuffBotManager
 	 * Returns the table of costs for each buff managed by this buffbot.
 	 */
 
-	public static final SortedListModel getBuffCostTable()
+	public static final LockableListModel<Offering> getBuffCostTable()
 	{
 		return BuffBotManager.buffCostTable;
 	}

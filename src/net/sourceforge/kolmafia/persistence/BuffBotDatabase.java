@@ -145,7 +145,7 @@ public class BuffBotDatabase
 		// If this is clearly not a philanthropic buff, then
 		// no alternative amount needs to be sent.
 
-		LockableListModel possibles = BuffBotDatabase.getPhilanthropicOfferings( data[ 0 ] );
+		LockableListModel<Offering> possibles = BuffBotDatabase.getPhilanthropicOfferings( data[ 0 ] );
 		if ( possibles == null || possibles.isEmpty() )
 		{
 			return amount;
@@ -156,7 +156,7 @@ public class BuffBotDatabase
 
 		for ( int i = 0; i < possibles.size() && !foundMatch; ++i )
 		{
-			current = (Offering) possibles.get( i );
+			current = possibles.get( i );
 			if ( current.getPrice() == amount )
 			{
 				foundMatch = true;
@@ -180,7 +180,7 @@ public class BuffBotDatabase
 		// If no alternative exists, go ahead and return the
 		// original amount.
 
-		LockableListModel alternatives = BuffBotDatabase.getStandardOfferings( data[ 0 ] );
+		LockableListModel<Offering> alternatives = BuffBotDatabase.getStandardOfferings( data[ 0 ] );
 		if ( alternatives == null || alternatives.isEmpty() )
 		{
 			return amount;
@@ -200,7 +200,7 @@ public class BuffBotDatabase
 
 		for ( int i = 0; i < alternatives.size(); ++i )
 		{
-			current = (Offering) alternatives.get( i );
+			current = alternatives.get( i );
 
 			if ( current.buffs.length > 1 )
 			{

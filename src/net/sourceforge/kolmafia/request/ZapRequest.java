@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -69,7 +70,7 @@ public class ZapRequest
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(\\d+) descid='.*?'>.*?</option>" );
 
 	private static final BooleanArray isZappable = new BooleanArray();
-	private static final SortedListModel zappableItems = new SortedListModel();
+	private static final SortedListModel<AdventureResult> zappableItems = new SortedListModel<AdventureResult>();
 	private static final HashMap zapGroups = new HashMap();
 
 	private AdventureResult item;
@@ -123,11 +124,11 @@ public class ZapRequest
 		}
 	}
 
-	public static final SortedListModel getZappableItems()
+	public static final LockableListModel<AdventureResult> getZappableItems()
 	{
 		ZapRequest.initializeList();
 
-		SortedListModel matchingItems = new SortedListModel();
+		SortedListModel<AdventureResult> matchingItems = new SortedListModel<AdventureResult>();
 		matchingItems.addAll( KoLConstants.inventory );
 		if ( Preferences.getBoolean( "relayTrimsZapList" ) )
 			matchingItems.retainAll( ZapRequest.zappableItems );

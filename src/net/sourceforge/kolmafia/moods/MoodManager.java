@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -92,7 +93,7 @@ public abstract class MoodManager
 	public static final AdventureResult EAU_DE_TORTUE = EffectPool.get( Effect.EAU_DE_TORTUE );
 
 	private static Mood currentMood = null;
-	private static final SortedListModel availableMoods = new SortedListModel();
+	private static final SortedListModel<Mood> availableMoods = new SortedListModel<Mood>();
 	private static final SortedListModel displayList = new SortedListModel();
 	
 	static boolean isExecuting = false;
@@ -122,7 +123,7 @@ public abstract class MoodManager
 		MoodManager.saveSettings();
 	}
 
-	public static final SortedListModel getAvailableMoods()
+	public static final LockableListModel<Mood> getAvailableMoods()
 	{
 		return MoodManager.availableMoods;
 	}
@@ -185,7 +186,7 @@ public abstract class MoodManager
 	 * Retrieves the model associated with the given mood.
 	 */
 
-	public static final SortedListModel getTriggers()
+	public static final LockableListModel getTriggers()
 	{
 		return MoodManager.displayList;
 	}

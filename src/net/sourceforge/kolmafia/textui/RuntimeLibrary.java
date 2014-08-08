@@ -2645,12 +2645,8 @@ public abstract class RuntimeLibrary
 	{
 		String checkType = check.toString();
 
-		LockableListModel goals = GoalManager.getGoals();
-
-		for ( int i = 0; i < goals.size(); ++i )
+		for ( AdventureResult goal : GoalManager.getGoals() )
 		{
-			AdventureResult goal = (AdventureResult) goals.get(i);
-
 			if ( checkType.equals( goal.getConditionType() ) )
 			{
 				return DataTypes.TRUE_VALUE;
@@ -2667,16 +2663,13 @@ public abstract class RuntimeLibrary
 
 	public static Value get_goals( Interpreter interpreter )
 	{
-		LockableListModel goals = GoalManager.getGoals();
-
+		LockableListModel<AdventureResult> goals = GoalManager.getGoals();
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, goals.size() );
 		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < goals.size(); ++i )
 		{
-			AdventureResult goal = (AdventureResult) goals.get(i);
-
-			value.aset( new Value( i ), new Value( goal.toConditionString() ) );
+			value.aset( new Value( i ), new Value( goals.get(i).toConditionString() ) );
 		}
 
 		return value;
@@ -2684,16 +2677,13 @@ public abstract class RuntimeLibrary
 
 	public static Value get_moods( Interpreter interpreter )
 	{
-		SortedListModel moods = MoodManager.getAvailableMoods();
-
+		LockableListModel<Mood> moods = MoodManager.getAvailableMoods();
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, moods.size() );
 		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < moods.size(); ++i )
 		{
-			Mood mood = (Mood) moods.get( i );
-
-			value.aset( new Value( i ), new Value( mood.getName() ) );
+			value.aset( new Value( i ), new Value( moods.get( i ).getName() ) );
 		}
 
 		return value;
@@ -3385,11 +3375,10 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		LockableListModel list = StoreManager.getSoldItemList();
-
+		LockableListModel<SoldItem> list = StoreManager.getSoldItemList();
 		for ( int i = 0; i < list.size(); ++i )
 		{
-			SoldItem item = ( (SoldItem) list.get( i ) );
+			SoldItem item = list.get( i );
 			value.aset( DataTypes.parseItemValue( item.getItemName(), true ),
 				    new Value( item.getQuantity() ) );
 		}
@@ -3812,11 +3801,10 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		LockableListModel list = StoreManager.getSoldItemList();
-
 		SoldItem item = new SoldItem( (int) arg.intValue(), 0, 0, 0, 0 );
-		int index = list.indexOf( item );
 
+		LockableListModel<SoldItem> list = StoreManager.getSoldItemList();
+		int index = list.indexOf( item );
 		if ( index < 0 )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -5325,7 +5313,7 @@ public abstract class RuntimeLibrary
 
 		Maximizer.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly );
 
-		LockableListModel m = Maximizer.boosts;
+		LockableListModel<Boost> m = Maximizer.boosts;
 
 		int lastEquipIndex = 0;
 
@@ -5333,7 +5321,7 @@ public abstract class RuntimeLibrary
 		{
 			for ( int i = 0; i < m.size(); ++i )
 			{
-				if ( !( (Boost) m.get( i ) ).isEquipment() )
+				if ( !m.get( i ).isEquipment() )
 					break;
 				lastEquipIndex++ ;
 			}
@@ -5344,7 +5332,7 @@ public abstract class RuntimeLibrary
 
 		for ( int i = lastEquipIndex; i < m.size(); ++i )
 		{
-			Boost boo = ( (Boost) m.get( i ) );
+			Boost boo =  m.get( i );
 			String text = boo.toString();
 			String cmd = boo.getCmd();
 			Double boost = boo.getBoost();

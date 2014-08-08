@@ -74,12 +74,12 @@ public class EventManager
 		EventManager.eventHyperTexts.clear();
 	}
 
-	public static LockableListModel getEventTexts()
+	public static LockableListModel<String> getEventTexts()
 	{
 		return EventManager.eventTexts;
 	}
 
-	public static LockableListModel getEventHyperTexts()
+	public static LockableListModel<String> getEventHyperTexts()
 	{
 		return EventManager.eventHyperTexts;
 	}

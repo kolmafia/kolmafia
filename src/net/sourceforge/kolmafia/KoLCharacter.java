@@ -333,7 +333,7 @@ public abstract class KoLCharacter
 
 	static { resetTriggers(); }
 
-	public static final SortedListModel battleSkillNames = new SortedListModel();
+	public static final SortedListModel<String> battleSkillNames = new SortedListModel<String>();
 
 	// Status pane data which is rendered whenever
 	// the user issues a "status" type command.
@@ -373,7 +373,7 @@ public abstract class KoLCharacter
 
 	// Familiar data
 
-	public static final SortedListModel familiars = new SortedListModel();
+	public static final SortedListModel<FamiliarData> familiars = new SortedListModel<FamiliarData>();
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
 	public static String currentFamiliarImage = null;
@@ -3807,7 +3807,7 @@ public abstract class KoLCharacter
 	 * selected index in the battle skills list.
 	 */
 
-	public static final LockableListModel getBattleSkillNames()
+	public static final LockableListModel<String> getBattleSkillNames()
 	{
 		return KoLCharacter.battleSkillNames;
 	}
@@ -3952,13 +3952,13 @@ public abstract class KoLCharacter
 		return KoLCharacter.hasSkill( skill, KoLConstants.availableSkills );
 	}
 
-	public static final boolean hasSkill( final String skillName, final LockableListModel list )
+	public static final boolean hasSkill( final String skillName, final LockableListModel<UseSkillRequest> list )
 	{
 		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 		return KoLCharacter.hasSkill( skill, list );
 	}
 
-	public static final boolean hasSkill( final UseSkillRequest skill, final LockableListModel list )
+	public static final boolean hasSkill( final UseSkillRequest skill, final LockableListModel<UseSkillRequest> list )
 	{
 		if ( list == KoLConstants.availableSkills )
 		{
@@ -4431,7 +4431,7 @@ public abstract class KoLCharacter
 	 * @return The list of familiars available to the character
 	 */
 
-	public static final LockableListModel getFamiliarList()
+	public static final LockableListModel<FamiliarData> getFamiliarList()
 	{
 		return KoLCharacter.familiars;
 	}
@@ -4440,7 +4440,7 @@ public abstract class KoLCharacter
 	 * Pasta Thralls
 	 */
 
-	public static final LockableListModel getPastaThrallList()
+	public static final LockableListModel<PastaThrallData> getPastaThrallList()
 	{
 		return KoLCharacter.pastaThralls;
 	}

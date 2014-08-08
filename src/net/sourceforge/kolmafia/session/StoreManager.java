@@ -173,17 +173,17 @@ public abstract class StoreManager
 		return currentPrice;
 	}
 
-	public static final LockableListModel getSoldItemList()
+	public static final LockableListModel<SoldItem> getSoldItemList()
 	{
 		return StoreManager.soldItemList;
 	}
 
-	public static final LockableListModel getSortedSoldItemList()
+	public static final LockableListModel<SoldItem> getSortedSoldItemList()
 	{
 		return StoreManager.sortedSoldItemList;
 	}
 
-	public static final LockableListModel getStoreLog()
+	public static final LockableListModel<Comparable<StoreLogEntry>> getStoreLog()
 	{
 		return StoreManager.storeLog;
 	}

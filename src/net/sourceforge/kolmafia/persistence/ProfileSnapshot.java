@@ -106,7 +106,7 @@ public class ProfileSnapshot
 		return ProfileSnapshot.profileMap;
 	}
 
-	public static final LockableListModel getFilteredList()
+	public static final LockableListModel<ProfileRequest> getFilteredList()
 	{
 		return ProfileSnapshot.filterList;
 	}

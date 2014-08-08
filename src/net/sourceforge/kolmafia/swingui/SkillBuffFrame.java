@@ -80,7 +80,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class SkillBuffFrame
 	extends GenericFrame
 {
-	private LockableListModel contacts;
+	private LockableListModel<String> contacts;
 
 	private SkillTypeComboBox typeSelect;
 	private AutoFilterComboBox skillSelect;
@@ -152,7 +152,7 @@ public class SkillBuffFrame
 			SkillBuffFrame.this.skillSelect = new AutoFilterComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
-			SkillBuffFrame.this.contacts = (LockableListModel) ContactManager.getMailContacts().getMirrorImage();
+			SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
 			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];

@@ -127,7 +127,7 @@ public class CakeArenaManager
 	 * Returns a list of opponents are available today at the cake-shaped arena.
 	 */
 
-	public static final LockableListModel getOpponentList()
+	public static final LockableListModel<ArenaOpponent> getOpponentList()
 	{
 		if ( CakeArenaManager.opponentList.isEmpty() )
 		{

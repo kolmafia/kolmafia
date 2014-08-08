@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -55,7 +56,7 @@ public class ContactManager
 	private static final HashMap seenPlayerIds = new HashMap();
 	private static final HashMap seenPlayerNames = new HashMap();
 
-	private static final SortedListModel mailContacts = new SortedListModel();
+	private static final SortedListModel<String> mailContacts = new SortedListModel<String>();
 	private static final SortedListModel chatContacts = new SortedListModel();
 
 	private static ContactListFrame contactsFrame = null;
@@ -65,7 +66,7 @@ public class ContactManager
 		return ContactManager.mailContacts.contains( playerName );
 	}
 
-	public static final SortedListModel getMailContacts()
+	public static final LockableListModel<String> getMailContacts()
 	{
 		return ContactManager.mailContacts;
 	}
