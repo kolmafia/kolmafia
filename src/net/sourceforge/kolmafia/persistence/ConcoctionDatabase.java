@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -91,6 +92,7 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.SortedListModelArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -901,6 +903,39 @@ public class ConcoctionDatabase
 
 		String name = c.getName();
 		GenericRequest request;
+
+		// Don't eat/drink/spleen PvP items without checking stone broken etc
+		if ( !UseItemRequest.askAboutPvP( name ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
+			return;
+		}
+
+		// Check about Milk (etc), Overdrinking and Ode
+		if ( consumptionType == KoLConstants.CONSUME_EAT && !EatItemRequest.askAboutMilk( name, quantity ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
+			return;
+		}
+		else if ( consumptionType == KoLConstants.CONSUME_DRINK )
+		{
+			int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
+			int inebriety = ItemDatabase.getInebriety( name );
+			if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
+			{
+				if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
+					return;
+				}
+			}
+
+			if ( !DrinkItemRequest.askAboutOde( name, inebriety, quantity) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
+				return;
+			}
+		}
 
 		if ( ClanLoungeRequest.isHotDog( name ) )
 		{
