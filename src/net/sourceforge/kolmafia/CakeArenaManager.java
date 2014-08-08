@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager
 {
-	private static final LockableListModel opponentList = new LockableListModel();
+	private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<ArenaOpponent>();
 
 	/**
 	 * Registers an opponent inside of the arena manager. This should be used to update any information that relates to

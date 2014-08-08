@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -290,7 +290,7 @@ public class ClanStashRequest
 		ClanManager.setStashRetrieved();
 
 		// Start with current stash contents
-		SortedListModel stashContents = ClanManager.getStash();
+		LockableListModel<AdventureResult> stashContents = ClanManager.getStash();
 
 		// Clear it
 		stashContents.clear();

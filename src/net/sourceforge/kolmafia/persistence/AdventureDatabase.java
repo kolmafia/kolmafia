@@ -79,7 +79,7 @@ public class AdventureDatabase
 {
 	private static final Pattern SNARF_PATTERN = Pattern.compile( "snarfblat=(\\d+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );
-	private static final LockableListModel adventures = new LockableListModel();
+	private static final LockableListModel<KoLAdventure> adventures = new LockableListModel<KoLAdventure>();
 	private static final AdventureArray allAdventures = new AdventureArray();
 
 	public static final ArrayList<String> PARENT_LIST = new ArrayList<String>();
@@ -519,13 +519,13 @@ public class AdventureDatabase
 		return conditions;
 	}
 
-	public static final LockableListModel getDefaultConditionsList( final KoLAdventure adventure, LockableListModel list )
+	public static final LockableListModel<String> getDefaultConditionsList( final KoLAdventure adventure, LockableListModel<String> list )
 	{
 		String string = AdventureDatabase.getDefaultConditions( adventure );
 		String [] conditions = string.split( "\\|" );
 		if ( list == null )
 		{
-			list = new LockableListModel();
+			list = new LockableListModel<String>();
 		}
 		else
 		{

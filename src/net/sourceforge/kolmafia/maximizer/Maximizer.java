@@ -81,7 +81,7 @@ public class Maximizer
 {
 	private static boolean firstTime = true;
 
-	public static final LockableListModel boosts = new LockableListModel();
+	public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
 	public static Evaluator eval;
 
 	public static String [] maximizationCategories =

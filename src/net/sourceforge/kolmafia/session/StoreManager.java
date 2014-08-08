@@ -90,9 +90,9 @@ public abstract class StoreManager
 	private static boolean sortItemsByName = false;
 	private static long potentialEarnings = 0;
 
-	private static final LockableListModel storeLog = new LockableListModel();
-	private static final LockableListModel soldItemList = new LockableListModel();
-	private static final LockableListModel sortedSoldItemList = new LockableListModel();
+	private static final LockableListModel<Comparable<StoreLogEntry>> storeLog = new LockableListModel<Comparable<StoreLogEntry>>();
+	private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<SoldItem>();
+	private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<SoldItem>();
 
 	private static final IntegerArray mallPrices = new IntegerArray();
 	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
@@ -141,7 +141,7 @@ public abstract class StoreManager
 		// already exists in the list.	If there are any changes,
 		// update.
 
-		SoldItem oldItem = (SoldItem) StoreManager.soldItemList.get( itemIndex );
+		SoldItem oldItem = StoreManager.soldItemList.get( itemIndex );
 
 		if ( oldItem.getQuantity() != quantity ||
 		     oldItem.getPrice() != price ||
@@ -164,9 +164,9 @@ public abstract class StoreManager
 		int currentPrice = 999999999;
 		for ( int i = 0; i < StoreManager.soldItemList.size(); ++i )
 		{
-			if ( ( (SoldItem) StoreManager.soldItemList.get( i ) ).getItemId() == itemId )
+			if (  StoreManager.soldItemList.get( i ).getItemId() == itemId )
 			{
-				currentPrice = ( (SoldItem) StoreManager.soldItemList.get( i ) ).getPrice();
+				currentPrice = StoreManager.soldItemList.get( i ).getPrice();
 			}
 		}
 
@@ -825,8 +825,7 @@ public abstract class StoreManager
 			return 0;
 		}
 
-		item = (SoldItem) soldItemList.get( index );
-		return item.getQuantity();
+		return StoreManager.soldItemList.get( index ).getQuantity();
 	}
 
 	public static void priceItemsAtLowestPrice( boolean avoidMinPrice )
@@ -977,7 +976,7 @@ public abstract class StoreManager
 		else
 		{
 			int sortedIndex = StoreManager.sortedSoldItemList.indexOf( soldItem );
-			soldItem = (SoldItem) soldItemList.get( index );
+			soldItem = soldItemList.get( index );
 
 			int amount = soldItem.getQuantity() + quantity;
 			int lowest = soldItem.getLowest();
@@ -1002,7 +1001,7 @@ public abstract class StoreManager
 			return;
 		}
 
-		item = (SoldItem) soldItemList.get( index );
+		item = soldItemList.get( index );
 		int amount = item.getQuantity() - quantity;
 		if ( amount == 0 )
 		{

@@ -51,6 +51,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -97,8 +98,8 @@ public abstract class ClanManager
 
 	private static final List battleList = new ArrayList();
 
-	private static final LockableListModel rankList = new LockableListModel();
-	private static final SortedListModel stashContents = new SortedListModel();
+	private static final LockableListModel<String> rankList = new LockableListModel<String>();
+	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<AdventureResult>();
 
 	public static final void clearCache()
 	{
@@ -179,12 +180,12 @@ public abstract class ClanManager
 		ClanManager.stashRetrieved = true;
 	}
 
-	public static final SortedListModel getStash()
+	public static final LockableListModel<AdventureResult> getStash()
 	{
 		return ClanManager.stashContents;
 	}
 
-	public static final LockableListModel getRankList()
+	public static final LockableListModel<String> getRankList()
 	{
 		if ( !ClanManager.ranksRetrieved )
 		{
