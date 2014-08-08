@@ -155,6 +155,17 @@ public class AdventureRequest
 			this.addFormField( "whichplace", "mclargehuge" );
 			this.addFormField( "action", adventureId );
 		}
+		else if ( formSource.equals( "place.php" ) && adventureId.equals( "pyramid_state" ) )
+		{
+			this.addFormField( "whichplace", "pyramid" );
+			String position = Preferences.getString( "pyramidPosition" );
+			String bomb = "";
+			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
+			{
+				bomb = "a";
+			}
+			this.addFormField( "action", adventureId + position + bomb );
+		}
 		else if ( !formSource.equals( "basement.php" ) &&
 			  !formSource.equals( "cellar.php" ) &&
 			  !formSource.equals( "barrel.php" ) )
@@ -273,6 +284,13 @@ public class AdventureRequest
 			return;
 		}
 
+		// You've already defeated Ed
+		if ( this.formSource.equals( "place.php" ) && responseText.contains( "Ed the Undying sleeps once again" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Ed the Undying has already been defeated." );
+			return;
+		}
+			
 		// If you haven't unlocked the orc chasm yet, try doing so now.
 
 		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
