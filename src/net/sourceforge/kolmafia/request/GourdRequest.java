@@ -83,12 +83,6 @@ public class GourdRequest
 			return;
 		}
 
-		// When we look at the right side of the tracks, we might as well see if the manor is unlocked.
-		if ( responseText.indexOf( "images/town/manor.gif" ) != -1 )
-		{
-			Preferences.setInteger( "lastManorUnlock", KoLCharacter.getAscensions() );
-		}
-
 		if ( location.indexOf( "action=gourd" ) != -1 )
 		{
 			if ( responseText.indexOf( "You acquire" ) != -1 )
