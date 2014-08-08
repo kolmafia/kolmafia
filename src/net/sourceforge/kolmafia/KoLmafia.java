@@ -876,20 +876,7 @@ public abstract class KoLmafia
 
 		// Look up the current clan
 		ClanManager.resetClanId();
-		String clanName = ClanManager.getClanName( true );
-		if ( KoLCharacter.hasClan() )
-		{
-			RequestLogger.printLine( "You are currently a member of " + clanName );
-
-			// Visit lounge and check hotdog stand and speakeasy.
-			// As a side effect, report on whether you have a present waiting
-			ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
-			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
-		}
-		else
-		{
-			RequestLogger.printLine( "You are not currently a member of a clan." );
-		}
+		ClanManager.getClanName( true );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 

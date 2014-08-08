@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -107,6 +108,7 @@ public abstract class ClanManager
 		AscensionSnapshot.clearCache();
 		ChatManager.resetClanMessages();
 		ClanLoungeRequest.resetHotdogs();
+		ClanLoungeRequest.resetSpeakeasy();
 		FightRequest.resetKisses();
 
 		ClanManager.clanId = 0;
@@ -166,8 +168,46 @@ public abstract class ClanManager
 
 	public static final void setClanName( String name )
 	{
-		ClanManager.clanName = name;
+		Boolean changed = false;
+		if ( name == null )
+		{
+			changed = ClanManager.clanName != null;
+		}
+		else
+		{
+			if ( ClanManager.clanName != null )
+			{
+				changed = !ClanManager.clanName.equals( name );
+			}
+			else
+			{
+				changed = true;
+			}
+		}
 		KoLCharacter.setClan( name != null );
+		if ( changed )
+		{
+			// Reset most clan information, but set clan Id already set correctly,
+			// so set Id and name
+			clanId = ClanManager.clanId;
+			ClanManager.clearCache();
+			ClanManager.clanId = clanId;
+			ClanManager.clanName = name;
+			// Update Clan Information
+			if ( name != null )
+			{
+				RequestLogger.printLine( "You are currently a member of " + name );
+
+				// Visit lounge and check hotdog stand and speakeasy.
+				// As a side effect, report on whether you have a present waiting
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+			}
+			else
+			{
+				RequestLogger.printLine( "You are not currently a member of a clan." );
+			}
+		}
 	}
 
 	public static final boolean isStashRetrieved()

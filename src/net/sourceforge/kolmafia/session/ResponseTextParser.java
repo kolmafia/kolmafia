@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanHallRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -224,6 +225,7 @@ public class ResponseTextParser
 		if ( location.startsWith( "clan" ) )
 		{
 			return location.startsWith( "clan_stash" ) ||
+				location.startsWith( "clan_hall" ) ||
 				location.startsWith( "clan_rumpus" ) ||
 				location.startsWith( "clan_viplounge" ) ||
 				location.startsWith( "clan_hobopolis" ) ||
@@ -361,6 +363,11 @@ public class ResponseTextParser
 			{
 				SummoningChamberRequest.parseResponse( location, responseText );
 			}
+		}
+
+		else if ( location.startsWith( "clan_hall.php" ) )
+		{
+			ClanHallRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "clan_rumpus.php" ) )

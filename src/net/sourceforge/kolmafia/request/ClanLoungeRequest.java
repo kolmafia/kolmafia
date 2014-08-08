@@ -423,6 +423,7 @@ public class ClanLoungeRequest
 	{
 		// Remove all hot dogs from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_HOTDOGS );
+		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
 	private static final int hotdogNameToIndex( final String name )
@@ -515,6 +516,7 @@ public class ClanLoungeRequest
 	{
 		// Remove all Speakeasy drinks from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_SPEAKEASY );
+		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
 	private static final int speakeasyNameToIndex( final String name )

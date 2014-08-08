@@ -2244,16 +2244,6 @@ public class GenericRequest
 			return;
 		}
 
-		else if ( urlString.contains( "clan" ) )
-		{
-			if ( ( urlString.contains( "action=leaveclan" ) || urlString.contains( "action=joinclan" ) )
-			       && !this.responseText.contains( "You can't apply" )
-			       && !this.responseText.contains( "You're the clan leader" ) )
-			{
-				ClanManager.clearCache();
-			}
-		}
-
 		else if ( urlString.startsWith( "api.php" ) )
 		{
 			ApiRequest.parseResponse( urlString, this.responseText );
