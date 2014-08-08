@@ -338,7 +338,7 @@ public class AdventureDatabase
 		}
 	}
 
-	public static final LockableListModel getAsLockableListModel()
+	public static final LockableListModel<KoLAdventure> getAsLockableListModel()
 	{
 		if ( AdventureDatabase.adventures.isEmpty() )
 		{

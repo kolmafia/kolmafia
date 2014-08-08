@@ -327,10 +327,10 @@ public interface KoLConstants
 	public static final PartialMRUList maximizerMList =
 			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", KoLConstants.maximizerExpressions );
 
-	public static final SortedListModel junkList = new SortedListModel();
-	public static final SortedListModel singletonList = new SortedListModel();
-	public static final SortedListModel mementoList = new SortedListModel();
-	public static final SortedListModel profitableList = new SortedListModel();
+	public static final SortedListModel<AdventureResult> junkList = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> singletonList = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> mementoList = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> profitableList = new SortedListModel<AdventureResult>();
 
 	public static final String BUFFBOT_DIRECTORY = "buffs/";
 	public static final String CCS_DIRECTORY = "ccs/";
@@ -752,7 +752,7 @@ public interface KoLConstants
 	public static final LockableListModel<String> restaurantItems = new LockableListModel<String>();
 	public static final LockableListModel<String> microbreweryItems = new LockableListModel<String>();
 	public static final LockableListModel<String> kitchenItems = new LockableListModel<String>();
-	public static final LockableListModel<Concoction> cafeItems = new LockableListModel<Concoction>();
+	public static final LockableListModel<String> cafeItems = new LockableListModel<String>();
 
 	public static final SortedListModel<AdventureResult> tally = new SortedListModel<AdventureResult>();
 	public static final LockableListModel<RegisteredEncounter> adventureList = new LockableListModel<RegisteredEncounter>();

@@ -363,7 +363,7 @@ public class ConcoctionDatabase
 
 	public static final SortedListModel<AdventureResult> getKnownUses( final int itemId )
 	{
-		SortedListModel uses = ConcoctionDatabase.knownUses.get( itemId );
+		SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get( itemId );
 		return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
 	}
 
@@ -977,7 +977,7 @@ public class ConcoctionDatabase
 			return KoLConstants.inventory;
 		}
 
-		SortedListModel availableIngredients = new SortedListModel();
+		SortedListModel<AdventureResult> availableIngredients = new SortedListModel<AdventureResult>();
 		availableIngredients.addAll( KoLConstants.inventory );
 
 		if ( includeCloset )

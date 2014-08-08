@@ -214,7 +214,7 @@ public class CafeRequest
 		}
 	}
 
-	protected static void addMenuItem( final LockableListModel menu, final String itemName, final int price )
+	protected static void addMenuItem( final LockableListModel<String> menu, final String itemName, final int price )
 	{
 		menu.add( itemName );
 
@@ -232,16 +232,16 @@ public class CafeRequest
 		usables.add( item );
 	}
 
-	public static final void reset( final LockableListModel menu )
+	public static final void reset( final LockableListModel<String> menu )
 	{
 		// Restore usable list with original concoction
-		LockableListModel usables = ConcoctionDatabase.getUsables();
+		LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
 		for ( int i = 0; i < menu.size(); ++i )
 		{
-			String itemName = (String) menu.get( i );
+			String itemName = menu.get( i );
 			Concoction junk = new Concoction( itemName, -1 );
 			usables.remove( junk );
-			Object old = CafeRequest.existing.get( i );
+			Concoction old = CafeRequest.existing.get( i );
 			if ( old != null )
 			{
 				usables.add( old );

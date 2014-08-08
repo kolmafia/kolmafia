@@ -70,7 +70,7 @@ public class CakeArenaFrame
 	extends GenericFrame
 {
 	private JTable familiarTable;
-	private LockableListModel opponents;
+	private LockableListModel<ArenaOpponent> opponents;
 	private CharacterListener familiarListener;
 
 	public CakeArenaFrame()
