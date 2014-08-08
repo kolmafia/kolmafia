@@ -482,7 +482,7 @@ public class CoinMasterRequest
 
 	public static final int itemBuyPrice( final CoinmasterData data, final int itemId )
 	{
-		LockableListModel items = data.getBuyItems();
+		LockableListModel<AdventureResult> items = data.getBuyItems();
 		AdventureResult item = AdventureResult.findItem( itemId, items );
 		String name = item.getName();
 		Map prices = data.getBuyPrices();

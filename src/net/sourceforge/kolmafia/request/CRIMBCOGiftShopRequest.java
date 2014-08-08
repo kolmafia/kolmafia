@@ -50,8 +50,8 @@ public class CRIMBCOGiftShopRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "CRIMBCO Gift Shop"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( CRIMBCOGiftShopRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( CRIMBCOGiftShopRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( CRIMBCOGiftShopRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( CRIMBCOGiftShopRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have <b>([\\d,]+)</b> CRIMBCO scrip" );
 	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, 1 );

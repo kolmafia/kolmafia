@@ -51,8 +51,8 @@ public class LunarLunchRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Lunar Lunch-o-Mat"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( LunarLunchRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( LunarLunchRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( LunarLunchRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( LunarLunchRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( LunarLunchRequest.master );
 
 	public static final CoinmasterData LUNAR_LUNCH =

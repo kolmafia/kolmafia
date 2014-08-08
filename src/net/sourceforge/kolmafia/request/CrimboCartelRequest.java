@@ -50,8 +50,8 @@ public class CrimboCartelRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Crimbo Cartel"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( CrimboCartelRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( CrimboCartelRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( CrimboCartelRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( CrimboCartelRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> Crimbux" );
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, 1 );

@@ -51,8 +51,8 @@ public class BoutiqueRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Paul's Boutique";
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BoutiqueRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BoutiqueRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BoutiqueRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BoutiqueRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( BoutiqueRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) odd silver coin" );

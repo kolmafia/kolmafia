@@ -51,8 +51,8 @@ public class BuffJimmyRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Buff Jimmy's Souvenir Shop";
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BuffJimmyRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BuffJimmyRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BuffJimmyRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BuffJimmyRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( BuffJimmyRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Beach Bucks" );

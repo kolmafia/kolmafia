@@ -46,8 +46,8 @@ public class IsotopeSmitheryRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Isotope Smithery";
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( IsotopeSmitheryRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( IsotopeSmitheryRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( IsotopeSmitheryRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( IsotopeSmitheryRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( IsotopeSmitheryRequest.master );
 
 	public static final CoinmasterData ISOTOPE_SMITHERY =

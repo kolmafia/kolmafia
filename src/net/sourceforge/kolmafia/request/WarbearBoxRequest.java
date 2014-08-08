@@ -51,8 +51,8 @@ public class WarbearBoxRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Warbear Black Box";
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( WarbearBoxRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( WarbearBoxRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( WarbearBoxRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( WarbearBoxRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( WarbearBoxRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) warbear whosit" );

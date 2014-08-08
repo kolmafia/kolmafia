@@ -60,9 +60,9 @@ public class QuartersmasterRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Quartersmaster"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( QuartersmasterRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( QuartersmasterRequest.master );
-	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( QuartersmasterRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( QuartersmasterRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( QuartersmasterRequest.master );
+	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( QuartersmasterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got ([\\d,]+) quarter" );
 	public static final CoinmasterData FRATBOY =

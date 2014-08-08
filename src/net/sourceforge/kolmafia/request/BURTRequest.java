@@ -56,9 +56,9 @@ public class BURTRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Bugbear Token"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BURTRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BURTRequest.master );
-	private static final Map itemByPrice = CoinmastersDatabase.invert( BURTRequest.buyPrices );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BURTRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BURTRequest.master );
+	private static final Map<Integer, String> itemByPrice = CoinmastersDatabase.invert( BURTRequest.buyPrices );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) BURT" );
 	public static final AdventureResult BURT_TOKEN = ItemPool.get( ItemPool.BURT, 1 );

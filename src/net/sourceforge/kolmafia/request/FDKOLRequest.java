@@ -55,8 +55,8 @@ public class FDKOLRequest
 	public static final String master = "FDKOL Tent";
 	public static final AdventureResult FDKOL_TOKEN =  ItemPool.get( ItemPool.FDKOL_COMMENDATION, 1 );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) FDKOL commendation" );
-	public static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( FDKOLRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( FDKOLRequest.master );
+	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( FDKOLRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FDKOLRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( FDKOLRequest.master );
 
 	public static final CoinmasterData FDKOL =
