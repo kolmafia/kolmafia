@@ -55,8 +55,8 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public class EventManager
 {
-	private static final LockableListModel eventTexts = new LockableListModel();
-	private static final LockableListModel eventHyperTexts = new LockableListModel();
+	private static final LockableListModel<String> eventTexts = new LockableListModel<String>();
+	private static final LockableListModel<String> eventHyperTexts = new LockableListModel<String>();
 
 	public static final Pattern EVENT_PATTERN =
 		Pattern.compile( "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );

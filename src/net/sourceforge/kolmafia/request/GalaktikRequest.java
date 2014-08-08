@@ -257,9 +257,9 @@ public class GalaktikRequest
 		}
 	}
 
-	public static final LockableListModel retrieveCures()
+	public static final LockableListModel<String> retrieveCures()
 	{
-		LockableListModel cures = new LockableListModel();
+		LockableListModel<String> cures = new LockableListModel<String>();
 
 		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 		{

@@ -62,9 +62,9 @@ public class GoalManager
 	public static final AdventureResult GOAL_SUBSTATS =
 		new AdventureResult.AdventureMultiResult( AdventureResult.SUBSTATS, GOAL_SUBSTATS_COUNTS );
 
-	private static final LockableListModel goals = new LockableListModel();
+	private static final LockableListModel<AdventureResult> goals = new LockableListModel<AdventureResult>();
 
-	public static final LockableListModel getGoals()
+	public static final LockableListModel<AdventureResult> getGoals()
 	{
 		return GoalManager.goals;
 	}
@@ -80,7 +80,7 @@ public class GoalManager
 				conditionString.append( ", " );
 			}
 
-			AdventureResult goal = (AdventureResult) GoalManager.goals.get( i );
+			AdventureResult goal = GoalManager.goals.get( i );
 			conditionString.append( goal.toConditionString() );
 		}
 

@@ -68,7 +68,7 @@ public class SendGiftRequest
 	private final String recipient, message;
 	private final GiftWrapper wrappingType;
 	private final int maxCapacity, materialCost;
-	private static final LockableListModel PACKAGES = new LockableListModel();
+	private static final LockableListModel<GiftWrapper> PACKAGES = new LockableListModel<GiftWrapper>();
 	static
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "packages.txt", KoLConstants.PACKAGES_VERSION );
@@ -184,13 +184,13 @@ public class SendGiftRequest
 		return this.source == KoLConstants.storage ? "hagnks_sendmeat" : "sendmeat";
 	}
 
-	public static final LockableListModel getPackages()
+	public static final LockableListModel<GiftWrapper> getPackages()
 	{
 		// Which packages are available depends on ascension count.
 		// You start with two packages and receive an additional
 		// package every three ascensions you complete.
 
-		LockableListModel packages = new LockableListModel();
+		LockableListModel<GiftWrapper> packages = new LockableListModel<GiftWrapper>();
 		int packageCount = Math.min( KoLCharacter.getAscensions() / 3 + 2, 11 );
 
 		packages.addAll( SendGiftRequest.PACKAGES.subList( 0, packageCount + 1 ) );

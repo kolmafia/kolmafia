@@ -65,7 +65,7 @@ public class ClanMembersRequest
 
 	private final boolean isLookup;
 	private final boolean isDetailLookup;
-	private final LockableListModel rankList;
+	private final LockableListModel<String> rankList;
 
 	public ClanMembersRequest( final boolean isDetailLookup )
 	{
@@ -76,7 +76,7 @@ public class ClanMembersRequest
 		this.rankList = null;
 	}
 
-	public ClanMembersRequest( final LockableListModel rankList )
+	public ClanMembersRequest( final LockableListModel<String> rankList )
 	{
 		super( "clan_members.php" );
 
@@ -91,7 +91,7 @@ public class ClanMembersRequest
 
 		this.isLookup = false;
 		this.isDetailLookup = false;
-		this.rankList = new LockableListModel();
+		this.rankList = new LockableListModel<String>();
 
 		this.addFormField( "action", "modify" );
 
@@ -186,7 +186,7 @@ public class ClanMembersRequest
 
 	private void parseRanks()
 	{
-        this.rankList.clear();
+		this.rankList.clear();
 		Matcher ranklistMatcher = ClanMembersRequest.RANK_PATTERN.matcher( this.responseText );
 
 		if ( ranklistMatcher.find() )

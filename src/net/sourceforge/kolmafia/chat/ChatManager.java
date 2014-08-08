@@ -103,7 +103,7 @@ public abstract class ChatManager
 	private static boolean triviaGameActive = false;
 	private static int triviaGameIndex = 0;
 	private static String triviaGameId = "[trivia0]";
-	private static LockableListModel triviaGameContacts = new LockableListModel();
+	private static LockableListModel<String> triviaGameContacts = new LockableListModel<String>();
 	private static ContactListFrame triviaGameContactListFrame = null;
 
 	private static String faxbot = null;

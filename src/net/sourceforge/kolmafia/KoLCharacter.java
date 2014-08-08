@@ -392,7 +392,7 @@ public abstract class KoLCharacter
 
 	// Pastamancer Pasta Thralls
 
-	public static final LockableListModel pastaThralls = new LockableListModel();
+	public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<PastaThrallData>();
 	public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
 	// Snow Suit decoration

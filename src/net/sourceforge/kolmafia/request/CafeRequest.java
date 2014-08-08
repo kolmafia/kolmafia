@@ -61,7 +61,7 @@ public class CafeRequest
 {
 	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*)", Pattern.DOTALL );
 	protected static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(-?\\d*)", Pattern.DOTALL );
-	private static final LockableListModel existing = new LockableListModel();
+	private static final LockableListModel<Concoction> existing = new LockableListModel<Concoction>();
 	private static final AdventureResult LARP = ItemPool.get( ItemPool.LARP_MEMBERSHIP_CARD, 1 );
 	private static final GenericRequest LARP_REQUEST = new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { CafeRequest.LARP } );
 
@@ -218,7 +218,7 @@ public class CafeRequest
 	{
 		menu.add( itemName );
 
-		LockableListModel usables = ConcoctionDatabase.getUsables();
+		LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
 		Concoction item = new Concoction( itemName, price );
 		int index = usables.indexOf( item );
 		if ( index != -1 )

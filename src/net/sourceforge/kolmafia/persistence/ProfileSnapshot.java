@@ -87,7 +87,7 @@ public class ProfileSnapshot
 	private static final Map<String, String> profileMap = new TreeMap<String, String>();
 	private static final Map<String, String> rosterMap = new TreeMap<String, String>();
 
-	private static final LockableListModel filterList = new LockableListModel();
+	private static final LockableListModel<ProfileRequest> filterList = new LockableListModel<ProfileRequest>();
 	private static final ClanMembersRequest request = new ClanMembersRequest( true );
 
 	public static final void clearCache()

@@ -73,7 +73,7 @@ public abstract class CombatActionManager
 {
 	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
 
-	private static final LockableListModel availableLookups = new LockableListModel();
+	private static final LockableListModel<String> availableLookups = new LockableListModel<String>();
 	private static final CustomCombatLookup strategyLookup = new CustomCombatLookup();
 
 	public static final void updateFromPreferences()
