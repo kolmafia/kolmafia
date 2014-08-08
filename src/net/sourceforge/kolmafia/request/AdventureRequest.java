@@ -166,6 +166,11 @@ public class AdventureRequest
 			}
 			this.addFormField( "action", adventureId + position + bomb );
 		}
+		else if ( formSource.equals( "place.php" ) && adventureId.equals( "manor4_chamber" ) )
+		{
+			this.addFormField( "whichplace", "manor4" );
+			this.addFormField( "action", "manor4_chamberboss" );
+		}
 		else if ( !formSource.equals( "basement.php" ) &&
 			  !formSource.equals( "cellar.php" ) &&
 			  !formSource.equals( "barrel.php" ) )
@@ -254,7 +259,8 @@ public class AdventureRequest
 		// Sometimes, there's no response from the server.
 		// In this case, skip and continue onto the next one.
 
-		if ( this.responseText == null || this.responseText.trim().length() == 0 )
+		if ( this.responseText == null || this.responseText.trim().length() == 0 ||
+			this.responseText.contains( "No, that isn't a place yet." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get to that area yet." );
 			return;
