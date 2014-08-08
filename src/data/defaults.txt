@@ -1206,14 +1206,6 @@ user	choiceAdventure74	2
 user	choiceAdventure75	3
 user	choiceAdventure76	3
 user	choiceAdventure77	2
-user	choiceAdventure78	1
-user	choiceAdventure79	1
-user	choiceAdventure80	99
-user	choiceAdventure81	1
-user	choiceAdventure82	1
-user	choiceAdventure83	1
-user	choiceAdventure84	2
-user	choiceAdventure85	4
 user	choiceAdventure86	2
 user	choiceAdventure87	2
 user	choiceAdventure88	1
@@ -1242,7 +1234,6 @@ user	choiceAdventure127	3
 user	choiceAdventure129	1
 user	choiceAdventure131	1
 user	choiceAdventure132	2
-user	choiceAdventure134	2
 user	choiceAdventure135	2
 user	choiceAdventure136	4
 user	choiceAdventure137	4
