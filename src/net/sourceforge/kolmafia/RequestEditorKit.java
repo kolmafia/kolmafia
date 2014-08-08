@@ -87,7 +87,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
@@ -1833,12 +1832,6 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace(
 				buffer, "It's actually a book.  Read it.",
 				"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
-			break;
-
-		// Wheel In the Pyramid, Keep on Turning
-		case 134:
-		case 135:
-			PyramidRequest.decorateChoiceResponse( buffer );
 			break;
 
 		case 392:

@@ -575,7 +575,6 @@ user	lastPlusSignUnlock	-1
 user	lastPorkoBoard
 user	lastPorkoPayouts
 user	lastPorkoExpected
-user	lastPyramidReset	-1
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
