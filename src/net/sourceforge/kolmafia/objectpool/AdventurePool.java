@@ -184,4 +184,5 @@ public class AdventurePool
 	public static final String UPPER_CHAMBER_ID = "406";
 	public static final String MIDDLE_CHAMBER_ID = "407";
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
+	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 }

@@ -628,6 +628,19 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.LOWER_CHAMBER_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "lowerChamberUnlock" );
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.SUMMONING_CHAMBER_ID ) )
+		{
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) &&
+				!QuestDatabase.isQuestFinished( Quest.MANOR );
+			return;
+		}
+
 		if ( !this.formSource.contains( "adventure.php" ) )
 		{
 			this.isValidAdventure = true;
@@ -850,12 +863,6 @@ public class KoLAdventure
 		if ( this.adventureId.equals( AdventurePool.MIDDLE_CHAMBER_ID ) )
 		{
 			this.isValidAdventure = Preferences.getBoolean( "middleChamberUnlock" );
-			return;
-		}
-
-		if ( this.adventureId.equals( AdventurePool.LOWER_CHAMBER_ID ) )
-		{
-			this.isValidAdventure = Preferences.getBoolean( "lowerChamberUnlock" );
 			return;
 		}
 
