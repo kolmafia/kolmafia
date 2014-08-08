@@ -536,7 +536,6 @@ user	lastEasterEggBalloon	-1
 user	lastEmptiedStorage	-1
 user	lastEncounter
 user	lastFilthClearance	-1
-user	lastGalleryUnlock	-1
 user	lastGoofballBuy	-1
 user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
@@ -546,7 +545,6 @@ user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
 user	lastKingLiberation	-1
-user	lastManorUnlock	-1
 user	lastMushroomPlot	-1
 user	lastMessageId
 user	lastMiningReset	-1
