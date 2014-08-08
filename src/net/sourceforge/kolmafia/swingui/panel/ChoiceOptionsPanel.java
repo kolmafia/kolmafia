@@ -102,7 +102,6 @@ public class ChoiceOptionsPanel
 	private final JComboBox maidenSelect;
 	private final JComboBox louvreSelect;
 	private final JComboBox manualLouvre;
-	private final JComboBox billiardRoomSelect;
 	private final JComboBox riseSelect, fallSelect;
 	private final JComboBox lightsOutSelect;
 	private final OceanDestinationComboBox oceanDestSelect;
@@ -230,13 +229,6 @@ public class ChoiceOptionsPanel
 		this.maidenSelect.addItem( "Maidens, then fight the wolf knight" );
 		this.maidenSelect.addItem( "Maidens, then fight the snake knight" );
 
-		this.billiardRoomSelect = new JComboBox();
-		this.billiardRoomSelect.addItem( "ignore this adventure" );
-		this.billiardRoomSelect.addItem( "muscle substats" );
-		this.billiardRoomSelect.addItem( "mysticality substats" );
-		this.billiardRoomSelect.addItem( "moxie substats" );
-		this.billiardRoomSelect.addItem( "Spookyraven Library Key" );
-
 		this.riseSelect = new JComboBox();
 		this.riseSelect.addItem( "ignore this adventure" );
 		this.riseSelect.addItem( "boost mysticality substats" );
@@ -246,7 +238,6 @@ public class ChoiceOptionsPanel
 		this.fallSelect = new JComboBox();
 		this.fallSelect.addItem( "ignore this adventure" );
 		this.fallSelect.addItem( "boost muscle substats" );
-		this.fallSelect.addItem( "reveal key in conservatory" );
 
 		this.lightsOutSelect = new JComboBox();
 		this.lightsOutSelect.addItem( "show in browser" );
@@ -419,7 +410,6 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Fernswarthy's Tower", "Fernswarthy's Basement", this.basementMallSelect );
 		this.addChoiceSelect( "Woods", "Spooky Forest", this.spookyForestSelect );
 		this.addChoiceSelect( "Astral", "Violet Fog", this.violetFogSelect );
-		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
 		this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
 		this.addChoiceSelect( "Manor1", "Fall of Spookyraven", this.fallSelect );
 		this.addChoiceSelect( "Manor1", "Lights Out", this.lightsOutSelect );
@@ -1029,39 +1019,6 @@ public class ChoiceOptionsPanel
 			break;
 		}
 
-		switch ( this.billiardRoomSelect.getSelectedIndex() )
-		{
-		case 0: // Ignore this adventure
-			Preferences.setString( "choiceAdventure77", "3" );
-			Preferences.setString( "choiceAdventure78", "3" );
-			Preferences.setString( "choiceAdventure79", "3" );
-			break;
-
-		case 1: // Muscle
-			Preferences.setString( "choiceAdventure77", "2" );
-			Preferences.setString( "choiceAdventure78", "2" );
-			Preferences.setString( "choiceAdventure79", "3" );
-			break;
-
-		case 2: // Mysticality
-			Preferences.setString( "choiceAdventure77", "2" );
-			Preferences.setString( "choiceAdventure78", "1" );
-			Preferences.setString( "choiceAdventure79", "2" );
-			break;
-
-		case 3: // Moxie
-			Preferences.setString( "choiceAdventure77", "1" );
-			Preferences.setString( "choiceAdventure78", "3" );
-			Preferences.setString( "choiceAdventure79", "3" );
-			break;
-
-		case 4: // Library Key
-			Preferences.setString( "choiceAdventure77", "2" );
-			Preferences.setString( "choiceAdventure78", "1" );
-			Preferences.setString( "choiceAdventure79", "1" );
-			break;
-		}
-
 		switch ( this.riseSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
@@ -1092,11 +1049,6 @@ public class ChoiceOptionsPanel
 
 		case 1: // Muscle
 			Preferences.setString( "choiceAdventure889", "3" );
-			break;
-
-		case 2: // Gallery Key
-			Preferences.setString( "choiceAdventure889", "1" );
-			Preferences.setString( "choiceAdventure87", "2" );
 			break;
 		}
 
@@ -1402,49 +1354,6 @@ public class ChoiceOptionsPanel
 
 		this.spookyForestSelect.setSelectedIndex( index < 0 || index > 13 ? 0 : index );
 
-		// Figure out what to do in the billiard room
-
-		switch ( Preferences.getInteger( "choiceAdventure77" ) )
-		{
-		case 1:
-
-			// Moxie
-			index = 3;
-			break;
-
-		case 2:
-			index = Preferences.getInteger( "choiceAdventure78" );
-
-			switch ( index )
-			{
-			case 1:
-				index = Preferences.getInteger( "choiceAdventure79" );
-				index = index == 1 ? 4 : index == 2 ? 2 : 0;
-				break;
-			case 2:
-				// Muscle
-				index = 1;
-				break;
-			case 3:
-				// Ignore this adventure
-				index = 0;
-				break;
-			}
-
-			break;
-
-		case 3:
-
-			// Ignore this adventure
-			index = 0;
-			break;
-		}
-
-		if ( index >= 0 )
-		{
-			this.billiardRoomSelect.setSelectedIndex( index );
-		}
-
 		// Figure out what to do at the bookcases
 
 		index = Preferences.getInteger( "choiceAdventure80" );
@@ -1462,13 +1371,9 @@ public class ChoiceOptionsPanel
 		{
 			this.fallSelect.setSelectedIndex( 0 );
 		}
-		else if ( index == 3 )
-		{
-			this.fallSelect.setSelectedIndex( 1 );
-		}
 		else
 		{
-			this.fallSelect.setSelectedIndex( 2 );
+			this.fallSelect.setSelectedIndex( 1 );
 		}
 
 		// Figure out what to do at the maidens

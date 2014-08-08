@@ -671,22 +671,6 @@ public abstract class ChoiceManager
 				       new Option( "styrofoam ore", "styrofoam ore" ),
 				       new Option( "bubblewrap ore", "bubblewrap ore" ) } ),
 
-		// Minnesota Incorporeals
-		new ChoiceSpoiler(
-			"choiceAdventure77", "Haunted Billiard Room",
-			new Object[] { "moxie substats", "other options", "skip adventure" } ),
-
-		// Broken
-		new ChoiceSpoiler(
-			"choiceAdventure78", "Haunted Billiard Room",
-			new Object[] { "other options", "muscle substats", "skip adventure" } ),
-
-		// A Hustle Here, a Hustle There
-		new ChoiceSpoiler(
-			"choiceAdventure79", "Haunted Billiard Room",
-			new Object[] { "Spookyraven library key", "mysticality substats", "skip adventure" } ),
-
-
 		// History is Fun!
 		new ChoiceSpoiler(
 			"choiceAdventure86", "Haunted Library",
@@ -3514,11 +3498,6 @@ public abstract class ChoiceManager
 			// How Depressing
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Burrow" );
 
-		case 85:
-			// One NightStand (simple wooden)
-
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Haunted Bedroom" );
-
 		case 184:
 			// That Explains All The Eyepatches
 
@@ -3938,19 +3917,6 @@ public abstract class ChoiceManager
 
 			result[ 0 ] = "spooky glove " + ( glove ? "" : "NOT ") + "equipped";
 			result[ 1 ] = "skip adventure";
-
-			return result;
-
-		case 85:
-			// One NightStand (simple wooden)
-			result = new Object[ 4 ];
-
-			boolean ballroom = Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions();
-
-			result[ 0 ] = ballroom ? "moxie " : "moxie and ballroom key step 1";
-			result[ 1 ] = (ballroom && !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "nothing");
-			result[ 2 ] = "enter combat";
-			result[ 3 ] = new Option( "Engorged Sausages and You", "Engorged Sausages and You" );
 
 			return result;
 
@@ -7500,30 +7466,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 81:
-			// Take a Look, it's in a Book!
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				Preferences.setInteger( "lastGalleryUnlock", KoLCharacter.getAscensions() );
-				break;
-			}
-			// fall through
-		case 80:
-			// Take a Look, it's in a Book!
-			if ( ChoiceManager.lastDecision == 99 )
-			{
-				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
-			}
-			break;
-
-		case 85:
-			// One NightStand (simple wooden)
-			if ( ChoiceManager.lastDecision == 1 && Preferences.getInteger( "lastBallroomUnlock" ) != KoLCharacter.getAscensions() )
-			{
-				Preferences.setInteger( "lastBallroomUnlock", KoLCharacter.getAscensions() );
-			}
-			break;
-
 		case 89:
 			if ( ChoiceManager.lastDecision == 4 )
 			{
@@ -8496,19 +8438,6 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
-		// Wheel In the Pyramid, Keep on Turning
-		case 134:
-
-			// Visiting this choice removes the carved wooden wheel
-			// from your inventory.
-
-			if ( InventoryManager.getCount( ItemPool.CARVED_WOODEN_WHEEL ) > 0 )
-			{
-				ResultProcessor.processItem( ItemPool.CARVED_WOODEN_WHEEL, -1 );
-			}
-
-			break;
-
 		case 360:
 			// Wumpus Hunt
 			WumpusManager.visitChoice( ChoiceManager.lastResponseText );
@@ -9698,30 +9627,6 @@ public abstract class ChoiceManager
 				}
 			}
 
-			return decision;
-
-		// Take a Look, it's in a Book!
-		case 81:
-
-			// If we've already unlocked the gallery, try
-			// to unlock the second floor.
-
-			if ( decision.equals( "1" ) && Preferences.getInteger( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
-			{
-				return "99";
-			}
-			// fall through
-
-		// Take a Look, it's in a Book!
-		case 80:
-
-			// If we've already unlocked the second floor,
-			// ignore this choice adventure.
-
-			if ( decision.equals( "99" ) && Preferences.getInteger( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
-			{
-				return "4";
-			}
 			return decision;
 
 		// No sir, away! A papaya war is on!
