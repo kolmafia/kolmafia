@@ -58,8 +58,8 @@ public class TravelingTraderRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Traveling Trader"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getNewList();
-	private static final Map buyPrices = CoinmastersDatabase.getNewMap();
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
 	// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
 	private static AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );
@@ -236,7 +236,7 @@ public class TravelingTraderRequest
 		// Refresh the coinmaster lists every time we visit.
 		// Learn new trade items by simply visiting the Traveling Trader
 
-		LockableListModel items = TravelingTraderRequest.buyItems;
+		LockableListModel<AdventureResult> items = TravelingTraderRequest.buyItems;
 		Map prices = TravelingTraderRequest.buyPrices;
 		items.clear();
 		prices.clear();

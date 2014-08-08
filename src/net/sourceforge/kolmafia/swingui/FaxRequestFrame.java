@@ -123,7 +123,7 @@ public class FaxRequestFrame
 
 			this.bot = bot;
 
-			LockableListModel [] monstersByCategory = bot.getMonstersByCategory();
+			LockableListModel<Monster> [] monstersByCategory = bot.getMonstersByCategory();
 			int categories = monstersByCategory.length;
 			this.monsterLists = new ShowDescriptionList[ categories ];
 			for ( int i = 0; i < categories; ++i )
@@ -460,11 +460,9 @@ public class FaxRequestFrame
 		{
 			super();
 			this.panel = panel;
-			LockableListModel categories = bot.getCategories();
-			int count = categories.size();
-			for ( int i = 0; i < count; ++i )
+			for ( String category : bot.getCategories() )
 			{
-				addItem( categories.get( i ) );
+				addItem( category );
 			}
 			addActionListener( new MonsterCategoryListener() );
 		}

@@ -61,8 +61,8 @@ public class MrStoreRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Mr. Store"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getNewList();
-	private static final Map buyPrices = CoinmastersDatabase.getNewMap();
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
@@ -152,7 +152,7 @@ public class MrStoreRequest
 		// Refresh the Coin Master inventory every time we visit.
 
 		CoinmasterData data = MrStoreRequest.MR_STORE;
-		LockableListModel items = MrStoreRequest.buyItems;
+		LockableListModel<AdventureResult> items = MrStoreRequest.buyItems;
 		Map prices = MrStoreRequest.buyPrices;
 		items.clear();
 		prices.clear();

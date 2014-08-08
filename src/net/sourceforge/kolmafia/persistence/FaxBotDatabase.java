@@ -197,11 +197,11 @@ public class FaxBotDatabase
 		private final int playerId;
 
 		// What monsters does it serve?
-		public final SortedListModel monsters = new SortedListModel();
+		public final SortedListModel<Monster> monsters = new SortedListModel<Monster>();
 
 		// Lists derived from the list of monsters
-		private final LockableListModel categories = new LockableListModel();
-		private LockableListModel [] monstersByCategory = new LockableListModel[0];
+		private final LockableListModel<String> categories = new LockableListModel<String>();
+		private LockableListModel<Monster> [] monstersByCategory = new LockableListModel[0];
 
 		private final Map<String, Monster> monsterByActualName = new HashMap<String, Monster>();
 		private final Map<String, Monster> monsterByCommand = new HashMap<String, Monster>();
@@ -228,12 +228,12 @@ public class FaxBotDatabase
 			return this.playerId;
 		}
 
-		public LockableListModel getCategories()
+		public LockableListModel<String> getCategories()
 		{
 			return this.categories;
 		}
 
-		public LockableListModel [] getMonstersByCategory()
+		public LockableListModel<Monster> [] getMonstersByCategory()
 		{
 			return this.monstersByCategory;
 		}
@@ -255,7 +255,7 @@ public class FaxBotDatabase
 			this.monsterByActualName.clear();
 			this.monsterByCommand.clear();
 
-			SortedListModel tempCategories = new SortedListModel();
+			SortedListModel<String> tempCategories = new SortedListModel<String>();
 			for ( Monster monster : monsters )
 			{
 				this.monsters.add( monster );
@@ -287,7 +287,7 @@ public class FaxBotDatabase
 			for ( int i = 0; i < this.categories.size(); ++i )
 			{
 				String category = (String)categories.get( i );
-				SortedListModel model = new SortedListModel();
+				SortedListModel<Monster> model = new SortedListModel<Monster>();
 				this.monstersByCategory[ i ] = model;
 				for ( Monster monster : monsters )
 				{

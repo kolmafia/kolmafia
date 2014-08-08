@@ -50,8 +50,8 @@ public class AltarOfBonesRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Altar of Bones"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( AltarOfBonesRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( AltarOfBonesRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( AltarOfBonesRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( AltarOfBonesRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+).*?bone chips" );
 	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, 1 );

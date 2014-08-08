@@ -57,9 +57,9 @@ public class Crimbo11Request
 	extends CoinMasterRequest
 {
 	public static final String master = "Crimbo 2011"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( Crimbo11Request.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo11Request.master );
-	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( Crimbo11Request.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo11Request.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo11Request.master );
+	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo11Request.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have.*?<b>([\\d,]+)</b> Candy Credit", Pattern.DOTALL );
 	public static final CoinmasterData CRIMBO11 =
 		new CoinmasterData(
@@ -268,11 +268,11 @@ public class Crimbo11Request
 		Matcher countMatcher = data.getCountMatcher( urlString );
 		int count = countMatcher.find() ? StringUtilities.parseInt( countMatcher.group( 1 ) ) : 1;
 
-		LockableListModel items = data.getBuyItems();
+		LockableListModel<AdventureResult> items = data.getBuyItems();
 		AdventureResult item = AdventureResult.findItem( itemId, items );
 		String name = item != null ? item.getName() :
 			( "item #" + itemIdString );
-		Map prices = data.getBuyPrices();
+		Map<String, Integer> prices = data.getBuyPrices();
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 

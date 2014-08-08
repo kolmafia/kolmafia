@@ -54,8 +54,8 @@ public class NeandermallRequest
 {
 	public static final String master = "The Neandermall"; 
 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( NeandermallRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( NeandermallRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( NeandermallRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( NeandermallRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( NeandermallRequest.master );
 	private static final Pattern CHRONER_PATTERN = Pattern.compile( "(\\d+) Chroner" );
 	public static final AdventureResult CHRONER = ItemPool.get( ItemPool.CHRONER, 1 );

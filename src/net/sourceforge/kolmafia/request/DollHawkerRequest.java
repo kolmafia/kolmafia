@@ -46,8 +46,8 @@ public class DollHawkerRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Dollhawker's Emporium";
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( DollHawkerRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( DollHawkerRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( DollHawkerRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( DollHawkerRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( DollHawkerRequest.master );
 
 	public static final CoinmasterData DOLLHAWKER =

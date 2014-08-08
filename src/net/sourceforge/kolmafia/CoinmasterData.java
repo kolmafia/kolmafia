@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import java.util.regex.Matcher;
@@ -76,10 +75,10 @@ public class CoinmasterData
 	private final String countField;
 	private final Pattern countPattern;
 	private final String buyAction;
-	private final LockableListModel buyItems;
-	private final Map buyPrices;
+	private final LockableListModel<AdventureResult> buyItems;
+	private final Map<String, Integer> buyPrices;
 	private final String sellAction;
-	private final Map sellPrices;
+	private final Map<String, Integer> sellPrices;
 	private final String storageAction;
 	private final String tradeAllAction;
 	private final boolean canPurchase;
@@ -101,10 +100,10 @@ public class CoinmasterData
 		final String countField,
 		final Pattern countPattern,
 		final String buyAction,
-		final LockableListModel buyItems,
-		final Map buyPrices,
+		final LockableListModel<AdventureResult> buyItems,
+		final Map<String, Integer> buyPrices,
 		final String sellAction,
-		final Map sellPrices,
+		final Map<String, Integer> sellPrices,
 		final String storageAction,
 		final String tradeAllAction,
 		final boolean canPurchase,
@@ -270,12 +269,12 @@ public class CoinmasterData
 		return this.buyAction;
 	}
 
-	public final LockableListModel getBuyItems()
+	public final LockableListModel<AdventureResult> getBuyItems()
 	{
 		return this.buyItems;
 	}
 
-	public final Map getBuyPrices()
+	public final Map<String, Integer> getBuyPrices()
 	{
 		return this.buyPrices;
 	}
@@ -312,7 +311,7 @@ public class CoinmasterData
 		return this.sellAction;
 	}
 
-	public final Map getSellPrices()
+	public final Map<String, Integer> getSellPrices()
 	{
 		return this.sellPrices;
 	}
@@ -377,10 +376,8 @@ public class CoinmasterData
 		CoinmastersDatabase.clearPurchaseRequests( this );
 
 		// For each item you can buy from this Coin Master, create a purchase request
-		Iterator it = this.buyItems.iterator();
-		while ( it.hasNext() )
+		for ( AdventureResult item : this.buyItems )
 		{
-			AdventureResult item = (AdventureResult) it.next();
 			int itemId = item.getItemId();
 			String itemName = item.getName();
 			int price = CoinmastersDatabase.getPrice( itemName, this.buyPrices );

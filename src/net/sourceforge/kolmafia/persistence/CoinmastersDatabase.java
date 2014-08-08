@@ -69,10 +69,10 @@ public class CoinmastersDatabase
 	public static final HashMap<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<Integer, CoinMasterPurchaseRequest>();
 
 	// Map from String -> LockableListModel
-	public static final TreeMap items = new TreeMap();
+	public static final TreeMap<String,LockableListModel<AdventureResult>> items = new TreeMap();
 
 	// Map from String -> LockableListModel
-	public static final TreeMap buyItems = new TreeMap();
+	public static final TreeMap<String,LockableListModel<AdventureResult>> buyItems = new TreeMap();
 
 	// Map from String -> Map from String -> Integer
 	public static final TreeMap<String, Map<String, Integer>> buyPrices = new TreeMap<String, Map<String, Integer>>();
@@ -83,24 +83,24 @@ public class CoinmastersDatabase
 	// Map from String -> Map from String -> Integer
 	public static final TreeMap<String, Map<String, Integer>> itemRows = new TreeMap<String, Map<String, Integer>>();
 
-	public static final LockableListModel getItems( final String key )
+	public static final LockableListModel<AdventureResult> getItems( final String key )
 	{
-		return (LockableListModel)CoinmastersDatabase.items.get( key );
+		return CoinmastersDatabase.items.get( key );
 	}
 
-	public static final LockableListModel getBuyItems( final String key )
+	public static final LockableListModel<AdventureResult> getBuyItems( final String key )
 	{
-		return (LockableListModel)CoinmastersDatabase.buyItems.get( key );
+		return CoinmastersDatabase.buyItems.get( key );
 	}
 
-	public static final Map getBuyPrices( final String key )
+	public static final Map<String, Integer> getBuyPrices( final String key )
 	{
-		return (Map)CoinmastersDatabase.buyPrices.get( key );
+		return CoinmastersDatabase.buyPrices.get( key );
 	}
 
-	public static final Map getSellPrices( final String key )
+	public static final Map<String, Integer> getSellPrices( final String key )
 	{
-		return (Map)CoinmastersDatabase.sellPrices.get( key );
+		return CoinmastersDatabase.sellPrices.get( key );
 	}
 
 	public static final Map<String, Integer> getRows( final String key )
@@ -108,9 +108,9 @@ public class CoinmastersDatabase
 		return CoinmastersDatabase.itemRows.get( key );
 	}
 
-	public static final LockableListModel getNewList()
+	public static final LockableListModel<AdventureResult> getNewList()
 	{
-		return new LockableListModel();
+		return new LockableListModel<AdventureResult>();
 	}
 
 	public static final Map<String, Integer> getNewMap()
@@ -118,9 +118,9 @@ public class CoinmastersDatabase
 		return new TreeMap<String, Integer>();
 	}
 
-	private static final LockableListModel getOrMakeList( final String key, final Map map )
+	private static final LockableListModel<AdventureResult> getOrMakeList( final String key, final Map<String,LockableListModel<AdventureResult>> map )
 	{
-		LockableListModel retval = (LockableListModel) map.get( key );
+		LockableListModel<AdventureResult> retval = map.get( key );
 		if ( retval == null )
 		{
 			retval = CoinmastersDatabase.getNewList();
@@ -140,13 +140,11 @@ public class CoinmastersDatabase
 		return retval;
 	}
 
-	public static final Map invert( final Map map )
+	public static final Map<Integer, String> invert( final Map<String, Integer> map )
 	{
-		Map retval = CoinmastersDatabase.getNewMap();
-		Iterator it = map.entrySet().iterator();
-		while ( it.hasNext() )
+		Map<Integer, String> retval = new TreeMap<Integer, String>();
+		for ( Entry<String, Integer> entry : map.entrySet() )
 		{
-			Entry entry = (Entry) it.next();
 			retval.put(entry.getValue(), entry.getKey());
 		}
 		return retval;
@@ -174,7 +172,7 @@ public class CoinmastersDatabase
 
 			if ( type.equals( "buy" ) )
 			{
-				LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
+				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
 				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
 				list.add( item );
 				map.put( name, iprice );

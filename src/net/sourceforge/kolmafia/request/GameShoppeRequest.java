@@ -59,9 +59,9 @@ public class GameShoppeRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "Game Shoppe"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( GameShoppeRequest.master );
-	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( GameShoppeRequest.master );
-	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( GameShoppeRequest.master );
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GameShoppeRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GameShoppeRequest.master );
+	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( GameShoppeRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) store credit" );
 	public static final CoinmasterData GAMESHOPPE =
