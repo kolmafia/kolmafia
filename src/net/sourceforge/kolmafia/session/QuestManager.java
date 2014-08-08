@@ -572,6 +572,10 @@ public class QuestManager
 			{
 				PyramidRequest.setPyramidPosition( StringUtilities.parseInt( LowerChamberMatcher.group( 1 ) ) );
 			}
+			if ( responseText.contains( "action=pyramid_state1a" ) )
+			{
+				PyramidRequest.setPyramidBombUsed( true );
+			}
 			// Lower chamber parsing
 			if ( location.contains( "action=pyramid_state" ) )
 			{
