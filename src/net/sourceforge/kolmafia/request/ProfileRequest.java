@@ -86,6 +86,9 @@ public class ProfileRequest
 	private Integer muscle, mysticism, moxie;
 	private String title, rank;
 
+	private String clanName;
+	private int clanId;
+
 	private int equipmentPower;
 
 	public ProfileRequest( final String playerName )
@@ -355,14 +358,21 @@ public class ProfileRequest
 			Matcher m = CLAN_ID_PATTERN.matcher( this.responseText );
 			if ( m.find() )
 			{
-				ClanManager.setClanId( StringUtilities.parseInt( m.group( 1 ) ) );
-				ClanManager.setClanName( m.group( 2 ) );
+				this.clanId = StringUtilities.parseInt( m.group( 1 ) );
+				this.clanName = m.group( 2 );
 			}
 		}
 		else
 		{
-			ClanManager.setClanName( null );
-			ClanManager.setClanId( IntegerPool.get( 0 ) );
+			this.clanId = 0;
+			this.clanName = null;
+		}
+		
+		// If we're looking at our own profile, update ClanManager
+		if ( this.playerId.equals( KoLCharacter.getPlayerId() ) )
+		{
+			ClanManager.setClanId( this.clanId );
+			ClanManager.setClanName( this.clanName );
 		}
 
 		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
@@ -492,6 +502,18 @@ public class ProfileRequest
 	public String getPlayerId()
 	{
 		return this.playerId;
+	}
+
+	public String getClanName()
+	{
+		this.initialize();
+		return this.clanName;
+	}
+
+	public int getClanId()
+	{
+		this.initialize();
+		return this.clanId;
 	}
 
 	public boolean isHardcore()

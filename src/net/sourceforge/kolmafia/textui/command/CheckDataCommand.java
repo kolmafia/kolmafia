@@ -189,7 +189,7 @@ public class CheckDataCommand
 			RequestLogger.printLine( "id [" + prof.getPlayerId() + "]" );
 			RequestLogger.printLine( "level [" + prof.getPlayerLevel() + "]" );
 			RequestLogger.printLine( "class [" + prof.getClassType() + "]" );
-			RequestLogger.printLine( "clan [" + ClanManager.getClanName( true ) + "]" );
+			RequestLogger.printLine( "clan [" + prof.getClanName() + "]" );
 			RequestLogger.printLine( "restrict [" + prof.getRestriction() + "]" );
 			return;
 		}
