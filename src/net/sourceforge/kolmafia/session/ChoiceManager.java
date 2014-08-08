@@ -3328,10 +3328,6 @@ public abstract class ChoiceManager
 
 		switch ( choice )
 		{
-		case 134:
-		case 135:
-			PyramidRequest.decorateChoice( choice, buffer );
-			break;
 		case 360:
 			WumpusManager.decorate( buffer );
 			break;

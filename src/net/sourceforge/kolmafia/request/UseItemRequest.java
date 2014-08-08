@@ -3834,11 +3834,6 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.TOMB_RATCHET:
-
-			PyramidRequest.advancePyramidPosition();
-			return;
-
 		case ItemPool.BURROWGRUB_HIVE:
 
 			// One way or another, you have used it today

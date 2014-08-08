@@ -232,7 +232,7 @@ public class KoLAdventure
 
 	public String getPrettyAdventureName( final String urlString )
 	{
-		if ( urlString.startsWith( "pyramid.php" ) )
+		if ( urlString.contains( "pyramid_state" ) )
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
 		}

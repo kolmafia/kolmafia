@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -570,19 +569,19 @@ public class QuestManager
 			Matcher LowerChamberMatcher = QuestManager.LOWER_CHAMBER_PATTERN.matcher( responseText );
 			if ( LowerChamberMatcher.find() )
 			{
-				PyramidRequest.setPyramidPosition( StringUtilities.parseInt( LowerChamberMatcher.group( 1 ) ) );
+				Preferences.setInteger( "pyramidPosition", StringUtilities.parseInt( LowerChamberMatcher.group( 1 ) ) );
 			}
 			if ( responseText.contains( "action=pyramid_state1a" ) )
 			{
-				PyramidRequest.setPyramidBombUsed( true );
+				Preferences.setBoolean( "pyramidBombUsed", true );
 			}
 			// Lower chamber parsing
 			if ( location.contains( "action=pyramid_state" ) )
 			{
 				if ( responseText.contains( "the rubble is gone" ) )
 				{
-					PyramidRequest.setPyramidPosition( 1 );
-					PyramidRequest.setPyramidBombUsed( true );
+					Preferences.setInteger( "pyramidPosition", 1 );
+					Preferences.setBoolean( "pyramidBombUsed", true );
 					ResultProcessor.processItem( ItemPool.ANCIENT_BOMB, -1 );
 				}
 				// Add the rest when known

@@ -117,7 +117,6 @@ import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
@@ -698,11 +697,6 @@ public class ResponseTextParser
 			{
 				ArtistRequest.parseResponse( location, responseText );
 			}
-		}
-
-		else if ( location.startsWith( "pyramid.php" ) )
-		{
-			PyramidRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "questlog.php" ) )
