@@ -340,7 +340,7 @@ public class UseItemRequest
 		return false;
 	}
 
-	protected static boolean askAboutPvP( final String itemName )
+	public static boolean askAboutPvP( final String itemName )
 	{
 		// If we've already asked about PvP, don't nag.
 		if ( UseItemRequest.askedAboutPvP == KoLCharacter.getUserId() )
