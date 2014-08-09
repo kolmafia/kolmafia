@@ -1720,7 +1720,7 @@ public class ClanLoungeRequest
 			// if fullness display is on, ResultProcessor will handle incrementing fullness
 			if ( fullness > 0 && !responseText.contains( "Fullness" ) )
 			{
-				Preferences.increment( "currentFullness", fullness );
+				KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
 			}
 			String name = ClanLoungeRequest.hotdogIndexToName( index );
 			if ( name.equals( "optimal dog" ) )
