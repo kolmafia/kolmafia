@@ -2295,7 +2295,7 @@ universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glu
 world's most dangerous birdhouse 	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
 
 # Beer Can
-tin cup	SUSE	fancy tin beer can (1)
+tin cup	MUSE	fancy tin beer can (1)
 tin snips	MUSE	fancy tin beer can (2)
 tin lizzie	MUSE	fancy tin beer can (4)
 tin tam	MUSE	fancy tin beer can (8)
