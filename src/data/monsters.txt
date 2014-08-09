@@ -383,7 +383,7 @@ eXtreme cross-country hippy	skihippy.gif	Atk: 73 Def: 65 HP: 65 Init: 60 E: sten
 eXtreme Orcish snowboarder	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 32-48 E: sleaze P: orc	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 eXtreme Sports Orcs	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 eye in the darkness	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 E: spooky P: horror	black tear (n50)
-Fallen Archfiend	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
+Fallen Archfiend	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)	heavy-duty bendy straw (c0)
 Family Jewels	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 family of kobolds	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
 fan dancer	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 80-120	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
