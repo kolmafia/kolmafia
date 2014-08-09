@@ -297,6 +297,10 @@ public class QuestManager
 			{
 				handleSeaChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=woods" ) )
+			{
+				handleWoodsChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=zeppelin" ) )
 			{
 				if ( responseText.contains( "zep_mob1.gif" ) )
@@ -328,10 +332,6 @@ public class QuestManager
 		else if ( location.startsWith( "trickortreat" ) )
 		{
 			handleTrickOrTreatingChange( responseText );
-		}
-		else if ( location.startsWith( "woods" ) )
-		{
-			handleWoodsChange( responseText );
 		}
 		else if ( location.startsWith( "bathole" ) )
 		{
@@ -584,6 +584,14 @@ public class QuestManager
 					Preferences.setBoolean( "pyramidBombUsed", true );
 					ResultProcessor.processItem( ItemPool.ANCIENT_BOMB, -1 );
 				}
+				else if ( responseText.contains( "reach in and grab yourself a token" ) )
+				{
+					Preferences.setInteger( "pyramidPosition", 4 );
+				}
+				else if ( responseText.contains( "collect your bomb.  Score!" ) )
+				{
+					Preferences.setInteger( "pyramidPosition", 3 );
+				}
 				// Add the rest when known
 			}
 		}
@@ -613,15 +621,27 @@ public class QuestManager
 		return;
 	}
 
-	private static void handleWoodsChange( final String responseText )
+	private static void handleWoodsChange( final String location, final String responseText )
 	{
 		if ( responseText.contains( "wcroad.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step1" );
 		}
 
+		if ( location.contains( "action=woods_dakota" ) )
+		{
+			if ( responseText.contains( "need you to pick up a couple things for me" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TEMPLE, QuestDatabase.STARTED );
+			}
+			else if ( responseText.contains( "make a note of the temple's location" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TEMPLE, QuestDatabase.FINISHED );
+				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+			}
+		}
 		// If we see the Hidden Temple, mark it as unlocked
-		if ( responseText.contains( "otherimages/woods/temple.gif" ) )
+		if ( responseText.contains( "temple.gif" ) )
 		{
 			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 		}

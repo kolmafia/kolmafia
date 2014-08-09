@@ -4726,6 +4726,10 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.STEAM_PLUMBER_3, -1 );
 			}
 			return;
+
+		case ItemPool.LETTER_FROM_MELVIGN:
+			QuestDatabase.setQuestIfBetter( Quest.SHIRT, QuestDatabase.STARTED );
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
