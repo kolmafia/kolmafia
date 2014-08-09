@@ -344,6 +344,8 @@ public abstract class KoLCharacter
 	private static int storageMeat = 0;
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
+	private static int fullness = 0;
+	private static int spleenUse = 0;
 	private static int adventuresLeft = 0;
 	private static int daycount = 0;
 	private static int turnsPlayed = 0;
@@ -633,12 +635,12 @@ public abstract class KoLCharacter
 
 	public static final void setFullness( final int fullness )
 	{
-		Preferences.setInteger( "currentFullness", fullness );
+		KoLCharacter.fullness = Math.max( 0, fullness );
 	}
 
 	public static final int getFullness()
 	{
-		return Preferences.getInteger( "currentFullness" );
+		return KoLCharacter.fullness;
 	}
 
 	public static final int getFullnessLimit()
@@ -796,12 +798,12 @@ public abstract class KoLCharacter
 
 	public static final void setSpleenUse( int spleenUse )
 	{
-		Preferences.setInteger( "currentSpleenUse", spleenUse );
+		KoLCharacter.spleenUse = Math.max( 0, spleenUse );
 	}
 
 	public static final int getSpleenUse()
 	{
-		return Preferences.getInteger( "currentSpleenUse" );
+		return KoLCharacter.spleenUse;
 	}
 
 	public static final int getSpleenLimit()

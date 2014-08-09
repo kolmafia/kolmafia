@@ -345,7 +345,6 @@ user	crimboTreeDays	7
 user	crudeMonster
 user	currentEasyBountyItem	
 user	currentExtremity	0
-user	currentFullness	0
 user	currentHardBountyItem	
 user	currentHippyStore	none
 user	currentJunkyardTool
@@ -355,7 +354,6 @@ user	currentMood	default
 user	currentNunneryMeat	0
 user	currentPvpVictories
 user	currentSpecialBountyItem	
-user	currentSpleenUse	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0

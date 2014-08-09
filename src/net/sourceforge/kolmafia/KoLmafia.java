@@ -91,7 +91,6 @@ import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -537,7 +536,7 @@ public abstract class KoLmafia
 
 		KoLmafia.lastMessage = message;
 
-		if ( message.indexOf( KoLConstants.LINE_BREAK ) == -1 )
+		if ( !message.contains( KoLConstants.LINE_BREAK ) )
 		{
 			KoLmafia.updateDisplayState( state, message );
 		}
@@ -629,11 +628,6 @@ public abstract class KoLmafia
 
 	public static final void resetCounters()
 	{
-		KoLmafia.resetCounters( true );
-	}
-
-	private static final void resetCounters( boolean resetStomach )
-	{
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 
 		Preferences.setString( "barrelLayout", "?????????" );
@@ -672,13 +666,6 @@ public abstract class KoLmafia
 		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
-
-		// If this is called from a place that hits API.php first, these values will be up-to-date; don't touch
-		if ( resetStomach )
-		{
-			Preferences.setInteger( "currentFullness", 0 );
-			Preferences.setInteger( "currentSpleenUse", 0 );
-		}
 
 		// Reset kolhsTotalSchoolSpirited to 0 if _kolhsSchoolSpirited wasn't set yesterday
 		if ( !Preferences.getBoolean( "_kolhsSchoolSpirited" ) )
@@ -735,7 +722,7 @@ public abstract class KoLmafia
 
 		if ( shouldResetCounters )
 		{
-			KoLmafia.resetCounters( false );
+			KoLmafia.resetCounters();
 		}
 
 		if ( shouldResetGlobalCounters )

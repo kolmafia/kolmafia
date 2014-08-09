@@ -186,7 +186,7 @@ public class ChezSnooteeRequest
 		int fullness = ItemDatabase.getFullness( itemName );
 		if ( fullness > 0 )
 		{
-			Preferences.increment( "currentFullness", fullness );
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
 		}
 	}
 

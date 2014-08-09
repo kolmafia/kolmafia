@@ -3413,9 +3413,7 @@ public class UseItemRequest
 
 			Preferences.increment( "currentMojoFilters", item.getCount() );
 
-			Preferences.setInteger(
-				"currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - item.getCount() ) );
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() - item.getCount() );
 
 			KoLCharacter.updateStatus();
 			ConcoctionDatabase.getUsables().sort();
@@ -3431,7 +3429,7 @@ public class UseItemRequest
 			}
 			else if ( responseText.indexOf( "You pop the spice melange into your mouth and chew it up" ) != -1 )
 			{
-				Preferences.setInteger( "currentFullness", Math.max( 0, Preferences.getInteger( "currentFullness" ) - 3 ) );
+				KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
 				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
 				Preferences.setBoolean( "spiceMelangeUsed", true );
 				KoLCharacter.updateStatus();
@@ -3449,7 +3447,7 @@ public class UseItemRequest
 			}
 			else if ( responseText.contains( "You pop the candy in your mouth, and it immediately absorbs almost all of the moisture in your body" ) )
 			{
-				Preferences.setInteger( "currentFullness", Math.max( 0, Preferences.getInteger( "currentFullness" ) - 3 ) );
+				KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
 				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
 				Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
 				KoLCharacter.updateStatus();

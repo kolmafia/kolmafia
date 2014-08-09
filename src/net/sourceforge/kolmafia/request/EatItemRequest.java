@@ -572,18 +572,17 @@ public class EatItemRequest
 			}
 
 			int maxFullness = KoLCharacter.getFullnessLimit();
-			int currentFullness = KoLCharacter.getFullness();
 
 			// Based on what we think our current fullness is,
 			// calculate how many of this item we have room for.
-			int maxEat = (maxFullness - currentFullness) / fullness;
+			int maxEat = ( maxFullness - KoLCharacter.getFullness()) / fullness;
 
 			// We know that KoL did not let us eat as many as we
 			// requested, so adjust for how many we could eat.
 			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
 			if ( couldEat > 0 )
 			{
-				if ( shouldUpdateFullness ) Preferences.increment( "currentFullness", couldEat * fullness );
+				if ( shouldUpdateFullness ) KoLCharacter.setFullness( KoLCharacter.getFullness() + couldEat * fullness );
 				Preferences.decrement( "munchiesPillsUsed", couldEat );
 				ResultProcessor.processResult( item.getInstance( -couldEat ) );
 			}
@@ -592,7 +591,7 @@ public class EatItemRequest
 
 			if ( estimatedFullness > KoLCharacter.getFullness() )
 			{
-				Preferences.setInteger( "currentFullness", estimatedFullness );
+				KoLCharacter.setFullness( estimatedFullness );
 			}
 
 			KoLCharacter.updateStatus();
@@ -677,7 +676,7 @@ public class EatItemRequest
 		// If the user has fullness display turned on ( "You gain x Fullness" ) DON'T touch fullness here.  It is handled in ResultProcessor.
 		if ( shouldUpdateFullness )
 		{
-			Preferences.increment( "currentFullness", fullnessUsed );
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
 		}
 		Preferences.decrement( "munchiesPillsUsed", count );
 
@@ -736,7 +735,7 @@ public class EatItemRequest
 			// our fullness, but it wasn't actually consumed.
 
 			ResultProcessor.processResult( item );
-			if ( shouldUpdateFullness ) Preferences.increment( "currentFullness", -3 );
+			if ( shouldUpdateFullness ) KoLCharacter.setFullness( KoLCharacter.getFullness() -3 );
 
 			// "You don't have time to properly enjoy a black
 			// pudding right now."
@@ -767,9 +766,7 @@ public class EatItemRequest
 			return;
 
 		case ItemPool.EXTRA_GREASY_SLIDER:
-			Preferences.setInteger( "currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) -
-					5 * item.getCount() ) );
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() - 5 * item.getCount() );
 			KoLCharacter.updateStatus();
 			return;
 

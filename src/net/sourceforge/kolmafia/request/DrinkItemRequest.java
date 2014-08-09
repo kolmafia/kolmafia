@@ -632,9 +632,7 @@ public class DrinkItemRequest
 			return;
 
 		case ItemPool.FERMENTED_PICKLE_JUICE:
-			Preferences.setInteger( "currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) -
-					5 * item.getCount() ) );
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() - 5 * item.getCount() );
 			KoLCharacter.updateStatus();
 			return;
 		}

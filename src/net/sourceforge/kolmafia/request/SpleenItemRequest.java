@@ -244,7 +244,7 @@ public class SpleenItemRequest
 
 			if ( estimatedSpleen > currentSpleen )
 			{
-				Preferences.setInteger( "currentSpleenUse", estimatedSpleen );
+				KoLCharacter.setSpleenUse( estimatedSpleen );
 			}
 
 			KoLCharacter.updateStatus();
@@ -253,7 +253,7 @@ public class SpleenItemRequest
 		}
 
 		// The spleen item was consumed successfully
-		Preferences.increment( "currentSpleenUse", spleenUse );
+		KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + spleenUse );
 
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();

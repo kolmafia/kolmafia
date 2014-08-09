@@ -208,9 +208,10 @@ public class CafeRequest
 	protected void parseResponse()
 	{
 		int fullness = ItemDatabase.getFullness( this.itemName );
-		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) ) // if fullness display is on, ResultProcessor will handle incrementing fullness
+		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) )
+		// if fullness display is on, ResultProcessor will handle incrementing fullness
 		{
-			Preferences.increment( "currentFullness", fullness );
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
 		}
 	}
 
