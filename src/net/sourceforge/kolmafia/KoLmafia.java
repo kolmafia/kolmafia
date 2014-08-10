@@ -1602,18 +1602,20 @@ public abstract class KoLmafia
 		PurchaseRequest currentRequest = (PurchaseRequest) purchases[ 0 ];
 		int currentPrice = 0;
 
-		int itemId = currentRequest.getItemId();
+		AdventureResult item = currentRequest.getItem();
+		int itemId = item.getItemId();
 
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER && InventoryManager.cloverProtectionActive() && !KoLCharacter.inBeecore() )
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
+		     InventoryManager.cloverProtectionActive() &&
+		     !KoLCharacter.inBeecore() )
 		{
 			// Our clovers will miraculously turn into disassembled
 			// clovers as soon as they are bought.
 
-			itemId = ItemPool.DISASSEMBLED_CLOVER;
+			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
 		}
 
-		//AdventureResult itemToBuy = ItemPool.get( itemId, 0 );
-		int initialCount = currentRequest.getCurrentCount();
+		int initialCount = item.getCount( KoLConstants.inventory );
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
@@ -1651,9 +1653,8 @@ public abstract class KoLmafia
 			// you run the purchase request
 
 			previousLimit = currentRequest.getLimit();
-			currentRequest.setLimit( Math.min(
-				currentRequest.getAvailableMeat() / currentPrice,
-				Math.min( previousLimit, desiredCount - currentCount ) ) );
+			currentRequest.setLimit( Math.min( currentRequest.getAvailableMeat() / currentPrice,
+							   Math.min( previousLimit, desiredCount - currentCount ) ) );
 			RequestThread.postRequest( currentRequest );
 
 			// Now that you have already made a purchase from the
@@ -1688,7 +1689,7 @@ public abstract class KoLmafia
 			// Now update how many you actually have for the next
 			// iteration of the loop.
 
-			currentCount = currentRequest.getCurrentCount();
+			currentCount = item.getCount( KoLConstants.inventory );
 		}
 
 		// With all that information parsed out, we should
