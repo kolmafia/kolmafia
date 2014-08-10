@@ -2135,7 +2135,7 @@ warbear hoverbelt	MUSE	warbear hoverbelt piecepart (8)
 # Brushfire items
 
 hot daub	COMBINE	molten brick	drop of water-37
-ballpark hot daub	SUSE	hot daub
+ballpark hot daub	MUSE	hot daub
 hot daub bun	MUSE	hot daub (15)
 foot-long hot daub	MUSE	hot daub (17)
 hot daub stand	MUSE	hot daub (19)
