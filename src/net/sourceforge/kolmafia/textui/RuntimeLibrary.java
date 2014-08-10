@@ -2620,24 +2620,26 @@ public abstract class RuntimeLibrary
 	public static Value add_item_condition( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+		int itemId = (int) item.intValue();
+		if ( count <= 0 || itemId <= 0 )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		GoalManager.addItemGoal( (int) item.intValue(), count );
+		GoalManager.addItemGoal( itemId, count );
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value remove_item_condition( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+		int itemId = (int) item.intValue();
+		if ( count <= 0 || itemId <= 0 )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		GoalManager.addItemGoal( (int) item.intValue(), 0 - count );
+		GoalManager.addItemGoal( itemId, 0 - count );
 		return DataTypes.VOID_VALUE;
 	}
 
