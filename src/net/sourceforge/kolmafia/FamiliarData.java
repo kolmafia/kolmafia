@@ -74,8 +74,6 @@ public class FamiliarData
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
-	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
-
 	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
 	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
 	public static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
@@ -437,15 +435,12 @@ public class FamiliarData
 		return familiar;
 	}
 
+	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
+
 	public static final void checkLockedItem( final String responseText )
 	{
 		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( responseText );
-		boolean locked = false;
-
-		if ( lockMatcher.find() )
-		{
-			locked = lockMatcher.group(1).equals( "Locked" );
-		}
+		boolean locked = lockMatcher.find() && lockMatcher.group(1).equals( "Locked" );
 
 		EquipmentManager.lockFamiliarItem( locked );
 	}

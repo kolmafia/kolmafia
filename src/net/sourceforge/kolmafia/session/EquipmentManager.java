@@ -930,27 +930,30 @@ public class EquipmentManager
 		return FamiliarData.lockableItem( EquipmentManager.getFamiliarItem() );
 	}
 
-	public static final void lockFamiliarItem()
-	{
-		EquipmentManager.lockFamiliarItem( EquipmentManager.familiarItemLocked() );
-	}
-
 	public static final boolean familiarItemLocked()
 	{
 		return EquipmentManager.lockedFamiliarItem != EquipmentRequest.UNEQUIP;
 	}
+ 
+	public static final void lockFamiliarItem()
+	{
+		EquipmentManager.lockFamiliarItem( EquipmentManager.familiarItemLocked() && EquipmentManager.familiarItemLockable() );
+	}
 
 	public static final void lockFamiliarItem( boolean lock )
 	{
-		EquipmentManager.lockedFamiliarItem =
-			lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
-		NamedListenerRegistry.fireChange( "(familiarLock)" );
+		EquipmentManager.lockFamiliarItem( lock ?
+						   EquipmentManager.getFamiliarItem() :
+						   EquipmentRequest.UNEQUIP );
 	}
 
-	public static final void lockFamiliarItem( FamiliarData familiar )
+	public static final void lockFamiliarItem( AdventureResult item )
 	{
-		EquipmentManager.lockedFamiliarItem = familiar.getItem();
-		NamedListenerRegistry.fireChange( "(familiarLock)" );
+		if ( EquipmentManager.lockedFamiliarItem != item )
+		{
+			EquipmentManager.lockedFamiliarItem = item;
+			NamedListenerRegistry.fireChange( "(familiarLock)" );
+		}
 	}
 
 	public static final int getFakeHands()

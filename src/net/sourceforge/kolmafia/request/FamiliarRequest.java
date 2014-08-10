@@ -458,7 +458,7 @@ public class FamiliarRequest
 					FamiliarData familiar = KoLCharacter.getFamiliar();
 					FamiliarRequest.unequipFamiliar( familiar );
 					FamiliarRequest.equipFamiliar( changeTo, lockedItem );
-					EquipmentManager.lockFamiliarItem( changeTo );
+					EquipmentManager.lockFamiliarItem( lockedItem );
 				}
 				else
 				{
@@ -558,10 +558,7 @@ public class FamiliarRequest
 				return false;
 			}
 
-			if ( EquipmentManager.familiarItemLockable() )
-			{
-				EquipmentManager.lockFamiliarItem( !EquipmentManager.familiarItemLocked() );
-			}
+			EquipmentManager.lockFamiliarItem( !EquipmentManager.familiarItemLocked() );
 			return true;
 		}
 

@@ -435,6 +435,7 @@ public class GearChangeFrame
 			GearChangeFrame.this.customSelect.setEnabled( isEnabled );
 			GearChangeFrame.this.familiarSelect.setEnabled( isEnabled );
 			GearChangeFrame.this.outfitButton.setEnabled( isEnabled );
+			GearChangeFrame.this.famLockCheckbox.setEnabled( isEnabled );
 
 			if ( isEnabled )
 			{
@@ -1532,25 +1533,36 @@ public class GearChangeFrame
 
 	private class FamLockCheckbox
 		extends JCheckBox
-		implements ActionListener, Listener
+		implements Listener
 	{
 		public FamLockCheckbox()
 		{
 			super( "familiar item locked" );
-			this.addActionListener( this );
+			this.addActionListener( new LockFamiliarItemListener() );
 			NamedListenerRegistry.registerNamedListener( "(familiarLock)", this );
 			this.update();
 		}
 
-		public void actionPerformed( ActionEvent e )
+		private class LockFamiliarItemListener
+			extends ThreadedListener
 		{
-			RequestThread.postRequest( new FamiliarRequest( true ) );
+			@Override
+			protected void execute()
+			{
+				RequestThread.postRequest( new FamiliarRequest( true ) );
+			}
 		}
 
 		public void update()
 		{
 			this.setSelected( EquipmentManager.familiarItemLocked() );
-			this.setEnabled( EquipmentManager.familiarItemLockable() );
+			this.setEnabled( this.isEnabled() );
+		}
+
+		@Override
+		public void setEnabled( final boolean isEnabled )
+		{
+			super.setEnabled( isEnabled && EquipmentManager.familiarItemLockable() );
 		}
 	}
 }
