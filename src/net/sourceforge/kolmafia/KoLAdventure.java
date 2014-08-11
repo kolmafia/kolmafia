@@ -636,8 +636,7 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.SUMMONING_CHAMBER_ID ) )
 		{
-			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) &&
-				!QuestDatabase.isQuestFinished( Quest.MANOR );
+			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" );
 			return;
 		}
 
@@ -1830,6 +1829,20 @@ public class KoLAdventure
 		{
 			"otherworldly whispers",
 			"You already defeated Lord Spookyraven.",
+			MafiaState.PENDING
+		},
+
+		// Ed the undying defeated
+		{
+			"Ed the Undying sleeps once again",
+			"Ed the Undying has already been defeated.",
+			MafiaState.PENDING
+		},
+
+		// You probably shouldn't -- you don't trust those rats not to steal your token!
+		{
+			"don't trust those rats not to steal",
+			"You don't trust those rats not to steal your token!.",
 			MafiaState.PENDING
 		},
 

@@ -7515,7 +7515,7 @@
 7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
 7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0
-7499
+7499	Hot 'n' Scarys	112858401	box2.gif	usable	t,d	5
 7500	black map	897134461	blackmap.gif	none	q	0
 7501	black gold	998488929	blackgold.gif	none	t,d	300
 7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75
@@ -7725,3 +7725,5 @@
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
 7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
+7709
+7710	candy UFOs	859892912	ufo.gif	usable	t	0

@@ -4163,6 +4163,7 @@ Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
 Fit As a Poster	Avatar: "Fitness giant"
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
+Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
 Flame-Retardant Trousers	Hot Resistance: +1
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
@@ -6201,6 +6202,7 @@ candy cigarette	Effect: "Hollow Inside", Effect Duration: 20
 candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
+candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
 carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
@@ -6530,6 +6532,7 @@ holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 homeless hobo spirit	Free Pull
 honey stick	Effect: "Stuck That Way", Effect Duration: 10
 honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
+Hot 'n' Scarys	Effect: "Sugar Rush", Effect: "Hot Breath", Effect: "Spooky Breath", Effect Duration: 3
 hot coal	Effect: "Fire Inside", Effect Duration: 15
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
