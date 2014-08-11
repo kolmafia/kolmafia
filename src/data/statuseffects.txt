@@ -1721,3 +1721,4 @@
 1720	Dangerous Zone Song	cassette.gif	7719d011fa16b392a8a60998c695d3be
 1721	Flashy Dance Song	cassette.gif	6eaef570081a5e69110c8a95f7d51921
 1722	You're Rubber	rubbernub.gif	605249e881329b2edd554f74b0258ea8	use 1 rubber nubbin
+1723	Fizzier Than Light	bubbles.gif	74482efec742b4f5cf5280c2f121fa32	use 1 candy UFOs

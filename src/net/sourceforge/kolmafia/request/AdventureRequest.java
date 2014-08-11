@@ -108,6 +108,7 @@ public class AdventureRequest
 		// The adventure Id is all you need to identify the adventure;
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
+		// Those that change mid session should be added to run() also.
 
 		if ( formSource.equals( "adventure.php" ) )
 		{
@@ -155,21 +156,29 @@ public class AdventureRequest
 			this.addFormField( "whichplace", "mclargehuge" );
 			this.addFormField( "action", adventureId );
 		}
-		else if ( formSource.equals( "place.php" ) && adventureId.equals( "pyramid_state" ) )
+		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "pyramid_state" ) )
 		{
 			this.addFormField( "whichplace", "pyramid" );
-			String position = Preferences.getString( "pyramidPosition" );
-			String bomb = "";
+			StringBuffer action = new StringBuffer();
+			action.append( adventureId );
+			action.append( Preferences.getString( "pyramidPosition" ) );
 			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
 			{
-				bomb = "a";
+				action.append( "a" );
 			}
-			this.addFormField( "action", adventureId + position + bomb );
+			this.addFormField( "action", action.toString() );
 		}
-		else if ( formSource.equals( "place.php" ) && adventureId.equals( "manor4_chamber" ) )
+		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "manor4_chamber" ) )
 		{
 			this.addFormField( "whichplace", "manor4" );
-			this.addFormField( "action", "manor4_chamberboss" );
+			if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
+			{
+				this.addFormField( "action", "manor4_chamberboss" );
+			}
+			else
+			{
+				this.addFormField( "action", "manor4_chamber" );
+			}
 		}
 		else if ( !formSource.equals( "basement.php" ) &&
 			  !formSource.equals( "cellar.php" ) &&
@@ -250,6 +259,32 @@ public class AdventureRequest
 			return;
 		}
 
+		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "pyramid_state" ) )
+		{
+			this.addFormField( "whichplace", "pyramid" );
+			StringBuffer action = new StringBuffer();
+			action.append( adventureId );
+			action.append( Preferences.getString( "pyramidPosition" ) );
+			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
+			{
+				action.append( "a" );
+			}
+			this.addFormField( "action", action.toString() );
+		}
+
+		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "manor4_chamber" ) )
+		{
+			this.addFormField( "whichplace", "manor4" );
+			if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
+			{
+				this.addFormField( "action", "manor4_chamberboss" );
+			}
+			else
+			{
+				this.addFormField( "action", "manor4_chamber" );
+			}
+		}
+
 		super.run();
 	}
 
@@ -290,13 +325,6 @@ public class AdventureRequest
 			return;
 		}
 
-		// You've already defeated Ed
-		if ( this.formSource.equals( "place.php" ) && responseText.contains( "Ed the Undying sleeps once again" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.PENDING, "Ed the Undying has already been defeated." );
-			return;
-		}
-			
 		// If you haven't unlocked the orc chasm yet, try doing so now.
 
 		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
@@ -398,12 +426,18 @@ public class AdventureRequest
 		String urlString = request.getURLString();
 		String responseText = request.responseText;
 
+		// No encounters in chat!
+		if ( request.isChatRequest )
+		{
+			return "";
+		}
+
 		// If we were redirected into a fight or a choice through using
 		// an item, there will be an encounter in the responseText.
 		// Otherwise, if KoLAdventure didn't log the location, there
 		// can't be an encounter for us to log.
 
-		if ( !request.isChatRequest && GenericRequest.itemMonster == null && !KoLAdventure.recordToSession( urlString, responseText ) )
+		if ( GenericRequest.itemMonster == null && !KoLAdventure.recordToSession( urlString, responseText ) )
 		{
 			return "";
 		}

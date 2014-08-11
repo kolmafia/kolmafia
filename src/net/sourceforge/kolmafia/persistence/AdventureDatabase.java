@@ -400,6 +400,18 @@ public class AdventureDatabase
 			return AdventureDatabase.getAdventure( "The Island Barracks" );
 		}
 
+		// Adventuring in the Lower Chamber
+		if ( adventureURL.contains( "action=pyramid_state" ) )
+		{
+			return AdventureDatabase.getAdventure( "The Lower Chambers" );
+		}
+
+		// Adventuring in the Summoning Chamber
+		if ( adventureURL.contains( "action=manor4_chamber" ) )
+		{
+			return AdventureDatabase.getAdventure( "Summoning Chamber" );
+		}
+
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = GenericRequest.removeField( adventureURL, "pwd" );
 		adventureURL = GenericRequest.removeField( adventureURL, "blech" );

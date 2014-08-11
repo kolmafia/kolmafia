@@ -541,6 +541,7 @@ public class QuestManager
 			{
 				// Open Control Room
 				Preferences.setBoolean( "controlRoomUnlock", true );
+				Preferences.setInteger( "pyramidPosition", 1 );
 				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step3" );
 			}
 			// If here, must have unlocked middle chamber
@@ -580,19 +581,9 @@ public class QuestManager
 			{
 				if ( responseText.contains( "the rubble is gone" ) )
 				{
-					Preferences.setInteger( "pyramidPosition", 1 );
 					Preferences.setBoolean( "pyramidBombUsed", true );
 					ResultProcessor.processItem( ItemPool.ANCIENT_BOMB, -1 );
 				}
-				else if ( responseText.contains( "reach in and grab yourself a token" ) )
-				{
-					Preferences.setInteger( "pyramidPosition", 4 );
-				}
-				else if ( responseText.contains( "collect your bomb.  Score!" ) )
-				{
-					Preferences.setInteger( "pyramidPosition", 3 );
-				}
-				// Add the rest when known
 			}
 		}
 		return;
