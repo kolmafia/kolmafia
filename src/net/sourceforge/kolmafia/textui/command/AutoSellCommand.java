@@ -52,7 +52,7 @@ public class AutoSellCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		AdventureResult[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		AdventureResult[] items = ItemFinder.getMatchingItemList(  parameters, KoLConstants.inventory );
 		if ( items.length == 0 )
 		{
 			return;

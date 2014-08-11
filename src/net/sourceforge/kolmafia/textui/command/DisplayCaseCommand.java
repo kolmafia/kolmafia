@@ -89,7 +89,7 @@ public class DisplayCaseCommand
 			return;
 		}
 
-		AdventureResult[] items = ItemFinder.getMatchingItemList( sourceList, itemName );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( itemName, sourceList );
 
 		if ( items.length == 0 )
 		{

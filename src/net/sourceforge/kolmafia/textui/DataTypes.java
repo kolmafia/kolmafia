@@ -325,7 +325,7 @@ public class DataTypes
 			return new Value( DataTypes.ITEM_TYPE, itemId, name );
 		}
 		
-		AdventureResult item = ItemFinder.getFirstMatchingItem( null, name, ItemFinder.ANY_MATCH, false );
+		AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 
 		if ( item == null || item.getItemId() == -1 )
 		{

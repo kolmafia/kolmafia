@@ -69,28 +69,17 @@ public class CreateItemCommand
 			return;
 		}
 
-		ItemFinder.setMatchType( ItemFinder.CREATE_MATCH );
-		Object[] itemList = ItemFinder.getMatchingItemList( null, parameters );
-		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
-
-		AdventureResult currentMatch;
-		CreateItemRequest irequest;
-
-		for ( int i = 0; i < itemList.length; ++i )
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, ItemFinder.CREATE_MATCH );
+		for ( AdventureResult currentMatch : itemList )
 		{
-			currentMatch = (AdventureResult) itemList[ i ];
-			if ( itemList[ i ] == null )
-			{
-				continue;
-			}
-
-			irequest = CreateItemRequest.getInstance( currentMatch );
+			CreateItemRequest irequest = CreateItemRequest.getInstance( currentMatch );
 
 			if ( irequest == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR,
-					ConcoctionDatabase.excuse != null ? ConcoctionDatabase.excuse
-					: "That item cannot be created." );
+							ConcoctionDatabase.excuse != null ?
+							ConcoctionDatabase.excuse :
+							"That item cannot be created." );
 				return;
 			}
 

@@ -130,48 +130,47 @@ public class UseItemCommand
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 		int consumptionType = KoLConstants.NO_CONSUME;
+		int filter;
 
 		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) )
 		{
-			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
 			consumptionType = KoLConstants.CONSUME_EAT;
+			filter = ItemFinder.FOOD_MATCH;
 		}
 		else if ( command.equals( "ghost" ) )
 		{
-			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
 			consumptionType = KoLConstants.CONSUME_GHOST;
+			filter = ItemFinder.FOOD_MATCH;
 		}
 		else if ( command.equals( "drink" ) || command.equals( "overdrink" ) )
 		{
-			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
 			consumptionType = KoLConstants.CONSUME_DRINK;
+			filter = ItemFinder.BOOZE_MATCH;
 		}
 		else if ( command.equals( "hobo" ) )
 		{
-			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
 			consumptionType = KoLConstants.CONSUME_HOBO;
+			filter = ItemFinder.BOOZE_MATCH;
 		}
 		else if ( command.equals( "slimeling" ) )
 		{
-			ItemFinder.setMatchType( ItemFinder.EQUIP_MATCH );
 			consumptionType = KoLConstants.CONSUME_SLIME;
+			filter = ItemFinder.EQUIP_MATCH;
 		}
 		else
 		{
-			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
+			filter = ItemFinder.USE_MATCH;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
-
-		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, !sim );
 
 		for ( int level = either ? 0 : 2; level <= 2; ++level )
-		{ // level=0: use only items in inventory, exit on first success
+		{
+			// level=0: use only items in inventory, exit on first success
 			// level=1: buy/make as needed, exit on first success
 			// level=2: use all items in list, buy/make as needed
-			for ( int i = 0; i < itemList.length; ++i )
+			for ( AdventureResult currentMatch: itemList )
 			{
-				AdventureResult currentMatch = itemList[ i ];
 				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
 
 				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )

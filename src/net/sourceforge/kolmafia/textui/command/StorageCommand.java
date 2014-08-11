@@ -154,7 +154,7 @@ public class StorageCommand
 		}
 		else
 		{
-			items = ItemFinder.getMatchingItemList( KoLConstants.storage, parameters );
+			items = ItemFinder.getMatchingItemList( parameters, KoLConstants.storage );
 		}
 
 		if ( items.length == 0 )

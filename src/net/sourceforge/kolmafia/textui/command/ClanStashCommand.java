@@ -56,8 +56,8 @@ public class ClanStashCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		boolean isWithdraw = false;
 		List list = null;
+		int direction = ClanStashRequest.ITEMS_TO_STASH;
 
 		int space = parameters.indexOf( " " );
 		if ( space != -1 )
@@ -65,7 +65,7 @@ public class ClanStashCommand
 			String command = parameters.substring( 0, space );
 			if ( command.equals( "take" ) )
 			{
-				isWithdraw = true;
+				direction = ClanStashRequest.STASH_TO_ITEMS;
 				parameters = parameters.substring( 4 ).trim();
 				list = ClanManager.getStash();
 				if ( list.isEmpty() )
@@ -85,13 +85,12 @@ public class ClanStashCommand
 			return;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( list, parameters );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, list );
 		if ( itemList.length == 0 )
 		{
 			return;
 		}
 
-		RequestThread.postRequest( new ClanStashRequest(
-			itemList, isWithdraw ? ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ) );
+		RequestThread.postRequest( new ClanStashRequest( itemList, direction  ) );
 	}
 }

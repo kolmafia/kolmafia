@@ -56,7 +56,7 @@ public class AcquireCommand
 		boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-		AdventureResult[] items = ItemFinder.getMatchingItemList( null, parameters, ItemFinder.ANY_MATCH, true );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters );
 
 		try
 		{

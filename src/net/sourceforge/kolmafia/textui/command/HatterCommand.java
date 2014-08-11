@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -75,10 +77,8 @@ public class HatterCommand
 		}
 		catch ( NumberFormatException e )
 		{
-			ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
-			Object[] matches =
-				ItemFinder.getMatchingItemList(
-					EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ], hat, false );
+			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+			AdventureResult[] matches = ItemFinder.getMatchingItemList( hat, false, hats );
 
 			// TODO: ItemFinder will just return a 0-length array if too many matches.  It would be nice if the "too many matches" error message worked.
 			if ( matches.length > 1 )

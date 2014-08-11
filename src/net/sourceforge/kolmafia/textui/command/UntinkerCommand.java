@@ -58,17 +58,10 @@ public class UntinkerCommand
 			return;
 		}
 
-		ItemFinder.setMatchType( ItemFinder.UNTINKER_MATCH );
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
-		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
-
-		for ( int i = 0; i < itemList.length; ++i )
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, KoLConstants.inventory, ItemFinder.UNTINKER_MATCH );
+		for ( AdventureResult item : itemList )
 		{
-			if ( itemList[ i ] != null )
-			{
-				RequestThread.postRequest( new UntinkerRequest(
-					( (AdventureResult) itemList[ i ] ).getItemId(), ( (AdventureResult) itemList[ i ] ).getCount() ) );
-			}
+			RequestThread.postRequest( new UntinkerRequest( item.getItemId(), item.getCount() ) );
 		}
 	}
 }

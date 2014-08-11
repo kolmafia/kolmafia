@@ -91,7 +91,7 @@ public class QuarkCommand
 		List items = KoLConstants.junkList;
 		if ( !parameters.equals( "" ) )
 		{
-			items = Arrays.asList( ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters ) );
+			items = Arrays.asList( ItemFinder.getMatchingItemList( parameters, KoLConstants.inventory ) );
 			if ( items.size() == 0 )
 			{
 				return;

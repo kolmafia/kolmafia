@@ -102,7 +102,7 @@ public class ClosetCommand
 		}
 
 		List source = isTake ? KoLConstants.closet : KoLConstants.inventory;
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( source, parameters );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, source );
 
 		if ( itemList.length == 0 )
 		{

@@ -67,7 +67,7 @@ public class FakeAddItemCommand
 
 		if ( item == null )
 		{
-			item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH, true );
+			item = ItemFinder.getFirstMatchingItem( parameters );
 		}
 
 		if ( item != null )
