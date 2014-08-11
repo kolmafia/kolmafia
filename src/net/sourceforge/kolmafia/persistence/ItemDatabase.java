@@ -2634,6 +2634,13 @@ public class ItemDatabase
 		}
 	}
 
+	public static final boolean isReusable( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		int attributes = ItemDatabase.getAttributes( itemId );
+		return useType == KoLConstants.INFINITE_USES || ( attributes & ItemDatabase.ATTR_REUSABLE ) != 0;
+	}
+
 	/**
 	 * Returns whether or not the item with the given name is made of
 	 * grimacite and is thus affected by the moon phases.

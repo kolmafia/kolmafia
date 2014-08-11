@@ -1961,7 +1961,8 @@ public class UseItemRequest
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
-
+		
+		int itemId = item.getItemId();
 		switch ( consumptionType )
 		{
 		case KoLConstants.CONSUME_FOOD_HELPER:
@@ -1987,14 +1988,16 @@ public class UseItemRequest
 			break;
 
 		default:
-			ResultProcessor.processResult( item.getNegation() );
+			if ( !ItemDatabase.isReusable( itemId ) )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
 		}
 
 		Matcher matcher;
 
 		// Perform item-specific processing
 
-		int itemId = item.getItemId();
 		switch ( itemId )
 		{
 		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:

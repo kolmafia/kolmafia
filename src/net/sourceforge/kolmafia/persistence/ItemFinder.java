@@ -547,6 +547,15 @@ public class ItemFinder
 			itemCount = matchCount + itemCount;
 			firstMatch = firstMatch.getInstance( itemCount );
 		}
+		else if ( matchCount < itemCount )
+		{
+			if ( errorOnFailure )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + ( itemCount > 1 ? itemCount + " " : "" ) + firstMatch.getName() + "] requested, but " + ( matchCount == 0 ? "none" : "only " + matchCount ) + " available." );
+			}
+
+			return null;
+		}
 
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 		{
