@@ -166,7 +166,7 @@ public class ChatSender
 		{
 			String item = graf.substring( graf.indexOf( " " ) ).trim();
 
-			AdventureResult result = ItemFinder.getFirstMatchingItem( item, ItemFinder.ANY_MATCH, false );
+			AdventureResult result = ItemFinder.getFirstMatchingItem( item, false, ItemFinder.ANY_MATCH );
 
 			if ( result != null )
 			{

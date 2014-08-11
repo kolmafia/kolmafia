@@ -69,11 +69,11 @@ public class ItemTraceCommand
 			return;
 		}
  
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters, KoLConstants.inventory );
 		audience = new ArrayList<Listener>();
-		for ( int i = 0; i < itemList.length; ++i )
+		for ( AdventureResult item : items )
 		{
-			audience.add( new ItemListener( (AdventureResult) itemList[ i ] ) );
+			audience.add( new ItemListener( item ) );
 		}
 	}
 	

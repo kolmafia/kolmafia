@@ -68,13 +68,6 @@ public class ItemFinder
 	public static final int UNTINKER_MATCH = 6;
 	public static final int EQUIP_MATCH = 7;
 
-	private static int matchType = ANY_MATCH;
-
-	public static final void setMatchType( int matchType )
-	{
-		ItemFinder.matchType = matchType;
-	}
-
 	public static final List<String> getMatchingNames( String searchString )
 	{
 		return ItemDatabase.getMatchingNames( searchString );
@@ -82,7 +75,7 @@ public class ItemFinder
 
 	public static final String getFirstMatchingItemName( List<String> nameList, String searchString )
 	{
-		return ItemFinder.getFirstMatchingItemName( nameList, searchString, ItemFinder.matchType );
+		return ItemFinder.getFirstMatchingItemName( nameList, searchString, ItemFinder.ANY_MATCH );
 	}
 
 	public static final String getFirstMatchingItemName( List<String> nameList, String searchString, int filterType )
@@ -334,32 +327,32 @@ public class ItemFinder
 		}
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters )
-	{
-		return ItemFinder.getFirstMatchingItem( parameters, ItemFinder.matchType );
-	}
-
 	/**
 	 * Utility method which determines the first item which matches the given parameter string. Note that the string may
 	 * also specify an item quantity before the string.
 	 */
 
+	public static final AdventureResult getFirstMatchingItem( String parameters )
+	{
+		return ItemFinder.getFirstMatchingItem( parameters, true, null, ItemFinder.ANY_MATCH );
+	}
+
 	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType )
 	{
-		return ItemFinder.getFirstMatchingItem( null, parameters, filterType, true );
+		return ItemFinder.getFirstMatchingItem( parameters, true, null, filterType );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
-		return ItemFinder.getFirstMatchingItem( null, parameters, ItemFinder.matchType, errorOnFailure );
+		return ItemFinder.getFirstMatchingItem( parameters, errorOnFailure, null, ItemFinder.ANY_MATCH );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType, boolean errorOnFailure )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, int filterType )
 	{
-		return getFirstMatchingItem( null, parameters, filterType, errorOnFailure );
+		return getFirstMatchingItem( parameters, errorOnFailure, null, filterType );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( List<?> sourceList, String parameters, int filterType, boolean errorOnFailure )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, List<?> sourceList, int filterType )
 	{
 		// Ignore spaces and tabs in front of the parameter string
 		parameters = parameters.trim();
@@ -566,19 +559,29 @@ public class ItemFinder
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
-	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList )
+	public static AdventureResult[] getMatchingItemList( String itemList )
 	{
-		return ItemFinder.getMatchingItemList( sourceList, itemList, true );
+		return ItemFinder.getMatchingItemList( itemList, true, null, ItemFinder.ANY_MATCH );
 	}
 
-	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure )
 	{
-		return ItemFinder.getMatchingItemList( sourceList, itemList, ItemFinder.matchType, errorOnFailure );
+		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, null, ItemFinder.ANY_MATCH );
 	}
 
-	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, int filterType, boolean errorOnFailure )
+	public static AdventureResult[] getMatchingItemList( String itemList, List<?> sourceList )
 	{
-		AdventureResult firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemList, filterType, false );
+		return ItemFinder.getMatchingItemList( itemList, true, sourceList, ItemFinder.ANY_MATCH );
+	}
+
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<?> sourceList )
+	{
+		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, sourceList, ItemFinder.ANY_MATCH );
+	}
+
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<?> sourceList, int filterType )
+	{
+		AdventureResult firstMatch = ItemFinder.getFirstMatchingItem( itemList, false, sourceList, filterType );
 		if ( firstMatch != null )
 		{
 			AdventureResult[] items = new AdventureResult[ 1 ];
@@ -612,8 +615,10 @@ public class ItemFinder
 
 					if ( amount <= 0 )
 					{
-						amount += sourceList == KoLConstants.storage ? KoLCharacter.getStorageMeat() :
-							sourceList == KoLConstants.closet ? KoLCharacter.getClosetMeat() : KoLCharacter.getAvailableMeat();
+						amount +=
+							sourceList == KoLConstants.storage ? KoLCharacter.getStorageMeat() :
+							sourceList == KoLConstants.closet ? KoLCharacter.getClosetMeat() :
+							KoLCharacter.getAvailableMeat();
 					}
 
 					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
@@ -622,7 +627,7 @@ public class ItemFinder
 
 			if ( !isMeatMatch )
 			{
-				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], filterType, errorOnFailure );
+				firstMatch = ItemFinder.getFirstMatchingItem( itemNames[ i ], errorOnFailure, sourceList, filterType );
 			}
 
 			if ( firstMatch != null )

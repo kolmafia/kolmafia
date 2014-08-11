@@ -65,11 +65,11 @@ public class ZapCommand
 			return;
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters, KoLConstants.inventory );
 
-		for ( int i = 0; i < itemList.length; ++i )
+		for ( AdventureResult item : items )
 		{
-			RequestThread.postRequest( new ZapRequest( (AdventureResult) itemList[ i ] ) );
+			RequestThread.postRequest( new ZapRequest( item ) );
 		}
 	}
 }

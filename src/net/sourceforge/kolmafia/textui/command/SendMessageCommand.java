@@ -104,7 +104,7 @@ public class SendMessageCommand
 		itemList = itemList.trim() + ",";
 		itemList = itemList.trim();
 
-		AdventureResult[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, itemList );
+		AdventureResult[] attachments = ItemFinder.getMatchingItemList( itemList, KoLConstants.inventory );
 
 		if ( attachments.length == 0 && ( itemList.length() > 1 || message == KoLConstants.DEFAULT_KMAIL ) )
 		{

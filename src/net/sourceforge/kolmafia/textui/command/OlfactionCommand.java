@@ -89,7 +89,7 @@ public class OlfactionCommand
 			}
 			if ( !isGoals && !isMonster )
 			{
-				Object[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+				AdventureResult[] items = ItemFinder.getMatchingItemList( parameters );
 				if ( items != null && items.length > 0 )
 				{
 					result.append( "item " );
@@ -99,7 +99,7 @@ public class OlfactionCommand
 						{
 							result.append( ", " );
 						}
-						result.append( ( (AdventureResult) items[ i ] ).getName() );
+						result.append( items[ i ].getName() );
 					}
 					isItem = true;
 				}

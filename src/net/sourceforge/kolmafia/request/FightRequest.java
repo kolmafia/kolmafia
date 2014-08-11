@@ -3477,8 +3477,7 @@ public class FightRequest
 			{
 				pref = pref.substring( 5 );
 			}
-			Object[] temp = ItemFinder.getMatchingItemList(
-				KoLConstants.inventory, pref );
+			AdventureResult[] temp = ItemFinder.getMatchingItemList( pref, false, KoLConstants.inventory );
 			if ( temp == null )
 			{
 				return false;

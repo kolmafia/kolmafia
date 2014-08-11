@@ -65,7 +65,7 @@ public class DwarfFactoryCommand
 		if ( option.equals( "vacuum" ) )
 		{
 			String itemString = parameters.substring( 6 ).trim();
-			AdventureResult item = ItemFinder.getFirstMatchingItem( itemString, ItemFinder.ANY_MATCH, true );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemString );
 			if ( item == null )
 			{
 				return;
