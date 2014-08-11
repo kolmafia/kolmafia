@@ -1701,7 +1701,7 @@
 1684	styrofoam sword	898396684	stysword.gif	weapon	t,d	65	styrofoam swords
 1685	styrofoam staff	591779885	stystaff.gif	weapon	t,d	65	styrofoam staves
 1686	styrofoam crossbow	750590302	stybow.gif	weapon	t,d	65	styrofoam crossbows
-1687	Platinum Yendorian Express Card	298008237	pyec.gif	mp, reusable	t	0	Platinum Yendorian Express Cards
+1687	Platinum Yendorian Express Card	298008237	pyec.gif	mp, usable, reusable	t	0	Platinum Yendorian Express Cards
 1688	cardboard crossbow	214072075	cardbow.gif	weapon	t,d	65	cardboard crossbows
 1689	blue ribbon	502744134	blueribbon.gif	accessory		0	blue ribbons
 1690	giant discarded bottlecap	875291892	bottlecap.gif	hat	t,d	205	giant discarded bottlecaps
