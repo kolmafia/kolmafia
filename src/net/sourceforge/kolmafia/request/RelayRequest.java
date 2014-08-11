@@ -1151,7 +1151,7 @@ public class RelayRequest
 
 		warning.append( "You are about to adventure unhydrated in the desert. " );
 		warning.append( "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. " );
-		warning.append( "If you want to visit the Oasis to get unhyrdated, click the icon on the right to adventure. " );
+		warning.append( "If you want to visit the Oasis to get ultrahydrated, click the icon on the right to adventure. " );
 
 		this.sendOptionalWarning(
 			CONFIRM_DESERT_UNHYDRATED,
