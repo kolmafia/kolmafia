@@ -346,17 +346,17 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType )
 	{
-		return ItemFinder.getFirstMatchingItem( KoLConstants.inventory, parameters, filterType, true );
+		return ItemFinder.getFirstMatchingItem( null, parameters, filterType, true );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
-		return ItemFinder.getFirstMatchingItem( KoLConstants.inventory, parameters, ItemFinder.matchType, errorOnFailure );
+		return ItemFinder.getFirstMatchingItem( null, parameters, ItemFinder.matchType, errorOnFailure );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType, boolean errorOnFailure )
 	{
-		return getFirstMatchingItem( KoLConstants.inventory, parameters, filterType, errorOnFailure );
+		return getFirstMatchingItem( null, parameters, filterType, errorOnFailure );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( List<?> sourceList, String parameters, int filterType, boolean errorOnFailure )
@@ -547,7 +547,7 @@ public class ItemFinder
 			itemCount = matchCount + itemCount;
 			firstMatch = firstMatch.getInstance( itemCount );
 		}
-		else if ( matchCount < itemCount )
+		else if ( matchCount < itemCount && sourceList != null )
 		{
 			if ( errorOnFailure )
 			{
