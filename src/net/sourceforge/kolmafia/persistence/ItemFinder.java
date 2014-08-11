@@ -352,7 +352,7 @@ public class ItemFinder
 		return getFirstMatchingItem( parameters, errorOnFailure, null, filterType );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, List<?> sourceList, int filterType )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, List<AdventureResult> sourceList, int filterType )
 	{
 		// Ignore spaces and tabs in front of the parameter string
 		parameters = parameters.trim();
@@ -520,7 +520,9 @@ public class ItemFinder
 		}
 		else if ( sourceList == null )
 		{
-			matchCount = 1;
+			// Default to number in inventory if count was "*" (all)
+			// or negative (all but that many) and no list was given.
+			matchCount = itemCount <= 0 ? firstMatch.getCount( KoLConstants.inventory ) : 1;
 		}
 		else
 		{
@@ -569,17 +571,17 @@ public class ItemFinder
 		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, null, ItemFinder.ANY_MATCH );
 	}
 
-	public static AdventureResult[] getMatchingItemList( String itemList, List<?> sourceList )
+	public static AdventureResult[] getMatchingItemList( String itemList, List<AdventureResult> sourceList )
 	{
 		return ItemFinder.getMatchingItemList( itemList, true, sourceList, ItemFinder.ANY_MATCH );
 	}
 
-	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<?> sourceList )
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<AdventureResult> sourceList )
 	{
 		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, sourceList, ItemFinder.ANY_MATCH );
 	}
 
-	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<?> sourceList, int filterType )
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<AdventureResult> sourceList, int filterType )
 	{
 		AdventureResult firstMatch = ItemFinder.getFirstMatchingItem( itemList, false, sourceList, filterType );
 		if ( firstMatch != null )
@@ -594,13 +596,13 @@ public class ItemFinder
 		boolean isMeatMatch = false;
 		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
-		for ( int i = 0; i < itemNames.length; ++i )
+		for ( String name : itemNames )
 		{
 			isMeatMatch = false;
 
-			if ( itemNames[ i ].endsWith( " meat" ) )
+			if ( name.endsWith( " meat" ) )
 			{
-				String amountString = itemNames[ i ].substring( 0, itemNames[ i ].length() - 5 ).trim();
+				String amountString = name.substring( 0, name.length() - 5 ).trim();
 
 				if ( amountString.equals( "*" ) || StringUtilities.isNumeric( amountString ) )
 				{
@@ -627,7 +629,7 @@ public class ItemFinder
 
 			if ( !isMeatMatch )
 			{
-				firstMatch = ItemFinder.getFirstMatchingItem( itemNames[ i ], errorOnFailure, sourceList, filterType );
+				firstMatch = ItemFinder.getFirstMatchingItem( name, errorOnFailure, sourceList, filterType );
 			}
 
 			if ( firstMatch != null )
