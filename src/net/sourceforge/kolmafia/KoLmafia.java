@@ -61,6 +61,7 @@ import apple.dts.samplecode.osxadapter.OSXAdapter;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -1615,7 +1616,8 @@ public abstract class KoLmafia
 			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
 		}
 
-		int initialCount = item.getCount( KoLConstants.inventory );
+		SortedListModel<AdventureResult> destination = KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+		int initialCount = item.getCount( destination );
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
@@ -1689,7 +1691,7 @@ public abstract class KoLmafia
 			// Now update how many you actually have for the next
 			// iteration of the loop.
 
-			currentCount = item.getCount( KoLConstants.inventory );
+			currentCount = item.getCount( destination );
 		}
 
 		// With all that information parsed out, we should
