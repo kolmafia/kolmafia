@@ -1593,23 +1593,51 @@ public abstract class KoLmafia
 		KoLmafia.makePurchases( results, purchases, maxPurchases, isAutomated, 0 );
 	}
 
-	public static void makePurchases( final List results, final PurchaseRequest[] purchases,
-					  final int maxPurchases, final boolean isAutomated, final int priceLimit )
+	public static void makePurchases( final List<PurchaseRequest> results, final PurchaseRequest[] purchases,
+					  final int maxPurchases, final boolean isAutomated,
+					  final int priceLimit )
 	{
-		if ( purchases.length == 0 )
+		int firstIndex = 0;
+
+		if ( isAutomated )
+		{
+			// PC stores can be cheaper than NPC stores.  If we are
+			// not allowed to purchase from the mall, skip through
+			// requests until we find an NPC seller, if any.
+
+			if ( !Preferences.getBoolean( "autoSatisfyWithMall" ) )
+			{
+				while ( firstIndex < purchases.length )
+				{
+					PurchaseRequest currentRequest = purchases[ firstIndex ];
+					if ( currentRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY )
+					{
+						break;
+					}
+
+					firstIndex++;
+				}
+			}
+
+			// If we are allowed to purchase from the mall, make
+			// sure that the price limit for automated purchases
+			// makes sense.
+
+			else if ( Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
+			{
+				// this is probably due to an out-of-date defaults.txt
+				Preferences.setInteger( "autoBuyPriceLimit", 20000 );
+			}
+		}
+
+		if ( firstIndex == purchases.length )
 		{
 			return;
 		}
 
-		if ( isAutomated && Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
-		{
-			// this is probably due to an out-of-date defaults.txt
-			Preferences.setInteger( "autoBuyPriceLimit", 20000 );
-		}
+		PurchaseRequest firstRequest = purchases[ firstIndex ];
 
-		PurchaseRequest firstRequest = purchases[ 0 ];
-
-		SortedListModel<AdventureResult> destination =
+		List<AdventureResult> destination =
 			// Only NPC stores have an infinite supply
 			( !KoLCharacter.canInteract() && firstRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY ) ?
 			KoLConstants.storage : KoLConstants.inventory;
@@ -1633,21 +1661,9 @@ public abstract class KoLmafia
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
-		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
+		for ( int i = firstIndex; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
 			PurchaseRequest currentRequest = (PurchaseRequest) purchases[ i ];
-
-			// PC stores can be cheaper than NPC stores, but
-			// automated item acquisition will skip them unless the
-			// player allows us to buy from the mall
-
-			if ( currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY &&
-			     isAutomated &&
-			     !Preferences.getBoolean( "autoSatisfyWithMall" ) )
-			{
-				continue;
-			}
-
 			int currentPrice = currentRequest.getPrice();
 
 			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||

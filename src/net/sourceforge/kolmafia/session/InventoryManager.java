@@ -1212,8 +1212,8 @@ public abstract class InventoryManager
 	private static void transferChewingGumItems(
 		final AdventureResult[] items, final boolean moveOne, final boolean moveToCloset )
 	{
-		List< ? > source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
-		List< ? > destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
+		List<AdventureResult> source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
+		List<AdventureResult> destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
 		AdventureResultArray attachmentList = new AdventureResultArray();
 
@@ -1245,7 +1245,7 @@ public abstract class InventoryManager
 	{
 		InventoryManager.transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
 
-		List< ? > destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
+		List<AdventureResult> destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
 		int trinketCount = HermitRequest.TRINKET.getCount( destination );
 		int gewgawCount = HermitRequest.GEWGAW.getCount( destination );
