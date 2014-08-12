@@ -83,10 +83,10 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class MallSearchFrame
 	extends GenericPanelFrame
 {
-	public static SortedListModel results;
+	public static SortedListModel<PurchaseRequest> results;
 
 	private static MallSearchFrame INSTANCE = null;
-	private static final SortedListModel pastSearches = new SortedListModel();
+	private static final SortedListModel<PurchaseRequest> pastSearches = new SortedListModel<PurchaseRequest>();
 
 	private boolean currentlySearching;
 	private boolean currentlyBuying;
@@ -147,7 +147,7 @@ public class MallSearchFrame
 
 			this.forceSortingCheckBox = new JCheckBox();
 			this.limitPurchasesCheckBox = new JCheckBox();
-			MallSearchFrame.results = new SortedListModel();
+			MallSearchFrame.results = new SortedListModel<PurchaseRequest>();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );

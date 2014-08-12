@@ -91,7 +91,7 @@ public class MallSearchRequest
 	 *
 	 * @param searchString The string (including wildcards) for the item to be found
 	 * @param cheapestCount The number of stores to show; use a non-positive number to show all
-	 * @param results The sorted list in which to store the results
+	 * @param results The list in which to store the results
 	 * @param retainAll Whether the result list should be cleared before searching
 	 */
 
