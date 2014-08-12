@@ -582,6 +582,10 @@ public abstract class StoreManager
 		MallSearchRequest request = new MallSearchRequest( formatted, maximumResults, results, true );
 		RequestThread.postRequest( request );
 
+		// Sort the results by price, so that NPC stores are in the
+		// appropriate place
+		Collections.sort( results );
+
 		return results;
 	}
 
