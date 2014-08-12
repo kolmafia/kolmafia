@@ -1120,18 +1120,16 @@ public class AdventureResult
 	 * transparent.
 	 */
 
-	public int getCount( final List list )
+	public int getCount( final List<AdventureResult> list )
 	{
 		int index = list.indexOf( this );
-		return index == -1 ? 0 : ( (AdventureResult) list.get( index ) ).getCount();
+		return index == -1 ? 0 : list.get( index ).getCount();
 	}
 
-	public static AdventureResult findItem( final int itemId, final List list )
+	public static AdventureResult findItem( final int itemId, final List<AdventureResult> list )
 	{
-		Iterator it = list.iterator();
-		while ( it.hasNext() )
+		for ( AdventureResult item : list )
 		{
-			AdventureResult item = (AdventureResult)it.next();
 			if ( item.getItemId() == itemId )
 			{
 				return item;
@@ -1437,13 +1435,11 @@ public class AdventureResult
 		}
 
 		@Override
-		public int getCount( final List list )
+		public int getCount( final List<AdventureResult> list )
 		{
 			int count = 0;
-			Iterator i = list.iterator();
-			while ( i.hasNext() )
+			for ( AdventureResult ar : list )
 			{
-				AdventureResult ar = (AdventureResult) i.next();
 				if ( this.equals( ar ) )
 				{
 					count += ar.getCount();
