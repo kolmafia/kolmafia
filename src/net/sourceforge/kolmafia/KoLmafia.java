@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -1616,7 +1617,15 @@ public abstract class KoLmafia
 			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
 		}
 
-		SortedListModel<AdventureResult> destination = KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+		SortedListModel<AdventureResult> destination;
+		if ( !KoLCharacter.canInteract() && currentRequest instanceof MallPurchaseRequest )
+		{
+			destination = KoLConstants.storage;
+		}
+		else
+		{
+			destination = KoLConstants.inventory;
+		}
 		int initialCount = item.getCount( destination );
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
