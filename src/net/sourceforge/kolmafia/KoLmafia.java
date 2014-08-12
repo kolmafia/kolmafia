@@ -1601,55 +1601,54 @@ public abstract class KoLmafia
 			return;
 		}
 
-		PurchaseRequest currentRequest = (PurchaseRequest) purchases[ 0 ];
-		int currentPrice = 0;
-
-		AdventureResult item = currentRequest.getItem();
-		int itemId = item.getItemId();
-
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
-		     InventoryManager.cloverProtectionActive() &&
-		     !KoLCharacter.inBeecore() )
-		{
-			// Our clovers will miraculously turn into disassembled
-			// clovers as soon as they are bought.
-
-			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
-		}
-
-		SortedListModel<AdventureResult> destination;
-		if ( !KoLCharacter.canInteract() && currentRequest instanceof MallPurchaseRequest )
-		{
-			destination = KoLConstants.storage;
-		}
-		else
-		{
-			destination = KoLConstants.inventory;
-		}
-		int initialCount = item.getCount( destination );
-		int currentCount = initialCount;
-		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
-
-		int previousLimit = 0;
-
-		if ( Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
+		if ( isAutomated && Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
 		{
 			// this is probably due to an out-of-date defaults.txt
 			Preferences.setInteger( "autoBuyPriceLimit", 20000 );
 		}
 
+		PurchaseRequest firstRequest = purchases[ 0 ];
+
+		SortedListModel<AdventureResult> destination =
+			// Only NPC stores have an infinite supply
+			( !KoLCharacter.canInteract() && firstRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY ) ?
+			KoLConstants.storage : KoLConstants.inventory;
+
+		AdventureResult item = firstRequest.getItem();
+		int itemId = item.getItemId();
+
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
+		     destination == KoLConstants.inventory &&
+		     InventoryManager.cloverProtectionActive() &&
+		     !KoLCharacter.inBeecore() )
+		{
+			// Clover protection will miraculously turn ten-leaf
+			// clovers into disassembled clovers as soon as they
+			// come into inventory
+
+			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
+		}
+
+		int initialCount = item.getCount( destination );
+		int currentCount = initialCount;
+		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
+
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
-			currentRequest = (PurchaseRequest) purchases[ i ];
-			currentPrice = currentRequest.getPrice();
+			PurchaseRequest currentRequest = (PurchaseRequest) purchases[ i ];
 
-			if ( currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY )
+			// PC stores can be cheaper than NPC stores, but
+			// automated item acquisition will skip them unless the
+			// player allows us to buy from the mall
+
+			if ( currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY &&
+			     isAutomated &&
+			     !Preferences.getBoolean( "autoSatisfyWithMall" ) )
 			{
-				if ( isAutomated && !Preferences.getBoolean( "autoSatisfyWithMall" ) )
-				{
-					continue;
-				}
+				continue;
 			}
+
+			int currentPrice = currentRequest.getPrice();
 
 			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||
 			     ( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
@@ -1660,16 +1659,13 @@ public abstract class KoLmafia
 				return;
 			}
 
-			// Keep track of how many of the item you had before
-			// you run the purchase request
-
-			previousLimit = currentRequest.getLimit();
+			int previousLimit = currentRequest.getLimit();
 			currentRequest.setLimit( Math.min( currentRequest.getAvailableMeat() / currentPrice,
 							   Math.min( previousLimit, desiredCount - currentCount ) ) );
+
 			RequestThread.postRequest( currentRequest );
 
-			// Now that you have already made a purchase from the
-			// store, remove the purchase from the list!
+			// We've purchased as many as we will from this store
 
 			if ( KoLmafia.permitsContinue() )
 			{
@@ -1697,14 +1693,10 @@ public abstract class KoLmafia
 				currentRequest.setLimit( previousLimit );
 			}
 
-			// Now update how many you actually have for the next
-			// iteration of the loop.
+			// Update how many of the item we have post-purchase
 
 			currentCount = item.getCount( destination );
 		}
-
-		// With all that information parsed out, we should
-		// refresh the lists at the very end.
 
 		if ( currentCount >= desiredCount || maxPurchases == Integer.MAX_VALUE )
 		{
