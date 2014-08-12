@@ -35,8 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -67,8 +66,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class NPCStoreDatabase
 	extends KoLDatabase
 {
-	private static final HashMultimap NPC_ITEMS = new HashMultimap();
-	private static final HashMultimap ROW_ITEMS = new HashMultimap();
+	private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS = new HashMultimap<NPCPurchaseRequest>();
+	private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS = new HashMultimap<NPCPurchaseRequest>();
 	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
 	private static final Map<String, String> storeNameById = new TreeMap<String, String>();
 
@@ -140,23 +139,23 @@ public class NPCStoreDatabase
 
 		NPCPurchaseRequest foundItem = null;
 
-		ArrayList items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
+		List<NPCPurchaseRequest> items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
 		if ( items == null )
 		{
 			return null;
 		}
-		for ( Iterator i = items.iterator(); i.hasNext(); )
-		{
-			foundItem = (NPCPurchaseRequest) i.next();
 
-			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName(),
-				itemName ) )
+		for ( NPCPurchaseRequest item : items )
+		{
+			foundItem = item;
+
+			if ( !NPCStoreDatabase.canPurchase( item.getStoreId(), item.getShopName(), itemName ) )
 			{
 				continue;
 			}
 
-			foundItem.setCanPurchase( true );
-			return foundItem;
+			item.setCanPurchase( true );
+			return item;
 		}
 
 		if ( foundItem == null )
@@ -394,19 +393,17 @@ public class NPCStoreDatabase
 
 	public static final int itemIdByRow( final String shopId, final int row )
 	{
-		ArrayList items = NPCStoreDatabase.ROW_ITEMS.get( row );
+		List<NPCPurchaseRequest> items = NPCStoreDatabase.ROW_ITEMS.get( row );
 		if ( items == null )
 		{
 			return -1;
 		}
 
-		for ( Iterator i = items.iterator(); i.hasNext(); )
+		for ( NPCPurchaseRequest item : items )
 		{
-			NPCPurchaseRequest foundItem = (NPCPurchaseRequest) i.next();
-
-			if ( shopId.equals( foundItem.getStoreId() ) )
+			if ( shopId.equals( item.getStoreId() ) )
 			{
-				return foundItem.getItemId();
+				return item.getItemId();
 			}
 		}
 

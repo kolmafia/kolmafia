@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -44,17 +45,17 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
  * order, or null if there were none.
  */
 
-public class HashMultimap
-	extends HashMap<Integer, ArrayList<Object>>
+public class HashMultimap<V>
+	extends HashMap<Integer, ArrayList<V>>
 {
-	public final void put( int key, Object value )
+	public final void put( int key, V value )
 	{
 		Integer okey = IntegerPool.get( key );
-		ArrayList<Object> curr = super.get( okey );
+		ArrayList<V> curr = super.get( okey );
 
 		if ( curr == null )
 		{
-			curr = new ArrayList<Object>();
+			curr = new ArrayList<V>();
 			super.put( okey, curr );
 		}
 
@@ -62,7 +63,7 @@ public class HashMultimap
 		curr.trimToSize(); // minimize wasted space
 	}
 
-	public final ArrayList<Object> get( int key )
+	public final ArrayList<V> get( int key )
 	{
 		return super.get( IntegerPool.get( key ) );
 	}
