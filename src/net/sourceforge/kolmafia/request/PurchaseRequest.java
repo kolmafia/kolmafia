@@ -326,6 +326,7 @@ public abstract class PurchaseRequest
 		{
 			return -1;
 		}
+
 		if ( !PurchaseRequest.usePriceComparison )
 		{
 			int nameComparison = this.item.getName().compareToIgnoreCase( pr.item.getName() );
@@ -335,9 +336,11 @@ public abstract class PurchaseRequest
 			}
 		}
 
-		if ( this.price != pr.price )
+		int thisPrice = this.getPrice();
+		int thatPrice = pr.getPrice();
+		if ( thisPrice != thatPrice )
 		{
-			return this.price - pr.price;
+			return thisPrice - thatPrice;
 		}
 
 		if ( !this.isMallStore && pr.isMallStore )
