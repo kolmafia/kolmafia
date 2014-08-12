@@ -7063,7 +7063,7 @@
 7044	glass slipper	907605845	glassslipper.gif	multiple	d	100
 7045	antimatter wad	765113776	wbantiwad.gif	multiple	t,d	10
 7046	warbear superpotion	938549313	wbpotion.gif	usable	t,d	10
-7047	warbear liquid lasers	693638015	wbpotion.gif	usable	t,d	10
+7047	warbear liquid lasers	693638015	wbpotion.gif	usable	t,d	10	bottles of warbear liquid lasers
 7048	warbear rejuvenation potion	334843906	wbpotion.gif	usable	t,d	10
 7049	broken warbear gyrocopter	649705949	wbcopter2.gif	usable	t	0
 7050	warbear gyro	676764109	gyro.gif	food	t,d	1
