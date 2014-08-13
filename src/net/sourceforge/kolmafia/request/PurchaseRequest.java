@@ -336,21 +336,12 @@ public abstract class PurchaseRequest
 			}
 		}
 
+		// Sort first in order of price
 		int thisPrice = this.getPrice();
 		int thatPrice = pr.getPrice();
 		if ( thisPrice != thatPrice )
 		{
 			return thisPrice - thatPrice;
-		}
-
-		if ( !this.isMallStore && pr.isMallStore )
-		{
-			return KoLCharacter.isHardcore() ? -1 : 1;
-		}
-
-		if ( this.isMallStore && !pr.isMallStore )
-		{
-			return KoLCharacter.isHardcore() ? 1 : -1;
 		}
 
 		// limit is how many items you can actually buy
