@@ -7515,7 +7515,7 @@
 7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
 7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0
-7499	Hot 'n' Scarys	112858401	box2.gif	usable	t,d	5
+7499	Hot 'n' Scarys	112858401	box2.gif	multiple	t,d	5
 7500	black map	897134461	blackmap.gif	none	q	0
 7501	black gold	998488929	blackgold.gif	none	t,d	300
 7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75
@@ -7617,7 +7617,7 @@
 7598
 7599
 7600	haunted flame	710960621	flame.gif	multiple	t,d	5
-7601	temporary yak tattoo	931696933	yaktat.gif	usable	t,d	5
+7601	temporary yak tattoo	931696933	yaktat.gif	multiple	t,d	5
 7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
 7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
 7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
@@ -7719,9 +7719,9 @@
 7700	confiscated comic book	236084375	comicbook.gif	usable	t,d	5
 7701	confiscated cell phone	111757604	padl.gif	usable	t,d	5
 7702	confiscated love note	626177889	foldednote.gif	usable	t,d	5
-7703	LCD game: Food Eater	366591883	lcdgame.gif	usable	t,d	5
-7704	LCD game: Garbage River	213977792	lcdgame.gif	usable	t,d	5
-7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5
+7703	LCD game: Food Eater	366591883	lcdgame.gif	usable	t,d	5	LCD games: Food Eater
+7704	LCD game: Garbage River	213977792	lcdgame.gif	usable	t,d	5	LCD games: Garbage River
+7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5	LCD games: Burger Belt
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
 7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
