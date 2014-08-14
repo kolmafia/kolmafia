@@ -415,7 +415,7 @@ floating platter of hors d'oeuvres	horstray.gif	Atk: 65 Def: 55 HP: 70 Init: -10
 flock of seagulls	seagulls.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: beast
 Flock of Stab-Bats	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 51-80 P: beast	bat wing (30)	batblade (25)	batgut (30)
 fluffy bunny	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 7-9 P: beast	bunny liver (0)
-Foodie Giant	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 80-120 P: humanoid	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)	artisinal hand-squeezed wheatgrass juice (c0)
+Foodie Giant	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 80-120 P: humanoid	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)	artisanal hand-squeezed wheatgrass juice (c0)
 forest spirit	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 E: spooky P: undead	forest tears (30)	forest spirit rattle (c0)
 four skeleton invaders		HP: 110 Def: 99 Atk: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 four-shadowed mime	mime.gif	HP: [(min(50,MUS-3)+ML)*0.75] Def: [min(50,MUS-3)+ML] Atk: [min(50,MOX-3)+ML] Exp: [(min(50,STAT-3)+ML)/4] Init: -10000 P: horror	mime soul fragment (100)
