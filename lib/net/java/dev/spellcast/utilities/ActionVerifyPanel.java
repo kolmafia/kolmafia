@@ -51,6 +51,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -240,7 +241,8 @@ public abstract class ActionVerifyPanel
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if ( elements[ i ].isInputPreceding() && ( elements[ i ].getInputField() instanceof JCheckBox || elements[ i ].getInputField() instanceof JRadioButton ) )
+			if ( elements[ i ].isInputPreceding() &&
+			     ( elements[ i ].getInputField() instanceof JCheckBox || elements[ i ].getInputField() instanceof JRadioButton ) )
 			{
 				if ( currentContainer == null )
 				{
@@ -271,7 +273,8 @@ public abstract class ActionVerifyPanel
 				currentContainer.add( elements[ i ].getInputField() );
 				currentContainer.add( Box.createVerticalStrut( 5 ) );
 			}
-			else if ( elements[ i ].getInputField() instanceof JLabel && elements[ i ].getLabel().getText().equals( "" ) )
+			else if ( elements[ i ].getInputField() instanceof JLabel &&
+				  elements[ i ].getLabel().getText().equals( "" ) )
 			{
 				if ( currentContainer == null )
 				{
@@ -402,6 +405,11 @@ public abstract class ActionVerifyPanel
 			this( "", SwingConstants.RIGHT, new JLabel( " " ), false );
 		}
 
+		public VerifiableElement( final JTextArea text )
+		{
+			this( "", SwingConstants.RIGHT, text, false );
+		}
+
 		public VerifiableElement( final JComponent inputField )
 		{
 			this(
@@ -423,8 +431,7 @@ public abstract class ActionVerifyPanel
 
 		public VerifiableElement( final String label, final int direction, final JComponent inputField )
 		{
-			this(
-				label, direction, inputField, !( inputField instanceof JScrollPane || inputField instanceof JCheckBox ) );
+			this( label, direction, inputField, !( inputField instanceof JScrollPane || inputField instanceof JCheckBox ) );
 		}
 
 		public VerifiableElement( final String label, final int direction, final JComponent inputField,
