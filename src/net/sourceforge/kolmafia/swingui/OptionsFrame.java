@@ -184,8 +184,7 @@ public class OptionsFrame
 		extends OptionsPanel
 	{
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
-		 * server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>SessionLogOptionsPanel</code>
 		 */
 
 		public SessionLogOptionsPanel()
@@ -217,8 +216,7 @@ public class OptionsFrame
 		private JLabel colorChanger;
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
-		 * server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>RelayOptionsPanel</code>
 		 */
 
 		public RelayOptionsPanel()
@@ -315,8 +313,7 @@ public class OptionsFrame
 		extends OptionsPanel
 	{
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
-		 * server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>GeneralOptionsPanel</code>
 		 */
 
 		public GeneralOptionsPanel()
@@ -360,13 +357,14 @@ public class OptionsFrame
 		extends OptionsPanel
 	{
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
-		 * server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>ItemOptionsPanel</code>
 		 */
 
 		public ItemOptionsPanel()
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+
+			String helpText = "The following settings control \"automated\" item acquisition: the \"acquire\" command and other commands, such as \"eat\", \"equip\", or \"use\", that use \"acquire\" to get items into inventory for further manipulation.";
 
 			String[][] options =
 			{
@@ -377,6 +375,12 @@ public class OptionsFrame
 				{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
 				{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 
+				// The following cannot be right, but it will
+				// require work in ActionVerifyPanel to fix it.
+				{},
+				{ helpText },
+				{},
+				{},
 				{},
 
 				{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed", "yes" },
@@ -395,8 +399,7 @@ public class OptionsFrame
 		extends OptionsPanel
 	{
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
-		 * server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>DebugOptionsPanel</code>
 		 */
 
 		public DebugOptionsPanel()

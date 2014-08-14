@@ -36,7 +36,10 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.Dimension;
 
 import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+
+import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
@@ -85,7 +88,21 @@ public abstract class OptionsPanel
 			{
 				elements[ i ] = new VerifiableElement();
 			}
-			else if ( option.length < 3 )
+			else if ( option.length == 1 )
+			{
+				String text = option[ 0 ];
+
+				JTextArea message = new JTextArea( text );
+				message.setColumns( 38 );
+				message.setLineWrap( true );
+				message.setWrapStyleWord( true );
+				message.setEditable( false );
+				message.setOpaque( false );
+				message.setFont( KoLConstants.DEFAULT_FONT );
+
+				elements[ i ] = new VerifiableElement( message );
+			}
+			else if ( option.length == 2 )
 			{
 				this.optionBoxes[ i ] = new JCheckBox();
 				elements[ i ] = new VerifiableElement( option[ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
@@ -124,13 +141,13 @@ public abstract class OptionsPanel
 		for ( int i = 0; i < this.options.length; ++i )
 		{
 			String[] option = this.options[ i ];
+			JCheckBox optionBox = this.optionBoxes[ i ];
 
-			if ( option.length == 0 )
+			if ( option.length == 0 || optionBox == null )
 			{
 				continue;
 			}
 
-			JCheckBox optionBox = this.optionBoxes[ i ];
 			Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 		}
 
@@ -151,13 +168,13 @@ public abstract class OptionsPanel
 		for ( int i = 0; i < this.options.length; ++i )
 		{
 			String[] option = this.options[ i ];
+			JCheckBox optionBox = this.optionBoxes[ i ];
 
-			if ( option.length == 0 )
+			if ( option.length == 0 || optionBox == null )
 			{
 				continue;
 			}
 
-			JCheckBox optionBox = this.optionBoxes[ i ];
 			optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 		}
 	}
