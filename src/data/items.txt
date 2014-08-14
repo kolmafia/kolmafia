@@ -7620,8 +7620,8 @@
 7601	temporary yak tattoo	931696933	yaktat.gif	multiple	t,d	5
 7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
 7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
-7604	artisinal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5
-7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5
+7604	artisanal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5	shots of artisanal hand-squeezed wheatgrass juice
+7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5	punk patches
 7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5
 7607	vial of swamp vapors	283543513	vial.gif	multiple	t,d	5	vials of swamp vapors
 7608	turtle mud	795064257	wad.gif	multiple	t,d	5	handfuls of turtle mud
@@ -7637,16 +7637,16 @@
 7618	straw pole	458688992	stick.gif	usable	t,d	5
 7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
 7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5	pouches of ninja fear powder
-7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5
+7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5	tubes of ninja eyeblack
 7622	button rouge	554636307	rouge.gif	multiple	t,d	5
 7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
-7624	lynyrd skinner toothblack	654913251	balm.gif	multiple	t,d	5
-7625	flask of rainwater	517339022	flask.gif	multiple	t,d	5
+7624	lynyrd skinner toothblack	654913251	balm.gif	multiple	t,d	5	tubs of lynyrd skinner toothblack
+7625	flask of rainwater	517339022	flask.gif	multiple	t,d	5	flasks of rainwater
 7626	blue oyster badge	640439292	badge.gif	multiple	t,d	5
-7627	plastic Jefferson wings	191013836	jwings.gif	multiple	t,d	5
+7627	plastic Jefferson wings	191013836	jwings.gif	multiple	t,d	5	pairs of plastic Jefferson wings
 7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
 7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5	pages of the Necrohobocon
-7630	black magic powder	916394459	powder.gif	multiple	t,d	5
+7630	black magic powder	916394459	powder.gif	multiple	t,d	5	pouches of black magic powder
 7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
 7632	government-issue identification badge	433047727	badge.gif	usable	t,d	5
 7633	alien hologram projector	636077233	wbaccpiece.gif	usable	t,d	5
