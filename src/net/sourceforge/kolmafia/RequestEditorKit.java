@@ -609,6 +609,7 @@ public class RequestEditorKit
 		RequestEditorKit.addBatteryLink( buffer );
 		RequestEditorKit.addFolioLink( buffer );
 		RequestEditorKit.addNewLocationLinks( buffer );
+		RequestEditorKit.suppressPotentialMalware( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
 
@@ -969,6 +970,37 @@ public class RequestEditorKit
 		}
 	}
 
+	// <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	// <!-- ROS_728x90 -->
+	// <ins class="adsbygoogle"
+	//      style="display:inline-block;width:728px;height:90px"
+	//      data-ad-client="ca-pub-5904875379193204"
+	//      data-ad-slot="3053908571"></ins>
+	// <script>
+	// (adsbygoogle = window.adsbygoogle || []).push({});
+	// </script>
+	// <br><img src=/images/otherimages/1x1trans.gif height=4><br>
+
+	private static final Pattern MALWARE_PATTERN = Pattern.compile( "<script async src=\"//.*?adsbygoogle.js\".*?1x1trans.gif.*?<br>", Pattern.DOTALL );
+
+	private static final void suppressPotentialMalware( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "suppressPotentialMalware" ) )
+		{
+			return;
+		}
+		
+
+		if ( buffer.indexOf( "adsbygoogle" ) != -1 )
+		{
+			Matcher matcher = RequestEditorKit.MALWARE_PATTERN.matcher( buffer );
+			if ( matcher.find() )
+			{
+				StringUtilities.globalStringDelete( buffer, matcher.group( 0 ) );
+			}
+		}
+	}
+
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
 	{
 		// <table width=100%><tr><td colspan=2 width="210"></td><td width=20 rowspan=2></td><td class=small align=center valign=top rowspan=2><font size=2>[<a href="craft.php">craft&nbsp;stuff</a>]&nbsp;  [<a href="sellstuff.php">sell&nbsp;stuff</a>]<br /></font></td><td width=20 rowspan=2></td><td colspan=2 width="210"></td></tr></table>
@@ -983,14 +1015,15 @@ public class RequestEditorKit
 		AdventureResult wand = KoLCharacter.getZapper();
 		if ( wand != null )
 		{
-			if ( sushi )
+			if ( links.length() > 0 )
 			{
 				links.append( "&nbsp;&nbsp;" );
 			}
 			
-			links.append( "[<a href=\"wand.php?whichwand=" ).append( wand.getItemId() ).append( "\">zap items</a>]" );
+			links.append( "[<a href=\"wand.php?whichwand=" );
+			links.append( wand.getItemId() );
+			links.append( "\">zap items</a>]" );
 		}
-
 
 		if ( links.length() > 0 )
 		{
