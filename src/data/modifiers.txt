@@ -272,6 +272,7 @@ mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
+neoprene skullcap	Moxie: +7
 nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
@@ -4153,8 +4154,11 @@ First, Like, Do No Harm?	Avatar: "Sorority Nurse"
 Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50
 # Fishy: -1 Adventure cost underwater
+# Fishy, Oily: (In Heavy Rains only)
+Fishy, Oily	Initiative: +60
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
-Fit As a Poster	Avatar: "Fitness giant"
+# Fishy Whiskers: Fewer items will wash away in the Heavy Rains
+<Fit As a Poster	Avatar: "Fitness giant"
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
@@ -5290,6 +5294,7 @@ Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Spooky Resistance: +1, 
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Well-Rested	Experience: +3
 Well-Swabbed Ear	Initiative: +30
+Wet and Greedy	Item Drop: +25
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Wet Willied	Underwater Familiar
@@ -6199,6 +6204,7 @@ candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
 carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
+catfish whiskers	Effect: "Fishy Whiskers", Effect Duration: 40
 celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
 celestial carrot juice	Effect: "Celestial Vision", Effect Duration: 10
 celestial olive oil	Effect: "Celestial Sheen", Effect Duration: 10
@@ -6464,10 +6470,12 @@ glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 go-go potion	Effect: "Go-Gone", Effect Duration: 20
 goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
+goblin water	Effect: "Wet and Greedy", Effect Duration: 100
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
+gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
 government	Effect: "I See Everything Thrice!", Effect Duration: 10
 government-issue identification badge	Effect: "Agent's Shield", Effect Duration: 100
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
