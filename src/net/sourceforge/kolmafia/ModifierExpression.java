@@ -106,6 +106,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ), 'd' );
 		}
+		if ( this.optional( "path(" ) )
+		{
+			return this.literal( this.until( ")" ), '\u0090' );
+		}
 
 		return null;
 	}
