@@ -540,6 +540,26 @@ public abstract class StoreManager
 		return results;
 	}
 
+	public static final ArrayList<PurchaseRequest> searchOnlyMall( final AdventureResult item )
+	{
+		// Get a potentially cached list of search request from both PC and NPC stores, 
+		// Coinmaster Requests have already been filtered out
+		ArrayList<PurchaseRequest> allResults = StoreManager.searchMall( item );
+
+		// Filter out NPC stores
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
+
+		for ( PurchaseRequest result : allResults )
+		{
+			if ( result.isMallStore )
+			{
+				results.add( result );
+			}
+		}
+
+		return results;
+	}
+
 	public static final ArrayList<PurchaseRequest> searchNPCs( final AdventureResult item )
 	{
 		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();

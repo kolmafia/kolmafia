@@ -55,7 +55,7 @@ public class BuyCommand
 {
 	public BuyCommand()
 	{
-		this.usage = " <item> [@ <limit>] [, <another>]... - buy from NPC store or the Mall.";
+		this.usage = " [using storage] <item> [@ <limit>] [, <another>]... - buy from NPC store or the Mall.";
 	}
 
 	@Override
@@ -66,8 +66,24 @@ public class BuyCommand
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public static void buy( final String parameters )
+	public static void buy( String parameters )
 	{
+		boolean interact = KoLCharacter.canInteract();
+		boolean storage = false;
+
+		String TEST = "using storage ";
+		if ( parameters.startsWith( TEST ) )
+		{
+			storage = true;
+			parameters = parameters.substring( TEST.length() ).trim();
+		}
+
+		if ( interact && storage )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot purchase using storage unless you are in Hardcore or Ronin" );
+			return;
+		}
+
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
 		for ( String itemName : itemNames )
@@ -78,11 +94,23 @@ public class BuyCommand
 			{
 				return;
 			}
+
 			int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt( pieces[ 1 ] );
 
-			ArrayList<PurchaseRequest> results = StoreManager.searchMall( match );
+			ArrayList<PurchaseRequest> results = 
+				// Cheapest from Mall or NPC stores
+				interact ? StoreManager.searchMall( match ) :
+				// Mall stores only
+				storage ? StoreManager.searchOnlyMall( match ) :
+				// NPC stores only
+				StoreManager.searchNPCs( match );
+
 			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), match.getCount(), false, priceLimit );
-			StoreManager.updateMallPrice( match, results );
+
+			if ( interact && !storage )
+			{
+				StoreManager.updateMallPrice( match, results );
+			}
 		}
 	}
 }

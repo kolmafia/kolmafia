@@ -294,7 +294,7 @@ public class MallSearchFrame
 			MallSearchFrame.this.currentlyBuying = true;
 
 			SpecialOutfit.createImplicitCheckpoint();
-			KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false );
+			KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false, 0 );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			MallSearchFrame.this.currentlyBuying = false;
