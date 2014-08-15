@@ -1587,12 +1587,6 @@ public abstract class KoLmafia
 	 * Utility method used to purchase the given number of items from the mall using the given purchase requests.
 	 */
 
-	public static void makePurchases( final List results, final PurchaseRequest[] purchases,
-					  final int maxPurchases, final boolean isAutomated )
-	{
-		KoLmafia.makePurchases( results, purchases, maxPurchases, isAutomated, 0 );
-	}
-
 	public static void makePurchases( final List<PurchaseRequest> results, final PurchaseRequest[] purchases,
 					  final int maxPurchases, final boolean isAutomated,
 					  final int priceLimit )

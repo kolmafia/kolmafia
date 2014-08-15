@@ -115,7 +115,7 @@ public abstract class PurchaseRequest
 
 	public AdventureResult getCost()
 	{
-		return new AdventureResult( AdventureResult.MEAT, this.price );
+		return new AdventureResult( AdventureResult.MEAT, this.getPrice() );
 	}
 
 	public String getCurrency( final int count )
@@ -234,17 +234,17 @@ public abstract class PurchaseRequest
 
 	public void setCanPurchase()
 	{
-		this.setCanPurchase( this.getAvailableMeat() >= this.price );
+		this.setCanPurchase( this.getAvailableMeat() >= this.getPrice() );
 	}
 
 	public boolean canPurchase()
 	{
-		return this.canPurchase && this.getAvailableMeat() >= this.price;
+		return this.canPurchase && this.getAvailableMeat() >= this.getPrice();
 	}
 
 	public String color()
 	{
-		return this.canPurchase && this.getAvailableMeat() >= this.price ? null : "gray";
+		return this.canPurchase && this.getAvailableMeat() >= this.getPrice() ? null : "gray";
 	}
 
 	public boolean canPurchaseIgnoringMeat()
@@ -254,7 +254,7 @@ public abstract class PurchaseRequest
 
 	public int affordableCount()
 	{
-		return this.getAvailableMeat() / this.price;
+		return this.getAvailableMeat() / this.getPrice();
 	}
 
 	public boolean isAccessible()
@@ -289,7 +289,7 @@ public abstract class PurchaseRequest
 
 		// Make sure we have enough Meat to buy what we want.
 
-		if ( this.getAvailableMeat() < this.limit * this.price )
+		if ( this.getAvailableMeat() < this.limit * this.getPrice() )
 		{
 			return;
 		}
