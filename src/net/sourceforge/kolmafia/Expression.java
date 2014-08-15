@@ -231,6 +231,28 @@ public class Expression
 				v = s[ --sp ];
 				stackFactory( s );	// recycle this stack
 				return v;
+				
+			case '+':
+				v = s[ --sp ] + s[ --sp ];
+				break;
+
+			case '-':
+				v = s[ --sp ] - s[ --sp ];
+				break;
+
+			case '*':
+				v = s[ --sp ] * s[ --sp ];
+				break;
+
+			case '/':
+				double numerator = s[ --sp ];
+				double denominator = s[ --sp ];
+				if ( denominator == 0.0 )
+				{
+					throw new ArithmeticException( "Can't divide by zero" );
+				}
+				v = numerator / denominator;
+				break;
 
 			case '^':
 				double base = s[ --sp ];
@@ -242,31 +264,24 @@ public class Expression
 				}
 				break;
 
-			case '*':
-				v = s[ --sp ] * s[ --sp ];
+			case 'a':
+				v = Math.abs( s[ --sp ] );
 				break;
-			case '/':
-				double numerator = s[ --sp ];
-				double denominator = s[ --sp ];
-				if ( denominator == 0.0 )
-				{
-					throw new ArithmeticException( "Can't divide by zero" );
-				}
-				v = numerator / denominator;
-				break;
-				
-			case '+':
-				v = s[ --sp ] + s[ --sp ];
-				break;
-			case '-':
-				v = s[ --sp ] - s[ --sp ];
-				break;
-
 			case 'c':
 				v = (double) Math.ceil( s[ --sp ] );
 				break;
 			case 'f':
 				v = (double) Math.floor( s[ --sp ] );
+				break;
+			case 'm':
+				v = Math.min( s[ --sp ], s[ --sp ] );
+				break;
+			case 'p':
+				String prefString = Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) );
+				v =
+					prefString.contains( "true" ) ? 1 : 
+					prefString.contains( "false" ) ? 0 : 
+					StringUtilities.parseDouble( prefString );
 				break;
 			case 's':
 				v = (double) Math.sqrt( s[ --sp ] );
@@ -275,20 +290,8 @@ public class Expression
 					throw new ArithmeticException( "Can't take square root of a negative value" );
 				}
 				break;
-			case 'p':
-				String prefString = Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) );
-				v = prefString.contains( "true" ) ? 1 : 
-					prefString.contains( "false" ) ? 0 : 
-					StringUtilities.parseDouble( prefString );
-				break;
-			case 'm':
-				v = Math.min( s[ --sp ], s[ --sp ] );
-				break;
 			case 'x':
 				v = Math.max( s[ --sp ], s[ --sp ] );
-				break;
-			case 'a':
-				v = Math.abs( s[ --sp ] );
 				break;
 
 			case '#':
@@ -296,23 +299,6 @@ public class Expression
 				break;
 				
 			// Valid with ModifierExpression:
-			case 'l':
-				v = !Modifiers.currentLocation.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
-				break;
-			case 'z':
-				v = !Modifiers.currentZone.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
-				break;
-			case 'w':
-				v = !Modifiers.currentFamiliar.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
-				break;
-			case 'h':
-				v = !Modifiers.mainhandClass.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 0.0 : 1.0;
-				break;
-			case 'e':
-				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
-				v = eff == null ? 0.0 :
-					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
-				break;
 			case 'b':
 				String elem = (String) this.literals.get( (int) s[ --sp ] );
 				int element =
@@ -326,16 +312,37 @@ public class Expression
 					-1;
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
-			case 'n':
-				v = KoLCharacter.getClassName().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
-				break;
 			case 'd':
 				v = KoLCharacter.hasSkill( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'e':
+				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
+				v = eff == null ? 0.0 :
+					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'g':
 				AdventureResult item = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1 );
 				v = KoLCharacter.hasEquipped( item ) ? 1 : 0;
 				break;
+			case 'h':
+				v = Modifiers.mainhandClass.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'l':
+				v = Modifiers.currentLocation.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'n':
+				v = KoLCharacter.getClassName().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'w':
+				v = Modifiers.currentFamiliar.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'z':
+				v = Modifiers.currentZone.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case '\u0092':
+				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+
 			case 'A':
 				v = KoLCharacter.getAscensions();
 				break;

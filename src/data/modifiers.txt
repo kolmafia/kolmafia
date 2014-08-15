@@ -1,4 +1,4 @@
-c2
+2
 # Numeric modifiers can now be expressions, enclosed in square brackets.
 # No spaces are allowed within the expression, except as part of a zone/location name.
 # + - * / ( ) have their usual mathematical meaning and precedence.
@@ -8,6 +8,8 @@ c2
 # Location functions: loc(text) zone(text)
 #	These have a value of 1 if the current adventure location or zone contains the
 #	specified text, 0 elsewhere.
+# Path function: path(text)
+#	This has a value of 1 if the player's path matches the text.
 # Familiar function: fam(text)
 #	This has a value of 1 if the player's familiar type contains the text, else 0.
 # Weapon function: mainhand(text)
@@ -19,7 +21,7 @@ c2
 # Resistance function: res(text)
 #	This returns the number of resistance levels for the listed element
 # Class function: class(text)
-#	This has a value of 1 if the players class matches the text.
+#	This has a value of 1 if the player's class matches the text.
 # Skill function: skill(text)
 #	This has a value of 1 if the player has the skill matching the text.
 # There can be at most one of each text function in any single expression.
@@ -4155,7 +4157,7 @@ Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50
 # Fishy: -1 Adventure cost underwater
 # Fishy, Oily: (In Heavy Rains only)
-Fishy, Oily	Initiative: +60
+Fishy, Oily	Initiative: [60*path(Heavy Rains)]
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
 # Fishy Whiskers: Fewer items will wash away in the Heavy Rains
 <Fit As a Poster	Avatar: "Fitness giant"
