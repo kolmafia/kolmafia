@@ -1010,7 +1010,7 @@ public class Modifiers
 		},
 		{ "Avatar",
 		  new Object[] {
-		        Pattern.compile( "Makes you look like (?:a |an |the )?(?!doctor|gross doctor)(.++)" ),
+		        Pattern.compile( "Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)" ),
 		        Pattern.compile( "Te hace ver como un (.++)" ),
 		  },
 		  Pattern.compile( "Avatar: \"(.*?)\"" )

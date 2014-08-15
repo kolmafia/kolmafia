@@ -205,8 +205,8 @@
 188	bat guano	255139922	guano.gif	multiple	t,d	12	bat guanos
 189	guano coffee cup	720857924	coffeecup.gif	none	t,d	12	guano coffee cups
 190
-191	Boss Bat bandana	606865770	headband.gif	none	q	0
-192	batskin belt	990969530	batbelt.gif	none	q	0	batskin belts
+191	batskin belt	606865770	batbelt.gif	accessory		0	batskin belts
+192	old batskin belt	990969530	batbelt.gif	none	q	0
 193	birthday candle	525458096	candle.gif	message	t	0	birthday candles
 194	Mr. Accessory	373954459	mracc.gif	accessory	t	0	Mr. Accessories
 195	eXtreme nose ring	872602834	nosering.gif	accessory	t,d	75	eXtreme nose rings
@@ -689,7 +689,7 @@
 672	cranberries	134332822	cran.gif	food	t,d	29	handfuls of cranberries
 673	vodka and cranberry	245514709	rocks.gif	drink	t,d	60	vodkas and cranberry
 674	whiskey sour	958994704	rocks.gif	drink	t,d	65	whiskey sours
-675	skull of the Bonerdagon	163288797	dragskull.gif	none	q	0
+675	skull of the Bonerdagon	163288797	dragskull.gif	offhand		0
 676	dragonbone belt buckle	688418036	bonebuckle.gif	none	q	0	dragonbone belt buckles
 677	badass belt	560508688	bonebelt.gif	accessory		0	badass belts
 678	chest of the Bonerdagon	203467233	bonechest.gif	usable	q	0
