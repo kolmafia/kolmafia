@@ -1361,20 +1361,17 @@ squeaky staff	Mysticality: +3, Monster Level: +6
 Squeezebox of the Ages	Moxie: [11*(1+skill(Accordion Appreciation))], Ranged Damage: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 Staff of Fats	Pool Skill: +5
-# Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
-Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
+Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Deal Some Prismatic Damage"
 Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy Defense: 10, Spell Damage Percent: +200
-# Staff of the All-Steak: Jiggle: Massive Bonus to Item Drops
 # Staff of the All-Steak: (5 charges left today)
-Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "+Item"
+Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Massive Bonus to Item Drops"
 Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
 # Staff of the Cozy Fish: Makes you a much better diver
 Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150, Initiative Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [30*(zone(The Sea)+loc(The Sunken Party Yacht))]
-# Staff of the Cream of the Cream: Jiggle: Attune to Monster's Essence
 # Staff of the Cream of the Cream: (5 charges left today)
-Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Olfact"
+Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Attune to Monster's Essence"
 Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 Staff of the Electric Range	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
@@ -1382,13 +1379,10 @@ Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, M
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
 # Staff of the Headmaster's Victuals: (+Spell Damage based on Smithsness)
 Staff of the Headmaster's Victuals	MP Regen Min: 2, MP Regen Max: 3, Sleaze Spell Damage: +5, Smithsness: +5, Spell Damage: [2*K]
-# Staff of the Healthy Breakfast: Jiggle: Recover Some HP
-Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4, Jiggle: "Restore HP"
-# Staff of the Hearty Dinner: Jiggle: Weaken Bad Guy
-Staff of the Hearty Dinner	Spell Damage: +10, Damage Reduction: 5, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Weaken monster"
+Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4, Jiggle: "Recover Some HP"
+Staff of the Hearty Dinner	Spell Damage: +10, Damage Reduction: 5, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Weaken Bad Guy"
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
-# Staff of the Light Lunch: Jiggle: Deal Some Cold Damage
-Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Cold dmg"
+Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Deal Some Cold Damage"
 Staff of the Lunch Lady	Spell Damage Percent: +75, Maximum HP: +15, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6, Food Drop: +25
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
@@ -1396,12 +1390,10 @@ Staff of the Roaring Hearth	Spell Damage Percent: +250, Hot Spell Damage: +40, M
 Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +20, HP Regen Min: 8, HP Regen Max: 10, Slime Hates It: +1
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
-# Staff of the Staff of Life: Jiggle: Full HP Recovery
 # Staff of the Staff of Life: (5 charges left today)
-Staff of the Staff of Life	Spell Damage Percent: +50, Maximum HP: +30, MP Regen Min: 5, MP Regen Max: 6, HP Regen Min: 10, HP Regen Max: 12, Jiggle: "Recover all hp"
-# Staff of the Standalone Cheese: Jiggle: Banish opponent for the rest of the day
+Staff of the Staff of Life	Spell Damage Percent: +50, Maximum HP: +30, MP Regen Min: 5, MP Regen Max: 6, HP Regen Min: 10, HP Regen Max: 12, Jiggle: "Full HP Recovery"
 # Staff of the Standalone Cheese: (5 charges left today)
-Staff of the Standalone Cheese	Spell Damage Percent: +50, Initiative: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Banish"
+Staff of the Standalone Cheese	Spell Damage Percent: +50, Initiative: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Banish opponent for the rest of the day"
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
@@ -1874,6 +1866,7 @@ silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 Sinful Desires	Spell Damage: +10
 six-rainbow shield	Maximum HP: +50, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 12
 skull gearshift knob	Spooky Damage: +20, Spooky Spell Damage: +25, Spell Damage Percent: +30
+skull of the Bonerdagon	Spooky Damage: +5
 slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 slippery when wet shield	Damage Absorption: +10, Damage Reduction: 6
@@ -2033,6 +2026,7 @@ banjo kazoo mount	Maximum Hooch: +2, Single Equip
 bark bracelet	Damage Reduction: 2, Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -6091,7 +6085,7 @@ antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
 Apathargic Bandersnatch	Free Pull
 arrowgram	Free Pull
 arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
-artisinal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Effect Duration: 50
+artisanal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Effect Duration: 50
 ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 ash soda	Effect: "Ashen Burps", Effect Duration: 15
 astral badger	Free Pull

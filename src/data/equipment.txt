@@ -1591,6 +1591,7 @@ silver sausage	0	none
 Sinful Desires	30	none
 six-rainbow shield	190	Mus: 70	shield
 skull gearshift knob	0	Mus: 60
+skull of the Bonerdagon	0	none
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
 slippery when wet shield	100	Mus: 35	shield
@@ -1731,6 +1732,7 @@ banjo kazoo mount	0	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
+batskin belt	0	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
 beer goggles	10	none

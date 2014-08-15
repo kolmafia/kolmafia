@@ -72,7 +72,7 @@ Tropical Crimbo Sword	SMITH	tropical wrapping paper	sword hilt
 # Quest items which are created by combination and their subparts.
 
 abridged dictionary	COMBINE	bridge	dictionary
-badass belt	COMBINE	batskin belt	dragonbone belt buckle
+badass belt	COMBINE	batskin belt	skull of the Bonerdagon
 bitchin' meatcar	ACOMBINE	dope wheels	meat engine
 pumpkin carriage	ACOMBINE	dope wheels	pumpkin
 bone rattle	COMBINE	skeleton bone	broken skull
