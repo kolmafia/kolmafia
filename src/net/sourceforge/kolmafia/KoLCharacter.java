@@ -3216,6 +3216,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Slow and Steady" );
 	}
 
+	public static final boolean inRaincore()
+	{
+		return KoLCharacter.ascensionPath.equals( "Heavy Rains" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );

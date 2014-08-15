@@ -353,11 +353,15 @@ public class ValhallaManager
 		}
 		else if ( KoLCharacter.isSneakyPete() )
 		{
-			sessionStream.print( "Avatar of Sneaky Pete" );
+			sessionStream.print( "Avatar of Sneaky Pete " );
 		}
 		else if ( KoLCharacter.inSlowcore() )
 		{
-			sessionStream.print( "Slow and Steady" );
+			sessionStream.print( "Slow and Steady " );
+		}
+		else if ( KoLCharacter.inRaincore() )
+		{
+			sessionStream.print( "Heavy Rains " );
 		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
