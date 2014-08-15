@@ -523,6 +523,12 @@ public class AfterLifeRequest
 			case 17:
 				builder.append( "an Avatar of Sneaky Pete" );
 				break;
+			case 18:
+				builder.append( "a Slow and Steady" );
+				break;
+			case 19:
+				builder.append( "a Heavy Rains" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );
