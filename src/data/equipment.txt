@@ -193,6 +193,7 @@ mullet wig	40	Mox: 5
 mummy costume	10	none
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
+neoprene skullcap	65	none
 nurse's hat	200	Mox: 85
 oil cap	115	Mox: 42
 Ol' Scratch's stovepipe hat	200	Mys: 200

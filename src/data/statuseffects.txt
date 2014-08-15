@@ -1703,11 +1703,11 @@
 1702
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle
 1704	Colorful Gratitude	rrainbow.gif	77244b327a58e614101d0eaefafa7797	use 1 cigar box turtle
-1705
+1705	Fishy, Oily	lightvial.gif	7b491297d469b73738ee9d7d4ede9c10	use 1 gourmet gourami oil
 1706
 1707
 1708
-1709
+1709	Fishy Whiskers	whiskers.gif	b988d20865c79359b694cebdb9dbddea	use 1 catfish whiskers
 1710
 1711
 1712	Hollow Inside	hole.gif	8ed0a91226b1b94fc569d369a6d0c8a9	use 1 candy cigarette
@@ -1722,3 +1722,5 @@
 1721	Flashy Dance Song	cassette.gif	6eaef570081a5e69110c8a95f7d51921
 1722	You're Rubber	rubbernub.gif	605249e881329b2edd554f74b0258ea8	use 1 rubber nubbin
 1723	Fizzier Than Light	bubbles.gif	74482efec742b4f5cf5280c2f121fa32	use 1 candy UFOs
+1724
+1725	Wet and Greedy	moonshine.gif	66d204df3c7e4f511c518262e24b51f4	use 1 goblin water

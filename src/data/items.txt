@@ -7665,9 +7665,9 @@
 7646
 7647
 7648
-7649
-7650
-7651
+7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20
+7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20
+7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
 7652
 7653
 7654
@@ -7675,8 +7675,8 @@
 7656
 7657
 7658
-7659
-7660
+7659	neoprene skullcap	973157230	rubbercap.gif	hat	t,d	1000
+7660	goblin water	707037025	moonshine.gif	usable	t,d	2000
 7661
 7662
 7663
