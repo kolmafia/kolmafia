@@ -175,9 +175,9 @@ public class StationaryButtonDecorator
 		if ( Preferences.getBoolean( "hideServerDebugText" ) )
 		{
 			int beginDebug = buffer.indexOf( "<div style='max-height" );
-			if ( beginDebug != -1 )
+			int endDebug = buffer.indexOf( "</div>", beginDebug ) + 6;
+			if ( beginDebug != -1 && endDebug != -1 )
 			{
-				int endDebug = buffer.indexOf( "</div>", beginDebug ) + 6;
 				buffer.delete( beginDebug, endDebug );
 			}
 		}
@@ -202,13 +202,13 @@ public class StationaryButtonDecorator
 				// Also add spacers to the header
 				labelIndex = buffer.indexOf( "<tbody><tr class=label><td></td><td></td><td>1</td><td>2</td>" ) + 23;
 				buffer.insert( labelIndex, "<td></td><td></td>" );
+				return;
 			}
-			else
-			{
-				// We are going to craft our own CAB. Pull in
-				// the necessary Javascript.
 
-				int insertIndex = buffer.indexOf( "</head>" );
+			// We are going to craft our own CAB. Pull in the necessary Javascript.
+			int insertIndex = buffer.indexOf( "</head>" );
+			if ( insertIndex != -1 )
+			{
 				buffer.insert( insertIndex, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
 
 				// Build the CAB in a new StringBuilder
@@ -288,7 +288,6 @@ public class StationaryButtonDecorator
 				insertIndex = buffer.indexOf( "<body>" ) + 6;
 				buffer.insert( insertIndex, CAB.toString() );
 
-				
 				insertIndex = buffer.indexOf( "</body>" );
 				if ( insertIndex > -1 )
 				{

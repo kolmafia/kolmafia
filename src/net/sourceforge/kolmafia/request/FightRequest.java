@@ -1841,6 +1841,12 @@ public class FightRequest
 	{
 		FightRequest.lastResponseText = responseText;
 
+		// Silly check for silly situation
+		if ( encounter == AdventureRequest.NOT_IN_A_FIGHT )
+		{
+			return;
+		}
+
 		boolean autoAttacked = false;
 
 		if ( FightRequest.currentRound == 0 )

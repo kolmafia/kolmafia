@@ -77,6 +77,8 @@ import net.sourceforge.kolmafia.webui.DvorakDecorator;
 public class AdventureRequest
 	extends GenericRequest
 {
+	public static final String NOT_IN_A_FIGHT = "Not in a Fight";
+
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 
 	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
@@ -473,6 +475,12 @@ public class AdventureRequest
 			return "";
 		}
 
+		// Silly check for silly situation
+		if ( encounter == AdventureRequest.NOT_IN_A_FIGHT )
+		{
+			return encounter;
+		}
+
 		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
@@ -524,6 +532,12 @@ public class AdventureRequest
 
 	private static final String parseCombatEncounter( final String responseText )
 	{
+		// Silly check for silly situation
+		if ( responseText.contains( "Not in a Fight" ) )
+		{
+			return AdventureRequest.NOT_IN_A_FIGHT;
+		}
+
 		String name = null;
 
 		for ( int i = 0; i < MONSTER_NAME_PATTERNS.length; ++i )
