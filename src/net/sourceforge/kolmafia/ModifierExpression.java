@@ -108,7 +108,7 @@ public class ModifierExpression
 		}
 		if ( this.optional( "path(" ) )
 		{
-			return this.literal( this.until( ")" ), '\u0090' );
+			return this.literal( this.until( ")" ), '\u0092' );
 		}
 
 		return null;
