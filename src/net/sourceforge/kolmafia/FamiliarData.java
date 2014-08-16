@@ -81,6 +81,7 @@ public class FamiliarData
 	public static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
 	public static final AdventureResult ITTAH_BITTAH_HOOKAH = ItemPool.get( ItemPool.ITTAH_BITTAH_HOOKAH, 1 );
 	public static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
+	public static final AdventureResult LIFE_PRESERVER = ItemPool.get( ItemPool.MINI_LIFE_PRESERVER, 1 );
 	public static final AdventureResult MOVEABLE_FEAST = ItemPool.get( ItemPool.MOVEABLE_FEAST, 1 );
 	public static final AdventureResult PET_SWEATER = ItemPool.get( ItemPool.PET_SWEATER, 1 );
 	public static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
@@ -843,6 +844,12 @@ public class FamiliarData
 
 	public final AdventureResult findGoodItem( boolean steal )
 	{
+		if ( KoLCharacter.inRaincore() && FamiliarData.availableItem( FamiliarData.LIFE_PRESERVER, steal ) )
+		{
+			// The miniature life preserver is only useful in a Heavy Rains run
+			return FamiliarData.LIFE_PRESERVER;
+		}
+
 		if ( FamiliarData.availableItem( FamiliarData.PET_SWEATER, steal ) )
 		{
 			return FamiliarData.PET_SWEATER;
