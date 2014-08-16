@@ -7659,9 +7659,9 @@
 7640	frozen turtle shell	370037546	coldshell.gif	container	t,d	20
 7641	shocked shell	654027361	zapshell.gif	container	t,d	20
 7642	ingot turtle	997050687	ingotturt.gif	none, combat	t,d	25
-7643
-7644
-7645
+7643	heavy duty umbrella	577295659	heavyumbrella.gif	offhand	t,d	10
+7644	pool skimmer	907571254	poolskimmer.gif	offhand	q	0
+7645	miniature life preserver	141401112	lifepreserver.gif	familiar	t,d	10
 7646
 7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
 7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
@@ -7727,3 +7727,4 @@
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
 7709
 7710	candy UFOs	859892912	ufo.gif	usable	t	0
+7711	water wings for babies	615145638	poolwings.gif	accessory	t,d	10

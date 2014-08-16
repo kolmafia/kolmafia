@@ -1523,7 +1523,7 @@ Zim Merman's guitar	Ranged Damage: +20
 zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song, Class: "Accordion Thief", Single Equip, Song Duration: 20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 
-# Offhands section of modifiers.txt
+# Off-hand section of modifiers.txt
 
 'WILL WORK FOR BOOZE' sign	Booze Drop: +30
 1-ball	Initiative: +10
@@ -1833,6 +1833,7 @@ plush mutated alielephant	Muscle Percent: [3*G], Mysticality Percent: [3*G], Mox
 plush mutated alielf	Muscle Percent: [G], Mysticality Percent: [G], Moxie Percent: [G]
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Muscle: +10, Damage Reduction: 9
+# pool skimmer: Catches other people's washed-away items
 pottery shield	Hot Damage: +5, Damage Reduction: 3
 pretty bouquet	Moxie: +3
 rag doll	Muscle: +3
@@ -2883,6 +2884,7 @@ warbear warscarf	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resista
 Warehouse 23 bling	Maximum MP: +23
 warm fur	Hot Damage: +60
 # water wings
+water wings for babies	Maximum HP: +10, Monster Level: -15
 water-polo mitt	Weapon Damage: +30, Single Equip
 whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
@@ -3093,6 +3095,8 @@ miniature castagnets	Familiar Weight: +5
 miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only, Generic
 miniature Jacob's ladder	Familiar Weight: +5
+# miniature life preserver: Helps your familiar deal with all this rain
+miniature life preserver	Generic
 miniature pruning shears	Familiar Weight: +5
 miniature tophat	Familiar Weight: +5
 # MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks

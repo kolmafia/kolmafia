@@ -1441,6 +1441,7 @@ Half a Purse	100	none
 hand of Mr. Cards	10	none
 handmade hobby horse	20	none
 heart-shaped balloon	10	none
+heavy duty umbrella	10	none
 hippo skin buckler	90	Mus: 30	shield
 HOA regulation book	350	Mus: 100	shield
 hobo code binder	10	none
@@ -1559,6 +1560,7 @@ plush mutated alielephant	0	none
 plush mutated alielf	0	none
 pocketwatch on a chain	50	Mys: 10
 polyalloy shield	140	Mus: 55	shield
+pool skimmer	10	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
 rag doll	110	Mys: 40
@@ -1894,7 +1896,7 @@ giant motorcycle boots	120	Mus: 45
 giant pinky ring	100	Mys: 35
 Girdle of Hatred	200	Mus: 125
 glacial clock	30	none
-glow-in-the-dark necklace	0	Mys: 10
+glow-in-the-dark necklace	100	Mys: 10
 glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
@@ -2483,6 +2485,7 @@ warbear warscarf	50	Mys: 10
 Warehouse 23 bling	0	none
 warm fur	225	Mys: 200
 water wings	10	none
+water wings for babies	10	none
 water-polo mitt	200	Mys: 85
 whalebone corset	55	Mys: 12
 wheel	30	none
