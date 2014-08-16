@@ -2153,6 +2153,22 @@ public class FightRequest
 				TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=*", "rparen.gif" );
 			}
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
+				  ( encounter.equals( "alley catfish" ) ||
+				    encounter.equals( "aquaconda" ) ||
+				    encounter.equals( "freshwater bonefish" ) ||
+				    encounter.equals( "giant isopod" ) ||
+				    encounter.equals( "giant tardigrade" ) ||
+				    encounter.equals( "gourmet gourami" ) ||
+				    encounter.equals( "piranhadon" ) ||
+				    encounter.equals( "storm cow" )
+				  ) )
+			{
+				TurnCounter.stopCounting( "Rain Monster window begin" );
+				TurnCounter.stopCounting( "Rain Monster window end" );
+				TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 45, "Rain Monster window end loc=*", "rparen.gif" );
+			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
 
