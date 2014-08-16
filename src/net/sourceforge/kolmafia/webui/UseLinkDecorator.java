@@ -1429,10 +1429,10 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GOLD_BOWLING_BALL:
 		case ItemPool.REALLY_DENSE_MEAT_STACK:
+		case ItemPool.BATSKIN_BELT:
+		case ItemPool.BONERDAGON_SKULL:
 			if ( !location.startsWith( "fight.php" ) ) break;
 			/*FALLTHRU*/
-		case ItemPool.BAT_BANDANA:
-		case ItemPool.BONERDAGON_SKULL:
 		case ItemPool.HOLY_MACGUFFIN:
 
 			useType = "council";

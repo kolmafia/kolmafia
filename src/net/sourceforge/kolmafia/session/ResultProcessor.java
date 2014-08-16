@@ -1464,13 +1464,12 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MYST, "step1" );
 			break;
 
-		case ItemPool.BAT_BANDANA:
-			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
-			break;
-
 		case ItemPool.BATSKIN_BELT:
-			QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
-			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
+				ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
+			}
 			break;
 
 		case ItemPool.KNOB_GOBLIN_CROWN:
@@ -1507,9 +1506,12 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
 			break;
 
-		case ItemPool.DRAGONBONE_BELT_BUCKLE:
-			QuestDatabase.setQuestProgress( Quest.CYRPT, QuestDatabase.FINISHED );
-			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
+		case ItemPool.BONERDAGON_SKULL:
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.CYRPT, QuestDatabase.FINISHED );
+				ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
+			}
 			break;
 
 		case ItemPool.GROARS_FUR:
