@@ -530,6 +530,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.COINMASTER_TYPE };
 		functions.add( new LibraryFunction( "is_accessible", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -2699,9 +2705,10 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		AdventureResult itemToBuy = new AdventureResult( (int) item.intValue(), 1 );
+		int itemId = (int) item.intValue();
+		AdventureResult itemToBuy = new AdventureResult( itemId, 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + (int) item.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
@@ -2721,9 +2728,48 @@ public abstract class RuntimeLibrary
 		int itemId = (int) arg2.intValue();
 		AdventureResult itemToBuy = new AdventureResult( itemId, 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6"
-			+ itemId + "@" + arg3.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId + "@" + arg3.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
+	}
+
+	public static Value buy_using_storage( Interpreter interpreter, final Value countValue, final Value item )
+	{
+		if ( KoLCharacter.canInteract() )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		int count = (int) countValue.intValue();
+		if ( count <= 0 )
+		{
+			return DataTypes.TRUE_VALUE;
+		}
+
+		int itemId = (int) item.intValue();
+		AdventureResult itemToBuy = new AdventureResult( itemId, 1 );
+		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId );
+		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.storage ) );
+	}
+
+	public static Value buy_using_storage( Interpreter interpreter, final Value countValue, final Value item, final Value limitValue )
+	{
+		if ( KoLCharacter.canInteract() )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		int count = (int) countValue.intValue();
+		if ( count <= 0 )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		int itemId = (int) item.intValue();
+		AdventureResult itemToBuy = new AdventureResult( itemId, 1 );
+		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId + "@" + limitValue.intValue() );
+		return new Value( itemToBuy.getCount( KoLConstants.storage ) - initialAmount );
 	}
 
 	// Coinmaster functions
