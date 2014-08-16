@@ -7662,7 +7662,7 @@
 7643	heavy duty umbrella	577295659	heavyumbrella.gif	offhand	t,d	10
 7644	pool skimmer	907571254	poolskimmer.gif	offhand	q	0
 7645	miniature life preserver	141401112	lifepreserver.gif	familiar	t,d	10
-7646
+7646	lightning milk	448420871	milkcarton.gif	reusable	q	0
 7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
 7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
 7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20

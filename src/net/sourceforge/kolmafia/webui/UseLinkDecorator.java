@@ -826,6 +826,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.GRIMSTONE_MASK:
 			case ItemPool.THUNDER_THIGH:
 			case ItemPool.AQUA_BRAIN:
+			case ItemPool.LIGHTNING_MILK:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
