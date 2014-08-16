@@ -3645,6 +3645,7 @@ Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Ancestral Disapproval	Mysticality Percent: +10
 Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
+Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 And Your Family, Too	Familiar Weight: -10
 # Angry Bone: +40 Damage vs. Undead
 Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
@@ -3888,6 +3889,7 @@ Coated Arms	Weapon Damage: +15
 Cock of the Walk	Moxie Percent: +200
 Cockroach Scurry	Initiative: +50
 Coffeesphere	Combat Rate: +15
+Cold as Ice	Hot Resistance: +5, Cold Damage: +50, Cold Spell Damage: +50
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
 Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Sleaze Resistance: +2
@@ -6088,6 +6090,7 @@ alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
+Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
@@ -6604,6 +6607,7 @@ Libram of Resolutions	Free Pull
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
+liquid ice	Effect: "Cold as Ice", Effect Duration: 50
 liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15

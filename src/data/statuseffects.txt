@@ -1724,3 +1724,5 @@
 1723	Fizzier Than Light	bubbles.gif	74482efec742b4f5cf5280c2f121fa32	use 1 candy UFOs
 1724
 1725	Wet and Greedy	moonshine.gif	66d204df3c7e4f511c518262e24b51f4	use 1 goblin water
+1726	Ancient Protected	soda.gif	8789f23c0ef71fb191a84057e3cd33e2	use 1 Ancient Protector Soda
+1727	Cold as Ice	jewel.gif	37e4790415fb2f82600f8ae65accba49	use 1 liquid ice
