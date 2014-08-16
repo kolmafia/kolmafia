@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 
-import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -825,6 +824,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.SUSPICIOUS_ADDRESS:
 			case ItemPool.CHEF_BOY_BUSINESS_CARD:
 			case ItemPool.GRIMSTONE_MASK:
+			case ItemPool.THUNDER_THIGH:
+			case ItemPool.AQUA_BRAIN:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

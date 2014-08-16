@@ -7663,8 +7663,8 @@
 7644
 7645
 7646
-7647
-7648
+7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
+7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
 7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20
 7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20
 7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
