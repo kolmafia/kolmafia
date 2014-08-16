@@ -2087,6 +2087,7 @@ public class ItemPool
 	public static final int WHITE_PAGE = 7555;
 	public static final int CHRONER = 7567;
 	public static final int MINI_LIFE_PRESERVER = 7645;
+	public static final int LIGHTNING_MILK = 7646;
 	public static final int AQUA_BRAIN = 7647;
 	public static final int THUNDER_THIGH = 7648;
 	public static final int CONFISCATOR_BOOK = 7706;

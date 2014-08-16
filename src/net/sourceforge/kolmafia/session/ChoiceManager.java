@@ -7375,6 +7375,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 967:
+			// The Thunder Rolls...
 			if ( ChoiceManager.lastDecision != 8 )
 			{
 				ResultProcessor.removeItem( ItemPool.THUNDER_THIGH );
@@ -7382,9 +7383,18 @@ public abstract class ChoiceManager
 			break;
 
 		case 968:
+			// The Rain Falls Down With Your Help...
 			if ( ChoiceManager.lastDecision != 8 )
 			{
 				ResultProcessor.removeItem( ItemPool.AQUA_BRAIN );
+			}
+			break;
+
+		case 969:
+			// And The Lightning Strikes...
+			if ( ChoiceManager.lastDecision != 8 )
+			{
+				ResultProcessor.removeItem( ItemPool.LIGHTNING_MILK );
 			}
 			break;
 		}
