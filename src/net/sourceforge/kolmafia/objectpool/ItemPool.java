@@ -2087,6 +2087,8 @@ public class ItemPool
 	public static final int HOT_ASHES = 7548;
 	public static final int WHITE_PAGE = 7555;
 	public static final int CHRONER = 7567;
+	public static final int AQUA_BRAIN = 7647;
+	public static final int THUNDER_THIGH = 7648;
 	public static final int CONFISCATOR_BOOK = 7706;
 
 	public static final AdventureResult get( String itemName, int count )

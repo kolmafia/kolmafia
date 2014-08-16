@@ -5401,12 +5401,12 @@ public abstract class ChoiceManager
 			result = new String[ 3 ];
 			// Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String today = sdf.format( date.getTime() );
+			SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" );
 			String lastUMDDateString = Preferences.getString( "umdLastObtained" );
 			if ( lastUMDDateString != null && lastUMDDateString != "" )
 			{
-				try {
+				try
+				{
 					Date lastUMDDate = sdf.parse( lastUMDDateString );
 					Calendar compareDate = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 					compareDate.setTime( lastUMDDate );
@@ -7371,6 +7371,20 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision != 4 )
 			{
 				ResultProcessor.processItem( ItemPool.MIND_DESTROYER, -1 );
+			}
+			break;
+
+		case 967:
+			if ( ChoiceManager.lastDecision != 8 )
+			{
+				ResultProcessor.removeItem( ItemPool.THUNDER_THIGH );
+			}
+			break;
+
+		case 968:
+			if ( ChoiceManager.lastDecision != 8 )
+			{
+				ResultProcessor.removeItem( ItemPool.AQUA_BRAIN );
 			}
 			break;
 		}
