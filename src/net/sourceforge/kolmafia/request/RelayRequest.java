@@ -1264,7 +1264,7 @@ public class RelayRequest
 		else if ( semiRare > 0 )
 		{
 			semiRareBonus = (int) Math.floor( 2 * Math.sqrt( semiRare ) );
-		}		
+		}
 		int training  = Preferences.getInteger( "poolSkill" );
 		int poolSkill = equip + training + semiRareBonus + drunkBonus;
 		
@@ -1689,7 +1689,7 @@ public class RelayRequest
 
 		// Some paths don't need a wand
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg()
-		     || KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() )
+		     || KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() )
 		{
 			return false;
 		}
