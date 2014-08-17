@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
 
-import java.util.ArrayList;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -262,6 +260,11 @@ public class ValhallaManager
 		}
 
 		ValhallaManager.pullFreeItems();
+
+		if ( Preferences.getBoolean( "autoQuest" ) )
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SPOOKYRAVEN_TELEGRAM, 1 ) ) );
+		}
 
 		//force rebuild of daily deeds panel
 		PreferenceListenerRegistry.firePreferenceChanged( "dailyDeedsOptions" );

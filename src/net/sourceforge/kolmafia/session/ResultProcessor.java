@@ -1305,20 +1305,24 @@ public class ResultProcessor
 
 		case ItemPool.MORTAR_DISSOLVING_RECIPE:
 			QuestDatabase.setQuestIfBetter( Quest.MANOR, "step2" );
-			boolean hasSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
-			if ( hasSpecs )
+			if ( Preferences.getBoolean( "autoQuest" ) )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
-				RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
+				boolean hasSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
+				if ( hasSpecs )
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
+				}
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
+				if ( hasSpecs )
+				{
+					SpecialOutfit.restoreImplicitCheckpoint();
+				}
+				KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
+							    ( hasSpecs ? "" : "NOT " ) +
+								"equipped." );
 			}
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
-			if ( hasSpecs )
-			{
-				SpecialOutfit.restoreImplicitCheckpoint();
-			}
-			KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
-			                      ( hasSpecs ? "" : "NOT " ) +
-			                        "equipped." );
+			
 			break;
 
 		case ItemPool.MOLYBDENUM_MAGNET:
@@ -2058,7 +2062,7 @@ public class ResultProcessor
 
 		case ItemPool.BRICKO_EYE:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
+				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_brickoEyeSummons" );
 			}
@@ -2068,7 +2072,7 @@ public class ResultProcessor
 		case ItemPool.DIVINE_CRACKER:
 		case ItemPool.DIVINE_FLUTE:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
+				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_favorRareSummons" );
 			}
@@ -2078,7 +2082,7 @@ public class ResultProcessor
 		case ItemPool.GREEN_TAFFY:
 		case ItemPool.INDIGO_TAFFY:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" )	)
+				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_taffyRareSummons" );
 			}
