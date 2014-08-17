@@ -8041,14 +8041,6 @@ public abstract class ChoiceManager
 			// Set all folder slots from the response text
 			EquipmentRequest.parseFolders( text );
 			break;
-
-		case 786:
-			if ( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
-			     InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
-			}
-			break;
 			
 		case 810:
 			if ( ChoiceManager.lastDecision == 2 )
