@@ -744,13 +744,11 @@ public class KoLAdventure
 			return;
 		}
 
-		// The Castle Basement is unlocked provided the
-		// character has either a S.O.C.K. or an intragalactic rowboat
+		// The Castle Basement is unlocked provided the player has the S.O.C.K
 
 		if ( this.adventureId.equals( AdventurePool.CASTLE_BASEMENT_ID ) )
 		{
-			this.isValidAdventure =
-				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) );
 			return;
 		}
 
@@ -766,8 +764,8 @@ public class KoLAdventure
 			return;
 		}
 
-		// The Hole in the Sky is unlocked provided the player has a
-		// steam-powered rocketship (legacy: rowboats give access but are no longer creatable)
+		// The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
+		// (legacy: rowboats give access but are no longer creatable)
 
 		if ( this.adventureId.equals( AdventurePool.HOLE_IN_THE_SKY_ID ) )
 		{
@@ -818,7 +816,7 @@ public class KoLAdventure
 		}
 
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_KITCHEN_ID ) ||
-			this.adventureId.equals( AdventurePool.HAUNTED_CONSERVATORY_ID ) )
+		     this.adventureId.equals( AdventurePool.HAUNTED_CONSERVATORY_ID ) )
 		{
 			// Haunted Kitchen & Conservatory
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED );

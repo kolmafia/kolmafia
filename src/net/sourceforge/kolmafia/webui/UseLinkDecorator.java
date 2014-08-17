@@ -412,7 +412,7 @@ public abstract class UseLinkDecorator
 
 		// Enchanted beans are primarily used for the beanstalk quest.
 		case ItemPool.ENCHANTED_BEAN:
-			if ( KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem( ItemPool.SOCK ) && !InventoryManager.hasItem( ItemPool.ROWBOAT ) )
+			if ( KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem( ItemPool.SOCK ) )
 			{
 				return CraftingType.NOCREATE;
 			}

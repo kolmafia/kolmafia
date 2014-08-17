@@ -1323,15 +1323,7 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
 		{
-			if ( Preferences.getBoolean( "autoCraft" ) )
-			{
-				CreateItemRequest staff = CreateItemRequest.getInstance( ItemPool.STAFF_OF_ED );
-				if ( staff != null && staff.getQuantityPossible() > 0 )
-				{
-					staff.setQuantityNeeded( 1 );
-					staff.run();
-				}
-			}
+			ResultProcessor.autoCreate( ItemPool.STAFF_OF_ED );
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
 		{

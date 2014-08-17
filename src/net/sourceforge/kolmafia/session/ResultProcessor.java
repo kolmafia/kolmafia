@@ -1529,10 +1529,6 @@ public class ResultProcessor
 			Preferences.setInteger( "oilPeakProgress", 0 );
 			return;
 
-		case ItemPool.QUANTUM_EGG:
-			ResultProcessor.autoCreate( ItemPool.ROWBOAT );
-			break;
-
 		case ItemPool.HEMP_STRING:
 		case ItemPool.BONERDAGON_VERTEBRA:
 			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
@@ -1578,12 +1574,9 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
 			break;
 
+		case ItemPool.BINDER_CLIP:
 		case ItemPool.MCCLUSKY_FILE_PAGE5:
-			if( Preferences.getBoolean( "autoCraft" ) &&
-			    InventoryManager.getCount( ItemPool.BINDER_CLIP ) == 1 )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
-			}
+			ResultProcessor.autoCreate( ItemPool.MCCLUSKY_FILE );
 			break;
 
 		case ItemPool.MOSS_COVERED_STONE_SPHERE:
@@ -2319,7 +2312,7 @@ public class ResultProcessor
 		GoalManager.updateProgress( result );
 	}
 
-	private static void autoCreate( final int itemId )
+	public static void autoCreate( final int itemId )
 	{
 		if ( ResultProcessor.autoCrafting || !Preferences.getBoolean( "autoCraft" ) )
 		{
