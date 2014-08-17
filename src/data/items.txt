@@ -7679,14 +7679,14 @@
 7660	goblin water	707037025	moonshine.gif	usable	t,d	2000
 7661	dumb mud	904103660	gooball.gif	none, combat	t,d	1000
 7662	Sogg-Os	188639947	soupbowl.gif	food	t,d	111
-7663
+7663	Lord Soggyraven's Slippers	149080844	slippers.gif	accessory	t,d	200
 7664	Ancient Protector Soda	364350526	soda.gif	usable	t,d	50
 7665	liquid ice	665942732	lightvial.gif	usable	t,d	10000
-7666
+7666	Wet Russian	663498190	rocks.gif	drink	t,d	140
 7667
-7668
-7669
-7670
+7668	Thwaitgold spider	253844172	thwaitspider.gif	none		0
+7669	thunder down underwear	729675249	downunderwear.gif	pants	q	0
+7670	famous blue raincoat	119922097	raincoat.gif	shirt	q	0
 7671
 7672	law-abiding citizen cane	323809338	citizencane.gif	weapon	t,d	20	law-abiding citizens cane
 7673	legitimate business on the beach	823551028	chamfluteu.gif	drink	t,d	5	legitimate businesses on the beach

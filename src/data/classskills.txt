@@ -826,3 +826,32 @@
 15030	Walk Away From Explosion	explode.gif	5	30	0
 15031	Incite Riot	fire.gif	1	0	0
 15032	Unrepentant Thief	moneybag.gif	0	0	0
+
+# Thunder
+16001	Thunder Clap	echo.gif	5	0	0
+16002	Thundercloud	darkcloud2.gif	3	0	100
+16003	Thunder Bird	thunderbird.gif	5	0	0
+16004	Thunderheart	heartrock.gif	3	0	100
+16005	Thunderstrike	dumbstruck.gif	5	0	0
+16006	Thunder Down Underwear	downunderwear.gif	1	0	0
+16007	Thunder Thighs	thunderthighs.gif	0	0	0
+
+# Rain
+
+16011	Rain Man	rainman.gif	1	0	0
+16012	Rainy Day	familiar31.gif	3	0	100
+16013	Make it Rain	meat.gif	5	0	0
+16014	Rain Dance	blooddrops.gif	3	0	100
+16015	Rainbow	rrainbow.gif	5	0	0
+16016	Rain Coat	raincoat.gif	1	0	0
+16017	Rain Delay	clock.gif	0	0	0
+
+# Lightning
+
+16021	Lightning Strike	cloudlightning.gif	5	0	0
+16022	Clean-Hair Lightning	buttrock.gif	3	0	100
+16023	Ball Lightning	balllightning.gif	5	0	0
+16024	Sheet Lightning	blanket.gif	3	0	100
+16025	Lightning Bolt	beanbag2.gif	5	0	0
+16026	Lightning Rod	lightningrod.gif	1	0	0
+16027	Riding the Lightning	lightning2.gif	0	0	0

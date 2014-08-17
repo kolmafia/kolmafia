@@ -2582,6 +2582,14 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.THUNDER_CLAP:
+			// failure message needs finding
+			//if ( !responseText.contains( "" ) )
+			//{
+				BanishManager.banishMonster( monster, "thunder clap" );
+			//}
+			break;
+
 		case SkillPool.POCKET_CRUMBS:
 			if ( responseText.contains( "pocket next to the crumbs" ) )
 			{

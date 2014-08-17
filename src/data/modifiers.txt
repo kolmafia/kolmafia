@@ -603,6 +603,7 @@ swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
 The Sagittarian's leisure pants	DB Combat Damage: +13
+thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
 transparent pants	Sleaze Damage: +60, Sleaze Spell Damage: +60, Familiar Effect: "sleaze atk, 1xPotato"
@@ -684,6 +685,7 @@ duct tape shirt	Moxie: +9, Meat Drop: +20
 extra-see-thru nightie	Moxie Percent: +15
 eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 extremely wet T-shirt	Moxie Percent: +10, Sleaze Damage: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +10, Initiative: +40, Lasts Until Rollover
 filthy hippy poncho	Mysticality: +3
 flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
@@ -2320,6 +2322,7 @@ Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip
 lollipop cufflinks	Mysticality: +5
 long-forgotten necklace	Meat Drop: +15
 Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
+Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 # Lord Spookyraven's spectacles
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 lucky cat collar	Meat Drop: +7, Single Equip
@@ -3855,6 +3858,7 @@ Chalked Weapon	Pool Skill: +5
 Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
 Chalky White Pallor	Mysticality Percent: +50
 Chapped Legs	Muscle: -4, Moxie: +8
+Charged Hair	Maximum MP Percent: +100
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 Chef Brains-are-dee	Avatar: "zombie chef"
@@ -4713,6 +4717,7 @@ Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 # Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
+# Personal Thundercloud: Makes the water around you even deeper (Water Level: +2)
 Perspicacious Pressure	Mysticality Percent: +300
 Pet Shop Song	Initiative: +10
 Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -4878,6 +4883,8 @@ Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 Sharin' Stone	Avatar: "Stone Golem"
 # Sharp Weapon: +3-5 Weapon Damage
 # Sheepskinned: Your regular attacks deal Sleaze damage
+# Stormswaddled: Damages attacking opponents
+Stormswaddled	Spell Damage Percent: +100
 Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
 Shiny Happy Cupcake	Experience: +3
@@ -5157,6 +5164,7 @@ The Moxious Madrigal	Moxie: +10
 The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)]
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
+# The Rain In Loathing: Makes the water around you even deeper (Water Level: +2)
 # The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
@@ -5186,6 +5194,7 @@ Three Days Slow	Experience (familiar): +3
 Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
 Thuggity Yak	Avatar: "yakuza thug"
+Thunderheart	Maximum HP Percent: +100
 Ticking Clock	Initiative: +30
 Tiffany's Breakfast	Item Drop: [min(40,T)]
 # Timer 1
@@ -5448,8 +5457,10 @@ Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Precision of the Penguin	Critical Hit Percent: [Y]
 # Pulverize
+Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 # Really Expensive Jewelrycrafting
 Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
+Riding the Lightning	Maximum MP Percent: +100
 # Saucemaven Get more Adventures from the saucy food you eat
 # Salacious Cocktailcrafting
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
