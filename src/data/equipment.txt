@@ -493,6 +493,7 @@ sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
+thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 transparent pants	225	Mox: 200
@@ -564,6 +565,7 @@ duct tape shirt	195	Mus: 82
 extra-see-thru nightie	200	Mus: 200
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
+famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
@@ -1981,6 +1983,7 @@ Lockenstock&trade; sandals	160	Mys: 65
 lollipop cufflinks	0	none
 long-forgotten necklace	200	Mys: 85
 Lord Spookyraven's ear trumpet	150	Mys: 20
+Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's spectacles	10	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
