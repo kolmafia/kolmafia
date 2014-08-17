@@ -7397,6 +7397,14 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.LIGHTNING_MILK );
 			}
 			break;
+
+		case 970:
+			// Rainy Fax Dreams on your Wedding Day
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
