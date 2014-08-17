@@ -1672,11 +1672,11 @@ cigarette girl	ciggirl.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000
 Mob penguin entrepreneur	moonstriner.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: penguin Meat: 32-48	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
 # Heavy Rains
-alley catfish		catfish whiskers (0)
-aquaconda	Atk: 80 Def: 80 HP: 120 Init: 80 P: beast	aquaconda brain (n100)
-freshwater bonefish		freshwater fishbone (0)	freshwater fishbone (0)
-giant isopod		freshwater fishbone (0)
+alley catfish			catfish whiskers (0)
+aquaconda		Atk: 80 Def: 80 HP: 120 Init: 80 P: beast	aquaconda brain (n100)
+freshwater bonefish			freshwater fishbone (0)	freshwater fishbone (0)
+giant isopod			freshwater fishbone (0)
 giant tardigrade	tardigrade.gif	Atk: 40 Def: 40 HP: 60 Init: 40 P: bug	thunder thigh (n100)
-gourmet gourami		gourmet gourami oil (0)
-piranhadon		freshwater fishbone (0)	freshwater fishbone (0)	freshwater fishbone (0)
+gourmet gourami			gourmet gourami oil (0)
+piranhadon			freshwater fishbone (0)	freshwater fishbone (0)	freshwater fishbone (0)
 storm cow	stormcow.gif	Atk: 160 Def: 160 HP: 240 Init: 160 P: beast	lightning milk (n100)
