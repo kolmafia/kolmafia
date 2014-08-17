@@ -2473,3 +2473,6 @@ space beast fur whip	SMITH	space beast fur	whip kit
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water
+
+# The Confiscator's Grimoire
+rubber cape	MUSE	rubber nubbin (11)

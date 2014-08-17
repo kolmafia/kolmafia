@@ -460,6 +460,7 @@ giant giant moth	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 P: bug	giant giant mot
 giant jungle python	python.gif	Atk: 90 Def: 81 HP: 100 Init: 40 P: beast
 giant octopus	watertentacle.gif	Atk: 90 Def: 90 HP: 90 Init: 80 P: fish
 Giant Pair of Tweezers		HP: 8 Def: 16 Atk: 16
+giant rubber spider	rubberspider.gif	Atk: [MOX+3+max(ML,0)] Def: [MUS+3+max(ML,0)] HP: [0.75*(MUS+3+max(ML,0))] Exp: [(STAT+3+max(ML,0))/4] Init: -10000 P: bug	rubber nubbin (100)
 giant sandworm	sandworm.gif	Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 200-300 P: bug	spices (10)	spices (10)	spices (10)	spice melange (n0)
 giant skeelton	giantskel.gif	Atk: 71 Def: 65 HP: 120 Exp: [53+ML/4] Init: 60 E: spooky P: undead	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 giant spider	tarantula.gif	Atk: 90 Def: 81 HP: 90 Init: 60 P: bug
