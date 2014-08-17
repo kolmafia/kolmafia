@@ -140,6 +140,7 @@
 114	Sloppy Secrets	knifefork.gif	0	0	0
 115	Alien Source Code	dna.gif	0	0	0
 116	Hollow Leg	hollowleg.gif	0	0	0
+117	Belch the Rainbow	rrainbow.gif	5	5	0
 
 # Skills available to Clubbers
 
