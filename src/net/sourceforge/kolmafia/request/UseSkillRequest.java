@@ -404,6 +404,10 @@ public class UseSkillRequest
 		{
 			maxPossible = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( skillId );
 		}
+		else if ( SkillDatabase.isThunderSkill( skillId ) )
+		{
+			maxPossible = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( skillId );
+		}
 		else
 		{
 			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
@@ -779,6 +783,7 @@ public class UseSkillRequest
 		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
 		int advCost = SkillDatabase.getAdventureCost( this.skillId );
 		int soulCost = SkillDatabase.getSoulsauceCost( this.skillId );
+		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
 		// Currently only one of these costs will be true
 		if ( advCost > 0 )
 		{
@@ -791,6 +796,10 @@ public class UseSkillRequest
 		else if ( this.skillId == SkillPool.SUMMON_ANNOYANCE )
 		{
 			this.lastStringForm = this.skillName + " (" + Preferences.getInteger( "summonAnnoyanceCost" ) + " swagger)";
+		}
+		else if ( thunderCost > 0 )
+		{
+			this.lastStringForm = this.skillName + " (" + thunderCost + " dB of thunder)";
 		}
 		else
 		{
@@ -1053,6 +1062,7 @@ public class UseSkillRequest
 		String originalTarget = this.target;
 		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
 		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
+		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
 
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{
@@ -1071,6 +1081,13 @@ public class UseSkillRequest
 			if ( soulsauceCost > 0 && KoLCharacter.getSoulsauce() < soulsauceCost )
 			{
 				UseSkillRequest.lastUpdate = "Your maximum soulsauce is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			if ( thunderCost > 0 && KoLCharacter.getThunder() < thunderCost )
+			{
+				UseSkillRequest.lastUpdate = "Your maximum thunder is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
 			}
@@ -1204,6 +1221,10 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isSoulsauceSkill( this.skillId ) )
 		{
 			currentCast = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( this.skillId );
+		}
+		else if ( SkillDatabase.isThunderSkill( this.skillId ) )
+		{
+			currentCast = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( this.skillId );
 		}
 		else
 		{
@@ -1999,7 +2020,12 @@ public class UseSkillRequest
 		{
 			KoLCharacter.decrementSoulsauce( SkillDatabase.getSoulsauceCost( skillId ) * count );
 		}
-		
+
+		if ( SkillDatabase.isThunderSkill( skillId ) )
+		{
+			KoLCharacter.decrementThunder( SkillDatabase.getThunderCost( skillId ) * count );
+		}
+
 		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 
 		return false;
@@ -2141,6 +2167,10 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
 			maxcasts = KoLCharacter.getSoulsauce() / SkillDatabase.getSoulsauceCost( skillId );
+		}
+		else if ( SkillDatabase.isThunderSkill( skillId ) )
+		{
+			maxcasts = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( skillId );
 		}
 		else
 		{

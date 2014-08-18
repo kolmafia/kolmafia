@@ -244,4 +244,9 @@ public class SkillPool
 	public static final int WALK_AWAY_FROM_EXPLOSION = 15030;
 	public static final int INCITE_RIOT = 15031;
 	public static final int THUNDER_CLAP = 16001;
+	public static final int THUNDERCLOUD = 16002;
+	public static final int THUNDER_BIRD = 16003;
+	public static final int THUNDERHEART = 16004;
+	public static final int THUNDERSTRIKE = 16005;
+	public static final int THUNDER_DOWN_UNDERWEAR = 16006;
 }
