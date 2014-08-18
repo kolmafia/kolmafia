@@ -7683,7 +7683,7 @@
 7664	Ancient Protector Soda	364350526	soda.gif	usable	t,d	50
 7665	liquid ice	665942732	lightvial.gif	usable	t,d	10000
 7666	Wet Russian	663498190	rocks.gif	drink	t,d	140
-7667
+7667	filet of The Fish	629586752	gnatfilet.gif	food	t,d	140
 7668	Thwaitgold spider	253844172	thwaitspider.gif	none		0
 7669	thunder down underwear	729675249	downunderwear.gif	pants	q	0
 7670	famous blue raincoat	119922097	raincoat.gif	shirt	q	0

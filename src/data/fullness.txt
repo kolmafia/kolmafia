@@ -248,6 +248,7 @@ festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fettucini Inconnu	6	6	awesome	22-27	0	0	47-52
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
+filet of The Fish	3	11	EPIC	0	0	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
 fishy fish	2	8	good	3-9	0	0	26-33
