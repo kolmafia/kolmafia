@@ -8041,7 +8041,14 @@ public abstract class ChoiceManager
 			// Set all folder slots from the response text
 			EquipmentRequest.parseFolders( text );
 			break;
-			
+	
+		case 786:
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.autoCreate( ItemPool.MCCLUSKY_FILE );
+			}
+			break;			
+
 		case 810:
 			if ( ChoiceManager.lastDecision == 2 )
 			{
