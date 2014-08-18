@@ -1534,6 +1534,24 @@ public class RelayRequest
 		// Sometimes, people want the MCD rewards from various boss monsters.
 		// Let's help out.
 
+		// This one's for Baron von Ratsworth, who has special items at 2 and 9.
+		if ( path.startsWith( "cellar.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			String square = this.getFormField( "whichspot" );
+			String baron = TavernManager.baronSquare();
+			if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
+			{
+				return this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
+			}
+			return false;
+		}
+
+		if ( KoLCharacter.inRaincore() )
+		{
+			return false;
+		}
+
 		// This one's for the Boss Bat, who has special items at 4 and 8.
 		if ( path.startsWith( "adventure.php" ) )
 		{
@@ -1549,38 +1567,29 @@ public class RelayRequest
 				}
 				return this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 			}
+			return false;
 		}
 
 		// This one is for the Knob Goblin King, who has special items at 3 and 7.
-		else if ( path.startsWith( "cobbsknob.php" ) )
+		if ( path.startsWith( "cobbsknob.php" ) )
 		{
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
 			{
 				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "codpiece.gif" );
 			}
+			return false;
 		}
 
 		// This one is for the Bonerdagon, who has special items at 5 and 10.
-		else if ( path.startsWith( "crypt.php" ) )
+		if ( path.startsWith( "crypt.php" ) )
 		{
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
 			{
 				return this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 			}
-		}
-
-		// This one's for Baron von Ratsworth, who has special items at 2 and 9.
-		else if ( path.startsWith( "cellar.php" ) )
-		{
-			String action = this.getFormField( "action" );
-			String square = this.getFormField( "whichspot" );
-			String baron = TavernManager.baronSquare();
-			if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
-			{
-				return this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
-			}
+			return false;
 		}
 
 		return false;
