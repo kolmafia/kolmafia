@@ -156,7 +156,7 @@ public abstract class TopMenuDecorator
 
 		buffer.append( "&nbsp;" );
 
-		buffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
+		buffer.append( "<input type=\"button\" value=\"exec\" onClick=\"" );
 		buffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
 		buffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + escape(script) + '&pwd=" );
 		buffer.append( GenericRequest.passwordHash );
