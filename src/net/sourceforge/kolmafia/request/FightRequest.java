@@ -159,7 +159,6 @@ public class FightRequest
 	private static String consultScriptThatDidNothing = null;
 	public static boolean waitingForSpecial;
 	public static String ireallymeanit = null;
-	public static boolean ignoreSpecialEncounter = false;
 
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
@@ -229,6 +228,9 @@ public class FightRequest
 
 	private static final Pattern THUNDER_PATTERN =
 		Pattern.compile( "swallow <b>(\\d+)</b> dB of it" );
+
+	private static final Pattern RAIN_PATTERN =
+		Pattern.compile( "recovering <b>(\\d+)</b> drops" );
 
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
@@ -2942,26 +2944,42 @@ public class FightRequest
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
-		// Check for Soulsauce gain
-		Matcher SoulsauceMatcher = FightRequest.SOULSAUCE_PATTERN.matcher( FightRequest.lastResponseText );
-		if ( SoulsauceMatcher.find() )
+		if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 		{
-			String gainSoulsauce = SoulsauceMatcher.group( 1 );
-			KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( gainSoulsauce ) );
-			String updateMessage = "You gain " + gainSoulsauce + " Soulsauce";
-			RequestLogger.updateSessionLog( updateMessage );
-			KoLmafia.updateDisplay( updateMessage );
+			// Check for Soulsauce gain
+			Matcher SoulsauceMatcher = FightRequest.SOULSAUCE_PATTERN.matcher( FightRequest.lastResponseText );
+			if ( SoulsauceMatcher.find() )
+			{
+				String gainSoulsauce = SoulsauceMatcher.group( 1 );
+				KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( gainSoulsauce ) );
+				String updateMessage = "You gain " + gainSoulsauce + " Soulsauce";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
 		}
 
-		// Check for Thunder gain
-		Matcher ThunderMatcher = FightRequest.THUNDER_PATTERN.matcher( FightRequest.lastResponseText );
-		if ( ThunderMatcher.find() )
+		if ( KoLCharacter.inRaincore() )
 		{
-			String gainThunder = ThunderMatcher.group( 1 );
-			KoLCharacter.incrementThunder( StringUtilities.parseInt( gainThunder ) );
-			String updateMessage = "You swallow " + gainThunder + " dB of Thunder";
-			RequestLogger.updateSessionLog( updateMessage );
-			KoLmafia.updateDisplay( updateMessage );
+			// Check for Thunder gain
+			Matcher thunderMatcher = FightRequest.THUNDER_PATTERN.matcher( FightRequest.lastResponseText );
+			if ( thunderMatcher.find() )
+			{
+				String gainThunder = thunderMatcher.group( 1 );
+				KoLCharacter.incrementThunder( StringUtilities.parseInt( gainThunder ) );
+				String updateMessage = "You swallow " + gainThunder + " dB of Thunder";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
+
+			Matcher rainMatcher = FightRequest.RAIN_PATTERN.matcher( FightRequest.lastResponseText );
+			if ( rainMatcher.find() )
+			{
+				String gain = rainMatcher.group( 1 );
+				KoLCharacter.incrementRain( StringUtilities.parseInt( gain ) );
+				String updateMessage = "You recover " + gain + " drops of Rain";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
 		}
 
 		// Lose Disco Momentum

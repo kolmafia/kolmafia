@@ -959,6 +959,58 @@ public class SkillDatabase
 		}
 	}
 
+	public static final boolean isRainSkill( final int skillId )
+	{
+		return SkillDatabase.getRainCost( skillId ) > 0;
+	}
+
+	public static final int getRainCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.RAIN_MAN:
+			return 50;
+		case SkillPool.RAINY_DAY:
+			return 20;
+		case SkillPool.MAKE_IT_RAIN:
+			return 10;
+		case SkillPool.RAIN_DANCE:
+			return 10;
+		case SkillPool.RAINBOW:
+			return 3;
+		case SkillPool.RAINCOAT:
+			return 40;
+		default:
+			return 0;
+		}
+	}
+
+	public static final boolean isLightningSkill( final int skillId )
+	{
+		return SkillDatabase.getLightningCost( skillId ) > 0;
+	}
+
+	public static final int getLightningCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.LIGHTNING_STRIKE:
+			return 20;
+		case SkillPool.CLEAN_HAIR_LIGHTNING:
+			return 10;
+		case SkillPool.BALL_LIGHTNING:
+			return 5;
+		case SkillPool.SHEET_LIGHTNING:
+			return 10;
+		case SkillPool.LIGHTNING_BOLT:
+			return 1;
+		case SkillPool.LIGHTNING_ROD:
+			return 20;
+		default:
+			return 0;
+		}
+	}
+
 	public static final int getAdventureCost( final int skillId )
 	{
 		switch ( skillId )

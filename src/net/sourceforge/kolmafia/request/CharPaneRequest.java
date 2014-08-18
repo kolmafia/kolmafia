@@ -637,6 +637,28 @@ public class CharPaneRequest
 			{
 				KoLCharacter.setThunder( 0 );
 			}
+			pattern = Pattern.compile( "Rain:</td><td align=left><b><font color=black>(\\d+) drops" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int thunder = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setRain( thunder );
+			}
+			else
+			{
+				KoLCharacter.setRain( 0 );
+			}
+			pattern = Pattern.compile( "Lightning:</td><td align=left><b><font color=black>(\\d+) bolts" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int thunder = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setLightning( thunder );
+			}
+			else
+			{
+				KoLCharacter.setLightning( 0 );
+			}
 		}
 
 	}
@@ -1226,6 +1248,16 @@ public class CharPaneRequest
 
 		//boolean casual = JSON.getInt( "casual" ) == 1;
 		int roninLeft = JSON.getInt( "roninleft" );
+
+		if ( KoLCharacter.inRaincore() )
+		{
+			int thunder = JSON.getInt( "thunder" );
+			KoLCharacter.setThunder( thunder );
+			int rain = JSON.getInt( "rain" );
+			KoLCharacter.setRain( rain );
+			int lightning = JSON.getInt( "lightning" );
+			KoLCharacter.setLightning( lightning );
+		}
 
 		// *** Assume that roninleft always equals 0 if casual
 		KoLCharacter.setRonin( roninLeft > 0 );
