@@ -2539,12 +2539,15 @@ public abstract class KoLCharacter
 		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
 	}
 
-	public static final int getWL()
+	public static final int getWaterLevel()
 	{
 		if ( !KoLCharacter.inRaincore() )
 		{
 			return 0;
 		}
+
+		int threshold = 40; // complete guess for now
+
 		int WL = 1;
 		String env = KoLCharacter.selectedLocation.getEnvironment();
 		if ( "underground".equals( env ) )
@@ -2555,6 +2558,12 @@ public abstract class KoLCharacter
 		{
 			WL = 3;
 		}
+		if ( KoLCharacter.selectedLocation.getRecommendedStat() >= threshold )
+		{
+			WL += 1;
+		}
+
+
 		return 1;
 	}
 

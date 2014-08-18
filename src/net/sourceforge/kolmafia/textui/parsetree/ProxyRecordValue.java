@@ -772,6 +772,7 @@ public class ProxyRecordValue
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
 			.add( "kisses", DataTypes.INT_TYPE )
+			.add( "recommended_stat", DataTypes.INT_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -861,6 +862,11 @@ public class ProxyRecordValue
 		public int get_kisses()
 		{
 			return FightRequest.dreadKisses( (KoLAdventure)this.content );
+		}
+
+		public int get_recommended_stat()
+		{
+			return ((KoLAdventure) this.content).getRecommendedStat();
 		}
 	}
 
