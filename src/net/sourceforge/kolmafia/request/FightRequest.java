@@ -220,13 +220,16 @@ public class FightRequest
 
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
-	
+
 	private static final Pattern DISCO_MOMENTUM_PATTERN =
 		Pattern.compile( "discomo(\\d).gif" );
-	
+
 	private static final Pattern SOULSAUCE_PATTERN =
 		Pattern.compile( "You absorb (\\d+) Soulsauce" );
-	
+
+	private static final Pattern THUNDER_PATTERN =
+		Pattern.compile( "swallow <b>(\\d+)</b> dB of it" );
+
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
@@ -2946,6 +2949,17 @@ public class FightRequest
 			String gainSoulsauce = SoulsauceMatcher.group( 1 );
 			KoLCharacter.incrementSoulsauce( StringUtilities.parseInt( gainSoulsauce ) );
 			String updateMessage = "You gain " + gainSoulsauce + " Soulsauce";
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+
+		// Check for Thunder gain
+		Matcher ThunderMatcher = FightRequest.THUNDER_PATTERN.matcher( FightRequest.lastResponseText );
+		if ( ThunderMatcher.find() )
+		{
+			String gainThunder = ThunderMatcher.group( 1 );
+			KoLCharacter.incrementThunder( StringUtilities.parseInt( gainThunder ) );
+			String updateMessage = "You swallow " + gainThunder + " dB of Thunder";
 			RequestLogger.updateSessionLog( updateMessage );
 			KoLmafia.updateDisplay( updateMessage );
 		}

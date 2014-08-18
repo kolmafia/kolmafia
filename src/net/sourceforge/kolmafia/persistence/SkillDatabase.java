@@ -933,6 +933,32 @@ public class SkillDatabase
 		}
 	}
 
+	public static final boolean isThunderSkill( final int skillId )
+	{
+		return SkillDatabase.getThunderCost( skillId ) > 0;
+	}
+
+	public static final int getThunderCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.THUNDER_CLAP:
+			return 40;
+		case SkillPool.THUNDERCLOUD:
+			return 20;
+		case SkillPool.THUNDER_BIRD:
+			return 1;
+		case SkillPool.THUNDERHEART:
+			return 20;
+		case SkillPool.THUNDERSTRIKE:
+			return 5;
+		case SkillPool.THUNDER_DOWN_UNDERWEAR:
+			return 60;
+		default:
+			return 0;
+		}
+	}
+
 	public static final int getAdventureCost( final int skillId )
 	{
 		switch ( skillId )

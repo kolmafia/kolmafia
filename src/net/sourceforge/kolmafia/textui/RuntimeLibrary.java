@@ -822,6 +822,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_audience", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_thunder", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_maxfury", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -912,6 +915,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "soulsauce_cost", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "thunder_cost", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "turns_per_cast", DataTypes.INT_TYPE, params ) );
@@ -4068,6 +4074,11 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getAudience() );
 	}
 
+	public static Value my_thunder( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getThunder() );
+	}
+
 	public static Value my_meat( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAvailableMeat() );
@@ -4240,6 +4251,11 @@ public abstract class RuntimeLibrary
 	public static Value soulsauce_cost( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getSoulsauceCost( (int) skill.intValue() ) );
+	}
+
+	public static Value thunder_cost( Interpreter interpreter, final Value skill )
+	{
+		return new Value( SkillDatabase.getThunderCost( (int) skill.intValue() ) );
 	}
 
 	public static Value turns_per_cast( Interpreter interpreter, final Value skill )

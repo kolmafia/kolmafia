@@ -622,6 +622,23 @@ public class CharPaneRequest
 				KoLCharacter.setAudience( 0 );
 			}
 		}
+
+		// Path rather than class restricted matchers
+		if ( KoLCharacter.inRaincore() )
+		{
+			pattern = Pattern.compile( "Thunder:</td><td align=left><b><font color=black>(\\d+) dBs" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int thunder = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setThunder( thunder );
+			}
+			else
+			{
+				KoLCharacter.setThunder( 0 );
+			}
+		}
+
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )

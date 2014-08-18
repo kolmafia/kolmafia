@@ -329,6 +329,8 @@ public abstract class KoLCharacter
 	private static int disco_momentum = 0;
 	private static int audience = 0;
 	
+	private static int thunder = 0;
+
 	public static final int MAX_BASEPOINTS = 65535;
 
 	static { resetTriggers(); }
@@ -464,7 +466,9 @@ public abstract class KoLCharacter
 		KoLCharacter.fury = 0;
 		KoLCharacter.soulsauce = 0;
 		KoLCharacter.disco_momentum = 0;
-		
+
+		KoLCharacter.thunder = 0;
+
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
@@ -1150,12 +1154,12 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.setSoulsauce( KoLCharacter.soulsauce - decSoulsauce );
 	}		
-	
+
 	public static final int getDiscoMomentum()
 	{
 		return KoLCharacter.disco_momentum;
 	}
-	
+
 	public static final void setDiscoMomentum( final int newDiscoMomentum )
 	{
 		KoLCharacter.disco_momentum = newDiscoMomentum;
@@ -1165,7 +1169,7 @@ public abstract class KoLCharacter
 	{
 		disco_momentum = 0;
 	}
-	
+
 	public static final int getAudience()
 	{
 		return KoLCharacter.audience;
@@ -1192,6 +1196,31 @@ public abstract class KoLCharacter
 	public static final void decrementAudience( final int decAudience )
 	{
 		KoLCharacter.setAudience( KoLCharacter.audience - decAudience );
+	}
+
+	public static final int getThunder()
+	{
+		return KoLCharacter.thunder;
+	}
+
+	public static final void setThunder( final int newThunder )
+	{
+		KoLCharacter.thunder = newThunder > 100 ? 100 : newThunder > 0 ? newThunder : 0;
+	}
+
+	public static final void resetThunder()
+	{
+		KoLCharacter.thunder = 0;
+	}
+	
+	public static final void incrementThunder( final int incThunder )
+	{
+		KoLCharacter.setThunder( KoLCharacter.thunder + incThunder );
+	}
+	
+	public static final void decrementThunder( final int decThunder )
+	{
+		KoLCharacter.setThunder( KoLCharacter.thunder - decThunder );
 	}
 
 	public static final int getPvpRank()
