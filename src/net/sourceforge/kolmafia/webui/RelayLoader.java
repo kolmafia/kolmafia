@@ -38,7 +38,6 @@ import com.centerkey.BareBonesBrowserLaunch;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -58,7 +57,7 @@ public class RelayLoader
 
 		if ( isRelayLocation )
 		{
-			StringBuffer locationBuffer = new StringBuffer();
+			StringBuilder locationBuffer = new StringBuilder();
 
 			if ( !location.startsWith( "/" ) )
 			{
@@ -102,7 +101,7 @@ public class RelayLoader
 				pauser.pause( 200 );
 			}
 
-			location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
+			location = "http://localhost:" + RelayServer.getPort() + this.location;
 		}
 
 		BareBonesBrowserLaunch.openURL( preferredBrowser, location );

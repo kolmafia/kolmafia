@@ -166,7 +166,7 @@ public class RelayServer
 			}
 			else
 			{
-				this.serverSocket = new ServerSocket( RelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
+				this.serverSocket = new ServerSocket( RelayServer.port, 25, InetAddress.getByName( "localhost" ) );
 			}
 
 			return true;
