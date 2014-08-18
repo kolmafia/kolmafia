@@ -2868,6 +2868,7 @@ public class UseItemRequest
 		case ItemPool.DINER_HANDBOOK:
 		case ItemPool.ALIEN_SOURCE_CODE:
 		case ItemPool.ALIEN_SOURCE_CODE_USED:
+		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) && !responseText.contains( "place the Grimoire on the bookshelf" ) )
 			{
@@ -4957,6 +4958,8 @@ public class UseItemRequest
 		case ItemPool.ALIEN_SOURCE_CODE:
 		case ItemPool.ALIEN_SOURCE_CODE_USED:
 			return "Alien Source Code";
+		case ItemPool.BEAUTIFUL_RAINBOW:
+			return "Belch The Rainbow";
 		}
 
 		return null;

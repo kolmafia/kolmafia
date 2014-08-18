@@ -2090,6 +2090,7 @@ public class ItemPool
 	public static final int AQUA_BRAIN = 7647;
 	public static final int THUNDER_THIGH = 7648;
 	public static final int CONFISCATOR_BOOK = 7706;
+	public static final int BEAUTIFUL_RAINBOW = 7712;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
