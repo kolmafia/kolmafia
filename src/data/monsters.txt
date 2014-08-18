@@ -1677,7 +1677,7 @@ alley catfish	catfish.gif		catfish whiskers (0)
 Aquabat	aquabat.gif	BOSS Atk: 36 Def: 34 HP: 36 Init: 50 P: beast	neoprene skullcap (n100)
 aquaconda	aquaconda.gif	Atk: 80 Def: 80 HP: 120 Init: 80 P: beast	aquaconda brain (n100)
 Aquagoblin	aquagoblin.gif	BOSS Atk: 55 Def: 50 HP: 69 Init: 50 P: goblin	goblin water (n100)
-Auqadargon	aquadargon.gif	BOSS Atk: 99 Def: 90 HP: 140 Init: 90 P: undead
+Auqadargon	aquadargon.gif	BOSS Atk: 99 Def: 90 HP: 140 Init: 90 P: undead	chest of the Bonerdagon (n100)
 Big Wisnaqua	aquaniewski.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	Wet Russian (n100)
 Dr. Aquard	aquard.gif	BOSS Atk: 180 Def: 165 HP: 260 Init: -10000 P: dude	Sogg-Os (n100)	dumb mud (n100)
 freshwater bonefish	bonefish.gif		freshwater fishbone (0)	freshwater fishbone (0)

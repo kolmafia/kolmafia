@@ -1682,6 +1682,20 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.FINISHED );
 			break;
 
+		case ItemPool.NEOPRENE_SKULLCAP:
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
+			}
+			break;
+
+		case ItemPool.GOBLIN_WATER:
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+			}
+			break;
+
 		case ItemPool.HAND_CARVED_BOKKEN:
 		case ItemPool.HAND_CARVED_BOW:
 		case ItemPool.HAND_CARVED_STAFF:
