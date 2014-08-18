@@ -66,7 +66,6 @@ import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 // Perhaps we should have a DataModel.java?
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 
@@ -336,9 +335,9 @@ public interface KoLConstants
 	public static final String CCS_DIRECTORY = "ccs/";
 	public static final String CHATLOG_DIRECTORY = "chats/";
 	public static final String PLOTS_DIRECTORY = "planting/";
+	public static final String RELAY_DIRECTORY = "relay/";
 	public static final String SCRIPT_DIRECTORY = "scripts/";
 	public static final String SESSIONS_DIRECTORY = "sessions/";
-	public static final String RELAY_DIRECTORY = "relay/";
 	public static final String SVN_DIRECTORY = "svn/";
 
 	public static final File BUFFBOT_LOCATION =
@@ -389,7 +388,7 @@ public interface KoLConstants
 
 	// The current version number of each data file
 
-	public static final int ADVENTURES_VERSION = 5;
+	public static final int ADVENTURES_VERSION = 6;
 	public static final int BOUNTY_VERSION = 2;
 	public static final int BUFFBOTS_VERSION = 1;
 	public static final int CLASSSKILLS_VERSION = 4;

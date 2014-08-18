@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,6 +95,7 @@ public class AdventureDatabase
 	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
+	private static final HashMap<String, Integer> statLookup = new HashMap<String, Integer>();
 
 	static
 	{
@@ -194,9 +196,29 @@ public class AdventureDatabase
 
 			String zone = new String( data[ 0 ] );
 			String[] location = data[ 1 ].split( "=" );
-			boolean hasCloverAdventure = data[ 2 ].equals( "true" );
-			String environment = new String( data[ 3 ] );
-			String name = new String( data[ 4 ] );
+
+			String environment = null;
+			int stat = -1;
+			boolean hasCloverAdventure = false;
+			StringTokenizer tokens = new StringTokenizer( data[ 2 ], " " );
+			while ( tokens.hasMoreTokens() )
+			{
+				String option = tokens.nextToken();
+				if ( option.equals( "clover" ) )
+				{
+					hasCloverAdventure = true;
+				}
+				else if ( option.equals( "Env:" ) )
+				{
+					environment = tokens.nextToken();
+				}
+				else if ( option.equals( "Stat:" ) )
+				{
+					stat = StringUtilities.parseInt( tokens.nextToken() );
+				}
+			}
+
+			String name = new String( data[ 3 ] );
 
 			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
 			{
@@ -212,16 +234,22 @@ public class AdventureDatabase
 
 			AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
 
+			if ( environment == null )
+			{
+				RequestLogger.printLine( name + " is missing environment data" );
+			}
 			AdventureDatabase.environmentLookup.put( name, environment );
 
-			if ( data.length <= 5 )
+			AdventureDatabase.statLookup.put( name, stat );
+
+			if ( data.length <= 4 )
 			{
 				continue;
 			}
 
-			if ( !data[ 5 ].equals( "" ) )
+			if ( !data[ 4 ].equals( "" ) )
 			{
-				AdventureDatabase.conditionLookup.put( name, new String( data[ 5 ] ) );
+				AdventureDatabase.conditionLookup.put( name, new String( data[ 4 ] ) );
 			}
 		}
 
@@ -486,7 +514,7 @@ public class AdventureDatabase
 		if ( bounty != null && !bounty.equals( "" ) )
 		{
 			String easyBountyId = Preferences.getString( "currentEasyBountyItem" );
-			if ( !easyBountyId.equals( "" ) && easyBountyId != null )
+			if ( !easyBountyId.equals( "" ) )
 			{
 				if ( bounty.equals( easyBountyId.substring( 0, easyBountyId.indexOf( ":" ) ) ) )
 				{
@@ -495,7 +523,7 @@ public class AdventureDatabase
 			}
 
 			String hardBountyId = Preferences.getString( "currentHardBountyItem" );
-			if ( !hardBountyId.equals( "" ) && hardBountyId != null )
+			if ( !hardBountyId.equals( "" ) )
 			{
 				if ( bounty.equals( hardBountyId.substring( 0, hardBountyId.indexOf( ":" ) ) ) )
 				{
@@ -504,7 +532,7 @@ public class AdventureDatabase
 			}
 
 			String specialBountyId = Preferences.getString( "currentSpecialBountyItem" );
-			if ( !specialBountyId.equals( "" ) && specialBountyId != null )
+			if ( !specialBountyId.equals( "" ) )
 			{
 				if ( bounty.equals( specialBountyId.substring( 0, specialBountyId.indexOf( ":" ) ) ) )
 				{
@@ -713,7 +741,7 @@ public class AdventureDatabase
 			"fistTeachingsBarroomBrawl",
 		},
 		{
-			"Haunted Conservatory",
+			"The Haunted Conservatory",
 			IntegerPool.get( AdventurePool.HAUNTED_CONSERVATORY ),
 			"fistTeachingsConservatory",
 		},
@@ -803,6 +831,11 @@ public class AdventureDatabase
 	public static final String getEnvironment( String adventureName )
 	{
 		return AdventureDatabase.environmentLookup.get( adventureName );
+	}
+
+	public static final int getRecommendedStat( String adventureName )
+	{
+		return AdventureDatabase.statLookup.get( adventureName );
 	}
 
 	public static class AdventureArray
