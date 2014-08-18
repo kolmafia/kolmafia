@@ -330,6 +330,8 @@ public abstract class KoLCharacter
 	private static int audience = 0;
 	
 	private static int thunder = 0;
+	private static int rain = 0;
+	private static int lightning = 0;
 
 	public static final int MAX_BASEPOINTS = 65535;
 
@@ -1221,6 +1223,46 @@ public abstract class KoLCharacter
 	public static final void decrementThunder( final int decThunder )
 	{
 		KoLCharacter.setThunder( KoLCharacter.thunder - decThunder );
+	}
+
+	public static final int getRain()
+	{
+		return KoLCharacter.rain;
+	}
+
+	public static final void setRain( final int newRain )
+	{
+		KoLCharacter.rain = newRain > 100 ? 100 : newRain > 0 ? newRain : 0;
+	}
+
+	public static final void incrementRain( final int incRain )
+	{
+		KoLCharacter.setThunder( KoLCharacter.rain + incRain );
+	}
+
+	public static final void decrementRain( final int decRain )
+	{
+		KoLCharacter.setThunder( KoLCharacter.rain - decRain );
+	}
+
+	public static final int getLightning()
+	{
+		return KoLCharacter.lightning;
+	}
+
+	public static final void setLightning( final int newLightning )
+	{
+		KoLCharacter.rain = newLightning > 100 ? 100 : newLightning > 0 ? newLightning : 0;
+	}
+
+	public static final void incrementLightning( final int incLightning )
+	{
+		KoLCharacter.setLightning( KoLCharacter.lightning + incLightning );
+	}
+
+	public static final void decrementLightning( final int decLightning )
+	{
+		KoLCharacter.setLightning( KoLCharacter.lightning - decLightning );
 	}
 
 	public static final int getPvpRank()
@@ -2493,6 +2535,25 @@ public abstract class KoLCharacter
 	public static final int currentPrismaticDamage()
 	{
 		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
+	}
+
+	public static final int getWL()
+	{
+		if ( !KoLCharacter.inRaincore() )
+		{
+			return 0;
+		}
+		int WL = 1;
+		String env = KoLCharacter.selectedLocation.getEnvironment();
+		if ( "underground".equals( env ) )
+		{
+			WL = 5;
+		}
+		else if ( "indoor".equals( env ) )
+		{
+			WL = 3;
+		}
+		return 1;
 	}
 
 	/**
@@ -5302,7 +5363,7 @@ public abstract class KoLCharacter
 		}
 		return smithsness;
 	}
-	
+
 	// Per-character settings that change each ascension
 
 	public static final void ensureUpdatedDwarfFactory()

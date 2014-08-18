@@ -408,6 +408,14 @@ public class UseSkillRequest
 		{
 			maxPossible = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( skillId );
 		}
+		else if ( SkillDatabase.isRainSkill( skillId ) )
+		{
+			maxPossible = KoLCharacter.getRain() / SkillDatabase.getRainCost( skillId );
+		}
+		else if ( SkillDatabase.isLightningSkill( skillId ) )
+		{
+			maxPossible = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( skillId );
+		}
 		else
 		{
 			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
@@ -576,7 +584,7 @@ public class UseSkillRequest
 		// Rainbow Gravitation can be cast 3 times per day.  Each
 		// casting consumes five elemental wads and a twinkly wad
 
-		case SkillPool.RAINBOW:
+		case SkillPool.RAINBOW_GRAVITATION:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "prismaticSummons" ), 0 );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.COLD_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.HOT_WAD ), maximumCast );
@@ -784,6 +792,8 @@ public class UseSkillRequest
 		int advCost = SkillDatabase.getAdventureCost( this.skillId );
 		int soulCost = SkillDatabase.getSoulsauceCost( this.skillId );
 		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
+		int rainCost = SkillDatabase.getRainCost( skillId );
+		int lightningCost = SkillDatabase.getRainCost( skillId );
 		// Currently only one of these costs will be true
 		if ( advCost > 0 )
 		{
@@ -800,6 +810,14 @@ public class UseSkillRequest
 		else if ( thunderCost > 0 )
 		{
 			this.lastStringForm = this.skillName + " (" + thunderCost + " dB of thunder)";
+		}
+		else if ( rainCost > 0 )
+		{
+			this.lastStringForm = this.skillName + " (" + rainCost + " drops of rain)";
+		}
+		else if ( lightningCost > 0 )
+		{
+			this.lastStringForm = this.skillName + " (" + lightningCost + " bolts of lightning)";
 		}
 		else
 		{
@@ -1063,6 +1081,8 @@ public class UseSkillRequest
 		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
 		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
 		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
+		int rainCost = SkillDatabase.getRainCost( this.skillId );
+		int lightningCost = SkillDatabase.getLightningCost( this.skillId );
 
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{
@@ -1088,6 +1108,20 @@ public class UseSkillRequest
 			if ( thunderCost > 0 && KoLCharacter.getThunder() < thunderCost )
 			{
 				UseSkillRequest.lastUpdate = "Your maximum thunder is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			if ( rainCost > 0 && KoLCharacter.getRain() < rainCost )
+			{
+				UseSkillRequest.lastUpdate = "Your maximum rain is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			if ( lightningCost > 0 && KoLCharacter.getLightning() < lightningCost )
+			{
+				UseSkillRequest.lastUpdate = "Your lightning lightning is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
 			}
@@ -1225,6 +1259,14 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isThunderSkill( this.skillId ) )
 		{
 			currentCast = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( this.skillId );
+		}
+		else if ( SkillDatabase.isRainSkill( this.skillId ) )
+		{
+			currentCast = KoLCharacter.getRain() / SkillDatabase.getRainCost( this.skillId );
+		}
+		else if ( SkillDatabase.isLightningSkill( this.skillId ) )
+		{
+			currentCast = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( this.skillId );
 		}
 		else
 		{
@@ -1791,7 +1833,7 @@ public class UseSkillRequest
 			Preferences.setBoolean( "rageGlandVented", true );
 			break;
 
-		case SkillPool.RAINBOW:
+		case SkillPool.RAINBOW_GRAVITATION:
 
 			// Each cast of Rainbow Gravitation consumes five
 			// elemental wads and a twinkly wad
@@ -2016,14 +2058,24 @@ public class UseSkillRequest
 			KoLConstants.usableSkills.sort();
 		}
 
-		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
+		else if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
 			KoLCharacter.decrementSoulsauce( SkillDatabase.getSoulsauceCost( skillId ) * count );
 		}
 
-		if ( SkillDatabase.isThunderSkill( skillId ) )
+		else if ( SkillDatabase.isThunderSkill( skillId ) )
 		{
 			KoLCharacter.decrementThunder( SkillDatabase.getThunderCost( skillId ) * count );
+		}
+
+		else if ( SkillDatabase.isRainSkill( skillId ) )
+		{
+			KoLCharacter.decrementRain( SkillDatabase.getRainCost( skillId ) * count );
+		}
+
+		else if ( SkillDatabase.isLightningSkill( skillId ) )
+		{
+			KoLCharacter.decrementLightning( SkillDatabase.getLightningCost( skillId ) * count );
 		}
 
 		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
@@ -2171,6 +2223,14 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isThunderSkill( skillId ) )
 		{
 			maxcasts = KoLCharacter.getThunder() / SkillDatabase.getThunderCost( skillId );
+		}
+		else if ( SkillDatabase.isRainSkill( skillId ) )
+		{
+			maxcasts = KoLCharacter.getRain() / SkillDatabase.getRainCost( skillId );
+		}
+		else if ( SkillDatabase.isLightningSkill( skillId ) )
+		{
+			maxcasts = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( skillId );
 		}
 		else
 		{

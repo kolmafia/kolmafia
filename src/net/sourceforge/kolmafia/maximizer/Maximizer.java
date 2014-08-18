@@ -228,6 +228,8 @@ public class Maximizer
 			int mpCost = 0;
 			int soulsauceCost = 0;
 			int thunderCost = 0;
+			int rainCost = 0;
+			int lightningCost = 0;
 			int duration = 0;
 			int usesRemaining = 0;
 			int itemsRemaining = 0;
@@ -471,6 +473,8 @@ public class Maximizer
 					advCost = SkillDatabase.getAdventureCost( skillId );
 					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
 					thunderCost = SkillDatabase.getThunderCost( skillId );
+					rainCost = SkillDatabase.getRainCost( skillId );
+					lightningCost = SkillDatabase.getLightningCost( skillId );
 					duration = SkillDatabase.getEffectDuration( skillId );
 					UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 					if ( skill != null )
@@ -947,6 +951,14 @@ public class Maximizer
 				if ( thunderCost > 0 )
 				{
 					text += thunderCost + " dB of thunder, ";
+				}
+				else if ( rainCost > 0 )
+				{
+					text += rainCost + " drops of rain, ";
+				}
+				else if ( lightningCost > 0 )
+				{
+					text += lightningCost + " bolts of lightning, ";
 				}
 				if ( price > 0 )
 				{

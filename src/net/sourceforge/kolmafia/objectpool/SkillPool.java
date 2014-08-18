@@ -53,7 +53,7 @@ public class SkillPool
 	public static final int WRATH = 25;
 	public static final int ENVY = 26;
 	public static final int PRIDE = 27;
-	public static final int RAINBOW = 44;
+	public static final int RAINBOW_GRAVITATION = 44;
 	public static final int RAGE_GLAND = 45;
 	public static final int GOTHY_HANDWAVE = 49;
 	public static final int BREAK_IT_ON_DOWN = 50;
@@ -249,4 +249,16 @@ public class SkillPool
 	public static final int THUNDERHEART = 16004;
 	public static final int THUNDERSTRIKE = 16005;
 	public static final int THUNDER_DOWN_UNDERWEAR = 16006;
+	public static final int RAIN_MAN = 16011;
+	public static final int RAINY_DAY = 16012;
+	public static final int MAKE_IT_RAIN = 16013;
+	public static final int RAIN_DANCE = 16014;
+	public static final int RAINBOW = 16015;
+	public static final int RAINCOAT = 16016;
+	public static final int LIGHTNING_STRIKE = 16021;
+	public static final int CLEAN_HAIR_LIGHTNING = 16022;
+	public static final int BALL_LIGHTNING = 16023;
+	public static final int SHEET_LIGHTNING = 16024;
+	public static final int LIGHTNING_BOLT = 16025;
+	public static final int LIGHTNING_ROD = 16026;
 }
