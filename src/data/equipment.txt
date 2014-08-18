@@ -1414,6 +1414,7 @@ Engorged Sausages and You	100	Mys: 35
 eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
 fancy opera glasses	50	Mys: 10
+fishbone catcher's mitt	0	none
 flaming talons	90	Mys: 30
 flimsy clipboard	50	Mus: 10	shield
 foon	30	none

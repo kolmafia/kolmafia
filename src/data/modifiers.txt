@@ -1644,6 +1644,7 @@ eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 fake hand	Weapon Damage: -1
 fancy opera glasses	Meat Drop: +5, Item Drop: +5
+# fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 flaming talons	Weapon Damage: +5, Hot Damage: +5
 flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
 foon	Mysticality: +2
