@@ -641,8 +641,8 @@ public class CharPaneRequest
 			matcher = pattern.matcher( responseText );
 			if ( matcher != null && matcher.find() )
 			{
-				int thunder = StringUtilities.parseInt( matcher.group( 1 ) );
-				KoLCharacter.setRain( thunder );
+				int rain = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setRain( rain );
 			}
 			else
 			{
@@ -652,8 +652,8 @@ public class CharPaneRequest
 			matcher = pattern.matcher( responseText );
 			if ( matcher != null && matcher.find() )
 			{
-				int thunder = StringUtilities.parseInt( matcher.group( 1 ) );
-				KoLCharacter.setLightning( thunder );
+				int lightning = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setLightning( lightning );
 			}
 			else
 			{

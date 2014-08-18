@@ -470,6 +470,8 @@ public abstract class KoLCharacter
 		KoLCharacter.disco_momentum = 0;
 
 		KoLCharacter.thunder = 0;
+		KoLCharacter.rain = 0;
+		KoLCharacter.lightning = 0;
 
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
@@ -1237,12 +1239,12 @@ public abstract class KoLCharacter
 
 	public static final void incrementRain( final int incRain )
 	{
-		KoLCharacter.setThunder( KoLCharacter.rain + incRain );
+		KoLCharacter.setRain( KoLCharacter.rain + incRain );
 	}
 
 	public static final void decrementRain( final int decRain )
 	{
-		KoLCharacter.setThunder( KoLCharacter.rain - decRain );
+		KoLCharacter.setRain( KoLCharacter.rain - decRain );
 	}
 
 	public static final int getLightning()
@@ -1252,7 +1254,7 @@ public abstract class KoLCharacter
 
 	public static final void setLightning( final int newLightning )
 	{
-		KoLCharacter.rain = newLightning > 100 ? 100 : newLightning > 0 ? newLightning : 0;
+		KoLCharacter.lightning = newLightning > 100 ? 100 : newLightning > 0 ? newLightning : 0;
 	}
 
 	public static final void incrementLightning( final int incLightning )
