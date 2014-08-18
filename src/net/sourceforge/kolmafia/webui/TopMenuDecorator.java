@@ -64,11 +64,39 @@ public abstract class TopMenuDecorator
 
 		case GenericRequest.MENU_FANCY:
 			// "fancy" (icons) style of topmenu.php
+			TopMenuDecorator.addFancyScriptMenus( buffer, location );
 			break;
 		}
 
 		// Send any logout link through KoLmafia's logout command so we clean up the GUI
 		StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
+	}
+
+	private static final void addFancyScriptMenus( final StringBuffer buffer, final String location )
+	{
+		int index = buffer.lastIndexOf( "<div id=\"awesome\"" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		StringBuilder menuBuffer = new StringBuilder();
+
+		menuBuffer.append( "<div style='position: absolute; z-index: 5; top: 40px; right: 0px; border-width: 1px color:#000000'>" );
+		menuBuffer.append( "<table cellpadding=0 cellspacing=0>" );
+
+		// Build Quick Scripts menu
+		TopMenuDecorator.addQuickScriptsMenu( menuBuffer );
+
+		// Build Relay Script menu
+		TopMenuDecorator.addRelayScriptsMenu( menuBuffer, location );
+
+		// Close the new row
+		menuBuffer.append( "</table>" );
+		menuBuffer.append( "</div>" );
+
+		// Insert menus into topmenu
+		buffer.insert( index, menuBuffer.toString() );
 	}
 
 	private static final void addScriptMenus( final StringBuffer buffer, final String location )
