@@ -1578,7 +1578,6 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
 			break;
 
-		case ItemPool.BINDER_CLIP:
 		case ItemPool.MCCLUSKY_FILE_PAGE5:
 			ResultProcessor.autoCreate( ItemPool.MCCLUSKY_FILE );
 			break;
