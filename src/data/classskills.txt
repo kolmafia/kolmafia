@@ -67,7 +67,7 @@
 41	Marginally Insane	halfcrazy.gif	0	0	0
 42	Raise Backup Dancer	tombstone.gif	5	120	0
 43	Creepy Lullaby	creepysleepy.gif	5	30	0
-44	Rainbow Gravitation	prismwad.gif	1	30	0
+44	Rainbow Gravitation	prismwad.gif	1	0	0
 45	Vent Rage Gland	ventrage.gif	3	15	5
 46	Slimy Sinews	slsinews.gif	0	0	0
 47	Slimy Synapses	slbrain.gif	0	0	0
