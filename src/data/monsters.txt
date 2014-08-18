@@ -1673,11 +1673,20 @@ cigarette girl	ciggirl.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000
 Mob penguin entrepreneur	moonstriner.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: penguin Meat: 32-48	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
 # Heavy Rains
-alley catfish			catfish whiskers (0)
-aquaconda		Atk: 80 Def: 80 HP: 120 Init: 80 P: beast	aquaconda brain (n100)
-freshwater bonefish			freshwater fishbone (0)	freshwater fishbone (0)
-giant isopod			freshwater fishbone (0)
+alley catfish	catfish.gif		catfish whiskers (0)
+Aquabat	aquabat.gif	BOSS Atk: 36 Def: 34 HP: 36 Init: 50 P: beast	neoprene skullcap (n100)
+aquaconda	aquaconda.gif	Atk: 80 Def: 80 HP: 120 Init: 80 P: beast	aquaconda brain (n100)
+Aquagoblin	aquagoblin.gif	BOSS Atk: 55 Def: 50 HP: 69 Init: 50 P: goblin	goblin water (n100)
+Auqadargon	aquadargon.gif	BOSS Atk: 99 Def: 90 HP: 140 Init: 90 P: undead
+Big Wisnaqua	aquaniewski.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	Wet Russian (n100)
+Dr. Aquard	aquard.gif	BOSS Atk: 180 Def: 165 HP: 260 Init: -10000 P: dude	Sogg-Os (n100)	dumb mud (n100)
+freshwater bonefish	bonefish.gif		freshwater fishbone (0)	freshwater fishbone (0)
+giant isopod	isopod.gif		freshwater fishbone (0)
 giant tardigrade	tardigrade.gif	Atk: 40 Def: 40 HP: 60 Init: 40 P: bug	thunder thigh (n100)
-gourmet gourami			gourmet gourami oil (0)
-piranhadon			freshwater fishbone (0)	freshwater fishbone (0)	freshwater fishbone (0)
+gourmet gourami	gourami.gif		gourmet gourami oil (0)
+Gurgle	gurgle.gif	BOSS Atk: 125 Def: 115 HP: 280 Init: 60 P: beast	liquid ice (n100)
+Lord Soggyraven	soggyraven.gif	BOSS Atk: 175 Def: 160 HP: 260 Init: 50 P: undead	Lord Soggyraven's Slippers (n100)
+piranhadon	piranhadon.gif		freshwater fishbone (0)	freshwater fishbone (0)	freshwater fishbone (0)
+Protector Spurt	spurt.gif	BOSS Atk: 170 Def: 160 HP: 140 Init: 50 P: undead	Ancient Protector Soda (n100)
 storm cow	stormcow.gif	Atk: 160 Def: 160 HP: 240 Init: 160 P: beast	lightning milk (n100)
+The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
