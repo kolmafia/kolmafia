@@ -1689,4 +1689,5 @@ Lord Soggyraven	soggyraven.gif	BOSS Atk: 175 Def: 160 HP: 260 Init: 50 P: undead
 piranhadon	piranhadon.gif		freshwater fishbone (0)	freshwater fishbone (0)	freshwater fishbone (0)
 Protector Spurt	spurt.gif	BOSS Atk: 170 Def: 160 HP: 140 Init: 50 P: undead	Ancient Protector Soda (n100)
 storm cow	stormcow.gif	Atk: 160 Def: 160 HP: 240 Init: 160 P: beast	lightning milk (n100)
+The Aquaman	theaquaman.gif	BOSS Atk: 260 Def: 240 HP: 200 Init: 60 P: dude	filet of The Fish (n100)
 The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
