@@ -1388,11 +1388,13 @@ user	choiceAdventure355	0
 user	choiceAdventure356	0
 user	choiceAdventure357	0
 user	choiceAdventure358	0
+user	choiceAdventure360	0
 user	choiceAdventure361	0
 user	choiceAdventure362	0
 user	choiceAdventure363	0
 user	choiceAdventure364	2
 user	choiceAdventure365	2
+user	choiceAdventure366	0
 user	choiceAdventure376	1
 user	choiceAdventure387	1
 user	choiceAdventure388	1

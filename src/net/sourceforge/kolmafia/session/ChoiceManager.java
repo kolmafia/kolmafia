@@ -1740,7 +1740,10 @@ public abstract class ChoiceManager
 
 		// Choice 359 is unknown
 
-		// Choice 360 is Cavern Entrance
+		// Cavern Entrance
+		new ChoiceAdventure(
+			"Memories", "choiceAdventure360", "Jungles: Wumpus Cave",
+			new Object[] { new Option( "skip adventure", 2 ) } ),
 
 		// Give it a Shot
 		new ChoiceAdventure(
@@ -1771,7 +1774,11 @@ public abstract class ChoiceManager
 			new Object[] { "Muscle",
 				       new Option( "multi-pass", "multi-pass" ) } ),
 
-		// Choice 366 is Entrance to the Forgotten City
+		// Entrance to the Forgotten City
+		new ChoiceAdventure(
+			"Memories", "choiceAdventure360", "Jungles: Forgotten City",
+			new Object[] { new Option( "skip adventure", 2 ) } ),
+
 		// Choice 367 is Ancient Temple (unlocked)
 		// Choice 368 is City Center
 		// Choice 369 is North Side of the City
@@ -1784,7 +1791,7 @@ public abstract class ChoiceManager
 
 		// Ancient Temple
 		new ChoiceAdventure(
-			"Memories", "choiceAdventure376", "The Jungles of Ancient Loathing",
+			"Memories", "choiceAdventure376", "Jungles: Ancient Temple",
 			new Object[] { "Enter the Temple", "leave" } ),
 
 		// Choice 377 is Southern Abandoned Building
