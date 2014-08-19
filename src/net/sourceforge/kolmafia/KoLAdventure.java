@@ -1130,10 +1130,31 @@ public class KoLAdventure
 
 		if ( !this.isValidAdventure )
 		{
-			String message = this.adventureId.equals( AdventurePool.HOBOPOLIS_SEWERS_ID ) ?
-				"Do not venture unprepared into the sewer tunnels!" :
-				"That area is not available.";
-			KoLmafia.updateDisplay( MafiaState.ERROR, message );
+			StringBuilder sewerMessage = new StringBuilder();
+			if (this.adventureId.equals( AdventurePool.HOBOPOLIS_SEWERS_ID )) {
+				sewerMessage.append("requireSewerTestItems is true so: ");
+				if (!(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 )))) {
+					sewerMessage.append("Equip a gatorskin umbrella. ");
+				}
+				if (!(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) ) ) ) {
+					sewerMessage.append("Equip a hobo code binder. ");
+				}
+				if (!InventoryManager.retrieveItem( ItemPool.SEWER_WAD )) {
+					sewerMessage.append("Acquire 1 sewer wad. ");
+				}
+				if (!InventoryManager.retrieveItem( ItemPool.OOZE_O )) {
+					sewerMessage.append("Acquire 1 bottle of Ooze-O. ");
+				}
+				if (!InventoryManager.retrieveItem( ItemPool.DUMPLINGS )) {
+					sewerMessage.append("Acquire 1 unfortunate dumpling. ");
+				}
+				if (!InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) ) {
+					sewerMessage.append("Acquire 3 oil of oiliness. ");
+				}
+			} else {
+				sewerMessage.append("That area is not available.");
+			}
+			KoLmafia.updateDisplay( MafiaState.ERROR, sewerMessage.toString() );
 			return;
 		}
 
