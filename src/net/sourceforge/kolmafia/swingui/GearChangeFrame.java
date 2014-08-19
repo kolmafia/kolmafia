@@ -1044,6 +1044,9 @@ public class GearChangeFrame
 			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
 		}
 
+		this.equipment[ EquipmentManager.WEAPON ].setEnabled( this.isEnabled && !KoLCharacter.inFistcore() );
+		this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled && !KoLCharacter.inFistcore() );
+
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 		FamiliarData selectedFamiliar = (FamiliarData) this.familiars.getSelectedItem();
 		if ( selectedFamiliar == null )
