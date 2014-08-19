@@ -69,6 +69,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 
+import net.sourceforge.kolmafia.session.EncounterManager;
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -90,7 +92,6 @@ public class AdventureDatabase
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
 	private static final HashMap<String, AreaCombatData> areaCombatData = new HashMap<String, AreaCombatData>();
 	private static final HashMap<String, KoLAdventure> adventureLookup = new HashMap<String, KoLAdventure>();
-	private static final HashMap<String, Boolean> cloverLookup = new HashMap<String, Boolean>();
 	private static final HashMap<String, String> environmentLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
@@ -237,8 +238,6 @@ public class AdventureDatabase
 			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
 			AdventureDatabase.adventureTable[ 2 ].add( new String( location[ 1 ] ) );
 			AdventureDatabase.adventureTable[ 3 ].add( name );
-
-			AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
 
 			if ( environment == null )
 			{
@@ -832,8 +831,8 @@ public class AdventureDatabase
 
 	public static boolean isPotentialCloverAdventure( String adventureName )
 	{
-		return AdventureDatabase.hasClover() &&
-		       cloverLookup.get( adventureName ) == Boolean.TRUE;
+		String encounter = EncounterManager.findEncounterForLocation( adventureName, EncounterType.CLOVER );
+		return encounter != null;
 	}
 
 	public static final String getEnvironment( String adventureName )

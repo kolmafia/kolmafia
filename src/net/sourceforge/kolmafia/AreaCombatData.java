@@ -537,6 +537,15 @@ public class AreaCombatData
 			buffer.append( encounter );
 		}
 
+		encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.CLOVER );
+
+		if ( null != encounter )
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Clover:</b> " );
+			buffer.append( encounter );
+		}
+
 		encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.GLYPH );
 
 		if ( null != encounter )
