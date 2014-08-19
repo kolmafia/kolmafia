@@ -1048,6 +1048,10 @@ public class ResponseTextParser
 				ResultProcessor.processItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1 );
 			}
 		}
+		else if ( skillName.equals( "Belch The Rainbow" ) )
+		{
+			Preferences.increment( "skillLevel117", 1 );
+		}
 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );

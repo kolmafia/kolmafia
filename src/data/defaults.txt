@@ -829,6 +829,7 @@ user	skillBurn15028	-100
 user	skillLevel46	0
 user	skillLevel47	0
 user	skillLevel48	0
+user	skillLevel117	0
 user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
 user	slimelingStacksDropped	0
