@@ -2542,7 +2542,7 @@ public abstract class KoLCharacter
 
 	public static final int getWaterDepth()
 	{
-		if ( !KoLCharacter.inRaincore() )
+		if ( !KoLCharacter.inRaincore() || KoLCharacter.selectedLocation == null )
 		{
 			return 0;
 		}
@@ -2559,7 +2559,7 @@ public abstract class KoLCharacter
 		{
 			WL = 3;
 		}
-		else if ( "underwater".equals( env ) )
+		else if ( "underwater".equals( env ) || "none".equals( env ) )
 		{
 			return 0;
 		}
