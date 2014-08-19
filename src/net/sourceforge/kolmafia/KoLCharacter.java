@@ -2542,7 +2542,7 @@ public abstract class KoLCharacter
 
 	public static final int getWaterDepth()
 	{
-		if ( !KoLCharacter.inRaincore() || KoLCharacter.selectedLocation == null )
+		if ( !KoLCharacter.inRaincore() )
 		{
 			return 0;
 		}
@@ -2550,22 +2550,33 @@ public abstract class KoLCharacter
 		int threshold = 40; // complete guess for now
 
 		int WL = 1;
-		String env = KoLCharacter.selectedLocation.getEnvironment();
-		if ( "underground".equals( env ) )
+		if ( KoLCharacter.selectedLocation != null )
 		{
-			WL = 5;
-		}
-		else if ( "indoor".equals( env ) )
-		{
-			WL = 3;
-		}
-		else if ( "underwater".equals( env ) || "none".equals( env ) )
-		{
-			return 0;
-		}
-		if ( KoLCharacter.selectedLocation.getRecommendedStat() >= threshold )
-		{
-			WL += 1;
+			int waterDepth = KoLCharacter.selectedLocation.getWaterDepth();
+			if ( waterDepth != -1 )
+			{
+				WL = waterDepth;
+			}
+			else
+			{
+				String env = KoLCharacter.selectedLocation.getEnvironment();
+				if ( "underground".equals( env ) )
+				{
+					WL = 5;
+				}
+				else if ( "indoor".equals( env ) )
+				{
+					WL = 3;
+				}
+				else if ( "underwater".equals( env ) )
+				{
+					return 0;
+				}
+				if ( KoLCharacter.selectedLocation.getRecommendedStat() >= threshold )
+				{
+					WL += 1;
+				}
+			}
 		}
 
 		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_DEPTH );
