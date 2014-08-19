@@ -987,6 +987,7 @@ lead pipe	175	Mus: 72	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yoyo
 leechknife	125	Mus: 47	1-handed knife
 licorice whip	10	Mus: 0	1-handed whip
+lightning rod	100	Mus: 0	1-handed staff
 linoleum crossbow	100	Mox: 35	2-handed crossbow
 linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
