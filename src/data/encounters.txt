@@ -131,7 +131,6 @@ Ye Olde Medievale Villagee	SEMIRARE	Clay Is Great, But Leather Is Bether
 ### Clover Adventures
 A Mob of Zeppelin Protesters	CLOVER	Methinks the Protesters Doth Protest Too Little
 A-Boo Peak	CLOVER	The "Journalist"
-Bugbear Pens	CLOVER	Faux Fur Pas
 Camp Logging Camp	CLOVER	Oot to Lunch
 Cobb's Knob Kitchens	CLOVER	Luck in the Kitchens
 Cobb's Knob Laboratory	CLOVER	Believe it or Not
@@ -156,6 +155,7 @@ The Copperhead Club	CLOVER	Where There's Smoke...
 The Haunted Ballroom	CLOVER	Forward to the Past
 The Haunted Bathroom	CLOVER	That's a Tidy Bowl, Man!
 The Haunted Billiards Room	CLOVER	Give me Your Nine
+The Bugbear Pen	CLOVER	Faux Fur Pas
 The Haunted Conservatory	CLOVER	Sweeping Up the Skeleton Bones
 The Haunted Gallery	CLOVER	With a Clatter
 The Haunted Kitchen	CLOVER	Nicebox
