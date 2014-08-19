@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -478,6 +479,55 @@ public class AreaCombatData
 
 	public void getEncounterData( final StringBuffer buffer )
 	{
+		String environment = AdventureDatabase.getEnvironment( this.zone );
+		if ( environment == null )
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Environment:</b> unknown" );
+		}
+		else
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Environment:</b> " );
+			buffer.append( environment );
+		}
+
+		int recommendedStat = AdventureDatabase.getRecommendedStat( this.zone );
+		if ( recommendedStat == -1 )
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Recommended Mainstat:</b> unknown" );
+		}
+		else
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Recommended Mainstat:</b> " );
+			buffer.append( recommendedStat );
+		}
+
+		if ( KoLCharacter.inRaincore() )
+		{
+			int waterLevel = KoLCharacter.getWaterLevel();
+			if ( environment == null )
+			{
+				buffer.append( "<br>" );
+				buffer.append( "<b>Water Level:</b> unknown" );
+			}
+			else if ( recommendedStat == -1 )
+			{
+				buffer.append( "<br>" );
+				buffer.append( "<b>Water Level:</b> " );
+				buffer.append( waterLevel );
+				buffer.append( " (at least)" );
+			}
+			else
+			{
+				buffer.append( "<br>" );
+				buffer.append( "<b>Water Level:</b> " );
+				buffer.append( waterLevel );
+			}
+		}
+
 		String encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.SEMIRARE );
 
 		if ( null != encounter )
