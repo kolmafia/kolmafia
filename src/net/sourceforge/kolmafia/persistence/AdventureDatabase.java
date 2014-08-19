@@ -96,6 +96,7 @@ public class AdventureDatabase
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
 	private static final HashMap<String, Integer> statLookup = new HashMap<String, Integer>();
+	private static final HashMap<String, Integer> depthLookup = new HashMap<String, Integer>();
 
 	static
 	{
@@ -199,6 +200,7 @@ public class AdventureDatabase
 
 			String environment = null;
 			int stat = -1;
+			int depth = -1;
 			boolean hasCloverAdventure = false;
 			StringTokenizer tokens = new StringTokenizer( data[ 2 ], " " );
 			while ( tokens.hasMoreTokens() )
@@ -215,6 +217,10 @@ public class AdventureDatabase
 				else if ( option.equals( "Stat:" ) )
 				{
 					stat = StringUtilities.parseInt( tokens.nextToken() );
+				}
+				else if ( option.equals( "Depth:" ) )
+				{
+					depth = StringUtilities.parseInt( tokens.nextToken() );
 				}
 			}
 
@@ -241,6 +247,8 @@ public class AdventureDatabase
 			AdventureDatabase.environmentLookup.put( name, environment );
 
 			AdventureDatabase.statLookup.put( name, stat );
+
+			AdventureDatabase.depthLookup.put( name, depth );
 
 			if ( data.length <= 4 )
 			{
@@ -836,6 +844,11 @@ public class AdventureDatabase
 	public static final int getRecommendedStat( String adventureName )
 	{
 		return AdventureDatabase.statLookup.get( adventureName );
+	}
+
+	public static final int getWaterDepth( String adventureName )
+	{
+		return AdventureDatabase.depthLookup.get( adventureName );
 	}
 
 	public static class AdventureArray

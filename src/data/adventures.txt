@@ -1,6 +1,6 @@
 6
 # Zone Name | URL | attributes | Location Name | goals (optional)
-# Possible attributes are clover, Env, and Stat
+# Possible attributes are clover, Env, Stat and Depth
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
 Gyms	clan_gym=1	Env: none	Pump Up Muscle
 Gyms	clan_gym=2	Env: none	Pump Up Mysticality
@@ -207,7 +207,7 @@ McLarge	adventure=270	clover Env: underground Stat: 60	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	clover Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
 McLarge	adventure=272	clover Env: indoor Stat: 85	Lair of the Ninja Snowmen	1 frigid ninja stars|+1 bottle of antifreeze
 McLarge	adventure=273	clover Env: outdoor Stat: 70	The eXtreme Slope	outfit
-McLarge	place=cloudypeak2	Env: none Stat: 0	Mist-Shrouded Peak
+McLarge	place=cloudypeak2	Env: none Stat: 0 Depth: 2	Mist-Shrouded Peak
 McLarge	adventure=110	clover Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	clover Env: underground Stat: 0	The Mine Foremens' Office
 McLarge	dwarffactory=0	Env: none Stat: 0	Dwarven Factory Warehouse
