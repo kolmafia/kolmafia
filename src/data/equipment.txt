@@ -567,6 +567,7 @@ eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
 famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
+fishbone corset	20	none
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
@@ -1867,6 +1868,10 @@ fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
+fishbone bracers	0	none
+fishbone facemask	0	none
+fishbone fins	0	none
+fishbone kneepads	0	none
 flapper floppers	0	Mys: 35
 flashing novelty button	20	none
 flask flops	10	none
