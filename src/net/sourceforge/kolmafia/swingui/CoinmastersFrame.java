@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
+import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
@@ -159,6 +160,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel terrifiedEagleInnPanel = null;
 	private CoinmasterPanel BURTPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
+	private CoinmasterPanel fishboneryPanel = null;
 	private CoinmasterPanel warbearBoxPanel = null;
 	private CoinmasterPanel boutiquePanel = null;
 	private CoinmasterPanel brogurtPanel = null;
@@ -233,6 +235,11 @@ public class CoinmastersFrame
 		BURTPanel = new BURTPanel();
 		panel.add( BURTPanel );
 		this.selectorPanel.addPanel( BURTPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		fishboneryPanel = new FishboneryPanel();
+		panel.add( fishboneryPanel );
+		this.selectorPanel.addPanel( fishboneryPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -417,6 +424,7 @@ public class CoinmastersFrame
 		hermitPanel.update();
 		swaggerShopPanel.update();
 		BURTPanel.update();
+		fishboneryPanel.update();
 		shoreGiftShopPanel.update();
 		trapperPanel.update();
 		vendingMachinePanel.update();
@@ -554,6 +562,15 @@ public class CoinmastersFrame
 		public BURTPanel()
 		{
 			super( BURTRequest.BURT );
+		}
+	}
+
+	public class FishboneryPanel
+		extends CoinmasterPanel
+	{
+		public FishboneryPanel()
+		{
+			super( FishboneryRequest.FISHBONERY );
 		}
 	}
 

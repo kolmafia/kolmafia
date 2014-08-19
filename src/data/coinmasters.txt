@@ -618,3 +618,12 @@ Legitimate Shoe Repair, Inc.	buy	25	dog ointment	ROW316
 Legitimate Shoe Repair, Inc.	buy	200	gumshoes	ROW317
 Legitimate Shoe Repair, Inc.	buy	400	flapper floppers	ROW318
 Legitimate Shoe Repair, Inc.	buy	600	sneakeasies	ROW319
+
+# Things you can buy with freshwater fishbones
+
+Freshwater Fishbonery	buy	5	fishbone bracers	ROW325
+Freshwater Fishbonery	buy	5	fishbone facemask	ROW324
+Freshwater Fishbonery	buy	10	fishbone corset	ROW322
+Freshwater Fishbonery	buy	15	fishbone kneepads	ROW321
+Freshwater Fishbonery	buy	30	fishbone catcher's mitt	ROW320
+Freshwater Fishbonery	buy	20	fishbone fins	ROW323

@@ -130,7 +130,6 @@ public class TerrifiedEagleInnRequest
 		TerrifiedEagleInnRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "name=whichrow value=(\\d*).*?<a onClick='javascript:descitem\\((\\d+)\\)'><b>(.*?)</b>.*?</a>.*?<b>([,\\d]*)</b>" );
 

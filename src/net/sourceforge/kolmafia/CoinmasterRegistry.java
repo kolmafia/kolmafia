@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
+import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
@@ -89,6 +90,7 @@ public abstract class CoinmasterRegistry
 		DimemasterRequest.HIPPY,
 		DollHawkerRequest.DOLLHAWKER,
 		FDKOLRequest.FDKOL,
+		FishboneryRequest.FISHBONERY,
 		FreeSnackRequest.FREESNACKS,
 		FudgeWandRequest.FUDGEWAND,
 		GameShoppeRequest.GAMESHOPPE,

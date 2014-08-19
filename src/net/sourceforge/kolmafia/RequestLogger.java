@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
+import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
@@ -991,6 +992,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof FDKOLRequest || isExternal ) && FDKOLRequest.registerRequest( urlString, false ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof FishboneryRequest || isExternal ) && FishboneryRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
