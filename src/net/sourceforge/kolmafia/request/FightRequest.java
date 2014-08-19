@@ -2169,10 +2169,14 @@ public class FightRequest
 				    encounter.equals( "storm cow" )
 				  ) )
 			{
-				TurnCounter.stopCounting( "Rain Monster window begin" );
-				TurnCounter.stopCounting( "Rain Monster window end" );
-				TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 45, "Rain Monster window end loc=*", "rparen.gif" );
+				// Don't change the counter if Rain Man used to summon them
+				if ( !responseText.contains( "simulacrum of a previous foe" ) )
+				{
+					TurnCounter.stopCounting( "Rain Monster window begin" );
+					TurnCounter.stopCounting( "Rain Monster window end" );
+					TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 45, "Rain Monster window end loc=*", "rparen.gif" );
+				}
 			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
