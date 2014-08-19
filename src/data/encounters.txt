@@ -58,6 +58,7 @@ The Daily Dungeon	STOP	The Final Reward
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
 A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
 A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
+A Mob of Zeppelin Protesters	SEMIRARE	Methinks the Protesters Doth Protest Too Little
 An Octopus's Garden	SEMIRARE	moister oyster
 Art Class	SEMIRARE	Fran&ccedil;ois Verte, Art Teacher
 Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
@@ -126,6 +127,55 @@ The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
 Twin Peak	SEMIRARE	Synecdoche, Twin Peak
 Whitey's Grove	SEMIRARE	Monty of County Crisco
 Ye Olde Medievale Villagee	SEMIRARE	Clay Is Great, But Leather Is Bether
+
+### Clover Adventures
+A Mob of Zeppelin Protesters	CLOVER	Methinks the Protesters Doth Protest Too Little
+A-Boo Peak	CLOVER	The "Journalist"
+Bugbear Pens	CLOVER	Faux Fur Pas
+Camp Logging Camp	CLOVER	Oot to Lunch
+Cobb's Knob Kitchens	CLOVER	Luck in the Kitchens
+Cobb's Knob Laboratory	CLOVER	Believe it or Not
+Frat House	CLOVER	Lambda Upsilon Chi Kappa
+Frat House In Disguise	CLOVER	Lambda Upsilon Chi Kappa
+Guano Junction	CLOVER	How I Wonder What You're At
+Guano Junction	CLOVER	What Can You Do?
+Hippy Camp	CLOVER	Batty About Fruit
+Hippy Camp In Disguise	CLOVER	A Case of the Baskets
+Itznotyerzitz Mine	CLOVER	Either Ore
+Lemon Party	CLOVER	Lemon Party Slot
+Oil Peak	CLOVER	Up From the Ground...
+Outskirts of Camp Logging Camp	CLOVER	Best Served Cold
+Post-Cyrpt Cemetary	CLOVER	Rolling the Bones
+Pre-Cyrpt Cemetary	CLOVER	Only Dust and a Plaque
+South of the Border	CLOVER	Forget Not That I am an Ass
+Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
+The "Fun" House	CLOVER	The Boxer
+The Black Forest	CLOVER	What the Cluck?
+The Castle in the Clouds in the Sky (Basement)	CLOVER	You Never Know What You're Gonna Find
+The Copperhead Club	CLOVER	Where There's Smoke...
+The Haunted Ballroom	CLOVER	Forward to the Past
+The Haunted Bathroom	CLOVER	That's a Tidy Bowl, Man!
+The Haunted Billiards Room	CLOVER	Give me Your Nine
+The Haunted Conservatory	CLOVER	Sweeping Up the Skeleton Bones
+The Haunted Gallery	CLOVER	With a Clatter
+The Haunted Kitchen	CLOVER	Nicebox
+The Haunted Library	CLOVER	Dust to Dust
+The Haunted Pantry	CLOVER	It's Your Lucky Day!
+The Icy Peak	CLOVER	Encino Penguin
+The Knob Shaft	CLOVER	Junction in the Trunction
+The Limerick Dungeon	CLOVER	The Weathered Old Chap
+The Oasis	CLOVER	Some Things Never Change
+The Outskirts of Cobb's Knob	CLOVER	Knob Goblin Luck!
+The Poker Room	CLOVER	A Motor in your Head
+The Primordial Soup	CLOVER	Beginner's Luck
+The Roulette Tables	CLOVER	The Luckiest Gambler
+The Sleazy Back Alley	CLOVER	Lucky You, Unlucky Hobo
+The Smut Orc Logging Camp	CLOVER	S&M 4-EVER
+The Spooky Forest	CLOVER	Lucky, Lucky!
+The Spooky Gravy Burrow	CLOVER	Stage Fright
+Thugnderdome	CLOVER	Gno More Mr. Gnice Guy
+Tower Ruins	CLOVER	I've Gotta Crow
+Twin Peak	CLOVER	What Kind of Party Is This?
 
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox
