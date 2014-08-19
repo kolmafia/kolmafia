@@ -228,7 +228,10 @@ public class Modifiers
 		  Pattern.compile( "Familiar Weight: " + EXPR )
 		},
 		{ "Monster Level",
-		  Pattern.compile( "([+-]\\d+) to Monster Level" ),
+		  new Object[] {
+		        Pattern.compile( "([+-]\\d+) to Monster Level" ),
+			Pattern.compile( "Monster Level ([+-]\\d+)" ),
+		  },
 		  Pattern.compile( "Monster Level: " + EXPR )
 		},
 		{ "Combat Rate",

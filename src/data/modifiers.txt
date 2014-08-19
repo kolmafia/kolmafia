@@ -687,6 +687,7 @@ eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 extremely wet T-shirt	Moxie Percent: +10, Sleaze Damage: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +10, Initiative: +40, Lasts Until Rollover
 filthy hippy poncho	Mysticality: +3
+# fishbone corset: Reduces the level of nearby water
 flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
 flyest of shirts	Moxie: +5, Spell Damage: +5
@@ -3022,6 +3023,14 @@ eye-pod	Familiar Weight: +5
 false eyelashes	Familiar Weight: +5
 # farfalle bow tie: +10 lbs. of Barnacle
 fin-bit wax	Familiar Weight: +5
+# fishbone bracers: (Heavy Rains only)
+fishbone bracers	Spell Critical Percent: [20*path(Heavy Rains)], Spell Damage Percent: [100*path(Heavy Rains)], Single Equip
+# fishbone facemask: (Heavy Rains only)
+fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
+# fishbone fins: Makes it harder for enemies to hit you in flood conditions
+fishbone fins	Single Equip
+# fishbone kneepads: (Heavy Rains only)
+fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
 # fishy wand: Lets your familiar cast fishy spells
 fishy wand	Generic, Familiar Effect: "fishy spells"
 fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
