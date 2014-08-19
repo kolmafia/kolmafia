@@ -1357,6 +1357,7 @@ public class QuestManager
 			monster.equalsIgnoreCase( "Principal Mooney" ) ||
 			monster.equalsIgnoreCase( "Rene C. Corman" ) ||
 			monster.equalsIgnoreCase( "The Avatar of Jarlsberg" ) ||
+			monster.equalsIgnoreCase( "The Rain King" ) ||
 			responseText.contains( "Thwaitgold bee statuette" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step16" );
