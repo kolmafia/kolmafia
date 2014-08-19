@@ -7687,7 +7687,7 @@
 7668	Thwaitgold spider statuette	253844172	thwaitspider.gif	none		0
 7669	thunder down underwear	729675249	downunderwear.gif	pants	q	0
 7670	famous blue raincoat	119922097	raincoat.gif	shirt	q	0
-7671
+7671	lightning rod	177625255	lightningrod.gif	weapon	q	0
 7672	law-abiding citizen cane	323809338	citizencane.gif	weapon	t,d	20	law-abiding citizens cane
 7673	legitimate business on the beach	823551028	chamfluteu.gif	drink	t,d	5	legitimate businesses on the beach
 7674	hep waders	391859185	epicpants6.gif	pants	t,d	20	pairs of hep waders

@@ -1145,6 +1145,7 @@ lead pipe	Muscle: +6, Mysticality: +6
 leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
 # licorice whip: Candiful Crits
 licorice whip	Critical Hit Percent: +5
+lightning rod	Spell Damage Percent: +200, Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 linoleum crossbow	Moxie: +7, Spell Damage: +7
 linoleum staff	Mysticality: +7, Spell Damage: +7
 linoleum sword	Muscle: +7, Spell Damage: +7
