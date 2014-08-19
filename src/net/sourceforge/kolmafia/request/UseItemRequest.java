@@ -5315,6 +5315,9 @@ public class UseItemRequest
 		case ItemPool.FDKOL_COMMENDATION:
 			return FDKOLRequest.registerRequest( urlString, false );
 
+		case ItemPool.FRESHWATER_FISHBONE:
+			return FishboneryRequest.registerRequest( urlString );
+
 		case ItemPool.FUDGE_WAND:
 			return FudgeWandRequest.registerRequest( urlString );
 		}
