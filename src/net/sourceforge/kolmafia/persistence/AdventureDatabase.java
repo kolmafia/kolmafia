@@ -202,16 +202,11 @@ public class AdventureDatabase
 			String environment = null;
 			int stat = -1;
 			int depth = -1;
-			boolean hasCloverAdventure = false;
 			StringTokenizer tokens = new StringTokenizer( data[ 2 ], " " );
 			while ( tokens.hasMoreTokens() )
 			{
 				String option = tokens.nextToken();
-				if ( option.equals( "clover" ) )
-				{
-					hasCloverAdventure = true;
-				}
-				else if ( option.equals( "Env:" ) )
+				if ( option.equals( "Env:" ) )
 				{
 					environment = tokens.nextToken();
 				}
@@ -832,7 +827,7 @@ public class AdventureDatabase
 	public static boolean isPotentialCloverAdventure( String adventureName )
 	{
 		String encounter = EncounterManager.findEncounterForLocation( adventureName, EncounterType.CLOVER );
-		return encounter != null;
+		return AdventureDatabase.hasClover() && encounter != null;
 	}
 
 	public static final String getEnvironment( String adventureName )
