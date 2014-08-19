@@ -2218,7 +2218,7 @@ public abstract class KoLCharacter
 	public static final int getMonsterLevelAdjustment()
 	{
 		return (int) KoLCharacter.currentModifiers.get( Modifiers.MONSTER_LEVEL ) +
-			KoLCharacter.getWaterLevel() * 10;
+			KoLCharacter.getWaterDepth() * 10;
 	}
 
 	/**
@@ -2540,7 +2540,7 @@ public abstract class KoLCharacter
 		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
 	}
 
-	public static final int getWaterLevel()
+	public static final int getWaterDepth()
 	{
 		if ( !KoLCharacter.inRaincore() )
 		{
@@ -2559,12 +2559,16 @@ public abstract class KoLCharacter
 		{
 			WL = 3;
 		}
+		else if ( "underwater".equals( env ) )
+		{
+			return 0;
+		}
 		if ( KoLCharacter.selectedLocation.getRecommendedStat() >= threshold )
 		{
 			WL += 1;
 		}
 
-		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
+		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_DEPTH );
 		
 		return WL < 1 ? 1 : WL > 6 ? 6 : WL;
 	}
