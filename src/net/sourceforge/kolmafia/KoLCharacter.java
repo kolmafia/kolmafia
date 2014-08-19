@@ -2217,7 +2217,8 @@ public abstract class KoLCharacter
 
 	public static final int getMonsterLevelAdjustment()
 	{
-		return (int) KoLCharacter.currentModifiers.get( Modifiers.MONSTER_LEVEL );
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.MONSTER_LEVEL ) +
+			KoLCharacter.getWaterLevel() * 10;
 	}
 
 	/**
@@ -2563,8 +2564,9 @@ public abstract class KoLCharacter
 			WL += 1;
 		}
 
-
-		return 1;
+		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
+		
+		return WL < 1 ? 1 : WL > 6 ? 6 : WL;
 	}
 
 	/**
