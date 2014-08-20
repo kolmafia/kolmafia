@@ -15,7 +15,7 @@
 
 1	Liver of Steel	liver.gif	0	0	0
 2	Chronic Indigestion	fireball.gif	5	5	0
-3	The Smile of Mr. A.	gma.gif	4	0	40
+3	The Old Old Smile of Mr. A.	gma.gif	4	0	40
 4	Arse Shoot	asshat.gif	4	5	0
 5	Stomach of Steel	stomach.gif	0	0	0
 6	Spleen of Steel	salspleen.gif.gif	0	0	0
@@ -632,6 +632,7 @@
 7204	Unleash the Greash	unleashgreash.gif	5	0	0
 7205	Heat Space	spaceheater.gif	5	0	0
 7206	Consult the Helix Fossil	foss_amm.gif	5	0	0
+7208	The Smile of Mr. A.	gma.gif	4	0	40
 
 # Skills granted by books on your Mystical Bookshelf
 
