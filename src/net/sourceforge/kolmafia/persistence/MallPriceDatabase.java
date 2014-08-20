@@ -170,13 +170,13 @@ public class MallPriceDatabase
 
 	public static void updatePricesInParallel( String filename )
 	{
-		RequestThread.runInParallel( new UpdatePricesRunnable( filename ) );
+		RequestThread.runInParallel( new UpdatePricesRunnable( filename ), false );
 	}
 
 	private static class UpdatePricesRunnable
 		implements Runnable
 	{
-		private String filename;
+		private final String filename;
 
 		public UpdatePricesRunnable(  String filename )
 		{
