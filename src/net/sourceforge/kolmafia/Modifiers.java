@@ -218,7 +218,7 @@ public class Modifiers
 	public static final int FAMILIAR_DAMAGE = 110;
 	public static final int GEARDROP = 111;
 	public static final int MAXIMUM_HOOCH = 112;
-	public static final int WATER_DEPTH = 113;
+	public static final int WATER_LEVEL = 113;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -731,9 +731,9 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Maximum Hooch" ),
 		  Pattern.compile( "Maximum Hooch: " + EXPR )
 		},
-		{ "Water Depth",
+		{ "Water Level",
 		  null,
-		  Pattern.compile( "Water Depth: " + EXPR )
+		  Pattern.compile( "Water Level: " + EXPR )
 		},
 	};
 

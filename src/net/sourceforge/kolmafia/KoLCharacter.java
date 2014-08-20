@@ -2218,7 +2218,7 @@ public abstract class KoLCharacter
 	public static final int getMonsterLevelAdjustment()
 	{
 		return (int) KoLCharacter.currentModifiers.get( Modifiers.MONSTER_LEVEL ) +
-			KoLCharacter.getWaterDepth() * 10;
+			KoLCharacter.getWaterLevel() * 10;
 	}
 
 	/**
@@ -2540,7 +2540,7 @@ public abstract class KoLCharacter
 		return (int)KoLCharacter.currentModifiers.get( Modifiers.PRISMATIC_DAMAGE );
 	}
 
-	public static final int getWaterDepth()
+	public static final int getWaterLevel()
 	{
 		if ( !KoLCharacter.inRaincore() )
 		{
@@ -2552,10 +2552,10 @@ public abstract class KoLCharacter
 		int WL = 1;
 		if ( KoLCharacter.selectedLocation != null )
 		{
-			int waterDepth = KoLCharacter.selectedLocation.getWaterDepth();
-			if ( waterDepth != -1 )
+			int waterLevel = KoLCharacter.selectedLocation.getWaterLevel();
+			if ( waterLevel != -1 )
 			{
-				WL = waterDepth;
+				WL = waterLevel;
 			}
 			else
 			{
@@ -2579,7 +2579,7 @@ public abstract class KoLCharacter
 			}
 		}
 
-		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_DEPTH );
+		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
 		
 		return WL < 1 ? 1 : WL > 6 ? 6 : WL;
 	}
@@ -3028,16 +3028,31 @@ public abstract class KoLCharacter
 			       || oldPath.equals( "Class Act" )
 			       || oldPath.equals( "Way of the Surprising Fist" )
 			       || oldPath.equals( "Class Act II: A Class For Pigs" )
+			       || oldPath.equals( "Heavy Rains" )
 			       || KoLCharacter.getRestricted() )
 			{
 				// Normal permed skills
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			if ( oldPath.equals( "Trendy" ) || KoLCharacter.getRestricted() )
+			if ( oldPath.equals( "Trendy" ) 
+				   || oldPath.equals( "Heavy Rains" )
+				   || KoLCharacter.getRestricted() )
 			{
 				// Retrieve the bookshelf
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+			}
+
+			// Stop expecting Path-related Wandering Monsters
+			if ( oldPath.equals( "Bees Hate You" ) )
+			{
+				TurnCounter.stopCounting( "Bee window begin" );
+				TurnCounter.stopCounting( "Bee window end" );
+			}
+			else if ( oldPath.equals( "Heavy Rains" ) )
+			{
+				TurnCounter.stopCounting( "Rain Monster window begin" );
+				TurnCounter.stopCounting( "Rain Monster window end" );
 			}
 
 			KoLCharacter.setRestricted( false );

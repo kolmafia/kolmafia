@@ -251,6 +251,13 @@ public class ValhallaManager
 		TurnCounter.startCounting( 70, "Semirare window begin", "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
 
+		// First Rain monster expected on turns 9-11
+		if ( KoLCharacter.inRaincore() )
+		{
+			TurnCounter.startCounting( 9, "Rain Monster window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 11, "Rain Monster window end loc=*", "rparen.gif" );
+		}
+
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
 
