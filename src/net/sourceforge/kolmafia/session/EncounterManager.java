@@ -232,6 +232,12 @@ public abstract class EncounterManager
 			return;
 		}
 
+		// Use of rain man skill fires two encounters, first is a non-combat, second a fight, which could be a semi-rare
+		if ( responseText == "simulacrum of a previous foe" )
+		{
+			EncounterManager.ignoreSpecialMonsters();
+		}
+
 		// You stop for a moment to catch your breath, and possibly a
 		// cold, and hear a wolf whistle from behind you. You spin
 		// around and see <monster> that looks suspiciously like the
