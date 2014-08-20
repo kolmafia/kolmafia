@@ -1,6 +1,6 @@
 6
 # Zone Name | URL | attributes | Location Name | goals (optional)
-# Possible attributes are Env, Stat and Depth
+# Possible attributes are Env, Stat and Level
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
 Gyms	clan_gym=1	Env: none	Pump Up Muscle
 Gyms	clan_gym=2	Env: none	Pump Up Mysticality
@@ -14,7 +14,7 @@ Beach	adventure=364	 Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	1 bronzed
 Beach	adventure=355	 Env: indoor Stat: 0	The Shore, Inc. Travel Agency
 Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	1 choiceadv|1 crumbling wooden wheel|1 canopic jar
 Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	2 choiceadv|11 tomb ratchet|1 canopic jar
-Pyramid	place=pyramid_state	Env: none Depth: 6	The Lower Chambers
+Pyramid	place=pyramid_state	Env: none Level: 6	The Lower Chambers
 Casino	casino=1	Env: none	Goat Party
 Casino	casino=2	Env: none	Pirate Party
 Casino	casino=11	 Env: none	Lemon Party
@@ -74,7 +74,7 @@ Manor0	adventure=401	Env: indoor Stat: 104	The Haunted Wine Cellar
 Manor3	adventure=396	Env: indoor Stat: 68	The Haunted Laboratory
 Manor3	adventure=397	Env: indoor Stat: 68	The Haunted Nursery
 Manor3	adventure=398	Env: indoor Stat: 68	The Haunted Storage Room
-Manor0	place=manor4_chamber	Env: none Depth: 4	Summoning Chamber
+Manor0	place=manor4_chamber	Env: none Level: 4	Summoning Chamber
 HiddenCity	adventure=341	Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
 HiddenCity	adventure=343	Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
@@ -85,7 +85,7 @@ HiddenCity	adventure=347	Env: outdoor Stat: 140	An Overgrown Shrine (Southwest)
 HiddenCity	adventure=348	Env: outdoor Stat: 140	An Overgrown Shrine (Northeast)
 HiddenCity	adventure=349	Env: outdoor Stat: 140	An Overgrown Shrine (Southeast)
 HiddenCity	adventure=350	Env: outdoor Stat: 140	A Massive Ziggurat
-Woods	cellar=0	 Env: none Stat: 0 Depth: 6	The Typical Tavern Cellar
+Woods	cellar=0	 Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
 Woods	adventure=15	 Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
 Woods	adventure=280	 Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
 Woods	adventure=233	 Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
@@ -134,7 +134,7 @@ Knob	adventure=257	 Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin e
 Knob	adventure=258	 Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=259	 Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|3 swindleblossom|1 disease|+3 scented massage oil
 Knob	adventure=260	 Env: underground Stat: 20	Cobb's Knob Treasury	outfit
-Knob	cobbsknob=0	Env: none Depth: 6	Throne Room
+Knob	cobbsknob=0	Env: none Level: 6	Throne Room
 Lab	adventure=50	 Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
 Lab	adventure=101	 Env: underground Stat: 30	The Knob Shaft
 Lab	mining=2	Env: none	The Knob Shaft (Mining)
@@ -152,7 +152,7 @@ Cyrpt	adventure=264	 Env: underground	The Defiled Nook	1 evil eye
 Cyrpt	adventure=262	 Env: underground	The Defiled Cranny
 Cyrpt	adventure=261	 Env: underground	The Defiled Alcove	3 shysterweed
 Cyrpt	adventure=263	 Env: underground	The Defiled Niche	1 plus-sized phylactery
-Cyrpt	crypt=heart	Env: none Depth: 6	Haert of the Cyrpt
+Cyrpt	crypt=heart	Env: none Level: 6	Haert of the Cyrpt
 Island	adventure=27	 Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
 Island	adventure=29	 Env: indoor	Frat House In Disguise
 Island	adventure=150	 Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
@@ -207,7 +207,7 @@ McLarge	adventure=270	 Env: underground Stat: 60	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	 Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
 McLarge	adventure=272	 Env: indoor Stat: 85	Lair of the Ninja Snowmen	1 frigid ninja stars|+1 bottle of antifreeze
 McLarge	adventure=273	 Env: outdoor Stat: 70	The eXtreme Slope	outfit
-McLarge	place=cloudypeak2	Env: none Stat: 0 Depth: 2	Mist-Shrouded Peak
+McLarge	place=cloudypeak2	Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
 McLarge	adventure=110	 Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	 Env: underground Stat: 0	The Mine Foremens' Office
 McLarge	dwarffactory=0	Env: none Stat: 0	Dwarven Factory Warehouse

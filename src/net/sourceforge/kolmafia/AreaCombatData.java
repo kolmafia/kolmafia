@@ -507,24 +507,25 @@ public class AreaCombatData
 
 		if ( KoLCharacter.inRaincore() )
 		{
-			int waterDepth = KoLCharacter.getWaterDepth();
+			int waterLevel = KoLCharacter.getWaterLevel();
+			Boolean fixed = AdventureDatabase.getWaterLevel( this.zone ) != -1;
 			if ( environment == null )
 			{
 				buffer.append( "<br>" );
-				buffer.append( "<b>Water Depth:</b> unknown" );
+				buffer.append( "<b>Water Level:</b> unknown" );
 			}
-			else if ( recommendedStat == -1 )
+			else if ( recommendedStat == -1 && !fixed )
 			{
 				buffer.append( "<br>" );
-				buffer.append( "<b>Water Depth:</b> " );
-				buffer.append( waterDepth );
+				buffer.append( "<b>Water Level:</b> " );
+				buffer.append( waterLevel );
 				buffer.append( " (at least)" );
 			}
 			else
 			{
 				buffer.append( "<br>" );
-				buffer.append( "<b>Water Depth:</b> " );
-				buffer.append( waterDepth );
+				buffer.append( "<b>Water Level:</b> " );
+				buffer.append( waterLevel );
 			}
 		}
 

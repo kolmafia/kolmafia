@@ -1681,7 +1681,7 @@ Half a Purse	Experience: +1, Damage Reduction: 3, Smithsness: +5, Meat Drop: [2*
 hand of Mr. Cards	Muscle: +5, Mysticality: +5, Moxie: +5
 handmade hobby horse	Experience (Muscle): +2
 # heart-shaped balloon
-heavy duty umbrella	Water Depth: -2
+heavy duty umbrella	Water Level: -2
 hippo skin buckler	Muscle: +5, Damage Reduction: 5
 HOA regulation book	Reduce Enemy Defense: 20, Monster Level: -100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 23
 hobo code binder	Free Pull
@@ -4730,7 +4730,7 @@ Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 # Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
 # Personal Thundercloud: Makes the water around you even deeper 
-Personal Thundercloud	Water Depth: +2
+Personal Thundercloud	Water Level: +2
 Perspicacious Pressure	Mysticality Percent: +300
 Pet Shop Song	Initiative: +10
 Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -5178,7 +5178,7 @@ The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [m
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
 # The Rain In Loathing: Makes the water around you even deeper
-The Rain In Loathing	Water Depth: +2
+The Rain In Loathing	Water Level: +2
 # The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]

@@ -112,7 +112,7 @@ public class KoLAdventure
 
 	private boolean isValidAdventure = false;
 	private final String zone, parentZone, adventureId, formSource, adventureName, environment;
-	private final int recommendedStat, waterDepth;
+	private final int recommendedStat, waterLevel;
 
 	private final String normalString, lowercaseString, parentZoneDescription;
 
@@ -149,7 +149,7 @@ public class KoLAdventure
 
 		this.recommendedStat = AdventureDatabase.getRecommendedStat( adventureName );
 
-		this.waterDepth = AdventureDatabase.getWaterDepth( adventureName );
+		this.waterLevel = AdventureDatabase.getWaterLevel( adventureName );
 
 		if ( formSource.equals( "dwarffactory.php" ) )
 		{
@@ -231,9 +231,9 @@ public class KoLAdventure
 		return this.recommendedStat;
 	}
 
-	public int getWaterDepth()
+	public int getWaterLevel()
 	{
-		return this.waterDepth;
+		return this.waterLevel;
 	}
 
 	/**
