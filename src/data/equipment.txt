@@ -1869,6 +1869,7 @@ fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
+fishbone belt	0	none
 fishbone bracers	0	none
 fishbone facemask	0	none
 fishbone fins	0	none
