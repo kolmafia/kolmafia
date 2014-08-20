@@ -3025,6 +3025,8 @@ eye-pod	Familiar Weight: +5
 false eyelashes	Familiar Weight: +5
 # farfalle bow tie: +10 lbs. of Barnacle
 fin-bit wax	Familiar Weight: +5
+# fishbone belt: (Heavy Rains only)
+fishbone belt	Critical Hit Percent: [25*path(Heavy Rains)], Weapon Damage: [25*path(Heavy Rains)], Single Equip
 # fishbone bracers: (Heavy Rains only)
 fishbone bracers	Spell Critical Percent: [20*path(Heavy Rains)], Spell Damage Percent: [100*path(Heavy Rains)], Single Equip
 # fishbone facemask: (Heavy Rains only)
@@ -4153,6 +4155,7 @@ Fauxhawk	Initiative: +50
 Fearless	Monster Level: -10
 Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
+Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
 Feet of Grapefruit	Experience (Mysticality): +3
 Feet of Strawberry	Experience (Moxie): +3
 Feet of Watermelon	Experience (Muscle): +3
@@ -6023,6 +6026,7 @@ honey mead	Effect: "Sugar Rush", Effect Duration: 5
 Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
+Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Jackhammer	Effect: "Mortarfied", Effect Duration: 10
 La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
 Locust	Effect: "Cockroach Scurry", Effect Duration: 10

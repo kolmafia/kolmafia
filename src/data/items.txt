@@ -7605,17 +7605,17 @@
 7586	strange helix fossil	736471136	foss_amm.gif	grow	t	0
 7587	S.S. Ticket	840921614	zepticket.gif	familiar	t,d	75
 7588	Clan speakeasy	590707870	crate.gif	usable	t	0
-7589
-7590
-7591
-7592
-7593
-7594
-7595
-7596
-7597
-7598
-7599
+7589	glass of &quot;milk&quot;	261919502	milk.gif	drink	t,d	250
+7590	cup of &quot;tea&quot;	608728555	coffeecup.gif	drink	t,d	250
+7591	thermos of &quot;whiskey&quot;	712543371	thermos.gif	drink	t,d	250
+7592	Lucky Lindy	370494914	fruity.gif	drink	t,d	500
+7593	Bee's Knees	323267882	martini.gif	drink	t,d	500
+7594	Sockdollager	820266043	rocks.gif	drink	t,d	500
+7595	Ish Kabibble	556467503	chamfluteu.gif	drink	t,d	500
+7596	Hot Socks	727300012	rocks_f.gif	drink	t,d	5000
+7597	Phonus Balonus	846180998	hurricane.gif	drink	t,d	10000
+7598	Flivver	761660391	celloshot.gif	drink	t,d	20000
+7599	Sloppy Jalopy	483402014	fruitym.gif	drink	t,d	100000
 7600	haunted flame	710960621	flame.gif	multiple	t,d	5
 7601	temporary yak tattoo	931696933	yaktat.gif	multiple	t,d	5
 7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
@@ -7673,7 +7673,7 @@
 7654	fishbone corset	795585330	fb_corset.gif	shirt	t,d	50
 7655	fishbone fins	850728829	fb_fins.gif	accessory	t,d	50
 7656	fishbone facemask	874585861	fb_mask.gif	accessory	t,d	50
-7657
+7657	fishbone belt	705157567	fb_belt.gif	accessory	t,d	50
 7658	fishbone bracers	218156379	fb_bracers.gif	accessory	t,d	50
 7659	neoprene skullcap	973157230	rubbercap.gif	hat	t,d	1000
 7660	goblin water	707037025	moonshine.gif	usable	t,d	2000

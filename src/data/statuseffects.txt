@@ -1698,7 +1698,7 @@
 1697	Alien Resurrection	wbaccpiece.gif	e6d969b7ed0ab645fb82e165aa32a0ad	use 1 alien hologram projector
 1698	On the Trolley	trolley.gif	d14c9c65bcd20ea9f399fa06127fa25f	drink 1 Bee's Knees
 1699	In a Lather	lather.gif	39fbcc199b06bc544b10609e4ebce693	drink 1 Sockdollager
-1700
+1700	Feeling No Pain	antianti.gif	216b9fd767c9c192e1119fee7b9c2e8d	drink 1 Ish Kabibble
 1701	Hip to the Jive	familiar25.gif	fc766ac280450bf9289d39605c447341	drink 1 Hot Socks
 1702
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle

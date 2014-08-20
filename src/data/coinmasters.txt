@@ -621,6 +621,7 @@ Legitimate Shoe Repair, Inc.	buy	600	sneakeasies	ROW319
 
 # Things you can buy with freshwater fishbones
 
+Freshwater Fishbonery	buy	5	fishbone belt	ROW326
 Freshwater Fishbonery	buy	5	fishbone bracers	ROW325
 Freshwater Fishbonery	buy	5	fishbone facemask	ROW324
 Freshwater Fishbonery	buy	10	fishbone corset	ROW322
