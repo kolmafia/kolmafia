@@ -1497,7 +1497,7 @@ villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime H
 vorpal blade	Critical Hit Percent: +8
 # Wand of Nagamar
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
-warbear exhaust manifold	Stench Damage: +20, Class: "Accordion Thief", Song Duration: 10
+warbear exhaust manifold	Stench Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # warbear oil pan: Lets you sling hot grease!
 warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sauceror"
 weighted paperclip chain	Weapon Damage: +12
@@ -6135,6 +6135,7 @@ astral badger	Free Pull
 astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
+avatar of the Unconscious Collective	Free Pull
 bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 bad penguin egg	Free Pull
 bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
@@ -6261,7 +6262,9 @@ chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
 chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
+Clan hot dog stand	Free Pull
 Clan looking glass	Free Pull
+Clan pool table	Free Pull
 Clan shower	Free Pull
 Clan speakeasy	Free Pull
 Clan VIP Lounge invitation	Free Pull
@@ -6329,6 +6332,7 @@ Dark Jill-O-Lantern	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deactivated nanobots	Free Pull
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
+deanimated reanimator's coffin	Free Pull
 decorative fountain	Effect: "Sleepy", Effect Duration: 1
 defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
@@ -6361,6 +6365,7 @@ dollop of barbecue sauce	Effect: "Barbecue Saucy", Effect Duration: 15
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 doppelshifter egg	Free Pull
 double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
+dreaming Jung man	Free Pull
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
@@ -6688,6 +6693,7 @@ Milk Studs	Effect: "Milk Studly", Effect Duration: 15
 miniscule temporal rip	Free Pull
 Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 mocking turtle	Effect: "Tortious", Effect Duration: 15
+Monster Manuel	Free Pull
 moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Moping Artistic Goth Kid	Free Pull
 Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
@@ -6729,6 +6735,7 @@ old candy wrapper	Effect: "Litterbug", Effect Duration: 5
 old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
 old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
 old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
+Olympic-sized Clan crate	Free Pull
 Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10
 one pill	Effect Duration: 5
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
@@ -6739,6 +6746,7 @@ orc paste	Effect: "Fratty Flavor", Effect Duration: 10
 orcish hand lotion	Effect: "Hairy Palms", Effect Duration: 10
 orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 orcish rubber	Effect: "Using Protection", Effect Duration: 10
+Order of the Green Thumb Order Form	Free Pull
 organ grinder	Free Pull
 orphan baby yeti	Free Pull
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
@@ -7014,7 +7022,7 @@ The Groose in the Hoose	Free Pull
 the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 The Kloop in the Coop	Free Pull
 The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
-The Smith's Tome Free Pull
+The Smith's Tome	Free Pull
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Thinknerd's Grimoire of Geeky Gifts	Free Pull
 time sleigh	Free Pull
@@ -7078,6 +7086,7 @@ warbear bearserker potion	Effect: "Bearserker Bearrage", Effect Duration: 20
 warbear liquid lasers	Effect: "Eyes for Miles", Effect Duration: 20
 warbear liquid overcoat	Effect: "Warbear on the Inside", Effect Duration: 20
 # warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
+warbear procedural hilarity drone	Free Pull
 warbear rejuvenation potion	Effect: "New and Improved", Effect Duration: 20
 warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 warbear superpotion	Effect: "Warbear Hunter", Effect Duration: 50
