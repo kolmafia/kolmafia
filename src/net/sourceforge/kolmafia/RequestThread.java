@@ -64,11 +64,16 @@ public abstract class RequestThread
 
 	public static final void runInParallel( final Runnable action )
 	{
+		RequestThread.runInParallel( action, true );
+	}
+
+	public static final void runInParallel( final Runnable action, final boolean sequence )
+	{
 		// Later on, we'll make this more sophisticated and create
 		// something similar to the worker thread pool used in the
 		// relay browser.  For now, just spawn a new thread.
 
-		new ThreadWrappedRunnable( action ).start();
+		new ThreadWrappedRunnable( action, sequence ).start();
 	}
 
 	public static final void postRequestAfterInitialization( final GenericRequest request )
@@ -384,19 +389,25 @@ public abstract class RequestThread
 		extends Thread
 	{
 		private final Runnable wrapped;
+		private final boolean sequence;
 
-		public ThreadWrappedRunnable( final Runnable wrapped )
+		public ThreadWrappedRunnable( final Runnable wrapped, final boolean sequence )
 		{
 			this.wrapped = wrapped;
+			this.sequence = sequence;
 		}
 
 		@Override
 		public void run()
 		{
-			Integer requestId = RequestThread.openRequestSequence();
+			Integer requestId = null;
 
 			try
 			{
+				if ( this.sequence )
+				{
+					requestId = RequestThread.openRequestSequence();
+				}
 				this.wrapped.run();
 			}
 			catch ( Exception e )
@@ -405,7 +416,10 @@ public abstract class RequestThread
 			}
 			finally
 			{
-				RequestThread.closeRequestSequence( requestId );
+				if ( requestId != null )
+				{
+					RequestThread.closeRequestSequence( requestId );
+				}
 			}
 		}
 	}
