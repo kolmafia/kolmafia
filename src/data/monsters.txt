@@ -1681,7 +1681,7 @@ Auqadargon	aquadargon.gif	BOSS Atk: 99 Def: 90 HP: 140 Init: 90 P: undead	chest 
 Big Wisnaqua	aquaniewski.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	Wet Russian (n100)
 Dr. Aquard	aquard.gif	BOSS Atk: 180 Def: 165 HP: 260 Init: -10000 P: dude	Sogg-Os (n100)	dumb mud (n100)
 freshwater bonefish	bonefish.gif		freshwater fishbone (0)	freshwater fishbone (0)
-giant isopod	isopod.gif		freshwater fishbone (0)
+giant isopod	isopod.gif	Atk: [MOX-11+max(ML,0)] Def: [MUS-11+max(ML,0)] HP: [0.75*(MUS-11+max(ML,0))] Exp: [(STAT-11+max(ML,0))/4] Init: 25 P: dude Meat: 12-18	freshwater fishbone (0)
 giant tardigrade	tardigrade.gif	Atk: 40 Def: 40 HP: 60 Init: 40 P: bug	thunder thigh (n100)
 gourmet gourami	gourami.gif		gourmet gourami oil (0)
 Gurgle	gurgle.gif	BOSS Atk: 125 Def: 115 HP: 280 Init: 60 P: beast	liquid ice (n100)
