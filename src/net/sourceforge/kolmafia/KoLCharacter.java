@@ -3025,12 +3025,13 @@ public abstract class KoLCharacter
 				KoLCharacter.checkTelescope();
 			}
 
-			// If we were in Hardcore or a path that limits skills, automatically recall skills
+			// If we were in Hardcore or a path that alters skills, automatically recall skills
 			// Paths that require you to choose your class at the end will refresh skills later
 			else if ( wasInHardcore || oldPath.equals( "Trendy" )
 			       || oldPath.equals( "Class Act" )
 			       || oldPath.equals( "Way of the Surprising Fist" )
 			       || oldPath.equals( "Class Act II: A Class For Pigs" )
+				 || oldPath.equals( "Heavy Rains" )
 			       || restricted )
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
