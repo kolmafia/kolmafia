@@ -232,8 +232,8 @@ public abstract class EncounterManager
 			return;
 		}
 
-		// Use of rain man skill fires two encounters, first is a non-combat, second a fight, which could be a semi-rare
-		if ( responseText == "simulacrum of a previous foe" )
+		// Use of Rain Man skill fires two encounters, first is a non-combat, second a fight, which could be a semi-rare
+		if ( KoLCharacter.inRaincore() && responseText.contains( "simulacrum of a previous foe" ) )
 		{
 			EncounterManager.ignoreSpecialMonsters();
 		}
