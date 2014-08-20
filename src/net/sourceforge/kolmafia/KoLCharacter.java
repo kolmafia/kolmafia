@@ -3014,6 +3014,9 @@ public abstract class KoLCharacter
 			// Available hermit items and clover numbers may have changed
 			HermitRequest.initialize();
 			
+			// Are we restricted by Type69 ?
+			Boolean restricted = KoLCharacter.getRestricted();
+
 			// If we are in Bad Moon, we can use the bookshelf and
 			// telescope again.
 			if ( KoLCharacter.inBadMoon() )
@@ -3028,16 +3031,13 @@ public abstract class KoLCharacter
 			       || oldPath.equals( "Class Act" )
 			       || oldPath.equals( "Way of the Surprising Fist" )
 			       || oldPath.equals( "Class Act II: A Class For Pigs" )
-			       || oldPath.equals( "Heavy Rains" )
-			       || KoLCharacter.getRestricted() )
+			       || restricted )
 			{
-				// Normal permed skills
+				// Normal permed skills (will also reset KoLCharacter.restricted to false)
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			if ( oldPath.equals( "Trendy" ) 
-				   || oldPath.equals( "Heavy Rains" )
-				   || KoLCharacter.getRestricted() )
+			if ( oldPath.equals( "Trendy" ) || restricted )
 			{
 				// Retrieve the bookshelf
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
@@ -3054,8 +3054,6 @@ public abstract class KoLCharacter
 				TurnCounter.stopCounting( "Rain Monster window begin" );
 				TurnCounter.stopCounting( "Rain Monster window end" );
 			}
-
-			KoLCharacter.setRestricted( false );
 
 			// If leaving a path with a unique class, wait until player picks a new class.
 			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) &&
