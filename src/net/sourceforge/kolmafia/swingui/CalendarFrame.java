@@ -346,7 +346,7 @@ public class CalendarFrame
 		displayHTML.append( HolidayDatabase.getGrueEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
-		CalendarFrame.appendModifierPercentage( displayHTML, HolidayDatabase.getBloodEffect(
+		CalendarFrame.appendModifierPercentage( displayHTML, (int) HolidayDatabase.getBloodEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
 		CalendarFrame.appendModifierPercentage( displayHTML, HolidayDatabase.getBaioEffect(

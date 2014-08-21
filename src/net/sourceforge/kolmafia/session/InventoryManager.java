@@ -1799,16 +1799,20 @@ public abstract class InventoryManager
 		int oldCount = Preferences.getInteger( "goldenMrAccessories" );
 		int newCount =
 			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.inventory ) +
-				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.closet ) +
-				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.storage ) +
-				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.collection ) +
-				InventoryManager.getEquippedCount( InventoryManager.GOLDEN_MR_ACCESSORY );
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.closet ) +
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.storage ) +
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.collection ) +
+			InventoryManager.getEquippedCount( InventoryManager.GOLDEN_MR_ACCESSORY );
 
 		// A Golden Mr. Accessory cannot be traded or discarded. Once
 		// you purchase one, it's yours forever more.
 
 		if ( newCount > oldCount )
 		{
+			if ( oldCount == 0 )
+			{
+				ResponseTextParser.learnSkill( "The Smile of Mr. A." );
+			}
 			Preferences.setInteger( "goldenMrAccessories", newCount );
 		}
 	}
