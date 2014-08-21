@@ -1048,7 +1048,16 @@ public class DebugDatabase
 					// Evaluate the expression
 					int lbracket = currentValue.indexOf( "[" );
 					int rbracket = currentValue.indexOf( "]" );
-					ModifierExpression expr = new ModifierExpression( currentValue.substring( lbracket + 1, rbracket ), name );
+					String expression = currentValue.substring( lbracket + 1, rbracket );
+
+					// Kludge: KoL no longer takes Reagent Potion duration
+					// into account in item descriptions.
+					if ( key.equals( "Effect Duration" ) && expression.contains( "R" ) )
+					{
+						expression = StringUtilities.singleStringReplace( expression, "R", "5" );
+					}
+
+					ModifierExpression expr = new ModifierExpression( expression, name );
 					if ( expr.hasErrors() )
 					{
 						report.println( expr.getExpressionErrors() );
