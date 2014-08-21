@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -416,12 +418,20 @@ public class CharSheetRequest
 
 			token = cleanContent.nextToken();
 		}
-		
-		// Finally, set the class name that we figured out.
-		KoLCharacter.setClassName( className );
 
+		// The Smile of Mr. A no longer appears on the char sheet
+		if ( Preferences.getInteger( "goldenMrAccessories" ) > 0 )
+		{
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "The Smile of Mr. A." );
+			newSkillSet.add( skill );
+		}
+		
+		// Set the skills that we saw
 		KoLCharacter.setAvailableSkills( newSkillSet );
 		KoLCharacter.setPermedSkills( permedSkillSet );
+
+		// Finally, set the class name that we figured out.
+		KoLCharacter.setClassName( className );
 
 		// Update uneffect methods and heal amounts for updated skills
 		UneffectRequest.reset();

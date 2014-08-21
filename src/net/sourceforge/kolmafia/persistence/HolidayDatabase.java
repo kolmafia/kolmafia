@@ -527,24 +527,22 @@ public class HolidayDatabase
 	}
 
 	/**
-	 * Returns the effect percentage (as a whole number integer) of Blood of the Wereseal for today.
+	 * Returns the effect percentage of Blood of the Wereseal for today.
 	 */
 
-	public static final int getBloodEffect()
+	public static final double getBloodEffect()
 	{
-		return HolidayDatabase.getBloodEffect(
-			HolidayDatabase.RONALD_PHASE, HolidayDatabase.GRIMACE_PHASE, HolidayDatabase.HAMBURGLAR_POSITION );
+		return HolidayDatabase.getBloodEffect( HolidayDatabase.RONALD_PHASE, HolidayDatabase.GRIMACE_PHASE, HolidayDatabase.HAMBURGLAR_POSITION );
 	}
 
 	/**
-	 * Returns the effect percentage (as a whole number integer) of Blood of the Wereseal for the given moon phase.
+	 * Returns the effect percentage of Blood of the Wereseal for the given moon phase.
 	 */
 
-	public static final int getBloodEffect( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
+	public static final double getBloodEffect( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
 	{
-		return (int) Math.round( 10.0f + 20.0f *
-			Math.sqrt( (float) HolidayDatabase.getMoonlight(
-				ronaldPhase, grimacePhase, hamburglarPosition ) ) );
+		// Yendor says: "I have 2538 base Muscle; the effect gives +1597, or 62.92%. So the percentage is not being rounded."
+		return 10.0 + 20.0 * Math.sqrt( (double) HolidayDatabase.getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) );
 	}
 
 	/**
