@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -424,6 +425,13 @@ public class TestCommand
 			TestCommand.contents = null;
 			SorceressLairManager.decorateKey( location, buffer );
 			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "speakeasy" ) )
+		{
+			ClanLoungeRequest.parseSpeakeasy( TestCommand.contents, true );
+			TestCommand.contents = null;
 			return;
 		}
 	}
