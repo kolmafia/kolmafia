@@ -1394,7 +1394,7 @@ public class ClanLoungeRequest
 
 	private static final Pattern SPEAKEASY_ROW_PATTERN = Pattern.compile( "name=\"drink\" value=\"(\\d+)\"", Pattern.DOTALL );
 
-	private static void parseSpeakeasy( final String responseText )
+	public static void parseSpeakeasy( final String responseText, final boolean verbose )
 	{
 		// Rebuild list of available speakeasy drinks every time we visit
 		ClanLoungeRequest.resetSpeakeasy();
@@ -1411,11 +1411,20 @@ public class ClanLoungeRequest
 			{
 				String drinkName = ClanLoungeRequest.speakeasyIndexToName( drinkIndex );
 				Concoction speakeasyDrink = ClanLoungeRequest.addSpeakeasyDrink( drinkName );
+				if ( verbose )
+				{
+					RequestLogger.printLine( "Found speakeasy drink #" + speakeasyId + " (" + drinkName + ") "+ ( speakeasyDrink == null ? "NO" : "and" ) + " concoction." );
+				}
 				if ( speakeasyDrink != null )
 				{
 					available.add( speakeasyDrink );
 				}
 			}
+		}
+
+		if ( verbose )
+		{
+			RequestLogger.printLine( "Total speakeasy drinks found: " + available.size() );
 		}
 
 		// Add speakeasy drinks en masse to the usables list
@@ -1545,7 +1554,7 @@ public class ClanLoungeRequest
 		if ( action.equals( "speakeasy" ) )
 		{
 			// Visiting the Speakeasy. See what's on offer
-			ClanLoungeRequest.parseSpeakeasy( responseText );
+			ClanLoungeRequest.parseSpeakeasy( responseText, false );
 			return;
 		}
 
