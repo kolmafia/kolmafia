@@ -326,6 +326,12 @@ public class ClanLoungeRequest
 			IntegerPool.get( 500 )
 		},
 		{
+			"Ish Kabibble",
+			IntegerPool.get( 7 ),
+			IntegerPool.get( 2 ),
+			IntegerPool.get( 500 ),
+		},
+		{
 			"Hot Socks",
 			IntegerPool.get( 8 ),
 			IntegerPool.get( 3 ),
