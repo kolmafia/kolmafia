@@ -220,6 +220,31 @@ public class AdventureDatabase
 				}
 			}
 
+			// Build base water level if not specified
+			if ( waterLevel == -1 )
+			{
+				if ( environment == null || environment.equals( "outdoor" ) )
+				{
+					waterLevel = 1;
+				}
+				else if ( environment.equals( "indoor" ) )
+				{
+					waterLevel = 3;
+				}
+				else if ( environment.equals( "underground" ) )
+				{
+					waterLevel = 5;
+				}
+				if ( stat >= 40 )
+				{
+					waterLevel++;
+				}
+				if ( environment.equals( "underwater" ) )
+				{
+					waterLevel = 0;
+				}
+			}
+
 			String name = new String( data[ 3 ] );
 
 			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )

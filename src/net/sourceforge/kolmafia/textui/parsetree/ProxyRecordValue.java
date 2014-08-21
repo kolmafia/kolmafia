@@ -773,6 +773,7 @@ public class ProxyRecordValue
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
 			.add( "kisses", DataTypes.INT_TYPE )
 			.add( "recommended_stat", DataTypes.INT_TYPE )
+			.add( "water_level", DataTypes.INT_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -867,6 +868,11 @@ public class ProxyRecordValue
 		public int get_recommended_stat()
 		{
 			return ((KoLAdventure) this.content).getRecommendedStat();
+		}
+
+		public int get_water_level()
+		{
+			return KoLCharacter.inRaincore() ? ((KoLAdventure) this.content).getWaterLevel() : 0;
 		}
 	}
 

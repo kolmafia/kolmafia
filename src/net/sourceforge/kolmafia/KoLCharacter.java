@@ -2552,30 +2552,11 @@ public abstract class KoLCharacter
 		int WL = 1;
 		if ( KoLCharacter.selectedLocation != null )
 		{
-			int waterLevel = KoLCharacter.selectedLocation.getWaterLevel();
-			if ( waterLevel != -1 )
+			WL = KoLCharacter.selectedLocation.getWaterLevel();
+			// Return 0 if underwater
+			if ( WL == 0 )
 			{
-				WL = waterLevel;
-			}
-			else
-			{
-				String env = KoLCharacter.selectedLocation.getEnvironment();
-				if ( "underground".equals( env ) )
-				{
-					WL = 5;
-				}
-				else if ( "indoor".equals( env ) )
-				{
-					WL = 3;
-				}
-				else if ( "underwater".equals( env ) )
-				{
-					return 0;
-				}
-				if ( KoLCharacter.selectedLocation.getRecommendedStat() >= threshold )
-				{
-					WL += 1;
-				}
+				return 0;
 			}
 		}
 
