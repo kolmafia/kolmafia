@@ -1014,7 +1014,13 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.weapons, weaponItems, weaponItem );
 
 		int weaponHands = EquipmentDatabase.getHands( weaponItem.getName() );
-		if ( weaponHands > 1 )
+
+		if ( KoLCharacter.inFistcore() )
+		{
+			this.equipment[ EquipmentManager.WEAPON ].setEnabled( false );
+			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( false );
+		}
+		else if ( weaponHands > 1 )
 		{
 			// Equipping 2 or more handed weapon: nothing in off-hand
 			this.equipment[ EquipmentManager.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
@@ -1043,9 +1049,6 @@ public class GearChangeFrame
 			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
 			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
 		}
-
-		this.equipment[ EquipmentManager.WEAPON ].setEnabled( this.isEnabled && !KoLCharacter.inFistcore() );
-		this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled && !KoLCharacter.inFistcore() );
 
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 		FamiliarData selectedFamiliar = (FamiliarData) this.familiars.getSelectedItem();
