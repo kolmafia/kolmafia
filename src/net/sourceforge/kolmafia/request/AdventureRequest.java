@@ -1004,6 +1004,12 @@ public class AdventureRequest
 			"writhing and twisting snake",
 			"demonName10",
 		},
+		{
+			"Where Have All The Drunkards Gone?",
+			Pattern.compile( "Is (.*?) a word?"),
+			"Gary's friend",
+			"demonName11",
+		},
 	};
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );

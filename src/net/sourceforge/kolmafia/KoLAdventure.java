@@ -98,6 +98,7 @@ public class KoLAdventure
 		{ "Nemesis' Lair", "Existential Torment" },
 		{ "Sinister Ancient Tablet", "Burning, Man" },
 		{ "Strange Cube", "The Pleasures of the Flesh" },
+		{ "Battlefield", "Infernal Thirst" },
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );

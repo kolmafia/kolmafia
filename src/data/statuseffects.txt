@@ -1700,7 +1700,7 @@
 1699	In a Lather	lather.gif	39fbcc199b06bc544b10609e4ebce693	drink 1 Sockdollager
 1700	Feeling No Pain	antianti.gif	216b9fd767c9c192e1119fee7b9c2e8d	drink 1 Ish Kabibble
 1701	Hip to the Jive	familiar25.gif	fc766ac280450bf9289d39605c447341	drink 1 Hot Socks
-1702
+1702	Infernal Thirst	tankard.gif	5562b190575e1512d74dad4f0a0268e8	summon 11
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	use 1 irradiated turtle
 1704	Colorful Gratitude	rrainbow.gif	77244b327a58e614101d0eaefafa7797	use 1 cigar box turtle
 1705	Fishy, Oily	lightvial.gif	7b491297d469b73738ee9d7d4ede9c10	use 1 gourmet gourami oil

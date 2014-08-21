@@ -4448,6 +4448,7 @@ Incredibly Hulking	Muscle Percent: +200
 Indescribable Flavor	Spell Damage: +30
 Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
 # Inebriate Pride: Experience: +X
+Infernal Thirst	Booze Drop: +200
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
