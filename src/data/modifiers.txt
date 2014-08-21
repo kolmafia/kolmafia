@@ -4811,6 +4811,7 @@ Radio Head	Moxie: +20
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
 Raging Animal	Familiar Damage: +30
+Rain Dancin'	Item Drop: [20*path(Heavy Rains)]
 Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Cold Damage: +15, Hot Damage: +15, Sleaze Damage: +15, Spooky Damage: +15, Stench Damage: +15
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rampage!	Weapon Damage Percent: +50
