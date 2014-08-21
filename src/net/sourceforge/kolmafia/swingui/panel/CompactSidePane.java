@@ -610,7 +610,16 @@ public class CompactSidePane
 		this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
-		this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+		// Remove this if/when KoL supports Water Level effect on Oil Peak/Tavern
+		if ( KoLCharacter.inRaincore() )
+		{
+			this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) +
+				" (" + KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL ) ) + ")" );
+		}
+		else
+		{
+			this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+		}
 		this.encLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
 		this.initLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
 		this.expLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );

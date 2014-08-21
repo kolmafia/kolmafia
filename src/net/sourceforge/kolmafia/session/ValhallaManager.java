@@ -254,8 +254,8 @@ public class ValhallaManager
 		// First Rain monster expected on turns 9-11
 		if ( KoLCharacter.inRaincore() )
 		{
-			TurnCounter.startCounting( 9, "Rain Monster window begin loc=*", "lparen.gif" );
-			TurnCounter.startCounting( 11, "Rain Monster window end loc=*", "rparen.gif" );
+			TurnCounter.startCounting( 8, "Rain Monster window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 10, "Rain Monster window end loc=*", "rparen.gif" );
 		}
 
 		// User-defined actions:
