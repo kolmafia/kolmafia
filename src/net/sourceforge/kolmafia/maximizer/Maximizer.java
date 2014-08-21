@@ -1099,11 +1099,11 @@ public class Maximizer
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
-		if ( item.getItemId() == ItemPool.HATSEAT )
+		if ( item != null && item.getItemId() == ItemPool.HATSEAT )
 		{
 			spec.setEnthroned( enthroned );
 		}
-		if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+		if ( item != null && item.getItemId() == ItemPool.BUDDY_BJORN )
 		{
 			spec.setBjorned( bjorned );
 		}
