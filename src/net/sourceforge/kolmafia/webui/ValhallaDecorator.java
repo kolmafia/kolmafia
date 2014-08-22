@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -58,6 +59,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -299,6 +302,10 @@ public class ValhallaDecorator
 		ValhallaDecorator.switchCorrespondent( buffer );
 
 		ValhallaDecorator.switchWorkshed( buffer );
+		
+		ValhallaDecorator.switchFolderHolder( buffer );
+		
+		ValhallaDecorator.checkIceHouse( buffer );
 	}
 
 	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
@@ -566,5 +573,53 @@ public class ValhallaDecorator
 		}
 		workshedBuffer.append( "</nobr><br>" );
 		buffer.append( workshedBuffer );
+	}
+
+	private static final void switchFolderHolder( StringBuffer buffer )
+	{
+		StringBuilder folderHolderBuffer = new StringBuilder();
+
+		if ( InventoryManager.getCount( ItemPool.FOLDER_HOLDER ) + InventoryManager.getEquippedCount( ItemPool.FOLDER_HOLDER ) == 0 )
+		{
+			return;
+		}
+
+		folderHolderBuffer.append( "<nobr>Folder Holder: " );
+		for ( int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER3; ++slot )
+		{
+			AdventureResult folder = EquipmentManager.getEquipment( slot );
+			if ( folder != null )
+			{
+				String name = folder.getName();
+				Modifiers mods = Modifiers.getModifiers( name );
+				String enchantments = mods.getString( "Modifiers" );
+				folderHolderBuffer.append( "<a href=\"inventory.php?action=useholder\" title=\"Change from " );
+				folderHolderBuffer.append( enchantments );
+				folderHolderBuffer.append( "\">" );
+				folderHolderBuffer.append( name.substring( 8, name.length() - 1 ) );
+				folderHolderBuffer.append( "</a> " );
+			}
+		}
+		folderHolderBuffer.append( "</nobr><br>" );
+		buffer.append( folderHolderBuffer );
+	}
+
+	private static final void checkIceHouse( StringBuffer buffer )
+	{
+		StringBuilder iceHouseBuffer = new StringBuilder();
+
+		String monster = BanishManager.getIceHouseMonster();
+
+		iceHouseBuffer.append( "<nobr>Ice House: <a href=\"museum.php?action=icehouse\" title=\"Check ice house monster\">" );
+		if ( monster != null )
+		{
+			iceHouseBuffer.append( monster );
+			iceHouseBuffer.append( " (currently)</a></nobr>" );
+		}
+		else
+		{
+			iceHouseBuffer.append( "(none currently)</a></nobr>" );
+		}
+		buffer.append( iceHouseBuffer );
 	}
 }
