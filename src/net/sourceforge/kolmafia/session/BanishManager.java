@@ -476,6 +476,25 @@ public class BanishManager
 		return banishList.toString();
 	}
 
+	public static final String getIceHouseMonster()
+	{
+		BanishManager.recalculate();
+
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+
+		while ( it.hasNext() )
+		{
+			BanishedMonster current = it.next();
+
+			if ( current.banishName.equals( "ice house" ) )
+			{
+				return current.monsterName;
+			}
+		}
+
+		return null;
+	}
+
 	public static final String[][] getBanishData()
 	{
 		BanishManager.recalculate();
