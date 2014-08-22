@@ -15,6 +15,7 @@ Any numeric modifier keyword can be followed by one or both of these special key
 <br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead.
 <br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize.
 <br>If <b>min</b> or <b>max</b> is specified at the start of the expression, it applies to the total score (the sum of each modifier value times its weight).  A global <b>max</b> may allow equipment maximization to finish faster, since no further combinations will be considered once the specified value is reached.
+<br>The preference "maximizerCombinationLimit" (set with "set maximizerCombinationLimit = 100000" in CLi) constrains the number of combinations Maximizer will consider. Depending where it is set, this may mean you don't get the best combination, but you may well get a good enough one faster. Depending which equipment you can use, you may find a higher value than 100000 is needed.
 <h3>Other Modifiers</h3>
 Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false.  There is one shortcut available: <b>sea</b> requires both Adventure Underwater and Underwater Familiar to be true.
 <p>
@@ -32,6 +33,7 @@ Slot names can be used as keywords:
 <br><b>melee</b> - With positive weight, only melee weapons will be considered.  With negative weight, only ranged weapons will be considered.
 <br><b>type <i>text</i></b> - Only weapons with a type containing <i>text</i> are considered; for example, <b>type club</b> if you plan to do some Seal Clubbing.
 <br><b>shield</b> - With positive weight, only shields will be considered for your off-hand.  Implies <b>1 handed</b>.
+<br><b>-current</b> - By default Maximizer considers your current equipment. With -current keyword it does not. This will reduce the number of combinations considered, but will sometimes mean changes of equipment are suggested even though they don't improve what you are wearing.
 <br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped.
 <br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time).
 <br>If both <b>+equip</b> and <b>+outfit</b> are used together, either one will satisfy the condition - all of the items, or one of the outfits.  This special case is needed to be able to specify the conditions for adventuring in the Pirate Cove.
