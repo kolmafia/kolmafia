@@ -91,6 +91,7 @@ public class Evaluator
 	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
 	private boolean requireShield = false;
 	private boolean noTiebreaker = false;
+	private boolean current = true;
 	private HashSet<String> posOutfits, negOutfits;
 	private TreeSet<AdventureResult> posEquip, negEquip;
 
@@ -270,6 +271,11 @@ public class Evaluator
 			else if ( keyword.startsWith( "tie" ) )
 			{
 				this.noTiebreaker = weight < 0.0;
+				continue;
+			}
+			else if ( keyword.startsWith( "current" ) )
+			{
+				this.current = weight > 0.0;
 				continue;
 			}
 			else if ( keyword.startsWith( "type " ) )
@@ -1164,9 +1170,10 @@ public class Evaluator
 					outfitPieces.put( item, item );
 				}
 
-				if ( KoLCharacter.hasEquipped( item ) )
+				if ( KoLCharacter.hasEquipped( item ) && this.current )
 				{	// Make sure the current item in each slot is considered
-					// for keeping, unless it's actively harmful.
+					// for keeping, unless it's actively harmful, unless -current
+					// option is used
 					item.automaticFlag = true;
 				}
 
@@ -1266,7 +1273,7 @@ public class Evaluator
 				if ( delta < 0.0 ) continue;
 				if ( delta == 0.0 )
 				{
-					if ( KoLCharacter.hasEquipped( item ) ) break gotItem;
+					if ( KoLCharacter.hasEquipped( item ) && this.current ) break gotItem;
 					if ( item.initial == 0 ) continue;
 					if ( item.automaticFlag ) continue;
 				}
