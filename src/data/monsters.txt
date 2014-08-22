@@ -1680,7 +1680,7 @@ Aquagoblin	aquagoblin.gif	BOSS Atk: 55 Def: 50 HP: 69 Init: 50 P: goblin	goblin 
 Auqadargon	aquadargon.gif	BOSS Atk: 99 Def: 90 HP: 140 Init: 90 P: undead	chest of the Bonerdagon (n100)
 Big Wisnaqua	aquaniewski.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	Wet Russian (n100)
 Dr. Aquard	aquard.gif	BOSS Atk: 180 Def: 165 HP: 260 Init: -10000 P: dude	Sogg-Os (n100)	dumb mud (n100)
-freshwater bonefish	bonefish.gif	P: fish	freshwater fishbone (0)	freshwater fishbone (0)
+freshwater bonefish	bonefish.gif	Atk: [MOX-27+max(ML,0)] Def: [MUS-27+max(ML,0)] HP: [0.75*(MUS-27+max(ML,0))] Exp: [(STAT-27+max(ML,0))/4] Init: 50 P: fish Meat: 48-96	freshwater fishbone (0)	freshwater fishbone (0)
 giant isopod	isopod.gif	Atk: [MOX-11+max(ML,0)] Def: [MUS-11+max(ML,0)] HP: [0.75*(MUS-11+max(ML,0))] Exp: [(STAT-11+max(ML,0))/4] Init: 10 P: bug Meat: 12-18	freshwater fishbone (0)
 giant tardigrade	tardigrade.gif	Atk: 40 Def: 40 HP: 60 Init: 40 P: bug	thunder thigh (n100)
 gourmet gourami	gourami.gif	Atk: [MOX-19+max(ML,0)] Def: [MUS-19+max(ML,0)] HP: [0.75*(MUS-19+max(ML,0))] Exp: [(STAT-19+max(ML,0))/4] Init: 30 P: fish Meat: 40-60	gourmet gourami oil (0)
