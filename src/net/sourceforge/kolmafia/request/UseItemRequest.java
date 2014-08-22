@@ -2870,7 +2870,8 @@ public class UseItemRequest
 		case ItemPool.ALIEN_SOURCE_CODE_USED:
 		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
-			if ( !responseText.contains( "You acquire a skill" ) && !responseText.contains( "place the Grimoire on the bookshelf" ) )
+			if ( !responseText.contains( "You acquire a skill" ) && !responseText.contains( "place the Grimoire on the bookshelf" ) &&
+				!responseText.contains( "eaten the entire thing" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
