@@ -1084,6 +1084,10 @@ public class Maximizer
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
+		if ( item == null )
+		{
+			item = EquipmentRequest.UNEQUIP;
+		}
 		if ( curr.equals( item ) &&
 			!( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
 			!( item.getItemId() == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) )
@@ -1099,17 +1103,17 @@ public class Maximizer
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
-		if ( item != null && item.getItemId() == ItemPool.HATSEAT )
+		if ( item.getItemId() == ItemPool.HATSEAT )
 		{
 			spec.setEnthroned( enthroned );
 		}
-		if ( item != null && item.getItemId() == ItemPool.BUDDY_BJORN )
+		if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 		{
 			spec.setBjorned( bjorned );
 		}
 		double delta = spec.getScore() - current;
 		String cmd, text;
-		if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
+		if ( item.equals( EquipmentRequest.UNEQUIP ) )
 		{
 			item = curr;
 			cmd = "unequip " + slotname;
