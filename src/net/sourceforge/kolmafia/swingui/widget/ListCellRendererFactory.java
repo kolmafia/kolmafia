@@ -584,7 +584,9 @@ public class ListCellRendererFactory
 			}
 			else if ( item.getPrice() > 0 )
 			{
-				stringForm.append( CafeRequest.discountedPrice( item.getPrice() ) );
+				// The speakeasy doesn't give you a discount.
+				int price = item.speakeasy ? item.getPrice() : CafeRequest.discountedPrice( item.getPrice() );
+				stringForm.append( price );
 				stringForm.append( " meat" );
 				return false;
 			}
