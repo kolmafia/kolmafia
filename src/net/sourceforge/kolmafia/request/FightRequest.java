@@ -83,7 +83,6 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -383,7 +382,7 @@ public class FightRequest
 	};
 
 	// Make an HTML cleaner
-	private static HtmlCleaner cleaner = new HtmlCleaner();
+	private static final HtmlCleaner cleaner = new HtmlCleaner();
 
 	static
 	{
@@ -2200,7 +2199,6 @@ public class FightRequest
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parsePirateInsult( responseText );
 		FightRequest.parseGrubUsage( responseText );
-		FightRequest.parseFlyerUsage( responseText );
 		FightRequest.parseLassoUsage( responseText );
 
 		Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher( responseText );
@@ -3698,21 +3696,6 @@ public class FightRequest
 		}
 	}
 
-	private static final void parseFlyerUsage( final String responseText )
-	{
-		// You slap a flyer up on your opponent. It enrages it.
-
-		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
-		{
-			int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() - MonsterStatusTracker.getMonsterAttackModifier() );
-			Preferences.increment( "flyeredML", ML );
-			AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
-			AdventureResult.addResultToList( KoLConstants.tally, result );
-			GoalManager.updateProgress( result );
-			usedFlyer = true;
-		}
-	}
-
 	private static final Pattern LASSO_PATTERN =
 		Pattern.compile( "You twirl the lasso, and (\\w+) toss" );
 	private static final void parseLassoUsage( String responseText )
@@ -4242,7 +4225,7 @@ public class FightRequest
 			return;
 		}
 
-		if ( haiku.indexOf( "damage" ) != -1 )
+		if ( haiku.contains( "damage" ) )
 		{
 			// Using a combat item
 			int damage = StringUtilities.parseInt( points );
@@ -5872,23 +5855,6 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
-		if ( itemId == ItemPool.EMPTY_EYE )
-		{
-			// You hold Zombo's eye out toward your opponent,
-			// whose gaze is transfixed by it. (success)
-			//   or
-			// You hold Zombo's eye out toward your opponent,
-			// but nothing happens. (failure)
-			if ( responseText.indexOf( "You hold Zombo's eye out toward your opponent, whose gaze is transfixed by it." ) != -1 )
-			{
-				Preferences.setInteger( "_lastZomboEye", KoLAdventure.getAdventureCount() );
-				// "Safe" interval between uses is 50 turns
-				TurnCounter.stopCounting( "Zombo's Empty Eye" );
-				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
-			}
-			return false;
-		}
-
 		if ( itemId == ItemPool.ICEBALL )
 		{
 			// First use:
@@ -5904,15 +5870,15 @@ public class FightRequest
 			// You hurl the iceball at your opponent, dealing X damage.
 			// Unfortunately, the iceball completely disintegrates on impact.
 
-			if ( responseText.indexOf( "back in your sack" ) != -1 )
+			if ( responseText.contains( "back in your sack" ) )
 			{
 				Preferences.setInteger( "_iceballUses", 1 );
 			}
-			else if ( responseText.indexOf( "pretty slushy" ) != -1 )
+			else if ( responseText.contains( "pretty slushy" ) )
 			{
 				Preferences.setInteger( "_iceballUses", 2 );
 			}
-			else if ( responseText.indexOf( "completely disintegrates" ) != -1 )
+			else if ( responseText.contains( "completely disintegrates" ) )
 			{
 				Preferences.setInteger( "_iceballUses", 3 );
 				return true;
@@ -5938,8 +5904,8 @@ public class FightRequest
 			//   or
 			// A nearby hippy soldier sees you about to start
 			// ringing your windchimes (failure)
-			if ( responseText.indexOf( "bang out a series of chimes" ) != -1 ||
-			     responseText.indexOf( "ringing your windchimes" ) != -1 )
+			if ( responseText.contains( "bang out a series of chimes" ) ||
+			     responseText.contains( "ringing your windchimes" ) )
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -5949,7 +5915,7 @@ public class FightRequest
 			}
 
 			// Then he takes your windchimes and wanders off.
-			if ( responseText.indexOf( "he takes your windchimes" ) != -1 )
+			if ( responseText.contains( "he takes your windchimes" ) )
 			{
 				return true;
 			}
@@ -5964,8 +5930,8 @@ public class FightRequest
 			//   or
 			// A nearby frat soldier sees you about to send a
 			// message to HQ (failure)
-			if ( responseText.indexOf( "punch a few buttons on the phone" ) != -1 ||
-			     responseText.indexOf( "send a message to HQ" ) != -1 )
+			if ( responseText.contains( "punch a few buttons on the phone" ) ||
+			     responseText.contains( "send a message to HQ" ) )
 			{
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -5975,7 +5941,7 @@ public class FightRequest
 			}
 
 			// Then he takes your phone and wanders off.
-			if ( responseText.indexOf( "he takes your phone" ) != -1 )
+			if ( responseText.contains( "he takes your phone" ) )
 			{
 				return true;
 			}
@@ -5986,7 +5952,7 @@ public class FightRequest
 			// The turtle looks at you, shakes his head, bows, and
 			// disappears into the shadows. Looks like you asked
 			// too much of him.
-			if ( responseText.indexOf( "disappears into the shadows" ) != -1 )
+			if ( responseText.contains( "disappears into the shadows" ) )
 			{
 				return true;
 			}
@@ -6004,7 +5970,7 @@ public class FightRequest
 			// into your sack. He doesn't seem to appreciate it too
 			// much...
 
-			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
+			if ( responseText.contains( "make a perfect copy" ) )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
 				Preferences.setString( "spookyPuttyMonster", monsterName );
@@ -6023,14 +5989,14 @@ public class FightRequest
 			// It makes a scary noise, and a tiny, ghostly image
 			// of your opponent appears inside it. 
 
-			if ( responseText.indexOf( "ghostly image of your opponent" ) != -1 )
+			if ( responseText.contains( "ghostly image of your opponent" ) )
 			{
 				Preferences.increment( "_raindohCopiesMade", 1 );
 				Preferences.setString( "rainDohMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
-			if ( responseText.indexOf( "too scared to use this box anymore today" ) != -1 )
+			if ( responseText.contains( "too scared to use this box anymore today" ) )
 			{
 				Preferences.setInteger( "_raindohCopiesMade", 5 );
 			}
@@ -6083,7 +6049,7 @@ public class FightRequest
 			// is enraged, and smashes the copier to pieces, but
 			// not before it produces a sheet of paper.
 
-			if ( responseText.indexOf( "press the COPY button" ) != -1 )
+			if ( responseText.contains( "press the COPY button" ) )
 			{
 				Preferences.setString( "photocopyMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6102,7 +6068,7 @@ public class FightRequest
 			// You acquire an item: envyfish egg
 			// The school is distracted by a lost clownfish for a moment.
 
-			if ( responseText.indexOf( "the fish squirts out an egg" ) != -1 )
+			if ( responseText.contains( "the fish squirts out an egg" ) )
 			{
 				Preferences.setString( "envyfishMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6153,7 +6119,7 @@ public class FightRequest
 			// As you're moseying, you notice that the last of the Blank-Out
 			// is gone, and that your hand is finally clean. Yay!
 
-			if ( responseText.indexOf( "your hand is finally clean" ) != -1 )
+			if ( responseText.contains( "your hand is finally clean" ) )
 			{
 				Preferences.setInteger( "blankOutUsed", 0 );
 				return true;
@@ -6166,7 +6132,7 @@ public class FightRequest
 			// You hand him the pinkslip. He reads it, frowns, and
 			// swims sulkily away.
 
-			return responseText.indexOf( "swims sulkily away" ) != -1;
+			return responseText.contains( "swims sulkily away" );
 
 		case ItemPool.PUMPKIN_BOMB:
 
@@ -6175,7 +6141,7 @@ public class FightRequest
 			// yellow and flying pumpkin guts, there's nothing left
 			// of her but a stain on the ground.
 
-			return responseText.indexOf( "toss the pumpkin" ) != -1;
+			return responseText.contains( "toss the pumpkin" );
 
 		case ItemPool.GOLDEN_LIGHT:
 
@@ -6191,7 +6157,7 @@ public class FightRequest
 			// You hold up the parasol, and a sudden freak gust of wind
 			// sends you hurtling through the air to safety.
 
-			if ( responseText.indexOf( "sudden freak gust" ) != -1 )
+			if ( responseText.contains( "sudden freak gust" ) )
 			{
 				Preferences.increment( "_navelRunaways" );
 				Preferences.increment( "parasolUsed" );
@@ -6201,7 +6167,7 @@ public class FightRequest
 			// You throw away the shredded (but delicious-smelling) wreck
 			// that was once a useful tool.
 
-			if ( responseText.indexOf( "You throw away the shredded" ) != -1 )
+			if ( responseText.contains( "You throw away the shredded" ) )
 			{
 				Preferences.setInteger( "parasolUsed", 0 );
 				return true;
@@ -6255,7 +6221,7 @@ public class FightRequest
 			// accidentally hit the Attack button instead of using
 			// that skill.
 
-			if ( responseText.indexOf( "jumps onto the keyboard" ) != -1 )
+			if ( responseText.contains( "jumps onto the keyboard" ) )
 			{
 				FightRequest.nextAction = "attack";
 				return;
@@ -6266,7 +6232,7 @@ public class FightRequest
 			// couple of minutes fishing it out from underneath a
 			// couch. It's as adorable as it is annoying.
 
-			if ( responseText.indexOf( "bats it out of your hand" ) != -1 )
+			if ( responseText.contains( "bats it out of your hand" ) )
 			{
 				return;
 			}
@@ -6401,7 +6367,7 @@ public class FightRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "You don't have that skill" ) != -1 )
+		if ( responseText.contains( "You don't have that skill" ) )
 		{
 			return;
 		}
@@ -6420,7 +6386,7 @@ public class FightRequest
 		// over by the gust of wind it creates, and lose track of what
 		// you're doing.
 
-		if ( responseText.indexOf( "Bonerdagon suddenly starts furiously beating its wings" ) != -1 )
+		if ( responseText.contains( "Bonerdagon suddenly starts furiously beating its wings" ) )
 		{
 			return;
 		}
@@ -6454,14 +6420,14 @@ public class FightRequest
 			
 		case SkillPool.MAYFLY_SWARM:
 			if ( responseText.contains( "mayfly bait and swing it" ) ||
-				 responseText.contains( "May flies when" ) ||
-				 responseText.contains( "mayflies buzz in" ) ||
-				 responseText.contains( "mayflies, with bait" ) ||
-				 responseText.contains( "mayflies respond" ) )
+			     responseText.contains( "May flies when" ) ||
+			     responseText.contains( "mayflies buzz in" ) ||
+			     responseText.contains( "mayflies, with bait" ) ||
+			     responseText.contains( "mayflies respond" ) )
 			{
 				Preferences.increment( "_mayflySummons", 1 );
 				Preferences.increment( "mayflyExperience",
-					responseText.indexOf( "mayfly aphrodisiac" ) != -1 ? 2 : 1 );
+					responseText.contains( "mayfly aphrodisiac" ) ? 2 : 1 );
 			}
 			break;
 
@@ -6587,7 +6553,7 @@ public class FightRequest
 
 		case 819: case 820: case 821: case 822: case 823:
 		case 824: case 825: case 826: case 827:
-			if ( AdventureResult.bangPotionName( itemId ).indexOf( "healing" ) != -1 )
+			if ( AdventureResult.bangPotionName( itemId ).contains( "healing" ) )
 			{
 				MonsterStatusTracker.healMonster( 16 );
 			}
@@ -6667,6 +6633,41 @@ public class FightRequest
 			if ( responseText.contains( "toss the ice house" ) )
 			{
 				BanishManager.banishCurrentMonster( "ice house" );
+			}
+			break;
+		case ItemPool.ROCK_BAND_FLYERS:
+		case ItemPool.JAM_BAND_FLYERS:
+			// You slap a flyer up on your opponent. It enrages it.
+
+			if ( responseText.contains( "You slap a flyer" ) )
+			{
+				int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() - MonsterStatusTracker.getMonsterAttackModifier() );
+				Preferences.increment( "flyeredML", ML );
+				AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
+				GoalManager.updateProgress( result );
+				usedFlyer = true;
+			}
+
+			// The Rock Promoters are long gone, and the scheduled day of the show
+			// has passed. You toss the stack of flyers in a trash can.
+			else if ( responseText.contains( "Rock Promoters are long gone" ) )
+			{
+				ResultProcessor.removeItem( itemId );
+			}
+			break;
+		case ItemPool.EMPTY_EYE:
+			// You hold Zombo's eye out toward your opponent,
+			// whose gaze is transfixed by it. (success)
+			//   or
+			// You hold Zombo's eye out toward your opponent,
+			// but nothing happens. (failure)
+			if ( responseText.indexOf( "You hold Zombo's eye out toward your opponent, whose gaze is transfixed by it." ) != -1 )
+			{
+				Preferences.setInteger( "_lastZomboEye", KoLAdventure.getAdventureCount() );
+				// "Safe" interval between uses is 50 turns
+				TurnCounter.stopCounting( "Zombo's Empty Eye" );
+				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
 			}
 			break;
 		}
