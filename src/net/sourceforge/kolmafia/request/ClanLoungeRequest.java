@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -290,19 +291,19 @@ public class ClanLoungeRequest
 	public static final Object [][] SPEAKEASY_DATA = new Object[][]
 	{
 		{
-			"glass of \"milk\"",
+			"glass of &quot;milk&quot;",
 			IntegerPool.get( 1 ),
 			IntegerPool.get( 1 ),
 			IntegerPool.get( 250 )
 		},
 		{
-			"cup of \"tea\"",
+			"cup of &quot;tea&quot;",
 			IntegerPool.get( 2 ),
 			IntegerPool.get( 1 ),
 			IntegerPool.get( 250 )
 		},
 		{
-			"thermos of \"whiskey\"",
+			"thermos of &quot;whiskey&quot;",
 			IntegerPool.get( 3 ),
 			IntegerPool.get( 1 ),
 			IntegerPool.get( 250 )
@@ -510,7 +511,7 @@ public class ClanLoungeRequest
 		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
 		{
 			String itemName = (String) SPEAKEASY_DATA[i][0];
-			Concoction concoction = new Concoction( itemName );
+			Concoction concoction = ConcoctionPool.get( itemName );
 			concoction.speakeasy = true;
 			concoction.price = ClanLoungeRequest.speakeasyNameToCost( itemName );
 			ClanLoungeRequest.SPEAKEASY_NAMES.add( itemName );
