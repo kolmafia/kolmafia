@@ -1228,6 +1228,12 @@ public class ConcoctionDatabase
 			// Initialize all the variables
 			item.resetCalculations();
 
+			if ( item.speakeasy )
+			{
+				// Has an item number, but can't appear in inventory
+				continue;
+			}
+
 			AdventureResult concoction = item.concoction;
 			if ( concoction == null )
 			{
