@@ -399,46 +399,6 @@ public class Maximizer
 								usesRemaining = 1;
 							}
 						}
-						// Speakeasy drinks don't have items
-						else if ( item == null && ClanLoungeRequest.isSpeakeasyDrink( iName ) )
-						{
-							if ( KoLCharacter.inBadMoon() )
-							{
-								continue;
-							}
-							else if ( !Type69Request.isAllowed( "Clan Item", "Speakeasy" ) )
-							{
-								continue;
-							}
-							// Jarlsberg and Highschool characters can't drink at the speakeasy
-							else if ( KoLCharacter.isJarlsberg() || KoLCharacter.inHighschool() )
-							{
-								continue;
-							}
-							else if ( !haveVipKey )
-							{
-								if ( includeAll )
-								{
-									text = "( get access to the VIP lounge )";
-									cmd = "";
-								}
-								else continue;
-							}
-							// Inebriety available? We won't suggest things that'll cause overdrinking
-							int inebriety = ClanLoungeRequest.speakeasyNameToInebriety( iName );
-							if ( inebriety > 0 &&
-								KoLCharacter.getInebriety() + inebriety > KoLCharacter.getInebrietyLimit() )
-							{
-								continue;
-							}
-							// Have we had all three?
-							usesRemaining = 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" );
-							price = ClanLoungeRequest.speakeasyNameToCost( iName );
-							if ( usesRemaining <= 0 )
-							{
-								continue;
-							}
-						}
 						else if ( item == null && !cmd.contains( "," ) )
 						{
 							if ( includeAll )

@@ -117,6 +117,7 @@ public class DrinkItemRequest
 
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
+		int maxAvailable = Integer.MAX_VALUE;
 
 		switch ( itemId )
 		{
@@ -141,20 +142,40 @@ public class DrinkItemRequest
 			return 0;
 		}
 
+		if ( ClanLoungeRequest.isSpeakeasyDrink( ItemDatabase.getItemName( itemId ) ) )
+		{
+			// Speakeasy not available in Bad Moon, or without VIP key
+			if ( KoLCharacter.inBadMoon() )
+			{
+				return 0;
+			}
+			else if ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) == 0 )
+			{
+				return 0;
+			}
+			maxAvailable = 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" );
+		}
+
 		if ( inebrietyLeft < inebriety )
 		{
 			// One drink will make us drunk
 			return 1;
 		}
 
+		int maxNumber = inebrietyLeft / inebriety;
+
 		if ( allowOverDrink )
 		{
 			// Multiple drinks will make us drunk
-			return inebrietyLeft / inebriety + 1;
+			maxNumber++;
 		}
 
-		// Multiple drinks do not quite make us drunk
-		return inebrietyLeft / inebriety;
+		if ( maxNumber > maxAvailable )
+		{
+			maxNumber = maxAvailable;
+		}
+
+		return maxNumber;
 	}
 
 	@Override
