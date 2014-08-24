@@ -240,7 +240,7 @@ public class ClanRumpusRequest
 		this.addFormField( "furni", String.valueOf( furniture ) );
 	}
 
-	public static String equipmentName( final int spot, final int furniture )
+	private static String equipmentName( final int spot, final int furniture )
 	{
 		if ( spot < 1 || spot > 9 )
 		{

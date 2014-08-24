@@ -2085,6 +2085,17 @@ public class ItemPool
 	public static final int HOT_ASHES = 7548;
 	public static final int WHITE_PAGE = 7555;
 	public static final int CHRONER = 7567;
+	public static final int GLASS_OF_MILK = 7589;
+	public static final int CUP_OF_TEA = 7590;
+	public static final int THERMOS_OF_WHISKEY = 7591;
+	public static final int LUCKY_LINDY = 7592;
+	public static final int BEES_KNEES = 7593;
+	public static final int SOCKDOLLAGER = 7594;
+	public static final int ISH_KABIBBLE = 7595;
+	public static final int HOT_SOCKS = 7596;
+	public static final int PHONUS_BALONUS = 7597;
+	public static final int FLIVVER = 7598;
+	public static final int SLOPPY_JALOPY = 7599;
 	public static final int MINI_LIFE_PRESERVER = 7645;
 	public static final int LIGHTNING_MILK = 7646;
 	public static final int AQUA_BRAIN = 7647;

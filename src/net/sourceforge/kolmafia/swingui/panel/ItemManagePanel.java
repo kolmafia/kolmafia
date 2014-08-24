@@ -398,7 +398,7 @@ public abstract class ItemManagePanel
 				Concoction concoction = ( (Concoction) items[ i ] );
 				itemName = concoction.getName();
 				itemCount = concoction.getAvailable();
-				if ( ClanLoungeRequest.isSpeakeasyDrink( itemName ) )
+				if ( concoction.speakeasy )
 				{
 					itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
 				}

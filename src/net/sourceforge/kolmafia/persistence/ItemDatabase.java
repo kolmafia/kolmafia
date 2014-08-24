@@ -2408,6 +2408,17 @@ public class ItemDatabase
 		case ItemPool.ANEMONE_MINE_MAP:
 		case ItemPool.DIVE_BAR_MAP:
 		case ItemPool.SKATE_PARK_MAP:
+		case ItemPool.GLASS_OF_MILK:
+		case ItemPool.CUP_OF_TEA:
+		case ItemPool.THERMOS_OF_WHISKEY:
+		case ItemPool.LUCKY_LINDY:
+		case ItemPool.BEES_KNEES:
+		case ItemPool.SOCKDOLLAGER:
+		case ItemPool.ISH_KABIBBLE:
+		case ItemPool.HOT_SOCKS:
+		case ItemPool.PHONUS_BALONUS:
+		case ItemPool.FLIVVER:
+		case ItemPool.SLOPPY_JALOPY:
 			return true;
 		}
 		return false;

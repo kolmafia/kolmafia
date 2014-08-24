@@ -804,13 +804,13 @@ public class ClanLoungeRequest
 		return ClanLoungeRequest.visitLounge( SEARCH );
 	}
 
-	/**
-	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
-	 * gains were made.
-	 */
-
-	public static String equipmentName( final String urlString )
+	private static String equipmentName( final String urlString )
 	{
+		if ( urlString.contains( "preaction" ) )
+		{
+			return null;
+		}
+
 		if ( urlString.indexOf( "klaw" ) != -1 )
 		{
 			return "Deluxe Mr. Klaw \"Skill\" Crane Game";
@@ -843,11 +843,11 @@ public class ClanLoungeRequest
 		{
 			return "Swimming Pool";
 		}
-		if ( urlString.indexOf( "hotdogstand" ) != -1 )
+		if ( urlString.indexOf( "action=hotdogstand" ) != -1 )
 		{
 			return "Hot Dog Stand";
 		}
-		if ( urlString.indexOf( "speakeasy" ) != -1 )
+		if ( urlString.indexOf( "action=speakeasy" ) != -1 )
 		{
 			return "Speakeasy";
 		}
@@ -863,6 +863,11 @@ public class ClanLoungeRequest
 		}
 		return null;
 	}
+
+	/**
+	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
+	 * gains were made.
+	 */
 
 	@Override
 	public void run()
@@ -2061,7 +2066,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				message = "eat " + speakeasyDrink;
+				message = "drink " + speakeasyDrink;
 			}
 			else
 			{
