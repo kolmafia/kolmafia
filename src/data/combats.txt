@@ -289,6 +289,7 @@ The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
 The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	The Red Fox: 0	Ron "The Weasel" Copperhead: 0
 The Road to White Citadel	70	angry raccoon puppet	business hippy	eXtreme Sports Orcs
+The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Royal Guard Chamber	100	filthworm royal guard
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: o1	hung-over half-orc hobo: e1	Crazy Bastard: -1
