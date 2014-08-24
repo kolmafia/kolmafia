@@ -708,6 +708,11 @@ public class AdventureRequest
 				image.startsWith( "warbear3" ) ? "High-Ranking Warbear Officer" :
 				// Crashed Space Beast
 				image.startsWith( "spacebeast" ) ? "space beast" :
+				// Roman Forum
+				image.startsWith( "gladiator" ) ? "Gladiator" :
+				image.startsWith( "madiator" ) ? "Madiator" :
+				image.startsWith( "radiator" ) ? "Radiator" :
+				image.startsWith( "sadiator" ) ? "Sadiator" :
 				null;
 		}
 
