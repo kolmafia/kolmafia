@@ -61,10 +61,10 @@ public class AdventureResult
 {
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
-	private int itemId;
-	private int count;
 	protected String name;
 	protected int priority;
+	private int count;
+	private int itemId;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
