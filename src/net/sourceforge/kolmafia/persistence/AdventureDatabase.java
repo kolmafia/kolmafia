@@ -862,12 +862,22 @@ public class AdventureDatabase
 
 	public static final int getRecommendedStat( String adventureName )
 	{
-		return AdventureDatabase.statLookup.get( adventureName );
+		Integer stat = AdventureDatabase.statLookup.get( adventureName );
+		if ( stat == null )
+		{
+			return -1;
+		}
+		return stat;
 	}
 
 	public static final int getWaterLevel( String adventureName )
 	{
-		return AdventureDatabase.waterLevelLookup.get( adventureName );
+		Integer waterLevel = AdventureDatabase.waterLevelLookup.get( adventureName );
+		if ( waterLevel == null )
+		{
+			return -1;
+		}
+		return waterLevel;
 	}
 
 	public static class AdventureArray
