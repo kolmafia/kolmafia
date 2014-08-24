@@ -344,6 +344,7 @@ Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 Twitch	adventure=410	Env: underground	The Cave Before Time
 Twitch	adventure=411	Env: indoor	An Illicit Bohemian Party
 Twitch	adventure=412	Env: outdoor	Moonshiners' Woods
+Twitch	adventure=414	Env: outdoor	The Roman Forum
 
 Psychoses	adventure=301	Env: outdoor	Anger Man's Level
 Psychoses	adventure=302	Env: outdoor	Fear Man's Level
