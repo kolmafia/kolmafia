@@ -992,6 +992,14 @@ public class UseItemRequest
 		case ItemPool.SWEET_TOOTH:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_sweetToothUsed" ) ? 0 : 1;
+
+		case ItemPool.CHRONER_TRIGGER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_chronerTriggerUsed" ) ? 0 : 1;
+
+		case ItemPool.CHRONER_CROSS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_chronerCrossUsed" ) ? 0 : 1;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -4672,6 +4680,18 @@ public class UseItemRequest
 			if ( responseText.contains( "You pop the sweet" ) || responseText.contains( "You already had" ) )
 			{
 				Preferences.setBoolean( "_sweetToothUsed", true );
+			}
+			return;
+
+		case ItemPool.CHRONER_TRIGGER:
+			Preferences.setBoolean( "_chronerTriggerUsed", true );
+			return;
+
+		case ItemPool.CHRONER_CROSS:
+			Preferences.setBoolean( "_chronerCrossUsed", true );
+			if ( !responseText.contains( "falls right through" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.CHRONER );
 			}
 			return;
 
