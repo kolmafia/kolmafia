@@ -867,7 +867,7 @@ public class ConcoctionDatabase
 		AdventureResult item = c.getItem();
 
 		// If there's an actual item, it's not from a store
-		if ( item != null )
+		if ( item != null && !c.speakeasy )
 		{
 			// If concoction is a normal item, use normal item acquisition methods.
 			if ( item.getItemId() > 0 )
