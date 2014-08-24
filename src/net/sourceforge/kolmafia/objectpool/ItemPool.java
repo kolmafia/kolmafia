@@ -2105,6 +2105,7 @@ public class ItemPool
 	public static final int GOBLIN_WATER = 7660;
 	public static final int CONFISCATOR_BOOK = 7706;
 	public static final int BEAUTIFUL_RAINBOW = 7712;
+	public static final int MERCURY_BLESSING = 7728;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -3181,6 +3181,35 @@ public abstract class ChoiceManager
 			"Twitch", "choiceAdventure975", "Moonshriner's Woods",
 			new Object[] { "swap 5 cocktail onions for 10 hooch",
 				       "leave" } ),
+
+		// Choice 979 is The Agora
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure979", "The Agora",
+			new Object[] { new Option( "get blessing", 1 ),
+				       new Option( "visit store", 2 ),
+					   new Option( "play dice", 6 ) } ),
+
+		// Choice 980 is Welcome to Blessings Hut
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure980", "Blessings Hut",
+			new Object[] { new Option( "Mars blessing", 1 ),
+				       new Option( "Minerva blessing", 2 ),
+				       new Option( "Bacchus blessing", 3 ),
+				       new Option( "Mercury blessing", 4 ),
+					   new Option( "return to Agora", 6 ) } ),
+
+		// Choice 982 is The 99-Centurion Store
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure982", "The 99-Centurion Store",
+			new Object[] { new Option( "buy helmet", 1 ),
+				       new Option( "buy pteruges", 2 ),
+					   new Option( "return to Agora", 6 ) } ),
+
+		// Choice 983 is Playing Dice With Romans
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure983", "Playing Dice With Romans",
+			new Object[] { new Option( "make a bet and throw dice", 1 ),
+					   new Option( "return to Agora", 6 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8397,7 +8426,32 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.COCKTAIL_ONION, -StringUtilities.parseInt( stillMatcher.group( 1 ) ) );
 			}
-			break;			
+			break;
+
+		case 977:
+			// [Chariot Betting]
+			if ( ChoiceManager.lastDecision < 12 )
+			{
+				ResultProcessor.processItem( ItemPool.CHRONER, -10 );
+			}
+			break;
+
+		case 981:
+			// [back room]
+			if ( ChoiceManager.lastDecision < 12 )
+			{
+				ResultProcessor.processItem( ItemPool.MERCURY_BLESSING, -1 );
+			}
+			break;
+
+		case 982:
+		case 983:
+			// Playing Dice With Romans & The 99-Centurion Store
+			if ( ChoiceManager.lastDecision < 6 )
+			{
+				ResultProcessor.processItem( ItemPool.CHRONER, -1 );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
