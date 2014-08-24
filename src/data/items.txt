@@ -7729,3 +7729,19 @@
 7710	candy UFOs	859892912	ufo.gif	usable	t	0
 7711	water wings for babies	615145638	poolwings.gif	accessory	t,d	10
 7712	beautiful rainbow	830160863	rrainbow.gif	usable	t	0
+7713
+7714
+7715
+7716
+7717
+7718
+7719
+7720
+7721
+7722
+7723
+7724	pteruges	279167027	thighguard.gif	pants	t,d	58
+7725
+7726
+7727
+7728	Freddie's blessing of Mercury	716371734	nopic.gif	none	t,d	0

@@ -464,6 +464,7 @@ pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 pottery training pants	50	none
+pteruges	100	Mox: 35
 pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
 red silk skirt	155	Mox: 62
