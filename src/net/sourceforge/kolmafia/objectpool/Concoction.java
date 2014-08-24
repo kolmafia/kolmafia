@@ -751,13 +751,17 @@ public class Concoction
 
 	public void calculate2()
 	{
+		int id = this.getItemId();
+		if ( id < 0 || this.speakeasy )
+		{
+				return;
+		}
+
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
 		ArrayList<Concoction> visited = new ArrayList<Concoction>();
-		Iterator i;
 
-		int id = this.getItemId();
 		if ( id == Concoction.debugId )
 		{
 			Concoction.debug = true;
@@ -786,21 +790,19 @@ public class Concoction
 				// a binary search, not the O(n) of a linear search.
 				res = Math.max( res, (maxSuccess + minFailure) / 2 );
 			}
+			
 			if ( maxSuccess + 1 >= minFailure ) break;
+			
 			guess = Math.min( Math.max( res, maxSuccess + 1 ), minFailure - 1 );
 
-			i = visited.iterator();
-			while ( i.hasNext() )
+			for ( Concoction c : visited )
 			{	// clean up for next iteration of this item
-				Concoction c = (Concoction) i.next();
 				c.allocated = 0;
 			}
 		}
 
-		i = visited.iterator();
-		while ( i.hasNext() )
+		for ( Concoction c : visited )
 		{	// clean up for next item
-			Concoction c = (Concoction) i.next();
 			c.allocated = 0;
 			c.visited = false;
 		}
@@ -824,11 +826,16 @@ public class Concoction
 	
 	public void calculate3()
 	{
+		int id = this.getItemId();
+		if ( id < 0 || this.speakeasy )
+		{
+				return;
+		}
+	
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
 		ArrayList<Concoction> visited = new ArrayList<Concoction>();
-		Iterator i;
 
 		while ( true )
 		{
@@ -843,21 +850,19 @@ public class Concoction
 				minFailure = guess;
 				res = Math.max( res, (maxSuccess + minFailure) / 2 );
 			}
+			
 			if ( maxSuccess + 1 >= minFailure ) break;
+			
 			guess = Math.min( Math.max( res, maxSuccess + 1 ), minFailure - 1 );
 
-			i = visited.iterator();
-			while ( i.hasNext() )
+			for ( Concoction c : visited )
 			{	
-				Concoction c = (Concoction) i.next();
 				c.allocated = 0;
 			}
 		}
 
-		i = visited.iterator();
-		while ( i.hasNext() )
-		{	
-			Concoction c = (Concoction) i.next();
+		for ( Concoction c : visited )
+		{
 			c.allocated = 0;
 			c.visited = false;
 		}
