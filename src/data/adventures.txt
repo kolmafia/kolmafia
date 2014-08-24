@@ -341,10 +341,10 @@ Events	adventure=365	Env: outdoor	The Spirit World
 Events	adventure=408	Env: outdoor	Some Scattered Smoking Debris
 Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 
-Twitch	adventure=410	Env: underground	The Cave Before Time
-Twitch	adventure=411	Env: indoor	An Illicit Bohemian Party
-Twitch	adventure=412	Env: outdoor	Moonshiners' Woods
-Twitch	adventure=414	Env: outdoor	The Roman Forum
+Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
+Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
+Twitch	adventure=412	Env: outdoor Stat: 0	Moonshiners' Woods
+Twitch	adventure=414	Env: outdoor Stat: 0	The Roman Forum
 
 Psychoses	adventure=301	Env: outdoor	Anger Man's Level
 Psychoses	adventure=302	Env: outdoor	Fear Man's Level

@@ -1672,6 +1672,14 @@ hep cat	hepcat.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML
 cigarette girl	ciggirl.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: dude Meat: 16-24	candy cigarette (20)	birdbone corset (2)
 Mob penguin entrepreneur	moonstriner.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: penguin Meat: 32-48	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
+# Twitch 4 - The Roman Forum
+hypocritical medicus		Atk: [max(min(MOX+0,1000),10)+max(ML,0)] Def: [max(min(MUS+0,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+0,1000),10)+max(ML,0))] Exp: [max(min(STAT+0,1000),10)+max(ML,0)] Init: -10000 P: dude
+cheap strix		Atk: [max(min(MOX+1,1000),10)+max(ML,0)] Def: [max(min(MUS+1,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+1,1000),10)+max(ML,0))] Exp: [max(min(STAT+1,1000),10)+max(ML,0)] Init: -10000 P: beast
+Gladiator		Atk: [max(min(MOX+2,1000),10)+max(ML,0)] Def: [max(min(MUS+2,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+2,1000),10)+max(ML,0))] Exp: [max(min(STAT+2,1000),10)+max(ML,0)] Init: -10000 P: dude
+Sadiator		Atk: [max(min(MOX+3,1000),10)+max(ML,0)] Def: [max(min(MUS+3,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+3,1000),10)+max(ML,0))] Exp: [max(min(STAT+3,1000),10)+max(ML,0)] Init: -10000 P: dude
+Madiator		Atk: [max(min(MOX+4,1000),10)+max(ML,0)] Def: [max(min(MUS+4,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+4,1000),10)+max(ML,0))] Exp: [max(min(STAT+4,1000),10)+max(ML,0)] Init: -10000 P: dude
+Radiator		Atk: [max(min(MOX+5,1000),10)+max(ML,0)] Def: [max(min(MUS+5,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+5,1000),10)+max(ML,0))] Exp: [max(min(STAT+5,1000),10)+max(ML,0)] Init: -10000 P: dude
+
 # Heavy Rains
 alley catfish	catfish.gif	Atk: [MOX-35+max(ML,0)] Def: [MUS-35+max(ML,0)] HP: [0.75*(MUS-35+max(ML,0))] Exp: [(STAT-35+max(ML,0))/4] Init: 70 P: fish Meat: 64-96	catfish whiskers (0)
 Aquabat	aquabat.gif	BOSS Atk: 36 Def: 34 HP: 36 Init: 50 P: beast	neoprene skullcap (n100)
