@@ -41,7 +41,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -57,7 +56,7 @@ public class ShoeRepairRequest
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ShoeRepairRequest.master );
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ShoeRepairRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( ShoeRepairRequest.master );
-	private static final Pattern CHRONER_PATTERN = Pattern.compile( "(\\d+) Chroner" );
+	private static final Pattern CHRONER_PATTERN = Pattern.compile( "([\\d,]+) Chroner" );
 	public static final AdventureResult CHRONER = ItemPool.get( ItemPool.CHRONER, 1 );
 
 	public static final CoinmasterData SHOE_REPAIR =
