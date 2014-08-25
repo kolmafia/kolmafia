@@ -1411,6 +1411,24 @@ public class ClanLoungeRequest
 		// Rebuild list of available speakeasy drinks every time we visit
 		ClanLoungeRequest.resetSpeakeasy();
 
+		// Update remaining number of drinks available to you today
+		if ( responseText.contains( "have 3 more drinks" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 0 );
+		}
+		else if ( responseText.contains( "have 2 more drinks" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 1 );
+		}
+		else if ( responseText.contains( "have one more drink" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 2 );
+		}
+		else if ( responseText.contains( "had your limit" ) )
+		{
+			Preferences.setInteger( "_speakeasyDrinksDrunk", 3 );
+		}
+
 		// Make a list of all currently available speakeasy drinks
 		ArrayList<Concoction> available = new ArrayList<Concoction>();
 
@@ -1447,24 +1465,6 @@ public class ClanLoungeRequest
 
 		// Refresh available concoctions with currently available speakeasy drinks
 		ConcoctionDatabase.refreshConcoctions( true );
-
-		// Update number of drinks available
-		if ( responseText.contains( "have 3 more drinks" ) )
-		{
-			Preferences.setInteger( "_speakeasyDrinksDrunk", 0 );
-		}
-		else if ( responseText.contains( "have 2 more drinks" ) )
-		{
-			Preferences.setInteger( "_speakeasyDrinksDrunk", 1 );
-		}
-		else if ( responseText.contains( "have one more drinks" ) )
-		{
-			Preferences.setInteger( "_speakeasyDrinksDrunk", 2 );
-		}
-		else if ( responseText.contains( "had your limit" ) )
-		{
-			Preferences.setInteger( "_speakeasyDrinksDrunk", 3 );
-		}
 	}
 
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
