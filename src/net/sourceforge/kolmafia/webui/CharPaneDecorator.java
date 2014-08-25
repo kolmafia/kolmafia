@@ -1256,22 +1256,20 @@ public class CharPaneDecorator
 
 	private static final void addCounters( final StringBuffer buffer )
 	{
-		Iterator it = TurnCounter.iterator();
-		if ( it.hasNext() )
+		TurnCounter[] counters = TurnCounter.getCounters();
+		if ( counters.length == 0 )
 		{
-			CharPaneDecorator.addCounters( buffer, it );
+			return;
 		}
-	}
 
-	private static final void addCounters( final StringBuffer buffer, Iterator it )
-	{
-		TurnCounter current = (TurnCounter) it.next();
+		int index = 0;
+		TurnCounter current = counters[ index++ ];
 		while ( current.getTurnsRemaining() < 0 )
 		{
 			// Skip expired informational counters that are still
 			// pending delivery to a counterScript.
-			if ( !it.hasNext() ) return;
-			current = (TurnCounter) it.next();
+			if ( index == counters.length ) return;
+			current = counters[ index++ ];
 		}
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -1290,12 +1288,12 @@ public class CharPaneDecorator
 				do
 				{
 					CharPaneDecorator.addOneCounter( buffer, current, compact );
-					if ( !it.hasNext() )
+					if ( index == counters.length )
 					{
 						buffer.append( text.substring( lastPos ) );
 						return;
 					}
-					current = (TurnCounter) it.next();
+					current = counters[ index++ ];
 				}
 				while ( duration >= current.getTurnsRemaining() );
 			}
@@ -1323,12 +1321,12 @@ public class CharPaneDecorator
 		while ( true )
 		{
 			CharPaneDecorator.addOneCounter( buffer, current, compact );
-			if ( !it.hasNext() )
+			if ( index == counters.length )
 			{
 				buffer.append( text.substring( lastPos ) );
 				return;
 			}
-			current = (TurnCounter) it.next();
+			current = counters[ index++ ];
 		}
 	}
 
