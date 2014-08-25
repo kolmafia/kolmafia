@@ -1726,3 +1726,7 @@
 1725	Wet and Greedy	moonshine.gif	66d204df3c7e4f511c518262e24b51f4	use 1 goblin water
 1726	Ancient Protected	soda.gif	8789f23c0ef71fb191a84057e3cd33e2	use 1 Ancient Protector Soda
 1727	Cold as Ice	jewel.gif	37e4790415fb2f82600f8ae65accba49	use 1 liquid ice
+1728
+1729	The Smeezingtons	scroll1.gif	b055ede79c8cedd21b4d88b17b57b68e	use 1 Bruno's blessing of Mars
+1730	Minerva's Zen	scroll1.gif	df7f136eff0f29a30e13a4fc41eb5626	use 1 Dennis's blessing of Minerva
+1731	Smoking like a Bandit	scroll1.gif	5727f081eb21db7243c064aa1c1c3f6b	use 1 Burt's blessing of Bacchus

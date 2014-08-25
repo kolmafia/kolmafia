@@ -4598,6 +4598,7 @@ Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Milk Studly	Muscle: +15
+Minerva's Zen	Mysticality Percent: +100
 Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Minty Freshness	Moxie Percent: +10
 Missing Eyebrows	Moxie: -3
@@ -4971,6 +4972,7 @@ Smithsness Cheer	Smithsness: +10
 Smithsness Dinner	Smithsness: +10
 Smithsness Presence	Smithsness: +10
 # Smokin': Damages Attacking Opponents
+Smoking like a Bandit	Moxie Percent: +100
 Smoky Third Eye	Mysticality: +10
 # Smooth Legs: You know how to use them.
 Smooth Movements	Combat Rate: -5
@@ -5188,6 +5190,7 @@ The Rain In Loathing	Water Level: +2
 # The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
+The Smeezingtons	Muscle Percent: +100
 The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 The Solution	Weapon Damage: +25
 The Sonata of Sneakiness	Combat Rate: -5
