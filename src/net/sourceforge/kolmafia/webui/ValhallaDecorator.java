@@ -591,12 +591,22 @@ public class ValhallaDecorator
 			if ( folder != null )
 			{
 				String name = folder.getName();
-				Modifiers mods = Modifiers.getModifiers( name );
-				String enchantments = mods.getString( "Modifiers" );
+				String enchantments;
+				if ( name.startsWith( "folder (" ) )
+				{
+					Modifiers mods = Modifiers.getModifiers( name );
+					name = name.substring( 8, name.indexOf( ")" ) );
+					enchantments = mods != null ? mods.getString( "Modifiers" ) : "none";
+				}
+				else
+				{
+					name = "(empty)";
+					enchantments = "none";
+				}
 				folderHolderBuffer.append( "<a href=\"inventory.php?action=useholder\" title=\"Change from " );
 				folderHolderBuffer.append( enchantments );
 				folderHolderBuffer.append( "\">" );
-				folderHolderBuffer.append( name.substring( 8, name.length() - 1 ) );
+				folderHolderBuffer.append( name );
 				folderHolderBuffer.append( "</a> " );
 			}
 		}
