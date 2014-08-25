@@ -197,6 +197,7 @@ global	useTabbedChatFrame	true
 global	useToolbars	true
 global	useZoneComboBox	false
 global	userAgent
+global	verboseSpeakeasy	false
 global	visitLoungeHardcore	true
 global	visitLoungeSoftcore	true
 global	visitRumpusHardcore	true
