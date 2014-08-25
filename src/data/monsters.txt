@@ -1673,12 +1673,12 @@ cigarette girl	ciggirl.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000
 Mob penguin entrepreneur	moonstriner.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: penguin Meat: 32-48	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
 # Twitch 4 - The Roman Forum
-hypocritical medicus		Atk: [max(min(MOX+0,1000),10)+max(ML,0)] Def: [max(min(MUS+0,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+0,1000),10)+max(ML,0))] Exp: [max(min(STAT+0,1000),10)+max(ML,0)] Init: -10000 P: dude
-cheap strix		Atk: [max(min(MOX+1,1000),10)+max(ML,0)] Def: [max(min(MUS+1,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+1,1000),10)+max(ML,0))] Exp: [max(min(STAT+1,1000),10)+max(ML,0)] Init: -10000 P: beast
-Gladiator		Atk: [max(min(MOX+2,1000),10)+max(ML,0)] Def: [max(min(MUS+2,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+2,1000),10)+max(ML,0))] Exp: [max(min(STAT+2,1000),10)+max(ML,0)] Init: -10000 P: dude
-Sadiator		Atk: [max(min(MOX+3,1000),10)+max(ML,0)] Def: [max(min(MUS+3,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+3,1000),10)+max(ML,0))] Exp: [max(min(STAT+3,1000),10)+max(ML,0)] Init: -10000 P: dude
-Madiator		Atk: [max(min(MOX+4,1000),10)+max(ML,0)] Def: [max(min(MUS+4,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+4,1000),10)+max(ML,0))] Exp: [max(min(STAT+4,1000),10)+max(ML,0)] Init: -10000 P: dude
-Radiator		Atk: [max(min(MOX+5,1000),10)+max(ML,0)] Def: [max(min(MUS+5,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+5,1000),10)+max(ML,0))] Exp: [max(min(STAT+5,1000),10)+max(ML,0)] Init: -10000 P: dude
+hypocritical medicus	medicus.gif	Atk: [max(min(MOX+0,1000),10)+max(ML,0)] Def: [max(min(MUS+0,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+0,1000),10)+max(ML,0))] Exp: [max(min(STAT+0,1000),10)+max(ML,0)] Init: -10000 P: dude
+cheap strix	strix.gif	Atk: [max(min(MOX+1,1000),10)+max(ML,0)] Def: [max(min(MUS+1,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+1,1000),10)+max(ML,0))] Exp: [max(min(STAT+1,1000),10)+max(ML,0)] Init: -10000 P: beast
+Gladiator	gladiator.gif	Atk: [max(min(MOX+2,1000),10)+max(ML,0)] Def: [max(min(MUS+2,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+2,1000),10)+max(ML,0))] Exp: [max(min(STAT+2,1000),10)+max(ML,0)] Init: -10000 P: dude
+Sadiator	sadiator.gif	Atk: [max(min(MOX+3,1000),10)+max(ML,0)] Def: [max(min(MUS+3,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+3,1000),10)+max(ML,0))] Exp: [max(min(STAT+3,1000),10)+max(ML,0)] Init: -10000 P: dude
+Madiator	madiator.gif	Atk: [max(min(MOX+4,1000),10)+max(ML,0)] Def: [max(min(MUS+4,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+4,1000),10)+max(ML,0))] Exp: [max(min(STAT+4,1000),10)+max(ML,0)] Init: -10000 P: dude
+Radiator	radiator.gif	Atk: [max(min(MOX+5,1000),10)+max(ML,0)] Def: [max(min(MUS+5,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+5,1000),10)+max(ML,0))] Exp: [max(min(STAT+5,1000),10)+max(ML,0)] Init: -10000 P: dude
 
 # Heavy Rains
 alley catfish	catfish.gif	Atk: [MOX-35+max(ML,0)] Def: [MUS-35+max(ML,0)] HP: [0.75*(MUS-35+max(ML,0))] Exp: [(STAT-35+max(ML,0))/4] Init: 70 P: fish Meat: 64-96	catfish whiskers (0)
