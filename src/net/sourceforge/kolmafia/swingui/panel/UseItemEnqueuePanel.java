@@ -585,6 +585,7 @@ public class UseItemEnqueuePanel
 		public boolean isVisible( final Object element )
 		{
 			Concoction creation = (Concoction) element;
+			AdventureResult item = creation.getItem();
 
 			if ( creation.getAvailable() == 0 )
 			{
@@ -594,7 +595,6 @@ public class UseItemEnqueuePanel
 			// no create
 			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
 			{
-				AdventureResult item = creation.getItem();
 				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
@@ -660,7 +660,6 @@ public class UseItemEnqueuePanel
 					// You cannot equip a Spirit Hobo in Beecore.
 					// ( UseItemEnqueuePanel.this.booze && fam == FamiliarPool.HOBO ) ||
 					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST );
-				AdventureResult item = creation.getItem();
 				if ( !override && item != null && KoLCharacter.hasBeeosity( item.getName() ) )
 				{
 					return false;
@@ -678,7 +677,6 @@ public class UseItemEnqueuePanel
 				int fam = KoLCharacter.getFamiliar().getId();
 				if ( fam != FamiliarPool.GHOST )
 				{
-					AdventureResult item = creation.getItem();
 					String name = item != null ? item.getName() : null;
 					if ( name != null && !name.equals( "steel lasagna" ) &&
 					     ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
@@ -695,7 +693,6 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				AdventureResult item = creation.getItem();
 				String name = item != null ? item.getName() : null;
 				if ( creation.getMixingMethod() != CraftingType.JARLS && name != null &&
 				     !name.equals( "steel margarita" ) &&
@@ -711,7 +708,6 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				AdventureResult item = creation.getItem();
 				if ( item == null )
 				{
 					return false;
@@ -744,7 +740,6 @@ public class UseItemEnqueuePanel
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
-				AdventureResult item = creation.getItem();
 				if ( (item != null && item.getItemId() > 0 ) &&
 				     creation.getTurnFreeAvailable() == 0 &&
 				     !KoLConstants.restaurantItems.contains( creation.getName() ) &&
@@ -756,7 +751,6 @@ public class UseItemEnqueuePanel
 			// no summon
 			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
 			{
-				AdventureResult item = creation.getItem();
 				if ( item != null && creation.getMixingMethod() == CraftingType.CLIPART && item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
