@@ -651,6 +651,7 @@ public class Concoction
 						 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" ) );
 			this.creatable = 0;
 			this.total = this.initial;
+			this.freeTotal = this.initial;
 			this.visibleTotal = this.initial;
 			return;
 		}
@@ -664,6 +665,7 @@ public class Concoction
 				0;
 			this.creatable = 0;
 			this.total = this.initial;
+			this.freeTotal = this.initial;
 			this.visibleTotal = this.initial;
 		}
 	}
