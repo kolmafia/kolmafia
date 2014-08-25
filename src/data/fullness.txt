@@ -624,6 +624,7 @@ stomach turnover	2	2	awesome	7-9	5-10	15-20	15-20
 strawberry	1	1	crappy	1	0	0	0
 strawberry pie	3	2	decent	3-9	0	0	8-10
 strawberry popsicle	1	1	decent	2	0	0	0
+Strix stix	2	4	awesome	0	0	0	0	
 stuffed spooky mushroom	3	1	decent	3-9	0	0	0
 stunt nuts	2	1	decent	2-3	8-10	0	0
 sublime deluxe hot dog	6	1	awesome	22-26	10-20	40-50	10-20

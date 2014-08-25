@@ -44,6 +44,7 @@ bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
 catskin cap	180	Mox: 75
+centurion helmet	100	Mox: 35
 Cerebral Cloche	90	Mox: 30
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
@@ -576,6 +577,7 @@ frilly shirt	20	none
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 ghost toga	110	Mus: 40
 gingham blouse	100	Mus: 35
+gladiator tunica	100	Mus: 35
 gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
 Grateful Undead T-shirt	70	Mus: 20
@@ -1003,6 +1005,7 @@ lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 machetito	110	Mus: 40	1-handed sword
+madius	100	Mus: 35	1-handed sword
 Mafia violin case	100	Mus: 35	1-handed club
 magic whistle	85	Mox: 27	1-handed whistle
 magilaser blastercannon	155	Mox: 62	2-handed laser cannon
@@ -1282,6 +1285,7 @@ Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
 Unkillable Skeleton's restless leg	300	Mus: 100	2-handed staff
 Unkillable Skeleton's sawsword	300	Mus: 100	2-handed sword
+unsanitized scalpel	180	Mus: 35	1-handed knife
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
 velcro broadsword	200	Mus: 85	1-handed sword
 velcro paddle ball	200	Mox: 85	1-handed flail
@@ -1569,6 +1573,7 @@ polyalloy shield	140	Mus: 55	shield
 pool skimmer	10	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
+radiator heater shield	0	Mus: 35	shield
 rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
@@ -1688,6 +1693,7 @@ turtling rod	10	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
+vampire pellet	0	Mys: 35
 velcro shield	220	Mus: 85	shield
 vengeful spirit	225	Mys: 200
 Victor, the Insult Comic Hellhound Puppet	10	none
@@ -2152,6 +2158,7 @@ ring of half-assed regeneration	50	none
 ring of increase damage	80	Mys: 25
 ring of teleportation	80	Mys: 25
 Ring of the Sewer Snake	150	Mys: 60
+Roman sadnals	0	Mys: 35
 rope with some soap on it	200	Mys: 200
 rose-colored glasses	0	none
 round green sunglasses	190	Mys: 80
