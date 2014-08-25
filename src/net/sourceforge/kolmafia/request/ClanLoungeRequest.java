@@ -1566,7 +1566,7 @@ public class ClanLoungeRequest
 		if ( action.equals( "speakeasy" ) )
 		{
 			// Visiting the Speakeasy. See what's on offer
-			ClanLoungeRequest.parseSpeakeasy( responseText, false );
+			ClanLoungeRequest.parseSpeakeasy( responseText, Preferences.getBoolean( "verboseSpeakeasy" ) );
 			return;
 		}
 
