@@ -107,6 +107,7 @@ bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2,
 bugbear beanie	Familiar Effect: "atk, cap 7"
 bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
 catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarrr, cap 45"
+centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum HP: +15, Familiar Effect: "1.5xLep, cap 22"
 chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
@@ -696,6 +697,7 @@ frilly shirt	Mysticality: +3
 General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 ghost toga	Damage Reduction: 5, Spooky Damage: +10
 gingham blouse	Muscle: +5
+gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 gnauga hide vest	Damage Reduction: 6, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 goth kid t-shirt	Monster Level: +5
 Grateful Undead T-shirt	Item Drop: +5
@@ -1162,6 +1164,7 @@ logging hatchet	Weapon Damage: +5
 lupine sword	Spooky Damage: +9, Synergetic
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 machetito	Weapon Damage: +9
+madius	Monster Level: +7
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
@@ -1490,6 +1493,7 @@ Unkillable Skeleton's restless leg	Weapon Damage: +40, MP Regen Min: 20, MP Rege
 # Unkillable Skeleton's sawsword: +50% Damage vs. Werewolves
 # Unkillable Skeleton's sawsword: +50 Damage vs. Ghosts
 # Unkillable Skeleton's sawsword: +50% Damage vs. Bugbears
+unsanitized scalpel	Sleaze Damage: +25
 vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
@@ -1843,6 +1847,7 @@ polyalloy shield	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +
 # pool skimmer: Catches other people's washed-away items
 pottery shield	Hot Damage: +5, Damage Reduction: 3
 pretty bouquet	Moxie: +3
+radiator heater shield	Cold Resistance: +3, Damage Reduction: 6
 rag doll	Muscle: +3
 # Raggedy Hippy doll
 # Rain-Doh green lantern: Makes Spells Smell Worse
@@ -1975,6 +1980,7 @@ turtling rod	Class: "Turtle Tamer"
 Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23
 # unstable fulminate
 # UV-resistant compass: Aids in desert exploration
+vampire pellet	MP Regen Min: 4, MP Regen Max: 8, Spooky Damage: +10, Spooky Spell Damage: +20
 velcro shield	Mysticality Percent: +10, Damage Reduction: 24, Weapon Drop: +25
 vengeful spirit	Hot Spell Damage: +80
 Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
@@ -2507,6 +2513,7 @@ ring of increase damage	Weapon Damage: +10, Spell Damage: +10
 # ring of teleportation: Your position seems uncertain...
 ring of teleportation	Single Equip
 Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
+Roman sadnals	Experience: +2, Single Equip
 rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Moxie: +9, Sleaze Resistance: +2, Single Equip
@@ -5011,6 +5018,7 @@ Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Soulerskates	Initiative: +30
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
+Sour Grapes	Item Drop: +40
 Sour Softshoe	Item Drop: [min(T,50)], Meat Drop: [2*min(T,50)]
 Sourpuss	Candy Drop: +50
 Space Cowboy	Experience: +2
@@ -5097,6 +5105,7 @@ Strong Spirit	Muscle: +15
 Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 # Stuck-Up Hair: Damages Attacking Opponents
 Stumpy	Initiative: -50
+Sugar-Frosted Pet Guts	Familiar Weight: +5
 Sugar High	Mysticality Percent: +30
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Sugar Smacks	Muscle Percent: +30
@@ -5361,6 +5370,7 @@ Wizard Squint	Spell Critical Percent: +10
 Woad Warrior	Muscle: +25
 # Wolf's Bane: +50% Damage vs. Werewolves
 World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Worth Your Salt	Maximum HP: +25, Meat Drop: +25
 Wreathed in Merriment	Moxie Percent: +10
 Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Wry Smile	Experience (Mysticality): +1
@@ -5378,6 +5388,7 @@ You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Read The Manual	Experience (Mysticality): +4
 You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
+You're High as a Crow, Marty	Initiative: +100
 # You're In Trouble: It was... the drinking fountain...
 You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
 You're Rubber	Damage Reduction: 20
@@ -5898,6 +5909,7 @@ spooky hi mein	Effect: "Spooky Breath", Effect Duration: 5
 square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 10
 squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
+Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
 sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1
 sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
 Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
@@ -6052,6 +6064,7 @@ Muschat	Effect: "L'instinct F&eacute;lin", Effect Duration: 20
 nanite-infested eggnog	Effect: "Chock Full o' Nanites", Effect Duration: 20
 natto-infused sake	Effect: "Ninja, Please", Effect Duration: 30
 New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
+non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
 oozenog	Effect: "Festive Radiation", Effect Duration: 10
 Oreille Divis&eacute;e brandy	Effect: "Hoity Toity", Effect Duration: 20
 overpowering mushroom wine	Effect: "Boletus Swoletus", Effect Duration: 80
@@ -6446,6 +6459,7 @@ Fly-By-Knight Heraldry form	Free Pull
 foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
 fragment of Jarlsberg's soul	Free Pull
+Freddie's blessing of Mercury	Effect: "You're High as a Crow, Marty", Effect Duration: 50
 freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 Friendliness Beverage	Effect: "Over-Familiar With Dactyls", Effect Duration: 20
@@ -6895,6 +6909,7 @@ roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
+salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
 Schmalz's First Prize Beer	Free Pull

@@ -3187,29 +3187,29 @@ public abstract class ChoiceManager
 			"Twitch", "choiceAdventure979", "The Agora",
 			new Object[] { new Option( "get blessing", 1 ),
 				       new Option( "visit store", 2 ),
-					   new Option( "play dice", 6 ) } ),
+				       new Option( "play dice", 6 ) } ),
 
 		// Choice 980 is Welcome to Blessings Hut
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure980", "Blessings Hut",
-			new Object[] { new Option( "Mars blessing", 1 ),
-				       new Option( "Minerva blessing", 2 ),
-				       new Option( "Bacchus blessing", 3 ),
-				       new Option( "Mercury blessing", 4 ),
-					   new Option( "return to Agora", 6 ) } ),
+			new Object[] { new Option( "Bruno's blessing of Mars", "Bruno's blessing of Mars" ),
+				       new Option( "Dennis's blessing of Minerva", "Dennis's blessing of Minerva" ),
+				       new Option( "Burt's blessing of Bacchus", "Burt's blessing of Bacchus" ),
+				       new Option( "Freddie's blessing of Mercury", "Freddie's blessing of Mercury" ),
+				       new Option( "return to Agora", 6 ) } ),
 
 		// Choice 982 is The 99-Centurion Store
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure982", "The 99-Centurion Store",
-			new Object[] { new Option( "buy helmet", 1 ),
-				       new Option( "buy pteruges", 2 ),
-					   new Option( "return to Agora", 6 ) } ),
+			new Object[] { new Option( "centurion helmet", "centurion helmet" ),
+				       new Option( "pteruges", "pteruges" ),
+				       new Option( "return to Agora", 6 ) } ),
 
 		// Choice 983 is Playing Dice With Romans
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure983", "Playing Dice With Romans",
 			new Object[] { new Option( "make a bet and throw dice", 1 ),
-					   new Option( "return to Agora", 6 ) } ),
+				       new Option( "return to Agora", 6 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

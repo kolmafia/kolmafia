@@ -1726,7 +1726,10 @@
 1725	Wet and Greedy	moonshine.gif	66d204df3c7e4f511c518262e24b51f4	use 1 goblin water
 1726	Ancient Protected	soda.gif	8789f23c0ef71fb191a84057e3cd33e2	use 1 Ancient Protector Soda
 1727	Cold as Ice	jewel.gif	37e4790415fb2f82600f8ae65accba49	use 1 liquid ice
-1728
+1728	Worth Your Salt	disease.gif	93ec9ad97429d482ea09ab9e70dee564	use 1 salt wages
 1729	The Smeezingtons	scroll1.gif	b055ede79c8cedd21b4d88b17b57b68e	use 1 Bruno's blessing of Mars
 1730	Minerva's Zen	scroll1.gif	df7f136eff0f29a30e13a4fc41eb5626	use 1 Dennis's blessing of Minerva
 1731	Smoking like a Bandit	scroll1.gif	5727f081eb21db7243c064aa1c1c3f6b	use 1 Burt's blessing of Bacchus
+1732	You're High as a Crow, Marty	scroll1.gif	514949116353a61c2a745cc786bf1bcc	use 1 Freddie's blessing of Mercury
+1733	Sugar-Frosted Pet Guts	owlstix.gif	1c04130264df7bc369a1a7b22909f202	eat 1 Strix stix
+1734	Sour Grapes	wine.gif	ee7041423e7f89bddf2f5390f7eb8573	drink 1 non-aged vinegar

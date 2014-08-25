@@ -7729,20 +7729,20 @@
 7710	candy UFOs	859892912	ufo.gif	usable	t	0
 7711	water wings for babies	615145638	poolwings.gif	accessory	t,d	10
 7712	beautiful rainbow	830160863	rrainbow.gif	usable	t	0
-7713
-7714
-7715
-7716
-7717
-7718
-7719
-7720
-7721
-7722
+7713	Strix stix	792383042	owlstix.gif	food	t,d	25
+7714	vampire pellet	903995019	owlpellet.gif	offhand	t,d	75
+7715	non-aged vinegar	235150282	wine.gif	drink	t,d	25
+7716	unsanitized scalpel	509791877	dirtyscalpel.gif	weapon	t,d	85
+7717	gladiator tunica	369635008	tunica.gif	shirt	t,d	35
+7718	Roman sadnals	724506304	sadnals.gif	accessory	t,d	52
+7719	madius	769865207	madius.gif	weapon	t,d	67
+7720	radiator heater shield	613024973	radshield.gif	offhand	t,d	35
+7721	salt wages	907941028	disease.gif	multiple	t,d	11
+7722	centurion helmet	940311690	romanhelm.gif	hat	t,d	48
 7723	Chroner cross	658154132	plus.gif	reusable	t	0
 7724	pteruges	279167027	thighguard.gif	pants	t,d	58
 7725	Bruno's blessing of Mars	777525677	scroll1.gif	usable	t,d	50
 7726	Dennis's blessing of Minerva	717716742	scroll1.gif	usable	t,d	50
 7727	Burt's blessing of Bacchus	881200968	scroll1.gif	usable	t,d	50
-7728	Freddie's blessing of Mercury	716371734	nopic.gif	none	t,d	0
+7728	Freddie's blessing of Mercury	716371734	scroll1.gif	usable	t,d	50
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
