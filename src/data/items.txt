@@ -7741,8 +7741,8 @@
 7722
 7723	Chroner cross	658154132	plus.gif	reusable	t	0
 7724	pteruges	279167027	thighguard.gif	pants	t,d	58
-7725
-7726
-7727
+7725	Bruno's blessing of Mars	777525677	scroll1.gif	usable	t,d	50
+7726	Dennis's blessing of Minerva	717716742	scroll1.gif	usable	t,d	50
+7727	Burt's blessing of Bacchus	881200968	scroll1.gif	usable	t,d	50
 7728	Freddie's blessing of Mercury	716371734	nopic.gif	none	t,d	0
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
