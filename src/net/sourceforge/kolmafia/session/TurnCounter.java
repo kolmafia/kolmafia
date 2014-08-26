@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -424,12 +424,13 @@ public class TurnCounter
 
 	public static final TurnCounter[] getCounters()
 	{
+		TurnCounter[] counters;
  		synchronized ( TurnCounter.relayCounters )
 		{
-			Collections.sort( TurnCounter.relayCounters );
-			TurnCounter[] counters = new TurnCounter[ TurnCounter.relayCounters.size() ];
-			return TurnCounter.relayCounters.toArray( counters );
+			counters = TurnCounter.relayCounters.toArray( new TurnCounter[ TurnCounter.relayCounters.size() ] );
 		}
+		Arrays.sort( counters );
+		return counters;
 	}
 
 	public static final String getCounters( String label, int minTurns, int maxTurns )
