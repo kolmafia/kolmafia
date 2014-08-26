@@ -324,8 +324,8 @@ public abstract class KoLCharacter
 
 	private static int[] adjustedStats = new int[ 3 ];
 	private static long[] totalSubpoints = new long[ 3 ];
-	private static long[] triggerSubpoints = new long[ 3 ];
-	private static int[] triggerItem = new int[ 3 ];
+	private static final long[] triggerSubpoints = new long[ 3 ];
+	private static final int[] triggerItem = new int[ 3 ];
 
 	private static int fury = 0;
 	private static int soulsauce = 0;
@@ -435,7 +435,7 @@ public abstract class KoLCharacter
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
-	private static Modifiers currentModifiers = new Modifiers();
+	private static final Modifiers currentModifiers = new Modifiers();
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All
@@ -2982,7 +2982,11 @@ public abstract class KoLCharacter
 				Preferences.increment( "heavyRainsPoints" );
 			}
 
+			// Are we restricted by Type69 ?
+			boolean restricted = KoLCharacter.getRestricted();
+
 			// Ronin is lifted and we can interact freely with the Kingdom
+			// Allowing interaction triggers skill refreshing after a restricted path
 			KoLCharacter.setRonin( false );
 			CharPaneRequest.setInteraction( true );
 
@@ -3001,9 +3005,6 @@ public abstract class KoLCharacter
 
 			// Available hermit items and clover numbers may have changed
 			HermitRequest.initialize();
-			
-			// Are we restricted by Type69 ?
-			Boolean restricted = KoLCharacter.getRestricted();
 
 			// If we are in Bad Moon, we can use the bookshelf and
 			// telescope again.
@@ -3015,20 +3016,24 @@ public abstract class KoLCharacter
 
 			// If we were in Hardcore or a path that alters skills, automatically recall skills
 			// Paths that require you to choose your class at the end will refresh skills later
-			else if ( wasInHardcore ||
-				  oldPath.equals( "Trendy" ) ||
-				  oldPath.equals( "Class Act" ) ||
-				  oldPath.equals( "Way of the Surprising Fist" ) ||
-				  oldPath.equals( "Class Act II: A Class For Pigs" ) ||
-				  oldPath.equals( "Heavy Rains" ) ||
-				  restricted )
+			// If we are leaving a restricted path, then skills were refreshed earlier
+			else if ( !restricted && (
+				  wasInHardcore ||
+			        oldPath.equals( "Trendy" ) ||
+			        oldPath.equals( "Class Act" ) ||
+			        oldPath.equals( "Way of the Surprising Fist" ) ||
+			        oldPath.equals( "Class Act II: A Class For Pigs" ) ||
+			        oldPath.equals( "Heavy Rains" )
+			        ) )
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			if ( oldPath.equals( "Trendy" ) || restricted )
+			if ( oldPath.equals( "Trendy" ) && !restricted )
 			{
+				// If we were restricted, this was already done earlier, so don't
+				// do it again even if it's needed for the path
 				// Retrieve the bookshelf
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 			}

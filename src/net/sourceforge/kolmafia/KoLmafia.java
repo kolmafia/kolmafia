@@ -61,7 +61,6 @@ import apple.dts.samplecode.osxadapter.OSXAdapter;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -100,7 +99,6 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -896,6 +894,9 @@ public abstract class KoLmafia
 	public static final void resetAfterAvatar()
 	{
 		KoLmafia.setIsRefreshing( true );
+
+		// Set this first to prevent duplicate skill refreshing
+		KoLCharacter.setRestricted( false );
 
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages

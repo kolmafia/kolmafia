@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -129,6 +130,13 @@ public class CharPaneRequest
 	{
 		if ( CharPaneRequest.canInteract != interaction )
 		{
+			if ( interaction && KoLCharacter.getRestricted() )
+			{
+				// Refresh skills when leaving ronin or hardcore from a restricted path
+				RequestThread.postRequest( new CharSheetRequest() );
+				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+				KoLCharacter.setRestricted( false ); // redundant, but kept for clarity
+			}
 			CharPaneRequest.canInteract = interaction;
 			MallSearchFrame.updateMeat();
 		}
@@ -434,12 +442,12 @@ public class CharPaneRequest
 		return Pattern.compile( musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" );
 	}
 
-	private static Pattern compactStatsPattern =
+	private static final Pattern compactStatsPattern =
 		CharPaneRequest.makeStatPattern( "Mus", "Mys", "Mox" );
-	private static Pattern expandedStatsPattern =
+	private static final Pattern expandedStatsPattern =
 		CharPaneRequest.makeStatPattern( "Muscle", "Mysticality", "Moxie" );
 
-	private static Pattern modifiedPattern =
+	private static final Pattern modifiedPattern =
 		Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" );
 
 	private static final void handleStatPoints( final String responseText, final Pattern pattern )
@@ -683,7 +691,7 @@ public class CharPaneRequest
 		return Pattern.compile( mcString + "</a>: ?(?:</td><td>)?<b>(\\d+)</b>" );
 	}
 
-	private static Pattern [] compactMCPatterns =
+	private static final Pattern [] compactMCPatterns =
 	{
 		CharPaneRequest.makeMCPattern( "MC" ),
 		CharPaneRequest.makeMCPattern( "Radio" ),
@@ -691,7 +699,7 @@ public class CharPaneRequest
 		CharPaneRequest.makeMCPattern( "HH" ),
 	};
 
-	private static Pattern [] expandedMCPatterns =
+	private static final Pattern [] expandedMCPatterns =
 	{
 		CharPaneRequest.makeMCPattern( "Mind Control" ),
 		CharPaneRequest.makeMCPattern( "Detuned Radio" ),
@@ -710,12 +718,12 @@ public class CharPaneRequest
 		return Pattern.compile( consumptionString + ": ?</td><td(?: align=left)?><b>(\\d+)</b>" );
 	}
 
-	private static Pattern [] compactInebrietyPatterns =
+	private static final Pattern [] compactInebrietyPatterns =
 	{
 		CharPaneRequest.makeConsumptionPattern( "Drunk" ),
 	};
 
-	private static Pattern [] expandedInebrietyPatterns =
+	private static final Pattern [] expandedInebrietyPatterns =
 	{
 		CharPaneRequest.makeConsumptionPattern( "Drunkenness" ),
 		CharPaneRequest.makeConsumptionPattern( "Inebriety" ),
@@ -939,11 +947,11 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern compactFamiliarWeightPattern =
+	private static final Pattern compactFamiliarWeightPattern =
 		Pattern.compile( "<br>([\\d]+) lb" );
-	private static Pattern expandedFamiliarWeightPattern =
+	private static final Pattern expandedFamiliarWeightPattern =
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
-	private static Pattern familiarImagePattern =
+	private static final Pattern familiarImagePattern =
 		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?\\.gif)" );
 
 	private static final void checkFamiliar( final String responseText )
@@ -977,9 +985,9 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern compactClancyPattern =
+	private static final Pattern compactClancyPattern =
 		Pattern.compile( "otherimages/clancy_([123])(_att)?.gif.*?L\\. (\\d+)", Pattern.DOTALL );
-	private static Pattern expandedClancyPattern =
+	private static final Pattern expandedClancyPattern =
 		Pattern.compile( "<b>Clancy</b>.*?Level <b>(\\d+)</b>.*?otherimages/clancy_([123])(_att)?.gif", Pattern.DOTALL );
 
 	public static AdventureResult SACKBUT = ItemPool.get( ItemPool.CLANCY_SACKBUT, 1 );
@@ -1058,7 +1066,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern pastaThrallPattern =
+	private static final Pattern pastaThrallPattern =
 		Pattern.compile( "desc_guardian.php.*?itemimages/(.*?.gif).*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>", Pattern.DOTALL );
 
 	private static final void checkPastaThrall( final String responseText )
@@ -1084,7 +1092,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern mediumPattern =
+	private static final Pattern mediumPattern =
 		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
 
 	private static final void checkMedium( final String responseText )
@@ -1126,7 +1134,7 @@ public class CharPaneRequest
 		HAT( 5 ),
 		;
 
-		private int suitValue;
+		private final int suitValue;
 
 		private Snowsuit( int suitValue )
 		{
@@ -1146,7 +1154,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern snowsuitPattern =
+	private static final Pattern snowsuitPattern =
 		Pattern.compile( "snowface([1-5]).gif" );
 
 	private static final void checkSnowsuit( final String responseText )
