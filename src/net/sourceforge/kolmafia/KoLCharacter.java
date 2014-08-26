@@ -132,12 +132,15 @@ public abstract class KoLCharacter
 	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
 	private static final String NONE = "None";
 
+	// Classes
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
 	public static final String ZOMBIE_MASTER = "Zombie Master";
-	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 	public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
 	public static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
+
+	// Paths
+	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -2959,11 +2962,6 @@ public abstract class KoLCharacter
 				int borisPoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "borisPoints", borisPoints );
 			}
-			else if ( oldPath.equals( ZOMBIE_SLAYER ) )
-			{
-				int zombiePoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "zombiePoints", zombiePoints );
-			}
 			else if ( oldPath.equals( AVATAR_OF_JARLSBERG ) )
 			{
 				int jarlsbergPoints = wasInHardcore ? 2 : 1;
@@ -2973,6 +2971,15 @@ public abstract class KoLCharacter
 			{
 				int sneakyPetePoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
+			}
+			else if ( oldPath.equals( ZOMBIE_SLAYER ) )
+			{
+				int zombiePoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "zombiePoints", zombiePoints );
+			}
+			else if ( oldPath.equals( "Heavy Rains" ) )
+			{
+				Preferences.increment( "heavyRainsPoints" );
 			}
 
 			// Ronin is lifted and we can interact freely with the Kingdom
@@ -3008,12 +3015,13 @@ public abstract class KoLCharacter
 
 			// If we were in Hardcore or a path that alters skills, automatically recall skills
 			// Paths that require you to choose your class at the end will refresh skills later
-			else if ( wasInHardcore || oldPath.equals( "Trendy" )
-			       || oldPath.equals( "Class Act" )
-			       || oldPath.equals( "Way of the Surprising Fist" )
-			       || oldPath.equals( "Class Act II: A Class For Pigs" )
-				 || oldPath.equals( "Heavy Rains" )
-			       || restricted )
+			else if ( wasInHardcore ||
+				  oldPath.equals( "Trendy" ) ||
+				  oldPath.equals( "Class Act" ) ||
+				  oldPath.equals( "Way of the Surprising Fist" ) ||
+				  oldPath.equals( "Class Act II: A Class For Pigs" ) ||
+				  oldPath.equals( "Heavy Rains" ) ||
+				  restricted )
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
 				RequestThread.postRequest( new CharSheetRequest() );
@@ -3038,8 +3046,10 @@ public abstract class KoLCharacter
 			}
 
 			// If leaving a path with a unique class, wait until player picks a new class.
-			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) &&
-				!oldPath.equals( AVATAR_OF_JARLSBERG ) && !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+			if ( !oldPath.equals( AVATAR_OF_BORIS ) &&
+			     !oldPath.equals( ZOMBIE_SLAYER ) &&
+			     !oldPath.equals( AVATAR_OF_JARLSBERG ) &&
+			     !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
 			{
 				// Run a user-supplied script
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
