@@ -147,11 +147,14 @@ public class TurnCounter
 
 	public static int turnsRemaining( final String label )
 	{
-		for ( TurnCounter current : TurnCounter.relayCounters )
+		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( current.parsedLabel.equals( label ) )
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
-				return current.value - KoLCharacter.getCurrentRun();
+				if ( current.parsedLabel.equals( label ) )
+				{
+					return current.value - KoLCharacter.getCurrentRun();
+				}
 			}
 		}
 
@@ -190,51 +193,60 @@ public class TurnCounter
 
 	public static final void clearCounters()
 	{
-		TurnCounter.relayCounters.clear();
-		TurnCounter.saveCounters();
+ 		synchronized ( TurnCounter.relayCounters )
+		{
+			TurnCounter.relayCounters.clear();
+			TurnCounter.saveCounters();
+		}
 	}
 
 	public static final void loadCounters()
 	{
-		TurnCounter.relayCounters.clear();
-
-		String counters = Preferences.getString( "relayCounters" );
-		if ( counters.length() == 0 )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			return;
-		}
+			TurnCounter.relayCounters.clear();
 
-		StringTokenizer tokens = new StringTokenizer( counters, ":" );
-		while ( tokens.hasMoreTokens() )
-		{
-			int turns = StringUtilities.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
-			if ( !tokens.hasMoreTokens() ) break;
-			String name = tokens.nextToken();
-			if ( !tokens.hasMoreTokens() ) break;
-			String image = tokens.nextToken();
-			startCountingInternal( turns, name, image );
+			String counters = Preferences.getString( "relayCounters" );
+			if ( counters.length() == 0 )
+			{
+				return;
+			}
+
+			StringTokenizer tokens = new StringTokenizer( counters, ":" );
+			while ( tokens.hasMoreTokens() )
+			{
+				int turns = StringUtilities.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
+				if ( !tokens.hasMoreTokens() ) break;
+				String name = tokens.nextToken();
+				if ( !tokens.hasMoreTokens() ) break;
+				String image = tokens.nextToken();
+				startCountingInternal( turns, name, image );
+			}
 		}
 	}
 
 	public static final void saveCounters()
 	{
-		StringBuilder counters = new StringBuilder();
-
-		for ( TurnCounter current : TurnCounter.relayCounters )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( counters.length() > 0 )
+			StringBuilder counters = new StringBuilder();
+
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
+				if ( counters.length() > 0 )
+				{
+					counters.append( ":" );
+				}
+
+				counters.append( current.value );
 				counters.append( ":" );
+				counters.append( current.label );
+				counters.append( ":" );
+				counters.append( current.image );
 			}
 
-			counters.append( current.value );
-			counters.append( ":" );
-			counters.append( current.label );
-			counters.append( ":" );
-			counters.append( current.image );
+			Preferences.setString( "relayCounters", counters.toString() );
 		}
-
-		Preferences.setString( "relayCounters", counters.toString() );
 	}
 
 	public static final TurnCounter getExpiredCounter( GenericRequest request, boolean informational )
@@ -269,32 +281,35 @@ public class TurnCounter
 		int thisTurn = KoLCharacter.getCurrentRun();
 		int currentTurns = thisTurn + turnsUsed - 1;
 
-		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
-
-		while ( it.hasNext() )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			TurnCounter current = it.next();
+			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-			if ( current.value > currentTurns ||
-				current.lastWarned == thisTurn ||
-				current.isExempt( adventureId ) != informational )
+			while ( it.hasNext() )
 			{
-				continue;
-			}
+				TurnCounter current = it.next();
 
-			if ( informational && current.value > thisTurn )
-			{	// Defer until later, there's no point in reporting an
-				// informational counter prior to actual expiration.
-				continue;
-			}
+				if ( current.value > currentTurns ||
+				     current.lastWarned == thisTurn ||
+				     current.isExempt( adventureId ) != informational )
+				{
+					continue;
+				}
 
-			if ( current.value < thisTurn )
-			{
-				it.remove();
-			}
+				if ( informational && current.value > thisTurn )
+				{	// Defer until later, there's no point in reporting an
+					// informational counter prior to actual expiration.
+					continue;
+				}
 
-			current.lastWarned = thisTurn;
-			return current;
+				if ( current.value < thisTurn )
+				{
+					it.remove();
+				}
+
+				current.lastWarned = thisTurn;
+				return current;
+			}
 		}
 
 		return null;
@@ -305,24 +320,27 @@ public class TurnCounter
 		int currentTurns = KoLCharacter.getCurrentRun();
 		StringBuilder counters = new StringBuilder();
 
-		for ( TurnCounter current : TurnCounter.relayCounters )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( current.value < currentTurns )
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
-				// Can't remove the counter - a counterScript
-				// may still be waiting for it to be delivered.
-				continue;
-			}
+				if ( current.value < currentTurns )
+				{
+					// Can't remove the counter - a counterScript
+					// may still be waiting for it to be delivered.
+					continue;
+				}
 
-			if ( counters.length() > 0 )
-			{
-				counters.append( KoLConstants.LINE_BREAK );
-			}
+				if ( counters.length() > 0 )
+				{
+					counters.append( KoLConstants.LINE_BREAK );
+				}
 
-			counters.append( current.parsedLabel );
-			counters.append( " (" );
-			counters.append( current.value - currentTurns );
-			counters.append( ")" );
+				counters.append( current.parsedLabel );
+				counters.append( " (" );
+				counters.append( current.value - currentTurns );
+				counters.append( ")" );
+			}
 		}
 
 		return counters.toString();
@@ -330,12 +348,16 @@ public class TurnCounter
 
 	public static final void startCounting( final int value, final String label, final String image )
 	{
-		TurnCounter.startCountingInternal( value, label, image );
-		TurnCounter.saveCounters();
+ 		synchronized ( TurnCounter.relayCounters )
+		{
+			TurnCounter.startCountingInternal( value, label, image );
+			TurnCounter.saveCounters();
+		}
 	}
 
 	private static final void startCountingInternal( final int value, final String label, final String image )
 	{
+		// We don't synchronize here because caller has already done so.
 		if ( value >= 0 )
 		{
 			TurnCounter counter = new TurnCounter( value, label, image );
@@ -349,29 +371,35 @@ public class TurnCounter
 
 	public static final void stopCounting( final String label )
 	{
-		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
-
-		while ( it.hasNext() )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			TurnCounter current = it.next();
-			if ( current.parsedLabel.equals( label ) )
-			{
-				it.remove();
-			}
-		}
+			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-		TurnCounter.saveCounters();
+			while ( it.hasNext() )
+			{
+				TurnCounter current = it.next();
+				if ( current.parsedLabel.equals( label ) )
+				{
+					it.remove();
+				}
+			}
+
+			TurnCounter.saveCounters();
+		}
 	}
 
 	public static final boolean isCounting( final String label, final int value )
 	{
 		int searchValue = KoLCharacter.getCurrentRun() + value;
 
-		for ( TurnCounter current : TurnCounter.relayCounters )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( current.parsedLabel.equals( label ) && current.value == searchValue )
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
-				return true;
+				if ( current.parsedLabel.equals( label ) && current.value == searchValue )
+				{
+					return true;
+				}
 			}
 		}
 
@@ -380,11 +408,14 @@ public class TurnCounter
 
 	public static final boolean isCounting( final String label )
 	{
-		for ( TurnCounter current : TurnCounter.relayCounters )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( current.parsedLabel.equals( label ) && current.value >= KoLCharacter.getCurrentRun() )
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
-				return true;
+				if ( current.parsedLabel.equals( label ) && current.value >= KoLCharacter.getCurrentRun() )
+				{
+					return true;
+				}
 			}
 		}
 
@@ -393,9 +424,12 @@ public class TurnCounter
 
 	public static final TurnCounter[] getCounters()
 	{
-		Collections.sort( TurnCounter.relayCounters );
-		TurnCounter[] counters = new TurnCounter[ TurnCounter.relayCounters.size() ];
-		return TurnCounter.relayCounters.toArray( counters );
+ 		synchronized ( TurnCounter.relayCounters )
+		{
+			Collections.sort( TurnCounter.relayCounters );
+			TurnCounter[] counters = new TurnCounter[ TurnCounter.relayCounters.size() ];
+			return TurnCounter.relayCounters.toArray( counters );
+		}
 	}
 
 	public static final String getCounters( String label, int minTurns, int maxTurns )
@@ -406,25 +440,28 @@ public class TurnCounter
 		maxTurns += KoLCharacter.getCurrentRun();
 		StringBuilder buf = new StringBuilder();
 
-		for ( TurnCounter current : TurnCounter.relayCounters )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( current.value < minTurns || current.value > maxTurns )
+			for ( TurnCounter current : TurnCounter.relayCounters )
 			{
-				continue;
+				if ( current.value < minTurns || current.value > maxTurns )
+				{
+					continue;
+				}
+				if ( checkExempt && current.isExempt( "" ) )
+				{
+					continue;
+				}
+				if ( current.parsedLabel.toLowerCase().indexOf( label ) == -1 )
+				{
+					continue;
+				}
+				if ( buf.length() != 0 )
+				{
+					buf.append( "\t" );
+				}
+				buf.append( current.parsedLabel );
 			}
-			if ( checkExempt && current.isExempt( "" ) )
-			{
-				continue;
-			}
-			if ( current.parsedLabel.toLowerCase().indexOf( label ) == -1 )
-			{
-				continue;
-			}
-			if ( buf.length() != 0 )
-			{
-				buf.append( "\t" );
-			}
-			buf.append( current.parsedLabel );
 		}
 
 		return buf.toString();
@@ -464,21 +501,27 @@ public class TurnCounter
 
 	public static final void deleteByHash( final int hash )
 	{
-		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
-
-		while ( it.hasNext() )
+ 		synchronized ( TurnCounter.relayCounters )
 		{
-			if ( System.identityHashCode( it.next() ) == hash )
-			{
-				it.remove();
-			}
-		}
+			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-		TurnCounter.saveCounters();
+			while ( it.hasNext() )
+			{
+				if ( System.identityHashCode( it.next() ) == hash )
+				{
+					it.remove();
+				}
+			}
+
+			TurnCounter.saveCounters();
+		}
 	}
 
 	public static final int count()
 	{
-		return TurnCounter.relayCounters.size();
+ 		synchronized ( TurnCounter.relayCounters )
+		{
+			return TurnCounter.relayCounters.size();
+		}
 	}
 }
