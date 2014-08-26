@@ -7547,7 +7547,7 @@
 7528	government-issued night-vision goggles	775124204	nvgoggles.gif	accessory	t,d	65	pairs of government-issued night-vision goggles
 7529	loaf of alien bread	840910856	baguette.gif	food	t,d	75	loaves of alien bread
 7530	grilled cheese sandwich	393477410	sammich.gif	food	t,d	99	grilled cheese sandwiches
-7531	alien protein powder	595646868	powderpile2.gif	usable	t,d	75	piles of alien protein powder
+7531	alien protein powder	595646868	powderpile2.gif	multiple	t,d	75	piles of alien protein powder
 7532	rocket fuel	375972393	redmin.gif	drink	t,d	75	cans of rocket fuel
 7533	alien source code printout	951108754	punchcard.gif	usable	t	0	alien source code printouts
 7534	alien source code printout (used)	735936333	punchcard.gif	usable		0	alien source code printouts (used)
@@ -7648,7 +7648,7 @@
 7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5	pages of the Necrohobocon
 7630	black magic powder	916394459	powder.gif	multiple	t,d	5	pouches of black magic powder
 7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
-7632	government-issue identification badge	433047727	badge.gif	usable	t,d	5
+7632	government-issue identification badge	433047727	badge.gif	multiple	t,d	5
 7633	alien hologram projector	636077233	wbaccpiece.gif	usable	t,d	5
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
 7635	cigar box turtle	889036974	cigarturt.gif	multiple	t,d	11
@@ -7703,7 +7703,7 @@
 7684	Time Lord Participation Mug	759232573	coffeecup.gif	offhand	t	0
 7685	Time Bandit Time Towel	506054693	towelcape.gif	container	t	0
 7686	Caveman Dan's favorite rock	915015071	danrock.gif	accessory		0
-7687	dog ointment	533961184	tube.gif	usable	t,d	100
+7687	dog ointment	533961184	tube.gif	multiple	t,d	100
 7688	gumshoes	858795245	tapshoes.gif	accessory	t	0
 7689	flapper floppers	698298413	sandals.gif	accessory	t	0
 7690	sneakeasies	929587115	kicks.gif	accessory	t	0
@@ -7741,8 +7741,8 @@
 7722	centurion helmet	940311690	romanhelm.gif	hat	t,d	48
 7723	Chroner cross	658154132	plus.gif	reusable	t	0
 7724	pteruges	279167027	thighguard.gif	pants	t,d	58
-7725	Bruno's blessing of Mars	777525677	scroll1.gif	usable	t,d	50
-7726	Dennis's blessing of Minerva	717716742	scroll1.gif	usable	t,d	50
-7727	Burt's blessing of Bacchus	881200968	scroll1.gif	usable	t,d	50
-7728	Freddie's blessing of Mercury	716371734	scroll1.gif	usable	t,d	50
+7725	Bruno's blessing of Mars	777525677	scroll1.gif	multiple	t,d	50
+7726	Dennis's blessing of Minerva	717716742	scroll1.gif	multiple	t,d	50
+7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50
+7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0

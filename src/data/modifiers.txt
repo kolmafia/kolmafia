@@ -5602,6 +5602,7 @@ Frigid Northlands Garb	Cold Resistance: +3
 Furry Suit	Moxie Percent: -75, Monster Level: +5
 Ghast Iron Gear	Spooky Damage: +20, Hot Damage: +20
 Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5, Initiative: +10
+Gladiatorial Glad Rags	Adventures: +6
 Gnauga Hides	Damage Reduction: 3
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
