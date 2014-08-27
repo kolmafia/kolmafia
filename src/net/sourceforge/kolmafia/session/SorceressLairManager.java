@@ -2357,7 +2357,12 @@ public abstract class SorceressLairManager
 		}
 		else if ( KoLConstants.inventory.contains( item ) )
 		{
-			UseLink link = new UseLink( item.getItemId(), "use", "inv_use.php?which=3&whichitem=" );
+			int itemId = item.getItemId();
+			UseLink link = new UseLink( itemId, "use", "inv_use.php?which=3&whichitem=" );
+			if ( itemId == ItemPool.RING_OF_TELEPORTATION )
+			{
+				link = new UseLink( itemId, "use", "inv_equip.php?which=2&action=equip&slot=3&whichitem=" );
+			}
 			spoiler = "<br>(" + effect + " - " + item + " " + link.getItemHTML() + " )";
 		}
 		else

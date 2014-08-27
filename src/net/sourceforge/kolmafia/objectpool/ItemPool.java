@@ -1100,6 +1100,7 @@ public class ItemPool
 	public static final int IRON_KEY = 4034;
 	public static final int CULTIST_ROBE = 4040;
 	public static final int WUMPUS_HAIR = 4044;
+	public static final int RING_OF_TELEPORTATION = 4051;
 	public static final int INDIGO_PARTY_INVITATION = 4060;
 	public static final int VIOLET_HUNT_INVITATION = 4061;
 	public static final int BLUE_MILK_CLUB_CARD = 4062;
