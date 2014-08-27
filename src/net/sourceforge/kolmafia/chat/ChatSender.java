@@ -182,8 +182,8 @@ public class ChatSender
 		}
 
 		ChatRequest request = new ChatRequest( graf, tabbedChat );
-
-		accumulatedMessages.addAll( sendRequest( request, tabbedChat ) );
+		List<ChatMessage> messages = ChatSender.sendRequest( request, tabbedChat );
+		accumulatedMessages.addAll( messages );
 
 		if ( channelRestricted )
 		{
@@ -205,7 +205,7 @@ public class ChatSender
 			}
 		}
 
-		return request.responseText;
+		return request.responseText == null ? "" : request.responseText;
 	}
 
 	public static final List<ChatMessage> sendRequest( ChatRequest request, boolean tabbedChat )
