@@ -107,7 +107,7 @@ bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2,
 bugbear beanie	Familiar Effect: "atk, cap 7"
 bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
 catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarrr, cap 45"
-centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7
+centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7, Familiar Effect: "1xFairy, atk, cap 25"
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum HP: +15, Familiar Effect: "1.5xLep, cap 22"
 chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
@@ -574,7 +574,7 @@ plaid skirt	Initiative: +25, MP Regen Min: 6, MP Regen Max: 10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
 pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
-pteruges	Weapon Damage: +10
+pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 red silk skirt	Experience (Moxie): +1, Hat Drop: +30
