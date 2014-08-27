@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -86,6 +87,9 @@ public class SummoningChamberRequest
 		SummoningChamberRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern BROWN_WORD_PATTERN =
+		Pattern.compile( "tell him that the passhword is <font color=brown><b>(.*?)</b></font>" );
+
 	public static final void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "choice.php" ) || !location.contains( "whichchoice=922" ) || !location.contains( "option=1" ) )
@@ -104,15 +108,25 @@ public class SummoningChamberRequest
 		// static-electricity feel that you associate with an active
 		// magical field. It must take some time for it to recharge
 		// after a summoning attempt.
-		if ( responseText.indexOf( "greasy static-electricity feel" ) != -1 )
+		if ( responseText.contains( "greasy static-electricity feel" ) )
 		{
 			Preferences.setBoolean( "demonSummoned", true );
 		}
-		else if ( responseText.indexOf( "You light three black candles" ) != -1 )
+		else if ( responseText.contains( "You light three black candles" ) )
 		{
 			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
 			ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
 			ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
+
+			// If you see -hic- Gary, tell him that the passhword is <font color=brown><b>oPeNs3saMe</b></font>.
+			Matcher brownWordMatcher = SummoningChamberRequest.BROWN_WORD_PATTERN.matcher( responseText );
+			if ( brownWordMatcher.find() )
+			{
+				String brownWord = brownWordMatcher.group( 1 );
+				String message = "Infernal Thirst demon Brown Word found: " + brownWord + " in clan " + ClanManager.getClanName( false ) + ".";
+				RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
+			}
 
 			if ( !responseText.contains( "some sort of crossed signal" ) &&
 			     !responseText.contains( "hum, which eventually cuts off" ) &&
