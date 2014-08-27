@@ -2281,83 +2281,30 @@ public class RelayRequest
 
 	private void handleChat()
 	{
+		boolean tabbedChat = this.getPath().contains( "j=1" );
 		String chatText;
-		boolean tabbedChat = this.getPath().indexOf( "j=1" ) > -1;
 
-		if ( this.getPath().startsWith( "newchatmessages.php" ) && !tabbedChat )
+		if ( this.getPath().startsWith( "newchatmessages.php" ) )
 		{
-			StringBuilder chatResponse = new StringBuilder();
-
-			long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
-
-			List chatMessages = ChatPoller.getEntries( lastSeen, true );//
-			Iterator messageIterator = chatMessages.iterator();
-
-			boolean needsLineBreak = false;
-
-			while ( messageIterator.hasNext() )
-			{
-				HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
-
-				String content = chatMessage.getContent();
-
-				if ( content != null && content.length() > 0 )
-				{
-					if ( needsLineBreak )
-					{
-						chatResponse.append( "<br>" );
-					}
-
-					needsLineBreak = !content.endsWith( "<br>" ) && !content.endsWith( "<br/>" ) && !content.endsWith( "</br>" );
-
-					chatResponse.append( content );
-				}
-
-				lastSeen = Math.max( lastSeen, chatMessage.getLocalLastSeen() );
-			}
-
-			chatResponse.append( "<!--lastseen:" );
-			chatResponse.append( KoLConstants.CHAT_LASTSEEN_FORMAT.format( lastSeen ) );
-			chatResponse.append( "-->" );
-
-			chatText = chatResponse.toString();
+			chatText = tabbedChat ? getTabbedChatMessages() : getNontabbedChatMessages();
 		}
-		/*
-		   <div id="1323769271" class="msg"><span class="time">[23:28:39] </span>
-		   <span style="color: green;" class="ctag">[hardcore] </span>
-		   <a style="color: black;" href="showplayer.php?who=1729384" class="player" target="mainpane">
-		   Erwaro</a>: <span class="guts">Some other tree? Because combat doesn't really do you that much good,
-		   you'll do fine with pounce.</span></div>
-		 */
-		else
+		else if ( this.getPath().startsWith( "submitnewchat.php" ) )
 		{
 			if ( ChatManager.getCurrentChannel() == null )
 			{
 				ChatSender.sendMessage( null, "/listen", true );
 			}
-			if ( this.getPath().startsWith( "newchatmessages.php" ) && tabbedChat )
-			{
-				ChatRequest request = new ChatRequest();
-				request.run();
-				chatText = request.responseText;
-			}
-			else if ( this.getPath().startsWith( "submitnewchat.php" ) )
-			{
-				if ( ChatManager.getCurrentChannel() == null )
-				{
-					ChatSender.sendMessage( null, "/listen", true );
-				}
 
-				chatText = ChatSender.sendMessage( new LinkedList<ChatMessage>(), this.getFormField( "graf" ), true, false, tabbedChat );
-			}
-			else
+			chatText = ChatSender.sendMessage( new LinkedList<ChatMessage>(), this.getFormField( "graf" ), true, false, tabbedChat );
+
+			if ( tabbedChat && chatText.startsWith( "{" ) )
 			{
-				chatText = "";
+				ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ) );
 			}
 		}
-		if ( tabbedChat && chatText != null && chatText.startsWith( "{" ) )
+		else
 		{
-			ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ) );
+			chatText = "";
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
@@ -2366,6 +2313,65 @@ public class RelayRequest
 		}
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", chatText );
+	}
+
+	private String getNontabbedChatMessages()
+	{
+		StringBuilder chatResponse = new StringBuilder();
+
+		long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
+
+		List chatMessages = ChatPoller.getEntries( lastSeen, true );//
+		Iterator messageIterator = chatMessages.iterator();
+
+		boolean needsLineBreak = false;
+
+		while ( messageIterator.hasNext() )
+		{
+			HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
+
+			String content = chatMessage.getContent();
+
+			if ( content != null && content.length() > 0 )
+			{
+				if ( needsLineBreak )
+				{
+					chatResponse.append( "<br>" );
+				}
+
+				needsLineBreak = !content.endsWith( "<br>" ) && !content.endsWith( "<br/>" ) && !content.endsWith( "</br>" );
+
+				chatResponse.append( content );
+			}
+
+			lastSeen = Math.max( lastSeen, chatMessage.getLocalLastSeen() );
+		}
+
+		chatResponse.append( "<!--lastseen:" );
+		chatResponse.append( KoLConstants.CHAT_LASTSEEN_FORMAT.format( lastSeen ) );
+		chatResponse.append( "-->" );
+
+		return chatResponse.toString();
+	}
+
+	private String getTabbedChatMessages()
+	{
+		if ( ChatManager.getCurrentChannel() == null )
+		{
+			ChatSender.sendMessage( null, "/listen", true );
+		}
+
+		ChatRequest request = new ChatRequest();
+		request.run();
+
+		String chatResponse = request.responseText == null ? "" : request.responseText;
+
+		if ( chatResponse.startsWith( "{" ) )
+		{
+			ChatPoller.handleNewChat( chatResponse, this.getFormField( "graf" ) );
+		}
+
+		return chatResponse;
 	}
 
 	public void handleSimple()
