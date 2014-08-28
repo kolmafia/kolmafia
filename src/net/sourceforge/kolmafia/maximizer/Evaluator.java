@@ -1590,6 +1590,60 @@ public class Evaluator
 		automatic[ Evaluator.OFFHAND_MELEE ].addAll( automatic[ EquipmentManager.OFFHAND ] );
 		automatic[ Evaluator.OFFHAND_RANGED ].addAll( automatic[ EquipmentManager.OFFHAND ] );
 
+		// Compare outfits with best item in the same spot, and remove if not better
+		// Working on all combinations would be strictly better, but lets not go there yet!
+		StringBuffer outfitSummary = new StringBuffer();
+		outfitSummary.append( "Outfits [" );
+		int outfitCount = 0;
+		for ( int i = 0 ; i < usefulOutfits.size() ; i++ )
+		{
+			if ( usefulOutfits.get( i ) )
+			{
+				int accCount = 0;
+				MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
+				MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+				// Get pieces of outfit
+				SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+				AdventureResult[] pieces = outfit.getPieces();
+				for ( int j = 0; j < pieces.length; ++j )
+				{
+					int outfitItemId = pieces[j].getItemId();
+					int slot = EquipmentManager.itemIdToEquipmentType( outfitItemId );
+					AdventureResult cItem = automatic[ slot ].get( 0 );
+					// If outfit includes more than one accessory, handle it
+					if ( slot == EquipmentManager.ACCESSORY1 )
+					{
+						cItem = automatic[ slot ].get( accCount );
+						slot += accCount;
+						accCount++;
+					}
+					int compareItemId = cItem.getItemId();
+					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
+					outfitSpec.equipment[ slot ] = outfitItem;
+					CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
+					compareSpec.equipment[ slot ] = compareItem;
+				}
+				if ( outfitSpec.compareTo( compareSpec ) <= 0 )
+				{
+					usefulOutfits.set( i, false );
+				}
+				else
+				{
+					if ( outfitCount > 0 )
+					{
+						outfitSummary.append( ", " );
+					}
+					outfitSummary.append( outfit.toString() );
+					outfitCount++;
+				}
+			}
+		}
+		if ( this.dump > 0 )
+		{
+			outfitSummary.append( "]" );
+			RequestLogger.printLine( outfitSummary.toString() );
+		}
+
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		// The threshold in the slots array that indicates that a slot
 		// should be considered will be either >= 1 or >= 0, depending
