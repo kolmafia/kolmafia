@@ -2357,6 +2357,12 @@ public class RelayRequest
 			ChatSender.sendMessage( null, "/listen", true );
 		}
 
+		// mchat is also able to retrieve messages since a particular
+		// timestamp, just like lchat.
+
+		// long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
+		// ChatRequest request = new ChatRequest( lastSeen );
+
 		ChatRequest request = new ChatRequest();
 		request.run();
 
