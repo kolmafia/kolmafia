@@ -660,6 +660,7 @@
 11000	Mighty Axing	mightyaxing.gif	5	0	0
 
 # Fighting
+
 11001	Cleave	axecleave.gif	5	5	0	1
 11002	Ferocity	angry.gif	0	0	0	2
 11003	Broadside	broadside.gif	5	10	0	3
@@ -672,6 +673,7 @@
 11010	Bifurcating Blow	bifblow.gif	5	10	0	10
 
 # Yelling
+
 11011	Intimidating Bellow	breath.gif	5	3	0	1
 11012	Legendary Bravado	exclam.gif	0	0	0	2
 11013	Song of Accompaniment	chorale.gif	6	10	20	3
@@ -684,6 +686,7 @@
 11020	Banishing Shout	banishingshout.gif	5	50	0	10
 
 # Eating
+
 11021	Demand Sandwich	sammich.gif	1	5	0	1
 11022	Legendary Girth	girth.gif	0	0	0	2
 11023	Song of the Glorious Lunch	song_lunch.gif	6	10	5	3
@@ -696,6 +699,7 @@
 11030	Gourmand	knifefork.gif	0	0	0	10
 
 # Healing
+
 11031	Laugh It Off	hahahaha.gif	2	1	0
 
 # Skills available to Zombie Masters
@@ -742,6 +746,7 @@
 12030	Zombie Maestro	operamask.gif	8	9	0	10
 
 # Summoning
+
 12031	Recruit Zombie	zombhead.gif	1	0	0
 
 # Avatar of Jarlsberg
@@ -830,10 +835,11 @@
 15032	Unrepentant Thief	moneybag.gif	0	0	0
 
 # Thunder
+
 16001	Thunder Clap	echo.gif	5	0	0
-16002	Thundercloud	darkcloud2.gif	3	0	100
+16002	Thundercloud	darkcloud.gif	3	0	100
 16003	Thunder Bird	thunderbird.gif	5	0	0
-16004	Thunderheart	heartrock.gif	3	0	100
+16004	Thunderheart	heart.gif	3	0	100
 16005	Thunderstrike	dumbstruck.gif	5	0	0
 16006	Thunder Down Underwear	downunderwear.gif	1	0	0
 16007	Thunder Thighs	thunderthighs.gif	0	0	0
