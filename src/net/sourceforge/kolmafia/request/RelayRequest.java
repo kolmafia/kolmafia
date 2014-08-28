@@ -2321,15 +2321,11 @@ public class RelayRequest
 
 		long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
 
-		List chatMessages = ChatPoller.getEntries( lastSeen, true );//
-		Iterator messageIterator = chatMessages.iterator();
-
+		List<HistoryEntry> chatMessages = ChatPoller.getEntries( lastSeen, true );
 		boolean needsLineBreak = false;
 
-		while ( messageIterator.hasNext() )
+		for ( HistoryEntry chatMessage : chatMessages )
 		{
-			HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
-
 			String content = chatMessage.getContent();
 
 			if ( content != null && content.length() > 0 )

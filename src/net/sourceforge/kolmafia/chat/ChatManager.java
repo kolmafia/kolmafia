@@ -337,14 +337,10 @@ public abstract class ChatManager
 		ChatManager.triviaGameActive = false;
 	}
 
-	public static void processMessages( final List< ? > messages )
+	public static void processMessages( final List<ChatMessage> messages )
 	{
-		Iterator< ? > messageIterator = messages.iterator();
-
-		while ( messageIterator.hasNext() )
+		for ( ChatMessage message : messages )
 		{
-			ChatMessage message = (ChatMessage) messageIterator.next();
-
 			ChatManager.processMessage( message );
 		}
 	}
@@ -382,10 +378,10 @@ public abstract class ChatManager
 			ChatManager.processCommand( sender, message.getContent(), recipient );
 		}
 		else if ( recipient.equals( "/clan" ) ||
-		     recipient.equals( "/hobopolis" ) ||
-		     recipient.equals( "/slimetube" ) ||
-		     recipient.equals( "/dread" ) ||
-		     recipient.equals( "/hauntedhouse" ) )
+			  recipient.equals( "/hobopolis" ) ||
+			  recipient.equals( "/slimetube" ) ||
+			  recipient.equals( "/dread" ) ||
+			  recipient.equals( "/hauntedhouse" ) )
 		{
 			ChatManager.clanMessages.add( message );
 			ChatManager.processCommand( sender, message.getContent(), recipient );

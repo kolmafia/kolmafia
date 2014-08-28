@@ -63,11 +63,21 @@ public class ChatRequest
 
 	public ChatRequest( final long lastSeen )
 	{
+		this( lastSeen, false );
+	}
+
+	public ChatRequest( final long lastSeen, final boolean tabbedChat )
+	{
 		super( "newchatmessages.php" );
 
 		this.graf = "";
 
 		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
+
+		if ( tabbedChat )
+		{
+			this.addFormField( "j", "1" );
+		}
 	}
 
 	/**
@@ -78,17 +88,10 @@ public class ChatRequest
 
 	public ChatRequest( final String graf )
 	{
-		this( graf , false );
+		this( graf, false );
 	}
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 *
-	 * @param message The message to be sent
-	 * @param tabbedChat Whether the tabbed chat system is active
-	 */
-
-	public ChatRequest( final String graf , final boolean tabbedChat )
+	public ChatRequest( final String graf, final boolean tabbedChat )
 	{
 		super( "submitnewchat.php" );
 

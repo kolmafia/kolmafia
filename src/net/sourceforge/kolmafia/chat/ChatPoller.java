@@ -66,7 +66,8 @@ public class ChatPoller
 	private static String rightClickMenu = "";
 
 	@Override
-	public void run() {
+	public void run()
+	{
 		long lastSeen = 0;
 		long serverLast = serverLastSeen;
 
@@ -78,10 +79,8 @@ public class ChatPoller
 				if ( serverLast == serverLastSeen )
 				{
 					List<HistoryEntry> entries = ChatPoller.getEntries( lastSeen, false );
-					Iterator<HistoryEntry> entryIterator = entries.iterator();
-
-					while ( entryIterator.hasNext() ) {
-						HistoryEntry entry = (HistoryEntry) entryIterator.next();
+					for ( HistoryEntry entry : entries )
+					{
 						lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
 					}
 				}
@@ -92,8 +91,7 @@ public class ChatPoller
 				StaticEntity.printStackTrace(e);
 			}
 
-			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT
-					&& ChatManager.isRunning(); ++i )
+			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT && ChatManager.isRunning(); ++i )
 			{
 				pauser.pause( ChatPoller.CHAT_DELAY );
 			}
@@ -213,11 +211,13 @@ public class ChatPoller
 		return ChatPoller.rightClickMenu;
 	}
 
-	public static void handleNewChat( String responseData, String sent ) {
+	public static void handleNewChat( String responseData, String sent )
+	{
 		try {
 			JSONObject obj = new JSONObject( responseData );
 
-			if ( obj.has( "last" ) ) {
+			if ( obj.has( "last" ) )
+			{
 				serverLastSeen = obj.getLong( "last" );
 			}
 
@@ -225,7 +225,8 @@ public class ChatPoller
 			// note: output is where /who, /listen, + various game commands
 			// (/use etc) output goes. May exist.
 			String output = obj.optString( "output", null );
-			if ( output != null ) {
+			if ( output != null )
+			{
 				// TODO: strip channelname so /cli works again.
 				ChatSender.processResponse( newMessages, output, sent );
 			}
@@ -235,12 +236,9 @@ public class ChatPoller
 			{
 				JSONObject msg = msgs.getJSONObject( i );
 				String type = msg.getString( "type" );
-				String sender = msg.has( "who" ) ? msg.getJSONObject( "who" )
-						.getString( "name" ) : null;
-				String senderId = msg.has( "who" ) ? msg.getJSONObject( "who" )
-						.getString( "id" ) : null;
-				String recipient = msg.has( "for" ) ? msg.getJSONObject( "for" )
-						.optString( "name" ) : null;
+				String sender = msg.has( "who" ) ? msg.getJSONObject( "who" ).getString( "name" ) : null;
+				String senderId = msg.has( "who" ) ? msg.getJSONObject( "who" ).getString( "id" ) : null;
+				String recipient = msg.has( "for" ) ? msg.getJSONObject( "for" ).optString( "name" ) : null;
 				String content = msg.optString( "msg", null );
 				if ( type.equals( "event" ) )
 				{
@@ -248,11 +246,13 @@ public class ChatPoller
 					newMessages.add( new EventMessage( content, "green" ) );
 					continue;
 				}
-				if ( sender == null ) {
+				if ( sender == null )
+				{
 					ChatSender.processResponse( newMessages, content, sent );
 					continue;
 				}
-				if ( recipient == null ) {
+				if ( recipient == null )
+				{
 					if ( type.equals( "system" ) )
 					{
 						newMessages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
@@ -272,6 +272,7 @@ public class ChatPoller
 
 				newMessages.add( new ChatMessage( sender, recipient, content, isAction ) );
 			}
+
 			ChatManager.processMessages( newMessages );
 		}
 		catch ( JSONException e )
