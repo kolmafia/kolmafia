@@ -264,7 +264,7 @@ public abstract class CombatActionManager
 		return CombatActionManager.strategyLookup.getStrategy( "global prefix" ) != null;
 	}
 
-	public static final String getEncounterKey( final String encounter )
+	public static final String getBestEncounterKey( final String encounter )
 	{
 		return CombatActionManager.strategyLookup.getBestEncounterKey( encounter );
 	}
@@ -318,7 +318,7 @@ public abstract class CombatActionManager
 			}
 		}
 
-		String encounterKey = CombatActionManager.getEncounterKey( encounter );
+		String encounterKey = CombatActionManager.getBestEncounterKey( encounter );
 		
 		CustomCombatStrategy strategy = CombatActionManager.strategyLookup.getStrategy( encounterKey );
 		int actionCount = strategy.getActionCount( strategyLookup, new HashSet() );

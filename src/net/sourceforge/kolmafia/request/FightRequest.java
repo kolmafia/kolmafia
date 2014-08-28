@@ -1769,7 +1769,7 @@ public class FightRequest
 			if ( action.startsWith( "custom" ) )
 			{
 				String file = Preferences.getBoolean( "debugPathnames" ) ? CombatActionManager.getStrategyLookupFile().getAbsolutePath() : CombatActionManager.getStrategyLookupName();
-				action = file + " [" + CombatActionManager.getEncounterKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
+				action = file + " [" + CombatActionManager.getBestEncounterKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );
