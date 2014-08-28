@@ -1677,6 +1677,7 @@ Sword of the Brouhaha Prince	0	none
 Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
+Temporal Tempera Tube	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 third-hand lantern	0	none
@@ -1987,6 +1988,7 @@ junk band	65	Mys: 15
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
 KoL Con 8-Bit power bracelet	0	none
+KoL Con X Bingo Card	0	none
 kumquartz ring	0	none
 La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 ladle of mystery	40	Mys: 5
@@ -2522,6 +2524,7 @@ Yearbook Club Camera	0	none
 yellow glowstick	20	none
 Yellow Moon of Compassion	200	Mys: 85
 Zinc Delta of Tranquility	200	Mys: 85
+zombie monkey necklace	0	none
 Zombo's skull ring	200	Mys: 200
 
 # Containers section of equipment.txt
