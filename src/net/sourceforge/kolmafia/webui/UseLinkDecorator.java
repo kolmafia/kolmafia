@@ -711,6 +711,12 @@ public abstract class UseLinkDecorator
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
 
+			// If we are limited to 0 uses, no use link needed
+			if ( useCount == 0 )
+			{
+				return null;
+			}
+
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
