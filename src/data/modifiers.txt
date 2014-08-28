@@ -1959,6 +1959,7 @@ Sword of the Brouhaha Prince	Muscle Percent: +12
 # tailbone shield: Deals 80-100 <font color=green>Stench Damage</font> to attackers
 tailbone shield	Stench Damage: +40, Damage Reduction: 16
 teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
+Temporal Tempera Tube	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 # The Necbromancer's Stein: All Spells Cast Are Spooky
 The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30
 The Spirit of Crimbo	Free Pull
@@ -2320,6 +2321,7 @@ junk band	Spell Damage: +11
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 knobby kneepads	Weapon Damage: +3
 KoL Con 8-Bit power bracelet	Muscle: +8
+KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 kumquartz ring	Single Equip, Weapon Damage Percent: [200*zone(The Candy Diorama)]
@@ -2917,6 +2919,7 @@ Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pr
 yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
+zombie monkey necklace	Spooky Damage: +11, Stench Damage: +11
 Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 
 # Containers section of modifiers.txt

@@ -5407,7 +5407,7 @@
 5388	ridiculous sunglasses	882790882	ridicshades.gif	accessory	t	0	pairs of ridiculous sunglasses
 5389	ridiculous sandwich	882634790	sammich.gif	food	t	0	ridiculous sandwiches
 5390	ridiculous cocktail	729068833	fruitym.gif	drink	t	0
-5391
+5391	zombie monkey necklace	117794496	kzmnecklace.gif	accessory	t	0
 5392	Thwaitgold butterfly statuette	820209471	thwaitbutt.gif	none		0
 5393	scrap of sticky paper	990207150	tatpaper.gif	none	t,d	30	scraps of sticky paper
 5394	sandpaper	133369800	document.gif	none	t,d	25	scraps of sandpaper
@@ -6845,8 +6845,8 @@
 6826	All-Hallow's Steve's fright wig	870153445	frightwig.gif	hat		0
 6827	KoL Con X Treasure Map	275495976	map.gif	offhand		0
 6828	discocktail	225359522	martini.gif	drink	t	0
-6829
-6830
+6829	KoL Con X Bingo Card	698754096	bingocard.gif	accessory		0
+6830	Temporal Tempera Tube	453408695	tube.gif	offhand		0
 6831	Tallowcreme Halloween Pumpkin	631586523	mallowpumpkin.gif	multiple, candy	t,d	25
 6832	Way More Tears&trade; pepper spray	135109366	bodyspray.gif	none, combat	t,d	35	cans of Way More Tears&trade; pepper spray
 6833	Milk Studs	212342492	milkstuds.gif	multiple, candy	t,d	15	handfuls of Milk Studs
