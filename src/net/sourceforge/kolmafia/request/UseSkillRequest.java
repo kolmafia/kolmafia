@@ -419,15 +419,12 @@ public class UseSkillRequest
 		else
 		{
 			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
+			int availableMP = KoLCharacter.getCurrentMP();
 			if ( mpCost == 0 )
 			{
-				this.buffCount = buffCount;
-				return;
+				maxPossible = this.getMaximumCast();
 			}
-
-			int availableMP = KoLCharacter.getCurrentMP();
-
-			if ( SkillDatabase.isLibramSkill( this.skillId ) )
+			else if ( SkillDatabase.isLibramSkill( this.skillId ) )
 			{
 				maxPossible = SkillDatabase.libramSkillCasts( availableMP );
 			}
