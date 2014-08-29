@@ -1288,7 +1288,7 @@
 1271	aluminum wand	449357199	slash.gif	zap	q	0
 1272	marble wand	783516934	slash.gif	zap	q	0
 1273	magic lamp	239575926	lparen.gif	offhand	t,d	25	magic lamps
-1274	Medicinal Herb's medicinal herbs	581570215	goofballs.gif	hp	d	50	bottles of Medicinal Herb's medicinal herbs
+1274	Medicinal Herb's medicinal herbs	581570215	goofballs.gif	hp, usable	d	50	bottles of Medicinal Herb's medicinal herbs
 1275	basic meat skirt	121934420	meatskirt.gif	pants	t,d	140	basic meat skirts
 1276	Otorian Battle Scar	550617348	oscar.gif	message	t	0	Otorian Battle Scars
 1277	basic meat kilt	343077782	meatskirt.gif	pants	t,d	140	basic meat kilts
