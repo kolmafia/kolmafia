@@ -2281,14 +2281,15 @@ public class RelayRequest
 
 	private void handleChat()
 	{
-		boolean tabbedChat = this.getPath().contains( "j=1" );
-		String chatText;
+		String path = this.getPath();
+		boolean tabbedChat = path.contains( "j=1" );
+		String chatText = "";
 
-		if ( this.getPath().startsWith( "newchatmessages.php" ) )
+		if ( path.startsWith( "newchatmessages.php" ) )
 		{
 			chatText = tabbedChat ? getTabbedChatMessages() : getNontabbedChatMessages();
 		}
-		else if ( this.getPath().startsWith( "submitnewchat.php" ) )
+		else if ( path.startsWith( "submitnewchat.php" ) )
 		{
 			if ( ChatManager.getCurrentChannel() == null )
 			{
@@ -2301,10 +2302,6 @@ public class RelayRequest
 			{
 				ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ) );
 			}
-		}
-		else
-		{
-			chatText = "";
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
