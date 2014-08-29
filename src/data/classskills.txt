@@ -653,7 +653,7 @@
 8201	Summon Tasteful Items		1	5	0
 8202	Summon Alice's Army Cards		1	5	0
 8203	Summon Geeky Gifts		1	5	0
-8204	Summon Confiscated Things	1	1	5	0
+8204	Summon Confiscated Things		1	5	0
 
 # Skills available to Avatars of Boris
 
