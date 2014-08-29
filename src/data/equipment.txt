@@ -1075,7 +1075,7 @@ pocket theremin	65	Mox: 17	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
 pool cue	50	Mus: 10	2-handed staff
-portable cassette player	0	none
+portable cassette player	20	none
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 pottery club	50	Mus: 0	1-handed club
@@ -1573,7 +1573,7 @@ polyalloy shield	140	Mus: 55	shield
 pool skimmer	10	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
-radiator heater shield	0	Mus: 35	shield
+radiator heater shield	100	Mus: 35	shield
 rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
@@ -1683,7 +1683,7 @@ The Spirit of Crimbo	0	none
 third-hand lantern	0	none
 thought balloon	10	none
 Tiki lighter	20	none
-Time Lord Participation Mug	0	none
+Time Lord Participation Mug	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
 tortoboggan shield	100	Mus: 35	shield
@@ -1694,7 +1694,7 @@ turtling rod	10	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
-vampire pellet	0	Mys: 35
+vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
 vengeful spirit	225	Mys: 200
 Victor, the Insult Comic Hellhound Puppet	10	none
@@ -1744,7 +1744,7 @@ badge of authority	110	Mys: 40
 bananarama bangle	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 baneful bandolier	200	Mus: 150
-banjo kazoo mount	0	none
+banjo kazoo mount	50	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
@@ -1882,7 +1882,7 @@ fishbone bracers	0	none
 fishbone facemask	0	none
 fishbone fins	0	none
 fishbone kneepads	0	none
-flapper floppers	0	Mys: 35
+flapper floppers	100	Mys: 35
 flashing novelty button	20	none
 flask flops	10	none
 floaty rock necklace	100	Mys: 35
@@ -1933,10 +1933,10 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
-Groll doll	0	none
+Groll doll	50	none
 groovy prism necklace	150	Mys: 60
 grumpy old man charrrm bracelet	150	Mys: 60
-gumshoes	0	Mus: 10
+gumshoes	50	Mus: 10
 gummi bowtie	0	none
 guts necklace	225	Mys: 200
 haggis socks	10	none
@@ -2160,7 +2160,7 @@ ring of half-assed regeneration	50	none
 ring of increase damage	80	Mys: 25
 ring of teleportation	80	Mys: 25
 Ring of the Sewer Snake	150	Mys: 60
-Roman sadnals	0	Mys: 35
+Roman sadnals	100	Mys: 35
 rope with some soap on it	200	Mys: 200
 rose-colored glasses	0	none
 round green sunglasses	190	Mys: 80
@@ -2201,7 +2201,7 @@ Sketcherz&trade;	150	Mys: 60
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
-sneakeasies	0	Mox: 60
+sneakeasies	150	Mox: 60
 Sneaky Pete's breath spray	80	Mys: 25
 snow belly	50	Mys: 10
 snow belt	100	none
@@ -2558,17 +2558,17 @@ palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 pillow shell	10	none
 Rain-Doh red wings	100	none
-rubber cape	0	Mys: 85
+rubber cape	200	Mys: 85
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
 sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
 shellacked shell	10	none
 shocked shell	100	Mus: 50
-super-absorbent tarp	0	none
+super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
-Time Bandit Time Towel	0	none
+Time Bandit Time Towel	10	none
 toy jet pack	175	Mys: 75
 whatsit-covered turtle shell	50	Mus: 20
 wings of fire	100	Mys: 100

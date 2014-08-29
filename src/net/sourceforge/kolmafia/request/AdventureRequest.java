@@ -81,7 +81,8 @@ public class AdventureRequest
 
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 
-	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
+	// <img id='monpic' src="http://images.kingdomofloathing.com/adventureimages/ssd_sundae.gif" width=100 height=100>
+	private static final Pattern MONSTER_IMAGE = Pattern.compile( "<img id='monpic' .*?adventureimages/(.*?)\\.gif" );
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
@@ -616,18 +617,18 @@ public class AdventureRequest
 				image.startsWith( "shadowsealzombie" ) ? "Your Shadow" :
 				image.startsWith( "shadowsealpete" ) ? "Your Shadow" :
 				// The Copperhead Club
-				image.equals( "coppertender" ) ? "Copperhead Club bartender" :
+				image.startsWith( "coppertender" ) ? "Copperhead Club bartender" :
 				// Spookyraven
 				image.startsWith( "srpainting" ) ? "ancestral Spookyraven portrait" :
 				// Spring Break Beach
-				image.equals( "ssd_burger" ) ? "Sloppy Seconds Burger" :
-				image.equals( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :
-				image.equals( "ssd_sundae" ) ? "Sloppy Seconds Sundae" :
+				image.startsWith( "ssd_burger" ) ? "Sloppy Seconds Burger" :
+				image.startsWith( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :
+				image.startsWith( "ssd_sundae" ) ? "Sloppy Seconds Sundae" :
 				image.startsWith( "fun-gal" ) ? "Fun-Guy Playmate" :
 				// The Old Landfill
-				image.equals( "js_bender" ) ? "junksprite bender" :
-				image.equals( "js_melter" ) ? "junksprite melter" :
-				image.equals( "js_sharpener" ) ? "junksprite sharpener" :
+				image.startsWith( "js_bender" ) ? "junksprite bender" :
+				image.startsWith( "js_melter" ) ? "junksprite melter" :
+				image.startsWith( "js_sharpener" ) ? "junksprite sharpener" :
 				// Dreadsylvania
 				image.startsWith( "dvcoldbear" ) ? "cold bugbear" :
 				image.startsWith( "dvcoldghost" ) ? "cold ghost" :
@@ -672,23 +673,23 @@ public class AdventureRequest
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
 				// KOLHS
-				image.equals( "shopteacher" ) ? "X-fingered Shop Teacher" :
+				image.startsWith( "shopteacher" ) ? "X-fingered Shop Teacher" :
 				// Trick or Treat
-				image.equals( "vandalkid" ) ? "vandal kid" :
-				image.equals( "paulblart" ) ? "suburban security civilian" :
-				image.equals( "tooold" ) ? "kid who is too old to be Trick-or-Treating" :
+				image.startsWith( "vandalkid" ) ? "vandal kid" :
+				image.startsWith( "paulblart" ) ? "suburban security civilian" :
+				image.startsWith( "tooold" ) ? "kid who is too old to be Trick-or-Treating" :
 				// Bugbear Invasion
-				image.equals( "bb_caveman" ) ? "Angry Cavebugbear" :
+				image.startsWith( "bb_caveman" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
-				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
-				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
-				image.equals( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
+				image.startsWith( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
+				image.startsWith( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
+				image.startsWith( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
 				// Crimbobokutown Toy Factory
-				image.equals( "animelf1" ) ? "Tiny-Screwing Animelf" :
-				image.equals( "animelf2" ) ? "Plastic-Extruding Animelf" :
-				image.equals( "animelf3" ) ? "Circuit-Soldering Animelf" :
-				image.equals( "animelf4" ) ? "Quality Control Animelf" :
-				image.equals( "animelf5" ) ? "Toy Assembling Animelf" :
+				image.startsWith( "animelf1" ) ? "Tiny-Screwing Animelf" :
+				image.startsWith( "animelf2" ) ? "Plastic-Extruding Animelf" :
+				image.startsWith( "animelf3" ) ? "Circuit-Soldering Animelf" :
+				image.startsWith( "animelf4" ) ? "Quality Control Animelf" :
+				image.startsWith( "animelf5" ) ? "Toy Assembling Animelf" :
 				// Elf Alley
 				image.startsWith( "elfhobo" ) ? "Hobelf" :
 				// Haunted Sorority House
