@@ -1050,7 +1050,7 @@ public class ResponseTextParser
 		}
 		else if ( skillName.equals( "Belch The Rainbow" ) )
 		{
-			Preferences.increment( "skillLevel117", 1 );
+			Preferences.increment( "skillLevel117", 1, 11, false );
 		}
 
 		String message = "You learned a new skill: " + skillName;
