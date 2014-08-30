@@ -91,7 +91,7 @@ public class Evaluator
 	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
 	private boolean requireShield = false;
 	private boolean noTiebreaker = false;
-	private boolean current = true;
+	private boolean current = !KoLCharacter.canInteract();
 	private HashSet<String> posOutfits, negOutfits;
 	private TreeSet<AdventureResult> posEquip, negEquip;
 
@@ -1613,15 +1613,37 @@ public class Evaluator
 					// If outfit includes more than one accessory, handle it
 					if ( slot == EquipmentManager.ACCESSORY1 )
 					{
-						cItem = automatic[ slot ].get( accCount );
-						slot += accCount;
+						if ( automatic[ slot ].size() >= accCount )
+						{
+							compareSpec.equipment[ slot + accCount ] = EquipmentRequest.UNEQUIP;
+						}
+						else
+						{
+							cItem = automatic[ slot ].get( accCount );
+							int compareItemId = cItem.getItemId();
+							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
+							compareSpec.equipment[ slot + accCount ] = compareItem;
+						}
+						CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
+						outfitSpec.equipment[ slot + accCount ] = outfitItem;
 						accCount++;
 					}
-					int compareItemId = cItem.getItemId();
-					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
-					outfitSpec.equipment[ slot ] = outfitItem;
-					CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
-					compareSpec.equipment[ slot ] = compareItem;
+					else
+					{
+						if ( automatic[ slot ].size() == 0 )
+						{
+							compareSpec.equipment[ slot ] = EquipmentRequest.UNEQUIP;
+						}
+						else
+						{
+							cItem = automatic[ slot ].get( 0 );
+							int compareItemId = cItem.getItemId();
+							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
+							compareSpec.equipment[ slot ] = compareItem;
+						}
+						CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
+						outfitSpec.equipment[ slot ] = outfitItem;
+					}
 				}
 				if ( outfitSpec.compareTo( compareSpec ) <= 0 )
 				{
