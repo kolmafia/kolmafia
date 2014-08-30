@@ -305,6 +305,22 @@ public class UneffectRequest
 			"Takin' It Greasy",
 			"Grease Up",
 		},
+		{
+			"Personal Thundercloud",
+			"Thundercloud",
+		},
+		{
+			"The Rain In Loathing",
+			"Rainy Day",
+		},
+		{
+			"Charged Hair",
+			"Clean-Hair Lightning",
+		},
+		{
+			"Stormswaddled",
+			"Sheet Lightning",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
