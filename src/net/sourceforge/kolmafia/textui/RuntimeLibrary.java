@@ -4495,7 +4495,23 @@ public abstract class RuntimeLibrary
 
 	public static Value can_equip( Interpreter interpreter, final Value item )
 	{
-		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( (int) item.intValue() ) ) );
+		int itemId = (int) item.intValue();
+		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		{
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_ACCESSORY:
+			break;
+		default:
+			return DataTypes.FALSE_VALUE;
+		}
+		
+		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( itemId ) ) );
 	}
 
 	public static Value equip( Interpreter interpreter, final Value item )
