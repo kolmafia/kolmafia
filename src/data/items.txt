@@ -7388,7 +7388,7 @@
 7369	mangled finger	284259586	manglefinger.gif	multiple	t,d	9
 7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111	bottles of Psychotic Train wine
 7371	crazy hobo notebook	539415366	blacknotebook.gif	none, combat	t,d	180
-7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350
+7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350	pies men were not meant to collectively eat
 7373	sommelier's towel	233683477	somtowel.gif	offhand	t,d	150
 7374	tarnished tastevin	267963154	tastevin.gif	accessory	t,d	150
 7375
@@ -7665,8 +7665,8 @@
 7646	lightning milk	448420871	milkcarton.gif	reusable	q	0
 7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
 7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
-7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20
-7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20
+7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20	vails of gourmet gourami oil
+7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20	catfish whiskers
 7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
 7652	fishbone catcher's mitt	285996070	fb_glove.gif	offhand	t,d	50
 7653	fishbone kneepads	429018276	fb_kneepads.gif	accessory	t,d	50
@@ -7676,12 +7676,12 @@
 7657	fishbone belt	705157567	fb_belt.gif	accessory	t,d	50
 7658	fishbone bracers	218156379	fb_bracers.gif	accessory	t,d	50
 7659	neoprene skullcap	973157230	rubbercap.gif	hat	t,d	1000
-7660	goblin water	707037025	moonshine.gif	usable	t,d	2000
+7660	goblin water	707037025	moonshine.gif	multiple	t,d	2000
 7661	dumb mud	904103660	gooball.gif	none, combat	t,d	1000
 7662	Sogg-Os	188639947	soupbowl.gif	food	t,d	111
 7663	Lord Soggyraven's Slippers	149080844	slippers.gif	accessory	t,d	200
 7664	Ancient Protector Soda	364350526	soda.gif	usable	t,d	50
-7665	liquid ice	665942732	lightvial.gif	usable	t,d	10000
+7665	liquid ice	665942732	lightvial.gif	multiple	t,d	10000
 7666	Wet Russian	663498190	rocks.gif	drink	t,d	140
 7667	filet of The Fish	629586752	gnatfilet.gif	food	t,d	140
 7668	Thwaitgold spider statuette	253844172	thwaitspider.gif	none		0
