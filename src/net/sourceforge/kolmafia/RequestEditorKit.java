@@ -1524,13 +1524,14 @@ public class RequestEditorKit
 		for ( int i = 819; i <= 827; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
-			if ( buffer.indexOf( name ) != -1 )
+			String plural = ItemDatabase.getPluralName( i );
+			if ( buffer.indexOf( name ) != -1 || buffer.indexOf( plural ) != -1 )
 			{
 				String effect = Preferences.getString( "lastBangPotion" + i );
 				if ( !effect.equals( "" ) )
 				{
 					potionNames.add( name );
-					pluralNames.add( ItemDatabase.getPluralById( i ) );
+					pluralNames.add( plural );
 					potionEffects.add( " of " + effect );
 				}
 			}
@@ -1538,9 +1539,8 @@ public class RequestEditorKit
 		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
-			String plural = ItemDatabase.getPluralById( i );
-			if ( buffer.indexOf( name ) != -1 ||
-				(plural != null && buffer.indexOf( plural ) != -1) )
+			String plural = ItemDatabase.getPluralName( i );
+			if ( buffer.indexOf( name ) != -1 || buffer.indexOf( plural ) != -1 )
 			{
 				String effect = Preferences.getString( "lastSlimeVial" + i );
 				if ( !effect.equals( "" ) )
@@ -1564,10 +1564,7 @@ public class RequestEditorKit
 			String effect = potionEffects.get( i );
 
 			StringUtilities.globalStringReplace( buffer, name + "</b>", name + effect + "</b>" );
-			if ( plural != null )
-			{
-				StringUtilities.globalStringReplace( buffer, plural + "</b>", plural + effect + "</b>" );
-			}
+			StringUtilities.globalStringReplace( buffer, plural + "</b>", plural + effect + "</b>" );
 		}
 	}
 
@@ -1576,7 +1573,8 @@ public class RequestEditorKit
 		for ( int i = 819; i <= 827; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
-			if ( buffer.indexOf( name ) != -1 )
+			String plural = ItemDatabase.getPluralName( i );
+			if ( buffer.indexOf( name ) != -1 || buffer.indexOf( plural ) != -1 )
 			{
 				String effect = Preferences.getString( "lastBangPotion" + i );
 				if ( effect.equals( "" ) )
@@ -1585,24 +1583,14 @@ public class RequestEditorKit
 				}
 
 				StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
-				// Pluralize correctly
-				StringUtilities.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
+				StringUtilities.globalStringReplace( buffer, plural, plural + " of " + effect );
 			}
 		}
 		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
-
-			// I have no idea how this can happen, but it does,
-			// and it screws people up badly when it does
-			if ( name == null )
-			{
-				continue;
-			}
-
-			String plural = ItemDatabase.getPluralById( i );
-			if ( buffer.indexOf( name ) != -1 ||
-				(plural != null && buffer.indexOf( plural ) != -1) )
+			String plural = ItemDatabase.getPluralName( i );
+			if ( buffer.indexOf( name ) != -1 || buffer.indexOf( plural ) != -1 )
 			{
 				String effect = Preferences.getString( "lastSlimeVial" + i );
 				if ( effect.equals( "" ) )
@@ -1611,11 +1599,7 @@ public class RequestEditorKit
 				}
 
 				StringUtilities.globalStringReplace( buffer, name, name + ": " + effect );
-				// Pluralize correctly
-				if ( plural != null )
-				{
-					StringUtilities.globalStringReplace( buffer, plural, plural + ": " + effect );
-				}
+				StringUtilities.globalStringReplace( buffer, plural, plural + ": " + effect );
 			}
 		}
 	}

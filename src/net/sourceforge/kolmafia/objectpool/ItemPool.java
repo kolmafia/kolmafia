@@ -2203,11 +2203,7 @@ public class ItemPool
 		Preferences.setString( baseName + id, effect );
 		String name = ItemDatabase.getItemName( id );
 		String testName = name + joiner + effect;
-		String testPlural = ItemDatabase.getPluralById( id );
-		if ( testPlural != null )
-		{
-			testPlural = testPlural + joiner + effect;
-		}
+		String testPlural = ItemDatabase.getPluralName( id ) + joiner + effect;
 		ItemDatabase.registerItemAlias( id, testName, testPlural );
 		
 		HashSet<String> possibilities = new HashSet<String>();
@@ -2251,11 +2247,7 @@ public class ItemPool
 		Preferences.setString( baseName + missing, effect );
 		name = ItemDatabase.getItemName( missing );
 		testName = name + joiner + effect;
-		testPlural = ItemDatabase.getPluralById( missing );
-		if ( testPlural != null )
-		{
-			testPlural = testPlural + joiner + effect;
-		}
+		testPlural = ItemDatabase.getPluralName( missing ) +joiner + effect;
 		ItemDatabase.registerItemAlias( missing, testName, testPlural );
 		return true;	
 	}
