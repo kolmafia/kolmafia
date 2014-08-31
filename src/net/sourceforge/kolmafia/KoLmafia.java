@@ -1190,19 +1190,21 @@ public abstract class KoLmafia
 
 		boolean isAdventure = request instanceof KoLAdventure;
 
-		List goals = new ArrayList( GoalManager.getGoals() );
+		List<AdventureResult> goals = GoalManager.getGoals();
 
-		boolean deferConcoctionRefresh = true;
+		// auto-crafting requires concoction refreshing
+		boolean deferConcoctionRefresh = !Preferences.getBoolean( "autoCraft" );
 
 		AdventureResult[] items = new AdventureResult[ goals.size() ];
 		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];
 
 		for ( int i = 0; i < goals.size(); ++i )
 		{
-			items[ i ] = (AdventureResult) goals.get( i );
-			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
+			AdventureResult goal = goals.get( i );
+			items[ i ] = goal;
+			creatables[ i ] = CreateItemRequest.getInstance( goal );
 
-			if ( ConcoctionDatabase.getMixingMethod( items[ i ] ) != CraftingType.NOCREATE )
+			if ( deferConcoctionRefresh && ConcoctionDatabase.getMixingMethod( goal ) != CraftingType.NOCREATE )
 			{
 				deferConcoctionRefresh = false;
 			}
