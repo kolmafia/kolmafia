@@ -5497,11 +5497,7 @@ public abstract class KoLCharacter
 			{
 				String name = ItemDatabase.getItemName( i );
 				String testName = name + ": " + testProperty;
-				String testPlural = ItemDatabase.getPluralById( i );
-				if ( testPlural != null )
-				{
-					testPlural = testPlural + ": " + testProperty;
-				}
+				String testPlural = ItemDatabase.getPluralName( i ) + testProperty;
 				ItemDatabase.registerItemAlias( i, testName, testPlural );
 			}
 		}

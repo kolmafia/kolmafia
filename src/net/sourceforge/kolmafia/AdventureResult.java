@@ -483,11 +483,11 @@ public class AdventureResult
 
 	public String getPluralName( final int count )
 	{
-		if ( this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY )
-		{
-			return count == 1 ? this.getName() : BountyDatabase.getPlural( this.getName() );
-		}
-		return count == 1 ? this.getName() : ItemDatabase.getPluralById( this.itemId );
+		return count == 1 ?
+			this.getName() :
+			this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY ?
+			BountyDatabase.getPlural( this.getName() ) :
+			ItemDatabase.getPluralName( this.itemId );
 	}
 
 	/**

@@ -609,6 +609,7 @@ public class ItemDatabase
 			String descId = (String) entry.getValue();
 			String name = ItemDatabase.getItemDataName( nextInteger );
 			String image = ItemDatabase.getImage( itemId );
+			// Intentionally get a null if there is not an explicit plural in the database
 			String plural = ItemDatabase.getPluralById( itemId );
 			int type = ItemDatabase.getConsumptionType( itemId );
 			int attrs = ItemDatabase.getAttributes( itemId );
@@ -1448,6 +1449,7 @@ public class ItemDatabase
 
 		int price = DebugDatabase.parsePrice( text );
 		ItemDatabase.priceById.set( itemId, price );
+		// Intentionally get a null if there is not an explicit plural in the database
 		String plural = ItemDatabase.getPluralById( itemId );
 
 		String printMe;
@@ -1904,7 +1906,13 @@ public class ItemDatabase
 	public static final String getPluralName( final int itemId )
 	{
 		String plural = pluralById.get( itemId );
-		return plural == null || plural.equals( "" ) ? ItemDatabase.getItemDataName( itemId ) + "s" : plural;
+		if ( plural == null || plural.equals( "" ) )
+		{
+			plural = ItemDatabase.getItemDataName( itemId ) + "s";
+			// We could put() the generated plural back in the
+			// map. Is that a good idea?
+		}
+		return plural;
 	}
 
 	public static final String getPluralById( final int itemId )

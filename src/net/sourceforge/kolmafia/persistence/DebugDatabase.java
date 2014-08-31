@@ -408,6 +408,7 @@ public class DebugDatabase
 		map.put( name, text );
 
 		String descId = ItemDatabase.getDescriptionId( id );
+		// Intentionally get a null if there is not an explicit plural in the database
 		String plural = ItemDatabase.getPluralById( id );
 
 		report.println( ItemDatabase.itemString( itemId, name, descId, image, type, attrs, access, price, plural ) );

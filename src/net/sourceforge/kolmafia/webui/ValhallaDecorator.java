@@ -335,7 +335,7 @@ public class ValhallaDecorator
 		}
 
 		String itemName = StringUtilities.getURLEncode( ItemDatabase.getItemName( itemId ) );
-		String plural = ItemDatabase.getPluralById( itemId );
+		String plural = ItemDatabase.getPluralName( itemId );
 
 		buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
 		buffer.append( giftCount );
