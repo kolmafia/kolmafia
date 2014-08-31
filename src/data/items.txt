@@ -164,9 +164,9 @@
 147	eXtreme meat sword	465841131	meatsword.gif	weapon	t,d	160	eXtreme meat swords
 148	eXtreme meat staff	885693427	meatstaff.gif	weapon	t,d	160	eXtreme meat staves
 149	eXtreme meat crossbow	274998600	crossbow.gif	weapon	t,d	160	eXtreme meat crossbows
-150	Scalp of Gorgolok	889496681	sealhat.gif	hat		0	Scalp of Gorgoloks
+150	Scalp of Gorgolok	889496681	sealhat.gif	hat		0	Scalps of Gorgolok
 151	Elder Turtle Shell	602920283	turtlehat.gif	hat		0	Elder Turtle Shells
-152	Colander of Em-er'il	135642556	collander.gif	hat		0	Colander of Em-er'ils
+152	Colander of Em-er'il	135642556	collander.gif	hat		0	Colanders of Em-er'il
 153	Ancient Saucehelm	225252938	saucehat.gif	hat		0	Ancient Saucehelms
 154	Disco 'Fro Pick	674402305	pick.gif	hat		0	Disco 'Fro Picks
 155	El Sombrero De Lopez	156097981	hat2.gif	hat		0	Los Sombreros De Lopezes
@@ -4313,24 +4313,24 @@
 4294	Mer-kin switchblade	467607496	switchblade.gif	weapon	d	120
 4295	crystal orb of spirit wrangling	169672274	spiritorb.gif	reusable	q	0
 4296	depleted uranium seal figurine	663964652	sealfiguran.gif	reusable	d	170	depleted uranium seal figurines
-4297	Ass-Stompers of Violence	204071493	vio_boots.gif	accessory		0
-4298	Brand of Violence	300500134	vio_brand.gif	offhand		0
-4299	Novelty Belt Buckle of Violence	478020985	vio_buckle.gif	accessory		0
-4300	Lens of Violence	430260627	vio_lens.gif	hat		0
-4301	Pigsticker of Violence	381177201	vio_knife.gif	weapon		0
-4302	Jodhpurs of Violence	807812120	vio_pants.gif	pants		0
-4303	Cold Stone of Hatred	686054988	hate_stone.gif	offhand		0
-4304	Girdle of Hatred	482626574	hate_girdle.gif	accessory		0
-4305	Staff of Simmering Hatred	350628111	hate_staff.gif	weapon		0
-4306	Pantaloons of Hatred	887069787	hate_pants.gif	pants		0
-4307	Fuzzy Slippers of Hatred	569206102	hate_slippers.gif	accessory		0
-4308	Lens of Hatred	966755946	hate_lens.gif	hat		0
-4309	Treads of Loathing	444022947	loathe_boots.gif	accessory		0
-4310	Scepter of Loathing	562497417	loathe_scepter.gif	offhand		0
-4311	Belt of Loathing	727854953	loathe_belt.gif	accessory		0
-4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0
-4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0
-4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0
+4297	Ass-Stompers of Violence	204071493	vio_boots.gif	accessory		0	pairs of Ass-Stompers of Violence
+4298	Brand of Violence	300500134	vio_brand.gif	offhand		0	Brands of Violence
+4299	Novelty Belt Buckle of Violence	478020985	vio_buckle.gif	accessory		0	Novelty Belt Buckles of Violence
+4300	Lens of Violence	430260627	vio_lens.gif	hat		0	Lenses of Violence
+4301	Pigsticker of Violence	381177201	vio_knife.gif	weapon		0	Pigstickers of Violence
+4302	Jodhpurs of Violence	807812120	vio_pants.gif	pants		0	pairs of Jodhpurs of Violence
+4303	Cold Stone of Hatred	686054988	hate_stone.gif	offhand		0	Cold Stones of Hatred
+4304	Girdle of Hatred	482626574	hate_girdle.gif	accessory		0	Girdles of Hatred
+4305	Staff of Simmering Hatred	350628111	hate_staff.gif	weapon		0	Staves of Simmering Hatred
+4306	Pantaloons of Hatred	887069787	hate_pants.gif	pants		0	pairs of Pantaloons of Hatred
+4307	Fuzzy Slippers of Hatred	569206102	hate_slippers.gif	accessory		0	pairs of Fuzzy Slippers of Hatred
+4308	Lens of Hatred	966755946	hate_lens.gif	hat		0	Lenses of Hatred
+4309	Treads of Loathing	444022947	loathe_boots.gif	accessory		0	pairs of Treads of Loathing
+4310	Scepter of Loathing	562497417	loathe_scepter.gif	offhand		0	Scepters of Loathing
+4311	Belt of Loathing	727854953	loathe_belt.gif	accessory		0	Belts of Loathing
+4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0	pairs of Goggles of Loathing
+4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0	Stick-Knives of Loathing
+4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0	pairs of Jeans of Loathing
 4315	Annual Ascot	804577053	ascot.gif	accessory		0
 4316	Sledgehammer of the V&aelig;lkyr	139769370	sledge.gif	weapon	q	0
 4317	Flail of the Seven Aspects	601506510	7aspects.gif	weapon	q	0
@@ -5791,7 +5791,7 @@
 5772	gnomish athlete's foot	939129651	foot.gif	familiar	q,d	75
 5773	Thwaitgold maggot statuette	918465545	thwaitmaggot.gif	none		0
 5774	talkative skull	925159799	talkskull.gif	grow		0
-5775	shiny gold fronts	728159680	goldfronts.gif	familiar	t,d	75
+5775	shiny gold fronts	728159680	goldfronts.gif	familiar	t,d	75	sets of shiny gold fronts
 5776	Barney's rake	357147342	rake.gif	weapon	d	30
 5777
 5778
@@ -6018,14 +6018,14 @@
 5999	fireball	977966832	fireball2.gif	none, combat	t,d	200
 6000	gold crown	128676669	goldcrown.gif	hat	t,d	100
 6001	flaming sword	554536624	flamingsword.gif	weapon	t,d	100
-6002	Helm of the Scream Emperor	599960171	wtbhelmet.gif	hat	d	2000
-6003	Cloak of Dire Shadows	990061447	wtbcloak.gif	container	d	2000
-6004	Sword of Dark Omens	412488881	wtbsword.gif	weapon	d	2000
-6005	Shield of Icy Fate	626376392	wtbshield.gif	offhand	d	2000
+6002	Helm of the Scream Emperor	599960171	wtbhelmet.gif	hat	d	2000	Helms of the Scream Emperor
+6003	Cloak of Dire Shadows	990061447	wtbcloak.gif	container	d	2000	Cloaks of Dire Shadows
+6004	Sword of Dark Omens	412488881	wtbsword.gif	weapon	d	2000	Swords of Dark Omens
+6005	Shield of Icy Fate	626376392	wtbshield.gif	offhand	d	2000	Shields of Icy Fate
 6006	Greaves of the Murk Lord	262660969	wtbgreaves.gif	pants	d	2000	pairs of Greaves of the Murk Lord
 6007	Gauntlets of the Blood Moon	147906553	wtbgauntlets.gif	accessory	d	2000	pairs of Gauntlets of the Blood Moon
 6008	Boots of Twilight Whispers	514515678	wtbboots.gif	accessory	d	2000	pairs of Boots of Twilight Whispers
-6009	Belt of Howling Anger	117771924	wtbbelt.gif	accessory	d	2000
+6009	Belt of Howling Anger	117771924	wtbbelt.gif	accessory	d	2000	Belts of Howling Anger
 6010	logging hatchet	825250350	hatchet.gif	weapon	t	0
 6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
 6012	freshwater pearl necklace	555121884	candynecklace.gif	accessory	t,d	95
@@ -6526,36 +6526,36 @@
 6507	cool iron ingot	349636810	dv_coldiron.gif	none	t	0
 6508	cool iron helmet	791588621	dv_cihelm.gif	hat		0
 6509	cool iron breastplate	851159967	dv_cichest.gif	shirt		0
-6510	cool iron greaves	622329943	dv_cigreaves.gif	pants		0
+6510	cool iron greaves	622329943	dv_cigreaves.gif	pants		0	pairs of cool iron greaves
 6511	ghost shawl	939661068	ghostshawl.gif	container		0
 6512	skull capacitor	985454129	dv_skullcap.gif	none		0
-6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
+6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0	patches of warm fur
 6514	snowstick	646078952	dv_snowstick.gif	offhand	t	0
-6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0
+6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0	eerie fetishes
 6516	stinkwater	763823654	moonshine.gif	drink	t	0	jars of stinkwater
 6517	dubious loincloth	966320894	dv_loincloth.gif	pants	t	0
 6518	accidental mutton	878742989	dv_mutton.gif	food	t	0	haunches of accidental mutton
-6519	drafty drawers	312929410	dv_holypants.gif	pants	t	0
+6519	drafty drawers	312929410	dv_holypants.gif	pants	t	0	pairs of drafty drawers
 6520	wolfskull mask	412209059	dv_wolfskull.gif	hat	t	0
 6521	guts necklace	616251462	dv_gutsneck.gif	accessory	t	0
 6522	groping claw	518160861	dv_gropeclaw.gif	weapon	t	0
 6523	vengeful spirit	288986310	dv_spirit.gif	offhand	t	0
 6524	BOOtonniere	177965011	dv_bootenier.gif	accessory	t	0
 6525	ghost thread	623255405	dv_ghostthread.gif	usable	t	0
-6526	bag of unfinished business	819011673	dv_business.gif	weapon	t	0
-6527	transparent pants	244751935	dv_ghostpants.gif	pants	t	0
+6526	bag of unfinished business	819011673	dv_business.gif	weapon	t	0	bags of unfinished business
+6527	transparent pants	244751935	dv_ghostpants.gif	pants	t	0	pairs of transparent pants
 6528	hothammer	221760955	dv_hothammer.gif	weapon	t	0
 6529	Thriller Ice	349654280	beerbottle.gif	drink	t	0
-6530	grandfather watch	618537924	dv_grandwatch.gif	accessory	t	0
+6530	grandfather watch	618537924	dv_grandwatch.gif	accessory	t	0	grandfather watches
 6531	muddy skirt	190416795	dv_muddyskirt.gif	pants	t	0
-6532	antique spyglass	160549596	dv_spyglass.gif	offhand	t	0
-6533	vial of hot blood	432849235	dv_hotblood.gif	accessory	t	0
-6534	remorseless knife	675617542	dv_remknife.gif	weapon	t	0
+6532	antique spyglass	160549596	dv_spyglass.gif	offhand	t	0	antique spyglasses
+6533	vial of hot blood	432849235	dv_hotblood.gif	accessory	t	0	vials of hot blood
+6534	remorseless knife	675617542	dv_remknife.gif	weapon	t	0	remorseless knives
 6535	intimidating coiffure	551411541	dv_coiffure.gif	hat	t	0
 6536	cod cape	224524036	dv_codcape.gif	container	t	0
 6537	blood sausage	755507859	dv_bloodsausage.gif	food	t	0
 6538	frying brainpan	456291286	dv_skullpan.gif	weapon	t	0
-6539	old ball and chain	684956101	dv_ballchain.gif	accessory	t	0
+6539	old ball and chain	684956101	dv_ballchain.gif	accessory	t	0	old balls and chains
 6540	old dry bone	598987536	dv_bone.gif	weapon	t	0
 6541	tailbone shield	263748975	dv_tailbone.gif	offhand	t	0
 6542	tonguebone	513309401	dv_tonguebone.gif	accessory	t	0
@@ -6566,7 +6566,7 @@
 6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0	Thwaitgold Goliath beetle statuettes
 6548	cooling iron helmet	832188756	dv_hihelm.gif	usable	t	0
 6549	cooling iron breastplate	284257225	dv_hichest.gif	usable	t	0
-6550	cooling iron greaves	970137723	dv_higreaves.gif	usable	t	0
+6550	cooling iron greaves	970137723	dv_higreaves.gif	usable	t	0	pairs of cooling iron greaves
 6551	hot cluster	537386546	cluster.gif	none, fancy	t,d	500
 6552	cold cluster	768750520	cluster.gif	none, fancy	t,d	500
 6553	spooky cluster	407716567	cluster.gif	none, fancy	t,d	500
@@ -6579,7 +6579,7 @@
 6560	phial of sleaziness	286554168	sleazevial.gif	multiple	t	0	phials of sleaziness
 6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
 6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
-6563	hand of Mr. Cards	581824464	mrcards.gif	offhand		0
+6563	hand of Mr. Cards	581824464	mrcards.gif	offhand		0	hands of Mr. Cards
 6564	Dreadsylvanian hot pocket	365191722	hotpocket.gif	food	t	0
 6565	Dreadsylvanian cold pocket	970955510	hotpocket.gif	food	t	0
 6566	Dreadsylvanian spooky pocket	285862908	hotpocket.gif	food	t	0
@@ -6606,7 +6606,7 @@
 6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t	0
 6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t	0	gnawed-up dog bones
 6589	Grey Guanon	800593734	guanon.gif	offhand	t	0	jars of Grey Guanon
-6590	Engorged Sausages and You	866205948	book4.gif	offhand	t	0
+6590	Engorged Sausages and You	866205948	book4.gif	offhand	t	0	copies of Engorged Sausages and You
 6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs
 6592	optimal spreadsheet	389475336	spreadsheet.gif	offhand	t	0	optimal spreadsheets
 6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
@@ -6633,7 +6633,7 @@
 6614	cuckoo clock	886205813	cuckooclock.gif	usable	t	0
 6615	Cold One	700464462	coldone.gif	drink	d	5
 6616	spaghetti breakfast	364296536	spaghetti.gif	food	d	5
-6617	over-the-shoulder Folder Holder	868830919	folderholder2.gif	accessory		0
+6617	over-the-shoulder Folder Holder	868830919	folderholder2.gif	accessory		0	over-the-shoulders Folder Holders
 6618	folder (red)	803733525	otherimages/folders/folder01.gif	folder, usable	t,d	5	folders (red)
 6619	folder (blue)	968651348	otherimages/folders/folder02.gif	folder, usable	t,d	5	folders (blue)
 6620	folder (green)	984869155	otherimages/folders/folder03.gif	folder, usable	t,d	5	folders (green)
@@ -6790,7 +6790,7 @@
 6771	tin foil	262979335	tinfoil.gif	weapon	t,d	80
 6772	tin drum	976976166	tindrum.gif	weapon	t,d	55
 6773	tin roof (rusted)	281581398	tinroof.gif	usable	t	0	tin roofs (rusted)
-6774	tin snips	238636086	tinsnips.gif	none, combat reusable	t,d	10
+6774	tin snips	238636086	tinsnips.gif	none, combat reusable	t,d	10	pairs of tin snips
 6775	tin lizzie	677775886	tinlizzie.gif	none	q	0
 6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
 6777	cold seal sweat	127508971	teardrop.gif	usable	t	0	drops of cold seal sweat
@@ -7325,38 +7325,38 @@
 7306	Lady Spookyraven's finest gown	203797817	srgown.gif	none	q	0
 7307	Lady Spookyraven's dancing shoes	977647376	dancingshoes.gif	none	q	0
 7308	old eyebrow pencil	824523222	pencil.gif	multiple	t,d	40
-7309	old rosewater cream	853741426	tube.gif	multiple	t,d	40
-7310	old bronzer	846379862	balm.gif	multiple	t,d	40
+7309	old rosewater cream	853741426	tube.gif	multiple	t,d	40	tubes of old rosewater cream
+7310	old bronzer	846379862	balm.gif	multiple	t,d	40	pots of old bronzer
 7311	elegant nightstick	593439220	nightstick.gif	weapon	t,d	75
 7312	still grill	860803674	stillgrill.gif	grow	t	0
-7313	box of hickory chips	221201497	woodchips.gif	familiar	t,d	75
+7313	box of hickory chips	221201497	woodchips.gif	familiar	t,d	75	boxes of hickory chips
 7314	dusty poppet	580089747	poppet.gif	none	q	0
 7315	rickety rocking horse	882398650	horsehead.gif	none	q	0
 7316	antique jack-in-the-box	671902661	jackinthebox.gif	none	q	0
 7317	jar of baby ghosts	971844897	ghostjar.gif	none	q	0
 7318	ghost of a necklace	978556354	ghostnecklace.gif	accessory	d	150
 7319	Elizabeth's Dollie	766048375	doll.gif	offhand	d	88
-7320	Elizabeth's paintbrush	266153233	paintbrush.gif	multiple	t,d	125
+7320	Elizabeth's paintbrush	266153233	paintbrush.gif	multiple	t,d	125	Elizabeth's paintbrushes
 7321	Stephen's lab coat	831015452	labcoat.gif	shirt	d	85
-7322	Stephen's secret formula	536575882	potion6.gif	multiple	t,d	75
+7322	Stephen's secret formula	536575882	potion6.gif	multiple	t,d	75	flasks of Stephen's secret formula
 7323	Jacob's rung	115661219	jacobsrung.gif	weapon	t,d	125
 7324	haunted battery	150291229	wbattery.gif	multiple	t,d	90
 7325	electric snakebite	249000652	snakebite.gif	drink	t,d	85
 7326	rubber ribcage	655931089	rubberribcage.gif	offhand	t,d	110
-7327	synthetic marrow	777813114	marrow.gif	multiple	t,d	80
+7327	synthetic marrow	777813114	marrow.gif	multiple	t,d	80	globs of synthetic marrow
 7328	funny bone	592113677	bigbone.gif	multiple	t,d	100
 7329	half-melted spoon	654957439	meltspoon.gif	weapon	t,d	120
-7330	the funk	618750346	potion4.gif	multiple	t,d	70
+7330	the funk	618750346	potion4.gif	multiple	t,d	70	vials of the funk
 7331	gunky chicken	570057278	gunkychicken.gif	food	t,d	55
 7332	creepy doll head	933246480	dollhead.gif	offhand	t,d	99
 7333	droopy doll eye	314062101	dolleye.gif	none, combat	t,d	45
-7334	creepy voice box	741199199	voicebox.gif	offhand	t,d	120
+7334	creepy voice box	741199199	voicebox.gif	offhand	t,d	120	creepy voice boxes
 7335	haunted paddle-ball	707392144	paddleball2.gif	weapon	t,d	105
 7336	spooky sound effects record	343982532	record.gif	multiple	t,d	78
 7337	spooky alphabet block	432727108	spookyblock.gif	none, combat	t,d	85
 7338	tiny dancer	508227259	tinydancer.gif	multiple	t,d	135
 7339	spooky music box mechanism	649333486	musicbox.gif	none, combat	t,d	150
-7340	moose antlers	983883761	antlers2.gif	hat	t,d	125
+7340	moose antlers	983883761	antlers2.gif	hat	t,d	125	pairs of moose antlers
 7341	moose thought	699156790	moosethought.gif	usable	t,d	62
 7342	moose chocolate	889905362	moosechocolate.gif	food	t,d	80
 7343	painting of a glass of wine	461959823	winepainting.gif	drink	t,d	130	paintings of a glass of wine
@@ -7369,21 +7369,21 @@
 7350	picture of you	115824869	pictureofyou.gif	usable		0	pictures of you by The Cure
 7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250	Staves of the Electric Range
 7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
-7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55
+7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55	chunks of hot iron
 7354	red hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
 7355	coal shovel	154511416	coalshovel.gif	weapon	t,d	145
 7356	hot coal	724775130	hotcoal.gif	multiple	t,d	88
-7357	coal dust	677190547	scpowder.gif	multiple	t,d	78
+7357	coal dust	677190547	scpowder.gif	multiple	t,d	78	handfuls of coal dust
 7358	Bram's choker	180395467	bramchoker.gif	accessory	t,d	250
-7359	plaid swatch	537597651	plaidswatch.gif	multiple	t,d	65
+7359	plaid swatch	537597651	plaidswatch.gif	multiple	t,d	65	plaid swatches
 7360	plaid bandage	531905151	plaidbandage.gif	usable, combat	t,d	120
 7361	plaid pocket square	148023771	plaidsquare.gif	accessory	t,d	220
 7362	plaid skirt	535670797	plaidskirt.gif	pants	t,d	300
 7363	bloodstain stick	605475671	chapstick.gif	multiple	t,d	95
 7364	fabric softener	516341138	softener.gif	none, combat	t,d	110	bottles of fabric softener
-7365	fabric hardener	495764406	hardener.gif	multiple	t,d	110
-7366	bottle of laundry sherry	702261149	beerbottle.gif	drink	t,d	82
-7367	industrial strength starch	260206685	box1.gif	multiple	t,d	92
+7365	fabric hardener	495764406	hardener.gif	multiple	t,d	110	bottles of fabric hardener
+7366	bottle of laundry sherry	702261149	beerbottle.gif	drink	t,d	82	bottles of laundry sherry
+7367	industrial strength starch	260206685	box1.gif	multiple	t,d	92	boxes of industrial strength starch
 7368	extra-flat panini	165632581	panini.gif	food	t,d	85
 7369	mangled finger	284259586	manglefinger.gif	multiple	t,d	9
 7370	Psychotic Train wine	205242327	wine2.gif	drink	t,d	111	bottles of Psychotic Train wine
@@ -7704,9 +7704,9 @@
 7685	Time Bandit Time Towel	506054693	towelcape.gif	container	t	0
 7686	Caveman Dan's favorite rock	915015071	danrock.gif	accessory		0
 7687	dog ointment	533961184	tube.gif	multiple	t,d	100
-7688	gumshoes	858795245	tapshoes.gif	accessory	t	0
-7689	flapper floppers	698298413	sandals.gif	accessory	t	0
-7690	sneakeasies	929587115	kicks.gif	accessory	t	0
+7688	gumshoes	858795245	tapshoes.gif	accessory	t	0	pairs of gumshoes
+7689	flapper floppers	698298413	sandals.gif	accessory	t	0	pairs of flapper floppers
+7690	sneakeasies	929587115	kicks.gif	accessory	t	0	pairs of sneakeasies
 7691	plastic nunchaku	669451492	rainbowchucks.gif	weapon	t,d	5
 7692	sticky hand whip	528673806	stickyhand.gif	weapon	t,d	5
 7693	glow-in-the-dark necklace	925597182	glownecklace.gif	accessory	t,d	5
@@ -7741,8 +7741,8 @@
 7722	centurion helmet	940311690	romanhelm.gif	hat	t,d	48
 7723	Chroner cross	658154132	plus.gif	reusable	t	0
 7724	pteruges	279167027	thighguard.gif	pants	t,d	58
-7725	Bruno's blessing of Mars	777525677	scroll1.gif	multiple	t,d	50
-7726	Dennis's blessing of Minerva	717716742	scroll1.gif	multiple	t,d	50
-7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50
-7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50
+7725	Bruno's blessing of Mars	777525677	scroll1.gif	multiple	t,d	50	Bruno's blessings of Mars
+7726	Dennis's blessing of Minerva	717716742	scroll1.gif	multiple	t,d	50	Dennis's blessings of Minerva
+7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50	Burt's beestings of Bacchus
+7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50	Freddie's blessings of Mercury
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
