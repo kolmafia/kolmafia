@@ -7469,16 +7469,16 @@
 7450	Taco Dan's Basic Taco Dan Taco	297432557	taco.gif	food	t,d	50
 7451	Taco Dan's Taco Fish Fish Taco	837122541	taco2.gif	food	t,d	100
 7452	Taco Dan's Super Taco-Riffic Taco Sauce!	868593024	ww_sauce.gif	none	t,d	150
-7453	regular-size brogurt	151469149	brogurt.gif	drink	t,d	50
-7454	super-size brogurt	656614129	kegshield.gif	drink	t,d	150
-7455	broberry brogurt	359952982	brogurt2.gif	drink	t,d	500
-7456	brocolate brogurt	404149849	brogurt2.gif	drink	t,d	500
-7457	French bronilla brogurt	166749632	brogurt2.gif	drink	t,d	500
-7458	History's Most Offensive Jokes, Vol. IX	455187460	book3.gif	usable	t	0
-7459	Now You're Cooking With Grease	986944827	book5.gif	usable	t	0
-7460	Sloppy Seconds Diner Employee Handbook	167862577	book2.gif	usable	t	0
-7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0
-7462	Brogre brorts	136188578	brorts.gif	pants		0
+7453	regular-size brogurt	151469149	brogurt.gif	drink	t,d	50	cups of regular-size brogurt
+7454	super-size brogurt	656614129	kegshield.gif	drink	t,d	150	cups of super-size brogurt
+7455	broberry brogurt	359952982	brogurt2.gif	drink	t,d	500	cups of broberry brogurt
+7456	brocolate brogurt	404149849	brogurt2.gif	drink	t,d	500	cups of brocolate brogurt
+7457	French bronilla brogurt	166749632	brogurt2.gif	drink	t,d	500	cups of French bronilla brogurt
+7458	History's Most Offensive Jokes, Vol. IX	455187460	book3.gif	usable	t	0	copies of History's Most Offensive Jokes, Vol. IX
+7459	Now You're Cooking With Grease	986944827	book5.gif	usable	t	0	copies of Now You're Cooking With Grease
+7460	Sloppy Seconds Diner Employee Handbook	167862577	book2.gif	usable	t	0	copies of Sloppy Seconds Diner Employee Handbook
+7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0	cans of industrial strength anti-fungal spray
+7462	Brogre brorts	136188578	brorts.gif	pants		0	pairs of Brogre brorts
 7463	Brogre brolo shirt	624152936	brolo.gif	shirt		0
 7464	Brogre bucket hat	443458231	buckethat.gif	hat		0
 7465	Spring Break Beach tattoo coupon	473298538	tattoupon.gif	usable	t	0
@@ -7491,7 +7491,7 @@
 7472	go-go potion	639048968	potion9.gif	multiple	t,d	150
 7473	shrimp cocktail	274156264	shrimpcocktail.gif	multiple	t,d	150
 7474	Yolo&trade; chocolates	828410259	necbrowafers.gif	multiple	t,d	15
-7475	string of moist beads	774119595	chain.gif	accessory	t	0
+7475	string of moist beads	774119595	chain.gif	accessory	t	0	strings of moist beads
 7476	Ultimate Mind Destroyer	993012761	chamfluteu.gif	usable	t,d	200
 7477	Meat-inflating powder	384873654	powder.gif	multiple	t,d	150	satchels of Meat-inflating powder
 7478	possessed sugar cube	654638245	cube.gif	multiple	t,d	90
@@ -7515,10 +7515,10 @@
 7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
 7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0
-7499	Hot 'n' Scarys	112858401	box2.gif	multiple	t,d	5
+7499	Hot 'n' Scarys	112858401	box2.gif	multiple	t,d	5	boxes of Hot 'n' Scarys
 7500	black map	897134461	blackmap.gif	none	q	0
-7501	black gold	998488929	blackgold.gif	none	t,d	300
-7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75
+7501	black gold	998488929	blackgold.gif	none	t,d	300	chunks of black gold
+7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75	cups of Texas tea
 7503	dark hamethyst ring	818962641	blackring1.gif	accessory	t,d	250
 7504	dark baconstone ring	645675734	blackring2.gif	accessory	t,d	250
 7505	dark porquoise ring	649874077	blackring3.gif	accessory	t,d	250
