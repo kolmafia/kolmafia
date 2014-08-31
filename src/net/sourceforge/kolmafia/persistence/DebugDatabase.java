@@ -35,7 +35,12 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +78,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringArray;
@@ -106,25 +112,26 @@ public class DebugDatabase
 
 	private static final String readWikiData( final String name )
 	{
-		String line = null;
-		StringBuilder wikiRecord = new StringBuilder();
-
 		try
 		{
-			BufferedReader reader =
-				FileUtilities.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + DebugDatabase.constructWikiName( name ) );
-			while ( ( line = reader.readLine() ) != null )
-			{
-				wikiRecord.append( line );
-			}
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace();
-		}
+			String url = "http://kol.coldfront.net/thekolwiki/index.php/" + DebugDatabase.constructWikiName( name );
+			HttpURLConnection connection = (HttpURLConnection) new URL( null, url ).openConnection();
+			connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
+			InputStream istream = connection.getInputStream();
 
-		return wikiRecord.toString();
+			if ( connection.getResponseCode() != 200 )
+			{
+				return "";
+			}
+			
+			byte[] bytes = ByteBufferUtilities.read( istream );
+			String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
+			return string;
+		}
+		catch ( IOException e )
+		{
+			return "";
+		}
 	}
 
 	/**
@@ -1574,18 +1581,15 @@ public class DebugDatabase
 
 		if ( itemId == 0 )
 		{
-			Iterator it = ItemDatabase.descriptionIdKeySet().iterator();
-			++itemId;
-			while ( it.hasNext() )
+			for ( Integer id : ItemDatabase.descriptionIdKeySet() )
 			{
-				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 0 )
 				{
 					continue;
 				}
-				while ( itemId < id )
+				while ( ++itemId < id )
 				{
-					report.println( itemId++ );
+					report.println( itemId );
 				}
 				DebugDatabase.checkPlural( id, report );
 			}
@@ -1609,36 +1613,74 @@ public class DebugDatabase
 			return;
 		}
 
-		String descId = ItemDatabase.getDescriptionId( id );
 		String plural = ItemDatabase.getPluralById( itemId );
+		if ( plural == null )
+		{
+			// If we don't have a plural, the default is to simply
+			// add an "s".
+			plural = "";
+		}
+		else if ( plural.equals( name + "s" ) )
+		{
+			// If we do explicitly list a plural which is the
+			// default, suppress it.
+			plural = "";
+		}
+
+		String displayPlural = StringUtilities.getDisplayName( plural.equals( "" ) ? name + "s" : plural );
 
 		// Don't bother checking quest items
 		String access = ItemDatabase.getAccessById( id );
+		boolean logit = false;
 		if ( access != null && !access.contains( ItemDatabase.QUEST_FLAG ) )
 		{
 			String wikiData = DebugDatabase.readWikiData( name );
 			Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
 			String wikiPlural = matcher.find() ? matcher.group( 1 ) : "";
-			if ( plural == null || plural.equals( "" ) )
+
+			if ( wikiPlural.equals( "" ) )
 			{
-				// No plural. Wiki plural replaces it
-				plural = wikiPlural;
+				// The Wiki does not list a plural. If ours is
+				// non-default, log discrepancy and keep ours.
+				if ( !plural.equals( "" ) )
+				{
+					logit = true;
+				}
 			}
-			else if ( !wikiPlural.equals( plural ) )
+			else if ( plural.equals( "" ) )
 			{
-				// Wiki plural differs from KoLmafia plural
-				// Assume Wiki is wrong. (!)
-				RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + plural + "\", Wiki plural = \"" + wikiPlural + "\"" );
+				// The Wiki has a plural, but ours is the
+				// default. If the Wiki's is NOT the default,
+				// log it and tentatively accept it
+				if ( !displayPlural.equals( wikiPlural ) )
+				{
+					logit = true;
+					plural = "*** " + wikiPlural;
+				}
+			}
+			else
+			{
+				// Both we and the Wiki have plurals. If they
+				// do not agree, log it, but keep ours.
+				if ( !displayPlural.equals( wikiPlural ) )
+				{
+					logit = true;
+				}
+			}
+
+			if ( logit )
+			{
+				RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + displayPlural + "\", Wiki plural = \"" + wikiPlural + "\"" );
 			}
 		}
 
 		if ( plural.equals( "" ) )
 		{
-			report.println( itemId + "\t" + descId + "\t" + name );
+			report.println( itemId + "\t" + name );
 		}
 		else
 		{
-			report.println( itemId + "\t" + descId + "\t" + name + "\t" + plural );
+			report.println( itemId + "\t" + name + "\t" + plural );
 		}
 	}
 
