@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -58,7 +60,14 @@ public class CampgroundCommand
 
 		if ( parameterList.length > 1 )
 		{
-			count = StringUtilities.parseInt( parameterList[ 1 ] );
+			if ( parameterList[ 0 ].equals( "rest" ) && parameterList[ 1 ].equals( "free" ) )
+			{
+				count = Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ? 0 : 1;
+			}
+			else
+			{
+				count = StringUtilities.parseInt( parameterList[ 1 ] );
+			}
 		}
 
 		KoLmafia.makeRequest( request, count );

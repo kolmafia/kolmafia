@@ -2059,7 +2059,7 @@ public class DailyDeedsPanel
 	public static class SkateDaily
 		extends Daily
 	{
-		private String state, visited;
+		private final String state, visited;
 
 		public SkateDaily( String name, String state, String visited, String desc )
 		{
@@ -2170,7 +2170,7 @@ public class DailyDeedsPanel
 			this.addListener( "timesRested" );
 			this.addListener( "(skill)" );
 			this.addListener( "kingLiberated" );
-			this.addButton( "rest" );
+			this.addButton( "rest free" );
 			this.addLabel( "" );
 		}
 
@@ -3455,7 +3455,7 @@ public class DailyDeedsPanel
 		}
 
 		@Override
-		public void update()
+		public final void update()
 		{
 			box.removeActionListener( listener );
 			this.box.removeAllItems();
@@ -3616,7 +3616,7 @@ public class DailyDeedsPanel
 	public static class JickDaily
 		extends Daily
 	{
-		private JButton button;
+		private final JButton button;
 
 		public JickDaily()
 		{
