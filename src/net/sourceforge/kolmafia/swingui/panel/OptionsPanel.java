@@ -153,7 +153,7 @@ public abstract class OptionsPanel
 
 		if ( this.refreshConcoctions )
 		{
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 

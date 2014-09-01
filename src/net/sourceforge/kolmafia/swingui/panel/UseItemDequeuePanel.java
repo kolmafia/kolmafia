@@ -190,7 +190,7 @@ public class UseItemDequeuePanel
 		public void run()
 		{
 			ConcoctionDatabase.pop( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen );
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 
 			if ( UseItemDequeuePanel.this.food )
 			{

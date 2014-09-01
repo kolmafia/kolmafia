@@ -55,6 +55,6 @@ public class CreationSettingCheckBox
 	@Override
 	protected void handleClick()
 	{
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 }

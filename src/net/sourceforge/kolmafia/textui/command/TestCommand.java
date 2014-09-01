@@ -256,7 +256,7 @@ public class TestCommand
 			String text = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
 			boolean result = ResultProcessor.processResults( false, text, null );
 			RequestLogger.printLine( "returned " + result );
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctionsNow();
 			return;
 		}
 

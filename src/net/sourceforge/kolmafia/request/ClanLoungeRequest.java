@@ -1367,7 +1367,7 @@ public class ClanLoungeRequest
 		}
 
 		// Refresh available concoctions with currently available hot dogs
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static void registerSpeakeasyDrink( String name, int id, boolean available )
@@ -1464,7 +1464,7 @@ public class ClanLoungeRequest
 		}
 
 		// Refresh available concoctions with currently available speakeasy drinks
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );

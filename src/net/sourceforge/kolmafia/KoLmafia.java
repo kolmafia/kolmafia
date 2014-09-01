@@ -870,7 +870,7 @@ public abstract class KoLmafia
 		// Inventory may have changed
 		CoinmastersFrame.externalUpdate();
 
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 
 		// Check the Florist to see what is planted
 		FloristRequest.reset();
@@ -935,7 +935,7 @@ public abstract class KoLmafia
 
 		// Finally, update available concoctions
 		ConcoctionDatabase.resetQueue();
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 
 		KoLmafia.setIsRefreshing( false );
 
@@ -1192,8 +1192,7 @@ public abstract class KoLmafia
 
 		List<AdventureResult> goals = GoalManager.getGoals();
 
-		// auto-crafting requires concoction refreshing
-		boolean deferConcoctionRefresh = !Preferences.getBoolean( "autoCraft" );
+		boolean deferConcoctionRefresh = true;
 
 		AdventureResult[] items = new AdventureResult[ goals.size() ];
 		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];

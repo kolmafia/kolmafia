@@ -233,7 +233,7 @@ public class ValhallaManager
 		KoLmafia.refreshSession();
 
 		EquipmentManager.updateEquipmentLists();
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 
 		// Reset certain settings that the player almost certainly will
 		// use differently at the beginning of a run vs. at the end.
