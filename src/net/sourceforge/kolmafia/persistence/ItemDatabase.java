@@ -631,7 +631,7 @@ public class ItemDatabase
 	{
 		return itemId + "\t" + name + "\t" + descId + "\t" + image + "\t" +
 				typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
-				access + "\t" + autosell + ( plural.equals( "" ) ? "" : "\t" + plural );
+				access + "\t" + autosell + ( plural == null || plural.equals( "" ) ? "" : "\t" + plural );
 	}
 
 	private static void readConsumptionData( String filename, int version, Map<String, Integer> map )

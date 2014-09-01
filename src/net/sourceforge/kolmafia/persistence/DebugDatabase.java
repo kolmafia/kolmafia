@@ -408,8 +408,15 @@ public class DebugDatabase
 		map.put( name, text );
 
 		String descId = ItemDatabase.getDescriptionId( id );
+
 		// Intentionally get a null if there is not an explicit plural in the database
 		String plural = ItemDatabase.getPluralById( id );
+
+		// In fact, if the plural is simply the name + "s", suppress it.
+		if ( plural != null && plural.equals( name + "s" ) )
+		{
+			plural = null;
+		}
 
 		report.println( ItemDatabase.itemString( itemId, name, descId, image, type, attrs, access, price, plural ) );
 	}
