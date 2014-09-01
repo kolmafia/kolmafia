@@ -1613,7 +1613,7 @@ public class Evaluator
 					// If outfit includes more than one accessory, handle it
 					if ( slot == EquipmentManager.ACCESSORY1 )
 					{
-						if ( automatic[ slot ].size() >= accCount )
+						if ( automatic[ slot ].size() <= accCount )
 						{
 							compareSpec.equipment[ slot + accCount ] = EquipmentRequest.UNEQUIP;
 						}
