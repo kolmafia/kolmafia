@@ -762,8 +762,8 @@ public class FamiliarData
 			return itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT;
 
 		case FamiliarPool.HAND:
-			// Disembodied Hand can't equip Mainhand only items
-			if ( !EquipmentDatabase.isMainhandOnly( itemId ) )
+			// Disembodied Hand can't equip Mainhand only items or Thor's Pliers
+			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && itemId != ItemPool.THORS_PLIERS )
 			{
 				return true;
 			}
