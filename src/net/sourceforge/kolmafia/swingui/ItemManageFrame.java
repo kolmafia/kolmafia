@@ -736,7 +736,7 @@ public class ItemManageFrame
 
 		public void run()
 		{
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 

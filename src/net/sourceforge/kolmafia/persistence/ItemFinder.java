@@ -506,7 +506,7 @@ public class ItemFinder
 				// with on-hand ingredients.
 
 				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
-				ConcoctionDatabase.refreshConcoctions( true );
+				ConcoctionDatabase.refreshConcoctionsNow();
 			}
 
 			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch );
@@ -515,7 +515,7 @@ public class ItemFinder
 			if ( skipNPCs )
 			{
 				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
-				ConcoctionDatabase.refreshConcoctions( true );
+				ConcoctionDatabase.refreshConcoctionsNow();
 			}
 		}
 		else if ( sourceList == null )

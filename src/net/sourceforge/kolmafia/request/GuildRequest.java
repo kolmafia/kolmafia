@@ -372,8 +372,9 @@ public class GuildRequest
 				{
 					ResultProcessor.processMeat( -cost );
 				}
-				// New skill may affect concocoction list or uneffect methods or amound healed.
-				ConcoctionDatabase.refreshConcoctions( true );
+				// New skill may affect concocoction list,
+				// uneffect methods, or amount healed.
+				ConcoctionDatabase.refreshConcoctions();
 				if ( skillId == SkillPool.ADVENTURER_OF_LEISURE )
 				{
 					UneffectRequest.reset();

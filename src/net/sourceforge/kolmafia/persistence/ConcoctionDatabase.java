@@ -734,7 +734,7 @@ public class ConcoctionDatabase
 		// the creatable amounts assume that queued ingredients are
 		// already spoken for. Refresh again now that the queue is
 		// empty.
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctionsNow();
 
 		SpecialOutfit.createImplicitCheckpoint();
 
@@ -848,7 +848,7 @@ public class ConcoctionDatabase
 
 				// Done queuing items
 				KoLmafia.forceContinue();
-				ConcoctionDatabase.refreshConcoctions( true );
+				ConcoctionDatabase.refreshConcoctions();
 				ConcoctionDatabase.getUsables().sort();
 				break;
 			}
@@ -860,7 +860,7 @@ public class ConcoctionDatabase
 		SpecialOutfit.restoreImplicitCheckpoint();
 
 		// Refresh again now that ingredients have been deducted
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static final void consumeItem( Concoction c, int quantity, int consumptionType )
@@ -1210,6 +1210,11 @@ public class ConcoctionDatabase
 			return;
 		}
 
+		ConcoctionDatabase.refreshConcoctionsNow();
+	}
+
+	public static final synchronized void refreshConcoctionsNow()
+	{
 		ConcoctionDatabase.refreshNeeded = false;
 
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();

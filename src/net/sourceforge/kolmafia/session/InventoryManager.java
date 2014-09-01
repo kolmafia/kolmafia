@@ -157,7 +157,7 @@ public abstract class InventoryManager
 		KoLConstants.inventory.clear();
 		KoLConstants.inventory.addAll( items );
 		EquipmentManager.updateEquipmentLists();
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 		PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 	}
 

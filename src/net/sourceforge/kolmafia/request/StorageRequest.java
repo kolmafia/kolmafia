@@ -146,7 +146,7 @@ public class StorageRequest
 
 		if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
 		{
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 

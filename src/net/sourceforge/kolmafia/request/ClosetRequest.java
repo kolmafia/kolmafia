@@ -120,7 +120,7 @@ public class ClosetRequest
 		KoLConstants.closet.addAll( items );
 		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
 		{
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 

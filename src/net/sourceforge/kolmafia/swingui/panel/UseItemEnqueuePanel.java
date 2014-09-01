@@ -323,7 +323,7 @@ public class UseItemEnqueuePanel
 		protected void execute()
 		{
 			UseItemEnqueuePanel.this.getDesiredItems( "Queue" );
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 
 			if ( UseItemEnqueuePanel.this.food )
 			{

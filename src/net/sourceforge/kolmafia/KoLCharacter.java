@@ -569,7 +569,7 @@ public abstract class KoLCharacter
 
 		CoinmasterRegistry.reset();
 		ConcoctionDatabase.resetQueue();
-		ConcoctionDatabase.refreshConcoctions( true );
+		ConcoctionDatabase.refreshConcoctions();
 		ItemDatabase.setVariableConsumables();
 		ItemDatabase.calculateAdventureRanges();
 

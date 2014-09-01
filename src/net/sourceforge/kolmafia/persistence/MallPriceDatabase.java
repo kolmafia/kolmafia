@@ -162,7 +162,7 @@ public class MallPriceDatabase
 		if ( count > 0 )
 		{
 			MallPriceDatabase.writePrices();
-			ConcoctionDatabase.refreshConcoctions( true );
+			ConcoctionDatabase.refreshConcoctions();
 		}
 		RequestLogger.printLine( count + " price" + ( count != 1 ? "s" : "" ) +
 			" updated from " + filename );
