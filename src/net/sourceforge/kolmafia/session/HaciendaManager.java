@@ -248,7 +248,7 @@ public class HaciendaManager
 		{
 			String room = haciendaLayout.substring( i*3, i*3+3 );
 
-			// Replace any u's with C's (as you must have found all keys), and all F's with R's
+			// Replace any u's with C's (as you must have found all keys), and all F's with r's
 			for ( int j=0 ; j < 3 ; j++ )
 			{
 				int currentCheck = i*3+j;
@@ -258,7 +258,7 @@ public class HaciendaManager
 				}
 				else if ( haciendaLayout.charAt( currentCheck ) == 'F' || haciendaLayout.charAt( currentCheck ) == 'f' )
 				{
-					newLayout.setCharAt( currentCheck, 'R' );
+					newLayout.setCharAt( currentCheck, 'r' );
 				}
 			}
 
