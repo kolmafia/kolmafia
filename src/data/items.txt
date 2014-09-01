@@ -689,7 +689,7 @@
 672	cranberries	134332822	cran.gif	food	t,d	29	handfuls of cranberries
 673	vodka and cranberry	245514709	rocks.gif	drink	t,d	60	vodkas and cranberry
 674	whiskey sour	958994704	rocks.gif	drink	t,d	65
-675	skull of the Bonerdagon	163288797	dragskull.gif	offhand		0
+675	skull of the Bonerdagon	163288797	dragskull.gif	offhand		0	skulls of the Bonerdagon
 676	dragonbone belt buckle	688418036	bonebuckle.gif	none	q	0
 677	badass belt	560508688	bonebelt.gif	accessory		0
 678	chest of the Bonerdagon	203467233	bonechest.gif	usable	q	0
@@ -4568,11 +4568,11 @@
 4549	stuffed carpenter	346569840	stuffcarp.gif	accessory	g,d	50
 4550	stuffed dodo	408045306	stuffdodo.gif	offhand	g,d	50
 4551	detour shield	403824160	shield_detard.gif	offhand		0
-4552	left parenthesis	495591261	lparen.gif	none	d	50
+4552	left parenthesis	495591261	lparen.gif	none	d	50	left parentheses
 4553	lowercase a	211638517	babya.gif	none	d	50
 4554	percent sign	981502191	percent.gif	none	d	50
 4555	left bracket	163708096	bracket.gif	none	d	50
-4556	right parenthesis	527378567	rparen.gif	none	d	50
+4556	right parenthesis	527378567	rparen.gif	none	d	50	right parentheses
 4557	dollar sign	210432488	dollarsign.gif	none	d	50
 4558	equal sign	496894710	equals.gif	none	d	50
 4559	antique record album	476342822	antiquelp.gif	usable	t	0
@@ -5896,7 +5896,7 @@
 5877	papier-m&acirc;ch&eacute; trophy pi&ntilde;ata	883655433	machetrophy.gif	usable	d	1000
 5878	Rainbow Jello Mould	652392438	raindohempty.gif	offhand		0
 5879	Pete & Jackie's Dragon Tooth Emporium Catalog	127406602	teethcatalog.gif	usable	t	0
-5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0
+5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0	packets of dragon's teeth
 5881	skeleton	991177466	skeleton.gif	multiple	t,d	5
 5882	skeleton skis	379222505	skeletonskis.gif	accessory	t,d	10	pairs of skeleton skis
 5883	skeleton quiche	215841445	klpie.gif	food	t,d	15
@@ -7086,7 +7086,7 @@
 7067	single of Inigo's Incantation of Inspiration	427240083	record.gif	multiple	t,d	78	singles of Inigo's Incantation of Inspiration
 7068	single of Donho's Bubbly Ballad	569883314	record.gif	multiple	t,d	78	singles of Donho's Bubbly Ballad
 7069	Discontent&trade; Winter Garden Catalog	828455718	wintercatalog.gif	usable	t	0
-7070	packet of winter seeds	862450709	winterseeds.gif	usable		0
+7070	packet of winter seeds	862450709	winterseeds.gif	usable		0	packets of winter seeds
 7071	snow berries	988776416	snowberries.gif	food	t,d	5	handfuls of snow berries
 7072	ice harvest	978968903	iceharvest.gif	food	t,d	5
 7073	frost flower	920213989	frostflower.gif	usable	t	0
@@ -7638,7 +7638,7 @@
 7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
 7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5	pouches of ninja fear powder
 7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5	tubes of ninja eyeblack
-7622	button rouge	554636307	rouge.gif	multiple	t,d	5
+7622	button rouge	554636307	rouge.gif	multiple	t,d	5	tins of button rouge
 7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
 7624	lynyrd skinner toothblack	654913251	balm.gif	multiple	t,d	5	tubs of lynyrd skinner toothblack
 7625	flask of rainwater	517339022	flask.gif	multiple	t,d	5	flasks of rainwater
