@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -1598,7 +1599,10 @@ public class ConcoctionDatabase
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		if ( InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS ) )
+		if ( InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS ) ||
+			InventoryManager.hasItem( ItemPool.THORS_PLIERS ) ||
+			KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.WEAPON ) ||
+			KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.OFFHAND ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JEWELRY );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JEWELRY, 0 );
