@@ -231,6 +231,9 @@ public class FightRequest
 	private static final Pattern RAIN_PATTERN =
 		Pattern.compile( "recovering <b>(\\d+)</b> drops" );
 
+	private static final Pattern LIGHTNING_PATTERN =
+		Pattern.compile( "recovering <b>(\\d+)</b> bolts" );
+
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
@@ -2975,6 +2978,16 @@ public class FightRequest
 				String gain = rainMatcher.group( 1 );
 				KoLCharacter.incrementRain( StringUtilities.parseInt( gain ) );
 				String updateMessage = "You recover " + gain + " drops of Rain";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
+
+			Matcher lightningMatcher = FightRequest.LIGHTNING_PATTERN.matcher( FightRequest.lastResponseText );
+			if ( lightningMatcher.find() )
+			{
+				String gain = lightningMatcher.group( 1 );
+				KoLCharacter.incrementLightning( StringUtilities.parseInt( gain ) );
+				String updateMessage = "You recover " + gain + " bolts of lightning";
 				RequestLogger.updateSessionLog( updateMessage );
 				KoLmafia.updateDisplay( updateMessage );
 			}

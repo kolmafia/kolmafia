@@ -1154,6 +1154,12 @@ public class Evaluator
 							continue;
 						}
 						break;
+					case ItemPool.THORS_PLIERS:
+						if ( !KoLCharacter.inRaincore() )
+						{
+							continue;
+						}
+						break;
 					default:
 						break;
 					}
