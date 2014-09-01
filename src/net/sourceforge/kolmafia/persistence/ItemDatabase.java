@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -251,7 +250,7 @@ public class ItemDatabase
 		}
 	};
 
-	private static Object[][] ALIASES =
+	private static final Object[][] ALIASES =
 	{
 		{ IntegerPool.get( 4577 ), "bugged bonnet" },
 		{ IntegerPool.get( 4578 ), "bugged meat stabbing club" },
@@ -1113,7 +1112,7 @@ public class ItemDatabase
 	 * mall or in the player's inventory.
 	 */
 
-	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([^&]*)&?");
+	private static final Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([^&]*)&?");
 
 	// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
 	//   id = item Id
@@ -1667,6 +1666,11 @@ public class ItemDatabase
 			{
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
 			}
+			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+			if ( itemId != null )
+			{
+				return ItemDatabase.getCanonicalName( (Integer) itemId );
+			}
 		}
 
 		itemId = ItemDatabase.itemIdByName.get( canonicalName );
@@ -1707,15 +1711,6 @@ public class ItemDatabase
 		if ( count == 1 )
 		{
 			return null;
-		}
-
-		// Or maybe it's a standard plural where they just add a letter
-		// to the end.
-
-		itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
-		if ( itemId != null )
-		{
-			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
 
 		// If it's a snowcone, then reverse the word order
@@ -2064,7 +2059,7 @@ public class ItemDatabase
 		return ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
-	private static Pattern PVP_NOTES_PATTERN = Pattern.compile( "\\+?(\\d+) PvP fights?", Pattern.CASE_INSENSITIVE );
+	private static final Pattern PVP_NOTES_PATTERN = Pattern.compile( "\\+?(\\d+) PvP fights?", Pattern.CASE_INSENSITIVE );
 
 	public static final int getPvPFights( final String name )
 	{
