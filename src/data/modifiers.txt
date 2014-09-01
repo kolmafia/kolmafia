@@ -1459,6 +1459,11 @@ The Nuge's favorite crossbow	Ranged Damage: +30, Initiative: +100, Adventures: +
 # The Trickster's Trikitixa: Special Attack:  Extreme High Note
 The Trickster's Trikitixa	Moxie: [15*(1+skill(Accordion Appreciation))], Ranged Damage: [23*(1+skill(Accordion Appreciation))], Item Drop: [11*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 third-hand nunchaku	Weapon Damage: +3
+# Thor's Pliers: Lets You Smith and Make Jewelry Faster
+# Thor's Pliers: Regular Attacks Can't Miss
+# Thor's Pliers: Allows You to Ply Reality
+# Thor's Pliers: Regenerates Lightning Power (in Heavy Rains only)
+Thor's Pliers	Experience: +4, MP Regen Min: 6, MP Regen Max: 9, Pickpocket Chance: +20, Single Equip
 throwing wrench	Weakens Monster
 time sword	Adventures: +3
 tin drum	Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Experience (Moxie): +1

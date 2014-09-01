@@ -7725,7 +7725,7 @@
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
 7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
-7709
+7709	Thor's Pliers	453862933	thorpliers.gif	weapon	t	0
 7710	candy UFOs	859892912	ufo.gif	usable	t	0	handfuls of candy UFOs
 7711	water wings for babies	615145638	poolwings.gif	accessory	t,d	10	pairs of water wings for babies
 7712	beautiful rainbow	830160863	rrainbow.gif	usable	t	0
