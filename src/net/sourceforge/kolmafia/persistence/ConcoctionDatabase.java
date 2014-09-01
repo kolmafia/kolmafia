@@ -86,7 +86,6 @@ import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -412,14 +411,12 @@ public class ConcoctionDatabase
 		}
 
 		EnumSet<CraftingRequirements> requirements = conc.getRequirements();
-		Iterator req = requirements.iterator();
-		while ( req.hasNext() )
+		for ( CraftingRequirements next : requirements )
 		{
-			CraftingRequirements next = (CraftingRequirements) req.next();
 			if ( !ConcoctionDatabase.REQUIREMENT_MET.contains( next ) )
 			{
 				ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" +
-					ConcoctionDatabase.mixingMethodDescription( method, requirements ) + ").";
+					  ConcoctionDatabase.mixingMethodDescription( method, requirements ) + ").";
 				return false;
 			}
 		}
@@ -2125,7 +2122,7 @@ public class ConcoctionDatabase
 
 	public static int getThorsPliersCraftingTurns()
 	{
-		Boolean havePliers = ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
+		boolean havePliers = ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
 			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.inventory ) > 0 ||
 			InventoryManager.getEquippedCount( ConcoctionDatabase.THORS_PLIERS ) > 0;
 		return havePliers ? 10 - Preferences.getInteger( "_thorsPliersCrafting" ) : 0;
@@ -2133,7 +2130,7 @@ public class ConcoctionDatabase
 
 	public static int getLegionJackhammerCraftingTurns()
 	{
-		Boolean haveJackhammer = InventoryManager.hasItem( ItemPool.LOATHING_LEGION_JACKHAMMER );
+		boolean haveJackhammer = InventoryManager.hasItem( ItemPool.LOATHING_LEGION_JACKHAMMER );
 		return haveJackhammer ? 3 - Preferences.getInteger( "_legionJackhammerCrafting" ) : 0;
 	}
 

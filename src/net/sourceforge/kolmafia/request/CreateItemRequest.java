@@ -769,25 +769,17 @@ public class CreateItemRequest
 		{
 			if ( mode.equals( "smith" ) )
 			{
-				Preferences.increment( "_thorsPliersCrafting", created );
+				Preferences.increment( "_thorsPliersCrafting", created, 10, false );
 			}
 			else if ( mode.equals( "jewelry" ) )
 			{
-				Preferences.increment( "_thorsPliersCrafting", 3 * created );
-			}
-			if ( Preferences.getInteger( "_thorsPliersCrafting" ) > 10 )
-			{
-				Preferences.setInteger( "_thorsPliersCrafting", 10 );
+				Preferences.increment( "_thorsPliersCrafting", 3 * created, 10, false );
 			}
 		}
 
 		if ( responseText.contains( "jackhammer lets you finish your smithing in record time" ) )
 		{
-			Preferences.increment( "_legionJackhammerCrafting", created );
-			if ( Preferences.getInteger( "_legionJackhammerCrafting" ) > 3 )
-			{
-				Preferences.setInteger( "_legionJackhammerCrafting", 3 );
-			}
+			Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
 		}
 
 		return created;
