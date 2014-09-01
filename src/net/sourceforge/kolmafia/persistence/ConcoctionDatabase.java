@@ -1184,7 +1184,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.refreshConcoctions( true );
 	}
 
-	public static final synchronized void refreshConcoctions( boolean force )
+	public static final void refreshConcoctions( boolean force )
 	{
 		if ( force )
 		{
