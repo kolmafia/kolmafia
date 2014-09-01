@@ -1450,6 +1450,8 @@ public class ConcoctionDatabase
 	 * Utility method used to cache the current permissions on item creation.
 	 */
 
+	private static final AdventureResult THORS_PLIERS = ItemPool.get( ItemPool.THORS_PLIERS, 1 );
+
 	private static final void cachePermitted( final List availableIngredients )
 	{
 		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
@@ -1514,7 +1516,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.clear();
 		ConcoctionDatabase.EXCUSE.clear();
 		int Inigo = ConcoctionDatabase.getFreeCraftingTurns();
-
+		int thorsPliers = ConcoctionDatabase.getThorsPliersCraftingTurns();
+		int legionJackhammer = ConcoctionDatabase.getLegionJackhammerCraftingTurns();
 
 		if ( KoLCharacter.getGender() == KoLCharacter.MALE )
 		{
@@ -1563,7 +1566,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SMITH );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SMITH, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SMITH, Math.max( 0, 1 - Inigo ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SMITH, Math.max( 0, 1 - Inigo - thorsPliers - legionJackhammer ) );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.GRIMACITE_HAMMER ) )
@@ -1578,7 +1581,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SSMITH );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SSMITH, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SSMITH, Math.max( 0, 1 - Inigo ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SSMITH, Math.max( 0, 1 - Inigo - thorsPliers - legionJackhammer ) );
 		}
 
 		// Standard smithing is also possible if the person is in
@@ -1603,15 +1606,14 @@ public class ConcoctionDatabase
 
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
-
 		if ( InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS ) ||
-			InventoryManager.hasItem( ItemPool.THORS_PLIERS ) ||
-			KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.WEAPON ) ||
-			KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.OFFHAND ) )
+			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
+			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.inventory ) > 0 ||
+			InventoryManager.getEquippedCount( ConcoctionDatabase.THORS_PLIERS ) > 0 )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JEWELRY );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JEWELRY, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, Math.max( 0, 3 - Inigo ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, Math.max( 0, 3 - Inigo - thorsPliers ) );
 		}
 
 		if ( KoLCharacter.canCraftExpensiveJewelry() )
@@ -2079,7 +2081,16 @@ public class ConcoctionDatabase
 					continue;
 				}
 				if ( adv > KoLCharacter.getAdventuresLeft() + 
-				     ( method == CraftingType.WOK ? 0 : ConcoctionDatabase.getFreeCraftingTurns() )
+				     ( method == CraftingType.WOK ? 0 :
+					   method == CraftingType.SMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
+					                                  ConcoctionDatabase.getThorsPliersCraftingTurns() +
+													  ConcoctionDatabase.getLegionJackhammerCraftingTurns() :
+					   method == CraftingType.SSMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
+					                                  ConcoctionDatabase.getThorsPliersCraftingTurns() +
+													  ConcoctionDatabase.getLegionJackhammerCraftingTurns() :
+					   method == CraftingType.JEWELRY ?  ConcoctionDatabase.getFreeCraftingTurns() +
+					                                     ConcoctionDatabase.getThorsPliersCraftingTurns() :
+					   ConcoctionDatabase.getFreeCraftingTurns() )
 				   )
 				{//
 					ConcoctionDatabase.PERMIT_METHOD.remove( method );
@@ -2110,6 +2121,20 @@ public class ConcoctionDatabase
 	public static int getFreeCraftingTurns()
 	{
 		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5;
+	}
+
+	public static int getThorsPliersCraftingTurns()
+	{
+		Boolean havePliers = ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
+			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.inventory ) > 0 ||
+			InventoryManager.getEquippedCount( ConcoctionDatabase.THORS_PLIERS ) > 0;
+		return havePliers ? 10 - Preferences.getInteger( "_thorsPliersCrafting" ) : 0;
+	}
+
+	public static int getLegionJackhammerCraftingTurns()
+	{
+		Boolean haveJackhammer = InventoryManager.hasItem( ItemPool.LOATHING_LEGION_JACKHAMMER );
+		return haveJackhammer ? 3 - Preferences.getInteger( "_legionJackhammerCrafting" ) : 0;
 	}
 
 	private static final boolean isAvailable( final int servantId, final int clockworkId )

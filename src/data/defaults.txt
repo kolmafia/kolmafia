@@ -1063,6 +1063,7 @@ user	_lastZomboEye	0
 user	_lastDailyDungeonRoom	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
+user	_legionJackhammerCrafting	0
 user	_lookingGlass	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
@@ -1144,6 +1145,7 @@ user	_templeHiddenPower	false
 user	_tempuraAirUsed	false
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
+user	_thorsPliersCrafting	0
 user	_timeHelmetAdv	0
 user	_toastSummons	0
 user	_tokenDrops	0

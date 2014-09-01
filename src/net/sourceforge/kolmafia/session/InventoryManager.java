@@ -1854,6 +1854,19 @@ public abstract class InventoryManager
 		int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 		int needed = creator.concoction.getAdventuresNeeded( creator.getQuantityNeeded() );
 
+		CraftingType mixingMethod = creator.concoction.getMixingMethod();
+
+		if ( mixingMethod == CraftingType.JEWELRY )
+		{
+			freeCrafts += ConcoctionDatabase.getThorsPliersCraftingTurns();
+		}
+
+		if ( mixingMethod == CraftingType.SMITH || mixingMethod == CraftingType.SSMITH )
+		{
+			freeCrafts += ConcoctionDatabase.getThorsPliersCraftingTurns();
+			freeCrafts += ConcoctionDatabase.getLegionJackhammerCraftingTurns();
+		}
+
 		if ( needed <= freeCrafts )
 		{
 			return true;
