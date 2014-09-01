@@ -4651,7 +4651,7 @@
 4632	googly-star hat	712320983	stardeedle.gif	hat	d	10
 4633	googly-ball hat	874035418	balldeedle.gif	hat	d	10
 4634	googly-heart hat	554873639	heartdeedle.gif	hat	d	10
-4635	super-sweet boom box	179311534	radiogaga.gif	weapon	d	1000
+4635	super-sweet boom box	179311534	radiogaga.gif	weapon	d	1000	super-sweet boom boxes
 4636	Game Grid valued membership card	695582777	librarycard.gif	reusable		0
 4637	sinister demon mask	768015517	sinimask.gif	hat		0
 4638	streetfighting champion's belt	238240856	champbelt.gif	accessory		0
@@ -6913,7 +6913,7 @@
 6894	blob of Alphredo&trade;	214678093	alphredo.gif	multiple	t,d	5	blobs of Alphredo&trade;
 6895	handful of crafty noodles	594037699	pastalighthouses.gif	multiple	t,d	5	handfuls of crafty noodles
 6896	tangled mass of creepy pasta	677130598	boobooboo.gif	multiple	t,d	5	tangled masses of creepy pasta
-6897	Can of Spaghetto	436656797	ocan.gif	multiple	t,d	50
+6897	Can of Spaghetto	436656797	ocan.gif	multiple	t,d	50	Cans of Spaghetto
 6898	Chef Boy, R&D's business card	189658738	buscard.gif	reusable		0
 6899	Thwaitgold ant statuette	287861273	thwaitant.gif	none		0
 6900	experimental carbon fiber pasta additive	674562908	additive.gif	reusable		0
@@ -7155,7 +7155,7 @@
 7136	witch's brew	957763940	coffeecup.gif	usable	t,d	250
 7137	witch's bra	140183119	bra.gif	shirt		0
 7138	mid-level medieval mead	831803859	tankard.gif	drink	t,d	250	bottles of mid-level medieval mead
-7139	R&uuml;mpelstiltz	821730320	potion5.gif	multiple	t	0
+7139	R&uuml;mpelstiltz	821730320	potion5.gif	multiple	t	0	bottles of R&uuml;mpelstiltz
 7140	spinning wheel	411606373	spinningwheel.gif	usable		0
 7141	hi-octane carrot juice	648908742	juice.gif	multiple	t,d	99	glasses of hi-octane carrot juice
 7142	hare brush	544012791	hairbrush.gif	multiple	t,d	300	hare brushes
