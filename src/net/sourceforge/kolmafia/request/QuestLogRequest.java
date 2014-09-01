@@ -108,6 +108,11 @@ public class QuestLogRequest
 			Pattern.compile( ";&middot;([^<]*?[^<]), the Pain Enjoyer<br" , Pattern.DOTALL ),
 			"demonName10",
 		},
+		{
+		//	Where Have All The Drunkards Gone?
+			Pattern.compile( ";&middot;([^<]*?[^<]), Friend of Gary<br" , Pattern.DOTALL ),
+			"demonName11",
+		},
 	};
 
 	public QuestLogRequest()
