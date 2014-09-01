@@ -4687,10 +4687,10 @@
 4668	observational glasses	702710615	obsglasses.gif	accessory	q	0
 4669	hilarious comedy prop	221836123	prop.gif	weapon	q	0
 4670	beer-scented teddy bear	162713376	teddybear.gif	usable	d	50
-4671	booze-soaked cherry	263662454	cherry.gif	drink	d	40
+4671	booze-soaked cherry	263662454	cherry.gif	drink	d	40	booze-soaked cherries
 4672	comfy pillow	612319244	pillow.gif	usable	d	50
 4673	giant marshmallow	498535509	marshmallow.gif	food	d	30
-4674	sponge cake	965454799	spongecake.gif	food	d	30
+4674	sponge cake	965454799	spongecake.gif	food	d	30	slabs of sponge cake
 4675	gin-soaked blotter paper	242183225	blotterpaper.gif	drink	d	40	sheets of gin-soaked blotter paper
 4676	tree-holed coin	464570927	3holecoin.gif	none	q	0
 4677	unearthed volcanic meteoroid	819446225	volcmeteor.gif	reusable	t	0
@@ -5372,7 +5372,7 @@
 5353	jar of oil	286097450	oiljar.gif	none	q	0
 5354	The Art of Slapfighting (used)	216432791	book4.gif	reusable	d	1000	used copies of the Art of Slapfighting
 5355	Uncle Romulus (used)	684007394	book4.gif	reusable	d	1000	used copies of Uncle Romulus
-5356	A Beginner's Guide to Charming Snakes (used)	275530990	book4.gif	reusable	d	1000
+5356	A Beginner's Guide to Charming Snakes (used)	275530990	book4.gif	reusable	d	1000	used copies of a book about snake charming
 5357	Zu Mannk&auml;se Dienen (used)	890650838	book4.gif	reusable	d	1000	used copies of Zu Mannk&auml;se Dienen
 5358	Autobiography Of Dynamite Superman Jones (used)	274466133	book4.gif	reusable	d	1000	used Autobiographies Of Dynamite Superman Jones
 5359	Inigo's Incantation of Inspiration (crumpled)	961976248	music.gif	reusable	d	1000
@@ -7723,7 +7723,7 @@
 7704	LCD game: Garbage River	213977792	lcdgame.gif	usable	t,d	5	LCD games: Garbage River
 7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5	LCD games: Burger Belt
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
-7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5
+7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5	rubber nubbins (but I hardly know her!)
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
 7709	Thor's Pliers	453862933	thorpliers.gif	weapon	t	0
 7710	candy UFOs	859892912	ufo.gif	usable	t	0	handfuls of candy UFOs
