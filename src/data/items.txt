@@ -6598,12 +6598,12 @@
 6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t,d	3
 6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0	lengths of old fuse
 6581	dreadful box	269247615	dreadbox.gif	usable		0	dreadful boxes
-6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
+6582	Clan hot dog stand	346032932	crate.gif	usable	t	0
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t	0
 6585	debonair deboner	582791637	deboner.gif	weapon	t	0
 6586	chicle de salchicha	978763944	chicle.gif	usable	t,d	40	pieces of chicle de salchicha
-6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t	0
+6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t	0	jars of frostigkraut
 6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t	0
 6589	Grey Guanon	800593734	guanon.gif	offhand	t	0	jars of Grey Guanon
 6590	Engorged Sausages and You	866205948	book4.gif	offhand	t	0	copies of Engorged Sausages and You
@@ -7740,7 +7740,7 @@
 7721	salt wages	907941028	disease.gif	multiple	t,d	11	salt wages
 7722	centurion helmet	940311690	romanhelm.gif	hat	t,d	48
 7723	Chroner cross	658154132	plus.gif	reusable	t	0	Chroner crosses
-7724	pteruges	279167027	thighguard.gif	pants	t,d	58	pteruges
+7724	pteruges	279167027	thighguard.gif	pants	t,d	58	sets of pteruges
 7725	Bruno's blessing of Mars	777525677	scroll1.gif	multiple	t,d	50	Bruno's blessings of Mars
 7726	Dennis's blessing of Minerva	717716742	scroll1.gif	multiple	t,d	50	Dennis's blessings of Minerva
 7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50	Burt's beestings of Bacchus
