@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
-import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -278,12 +277,8 @@ public class FamiliarData
 
 		if ( singleFamiliarRun == 0 )
 		{
-			Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
-
-			while ( familiarIterator.hasNext() )
+			for ( FamiliarData familiar : KoLCharacter.getFamiliarList() )
 			{
-				FamiliarData familiar = (FamiliarData) familiarIterator.next();
-
 				if ( familiar.getTotalExperience() != 0 )
 				{
 					if ( singleFamiliarRun != 0 )
@@ -750,6 +745,8 @@ public class FamiliarData
 			return false;
 		}
 
+		String name = item.getName();
+
 		switch ( this.id )
 		{
 		case -1:
@@ -762,8 +759,8 @@ public class FamiliarData
 			return itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT;
 
 		case FamiliarPool.HAND:
-			// Disembodied Hand can't equip Mainhand only items or Thor's Pliers
-			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && itemId != ItemPool.THORS_PLIERS )
+			// Disembodied Hand can't equip Mainhand only items or Single Equip items
+			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && !Modifiers.getBooleanModifier( name, "Single Equip" ) )
 			{
 				return true;
 			}
@@ -777,8 +774,6 @@ public class FamiliarData
 		{
 			return true;
 		}
-
-		String name = item.getName();
 
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
