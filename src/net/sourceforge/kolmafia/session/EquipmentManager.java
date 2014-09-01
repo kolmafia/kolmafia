@@ -617,6 +617,9 @@ public class EquipmentManager
 		case ItemPool.SPACE_HEATER:
 			KoLCharacter.addAvailableSkill( "Heat Space" );
 			break;
+		case ItemPool.THORS_PLIERS:
+			KoLCharacter.addAvailableSkill( "Ply Reality" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
@@ -1563,6 +1566,10 @@ public class EquipmentManager
 		{
 		default:
 		case MUSCLE:
+			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.THORS_PLIERS )
+			{
+				return Integer.MAX_VALUE;
+			}
 			hitStat = KoLCharacter.getAdjustedMuscle();
 			if ( Modifiers.unarmed && KoLCharacter.hasSkill( "Master of the Surprising Fist" ) )
 			{

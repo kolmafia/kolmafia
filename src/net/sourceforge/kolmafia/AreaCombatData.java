@@ -624,19 +624,29 @@ public class AreaCombatData
 
 		buffer.append( statName );
 
-		if ( minMargin >= 0 )
+		if ( minMargin < Integer.MAX_VALUE / 2 )
 		{
-			buffer.append( "+" );
+			if ( minMargin >= 0 )
+			{
+				buffer.append( "+" );
+			}
+			buffer.append( minMargin );
+
+			buffer.append( "/" );
 		}
-		buffer.append( minMargin );
-
-		buffer.append( "/" );
-
-		if ( maxMargin >= 0 )
+		else
 		{
-			buffer.append( "+" );
+			buffer.append( " always hit" );
 		}
-		buffer.append( maxMargin );
+
+		if ( minMargin < Integer.MAX_VALUE / 2 )
+		{
+			if ( maxMargin >= 0 )
+			{
+				buffer.append( "+" );
+			}
+			buffer.append( maxMargin );
+		}
 
 		buffer.append( ")" );
 		return buffer.toString();
