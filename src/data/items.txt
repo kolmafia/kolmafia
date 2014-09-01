@@ -1369,7 +1369,7 @@
 1352	redrum	513927354	rocks.gif	drink	t,d	60	redsrum
 1353	ninja pirate zombie robot	633811787	npzr.gif	grow		0	ninjaspirateszombiesrobots
 1354	pile of shiny pebbles	207804188	pebbles.gif	none	q	0
-1355	bowl of oriole's nest soup	791966504	bowl.gif	food		0
+1355	bowl of oriole's nest soup	791966504	bowl.gif	food		0	bowls of oriole's nest soup
 1356	bunny liver	979085501	liver.gif	none		0
 1357	Mt. Noob Pale Ale	709454102	beerbottle.gif	drink		0	bottles of Mt. Noob Pale Ale
 1358	pirate zombie head	271254707	cpirates.gif	none	t	0
