@@ -321,6 +321,10 @@ public class UneffectRequest
 			"Stormswaddled",
 			"Sheet Lightning",
 		},
+		{
+			"Rain Dancin'",
+			"Rain Dance",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )

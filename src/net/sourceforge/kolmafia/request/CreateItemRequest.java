@@ -765,6 +765,31 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
 
+		if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) )
+		{
+			if ( mode.equals( "smith" ) )
+			{
+				Preferences.increment( "_thorsPliersCrafting", created );
+			}
+			else if ( mode.equals( "jewelry" ) )
+			{
+				Preferences.increment( "_thorsPliersCrafting", 3 * created );
+			}
+			if ( Preferences.getInteger( "_thorsPliersCrafting" ) > 10 )
+			{
+				Preferences.setInteger( "_thorsPliersCrafting", 10 );
+			}
+		}
+
+		if ( responseText.contains( "jackhammer lets you finish your smithing in record time" ) )
+		{
+			Preferences.increment( "_legionJackhammerCrafting", created );
+			if ( Preferences.getInteger( "_legionJackhammerCrafting" ) > 3 )
+			{
+				Preferences.setInteger( "_legionJackhammerCrafting", 3 );
+			}
+		}
+
 		return created;
 	}
 
@@ -1260,13 +1285,18 @@ public class CreateItemRequest
 		switch ( mixingMethod )
 		{
 		case SMITH:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()
+				- ConcoctionDatabase.getThorsPliersCraftingTurns()
+				- ConcoctionDatabase.getLegionJackhammerCraftingTurns() ) );
 
 		case SSMITH:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()  
+				- ConcoctionDatabase.getThorsPliersCraftingTurns()
+				- ConcoctionDatabase.getLegionJackhammerCraftingTurns() ) );
 
 		case JEWELRY:
-			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns()  
+				- ConcoctionDatabase.getThorsPliersCraftingTurns() ) );
 
 		case COOK_FANCY:
 			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );

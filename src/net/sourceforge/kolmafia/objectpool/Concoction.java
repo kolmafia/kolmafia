@@ -1169,7 +1169,18 @@ public class Concoction
 
 		if ( this.mixingMethod == CraftingType.WOK )
 		{
-			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 1 );
+			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), create );
+		}
+		if ( this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH )
+		{
+			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
+			                                                        ConcoctionDatabase.getThorsPliersCraftingTurns() +
+																	ConcoctionDatabase.getLegionJackhammerCraftingTurns() ), 0 );
+		}
+		if ( this.mixingMethod == CraftingType.JEWELRY )
+		{
+			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
+			                                                        ConcoctionDatabase.getThorsPliersCraftingTurns() ), 0 );
 		}
 		return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
 	}
