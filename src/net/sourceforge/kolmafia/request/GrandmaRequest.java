@@ -55,7 +55,6 @@ public class GrandmaRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override

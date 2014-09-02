@@ -273,12 +273,6 @@ public class UseSkillRequest
 		this.addFormFields();
 	}
 
-	@Override
-	public void reconstructFields()
-	{
-		this.constructURLString( this.getURLString() );
-	}
-
 	private static String chooseURL( final String skillName )
 	{
 		if ( SkillDatabase.isBookshelfSkill( skillName ) )
@@ -1042,8 +1036,12 @@ public class UseSkillRequest
 		}
 
 		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
+		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
+		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
+		int rainCost = SkillDatabase.getRainCost( this.skillId );
+		int lightningCost = SkillDatabase.getLightningCost( this.skillId );
 
-		if ( mpPerCast == 0 )
+		if ( mpPerCast == 0 && soulsauceCost == 0 && thunderCost == 0 && rainCost == 0 && lightningCost == 0 )
 		{
 			// If the skill doesn't use MP then MP restoring and checking can be skipped
 			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
@@ -1051,19 +1049,21 @@ public class UseSkillRequest
 			return;
 		}
 
-		boolean cursed =
-			KoLConstants.activeEffects.contains( UseSkillRequest.ONCE_CURSED ) ||
-			KoLConstants.activeEffects.contains( UseSkillRequest.TWICE_CURSED ) ||
-			KoLConstants.activeEffects.contains( UseSkillRequest.THRICE_CURSED );
-
-		// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
-		// ask if you are sure you want to lose it.
-		if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
-		     ( this.skillId == SkillPool.SHAKE_IT_OFF ||
-		       ( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) ) &&
-		     !InputFieldUtilities.confirm( "That will remove your Cursed effect. Are you sure?" ) )
+		if ( this.skillId == SkillPool.SHAKE_IT_OFF ||
+		     ( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) )
 		{
-			return;
+			boolean cursed =
+				KoLConstants.activeEffects.contains( UseSkillRequest.ONCE_CURSED ) ||
+				KoLConstants.activeEffects.contains( UseSkillRequest.TWICE_CURSED ) ||
+				KoLConstants.activeEffects.contains( UseSkillRequest.THRICE_CURSED );
+
+			// If on the Hidden Apartment Quest, and have a Curse, and skill will remove it, 
+			// ask if you are sure you want to lose it.
+			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
+			     !InputFieldUtilities.confirm( "That will remove your Cursed effect. Are you sure?" ) )
+			{
+				return;
+			}
 		}
 
 		// Before executing the skill, ensure that all necessary mana is
@@ -1076,10 +1076,6 @@ public class UseSkillRequest
 
 		String originalTarget = this.target;
 		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
-		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
-		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
-		int rainCost = SkillDatabase.getRainCost( this.skillId );
-		int lightningCost = SkillDatabase.getLightningCost( this.skillId );
 
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{

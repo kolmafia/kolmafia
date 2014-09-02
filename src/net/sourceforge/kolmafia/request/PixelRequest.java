@@ -65,7 +65,6 @@ public class PixelRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override
