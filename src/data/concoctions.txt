@@ -1891,13 +1891,13 @@ space jam toast	SUSE	space jam	toast
 
 # Items created by folding sugar sheets
 
-sugar shotgun	SUGAR	sugar sheet
-sugar shillelagh	SUGAR	sugar sheet
-sugar shank	SUGAR	sugar sheet
-sugar chapeau	SUGAR	sugar sheet
-sugar shorts	SUGAR	sugar sheet
-sugar shield	SUGAR	sugar sheet
-sugar shirt	SUGAR, TORSO	sugar sheet
+sugar shotgun	SUGAR, ROW327	sugar sheet
+sugar shillelagh	SUGAR, ROW328	sugar sheet
+sugar shank	SUGAR, ROW329	sugar sheet
+sugar chapeau	SUGAR, ROW330	sugar sheet
+sugar shorts	SUGAR, ROW331	sugar sheet
+sugar shield	SUGAR, ROW332	sugar sheet
+sugar shirt	SUGAR, ROW333, TORSO	sugar sheet
 
 
 # Legendary Beat quest items
