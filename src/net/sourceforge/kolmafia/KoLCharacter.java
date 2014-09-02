@@ -2980,6 +2980,7 @@ public abstract class KoLCharacter
 			else if ( oldPath.equals( "Heavy Rains" ) )
 			{
 				Preferences.increment( "heavyRainsPoints" );
+				KoLCharacter.resetSkills();
 			}
 
 			// Are we restricted by Type69 ?
@@ -3030,7 +3031,10 @@ public abstract class KoLCharacter
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			if ( oldPath.equals( "Trendy" ) && !restricted )
+			if ( !restricted && (
+			     oldPath.equals( "Trendy" ) ||
+			     oldPath.equals( "Heavy Rains" )
+			     ) )
 			{
 				// If we were restricted, this was already done earlier, so don't
 				// do it again even if it's needed for the path
