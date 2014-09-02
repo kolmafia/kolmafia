@@ -2181,7 +2181,7 @@ public class DailyDeedsPanel
 			int fr = CampgroundRequest.freeRestsAvailable();
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
-			this.setText( nr + " (" + fr + " free)" );
+			this.setText( nr + "/" + fr );
 		}
 	}
 
