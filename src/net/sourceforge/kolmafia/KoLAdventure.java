@@ -761,10 +761,13 @@ public class KoLAdventure
 		}
 
 		// The Castle Basement is unlocked provided the player has the S.O.C.K
+		// (legacy: rowboats give access but are no longer creatable)
 
 		if ( this.adventureId.equals( AdventurePool.CASTLE_BASEMENT_ID ) )
 		{
-			this.isValidAdventure = InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) );
+			this.isValidAdventure =
+				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) ||
+				InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
 		}
 
@@ -786,7 +789,8 @@ public class KoLAdventure
 		if ( this.adventureId.equals( AdventurePool.HOLE_IN_THE_SKY_ID ) )
 		{
 			this.isValidAdventure =
-				InventoryManager.hasItem( ItemPool.get( ItemPool.ROCKETSHIP, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
+				InventoryManager.hasItem( ItemPool.get( ItemPool.ROCKETSHIP, 1 ) ) ||
+				InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
 		}
 
