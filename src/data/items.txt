@@ -554,7 +554,7 @@
 537	pr0n legs	642200980	pr0nlegs.gif	none	t,d	52	sets of pr0n legs
 538	f3d0r4	624614726	pimphat.gif	hat	t,d	130	f3d0r45
 539	lowercase N	281859974	n.gif	none	t,d	51
-540	Tasty Fun Good rice candy	122301916	candy.gif	multiple, candy	t,d	54
+540	Tasty Fun Good rice candy	122301916	candy.gif	multiple, candy	t,d	54	Tasty Fun Good rice candies
 541	draggin' ball hat	703557673	ballhat.gif	hat	t,d	120
 542	1337 7r0uZ0RZ	141975542	whitepants.gif	pants	t,d	130	p41r5 0f 1337 7r0uZ0RZ
 543	Trollhouse cookies	712518250	cookies.gif	food	t,d	58	stacks of Trollhouse cookies
@@ -584,7 +584,7 @@
 567	hermit script	758815451	scroll2.gif	usable	q	0
 568	Double Bacon Beelzeburger	703442502	burger.gif	food	t,d	100
 569	Lord of the Flies-sized fries	149932590	fries.gif	food	t,d	100	Lords of the Flieses-sized fries
-570	Brimstone Chicken Sandwich	209737031	burger.gif	food	t,d	100
+570	Brimstone Chicken Sandwich	209737031	burger.gif	food	t,d	100	Brimstone Chicken Sandwiches
 571	Jumbo Dr. Lucifer	851122901	drlucifer.gif	food	t,d	50
 572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	31	Children's Meals of the Damned
 573	delicious noodles	437720617	bowl.gif	food	t,d	33	bowls of delicious noodles
@@ -631,7 +631,7 @@
 614	probability potion	371573013	potion6.gif	multiple	t,d	128
 615	chaos butterfly	796698319	butterfly.gif	usable, combat	t,d	124	chaos butterflies
 616	furry fur	801774935	furfur.gif	none	t,d	129
-617	Angry Farmer candy	893169457	rcandy.gif	multiple, candy	t,d	137
+617	Angry Farmer candy	893169457	rcandy.gif	multiple, candy	t,d	137	Angry Farmer candies
 618	Mick's IcyVapoHotness Rub	341807797	balm.gif	multiple	t,d	141
 619	giant needle	595147059	needle.gif	weapon	t,d	165
 620	thin black candle	409210711	bcandle.gif	multiple	t,d	144
@@ -698,7 +698,7 @@
 681	slip 'n' slide	618679857	cocostraw.gif	drink	t,d	115	slips 'n' slide
 682	a little sump'm sump'm	116230030	fruitym.gif	drink	t,d	115	little sump'm sump'ms
 683	horizontal tango	736898001	fruity.gif	drink	t,d	115
-684	pink pony	187646263	cocostraw.gif	drink	t,d	115
+684	pink pony	187646263	cocostraw.gif	drink	t,d	115	pink ponies
 685	Mr. Shirt	327955650	mrshirt.gif	shirt	t	0
 686	enchanted brass knuckles	283500814	knuckles.gif	offhand	t,d	500	sets of enchanted brass knuckles
 687	blood of the Wereseal	309851427	potion5.gif	multiple	t,d	250	bloods of the Wereseal
@@ -922,7 +922,7 @@
 905	Yummy Tummy bean	905318938	jellybean.gif	multiple, candy	t,d	20
 906	Rock Pops	661544730	rockpops.gif	multiple, candy	t,d	25	packets of Rock Pops
 907	Mr. Mediocrebar	318155668	candybar.gif	multiple, candy	t,d	50
-908	Cold Hots candy	131117686	coldhots.gif	multiple, candy	t	0
+908	Cold Hots candy	131117686	coldhots.gif	multiple, candy	t	0	Cold Hots candes
 909	Wint-O-Fresh mint	604262762	lifesaver.gif	mp, multiple, candy	t	0
 910	dwarf bread	751117717	dwarfbread.gif	food	t,d	21	loaves of dwarf bread
 911	Senior Mints	691129593	srmints.gif	multiple, candy	t	0	boxes of Senior Mints
@@ -949,7 +949,7 @@
 932	eggnog	246426544	coffeecup.gif	drink	t,d	49	cups of eggnog
 933	candy cane	6445454	candycane.gif	food, candy	t	0
 934	gingerbread bugbear	64545412	gingerbear.gif	food	t	0
-935	imitation nice watch	452221212	nicewatch.gif	accessory	t	0
+935	imitation nice watch	452221212	nicewatch.gif	accessory	t	0	imitation nice watches
 936	Hanukkimbo dreidl	63338787	dreidl.gif	grow	t	0
 937	menorette	95141525	menorah.gif	familiar	t,d	75
 938	tiny plastic sword	775545454	plasword.gif	weapon, fancy	t	0
@@ -996,7 +996,7 @@
 979	tiny plastic grue	437335367	fig17.gif	accessory	t,d	30
 980	tiny plastic blood-faced volleyball	782461576	fig18.gif	accessory	t,d	30
 981	tiny plastic ghuol whelp	509677185	fig19.gif	accessory	t,d	30
-982	tiny plastic baby gravy fairy	141936665	fig20.gif	accessory	t,d	30
+982	tiny plastic baby gravy fairy	141936665	fig20.gif	accessory	t,d	30	tiny plastic baby gravy fairies
 983	tiny plastic cocoabo	987232178	fig21.gif	accessory	t,d	30
 984	tiny plastic star starfish	542443188	fig22.gif	accessory	t,d	30
 985	tiny plastic ghost pickle on a stick	493318137	fig23.gif	accessory	t,d	30	tiny plastic ghost pickles on a stick
@@ -1330,7 +1330,7 @@
 1313	Baron von Ratsworth's money clip	147167320	moneyclip.gif	accessory		0
 1314	Baron von Ratsworth's tophat	828584278	tophat.gif	hat		0
 1315	rose-colored glasses	902660681	rglasses.gif	accessory		0	pairs of rose-colored glasses
-1316	facsimile dictionary	347944209	cookbook.gif	none, combat reusable	d	21337
+1316	facsimile dictionary	347944209	cookbook.gif	none, combat reusable	d	21337	facsimile dictionaries
 1317	blood flower	960128590	bflower.gif	none	t	0
 1318	lovecat tail	926885042	cattail.gif	none	t	0
 1319	plastic passion fruit	510934356	passion.gif	none	t	0
@@ -2077,7 +2077,7 @@
 2060	black sword	497882866	blacksword.gif	weapon	t,d	145
 2061	black helmet	519801805	blackhelmet.gif	hat	t,d	145
 2062	black shield	293565661	blackshield.gif	offhand	t,d	145
-2063	blackberry	620098357	blackberry.gif	food	t,d	70
+2063	blackberry	620098357	blackberry.gif	food	t,d	70	blackberries
 2064	forged identification documents	987115231	documents.gif	none	q	0
 2065	PADL Phone	739819882	padl.gif	none, combat	t,d	100
 2066	kick-ass kicks	147761182	kicks.gif	accessory	t,d	175	kix-ass kix
@@ -2427,7 +2427,7 @@
 2408	worthless piece of yellow glass	881309316	asterisk.gif	none, bounty	q	0	worthless pieces of yellow glass
 2409	billy idol	662846768	billyidol.gif	none, bounty	q	0
 2410	oily rag	167749086	oilyrag.gif	none, bounty	q	0
-2411	broken petri dish	365674109	petridish.gif	none, bounty	q	0
+2411	broken petri dish	365674109	petridish.gif	none, bounty	q	0	broken petri dishes
 2412	sammich crust	417569482	sandcrust.gif	none, bounty	q	0
 2413	triffid bark	822445957	bark.gif	none, bounty	q	0
 2414	white lint	876534260	lint.gif	none, bounty	q	0	balls of white lint
@@ -2662,7 +2662,7 @@
 2643	happiness	752498873	happiness.gif	weapon	t,d	95	happinesses
 2644	flaming feather	507320025	hotfeather.gif	none, combat	t,d	55
 2645	frozen feather	601242096	coldfeather.gif	none, combat	t,d	55
-2646	frightful feather	204406419	spookyfeather.gif	none, combat	t,d	55	frightful feather
+2646	frightful feather	204406419	spookyfeather.gif	none, combat	t,d	55
 2647	fetid feather	428000344	stenchfeather.gif	none, combat	t,d	55
 2648	flirtatious feather	737526694	sleazefeather.gif	none, combat	t,d	55
 2649	Lord Spookyraven's ear trumpet	615488389	eartrumpet.gif	accessory		0
