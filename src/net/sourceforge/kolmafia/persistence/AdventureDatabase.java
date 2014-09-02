@@ -223,7 +223,7 @@ public class AdventureDatabase
 			// Build base water level if not specified
 			if ( waterLevel == -1 )
 			{
-				if ( environment == null || environment.equals( "outdoor" ) )
+				if ( environment == null || environment.equals( "outdoor" ) || environment.equals( "none" ) )
 				{
 					waterLevel = 1;
 				}
