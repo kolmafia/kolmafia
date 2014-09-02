@@ -71,7 +71,6 @@ public class ChefStaffRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override

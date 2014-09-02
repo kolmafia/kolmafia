@@ -54,7 +54,6 @@ public class JunkMagazineRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override

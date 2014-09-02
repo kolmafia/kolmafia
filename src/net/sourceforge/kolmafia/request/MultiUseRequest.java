@@ -86,7 +86,6 @@ public class MultiUseRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override

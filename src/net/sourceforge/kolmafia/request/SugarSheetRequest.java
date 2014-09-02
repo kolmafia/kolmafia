@@ -60,7 +60,6 @@ public class SugarSheetRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override

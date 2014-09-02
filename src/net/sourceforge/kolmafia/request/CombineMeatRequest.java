@@ -78,7 +78,6 @@ public class CombineMeatRequest
 	@Override
 	public void reconstructFields()
 	{
-		this.constructURLString( this.getURLString() );
 	}
 
 	@Override
