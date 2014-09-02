@@ -899,30 +899,55 @@ public class Maximizer
 				if ( advCost > 0 )
 				{
 					text += advCost + " adv, ";
+					if ( advCost > KoLCharacter.getAdventuresLeft() )
+					{
+						cmd = "";
+					}
 				}
 				if ( mpCost > 0 )
 				{
 					text += mpCost + " mp, ";
+					// Don't ever grey out as we can recover MP
 				}
 				if ( soulsauceCost > 0 )
 				{
 					text += soulsauceCost + " soulsauce, ";
+					if ( soulsauceCost > KoLCharacter.getSoulsauce() )
+					{
+						cmd = "";
+					}
 				}
 				if ( thunderCost > 0 )
 				{
 					text += thunderCost + " dB of thunder, ";
+					if ( thunderCost > KoLCharacter.getThunder() )
+					{
+						cmd = "";
+					}
 				}
 				else if ( rainCost > 0 )
 				{
 					text += rainCost + " drops of rain, ";
+					if ( rainCost > KoLCharacter.getRain() )
+					{
+						cmd = "";
+					}
 				}
 				else if ( lightningCost > 0 )
 				{
 					text += lightningCost + " bolts of lightning, ";
+					if ( lightningCost > KoLCharacter.getLightning() )
+					{
+						cmd = "";
+					}
 				}
 				if ( price > 0 )
 				{
 					text += KoLConstants.COMMA_FORMAT.format( price ) + " meat, ";
+					if ( price > KoLCharacter.getAvailableMeat() )
+					{
+						cmd = "";
+					}
 				}
 				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 				if ( Preferences.getBoolean( "verboseMaximizer" ) )
