@@ -544,6 +544,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "sugarsheets" ) )
+		{
+			SugarSheetRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// The following does too, but is limited and needs extra parsing
 		if ( shopId.equals( "still" ) )
 		{
@@ -781,6 +787,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "starchart" ) )
 			{
 				return StarChartRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "sugarsheets" ) )
+			{
+				return SugarSheetRequest.registerRequest( urlString );
 			}
 
 			// The following does too, but may be limited

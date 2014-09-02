@@ -41,9 +41,12 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SugarSheetRequest
 	extends CreateItemRequest
@@ -52,9 +55,14 @@ public class SugarSheetRequest
 
 	public SugarSheetRequest( final Concoction conc )
 	{
-		super( "sugarsheets.php", conc );
-		this.addFormField( "action", "fold" );
-		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
+		// http://www.kingdomofloathing.com/shop.php?whichshop=sugarsheets&action=buyitem&quantity=1&whichrow=329
+		// quantity field is not needed and is not used
+		super( "shop.php", conc );
+
+		this.addFormField( "whichshop", "sugarsheets" );
+		this.addFormField( "action", "buyitem" );
+		int row = ConcoctionPool.idToRow( this.getItemId() );
+		this.addFormField( "whichrow", String.valueOf( row ) );
 	}
 
 	@Override
@@ -82,44 +90,64 @@ public class SugarSheetRequest
 		// Since we create one at a time, override processResults so
 		// superclass method doesn't undo ingredient usage.
 
-		if ( SugarSheetRequest.parseCreation( this.getURLString(), this.responseText ) )
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+
+		// You moisten your sugar sheet, and quickly fold it into a new
+		// shape before it dries.
+
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "quickly fold it into a new shape" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't fold that." );
+			return;
 		}
+
+		SugarSheetRequest.parseResponse( urlString, responseText );
 	}
 
-	public static final boolean parseCreation( final String urlString, final String responseText )
+	public static void parseResponse( final String urlString, final String responseText )
 	{
-		// You moisten your sticker sheet, and quickly fold it into a
-		// new shape before it dries.
-
-		if ( responseText.indexOf( "quickly fold it into a new shape" ) == -1 )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=sugarsheets" ) )
 		{
-			return true;
+			return;
 		}
 
-		Matcher m = SugarSheetRequest.ITEM_PATTERN.matcher( urlString );
-
-		if ( !m.find() )
+		if ( !responseText.contains( "quickly fold it into a new shape" ) )
 		{
-			return true;
+			return;
 		}
 
+		// Folding always uses exactly one sugar sheet
 		ResultProcessor.processItem( ItemPool.SUGAR_SHEET, -1 );
-
-		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher m = SugarSheetRequest.ITEM_PATTERN.matcher( urlString );
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=sugarsheets" ) )
+		{
+			return false;
+		}
 
-		if ( !m.find() )
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
 		{
 			return true;
 		}
 
-		// int itemId = StringUtilities.parseInt( m.group( 1 ) );
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
+
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( itemId < 0 )
+		{
+			return true; // this is an unknown item
+		}
+
+		// The quantity is always 1
+		if ( item.getQuantityPossible() < 1 )
+		{
+			return true; // attempt will fail
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Fold sugar sheet" );

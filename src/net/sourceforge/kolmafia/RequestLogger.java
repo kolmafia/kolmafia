@@ -143,6 +143,7 @@ import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StillRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
+import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
@@ -1268,6 +1269,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof SuburbanDisRequest || isExternal ) && SuburbanDisRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof SugarSheetRequest || isExternal ) && StarChartRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
