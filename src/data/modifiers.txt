@@ -1459,10 +1459,9 @@ The Nuge's favorite crossbow	Ranged Damage: +30, Initiative: +100, Adventures: +
 The Trickster's Trikitixa	Moxie: [15*(1+skill(Accordion Appreciation))], Ranged Damage: [23*(1+skill(Accordion Appreciation))], Item Drop: [11*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 third-hand nunchaku	Weapon Damage: +3
 # Thor's Pliers: Lets You Smith and Make Jewelry Faster
-# Thor's Pliers: Regular Attacks Can't Miss
 # Thor's Pliers: Allows You to Ply Reality
 # Thor's Pliers: Regenerates Lightning Power (in Heavy Rains only)
-Thor's Pliers	Experience: +4, MP Regen Min: 6, MP Regen Max: 9, Pickpocket Chance: +20, Single Equip
+Thor's Pliers	Experience: +4, MP Regen Min: 6, MP Regen Max: 9, Pickpocket Chance: +20, Attacks Can't Miss, Single Equip
 throwing wrench	Weakens Monster
 time sword	Adventures: +3
 tin drum	Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Experience (Moxie): +1
@@ -2493,8 +2492,7 @@ rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40
 ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
 red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
 Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
-# Red Fox glove: Regular Attacks Can't Miss
-Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip
+Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
 red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
@@ -3883,8 +3881,7 @@ Censored Can	Avatar: "tin can conspirator"
 Cereal Killer	Experience: +200
 Chain Chain Chains	Spooky Damage: +10
 # Chalk Outline: Your Spookiness is Spookier
-# Chalked Weapon: Regular Attacks Can't Miss
-Chalked Weapon	Pool Skill: +5
+Chalked Weapon	Pool Skill: +5, Attacks Can't Miss
 Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
 Chalky White Pallor	Mysticality Percent: +50
 Chapped Legs	Muscle: -4, Moxie: +8
@@ -3937,7 +3934,7 @@ Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie P
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorful Gratitude	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Colorfully Concealed	Combat Rate (Underwater): -5
-# Comic Violence: Regular Attacks Can't Miss
+Comic Violence	Attacks Can't Miss
 Coming Up Roses	HP Regen Min: 10, HP Regen Max: 20
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
@@ -5009,8 +5006,7 @@ Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Something's Amistress	Avatar: "remains of a jilted mistress"
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 Song of Accompaniment	Minstrel Level: +3
-# Song of Battle: Regular Attacks Can't Miss
-Song of Battle	Combat Rate: +20, Weapon Damage Percent: +100
+Song of Battle	Combat Rate: +20, Weapon Damage Percent: +100, Attacks Can't Miss
 Song of Bravado	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Song of Cockiness	Monster Level: +30
 # Song of Fortune: First  blow is always Critical
