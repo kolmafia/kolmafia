@@ -1566,8 +1566,7 @@ public class EquipmentManager
 		{
 		default:
 		case MUSCLE:
-			if ( KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.WEAPON ) ||
-				KoLCharacter.hasEquipped( ItemPool.THORS_PLIERS, EquipmentManager.OFFHAND ) )
+			if ( KoLCharacter.currentBooleanModifier( Modifiers.ATTACKS_CANT_MISS ) )
 			{
 				return Integer.MAX_VALUE;
 			}

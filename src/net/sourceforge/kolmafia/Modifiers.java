@@ -815,6 +815,7 @@ public class Modifiers
 	public static final int UNARMED = 24;
 	public static final int NOPULL = 25;
 	public static final int LASTS_ONE_DAY = 26;
+	public static final int ATTACKS_CANT_MISS = 27;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -925,6 +926,10 @@ public class Modifiers
 		{ "Lasts Until Rollover",
 		  Pattern.compile( "This item will disappear at the end of the day" ),
 		  Pattern.compile( "Lasts Until Rollover" )
+		},
+		{ "Attacks Can't Miss",
+		  Pattern.compile( "Regular Attacks Can't Miss" ),
+		  Pattern.compile( "Attacks Can't Miss" )
 		},
 	};
 
