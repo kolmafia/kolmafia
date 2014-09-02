@@ -1035,20 +1035,6 @@ public class UseSkillRequest
 			return;
 		}
 
-		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
-		int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
-		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
-		int rainCost = SkillDatabase.getRainCost( this.skillId );
-		int lightningCost = SkillDatabase.getLightningCost( this.skillId );
-
-		if ( mpPerCast == 0 && soulsauceCost == 0 && thunderCost == 0 && rainCost == 0 && lightningCost == 0 )
-		{
-			// If the skill doesn't use MP then MP restoring and checking can be skipped
-			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
-			super.run();
-			return;
-		}
-
 		if ( this.skillId == SkillPool.SHAKE_IT_OFF ||
 		     ( this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill( "Devour Minions" ) ) )
 		{
@@ -1066,15 +1052,58 @@ public class UseSkillRequest
 			}
 		}
 
-		// Before executing the skill, ensure that all necessary mana is
-		// recovered in advance.
+		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
+
+		// If the skill doesn't use MP then MP restoring and checking can be skipped
+		if ( mpPerCast == 0 )
+		{
+			int soulsauceCost = SkillDatabase.getSoulsauceCost( this.skillId );
+			if ( soulsauceCost > 0 && KoLCharacter.getSoulsauce() < soulsauceCost )
+			{
+				UseSkillRequest.lastUpdate = "Your available soulsauce is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			int thunderCost = SkillDatabase.getThunderCost( this.skillId );
+			if ( thunderCost > 0 && KoLCharacter.getThunder() < thunderCost )
+			{
+				UseSkillRequest.lastUpdate = "You don't have enough thunder to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			int rainCost = SkillDatabase.getRainCost( this.skillId );
+			if ( rainCost > 0 && KoLCharacter.getRain() < rainCost )
+			{
+				UseSkillRequest.lastUpdate = "You have insufficient rain drops to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			int lightningCost = SkillDatabase.getLightningCost( this.skillId );
+			if ( lightningCost > 0 && KoLCharacter.getLightning() < lightningCost )
+			{
+				UseSkillRequest.lastUpdate = "You have too few lightning bolts to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
+			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
+			super.run();
+			return;
+		}
+
+		// Before executing the skill, recover all necessary mana
 
 		int maximumMP = KoLCharacter.getMaximumMP();
 		int maximumCast = maximumMP / mpPerCast;
 
 		// Save name so we can guarantee correct target later
-
+		// *** Why, exactly, is this necessary?
 		String originalTarget = this.target;
+
+		// libram skills have variable (increasing) mana cost
 		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
 
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
@@ -1087,34 +1116,6 @@ public class UseSkillRequest
 			if ( maximumMP < mpPerCast )
 			{
 				UseSkillRequest.lastUpdate = "Your maximum mana is too low to cast " + this.skillName + ".";
-				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
-				return;
-			}
-
-			if ( soulsauceCost > 0 && KoLCharacter.getSoulsauce() < soulsauceCost )
-			{
-				UseSkillRequest.lastUpdate = "Your maximum soulsauce is too low to cast " + this.skillName + ".";
-				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
-				return;
-			}
-
-			if ( thunderCost > 0 && KoLCharacter.getThunder() < thunderCost )
-			{
-				UseSkillRequest.lastUpdate = "Your maximum thunder is too low to cast " + this.skillName + ".";
-				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
-				return;
-			}
-
-			if ( rainCost > 0 && KoLCharacter.getRain() < rainCost )
-			{
-				UseSkillRequest.lastUpdate = "Your maximum rain is too low to cast " + this.skillName + ".";
-				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
-				return;
-			}
-
-			if ( lightningCost > 0 && KoLCharacter.getLightning() < lightningCost )
-			{
-				UseSkillRequest.lastUpdate = "Your lightning lightning is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
 			}
