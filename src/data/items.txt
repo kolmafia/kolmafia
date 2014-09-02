@@ -922,7 +922,7 @@
 905	Yummy Tummy bean	905318938	jellybean.gif	multiple, candy	t,d	20
 906	Rock Pops	661544730	rockpops.gif	multiple, candy	t,d	25	packets of Rock Pops
 907	Mr. Mediocrebar	318155668	candybar.gif	multiple, candy	t,d	50
-908	Cold Hots candy	131117686	coldhots.gif	multiple, candy	t	0	Cold Hots candes
+908	Cold Hots candy	131117686	coldhots.gif	multiple, candy	t	0	Cold Hots candies
 909	Wint-O-Fresh mint	604262762	lifesaver.gif	mp, multiple, candy	t	0
 910	dwarf bread	751117717	dwarfbread.gif	food	t,d	21	loaves of dwarf bread
 911	Senior Mints	691129593	srmints.gif	multiple, candy	t	0	boxes of Senior Mints
