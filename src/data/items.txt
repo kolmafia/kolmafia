@@ -7746,3 +7746,6 @@
 7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50	Burt's beestings of Bacchus
 7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50	Freddie's blessings of Mercury
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
+7730
+7731
+7732	Black Bart's Booty	364177657	chest.gif	usable		0
