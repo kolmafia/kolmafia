@@ -162,6 +162,9 @@ public class RelayRequest
 	private static String CONFIRM_HARDCOREPVP = "confirm15";
 	private static String CONFIRM_DESERT_UNHYDRATED = "confirm16";
 	private static String CONFIRM_MOHAWK_WIG = "confirm17";
+	private static String CONFIRM_CELLAR = "confirm18";
+	private static String CONFIRM_BOILER = "confirm19";
+	private static String CONFIRM_DIARY = "confirm20";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
@@ -1354,6 +1357,129 @@ public class RelayRequest
 			image3,
 			action3
 			);
+
+		return true;
+	}
+
+	private boolean sendCellarWarning()
+	{
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_CELLAR ) != null )
+		{
+			return false;
+		}
+
+		// If they aren't in the Laundry Room or Wine Cellar, no problem
+		if ( !AdventurePool.HAUNTED_WINE_CELLAR_ID.equals( this.getFormField( "snarfblat" ) ) &&
+			 !AdventurePool.HAUNTED_LAUNDRY_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they have already got access to Summoning Chamber, no problem
+		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) )
+		{
+			return false;
+		}
+
+		// If they have already read the recipe with glasses, no problem
+		if ( Preferences.getString( "spookyravenRecipeUsed" ).equals( "with_glasses" ) )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are about to adventure without reading the Mortar disolving recipe with glasses equipped. If you are sure you want to do this, click on the image to proceed.";
+
+		this.sendGeneralWarning( "burgerrecipe.gif", message, CONFIRM_CELLAR, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendBoilerWarning()
+	{
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_BOILER ) != null )
+		{
+			return false;
+		}
+
+		// If they aren't in the Boiler Room, no problem
+		if ( !AdventurePool.HAUNTED_BOILER_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they have already got access to Summoning Chamber, no problem
+		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) )
+		{
+			return false;
+		}
+
+		// If they have already got the wine bomb, no problem
+		if ( InventoryManager.hasItem( ItemPool.WINE_BOMB ) )
+		{
+			return false;
+		}
+
+		// If they are already wielding the fulminate, no problem
+		if ( KoLCharacter.hasEquipped( ItemPool.UNSTABLE_FULMINATE , EquipmentManager.OFFHAND ) )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
+
+		this.sendGeneralWarning( "wine2.gif", message, CONFIRM_BOILER, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendDiaryWarning()
+	{
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_DIARY ) != null )
+		{
+			return false;
+		}
+
+		// If they aren't in the Poop Deck, Ballroom or Hidden Temple, no problem
+		if ( !AdventurePool.POOP_DECK_ID.equals( this.getFormField( "snarfblat" ) ) &&
+			 !AdventurePool.HAUNTED_BALLROOM_ID.equals( this.getFormField( "snarfblat" ) ) &&
+			 !AdventurePool.HIDDEN_TEMPLE_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they are are lower than level 11, no problem
+		if ( KoLCharacter.getLevel() < 11 )
+		{
+			return false;
+		}
+
+		// If they have already got the diary, which we read automatically, no problem
+		if ( InventoryManager.hasItem( ItemPool.MACGUFFIN_DIARY ) )
+		{
+			return false;
+		}
+
+		// Sanity check
+		if ( QuestDatabase.isQuestLaterThan( Quest.BLACK, "step2" ) )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are about to adventure but have not obtained your father's MacGuffin diary. If you are sure you want to do this, click on the image to proceed.";
+
+		this.sendGeneralWarning( "book2.gif", message, CONFIRM_DIARY, "checked=1" );
 
 		return true;
 	}
@@ -2721,6 +2847,21 @@ public class RelayRequest
 		}
 
 		if ( this.sendPoolSkillWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendCellarWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendBoilerWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendDiaryWarning() )
 		{
 			return true;
 		}

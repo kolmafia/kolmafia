@@ -84,8 +84,6 @@ public class AdventurePool
 	public static final String HOBOPOLIS_SEWERS_ID = "166";
 	public static final int HOBOPOLIS_TOWN_SQUARE = 167;
 	public static final String MINE_OFFICE_ID = "176";
-	public static final int WINE_CELLAR_NORTHWEST = 178;
-	public static final int WINE_CELLAR_SOUTHEAST = 181;
 	public static final int JUNKYARD_BARREL = 182;
 	public static final String JUNKYARD_BARREL_ID = "182";
 	public static final int JUNKYARD_REFRIGERATOR = 183;
@@ -176,6 +174,8 @@ public class AdventurePool
 	public static final String HAUNTED_LABORATORY_ID = "396";
 	public static final String HAUNTED_NURSERY_ID = "397";
 	public static final String HAUNTED_STORAGE_ROOM_ID = "398";
+	public static final String HAUNTED_BOILER_ROOM_ID = "399";
+	public static final String HAUNTED_LAUNDRY_ROOM_ID = "400";
 	public static final String HAUNTED_WINE_CELLAR_ID = "401";
 	public static final String FUN_GUY_MANSION_ID = "402";
 	public static final String SLOPPY_SECONDS_DINER_ID = "403";

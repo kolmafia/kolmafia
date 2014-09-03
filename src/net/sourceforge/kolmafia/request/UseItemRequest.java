@@ -2552,6 +2552,17 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.MORTAR_DISSOLVING_RECIPE:
+			if ( responseText.contains( "Screw this scavenger hunt crap" ) )
+			{
+				Preferences.setString( "spookyravenRecipeUsed", "with_glasses" );
+			}
+			else
+			{
+				Preferences.setString( "spookyravenRecipeUsed", "no_glasses" );
+			}
+			return;
+
 		case ItemPool.FENG_SHUI:
 
 			if ( InventoryManager.hasItem( ItemPool.FOUNTAIN ) && InventoryManager.hasItem( ItemPool.WINDCHIMES ) )
