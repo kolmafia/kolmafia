@@ -1888,7 +1888,7 @@ public class FightRequest
 			}
 
 			// Adventuring in the Daily Dungeon
-			if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
+			else if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
 			{
 				Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher( responseText );
 				if ( chamberMatcher.find() )
@@ -1899,7 +1899,7 @@ public class FightRequest
 			}
 
 			// Adventuring in Warbear Fortress Level Three
-			if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
+			else if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
 			{
 				ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
 			}
@@ -5807,6 +5807,8 @@ public class FightRequest
 		FightRequest.squeezedStressBall = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
+
+		EncounterManager.ignoreSpecialMonsters = false;
 
 		// Do not clear the following, since they are looked at after combat finishes.
 		// FightRequest.haiku = false;
