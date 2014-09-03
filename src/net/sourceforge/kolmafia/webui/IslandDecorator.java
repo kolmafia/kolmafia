@@ -176,7 +176,7 @@ public class IslandDecorator
 
 	private static final String meatMessage()
 	{
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 
 		int current = IslandManager.currentNunneryMeat();
 		message.append( KoLConstants.COMMA_FORMAT.format( current ) );
@@ -214,47 +214,55 @@ public class IslandDecorator
 		"It whips out a pair of pliers",
 		"It whips out a screwdriver",
 	};
-	
-	private static final int[][] TOOL_LOCATIONS = 
+
+	private static final Object[][] TOOL_MONSTERS =
 	{
 		{
+			"batwinged gremlin",
 			AdventurePool.JUNKYARD_BARREL,
 			ItemPool.MOLYBDENUM_HAMMER
 		},
 
 		{
+			"erudite gremlin",
 			AdventurePool.JUNKYARD_TIRES,
 			ItemPool.MOLYBDENUM_WRENCH
 		},
 
 		{
+			"spider gremlin",
 			AdventurePool.JUNKYARD_REFRIGERATOR,
 			ItemPool.MOLYBDENUM_PLIERS
 		},
 
 		{
+			"vegetable gremlin",
 			AdventurePool.JUNKYARD_CAR,
 			ItemPool.MOLYBDENUM_SCREWDRIVER
 		}
 	};
 
-	public static final void decorateGremlinFight( final StringBuffer buffer )
+	public static final void decorateGremlinFight( final String monster, final StringBuffer buffer )//
 	{
 		// Color the tool in the monster spoiler text
 		int loc = KoLAdventure.lastAdventureId();
 		if ( IslandManager.missingGremlinTool() == null )
 		{
-			for ( int i = 0; i < IslandDecorator.TOOL_LOCATIONS.length; ++i )
+			for ( int i = 0; i < IslandDecorator.TOOL_MONSTERS.length; ++i )
 			{
-				if ( loc != IslandDecorator.TOOL_LOCATIONS[i][0] )
+				if ( !monster.equals( (String) IslandDecorator.TOOL_MONSTERS[i][0] ) )
 				{
 					continue;
 				}
-				if ( KoLConstants.inventory.contains( ItemPool.get( IslandDecorator.TOOL_LOCATIONS[i][1], 1 ) ) )
+				if ( loc != 0 && loc != (Integer) IslandDecorator.TOOL_MONSTERS[i][1] )
 				{
 					break;
 				}
-				String zoneTool = ItemDatabase.getItemName( IslandDecorator.TOOL_LOCATIONS[i][1] );
+				if ( KoLConstants.inventory.contains( ItemPool.get( (Integer) IslandDecorator.TOOL_MONSTERS[i][2], 1 ) ) )
+				{
+					break;
+				}
+				String zoneTool = ItemDatabase.getItemName( (Integer) IslandDecorator.TOOL_MONSTERS[i][2] );
 				StringUtilities.singleStringReplace( buffer,
 								     zoneTool,
 								     "<font color=#DD00FF>" + zoneTool + "</font>" );
@@ -381,7 +389,7 @@ public class IslandDecorator
 		{
 			String fratboyMessage = IslandManager.sideSummary( "frat boys" );
 			String hippyMessage = IslandManager.sideSummary( "hippies" );
-			String row = 
+			String row =
 				"<tr><td><center><table width=100%><tr>" + IslandDecorator.progressLineStyle +
 				fratboyMessage +
 				"</td>" + IslandDecorator.progressLineStyle +

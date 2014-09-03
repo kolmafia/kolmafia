@@ -70,7 +70,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -95,7 +94,6 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EventManager;
-import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
@@ -105,7 +103,6 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -473,7 +470,7 @@ public class RequestEditorKit
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
-			RequestEditorKit.addFightModifiers( location, buffer );
+			RequestEditorKit.addFightModifiers( buffer );
 			RequestEditorKit.addTaleOfDread( buffer );
 
 			// Do any monster-specific decoration
@@ -1118,7 +1115,7 @@ public class RequestEditorKit
 		StringUtilities.insertBefore( buffer, "</body>", "<div id='menu' class='rcm'></div>" );
 	}
 
-	private static final void addFightModifiers( final String location, final StringBuffer buffer )
+	private static final void addFightModifiers( final StringBuffer buffer )
 	{
 		// Change bang potion names in item dropdown
 		RequestEditorKit.changePotionNames( buffer );
@@ -1238,18 +1235,15 @@ public class RequestEditorKit
 			IslandDecorator.decorateBattlefieldFight( buffer );
 		}
 
+		if ( monster.endsWith( "gremlin" ) )
+		{
+			IslandDecorator.decorateGremlinFight( monster, buffer );
+		}
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case AdventurePool.THEMTHAR_HILLS:
 			IslandDecorator.decorateThemtharFight( buffer );
-			break;
-
-		case AdventurePool.JUNKYARD_BARREL:
-		case AdventurePool.JUNKYARD_REFRIGERATOR:
-		case AdventurePool.JUNKYARD_TIRES:
-		case AdventurePool.JUNKYARD_CAR:
-			// Quest gremlins might have a tool.
-			IslandDecorator.decorateGremlinFight( buffer );
 			break;
 
 		case AdventurePool.SEASIDE_MEGALOPOLIS:
