@@ -74,6 +74,8 @@ public class EatItemRequest
 {
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
+	private static final Pattern INSUFFICIENT_QUANTITY_PATTERN =
+		Pattern.compile( "You only have (\\d+) of those, not (\\d+)" );
 
 	private static int ignoreMilkPrompt = 0;
 	private static int askedAboutMilk = 0;
@@ -533,7 +535,7 @@ public class EatItemRequest
 		// Special handling for fortune cookies, since you can smash
 		// them, as well as eat them
 		if ( item.getItemId() == ItemPool.FORTUNE_COOKIE &&
-		     responseText.indexOf( "You brutally smash the fortune cookie" ) != -1 )
+		     responseText.contains( "You brutally smash the fortune cookie" ) )
 		{
 			ResultProcessor.processResult( item.getNegation() );
 			return;
@@ -555,11 +557,22 @@ public class EatItemRequest
 			return;
 		}
 
+		// You only have 1 of those, not 2
+		Matcher quantityMatcher = EatItemRequest.INSUFFICIENT_QUANTITY_PATTERN.matcher( responseText );
+		if ( quantityMatcher.find() )
+		{
+			int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+			int requested = StringUtilities.parseInt( quantityMatcher.group( 2 ) );
+			UseItemRequest.lastUpdate = "You only have " + count + " of those, not " + requested;
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 		boolean shouldUpdateFullness = !responseText.contains( " Fullness" );
 
-		if ( responseText.indexOf( "too full" ) != -1 )
+		if ( responseText.contains( "too full" ) )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
