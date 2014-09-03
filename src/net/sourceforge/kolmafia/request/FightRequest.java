@@ -4843,6 +4843,10 @@ public class FightRequest
 			{
 				AdventureResult result = ItemDatabase.itemFromRelString( rel );
 				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
+				if ( node.getText().toString().startsWith( "Item unequipped" ) )
+				{
+					EquipmentManager.discardEquipment( result );
+				}
 				return;
 			}
 
@@ -5143,7 +5147,7 @@ public class FightRequest
 				int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
 				AdventureResult result = ItemPool.get( itemId, 1 );
 				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
-				if ( str.indexOf( "Item unequipped:" ) != -1 )
+				if ( str.contains( "Item unequipped:" ) )
 				{	// Item removed by Zombo
 					EquipmentManager.discardEquipment( itemId );
 				}
