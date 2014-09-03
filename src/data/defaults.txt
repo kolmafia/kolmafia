@@ -841,6 +841,7 @@ user	sneakyPetePoints	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
+user	spookyravenRecipeUsed	none
 user	spookyPuttyCopiesMade	0
 user	spookyPuttyMonster
 user	stationaryButton1

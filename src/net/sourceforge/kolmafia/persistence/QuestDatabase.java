@@ -502,6 +502,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "corralUnlocked" );
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );
+		Preferences.resetToDefault( "spookyravenRecipeUsed" );
 	}
 
 	public static void handleCouncilText( String responseText )
