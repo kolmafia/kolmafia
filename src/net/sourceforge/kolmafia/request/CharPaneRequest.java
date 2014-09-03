@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
@@ -899,13 +900,18 @@ public class CharPaneRequest
 		}
 	}
 
-	private static Pattern compactLastAdventurePattern =
+	private static final Pattern compactLastAdventurePattern =
 		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]*)\">.*?</a>:</td>" );
-	private static Pattern expandedLastAdventurePattern =
+	private static final Pattern expandedLastAdventurePattern =
 		Pattern.compile( "<a.*href=\"([^\"]*)\".*>Last Adventure:</a>.*?<a.*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>" );
 
 	private static final void setLastAdventure( final String responseText )
 	{
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 )
+		{
+			return;
+		}
+
 		String adventureName = null;
 		String adventureURL = null;
 		String container = null;
@@ -934,6 +940,11 @@ public class CharPaneRequest
 
 	private static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 )
+		{
+			return;
+		}
+
 		if ( adventureName == null )
 		{
 			return;

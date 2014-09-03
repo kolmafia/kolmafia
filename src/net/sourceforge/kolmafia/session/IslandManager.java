@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1050,7 +1049,7 @@ public class IslandManager
 
 		// You can fax in monsters even after the war is over. Nothing
 		// special to do in that case.
-		if ( Preferences.getString( "warProgress").equals( "finished" ) )
+		if ( Preferences.getString( "warProgress" ).equals( "finished" ) )
 		{
 			return;
 		}
@@ -1346,21 +1345,21 @@ public class IslandManager
 	private static final String[][] JUNKYARD_AREAS =
 	{
 		{
-                        "a barrel",
-                        "next to that barrel with something burning in it",
-                },
+			"a barrel",
+			"next to that barrel with something burning in it",
+		},
 		{
-                        "a refrigerator",
-                        "near an abandoned refrigerator",
-                },
+			"a refrigerator",
+			"near an abandoned refrigerator",
+		},
 		{
-                        "some tires",
-                        "over where the old tires are",
-                },
+			"some tires",
+			"over where the old tires are",
+		},
 		{
-                        "a car",
-                        "out by that rusted-out car",
-                },
+			"a car",
+			"out by that rusted-out car",
+ 		},
 	};
 
 	private static final void parseJunkyard( final String responseText )
@@ -1385,16 +1384,16 @@ public class IslandManager
 			tool = "molybdenum " + ( tool.equals( "wrench" ) ? "crescent " : "" ) + tool;
 			location = matcher.group( 2 );
 
-                        // Convert out-of-uniform locations to standard location
-                        for ( int i = 0; i < IslandManager.JUNKYARD_AREAS.length; ++i )
-                        {
-                                String [] locations = IslandManager.JUNKYARD_AREAS[i];
-                                if ( location.equals( locations[0] ) )
-                                {
-                                        location = locations[1];
-                                        break;
-                                }
-                        }
+			// Convert out-of-uniform locations to standard location
+			for ( int i = 0; i < IslandManager.JUNKYARD_AREAS.length; ++i )
+			{
+				String [] locations = IslandManager.JUNKYARD_AREAS[i];
+				if ( location.equals( locations[0] ) )
+				{
+					location = locations[1];
+					break;
+				}
+			}
 		}
 
 		// As you turn to walk away, he taps you on the shoulder. "I

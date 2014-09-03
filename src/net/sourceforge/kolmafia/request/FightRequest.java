@@ -2691,16 +2691,13 @@ public class FightRequest
 			break;
 		}
 
+		if ( monster.endsWith( "gremlin" ) )
+		{
+			IslandManager.handleGremlin( responseText );
+		}
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
-		case AdventurePool.JUNKYARD_BARREL:
-		case AdventurePool.JUNKYARD_REFRIGERATOR:
-		case AdventurePool.JUNKYARD_TIRES:
-		case AdventurePool.JUNKYARD_CAR:
-			// Quest gremlins might have a tool.
-			IslandManager.handleGremlin( responseText );
-			break;
-
 		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
 		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
 			IslandManager.handleBattlefield( responseText );
