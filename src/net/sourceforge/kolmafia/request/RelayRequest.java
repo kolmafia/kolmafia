@@ -2804,6 +2804,12 @@ public class RelayRequest
 			this.waitForRecoveryToComplete();
 		}
 
+		// Can opt out of relay warnings
+		if ( !Preferences.getBoolean( "relayShowWarnings" ) )
+		{
+			return false;
+		}
+
 		if ( ( ( adventureName != null && !isNonCombatsOnly ) ||
 		       ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) ) &&
 		     ( this.sendFamiliarWarning() || this.sendKungFuWarning() ) )

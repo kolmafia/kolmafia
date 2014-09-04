@@ -781,6 +781,7 @@ user	recentLocations	5
 user	recoveryScript
 user	relayCounters
 user	relayShowSpoilers	false
+user	relayShowWarnings	true
 user	relocatePygmyJanitor	-1
 user	relocatePygmyLawyer	-1
 user	rememberDesktopSize	false
