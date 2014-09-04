@@ -101,7 +101,7 @@ public class RelayLoader
 				pauser.pause( 200 );
 			}
 
-			location = "http://localhost:" + RelayServer.getPort() + this.location;
+			location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
 		}
 
 		BareBonesBrowserLaunch.openURL( preferredBrowser, location );
