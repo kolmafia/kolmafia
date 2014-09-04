@@ -1563,7 +1563,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SMITH );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SMITH, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SMITH, Math.max( 0, 1 - Inigo - thorsPliers - legionJackhammer ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SMITH, 1 );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.GRIMACITE_HAMMER ) )
@@ -1578,7 +1578,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SSMITH );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SSMITH, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SSMITH, Math.max( 0, 1 - Inigo - thorsPliers - legionJackhammer ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SSMITH, 1 );
 		}
 
 		// Standard smithing is also possible if the person is in
@@ -1610,7 +1610,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JEWELRY );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JEWELRY, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, Math.max( 0, 3 - Inigo - thorsPliers ) );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, 3 );
 		}
 
 		if ( KoLCharacter.canCraftExpensiveJewelry() )
