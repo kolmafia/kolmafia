@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -127,11 +129,19 @@ public class CreateItemPanel
 
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
-			selection.setQuantityNeeded( quantityDesired - pulled );
+			int create = quantityDesired - pulled;
 
-			SpecialOutfit.createImplicitCheckpoint();
-			RequestThread.postRequest( selection );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			// Check if user happy to spend turns crafting before creating items
+			// askAboutCrafting uses initial + creatable, not creatable.
+			int initial = selection.concoction.getInitial();
+			selection.setQuantityNeeded( initial + create );                       
+			if ( InventoryManager.askAboutCrafting( selection ) )
+			{
+				selection.setQuantityNeeded( create );
+				SpecialOutfit.createImplicitCheckpoint();
+				RequestThread.postRequest( selection );
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;

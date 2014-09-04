@@ -1832,7 +1832,7 @@ public abstract class InventoryManager
 		return true;
 	}
 
-	private static boolean askAboutCrafting( final CreateItemRequest creator )
+	public static boolean askAboutCrafting( final CreateItemRequest creator )
 	{
 		if ( creator.getQuantityNeeded() < 1 )
 		{
@@ -1852,7 +1852,8 @@ public abstract class InventoryManager
 
 		// See if we have enough free crafting turns available
 		int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
-		int needed = creator.concoction.getAdventuresNeeded( creator.getQuantityNeeded() );
+		int count = creator.getQuantityNeeded();
+		int needed = creator.concoction.getAdventuresNeeded( count );
 
 		CraftingType mixingMethod = creator.concoction.getMixingMethod();
 
@@ -1874,11 +1875,30 @@ public abstract class InventoryManager
 
 		// We could cast Inigo's automatically here, but nah. Let the user do that.
 
-		String message =
-			freeCrafts > 0 ? "You will run out of free crafting turns before you are finished. Are you sure?"
-				: "You are about to spend adventures crafting.  Are you sure?";
+		String itemName = creator.getName();
+		StringBuffer message = new StringBuffer();
+		if ( freeCrafts > 0 )
+		{
+			message.append( "You will run out of free crafting turns before you finished crafting " );
+		}
+		else
+		{
+			int craftingAdvs = needed - freeCrafts;
+			message.append( "You are about to spend " );
+			message.append( craftingAdvs );
+			message.append( " adventure" );
+			if ( craftingAdvs > 1 )
+			{
+				message.append( "s" );
+			}
+			message.append( " crafting " );
+		}
+		message.append( itemName );
+		message.append( " (" );
+		message.append( count - creator.concoction.getInitial() );
+		message.append( "). Are you sure?" );
 
-		if ( !InputFieldUtilities.confirm( message ) )
+		if ( !InputFieldUtilities.confirm( message.toString() ) )
 		{
 			return false;
 		}
