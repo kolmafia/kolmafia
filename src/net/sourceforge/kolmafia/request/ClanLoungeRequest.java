@@ -1856,6 +1856,9 @@ public class ClanLoungeRequest
 					TurnCounter.stopCounting( "Semirare window begin" );
 					TurnCounter.stopCounting( "Semirare window end" );
 					TurnCounter.startCounting( srCounter, "Fortune Cookie", "fortune.gif" );
+					String message = "Lindy burp: " + srCounter;
+					RequestLogger.updateSessionLog( message );
+					RequestLogger.printLine( message );
 				}
 			}
 			if ( index >= 0 )
