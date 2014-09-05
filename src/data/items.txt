@@ -31,7 +31,7 @@
 14	moxie weed	333987088	heart1.gif	multiple	t,d	100
 15	strongness elixir	465583799	coffeecup.gif	multiple	t,d	100
 16	magicalness-in-a-can	204936339	spraycan.gif	multiple	t,d	100	magicalnesses-in-a-can
-17	spicy noodles	920838455	bowl.gif	food	t,d	35
+17	spicy noodles	920838455	bowl.gif	food	t,d	35	spicy noodles
 18	tortoise's blessing	346365116	lump.gif	none	t	0
 19	asparagus knife	889193761	knife.gif	weapon	t,d	20	asparagus knives
 20	Kentucky-style derby	644460624	derby.gif	hat	t,d	25	Kentucky-style derbies
@@ -101,7 +101,7 @@
 84	Orcish meat locker	221122907	meatlocker.gif	usable	t,d	5
 85	unlocked meat locker	343964219	meatlocker.gif	usable	t	0
 86	rusty metal key	518345878	rustykey.gif	none	t,d	8
-87	meat from yesterday	653772183	meat.gif	none	t,d	5
+87	meat from yesterday	653772183	meat.gif	none	t,d	5	meats from yesterday
 88	meat stack	814092432	meatstack.gif	none	t,d	100
 89	sword hilt	579389111	basichilt.gif	none	t,d	50
 90	helmet recipe	765274533	hatrecipe.gif	none	t,d	50
@@ -1596,7 +1596,7 @@
 1579	gimlet	237514263	fruitym.gif	drink	t,d	160	gimlis
 1580	yellow brick road	252231956	fruitym.gif	drink	t,d	160
 1581	vodka stratocaster	936760207	cocostraw.gif	drink	t,d	160
-1582	Neuromancer	803710671	cocostraw.gif	drink	t,d	160
+1582	Neuromancer	803710671	cocostraw.gif	drink	t,d	160	neuromancers
 1583	prussian cathouse	120055462	chamflute.gif	drink	t,d	160
 1584	Mae West	934455536	daquiri.gif	drink	t,d	160	Maes West
 1585	Mon Tiki	275197081	cocostraw.gif	drink	t,d	160	Mons Tiki
