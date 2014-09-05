@@ -547,6 +547,7 @@ user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
 user	lastKingLiberation	-1
+user	lastLightsOutTurn	-1
 user	lastMushroomPlot	-1
 user	lastMessageId
 user	lastMiningReset	-1
