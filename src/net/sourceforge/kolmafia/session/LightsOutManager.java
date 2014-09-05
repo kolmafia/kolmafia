@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class LightsOutManager
-
 {
 	public static void checkCounter()
 	{
@@ -60,6 +59,12 @@ public class LightsOutManager
 
 		int turns = 37 - ( KoLCharacter.getTurnsPlayed() % 37 );
 		TurnCounter.startCounting( turns, "Spookyraven Lights Out", "bulb.gif" );
+	}
+
+	public static boolean lightsOutNow()
+	{
+		int totalTurns = KoLCharacter.getTurnsPlayed();
+		return totalTurns % 37 == 0 && Preferences.getInteger( "lastLightsOutTurn" ) != totalTurns;
 	}
 
 	public static void report()

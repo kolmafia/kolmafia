@@ -8949,6 +8949,7 @@ public abstract class ChoiceManager
 			// Remove the counter if it exists so a new one can be made
 			// as soon as the next adventure is started
 			TurnCounter.stopCounting( "Spookyraven Lights Out" );
+			Preferences.setInteger( "lastLightsOutTurn", KoLCharacter.getTurnsPlayed() );
 			break;
 		}
 	}

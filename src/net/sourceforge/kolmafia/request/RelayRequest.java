@@ -1248,6 +1248,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If Lights Out due, no problem
+		if ( LightsOutManager.lightsOutNow() )
+		{
+			return false;
+		}
+
 		// If they have already have the library key, no problem
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.LIBRARY_KEY, 1 ) ) )
 		{
@@ -1376,6 +1382,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If Lights Out due, no problem
+		if ( LightsOutManager.lightsOutNow() )
+		{
+			return false;
+		}
+
 		// If they have already got access to Summoning Chamber, no problem
 		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) )
 		{
@@ -1408,6 +1420,12 @@ public class RelayRequest
 
 		// If they aren't in the Boiler Room, no problem
 		if ( !AdventurePool.HAUNTED_BOILER_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If Lights Out due, no problem
+		if ( LightsOutManager.lightsOutNow() )
 		{
 			return false;
 		}
@@ -1448,10 +1466,16 @@ public class RelayRequest
 			return false;
 		}
 
-		// If they aren't in the Poop Deck, Ballroom or Hidden Temple, no problem
+		// If they aren't in the Poop Deck or Hidden Temple, no problem
 		if ( !AdventurePool.POOP_DECK_ID.equals( this.getFormField( "snarfblat" ) ) &&
-			 !AdventurePool.HAUNTED_BALLROOM_ID.equals( this.getFormField( "snarfblat" ) ) &&
 			 !AdventurePool.HIDDEN_TEMPLE_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they aren't in the Ballroom, or are in Ballroom with Lights Out due, no problem
+		if ( !AdventurePool.HAUNTED_BALLROOM_ID.equals( this.getFormField( "snarfblat" ) ) ||
+			 LightsOutManager.lightsOutNow() )
 		{
 			return false;
 		}
