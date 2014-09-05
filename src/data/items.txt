@@ -6123,7 +6123,7 @@
 6104	Artist's Butterknife of Regret	327687444	butterknife.gif	none, combat	t,d	11	Artist's Butterknives of Regret
 6105	Artist's Spatula of Despair	675041975	spatula3.gif	none, combat	t,d	11	Artist's Spatulas of Despair
 6106	Artist's Cookie Cutter of Loneliness	991825060	cutter.gif	none, combat	t,d	11	Artist's Cookie Cutters of Loneliness
-6107	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Artist's Cr&egrave;me Brulee Torches of Fury
+6107	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Cr&egrave;me Brul&eacute;e Torches of Fury
 6108	Ginsu&trade;	626167043	ginsu.gif	weapon		0
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
