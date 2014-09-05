@@ -48,7 +48,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -77,6 +76,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -132,6 +133,24 @@ public class DebugDatabase
 		{
 			return "";
 		}
+	}
+
+	private static final String readApiData( final int itemId )
+	{
+		GenericRequest request = new ApiRequest( "item", itemId );
+		RequestThread.postRequest( request );
+		String plural = "";
+		JSONObject json;
+		try
+		{
+			json = new JSONObject( request.responseText );
+			plural = (String) json.get( "plural" );
+		}
+		catch ( JSONException ex )
+		{
+			
+		}
+		return plural;
 	}
 
 	/**
@@ -1642,43 +1661,65 @@ public class DebugDatabase
 		boolean logit = false;
 		if ( access != null && !access.contains( ItemDatabase.QUEST_FLAG ) )
 		{
-			String wikiData = DebugDatabase.readWikiData( name );
-			Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
-			String wikiPlural = matcher.find() ? matcher.group( 1 ) : "";
-
-			if ( wikiPlural.equals( "" ) )
+			String otherPlural = "";
+			boolean checkApi = InventoryManager.getCount( itemId ) > 1;
+			if ( checkApi )
 			{
-				// The Wiki does not list a plural. If ours is
-				// non-default, log discrepancy and keep ours.
-				if ( !plural.equals( "" ) )
+				otherPlural = DebugDatabase.readApiData( itemId );
+				if ( otherPlural.equals( "" ) )
 				{
-					logit = true;
+					otherPlural = name + "s";
 				}
-			}
-			else if ( plural.equals( "" ) )
-			{
-				// The Wiki has a plural, but ours is the
-				// default. If the Wiki's is NOT the default,
-				// log it and tentatively accept it
-				if ( !displayPlural.equals( wikiPlural ) )
+				if ( plural.equals( "" ) )
 				{
-					logit = true;
-					plural = "*** " + wikiPlural;
+					plural = name + "s";
+				}
+				if ( !plural.equals( otherPlural ) )
+				{
+					RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + displayPlural + "\", KoL plural = \"" + otherPlural + "\"" );
+					plural = otherPlural;
 				}
 			}
 			else
 			{
-				// Both we and the Wiki have plurals. If they
-				// do not agree, log it, but keep ours.
-				if ( !displayPlural.equals( wikiPlural ) )
-				{
-					logit = true;
-				}
-			}
+				String wikiData = DebugDatabase.readWikiData( name );
+				Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
+				otherPlural = matcher.find() ? matcher.group( 1 ) : "";
 
-			if ( logit )
-			{
-				RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + displayPlural + "\", Wiki plural = \"" + wikiPlural + "\"" );
+				if ( otherPlural.equals( "" ) )
+				{
+					// The Wiki does not list a plural. If ours is
+					// non-default, log discrepancy and keep ours.
+					if ( !plural.equals( "" ) )
+					{
+						logit = true;
+					}
+				}
+				else if ( plural.equals( "" ) )
+				{
+					// The Wiki has a plural, but ours is the
+					// default. If the Wiki's is NOT the default,
+					// log it and tentatively accept it
+					if ( !displayPlural.equals( otherPlural ) )
+					{
+						logit = true;
+						plural = "*** " + otherPlural;
+					}
+				}
+				else
+				{
+					// Both we and the Wiki have plurals. If they
+					// do not agree, log it, but keep ours.
+					if ( !displayPlural.equals( otherPlural ) )
+					{
+						logit = true;
+					}
+				}
+
+				if ( logit )
+				{
+					RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + displayPlural + "\", Wiki plural = \"" + otherPlural + "\"" );
+				}
 			}
 		}
 
