@@ -1893,6 +1893,22 @@ public class RequestEditorKit
 			// Your Minstrel Scamp
 			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Ancient Buried Pyramid", "pyramid.php" );
 			break;
+
+		case 611: {
+			// The Horror...
+			int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>" );
+			int count = ItemPool.get( ItemPool.BOO_CLUE, 1 ).getCount( KoLConstants.inventory );
+
+			if ( index != -1 && count > 0 )
+			{
+				String link =
+					"<p><a href=\"inv_use.php?which=3&whichitem=5964&ajax=1&pwd=" +
+					GenericRequest.passwordHash +
+					"\">Use another A-Boo Clue</a>";
+				buffer.insert( index, link );
+			}
+			break;
+		}
 		}
 	}
 
