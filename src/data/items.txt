@@ -3438,7 +3438,7 @@
 3419
 3420
 3421	little box of fireworks	306172112	fireworksbox.gif	familiar	t	0	little boxes of fireworks
-3422	sterno-flavored Hob-O	800001289	hob-o.gif	multiple, candy	t,d	5	sterno-flavored Hob-O
+3422	sterno-flavored Hob-O	800001289	hob-o.gif	multiple, candy	t,d	5
 3423	frostbite-flavored Hob-O	117092853	hob-o.gif	multiple, candy	t,d	5
 3424	fry-oil-flavored Hob-O	650853419	hob-o.gif	multiple, candy	t,d	5
 3425	garbage-juice-flavored Hob-O	586708288	hob-o.gif	multiple, candy	t,d	5
