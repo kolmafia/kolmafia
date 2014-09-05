@@ -4445,12 +4445,18 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SONAR:
-			if ( QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
+			if ( responseText.contains( "rubble leading west from Guano Junction collapses in a heap" ) )
 			{
-				return;
+				QuestDatabase.setQuestProgress( Quest.BAT, "step1" );
 			}
-			// Sonars are single-use, so advance the quest by one step only
-			QuestDatabase.advanceQuest( Quest.BAT );
+			else if ( responseText.contains( "sound waves knock down the pile of rocks on the east side" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BAT, "step2" );
+			}
+			else if ( responseText.contains( "high frequency noise makes short work of the rubble" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.BAT, "step3" );
+			}
 			return;
 
 		case ItemPool.SPRING_BEACH_CHARTER:
