@@ -169,7 +169,7 @@ public class QuestManager
 		}
 		else if ( location.startsWith( "cobbsknob.php" ) )
 		{
-			if ( location.indexOf( "action=cell37" ) != -1 )
+			if ( location.contains( "action=cell37" ) )
 			{
 				handleCell37( responseText );
 			}
@@ -225,6 +225,10 @@ public class QuestManager
 			if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
 			{
 				handleAirportChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=bathole" ) )
+			{
+				handleBatholeChange( responseText );
 			}
 			else if ( location.contains( "whichplace=desertbeach" ) )
 			{
@@ -333,16 +337,12 @@ public class QuestManager
 		{
 			handleTrickOrTreatingChange( responseText );
 		}
-		else if ( location.startsWith( "bathole" ) )
-		{
-			handleBatholeChange( responseText );
-		}
 		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
 		{
 			// You slide the last tile into place ...
 
-			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) || responseText.indexOf( "slide the last tile" ) != -1 )
+			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) || responseText.contains( "slide the last tile" ) )
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
@@ -646,7 +646,7 @@ public class QuestManager
 		}
 
 		// If we see the link to the empty Black Market, Wu Tang has been defeated
-		if ( responseText.indexOf( "action=emptybm" ) != -1 )
+		if ( responseText.contains( "action=emptybm" ) )
 		{
 			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 		}
@@ -680,19 +680,23 @@ public class QuestManager
 		{
 			status = "step3";
 		}
+		else if ( image == 5 )
+		{
+			status = "step4";
+		}
 
 		QuestDatabase.setQuestIfBetter( Quest.BAT, status );
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )
 	{
-		if ( responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
+		if ( responseText.contains( "You hand him your button and take his glowstick" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.NOVELTY_BUTTON );
 			return;
 		}
 
-		if ( responseText.indexOf( "Ah, man, you dropped your crown back there!" ) != -1 )
+		if ( responseText.contains( "Ah, man, you dropped your crown back there!" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.TATTERED_PAPER_CROWN );
 			return;
@@ -751,7 +755,7 @@ public class QuestManager
 	{
 		// "Thank you, Adventurer."
 
-		if ( responseText.indexOf( "Thank you" ) != -1 )
+		if ( responseText.contains( "Thank you" ) )
 		{
 			ResultProcessor.processItem( ItemPool.DODECAGRAM, -1 );
 			ResultProcessor.processItem( ItemPool.CANDLES, -1 );
@@ -935,7 +939,7 @@ public class QuestManager
 		// pile of grounds. It immediately grows into an enormous
 		// beanstalk.
 
-		if ( responseText.indexOf( "immediately grows into an enormous beanstalk" ) != -1 )
+		if ( responseText.contains( "immediately grows into an enormous beanstalk" ) )
 		{
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
@@ -1154,15 +1158,15 @@ public class QuestManager
 	{
 		Preferences.setInteger( "lastCouncilVisit", KoLCharacter.getLevel() );
 
-		if ( responseText.indexOf( "500" ) != -1 )
+		if ( responseText.contains( "500" ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( "mosquito larva", -1, false ) );
 		}
-		if ( responseText.indexOf( "batskin belt" ) != -1 )
+		if ( responseText.contains( "batskin belt" ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
-		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
+		if ( responseText.contains( "dragonbone belt buckle" ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
 		}
@@ -1245,11 +1249,11 @@ public class QuestManager
 			// "Well," you say, "it would really help the war effort if
 			// your convent could serve as a hospital for our wounded
 			// troops."
-			if ( responseText.indexOf( "could serve as a hospital" ) != -1 )
+			if ( responseText.contains( "could serve as a hospital" ) )
 			{
 				Preferences.setString( "sidequestNunsCompleted", "hippy" );
 			}
-			else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
+			else if ( responseText.contains( "could serve as a massage parlor" ) )
 			{
 				Preferences.setString( "sidequestNunsCompleted", "fratboy" );
 			}
@@ -1314,7 +1318,7 @@ public class QuestManager
 		{
 			// If you don't have McClusky File (complete), or McClusky File 5, and accountant doesn't drop file, you must have unlocked office boss
 			if ( InventoryManager.getCount( ItemPool.MCCLUSKY_FILE ) == 0 && InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 0 &&
-				Preferences.getInteger( "hiddenOfficeProgress" ) < 6 && responseText.indexOf( "McClusky file" ) == -1 )
+				Preferences.getInteger( "hiddenOfficeProgress" ) < 6 && responseText.contains( "McClusky file" ) )
 			{
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
