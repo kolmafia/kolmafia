@@ -1670,34 +1670,41 @@ public class UseItemRequest
 		//
 		// You're not currently using a Gluttonous Green Ghost.
 
-		if ( responseText.indexOf( "don't currently have" ) != -1 ||
-		     responseText.indexOf( "not currently using" ) != -1 )
+		if ( responseText.contains( "don't currently have" ) ||
+		     responseText.contains( "not currently using" ) )
 		{
 			return false;
 		}
 
 		// You don't have that many of those.
 
-		if ( responseText.indexOf( "don't have that many" ) != -1 )
+		if ( responseText.contains( "don't have that many" ) )
+		{
+			return true;
+		}
+
+		// You don't actually have any of that item.</
+
+		if ( responseText.contains( "don't actually have any" ) )
 		{
 			return true;
 		}
 
 		// [familiar name] approaches the [item] but doesn't seem interested.
-		if ( responseText.indexOf( "doesn't seem interested" ) != -1 )
+		if ( responseText.contains( "doesn't seem interested" ) )
 		{
 			return true;
 		}
 
 		// That is not something you can give to your Slimeling
-		if ( responseText.indexOf( "not something you can give" ) != -1 )
+		if ( responseText.contains( "not something you can give" ) )
 		{
 			return true;
 		}
 
 		// <name> takes the <candy> and quickly consumes them. He
 		// grows a bit.
-		if ( responseText.indexOf( "He grows a bit" ) != -1 )
+		if ( responseText.contains( "He grows a bit" ) )
 		{
 			KoLCharacter.getFamiliar().addNonCombatExperience( item.getCount() );
 		}
