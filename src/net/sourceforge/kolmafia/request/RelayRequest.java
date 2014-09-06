@@ -165,9 +165,11 @@ public class RelayRequest
 	private static String CONFIRM_CELLAR = "confirm18";
 	private static String CONFIRM_BOILER = "confirm19";
 	private static String CONFIRM_DIARY = "confirm20";
+	private static String CONFIRM_BORING_DOORS = "confirm21";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
+	private static boolean ignoreBoringDoorsWarning = false;
 	private static boolean ignorePoolSkillWarning = false;
 
 	public static final void reset()
@@ -175,6 +177,7 @@ public class RelayRequest
 		RelayRequest.ignorePoolSkillWarning = false;
 		RelayRequest.ignoreDesertWarning = false;
 		RelayRequest.ignoreMohawkWigWarning = false;
+		RelayRequest.ignoreBoringDoorsWarning = false;
 	}
 
 	public RelayRequest( final boolean allowOverride )
@@ -1220,6 +1223,65 @@ public class RelayRequest
 			"hand.gif",
 			"mohawk.gif",
 			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.MOHAWK_WIG + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
+			null,
+			null
+			);
+
+		return true;
+	}
+
+	private boolean sendBoringDoorsWarning()
+	{
+		// Only send this warning once per session
+		if ( RelayRequest.ignoreBoringDoorsWarning )
+		{
+			return false;
+		}
+
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_BORING_DOORS ) != null )
+		{
+			RelayRequest.ignoreBoringDoorsWarning = true;
+			return false;
+		}
+
+		// If they aren't in the Daily Dungeon, no problem
+		if ( !AdventurePool.THE_DAILY_DUNGEON_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they are not about to enter chambers 5 or 10, no problem
+		int nextChamber = Preferences.getInteger( "_lastDailyDungeonRoom" ) + 1;
+		if ( nextChamber != 5 && nextChamber != 10 )
+		{
+			return false;
+		}
+
+		// If they are already wearing the Ring, no problem
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.RING_OF_DETECT_BORING_DOORS, 1 ) ) )
+		{
+			return false;
+		}
+
+		// If they don't have the Ring, no problem
+		if ( !InventoryManager.hasItem( ItemPool.RING_OF_DETECT_BORING_DOORS ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "You are about to adventure without your Ring of Detect Boring Doors in the " + nextChamber + "th Chamber of the Daily Dungeon. " );
+		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
+		warning.append( "If you want to put the ring on first, click the icon on the right. " );
+
+		this.sendOptionalWarning(
+			CONFIRM_BORING_DOORS,
+			warning.toString(),
+			"hand.gif",
+			"weddingring.gif",
+			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem=" + ItemPool.RING_OF_DETECT_BORING_DOORS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
 			null,
 			null
 			);
@@ -2872,6 +2934,11 @@ public class RelayRequest
 		}
 
 		if ( this.sendMohawkWigWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendBoringDoorsWarning() )
 		{
 			return true;
 		}
