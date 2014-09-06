@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -100,13 +101,14 @@ public class TavernRequest
 
 		if ( location.contains( "place=barkeep" ) )
 		{
-			if ( QuestDatabase.isQuestLaterThan( Quest.RAT, "started" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.RAT, "step1" );
-			}
 			if ( responseText.contains( "have a few drinks on the house" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.RAT, "finished" );
+			}
+			else
+			{
+				QuestDatabase.setQuestIfBetter( Quest.RAT, "step1" );
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 		}
 	
@@ -330,10 +332,7 @@ public class TavernRequest
 		{
 			// Rat faucet, before and after turning off
 			replacement = '3';
-			if ( !Preferences.getString( "questL03Rat" ).startsWith( "step2" ) && !Preferences.getString( "questL03Rat" ).equals( "finished" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.RAT, "step2" );
-			}
+			QuestDatabase.setQuestIfBetter( Quest.RAT, "step2" );
 		}
 		else if ( request.responseText.indexOf( "is it Still a Mansion" ) != -1 )
 		{
