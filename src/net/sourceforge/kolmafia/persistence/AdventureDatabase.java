@@ -239,7 +239,7 @@ public class AdventureDatabase
 				{
 					waterLevel++;
 				}
-				if ( environment.equals( "underwater" ) )
+				if ( "underwater".equals( environment ) )
 				{
 					waterLevel = 0;
 				}
@@ -461,8 +461,11 @@ public class AdventureDatabase
 			return AdventureDatabase.getAdventure( "The Lower Chambers" );
 		}
 
+		// place.php?whichplace=manor4&action=manor4_chamber
+		// place.php?whichplace=manor4&action=manor4_chamberboss
+		// place.php?whichplace=manor4&action=manor4_chamberwall
 		// Adventuring in the Summoning Chamber
-		if ( adventureURL.contains( "action=manor4_chamber" ) )
+		if ( adventureURL.contains( "action=manor4_chamberboss" ) )
 		{
 			return AdventureDatabase.getAdventure( "Summoning Chamber" );
 		}
