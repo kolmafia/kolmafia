@@ -1075,7 +1075,7 @@ Great Wolf's rocket launcher	Ranged Damage: +50, Critical Hit Percent: +20, Sing
 Greek Pasta of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25, Class: "Pastamancer"
 Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
-groping claw	Weakens Monster, Spooky Damage: +30
+groping claw	Weakens Monster, Sleaze Damage: +30
 guancertina	Stench Damage: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 9
 gummi sword	Muscle: +7, Candy Drop: +50
 # haiku katana: Allows use of seasonal attacks
