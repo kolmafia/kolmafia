@@ -390,12 +390,7 @@ public class QuestLogRequest
 
 	public static boolean isTavernAvailable()
 	{
-		if ( Preferences.getString( Quest.RAT.getPref() ).equals( QuestDatabase.STARTED )
-			|| Preferences.getString( Quest.RAT.getPref() ).equals( QuestDatabase.FINISHED ) )
-		{
-			return true;
-		}
-		return false;
+		return QuestDatabase.isQuestLaterThan( Quest.BAT, QuestDatabase.STARTED );
 	}
 
 	public static final boolean registerDemonName( final String responseText )
