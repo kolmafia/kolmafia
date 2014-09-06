@@ -1097,16 +1097,21 @@ public class ResultProcessor
 
 	private static void gainItem( boolean combatResults, AdventureResult result )
 	{
-		ConcoctionDatabase.setRefreshNeeded( result.getItemId() );
+		int itemId = result.getItemId();
+		int count = result.getCount();
+
+		ConcoctionDatabase.setRefreshNeeded( itemId );
 
 		// All results, whether positive or negative, are
 		// handled here.
 
-		switch ( result.getItemId() )
+		switch ( itemId )
 		{
 		case ItemPool.GG_TICKET:
 		case ItemPool.SNACK_VOUCHER:
 		case ItemPool.LUNAR_ISOTOPE:
+		case ItemPool.ODD_SILVER_COIN:
+		case ItemPool.BEACH_BUCK:
 		case ItemPool.WORTHLESS_TRINKET:
 		case ItemPool.WORTHLESS_GEWGAW:
 		case ItemPool.WORTHLESS_KNICK_KNACK:
@@ -1125,6 +1130,7 @@ public class ResultProcessor
 		case ItemPool.KRUEGERAND:
 		case ItemPool.SHIP_TRIP_SCRIP:
 		case ItemPool.CHRONER:
+		case ItemPool.BURT:
 		case ItemPool.FRESHWATER_FISHBONE:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
@@ -1141,7 +1147,7 @@ public class ResultProcessor
 		}
 
 		// From here on out, only positive results are handled.
-		if ( result.getCount() < 0 )
+		if ( count < 0 )
 		{
 			return;
 		}
@@ -1151,7 +1157,6 @@ public class ResultProcessor
 			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 		}
 
-		int itemId = result.getItemId();
 		switch ( itemId )
 		{
 		case ItemPool.GMOB_POLLEN:
@@ -2323,6 +2328,30 @@ public class ResultProcessor
 		case ItemPool.WINE_BOMB:
 			EquipmentManager.discardEquipment( ItemPool.UNSTABLE_FULMINATE );
 			QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );
+			break;
+
+		case ItemPool.LIGHTNING_MILK:
+			// These are starting skills if no turns have been played this ascension
+			if ( KoLCharacter.getCurrentRun() == 0 )
+			{
+				Preferences.setInteger( "heavyRainsStartingLightning", count );
+			}
+			break;
+
+		case ItemPool.AQUA_BRAIN:
+			// These are starting skills if no turns have been played this ascension
+			if ( KoLCharacter.getCurrentRun() == 0 )
+			{
+				Preferences.setInteger( "heavyRainsStartingRain", count );
+			}
+			break;
+
+		case ItemPool.THUNDER_THIGH:
+			// These are starting skills if no turns have been played this ascension
+			if ( KoLCharacter.getCurrentRun() == 0 )
+			{
+				Preferences.setInteger( "heavyRainsStartingThunder", count );
+			}
 			break;
 		}
 
