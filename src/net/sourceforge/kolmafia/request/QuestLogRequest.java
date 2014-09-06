@@ -390,7 +390,7 @@ public class QuestLogRequest
 
 	public static boolean isTavernAvailable()
 	{
-		return QuestDatabase.isQuestLaterThan( Quest.BAT, QuestDatabase.STARTED );
+		return QuestDatabase.isQuestLaterThan( Quest.RAT, QuestDatabase.STARTED );
 	}
 
 	public static final boolean registerDemonName( final String responseText )
