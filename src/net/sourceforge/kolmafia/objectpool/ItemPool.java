@@ -1722,6 +1722,7 @@ public class ItemPool
 	public static final int ROCKETSHIP = 6290;
 	public static final int JARLSBERG_SOUL_FRAGMENT = 6297;
 	public static final int MODEL_AIRSHIP = 6299;
+	public static final int RING_OF_DETECT_BORING_DOORS = 6303;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
 	public static final int FISH_MEAT_CRATE = 6312;

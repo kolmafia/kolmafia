@@ -2355,6 +2355,10 @@ public abstract class SorceressLairManager
 		{
 			spoiler = "<br>(" + effect + " - ACTIVE)";
 		}
+		else if ( KoLCharacter.hasEquipped( item ) )
+		{
+			spoiler = "<br>(" + effect + " - RING WORN)";
+		}
 		else if ( KoLConstants.inventory.contains( item ) )
 		{
 			int itemId = item.getItemId();

@@ -127,6 +127,7 @@ public class AdventurePool
 	public static final String CASTLE_GROUND_ID = "323";
 	public static final String CASTLE_TOP_ID = "324";
 	public static final int THE_DAILY_DUNGEON = 325;
+	public static final String THE_DAILY_DUNGEON_ID = "325";
 	public static final int THE_HALLOWED_HALLS = 326;
 	public static final int SHOP_CLASS = 327;
 	public static final int CHEMISTRY_CLASS = 328;
