@@ -454,6 +454,9 @@ user	guyMadeOfBeesDefeated	false
 user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
 user	heavyRainsPoints	0
+user	heavyRainsStartingThunder	0
+user	heavyRainsStartingRain	0
+user	heavyRainsStartingLightning	0
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0

@@ -547,6 +547,10 @@ public class Evaluator
 			{
 				index = Modifiers.CRITICAL_PCT;
 			}
+			else if ( keyword.startsWith( "spell crit" ) )
+			{
+				index = Modifiers.SPELL_CRITICAL_PCT;
+			}
 
 			if ( index >= 0 )
 			{
