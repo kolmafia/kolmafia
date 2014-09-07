@@ -853,6 +853,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.WAX_BUGBEAR:
 			case ItemPool.LYNYRD_SNARE:
 			case ItemPool.WHITE_PAGE:
+			case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
+			case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
@@ -1680,7 +1682,7 @@ public abstract class UseLinkDecorator
 	public static class UsesLink
 		extends UseLink
 	{
-		private UseLink[] links;
+		private final UseLink[] links;
 		
 		public UsesLink( UseLink[] links )
 		{

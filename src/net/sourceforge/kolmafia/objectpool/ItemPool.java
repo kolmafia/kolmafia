@@ -2112,6 +2112,8 @@ public class ItemPool
 	public static final int CHRONER_CROSS = 7723;
 	public static final int MERCURY_BLESSING = 7728;
 	public static final int CHRONER_TRIGGER = 7729;
+	public static final int XIBLAXIAN_HOLOTRAINING_SIMCODE = 7739;
+	public static final int XIBLAXIAN_POLITICAL_PRISONER = 7742;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
