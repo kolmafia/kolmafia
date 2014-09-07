@@ -244,6 +244,9 @@ public class FightRequest
 	private static final Pattern NANORHINO_BUFF_PATTERN = 
 		Pattern.compile( "<b>Nano(?:brawny|brainy|ballsy)</b><br>\\(duration: 50" );
 	
+	private static final Pattern RED_BUTTON_PATTERN = 
+		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -2811,11 +2814,26 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.UNNAMED_COCKTAIL, -1 );
 		}
 
+		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah! 
+		if ( responseText.contains( "flaming paper drifts into your unnamed cocktail" ) )
+		{
+			ResultProcessor.processItem( ItemPool.UNNAMED_COCKTAIL, -1 );
+		}
+
 		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
 		{
 			// Cozy weapons are two-handed, so they are necessarily in the weapon slot
 			int cozyId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 			EquipmentManager.breakEquipment( cozyId, "Your cozy wore out." );
+		}
+
+		// You hurl your entire collection of buttons at it, dealing X damage.
+		// You manage to find and recover all but Y of the buttons.
+		// If it's the last round, we can't correct from combat drop down, so we'll think only one was used
+		Matcher redButtonMatcher = FightRequest.RED_BUTTON_PATTERN.matcher( FightRequest.lastResponseText );
+		if ( redButtonMatcher.find() )
+		{
+			ResultProcessor.processItem( ItemPool.RED_BUTTON, 1 - StringUtilities.parseInt( redButtonMatcher.group( 1 ) ) );
 		}
 
 		// The turtle blinks at you with gratitude for freeing it from
