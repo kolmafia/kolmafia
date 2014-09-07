@@ -58,7 +58,7 @@ public class UntinkerCommand
 			return;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, KoLConstants.inventory, ItemFinder.UNTINKER_MATCH );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, ItemFinder.UNTINKER_MATCH );
 		for ( AdventureResult item : itemList )
 		{
 			RequestThread.postRequest( new UntinkerRequest( item.getItemId(), item.getCount() ) );

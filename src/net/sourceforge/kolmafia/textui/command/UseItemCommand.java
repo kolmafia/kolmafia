@@ -162,7 +162,7 @@ public class UseItemCommand
 			filter = ItemFinder.USE_MATCH;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, !sim );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, !sim, null, filter );
 
 		for ( int level = either ? 0 : 2; level <= 2; ++level )
 		{
