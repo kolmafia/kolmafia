@@ -2979,7 +2979,6 @@ public abstract class KoLCharacter
 			}
 			else if ( oldPath.equals( "Heavy Rains" ) )
 			{
-				Preferences.increment( "heavyRainsPoints" );
 				KoLCharacter.resetSkills();
 			}
 
