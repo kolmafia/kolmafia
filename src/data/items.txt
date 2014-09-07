@@ -7749,9 +7749,9 @@
 7730	Xi Receiver Unit	976695514	transmitter.gif	usable	t	0
 7731	transmission from planet Xi	638258454	transmission.gif	usable	t	0
 7732	Black Bart's Booty	364177657	chest.gif	usable		0
-7733
-7734
-7735
+7733	Xiblaxian circuitry	753030502	xicurcuit.gif	none	t	0
+7734	Xiblaxian polymer		541515996	xipolymer.gif	none	t	0
+7735	Xiblaxian alloy	801172143	xialloy.gif	none	t	0
 7736
 7737	Xiblaxian holo-wrist-puter simcode	818970312	transmission.gif	usable	t	0
 7738	Xiblaxian cache locator simcode	666052706	transmission.gif	usable	t	0
