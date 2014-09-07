@@ -1321,6 +1321,7 @@ public class ChoiceOptionsPanel
 				index = 3;
 				break;
 			}
+			break;
 		case 2:
 			switch ( Preferences.getInteger( "choiceAdventure505" ) )
 			{
@@ -1350,6 +1351,7 @@ public class ChoiceOptionsPanel
 				index = 4;
 				break;
 			}
+			break;
 		}
 
 		this.spookyForestSelect.setSelectedIndex( index < 0 || index > 13 ? 0 : index );
