@@ -459,6 +459,7 @@ public class ValhallaDecorator
 		// it is not currently active
 		boolean havePenpal = false;
 		boolean haveGamemag = false;
+		boolean haveXi = false;
 		String activeEudora = "";
 		Matcher matcher = ValhallaDecorator.EUDORA_PATTERN.matcher( response );
 
@@ -486,35 +487,61 @@ public class ValhallaDecorator
 					activeEudora = "Game Magazine";
 				}
 			}
+			else if ( matcher.group(3).equals( "Xi Receiver Unit" ) )
+			{
+				if ( matcher.group(1) == null )
+				{
+					haveXi = true;
+				}
+				else
+				{
+					activeEudora = "Xi Receiver";
+				}
+			}
 		}
 
-		buffer.append( "<nobr>Eudora: use " );
-		boolean multiple = false;
+		buffer.append( "<nobr>Eudora: " );
+
+		buffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"garden\" onchange=\"if (this.value) window.location.href=this.value\">" );
+		buffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Select one</option>" );
+
 		if ( havePenpal )
 		{
-			if ( multiple )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=eudora+penpal&pwd=" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+penpal&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">Pen Pal</a>" );
-			multiple = true;
+			buffer.append( "\">Pen Pal" );
+			buffer.append( "</option>" );
 		}
 		if ( haveGamemag )
 		{
-			if ( multiple )
-			{
-				buffer.append( " or " );
-			}
-			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=eudora+game&pwd=" );
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+game&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">Game Magazine</a>" );
-			multiple = true;
+			buffer.append( "\">Game Magazine" );
+			buffer.append( "</option>" );
+		}
+		if ( haveXi )
+		{
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+xi&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">Xi Receiver" );
+			buffer.append( "</option>" );
 		}
 
-		buffer.append( " (currently " ).append( activeEudora ).append( ")" );
+		buffer.append( "</select></form>" );
+
+		buffer.append( "</nobr><br><nobr>" );
+		buffer.append( "(currently " ).append( activeEudora ).append( ")" );
 		buffer.append( "</nobr><br>" );
+	}
+
+	private static final String shortWorkshedName( String name )
+	{
+		name = name.replace( "warbear ", "" );
+		name = name.replace( "Little Geneticist ", "" );
+		return name;
 	}
 
 	private static final void switchWorkshed( StringBuffer buffer )
@@ -537,13 +564,14 @@ public class ValhallaDecorator
 				{
 					workshedBuffer.append( "<option style=\"background-color: #eeeeff\" " );
 					workshedBuffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
-					workshedBuffer.append( item.getName().replaceAll( " ", "+" ) );
+					String name = item.getName();
+					workshedBuffer.append( name.replaceAll( " ", "+" ) );
 					workshedBuffer.append( ";+use+" );
-					workshedBuffer.append( item.getName().replaceAll( " ", "+" ) );
+					workshedBuffer.append( name.replaceAll( " ", "+" ) );
 					workshedBuffer.append( "&pwd=" );
 					workshedBuffer.append( GenericRequest.passwordHash );
 					workshedBuffer.append( "\">" );
-					workshedBuffer.append( item.getName().replace( "warbear ", "" ) );
+					workshedBuffer.append( ValhallaDecorator.shortWorkshedName( name ) );
 					workshedBuffer.append( "</option>" );
 
 					display = true;
@@ -567,7 +595,7 @@ public class ValhallaDecorator
 		if ( workshedItem != null )
 		{
 			workshedBuffer.append( "</nobr><br><nobr>" );
-			workshedBuffer.append( " (currently " );
+			workshedBuffer.append( "(currently " );
 			workshedBuffer.append( workshedItem.getName() );
 			workshedBuffer.append( ")" );
 		}
@@ -584,7 +612,7 @@ public class ValhallaDecorator
 			return;
 		}
 
-		folderHolderBuffer.append( "<nobr>Folder Holder: " );
+		folderHolderBuffer.append( "Folder Holder: " );
 		for ( int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER3; ++slot )
 		{
 			AdventureResult folder = EquipmentManager.getEquipment( slot );
@@ -603,14 +631,14 @@ public class ValhallaDecorator
 					name = "(empty)";
 					enchantments = "none";
 				}
-				folderHolderBuffer.append( "<a href=\"inventory.php?action=useholder\" title=\"Change from " );
+				folderHolderBuffer.append( "<nobr><a href=\"inventory.php?action=useholder\" title=\"Change from " );
 				folderHolderBuffer.append( enchantments );
 				folderHolderBuffer.append( "\">" );
 				folderHolderBuffer.append( name );
-				folderHolderBuffer.append( "</a> " );
+				folderHolderBuffer.append( "</a></nobr> " );
 			}
 		}
-		folderHolderBuffer.append( "</nobr><br>" );
+		folderHolderBuffer.append( "<br>" );
 		buffer.append( folderHolderBuffer );
 	}
 

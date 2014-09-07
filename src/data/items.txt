@@ -7746,6 +7746,38 @@
 7727	Burt's blessing of Bacchus	881200968	scroll1.gif	multiple	t,d	50	Burt's beestings of Bacchus
 7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50	Freddie's blessings of Mercury
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
-7730
-7731
+7730	Xi Receiver Unit	976695514	transmitter.gif	usable	t	0
+7731	transmission from planet Xi	638258454	transmission.gif	usable	t	0
 7732	Black Bart's Booty	364177657	chest.gif	usable		0
+7733
+7734
+7735
+7736
+7737	Xiblaxian holo-wrist-puter simcode	818970312	transmission.gif	usable	t	0
+7738	Xiblaxian cache locator simcode	666052706	transmission.gif	usable	t	0
+7739	Xiblaxian holo-training simcode	488478606	transmission.gif	usable	t	0
+7740	Xiblaxian direct marketing simcode	262976780	transmission.gif	usable	t	0
+7741	Xiblaxian holo-buddy simcode	607741431	transmission.gif	grow	t	0
+7742	Xiblaxian encrypted political prisoner	551286234	transmission.gif	usable	t	0
+7743
+7744
+7745
+7746
+7747
+7748
+7749
+7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
+7751
+7752
+7753
+7754
+7755
+7756
+7757
+7758
+7759
+7760
+7761
+7762	holo-bomber	259833781	holobomber.gif	none, combat	t	0
+7763	holo-platoon	317126972	holoplatoon.gif	none, combat	t	0
+7764	residual zeal	824782325	disease.gif	usable	t	0

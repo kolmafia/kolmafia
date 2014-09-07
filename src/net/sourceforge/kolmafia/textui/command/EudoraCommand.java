@@ -65,6 +65,12 @@ public class EudoraCommand
 			request.run();
 			KoLmafia.updateDisplay( "Switched to Game Magazine" );
 		}
+		else if ( parameters.equals( "xi" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "3" );
+			request.run();
+			KoLmafia.updateDisplay( "Switched to Xi Receiver" );
+		}
 		else
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That is not a valid correspondent" );
