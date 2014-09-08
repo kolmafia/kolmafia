@@ -1327,6 +1327,15 @@ public class ResultProcessor
 				KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
 							    ( hasSpecs ? "" : "NOT " ) +
 								"equipped." );
+				// Ugly hacky fix for the above UseItemRequest for some reason not triggering the code there
+				if ( hasSpecs )
+				{
+					Preferences.setString( "spookyravenRecipeUsed", "with_glasses" );
+				}
+				else
+				{
+					Preferences.setString( "spookyravenRecipeUsed", "no_glasses" );
+				}
 			}
 			
 			break;
