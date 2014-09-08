@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -1055,6 +1057,73 @@ public class ProxyRecordValue
 		public boolean get_sells()
 		{
 			return ((CoinmasterData) this.content).getBuyAction() != null;
+		}
+	}
+
+	public static class PhylumProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "image", DataTypes.STRING_TYPE )
+			.finish( "phylum proxy" );
+
+		public PhylumProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public String get_image()
+		{
+			switch ( (Phylum) this.content )
+			{
+			case NONE:
+				return "";
+			case BEAST:
+				return "beastflavor.gif";
+			case BUG:
+				return "stinkbug.gif";
+			case CONSTELLATION:
+				return "star.gif";
+			case CONSTRUCT:
+				return "sprocket.gif";
+			case DEMON:
+				return "demonflavor.gif";
+			case DUDE:
+				return "happy.gif";
+			case ELEMENTAL:
+				return "rrainbow.gif";
+			case ELF:
+				return "elfflavor.gif";
+			case FISH:
+				return "fish.gif";
+			case GOBLIN:
+				return "goblinflavor.gif";
+			case HIPPY:
+				return "hippyflavor.gif";
+			case HOBO:
+				return "hoboflavor.gif";
+			case HUMANOID:
+				return "statue.gif";
+			case HORROR:
+				return "skull.gif";
+			case MER_KIN:
+				return "merkinflavor.gif";
+			case ORC:
+				return "frattyflavor.gif";
+			case PENGUIN:
+				return "bowtie.gif";
+			case PIRATE:
+				return "pirateflavor.gif";
+			case PLANT:
+				return "leafflavor.gif";
+			case SLIME:
+				return "sebashield.gif";
+			case UNDEAD:
+				return "spookyflavor.gif";
+			case WEIRD:
+				return "weirdflavor.gif";
+			}
+			return "";
 		}
 	}
 }

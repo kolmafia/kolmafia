@@ -150,6 +150,10 @@ public class Type
 		{
 			return ProxyRecordValue.ThrallProxy._type;
 		}
+		if ( this == DataTypes.PHYLUM_TYPE )
+		{
+			return ProxyRecordValue.PhylumProxy._type;
+		}
 		return this;
 	}
 
