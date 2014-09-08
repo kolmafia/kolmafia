@@ -684,6 +684,7 @@ user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
+user	pirateSwagger	0
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength

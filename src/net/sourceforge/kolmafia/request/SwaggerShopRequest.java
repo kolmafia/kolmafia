@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.Map;
 
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -47,6 +48,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SwaggerShopRequest
 	extends CoinMasterRequest
@@ -140,6 +145,9 @@ public class SwaggerShopRequest
 		SwaggerShopRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	// You've earned 600 swagger during a pirate season, yarrr.
+	private static final Pattern PIRATE_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during a pirate season" );
+
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
@@ -148,6 +156,15 @@ public class SwaggerShopRequest
 		{
 			// Parse current swagger
 			CoinMasterRequest.parseBalance( data, responseText );
+
+			// Determine how much swagger has been found during a pirate season
+			Matcher pirateMatcher = SwaggerShopRequest.PIRATE_PATTERN.matcher( responseText );
+			if ( pirateMatcher.find() )
+			{
+				int pirateSwagger = StringUtilities.parseInt( pirateMatcher.group( 1 ) );
+				Preferences.setInteger( "pirateSwagger", pirateSwagger );
+			}
+
 			return;
 		}
 
