@@ -1457,11 +1457,11 @@ White Bone Demon	whitebonedemon.gif	Atk: 100 Def: 100 HP: 180 Init: 100 P: demon
 procedurally-generated skeleton	bigskeleton.gif	Init: -10000 P: undead
 
 # Video Game dungeon
-Video Game Boss	qmark.gif	HP: [0.75*(min(MUS+5+max(ML,0),10000))] Atk: [min(MOX+5+max(ML,0),10000)] Def: [min(MUS+5+max(ML,0),10000)] Exp: [(min(STAT+5+max(ML,0),10000))/4] Init: -10000 P: construct
-Video Game Miniboss	qmark.gif	HP: [0.75*(min(MUS+3+max(ML,0),10000))] Atk: [min(MOX+3+max(ML,0),10000)] Def: [min(MUS+3+max(ML,0),10000)] Exp: [(min(STAT+3+max(ML,0),10000))/4] Init: -10000 P: construct
-Video Game Minion (moderate)	qmark.gif	HP: [0.75*(min(MUS-2+max(ML,0),10000))] Atk: [min(MOX-2+max(ML,0),10000)] Def: [min(MUS-2+max(ML,0),10000)] Exp: [(min(STAT-2+max(ML,0),10000))/4] Init: -10000 P: construct
-Video Game Minion (strong)	qmark.gif	HP: [0.75*(min(MUS+1+max(ML,0),10000))] Atk: [min(MOX+1+max(ML,0),10000)] Def: [min(MUS+1+max(ML,0),10000)] Exp: [(min(STAT+1+max(ML,0),10000))/4] Init: -10000 P: construct
-Video Game Minion (weak)	qmark.gif	HP: [0.75*(min(MUS-7+max(ML,0),10000))] Atk: [min(MOX-7+max(ML,0),10000)] Def: [min(MUS-7+max(ML,0),10000)] Exp: [(min(STAT-7+max(ML,0),10000))/4] Init: -10000 P: construct
+Video Game Boss	faq_boss3.gif	HP: [0.75*(min(MUS+5+max(ML,0),10000))] Atk: [min(MOX+5+max(ML,0),10000)] Def: [min(MUS+5+max(ML,0),10000)] Exp: [(min(STAT+5+max(ML,0),10000))/4] Init: -10000 P: construct
+Video Game Miniboss	faq_miniboss2.gif	HP: [0.75*(min(MUS+3+max(ML,0),10000))] Atk: [min(MOX+3+max(ML,0),10000)] Def: [min(MUS+3+max(ML,0),10000)] Exp: [(min(STAT+3+max(ML,0),10000))/4] Init: -10000 P: construct
+Video Game Minion (moderate)	faq_mushroom1.gif	HP: [0.75*(min(MUS-2+max(ML,0),10000))] Atk: [min(MOX-2+max(ML,0),10000)] Def: [min(MUS-2+max(ML,0),10000)] Exp: [(min(STAT-2+max(ML,0),10000))/4] Init: -10000 P: construct
+Video Game Minion (strong)	faq_ghost2.gif	HP: [0.75*(min(MUS+1+max(ML,0),10000))] Atk: [min(MOX+1+max(ML,0),10000)] Def: [min(MUS+1+max(ML,0),10000)] Exp: [(min(STAT+1+max(ML,0),10000))/4] Init: -10000 P: construct
+Video Game Minion (weak)	faq_blob3.gif	HP: [0.75*(min(MUS-7+max(ML,0),10000))] Atk: [min(MOX-7+max(ML,0),10000)] Def: [min(MUS-7+max(ML,0),10000)] Exp: [(min(STAT-7+max(ML,0),10000))/4] Init: -10000 P: construct
 
 # Avatar of Jarlsberg
 Clancy	clancy.gif	Atk: 150 Def: 165 HP: 500 Init: 90 P: dude
