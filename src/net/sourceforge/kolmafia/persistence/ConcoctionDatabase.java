@@ -2138,7 +2138,7 @@ public class ConcoctionDatabase
 	public static int getWarbearAutoanvilCraftingTurns()
 	{
 		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-		boolean haveWarbearAutoanvil = workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
+		boolean haveWarbearAutoanvil = workshedItem != null && workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
 		return haveWarbearAutoanvil ? 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ) : 0;
 	}
 
