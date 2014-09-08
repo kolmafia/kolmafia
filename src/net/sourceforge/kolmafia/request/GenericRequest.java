@@ -2807,8 +2807,19 @@ public class GenericRequest
 			itemName = "Map to Safety Shelter Grimace Prime";
 			consumed = true;
 			break;
+
 		case ItemPool.WHITE_PAGE:
 			itemName = "white page";
+			consumed = true;
+			break;
+
+		case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
+			itemName = "Xiblaxian holo-training simcode";
+			consumed = true;
+			break;
+
+		case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
+			itemName = "Xiblaxian encrypted political prisoner";
 			consumed = true;
 			break;
 

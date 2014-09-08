@@ -1699,3 +1699,6 @@ Protector Spurt	spurt.gif	BOSS Atk: 170 Def: 160 HP: 140 Init: 50 P: undead	Anci
 storm cow	stormcow.gif	Atk: 160 Def: 160 HP: 240 Init: 160 P: beast	lightning milk (n100)
 The Aquaman	theaquaman.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	filet of The Fish (n100)
 The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
+
+# Xi Reciever unit
+holographic army	holoarmy.gif	Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)
