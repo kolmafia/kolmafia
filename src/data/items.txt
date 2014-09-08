@@ -5318,7 +5318,7 @@
 5299	plastic vampire fangs	724945195	vampirefangs.gif	accessory		0	sets of plastic vampire fangs
 5300	Interview With You (a Vampire)	591301518	book3.gif	usable	t,d	111	copies of Interview With You (a Vampire)
 5301	Make-Your-Own-Vampire-Fangs kit	855608589	fangskit.gif	usable	t	0
-5302	your own black heart	969698727	heart.gif	hpmp	d	111	black vampire hearts
+5302	your own black heart	969698727	heart.gif	hpmp, usable	d	111	black vampire hearts
 5303	Sword of the Brouhaha Prince	495767298	vampsword.gif	offhand	d	111
 5304	Chalice of the Malkovich Prince	534611026	vampchalice.gif	offhand	d	111
 5305	Sceptre of the Torremolinos Prince	475867577	vampsceptre.gif	offhand	d	111
