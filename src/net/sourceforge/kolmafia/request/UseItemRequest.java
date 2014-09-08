@@ -5655,6 +5655,8 @@ public class UseItemRequest
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 		case ItemPool.WAX_BUGBEAR:
 		case ItemPool.WHITE_PAGE:
+		case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
+		case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
 			// Items that can redirect to a fight that costs turns
 			turns = 1;
 			break;
