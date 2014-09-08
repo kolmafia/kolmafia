@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -1513,8 +1514,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.clear();
 		ConcoctionDatabase.EXCUSE.clear();
 		int Inigo = ConcoctionDatabase.getFreeCraftingTurns();
-		int thorsPliers = ConcoctionDatabase.getThorsPliersCraftingTurns();
-		int legionJackhammer = ConcoctionDatabase.getLegionJackhammerCraftingTurns();
 
 		if ( KoLCharacter.getGender() == KoLCharacter.MALE )
 		{
@@ -2081,10 +2080,12 @@ public class ConcoctionDatabase
 				     ( method == CraftingType.WOK ? 0 :
 					   method == CraftingType.SMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
 					                                  ConcoctionDatabase.getThorsPliersCraftingTurns() +
-													  ConcoctionDatabase.getLegionJackhammerCraftingTurns() :
+					                                  ConcoctionDatabase.getLegionJackhammerCraftingTurns() +
+													  ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() :
 					   method == CraftingType.SSMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
 					                                  ConcoctionDatabase.getThorsPliersCraftingTurns() +
-													  ConcoctionDatabase.getLegionJackhammerCraftingTurns() :
+					                                  ConcoctionDatabase.getLegionJackhammerCraftingTurns() +
+													  ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() :
 					   method == CraftingType.JEWELRY ?  ConcoctionDatabase.getFreeCraftingTurns() +
 					                                     ConcoctionDatabase.getThorsPliersCraftingTurns() :
 					   ConcoctionDatabase.getFreeCraftingTurns() )
@@ -2132,6 +2133,13 @@ public class ConcoctionDatabase
 	{
 		boolean haveJackhammer = InventoryManager.hasItem( ItemPool.LOATHING_LEGION_JACKHAMMER );
 		return haveJackhammer ? 3 - Preferences.getInteger( "_legionJackhammerCrafting" ) : 0;
+	}
+
+	public static int getWarbearAutoanvilCraftingTurns()
+	{
+		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+		boolean haveWarbearAutoanvil = workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
+		return haveWarbearAutoanvil ? 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ) : 0;
 	}
 
 	private static final boolean isAvailable( final int servantId, final int clockworkId )

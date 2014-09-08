@@ -1866,6 +1866,7 @@ public abstract class InventoryManager
 		{
 			freeCrafts += ConcoctionDatabase.getThorsPliersCraftingTurns();
 			freeCrafts += ConcoctionDatabase.getLegionJackhammerCraftingTurns();
+			freeCrafts += ConcoctionDatabase.getWarbearAutoanvilCraftingTurns();
 		}
 
 		if ( needed <= freeCrafts )

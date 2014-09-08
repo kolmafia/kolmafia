@@ -7781,3 +7781,4 @@
 7762	holo-bomber	259833781	holobomber.gif	none, combat	t	0
 7763	holo-platoon	317126972	holoplatoon.gif	none, combat	t	0
 7764	residual zeal	824782325	disease.gif	usable	t	0
+7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0

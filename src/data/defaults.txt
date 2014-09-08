@@ -1171,6 +1171,7 @@ user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
+user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
