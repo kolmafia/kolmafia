@@ -1901,10 +1901,7 @@ public class RequestEditorKit
 
 			if ( index != -1 && count > 0 )
 			{
-				String link =
-					"<p><a href=\"inv_use.php?which=3&whichitem=5964&ajax=1&pwd=" +
-					GenericRequest.passwordHash +
-					"\">Use another A-Boo Clue</a>";
+				String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=5964&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another A-Boo clue</a>";
 				buffer.insert( index, link );
 			}
 			break;

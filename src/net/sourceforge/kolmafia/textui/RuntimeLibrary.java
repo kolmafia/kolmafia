@@ -6196,7 +6196,7 @@ public abstract class RuntimeLibrary
 	public static Value monster_phylum( Interpreter interpreter )
 	{
 		Phylum phylum = MonsterStatusTracker.getMonsterPhylum();
-		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString() );
+		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString(), phylum );
 	}
 
 	public static Value monster_phylum( Interpreter interpreter, final Value arg )
@@ -6208,7 +6208,7 @@ public abstract class RuntimeLibrary
 		}
 
 		Phylum phylum = monster.getPhylum();
-		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString() );
+		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString(), phylum );
 	}
 
 	public static Value is_banished( Interpreter interpreter, final Value arg )

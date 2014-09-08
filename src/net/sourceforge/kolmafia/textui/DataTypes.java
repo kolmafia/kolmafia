@@ -209,9 +209,9 @@ public class DataTypes
 	public static final Value FAMILIAR_INIT = new Value( DataTypes.FAMILIAR_TYPE, -1, "none" );
 	public static final Value SLOT_INIT = new Value( DataTypes.SLOT_TYPE, -1, "none" );
 	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, "none", (Object) null );
-	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
+	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", Element.NONE );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
-	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", (Object) null );
+	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", Phylum.NONE );
 	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
 	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
 
@@ -585,7 +585,7 @@ public class DataTypes
 		}
 
 		name = phylum.toString();
-		return new Value( DataTypes.PHYLUM_TYPE, name );
+		return new Value( DataTypes.PHYLUM_TYPE, name, phylum );
 	}
 
 	public static final Value parseThrallValue( String name, final boolean returnDefault )
