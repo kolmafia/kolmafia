@@ -1175,7 +1175,8 @@ public class Concoction
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
 			                                                        ConcoctionDatabase.getThorsPliersCraftingTurns() +
-																	ConcoctionDatabase.getLegionJackhammerCraftingTurns() ), 0 );
+			                                                        ConcoctionDatabase.getLegionJackhammerCraftingTurns() +
+																	ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() ), 0 );
 		}
 		if ( this.mixingMethod == CraftingType.JEWELRY )
 		{

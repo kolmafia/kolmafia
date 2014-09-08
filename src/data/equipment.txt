@@ -2519,6 +2519,7 @@ woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
 x-ray specs	10	none
+Xiblaxian holo-wrist-puter	100	none
 Xlyinia's notebook	0	none
 ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none

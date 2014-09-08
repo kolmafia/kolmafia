@@ -782,6 +782,11 @@ public class CreateItemRequest
 			Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
 		}
 
+		if ( responseText.contains( "auto-anvil handles some of the smithing" ) )
+		{
+			Preferences.increment( "_warbearAutoAnvilCrafting", created, 5, false );
+		}
+
 		return created;
 	}
 
@@ -1277,22 +1282,17 @@ public class CreateItemRequest
 		switch ( mixingMethod )
 		{
 		case SMITH:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()
-				- ConcoctionDatabase.getThorsPliersCraftingTurns()
-				- ConcoctionDatabase.getLegionJackhammerCraftingTurns() ) );
-
 		case SSMITH:
 			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()  
 				- ConcoctionDatabase.getThorsPliersCraftingTurns()
-				- ConcoctionDatabase.getLegionJackhammerCraftingTurns() ) );
+				- ConcoctionDatabase.getLegionJackhammerCraftingTurns()
+				- ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() ) );
 
 		case JEWELRY:
 			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns()  
 				- ConcoctionDatabase.getThorsPliersCraftingTurns() ) );
 
 		case COOK_FANCY:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
-
 		case MIX_FANCY:
 			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
