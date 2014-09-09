@@ -1060,6 +1060,43 @@ public class ProxyRecordValue
 		}
 	}
 
+	public static class ElementProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "image", DataTypes.STRING_TYPE )
+			.finish( "element proxy" );
+
+		public ElementProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public String get_image()
+		{
+			switch ( (Element) this.content )
+			{
+			case NONE:
+				return "circle.gif";
+			case COLD:
+				return "snowflake.gif";
+			case HOT:
+				return "fire.gif";
+			case SLEAZE:
+				return "wink.gif";
+			case SPOOKY:
+				return "skull.gif";
+			case STENCH:
+				return "stench.gif";
+			// No image for Slime or Supercold in Manuel
+			case SLIME:
+				return "circle.gif";
+			case SUPERCOLD:
+				return "circle.gif";
+			}
+			return "";
+		}
+	}
 	public static class PhylumProxy
 		extends ProxyRecordValue
 	{
