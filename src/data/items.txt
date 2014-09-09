@@ -7761,11 +7761,11 @@
 7742	Xiblaxian encrypted political prisoner	551286234	transmission.gif	usable	t	0
 7743
 7744
-7745
+7745	Xiblaxian holo-schematic: stealth vest	893962157	transmission.gif	usable	t	0
 7746
 7747
-7748
-7749
+7748	Xiblaxian holo-schematic: residence cube	338317451	transmission.gif	usable	t	0
+7749	Xiblaxian holo-schematic: xeno-goggles	531188789	transmission.gif	usable	t	0
 7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
 7751
 7752
