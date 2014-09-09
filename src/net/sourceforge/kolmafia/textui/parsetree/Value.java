@@ -288,6 +288,10 @@ public class Value
 		{
 			return new ProxyRecordValue.ThrallProxy( this );
 		}
+		if ( this.type == DataTypes.ELEMENT_TYPE )
+		{
+			return new ProxyRecordValue.ElementProxy( this );
+		}
 		if ( this.type == DataTypes.PHYLUM_TYPE )
 		{
 			return new ProxyRecordValue.PhylumProxy( this );

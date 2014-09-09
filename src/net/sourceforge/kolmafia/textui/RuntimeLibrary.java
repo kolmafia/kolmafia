@@ -6114,7 +6114,7 @@ public abstract class RuntimeLibrary
 	public static Value monster_element( Interpreter interpreter )
 	{
 		Element element = MonsterStatusTracker.getMonsterDefenseElement();
-		return new Value( DataTypes.ELEMENT_TYPE, element.toString() );
+		return new Value( DataTypes.ELEMENT_TYPE, element.toString(), element );
 	}
 
 	public static Value monster_element( Interpreter interpreter, final Value arg )
@@ -6126,7 +6126,7 @@ public abstract class RuntimeLibrary
 		}
 
 		Element element = monster.getDefenseElement();
-		return new Value( DataTypes.ELEMENT_TYPE, element.toString() );
+		return new Value( DataTypes.ELEMENT_TYPE, element.toString(), element );
 	}
 
 	public static Value monster_attack( Interpreter interpreter )
@@ -6520,15 +6520,15 @@ public abstract class RuntimeLibrary
 		switch ( element )
 		{
 		case HOT:
-			return new Value( DataTypes.ELEMENT_TYPE, "hot" );
+			return new Value( DataTypes.ELEMENT_TYPE, "hot", element );
 		case COLD:
-			return new Value( DataTypes.ELEMENT_TYPE, "cold" );
+			return new Value( DataTypes.ELEMENT_TYPE, "cold", element );
 		case STENCH:
-			return new Value( DataTypes.ELEMENT_TYPE, "stench" );
+			return new Value( DataTypes.ELEMENT_TYPE, "stench", element );
 		case SPOOKY:
-			return new Value( DataTypes.ELEMENT_TYPE, "spooky" );
+			return new Value( DataTypes.ELEMENT_TYPE, "spooky", element );
 		case SLEAZE:
-			return new Value( DataTypes.ELEMENT_TYPE, "sleaze" );
+			return new Value( DataTypes.ELEMENT_TYPE, "sleaze", element );
 		}
 		return DataTypes.ELEMENT_INIT;
 	}

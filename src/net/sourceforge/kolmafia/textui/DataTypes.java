@@ -563,7 +563,7 @@ public class DataTypes
 		}
 
 		name = elem.toString();
-		return new Value( DataTypes.ELEMENT_TYPE, name );
+		return new Value( DataTypes.ELEMENT_TYPE, name, elem );
 	}
 
 	public static final Value parsePhylumValue( String name, final boolean returnDefault )
