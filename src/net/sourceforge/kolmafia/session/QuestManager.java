@@ -1316,9 +1316,13 @@ public class QuestManager
 		}
 		else if ( monster.equalsIgnoreCase( "pygmy witch accountant" ) )
 		{
-			// If you don't have McClusky File (complete), or McClusky File 5, and accountant doesn't drop file, you must have unlocked office boss
-			if ( InventoryManager.getCount( ItemPool.MCCLUSKY_FILE ) == 0 && InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 0 &&
-				Preferences.getInteger( "hiddenOfficeProgress" ) < 6 && responseText.contains( "McClusky file" ) )
+			// If you don't have McClusky File (complete), or
+			// McClusky File 5, and accountant doesn't drop file,
+			// you must have unlocked office boss
+			if ( InventoryManager.getCount( ItemPool.MCCLUSKY_FILE ) == 0 &&
+			     InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 0 &&
+			     Preferences.getInteger( "hiddenOfficeProgress" ) < 6 &&
+			     !responseText.contains( "McClusky file" ) )
 			{
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
