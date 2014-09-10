@@ -7752,18 +7752,18 @@
 7733	Xiblaxian circuitry	753030502	xicurcuit.gif	none	t	0
 7734	Xiblaxian polymer	541515996	xipolymer.gif	none	t	0
 7735	Xiblaxian alloy	801172143	xialloy.gif	none	t	0
-7736
+7736	Xiblaxian crystal	906452926	xicrystal.gif	none	t	0
 7737	Xiblaxian holo-wrist-puter simcode	818970312	transmission.gif	usable	t	0
 7738	Xiblaxian cache locator simcode	666052706	transmission.gif	usable	t	0
 7739	Xiblaxian holo-training simcode	488478606	transmission.gif	usable	t	0
 7740	Xiblaxian direct marketing simcode	262976780	transmission.gif	usable	t	0
 7741	Xiblaxian holo-buddy simcode	607741431	transmission.gif	grow	t	0
 7742	Xiblaxian encrypted political prisoner	551286234	transmission.gif	usable	t	0
-7743
-7744
+7743	Xiblaxian holo-schematic: stealth cowl	689044015	transmission.gif	usable	t	0
+7744	Xiblaxian holo-schematic: stealth trousers	517298012	transmission.gif	usable	t	0
 7745	Xiblaxian holo-schematic: stealth vest	893962157	transmission.gif	usable	t	0
-7746
-7747
+7746	Xiblaxian holo-schematic: ultraburrito	598611587	transmission.gif	usable	t	0
+7747	Xiblaxian holo-schematic: space whiskey	639338751	transmission.gif	usable	t	0
 7748	Xiblaxian holo-schematic: residence cube	338317451	transmission.gif	usable	t	0
 7749	Xiblaxian holo-schematic: xeno-goggles	531188789	transmission.gif	usable	t	0
 7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
