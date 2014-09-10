@@ -1957,9 +1957,9 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.SHOPCLASS, 0 );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SHOPCLASS, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.CHEMCLASS, "You cannot make that as you are not at school." );
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.ARTCLASS, "You cannot make that as you are not at school." );
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.SHOPCLASS, "You cannot make that as you are not at school." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.CHEMCLASS, "You cannot make that as you are not at school." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.ARTCLASS, "You cannot make that as you are not at school." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.SHOPCLASS, "You cannot make that as you are not at school." );
 
 		// Making stuff with Beer Garden ingredients needs
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.BEER );
@@ -1973,7 +1973,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JUNK, 0 );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JUNK, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens." );		
+		ConcoctionDatabase.EXCUSE.put( CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens." );
 
 		// Making stuff with Winter Garden ingredients is always allowed
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.WINTER );
@@ -1987,7 +1987,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.RUMPLE, 0 );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.RUMPLE, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that." );		
+		ConcoctionDatabase.EXCUSE.put( CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that." );
 
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
@@ -1997,7 +1997,15 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.COINMASTER, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.COINMASTER, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put(  CraftingType.COINMASTER, "You have not selected the option to trade with coin masters." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.COINMASTER, "You have not selected the option to trade with coin masters." );
+
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.FIVE_D_PRINTER, 1 ) ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.FIVE_D );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.FIVE_D, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.FIVE_D, 0 );
+		}
+		ConcoctionDatabase.EXCUSE.put( CraftingType.FIVE_D, "You do not have a Xiblaxian 5D printer." );
 
 		// Other creatability flags
 
@@ -2347,6 +2355,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.RUMPLE )
 		{
 			result.append( "Rumpelstiltskin's Workshop" );
+		}
+		else if ( mixingMethod == CraftingType.FIVE_D )
+		{
+			result.append( "Xiblaxian 5D printer" );
 		}
 
 		if ( result.length() == 0 )
@@ -2975,6 +2987,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "RUMPLE" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
+		}
+
+		else if ( mix.equals( "5D" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

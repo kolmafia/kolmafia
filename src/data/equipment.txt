@@ -304,6 +304,7 @@ wool hat	175	Mox: 72
 worn tophat	85	Mox: 27
 wreath of laurels	200	Mox: 85
 wumpus-hair wig	100	Mox: 35
+Xiblaxian stealth cowl	100	none
 yabba dabba doo rag	110	Mox: 40
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
@@ -531,6 +532,7 @@ white satin pants	40	Mox: 5
 Whoompa Fur Pants	110	Mox: 40
 wooly loincloth	110	Mox: 40
 wumpus-hair loincloth	100	Mox: 35
+Xiblaxian stealth trousers	100	none
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
 yakskin skirt	140	Mox: 55
@@ -638,6 +640,7 @@ white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
 witch's bra	200	Mys: 85
 wumpus-hair sweater	110	Mus: 40
+Xiblaxian stealth vest	100	none
 yak anorak	115	Mus: 42
 Ye Olde Navy Fleece	100	Mus: 35
 
@@ -2520,6 +2523,7 @@ wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
 x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none
+Xiblaxian xeno-detection goggles	0	none
 Xlyinia's notebook	0	none
 ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none
