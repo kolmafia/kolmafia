@@ -766,6 +766,10 @@ public class UseSkillRequest
 			}
 			maximumCast = 1;
 			break;
+
+		case SkillPool.PIRATE_BELLOW:
+			maximumCast = Preferences.getBoolean( "_pirateBellowUsed" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -2041,6 +2045,10 @@ public class UseSkillRequest
 		case SkillPool.SUMMON_ANNOYANCE:
 			Preferences.setBoolean( "_summonAnnoyanceUsed", true );
 			Preferences.decrement( "availableSwagger", Preferences.getInteger( "summonAnnoyanceCost" ) );
+			break;
+
+		case SkillPool.PIRATE_BELLOW:
+			Preferences.setBoolean( "_pirateBellowUsed", true );
 			break;
 		}
 

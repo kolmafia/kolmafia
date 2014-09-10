@@ -2894,10 +2894,10 @@ public class UseItemRequest
 		case ItemPool.DINER_HANDBOOK:
 		case ItemPool.ALIEN_SOURCE_CODE:
 		case ItemPool.ALIEN_SOURCE_CODE_USED:
-		case ItemPool.BEAUTIFUL_RAINBOW:
+		case ItemPool.BLACK_BARTS_BOOTY:
 		{
-			if ( !responseText.contains( "You acquire a skill" ) && !responseText.contains( "place the Grimoire on the bookshelf" ) &&
-				!responseText.contains( "eaten the entire thing" ) )
+			if ( !responseText.contains( "You acquire a skill" ) &&
+			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -2919,27 +2919,31 @@ public class UseItemRequest
 			return;
 		}
 
+		case ItemPool.BEAUTIFUL_RAINBOW:
+		{
+			if ( !responseText.contains( "eaten the entire thing" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already maxed out Belch The Rainbow.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			ResponseTextParser.learnSkill( "Belch The Rainbow" );
+			return;
+		}
+
 		case ItemPool.OLFACTION_BOOK:
 		{
 			if ( !responseText.contains( "smell has been elevated to a superhuman level" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
-				{
-					ResultProcessor.processResult( item );
-				}
+				ResultProcessor.processResult( item );
 				return;
 			}
 
-			String skill = UseItemRequest.itemToSkill( itemId );
-			if ( skill == null )
-			{
-				return;
-			}
-
-			ResponseTextParser.learnSkill( skill );
-
+			ResponseTextParser.learnSkill( "Transcendent Olfaction" );
 			return;
 		}
 
@@ -5005,6 +5009,8 @@ public class UseItemRequest
 			return "Alien Source Code";
 		case ItemPool.BEAUTIFUL_RAINBOW:
 			return "Belch The Rainbow";
+		case ItemPool.BLACK_BARTS_BOOTY:
+			return "Pirate Bellow";
 		}
 
 		return null;

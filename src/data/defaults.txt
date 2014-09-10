@@ -1098,6 +1098,7 @@ user	_peteRiotIncited	false
 user	_photocopyUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
+user	_pirateBellowUsed	false
 user	_pneumaticityPotionUsed	false
 user	_poisonArrows	0
 user	_poolGames	0
