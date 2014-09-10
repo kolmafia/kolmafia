@@ -2115,6 +2115,7 @@ public class ItemPool
 	public static final int BLACK_BARTS_BOOTY = 7732;
 	public static final int XIBLAXIAN_HOLOTRAINING_SIMCODE = 7739;
 	public static final int XIBLAXIAN_POLITICAL_PRISONER = 7742;
+	public static final int FIVE_D_PRINTER = 7750;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

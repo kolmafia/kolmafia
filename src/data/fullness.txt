@@ -749,6 +749,7 @@ wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
 witch's bread	3	6	awesome	12-15	0	30-45	0	20 Witch Breaded (+100% Mys, +200% Spell Damage, +20% Spell Critical)
 wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
+Xiblaxian ultraburrito	4	7	EPIC	0	0	0	0
 yam candy	3	1	good	5-10	0	31-34	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Inebriety 80 Gummiskin (+100 Moxie)
 yellow matter custard	2	6	good	4-8	10-15	10-15	10-15

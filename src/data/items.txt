@@ -7768,13 +7768,13 @@
 7749	Xiblaxian holo-schematic: xeno-goggles	531188789	transmission.gif	usable	t	0
 7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
 7751
-7752
-7753
-7754
-7755
-7756
-7757
-7758
+7752	Xiblaxian xeno-detection goggles	147449485	bigglasses.gif	accessory		0
+7753	Xiblaxian stealth cowl	350277729	xicowl.gif	hat		0
+7754	Xiblaxian stealth trousers	553413438	xipants.gif	pants		0
+7755	Xiblaxian stealth vest	903610003	xivest.gif	shirt		0
+7756	Xiblaxian ultraburrito	384466763	burrito.gif	food		0
+7757	Xiblaxian space-whiskey	845948150	flask.gif	drink		0
+7758	Xiblaxian residence-cube	571869324	residencecube.gif	usable		0
 7759
 7760
 7761	holo-tank	128028251	holotank.gif	none, combat	t	0

@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
@@ -299,7 +300,7 @@ public class RequestLogger
 		RequestLogger.debugStream.println( message );
 		
 		if ( StaticEntity.backtraceTrigger != null &&
-			message.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+			message.contains( StaticEntity.backtraceTrigger ) )
 		{
 			StaticEntity.printStackTrace( "Backtrace triggered by message" );
 		}
@@ -999,6 +1000,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof FishboneryRequest || isExternal ) && FishboneryRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof FiveDPrinterRequest || isExternal ) && FiveDPrinterRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

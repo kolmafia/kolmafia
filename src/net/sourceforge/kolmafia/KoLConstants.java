@@ -603,6 +603,7 @@ public interface KoLConstants
 		JUNK, // Items made from using a Worse Homes and Gardens
 		WINTER, // Items made with ingredients from A Winter Garden
 		RUMPLE, // Items made at Rumpelstiltskin's Workshop
+		FIVE_D, // Xiblaxian 5d Printer
 	}
 
 	public enum CraftingRequirements

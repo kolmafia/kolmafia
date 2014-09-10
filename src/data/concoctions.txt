@@ -2476,3 +2476,12 @@ ash soda	COOK	hot ashes	soda water
 
 # The Confiscator's Grimoire
 rubber cape	MUSE	rubber nubbin (11)
+
+# Xiblaxian 5D Printer
+Xiblaxian xeno-detection goggles	5D, ROW337	polymer (4)	crystal (2)
+Xiblaxian stealth cowl	5D, ROW334	Xibaxian circuitry (4)	Xibaxian polymer (9)	Xibaxian alloy (5)
+Xiblaxian stealth cowl	5D, ROW336	Xibaxian circuitry (5)	Xibaxian polymer (4)	Xibaxian alloy (9)
+Xiblaxian stealth trousers	5D, ROW335	Xibaxian circuitry (9)	Xibaxian polymer (5)	Xibaxian alloy (5)
+Xiblaxian ultraburrito	5D, ROW339	Xibaxian circuitry	Xibaxian polymer	Xibaxian alloy (3)
+Xiblaxian space-whiskey	5D, ROW338	Xibaxian circuitry (3)	Xibaxian polymer	Xibaxian alloy
+Xiblaxian residence-cube	5D, ROW340	Xibaxian circuitry (11)	Xibaxian polymer (11)	Xibaxian alloy (11)	Xibaxian crystal (3)

@@ -361,6 +361,9 @@ public class CreateItemRequest
 		case RUMPLE:
 			return new RumpleRequest( conc );
 
+		case FIVE_D:
+			return new FiveDPrinterRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

@@ -398,6 +398,7 @@ wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, c
 worn tophat	Moxie: +5, Initiative: +15, Familiar Effect: "1xBarrr, 1xLep, cap 31"
 wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
 wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Familiar Effect: "1xPotato, 1xGhuol, cap 25"
+Xiblaxian stealth cowl	Combat Rate: -5, Mysticality Percent: +20
 yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "atk, 1xVolley, cap 27"
 yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
 yellow plastic hard hat	Familiar Effect: "atk, cap 22"
@@ -653,6 +654,7 @@ white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10
 Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
 wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "atk, 1xVolley, cap 27"
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
+Xiblaxian stealth trousers	Combat Rate: -5, Moxie Percent: +20
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
 yakskin pants	Maximum MP: +25, Familiar Effect: "stench atk, 1xPotato, cap 35"
 yakskin skirt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
@@ -764,6 +766,7 @@ white snakeskin duster	Muscle: +2, Maximum HP: +10
 # witch's bra: All Spells Cast Are Cold
 witch's bra	Spell Damage Percent: +50, Cold Spell Damage: +50
 wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30, Maximum MP: +30
+Xiblaxian stealth vest	Combat Rate: -5, Muscle Percent: +20
 yak anorak	MP Regen Min: 3, MP Regen Max: 4
 Ye Olde Navy Fleece	Meat Drop: +10
 
@@ -2921,6 +2924,8 @@ wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, No
 # x-ray specs
 # Xiblaxian holo-wrist-puter: Detects Anomalous Materials of Xyblaxian Origin
 Xiblaxian holo-wrist-puter	Item Drop: +10
+# Xiblaxian xeno-detection goggles: They Really Open Your Eyes
+Xiblaxian xeno-detection goggles	Meat Drop: +15
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)]
