@@ -1082,9 +1082,11 @@ public class SkillDatabase
 			// Way of the Surprising Fist skills
 			return false;
 
+		case SkillPool.OLFACTION:
 		case SkillPool.THICK_SKINNED:
 		case SkillPool.CHIP_ON_YOUR_SHOULDER:
 		case SkillPool.REQUEST_SANDWICH:
+		case SkillPool.PIRATE_BELLOW:
 			// Auto-HP-Permed
 			return false;
 
