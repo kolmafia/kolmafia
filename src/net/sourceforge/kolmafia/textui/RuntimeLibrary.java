@@ -629,6 +629,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "faxbot", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "can_faxbot", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// Major functions which provide item-related
 		// information.
 
@@ -3403,6 +3406,45 @@ public abstract class RuntimeLibrary
 				continue;
 			}
 			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterObject, false ) );
+		}
+		return DataTypes.FALSE_VALUE;
+	}
+
+	public static Value can_faxbot( Interpreter interpreter, final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		FaxBotDatabase.configure();
+
+		String actualName = monster.getName();
+		for ( FaxBot bot : FaxBotDatabase.faxbots )
+		{
+			if ( bot == null )
+			{
+				continue;
+			}
+
+			String botName = bot.getName();
+			if ( botName == null )
+			{
+				continue;
+			}
+
+			Monster monsterObject = bot.getMonsterByActualName( actualName );
+			if ( monsterObject == null )
+			{
+				continue;
+			}
+
+			if ( !FaxRequestFrame.isBotOnline( botName ) )
+			{
+				continue;
+			}
+			return DataTypes.TRUE_VALUE;
 		}
 		return DataTypes.FALSE_VALUE;
 	}
