@@ -1695,3 +1695,10 @@ user	unknownRecipe6575	true
 user	unknownRecipe6576	true
 user	unknownRecipe6577	true
 user	unknownRecipe6578	true
+user	unknownRecipe7752	true
+user	unknownRecipe7753	true
+user	unknownRecipe7754	true
+user	unknownRecipe7755	true
+user	unknownRecipe7756	true
+user	unknownRecipe7757	true
+user	unknownRecipe7758	true
