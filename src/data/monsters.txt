@@ -1701,4 +1701,4 @@ The Aquaman	theaquaman.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	file
 The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 
 # Xi Reciever unit
-holographic army	holoarmy.gif	Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)
+holographic army	holoarmy.gif	Atk: [MOX+30+max(ML,0)] Def: [MUS+30+max(ML,0)] HP: [0.75*(MUS+30+max(ML,0))] Exp: [(STAT+30+max(ML,0))/4] Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
