@@ -7559,13 +7559,6 @@ public abstract class ChoiceManager
 				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
 			break;
-		case 123:
-			// At least it's not full of trash
-			if ( ChoiceManager.lastDecision == 2  )
-			{
-				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
-			}
-			break;
 		case 125:
 			// No visible means of support
 			if ( ChoiceManager.lastDecision == 3  )
