@@ -1341,7 +1341,8 @@ public class DailyDeedsPanel
 				"Booze!",
 				"Why ARE you here?",
 				"+80-100 hot damage, 30 turns",
-				"Stat boost, 30 turns"
+				"Stat boost, 30 turns",
+				"+200% booze drop, 30 turns"
 			};
 
 			for ( int i=1; i <= len ; ++i )
