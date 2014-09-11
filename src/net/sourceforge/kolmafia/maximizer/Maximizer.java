@@ -189,7 +189,7 @@ public class Maximizer
 				if ( Maximizer.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
 					EquipmentManager.getEquipment( slot ).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, priceLevel, current );
+					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
 					alreadyDone[ slot ] = true;
 				}
 			}
@@ -198,7 +198,7 @@ public class Maximizer
 			{
 				if ( !alreadyDone[ slot ] )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, priceLevel, current );
+					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
 				}
 			}
 		}
@@ -1034,7 +1034,7 @@ public class Maximizer
 		Maximizer.boosts.sort();
 	}
 
-	private static int emitSlot( int slot, int equipLevel, int priceLevel, double current )
+	private static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point
@@ -1064,6 +1064,7 @@ public class Maximizer
 
 		String slotname = EquipmentRequest.slotNames[ slot ];
 		AdventureResult item = Maximizer.best.equipment[ slot ];
+		int itemId = -1;
 		FamiliarData enthroned = Maximizer.best.getEnthroned();
 		FamiliarData bjorned = Maximizer.best.getBjorned();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
@@ -1073,9 +1074,13 @@ public class Maximizer
 		{
 			item = EquipmentRequest.UNEQUIP;
 		}
+		else
+		{
+			itemId = item.getItemId();
+		}
 		if ( curr.equals( item ) &&
-			!( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
-			!( item.getItemId() == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) )
+			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
+			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -1088,11 +1093,11 @@ public class Maximizer
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
-		if ( item.getItemId() == ItemPool.HATSEAT )
+		if ( itemId == ItemPool.HATSEAT )
 		{
 			spec.setEnthroned( enthroned );
 		}
-		if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+		if ( itemId == ItemPool.BUDDY_BJORN )
 		{
 			spec.setBjorned( bjorned );
 		}
@@ -1107,11 +1112,11 @@ public class Maximizer
 		}
 		else
 		{
-			if ( item.getItemId() == ItemPool.HATSEAT && enthroned != currEnthroned )
+			if ( itemId == ItemPool.HATSEAT && enthroned != currEnthroned )
 			{
 				cmd = "enthrone " + enthroned.getRace();
 			}
-			else if ( item.getItemId() == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
+			else if ( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
 			{
 				cmd = "bjornify " + bjorned.getRace();
 			}
@@ -1121,7 +1126,7 @@ public class Maximizer
 			}
 			text = cmd + " (";
 
-			CheckedItem checkedItem = (CheckedItem) item;
+			CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
 
 			int price = 0;
 
