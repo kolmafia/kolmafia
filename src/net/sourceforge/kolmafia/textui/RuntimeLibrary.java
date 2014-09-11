@@ -3440,10 +3440,11 @@ public abstract class RuntimeLibrary
 				continue;
 			}
 
-			if ( !FaxRequestFrame.isBotOnline( botName ) )
-			{
-				continue;
-			}
+			// Don't check if bot is online til we can do it safely for large numbers of can_faxbot requests
+			//if ( !FaxRequestFrame.isBotOnline( botName ) )
+			//{
+			//	continue;
+			//}
 			return DataTypes.TRUE_VALUE;
 		}
 		return DataTypes.FALSE_VALUE;
