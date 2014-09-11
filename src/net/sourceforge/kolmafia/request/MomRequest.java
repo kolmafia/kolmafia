@@ -36,18 +36,42 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
+
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 public class MomRequest
 	extends GenericRequest
 {
+	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
+	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult AMPHIBIOUS_TOPHAT = ItemPool.get( ItemPool.AMPHIBIOUS_TOPHAT, 1 );
+	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+	public static final AdventureResult OLD_SCUBA_TANK = ItemPool.get( ItemPool.OLD_SCUBA_TANK, 1 );
+	public static final AdventureResult SCHOLAR_MASK = ItemPool.get( ItemPool.SCHOLAR_MASK, 1 );
+	public static final AdventureResult GLADIATOR_MASK = ItemPool.get( ItemPool.GLADIATOR_MASK, 1 );
+	public static final AdventureResult CRAPPY_MASK = ItemPool.get( ItemPool.CRAPPY_MASK, 1 );
+
+	private static AdventureResult self = null;
+	private static AdventureResult familiar = null;
+
 	private int option = 0;
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "action=mombuff.*?whichbuff=(\\d+)" );
@@ -81,8 +105,29 @@ public class MomRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Visiting Mom..." );
-		super.run();
+		String reason = MomRequest.accessible();
+		if ( reason != null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
+			return;
+		}
+		if ( Preferences.getBoolean( "_momFoodReceived" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already had food from Mom Sea Monkee today." );
+			return;
+		}
+		try
+		{
+			SpecialOutfit.createImplicitCheckpoint();
+			this.equip();
+		
+			KoLmafia.updateDisplay( "Visiting Mom..." );
+			super.run();
+		}
+		finally
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 	}
 
 	@Override
@@ -126,6 +171,89 @@ public class MomRequest
 		{
 			Preferences.setBoolean( "_momFoodReceived", true );
 			QuestDatabase.setQuestProgress( Quest.SEA_MONKEES, QuestDatabase.FINISHED );
+		}
+	}
+
+	private static void update()
+	{
+		if ( InventoryManager.getAccessibleCount( MomRequest.AERATED_DIVING_HELMET ) > 0 )
+		{
+			MomRequest.self = MomRequest.AERATED_DIVING_HELMET;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.SCHOLAR_MASK ) > 0 )
+		{
+			MomRequest.self = MomRequest.SCHOLAR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.GLADIATOR_MASK ) > 0 )
+		{
+			MomRequest.self = MomRequest.GLADIATOR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.CRAPPY_MASK ) > 0 )
+		{
+			MomRequest.self = MomRequest.CRAPPY_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.SCUBA_GEAR ) > 0 )
+		{
+			MomRequest.self = MomRequest.SCUBA_GEAR;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.OLD_SCUBA_TANK ) > 0 )
+		{
+			MomRequest.self = MomRequest.OLD_SCUBA_TANK;
+		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		// For the dancing frog, the amphibious tophat is the best familiar equipment
+		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
+		     InventoryManager.getAccessibleCount( MomRequest.AMPHIBIOUS_TOPHAT ) > 0 )
+		{
+			MomRequest.familiar = MomRequest.AMPHIBIOUS_TOPHAT;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.DAS_BOOT ) > 0 )
+		{
+			MomRequest.familiar = MomRequest.DAS_BOOT;
+		}
+		else if ( InventoryManager.getAccessibleCount( MomRequest.BATHYSPHERE ) > 0 )
+		{
+			MomRequest.familiar = MomRequest.BATHYSPHERE;
+		}
+	}
+
+	public static String accessible()
+	{
+		MomRequest.update();
+
+		if ( !QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) )
+		{
+			return "You haven't rescued Mom yet.";
+		}
+
+		if ( MomRequest.self == null && !KoLCharacter.currentBooleanModifier( "Adventure Underwater" ) )
+		{
+			return "You don't have the right equipment to adventure underwater.";
+		}
+
+		if ( MomRequest.familiar == null && !KoLCharacter.currentBooleanModifier( "Underwater Familiar" ) )
+		{
+			return "Your familiar doesn't have the right equipment to adventure underwater.";
+		}
+
+		return null;
+	}
+
+	private void equip()
+	{
+		MomRequest.update();
+		if ( !KoLCharacter.currentBooleanModifier( "Adventure Underwater" ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( MomRequest.self );
+			RequestThread.postRequest( request );
+		}
+
+		if ( !KoLCharacter.currentBooleanModifier( "Underwater Familiar" ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( familiar );
+			RequestThread.postRequest( request );
 		}
 	}
 
