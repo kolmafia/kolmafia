@@ -5996,10 +5996,10 @@ public abstract class RuntimeLibrary
 				continue; // impossible this ascension
 
 			Value toSet;
-			if ( weight == -1 )
+			if ( weight <= 0 )
 			{
 				// Ultrarares
-				toSet = new Value( -1 );
+				toSet = new Value( weight );
 			}
 			else if ( includeQueue.intValue() == 1 )
 			{
