@@ -5996,7 +5996,12 @@ public abstract class RuntimeLibrary
 				continue; // impossible this ascension
 
 			Value toSet;
-			if ( includeQueue.intValue() == 1 )
+			if ( weight == -1 )
+			{
+				// Ultrarares
+				toSet = new Value( -1 );
+			}
+			else if ( includeQueue.intValue() == 1 )
 			{
 				toSet =
 					new Value( AdventureQueueDatabase.applyQueueEffects(
