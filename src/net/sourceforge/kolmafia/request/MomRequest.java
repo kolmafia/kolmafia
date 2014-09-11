@@ -77,6 +77,7 @@ public class MomRequest
 	private static final Pattern ID_PATTERN = Pattern.compile( "action=mombuff.*?whichbuff=(\\d+)" );
 
 	public static final String[] FOOD = { "hot", "cold", "stench", "spooky", "sleaze", "critical", "stats", };
+	public static final String[] EFFECT = { "Hot Sweat", "Cold Sweat", "Rank Sweat", "Black Sweat", "Flop Sweat", "Mark of Candy Cain", "Cereal Killer", };
 
 	public MomRequest( final int option )
 	{
