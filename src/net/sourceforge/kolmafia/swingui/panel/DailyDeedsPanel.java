@@ -2236,7 +2236,7 @@ public class DailyDeedsPanel
 
 			for ( int i=1; i <= len ; ++i )
 			{
-				choices[i] =  (String)MomRequest.FOOD[ i - 1 ];
+				choices[i] =  MomRequest.EFFECT[ i - 1 ];
 			}
 
 			ttips.addAll(Arrays.asList(tips));
@@ -2266,13 +2266,14 @@ public class DailyDeedsPanel
 			public void actionPerformed( final ActionEvent e )
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
-				if ( cb.getSelectedIndex() == 0 )
+				int index = cb.getSelectedIndex();
+				if ( index < 2 )
 				{
 					setComboTarget(btn, "");
 				}
 				else
 				{
-					String Choice = (String)cb.getSelectedItem().toString();
+					String Choice = MomRequest.FOOD[ index - 1 ];
 
 					if ( Choice != null )
 					{
