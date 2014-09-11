@@ -2921,6 +2921,13 @@ public class UseItemRequest
 
 		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
+			if ( responseText.contains( "don't have the item you're trying to use" ) )
+			{
+				UseItemRequest.lastUpdate = "You've haven't got that item.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
 			if ( !responseText.contains( "eaten the entire thing" ) )
 			{
 				UseItemRequest.lastUpdate = "You've already maxed out Belch The Rainbow.";
