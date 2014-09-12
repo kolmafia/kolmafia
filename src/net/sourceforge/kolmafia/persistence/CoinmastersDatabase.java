@@ -158,11 +158,29 @@ public class CoinmastersDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
+			if ( data.length < 2 )
+			{
+				continue;
+			}
+
+			String master = data[ 0 ];
+
+			// Special categories
+			if ( data.length == 2 )
+			{
+				String rname = data[ 1 ];
+				String name = StringUtilities.getCanonicalName( rname );
+				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
+				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
+				list.add( item );
+				continue;
+			}
+
 			if ( data.length < 4 )
 			{
 				continue;
 			}
-			String master = data[ 0 ];
+
 			String type = data[ 1 ];
 			int price = StringUtilities.parseInt( data[ 2 ] );
 			Integer iprice = IntegerPool.get( price );
