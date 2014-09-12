@@ -66,7 +66,7 @@ public class LockableListModel<E>
 	private ArrayList<E> visibleElements;
 	private ArrayList<WeakReference<LockableListModel<E>>> mirrorList;
 
- E selectedValue;
+	E selectedValue;
 	protected ListElementFilter currentFilter;
 
 	/**

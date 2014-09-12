@@ -130,7 +130,7 @@ public class CoinmastersFrame
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
 				    new AdventureResult[] { MrStoreRequest.MR_A } );
 
-	private static final List lighthouseItems = CoinmastersDatabase.getItems( "Lighthouse" );
+	private static final List<AdventureResult> conditionalItems = CoinmastersDatabase.getItems( "Conditional" );
 
 	private static CoinmastersFrame INSTANCE = null;
 
@@ -171,6 +171,20 @@ public class CoinmastersFrame
 	private CoinmasterPanel crimboCartelPanel = null;
 	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
+
+	private static interface ListElementFilter
+	{
+		public boolean isVisible( Object element );
+	}
+
+	private static class ShowEverythingFilter
+		implements ListElementFilter
+	{
+		public boolean isVisible( final Object element )
+		{
+			return true;
+		}
+	}
 
 	public CoinmastersFrame()
 	{
@@ -956,12 +970,14 @@ public class CoinmastersFrame
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
-		private final String side;
-
 		public WarMasterPanel( CoinmasterData data, String side )
 		{
 			super( data );
-			this.side = side;
+
+			// Filter things we can buy based on the status of the lighthouse
+			Map sellPrices = data.getSellPrices();
+			ListElementFilter filter = new LightHouseFilter( side );
+			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, sellPrices, false, filter ) );
 		}
 
 		@Override
@@ -970,10 +986,21 @@ public class CoinmastersFrame
 			return max;
 		}
 
-		@Override
-		public String lighthouseSide()
+		private class LightHouseFilter
+			implements ListElementFilter
 		{
-			return this.side;
+			private final String side;
+
+			public LightHouseFilter( final String side )
+			{
+				this.side = side;
+			}
+
+			public boolean isVisible( final Object element )
+			{
+				return  !CoinmastersFrame.conditionalItems.contains( element ) ||
+					Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side );
+			}
 		}
 	}
 
@@ -1000,13 +1027,13 @@ public class CoinmastersFrame
 
 			if ( data.getSellPrices() != null )
 			{
-				sellPanel = new SellPanel();
+				this.sellPanel = new SellPanel();
 				this.add( sellPanel, BorderLayout.NORTH );
 			}
 
 			if ( data.getBuyPrices() != null )
 			{
-				buyPanel = new BuyPanel();
+				this.buyPanel = new BuyPanel();
 				this.add( buyPanel, BorderLayout.CENTER );
 			}
 
@@ -1089,11 +1116,6 @@ public class CoinmastersFrame
 		public boolean enabled()
 		{
 			return this.data.isAccessible();
-		}
-
-		public String lighthouseSide()
-		{
-			return null;
 		}
 
 		public void update()
@@ -1242,7 +1264,7 @@ public class CoinmastersFrame
 					} );
 
 				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
-				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false, null ) );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -1351,8 +1373,7 @@ public class CoinmastersFrame
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
-				String side = CoinmasterPanel.this.lighthouseSide();
-				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true ) );
 				this.getElementList().setVisibleRowCount( 6 );
 				this.setEnabled( true );
 				this.filterItems();
@@ -1491,9 +1512,15 @@ public class CoinmastersFrame
 		}
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens, String side )
+	private static final ListElementFilter SHOW_EVERYTHING_FILTER = new ShowEverythingFilter();
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens )
 	{
-		return new CoinmasterRenderer( data, prices, usesTokens, side );
+		return new CoinmasterRenderer( data, prices, usesTokens, CoinmastersFrame.SHOW_EVERYTHING_FILTER );
+	}
+
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens, ListElementFilter filter )
+	{
+		return new CoinmasterRenderer( data, prices, usesTokens, filter );
 	}
 
 	private static class CoinmasterRenderer
@@ -1502,15 +1529,15 @@ public class CoinmastersFrame
 		private CoinmasterData data;
 		private Map prices;
 		private boolean usesTokens;
-		private String side;
+		private ListElementFilter filter;
 
-		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens, String side )
+		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens, ListElementFilter filter )
 		{
 			this.setOpaque( true );
 			this.data = data;
 			this.prices = prices;
 			this.usesTokens = usesTokens;
-			this.side = side;
+			this.filter = filter;
 		}
 
 		public boolean allowHighlight()
@@ -1544,15 +1571,13 @@ public class CoinmastersFrame
 				return defaultComponent;
 			}
 
-			String name = ar.getName();
-			String canonicalName = StringUtilities.getCanonicalName( name );
-
-			if ( this.side != null &&
-			     CoinmastersFrame.lighthouseItems.contains( canonicalName ) &&
-			     !Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side ) )
+			if ( !this.filter.isVisible( ar ) )
 			{
 				return null;
 			}
+
+			String name = ar.getName();
+			String canonicalName = StringUtilities.getCanonicalName( name );
 
 			Integer iprice = (Integer)prices.get( canonicalName );
 

@@ -39,8 +39,8 @@ Dimemaster	buy	50	massive sitar
 Dimemaster	buy	2	patchouli oil bomb
 Dimemaster	buy	2	exploding hacky-sack
 
-Lighthouse	patchouli oil bomb
-Lighthouse	exploding hacky-sack
+Conditional	patchouli oil bomb
+Conditional	exploding hacky-sack
 
 # Things you can sell to get quarters
 
@@ -83,8 +83,8 @@ Quartersmaster	buy	50	beer-a-pult
 Quartersmaster	buy	2	tequila grenade
 Quartersmaster	buy	2	molotov cocktail cocktail
 
-Lighthouse	tequila grenade
-Lighthouse	molotov cocktail cocktail
+Conditional	tequila grenade
+Conditional	molotov cocktail cocktail
 
 # Things you can buy with lucre
 
@@ -516,6 +516,8 @@ The Swagger Shop	buy	500	bagged stuffed &quot;L&quot;
 The Swagger Shop	buy	500	stuffed club
 The Swagger Shop	buy	1000	Black Bart's Booty
 The Swagger Shop	buy	5000	Essence of Annoyance
+
+Conditional	Black Bart's Booty
 
 # Things you can buy with BURTs
 
