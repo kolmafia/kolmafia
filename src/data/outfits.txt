@@ -107,3 +107,4 @@
 106	Brogre Brouture	Brogre brolo shirt, Brogre brorts, Brogre bucket hat
 107	Space Beast Furs	space beast fur hat, space beast fur pants, space beast fur whip
 108	Gladiatorial Glad Rags	centurion helmet, madius, radiator heater shield, pteruges, gladiator tunica, Roman sadnals
+109	Xiblaxian Stealth Suit	Xiblaxian stealth cowl, Xiblaxian stealth vest, Xiblaxian stealth trousers
