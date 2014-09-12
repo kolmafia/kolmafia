@@ -1801,7 +1801,9 @@ public class UseItemRequest
 			return;
 		}
 
-		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
+		String name = item.getName();
+
+		int spleenHit = ItemDatabase.getSpleenHit( name );
 		if ( spleenHit > 0 )
 		{
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
@@ -1861,8 +1863,8 @@ public class UseItemRequest
 			ResultProcessor.processResult( helper.getNegation() );
 		}
 
-		if ( ConcoctionDatabase.singleUseCreation( item.getName() ) != null ||
-		     ( ConcoctionDatabase.multiUseCreation( item.getName() ) != null && item.getCount() > 1 ) )
+		if ( ConcoctionDatabase.singleUseCreation( name ) != null ||
+		     ( ConcoctionDatabase.multiUseCreation( name ) != null && item.getCount() > 1 ) )
 		{
 			// These all create things via "use" or "multiuse" of
 			// an ingredient and perhaps consume other ingredients.
@@ -1879,7 +1881,6 @@ public class UseItemRequest
 			}
 
 			int count = item.getCount();
-			String name = item.getName();
 			String plural = ItemDatabase.getPluralName( item.getItemId() );
 
 			if ( responseText.indexOf( "You don't have that many" ) != -1 )
@@ -4788,6 +4789,21 @@ public class UseItemRequest
 		case ItemPool.LETTER_FROM_MELVIGN:
 			QuestDatabase.setQuestIfBetter( Quest.SHIRT, QuestDatabase.STARTED );
 			return;
+
+		case ItemPool.XIBLAXIAN_SCHEMATIC_COWL:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_TROUSERS:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_VEST:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_BURRITO:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_WHISKEY:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_RESIDENCE:
+		case ItemPool.XIBLAXIAN_SCHEMATIC_GOGGLES:
+			if ( Preferences.getBoolean( "unknownRecipe" + itemId ) )
+			{
+				String message = "Learned recipe: " + name + " (" + itemId + ")";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				Preferences.setBoolean( "unknownRecipe" + itemId, false );
+			}
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

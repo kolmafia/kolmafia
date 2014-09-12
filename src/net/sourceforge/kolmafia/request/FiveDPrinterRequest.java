@@ -33,12 +33,18 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class FiveDPrinterRequest
 	extends CreateItemRequest
@@ -89,11 +95,27 @@ public class FiveDPrinterRequest
 		FiveDPrinterRequest.parseResponse( urlString, responseText );
 	}
 
+	private static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\)" );
+
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=5dprinter" ) )
 		{
 			return;
+		}
+
+		Matcher matcher = FiveDPrinterRequest.DISCOVERY_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int id = ItemDatabase.getItemIdFromDescription( matcher.group( 1 ) );
+			String pref = "unknownRecipe" + id;
+			if ( id > 0 && Preferences.getBoolean( pref ) )
+			{
+				KoLmafia.updateDisplay( "You know the recipe for " +
+					ItemDatabase.getItemName( id ) );
+				Preferences.setBoolean( pref, false );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
 		}
 
 		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
