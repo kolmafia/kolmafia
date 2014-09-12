@@ -226,6 +226,7 @@ public class OptionsFrame
 			String[][] options =
 			{
 				{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
+				{ "relayShowWarnings", "Warn if about to adventure somewhere which contains common adventures you are unprepared for or can unlock but haven't" },
 				{},
 				{ "relayAllowRemoteAccess", "Allow network devices to access relay browser (requires restart)" },
 				{ "relayOverridesImages", "Override certain KoL images" },
@@ -257,6 +258,7 @@ public class OptionsFrame
 				{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },
 				{},
 				{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
+				{ "relayScriptButtonFirst", "If using custom buttons, put script button first rather than attack" },
 				{ "arcadeGameHints", "Provide hints for Arcade games" },
 			};
 
