@@ -386,6 +386,12 @@ public class SkillBuffFrame
 				return;
 			}
 
+			if ( buffName.equals( "Summon Clip Art" ) )
+			{
+				InputFieldUtilities.alert( "You cannot specify which item to create here. Please go to the \"create\" tab of the Item Manager and make what you want there." );
+				return;
+			}
+
 			String[] targets =
 				ContactManager.extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
 
