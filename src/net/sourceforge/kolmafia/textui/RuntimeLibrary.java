@@ -6538,7 +6538,7 @@ public abstract class RuntimeLibrary
 			return new Value( -1 );
 		}
 
-		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
+		return new Value( monster.getBaseMeat() );
 	}
 
 	public static Value meat_drop( Interpreter interpreter, final Value arg )
@@ -6549,7 +6549,7 @@ public abstract class RuntimeLibrary
 			return new Value( -1 );
 		}
 
-		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
+		return new Value( monster.getBaseMeat() );
 	}
 
 	public static Value will_usually_dodge( Interpreter interpreter )

@@ -728,13 +728,14 @@ public class AreaCombatData
 	{
 		int minMeat = monster.getMinMeat();
 		int maxMeat = monster.getMaxMeat();
-		if ( minMeat == 0 && maxMeat == 0 )
+		int avgMeat = monster.getBaseMeat();
+		if ( avgMeat == 0 )
 		{
 			return;
 		}
 
 		double modifier = Math.max( 0.0, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0 );
-		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( minMeat + maxMeat ) * modifier / 2.0 ) + " average)" );
+		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( avgMeat ) * modifier ) + " average)" );
 	}
 
 	private void appendItemList( final StringBuffer buffer, final List items, final List pocketRates, boolean fullString )
