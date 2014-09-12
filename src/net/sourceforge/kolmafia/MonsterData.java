@@ -347,6 +347,11 @@ public class MonsterData
 		return this.meat > 0 ? this.meat - variation : 0;
 	}
 
+	public int getBaseMeat()
+	{
+		return this.meat;
+	}
+
 	public int getMaxMeat()
 	{
 		int variation = (int) Math.max( 1, Math.floor( this.meat * 0.2 ) );
