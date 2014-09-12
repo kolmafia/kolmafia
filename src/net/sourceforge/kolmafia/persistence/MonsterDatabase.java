@@ -386,8 +386,7 @@ public class MonsterDatabase
 		Object defense = null;
 		Object initiative = null;
 		Object experience = null;
-		int minMeat = 0;
-		int maxMeat = 0;
+		int meat = 0;
 		Element attackElement = Element.NONE;
 		Element defenseElement = Element.NONE;
 		Phylum phylum = Phylum.NONE;
@@ -511,13 +510,13 @@ public class MonsterDatabase
 						int dash = value.indexOf( "-" );
 						if ( dash >= 0 )
 						{
-							minMeat = StringUtilities.parseInt( value.substring( 0, dash ) );
-							maxMeat = StringUtilities.parseInt( value.substring( dash + 1 ) );
+							int minMeat = StringUtilities.parseInt( value.substring( 0, dash ) );
+							int maxMeat = StringUtilities.parseInt( value.substring( dash + 1 ) );
+							meat = ( minMeat + maxMeat ) / 2;
 						}
 						else
 						{
-							minMeat = StringUtilities.parseInt( value );
-							maxMeat = minMeat;
+							meat = StringUtilities.parseInt( value );
 						}
 						continue;
 					}
@@ -575,7 +574,7 @@ public class MonsterDatabase
 
 		monster = new MonsterData( name, health, attack, defense, initiative, experience,
 					   attackElement, defenseElement, physical,
-					   minMeat, maxMeat,
+					   meat,
 					   phylum, poison, boss, image );
 		return monster;
 	}
