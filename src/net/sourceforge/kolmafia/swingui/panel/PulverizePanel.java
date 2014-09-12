@@ -117,7 +117,8 @@ public class PulverizePanel
 			"<html><center>4N<br>or W</html>",
 			"<html><center>W+3N<br>or 2W</html>",
 			"3W",
-			"1C"
+			"1C",
+			"Other"
 		} };
 
 		public YieldsModel()
@@ -261,11 +262,11 @@ public class PulverizePanel
 
 			if ( pulver == ItemPool.HANDFUL_OF_SMITHEREENS )
 			{
-				isVisibleWithFilter = this.smiths;
+				isVisibleWithFilter = this.smiths && this.yieldMask >= 2048;
 			}
 			else if ( pulver >= 0 )
 			{
-				isVisibleWithFilter = this.others;
+				isVisibleWithFilter = this.others && this.yieldMask >= 2048;
 			}
 			else
 			{
