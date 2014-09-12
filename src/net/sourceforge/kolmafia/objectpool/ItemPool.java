@@ -2115,6 +2115,13 @@ public class ItemPool
 	public static final int BLACK_BARTS_BOOTY = 7732;
 	public static final int XIBLAXIAN_HOLOTRAINING_SIMCODE = 7739;
 	public static final int XIBLAXIAN_POLITICAL_PRISONER = 7742;
+	public static final int XIBLAXIAN_SCHEMATIC_COWL = 7743;
+	public static final int XIBLAXIAN_SCHEMATIC_TROUSERS = 7744;
+	public static final int XIBLAXIAN_SCHEMATIC_VEST = 7745;
+	public static final int XIBLAXIAN_SCHEMATIC_BURRITO = 7746;
+	public static final int XIBLAXIAN_SCHEMATIC_WHISKEY = 7747;
+	public static final int XIBLAXIAN_SCHEMATIC_RESIDENCE = 7748;
+	public static final int XIBLAXIAN_SCHEMATIC_GOGGLES = 7749;
 	public static final int FIVE_D_PRINTER = 7750;
 
 	public static final AdventureResult get( String itemName, int count )

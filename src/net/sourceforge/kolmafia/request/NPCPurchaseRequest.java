@@ -78,12 +78,12 @@ public class NPCPurchaseRequest
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
 
-	private static Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
-	private static Pattern NPCSHOPID_PATTERN = Pattern.compile( "whichshop=([^&]*)" );
+	private static final Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
+	private static final Pattern NPCSHOPID_PATTERN = Pattern.compile( "whichshop=([^&]*)" );
 
-	private String npcStoreId;
-	private String quantityField;
-	private int row;
+	private final String npcStoreId;
+	private final String quantityField;
+	private final int row;
 
 	/**
 	 * Constructs a new <code>NPCPurchaseRequest</code> which retrieves things from NPC stores.
@@ -557,6 +557,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "5dprinter" ) )
+		{
+			FiveDPrinterRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// The following does too, but wants a special message
 		if ( shopId.equals( "jarl" ) )
 		{
@@ -662,7 +668,7 @@ public class NPCPurchaseRequest
 			ShoeRepairRequest.parseResponse( urlString, responseText );
 			return;
 		}
-	}
+		}
 
 	public static final boolean registerShopRowRequest( final String urlString )
 	{
@@ -778,7 +784,8 @@ public class NPCPurchaseRequest
 			     shopId.startsWith( "kolhs_" ) ||
 			     shopId.equals( "grandma" ) ||
 			     shopId.equals( "beergarden" ) ||
-			     shopId.equals( "snowgarden" ) )
+			     shopId.equals( "snowgarden" ) ||
+			     shopId.equals( "5dprinter" ) )
 			{
 				return NPCPurchaseRequest.registerShopRowRequest( urlString );
 			}
