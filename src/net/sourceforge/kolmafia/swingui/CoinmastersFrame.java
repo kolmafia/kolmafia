@@ -172,20 +172,6 @@ public class CoinmastersFrame
 	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
 
-	private static interface ListElementFilter
-	{
-		public boolean isVisible( Object element );
-	}
-
-	private static class ShowEverythingFilter
-		implements ListElementFilter
-	{
-		public boolean isVisible( final Object element )
-		{
-			return true;
-		}
-	}
-
 	public CoinmastersFrame()
 	{
 		super( "Coin Masters" );
@@ -567,22 +553,18 @@ public class CoinmastersFrame
 		public SwaggerShopPanel()
 		{
 			super( SwaggerShopRequest.SWAGGER_SHOP );
-
-			// Filter things we can buy based on the status of pirateSwagger, etc.
-			Map buyPrices = data.getBuyPrices();
-			ListElementFilter filter = new PirateFilter();
-			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, buyPrices, false, filter ) );
 		}
 
-		private class PirateFilter
-			implements ListElementFilter
+		public boolean canBuy( AdventureResult item )
 		{
-			public boolean isVisible( final Object element )
+			int itemId = item.getItemId();
+			switch ( itemId )
 			{
-				return  !CoinmastersFrame.conditionalItems.contains( element ) ||
-					( Preferences.getInteger( "pirateSwagger" ) >= 1000 &&
-					  Preferences.getBoolean( "blackBartsBootyAvailable" ) );
+			case ItemPool.BLACK_BARTS_BOOTY:
+				return  Preferences.getInteger( "pirateSwagger" ) >= 1000 &&
+					Preferences.getBoolean( "blackBartsBootyAvailable" );
 			}
+			return true;
 		}
 	}
 
@@ -986,37 +968,23 @@ public class CoinmastersFrame
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
+		String side;
 		public WarMasterPanel( CoinmasterData data, String side )
 		{
 			super( data );
+			this.side = side;
+		}
 
-			// Filter things we can buy based on the status of the lighthouse
-			Map buyPrices = data.getBuyPrices();
-			ListElementFilter filter = new LightHouseFilter( side );
-			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, buyPrices, false, filter ) );
+		public boolean canBuy( AdventureResult item )
+		{
+			return  !CoinmastersFrame.conditionalItems.contains( item ) ||
+				Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side );
 		}
 
 		@Override
 		public int buyDefault( final int max )
 		{
 			return max;
-		}
-
-		private class LightHouseFilter
-			implements ListElementFilter
-		{
-			private final String side;
-
-			public LightHouseFilter( final String side )
-			{
-				this.side = side;
-			}
-
-			public boolean isVisible( final Object element )
-			{
-				return  !CoinmastersFrame.conditionalItems.contains( element ) ||
-					Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side );
-			}
 		}
 	}
 
@@ -1522,21 +1490,17 @@ public class CoinmastersFrame
 					{
 						return false;
 					}
-					return CoinmasterPanel.this.canBuy( (AdventureResult)element ) && super.isVisible( element );
+					AdventureResult ar = (AdventureResult)element;
+					return  CoinmasterPanel.this.canBuy( ar ) &&
+						super.isVisible( element );
 				}
 			}
 		}
 	}
 
-	private static final ListElementFilter SHOW_EVERYTHING_FILTER = new ShowEverythingFilter();
 	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens )
 	{
-		return new CoinmasterRenderer( data, prices, usesTokens, CoinmastersFrame.SHOW_EVERYTHING_FILTER );
-	}
-
-	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens, ListElementFilter filter )
-	{
-		return new CoinmasterRenderer( data, prices, usesTokens, filter );
+		return new CoinmasterRenderer( data, prices, usesTokens );
 	}
 
 	private static class CoinmasterRenderer
@@ -1545,15 +1509,13 @@ public class CoinmastersFrame
 		private CoinmasterData data;
 		private Map prices;
 		private boolean usesTokens;
-		private ListElementFilter filter;
 
-		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens, ListElementFilter filter )
+		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens )
 		{
 			this.setOpaque( true );
 			this.data = data;
 			this.prices = prices;
 			this.usesTokens = usesTokens;
-			this.filter = filter;
 		}
 
 		public boolean allowHighlight()
@@ -1585,11 +1547,6 @@ public class CoinmastersFrame
 			if ( !ar.isItem() )
 			{
 				return defaultComponent;
-			}
-
-			if ( !this.filter.isVisible( ar ) )
-			{
-				return null;
 			}
 
 			String name = ar.getName();
