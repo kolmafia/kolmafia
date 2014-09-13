@@ -514,8 +514,8 @@ The Swagger Shop	buy	2000	How to Tolerate Jerks
 The Swagger Shop	buy	100	puppet strings
 The Swagger Shop	buy	500	bagged stuffed &quot;L&quot;
 The Swagger Shop	buy	500	stuffed club
-The Swagger Shop	buy	1000	Black Bart's Booty
 The Swagger Shop	buy	5000	Essence of Annoyance
+The Swagger Shop	buy	1000	Black Bart's Booty
 
 Conditional	Black Bart's Booty
 
