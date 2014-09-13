@@ -567,6 +567,22 @@ public class CoinmastersFrame
 		public SwaggerShopPanel()
 		{
 			super( SwaggerShopRequest.SWAGGER_SHOP );
+
+			// Filter things we can buy based on the status of pirateSwagger, etc.
+			Map buyPrices = data.getBuyPrices();
+			ListElementFilter filter = new PirateFilter();
+			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, buyPrices, false, filter ) );
+		}
+
+		private class PirateFilter
+			implements ListElementFilter
+		{
+			public boolean isVisible( final Object element )
+			{
+				return  !CoinmastersFrame.conditionalItems.contains( element ) ||
+					( Preferences.getInteger( "pirateSwagger" ) >= 1000 &&
+					  Preferences.getBoolean( "blackBartsBootyAvailable" ) );
+			}
 		}
 	}
 
@@ -975,9 +991,9 @@ public class CoinmastersFrame
 			super( data );
 
 			// Filter things we can buy based on the status of the lighthouse
-			Map sellPrices = data.getSellPrices();
+			Map buyPrices = data.getBuyPrices();
 			ListElementFilter filter = new LightHouseFilter( side );
-			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, sellPrices, false, filter ) );
+			this.buyPanel.getElementList().setCellRenderer( getCoinmasterRenderer( data, buyPrices, false, filter ) );
 		}
 
 		@Override
