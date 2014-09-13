@@ -973,6 +973,7 @@ public class CoinmastersFrame
 		{
 			super( data );
 			this.side = side;
+			this.buyPanel.filterItems();
 		}
 
 		public boolean canBuy( AdventureResult item )
