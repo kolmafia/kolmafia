@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 
@@ -281,6 +283,10 @@ public class CoinmastersDatabase
 		if ( name.equals( "a. w. o. l. tattoo #5" ) )
 		{
 			return KoLCharacter.AWOLtattoo == 5;
+		}
+		if ( name.equals( "black bart's booty" ) )
+		{
+			return Preferences.getInteger( "pirateSwagger" ) >= 1000;
 		}
 
 		return true;

@@ -561,8 +561,7 @@ public class CoinmastersFrame
 			switch ( itemId )
 			{
 			case ItemPool.BLACK_BARTS_BOOTY:
-				return  Preferences.getInteger( "pirateSwagger" ) >= 1000 &&
-					Preferences.getBoolean( "blackBartsBootyAvailable" );
+				return Preferences.getBoolean( "blackBartsBootyAvailable" );
 			}
 			return true;
 		}
@@ -633,12 +632,14 @@ public class CoinmastersFrame
 		public boolean canBuy( AdventureResult item )
 		{
 			int itemId = item.getItemId();
-			if ( ItemDatabase.isVirtualItem( itemId ) )
-			{
-				return !ItemDatabase.haveVirtualItem( itemId );
-			}
 			switch ( itemId )
 			{
+			case ItemPool.MADNESS_REEF_MAP:
+			case ItemPool.MARINARA_TRENCH_MAP:
+			case ItemPool.ANEMONE_MINE_MAP:
+			case ItemPool.DIVE_BAR_MAP:
+			case ItemPool.SKATE_PARK_MAP:
+				return !ItemDatabase.haveVirtualItem( itemId );
 			case ItemPool.DAMP_OLD_BOOT:
 				return !Preferences.getBoolean( "dampOldBootPurchased" );
 			case ItemPool.BLACK_GLASS:
@@ -1169,6 +1170,16 @@ public class CoinmastersFrame
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
 				String itemName = item.getName();
+				String canonicalName = StringUtilities.getCanonicalName( itemName );
+
+				if ( !CoinmastersDatabase.availableItem( canonicalName ) )
+				{
+					// This was shown but was grayed out.
+					items[ i ] = null;
+					--neededSize;
+					continue;
+				}
+
 				int price = CoinmastersDatabase.getPrice( itemName, buyPrices );
 
 				if ( price > originalBalance )
@@ -1560,8 +1571,8 @@ public class CoinmastersFrame
 				return defaultComponent;
 			}
 
-			int price = iprice.intValue();
 			boolean show = CoinmastersDatabase.availableItem( canonicalName );
+			int price = iprice.intValue();
 
 			if ( show && this.usesTokens )
 			{
