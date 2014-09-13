@@ -1144,6 +1144,12 @@ public class ResultProcessor
 		case ItemPool.FAKE_HAND:
 			NamedListenerRegistry.fireChange( "(fakehands)" );
 			break;
+
+		case ItemPool.BLACK_BARTS_BOOTY:
+			// Whether you just got Black Bart's booty or just used
+			// it to get the skill, you ain't never gettin' another.
+			Preferences.setBoolean( "blackBartsBootyAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.
