@@ -1619,7 +1619,6 @@ public class Evaluator
 				{
 					int outfitItemId = pieces[j].getItemId();
 					int slot = EquipmentManager.itemIdToEquipmentType( outfitItemId );
-					AdventureResult cItem = automatic[ slot ].get( 0 );
 					// If outfit includes more than one accessory, handle it
 					if ( slot == EquipmentManager.ACCESSORY1 )
 					{
@@ -1629,7 +1628,7 @@ public class Evaluator
 						}
 						else
 						{
-							cItem = automatic[ slot ].get( accCount );
+							AdventureResult cItem = automatic[ slot ].get( accCount );
 							int compareItemId = cItem.getItemId();
 							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
 							compareSpec.equipment[ slot + accCount ] = compareItem;
@@ -1646,7 +1645,7 @@ public class Evaluator
 						}
 						else
 						{
-							cItem = automatic[ slot ].get( 0 );
+							AdventureResult cItem = automatic[ slot ].get( 0 );
 							int compareItemId = cItem.getItemId();
 							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
 							compareSpec.equipment[ slot ] = compareItem;
