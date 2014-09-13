@@ -2546,37 +2546,37 @@ public abstract class SorceressLairManager
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step11" );
 		}
 		// Lower Monster 6 defeated
-		else if ( responseText.contains( "chamber0.gif" ) || responseText.contains( "tower6blank.gif" ) )
+		else if ( responseText.contains( "chamber0.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step10" );
 		}
 		// Lower Monster 5 defeated
-		else if ( responseText.contains( "tower5blank.gif" ) )
+		else if ( responseText.contains( "tower6.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step9" );
 		}
 		// Lower Monster 4 defeated
-		else if ( responseText.contains( "tower4blank.gif" ) )
+		else if ( responseText.contains( "tower5.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step8" );
 		}
 		// Lower Monster 3 defeated
-		else if ( responseText.contains( "tower4.gif" ) || responseText.contains( "tower3blank.gif" ) )
+		else if ( responseText.contains( "tower4.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step7" );
 		}
 		// Lower Monster 2 defeated
-		else if ( responseText.contains( "tower2blank.gif" ) )
+		else if ( responseText.contains( "tower3.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step6" );
 		}
 		// Lower Monster 1 defeated
-		else if ( responseText.contains( "tower1blank.gif" ) )
+		else if ( responseText.contains( "tower2.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step5" );
 		}
 		// Maze completed
-		else if ( responseText.contains( "gate squeaks open" ) )
+		else if ( responseText.contains( "gate squeaks open" ) || responseText.contains( "tower1.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
 		}

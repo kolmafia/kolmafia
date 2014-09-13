@@ -1035,6 +1035,7 @@ public class SkillDatabase
 	{
 		switch ( skillId )
 		{
+		case SkillPool.OLD_OLD_SMILE:
 		case SkillPool.SMILE_OF_MR_A:
 		case SkillPool.ARSE_SHOOT:
 			// Item granted skills
