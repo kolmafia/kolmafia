@@ -165,6 +165,8 @@ public class SwaggerShopRequest
 				Preferences.setInteger( "pirateSwagger", pirateSwagger );
 			}
 
+			Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
+
 			return;
 		}
 
