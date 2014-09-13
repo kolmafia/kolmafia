@@ -1332,14 +1332,17 @@ public class QuestManager
 			monster.equalsIgnoreCase( "Big Meat Golem" ) ||
 			monster.equalsIgnoreCase( "Bowling Cricket" ) ||
 			monster.equalsIgnoreCase( "Bronze Chef" ) ||
+			monster.equalsIgnoreCase( "collapsed mineshaft golem" ) ||
 			monster.equalsIgnoreCase( "concert pianist" ) ||
 			monster.equalsIgnoreCase( "the darkness" ) ||
 			monster.equalsIgnoreCase( "El Diablo" ) ||
 			monster.equalsIgnoreCase( "Electron Submarine" ) ||
+			monster.equalsIgnoreCase( "Enraged Cow" ) ||
 			monster.equalsIgnoreCase( "endangered inflatable white tiger" ) ||
 			monster.equalsIgnoreCase( "fancy bath slug" ) ||
 			monster.equalsIgnoreCase( "Fickle Finger of F8" ) ||
 			monster.equalsIgnoreCase( "Flaming Samurai" ) ||
+			monster.equalsIgnoreCase( "giant bee" ) ||
 			monster.equalsIgnoreCase( "giant fried egg" ) ||
 			monster.equalsIgnoreCase( "Giant Desktop Globe" ) ||
 			monster.equalsIgnoreCase( "Ice Cube" ) ||

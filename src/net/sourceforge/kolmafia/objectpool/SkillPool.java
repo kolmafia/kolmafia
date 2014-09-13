@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.objectpool;
 public class SkillPool
 {
 	public static final int STEEL_LIVER = 1;
+	public static final int OLD_OLD_SMILE = 3;
 	public static final int ARSE_SHOOT = 4;
 	public static final int STEEL_STOMACH = 5;
 	public static final int STEEL_SPLEEN = 6;
