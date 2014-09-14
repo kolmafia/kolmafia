@@ -139,6 +139,15 @@ public class ArcadeRequest
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+)</b>", Pattern.DOTALL );
 
+	private static final int[] unlockables =
+	{
+		ItemPool.SINISTER_DEMON_MASK,
+		ItemPool.CHAMPION_BELT,
+		ItemPool.SPACE_TRIP_HEADPHONES,
+		ItemPool.METEOID_ICE_BEAM,
+		ItemPool.DUNGEON_FIST_GAUNTLET,
+	};
+
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "arcade.php" ) )
@@ -146,13 +155,21 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( urlString.indexOf( "ticketcounter=1" ) != -1 )
+		if ( urlString.contains( "ticketcounter=1" ) )
 		{
 			// Learn new trade items by simply visiting Arcade
 			Matcher matcher = ITEM_PATTERN.matcher( responseText );
 			while ( matcher.find() )
 			{
 				int id = StringUtilities.parseInt( matcher.group(1) );
+				for ( int i = 0; i < ArcadeRequest.unlockables.length; i++ )
+				{
+					if ( id == ArcadeRequest.unlockables[i] )
+					{
+						Preferences.setBoolean( "lockedItem" + id, false );
+						break;
+					}
+				}
 				String desc = matcher.group(2);
 				String name = matcher.group(3);
 				String data = ItemDatabase.getItemDataName( id );

@@ -1656,6 +1656,12 @@ user	choiceAdventure981	0
 user	choiceAdventure982	0
 user	choiceAdventure983	0
 
+user	lockedItem4637	true
+user	lockedItem4638	true
+user	lockedItem4639	true
+user	lockedItem4646	true
+user	lockedItem4647	true
+
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
 user	unknownRecipe3544	true
