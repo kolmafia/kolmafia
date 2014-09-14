@@ -7767,7 +7767,7 @@
 7748	Xiblaxian holo-schematic: residence cube	338317451	transmission.gif	usable	t	0
 7749	Xiblaxian holo-schematic: xeno-goggles	531188789	transmission.gif	usable	t	0
 7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
-7751
+7751	Xiblaxian holo-bowtie	401623860	holobowtie.gif	familiar	t	0
 7752	Xiblaxian xeno-detection goggles	147449485	bigglasses.gif	accessory		0
 7753	Xiblaxian stealth cowl	350277729	xicowl.gif	hat		0
 7754	Xiblaxian stealth trousers	553413438	xipants.gif	pants		0
