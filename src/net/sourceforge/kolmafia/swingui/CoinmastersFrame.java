@@ -797,6 +797,7 @@ public class CoinmastersFrame
 		{
 			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
+			this.buyPanel.filterItems();
 		}
 
 		@Override
