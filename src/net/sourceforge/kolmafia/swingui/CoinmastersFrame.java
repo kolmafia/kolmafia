@@ -501,7 +501,7 @@ public class CoinmastersFrame
 		}
 
 		@Override
-		public void update()
+		public final void update()
 		{
 			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
 			boolean canPull =
@@ -555,6 +555,7 @@ public class CoinmastersFrame
 			super( SwaggerShopRequest.SWAGGER_SHOP );
 		}
 
+		@Override
 		public boolean canBuy( AdventureResult item )
 		{
 			int itemId = item.getItemId();
@@ -629,6 +630,7 @@ public class CoinmastersFrame
 			super( BigBrotherRequest.BIG_BROTHER );
 		}
 
+		@Override
 		public boolean canBuy( AdventureResult item )
 		{
 			int itemId = item.getItemId();
@@ -763,7 +765,24 @@ public class CoinmastersFrame
 		{
 			super( TicketCounterRequest.TICKET_COUNTER );
 			this.buyPanel.addButton( skeeball, false );
-			this.update();
+			this.buyPanel.filterItems();
+		}
+
+		@Override
+		public boolean canBuy( AdventureResult item )
+		{
+			if ( !CoinmastersFrame.conditionalItems.contains( item ) )
+			{
+				return true;
+			}
+
+			int itemId = item.getItemId();
+			if ( itemId == ItemPool.FOLDER_14 )
+			{
+				// Jackass Plumber folder
+				return KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
+			}
+			return !Preferences.getBoolean( "lockedItem" + itemId );
 		}
 
 		@Override
@@ -774,7 +793,7 @@ public class CoinmastersFrame
 		}
 
 		@Override
-		public void update()
+		public final void update()
 		{
 			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
@@ -977,6 +996,7 @@ public class CoinmastersFrame
 			this.buyPanel.filterItems();
 		}
 
+		@Override
 		public boolean canBuy( AdventureResult item )
 		{
 			return  !CoinmastersFrame.conditionalItems.contains( item ) ||
@@ -988,7 +1008,7 @@ public class CoinmastersFrame
 		{
 			return max;
 		}
-	}
+			}
 
 	public abstract class CoinmasterPanel
 		extends JPanel
@@ -1407,7 +1427,7 @@ public class CoinmastersFrame
 			}
 
 			@Override
-			public void setEnabled( final boolean isEnabled )
+			public final void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
 				for ( int i = 0; this.buttons != null && i < this.buttons.length; ++i )
