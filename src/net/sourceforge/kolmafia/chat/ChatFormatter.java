@@ -51,8 +51,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatFormatter
 {
+	// KoL itself inserts "chat effect" images. One of these results from the Pirate Bellow skill.
+	// If we want to excise images but keep that one, the following pattern will do.
+
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?/(.*?)(?<!12x12skull)\\.gif.*?>" );
+
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?>" );
 	private static final Pattern EXPAND_PATTERN = Pattern.compile( "</?p>" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
@@ -106,33 +110,40 @@ public class ChatFormatter
 			return "";
 		}
 
-		String noImageContent = ChatFormatter.IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
-		String normalBreaksContent = ChatFormatter.LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
-		String condensedContent = ChatFormatter.EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
+		String normalizedContent = originalContent;
+		
+		// KoL inserts images for special "chat effects". Let the user see them.
+		// noImageContent
+		// normalizedContent = ChatFormatter.IMAGE_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
-		String normalBoldsContent = StringUtilities.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
-		String colonOrderedContent = StringUtilities.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
-		colonOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
-		colonOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "</b></a>:", "</a></b>:" );
+		// normalBreaksContent
+		normalizedContent = ChatFormatter.LINEBREAK_PATTERN.matcher( normalizedContent ).replaceAll( "<br>" );
 
-		String italicOrderedContent = StringUtilities.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
-		italicOrderedContent =
-			StringUtilities.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
+		// condensedContent
+		normalizedContent = ChatFormatter.EXPAND_PATTERN.matcher( normalizedContent ).replaceAll( "<br>" );
 
-		String fixedGreenContent =
-			ChatFormatter.GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll(
-				"<font color=green><b>$1</b></font></a> $2</font>" );
-		fixedGreenContent =
-			ChatFormatter.NESTED_LINKS_PATTERN.matcher( fixedGreenContent ).replaceAll(
-				"<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
-		fixedGreenContent =
-			ChatFormatter.WHOIS_PATTERN.matcher( fixedGreenContent ).replaceAll(
-				"$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
+		// normalBoldsContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></b>", "</b><br>" );
 
-		String leftAlignContent = StringUtilities.globalStringDelete( fixedGreenContent, "<center>" );
-		leftAlignContent = StringUtilities.globalStringReplace( leftAlignContent, "</center>", "<br>" );
+		// colonOrderedContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, ":</b></a>", "</a></b>:" );
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "</a>:</b>", "</a></b>:" );
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "</b></a>:", "</a></b>:" );
 
-		return leftAlignContent;
+		// italicOrderedContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "<b><i>", "<i><b>" );
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "</b></font></a>", "</font></a></b>" );
+
+		// fixedGreenContent
+		normalizedContent = ChatFormatter.GREEN_PATTERN.matcher( normalizedContent ).replaceAll( "<font color=green><b>$1</b></font></a> $2</font>" );
+		normalizedContent = ChatFormatter.NESTED_LINKS_PATTERN.matcher( normalizedContent ).replaceAll( "<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
+		normalizedContent = ChatFormatter.WHOIS_PATTERN.matcher( normalizedContent ).replaceAll( "$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
+
+		// leftAlignContent
+		normalizedContent = StringUtilities.globalStringDelete( normalizedContent, "<center>" );
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "</center>", "<br>" );
+
+		return normalizedContent;
 	}
 
 	public static final String formatChatMessage( final ChatMessage message )

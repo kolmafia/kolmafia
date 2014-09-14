@@ -40,6 +40,9 @@ import java.io.OutputStreamWriter;
 
 import java.nio.charset.Charset;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -54,6 +57,10 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatMessage;
+import net.sourceforge.kolmafia.chat.ChatParser;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
@@ -330,6 +337,15 @@ public class TestCommand
 		if ( command.equals( "charpane" ) )
 		{
 			CharPaneRequest.processResults( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "chat" ) )
+		{
+			List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
+			ChatParser.parseLines( chatMessages, TestCommand.contents );
+			ChatManager.processMessages( chatMessages );
 			TestCommand.contents = null;
 			return;
 		}
