@@ -1308,8 +1308,13 @@ public class ItemPool
 	public static final int GG_TICKET = 4622;
 	public static final int COFFEE_PIXIE_STICK = 4625;
 	public static final int SPIDER_RING = 4629;
+	public static final int SINISTER_DEMON_MASK = 4637;
+	public static final int CHAMPION_BELT = 4638;
+	public static final int SPACE_TRIP_HEADPHONES = 4638;
 	public static final int KOL_CON_SIX_PACK = 4641;
 	public static final int JUJU_MOJO_MASK = 4644;
+	public static final int METEOID_ICE_BEAM = 4646;
+	public static final int DUNGEON_FIST_GAUNTLET = 4647;
 	public static final int IRONIC_MOUSTACHE = 4651;
 	public static final int ELLSBURY_BOOK = 4663;
 	public static final int INSULT_PUPPET = 4667;

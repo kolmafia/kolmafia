@@ -86,6 +86,10 @@ public class TicketCounterRequest
 	public TicketCounterRequest()
 	{
 		super( TicketCounterRequest.TICKET_COUNTER );
+
+		// We want to visit the ticket counter, not redeem tickets
+		this.constructURLString( "arcade.php?ticketcounter=1" );
+
 	}
 
 	public TicketCounterRequest( final String action )
@@ -113,11 +117,23 @@ public class TicketCounterRequest
 		super( TicketCounterRequest.TICKET_COUNTER, action, itemId );
 	}
 
+	@Override
+	public void processResults()
+	{
+		TicketCounterRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static boolean parseResponse( final String urlString, final String responseText )
 	{
-		if ( urlString.indexOf( "action=redeem" ) != -1 )
+		if ( urlString.contains( "action=redeem" ) )
 		{
 			CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
+			return true;
+		}
+
+		if ( urlString.contains( "ticketcounter=1" ) )
+		{
+			ArcadeRequest.parseResponse( urlString, responseText );
 			return true;
 		}
 
