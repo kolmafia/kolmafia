@@ -2333,6 +2333,17 @@ public class UseSkillRequest
 		return true;
 	}
 
+	@Override
+	public int getAdventuresUsed()
+	{
+		return SkillDatabase.getAdventureCost( this.skillId );
+	}
+
+	public static int getAdventuresUsed( final String urlString )
+	{
+		return SkillDatabase.getAdventureCost( UseSkillRequest.getSkillId( urlString ) );
+	}
+
 	public static class BuffTool
 	{
 		final AdventureResult item;
