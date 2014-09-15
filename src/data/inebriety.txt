@@ -489,7 +489,7 @@ warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serio
 warbear feasting mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Loot Lust (+15% Items from WarBears)
 wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 water purification pills	3	1	decent	6	25-35	25-35	25-35
-Wet Russian	3	11	awesome	0	0	0	0
+Wet Russian	3	11	awesome	13-14	0	40-60	0
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
 whiskey and soda	3	1	decent	5-6	0	8-10	0	3-5 MP
 whiskey bittersweet	3	3	good	5-10	16-20	0	0
