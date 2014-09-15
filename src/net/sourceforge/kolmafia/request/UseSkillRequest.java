@@ -789,36 +789,80 @@ public class UseSkillRequest
 		int soulCost = SkillDatabase.getSoulsauceCost( this.skillId );
 		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
 		int rainCost = SkillDatabase.getRainCost( skillId );
-		int lightningCost = SkillDatabase.getRainCost( skillId );
-		// Currently only one of these costs will be true
+		int lightningCost = SkillDatabase.getLightningCost( skillId );
+		int numCosts = 0;
+		StringBuffer costString = new StringBuffer();
+		costString.append( this.skillName );
+		costString.append( " (" );
 		if ( advCost > 0 )
 		{
-			this.lastStringForm = this.skillName + " (" + advCost + " adv)";
+			costString.append( advCost );
+			costString.append( " adv" );
+			numCosts++;
 		}
-		else if ( soulCost > 0 )
+		if ( soulCost > 0 )
 		{
-			this.lastStringForm = this.skillName + " (" + soulCost + " soulsauce)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( soulCost );
+			costString.append( " soulsauce" );
+			numCosts++;
 		}
-		else if ( this.skillId == SkillPool.SUMMON_ANNOYANCE )
+		if ( this.skillId == SkillPool.SUMMON_ANNOYANCE )
 		{
-			this.lastStringForm = this.skillName + " (" + Preferences.getInteger( "summonAnnoyanceCost" ) + " swagger)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( Preferences.getInteger( "summonAnnoyanceCost" ) );
+			costString.append( " swagger" );
+			numCosts++;
 		}
-		else if ( thunderCost > 0 )
+		if ( thunderCost > 0 )
 		{
-			this.lastStringForm = this.skillName + " (" + thunderCost + " dB of thunder)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( thunderCost );
+			costString.append( " dB of thunder" );
+			numCosts++;
 		}
-		else if ( rainCost > 0 )
+		if ( rainCost > 0 )
 		{
-			this.lastStringForm = this.skillName + " (" + rainCost + " drops of rain)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( rainCost );
+			costString.append( " drops of rain" );
+			numCosts++;
 		}
-		else if ( lightningCost > 0 )
+		if ( lightningCost > 0 )
 		{
-			this.lastStringForm = this.skillName + " (" + lightningCost + " bolts of lightning)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( lightningCost );
+			costString.append( " bolts of lightning" );
+			numCosts++;
 		}
-		else
+		if ( mpCost > 0 || 
+			( advCost == 0 && soulCost == 0 && this.skillId != SkillPool.SUMMON_ANNOYANCE &&
+			thunderCost == 0 && rainCost == 0 && lightningCost == 0 ) )
 		{
-			this.lastStringForm = this.skillName + " (" + mpCost + " mp)";
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( mpCost );
+			costString.append( " mp" );
 		}
+		costString.append( ")" );
+		this.lastStringForm = costString.toString();
 		return this.lastStringForm;
 	}
 
