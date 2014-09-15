@@ -2565,7 +2565,7 @@ public class UseItemRequest
 			{
 				Preferences.setString( "spookyravenRecipeUsed", "with_glasses" );
 			}
-			else
+			else if ( !Preferences.getString( "spookyravenRecipeUsed" ).equals( "with_glasses" ) )
 			{
 				Preferences.setString( "spookyravenRecipeUsed", "no_glasses" );
 			}
