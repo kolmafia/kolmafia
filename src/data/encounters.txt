@@ -176,6 +176,7 @@ The Spooky Gravy Burrow	CLOVER	Stage Fright
 Thugnderdome	CLOVER	Gno More Mr. Gnice Guy
 Tower Ruins	CLOVER	I've Gotta Crow
 Twin Peak	CLOVER	What Kind of Party Is This?
+Ye Olde Medievale Villagee	CLOVER	A Role In the Hay
 
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox
