@@ -89,7 +89,7 @@ public class HaciendaManager
 		"fettucini Inconnu",
 		"silver salt-shaker",
 		"cans of sterno",
-		"silver paté knife",
+		"silver pat&eacute; knife",
 		"fancy beef jerky",
 		"pipe wrench",
 		"gun cleaning kit",
@@ -133,7 +133,7 @@ public class HaciendaManager
 			}
 			KoLmafia.updateDisplay( "You have found a clue: " + HaciendaManager.getClue( text ) );
 		}
-		else if ( text.contains( "acquire an item" ) || text.contains( "large handful of meat" ) )
+		else if ( text.contains( "You acquire" ) || text.contains( "large handful of meat" ) )
 		{
 			// Verify that it's an reward from here, not elsewhere
 			if ( HaciendaManager.verifyReward( text ) )
