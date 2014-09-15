@@ -1021,6 +1021,7 @@ public class SkillDatabase
 		case SkillPool.SIMMER:
 		case SkillPool.RECRUIT_ZOMBIE:
 		case SkillPool.CHECK_MIRROR:
+		case SkillPool.RAIN_MAN:
 			return 1;
 		default:
 			return 0;
