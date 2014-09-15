@@ -70,7 +70,6 @@ public class EffectDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> effectByName = new TreeMap<String, Integer>();
 	private static final HashMap<String, String> defaultActions = new HashMap<String, String>();
 
@@ -132,9 +131,7 @@ public class EffectDatabase
 		final String descriptionId, final String defaultAction )
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
-		String displayName = StringUtilities.getDisplayName( name );
-		EffectDatabase.nameById.put( effectId, displayName );
-		EffectDatabase.dataNameById.put( effectId, name );
+		EffectDatabase.nameById.put( effectId, name );
 		EffectDatabase.effectByName.put( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
@@ -235,27 +232,20 @@ public class EffectDatabase
 	public static final String getEffectName( final int effectId )
 	{
 		return effectId == -1 ?
-			"Unknown effect" :
-			StringUtilities.getDisplayName( EffectDatabase.nameById.get( IntegerPool.get( effectId ) ) );
-	}
-
-	public static final String getEffectDataName( final int effectId )
-	{
-		return effectId == -1 ?
 			null:
-			EffectDatabase.dataNameById.get( IntegerPool.get( effectId ) );
+			EffectDatabase.nameById.get( IntegerPool.get( effectId ) );
 	}
 
 	public static final String getEffectName( final String descriptionId )
 	{
-		Object effectId = EffectDatabase.effectByDescription.get( descriptionId );
-		return effectId == null ? null : EffectDatabase.getEffectName( ( (Integer) effectId ).intValue() );
+		Integer effectId = EffectDatabase.effectByDescription.get( descriptionId );
+		return effectId == null ? null : EffectDatabase.getEffectName( effectId.intValue() );
 	}
 
 	public static final int getEffect( final String descriptionId )
 	{
-		Object effectId = EffectDatabase.effectByDescription.get( descriptionId );
-		return effectId == null ? -1 : ( (Integer) effectId ).intValue();
+		Integer effectId = EffectDatabase.effectByDescription.get( descriptionId );
+		return effectId == null ? -1 : effectId.intValue();
 	}
 
 	public static final String getDescriptionId( final int effectId )
@@ -282,10 +272,10 @@ public class EffectDatabase
 
 	public static final int getEffectId( final String effectName, final boolean exact )
 	{
-		Object effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
+		Integer effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
 		if ( effectId != null )
 		{
-			return ( (Integer) effectId ).intValue();
+			return effectId.intValue();
 		}
 		else if ( exact )
 		{
@@ -310,8 +300,8 @@ public class EffectDatabase
 
 	static final String getImageName( final int effectId )
 	{
-		Object imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerPool.get( effectId ) );
-		return imageName == null ? "" : (String)imageName;
+		String imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerPool.get( effectId ) );
+		return imageName == null ? "" : imageName;
 	}
 
 	public static final String getImage( final int effectId )
@@ -329,11 +319,6 @@ public class EffectDatabase
 	public static final Set entrySet()
 	{
 		return EffectDatabase.nameById.entrySet();
-	}
-
-	public static final Set dataNameEntrySet()
-	{
-		return EffectDatabase.dataNameById.entrySet();
 	}
 
 	public static final Collection<String> values()
@@ -396,11 +381,9 @@ public class EffectDatabase
 		image = new String( image );
 
 		String canonicalName = StringUtilities.getCanonicalName( name );
-		String displayName = StringUtilities.getDisplayName( name );
 		Integer id = IntegerPool.get( effectId );
 
-		EffectDatabase.nameById.put( id, displayName );
-		EffectDatabase.dataNameById.put( id, name );
+		EffectDatabase.nameById.put( id, name );
 		EffectDatabase.effectByName.put( canonicalName, id );
 		EffectDatabase.imageById.put( id, image );
 		EffectDatabase.descriptionById.put( id, descId );
@@ -439,13 +422,11 @@ public class EffectDatabase
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
-		Iterator<Entry<Integer, String>> it = EffectDatabase.dataNameById.entrySet().iterator();
 		int lastInteger = 1;
 
-		while ( it.hasNext() )
+		for ( Entry<Integer, String> entry : EffectDatabase.nameById.entrySet() )
 		{
-			Entry<Integer, String> entry = it.next();
-			Integer nextInteger = (Integer) entry.getKey();
+			Integer nextInteger = entry.getKey();
 			int effectId = nextInteger.intValue();
 
 			// Skip pseudo effects
@@ -461,7 +442,7 @@ public class EffectDatabase
 
 			lastInteger = effectId + 1;
 
-			String name = (String) entry.getValue();
+			String name = entry.getValue();
 			String image = EffectDatabase.imageById.get( nextInteger );
 			String descId = EffectDatabase.descriptionById.get( nextInteger );
 			String canonicalName = StringUtilities.getCanonicalName( name );

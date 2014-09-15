@@ -474,75 +474,43 @@ public class UneffectRequest
 		switch( skillId )
 		{
 		case SkillPool.SPIRIT_BOON:
-			if ( KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BOON_OF_SHE_WHO_WAS );
-			}
-			else if ( KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_STORM_TORTOISE );
-			}
-			else if ( KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_WAR_SNAPPER );
-			}
-			else
-			{
-				return "none";
-			}
+		{
+			String blessing = KoLCharacter.getBlessingType();
+			return  blessing == KoLCharacter.SHE_WHO_WAS_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.BOON_OF_SHE_WHO_WAS ) :
+				blessing == KoLCharacter.STORM_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_STORM_TORTOISE ) :
+				blessing == KoLCharacter.WAR_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.BOON_OF_THE_WAR_SNAPPER ) :
+				"none";
+		}
 		case SkillPool.SHE_WHO_WAS_BLESSING:
-			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_SHE_WHO_WAS );
-			}
-			else
-			{
-				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_SHE_WHO_WAS );
-			}
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
+							     EffectPool.BLESSING_OF_SHE_WHO_WAS :
+							     EffectPool.DISTAIN_OF_SHE_WHO_WAS );
 		case SkillPool.STORM_BLESSING:
-			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_THE_STORM_TORTOISE );
-			}
-			else
-			{
-				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_THE_STORM_TORTOISE );
-			}
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
+							     EffectPool.BLESSING_OF_THE_STORM_TORTOISE :
+							     EffectPool.DISTAIN_OF_THE_STORM_TORTOISE );
 		case SkillPool.WAR_BLESSING:
-			if ( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER )
-			{
-				return EffectDatabase.getEffectName( EffectPool.BLESSING_OF_THE_WAR_SNAPPER );
-			}
-			else
-			{
-				return EffectDatabase.getEffectName( EffectPool.DISTAIN_OF_THE_WAR_SNAPPER );
-			}
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
+							     EffectPool.BLESSING_OF_THE_WAR_SNAPPER :
+							     EffectPool.DISTAIN_OF_THE_WAR_SNAPPER );
 		case SkillPool.TURTLE_POWER:
-			if ( KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_SHE_WHO_WAS );
-			}
-			else if ( KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_STORM_TORTOISE );
-			}
-			else if ( KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING )
-			{
-				return EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_WAR_SNAPPER );
-			}
-			else
-			{
-				return "none";
-			}
+		{
+			String blessing = KoLCharacter.getBlessingType();
+			return  blessing == KoLCharacter.SHE_WHO_WAS_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.AVATAR_OF_SHE_WHO_WAS ) :
+				blessing == KoLCharacter.STORM_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_STORM_TORTOISE ) :
+				blessing == KoLCharacter.WAR_BLESSING ?
+				EffectDatabase.getEffectName( EffectPool.AVATAR_OF_THE_WAR_SNAPPER ) :
+				"none";
+		}
 		case SkillPool.SHIELD_OF_THE_PASTALORD:
-			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
-			{
-				return EffectDatabase.getEffectName( EffectPool.SHIELD_OF_THE_PASTALORD );
-			}
-			else
-			{
-				return EffectDatabase.getEffectName( EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD );
-			}
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ?
+							     EffectPool.SHIELD_OF_THE_PASTALORD :
+							     EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD );
 		}
 
 		// Handle remaining skills where skill name and effect name don't match with a lookup

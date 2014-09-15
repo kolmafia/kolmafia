@@ -1330,7 +1330,7 @@ public class DebugDatabase
 
 	private static final void checkEffect( final int effectId, final PrintStream report )
 	{
-		String name = EffectDatabase.getEffectDataName( effectId );
+		String name = EffectDatabase.getEffectName( effectId );
 		if ( name == null )
 		{
 			return;
