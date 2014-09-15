@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -487,14 +489,24 @@ public class TurnCounter
 			return 1;
 		}
 
-		if ( path.equals( "crimbo09.php" ) )
+		if ( path.equals( "inv_use.php" ) || path.equals( "inv_eat.php" ) )
 		{
-			return Crimbo09Request.getTurnsUsed( request );
+			return UseItemRequest.getAdventuresUsed( urlString );
+		}
+
+		if ( path.equals( "skills.php" ) )
+		{
+			return UseSkillRequest.getAdventuresUsed( urlString );
 		}
 
 		if ( path.equals( "craft.php" ) || path.equals( "guild.php" ) )
 		{
 			return CreateItemRequest.getAdventuresUsed( request );
+		}
+
+		if ( path.equals( "crimbo09.php" ) )
+		{
+			return Crimbo09Request.getTurnsUsed( request );
 		}
 
 		return 0;
