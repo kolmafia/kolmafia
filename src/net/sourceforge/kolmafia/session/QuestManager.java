@@ -354,7 +354,7 @@ public class QuestManager
 		if ( responseText.contains( "you spy a crude stone staircase" ) || responseText.contains( "notice a set of crude carved stairs" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
-			Preferences.setInteger( "currentExtremity", 0 );			
+			Preferences.setInteger( "currentExtremity", 0 );
 		}
 	}
 
@@ -1025,6 +1025,7 @@ public class QuestManager
 			if ( responseText.contains( "in the mood for a bowl of wet stunt nut stew" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step3" );
+				ResultProcessor.removeItem( ItemPool.PALINDROME_BOOK_2 );
 			}
 		}
 	}
