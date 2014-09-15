@@ -4935,7 +4935,7 @@ public abstract class KoLCharacter
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5070,8 +5070,7 @@ public abstract class KoLCharacter
 
 		for ( int i = 0; i < effects.size(); ++i )
 		{
-			newModifiers.add( Modifiers.getModifiers(
-				( (AdventureResult) effects.get( i ) ).getName() ) );
+			newModifiers.add( Modifiers.getModifiers( effects.get( i ).getName() ) );
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
@@ -5372,7 +5371,7 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final double getSmithsnessModifier( AdventureResult[] equipment, List effects )
+	public static final double getSmithsnessModifier( AdventureResult[] equipment, List<AdventureResult> effects )
 	{
 		double smithsness = 0;
 		
@@ -5394,9 +5393,10 @@ public abstract class KoLCharacter
 				}
 			}
 		}
-		for ( int i = 0; i < effects.size(); ++i )
+
+		for ( AdventureResult effect : effects )
 		{
-			Modifiers emod = Modifiers.getModifiers( ( (AdventureResult) effects.get( i ) ).getName() );
+			Modifiers emod = Modifiers.getModifiers( effect.getName() );
 			if ( emod != null )
 			{
 				smithsness += emod.get( Modifiers.SMITHSNESS );

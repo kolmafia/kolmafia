@@ -3461,7 +3461,7 @@ public class Modifiers
 		// Make a map of status effects
 		Map effects = new TreeMap();
 
-		it = EffectDatabase.dataNameEntrySet().iterator();
+		it = EffectDatabase.entrySet().iterator();
 		while ( it.hasNext() )
 		{
 			Entry entry = (Entry) it.next();

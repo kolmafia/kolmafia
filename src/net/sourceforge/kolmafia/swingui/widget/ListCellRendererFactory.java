@@ -194,12 +194,17 @@ public class ListCellRendererFactory
 
 		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
+			StringBuilder stringForm = new StringBuilder();
+
 			if ( !ar.isItem() )
 			{
+				// HTMLify it so that character entities get displayed nicely
+				stringForm.append( "<html><nobr>" );
+				stringForm.append( ar.toString() );
+				stringForm.append( "</nobr></html>" );
+				( (JLabel) defaultComponent ).setText( stringForm.toString() );
 				return defaultComponent;
 			}
-
-			StringBuilder stringForm = new StringBuilder();
 
 			stringForm.append( "<html><nobr>" );
 
