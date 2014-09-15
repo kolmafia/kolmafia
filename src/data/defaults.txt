@@ -1644,6 +1644,7 @@ user	choiceAdventure962	1
 user	choiceAdventure963	1
 user	choiceAdventure964	1
 user	choiceAdventure965	1
+user	choiceAdventure966	1
 user	choiceAdventure970	0
 user	choiceAdventure973	0
 user	choiceAdventure974	0
