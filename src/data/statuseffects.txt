@@ -1733,4 +1733,4 @@
 1732	You're High as a Crow, Marty	scroll1.gif	514949116353a61c2a745cc786bf1bcc	use 1 Freddie's blessing of Mercury
 1733	Sugar-Frosted Pet Guts	owlstix.gif	1c04130264df7bc369a1a7b22909f202	eat 1 Strix stix
 1734	Sour Grapes	wine.gif	ee7041423e7f89bddf2f5390f7eb8573	drink 1 non-aged vinegar
-1735	You Liver	liver.gif	ac35fa6f2c21412f62cf3b90404c9aaa
+1735	You Liver	liver.gif	ac35fa6f2c21412f62cf3b90404c9aaa	use 1 They liver

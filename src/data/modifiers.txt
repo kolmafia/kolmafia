@@ -7065,6 +7065,7 @@ the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 The Kloop in the Coop	Free Pull
 The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
 The Smith's Tome	Free Pull
+They liver	Effect: "You Liver", Effect Duration: 20
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Thinknerd's Grimoire of Geeky Gifts	Free Pull
 time sleigh	Free Pull
