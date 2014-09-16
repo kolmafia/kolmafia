@@ -237,7 +237,8 @@ public class ResponseTextParser
 			return false;
 		}
 
-		if ( location.startsWith( "dev" ) )
+		if ( location.startsWith( "dev" ) || 
+		     location.startsWith( "ilovebugs.php" ) )
 		{
 			return false;
 		}
