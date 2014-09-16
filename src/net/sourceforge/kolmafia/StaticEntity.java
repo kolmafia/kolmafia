@@ -34,31 +34,26 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Container;
-import java.awt.Frame;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.wc.SVNInfo;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.GenericRequest;
-
+import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -97,6 +92,18 @@ public abstract class StaticEntity
 
 	public static final int getRevision()
 	{
+		try
+		{
+			if ( KoLConstants.REVISION == null && SVNWCUtil.isWorkingCopyRoot( KoLConstants.ROOT_LOCATION ) )
+			{
+				SVNInfo info = SVNManager.doInfo( KoLConstants.ROOT_LOCATION );
+				return (int) info.getRevision().getNumber();
+			}
+		}
+		catch ( SVNException e )
+		{
+			// fall through
+		}
 		if ( KoLConstants.REVISION == null )
 		{
 			return 0;
