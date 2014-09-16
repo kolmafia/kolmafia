@@ -68,7 +68,6 @@ import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -1989,11 +1988,8 @@ public abstract class RuntimeLibrary
 		{
 			return value;
 		}
-
-		Iterator i = relayRequest.getFormFields().iterator();
-		while ( i.hasNext() )
+		for ( String field : relayRequest.getFormFields() )
 		{
-			String field = (String) i.next();
 			String[] pieces = field.split( "=", 2 );
 			String name = pieces[ 0 ];
 			Value keyval = DataTypes.STRING_INIT;
@@ -3517,9 +3513,9 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
 	}
 
-	private static int WAD2POWDER = -12;	// <elem> powder - <elem> wad
-	private static int WAD2NUGGET = -6;
-	private static int WAD2GEM = 1321;
+	private static final int WAD2POWDER = -12;	// <elem> powder - <elem> wad
+	private static final int WAD2NUGGET = -6;
+	private static final int WAD2GEM = 1321;
 
 	public static Value get_related( Interpreter interpreter, Value item, Value type )
 	{
@@ -4514,7 +4510,10 @@ public abstract class RuntimeLibrary
 	{
 		RelayRequest relayRequest = interpreter.getRelayRequest();
 
-		RequestThread.postRequest( FightRequest.INSTANCE );
+		if ( FightRequest.currentRound > 0 || FightRequest.inMultiFight )
+		{
+			RequestThread.postRequest( FightRequest.INSTANCE );
+		}
 		String response = relayRequest == null ?
 			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
