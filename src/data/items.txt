@@ -2056,7 +2056,7 @@
 2039	x-ray specs	488460864	xrayspecs.gif	accessory	g,d	5	pairs of x-ray specs
 2040	patchouli oil bomb	338636112	patchbomb.gif	none, combat	t,d	150
 2041	ferret bait	665792687	ferretbait.gif	none, combat	t,d	150	handfuls of ferret bait
-2042	exploding hacky-sack	380296478	hackeysack.gif	none, combat	t,d	150
+2042	exploding hacky-sack	380296478	hackeysack.gif	none, combat	t,d	150	exploding hackensacks
 2043	macrame net	376426839	macramenet.gif	none, combat	t,d	150
 2044	your father's MacGuffin diary	972316396	book2.gif	usable	q	0
 2045	brain-meltingly-hot chicken wings	190046939	hotwings.gif	food	t,d	85	plates of brain-meltingly-hot chicken wings
@@ -7775,7 +7775,7 @@
 7756	Xiblaxian ultraburrito	384466763	burrito.gif	food		0
 7757	Xiblaxian space-whiskey	845948150	flask.gif	drink		0
 7758	Xiblaxian residence-cube	571869324	residencecube.gif	usable		0
-7759
+7759	They liver	486670365	liver.gif	usable	t	0
 7760
 7761	holo-tank	128028251	holotank.gif	none, combat	t	0
 7762	holo-bomber	259833781	holobomber.gif	none, combat	t	0
