@@ -2072,10 +2072,20 @@ public class RelayRequest
 
 	public void sendGeneralWarning( final String image, final String message, final String confirm )
 	{
-		this.sendGeneralWarning( image, message, confirm, null );
+		this.sendGeneralWarning( image, message, confirm, null, false );
+	}
+
+	public void sendGeneralWarning( final String image, final String message, final String confirm, final boolean usePostMethod )
+	{
+		this.sendGeneralWarning( image, message, confirm, null, usePostMethod );
 	}
 
 	public void sendGeneralWarning( final String image, final String message, final String confirm, final String extra )
+	{
+		this.sendGeneralWarning( image, message, confirm, extra, false );
+	}
+
+	public void sendGeneralWarning( final String image, final String message, final String confirm, final String extra, final boolean usePostMethod )
 	{
 		StringBuilder warning = new StringBuilder();
 
@@ -2085,29 +2095,58 @@ public class RelayRequest
 
 		if ( image != null && !image.equals( "" ) )
 		{
-			String url = this.getURLString();
-
 			warning.append( "<center>" );
-			if ( confirm != null )
+			if ( usePostMethod )
 			{
-				warning.append( "<a href=\"" );
-				warning.append( url );
-				warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-				warning.append( confirm );
-				warning.append( "=on" );
-				if ( extra != null )
-				{
-					warning.append( "&" );
-					warning.append( extra );
-				}
+				// We need to craft a form
+				warning.append( "<form method=\"post\" name=warningform action=\"" );
+				warning.append( this.getBasePath() );
 				warning.append( "\">" );
+				for ( String element : this.data )
+				{
+					int equals = element.indexOf( "=" );
+					String name = equals == -1 ? element : element.substring( 0, equals );
+					String value = equals == -1 ? "" : element.substring( equals + 1 );
+					warning.append( "<input type=hidden name=");
+					warning.append( name );
+					warning.append( " value=\"" );
+					warning.append( value );
+					warning.append( "\">" );
+				}
+				warning.append( "<input type=hidden name=");
+				warning.append( confirm );
+				warning.append( " value=\"" );
+				warning.append( "on" );
+				warning.append( "\">" );
+				warning.append( "<input type=\"image\" src=\"/images/itemimages/" );
+				warning.append( image );
+				warning.append( "\" width=30 height=30>" );
+				warning.append( "</form>" );
 			}
-			warning.append( "<img id=\"warningImage\" src=\"/images/itemimages/" );
-			warning.append( image );
-			warning.append( "\" width=30 height=30>" );
-			if ( confirm != null )
+			else
 			{
-				warning.append( "</a>" );
+				if ( confirm != null )
+				{
+					String url = this.getFullURLString();
+					warning.append( "<a href=\"" );
+					warning.append( url );
+					warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+					warning.append( confirm );
+					warning.append( "=on" );
+					if ( extra != null )
+					{
+						warning.append( "&" );
+						warning.append( extra );
+					}
+					warning.append( "\">" );
+				}
+				warning.append( "<img id=\"warningImage\" src=\"/images/itemimages/" );
+				warning.append( image );
+				warning.append( "\" width=30 height=30>" );
+				if ( confirm != null )
+				{
+					warning.append( "</a>" );
+				}
 			}
 			warning.append( "<br></center>" );
 		}
@@ -2999,6 +3038,12 @@ public class RelayRequest
 		String image = null;
 		boolean cookie = false;
 		boolean lights = false;
+
+ 		String urlString = this.getURLString();
+		boolean isSkill = urlString.startsWith( "skills.php" );
+		int skillId = isSkill ? UseSkillRequest.getSkillId( urlString ) : 0;
+		String skillName = isSkill ? SkillDatabase.getSkillName( skillId ) : "";
+
 		expired = TurnCounter.getExpiredCounter( this, false );
 		while ( expired != null )
 		{
@@ -3030,7 +3075,17 @@ public class RelayRequest
 			switch ( remain )
 			{
 			case 0:
-				msg.append( " counter has expired, so you may wish to adventure somewhere else at this time." );
+				msg.append( " counter has expired" );
+				if ( isSkill )
+				{
+					msg.append( ". Since the " );
+					msg.append( skillName );
+					msg.append( " skill will use a turn, you may wish to delay using it at this time." );
+				}
+				else
+				{
+					msg.append( ", so you may wish to adventure somewhere else at this time." );
+				}
 				break;
 			case 1:
 				msg.append( " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn." );
@@ -3046,7 +3101,16 @@ public class RelayRequest
 
 		if ( msg != null )
 		{
-			msg.append( "<br>If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+			msg.append( "<br>If you are certain that " );
+			if ( isSkill )
+			{
+				msg.append( "you'd like to use this skill at this time" );
+			}
+			else
+			{
+				msg.append( "this is where you'd like to adventure" );
+			}
+			msg.append( ", click on the image to proceed." );
 			if ( cookie )
 			{
 				msg.append( "<br><br>" );
@@ -3057,7 +3121,7 @@ public class RelayRequest
 				msg.append( "<br><br>" );
 				msg.append( LightsOutManager.message() );
 			}
-			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER );
+			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER, isSkill );
 			return true;
 		}
 		

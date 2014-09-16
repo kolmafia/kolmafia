@@ -2130,7 +2130,7 @@ public class UseSkillRequest
 		return false;
 	}
 
-	private static int getSkillId( final String urlString )
+	public static int getSkillId( final String urlString )
 	{
 		Matcher skillMatcher = UseSkillRequest.SKILLID_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
