@@ -2111,6 +2111,7 @@ public class ItemPool
 	public static final int FRESHWATER_FISHBONE = 7651;
 	public static final int NEOPRENE_SKULLCAP = 7659;
 	public static final int GOBLIN_WATER = 7660;
+	public static final int LIQUID_ICE = 7665;
 	public static final int CONFISCATOR_BOOK = 7706;
 	public static final int THORS_PLIERS = 7709;
 	public static final int BEAUTIFUL_RAINBOW = 7712;

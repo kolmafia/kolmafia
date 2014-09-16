@@ -1540,6 +1540,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GROARS_FUR:
+		case ItemPool.LIQUID_ICE:
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, "step5" );
 			break;
 
