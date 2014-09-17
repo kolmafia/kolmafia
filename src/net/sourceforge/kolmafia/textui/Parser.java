@@ -123,7 +123,7 @@ public class Parser
 
 	private String fullLine;
 
-	private TreeMap imports;
+	private TreeMap<File, Long> imports;
 	private Function mainMethod = null;
 	private String notifyRecipient = null;
 
@@ -132,9 +132,9 @@ public class Parser
 		this( null, null, null );
 	}
 
-	public Parser( final File scriptFile, final InputStream stream, final TreeMap imports )
+	public Parser( final File scriptFile, final InputStream stream, final TreeMap<File, Long> imports )
 	{
-		this.imports = ( imports != null ) ? imports : new TreeMap();
+		this.imports = ( imports != null ) ? imports : new TreeMap<File, Long>();
 
 		if ( scriptFile != null )
 		{
@@ -226,7 +226,7 @@ public class Parser
 		return this.lineNumber;
 	}
 
-	public TreeMap getImports()
+	public TreeMap<File, Long> getImports()
 	{
 		return this.imports;
 	}
@@ -451,6 +451,7 @@ public class Parser
 		result = startScope == null ? new Scope( variables, parentScope ) : startScope;
 		this.parseScriptName();
 		this.parseNotify();
+		this.parseSince();
 
 		while ( ( importString = this.parseImport() ) != null )
 		{
@@ -1525,15 +1526,15 @@ public class Parser
 
 		this.readToken(); // {
 
-		ArrayList tests = new ArrayList();
-		ArrayList indices = new ArrayList();
+		ArrayList<Value> tests = new ArrayList<Value>();
+		ArrayList<Integer> indices = new ArrayList<Integer>();
 		int defaultIndex = -1;
 
 		SwitchScope scope = new SwitchScope( parentScope );
 		int currentIndex = 0;
 		Integer currentInteger = null;
 
-		TreeMap labels = new TreeMap();
+		TreeMap<Value, Integer> labels = new TreeMap<Value, Integer>();
 		boolean constantLabels = true;
 
 		while ( true )
@@ -2340,8 +2341,8 @@ public class Parser
 
 		for ( int i = 0; i < functions.length; ++i )
 		{
-			Iterator refIterator = functions[ i ].getReferences();
-			Iterator valIterator = params.iterator();
+			Iterator< ? > refIterator = functions[ i ].getReferences();
+			Iterator< ? > valIterator = params.iterator();
 			boolean matched = true;
 
 			while ( refIterator.hasNext() && valIterator.hasNext() )
@@ -3378,6 +3379,14 @@ public class Parser
 			this.notifyRecipient = resultString;
 		}
 	}
+	
+	private void parseSince()
+	{
+		String revision = this.parseDirective( "since" );
+		if ( revision != null )
+			// enforce "since" directives RIGHT NOW at parse time
+			this.enforceSince( revision );
+	}
 
 	private String parseImport()
 	{
@@ -3787,6 +3796,21 @@ public class Parser
 		return this.parseException( buffer.toString() );
 	}
 
+	public final ScriptException sinceException( String version, String revision, boolean targetIsRevision )
+	{
+		String template;
+		if ( targetIsRevision )
+		{
+			template = "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at http://builds.kolmafia.us/.";
+		}
+		else
+		{
+			template = "'%s' requires version %s of kolmafia or higher (current: %s).  Up-to-date builds can be found at http://builds.kolmafia.us/.";
+		}
+
+		return new ScriptException( String.format( template, this.shortFileName, revision, version ) );
+	}
+
 	public static final String undefinedFunctionMessage( final String name, final ValueList params )
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -3794,6 +3818,43 @@ public class Parser
 		Parser.appendFunction( buffer, name, params );
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
+	}
+	
+	private void enforceSince( String revision )
+	{
+		int current = StaticEntity.getRevision();
+		if ( revision.startsWith( "r" ) ) // revision
+		{
+			revision = revision.substring( 1 );
+			try
+			{
+				int target = Integer.parseInt( revision );
+				if ( current < target )
+				{
+					throw this.sinceException( String.valueOf( current ), revision, true );
+				}
+			}
+			catch ( NumberFormatException e )
+			{
+				throw this.parseException( "invalid 'since' format" );
+			}
+		}
+		else // version (or syntax error)
+		{
+			if ( revision.split( "\\." ).length != 2 ) // why don't java strings have a .count() method, this is ridiculous
+			{
+				throw this.parseException( "invalid 'since' format" );
+			}
+			String version = StaticEntity.getVersion();
+			// strip "KoLMafia v" from the front
+			version = version.substring( version.indexOf( "v" ) + 1 );
+
+			if ( version.compareTo( revision ) < 0 )
+			{
+				throw this.sinceException( version, revision, false );
+			}
+		}
+
 	}
 
 	public final void warning( final String msg )
@@ -3806,7 +3867,7 @@ public class Parser
 		buffer.append( name );
 		buffer.append( "(" );
 
-		Iterator it = params.iterator();
+		Iterator< ? > it = params.iterator();
 		boolean first = true;
 		while ( it.hasNext() )
 		{
@@ -3849,7 +3910,7 @@ public class Parser
 			return;
 		}
 
-		Iterator it = indices.iterator();
+		Iterator< ? > it = indices.iterator();
 		while ( it.hasNext() )
 		{
 			Value current = (Value) it.next();

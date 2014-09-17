@@ -70,6 +70,7 @@ public abstract class StaticEntity
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
+	private static Integer cachedSVNRevisionNumber = null;
 
 	public static final String getVersion()
 	{
@@ -94,10 +95,15 @@ public abstract class StaticEntity
 	{
 		try
 		{
+			if ( StaticEntity.cachedSVNRevisionNumber != null )
+			{
+				return StaticEntity.cachedSVNRevisionNumber;
+			}
 			if ( KoLConstants.REVISION == null && SVNWCUtil.isWorkingCopyRoot( KoLConstants.ROOT_LOCATION ) )
 			{
 				SVNInfo info = SVNManager.doInfo( KoLConstants.ROOT_LOCATION );
-				return (int) info.getRevision().getNumber();
+				StaticEntity.cachedSVNRevisionNumber = (int) info.getRevision().getNumber();
+				return StaticEntity.cachedSVNRevisionNumber;
 			}
 		}
 		catch ( SVNException e )
