@@ -3796,7 +3796,7 @@ public class Parser
 		return this.parseException( buffer.toString() );
 	}
 
-	public final ScriptException sinceException( String version, String revision, boolean targetIsRevision )
+	public final ScriptException sinceException( String current, String target, boolean targetIsRevision )
 	{
 		String template;
 		if ( targetIsRevision )
@@ -3808,7 +3808,7 @@ public class Parser
 			template = "'%s' requires version %s of kolmafia or higher (current: %s).  Up-to-date builds can be found at http://builds.kolmafia.us/.";
 		}
 
-		return new ScriptException( String.format( template, this.shortFileName, revision, version ) );
+		return new ScriptException( String.format( template, this.shortFileName, target, current ) );
 	}
 
 	public static final String undefinedFunctionMessage( final String name, final ValueList params )
@@ -3845,13 +3845,13 @@ public class Parser
 			{
 				throw this.parseException( "invalid 'since' format" );
 			}
-			String version = StaticEntity.getVersion();
+			String currentVersion = StaticEntity.getVersion();
 			// strip "KoLMafia v" from the front
-			version = version.substring( version.indexOf( "v" ) + 1 );
+			currentVersion = currentVersion.substring( currentVersion.indexOf( "v" ) + 1 );
 
-			if ( version.compareTo( revision ) < 0 )
+			if ( currentVersion.compareTo( revision ) < 0 )
 			{
-				throw this.sinceException( version, revision, false );
+				throw this.sinceException( currentVersion, revision, false );
 			}
 		}
 
