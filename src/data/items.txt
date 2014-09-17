@@ -815,7 +815,7 @@
 798	ocean motion	544547062	cocostraw.gif	drink	t,d	115
 799	fuzzbump	557887062	cocostraw.gif	drink	t,d	115
 800	poutine	46522	poutine.gif	food	t,d	30	plates of poutine
-801	Knob stir-fry	12312455	chorizo.gif	food	t,d	51	plates of knob stir-fry
+801	Knob stir-fry	12312455	chorizo.gif	food	t,d	51	plates of Knob stir-fry
 802
 803
 804	Knoll stir-fry	15442777	chorizo.gif	food	t,d	52	plates of Knoll stir-fry
@@ -1356,7 +1356,7 @@
 1339	Cloaca-Cola c-rations	673806092	sixpack.gif	multiple	t,d	132	Cloaca-Cola c-rationses
 1340	Cloaca-Cola-issue combat knife	536353074	colaknife.gif	weapon	t,d	35	Cloaca-Cola-issue combat knives
 1341	Dyspepsi-Cola-issue canteen	659021952	canteen.gif	accessory	t,d	35
-1342	picture of a dead guy's girlfriend	294311958	photograph.gif	usable	t,d	35	pictures of some dead guys's girlfriends
+1342	picture of a dead guy's girlfriend	294311958	photograph.gif	usable	t,d	35	pictures of some dead guys' girlfriends
 1343	zombie pineal gland	189185945	pineal.gif	none	t	0	zombie glands pineal
 1344	Gummi-Gnauga	596083107	gumgnauga.gif	multiple, candy	t,d	30
 1345	Now and Earlier	864629267	candy.gif	multiple, candy	t,d	35	Nows and Earlier
@@ -1752,7 +1752,7 @@
 1735	meatspout staff	546755347	vortstaff.gif	weapon	t,d	130	meatspout staves
 1736	carob cannon	738818344	carobbow.gif	weapon	t,d	140
 1737	shuddersword	606474244	shudder.gif	weapon	t,d	130
-1738	hairy staff	556407447	hairstaff.gif	weapon	t,d	140
+1738	hairy staff	556407447	hairstaff.gif	weapon	t,d	140	hairy staves
 1739	projectile icemaker	223274737	icemaker.gif	weapon	t,d	130
 1740	buffalo blade	153010514	buffsword.gif	weapon	t,d	125
 1741	giant cheesestick	765175359	cheesestaf.gif	weapon	t,d	125
@@ -2225,7 +2225,7 @@
 2208	bobble-hip hula elf doll	784659271	huladoll.gif	offhand	t	0	bobble-hip hula elves doll
 2209	Crimbo ukulele	707103901	ukelele.gif	weapon	t	0
 2210	Tiki lighter	132311575	tikilighter.gif	offhand	t	0
-2211	deck of tropical cards	750777542	carddeck.gif	offhand	t	0	deck of tropical cardses
+2211	deck of tropical cards	750777542	carddeck.gif	offhand	t	0	decks of tropical cards
 2212	tropical paperweight	811103172	paperweight.gif	offhand	t	0
 2213	tropical Crimbo pressie	694042705	troppressie.gif	usable		0
 2214	tropical wrapping paper	291499297	troppaper.gif	none	t	0	tropical wrapping paper pieces
@@ -3661,7 +3661,7 @@
 3642	dragonfish caviar	271341113	caviar.gif	none	t,d	90	ounces of dragonfish caviar
 3643	pufferfish spine	282340653	spine.gif	none, combat	t,d	25
 3644	depleted Grimacite kneecapping stick	409887850	grimstick.gif	weapon	t,d	400
-3645	canteen of wine	880677333	canteen.gif	drink	t	0
+3645	canteen of wine	880677333	canteen.gif	drink	t	0	canteens of wine
 3646	elven <i>limbos</i> gingerbread	970160730	limboswafer.gif	food	t	0	wafers of <i>limbos</i> gingerbread
 3647	elven whittling knife	599279187	shineknife.gif	weapon	t	0	elven whittling knives
 3648	magic dragonfish fry	516748124	smallfry.gif	grow	t	0
@@ -4058,8 +4058,8 @@
 4039	slimy alveolus	388191568	slimealv.gif	multiple	t,d	400	slimy alveoli
 4040	memory of a cultist's robe	242018093	mem_robe.gif	accessory	q,d	31	memories of cultist's robes
 4041	pig-iron helm	846852926	pighelm.gif	hat	d	1710
-4042	pig-iron shinguards	564106355	piggreaves.gif	pants	d	1710
-4043	pig-iron bracers	497900052	pigbracers.gif	accessory	d	1710
+4042	pig-iron shinguards	564106355	piggreaves.gif	pants	d	1710	pairs of pig-iron shinguards
+4043	pig-iron bracers	497900052	pigbracers.gif	accessory	d	1710	pairs of pig-iron bracers
 4044	wumpus hair	428760948	wumphair.gif	multiple	d	72	tufts of wumpus hair
 4045	wumpus-hair bolo	473198712	wumpbola.gif	none, combat	d	144
 4046	wumpus-hair net	357589301	wumpnet.gif	none, combat	d	360
@@ -4421,7 +4421,7 @@
 4402	stinky cheese eye	548672093	sc_eye.gif	accessory, usable	t	0
 4403	Staff of Queso Escusado	399631690	sc_staff.gif	weapon, usable	t	0	Staves of Queso Escusado
 4404
-4405	foreign box	800942495	puzzlebox.gif	usable		0
+4405	foreign box	800942495	puzzlebox.gif	usable		0	foreign boxes
 4406	The Art of Slapfighting	949615276	book4.gif	usable	t	0	copies of the Art of Slapfighting
 4407	Uncle Romulus	478200390	book4.gif	usable	t	0	copies of Uncle Romulus
 4408	A Beginner's Guide to Charming Snakes	245745289	book4.gif	usable	t	0	copies of A Beginner's Guide to Charming Snakes
@@ -5452,7 +5452,7 @@
 5433	blue raspberry troll doll	497420048	trolldoll.gif	none, combat reusable	t	0
 5434	DNOTC Box	639788880	pressie.gif	usable		0	DNOTC Boxes
 5435	fudgecule	800138400	fudgecule.gif	none, candy	t	0
-5436	fudge lily	643283242	fudgelily.gif	multiple	t	0	fudge lillies
+5436	fudge lily	643283242	fudgelily.gif	multiple	t	0	fudge lilies
 5437	superheated fudge	177390730	hotfudge.gif	none	t	0	blasts of superheated fudge
 5438	fluid of fudge-finding	903909397	potion5.gif	multiple	t	0	flagons of fluid of fudge-finding
 5439	frigid fudgepuck	192508609	coldfudge.gif	none	t	0
@@ -5655,7 +5655,7 @@
 5636	Punchplanter	221662953	hurricane.gif	drink	t,d	10
 5637	Doublepunchplanter	805035627	hurricane.gif	drink	t,d	25
 5638	Haymaker	719116684	hurricane_f.gif	drink	t,d	50
-5639	Small Medium	281886462	medium_small.gif	grow	t	0
+5639	Small Medium	281886462	medium_small.gif	grow	t	0	Small Media
 5640	crystal decanter	476481640	crystaldecanter.gif	familiar	t,d	75
 5641	glowing fungus	491033696	glowfungus.gif	food	t,d	30	glowing fun guys
 5642	ancient poisoned dart	552757738	ancientdart.gif	none, combat	t,d	35
@@ -6187,7 +6187,7 @@
 6168	Bloodbath	788202773	bloodbath.gif	weapon		0
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75	Bottles of Hundred Headed IPA
 6170	old chum	985900785	gooball.gif	food	t,d	25	chunks of old chum
-6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	5
+6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	5	crude crudit&eacute;s
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0	packs of candy crayons
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
 6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerDailyPro magazine
@@ -7665,7 +7665,7 @@
 7646	lightning milk	448420871	milkcarton.gif	reusable	q	0
 7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
 7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
-7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20	vails of gourmet gourami oil
+7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20	vials of gourmet gourami oil
 7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20	catfish whiskers
 7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
 7652	fishbone catcher's mitt	285996070	fb_glove.gif	offhand	t,d	50
@@ -7674,7 +7674,7 @@
 7655	fishbone fins	850728829	fb_fins.gif	accessory	t,d	50
 7656	fishbone facemask	874585861	fb_mask.gif	accessory	t,d	50
 7657	fishbone belt	705157567	fb_belt.gif	accessory	t,d	50
-7658	fishbone bracers	218156379	fb_bracers.gif	accessory	t,d	50
+7658	fishbone bracers	218156379	fb_bracers.gif	accessory	t,d	50	pairs of fishbone bracers
 7659	neoprene skullcap	973157230	rubbercap.gif	hat	t,d	1000
 7660	goblin water	707037025	moonshine.gif	multiple	t,d	2000	jars of goblin water
 7661	dumb mud	904103660	gooball.gif	none, combat	t,d	1000	globs of dumb mud
