@@ -1705,6 +1705,10 @@ public class UseSkillRequest
 			{
 				Preferences.setBoolean( "_spaghettiBreakfast", true );
 			}
+			if ( skillId == SkillPool.GRAB_A_COLD_ONE )
+			{
+				Preferences.setBoolean( "_coldOne", true );
+			}
 			return true;
 		}
 
