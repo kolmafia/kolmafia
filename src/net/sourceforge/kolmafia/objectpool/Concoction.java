@@ -289,7 +289,7 @@ public class Concoction
 			return -1;
 		}
 
-		if ( this.sortOrder !=  o.sortOrder )
+		if ( this.sortOrder != o.sortOrder )
 		{
 			return this.sortOrder - o.sortOrder;
 		}
