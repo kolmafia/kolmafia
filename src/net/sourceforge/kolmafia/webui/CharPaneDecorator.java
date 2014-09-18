@@ -110,6 +110,9 @@ public class CharPaneDecorator
 		},
 	};
 
+	private static final Pattern ROLLOVER_PATTERN = Pattern.compile(
+		"rollover = (\\d+).*?rightnow = (\\d+)", Pattern.DOTALL );
+
 	public static final void decorate( final StringBuffer buffer )
 	{
 		// We are interested in the following sections of the CharPane:
@@ -134,10 +137,23 @@ public class CharPaneDecorator
 		CharPaneDecorator.decorateIntrinsics( buffer );
 
 		// Update the safety text every time we load the charpane
-		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
+		StringUtilities.singleStringReplace( buffer, "onload='startup();'", "onload='startup();updateSafetyText();'" );
+
 		// Add a "refresh" link at the end
 		StringUtilities.singleStringReplace( buffer, "</body>",
 		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
+
+		// debug rollover timer
+		if ( false )
+		{
+			Matcher matcher = CharPaneDecorator.ROLLOVER_PATTERN.matcher( buffer );
+			if ( matcher.find() )
+			{
+				StringUtilities.singleStringReplace( buffer,
+								     matcher.group(1),
+								     String.valueOf( StringUtilities.parseLong( matcher.group(2) ) + 120) );
+			}
+		}
 	}
 
 	private static final void decorateStatus( final StringBuffer buffer )

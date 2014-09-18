@@ -595,20 +595,7 @@ public class RequestEditorKit
 
 	protected static final void applyGlobalAdjustments( final String location, final StringBuffer buffer, final boolean addComplexFeatures )
 	{
-		// Handle changes which happen on a lot of different pages
-		// rather than just one or two.
-
-		RequestEditorKit.changePunchcardNames( buffer );
-		RequestEditorKit.changePotionImages( buffer );
-		RequestEditorKit.decorateLevelGain( buffer );
-		RequestEditorKit.addAbsintheLink( buffer );
-		RequestEditorKit.addTransponderLink( buffer );
-		RequestEditorKit.addBatteryLink( buffer );
-		RequestEditorKit.addFolioLink( buffer );
-		RequestEditorKit.addNewLocationLinks( buffer );
-		RequestEditorKit.suppressPotentialMalware( buffer );
-
-		// Now do anything which doesn't work in Java's internal HTML renderer
+		// Make basics.js and basics.css available to all pages
 
 		if ( addComplexFeatures )
 		{
@@ -625,6 +612,21 @@ public class RequestEditorKit
 		{
 			return;
 		}
+
+		// Handle changes which happen on a lot of different pages
+		// rather than just one or two.
+
+		RequestEditorKit.changePunchcardNames( buffer );
+		RequestEditorKit.changePotionImages( buffer );
+		RequestEditorKit.decorateLevelGain( buffer );
+		RequestEditorKit.addAbsintheLink( buffer );
+		RequestEditorKit.addTransponderLink( buffer );
+		RequestEditorKit.addBatteryLink( buffer );
+		RequestEditorKit.addFolioLink( buffer );
+		RequestEditorKit.addNewLocationLinks( buffer );
+		RequestEditorKit.suppressPotentialMalware( buffer );
+
+		// Now do anything which doesn't work in Java's internal HTML renderer
 
 		if ( addComplexFeatures )
 		{
