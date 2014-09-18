@@ -1172,6 +1172,10 @@ public class QuestManager
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
 		}
 		QuestDatabase.handleCouncilText( responseText );
+		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "unstarted" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.STARTED );
+		}
 	}
 
 	public static final void unlockGoatlet()
