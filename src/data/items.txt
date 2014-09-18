@@ -1398,7 +1398,7 @@
 1381	aspirin	775883133	aspirin.gif	usable	t	0
 1382	fancy chocolate	862055780	choco.gif	usable, candy	t	0
 1383	length of string	131340151	string.gif	none	t,d	13	lengths of string
-1384	googly eye	350584806	googlyeye.gif	none	t,d	14
+1384	googly eye	350584806	googlyeye.gif	none	t,d	14	google eyes
 1385	stuffing	542434584	dough.gif	none	t,d	15	wads of stuffing
 1386	felt	980286026	felt.gif	none	t,d	16	squares of felt
 1387	wooden block	356512263	tofu.gif	none	t,d	17
@@ -3540,7 +3540,7 @@
 3521	shark tooth necklace	999591089	sharknecklace.gif	accessory	t,d	350
 3522	shark jumper	168628928	fleece.gif	shirt	t,d	245
 3523	shark cartilage	752008573	gristle.gif	multiple	t,d	500	bits of shark cartilage
-3524	eel battery	886718236	battery.gif	multiple	t,d	500	eel battery
+3524	eel battery	886718236	battery.gif	multiple	t,d	500	eel batteries
 3525	temporary teardrop tattoo	700314352	raindrop.gif	multiple	t,d	500
 3526	scratch 'n' sniff crossbow	954957871	papercrossbow.gif	weapon	q	0
 3527	mutant rattlesnake egg	351701182	egg.gif	grow	t	0
