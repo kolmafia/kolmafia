@@ -179,7 +179,7 @@ public class ChatPoller
 
 		ChatRequest request = null;
 
-		request = new ChatRequest( ChatPoller.serverLastSeen );
+		request = new ChatRequest( ChatPoller.serverLastSeen, false );
 		request.run();
 
 		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );

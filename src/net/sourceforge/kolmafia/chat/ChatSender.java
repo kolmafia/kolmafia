@@ -80,20 +80,16 @@ public class ChatSender
 			return;
 		}
 
-		ChatRequest request = new ChatRequest( macro );
+		ChatRequest request = new ChatRequest( macro, false );
 
 		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
-		accumulatedMessages.addAll( sendRequest( request, false ) );
+		accumulatedMessages.addAll( ChatSender.sendRequest( request, false ) );
 
 		ChatPoller.addSentEntry( request.responseText, false );
 
-		Iterator<ChatMessage> messageIterator = accumulatedMessages.iterator();
-
-		while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
+		for ( ChatMessage message : accumulatedMessages )
 		{
-			ChatMessage message = (ChatMessage) messageIterator.next();
-
 			String recipient = message.getRecipient();
 
 			ChatSender.scriptedMessagesEnabled =
@@ -121,23 +117,14 @@ public class ChatSender
 			return;
 		}
 
-		Iterator<String> grafIterator = grafs.iterator();
-
 		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
-		while ( grafIterator.hasNext() )
+		for ( String graf : grafs )
 		{
-			String graf = grafIterator.next();
-
-			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, false, channelRestricted );
+			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, false, channelRestricted, false );
 
 			ChatPoller.addSentEntry( responseText, false );
 		}
-	}
-
-	public static final String sendMessage( List<ChatMessage> accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted )
-	{
-		return sendMessage( accumulatedMessages, graf, isRelayRequest, channelRestricted, false );
 	}
 
 	public static final String sendMessage( List<ChatMessage> accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted, boolean tabbedChat )
@@ -227,7 +214,7 @@ public class ChatSender
 		String graf = request.getGraf();
 		if ( !tabbedChat )
 		{
-			processResponse( newMessages, request.responseText, graf );
+			ChatSender.processResponse( newMessages, request.responseText, graf );
 		}
 
 		ChatManager.processMessages( newMessages );

@@ -43,28 +43,10 @@ public class ChatRequest
 	private String graf;
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> to retrieve all the latest messages
-	 */
-
-	public ChatRequest()
-	{
-		super( "newchatmessages.php" );
-
-		this.graf = "";
-
-		this.addFormField( "j", "1" );
-	}
-
-	/**
 	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
 	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
 	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
 	 */
-
-	public ChatRequest( final long lastSeen )
-	{
-		this( lastSeen, false );
-	}
 
 	public ChatRequest( final long lastSeen, final boolean tabbedChat )
 	{
@@ -72,12 +54,18 @@ public class ChatRequest
 
 		this.graf = "";
 
-		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
+		// Construct the URL to submit via GET
+		StringBuilder newURLString = new StringBuilder( "newchatmessages.php?" );
 
 		if ( tabbedChat )
 		{
-			this.addFormField( "j", "1" );
+			newURLString.append( "j=1&" );
 		}
+
+		newURLString.append( "lasttime=" );
+		newURLString.append( String.valueOf( lastSeen ) );
+
+		this.constructURLString( newURLString.toString(), false );
 	}
 
 	/**
@@ -86,24 +74,30 @@ public class ChatRequest
 	 * @param message The message to be sent
 	 */
 
-	public ChatRequest( final String graf )
-	{
-		this( graf, false );
-	}
-
 	public ChatRequest( final String graf, final boolean tabbedChat )
 	{
 		super( "submitnewchat.php" );
 
 		this.graf = graf;
 
-		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "graf", graf );
+		// Construct the URL to submit via GET
+		StringBuilder newURLString = new StringBuilder( "submitnewchat.php?" );
 
-		if( tabbedChat )
+		if ( tabbedChat )
 		{
-			this.addFormField( "j", "1" );
+			newURLString.append( "j=1&" );
 		}
+
+		newURLString.append( "pwd=" );
+		newURLString.append( GenericRequest.passwordHash );
+
+		newURLString.append( "&playerid=" );
+		newURLString.append( String.valueOf( KoLCharacter.getUserId() ) );
+
+		newURLString.append( "&graf=" );
+		newURLString.append( GenericRequest.encodeURL( graf, "ISO-8859-1" ) );
+
+		this.constructURLString( newURLString.toString(), false );
 	}
 
 	public String getGraf()

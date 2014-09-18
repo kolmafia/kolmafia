@@ -5602,34 +5602,25 @@ public abstract class RuntimeLibrary
 
 	public static Value who_clan( Interpreter interpreter )
 	{
-		List chatMessages = new LinkedList();
+		List<ChatMessage> chatMessages = new LinkedList<ChatMessage>();
 
-		WhoMessage message = null;
-		ChatSender.sendMessage( chatMessages, "/who clan", false, false );
-
-		Iterator messageIterator = chatMessages.iterator();
-
-		while ( messageIterator.hasNext() )
-		{
-			ChatMessage chatMessage = (ChatMessage) messageIterator.next();
-
-			if ( chatMessage instanceof WhoMessage )
-			{
-				message = (WhoMessage) chatMessage;
-				break;
-			}
-		}
+		ChatSender.sendMessage( chatMessages, "/who clan", false, false, false );
 
 		MapValue value = new MapValue( DataTypes.BOOLEAN_MAP_TYPE );
-
-		if ( message != null )
+		for ( ChatMessage chatMessage : chatMessages )
 		{
-			Iterator entryIterator = message.getContacts().entrySet().iterator();
-
-			while ( entryIterator.hasNext() )
+			if ( chatMessage instanceof WhoMessage )
 			{
-				Entry entry = (Entry) entryIterator.next();
-				value.aset( new Value( (String) entry.getKey() ) , new Value( entry.getValue() == Boolean.TRUE ) );
+				WhoMessage message = (WhoMessage) chatMessage;
+
+				Iterator entryIterator = message.getContacts().entrySet().iterator();
+				while ( entryIterator.hasNext() )
+				{
+					Entry entry = (Entry) entryIterator.next();
+					value.aset( new Value( (String) entry.getKey() ) , new Value( entry.getValue() == Boolean.TRUE ) );
+				}
+
+				break;
 			}
 		}
 
