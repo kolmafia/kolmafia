@@ -40,21 +40,21 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 public class ChatRequest
 	extends GenericRequest
 {
-	private String graf;
+	private final String graf;
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
-	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
-	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
+	 * Constructs a new <code>ChatRequest</code> where the given parameter
+	 * will be passed to the PHP file to indicate where you left off.
+	 *
+	 * @param lastseen   The timestamp of the last message received
+	 * @param tabbedChat true if "modern" chat, false if "older" chat
 	 */
 
 	public ChatRequest( final long lastSeen, final boolean tabbedChat )
 	{
-		super( "newchatmessages.php" );
+		super( "", false );
 
-		this.graf = "";
-
-		// Construct the URL to submit via GET
+		// Construct a URL to submit via GET, just like the browser
 		StringBuilder newURLString = new StringBuilder( "newchatmessages.php?" );
 
 		if ( tabbedChat )
@@ -66,21 +66,23 @@ public class ChatRequest
 		newURLString.append( String.valueOf( lastSeen ) );
 
 		this.constructURLString( newURLString.toString(), false );
+
+		this.graf = "";
 	}
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
+	 * Constructs a new <code>ChatRequest</code> that will send the given
+	 * string to the server.
 	 *
-	 * @param message The message to be sent
+	 * @param graf       The message to be sent
+	 * @param tabbedChat true if "modern" chat, false if "older" chat
 	 */
 
 	public ChatRequest( final String graf, final boolean tabbedChat )
 	{
-		super( "submitnewchat.php" );
+		super( "", false );
 
-		this.graf = graf;
-
-		// Construct the URL to submit via GET
+		// Construct a URL to submit via GET, just like the browser
 		StringBuilder newURLString = new StringBuilder( "submitnewchat.php?" );
 
 		if ( tabbedChat )
@@ -98,6 +100,8 @@ public class ChatRequest
 		newURLString.append( GenericRequest.encodeURL( graf, "ISO-8859-1" ) );
 
 		this.constructURLString( newURLString.toString(), false );
+
+		this.graf = graf;
 	}
 
 	public String getGraf()
@@ -112,9 +116,6 @@ public class ChatRequest
 		{
 			return;
 		}
-
-		// Force GET method, just like the browser
-		this.constructURLString( this.getFullURLString(), false );
 
 		super.run();
 	}
