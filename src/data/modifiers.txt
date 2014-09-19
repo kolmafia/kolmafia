@@ -2182,6 +2182,7 @@ Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
 droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
 # Drunkula's ring of haze: The first attack against you will always miss
 Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip
+duonoculars	Combat Rate: -5, Monster Level: +5, Single Equip
 Duskwalker fangs	Weapon Damage Percent: +5, Weakens Monster
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 # E.M.U. Unit
@@ -4495,6 +4496,7 @@ It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 # It's Electric!: Damages Attacking Opponents
 It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
+It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
 Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
@@ -6844,6 +6846,7 @@ Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
 polo trophy	Effect: "Polonoia", Effect Duration: 15
 Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
+poppy	Effect: "It's Soporiffic!", Effect Duration: 10
 portable wall	Effect: "Wallflowering", Effect Duration: 20
 possibility potion	Effect: "Always In Motion", Effect Duration: 10
 post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1

@@ -2148,6 +2148,7 @@ oil pan	MUSE	bubblin' crude (11)
 jar of oil	MUSE	bubblin' crude (12)
 
 blessed large box	COMBINE	large box	ten-leaf clover
+opium grenade	COMBINE	poppy	poppy
 
 # Crimboku toys.  These are items which are created at Uncle Crimboku
 # after collecting enough components.

@@ -1638,11 +1638,11 @@
 1637	Black Eyes	blackeyes.gif	536595ea7973e7b0af9789a4ecb4b56b	use 1 black eye shadow
 1638	Texas Elegance	coffeecup.gif	8fab0f02e9e6b0717beb8a93073afa03	use 1 Texas tea
 1639	Salsa Satanica	dance3.gif	3a8648677925f4849d2c913049752f88
-1640
+1640	SOME PIGS	somepig.gif	09b745e8c11036f8ee9cbaafabb86dba
 1641	Space Cowboy	cowboyhat.gif	9e95e4dbaf1cf4bbe961122bbdab7d61	use 1 alien drugs
 1642	I See Everything Thrice!	eyes.gif	932c27137df3631cde77a7bf0d996eb4	use 1 government
 1643	Space Tripping	powderpile2.gif	5d62055fd15ac31f5dd1e1b7633de802	use 1 buffed alien drugs
-1644
+1644	It's Soporiffic!	poppy.gif	4973157a5dbafcdd199d157896ab477a	use 1 poppy
 1645	Ashen Burps	hotashes.gif	181fabda066ddcf2adb97c2a13caf810	use 1 ash soda
 1646	Liquidy Smoky	blooddrops.gif	2e136952836a7b649459208c0550b840	use 1 liquid smoke
 1647	Barbecue Saucy	gooball.gif	7f1b85ae4e6163c402ed2d2625022054	use 1 dollop of barbecue sauce
