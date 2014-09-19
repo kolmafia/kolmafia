@@ -1857,6 +1857,7 @@ dope gangsta bling-bling	45	Mys: 7
 Dreadsylvania Auditor's badge	250	Mys: 200
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
+duonoculars	0	Mys: 17
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
