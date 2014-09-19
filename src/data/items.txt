@@ -7528,14 +7528,14 @@
 7509	Mornington crescent roll	346488001	croissant.gif	food	t,d	45
 7510	black eye shadow	744811732	compact.gif	usable	t,d	55	compacts full of black eye shadow
 7511	crumbling wooden wheel	503616859	woodenwheel.gif	none	q	0
-7512
-7513
-7514
-7515
-7516
+7512	poppy	610352117	poppy.gif	usable	t,d	28	poppies
+7513	opium grenade	794453269	grenade.gif	none, combat	t,d	32
+7514	duonoculars	330789981	binoculars.gif	accessory	t,d	48	pairs of duonoculars
+7515	plastic rock	473912548	bigrock.gif	usable	q	0
+7516	witch's spare house key	503413473	key2.gif	none	q	0
 7517
-7518
-7519
+7518	wand of pigification	305553568	wand.gif	none, combat	d	40	wands of pigification
+7519	glass of bourbon	321779397	rocks.gif	drink	t,d	75	glasses of bourbon
 7520	burned government manual fragment	423402768	document.gif	usable	q	0	burned government manual fragment
 7521	government cheese	213065981	goatcheese.gif	food	t,d	29	pieces of government cheese
 7522	pair of government shades	734304226	bigglasses.gif	accessory	t,d	50	pairs of government shades
