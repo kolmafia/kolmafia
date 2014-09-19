@@ -969,6 +969,19 @@ public class RequestEditorKit
 		}
 	}
 
+	// <script>
+	//  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	//  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	//  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	//  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	//
+	//  ga('create', 'UA-47556088-1', 'kingdomofloathing.com');
+	//  ga('send', 'pageview');
+	//
+	//</script>
+
+	private static final Pattern MALWARE1_PATTERN = Pattern.compile( "<script>.*?GoogleAnalyticsObject.*?</script>", Pattern.DOTALL );
+
 	// <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	// <!-- ROS_728x90 -->
 	// <ins class="adsbygoogle"
@@ -980,7 +993,7 @@ public class RequestEditorKit
 	// </script>
 	// <br><img src=/images/otherimages/1x1trans.gif height=4><br>
 
-	private static final Pattern MALWARE_PATTERN = Pattern.compile( "<script async src=\"//.*?adsbygoogle.js\".*?1x1trans.gif.*?<br>", Pattern.DOTALL );
+	private static final Pattern MALWARE2_PATTERN = Pattern.compile( "<script async src=\"//.*?adsbygoogle.js\".*?1x1trans.gif.*?<br>", Pattern.DOTALL );
 
 	private static final void suppressPotentialMalware( final StringBuffer buffer )
 	{
@@ -988,11 +1001,19 @@ public class RequestEditorKit
 		{
 			return;
 		}
-		
 
+		if ( buffer.indexOf( "GoogleAnalyticsObject" ) != -1 )
+		{
+			Matcher matcher = RequestEditorKit.MALWARE1_PATTERN.matcher( buffer );
+			if ( matcher.find() )
+			{
+				StringUtilities.globalStringDelete( buffer, matcher.group( 0 ) );
+			}
+		}
+		
 		if ( buffer.indexOf( "adsbygoogle" ) != -1 )
 		{
-			Matcher matcher = RequestEditorKit.MALWARE_PATTERN.matcher( buffer );
+			Matcher matcher = RequestEditorKit.MALWARE2_PATTERN.matcher( buffer );
 			if ( matcher.find() )
 			{
 				StringUtilities.globalStringDelete( buffer, matcher.group( 0 ) );
