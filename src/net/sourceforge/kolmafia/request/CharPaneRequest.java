@@ -489,8 +489,8 @@ public class CharPaneRequest
 	{
 		// Compact
 		{
-			Pattern.compile( "HP.*?<b>(.*?)/(.*?)</b>" ),
-			Pattern.compile( "MP.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "HP:.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "MP:.*?<b>(.*?)/(.*?)</b>" ),
 			Pattern.compile( "Meat.*?<b>(.*?)</b>" ),
 			Pattern.compile( "Adv.*?<b>(.*?)</b>" ),
 		},
