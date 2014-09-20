@@ -1051,6 +1051,7 @@ giant foam finger	Damage Reduction: 3
 giant needle	Monster Level: +5
 giant safety pin	Weapon Damage: +10, Weakens Monster
 giant shrimp fork	Mysticality Percent: +20, Spell Critical Percent: +10, Maximum MP: +100
+giant spider leg	Spooky Damage: +10, Critical Hit Percent: +10
 giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 # gift-a-pult: Allows hurling of Gift Items
 Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100

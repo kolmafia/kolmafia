@@ -1629,6 +1629,9 @@ user	choiceAdventure882	0
 user	choiceAdventure888	0
 user	choiceAdventure889	0
 user	choiceAdventure921	1
+user	choiceAdventure930	1
+user	choiceAdventure931	0
+user	choiceAdventure932	0
 user	choiceAdventure941	1
 user	choiceAdventure942	1
 user	choiceAdventure943	1
