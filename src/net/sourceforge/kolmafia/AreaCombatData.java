@@ -39,8 +39,6 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -280,6 +278,11 @@ public class AreaCombatData
 			return false;
 		}
 		return this.monsters.contains( m );
+	}
+
+	public int getMonsterIndex( MonsterData monster )
+	{
+		return this.monsters.indexOf( monster );
 	}
 
 	public int getWeighting( final int i )
@@ -696,7 +699,7 @@ public class AreaCombatData
 		else
 		{
 			buffer.append( this.format( AdventureQueueDatabase.applyQueueEffects(
-				100.0 * combatFactor * weighting, this.weights, monster, this.getZone() ) ) + "%" );
+				100.0 * combatFactor * weighting, monster, this ) ) + "%" );
 		}
 
 		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
@@ -796,7 +799,7 @@ public class AreaCombatData
 				else
 				{
 					buffer.append( " (no pickpocket, unknown drop rate)" );
-				}					
+				}
 				break;
 
 			case 'c':
@@ -809,7 +812,7 @@ public class AreaCombatData
 				else
 				{
 					buffer.append( " (conditional, unknown drop rate)" );
-				}					
+				}
 				break;
 				
 			case 'f':
