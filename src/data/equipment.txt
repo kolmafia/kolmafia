@@ -900,6 +900,7 @@ giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 giant safety pin	155	Mus: 62	1-handed spear
 giant shrimp fork	200	Mus: 85	2-handed staff
+giant spider leg	75	Mus: 22	2-handed club
 giant turkey leg	200	Mus: 200	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
 Ginsu&trade;	200	Mus: 200	2-handed sword
