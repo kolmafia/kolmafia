@@ -220,6 +220,11 @@ public class FloristRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( !FloristRequest.haveFlorist() )
 		{
 			return;
