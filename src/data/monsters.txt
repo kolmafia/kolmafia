@@ -753,6 +753,7 @@ Peanut	peanut.gif	Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
 pencil golem	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct	pencil stub (0)
 pernicious puddle of pesto	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 perpendicular bat	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
+pig	somepig.gif	Atk: [6] Def: [7] HP: [8] Init: -10000 P: beast	ham steak (0)
 pine bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 plaid ghost	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead	plaid swatch (0)
 plaque of locusts	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
@@ -1710,3 +1711,5 @@ The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 
 # Xi Receiver unit
 holographic army	holoarmy.gif	Atk: [MOX+30+max(ML,0)] Def: [MUS+30+max(ML,0)] HP: [0.75*(MUS+30+max(ML,0))] Exp: [(STAT+30+max(ML,0))/4] Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
+They	they.gif	Atk: [MOX+20+max(ML,0)] Def: [MUS+20+max(ML,0)] HP: [0.75*(MUS+20+max(ML,0))] Exp: [(STAT+20+max(ML,0))/4] Init: -10000 P: humanoid	They liver (0)	They Liver (0)
+Xiblaxian political prisoner	Atk: [MOX+40+max(ML,0)] Def: [MUS+40+max(ML,0)] HP: [0.75*(MUS+40+max(ML,0))] Exp: [(STAT+40+max(ML,0))/4] Init: -10000 P: weird	residual zeal (n100)

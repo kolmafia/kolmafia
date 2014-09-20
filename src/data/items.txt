@@ -7581,7 +7581,7 @@
 7562	musk turtle	913587207	cologneturt.gif	multiple	t,d	8
 7563	programmable turtle	618810208	logoturt.gif	multiple	t,d	15
 7564	mocking turtle	303348514	mockturt.gif	multiple	t,d	15
-7565
+7565	ham steak	272360244	hamsteak.gif	food	t,d	5
 7566	time-twitching toolbelt	166761857	time_belt.gif	accessory	t	0
 7567	Chroner	783338147	chroner.gif	none		0	Chroner
 7568	Time Lord Badge of Honor	648991303	lordbadge.gif	accessory		0	Time Lord Badges of Honor
