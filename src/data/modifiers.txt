@@ -2164,6 +2164,7 @@ dark hamethyst ring	Muscle: +15
 dark porquoise ring	Moxie: +15
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
+defective Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +14
 depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], Single Equip
 depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Single Equip
 depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
@@ -5936,6 +5937,7 @@ Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
 tea for one	Effect: "One For Tea", Effect Duration: 40
 tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
+They liver popsicle	Effect: "You Liver", Effect Duration: 100
 thyme jelly donut	Effect Duration: 5
 Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
 toast with jam	Effect: "Jammin'", Effect Duration: 5
