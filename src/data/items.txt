@@ -7776,9 +7776,10 @@
 7757	Xiblaxian space-whiskey	845948150	flask.gif	drink		0	flasks of Xiblaxian space-whiskey
 7758	Xiblaxian residence-cube	571869324	residencecube.gif	usable		0
 7759	They liver	486670365	liver.gif	usable	t	0
-7760
+7760	They liver popsicle	175620532	popdark.gif	food	t	0
 7761	holo-tank	128028251	holotank.gif	none, combat	t	0
 7762	holo-bomber	259833781	holobomber.gif	none, combat	t	0
 7763	holo-platoon	317126972	holoplatoon.gif	none, combat	t	0
 7764	residual zeal	824782325	disease.gif	usable	t	0	clouds of residual zeal
 7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0
+7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
