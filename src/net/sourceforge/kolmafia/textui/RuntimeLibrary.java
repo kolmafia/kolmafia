@@ -5995,7 +5995,7 @@ public abstract class RuntimeLibrary
 			{
 				toSet =
 					new Value( AdventureQueueDatabase.applyQueueEffects(
-						combatFactor * weight, total, data.getMonster( i ), data.getZone() ) );
+						combatFactor * weight, data.getMonster( i ), data ) );
 			}
 			else
 			{
