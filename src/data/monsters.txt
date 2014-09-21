@@ -1712,4 +1712,4 @@ The Rain King	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 # Xi Receiver unit
 holographic army	holoarmy.gif	Atk: [MOX+30+max(ML,0)] Def: [MUS+30+max(ML,0)] HP: [0.75*(MUS+30+max(ML,0))] Exp: [(STAT+30+max(ML,0))/4] Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
 They	they.gif	Atk: [MOX+20+max(ML,0)] Def: [MUS+20+max(ML,0)] HP: [0.75*(MUS+20+max(ML,0))] Exp: [(STAT+20+max(ML,0))/4] Init: -10000 P: humanoid	They liver (0)	They Liver (0)
-Xiblaxian political prisoner	Atk: [MOX+40+max(ML,0)] Def: [MUS+40+max(ML,0)] HP: [0.75*(MUS+40+max(ML,0))] Exp: [(STAT+40+max(ML,0))/4] Init: -10000 P: weird	residual zeal (n100)
+Xiblaxian political prisoner		Atk: [MOX+40+max(ML,0)] Def: [MUS+40+max(ML,0)] HP: [0.75*(MUS+40+max(ML,0))] Exp: [(STAT+40+max(ML,0))/4] Init: -10000 P: weird	residual zeal (n100)
