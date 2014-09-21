@@ -201,7 +201,7 @@ The "Fun" House	GLYPH	They Hate Mimes, Too
 The Limerick Dungeon	GLYPH	Thud
 The Penultimate Fantasy Airship	GLYPH	Number 163
 The Poker Room	GLYPH	It's In the Cards
-The Road to White Citadel	GLYPH	Breakfast of Champions
+The Road to the White Citadel	GLYPH	Breakfast of Champions
 The Sleazy Back Alley	GLYPH	For Sale By Squatter
 The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously
 Thugnderdome	GLYPH	Now You're a Hero
