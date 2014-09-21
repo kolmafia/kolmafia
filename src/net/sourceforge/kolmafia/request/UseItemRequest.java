@@ -998,8 +998,17 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_chronerTriggerUsed" ) ? 0 : 1;
 
 		case ItemPool.CHRONER_CROSS:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_chronerCrossUsed" ) ? 0 : 1;
+			if ( Preferences.getBoolean( "_chronerCrossUsed" ) )
+			{
+				UseItemRequest.limiter = "daily limit";
+				return 0;
+			}
+			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHRONER, 1 ) ) )
+			{
+				UseItemRequest.limiter = "not having a Chroner";
+				return 0;
+			}
+			return 1;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
