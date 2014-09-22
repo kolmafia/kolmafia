@@ -2622,7 +2622,7 @@ public class RelayRequest
 		{
 			// Get messages that the Chat Manager knows about that
 			// are new since we last polled
-			List<HistoryEntry> newEntries = ChatPoller.getOldEntries( ChatPoller.serverLastSeen, true );
+			List<HistoryEntry> newEntries = ChatPoller.getOldEntries( true );
 			ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
 			for ( HistoryEntry entry : newEntries )
 			{
@@ -2652,7 +2652,6 @@ public class RelayRequest
 						if ( object != null )
 						{
 							string = object.toString();
-							System.out.println( string );
 							buffer.insert( index, string );
 							index += string.length();
 							if ( buffer.charAt( index ) != ']' )

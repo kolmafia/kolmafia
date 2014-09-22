@@ -57,8 +57,9 @@ public class ChatPoller
 {
 	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 10 );
 
-	private static long localLastSeen = 0;
 	public static long serverLastSeen = 0;
+	public static long localLastSeen = 0;
+	public static long localLastSent = 0;
 
 	private static final int CHAT_DELAY = 500;
 	private static final int CHAT_DELAY_COUNT = 16;
@@ -68,7 +69,6 @@ public class ChatPoller
 	@Override
 	public void run()
 	{
-		long lastSeen = 0;
 		long serverLast = serverLastSeen;
 
 		PauseObject pauser = new PauseObject();
@@ -76,15 +76,11 @@ public class ChatPoller
 		{
 			try
 			{
-				if ( serverLast == serverLastSeen )
+				if ( serverLast == ChatPoller.serverLastSeen )
 				{
-					List<HistoryEntry> entries = ChatPoller.getEntries( lastSeen, false );
-					for ( HistoryEntry entry : entries )
-					{
-						lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
-					}
+					List<HistoryEntry> entries = ChatPoller.getEntries( ChatPoller.localLastSeen, false );
 				}
-				serverLast = serverLastSeen;
+				serverLast = ChatPoller.serverLastSeen;
 			}
 			catch ( Exception e )
 			{
@@ -103,13 +99,14 @@ public class ChatPoller
 	{
 		ChatPoller.chatHistoryEntries.clear();
 
-		ChatPoller.localLastSeen = 0;
 		ChatPoller.serverLastSeen = 0;
+		ChatPoller.localLastSeen = 0;
+		ChatPoller.localLastSent = 0;
 	}
 
 	public synchronized static void addEntry( ChatMessage message )
 	{
-		HistoryEntry entry = new HistoryEntry( message, ++ChatPoller.localLastSeen );
+		HistoryEntry entry = new HistoryEntry( message, ++ChatPoller.localLastSent );
 
 		ChatPoller.chatHistoryEntries.add( entry );
 		ChatManager.processMessages( entry.getChatMessages() );
@@ -117,7 +114,7 @@ public class ChatPoller
 
 	public synchronized static void addSentEntry( final String responseText, final boolean isRelayRequest )
 	{
-		SentMessageEntry entry = new SentMessageEntry( responseText, ++ChatPoller.localLastSeen, isRelayRequest );
+		SentMessageEntry entry = new SentMessageEntry( responseText, ++ChatPoller.localLastSent, isRelayRequest );
 
 		entry.executeAjaxCommand();
 
@@ -148,39 +145,35 @@ public class ChatPoller
 		return;
 	}
 
-	public synchronized static List<HistoryEntry> getOldEntries( final long lastSeen, final boolean isRelayRequest )
+	public synchronized static List<HistoryEntry> getOldEntries( final boolean isRelayRequest )
 	{
 		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
+		final long lastSeen = ChatPoller.localLastSeen;
 
-		if ( lastSeen != 0 )
+		Iterator<HistoryEntry> entryIterator = ChatPoller.chatHistoryEntries.iterator();
+		while ( entryIterator.hasNext() )
 		{
-			Iterator<HistoryEntry> entryIterator = ChatPoller.chatHistoryEntries.iterator();
-			while ( entryIterator.hasNext() )
+			HistoryEntry entry = entryIterator.next();
+
+			if ( entry.getLocalLastSeen() > lastSeen )
 			{
-				HistoryEntry entry = entryIterator.next();
-				// System.out.println( "entry local = " + entry.getLocalLastSeen() + " lastSeen = " + lastSeen );
+				ChatPoller.addValidEntry( newEntries, entry, isRelayRequest );
 
-				if ( entry.getLocalLastSeen() > lastSeen )
+				while ( entryIterator.hasNext() )
 				{
-					ChatPoller.addValidEntry( newEntries, entry, isRelayRequest );
-
-					while ( entryIterator.hasNext() )
-					{
-						ChatPoller.addValidEntry( newEntries, entryIterator.next(), isRelayRequest );
-					}
+					ChatPoller.addValidEntry( newEntries, entryIterator.next(), isRelayRequest );
 				}
 			}
-
-			ChatPoller.localLastSeen = lastSeen;
-			// System.out.println( "setting lastSeen to " + lastSeen );
 		}
+
+		ChatPoller.localLastSeen = ChatPoller.localLastSent;
 
 		return newEntries;
 	}
 
 	public synchronized static List<HistoryEntry> getEntries( final long lastSeen, final boolean isRelayRequest )
 	{
-		List<HistoryEntry> newEntries = ChatPoller.getOldEntries( lastSeen, isRelayRequest );
+		List<HistoryEntry> newEntries = ChatPoller.getOldEntries( isRelayRequest );
 
 		if ( ChatManager.getCurrentChannel() == null )
 		{
@@ -190,9 +183,8 @@ public class ChatPoller
 		ChatRequest request = new ChatRequest( ChatPoller.serverLastSeen, false );
 		request.run();
 
-		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );
+		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSent );
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
-
 		newEntries.add( entry );
 
 		ChatPoller.chatHistoryEntries.add( entry );
@@ -221,7 +213,8 @@ public class ChatPoller
 
 	public static void handleNewChat( String responseData, String sent )
 	{
-		try {
+		try
+		{
 			JSONObject obj = new JSONObject( responseData );
 			long last = 0;
 
