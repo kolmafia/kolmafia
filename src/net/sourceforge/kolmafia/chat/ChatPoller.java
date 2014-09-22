@@ -184,6 +184,7 @@ public class ChatPoller
 		request.run();
 
 		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSent );
+		ChatPoller.localLastSeen = ChatPoller.localLastSent;
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
 		newEntries.add( entry );
 

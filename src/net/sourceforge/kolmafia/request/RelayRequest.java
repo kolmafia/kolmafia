@@ -2566,13 +2566,16 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", chatText );
 	}
 
+	private static final Pattern LASTTIME_PATTERN = Pattern.compile( "lasttime=(\\d+)" );
+
 	private String getNontabbedChatMessages()
 	{
-		StringBuilder chatResponse = new StringBuilder();
-
-		long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
+		Matcher matcher = RelayRequest.LASTTIME_PATTERN.matcher( this.getPath() );
+		long lastSeen = matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
 
 		List<HistoryEntry> chatMessages = ChatPoller.getEntries( lastSeen, true );
+
+		StringBuilder chatResponse = new StringBuilder();
 		boolean needsLineBreak = false;
 
 		for ( HistoryEntry chatMessage : chatMessages )
@@ -2591,7 +2594,7 @@ public class RelayRequest
 				chatResponse.append( content );
 			}
 
-			lastSeen = Math.max( lastSeen, chatMessage.getLocalLastSeen() );
+			lastSeen = Math.max( lastSeen, chatMessage.getServerLastSeen() );
 		}
 
 		chatResponse.append( "<!--lastseen:" );
