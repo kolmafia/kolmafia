@@ -35,8 +35,8 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.LinkedList;
 
-public class RollingLinkedList
-	extends LinkedList<Object>
+public class RollingLinkedList<E>
+	extends LinkedList<E>
 {
 	private int limit;
 
@@ -46,7 +46,7 @@ public class RollingLinkedList
 	}
 	
 	@Override
-	public boolean add( Object o )
+	public boolean add( E o )
 	{
 		if ( size() == this.limit )
 		{
@@ -57,11 +57,11 @@ public class RollingLinkedList
 		return true;
 	}
 
-	public Object update( Object o )
+	public E update( E o )
 	{
 		this.remove( o );
 	
-		Object rv = null;
+		E rv = null;
 
 		if ( size() == this.limit )
 		{

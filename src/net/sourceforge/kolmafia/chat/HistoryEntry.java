@@ -44,28 +44,30 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class HistoryEntry
 {
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
-	private String content;
+
+	private final List<ChatMessage> chatMessages;
 
 	private final long localLastSeen;
 	private final long serverLastSeen;
-	private final List<ChatMessage> chatMessages;
+
+	private String content;
 
 	public HistoryEntry( final ChatMessage message, final long localLastSeen )
 	{
-		this.localLastSeen = localLastSeen;
 		this.chatMessages = new ArrayList<ChatMessage>();
-
 		this.chatMessages.add( message );
 
+		this.localLastSeen = localLastSeen;
 		this.serverLastSeen = 0;
+
 		this.content = ChatFormatter.formatChatMessage( message );
 	}
 
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
-		this.localLastSeen = localLastSeen;
 		this.chatMessages = new ArrayList<ChatMessage>();
 
+		this.localLastSeen = localLastSeen;
 		Matcher matcher = responseText != null ?
 			HistoryEntry.LASTSEEN_PATTERN.matcher( responseText ) :
 			null;

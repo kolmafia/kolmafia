@@ -92,15 +92,8 @@ public class SentMessageEntry
 			while ( dojaxURLs.find() )
 			{
 				// Force a GET, just like the Browser
-				request.constructURLString( dojaxURLs.group( 1 ) );
-				request.constructURLString( request.getFullURLString(), false );
-
-				RequestThread.postRequest( SentMessageEntry.DOJAX_VISITOR );
-
-				if ( request.responseText == null )
-				{
-					continue;
-				}
+				request.constructURLString( dojaxURLs.group( 1 ), false );
+				RequestThread.postRequest( request );
 			}
 		}
 

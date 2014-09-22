@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
+import net.sourceforge.kolmafia.chat.SentMessageEntry;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -116,6 +117,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
+
+import org.json.JSONObject;
 
 public class RelayRequest
 	extends PasswordHashRequest
@@ -2617,7 +2620,50 @@ public class RelayRequest
 
 		if ( chatResponse.startsWith( "{" ) )
 		{
-			ChatPoller.handleNewChat( chatResponse, this.getFormField( "graf" ) );
+			// Get messages that the Chat Manager knows about that
+			// are new since we last polled
+			List<HistoryEntry> newEntries = ChatPoller.getOldEntries( ChatPoller.serverLastSeen, true );
+			ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
+			for ( HistoryEntry entry : newEntries )
+			{
+				if ( entry instanceof SentMessageEntry )
+				{
+					for ( ChatMessage message : entry.getChatMessages() )
+					{
+						messages.add( message );
+					}
+				}
+			}
+
+			ChatPoller.handleNewChat( chatResponse, "" );
+
+			// If we have sent messages, prepend them to the msgs array in the response
+			if ( messages.size() > 0 )
+			{
+				StringBuilder buffer = new StringBuilder( chatResponse );
+				String string = "\"msgs\":[";
+				int index = buffer.indexOf( string );
+				if ( index != -1 )
+				{
+					index += string.length();
+					for ( ChatMessage message : messages )
+					{
+						JSONObject object = message.toJSON();
+						if ( object != null )
+						{
+							string = object.toString();
+							System.out.println( string );
+							buffer.insert( index, string );
+							index += string.length();
+							if ( buffer.charAt( index ) != ']' )
+							{
+								buffer.insert( index++, ',' );
+							}
+						}
+					}
+					chatResponse = buffer.toString();
+				}
+			}
 		}
 
 		return chatResponse;
