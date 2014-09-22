@@ -4451,6 +4451,7 @@ Hurricane Force	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -5
 Hustlin'	Initiative: +50, Item Drop: +10
 # Hyperbolic Hypothermia: Continually take damage
 Hyperbolic Hypothermia	Cold Damage: +20
+Hypercubed	Maximum MP: +100, MP Regen Min: 10, MP Regen Max: 20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
 I Am the Slaw!	Monster Level: +20
