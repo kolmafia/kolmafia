@@ -55,10 +55,10 @@ import org.json.JSONArray;
 public class ChatPoller
 	extends Thread
 {
-	private static final LinkedList<Object> chatHistoryEntries = new RollingLinkedList( 5 );
+	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 10 );
 
 	private static long localLastSeen = 0;
-	private static long serverLastSeen = 0;
+	public static long serverLastSeen = 0;
 
 	private static final int CHAT_DELAY = 500;
 	private static final int CHAT_DELAY_COUNT = 16;
@@ -117,7 +117,7 @@ public class ChatPoller
 
 	public synchronized static void addSentEntry( final String responseText, final boolean isRelayRequest )
 	{
-		SentMessageEntry entry = new SentMessageEntry( responseText, ++localLastSeen, isRelayRequest );
+		SentMessageEntry entry = new SentMessageEntry( responseText, ++ChatPoller.localLastSeen, isRelayRequest );
 
 		entry.executeAjaxCommand();
 
@@ -148,38 +148,46 @@ public class ChatPoller
 		return;
 	}
 
+	public synchronized static List<HistoryEntry> getOldEntries( final long lastSeen, final boolean isRelayRequest )
+	{
+		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
+
+		if ( lastSeen != 0 )
+		{
+			Iterator<HistoryEntry> entryIterator = ChatPoller.chatHistoryEntries.iterator();
+			while ( entryIterator.hasNext() )
+			{
+				HistoryEntry entry = entryIterator.next();
+				// System.out.println( "entry local = " + entry.getLocalLastSeen() + " lastSeen = " + lastSeen );
+
+				if ( entry.getLocalLastSeen() > lastSeen )
+				{
+					ChatPoller.addValidEntry( newEntries, entry, isRelayRequest );
+
+					while ( entryIterator.hasNext() )
+					{
+						ChatPoller.addValidEntry( newEntries, entryIterator.next(), isRelayRequest );
+					}
+				}
+			}
+
+			ChatPoller.localLastSeen = lastSeen;
+			// System.out.println( "setting lastSeen to " + lastSeen );
+		}
+
+		return newEntries;
+	}
+
 	public synchronized static List<HistoryEntry> getEntries( final long lastSeen, final boolean isRelayRequest )
 	{
+		List<HistoryEntry> newEntries = ChatPoller.getOldEntries( lastSeen, isRelayRequest );
+
 		if ( ChatManager.getCurrentChannel() == null )
 		{
 			ChatSender.sendMessage( null, "/listen", true );
 		}
 
-		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
-
-		Iterator<Object> entryIterator = ChatPoller.chatHistoryEntries.iterator();
-
-		if ( lastSeen != 0 )
-		{
-			while ( entryIterator.hasNext() )
-			{
-				HistoryEntry entry = (HistoryEntry) entryIterator.next();
-
-				if ( entry.getLocalLastSeen() > lastSeen )
-				{
-					addValidEntry( newEntries, entry, isRelayRequest );
-
-					while ( entryIterator.hasNext() )
-					{
-						addValidEntry( newEntries, (HistoryEntry) entryIterator.next(), isRelayRequest );
-					}
-				}
-			}
-		}
-
-		ChatRequest request = null;
-
-		request = new ChatRequest( ChatPoller.serverLastSeen, false );
+		ChatRequest request = new ChatRequest( ChatPoller.serverLastSeen, false );
 		request.run();
 
 		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );
@@ -215,47 +223,63 @@ public class ChatPoller
 	{
 		try {
 			JSONObject obj = new JSONObject( responseData );
+			long last = 0;
 
 			if ( obj.has( "last" ) )
 			{
-				serverLastSeen = obj.getLong( "last" );
+				last = obj.getLong( "last" );
 			}
 
-			List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
+			List<ChatMessage> messages = new LinkedList<ChatMessage>();
+
 			// note: output is where /who, /listen, + various game commands
 			// (/use etc) output goes. May exist.
 			String output = obj.optString( "output", null );
 			if ( output != null )
 			{
 				// TODO: strip channelname so /cli works again.
-				ChatSender.processResponse( newMessages, output, sent );
+				ChatSender.processResponse( messages, output, sent );
 			}
 
 			JSONArray msgs = obj.getJSONArray( "msgs" );
 			for ( int i = 0; i < msgs.length(); i++ )
 			{
 				JSONObject msg = msgs.getJSONObject( i );
+
+				// If we have already seen this message in the chat GUI, skip it.
+				long mid = msg.optLong( "mid" );
+				if ( mid != 0 && mid <= ChatPoller.serverLastSeen )
+				{
+					continue;
+
+				}
+
 				String type = msg.getString( "type" );
-				String sender = msg.has( "who" ) ? msg.getJSONObject( "who" ).getString( "name" ) : null;
-				String senderId = msg.has( "who" ) ? msg.getJSONObject( "who" ).getString( "id" ) : null;
-				String recipient = msg.has( "for" ) ? msg.getJSONObject( "for" ).optString( "name" ) : null;
+
+				JSONObject whoObj = msg.optJSONObject( "who" );
+				String sender = whoObj != null ? whoObj.getString( "name" ) : null;
+				String senderId = whoObj != null ? whoObj.getString( "id" ) : null;
+
+				JSONObject forObj = msg.optJSONObject( "for" );
+				String recipient = forObj != null ? forObj.optString( "name" ) : null;
+
 				String content = msg.optString( "msg", null );
 				if ( type.equals( "event" ) )
 				{
 					// TODO: handle events
-					newMessages.add( new EventMessage( content, "green" ) );
+					messages.add( new EventMessage( content, "green" ) );
 					continue;
 				}
 				if ( sender == null )
 				{
-					ChatSender.processResponse( newMessages, content, sent );
+					ChatSender.processResponse( messages, content, sent );
 					continue;
 				}
 				if ( recipient == null )
 				{
 					if ( type.equals( "system" ) )
 					{
-						newMessages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
+						messages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
 						continue;
 					}
 					recipient = type.equals( "public" ) ? "/" + msg.getString( "channel" ) : KoLCharacter.getUserName();
@@ -265,15 +289,19 @@ public class ChatPoller
 				boolean isAction = "1".equals( msg.optString( "format" ) );
 				if ( isAction )
 				{
-					// username ends with "</b></font></a>"; remove trailing
-					// </i>
+					// username ends with "</b></font></a>"; remove trailing </i>
 					content = content.substring( content.indexOf("</a>" ) + 4, content.length() - 4 );
 				}
 
-				newMessages.add( new ChatMessage( sender, recipient, content, isAction ) );
+				messages.add( new ChatMessage( sender, recipient, content, isAction ) );
 			}
 
-			ChatManager.processMessages( newMessages );
+			if ( last != 0 )
+			{
+				ChatPoller.serverLastSeen = last;
+			}
+
+			ChatManager.processMessages( messages );
 		}
 		catch ( JSONException e )
 		{

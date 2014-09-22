@@ -211,19 +211,18 @@ public class ChatSender
 
 		List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
 
-		String graf = request.getGraf();
 		if ( !tabbedChat )
 		{
+			String graf = request.getGraf();
 			ChatSender.processResponse( newMessages, request.responseText, graf );
+			ChatManager.processMessages( newMessages );
 		}
 
-		ChatManager.processMessages( newMessages );
 		return newMessages;
 	}
 
 	public static final void processResponse( List<ChatMessage> newMessages, String responseText, String graf )
 	{
-
 		if ( graf.equals( "/listen" ) )
 		{
 			ChatParser.parseChannelList( newMessages, responseText );
