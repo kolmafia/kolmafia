@@ -976,6 +976,7 @@ public class CharPaneRequest
 	{
 		if ( KoLConstants.activeEffects.contains( CharPaneRequest.somePigs ) )
 		{
+			KoLCharacter.setFamiliarImage( "somepig" );
 			return;
 		}
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
