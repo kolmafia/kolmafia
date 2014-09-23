@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -235,6 +237,10 @@ public class CharPaneRequest
 		else if ( KoLCharacter.isJarlsberg() )
 		{
 			CharPaneRequest.checkCompanion( responseText );
+		}
+		else if ( KoLCharacter.isSneakyPete() )
+		{
+			// No familiar-type checking needed
 		}
 		else
 		{
@@ -964,9 +970,14 @@ public class CharPaneRequest
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
 	private static final Pattern familiarImagePattern =
 		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?\\.gif)" );
+	private static final AdventureResult somePigs = EffectPool.get( Effect.SOME_PIGS );
 
 	private static final void checkFamiliar( final String responseText )
 	{
+		if ( KoLConstants.activeEffects.contains( CharPaneRequest.somePigs ) )
+		{
+			return;
+		}
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactFamiliarWeightPattern :
 			CharPaneRequest.expandedFamiliarWeightPattern;
@@ -1082,11 +1093,15 @@ public class CharPaneRequest
 
 	private static final void checkPastaThrall( final String responseText )
 	{
+		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+		{
+			return;
+		}
 		Pattern pattern = CharPaneRequest.pastaThrallPattern;
 		Matcher matcher = pattern.matcher( responseText );
 		if ( matcher.find() )
 		{
-			String image = matcher.group( 1 );
+			//String image = matcher.group( 1 );
 			String name = matcher.group( 2 );
 			String levelString = matcher.group( 3 );
 			String type = matcher.group( 4 );

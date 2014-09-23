@@ -113,15 +113,11 @@ public class EffectPool
 
 		DOWN_THE_RABBIT_HOLE( "Down the Rabbit Hole", 725 ),
 
-		GOOFBALL_WITHDRAWAL( "Goofball Withdrawal", 111 ),
-		CURSED_BY_RNG( "Cursed by The RNG", 217 ),
 		MAJORLY_POISONED( "Majorly Poisoned", 264 ),
 		A_LITTLE_BIT_POISONED( "A Little Bit Poisoned", 282 ),
 		SOMEWHAT_POISONED( "Somewhat Poisoned", 283 ),
 		REALLY_QUITE_POISONED( "Really Quite Poisoned", 284 ),
 		TOAD_IN_THE_HOLE( "Toad In The Hole", 436 ),
-		CORSICAN_BLESSING( "Brother Corsican's Blessing", 460 ),
-		REALLY_DEEP_BREATH( "Really Deep Breath", 623 ),
 		COATED_IN_SLIME( "Coated in Slime", 633 ),
 		KUNG_FU_FIGHTING( "Kung Fu Fighting", 806 ),
 		WET_WILLIED( "Wet Willied", 838),
@@ -132,7 +128,9 @@ public class EffectPool
 		YIFFABLE_YOU( "Yiffable You", 940 ),
 		BONE_US_ROUND( "The Bone Us Round", 941 ),
 		OVERCONFIDENT( "Overconfident", 1011 ),
-		BORED_WITH_EXPLOSIONS( "Bored With Explosions", 1557 );
+		BORED_WITH_EXPLOSIONS( "Bored With Explosions", 1557 ),
+		SOME_PIGS( "SOME PIGS", 1640 ),
+		;
 
 		private final String name;
 		private final int id;
