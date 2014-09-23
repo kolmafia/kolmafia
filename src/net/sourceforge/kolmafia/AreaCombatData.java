@@ -148,10 +148,15 @@ public class AreaCombatData
 				currentWeighting += 3 * baseWeighting;
 			}
 
-			// If banished, and rate not increased by above effects, encounter is impossible
-			if ( BanishManager.isBanished( monsterName ) && currentWeighting <= baseWeighting )
+			if ( BanishManager.isBanished( monsterName ) )
 			{
-				currentWeighting = -3;
+				// Banishing reduces number of copies
+				currentWeighting -= baseWeighting;
+				// If this takes it to zero chance, it's properly banished
+				if ( currentWeighting == 0 )
+				{
+					currentWeighting = -3;
+				}
 			}
 			
 			// Not available in current 
