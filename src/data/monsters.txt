@@ -444,7 +444,7 @@ gang of hobo muggers	muggers.gif	Atk: 800 Def: 900 HP: 3000 Init: 300 P: hobo
 ganger	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 240 P: fish	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
 gargantulihc	gargantulihc.gif	Atk: 71 Def: 65 HP: 120 Exp: [53+ML/4] Init: 60 E: spooky P: undead	lihc eye (0)	lihc eye (0)	lihc face (0)
 gaudy pirate	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	gaudy key (c100)
-gaunt ghuol	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 18-24 P: undead	ghuol ears (20)	ghuol egg (20)
+gaunt ghuol	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 20 P: undead	ghuol ears (20)	ghuol egg (20)
 gelatinous cube	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 generic duck	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 70-80 P: beast
 Georgepaul, the Balldodger	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 100 P: mer-kin
@@ -473,7 +473,7 @@ giant swarm of ghuol whelps	whelps3.gif	Atk: 50 Def: 45 HP: 250 Init: 300 E: spo
 giant zombie goldfish	zomfish.gif	Atk: 250 Def: 229 HP: 250 Init: 60 P: undead	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire	crimonster5.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Glass of Orange Juice	juiceglass.gif	Atk: 220 Def: 198 HP: 350 Init: 100 Meat: 327-500 E: stench P: hippy	green clay bead (100)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
-gluttonous ghuol	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 24-38 P: undead	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)	huge spoon (5)
+gluttonous ghuol	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 60 P: undead	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)	huge spoon (5)
 gnarly gnome	gnarlgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	clockwork key (n5)	clockwork key (n5)	flange (5)
 gnasty gnome	gnasgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	clockwork key (n5)	clockwork key (n5)	flange (5)
 gnefarious gnome	gnefgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid	sprocket (15)	cog (15)	flange (5)
@@ -895,7 +895,7 @@ smut orc nailer	smutorc_nailer.gif	Atk: 75 Def: 70 HP: 65 Init: 50 P: orc	orcish
 smut orc pervert	smutorc_pervert.gif	Atk: 85 Def: 85 HP: 75 Init: 50 E: sleaze P: orc	smut orc keepsake box (n100)	smut orc sunglasses (c0)
 smut orc pipelayer	smutorc_layer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc	orcish rubber (0)	freshwater pearl necklace (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
 smut orc screwer	smutorc_screwer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc	backwoods screwdriver (0)	screwing pooch (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
-Snakeleton	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 P: beast E: spooky	The Shield of Brook (n100)
+Snakeleton	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: spooky	The Shield of Brook (n100)
 Snow Queen	snowqueen.gif	Atk: 107 Def: 94 HP: 70 Init: 60 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Somerset Lopez, Demon Mariachi	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	6_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	El Sombrero De Lopez (100)
