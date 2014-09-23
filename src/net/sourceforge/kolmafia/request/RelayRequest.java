@@ -2554,7 +2554,7 @@ public class RelayRequest
 
 			if ( tabbedChat && chatText.startsWith( "{" ) )
 			{
-				ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ) );
+				ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ), ChatPoller.localLastSeen );
 			}
 		}
 
@@ -2625,6 +2625,8 @@ public class RelayRequest
 		{
 			// Get messages that the Chat Manager knows about that
 			// are new since we last polled
+
+			long localLastSeen = ChatPoller.localLastSeen;
 			List<HistoryEntry> newEntries = ChatPoller.getOldEntries( true );
 			ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
 			for ( HistoryEntry entry : newEntries )
@@ -2638,7 +2640,7 @@ public class RelayRequest
 				}
 			}
 
-			ChatPoller.handleNewChat( chatResponse, "" );
+			ChatPoller.handleNewChat( chatResponse, "", localLastSeen );
 
 			// If we have sent messages, prepend them to the msgs array in the response
 			if ( messages.size() > 0 )
