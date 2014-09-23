@@ -5988,7 +5988,7 @@ public abstract class RuntimeLibrary
 			Value toSet;
 			if ( weight <= 0 )
 			{
-				// Ultrarares
+				// Ultrarares & Banished
 				toSet = new Value( weight );
 			}
 			else if ( includeQueue.intValue() == 1 )

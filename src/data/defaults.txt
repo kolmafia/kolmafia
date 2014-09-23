@@ -615,6 +615,7 @@ user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
 user	lowerChamberUnlock	false
+user	makeFriendsMonster	
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
@@ -659,6 +660,7 @@ user	munchiesPillsUsed	0
 user	nextAdventure
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
+user	nosyNoseMonster	
 user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue

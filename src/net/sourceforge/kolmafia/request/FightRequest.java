@@ -6547,6 +6547,20 @@ public class FightRequest
 		case SkillPool.SHRAP:
 			ResultProcessor.removeItem( ItemPool.WARBEAR_WHOSIT );
 			break;
+
+		case SkillPool.GET_A_GOOD_WHIFF:
+			if ( responseText.contains( "floats over your opponent" ) )
+			{
+				Preferences.setString( "nosyNoseMonster", monsterName );
+			}
+			break;
+
+		case SkillPool.MAKE_FRIENDS:
+			if ( responseText.contains( "you become fast friends" ) )
+			{
+				Preferences.setString( "makeFriendsMonster", monsterName );
+			}
+			break;
 		}
 	}
 
