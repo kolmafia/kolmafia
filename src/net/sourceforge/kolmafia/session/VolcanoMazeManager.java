@@ -506,12 +506,12 @@ public abstract class VolcanoMazeManager
 		RequestLogger.printLine( "Current position: " + VolcanoMazeManager.coordinateString( currentLocation, currentMap ) );
 	}
 
-	private static final void discoverMaps()
+	private static final boolean discoverMaps()
 	{
 		VolcanoMazeManager.loadCurrentMaps();
 		if ( VolcanoMazeManager.found == CELLS )
 		{
-			return;
+			return true;
 		}
 
 		// Visit the cave to find out where we are
@@ -524,7 +524,7 @@ public abstract class VolcanoMazeManager
 		if ( currentLocation < 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You couldn't find the lava cave" );
-			return;
+			return false;
 		}
 
 		VolcanoMazeManager.printCurrentCoordinates();
@@ -538,7 +538,7 @@ public abstract class VolcanoMazeManager
 			if ( next < 0 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You seem to be stuck" );
-				return;
+				return false;
 			}
 
 			RequestLogger.printLine( "Move to: " + VolcanoMazeManager.coordinateString( next, currentMap ) );
@@ -551,9 +551,11 @@ public abstract class VolcanoMazeManager
 			{
 				// This shouldn't happen
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Moving did not discover new platforms" );
-				return;
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	// CLI command support
@@ -625,8 +627,7 @@ public abstract class VolcanoMazeManager
 
 	public static final void platforms()
 	{
-		VolcanoMazeManager.discoverMaps();
-		if ( !KoLmafia.permitsContinue() )
+		if ( !VolcanoMazeManager.discoverMaps() )
 		{
 			return;
 		}
@@ -671,8 +672,7 @@ public abstract class VolcanoMazeManager
 		// Save URL to give back to the user's browser
 		RelayRequest.redirectedCommandURL = "/volcanomaze.php?start=1";
 
-		VolcanoMazeManager.discoverMaps();
-		if ( !KoLmafia.permitsContinue() )
+		if ( !VolcanoMazeManager.discoverMaps() )
 		{
 			return;
 		}
