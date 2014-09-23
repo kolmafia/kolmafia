@@ -171,7 +171,7 @@ public class AdventureRequest
 			}
 			this.addFormField( "action", action.toString() );
 		}
-		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "manor4_chamber" ) )
+		else if ( this.formSource.equals( "place.php" ) && this.adventureId.startsWith( "manor4_chamber" ) )
 		{
 			this.addFormField( "whichplace", "manor4" );
 			if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
