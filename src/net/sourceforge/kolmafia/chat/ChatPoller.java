@@ -55,7 +55,7 @@ import org.json.JSONArray;
 public class ChatPoller
 	extends Thread
 {
-	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 10 );
+	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 25 );
 
 	public static long serverLastSeen = 0;
 	public static long localLastSeen = 0;
@@ -212,6 +212,26 @@ public class ChatPoller
 		return ChatPoller.rightClickMenu;
 	}
 
+	private static final boolean messageAlreadySeen( final String recipient, final String content )
+	{
+		for ( HistoryEntry entry : ChatPoller.chatHistoryEntries )
+		{
+			if ( entry instanceof SentMessageEntry )
+			{
+				for ( ChatMessage message : entry.getChatMessages() )
+				{
+					if ( recipient.equals( message.getRecipient() ) && 
+					     content.equals( message.getContent() ) )
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public static void handleNewChat( String responseData, String sent )
 	{
 		try
@@ -249,26 +269,31 @@ public class ChatPoller
 				}
 
 				String type = msg.getString( "type" );
+				boolean pub = type.equals( "public" );
 
 				JSONObject whoObj = msg.optJSONObject( "who" );
 				String sender = whoObj != null ? whoObj.getString( "name" ) : null;
 				String senderId = whoObj != null ? whoObj.getString( "id" ) : null;
+				boolean mine = KoLCharacter.getPlayerId().equals( senderId );
 
 				JSONObject forObj = msg.optJSONObject( "for" );
 				String recipient = forObj != null ? forObj.optString( "name" ) : null;
 
 				String content = msg.optString( "msg", null );
+
 				if ( type.equals( "event" ) )
 				{
 					// TODO: handle events
 					messages.add( new EventMessage( content, "green" ) );
 					continue;
 				}
+
 				if ( sender == null )
 				{
 					ChatSender.processResponse( messages, content, sent );
 					continue;
 				}
+
 				if ( recipient == null )
 				{
 					if ( type.equals( "system" ) )
@@ -276,15 +301,23 @@ public class ChatPoller
 						messages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
 						continue;
 					}
-					recipient = type.equals( "public" ) ? "/" + msg.getString( "channel" ) : KoLCharacter.getUserName();
+
+					recipient = pub ? "/" + msg.getString( "channel" ) : KoLCharacter.getUserName();
 				}
 				recipient = recipient.replaceAll( " ", "_" );
+
 				// Apparently isAction corresponds to /em commands.
 				boolean isAction = "1".equals( msg.optString( "format" ) );
+
 				if ( isAction )
 				{
-					// username ends with "</b></font></a>"; remove trailing </i>
-					content = content.substring( content.indexOf("</a>" ) + 4, content.length() - 4 );
+					// username ends with "</b></font></a> "; remove trailing </i>
+					content = content.substring( content.indexOf("</a>" ) + 5, content.length() - 4 );
+				}
+
+				if ( pub && mine && ChatPoller.messageAlreadySeen( recipient, content ) )
+				{
+					continue;
 				}
 
 				messages.add( new ChatMessage( sender, recipient, content, isAction ) );
