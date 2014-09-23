@@ -108,7 +108,10 @@ public class ChatPoller
 	{
 		HistoryEntry entry = new HistoryEntry( message, ++ChatPoller.localLastSent );
 
-		ChatPoller.chatHistoryEntries.add( entry );
+		synchronized ( ChatPoller.chatHistoryEntries )
+		{
+			ChatPoller.chatHistoryEntries.add( entry );
+		}
 		ChatManager.processMessages( entry.getChatMessages() );
 	}
 
@@ -118,7 +121,10 @@ public class ChatPoller
 
 		entry.executeAjaxCommand();
 
-		ChatPoller.chatHistoryEntries.add( entry );
+		synchronized ( ChatPoller.chatHistoryEntries )
+		{
+			ChatPoller.chatHistoryEntries.add( entry );
+		}
 	}
 
 	private static final void addValidEntry( final List<HistoryEntry> newEntries, final HistoryEntry entry, final boolean isRelayRequest )
@@ -150,18 +156,21 @@ public class ChatPoller
 		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
 		final long lastSeen = ChatPoller.localLastSeen;
 
-		Iterator<HistoryEntry> entryIterator = ChatPoller.chatHistoryEntries.iterator();
-		while ( entryIterator.hasNext() )
+		synchronized ( ChatPoller.chatHistoryEntries )
 		{
-			HistoryEntry entry = entryIterator.next();
-
-			if ( entry.getLocalLastSeen() > lastSeen )
+			Iterator<HistoryEntry> entryIterator = ChatPoller.chatHistoryEntries.iterator();
+			while ( entryIterator.hasNext() )
 			{
-				ChatPoller.addValidEntry( newEntries, entry, isRelayRequest );
+				HistoryEntry entry = entryIterator.next();
 
-				while ( entryIterator.hasNext() )
+				if ( entry.getLocalLastSeen() > lastSeen )
 				{
-					ChatPoller.addValidEntry( newEntries, entryIterator.next(), isRelayRequest );
+					ChatPoller.addValidEntry( newEntries, entry, isRelayRequest );
+
+					while ( entryIterator.hasNext() )
+					{
+						ChatPoller.addValidEntry( newEntries, entryIterator.next(), isRelayRequest );
+					}
 				}
 			}
 		}
@@ -188,7 +197,10 @@ public class ChatPoller
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
 		newEntries.add( entry );
 
-		ChatPoller.chatHistoryEntries.add( entry );
+		synchronized ( ChatPoller.chatHistoryEntries )
+		{
+			ChatPoller.chatHistoryEntries.add( entry );
+		}
 		ChatManager.processMessages( entry.getChatMessages() );
 
 		return newEntries;
@@ -212,18 +224,21 @@ public class ChatPoller
 		return ChatPoller.rightClickMenu;
 	}
 
-	private static final boolean messageAlreadySeen( final String recipient, final String content )
+	private static final boolean messageAlreadySeen( final String recipient, final String content, final long localLastSeen )
 	{
-		for ( HistoryEntry entry : ChatPoller.chatHistoryEntries )
+		synchronized ( ChatPoller.chatHistoryEntries )
 		{
-			if ( entry instanceof SentMessageEntry )
+			for ( HistoryEntry entry : ChatPoller.chatHistoryEntries )
 			{
-				for ( ChatMessage message : entry.getChatMessages() )
+				if ( entry instanceof SentMessageEntry && entry.getLocalLastSeen() > localLastSeen )
 				{
-					if ( recipient.equals( message.getRecipient() ) && 
-					     content.equals( message.getContent() ) )
+					for ( ChatMessage message : entry.getChatMessages() )
 					{
-						return true;
+						if ( recipient.equals( message.getRecipient() ) && 
+						     content.equals( message.getContent() ) )
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -232,7 +247,7 @@ public class ChatPoller
 		return false;
 	}
 
-	public static void handleNewChat( String responseData, String sent )
+	public static void handleNewChat( final String responseData, final String sent, final long localLastSeen )
 	{
 		try
 		{
@@ -315,7 +330,7 @@ public class ChatPoller
 					content = content.substring( content.indexOf("</a>" ) + 5, content.length() - 4 );
 				}
 
-				if ( pub && mine && ChatPoller.messageAlreadySeen( recipient, content ) )
+				if ( pub && mine && ChatPoller.messageAlreadySeen( recipient, content, localLastSeen ) )
 				{
 					continue;
 				}
