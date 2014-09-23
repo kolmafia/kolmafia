@@ -34,11 +34,14 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -50,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -73,7 +77,8 @@ public class AreaCombatData
 
 	// Parallel lists: monsters and encounter weighting
 	private final List<MonsterData> monsters;
-	private final List<Integer> weightings;
+	private final List<Integer> baseWeightings;
+	private final List<Integer> currentWeightings;
 
 	private final String zone;
 
@@ -86,7 +91,8 @@ public class AreaCombatData
 	{
 		this.zone = zone;
 		this.monsters = new ArrayList<MonsterData>();
-		this.weightings = new ArrayList<Integer>();
+		this.baseWeightings = new ArrayList<Integer>();
+		this.currentWeightings = new ArrayList<Integer>();
 		this.combats = combats;
 		this.weights = 0;
 		this.minHit = Integer.MAX_VALUE;
@@ -97,7 +103,7 @@ public class AreaCombatData
 		this.jumpChance = Integer.MAX_VALUE;
 	}
 
-	public void recalculate()
+	private void recalculate()
 	{
 		this.minHit = Integer.MAX_VALUE;
 		this.maxHit = 0;
@@ -105,19 +111,69 @@ public class AreaCombatData
 		this.maxEvade = 0;
 		this.jumpChance = 100;
 
+		int weights = 0;
+		List<Integer> currentWeightings = new ArrayList<Integer>();
+
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
-			int weighting = this.getWeighting( i );
+			// Weighting has two low bits which represent odd or even ascension restriction
+			// Strip them out now and restore them at the end
+			int baseWeighting = this.baseWeightings.get( i );
+			int flags = baseWeighting & 3;
+			baseWeighting = baseWeighting >> WEIGHT_SHIFT;
+			int currentWeighting = baseWeighting;
 
-			// Omit impossible (-2) and ultra-rare (-1) monsters
-			if ( weighting < 0 )
+			MonsterData monster = this.getMonster( i );
+			String monsterName = monster.getName();
+
+			// If olfacted, add three to encounter pool
+			if ( Preferences.getString( "olfactedMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += 3 * baseWeighting;
+			}
+			// If Nosy Nose sniffed, and is current familiar, add one to encounter pool
+			if ( Preferences.getString( "nosyNoseMonster" ).equals( monsterName ) &&
+				KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE )
+			{
+				currentWeighting += baseWeighting;
+			}
+			// If Staff of the Cream of the Cream jiggle, add two to encounter pool
+			if ( Preferences.getString( "_jiggleCreamedMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += 2 * baseWeighting;
+			}
+			// If Make Friends used, add three to encounter pool
+			if ( Preferences.getString( "makeFriendsMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += 3 * baseWeighting;
+			}
+
+			// If banished, and rate not increased by above effects, encounter is impossible
+			if ( BanishManager.isBanished( monsterName ) && currentWeighting <= baseWeighting )
+			{
+				currentWeighting = -3;
+			}
+			
+			// Not available in current 
+			if ( ( flags == ASCENSION_ODD && KoLCharacter.getAscensions() % 2 == 1 ) ||
+				( flags == ASCENSION_EVEN && KoLCharacter.getAscensions() % 2 == 0 ) )
+			{
+				currentWeighting = -2;	// impossible this ascension
+			}
+
+			currentWeightings.add( (currentWeighting << WEIGHT_SHIFT) | flags );
+
+			// Omit banished (-3), impossible (-2) and ultra-rare (-1) monsters
+			if ( currentWeighting < 0 )
 			{
 				continue;
 			}
-
-			MonsterData monster = this.getMonster( i );
+			
+			weights += currentWeighting;
 			this.addMonsterStats( monster );
 		}
+		this.weights = weights;
+		Collections.copy( this.currentWeightings, currentWeightings );
 	}
 
 	private void addMonsterStats( MonsterData monster )
@@ -191,7 +247,8 @@ public class AreaCombatData
 
 		this.monsters.add( monster );
 		this.poison = Math.min( this.poison, monster.getPoison() );
-		this.weightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
+		this.baseWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
+		this.currentWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
 		// or anything else.
@@ -287,7 +344,7 @@ public class AreaCombatData
 
 	public int getWeighting( final int i )
 	{
-		int raw = ( (Integer) this.weightings.get( i ) ).intValue();
+		int raw = ( (Integer) this.currentWeightings.get( i ) ).intValue();
 		if ( ((raw >> (KoLCharacter.getAscensions() & 1)) & 1) == 0 )
 		{
 			return -2;	// impossible this ascension
@@ -344,14 +401,14 @@ public class AreaCombatData
 		{
 			int weighting = this.getWeighting( i );
 
-			// Omit impossible (-2), ultra-rare (-1) and special (0) monsters
+			// Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
 			if ( weighting < 1 )
 			{
 				continue;
 			}
 
 			MonsterData monster = this.getMonster( i );
-			double weight = (double) weighting / (double) this.weights;
+			double weight = (double) weighting / (double) this.totalWeighting();
 			averageML += weight * monster.getAttack();
 		}
 
@@ -420,14 +477,14 @@ public class AreaCombatData
 		{
 			int weighting = this.getWeighting( i );
 
-			// Omit impossible (-2), ultra-rare (-1) and special (0) monsters
+			// Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
 			if ( weighting < 1 )
 			{
 				continue;
 			}
 
 			MonsterData monster = this.getMonster( i );
-			double weight = (double) weighting / (double) this.weights;
+			double weight = (double) weighting / (double) this.totalWeighting();
 			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
 
@@ -692,9 +749,15 @@ public class AreaCombatData
 		{
 			buffer.append( "ultra-rare" );
 		}
+		else if ( weighting == -3 )
+		{
+			buffer.append( "banished" );
+		}
 		else if ( weighting == 0 )
 		{
-			buffer.append( "special" );
+			{
+				buffer.append( "special" );
+			}
 		}
 		else
 		{

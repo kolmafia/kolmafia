@@ -177,6 +177,7 @@ public class SkillPool
 	public static final int DOUBT_SHACKLES = 7143;
 	public static final int FEAR_VAPOR = 7144;
 	public static final int TEAR_WAVE = 7145;
+	public static final int GET_A_GOOD_WHIFF = 7166;
 	public static final int WINK = 7168;
 	public static final int TALK_ABOUT_POLITICS = 7169;
 	public static final int POCKET_CRUMBS = 7170;
@@ -239,6 +240,7 @@ public class SkillPool
 	public static final int FIX_JUKEBOX = 15004;
 	public static final int REV_ENGINE = 15011;
 	public static final int SHAKE_IT_OFF = 15006;
+	public static final int MAKE_FRIENDS = 15009;
 	public static final int PEEL_OUT = 15015;
 	public static final int CHECK_MIRROR = 15017;
 	public static final int BIKER_SWAGGER = 15019;

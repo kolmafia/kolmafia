@@ -336,29 +336,29 @@ public class AdventureQueueDatabase
 		}
 
 		// rate for monster IN the queue is 1 / (4a - 3b) and rate for monster NOT IN the queue is 4 / (4a - 3b) where
-		// a = number of monsters in zone (aka the old denominator)
-		// b = number of unique monsters in the adventure queue
+		// a = weight of monsters in the zone
+		// b = weight of monsters in the queue
 
 		HashSet<Object> zoneSet = new HashSet<Object>( zoneQueue ); // just care about unique elements
 
 		// Ignore monsters in the queue that aren't actually part of the zone's normal monster list
 		// This includes monsters that have special conditions to find and wandering monsters
 		// that are not part of the location at all
-		int queueSize = zoneSet.size();
+		int queueWeight = 0;
 		Iterator iter = zoneSet.iterator();
 		while ( iter.hasNext() )
 		{
 			String mon = (String) iter.next();
 			MonsterData queueMonster = MonsterDatabase.findMonster( mon, false );
 			int index = data.getMonsterIndex( queueMonster );
-			if ( index == -1 || data.getWeighting( index ) <= 0 )
+			if ( index != -1 && data.getWeighting( index ) > 0 )
 			{
-				queueSize--;
+				queueWeight += data.getWeighting( index );
 			}
 		}
 
 		double newNumerator = numerator * ( zoneQueue.contains( monster.getName() ) ? 1 : 4 );
-		double newDenominator = ( 4 * denominator - 3 * queueSize );
+		double newDenominator = ( 4 * denominator - 3 * queueWeight );
 
 		return newNumerator / newDenominator;
 	}
