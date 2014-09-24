@@ -2950,6 +2950,18 @@ public class UseItemRequest
 			return;
 		}
 
+		case ItemPool.THUNDER_THIGH:
+		case ItemPool.AQUA_BRAIN:
+		case ItemPool.LIGHTNING_MILK:
+		{
+			// You can't learn anything else from this, so you just throw it away.
+			if ( responseText.contains( "you just throw it away" ) )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
+			return;
+		}
+
 		case ItemPool.OLFACTION_BOOK:
 		{
 			if ( !responseText.contains( "smell has been elevated to a superhuman level" ) )
