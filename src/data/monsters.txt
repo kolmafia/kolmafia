@@ -1682,12 +1682,12 @@ cigarette girl	ciggirl.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000
 Mob penguin entrepreneur	peng_ent.gif	Atk: [min(MOX+1,1000)+max(ML,0)] Def: [min(MUS+1,1000)+max(ML,0)] HP: [0.75*(min(MUS+1,1000)+max(ML,0))] Exp: [min(STAT+1,1000)+max(ML,0)] Init: -10000 P: penguin Meat: 40	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
 # Twitch 4 - The Roman Forum
-hypocritical medicus	medicus.gif	Atk: [max(min(MOX+0,1000),10)+max(ML,0)] Def: [max(min(MUS+0,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+0,1000),10)+max(ML,0))] Exp: [max(min(STAT+0,1000),10)+max(ML,0)] Init: -10000 P: dude
-cheap strix	strix.gif	Atk: [max(min(MOX+1,1000),10)+max(ML,0)] Def: [max(min(MUS+1,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+1,1000),10)+max(ML,0))] Exp: [max(min(STAT+1,1000),10)+max(ML,0)] Init: -10000 P: beast
-Gladiator	gladiator.gif	Atk: [max(min(MOX+2,1000),10)+max(ML,0)] Def: [max(min(MUS+2,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+2,1000),10)+max(ML,0))] Exp: [max(min(STAT+2,1000),10)+max(ML,0)] Init: -10000 P: dude
-Sadiator	sadiator.gif	Atk: [max(min(MOX+3,1000),10)+max(ML,0)] Def: [max(min(MUS+3,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+3,1000),10)+max(ML,0))] Exp: [max(min(STAT+3,1000),10)+max(ML,0)] Init: -10000 P: dude
-Madiator	madiator.gif	Atk: [max(min(MOX+4,1000),10)+max(ML,0)] Def: [max(min(MUS+4,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+4,1000),10)+max(ML,0))] Exp: [max(min(STAT+4,1000),10)+max(ML,0)] Init: -10000 P: dude
-Radiator	radiator.gif	Atk: [max(min(MOX+5,1000),10)+max(ML,0)] Def: [max(min(MUS+5,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+5,1000),10)+max(ML,0))] Exp: [max(min(STAT+5,1000),10)+max(ML,0)] Init: -10000 P: dude
+hypocritical medicus	medicus.gif	Atk: [max(min(MOX+0,1000),10)+max(ML,0)] Def: [max(min(MUS+0,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+0,1000),10)+max(ML,0))] Exp: [max(min(STAT+0,1000),10)+max(ML,0)] Init: -10000 P: dude	non-aged vinegar (20)	unsanitized scalpel (2)
+cheap strix	strix.gif	Atk: [max(min(MOX+1,1000),10)+max(ML,0)] Def: [max(min(MUS+1,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+1,1000),10)+max(ML,0))] Exp: [max(min(STAT+1,1000),10)+max(ML,0)] Init: -10000 P: beast	Strix stix (20)	vampire pellet (2)
+Gladiator	gladiator.gif	Atk: [max(min(MOX+2,1000),10)+max(ML,0)] Def: [max(min(MUS+2,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+2,1000),10)+max(ML,0))] Exp: [max(min(STAT+2,1000),10)+max(ML,0)] Init: -10000 P: dude	salt wages (10)	gladiator tunica (2)
+Sadiator	sadiator.gif	Atk: [max(min(MOX+3,1000),10)+max(ML,0)] Def: [max(min(MUS+3,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+3,1000),10)+max(ML,0))] Exp: [max(min(STAT+3,1000),10)+max(ML,0)] Init: -10000 P: dude	salt wages (10)	Roman sadnals (2)
+Madiator	madiator.gif	Atk: [max(min(MOX+4,1000),10)+max(ML,0)] Def: [max(min(MUS+4,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+4,1000),10)+max(ML,0))] Exp: [max(min(STAT+4,1000),10)+max(ML,0)] Init: -10000 P: dude	salt wages (10)	madius (2)
+Radiator	radiator.gif	Atk: [max(min(MOX+5,1000),10)+max(ML,0)] Def: [max(min(MUS+5,1000),10)+max(ML,0)] HP: [0.75*(max(min(MUS+5,1000),10)+max(ML,0))] Exp: [max(min(STAT+5,1000),10)+max(ML,0)] Init: -10000 P: dude	salt wages (10)	radiator heater shield (2)
 
 # Heavy Rains
 alley catfish	catfish.gif	Atk: [MOX-35+max(ML,0)] Def: [MUS-35+max(ML,0)] HP: [0.75*(MUS-35+max(ML,0))] Exp: [(STAT-35+max(ML,0))/4] Init: 70 P: fish Meat: 80	catfish whiskers (0)
