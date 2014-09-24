@@ -976,9 +976,10 @@ public class CharPaneRequest
 	{
 		if ( KoLConstants.activeEffects.contains( CharPaneRequest.somePigs ) )
 		{
-			KoLCharacter.setFamiliarImage( "somepig" );
+			KoLCharacter.setFamiliarImage( "somepig.gif" );
 			return;
 		}
+
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactFamiliarWeightPattern :
 			CharPaneRequest.expandedFamiliarWeightPattern;
