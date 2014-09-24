@@ -350,6 +350,15 @@ public class GuildRequest
 			{
 				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.STARTED );
 			}
+			// Moxie guild quests
+			if ( responseText.contains( "stole my own pants" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MOXIE, QuestDatabase.FINISHED );
+			}
+			else if ( responseText.contains( "check out the Sleazy Back Alley" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MOXIE, QuestDatabase.STARTED );
+			}
 		}
 
 		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );

@@ -6261,6 +6261,7 @@ public abstract class ChoiceManager
 			if ( text.indexOf( "oddly chilly" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
+				QuestDatabase.setQuestProgress( Quest.MOXIE, "step1" );
 			}
 			break;
 
