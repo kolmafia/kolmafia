@@ -288,6 +288,7 @@ public class FightRequest
 	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
+	public static boolean fightingCopy = false;
 
 	private static String nextAction = null;
 
@@ -2196,6 +2197,7 @@ public class FightRequest
 			}
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
+			FightRequest.fightingCopy = EncounterManager.ignoreSpecialMonsters;
 			EncounterManager.ignoreSpecialMonsters = false;
 		}
 
@@ -3036,6 +3038,24 @@ public class FightRequest
 		int adventure = KoLAdventure.lastAdventureId();
 
 		// Handle location counting after each fight, regardless of won/loss/runaway etc
+		if ( adventure == AdventurePool.GUANO_JUNCTION ||
+			adventure == AdventurePool.BATRAT || adventure == AdventurePool.BEANBAT )
+		{
+			if ( monster.equals( "screambat" ) && !FightRequest.fightingCopy )
+			{
+				Preferences.setInteger( "nextScreambatCount", 1 );
+			}
+			else
+			{
+				Preferences.increment( "nextScreambatCount", 1 );
+			}
+		}
+
+		if ( adventure == AdventurePool.BOSSBAT )
+		{
+			Preferences.increment( "bossbatTurns", 1 );
+		}
+
 		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );

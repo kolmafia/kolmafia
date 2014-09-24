@@ -327,7 +327,7 @@ public class AdventureQueueDatabase
 		String zone = data.getZone();
 		RollingLinkedList zoneQueue = COMBAT_QUEUE.get( zone );
 
-		int denominator = data.totalWeighting();
+		double denominator = data.totalWeighting();
 
 		// without queue effects the result is just numerator/denominator.
 		if ( zoneQueue == null )

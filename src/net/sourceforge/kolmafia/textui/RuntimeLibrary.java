@@ -5978,15 +5978,21 @@ public abstract class RuntimeLibrary
 		double combatFactor = data.areaCombatPercent();
 		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
 
-		int total = data.totalWeighting();
+		double total = data.totalWeighting();
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
+			int rejection = data.getRejection( i );
 			if ( weight == -2 )
 				continue; // impossible this ascension
 
 			Value toSet;
-			if ( weight <= 0 )
+			if ( weight == -4 )
+			{
+				// Temporarily set to 0% chance
+				toSet = new Value( 0 );
+			}
+			else if ( weight <= 0 )
 			{
 				// Ultrarares & Banished
 				toSet = new Value( weight );
@@ -5995,7 +6001,7 @@ public abstract class RuntimeLibrary
 			{
 				toSet =
 					new Value( AdventureQueueDatabase.applyQueueEffects(
-						combatFactor * weight, data.getMonster( i ), data ) );
+						combatFactor * weight * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
 			}
 			else
 			{
