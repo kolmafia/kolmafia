@@ -40,6 +40,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -50,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -73,12 +76,13 @@ public class AreaCombatData
 	private int jumpChance;
 
 	private final int combats;
-	private int weights;
+	private double weights;
 
 	// Parallel lists: monsters and encounter weighting
 	private final List<MonsterData> monsters;
 	private final List<Integer> baseWeightings;
 	private final List<Integer> currentWeightings;
+	private final List<Integer>	rejection;
 
 	private final String zone;
 
@@ -93,8 +97,9 @@ public class AreaCombatData
 		this.monsters = new ArrayList<MonsterData>();
 		this.baseWeightings = new ArrayList<Integer>();
 		this.currentWeightings = new ArrayList<Integer>();
+		this.rejection = new ArrayList<Integer>();
 		this.combats = combats;
-		this.weights = 0;
+		this.weights = 0.0;
 		this.minHit = Integer.MAX_VALUE;
 		this.maxHit = 0;
 		this.minEvade = Integer.MAX_VALUE;
@@ -111,7 +116,7 @@ public class AreaCombatData
 		this.maxEvade = 0;
 		this.jumpChance = 100;
 
-		int weights = 0;
+		double weights = 0.0;
 		List<Integer> currentWeightings = new ArrayList<Integer>();
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
@@ -121,10 +126,12 @@ public class AreaCombatData
 			int baseWeighting = this.baseWeightings.get( i );
 			int flags = baseWeighting & 3;
 			baseWeighting = baseWeighting >> WEIGHT_SHIFT;
-			int currentWeighting = baseWeighting;
 
 			MonsterData monster = this.getMonster( i );
 			String monsterName = monster.getName();
+
+			baseWeighting = AreaCombatData.adjustConditionalWeighting( zone, monsterName, baseWeighting );
+			int currentWeighting = baseWeighting;
 
 			// If olfacted, add three to encounter pool
 			if ( Preferences.getString( "olfactedMonster" ).equals( monsterName ) )
@@ -166,15 +173,21 @@ public class AreaCombatData
 				currentWeighting = -2;	// impossible this ascension
 			}
 
+			// Temporarily set to 0% chance
+			if ( baseWeighting == -4 )
+			{
+				currentWeighting = -4;
+			}
+
 			currentWeightings.add( (currentWeighting << WEIGHT_SHIFT) | flags );
 
-			// Omit banished (-3), impossible (-2) and ultra-rare (-1) monsters
+			// Omit currently 0% chance, banished (-3), impossible (-2) and ultra-rare (-1) monsters
 			if ( currentWeighting < 0 )
 			{
 				continue;
 			}
 			
-			weights += currentWeighting;
+			weights += currentWeighting * ( 1 - (double) this.getRejection( i ) / 100 );
 			this.addMonsterStats( monster );
 		}
 		this.weights = weights;
@@ -216,31 +229,61 @@ public class AreaCombatData
 	{
 		int weighting = 1;
 		int flags = ASCENSION_EVEN | ASCENSION_ODD;
+		int rejection = 0;
 
 		int colon = name.indexOf( ":" );
 		if ( colon > 0 )
 		{
 			String weight = name.substring( colon + 1 ).trim();
 
-			if ( StringUtilities.isNumeric( weight ) )
-			{
-				weighting = StringUtilities.parseInt( weight );
-			}
-			else
-			{
-				weighting = StringUtilities.parseInt( weight.substring( 1 ) );
-			}
-
 			name = name.substring( 0, colon );
 
-			switch ( weight.charAt( 0 ) )
+			if ( weight.length() == 0 )
 			{
-			case 'e':
-				flags = ASCENSION_EVEN;
-				break;
-			case 'o':
-				flags = ASCENSION_ODD;
-				break;
+				KoLmafia.updateDisplay( "Missing entry after colon for " + name + " in combats.txt." );
+				return false;
+			}
+
+			int numLength = weight.charAt( 0 ) == '-' ? 2 : 1;
+
+			if ( !StringUtilities.isNumeric( weight.substring( 0, numLength ) ) )
+			{
+				KoLmafia.updateDisplay( "First entry after colon for " + name + " in combats.txt is not numeric." );
+				return false;
+			}
+
+			weighting = StringUtilities.parseInt( weight.substring( 0, numLength ) );
+
+			if ( weight.length() > numLength )
+			{
+				switch ( weight.charAt( numLength ) )
+				{
+				case 'e':
+					flags = ASCENSION_EVEN;
+					break;
+				case 'o':
+					flags = ASCENSION_ODD;
+					break;
+				case 'r':
+					if ( weight.length() > numLength + 1 )
+					{
+						if ( !StringUtilities.isNumeric( weight.substring( numLength + 1 ) ) )
+						{
+							KoLmafia.updateDisplay( "Rejection percentatage specified for " + name + " in combats.txt is not numeric." );
+							return false;
+						}
+						rejection = StringUtilities.parseInt( weight.substring( numLength + 1 ) );
+					}
+					else
+					{
+						KoLmafia.updateDisplay( "No rejection percentatage specified for " + name + " in combats.txt." );
+						return false;
+					}
+					break;
+				default:
+					KoLmafia.updateDisplay( "Unknown flag " + weight.charAt( numLength ) + " specified for " + name + " in combats.txt." );
+					return false;
+				}
 			}
 		}
 
@@ -254,6 +297,7 @@ public class AreaCombatData
 		this.poison = Math.min( this.poison, monster.getPoison() );
 		this.baseWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
 		this.currentWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
+		this.rejection.add( IntegerPool.get( rejection ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
 		// or anything else.
@@ -269,7 +313,7 @@ public class AreaCombatData
 		// odd-ascension-only monsters are equal.
 		if ( weighting > 0 && flags != ASCENSION_ODD )
 		{
-			this.weights += weighting;
+			this.weights += weighting * ( 1 - (double) rejection / 100 );
 		}
 
 		this.addMonsterStats( monster );
@@ -357,7 +401,12 @@ public class AreaCombatData
 		return raw >> WEIGHT_SHIFT;
 	}
 
-	public int totalWeighting()
+	public int getRejection( final int i )
+	{
+		return this.rejection.get( i );
+	}
+
+	public double totalWeighting()
 	{
 		return this.weights;
 	}
@@ -413,7 +462,7 @@ public class AreaCombatData
 			}
 
 			MonsterData monster = this.getMonster( i );
-			double weight = (double) weighting / (double) this.totalWeighting();
+			double weight = (double) weighting * ( 1 - (double) this.getRejection( i ) / 100 ) / this.totalWeighting();
 			averageML += weight * monster.getAttack();
 		}
 
@@ -489,7 +538,7 @@ public class AreaCombatData
 			}
 
 			MonsterData monster = this.getMonster( i );
-			double weight = (double) weighting / (double) this.totalWeighting();
+			double weight = (double) weighting * ( 1 - (double) this.getRejection( i ) / 100 ) / this.totalWeighting();
 			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
 
@@ -530,6 +579,7 @@ public class AreaCombatData
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
 			int weighting = this.getWeighting( i );
+			int rejection = this.getRejection( i );
 			if ( weighting == -2 )
 			{
 				continue;
@@ -538,7 +588,7 @@ public class AreaCombatData
 			buffer.append( "<br><br>" );
 
 			buffer.append( this.getMonsterString(
-				this.getMonster( i ), moxie, hitstat, weighting, combatFactor, fullString ) );
+				this.getMonster( i ), moxie, hitstat, weighting, rejection, combatFactor, fullString ) );
 		}
 	}
 
@@ -718,7 +768,7 @@ public class AreaCombatData
 	}
 
 	private String getMonsterString( final MonsterData monster, final int moxie, final int hitstat,
-		final int weighting, final double combatFactor, final boolean fullString )
+		final int weighting, final int rejection, final double combatFactor, final boolean fullString )
 	{
 		// moxie and hitstat NOT adjusted for monster level, since monster stats now are
 
@@ -758,6 +808,10 @@ public class AreaCombatData
 		{
 			buffer.append( "banished" );
 		}
+		else if ( weighting == -4 )
+		{
+			buffer.append( "0%" );
+		}
 		else if ( weighting == 0 )
 		{
 			{
@@ -767,7 +821,7 @@ public class AreaCombatData
 		else
 		{
 			buffer.append( this.format( AdventureQueueDatabase.applyQueueEffects(
-				100.0 * combatFactor * weighting, monster, this ) ) + "%" );
+				100.0 * combatFactor * weighting * ( 1 - (double) rejection / 100 ), monster, this ) ) + "%" );
 		}
 
 		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
@@ -984,5 +1038,39 @@ public class AreaCombatData
 	public String getZone()
 	{
 		return zone;
+	}
+
+	private static final int adjustConditionalWeighting( String zone, String monster, int weighting )
+	{
+		// Some monsters only appear after certain conditions are met, or don't appear after conditions are met
+		// Screambats appear after every 8 fights in Guano Junction, Batrats and Beanbats
+		if ( zone.equals( "Guano Junction" ) || zone.equals( "The Batrat and Ratbat Burrow" ) ||
+			zone.equals( "The Beanbat Chamber" ) )
+		{
+			// Screambat due
+			if ( Preferences.getInteger( "nextScreambatCount" ) == 8 )
+			{
+				return monster.equals( "screambat" ) ? 1 : -4;
+			}
+			else
+			{
+				return monster.equals( "screambat" ) ? 0 : 
+					monster.equals( "Batsnake" ) ? 0 : 1;
+			}
+		}
+		// Bossbat can appear on 4th fight, and will always appear on the 8th fight
+		if ( zone.equals( "The Boss Bat's Lair" ) )
+		{
+			int bossTurns = Preferences.getInteger( "bossbatTurns" );
+			if ( monster.equals( "Boss Bat" ) )
+			{
+				return bossTurns > 3 && !QuestDatabase.isQuestLaterThan( Quest.BAT, "step3" ) ? 1 : 0;
+			}
+			else
+			{
+				return bossTurns > 7 || QuestDatabase.isQuestLaterThan( Quest.BAT, "step3" ) ? -4 : 1;
+			}
+		}
+		return weighting;
 	}
 }

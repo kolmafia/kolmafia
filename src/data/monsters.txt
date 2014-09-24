@@ -1108,7 +1108,7 @@ white chocolate golem	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct
 white elephant	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 P: beast Meat: 300	white blood cells (0)	white wine (0)	white elephant gift (0)
 white lion	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 30 P: beast	catgut (15)	lion oil (20)
 whitesnake	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (20)
-wild seahorse	seahorse.gif	P: fish Phys: 100
+wild seahorse	seahorse.gif	Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100
 Wire-Crossin' Elf	elf_wires.gif		elf resistance button (100)	handful of wires (c100)	live wire (0)
 witty pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	witty rapier (10)	silver tongue charrrm (10)
 wolfman	werewolf.gif	Atk: 3 Def: 2 HP: 2 Init: 50 Meat: 10 P: dude

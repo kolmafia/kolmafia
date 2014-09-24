@@ -1492,7 +1492,7 @@ public class ResultProcessor
 		case ItemPool.BATSKIN_BELT:
 			if ( combatResults )
 			{
-				QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
 				ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			}
 			break;

@@ -305,6 +305,7 @@ user	boneAbacusVictories	0
 user	booPeakProgress	100
 user	bootsCharged	false
 user	borisPoints	0
+user	bossbatTurns	0
 user	breakableHandling	1
 user	breakableHandling1964	2
 user	breakfastCompleted	false
@@ -658,6 +659,7 @@ user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream s
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
 user	nextAdventure
+user	nextScreambatCount	0
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nosyNoseMonster	

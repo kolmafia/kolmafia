@@ -30,14 +30,17 @@
 # ultra-rare encounter. Neither type of monster will be included in
 # average XP calculations.
 #
-# The weight can be preceded by an "o" to indicate that that the monster
+# The weight can be followed by an "o" to indicate that that the monster
 # can only appear in your first and subsequent odd-numbered ascensions,
 # or "e" if it can only appear in even-numbered ascensions.
+#
+# The weight can be followed by an "r" to indicate a rejection condition,
+# and then the % chance of rejection following
 
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
-8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: e1	Goomba: o1	Keese	Koopa Troopa	Octorok	Tektite	Zol
+8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
 A Barroom Brawl	100	drunken 7-foot Dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
@@ -83,7 +86,7 @@ Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Ser
 Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	off-duty Knob Goblin Elite Guard	swarm of Knob lice
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
-Cobb's Knob Laboratory	100	Knob Goblin Alchemist: 1	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
+Cobb's Knob Laboratory	100	Knob Goblin Alchemist	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
 Some Scattered Smoking Debris	-1	Government agent	perimeter defense sphere	illegal alien
@@ -122,7 +125,7 @@ Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
 Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
-The Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	upgraded ram: 2	Knott Slanding: -1
+The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin	Frozen Solid Snake: 0
@@ -199,14 +202,14 @@ The Briny Deeps	100	funk sole brother	pumped-up bass	school of wizardfish
 The Brinier Deepers	100	bazookafish	clubfish	scimitarfish
 The Briniest Deepests	100	acoustic electric eel	decent white shark	ganger
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
-The Caliginous Abyss	100	Eye in the Darkness: 13	Peanut: 1	School of Many: 13	Slithering Thing: 13
+The Caliginous Abyss	100	Eye in the Darkness	Peanut: 0	School of Many	Slithering Thing
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
 The Cave Before Time	-1	droll	pterodactyl	sabre-toothed kiwi	Adventurer echo: 0
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
-The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse
+The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse: 1r75
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
@@ -251,7 +254,7 @@ The Haunted Laboratory	-1	Jacob's Adder	model skeleton	the gunk	Stephen Spookyra
 The Haunted Library	75	banshee librarian	bookbat	writing desk
 The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
-The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: o1	overdone flame-broiled meat blob: e1	undead elbow macaroni
+The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: 1o	overdone flame-broiled meat blob: 1e	undead elbow macaroni
 The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sheet ghost	full-length mirror: 0
 The Haunted Sorority House	-1	sexy sorority ghost	sexy sorority skeleton	sexy sorority vampire	sexy sorority werewolf	sexy sorority zombie
 The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino
@@ -263,7 +266,7 @@ The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy 
 The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit: 0
 The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
-The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2	The Snake With Like Ten Heads: 0
+The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
@@ -292,7 +295,7 @@ The Road to the White Citadel	-1	pair of burnouts	biclops: 0	spider-legged witch
 The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Royal Guard Chamber	100	filthworm royal guard
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
-The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: o1	hung-over half-orc hobo: e1	Crazy Bastard: -1
+The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
 The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
