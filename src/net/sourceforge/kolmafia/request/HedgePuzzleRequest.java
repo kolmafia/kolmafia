@@ -111,6 +111,7 @@ public class HedgePuzzleRequest
 
 	// Current state of the puzzle
 
+	private static boolean valid = false;
 	private static int[][] interest = new int[ 3 ][ 2 ];
 	private static boolean[][][][] exits = new boolean[ 3 ][ 3 ][ 4 ][ 4 ];
 	private static String[][] squares = new String[ 3 ][ 3 ];
@@ -133,10 +134,11 @@ public class HedgePuzzleRequest
 	public void processResults()
 	{
 		HedgePuzzleRequest.parseResponse( this.getURLString(), this.responseText );
+
 		if ( HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of puzzle pieces." );
-			return;
+			HedgePuzzleRequest.valid = false;
 		}
 	}
 
@@ -153,6 +155,8 @@ public class HedgePuzzleRequest
 				// Re-synch; apparently inventory is confused
 				ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getInstance( -count ) );
 			}
+
+			HedgePuzzleRequest.valid = false;
 			return;
 		}
 
@@ -161,13 +165,20 @@ public class HedgePuzzleRequest
 		// It screeches, and dives back into the foliage.
 		if ( responseText.contains( "Topiary Golem" ) )
 		{
+			// Remove the puzzle from inventory
 			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getNegation() );
-			return;
+			// If we still have puzzles in inventory, it shows the state again
+			if ( !responseText.contains( "Click one" ) )
+			{
+				return;
+			}
+			// Yes. Parse the current state of the puzzle
 		}
 
 		// Otherwise, look at the puzzle and save its configuration
 		HedgePuzzleRequest.parseConfiguration( responseText );
 		HedgePuzzleRequest.generateMazeConfigurations();
+		HedgePuzzleRequest.valid = true;
 	}
 
 	private static final void parseConfiguration( final String responseText )
@@ -216,65 +227,6 @@ public class HedgePuzzleRequest
 				}
 			}
 		}
-	}
-
-	static String uparrow = "itemimages/uparrow.gif' width=30 height=30";
-	static String blank = "adventureimages/blank.gif width=1 height=1";
-
-	private static final void appendArrow( StringBuffer buffer, int col, int goal )
-	{
-		String image = ( col == goal ) ? uparrow: blank;
-		buffer.append( "<td>" );
-		buffer.append( "<img src=http://images.kingdomofloathing.com/" );
-		buffer.append( image );
-		buffer.append( " border=0/>" );
-		buffer.append( "</td>" );
-	}
-
-	private static final void appendImage( StringBuffer buffer, String file )
-	{
-		buffer.append( "<td>" );
-		buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/lair/hedge/" );
-		buffer.append( file );
-		buffer.append( "\" height=80 width=80 border=0/>" );
-		buffer.append( "</td>" );
-	}
-
-	private static final void printPuzzle()
-	{
-		int entrance = interest[ 0 ][ 0 ];
-		int exit = interest[ 2 ][ 0 ];
-
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "<table cols=3>" );
-
-		buffer.append( "<tr>" );
-		HedgePuzzleRequest.appendArrow( buffer, 0, exit );
-		HedgePuzzleRequest.appendArrow( buffer, 1, exit );
-		HedgePuzzleRequest.appendArrow( buffer, 2, exit );
-		buffer.append( "</tr>" );
-
-		for ( int x = 0; x < 3; ++x )
-		{
-			buffer.append( "<tr>" );
-			for ( int y = 0; y < 3; ++y )
-			{
-				HedgePuzzleRequest.appendImage( buffer, images[ y ][ x ] );
-			}
-			buffer.append( "</tr>" );
-		}
-
-		buffer.append( "<tr>" );
-		HedgePuzzleRequest.appendArrow( buffer, 0, entrance );
-		HedgePuzzleRequest.appendArrow( buffer, 1, entrance );
-		HedgePuzzleRequest.appendArrow( buffer, 2, entrance );
-		buffer.append( "</tr>" );
-
-		buffer.append( "</table>" );
-
-		RequestLogger.printLine( buffer.toString() );
-		RequestLogger.printLine();
 	}
 
 	private static final void generateMazeConfigurations()
@@ -340,7 +292,10 @@ public class HedgePuzzleRequest
 			HedgePuzzleRequest.initializeMaze();
 		}
 
-		HedgePuzzleRequest.completeHedgeMaze();
+		if ( HedgePuzzleRequest.valid )
+		{
+			HedgePuzzleRequest.completeHedgeMaze();
+		}
 
 		RelayRequest.specialCommandResponse = HedgePuzzleRequest.lastResponseText;
 		RelayRequest.specialCommandIsAdventure = true;
@@ -349,31 +304,20 @@ public class HedgePuzzleRequest
 
 	private static final void completeHedgeMaze()
 	{
-		// If we couldn't look at a puzzle, we canceled.
-
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
 		// First mission -- retrieve the key from the hedge maze
-
-		HedgePuzzleRequest.retrieveHedgeKey();
 
 		// Retrieving the key after rotating the puzzle pieces uses an
 		// adventure. If we ran out of puzzle pieces or adventures, we
 		// canceled.
 
-		if ( !KoLmafia.permitsContinue() )
+		if ( !HedgePuzzleRequest.retrieveHedgeKey() )
 		{
 			return;
 		}
 
 		// Look at the puzzle again if we just retrieved the key
 
-		HedgePuzzleRequest.initializeMaze();
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( !HedgePuzzleRequest.initializeMaze() )
 		{
 			return;
 		}
@@ -388,13 +332,14 @@ public class HedgePuzzleRequest
 		// or adventures, we canceled.
 	}
 
-	private static final void initializeMaze()
+	private static final boolean initializeMaze()
 	{
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
 		RequestThread.postRequest( HedgePuzzleRequest.PUZZLE_REQUEST );
+		return HedgePuzzleRequest.valid;
 	}
 
-	private static final void retrieveHedgeKey()
+	private static final boolean retrieveHedgeKey()
 	{
 		// Check to see if the hedge maze has already been solved for
 		// the key.
@@ -402,7 +347,7 @@ public class HedgePuzzleRequest
 		if ( KoLConstants.inventory.contains( HedgePuzzleRequest.HEDGE_KEY ) ||
 		     !HedgePuzzleRequest.lastResponseText.contains( "There is a key here." ) )
 		{
-			return;
+			return true;
 		}
 
 		int[][] solution = HedgePuzzleRequest.computeSolution( interest[ 0 ], interest[ 1 ] );
@@ -410,23 +355,23 @@ public class HedgePuzzleRequest
 		if ( solution == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to compute maze solution." );
-			return;
+			return false;
 		}
 
-		HedgePuzzleRequest.executeSolution( "Retrieving hedge key...", solution );
+		return HedgePuzzleRequest.executeSolution( "Retrieving hedge key...", solution );
 	}
 
-	private static final void finalizeHedgeMaze()
+	private static final boolean finalizeHedgeMaze()
 	{
 		int[][] solution = HedgePuzzleRequest.computeSolution( interest[ 0 ], interest[ 2 ] );
 
 		if ( solution == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to compute maze solution." );
-			return;
+			return false;
 		}
 
-		HedgePuzzleRequest.executeSolution( "Executing final rotations...", solution );
+		return HedgePuzzleRequest.executeSolution( "Executing final rotations...", solution );
 	}
 
 	private static final int[][] computeSolution( final int[] start, final int[] destination )
@@ -588,24 +533,127 @@ public class HedgePuzzleRequest
 		visited[ currentX ][ currentY ] = false;
 	}
 
-	private static final void printSolution( int [][] solution )
+	private static final boolean executeSolution( final String message, int [][] solution )
 	{
-		int rotations = 0;
+		KoLmafia.updateDisplay( message );
 
 		for ( int x = 0; x < 3; ++x )
 		{
 			for ( int y = 0; y < 3; ++y )
 			{
-				int count = solution[ x ][ y ];
-				if ( count > 0 )
+				if ( !HedgePuzzleRequest.rotateHedgePiece( x, y, solution[ x ][ y ] ) )
 				{
-					int tile = (y * 3 ) + x;
-					String name = TILES[ tile ];
-					String message = "Rotate the " + name + " tile " + count + " times.";
-					RequestLogger.printLine( message );
+					return false;
 				}
 			}
 		}
+
+		// The hedge maze has been properly rotated! Visit the maze again.
+
+		RequestThread.postRequest( HedgePuzzleRequest.HEDGE_REQUEST );
+		if ( HedgePuzzleRequest.HEDGE_REQUEST.responseText == null )
+		{
+			// About the only way to detect failure without looking
+			// at continuation state
+			return false;
+		}
+
+		HedgePuzzleRequest.lastResponseText = HedgePuzzleRequest.HEDGE_REQUEST.responseText;
+
+		if ( HedgePuzzleRequest.lastResponseText.contains( "You're out of adventures." ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
+			return false;
+		}
+
+		return true;
+	}
+
+	private static final boolean rotateHedgePiece( final int x, final int y, final int rotations )
+	{
+		String action = String.valueOf( 1 + y * 3 + x );
+		HedgePuzzleRequest.ROTATE_REQUEST.addFormField( "action", action );
+
+		for ( int i = 0; i < rotations; ++i )
+		{
+			// We're out of puzzles unless the response says:
+			// "Click one of the puzzle sections to rotate that
+			// section 90 degrees to the right."
+
+			if ( !HedgePuzzleRequest.lastResponseText.contains( "Click one" ) )
+			{
+				return false;
+			}
+
+			RequestThread.postRequest( HedgePuzzleRequest.ROTATE_REQUEST );
+			if ( !HedgePuzzleRequest.valid )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// DEBUG / CLI functions
+
+	static String uparrow = "itemimages/uparrow.gif' width=30 height=30";
+	static String blank = "adventureimages/blank.gif width=1 height=1";
+
+	private static final void appendArrow( StringBuffer buffer, int col, int goal )
+	{
+		String image = ( col == goal ) ? uparrow: blank;
+		buffer.append( "<td>" );
+		buffer.append( "<img src=http://images.kingdomofloathing.com/" );
+		buffer.append( image );
+		buffer.append( " border=0/>" );
+		buffer.append( "</td>" );
+	}
+
+	private static final void appendImage( StringBuffer buffer, String file )
+	{
+		buffer.append( "<td>" );
+		buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/lair/hedge/" );
+		buffer.append( file );
+		buffer.append( "\" height=80 width=80 border=0/>" );
+		buffer.append( "</td>" );
+	}
+
+	private static final void printPuzzle()
+	{
+		int entrance = interest[ 0 ][ 0 ];
+		int exit = interest[ 2 ][ 0 ];
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<table cols=3>" );
+
+		buffer.append( "<tr>" );
+		HedgePuzzleRequest.appendArrow( buffer, 0, exit );
+		HedgePuzzleRequest.appendArrow( buffer, 1, exit );
+		HedgePuzzleRequest.appendArrow( buffer, 2, exit );
+		buffer.append( "</tr>" );
+
+		for ( int x = 0; x < 3; ++x )
+		{
+			buffer.append( "<tr>" );
+			for ( int y = 0; y < 3; ++y )
+			{
+				HedgePuzzleRequest.appendImage( buffer, images[ y ][ x ] );
+			}
+			buffer.append( "</tr>" );
+		}
+
+		buffer.append( "<tr>" );
+		HedgePuzzleRequest.appendArrow( buffer, 0, entrance );
+		HedgePuzzleRequest.appendArrow( buffer, 1, entrance );
+		HedgePuzzleRequest.appendArrow( buffer, 2, entrance );
+		buffer.append( "</tr>" );
+
+		buffer.append( "</table>" );
+
+		RequestLogger.printLine( buffer.toString() );
+		RequestLogger.printLine();
 	}
 
 	public static final void computeSolution( final String responseText )
@@ -626,58 +674,23 @@ public class HedgePuzzleRequest
 		HedgePuzzleRequest.printSolution( solution );
 	}
 
-	private static final void executeSolution( final String message, int [][] solution )
+	private static final void printSolution( int [][] solution )
 	{
-		KoLmafia.updateDisplay( message );
+		int rotations = 0;
 
-		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
+		for ( int x = 0; x < 3; ++x )
 		{
-			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
+			for ( int y = 0; y < 3; ++y )
 			{
-				HedgePuzzleRequest.rotateHedgePiece( x, y, solution[ x ][ y ] );
+				int count = solution[ x ][ y ];
+				if ( count > 0 )
+				{
+					int tile = (y * 3 ) + x;
+					String name = TILES[ tile ];
+					String message = "Rotate the " + name + " tile " + count + " times.";
+					RequestLogger.printLine( message );
+				}
 			}
-		}
-
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
-		// The hedge maze has been properly rotated! Visit the maze again.
-
-		RequestThread.postRequest( HedgePuzzleRequest.HEDGE_REQUEST );
-
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
-		HedgePuzzleRequest.lastResponseText = HedgePuzzleRequest.HEDGE_REQUEST.responseText;
-
-		if ( HedgePuzzleRequest.lastResponseText.contains( "You're out of adventures." ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
-		}
-
-	}
-
-	private static final void rotateHedgePiece( final int x, final int y, final int rotations )
-	{
-		String action = String.valueOf( 1 + y * 3 + x );
-		HedgePuzzleRequest.ROTATE_REQUEST.addFormField( "action", action );
-
-		for ( int i = 0; i < rotations && KoLmafia.permitsContinue(); ++i )
-		{
-			// We're out of puzzles unless the response says:
-			// "Click one of the puzzle sections to rotate that
-			// section 90 degrees to the right."
-
-			if ( !HedgePuzzleRequest.lastResponseText.contains( "Click one" ) )
-			{
-				return;
-			}
-
-			RequestThread.postRequest( HedgePuzzleRequest.ROTATE_REQUEST );
 		}
 	}
 
