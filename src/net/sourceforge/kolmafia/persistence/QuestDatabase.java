@@ -88,6 +88,7 @@ public class QuestDatabase
 			CITADEL( "questG02Whitecastle" ),
 			NEMESIS( "questG04Nemesis" ),
 			MYST( "questG07Myst" ),
+			MOXIE( "questG08Moxie" ),
 			UNTINKER( "questM01Untinker" ),
 			ARTIST( "questM02Artist" ),
 			BUGBEAR( "questM03Bugbear" ),

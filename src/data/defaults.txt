@@ -723,6 +723,8 @@ user	questG03Ego	unstarted
 user	questG04Nemesis	unstarted
 user	questG05Dark	unstarted
 user	questG06Delivery	unstarted
+user	questG07Myst	unstarted
+user	questG08Moxie	unstarted
 user	questI01Scapegoat	unstarted
 user	questI02Beat	unstarted
 user	questL02Larva	unstarted
