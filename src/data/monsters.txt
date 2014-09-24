@@ -159,7 +159,7 @@ Big Meat Golem	bigmeat.gif	Atk: 99999 Def: 89999 HP: [99999] Init: 0 P: construc
 big swarm of ghuol whelps	whelps2.gif	Atk: 50 Def: 45 HP: 150 E: spooky P: undead
 Big Wheelin' Twins	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 P: humanoid	badge of authority (5)	vial of The Glistening (15)
 bizarre construct	vib2.gif	HP: 300 Def: 270 Atk: 300 P: construct	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
-BL Imp	blimp.gif	Atk: 65 Def: 58 HP: 65 E: hot Init: 30 Meat: 36-44 P: demon	imp air (20)
+BL Imp	blimp.gif	Atk: 65 Def: 58 HP: 65 E: hot Init: 30 Meat: 40 P: demon	imp air (20)
 black adder	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 Meat: 100 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
 Black Crayon Beast	cray_beast.gif	HP: [(MUS+ML)*0.75] Def: [MUS+ML] Atk: [MOX+ML] Exp: [(STAT+ML)/4] Init: -10000 P: beast	crayon shavings (100)
 Black Crayon Beetle	cray_bug.gif	HP: [(MUS+ML)*0.75] Def: [MUS+ML] Atk: [MOX+ML] Exp: [(STAT+ML)/4] Init: -10000 P: bug	crayon shavings (100)
@@ -255,7 +255,7 @@ caveman hippy	cavehippy.gif	Atk: 240 Def: 216 HP: 280 Init: 20 E: stench P: hipp
 caveman sorority girl	cavesorority.gif	Atk: 230 Def: 225 HP: 240 Init: 25 Meat: 50 E: sleaze P: orc	cup of primitive beer (25)
 cavewomyn hippy	cavewomyn.gif	Atk: 250 Def: 207 HP: 260 Init: 25 E: stench P: hippy	handful of pine needles (20)	handful of nuts and berries (20)	Spanish fly (c25)
 Cement Cobbler Penguin	pengcement.gif	Init: -10000 P: penguin	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
-CH Imp	chimp.gif	Atk: 62 Def: 55 HP: 62 E: hot Init: 60 Meat: 26-36 P: demon	imp air (25)
+CH Imp	chimp.gif	Atk: 62 Def: 55 HP: 62 E: hot Init: 60 Meat: 30 P: demon	imp air (25)
 chalkdust wraith	chalkdust.gif	Atk: 25 Def: 23 HP: 25 Init: 50 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
 chatty pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-76 P: pirate
 Chester	chester.gif	BOSS HP: 8000 Def: 450 Atk: 500 Init: 200 E: sleaze P: dude	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
@@ -543,7 +543,7 @@ industrious construct	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct	E
 infernal seal larva	seal_larva.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 infernal seal spawn	seal_baby.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	seal eyeball (0)
 infinite meat bug	meatbug.gif	Atk: 45 Def: 40 HP: 30 Init: 10000 P: bug	incredibly dense meat gem (100)
-inkubus	inkubus.gif	Atk: 58 Def: 52 HP: 58 Init: 40 E: hot Meat: 45-55 P: demon	bus pass (15)
+inkubus	inkubus.gif	Atk: 58 Def: 52 HP: 58 Init: 40 E: hot Meat: 50 P: demon	bus pass (15)
 irate mariachi	mariachi2.gif	Atk: 20 Def: 18 HP: 17 Init: 50 Meat: 5 P: dude	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)	half-sized guitar (20)
 Irritating Series of Random Encounters	encount.gif	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 140 P: beast	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
 Jacob's Adder	jacobsadder.gif	Atk: 84 Def: 76 HP: 75 Init: 60 P: beast	electric snakebite (0)	haunted battery (0)	Jacob's rung (0)
@@ -771,7 +771,7 @@ possessed toy chest	toybox.gif	Atk: 76 Def: 84 HP: 85 Init: -10000 P: weird	haun
 possessed wine rack	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct	bottle of Chateau de Vinegar (c0)
 Possibility Giant	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 150 P: humanoid	chaos butterfly (20)	plot hole (15)	probability potion (20)
 poutine ooze	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime	poutine (40)
-Pr Imp	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 48-58 P: demon	imp air (15)
+Pr Imp	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 50 P: demon	imp air (15)
 Pretty Fly	fly.gif	Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast
 Procrastination Giant	giant_procrast.gif	Atk: 125 Def: 112 HP: 150 Init: -10000 Meat: 150 P: humanoid	procrastination potion (25)
 Professor Jacking	profjacking.gif	Atk: 85 Def: 76 HP: 200 Init: 85 P: dude
@@ -845,7 +845,7 @@ sea cow	seacow.gif	Atk: 600 Def: 675 HP: 900 Init: 25 P: fish	sea cowbell (n10)	
 sea cowboy	seacowboy.gif	Atk: 750 Def: 585 HP: 700 Init: 50 P: fish	sea lasso (n30)	deep six-shooter (n8)
 security slime	securityslime.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: slime
 senile lihc	lich.gif	Atk: 56 Def: 51 HP: 50 Init: 50 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
-serialbus	serialbus.gif	Atk: 60 Def: 54 HP: 60 Init: 50 E: hot Meat: 25-35 P: demon	bus pass (25)
+serialbus	serialbus.gif	Atk: 60 Def: 54 HP: 60 Init: 50 E: hot Meat: 30 P: demon	bus pass (25)
 sewer gator	sewergator.gif	Atk: 245 Def: 225 HP: 300 Init: 60 P: beast	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
 sexy sorority ghost	sororghost2.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	ghostly body paint (0)	Ecto-Cooler (0)	ghost protocol (0)	extra-see-thru nightie (0)
 sexy sorority skeleton	sororeton2.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	press-on ribs (0)	Bone's Farm &quot;wine&quot; (0)	throwing bone (0)	extremely skinny jeans (0)
@@ -947,7 +947,7 @@ Striking Pencil-Pusher Elf	crimboelf.gif		felt (10)	wooden block (10)	googly eye
 Striking Stocking-Stuffer Elf	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 stuffed moose head	moosehead.gif	Atk: 86 Def: 79 HP: 80 Init: -10000 P: beast E: spooky	moose antlers (0)	moose chocolate (0)	moose thought (0)
 Sub-Assistant Knob Mad Scientist	kg_madsci.gif	Atk: 1 Def: 1 HP: 1 Init: 60 Meat: 6 P: goblin	Knob Goblin firecracker (100)	Knob Goblin pants (9)	strongness elixir (30)	folder (cyan) (c0)	Knob Goblin Mutagen (c0)
-suckubus	suckubus.gif	Atk: 55 Def: 49 HP: 55 Init: 30 E: hot Meat: 35-45 P: demon	bus pass (20)	folder (rainbow unicorn) (c0)
+suckubus	suckubus.gif	Atk: 55 Def: 49 HP: 55 Init: 30 E: hot Meat: 40 P: demon	bus pass (20)	folder (rainbow unicorn) (c0)
 surprised and annoyed witch	witchy1.gif	Atk: 36 Def: 32 HP: 32 Init: -10000 P: dude Meat:  39-39	wand of pigification (c100)
 surprised mariachi	mar_surprised.gif	Atk: 130 Def: 117 HP: 125 Init: 150 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Susie Soyburger	mc_soy2.gif	Atk: 50 Def: 36 HP: 90 Init: 50 P: humanoid	soyburger juice (0)
