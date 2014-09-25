@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
@@ -134,7 +136,8 @@ public class AreaCombatData
 			int currentWeighting = baseWeighting;
 
 			// If olfacted, add three to encounter pool
-			if ( Preferences.getString( "olfactedMonster" ).equals( monsterName ) )
+			if ( Preferences.getString( "olfactedMonster" ).equals( monsterName ) &&
+				KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 			{
 				currentWeighting += 3 * baseWeighting;
 			}

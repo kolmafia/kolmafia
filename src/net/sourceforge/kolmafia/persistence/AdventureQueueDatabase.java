@@ -55,7 +55,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 /*
@@ -344,6 +350,7 @@ public class AdventureQueueDatabase
 		// Ignore monsters in the queue that aren't actually part of the zone's normal monster list
 		// This includes monsters that have special conditions to find and wandering monsters
 		// that are not part of the location at all
+		// Ignore olfacted monsters, as these are never rejected
 		int queueWeight = 0;
 		Iterator iter = zoneSet.iterator();
 		while ( iter.hasNext() )
@@ -351,13 +358,17 @@ public class AdventureQueueDatabase
 			String mon = (String) iter.next();
 			MonsterData queueMonster = MonsterDatabase.findMonster( mon, false );
 			int index = data.getMonsterIndex( queueMonster );
-			if ( index != -1 && data.getWeighting( index ) > 0 )
+			boolean olfacted = Preferences.getString( "olfactedMonster" ).equals( queueMonster.getName() ) && 
+							KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+			if ( index != -1 && data.getWeighting( index ) > 0 && !olfacted )
 			{
 				queueWeight += data.getWeighting( index );
 			}
 		}
 
-		double newNumerator = numerator * ( zoneQueue.contains( monster.getName() ) ? 1 : 4 );
+		boolean olfacted = Preferences.getString( "olfactedMonster" ).equals( monster.getName() ) && 
+							KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+		double newNumerator = numerator * ( zoneQueue.contains( monster.getName() ) && !olfacted ? 1 : 4 );
 		double newDenominator = ( 4 * denominator - 3 * queueWeight );
 
 		return newNumerator / newDenominator;
