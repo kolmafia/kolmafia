@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -148,11 +149,11 @@ public class ConcoctionDatabase
 
 	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
-	private static final HashMap<String,Concoction> chefStaff = new HashMap<String,Concoction>();
-	private static final HashMap<String,Concoction> singleUse = new HashMap<String,Concoction>();
-	private static final HashMap<String,Concoction> multiUse = new HashMap<String,Concoction>();
-	private static final HashMap<String,Concoction> noodles = new HashMap<String,Concoction>();
-	private static final HashMap<String,Concoction> meatStack = new HashMap<String,Concoction>();
+	private static final HashMap<Integer,Concoction> chefStaff = new HashMap<Integer,Concoction>();
+	private static final HashMap<Integer,Concoction> singleUse = new HashMap<Integer,Concoction>();
+	private static final HashMap<Integer,Concoction> multiUse = new HashMap<Integer,Concoction>();
+	private static final HashMap<Integer,Concoction> noodles = new HashMap<Integer,Concoction>();
+	private static final HashMap<Integer,Concoction> meatStack = new HashMap<Integer,Concoction>();
 
 	private static CraftingType mixingMethod = null;
 	private static final EnumSet<CraftingRequirements> requirements = EnumSet.noneOf(CraftingRequirements.class);
@@ -304,7 +305,7 @@ public class ConcoctionDatabase
 					concoction.addIngredient( ingredient );
 					if ( ingredient.getItemId() == ItemPool.MEAT_STACK )
 					{
-						ConcoctionDatabase.meatStack.put( concoction.getName(), concoction );
+						ConcoctionDatabase.meatStack.put( IntegerPool.get( itemId ), concoction );
 					}
 				}
 			}
@@ -314,49 +315,49 @@ public class ConcoctionDatabase
 			switch ( ConcoctionDatabase.mixingMethod )
 			{
 			case STAFF:
-				ConcoctionDatabase.chefStaff.put( ingredients[ 0 ].getName(), concoction );
+				ConcoctionDatabase.chefStaff.put( IntegerPool.get( ingredients[ 0 ].getItemId() ), concoction );
 				break;
 			case SINGLE_USE:
-				ConcoctionDatabase.singleUse.put( ingredients[ 0 ].getName(), concoction );
+				ConcoctionDatabase.singleUse.put( IntegerPool.get( ingredients[ 0 ].getItemId() ), concoction );
 				break;
 			case MULTI_USE:
-				ConcoctionDatabase.multiUse.put( ingredients[ 0 ].getName(), concoction );
+				ConcoctionDatabase.multiUse.put( IntegerPool.get( ingredients[ 0 ].getItemId() ), concoction );
 				break;
 			case WOK:
-				ConcoctionDatabase.noodles.put( concoction.getName(), concoction );
+				ConcoctionDatabase.noodles.put( IntegerPool.get( concoction.getItemId() ), concoction );
 				break;
 			}
 
 			if ( ConcoctionDatabase.requirements.contains( CraftingRequirements.PASTA ) )
 			{
-				ConcoctionDatabase.noodles.put( concoction.getName(), concoction );
+				ConcoctionDatabase.noodles.put( IntegerPool.get( concoction.getItemId() ), concoction );
 			}
 		}
 	}
 
-	public static Concoction chefStaffCreation( final String name )
+	public static Concoction chefStaffCreation( final int itemId )
 	{
-		return name == null ? null : (Concoction) ConcoctionDatabase.chefStaff.get( name );
+		return ConcoctionDatabase.chefStaff.get( IntegerPool.get( itemId ) );
 	}
 
-	public static Concoction singleUseCreation( final String name )
+	public static Concoction singleUseCreation( final int itemId )
 	{
-		return name == null ? null : (Concoction) ConcoctionDatabase.singleUse.get( name );
+		return ConcoctionDatabase.singleUse.get( IntegerPool.get( itemId ) );
 	}
 
-	public static Concoction multiUseCreation( final String name )
+	public static Concoction multiUseCreation( final int itemId )
 	{
-		return name == null ? null : (Concoction) ConcoctionDatabase.multiUse.get( name );
+		return ConcoctionDatabase.multiUse.get( IntegerPool.get( itemId ) );
 	}
 
-	public static Concoction noodleCreation( final String name )
+	public static Concoction noodleCreation( final int itemId )
 	{
-		return name == null ? null : (Concoction) ConcoctionDatabase.noodles.get( name );
+		return ConcoctionDatabase.noodles.get( IntegerPool.get( itemId ) );
 	}
 
-	public static Concoction meatStackCreation( final String name )
+	public static Concoction meatStackCreation( final int itemId )
 	{
-		return name == null ? null : (Concoction) ConcoctionDatabase.meatStack.get( name );
+		return ConcoctionDatabase.meatStack.get( IntegerPool.get( itemId ) );
 	}
 
 	private static boolean pseudoItemMixingMethod( final CraftingType mixingMethod )

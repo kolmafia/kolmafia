@@ -160,10 +160,9 @@ public class SingleUseRequest
 
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		String name = ItemDatabase.getItemName( baseId );
 
 		// Find result concoction
-		Concoction concoction = ConcoctionDatabase.singleUseCreation( name );
+		Concoction concoction = ConcoctionDatabase.singleUseCreation( baseId );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( concoction == null )
