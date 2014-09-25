@@ -628,7 +628,6 @@ MagiMechTech MechaMech	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct	
 malevolent crop circle	cropcircle.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 malevolent hair clog	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 ED: spooky P: horror	gob of wet hair (40)
 malevolent magnetic field	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird	bottle of gin (0)
-Mammon the Elephant	mammon.gif	BOSS Atk: 150 Def: 135 HP: 50000 Init: 150 P: beast	avarice stone (100)
 man with the red buttons	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 150	red box (15)	red button (0)	big red button (n1)	button rouge (c0)
 man-eating plant	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant
 mariachi bandolero	bandolero.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
@@ -978,7 +977,6 @@ terrifying robot	terrorbot.gif	Atk: 170 Def: 153 HP: 170 Init: 50 P: construct	n
 tetchy pirate	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 40 P: pirate	bottle of rum (20)	cocktail napkin (10)
 The Abominable Fudgeman	fudgeman.gif	HP: 500 Def: 350 Atk: 350 Init: 50	heart of dark chocolate (0)
 The Avatar of Sneaky Pete	sneakypete.gif	BOSS Atk: 225 Def: 202 HP: 800 Init: 200 P: dude
-The Bat in the Spats	batinspats.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	vanity stone (100)
 The Big Wisniewski	thisdude.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
 The Colollilossus	colollilossus.gif	HP: 600 Def: 400 Atk: 400 Init: 0	all-year sucker (100)
@@ -987,7 +985,6 @@ The Fudge Wizard	fudgewizard.gif	HP: 400 Def: 270 Atk: 300 Init: 100	wand of fud
 the ghost of Phil Bunion	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 P: undead E: spooky Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
 the gunk	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
 The Landscaper	landscaper.gif	BOSS Atk: 100 Def: 90 HP: 100000 Init: -10000 EA: hot Phys: 100 P: demon	The Landscaper's leafblower (100)
-The Large-Bellied Snitch	snitch.gif	BOSS Atk: 150 Def: 135 HP: 10000 Init: 150 P: beast	gluttonous stone (100)
 The Luter	theluter.gif	Atk: 75 Def: 67 HP: 100 Init: 50 P: undead	Clancy's lute (n100)
 The Man	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
 The Mariachi With No Name	darkmariachi.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
@@ -997,15 +994,11 @@ The Red Fox	redfox.gif	Atk: 166 Def: 155 HP: 170 Init: 200 P: dude Meat: 200	red
 The Sagittarian	sagittarian.gif	Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude	The Sagittarian's leisure pants (100)
 The Snake With Like Ten Heads	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: sleaze	The Eye of the Stars (n100)
 The Temporal Bandit	timebandit.gif	Atk: 35 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
-The Terrible Pinch	thepinch.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 100 P: humanoid	lecherous stone (100)
-The Thing with No Name	thething.gif	BOSS Atk: 200 Def: 225 HP: 1000 Init: -10000 P: humanoid	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)
-The Thorax	thethorax.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	furious stone (100)
 The Whole Kingdom	wholekingdom.gif	HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: construct
 Thinknerd Moving Robot	tnbot2.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: 50 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Sorting Robot	tnbot3.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Packing Robot	tnbot1.gif	HP: [0.75*(min(MUS+1,69)+max(ML,0))] Def: [min(MUS+1,69)+max(ML,0)] Atk: [min(MOX+1,69)+max(ML,0)] Exp: [(min(STAT+1,69)+max(ML,0))/4] Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
 three skeleton invaders	bigskeleton3.gif	HP: 80 Def: 72 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
-Thug 1 and Thug 2	thug1thug2.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 500 P: humanoid	jealousy stone (100)
 Timmy Tofurkey	mc_tofu2.gif	Atk: 40 Def: 45 HP: 90 Init: 50 P: humanoid	sun-dried tofu (0)
 Timmy Tofurkey cast member	mc_tofu1.gif	Atk: 60 Def: 63 HP: 110 Init: 20 P: dude	sun-dried tofu (0)
 tipsy pirate	tipsypirate.gif	Atk: 80 Def: 72 HP: 70 Init: 50 Meat: 45 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
@@ -1267,26 +1260,35 @@ spelunking astronaut	spelastronaut.gif	HP: [(min(200,MOX)+ML)*0.75] Def: [min(20
 velvet underground dweller	velvetug.gif	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] Exp: [(min(200,STAT)+ML)/4] Init: -10000 P: humanoid
 weather underground dweller	weatherug.gif	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] Exp: [(min(200,STAT)+ML)/4] Init: -10000 P: humanoid
 
-# The Clumsiness Grove
-Sorrowful Hickory	tree_hickory.gif	Init: 50 P: plant	clumsiness bark (0)	cup of hickory chicory (0)
-Suffering Juniper	tree_juniper.gif	Init: 50 P: plant	berries of suffering (0)	clumsiness bark (0)
-Tormented Baobab	tree_baobab.gif	Init: 50 P: plant	baobab sap (0)	clumsiness bark (0)
-Whimpering Willow	tree_willow.gif	Init: 50 P: plant	clumsiness bark (0)	clumsiness bark (0)	whimpering willow bark (0)
-Woeful Magnolia	tree_magnolia.gif	Init: 50 P: plant	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
+# Suburbs of Dis - The Clumsiness Grove
+Sorrowful Hickory	tree_hickory.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: plant	clumsiness bark (0)	cup of hickory chicory (0)
+Suffering Juniper	tree_juniper.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: plant	berries of suffering (0)	clumsiness bark (0)
+Tormented Baobab	tree_baobab.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: plant	baobab sap (0)	clumsiness bark (0)
+Whimpering Willow	tree_willow.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: plant	clumsiness bark (0)	clumsiness bark (0)	whimpering willow bark (0)
+Woeful Magnolia	tree_magnolia.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: plant	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
+The Thorax	thethorax.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	furious stone (100)
+The Bat in the Spats	batinspats.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	vanity stone (100)
 
-# The Maelstrom of Lovers
-Bettie Barulio	wraith2.gif	Init: 50 P: undead	Barulio's bottle (0)	jar full of wind (0)	jar full of wind (0)
-Marcus Macurgeon	wraith5.gif	Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
-Marvin J. Sunny	wraith3.gif	Init: 50 P: undead	jar full of wind (0)	Marvin's marvelous pill (0)
-Mortimer Strauss	wraith1.gif	Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
-Wonderful Winifred Wongle	wraith4.gif	Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
+# Suburbs of Dis - The Maelstrom of Lovers
+Bettie Barulio	wraith2.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: undead	Barulio's bottle (0)	jar full of wind (0)	jar full of wind (0)
+Marcus Macurgeon	wraith5.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
+Marvin J. Sunny	wraith3.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: undead	jar full of wind (0)	Marvin's marvelous pill (0)
+Mortimer Strauss	wraith1.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
+Wonderful Winifred Wongle	wraith4.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: undead	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
+The Terrible Pinch	thepinch.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 100 P: humanoid	lecherous stone (100)
+Thug 1 and Thug 2	thug1thug2.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 500 P: humanoid	jealousy stone (100)
 
-# The Glacier of Jerks
-Brock "Rocky" Flox	iceguy5.gif	Init: 50 P: dude	dangerous jerkcicle (0)	pink-belly slapper (0)
-Dolores D. Smiley	iceguy2.gif	Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
-Hugo Von Douchington	iceguy1.gif	Init: 50 P: dude	dangerous jerkcicle (0)	half-empty carton of milk (0)
-Vivian Vibrian Vumian Varr	iceguy4.gif	Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
-Wacky Zack Flacky	iceguy3.gif	Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)
+# Suburbs of Dis - The Glacier of Jerks
+Brock "Rocky" Flox	iceguy5.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: dude	dangerous jerkcicle (0)	pink-belly slapper (0)
+Dolores D. Smiley	iceguy2.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
+Hugo Von Douchington	iceguy1.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: dude	dangerous jerkcicle (0)	half-empty carton of milk (0)
+Vivian Vibrian Vumian Varr	iceguy4.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
+Wacky Zack Flacky	iceguy3.gif	Atk: [min(MOX+2,150)+max(ML,0)] Def: [min(MUS+2,150)+max(ML,0)] HP: [0.75*(min(MUS+2,150)+max(ML,0))] Exp: [min(STAT+2,150)+max(ML,0)] Init: 50 P: dude	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)
+Mammon the Elephant	mammon.gif	BOSS Atk: 150 Def: 135 HP: 50000 Init: 150 P: beast	avarice stone (100)
+The Large-Bellied Snitch	snitch.gif	BOSS Atk: 150 Def: 135 HP: 10000 Init: 150 P: beast	gluttonous stone (100)
+
+# Suburbs of Dis - An Altar
+The Thing with No Name	thething.gif	BOSS Atk: 200 Def: 225 HP: 1000 Init: -10000 P: humanoid	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)
 
 # Feast of Boris
 Candied Yam Golem	yamgolem.gif	HP: [0.75*HP] Def: [min(10000,MUS-3)+max(ML,0)] Atk: [min(10000,MOX-3)+max(ML,0)] Exp: [(min(10000,STAT-3)+max(ML,0))/4] Init: 100 P: construct	yam candy (c100)	candied yams (c100)
