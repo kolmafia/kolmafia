@@ -209,9 +209,9 @@ Boss Bat	bossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast
 Bow-making Mummy	crimonster3.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Bowling Cricket	cricket.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 Box	box.gif	Atk: 150 Def: 135 HP: 150 E: sleaze Init: 70 P: constellation	line (30)	line (30)	line (30)
-Brainsweeper	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 45 Meat: 29-47 P: construct	disembodied brain (30)
+Brainsweeper	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 45 Meat: 36 P: construct	disembodied brain (30)
 Bram the Stoker	bram.gif	Atk: 164 Def: 148 HP: 170 Init: 50 P: undead	Bram's choker (100)
-Bread Golem	breadgolem.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 26-41 P: construct	wad of dough (30)	eldritch dough (c0)
+Bread Golem	breadgolem.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 32 P: construct	wad of dough (30)	eldritch dough (c0)
 breakdancing raver	breakdancer.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
 BRICKO airship	brickoairship.gif	Atk: 550 Def: 495 HP: 10000 Init: 175 P: construct	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)
 BRICKO bat	brickobat.gif	Atk: 70 Def: 63 HP: 100 Init: 30 P: construct	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)
@@ -259,7 +259,7 @@ CH Imp	chimp.gif	Atk: 62 Def: 55 HP: 62 E: hot Init: 60 Meat: 30 P: demon	imp ai
 chalkdust wraith	chalkdust.gif	Atk: 25 Def: 23 HP: 25 Init: 50 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
 chatty pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-76 P: pirate
 Chester	chester.gif	BOSS HP: 8000 Def: 450 Atk: 500 Init: 200 E: sleaze P: dude	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
-Chowder Golem	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 29-46 P: construct
+Chowder Golem	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct
 # Clan of Cave Bars		Atk: 30 Def: 30 HP: 30
 clan of cave bars	cavebars.gif	HP: [(min(200,MOX+20)+5*ML)*0.75] Def: [min(200,MUS+20)+5*ML] Atk: [min(200,MOX+20)+5*ML] Exp: [(min(200,STAT+20)+5*ML)/4] Init: -10000 Meat: 400 P: beast
 claw-foot bathtub	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
@@ -735,9 +735,9 @@ oil tycoon	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 E: sleaze P: slime	bubb
 Ol' Scratch	olscratch.gif	BOSS Atk: 500 Def: 450 HP: 8000 Init: 150 E: hot P: demon	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stovepipe hat (0)	Ol' Scratch's infernal pitchfork (f20)	Ol' Scratch's manacles (f20)	Ol' Scratch's stove door (f20)
 one-eyed Gnoll	dk_oneeye.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)	Missing Eye Simulation Device (c0)
 One-Eyed Willie	oneeyed.gif	Atk: 150 Def: 135 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
-Orcish Frat Boy (Music Lover)	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 E: sleaze Meat: 24-39 P: orc	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)
-Orcish Frat Boy (Paddler)	fratboy.gif	Atk: 40 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 24-39 P: orc	bottle of gin (20)	ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	packet of beer nuts (p15)
-Orcish Frat Boy (Pledge)	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 24-39 P: orc	bottle of vodka (20)	homoerotic frat-paddle (5)	ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)
+Orcish Frat Boy (Music Lover)	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)
+Orcish Frat Boy (Paddler)	fratboy.gif	Atk: 40 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	bottle of gin (20)	ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	packet of beer nuts (p15)
+Orcish Frat Boy (Pledge)	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	bottle of vodka (20)	homoerotic frat-paddle (5)	ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)
 Orcish Frat Boy Spy	fratbong.gif	Atk: 165 Def: 153 HP: 180 Init: 60 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 orcish frat wannaboy	lilfratboy.gif	Atk: 38 Def: 54 HP: 90 Init: 40 E: sleaze P: orc	plastic cup of beer (100)
 orcish juvenile delinquent	lilfratboy.gif	Atk: 35 Def: 40 HP: 80 Init: 50 E: sleaze P: orc	plastic cup of beer (100)
@@ -829,7 +829,7 @@ rushing bum	bum.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: hobo	bum cheek (32)	Mad Trai
 Saboteur Elf	elf_saboteur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 sabre-toothed ferret	ferret.gif	Atk: 250 Def: 198 HP: 200 Init: 75 Meat: 200 E: stench P: beast	sabre teeth (25)	Spanish fly (c25)
 sabre-toothed goat	toothgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 55 P: beast	goat beard (5)	sabre teeth (5)
-sabre-toothed lime	lime.gif	Atk: 14 Def: 12 HP: 8 Init: 60 P: beast	twist of lime (0)
+sabre-toothed lime	lime.gif	Atk: 14 Def: 12 HP: 8 Init: 60 P: beast Meat: 14	twist of lime (0)
 Safari Jack, Small-Game Hunter	safarijack.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 salamander	salamander.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	salamander spleen (100)
 sassy pirate	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
@@ -1094,7 +1094,7 @@ wealthy pirate	richpirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 200 P: pi
 Weapons-assembly Elfborg	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 werecougar	cavewomyn.gif	Atk: 8 Def: 7 HP: 6 Init: 50 P: dude	margarita (10)	sangria (10)	strawberry daiquiri (10)	tequila with training wheels (10)	mama's squeezebox (a0)
 Weremoose	weremoose.gif	Atk: 63 Def: 56 HP: 53 Init: 70 Meat: 65 P: beast	weremoose spit (0)
-Weretaco	weretaco.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 26-41 P: beast	taco shell (30)	uncooked chorizo (30)
+Weretaco	weretaco.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 32 P: beast	taco shell (30)	uncooked chorizo (30)
 Whatsian Commando Ghost	aboo_who.gif	Atk: 78 Def: 62 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	T.U.R.D.S. Key (15)	Whatsian Ionic Pliers (5)
 whiny pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	bilge wine (30)
 white chocolate golem	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct	white chocolate chips (50)	mother's secret recipe (p3)	White Chocolate Golem Seeds (c0)
