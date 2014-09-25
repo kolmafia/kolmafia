@@ -2506,12 +2506,25 @@ public class FightRequest
 			skillNumber = StringUtilities.parseInt( action.substring( 5 ) );
 		}
 
+		// Non damaging skills all have the same success messages for Anapest or Haiku
+		boolean skillSuccess = ( FightRequest.anapest && responseText.contains( "skills don't have to cause pain" ) ) ||
+							   ( FightRequest.haiku && responseText.contains( "accomplish something" ) );
+		boolean familiarSkillSuccess = ( FightRequest.anapest &&
+							   ( responseText.contains( "familiar did something" ) || responseText.contains( "pet did a thing" ) ) ) ||
+							   ( FightRequest.haiku && ( responseText.contains( "wish you had just seen" ) || 
+							   responseText.contains( "what did your familiar do" ) || responseText.contains( "familiar does something" ) ||
+							   responseText.contains( "you don't see what it does" ) || responseText.contains( "you missed what it did" ) ) );
+		boolean skillRunawaySuccess = ( FightRequest.anapest && responseText.contains( "wings on your heels" ) ) ||
+									 ( FightRequest.haiku && ( responseText.contains( "burps taste like pride" ) ||
+									 responseText.contains( "beat a retreat" ) ) );
+
 		switch ( skillNumber )
 		{
 		case SkillPool.BADLY_ROMANTIC_ARROW:
 		case SkillPool.WINK:
-			if ( ( responseText.contains( "fires a badly romantic" ) ) ||
-			     ( responseText.contains( "You point a finger" ) ) )
+			if ( responseText.contains( "fires a badly romantic" ) ||
+			     responseText.contains( "You point a finger" ) ||
+				familiarSkillSuccess )
 			{
 				boolean hasQuake = ( KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR ) ||
 					EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
@@ -2527,7 +2540,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.OLFACTION:
-			if ( responseText.contains( "fill your entire being" ) )
+			if ( responseText.contains( "fill your entire being" ) || skillSuccess )
 			{
 				Preferences.setString( "olfactedMonster", monster );
 				Preferences.setString( "autoOlfact", "" );
@@ -2535,24 +2548,23 @@ public class FightRequest
 			}
 			break;
 
-		// Banish skills, assume success if in Dis or Haiku
 		// Banishing Shout has lots of success messages.  Check for the failure message instead
 		case SkillPool.BANISHING_SHOUT:
-			if ( !responseText.contains( "but this foe refuses" ))
+			if ( !responseText.contains( "but this foe refuses" ) )
 			{
 				BanishManager.banishMonster( monster, "banishing shout" );
 			}
 			break;
 
 		case SkillPool.HOWL_ALPHA:
-			if ( responseText.contains( "your opponent turns and runs" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "your opponent turns and runs" ) || skillRunawaySuccess )
 			{
 				BanishManager.banishMonster( monster, "howl of the alpha" );
 			}
 			break;
 
 		case SkillPool.CREEPY_GRIN:
-			if ( responseText.contains( "an even creepier grin" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "an even creepier grin" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_vmaskBanisherUsed", true );
 				BanishManager.banishMonster( monster, "v for vivala mask" );
@@ -2560,7 +2572,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.STINKEYE:
-			if ( responseText.contains( "You fix an extremely disdainful eye" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "You fix an extremely disdainful eye" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
 				BanishManager.banishMonster( monster, "stinky cheese eye" );
@@ -2568,18 +2580,21 @@ public class FightRequest
 			break;
 
 		case SkillPool.UNLEASH_NANITES:
-			if ( responseText.contains( "You roar with sudden power" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "You roar with sudden power" ) || skillRunawaySuccess )
 			{
 				BanishManager.banishMonster( monster, "nanorhino" );
 			}
 			break;
 
 		case SkillPool.BATTER_UP:
-			BanishManager.banishMonster( monster, "batter up!" );
+			if ( responseText.contains( "opponent is knocked out of the park" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monster, "batter up!" );
+			}
 			break;
 
 		case SkillPool.TALK_ABOUT_POLITICS:
-			if ( responseText.contains( "won't be seeing" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "won't be seeing" ) || skillSuccess )
 			{
 				Preferences.increment( "_pantsgivingBanish" );
 				BanishManager.banishMonster( monster, "pantsgiving" );
@@ -2587,18 +2602,17 @@ public class FightRequest
 			break;
 
 		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
-			if ( !responseText.contains( "hear that it is still alive" ) )
+			if ( responseText.contains( "foe is obliterated in a spectacular explosion" ) || skillSuccess )
 			{
 				BanishManager.banishMonster( monster, "walk away from explosion" );
 			}
 			break;
 
 		case SkillPool.THUNDER_CLAP:
-			// failure message needs finding
-			//if ( !responseText.contains( "" ) )
-			//{
+			if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
+			{
 				BanishManager.banishMonster( monster, "thunder clap" );
-			//}
+			}
 			break;
 
 		case SkillPool.POCKET_CRUMBS:
@@ -2609,14 +2623,14 @@ public class FightRequest
 			break;
 
 		case SkillPool.FIX_JUKEBOX:
-			if ( responseText.contains( "jukebox" ) )
+			if ( responseText.contains( "jukebox" ) || skillSuccess)
 			{
 				Preferences.increment( "_peteJukeboxFixed" );
 			}
 			break;
 
 		case SkillPool.PEEL_OUT:
-			if ( responseText.contains( "peel out" ) || responseText.contains( "peels out" ) )
+			if ( responseText.contains( "peel out" ) || responseText.contains( "peels out" ) || skillRunawaySuccess )
 			{
 				Preferences.increment( "_petePeeledOut" );
 				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
@@ -2627,7 +2641,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.JUMP_SHARK:
-			if ( responseText.contains( "shark" ) )
+			if ( responseText.contains( "shark" ) || skillSuccess )
 			{
 				Preferences.increment( "_peteJumpedShark" );
 			}
@@ -2635,7 +2649,7 @@ public class FightRequest
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:
-			if ( responseText.contains( "You toss a bundle" ) )
+			if ( responseText.contains( "You toss a bundle" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.DRY_NOODLES, -1 );
 			}
@@ -2643,7 +2657,7 @@ public class FightRequest
 
 		// Casting Unload Tommy Gun uses Tommy Ammo
 		case SkillPool.UNLOAD_TOMMY_GUN:
-			if ( responseText.contains( "firing the tommy gun" ) )
+			if ( responseText.contains( "firing the tommy gun" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
 			}
@@ -2651,7 +2665,7 @@ public class FightRequest
 
 		// Casting Shovel Hot Coal uses Hot Coal
 		case SkillPool.SHOVEL_HOT_COAL:
-			if ( responseText.contains( "hot coal into the shovel" ) )
+			if ( responseText.contains( "hot coal into the shovel" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
 			}
@@ -2659,28 +2673,28 @@ public class FightRequest
 
 		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
 		case SkillPool.RAGE_FLAME:
-			if ( responseText.contains( "resulting torrent of flame" ) )
+			if ( responseText.contains( "resulting torrent of flame" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
 			}
 			break;
 
 		case SkillPool.DOUBT_SHACKLES:
-			if ( responseText.contains( "looking less confident" ) )
+			if ( responseText.contains( "looking less confident" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
 			}
 			break;
 
 		case SkillPool.FEAR_VAPOR:
-			if ( responseText.contains( "converts the energy into pure horror" ) )
+			if ( responseText.contains( "converts the energy into pure horror" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
 			}
 			break;
 
 		case SkillPool.TEAR_WAVE:
-			if ( responseText.contains( "deluge of tears bursts forth" ) )
+			if ( responseText.contains( "deluge of tears bursts forth" ) || FightRequest.anapest || FightRequest.haiku )
 			{
 				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
 			}
@@ -2689,7 +2703,7 @@ public class FightRequest
 		case SkillPool.SUMMON_HOBO:
 			// The first part is for a hobo underling being summoned
 			// The second part is from using a dinged-up triangle to summon it
-			if ( responseText.contains( "A hobo runs up to you" ) && !responseText.contains( "You give the triangle a vigorous ringing." ) )
+			if ( responseText.contains( "A hobo runs up to you" ) || FightRequest.anapest || FightRequest.haiku && !responseText.contains( "You give the triangle a vigorous ringing." ) )
 			{
 				Preferences.increment( "_hoboUnderlingSummons", 1 );
 			}
@@ -5909,6 +5923,19 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
+		boolean itemSuccess = ( FightRequest.anapest && ( responseText.contains( "used a thing from your bag" ) ||
+							  responseText.contains( "item caused something to happen" ) ) ) ||
+							  ( FightRequest.haiku && ( responseText.contains( "do some stuff with a thing" ) ||
+							  responseText.contains( "some inscrutable end" ) ) );
+		boolean itemDamageSuccess = ( FightRequest.anapest && ( responseText.contains( "hurl a thing" ) ||
+							  responseText.contains( "thing you hold up" ) || responseText.contains( "fling a thing" ) ||
+							  responseText.contains( "pain with that thing" ) ) ) ||
+							  ( FightRequest.haiku && ( responseText.contains( "like a mighty summer storm" ) ||
+							  responseText.contains( "whip out a thing" ) || responseText.contains( "Like a killing frost" ) ||
+							  responseText.contains( "thing you just threw" ) || responseText.contains( "combat items!" ) ||
+							  responseText.contains( "sling an item" ) || responseText.contains( "item you just threw" ) ||
+							  responseText.contains( "item just hit" ) ) );
+
 		if ( itemId == ItemPool.ICEBALL )
 		{
 			// First use:
@@ -5924,15 +5951,15 @@ public class FightRequest
 			// You hurl the iceball at your opponent, dealing X damage.
 			// Unfortunately, the iceball completely disintegrates on impact.
 
-			if ( responseText.contains( "back in your sack" ) )
+			if ( responseText.contains( "back in your sack" ) || itemDamageSuccess )
 			{
 				Preferences.setInteger( "_iceballUses", 1 );
 			}
-			else if ( responseText.contains( "pretty slushy" ) )
+			else if ( responseText.contains( "pretty slushy" ) || itemDamageSuccess )
 			{
 				Preferences.setInteger( "_iceballUses", 2 );
 			}
-			else if ( responseText.contains( "completely disintegrates" ) )
+			else if ( responseText.contains( "completely disintegrates" ) || itemDamageSuccess )
 			{
 				Preferences.setInteger( "_iceballUses", 3 );
 				return true;
@@ -5959,7 +5986,8 @@ public class FightRequest
 			// A nearby hippy soldier sees you about to start
 			// ringing your windchimes (failure)
 			if ( responseText.contains( "bang out a series of chimes" ) ||
-			     responseText.contains( "ringing your windchimes" ) )
+			     responseText.contains( "ringing your windchimes" )  || 
+				 itemSuccess )
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -5985,7 +6013,8 @@ public class FightRequest
 			// A nearby frat soldier sees you about to send a
 			// message to HQ (failure)
 			if ( responseText.contains( "punch a few buttons on the phone" ) ||
-			     responseText.contains( "send a message to HQ" ) )
+			     responseText.contains( "send a message to HQ" ) ||
+				 itemSuccess )
 			{
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -6024,14 +6053,14 @@ public class FightRequest
 			// into your sack. He doesn't seem to appreciate it too
 			// much...
 
-			if ( responseText.contains( "make a perfect copy" ) )
+			if ( responseText.contains( "make a perfect copy" ) || itemSuccess )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
 				Preferences.setString( "spookyPuttyMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
-			if ( responseText.indexOf( "too scared to copy any more monsters today" ) != -1 )
+			if ( responseText.contains( "too scared to copy any more monsters today" ) )
 			{
 				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
 			}
@@ -6043,7 +6072,7 @@ public class FightRequest
 			// It makes a scary noise, and a tiny, ghostly image
 			// of your opponent appears inside it. 
 
-			if ( responseText.contains( "ghostly image of your opponent" ) )
+			if ( responseText.contains( "ghostly image of your opponent" ) || itemSuccess )
 			{
 				Preferences.increment( "_raindohCopiesMade", 1 );
 				Preferences.setString( "rainDohMonster", monsterName );
@@ -6062,7 +6091,7 @@ public class FightRequest
 			// -POOF- noise, you take snap a picture of him. Your
 			// camera begins to shake, rattle and roll.
 
-			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
+			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) || itemSuccess )
 			{
 				Preferences.setString( "cameraMonster", monsterName );
 				Preferences.increment( "camerasUsed" );
@@ -6077,7 +6106,7 @@ public class FightRequest
 			// -POOF- noise, you snap a picture of it. Your
 			// camera begins to shake, disconcertingly. 
 
-			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) )
+			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) || itemSuccess )
 			{
 				Preferences.setString( "crappyCameraMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6088,7 +6117,7 @@ public class FightRequest
 		case ItemPool.UNFINISHED_ICE_SCULPTURE:
 			// With a flourish of chisels and chainsaws, you make a
 			// passable ice sculpture in the likeness of your foe.
-			if ( responseText.contains( "flourish of chisels" ) )
+			if ( responseText.contains( "flourish of chisels" ) || itemSuccess )
 			{
 				Preferences.setString( "iceSculptureMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6103,7 +6132,7 @@ public class FightRequest
 			// is enraged, and smashes the copier to pieces, but
 			// not before it produces a sheet of paper.
 
-			if ( responseText.contains( "press the COPY button" ) )
+			if ( responseText.contains( "press the COPY button" ) || itemSuccess )
 			{
 				Preferences.setString( "photocopyMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6122,7 +6151,7 @@ public class FightRequest
 			// You acquire an item: envyfish egg
 			// The school is distracted by a lost clownfish for a moment.
 
-			if ( responseText.contains( "the fish squirts out an egg" ) )
+			if ( responseText.contains( "the fish squirts out an egg" ) || itemSuccess )
 			{
 				Preferences.setString( "envyfishMonster", monsterName );
 				Preferences.setString( "autoPutty", "" );
@@ -6147,14 +6176,14 @@ public class FightRequest
 			}
 			// You throw the handful of wax shavings at your opponent, gumming up
 			// all of his bits and making him smell like a Kindergarten classroom.
-			else if ( responseText.contains( "You throw the handful" ) )
+			else if ( responseText.contains( "You throw the handful" ) || itemSuccess )
 			{
 				return true;
 			}
 			return false;
 
 		case ItemPool.STICKY_CLAY_HOMUNCULUS:
-			if ( responseText.contains( "make a crude sculpture" ) )
+			if ( responseText.contains( "make a crude sculpture" ) || itemSuccess )
 			{
 				Preferences.setString( "crudeMonster", monsterName );
 				return true;
@@ -6166,7 +6195,7 @@ public class FightRequest
 			// You quickly quaff the anti-anti-antidote. You feel
 			// better.
 
-			return responseText.indexOf( "You quickly quaff" ) != -1;
+			return responseText.contains( "You quickly quaff" ) || itemSuccess;
 
 		case ItemPool.GLOB_OF_BLANK_OUT:
 
@@ -6186,7 +6215,7 @@ public class FightRequest
 			// You hand him the pinkslip. He reads it, frowns, and
 			// swims sulkily away.
 
-			return responseText.contains( "swims sulkily away" );
+			return responseText.contains( "swims sulkily away" ) || itemSuccess;
 
 		case ItemPool.PUMPKIN_BOMB:
 
@@ -6195,7 +6224,7 @@ public class FightRequest
 			// yellow and flying pumpkin guts, there's nothing left
 			// of her but a stain on the ground.
 
-			return responseText.contains( "toss the pumpkin" );
+			return responseText.contains( "toss the pumpkin" ) || itemDamageSuccess;
 
 		case ItemPool.GOLDEN_LIGHT:
 
@@ -6204,14 +6233,14 @@ public class FightRequest
 			// fades away, leaving not a trace of your foe behind.
 			// Or your foe's behind, for that matter.
 
-			return responseText.contains( "toss the light" );
+			return responseText.contains( "toss the light" ) || itemDamageSuccess;
 
 		case ItemPool.PEPPERMINT_PARASOL:
 
 			// You hold up the parasol, and a sudden freak gust of wind
 			// sends you hurtling through the air to safety.
 
-			if ( responseText.contains( "sudden freak gust" ) )
+			if ( responseText.contains( "sudden freak gust" ) || itemSuccess )
 			{
 				Preferences.increment( "_navelRunaways" );
 				Preferences.increment( "parasolUsed" );
@@ -6330,6 +6359,9 @@ public class FightRequest
 		{
 			FightRequest.jiggledChefstaff = true;
 
+			boolean jiggleSuccess = ( FightRequest.anapest && responseText.contains( "hold up your staff" ) ) ||
+									( FightRequest.haiku && responseText.contains( "jiggle a stick" ) );
+
 			int staffId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 			switch ( staffId )
 			{
@@ -6351,7 +6383,7 @@ public class FightRequest
 				// You jigle your staff, and a whirling wheel of cheese appears before you.
 				// It bursts open, revealing the stench of untold aeons. It first turns gray,
 				// then turns green, then turns tail and runs. You won't see it again for a while, that's for sure. 
-				if ( responseText.contains( "turns tail and runs" ) )
+				if ( responseText.contains( "turns tail and runs" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
 					BanishManager.banishCurrentMonster( "staff of the standalone cheese" );
@@ -6376,7 +6408,7 @@ public class FightRequest
 				// You jiggle the staff. A wisp of creamy ghostly energy
 				// drifts out of the end, into your opponent, then into your head.
 				// Your mind fills with it essence. You... know it. With a capital K. 
-				if ( responseText.contains( "Your mind fills" ) )
+				if ( responseText.contains( "Your mind fills" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCream", 1 );
 					Preferences.setString( "_jiggleCreamedMonster", monsterName );
@@ -6386,6 +6418,15 @@ public class FightRequest
 
 			return;
 		}
+
+		// Non damaging skills all have the same success messages for Anapest or Haiku
+		boolean skillSuccess = ( FightRequest.anapest && responseText.contains( "skills don't have to cause pain" ) ) ||
+							   ( FightRequest.haiku && responseText.contains( "accomplish something" ) );
+		boolean familiarSkillSuccess = ( FightRequest.anapest &&
+							   ( responseText.contains( "familiar did something" ) || responseText.contains( "pet did a thing" ) ) ) ||
+							   ( FightRequest.haiku && ( responseText.contains( "wish you had just seen" ) || 
+							   responseText.contains( "what did your familiar do" ) || responseText.contains( "familiar does something" ) ||
+							   responseText.contains( "you don't see what it does" ) || responseText.contains( "you missed what it did" ) ) );
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -6477,7 +6518,8 @@ public class FightRequest
 			     responseText.contains( "May flies when" ) ||
 			     responseText.contains( "mayflies buzz in" ) ||
 			     responseText.contains( "mayflies, with bait" ) ||
-			     responseText.contains( "mayflies respond" ) )
+			     responseText.contains( "mayflies respond" ) ||
+				 skillSuccess )
 			{
 				Preferences.increment( "_mayflySummons", 1 );
 				Preferences.increment( "mayflyExperience",
@@ -6569,14 +6611,14 @@ public class FightRequest
 			break;
 
 		case SkillPool.GET_A_GOOD_WHIFF:
-			if ( responseText.contains( "floats over your opponent" ) )
+			if ( responseText.contains( "floats over your opponent" ) || familiarSkillSuccess )
 			{
 				Preferences.setString( "nosyNoseMonster", monsterName );
 			}
 			break;
 
 		case SkillPool.MAKE_FRIENDS:
-			if ( responseText.contains( "you become fast friends" ) )
+			if ( responseText.contains( "you become fast friends" ) || skillSuccess )
 			{
 				Preferences.setString( "makeFriendsMonster", monsterName );
 			}
@@ -6590,6 +6632,14 @@ public class FightRequest
 		{
 			return;
 		}
+
+		boolean itemSuccess = ( FightRequest.anapest && ( responseText.contains( "used a thing from your bag" ) ||
+							  responseText.contains( "item caused something to happen" ) ) ) ||
+							  ( FightRequest.haiku && ( responseText.contains( "do some stuff with a thing" ) ||
+							  responseText.contains( "some inscrutable end" ) ) );
+		boolean itemRunawaySuccess = ( FightRequest.anapest && responseText.contains( "wings on your heels" ) ) ||
+									 ( FightRequest.haiku && ( responseText.contains( "burps taste like pride" ) ||
+									 responseText.contains( "beat a retreat" ) ) );
 
 		switch ( itemId )
 		{
@@ -6613,7 +6663,7 @@ public class FightRequest
 			break;
 
 		case ItemPool.SHRINKING_POWDER:
-			if ( responseText.indexOf( "gets smaller and angrier" ) != -1 )
+			if ( responseText.contains( "gets smaller and angrier" ) || itemSuccess )
 			{
 				MonsterStatusTracker.damageMonster( MonsterStatusTracker.getMonsterHealth() / 2 );
 			}
@@ -6627,69 +6677,69 @@ public class FightRequest
 			}
 			break;
 
-		// Handle item banishers, assume success in Haiku or Dis
+		// Handle item banishers
 		case ItemPool.CRYSTAL_SKULL:
-			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "crystal skull" );
 			}
 			break;
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
-			if ( responseText.contains( "surprisingly loud bang, and your opponent flees in terror" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "surprisingly loud bang, and your opponent flees in terror" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "divine champagne popper" );
 			}
 			break;
 		case ItemPool.HAROLDS_HAMMER:
-			if ( responseText.contains( "opponent cringes and walks away" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "opponent cringes and walks away" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "harold's bell" );
 			}
 			break;
 		case ItemPool.INDIGO_TAFFY:
-			if ( responseText.contains( "ink clears, your opponent is nowhere to be found" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "ink clears, your opponent is nowhere to be found" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "pulled indigo taffy" );
 			}
 			break;
 		case ItemPool.CLASSY_MONKEY:
-			if ( responseText.contains( "Your opponent turns tail and runs away screaming" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "Your opponent turns tail and runs away screaming" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "classy monkey" );
 			}
 			break;
 		case ItemPool.DIRTY_STINKBOMB:
-			if ( responseText.contains( "your opponent flees the scene in disgust" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "your opponent flees the scene in disgust" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "dirty stinkbomb" );
 			}
 			break;
 		case ItemPool.DEATHCHUCKS:
-			if ( responseText.contains( "opponent slowly backs away, running off once he gets far enough away from you" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "opponent slowly backs away, running off once he gets far enough away from you" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "deathchucks" );
 			}
 			break;
 		case ItemPool.COCKTAIL_NAPKIN:
-			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "cocktail napkin" );
 			}
 			break;
 		case ItemPool.LOUDER_THAN_BOMB:
-			if ( responseText.contains( "opponent is nowhere to be seen" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "opponent is nowhere to be seen" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "louder than bomb" );
 			}
 			break;
 		case ItemPool.SMOKE_GRENADE:
-			if ( responseText.contains( "flee in the ensuing confusion" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "flee in the ensuing confusion" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "smoke grenade" );
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
-			if ( responseText.contains( "slowly fades from view" ) || FightRequest.haiku || FightRequest.anapest )
+			if ( responseText.contains( "slowly fades from view" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
 			}
@@ -6698,7 +6748,7 @@ public class FightRequest
 			// You toss the ice house on the ground, and your opponent enters it.
 			// You slam the door and laugh all the way to the Museum, where you put
 			// the house on display with it still inside it.
-			if ( responseText.contains( "toss the ice house" ) )
+			if ( responseText.contains( "toss the ice house" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "ice house" );
 			}
@@ -6707,7 +6757,7 @@ public class FightRequest
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.
 
-			if ( responseText.contains( "You slap a flyer" ) )
+			if ( responseText.contains( "You slap a flyer" ) || itemSuccess )
 			{
 				int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() - MonsterStatusTracker.getMonsterAttackModifier() );
 				Preferences.increment( "flyeredML", ML );
@@ -6730,7 +6780,7 @@ public class FightRequest
 			//   or
 			// You hold Zombo's eye out toward your opponent,
 			// but nothing happens. (failure)
-			if ( responseText.indexOf( "You hold Zombo's eye out toward your opponent, whose gaze is transfixed by it." ) != -1 )
+			if ( responseText.contains( "You hold Zombo's eye out toward your opponent, whose gaze is transfixed by it." ) || itemSuccess )
 			{
 				Preferences.setInteger( "_lastZomboEye", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 50 turns
