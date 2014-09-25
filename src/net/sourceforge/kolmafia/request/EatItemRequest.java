@@ -371,7 +371,7 @@ public class EatItemRequest
 		}
 
 		// If the food is not made with noodles, no fear
-		if ( ConcoctionDatabase.noodleCreation( this.itemUsed.getName() ) == null )
+		if ( ConcoctionDatabase.noodleCreation( this.itemUsed.getItemId() ) == null )
 		{
 			return true;
 		}

@@ -129,10 +129,9 @@ public class ChefStaffRequest
 
 		// Item ID of the base staff
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		String name = ItemDatabase.getItemName( baseId );
 
 		// Find chefstaff recipe
-		Concoction concoction = ConcoctionDatabase.chefStaffCreation( name );
+		Concoction concoction = ConcoctionDatabase.chefStaffCreation( baseId );
 		return concoction == null ? null : concoction.getIngredients();
 	}
 
