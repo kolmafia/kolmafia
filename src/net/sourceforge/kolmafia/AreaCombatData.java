@@ -82,6 +82,7 @@ public class AreaCombatData
 
 	// Parallel lists: monsters and encounter weighting
 	private final List<MonsterData> monsters;
+	private final List<MonsterData> superlikelyMonsters;
 	private final List<Integer> baseWeightings;
 	private final List<Integer> currentWeightings;
 	private final List<Integer>	rejection;
@@ -97,6 +98,7 @@ public class AreaCombatData
 	{
 		this.zone = zone;
 		this.monsters = new ArrayList<MonsterData>();
+		this.superlikelyMonsters = new ArrayList<MonsterData>();
 		this.baseWeightings = new ArrayList<Integer>();
 		this.currentWeightings = new ArrayList<Integer>();
 		this.rejection = new ArrayList<Integer>();
@@ -195,6 +197,17 @@ public class AreaCombatData
 		}
 		this.weights = weights;
 		Collections.copy( this.currentWeightings, currentWeightings );
+
+		// Take into account superlikely monsters if they have a non zero chance to appear
+		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		{
+			MonsterData monster = this.getMonster( i );
+			String monsterName = monster.getName();
+			if ( AreaCombatData.superlikelyChance( monsterName ) > 0 )
+			{
+				this.addMonsterStats( monster );
+			}
+		}
 	}
 
 	private void addMonsterStats( MonsterData monster )
@@ -296,11 +309,19 @@ public class AreaCombatData
 			return false;
 		}
 
-		this.monsters.add( monster );
+		if ( AreaCombatData.isSuperlikelyMonster( monster.getName() ) )
+		{
+			this.superlikelyMonsters.add( monster );
+		}
+		else
+		{
+			this.monsters.add( monster );
+			this.baseWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
+			this.currentWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
+			this.rejection.add( IntegerPool.get( rejection ) );
+		}
+
 		this.poison = Math.min( this.poison, monster.getPoison() );
-		this.baseWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
-		this.currentWeightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
-		this.rejection.add( IntegerPool.get( rejection ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
 		// or anything else.
@@ -352,12 +373,34 @@ public class AreaCombatData
 			}
 		}
 
+		Iterator<MonsterData> superlikelyMonsters = this.superlikelyMonsters.iterator();
+		while ( superlikelyMonsters.hasNext() )
+		{
+			MonsterData monster = superlikelyMonsters.next();
+			Iterator<AdventureResult> items = monster.getItems().iterator();
+			while ( items.hasNext() )
+			{
+				AdventureResult item = items.next();
+
+				if ( item.getItemId() == itemId )
+				{
+					total++;
+					break;
+				}
+			}
+		}
+
 		return total;
 	}
 
 	public int getMonsterCount()
 	{
 		return this.monsters.size();
+	}
+
+	public int getSuperlikelyMonsterCount()
+	{
+		return this.superlikelyMonsters.size();
 	}
 
 	public int getAvailableMonsterCount()
@@ -372,6 +415,16 @@ public class AreaCombatData
 				count++;
 			}
 		}
+		size = this.superlikelyMonsters.size();
+		for ( int i = 0; i < size; ++i )
+		{
+			MonsterData monster = this.superlikelyMonsters.get( i );
+			String monsterName = monster.getName();
+			if ( AreaCombatData.superlikelyChance( monsterName ) > 0 )
+			{
+				count++;
+			}
+		}
 		return count;
 	}
 
@@ -380,18 +433,28 @@ public class AreaCombatData
 		return (MonsterData) this.monsters.get( i );
 	}
 
+	public MonsterData getSuperlikelyMonster( final int i )
+	{
+		return (MonsterData) this.superlikelyMonsters.get( i );
+	}
+
 	public boolean hasMonster( final MonsterData m )
 	{
 		if ( m == null )
 		{
 			return false;
 		}
-		return this.monsters.contains( m );
+		return this.monsters.contains( m ) || this.superlikelyMonsters.contains( m );
 	}
 
 	public int getMonsterIndex( MonsterData monster )
 	{
 		return this.monsters.indexOf( monster );
+	}
+
+	public int getSuperlikelyMonsterIndex( MonsterData monster )
+	{
+		return this.superlikelyMonsters.indexOf( monster );
 	}
 
 	public int getWeighting( final int i )
@@ -469,7 +532,21 @@ public class AreaCombatData
 			averageML += weight * monster.getAttack();
 		}
 
-		return averageML;
+		double averageSuperlikelyML = 0.0;
+		double superlikelyChance = 0.0;
+		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		{
+			MonsterData monster = this.superlikelyMonsters.get( i );
+			String monsterName = monster.getName();
+			double chance = AreaCombatData.superlikelyChance( monsterName );
+			if ( chance > 0 )
+			{
+				averageSuperlikelyML += chance * monster.getAttack();
+				superlikelyChance += chance;
+			}
+		}
+		
+		return averageML * ( 1 - superlikelyChance / 100 ) + averageSuperlikelyML;
 	}
 
 	@Override
@@ -545,6 +622,20 @@ public class AreaCombatData
 			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
 
+		double averageSuperlikelyExperience = 0.0;
+		double superlikelyChance = 0.0;
+		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		{
+			MonsterData monster = this.superlikelyMonsters.get( i );
+			String monsterName = monster.getName();
+			double chance = AreaCombatData.superlikelyChance( monsterName );
+			if ( chance > 0 )
+			{
+				averageSuperlikelyExperience += chance / 100 * (monster.getExperience() + experienceAdjustment);
+				superlikelyChance += chance;
+			}
+		}
+
 		buffer.append( "<b>Hit</b>: " );
 		buffer.append( this.getRateString(
 			minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName, fullString ) );
@@ -558,10 +649,11 @@ public class AreaCombatData
 		
 		buffer.append( "<br><b>Combat Rate</b>: " );
 
+		double combatXP = averageSuperlikelyExperience + averageExperience * ( 1 - superlikelyChance / 100 ) * combatFactor;
 		if ( this.combats > 0 )
 		{
-			buffer.append( this.format( combatFactor * 100.0 ) + "%" );
-			buffer.append( "<br><b>Combat XP</b>: " + KoLConstants.FLOAT_FORMAT.format( averageExperience * combatFactor ) );
+			buffer.append( this.format( superlikelyChance + ( 1 - superlikelyChance / 100 ) * combatFactor * 100.0 ) + "%" );
+			buffer.append( "<br><b>Combat XP</b>: " + KoLConstants.FLOAT_FORMAT.format( combatXP ) );
 		}
 		else if ( this.combats == 0 )
 		{
@@ -578,6 +670,18 @@ public class AreaCombatData
 		int moxie = KoLCharacter.getAdjustedMoxie();
 		int hitstat = EquipmentManager.getAdjustedHitStat();
 		double combatFactor = this.areaCombatPercent() / 100.0;
+		double superlikelyChance = 0.0;
+
+		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		{
+			MonsterData monster = this.superlikelyMonsters.get( i );
+			String monsterName = monster.getName();
+			double chance = AreaCombatData.superlikelyChance( monsterName );
+			buffer.append( "<br><br>" );
+			buffer.append( this.getMonsterString(
+				this.getSuperlikelyMonster( i ), moxie, hitstat, 0, 0, combatFactor, chance, fullString ) );
+			superlikelyChance += chance;
+		}
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -589,9 +693,8 @@ public class AreaCombatData
 			}
 
 			buffer.append( "<br><br>" );
-
 			buffer.append( this.getMonsterString(
-				this.getMonster( i ), moxie, hitstat, weighting, rejection, combatFactor, fullString ) );
+				this.getMonster( i ), moxie, hitstat, weighting, rejection, combatFactor, superlikelyChance, fullString ) );
 		}
 	}
 
@@ -771,7 +874,7 @@ public class AreaCombatData
 	}
 
 	private String getMonsterString( final MonsterData monster, final int moxie, final int hitstat,
-		final int weighting, final int rejection, final double combatFactor, final boolean fullString )
+		final int weighting, final int rejection, final double combatFactor, final double superlikelyChance, final boolean fullString )
 	{
 		// moxie and hitstat NOT adjusted for monster level, since monster stats now are
 
@@ -800,10 +903,15 @@ public class AreaCombatData
 		{
 			buffer.append( "\u2620 " );
 		}
-		buffer.append( monster.getName() );
+		String name = monster.getName();
+		buffer.append( name );
 		buffer.append( "</b></font> (" );
 
-		if ( weighting == -1 )
+		if ( AreaCombatData.isSuperlikelyMonster( name ) )
+		{
+			buffer.append( this.format( superlikelyChance ) + "%" );
+		}
+		else if ( weighting == -1 )
 		{
 			buffer.append( "ultra-rare" );
 		}
@@ -824,7 +932,7 @@ public class AreaCombatData
 		else
 		{
 			buffer.append( this.format( AdventureQueueDatabase.applyQueueEffects(
-				100.0 * combatFactor * weighting * ( 1 - (double) rejection / 100 ), monster, this ) ) + "%" );
+				100.0 * combatFactor * ( 1 - superlikelyChance / 100 ) * weighting * ( 1 - (double) rejection / 100 ), monster, this ) ) + "%" );
 		}
 
 		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
@@ -1045,22 +1153,6 @@ public class AreaCombatData
 
 	private static final int adjustConditionalWeighting( String zone, String monster, int weighting )
 	{
-		// Some monsters only appear after certain conditions are met, or don't appear after conditions are met
-		// Screambats appear after every 8 fights in Guano Junction, Batrats and Beanbats
-		if ( zone.equals( "Guano Junction" ) || zone.equals( "The Batrat and Ratbat Burrow" ) ||
-			zone.equals( "The Beanbat Chamber" ) )
-		{
-			// Screambat due
-			if ( Preferences.getInteger( "nextScreambatCount" ) == 8 )
-			{
-				return monster.equals( "screambat" ) ? 1 : -4;
-			}
-			else
-			{
-				return monster.equals( "screambat" ) ? 0 : 
-					monster.equals( "Batsnake" ) ? 0 : 1;
-			}
-		}
 		// Bossbat can appear on 4th fight, and will always appear on the 8th fight
 		if ( zone.equals( "The Boss Bat's Lair" ) )
 		{
@@ -1075,5 +1167,47 @@ public class AreaCombatData
 			}
 		}
 		return weighting;
+	}
+
+	public static final boolean isSuperlikelyMonster( String monster )
+	{
+		if ( monster.equals( "screambat" ) ||
+			monster.equals( "modern zmobie" ) ||
+			monster.equals( "ninja snowman assassin" ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static final double superlikelyChance( String monster )
+	{
+		if ( monster.equals( "screambat" ) )
+		{
+			// Appears every 8 turns in relevant zones
+			return Preferences.getInteger( "nextScreambatCount" ) == 8 ? 100 : 0;
+		}
+		if ( monster.equals( "modern zmobie" ) )
+		{
+			// Chance based on initiative
+			return 15 + KoLCharacter.getInitiativeAdjustment() / 10;
+		}
+		if ( monster.equals( "ninja snowman assassin" ) )
+		{
+			// Do not appear without positive combat rate
+			double combatRate = KoLCharacter.getCombatRateAdjustment();
+			if ( combatRate <= 0 )
+			{
+				return 0;
+			}
+			// Guaranteed after a multiple of 10 turns, but zero
+			int snowmanTurns = Preferences.getInteger( "snowmanTurns" );
+			if ( snowmanTurns > 0 && snowmanTurns % 10 == 0 )
+			{
+				return 100;
+			}
+			return combatRate / 2 + (double) snowmanTurns * 1.5;
+		}
+		return 0;
 	}
 }

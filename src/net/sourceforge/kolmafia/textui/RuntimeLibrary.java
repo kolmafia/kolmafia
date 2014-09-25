@@ -5947,13 +5947,19 @@ public abstract class RuntimeLibrary
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
 
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
+		int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
 
-		AggregateType type = new AggregateType( DataTypes.MONSTER_TYPE, monsterCount );
+		AggregateType type = new AggregateType( DataTypes.MONSTER_TYPE, monsterCount + superlikelyMonsterCount );
 		ArrayValue value = new ArrayValue( type );
 
 		for ( int i = 0; i < monsterCount; ++i )
 		{
 			value.aset( new Value( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
+		}
+
+		for ( int i = 0; i < superlikelyMonsterCount; ++i )
+		{
+			value.aset( new Value( i + monsterCount ), DataTypes.parseMonsterValue( data.getSuperlikelyMonster( i ).getName(), true ) );
 		}
 
 		return value;
@@ -5979,6 +5985,16 @@ public abstract class RuntimeLibrary
 		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
 
 		double total = data.totalWeighting();
+		double superlikelyChance = 0.0;
+		for ( int i = data.getSuperlikelyMonsterCount() - 1; i >= 0; --i )
+		{
+			MonsterData monster = data.getSuperlikelyMonster( i );
+			String name = monster.getName();
+			double chance = data.superlikelyChance( name );
+			superlikelyChance += chance;
+			Value toSet = new Value( chance );
+			value.aset( DataTypes.parseMonsterValue( name, true ), toSet );
+		}
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
@@ -6001,11 +6017,11 @@ public abstract class RuntimeLibrary
 			{
 				toSet =
 					new Value( AdventureQueueDatabase.applyQueueEffects(
-						combatFactor * weight * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
+						combatFactor * weight * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
 			}
 			else
 			{
-				toSet = new Value( combatFactor * weight / total );
+				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * weight / total );
 			}
 			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), toSet );
 		}
@@ -6288,12 +6304,22 @@ public abstract class RuntimeLibrary
 			AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
 
 			int monsterCount = data == null ? 0 : data.getMonsterCount();
+			int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
 			int jumpChance = data == null ? 0 : 100;
 		
 			for ( int i = 0; i < monsterCount; ++i )
 			{
 				int monsterJumpChance = data.getMonster( i ).getJumpChance();
 				if ( jumpChance > monsterJumpChance && data.getWeighting( i ) > 0 )
+				{
+					jumpChance = monsterJumpChance;
+				}
+			}
+			for ( int i = 0; i < superlikelyMonsterCount; ++i )
+			{
+				MonsterData monster = data.getSuperlikelyMonster( i );
+				int monsterJumpChance = monster.getJumpChance();
+				if ( jumpChance > monsterJumpChance && data.superlikelyChance( monster.getName() ) > 0 )
 				{
 					jumpChance = monsterJumpChance;
 				}
@@ -6322,12 +6348,22 @@ public abstract class RuntimeLibrary
 			AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
 
 			int monsterCount = data == null ? 0 : data.getMonsterCount();
+			int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
 			int jumpChance = data == null ? 0 : 100;
 		
 			for ( int i = 0; i < monsterCount; ++i )
 			{
 				int monsterJumpChance = data.getMonster( i ).getJumpChance( initiative );
 				if ( jumpChance > monsterJumpChance && data.getWeighting( i ) > 0 )
+				{
+					jumpChance = monsterJumpChance;
+				}
+			}
+			for ( int i = 0; i < superlikelyMonsterCount; ++i )
+			{
+				MonsterData monster = data.getSuperlikelyMonster( i );
+				int monsterJumpChance = monster.getJumpChance( initiative );
+				if ( jumpChance > monsterJumpChance && data.superlikelyChance( monster.getName() ) > 0 )
 				{
 					jumpChance = monsterJumpChance;
 				}

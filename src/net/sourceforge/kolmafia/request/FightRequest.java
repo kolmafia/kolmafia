@@ -3070,6 +3070,11 @@ public class FightRequest
 			Preferences.increment( "bossbatTurns", 1 );
 		}
 
+		if ( adventure == AdventurePool.NINJA_SNOWMEN )
+		{
+			Preferences.increment( "snowmanTurns", 1 );
+		}
+
 		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );

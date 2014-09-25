@@ -850,6 +850,7 @@ user	slimelingFullness	0.0
 user	slimelingStacksDropped	0
 user	slimelingStacksDue	0
 user	sneakyPetePoints	0
+user	snowmanTurns	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
