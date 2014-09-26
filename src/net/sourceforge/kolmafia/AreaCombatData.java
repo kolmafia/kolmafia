@@ -1185,12 +1185,13 @@ public class AreaCombatData
 		if ( monster.equals( "screambat" ) )
 		{
 			// Appears every 8 turns in relevant zones
-			return Preferences.getInteger( "nextScreambatCount" ) == 8 ? 100 : 0;
+			return Preferences.getInteger( "nextScreambatCount" ) == 8 ? 100.0 : 0.0;
 		}
 		if ( monster.equals( "modern zmobie" ) )
 		{
 			// Chance based on initiative
-			return 15 + KoLCharacter.getInitiativeAdjustment() / 10;
+			double chance =  15 + KoLCharacter.getInitiativeAdjustment() / 10;
+			return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
 		}
 		if ( monster.equals( "ninja snowman assassin" ) )
 		{
@@ -1204,9 +1205,10 @@ public class AreaCombatData
 			int snowmanTurns = Preferences.getInteger( "snowmanTurns" );
 			if ( snowmanTurns > 0 && snowmanTurns % 10 == 0 )
 			{
-				return 100;
+				return 100.0;
 			}
-			return combatRate / 2 + (double) snowmanTurns * 1.5;
+			double chance = combatRate / 2 + (double) snowmanTurns * 1.5;
+			return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
 		}
 		return 0;
 	}
