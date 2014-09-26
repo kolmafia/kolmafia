@@ -34,33 +34,37 @@
 package net.sourceforge.kolmafia;
 
 import java.lang.reflect.Method;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.SwingUtilities;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
-
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.GenericRequest;
-
 import net.sourceforge.kolmafia.session.ResponseTextParser;
-
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class RequestThread
 {
-	private static int nextRequestId = 0;
-	private static Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
+	private static final AtomicInteger nextRequestId = new AtomicInteger();
+	private static final Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
+	private static final ExecutorService EXECUTOR = new ThreadPoolExecutor( 
+		1, // minimum threads to keep alive
+		10, // maximum simultaneous threads
+		30, // keep extra spawned threads around for 30 seconds
+		TimeUnit.SECONDS, 
+		new ArrayBlockingQueue<Runnable>( 50 ) ); // enqueue up to 50 waiting tasks
 
 	public static final void runInParallel( final Runnable action )
 	{
@@ -69,11 +73,7 @@ public abstract class RequestThread
 
 	public static final void runInParallel( final Runnable action, final boolean sequence )
 	{
-		// Later on, we'll make this more sophisticated and create
-		// something similar to the worker thread pool used in the
-		// relay browser.  For now, just spawn a new thread.
-
-		new ThreadWrappedRunnable( action, sequence ).start();
+		EXECUTOR.submit( new SequencedRunnable( action, sequence ) );
 	}
 
 	public static final void postRequestAfterInitialization( final GenericRequest request )
@@ -343,7 +343,8 @@ public abstract class RequestThread
 			KoLmafia.forceContinue();
 		}
 
-		int requestId = ++RequestThread.nextRequestId;
+		int requestId = RequestThread.nextRequestId.getAndIncrement();
+
 		Integer requestIdObj = IntegerPool.get( requestId );
 
 		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
@@ -385,19 +386,18 @@ public abstract class RequestThread
 		ChatManager.broadcastEvent( message );
 	}
 
-	private static class ThreadWrappedRunnable
-		extends Thread
+	private static class SequencedRunnable
+		implements Runnable
 	{
 		private final Runnable wrapped;
 		private final boolean sequence;
 
-		public ThreadWrappedRunnable( final Runnable wrapped, final boolean sequence )
+		public SequencedRunnable( final Runnable wrapped, final boolean sequence )
 		{
 			this.wrapped = wrapped;
 			this.sequence = sequence;
 		}
 
-		@Override
 		public void run()
 		{
 			Integer requestId = null;
