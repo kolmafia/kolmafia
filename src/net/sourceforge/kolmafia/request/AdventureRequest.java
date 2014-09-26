@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -492,7 +493,16 @@ public class AdventureRequest
 			if ( type.equals( "Combat" ) )
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
-				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
+				// Only queue normal monster encounters
+				if ( !EncounterManager.ignoreSpecialMonsters &&
+					!EncounterManager.isWanderingMonster( encounter ) &&
+					!EncounterManager.isUltrarareMonster( encounter ) &&
+					!EncounterManager.isSemiRareMonster( encounter ) &&
+					!EncounterManager.isSuperlikelyMonster( encounter ) &&
+					!EncounterManager.isFreeCombatMonster( encounter ) )
+				{
+					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
+				}
 			}
 			else if ( type.equals( "Noncombat" ) )
 			{
@@ -574,13 +584,15 @@ public class AdventureRequest
 		return name;
 	}
 
-	private static final String translateGenericType( final String encounter, final String responseText )
+	private static final String translateGenericType( final String encounterToCheck, final String responseText )
 	{
 		if ( KoLAdventure.lastLocationName != null &&
 		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
 		{
 			return BasementRequest.basementMonster;
 		}
+
+		String encounter = ConsequenceManager.disambiguateMonster( encounterToCheck, responseText );
 
 		if ( MonsterDatabase.findMonster( encounter, false ) != null )
 		{
@@ -605,17 +617,6 @@ public class AdventureRequest
 			// still be fought due to the Fax Machine.  Due to monster copying,
 			// any of these monsters can show up in any zone, or in no zone.
 			override =
-				// Your Shadow
-				image.startsWith( "shadowsealclubber" ) ? "Your Shadow" :
-				image.startsWith( "shadowturtletamer" ) ? "Your Shadow" :
-				image.startsWith( "shadowpastamancer" ) ? "Your Shadow" :
-				image.startsWith( "shadowsauceror" ) ? "Your Shadow" :
-				image.startsWith( "shadowdiscobandit" ) ? "Your Shadow" :
-				image.startsWith( "shadowaccordionthief" ) ? "Your Shadow" :
-				image.startsWith( "shadowsealboris" ) ? "Your Shadow" :
-				image.startsWith( "shadowsealjarlsberg" ) ? "Your Shadow" :
-				image.startsWith( "shadowsealzombie" ) ? "Your Shadow" :
-				image.startsWith( "shadowsealpete" ) ? "Your Shadow" :
 				// The Copperhead Club
 				image.startsWith( "coppertender" ) ? "Copperhead Club bartender" :
 				// Spookyraven
