@@ -37,10 +37,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.SwingUtilities;
@@ -59,12 +57,7 @@ public abstract class RequestThread
 {
 	private static final AtomicInteger nextRequestId = new AtomicInteger();
 	private static final Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
-	private static final ExecutorService EXECUTOR = new ThreadPoolExecutor( 
-		1, // minimum threads to keep alive
-		10, // maximum simultaneous threads
-		30, // keep extra spawned threads around for 30 seconds
-		TimeUnit.SECONDS, 
-		new ArrayBlockingQueue<Runnable>( 50 ) ); // enqueue up to 50 waiting tasks
+	private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool();
 
 	public static final void runInParallel( final Runnable action )
 	{
