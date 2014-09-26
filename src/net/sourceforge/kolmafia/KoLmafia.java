@@ -440,7 +440,7 @@ public abstract class KoLmafia
 		// Check for KoLmafia updates in a separate thread
 		// so as to allow for continued execution.
 
-		( new UpdateCheckThread() ).start();
+		RequestThread.runInParallel( new UpdateCheckRunnable(), false );
 
 		// Always read input from the command line when you're not
 		// in GUI mode.
@@ -1769,15 +1769,9 @@ public abstract class KoLmafia
 		return text != null && text.indexOf( "This player is currently" ) != -1;
 	}
 
-	private static class UpdateCheckThread
-		extends Thread
+	private static class UpdateCheckRunnable
+		implements Runnable
 	{
-		public UpdateCheckThread()
-		{
-			super( "UpdateCheckThread" );
-		}
-
-		@Override
 		public void run()
 		{
 			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )
