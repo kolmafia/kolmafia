@@ -309,7 +309,7 @@ public class AreaCombatData
 			return false;
 		}
 
-		if ( AreaCombatData.isSuperlikelyMonster( monster.getName() ) )
+		if ( EncounterManager.isSuperlikelyMonster( monster.getName() ) )
 		{
 			this.superlikelyMonsters.add( monster );
 		}
@@ -907,7 +907,7 @@ public class AreaCombatData
 		buffer.append( name );
 		buffer.append( "</b></font> (" );
 
-		if ( AreaCombatData.isSuperlikelyMonster( name ) )
+		if ( EncounterManager.isSuperlikelyMonster( name ) )
 		{
 			buffer.append( this.format( superlikelyChance ) + "%" );
 		}
@@ -1167,17 +1167,6 @@ public class AreaCombatData
 			}
 		}
 		return weighting;
-	}
-
-	public static final boolean isSuperlikelyMonster( String monster )
-	{
-		if ( monster.equals( "screambat" ) ||
-			monster.equals( "modern zmobie" ) ||
-			monster.equals( "ninja snowman assassin" ) )
-		{
-			return true;
-		}
-		return false;
 	}
 
 	public static final double superlikelyChance( String monster )
