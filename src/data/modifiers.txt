@@ -4643,6 +4643,7 @@ Moose Wisdom	Mysticality: +20
 More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Mortarfied	Damage Absorption: +100
 Motorhair	Avatar: "motorhead"
+# Mr. Skullhead's Birthday Happiness: Puts a birthday smile on your face.
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
@@ -6433,6 +6434,7 @@ elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
+En Una Fila Tequila	Effect: "Mr. Skullhead's Birthday Happiness", Effect Duration: 20
 Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 enchanted muesli	Effect: "Ski Ballin'", Effect Duration: 30
 Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
