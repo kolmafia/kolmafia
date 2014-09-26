@@ -42,9 +42,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLConstants;
