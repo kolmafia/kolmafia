@@ -1178,7 +1178,7 @@ Bugbear Captain	bb_captain.gif	Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast
 
 # Zombie Slayer		
 Norville Rogers	hunter2.gif	WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude	hunter brain (n100)	Scuba Snack (c0)
-Peacannon	hunter3.gif	AWANDERER tk: 16 Def: 15 HP: 22 Init: 30 P: plant	hunter brain (n100)
+Peacannon	hunter3.gif	WANDERER Atk: 16 Def: 15 HP: 22 Init: 30 P: plant	hunter brain (n100)
 Scott the Miner	hunter4.gif	WANDERER Atk: 23 Def: 22 HP: 30 Init: 40 P: dude	hunter brain (n100)	grey cube (c0)
 Father McGruber	hunter5.gif	WANDERER Atk: 31 Def: 30 HP: 40 Init: 50 P: dude	hunter brain (n100)	votive candle (c0)
 Herman East, Relivinator	hunter6.gif	WANDERER Atk: 39 Def: 39 HP: 52 Init: 60 P: dude	hunter brain (n100)

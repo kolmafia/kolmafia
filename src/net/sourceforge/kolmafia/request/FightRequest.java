@@ -336,23 +336,6 @@ public class FightRequest
 		},
 	};
 
-	// Ultra-rare monsters
-	private static final String[] RARE_MONSTERS =
-	{
-		"baiowulf",
-		"count bakula",
-		"crazy bastard",
-		"hockey elemental",
-		"hypnotist of hey deze",
-		"infinite meat bug",
-		"knott slanding",
-		"master of thieves",
-		"the nuge",
-		"temporal bandit",
-		"pooltergeist (ultra-rare)",
-		"quickbasic elemental"
-	};
-
 	// Skills which require a shield
 	private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
 	static
@@ -629,17 +612,15 @@ public class FightRequest
 			return;
 		}
 
+		String monsterName = MonsterStatusTracker.getLastMonsterName();
+
 		// Always let the user see rare monsters
 
-		String monsterName = MonsterStatusTracker.getLastMonsterName();
-		for ( int i = 0; i < FightRequest.RARE_MONSTERS.length; ++i )
+		if ( EncounterManager.isUltrarareMonster( monsterName ) )
 		{
-			if ( monsterName.contains( FightRequest.RARE_MONSTERS[ i ] ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "You have encountered the " + this.encounter );
-				FightRequest.nextAction = "abort";
-				return;
-			}
+			KoLmafia.updateDisplay( MafiaState.ABORT, "You have encountered the " + this.encounter );
+			FightRequest.nextAction = "abort";
+			return;
 		}
 
 		// Desired action overrides any internal logic not related to macros
