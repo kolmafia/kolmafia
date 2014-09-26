@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -129,7 +130,7 @@ public abstract class DvorakDecorator
 		}
 
 		/*
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for ( int row = 0; row < 7; ++row )
 		{
 			buffer.setLength( 0 );
@@ -149,8 +150,9 @@ public abstract class DvorakDecorator
 		}
 		*/
 
-		// Execute requests to jump to the end.
+		// Execute requests to hop from tile to tile to the end.
 		String solution = "BANANAS";
+		String message;
 
 		GenericRequest request = new GenericRequest( "" );
 		for ( int row = currentRow; row >= 0; --row )
@@ -172,9 +174,19 @@ public abstract class DvorakDecorator
 				return;
 			}
 
+			message = "Give me a" + ( match == 'A' ? "n " : " " ) + match + "!";
+
+			KoLmafia.updateDisplay( message );
+			RequestLogger.updateSessionLog( message );
+
 			String url = "tiles.php?action=jump&whichtile=" + found;
-			request.constructURLString( url ).run();
+			request.constructURLString( url );
+			request.run();
 		}
+
+		message = "What's that spell? " + solution + "!";
+		KoLmafia.updateDisplay( message );
+		RequestLogger.updateSessionLog( message );
 
 		KoLmafia.updateDisplay( "Tile puzzle completed." );
 
