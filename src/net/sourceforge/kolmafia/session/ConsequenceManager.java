@@ -164,7 +164,7 @@ public abstract class ConsequenceManager
 		}
 		else if ( type.equals( "MONSTER" ) )
 		{
-			cons.register( ConsequenceManager.monsters, spec.toLowerCase() );
+			cons.register( ConsequenceManager.monsters, spec );
 		}
 		else
 		{
@@ -216,7 +216,7 @@ public abstract class ConsequenceManager
 
 	public static String disambiguateMonster( String monster, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.monsters.get( monster.toLowerCase() );
+		Consequence cons = (Consequence) ConsequenceManager.monsters.get( monster );
 		if ( cons != null )
 		{
 			String rv = cons.test( responseText, false );

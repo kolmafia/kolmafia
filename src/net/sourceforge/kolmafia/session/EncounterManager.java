@@ -39,12 +39,15 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class EncounterManager
@@ -63,6 +66,10 @@ public abstract class EncounterManager
 		BORIS,
 		BADMOON,
 		BUGBEAR,
+		WANDERER,
+		SUPERLIKELY,
+		ULTRARARE,
+		FREE_COMBAT
 	}
 
 	public static class Encounter
@@ -211,6 +218,36 @@ public abstract class EncounterManager
 	{
 		return responseText.contains( "hear a wolf whistle" ) ||
 		       responseText.contains( "you feel the hairs" );
+	}
+
+	public static boolean isWanderingMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType() == EncounterType.WANDERER ? true : false;
+	}
+
+	public static boolean isSemiRareMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType() == EncounterType.SEMIRARE ? true : false;
+	}
+
+	public static boolean isSuperlikelyMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType() == EncounterType.SUPERLIKELY ? true : false;
+	}
+
+	public static boolean isFreeCombatMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType() == EncounterType.FREE_COMBAT ? true : false;
+	}
+
+	public static boolean isUltrarareMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType() == EncounterType.ULTRARARE ? true : false;
 	}
 
 	// Used to ignore special monsters re-encountered via copying

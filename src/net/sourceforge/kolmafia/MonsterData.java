@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 
@@ -58,6 +59,7 @@ public class MonsterData
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
+	private final EncounterType type;
 	private final String image;
 	private final int beeCount;
 
@@ -71,7 +73,7 @@ public class MonsterData
 			    final int physicalResistance,
 			    final int meat,
 			    final Phylum phylum, final int poison, final boolean boss,
-			    final String image )
+			    final EncounterType type, final String image )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -87,6 +89,7 @@ public class MonsterData
 		this.phylum = phylum;
 		this.poison = poison;
 		this.boss = boss;
+		this.type = type;
 		this.image = image;
 
 		int beeCount = 0;
@@ -371,6 +374,11 @@ public class MonsterData
 	public boolean isBoss()
 	{
 		return this.boss;
+	}
+
+	public EncounterType getType()
+	{
+		return this.type;
 	}
 
 	public String getImage()

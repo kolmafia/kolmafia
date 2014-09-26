@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -392,6 +394,7 @@ public class MonsterDatabase
 		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
+		EncounterType type = EncounterType.NONE;
 		int physical = 0;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
@@ -559,6 +562,36 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "WANDERER" ) )
+				{
+					type = EncounterType.WANDERER;
+					continue;
+				}
+
+				else if ( option.equals( "ULTRARARE" ) )
+				{
+					type = EncounterType.ULTRARARE;
+					continue;
+				}
+
+				else if ( option.equals( "SEMIRARE" ) )
+				{
+					type = EncounterType.SEMIRARE;
+					continue;
+				}
+
+				else if ( option.equals( "SUPERLIKELY" ) )
+				{
+					type = EncounterType.SUPERLIKELY;
+					continue;
+				}
+
+				else if ( option.equals( "FREE" ) )
+				{
+					type = EncounterType.FREE_COMBAT;
+					continue;
+				}
+
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -575,7 +608,7 @@ public class MonsterDatabase
 		monster = new MonsterData( name, health, attack, defense, initiative, experience,
 					   attackElement, defenseElement, physical,
 					   meat,
-					   phylum, poison, boss, image );
+					   phylum, poison, boss, type, image );
 		return monster;
 	}
 
