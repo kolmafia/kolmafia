@@ -53,11 +53,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.w3c.dom.Document;
@@ -69,7 +67,6 @@ public class FaxBotDatabase
 	extends KoLDatabase
 {
 	private static boolean isInitialized = false;
-	private static boolean faxBotConfigured = false;
 	private static boolean faxBotError = false;
 
 	// List of bots from faxbots.txt
@@ -141,19 +138,10 @@ public class FaxBotDatabase
 
 	private static final void configureFaxBot( final BotData data )
 	{
-		FaxBotDatabase.faxBotConfigured = false;
 		FaxBotDatabase.faxBotError = false;
 		KoLmafia.forceContinue();
 
-		RequestThread.runInParallel( new DynamicBotFetcher( data ), false );
-
-		PauseObject pauser = new PauseObject();
-
-		while ( !FaxBotDatabase.faxBotError &&
-			!FaxBotDatabase.faxBotConfigured )
-		{
-			pauser.pause( 200 );
-		}
+		new DynamicBotFetcher( data ).run();
 
 		if ( FaxBotDatabase.faxBotError )
 		{
@@ -426,7 +414,6 @@ public class FaxBotDatabase
 		public void run()
 		{
 			// Start with a clean slate
-			FaxBotDatabase.faxBotConfigured = false;
 			FaxBotDatabase.faxBotError = false;
 			KoLmafia.forceContinue();
 
@@ -500,9 +487,6 @@ public class FaxBotDatabase
 
 			// Add the bots to the list of available bots
 			FaxBotDatabase.faxbots.addAll( bots );
-
-			// Say that this config file has been processed
-			FaxBotDatabase.faxBotConfigured = true;
 		}
 
 		private FaxBot getFaxBot( Element el )
