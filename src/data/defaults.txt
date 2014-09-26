@@ -59,6 +59,7 @@ global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	displayName
 global	externalEditor
+global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
 global	grabCloversHardcore	false

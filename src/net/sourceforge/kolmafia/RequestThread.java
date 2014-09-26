@@ -57,7 +57,16 @@ public abstract class RequestThread
 {
 	private static final AtomicInteger nextRequestId = new AtomicInteger();
 	private static final Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
-	private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool();
+	private static final ExecutorService EXECUTOR;
+
+	static
+	{
+		int fixedPoolSize = Preferences.getInteger( "fixedThreadPoolSize" );
+		if ( fixedPoolSize > 0 )
+			EXECUTOR = Executors.newFixedThreadPool( fixedPoolSize );
+		else
+			EXECUTOR = Executors.newCachedThreadPool();
+	}
 
 	public static final void runInParallel( final Runnable action )
 	{
