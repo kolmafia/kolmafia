@@ -128,7 +128,7 @@ Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
-Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin	Frozen Solid Snake: 0
+Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
@@ -216,7 +216,7 @@ The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 The Dark Elbow of the Woods	95	Demoninja	G imp	L imp
 The Dark Heart of the Woods	95	Fallen Archfiend	G imp	P imp
 The Dark Neck of the Woods	95	Hellion	P imp	W imp
-The Defiled Alcove	85	corpulent zobmie	grave rober zmobie	modern zmobie	conjoined zmombie: 0
+The Defiled Alcove	85	corpulent zobmie	grave rober zmobie	modern zmobie: 0	conjoined zmombie: 0
 The Defiled Cranny	85	gaunt ghuol	gluttonous ghuol	swarm of ghuol whelps	big swarm of ghuol whelps: 0	giant swarm of ghuol whelps: 0	huge ghuol: 0
 The Defiled Niche	85	dirty old lihc	senile lihc	slick lihc	gargantulihc: 0
 The Defiled Nook	85	spiny skelelton	toothy sklelton	giant skeelton: 0
