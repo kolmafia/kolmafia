@@ -119,7 +119,7 @@ The Mer-Kin Outpost	SEMIRARE	A Drawer of Chests
 The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
 The Outskirts of Cobb's Knob	SEMIRARE	Lunchboxing
 The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
-The Red Zeppelin	SEMIRARE	Red Fox
+The Red Zeppelin	SEMIRARE	The Red Fox
 The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
 The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
 The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
