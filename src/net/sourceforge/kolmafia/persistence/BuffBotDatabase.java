@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuffBotDatabase
@@ -75,12 +74,6 @@ public class BuffBotDatabase
 
 	private static final TreeMap<String, LockableListModel<Offering>> normalOfferings = new TreeMap<String, LockableListModel<Offering>>();
 	private static final TreeMap<String, LockableListModel<Offering>> freeOfferings = new TreeMap<String, LockableListModel<Offering>>();
-
-	// Variables to know whether or not the buffbot database
-	// has been fully initialized during initialization.
-
-	private static int buffBotsAvailable = 0;
-	private static int buffBotsConfigured = 0;
 
 	public static final int getOffering( String name, final int amount )
 	{
@@ -292,7 +285,7 @@ public class BuffBotDatabase
 		{
 			if ( data.length == 3 )
 			{
-				RequestThread.runInParallel( new DynamicBotFetcher( data ), false );
+				new DynamicBotFetcher( data ).run();
 			}
 		}
 
@@ -303,13 +296,6 @@ public class BuffBotDatabase
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
-		}
-
-		PauseObject pauser = new PauseObject();
-
-		while ( BuffBotDatabase.buffBotsAvailable != BuffBotDatabase.buffBotsConfigured )
-		{
-			pauser.pause( 200 );
 		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
@@ -326,7 +312,6 @@ public class BuffBotDatabase
 			this.botName = data[ 0 ];
 			this.location = data[ 2 ];
 
-			++BuffBotDatabase.buffBotsAvailable;
 			ContactManager.registerPlayerId( data[ 0 ], data[ 1 ] );
 		}
 
@@ -342,7 +327,6 @@ public class BuffBotDatabase
 				BuffBotDatabase.freeOfferings.put( this.botName, new LockableListModel<Offering>() );
 				BuffBotDatabase.normalOfferings.put( this.botName, new LockableListModel<Offering>() );
 
-				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
@@ -351,7 +335,6 @@ public class BuffBotDatabase
 
 			if ( reader == null )
 			{
-				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
@@ -365,7 +348,6 @@ public class BuffBotDatabase
 			}
 			catch ( Exception e )
 			{
-				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
@@ -445,12 +427,6 @@ public class BuffBotDatabase
 				normalBuffs.sort();
 				BuffBotDatabase.normalOfferings.put( this.botName, normalBuffs );
 			}
-
-			// Now that the buffbot is configured, increment
-			// the counter to notify the thread that configuration
-			// has been completed for this bot.
-
-			++BuffBotDatabase.buffBotsConfigured;
 		}
 	}
 }
