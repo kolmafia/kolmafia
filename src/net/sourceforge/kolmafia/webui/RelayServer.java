@@ -37,21 +37,19 @@ package net.sourceforge.kolmafia.webui;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public class RelayServer
 	implements Runnable
 {
-	public static final ArrayList<RelayAgent> agentThreads = new ArrayList<RelayAgent>();
+	public static final Set<RelayAgent> agentThreads = new HashSet<RelayAgent>();
 
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
@@ -179,21 +177,17 @@ public class RelayServer
 
 	private synchronized void closeAgents()
 	{
-		while ( !RelayServer.agentThreads.isEmpty() )
+		for ( RelayAgent agent : agentThreads )
 		{
-			RelayAgent agent = (RelayAgent) RelayServer.agentThreads.remove( 0 );
 			agent.setSocket( null );
 		}
+		agentThreads.clear();
 	}
 
 	private synchronized void dispatchAgent( final Socket socket )
 	{
-		RelayAgent agent = null;
-
-		for ( int i = 0; i < RelayServer.agentThreads.size(); ++i )
+		for ( RelayAgent agent : agentThreads )
 		{
-			agent = (RelayAgent) RelayServer.agentThreads.get( i );
-
 			if ( agent.isWaiting() )
 			{
 				agent.setSocket( socket );
