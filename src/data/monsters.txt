@@ -715,7 +715,6 @@ The Clownlord Beelzebozo	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: 
 The Darkness (blind)	darkness.gif	
 the ghost of Phil Bunion	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 P: undead E: spooky Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
 the gunk	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
-The Luter	theluter.gif	Atk: 75 Def: 67 HP: 100 Init: 50 P: undead	Clancy's lute (n100)
 The Man	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
 The Mariachi With No Name	darkmariachi.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 The Master of Thieves	masterat.gif	ULTRARARE Atk: 70 Def: 63 HP: 70 Init: 10000 P: dude	Platinum Yendorian Express Card (100)
@@ -954,6 +953,7 @@ Wu Tang the Betrayer	susguy.gif	Atk: 200 Def: 89999 HP: 500 Init: 150 P: dude	fo
 # Avatar of Boris
 mountain man	mountainman.gif	Atk: 80 Def: 72 HP: 300 Init: -10000 P: construct	asbestos ore (40)	asbestos ore (10)	chrome ore (40)	chrome ore (10)	linoleum ore (40)	linoleum ore (10)
 The Avatar of Sneaky Pete	sneakypete.gif	BOSS Atk: 225 Def: 202 HP: 800 Init: 200 P: dude
+The Luter	theluter.gif	Atk: 75 Def: 67 HP: 100 Init: 50 P: undead	Clancy's lute (n100)
 
 # Bugbear Invasion
 scavenger bugbear	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast	BURT (100)
@@ -1445,6 +1445,13 @@ suburban security civilian	paulblart.gif	FREE HP: [0.75*(min(MUS+3,300)+max(ML,0
 kid who is too old to be Trick-or-Treating	tooold.gif	FREE HP: [0.75*(min(MUS,250)+max(ML,0))] Def: [min(MUS,250)+max(ML,0)] Atk: [min(MOX,250)+max(ML,0)] Exp: [(min(STAT,250)+max(ML,0))/4] Init: 50 P: dude	bottle of whiskey (15)	Effermint&trade; tablets (10)	sturdy cane (5)
 All-Hallow's Steve	steve.gif	FREE HP: [0.75*(MUS+30+max(ML,0))] Def: [MUS+30+max(ML,0)] Atk: [MOX+30+max(ML,0)] Exp: [(STAT+30+max(ML,0))/4] Init: 90 P: dude	All-Hallow's Steve's fright wig (n100)
 
+# Twitch 1 - Crashed Space Ship (May 2014)
+Government agent	gov_agent.gif	Atk: [MOX-5+max(ML,0)] Def: [MUS-5+max(ML,0)] HP: [0.75*(MUS-5+max(ML,0))] Exp: [(STAT-5+max(ML,0))/4] Init: 25 P: dude Meat: 75	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)
+perimeter defense sphere	defense_sphere.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 100 P: construct	space junk (10)	space junk (c15)
+illegal alien	illegal_alien.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 75 P: humanoid Meat: 65	alien drugs (15)	weird space book (c25)
+space beast	spacebeast3.gif	Atk: [MOX+5+max(ML,0)] Def: [MUS+5+max(ML,0)] HP: [0.75*(MUS+5+max(ML,0))] Exp: [(STAT+5+max(ML,0))/4] Init: 50 P: beast Meat: 163-245	space beast fur (100)
+space beast matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast	twitching space egg (n100)
+
 # Twitch 2 - The Cave Before Time (June 2014)
 droll	droll.gif	Atk: [max(min(MOX+5,500),5)+max(ML,0)] Def: [max(min(MUS+5,500),5)+max(ML,0)] HP: [0.75*(max(min(MUS+5,500),5)+max(ML,0))] Exp: [max(min(STAT+5,500),5)+max(ML,0)] Init: -10000 P: humanoid	D roll (20)	droll monocle (2)
 pterodactyl	pterodact.gif	Atk: [max(min(MOX-2,500),2)+max(ML,0)] Def: [max(min(MUS-2,500),2)+max(ML,0)] HP: [0.75*(max(min(MUS-2,500),2)+max(ML,0))] Exp: [max(min(STAT-2,500),2)+max(ML,0)] Init: -10000 P: beast	Friendliness Beverage (20)	silent pea shooter (2)
@@ -1697,13 +1704,6 @@ Chef Boy, R&amp;D	chefboy.gif	WANDERER HP: [0.75*(MUS+5)+max(ML,0))] Def: [(MUS+
 Warbear Foot Soldier	warbear12.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: beast	warbear whosit (n100)
 Warbear Officer	warbear23.gif	P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
 High-Ranking Warbear Officer	warbear31.gif	Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)
-
-# Twitch 1 - Crashed Space Ship (May 2014)
-Government agent	gov_agent.gif	Atk: [MOX-5+max(ML,0)] Def: [MUS-5+max(ML,0)] HP: [0.75*(MUS-5+max(ML,0))] Exp: [(STAT-5+max(ML,0))/4] Init: 25 P: dude Meat: 75	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)
-perimeter defense sphere	defense_sphere.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 100 P: construct	space junk (10)	space junk (c15)
-illegal alien	illegal_alien.gif	Atk: [MOX-3+max(ML,0)] Def: [MUS-3+max(ML,0)] HP: [0.75*(MUS-3+max(ML,0))] Exp: [(STAT-3+max(ML,0))/4] Init: 75 P: humanoid Meat: 65	alien drugs (15)	weird space book (c25)
-space beast	spacebeast3.gif	Atk: [MOX+5+max(ML,0)] Def: [MUS+5+max(ML,0)] HP: [0.75*(MUS+5+max(ML,0))] Exp: [(STAT+5+max(ML,0))/4] Init: 50 P: beast Meat: 163-245	space beast fur (100)
-space beast matriarch	spacebeast3.gif	BOSS Atk: [MOX+15+max(ML,0)] Def: [MUS+15+max(ML,0)] HP: [0.75*(MUS+15+max(ML,0))] Exp: [(STAT+15+max(ML,0))/4] Init: 0 P: beast	twitching space egg (n100)
 
 # Obsolete Standard Monsters
 7-Foot Dwarf	miner.gif	HP: 40 Def: 47 Atk: 53 Meat: 34-48 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
