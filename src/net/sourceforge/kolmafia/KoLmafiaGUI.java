@@ -219,7 +219,6 @@ public class KoLmafiaGUI
 		{
 			KoLmafia.updateDisplay( "Initializing chat interface..." );
 			ChatManager.initialize();
-
 			return;
 		}
 

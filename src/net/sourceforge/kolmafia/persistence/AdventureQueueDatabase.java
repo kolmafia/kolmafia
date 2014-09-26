@@ -74,8 +74,8 @@ public class AdventureQueueDatabase
 {
 	private static final long serialVersionUID = -180241952508113931L;
 
-	private static TreeMap<String, RollingLinkedList> COMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
-	private static TreeMap<String, RollingLinkedList> NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
+	private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
+	private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
 
 	// debugging tool
 	public static void showQueue()
@@ -84,14 +84,17 @@ public class AdventureQueueDatabase
 
 		for ( String key : keys )
 		{
-			RollingLinkedList zoneQueue = COMBAT_QUEUE.get( key );
+			RollingLinkedList<String> zoneQueue = COMBAT_QUEUE.get( key );
 
 			StringBuilder builder = new StringBuilder( key + ": " );
 
-			for ( Object it : zoneQueue )
+			for ( String it : zoneQueue )
 			{
 				if ( it != null )
-					builder.append( it.toString() ).append( " | " );
+				{
+					builder.append( it );
+					builder.append( " | " );
+				}
 			}
 			RequestLogger.printLine( builder.toString() );
 		}
@@ -103,14 +106,17 @@ public class AdventureQueueDatabase
 
 		for ( String key : keys )
 		{
-			RollingLinkedList zoneQueue = NONCOMBAT_QUEUE.get( key );
+			RollingLinkedList<String> zoneQueue = NONCOMBAT_QUEUE.get( key );
 
 			StringBuilder builder = new StringBuilder( key + ": " );
 
-			for ( Object it : zoneQueue )
+			for ( String it : zoneQueue )
 			{
 				if ( it != null )
-					builder.append( it.toString() ).append( " | " );
+				{
+					builder.append( it );
+					builder.append( " | " );
+				}
 			}
 			RequestLogger.printLine( builder.toString() );
 		}
@@ -123,16 +129,15 @@ public class AdventureQueueDatabase
 
 	private static void resetQueue( boolean serializeAfterwards )
 	{
-		AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
-		AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
+		AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
+		AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
 
-		List< ? > list = AdventureDatabase.getAsLockableListModel();
+		List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 
-		for ( Object ob : list )
+		for ( KoLAdventure adv : list )
 		{
-			KoLAdventure adv = (KoLAdventure) ob;
-			AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
-			AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+			AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<String>( 5 ) );
+			AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<String>( 5 ) );
 		}
 
 		if ( serializeAfterwards )
@@ -145,14 +150,13 @@ public class AdventureQueueDatabase
 	{
 		// See if any zones aren't in the TreeMap.  Add them if so.
 
-		List< ? > list = AdventureDatabase.getAsLockableListModel();
+		List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 		Set<String> keys = COMBAT_QUEUE.keySet();
 
 		boolean keyAdded = false;
 
-		for ( Object ob : list )
+		for ( KoLAdventure adv : list )
 		{
-			KoLAdventure adv = (KoLAdventure) ob;
 			if ( !keys.contains( adv.getAdventureName() ) )
 			{
 				AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
@@ -162,9 +166,8 @@ public class AdventureQueueDatabase
 
 		keys = NONCOMBAT_QUEUE.keySet();
 
-		for ( Object ob : list )
+		for ( KoLAdventure adv : list )
 		{
-			KoLAdventure adv = (KoLAdventure) ob;
 			if ( !keys.contains( adv.getAdventureName() ) )
 			{
 				AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
@@ -260,7 +263,7 @@ public class AdventureQueueDatabase
 			ObjectOutputStream out = new ObjectOutputStream( fileOut );
 
 			// make a collection with combat queue first
-			List<TreeMap<String, RollingLinkedList>> queues = new ArrayList<TreeMap<String, RollingLinkedList>>();
+			List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<TreeMap<String, RollingLinkedList<String>>>();
 			queues.add( COMBAT_QUEUE );
 			queues.add( NONCOMBAT_QUEUE );
 			out.writeObject( queues );
@@ -290,8 +293,7 @@ public class AdventureQueueDatabase
 			FileInputStream fileIn = new FileInputStream( file );
 			ObjectInputStream in = new ObjectInputStream( fileIn );
 
-			List<TreeMap<String, RollingLinkedList>> queues =
-				(List<TreeMap<String, RollingLinkedList>>) in.readObject();
+			List<TreeMap<String, RollingLinkedList<String>>> queues = (List<TreeMap<String, RollingLinkedList<String>>>) in.readObject();
 
 			// Combat queue is first
 			COMBAT_QUEUE = queues.get( 0 );
@@ -345,21 +347,21 @@ public class AdventureQueueDatabase
 		// a = weight of monsters in the zone
 		// b = weight of monsters in the queue
 
-		HashSet<Object> zoneSet = new HashSet<Object>( zoneQueue ); // just care about unique elements
+		HashSet<String> zoneSet = new HashSet<String>( zoneQueue ); // just care about unique elements
 
 		// Ignore monsters in the queue that aren't actually part of the zone's normal monster list
 		// This includes monsters that have special conditions to find and wandering monsters
 		// that are not part of the location at all
 		// Ignore olfacted monsters, as these are never rejected
 		int queueWeight = 0;
-		Iterator iter = zoneSet.iterator();
-		while ( iter.hasNext() )
+		for ( String mon : zoneSet )
 		{
-			String mon = (String) iter.next();
 			MonsterData queueMonster = MonsterDatabase.findMonster( mon, false );
 			int index = data.getMonsterIndex( queueMonster );
-			boolean olfacted = Preferences.getString( "olfactedMonster" ).equals( queueMonster.getName() ) && 
-							KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+			boolean olfacted =
+				queueMonster != null &&
+				Preferences.getString( "olfactedMonster" ).equals( queueMonster.getName() ) && 
+				KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 			if ( index != -1 && data.getWeighting( index ) > 0 && !olfacted )
 			{
 				queueWeight += data.getWeighting( index );
