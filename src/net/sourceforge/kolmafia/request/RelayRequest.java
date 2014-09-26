@@ -2948,7 +2948,7 @@ public class RelayRequest
 			if ( areaSummary != null )
 			{
 				isNonCombatsOnly = areaSummary.combats() == 0 && areaSummary.getMonsterCount() == 0
-							&& !KoLAdventure.hasWanderingMonsters( urlString );
+							&& areaSummary.getSuperlikelyMonsterCount() == 0 && !KoLAdventure.hasWanderingMonsters( urlString );
 			}
 		}
 
