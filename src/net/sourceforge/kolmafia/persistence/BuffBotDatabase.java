@@ -34,23 +34,28 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -135,7 +140,7 @@ public class BuffBotDatabase
 			return 0;
 		}
 
-		RequestThread.runInParallel( new DynamicBotFetcher( data ), false );
+		new DynamicBotFetcher( data ).run();
 
 		// If this is clearly not a philanthropic buff, then
 		// no alternative amount needs to be sent.
@@ -292,7 +297,7 @@ public class BuffBotDatabase
 		{
 			if ( data.length == 3 )
 			{
-				RequestThread.runInParallel( new DynamicBotFetcher( data ), false );
+				( new DynamicBotFetcher( data ) ).start();
 			}
 		}
 
@@ -317,12 +322,13 @@ public class BuffBotDatabase
 	}
 
 	private static class DynamicBotFetcher
-		implements Runnable
+		extends Thread
 	{
 		private final String botName, location;
 
 		public DynamicBotFetcher( final String[] data )
 		{
+			super( "DynamicBotFetcher" );
 			this.botName = data[ 0 ];
 			this.location = data[ 2 ];
 
@@ -330,6 +336,7 @@ public class BuffBotDatabase
 			ContactManager.registerPlayerId( data[ 0 ], data[ 1 ] );
 		}
 
+		@Override
 		public void run()
 		{
 			if ( BuffBotDatabase.freeOfferings.containsKey( this.botName ) || BuffBotDatabase.normalOfferings.containsKey( this.botName ) )

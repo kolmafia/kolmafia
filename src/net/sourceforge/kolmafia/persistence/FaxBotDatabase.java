@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,13 +50,15 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -63,6 +66,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
 import org.xml.sax.SAXException;
 
 public class FaxBotDatabase
@@ -145,7 +149,7 @@ public class FaxBotDatabase
 		FaxBotDatabase.faxBotError = false;
 		KoLmafia.forceContinue();
 
-		RequestThread.runInParallel( new DynamicBotFetcher( data ), false );
+		( new DynamicBotFetcher( data ) ).start();
 
 		PauseObject pauser = new PauseObject();
 
@@ -414,15 +418,17 @@ public class FaxBotDatabase
 	}
 
 	private static class DynamicBotFetcher
-		implements Runnable
+		extends Thread
 	{
 		private final BotData data;
 
 		public DynamicBotFetcher( final BotData data )
 		{
+			super( "DynamicBotFetcher" );
 			this.data = data;
 		}
 
+		@Override
 		public void run()
 		{
 			// Start with a clean slate
