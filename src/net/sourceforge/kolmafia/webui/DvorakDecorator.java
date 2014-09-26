@@ -174,7 +174,7 @@ public abstract class DvorakDecorator
 				return;
 			}
 
-			message = "Give me a" + ( match == 'A' ? "n " : " " ) + match + "!";
+			message = "Give me a" + ( match == 'B' ? " " : "n " ) + match + "!";
 
 			KoLmafia.updateDisplay( message );
 			RequestLogger.updateSessionLog( message );
