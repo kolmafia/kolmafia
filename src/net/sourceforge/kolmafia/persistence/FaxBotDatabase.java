@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -141,7 +142,7 @@ public class FaxBotDatabase
 		FaxBotDatabase.faxBotError = false;
 		KoLmafia.forceContinue();
 
-		new DynamicBotFetcher( data ).run();
+		RequestThread.postRequest( new DynamicBotFetcher( data ) );
 
 		if ( FaxBotDatabase.faxBotError )
 		{

@@ -285,7 +285,7 @@ public class BuffBotDatabase
 		{
 			if ( data.length == 3 )
 			{
-				new DynamicBotFetcher( data ).run();
+				RequestThread.postRequest( new DynamicBotFetcher( data ) );
 			}
 		}
 
