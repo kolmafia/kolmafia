@@ -1240,6 +1240,10 @@ public class SVNManager
 					if ( !KoLmafia.permitsContinue() )
 						return;
 
+					// skip hidden files; OSX tends to pepper your filesystem with them, apparently
+					if ( f.getName().startsWith( "." ) )
+						continue;
+
 					if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
 					{
 						if ( WCAtHead( f ) )
