@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.objectpool;
 
+import java.lang.NullPointerException;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -115,6 +117,7 @@ public class Concoction
 	public boolean hotdog;
 	public boolean fancydog;
 	public boolean speakeasy;
+	public boolean steelOrgan;
 
 	private int fullness, inebriety, spleenhit;
 	private double mainstatGain;
@@ -163,6 +166,11 @@ public class Concoction
 		this.price = -1;
 		this.property = null;
 		this.special = false;
+		this.steelOrgan = 
+			this.name != null &&
+			( this.name.equals( "steel margarita" ) ||
+			  this.name.equals( "steel lasagna" ) ||
+			  this.name.equals( "steel-scented air freshener" ) );
 
 		this.resetCalculations();
 	}
@@ -270,14 +278,169 @@ public class Concoction
 		return this.isReagentPotion;
 	}
 
-	public int compareTo( final Concoction other )
+	/*
+	  From the definition of Comparable<T>:
+
+	  This interface imposes a total ordering on the objects of each class
+	  that implements it. This ordering is referred to as the class's
+	  natural ordering, and the class's compareTo method is referred to as
+	  its natural comparison method.
+
+	  Lists (and arrays) of objects that implement this interface can be
+	  sorted automatically by Collections.sort (and Arrays.sort). Objects
+	  that implement this interface can be used as keys in a sorted map or
+	  as elements in a sorted set, without the need to specify a
+	  comparator.
+
+	  The natural ordering for a class C is said to be consistent with
+	  equals if and only if e1.compareTo(e2) == 0 has the same boolean
+	  value as e1.equals(e2) for every e1 and e2 of class C. Note that null
+	  is not an instance of any class, and e.compareTo(null) should throw a
+	  NullPointerException even though e.equals(null) returns false.
+
+	  It is strongly recommended (though not required) that natural
+	  orderings be consistent with equals. This is so because sorted sets
+	  (and sorted maps) without explicit comparators behave "strangely"
+	  when they are used with elements (or keys) whose natural ordering is
+	  inconsistent with equals. In particular, such a sorted set (or sorted
+	  map) violates the general contract for set (or map), which is defined
+	  in terms of the equals method.
+	*/
+
+	/*
+	  From the definition of Object.equals:
+
+	  The equals method implements an equivalence relation on non-null object references:
+
+	  - It is reflexive: for any non-null reference value x, x.equals(x)
+            should return true.
+	  - It is symmetric: for any non-null reference values x and y,
+            x.equals(y) should return true if and only if y.equals(x) returns
+            true.
+	  - It is transitive: for any non-null reference values x, y, and z, if
+            x.equals(y) returns true and y.equals(z) returns true, then
+            x.equals(z) should return true.
+	  - It is consistent: for any non-null reference values x and y,
+            multiple invocations of x.equals(y) consistently return true or
+            consistently return false, provided no information used in equals
+            comparisons on the objects is modified.
+	  - For any non-null reference value x, x.equals(null) should return
+            false.
+
+	    Note that it is generally necessary to override the hashCode method
+	    whenever this method is overridden, so as to maintain the general
+	    contract for the hashCode method, which states that equal objects
+	    must have equal hash codes.
+	*/
+
+	@Override
+	public boolean equals( final Object o )
 	{
-		if ( other == null || !( other instanceof Concoction ) )
+		// For any non-null reference value x, x.equals(null) should
+		// return false.
+
+		if ( o == null || !( o instanceof Concoction ) )
 		{
-			return -1;
+			return false;
 		}
 
-		Concoction o = (Concoction) other;
+		// Concoction.compareTo() returns 0 only if the names match exactly
+
+		Concoction other = (Concoction) o;
+		if ( this.name == null )
+		{
+			return other.name == null;
+		}
+
+		if ( other.name == null )
+		{
+			return false;
+		}
+
+		return this.name.equals( other.name );
+	}
+
+	/*
+	  From the definition of Object.hashcode:
+
+	  The general contract of hashCode is:
+
+	  - Whenever it is invoked on the same object more than once during an
+            execution of a Java application, the hashCode method must
+            consistently return the same integer, provided no information used
+            in equals comparisons on the object is modified. This integer need
+            not remain consistent from one execution of an application to
+            another execution of the same application.
+
+	  - If two objects are equal according to the equals(Object) method,
+            then calling the hashCode method on each of the two objects must
+            produce the same integer result.
+
+	  - It is not required that if two objects are unequal according to the
+            equals(java.lang.Object) method, then calling the hashCode method
+            on each of the two objects must produce distinct integer
+            results. However, the programmer should be aware that producing
+            distinct integer results for unequal objects may improve the
+            performance of hash tables.
+	*/
+
+	@Override
+	public int hashCode()
+	{
+		// Concoctions are equal only if their names are equal
+		return this.name != null ? this.name.hashCode() : 0;
+	}
+
+	/*
+	  From the definition of Comparable.compareTo:
+
+	  Compares this object with the specified object for order. Returns a
+	  negative integer, zero, or a positive integer as this object is less
+	  than, equal to, or greater than the specified object.
+
+	  The implementor must ensure
+	  	sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
+	  for all x and y. (This implies that x.compareTo(y) must throw an
+	  exception iff y.compareTo(x) throws an exception.)
+
+	  The implementor must also ensure that the relation is transitive:
+	  (x.compareTo(y)>0 && y.compareTo(z)>0) implies x.compareTo(z)>0.
+
+	  Finally, the implementor must ensure that x.compareTo(y)==0 implies
+	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
+
+	  It is strongly recommended, but not strictly required that
+	  (x.compareTo(y)==0) == (x.equals(y)). Generally speaking, any class
+	  that implements the Comparable interface and violates this condition
+	  should clearly indicate this fact. The recommended language is "Note:
+	  this class has a natural ordering that is inconsistent with equals."
+
+	  In the foregoing description, the notation sgn(expression) designates
+	  the mathematical signum function, which is defined to return one of
+	  -1, 0, or 1 according to whether the value of expression is negative,
+	  zero or positive.
+	*/
+
+	public int compareTo( final Concoction o )
+	{
+		// Note that null is not an instance of any class, and
+		// e.compareTo(null) should throw a NullPointerException even
+		// though e.equals(null) returns false.
+
+		if ( o == null )
+		{
+			throw new NullPointerException();
+		}
+
+		// If the object we are comparing to is not a Concoction, punt
+		// and let it decide on the ordering.
+		//
+		// Given the signature of this method, this shouldn't happen.
+
+		if ( !( o instanceof Concoction ) )
+		{
+			return -o.compareTo( this );
+		}
 
 		if ( this.name == null )
 		{
@@ -294,43 +457,51 @@ public class Concoction
 			return this.sortOrder - o.sortOrder;
 		}
 
-		if ( this.name.startsWith( "steel" ) )
+		// Sort steel organs to the top.
+		if ( this.steelOrgan )
 		{
-			return -1;
+			return o.steelOrgan ? this.name.compareTo( o.name ) : -1;
 		}
-		else if ( o.name.startsWith( "steel" ) )
+		else if ( o.steelOrgan )
 		{
 			return 1;
 		}
 
-		boolean thisCantConsume = false, oCantConsume = false;
-		int limit;
+		boolean thisCantConsume = false;
+		boolean oCantConsume = false;
 
 		switch ( this.sortOrder )
 		{
 		case NO_PRIORITY:
-			return this.name.compareToIgnoreCase( o.name );
+			return this.name.compareTo( o.name );
 
 		case FOOD_PRIORITY:
-			limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
+		{
+			int limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
 				- ConcoctionDatabase.getQueuedFullness();
 			thisCantConsume = this.fullness > limit;
 			oCantConsume = o.fullness > limit;
 			break;
+		}
 
 		case BOOZE_PRIORITY:
-			limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
+		{
+			int limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
 				- ConcoctionDatabase.getQueuedInebriety();
 			thisCantConsume = this.inebriety > limit;
 			oCantConsume = o.inebriety > limit;
 			break;
+		}
 
 		case SPLEEN_PRIORITY:
-			limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
+		{
+			int limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
 				- ConcoctionDatabase.getQueuedSpleenHit();
 			thisCantConsume = this.spleenhit > limit;
 			oCantConsume = o.spleenhit > limit;
 		}
+		}
+
 		if ( Preferences.getBoolean( "sortByRoom" ) && (thisCantConsume != oCantConsume) )
 		{
 			return thisCantConsume ? 1 : -1;
@@ -376,34 +547,7 @@ public class Concoction
 			return gain2 - gain1 > 0.0f ? 1 : -1;
 		}
 
-		return this.name.compareToIgnoreCase( o.name );
-	}
-
-	@Override
-	public boolean equals( final Object o )
-	{
-		if ( o == null || !( o instanceof Concoction ) )
-		{
-			return false;
-		}
-
-		if ( this.name == null )
-		{
-			return ( (Concoction) o ).name == null;
-		}
-
-		if ( ( (Concoction) o ).name == null )
-		{
-			return false;
-		}
-
-		return this.name.equals( ( (Concoction) o ).name );
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return this.name != null ? this.name.hashCode() : 0;
+		return this.name.compareTo( o.name );
 	}
 
 	public AdventureResult getItem()

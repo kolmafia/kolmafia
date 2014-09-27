@@ -1426,7 +1426,7 @@ Engorged Sausages and You	100	Mys: 35
 eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
 fancy opera glasses	50	Mys: 10
-fishbone catcher's mitt	0	none
+fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
 flimsy clipboard	50	Mus: 10	shield
 foon	30	none
@@ -1859,7 +1859,7 @@ dope gangsta bling-bling	45	Mys: 7
 Dreadsylvania Auditor's badge	250	Mys: 200
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
-duonoculars	0	Mys: 17
+duonoculars	65	Mys: 17
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
@@ -1884,11 +1884,11 @@ fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
-fishbone belt	0	none
-fishbone bracers	0	none
-fishbone facemask	0	none
-fishbone fins	0	none
-fishbone kneepads	0	none
+fishbone belt	20	none
+fishbone bracers	20	none
+fishbone facemask	20	none
+fishbone fins	20	none
+fishbone kneepads	20	none
 flapper floppers	100	Mys: 35
 flashing novelty button	20	none
 flask flops	10	none
