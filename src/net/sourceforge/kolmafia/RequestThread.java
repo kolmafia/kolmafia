@@ -349,7 +349,10 @@ public abstract class RequestThread
 
 		Integer requestIdObj = IntegerPool.get( requestId );
 
-		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
+		// Don't include relay requests in "request sequences" - this could stop the display from being enabled 
+		// if it ends up being the last thread removed from the threadMap.
+		if ( !StaticEntity.isRelayThread() )
+			RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
 
 		return requestIdObj;
 	}

@@ -47,7 +47,6 @@ import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -166,7 +165,6 @@ public abstract class KoLmafia
 	public static boolean redoSkippedAdventures = true;
 
 	public static boolean isMakingRequest = false;
-	public static MafiaState continuationState = MafiaState.CONTINUE;
 	public static MafiaState displayState = MafiaState.ENABLE;
 	private static boolean allowDisplayUpdate = true;
 
@@ -517,14 +515,14 @@ public abstract class KoLmafia
 
 	public static final void updateDisplay( final MafiaState state, final String message )
 	{
-		if ( KoLmafia.continuationState == MafiaState.ABORT && state != MafiaState.ABORT )
+		if ( StaticEntity.getContinuationState() == MafiaState.ABORT && state != MafiaState.ABORT )
 		{
 			return;
 		}
 
-		if ( KoLmafia.continuationState != MafiaState.PENDING || state == MafiaState.ABORT )
+		if ( StaticEntity.getContinuationState() != MafiaState.PENDING || state == MafiaState.ABORT )
 		{
-			KoLmafia.continuationState = state;
+			StaticEntity.setContinuationState( state );
 		}
 
 		RequestLogger.printLine( state, message );
@@ -544,6 +542,10 @@ public abstract class KoLmafia
 
 	private static final void updateDisplayState( final MafiaState state, final String message )
 	{
+		// Relay threads don't get to change the display state
+		if ( StaticEntity.isRelayThread() )
+			return;
+
 		// Update all panels and frames with the message.
 
 		if ( KoLmafia.allowDisplayUpdate )
@@ -584,16 +586,17 @@ public abstract class KoLmafia
 
 	public static final void enableDisplay()
 	{
-		if ( KoLmafia.continuationState == MafiaState.ABORT || KoLmafia.continuationState == MafiaState.ERROR )
+		if ( StaticEntity.getContinuationState() == MafiaState.ABORT ||
+			StaticEntity.getContinuationState() == MafiaState.ERROR )
 		{
 			KoLmafia.updateDisplayState( MafiaState.ERROR, "" );
 		}
 		else
 		{
-			KoLmafia.updateDisplayState( MafiaState.ENABLE,	"" );
+			KoLmafia.updateDisplayState( MafiaState.ENABLE, "" );
 		}
 
-		KoLmafia.continuationState = MafiaState.CONTINUE;
+		StaticEntity.setContinuationState( MafiaState.CONTINUE );
 	}
 
 	public static final void timein( final String name )
@@ -1267,7 +1270,7 @@ public abstract class KoLmafia
 					"Conditions not satisfied after " + ( currentIteration - 1 ) + ( currentIteration == 2 ? " adventure." : " adventures." ) );
 			}
 		}
-		else if ( KoLmafia.continuationState == MafiaState.PENDING )
+		else if ( StaticEntity.getContinuationState() == MafiaState.PENDING )
 		{
 			Interpreter.rememberPendingState();
 			KoLmafia.forceContinue();
@@ -1415,7 +1418,7 @@ public abstract class KoLmafia
 
 	public static final boolean permitsContinue()
 	{
-		return KoLmafia.continuationState == MafiaState.CONTINUE;
+		return StaticEntity.getContinuationState() == MafiaState.CONTINUE;
 	}
 
 	/**
@@ -1427,7 +1430,7 @@ public abstract class KoLmafia
 
 	public static final boolean refusesContinue()
 	{
-		return KoLmafia.continuationState == MafiaState.ABORT;
+		return StaticEntity.getContinuationState() == MafiaState.ABORT;
 	}
 
 	/**
@@ -1438,7 +1441,7 @@ public abstract class KoLmafia
 
 	public static final void forceContinue()
 	{
-		KoLmafia.continuationState = MafiaState.CONTINUE;
+		StaticEntity.setContinuationState( MafiaState.CONTINUE );
 	}
 
 	/**
