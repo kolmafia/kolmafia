@@ -179,7 +179,7 @@ public class CommandDisplayFrame
 
 		public void handleQueue()
 		{
-			while ( true )
+			do
 			{
 				RequestLogger.printLine();
 				RequestLogger.printLine( " > " + StringUtilities.globalStringReplace( this.command, "<", "&lt;" ) );
@@ -200,16 +200,10 @@ public class CommandDisplayFrame
 					CommandDisplayFrame.commandQueue.clear();
 				}
 
-				synchronized ( CommandDisplayFrame.commandQueue )
-				{
-					String next = CommandDisplayFrame.commandQueue.poll();
+				this.command = CommandDisplayFrame.commandQueue.poll();
 
-					if ( next == null )
-						return;
-
-					this.command = next;
-				}
 			}
+			while ( this.command != null );
 		}
 	}
 }
