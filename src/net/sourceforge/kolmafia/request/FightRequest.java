@@ -3058,7 +3058,7 @@ public class FightRequest
 
 		if ( adventure == AdventurePool.POST_MALL )
 		{
-			if ( monster.equals( "sentient ATM" ) && !FightRequest.fightingCopy )
+			if ( monster.equalsIgnoreCase( "sentient ATM" ) && !FightRequest.fightingCopy )
 			{
 				Preferences.setInteger( "postMallTurns", 1 );
 			}
