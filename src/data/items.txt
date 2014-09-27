@@ -7832,3 +7832,16 @@
 7813	seared dino steak	112386694	jarl_steak.gif	food	t,d	36
 7814	bottle of drinkin' gas	464736767	beerbottle.gif	drink	t,d	0	bottles of drinkin' gas
 7815	handful of napalm	957617467	blankoutglob.gif	none, combat	t,d	33	handsful of napalm
+7816
+7817
+7818
+7819
+7820
+7821
+7822
+7823
+7824	iShield	429328094	ishield.gif	offhand	t	0
+7825	white earbuds	983431802	earbuds.gif	accessory	t	0
+7826	iFlail	739978940	iflail.gif	weapon	t	0
+7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0
+7828	flat cider	398463159	flatcider.gif	drink	t	0

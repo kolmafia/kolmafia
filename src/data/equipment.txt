@@ -963,6 +963,7 @@ huge spoon	90	Mys: 30	1-handed utensil
 ice nine	100	Mox: 0	1-handed
 ice sickle	100	Mus: 0	1-handed knife
 icy-hot katana	90	Mus: 30	2-handed sword
+iFlail	100	Mox: 35	1-handed flail
 immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
@@ -1474,6 +1475,7 @@ ice baby	0	none
 ice bucket	0	none
 Idol of Ak'gyxoth	0	none
 incredibly creepy marionette	110	Mys: 40
+iShield	0	Mus: 35	shield
 ivory cue ball	30	none
 jar of frostigkraut	0	Mys: 35
 Jarlsberg's pan	0	none
@@ -2519,6 +2521,7 @@ whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
+white earbuds	0	Mys: 35
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
 woven baling wire bracelets	180	Mys: 75

@@ -1123,6 +1123,7 @@ huge spoon	Spell Damage: +10
 ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5, Lasts Until Rollover
 ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
+iFlail	Monster Level: +11, Familiar Weight: +5, Combat Rate: -5
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 infernal fife	Hot Damage: +7
 infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
@@ -1722,6 +1723,7 @@ ice baby	Experience: +3, Softcore Only
 ice bucket	Item Drop: +20, Lasts Until Rollover
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 incredibly creepy marionette	Mysticality: +3
+iShield	Hot Resistance: +3, Damage Reduction: 16, Moxie Percent: +15
 ivory cue ball	Item Drop: +5
 # jar of frostigkraut: Deals Cold Damage every round
 jar of frostigkraut	Cold Damage: +10
@@ -2919,6 +2921,7 @@ whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
+white earbuds	Spooky Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Monster Level: -11, Single Equip
 witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
@@ -4259,6 +4262,7 @@ Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
+Fruited	Maximum HP: +100, Maximum MP: +100
 # Fudge Headache: Find 75% more Fudge
 # Fudgehound: Find 50% more Fudge
 Full Bottle in front of Me	Spell Damage Percent: +30
@@ -5952,6 +5956,7 @@ triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
 turtle soup	Effect: "A Little Bit Evil"
 ultrafondue	Effect: "Fondid", Effect Duration: 30
 unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
+unidentifiable dried fruit Effect: "Fruited", Effect Duration: 50
 Ur-Donut	Effect: "Sugar Rush", Effect Duration: 10
 video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
@@ -6052,6 +6057,7 @@ Flaming Sazerorc	Effect: "Orc Chops", Effect Duration: 15
 Flying Caipiranha	Effect: "Fishy", Effect Duration: 10
 French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Duration: 40
 Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
+flat cider	Effect: "Fruited", Effect Duration: 100
 Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
 gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 Golden Mean	Effect: "World's Shortest Giant", Effect Duration: 10
