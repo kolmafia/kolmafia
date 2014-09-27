@@ -668,6 +668,12 @@ public class NPCPurchaseRequest
 			ShoeRepairRequest.parseResponse( urlString, responseText );
 			return;
 		}
+
+		if ( shopId.equals( "applestore" ) )
+		{
+			AppleStoreRequest.parseResponse( urlString, responseText );
+			return;
+		}
 		}
 
 	public static final boolean registerShopRowRequest( final String urlString )
@@ -868,6 +874,11 @@ public class NPCPurchaseRequest
 			if ( shopId.startsWith( "shoeshop" ) )
 			{
 				return ShoeRepairRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "applestore" ) )
+			{
+				return AppleStoreRequest.registerRequest( urlString );
 			}
 
 			return false;

@@ -37,6 +37,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
@@ -77,6 +78,7 @@ public abstract class CoinmasterRegistry
 	public static final CoinmasterData [] COINMASTERS = new CoinmasterData[]
 	{
 		AltarOfBonesRequest.ALTAR_OF_BONES,
+		AppleStoreRequest.APPLE_STORE,
 		AWOLQuartermasterRequest.AWOL,
 		BigBrotherRequest.BIG_BROTHER,
 		BountyHunterHunterRequest.BHH,

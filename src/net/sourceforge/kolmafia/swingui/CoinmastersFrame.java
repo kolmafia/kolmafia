@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -153,6 +154,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel travelerPanel = null;
 	private CoinmasterPanel neandermallPanel = null;
 	private CoinmasterPanel shoeRepairPanel = null;
+	private CoinmasterPanel applePanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
@@ -334,6 +336,11 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( shoeRepairPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
+		applePanel = new ApplePanel();
+		panel.add( applePanel );
+		this.selectorPanel.addPanel( applePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
 		travelerPanel = new TravelingTraderPanel();
 		panel.add( travelerPanel );
 		this.selectorPanel.addPanel( travelerPanel.getPanelSelector(), panel );
@@ -443,6 +450,7 @@ public class CoinmastersFrame
 		fudgeWandPanel.update();
 		neandermallPanel.update();
 		shoeRepairPanel.update();
+		applePanel.update();
 		travelerPanel.update();
 		altarOfBonesPanel.update();
 		crimboCartelPanel.update();
@@ -601,6 +609,15 @@ public class CoinmastersFrame
 		public ShoeRepairPanel()
 		{
 			super( ShoeRepairRequest.SHOE_REPAIR );
+		}
+	}
+
+	public class ApplePanel
+		extends CoinmasterPanel
+	{
+		public ApplePanel()
+		{
+			super( AppleStoreRequest.APPLE_STORE );
 		}
 	}
 

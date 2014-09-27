@@ -209,6 +209,7 @@ Flaming Mohobo	2	8	awesome	8-9	15-20	15-20	15-20	15 Mo' Hobo (+10 Hobo power)
 flaming mushroom wine	3	6	awesome	10-14	12-15	0	0
 Flaming Sazerorc	2	8	awesome	8-9	30-40	0	0	15 Orc Chops (+50 Muscle)
 flask of Amontillado	4	4	awesome	10-15	10-30	15-30	10-30
+flat cider	2	6	EPIC	0	0	0	0	100 Fruited
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 Flivver	2	1	EPIC	12-13	10-20	10-20	10-20	50-100 MP
 flute of flat champagne	2	2	decent	2-6	0	15	0

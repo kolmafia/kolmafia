@@ -628,6 +628,14 @@ Legitimate Shoe Repair, Inc.	buy	200	gumshoes	ROW317
 Legitimate Shoe Repair, Inc.	buy	400	flapper floppers	ROW318
 Legitimate Shoe Repair, Inc.	buy	600	sneakeasies	ROW319
 
+# Things you can buy with Chroners
+
+The Applecalypse Store	buy	25	unidentifiable dried fruit	ROW354
+The Applecalypse Store	buy	50	flat cider	ROW355
+The Applecalypse Store	buy	300	iShield	ROW356
+The Applecalypse Store	buy	600	white earbuds	ROW357
+The Applecalypse Store	buy	900	iFlail	ROW358
+
 # Things you can buy with freshwater fishbones
 
 Freshwater Fishbonery	buy	5	fishbone belt	ROW326
