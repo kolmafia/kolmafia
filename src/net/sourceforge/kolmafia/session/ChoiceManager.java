@@ -7453,10 +7453,10 @@ public abstract class ChoiceManager
 			{
 				break;
 			}
-			int qty = -11;
+			int qty = -1;
 			if ( urlString.contains( "giveten" ) )
 			{
-				qty = -110;
+				qty = -10;
 			}
 			// Declare the pattern here instead of globally because this is available infrequently
 			Pattern encampmentPattern = Pattern.compile( "whichfood=(\\d+)" );

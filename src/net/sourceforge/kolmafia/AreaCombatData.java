@@ -1166,6 +1166,18 @@ public class AreaCombatData
 				return bossTurns > 7 || QuestDatabase.isQuestLaterThan( Quest.BAT, "step3" ) ? -4 : 1;
 			}
 		}
+		if ( zone.equals( "The Post-Mall" ) )
+		{
+			int mallTurns = Preferences.getInteger( "postMallTurns" );
+			if ( monster.equals( "sentient ATM" ) )
+			{
+				return mallTurns == 11 ? 1 : 0;
+			}
+			else
+			{
+				return mallTurns == 11 ? -4 : 1;
+			}
+		}
 		return weighting;
 	}
 

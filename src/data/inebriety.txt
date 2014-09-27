@@ -53,6 +53,7 @@ bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of Definit	3	2	decent	4-8	0	0	0
 bottle of Domesticated Turkey	3	2	decent	4-8	0	0	0
+bottle of drinkin' gas	2	3	good	0	0	0	0
 bottle of Evermore	3	5	decent	5-7	10-20	0	10-20	The Dark Lord Rides in Force Tonight (+40 Spooky Damage)
 bottle of fruity &quot;wine&quot;	2	5	good	4-5	2-5	2-5	2-5	KOLHS
 bottle of gin	3	1	crappy	3	0	0	0

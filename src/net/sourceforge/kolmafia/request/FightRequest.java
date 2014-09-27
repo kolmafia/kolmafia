@@ -3056,6 +3056,18 @@ public class FightRequest
 			Preferences.increment( "snowmanTurns", 1 );
 		}
 
+		if ( adventure == AdventurePool.POST_MALL )
+		{
+			if ( monster.equals( "sentient ATM" ) && !FightRequest.fightingCopy )
+			{
+				Preferences.setInteger( "postMallTurns", 1 );
+			}
+			else
+			{
+				Preferences.increment( "postMallTurns", 1 );
+			}
+		}
+
 		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );

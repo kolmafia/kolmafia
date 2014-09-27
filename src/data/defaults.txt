@@ -698,6 +698,7 @@ user	plantingScript
 user	poolSharkCount	0
 user	poolSkill	0
 user	postAscensionScript
+user	postMallTurns	0
 user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0

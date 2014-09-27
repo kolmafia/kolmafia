@@ -287,6 +287,7 @@ The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 The Poop Deck	100	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pirate
+The Post-Mall	-1	T-9000	damned dirty ape	jet-ski bandit	Z-Rex	superdupervirus	sentient ATM: 0
 The Primordial Soup	-1	cluster of angry bacteria	corrosive algae	hostile amoeba	mad flagellate	violent fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
