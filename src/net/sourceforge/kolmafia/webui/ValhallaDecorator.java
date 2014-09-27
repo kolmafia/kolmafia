@@ -450,8 +450,7 @@ public class ValhallaDecorator
 		String response = eudoraCheck.responseText;
 		if ( !response.contains( "Eudora" ) )
 		{
-			// We do not have at least two options, so the tab does not exist
-			// and the default tab loaded instead
+			// No choices as tab does not exist
 			return;
 		}
 
@@ -498,6 +497,12 @@ public class ValhallaDecorator
 					activeEudora = "Xi Receiver";
 				}
 			}
+		}
+
+		if ( ( havePenpal ? 1 : 0 ) + ( haveGamemag ? 1 : 0 ) + ( haveXi ? 1 : 0 ) < 2 )
+		{
+			// No choice to make
+			return;
 		}
 
 		buffer.append( "<nobr>Eudora: " );
