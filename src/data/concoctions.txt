@@ -2459,7 +2459,7 @@ Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
 picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
-# Crashed Space Ship
+# Twitch Events
 government	ACOMBINE	anticheese	government cheese
 stealth bomber	MIX	government	rocket fuel
 buffed alien drugs	COMBINE	alien drugs	alien protein powder
@@ -2472,6 +2472,9 @@ space heater	MUSE	space junk (20)
 space beast fur hat	SMITH	space beast fur	basic meat helmet
 space beast fur pants	SMITH	space beast fur	basic meat pants
 space beast fur whip	SMITH	space beast fur	whip kit
+handful of napalm	COMBINE	impure gasoline	unused soap
+seared dino steak	COOK	impure gasoline	Z-Bone steak
+bottle of drinkin' gas	MIX	impure gasoline	tarnished bottlecap
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water

@@ -7783,3 +7783,52 @@
 7764	residual zeal	824782325	disease.gif	usable	t	0	clouds of residual zeal
 7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
+7767
+7768
+7769
+7770
+7771
+7772
+7773
+7774
+7775
+7776
+7777
+7778
+7779
+7780
+7781
+7782
+7783
+7784
+7785
+7786
+7787
+7788
+7789
+7790
+7791
+7792
+7793
+7794
+7795
+7796
+7797
+7798
+7799
+7800
+7801
+7802
+7803
+7804
+7805
+7806
+7807	TI-9000 calculator	930907222	longcalc.gif	none	t,d	25
+7808	unused soap	371839904	merkinsoap.gif	none	t,d	12	bars of unused soap
+7809	impure gasoline	690459767	moonshine.gif	none, fancy	t,d	35	cans of impure gasoline
+7810	Z-Bone steak	375100542	jarl_steak.gif	none	t,d	28
+7811	viral DNA	927921528	dna.gif	none	t,d	17
+7812	tarnished bottlecap	799797598	bottlecap.gif	none	t,d	42
+7813	seared dino steak	112386694	jarl_steak.gif	food	t,d	36
+7814	bottle of drinkin' gas	464736767	beerbottle.gif	drink	t,d	0	bottles of drinkin' gas
+7815	handful of napalm	957617467	blankoutglob.gif	none, combat	t,d	33	handsful of napalm

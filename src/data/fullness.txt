@@ -565,6 +565,7 @@ sea lychee	1	2	decent	1-3	0	0	37
 sea persimmon	1	3	crappy	1-2	5-10	5-10	5-10
 sea radish	1	3	decent	1-3	20-30	20-30	20-30
 sea tangelo	1	2	decent	1-3	16	0	0
+seared dino steak	2	3	good	0	0	0	0
 shadowy cat claw	1	4	awesome	3-5	0	45-75	0	30 Feline Ferocity (+100% weapon dmg)
 sheet cake	15	6	decent	24-28	100-200	100-200	100-200
 shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
