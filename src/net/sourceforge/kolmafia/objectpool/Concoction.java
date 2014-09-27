@@ -1019,7 +1019,19 @@ public class Concoction
 		if ( minMake > 0 && advs != 0 )
 		{
 			// Free crafting turns are counted as implicit adventures in this step.
-			Concoction c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit );
+			Concoction c = null;
+			if ( this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH )
+			{
+				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeSmithingLimit : ConcoctionDatabase.adventureSmithingLimit );
+			}
+			else if ( this.mixingMethod == CraftingType.JEWELRY )
+			{
+				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeJewelcraftingLimit : ConcoctionDatabase.adventureJewelcraftingLimit );
+			}
+			else
+			{
+				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit );
+			}
 			minMake = Math.min( minMake, c.canMake( needToMake * advs, visited, turnFreeOnly ) / advs );
 			if ( Concoction.debug )
 			{
@@ -1174,14 +1186,13 @@ public class Concoction
 		if ( this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH )
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
-			                                                        ConcoctionDatabase.getThorsPliersCraftingTurns() +
-			                                                        ConcoctionDatabase.getLegionJackhammerCraftingTurns() +
-																	ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() ), 0 );
+			                                                        ConcoctionDatabase.getFreeSmithingTurns() +
+			                                                        ConcoctionDatabase.getFreeSmithJewelTurns() ), 0 );
 		}
 		if ( this.mixingMethod == CraftingType.JEWELRY )
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
-			                                                        ConcoctionDatabase.getThorsPliersCraftingTurns() ), 0 );
+			                                                        ConcoctionDatabase.getFreeSmithJewelTurns() ), 0 );
 		}
 		return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
 	}

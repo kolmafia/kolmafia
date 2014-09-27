@@ -1859,14 +1859,13 @@ public abstract class InventoryManager
 
 		if ( mixingMethod == CraftingType.JEWELRY )
 		{
-			freeCrafts += ConcoctionDatabase.getThorsPliersCraftingTurns();
+			freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
 		}
 
 		if ( mixingMethod == CraftingType.SMITH || mixingMethod == CraftingType.SSMITH )
 		{
-			freeCrafts += ConcoctionDatabase.getThorsPliersCraftingTurns();
-			freeCrafts += ConcoctionDatabase.getLegionJackhammerCraftingTurns();
-			freeCrafts += ConcoctionDatabase.getWarbearAutoanvilCraftingTurns();
+			freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
+			freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
 		}
 
 		if ( needed <= freeCrafts )

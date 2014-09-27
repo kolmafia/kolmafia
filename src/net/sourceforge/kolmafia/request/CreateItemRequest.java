@@ -768,26 +768,34 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
 
-		if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) )
+		if ( mode.equals( "smith" ) )
 		{
-			if ( mode.equals( "smith" ) )
+			int turnsSaved = 0;
+
+			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
+			if ( responseText.contains( "jackhammer lets you finish your smithing in record time" ) )
 			{
-				Preferences.increment( "_thorsPliersCrafting", created, 10, false );
+				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created );
+				Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
+				turnsSaved += jackhammerTurnsSaved;
 			}
-			else if ( mode.equals( "jewelry" ) )
+			if ( responseText.contains( "auto-anvil handles some of the smithing" ) && created > turnsSaved )
+			{
+				int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), created - turnsSaved );
+				Preferences.increment( "_warbearAutoAnvilCrafting", created - turnsSaved, 5, false );
+				turnsSaved += autoAnvilTurnsSaved;
+			}
+			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) && created > turnsSaved )
+			{
+				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
+			}
+		}
+		else if ( mode.equals( "jewelry" ) )
+		{
+			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) )
 			{
 				Preferences.increment( "_thorsPliersCrafting", 3 * created, 10, false );
 			}
-		}
-
-		if ( responseText.contains( "jackhammer lets you finish your smithing in record time" ) )
-		{
-			Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
-		}
-
-		if ( responseText.contains( "auto-anvil handles some of the smithing" ) )
-		{
-			Preferences.increment( "_warbearAutoAnvilCrafting", created, 5, false );
 		}
 
 		return created;
@@ -1287,13 +1295,12 @@ public class CreateItemRequest
 		case SMITH:
 		case SSMITH:
 			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()  
-				- ConcoctionDatabase.getThorsPliersCraftingTurns()
-				- ConcoctionDatabase.getLegionJackhammerCraftingTurns()
-				- ConcoctionDatabase.getWarbearAutoanvilCraftingTurns() ) );
+				- ConcoctionDatabase.getFreeSmithingTurns()
+				- ConcoctionDatabase.getFreeSmithJewelTurns() ) );
 
 		case JEWELRY:
 			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns()  
-				- ConcoctionDatabase.getThorsPliersCraftingTurns() ) );
+				- ConcoctionDatabase.getFreeSmithJewelTurns() ) );
 
 		case COOK_FANCY:
 		case MIX_FANCY:
