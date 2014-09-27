@@ -499,7 +499,7 @@ public class ValhallaDecorator
 			}
 		}
 
-		if ( ( havePenpal ? 1 : 0 ) + ( haveGamemag ? 1 : 0 ) + ( haveXi ? 1 : 0 ) < 2 )
+		if ( !havePenpal && !haveGamemag && !haveXi )
 		{
 			// No choice to make
 			return;
