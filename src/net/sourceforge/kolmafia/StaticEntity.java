@@ -50,6 +50,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
@@ -57,6 +58,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class StaticEntity
 {
@@ -71,6 +73,15 @@ public abstract class StaticEntity
 
 	public static String backtraceTrigger = null;
 	private static Integer cachedSVNRevisionNumber = null;
+
+	static MafiaState globalContinuationState = MafiaState.CONTINUE;
+	static ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
+	{
+		protected MafiaState initialValue()
+		{
+			return MafiaState.CONTINUE;
+		}
+	};
 
 	public static final String getVersion()
 	{
@@ -786,5 +797,26 @@ public abstract class StaticEntity
 		}
 
 		return KoLConstants.disabledScripts.contains( "all" ) || KoLConstants.disabledScripts.contains( name );
+	}
+
+	public static final MafiaState getContinuationState()
+	{
+		if ( isRelayThread() )
+			return StaticEntity.threadLocalContinuationState.get();
+
+		return StaticEntity.globalContinuationState;
+	}
+
+	public static void setContinuationState( MafiaState state )
+	{
+		if ( isRelayThread() )
+			StaticEntity.threadLocalContinuationState.set( state );
+		else
+			StaticEntity.globalContinuationState = state;
+	}
+
+	static final boolean isRelayThread()
+	{
+		return RelayServer.agentThreads.contains( Thread.currentThread() );
 	}
 }
