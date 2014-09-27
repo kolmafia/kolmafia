@@ -34,7 +34,8 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.JTabbedPane;
 
@@ -43,17 +44,13 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
-
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandDisplayFrame
 	extends GenericFrame
 {
-	private static final LinkedList commandQueue = new LinkedList();
-	private static final PauseObject pauser = new PauseObject();
+	private static final BlockingQueue<String> commandQueue = new LinkedBlockingQueue<String>();
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
 
 	static
@@ -115,11 +112,11 @@ public class CommandDisplayFrame
 		{
 			RequestLogger.printLine();
 
-			Iterator commandIterator = CommandDisplayFrame.commandQueue.iterator();
+			Iterator<String> commandIterator = CommandDisplayFrame.commandQueue.iterator();
 
 			for ( int i = 0; commandIterator.hasNext(); ++i )
 			{
-				String cmd = StringUtilities.globalStringReplace( (String) commandIterator.next(), "<", "&lt;" );
+				String cmd = StringUtilities.globalStringReplace( commandIterator.next(), "<", "&lt;" );
 
 				if ( i == 0 )
 				{
@@ -131,7 +128,8 @@ public class CommandDisplayFrame
 				}
 			}
 
-			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
+			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " +
+				StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
 
@@ -153,9 +151,14 @@ public class CommandDisplayFrame
 		{
 			while ( true )
 			{
-				while ( CommandDisplayFrame.commandQueue.isEmpty() )
+				try
 				{
-					CommandDisplayFrame.pauser.pause( 200 );
+					this.command = CommandDisplayFrame.commandQueue.take();
+				}
+				catch ( InterruptedException e )
+				{
+					StaticEntity.printStackTrace( e );
+					continue;
 				}
 
 				Integer requestId = RequestThread.openRequestSequence();
@@ -176,10 +179,8 @@ public class CommandDisplayFrame
 
 		public void handleQueue()
 		{
-			while ( !CommandDisplayFrame.commandQueue.isEmpty() )
+			while ( true )
 			{
-				this.command = (String) CommandDisplayFrame.commandQueue.get( 0 );
-
 				RequestLogger.printLine();
 				RequestLogger.printLine( " > " + StringUtilities.globalStringReplace( this.command, "<", "&lt;" ) );
 				RequestLogger.printLine();
@@ -198,9 +199,15 @@ public class CommandDisplayFrame
 				{
 					CommandDisplayFrame.commandQueue.clear();
 				}
-				else
+
+				synchronized ( CommandDisplayFrame.commandQueue )
 				{
-					CommandDisplayFrame.commandQueue.removeFirst();
+					String next = CommandDisplayFrame.commandQueue.poll();
+
+					if ( next == null )
+						return;
+
+					this.command = next;
 				}
 			}
 		}
