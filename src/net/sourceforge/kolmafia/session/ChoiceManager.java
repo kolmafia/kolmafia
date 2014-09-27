@@ -7446,6 +7446,28 @@ public abstract class ChoiceManager
 				GenericRequest.itemMonster = "Rain Man";
 			}
 			break;
+
+		case 987:
+			// The Post-Apocalyptic Survivor Encampment
+			if ( !text.contains( "accept your donation" ) )
+			{
+				break;
+			}
+			int qty = -11;
+			if ( urlString.contains( "giveten" ) )
+			{
+				qty = -110;
+			}
+			// Declare the pattern here instead of globally because this is available infrequently
+			Pattern encampmentPattern = Pattern.compile( "whichfood=(\\d+)" );
+			Matcher encampmentMatcher = encampmentPattern.matcher( urlString );
+			if ( encampmentMatcher.find() )
+			{
+				int encampmentId = StringUtilities.parseInt( encampmentMatcher.group( 1 ) );
+				ResultProcessor.processItem( encampmentId, qty );
+			}
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -10996,6 +11018,7 @@ public abstract class ChoiceManager
 		case 871: // inspecting Motorbike
 		case 872: // Drawn Onward
 		case 929: // Control Freak
+		case 987: // The Post-Apocalyptic Survivor Encampment
 			return true;
 
 		default:
