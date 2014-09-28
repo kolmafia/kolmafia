@@ -127,8 +127,8 @@ public class ScriptManager
 
 	}
 
-	private static final LockableListModel installedScripts = new LockableListModel();
-	private static final LockableListModel repoScripts = new LockableListModel();
+	private static final LockableListModel<Script> installedScripts = new LockableListModel<Script>();
+	private static final LockableListModel<Script> repoScripts = new LockableListModel<Script>();
 	private static final String REPO_FILE_LOCATION = "https://raw2.github.com/roippi/kolmafiasvnrepo/master/svnrepo.json"; //this will change.
 
 	static
@@ -249,7 +249,7 @@ public class ScriptManager
 		repoScripts.addAll( scripts );
 	}
 
-	public static LockableListModel getInstalledScripts()
+	public static LockableListModel<Script> getInstalledScripts()
 	{
 		return installedScripts;
 	}
@@ -264,6 +264,9 @@ public class ScriptManager
 
 		for ( File script : scripts )
 		{
+			if ( script.getName().startsWith( "." ) )
+				continue;
+
 			try
 			{
 				installedScripts.add( ScriptFactory.fromFile( script ) );
@@ -276,7 +279,7 @@ public class ScriptManager
 		}
 	}
 
-	public static LockableListModel getRepoScripts( )
+	public static LockableListModel<Script> getRepoScripts( )
 	{
 		return repoScripts;
 	}
