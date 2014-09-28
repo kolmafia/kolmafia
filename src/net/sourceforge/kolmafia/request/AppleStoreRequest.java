@@ -66,7 +66,7 @@ public class AppleStoreRequest
 			AppleStoreRequest.class,
 			"shop.php?whichshop=applestore",
 			"Chroner",
-			"no Chroners",
+			"no Chroner",
 			false,
 			AppleStoreRequest.CHRONER_PATTERN,
 			AppleStoreRequest.CHRONER,

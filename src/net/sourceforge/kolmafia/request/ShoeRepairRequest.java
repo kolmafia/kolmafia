@@ -66,7 +66,7 @@ public class ShoeRepairRequest
 			ShoeRepairRequest.class,
 			"shop.php?whichshop=shoeshop",
 			"Chroner",
-			"no Chroners",
+			"no Chroner",
 			false,
 			ShoeRepairRequest.CHRONER_PATTERN,
 			ShoeRepairRequest.CHRONER,
