@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MultiUseRequest
 	extends CreateItemRequest
 {
-	private AdventureResult ingredient;
+	private AdventureResult ingredient = null;
 
 	public MultiUseRequest( final Concoction conc )
 	{
@@ -86,6 +86,28 @@ public class MultiUseRequest
 	@Override
 	public void reconstructFields()
 	{
+		if ( this.ingredient == null )
+		{
+			return;
+		}
+
+		int use = this.ingredient.getItemId();
+		int count = this.ingredient.getCount();
+
+		if ( count == 1 )
+		{
+			this.constructURLString( "inv_use.php" );
+			this.addFormField( "which", "3" );
+			this.addFormField( "whichitem", String.valueOf( use ) );
+			this.addFormField( "ajax", "1" );
+		}
+		else
+		{
+			this.constructURLString( "multiuse.php" );
+			this.addFormField( "action", "useitem" );
+			this.addFormField( "quantity", String.valueOf( count ) );
+			this.addFormField( "whichitem", String.valueOf( use ) );
+		}
 	}
 
 	@Override
