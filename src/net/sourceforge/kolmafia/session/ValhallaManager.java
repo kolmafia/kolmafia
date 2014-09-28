@@ -539,6 +539,7 @@ public class ValhallaManager
 		Preferences.setInteger( "bossbatTurns", 0 );
 		Preferences.setInteger( "snowmanTurns", 0 );
 		Preferences.setInteger( "nextScreambatCount", 0 );
+		Preferences.setInteger( "postMallTurns", 0 );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();
