@@ -3073,6 +3073,7 @@ flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only, Generic, Ex
 flaming glowsticks	Familiar Weight: +5
 # flaming nose: Makes Flaming Face More Complete
 # flask of embalming fluid: Helps your Reanimated Reanimator collect body parts
+french-fry grabber	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently

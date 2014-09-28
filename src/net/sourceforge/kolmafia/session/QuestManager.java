@@ -301,6 +301,10 @@ public class QuestManager
 			{
 				handleSeaChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=town" ) )
+			{
+				handleTownChange( responseText );
+			}
 			else if ( location.contains( "whichplace=woods" ) )
 			{
 				handleWoodsChange( location, responseText );
@@ -329,10 +333,6 @@ public class QuestManager
 		{
 			TavernManager.handleTavernChange( responseText );
 		}
-		else if ( location.startsWith( "town" ) )
-		{
-			handleTownChange( responseText );
-		}
 		else if ( location.startsWith( "trickortreat" ) )
 		{
 			handleTrickOrTreatingChange( responseText );
@@ -360,21 +360,12 @@ public class QuestManager
 
 	private static void handleTownChange( String responseText )
 	{
-		if ( responseText.contains( "town_tower" ) )
+		boolean oldTimeTower = Preferences.getBoolean( "timeTowerAvailable" );
+		boolean newTimeTower = responseText.contains( "town_tower" );
+		if ( oldTimeTower != newTimeTower )
 		{
-			if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
-			{
-				Preferences.setBoolean( "timeTowerAvailable", true );
-				ConcoctionDatabase.setRefreshNeeded( false );
-			}
-		}
-		else
-		{
-			if ( Preferences.getBoolean( "timeTowerAvailable" ) )
-			{
-				Preferences.setBoolean( "timeTowerAvailable", false );
-				ConcoctionDatabase.setRefreshNeeded( false );
-			}
+			Preferences.setBoolean( "timeTowerAvailable", newTimeTower );
+			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 	}
 
@@ -389,8 +380,8 @@ public class QuestManager
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
 		}
 		if ( responseText.contains( "Once you have completed the weapon" ) ||
-			responseText.contains( "Once you have smithed the Epic Weapon" ) ||
-			responseText.contains( "When you get the Epic Weapon built" ) )
+		     responseText.contains( "Once you have smithed the Epic Weapon" ) ||
+		     responseText.contains( "When you get the Epic Weapon built" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
 		}
