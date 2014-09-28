@@ -66,7 +66,7 @@ public class NeandermallRequest
 			NeandermallRequest.class,
 			"shop.php?whichshop=caveshop",
 			"Chroner",
-			"no Chroners",
+			"no Chroner",
 			false,
 			NeandermallRequest.CHRONER_PATTERN,
 			NeandermallRequest.CHRONER,
