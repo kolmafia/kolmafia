@@ -264,6 +264,7 @@ public abstract class ChatManager
 
 		ChatManager.activeWindows.clear();
 		ChatManager.activeChannels.clear();
+		ChatManager.currentChannel = null;
 
 		ChatManager.tabbedFrame = null;
 	}
