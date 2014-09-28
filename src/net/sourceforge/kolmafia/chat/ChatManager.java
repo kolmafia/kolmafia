@@ -83,11 +83,13 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public abstract class ChatManager
 {
+	private static ChatPoller poller = null;
+
 	private static final LinkedList<Object> clanMessages = new RollingLinkedList( 20 );
 	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
 	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<String, StyledChatBuffer>();
-	private static Entry<?,?>[] bufferEntries = new Entry[ 0 ];
+	private static Entry<String,StyledChatBuffer>[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
 	private static boolean checkedLiteracy = false;
@@ -204,20 +206,16 @@ public abstract class ChatManager
 
 		StyledChatBuffer.initializeHighlights();
 
-		synchronized ( ChatManager.bufferEntries )
+		synchronized ( ChatManager.activeChannels )
 		{
-			for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
+			for ( String channel : ChatManager.activeChannels )
 			{
-				String bufferKey = (String) ChatManager.bufferEntries[ i ].getKey();
-
-				if ( bufferKey.startsWith( "/" ) )
-				{
-					ChatManager.openWindow( bufferKey, false );
-				}
+				ChatManager.openWindow( channel, false );
 			}
 		}
 
-		new ChatPoller().start();
+		ChatManager.poller = new ChatPoller();
+		ChatManager.poller.start();
 
 		RequestThread.postRequest( new ChannelColorsRequest() );
 	}
@@ -256,6 +254,12 @@ public abstract class ChatManager
 		{
 			ChatManager.isRunning = false;
 			ChatSender.sendMessage( null, "/exit", false );
+		}
+
+		if ( ChatManager.poller != null )
+		{
+			ChatManager.poller.terminate();
+			ChatManager.poller = null;
 		}
 
 		ChatManager.activeWindows.clear();
@@ -307,10 +311,8 @@ public abstract class ChatManager
 
 		synchronized ( ChatManager.bufferEntries )
 		{
-			ChatManager.instantMessageBuffers.put( bufferKey, buffer );
-
 			ChatManager.bufferEntries = new Entry[ ChatManager.instantMessageBuffers.size() ];
-
+			ChatManager.instantMessageBuffers.put( bufferKey, buffer );
 			ChatManager.instantMessageBuffers.entrySet().toArray( ChatManager.bufferEntries );
 		}
 
@@ -472,10 +474,8 @@ public abstract class ChatManager
 
 		if ( !ChatManager.activeChannels.contains( sender ) )
 		{
-			ChatManager.activeChannels.add( sender );
-
 			String bufferKey = ChatManager.getBufferKey( sender );
-
+			ChatManager.activeChannels.add( sender );
 			ChatManager.openWindow( bufferKey, false );
 		}
 
@@ -491,10 +491,8 @@ public abstract class ChatManager
 
 		if ( ChatManager.activeChannels.contains( sender ) )
 		{
-			ChatManager.activeChannels.remove( sender );
-
 			String bufferKey = ChatManager.getBufferKey( sender );
-
+			ChatManager.activeChannels.remove( sender );
 			ChatManager.closeWindow( bufferKey );
 		}
 	}
@@ -658,16 +656,16 @@ public abstract class ChatManager
 
 			synchronized ( ChatManager.bufferEntries )
 			{
-				for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
+				for ( Entry<String,StyledChatBuffer> entry : ChatManager.bufferEntries )
 				{
-					String key = (String) ChatManager.bufferEntries[ i ].getKey();
+					String key = entry.getKey();
 
 					if ( key.equals( "[events]" ) )
 					{
 						continue;
 					}
 
-					buffer = (StyledChatBuffer) ChatManager.bufferEntries[ i ].getValue();
+					buffer = entry.getValue();
 
 					buffer.append( displayHTML );
 				}
@@ -745,12 +743,9 @@ public abstract class ChatManager
 		}
 
 		String selectedWindow = null;
-		Iterator<String> channelIterator = ChatManager.activeChannels.iterator();
 
-		while ( channelIterator.hasNext() )
+		for ( String channel : ChatManager.activeChannels )
 		{
-			String channel = channelIterator.next();
-
 			if ( channel.startsWith( "/" ) && !channel.equals( closedWindow ) )
 			{
 				selectedWindow = channel;
@@ -772,10 +767,9 @@ public abstract class ChatManager
 
 	public static void applyHighlights()
 	{
-		for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
+		for ( Entry<String,StyledChatBuffer> entry : ChatManager.bufferEntries )
 		{
-			StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.bufferEntries[ i ].getValue();
-
+			StyledChatBuffer buffer = entry.getValue();
 			buffer.applyHighlights();
 		}
 	}

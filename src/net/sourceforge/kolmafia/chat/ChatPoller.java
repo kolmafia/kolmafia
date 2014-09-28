@@ -55,24 +55,45 @@ import org.json.JSONArray;
 public class ChatPoller
 	extends Thread
 {
+	// The most recent HistoryEntries we processed
 	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 25 );
 
-	public static long serverLastSeen = 0;
+	// The sequence number of the last HistoryEntry we have added
 	public static long localLastSeen = 0;
+
+	// *** Why are the following static? They should be specific to the
+	// *** particular chat client that is open - GUI or browser.
+	public static long serverLastSeen = 0;
 	public static long localLastSent = 0;
 
-	private static final int CHAT_DELAY = 500;
-	private static final int CHAT_DELAY_COUNT = 16;
+	// Milliseconds between polls
+	private static int CHAT_DELAY_NORMAL = 4500;
+	private static int CHAT_DELAY_PAUSED = 30000;
+	private static int delay = ChatPoller.CHAT_DELAY_NORMAL;
 
 	private static String rightClickMenu = "";
+
+	private boolean running = false;
+
+	public static final void reset()
+	{
+		ChatPoller.chatHistoryEntries.clear();
+
+		ChatPoller.serverLastSeen = 0;
+		ChatPoller.localLastSeen = 0;
+		ChatPoller.localLastSent = 0;
+	}
+
+	// The executable method which polls using the "lchat" protocol
 
 	@Override
 	public void run()
 	{
 		long serverLast = serverLastSeen;
-
 		PauseObject pauser = new PauseObject();
-		do
+
+		this.running = true;
+		while ( this.running )
 		{
 			try
 			{
@@ -87,21 +108,13 @@ public class ChatPoller
 				StaticEntity.printStackTrace(e);
 			}
 
-			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT && ChatManager.isRunning(); ++i )
-			{
-				pauser.pause( ChatPoller.CHAT_DELAY );
-			}
+			pauser.pause( ChatPoller.delay );
 		}
-		while ( ChatManager.isRunning() );
 	}
 
-	public static final void reset()
+	public void terminate()
 	{
-		ChatPoller.chatHistoryEntries.clear();
-
-		ChatPoller.serverLastSeen = 0;
-		ChatPoller.localLastSeen = 0;
-		ChatPoller.localLastSent = 0;
+		this.running = false;
 	}
 
 	public synchronized static void addEntry( ChatMessage message )
@@ -112,6 +125,7 @@ public class ChatPoller
 		{
 			ChatPoller.chatHistoryEntries.add( entry );
 		}
+		
 		ChatManager.processMessages( entry.getChatMessages() );
 	}
 
