@@ -2475,6 +2475,13 @@ space beast fur whip	SMITH	space beast fur	whip kit
 handful of napalm	COMBINE	impure gasoline	unused soap
 seared dino steak	COOK	impure gasoline	Z-Bone steak
 bottle of drinkin' gas	MIX	impure gasoline	tarnished bottlecap
+gelatinous meat mass	SMITH	Z-Bone steak	viral DNA
+simple AI	SMITH	TI-9000 calculator	tarnished bottlecap
+sentient meat mass	SSMITH	gelatinous meat mass	simple AI
+99.44% pure math	COMBINE	TI-9000 calculator	unused soap
+dove DNA	COMBINE	unused soap	viral DNA
+corrupted bird DNA	COMBINE	dove DNA	99.44% pure math
+zombie dinosaur egg	SSMITH	corrupted bird DNA	sentient meat mass
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water
