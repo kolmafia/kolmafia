@@ -208,6 +208,9 @@ public class ScriptManager
 		{
 			for ( File f : currentWCs )
 			{
+				if ( f.getName().startsWith( "." ) )
+					continue;
+
 				try
 				{
 					alreadyInstalled.add( SVNManager.workingCopyToSVNURL( f ) );
