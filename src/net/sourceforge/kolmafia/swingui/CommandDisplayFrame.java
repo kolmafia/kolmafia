@@ -85,7 +85,7 @@ public class CommandDisplayFrame
 
 	public static final boolean hasQueuedCommands()
 	{
-		return !CommandDisplayFrame.commandQueue.isEmpty();
+		return !CommandDisplayFrame.commandQueue.isEmpty() && handler.command == null;
 	}
 
 	public static final void executeCommand( final String command )
@@ -139,7 +139,7 @@ public class CommandDisplayFrame
 	private static final class CommandQueueHandler
 		extends Thread
 	{
-		private String command = "";
+		private String command = null;
 
 		public CommandQueueHandler()
 		{
