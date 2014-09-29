@@ -312,8 +312,8 @@ public abstract class ChatManager
 
 		synchronized ( ChatManager.bufferEntries )
 		{
-			ChatManager.bufferEntries = new Entry[ ChatManager.instantMessageBuffers.size() ];
 			ChatManager.instantMessageBuffers.put( bufferKey, buffer );
+			ChatManager.bufferEntries = new Entry[ ChatManager.instantMessageBuffers.size() ];
 			ChatManager.instantMessageBuffers.entrySet().toArray( ChatManager.bufferEntries );
 		}
 
