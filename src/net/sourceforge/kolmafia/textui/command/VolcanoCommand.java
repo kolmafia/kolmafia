@@ -134,29 +134,44 @@ public class VolcanoCommand
 
 		if ( command.equals( "test" ) )
 		{
-			if ( split.length != 4 )
+			int map, x, y;
+
+			if ( split.length == 1 )
+			{
+				map = 1;
+				x = 6;
+				y = 12;
+			}
+			else if ( split.length == 4 )
+			{
+				map = VolcanoCommand.getMap( split[1] );
+				x = VolcanoCommand.getCell( split[2] );
+				y = VolcanoCommand.getCell( split[3] );
+			}
+			else
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Specify map x y" );
 				return;
 			}
-			int map = VolcanoCommand.getMap( split[1] );
+
 			if ( map < 0 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Map # must be between 1 and 5" );
 				return;
 			}
-			int x = VolcanoCommand.getCell( split[2] );
-			if ( x < 0 )
+
+			if ( x < 0 || x > 12 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'x' must be between 0 and 12" );
 				return;
 			}
-			int y = VolcanoCommand.getCell( split[3] );
-			if ( y < 0 )
+
+			if ( y < 0 || y > 12 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'y' must be between 0 and 12" );
 				return;
 			}
+
 			VolcanoMazeManager.test( map, x, y );
 			return;
 		}

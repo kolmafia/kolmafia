@@ -694,10 +694,8 @@ public abstract class VolcanoMazeManager
 		}
 
 		// Move up next to the goal.
-		Iterator it = solution.iterator();
-		while ( it.hasNext() )
+		for ( Integer next : solution )
 		{
-			Integer next = (Integer) it.next();
 			int sq = next.intValue();
 
 			// Quit when we are about to move to the goal
@@ -733,10 +731,8 @@ public abstract class VolcanoMazeManager
 		}
 
 		// Print the solution
-		Iterator it = solution.iterator();
-		while ( it.hasNext() )
+		for ( Integer next : solution )
 		{
-			Integer next = (Integer) it.next();
 			int pos = next.intValue();
 			RequestLogger.printLine( "Hop to " + VolcanoMazeManager.coordinateString( pos ) );
 		}
@@ -1113,18 +1109,24 @@ public abstract class VolcanoMazeManager
 	}
 
 	private static class Path
+		implements Iterable<Integer>
 	{
-		private final ArrayList list;
+		private final ArrayList<Integer> list;
 
 		public Path( final Integer square )
 		{
-			list = new ArrayList();
+			list = new ArrayList<Integer>();
 			list.add( square );
+		}
+
+		public Iterator<Integer> iterator()
+		{
+			return this.list.iterator();
 		}
 
 		public Path( final Path prefix, final Integer square )
 		{
-			list = (ArrayList) prefix.list.clone();
+			list = (ArrayList<Integer>) prefix.list.clone();
 			list.add( square );
 		}
 
@@ -1135,17 +1137,12 @@ public abstract class VolcanoMazeManager
 
 		public Integer get( final int index )
 		{
-			return (Integer) list.get( index );
+			return list.get( index );
 		}
 
 		public Integer getLast()
 		{
-			return (Integer) list.get( list.size() - 1 );
-		}
-
-		public Iterator iterator()
-		{
-			return list.iterator();
+			return list.get( list.size() - 1 );
 		}
 
 		public int size()
