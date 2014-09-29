@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -545,7 +544,7 @@ public abstract class VolcanoMazeManager
 
 			int ofound = VolcanoMazeManager.found;
 			VolcanoMazeRequest req = new VolcanoMazeRequest( next );
-			RequestThread.postRequest( req );
+			req.run();
 
 			if ( ofound >= VolcanoMazeManager.found )
 			{
@@ -570,7 +569,7 @@ public abstract class VolcanoMazeManager
 		// Must make a new VolcanoMazeRequest every time since that
 		// class follows redirects.
 		VolcanoMazeRequest VISITOR = new VolcanoMazeRequest();
-		RequestThread.postRequest( VISITOR );
+		VISITOR.run();
 	}
 
 	public static final void jump()
@@ -578,14 +577,14 @@ public abstract class VolcanoMazeManager
 		// Must make a new VolcanoMazeRequest every time since that
 		// class follows redirects.
 		VolcanoMazeRequest JUMP = new VolcanoMazeRequest( true );
-		RequestThread.postRequest( JUMP );
+		JUMP.run();
 		VolcanoMazeManager.printCurrentCoordinates();
 	}
 
 	public static final void move( final int x, final int y, final boolean print )
 	{
 		VolcanoMazeRequest req = new VolcanoMazeRequest( x, y );
-		RequestThread.postRequest( req );
+		req.run();
 		if ( print )
 		{
 			VolcanoMazeManager.displayMap();
@@ -685,7 +684,7 @@ public abstract class VolcanoMazeManager
 		}
 
 		Path solution = VolcanoMazeManager.solve( currentLocation, currentMap );
-                VolcanoMazeManager.printStatistics( solution );
+		VolcanoMazeManager.printStatistics( solution );
 
 		if ( solution == null )
 		{
@@ -705,7 +704,7 @@ public abstract class VolcanoMazeManager
 			}
 
 			VolcanoMazeRequest req = new VolcanoMazeRequest( sq );
-			RequestThread.postRequest( req );
+			req.run();
 		}
 	}
 
