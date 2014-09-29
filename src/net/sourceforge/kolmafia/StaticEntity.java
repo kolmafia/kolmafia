@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayAgent;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class StaticEntity
@@ -817,6 +818,7 @@ public abstract class StaticEntity
 
 	static final boolean isRelayThread()
 	{
-		return RelayServer.agentThreads.contains( Thread.currentThread() );
+		return RelayServer.agentThreads.contains( Thread.currentThread() ) ||
+			 Thread.currentThread() == RelayAgent.COMBAT_THREAD;
 	}
 }

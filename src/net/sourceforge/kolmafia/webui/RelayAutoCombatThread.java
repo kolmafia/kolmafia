@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.webui;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.FightRequest;
-
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayAutoCombatThread
@@ -68,6 +68,8 @@ public class RelayAutoCombatThread
 		while ( true )
 		{
 			this.pauser.pause();
+
+			KoLmafia.forceContinue();
 
 			if ( this.desiredAction == null )
 			{
