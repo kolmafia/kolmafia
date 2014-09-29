@@ -68,7 +68,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class RelayAgent
 	extends Thread
 {
-	private static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
+	public static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
 
 	private static GenericRequest errorRequest = null;
 	private static String errorRequestPath = null;
