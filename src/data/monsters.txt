@@ -62,7 +62,7 @@ beefy bodyguard bat	beefybat.gif	Atk: 25 Def: 22 HP: 25 Init: 50 Meat: 250 P: be
 Beer Batter	batter.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 Beer Bongadier	warfratbg.gif	Atk: 180 Def: 175 HP: 210 Init: 50 E: sleaze P: orc	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
 best-selling novelist	novelist.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude
-biclops	biclops.gif	Atk: 38 Def: 33 HP: 30 Init: 25 P: humanoid Meat: 28-31	duonoculars (0)
+biclops	biclops.gif	Atk: 38 Def: 33 HP: 30 Init: 25 P: humanoid Meat: 30	duonoculars (c100)
 big creepy spider	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Big Meat Golem	bigmeat.gif	Atk: 99999 Def: 89999 HP: [99999] Init: 0 P: construct
 big swarm of ghuol whelps	whelps2.gif	Atk: 50 Def: 45 HP: 150 E: spooky P: undead
@@ -514,7 +514,7 @@ Orcish Frat Boy (Pledge)	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze
 Orcish Frat Boy Spy	fratbong.gif	Atk: 165 Def: 153 HP: 180 Init: 60 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 overdone flame-broiled meat blob	meatblob.gif	Atk: 4 Def: 1 HP: 2 Init: 60 E: hot Meat: 20 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 P imp	pimp.gif	Atk: 42 Def: 37 HP: 42 Init: 60 E: hot Meat: 30 P: demon	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
-pair of burnouts	stonebros.gif	Atk: 34 Def: 30 HP: 25 Init: -10000 P: dude Meat: 15	poppy (0)	poppy (0)
+pair of burnouts	stonebros.gif	Atk: 34 Def: 30 HP: 25 Init: -10000 P: dude Meat: 15	poppy (30)	poppy (10)
 panicking Knott Yeti	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Panty Raider Frat Boy	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead	cardboard katana (5)
@@ -686,7 +686,7 @@ stranglin' algae	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant	glob of 
 stuffed moose head	moosehead.gif	Atk: 86 Def: 79 HP: 80 Init: -10000 P: beast E: spooky	moose antlers (0)	moose chocolate (0)	moose thought (0)
 Sub-Assistant Knob Mad Scientist	kg_madsci.gif	Atk: 1 Def: 1 HP: 1 Init: 60 Meat: 6 P: goblin	Knob Goblin firecracker (100)	Knob Goblin pants (9)	strongness elixir (30)	folder (cyan) (c0)	Knob Goblin Mutagen (c0)
 suckubus	suckubus.gif	Atk: 55 Def: 49 HP: 55 Init: 30 E: hot Meat: 40 P: demon	bus pass (20)	folder (rainbow unicorn) (c0)
-surprised and annoyed witch	witchy1.gif	Atk: 36 Def: 32 HP: 32 Init: -10000 P: dude Meat:  39-39	wand of pigification (c100)
+surprised and annoyed witch	witchy1.gif	Atk: 36 Def: 32 HP: 32 Init: -10000 P: dude Meat:  40	wand of pigification (c100)
 surprised mariachi	mar_surprised.gif	Atk: 130 Def: 117 HP: 125 Init: 150 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 swamp beaver lumberjack	beav_jack.gif	Atk: 54 Def: 48 HP: 50 Init: 30 P: beast Meat: 25	fine aged cheddarwurst (0)	balaclava (0)
 swamp beaver shaman	beav_shaman.gif	Atk: 52 Def: 46 HP: 46 Init: 60 P: beast Meat: 20	moonberry wine cooler (0)	shamanic beads (0)
