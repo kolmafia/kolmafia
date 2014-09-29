@@ -85,7 +85,7 @@ public class CommandDisplayFrame
 
 	public static final boolean hasQueuedCommands()
 	{
-		return !CommandDisplayFrame.commandQueue.isEmpty() && handler.command == null;
+		return !CommandDisplayFrame.commandQueue.isEmpty() || handler.command != null;
 	}
 
 	public static final void executeCommand( final String command )
