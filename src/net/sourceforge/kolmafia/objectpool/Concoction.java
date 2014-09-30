@@ -76,6 +76,7 @@ public class Concoction
 	private static final int NO_PRIORITY = 0;
 
 	private String name;
+	private int hashCode;
 
 	public final AdventureResult concoction;
 	private CreateItemRequest request;
@@ -137,6 +138,7 @@ public class Concoction
 		{
 			this.yield = 1;
 			this.name = "unknown";
+			this.hashCode = 0;
 			this.isReagentPotion = false;
 			this.fullness = 0;
 			this.inebriety = 0;
@@ -150,6 +152,7 @@ public class Concoction
 			int itemId = concoction.getItemId();
 			String name = concoction.getName();
 			this.name = itemId == -1 ? name : ItemDatabase.getItemDataName( itemId );
+			this.hashCode = name.toLowerCase().hashCode();
 
 			this.isReagentPotion = this.mixingMisc.contains( CraftingMisc.TRIPLE_SAUCE );
 
@@ -344,7 +347,8 @@ public class Concoction
 			return false;
 		}
 
-		// Concoction.compareTo() returns 0 only if the names match exactly
+		// Concoction.compareTo() returns 0 only if the names match
+		// ignoring case
 
 		Concoction other = (Concoction) o;
 		if ( this.name == null )
@@ -357,7 +361,7 @@ public class Concoction
 			return false;
 		}
 
-		return this.name.equals( other.name );
+		return this.name.equalsIgnoreCase( other.name );
 	}
 
 	/*
@@ -388,7 +392,8 @@ public class Concoction
 	public int hashCode()
 	{
 		// Concoctions are equal only if their names are equal
-		return this.name != null ? this.name.hashCode() : 0;
+		// We precalculated the hashCode
+		return this.hashCode;
 	}
 
 	/*
@@ -460,7 +465,7 @@ public class Concoction
 		// Sort steel organs to the top.
 		if ( this.steelOrgan )
 		{
-			return o.steelOrgan ? this.name.compareTo( o.name ) : -1;
+			return o.steelOrgan ? this.name.compareToIgnoreCase( o.name ) : -1;
 		}
 		else if ( o.steelOrgan )
 		{
@@ -473,7 +478,7 @@ public class Concoction
 		switch ( this.sortOrder )
 		{
 		case NO_PRIORITY:
-			return this.name.compareTo( o.name );
+			return this.name.compareToIgnoreCase( o.name );
 
 		case FOOD_PRIORITY:
 		{
@@ -547,7 +552,7 @@ public class Concoction
 			return gain2 - gain1 > 0.0f ? 1 : -1;
 		}
 
-		return this.name.compareTo( o.name );
+		return this.name.compareToIgnoreCase( o.name );
 	}
 
 	public AdventureResult getItem()
