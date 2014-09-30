@@ -2450,10 +2450,10 @@ plaid bandage	MUSE	plaid swatch (2)
 plaid pocket square	MUSE	plaid swatch (4)
 plaid skirt	MUSE	plaid swatch (6)
 ghast iron ingot	SMITH	chunk of hot iron	hot coal
-ghast iron cleaver	SSMITH	ghast iron ingot	sword hilt
-ghast iron codpiece	SSMITH	ghast iron ingot	pants kit
-ghast iron Garibaldi	SSMITH	ghast iron ingot	helmet recipe
-ghast iron heater shield	SSMITH	ghast iron ingot	buckler buckle
+ghast iron cleaver	WSMITH	ghast iron ingot	sword hilt
+ghast iron codpiece	ASMITH	ghast iron ingot	pants kit
+ghast iron Garibaldi	ASMITH	ghast iron ingot	helmet recipe
+ghast iron heater shield	ASMITH	ghast iron ingot	buckler buckle
 deluxe layer cake	COOK	moose chocolate	sheet cake
 Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
@@ -2477,11 +2477,11 @@ seared dino steak	COOK	impure gasoline	Z-Bone steak
 bottle of drinkin' gas	MIX	impure gasoline	tarnished bottlecap
 gelatinous meat mass	SMITH	Z-Bone steak	viral DNA
 simple AI	SMITH	TI-9000 calculator	tarnished bottlecap
-sentient meat mass	SSMITH	gelatinous meat mass	simple AI
+sentient meat mass	WSMITH	gelatinous meat mass	simple AI
 99.44% pure math	COMBINE	TI-9000 calculator	unused soap
 dove DNA	COMBINE	unused soap	viral DNA
 corrupted bird DNA	COMBINE	dove DNA	99.44% pure math
-zombie dinosaur egg	SSMITH	corrupted bird DNA	sentient meat mass
+zombie dinosaur egg	WSMITH	corrupted bird DNA	sentient meat mass
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water
