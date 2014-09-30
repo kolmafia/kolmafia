@@ -35,14 +35,12 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,7 +108,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
-
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -372,15 +370,7 @@ public class FightRequest
 	};
 
 	// Make an HTML cleaner
-	private static final HtmlCleaner cleaner = new HtmlCleaner();
-
-	static
-	{
-		CleanerProperties props = FightRequest.cleaner.getProperties();
-		props.setTranslateSpecialEntities( false );
-		props.setRecognizeUnicodeChars( false );
-		props.setOmitXmlDeclaration( true );
-	}
+	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
 	/**
 	 * Constructs a new <code>FightRequest</code>. User settings will be
