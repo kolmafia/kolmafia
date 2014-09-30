@@ -60,9 +60,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -234,6 +237,7 @@ public class ValhallaManager
 		KoLmafia.refreshSession();
 
 		EquipmentManager.updateEquipmentLists();
+		ValhallaManager.resetMoonsignCafes();
 		ConcoctionDatabase.refreshConcoctions();
 
 		// Reset certain settings that the player almost certainly will
@@ -293,6 +297,35 @@ public class ValhallaManager
 			{
 				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item ) );
 			}
+		}
+	}
+
+	private static final void resetMoonsignCafes()
+	{
+		// Change available items if they've changed due to ascension.
+		if ( KoLCharacter.inBadMoon() && KoLConstants.kitchenItems.isEmpty() )
+		{
+			HellKitchenRequest.getMenu();
+		}
+		else if ( !KoLCharacter.inBadMoon() && !KoLConstants.kitchenItems.isEmpty() )
+		{
+			HellKitchenRequest.reset();
+		}
+		if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() && KoLConstants.restaurantItems.isEmpty() )
+		{
+			ChezSnooteeRequest.getMenu();
+		}
+		else if ( ( !KoLCharacter.canEat() || !KoLCharacter.canadiaAvailable() ) && !KoLConstants.restaurantItems.isEmpty() )
+		{
+			ChezSnooteeRequest.reset();
+		}
+		if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
+		{
+			MicroBreweryRequest.getMenu();
+		}
+		else if ( ( !KoLCharacter.canDrink() || !KoLCharacter.gnomadsAvailable() ) && !KoLConstants.microbreweryItems.isEmpty() )
+		{
+			MicroBreweryRequest.reset();
 		}
 	}
 
