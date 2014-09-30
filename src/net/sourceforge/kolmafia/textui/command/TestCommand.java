@@ -35,13 +35,15 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-
-import java.nio.charset.Charset;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -53,10 +55,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
@@ -72,7 +74,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -93,11 +94,10 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
-import net.sourceforge.kolmafia.webui.CharPaneDecorator;
-import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class TestCommand
 	extends AbstractCommand
@@ -177,6 +177,66 @@ public class TestCommand
 			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) +
 						" bytes into a " + KoLConstants.COMMA_FORMAT.format( string.length() ) +
 						" character string" );
+		}
+		
+		if ( command.equals( "xpath" ) )
+		{
+			File htmlFile;
+			String xpath;
+
+			if ( !split[ 1 ].endsWith( ".html" ) )
+			{
+				split = parameters.split( " ", 2 );
+				htmlFile = new File( KoLConstants.DATA_LOCATION, "test.html" );
+				xpath = split[ 1 ];
+			}
+			else
+			{
+				split = parameters.split( " ", 3 );
+				htmlFile = new File( KoLConstants.DATA_LOCATION, split[ 1 ] );
+				xpath = split[ 2 ];
+			}
+
+			if ( !htmlFile.exists() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "File " + htmlFile + " does not exist" );
+				return;
+			}
+
+			HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+
+			TagNode doc;
+			try
+			{
+				doc = cleaner.clean( htmlFile );
+			}
+			catch ( IOException e )
+			{
+				StaticEntity.printStackTrace( e );
+				return;
+			}
+
+			Object[] result;
+			try
+			{
+				result = doc.evaluateXPath( xpath );
+			}
+			catch ( XPatherException e )
+			{
+				StaticEntity.printStackTrace( e );
+				return;
+			}
+
+			if ( result.length == 0 )
+				RequestLogger.printLine( "no matches." );
+
+			for ( int i = 0; i < result.length; i++ )
+			{
+				RequestLogger.printLine( "<b>" + ( i + 1 ) + ":</b> " + result[ i ] );
+			}
+			//RequestLogger.printList( Arrays.asList( result ) );
+
+			return;
 		}
 
 		if ( command.equals( "hedgepuzzle" ) )
