@@ -180,14 +180,21 @@
 			target="1.5"
 			srcdir="${src}"
 			destdir="${build}"
-			classpath="${build}"
 			failonerror="false"
 			debug="on"
 			debuglevel="lines,vars,source"
 			deprecation="off"
 			nowarn="on"
 			includeantruntime="false"
-			errorProperty="compile.failed" />
+			errorProperty="compile.failed" >
+			<classpath>
+				<pathelement path="${build}"/>
+				<fileset dir="${lib}/jar">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+
 		
 		<antcall target="unversion" />
 
