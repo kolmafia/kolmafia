@@ -170,81 +170,91 @@ public class ArcadeRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		String message = null;
 
-		if ( action != null )
-		{
-			if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
-			{
-				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
-			}
-
-			int count = TOKEN.getCount( KoLConstants.inventory );
-			String name = null;
-
-			if ( action.equals( "arcade_plumber" ) )
-			{
-				message = "Visiting Jackass Plumber";
-			}
-
-			// Other actions of interest require tokens. Do we have
-			// any?
-
-			else if ( count < 1 )
-			{
-				return true;
-			}
-
-			else if ( action.equals( "arcade_skeeball" ) )
-			{
-				message = "Visiting Broken Skee-Ball Machine";
-			}
-
-			else if ( KoLCharacter.getAdventuresLeft() < 5 )
-			{
-				// Other actions require turns
-				return true;
-			}
-
-			else if ( action.equals( "arcade_spacetrip" ) )
-			{
-				name = "Space Trip";
-			}
-
-			else if ( action.equals( "arcade_demonstar" ) )
-			{
-				name = "DemonStar";
-			}
-
-			else if ( action.equals( "arcade_meteoid" ) )
-			{
-				name = "Meteoid";
-			}
-
-			else if ( action.equals( "arcade_fighters" ) )
-			{
-				name = "The Fighters of Fighting";
-			}
-
-			else if ( action.equals( "arcade_fist" ) )
-			{
-				name = "Dungeon Fist!";
-			}
-
-
-			if ( name != null )
-			{
-				// We have a token and 5 adventures.
-				message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-			}
-
-			// Deduct the token here
-			ResultProcessor.processItem( ItemPool.GG_TOKEN, -1 );
-		}
-
-		if ( message == null )
+		if ( action == null )
 		{
 			return false;
+		}
+
+		if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
+		{
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
+		}
+
+		int count = TOKEN.getCount( KoLConstants.inventory );
+		boolean usesToken = false;
+		String message = null;
+		String name = null;
+
+		if ( action.equals( "arcade_plumber" ) )
+		{
+			message = "Visiting Jackass Plumber";
+		}
+
+		// Other actions of interest require tokens. Do we have any?
+		else if ( count < 1 )
+		{
+			return true;
+		}
+
+		else if ( action.equals( "arcade_skeeball" ) )
+		{
+			message = "Visiting Broken Skee-Ball Machine";
+		}
+
+		// Other actions require turns. Do we have enough?
+		else if ( KoLCharacter.getAdventuresLeft() < 5 )
+		{
+			return true;
+		}
+
+		else if ( action.equals( "arcade_spacetrip" ) )
+		{
+			name = "Space Trip";
+			usesToken = true;
+		}
+
+		else if ( action.equals( "arcade_demonstar" ) )
+		{
+			name = "DemonStar";
+			usesToken = true;
+		}
+
+		else if ( action.equals( "arcade_meteoid" ) )
+		{
+			name = "Meteoid";
+			usesToken = true;
+		}
+
+		else if ( action.equals( "arcade_fighters" ) )
+		{
+			name = "The Fighters of Fighting";
+			usesToken = true;
+		}
+
+		else if ( action.equals( "arcade_fist" ) )
+		{
+			name = "Dungeon Fist!";
+			usesToken = true;
+		}
+
+		else
+		{
+			return false;
+		}
+
+		if ( name != null )
+		{
+			// We have a token and 5 adventures.
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
+		}
+
+		// Ideally, we'd do this in parseResponse. However, in the case
+		// of the five games, you will be in the middle of playing.
+		// Easier to just pay the price here.
+		if ( usesToken )
+		{
+			ResultProcessor.processItem( ItemPool.GG_TOKEN, -1 );
 		}
 
 		RequestLogger.updateSessionLog();
