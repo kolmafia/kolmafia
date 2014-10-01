@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -58,6 +59,8 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -113,8 +116,9 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 
-import org.htmlcleaner.CommentNode;
-import org.htmlcleaner.ContentNode;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.CommentToken;
+import org.htmlcleaner.ContentToken;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -4103,9 +4107,9 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof ContentNode )
+			if ( child instanceof ContentToken )
 			{
-				buffer.append( ((ContentNode) child).getContent() );
+				buffer.append( ((ContentToken) child).getContent() );
 			}
 			else if ( child instanceof TagNode )
 			{
@@ -4673,8 +4677,16 @@ public class FightRequest
 
 	private static final TagNode cleanFightHTML( final String text )
 	{
-		// Clean the HTML on this fight response page
-		return cleaner.clean( text );
+		try
+		{
+			// Clean the HTML on this fight response page
+			return cleaner.clean( text );
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		return null;
 	}
 
 	private static final TagNode findMonsterTag( final TagNode node )
@@ -4910,7 +4922,7 @@ public class FightRequest
 				return;
 			}
 
-			CharSequence text = node.getText();
+			StringBuffer text = node.getText();
 			String str = text.toString();
 
 			// Camera flashes
@@ -4978,16 +4990,16 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentNode )
+			if ( child instanceof CommentToken )
 			{
-				CommentNode object = (CommentNode) child;
+				CommentToken object = (CommentToken) child;
 				FightRequest.processComment( object, status );
 				continue;
 			}
 
-			if ( child instanceof ContentNode )
+			if ( child instanceof ContentToken )
 			{
-				ContentNode object = (ContentNode) child;
+				ContentToken object = (ContentToken) child;
 				String text = object.getContent().trim();
 
 				if ( text.equals( "" ) )
@@ -5118,7 +5130,7 @@ public class FightRequest
 		}
 
 		StringBuffer action = status.action;
-		CharSequence text = node.getText();
+		StringBuffer text = node.getText();
 		String str = text.toString();
 
 		if ( inode == null )
@@ -5431,7 +5443,7 @@ public class FightRequest
 			return true;
 		}
 
-		CharSequence text = span.getText();
+		StringBuffer text = span.getText();
 		String str = text.toString();
 
 		// Log the actual kiss message
@@ -5485,16 +5497,16 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentNode )
+			if ( child instanceof CommentToken )
 			{
-				CommentNode object = (CommentNode) child;
+				CommentToken object = (CommentToken) child;
 				FightRequest.processComment( object, status );
 				continue;
 			}
 		}
 	}
 
-	private static void processComment( CommentNode object, TagStatus status )
+	private static void processComment( CommentToken object, TagStatus status )
 	{
 		String content = object.getContent();
 		if ( content.equals( "familiarmessage" ) )
@@ -5790,9 +5802,9 @@ public class FightRequest
 		FightRequest.logText( buffer, status );
 	}
 
-	private static final void logText( CharSequence text, final TagStatus status )
+	private static final void logText( StringBuilder buffer, final TagStatus status )
 	{
-		FightRequest.logText( text.toString(), status );
+		FightRequest.logText( buffer.toString(), status );
 	}
 
 	private static final void logText( StringBuffer buffer, final TagStatus status )
@@ -7149,9 +7161,9 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentNode )
+			if ( child instanceof CommentToken )
 			{
-				CommentNode object = (CommentNode) child;
+				CommentToken object = (CommentToken) child;
 				String content = object.getContent();
 				FightRequest.indent( buffer, level + 1 );
 				buffer.append( "<!--" );
@@ -7161,9 +7173,9 @@ public class FightRequest
 				continue;
 			}
 
-			if ( child instanceof ContentNode )
+			if ( child instanceof ContentToken )
 			{
-				ContentNode object = (ContentNode) child;
+				ContentToken object = (ContentToken) child;
 				String content = object.getContent().trim();
 				if ( content.equals( "" ) )
 				{
