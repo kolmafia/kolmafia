@@ -2566,13 +2566,27 @@ public class RelayRequest
 	}
 
 	private static final Pattern LASTTIME_PATTERN = Pattern.compile( "lasttime=(\\d+)" );
+	private static final Pattern AFK_PATTERN = Pattern.compile( "afk=(\\d+)" );
 
 	private String getNontabbedChatMessages()
 	{
-		Matcher matcher = RelayRequest.LASTTIME_PATTERN.matcher( this.getPath() );
-		long lastSeen = matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
+		String URL = this.getPath();
 
-		List<HistoryEntry> chatMessages = ChatPoller.getEntries( lastSeen, true );
+		Matcher lastTimeMatcher = RelayRequest.LASTTIME_PATTERN.matcher( URL );
+		long lastSeen = lastTimeMatcher.find() ? StringUtilities.parseLong( lastTimeMatcher.group( 1 ) ) : 0;
+
+		Matcher afkMatcher = RelayRequest.AFK_PATTERN.matcher( URL );
+		boolean paused = afkMatcher.find() && afkMatcher.group( 1 ).equals( "1" );
+
+		// If the browser's lchat is paused, we pause too.
+		ChatPoller.setLchatPaused( paused );
+
+		List<HistoryEntry> chatMessages;
+		synchronized ( ChatPoller.lastServerPoll )
+		{
+			ChatPoller.serverPolled();
+			chatMessages = ChatPoller.getEntries( lastSeen, true, paused );
+		}
 
 		StringBuilder chatResponse = new StringBuilder();
 		boolean needsLineBreak = false;
@@ -2614,9 +2628,13 @@ public class RelayRequest
 		// timestamp, just like lchat.
 
 		long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
-		ChatRequest request = new ChatRequest( lastSeen, true );
+		ChatRequest request = new ChatRequest( lastSeen, true, false );
 
-		request.run();
+		synchronized ( ChatPoller.lastServerPoll )
+		{
+			ChatPoller.serverPolled();
+			request.run();
+		}
 
 		String chatResponse = request.responseText == null ? "" : request.responseText;
 

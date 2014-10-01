@@ -83,8 +83,6 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public abstract class ChatManager
 {
-	private static ChatPoller poller = null;
-
 	private static final LinkedList<Object> clanMessages = new RollingLinkedList( 20 );
 	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
@@ -214,8 +212,7 @@ public abstract class ChatManager
 			}
 		}
 
-		ChatManager.poller = new ChatPoller();
-		ChatManager.poller.start();
+		ChatPoller.startInstance();
 
 		RequestThread.postRequest( new ChannelColorsRequest() );
 	}
@@ -256,11 +253,7 @@ public abstract class ChatManager
 			ChatSender.sendMessage( null, "/exit", false );
 		}
 
-		if ( ChatManager.poller != null )
-		{
-			ChatManager.poller.terminate();
-			ChatManager.poller = null;
-		}
+		ChatPoller.stopInstance();
 
 		ChatManager.activeWindows.clear();
 		ChatManager.activeChannels.clear();

@@ -472,44 +472,44 @@ public class Concoction
 			return 1;
 		}
 
-		boolean thisCantConsume = false;
-		boolean oCantConsume = false;
-
-		switch ( this.sortOrder )
+		if  ( this.sortOrder == NO_PRIORITY )
 		{
-		case NO_PRIORITY:
 			return this.name.compareToIgnoreCase( o.name );
-
-		case FOOD_PRIORITY:
-		{
-			int limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
-				- ConcoctionDatabase.getQueuedFullness();
-			thisCantConsume = this.fullness > limit;
-			oCantConsume = o.fullness > limit;
-			break;
 		}
 
-		case BOOZE_PRIORITY:
+		if ( Preferences.getBoolean( "sortByRoom" ) )
 		{
-			int limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
-				- ConcoctionDatabase.getQueuedInebriety();
-			thisCantConsume = this.inebriety > limit;
-			oCantConsume = o.inebriety > limit;
-			break;
-		}
+			int limit = 0;
+			boolean thisCantConsume = false;
+			boolean oCantConsume = false;
 
-		case SPLEEN_PRIORITY:
-		{
-			int limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
-				- ConcoctionDatabase.getQueuedSpleenHit();
-			thisCantConsume = this.spleenhit > limit;
-			oCantConsume = o.spleenhit > limit;
-		}
-		}
+			switch ( this.sortOrder )
+			{
+			case FOOD_PRIORITY:
+				limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
+					- ConcoctionDatabase.getQueuedFullness();
+				thisCantConsume = this.fullness > limit;
+				oCantConsume = o.fullness > limit;
+				break;
 
-		if ( Preferences.getBoolean( "sortByRoom" ) && (thisCantConsume != oCantConsume) )
-		{
-			return thisCantConsume ? 1 : -1;
+			case BOOZE_PRIORITY:
+				limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
+					- ConcoctionDatabase.getQueuedInebriety();
+				thisCantConsume = this.inebriety > limit;
+				oCantConsume = o.inebriety > limit;
+				break;
+
+			case SPLEEN_PRIORITY:
+				limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
+					- ConcoctionDatabase.getQueuedSpleenHit();
+				thisCantConsume = this.spleenhit > limit;
+				oCantConsume = o.spleenhit > limit;
+			}
+
+			if ( thisCantConsume != oCantConsume )
+			{
+				return thisCantConsume ? 1 : -1;
+			}
 		}
 
 		double adventures1 = ItemDatabase.getAdventureRange( this.name );
@@ -517,7 +517,7 @@ public class Concoction
 
 		if ( adventures1 != adventures2 )
 		{
-			return adventures2 - adventures1 > 0.0f ? 1 : -1;
+			return adventures2 > adventures1 ? 1 : -1;
 		}
 
 		int fullness1 = this.fullness;
@@ -549,7 +549,7 @@ public class Concoction
 
 		if ( gain1 != gain2 )
 		{
-			return gain2 - gain1 > 0.0f ? 1 : -1;
+			return gain2 > gain1 ? 1 : -1;
 		}
 
 		return this.name.compareToIgnoreCase( o.name );
