@@ -68,16 +68,17 @@ public class ArcadeRequest
 
 	public ArcadeRequest()
 	{
-		super( "place.php" );
-		this.addFormField( "whichplace", "arcade" );
+		super( "place.php&whichplace=arcade", false );
 	}
 
 	public ArcadeRequest( final String action )
 	{
-		super( "place.php" );
-		this.addFormField( "whichplace", "arcade" );
-		this.action = action;
-		this.addFormField( "action", action );
+		super( "", false );
+
+		// Construct a URL to submit via GET, just like the browser
+		StringBuilder newURLString = new StringBuilder( "place.php?whichplace=arcade&action=" );
+		newURLString.append( action );
+		this.constructURLString( newURLString.toString(), false );
 	}
 
 	public static final int getTurnsUsed( GenericRequest request )
