@@ -1184,7 +1184,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.GG_TOKEN:
 
 			useType = "arcade";
-			useLocation = "arcade.php";
+			useLocation = "place.php?whichplace=arcade";
 			break;
 
 		// Game Grid tickets get a link to the arcade redemption counter.
@@ -1192,7 +1192,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.GG_TICKET:
 
 			useType = "redeem";
-			useLocation = "arcade.php?ticketcounter=1";
+			useLocation = "shop.php?whichshop=arcade";
 			break;
 
 		// Soft green echo eyedrop antidote gets an uneffect link

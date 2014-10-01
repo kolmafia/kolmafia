@@ -595,6 +595,12 @@ public class NPCPurchaseRequest
 
 		// The following are coinmasters
 
+		if ( shopId.equals( "arcade" ) )
+		{
+			TicketCounterRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "damachine" ) )
 		{
 			VendingMachineRequest.parseResponse( urlString, responseText );
@@ -856,29 +862,34 @@ public class NPCPurchaseRequest
 				return BuffJimmyRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.startsWith( "sbb_taco" ) )
+			if ( shopId.equals( "sbb_taco" ) )
 			{
 				return TacoDanRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.startsWith( "sbb_brogurt" ) )
+			if ( shopId.equals( "sbb_brogurt" ) )
 			{
 				return BrogurtRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.startsWith( "caveshop" ) )
+			if ( shopId.equals( "caveshop" ) )
 			{
 				return NeandermallRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.startsWith( "shoeshop" ) )
+			if ( shopId.equals( "shoeshop" ) )
 			{
 				return ShoeRepairRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.startsWith( "applestore" ) )
+			if ( shopId.equals( "applestore" ) )
 			{
 				return AppleStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "arcade" ) )
+			{
+				return TicketCounterRequest.registerRequest( urlString );
 			}
 
 			return false;

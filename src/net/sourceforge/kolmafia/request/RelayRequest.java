@@ -44,7 +44,6 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -1442,7 +1441,7 @@ public class RelayRequest
 
 		// If they aren't in the Laundry Room or Wine Cellar, no problem
 		if ( !AdventurePool.HAUNTED_WINE_CELLAR_ID.equals( this.getFormField( "snarfblat" ) ) &&
-			 !AdventurePool.HAUNTED_LAUNDRY_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
+		     !AdventurePool.HAUNTED_LAUNDRY_ROOM_ID.equals( this.getFormField( "snarfblat" ) ) )
 		{
 			return false;
 		}
@@ -1533,7 +1532,7 @@ public class RelayRequest
 
 		// If they aren't in the Poop Deck or Hidden Temple, no problem
 		if ( !AdventurePool.POOP_DECK_ID.equals( this.getFormField( "snarfblat" ) ) &&
-			 !AdventurePool.HIDDEN_TEMPLE_ID.equals( this.getFormField( "snarfblat" ) ) )
+		     !AdventurePool.HIDDEN_TEMPLE_ID.equals( this.getFormField( "snarfblat" ) ) )
 		{
 			return false;
 		}
@@ -3061,7 +3060,7 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( path.startsWith( "arcade.php" ) && this.sendArcadeWarning() )
+		if ( path.contains( "whichplace=arcade" ) && this.sendArcadeWarning() )
 		{
 			return true;
 		}
