@@ -474,7 +474,6 @@ public class ChatPoller
 			if ( obj.has( "last" ) )
 			{
 				// Remember the last timestamp the server gave us
-				System.out.println( "parsing mchat messages" );
 				ChatPoller.setServerLast( obj.getLong( "last" ) );
 			}
 
