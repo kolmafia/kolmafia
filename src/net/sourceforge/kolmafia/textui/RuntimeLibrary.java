@@ -63,6 +63,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -1698,6 +1701,9 @@ public abstract class RuntimeLibrary
 		
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "svn_info", svnInfoRec, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "xpath", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -2005,6 +2011,50 @@ public abstract class RuntimeLibrary
 			}
 			value.aset( keyname, keyval );
 		}
+		return value;
+	}
+
+	public static Value xpath( Interpreter interpreter, final Value xpath )
+	{
+		RelayRequest relayRequest = interpreter.getRelayRequest();
+		if ( relayRequest == null )
+		{
+			throw interpreter.runtimeException( "xpath requires a valid relay request" );
+		}
+
+		HtmlCleaner cleaner = relayRequest.getCleaner();
+
+		TagNode doc = cleaner.clean( relayRequest.responseText );
+
+		Object[] result;
+		try
+		{
+			result = doc.evaluateXPath( xpath.toString() );
+		}
+		catch ( XPatherException e )
+		{
+			throw interpreter.runtimeException( "invalid xpath expression" );
+		}
+
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, result.length );
+		ArrayValue value = new ArrayValue( type );
+
+		// convert Tagnode objects to strings consisting of their inner HTML
+
+		for ( int i = 0; i < result.length; i++ )
+		{
+			Object ob = result[ i ];
+
+			if ( ob instanceof TagNode )
+			{
+				TagNode tag = (TagNode) ob;
+				result[ i ] = //"<" + tag.getName() + ">" + 
+						cleaner.getInnerHtml( tag ); //+ "</" + tag.getName() + ">";
+			}
+
+			value.aset( new Value( i ), new Value( result[ i ].toString() ) );
+		}
+
 		return value;
 	}
 
