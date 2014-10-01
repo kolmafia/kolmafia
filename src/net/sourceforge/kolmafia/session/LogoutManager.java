@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -158,6 +160,7 @@ public class LogoutManager
 
 		// Serialize adventure queue data
 		AdventureQueueDatabase.serialize();
+		AdventureSpentDatabase.serialize();
 
 		// Clear out user data
 

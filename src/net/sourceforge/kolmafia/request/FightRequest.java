@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -3019,6 +3020,8 @@ public class FightRequest
 			RequestLogger.updateSessionLog( updateMessage );
 			KoLmafia.updateDisplay( updateMessage );
 		}
+
+		AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 
 		int adventure = KoLAdventure.lastAdventureId();
 

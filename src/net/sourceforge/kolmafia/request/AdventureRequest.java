@@ -79,7 +79,7 @@ public class AdventureRequest
 	extends GenericRequest
 {
 	public static final String NOT_IN_A_FIGHT = "Not in a Fight";
-
+	
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 
 	// <img id='monpic' src="http://images.kingdomofloathing.com/adventureimages/ssd_sundae.gif" width=100 height=100>
@@ -163,7 +163,7 @@ public class AdventureRequest
 		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "pyramid_state" ) )
 		{
 			this.addFormField( "whichplace", "pyramid" );
-			StringBuffer action = new StringBuffer();
+			StringBuilder action = new StringBuilder();
 			action.append( adventureId );
 			action.append( Preferences.getString( "pyramidPosition" ) );
 			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
@@ -266,7 +266,7 @@ public class AdventureRequest
 		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "pyramid_state" ) )
 		{
 			this.addFormField( "whichplace", "pyramid" );
-			StringBuffer action = new StringBuffer();
+			StringBuilder action = new StringBuilder();
 			action.append( adventureId );
 			action.append( Preferences.getString( "pyramidPosition" ) );
 			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
@@ -470,6 +470,11 @@ public class AdventureRequest
 		{
 			encounter = parseNoncombatEncounter( urlString, responseText );
 			type = "Noncombat";
+			if ( responseText.contains( "charpane.php" ) )
+			{
+				// Since a charpane refresh was requested, this might have taken a turn
+				CharPaneRequest.noncombatEncountered = true;
+			}
 		}
 
 		if ( encounter == null )
@@ -791,7 +796,7 @@ public class AdventureRequest
 		return "Noncombat";
 	}
 
-	private static String[][] LIMERICKS =
+	private static final String[][] LIMERICKS =
 	{
 		{ "Nantucket Snapper", "ancient old turtle" },
 		{ "The Apathetic Lizardman", "lizardman quite apathetic" },
