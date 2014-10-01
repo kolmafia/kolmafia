@@ -283,7 +283,7 @@ public abstract class KoLmafiaASH
 			KoLmafiaASH.INTERPRETERS.put( toExecute, interpreter );
 		}
 
-		return (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
+		return KoLmafiaASH.INTERPRETERS.get( toExecute );
 	}
 
 	public static void showUserFunctions( final Interpreter interpreter, final String filter )
@@ -367,6 +367,15 @@ public abstract class KoLmafiaASH
 
 			RequestLogger.printLine( description.toString() );
 
+		}
+	}
+
+	public static final void stopAllRelayInterpreters()
+	{
+		for ( Interpreter i : KoLmafiaASH.INTERPRETERS.values() )
+		{
+			if ( i.getRelayRequest() != null )
+				i.setState( Interpreter.STATE_EXIT );
 		}
 	}
 }

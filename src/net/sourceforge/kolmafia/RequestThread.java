@@ -387,6 +387,7 @@ public abstract class RequestThread
 	public static final void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( MafiaState.ABORT, "KoLmafia declares world peace." );
+		KoLmafiaASH.stopAllRelayInterpreters();
 		InternalMessage message = new InternalMessage( "KoLmafia declares world peace.", "red" );
 		ChatManager.broadcastEvent( message );
 	}
