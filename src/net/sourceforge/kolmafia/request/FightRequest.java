@@ -4910,7 +4910,7 @@ public class FightRequest
 				return;
 			}
 
-			StringBuilder text = (StringBuilder) node.getText();
+			CharSequence text = node.getText();
 			String str = text.toString();
 
 			// Camera flashes
@@ -5118,7 +5118,7 @@ public class FightRequest
 		}
 
 		StringBuffer action = status.action;
-		StringBuilder text = (StringBuilder) node.getText();
+		CharSequence text = node.getText();
 		String str = text.toString();
 
 		if ( inode == null )
@@ -5431,7 +5431,7 @@ public class FightRequest
 			return true;
 		}
 
-		StringBuilder text = (StringBuilder) span.getText();
+		CharSequence text = span.getText();
 		String str = text.toString();
 
 		// Log the actual kiss message
@@ -5790,9 +5790,9 @@ public class FightRequest
 		FightRequest.logText( buffer, status );
 	}
 
-	private static final void logText( StringBuilder buffer, final TagStatus status )
+	private static final void logText( CharSequence text, final TagStatus status )
 	{
-		FightRequest.logText( buffer.toString(), status );
+		FightRequest.logText( text.toString(), status );
 	}
 
 	private static final void logText( StringBuffer buffer, final TagStatus status )
