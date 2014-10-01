@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
@@ -87,6 +88,8 @@ public class CharPaneRequest
 
 	public static boolean compactCharacterPane = false;
 	public static boolean familiarBelowEffects = false;
+
+	public static boolean noncombatEncountered = false;
 
 	public CharPaneRequest()
 	{
@@ -913,7 +916,7 @@ public class CharPaneRequest
 
 	private static final void setLastAdventure( final String responseText )
 	{
-		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 )
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight )
 		{
 			return;
 		}
@@ -946,7 +949,7 @@ public class CharPaneRequest
 
 	private static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
-		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 )
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight )
 		{
 			return;
 		}
@@ -962,6 +965,13 @@ public class CharPaneRequest
 		{
 			KoLAdventure.setNextAdventure( adventure );
 		}
+
+		if ( CharPaneRequest.noncombatEncountered && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated() )
+		{
+			AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
+		}
+		CharPaneRequest.noncombatEncountered = false;
+		AdventureSpentDatabase.setLastTurnUpdated( KoLCharacter.getCurrentRun() );
 	}
 
 	private static final Pattern compactFamiliarWeightPattern =

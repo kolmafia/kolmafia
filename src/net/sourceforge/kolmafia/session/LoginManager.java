@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -109,7 +110,7 @@ public class LoginManager
 			return;
 		}
 
-		if ( Preferences.getBoolean( "svnUpdateOnLogin"  ) && !Preferences.getBoolean( "_svnUpdated" ) )
+		if ( Preferences.getBoolean( "svnUpdateOnLogin" ) && !Preferences.getBoolean( "_svnUpdated" ) )
 		{
 			SVNManager.doUpdate();
 		}
@@ -175,6 +176,7 @@ public class LoginManager
 
 		// Load (or reset) adventure queue
 		AdventureQueueDatabase.deserialize();
+		AdventureSpentDatabase.deserialize();
 
 		// Reset all per-player information
 
@@ -215,7 +217,7 @@ public class LoginManager
 		if ( GenericRequest.passwordHash.equals( "" ) )
 		{
 			PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
-			RequestThread.postRequest(  request );
+			RequestThread.postRequest( request );
 		}
 
 		if ( Preferences.getString( "spadingData" ).length() > 10 )

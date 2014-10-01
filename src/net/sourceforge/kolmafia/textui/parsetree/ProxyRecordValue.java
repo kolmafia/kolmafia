@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -178,8 +179,8 @@ public class ProxyRecordValue
 	/* Helper for building parallel arrays of field names & types */
 	private static class RecordBuilder
 	{
-		private ArrayList<String> names;
-		private ArrayList<Type> types;
+		private final ArrayList<String> names;
+		private final ArrayList<Type> types;
 
 		public RecordBuilder()
 		{
@@ -773,6 +774,7 @@ public class ProxyRecordValue
 			.add( "bounty", DataTypes.BOUNTY_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
+			.add( "turns_spent", DataTypes.INT_TYPE )
 			.add( "kisses", DataTypes.INT_TYPE )
 			.add( "recommended_stat", DataTypes.INT_TYPE )
 			.add( "water_level", DataTypes.INT_TYPE )
@@ -860,6 +862,11 @@ public class ProxyRecordValue
 			}
 
 			return builder.toString();
+		}
+
+		public int get_turns_spent()
+		{
+			return AdventureSpentDatabase.getTurns( (KoLAdventure) this.content );
 		}
 
 		public int get_kisses()
