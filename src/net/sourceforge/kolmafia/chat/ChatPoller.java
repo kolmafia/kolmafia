@@ -317,7 +317,6 @@ public class ChatPoller
 
 		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSent );
 		ChatPoller.localLastSeen = ChatPoller.localLastSent;
-		System.out.println( "parsing lchat messages" );
 		ChatPoller.setServerLast( entry.getServerLastSeen() );
 		newEntries.add( entry );
 
