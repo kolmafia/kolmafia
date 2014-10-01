@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,19 +62,25 @@ public class ChatPoller
 	// The sequence number of the last HistoryEntry we have added
 	public static long localLastSeen = 0;
 
-	// *** Why are the following static? They should be specific to the
-	// *** particular chat client that is open - GUI or browser.
+	// The sequence number of the last poll from a chat client, either our
+	// chat GUI or the browser
 	public static long serverLastSeen = 0;
+
+	// ***
 	public static long localLastSent = 0;
 
-	// Milliseconds between polls
-	private static int CHAT_DELAY_NORMAL = 4500;
-	private static int CHAT_DELAY_PAUSED = 30000;
-	private static int delay = ChatPoller.CHAT_DELAY_NORMAL;
+	// Milliseconds between polls. Extracted from the Javascript source on
+	// Sept 30, 2014
+	private static int LCHAT_DELAY_NORMAL = 5000;
+	private static int LCHAT_DELAY_PAUSED = 30000;
+	private static int MCHAT_DELAY_NORMAL = 5000;
+	private static int MCHAT_DELAY_PAUSED = 10000;
+
+	// timestamps
+	public static Date lastServerPoll = new Date( 0 );
+	public static long lastLocalSent = 0;
 
 	private static String rightClickMenu = "";
-
-	private boolean running = false;
 
 	public static final void reset()
 	{
@@ -84,37 +91,139 @@ public class ChatPoller
 		ChatPoller.localLastSent = 0;
 	}
 
+	// The instance of the chat poller currently serving the chat GUI
+	private static ChatPoller INSTANCE = null;
+
+	// The GUI chat poller is running
+	private boolean running = false;
+
+	// The GUI chat poller is in "away" mode or not
+	private boolean paused = false;
+
+	// The delay between polls
+	private int delay = ChatPoller.LCHAT_DELAY_NORMAL;
+
+	public static ChatPoller getInstance()
+	{
+		return ChatPoller.INSTANCE;
+	}
+
+	public static void startInstance()
+	{
+		if ( ChatPoller.INSTANCE == null )
+		{
+			ChatPoller.INSTANCE = new ChatPoller();
+			ChatPoller.INSTANCE.start();
+		}
+	}
+
+	public static void stopInstance()
+	{
+		if ( ChatPoller.INSTANCE != null )
+		{
+			ChatPoller.INSTANCE.running = false;
+			ChatPoller.INSTANCE = null;
+		}
+	}
+
+	// Things that KoL tells us
+
+	public static void setServerLast( final long last )
+	{
+		// The "last" field of a JSON mchat response
+		ChatPoller.serverLastSeen = last;
+	}
+
+	public static void setServerDelay( final int delay )
+	{
+		// The "delay" field of a JSON mchat response
+		if ( ChatPoller.INSTANCE != null )
+		{
+			ChatPoller.INSTANCE.setDelay( delay );
+		}
+	}
+
+	private void setDelay( int delay )
+	{
+		// mchat does not choose delay; KoL specifies it after each poll
+		// However, mchat rejects wildly inappropriate values. So do we.
+
+		if ( delay < 1 || delay > 60000 )
+		{
+			delay = ChatPoller.MCHAT_DELAY_NORMAL;
+		}
+
+		this.delay = delay;
+	}
+
+	public static void setMchatPaused( final boolean paused )
+	{
+		// KoL has decided that the user is away or not
+		if ( ChatPoller.INSTANCE != null )
+		{
+			ChatPoller.INSTANCE.setPaused( paused );
+			ChatPoller.INSTANCE.setDelay( paused ? ChatPoller.MCHAT_DELAY_PAUSED : ChatPoller.MCHAT_DELAY_NORMAL );
+		}
+	}
+
+	public static void setLchatPaused( final boolean paused )
+	{
+		// The lchat client in the browser has decided that the user is away or not
+
+		if ( ChatPoller.INSTANCE != null )
+		{
+			ChatPoller.INSTANCE.setPaused( paused );
+			ChatPoller.INSTANCE.setDelay( paused ? ChatPoller.LCHAT_DELAY_PAUSED : ChatPoller.LCHAT_DELAY_NORMAL );
+		}
+	}
+
+	private void setPaused( final boolean paused )
+	{
+		// lchat uses afk=1 (paused) or afk=0 (normal)
+		// it is up to the chat client to slow down polls when paused.
+
+		// mchat tells us in an event message that the client is paused
+
+		this.paused = paused;
+	}
+
+	public static void serverPolled()
+	{
+		ChatPoller.lastServerPoll = new Date();
+	}
+
 	// The executable method which polls using the "lchat" protocol
 
 	@Override
 	public void run()
 	{
-		long serverLast = serverLastSeen;
 		PauseObject pauser = new PauseObject();
 
 		this.running = true;
+		this.paused = false;
+
 		while ( this.running )
 		{
 			try
 			{
-				if ( serverLast == ChatPoller.serverLastSeen )
+				// Only poll if the browser has not polled recently enough
+				long serverLast;
+				synchronized ( ChatPoller.lastServerPoll )
 				{
-					List<HistoryEntry> entries = ChatPoller.getEntries( ChatPoller.localLastSeen, false );
+					serverLast = ChatPoller.lastServerPoll.getTime();
 				}
-				serverLast = ChatPoller.serverLastSeen;
+				if ( serverLast == 0 || ( new Date().getTime() - serverLast ) >= this.delay )
+				{
+					List<HistoryEntry> entries = ChatPoller.getEntries( ChatPoller.localLastSeen, false, this.paused );
+				}
 			}
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace(e);
 			}
 
-			pauser.pause( ChatPoller.delay );
+			pauser.pause( this.delay );
 		}
-	}
-
-	public void terminate()
-	{
-		this.running = false;
 	}
 
 	public synchronized static void addEntry( ChatMessage message )
@@ -194,7 +303,7 @@ public class ChatPoller
 		return newEntries;
 	}
 
-	public synchronized static List<HistoryEntry> getEntries( final long lastSeen, final boolean isRelayRequest )
+	public synchronized static List<HistoryEntry> getEntries( final long lastSeen, final boolean isRelayRequest, final boolean paused )
 	{
 		List<HistoryEntry> newEntries = ChatPoller.getOldEntries( isRelayRequest );
 
@@ -203,12 +312,13 @@ public class ChatPoller
 			ChatSender.sendMessage( null, "/listen", true );
 		}
 
-		ChatRequest request = new ChatRequest( ChatPoller.serverLastSeen, false );
+		ChatRequest request = new ChatRequest( ChatPoller.serverLastSeen, false, paused );
 		request.run();
 
 		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSent );
 		ChatPoller.localLastSeen = ChatPoller.localLastSent;
-		ChatPoller.serverLastSeen = entry.getServerLastSeen();
+		System.out.println( "parsing lchat messages" );
+		ChatPoller.setServerLast( entry.getServerLastSeen() );
 		newEntries.add( entry );
 
 		synchronized ( ChatPoller.chatHistoryEntries )
@@ -266,12 +376,6 @@ public class ChatPoller
 		try
 		{
 			JSONObject obj = new JSONObject( responseData );
-			long last = 0;
-
-			if ( obj.has( "last" ) )
-			{
-				last = obj.getLong( "last" );
-			}
 
 			List<ChatMessage> messages = new LinkedList<ChatMessage>();
 
@@ -312,7 +416,22 @@ public class ChatPoller
 
 				if ( type.equals( "event" ) )
 				{
-					// TODO: handle events
+					// {"type":"event","msg":"You are now in away mode, chat will update more slowly until you say something.","notnew":1,"time":1411683685}
+					// {"type":"event","msg":"Welcome back!  Away mode disabled.","time":1411683893}
+					if ( content != null )
+					{
+						if ( content.startsWith( "You are now in away mode" ) )
+						{
+							ChatPoller.setMchatPaused( true );
+						}
+						else if ( content.contains( "Away mode disabled" ) )
+						{
+							ChatPoller.setMchatPaused( false );
+						}
+
+						// TODO: handle other events
+					}
+
 					messages.add( new EventMessage( content, "green" ) );
 					continue;
 				}
@@ -352,9 +471,18 @@ public class ChatPoller
 				messages.add( new ChatMessage( sender, recipient, content, isAction ) );
 			}
 
-			if ( last != 0 )
+
+			if ( obj.has( "last" ) )
 			{
-				ChatPoller.serverLastSeen = last;
+				// Remember the last timestamp the server gave us
+				System.out.println( "parsing mchat messages" );
+				ChatPoller.setServerLast( obj.getLong( "last" ) );
+			}
+
+			if ( obj.has( "delay" ) )
+			{
+				// Set the chat GUI's delay to whatever KoL says it should be.
+				ChatPoller.setServerDelay( obj.getInt( "delay" ) );
 			}
 
 			ChatManager.processMessages( messages );

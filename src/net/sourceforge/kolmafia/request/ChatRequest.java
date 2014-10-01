@@ -50,7 +50,7 @@ public class ChatRequest
 	 * @param tabbedChat true if "modern" chat, false if "older" chat
 	 */
 
-	public ChatRequest( final long lastSeen, final boolean tabbedChat )
+	public ChatRequest( final long lastSeen, final boolean tabbedChat, final boolean afk )
 	{
 		super( "", false );
 
@@ -60,6 +60,12 @@ public class ChatRequest
 		if ( tabbedChat )
 		{
 			newURLString.append( "j=1&" );
+		}
+		else
+		{
+			newURLString.append( "afk=" );
+			newURLString.append( afk ? "1" : "0" );
+			newURLString.append( "&" );
 		}
 
 		newURLString.append( "lasttime=" );
