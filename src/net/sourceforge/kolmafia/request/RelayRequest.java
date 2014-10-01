@@ -111,14 +111,12 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
-import org.htmlcleaner.HtmlCleaner;
 import org.json.JSONObject;
 
 public class RelayRequest
@@ -142,8 +140,6 @@ public class RelayRequest
 	public String contentType = null;
 	public long lastModified = 0;
 	public String statusLine = "HTTP/1.1 302 Found";
-
-	private HtmlCleaner cleaner;
 
 	public static boolean specialCommandIsAdventure = false;
 	public static String specialCommandResponse = "";
@@ -3225,18 +3221,5 @@ public class RelayRequest
 	private static boolean showWikiLink( final String item )
 	{
 		return Preferences.getBoolean( "relayAddsWikiLinks" );
-	}
-
-	public HtmlCleaner getCleaner()
-	{
-		if ( this.cleaner == null )
-		{
-			this.cleaner = HTMLParserUtils.configureDefaultParser();
-		}
-
-		if ( this.responseText == null )
-			return null;
-
-		return this.cleaner;
 	}
 }
