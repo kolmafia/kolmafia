@@ -3747,7 +3747,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.GG_TOKEN );
 			this.addListener( "_defectiveTokenChecked" );
 			this.button = this.addButton( "defective token" );
-			this.button.setActionCommand( "ashq visit_url(\"arcade.php?action=plumber\");" );
+			this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=arcade&action=arcade_plumber\");" );
 			this.addLabel( "click to check" );
 		}
 

@@ -35,17 +35,22 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TicketCounterRequest
 	extends CoinMasterRequest
@@ -61,7 +66,7 @@ public class TicketCounterRequest
 			TicketCounterRequest.master,
 			"arcade",
 			TicketCounterRequest.class,
-			"arcade.php",
+			"shop.php?whichshop=arcade",
 			"ticket",
 			"You currently have no Game Grid redemption tickets",
 			false,
@@ -86,10 +91,6 @@ public class TicketCounterRequest
 	public TicketCounterRequest()
 	{
 		super( TicketCounterRequest.TICKET_COUNTER );
-
-		// We want to visit the ticket counter, not redeem tickets
-		this.constructURLString( "arcade.php?ticketcounter=1" );
-
 	}
 
 	public TicketCounterRequest( final String action )
@@ -123,26 +124,49 @@ public class TicketCounterRequest
 		TicketCounterRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\"(\\d+)\".*?descitem\\((\\d+).*?<b>(.*?)</b>" );
+
+	private static final int[] unlockables =
+	{
+		ItemPool.SINISTER_DEMON_MASK,
+		ItemPool.CHAMPION_BELT,
+		ItemPool.SPACE_TRIP_HEADPHONES,
+		ItemPool.METEOID_ICE_BEAM,
+		ItemPool.DUNGEON_FIST_GAUNTLET,
+	};
+
 	public static boolean parseResponse( final String urlString, final String responseText )
 	{
-		if ( urlString.contains( "action=redeem" ) )
+		if ( !urlString.contains( "whichshop=arcade" ) )
 		{
-			CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
-			return true;
+			return false;
+		}
+		// Learn new trade items by simply visiting Arcade
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int id = StringUtilities.parseInt( matcher.group(1) );
+			for ( int i = 0; i < TicketCounterRequest.unlockables.length; i++ )
+			{
+				if ( id == TicketCounterRequest.unlockables[i] )
+				{
+					Preferences.setBoolean( "lockedItem" + id, false );
+					break;
+				}
+			}
+			String desc = matcher.group(2);
+			String name = matcher.group(3);
+			String data = ItemDatabase.getItemDataName( id );
+			// String price = matcher.group(4);
+			if ( data == null || !data.equals( name ) )
+			{
+				ItemDatabase.registerItem( id, name, desc );
+			}
 		}
 
-		if ( urlString.contains( "ticketcounter=1" ) )
-		{
-			ArcadeRequest.parseResponse( urlString, responseText );
-			return true;
-		}
+		CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
 
-		return false;
-	}
-
-	public static final void buy( final int itemId, final int count )
-	{
-		RequestThread.postRequest( new TicketCounterRequest( "redeem", itemId, count ) );
+		return true;
 	}
 
 	public static String accessible()
@@ -153,7 +177,7 @@ public class TicketCounterRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		// We only claim arcade.php?action=redeem
-		if ( !urlString.startsWith( "arcade.php" ) )
+		if ( !urlString.contains( "whichshop=arcade" ) )
 		{
 			return false;
 		}

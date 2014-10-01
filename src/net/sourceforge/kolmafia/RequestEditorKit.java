@@ -367,29 +367,6 @@ public class RequestEditorKit
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
-		else if ( location.startsWith( "arcade.php" ) )
-		{
-			StringBuilder note = new StringBuilder( "Arcade (" );
-			int count = InventoryManager.getCount( ItemPool.GG_TOKEN );
-			note.append( count );
-			note.append( " token" );
-			if ( count != 1 )
-			{
-				note.append( 's' );
-			}
-			note.append( ", " );
-			count = InventoryManager.getCount( ItemPool.GG_TICKET );
-			note.append( count );
-			note.append( " ticket" );
-			if ( count != 1 )
-			{
-				note.append( 's' );
-			}
-			note.append( ")</b>" );
-
-			StringUtilities.singleStringReplace( buffer,
-				"Arcade</b>", note.toString() );
-		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
 			ValhallaDecorator.decorateGashJump( buffer );
@@ -476,10 +453,6 @@ public class RequestEditorKit
 			// Do any monster-specific decoration
 			FightDecorator.decorate( buffer );
 		}
-		else if ( location.startsWith( "place.php?whichplace=forestvillage" ) )
-		{
-			UntinkerRequest.decorate( location, buffer );
-		}
 		else if ( location.startsWith( "hedgepuzzle.php" ) )
 		{
 			HedgePuzzleRequest.decorate( buffer );
@@ -553,9 +526,32 @@ public class RequestEditorKit
 		{
 			PandamoniumRequest.decoratePandamonium( location, buffer );
 		}
-		else if ( location.startsWith( "postwarisland.php" ) )
+		else if ( location.startsWith( "place.php?whichplace=arcade" ) )
 		{
-			IslandDecorator.decoratePostwarIsland( location, buffer );
+			StringBuilder note = new StringBuilder( "Arcade (" );
+			int count = InventoryManager.getCount( ItemPool.GG_TOKEN );
+			note.append( count );
+			note.append( " token" );
+			if ( count != 1 )
+			{
+				note.append( 's' );
+			}
+			note.append( ", " );
+			count = InventoryManager.getCount( ItemPool.GG_TICKET );
+			note.append( count );
+			note.append( " ticket" );
+			if ( count != 1 )
+			{
+				note.append( 's' );
+			}
+			note.append( ")</b>" );
+
+			StringUtilities.singleStringReplace( buffer,
+				"Arcade</b>", note.toString() );
+		}
+		else if ( location.startsWith( "place.php?whichplace=forestvillage" ) )
+		{
+			UntinkerRequest.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "place.php?whichplace=rabbithole" ) )
 		{
@@ -564,6 +560,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "place.php?whichplace=spookyraven2" ) )
 		{
 			RequestEditorKit.add2ndFloorSpoilers( buffer );
+		}
+		else if ( location.startsWith( "postwarisland.php" ) )
+		{
+			IslandDecorator.decoratePostwarIsland( location, buffer );
 		}
 		else if ( location.startsWith( "searchplayer.php" ) )
 		{

@@ -49,8 +49,6 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -70,12 +68,14 @@ public class ArcadeRequest
 
 	public ArcadeRequest()
 	{
-		super( "arcade.php" );
+		super( "place.php" );
+		this.addFormField( "whichplace", "arcade" );
 	}
 
 	public ArcadeRequest( final String action )
 	{
-		super( "arcade.php" );
+		super( "place.php" );
+		this.addFormField( "whichplace", "arcade" );
 		this.action = action;
 		this.addFormField( "action", action );
 	}
@@ -83,31 +83,21 @@ public class ArcadeRequest
 	public static final int getTurnsUsed( GenericRequest request )
 	{
 		String action = request.getFormField( "action" );
-		if ( action == null || !action.equals( "game" ) )
+		if ( action == null )
 		{
 			return 0;
 		}
 
-		String game = request.getFormField( "whichgame" );
-		if ( game != null && 
-		     ( game.equals( "1" ) ||
-		       game.equals( "2" ) ||
-		       game.equals( "3" ) ||
-		       game.equals( "4" ) ||
-		       game.equals( "5" ) ) )
+		if (  action.contains( "demonstar" ) ||
+		      action.contains( "meteoid" ) ||
+		      action.contains( "fighters" ) ||
+		      action.contains( "fist" ) ||
+		      action.contains( "spacetrip" ))
 		{
 			return 5;
 		}
 
 		return 0;
-	}
-
-	private static final Pattern GAME_PATTERN = Pattern.compile( "whichgame=(\\d+)" );
-
-	private static final int getGame( final String urlString  )
-	{
-		Matcher matcher = ArcadeRequest.GAME_PATTERN.matcher( urlString );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;
 	}
 
 	@Override
@@ -120,7 +110,7 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( this.action.equals( "skeeball" ) )
+		if ( this.action.equals( "arcade_skeeball" ) )
 		{
 			// You don't have any Game Grid tokens, so you can't
 			// play Skee-Ball. But don't feel bad. The Skee-Ball
@@ -137,48 +127,10 @@ public class ArcadeRequest
 		}
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+)</b>", Pattern.DOTALL );
-
-	private static final int[] unlockables =
-	{
-		ItemPool.SINISTER_DEMON_MASK,
-		ItemPool.CHAMPION_BELT,
-		ItemPool.SPACE_TRIP_HEADPHONES,
-		ItemPool.METEOID_ICE_BEAM,
-		ItemPool.DUNGEON_FIST_GAUNTLET,
-	};
-
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "arcade.php" ) )
+		if ( !urlString.contains( "whichplace=arcade" ) )
 		{
-			return;
-		}
-
-		if ( urlString.contains( "ticketcounter=1" ) )
-		{
-			// Learn new trade items by simply visiting Arcade
-			Matcher matcher = ITEM_PATTERN.matcher( responseText );
-			while ( matcher.find() )
-			{
-				int id = StringUtilities.parseInt( matcher.group(1) );
-				for ( int i = 0; i < ArcadeRequest.unlockables.length; i++ )
-				{
-					if ( id == ArcadeRequest.unlockables[i] )
-					{
-						Preferences.setBoolean( "lockedItem" + id, false );
-						break;
-					}
-				}
-				String desc = matcher.group(2);
-				String name = matcher.group(3);
-				String data = ItemDatabase.getItemDataName( id );
-				// String price = matcher.group(4);
-				if ( data == null || !data.equals( name ) )
-				{
-					ItemDatabase.registerItem( id, name, desc );
-				}
-			}
 			return;
 		}
 
@@ -188,61 +140,30 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( action.equals( "skeeball" ) )
+		if ( action.equals( "arcade_skeeball" ) )
 		{
 			// You don't have any Game Grid tokens, so you can't
 			// play Skee-Ball. But don't feel bad. The Skee-Ball
 			// machine is broken, so you wouldn't have been able to
 			// play Skee-Ball anyway.
-			if ( responseText.indexOf( "you can't play Skee-Ball" ) == -1 )
+			if ( !responseText.contains( "you can't play Skee-Ball" ) )
 			{
 				ResultProcessor.processItem( ItemPool.GG_TOKEN, -1 );
 			}
 			return;
 		}
 
-		if ( action.equals( "plumber" ) )
+		if ( action.equals( "arcade_plumber" ) )
 		{
 			// We visited Jackass Plumber for the day
 			Preferences.setBoolean( "_defectiveTokenChecked", true );
 			return;
 		}
-
-		if ( TicketCounterRequest.parseResponse( urlString, responseText ) )
-		{
-			return;
-		}
-
-		if ( !action.equals( "game" ) )
-		{
-			return;
-		}
-
-		int game = ArcadeRequest.getGame( urlString );
-		switch ( game )
-		{
-		case 1: // Space Trip
-		case 2:	// DemonStar
-		case 3:	// Dungeon Fist!
-		case 4:	// Fighters of Fighting
-		case 5:	// Meteoid
-			// These games only take tokens, and you don't have any
-
-			// If we succeed in playing a game, we were redirected
-			// to a choice adventure and never get here. Therefore,
-			// deduct tokens in registerRequest
-
-			if ( responseText.indexOf( "These games only take tokens" ) == -1 )
-			{
-				// The game also took 5 turns
-			}
-			break;
-		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "arcade.php" ) )
+		if ( !urlString.contains( "whichplace=arcade" ) )
 		{
 			return false;
 		}
@@ -257,14 +178,10 @@ public class ArcadeRequest
 				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 			}
 
-			if ( TicketCounterRequest.registerRequest( urlString ) )
-			{
-				return true;
-			}
-
 			int count = TOKEN.getCount( KoLConstants.inventory );
+			String name = null;
 
-			if ( action.equals( "plumber" ) )
+			if ( action.equals( "arcade_plumber" ) )
 			{
 				message = "Visiting Jackass Plumber";
 			}
@@ -277,50 +194,51 @@ public class ArcadeRequest
 				return true;
 			}
 
-			else if ( action.equals( "skeeball" ) )
+			else if ( action.equals( "arcade_skeeball" ) )
 			{
 				message = "Visiting Broken Skee-Ball Machine";
 			}
-			else if ( action.equals( "game" ) )
+
+			else if ( KoLCharacter.getAdventuresLeft() < 5 )
 			{
-				int game = ArcadeRequest.getGame( urlString );
-				String name = null;
-				switch ( game )
-				{
-				case 1: // Space Trip
-					name = "Space Trip";
-					break;
-				case 2:	// DemonStar
-					name = "DemonStar";
-					break;
-				case 3:	// Dungeon Fist!
-					name = "Dungeon Fist!";
-					break;
-				case 4:	// Fighters of Fighting
-					name = "The Fighters of Fighting";
-					break;
-				case 5:	// Meteoid
-					name = "Meteoid";
-					break;
-				default:
-					return false;
-				}
+				// Other actions require turns
+				return true;
+			}
 
-				if ( KoLCharacter.getAdventuresLeft() < 5 )
-				{
-					return true;
-				}
+			else if ( action.equals( "arcade_spacetrip" ) )
+			{
+				name = "Space Trip";
+			}
 
+			else if ( action.equals( "arcade_demonstar" ) )
+			{
+				name = "DemonStar";
+			}
+
+			else if ( action.equals( "arcade_meteoid" ) )
+			{
+				name = "Meteoid";
+			}
+
+			else if ( action.equals( "arcade_fighters" ) )
+			{
+				name = "The Fighters of Fighting";
+			}
+
+			else if ( action.equals( "arcade_fist" ) )
+			{
+				name = "Dungeon Fist!";
+			}
+
+
+			if ( name != null )
+			{
 				// We have a token and 5 adventures.
 				message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-
-				// Deduct the token here
-				ResultProcessor.processItem( ItemPool.GG_TOKEN, -1 );
 			}
-		}
-		else if ( urlString.indexOf( "ticketcounter=1" ) != -1 )
-		{
-			message = "Visiting Ticket Redemption Counter";
+
+			// Deduct the token here
+			ResultProcessor.processItem( ItemPool.GG_TOKEN, -1 );
 		}
 
 		if ( message == null )

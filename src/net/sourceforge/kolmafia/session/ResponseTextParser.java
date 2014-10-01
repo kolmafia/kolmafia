@@ -278,11 +278,6 @@ public class ResponseTextParser
 			ApiRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "arcade.php" ) )
-		{
-			ArcadeRequest.parseResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "arena.php" ) )
 		{
 			CakeArenaRequest.parseResponse( location, responseText );
@@ -673,7 +668,11 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "place.php" ) )
 		{
-			if ( location.contains( "whichplace=orc_chasm" ) )
+			if ( location.contains( "whichplace=arcade" ) )
+			{
+				ArcadeRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichplace=orc_chasm" ) )
 			{
 				OrcChasmRequest.parseResponse( location, responseText );
 			}

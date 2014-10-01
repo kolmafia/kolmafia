@@ -828,7 +828,7 @@ public class CoinmastersFrame
 
 		public void skeeball()
 		{
-			RequestThread.postRequest( new ArcadeRequest( "skeeball" ) );
+			RequestThread.postRequest( new ArcadeRequest( "arcade_skeeball" ) );
 		}
 	}
 

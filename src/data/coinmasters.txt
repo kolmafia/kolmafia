@@ -140,24 +140,24 @@ Crimbo Cartel	buy	10000	Crimbough
 
 # Things you can buy with Game Grid tickets
 
-Arcade Ticket Counter	buy	1	finger cuffs
-Arcade Ticket Counter	buy	2	little parachute guy
-Arcade Ticket Counter	buy	5	superduperball
-Arcade Ticket Counter	buy	10	coffee pixie stick
-Arcade Ticket Counter	buy	25	plastic spider ring
-Arcade Ticket Counter	buy	50	folder (Jackass Plumber)
-Arcade Ticket Counter	buy	100	cheap plastic kazoo
-Arcade Ticket Counter	buy	100	inflatable baseball bat
-Arcade Ticket Counter	buy	250	googly-star hat
-Arcade Ticket Counter	buy	250	googly-ball hat
-Arcade Ticket Counter	buy	250	googly-heart hat
-Arcade Ticket Counter	buy	2000	Game Grid valued membership card
-Arcade Ticket Counter	buy	5000	super-sweet boom box
-Arcade Ticket Counter	buy	1000	Space Trip safety headphones
-Arcade Ticket Counter	buy	1000	sinister demon mask
-Arcade Ticket Counter	buy	1000	Dungeon Fist gauntlet
-Arcade Ticket Counter	buy	1000	streetfighting champion's belt
-Arcade Ticket Counter	buy	1000	Meteoid ice beam
+Arcade Ticket Counter	buy	1	finger cuffs	ROW359
+Arcade Ticket Counter	buy	2	little parachute guy	ROW360
+Arcade Ticket Counter	buy	5	superduperball	ROW361
+Arcade Ticket Counter	buy	10	coffee pixie stick	ROW363
+Arcade Ticket Counter	buy	25	plastic spider ring	ROW364
+Arcade Ticket Counter	buy	50	folder (Jackass Plumber)	ROW377
+Arcade Ticket Counter	buy	100	cheap plastic kazoo	ROW366
+Arcade Ticket Counter	buy	100	inflatable baseball bat	ROW367
+Arcade Ticket Counter	buy	250	googly-star hat	ROW368
+Arcade Ticket Counter	buy	250	googly-ball hat	ROW369
+Arcade Ticket Counter	buy	250	googly-heart hat	ROW370
+Arcade Ticket Counter	buy	2000	Game Grid valued membership card	ROW371
+Arcade Ticket Counter	buy	5000	super-sweet boom box	ROW372
+Arcade Ticket Counter	buy	1000	Space Trip safety headphones	ROW373
+Arcade Ticket Counter	buy	1000	sinister demon mask	ROW365
+Arcade Ticket Counter	buy	1000	Dungeon Fist gauntlet	ROW374
+Arcade Ticket Counter	buy	1000	streetfighting champion's belt	ROW375
+Arcade Ticket Counter	buy	1000	Meteoid ice beam	ROW376
 
 Conditional	folder (Jackass Plumber)
 Conditional	Space Trip safety headphones
