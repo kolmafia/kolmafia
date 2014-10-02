@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -63,6 +64,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.SimpleXmlSerializer;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -197,6 +202,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1698,6 +1704,9 @@ public abstract class RuntimeLibrary
 		
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "svn_info", svnInfoRec, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "xpath", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -2005,6 +2014,59 @@ public abstract class RuntimeLibrary
 			}
 			value.aset( keyname, keyval );
 		}
+		return value;
+	}
+
+	public static Value xpath( Interpreter interpreter, final Value html, final Value xpath )
+	{
+		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+
+		TagNode doc;
+		try
+		{
+			doc = cleaner.clean( html.toString() );
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+			throw interpreter.runtimeException( "something went wrong while cleaning html" );
+		}
+		Object[] result;
+		try
+		{
+			result = doc.evaluateXPath( xpath.toString() );
+		}
+		catch ( XPatherException e )
+		{
+			throw interpreter.runtimeException( "invalid xpath expression" );
+		}
+
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, result.length );
+		ArrayValue value = new ArrayValue( type );
+
+		// convert Tagnode objects to strings consisting of their inner HTML
+
+		for ( int i = 0; i < result.length; i++ )
+		{
+			Object ob = result[ i ];
+
+			if ( ob instanceof TagNode )
+			{
+				TagNode tag = (TagNode) ob;
+				try
+				{
+					result[ i ] = new SimpleXmlSerializer( cleaner.getProperties() ).getXmlAsString( tag );
+				}
+				catch ( IOException e )
+				{
+					StaticEntity.printStackTrace( e );
+					throw interpreter.runtimeException( "something went wrong while serializing to html" );
+				}
+			}
+
+			value.aset( new Value( i ), new Value( result[ i ].toString() ) );
+		}
+
 		return value;
 	}
 
