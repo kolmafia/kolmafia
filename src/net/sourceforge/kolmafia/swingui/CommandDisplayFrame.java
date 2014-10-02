@@ -108,27 +108,23 @@ public class CommandDisplayFrame
 			return;
 		}
 
-		if ( !CommandDisplayFrame.commandQueue.isEmpty() )
+		if ( CommandDisplayFrame.hasQueuedCommands() )
 		{
 			RequestLogger.printLine();
+			
+			RequestLogger.printLine( " > <b>CURRENT</b>: " + handler.command );
 
 			Iterator<String> commandIterator = CommandDisplayFrame.commandQueue.iterator();
 
-			for ( int i = 0; commandIterator.hasNext(); ++i )
+			int i;
+			for ( i = 1; commandIterator.hasNext(); ++i )
 			{
 				String cmd = StringUtilities.globalStringReplace( commandIterator.next(), "<", "&lt;" );
 
-				if ( i == 0 )
-				{
-					RequestLogger.printLine( " > <b>CURRENT</b>: " + cmd );
-				}
-				else
-				{
-					RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " + cmd );
-				}
+				RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " + cmd );
 			}
 
-			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " +
+			RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " +
 				StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
