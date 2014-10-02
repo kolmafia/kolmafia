@@ -133,6 +133,12 @@ public class AdventureSpentDatabase
 		{
 			return;
 		}
+		if ( !AdventureSpentDatabase.TURNS.containsKey( loc ) )
+		{
+			// This is a new location
+			AdventureSpentDatabase.TURNS.put( loc, 1 );
+			return;
+		}
 		int turns = AdventureSpentDatabase.TURNS.get( loc );
 		AdventureSpentDatabase.TURNS.put( loc, turns + 1 );
 	}
