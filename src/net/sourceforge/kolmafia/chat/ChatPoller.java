@@ -76,8 +76,14 @@ public class ChatPoller
 	private static int MCHAT_DELAY_NORMAL = 5000;
 	private static int MCHAT_DELAY_PAUSED = 10000;
 
+	private static int AWAY_MODE_THRESHOLD = ( 15 * 60 * 1000 );
+
+	private static final String AWAY_MESSAGE = "You are now in away mode, chat will update more slowly until you say something.";
+	private static final String BACK_MESSAGE = "Welcome back!  Away mode disabled.";
+
 	// timestamps
 	public static Date lastServerPoll = new Date( 0 );
+	public static Date lastSentMessage = new Date( 0 );
 	public static long lastLocalSent = 0;
 
 	private static String rightClickMenu = "";
@@ -192,6 +198,30 @@ public class ChatPoller
 		ChatPoller.lastServerPoll = new Date();
 	}
 
+	public static void sentMessage( final boolean isRelayRequest )
+	{
+		ChatPoller.lastSentMessage = new Date();
+		if ( ChatPoller.INSTANCE != null && !isRelayRequest )
+		{
+			ChatPoller.INSTANCE.sentMessage();
+		}
+		else
+		{
+			ChatPoller.setLchatPaused( false );
+		}
+	}
+
+	private void sentMessage()
+	{
+		if ( this.paused )
+		{
+			this.paused = false;
+			this.delay = ChatPoller.LCHAT_DELAY_NORMAL;
+			EventMessage message = new EventMessage( ChatPoller.BACK_MESSAGE, "green" );
+			ChatManager.broadcastEvent( message );
+		}
+	}
+
 	// The executable method which polls using the "lchat" protocol
 
 	@Override
@@ -202,8 +232,12 @@ public class ChatPoller
 		this.running = true;
 		this.paused = false;
 
+		// Since we just entered chat, pretend that we just sent a message
+		ChatPoller.lastSentMessage = new Date();
+
 		while ( this.running )
 		{
+			Date now = new Date();
 			try
 			{
 				// Only poll if the browser has not polled recently enough
@@ -212,7 +246,7 @@ public class ChatPoller
 				{
 					serverLast = ChatPoller.lastServerPoll.getTime();
 				}
-				if ( serverLast == 0 || ( new Date().getTime() - serverLast ) >= this.delay )
+				if ( serverLast == 0 || ( now.getTime() - serverLast ) >= this.delay )
 				{
 					List<HistoryEntry> entries = ChatPoller.getEntries( ChatPoller.localLastSeen, false, this.paused );
 				}
@@ -220,6 +254,13 @@ public class ChatPoller
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace(e);
+			}
+
+			if ( !this.paused && ( now.getTime() - ChatPoller.lastSentMessage.getTime() ) >= ChatPoller.AWAY_MODE_THRESHOLD )
+			{
+				ChatPoller.setLchatPaused( true );
+				EventMessage message = new EventMessage( ChatPoller.AWAY_MESSAGE, "green" );
+				ChatManager.broadcastEvent( message );
 			}
 
 			pauser.pause( this.delay );
