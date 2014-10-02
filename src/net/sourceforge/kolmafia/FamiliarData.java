@@ -491,17 +491,20 @@ public class FamiliarData
 			case FamiliarPool.HATRACK:
 				// Mad Hatrack
 				EquipmentManager.updateEquipmentList( EquipmentManager.HAT );
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 				break;
 
 			case FamiliarPool.HAND:
 				// Disembodied Hand
 				EquipmentManager.updateEquipmentList( EquipmentManager.WEAPON );
 				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 				break;
 
 			case FamiliarPool.SCARECROW:
 				// Fancypants Scarecrow
 				EquipmentManager.updateEquipmentList( EquipmentManager.PANTS );
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 				break;
 
 			default:
@@ -756,7 +759,12 @@ public class FamiliarData
 			return false;
 
 		case FamiliarPool.HATRACK:
-			return itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT;
+			// Hatrack can wear Hats as well as familiar items, but not Crown of Thrones
+			if ( itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT )
+			{
+				return true;
+			}
+			break;
 
 		case FamiliarPool.HAND:
 			// Disembodied Hand can't equip Mainhand only items or Single Equip items
@@ -767,7 +775,12 @@ public class FamiliarData
 			break;
 
 		case FamiliarPool.SCARECROW:
-			return ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_PANTS;
+			// Scarecrow can wear Pants as well as familiar items
+			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_PANTS )
+			{
+				return true;
+			}
+			break;
 		}
 
 		if ( itemId == FamiliarDatabase.getFamiliarItemId( this.id ) )
