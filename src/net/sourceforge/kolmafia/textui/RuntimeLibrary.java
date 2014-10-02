@@ -2046,6 +2046,8 @@ public abstract class RuntimeLibrary
 
 		// convert Tagnode objects to strings consisting of their inner HTML
 
+		SimpleXmlSerializer serializer = new SimpleXmlSerializer( cleaner.getProperties() );
+		
 		for ( int i = 0; i < result.length; i++ )
 		{
 			Object ob = result[ i ];
@@ -2055,7 +2057,7 @@ public abstract class RuntimeLibrary
 				TagNode tag = (TagNode) ob;
 				try
 				{
-					result[ i ] = new SimpleXmlSerializer( cleaner.getProperties() ).getXmlAsString( tag );
+					result[ i ] = serializer.getXmlAsString( tag );
 				}
 				catch ( IOException e )
 				{
