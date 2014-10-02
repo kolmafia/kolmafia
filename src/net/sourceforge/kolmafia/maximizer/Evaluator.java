@@ -149,6 +149,10 @@ public class Evaluator
 				this.relevantFamiliar( FamiliarPool.HAND );
 		case EquipmentManager.ACCESSORY1:
 			return 3;
+		case EquipmentManager.FAMILIAR:
+			// Familiar items include weapons, hats and pants, make sure we have enough to consider for other slots
+			return 1 + this.relevantFamiliar( FamiliarPool.SCARECROW ) +
+				this.relevantFamiliar( FamiliarPool.HAND ) + this.relevantFamiliar( FamiliarPool.HATRACK );
 		}
 		return 1;
 	}
