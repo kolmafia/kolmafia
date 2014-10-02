@@ -360,7 +360,7 @@ Iiti Kitty	mummycat.gif	Atk: 165 Def: 148 HP: 150 Init: 75 P: undead	leathery ca
 industrious construct	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct	El Vibrato punchcard (129 holes) (1)	El Vibrato punchcard (88 holes) (1)
 infernal seal larva	seal_larva.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 infernal seal spawn	seal_baby.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	seal eyeball (0)
-infinite meat bug	meatbug.gif	ULTRARARE Atk: 45 Def: 40 HP: 30 Init: 10000 P: bug	incredibly dense meat gem (100)
+infinite meat bug	meatbug.gif	ULTRARARE Atk: 45 Def: 40 HP: 30 Init: 10000 P: bug Meat: 10000	incredibly dense meat gem (100)
 inkubus	inkubus.gif	Atk: 58 Def: 52 HP: 58 Init: 40 E: hot Meat: 50 P: demon	bus pass (15)
 irate mariachi	mariachi2.gif	Atk: 20 Def: 18 HP: 17 Init: 50 Meat: 5 P: dude	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)	half-sized guitar (20)
 Irritating Series of Random Encounters	encount.gif	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 140 P: beast	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
