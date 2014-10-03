@@ -197,7 +197,7 @@ public class CakeArenaRequest
 			String message = CakeArenaRequest.resultMessage( responseText );
 			RequestLogger.updateSessionLog( message );
 
-			if ( message.contains( "lost" ) )
+			if ( !message.contains( "lost" ) )
 			{
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			}
@@ -284,7 +284,11 @@ public class CakeArenaRequest
 	private static String [] contestLines( final String responseText )
 	{
 		Matcher contestMatcher = CakeArenaRequest.CONTEST_PATTERN.matcher( responseText );
-		return contestMatcher.find() ? contestMatcher.group( 1 ).split( "<p>" ) : null;
+		if ( !contestMatcher.find() )
+		{
+			return null;
+		}
+		return StringUtilities.globalStringReplace( contestMatcher.group( 1 ), "<p><p>", "<p>" ).split( "<p>" );
 	}
 
 	private static String prettyContestLine( final String line )
