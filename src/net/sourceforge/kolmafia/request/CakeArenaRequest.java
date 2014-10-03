@@ -288,7 +288,7 @@ public class CakeArenaRequest
 		{
 			return null;
 		}
-		return StringUtilities.globalStringReplace( contestMatcher.group( 1 ), "<p><p>", "<p>" ).split( "<p>" );
+		return StringUtilities.globalStringReplace( contestMatcher.group( 1 ), "<p><p>", "<p>(Missing \"this familiar sucks at this contest\" message)<p>" ).split( "<p>" );
 	}
 
 	private static String prettyContestLine( final String line )
