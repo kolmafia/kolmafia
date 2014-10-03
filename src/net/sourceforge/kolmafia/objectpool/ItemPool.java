@@ -2128,6 +2128,7 @@ public class ItemPool
 	public static final int XIBLAXIAN_SCHEMATIC_RESIDENCE = 7748;
 	public static final int XIBLAXIAN_SCHEMATIC_GOGGLES = 7749;
 	public static final int FIVE_D_PRINTER = 7750;
+	public static final int CONSPIRACY_ISLAND_CHARTER = 7767;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

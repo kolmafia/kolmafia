@@ -857,6 +857,7 @@ user	snowmanTurns	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
+user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
 user	spookyPuttyCopiesMade	0
 user	spookyPuttyMonster

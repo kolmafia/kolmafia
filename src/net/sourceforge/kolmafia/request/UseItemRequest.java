@@ -4508,6 +4508,10 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.CONSPIRACY_ISLAND_CHARTER:
+			Preferences.setBoolean( "spookyAirportAlways", true );
+			return;
+
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			return;
