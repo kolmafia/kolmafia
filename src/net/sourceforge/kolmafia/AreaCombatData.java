@@ -1211,6 +1211,11 @@ public class AreaCombatData
 			double chance = combatRate / 2 + (double) snowmanTurns * 1.5;
 			return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
 		}
+		if ( monster.equals( "mother hellseal" ) )
+		{
+			double chance = Preferences.getInteger( "_sealScreeches" ) * 10;
+			return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
+		}
 		return 0;
 	}
 }

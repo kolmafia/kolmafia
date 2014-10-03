@@ -2366,6 +2366,13 @@ public class FightRequest
 			EquipmentManager.removeEquipment( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 		}
 
+		// The little hellseal gives you an aggrieved look, raises its head, and emits a high-pitched screeching wail.
+		// You hear a loud growling noise somewhere nearby. Uh-oh.
+		if ( responseText.contains( "high-pitched screeching wail" ) )
+		{
+			Preferences.increment( "_sealScreeches", 1, 10, false );
+		}
+
 		// "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
 		if ( responseText.contains( "leaps on your opponent" ) )
 		{

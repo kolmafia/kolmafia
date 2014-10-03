@@ -478,7 +478,7 @@ modern zmobie	modernzombie.gif	SUPERLIKELY Atk: 60 Def: 54 HP: 50 Init: 300 E: s
 moister oyster	moyster.gif	SEMIRARE Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 100 P: fish	giant pearl (n100)
 monstrous boiler	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: construct E: hot	chunk of hot iron (0)	red hot boilermaker (0)
 Monty Basingstoke-Pratt, IV	monty.gif	Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 174-215 E: sleaze P: orc	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
-mother hellseal	motherseal.gif	Atk: 150 Def: 135 HP: 150 Init: 150 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
+mother hellseal	motherseal.gif	SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: [150+ML] Exp: [150*1.385^pref(_sealScreeches)/4] Init: 150 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
 mud turtle	swampturtle.gif	Atk: 48 Def: 56 HP: 56 Init: 20 P: beast Meat: 30	fine aged cheddarwurst (0)	muddy pirate hat (0)	turtle mud (c0)
 Muff	muff.gif	Atk: 153 Def: 137 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
 Naughty Sorceress	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: humanoid P: dude

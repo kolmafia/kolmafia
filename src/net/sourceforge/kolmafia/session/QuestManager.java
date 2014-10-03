@@ -1603,6 +1603,10 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
 		}
+		else if ( monster.equalsIgnoreCase( "mother hellseal" ) )
+		{
+			Preferences.decrement( "_sealScreeches", 1, 0 );
+		}
 	}
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
