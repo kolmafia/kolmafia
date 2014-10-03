@@ -1125,6 +1125,7 @@ user	_resolutionAdv	0
 user	_riftletAdv	0
 user	_romanticFightsLeft	0
 user	_sealFigurineUses	0
+user	_sealScreeches	0
 user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sexChanged	false
