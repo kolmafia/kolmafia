@@ -495,20 +495,10 @@ public class RequestEditorKit
 		else if ( location.contains( "lchat.php" ) )
 		{
 			StringUtilities.globalStringDelete( buffer, "spacing: 0px;" );
-			StringUtilities.globalStringReplace( buffer, "cycles++", "cycles = 0" );
-			StringUtilities.globalStringReplace( buffer, "location.hostname", "location.host" );
-
 			StringUtilities.insertBefore(
-				buffer, "if (postedgraf",
+				buffer,
+				"if (postedgraf",
 				"if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } " );
-
-			// This is a hack to fix KoL chat as handled in earlier
-			// versions of Opera (doubled chat).
-
-			StringUtilities.insertBefore(
-				buffer, "http.onreadystatechange", "executed = false; " );
-			StringUtilities.singleStringReplace(
-				buffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
 		else if ( location.startsWith( "mall.php" ) )
 		{
