@@ -375,10 +375,6 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.FINISHED );
 		}
-		if ( responseText.contains( "White Citadel near Whitey's Grove" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
-		}
 		if ( responseText.contains( "Once you have completed the weapon" ) ||
 		     responseText.contains( "Once you have smithed the Epic Weapon" ) ||
 		     responseText.contains( "When you get the Epic Weapon built" ) )
@@ -423,27 +419,13 @@ public class QuestManager
 
 	private static void handleWhiteCitadelChange( final String responseText )
 	{
-		if ( responseText.contains( "Cheetahs Never Lose" ) )
+		if ( responseText.contains( "I Guess They Were the Existential Blues Brothers" ) )
 		{
-			if ( responseText.contains( "further down the Road to the White Citadel" ) )
-			{
-				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step3" );
-			}
-			else
-			{
-				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step2" );
-			}
+			QuestDatabase.setQuestProgress( Quest.CITADEL, "step3" );
 		}
-		if ( responseText.contains( "Summer Holiday" ) )
+		else
 		{
-			if ( responseText.contains( "unpack the hang glider" ) )
-			{
-				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step5" );
-			}
-			else
-			{
-				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step4" );
-			}
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step2" );
 		}
 	}
 
@@ -1466,6 +1448,28 @@ public class QuestManager
 		else if ( monster.equalsIgnoreCase( "Wumpus" ) )
 		{
 			WumpusManager.reset();
+		}
+		else if ( monster.equalsIgnoreCase( "pair of burnouts" ) )
+		{
+			int increment = responseText.contains( "throw the opium grenade" ) ? 3 : 1;
+			Preferences.increment( "burnoutsDefeated", increment, 30, false );
+			if ( Preferences.getInteger( "burnoutsDefeated" ) == 30 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step4" );
+			}
+		}
+		else if ( monster.equalsIgnoreCase( "biclops" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CITADEL, "step5" );
+		}
+		else if ( monster.equalsIgnoreCase( "surprised and annoyed witch" ) ||
+				monster.equalsIgnoreCase( "extremely annoyed witch" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CITADEL, "step7" );
+		}
+		else if ( monster.equalsIgnoreCase( "Elp&iacute;zo & Crosybdis" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CITADEL, "step10" );
 		}
 
 		int adventure = KoLAdventure.lastAdventureId();
