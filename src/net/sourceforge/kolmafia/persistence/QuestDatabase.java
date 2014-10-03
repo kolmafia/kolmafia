@@ -500,6 +500,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "maraisWizardUnlock" );
 		Preferences.resetToDefault( "maraisBeaverUnlock" );
 		Preferences.resetToDefault( "maraisVillageUnlock" );
+		Preferences.resetToDefault( "burnoutsDefeated" );
 		Preferences.resetToDefault( "corralUnlocked" );
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );

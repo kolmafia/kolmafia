@@ -427,8 +427,7 @@ public class ItemPool
 	public static final int STENCH_WAD = 1454;
 	public static final int SLEAZE_WAD = 1455;
 	public static final int GIFTV = 1460;
-	public static final int BAG_OF_CATNIP = 1486;
-	public static final int HANG_GLIDER = 1487;
+	public static final int LUCKY_RABBIT_FOOT = 1485;
 	public static final int MINIATURE_DORMOUSE = 1489;
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;

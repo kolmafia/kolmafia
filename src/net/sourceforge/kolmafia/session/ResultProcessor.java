@@ -1406,7 +1406,10 @@ public class ResultProcessor
 
 		case ItemPool.CITADEL_SATCHEL:
 			ResultProcessor.processMeat( -300 );
-			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step6" );
+			break;
+
+		case ItemPool.LUCKY_RABBIT_FOOT:
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.HAROLDS_BELL:

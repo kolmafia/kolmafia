@@ -338,25 +338,6 @@ public abstract class EncounterManager
 
 	public static void handleSpecialEncounter( final String encounterName, final String responseText )
 	{
-		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) )
-		{
-			if ( InventoryManager.hasItem( ItemPool.BAG_OF_CATNIP ) )
-			{
-				ResultProcessor.processItem( ItemPool.BAG_OF_CATNIP, -1 );
-			}
-			return;
-		}
-
-		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) )
-		{
-			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
-			{
-				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
-				QuestDatabase.setQuestProgress( Quest.CITADEL, "step5" );
-			}
-			return;
-		}
-
 		if ( encounterName.equalsIgnoreCase( "Step Up to the Table, Put the Ball in Play" ) )
 		{
 			if ( InventoryManager.hasItem( ItemPool.CARONCH_DENTURES ) )

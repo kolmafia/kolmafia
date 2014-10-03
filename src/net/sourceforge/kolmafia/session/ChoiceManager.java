@@ -3141,6 +3141,9 @@ public abstract class ChoiceManager
 				       new Option( "enter lower chamber", 5 ),
 				       new Option( "leave", 6 ) } ),
 
+		// Choice 930 is Another Errand I Mean Quest
+		// Choice 931 is Life Ain't Nothin But Witches and Mummies
+		// Choice 932 is No Whammies
 		// Choice 935 is Lost in Space... Ship
 		// Choice 936 is The Nerve Center
 		// Choice 937 is The Spacement
@@ -5853,7 +5856,14 @@ public abstract class ChoiceManager
 				KoLCharacter.registerSemirare();
 			}
 			break;
-
+		case 931:
+			// Life Ain't Nothin But Witches and Mummies
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step6" );
+			break;
+		case 932:
+			// No Whammies
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step8" );
+			break;
 		}
 	}
 
@@ -7412,6 +7422,22 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 930:
+			// Another Errand I Mean Quest
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
+			}
+			break;
+
+		case 932:
+			// No Whammies
+			if ( text.contains( "steel your nerves for what lies ahead" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.CITADEL, "step9" );
+			}
+			break;
+				
 		case 967:
 			// The Thunder Rolls...
 			if ( ChoiceManager.lastDecision != 8 )

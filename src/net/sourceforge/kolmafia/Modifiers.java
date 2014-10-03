@@ -53,6 +53,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -2536,8 +2538,16 @@ public class Modifiers
 		return Modifiers.synergies.iterator();
 	}
 
+	private static final AdventureResult somePigs = EffectPool.get( Effect.SOME_PIGS );
+	
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
+		if ( KoLConstants.activeEffects.contains( Modifiers.somePigs ) )
+		{
+			// Under the effect of SOME PIGS, familiar gives no modifiers
+			return;
+		}
+
 		int weight = familiar.getWeight();
 
 		weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );

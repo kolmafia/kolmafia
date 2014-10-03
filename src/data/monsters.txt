@@ -216,7 +216,7 @@ Electron Submarine	submarine.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 
 elegant animated nightstand	nightstand5.gif	Atk: 55 Def: 50 HP: 65 Init: -10000 P: construct
 elephant (meatcar?) topiary animal	topi3.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)
 Elite Beer Bongadier	warfratbg2.gif	Atk: 190 Def: 184 HP: 230 Init: 50 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
-Elpízo & Crosybdis	elp_and_cros.gif	Atk: 38 Def: 36 HP: 45 Init: 30 P: beast	glass of bourbon (c100)
+Elp&iacute;zo & Crosybdis	elp_and_cros.gif	Atk: 38 Def: 36 HP: 45 Init: 30 P: beast	glass of bourbon (c100)
 empty suit of armor	armor.gif	Atk: 60 Def: 54 HP: 60 Init: -10000 ED: spooky P: construct	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 endangered inflatable white tiger	inflatiger.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast
 Enraged Cow	cow.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast
