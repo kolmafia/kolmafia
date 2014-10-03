@@ -7783,7 +7783,7 @@
 7764	residual zeal	824782325	disease.gif	usable	t	0	clouds of residual zeal
 7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
-7767
+7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0
 7768
 7769
 7770
