@@ -168,7 +168,7 @@ public class ChatSender
 			return "";
 		}
 
-		ChatPoller.sentMessage( isRelayRequest );
+		ChatPoller.sentMessage( tabbedChat );
 		ChatRequest request = new ChatRequest( graf, tabbedChat );
 		List<ChatMessage> messages = ChatSender.sendRequest( request, tabbedChat );
 		accumulatedMessages.addAll( messages );

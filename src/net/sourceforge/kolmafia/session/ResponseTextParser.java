@@ -179,6 +179,7 @@ public class ResponseTextParser
 		}
 
 		if ( location.startsWith( "lchat.php" ) ||
+		     location.startsWith( "mchat.php" ) ||
 		     location.startsWith( "newchatmessages.php" ) ||
 		     location.startsWith( "submitnewchat.php" ) )
 		{

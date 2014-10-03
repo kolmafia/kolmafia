@@ -61,15 +61,15 @@ public class ChatRequest
 		{
 			newURLString.append( "j=1&" );
 		}
-		else
-		{
-			newURLString.append( "afk=" );
-			newURLString.append( afk ? "1" : "0" );
-			newURLString.append( "&" );
-		}
 
 		newURLString.append( "lasttime=" );
 		newURLString.append( String.valueOf( lastSeen ) );
+
+		if ( !tabbedChat )
+		{
+			newURLString.append( "&afk=" );
+			newURLString.append( afk ? "1" : "0" );
+		}
 
 		this.constructURLString( newURLString.toString(), false );
 

@@ -140,57 +140,66 @@ public class ChatPoller
 		ChatPoller.serverLastSeen = last;
 	}
 
-	public static void setServerDelay( final int delay )
+	public static void setServerDelay( int delay )
 	{
 		// The "delay" field of a JSON mchat response
 		if ( ChatPoller.INSTANCE != null )
 		{
-			ChatPoller.INSTANCE.setDelay( delay );
+			// mchat does not choose delay; KoL specifies it after each poll
+			// However, mchat rejects wildly inappropriate values. So do we.
+
+			if ( delay < 1 || delay > 60000 )
+			{
+				delay = ChatPoller.MCHAT_DELAY_NORMAL;
+			}
+
+			ChatPoller.INSTANCE.delay = delay;
 		}
 	}
 
-	private void setDelay( int delay )
+	public static void pauseChat( final boolean paused, final boolean mchat )
 	{
-		// mchat does not choose delay; KoL specifies it after each poll
-		// However, mchat rejects wildly inappropriate values. So do we.
-
-		if ( delay < 1 || delay > 60000 )
-		{
-			delay = ChatPoller.MCHAT_DELAY_NORMAL;
-		}
-
-		this.delay = delay;
-	}
-
-	public static void setMchatPaused( final boolean paused )
-	{
-		// KoL has decided that the user is away or not
 		if ( ChatPoller.INSTANCE != null )
 		{
-			ChatPoller.INSTANCE.setPaused( paused );
-			ChatPoller.INSTANCE.setDelay( paused ? ChatPoller.MCHAT_DELAY_PAUSED : ChatPoller.MCHAT_DELAY_NORMAL );
+			if ( paused )
+			{
+				ChatPoller.INSTANCE.pause( mchat );
+			}
+			else
+			{
+				ChatPoller.INSTANCE.unpause( mchat );
+			}
 		}
 	}
 
-	public static void setLchatPaused( final boolean paused )
+	private void pause( final boolean mchat )
 	{
-		// The lchat client in the browser has decided that the user is away or not
-
-		if ( ChatPoller.INSTANCE != null )
+		if ( !this.paused )
 		{
-			ChatPoller.INSTANCE.setPaused( paused );
-			ChatPoller.INSTANCE.setDelay( paused ? ChatPoller.LCHAT_DELAY_PAUSED : ChatPoller.LCHAT_DELAY_NORMAL );
+			this.paused = true;
+			this.delay = mchat ? ChatPoller.MCHAT_DELAY_PAUSED : ChatPoller.LCHAT_DELAY_PAUSED;
+			if ( !mchat )
+			{
+				// mchat gives us the AWAY message as an event
+				EventMessage message = new EventMessage( ChatPoller.AWAY_MESSAGE, "green" );
+				ChatManager.broadcastEvent( message );
+			}
 		}
 	}
 
-	private void setPaused( final boolean paused )
+	private void unpause( final boolean mchat )
 	{
-		// lchat uses afk=1 (paused) or afk=0 (normal)
-		// it is up to the chat client to slow down polls when paused.
-
-		// mchat tells us in an event message that the client is paused
-
-		this.paused = paused;
+		if ( this.paused )
+		{
+			this.paused = false;
+			this.delay = mchat ? ChatPoller.MCHAT_DELAY_NORMAL : ChatPoller.LCHAT_DELAY_NORMAL;
+			if ( !mchat )
+			{
+				// mchat gives us the BACK message as an event
+				EventMessage message = new EventMessage( ChatPoller.BACK_MESSAGE, "green" );
+				ChatManager.broadcastEvent( message );
+			}
+		}
 	}
 
 	public static void serverPolled()
@@ -198,27 +207,12 @@ public class ChatPoller
 		ChatPoller.lastServerPoll = new Date();
 	}
 
-	public static void sentMessage( final boolean isRelayRequest )
+	public static void sentMessage( final boolean mchat )
 	{
 		ChatPoller.lastSentMessage = new Date();
-		if ( ChatPoller.INSTANCE != null && !isRelayRequest )
+		if ( ChatPoller.INSTANCE != null )
 		{
-			ChatPoller.INSTANCE.sentMessage();
-		}
-		else
-		{
-			ChatPoller.setLchatPaused( false );
-		}
-	}
-
-	private void sentMessage()
-	{
-		if ( this.paused )
-		{
-			this.paused = false;
-			this.delay = ChatPoller.LCHAT_DELAY_NORMAL;
-			EventMessage message = new EventMessage( ChatPoller.BACK_MESSAGE, "green" );
-			ChatManager.broadcastEvent( message );
+			ChatPoller.INSTANCE.unpause( mchat );
 		}
 	}
 
@@ -256,11 +250,9 @@ public class ChatPoller
 				StaticEntity.printStackTrace(e);
 			}
 
-			if ( !this.paused && ( now.getTime() - ChatPoller.lastSentMessage.getTime() ) >= ChatPoller.AWAY_MODE_THRESHOLD )
+			if ( !this.paused && ( now.getTime() - ChatPoller.lastSentMessage.getTime() ) > ChatPoller.AWAY_MODE_THRESHOLD )
 			{
-				ChatPoller.setLchatPaused( true );
-				EventMessage message = new EventMessage( ChatPoller.AWAY_MESSAGE, "green" );
-				ChatManager.broadcastEvent( message );
+				this.pause( false );
 			}
 
 			pauser.pause( this.delay );
@@ -462,11 +454,11 @@ public class ChatPoller
 					{
 						if ( content.startsWith( "You are now in away mode" ) )
 						{
-							ChatPoller.setMchatPaused( true );
+							ChatPoller.pauseChat( true, true );
 						}
 						else if ( content.contains( "Away mode disabled" ) )
 						{
-							ChatPoller.setMchatPaused( false );
+							ChatPoller.pauseChat( false, true );
 						}
 
 						// TODO: handle other events

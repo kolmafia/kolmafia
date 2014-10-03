@@ -2579,7 +2579,7 @@ public class RelayRequest
 		boolean paused = afkMatcher.find() && afkMatcher.group( 1 ).equals( "1" );
 
 		// If the browser's lchat is paused, we pause too.
-		ChatPoller.setLchatPaused( paused );
+		ChatPoller.pauseChat( paused, false );
 
 		List<HistoryEntry> chatMessages;
 		synchronized ( ChatPoller.lastServerPoll )
