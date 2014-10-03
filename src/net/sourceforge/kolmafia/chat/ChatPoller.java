@@ -76,7 +76,10 @@ public class ChatPoller
 	private static int MCHAT_DELAY_NORMAL = 5000;
 	private static int MCHAT_DELAY_PAUSED = 10000;
 
-	private static int AWAY_MODE_THRESHOLD = ( 15 * 60 * 1000 );
+	// lchat and mchat like to go into "away" mode after 15 minutes.  If
+	// you are running GUI chat and browser chat at the same time, let the
+	// browser chat go first.
+	private static int AWAY_MODE_THRESHOLD = ( 16 * 60 * 1000 );
 
 	private static final String AWAY_MESSAGE = "You are now in away mode, chat will update more slowly until you say something.";
 	private static final String BACK_MESSAGE = "Welcome back!  Away mode disabled.";
