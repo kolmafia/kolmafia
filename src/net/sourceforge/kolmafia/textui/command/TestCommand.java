@@ -223,7 +223,7 @@ public class TestCommand
 			}
 			catch ( XPatherException e )
 			{
-				StaticEntity.printStackTrace( e );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "invalid xpath expression" );
 				return;
 			}
 
