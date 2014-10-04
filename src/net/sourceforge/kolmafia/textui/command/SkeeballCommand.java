@@ -77,7 +77,7 @@ public class SkeeballCommand
 
 		for ( int i = 0; i < count; ++i )
 		{
-			RequestThread.postRequest( new ArcadeRequest( "skeeball" ) );
+			RequestThread.postRequest( new ArcadeRequest( "arcade_skeeball" ) );
 		}
 	}
 }
