@@ -142,6 +142,8 @@
 116	Hollow Leg	hollowleg.gif	0	0	0
 117	Belch The Rainbow	rrainbow.gif	5	5	0
 118	Pirate Bellow	louder.gif	3	11	0
+119	Hypersane		0	0	0
+120	Intimidating Mien		3	15	10
 
 # Skills available to Clubbers
 

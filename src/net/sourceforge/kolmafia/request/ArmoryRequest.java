@@ -47,87 +47,87 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
-public class ConspiracyVendingMachineRequest
+public class ArmoryRequest
 	extends CoinMasterRequest
 {
-	public static final String master = "A Vending Machine";
-	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ConspiracyVendingMachineRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ConspiracyVendingMachineRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( ConspiracyVendingMachineRequest.master );
+	public static final String master = "The Armory";
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ArmoryRequest.master );
+	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ArmoryRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( ArmoryRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Coins-spiracy" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.COINSPIRACY, 1 );
-	public static final CoinmasterData AVENDINGMACHINE =
+	public static final CoinmasterData ARMORY =
 		new CoinmasterData(
-			ConspiracyVendingMachineRequest.master,
-			"avendingmachine",
-			ConspiracyVendingMachineRequest.class,
-			"shop.php?whichshop=si_shop2",
+			ArmoryRequest.master,
+			"armory",
+			ArmoryRequest.class,
+			"shop.php?whichshop=si_shop3",
 			"Coinspiracy",
 			null,
 			false,
-			ConspiracyVendingMachineRequest.TOKEN_PATTERN,
-			ConspiracyVendingMachineRequest.COIN,
+			ArmoryRequest.TOKEN_PATTERN,
+			ArmoryRequest.COIN,
 			null,
 			"whichrow",
 			GenericRequest.WHICHROW_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
 			"buyitem",
-			ConspiracyVendingMachineRequest.buyItems,
-			ConspiracyVendingMachineRequest.buyPrices,
+			ArmoryRequest.buyItems,
+			ArmoryRequest.buyPrices,
 			null,
 			null,
 			null,
 			null,
 			true,
-			ConspiracyVendingMachineRequest.itemRows
+			ArmoryRequest.itemRows
 			);
 
-	public ConspiracyVendingMachineRequest()
+	public ArmoryRequest()
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE );
+		super( ArmoryRequest.ARMORY );
 	}
 
-	public ConspiracyVendingMachineRequest( final String action )
+	public ArmoryRequest( final String action )
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE, action );
+		super( ArmoryRequest.ARMORY, action );
 	}
 
-	public ConspiracyVendingMachineRequest( final String action, final AdventureResult [] attachments )
+	public ArmoryRequest( final String action, final AdventureResult [] attachments )
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE, action, attachments );
+		super( ArmoryRequest.ARMORY, action, attachments );
 	}
 
-	public ConspiracyVendingMachineRequest( final String action, final AdventureResult attachment )
+	public ArmoryRequest( final String action, final AdventureResult attachment )
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE, action, attachment );
+		super( ArmoryRequest.ARMORY, action, attachment );
 	}
 
-	public ConspiracyVendingMachineRequest( final String action, final int itemId, final int quantity )
+	public ArmoryRequest( final String action, final int itemId, final int quantity )
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE, action, itemId, quantity );
+		super( ArmoryRequest.ARMORY, action, itemId, quantity );
 	}
 
-	public ConspiracyVendingMachineRequest( final String action, final int itemId )
+	public ArmoryRequest( final String action, final int itemId )
 	{
-		super( ConspiracyVendingMachineRequest.AVENDINGMACHINE, action, itemId );
+		super( ArmoryRequest.ARMORY, action, itemId );
 	}
 
 	@Override
 	public void processResults()
 	{
-		ConspiracyVendingMachineRequest.parseResponse( this.getURLString(), this.responseText );
+		ArmoryRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.contains( "whichshop=si_shop2" ) )
+		if ( !urlString.contains( "whichshop=si_shop3" ) )
 		{
 			return;
 		}
 
-		CoinmasterData data = ConspiracyVendingMachineRequest.AVENDINGMACHINE;
+		CoinmasterData data = ArmoryRequest.ARMORY;
 
 		String action = GenericRequest.getAction( urlString );
 		if ( action != null )
@@ -142,12 +142,12 @@ public class ConspiracyVendingMachineRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=si_shop2" ) )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=si_shop3" ) )
 		{
 			return false;
 		}
 
-		CoinmasterData data = ConspiracyVendingMachineRequest.AVENDINGMACHINE;
+		CoinmasterData data = ArmoryRequest.ARMORY;
 		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 

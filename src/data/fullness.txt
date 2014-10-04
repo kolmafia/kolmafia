@@ -351,6 +351,7 @@ immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
 immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
 immaculate ice cream sandwich	4	1	decent	7-9	5-10	30-40	5-10
 incredible pizza	4	9	awesome	12-16	20-30	20-30	20-30
+initiative shawarma	1	5	awesome	0	0	0	0	30 Shawarma Initiative (+150 Init)
 insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
 insanely spicy jumping bean burrito	3	4	awesome	7-14	0	0	33
@@ -369,6 +370,7 @@ jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes (+15 Mox, +25
 juniper berries	1	2	crappy	1	0	0	10-15
 junk food	2	1	good	4-5	4-5	4-5	4-5
 junkyard dog	3	1	awesome	11-13	0	0	0	30 Dog Breath (+5% Combat Rate, +30 Stench Dam, +3 Hot/Spooky Res)
+karma shawarma	5	7	EPIC	0	0	0	0
 ketchup	1	1	crappy	1	0	0	0
 king cookie	1	13	EPIC	4-6	15-30	15-30	15-30	30 The Royal We (+25..50 exp)
 kiwi	1	2	decent	2	0	0	0
@@ -430,6 +432,7 @@ magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
+&quot;meat&quot; stick	1	5	good	0	0	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 Medical Pastaco	2	3	decent	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
@@ -735,6 +738,7 @@ warbear gyro	3	3	good	7-9	10-20	10-20	10-20
 warbear thermoregulator bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Superheated Guts (Serious Supercold resistance)
 warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to Playyyy (+60 WarBear Armor Penetration)
 warm mushroom	2	1	decent	2-3	12-14	0	0
+warm war shawarma	3	7	EPIC	0	0	0	0	30 Shawarma Warm War (+15 Mus, +50% Mus, +25 Hot Dam, +25 Hot Spell Dam, +3 Cold/Spooky Resist)
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
 wet dog	3	1	awesome	11-13	0	0	0	30 Hangdog (+20 Init, +30 Sleaze Dam, +3 Hot/Stench Res)

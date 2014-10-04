@@ -1354,6 +1354,15 @@ wild girl	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: -10000 P: dude E: sleaze	
 son of a son of a sailor	sonofsailor.gif	Atk: 350 Def: 350 HP: 600 Init: -10000 P: dude E: sleaze
 drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sleaze	bike rental broupon (c100)
 
+The Mansion of Dr. Weirdeaux (Conspiracy Island October 2014)
+one of Doctor Weirdeaux's creations	nopic.gif	Init: -10000 P: beast E: spooky	experimental serum P-00 (0)
+
+The Deep Dark Jungle (Conspiracy Island October 2014)
+bigface	bigface.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (0)
+Mercenary of Fortune	mercenary.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: dude E: spooky	specialty ammo bandolier (0)	Coinspiracy (0)
+smoke monster	smokemonster.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: spooky	transdermal smoke patch (0)
+Venus mantrap	mantrap.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: plant E: spooky	the most dangerous bait (0)
+
 The Secret Government Laboratory (Conspiracy Island October 2014)
 creepy little girl	creepygirl.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: dude E: spooky	jangly bracelet (0)
 government scientist	scientist.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: dude E: spooky	heavy-duty clipboard (0)	experimental serum G-9 (0)

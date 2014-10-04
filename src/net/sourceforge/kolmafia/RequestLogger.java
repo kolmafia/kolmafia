@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
+import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -62,13 +63,13 @@ import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo07Request;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
@@ -137,6 +138,7 @@ import net.sourceforge.kolmafia.request.RumpleRequest;
 import net.sourceforge.kolmafia.request.SeaMerkinRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
@@ -785,6 +787,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof ArmoryRequest || isExternal ) && ArmoryRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof AppleStoreRequest || isExternal ) && AppleStoreRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
@@ -875,6 +883,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof CanteenRequest || isExternal ) && CanteenRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof ClanLoungeRequest || isExternal ) && ClanLoungeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
@@ -894,12 +908,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ClosetRequest || isExternal ) && ClosetRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof ConspiracyVendingMachineRequest || isExternal ) && ConspiracyVendingMachineRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1248,6 +1256,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ShoeRepairRequest || isExternal ) && ShoeRepairRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof SHAWARMARequest || isExternal ) && SHAWARMARequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

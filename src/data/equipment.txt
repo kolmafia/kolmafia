@@ -1028,6 +1028,8 @@ Mer-kin dragnet	200	Mus: 85	2-handed dragnet
 Mer-kin finpaddle	200	Mus: 85	1-handed club
 Mer-kin hookspear	200	Mus: 85	1-handed spear
 Mer-kin switchblade	200	Mus: 85	2-handed switchblade
+mercenary pistol	50	Mox: 10	1-handed pistol
+mercenary rifle	150	Mox: 30	2-handed rifle
 Meteoid ice beam	80	Mox: 25	1-handed gun
 miniature deck cannon	200	Mox: 85	2-handed handcannon
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
