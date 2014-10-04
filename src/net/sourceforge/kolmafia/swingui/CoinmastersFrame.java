@@ -70,15 +70,16 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
+import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
@@ -96,6 +97,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -169,7 +171,9 @@ public class CoinmastersFrame
 	private CoinmasterPanel brogurtPanel = null;
 	private CoinmasterPanel buffJimmyPanel = null;
 	private CoinmasterPanel tacoDanPanel = null;
-	private CoinmasterPanel conspiracyVendingMachinePanel = null;
+	private CoinmasterPanel SHAWARMAPanel = null;
+	private CoinmasterPanel canteenPanel = null;
+	private CoinmasterPanel armoryPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -314,9 +318,19 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( tacoDanPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		conspiracyVendingMachinePanel = new ConspiracyVendingMachinePanel();
-		panel.add( conspiracyVendingMachinePanel );
-		this.selectorPanel.addPanel( conspiracyVendingMachinePanel.getPanelSelector(), panel );
+		SHAWARMAPanel = new SHAWARMAPanel();
+		panel.add( SHAWARMAPanel );
+		this.selectorPanel.addPanel( SHAWARMAPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		canteenPanel = new CanteenPanel();
+		panel.add( canteenPanel );
+		this.selectorPanel.addPanel( canteenPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		armoryPanel = new ArmoryPanel();
+		panel.add( armoryPanel );
+		this.selectorPanel.addPanel( armoryPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -452,7 +466,9 @@ public class CoinmastersFrame
 		brogurtPanel.update();
 		buffJimmyPanel.update();
 		tacoDanPanel.update();
-		conspiracyVendingMachinePanel.update();
+		SHAWARMAPanel.update();
+		canteenPanel.update();
+		armoryPanel.update();
 		awolPanel.update();
 		crimbo11Panel.update();
 		fudgeWandPanel.update();
@@ -984,12 +1000,30 @@ public class CoinmastersFrame
 		}
 	}
 
-	private class ConspiracyVendingMachinePanel
+	private class SHAWARMAPanel
 		extends CoinmasterPanel
 	{
-		public ConspiracyVendingMachinePanel()
+		public SHAWARMAPanel()
 		{
-			super( ConspiracyVendingMachineRequest.AVENDINGMACHINE );
+			super( SHAWARMARequest.SHAWARMA );
+		}
+	}
+
+	private class CanteenPanel
+		extends CoinmasterPanel
+	{
+		public CanteenPanel()
+		{
+			super( CanteenRequest.CANTEEN );
+		}
+	}
+
+	private class ArmoryPanel
+		extends CoinmasterPanel
+	{
+		public ArmoryPanel()
+		{
+			super( ArmoryRequest.ARMORY );
 		}
 	}
 

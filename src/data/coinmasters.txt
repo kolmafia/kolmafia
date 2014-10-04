@@ -648,6 +648,17 @@ Freshwater Fishbonery	buy	20	fishbone fins	ROW323
 
 # Things you can buy with Coins-spiracy
 
-A Vending Machine	buy	1	Jungle Juice	ROW344
-A Vending Machine	buy	3	Amnesiac Ale	ROW345
-A Vending Machine	buy	6	Highest Bitter	ROW346
+The SHAWARMA Initiative	buy	2	initiative shawarma	ROW342
+The SHAWARMA Initiative	buy	4	warm war shawarma	ROW341
+The SHAWARMA Initiative	buy	7	karma shawarma	ROW343
+The Canteen	buy	1	Jungle Juice	ROW344
+The Canteen	buy	3	Amnesiac Ale	ROW345
+The Canteen	buy	6	Highest Bitter	ROW346
+The Armory	buy	1	specialty ammo bandolier	ROW349
+The Armory	buy	15	Agent Mauve	ROW378
+The Armory	buy	50	mercenary pistol	ROW347
+The Armory	buy	50	mercenary rifle	ROW348
+The Armory	buy	100	Merc Core deployment orders	ROW350
+The Armory	buy	300	Merc Core Field Manual: Sanity Maintenance	ROW351
+The Armory	buy	300	Merc Core Field Manual: Intimidation Techniques	ROW352
+The Armory	buy	1000	Merc Core challenge coin	ROW353

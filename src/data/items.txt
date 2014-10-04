@@ -7785,12 +7785,12 @@
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
 7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0
 7768
-7769	Coinspiracy	350082044	coinspiracy.gif	none	0	Coins-spiracy
+7769	Coinspiracy	350082044	coinspiracy.gif	none		0	Coins-spiracy
 7770	Personal Ventilation Unit	399422816	pvu.gif	accessory	q	0
-7771
-7772
-7773
-7774
+7771	the most dangerous bait	444096957	manbait.gif	multiple	t,d	70
+7772	&quot;meat&quot; stick	950823191	owlstix.gif	food	t,d	55
+7773	transdermal smoke patch	973062156	smokepatch.gif	multiple	t,d	35
+7774	specialty ammo bandolier	855180535	bandolier.gif	multiple	t,d	58
 7775
 7776
 7777
@@ -7808,21 +7808,21 @@
 7789
 7790
 7791
-7792
+7792	SHAWARMA Initiative Keycard	999100664	keycard.gif	usable	q	0
 7793	bottle-opener keycard	664955741	keycard.gif	usable	q	0
-7794
-7795
-7796
-7797
+7794	Armory keycard	958217602	keycard.gif	usable	q	0
+7795	initiative shawarma	974218188	shawarma.gif	food	t,d	95
+7796	warm war shawarma	925795735	shawarma.gif	food	t,d	215
+7797	karma shawarma	576179902	shawarma.gif	food	t,d	369
 7798	Jungle Juice	287650469	wine.gif	drink	t,d	55
 7799	Amnesiac Ale	887403014	beerbottle.gif	drink	t,d	160
 7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240
-7801
-7802
-7803
-7804
-7805
-7806
+7801	mercenary pistol	893237225	happiness.gif	weapon	t,d	450
+7802	mercenary rifle	720436306	mercrifle.gif	weapon	t,d	650
+7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0
+7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0
+7805	Merc Core challenge coin	133154200	useable	t	0
+7806	Merc Core deployment orders	423302992	envelope.gif	usable		0
 7807	TI-9000 calculator	930907222	longcalc.gif	none	t,d	25
 7808	unused soap	371839904	merkinsoap.gif	none	t,d	12	bars of unused soap
 7809	impure gasoline	690459767	moonshine.gif	none, fancy	t,d	35	cans of impure gasoline
@@ -7846,7 +7846,12 @@
 7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0
 7828	flat cider	398463159	flatcider.gif	drink	t	0
 7829
-7830
+7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225
 7831
 7832
 7833	gore bucket	744028476	pail.gif	offhand	q	0
+7834
+7835
+7836
+7837
+7838	Agent Mauve	399530932	grenade.gif	usable		0

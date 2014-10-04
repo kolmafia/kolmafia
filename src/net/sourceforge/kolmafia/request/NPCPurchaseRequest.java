@@ -663,9 +663,21 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "si_shop1" ) )
+		{
+			SHAWARMARequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "si_shop2" ) )
 		{
-			ConspiracyVendingMachineRequest.parseResponse( urlString, responseText );
+			CanteenRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "si_shop3" ) )
+		{
+			ArmoryRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -878,9 +890,19 @@ public class NPCPurchaseRequest
 				return BrogurtRequest.registerRequest( urlString );
 			}
 
+			if ( shopId.equals( "si_shop1" ) )
+			{
+				return SHAWARMARequest.registerRequest( urlString );
+			}
+
 			if ( shopId.equals( "si_shop2" ) )
 			{
-				return ConspiracyVendingMachineRequest.registerRequest( urlString );
+				return CanteenRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "si_shop2" ) )
+			{
+				return ArmoryRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "caveshop" ) )

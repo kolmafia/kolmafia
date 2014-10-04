@@ -2130,6 +2130,8 @@ public class ItemPool
 	public static final int FIVE_D_PRINTER = 7750;
 	public static final int CONSPIRACY_ISLAND_CHARTER = 7767;
 	public static final int COINSPIRACY = 7769;
+	public static final int HYPERSANE_BOOK = 7803;
+	public static final int INTIMIDATING_MIEN_BOOK = 7804;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

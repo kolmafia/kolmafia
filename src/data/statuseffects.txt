@@ -1748,10 +1748,12 @@
 1747
 1748
 1749
-1750
-1751
+1750	Schroedinger's Butt	asshat.gif	179479f86f687fce3b8de1aaf9429689	use 1 experimental serum P-00
+1751	Shawarma Initiative	shawarma.gif	e3780ecb37dbf0462293bb92942654d6	eat 1 initiative shawarma
 1752	Jungle Juiced	wine.gif	34cb003ac84e2d8aa32ac27aa91c75ce	drink 1 Jungle Juice
 1753
-1754
+1754	Shawarma Warm War	shawarma.gif	7c954153373d8abcbfb8600d1248df46	eat 1 warm war shawarma
 1755	All Is Forgiven	beerbottle.gif	49cee48acdc1b38f0de40ecf4a182d75	drink 1 Amnesiac Ale
 1756	Mercenary	beerbottle.gif	ac79c59919bc412eba844391b4641981	drink 1 Highest Bitter
+1757	Manbait	manbait.gif	c2a7f182fc1dfcac86961b56153da97c	use 1 the most dangerous bait
+1758	Empty Inside	owlstix.gif	0d5dba1c426229fd3d9450545244757e	eat 1 "meat" stick

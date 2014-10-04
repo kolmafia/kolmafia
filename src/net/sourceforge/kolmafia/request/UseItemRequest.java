@@ -2906,6 +2906,8 @@ public class UseItemRequest
 		case ItemPool.ALIEN_SOURCE_CODE:
 		case ItemPool.ALIEN_SOURCE_CODE_USED:
 		case ItemPool.BLACK_BARTS_BOOTY:
+		case ItemPool.HYPERSANE_BOOK:
+		case ItemPool.INTIMIDATING_MIEN_BOOK:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5059,6 +5061,10 @@ public class UseItemRequest
 			return "Belch The Rainbow";
 		case ItemPool.BLACK_BARTS_BOOTY:
 			return "Pirate Bellow";
+		case ItemPool.HYPERSANE_BOOK:
+			return "Hypersane";
+		case ItemPool.INTIMIDATING_MIEN_BOOK:
+			return "Intimidating Mien";
 		}
 
 		return null;

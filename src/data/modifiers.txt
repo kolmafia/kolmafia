@@ -1196,6 +1196,10 @@ Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
 Mer-kin switchblade	PvP Fights: +7, Muscle Percent: +20, Moxie Percent: +10
+# mecenary pistol: Allows the Use of Specialty Ammunition
+mercenary pistol	Muscle: +10, Mysticality: +10, Moxie: +10, Never Fumble
+# mecenary rifle: Allows the Use of Specialty Ammunition
+mercenary rifle	Ranged Damage: +20, Initiative: +50
 # Meteoid ice beam: On Critical:  Freeze Opponent
 Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +10
 miniature deck cannon	Ranged Damage: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
@@ -4145,6 +4149,7 @@ Embarrassed	Moxie Percent: -30
 Emotion Sickness	Item Drop: [(+25-D)*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop: [2*(+25-D)*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Empathy	Familiar Weight: +5
 Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
+Empty Inside	Food Drop: +50, Booze Drop: +50
 Engorged Weapon	Weapon Damage: +10
 Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
@@ -4609,6 +4614,7 @@ Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -
 Make Meat FA$T!	Meat Drop: +20
 Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)], Moxie Percent: [min(500,+5*T)]
 Man's Worst Enemy	Familiar Weight: +5
+Manbait	Monster Level: +30
 Marco Polarity	Experience (Mysticality): [L]
 Margaritish	Moxie Percent: [min(200,5*T)]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
@@ -4930,6 +4936,7 @@ Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 School Spirited	Meat Drop: +100, Item Drop: +50
+# Schroedinger's Butt: ???
 Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
 Scorpio Rising	Initiative: +25
 Scowl of the Auk	Weapon Damage: +10
@@ -4951,6 +4958,8 @@ Sharin' Stone	Avatar: "Stone Golem"
 # Sheepskinned: Your regular attacks deal Sleaze damage
 # Stormswaddled: Damages attacking opponents
 Stormswaddled	Spell Damage Percent: +100
+Shawarma Initiative	Initiative: +150
+Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
 Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
 Shiny Happy Cupcake	Experience: +3
@@ -5497,6 +5506,7 @@ Hide of the Walrus	Damage Absorption: +50
 His Master's Voice	Familiar Weight: +5
 Hungry Eyes	Food Drop: +100
 Hunter's Sprint	Initiative: +100
+Hypersane	Spooky Resistance: +3
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Indefatigable	HP Regen Min: +16, HP Regen Max: +20
@@ -6473,6 +6483,7 @@ evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 experimental carbon fiber pasta additive	Class: "Pastamancer"
 experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40
+experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
@@ -6665,6 +6676,7 @@ incense bath ball	Effect: "Incensed", Effect Duration: 10
 indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 infant sandworm	Free Pull
+initiative shawarma	Effect: "Shawarma Initiative", Effect Duration: 30
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
@@ -6747,6 +6759,7 @@ March hat	Free Pull
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
+"meat" stick	Effect: "Empty Inside", Effect Duration: 50
 Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
@@ -7098,6 +7111,7 @@ The Groose in the Hoose	Free Pull
 the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 The Kloop in the Coop	Free Pull
 The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
+the most dangerous bait	Effect: "Manbait", Effect Duration: 20
 The Smith's Tome	Free Pull
 They liver	Effect: "You Liver", Effect Duration: 20
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
@@ -7169,6 +7183,7 @@ warbear robo-camouflage unit	Effect: "Robocamo", Effect Duration: 100
 warbear superpotion	Effect: "Warbear Hunter", Effect Duration: 50
 warbear wardance potion	Effect: "Dances with Warbears", Effect Duration: 20
 warm El Vibrato drone	Effect: "Well-preserved", Effect Duration: 10
+warm war shawarma	Effect: "Shawarma Warm War", Effect Duration: 30
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
 Wax Flask	Effect: "Over the Ocean", Effect Duration: 1

@@ -38,13 +38,14 @@ import java.util.List;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
+import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
-import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
+import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -61,6 +62,7 @@ import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
@@ -80,6 +82,7 @@ public abstract class CoinmasterRegistry
 	{
 		AltarOfBonesRequest.ALTAR_OF_BONES,
 		AppleStoreRequest.APPLE_STORE,
+		ArmoryRequest.ARMORY,
 		AWOLQuartermasterRequest.AWOL,
 		BigBrotherRequest.BIG_BROTHER,
 		BountyHunterHunterRequest.BHH,
@@ -87,7 +90,7 @@ public abstract class CoinmasterRegistry
 		BrogurtRequest.BROGURT,
 		BuffJimmyRequest.BUFF_JIMMY,
 		BURTRequest.BURT,
-		ConspiracyVendingMachineRequest.AVENDINGMACHINE,
+		CanteenRequest.CANTEEN,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
 		CrimboCartelRequest.CRIMBO_CARTEL,
@@ -104,6 +107,7 @@ public abstract class CoinmasterRegistry
 		MrStoreRequest.MR_STORE,
 		NeandermallRequest.NEANDERMALL,
 		QuartersmasterRequest.FRATBOY,
+		SHAWARMARequest.SHAWARMA,
 		ShoeRepairRequest.SHOE_REPAIR,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
 		SwaggerShopRequest.SWAGGER_SHOP,
