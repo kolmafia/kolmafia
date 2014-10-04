@@ -7787,24 +7787,24 @@
 7768
 7769	Coinspiracy	350082044	coinspiracy.gif	none		0	Coins-spiracy
 7770	Personal Ventilation Unit	399422816	pvu.gif	accessory	q	0
-7771	the most dangerous bait	444096957	manbait.gif	multiple	t,d	70
+7771	the most dangerous bait	444096957	manbait.gif	multiple	t,d	70	handfuls of the most dangerous bait
 7772	&quot;meat&quot; stick	950823191	owlstix.gif	food	t,d	55
-7773	transdermal smoke patch	973062156	smokepatch.gif	multiple	t,d	35
+7773	transdermal smoke patch	973062156	smokepatch.gif	multiple	t,d	35	transdermal smoke patches
 7774	specialty ammo bandolier	855180535	bandolier.gif	multiple	t,d	58
 7775
 7776
 7777
 7778
-7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155
+7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum P-00
 7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
 7781
-7782	limp broccoli	543909195	broccoli.gif	food	t,d	72
+7782	limp broccoli	543909195	broccoli.gif	food	t,d	72	stalks of limp broccoli
 7783
 7784
 7785
 7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787
-7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99
+7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99	ice-cold Cloaca Zeroes
 7789
 7790
 7791
@@ -7814,14 +7814,14 @@
 7795	initiative shawarma	974218188	shawarma.gif	food	t,d	95
 7796	warm war shawarma	925795735	shawarma.gif	food	t,d	215
 7797	karma shawarma	576179902	shawarma.gif	food	t,d	369
-7798	Jungle Juice	287650469	wine.gif	drink	t,d	55
-7799	Amnesiac Ale	887403014	beerbottle.gif	drink	t,d	160
-7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240
+7798	Jungle Juice	287650469	wine.gif	drink	t,d	55	bottles of Jungle Juice
+7799	Amnesiac Ale	887403014	beerbottle.gif	drink	t,d	160	bottles of Amnesiac Ale
+7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240	bottles of Highest Bitter
 7801	mercenary pistol	893237225	happiness.gif	weapon	t,d	450
 7802	mercenary rifle	720436306	mercrifle.gif	weapon	t,d	650
 7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0
 7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0
-7805	Merc Core challenge coin	133154200	useable	t	0
+7805	Merc Core challenge coin	133154200	chalcoin.gif	usable	t	0
 7806	Merc Core deployment orders	423302992	envelope.gif	usable		0
 7807	TI-9000 calculator	930907222	longcalc.gif	none	t,d	25
 7808	unused soap	371839904	merkinsoap.gif	none	t,d	12	bars of unused soap
@@ -7851,7 +7851,7 @@
 7832
 7833	gore bucket	744028476	pail.gif	offhand	q	0
 7834
-7835
+7835	ESP suppression collar	887199815	espcollar.gif	accessory	q	0
 7836
 7837
 7838	Agent Mauve	399530932	grenade.gif	usable		0
