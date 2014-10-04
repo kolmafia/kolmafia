@@ -42,7 +42,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -188,6 +188,8 @@ public class ChatPoller
 				ChatManager.broadcastEvent( message );
 			}
 		}
+
+		PreferenceListenerRegistry.firePreferenceChanged( "[chatAway]" );
 	}
 
 	private void unpause( final boolean mchat )
@@ -203,6 +205,13 @@ public class ChatPoller
 				ChatManager.broadcastEvent( message );
 			}
 		}
+		
+		PreferenceListenerRegistry.firePreferenceChanged( "[chatAway]" );
+	}
+
+	public static boolean isPaused()
+	{
+		return ChatPoller.INSTANCE != null && ChatPoller.INSTANCE.paused;
 	}
 
 	public static void serverPolled()
