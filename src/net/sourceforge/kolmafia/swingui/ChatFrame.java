@@ -34,13 +34,16 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -50,18 +53,29 @@ import java.util.Locale;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+
+import org.jdesktop.swingx.JXCollapsiblePane;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
+import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -189,7 +203,33 @@ public class ChatFrame
 		toolbarPanel.add( new InvocationButton(
 			"Remove Highlighting", "highlight2.gif", ChatFormatter.class, "removeHighlighting" ) );
 
+		this.wrapToolBar( toolbarPanel );
+
 		return toolbarPanel;
+	}
+
+	private void wrapToolBar(JToolBar toolbarPanel)
+	{
+		AwayPanel awayPanel = new AwayPanel();
+		awayPanel.setMinimumSize( new Dimension( 0, 0 ) ); // collapse all the way when hidden
+		awayPanel.setPreferredSize( new Dimension( 20, 20 ) );
+		JLabel label = new JLabel(
+			"<html><b>You're now in away mode; click to return to normal</b></html>", SwingConstants.CENTER );
+		label.setForeground( Color.blue.darker() );
+		label.setFont( KoLConstants.DEFAULT_FONT );
+		label.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+		label.addMouseListener( awayPanel );
+
+		awayPanel.add( label );
+		awayPanel.setCollapsed( true );
+
+		JPanel wrapped = new JPanel( new BorderLayout() );
+		wrapped.add( toolbarPanel, BorderLayout.CENTER );
+		wrapped.add( awayPanel, BorderLayout.SOUTH );
+
+		//the NORTH element in the framePanel was the toolbar; pull it out and replace it with the "wrapped" panel
+		this.getFramePanel().remove( toolbarPanel );
+		this.getFramePanel().add( wrapped, BorderLayout.NORTH );
 	}
 
 	@Override
@@ -515,6 +555,43 @@ public class ChatFrame
 			{
 				ProfileFrame.showRequest( ChatFrame.PROFILER.constructURLString( urlString ) );
 			}
+		}
+	}
+
+	private class AwayPanel
+		extends JXCollapsiblePane
+		implements MouseListener, Listener
+	{
+		public AwayPanel()
+		{
+			PreferenceListenerRegistry.registerPreferenceListener( "[chatAway]", this );
+		}
+
+		public void mouseClicked( MouseEvent arg0 )
+		{
+			//wake up
+			ChatSender.sendMessage( null, "/listen", false );
+		}
+
+		public void mouseEntered( MouseEvent arg0 )
+		{
+		}
+
+		public void mouseExited( MouseEvent arg0 )
+		{
+		}
+
+		public void mousePressed( MouseEvent arg0 )
+		{
+		}
+
+		public void mouseReleased( MouseEvent arg0 )
+		{
+		}
+
+		public void update()
+		{
+			this.setCollapsed( !ChatPoller.isPaused() );
 		}
 	}
 
