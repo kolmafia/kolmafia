@@ -7785,8 +7785,8 @@
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
 7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0
 7768
-7769
-7770
+7769	Coinspiracy	350082044	coinspiracy.gif	none	0	Coins-spiracy
+7770	Personal Ventilation Unit	399422816	pvu.gif	accessory	q	0
 7771
 7772
 7773
@@ -7795,28 +7795,28 @@
 7776
 7777
 7778
-7779
-7780
+7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155
+7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
 7781
-7782
+7782	limp broccoli	543909195	broccoli.gif	food	t,d	72
 7783
 7784
 7785
-7786
+7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787
-7788
+7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99
 7789
 7790
 7791
 7792
-7793
+7793	bottle-opener keycard	664955741	keycard.gif	usable	q	0
 7794
 7795
 7796
 7797
-7798
-7799
-7800
+7798	Jungle Juice	287650469	wine.gif	drink	t,d	55
+7799	Amnesiac Ale	887403014	beerbottle.gif	drink	t,d	160
+7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240
 7801
 7802
 7803
@@ -7845,3 +7845,8 @@
 7826	iFlail	739978940	iflail.gif	weapon	t	0
 7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0
 7828	flat cider	398463159	flatcider.gif	drink	t	0
+7829
+7830
+7831
+7832
+7833	gore bucket	744028476	pail.gif	offhand	q	0

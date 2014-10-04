@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
@@ -168,6 +169,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel brogurtPanel = null;
 	private CoinmasterPanel buffJimmyPanel = null;
 	private CoinmasterPanel tacoDanPanel = null;
+	private CoinmasterPanel conspiracyVendingMachinePanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -311,6 +313,11 @@ public class CoinmastersFrame
 		panel.add( tacoDanPanel );
 		this.selectorPanel.addPanel( tacoDanPanel.getPanelSelector(), panel );
 
+		panel = new JPanel( new BorderLayout() );
+		conspiracyVendingMachinePanel = new ConspiracyVendingMachinePanel();
+		panel.add( conspiracyVendingMachinePanel );
+		this.selectorPanel.addPanel( conspiracyVendingMachinePanel.getPanelSelector(), panel );
+
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Special Events" );
@@ -445,6 +452,7 @@ public class CoinmastersFrame
 		brogurtPanel.update();
 		buffJimmyPanel.update();
 		tacoDanPanel.update();
+		conspiracyVendingMachinePanel.update();
 		awolPanel.update();
 		crimbo11Panel.update();
 		fudgeWandPanel.update();
@@ -973,6 +981,15 @@ public class CoinmastersFrame
 		public TacoDanPanel()
 		{
 			super( TacoDanRequest.TACO_DAN );
+		}
+	}
+
+	private class ConspiracyVendingMachinePanel
+		extends CoinmasterPanel
+	{
+		public ConspiracyVendingMachinePanel()
+		{
+			super( ConspiracyVendingMachineRequest.AVENDINGMACHINE );
 		}
 	}
 

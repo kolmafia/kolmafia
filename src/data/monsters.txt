@@ -1354,6 +1354,13 @@ wild girl	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: -10000 P: dude E: sleaze	
 son of a son of a sailor	sonofsailor.gif	Atk: 350 Def: 350 HP: 600 Init: -10000 P: dude E: sleaze
 drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sleaze	bike rental broupon (c100)
 
+The Secret Government Laboratory (Conspiracy Island October 2014)
+creepy little girl	creepygirl.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: dude E: spooky	jangly bracelet (0)
+government scientist	scientist.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: dude E: spooky	heavy-duty clipboard (0)	experimental serum G-9 (0)
+lab monkey	labmonkey.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: beast E: spooky	limp broccoli (0)
+super-sized Cola Wars soldier	colasoldier.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: dude E: spooky	ice-cold Cloaca Zero (0)
+E.V.E., the robot zombie	eve.gif	Init: -10000 P: construct E: spooky
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

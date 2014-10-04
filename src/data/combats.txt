@@ -295,6 +295,7 @@ The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleto
 The Road to the White Citadel	-1	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin alchemist: 0	sticky mummy: 0	W imp: 0
 The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Royal Guard Chamber	100	filthworm royal guard
+The Secret Government Laboratory	-1	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
 The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0

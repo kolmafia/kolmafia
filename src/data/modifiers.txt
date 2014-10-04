@@ -1843,6 +1843,8 @@ parasitic strangleworm	Damage Reduction: [min(L,15)]
 peanut brittle shield	Candy Drop: +100, Damage Reduction: 3
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
+# Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
+Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 pirate hook	Weapon Damage: +3
 pixel grappling hook	Initiative: +40, Item Drop: +10
@@ -2295,6 +2297,7 @@ hazardous sauce dosimeter	Class: "Sauceror"
 head mirror	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Surgeonosity: +1
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
+heavy-duty clipboard	Mysticality: +10, Spell Critical Percent: +10, Spooky Resistance: +5, Damage Reduction: 8
 Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 # hemp string
 hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -2323,6 +2326,7 @@ Iron Beta of Industry	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, 
 ironic oversized sunglasses	Single Equip
 # Item #13
 jam band	Item Drop: +5, Booze Drop: +20, Food Drop: +35
+jangly bracelet	Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +1
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
 Jarlsberg's earring	Mysticality: +10
 Jefferson wings	Sleaze Damage: +20
@@ -3682,6 +3686,7 @@ Alien Resurrection	Avatar: "illegal alien"
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
 All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
+All Is Forgiven	Familiar Weight: +10
 All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
@@ -4156,6 +4161,7 @@ Everything Must Go!	Combat Rate: +10
 Everything's Zen	Experience Percent (Mysticality): +20
 # EVISCERATE!: Attacks enemies every round
 # Existential Torment: Who are you?  Who are you <i>really</i>?
+Experimental Effect G-9	Muscle Percent: +156, Mysticality Percent: +156, Moxie Percent: +156
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
@@ -4227,6 +4233,7 @@ Flamingly Floral	Hot Damage: +50
 Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 Flashy Dance Song	Item Drop: +10
+Flattened	Muscle Percent: -50
 Flayer Flavor	Avatar: "mind flayer"
 Fleet Woodsman, Mac	Avatar: "fleet woodsman"
 # Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
@@ -4534,6 +4541,7 @@ Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
 Juiced Up	Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Jukebox Hero	Item Drop: +300
+# Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 # Just the Best Anapests: Da da dee, da da dee
 Just the Brown Ones	Moxie: +15
 Kernel Panic!	Critical Hit Percent: +5
@@ -4544,6 +4552,7 @@ Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 # Knob Goblin Perfume: You smell like a Knob Goblin harem girl!
 Knowing Smile	Experience (Moxie): +1
+Konked on the Head	Mysticality Percent: -50
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
 Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping
@@ -4624,6 +4633,7 @@ Memory of Speed	Initiative: +200
 Memory of Strength	Muscle Percent: +100
 Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
 Mer-kinny Flavor	Adventure Underwater
+Mercenary	Item Drop: +40
 # Merry Smithsness: (+% to All Stats Based on Smithsness)
 Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
 Metal Speed	Initiative: +20
@@ -4699,6 +4709,7 @@ No Worries	Experience: +3
 Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Nothing Is Impossible	Spell Damage Percent: +100
 Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Nuts about Candy	Maximum HP: +50
 # O Hai!: Effect Cat is Not Amused
 Object Detection	Item Drop: +5
@@ -4749,6 +4760,7 @@ Overconfident	Monster Level: +30
 Overstimulated	Experience (Muscle): +5
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
+Partially Paralyzed	Moxie Percent: -50
 Pasta Eyeball	Meat Drop: +10
 Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
@@ -5359,6 +5371,7 @@ Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
+Webbed	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
 Weirdly Scientific	Avatar: "Sub-Assistant Knob Mad Scientist"
@@ -6170,6 +6183,7 @@ alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
+Amnesiac Ale	Effect: "All Is Forgiven", Effect Duration: 30
 Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
@@ -6458,6 +6472,7 @@ evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5]
 evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5]
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 experimental carbon fiber pasta additive	Class: "Pastamancer"
+experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
@@ -6626,6 +6641,7 @@ henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
 hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 hibernating Grimstone Golem	Free Pull
 hibernating robot reindeer	Free Pull
+Highest Bitter	Effect: "Mercenary", Effect Duration: 60
 hippy paste	Effect: "Hippy Flavor", Effect Duration: 10
 hobo paste	Effect: "Hobo Flavor", Effect Duration: 10
 holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
@@ -6668,6 +6684,7 @@ jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
 jug of Sneaky Pete's Mojo	Free Pull
+Jungle Juice	Effect: "Jungle Juiced", Effect Duration: 30
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin firecracker	Effect: "Missing Fingers", Effect Duration: 3
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
@@ -6697,6 +6714,7 @@ Libram of Resolutions	Free Pull
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
+limp broccoli	Effect: "Nutrient-Rich", Effect Duration: 100
 liquid ice	Effect: "Cold as Ice", Effect Duration: 50
 liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10

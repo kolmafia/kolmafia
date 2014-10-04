@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -86,6 +87,7 @@ public abstract class CoinmasterRegistry
 		BrogurtRequest.BROGURT,
 		BuffJimmyRequest.BUFF_JIMMY,
 		BURTRequest.BURT,
+		ConspiracyVendingMachineRequest.AVENDINGMACHINE,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
 		CrimboCartelRequest.CRIMBO_CARTEL,

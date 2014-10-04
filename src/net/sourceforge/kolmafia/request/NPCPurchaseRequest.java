@@ -663,6 +663,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "si_shop2" ) )
+		{
+			ConspiracyVendingMachineRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "caveshop" ) )
 		{
 			NeandermallRequest.parseResponse( urlString, responseText );
@@ -870,6 +876,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "sbb_brogurt" ) )
 			{
 				return BrogurtRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "si_shop2" ) )
+			{
+				return ConspiracyVendingMachineRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "caveshop" ) )

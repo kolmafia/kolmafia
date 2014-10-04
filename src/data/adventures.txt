@@ -388,3 +388,7 @@ Rumpelstiltskin's Home For Children	adventure=382	Env: none Stat: 0	Rumpelstilts
 Spring Break Beach	adventure=402	Env: indoor Stat: 0	The Fun-Guy Mansion
 Spring Break Beach	adventure=403	Env: indoor Stat: 0	Sloppy Seconds Diner	4 choiceadv
 Spring Break Beach	adventure=404	Env: underwater Stat: 300	The Sunken Party Yacht
+
+Conspiracy Island	adventure=415	Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
+Conspiracy Island	adventure=416	Env: indoor Stat: 0	The Secret Government Laboratory
+Conspiracy Island	adventure=417	Env: outdoor Stat: 0	The Deep Dark Jungle

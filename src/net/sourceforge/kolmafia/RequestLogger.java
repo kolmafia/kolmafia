@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ConspiracyVendingMachineRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo07Request;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
@@ -893,6 +894,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ClosetRequest || isExternal ) && ClosetRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ConspiracyVendingMachineRequest || isExternal ) && ConspiracyVendingMachineRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
