@@ -1880,6 +1880,7 @@ enchanted toothpick	80	Mys: 25
 encoder ring	10	none
 energy drink IV	180	Mys: 75
 enormous hoop earring	120	Mys: 45
+ESP suppression collar	0	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
 eXtreme mittens	110	Mys: 35
@@ -2091,7 +2092,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
-Personal Ventilation Unit 100 none
+Personal Ventilation Unit	100	none
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
