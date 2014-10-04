@@ -645,3 +645,9 @@ Freshwater Fishbonery	buy	10	fishbone corset	ROW322
 Freshwater Fishbonery	buy	15	fishbone kneepads	ROW321
 Freshwater Fishbonery	buy	30	fishbone catcher's mitt	ROW320
 Freshwater Fishbonery	buy	20	fishbone fins	ROW323
+
+# Things you can buy with Coins-spiracy
+
+A Vending Machine	buy	1	Jungle Juice	ROW344
+A Vending Machine	buy	3	Amnesiac Ale	ROW345
+A Vending Machine	buy	6	Highest Bitter	ROW346

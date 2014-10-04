@@ -1737,3 +1737,21 @@
 1736	Hypercubed	residencecube.gif	1b6427748401e09a2239f78d7c5c0e17
 1737	Mr. Skullhead's Birthday Happiness	cake1.gif	8e723a942e1ae593e644c1002966410f	drink 1 En Una Fila Tequila
 1738	Fruited	nopic.gif	88bcc4e2a57b62eb06276c7787e93de2	eat 1 unidentifiable dried fruit
+1739	Flattened	flatdough.gif	9044e8b7e34c704aeb4e2b1af0991973
+1740	Konked on the Head	dizzy.gif	6e009256278e59090c0a990cee13a267
+1741	Partially Paralyzed	sad.gif	df40b33aa14d6a1996faa5559f2556d5
+1742	Webbed	coccoon.gif	c2f80bd598467fe5d2ab51e14e4bbdab
+1743
+1744	Experimental Effect G-9	confused.gif	af64d06351a3097af52def8ec6a83d9b	use 1 experimental serum G-9
+1745	Nutrient-Rich	broccoli.gif	d426c689609d01ecfbd7d9d8cccf5738	eat 1 limp broccoli
+1746
+1747
+1748
+1749
+1750
+1751
+1752	Jungle Juiced	wine.gif	34cb003ac84e2d8aa32ac27aa91c75ce	drink 1 Jungle Juice
+1753
+1754
+1755	All Is Forgiven	beerbottle.gif	49cee48acdc1b38f0de40ecf4a182d75	drink 1 Amnesiac Ale
+1756	Mercenary	beerbottle.gif	ac79c59919bc412eba844391b4641981	drink 1 Highest Bitter

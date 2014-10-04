@@ -12,6 +12,7 @@ Acqua Del Piatto Merlot	1	10	EPIC	3-10	60	60	60
 Acque Luride Grezze Cabernet	1	10	EPIC	6-10	60	60	60
 adequate rum	3	1	decent	4-5	0	20-30	10-20
 Alewife&trade; Ale	1	5	decent	2	0	0	0	15-30 MP, 5 Brined Liver
+Amnesiac Ale	2	5	awesome	0	0	0	0	30 All is Forgiven (+10 Familiar Weight)
 an evil little sump'm sump'm	4	4	awesome	12-16	0	20	50-75	10 A Little Bit Evil (+2 ML)
 Antarctic Ice Tea	5	1		14-19	0	0	0
 around the world	4	4	good	10-14	0-30	0-30	0-30
@@ -257,6 +258,7 @@ Herring Wallbanger	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 herringcello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
 Herringtini	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Hi-Octane Peppermint Jet Fuel	5	5		10-15	0	0	0
+Highest Bitter	3	6	awesome	0	0	0	0	60 Mercenary (+40% Item Drop)
 Hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
@@ -282,6 +284,7 @@ jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
 Jeppson's Malort	3	1	EPIC	22-26	10-20	10-20	10-20
 Jerkitini	5	1		12-13	0	0	0	15 Jerky, Boy (+25% Myst)
+Jungle Juice	1	4	awesome	0	0	0	0	30 Jungle Juiced (x2 stat gains in Deep Dark Jungle)
 junk yard	2	1	good	4-5	4-5	4-5	4-5
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0

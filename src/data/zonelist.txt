@@ -90,6 +90,7 @@ The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the R
 
 Elemental International Airport	Town	Elemental International Airport
 Spring Break Beach	Elemental International Airport	Spring Break Beach
+Conspiracy Island	Elemental International Airport	Conspiracy Island
 
 Item-Driven	Item-Driven	Item-Driven Zones
 

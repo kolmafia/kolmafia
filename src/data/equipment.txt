@@ -1475,7 +1475,7 @@ ice baby	0	none
 ice bucket	0	none
 Idol of Ak'gyxoth	0	none
 incredibly creepy marionette	110	Mys: 40
-iShield	0	Mus: 35	shield
+iShield	100	Mus: 35	shield
 ivory cue ball	30	none
 jar of frostigkraut	0	Mys: 35
 Jarlsberg's pan	0	none
@@ -1930,6 +1930,7 @@ gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
 gold wedding ring	0	none
 Golden Mr. Accessory	0	none
+gore bucket	0	none
 government-issued night-vision goggles	25	none
 grandfather watch	225	Mys: 200
 Gravyskin Belt of the Sauceblob	150	Mys: 45
@@ -1960,6 +1961,7 @@ hazardous sauce dosimeter	0	none
 head mirror	155	Mys: 62
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
+heavy-duty clipboard	125	Mus: 47	shield
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
 hippy medical kit	175	Mys: 72
@@ -1985,6 +1987,7 @@ Iron Beta of Industry	200	Mys: 85
 ironic oversized sunglasses	40	Mys: 5
 Item #13	0	none
 jam band	200	Mys: 85
+jangly bracelet	125	Mys: 20
 jar of anniversary jam	10	none
 Jarlsberg's earring	80	Mys: 25
 Jefferson wings	160	Mys: 65
@@ -2086,6 +2089,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
+Personal Ventilation Unit 100 none
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
@@ -2521,7 +2525,7 @@ whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
-white earbuds	0	Mys: 35
+white earbuds	100	Mys: 35
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
 woven baling wire bracelets	180	Mys: 75

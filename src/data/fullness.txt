@@ -399,6 +399,7 @@ lemon popsicle	1	1	decent	2	0	0	0
 licorice garrote	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
+limp broccoli	2	5	good	0	0	0	0	100 Nutrient-Rich (+4 exp, +50% HP, +25% MP)
 liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experience)
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
