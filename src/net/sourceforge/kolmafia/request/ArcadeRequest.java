@@ -1804,7 +1804,7 @@ public class ArcadeRequest
 
 		if ( unlocked )
 		{
-			ArcadeRequest request = new ArcadeRequest( "plumber" );
+			ArcadeRequest request = new ArcadeRequest( "arcade_plumber" );
 			RequestThread.postRequest( request );
 			request.processResults();
 		}
