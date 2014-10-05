@@ -5820,6 +5820,7 @@ _smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent
 
 # Foods section of modifiers.txt
 
+&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
 3vi1 pr0n m4nic0tti	Effect: "A Little Bit Evil", Effect Duration: 10
 amok pudding	Effect: "Puddingface", Effect Duration: 20
 badass pie	Effect: "Pie in the Sky", Effect Duration: 20
@@ -6391,7 +6392,7 @@ Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 crimbo elfling	Free Pull
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo P. R. E. S. S. I. E.	Free Pull
-crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
+Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
@@ -6763,7 +6764,6 @@ March hat	Free Pull
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
-"meat" stick	Effect: "Empty Inside", Effect Duration: 50
 Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
