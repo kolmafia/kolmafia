@@ -2998,6 +2998,7 @@ sealhide cloak	Cold Resistance: +2
 shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "Turtle Tamer"
 # shocked shell: Deals physical damage every round
 shocked shell	Class: "Turtle Tamer"
+smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 super-absorbent tarp	Maximum Hooch: +2
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 teddybear backpack	Meat Drop: +10, Raveosity: +1
