@@ -392,6 +392,7 @@ public class TestCommand
 		if ( TestCommand.contents == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "no HTML loaded." );
+			return;
 		}
 
 		if ( command.equals( "charpane" ) )
