@@ -576,6 +576,8 @@ public abstract class UseLinkDecorator
 		{
 			return null;
 		}
+
+		boolean combatResults = location.startsWith( "fight.php" );
 		
 		switch ( consumeMethod )
 		{
@@ -980,6 +982,32 @@ public abstract class UseLinkDecorator
 				}
 				break;
 
+			case ItemPool.VOLCANO_MAP:
+				// Give a link to the guild when you get the colcano map
+				return new UseLink( itemId, "guild", "guild.php?place=scg" );
+
+			case ItemPool.SCALP_OF_GORGOLOK:
+			case ItemPool.ELDER_TURTLE_SHELL:
+			case ItemPool.COLANDER_OF_EMERIL:
+			case ItemPool.ANCIENT_SAUCEHELM:
+			case ItemPool.DISCO_FRO_PICK:
+			case ItemPool.EL_SOMBRERO_DE_LOPEZ:
+				// If we "acquire" the Nemesis hat from
+				// a fight, give a link to the guild to collect
+				// the reward as well as "equip" link.
+				if ( combatResults )
+				{
+					ArrayList<UseLink> uses = new ArrayList<UseLink>();
+					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
+					// scg = Same Class in Guild
+					uses.add( new UseLink( itemId, "guild", "guild.php?place=scg" ) );
+					uses.add( new UseLink( itemId, itemCount,
+							       getEquipmentSpeculation( "equip", itemId, -1 ),
+							       "inv_equip.php?which=2&action=equip&whichitem=" ) );
+
+					return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+				}
+
 			case ItemPool.INFERNAL_SEAL_CLAW:
 			case ItemPool.TURTLE_POACHER_GARTER:
 			case ItemPool.SPAGHETTI_BANDOLIER:
@@ -988,11 +1016,15 @@ public abstract class UseLinkDecorator
 			case ItemPool.BELT_BUCKLE_OF_LOPEZ:
 				// If we "acquire" the Nemesis accessories from
 				// a fight, give a link to the guild to collect
-				// the reward, not an "outfit" link.
-				if ( location.startsWith( "fight.php" ) )
+				// the reward as well as "outfit" link.
+				if ( combatResults )
 				{
+					ArrayList<UseLink> uses = new ArrayList<UseLink>();
+					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 					// scg = Same Class in Guild
-					return new UseLink( itemId, "guild", "guild.php?place=scg" );
+					uses.add( new UseLink( itemId, "guild", "guild.php?place=scg" ) );
+					uses.add( new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit ) );
+					return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 				}
 				break;
 			}
@@ -1158,6 +1190,7 @@ public abstract class UseLinkDecorator
 	{
 		String useType = null;
 		String useLocation = null;
+		boolean combatResults = location.startsWith( "fight.php" );
 
 		switch ( itemId )
 		{
@@ -1440,7 +1473,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.REALLY_DENSE_MEAT_STACK:
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.BONERDAGON_SKULL:
-			if ( !location.startsWith( "fight.php" ) ) break;
+			if ( !combatResults ) break;
 			/*FALLTHRU*/
 		case ItemPool.HOLY_MACGUFFIN:
 

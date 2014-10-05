@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -131,7 +132,9 @@ public class HaciendaManager
 			{
 				newLayout.setCharAt( clueTo, 'k' );
 			}
-			KoLmafia.updateDisplay( "You have found a clue: " + HaciendaManager.getClue( text ) );
+			String clue = "You have found a clue: " + HaciendaManager.getClue( text );
+			KoLmafia.updateDisplay( clue );
+			RequestLogger.updateSessionLog( clue );
 		}
 		else if ( text.contains( "You acquire" ) || text.contains( "large handful of meat" ) )
 		{
