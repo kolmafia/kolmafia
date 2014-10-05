@@ -1360,7 +1360,7 @@ one of Doctor Weirdeaux's creations	nopic.gif	Init: -10000 P: beast E: spooky	ex
 The Deep Dark Jungle (Conspiracy Island October 2014)
 bigface	bigface.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (0)
 Mercenary of Fortune	mercenary.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: dude E: spooky	specialty ammo bandolier (0)	Coinspiracy (0)
-smoke monster	smokemonster.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: spooky	transdermal smoke patch (0)
+smoke monster	smokemonster.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: weird E: spooky	transdermal smoke patch (0)	smoker's cloak (0)
 Venus mantrap	mantrap.gif	HP: [0.75*(min(MUS+5,11111)+max(ML,0))] Def: [min(MUS+5,11111)+max(ML,0)] Atk: [min(MOX+5,11111)+max(ML,0)] Exp: [(min(STAT+5,11111)+max(ML,0))/4] Init: -10000 P: plant E: spooky	the most dangerous bait (0)
 
 The Secret Government Laboratory (Conspiracy Island October 2014)

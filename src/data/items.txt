@@ -7793,7 +7793,7 @@
 7774	specialty ammo bandolier	855180535	bandolier.gif	multiple	t,d	58
 7775
 7776
-7777
+7777	smoker's cloak	525186625	smokecloak.gif	container	t,d	5000
 7778
 7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum P-00
 7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
