@@ -3213,7 +3213,9 @@ public abstract class ChoiceManager
 			"Twitch", "choiceAdventure983", "Playing Dice With Romans",
 			new Object[] { new Option( "make a bet and throw dice", 1 ),
 				       new Option( "return to Agora", 6 ) } ),
-	};
+		
+		// Choice 984 is A Radio on a Beach
+   };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 
@@ -5856,10 +5858,12 @@ public abstract class ChoiceManager
 				KoLCharacter.registerSemirare();
 			}
 			break;
+
 		case 931:
 			// Life Ain't Nothin But Witches and Mummies
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step6" );
 			break;
+
 		case 932:
 			// No Whammies
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step8" );
@@ -7475,6 +7479,15 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 984:
+			// A Radio on a Beach
+			if ( text.contains( "tape recorder self-destructs with a shower of sparks and a puff of smoke" ) )
+			{
+				EquipmentManager.discardEquipment( ItemPool.MINI_CASSETTE_RECORDER );
+				// Also complete quest when quest named
+			}
+			break;
+
 		case 987:
 			// The Post-Apocalyptic Survivor Encampment
 			if ( !text.contains( "accept your donation" ) )
@@ -9000,6 +9013,19 @@ public abstract class ChoiceManager
 			// as soon as the next adventure is started
 			TurnCounter.stopCounting( "Spookyraven Lights Out" );
 			Preferences.setInteger( "lastLightsOutTurn", KoLCharacter.getTurnsPlayed() );
+			break;
+
+		case 986:
+			// Control Panel
+			Preferences.setBoolean( "controlPanel1", !ChoiceManager.lastResponseText.contains( "All-Ranchero FM station: VOLUNTARY" ) );
+			Preferences.setBoolean( "controlPanel2", !ChoiceManager.lastResponseText.contains( "&pi; sleep-hypnosis generators: OFF" ) );
+			Preferences.setBoolean( "controlPanel3", !ChoiceManager.lastResponseText.contains( "Simian Ludovico Wednesdays: CANCELLED" ) );
+			Preferences.setBoolean( "controlPanel4", !ChoiceManager.lastResponseText.contains( "Monkey food safety protocols: OBEYED" ) );
+			Preferences.setBoolean( "controlPanel5", !ChoiceManager.lastResponseText.contains( "Shampoo Dispensers: CHILD-SAFE" ) );
+			Preferences.setBoolean( "controlPanel6", !ChoiceManager.lastResponseText.contains( "Assemble-a-Bear kiosks: CLOSED" ) );
+			Preferences.setBoolean( "controlPanel7", !ChoiceManager.lastResponseText.contains( "Training algorithm: ROUND ROBIN" ) );
+			Preferences.setBoolean( "controlPanel8", !ChoiceManager.lastResponseText.contains( "Re-enactment supply closet: LOCKED" ) );
+			Preferences.setBoolean( "controlPanel9", !ChoiceManager.lastResponseText.contains( "Thermostat setting: 76 DEGREES" ) );
 			break;
 		}
 	}

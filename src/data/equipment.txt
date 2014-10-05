@@ -696,6 +696,7 @@ basic meat staff	20	Mus: 5	2-handed staff
 basic meat sword	20	Mus: 5	2-handed sword
 bat whip	30	Mus: 0	1-handed whip
 batblade	145	Mus: 57	1-handed knife
+battery-powered drill	125	Mus: 47	1-handed drill
 beaver spear	125	Mus: 47	1-handed spear
 beer bong	190	Mox: 80	1-handed bong
 beer-a-pult	190	Mox: 80	3-handed catapult
@@ -1425,6 +1426,7 @@ Elizabeth's Dollie	120	Mys: 45
 Ellsbury's skull	100	Mys: 35
 enchanted brass knuckles	50	Mys: 10
 enchanted fire extinguisher	0	Mys: 200
+encrypted mini-casette recorder	10	none
 Engorged Sausages and You	100	Mys: 35
 eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
@@ -1889,6 +1891,7 @@ fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
+first-aid pouch	100	none
 fishbone belt	20	none
 fishbone bracers	20	none
 fishbone facemask	20	none
@@ -1935,6 +1938,7 @@ gold wedding ring	0	none
 Golden Mr. Accessory	0	none
 gore bucket	0	none
 government-issued night-vision goggles	25	none
+GPS-tracking wristwatch	10	none
 grandfather watch	225	Mys: 200
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 gray bow tie	30	none

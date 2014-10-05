@@ -1568,6 +1568,14 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.BLACK, "step1" );
 			}
 			break;
+
+		case AdventurePool.DEEP_DARK_JUNGLE:
+			if ( responseText.contains( "jungle pun occurs to you" ) )
+			{
+				Preferences.increment( "junglePuns", 1 );
+			}
+			// When quest named, move to step 2 at 11 puns
+			break;
 		}
 	}
 
