@@ -983,7 +983,7 @@ public abstract class UseLinkDecorator
 				break;
 
 			case ItemPool.VOLCANO_MAP:
-				// Give a link to the guild when you get the colcano map
+				// Give a link to the guild when you get the volcano map
 				return new UseLink( itemId, "guild", "guild.php?place=scg" );
 
 			case ItemPool.SCALP_OF_GORGOLOK:
