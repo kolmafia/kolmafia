@@ -342,6 +342,15 @@ user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	counterScript
 user	concertVisited	false
+user	controlPanel1	false
+user	controlPanel2	false
+user	controlPanel3	false
+user	controlPanel4	false
+user	controlPanel5	false
+user	controlPanel6	false
+user	controlPanel7	false
+user	controlPanel8	false
+user	controlPanel9	false
 user	corralUnlocked	false
 user	cozyCounter6332	0
 user	cozyCounter6333	0
@@ -476,6 +485,7 @@ user	iceSculptureMonster
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	jarlsbergPoints	0
 user	jungCharge	0
+user	junglePuns	0
 user	kingLiberated	false
 user	kingLiberatedScript
 user	knownAscensions	-1

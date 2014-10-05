@@ -505,6 +505,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );
 		Preferences.resetToDefault( "spookyravenRecipeUsed" );
+		Preferences.resetToDefault( "junglePuns" );
 	}
 
 	public static void handleCouncilText( String responseText )

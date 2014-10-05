@@ -2372,6 +2372,11 @@ public class ResultProcessor
 				Preferences.setInteger( "heavyRainsStartingThunder", count );
 			}
 			break;
+
+		case ItemPool.MINI_CASSETTE_RECORDER:
+			// Set quest when quest named
+			Preferences.setInteger( "junglePuns", 0 );
+			break;
 		}
 
 		// Gaining items can achieve goals.

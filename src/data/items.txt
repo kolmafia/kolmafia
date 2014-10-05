@@ -7797,7 +7797,7 @@
 7778
 7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum P-00
 7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
-7781
+7781	battery-powered drill	859401663	powerdrill.gif	weapon	t,d	185
 7782	limp broccoli	543909195	broccoli.gif	food	t,d	72	stalks of limp broccoli
 7783
 7784
@@ -7805,7 +7805,7 @@
 7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787
 7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99	ice-cold Cloaca Zeroes
-7789
+7789	first-aid pouch	784746744	firstaidkit.gif	accessory	t,d	76	first-aid pouches
 7790
 7791
 7792	SHAWARMA Initiative Keycard	999100664	keycard.gif	usable	q	0
@@ -7848,10 +7848,10 @@
 7829
 7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225
 7831
-7832
+7832	encrypted mini-casette recorder	365131352	recorder.gif	offhand	q	0
 7833	gore bucket	744028476	pail.gif	offhand	q	0
 7834
 7835	ESP suppression collar	887199815	espcollar.gif	accessory	q	0
-7836
-7837
+7836	GPS-tracking wristwatch	117030063	calcwatch.gif	accessory	q	0
+7837	Project T. L. B.	533573064	sammich.gif	none	q	0
 7838	Agent Mauve	399530932	grenade.gif	usable		0

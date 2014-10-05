@@ -823,6 +823,7 @@ basic meat staff	Mysticality: +1
 basic meat sword	Muscle: +1
 bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
+battery-powered drill	Spell Damage Percent: +100, Maximum HP: +50, Maximum MP: +50, Monster Level: +10, Meat Drop: +10
 beaver spear	Muscle: +5, Weapon Damage: +10
 beer bong	Stench Damage: +15, Monster Level: +5
 beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
@@ -1660,6 +1661,7 @@ Ellsbury's skull	Meat Drop: +10, Item Drop: +10
 enchanted brass knuckles	Critical Hit Percent: +5
 # enchanted fire extinguisher: All Spells Cast Are Cold
 enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30
+# encrypted mini-casette recorder: Optimized for Pun-Recording
 # Engorged Sausages and You: All Spells Cast Are Sleazy
 Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
 eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
@@ -2218,6 +2220,7 @@ fancy black tie	Muscle Percent: +15, Single Equip
 filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: +5
 filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
+first-aid pouch	Maximum HP: +40, HP Regen Min: 5, HP Regen Max: 10
 flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
 flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
@@ -2264,6 +2267,7 @@ gnoll-tooth necklace	Muscle: +5
 gold wedding ring	Adventures: +1, Single Equip
 Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
+# GPS-tracking wristwatch
 grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day<super>*</super>
 # * This enchantment works even when this item is not equipped
