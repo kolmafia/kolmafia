@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 
 import net.sourceforge.kolmafia.listener.Listener;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -564,7 +564,7 @@ public class ChatFrame
 	{
 		public AwayPanel()
 		{
-			PreferenceListenerRegistry.registerPreferenceListener( "[chatAway]", this );
+			NamedListenerRegistry.registerNamedListener( "[chatAway]", this );
 		}
 
 		public void mouseClicked( MouseEvent arg0 )
