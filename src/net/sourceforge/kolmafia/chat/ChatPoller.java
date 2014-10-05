@@ -42,7 +42,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -181,15 +181,17 @@ public class ChatPoller
 		{
 			this.paused = true;
 			this.delay = mchat ? ChatPoller.MCHAT_DELAY_PAUSED : ChatPoller.LCHAT_DELAY_PAUSED;
+
+			// mchat gives us the AWAY message as an event
 			if ( !mchat )
 			{
-				// mchat gives us the AWAY message as an event
+				// If this is not from mchat, craft our own event
 				EventMessage message = new EventMessage( ChatPoller.AWAY_MESSAGE, "green" );
 				ChatManager.broadcastEvent( message );
 			}
-		}
 
-		PreferenceListenerRegistry.firePreferenceChanged( "[chatAway]" );
+			NamedListenerRegistry.fireChange( "[chatAway]" );
+		}
 	}
 
 	private void unpause( final boolean mchat )
@@ -198,15 +200,17 @@ public class ChatPoller
 		{
 			this.paused = false;
 			this.delay = mchat ? ChatPoller.MCHAT_DELAY_NORMAL : ChatPoller.LCHAT_DELAY_NORMAL;
+
+			// mchat gives us the BACK message as an event
 			if ( !mchat )
 			{
-				// mchat gives us the BACK message as an event
+				// If this is not from mchat, craft our own event
 				EventMessage message = new EventMessage( ChatPoller.BACK_MESSAGE, "green" );
 				ChatManager.broadcastEvent( message );
 			}
+
+			NamedListenerRegistry.fireChange( "[chatAway]" );
 		}
-		
-		PreferenceListenerRegistry.firePreferenceChanged( "[chatAway]" );
 	}
 
 	public static boolean isPaused()
