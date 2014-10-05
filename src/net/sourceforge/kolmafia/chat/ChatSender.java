@@ -448,9 +448,13 @@ public class ChatSender
 
 		graf = graf.trim();
 
-		if ( ChatManager.activeChannels.indexOf( graf.split( " " )[0] ) > -1 )
+		int spaceIndex = graf.indexOf( " " );
+
+		// Strip off channel name
+		if ( spaceIndex != -1 && ChatManager.activeChannels.contains( graf.substring( 0, spaceIndex ) ) )
 		{
-			graf = graf.substring( graf.indexOf( " " ) ).trim();
+			graf = graf.substring( spaceIndex ).trim();
+			spaceIndex = graf.indexOf( " " );
 		}
 
 		if ( graf.equalsIgnoreCase( "/trivia" ) )
@@ -459,18 +463,21 @@ public class ChatSender
 			return true;
 		}
 
-		else if ( graf.equalsIgnoreCase( "/endtrivia" ) || graf.equalsIgnoreCase( "/stoptrivia" ) )
+		if ( graf.equalsIgnoreCase( "/endtrivia" ) || graf.equalsIgnoreCase( "/stoptrivia" ) )
 		{
 			ChatManager.stopTriviaGame();
 			return true;
 		}
 
-		else if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
+		if ( spaceIndex == -1 )
 		{
 			return false;
 		}
 
-		int spaceIndex = graf.indexOf( " " );
+		if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
+		{
+			return false;
+		}
 
 		String command = graf.substring( spaceIndex ).trim();
 		CommandDisplayFrame.executeCommand( command );
