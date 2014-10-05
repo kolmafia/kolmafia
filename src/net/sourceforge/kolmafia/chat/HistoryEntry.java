@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HistoryEntry
 {
-	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
+	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "(?:<br>)?<!--lastseen:(\\d+)-->" );
 
 	private final List<ChatMessage> chatMessages;
 

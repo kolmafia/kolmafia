@@ -81,7 +81,7 @@ public class ChatParser
 		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)" );
 
 	private static final Pattern HUGGLER_PATTERN =
-		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!<br" );
+		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!" );
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
@@ -222,7 +222,7 @@ public class ChatParser
 			return;
 		}
 
-		String[] lines = ChatFormatter.formatInternalMessage( content ).split( "<br>" );
+		String[] lines = ChatFormatter.formatInternalMessage( content ).split( "<br ?/?>" );
 
 		// Check for /haiku messages.
 
