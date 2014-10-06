@@ -1744,7 +1744,7 @@
 1743
 1744	Experimental Effect G-9	confused.gif	af64d06351a3097af52def8ec6a83d9b	use 1 experimental serum G-9
 1745	Nutrient-Rich	broccoli.gif	d426c689609d01ecfbd7d9d8cccf5738	eat 1 limp broccoli
-1746	Barfpits monkeybarf.gif	7add7c6b6875638c5bb4ceaf0dbc5ae0	use 1 monkey barf
+1746	Barfpits	monkeybarf.gif	7add7c6b6875638c5bb4ceaf0dbc5ae0	use 1 monkey barf
 1747	Eyes All Black	blackeyes.gif	b1971176c8a3bcd9ff3e7b88d6846c0f	use 1 delicious candy
 1748
 1749	Heightened Senses	dna.gif	2bcd9432983aba16539226bd193f2acc	use 1 airborne mutagen
@@ -1756,4 +1756,4 @@
 1755	All Is Forgiven	beerbottle.gif	49cee48acdc1b38f0de40ecf4a182d75	drink 1 Amnesiac Ale
 1756	Mercenary	beerbottle.gif	ac79c59919bc412eba844391b4641981	drink 1 Highest Bitter
 1757	Manbait	manbait.gif	c2a7f182fc1dfcac86961b56153da97c	use 1 the most dangerous bait
-1758	Empty Inside	owlstix.gif	0d5dba1c426229fd3d9450545244757e	eat 1 "meat" stick
+1758	Empty Inside	owlstix.gif	0d5dba1c426229fd3d9450545244757e	eat 1 &quot;meat&quot; stick
