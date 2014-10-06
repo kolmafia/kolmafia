@@ -7800,7 +7800,7 @@
 7781	battery-powered drill	859401663	powerdrill.gif	weapon	t,d	185
 7782	limp broccoli	543909195	broccoli.gif	food	t,d	72	stalks of limp broccoli
 7783	giant yellow hat	845667324	yellowhat.gif	hat	t,d	148
-7784	monkey barf 120029590	monkeybarf.gif	usable	t,d		12
+7784	monkey barf	120029590	monkeybarf.gif	usable	t,d	12
 7785	delicious candy	932332370	spookycandy.gif	usable	t,d	88
 7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787	cuddly teddy bear	383057642	teddybear.gif	offhand	t,d	144
