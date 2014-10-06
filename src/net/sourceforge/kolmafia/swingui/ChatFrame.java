@@ -101,6 +101,7 @@ public class ChatFrame
 	extends GenericFrame
 {
 	private static final GenericRequest PROFILER = new GenericRequest( "" );
+	private static final GenericRequest PVP_LOGGER = new GenericRequest( "" );
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
@@ -465,7 +466,11 @@ public class ChatFrame
 		@Override
 		public void handleInternalLink( final String location )
 		{
-			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) || location.startsWith( "messages" ) )
+			if ( location.startsWith( "makeoffer" ) ||
+			     location.startsWith( "counteroffer" ) ||
+			     location.startsWith( "bet" ) ||
+			     location.startsWith( "peevpee.php") ||
+			     location.startsWith( "messages" ) )
 			{
 				RelayLoader.openSystemBrowser( location, true );
 				return;
