@@ -382,6 +382,11 @@ public abstract class ChatManager
 			ChatManager.clanMessages.add( message );
 			ChatManager.processCommand( sender, message.getContent(), recipient );
 		}
+		else if ( recipient.equals( "/talkie" ) )
+		{
+			// Allow chatbot scripts to process talkie messages
+			ChatManager.processCommand( sender, message.getContent(), recipient );
+		}
 		else if ( Preferences.getBoolean( "chatBeep" ) && KoLCharacter.getUserName().equalsIgnoreCase( recipient ) )
 		{
 			Toolkit.getDefaultToolkit().beep();
