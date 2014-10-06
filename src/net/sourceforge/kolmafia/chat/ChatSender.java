@@ -269,7 +269,8 @@ public class ChatSender
 			message = message.substring( privateMessageMatcher.end() ).trim();
 		}
 
-		if ( message.length() <= 256 || contact == null || contact.equals( "/clan" ) || message.indexOf( " && " ) != -1 )
+		// contact is null only for very short internally generated messages.
+		if ( message.length() <= 256 || contact == null )
 		{
 			String graf = ChatSender.getGraf( contact, message );
 
@@ -283,6 +284,53 @@ public class ChatSender
 
 		// If the message is too long for one message, then
 		// divide it into its component pieces.
+
+		if ( message.startsWith( "/" ) )
+		{
+			// This is one or more chained game commands. We need
+			// to split on && boundaries.
+
+			String[] commands = message.split( " +&& +" );
+			StringBuilder buffer = new StringBuilder();
+
+			for ( String command : commands )
+			{
+				int current = buffer.length();
+				int needed = command.length();
+
+				// If you have a single command that is longer
+				// than 256 characters, that's almost certainly
+				// not going to work, but it gets its own graf.
+				if ( current > 0 && ( needed > 256 || ( current + needed ) > ( 256 - 4 ) ) )
+				{
+					String graf = ChatSender.getGraf( contact, buffer.toString() );
+					if ( graf != null )
+					{
+						grafs.add( graf );
+					}
+					buffer.setLength( 0 );
+					current = 0;
+				}
+
+				if ( current > 0 )
+				{
+					buffer.append( " && " );
+				}
+
+				buffer.append( command );
+			}
+
+			if ( buffer.length() > 0 )
+			{
+				String graf = ChatSender.getGraf( contact, buffer.toString() );
+				if ( graf != null )
+				{
+					grafs.add( graf );
+				}
+			}
+
+			return grafs;
+		}
 
 		String command = "";
 		String splitter = " ";
