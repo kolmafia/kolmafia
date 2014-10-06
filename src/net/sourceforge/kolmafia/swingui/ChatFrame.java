@@ -67,7 +67,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
 import net.sourceforge.kolmafia.KoLConstants;
-
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatPoller;
@@ -560,7 +560,7 @@ public class ChatFrame
 
 	private class AwayPanel
 		extends JXCollapsiblePane
-		implements MouseListener, Listener
+		implements MouseListener, Listener, Runnable
 	{
 		public AwayPanel()
 		{
@@ -570,7 +570,7 @@ public class ChatFrame
 		public void mouseClicked( MouseEvent arg0 )
 		{
 			//wake up
-			ChatSender.sendMessage( null, "/listen", false );
+			RequestThread.runInParallel( this, false );
 		}
 
 		public void mouseEntered( MouseEvent arg0 )
@@ -593,6 +593,10 @@ public class ChatFrame
 		{
 			this.setCollapsed( !ChatPoller.isPaused() );
 		}
-	}
 
+		public void run()
+		{
+			ChatSender.sendMessage( null, "/listen", false );
+		}
+	}
 }
