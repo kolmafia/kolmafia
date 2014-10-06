@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -11078,6 +11077,8 @@ public abstract class ChoiceManager
 		case 871: // inspecting Motorbike
 		case 872: // Drawn Onward
 		case 929: // Control Freak
+		case 984: // A Radio on a Beach
+		case 986: // Control Panel
 		case 987: // The Post-Apocalyptic Survivor Encampment
 			return true;
 

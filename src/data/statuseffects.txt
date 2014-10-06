@@ -1744,10 +1744,10 @@
 1743
 1744	Experimental Effect G-9	confused.gif	af64d06351a3097af52def8ec6a83d9b	use 1 experimental serum G-9
 1745	Nutrient-Rich	broccoli.gif	d426c689609d01ecfbd7d9d8cccf5738	eat 1 limp broccoli
-1746
-1747
+1746	Barfpits monkeybarf.gif	7add7c6b6875638c5bb4ceaf0dbc5ae0	use 1 monkey barf
+1747	Eyes All Black	blackeyes.gif	b1971176c8a3bcd9ff3e7b88d6846c0f	use 1 delicious candy
 1748
-1749
+1749	Heightened Senses	dna.gif	2bcd9432983aba16539226bd193f2acc	use 1 airborne mutagen
 1750	Schroedinger's Butt	asshat.gif	179479f86f687fce3b8de1aaf9429689	use 1 experimental serum P-00
 1751	Shawarma Initiative	shawarma.gif	e3780ecb37dbf0462293bb92942654d6	eat 1 initiative shawarma
 1752	Jungle Juiced	wine.gif	34cb003ac84e2d8aa32ac27aa91c75ce	drink 1 Jungle Juice
