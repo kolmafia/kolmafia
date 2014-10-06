@@ -181,6 +181,7 @@ ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: 
 gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
 ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xFairy, cap 14"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
+giant yellow hat	Familiar Damage: +10, Experience (familiar): +1, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 # Goggles of Loathing: Makes you a better diver
 Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"
@@ -676,6 +677,7 @@ birdbone corset	Maximum Hooch: +2
 bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts Until Rollover
 Brogre brolo shirt	PvP Fights: +3
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
+camouflage T-shirt	Mana Cost (combat): -3, Combat Rate: -5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +15
 cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
 chamoisole	Slime Resistance: +3
 Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
@@ -1632,6 +1634,7 @@ Crimbo Elf creepy bobble-head	Spooky Damage: +10
 Crimbo light-up Rudolph doll	Sleaze Damage: +10
 Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
 Crimbo tree flocker	Cold Damage: +10
+cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 cup of infinite pencils	Meat Drop: +15
 cyborg doll	Muscle: +3
@@ -2555,6 +2558,8 @@ rubber gloves	Sleaze Resistance: +2
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
+# Sasq&trade; watch: Grants 30 Adventures of The Rich Get Richer at Rollover
+Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Single Equip, Nonstackable Watch
 scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Scandalously Skimpy Bikini	Four Songs, Single Equip
 screwing pooch	Item Drop: +3
@@ -3758,6 +3763,7 @@ Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Bandananit	Avatar: "dirty thieving brigand"
 Banono	Stench Damage: +40, Stench Spell Damage: +40
 Barbecue Saucy	Muscle: +15, Moxie: +15
+# Barfpits: Deals Stench Damage every round
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
 Bartenderganger	Avatar: "Copperhead Club bartender"
@@ -4184,6 +4190,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
+Eyes All Black	Spooky Damage: +100, Spooky Spell Damage: +100
 Eyes for Miles	Meat Drop: +50, Item Drop: +25
 # Eyes of the Dragon: +100% Item drops from monsters
 # Eyes of the Dragon: (Underwater only)
@@ -4404,6 +4411,7 @@ Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1, Experienc
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
 Heavily Breathing	Experience (Muscle): [L]
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+Heightened Senses	Meat Drop: +50, Item Drop: +25
 # Heisenberglary: Muscle +/-X
 # Heisenberglary: Mysticality +/-Y
 # Heisenberglary: Moxie  +/-Z
@@ -6194,6 +6202,7 @@ abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
+airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
@@ -6419,6 +6428,7 @@ deanimated reanimator's coffin	Free Pull
 decorative fountain	Effect: "Sleepy", Effect Duration: 1
 defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
+delicious candy	Effect: "Eyes All Black", Effect Duration: 15
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
@@ -6785,6 +6795,7 @@ Milk Studs	Effect: "Milk Studly", Effect Duration: 15
 miniscule temporal rip	Free Pull
 Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 mocking turtle	Effect: "Tortious", Effect Duration: 15
+monkey barf	Effect: "Barfpits", Effect Duration: 1
 Monster Manuel	Free Pull
 moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Moping Artistic Goth Kid	Free Pull

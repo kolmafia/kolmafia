@@ -110,6 +110,7 @@ ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
 ghast iron Garibaldi	170	Mox: 70
 giant discarded bottlecap	155	Mox: 62
+giant yellow hat	125	Mox: 47
 goat beard	60	Mox: 15
 Goggles of Loathing	200	Mys: 150
 gold crown	150	Mox: 60
@@ -554,6 +555,7 @@ birdbone corset	50	none
 bod-ice	100	none
 Brogre brolo shirt	100	Mus: 35
 bronze breastplate	105	Mus: 37
+camouflage T-shirt	100	Mus: 25
 cane-mail shirt	100	none
 chamoisole	200	Mus: 200
 Chester's muscle shirt	200	Mus: 200
@@ -1404,6 +1406,7 @@ Crimbo Elf creepy bobble-head	0	none
 Crimbo light-up Rudolph doll	0	none
 Crimbo stogie-scented room odorizer	0	none
 Crimbo tree flocker	0	none
+cuddly teddy bear	0	Mys: 47
 cup of infinite pencils	150	Mus: 175
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
@@ -2194,6 +2197,7 @@ rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 Saccharine Maple pendant	75	Mys: 22
+Sasq&trade; watch	0	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
 screwing pooch	85	Mys: 27
