@@ -54,7 +54,7 @@ bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of Definit	3	2	decent	4-8	0	0	0
 bottle of Domesticated Turkey	3	2	decent	4-8	0	0	0
-bottle of drinkin' gas	2	3	good	0	0	0	0
+bottle of drinkin' gas	2	3	good	4-5	0	30-60	0
 bottle of Evermore	3	5	decent	5-7	10-20	0	10-20	The Dark Lord Rides in Force Tonight (+40 Spooky Damage)
 bottle of fruity &quot;wine&quot;	2	5	good	4-5	2-5	2-5	2-5	KOLHS
 bottle of gin	3	1	crappy	3	0	0	0
@@ -511,7 +511,7 @@ white-label gin	3	1	good	8-10	3-5	3-5	3-5
 wine spritzer	3	1	decent	5-6	0	8-10	0
 world's most unappetizing beverage	1	1	good	3	-1	-1	-1	10 Literally Insane (Legendary Beat quest)
 Wrecked Generator	5	5	EPIC	28-32	20-30	20-30	20-30
-Xiblaxian space-whiskey	4	7	EPIC	0	0	0	0
+Xiblaxian space-whiskey	4	7	EPIC	0	50	50	50
 Ye Olde Meade	5	7	good	14-16	20-30	20-30	20-30
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
