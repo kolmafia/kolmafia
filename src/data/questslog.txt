@@ -86,3 +86,7 @@ questESlFish	Dirty Fishy Dish	Get Taco Dan the meat he wants from taco fish near
 questESlBacteria	Cultural Studies	Get hot-tub bacteria from the Fun-Guy Mansion for Broden	Take the mouthful of bacteria back to Broden.	You gathered disgusting bacteria for Broden the Brogre.
 questESlSprinkles	A Light Sprinkle	Gather sprinkles from the Sloppy Seconds Diner for Broden.	Take the can of sprinkles back to Broden.	You collected sprinkles for Broden the Brogre.
 questESlDebt	Beat Dead the Deadbeats	Collect debts from Broden's former customers on the Sunken Party Yacht.	Take the broupons back to Broden.	You collected Broden the Brogre's debts for him.
+questESpEVE	Choking on the Rind	Your mysterious contact wants you to neutralize project E-V-E-6 in the Secret Government Laboratory.	Return to the radio and report your success.	
+questESpJunglePun	Pungle in the Jungle	Equip the encrypted micro-cassette recorder.	Your mysterious contact wants you to wander around the Deep Dark Jungle coming up with puns.	Return to the radio to collect your reward and get rid of this nasty bucket.	
+questESpGore	Gore Tipper	Equip the gore bucket.	Your mysterious contact wants you to go to the Secret Government Laboratory and clean up gore.	Return to the radio to collect your reward and get rid of this nasty bucket.	
+questESpClipper	The Big Clipper	Your mysterious contact wants you to gather fingernail clippings from the Mansion of Dr. Weirdeaux.		

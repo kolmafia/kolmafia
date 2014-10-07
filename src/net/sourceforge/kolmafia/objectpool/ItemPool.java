@@ -2132,7 +2132,9 @@ public class ItemPool
 	public static final int COINSPIRACY = 7769;
 	public static final int HYPERSANE_BOOK = 7803;
 	public static final int INTIMIDATING_MIEN_BOOK = 7804;
+	public static final int FINGERNAIL_CLIPPERS = 7831;
 	public static final int MINI_CASSETTE_RECORDER = 7832;
+	public static final int GORE_BUCKET = 7833;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

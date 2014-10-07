@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1476,6 +1477,7 @@ public class EquipmentRequest
 			if ( EquipmentRequest.switchItem( slot, ItemPool.get( itemId, 1 ) ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );
+				QuestManager.updateQuestItemEquipped( itemId );
 			}
 
 			return;
