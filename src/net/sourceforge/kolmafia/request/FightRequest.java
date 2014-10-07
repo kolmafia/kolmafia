@@ -6787,6 +6787,10 @@ public class FightRequest
 			}
 			break;
 		}
+
+		// May update a quest, handle in QuestManager
+		QuestManager.updateQuestItemUsed( itemId, responseText );
+
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
 			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );

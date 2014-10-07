@@ -2374,8 +2374,18 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.MINI_CASSETTE_RECORDER:
-			// Set quest when quest named
+			QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.STARTED );
 			Preferences.setInteger( "junglePuns", 0 );
+			break;
+
+		case ItemPool.GORE_BUCKET:
+			QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.STARTED );
+			Preferences.setInteger( "goreCollected", 0 );
+			break;
+
+		case ItemPool.FINGERNAIL_CLIPPERS:
+			QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.STARTED );
+			Preferences.setInteger( "fingernailsClipped", 0 );
 			break;
 		}
 

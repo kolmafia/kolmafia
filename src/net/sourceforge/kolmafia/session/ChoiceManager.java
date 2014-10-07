@@ -162,6 +162,7 @@ public abstract class ChoiceManager
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
+	private static final Pattern NAVIGATION_PATTERN = Pattern.compile( "Navigation protocol (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) is advised" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7479,13 +7480,56 @@ public abstract class ChoiceManager
 			break;
 
 		case 984:
+		{
 			// A Radio on a Beach
+			// EVE quest started
+			Matcher navigationMatcher = NAVIGATION_PATTERN.matcher( text );
+			if ( navigationMatcher.find() )
+			{
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.STARTED );
+				StringBuffer directions = new StringBuffer();
+				for ( int i = 1 ; i <= 5 ; i++ )
+				{
+					if ( navigationMatcher.group( i ).contains( "Lima" ) )
+					{
+						directions.append( "L" );
+					}
+					else if ( navigationMatcher.group( i ).contains( "Romeo" ) )
+					{
+						directions.append( "R" );
+					}
+				}
+				Preferences.setString( "EVEDirections" , directions.toString() );
+			}
+			// EVE quest finished
+			if ( text.contains( "Neutralization of experimental subject has been confirmed" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.FINISHED );
+				Preferences.resetToDefault( "EVEDirections" );
+			}
+			// Jungle Pun quest finished (start handled in ResultProcessor)
 			if ( text.contains( "tape recorder self-destructs with a shower of sparks and a puff of smoke" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.MINI_CASSETTE_RECORDER );
-				// Also complete quest when quest named
+				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.FINISHED );
+				Preferences.resetToDefault( "junglePuns" );
+			}
+			// Gore quest finished (start handled in ResultProcessor)
+			if ( text.contains( "monitoring equipment reports that environmental gore levels are now" ) )
+			{
+				EquipmentManager.discardEquipment( ItemPool.GORE_BUCKET );
+				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.FINISHED );
+				Preferences.resetToDefault( "goreCollected" );
+			}
+			// Clipper quest finished (start handled in ResultProcessor)
+			if ( text.contains( "return the fingernails and the clippers" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.FINGERNAIL_CLIPPERS );
+				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.FINISHED );
+				Preferences.resetToDefault( "fingernailsClipped" );
 			}
 			break;
+		}
 
 		case 987:
 			// The Post-Apocalyptic Survivor Encampment

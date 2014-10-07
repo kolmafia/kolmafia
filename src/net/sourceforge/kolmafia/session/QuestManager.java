@@ -84,6 +84,7 @@ public class QuestManager
 	private static final Pattern LIGHTER_PATTERN = Pattern.compile( "group of (\\d+) nearby protesters do the same" );
 	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
+	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of gore" );
 
 	public static final void handleQuestChange( final String location, final String responseText )
 	{
@@ -1471,6 +1472,10 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step10" );
 		}
+		else if ( monster.equalsIgnoreCase( "E.V.E., the robot zombie" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.EVE, "step1" );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -1573,8 +1578,20 @@ public class QuestManager
 			if ( responseText.contains( "jungle pun occurs to you" ) )
 			{
 				Preferences.increment( "junglePuns", 1 );
+				if ( Preferences.getInteger( "junglePuns" ) >= 11 )
+				{
+					QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, "step2" );
+				}
 			}
-			// When quest named, move to step 2 at 11 puns
+			Matcher GoreMatcher = QuestManager.GORE_PATTERN.matcher( responseText );
+			if ( GoreMatcher.find() )
+			{
+				Preferences.increment( "goreCollected", StringUtilities.parseInt( GoreMatcher.group( 1 ) ) );
+				if ( Preferences.getInteger( "goreCollected" ) >= 100 )
+				{
+					QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
+				}
+			}
 			break;
 		}
 	}
@@ -1621,7 +1638,7 @@ public class QuestManager
 	 * @param responseText The text from (at least) the first round of the fight
 	 * @param monster The monster
 	 */
-	public static void updateQuestFightStarted( String responseText, String monster )
+	public static void updateQuestFightStarted( final String responseText, final String monster )
 	{
 		if ( monster.equalsIgnoreCase( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
 			monster.equalsIgnoreCase( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
@@ -1631,6 +1648,33 @@ public class QuestManager
 			monster.equalsIgnoreCase( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
+		}
+	}
+	
+	public static void updateQuestItemUsed( final int itemId, final String responseText )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.FINGERNAIL_CLIPPERS:
+			if ( responseText.contains( "little sliver of something fingernail-like" ) )
+			{
+				Preferences.increment( "fingernailsClipped", 1 );
+				if ( Preferences.getInteger( "fingernailsClipped" ) >= 23 )
+				{
+					QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
+				}
+			}
+			break;
+		}
+	}
+	
+	public static void updateQuestItemEquipped( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MINI_CASSETTE_RECORDER:
+			QuestDatabase.setQuestIfBetter( Quest.JUNGLE_PUN, "step1" );
+			break;
 		}
 	}
 }

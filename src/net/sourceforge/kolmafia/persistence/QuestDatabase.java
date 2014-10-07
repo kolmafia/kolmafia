@@ -114,7 +114,11 @@ public class QuestDatabase
 			TACO_DAN_FISH( "questESlFish" ),
 			BRODEN_BACTERIA( "questESlBacteria" ),
 			BRODEN_SPRINKLES( "questESlSprinkles" ),
-			BRODEN_DEBT( "questESlDebt" );
+			BRODEN_DEBT( "questESlDebt" ),
+			EVE( "questESpEVE" ),
+			JUNGLE_PUN( "questESpJunglePun" ),
+			GORE( "questESpGore" ),
+			CLIPPER( "questESpClipper" );
 
 		private String pref;
 
@@ -505,7 +509,15 @@ public class QuestDatabase
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 		Preferences.resetToDefault( "haciendaLayout" );
 		Preferences.resetToDefault( "spookyravenRecipeUsed" );
-		Preferences.resetToDefault( "junglePuns" );
+		Preferences.resetToDefault( "controlPanel1" );
+		Preferences.resetToDefault( "controlPanel2" );
+		Preferences.resetToDefault( "controlPanel3" );
+		Preferences.resetToDefault( "controlPanel4" );
+		Preferences.resetToDefault( "controlPanel5" );
+		Preferences.resetToDefault( "controlPanel6" );
+		Preferences.resetToDefault( "controlPanel7" );
+		Preferences.resetToDefault( "controlPanel8" );
+		Preferences.resetToDefault( "controlPanel9" );
 	}
 
 	public static void handleCouncilText( String responseText )

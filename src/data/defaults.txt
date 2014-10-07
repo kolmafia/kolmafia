@@ -409,8 +409,10 @@ user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
 user	envyfishMonster
+user	EVEDirections	
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
+user	fingernailsClipped	0
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
 user	fistTeachingsPokerRoom	false
@@ -456,6 +458,7 @@ user	gladiatorNetMovesKnown	0
 user	gnasirProgress	0
 user	goldenMrAccessories	0
 user	gongPath	0
+user	goreCollected	0
 user	gourdItemCount	5
 user	grimoire1Summons	0
 user	grimoire2Summons	0
@@ -725,6 +728,10 @@ user	questESlFish	unstarted
 user	questESlMushStash	unstarted
 user	questESlSalt	unstarted
 user	questESlSprinkles	unstarted
+user	questESpEVE	unstarted
+user	questESpJunglePun	unstarted
+user	questESpGore	unstarted
+user	questESpClipper	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted
