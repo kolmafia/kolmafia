@@ -1033,6 +1033,23 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.DR_WEIRDEAUX_ID ) ||
+			this.adventureId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+			this.adventureId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "spookyAirportAlways" ) || Preferences.getBoolean( "_spookyAirportToday" );
+			if ( !unlocked )
+			{
+				// Visit the airport and take a look.
+
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=airport" ) );
+				unlocked = Preferences.getBoolean( "spookyAirportAlways" ) || Preferences.getBoolean( "_spookyAirportToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.EDGE_OF_THE_SWAMP_ID ) )
 		{
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SWAMP, "unstarted" );

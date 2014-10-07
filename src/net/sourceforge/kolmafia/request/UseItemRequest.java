@@ -4514,6 +4514,18 @@ public class UseItemRequest
 			Preferences.setBoolean( "spookyAirportAlways", true );
 			return;
 
+		case ItemPool.CONSPIRACY_ISLAND_TICKET:
+			if ( !responseText.contains( "already have access to that place" ) )
+			{
+				Preferences.setBoolean( "_spookyAirportToday", true );
+			}
+			else
+			{
+				// If you already have access it is not consumed
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			return;

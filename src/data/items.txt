@@ -7784,7 +7784,7 @@
 7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
 7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0
-7768
+7768	one-day ticket to Conspiracy Island	232691309	airdaypass.gif	usable	t	0
 7769	Coinspiracy	350082044	coinspiracy.gif	none		0	Coins-spiracy
 7770	Personal Ventilation Unit	399422816	pvu.gif	accessory	q	0
 7771	the most dangerous bait	444096957	manbait.gif	multiple	t,d	70	handfuls of the most dangerous bait
