@@ -136,7 +136,10 @@ public class QuestManager
 			}
 			else if ( location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
 			          location.contains( AdventurePool.FUN_GUY_MANSION_ID ) ||
-			          location.contains( AdventurePool.YACHT_ID ) )
+			          location.contains( AdventurePool.YACHT_ID ) ||
+			          location.contains( AdventurePool.DR_WEIRDEAUX_ID ) ||
+			          location.contains( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+			          location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
 			{
 				handleAirportChange( location, responseText );
 			}
@@ -223,7 +226,9 @@ public class QuestManager
 		}
 		else if ( location.startsWith( "place.php" ) )
 		{
-			if ( location.contains( "whichplace=airport" ) || location.contains( "whichplace=airport_sleaze" ) )
+			if ( location.contains( "whichplace=airport" ) || 
+				location.contains( "whichplace=airport_sleaze" ) ||
+				location.contains( "whichplace=airport_spooky" ) )
 			{
 				handleAirportChange( location, responseText );
 			}
@@ -565,22 +570,38 @@ public class QuestManager
 
 	public static final void handleAirportChange( final String location, final String responseText )
 	{
-		// Don't bother if it's always open
-		if ( Preferences.getBoolean( "sleazeAirportAlways" ) )
+		// Check Sleaze settings
+		if ( !Preferences.getBoolean( "sleazeAirportAlways" ) )
 		{
-			return;
-		}
-		// Detect if Airport is open today
-		if ( location.contains( AdventurePool.FUN_GUY_MANSION_ID ) || location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
-		     location.contains( AdventurePool.YACHT_ID ) || location.contains( "whichplace=airport_sleaze" ) )
-		{
-			Preferences.setBoolean( "_sleazeAirportToday", true );
-		}
-		else if ( location.contains( "whichplace=airport" ) )
-		{
-			if ( responseText.contains( "whichplace=airport_sleaze" ) )
+			// Detect if Airport is open today
+			if ( location.contains( AdventurePool.FUN_GUY_MANSION_ID ) || location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+				location.contains( AdventurePool.YACHT_ID ) || location.contains( "whichplace=airport_sleaze" ) )
 			{
 				Preferences.setBoolean( "_sleazeAirportToday", true );
+			}
+			else if ( location.contains( "whichplace=airport" ) )
+			{
+				if ( responseText.contains( "whichplace=airport_sleaze" ) )
+				{
+					Preferences.setBoolean( "_sleazeAirportToday", true );
+				}
+			}
+		}
+		// Check Spooky settings
+		if ( !Preferences.getBoolean( "spookyAirportAlways" ) )
+		{
+			// Detect if Airport is open today
+			if ( location.contains( AdventurePool.DR_WEIRDEAUX_ID ) || location.contains( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+				location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) || location.contains( "whichplace=airport_spooky" ) )
+			{
+				Preferences.setBoolean( "_spookyAirportToday", true );
+			}
+			else if ( location.contains( "whichplace=airport" ) )
+			{
+				if ( responseText.contains( "whichplace=airport_spooky" ) )
+				{
+					Preferences.setBoolean( "_spookyAirportToday", true );
+				}
 			}
 		}
 		return;
@@ -1583,6 +1604,9 @@ public class QuestManager
 					QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, "step2" );
 				}
 			}
+			break;
+
+		case AdventurePool.SECRET_GOVERNMENT_LAB:
 			Matcher GoreMatcher = QuestManager.GORE_PATTERN.matcher( responseText );
 			if ( GoreMatcher.find() )
 			{

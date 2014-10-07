@@ -185,7 +185,7 @@ electric snakebite	2	5	good	4-6	0	15-30	0	20 Once Bitten Twice Fried (+25 MP, +2
 elven cellocello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
 elven moonshine	3	5	good	7-10	20-40	20-40	20-40	20 Drunk With Power (+100% spell dmg)
 elven squeeze	3	4	good	5-8	20-30	20-30	20-30
-En Una Fila Tequila	4	1	good	0	0	0	0	20 turns of Mr. Skullhead's Birthday Happiness (Puts a birthday smile on your face)
+En Una Fila Tequila	4	1	good	4-8	0	0	0	20 turns of Mr. Skullhead's Birthday Happiness (Puts a birthday smile on your face)
 especially salty dog	4	4	good	9-13	32-50	32-50	32-50
 Event Horizon	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
 evil ducha de oro	4	4	awesome	12-16	8-10	0	50-75	10 A Little Bit Evil (+2 ML)

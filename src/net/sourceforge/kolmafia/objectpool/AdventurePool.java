@@ -191,6 +191,10 @@ public class AdventurePool
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final int DR_WEIRDEAUX = 415;
+	public static final String DR_WEIRDEAUX_ID = "415";
+	public static final int SECRET_GOVERNMENT_LAB = 416;
+	public static final String SECRET_GOVERNMENT_LAB_ID = "416";
 	public static final int DEEP_DARK_JUNGLE = 417;
+	public static final String DEEP_DARK_JUNGLE_ID = "415";
 	public static final int POST_MALL = 418;
 }
