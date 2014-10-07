@@ -127,12 +127,12 @@ cavewomyn hippy	cavewomyn.gif	Atk: 250 Def: 207 HP: 260 Init: 25 E: stench P: hi
 Centurion of Sparky	centurion.gif	FREE Atk: 150 Def: 180 HP: 200 Init: -10000 P: horror	ingot of seal-iron (35)
 CH Imp	chimp.gif	Atk: 62 Def: 55 HP: 62 E: hot Init: 60 Meat: 30 P: demon	imp air (25)
 chalkdust wraith	chalkdust.gif	Atk: 25 Def: 23 HP: 25 Init: 50 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
-chatty pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 52-76 P: pirate
+chatty pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 63 P: pirate
 Chowder Golem	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct
 clan of cave bars	cavebars.gif	HP: [(min(200,MOX+20)+5*ML)*0.75] Def: [min(200,MUS+20)+5*ML] Atk: [min(200,MOX+20)+5*ML] Exp: [(min(200,STAT+20)+5*ML)/4] Init: -10000 Meat: 400 P: beast
 claw-foot bathtub	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Claybender Sorcerer Ghost	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)
-cleanly pirate	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 49-72 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
+cleanly pirate	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 60 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
 clingy pirate	girlpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 65 P: pirate	bit of clingfilm (11)
 Cloaca-Cola Catapult Engineer	colaoff1.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
 Cloaca-Cola Footsoldier	colasol1.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
@@ -154,7 +154,7 @@ Count Bakula	bakula.gif	ULTRARARE Atk: 80 Def: 72 HP: 80 P: dude Init: 10000	Tal
 crate	crate.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 P: construct
 craven carven raven	stone_raven.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] Exp: [(min(50,STAT)+ML)/4] Init: -10000 P: construct	shiny stones (100)
 Crazy Bastard	bastard.gif	ULTRARARE Atk: 20 Def: 18 HP: 25 P: dude	crazy bastard sword (100)
-creamy pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
+creamy pirate	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate Meat: 61	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 creepy clown	clown.gif	Atk: 20 Def: 18 HP: 16 Init: 85 E: spooky Meat: 30 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)
 creepy doll	creepydoll.gif	Atk: 88 Def: 76 HP: 75 Init: 25 P: construct E: spooky	droopy doll eye (0)	creepy doll head (0)	creepy voice box (0)
 Creepy Ginger Twin	twins_ginger.gif	Atk: 95 Def: 86 HP: 95 Init: 30 P: dude	creepy ginger ale (15)	stolen necklace (5)	fireclutch (c30)
@@ -162,9 +162,9 @@ croqueteer	croqueteer.gif	HP: [(MUS+ML)*.75] Def: [MUS+ML] Atk: [MOX+ML] Exp: [(
 crusty hippy	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 crusty hippy jewelry maker	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (5)	Spanish fly (c25)
 crusty hippy Vegan chef	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
-crusty pirate	crustpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 ED: stench Meat: 52-76 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
+crusty pirate	crustpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 ED: stench Meat: 64 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
 cubist bull	cubistbull.gif	Atk: 56 Def: 50 HP: 55 Init: 50 Meat: 200 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean non-accordion (a0)
-curmudgeonly pirate	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)
+curmudgeonly pirate	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate Meat: 62	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)
 Dad Sea Monkee	dad_machine.gif	BOSS Atk: 42000 Def: 42000 HP: 4200 Init: 10000 P: horror
 daft punk	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude
 dairy goat	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast	glass of goat's milk (20)	goat cheese (40)	Shivering Ch&egrave;vre (c0)
@@ -595,7 +595,7 @@ sabre-toothed lime	lime.gif	Atk: 14 Def: 12 HP: 8 Init: 60 P: beast Meat: 14	twi
 Safari Jack, Small-Game Hunter	safarijack.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 salamander	salamander.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	salamander spleen (100)
 sassy pirate	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
-scary clown	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky Meat: 20-32 P: horror	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
+scary clown	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky Meat: 25 P: horror	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
 scary pirate	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 E: spooky Meat: 35-55 P: pirate	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)	folder (skull and crossbones) (c0)
 school of many	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 P: horror	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
 school of wizardfish	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 P: fish	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)	folder (Seawolf) (c0)
