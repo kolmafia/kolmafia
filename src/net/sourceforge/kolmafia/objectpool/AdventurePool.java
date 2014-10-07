@@ -195,6 +195,6 @@ public class AdventurePool
 	public static final int SECRET_GOVERNMENT_LAB = 416;
 	public static final String SECRET_GOVERNMENT_LAB_ID = "416";
 	public static final int DEEP_DARK_JUNGLE = 417;
-	public static final String DEEP_DARK_JUNGLE_ID = "415";
+	public static final String DEEP_DARK_JUNGLE_ID = "417";
 	public static final int POST_MALL = 418;
 }
