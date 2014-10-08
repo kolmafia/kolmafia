@@ -489,13 +489,13 @@ public class CharSheetRequest
 		throws JSONException
 	{
 		int muscle = JSON.getInt( "muscle" );
-		int rawmuscle = JSON.getInt( "rawmuscle" );
+		long rawmuscle = JSON.getLong( "rawmuscle" );
 
 		int mysticality = JSON.getInt( "mysticality" );
-		int rawmysticality = JSON.getInt( "rawmysticality" );
+		long rawmysticality = JSON.getLong( "rawmysticality" );
 
 		int moxie = JSON.getInt( "moxie" );
-		int rawmoxie = JSON.getInt( "rawmoxie" );
+		long rawmoxie = JSON.getLong( "rawmoxie" );
 
 		KoLCharacter.setStatPoints( muscle, rawmuscle,
 					    mysticality, rawmysticality,
