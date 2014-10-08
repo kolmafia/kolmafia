@@ -1994,6 +1994,10 @@ public class GenericRequest
 			if ( this instanceof UseItemRequest )
 			{
 				FightRequest.INSTANCE.run();
+				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight )
+				{
+					KoLmafia.executeAfterAdventureScript();
+				}
 				return !LoginRequest.isInstanceRunning();
 			}
 		}
