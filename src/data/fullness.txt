@@ -248,7 +248,7 @@ festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fettucini Inconnu	6	6	awesome	22-27	0	0	47-52
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
-filet of The Fish	3	11	EPIC	0	0	0	0
+filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
 fishy fish	2	8	good	3-9	0	0	26-33
@@ -322,7 +322,7 @@ gunky chicken	2	5	good	4-6	15-30	0	0	lose 5-10 HP, 20 Gunky Dory (+50 HP, +4-10 
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP Fights
 haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (+10 mox)
 Halibut Alfredo	4	1	awesome	10-15	0	0	0
-ham steak	3	5	good	0	0	0	0
+ham steak	3	5	good	8-10	30-50	0	0
 hamburger	2	5	awesome	8	18-22	18-22	18-22
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
