@@ -119,14 +119,22 @@ public class FamiliarRequest
 		super( "familiar.php" );
 
 		this.changeTo = familiar;
-		this.item = item;
+		this.item = item == null ? EquipmentRequest.UNEQUIP: item;
 		this.locking = false;
 		this.enthrone = false;
 		this.bjornify = false;
 
-		this.addFormField( "action", "equip" );
-		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
-		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+		if ( this.item != EquipmentRequest.UNEQUIP )
+		{
+			this.addFormField( "action", "equip" );
+			this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
+			this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+		}
+		else
+		{
+			this.addFormField( "famid", String.valueOf( familiar.getId() ) );
+			this.addFormField( "action", "unequip" );
+		}
 		this.addFormField( "ajax", "1" );
 	}
 
@@ -197,8 +205,15 @@ public class FamiliarRequest
 
 		if ( this.item != null )
 		{
-			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() +
-				  " with " + this.item.getName() + "..." );
+			if ( this.item == EquipmentRequest.UNEQUIP )
+			{
+				KoLmafia.updateDisplay( "Unequipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + "..." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() +
+							" with " + this.item.getName() + "..." );
+			}
 			super.run();
 			return;
 		}
