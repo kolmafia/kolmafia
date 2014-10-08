@@ -41,7 +41,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -94,7 +93,7 @@ public abstract class MoodManager
 
 	private static Mood currentMood = null;
 	private static final SortedListModel<Mood> availableMoods = new SortedListModel<Mood>();
-	private static final SortedListModel displayList = new SortedListModel();
+	private static final SortedListModel<MoodTrigger> displayList = new SortedListModel<MoodTrigger>();
 	
 	static boolean isExecuting = false;
 
@@ -146,17 +145,13 @@ public abstract class MoodManager
 		}
 
 		Preferences.setString( "currentMood", newMoodName );
-		
-		Mood newMood = new Mood( newMoodName );
-		Iterator moodIterator = MoodManager.availableMoods.iterator();
-		
+
 		MoodManager.currentMood = null;
+		Mood newMood = new Mood( newMoodName );
 		
-		while ( moodIterator.hasNext() )
+		for ( Mood mood : MoodManager.availableMoods )
 		{
-			Mood mood = (Mood) moodIterator.next();
-			
-			if ( mood.equals( newMood ) )
+			if ( mood.getName().equals( newMoodName ) )
 			{
 				MoodManager.currentMood = mood;
 				
@@ -186,76 +181,27 @@ public abstract class MoodManager
 	 * Retrieves the model associated with the given mood.
 	 */
 
-	public static final LockableListModel getTriggers()
+	public static final LockableListModel<MoodTrigger> getTriggers()
 	{
 		return MoodManager.displayList;
 	}
 	
-	public static final List<String> getTriggers( String moodName )
+	public static final List<MoodTrigger> getTriggers( String moodName )
 	{
 		if ( moodName == null || moodName.length() == 0 )
 		{
 			return Collections.EMPTY_LIST;
 		}
 		
-		Mood moodToFind = new Mood( moodName );
-		
-		Iterator moodIterator = MoodManager.availableMoods.iterator();
-
-		while ( moodIterator.hasNext() )
+		for ( Mood mood : MoodManager.availableMoods)
 		{
-			Mood mood = (Mood) moodIterator.next();
-			
-			if ( mood.equals( moodToFind ) )
+			if ( mood.getName().equals( moodName ) )
 			{
 				return mood.getTriggers();
 			}
 		}
 		
 		return Collections.EMPTY_LIST;
-	}
-
-	public static final void addTriggers( final Object[] nodes, final int duration )
-	{
-		MoodManager.removeTriggers( nodes );
-		StringBuilder newAction = new StringBuilder();
-
-		for ( int i = 0; i < nodes.length; ++i )
-		{
-			MoodTrigger mt = (MoodTrigger) nodes[ i ];
-			String[] action = mt.getAction().split( " " );
-
-			newAction.setLength( 0 );
-			newAction.append( action[ 0 ] );
-
-			if ( action.length > 1 )
-			{
-				newAction.append( ' ' );
-				int startIndex = 2;
-
-				if ( action[ 1 ].charAt( 0 ) == '*' )
-				{
-					newAction.append( '*' );
-				}
-				else
-				{
-					if ( !Character.isDigit( action[ 1 ].charAt( 0 ) ) )
-					{
-						startIndex = 1;
-					}
-
-					newAction.append( duration );
-				}
-
-				for ( int j = startIndex; j < action.length; ++j )
-				{
-					newAction.append( ' ' );
-					newAction.append( action[ j ] );
-				}
-			}
-
-			MoodManager.addTrigger( mt.getType(), mt.getName(), newAction.toString() );
-		}
 	}
 
 	/**
@@ -292,12 +238,10 @@ public abstract class MoodManager
 		}
 	}
 
-	public static final void removeTriggers( final Collection triggers )
+	public static final void removeTriggers( final Collection<MoodTrigger> triggers )
 	{
-		Iterator it = triggers.iterator();
-		while ( it.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			MoodTrigger trigger = (MoodTrigger) it.next();
 			if ( MoodManager.currentMood.removeTrigger( trigger ) )
 			{
 				MoodManager.displayList.remove( trigger );
@@ -589,17 +533,12 @@ public abstract class MoodManager
 		ArrayList<AdventureResult> thiefKeep = new ArrayList<AdventureResult>();
 		ArrayList<AdventureResult> thiefNeed = new ArrayList<AdventureResult>();
 		
-		List triggers = MoodManager.currentMood.getTriggers();
-		
-		Iterator triggerIterator = triggers.iterator();
-
-		while ( triggerIterator.hasNext() )
+		List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
+		for ( MoodTrigger trigger : triggers )
 		{
-			current = (MoodTrigger) triggerIterator.next();
-
-			if ( current.isThiefTrigger() )
+			if ( trigger.isThiefTrigger() )
 			{
-				AdventureResult effect = current.getEffect();
+				AdventureResult effect = trigger.getEffect();
 				
 				if ( thiefBuffs.remove( effect ) )
 				{	// Already have this one
@@ -618,34 +557,31 @@ public abstract class MoodManager
 
 		for ( int i = 0; i < buffsToRemove && i < thiefBuffs.size(); ++i )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + ( (AdventureResult) thiefBuffs.get( i ) ).getName() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + thiefBuffs.get( i ).getName() );
 		}
 
 		// Now that everything is prepared, go ahead and execute
 		// the displayList which have been set.  First, start out
 		// with any skill casting.
 		
-		triggerIterator = triggers.iterator();
-
-		while ( !KoLmafia.refusesContinue() && triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			current = (MoodTrigger) triggerIterator.next();
-
-			if ( current.isSkill() )
+			if ( KoLmafia.refusesContinue() )
 			{
-				current.execute( multiplicity );
+				break;
+			}
+
+			if ( trigger.isSkill() )
+			{
+				trigger.execute( multiplicity );
 			}
 		}
 
-		triggerIterator = triggers.iterator();
-
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			current = (MoodTrigger) triggerIterator.next();
-
-			if ( !current.isSkill() )
+			if ( !trigger.isSkill() )
 			{
-				current.execute( multiplicity );
+				trigger.execute( multiplicity );
 			}
 		}
 
@@ -661,21 +597,18 @@ public abstract class MoodManager
 
 		boolean willExecute = false;
 		
-		List triggers = MoodManager.currentMood.getTriggers();
-		Iterator triggerIterator = triggers.iterator();
-
-		while ( triggerIterator.hasNext() )
+		List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
+		for ( MoodTrigger trigger : triggers )
 		{
-			MoodTrigger current = (MoodTrigger) triggerIterator.next();
-			willExecute |= current.shouldExecute( multiplicity );
+			willExecute |= trigger.shouldExecute( multiplicity );
 		}
 
 		return willExecute;
 	}
 
-	public static final List getMissingEffects()
+	public static final List<AdventureResult> getMissingEffects()
 	{
-		List triggers = MoodManager.currentMood.getTriggers();
+		List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
 		if ( triggers.isEmpty() )
 		{
@@ -683,21 +616,19 @@ public abstract class MoodManager
 		}
 
 		ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
-		Iterator triggerIterator = triggers.iterator();
-
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			MoodTrigger current = (MoodTrigger) triggerIterator.next();
-			if ( current.getType().equals( "lose_effect" ) && !current.matches() )
+			if ( trigger.getType().equals( "lose_effect" ) && !trigger.matches() )
 			{
-				missing.add( current.getEffect() );
+				missing.add( trigger.getEffect() );
 			}
 		}
 
 		// Special case: if the character has a turtling rod equipped,
 		// assume the Eau de Tortue is a possibility
 
-		if ( KoLCharacter.hasEquipped( MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND ) && !KoLConstants.activeEffects.contains( MoodManager.EAU_DE_TORTUE ) )
+		if ( KoLCharacter.hasEquipped( MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND ) &&
+		     !KoLConstants.activeEffects.contains( MoodManager.EAU_DE_TORTUE ) )
 		{
 			missing.add( MoodManager.EAU_DE_TORTUE );
 		}
@@ -720,7 +651,7 @@ public abstract class MoodManager
 
 	public static final int getMaintenanceCost()
 	{
-		List triggers = MoodManager.currentMood.getTriggers();
+		List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
 		if ( triggers.isEmpty() )
 		{
@@ -728,21 +659,19 @@ public abstract class MoodManager
 		}
 
 		int runningTally = 0;
-		Iterator triggerIterator = triggers.iterator();
 
 		// Iterate over the entire list of applicable triggers,
 		// locate the ones which involve spellcasting, and add
 		// the MP cost for maintenance to the running tally.
 
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			MoodTrigger current = (MoodTrigger) triggerIterator.next();
-			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( -1 ) )
+			if ( !trigger.getType().equals( "lose_effect" ) || !trigger.shouldExecute( -1 ) )
 			{
 				continue;
 			}
 
-			String action = current.getAction();
+			String action = trigger.getAction();
 			if ( !action.startsWith( "cast" ) && !action.startsWith( "buff" ) )
 			{
 				continue;
@@ -786,11 +715,9 @@ public abstract class MoodManager
 	public static final void saveSettings()
 	{
 		PrintStream writer = LogStream.openStream( getFile(), true );
-		Iterator moodIterator = MoodManager.availableMoods.iterator();
 
-		while ( moodIterator.hasNext() )
+		for ( Mood mood : MoodManager.availableMoods )
 		{
-			Mood mood = (Mood) moodIterator.next();
 			writer.println( mood.toSettingString() );
 		}
 
@@ -877,16 +804,14 @@ public abstract class MoodManager
 
 		String action = "";
 
-		List triggers = ( MoodManager.currentMood == null ) ? Collections.EMPTY_LIST : MoodManager.currentMood.getTriggers();
-		Iterator triggerIterator = triggers.iterator();
+		List<MoodTrigger> triggers = ( MoodManager.currentMood == null ) ? Collections.EMPTY_LIST : MoodManager.currentMood.getTriggers();
 
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : triggers )
 		{
-			MoodTrigger current = (MoodTrigger) triggerIterator.next();
-
-			if ( current.getType().equals( type ) && current.getName().equals( name ) )
+			if ( trigger.getType().equals( type ) && trigger.getName().equals( name ) )
 			{
-				action = current.getAction();
+				action = trigger.getAction();
+				break;
 			}
 		}
 
