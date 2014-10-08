@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -103,7 +104,6 @@ import org.json.JSONObject;
 public abstract class InventoryManager
 {
 	private static final int BULK_PURCHASE_AMOUNT = 30;
-	private static final GenericRequest FAMEQUIP_REMOVER = new GenericRequest( "familiar.php?pwd&action=unequip" );
 
 	private static int askedAboutCrafting = 0;
 	private static boolean cloverProtectionEnabled = true;
@@ -543,8 +543,8 @@ public abstract class InventoryManager
 				}
 
 				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
-				InventoryManager.FAMEQUIP_REMOVER.addFormField( "famid", String.valueOf( current.getId() ) );
-				RequestThread.postRequest( InventoryManager.FAMEQUIP_REMOVER );
+				FamiliarRequest request = new FamiliarRequest( current, EquipmentRequest.UNEQUIP );
+				RequestThread.postRequest( request );
 
 				--missingCount;
 
@@ -552,6 +552,9 @@ public abstract class InventoryManager
 				{
 					return "";
 				}
+
+				// Keep going; generic familiar equipment might
+				// be retrievable from multiple familiars.
 			}
 		}
 
