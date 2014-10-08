@@ -57,15 +57,16 @@ public class RequestPane
 
 	public RequestPane()
 	{
-		// Ensure that the background is off-white so that the
-		// text is always legible.
-
 		this.setContentType( "text/html" );
 		this.setEditable( false );
+		this.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE );
 
 		HTMLDocument currentHTML = (HTMLDocument) getDocument();
 		currentHTML.putProperty( "multiByte", Boolean.FALSE );
 		
+		// Ensure that the background is off-white so that the
+		// text is always legible.
+
 		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 
