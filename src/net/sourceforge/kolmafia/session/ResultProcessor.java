@@ -2387,6 +2387,10 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.STARTED );
 			Preferences.setInteger( "fingernailsClipped", 0 );
 			break;
+
+		case ItemPool.ESP_COLLAR:
+			QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
+			break;
 		}
 
 		// Gaining items can achieve goals.

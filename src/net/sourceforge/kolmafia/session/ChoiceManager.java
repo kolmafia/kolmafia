@@ -7528,6 +7528,17 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.FINISHED );
 				Preferences.resetToDefault( "fingernailsClipped" );
 			}
+			// Fake Medium quest started
+			if ( text.contains( "this operation should be carried out with maximal discretion" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.STARTED );
+			}
+			// Fake Medium quest finished
+			if ( text.contains( "ESP suppression collar be thrown into the ocean" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.ESP_COLLAR );
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.FINISHED );
+			}
 			break;
 		}
 
