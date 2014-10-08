@@ -118,7 +118,8 @@ public class QuestDatabase
 			EVE( "questESpEVE" ),
 			JUNGLE_PUN( "questESpJunglePun" ),
 			GORE( "questESpGore" ),
-			CLIPPER( "questESpClipper" );
+			CLIPPER( "questESpClipper" ),
+			FAKE_MEDIUM( "questESpFakeMedium" );
 
 		private String pref;
 

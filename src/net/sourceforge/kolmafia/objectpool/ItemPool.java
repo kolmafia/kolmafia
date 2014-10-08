@@ -2136,6 +2136,7 @@ public class ItemPool
 	public static final int FINGERNAIL_CLIPPERS = 7831;
 	public static final int MINI_CASSETTE_RECORDER = 7832;
 	public static final int GORE_BUCKET = 7833;
+	public static final int ESP_COLLAR = 7835;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
