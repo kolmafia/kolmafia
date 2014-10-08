@@ -134,7 +134,7 @@ public class MoodTrigger
 			this.action = action;
 		}
 
-		if ( type != null && type.equals( "lose_effect" ) && effect != null )
+		if ( type.equals( "lose_effect" ) && effect != null )
 		{
 			Set<String> existingActions = (Set<String>) MoodTrigger.knownSources.get( effect.getName() );
 
@@ -248,17 +248,19 @@ public class MoodTrigger
 			return this.type + " => " + this.action;
 		}
 
+		String canonical = StringUtilities.getCanonicalName( this.name );
+
 		if ( this.item != null )
 		{
-			return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
+			return this.type + " " + canonical + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
 		}
 
 		if ( this.skill != null )
 		{
-			return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => cast " + this.count + " " + StringUtilities.getCanonicalName( this.skill.getSkillName() );
+			return this.type + " " + canonical + " => cast " + this.count + " " + StringUtilities.getCanonicalName( this.skill.getSkillName() );
 		}
 
-		return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => " + this.action;
+		return this.type + " " + canonical + " => " + this.action;
 	}
 
 	@Override
@@ -270,19 +272,15 @@ public class MoodTrigger
 		}
 
 		MoodTrigger mt = (MoodTrigger) o;
-		if ( !this.type.equals( mt.getType() ) )
+		if ( !this.type.equals( mt.type ) )
 		{
 			return false;
 		}
 
 		if ( this.name == null )
 		{
-			return mt.name == null;
-		}
-
-		if ( mt.getType() == null )
-		{
-			return false;
+			// This is an unconditional trigger. Compare actions.
+			return this.action.equalsIgnoreCase( mt.action );
 		}
 
 		return this.name.equals( mt.name );
@@ -393,51 +391,45 @@ public class MoodTrigger
 			return -1;
 		}
 
-		String othertype = ( (MoodTrigger) o ).getType();
-		String othername = ( (MoodTrigger) o ).name;
-		String otherTriggerAction = ( (MoodTrigger) o ).action;
+		MoodTrigger mt = (MoodTrigger) o;
+		String othertype = mt.type;
+		String othername = mt.name;
+		String otherTriggerAction = mt.action;
 
-		int compareResult = 0;
+		// Order: unconditional, gain_effect, lose_effect
 
 		if ( this.type.equals( "unconditional" ) )
 		{
 			if ( othertype.equals( "unconditional" ) )
 			{
-				compareResult = this.action.compareToIgnoreCase( otherTriggerAction );
+				return this.action.compareToIgnoreCase( otherTriggerAction );
 			}
-			else
-			{
-				compareResult = -1;
-			}
+			return -1;
 		}
-		else if ( this.type.equals( "gain_effect" ) )
+
+		if ( this.type.equals( "gain_effect" ) )
 		{
 			if ( othertype.equals( "unconditional" ) )
 			{
-				compareResult = 1;
+				return 1;
 			}
-			else if ( othertype.equals( "gain_effect" ) )
+			if ( othertype.equals( "gain_effect" ) )
 			{
-				compareResult = this.name.compareToIgnoreCase( othername );
+				return this.name.compareTo( othername );
 			}
-			else
-			{
-				compareResult = -1;
-			}
+			return -1;
 		}
-		else if ( this.type.equals( "lose_effect" ) )
+
+		if ( this.type.equals( "lose_effect" ) )
 		{
 			if ( othertype.equals( "lose_effect" ) )
 			{
-				compareResult = this.name.compareToIgnoreCase( othername );
+				return this.name.compareTo( othername );
 			}
-			else
-			{
-				compareResult = 1;
-			}
+			return  1;
 		}
 
-		return compareResult;
+		return 0;
 	}
 
 	public void updateStringForm()
@@ -495,13 +487,13 @@ public class MoodTrigger
 			return null;
 		}
 
-		String name =
-			type.equals( "unconditional" ) ? null : pieces[ 0 ].substring( pieces[ 0 ].indexOf( " " ) ).trim();
-
 		AdventureResult effect = null;
 
 		if ( !type.equals( "unconditional" ) )
 		{
+			int spaceIndex = pieces[ 0 ].indexOf( " " );
+			String name = pieces[ 0 ].substring( spaceIndex ).trim();
+
 			effect = EffectDatabase.getFirstMatchingEffect( name );
 
 			if ( effect == null )

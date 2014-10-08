@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Pattern;
@@ -49,7 +48,7 @@ public class Mood
 {
 	private String name;
 	private List<String> parentNames;
-	private SortedListModel localTriggers;
+	private SortedListModel<MoodTrigger> localTriggers;
 
 	public Mood( String name )
 	{
@@ -64,22 +63,22 @@ public class Mood
 			
 			String[] parentNameArray = parentString.split( "\\s*,\\s*" );
 			
-			for ( int i = 0; i < parentNameArray.length; ++i )
+			for ( String parentName : parentNameArray )
 			{
-				this.parentNames.add( this.getName( parentNameArray[ i ] ) );
+				this.parentNames.add( this.getName( parentName ) );
 			}
 			
 			this.name = this.getName( this.name.substring( 0, extendsIndex ) );
 		}
-		else if ( this.name.indexOf( "," ) != -1 )
+		else if ( this.name.contains( "," ) )
 		{
 			this.name = "";
 			
 			String[] parentNameArray = name.split( "\\s*,\\s*" );
 			
-			for ( int i = 0; i < parentNameArray.length; ++i )
+			for ( String parentName : parentNameArray )
 			{
-				this.parentNames.add( this.getName( parentNameArray[ i ] ) );
+				this.parentNames.add( this.getName( parentName ) );
 			}
 		}
 		else
@@ -87,7 +86,7 @@ public class Mood
 			this.name = this.getName( this.name );
 		}
 
-		this.localTriggers = new SortedListModel();
+		this.localTriggers = new SortedListModel<MoodTrigger>();
 	}
 
 	public String getName()
@@ -103,7 +102,7 @@ public class Mood
 		this.localTriggers.addAll( copyFromMood.localTriggers );
 	}
 	
-	public List getParentNames()
+	public List<String> getParentNames()
 	{
 		return this.parentNames;
 	}
@@ -117,26 +116,19 @@ public class Mood
 
 	public boolean isExecutable()
 	{
-		return !this.name.equals( "apathetic" ) && !getTriggers().isEmpty();
+		return !this.name.equals( "apathetic" ) && !this.getTriggers().isEmpty();
 	}
 	
-	public List<String> getTriggers()
+	public List<MoodTrigger> getTriggers()
 	{
-		ArrayList<String> triggers = new ArrayList<String>();
+		ArrayList<MoodTrigger> triggers = new ArrayList<MoodTrigger>();
 		
-		if ( !this.parentNames.isEmpty() )
+		for ( String parentName : this.parentNames )
 		{
-			Iterator parentNameIterator = this.parentNames.iterator();
-			
-			while ( parentNameIterator.hasNext() )
-			{
-				String parentName = (String) parentNameIterator.next();
+			List<MoodTrigger> parentTriggers = MoodManager.getTriggers( parentName );
 				
-				List<String> parentTriggers = MoodManager.getTriggers( parentName );
-				
-				triggers.removeAll( parentTriggers );
-				triggers.addAll( parentTriggers );
-			}
+			triggers.removeAll( parentTriggers );
+			triggers.addAll( parentTriggers );
 		}
 		
 		triggers.removeAll( this.localTriggers );
@@ -147,12 +139,8 @@ public class Mood
 	
 	public boolean isTrigger( AdventureResult effect )
 	{
-		Iterator triggerIterator = getTriggers().iterator();
-		
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : this.getTriggers() )
 		{
-			MoodTrigger trigger = (MoodTrigger) triggerIterator.next();
-			
 			if ( trigger.matches( effect ) )
 			{
 				return true;
@@ -199,11 +187,8 @@ public class Mood
 		buffer.append( " ]" );
 		buffer.append( KoLConstants.LINE_BREAK );
 		
-		Iterator triggerIterator = this.localTriggers.iterator();
-		
-		while ( triggerIterator.hasNext() )
+		for ( MoodTrigger trigger : this.getTriggers() )
 		{
-			MoodTrigger trigger = (MoodTrigger) triggerIterator.next();
 			buffer.append( trigger.toSetting() );
 			buffer.append( KoLConstants.LINE_BREAK );
 		}
@@ -225,18 +210,19 @@ public class Mood
 				buffer.append( " extends " );
 			}
 			
-			Iterator parentNameIterator = this.parentNames.iterator();
-			
-			while ( parentNameIterator.hasNext() )
+			boolean first = true;
+			for ( String parentName : this.parentNames )
 			{
-				String parentName = (String) parentNameIterator.next();
-				
-				buffer.append( parentName );
-
-				if ( parentNameIterator.hasNext() )
+				if ( first )
+				{
+					first = false;
+				}
+				else
 				{
 					buffer.append( ", " );
 				}
+
+				buffer.append( parentName );
 			}
 		}
 		
