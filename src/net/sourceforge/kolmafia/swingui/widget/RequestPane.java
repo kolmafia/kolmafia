@@ -59,7 +59,6 @@ public class RequestPane
 	{
 		this.setContentType( "text/html" );
 		this.setEditable( false );
-		this.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE );
 
 		HTMLDocument currentHTML = (HTMLDocument) getDocument();
 		currentHTML.putProperty( "multiByte", Boolean.FALSE );

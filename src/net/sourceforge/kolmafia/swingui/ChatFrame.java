@@ -54,6 +54,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -314,6 +315,7 @@ public class ChatFrame
 			this.entryField.addKeyListener( listener );
 
 			// Set the font in the JEditorPane to be the same as the entry field
+			this.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE );
 			this.chatDisplay.setFont( this.entryField.getFont() );
 
 			JButton entryButton = new JButton( "chat" );
