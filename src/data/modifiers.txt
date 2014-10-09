@@ -5495,7 +5495,7 @@ Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Deep Saucery
 # Deft Hands +25% damage from combat items
 Diminished Gag Reflex	Stench Resistance: +2
-Disco Bravado	Experience: [1+0.5*I]
+Disco Bravado	Experience: [I-max(I-1,0)/2]
 Disco Greed	Item Drop: [10*I]
 # Double-Fisted Skull Smashing
 Easy Riding	Experience (Moxie): +5
