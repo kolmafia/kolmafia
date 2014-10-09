@@ -5215,7 +5215,10 @@ public abstract class KoLCharacter
 			if ( Modifiers.currentLocation != null )
 			{
 				KoLAdventure location = AdventureDatabase.getAdventure( Modifiers.currentLocation );
-				WL = location.getWaterLevel();
+				if ( location != null )
+				{
+					WL = location.getWaterLevel();
+				}
 			}
 			if ( WL > 0 )
 			{
