@@ -295,10 +295,10 @@ public class RestaurantCommand
 	public static boolean makeSpeakeasyRequest( final String command, final String parameters )
 	{
 		String[] splitParameters = AbstractCommand.splitCountAndName( parameters );
-		String speakeasyDrink = splitParameters[ 1 ];
+		String speakeasyDrink = ClanLoungeRequest.findSpeakeasyDrink( splitParameters[ 1 ] );
 
 		// We claim any request to drink a Speakeasy drink
-		if ( !ClanLoungeRequest.isSpeakeasyDrink( speakeasyDrink ) )
+		if ( speakeasyDrink == null )
 		{
 			return false;
 		}

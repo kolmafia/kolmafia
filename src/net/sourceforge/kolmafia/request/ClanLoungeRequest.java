@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -503,8 +504,9 @@ public class ClanLoungeRequest
 		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.SPEAKEASY_DATA[ index ][3];
 	}
 
-	public static final ArrayList<String> SPEAKEASY_NAMES = new ArrayList<String>();
 	public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
+	private static final ArrayList<String> SPEAKEASY_NAMES = new ArrayList<String>();
+	private static final String [] CANONICAL_SPEAKEASY_ARRAY = new String[ ClanLoungeRequest.SPEAKEASY_DATA.length ];
 
 	static
 	{
@@ -514,8 +516,9 @@ public class ClanLoungeRequest
 			Concoction concoction = ConcoctionPool.get( itemName );
 			concoction.speakeasy = true;
 			concoction.price = ClanLoungeRequest.speakeasyNameToCost( itemName );
-			ClanLoungeRequest.SPEAKEASY_NAMES.add( itemName );
 			ClanLoungeRequest.ALL_SPEAKEASY.add( concoction );
+			ClanLoungeRequest.SPEAKEASY_NAMES.add( itemName );
+			ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[ i ] = StringUtilities.getCanonicalName( itemName );
 		}
 	};
 
@@ -541,6 +544,27 @@ public class ClanLoungeRequest
 	public static final boolean isSpeakeasyDrink( String name )
 	{
 		return speakeasyNameToIndex( name ) != -1;
+	}
+
+	public static final String findSpeakeasyDrink( String searchString )
+	{
+		List<String> matchingNames = StringUtilities.getMatchingNames( ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY, searchString );
+
+		if ( matchingNames.size() != 1 )
+		{
+			return null;
+		}
+
+		String name = matchingNames.get( 0 );
+		for ( int index = 0; index < ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY.length; ++index )
+		{
+			if ( name.equals( ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[ index ] ) )
+			{
+				return ClanLoungeRequest.speakeasyIndexToName( index );
+			}
+		}
+
+		return null;
 	}
 
 	public static final int findPoolGame( String tag )
