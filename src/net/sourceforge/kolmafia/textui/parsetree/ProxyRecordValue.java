@@ -907,6 +907,7 @@ public class ProxyRecordValue
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
+			.add( "attributes", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -1012,6 +1013,11 @@ public class ProxyRecordValue
 		public String get_image()
 		{
 			return ((MonsterData) this.content).getImage();
+		}
+
+		public String get_attributes()
+		{
+			return ((MonsterData) this.content).getAttributes();
 		}
 	}
 

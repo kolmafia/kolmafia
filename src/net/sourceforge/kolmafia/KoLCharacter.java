@@ -2015,6 +2015,19 @@ public abstract class KoLCharacter
 		}
 	}
 	
+	public static final int getAdjustedMainstat()
+	{
+		switch ( KoLCharacter.mainStat() )
+		{
+		case MUSCLE:
+			return getAdjustedMuscle();
+		case MYSTICALITY:
+			return getAdjustedMysticality();
+		default:
+			return getAdjustedMoxie();
+		}
+	}
+	
 	/**
 	 * Accessor method to set the number of adventures the character has left to spend in this session.
 	 *
