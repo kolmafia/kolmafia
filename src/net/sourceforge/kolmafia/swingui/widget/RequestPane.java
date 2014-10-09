@@ -70,7 +70,6 @@ public class RequestPane
 
 		// Set the font in the JEditorPane to be our default font
 
-		this.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE );
 		this.setFont( KoLConstants.DEFAULT_FONT );
 	}
 
