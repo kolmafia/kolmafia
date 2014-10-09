@@ -365,14 +365,13 @@ public class CakeArenaRequest
 
 		// "Familiar suckage" messages do not always include the name
 		// of the familiar. Fortunately, for the current opponents in
-		// the cake arena, they always do, and the message starts with
-		// the opponent's name.
+		// the cake arena, they always do.
 		//
 		// *** If KoL ever adds arena opponents that have "special"
 		// *** suckage messages, this will need to change
 
 		String opponentName = m.group( 2 );
-		if ( line2.startsWith( opponentName ) )
+		if ( line2.contains( opponentName ) )
 		{
 			// The other familiar sucks but not this one
 			return null;
