@@ -1096,6 +1096,7 @@ public class EquipmentRequest
 		if ( newItem != EquipmentRequest.UNEQUIP )
 		{
 			AdventureResult.addResultToList( KoLConstants.inventory, newItem.getInstance( -1 ) );
+			QuestManager.updateQuestItemEquipped( newItem.getItemId() );
 		}
 
 		if ( oldItem != EquipmentRequest.UNEQUIP )
@@ -1477,7 +1478,6 @@ public class EquipmentRequest
 			if ( EquipmentRequest.switchItem( slot, ItemPool.get( itemId, 1 ) ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );
-				QuestManager.updateQuestItemEquipped( itemId );
 			}
 
 			return;

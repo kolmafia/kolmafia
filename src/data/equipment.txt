@@ -1429,7 +1429,7 @@ Elizabeth's Dollie	120	Mys: 45
 Ellsbury's skull	100	Mys: 35
 enchanted brass knuckles	50	Mys: 10
 enchanted fire extinguisher	0	Mys: 200
-encrypted mini-casette recorder	10	none
+encrypted mini-cassette recorder	10	none
 Engorged Sausages and You	100	Mys: 35
 eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
