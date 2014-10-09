@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -2549,8 +2550,6 @@ public abstract class KoLCharacter
 		{
 			return 0;
 		}
-
-		int threshold = 40; // complete guess for now
 
 		int WL = 1;
 		if ( KoLCharacter.selectedLocation != null )
@@ -5187,7 +5186,31 @@ public abstract class KoLCharacter
 		// monster level.  Add that information.
 
 		double monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
-		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
+		if ( monsterLevel > 0 )
+		{
+			newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 3.0f, "ML/3" );
+		}
+		else
+		{
+			newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
+		}
+
+		// Water level impacts experience adjustment.
+		if ( KoLCharacter.inRaincore() )
+		{
+			int WL = 1;
+			if ( Modifiers.currentLocation != null )
+			{
+				KoLAdventure location = AdventureDatabase.getAdventure( Modifiers.currentLocation );
+				WL = location.getWaterLevel();
+			}
+			if ( WL > 0 )
+			{
+				WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
+				WL = WL < 1 ? 1 : WL > 6 ? 6 : WL;
+				newModifiers.add( Modifiers.EXPERIENCE, (double) WL * 10 / 3.0f, "Water Level*10/3" );
+			}
+		}
 
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 		if ( exp != 0.0f )
