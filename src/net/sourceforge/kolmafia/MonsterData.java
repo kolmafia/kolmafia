@@ -52,6 +52,10 @@ public class MonsterData
 	private Object defense;
 	private Object initiative;
 	private Object experience;
+	private final int scale;
+	private final int cap;
+	private final int floor;
+	private final int mlMult;
 	private final Element attackElement;
 	private final Element defenseElement;
 	private final int physicalResistance;
@@ -61,6 +65,7 @@ public class MonsterData
 	private final boolean boss;
 	private final EncounterType type;
 	private final String image;
+	private final String attributes;
 	private final int beeCount;
 
 	private final ArrayList<AdventureResult> items;
@@ -69,11 +74,12 @@ public class MonsterData
 	public MonsterData( final String name, final Object health,
 			    final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
+				final int scale, final int cap, final int floor, final int mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
 			    final int meat,
 			    final Phylum phylum, final int poison, final boolean boss,
-			    final EncounterType type, final String image )
+			    final EncounterType type, final String image, final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -82,6 +88,10 @@ public class MonsterData
 		this.defense = defense;
 		this.initiative = initiative;
 		this.experience = experience;
+		this.scale = scale;
+		this.cap = cap;
+		this.floor = floor;
+		this.mlMult = mlMult;
 		this.attackElement = attackElement;
 		this.defenseElement = defenseElement;
 		this.physicalResistance = physicalResistance;
@@ -91,6 +101,7 @@ public class MonsterData
 		this.boss = boss;
 		this.type = type;
 		this.image = image;
+		this.attributes = attributes;
 
 		int beeCount = 0;
 		for ( int i = 0; i < name.length(); ++i )
@@ -126,6 +137,14 @@ public class MonsterData
 
 	public int getHP()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int hp = KoLCharacter.getAdjustedMuscle() + this.scale;
+			hp = hp > this.cap ? this.cap : hp < this.floor ? this.floor : hp;
+			int ml = ML();
+			ml = ml < 0 ? 0 : ml;
+			return (int) Math.floor( Math.max( 1, ( hp + ml * this.mlMult ) * 0.75 * getBeeosity() ) );
+		}			
 		if ( this.health == null )
 		{
 			return 0;
@@ -142,7 +161,7 @@ public class MonsterData
 			{
 				hp += 150;
 			}
-			return (int) Math.floor( Math.max( 1, hp + ML() ) *
+			return (int) Math.floor( Math.max( 1, hp + ML() * this.mlMult ) *
 			       getBeeosity() );
 		}
 		if ( this.health instanceof String )
@@ -154,6 +173,12 @@ public class MonsterData
 
 	public int getRawHP()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int hp = KoLCharacter.getAdjustedMuscle() + this.scale;
+			hp = hp > this.cap ? this.cap : hp < this.floor ? this.floor : hp;
+			return (int) Math.floor( Math.max( 1, ( hp ) * 0.75 ) );
+		}			
 		if ( this.health == null )
 		{
 			return -1;
@@ -171,6 +196,14 @@ public class MonsterData
 
 	public int getAttack()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int attack = KoLCharacter.getAdjustedMoxie() + this.scale;
+			attack = attack > this.cap ? this.cap : attack < this.floor ? this.floor : attack;
+			int ml = ML();
+			ml = ml < 0 ? 0 : ml;
+			return (int) Math.floor( Math.max( 1, ( attack + ml * this.mlMult ) * getBeeosity() ) );
+		}			
 		if ( this.attack == null )
 		{
 			return 0;
@@ -188,7 +221,7 @@ public class MonsterData
 				// The bonus attack from BIG cannot raise a monster's attack above 300
 				attack = Math.min( attack + 150, Math.max( 300, attack ) );
 			}
-			return (int) Math.floor( Math.max( 1, attack + ML() ) *
+			return (int) Math.floor( Math.max( 1, attack + ML() * this.mlMult ) *
 			       getBeeosity() );
 		}
 		if ( this.attack instanceof String )
@@ -200,6 +233,12 @@ public class MonsterData
 
 	public int getRawAttack()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int attack = KoLCharacter.getAdjustedMoxie() + this.scale;
+			attack = attack > this.cap ? this.cap : attack < this.floor ? this.floor : attack;
+			return (int) Math.max( 1, attack );
+		}			
 		if ( this.attack == null )
 		{
 			return -1;
@@ -218,6 +257,14 @@ public class MonsterData
 	public int getDefense()
 	{
 		double reduceMonsterDefense = KoLCharacter.currentNumericModifier( Modifiers.REDUCE_ENEMY_DEFENSE ) / 100;
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int defense = KoLCharacter.getAdjustedMuscle() + this.scale;
+			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
+			int ml = ML();
+			ml = ml < 0 ? 0 : ml;
+			return (int) Math.floor( Math.max( 1, ( defense + ml ) * getBeeosity() * ( 1 - reduceMonsterDefense ) ) );
+		}			
 		if ( this.defense == null )
 		{
 			return 0;
@@ -235,7 +282,7 @@ public class MonsterData
 				// The bonus defense from BIG cannot raise a monster's defense above 300
 				defense = Math.min( defense + 150, Math.max( 300, defense ) );
 			}
-			return (int) Math.floor( Math.max( 1, defense + ML() ) *
+			return (int) Math.floor( Math.max( 1, defense + ML() * this.mlMult ) *
 			       getBeeosity() * ( 1 - reduceMonsterDefense ) );
 		}
 		if ( this.defense instanceof String )
@@ -248,6 +295,12 @@ public class MonsterData
 
 	public int getRawDefense()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int defense = KoLCharacter.getAdjustedMuscle() + this.scale;
+			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
+			return (int) Math.floor( Math.max( 1, defense ) );
+		}			
 		if ( this.defense == null )
 		{
 			return -1;
@@ -288,9 +341,9 @@ public class MonsterData
 	public int getInitiative( final int monsterLevel )
 	{
 		int baseInit = this.getRawInitiative();
-		if ( baseInit == -1 )
+		if ( baseInit == -1 || baseInit == 10000 || baseInit == -10000)
 		{
-			return -1;
+			return baseInit;
 		}
 		else
 		{
@@ -304,18 +357,26 @@ public class MonsterData
 		{
 			return -1;
 		}
-		return getJumpChance( (int) KoLCharacter.getInitiativeAdjustment() );
+		return this.getJumpChance( (int) KoLCharacter.getInitiativeAdjustment(), KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
 	public int getJumpChance( final int initBonus )
 	{
-		int jumpChance = 100 - this.getInitiative() + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
-		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
+		return this.getJumpChance( initBonus, KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
 	public int getJumpChance( final int initBonus, final int monsterLevel )
 	{
-		int jumpChance = 100 - this.getInitiative( monsterLevel) + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
+		int monsterInit = this.getInitiative( monsterLevel );
+		if ( monsterInit == 10000 )
+		{
+			return 0;
+		}
+		else if ( monsterInit == -10000 )
+		{
+			return 100;
+		}
+		int jumpChance = 100 - monsterInit + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
 		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
 	}
 
@@ -384,6 +445,11 @@ public class MonsterData
 	public String getImage()
 	{
 		return this.image == null ? "" : this.image;
+	}
+
+	public String getAttributes()
+	{
+		return this.attributes == null ? "" : this.attributes;
 	}
 
 	public List<AdventureResult> getItems()
@@ -557,9 +623,17 @@ public class MonsterData
 
 	public double getExperience()
 	{
+		if ( this.scale > Integer.MIN_VALUE )
+		{
+			int experience = KoLCharacter.getAdjustedMainstat() + this.scale;
+			experience = experience > this.cap ? this.cap : experience < this.floor ? this.floor : experience;
+			int ml = ML();
+			ml = ml < 0 ? 0 : ml;
+			return (double) Math.max( 1, ( experience / 8.0 + ml * this.mlMult / 6.0 ) );
+		}			
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / this.getBeeosity() ) / 8.0 + ( ML() > 0 ? ML() : 0 ) / 24;
+			return ( this.getAttack() / this.getBeeosity() ) / 8.0 + ML() * this.mlMult / 6.0;
 		}
 		if ( this.experience instanceof Integer )
 		{
@@ -569,7 +643,7 @@ public class MonsterData
 		{
 			this.experience = compile( this.experience );
 		}
-		return ((MonsterExpression) this.experience).eval() / 2.0 + ( ML() > 0 ? ML() : 0 ) / 24;
+		return ((MonsterExpression) this.experience).eval() / 2.0;
 	}
 
 	public boolean willUsuallyMiss()

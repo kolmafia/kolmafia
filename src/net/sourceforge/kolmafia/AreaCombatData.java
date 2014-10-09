@@ -941,8 +941,21 @@ public class AreaCombatData
 		buffer.append( this.format( evadePercent ) );
 		buffer.append( "%</font>, Jump Chance: <font color=" + AreaCombatData.elementColor( ea ) + ">" );
 		buffer.append( this.format( jumpChance ) );
-		buffer.append( "%</font><br>Phylum: " + phylum + ", Init: " + init + ", Atk: " + attack + ", Def: " + defense);
-		buffer.append( "<br>HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format( statGain ) );
+		buffer.append( "%</font><br>Atk: " + attack + ", Def: " + defense );
+		buffer.append( ", HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format( statGain ) );
+		buffer.append( "<br>Phylum: " + phylum );
+		if ( init == -10000 )
+		{
+			buffer.append( ", Never wins initiative" );
+		}
+		else if ( init == 10000 )
+		{
+			buffer.append( "Always wins initiative" );
+		}
+		else
+		{
+			buffer.append( ", Init: " + init );
+		}
 
 		if ( fullString )
 		{
