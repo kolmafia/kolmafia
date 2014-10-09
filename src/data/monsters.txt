@@ -284,7 +284,7 @@ Georgepaul, the Balldodger	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 
 ghastly organist	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead	opera mask (20)
 ghost miner	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 ghost of Elizabeth Spookyraven	elizabeth.gif	Scale: 5 Cap: 300 Init: 100 P: undead	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
-ghuol	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 30-36 P: undead	ghuol egg (25)	ghuol ears (25)
+ghuol	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 34 P: undead	ghuol egg (25)	ghuol ears (25)
 giant bee	giantbee.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 Giant Desktop Globe	globe.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 giant fried egg	friedegg.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime
@@ -406,7 +406,7 @@ Larry of the Field of Signs	larrysignfield.gif	BOSS Atk: 70 Def: 63 HP: 70 Init:
 larval filthworm	filthworm1.gif	Atk: 165 Def: 148 HP: 180 Init: 50 Meat: 41-60 E: stench P: bug	filthworm hatchling scent gland (10)
 lemon-in-the-box	linbox.gif	Atk: 17 Def: 15 HP: 12 Init: 75 P: construct	box (20)	lemon (50)
 Lesser Fruit Golem	lfruitgol.gif	Atk: 17 Def: 15 HP: 9 Init: 50 P: construct	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
-lihc	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 ED: spooky EA: spooky EA: sleaze Meat: 29-43 P: undead	lihc eye (30)
+lihc	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 ED: spooky EA: spooky EA: sleaze Meat: 36 P: undead	lihc eye (30)
 Little Man in the Canoe	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 lobsterfrogman	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 78 P: beast	barrel of gunpowder (n100)
 lonely construct	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
@@ -820,8 +820,8 @@ Yeast Beast	yeastbeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 EA: sleaze P: construc
 Yog-Urt, Elder Goddess of Hatred	yog-urt.gif	BOSS Atk: 400 Def: 400 HP: 750 Init: 10000 P: horror
 Your Shadow	../otherimages/shadows/20.gif	Atk: [150] Def: [89999] HP: [395] Init: 150 Exp: 200 P: dude
 Zim Merman	zimmerman.gif	Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 209-325 E: stench P: hippy	Lockenstock&trade; sandals (0)	Zim Merman's guitar (100)	green clay bead (0)
-zmobie	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky Meat: 29-43 P: undead	cranberries (20)	loose teeth (50)
-zobmie	zombie.gif	Atk: 19 Def: 17 HP: 10 Init: 60 E: spooky Meat: 28-40 P: undead	cranberries (20)	cranberries (20)
+zmobie	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky Meat: 36 P: undead	cranberries (20)	loose teeth (50)
+zobmie	zombie.gif	Atk: 19 Def: 17 HP: 10 Init: 60 E: spooky Meat: 34 P: undead	cranberries (20)	cranberries (20)
 Zol	zol.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: slime	green pixel (70)	green pixel (70)	green pixel (70)
 zombie chef	zombiechef.gif	Atk: 22 Def: 19 HP: 20 Init: 50 Meat: 7 P: undead	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)	zombie hollandaise (c0)
 zombie duck	duckzombie.gif	Atk: 171 Def: 158 HP: 190 Init: 40 Meat: 127-174 E: spooky P: beast	duct tape (5)	frightful feather (10)
