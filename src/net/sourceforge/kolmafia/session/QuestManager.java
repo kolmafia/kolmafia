@@ -1696,6 +1696,10 @@ public class QuestManager
 	{
 		switch ( itemId )
 		{
+		case ItemPool.GORE_BUCKET:
+			QuestDatabase.setQuestIfBetter( Quest.GORE, "step1" );
+			break;
+
 		case ItemPool.MINI_CASSETTE_RECORDER:
 			QuestDatabase.setQuestIfBetter( Quest.JUNGLE_PUN, "step1" );
 			break;
