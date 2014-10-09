@@ -314,10 +314,6 @@ public class ChatFrame
 			this.entryField = new JTextField();
 			this.entryField.addKeyListener( listener );
 
-			// Set the font in the JEditorPane to be the same as the entry field
-			this.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE );
-			this.chatDisplay.setFont( this.entryField.getFont() );
-
 			JButton entryButton = new JButton( "chat" );
 			entryButton.addActionListener( listener );
 
