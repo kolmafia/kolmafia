@@ -630,7 +630,7 @@ public abstract class UseLinkDecorator
 					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
 				}
 
-				uses.add( new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" ) );
+				uses.add( new UseLink( itemId, InventoryManager.getCount( itemId ) ) );
 
 				if ( uses.size() == 1 )
 				{
@@ -981,10 +981,6 @@ public abstract class UseLinkDecorator
 					return null;
 				}
 				break;
-
-			case ItemPool.VOLCANO_MAP:
-				// Give a link to the guild when you get the volcano map
-				return new UseLink( itemId, "guild", "guild.php?place=scg" );
 
 			case ItemPool.SCALP_OF_GORGOLOK:
 			case ItemPool.ELDER_TURTLE_SHELL:
@@ -1560,33 +1556,40 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			itemId = ItemPool.STONE_WOOL;
 			useType = "stone wool";
 			useLocation = "inv_use.php?which=3&whichitem=";
-			itemId = ItemPool.STONE_WOOL;
 			break;
 
 		case ItemPool.MOSS_COVERED_STONE_SPHERE:
-			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=346" );
+			useType = "use sphere";
+			useLocation = "adventure.php?snarfblat=346";
+			break;
 
 		case ItemPool.DRIPPING_STONE_SPHERE:
-			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=347" );
+			useType = "use sphere";
+			useLocation = "adventure.php?snarfblat=347";
+			break;
 
 		case ItemPool.CRACKLING_STONE_SPHERE:
-			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=348" );
+			useType = "use sphere";
+			useLocation = "adventure.php?snarfblat=348";
+			break;
 
 		case ItemPool.SCORCHED_STONE_SPHERE:
-			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=349" );
-
-		case ItemPool.GOLD_PIECE:
-			return new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" );
+			useType = "use sphere";
+			useLocation = "adventure.php?snarfblat=349";
+			break;
 
 		case ItemPool.STONE_ROSE:
-			return new UseLink( itemId, InventoryManager.getCount( itemId ), "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
+			useType = "gnasir";
+			useLocation = "place.php?whichplace=desertbeach&action=db_gnasir";
+			break;
 
 		case ItemPool.WORM_RIDING_MANUAL_PAGE:
 			int count = InventoryManager.getCount( itemId );
 			return count < 15 ?
-				new UseLink( itemId, count, "javascript:return false;" ) :
+				new UseLink( itemId, count ) :
 				new UseLink( itemId, count, "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
 
 		case ItemPool.FIRST_PIZZA:
@@ -1595,7 +1598,17 @@ public abstract class UseLinkDecorator
 		case ItemPool.STANKARA_STONE:
 		case ItemPool.MURPHYS_FLAG:
 		case ItemPool.SHIELD_OF_BROOK:
-			return new UseLink( itemId, 1, "copperhead club", "adventure.php?snarfblat=383" );
+			useType = "copperhead club";
+			useLocation = "adventure.php?snarfblat=383";
+			break;
+
+		case ItemPool.VOLCANO_MAP:
+			useType = "guild";
+			useLocation = "guild.php?place=scg";
+			break;
+
+		case ItemPool.GOLD_PIECE:
+			return new UseLink( itemId, InventoryManager.getCount( itemId ) );
 
 		default:
 
@@ -1639,6 +1652,12 @@ public abstract class UseLinkDecorator
 		public UseLink( int itemId, int itemCount, String useType, String useLocation )
 		{
 			this( itemId, itemCount, useType, useLocation, useLocation.startsWith( "inv" ) );
+		}
+
+		public UseLink( int itemId, int itemCount )
+		{
+			// This is just a counter
+			this( itemId, itemCount, "javascript:return false;" );
 		}
 
 		public UseLink( int itemId, int itemCount, String useType, String useLocation, boolean inline )

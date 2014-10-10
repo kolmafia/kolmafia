@@ -80,7 +80,6 @@ public class HaciendaManager
 		{	"a long nightcap with a pom-pom on the end", "9"	},
 		{	"a dirty sock", "10"	},
 		{	"a toothbrush", "11"	},
-		{	"an errant cube of chalk from the pool table", "15"	}
 	};
 	
 	private static final String[] REWARDS = 
@@ -136,6 +135,7 @@ public class HaciendaManager
 			KoLmafia.updateDisplay( clue );
 			RequestLogger.updateSessionLog( clue );
 		}
+		// If a reward, mark R
 		else if ( text.contains( "You acquire" ) || text.contains( "large handful of meat" ) )
 		{
 			// Verify that it's an reward from here, not elsewhere
