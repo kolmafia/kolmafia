@@ -67,10 +67,6 @@ public class RequestPane
 		// text is always legible.
 
 		this.setBackground( new Color( 252, 252, 252 ) );
-
-		// Set the font in the JEditorPane to be our default font
-
-		this.setFont( KoLConstants.DEFAULT_FONT );
 	}
 
 	@Override
