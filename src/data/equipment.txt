@@ -449,6 +449,7 @@ old sweatpants	10	none
 Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
 Oscus's flypaper pants	200	Mox: 200
+pair of plants	75	Mox: 15
 palm-frond capris	140	Mox: 55
 Pantaloons of Hatred	200	Mys: 125
 pants of the Slug Lord	35	Mox: 2

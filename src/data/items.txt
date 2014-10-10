@@ -6862,7 +6862,7 @@
 6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25	handfuls of bone bons
 6844	ironic mint	800270383	ironmint.gif	multiple, candy	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
-6846	walkie talkie	879889967	walkietalkie.gif	reusable		0
+6846	walkie-talkie	879889967	walkietalkie.gif	reusable		0
 6847	killing jar	888987269	killingjar.gif	none, combat	t	88
 6848	security flashlight	327985938	flashlight.gif	offhand	t,d	40
 6849	Effermint&trade; tablets	230478466	effermint.gif	multiple	t,d	35	packets of Effermint&trade; tablets
@@ -7793,7 +7793,7 @@
 7774	specialty ammo bandolier	855180535	bandolier.gif	multiple	t,d	58
 7775	pair of plants	601439715	pairofplants.gif	pants	t	0
 7776	Sasq&trade; watch	865335612	nicewatch.gif	accessory	t	0
-7777	smoker's cloak	525186625	smokecloak.gif	container	t,d	5000
+7777	smoker's cloak	525186625	smokecloak.gif	container	t	0
 7778	camouflage T-shirt	243252678	camoshirt.gif	shirt	t	0
 7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum P-00
 7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
@@ -7817,8 +7817,8 @@
 7798	Jungle Juice	287650469	wine.gif	drink	t,d	55	bottles of Jungle Juice
 7799	Amnesiac Ale	887403014	beerbottle.gif	drink	t,d	160	bottles of Amnesiac Ale
 7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240	bottles of Highest Bitter
-7801	mercenary pistol	893237225	happiness.gif	weapon	t,d	450
-7802	mercenary rifle	720436306	mercrifle.gif	weapon	t,d	650
+7801	mercenary pistol	893237225	happiness.gif	weapon	t	0
+7802	mercenary rifle	720436306	mercrifle.gif	weapon	t	0
 7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0
 7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0
 7805	Merc Core challenge coin	133154200	chalcoin.gif	usable	t	0
@@ -7830,7 +7830,7 @@
 7811	viral DNA	927921528	dna.gif	none	t,d	17	strands of viral DNA
 7812	tarnished bottlecap	799797598	bottlecap.gif	none	t,d	42
 7813	seared dino steak	112386694	jarl_steak.gif	food	t,d	36
-7814	bottle of drinkin' gas	464736767	beerbottle.gif	drink	t,d	0	bottles of drinkin' gas
+7814	bottle of drinkin' gas	464736767	beerbottle.gif	drink	t,d	26	bottles of drinkin' gas
 7815	handful of napalm	957617467	blankoutglob.gif	none, combat	t,d	33	handsful of napalm
 7816	dove DNA	304834769	dna.gif	none	t,d	18	strands of dove DNA
 7817	gelatinous meat mass	936201139	wad.gif	none	t,d	18	gelatinous meat masses

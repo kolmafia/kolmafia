@@ -1532,11 +1532,6 @@ public class DebugDatabase
 
 	private static final void loadScrapeData( final StringArray array, final String fileName )
 	{
-		if ( array.size() > 0 )
-		{
-			return;
-		}
-
 		try
 		{
 			File saveData = new File( KoLConstants.DATA_LOCATION, fileName );
@@ -1548,9 +1543,11 @@ public class DebugDatabase
 			String currentLine;
 			StringBuilder currentHTML = new StringBuilder();
 			BufferedReader reader = FileUtilities.getReader( saveData );
+			int lines = 0;
 
 			while ( ( currentLine = reader.readLine() ) != null && !currentLine.equals( "" ) )
 			{
+				lines += 1;
 				currentHTML.setLength( 0 );
 				int currentId = StringUtilities.parseInt( currentLine );
 
@@ -1562,7 +1559,10 @@ public class DebugDatabase
 				}
 				while ( !currentLine.equals( "</html>" ) );
 
-				array.set( currentId, currentHTML.toString() );
+				if ( array.get( currentId ).equals( "" ) )
+				{
+					array.set( currentId, currentHTML.toString() );
+				}
 				reader.readLine();
 			}
 

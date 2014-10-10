@@ -553,6 +553,7 @@ old sweatpants	Familiar Effect: "8xPotato, cap 2"
 Orcish cargo shorts	Muscle: +3, Mysticality: -3, Familiar Effect: "sleaze atk, 2xGhuol, cap 15"
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer", Familiar Effect: "stench atk, 1xBarrr"
 Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effect: "stench atk, 1xPotato"
+pair of plants	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Meat Drop: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30, Familiar Effect: "1.5xGhuol, cap 35"
 # Pantaloons of Hatred: Generates a lot of static electricity
 Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
@@ -1919,7 +1920,7 @@ snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 snow mobile	Maximum MP: +20, Lasts Until Rollover
 snowstick	Cold Spell Damage: +80
 sock monkey	Moxie: +3
-Solstice Shield	Muscle Percent: [25*G], Mysticality Percent: [25*G], Moxie Percent: [25*G], Damage Absorption: +20
+Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
 sommelier's towel	Booze Drop: +50
 Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
@@ -1983,7 +1984,7 @@ Sword of the Brouhaha Prince	Muscle Percent: +12
 # tailbone shield: Deals 80-100 <font color=green>Stench Damage</font> to attackers
 tailbone shield	Stench Damage: +40, Damage Reduction: 16
 teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
-Temporal Tempera Tube	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
 # The Necbromancer's Stein: All Spells Cast Are Spooky
 The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30
 The Spirit of Crimbo	Free Pull
@@ -2948,7 +2949,7 @@ wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, No
 # Xiblaxian holo-wrist-puter: Detects Anomalous Materials of Xyblaxian Origin
 Xiblaxian holo-wrist-puter	Item Drop: +10
 # Xiblaxian xeno-detection goggles: They Really Open Your Eyes
-Xiblaxian xeno-detection goggles	Meat Drop: +15
+Xiblaxian xeno-detection goggles	Meat Drop: +15, Single Equip
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)]
@@ -5836,13 +5837,13 @@ badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
-bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 5
+bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 15
 Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 beefy fish meat	Effect: "Fishy", Effect Duration: 5
-bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 10
+bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 20
 bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
 black forest cake	Effect: "Sugar Rush", Effect Duration: 5
-blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
+blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 20
 blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -5861,7 +5862,7 @@ centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
 chaos popcorn	Effect Duration: 5
 cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
-circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
+circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 20
 cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
@@ -5962,7 +5963,7 @@ savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
-skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10
+skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 20
 Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 slick fish meat	Effect: "Fishy", Effect Duration: 5
@@ -5972,7 +5973,7 @@ smashed danish	Effect: "Danish Cunning", Effect Duration: 30
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10
 spooky hi mein	Effect: "Spooky Breath", Effect Duration: 5
-square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 10
+square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 20
 squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
 Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
@@ -5988,13 +5989,13 @@ Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
 toast with jam	Effect: "Jammin'", Effect Duration: 5
 toasted brie	Effect: "Refined Palate", Effect Duration: 20
 tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
-tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
-tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
-triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
+tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 20
+tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 20
+triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 20
 turtle soup	Effect: "A Little Bit Evil"
 ultrafondue	Effect: "Fondid", Effect Duration: 30
 unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
-unidentifiable dried fruit Effect: "Fruited", Effect Duration: 50
+unidentifiable dried fruit	Effect: "Fruited", Effect Duration: 50
 Ur-Donut	Effect: "Sugar Rush", Effect Duration: 10
 video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
@@ -6004,7 +6005,7 @@ wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
 wet dog	Effect: "Hangdog", Effect Duration: 30
 wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
-wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
+wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 20
 yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
 # Boozes section of modifiers.txt
@@ -7183,7 +7184,7 @@ violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
-walkie talkie	Free Pull
+walkie-talkie	Free Pull
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure
 # warbear auto-anvil: (5x / day)
 warbear bearserker potion	Effect: "Bearserker Bearrage", Effect Duration: 20
