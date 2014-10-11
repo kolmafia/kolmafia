@@ -2566,7 +2566,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.BATTER_UP:
-			if ( responseText.contains( "opponent is knocked out of the park" ) || skillRunawaySuccess )
+			if ( responseText.contains( "knocked out of the park" ) || skillRunawaySuccess )
 			{
 				BanishManager.banishMonster( monster, "batter up!" );
 			}
