@@ -1741,7 +1741,7 @@
 1740	Konked on the Head	dizzy.gif	6e009256278e59090c0a990cee13a267
 1741	Partially Paralyzed	sad.gif	df40b33aa14d6a1996faa5559f2556d5
 1742	Webbed	coccoon.gif	c2f80bd598467fe5d2ab51e14e4bbdab
-1743
+1743	The Rich Get Richer	dollarsign.gif	6b48f33b74f9200d8a65b84f89ced3da
 1744	Experimental Effect G-9	confused.gif	af64d06351a3097af52def8ec6a83d9b	use 1 experimental serum G-9
 1745	Nutrient-Rich	broccoli.gif	d426c689609d01ecfbd7d9d8cccf5738	eat 1 limp broccoli
 1746	Barfpits	monkeybarf.gif	7add7c6b6875638c5bb4ceaf0dbc5ae0	use 1 monkey barf
