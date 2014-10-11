@@ -5259,6 +5259,7 @@ The Rage	Muscle Percent: +50, Mysticality Percent: -50
 The Rain In Loathing	Water Level: +2
 # The Real Deal: Recover HP and MP after battle
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+The Rich Get Richer	Meat Drop: +50
 The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
 The Smeezingtons	Muscle Percent: +100
 The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
