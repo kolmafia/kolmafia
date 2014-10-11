@@ -7845,7 +7845,7 @@
 7826	iFlail	739978940	iflail.gif	weapon	t	0
 7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0
 7828	flat cider	398463159	flatcider.gif	drink	t	0
-7829
+7829	trench lighter	978087658	trenchlighter.gif	offhand	t	0
 7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225
 7831	military-grade fingernail clippers	509291795	nailclippers.gif	none, combat reusable	q	0
 7832	encrypted mini-cassette recorder	365131352	recorder.gif	offhand	q	0

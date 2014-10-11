@@ -395,7 +395,7 @@ Knob Goblin MBA	kg_mba.gif	Atk: 25 Def: 22 HP: 20 Init: 75 Meat: 70 P: goblin	ba
 Knob Goblin Mutant	kg_mutant.gif	Atk: 53 Def: 47 HP: 43 Init: 70 Meat: 46-50 P: goblin
 Knob Goblin poseur	kg_poseur.gif	Atk: 4 Def: 3 HP: 5 Init: 50 Meat: 20 P: goblin	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	kg_souschef.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 20 P: goblin	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
-Knob Goblin Very Mad Scientist	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 36-57 P: goblin	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)
+Knob Goblin Very Mad Scientist	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 45 P: goblin	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)
 Knott Slanding	slanding.gif	ULTRARARE Atk: 150 Def: 135 HP: 150 Init: 10000 E: cold Meat: 970-1335 P: beast	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Koopa Troopa	koopa.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	green pixel (80)	white pixel (50)
@@ -1677,7 +1677,7 @@ The Fudge Wizard	fudgewizard.gif	HP: 400 Def: 270 Atk: 300 Init: 100	wand of fud
 The Abominable Fudgeman	fudgeman.gif	HP: 500 Def: 350 Atk: 350 Init: 50	heart of dark chocolate (0)
 
 # Silent Invasion (April 2012)
-four-shadowed mime	mime.gif	Scale: -3 Cap: 50 Init: -10000 P: horror	mime soul fragment (100)
+four-shadowed mime	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horror	mime soul fragment (100)
 
 # A Smoldering Fortress (June 2012)
 Servant Of Lord Flameface	fireservant1.gif		molten brick (c5)
