@@ -119,7 +119,8 @@ public class QuestDatabase
 			JUNGLE_PUN( "questESpJunglePun" ),
 			GORE( "questESpGore" ),
 			CLIPPER( "questESpClipper" ),
-			FAKE_MEDIUM( "questESpFakeMedium" );
+			FAKE_MEDIUM( "questESpFakeMedium" ),
+			SERUM( "questESpSerum" );
 
 		private String pref;
 

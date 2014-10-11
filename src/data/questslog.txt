@@ -91,3 +91,4 @@ questESpJunglePun	Pungle in the Jungle	Equip the encrypted micro-cassette record
 questESpGore	Gore Tipper	Equip the gore bucket.	Your mysterious contact wants you to go to the Secret Government Laboratory and clean up gore.	Return to the radio to collect your reward and get rid of this nasty bucket.	
 questESpClipper	The Big Clipper	Your mysterious contact wants you to gather fingernail clippings from the Mansion of Dr. Weirdeaux.		
 questESpFakeMedium	Fake Medium at Large	Your mysterious contact wants you to go to the Secret Government Laboratory and acquire an ESP suppression collar.	Take the collar back to the radio to collect your payment.	
+questEspSerum	Serum Sortie	Your mysterious contact wants you to recover 5 vials of experimental serum P-00 from Dr. Weirdeaux's Mansion.	Return to the radio to arrange delivery of the experimental serum.	

@@ -733,6 +733,7 @@ user	questESpJunglePun	unstarted
 user	questESpGore	unstarted
 user	questESpClipper	unstarted
 user	questESpFakeMedium	unstarted
+user	questESpSerum	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted

@@ -2373,6 +2373,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.EXPERIMENTAL_SERUM_P00:
+			if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 4 )
+			{
+				QuestDatabase.setQuestProgress( Quest.SERUM, "step1" );
+			}
+			break;
+
 		case ItemPool.MINI_CASSETTE_RECORDER:
 			QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.STARTED );
 			Preferences.setInteger( "junglePuns", 0 );

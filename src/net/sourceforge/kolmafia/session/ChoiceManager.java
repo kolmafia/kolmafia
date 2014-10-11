@@ -7539,6 +7539,18 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.ESP_COLLAR );
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.FINISHED );
 			}
+			// Serum quest started
+			if ( text.contains( "wonder how many vials they want" ) )
+			{
+				if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 5 )
+				{
+					QuestDatabase.setQuestProgress( Quest.SERUM, "step1" );
+				}
+				else
+				{
+					QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.STARTED );
+				}
+			}
 			break;
 		}
 
