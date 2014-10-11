@@ -1702,6 +1702,7 @@ Time Lord Participation Mug	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
 tortoboggan shield	100	Mus: 35	shield
+trench lighter	0	Mus: 200
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield

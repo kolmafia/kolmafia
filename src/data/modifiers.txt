@@ -1996,6 +1996,7 @@ Time Lord Participation Mug	Maximum Hooch: +3
 tiny black hole	Pickpocket Chance: +25, Initiative: -200
 tip jar	Meat Drop: +5
 tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
+trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby has day-dependent effects which are hard-coded
 Tuesday's ruby	none
