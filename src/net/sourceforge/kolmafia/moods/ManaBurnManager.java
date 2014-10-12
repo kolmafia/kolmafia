@@ -335,7 +335,7 @@ public class ManaBurnManager
 			return null;
 		}
 	
-		List castable =	 BreakfastManager.getBreakfastLibramSkills();
+		List castable = BreakfastManager.getBreakfastLibramSkills();
 		int skillCount = castable.size();
 	
 		if ( skillCount == 0 )

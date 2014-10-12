@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
@@ -51,6 +52,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -472,6 +474,8 @@ public class SkillDatabase
 	 * @return The MP consumed by the skill, or 0 if unknown
 	 */
 
+	private static final AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
+
 	public static final int getMPConsumptionById( final int skillId )
 	{
 		if ( isLibramSkill( skillId ) )
@@ -481,6 +485,7 @@ public class SkillDatabase
 
 		String classType = null;
 		boolean thrallReduced = false;
+		boolean isCombat = SkillDatabase.isCombat( skillId );
 
 		switch ( skillId )
 		{
@@ -530,6 +535,11 @@ public class SkillDatabase
 			return 0;
 		}
 
+		if ( isCombat && KoLConstants.activeEffects.contains( SkillDatabase.SUPER_SKILL ) )
+		{
+			return 0;
+		}
+
 		Object mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
 
 		if ( mpConsumption == null )
@@ -548,7 +558,7 @@ public class SkillDatabase
 			cost = cost / 2;
 		}
 
-		int adjustment = KoLCharacter.getManaCostAdjustment( SkillDatabase.isCombat( skillId ) );
+		int adjustment = KoLCharacter.getManaCostAdjustment( isCombat );
 		return Math.max( cost + adjustment, 1 );
 	}
 

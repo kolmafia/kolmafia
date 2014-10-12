@@ -377,6 +377,15 @@ public class BreakfastManager
 			return list;
 		}
 
+		// This check is only here because the skill name was changed
+		// It can likely be removed eventually
+		// Added October 2014
+		if ( name.equals( "Summon Candy Hearts" ) )
+		{
+			name = "Summon Candy Heart";
+			Preferences.setString( setting + suffix, name );
+		}
+
 		boolean castAll = name.equals( "all" );
 
 		// Determine how many skills we will cast from this list
