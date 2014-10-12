@@ -156,7 +156,7 @@ public class QuestManager
 				handleSneakyPeteChange( responseText );
 			}
 		}
-		if ( location.startsWith( "beanstalk" ) )
+		else if ( location.startsWith( "beanstalk" ) )
 		{
 			if ( responseText.contains( "airship.gif" ) )
 			{
@@ -724,25 +724,58 @@ public class QuestManager
 
 	private static final void handleCell37( final String responseText )
 	{
+		if ( responseText.contains( "scientists should have a file on me" ) ||
+			responseText.contains( "Did you find that file yet" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.ESCAPE, QuestDatabase.STARTED );
+		}
 		// You pass the folder through the little barred window, and hear Subject 37 flipping through the pages
 		if ( responseText.contains( "pass the folder through" ) )
 		{
 			ResultProcessor.processItem( ItemPool.SUBJECT_37_FILE, -1 );
+			// You may already have the item you are sent to get
+			if ( InventoryManager.getCount( ItemPool.GOTO ) > 0 )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step3" );
+			}
+			else
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step2" );
+			}
 		}
 		// You pass the GOTO through the window, and Subject 37 thanks you.
 		if ( responseText.contains( "pass the GOTO through" ) )
 		{
 			ResultProcessor.processItem( ItemPool.GOTO, -1 );
+			// You may already have the item you are sent to get
+			if ( InventoryManager.getCount( ItemPool.WEREMOOSE_SPIT ) > 0 )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step5" );
+			}
+			else
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step4" );
+			}
 		}
 		// You pass the little vial of of weremoose spit through the window.
 		if ( responseText.contains( "pass the little vial" ) )
 		{
 			ResultProcessor.processItem( ItemPool.WEREMOOSE_SPIT, -1 );
+			// You may already have the item you are sent to get
+			if ( InventoryManager.getCount( ItemPool.ABOMINABLE_BLUBBER ) > 0 )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step7" );
+			}
+			else
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step6" );
+			}
 		}
 		// You hand Subject 37 the glob of abominable blubber.
 		if ( responseText.contains( "hand Subject 37 the glob" ) )
 		{
 			ResultProcessor.processItem( ItemPool.ABOMINABLE_BLUBBER, -1 );
+			QuestDatabase.setQuestProgress( Quest.ESCAPE, QuestDatabase.FINISHED );
 		}
 	}
 

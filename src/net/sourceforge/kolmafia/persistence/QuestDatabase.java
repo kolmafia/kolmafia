@@ -95,6 +95,7 @@ public class QuestDatabase
 			GALAKTIK( "questM04Galaktic" ),
 			AZAZEL( "questM10Azazel" ),
 			PIRATE( "questM12Pirate" ),
+			ESCAPE( "questM13Escape" ),
 			LOL( "questM15Lol" ),
 			TEMPLE( "questM16Temple" ),
 			SPOOKYRAVEN_BABIES( "questM17Babies" ),

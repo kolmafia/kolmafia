@@ -2117,6 +2117,14 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.YELLOW_TAFFY:
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
+				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			{
+				Preferences.increment( "_taffyRareSummons" );
+				Preferences.increment( "_taffyYellowSummons" );
+			}
+			break;
+
 		case ItemPool.GREEN_TAFFY:
 		case ItemPool.INDIGO_TAFFY:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
@@ -2374,7 +2382,8 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.EXPERIMENTAL_SERUM_P00:
-			if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 4 )
+			if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 4 &&
+				QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "unstarted" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SERUM, "step1" );
 			}
@@ -2397,6 +2406,34 @@ public class ResultProcessor
 
 		case ItemPool.ESP_COLLAR:
 			QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
+			break;
+
+		case ItemPool.SUBJECT_37_FILE:
+			QuestDatabase.setQuestProgress( Quest.ESCAPE, "step1" );
+			break;
+
+		case ItemPool.GOTO:
+			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step1" ) &&
+				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step3" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step3" );
+			}
+			break;
+
+		case ItemPool.WEREMOOSE_SPIT:
+			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step3" ) &&
+				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step5" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step5" );
+			}
+			break;
+
+		case ItemPool.ABOMINABLE_BLUBBER:
+			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step5" ) &&
+				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step7" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step7" );
+			}
 			break;
 		}
 
