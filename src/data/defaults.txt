@@ -1181,6 +1181,7 @@ user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
+user	_taffyYellowSummons	0
 user	_templeHiddenPower	false
 user	_tempuraAirUsed	false
 user	_thingfinderCasts	0
