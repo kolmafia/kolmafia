@@ -1616,6 +1616,10 @@ public class QuestManager
 					QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
 				}
 			}
+			if ( responseText.contains( "The gore sloshes around nauseatingly in your bucket" ) )
+			{
+					QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
+			}
 			break;
 		}
 	}
