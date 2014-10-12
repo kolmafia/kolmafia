@@ -1358,10 +1358,10 @@ drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sl
 one of Doctor Weirdeaux's creations	nopic.gif	Init: -10000 P: beast E: spooky	experimental serum P-00 (0)
 
 # The Deep Dark Jungle (Conspiracy Island October 2014)
-bigface	bigface.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (0)
-Mercenary of Fortune	mercenary.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: dude E: spooky	specialty ammo bandolier (0)	Coinspiracy (0)
-smoke monster	smokemonster.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: weird E: spooky	transdermal smoke patch (0)	smoker's cloak (0)
-Venus mantrap	mantrap.gif	Scale: 5 Cap: 11111 Floor: 10  Init: -10000 P: plant E: spooky	the most dangerous bait (0)
+bigface	bigface.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (0)	Sasq&trade; watch (c0)
+Mercenary of Fortune	mercenary.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: dude E: spooky	specialty ammo bandolier (0)	camouflage T-shirt (c0)	Coinspiracy (0)
+smoke monster	smokemonster.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: weird E: spooky	transdermal smoke patch (0)	smoker's cloak (c0)
+Venus mantrap	mantrap.gif	Scale: 5 Cap: 11111 Floor: 10  Init: -10000 P: plant E: spooky	the most dangerous bait (0)	pair of plants (c0)
 
 # The Secret Government Laboratory (Conspiracy Island October 2014)
 creepy little girl	creepygirl.gif	Atk: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky	jangly bracelet (c0)	delicious candy (c0)	cuddly teddy bear (c0)	airborne mutagen (c0)
