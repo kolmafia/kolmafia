@@ -1128,7 +1128,7 @@ public class CampgroundRequest
 		},
 		{
 			"Libram of Candy Heart Summoning",
-			"Summon Candy Hearts",
+			"Summon Candy Heart",
 		},
 		{
 			"Libram of Divine Favors",

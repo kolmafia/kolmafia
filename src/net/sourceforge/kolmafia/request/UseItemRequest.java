@@ -4886,7 +4886,7 @@ public class UseItemRequest
 		case ItemPool.CONFISCATOR_BOOK:
 			return "Summon Confiscated Things";
 		case ItemPool.CANDY_BOOK:
-			return "Summon Candy Hearts";
+			return "Summon Candy Heart";
 		case ItemPool.DIVINE_BOOK:
 			return "Summon Party Favor";
 		case ItemPool.LOVE_BOOK:

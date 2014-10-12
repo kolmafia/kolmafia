@@ -29,8 +29,8 @@
 14	Cosmic Ugnderstanding	brainstars.gif	0	0	0
 15	CLEESH	commacha.gif	5	10	0
 
-# The following Mr. Skills have the listed skill ID on the Character
-# Sheet, but need a different skill ID on the Use Skills page
+# The following Mr. Skills used to have the listed skill ID on the Character Sheet
+# Skill names have changed, keeping this for historical reasons only
 
 # 16	Summon Snowcone		1	5	0
 # 17	Summon Hilarious Objects		1	5	0
@@ -647,7 +647,7 @@
 8003	Summon Clip Art		1	2	0
 8004	Summon Rad Libs		1	2	0
 8005	Summon Smithsness		1	2	0
-8100	Summon Candy Hearts		1	0	0
+8100	Summon Candy Heart		1	0	0
 8101	Summon Party Favor		1	0	0
 8102	Summon Love Song		1	0	0
 8103	Summon BRICKOs		1	0	0

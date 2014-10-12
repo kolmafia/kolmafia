@@ -114,7 +114,7 @@ public class UseSkillRequest
 
 	public static final String[] LIBRAM_SKILLS =
 	{
-		"Summon Candy Hearts",
+		"Summon Candy Heart",
 		"Summon Party Favor",
 		"Summon Love Song",
 		"Summon BRICKOs",
@@ -791,7 +791,7 @@ public class UseSkillRequest
 		int rainCost = SkillDatabase.getRainCost( skillId );
 		int lightningCost = SkillDatabase.getLightningCost( skillId );
 		int numCosts = 0;
-		StringBuffer costString = new StringBuffer();
+		StringBuilder costString = new StringBuilder();
 		costString.append( this.skillName );
 		costString.append( " (" );
 		if ( advCost > 0 )
