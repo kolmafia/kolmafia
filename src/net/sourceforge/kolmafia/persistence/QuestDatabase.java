@@ -121,7 +121,8 @@ public class QuestDatabase
 			GORE( "questESpGore" ),
 			CLIPPER( "questESpClipper" ),
 			FAKE_MEDIUM( "questESpFakeMedium" ),
-			SERUM( "questESpSerum" );
+			SERUM( "questESpSerum" ),
+			SMOKES( "questESpSmokes" );
 
 		private String pref;
 
@@ -479,8 +480,8 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			// Don't reset Elemental Plane quests
-			if ( !questLogData[ i ][ 0 ].startsWith( "questE" ) )
+			// Don't reset Spring Beach Break quests
+			if ( !questLogData[ i ][ 0 ].startsWith( "questESl" ) )
 			{
 				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
 			}
@@ -521,6 +522,17 @@ public class QuestDatabase
 		Preferences.resetToDefault( "controlPanel7" );
 		Preferences.resetToDefault( "controlPanel8" );
 		Preferences.resetToDefault( "controlPanel9" );
+	}
+
+	public static void resetConspiracyIslandQuests()
+	{
+		for ( int i = 0; i < questLogData.length; ++i )
+		{
+			if ( questLogData[ i ][ 0 ].startsWith( "questESp" ) )
+			{
+				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
+			}
+		}
 	}
 
 	public static void handleCouncilText( String responseText )

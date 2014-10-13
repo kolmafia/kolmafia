@@ -7550,6 +7550,21 @@ public abstract class ChoiceManager
 					QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.STARTED );
 				}
 			}
+			// Serum quest finished
+			if ( text.contains( "drop the vials into it" ) )
+				{
+					QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.FINISHED );
+				}			
+			// Smokes quest started
+			if ( text.contains( "acquire cigarettes by any means necessary" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.STARTED );
+			}
+			// Smokes quest finished
+			if ( text.contains( "cigarettes with a grappling gun" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.FINISHED );
+			}				
 			break;
 		}
 

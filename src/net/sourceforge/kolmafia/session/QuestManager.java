@@ -84,7 +84,7 @@ public class QuestManager
 	private static final Pattern LIGHTER_PATTERN = Pattern.compile( "group of (\\d+) nearby protesters do the same" );
 	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
-	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of gore" );
+	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 
 	public static final void handleQuestChange( final String location, final String responseText )
 	{
@@ -1200,7 +1200,7 @@ public class QuestManager
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
 		}
 		QuestDatabase.handleCouncilText( responseText );
-		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "unstarted" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, QuestDatabase.UNSTARTED ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.STARTED );
 		}

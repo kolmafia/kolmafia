@@ -2383,7 +2383,7 @@ public class ResultProcessor
 
 		case ItemPool.EXPERIMENTAL_SERUM_P00:
 			if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 4 &&
-				QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "unstarted" ) )
+				QuestDatabase.isQuestLaterThan( Quest.ESCAPE, QuestDatabase.UNSTARTED ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SERUM, "step1" );
 			}
@@ -2406,6 +2406,13 @@ public class ResultProcessor
 
 		case ItemPool.ESP_COLLAR:
 			QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
+			break;
+
+		case ItemPool.PACK_OF_SMOKES:
+			if ( InventoryManager.getCount( ItemPool.PACK_OF_SMOKES ) >= 9 )
+			{
+				QuestDatabase.setQuestProgress( Quest.SMOKES, "step1" );
+			}
 			break;
 
 		case ItemPool.SUBJECT_37_FILE:
