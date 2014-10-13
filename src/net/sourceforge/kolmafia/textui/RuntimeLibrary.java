@@ -1916,13 +1916,20 @@ public abstract class RuntimeLibrary
 
 	public static Value abort( Interpreter interpreter )
 	{
-		RequestThread.declareWorldPeace();
+		RuntimeLibrary.abort( interpreter, "Script aborted." );
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value abort( Interpreter interpreter, final Value string )
 	{
+		RuntimeLibrary.abort( interpreter, string.toString() );
+		return DataTypes.VOID_VALUE;
+	}
+
+	private static Value abort( Interpreter interpreter, final String string )
+	{
 		KoLmafia.updateDisplay( MafiaState.ABORT, string.toString() );
+		interpreter.setState( Interpreter.STATE_EXIT );
 		return DataTypes.VOID_VALUE;
 	}
 
