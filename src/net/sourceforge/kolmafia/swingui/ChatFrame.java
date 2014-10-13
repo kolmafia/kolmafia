@@ -293,8 +293,8 @@ public class ChatFrame
 		extends JPanel
 		implements FocusListener
 	{
-		private int lastCommandIndex = 0;
 		private final ArrayList<String> commandHistory;
+		private int lastCommandIndex = 0;
 		private final JTextField entryField;
 		private final RequestPane chatDisplay;
 		private final String associatedContact;
@@ -377,26 +377,42 @@ public class ChatFrame
 
 				if ( keyCode == KeyEvent.VK_UP )
 				{
+					String text;
 					if ( ChatPanel.this.lastCommandIndex <= 0 )
 					{
-						return;
+						ChatPanel.this.lastCommandIndex = -1;
+						text = "";
 					}
-
-					ChatPanel.this.entryField.setText( ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
+					else
+					{
+						text = ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex );
+					}
+					ChatPanel.this.entryField.setText( text );
 				}
 				else if ( keyCode == KeyEvent.VK_DOWN )
 				{
+					String text;
 					if ( ChatPanel.this.lastCommandIndex + 1 >= ChatPanel.this.commandHistory.size() )
 					{
-						return;
+						ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
+						text = "";
 					}
-
-					ChatPanel.this.entryField.setText( ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
+					else
+					{
+						text = ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex );
+					}
+					ChatPanel.this.entryField.setText( text );
 				}
 				else if ( keyCode == KeyEvent.VK_ENTER )
 				{
 					this.submitChat();
 				}
+			}
+
+			@Override
+			protected boolean isValidKeyCode( int keyCode )
+			{
+				return keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN;
 			}
 
 			private void submitChat()
@@ -429,6 +445,9 @@ public class ChatFrame
 					RelayLoader.openSystemBrowser( "http://www.kingdomofloathing.com/doc.php?topic=chat_commands" );
 					return;
 				}
+
+				ChatPanel.this.commandHistory.add( message );
+				ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
 
 				ChatSender.sendMessage( ChatPanel.this.associatedContact, message, false );
 			}
