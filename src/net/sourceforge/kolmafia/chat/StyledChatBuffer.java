@@ -151,29 +151,36 @@ public class StyledChatBuffer
 
 	private String applyHighlight( final String message, final String searchString, final String colorString )
 	{
-		if ( message.indexOf( "<html>" ) != -1 )
+		if ( message.contains( "<html>" ) )
 		{
 			return message;
 		}
 
-		StringBuffer highlightMessage = new StringBuffer();
+		StringBuilder highlightMessage = new StringBuilder();
 		String remaining = message;
-
-		int searchIndex;
 		
-		while ( ( searchIndex = remaining.toLowerCase().indexOf( searchString ) ) != -1 )
+		while ( true )
 		{
-			int openIndex = remaining.lastIndexOf( "<", searchIndex );
-			int closeIndex = remaining.lastIndexOf( ">", searchIndex );
+			int searchIndex = remaining.toLowerCase().indexOf( searchString );
+			if ( searchIndex == -1 )
+			{
+				break;
+			}
+
+			// Do not highlight HTML tags
+			int openIndex = remaining.indexOf( "<" );
+			if ( openIndex < searchIndex )
+			{
+				int closeIndex = remaining.indexOf( ">", openIndex ) + 1;
+				if ( closeIndex > 0 )
+				{
+					highlightMessage.append( remaining.substring( 0, closeIndex ) );
+					remaining = remaining.substring( closeIndex );
+					continue;
+				}
+			}
 
 			int stopIndex = searchIndex + searchString.length();
-
-			if ( openIndex > closeIndex )
-			{
-				highlightMessage.append( remaining.substring( 0, stopIndex ) );
-				remaining = remaining.substring( stopIndex );
-				continue;
-			}
 
 			highlightMessage.append( remaining.substring( 0, searchIndex ) );
 
