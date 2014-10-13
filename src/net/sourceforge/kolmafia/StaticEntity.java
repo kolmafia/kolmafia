@@ -75,8 +75,9 @@ public abstract class StaticEntity
 	public static String backtraceTrigger = null;
 	private static Integer cachedSVNRevisionNumber = null;
 
-	static MafiaState globalContinuationState = MafiaState.CONTINUE;
-	static ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
+	public static boolean userAborted = false;
+	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
+	private static ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
 	{
 		protected MafiaState initialValue()
 		{

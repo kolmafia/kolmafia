@@ -1418,7 +1418,7 @@ public abstract class KoLmafia
 
 	public static final boolean permitsContinue()
 	{
-		return StaticEntity.getContinuationState() == MafiaState.CONTINUE;
+		return !StaticEntity.userAborted && StaticEntity.getContinuationState() == MafiaState.CONTINUE;
 	}
 
 	/**
@@ -1430,7 +1430,7 @@ public abstract class KoLmafia
 
 	public static final boolean refusesContinue()
 	{
-		return StaticEntity.getContinuationState() == MafiaState.ABORT;
+		return StaticEntity.userAborted || StaticEntity.getContinuationState() == MafiaState.ABORT;
 	}
 
 	/**
@@ -1442,6 +1442,7 @@ public abstract class KoLmafia
 	public static final void forceContinue()
 	{
 		StaticEntity.setContinuationState( MafiaState.CONTINUE );
+		StaticEntity.userAborted = false;
 	}
 
 	/**
