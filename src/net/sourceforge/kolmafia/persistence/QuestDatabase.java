@@ -42,7 +42,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -522,17 +521,6 @@ public class QuestDatabase
 		Preferences.resetToDefault( "controlPanel7" );
 		Preferences.resetToDefault( "controlPanel8" );
 		Preferences.resetToDefault( "controlPanel9" );
-	}
-
-	public static void resetConspiracyIslandQuests()
-	{
-		for ( int i = 0; i < questLogData.length; ++i )
-		{
-			if ( questLogData[ i ][ 0 ].startsWith( "questESp" ) )
-			{
-				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
-			}
-		}
 	}
 
 	public static void handleCouncilText( String responseText )
