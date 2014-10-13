@@ -524,7 +524,7 @@ public class RelayAgent
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
 			ChoiceManager.processChoiceAdventure( this.request, "choice.php", ChoiceManager.lastResponseText );
-			if ( KoLmafia.refusesContinue() )
+			if ( StaticEntity.userAborted || KoLmafia.refusesContinue() )
 			{
 				// Resubmit the choice request to let the user see it again
 				KoLmafia.forceContinue();

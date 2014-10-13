@@ -380,12 +380,14 @@ public abstract class RequestThread
 	}
 
 	/**
-	 * Declare world peace. This causes all pending requests and queued commands to be cleared, along with all currently
-	 * running requests to be notified that they should stop as soon as possible.
+	 * Declare world peace. This clears all pending requests and queued
+	 * commands and notifies all currently running requests that they
+	 * should stop as soon as possible.
 	 */
 
 	public static final void declareWorldPeace()
 	{
+		StaticEntity.userAborted = true;
 		KoLmafia.updateDisplay( MafiaState.ABORT, "KoLmafia declares world peace." );
 		KoLmafiaASH.stopAllRelayInterpreters();
 		InternalMessage message = new InternalMessage( "KoLmafia declares world peace.", "red" );
