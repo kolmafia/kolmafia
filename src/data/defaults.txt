@@ -734,6 +734,7 @@ user	questESpGore	unstarted
 user	questESpClipper	unstarted
 user	questESpFakeMedium	unstarted
 user	questESpSerum	unstarted
+user	questESpSmokes	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted

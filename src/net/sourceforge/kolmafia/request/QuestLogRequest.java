@@ -194,34 +194,26 @@ public class QuestLogRequest
 
 	public static final void registerQuests( final boolean isExternal, final String urlString, final String responseText )
 	{
-		if ( urlString.indexOf( "which=" ) == -1 )
+		if ( urlString.contains( "which=1" ) || urlString.contains( "which=7" ) )
 		{
-			for ( int i = 1; i < 4; ++i )
-			{
-				if ( responseText.indexOf( "questlog.php?which=" + i ) == -1 )
-				{
-					parseResponse( responseText, i );
-					break;
-				}
-			}
-		}
+			// There is no such thing as a completed Conspiracy Island quest, just unstarted or in progress.
+			// Therefore set them unstarted, and overwrite with in progress
+			QuestDatabase.resetConspiracyIslandQuests();
 
-		else if ( urlString.indexOf( "which=1" ) != -1 )
-		{
 			parseResponse( responseText, 1 );
 		}
 
-		else if ( urlString.indexOf( "which=2" ) != -1 )
+		else if ( urlString.contains( "which=2" ) )
 		{
 			parseResponse( responseText, 2 );
 
 			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( Quest.GALAKTIK.getPref() ) );
 		}
 
-		else if ( urlString.indexOf( "which=3" ) != -1 )
+		else if ( urlString.contains( "which=3" ) )
 		{
-			ChatManager.setChatLiteracy( responseText.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
-			QuestLogRequest.dungeonOfDoomAvailable = responseText.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
+			ChatManager.setChatLiteracy( responseText.contains( QuestLogRequest.ALTAR_OF_LITERACY ) );
+			QuestLogRequest.dungeonOfDoomAvailable = responseText.contains( QuestLogRequest.DUNGEONS_OF_DOOM );
 			
 			Matcher matcher = QuestLogRequest.SEAHORSE_PATTERN.matcher( responseText );
 			if ( matcher.find() )
