@@ -66,7 +66,7 @@ biclops	biclops.gif	Atk: 38 Def: 33 HP: 30 Init: 25 P: humanoid Meat: 30	duonocu
 big creepy spider	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Big Meat Golem	bigmeat.gif	Atk: 99999 Def: 89999 HP: [99999] Init: 0 P: construct
 big swarm of ghuol whelps	whelps2.gif	Atk: 50 Def: 45 HP: 150 E: spooky P: undead
-Big Wheelin' Twins	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 P: humanoid	badge of authority (5)	vial of The Glistening (15)
+Big Wheelin' Twins	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 P: dude	badge of authority (5)	vial of The Glistening (15)
 bizarre construct	vib2.gif	HP: 300 Def: 270 Atk: 300 P: construct	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 BL Imp	blimp.gif	Atk: 65 Def: 58 HP: 65 E: hot Init: 30 Meat: 40 P: demon	imp air (20)
 black adder	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 Meat: 100 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
@@ -480,8 +480,8 @@ Monty Basingstoke-Pratt, IV	monty.gif	Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 1
 mother hellseal	motherseal.gif	SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: 150 Exp: [150*1.385^pref(_sealScreeches)/4] Init: [150*1.385^pref(_sealScreeches)] P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
 mud turtle	swampturtle.gif	Atk: 48 Def: 56 HP: 56 Init: 20 P: beast Meat: 30	fine aged cheddarwurst (0)	muddy pirate hat (0)	turtle mud (c0)
 Muff	muff.gif	Atk: 153 Def: 137 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
-Naughty Sorceress	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: humanoid P: dude
-Naughty Sorceress (2)	sorcblob.gif	BOSS Atk: 205 Def: 184 HP: 600 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: humanoid P: dude
+Naughty Sorceress	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
+Naughty Sorceress (2)	sorcblob.gif	BOSS Atk: 205 Def: 184 HP: 600 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
 Naughty Sorceress (3)	bigsaus.gif	BOSS Atk: 9999999 Def: 8999999 HP: 9999999 Init: 10000 Exp: 500 P: dude	Instant Karma (c100)
 Naughty Sorority Nurse	warfratmd2.gif	Atk: 180 Def: 166 HP: 160 Init: 30 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
 navy seal	navyseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: demon	frost-rimed seal hide (35)	frozen seal spine (5)
@@ -747,7 +747,7 @@ undead elbow macaroni	macaroni.gif	Atk: 1 Def: 1 HP: 1 Init: 50 E: spooky Meat: 
 unemployed knob goblin	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 P: goblin	beer lens (c25)
 unholy diver	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)	unholy water (c0)
 upgraded ram	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 83-118 ED: cold P: beast	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
-uppercase Q	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: humanoid	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
+uppercase Q	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
 urchin urchin	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish	mermaid's purse (0)	bazookafish bubble gum (0)	underwater slingshot (0)
 vampire bat	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
 vampire clam	vampclam.gif	Atk: 19 Def: 17 HP: 14 Init: 60 P: undead	vampire chowder (0)	vampire pearl (p35)
@@ -1113,7 +1113,7 @@ group of cultists	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 P: dude	memor
 jungle baboon	orangutan.gif	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast	banana peel (0)	glass of baboon milk (0)
 tribal goblin	tribalgoblin.gif	Atk: 60 Def: 45 HP: 60 Init: 60 P: goblin	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)	folder (barbarian) (c0)	temporary tribal tattoo (c0)
 wumpus	wumpus.gif	Atk: 66 Def: 59 HP: 66 Init: 66 P: beast	memory of a glowing crystal (c0)	wumpus hair (n100)
-high priest of Ki'rhuss	highpriest.gif	Atk: 110 Def: 99 HP: 110 Init: 50 P: humanoid
+high priest of Ki'rhuss	highpriest.gif	Atk: 110 Def: 99 HP: 110 Init: 50 P: dude
 
 # Memories of the Distant Future (Baby Sandworm June 2009)
 "Handyman" Jay Android	handymanjay.gif	Atk: 150 Def: 135 HP: 150 Init: 80 P: construct	neurostim pill (0)	physiostim pill (0)	sham champagne (0)	essence of kink (c100)	handyman &quot;hand soap&quot; (c0)
@@ -1158,13 +1158,13 @@ cat-alien	catalien.gif	Scale: 8 Cap: 450 Floor: 10 Init: -10000 P: horror	elven 
 dog-alien	dogalien.gif	Scale: 8 Cap: 450 Floor: 10 Init: -10000 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 dogcat	catdog.gif	Scale: 10 Cap: 460 Floor: 10 Init: -10000 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 ferrelf	ferrelf.gif	Scale: 7 Cap: 440 Floor: 10 Init: -10000 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)	folder (holographic fractal) (c0)
-grizzled survivor	surv_grizzled.gif	Scale: 5 Cap: 310 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
+grizzled survivor	surv_grizzled.gif	Scale: 5 Cap: 310 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
 hamsterpus	hamsterpus.gif	Scale: 5 Cap: 430 Floor: 10  Init: -10000 P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-overarmed survivor	surv_overarmed.gif	Scale: 5 Cap: 320 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
-primitive survivor	surv_primitive.gif	Scale: 5 Cap: 310 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
-unhinged survivor	surv_unhinged.gif	Scale: 5 Cap: 300 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
-unlikely survivor	surv_unlikely.gif	Scale: 0 Cap: 300 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter IV (15)
-whiny survivor	surv_whiny.gif	Scale: -5 Cap: 290 Floor: 10 Init: -10000 P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter III (15)
+overarmed survivor	surv_overarmed.gif	Scale: 5 Cap: 320 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
+primitive survivor	surv_primitive.gif	Scale: 5 Cap: 310 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
+unhinged survivor	surv_unhinged.gif	Scale: 5 Cap: 300 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
+unlikely survivor	surv_unlikely.gif	Scale: 0 Cap: 300 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter IV (15)
+whiny survivor	surv_whiny.gif	Scale: -5 Cap: 290 Floor: 10 Init: -10000 P: dude	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter III (15)
 alien hamsterpus	muthamster.gif	Scale: 1 Cap: 5000 Floor: 10 Init: 100 P: horror	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 mutated alielephant	alielephant.gif	Scale: 10 Cap: 5000 Floor: 10 Init: -10000 P: horror	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 mutated alielf	mutantalielf.gif	Scale: 5 Cap: 5000 Floor: 10 Init: 100 P: horror	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
@@ -1471,7 +1471,7 @@ space beast matriarch	spacebeast3.gif	BOSS Scale: 15 Init: 0 P: beast	twitching 
 # Twitch 2 - The Cave Before Time (June 2014)
 droll	droll.gif	Scale: 5 Cap: 500 Floor: 5 Init: -10000 P: humanoid	D roll (20)	droll monocle (2)
 pterodactyl	pterodact.gif	Scale: -2 Cap: 500 Floor: 2 Init: -10000 P: beast	Friendliness Beverage (20)	silent pea shooter (2)
-sabre-toothed kiwi	stkiwi.gif	Scale: 1 Cap: 500 Floor: 4 Init: -10000 P: humanoid	New Zealand iced tea (20)	kiwi beak (2)	kiwi (5)	kiwi (5)
+sabre-toothed kiwi	stkiwi.gif	Scale: 1 Cap: 500 Floor: 4 Init: -10000 P: beast	New Zealand iced tea (20)	kiwi beak (2)	kiwi (5)	kiwi (5)
 Adventurer echo	advecho.gif	Scale: 7 Cap: 1000 Floor: 20 Init: -10000 P: dude	Chroner (100)	Chroner (100)	Chroner (f50)
 Caveman Dan	cavedan.gif	Scale: 10 Cap: 2000 Floor: 25 Init: -10000 P: dude	Caveman Dan's favorite rock (c100)
 
