@@ -7486,7 +7486,7 @@ public abstract class ChoiceManager
 			if ( navigationMatcher.find() )
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.STARTED );
-				StringBuffer directions = new StringBuffer();
+				StringBuilder directions = new StringBuilder();
 				for ( int i = 1 ; i <= 5 ; i++ )
 				{
 					if ( navigationMatcher.group( i ).contains( "Lima" ) )
@@ -7501,45 +7501,45 @@ public abstract class ChoiceManager
 				Preferences.setString( "EVEDirections" , directions.toString() );
 			}
 			// EVE quest finished
-			if ( text.contains( "Neutralization of experimental subject has been confirmed" ) )
+			else if ( text.contains( "Neutralization of experimental subject has been confirmed" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "EVEDirections" );
 			}
 			// Jungle Pun quest finished (start handled in ResultProcessor)
-			if ( text.contains( "tape recorder self-destructs with a shower of sparks and a puff of smoke" ) )
+			else if ( text.contains( "tape recorder self-destructs with a shower of sparks and a puff of smoke" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.MINI_CASSETTE_RECORDER );
-				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "junglePuns" );
 			}
 			// Gore quest finished (start handled in ResultProcessor)
-			if ( text.contains( "monitoring equipment reports that environmental gore levels are now" ) )
+			else if ( text.contains( "monitoring equipment reports that environmental gore levels are now" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.GORE_BUCKET );
-				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "goreCollected" );
 			}
 			// Clipper quest finished (start handled in ResultProcessor)
-			if ( text.contains( "return the fingernails and the clippers" ) )
+			else if ( text.contains( "return the fingernails and the clippers" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.FINGERNAIL_CLIPPERS );
-				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "fingernailsClipped" );
 			}
 			// Fake Medium quest started
-			if ( text.contains( "this operation should be carried out with maximal discretion" ) )
+			else if ( text.contains( "this operation should be carried out with maximal discretion" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.STARTED );
 			}
 			// Fake Medium quest finished
-			if ( text.contains( "ESP suppression collar be thrown into the ocean" ) )
+			else if ( text.contains( "ESP suppression collar be thrown into the ocean" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.ESP_COLLAR );
-				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
 			}
 			// Serum quest started
-			if ( text.contains( "wonder how many vials they want" ) )
+			else if ( text.contains( "wonder how many vials they want" ) )
 			{
 				if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 5 )
 				{
@@ -7551,20 +7551,20 @@ public abstract class ChoiceManager
 				}
 			}
 			// Serum quest finished
-			if ( text.contains( "drop the vials into it" ) )
-				{
-					QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.FINISHED );
-				}			
+			else if ( text.contains( "drop the vials into it" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
+			}
 			// Smokes quest started
-			if ( text.contains( "acquire cigarettes by any means necessary" ) )
+			else if ( text.contains( "acquire cigarettes by any means necessary" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.STARTED );
 			}
 			// Smokes quest finished
-			if ( text.contains( "cigarettes with a grappling gun" ) )
+			else if ( text.contains( "cigarettes with a grappling gun" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.FINISHED );
-			}				
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+			}
 			break;
 		}
 

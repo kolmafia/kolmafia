@@ -159,7 +159,7 @@ public class QuestLogRequest
 		}
 		String pref = Preferences.getString( Quest.MACGUFFIN.getPref() );
 
-		return pref.equals( QuestDatabase.FINISHED ) || pref.indexOf( "step" ) != -1;
+		return pref.equals( QuestDatabase.FINISHED ) || pref.contains( "step" );
 	}
 
 	public static final boolean isHippyStoreAvailable()
@@ -196,10 +196,6 @@ public class QuestLogRequest
 	{
 		if ( urlString.contains( "which=1" ) || urlString.contains( "which=7" ) )
 		{
-			// There is no such thing as a completed Conspiracy Island quest, just unstarted or in progress.
-			// Therefore set them unstarted, and overwrite with in progress
-			QuestDatabase.resetConspiracyIslandQuests();
-
 			parseResponse( responseText, 1 );
 		}
 
