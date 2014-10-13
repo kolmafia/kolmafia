@@ -544,10 +544,16 @@ public class DrinkItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
-		if ( responseText.indexOf( "too drunk" ) != -1 )
+		if ( responseText.contains( "too drunk" ) )
 		{
 			UseItemRequest.lastUpdate = "Inebriety limit reached.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
+		// You only have 1 of those, not 7.
+		if ( responseText.contains( "You only have" ) )
+		{
 			return;
 		}
 
