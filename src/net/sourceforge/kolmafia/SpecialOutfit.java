@@ -61,7 +61,7 @@ public class SpecialOutfit
 
 	private int hash;
 
-	public static final String NO_CHANGE = " - No Change - ";
+	public static final SpecialOutfit NO_CHANGE = new SpecialOutfit( Integer.MAX_VALUE, " - No Change - " );
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit( Integer.MAX_VALUE, "Birthday Suit" );
 	public static final SpecialOutfit PREVIOUS_OUTFIT = new SpecialOutfit( Integer.MAX_VALUE, "Your Previous Outfit" );
 

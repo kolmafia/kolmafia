@@ -82,10 +82,11 @@ public class OutfitCommand
 			return;
 		}
 
-		if ( !EquipmentManager.retrieveOutfit( intendedOutfit ) )
+		if ( intendedOutfit != SpecialOutfit.PREVIOUS_OUTFIT && !EquipmentManager.retrieveOutfit( intendedOutfit ) )
 		{
 			return;
 		}
+
 		RequestThread.postRequest( new EquipmentRequest( intendedOutfit ) );
 	}
 }

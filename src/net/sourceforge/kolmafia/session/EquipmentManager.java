@@ -123,16 +123,16 @@ public class EquipmentManager
 
 	public static final int FAKEHAND = 21;
 
-	private static LockableListModel equipment = new LockableListModel();
-	private static final LockableListModel accessories = new SortedListModel();
-	private static final LockableListModel[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
-	private static final ArrayList[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+	private static LockableListModel<AdventureResult> equipment = new LockableListModel<AdventureResult>();
+	private static final LockableListModel<AdventureResult> accessories = new SortedListModel<AdventureResult>();
+	private static final LockableListModel<AdventureResult>[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
+	private static final ArrayList<AdventureResult>[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
 
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
 
-	private static final LockableListModel customOutfits = new LockableListModel();
-	private static final LockableListModel outfits = new LockableListModel();
+	private static final LockableListModel<SpecialOutfit> customOutfits = new LockableListModel<SpecialOutfit>();
+	private static final LockableListModel<SpecialOutfit> outfits = new LockableListModel<SpecialOutfit>();
 
 	private static final int[] turnsRemaining = new int[ 3 ];
 
@@ -143,7 +143,7 @@ public class EquipmentManager
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
-			EquipmentManager.historyLists[ i ] = new ArrayList();
+			EquipmentManager.historyLists[ i ] = new ArrayList<AdventureResult>();
 
 			switch ( i )
 			{
@@ -899,7 +899,7 @@ public class EquipmentManager
 		}
 	}
 
-	public static final void setOutfits( final List newOutfits )
+	public static final void setOutfits( final List<SpecialOutfit> newOutfits )
 	{
 		// Rebuild outfits if given a new list
 		if ( newOutfits != null )
@@ -1114,7 +1114,7 @@ public class EquipmentManager
 	 * items which the current familiar cannot equip.
 	 */
 
-	public static final LockableListModel[] getEquipmentLists()
+	public static final LockableListModel<AdventureResult>[] getEquipmentLists()
 	{
 		return EquipmentManager.equipmentLists;
 	}
@@ -1267,22 +1267,15 @@ public class EquipmentManager
 	 * @return A <code>LockableListModel</code> of the available outfits
 	 */
 
-	public static final LockableListModel getCustomOutfits()
+	public static final LockableListModel<SpecialOutfit> getCustomOutfits()
 	{
 		return customOutfits;
 	}
 
 	public static SpecialOutfit getCustomOutfit( int id )
 	{
-		Iterator i = customOutfits.iterator();
-		while ( i.hasNext() )
+		for ( SpecialOutfit outfit : customOutfits )
 		{
-			Object object = i.next();
-			if ( !( object instanceof SpecialOutfit ) )
-			{
-				continue;
-			}
-			SpecialOutfit outfit = (SpecialOutfit) object;
 			if ( outfit.getOutfitId() == id )
 			{
 				return outfit;
@@ -1293,15 +1286,8 @@ public class EquipmentManager
 
 	public static SpecialOutfit getCustomOutfit( String name )
 	{
-		Iterator i = customOutfits.iterator();
-		while ( i.hasNext() )
+		for ( SpecialOutfit outfit : customOutfits )
 		{
-			Object object = i.next();
-			if ( !( object instanceof SpecialOutfit ) )
-			{
-				continue;
-			}
-			SpecialOutfit outfit = (SpecialOutfit) object;
 			if ( outfit.getName().equals( name ) )
 			{
 				return outfit;
@@ -1317,17 +1303,11 @@ public class EquipmentManager
 
 	public static void addCustomOutfit( SpecialOutfit outfit )
 	{
+		SortedListModel<SpecialOutfit> outfits = new SortedListModel<SpecialOutfit>();
 		String name = outfit.getName();
-		SortedListModel outfits = new SortedListModel();
-		Iterator i = customOutfits.iterator();
-		while ( i.hasNext() )
+
+		for ( SpecialOutfit current : customOutfits )
 		{
-			Object object = i.next();
-			if ( !( object instanceof SpecialOutfit ) )
-			{
-				continue;
-			}
-			SpecialOutfit current = (SpecialOutfit) object;
 			if ( !current.getName().equals( name ) )
 			{
 				outfits.add( current );
@@ -1345,7 +1325,7 @@ public class EquipmentManager
 	 * @return A <code>LockableListModel</code> of the available outfits
 	 */
 
-	public static final LockableListModel getOutfits()
+	public static final LockableListModel<SpecialOutfit> getOutfits()
 	{
 		return outfits;
 	}
@@ -1595,22 +1575,18 @@ public class EquipmentManager
 
 	public static final void updateOutfits()
 	{
-		ArrayList available = new ArrayList();
+		ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
 
-		for ( int i = 0; i < EquipmentDatabase.normalOutfits.size(); ++i )
+		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
-			
 			if ( outfit != null && outfit.hasAllPieces() )
 			{
 				available.add( outfit );
 			}
 		}
 
-		for ( int i = 0; i < EquipmentDatabase.weirdOutfits.size(); ++i )
+		for ( SpecialOutfit outfit : EquipmentDatabase.weirdOutfits )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.weirdOutfits.get( i );
-			
 			if ( outfit != null && outfit.hasAllPieces() )
 			{
 				available.add( outfit );
@@ -1619,7 +1595,7 @@ public class EquipmentManager
 
 		Collections.sort( available );
 		
-		List outfits = getOutfits();
+		List<SpecialOutfit> outfits = EquipmentManager.getOutfits();
 		
 		outfits.clear();
 
@@ -1711,10 +1687,9 @@ public class EquipmentManager
 
 	public static final SpecialOutfit currentOutfit()
 	{
-		for ( int id = 1; id < EquipmentDatabase.normalOutfits.size(); ++id )
+		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
-			if ( outfit == null )
+			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
 				continue;
 			}
@@ -1730,12 +1705,9 @@ public class EquipmentManager
 	public static final SpecialOutfit currentOutfit( AdventureResult[] equipment )
 	{
 		int hash = SpecialOutfit.equipmentHash( equipment );
-		
-		int size = EquipmentDatabase.normalOutfits.size();
-		for ( int id = 1; id < size; ++id )
+		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
-			if ( outfit == null )
+			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
 				continue;
 			}
@@ -1845,27 +1817,26 @@ public class EquipmentManager
 			return SpecialOutfit.PREVIOUS_OUTFIT;
 		}
 	
-		List customOutfitList = getCustomOutfits();
-		int customOutfitCount = customOutfitList.size();
-		int normalOutfitCount = EquipmentDatabase.getOutfitCount();
-	
-		// Check for exact matches. Skip "No Change" entry at index 0.
-	
-		for ( int i = 1; i < customOutfitCount; ++i )
+		// Check for exact matches.
+		for ( SpecialOutfit outfit : EquipmentManager.getCustomOutfits() )
 		{
-			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
-	
+			if ( outfit == SpecialOutfit.NO_CHANGE )
+			{
+				continue;
+			}
 			if ( lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
 				return outfit;
 			}
 		}
 	
-		for ( int i = 0; i < normalOutfitCount; ++i )
+		for ( SpecialOutfit outfit : EquipmentManager.getOutfits() )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
-	
-			if ( outfit != null && lowercaseName.equals( outfit.toString().toLowerCase() ) )
+			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			{
+				continue;
+			}
+			if ( lowercaseName.equals( outfit.toString().toLowerCase() ) )
 			{
 				return outfit;
 			}
@@ -1873,21 +1844,25 @@ public class EquipmentManager
 	
 		// Check for substring matches.
 	
-		for ( int i = 1; i < customOutfitCount; ++i )
+		for ( SpecialOutfit outfit : EquipmentManager.getCustomOutfits() )
 		{
-			SpecialOutfit outfit = (SpecialOutfit) customOutfitList.get( i );
-	
+			if ( outfit == SpecialOutfit.NO_CHANGE )
+			{
+				continue;
+			}
 			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
 			{
 				return outfit;
 			}
 		}
 	
-		for ( int i = 0; i < normalOutfitCount; ++i )
+		for ( SpecialOutfit outfit : EquipmentManager.getOutfits() )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
-	
-			if ( outfit != null && outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
+			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			{
+				continue;
+			}
+			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
 			{
 				return outfit;
 			}

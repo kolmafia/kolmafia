@@ -34,15 +34,26 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
- * Internal class which functions exactly an array of strings, except it uses "sets" and "gets" like a list. This
- * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+ * Internal class which functions exactly an array of strings, except it uses "sets" and "gets" like a list.
+ *
+ * This could be done with generics (Java 1.5) but is done like this so that we
+ * get backwards compatibility.
+ *
+ * News flash! Since we have moved to Java 1.5, we can use generics
  */
 
 public class StringArray
+	implements Iterable<String>
 {
 	private final ArrayList<String> internalList = new ArrayList<String>();
+
+	public Iterator<String> iterator()
+	{
+		return this.internalList.iterator();
+	}
 
 	public String get( final int index )
 	{

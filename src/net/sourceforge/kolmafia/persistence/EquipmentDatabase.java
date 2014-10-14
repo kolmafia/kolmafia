@@ -1061,12 +1061,18 @@ public class EquipmentDatabase
 	 */
 
 	public static class SpecialOutfitArray
+		implements Iterable<SpecialOutfit>
 	{
 		private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
 
+		public Iterator<SpecialOutfit> iterator()
+		{
+			return this.internalList.iterator();
+		}
+
 		public SpecialOutfit get( final int index )
 		{
-			return index < 0 || index >= this.internalList.size() ? null : (SpecialOutfit) this.internalList.get( index );
+			return index < 0 || index >= this.internalList.size() ? null : this.internalList.get( index );
 		}
 
 		public void set( final int index, final SpecialOutfit value )

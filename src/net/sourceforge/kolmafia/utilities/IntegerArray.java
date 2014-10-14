@@ -39,13 +39,23 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 /**
- * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This could
- * be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+ * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list.
+ *
+ * This could be done with generics (Java 1.5) but is done like this so that we
+ * get backwards compatibility.
+ *
+ * News flash! Since we have moved to Java 1.5, we can use generics
  */
 
 public class IntegerArray
+	implements Iterable<Integer>
 {
 	private final ArrayList<Integer> internalList = new ArrayList<Integer>();
+
+	public Iterator<Integer> iterator()
+	{
+		return this.internalList.iterator();
+	}
 
 	public void add( final int value )
 	{
