@@ -2442,7 +2442,7 @@ tiny plastic ninja snowman	10	none
 tiny plastic Norville Rogers	0	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic pastamancer	20	none
-tiny plastic peacannon	0	none
+tiny plastic peacannon	30	none
 tiny plastic Professor What	10	none
 tiny plastic Protagonist	10	none
 tiny plastic protector spectre	50	Mys: 10
