@@ -624,6 +624,15 @@ public class QuestDatabase
 		}
 	}
 
+	public static boolean isQuestStep( Quest quest, String second )
+	{
+		if ( quest == null )
+		{
+			return false;
+		}
+		return Preferences.getString( quest.getPref() ).equals( second );
+	}
+
 	public static boolean isQuestLaterThan( Quest quest, String second )
 	{
 		if ( quest == null )

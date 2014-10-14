@@ -820,8 +820,7 @@ public abstract class KoLmafia
 
 		// if the Cyrpt quest is active, force evilometer refresh
 		// (if we don't know evil levels already)
-		if ( Preferences.getString( Quest.CYRPT.getPref() ).equals( QuestDatabase.STARTED ) ||
-		     Preferences.getString( Quest.CYRPT.getPref() ).indexOf( "step" ) != -1 )
+		if ( QuestDatabase.isQuestStep( Quest.CYRPT, QuestDatabase.STARTED ) ) 
 		{
 			if ( Preferences.getInteger( "cyrptTotalEvilness" ) == 0 )
 			{
