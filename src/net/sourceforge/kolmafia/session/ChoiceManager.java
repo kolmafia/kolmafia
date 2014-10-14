@@ -5620,7 +5620,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		for ( int stepCount = 0; KoLmafia.permitsContinue() && request.responseText.contains( "action=choice.php" ); ++stepCount )
+		for ( int stepCount = 0; !KoLmafia.refusesContinue() && request.responseText.contains( "action=choice.php" ); ++stepCount )
 		{
 			request.clearDataFields();
 
