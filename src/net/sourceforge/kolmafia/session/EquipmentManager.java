@@ -131,8 +131,8 @@ public class EquipmentManager
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
 
+	private static final LockableListModel<SpecialOutfit> normalOutfits = new LockableListModel<SpecialOutfit>();
 	private static final LockableListModel<SpecialOutfit> customOutfits = new LockableListModel<SpecialOutfit>();
-	private static final LockableListModel<SpecialOutfit> outfits = new LockableListModel<SpecialOutfit>();
 
 	private static final int[] turnsRemaining = new int[ 3 ];
 
@@ -181,10 +181,10 @@ public class EquipmentManager
 		EquipmentManager.fakeHandCount = 0;
 		EquipmentManager.stinkyCheeseLevel = 0;
 		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
-		EquipmentManager.outfits.clear();
+		EquipmentManager.normalOutfits.clear();
 	}
 
-	public static void resetOutfits()
+	public static void resetCustomOutfits()
 	{
 		EquipmentManager.customOutfits.clear();
 	}
@@ -323,7 +323,7 @@ public class EquipmentManager
 
 		if ( EquipmentDatabase.getOutfitWithItem( item.getItemId() ) != -1 )
 		{
-			EquipmentManager.updateOutfits();
+			EquipmentManager.updateNormalOutfits();
 		}
 	}
 
@@ -597,7 +597,7 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Air Dirty Laundry" );
 			break;
 		case ItemPool.WARBEAR_OIL_PAN:
-			if( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+			if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
 			{
 				KoLCharacter.addAvailableSkill( "Spray Hot Grease" );
 			}
@@ -899,14 +899,14 @@ public class EquipmentManager
 		}
 	}
 
-	public static final void setOutfits( final List<SpecialOutfit> newOutfits )
+	public static final void setCustomOutfits( final List<SpecialOutfit> newOutfits )
 	{
 		// Rebuild outfits if given a new list
 		if ( newOutfits != null )
 		{
-			customOutfits.clear();
-			customOutfits.add( SpecialOutfit.NO_CHANGE );
-			customOutfits.addAll( newOutfits );
+			EquipmentManager.customOutfits.clear();
+			EquipmentManager.customOutfits.add( SpecialOutfit.NO_CHANGE );
+			EquipmentManager.customOutfits.addAll( newOutfits );
 		}
 	}
 
@@ -1269,12 +1269,12 @@ public class EquipmentManager
 
 	public static final LockableListModel<SpecialOutfit> getCustomOutfits()
 	{
-		return customOutfits;
+		return EquipmentManager.customOutfits;
 	}
 
 	public static SpecialOutfit getCustomOutfit( int id )
 	{
-		for ( SpecialOutfit outfit : customOutfits )
+		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
 			if ( outfit.getOutfitId() == id )
 			{
@@ -1286,7 +1286,7 @@ public class EquipmentManager
 
 	public static SpecialOutfit getCustomOutfit( String name )
 	{
-		for ( SpecialOutfit outfit : customOutfits )
+		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
 			if ( outfit.getName().equals( name ) )
 			{
@@ -1303,19 +1303,23 @@ public class EquipmentManager
 
 	public static void addCustomOutfit( SpecialOutfit outfit )
 	{
-		SortedListModel<SpecialOutfit> outfits = new SortedListModel<SpecialOutfit>();
+		SortedListModel<SpecialOutfit> newOutfits = new SortedListModel<SpecialOutfit>();
 		String name = outfit.getName();
 
-		for ( SpecialOutfit current : customOutfits )
+		for ( SpecialOutfit current : EquipmentManager.customOutfits )
 		{
+			if ( current == SpecialOutfit.NO_CHANGE )
+			{
+				continue;
+			}
 			if ( !current.getName().equals( name ) )
 			{
-				outfits.add( current );
+				newOutfits.add( current );
 			}
 		}
-		outfits.add( outfit );
+		newOutfits.add( outfit );
 		SpecialOutfit.checkImplicitOutfit( outfit );
-		EquipmentManager.setOutfits( outfits );
+		EquipmentManager.setCustomOutfits( newOutfits );
 	}
 
 	/**
@@ -1327,17 +1331,17 @@ public class EquipmentManager
 
 	public static final LockableListModel<SpecialOutfit> getOutfits()
 	{
-		return outfits;
+		return EquipmentManager.normalOutfits;
 	}
 
 	public static final void updateEquipmentLists()
 	{
 		KoLCharacter.resetTriggers();
-		EquipmentManager.updateOutfits();
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
-			updateEquipmentList( i );
+			EquipmentManager.updateEquipmentList( i );
 		}
+		EquipmentManager.updateNormalOutfits();
 	}
 
 	public static final int equipmentTypeToConsumeFilter( final int equipmentType )
@@ -1560,7 +1564,7 @@ public class EquipmentManager
 			return KoLCharacter.getAdjustedMysticality();
 		case MOXIE:
 			hitStat = KoLCharacter.getAdjustedMoxie();
-			if( EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill( "Crab Claw Technique" ) )
+			if ( EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill( "Crab Claw Technique" ) )
 			{
 				hitStat += 50;
 			}
@@ -1570,10 +1574,10 @@ public class EquipmentManager
 
 	public static final boolean hasOutfit( final int id )
 	{
-		return getOutfits().contains( EquipmentDatabase.normalOutfits.get( id ) );
+		return EquipmentManager.normalOutfits.contains( EquipmentDatabase.normalOutfits.get( id ) );
 	}
 
-	public static final void updateOutfits()
+	public static final void updateNormalOutfits()
 	{
 		ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
 
@@ -1595,19 +1599,17 @@ public class EquipmentManager
 
 		Collections.sort( available );
 		
-		List<SpecialOutfit> outfits = EquipmentManager.getOutfits();
-		
-		outfits.clear();
+		EquipmentManager.normalOutfits.clear();
 
 		// Start with the three constant outfits
-		outfits.add( SpecialOutfit.NO_CHANGE );
-		outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+		EquipmentManager.normalOutfits.add( SpecialOutfit.NO_CHANGE );
+		EquipmentManager.normalOutfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		// *** KoL bug: outfitid=last gets confused sometimes.
 		// *** If/when this is fixed, uncomment this
-		// outfits.add( SpecialOutfit.PREVIOUS_OUTFIT );
+		// EquipmentManager.normalOutfits.add( SpecialOutfit.PREVIOUS_OUTFIT );
 
 		// Finally any standard outfits
-		outfits.addAll( available );
+		EquipmentManager.normalOutfits.addAll( available );
 
 		// We may have gotten the war hippy or frat outfits
 		CoinmastersFrame.externalUpdate();
@@ -1818,7 +1820,7 @@ public class EquipmentManager
 		}
 	
 		// Check for exact matches.
-		for ( SpecialOutfit outfit : EquipmentManager.getCustomOutfits() )
+		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
 			if ( outfit == SpecialOutfit.NO_CHANGE )
 			{
@@ -1830,7 +1832,7 @@ public class EquipmentManager
 			}
 		}
 	
-		for ( SpecialOutfit outfit : EquipmentManager.getOutfits() )
+		for ( SpecialOutfit outfit : EquipmentManager.normalOutfits )
 		{
 			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
@@ -1844,7 +1846,7 @@ public class EquipmentManager
 	
 		// Check for substring matches.
 	
-		for ( SpecialOutfit outfit : EquipmentManager.getCustomOutfits() )
+		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
 			if ( outfit == SpecialOutfit.NO_CHANGE )
 			{
@@ -1856,7 +1858,7 @@ public class EquipmentManager
 			}
 		}
 	
-		for ( SpecialOutfit outfit : EquipmentManager.getOutfits() )
+		for ( SpecialOutfit outfit : EquipmentManager.normalOutfits )
 		{
 			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
