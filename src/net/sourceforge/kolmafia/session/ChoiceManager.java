@@ -7481,6 +7481,17 @@ public abstract class ChoiceManager
 		case 984:
 		{
 			// A Radio on a Beach
+			// Clear quests when accepting a new one as you can only have one
+			if ( text.contains( "your best paramilitary-sounding radio lingo" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+			}
 			// EVE quest started
 			Matcher navigationMatcher = NAVIGATION_PATTERN.matcher( text );
 			if ( navigationMatcher.find() )
