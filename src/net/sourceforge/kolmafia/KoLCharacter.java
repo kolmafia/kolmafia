@@ -560,7 +560,7 @@ public abstract class KoLCharacter
 		DisplayCaseManager.clearCache();
 		DwarfFactoryRequest.reset();
 		EquipmentManager.resetEquipment();
-		EquipmentManager.resetOutfits();
+		EquipmentManager.resetCustomOutfits();
 		GearChangeFrame.clearFamiliarList();
 		InventoryManager.resetInventory();
 		MoneyMakingGameManager.reset();

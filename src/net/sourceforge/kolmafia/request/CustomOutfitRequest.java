@@ -80,7 +80,7 @@ public class CustomOutfitRequest
 		Matcher listMatcher = CustomOutfitRequest.LIST_PATTERN.matcher( responseText );
 		if ( !listMatcher.find() )
 		{
-			EquipmentManager.setOutfits( outfits );
+			EquipmentManager.setCustomOutfits( outfits );
 			return;
 		}
 
@@ -89,6 +89,12 @@ public class CustomOutfitRequest
 		{
 			int outfitId = StringUtilities.parseInt( entryMatcher.group(1) );
 			String outfitName = entryMatcher.group(2);
+
+			// Your Previous Outfit goes in KoLmafia's "normal" outfit list
+			if ( outfitName.equals( SpecialOutfit.PREVIOUS_OUTFIT.getName() ) )
+			{
+				continue;
+			}
 
 			SpecialOutfit outfit = new SpecialOutfit( -outfitId, outfitName );
 
@@ -107,6 +113,6 @@ public class CustomOutfitRequest
 			outfits.add( outfit );
 		}
 
-		EquipmentManager.setOutfits( outfits );
+		EquipmentManager.setCustomOutfits( outfits );
 	}
 }
