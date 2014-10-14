@@ -1418,7 +1418,7 @@ public abstract class KoLmafia
 
 	public static final boolean permitsContinue()
 	{
-		return !StaticEntity.userAborted && StaticEntity.getContinuationState() == MafiaState.CONTINUE;
+		return StaticEntity.getContinuationState() == MafiaState.CONTINUE;
 	}
 
 	/**
