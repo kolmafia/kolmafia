@@ -1285,7 +1285,7 @@ public class ResultProcessor
 
 		case ItemPool.WET_STUNT_NUT_STEW:
 			// If you have been asked to get the stew, you now have it.
-			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, "step2" ) )
+			if ( QuestDatabase.isQuestStep( Quest.PALINDOME, "step3" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.PALINDOME, "step4" );
 			}
@@ -2383,7 +2383,7 @@ public class ResultProcessor
 
 		case ItemPool.EXPERIMENTAL_SERUM_P00:
 			if ( InventoryManager.getCount( ItemPool.EXPERIMENTAL_SERUM_P00 ) >= 4 &&
-				QuestDatabase.isQuestLaterThan( Quest.ESCAPE, QuestDatabase.UNSTARTED ) )
+				QuestDatabase.isQuestStep( Quest.SERUM, QuestDatabase.STARTED ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SERUM, "step1" );
 			}
@@ -2420,24 +2420,21 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GOTO:
-			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step1" ) &&
-				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step3" ) )
+			if ( QuestDatabase.isQuestStep( Quest.ESCAPE, "step2" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step3" );
 			}
 			break;
 
 		case ItemPool.WEREMOOSE_SPIT:
-			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step3" ) &&
-				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step5" ) )
+			if ( QuestDatabase.isQuestStep( Quest.ESCAPE, "step4" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step5" );
 			}
 			break;
 
 		case ItemPool.ABOMINABLE_BLUBBER:
-			if ( QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step5" ) &&
-				!QuestDatabase.isQuestLaterThan( Quest.ESCAPE, "step7" ) )
+			if ( QuestDatabase.isQuestStep( Quest.ESCAPE, "step6" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step7" );
 			}
