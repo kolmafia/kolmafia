@@ -807,9 +807,9 @@ public class GearChangeFrame
 	private class OutfitComboBox
 		extends JComboBox
 	{
-		public OutfitComboBox( final LockableListModel slot )
+		public OutfitComboBox( final LockableListModel<SpecialOutfit> model )
 		{
-			super( slot );
+			super( model );
 
 			this.setRenderer( ListCellRendererFactory.getDefaultRenderer() );
 			this.addActionListener( new ChangeOutfitListener() );
@@ -821,7 +821,7 @@ public class GearChangeFrame
 			@Override
 			protected void execute()
 			{
-				LockableListModel model = (LockableListModel) OutfitComboBox.this.getModel();
+				LockableListModel<SpecialOutfit> model = (LockableListModel<SpecialOutfit>) OutfitComboBox.this.getModel();
 				if ( model.isEmpty() )
 				{
 					return;
@@ -830,12 +830,7 @@ public class GearChangeFrame
 				// If you're changing an outfit, then the
 				// change must occur right away.
 
-				Object outfit = OutfitComboBox.this.getSelectedItem();
-				if ( outfit == null || !( outfit instanceof SpecialOutfit ) )
-				{
-					return;
-				}
-
+				SpecialOutfit outfit = (SpecialOutfit)OutfitComboBox.this.getSelectedItem();
 				synchronized ( GearChangeFrame.class )
 				{
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );

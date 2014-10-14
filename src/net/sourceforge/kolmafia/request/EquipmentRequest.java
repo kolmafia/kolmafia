@@ -791,16 +791,22 @@ public class EquipmentRequest
 				return;
 			}
 
-			// If you are already wearing the outfit, nothing to do
-			if ( EquipmentManager.isWearingOutfit( this.outfit ) )
+			// If we donning KoL's idea of your previous outfit,
+			// we have no idea what the pieces are. Otherwise,
+			// try to retrieve them.
+			if ( this.outfit != SpecialOutfit.PREVIOUS_OUTFIT )
 			{
-				return;
-			}
+				// If you are already wearing the outfit, nothing to do
+				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
+				{
+					return;
+				}
 
-			// Make sure we have all the pieces
-			if ( !EquipmentManager.retrieveOutfit( this.outfit ) )
-			{
-				return;
+				// Make sure we have all the pieces
+				if ( !EquipmentManager.retrieveOutfit( this.outfit ) )
+				{
+					return;
+				}
 			}
 
 			// Make a checkpoint, if necessary
