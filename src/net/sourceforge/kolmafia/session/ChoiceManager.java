@@ -7521,6 +7521,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "tape recorder self-destructs with a shower of sparks and a puff of smoke" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.MINI_CASSETTE_RECORDER );
+				ResultProcessor.removeItem( ItemPool.MINI_CASSETTE_RECORDER );
 				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "junglePuns" );
 			}
@@ -7528,6 +7529,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "monitoring equipment reports that environmental gore levels are now" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.GORE_BUCKET );
+				ResultProcessor.removeItem( ItemPool.GORE_BUCKET );
 				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "goreCollected" );
 			}
