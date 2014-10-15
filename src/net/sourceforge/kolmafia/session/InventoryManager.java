@@ -696,6 +696,7 @@ public abstract class InventoryManager
 
 		boolean shouldUseMall = InventoryManager.shouldUseMall( item ) && allowed;
 		boolean scriptSaysBuy = false;
+		boolean forceNoMall = false;
 
 		// If Price from NPC store is 100 or below, never try mall.
 		int NPCPrice = NPCStoreDatabase.price( item.getName() );
@@ -703,6 +704,7 @@ public abstract class InventoryManager
 			NPCPrice > 0 && NPCPrice <= 100 )
 		{
 			shouldUseMall = false;
+			forceNoMall = true;
 		}
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
@@ -830,7 +832,7 @@ public abstract class InventoryManager
 			}
 
 			// If buying from the mall will leave the item in storage, use only NPCs
-			boolean onlyNPC = !KoLCharacter.canInteract() || !shouldUseMall;
+			boolean onlyNPC = !KoLCharacter.canInteract() || forceNoMall;
 			ArrayList<PurchaseRequest> results = onlyNPC ? StoreManager.searchNPCs( item ) : StoreManager.searchMall( item );
 			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated, 0 );
 			if ( !onlyNPC )
