@@ -129,7 +129,6 @@
 104	Splashdance	splashdance.gif	5	30	0
 105	Song of Sauce	songsauce.gif	6	100	10
 106	Song of Bravado	songbravado.gif	6	100	10
-# Summon Annoyance: Cost: 11 swagger
 107	Summon Annoyance	angry.gif	1	0	0
 108
 109
@@ -142,8 +141,8 @@
 116	Hollow Leg	hollowleg.gif	0	0	0
 117	Belch The Rainbow	rrainbow.gif	5	5	0
 118	Pirate Bellow	louder.gif	3	11	0
-119	Hypersane		0	0	0
-120	Intimidating Mien		3	15	10
+119	Hypersane	blindfolded.gif	0	0	0
+120	Intimidating Mien	intimidate.gif	3	15	10
 
 # Skills available to Clubbers
 
