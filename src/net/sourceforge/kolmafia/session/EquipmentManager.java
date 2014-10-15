@@ -1604,9 +1604,7 @@ public class EquipmentManager
 		// Start with the three constant outfits
 		EquipmentManager.normalOutfits.add( SpecialOutfit.NO_CHANGE );
 		EquipmentManager.normalOutfits.add( SpecialOutfit.BIRTHDAY_SUIT );
-		// *** KoL bug: outfitid=last gets confused sometimes.
-		// *** If/when this is fixed, uncomment this
-		// EquipmentManager.normalOutfits.add( SpecialOutfit.PREVIOUS_OUTFIT );
+		EquipmentManager.normalOutfits.add( SpecialOutfit.PREVIOUS_OUTFIT );
 
 		// Finally any standard outfits
 		EquipmentManager.normalOutfits.addAll( available );
