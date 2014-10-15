@@ -1689,7 +1689,7 @@ public class EquipmentManager
 	{
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null )
 			{
 				continue;
 			}
@@ -1707,7 +1707,7 @@ public class EquipmentManager
 		int hash = SpecialOutfit.equipmentHash( equipment );
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null )
 			{
 				continue;
 			}
@@ -1832,7 +1832,7 @@ public class EquipmentManager
 	
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null )
 			{
 				continue;
 			}
@@ -1858,7 +1858,7 @@ public class EquipmentManager
 	
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null )
 			{
 				continue;
 			}
