@@ -927,7 +927,9 @@ public class ConcoctionDatabase
 			int inebriety = ItemDatabase.getInebriety( name );
 			if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 			{
-				if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
+				if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
+					KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() )
+					&& !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
 					return;
