@@ -84,7 +84,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -1773,8 +1773,8 @@ public class RelayRequest
 
 			if ( location != null && location.equals( AdventurePool.BOSSBAT_ID ) && KoLCharacter.mcdAvailable() )
 			{
-				List<?> batQueue = AdventureQueueDatabase.getZoneQueue( "The Boss Bat's Lair" );
-				if ( batQueue == null || batQueue.size() < 4 )
+				int turns = AdventureSpentDatabase.getTurns( "The Boss Bat's Lair" );
+				if ( turns < 4 )
 				{
 					// Do not prompt about adjusting the MCD if the Boss Bat cannot show up
 					return false;
