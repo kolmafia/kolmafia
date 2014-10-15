@@ -2405,7 +2405,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.ESP_COLLAR:
-			QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
+			QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, "step1" );
 			break;
 
 		case ItemPool.PACK_OF_SMOKES:

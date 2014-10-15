@@ -3215,6 +3215,7 @@ public abstract class ChoiceManager
 				       new Option( "return to Agora", 6 ) } ),
 		
 		// Choice 984 is A Radio on a Beach
+		// Choice 989 is Paranormal Test Lab
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3412,6 +3413,11 @@ public abstract class ChoiceManager
 		case 872:
 			ChoiceManager.decorateDrawnOnward( buffer );
 			break;
+
+		case 989:
+			// Highlight valid card
+			ChoiceManager.decorateParanormalTestLab( buffer );
+			break;
 		}
 	}
 
@@ -3458,6 +3464,38 @@ public abstract class ChoiceManager
 			{
 				StringUtilities.singleStringReplace( buffer, find, replace );
 			}
+		}
+	}
+
+	public static final void decorateParanormalTestLab( final StringBuffer buffer )
+	{
+		String pageText = buffer.toString();
+		int answer = 0;
+		if ( pageText.contains( "ever-changing constellation" ) )
+		{
+			answer = 1;
+		}
+		else if ( pageText.contains( "card in the circle of light" ) )
+		{
+			answer = 2;
+		}
+		else if ( pageText.contains( "waves a fly away" ) )
+		{
+			answer = 3;
+		}
+		else if ( pageText.contains( "back to square one" ) )
+		{
+			answer = 4;
+		}
+		else if ( pageText.contains( "adds to your anxiety" ) )
+		{
+			answer = 5;
+		}
+		String find = "espcard" + answer + ".gif";
+		String replace = "espcard" + answer + ".gif style=\"border: 2px solid blue;\"";
+		if ( pageText.contains( find ) )
+		{
+			StringUtilities.singleStringReplace( buffer, find, replace );
 		}
 	}
 
@@ -5474,7 +5512,6 @@ public abstract class ChoiceManager
 			result[ 1 ] = "get 5k meat and random item";
 			result[ 2 ] = "get Beach Bucks";
 			return result;
-
 		}
 		return null;
 	}
@@ -7526,7 +7563,7 @@ public abstract class ChoiceManager
 				Preferences.resetToDefault( "junglePuns" );
 			}
 			// Gore quest finished (start handled in ResultProcessor)
-			else if ( text.contains( "monitoring equipment reports that environmental gore levels are now" ) )
+			else if ( text.contains( "environmental gore levels are now" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.GORE_BUCKET );
 				ResultProcessor.removeItem( ItemPool.GORE_BUCKET );
@@ -7541,7 +7578,7 @@ public abstract class ChoiceManager
 				Preferences.resetToDefault( "fingernailsClipped" );
 			}
 			// Fake Medium quest started
-			else if ( text.contains( "this operation should be carried out with maximal discretion" ) )
+			else if ( text.contains( "carried out with maximal discretion" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.STARTED );
 			}
@@ -10765,8 +10802,31 @@ public abstract class ChoiceManager
 				return "2";
 			}
 			return decision;
-		}
 
+		case 989:
+			// Paranormal Test Lab
+			if ( responseText.contains( "ever-changing constellation" ) )
+			{
+				return "1";
+			}
+			else if ( responseText.contains( "card in the circle of light" ) )
+			{
+				return "2";
+			}
+			else if ( responseText.contains( "waves a fly away" ) )
+			{
+				return "3";
+			}
+			else if ( responseText.contains( "back to square one" ) )
+			{
+				return "4";
+			}
+			else if ( responseText.contains( "adds to your anxiety" ) )
+			{
+				return "5";
+			}
+
+		}
 		return decision;
 	}
 
