@@ -698,8 +698,8 @@ public abstract class InventoryManager
 		boolean scriptSaysBuy = false;
 		boolean forceNoMall = false;
 
-		// If Price from NPC store is 100 or below, never try mall.
-		int NPCPrice = NPCStoreDatabase.price( item.getName() );
+		// If Price from NPC store is 100 or below and available, never try mall.
+		int NPCPrice = NPCStoreDatabase.availablePrice( item.getName() );
 		if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
 			NPCPrice > 0 && NPCPrice <= 100 )
 		{
