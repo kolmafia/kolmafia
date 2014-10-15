@@ -511,7 +511,7 @@ white-label gin	3	1	good	8-10	3-5	3-5	3-5
 wine spritzer	3	1	decent	5-6	0	8-10	0
 world's most unappetizing beverage	1	1	good	3	-1	-1	-1	10 Literally Insane (Legendary Beat quest)
 Wrecked Generator	5	5	EPIC	28-32	20-30	20-30	20-30
-Xiblaxian space-whiskey	4	7	EPIC	18-22	50	50	50
+Xiblaxian space-whiskey	4	7	EPIC	19-22	50	50	50
 Ye Olde Meade	5	7	good	14-16	20-30	20-30	20-30
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
