@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -1169,7 +1170,7 @@ public class AreaCombatData
 		// Bossbat can appear on 4th fight, and will always appear on the 8th fight
 		if ( zone.equals( "The Boss Bat's Lair" ) )
 		{
-			int bossTurns = Preferences.getInteger( "bossbatTurns" );
+			int bossTurns = AdventureSpentDatabase.getTurns( zone );
 			if ( monster.equals( "Boss Bat" ) )
 			{
 				return bossTurns > 3 && !QuestDatabase.isQuestLaterThan( Quest.BAT, "step3" ) ? 1 : 0;
@@ -1181,7 +1182,7 @@ public class AreaCombatData
 		}
 		if ( zone.equals( "The Post-Mall" ) )
 		{
-			int mallTurns = Preferences.getInteger( "postMallTurns" );
+			int mallTurns = AdventureSpentDatabase.getTurns( zone );
 			if ( monster.equals( "sentient ATM" ) )
 			{
 				return mallTurns == 11 ? 1 : 0;
@@ -1198,8 +1199,11 @@ public class AreaCombatData
 	{
 		if ( monster.equals( "screambat" ) )
 		{
+			int turns = AdventureSpentDatabase.getTurns( "Guano Junction" ) +
+			            AdventureSpentDatabase.getTurns( "The Batrat and Ratbat Burrow" ) +
+			            AdventureSpentDatabase.getTurns( "The Beanbat Chamber" );
 			// Appears every 8 turns in relevant zones
-			return Preferences.getInteger( "nextScreambatCount" ) == 8 ? 100.0 : 0.0;
+			return turns > 0 && ( turns % 8 ) == 0 ? 100.0 : 0.0;
 		}
 		if ( monster.equals( "modern zmobie" ) )
 		{
@@ -1215,9 +1219,11 @@ public class AreaCombatData
 			{
 				return 0;
 			}
-			// Guaranteed after a multiple of 10 turns, but zero
-			int snowmanTurns = Preferences.getInteger( "snowmanTurns" );
-			if ( snowmanTurns > 0 && snowmanTurns % 10 == 0 )
+			// Guaranteed on turns 11, 21, and 31
+			int snowmanTurns = AdventureSpentDatabase.getTurns( "Lair of the Ninja Snowmen" );
+			if ( snowmanTurns == 10 ||
+			     snowmanTurns == 20 ||
+			     snowmanTurns == 30 )
 			{
 				return 100.0;
 			}

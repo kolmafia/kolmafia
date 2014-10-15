@@ -117,7 +117,6 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 
-import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentToken;
 import org.htmlcleaner.ContentToken;
 import org.htmlcleaner.HtmlCleaner;
@@ -3031,42 +3030,6 @@ public class FightRequest
 		AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 
 		int adventure = KoLAdventure.lastAdventureId();
-
-		// Handle location counting after each fight, regardless of won/loss/runaway etc
-		if ( adventure == AdventurePool.GUANO_JUNCTION ||
-			adventure == AdventurePool.BATRAT || adventure == AdventurePool.BEANBAT )
-		{
-			if ( monster.equals( "screambat" ) && !FightRequest.fightingCopy )
-			{
-				Preferences.setInteger( "nextScreambatCount", 1 );
-			}
-			else
-			{
-				Preferences.increment( "nextScreambatCount", 1 );
-			}
-		}
-
-		if ( adventure == AdventurePool.BOSSBAT )
-		{
-			Preferences.increment( "bossbatTurns", 1 );
-		}
-
-		if ( adventure == AdventurePool.NINJA_SNOWMEN )
-		{
-			Preferences.increment( "snowmanTurns", 1 );
-		}
-
-		if ( adventure == AdventurePool.POST_MALL )
-		{
-			if ( monster.equalsIgnoreCase( "sentient ATM" ) && !FightRequest.fightingCopy )
-			{
-				Preferences.setInteger( "postMallTurns", 1 );
-			}
-			else
-			{
-				Preferences.increment( "postMallTurns", 1 );
-			}
-		}
 
 		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
 		{

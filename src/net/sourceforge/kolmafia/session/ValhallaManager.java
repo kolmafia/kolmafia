@@ -569,11 +569,6 @@ public class ValhallaManager
 		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 		Preferences.setInteger( "cinderellaScore", 0 );
 		Preferences.setString( "grimstoneMaskPath", "" );
-		// Location counters
-		Preferences.setInteger( "bossbatTurns", 0 );
-		Preferences.setInteger( "snowmanTurns", 0 );
-		Preferences.setInteger( "nextScreambatCount", 0 );
-		Preferences.setInteger( "postMallTurns", 0 );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();
