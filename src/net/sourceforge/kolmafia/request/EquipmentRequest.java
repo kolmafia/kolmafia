@@ -790,12 +790,27 @@ public class EquipmentRequest
 
 				return;
 			}
-
-			// If we donning KoL's idea of your previous outfit,
-			// we have no idea what the pieces are. Otherwise,
-			// try to retrieve them.
-			if ( this.outfit != SpecialOutfit.PREVIOUS_OUTFIT )
+			else if ( this.outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
+				// If we donning KoL's idea of your previous outfit
+				// we have no idea what the pieces are.
+
+				// *** KoL bug: whichoutfit=last doesn't actually work
+				// *** Therefore, look up the actual outfit id.
+				CustomOutfitRequest request = new CustomOutfitRequest( true );
+				request.run();
+				int previousOutfitId = request.getPreviousOutfitId();
+				if ( previousOutfitId >= 0 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "No previous outfit saved" );
+					return;
+				}
+				this.addFormField( "whichoutfit", String.valueOf( previousOutfitId ) );
+			}
+			else	
+			{
+				// Otherwise, try to retrieve them.
+
 				// If you are already wearing the outfit, nothing to do
 				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
 				{

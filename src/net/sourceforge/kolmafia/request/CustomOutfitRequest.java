@@ -52,12 +52,23 @@ public class CustomOutfitRequest
 	private static final Pattern ENTRY_PATTERN =
 		Pattern.compile( "name=name([\\d]+) value=\"([^\"]*)\".*?<center><b>Contents:</b></cente[rR]>(.*?)</td>" );
 
+	private boolean getPreviousOutfitId = false;
+	private int previousOutfitId = 0;
+
 	public CustomOutfitRequest()
 	{
 		super( "account_manageoutfits.php" );
-		// action=Yep.
-		// name4982=Backup
-		// delete4982=on
+	}
+
+	public CustomOutfitRequest( final boolean getPreviousOutfitId )
+	{
+		super( "inventory.php?which=2" );
+		this.getPreviousOutfitId = true;
+	}
+
+	public int getPreviousOutfitId()
+	{
+		return this.previousOutfitId;
 	}
 
 	@Override
@@ -66,9 +77,20 @@ public class CustomOutfitRequest
 		return true;
 	}
 
+	// <option value='-398'>Your Previous Outfit</option>
+	private static final Pattern PREVIOUS_OUTFIT_PATTERN = Pattern.compile( "<option value='(-\\d+)'>Your Previous Outfit</option>" );
+
 	@Override
 	public void processResults()
 	{
+		if ( this.getPreviousOutfitId )
+		{
+			// All we are fetching is the previous outfit ID.
+			Matcher matcher = CustomOutfitRequest.PREVIOUS_OUTFIT_PATTERN.matcher( this.responseText );
+			this.previousOutfitId = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+			return;
+		}
+
 		CustomOutfitRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
