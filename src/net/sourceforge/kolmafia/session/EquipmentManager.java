@@ -1830,9 +1830,9 @@ public class EquipmentManager
 			}
 		}
 	
-		for ( SpecialOutfit outfit : EquipmentManager.normalOutfits )
+		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
 				continue;
 			}
@@ -1850,19 +1850,19 @@ public class EquipmentManager
 			{
 				continue;
 			}
-			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
+			if ( outfit.toString().toLowerCase().contains( lowercaseName ) )
 			{
 				return outfit;
 			}
 		}
 	
-		for ( SpecialOutfit outfit : EquipmentManager.normalOutfits )
+		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
-			if ( outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
+			if ( outfit == null || outfit == SpecialOutfit.NO_CHANGE || outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
 				continue;
 			}
-			if ( outfit.toString().toLowerCase().indexOf( lowercaseName ) != -1 )
+			if ( outfit.toString().toLowerCase().contains( lowercaseName ) )
 			{
 				return outfit;
 			}
