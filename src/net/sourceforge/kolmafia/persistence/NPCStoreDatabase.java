@@ -421,6 +421,12 @@ public class NPCStoreDatabase
 		return request == null ? 0 : request.getPrice();
 	}
 
+	public static final int availablePrice( final String itemName )
+	{
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		return request == null || !request.canPurchase() ? 0 : request.getPrice();
+	}
+
 	public static final boolean contains( final String itemName, boolean validate )
 	{
 		PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
