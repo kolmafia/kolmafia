@@ -394,12 +394,14 @@ public class DrinkItemRequest
 		}
 
 		// Make sure the player does not overdrink if they still
-		// have adventures remaining.
+		// have adventures or fullness remaining.
 
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() &&
 		     DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 		{
-			if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
+			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
+				KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() ) &&
+				!InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
 			{
 				return false;
 			}
