@@ -1736,7 +1736,7 @@
 1735	You Liver	liver.gif	ac35fa6f2c21412f62cf3b90404c9aaa	use 1 They liver
 1736	Hypercubed	residencecube.gif	1b6427748401e09a2239f78d7c5c0e17
 1737	Mr. Skullhead's Birthday Happiness	cake1.gif	8e723a942e1ae593e644c1002966410f	drink 1 En Una Fila Tequila
-1738	Fruited	nopic.gif	88bcc4e2a57b62eb06276c7787e93de2	eat 1 unidentifiable dried fruit
+1738	Fruited	applesticker.gif	88bcc4e2a57b62eb06276c7787e93de2	eat 1 unidentifiable dried fruit
 1739	Flattened	flatdough.gif	9044e8b7e34c704aeb4e2b1af0991973
 1740	Konked on the Head	dizzy.gif	6e009256278e59090c0a990cee13a267
 1741	Partially Paralyzed	sad.gif	df40b33aa14d6a1996faa5559f2556d5

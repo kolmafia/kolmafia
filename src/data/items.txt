@@ -7783,25 +7783,25 @@
 7764	residual zeal	824782325	disease.gif	usable	t	0	clouds of residual zeal
 7765	Xiblaxian holo-wrist-puter	431138014	holoputer.gif	accessory		0
 7766	defective Golden Mr. Accessory	333484984	dgma.gif	accessory		0
-7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0
-7768	one-day ticket to Conspiracy Island	232691309	airdaypass.gif	usable	t	0
+7767	airplane charter: Conspiracy Island	685244791	aircharter.gif	usable	t	0	airplane charters: Conspiracy Island
+7768	one-day ticket to Conspiracy Island	232691309	airdaypass.gif	usable	t	0	one-day tickets to Conspiracy Island
 7769	Coinspiracy	350082044	coinspiracy.gif	none		0	Coins-spiracy
 7770	Personal Ventilation Unit	399422816	pvu.gif	accessory	q	0
 7771	the most dangerous bait	444096957	manbait.gif	multiple	t,d	70	handfuls of the most dangerous bait
 7772	&quot;meat&quot; stick	950823191	owlstix.gif	food	t,d	55
 7773	transdermal smoke patch	973062156	smokepatch.gif	multiple	t,d	35	transdermal smoke patches
 7774	specialty ammo bandolier	855180535	bandolier.gif	multiple	t,d	58
-7775	pair of plants	601439715	pairofplants.gif	pants	t	0
-7776	Sasq&trade; watch	865335612	nicewatch.gif	accessory	t	0
+7775	pair of plants	601439715	pairofplants.gif	pants	t	0	pairs of plants
+7776	Sasq&trade; watch	865335612	nicewatch.gif	accessory	t	0	Sasq&trade; watches
 7777	smoker's cloak	525186625	smokecloak.gif	container	t	0
 7778	camouflage T-shirt	243252678	camoshirt.gif	shirt	t	0
-7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum P-00
+7779	experimental serum G-9	661049168	lightvial.gif	multiple	t,d	155	vials of experimental serum G-9
 7780	heavy-duty clipboard	608525894	clipboard.gif	offhand	t,d	195
 7781	battery-powered drill	859401663	powerdrill.gif	weapon	t,d	185
 7782	limp broccoli	543909195	broccoli.gif	food	t,d	72	stalks of limp broccoli
 7783	giant yellow hat	845667324	yellowhat.gif	hat	t,d	148
-7784	monkey barf	120029590	monkeybarf.gif	usable	t,d	12
-7785	delicious candy	932332370	spookycandy.gif	usable	t,d	88
+7784	monkey barf	120029590	monkeybarf.gif	usable	t,d	12	handfuls of monkey barf
+7785	delicious candy	932332370	spookycandy.gif	usable	t,d	88	delicious candies
 7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787	cuddly teddy bear	383057642	teddybear.gif	offhand	t,d	144
 7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99	ice-cold Cloaca Zeroes
@@ -7822,7 +7822,7 @@
 7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0
 7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0
 7805	Merc Core challenge coin	133154200	chalcoin.gif	usable	t	0
-7806	Merc Core deployment orders	423302992	envelope.gif	usable		0
+7806	Merc Core deployment orders	423302992	envelope.gif	usable		0	sets of Merc Core deployment orders
 7807	TI-9000 calculator	930907222	longcalc.gif	none	t,d	25
 7808	unused soap	371839904	merkinsoap.gif	none	t,d	12	bars of unused soap
 7809	impure gasoline	690459767	moonshine.gif	none, fancy	t,d	35	cans of impure gasoline
@@ -7843,10 +7843,10 @@
 7824	iShield	429328094	ishield.gif	offhand	t	0
 7825	white earbuds	983431802	earbuds.gif	accessory	t	0
 7826	iFlail	739978940	iflail.gif	weapon	t	0
-7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0
-7828	flat cider	398463159	flatcider.gif	drink	t	0
+7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0	pieces of unidentifiable dried fruit
+7828	flat cider	398463159	flatcider.gif	drink	t	0	glasses of flat cider
 7829	trench lighter	978087658	trenchlighter.gif	offhand	t	0
-7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225
+7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225	vials of experimental serum P-00
 7831	military-grade fingernail clippers	509291795	nailclippers.gif	none, combat reusable	q	0
 7832	encrypted mini-cassette recorder	365131352	recorder.gif	offhand	q	0
 7833	gore bucket	744028476	pail.gif	offhand	q	0
@@ -7854,10 +7854,10 @@
 7835	ESP suppression collar	887199815	espcollar.gif	accessory	q	0
 7836	GPS-tracking wristwatch	117030063	calcwatch.gif	accessory	q	0
 7837	Project T. L. B.	533573064	sammich.gif	none	q	0
-7838	Agent Mauve	399530932	grenade.gif	usable		0
-7839	special clip: tracers	225542432	ammo.gif	none, combat	t,d	30
-7840	special clip: wailers	140406010	ammo.gif	none, combat	t,d	30
-7841	special clip: squelchers	227886164	ammo.gif	none, combat	t,d	30
-7842	special clip: splatterers	276409873	ammo.gif	none, combat	t,d	50
-7843	special clip: boneburners	371114156	ammo.gif	none, combat	t,d	50
-7844	special clip: graveburpers	766390687	ammo.gif	none, combat	t,d	50
+7838	Agent Mauve	399530932	grenade.gif	usable		0	Agents Mauve
+7839	special clip: tracers	225542432	ammo.gif	none, combat	t,d	30	special clips: tracers
+7840	special clip: wailers	140406010	ammo.gif	none, combat	t,d	30	special clips: wailers
+7841	special clip: squelchers	227886164	ammo.gif	none, combat	t,d	30	special clips: squelchers
+7842	special clip: splatterers	276409873	ammo.gif	none, combat	t,d	50	special clips: splatterers
+7843	special clip: boneburners	371114156	ammo.gif	none, combat	t,d	50	special clips: boneburners
+7844	special clip: graveburpers	766390687	ammo.gif	none, combat	t,d	50	special clips: graveburpers
