@@ -304,8 +304,9 @@ public class EquipmentRequest
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "outfit" );
 		this.addFormField( "whichoutfit",
-				   change == SpecialOutfit.PREVIOUS_OUTFIT?
-				   "last" : String.valueOf( change.getOutfitId() ) );
+				   change == SpecialOutfit.PREVIOUS_OUTFIT ?
+				   "last" :
+				   String.valueOf( change.getOutfitId() ) );
 		this.addFormField( "ajax", "1" );
 
 		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
