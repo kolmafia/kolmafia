@@ -4242,7 +4242,7 @@ Fishily Speeding	Initiative: +50
 Fishy, Oily	Initiative: [60*path(Heavy Rains)]
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
 # Fishy Whiskers: Fewer items will wash away in the Heavy Rains
-<Fit As a Poster	Avatar: "Fitness giant"
+Fit As a Poster	Avatar: "Fitness giant"
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
@@ -5840,13 +5840,13 @@ badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
-bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 15
+bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10
 Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 beefy fish meat	Effect: "Fishy", Effect Duration: 5
-bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 20
+bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 10
 bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
 black forest cake	Effect: "Sugar Rush", Effect Duration: 5
-blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 20
+blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
 blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -5865,7 +5865,7 @@ centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
 chaos popcorn	Effect Duration: 5
 cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
-circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 20
+circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
@@ -5966,7 +5966,7 @@ savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
-skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 20
+skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10
 Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 slick fish meat	Effect: "Fishy", Effect Duration: 5
@@ -5976,7 +5976,7 @@ smashed danish	Effect: "Danish Cunning", Effect Duration: 30
 snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10
 spooky hi mein	Effect: "Spooky Breath", Effect Duration: 5
-square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 20
+square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 10
 squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
 Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
@@ -5992,9 +5992,9 @@ Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
 toast with jam	Effect: "Jammin'", Effect Duration: 5
 toasted brie	Effect: "Refined Palate", Effect Duration: 20
 tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
-tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 20
-tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 20
-triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 20
+tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
+tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
+triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
 turtle soup	Effect: "A Little Bit Evil"
 ultrafondue	Effect: "Fondid", Effect Duration: 30
 unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
@@ -6008,7 +6008,7 @@ wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
 wet dog	Effect: "Hangdog", Effect Duration: 30
 wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 witch's bread	Effect: "Witch Breaded", Effect Duration: 20
-wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 20
+wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
 yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
 # Boozes section of modifiers.txt

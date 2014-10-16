@@ -1368,7 +1368,6 @@ public class DebugDatabase
 		if ( !descriptionImage.equals( EffectDatabase.getImageName( id ) ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has image of " + descriptionImage + "." );
-			return;
 		}
 
 		DebugDatabase.effects.put( name, text );
