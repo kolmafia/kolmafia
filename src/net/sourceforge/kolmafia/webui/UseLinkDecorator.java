@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1587,10 +1589,12 @@ public abstract class UseLinkDecorator
 			break;
 
 		case ItemPool.WORM_RIDING_MANUAL_PAGE:
+		{
 			int count = InventoryManager.getCount( itemId );
 			return count < 15 ?
 				new UseLink( itemId, count ) :
 				new UseLink( itemId, count, "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
+		}
 
 		case ItemPool.FIRST_PIZZA:
 		case ItemPool.LACROSSE_STICK:
@@ -1609,6 +1613,22 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GOLD_PIECE:
 			return new UseLink( itemId, InventoryManager.getCount( itemId ) );
+
+		case ItemPool.PACK_OF_SMOKES:
+		{
+			int count = InventoryManager.getCount( itemId );
+			return count < 10 ?
+				new UseLink( itemId, count ) :
+				new UseLink( itemId, count, "radio", "place.php?whichplace=airport_spooky&action=airport2_radio" );
+		}
+
+		case ItemPool.EXPERIMENTAL_SERUM_P00:
+		{
+			int count = InventoryManager.getCount( itemId );
+			return count < 5 && QuestDatabase.isQuestLaterThan( Quest.SERUM, QuestDatabase.UNSTARTED ) ?
+				new UseLink( itemId, count ) :
+				new UseLink( itemId, count, "radio", "place.php?whichplace=airport_spooky&action=airport2_radio" );
+		}
 
 		default:
 
