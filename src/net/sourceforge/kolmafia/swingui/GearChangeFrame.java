@@ -831,6 +831,10 @@ public class GearChangeFrame
 				// change must occur right away.
 
 				SpecialOutfit outfit = (SpecialOutfit)OutfitComboBox.this.getSelectedItem();
+				if ( outfit == null )
+				{
+					return;
+				}
 				synchronized ( GearChangeFrame.class )
 				{
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
