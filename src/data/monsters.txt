@@ -192,7 +192,7 @@ drowned sailor	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 E: spooky Me
 drunk duck	ducknicedrunk.gif	Atk: 165 Def: 157 HP: 170 Init: 40 Meat: 188-216 P: beast	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
 drunk goat	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast	bottle of whiskey (25)	goat beard (5)
 drunk pygmy	pyg_drunk.gif	Atk: 150 Def: 130 HP: 160 Init: 20 P: dude Meat: 100	cold water bottle (0)	gold Boozehounds Anonymous token (0)	pygmy phone number (0)	pygmy concertinette (a0)
-drunken 7-foot Dwarf	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 P: humanoid	bottle of whiskey (20)	bottle of whiskey (20)
+drunken 7-foot Dwarf	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 P: humanoid Meat: 20	bottle of whiskey (20)	bottle of whiskey (20)
 drunken half-orc hobo	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	beer-battered accordion (a0)
 drunken rat	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast	rat whisker (100)	rat appendix (20)
 drunken rat king	ratking.gif	Atk: 40 Def: 36 HP: 32 Init: 100 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
@@ -269,7 +269,7 @@ frog	frog.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	squashed 
 frozen duck	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
 Frozen Solid Snake	snakeboss1.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: cold	The First Pizza (n100)
 Fruit Golem	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherry (15)	orange (15)	lime (15)
-full-length mirror	bigmirror.gif	SEMIRARE Scale: 0 Init: 50 P: construct
+full-length mirror	bigmirror.gif	SEMIRARE Scale: 0 Floor: 10 Init: 50 P: construct
 funk sole brother	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Furry Giant	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 EA: sleaze P: humanoid	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
 G imp	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
@@ -383,7 +383,7 @@ Knob Goblin Barbecue Team	kg_bbqteam.gif	Atk: 2 Def: 1 HP: 2 Init: 60 E: hot Mea
 Knob Goblin Bean Counter	kg_beancounter.gif	Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 60 P: goblin	hill of beans (50)	Knob Goblin visor (5)	stolen office supplies (10)
 Knob Goblin Elite Guard	kg_guard.gif	Atk: 25 Def: 27 HP: 30 Init: -10000 Meat: 50 P: goblin	Cobb's Knob Wurstbrau (15)	Knob Goblin elite helm (10)	Knob Goblin elite pants (10)	Knob Goblin elite shirt (10)	knob bugle (10)
 Knob Goblin Elite Guard Captain	kg_guardcaptain.gif	SEMIRARE Atk: 30 Def: 27 HP: 35 Init: -10000 Meat: 300 P: goblin	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
-Knob Goblin Embezzler	kg_embezzler.gif	SEMIRARE Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 500 P: goblin	meat stack (0)	embezzler's oil (c0)
+Knob Goblin Embezzler	kg_embezzler.gif	SEMIRARE Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin	Knob Goblin visor (0)	meat stack (0)	meat stack (0)	meat stack (0)	meat stack (0)	embezzler's oil (c0)
 Knob Goblin Harem Girl	kg_haremgirl.gif	Atk: 25 Def: 22 HP: 20 Init: 80 E: sleaze P: goblin	disease (10)	Knob Goblin harem veil (20)	Knob Goblin harem pants (20)	finger cymbals (5)	harem girl t-shirt (c2)	swindleblossom (c0)
 Knob Goblin Harem Guard	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin	Knob Goblin deluxe scimitar (10)	Knob nuts (15)
 Knob Goblin King	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
@@ -524,7 +524,7 @@ pig	somepig.gif	Atk: [6] Def: [7] HP: [8] Init: -10000 P: beast	ham steak (0)
 pine bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 22 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 plaid ghost	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead	plaid swatch (0)
 plaque of locusts	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug Meat: 25	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
-plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)	flask flops (0)
+plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc Meat: 25	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)	flask flops (0)
 pooltergeist	poolter.gif	Atk: 25 Def: 23 HP: 27 Init: 70 P: undead	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Pooltergeist (Ultra-Rare)	poolter2.gif	ULTRARARE Atk: 55 Def: 48 HP: 50 Init: 70 P: undead	17-ball (100)
 pop-and-lock raver	popnlocker.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
@@ -743,7 +743,7 @@ turtle trapper	turtletrapper.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: du
 Twig and Berries	twigberry.gif	Atk: 152 Def: 136 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Tyrannosaurus Tex	tex.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast
 undead elbow macaroni	macaroni.gif	Atk: 1 Def: 1 HP: 1 Init: 50 E: spooky Meat: 5 P: undead	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
-unemployed knob goblin	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 P: goblin	beer lens (c25)
+unemployed knob goblin	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 P: goblin Meat: 15	beer lens (c25)
 unholy diver	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)	unholy water (c0)
 upgraded ram	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 83-118 ED: cold P: beast	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
 uppercase Q	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
@@ -799,7 +799,7 @@ warty pirate	wartpirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirat
 warwelf	werewolf.gif	Atk: 4 Def: 2 HP: 2 Init: 50 Meat: 12 P: dude
 watertight seal	waterseal.gif	FREE Atk: 350 Def: 315 HP: 400 Init: -10000 P: demon	hyperinflated seal lung (100)
 wealthy pirate	richpirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 200 P: pirate	booty chest charrrm (10)	solid gold pegleg (5)	fat wallet (p10)
-werecougar	cavewomyn.gif	Atk: 8 Def: 7 HP: 6 Init: 50 P: dude	margarita (10)	sangria (10)	strawberry daiquiri (10)	tequila with training wheels (10)	mama's squeezebox (a0)
+werecougar	cavewomyn.gif	Atk: 8 Def: 7 HP: 6 Init: 50 P: dude Meat: 45	margarita (10)	sangria (10)	strawberry daiquiri (10)	tequila with training wheels (10)	mama's squeezebox (a0)
 Weremoose	weremoose.gif	Atk: 63 Def: 56 HP: 53 Init: 70 Meat: 65 P: beast	weremoose spit (0)
 Weretaco	weretaco.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 32 P: beast	taco shell (30)	uncooked chorizo (30)
 wet seal	wetseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: demon	mannequin leg (5)	seal lube (35)
@@ -1375,9 +1375,9 @@ E.V.E., the robot zombie	eve.gif	Atk: 300 Def: 300 HP: 500 Init: 150 P: construc
 family of kobolds	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
 
 # Transmissions from planet Xi (Xi Reciever KoL Con XI)
-holographic army	holoarmy.gif	Scale: 30 Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
-They	they.gif	Scale: 20 Init: -10000 P: humanoid	They liver (0)	They liver (0)
-Xiblaxian political prisoner	polprisoner.gif	Scale: 40 Init: -10000 P: weird	residual zeal (n100)
+holographic army	holoarmy.gif	Scale: 30 Cap: 10000 Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
+They	they.gif	Scale: 20 Cap: 10000 Init: -10000 P: humanoid	They liver (0)	They liver (0)
+Xiblaxian political prisoner	polprisoner.gif	Scale: 40 Cap: 10000 Init: -10000 P: weird	residual zeal (n100)
 
 # Antique Maps
 
@@ -1724,7 +1724,7 @@ Box of Crafty Dinner	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P:
 Chef Boy, R&amp;D	chefboy.gif	WANDERER Scale: 5 Init: -10000 P: dude Phys: 100
 
 # The WarBear Fortress (Crimbo 2013)
-Warbear Foot Soldier	warbear12.gif	Scale: -3 Cap: 10000 Init: -10000 P: beast	warbear whosit (n100)
+Warbear Foot Soldier	warbear12.gif	Scale: -3 Cap: 10000 Floor: 20 Init: -10000 P: beast	warbear whosit (n100)
 Warbear Officer	warbear23.gif	P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
 High-Ranking Warbear Officer	warbear31.gif	Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)
 
