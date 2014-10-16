@@ -3331,6 +3331,7 @@ Fam:Squamous Gibberer	Underwater Familiar
 Fam:Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
 Fam:Urchin Urchin	Underwater Familiar
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
+Fam:Xiblaxian Holo-Companion	Initiative: [2*W]
 
 # Enthroned familiars section of modifiers.txt
 
