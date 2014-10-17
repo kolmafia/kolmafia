@@ -900,6 +900,7 @@ user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
+user	suppressInappropriateNags	false
 user	suppressPotentialMalware	false
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0

@@ -444,6 +444,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
+			RequestEditorKit.suppressInappropriateNags( buffer );
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
@@ -1010,6 +1011,53 @@ public class RequestEditorKit
 			}
 		}
 	}
+
+	// *******************************************************************
+	//
+	// If you have donated to KoL within the last 90 days, periodically you
+	// get a nice "thank you" message on the fight page. I always smile
+	// when I get such a thank you.
+	//
+	// If you have not donated within the last 90 days, you get a "nag",
+	// suggesting that you donate and buy the current IOTM.
+	//
+	// I donate every month to buy the IOTM. A while ago, I decided to
+	// donate $50 and get five Mr. A's, to be spent one per month. More
+	// convenient for me, and better for KoL, since paying in advance
+	// always favors the vendor, who gets the interest on your money.
+	//
+	// It turns out that this means I will get 3 months of "thank you" and
+	// 2 months of "you haven't donated recently enough. Why don't you
+	// donate for the IOTM you just bought with a Mr. A. you donated for?"
+	//
+	// Before I understood why this was happening, I sent a polite and
+	// friendly bug report asking why I was getting nags, when I was a
+	// regular donator. The response was ... crickets.
+	//
+	// That is, by any measure, poor customer support. I do not expect a
+	// response to my note, much less a coding change on KoL's end to stop
+	// inappropriate nags, so here is a simple self-service remedy.
+
+	private static final Pattern NAG_PATTERN = Pattern.compile( "<table.*?Please consider supporting the Kingdom.*?<td height=4>.*?<td height=4>.*?</table>", Pattern.DOTALL );
+
+	private static final void suppressInappropriateNags( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "suppressInappropriateNags" ) )
+		{
+			return;
+		}
+
+		if ( buffer.indexOf( "Please consider supporting the Kingdom!" ) != -1 )
+		{
+			Matcher matcher = RequestEditorKit.NAG_PATTERN.matcher( buffer );
+			if ( matcher.find() )
+			{
+				StringUtilities.globalStringDelete( buffer, matcher.group( 0 ) );
+			}
+		}
+	}
+
+	// *******************************************************************
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
 	{
