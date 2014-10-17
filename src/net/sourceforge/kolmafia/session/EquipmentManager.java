@@ -620,6 +620,9 @@ public class EquipmentManager
 		case ItemPool.THORS_PLIERS:
 			KoLCharacter.addAvailableSkill( "Ply Reality" );
 			break;
+		case ItemPool.CAP_GUN:
+			KoLCharacter.addAvailableSkill( "Bang! Bang! Bang! Bang!" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
