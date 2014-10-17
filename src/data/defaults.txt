@@ -1689,6 +1689,8 @@ user	choiceAdventure980	0
 user	choiceAdventure981	0
 user	choiceAdventure982	0
 user	choiceAdventure983	0
+user	choiceAdventure988	0
+user	choiceAdventure989	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

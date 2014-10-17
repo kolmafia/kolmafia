@@ -162,7 +162,7 @@ public abstract class ChoiceManager
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
-	private static final Pattern NAVIGATION_PATTERN = Pattern.compile( "Navigation protocol (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) (Lima|Romeo) is advised" );
+	private static final Pattern NAVIGATION_PATTERN = Pattern.compile( "protocol( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -3215,6 +3215,7 @@ public abstract class ChoiceManager
 				       new Option( "return to Agora", 6 ) } ),
 		
 		// Choice 984 is A Radio on a Beach
+		// Choice 988 is The Containment Unit
 		// Choice 989 is Paranormal Test Lab
    };
 
@@ -3949,6 +3950,10 @@ public abstract class ChoiceManager
 		case 918:
 			// Yachtzee!
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Yachtzee!" );
+
+		case 988:
+			// The Containment Unit
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Containment Unit" );
 		}
 			
 		return null;
@@ -5511,6 +5516,37 @@ public abstract class ChoiceManager
 			}
 			result[ 1 ] = "get 5k meat and random item";
 			result[ 2 ] = "get Beach Bucks";
+			return result;
+
+		case 988:
+		
+			// The Containment Unit
+			result = new String[ 2 ];
+			String containment = Preferences.getString( "EVEDirections" );
+			if ( containment.length() != 6 )
+			{
+				return null;
+			}
+			int progress = StringUtilities.parseInt( containment.substring( 5, 6 ) );
+			if ( progress < 0 && progress > 5 )
+			{
+				return null;
+			}
+			if ( containment.charAt( progress ) == 'L' )
+			{
+				result[ 0 ] = "right way";
+				result[ 1 ] = null;
+			}
+			else if ( containment.charAt( progress ) == 'R' )
+			{
+				result[ 0 ] = null;
+				result[ 1 ] = "right way";
+			}
+			else
+			{
+				result[ 0 ] = "unknown";
+				result[ 1 ] = "unknown";
+			}
 			return result;
 		}
 		return null;
@@ -7535,6 +7571,7 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.STARTED );
 				StringBuilder directions = new StringBuilder();
+				String old = Preferences.getString( "EVEDirections" );
 				for ( int i = 1 ; i <= 5 ; i++ )
 				{
 					if ( navigationMatcher.group( i ).contains( "Lima" ) )
@@ -7545,7 +7582,23 @@ public abstract class ChoiceManager
 					{
 						directions.append( "R" );
 					}
+					else if ( old.length() == 6 )
+					{
+						if ( old.charAt( i-1 ) == 'L' || old.charAt( i-1 ) == 'R' )
+						{
+							directions.append( old.charAt( i-1 ) );
+						}
+						else
+						{
+							directions.append( "." );
+						}
+					}
+					else
+					{
+						directions.append( "." );
+					}
 				}
+				directions.append( "0" );
 				Preferences.setString( "EVEDirections" , directions.toString() );
 			}
 			// EVE quest finished
@@ -7639,8 +7692,29 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 988:
+			// The Containment Unit
+			String containment = Preferences.getString( "EVEDirections" );
+			if ( containment.length() != 6 )
+			{
+				break;
+			}
+			if ( text.contains( "another pair of doors" ) )
+			{
+				int progress = StringUtilities.parseInt( containment.substring( 5, 6 ) );
+				if ( progress < 0 && progress > 4 )
+				{
+					break;
+				}
+				progress++;
+				Preferences.setString( "EVEDirections", containment.substring( 0, 5 ) + progress );
+			}
+			else
+			{
+				Preferences.setString( "EVEDirections", containment.substring( 0, 5 ) + "0" );
+			}
+			break;
 		}
-
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 	}
@@ -10798,6 +10872,28 @@ public abstract class ChoiceManager
 		case 975:
 			// Leave if you have less than 5 cocktail onions, even if you haven't decided to
 			if ( !responseText.contains( "Stick in the onions" ) )
+			{
+				return "2";
+			}
+			return decision;
+
+		case 988:
+			// The Containment Unit
+			String containment = Preferences.getString( "EVEDirections" );
+			if ( containment.length() != 6 )
+			{
+				return decision;
+			}
+			int progress = StringUtilities.parseInt( containment.substring( 5, 6 ) );
+			if ( progress < 0 && progress > 5 )
+			{
+				return decision;
+			}
+			if ( containment.charAt( progress ) == 'L' )
+			{
+				return "1";
+			}
+			else if ( containment.charAt( progress ) == 'R' )
 			{
 				return "2";
 			}
