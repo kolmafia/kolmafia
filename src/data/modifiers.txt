@@ -4522,6 +4522,7 @@ Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
+Intimidating Mien	Spooky Damage: +15
 Into the Friar	Avatar: "black friar"
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
