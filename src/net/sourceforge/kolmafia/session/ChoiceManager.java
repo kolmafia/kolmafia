@@ -3217,7 +3217,7 @@ public abstract class ChoiceManager
 		// Choice 984 is A Radio on a Beach
 		// Choice 988 is The Containment Unit
 		// Choice 989 is Paranormal Test Lab
-   };
+	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 
@@ -5525,12 +5525,12 @@ public abstract class ChoiceManager
 			String containment = Preferences.getString( "EVEDirections" );
 			if ( containment.length() != 6 )
 			{
-				return null;
+				return result;
 			}
 			int progress = StringUtilities.parseInt( containment.substring( 5, 6 ) );
 			if ( progress < 0 && progress > 5 )
 			{
-				return null;
+				return result;
 			}
 			if ( containment.charAt( progress ) == 'L' )
 			{
