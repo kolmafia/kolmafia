@@ -2408,6 +2408,14 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, "step1" );
 			break;
 
+		case ItemPool.GPS_WATCH:
+			QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.PROJECT_TLB:
+			QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, "step2" );
+			break;
+
 		case ItemPool.PACK_OF_SMOKES:
 			if ( InventoryManager.getCount( ItemPool.PACK_OF_SMOKES ) >= 9 )
 			{

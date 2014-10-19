@@ -210,6 +210,7 @@ public class Evaluator
 		expr = expr.trim().toLowerCase();
 		Matcher m = KEYWORD_PATTERN.matcher( expr );
 		boolean hadFamiliar = false;
+		boolean forceCurrent = false;
 		int pos = 0;
 		int index = -1;
 
@@ -280,6 +281,7 @@ public class Evaluator
 			else if ( keyword.startsWith( "current" ) )
 			{
 				this.current = weight > 0.0;
+				forceCurrent = true;
 				continue;
 			}
 			else if ( keyword.startsWith( "type " ) )
@@ -577,6 +579,12 @@ public class Evaluator
 			KoLmafia.updateDisplay( MafiaState.ERROR,
 				"Unrecognized keyword: " + keyword );
 			return;
+		}
+
+		// If no tiebreaker, consider current unless -current specified
+		if ( !forceCurrent && this.noTiebreaker )
+		{
+			this.current = true;
 		}
 
 		this.beeosity = Math.max( Math.max( this.beeosity,
