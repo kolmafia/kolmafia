@@ -520,6 +520,7 @@ public abstract class KoLCharacter
 		KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
 		KoLCharacter.effectiveFamiliar = FamiliarData.NO_FAMILIAR;
 		KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
 		KoLCharacter.arenaWins = 0;
 		KoLCharacter.isUsingStabBat = false;
 		KoLCharacter.companion = null;
