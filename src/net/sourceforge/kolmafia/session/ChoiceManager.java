@@ -7564,6 +7564,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
 			}
 			// EVE quest started
 			Matcher navigationMatcher = NAVIGATION_PATTERN.matcher( text );
@@ -7667,6 +7668,14 @@ public abstract class ChoiceManager
 			else if ( text.contains( "cigarettes with a grappling gun" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+			}
+			// Out of Order quest finished
+			else if ( text.contains( "takes your nifty new watch" ) )
+			{
+				EquipmentManager.discardEquipment( ItemPool.GPS_WATCH );
+				ResultProcessor.removeItem( ItemPool.GPS_WATCH );
+				ResultProcessor.removeItem( ItemPool.PROJECT_TLB );
+				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
 			}
 			break;
 		}

@@ -2140,6 +2140,8 @@ public class ItemPool
 	public static final int GORE_BUCKET = 7833;
 	public static final int PACK_OF_SMOKES = 7834;
 	public static final int ESP_COLLAR = 7835;
+	public static final int GPS_WATCH = 7836;
+	public static final int PROJECT_TLB = 7837;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -275,7 +275,7 @@ Furry Giant	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 EA: sle
 G imp	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
 ganger	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 240 P: fish	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
 gargantulihc	gargantulihc.gif	Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 E: spooky P: undead	lihc eye (0)	lihc eye (0)	lihc face (0)
-gaudy pirate	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	gaudy key (c100)
+gaudy pirate	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 110	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	gaudy key (c100)
 gaunt ghuol	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 20 P: undead	ghuol ears (20)	ghuol egg (20)
 gelatinous cube	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 generic duck	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 70-80 P: beast
@@ -317,17 +317,17 @@ Gorgolok, the Infernal Seal (The Nemesis' Lair)	1_2.gif	BOSS Atk: 170 Def: 153 H
 Gorgolok, the Infernal Seal (Volcanic Cave)	1_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: demon 
 Goth Giant	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 150 P: humanoid	awful poetry journal (15)	thin black candle (25)	Warm Subject gift certificate (5)	giant tube of black lipstick (c10)
 Grass Elemental	grasselemental.gif	Atk: 60 Def: 54 HP: 50 Init: 60 P: elemental	leaf of grass (0)	folder (Ex-Files) (c0)
-grassy pirate	grasspirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	grassy cutlass (10)
+grassy pirate	grasspirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 95	grassy cutlass (10)
 grave rober	rober.gif	Atk: 22 Def: 19 HP: 12 Init: 80 P: dude	coffin lid (2)	dead guy's watch (5)	grave robbing shovel (50)	shysterweed (c0)
 grave rober zmobie	zomshovel.gif	Atk: 58 Def: 53 HP: 50 Init: 50 E: spooky Meat: 50 P: undead	coffin lid (3)	dead guy's watch (10)	loose teeth (10)	rusty grave robbing shovel (10)	paranormal ricotta (c0)	shysterweed (c0)
 greasy duck	duckgreasy.gif	Atk: 173 Def: 162 HP: 185 Init: 70 Meat: 132-170 E: sleaze P: beast	flirtatious feather (10)	duct tape (5)
 Green Ops Soldier	warhipgr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: stench "Toad In The Hole" P: hippy	communications windchimes (3)	gas balloon (17)	gas balloon (3)	green clay bead (30)	green smoke bomb (6)	green smoke bomb (3)	henna face paint (8)	round green sunglasses (5)
-gritty pirate	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	true grit (30)	keel-haulin' knife (0)
+gritty pirate	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 105	true grit (30)	keel-haulin' knife (0)
 Groar	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
-groovy pirate	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	buoybottoms (10)
+groovy pirate	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 100	buoybottoms (10)
 grouper groupie	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish	groupie bra (0)	groupie lipstick (0)	groupie spangles (c0)
 grumpy 7-Foot Dwarf	dwarf_grumpy.gif	Atk: 58 Def: 52 HP: 45 Init: 50 Meat: 40 P: humanoid	7-Foot Dwarven mattock (9)
-grungy pirate	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
+grungy pirate	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 100	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
 Guard Bugbear	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 24 P: beast	bugbear beanie (25)	bugbear bungguard (25)
 guard turtle	guardturtle4.gif	Atk: 140 Def: 126 HP: 140 Init: 140 P: beast	guard turtle shell (0)	guard turtle collar (0)
 Guy Made of Bees	beeguy.gif	BOSS Atk: 99999 Def: 89999 HP: [99999] Init: -10000 Exp: 40 P: horror	guy made of bee pollen (100)	handful of bees (p10)
@@ -1357,10 +1357,10 @@ drownedbeat	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: -10000 P: dude E: sl
 one of Doctor Weirdeaux's creations	nopic.gif	Init: -10000 P: beast E: spooky	experimental serum P-00 (0)
 
 # The Deep Dark Jungle (Conspiracy Island October 2014)
-bigface	bigface.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (0)	Sasq&trade; watch (c0)
-Mercenary of Fortune	mercenary.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: dude E: spooky	specialty ammo bandolier (0)	camouflage T-shirt (c0)	Coinspiracy (0)
-smoke monster	smokemonster.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: weird E: spooky	transdermal smoke patch (0)	smoker's cloak (c0)
-Venus mantrap	mantrap.gif	Scale: 5 Cap: 11111 Floor: 10  Init: -10000 P: plant E: spooky	the most dangerous bait (0)	pair of plants (c0)
+bigface	bigface.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: humanoid E: spooky	&quot;meat&quot; stick (15)	Sasq&trade; watch (c0)
+Mercenary of Fortune	mercenary.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: dude E: spooky	specialty ammo bandolier (15)	camouflage T-shirt (c0)	Coinspiracy (c0)
+smoke monster	smokemonster.gif	Scale: 5 Cap: 11111 Floor: 10 Init: -10000 P: weird E: spooky	transdermal smoke patch (15)	smoker's cloak (c0)
+Venus mantrap	mantrap.gif	Scale: 5 Cap: 11111 Floor: 10  Init: -10000 P: plant E: spooky	the most dangerous bait (15)	pair of plants (c0)
 
 # The Secret Government Laboratory (Conspiracy Island October 2014)
 creepy little girl	creepygirl.gif	Atk: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky	jangly bracelet (c0)	delicious candy (c0)	cuddly teddy bear (c0)	airborne mutagen (c0)
@@ -1716,11 +1716,11 @@ spirit faucet	spiritfaucet.gif	Scale: -5 Cap: 500 Init: -10000 P: undead	spirit 
 spirit pea	spiritpea.gif	Scale: -5 Cap: 500 Init: -10000 P: undead	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Init: -10000 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo&trade;	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)
 Chef Boy, R&amp;D	chefboy.gif	WANDERER Scale: 5 Init: -10000 P: dude Phys: 100
 
 # The WarBear Fortress (Crimbo 2013)

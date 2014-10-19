@@ -1740,6 +1740,10 @@ public class QuestManager
 		case ItemPool.MINI_CASSETTE_RECORDER:
 			QuestDatabase.setQuestIfBetter( Quest.JUNGLE_PUN, "step1" );
 			break;
+
+		case ItemPool.GPS_WATCH:
+			QuestDatabase.setQuestIfBetter( Quest.OUT_OF_ORDER, "step1" );
+			break;
 		}
 	}
 }

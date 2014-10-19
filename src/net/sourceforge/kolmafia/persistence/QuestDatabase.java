@@ -121,7 +121,8 @@ public class QuestDatabase
 			CLIPPER( "questESpClipper" ),
 			FAKE_MEDIUM( "questESpFakeMedium" ),
 			SERUM( "questESpSerum" ),
-			SMOKES( "questESpSmokes" );
+			SMOKES( "questESpSmokes" ),
+			OUT_OF_ORDER( "questESpOutOfOrder" );
 
 		private String pref;
 

@@ -637,7 +637,7 @@
 7207
 7208	The Smile of Mr. A.	gma.gif	4	0	40
 7209	Ply Reality	thorpliers.gif	5	0	0
-7210	Bang! Bang! Bang! Bang!	5	0	0
+7210	Bang! Bang! Bang! Bang!	sixshooter.gif	5	0	0
 7211	Thousand-Yard Stare	blackeyes.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
