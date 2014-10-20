@@ -1711,9 +1711,9 @@ Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	WANDERER Scale: 7 
 
 # The Spirit World (November 2013)
 spirit alarm clock	spiritalclock.gif	Scale: 5 Cap: 1000 Init: -10000 P: undead	spirit bell (n100)
-spirit bedbug	spiritbug.gif	Scale: -5 Cap: 500 Init: -10000 P: undead	spirit gum (5)
-spirit faucet	spiritfaucet.gif	Scale: -5 Cap: 500 Init: -10000 P: undead	spirit gum (5)
-spirit pea	spiritpea.gif	Scale: -5 Cap: 500 Init: -10000 P: undead	spirit gum (5)
+spirit bedbug	spiritbug.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead	spirit gum (5)
+spirit faucet	spiritfaucet.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead	spirit gum (5)
+spirit pea	spiritpea.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
 Possessed Can of Linguine-Os	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)

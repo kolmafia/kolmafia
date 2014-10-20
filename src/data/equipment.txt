@@ -1459,7 +1459,7 @@ golden sausage	0	none
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
 green peawee marble	201	Mys: 85
-Grey Guanon	0	Mys: 15
+Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
 Half a Purse	100	none
 hand of Mr. Cards	10	none

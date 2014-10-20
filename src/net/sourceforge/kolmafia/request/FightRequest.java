@@ -2686,6 +2686,10 @@ public class FightRequest
 				Preferences.increment( "_hoboUnderlingSummons", 1 );
 			}
 			break;
+
+		case SkillPool.OVERLOAD_TEDDY_BEAR:
+			EquipmentManager.discardEquipment( ItemPool.CUDDLY_TEDDY_BEAR );
+			break;
 		}
 
 		if ( monster.endsWith( "gremlin" ) )

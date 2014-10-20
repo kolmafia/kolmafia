@@ -617,11 +617,14 @@ public class EquipmentManager
 		case ItemPool.SPACE_HEATER:
 			KoLCharacter.addAvailableSkill( "Heat Space" );
 			break;
+		case ItemPool.CAP_GUN:
+			KoLCharacter.addAvailableSkill( "Bang! Bang! Bang! Bang!" );
+			break;
 		case ItemPool.THORS_PLIERS:
 			KoLCharacter.addAvailableSkill( "Ply Reality" );
 			break;
-		case ItemPool.CAP_GUN:
-			KoLCharacter.addAvailableSkill( "Bang! Bang! Bang! Bang!" );
+		case ItemPool.CUDDLY_TEDDY_BEAR:
+			KoLCharacter.addAvailableSkill( "Overload Teddy Bear" );
 			break;
 		}
 
