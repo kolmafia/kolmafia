@@ -7632,7 +7632,7 @@ public abstract class ChoiceManager
 				Preferences.resetToDefault( "fingernailsClipped" );
 			}
 			// Fake Medium quest started
-			else if ( text.contains( "carried out with maximal discretion" ) )
+			else if ( text.contains( "maximal discretion" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.STARTED );
 			}
