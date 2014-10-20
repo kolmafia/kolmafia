@@ -197,6 +197,7 @@ public class SkillPool
 	public static final int UNLOAD_TOMMY_GUN = 7200;
 	public static final int SHOVEL_HOT_COAL = 7203;
 	public static final int SMILE_OF_MR_A = 7208;
+	public static final int OVERLOAD_TEDDY_BEAR = 7210;
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;
