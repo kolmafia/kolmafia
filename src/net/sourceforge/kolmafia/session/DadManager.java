@@ -64,11 +64,11 @@ public class DadManager
 		PHYSICAL
 	}
 
-	private static Object [][] ELEMENTS =
+	private static final Object [][] ELEMENTS =
 	{
 		// Starting with the third element, any number of skills can be listed, one per element
 		{ Element.NONE, "none", "" },
-		{ Element.HOT, "hot", "Awesome Balls of Fire", "Volcanometeor Showereruption" },
+		{ Element.HOT, "hot", "Awesome Balls of Fire", "Volcanometeor Showeruption" },
 		{ Element.COLD, "cold", "Snowclone" },
 		{ Element.STENCH, "stench", "Eggsplosion" },
 		{ Element.SPOOKY, "spooky", "Raise Backup Dancer" },
@@ -120,7 +120,7 @@ public class DadManager
 			(Element)ELEMENTS[ index ][0];
 	}
 
-	private static Object [][] WORD1 =
+	private static final Object [][] WORD1 =
 	{
 		{ "chaotic", Element.HOT },
 		{ "rigid", Element.COLD },
@@ -130,7 +130,7 @@ public class DadManager
 		{ "pulpy", Element.PHYSICAL },
 	};
 
-	private static Object [][] WORD2 =
+	private static final Object [][] WORD2 =
 	{
 		{ "skitter", Element.HOT },
 		{ "shamble", Element.COLD },
@@ -140,7 +140,7 @@ public class DadManager
 		{ "swim", Element.PHYSICAL },
 	};
 
-	private static Object [][] WORD3 =
+	private static final Object [][] WORD3 =
 	{
 		{ "terrible", Element.HOT },
 		{ "awful", Element.COLD },
@@ -150,7 +150,7 @@ public class DadManager
 		{ "curious", Element.PHYSICAL },
 	};
 
-	private static Object [][] WORD4 =
+	private static final Object [][] WORD4 =
 	{
 		{ "blackness", Element.HOT },
 		{ "space", Element.COLD },
@@ -160,7 +160,7 @@ public class DadManager
 		{ "portal", Element.PHYSICAL },
 	};
 
-	private static Object [][] WORD5 =
+	private static final Object [][] WORD5 =
 	{
 		{ "warps", Element.HOT },
 		{ "shifts", Element.COLD },
@@ -170,7 +170,7 @@ public class DadManager
 		{ "cracks open", Element.PHYSICAL },
 	};
 
-	private static String [] WORD8 =
+	private static final String [] WORD8 =
 	{
 		"brain",
 		"mind",
@@ -185,7 +185,7 @@ public class DadManager
 		"fears",
 	};
 
-	private static String [] WORD10 =
+	private static final String [] WORD10 =
 	{
 		"spleen",
 		"stomach",
