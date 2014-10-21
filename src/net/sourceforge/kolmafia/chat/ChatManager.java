@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChatManager
 {
@@ -363,6 +364,7 @@ public abstract class ChatManager
 
 		String sender = message.getSender();
 		String recipient = message.getRecipient();
+		String content = message.getContent();
 
 		if ( ChatManager.faxbot != null && sender.equalsIgnoreCase( ChatManager.faxbot ) )
 		{
@@ -371,7 +373,7 @@ public abstract class ChatManager
 
 		if ( recipient == null )
 		{
-			ChatManager.processCommand( sender, message.getContent(), recipient );
+			ChatManager.processCommand( sender, content, recipient );
 		}
 		else if ( recipient.equals( "/clan" ) ||
 			  recipient.equals( "/hobopolis" ) ||
@@ -380,14 +382,14 @@ public abstract class ChatManager
 			  recipient.equals( "/hauntedhouse" ) )
 		{
 			ChatManager.clanMessages.add( message );
-			ChatManager.processCommand( sender, message.getContent(), recipient );
+			ChatManager.processCommand( sender, content, recipient );
 		}
 		else if ( recipient.equals( "/talkie" ) )
 		{
 			// Allow chatbot scripts to process talkie messages
 			ChatManager.processCommand( sender, message.getContent(), recipient );
 		}
-		else if ( Preferences.getBoolean( "chatBeep" ) && KoLCharacter.getUserName().equalsIgnoreCase( recipient ) )
+		else if ( Preferences.getBoolean( "chatBeep" ) && ( StringUtilities.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ).equalsIgnoreCase( recipient ) ) )
 		{
 			Toolkit.getDefaultToolkit().beep();
 		}
@@ -404,7 +406,7 @@ public abstract class ChatManager
 				}
 			}
 
-			ChatManager.processCommand( message.getSender(), message.getContent(), "" );
+			ChatManager.processCommand( sender, content, "" );
 			destination = sender;
 		}
 
