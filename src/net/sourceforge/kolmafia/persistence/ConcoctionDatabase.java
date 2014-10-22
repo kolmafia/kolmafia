@@ -1494,10 +1494,10 @@ public class ConcoctionDatabase
 		// concoction will use ADVs.
 
 		ConcoctionDatabase.adventureJewelcraftingLimit.total = KoLCharacter.getAdventuresLeft() + 
-														ConcoctionDatabase.getFreeCraftingTurns() + 
-														ConcoctionDatabase.getFreeSmithJewelTurns();;
+		                                                       ConcoctionDatabase.getFreeCraftingTurns() +
+		                                                       ConcoctionDatabase.getFreeSmithJewelTurns();
 		ConcoctionDatabase.adventureJewelcraftingLimit.initial = ConcoctionDatabase.adventureJewelcraftingLimit.total - 
-														ConcoctionDatabase.queuedAdventuresUsed;
+		                                                         ConcoctionDatabase.queuedAdventuresUsed;
 		ConcoctionDatabase.adventureJewelcraftingLimit.creatable = 0;
 		ConcoctionDatabase.adventureJewelcraftingLimit.visibleTotal = ConcoctionDatabase.adventureJewelcraftingLimit.total;
 		
@@ -1505,26 +1505,26 @@ public class ConcoctionDatabase
 		
 		ConcoctionDatabase.turnFreeLimit.total = ConcoctionDatabase.getFreeCraftingTurns();
 		ConcoctionDatabase.turnFreeLimit.initial = ConcoctionDatabase.turnFreeLimit.total - 
-														ConcoctionDatabase.queuedFreeCraftingTurns;
+		                                           ConcoctionDatabase.queuedFreeCraftingTurns;
 		ConcoctionDatabase.turnFreeLimit.creatable = 0;
 		ConcoctionDatabase.turnFreeLimit.visibleTotal = ConcoctionDatabase.turnFreeLimit.total;
 
 		// If we want to do turn-free smithing, we can only use free turns in lieu of adventures. Smithing can't be queued
-		
+
 		ConcoctionDatabase.turnFreeSmithingLimit.total = ConcoctionDatabase.getFreeCraftingTurns() + 
-														ConcoctionDatabase.getFreeSmithingTurns() +
-														ConcoctionDatabase.getFreeSmithJewelTurns();
+		                                                 ConcoctionDatabase.getFreeSmithingTurns() +
+		                                                 ConcoctionDatabase.getFreeSmithJewelTurns();
 		ConcoctionDatabase.turnFreeSmithingLimit.initial = ConcoctionDatabase.turnFreeSmithingLimit.total - 
-														ConcoctionDatabase.queuedFreeCraftingTurns;
+		                                                   ConcoctionDatabase.queuedFreeCraftingTurns;
 		ConcoctionDatabase.turnFreeSmithingLimit.creatable = 0;
 		ConcoctionDatabase.turnFreeSmithingLimit.visibleTotal = ConcoctionDatabase.turnFreeSmithingLimit.total;
 
 		// If we want to do turn-free jewelcrafting, we can only use free turns in lieu of adventures. Jewelcrafting can't be queued
-		
+
 		ConcoctionDatabase.turnFreeJewelcraftingLimit.total = ConcoctionDatabase.getFreeCraftingTurns() + 
-														ConcoctionDatabase.getFreeSmithJewelTurns();
+		                                                      ConcoctionDatabase.getFreeSmithJewelTurns();
 		ConcoctionDatabase.turnFreeJewelcraftingLimit.initial = ConcoctionDatabase.turnFreeJewelcraftingLimit.total - 
-														ConcoctionDatabase.queuedFreeCraftingTurns;
+		                                                        ConcoctionDatabase.queuedFreeCraftingTurns;
 		ConcoctionDatabase.turnFreeJewelcraftingLimit.creatable = 0;
 		ConcoctionDatabase.turnFreeJewelcraftingLimit.visibleTotal = ConcoctionDatabase.turnFreeJewelcraftingLimit.total;
 
@@ -2941,7 +2941,7 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "SSAUCE" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
-			ConcoctionDatabase.requirements.add( CraftingRequirements.REAGENT );
+			ConcoctionDatabase.requirements.add( CraftingRequirements.WAY );
 		}
 		// Items requiring Deep Saucery
 		else if ( mix.equals( "DSAUCE" ) )
@@ -3181,6 +3181,13 @@ public class ConcoctionDatabase
 				o instanceof QueuedConcoction &&
 				this.concoction.equals( ( (QueuedConcoction) o ).concoction ) &&
 				this.count == ( (QueuedConcoction) o ).count;
+		}
+
+		@Override
+		public int hashCode() {
+			int hash = ( this.concoction != null ? this.concoction.hashCode() : 0 );
+			hash = 31 * hash + this.count;
+			return hash;
 		}
 	}
 }
