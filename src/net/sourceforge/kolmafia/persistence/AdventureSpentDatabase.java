@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 
 /*
- * Instead of packing and unpacking a giant treemap into user preference files, this is a way of persisting a variable across sessions.
+ * Instead of packing and unpacking a giant map into user preference files, this is a way of persisting a variable across sessions.
  * Uses the Java Serializable interface.
  */
 
@@ -63,8 +63,10 @@ public class AdventureSpentDatabase
 {
 
 	private static Map<String, Integer> TURNS = new TreeMap<String, Integer>();
-	
+
 	private static int lastTurnUpdated = -1;
+	
+	public static boolean noncombatEncountered = false;
 
 	// debugging tool
 	public static void showTurns()

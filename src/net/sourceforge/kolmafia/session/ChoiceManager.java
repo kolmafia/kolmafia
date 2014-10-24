@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -8736,7 +8737,7 @@ public abstract class ChoiceManager
 		if ( text.contains( "charpane.php" ) )
 		{
 			// Since a charpane refresh was requested, a turn might have been spent
-			CharPaneRequest.noncombatEncountered = true;
+			AdventureSpentDatabase.noncombatEncountered = true;
 		}
 
 		PostChoiceAction action = ChoiceManager.action;
