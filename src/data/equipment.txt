@@ -2594,6 +2594,7 @@ sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
 shellacked shell	10	none
 shocked shell	100	Mus: 50
+Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
