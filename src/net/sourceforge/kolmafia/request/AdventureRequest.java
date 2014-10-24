@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -473,7 +474,7 @@ public class AdventureRequest
 			if ( responseText.contains( "charpane.php" ) )
 			{
 				// Since a charpane refresh was requested, this might have taken a turn
-				CharPaneRequest.noncombatEncountered = true;
+				AdventureSpentDatabase.noncombatEncountered = true;
 			}
 		}
 

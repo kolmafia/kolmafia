@@ -89,8 +89,6 @@ public class CharPaneRequest
 	public static boolean compactCharacterPane = false;
 	public static boolean familiarBelowEffects = false;
 
-	public static boolean noncombatEncountered = false;
-
 	public CharPaneRequest()
 	{
 		super( "charpane.php" );
@@ -966,11 +964,11 @@ public class CharPaneRequest
 			KoLAdventure.setNextAdventure( adventure );
 		}
 
-		if ( CharPaneRequest.noncombatEncountered && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated() )
+		if ( AdventureSpentDatabase.noncombatEncountered && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated() )
 		{
 			AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 		}
-		CharPaneRequest.noncombatEncountered = false;
+		AdventureSpentDatabase.noncombatEncountered = false;
 		AdventureSpentDatabase.setLastTurnUpdated( KoLCharacter.getCurrentRun() );
 	}
 
