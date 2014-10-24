@@ -1683,35 +1683,6 @@ public class UseSkillRequest
 			return true;
 		}
 
-		if ( responseText.contains( "You can't use that skill" ) && 
-		     skillId != SkillPool.ADVANCED_SAUCECRAFTING &&
-		     skillId != SkillPool.ADVANCED_COCKTAIL &&
-		     skillId != SkillPool.PASTAMASTERY )
-		{
-			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
-			if ( skillId == SkillPool.PSYCHOKINETIC_HUG )
-			{
-				Preferences.setBoolean( "_psychokineticHugUsed", true );
-			}
-			if ( skillId == SkillPool.THROW_PARTY )
-			{
-				Preferences.setBoolean( "_petePartyThrown", true );
-			}
-			if ( skillId == SkillPool.INCITE_RIOT )
-			{
-				Preferences.setBoolean( "_peteRiotIncited", true );
-			}
-			if ( skillId == SkillPool.SPAGHETTI_BREAKFAST )
-			{
-				Preferences.setBoolean( "_spaghettiBreakfast", true );
-			}
-			if ( skillId == SkillPool.GRAB_A_COLD_ONE )
-			{
-				Preferences.setBoolean( "_coldOne", true );
-			}
-			return true;
-		}
-
 		if ( responseText.contains( "You can't cast this spell because you are not an Accordion Thief" ) )
 		{
 			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
