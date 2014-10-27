@@ -7556,7 +7556,9 @@ public abstract class ChoiceManager
 		{
 			// A Radio on a Beach
 			// Clear quests when accepting a new one as you can only have one
-			if ( text.contains( "your best paramilitary-sounding radio lingo" ) )
+			// Also clear quests if there is no quest active at the radio
+			if ( text.contains( "your best paramilitary-sounding radio lingo" ) ||
+			     text.contains( "Maybe try again tomorrow" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
@@ -7618,7 +7620,7 @@ public abstract class ChoiceManager
 				Preferences.resetToDefault( "junglePuns" );
 			}
 			// Gore quest finished (start handled in ResultProcessor)
-			else if ( text.contains( "environmental gore levels are now" ) )
+			else if ( text.contains( "bucket came from" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.GORE_BUCKET );
 				ResultProcessor.removeItem( ItemPool.GORE_BUCKET );
