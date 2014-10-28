@@ -1665,7 +1665,7 @@ Ellsbury's skull	Meat Drop: +10, Item Drop: +10
 enchanted brass knuckles	Critical Hit Percent: +5
 # enchanted fire extinguisher: All Spells Cast Are Cold
 enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30
-# encrypted mini-cassette recorder: Optimized for Pun-Recording
+# encrypted micro-cassette recorder: Optimized for Pun-Recording
 # Engorged Sausages and You: All Spells Cast Are Sleazy
 Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
 eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
