@@ -7848,7 +7848,7 @@
 7829	trench lighter	978087658	trenchlighter.gif	offhand	t	0
 7830	experimental serum P-00	872587932	vial.gif	multiple	t,d	225	vials of experimental serum P-00
 7831	military-grade fingernail clippers	509291795	nailclippers.gif	none, combat reusable	q	0
-7832	encrypted mini-cassette recorder	365131352	recorder.gif	offhand	q	0
+7832	encrypted micro-cassette recorder	365131352	recorder.gif	offhand	q	0
 7833	gore bucket	744028476	pail.gif	offhand	q	0
 7834	pack of smokes	966737764	smokes.gif	none	q	0
 7835	ESP suppression collar	887199815	espcollar.gif	accessory	q	0
