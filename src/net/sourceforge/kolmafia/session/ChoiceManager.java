@@ -7606,7 +7606,7 @@ public abstract class ChoiceManager
 				Preferences.setString( "EVEDirections" , directions.toString() );
 			}
 			// EVE quest finished
-			else if ( text.contains( "Neutralization of experimental subject has been confirmed" ) )
+			else if ( text.contains( "a tiny parachute" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
 				Preferences.resetToDefault( "EVEDirections" );
@@ -7640,7 +7640,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.STARTED );
 			}
 			// Fake Medium quest finished
-			else if ( text.contains( "ESP suppression collar be thrown into the ocean" ) )
+			else if ( text.contains( "toss the device into the ocean" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.ESP_COLLAR );
 				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
