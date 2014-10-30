@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1009,6 +1010,16 @@ public class UseItemRequest
 				return 0;
 			}
 			return 1;
+
+		case ItemPool.GAUDY_KEY:
+			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) &&
+			     !EquipmentManager.isWearingOutfit( OutfitPool.SWASHBUCKLING_GETUP ) )
+			{
+				UseItemRequest.limiter = "not wearing pirate gear";
+				return 0;
+			}
+			return Integer.MAX_VALUE;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -2946,6 +2957,7 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "You've already maxed out Belch The Rainbow.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
+				Preferences.setInteger( "skillLevel117", 11 );
 				return;
 			}
 
@@ -4843,6 +4855,15 @@ public class UseItemRequest
 				RequestLogger.updateSessionLog( message );
 				Preferences.setBoolean( "unknownRecipe" + itemId, false );
 			}
+			return;
+
+		case ItemPool.GAUDY_KEY:
+			if ( !responseText.contains( "the key vanishes" ) )
+			{
+				ResultProcessor.processItem( itemId, 1 );
+			}
+			return;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
