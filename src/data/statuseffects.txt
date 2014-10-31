@@ -1058,7 +1058,8 @@
 1057	Beginning at Home	choker.gif	6466f68c2634e234b5eabcaffd593cd7	use 1 Charity's choker
 1058	Boned Up	powder.gif	91f915342b4b58b4ae5dd4ecf94f9cf4	use 1 Smart Bone Dust
 1059	Batted Around	perpguano.gif	6c35aa714f931fb9a387d48e9bbb9323	use 1 perpendicular guano
-1060
+# Next line commented out as there is already an effect with that name
+#1060	Chocolate Reign	chips.gif	40bd3d89a2bff2af46c15d53efe21060	use 1 White Chocolate Golem Seeds
 1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
 1062	Three King-sized Sheets to the Wind	lifesaver.gif	0fa2345811faba8cd2aa846bed0b7c89	use 1 giant breath mint
 1063	Ski Ballin'	mueslix.gif	4837fd13d9d4d009dd2f16e15c7f2fad	use 1 enchanted muesli

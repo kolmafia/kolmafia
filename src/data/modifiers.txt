@@ -3944,6 +3944,7 @@ Chilled to the Bone	Mana Cost: +3
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Chocolate Reign	Moxie: +10
+# Chocolate Reign Avatar: "white chocolate golem" - Commented out as there is already an effect with this name
 Chocolatesphere	Combat Rate: -15
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
