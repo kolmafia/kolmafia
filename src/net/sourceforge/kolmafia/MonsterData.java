@@ -140,11 +140,13 @@ public class MonsterData
 		if ( this.scale > Integer.MIN_VALUE )
 		{
 			int hp = KoLCharacter.getAdjustedMuscle() + this.scale;
-			hp = hp > this.cap ? this.cap : hp < this.floor ? this.floor : hp;
+			hp = hp > this.cap ? this.cap : hp;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (int) Math.floor( Math.max( 1, ( hp + ml * this.mlMult ) * 0.75 * getBeeosity() ) );
-		}			
+			hp = (int) Math.floor( ( hp + ml * this.mlMult ) * 0.75 * getBeeosity() );
+			hp = hp < this.floor ? this.floor : hp;
+			return (int) Math.max( 1, hp );
+		}
 		if ( this.health == null )
 		{
 			return 0;
@@ -199,10 +201,12 @@ public class MonsterData
 		if ( this.scale > Integer.MIN_VALUE )
 		{
 			int attack = KoLCharacter.getAdjustedMoxie() + this.scale;
-			attack = attack > this.cap ? this.cap : attack < this.floor ? this.floor : attack;
+			attack = attack > this.cap ? this.cap : attack;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (int) Math.floor( Math.max( 1, ( attack + ml * this.mlMult ) * getBeeosity() ) );
+			attack = (int) Math.floor( ( attack + ml * this.mlMult ) * getBeeosity() );
+			attack = attack < this.floor ? this.floor : attack;
+			return (int) Math.max( 1, attack );
 		}			
 		if ( this.attack == null )
 		{
@@ -263,7 +267,9 @@ public class MonsterData
 			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (int) Math.floor( Math.max( 1, ( defense + ml ) * getBeeosity() * ( 1 - reduceMonsterDefense ) ) );
+			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
+			defense = defense < this.floor ? this.floor : defense;
+			return (int) Math.floor( Math.max( 1, defense * ( 1 - reduceMonsterDefense ) ) );
 		}			
 		if ( this.defense == null )
 		{

@@ -2809,10 +2809,11 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.WEEDY_SKIRT );
 		}
 
-		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah! 
-		if ( responseText.contains( "flaming paper drifts into your unnamed cocktail" ) )
+		// You fall to the ground, overcome by your wounds.  As you lose consciousness,
+		// the last thing you see is your first-ait kit opening of its own accord.
+		if ( responseText.contains( "first-ait kit opening of its own accord" ) )
 		{
-			ResultProcessor.processItem( ItemPool.UNNAMED_COCKTAIL, -1 );
+			EquipmentManager.discardEquipment( ItemPool.FIRST_AID_POUCH );
 		}
 
 		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah! 

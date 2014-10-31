@@ -5460,6 +5460,7 @@ You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Liver	Maximum HP: +200, HP Regen Min: 20, HP Regen Max: 40
 You Read The Manual	Experience (Mysticality): +4
 You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
+You're Back...	Spooky Damage: +300, Muscle: +25, Maximum HP Percent: -25, Moxie: -10
 You're High as a Crow, Marty	Initiative: +100
 # You're In Trouble: It was... the drinking fountain...
 You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
@@ -5472,6 +5473,7 @@ Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Yuletide Sappiness	Mysticality Percent: +10
+Zero Energy Maximum	MP Percent: +200, Maximum MP: +50
 Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
