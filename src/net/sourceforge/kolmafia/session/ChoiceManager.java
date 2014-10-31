@@ -163,7 +163,6 @@ public abstract class ChoiceManager
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
-	private static final Pattern NAVIGATION_PATTERN = Pattern.compile( "protocol( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)( Lima| Romeo| &lt;<i>garbled</i>&gt;|... &lt;<i>static</i>&gt;)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7570,40 +7569,10 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
 			}
 			// EVE quest started
-			Matcher navigationMatcher = NAVIGATION_PATTERN.matcher( text );
-			if ( navigationMatcher.find() )
+			if ( text.contains( "navigation protocol" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.STARTED );
-				StringBuilder directions = new StringBuilder();
-				String old = Preferences.getString( "EVEDirections" );
-				for ( int i = 1 ; i <= 5 ; i++ )
-				{
-					if ( navigationMatcher.group( i ).contains( "Lima" ) )
-					{
-						directions.append( "L" );
-					}
-					else if ( navigationMatcher.group( i ).contains( "Romeo" ) )
-					{
-						directions.append( "R" );
-					}
-					else if ( old.length() == 6 )
-					{
-						if ( old.charAt( i-1 ) == 'L' || old.charAt( i-1 ) == 'R' )
-						{
-							directions.append( old.charAt( i-1 ) );
-						}
-						else
-						{
-							directions.append( "." );
-						}
-					}
-					else
-					{
-						directions.append( "." );
-					}
-				}
-				directions.append( "0" );
-				Preferences.setString( "EVEDirections" , directions.toString() );
+				Preferences.setString( "EVEDirections", "LLRLR0" );
 			}
 			// EVE quest finished
 			else if ( text.contains( "a tiny parachute" ) )

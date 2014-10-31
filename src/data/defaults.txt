@@ -408,7 +408,7 @@ user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
 user	envyfishMonster
-user	EVEDirections	
+user	EVEDirections	LLRLR0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
 user	fingernailsClipped	0
