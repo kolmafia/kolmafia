@@ -2070,7 +2070,10 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
 				    encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
 				    encounter.equalsIgnoreCase( "migratory pirate" ) ||
-				    encounter.equalsIgnoreCase( "peripatetic pirate" )
+				    encounter.equalsIgnoreCase( "peripatetic pirate" ) ||
+				    encounter.equalsIgnoreCase( "giant pumpkin-head" ) ||
+				    encounter.equalsIgnoreCase( "large-headed werewolf" ) ||
+				    encounter.equalsIgnoreCase( "oddly-proportioned ghost" )
 					  ) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );

@@ -1758,3 +1758,15 @@
 1757	Manbait	manbait.gif	c2a7f182fc1dfcac86961b56153da97c	use 1 the most dangerous bait
 1758	Empty Inside	owlstix.gif	0d5dba1c426229fd3d9450545244757e	eat 1 &quot;meat&quot; stick
 1759	Intimidating Mien	intimidate.gif	db7184725b683decf1e4f9e03cdd4d97	cast 1 Intimidating Mien
+1760
+1761
+1762
+1763
+1764
+1765
+1766
+1767
+1768
+1769	BOOsted	bar_boo.gif	788f68b7dedc246980ebf120973b99c4	use 1 BOOterfinger
+1770	Moon-Eyed	bar_moon.gif	b4b19e7da7326c315905e0fc5f4be4cf	use 1 Moonds
+1771	Big Punkin'	bar_punk.gif	e8c3596738cfd36a2b988e8754ddae0d	use 1 Big Punk

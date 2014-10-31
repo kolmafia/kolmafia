@@ -7930,3 +7930,9 @@
 7911
 7912
 7913	Size XI Wizard's Robe	410404363	xirobe.gif	container		0
+7914
+7915
+7916	mimeplasm	797429043	mimeplasm.gif	usable	t	0
+7917	BOOterfinger	791457623	bar_boo.gif	usable	t,d	15
+7918	Moonds	388230135	bar_moon.gif	usable	t,d	15
+7919	Big Punk	807031261	bar_punk.gif	usable	t,d	15

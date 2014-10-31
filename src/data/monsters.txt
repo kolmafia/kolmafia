@@ -1498,6 +1498,11 @@ jet-ski bandit	jetski.gif	Scale: 5 Cap: 1000 Floor: 10 Init: -10000 P: dude	impu
 Z-Rex	zrex.gif	Scale: 5 Cap: 1000 Floor: 10 Init: -10000 P: undead	Z-Bone steak (40)	tarnished bottlecap (20)
 superdupervirus	supervirus.gif	Scale: 5 Cap: 1000 Floor: 10 Init: -10000 P: horror	viral DNA (40)	tarnished bottlecap (20)
 
+# Halloween 2014
+giant pumpkin-head	headpumpkin.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Big Punk (n100)	mimeplasm (c100)
+large-headed werewolf	headwolf.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Moonds (n100)	mimeplasm (c100)
+oddly-proportioned ghost	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
+
 # Old Events
 
 # Crimbo Town Toy Factory (Crimbo 2005)
