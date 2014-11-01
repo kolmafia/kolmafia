@@ -12,6 +12,7 @@ Acqua Del Piatto Merlot	1	10	EPIC	3-10	60	60	60
 Acque Luride Grezze Cabernet	1	10	EPIC	6-10	60	60	60
 adequate rum	3	1	decent	4-5	0	20-30	10-20
 Alewife&trade; Ale	1	5	decent	2	0	0	0	15-30 MP, 5 Brined Liver
+Ambitious Turkey	1	5	EPIC	0	0	0	0	25 Turkey-Ambitious (+25 Init, +50 Meat Drop)
 Amnesiac Ale	2	5	awesome	0	0	0	0	30 All is Forgiven (+10 Familiar Weight)
 an evil little sump'm sump'm	4	4	awesome	12-16	0	20	50-75	10 A Little Bit Evil (+2 ML)
 Antarctic Ice Tea	5	1		14-19	0	0	0
