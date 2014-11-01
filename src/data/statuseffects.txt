@@ -1767,7 +1767,11 @@
 1765
 1766
 1767
-1768
+1768	Vented Spleen	liver.gif	1958208e342cd07f9f69ee796dfdd4ce	use 1 Bit O' Quail Spleen
 1769	BOOsted	bar_boo.gif	788f68b7dedc246980ebf120973b99c4	use 1 BOOterfinger
 1770	Moon-Eyed	bar_moon.gif	b4b19e7da7326c315905e0fc5f4be4cf	use 1 Moonds
 1771	Big Punkin'	bar_punk.gif	e8c3596738cfd36a2b988e8754ddae0d	use 1 Big Punk
+1772	Took Eleven 11.gif	54b01b39a44c4d0fd5c63ef72e201da0	use 1 Take Eleven Bar
+1773
+1774
+1775	Turkey-Ambitious	fistturkey.gif	bcf0e75e107b9dc2cd9e116cfe1b5f9c	drink 1 Ambitious Turkey

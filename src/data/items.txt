@@ -7930,11 +7930,14 @@
 7911
 7912
 7913	Size XI Wizard's Robe	410404363	xirobe.gif	container		0
-7914
-7915
+7914	Bit O' Quail Spleen	632392031	liver.gif	usable	t,d	5
+7915	Take Eleven Bar	491996669	candybar.gif	usable	t,d	5
 7916	mimeplasm	797429043	mimeplasm.gif	usable	t	0
 7917	BOOterfinger	791457623	bar_boo.gif	usable	t,d	15
 7918	Moonds	388230135	bar_moon.gif	usable	t,d	15
 7919	Big Punk	807031261	bar_punk.gif	usable	t,d	15
 7920	fist turkey outline	490301221	fistoutline.gif	grow	t	0
 7921	brass turkey knuckles	886705665	turkeyknuckles.gif	familiar	t,d	75
+7922
+7923
+7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15
