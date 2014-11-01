@@ -7936,3 +7936,5 @@
 7917	BOOterfinger	791457623	bar_boo.gif	usable	t,d	15
 7918	Moonds	388230135	bar_moon.gif	usable	t,d	15
 7919	Big Punk	807031261	bar_punk.gif	usable	t,d	15
+7920	fist turkey outline	490301221	fistoutline.gif	grow	t	0
+7921	brass turkey knuckles	886705665	turkeyknuckles.gif	familiar	t,d	75
