@@ -288,6 +288,10 @@ public class CoinmastersDatabase
 		{
 			return Preferences.getInteger( "pirateSwagger" ) >= 1000;
 		}
+		if ( name.equals( "holiday hal's happy-time fun book!" ) )
+		{
+			return Preferences.getInteger( "holidaySwagger" ) >= 1000;
+		}
 
 		return true;
 	}

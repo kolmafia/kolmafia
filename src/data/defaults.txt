@@ -480,6 +480,8 @@ user	hiddenHospitalProgress	0
 user	hiddenOfficeProgress	0
 user	hiddenTavernUnlock	-1
 user	hippiesDefeated	0
+user	holidayHalsBookAvailable	true
+user	holidaySwagger	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
