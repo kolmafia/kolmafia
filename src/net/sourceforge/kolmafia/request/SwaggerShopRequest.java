@@ -146,7 +146,8 @@ public class SwaggerShopRequest
 	}
 
 	// You've earned 600 swagger during a pirate season, yarrr.
-	private static final Pattern PIRATE_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during a pirate season" );
+	// You've earned 2 swagger during a holiday season, fun!
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during a (pirate|holiday) season" );
 
 	public static void parseResponse( final String location, final String responseText )
 	{
@@ -157,15 +158,23 @@ public class SwaggerShopRequest
 			// Parse current swagger
 			CoinMasterRequest.parseBalance( data, responseText );
 
-			// Determine how much swagger has been found during a pirate season
-			Matcher pirateMatcher = SwaggerShopRequest.PIRATE_PATTERN.matcher( responseText );
-			if ( pirateMatcher.find() )
+			// Determine how much swagger has been found during a special season
+			Matcher seasonMatcher = SwaggerShopRequest.SEASON_PATTERN.matcher( responseText );
+			if ( seasonMatcher.find() )
 			{
-				int pirateSwagger = StringUtilities.parseInt( pirateMatcher.group( 1 ) );
-				Preferences.setInteger( "pirateSwagger", pirateSwagger );
+				int seasonSwagger = StringUtilities.parseInt( seasonMatcher.group( 1 ) );
+				String season = seasonMatcher.group( 2 );
+				if ( season.equals( "pirate" ) )
+				{
+					Preferences.setInteger( "pirateSwagger", seasonSwagger );
+					Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
+				}
+				else if ( season.equals( "holiday" ) )
+				{
+					Preferences.setInteger( "holidaySwagger", seasonSwagger );
+					Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
+				}
 			}
-
-			Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
 
 			return;
 		}
