@@ -202,7 +202,7 @@ public class SpleenItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
-		if ( responseText.contains( "You don't have the item you are trying to use" ) )
+		if ( responseText.contains( "You don't have the item" ) )
 		{
 			// Double clicked a use link, say
 			return;
