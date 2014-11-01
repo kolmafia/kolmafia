@@ -194,3 +194,4 @@
 185	Helix Fossil	foss_amm.gif	combat	7586	S.S. Ticket	0	0	0	3
 186	Xiblaxian Holo-Companion	holobuddy.gif	none	7741	Xiblaxian holo-bowtie	1	2	1	2
 187	Baby Z-Rex	babyzrex.gif	none	7822	french-fry grabber	3	0	0	0
+188	Fist Turkey	fistturkey.gif	item0,combat	7920	brass turkey knuckles	0	0	0	0
