@@ -2492,8 +2492,8 @@ rubber cape	MUSE	rubber nubbin (11)
 # Xiblaxian 5D Printer
 Xiblaxian xeno-detection goggles	5D, ROW337	Xiblaxian polymer (4)	Xiblaxian crystal (2)
 Xiblaxian stealth cowl	5D, ROW334	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
-Xiblaxian stealth cowl	5D, ROW336	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
-Xiblaxian stealth trousers	5D, ROW335	Xiblaxian circuitry (9)	Xiblaxian polymer (5)	Xiblaxian alloy (5)
+Xiblaxian stealth vest	5D, ROW336	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
+Xiblaxian stealth trousers	5D, ROW335	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
 Xiblaxian ultraburrito	5D, ROW339	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
 Xiblaxian space-whiskey	5D, ROW338	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
 Xiblaxian residence-cube	5D, ROW340	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)

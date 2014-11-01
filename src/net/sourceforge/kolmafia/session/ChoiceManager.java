@@ -2464,7 +2464,16 @@ public abstract class ChoiceManager
 		// Choice 637 is unknown
 		// Choice 638 is unknown
 		// Choice 639 is unknown
-		// Choice 640 is unknown
+
+		// Choice 640 is Tailor the Snow Suit
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure640", "Snow Suit",
+			new Object[] { "Familiar does physical damage",
+							"Familiar does cold damage",
+							"+10% item drops, can drop carrot nose",
+							"Heals 1-20 HP after combat",
+							"Restores 1-10 MP after combat" } ),
+
 		// Choice 641 is Stupid Pipes.
 		// Choice 642 is You're Freaking Kidding Me
 		// Choice 643 is Great. A Stupid Door. What Next?
