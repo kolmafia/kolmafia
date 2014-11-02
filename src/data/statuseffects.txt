@@ -1772,6 +1772,6 @@
 1770	Moon-Eyed	bar_moon.gif	b4b19e7da7326c315905e0fc5f4be4cf	use 1 Moonds
 1771	Big Punkin'	bar_punk.gif	e8c3596738cfd36a2b988e8754ddae0d	use 1 Big Punk
 1772	Took Eleven 11.gif	54b01b39a44c4d0fd5c63ef72e201da0	use 1 Take Eleven Bar
-1773
-1774
+1773	Turkey-Friendly	fistturkey.gif	b39c8b9f985fc7e6383259f2582cd61a	drink 1 Friendly Turkey
+1774	Turkey-Agitated	fistturkey.gif	f9510c347b1bbff712c9fcccd5e3b840	drink 1 Agitated Turkey
 1775	Turkey-Ambitious	fistturkey.gif	bcf0e75e107b9dc2cd9e116cfe1b5f9c	drink 1 Ambitious Turkey

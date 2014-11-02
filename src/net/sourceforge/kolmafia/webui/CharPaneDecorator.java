@@ -667,6 +667,11 @@ public class CharPaneDecorator
 			buffer.append( "/5" );
 			return buffer;
 
+		case FamiliarPool.FIST_TURKEY:
+			buffer.append( Preferences.getString( "_turkeyBooze" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		}
 
 		return null;

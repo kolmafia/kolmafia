@@ -109,4 +109,5 @@ public class FamiliarPool
 	public static final int GRIMSTONE_GOLEM = 178;
 	public static final int GRIM_BROTHER = 179;
 	public static final int GALLOPING_GRILL = 183;
+	public static final int FIST_TURKEY = 188;
 }

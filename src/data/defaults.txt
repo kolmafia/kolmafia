@@ -1195,6 +1195,7 @@ user	_transponderDrops	0
 user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
+user	_turkeyBooze	0
 user	_turtlePowerCast	false
 user	_ultraMegaSourBallUsed	false
 user	_unknownEasyBountyItem	
