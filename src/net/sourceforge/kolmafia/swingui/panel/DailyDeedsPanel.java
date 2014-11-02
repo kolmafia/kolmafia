@@ -2702,6 +2702,7 @@ public class DailyDeedsPanel
 			this.addListener( "_grimFairyTaleDrops" );
 			this.addListener( "_grimFairyTaleDropsCrown" );
 			this.addListener( "_hotAshesDrops" );
+			this.addListener( "_turkeyBooze" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
@@ -3075,6 +3076,26 @@ public class DailyDeedsPanel
 				buffer.append( grillDrops );
 				buffer.append( " hot ashes" );
 				if ( grillDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData fistTurkey = KoLCharacter.findFamiliar( FamiliarPool.FIST_TURKEY );
+			int turkeyDrops = Preferences.getInteger( "_turkeyBooze" );
+			if ( ( fistTurkey != null && fistTurkey.canEquip() ) || turkeyDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( turkeyDrops );
+				buffer.append( " turkey booze" );
+				if ( turkeyDrops != 1 ) buffer.append( "s" );
 				shown = true;
 				count++;
 			}

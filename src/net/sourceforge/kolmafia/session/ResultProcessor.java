@@ -2447,6 +2447,15 @@ public class ResultProcessor
 				QuestDatabase.setQuestProgress( Quest.ESCAPE, "step7" );
 			}
 			break;
+
+		case ItemPool.FRIENDLY_TURKEY:
+		case ItemPool.AGITATED_TURKEY:
+		case ItemPool.AMBITIOUS_TURKEY:
+			if ( combatResults )
+			{
+				Preferences.increment( "_turkeyBooze" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.

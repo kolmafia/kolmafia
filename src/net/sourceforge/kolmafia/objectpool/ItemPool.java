@@ -2145,6 +2145,9 @@ public class ItemPool
 	public static final int ESP_COLLAR = 7835;
 	public static final int GPS_WATCH = 7836;
 	public static final int PROJECT_TLB = 7837;
+	public static final int FRIENDLY_TURKEY = 7922;
+	public static final int AGITATED_TURKEY = 7923;
+	public static final int AMBITIOUS_TURKEY = 7924;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

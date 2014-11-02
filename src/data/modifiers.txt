@@ -5342,7 +5342,9 @@ Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 Truly Gritty	Weapon Damage: +20, Muscle: +20
 Truthful	Monster Level: +40
 Tundra Mouth	Cold Damage: [min(100,T)]
+Turkey-Agitated	Item Drop: +25
 Turkey-Ambitious	Initiative: +25, Meat Drop: +50
+Turkey-Friendly	Familiar Weight: +5
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Turtle Power	MP Regen Min: 4, MP Regen Max: 5
 Turtle Titters	Experience: +3
@@ -6027,6 +6029,7 @@ yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
 # Boozes section of modifiers.txt
 
+Agitated Turkey	Effect: "Turkey-Agitated", Effect Duration: 25
 Alewife&trade; Ale	Effect: "Brined Liver", Effect Duration: 5
 Ambitious Turkey	Effect: "Turkey-Ambitious", Effect Duration: 25
 an evil little sump'm sump'm	Effect: "A Little Bit Evil", Effect Duration: 10
@@ -6113,6 +6116,7 @@ Flaming Mohobo	Effect: "Mo' Hobo", Effect Duration: 15
 Flaming Sazerorc	Effect: "Orc Chops", Effect Duration: 15
 Flying Caipiranha	Effect: "Fishy", Effect Duration: 10
 French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Duration: 40
+Friendly Turkey	Effect: "Turkey-Friendly", Effect Duration: 25
 Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 flat cider	Effect: "Fruited", Effect Duration: 100
 Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10

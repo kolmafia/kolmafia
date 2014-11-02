@@ -7938,6 +7938,6 @@
 7919	Big Punk	807031261	bar_punk.gif	usable	t,d	15
 7920	fist turkey outline	490301221	fistoutline.gif	grow	t	0
 7921	brass turkey knuckles	886705665	turkeyknuckles.gif	familiar	t,d	75
-7922
-7923
+7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5
+7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10
 7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15
