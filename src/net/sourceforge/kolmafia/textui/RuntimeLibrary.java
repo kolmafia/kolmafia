@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2013, KoLmafia development team
+ * Copyright (c) 2005-2014, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -113,6 +113,8 @@ import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -750,6 +752,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_mushroom_plot", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "craft_type", DataTypes.STRING_TYPE, params ) );
 
 		// The following functions pertain to providing updated
 		// information relating to the player.
@@ -4016,6 +4021,19 @@ public abstract class RuntimeLibrary
 	public static Value have_mushroom_plot( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( MushroomManager.ownsPlot() );
+	}
+
+	public static Value craft_type( Interpreter interpreter, final Value arg )
+	{
+		int itemId = (int) arg.intValue();
+		Concoction conc = ConcoctionPool.get( itemId );
+		if ( conc == null )
+		{
+			return new Value( "none" );
+		}
+		CraftingType method = conc.getMixingMethod();
+		EnumSet<CraftingRequirements> requirements = conc.getRequirements();
+		return new Value( ConcoctionDatabase.mixingMethodDescription( method, requirements ) );
 	}
 
 	// The following functions pertain to providing updated
