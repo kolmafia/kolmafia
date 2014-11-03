@@ -4522,6 +4522,14 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.SPRING_BEACH_TATTOO_COUPON:
+			if ( !responseText.contains( "stagger into the back room" ) )
+			{
+				// If not drunk enough the items is not consumed
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.CONSPIRACY_ISLAND_CHARTER:
 			Preferences.setBoolean( "spookyAirportAlways", true );
 			return;

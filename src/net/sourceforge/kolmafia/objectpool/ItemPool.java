@@ -2077,6 +2077,7 @@ public class ItemPool
 	public static final int OFFENSIVE_JOKE_BOOK = 7458;
 	public static final int COOKING_WITH_GREASE_BOOK = 7459;
 	public static final int DINER_HANDBOOK = 7460;
+	public static final int SPRING_BEACH_TATTOO_COUPON = 7465;
 	public static final int SPRING_BEACH_CHARTER = 7466;
 	public static final int SPRING_BEACH_TICKET = 7467;
 	public static final int MOIST_BEADS = 7475;
