@@ -4826,7 +4826,7 @@
 4807	Unmotivator: Crashed Meat Car	473690694	subcard.gif	none, curse	g	0
 4808
 4809
-4810
+4810	Holiday Hal's Happy-Time Fun Book!	486938484	book.gif	usable		0
 4811
 4812
 4813
