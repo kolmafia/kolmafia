@@ -221,12 +221,12 @@ public abstract class UseLinkDecorator
 					if ( bountyCount.equals( bountyTotal ) )
 					{
 						UseLink useLink = new UseLink( "return to hunter", "bounty.php" );
-						useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ useLink.getItemHTML() );
+						useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ useLink.getItemHTML() + "$4" );
 						link = true;
 					}
 				}
 			}
-			else
+			else if ( !useLinkMatcher.group( 4 ).contains( "Hagnk" ) )
 			{
 				int itemCount = 1;
 				String itemName = useLinkMatcher.group( 3 );
@@ -268,7 +268,7 @@ public abstract class UseLinkDecorator
 			// If we added no link, copy in the text verbatim
 			if ( !link )
 			{
-				useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b></td>" );
+				useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b>$4</td>" );
 			}
 
 			// If we are currently deferring use links or have
@@ -514,7 +514,7 @@ public abstract class UseLinkDecorator
 
 		useLinkMatcher.appendReplacement(
 			buffer,
-			"$1$2<b>$3</b>$4 <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font></td>" );
+			"$1$2<b>$3</b> <font size=1>[<a href=\"" + useLocation + "\">" + useType + "</a>]</font></td>" + "$4"  );
 		return true;
 	}
 
@@ -527,7 +527,7 @@ public abstract class UseLinkDecorator
 			return false;
 		}
 
-		useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ link.getItemHTML() );
+		useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b> "+ link.getItemHTML() + "$4"  );
 
 		buffer.append( "</td>" );
 		return true;
