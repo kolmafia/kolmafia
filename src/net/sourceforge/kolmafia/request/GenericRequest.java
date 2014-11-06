@@ -91,7 +91,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -1114,7 +1113,6 @@ public class GenericRequest
 
 			else if ( expired.getLabel().equals( "Spookyraven Lights Out" ) )
 			{
-				RequestLogger.printLine( "hi" );
 				message += " " + LightsOutManager.message();
 			}
 
