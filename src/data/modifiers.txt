@@ -5063,6 +5063,7 @@ Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Snow Fortified	Item Drop: +25, Meat Drop: +50, Maximum MP: +50, Maximum HP: +100
 Snow Shoes	Combat Rate: -5
 So Fresh and So Clean	Experience Percent (Moxie): +5
+# So Much Holiday Fun!: You Feel Fantastic!
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
 Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50)]
@@ -6698,6 +6699,7 @@ hibernating robot reindeer	Free Pull
 Highest Bitter	Effect: "Mercenary", Effect Duration: 60
 hippy paste	Effect: "Hippy Flavor", Effect Duration: 10
 hobo paste	Effect: "Hobo Flavor", Effect Duration: 10
+Holiday Fun!	Free Pull
 holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 homeless hobo spirit	Free Pull
