@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
-import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1539,7 +1538,7 @@ public abstract class SorceressLairManager
 		return itemId;
 	}
 
-	private static final int fightTowerGuardians( boolean fightFamiliarGuardians )
+	private static final int fightTowerGuardians( boolean fightShadow )
 	{
 		if ( !SorceressLairManager.checkPrerequisites( 4, 6 ) )
 		{
@@ -1665,7 +1664,7 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		if ( !fightFamiliarGuardians )
+		if ( !fightShadow )
 		{
 			KoLmafia.updateDisplay( "Path to shadow cleared." );
 			return -1;
@@ -1685,46 +1684,8 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		if ( n == 3 )
-		{
-			SpecialOutfit.createImplicitCheckpoint();
-			SorceressLairManager.familiarBattle( 3 );
-			SpecialOutfit.restoreImplicitCheckpoint();
-			
-			if ( KoLmafia.permitsContinue() )
-			{
-				++n;
-			}
-			else
-			{
-				return -1;
-			}
-		}
+		KoLmafia.updateDisplay( "The final showdown awaits." );
 
-		if ( n == 4 )
-		{
-			SpecialOutfit.createImplicitCheckpoint();
-			SorceressLairManager.familiarBattle( 4 );
-			SpecialOutfit.restoreImplicitCheckpoint();
-
-			if ( KoLmafia.permitsContinue() )
-			{
-				++n;
-			}
-			else
-			{
-				return -1;
-			}
-		}
-
-		if ( KoLCharacter.isJarlsberg() )
-		{
-			KoLmafia.updateDisplay( "The final showdown awaits." );
-		}
-		else
-		{
-			KoLmafia.updateDisplay( "Her Naughtiness awaits." );
-		}
 		return -1;
 	}
 
@@ -2139,127 +2100,6 @@ public abstract class SorceressLairManager
 		{
 			InventoryManager.retrieveItem( item );
 		}
-	}
-
-	private static final void familiarBattle( final int n )
-	{
-		// If you are an Avatar of Jarlsberg, the familiar battle is replaced with a normal combat
-		if ( KoLCharacter.isJarlsberg() )
-		{
-			return;
-		}
-
-		// If you are an Avatar of Boris or a Zombie Master, you don't need - and can't use - familiars
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isSneakyPete() )
-		{
-			SorceressLairManager.familiarBattle( n, false );
-			return;
-		}
-
-		// Abort if you cannot heal to greater than 50 HP
-
-		RecoveryManager.recoverHP( 51 );
-		if ( KoLCharacter.getCurrentHP() <= 50 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You must have more than 50 HP to proceed." );
-			return;
-		}
-
-		// Since we are facing this familiar for the first time, we
-		// don't know what it is. Pick a random tower familiar.
-
-		String current = KoLCharacter.getFamiliar().getRace();
-
-		for ( int i = 0; i < SorceressLairManager.FAMILIAR_DATA.length; ++i )
-		{
-			String race = SorceressLairManager.FAMILIAR_DATA[ i ][ 1 ];
-
-			// Pick a new familiar, if possible; if we've just
-			// passed familiar #1, our current familiar is
-			// guaranteed to be the wrong one for #2.
-			if ( race.equals( current ) )
-			{
-				continue;
-			}
-
-			FamiliarData familiar = KoLCharacter.findFamiliar( race );
-			if ( familiar != null )
-			{
-				RequestThread.postRequest( new FamiliarRequest( familiar ) );
-				break;
-			}
-		}
-
-		// Go visit the chamber with the currently selected familiar
-		SorceressLairManager.familiarBattle( n, true );
-	}
-
-	private static final void familiarBattle( final int n, final boolean init )
-	{
-		// Take the current familiar in to face the Sorceress's pet
-		KoLmafia.updateDisplay( "Facing giant familiar..." );
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
-
-		// If you do not successfully pass the familiar, you will get a
-		// "stomp off in a huff" message.
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
-		{
-			return;
-		}
-
-		// If we failed, either we had the wrong familiar or it wasn't
-		// heavy enough. Find the necessary familiar and see if the
-		// player has one.
-
-		String text = SorceressLairManager.QUEST_HANDLER.responseText;
-		FamiliarData familiar = null;
-		String race = null;
-
-		for ( int i = 0; i < SorceressLairManager.FAMILIAR_DATA.length; ++i )
-		{
-			String [] data = SorceressLairManager.FAMILIAR_DATA[ i ];
-			if ( text.indexOf( data[ 0 ] ) != -1 )
-			{
-				race = data[ 1 ];
-				familiar = KoLCharacter.findFamiliar( race );
-				break;
-			}
-		}
-
-		// If we can't identify the Sorceress's familiar, give up
-		if ( race == null )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Server side change: cannot identify Sorceress's familiar" );
-			return;
-		}
-
-		// If not, tell the player to get one and come back.
-		if ( familiar == null )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Come back with a 20 pound " + race );
-			return;
-		}
-
-		// Switch to the required familiar
-		if ( KoLCharacter.getFamiliar() != familiar )
-		{
-			RequestThread.postRequest( new FamiliarRequest( familiar ) );
-		}
-
-		// If we can buff it to above 20 pounds, try again.
-		if ( familiar.getModifiedWeight() < 20 )
-		{
-			Maximizer.maximize( "familiar weight -tie", 0, 0, false );
-
-			if ( familiar.getModifiedWeight() < 20 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Come back with a 20 pound " + race );
-				return;
-			}
-		}
-
-		// We're good to go. Fight!
-		SorceressLairManager.familiarBattle( n, false );
 	}
 
 	/*
