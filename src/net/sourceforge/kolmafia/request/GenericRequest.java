@@ -1790,10 +1790,11 @@ public class GenericRequest
 		catch ( IOException e )
 		{
 			this.responseCode = this.getResponseCode();
+			String responseMessage = this.getResponseMessage();
 
 			if ( this.responseCode != 0 )
 			{
-				String message = "Server returned response code " + this.responseCode + " for " + this.baseURLString;
+				String message = "Server returned response code " + this.responseCode + " (" + responseMessage + ") for " + this.baseURLString;
 				RequestLogger.printLine( MafiaState.ERROR, message );
 			}
 
@@ -1881,6 +1882,22 @@ public class GenericRequest
 		}
 
 		return 0;
+	}
+
+	private String getResponseMessage()
+	{
+		if ( this.formConnection != null )
+		{
+			try
+			{
+				return this.formConnection.getResponseMessage();
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+
+		return "";
 	}
 
 	private static void forceClose( final InputStream stream)
