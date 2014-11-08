@@ -1316,11 +1316,6 @@ public class CreateItemRequest
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
 		// Delegate to subclasses if appropriate
-
-		if ( urlString.startsWith( "sugarsheets.php" ) )
-		{
-			return SugarSheetRequest.registerRequest( urlString );
-		}
 		
 		if ( urlString.startsWith( "shop.php" ) )
 		{

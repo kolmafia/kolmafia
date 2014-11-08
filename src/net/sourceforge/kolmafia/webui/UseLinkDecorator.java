@@ -358,7 +358,7 @@ public abstract class UseLinkDecorator
 
 	private static final CraftingType shouldAddCreateLink( int itemId, String location )
 	{
-		if ( location == null || location.indexOf( "craft.php" ) != -1 )
+		if ( location == null || location.contains( "craft.php" ) )
 		{
 			return CraftingType.NOCREATE;
 		}
@@ -1521,7 +1521,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.SUGAR_SHEET:
 
 			useType = "fold";
-			useLocation = "sugarsheets.php";
+			useLocation = "shop.php?whichshop=sugarsheets";
 			break;
 
 		// Link to the kegger if you acquired a phone number. That's
