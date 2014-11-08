@@ -4827,7 +4827,7 @@
 4808
 4809
 4810	Holiday Hal's Happy-Time Fun Book!	486938484	book.gif	usable		0
-4811
+4811	Holiday Fun!	166504292	holidaylog.gif	none	t	0
 4812
 4813
 4814

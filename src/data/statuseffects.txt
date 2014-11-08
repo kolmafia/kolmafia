@@ -1775,3 +1775,4 @@
 1773	Turkey-Friendly	fistturkey.gif	b39c8b9f985fc7e6383259f2582cd61a	drink 1 Friendly Turkey
 1774	Turkey-Agitated	fistturkey.gif	f9510c347b1bbff712c9fcccd5e3b840	drink 1 Agitated Turkey
 1775	Turkey-Ambitious	fistturkey.gif	bcf0e75e107b9dc2cd9e116cfe1b5f9c	drink 1 Ambitious Turkey
+1776	So Much Holiday Fun!	holidaylog.gif	b79638377565e23ebf70c2c85c3963b8
