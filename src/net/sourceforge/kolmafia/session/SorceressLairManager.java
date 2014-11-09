@@ -575,7 +575,7 @@ public abstract class SorceressLairManager
 
 		boolean needStarfish = !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete();
 
-		if ( !KoLCharacter.getFamiliarList().contains( SorceressLairManager.STARFISH ) && needStarfish )
+		if ( needStarfish && !KoLCharacter.getFamiliarList().contains( SorceressLairManager.STARFISH ) )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( SorceressLairManager.STARFISH_ITEM ) );
 			if ( !KoLmafia.permitsContinue() )
@@ -1277,7 +1277,7 @@ public abstract class SorceressLairManager
 
 		if ( inFistcore )
 		{
-			// Cast Worldpunch. Since you need it for the Tr4pz0r
+			// Cast Worldpunch. Since you need it for the Trapper
 			// quest, you must know it.
 			if ( !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
 			{
@@ -2337,20 +2337,19 @@ public abstract class SorceressLairManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step16" );
 		}
-		// Familiar 2 defeated
-		else if ( responseText.contains( "chamber5.gif" ) )
+
+		// step13 and step14 were the 2 familiars contests. Those are
+		// now gone. We could remove those steps from questslog.txt and
+		// make the final battle with Her Naughtiness be step13 and the
+		// emprismed king be step14, but for backward compatibility
+		// (for now), defeating the shadow takes you to step15.
+
+		// Shadow defeated
+		else if ( responseText.contains( "chamber3.gif" ) ||
+			  responseText.contains( "chamber4.gif" ) ||
+			  responseText.contains( "chamber5.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step15" );
-		}
-		// Familiar 1 defeated
-		else if ( responseText.contains( "chamber4.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step14" );
-		}
-		// Shadow defeated
-		else if ( responseText.contains( "chamber3.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step13" );
 		}
 		// Deflect energy with mirror shard
 		else if ( responseText.contains( "chamber2.gif" ) )
