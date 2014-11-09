@@ -41,8 +41,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.util.Iterator;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -87,23 +85,23 @@ public class CompactSidePane
 	implements Runnable
 {
 	private final JPanel levelPanel;
-	private JProgressBar levelMeter;
-	private JLabel levelLabel, roninLabel, mcdLabel;
-	private JLabel musLabel, mysLabel, moxLabel, classLabel, classValueLabel;
-	private JLabel fullLabel, drunkLabel, spleenLabel;
-	private JLabel hpLabel, mpLabel, meatLabel, advLabel;
-	private JLabel familiarLabel;
-	private JLabel mlLabel, encLabel, initLabel;
-	private JLabel expLabel, meatDropLabel, itemDropLabel;
-	private int MISC_LABELS = 4;
-	private JLabel[] miscLabel = new JLabel[ MISC_LABELS ];
-	private JLabel[] miscValueLabel = new JLabel[ MISC_LABELS ];
-	private JPopupMenu modPopup;
-	private JLabel modPopLabel;
+	private final JProgressBar levelMeter;
+	private final JLabel levelLabel, roninLabel, mcdLabel;
+	private final JLabel musLabel, mysLabel, moxLabel, classLabel, classValueLabel;
+	private final JLabel fullLabel, drunkLabel, spleenLabel;
+	private final JLabel hpLabel, mpLabel, meatLabel, advLabel, pvpLabel;
+	private final JLabel familiarLabel;
+	private final JLabel mlLabel, encLabel, initLabel;
+	private final JLabel expLabel, meatDropLabel, itemDropLabel;
+	private final int MISC_LABELS = 4;
+	private final JLabel[] miscLabel = new JLabel[ MISC_LABELS ];
+	private final JLabel[] miscValueLabel = new JLabel[ MISC_LABELS ];
+	private final JPopupMenu modPopup;
+	private final JLabel modPopLabel;
 
 	// Sneaky Pete's Motorcycle
-	private JPopupMenu motPopup;
-	private JLabel motPopLabel;
+	private final JPopupMenu motPopup;
+	private final JLabel motPopLabel;
 
 	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
 	private static final AdventureResult SLIMED = new AdventureResult( "Coated in Slime", 1, true );
@@ -159,22 +157,24 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 		panels[ panelCount ].setOpaque( false );
 
-		labelPanel = new JPanel( new GridLayout( 5, 1 ) );
+		labelPanel = new JPanel( new GridLayout( 6, 1 ) );
 		labelPanel.setOpaque( false );
 
 		labelPanel.add( new JLabel( "   HP: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( KoLCharacter.inZombiecore() ? "Horde: " : "   MP: ", JLabel.RIGHT ) );
 		labelPanel.add( this.classLabel = new JLabel( " ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Meat: ", JLabel.RIGHT ) );
+		labelPanel.add( new JLabel( "   PvP: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Adv: ", JLabel.RIGHT ) );
 
-		valuePanel = new JPanel( new GridLayout( 5, 1 ) );
+		valuePanel = new JPanel( new GridLayout( 6, 1 ) );
 		valuePanel.setOpaque( false );
 
 		valuePanel.add( this.hpLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.mpLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.classValueLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.meatLabel = new JLabel( " ", JLabel.LEFT ) );
+		valuePanel.add( this.pvpLabel = new JLabel( " ", JLabel.LEFT ) );
 		valuePanel.add( this.advLabel = new JLabel( " ", JLabel.LEFT ) );
 
 		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
@@ -275,6 +275,7 @@ public class CompactSidePane
 		this.classValueLabel.setForeground( Color.BLACK );
 		this.meatLabel.setForeground( Color.BLACK );
 		this.advLabel.setForeground( Color.BLACK );
+		this.pvpLabel.setForeground( Color.BLACK );
 		this.familiarLabel.setForeground( Color.BLACK );
 		this.mlLabel.setForeground( Color.BLACK );
 		this.encLabel.setForeground( Color.BLACK );
@@ -363,12 +364,8 @@ public class CompactSidePane
 					customMenu[ i ] = new JMenu( pref.split( "\\|", 2 )[ 0 ] );
 				}
 			}
-
-			Iterator it = KoLCharacter.getFamiliarList().iterator();
-			while ( it.hasNext() )
+			for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 			{
-				FamiliarData fam = (FamiliarData) it.next();
-
 				if ( fam == FamiliarData.NO_FAMILIAR )
 				{
 					continue;	// no menu item for this one
@@ -395,8 +392,8 @@ public class CompactSidePane
 				Modifiers mods = Modifiers.getModifiers( "Fam:" + fam.getRace() );
 				boolean added = false;
 				if ( FamiliarDatabase.isVolleyType( id ) ||
-				     FamiliarDatabase.isSombreroType( id ) ||
-				     (mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
+					  FamiliarDatabase.isSombreroType( id ) ||
+					  (mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
 				{
 					stat.add( new FamiliarMenuItem( fam ) );
 					added = true;
@@ -492,7 +489,7 @@ public class CompactSidePane
 	private static class FamiliarListener
 		extends ThreadedListener
 	{
-		private FamiliarData familiar;
+		private final FamiliarData familiar;
 
 		public FamiliarListener( FamiliarData familiar )
 		{
@@ -521,7 +518,7 @@ public class CompactSidePane
 	private static class UseItemListener
 		extends ThreadedListener
 	{
-		private String command;
+		private final String command;
 
 		public UseItemListener( AdventureResult item )
 		{
@@ -609,6 +606,7 @@ public class CompactSidePane
 		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 		this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+		this.pvpLabel.setText( KoLCharacter.getHippyStoneBroken() ? String.valueOf( KoLCharacter.getAttacksLeft() ) : "--" );
 
 		// Remove this if/when KoL supports Water Level effect on Oil Peak/Tavern
 		if ( KoLCharacter.inRaincore() )
@@ -784,24 +782,24 @@ public class CompactSidePane
 		String muffler = Preferences.getString( "peteMotorbikeMuffler" );
 		String seat = Preferences.getString( "peteMotorbikeSeat" );
 
-		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
+		StringBuilder buf = new StringBuilder( "<html><table border=1>" );
 		buf.append( "<tr><td>Tires</td><td>" );
-		buf.append( tires);
+		buf.append( tires );
 		buf.append( "</td></tr>" );
 		buf.append( "<tr><td>Gas Tank</td><td>" );
-		buf.append( gasTank);
+		buf.append( gasTank );
 		buf.append( "</td></tr>" );
 		buf.append( "<tr><td>Headlight</td><td>" );
-		buf.append( headlight);
+		buf.append( headlight );
 		buf.append( "</td></tr>" );
 		buf.append( "<tr><td>Cowling</td><td>" );
-		buf.append( cowling);
+		buf.append( cowling );
 		buf.append( "</td></tr>" );
 		buf.append( "<tr><td>Muffler</td><td>" );
-		buf.append( muffler);
+		buf.append( muffler );
 		buf.append( "</td></tr>" );
 		buf.append( "<tr><td>Seat</td><td>" );
-		buf.append( seat);
+		buf.append( seat );
 		buf.append( "</td></tr>" );
 		buf.append( "</table></html>" );
 
