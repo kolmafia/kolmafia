@@ -1492,6 +1492,10 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MYST, "step1" );
 			break;
 
+		case ItemPool.BIG_KNOB_SAUSAGE:
+			QuestDatabase.setQuestProgress( Quest.MUSCLE, "step1" );
+			break;
+
 		case ItemPool.BATSKIN_BELT:
 			if ( combatResults )
 			{
