@@ -335,13 +335,19 @@ public class GuildRequest
 
 		if ( place != null && place.equals( "challenge" ) )
 		{
+			// Muscle guild quest
 			// "Eleven inches!" he exclaims.
 			if ( responseText.contains( "Eleven inches" ) )
 			{
 				ResultProcessor.processItem( ItemPool.BIG_KNOB_SAUSAGE, -1 );
+				QuestDatabase.setQuestProgress( Quest.MUSCLE, QuestDatabase.FINISHED );
+			}
+			else if ( responseText.contains( "sausage" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MUSCLE, QuestDatabase.STARTED );
 			}
 			// Myst guild quests
-			if ( responseText.contains( "captured poltersandwich" ) )
+			else if ( responseText.contains( "captured poltersandwich" ) )
 			{
 				ResultProcessor.processItem( ItemPool.EXORCISED_SANDWICH, -1 );
 				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.FINISHED );
@@ -351,7 +357,7 @@ public class GuildRequest
 				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.STARTED );
 			}
 			// Moxie guild quests
-			if ( responseText.contains( "stole my own pants" ) )
+			else if ( responseText.contains( "stole my own pants" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.MOXIE, QuestDatabase.FINISHED );
 			}

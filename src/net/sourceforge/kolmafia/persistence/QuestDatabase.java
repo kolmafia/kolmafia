@@ -88,6 +88,7 @@ public class QuestDatabase
 			NEMESIS( "questG04Nemesis" ),
 			MYST( "questG07Myst" ),
 			MOXIE( "questG08Moxie" ),
+			MUSCLE( "questG09Muscle" ),
 			UNTINKER( "questM01Untinker" ),
 			ARTIST( "questM02Artist" ),
 			BUGBEAR( "questM03Bugbear" ),
