@@ -346,7 +346,6 @@ public abstract class KoLCharacter
 	// Status pane data which is rendered whenever
 	// the user issues a "status" type command.
 
-	private static int pvpRank = 0;
 	private static int attacksLeft = 0;
 	private static int availableMeat = 0;
 	private static int storageMeat = 0;
@@ -477,7 +476,6 @@ public abstract class KoLCharacter
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
 
-		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
 		KoLCharacter.totalSubpoints = new long[ 3 ];
@@ -1270,16 +1268,6 @@ public abstract class KoLCharacter
 	public static final void decrementLightning( final int decLightning )
 	{
 		KoLCharacter.setLightning( KoLCharacter.lightning - decLightning );
-	}
-
-	public static final int getPvpRank()
-	{
-		return KoLCharacter.pvpRank;
-	}
-
-	public static final void setPvpRank( final int pvpRank )
-	{
-		KoLCharacter.pvpRank = pvpRank;
 	}
 
 	public static final int getAttacksLeft()

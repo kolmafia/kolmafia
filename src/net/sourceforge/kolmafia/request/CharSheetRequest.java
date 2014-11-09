@@ -333,17 +333,6 @@ public class CharSheetRequest
 		// See if the player has a display case
 		KoLCharacter.setDisplayCase( responseText.contains( "in the Museum" ) );
 
-		// Determine the player's current PvP rank
-
-		if ( responseText.indexOf( "PvP:" ) != -1 )
-		{
-			while ( !cleanContent.nextToken().startsWith( "Fame" ) )
-			{
-				;
-			}
-			KoLCharacter.setPvpRank( GenericRequest.intToken( cleanContent ) );
-		}
-
 		while ( !token.startsWith( "Skill" ) )
 		{
 			token = cleanContent.nextToken();
