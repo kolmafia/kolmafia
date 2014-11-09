@@ -565,16 +565,6 @@ public abstract class SorceressLairManager
 	private static final FamiliarData STARFISH = new FamiliarData( FamiliarPool.STARFISH );
 	private static final AdventureResult STARFISH_ITEM = ItemPool.get( ItemPool.STAR_STARFISH, 1 );
 
-	// Familiars and the familiars that defeat them
-	private static final String[][] FAMILIAR_DATA =
-	{
-		{ "giant sabre-toothed lime", "Levitating Potato" },
-		{ "giant mosquito", "Sabre-Toothed Lime" },
-		{ "giant barrrnacle", "Angry Goat" },
-		{ "giant goat", "Mosquito" },
-		{ "giant potato", "Barrrnacle" }
-	};
-
 	private static final boolean checkPrerequisites( final int min, final int max )
 	{
 		KoLmafia.updateDisplay( "Checking prerequisites..." );
@@ -2331,19 +2321,6 @@ public abstract class SorceressLairManager
 				buffer.insert( index+9, " value=\"" + code + "\"" );
 			}
 		}
-	}
-
-	public static final void decorateFamiliars( final StringBuffer buffer )
-	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-		StringUtilities.insertAfter( buffer, "manages to defeat you.", " <font color=#DD00FF>Angry Goat needed</font>" );
-		StringUtilities.insertAfter( buffer, "eyeing you menacingly.", " <font color=#DD00FF>Barrrnacle needed</font>" );
-		StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );
-		StringUtilities.insertAfter( buffer, "snip-snap your neck.", " <font color=#DD00FF>Mosquito needed</font>" );
-		StringUtilities.insertAfter( buffer, "proboscis at the ready.", " <font color=#DD00FF>Sabre-Toothed Lime needed</font>" );
 	}
 
 	public static void handleQuestChange( String location, String responseText )
