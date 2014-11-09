@@ -484,15 +484,6 @@ public class RequestEditorKit
 		{
 			SorceressLairManager.decorateHeavyDoor( buffer );
 		}
-		else if ( location.startsWith( "lair6.php" ) )
-		{
-			if ( !KoLCharacter.inAxecore() &&
-			     !KoLCharacter.inZombiecore() &&
-			     !KoLCharacter.isSneakyPete() )
-			{
-				SorceressLairManager.decorateFamiliars( buffer );
-			}
-		}
 		else if ( location.contains( "lchat.php" ) )
 		{
 			StringUtilities.globalStringDelete( buffer, "spacing: 0px;" );
