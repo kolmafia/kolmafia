@@ -1081,6 +1081,7 @@ public class ItemPool
 	public static final int STUFFED_KEY = 3950;
 	public static final int STUFFED_BARON = 3951;
 	public static final int TINY_CELL_PHONE = 3964;
+	public static final int DUELING_BANJO = 3984;
 	public static final int SAMURAI_TURTLE = 3986;
 	public static final int SLIME_SOAKED_HYPOPHYSIS = 3991;
 	public static final int SLIME_SOAKED_BRAIN = 3992;
