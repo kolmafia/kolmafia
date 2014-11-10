@@ -117,6 +117,7 @@ public abstract class SorceressLairManager
 		ItemPool.get( ItemPool.HALF_GUITAR, 1 ),
 		ItemPool.get( ItemPool.OOT_BIWA, 1 ),
 		ItemPool.get( ItemPool.PLASTIC_GUITAR, 1 ),
+		ItemPool.get( ItemPool.DUELING_BANJO, 1 ),
 	};
 
 	private static final AdventureResult BROKEN_SKULL = ItemPool.get( ItemPool.BROKEN_SKULL, 1 );
