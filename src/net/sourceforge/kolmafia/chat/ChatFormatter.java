@@ -81,26 +81,28 @@ public class ChatFormatter
 	{
 		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
 
-		String noColorContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
-		String noCommentsContent = ChatFormatter.COMMENT_PATTERN.matcher( noColorContent ).replaceAll( "" );
-		String noTableContent = ChatFormatter.TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
+		// KoL inserts colors for special "chat effects". Let the user see them.
+		// noColorContent
+		// normalizedContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
-		return noTableContent;
+		// noCommentsContent
+		normalizedContent = ChatFormatter.COMMENT_PATTERN.matcher( normalizedContent ).replaceAll( "" );
+
+		// noTableContent
+		normalizedContent = ChatFormatter.TABLE_PATTERN.matcher( normalizedContent ).replaceAll( "" );
+
+		return normalizedContent;
 	}
 
 	public static final String formatExternalMessage( final String originalContent )
 	{
 		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
 
-		String normalPrivateContent =
-			StringUtilities.globalStringReplace(
-				normalizedContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
+		// normalPrivateContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
 
-		normalPrivateContent =
-			StringUtilities.globalStringReplace(
-				normalPrivateContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
-
-		return normalPrivateContent;
+		return normalizedContent;
 	}
 
 	private static final String getNormalizedMessage( final String originalContent )
