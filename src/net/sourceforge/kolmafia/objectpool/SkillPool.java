@@ -88,6 +88,7 @@ public class SkillPool
 	public static final int PSYCHOKINETIC_HUG = 111;
 	public static final int HOLLOW_LEG = 116;
 	public static final int PIRATE_BELLOW = 118;
+	public static final int HOLIDAY_FUN = 121;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
