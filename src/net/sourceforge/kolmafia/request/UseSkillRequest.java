@@ -770,6 +770,10 @@ public class UseSkillRequest
 		case SkillPool.PIRATE_BELLOW:
 			maximumCast = Preferences.getBoolean( "_pirateBellowUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.HOLIDAY_FUN:
+			maximumCast = Preferences.getBoolean( "_holidayFunUsed" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -2068,6 +2072,10 @@ public class UseSkillRequest
 
 		case SkillPool.PIRATE_BELLOW:
 			Preferences.setBoolean( "_pirateBellowUsed", true );
+			break;
+
+		case SkillPool.HOLIDAY_FUN:
+			Preferences.setBoolean( "_holidayFunUsed", true );
 			break;
 		}
 

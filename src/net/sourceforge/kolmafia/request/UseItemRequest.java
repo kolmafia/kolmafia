@@ -2919,6 +2919,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_BARTS_BOOTY:
 		case ItemPool.HYPERSANE_BOOK:
 		case ItemPool.INTIMIDATING_MIEN_BOOK:
+		case ItemPool.HOLIDAY_FUN_BOOK:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5102,6 +5103,8 @@ public class UseItemRequest
 			return "Belch The Rainbow";
 		case ItemPool.BLACK_BARTS_BOOTY:
 			return "Pirate Bellow";
+		case ItemPool.HOLIDAY_FUN_BOOK:
+			return "Summon Holiday Fun!";
 		case ItemPool.HYPERSANE_BOOK:
 			return "Hypersane";
 		case ItemPool.INTIMIDATING_MIEN_BOOK:

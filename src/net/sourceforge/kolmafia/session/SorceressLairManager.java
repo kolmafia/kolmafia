@@ -2344,11 +2344,13 @@ public abstract class SorceressLairManager
 		// make the final battle with Her Naughtiness be step13 and the
 		// emprismed king be step14, but for backward compatibility
 		// (for now), defeating the shadow takes you to step15.
+		//
+		// Comment: In Avatar of Boris, Clancy replaces the familiars -
+		// and he still exists, even though the familiars are gone. I
+		// don't think we have the questlog text for that step.
 
-		// Shadow defeated
-		else if ( responseText.contains( "chamber3.gif" ) ||
-			  responseText.contains( "chamber4.gif" ) ||
-			  responseText.contains( "chamber5.gif" ) )
+		// Shadow (or Clancy?) defeated
+		else if ( responseText.contains( "chamber5.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step15" );
 		}
