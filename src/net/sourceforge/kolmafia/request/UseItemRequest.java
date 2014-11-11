@@ -4646,7 +4646,8 @@ public class UseItemRequest
 
 		case ItemPool.BOOK_OF_MATCHES:
 			// If Hidden Tavern not already unlocked, new items available
-			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
+			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() &&
+			     !responseText.contains( "admire" ) )
 			{
 				// Unlock Hidden Tavern
 				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
