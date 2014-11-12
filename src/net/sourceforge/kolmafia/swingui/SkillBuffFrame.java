@@ -295,6 +295,12 @@ public class SkillBuffFrame
 			{
 				"Conjure Fruit", "_jarlsFruitSummoned", "boolean", "true",
 			},
+			{
+				"Pirate Bellow", "_pirateBellowUsed", "boolean", "true",
+			},
+			{
+				"Summon Holiday Fun!", "_holidayFunUsed", "boolean", "true",
+			},
 		};
 		
 		private void setSkillListeners()
