@@ -154,19 +154,20 @@ public class Operator
 
 	public static boolean isStringLike( Type type )
 	{
-		return type.equals( DataTypes.TYPE_STRING ) ||
-				type.equals( DataTypes.TYPE_BUFFER ) ||
-				type.equals( DataTypes.TYPE_LOCATION ) ||
-				type.equals( DataTypes.TYPE_MONSTER ) ||
-				type.equals( DataTypes.STAT_TYPE ) ||
-				type.equals( DataTypes.ELEMENT_TYPE ) ||
-				type.equals( DataTypes.PHYLUM_TYPE ) ||
-				type.equals( DataTypes.TYPE_COINMASTER );
+		return  type.equals( DataTypes.TYPE_STRING ) ||
+			type.equals( DataTypes.TYPE_BUFFER ) ||
+			type.equals( DataTypes.TYPE_LOCATION ) ||
+			type.equals( DataTypes.TYPE_STAT ) ||
+			type.equals( DataTypes.TYPE_MONSTER ) ||
+			type.equals( DataTypes.TYPE_ELEMENT ) ||
+			type.equals( DataTypes.TYPE_COINMASTER ) ||
+			type.equals( DataTypes.TYPE_PHYLUM ) ||
+			type.equals( DataTypes.TYPE_BOUNTY );
 	}
 
 	public boolean isArithmetic()
 	{
-		return this.operator.equals( "+" ) ||
+		return  this.operator.equals( "+" ) ||
 			this.operator.equals( "-" ) ||
 			this.operator.equals( "*" ) ||
 			this.operator.equals( "/" ) ||
@@ -176,13 +177,13 @@ public class Operator
 
 	public boolean isBoolean()
 	{
-		return this.operator.equals( "&&" ) ||
+		return  this.operator.equals( "&&" ) ||
 			this.operator.equals( "||" );
 	}
 
 	public boolean isLogical()
 	{
-		return this.operator.equals( "&" ) ||
+		return  this.operator.equals( "&" ) ||
 			this.operator.equals( "|" ) ||
 			this.operator.equals( "^" ) ||
 			this.operator.equals( "~" ) ||
@@ -193,7 +194,7 @@ public class Operator
 
 	public boolean isInteger()
 	{
-		return this.operator.equals( "<<" ) ||
+		return  this.operator.equals( "<<" ) ||
 			this.operator.equals( ">>" ) ||
 			this.operator.equals( ">>>" ) ||
 			this.operator.equals( "<<=" ) ||
@@ -203,7 +204,7 @@ public class Operator
 
 	public boolean isComparison()
 	{
-		return this.operator.equals( "==" ) ||
+		return  this.operator.equals( "==" ) ||
 			this.operator.equals( "!=" ) ||
 			this.operator.equals( "<" ) ||
 			this.operator.equals( ">" ) ||
