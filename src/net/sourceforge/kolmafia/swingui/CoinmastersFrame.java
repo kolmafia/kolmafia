@@ -595,6 +595,8 @@ public class CoinmastersFrame
 			{
 			case ItemPool.BLACK_BARTS_BOOTY:
 				return Preferences.getBoolean( "blackBartsBootyAvailable" );
+			case ItemPool.HOLIDAY_FUN_BOOK:
+				return Preferences.getBoolean( "holidayHalsBookAvailable" );
 			}
 			return true;
 		}
