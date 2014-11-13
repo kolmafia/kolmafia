@@ -1141,9 +1141,16 @@ public class UseSkillRequest
 			}
 
 			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
+
 			// Run it via GET
-			this.constructURLString( this.getFullURLString(), false );
+			String URLString = this.getFullURLString();
+
+			this.constructURLString( URLString, false );
 			super.run();
+
+			// But keep fields as per POST for easy modification
+			this.constructURLString( URLString, true );
+
 			return;
 		}
 
