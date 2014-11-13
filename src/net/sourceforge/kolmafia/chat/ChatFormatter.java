@@ -81,9 +81,12 @@ public class ChatFormatter
 	{
 		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
 
-		// KoL inserts colors for special "chat effects". Let the user see them.
+		// Other parts of the chat subsystem depend on font tags being stripped out.
+		// However, KoL inserts font tags in the "content" for special chat effects.
+		// What to do?
+
 		// noColorContent
-		// normalizedContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
+		normalizedContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		// noCommentsContent
 		normalizedContent = ChatFormatter.COMMENT_PATTERN.matcher( normalizedContent ).replaceAll( "" );
