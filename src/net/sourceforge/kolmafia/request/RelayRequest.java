@@ -3106,7 +3106,7 @@ public class RelayRequest
 		boolean lights = false;
 
  		String urlString = this.getURLString();
-		boolean isSkill = urlString.startsWith( "skills.php" );
+		boolean isSkill = urlString.startsWith( "runskillz.php" );
 		int skillId = isSkill ? UseSkillRequest.getSkillId( urlString ) : 0;
 		String skillName = isSkill ? SkillDatabase.getSkillName( skillId ) : "";
 

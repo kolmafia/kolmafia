@@ -709,6 +709,11 @@ public class ResponseTextParser
 			RaffleRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "runskillz.php" ) )
+		{
+			UseSkillRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "sea_merkin.php" ) )
 		{
 			SeaMerkinRequest.parseResponse( location, responseText );
@@ -744,10 +749,6 @@ public class ResponseTextParser
 			if ( location.indexOf( "action=useditem" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
-			}
-			else
-			{
-				UseSkillRequest.parseResponse( location, responseText );
 			}
 		}
 

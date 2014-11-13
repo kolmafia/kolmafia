@@ -84,8 +84,7 @@ public class UseSkillRequest
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
-	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\*\\d,]+)" );
-	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
+	private static final Pattern COUNT_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
 
 	// <p>1 / 50 casts used today.</td>
 	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d]+ casts used today\\.</td>", Pattern.DOTALL );
@@ -281,7 +280,7 @@ public class UseSkillRequest
 			return "campground.php";
 		}
 
-		return "skills.php";
+		return "runskillz.php";
 	}
 
 	private void addFormFields()
@@ -361,32 +360,31 @@ public class UseSkillRequest
 			break;
 
 		default:
-			this.addFormField( "action", "Skillz." );
+			this.addFormField( "action", "Skillz" );
 			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
+			this.addFormField( "ajax", "1" );
 			break;
 		}
 	}
 
 	public void setTarget( final String target )
 	{
+		this.countFieldId = "quantity";
 		if ( this.isBuff )
 		{
-			this.countFieldId = "bufftimes";
-
 			if ( target == null || target.trim().length() == 0 || target.equals( KoLCharacter.getPlayerId() ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = null;
-				this.addFormField( "specificplayer", KoLCharacter.getPlayerId() );
+				this.addFormField( "targetplayer", KoLCharacter.getPlayerId() );
 			}
 			else
 			{
 				this.target = ContactManager.getPlayerName( target );
-				this.addFormField( "specificplayer", ContactManager.getPlayerId( target ) );
+				this.addFormField( "targetplayer", ContactManager.getPlayerId( target ) );
 			}
 		}
 		else
 		{
-			this.countFieldId = "quantity";
 			this.target = null;
 		}
 	}
@@ -1143,6 +1141,8 @@ public class UseSkillRequest
 			}
 
 			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
+			// Run it via GET
+			this.constructURLString( this.getFullURLString(), false );
 			super.run();
 			return;
 		}
@@ -1274,7 +1274,14 @@ public class UseSkillRequest
 					KoLmafia.updateDisplay( "Casting " + this.skillName + " on " + this.target + " " + currentCast + " times..." );
 				}
 
+				// Run it via GET
+				String URLString = this.getFullURLString();
+
+				this.constructURLString( URLString, false );
 				super.run();
+
+				// But keep fields as per POST for easy modification
+				this.constructURLString( URLString, true );
 
 				// Otherwise, you have completed the correct
 				// number of casts.  Deduct it from the number
@@ -2229,15 +2236,11 @@ public class UseSkillRequest
 	
 	private static final int getCount( final String urlString, int skillId )
 	{
-		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
+		Matcher countMatcher = UseSkillRequest.COUNT_PATTERN.matcher( urlString );
 
 		if ( !countMatcher.find() )
 		{
-			countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
-			if ( !countMatcher.find() )
-			{
-				return 1;
-			}
+			return 1;
 		}
 
 		int availableMP = KoLCharacter.getCurrentMP();
@@ -2283,7 +2286,12 @@ public class UseSkillRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "campground.php" ) && !urlString.startsWith( "skills.php" ) )
+		if ( urlString.startsWith( "skillz.php" ) )
+		{
+			return true;
+		}
+
+		if ( !urlString.startsWith( "campground.php" ) && !urlString.startsWith( "runskillz.php" ) )
 		{
 			return false;
 		}

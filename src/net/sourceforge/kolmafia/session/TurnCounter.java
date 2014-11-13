@@ -494,7 +494,7 @@ public class TurnCounter
 			return UseItemRequest.getAdventuresUsed( urlString );
 		}
 
-		if ( path.equals( "skills.php" ) )
+		if ( path.equals( "runskillz.php" ) )
 		{
 			return UseSkillRequest.getAdventuresUsed( urlString );
 		}
