@@ -408,6 +408,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Heavy Rains " );
 		}
+		else if ( KoLCharacter.isPicky() )
+		{
+			sessionStream.print( "Picky" );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

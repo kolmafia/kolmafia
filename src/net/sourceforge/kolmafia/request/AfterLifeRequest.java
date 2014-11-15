@@ -529,6 +529,9 @@ public class AfterLifeRequest
 			case 19:
 				builder.append( "a Heavy Rains" );
 				break;
+			case 21:
+				builder.append( "a Picky" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

@@ -3024,7 +3024,8 @@ public abstract class KoLCharacter
 			        oldPath.equals( "Class Act" ) ||
 			        oldPath.equals( "Way of the Surprising Fist" ) ||
 			        oldPath.equals( "Class Act II: A Class For Pigs" ) ||
-			        oldPath.equals( "Heavy Rains" )
+			        oldPath.equals( "Heavy Rains" ) ||
+				  oldPath.equals( "Picky" )
 			        ) )
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
@@ -3351,6 +3352,11 @@ public abstract class KoLCharacter
 	public static final boolean inRaincore()
 	{
 		return KoLCharacter.ascensionPath.equals( "Heavy Rains" );
+	}
+
+	public static final boolean isPicky()
+	{
+		return KoLCharacter.ascensionPath.equals( "Picky" );
 	}
 
 	public static final boolean isUnarmed()
