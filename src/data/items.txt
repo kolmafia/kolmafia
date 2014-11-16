@@ -7841,7 +7841,7 @@
 7822	zombie dinosaur egg	362260627	egg.gif	grow	t	0
 7823	french-fry grabber	829460153	frygrabber.gif	familiar	t,d	75
 7824	iShield	429328094	ishield.gif	offhand	t	0
-7825	white earbuds	983431802	earbuds.gif	accessory	t	0
+7825	white earbuds	983431802	earbuds.gif	accessory	t	0	pairs of white earbuds
 7826	iFlail	739978940	iflail.gif	weapon	t	0
 7827	unidentifiable dried fruit	576324247	driedfruit.gif	food	t	0	pieces of unidentifiable dried fruit
 7828	flat cider	398463159	flatcider.gif	drink	t	0	glasses of flat cider
@@ -7850,7 +7850,7 @@
 7831	military-grade fingernail clippers	509291795	nailclippers.gif	none, combat reusable	q	0
 7832	encrypted micro-cassette recorder	365131352	recorder.gif	offhand	q	0
 7833	gore bucket	744028476	pail.gif	offhand	q	0
-7834	pack of smokes	966737764	smokes.gif	none	q	0
+7834	pack of smokes	966737764	smokes.gif	none	q	0	packs of smokes
 7835	ESP suppression collar	887199815	espcollar.gif	accessory	q	0
 7836	GPS-tracking wristwatch	117030063	calcwatch.gif	accessory	q	0
 7837	Project T. L. B.	533573064	sammich.gif	none	q	0
@@ -7930,14 +7930,14 @@
 7911
 7912
 7913	Size XI Wizard's Robe	410404363	xirobe.gif	container		0
-7914	Bit O' Quail Spleen	632392031	liver.gif	usable	t,d	5
+7914	Bit O' Quail Spleen	632392031	liver.gif	usable	t,d	5	Bits O' Quail Spleen
 7915	Take Eleven Bar	491996669	candybar.gif	usable	t,d	5
-7916	mimeplasm	797429043	mimeplasm.gif	usable	t	0
+7916	mimeplasm	797429043	mimeplasm.gif	usable	t	0	balls of mimeplasm
 7917	BOOterfinger	791457623	bar_boo.gif	usable	t,d	15
-7918	Moonds	388230135	bar_moon.gif	usable	t,d	15
+7918	Moonds	388230135	bar_moon.gif	usable	t,d	15	Moonds bars
 7919	Big Punk	807031261	bar_punk.gif	usable	t,d	15
 7920	fist turkey outline	490301221	fistoutline.gif	grow	t	0
-7921	brass turkey knuckles	886705665	turkeyknuckles.gif	familiar	t,d	75
-7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5
-7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10
-7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15
+7921	brass turkey knuckles	886705665	turkeyknuckles.gif	familiar	t,d	75	pairs of brass turkey knuckles
+7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5	bottles of Friendly Turkey
+7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10	bottles of Agitated Turkey
+7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15	bottles of Ambitious Turkey
