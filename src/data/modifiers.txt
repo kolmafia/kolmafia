@@ -5649,22 +5649,24 @@ Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max:
 Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Arboreal Raiment	Stench Resistance: +3
 Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
-BRICKOfig Outfit	Item Drop: +10
 Bits o' Honey	Item Drop: +5
 Black Armaments	Muscle: +6
+Blasphemous Bedizenment	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Bounty-Hunting Rig	Item Drop: +15
 Bow Tux	Item Drop: +5
-Brogre Brouture	Muscle Percent: 50
+BRICKOfig Outfit	Item Drop: +10
+Brogre Brouture	Muscle Percent: +50
 Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
-# Clockwork Apparatus	I Meant To Do That!
+# Clockwork Apparatus: I <i>Meant</i> To Do That!
+# Clothing of Loathing: ???
 Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
 Cool Irons	Damage Reduction: 20
 Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
 Crimbo Duds	Item Drop: +5
 Crimborg Assault Armor	Ranged Damage: +20
 Cursed Zombie Pirate Costume	Spooky Damage: +30
-Dark Bro's Vestments	Spooky Spell Damage: +20, Sleaze Spell Damage: +20
+Dark Bro's Vestments	Spooky Spell Damage: +40
 Dire Drifter Duds	Familiar Weight: +5
 Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
 Dreadful Ghost Suit	Spooky Damage: +50, Spooky Spell Damage: +50
@@ -5677,6 +5679,7 @@ Dwarvish War Uniform	Damage Reduction: 10
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics
 Encephalic Ensemble	Item Drop: +5
+eXtreme Cold-Weather Gear	Cold Resistance: +5
 Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Filthy Hippy Disguise	Stench Damage: +5
 Floaty Fatigues	Spell Critical Percent: +10
@@ -5685,12 +5688,12 @@ Frat Warrior Fatigues	Sleaze Damage: +15
 Frigid Northlands Garb	Cold Resistance: +3
 Furry Suit	Moxie Percent: -75, Monster Level: +5
 Ghast Iron Gear	Spooky Damage: +20, Hot Damage: +20
-Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5, Initiative: +10
+Glad Bag Glad Rags	Stench Damage: +5, Sleaze Damage: +5, Mysticality: +10, Moxie: +10, Initiative: +10
 Gladiatorial Glad Rags	Adventures: +6
 Gnauga Hides	Damage Reduction: 3
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
-Hateful Habiliment	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
+Hateful Habiliment	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hot Daub Ensemble	Cold Resistance: +3
@@ -5701,18 +5704,18 @@ Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 Legendary Regalia of the Chelonian Overlord	Experience (familiar): +1
 Legendary Regalia of the Groovelord	Initiative: +50
 Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
-# Legendary Regalia of the Pasta Master	+1 pasta guardian exp
-# Legendary Regalia of the Saucemaestro	improved HP/MP return from saucespheres
-# Legendary Regalia of the Seal Crusher	+100% Item Drops from Infernal Seals
+# Legendary Regalia of the Pasta Master: Pasta Ghosts Level Up Faster
+# Legendary Regalia of the Saucemaestro: Better Saucespheres
+# Legendary Regalia of the Seal Crusher: +100% Item Drops from Infernal Seals
 Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
 Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Mining Gear	Meat Drop: +5
-# Mutant Couture	Release Your Inner Mutant
+# Mutant Couture: Release Your Inner Mutant
 Oil Rig	Initiative: +30
 OK Lumberjack Outfit	Critical Hit Percent: +10
 Palmist Paraphernalia	Moxie: +7
-# Paperclippery	Helpful!
+# Paperclippery: Helpful!
 Pinata Provisions	Damage Reduction: 15
 Pork Elf Prizes	Item Drop: +10
 Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
@@ -5721,7 +5724,7 @@ Radio Free Regalia	Never Fumble
 Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Roy Orbison Disguise	Moxie: +15
 Seafaring Suit	Initiative: +100
-Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
+Slimesuit	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Smoked Pottery	Hot Damage: +15
 Snowman Suit	Cold Damage: +15
 Space Beast Furs	Damage Reduction: 25
@@ -5729,25 +5732,24 @@ Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Sucker Samurai Suit	Damage Reduction: 10
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
-Tawdry Tramp Togs	DB Combat Damage: +20, Class: "Disco Bandit"
+Tawdry Tramp Togs	DB Combat Damage: +20
 Terrifying Clown Suit	Spooky Damage: +5
-Terrycloth Tackle	Damage Absorption: +20
+Terrycloth Tackle	Damage Absorption: +30
 Time Trappings	Adventures: +3
 Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-Tropical Crimbo Duds	Moxie: +10, Muscle: +10, Mysticality: +10
+Tropical Crimbo Duds	Muscle: +10, Mysticality: +10, Moxie: +10
 Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Uncle Hobo's Rags	Candy Drop: +15
 Vestments of the Treeslayer	Damage Reduction: 5
 Vile Vagrant Vestments	Mana Cost (stackable): -5
-Violent Vestments	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
-Warbear Dress Armor	Item Drop: +10
+Violent Vestments	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 War Hippy Fatigues	Stench Damage: +15
+Warbear Dress Armor	Item Drop: +10
 Wax Wardrobe	Moxie: +7
 Workoutfit	PvP Fights: +2
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 Xiblaxian Stealth Suit	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
-# Yendorian Finery	Be careful! New moon tonight.
-eXtreme Cold-Weather Gear	Cold Resistance: +5
+# Yendorian Finery: Be careful! New moon tonight.
 
 # Zodiac Sign section of modifiers.txt
 

@@ -94,6 +94,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkoutfits" ) )
+		{
+			DebugDatabase.checkOutfits();
+			RequestLogger.printLine( "Internal outfit data checked." );
+			return;
+		}
+
 		if ( command.equals( "checkplurals" ) )
 		{
 			int itemId = StringUtilities.parseInt( parameters );

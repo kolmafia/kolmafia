@@ -674,8 +674,15 @@ public class KoLmafiaCLI
 		new BurnMpCommand().register( "burn" );
 		new BuyCommand().register( "buy" ).register( "mallbuy" );
 		new CacheCommand().register( "cache" );
-		new CallScriptCommand().register( "verify" ).register( "validate" ).register( "check" ).register( "call" ).register(
-			"run" ).registerPrefix( "exec" ).register( "load" ).register( "start" ).register( "profile" );
+		new CallScriptCommand().register( "verify" ).
+			register( "validate" ).
+			register( "check" ).
+			register( "call" ).
+			register( "run" ).
+			registerPrefix( "exec" ).
+			register( "load" ).
+			register( "start" ).
+			register( "profile" );
 		new CampgroundCommand().registerPrefix( "camp" );
 		new ChangeCombatScriptCommand().register( "ccs" );
 		new CheckDataCommand().register( "newdata" ).
@@ -685,6 +692,7 @@ public class KoLmafiaCLI
 			register( "checkfamiliars" ).
 			register( "checkitems" ).
 			register( "checkmodifiers" ).
+			register( "checkoutfits" ).
 			register( "checkplurals" ).
 			register( "checkpotions" ).
 			register( "checkpowers" ).

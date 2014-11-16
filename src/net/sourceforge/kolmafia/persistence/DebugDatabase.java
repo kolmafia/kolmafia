@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -1043,7 +1044,7 @@ public class DebugDatabase
 
 		// Compare to what is already registered, logging differences
 		// and substituting expressions, as appropriate.
-		DebugDatabase.checkModifiers( name, known, report );
+		DebugDatabase.checkModifiers( name, known, true, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
 		if ( showAll || known.size() > 0 || unknown.size() > 0 )
@@ -1052,7 +1053,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkModifiers( final String name, final ModifierList known, final PrintStream report )
+	private static final void checkModifiers( final String name, final ModifierList known, final boolean appendCurrent, final PrintStream report )
 	{
 		// - Keep modifiers in the same order they are listed in the item description
 		// - If a modifier is variable (has an expression), evaluate
@@ -1128,8 +1129,27 @@ public class DebugDatabase
 			}
 		}
 
-		// Add all modifiers in existing list that were not seen in description to "known"
-		known.addAll( existing );
+		if ( appendCurrent )
+		{
+			// Add all modifiers in existing list that were not seen in description to "known"
+			known.addAll( existing );
+		}
+		else
+		{
+			for ( Modifier modifier : existing )
+			{
+				String key = modifier.getName();
+				String value = modifier.getValue();
+				if ( value == null )
+				{
+					report.println( "# *** bogus enchantment: " + key );
+				}
+				else
+				{
+					report.println( "# *** bogus enchantment: " + key + ": " + value );
+				}
+			}
+		}
 	}
 
 	private static final void logModifierDatum( final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
@@ -1280,6 +1300,166 @@ public class DebugDatabase
 		String key = colon == -1 ? mod.trim() : mod.substring( 0, colon ).trim();
 		String value = colon == -1 ? null : mod.substring( colon + 1 ).trim();
 		return new Modifier( key, value );
+	}
+
+	// **********************************************************
+
+	// Support for the "checkoutfits" command, which compares KoLmafia's
+	// internal outfit data from what can be mined from the outfit
+	// description.
+
+	private static final String OUTFIT_HTML = "outfithtml.txt";
+	private static final String OUTFIT_DATA = "outfitdata.txt";
+	private static final StringArray rawOutfits = new StringArray();
+	private static final ItemMap outfits = new ItemMap( "Outfits", 0 );
+
+	public static final void checkOutfits()
+	{
+		RequestLogger.printLine( "Loading previous data..." );
+		DebugDatabase.loadScrapeData( rawOutfits, OUTFIT_HTML );
+
+		RequestLogger.printLine( "Checking internal data..." );
+
+		PrintStream report = DebugDatabase.openReport( OUTFIT_DATA );
+
+		DebugDatabase.outfits.clear();
+		DebugDatabase.checkOutfits( report );
+
+		report.close();
+	}
+
+	private static final void checkOutfits(final PrintStream report )
+	{
+		Set<Integer> keys = EquipmentDatabase.normalOutfits.keySet();
+		for ( Integer id : keys )
+		{
+			DebugDatabase.checkOutfit( id, report );
+		}
+
+		DebugDatabase.checkOutfitModifierMap( report, DebugDatabase.outfits );
+
+		DebugDatabase.saveScrapeData( keys.iterator(), rawOutfits, OUTFIT_HTML );
+	}
+
+	private static final void checkOutfit( final int outfitId, final PrintStream report )
+	{
+		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( outfitId );
+		String name = outfit.getName();
+		if ( name == null )
+		{
+			return;
+		}
+
+		String rawText = DebugDatabase.rawOutfitDescriptionText( outfitId );
+
+		if ( rawText == null )
+		{
+			report.println( "# *** " + name + " (" + outfitId + ") has no description." );
+			return;
+		}
+
+		String text = DebugDatabase.outfitDescriptionText( rawText );
+		if ( text == null )
+		{
+			report.println( "# *** " + name + " (" + outfitId + ") has malformed description text." );
+			return;
+		}
+
+		DebugDatabase.outfits.put( name, text );
+	}
+
+	private static final GenericRequest DESC_OUTFIT_REQUEST = new GenericRequest( "desc_outfit.php" );
+
+	public static final String outfitDescriptionText( final int outfitId )
+	{
+                return DebugDatabase.outfitDescriptionText( DebugDatabase.rawOutfitDescriptionText( outfitId ) );
+	}
+
+	public static final String readOutfitDescriptionText( final int outfitId )
+	{
+		DebugDatabase.DESC_OUTFIT_REQUEST.clearDataFields();
+		DebugDatabase.DESC_OUTFIT_REQUEST.addFormField( "whichoutfit", String.valueOf( outfitId ) );
+		RequestThread.postRequest( DebugDatabase.DESC_OUTFIT_REQUEST );
+		return DebugDatabase.DESC_OUTFIT_REQUEST.responseText;
+	}
+
+	private static final String rawOutfitDescriptionText( final int outfitId )
+	{
+		String previous = DebugDatabase.rawOutfits.get( outfitId );
+		if ( previous != null && !previous.equals( "" ) )
+		{
+			return previous;
+		}
+
+		String text = DebugDatabase.readOutfitDescriptionText( outfitId );
+		DebugDatabase.rawOutfits.set( outfitId, text );
+
+		return text;
+	}
+
+	private static final Pattern OUTFIT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
+
+	private static final String outfitDescriptionText( final String rawText )
+	{
+		if ( rawText == null )
+		{
+			return null;
+		}
+
+		Matcher matcher = DebugDatabase.OUTFIT_DATA_PATTERN.matcher( rawText );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		return matcher.group( 1 );
+	}
+
+	private static final void checkOutfitModifierMap( final PrintStream report, final ItemMap imap )
+	{
+		Map<String, String> map = imap.getMap();
+		if ( map.size() == 0 )
+		{
+			return;
+		}
+
+		String tag = imap.getTag();
+
+		report.println();
+		report.println( "# " + tag + " section of modifiers.txt" );
+		report.println();
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			String text = map.get( name );
+			DebugDatabase.checkOutfitModifierDatum( name, text, report );
+		}
+	}
+
+	private static final void checkOutfitModifierDatum( final String name, final String text, final PrintStream report )
+	{
+		ModifierList known = new ModifierList();
+		ArrayList<String> unknown = new ArrayList<String>();
+
+		// Get the known and unknown modifiers from the outfit description
+		DebugDatabase.parseOutfitEnchantments( text, known, unknown );
+
+		// Compare to what is already registered.
+		// Log differences and substitute formulas, as appropriate.
+		DebugDatabase.checkModifiers( name, known, false, report );
+
+		// Print the modifiers in the format modifiers.txt expects.
+		DebugDatabase.logModifierDatum( name, known, unknown, report );
+	}
+
+	private static final Pattern OUTFIT_ENCHANTMENT_PATTERN =
+		Pattern.compile( "<b><font color=blue>(.*)</font></b>", Pattern.DOTALL );
+
+	public static final void parseOutfitEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown )
+	{
+		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.OUTFIT_ENCHANTMENT_PATTERN );
 	}
 
 	// **********************************************************
@@ -1514,7 +1694,7 @@ public class DebugDatabase
 
 		// Compare to what is already registered.
 		// Log differences and substitute formulas, as appropriate.
-		DebugDatabase.checkModifiers( name, known, report );
+		DebugDatabase.checkModifiers( name, known, true, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
