@@ -84,7 +84,6 @@ public class FamiliarDatabase
 	private static final BooleanArray sombreroById = new BooleanArray();
 	private static final BooleanArray meatDropById = new BooleanArray();
 	private static final BooleanArray fairyById = new BooleanArray();
-	private static final BooleanArray sorceressById = new BooleanArray();
 
 	private static final Map[] eventSkillByName = new HashMap[ 4 ];
 
@@ -150,12 +149,11 @@ public class FamiliarDatabase
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
 				FamiliarDatabase.familiarByItem.put( familiarItemName, familiarId );
 
-				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.indexOf( "combat" ) != -1 );
-				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.indexOf( "stat0" ) != -1 );
-				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.indexOf( "stat1" ) != -1 );
-				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
-				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.indexOf( "meat0" ) != -1 );
-				FamiliarDatabase.sorceressById.set( familiarId.intValue(), familiarType.indexOf( "sorceress" ) != -1 );
+				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.contains( "combat" ) );
+				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.contains( "stat0" ) );
+				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.contains( "stat1" ) );
+				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.contains( "item0" ) );
+				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.contains( "meat0" ) );
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
 				{
@@ -189,7 +187,7 @@ public class FamiliarDatabase
 	 * whenever KoLmafia encounters an unknown familiar on login
 	 */
 
-	private static Integer ZERO = IntegerPool.get( 0 );
+	private static final Integer ZERO = IntegerPool.get( 0 );
 	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image )
 	{
 		FamiliarDatabase.registerFamiliar( familiarId, familiarName, image, FamiliarDatabase.ZERO );
@@ -197,7 +195,7 @@ public class FamiliarDatabase
 
 	// Hatches into:</b><br><table cellpadding=5 style='border: 1px solid black;'><tr><td align=center><a class=nounder href=desc_familiar.php?which=154><img border=0 src=http://images.kingdomofloathing.com/itemimages/groose.gif width=30 height=30><br><b>Bloovian Groose</b></a></td></tr></table>
 
-	private static Pattern FAMILIAR_PATTERN = Pattern.compile( "Hatches into:.*?<table.*?which=(\\d*).*?itemimages/(.*?) .*?<b>(.*?)</b>");
+	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "Hatches into:.*?<table.*?which=(\\d*).*?itemimages/(.*?) .*?<b>(.*?)</b>");
 
 	public static final void registerFamiliar( final Integer larvaId, final String text )
 	{
@@ -328,11 +326,6 @@ public class FamiliarDatabase
 		return FamiliarDatabase.meatDropById.get( familiarId );
 	}
 
-	public static final boolean isSorceressFamiliar( final int familiarId )
-	{
-		return FamiliarDatabase.sorceressById.get( familiarId );
-	}
-
 	public static final String getFamiliarItem( final int familiarId )
 	{
 		return FamiliarDatabase.getFamiliarItem( IntegerPool.get( familiarId ) );
@@ -373,7 +366,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarType( final int familiarId )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		String sep = "";
 		if ( FamiliarDatabase.combatById.get( familiarId ) )
 		{

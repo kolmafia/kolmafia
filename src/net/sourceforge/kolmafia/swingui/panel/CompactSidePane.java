@@ -352,7 +352,6 @@ public class CompactSidePane
 			JMenu meat = new JMenu( "meatdrop" );
 			JMenu combat = new JMenu( "combat" );
 			JMenu other = new JMenu( "other" );
-			JMenu sorceress = new JMenu( "sorceress" );
 			String custom[] = new String[9];
 			JMenu customMenu[] = new JMenu[9];
 			for ( int i = 0; i < 9; ++i )
@@ -413,11 +412,6 @@ public class CompactSidePane
 					combat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				if ( FamiliarDatabase.isSorceressFamiliar( id ) )
-				{
-					sorceress.add( new FamiliarMenuItem( fam ) );
-					added = true;
-				}
 
 				String key = "|" + fam.getRace().toLowerCase();
 				for ( int i = 0; i < 9; ++i )
@@ -450,10 +444,6 @@ public class CompactSidePane
 			if ( combat.getMenuComponentCount() > 0 )
 			{
 				famPopup.add( combat );
-			}
-			if ( sorceress.getMenuComponentCount() > 0 )
-			{
-				famPopup.add( sorceress );
 			}
 
 			for ( int i = 0; i < 9; ++i )
