@@ -1152,6 +1152,14 @@ public class AdventureRequest
 		{
 			return true;
 		}
+		else if ( formSource.startsWith( "mining.php" ) )
+		{
+			if ( formSource.contains( "which=" ) )
+			{
+				AdventureSpentDatabase.noncombatEncountered = true;
+			}
+			return false;
+		}
 
 		// It is not a known adventure.	 Therefore,
 		// do not log the encounter yet.
