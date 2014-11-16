@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1056,14 +1057,17 @@ public class EquipmentDatabase
 	}
 
 	/**
-	 * Internal class which functions exactly an array of concoctions, except it uses "sets" and "gets" like a list.
-	 * This could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+	 * Internal class which functions exactly like an array of SpecialOutfits,
+	 * except it uses "sets" and "gets" like a list.  This could be done
+	 * with generics (Java 1.5) but is done like this so that we get
+	 * backwards compatibility.
 	 */
 
 	public static class SpecialOutfitArray
 		implements Iterable<SpecialOutfit>
 	{
 		private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
+		private final TreeSet<Integer> internalSet = new TreeSet<Integer>();
 
 		public Iterator<SpecialOutfit> iterator()
 		{
@@ -1083,11 +1087,17 @@ public class EquipmentDatabase
 			}
 
 			this.internalList.set( index, value );
+			this.internalSet.add( new Integer( index ) );
 		}
 
 		public int size()
 		{
 			return this.internalList.size();
+		}
+
+		public Set<Integer> keySet()
+		{
+			return this.internalSet;
 		}
 	}
 }

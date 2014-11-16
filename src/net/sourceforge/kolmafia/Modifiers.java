@@ -403,7 +403,7 @@ public class Modifiers
 		  Pattern.compile( "Cold Spell Damage: " + EXPR )
 		},
 		{ "Hot Spell Damage",
-		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=red>Hot Spells</font>" ),
+		  Pattern.compile( "^([+-]\\d+) (Damage )?to (<font color=red>)?Hot Spells(</font>)?" ),
 		  Pattern.compile( "Hot Spell Damage: " + EXPR )
 		},
 		{ "Sleaze Spell Damage",
@@ -443,7 +443,7 @@ public class Modifiers
 		  Pattern.compile( "MP Regen Max: " + EXPR )
 		},
 		{ "Adventures",
-		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
+		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day( when equipped)?" ),
 		  Pattern.compile( "Adventures: " + EXPR )
 		},
 		{ "Familiar Weight Percent",
@@ -495,7 +495,7 @@ public class Modifiers
 		  Pattern.compile( "Critical Hit Percent: " + EXPR )
 		},
 		{ "PvP Fights",
-		  Pattern.compile( "([+-]\\d+) PvP fight\\(s\\) per day when equipped" ),
+		  Pattern.compile( "([+-]\\d+) PvP [Ff]ight\\(s\\) per day( when equipped)?" ),
 		  Pattern.compile( "PvP Fights: " + EXPR )
 		},
 		{ "Volleyball",
