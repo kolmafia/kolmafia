@@ -79,20 +79,27 @@ public class ChatFormatter
 
 	public static final String formatInternalMessage( final String originalContent )
 	{
+		// This is called once for all of the lines that arrive in a single response
+
 		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
-
-		// Other parts of the chat subsystem depend on font tags being stripped out.
-		// However, KoL inserts font tags in the "content" for special chat effects.
-		// What to do?
-
-		// noColorContent
-		normalizedContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		// noCommentsContent
 		normalizedContent = ChatFormatter.COMMENT_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		// noTableContent
 		normalizedContent = ChatFormatter.TABLE_PATTERN.matcher( normalizedContent ).replaceAll( "" );
+
+		return normalizedContent;
+	}
+
+	public static final String removeMessageColors( final String originalContent )
+	{
+		// This is called for each message from a response.
+
+		String normalizedContent = originalContent;
+
+		// noColorContent
+		normalizedContent = ChatFormatter.COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		return normalizedContent;
 	}
