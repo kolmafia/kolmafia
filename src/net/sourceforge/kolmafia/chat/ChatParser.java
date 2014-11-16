@@ -250,7 +250,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseLine( final List<ChatMessage> chatMessages, String line )
+	private static void parseLine( final List<ChatMessage> chatMessages, String line )
 	{
 		// Empty messages do not need to be processed; therefore,
 		// return if one was retrieved.
@@ -272,13 +272,15 @@ public class ChatParser
 			return;
 		}
 
-		if ( line.indexOf( "(private):<" ) != -1 )
+		line = ChatFormatter.removeMessageColors( line );
+
+		if ( line.contains( "(private):<" ) )
 		{
 			ChatParser.parsePrivateReceiveMessage( chatMessages, line );
 			return;
 		}
 
-		if ( line.indexOf( "<b>private to" ) != -1 )
+		if ( line.contains( "<b>private to" ) )
 		{
 			ChatParser.parsePrivateSendMessage( chatMessages, line );
 			return;
