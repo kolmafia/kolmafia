@@ -7941,3 +7941,15 @@
 7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5	bottles of Friendly Turkey
 7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10	bottles of Agitated Turkey
 7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15	bottles of Ambitious Turkey
+7925
+7926
+7927
+7928
+7929
+7930
+7931
+7932
+7933
+7934
+7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
+7936	picky tweezers	177727115	tweezers.gif	none	t	0
