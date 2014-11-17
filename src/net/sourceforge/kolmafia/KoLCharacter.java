@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
@@ -3053,6 +3054,12 @@ public abstract class KoLCharacter
 			{
 				TurnCounter.stopCounting( "Rain Monster window begin" );
 				TurnCounter.stopCounting( "Rain Monster window end" );
+			}
+
+			if ( oldPath.equals( "Picky" ) )
+			{
+				// Retrieve the Terrarium
+				RequestThread.postRequest( new FamiliarRequest() );
 			}
 
 			// If leaving a path with a unique class, wait until player picks a new class.
