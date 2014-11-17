@@ -1270,7 +1270,12 @@ public abstract class SorceressLairManager
 
 		FamiliarData starfish = KoLCharacter.findFamiliar( "Star Starfish" );
 
-		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() && starfish == null )
+		if ( starfish == null && 
+		     !KoLCharacter.inAxecore() &&
+		     !KoLCharacter.inZombiecore() &&
+		     !KoLCharacter.isJarlsberg() &&
+		     !KoLCharacter.isSneakyPete() &&
+		     !KoLCharacter.isPicky() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a Star Starfish!" );
 			return requirements;
