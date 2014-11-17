@@ -590,6 +590,11 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, "council", "council.php" );
 			}
 
+			if ( KoLCharacter.isPicky() )
+			{
+				return null;
+			}
+
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				return null;
