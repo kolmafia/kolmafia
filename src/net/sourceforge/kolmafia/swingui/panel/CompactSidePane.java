@@ -456,7 +456,10 @@ public class CompactSidePane
 				}
 			}
 
-			famPopup.add( other );
+			if ( other.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( other );
+			}
 		}
 	}
 
