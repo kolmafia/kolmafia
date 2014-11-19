@@ -78,7 +78,7 @@ public class ChatParser
 	// <b><a target=mainpane href="showplayer.php?who=533033"><font color=black>Lord Kobel</font></a>:</b> yo<br>
 	// <b><a target=mainpane href="showplayer.php?who=1927238"><font color=black>TheLetterKay</font></b></a>: i need to script using maps to safety shelter grimace prime to get me dog hair pills<br><!--lastseen:1315078471-->
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)" );
+		Pattern.compile( "(?:<b>)(?:<b>)?<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)(?:</b>)?" );
 
 	private static final Pattern HUGGLER_PATTERN =
 		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!" );
@@ -296,8 +296,11 @@ public class ChatParser
 		return matcher.lookingAt();
 	}
 
-	private static boolean parseChannelMessage( final List<ChatMessage> chatMessages, final String line )
+	private static boolean parseChannelMessage( final List<ChatMessage> chatMessages, String line )
 	{
+		// If entire line is wrapped in red - System and Moderator messages - remove coloring
+		line = ChatFormatter.removeRedColor( line );
+		
 		Matcher channelMatcher = ChatParser.CHANNEL_PATTERN.matcher( line );
 		if ( !channelMatcher.find() )
 		{
