@@ -87,6 +87,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.WARBEAR_BANK, 1 ),
 		ItemPool.get( ItemPool.CHRONER_CROSS, 1 ),
 		ItemPool.get( ItemPool.CHRONER_TRIGGER, 1 ),
+		ItemPool.get( ItemPool.PICKY_TWEEZERS, 1 ),
 
 	};
 

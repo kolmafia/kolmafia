@@ -7952,4 +7952,6 @@
 7933
 7934
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
-7936	picky tweezers	177727115	tweezers.gif	none	t	0
+7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
+7937
+7938	single atom	904190479	blank.gif	multiple	d	300

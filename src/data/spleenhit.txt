@@ -94,6 +94,7 @@ red paisley oyster egg	1	1		0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1		0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1		0	11-15	0	0	31-35 HP
 residual zeal	5	20		0	25000-35000	25000-35000	25000-35000
+single atom	1	1		1	0	0	0
 sleaze wad	1	6		1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
 slimy alveolus	1	5		1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
 slimy paste	4	4		5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
