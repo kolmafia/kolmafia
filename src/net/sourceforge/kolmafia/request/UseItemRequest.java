@@ -1011,6 +1011,10 @@ public class UseItemRequest
 			}
 			return 1;
 
+		case ItemPool.PICKY_TWEEZERS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pickyTweezersUsed" ) ? 0 : 1;
+
 		case ItemPool.GAUDY_KEY:
 			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) &&
 			     !EquipmentManager.isWearingOutfit( OutfitPool.SWASHBUCKLING_GETUP ) )
@@ -4872,6 +4876,10 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( itemId, 1 );
 			}
+			return;
+
+		case ItemPool.PICKY_TWEEZERS:
+			Preferences.setBoolean( "_pickyTweezersUsed", true );
 			return;
 
 		}

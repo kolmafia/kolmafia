@@ -1131,6 +1131,7 @@ user	_petePartyThrown	false
 user	_petePeeledOut	0
 user	_peteRiotIncited	false
 user	_photocopyUsed	false
+user	_pickyTweezersUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
 user	_pirateBellowUsed	false

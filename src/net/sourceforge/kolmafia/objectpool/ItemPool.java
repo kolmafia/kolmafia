@@ -2151,6 +2151,7 @@ public class ItemPool
 	public static final int FRIENDLY_TURKEY = 7922;
 	public static final int AGITATED_TURKEY = 7923;
 	public static final int AMBITIOUS_TURKEY = 7924;
+	public static final int PICKY_TWEEZERS = 7938;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
