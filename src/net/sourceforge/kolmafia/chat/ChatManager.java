@@ -342,9 +342,9 @@ public abstract class ChatManager
 		}
 	}
 
-	private static void displayMessage( final String bufferKey, final boolean open, final String message )
+	private static void displayMessage( final String bufferKey, final boolean highlight, final String message )
 	{
-		ChatManager.openWindow( bufferKey, open );
+		ChatManager.openWindow( bufferKey, highlight );
 		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
 		buffer.append( message );
 	}
@@ -383,7 +383,7 @@ public abstract class ChatManager
 			// If it's a System Message, also put it into Events.
 			if ( sender.equals( "System Message" ) )
 			{
-				ChatManager.displayMessage( "[events]", false, displayHTML );
+				ChatManager.displayMessage( "[events]", true, displayHTML );
 			}
 			return;
 		}
@@ -665,7 +665,7 @@ public abstract class ChatManager
 		StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
 		buffer.append( displayHTML );
 
-		if ( message instanceof InternalMessage )
+		if ( message instanceof InternalMessage || !Preferences.getBoolean( "broadcastEvents" ) )
 		{
 			ChatManager.openWindow( "[events]", true );
 		}

@@ -19,6 +19,7 @@ global	autoSatisfyWithStash	false
 global	autoSatisfyWithStorage	true
 global	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+global	broadcastEvents	true
 global	browserBookmarks
 global	cacheMallSearches	false
 global	charsheetDropdown	1
