@@ -342,6 +342,13 @@ public abstract class ChatManager
 		}
 	}
 
+	private static void displayMessage( final String bufferKey, final boolean open, final String message )
+	{
+		ChatManager.openWindow( bufferKey, open );
+		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
+		buffer.append( message );
+	}
+
 	public static void processMessage( final ChatMessage message )
 	{
 		if ( message instanceof EventMessage )
@@ -364,12 +371,29 @@ public abstract class ChatManager
 
 		String sender = message.getSender();
 		String recipient = message.getRecipient();
-		String content = message.getContent();
+
+		if ( message instanceof ModeratorMessage )
+		{
+			// Format the message
+			String displayHTML = ChatFormatter.formatChatMessage( message );
+
+			// Display the message in the current channel
+			ChatManager.displayMessage( ChatManager.getBufferKey( recipient ), true, displayHTML );
+
+			// If it's a System Message, also put it into Events.
+			if ( sender.equals( "System Message" ) )
+			{
+				ChatManager.displayMessage( "[events]", false, displayHTML );
+			}
+			return;
+		}
 
 		if ( ChatManager.faxbot != null && sender.equalsIgnoreCase( ChatManager.faxbot ) )
 		{
 			ChatManager.faxbotMessage = message;
 		}
+
+		String content = message.getContent();
 
 		if ( recipient == null )
 		{
@@ -387,7 +411,7 @@ public abstract class ChatManager
 		else if ( recipient.equals( "/talkie" ) )
 		{
 			// Allow chatbot scripts to process talkie messages
-			ChatManager.processCommand( sender, message.getContent(), recipient );
+			ChatManager.processCommand( sender, content, recipient );
 		}
 		else if ( Preferences.getBoolean( "chatBeep" ) && ( StringUtilities.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ).equalsIgnoreCase( recipient ) ) )
 		{
@@ -410,14 +434,8 @@ public abstract class ChatManager
 			destination = sender;
 		}
 
-		String bufferKey = ChatManager.getBufferKey( destination );
-
-		ChatManager.openWindow( bufferKey, true );
-
-		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
-
-		String displayHTML = ChatFormatter.formatChatMessage( message );
-		buffer.append( displayHTML );
+		// Display the message in the appropriate tab
+		ChatManager.displayMessage( ChatManager.getBufferKey( destination ), true, ChatFormatter.formatChatMessage( message ) );
 	}
 
 	public static final String getBufferKey( String destination )
