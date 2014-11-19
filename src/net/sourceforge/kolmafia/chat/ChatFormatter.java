@@ -64,6 +64,8 @@ public class ChatFormatter
 
 	private static final Pattern GREEN_PATTERN =
 		Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
+	private static final Pattern RED_PATTERN =
+		Pattern.compile( "^<font color=red>(.*?)</font>$" );
 	private static final Pattern NESTED_LINKS_PATTERN =
 		Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
 	private static final Pattern CHAT_LINKS_PATTERN =
@@ -104,6 +106,18 @@ public class ChatFormatter
 		return normalizedContent;
 	}
 
+	public static final String removeRedColor( final String originalContent )
+	{
+		// This is called for each message from a response.
+
+		String normalizedContent = originalContent;
+
+		// noColorContent
+		normalizedContent = ChatFormatter.RED_PATTERN.matcher( normalizedContent ).replaceAll( "$1" );
+
+		return normalizedContent;
+	}
+
 	public static final String formatExternalMessage( final String originalContent )
 	{
 		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
@@ -136,6 +150,9 @@ public class ChatFormatter
 
 		// normalBoldsContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></b>", "</b><br>" );
+
+		// normalFontsContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></font>", "</font><br>" );
 
 		// colonOrderedContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, ":</b></a>", "</a></b>:" );
