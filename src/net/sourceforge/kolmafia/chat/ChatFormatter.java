@@ -154,6 +154,9 @@ public class ChatFormatter
 		// normalFontsContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></font>", "</font><br>" );
 
+		// normalSpanContent
+		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></span>", "</span><br>" );
+
 		// colonOrderedContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, ":</b></a>", "</a></b>:" );
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "</a>:</b>", "</a></b>:" );
