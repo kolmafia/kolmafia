@@ -1015,7 +1015,9 @@ public class QuestManager
 				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step9" );
 			}
 		}
-		else if ( location.contains( AdventurePool.CASTLE_TOP_ID ) )
+		else if ( location.contains( AdventurePool.CASTLE_TOP_ID ) &&
+		          !responseText.contains( "You have to learn to walk" ) &&
+		          !responseText.contains( "You'll have to figure out some other way" ) )
 		{
 			// Castle Top floor available
 			QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step9" );
