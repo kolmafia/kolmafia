@@ -200,7 +200,16 @@ public class ChatFormatter
 
 		String sender = message.getSender();
 
-		if ( sender == null )
+		if ( message instanceof SystemMessage )
+		{
+			displayHTML.append( "<b><font color=\"red\">" );
+			displayHTML.append( "<a href=\"showplayer.php?who=-1\"><b>System Message</b></a>" );
+
+			displayHTML.append( ": " );
+			displayHTML.append( message.getContent() );
+			displayHTML.append( "</font></b>" );
+		}
+		else if ( sender == null )
 		{
 			String messageColor = null;
 

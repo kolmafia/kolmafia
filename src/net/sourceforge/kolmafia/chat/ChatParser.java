@@ -350,12 +350,17 @@ public class ChatParser
 
 		if ( span != null )
 		{
-			content = span + content + "</span>";
+			// The </span> is already at the end of the content
+			content = span + content;
 		}
 
 		ChatMessage message;
 
-		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "Mod Announcement" ) || playerName.equals( "System Message" ) )
+		if ( playerName.equals( "System Message" ) )
+		{
+			message = new SystemMessage( content );
+		}
+		else if ( playerName.equals( "Mod Warning" ) || playerName.equals( "Mod Announcement" ) )
 		{
 			message = new ModeratorMessage( channel, playerName, playerId, content );
 		}

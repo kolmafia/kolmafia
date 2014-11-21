@@ -357,6 +357,12 @@ public abstract class ChatManager
 			return;
 		}
 
+		if ( message instanceof SystemMessage )
+		{
+			ChatManager.processSystemMessage( (SystemMessage) message );
+			return;
+		}
+
 		if ( message instanceof EnableMessage )
 		{
 			ChatManager.processChannelEnable( (EnableMessage) message );
@@ -379,12 +385,6 @@ public abstract class ChatManager
 
 			// Display the message in the current channel
 			ChatManager.displayMessage( ChatManager.getBufferKey( recipient ), true, displayHTML );
-
-			// If it's a System Message, also put it into Events.
-			if ( sender.equals( "System Message" ) )
-			{
-				ChatManager.displayMessage( "[events]", true, displayHTML );
-			}
 			return;
 		}
 
@@ -485,6 +485,39 @@ public abstract class ChatManager
 		String cleanContent = KoLConstants.ANYTAG_PATTERN.matcher( content ).replaceAll( "" );
 		ChatManager.processCommand( "", cleanContent, "Events" );
 		ChatManager.broadcastEvent( message );
+	}
+
+	public static final void processSystemMessage( final SystemMessage message )
+	{
+		// Format the message
+		String displayHTML = ChatFormatter.formatChatMessage( message );
+
+		// If the user doesn't want events to appear in all tabs,
+		// put the System Message only in the Events tab
+		if ( !Preferences.getBoolean( "broadcastEvents" ) )
+		{
+			// Put the message in the Events tab and highlight it
+			ChatManager.displayMessage( "[events]", true, displayHTML );
+			return;
+		}
+
+		// Otherwise, broadcast it
+		synchronized ( ChatManager.bufferEntries )
+		{
+			for ( Entry<String,StyledChatBuffer> entry : ChatManager.bufferEntries )
+			{
+				String key = entry.getKey();
+				StyledChatBuffer buffer = entry.getValue();
+
+				buffer.append( displayHTML );
+
+				// Open the Events tab
+				if ( key.equals( "[events]" ) )
+				{
+					ChatManager.openWindow( key, false );
+				}
+			}
+		}
 	}
 
 	public static final void processChannelEnable( final EnableMessage message )
