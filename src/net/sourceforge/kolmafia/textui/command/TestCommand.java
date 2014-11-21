@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatParser;
+import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
@@ -404,8 +405,15 @@ public class TestCommand
 
 		if ( command.equals( "chat" ) )
 		{
-			List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
-			ChatParser.parseLines( chatMessages, TestCommand.contents );
+			List<ChatMessage> chatMessages = ChatParser.parseLines(TestCommand.contents );
+			ChatManager.processMessages( chatMessages );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "mchat" ) )
+		{
+			List<ChatMessage> chatMessages = ChatPoller.parseNewChat( TestCommand.contents );
 			ChatManager.processMessages( chatMessages );
 			TestCommand.contents = null;
 			return;

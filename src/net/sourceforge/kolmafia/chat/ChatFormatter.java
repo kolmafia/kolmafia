@@ -56,7 +56,7 @@ public class ChatFormatter
 
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?/(.*?)(?<!12x12skull)\\.gif.*?>" );
 
-	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:.*?-->" );
 	private static final Pattern EXPAND_PATTERN = Pattern.compile( "</?p>" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
@@ -64,8 +64,8 @@ public class ChatFormatter
 
 	private static final Pattern GREEN_PATTERN =
 		Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
-	private static final Pattern RED_PATTERN =
-		Pattern.compile( "^<font color=red>(.*?)</font>$" );
+	private static final Pattern LINE_COLOR_PATTERN =
+		Pattern.compile( "^<font color=(?:red|green)>(.*?)</font>$" );
 	private static final Pattern NESTED_LINKS_PATTERN =
 		Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
 	private static final Pattern CHAT_LINKS_PATTERN =
@@ -83,10 +83,11 @@ public class ChatFormatter
 	{
 		// This is called once for all of the lines that arrive in a single response
 
-		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
+		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent.trim() );
 
-		// noCommentsContent
-		normalizedContent = ChatFormatter.COMMENT_PATTERN.matcher( normalizedContent ).replaceAll( "" );
+		// KoL inserts HTML comments for special "chat effects". Keep them.
+		// But, we don't want the lastseen comment
+		normalizedContent = ChatFormatter.LASTSEEN_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		// noTableContent
 		normalizedContent = ChatFormatter.TABLE_PATTERN.matcher( normalizedContent ).replaceAll( "" );
@@ -106,21 +107,21 @@ public class ChatFormatter
 		return normalizedContent;
 	}
 
-	public static final String removeRedColor( final String originalContent )
+	public static final String removeLineColor( final String originalContent )
 	{
 		// This is called for each message from a response.
 
 		String normalizedContent = originalContent;
 
-		// noColorContent
-		normalizedContent = ChatFormatter.RED_PATTERN.matcher( normalizedContent ).replaceAll( "$1" );
+		// noLineColorContent
+		normalizedContent = ChatFormatter.LINE_COLOR_PATTERN.matcher( normalizedContent ).replaceAll( "$1" );
 
 		return normalizedContent;
 	}
 
 	public static final String formatExternalMessage( final String originalContent )
 	{
-		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent );
+		String normalizedContent = ChatFormatter.getNormalizedMessage( originalContent.trim() );
 
 		// normalPrivateContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
@@ -236,7 +237,19 @@ public class ChatFormatter
 		{
 			ModeratorMessage modMessage = (ModeratorMessage) message;
 
-			displayHTML.append( "<b><font color=\"red\">" );
+			String open, close;
+			if ( sender.equals( "Mod Announcement" ) )
+			{
+				open = "<font color=green>";
+				close = "</font>";
+			}
+			else
+			{
+				open = "<b><font color=red>";
+				close = "</font></b>";
+			}
+
+			displayHTML.append( open );
 			displayHTML.append( "<a href=\"showplayer.php?who=" );
 			displayHTML.append( modMessage.getModeratorId() );
 			displayHTML.append( "\">" );
@@ -247,7 +260,7 @@ public class ChatFormatter
 
 			displayHTML.append( ": " );
 			displayHTML.append( message.getContent() );
-			displayHTML.append( "</font></b>" );
+			displayHTML.append( close );
 		}
 		else
 		{

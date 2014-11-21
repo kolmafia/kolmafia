@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -419,13 +420,149 @@ public class ChatPoller
 		return false;
 	}
 
+	public static  List<ChatMessage> parseNewChat( final String responseData )
+	{
+		List<ChatMessage> messages = new LinkedList<ChatMessage>();
+		try
+		{
+			ChatPoller.parseNewChat( messages, new JSONObject( responseData ), "", ChatPoller.localLastSeen, true );
+		}
+		catch ( JSONException e )
+		{
+			e.printStackTrace();
+		}
+		return messages;
+	}
+
+	public static List<ChatMessage> parseNewChat( final List<ChatMessage> messages, JSONObject obj, final String sent, final long localLastSeen, final boolean debug )
+		throws JSONException
+	{
+		JSONArray msgs = obj.getJSONArray( "msgs" );
+		for ( int i = 0; i < msgs.length(); i++ )
+		{
+			JSONObject msg = msgs.getJSONObject( i );
+
+			// If we have already seen this message in the chat GUI, skip it.
+			long mid = msg.optLong( "mid" );
+			if ( !debug && mid != 0 && mid <= ChatPoller.serverLastSeen )
+			{
+				continue;
+
+			}
+
+			String type = msg.getString( "type" );
+			boolean pub = type.equals( "public" );
+
+			String formatString = msg.optString( "format" );
+			int format = formatString == null ? 0 : StringUtilities.parseInt( formatString );
+
+			// From mchat.js:
+			//
+			// type = "public" format = "0" -> normal public chat message
+			// type = "public" format = "1" -> /em public chat message
+			// type = "public" format = "2" -> System Message
+			// type = "public" format = "3" -> Mod Warning
+			// type = "public" format = "4" -> Mod Announcement
+			// type = "public" format = "98" -> event
+			// type = "public" format = "99" -> Welcome message
+			// type = "private" -> private chat message
+			// type = "event" -> event
+			// type = "system" -> System Message
+			//
+			// I have never seen the "public" versions of
+			// System Message or Event. Those are probably
+			// obsolete, now that they have their own types
+
+			JSONObject whoObj = msg.optJSONObject( "who" );
+			String sender = whoObj != null ? whoObj.getString( "name" ) : null;
+			String senderId = whoObj != null ? whoObj.getString( "id" ) : null;
+			boolean mine = KoLCharacter.getPlayerId().equals( senderId );
+
+			JSONObject forObj = msg.optJSONObject( "for" );
+			String recipient = forObj != null ? forObj.optString( "name" ) : null;
+
+			String content = msg.optString( "msg", null );
+
+			if ( type.equals( "event" ) )
+			{
+				// {"type":"event","msg":"You are now in away mode, chat will update more slowly until you say something.","notnew":1,"time":1411683685}
+				// {"type":"event","msg":"Welcome back!  Away mode disabled.","time":1411683893}
+				if ( !debug && content != null )
+				{
+					if ( content.startsWith( "You are now in away mode" ) )
+					{
+						ChatPoller.pauseChat( true, true );
+					}
+					else if ( content.contains( "Away mode disabled" ) )
+					{
+						ChatPoller.pauseChat( false, true );
+					}
+
+					// TODO: handle other events
+				}
+
+				messages.add( new EventMessage( content, "green" ) );
+				continue;
+			}
+
+			if ( type.equals( "system" ) )
+			{
+				messages.add( new SystemMessage( content ) );
+				continue;
+			}
+
+			if ( !debug && sender == null )
+			{
+				ChatSender.processResponse( messages, content, sent );
+				continue;
+			}
+
+			if ( recipient == null )
+			{
+				if ( pub )
+				{
+					String channel = "/" + msg.getString( "channel" );
+					if ( sender.equals( "Mod Announcement" ) || sender.equals( "Mod Warning" ) )
+					{
+						messages.add( new ModeratorMessage( channel, sender, senderId, content ) );
+						continue;
+					}
+					recipient = channel;
+				}
+				else
+				{
+					recipient = KoLCharacter.getUserName();
+				}
+			}
+
+			recipient = recipient.replaceAll( " ", "_" );
+
+			// Apparently isAction corresponds to /em commands.
+			boolean isAction = format == 1;
+
+			if ( isAction )
+			{
+				// username ends with "</b></font></a> "; remove trailing </i>
+				content = content.substring( content.indexOf("</a>" ) + 5, content.length() - 4 );
+			}
+
+			if ( pub && mine && ChatPoller.messageAlreadySeen( recipient, content, localLastSeen ) )
+			{
+				continue;
+			}
+
+			messages.add( new ChatMessage( sender, recipient, content, isAction ) );
+		}
+
+		return messages;
+	}
+
 	public static void handleNewChat( final String responseData, final String sent, final long localLastSeen )
 	{
 		try
 		{
-			JSONObject obj = new JSONObject( responseData );
-
 			List<ChatMessage> messages = new LinkedList<ChatMessage>();
+			JSONObject obj = new JSONObject( responseData );
 
 			// note: output is where /who, /listen, + various game commands
 			// (/use etc) output goes. May exist.
@@ -436,93 +573,7 @@ public class ChatPoller
 				ChatSender.processResponse( messages, output, sent );
 			}
 
-			JSONArray msgs = obj.getJSONArray( "msgs" );
-			for ( int i = 0; i < msgs.length(); i++ )
-			{
-				JSONObject msg = msgs.getJSONObject( i );
-
-				// If we have already seen this message in the chat GUI, skip it.
-				long mid = msg.optLong( "mid" );
-				if ( mid != 0 && mid <= ChatPoller.serverLastSeen )
-				{
-					continue;
-
-				}
-
-				String type = msg.getString( "type" );
-				boolean pub = type.equals( "public" );
-
-				JSONObject whoObj = msg.optJSONObject( "who" );
-				String sender = whoObj != null ? whoObj.getString( "name" ) : null;
-				String senderId = whoObj != null ? whoObj.getString( "id" ) : null;
-				boolean mine = KoLCharacter.getPlayerId().equals( senderId );
-
-				JSONObject forObj = msg.optJSONObject( "for" );
-				String recipient = forObj != null ? forObj.optString( "name" ) : null;
-
-				String content = msg.optString( "msg", null );
-
-				if ( type.equals( "event" ) )
-				{
-					// {"type":"event","msg":"You are now in away mode, chat will update more slowly until you say something.","notnew":1,"time":1411683685}
-					// {"type":"event","msg":"Welcome back!  Away mode disabled.","time":1411683893}
-					if ( content != null )
-					{
-						if ( content.startsWith( "You are now in away mode" ) )
-						{
-							ChatPoller.pauseChat( true, true );
-						}
-						else if ( content.contains( "Away mode disabled" ) )
-						{
-							ChatPoller.pauseChat( false, true );
-						}
-
-						// TODO: handle other events
-					}
-
-					messages.add( new EventMessage( content, "green" ) );
-					continue;
-				}
-
-				if ( sender == null )
-				{
-					ChatSender.processResponse( messages, content, sent );
-					continue;
-				}
-
-				if ( recipient == null )
-				{
-					if ( type.equals( "system" ) )
-					{
-						ChatMessage message = 
-							sender.equals( "System Message" ) ?
-							new SystemMessage( content ) :
-							new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content );
-						messages.add( message );
-						continue;
-					}
-
-					recipient = pub ? "/" + msg.getString( "channel" ) : KoLCharacter.getUserName();
-				}
-				recipient = recipient.replaceAll( " ", "_" );
-
-				// Apparently isAction corresponds to /em commands.
-				boolean isAction = "1".equals( msg.optString( "format" ) );
-
-				if ( isAction )
-				{
-					// username ends with "</b></font></a> "; remove trailing </i>
-					content = content.substring( content.indexOf("</a>" ) + 5, content.length() - 4 );
-				}
-
-				if ( pub && mine && ChatPoller.messageAlreadySeen( recipient, content, localLastSeen ) )
-				{
-					continue;
-				}
-
-				messages.add( new ChatMessage( sender, recipient, content, isAction ) );
-			}
-
+			ChatPoller.parseNewChat( messages, obj, sent, localLastSeen, false );
 
 			if ( obj.has( "last" ) )
 			{
@@ -542,6 +593,5 @@ public class ChatPoller
 		{
 			e.printStackTrace();
 		}
-
 	}
 }
