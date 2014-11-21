@@ -494,7 +494,11 @@ public class ChatPoller
 				{
 					if ( type.equals( "system" ) )
 					{
-						messages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
+						ChatMessage message = 
+							sender.equals( "System Message" ) ?
+							new SystemMessage( content ) :
+							new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content );
+						messages.add( message );
 						continue;
 					}
 
