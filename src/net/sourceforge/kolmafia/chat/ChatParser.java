@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.chat;
 
 import java.awt.Toolkit;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -211,6 +212,13 @@ public class ChatParser
 		}
 	}
 
+	public static List<ChatMessage> parseLines( final String content )
+	{
+		List<ChatMessage> chatMessages = new LinkedList<ChatMessage>();
+		ChatParser.parseLines( chatMessages, content );
+		return chatMessages;
+	}
+
 	public static void parseLines( final List<ChatMessage> chatMessages, final String content )
 	{
 		ChatParser.parsePlayerIds( content );
@@ -228,22 +236,28 @@ public class ChatParser
 
 		int nextLine = 0;
 
-		for ( int i = 0; i < lines.length; i = nextLine )
+		while ( nextLine < lines.length )
 		{
-			if ( lines[ i ] == null || lines[ i ].length() == 0 )
+			String line = lines[ nextLine ];
+
+			if ( line.length() == 0 )
 			{
 				++nextLine;
 				continue;
 			}
 
-			StringBuilder currentLineBuilder = new StringBuilder( lines[ i ] );
+			StringBuilder currentLineBuilder = new StringBuilder( line );
 
-			while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
+			while ( ++nextLine < lines.length && !lines[ nextLine ].contains( "<a" ) )
 			{
-				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
+				line = lines[ nextLine ];
+
+				if ( line.length() == 0 )
 				{
-					currentLineBuilder.append( "<br>" ).append( lines[ nextLine ] );
+					continue;
 				}
+
+				currentLineBuilder.append( "<br>" ).append( line );
 			}
 
 			ChatParser.parseLine( chatMessages, currentLineBuilder.toString().trim() );
@@ -298,8 +312,8 @@ public class ChatParser
 
 	private static boolean parseChannelMessage( final List<ChatMessage> chatMessages, String line )
 	{
-		// If entire line is wrapped in red - System and Moderator messages - remove coloring
-		line = ChatFormatter.removeRedColor( line );
+		// If entire line is wrapped in a color - System Message, Mod Warning, and Mod Announcement - remove coloring
+		line = ChatFormatter.removeLineColor( line );
 		
 		Matcher channelMatcher = ChatParser.CHANNEL_PATTERN.matcher( line );
 		if ( !channelMatcher.find() )
