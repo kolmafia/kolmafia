@@ -697,6 +697,13 @@ public class ResponseTextParser
 			{
 				ArtistRequest.parseResponse( location, responseText );
 			}
+			else if ( location.contains( "whichplace=twitch" ) )
+			{
+				if ( location.contains( "action=twitch_bank" ) && responseText.contains( "Thanks fer bringin' the money back" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );
+				}
+			}
 		}
 
 		else if ( location.startsWith( "questlog.php" ) )

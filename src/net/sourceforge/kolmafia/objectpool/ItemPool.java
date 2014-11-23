@@ -2154,6 +2154,7 @@ public class ItemPool
 	public static final int PICKY_TWEEZERS = 7936;
 	public static final int SLEEVE_DEUCE = 7941;
 	public static final int POCKET_ACE = 7942;
+	public static final int BIG_BAG_OF_MONEY = 7955;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
