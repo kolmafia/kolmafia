@@ -392,7 +392,7 @@ public class ResultProcessor
 	{
 		String item = parsedResults.nextToken();
 
-		if ( acquisition.indexOf( "an item" ) != -1 )
+		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = ItemPool.get( item, 1 );
 
@@ -402,6 +402,12 @@ public class ResultProcessor
 			}
 
 			ResultProcessor.processItem( combatResults, acquisition, result, data );
+			return;
+		}
+
+		if ( acquisition.contains( "a bounty item" ) )
+		{
+			// Bounty items are no longer real items
 			return;
 		}
 
