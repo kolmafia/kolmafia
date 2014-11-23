@@ -217,6 +217,7 @@ pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
+plaid cowboy hat	100	Mox: 35
 plain paper hat	150	Mox: 60
 plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
@@ -1123,6 +1124,7 @@ rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
 rubber ribcage	120	Mus: 45	shield
 Ruby Rod	120	Mus: 40	1-handed rod
+rusted-out shootin' iron	100	Mus: 35	1-handed club
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
@@ -2087,6 +2089,7 @@ orc wrist	95	Mys: 32
 Order of the Silver Wossname	200	Mys: 85
 ornamental sextant	200	Mys: 85
 Oscus's pelt	200	Mys: 200
+outlaw bandana	100	Mox: 35
 oven mitts	45	Mys: 7
 over-the-shoulder Folder Holder	100	none
 pacifier necklace	150	Mox: 60
@@ -2600,6 +2603,8 @@ super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
 Time Bandit Time Towel	10	none
+Time Cape	100	none
+Time Cloak	100	none
 toy jet pack	175	Mys: 75
 whatsit-covered turtle shell	50	Mus: 20
 wings of fire	100	Mys: 100

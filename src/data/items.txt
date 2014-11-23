@@ -7955,3 +7955,19 @@
 7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
 7937
 7938	single atom	904190479	blank.gif	multiple	d	300
+7939	Time Cape	790284934	timecape.gif	container	t	0
+7940	Time Cloak	160423604	timecape.gif	container	t	0
+7941	sleeve deuce	141010910	deuce.gif	none	t,d	23
+7942	pocket ace	492238100	ace.gif	none	t,d	23
+7943	nastygeist	533190608	nastygeist.gif	none, combat	t,d	12
+7944	gold tooth	262144049	goldtooth.gif	none	t,d	500
+7945	portable table	312972111	portabletable.gif	none, combat	t,d	25
+7946	outlaw bandana	272872991	icecreamcone.gif	accessory	t,d	15
+7947	whiskey in a broken glass	380205567	rocks.gif	drink	t,d	72
+7948	shot of mescal	187980687	shot.gif	drink	t,d	88
+7949	glass of herbal tequila	674901247	rocks.gif	drink	t,d	69
+7950	minin' dynamite	984777417	minamite.gif	none	t,d	125
+7951	plaid cowboy hat	592449764	plaidhat.gif	hat	t,d	111
+7952	spooky lasso	733418882	lasso.gif	none, combat	t,d	77
+7953	rusted-out shootin' iron	930822550	rustygun.gif	weapon	t,d	92
+7954	rattler rattle	152439376	snakerattle.gif	none, combat	t,d	48
