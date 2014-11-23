@@ -295,7 +295,9 @@ public class FileUtilities
 		InputStream istream = null;
 		try
 		{
-			switch ( connection.getResponseCode() ) {
+			int responseCode = connection.getResponseCode();
+			String responseMessage = connection.getResponseMessage();
+			switch ( responseCode ) {
 			case 200:
 				istream = connection.getInputStream();
 				break;
@@ -311,6 +313,10 @@ public class FileUtilities
 					RequestLogger.trace( "Not modified: " + remote );
 				}
 			default:
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Server returned response code " + responseCode + " (" + responseMessage + ")" );
+				}
 				return;
 			}
 		}
