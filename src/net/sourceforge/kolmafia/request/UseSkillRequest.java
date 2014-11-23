@@ -1841,13 +1841,22 @@ public class UseSkillRequest
 		     responseText.contains( "You can't use that skill" ) ||
 		     responseText.contains( "You can only summon" ) )
 		{
-			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
+			if ( skillId == SkillPool.COCOON )
+			{
+				// Cannelloni Cocoon says "You can't use that
+				// skill" when you are already at full HP.
+				UseSkillRequest.lastUpdate = "You are already at full HP.";
+			}
+			else
+			{
+				UseSkillRequest.lastUpdate = "Summon limit exceeded.";
 
-			// We're out of sync with the actual number of times
-			// this skill has been cast.  Adjust the counter by 1
-			// at a time.
-			count = 1;
-			mpCost = 0;
+				// We're out of sync with the actual number of times
+				// this skill has been cast.  Adjust the counter by 1
+				// at a time.
+				count = 1;
+				mpCost = 0;
+			}
 		}
 
 		switch ( skillId )
