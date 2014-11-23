@@ -721,6 +721,8 @@ public class AdventureRequest
 				image.startsWith( "madiator" ) ? "Madiator" :
 				image.startsWith( "radiator" ) ? "Radiator" :
 				image.startsWith( "sadiator" ) ? "Sadiator" :
+				// The Spooky Old Abandoned Mine
+				image.startsWith( "outlawboss" ) ? "outlaw leader" :
 				null;
 		}
 
