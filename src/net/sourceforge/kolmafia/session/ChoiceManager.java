@@ -3226,6 +3226,15 @@ public abstract class ChoiceManager
 		// Choice 984 is A Radio on a Beach
 		// Choice 988 is The Containment Unit
 		// Choice 989 is Paranormal Test Lab
+
+		// Choice 998 is Game of Cards
+		new ChoiceAdventure(
+			"Twitch", "choiceAdventure998", "Game of Cards",
+			new Object[] { new Option( "Gain 7 Chroner" ),
+				       new Option( "Gain 9 Chroner" ),
+				       new Option( "Gain 13 Chroner (80% chance)" ),
+				       new Option( "Gain 17 Chroner (60% chance)" ),
+				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7702,6 +7711,19 @@ public abstract class ChoiceManager
 			else
 			{
 				Preferences.setString( "EVEDirections", containment.substring( 0, 5 ) + "0" );
+			}
+			break;
+
+		case 998:
+			if ( text.contains( "confiscate your deuces" ) )
+			{
+				int removeDeuces = ChoiceManager.lastDecision - 1;
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SLEEVE_DEUCE, removeDeuces ) );
+				break;
+			}
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.removeItem( ItemPool.POCKET_ACE );
 			}
 			break;
 		}
