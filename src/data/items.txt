@@ -7971,3 +7971,4 @@
 7952	spooky lasso	733418882	lasso.gif	none, combat	t,d	77
 7953	rusted-out shootin' iron	930822550	rustygun.gif	weapon	t,d	92
 7954	rattler rattle	152439376	snakerattle.gif	none, combat	t,d	48
+7955	big bag of money	814252400	moneybag.gif	none	q	0
