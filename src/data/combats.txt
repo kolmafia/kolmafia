@@ -295,6 +295,7 @@ The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
 The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	Red Fox: 0	Ron "The Weasel" Copperhead: 0
 The Road to the White Citadel	-1	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin alchemist: 0	sticky mummy: 0	W imp: 0
+The Rowdy Saloon	100	animated spittoon	craggy bartender	gamblin' man	outlaw behind an table
 The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Royal Guard Chamber	100	filthworm royal guard
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
@@ -305,6 +306,7 @@ The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		st
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
 The Spooky Forest	60	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1
 The Spooky Gravy Burrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
+The Spooky Old Abandoned Mine	100	cowskeleton	nest of rattlers	tetched prospector	outlaw leader: 0
 The Sunken Party Yacht	100	broctopus	cocktail shrimp	wild girl	drownedbeat: 0	son of a son of a sailor: 0	taco fish: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
 The Themthar Hills	100	dirty thieving brigand
