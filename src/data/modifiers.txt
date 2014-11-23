@@ -301,6 +301,7 @@ pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk
 pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "atk, 2xVolley, cap 12"
+plaid cowboy hat	Weapon Damage: +20, Hot Resistance: +2
 plain paper hat	Cold Damage: +20, Cold Spell Damage: +25, Spell Damage Percent: +30
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 pointy red hat	Damage Reduction: 5, Familiar Effect: "1xVolley, 1xLep, cap 27"
@@ -1301,6 +1302,7 @@ Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accor
 rubber axe	Sleaze Damage: +2
 rubber band gun	Moxie: +5
 # Ruby Rod
+rusted-out shootin' iron	Meat Drop: +10, Ranged Damage: +50, Combat Rate: -5
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
 rusty piece of rebar	Weapon Damage: +25, Critical Hit Percent: +7
 # rusty speargun: On Critical:  Deals 50-60 additional damage
@@ -2436,6 +2438,7 @@ Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +
 Order of the Silver Wossname	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +11, Meat Drop: +11, Single Equip
 ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastamancer", Single Equip
+outlaw bandana	Moxie: +10, Initiative: +20, Weapon Drop: +40
 oven mitts	Hot Resistance: +2, Single Equip
 # over-the-shoulder Folder Holder: Softcore Only (Except for High School Students)
 over-the-shoulder Folder Holder	Single Equip
@@ -3011,6 +3014,8 @@ super-absorbent tarp	Maximum Hooch: +2
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 teddybear backpack	Meat Drop: +10, Raveosity: +1
 Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
+Time Cape	Item Drop: [25*zone(Twitch)]
+# Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
 wings of fire	Hot Damage: +25, Hot Spell Damage: +25
@@ -3838,6 +3843,8 @@ Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
 Bloody Bloody Bloody!	Spooky Damage: +50
+# Bloody Grin: +500% Physical Damage
+Bloody Grin	Experience (Muscle): [25*zone(Twitch)]
 Bloody Hand	Muscle: -1
 Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 # Bloody-minded: +50% Damage vs. Vampires
@@ -3867,6 +3874,7 @@ Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
+Brainworm	Item Drop: +200, Experience (Mysticality): [25*zone(Twitch)]
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
@@ -4433,6 +4441,7 @@ HELLO WORLD!	Avatar: "triad code wizard"
 Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
 Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Hennaliciousness	Mysticality: +3
+Herbal Pert	Experience (Moxie): [2*zone(Twitch)], Initiative: +250
 Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -6123,6 +6132,7 @@ Friendly Turkey	Effect: "Turkey-Friendly", Effect Duration: 25
 Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 flat cider	Effect: "Fruited", Effect Duration: 100
 Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
+glass of herbal tequila	Effect: "Herbal Pert", Effect Duration: 50
 gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 Golden Mean	Effect: "World's Shortest Giant", Effect Duration: 10
 Grasshopper	Effect: "Cockroach Scurry", Effect Duration: 5
@@ -6177,6 +6187,7 @@ scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 screwdiver	Effect: "Brined Liver", Effect Duration: 20
 sham champagne	Effect: "Shamboozled", Effect Duration: 10
 shot of flower schnapps	Effect: "Flower Power", Effect Duration: 3
+shot of mescal	Effect: "Brainworm", Effect Duration: 50
 shot of nepenthe schnapps	Effect: "Memento Moir&eacute;", Effect Duration: 10
 Shot of the Living Dead	Effect: "Creepypasted ", Effect Duration: 15
 Silver Bullet beer	Effect: "Wolf's Bane", Effect Duration: 30
@@ -6209,6 +6220,7 @@ warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
 warbear blizzard mead	Effect: "Warbear Blubber", Effect Duration: 40
 warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40
 wasabi-infused sake	Effect: "Wasabi With You", Effect Duration: 30
+whiskey in a broken glass	Effect: "Bloody Grin", Effect Duration: 50
 white Canadian	Effect: "Canadianity", Effect Duration: 3
 white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 50
 white lightning	Effect: "Temporary Blindness", Effect Duration: 3

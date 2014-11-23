@@ -1776,3 +1776,6 @@
 1774	Turkey-Agitated	fistturkey.gif	f9510c347b1bbff712c9fcccd5e3b840	drink 1 Agitated Turkey
 1775	Turkey-Ambitious	fistturkey.gif	bcf0e75e107b9dc2cd9e116cfe1b5f9c	drink 1 Ambitious Turkey
 1776	So Much Holiday Fun!	holidaylog.gif	b79638377565e23ebf70c2c85c3963b8
+1777	Bloody Grin	rocks.gif	4b4aaccd35a9896d9d6fecb38ee638e5	drink 1 whiskey in a broken glass
+1778	Brainworm woim.gif	99aa0ab114235cd01e094b52de50f4ff	drink 1 shot of mescal
+1779	Herbal Pert	bugle.gif	f2bc42bc3dc3f0611b0c4155b4524b44	drink 1 glass of herbal tequila

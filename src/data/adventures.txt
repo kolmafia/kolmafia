@@ -347,6 +347,8 @@ Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
 Twitch	adventure=412	Env: outdoor Stat: 0	Moonshiners' Woods
 Twitch	adventure=414	Env: outdoor Stat: 0	The Roman Forum
 Twitch	adventure=418	Env: indoor Stat: 0	The Post-Mall
+Twitch	adventure=422	Env: indoor Stat: 0	The Rowdy Saloon
+Twitch	adventure=423	Env: underground Stat: 0	The Spooky Old Abandoned Mine
 
 Psychoses	adventure=301	Env: outdoor	Anger Man's Level
 Psychoses	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
