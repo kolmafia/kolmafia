@@ -151,7 +151,7 @@ public abstract class MoodManager
 		
 		for ( Mood mood : MoodManager.availableMoods )
 		{
-			if ( mood.getName().equals( newMoodName ) )
+			if ( mood.equals( newMood) )
 			{
 				MoodManager.currentMood = mood;
 				
