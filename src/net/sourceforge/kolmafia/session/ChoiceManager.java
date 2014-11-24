@@ -11073,8 +11073,12 @@ public abstract class ChoiceManager
 	public static final void addGoalButton( final StringBuffer buffer, final String goal )
 	{
 		// Insert a "Goal" button in-line
-		String search = "<form name=choiceform1";
-		int index = buffer.lastIndexOf( search );
+		int index = buffer.lastIndexOf( "name=choiceform1" );
+		if ( index == -1 )
+		{
+			return;
+		}
+		index = buffer.lastIndexOf( "<form", index );
 		if ( index == -1 )
 		{
 			return;
