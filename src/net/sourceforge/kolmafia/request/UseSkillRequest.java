@@ -917,11 +917,11 @@ public class UseSkillRequest
 		Speculation spec = new Speculation();
 		spec.equip( slotId, EquipmentRequest.UNEQUIP );
 		int[] predictions = spec.calculate().predict();
-		if ( KoLCharacter.getCurrentMP() > predictions[ Modifiers.BUFFED_MP ] )
+		if ( KoLCharacter.getMaximumMP() > predictions[ Modifiers.BUFFED_MP ] )
 		{
 			return false;
 		}
-		if ( KoLCharacter.getCurrentHP() > predictions[ Modifiers.BUFFED_HP ] )
+		if ( KoLCharacter.getMaximumHP() > predictions[ Modifiers.BUFFED_HP ] )
 		{
 			return false;
 		}
@@ -1855,8 +1855,8 @@ public class UseSkillRequest
 				// this skill has been cast.  Adjust the counter by 1
 				// at a time.
 				count = 1;
-				mpCost = 0;
 			}
+			mpCost = 0;
 		}
 
 		switch ( skillId )
