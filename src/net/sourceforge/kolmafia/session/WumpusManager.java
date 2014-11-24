@@ -758,7 +758,12 @@ public abstract class WumpusManager
 			return;
 		}
 
-		int index = buffer.indexOf( "<center><form name=choiceform1" );
+		int index = buffer.indexOf( "name=choiceform1" );
+		if ( index == -1 )
+		{
+			return;
+		}
+		index = buffer.lastIndexOf( "<center><form ", index );
 		if ( index == -1 )
 		{
 			return;
