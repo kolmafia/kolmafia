@@ -132,7 +132,7 @@ import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 public class RequestEditorKit
 	extends HTMLEditorKit
 {
-	private static final Pattern FORM_PATTERN = Pattern.compile( "<form name=choiceform(\\d+)" );
+	private static final Pattern FORM_PATTERN = Pattern.compile( "name=choiceform(\\d+)" );
 	//private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );

@@ -187,7 +187,7 @@ public class Mood
 		buffer.append( " ]" );
 		buffer.append( KoLConstants.LINE_BREAK );
 		
-		for ( MoodTrigger trigger : this.getTriggers() )
+		for ( MoodTrigger trigger : this.localTriggers )
 		{
 			buffer.append( trigger.toSetting() );
 			buffer.append( KoLConstants.LINE_BREAK );
