@@ -5491,7 +5491,7 @@ Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Yuletide Sappiness	Mysticality Percent: +10
-Zero Energy Maximum	MP Percent: +200, Maximum MP: +50
+Zero Energy	Maximum MP Percent: +200, Maximum MP: +50
 Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
@@ -6288,7 +6288,7 @@ big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 Big Punk	Effect: "Big Punkin'", Effect Duration: 50
 birthday candle	Effect: "Light!", Effect Duration: 3
 Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
-Bit O' Quail	Spleen Effect: "Vented Spleen", Effect Duration: 10
+Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10
 bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 bitter pill	Effect: "Bitterskin", Effect Duration: 100
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10

@@ -1409,7 +1409,7 @@ Crimbo Elf creepy bobble-head	0	none
 Crimbo light-up Rudolph doll	0	none
 Crimbo stogie-scented room odorizer	0	none
 Crimbo tree flocker	0	none
-cuddly teddy bear	0	Mys: 47
+cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
@@ -1982,7 +1982,7 @@ hippy medical kit	175	Mys: 72
 hippy protest button	160	Mys: 65
 HOA zombie eyes	300	Mys: 100
 hobo stogie	200	Mys: 200
-hockey stick of furious angry rage	0	Mys: 35
+hockey stick of furious angry rage	100	Mys: 35
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 hopping socks	200	Mys: 200
@@ -2276,7 +2276,7 @@ Superhero Reboots	0	none
 support cummerbund	100	Mys: 35
 surgical mask	155	Mys: 62
 sweat socks	25	none
-Talisman o' Nam	80	Mys: 25
+Talisman o' Nam	80	Mys: 20
 Talisman of Baio	200	none
 Talisman of Bakula	200	none
 tap shoes	90	Mys: 20
@@ -2549,7 +2549,7 @@ wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
 x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none
-Xiblaxian xeno-detection goggles	0	none
+Xiblaxian xeno-detection goggles	100	none
 Xlyinia's notebook	0	none
 ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none
