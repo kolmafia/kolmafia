@@ -1499,14 +1499,14 @@ Z-Rex	zrex.gif	Scale: 5 Cap: 1000 Floor: 10 Init: -10000 P: undead	Z-Bone steak 
 superdupervirus	supervirus.gif	Scale: 5 Cap: 1000 Floor: 10 Init: -10000 P: horror	viral DNA (40)	tarnished bottlecap (20)
 
 # Twitch 6 - Western (November 2014)
-animated spittoon	spittoon.gif	Scale: 1 Init: -10000 P: construct	nastygeist (20)	gold tooth (3)
-cowskeleton	cowskeleton.gif	Scale: 1 Init: -10000 P: undead	spooky lasso (20)	plaid cowboy hat (5)	rusted-out shootin' iron (5)
-craggy bartender	craggybart.gif	Scale: 1 Init: -10000 P: dude	glass of herbal tequila (15)	shot of mescal (15)	whiskey in a broken glass (15)
-gamblin' man	gamblinman.gif	Scale: 1 Init: -10000 P: dude	sleeve deuce (20)	pocket ace (5)
-nest of rattlers	snakenest.gif	Scale: 1 Init: -10000 P: beast	rattler rattle (40)
-outlaw behind an table	tableoutlaw.gif	Scale: 1 Init: -10000 P: dude	portable table (10)	outlaw bandana (5)
-outlaw leader	outlawboss.gif	Scale: 1 Init: -10000 P: dude	big bag of money (n100)
-tetched prospector	tetched.gif	Scale: 1 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
+animated spittoon	spittoon.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: construct	nastygeist (20)	gold tooth (3)
+cowskeleton	cowskeleton.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: undead	spooky lasso (20)	plaid cowboy hat (5)	rusted-out shootin' iron (5)
+craggy bartender	craggybart.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	glass of herbal tequila (15)	shot of mescal (15)	whiskey in a broken glass (15)
+gamblin' man	gamblinman.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude Meat: 150	sleeve deuce (20)	pocket ace (5)
+nest of rattlers	snakenest.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: beast	rattler rattle (40)
+outlaw behind an table	tableoutlaw.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	portable table (10)	outlaw bandana (5)
+outlaw leader	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	big bag of money (n100)
+tetched prospector	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
 
 # Halloween 2014
 giant pumpkin-head	headpumpkin.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Big Punk (n100)	mimeplasm (c100)
