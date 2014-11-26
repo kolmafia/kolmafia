@@ -918,6 +918,9 @@ public abstract class RuntimeLibrary
 			DataTypes.LOCATION_TYPE ), params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "total_free_rests", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_ignore_zone_warnings", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Basic skill and effect functions, including those used
@@ -4373,6 +4376,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value total_free_rests( Interpreter interpreter )
+	{
+		return new Value( CampgroundRequest.freeRestsAvailable() );
 	}
 
 	public static Value get_ignore_zone_warnings( Interpreter interpreter )
