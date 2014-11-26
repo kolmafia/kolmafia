@@ -886,8 +886,8 @@ public class EquipmentRequest
 				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
 				{
 					String message = itemType == KoLConstants.EQUIP_WEAPON ?
-						"You can't dual wield while wielding a 2-handed weapon." :
-						"You can't equip an off-hand item while wielding a 2-handed weapon.";
+						( "You can't wield a " + this.changeItem.getName() + " in your off-hand while wielding a 2-handed weapon." ) :
+						( "You can't equip a " + this.changeItem.getName() + " in your off-hand while wielding a 2-handed weapon." );
 					KoLmafia.updateDisplay( MafiaState.ERROR, message );
 					return;
 				}
