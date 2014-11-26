@@ -159,8 +159,6 @@ The General Store	m	folder (blue)	10
 The General Store	m	folder (green)	10
 The General Store	m	folder (red)	10
 
-The General Store	m	E-Z Cook&trade; oven	50
-The General Store	m	My First Shaker&trade;	50
 The General Store	m	Dramatic&trade; range	1000
 The General Store	m	Queue Du Coq cocktailcrafting kit	1000
 
@@ -230,8 +228,6 @@ White Citadel	w	Cherry Cloaca Cola	80
 White Citadel	w	Diet Cloaca Cola	80
 White Citadel	w	Regular Cloaca Cola	80
 
-Nervewrecker's Store	y	E-Z Cook&trade; oven	50
-Nervewrecker's Store	y	My First Shaker&trade;	50
 Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
 Nervewrecker's Store	y	Dramatic&trade; range	500
 Nervewrecker's Store	y	tenderizing hammer	500

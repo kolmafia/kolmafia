@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -299,6 +301,49 @@ public class NPCStoreDatabase
 		{
 			// The Knob Dispensary
 			return KoLCharacter.getDispensaryOpen();
+		}
+		else if ( storeId.equals( "m" ) )
+		{
+			// General Store
+			// Some items restricted, often because of holidays
+			String holiday = HolidayDatabase.getHoliday();
+
+			if ( itemName.equals( "marshmallow" ) )
+			{
+				return holiday.equals( "Yuletide" );
+			}
+			else if ( itemName.equals( "oyster basket" ) )
+			{
+				return holiday.equals( "Oyster Egg Day" );
+			}
+			else if ( itemName.equals( "party hat" ) )
+			{
+				return holiday.equals( "Festival of Jarlsberg" );
+			}
+			else if ( itemName.equals( "M-242" ) || itemName.equals( "snake" ) || itemName.equals( "sparkler" ) )
+			{
+				return holiday.equals( "Dependence Day" );
+			}
+			else if ( itemName.equals( "foam noodle" ) || itemName.equals( "inflatable duck" ) || itemName.equals( "water wings" ) )
+			{
+				return holiday.equals( "Generic Summer Holiday" );
+			}
+			else if ( itemName.equals( "Desert Bus pass" ) )
+			{
+				return !KoLCharacter.desertBeachAccessible();
+			}
+			else if ( itemName.startsWith( "folder (" ) )
+			{
+				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1 );
+				return folderHolder.getCount( KoLConstants.inventory ) + folderHolder.getCount( KoLConstants.closet ) +
+					folderHolder.getCount( KoLConstants.collection ) > 0 || KoLCharacter.hasEquipped( folderHolder );
+			}
+			else if ( itemName.equals( "water wings for babies" ) || itemName.equals( "miniature life preserver" ) ||
+				itemName.equals( "heavy duty umbrella" )  || itemName.equals( "pool skimmer" ) )
+			{
+				return KoLCharacter.inRaincore();
+			}
+			return true;
 		}
 		else if ( storeId.equals( "n" ) )
 		{
