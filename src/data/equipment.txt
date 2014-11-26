@@ -1621,7 +1621,7 @@ silver cow creamer	200	Mys: 85
 silver sausage	0	none
 Sinful Desires	30	none
 six-rainbow shield	190	Mus: 70	shield
-skull gearshift knob	0	Mus: 60
+skull gearshift knob	150	Mus: 60
 skull of the Bonerdagon	0	none
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
@@ -1697,7 +1697,7 @@ teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
-third-hand lantern	0	none
+third-hand lantern	10	none
 thought balloon	10	none
 Tiki lighter	20	none
 Time Lord Participation Mug	10	none
@@ -2338,19 +2338,19 @@ tiny plastic baby gravy fairy	10	none
 tiny plastic Baron von Ratsworth	30	none
 tiny plastic barrrnacle	10	none
 tiny plastic batbugbear	10	none
-tiny plastic Battlesuit Bugbear Type	0	none
+tiny plastic Battlesuit Bugbear Type	30	none
 tiny plastic beanbat	10	none
 tiny plastic bee swarm	10	none
-tiny plastic beebee gunners	0	none
-tiny plastic Beebee King	0	none
-tiny plastic beebee queue	0	none
+tiny plastic beebee gunners	10	none
+tiny plastic Beebee King	30	none
+tiny plastic beebee queue	10	none
 tiny plastic Beelzebozo	30	none
 tiny plastic Best Game Ever	0	none
 tiny plastic Big Candy	0	none
 tiny plastic bitchin' meatcar	20	none
 tiny plastic Black Knight	10	none
 tiny plastic black ops bugbear	10	none
-tiny plastic blazing bat	0	none
+tiny plastic blazing bat	10	none
 tiny plastic blood-faced volleyball	10	none
 tiny plastic blooper	10	none
 tiny plastic Bonerdagon	30	none
@@ -2362,12 +2362,12 @@ tiny plastic bugaboo	10	none
 tiny plastic Bugbear Captain	50	Mys: 10
 tiny plastic buzzerker	10	none
 tiny plastic Captain Kerkard	0	none
-tiny plastic cavebugbear	0	none
+tiny plastic cavebugbear	10	none
 tiny plastic Charity the Zombie Hunter	10	none
 tiny plastic Cheshire bat	10	none
 tiny plastic ChibiBuddy&trade;	0	none
 tiny plastic chunk of depleted Grimacite	0	none
-tiny plastic Clancy the Minstrel	0	none
+tiny plastic Clancy the Minstrel	30	none
 tiny plastic cocoabo	10	none
 tiny plastic coffee pixie	10	none
 tiny plastic colollilossus	0	none
@@ -2411,12 +2411,12 @@ tiny plastic GORM-8	10	none
 tiny plastic goth giant	10	none
 tiny plastic grue	10	none
 tiny plastic handsome mariachi	10	none
-tiny plastic Hank North, Photojournalist	0	none
+tiny plastic Hank North, Photojournalist	10	none
 tiny plastic Hellion	10	none
 tiny plastic hermit	20	none
 tiny plastic hobo elf	0	none
 tiny plastic howling balloon monkey	10	none
-tiny plastic hypodermic bugbear	0	none
+tiny plastic hypodermic bugbear	10	none
 tiny plastic Iiti Kitty	10	none
 tiny plastic Jared the Duskwalker	10	none
 tiny plastic Jarlsberg	30	none
@@ -2442,19 +2442,19 @@ tiny plastic mumblebee	10	none
 tiny plastic mutant elf	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35
 tiny plastic ninja snowman	10	none
-tiny plastic Norville Rogers	0	none
+tiny plastic Norville Rogers	10	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic pastamancer	20	none
 tiny plastic peacannon	30	none
 tiny plastic Professor What	10	none
 tiny plastic Protagonist	10	none
 tiny plastic protector spectre	50	Mys: 10
-tiny plastic Queen Bee	0	none
+tiny plastic Queen Bee	30	none
 tiny plastic Rene C. Corman	50	Mys: 10
 tiny plastic sabre-toothed lime	10	none
 tiny plastic sauceror	20	none
 tiny plastic scary clown	10	none
-tiny plastic Scott the Miner	0	none
+tiny plastic Scott the Miner	10	none
 tiny plastic Scream Queen	20	none
 tiny plastic seal clubber	20	none
 tiny plastic senile lihc	10	none
@@ -2462,7 +2462,7 @@ tiny plastic skeletal reindeer	10	none
 tiny plastic smarmy pirate	10	none
 tiny plastic Sneaky Pete	30	none
 tiny plastic Spam Witch	10	none
-tiny plastic spiderbugbear	0	none
+tiny plastic spiderbugbear	30	none
 tiny plastic spiny skelelton	10	none
 tiny plastic spooky pirate skeleton	10	none
 tiny plastic spooky vampire	10	none
@@ -2476,7 +2476,7 @@ tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
 tiny plastic taco-clad Crimbo elf	0	none
 tiny plastic The Big Wisniewski	30	none
-tiny plastic the Free Man	0	none
+tiny plastic the Free Man	30	none
 tiny plastic The Man	30	none
 tiny plastic topiary golem	10	none
 tiny plastic Toybot	10	none
@@ -2490,7 +2490,7 @@ tiny plastic warbear	10	none
 tiny plastic warbear fortress	10	none
 tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
-tiny plastic Wu Tang the Betrayer	0	none
+tiny plastic Wu Tang the Betrayer	30	none
 tiny plastic XXX pr0n	10	none
 tiny plastic zmobie	10	none
 tonguebone	225	Mys: 200
