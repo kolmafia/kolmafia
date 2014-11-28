@@ -3874,7 +3874,7 @@ Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
-Brainworm	Item Drop: +200, Experience (Mysticality): [25*zone(Twitch)]
+Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zone(Twitch)]
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
@@ -4441,7 +4441,7 @@ HELLO WORLD!	Avatar: "triad code wizard"
 Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
 Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Hennaliciousness	Mysticality: +3
-Herbal Pert	Experience (Moxie): [2*zone(Twitch)], Initiative: +250
+Herbal Pert	Experience (Moxie): [2*zone(Twitch)], Initiative: [250*zone(Twitch)]
 Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
