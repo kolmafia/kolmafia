@@ -6467,7 +6467,7 @@ deactivated nanobots	Free Pull
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deanimated reanimator's coffin	Free Pull
 decorative fountain	Effect: "Sleepy", Effect Duration: 1
-defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
+defective Game Grid token	Effect: "Video... Games?", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
 delicious candy	Effect: "Eyes All Black", Effect Duration: 15
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
@@ -6598,7 +6598,7 @@ funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 funny bone	Effect: "Angry Bone", Effect Duration: 30
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
-future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
+future drug: Muscularactum	Effect: "The Strength... of the Future", Effect Duration: 25
 future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 Fuzzby	Free Pull
 GameInformPowerDailyPro subscription card	Free Pull
@@ -6813,7 +6813,7 @@ lynyrd skinner toothblack	Effect: "Lynyrd Prytynder", Effect Duration: 50
 M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
-mangled finger	Effect: "It Tickles!  It Tickles!", Effect Duration: 20
+mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
 March hat	Free Pull
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
@@ -7017,7 +7017,7 @@ red letter	Effect: "Red Lettered", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
-Redeye&trade; Eyedrops	Effect: "Dazed, Confused ", Effect Duration: 50
+Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 rehearsing dramatic hedgehog	Free Pull
 reodorant	Effect: "Hippy Stench", Effect Duration: 10
 resolution: be feistier	Effect: "Destructive Resolve", Effect Duration: 20

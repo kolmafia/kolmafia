@@ -2048,6 +2048,9 @@ public class DebugDatabase
 
 	public static final void checkPotions()
 	{
+		RequestLogger.printLine( "Loading previous data..." );
+		DebugDatabase.loadScrapeData( rawItems, ITEM_HTML );
+
 		Set keys = ItemDatabase.descriptionIdKeySet();
 		Iterator it = keys.iterator();
 
@@ -2055,7 +2058,7 @@ public class DebugDatabase
 		{
 			Integer id = ( (Integer) it.next() );
 			int itemId = id.intValue();
-			if ( itemId < 1 || !ItemDatabase.isUsable( itemId ) )
+			if ( itemId < 1 || !ItemDatabase.isUsable( itemId ) || ItemDatabase.isEquipment( itemId ) )
 			{
 				continue;
 			}

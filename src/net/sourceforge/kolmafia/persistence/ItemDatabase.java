@@ -2628,6 +2628,12 @@ public class ItemDatabase
 		}
 	}
 
+	public static final boolean isEquipment( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return EquipmentDatabase.isEquipment( useType );
+	}
+
 	public static final boolean isMultiUsable( final int itemId )
 	{
 		// Anything that you can manipulate with multiuse.php
