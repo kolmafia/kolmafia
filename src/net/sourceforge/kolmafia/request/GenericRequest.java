@@ -537,6 +537,11 @@ public class GenericRequest
 		this.data.clear();
 	}
 
+	public void setDataChanged()
+	{
+		this.dataChanged = true;
+	}
+
 	public void addFormFields( final String fields, final boolean encoded )
 	{
 		if ( fields.indexOf( "&" ) == -1 )

@@ -64,11 +64,6 @@ public class JarlsbergRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void run()
 	{
 		if ( !this.makeIngredients() )

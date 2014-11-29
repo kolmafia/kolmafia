@@ -51,11 +51,6 @@ public class WinterGardenRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void run()
 	{
 		// Attempt to retrieve the ingredients

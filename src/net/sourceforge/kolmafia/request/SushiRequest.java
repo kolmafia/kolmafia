@@ -522,11 +522,6 @@ public class SushiRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public boolean noCreation()
 	{
 		return true;
