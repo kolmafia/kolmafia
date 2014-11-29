@@ -22,7 +22,7 @@ alert mariachi	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude	spangly
 Alphabet Giant	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 150 P: humanoid	heavy D (40)	original G (40)
 amateur ninja	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 20 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 amok putty	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime	amok pudding (0)	amok putter (0)
-ancestral Spookyraven portrait	srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (0)	ornate picture frame (0)
+ancestral Spookyraven portrait	srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
 ancient insane monk	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead	obsidian dagger (c100)	mossy stone sphere (c100)	rough stone sphere (c100)	smooth stone sphere (c100)	cracked stone sphere (c100)
 Anemone combatant	anemone.gif	HP: 600 Def: 585 Atk: 400 Init: 25 Meat: 100 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
@@ -609,7 +609,7 @@ Servant of Grodstank	grodseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P:
 shadow of Black Bubbles	shadowseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror	scrap of shadow (35)	shadowy seal eye (5)
 shady pirate	pirate1.gif	Atk: 67 Def: 60 HP: 57 Init: 75 Meat: 28 P: pirate	safarrri hat (10)
 shaky clown	clown.gif	Atk: 19 Def: 17 HP: 16 Init: 80 E: sleaze Meat: 20 P: horror	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	clown skin (10)	polka-dot bow tie (p5)
-sheet ghost	sheetghost.gif	Atk: 79 Def: 81 HP: 75 Init: 50 P: undead	ghost key (0)	sheet cake (0)	ghost toga (0)
+sheet ghost	sheetghost.gif	Atk: 79 Def: 81 HP: 75 Init: 50 P: undead	ghost key (15)	sheet cake (15)	ghost toga (5)
 shifty pirate	pirate2.gif	Atk: 69 Def: 62 HP: 59 Init: 60 Meat: 45 P: pirate	arrrgyle socks (10)	flaregun (30)	sunken chest (30)
 Shub-Jigguwatt, Elder God of Violence	shub-jigguwatt.gif	BOSS HP: 3000 Atk: 4000 Def: 4000 Init: 10000 P: horror
 sk8 gnome	sk8gnome.gif	Atk: 75 Def: 67 HP: 65 Init: 60 Meat: 70 P: humanoid	eXtreme mittens (0)	Mountain Stream soda (0)	gr8ps (40)	sk8board (5)	t8r tots (40)	folder (space skeleton) (c0)
@@ -681,7 +681,7 @@ Stephen Spookyraven	steven.gif	Scale: 5 Cap: 300 Init: 100 P: undead	Stephen's s
 sticky mummy	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead
 stone temple pirate	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct	ancient poisoned dart (35)	eyepatch (15)
 stranglin' algae	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant	glob of green slime (n30)
-stuffed moose head	moosehead.gif	Atk: 86 Def: 79 HP: 80 Init: -10000 P: beast E: spooky	moose antlers (0)	moose chocolate (0)	moose thought (0)
+stuffed moose head	moosehead.gif	Atk: 86 Def: 79 HP: 80 Init: -10000 P: beast E: spooky	moose antlers (5)	moose chocolate (15)	moose thought (15)
 Sub-Assistant Knob Mad Scientist	kg_madsci.gif	Atk: 1 Def: 1 HP: 1 Init: 60 Meat: 6 P: goblin	Knob Goblin firecracker (100)	Knob Goblin pants (9)	strongness elixir (30)	folder (cyan) (c0)	Knob Goblin Mutagen (c0)
 suckubus	suckubus.gif	Atk: 55 Def: 49 HP: 55 Init: 30 E: hot Meat: 40 P: demon	bus pass (20)	folder (rainbow unicorn) (c0)
 surprised and annoyed witch	witchy1.gif	Atk: 36 Def: 32 HP: 32 Init: -10000 P: dude Meat:  40	wand of pigification (c100)
