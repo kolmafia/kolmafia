@@ -144,7 +144,6 @@ public class CreateItemRequest
 		this.createdItem = this.concoction.getItem().getInstance( this.yield );
 	}
 
-	@Override
 	public void reconstructFields()
 	{
 		String formSource = "craft.php";
@@ -190,6 +189,12 @@ public class CreateItemRequest
 			formSource = "guild.php";
 			action = "malussmash";
 			break;
+
+		default:
+			// For everything else, simply force the datastring to
+			// be rebuilt before the request is submitted
+			this.setDataChanged();
+			return;
 		}
 
 		this.constructURLString( formSource );

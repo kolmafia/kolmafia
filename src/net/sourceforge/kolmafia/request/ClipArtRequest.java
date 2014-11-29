@@ -48,11 +48,6 @@ public class ClipArtRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void run()
 	{
 		if ( !KoLmafia.permitsContinue() || this.getQuantityNeeded() <= 0 )

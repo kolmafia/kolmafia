@@ -76,11 +76,6 @@ public class CombineMeatRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void run()
 	{
 		String name = this.getName();

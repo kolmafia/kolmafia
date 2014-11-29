@@ -62,11 +62,6 @@ public class FiveDPrinterRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void run()
 	{
 		// Attempting to make the ingredients will pull the

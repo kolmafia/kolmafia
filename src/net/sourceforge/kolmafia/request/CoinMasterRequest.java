@@ -314,11 +314,6 @@ public class CoinMasterRequest
 	}
 
 	@Override
-	public void reconstructFields()
-	{
-	}
-
-	@Override
 	public void processResults()
 	{
 		CoinMasterRequest.parseResponse( this.data, this.getURLString(), this.responseText );
