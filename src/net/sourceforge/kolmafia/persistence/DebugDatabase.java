@@ -51,6 +51,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,6 +60,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -75,9 +77,11 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -1927,18 +1931,24 @@ public class DebugDatabase
 			return;
 		}
 
-		boolean force = option.equals( "all" );
-		DebugDatabase.checkPowers( KoLConstants.inventory, force );
-		DebugDatabase.checkPowers( KoLConstants.closet, force );
-		// DebugDatabase.checkPowers( KoLConstants.storage, force );
+		TreeSet<AdventureResult> items = new TreeSet<AdventureResult>();
+		items.addAll( KoLConstants.inventory );
+		items.addAll( KoLConstants.closet );
+		// items.addAll( KoLConstants.storage );
+
+		if ( KoLCharacter.hasDisplayCase() && !DisplayCaseManager.collectionRetrieved )
+		{
+			RequestThread.postRequest( new DisplayCaseRequest() );
+		}
+		items.addAll( KoLConstants.collection );
+
+		DebugDatabase.checkPowers( items, option.equals( "all" ) );
 	}
 
-	private static final void checkPowers( final Collection items, final boolean force  )
+	private static final void checkPowers( final Collection<AdventureResult> items, final boolean force  )
 	{
-		Iterator it = items.iterator();
-		while ( it.hasNext() )
+		for ( AdventureResult item : items )
 		{
-			AdventureResult item = (AdventureResult)it.next();
 			int itemId = item.getItemId();
 			int type = ItemDatabase.getConsumptionType( itemId );
 			if ( type == KoLConstants.EQUIP_OFFHAND ||
@@ -1965,7 +1975,14 @@ public class DebugDatabase
 		JSONObject JSON = request.JSON;
 		if ( JSON == null )
 		{
-			KoLmafia.updateDisplay( "Could not look up item #" + itemId );
+			AdventureResult item = new AdventureResult( itemId, 1 );
+			String location = 
+				KoLConstants.inventory.contains( item ) ? "inventory" :
+				KoLConstants.closet.contains( item ) ? "closet" :
+				KoLConstants.storage.contains( item ) ? "storage" :
+				KoLConstants.collection.contains( item ) ? "display case" :
+				"nowhere";
+			KoLmafia.updateDisplay( "Could not look up item " + item + " from " + location );
 			return;
 		}
 
