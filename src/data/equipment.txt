@@ -1549,7 +1549,7 @@ misfit hobby horse	0	none
 misfit teddy bear	0	none
 mole skin notebook	40	none
 moxie magnet	30	none
-Mr. Balloon	10	none
+Mr. Balloon	20	none
 Mr. Haggis	10	none
 Mylar balloon	10	none
 naughty fortune teller	0	none
@@ -1892,7 +1892,7 @@ enormous hoop earring	120	Mys: 45
 ESP suppression collar	0	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
-eXtreme mittens	110	Mys: 35
+eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
 filigreed hamethyst earring	110	Mys: 40
@@ -2279,7 +2279,7 @@ sweat socks	25	none
 Talisman o' Nam	80	Mys: 20
 Talisman of Baio	200	none
 Talisman of Bakula	200	none
-tap shoes	90	Mys: 20
+tap shoes	70	Mys: 20
 tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
