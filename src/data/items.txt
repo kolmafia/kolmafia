@@ -7861,9 +7861,9 @@
 7842	special clip: splatterers	276409873	ammo.gif	none, combat	t,d	50	special clips: splatterers
 7843	special clip: boneburners	371114156	ammo.gif	none, combat	t,d	50	special clips: boneburners
 7844	special clip: graveburpers	766390687	ammo.gif	none, combat	t,d	50	special clips: graveburpers
-7845
-7846
-7847
+7845	perl necklace	659747022	perlneck.gif	usable	t,d	15
+7846	Fudge Fiber Armor Plating	306244770	chocfibre.gif	usable	t,d	15	chunks of Chocolate Fiber Armor Plating
+7847	ruby on canes	987976517	candycane.gif	usable	t,d	15	sticks of ruby on canes
 7848
 7849
 7850
