@@ -5420,7 +5420,7 @@ Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
-Webbed	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
+Webbed	Muscle Percent: [-10*T], Mysticality Percent: [-10*T], Moxie Percent: [-10*T]
 Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
 Weirdly Scientific	Avatar: "Sub-Assistant Knob Mad Scientist"
