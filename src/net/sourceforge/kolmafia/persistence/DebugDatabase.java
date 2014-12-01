@@ -2212,7 +2212,7 @@ public class DebugDatabase
 		writer.close();
 	}
 
-	private static final String EPICURE = "http://epicure.bewarethefgc.com/export_data.php";
+	private static final String EPICURE = "http://kol.coldfront.net/tools/epicure/export_data.php";
 
 	private static final void checkEpicure( final PrintStream writer )
 	{
@@ -2306,7 +2306,7 @@ public class DebugDatabase
 		writer.println( line );
 	}
 
-	private static final String MIXOLOGIST = "http://mixology.bewarethefgc.com/export_data.php";
+	private static final String MIXOLOGIST = "http://kol.coldfront.net/tools/mixology/export_data.php";
 
 	private static final void checkMixologist( final PrintStream writer )
 	{
@@ -2437,7 +2437,7 @@ public class DebugDatabase
 		}
 		catch ( Exception e )
 		{
-			RequestLogger.printLine( "Failed to parse XML document from \"" + uri + "\"" );
+			RequestLogger.printLine( "Failed to parse XML document from \"" + uri + "\": " + e.getMessage() );
 		}
 
 		return null;
@@ -2454,7 +2454,7 @@ public class DebugDatabase
 		writer.close();
 	}
 
-	private static final String ANVIL = "http://anvil.bewarethefgc.com/export_data.php";
+	private static final String ANVIL = "http://kol.coldfront.net/tools/anvil/export_data.php";
 
 	private static final void checkAnvil( final PrintStream writer )
 	{
