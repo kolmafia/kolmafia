@@ -1355,7 +1355,7 @@ anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
-arm buzzer	80	Mus: 25	shield
+arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
@@ -2079,7 +2079,7 @@ numberwang	100	Mys: 35
 observational glasses	10	none
 offensive moustache	0	none
 Ol' Scratch's manacles	200	Mys: 200
-old ball and chain	224	Mys: 200
+old ball and chain	225	Mys: 200
 old soft shoes	200	Mys: 200
 old-school calculator watch	10	none
 orange glowstick	20	none
@@ -2202,7 +2202,7 @@ rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 Saccharine Maple pendant	75	Mys: 22
-Sasq&trade; watch	0	Mys: 10
+Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
 screwing pooch	85	Mys: 27
