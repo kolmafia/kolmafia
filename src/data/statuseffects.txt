@@ -1759,9 +1759,9 @@
 1757	Manbait	manbait.gif	c2a7f182fc1dfcac86961b56153da97c	use 1 the most dangerous bait
 1758	Empty Inside	owlstix.gif	0d5dba1c426229fd3d9450545244757e	eat 1 &quot;meat&quot; stick
 1759	Intimidating Mien	intimidate.gif	db7184725b683decf1e4f9e03cdd4d97	cast 1 Intimidating Mien
-1760
-1761
-1762
+1760	PERL of Great Price	perlneck.gif	a2898275d227b2ce969a9efb2b71a925	use 1 perl necklace
+1761	Armored Innards	chocfibre.gif	c298ca0c994cb84580f5fdaad72a13e2	use 1 Fudge Fiber Armor Plating
+1762	Ruby-ous	candycane.gif	c0d82589967944bc0103c5a6f5ee13f2	use 1 ruby on canes
 1763
 1764
 1765

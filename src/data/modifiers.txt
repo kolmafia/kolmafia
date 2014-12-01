@@ -3744,6 +3744,7 @@ Arcane in the Brain	Mana Cost (stackable): -3
 Arched Eyebrow of the Archmage	Spell Damage: +10
 Aries Rising	Weapon Damage: +30
 Armor-Plated	Damage Reduction: 10
+Armored Innards	Damage Absorption: +200, Damage Reduction: 20
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
@@ -4816,6 +4817,7 @@ Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Penne Fedora	Moxie: +10
 Peppermint Bite	Muscle: +5
 Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
+PERL of Great Price	Meat Drop: +25
 Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
@@ -4940,6 +4942,7 @@ Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
 Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
 Rootin' Around	Candy Drop: +25
 Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
+Ruby-ous	Initiative: +150, Weapon Damage: +10
 Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Rushin' Hands	Weapon Damage: +3
 Sagittarius Rising	Ranged Damage: +30
@@ -6590,6 +6593,7 @@ frostbite-flavored Hob-O	Effect: "Tundra Mouth", Effect Duration: 1
 fry-oil-flavored Hob-O	Effect: "Cholestoriffic", Effect Duration: 1
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
+Fudge Fiber Armor Plating	Effect: "Armored Innards", Effect Duration: 20
 fudge-shaped hole in space-time	Effect: "Things Man Was Not Meant to Eat", Effect Duration: 10
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Fun-Guy spore	Effect: "Mush-Mouth", Effect Duration: 11
@@ -6916,6 +6920,7 @@ penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfectly ordinary frog	Free Pull
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
+perl necklace	Effect: "PERL of Great Price", Effect Duration: 20
 perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
@@ -7034,6 +7039,7 @@ Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 roll of toilet paper	Free Pull
 roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
+ruby on canes	Effect: "Ruby-ous", Effect Duration: 20
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt wages	Effect: "Worth Your Salt", Effect Duration: 30
