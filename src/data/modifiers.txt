@@ -3073,6 +3073,7 @@ cute bow from beyond the stars	Familiar Weight: +5
 das boot	Familiar Weight: -10, Underwater Familiar, Generic, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
+even more tinsel	Familiar Weight: +5
 # evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit
 extra-heavy BRICKO brick	Familiar Weight: +5
 extra-strength rubber bands	Familiar Weight: +5
@@ -6343,6 +6344,7 @@ bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
 bowl of marinade	Effect: "Marinated", Effect Duration: 15
 box of Dweebs	Effect: "Dweeby", Effect Duration: 15
+# box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 box of sunshine	Free Pull
 brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100
 breath mint	Effect: "Sugar Rush", Effect Duration: 3
@@ -6447,6 +6449,7 @@ Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo P. R. E. S. S. I. E.	Free Pull
 Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
+Crimbo sapling	Free Pull
 crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
