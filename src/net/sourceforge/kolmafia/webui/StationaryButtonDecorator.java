@@ -727,6 +727,8 @@ public class StationaryButtonDecorator
 			return "main.php";
 		}
 
+		boolean againLinkExists = response.indexOf( "id=againlink" ) != -1;
+
 		m = LOCATION_PATTERN.matcher( m.group(0) );
 		while ( m.find() )
 		{
@@ -739,6 +741,11 @@ public class StationaryButtonDecorator
 			if ( again != null )
 			{
 				return link;
+			}
+
+			if ( againLinkExists && again == null )
+			{
+				continue;
 			}
 
 			if ( !link.contains( "questlog.php" ) && 
