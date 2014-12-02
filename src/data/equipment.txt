@@ -1404,11 +1404,11 @@ collapsible baton	200	Mys: 85
 Cookbook of the Damned	30	none
 creepy doll head	100	Mys: 35
 creepy voice box	120	Mys: 45
-Crimbo bottomless hot cocoa mug	0	none
-Crimbo Elf creepy bobble-head	0	none
-Crimbo light-up Rudolph doll	0	none
-Crimbo stogie-scented room odorizer	0	none
-Crimbo tree flocker	0	none
+Crimbo bottomless hot cocoa mug	20	none
+Crimbo Elf creepy bobble-head	20	none
+Crimbo light-up Rudolph doll	20	none
+Crimbo stogie-scented room odorizer	20	none
+Crimbo tree flocker	20	none
 cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
 cyborg doll	110	Mys: 40
@@ -1970,7 +1970,7 @@ hamethyst necklace	50	Mys: 10
 hamethyst ring	50	Mys: 10
 Hand in Glove	100	none
 hardened slime belt	200	Mys: 200
-hare pin	0	Mox: 85
+hare pin	200	Mox: 85
 hazardous sauce dosimeter	0	none
 head mirror	155	Mys: 62
 headhunter necktie	160	Mys: 65
@@ -1993,7 +1993,7 @@ Ice-Cold Beerring	150	Mys: 60
 Iiti Kitty phone charm	165	Mys: 67
 imitation nice watch	100	Mys: 35
 imp unity ring	45	Mys: 15
-incredibly dense meat gem	0	none
+incredibly dense meat gem	200	none
 infernal insoles	60	Mys: 15
 inflatable duck	10	none
 intergalactic pom poms	0	none
@@ -2009,8 +2009,8 @@ Jekyllin hide belt	0	none
 Jolly Roger charrrm bracelet	70	Mys: 20
 Juju Mojo Mask	100	none
 Junior Adventurer's merit badge	30	none
-Junior LAAAAME merit badge	0	none
-junk band	65	Mys: 15
+Junior LAAAAME merit badge	10	none
+junk band	60	Mys: 15
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
 KoL Con 8-Bit power bracelet	0	none
