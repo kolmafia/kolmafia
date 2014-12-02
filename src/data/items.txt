@@ -7972,3 +7972,6 @@
 7953	rusted-out shootin' iron	930822550	rustygun.gif	weapon	t,d	92
 7954	rattler rattle	152439376	snakerattle.gif	none, combat	t,d	48
 7955	big bag of money	814252400	moneybag.gif	none	q	0
+7956	Crimbo sapling	349106235	crimbosapling.gif	grow	t	0
+7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75
+7958	box of old Crimbo decorations	114808402	decorations.gif	usable	q	0
