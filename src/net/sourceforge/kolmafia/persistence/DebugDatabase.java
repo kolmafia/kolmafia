@@ -480,7 +480,7 @@ public class DebugDatabase
 		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
 	}
 
-	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<div id=\"description\"(.*?)<script", Pattern.DOTALL );
+	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)<script", Pattern.DOTALL );
 
 	public static final String itemDescriptionText( final String rawText )
 	{
@@ -1191,7 +1191,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
-		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
+		Pattern.compile( "<font color=blue>(.*)(?:<br>)?</font>", Pattern.DOTALL );
 
 	public static final void parseItemEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
@@ -1625,7 +1625,7 @@ public class DebugDatabase
 		return text;
 	}
 
-	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
+	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^.]*>(.*?)</div>", Pattern.DOTALL );
 
 	private static final String effectDescriptionText( final String rawText )
 	{
