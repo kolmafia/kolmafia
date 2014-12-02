@@ -610,7 +610,7 @@ public class StationaryButtonDecorator
 	public static final void addNonCombatButtons( final StringBuffer response, final StringBuffer buffer )
 	{
 		String name = "again";
-		String action = getAdventureAgainLocation( response );;
+		String action = getAdventureAgainLocation( response );
 		boolean isEnabled = !action.equals( "main.php" );
 		boolean forceFocus = true;
 
@@ -741,7 +741,9 @@ public class StationaryButtonDecorator
 				return link;
 			}
 
-			if ( !link.contains( "questlog.php" ) && !link.contains( "desc_item.php" ) )
+			if ( !link.contains( "questlog.php" ) && 
+			     !link.contains( "desc_item.php" ) &&
+			     !link.contains( "showplayer.php" ) )
 			{
 				return link;
 			}
