@@ -7950,7 +7950,7 @@
 7931
 7932
 7933
-7934
+7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
 7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
 7937
