@@ -2151,6 +2151,7 @@ public class ItemPool
 	public static final int FRIENDLY_TURKEY = 7922;
 	public static final int AGITATED_TURKEY = 7923;
 	public static final int AMBITIOUS_TURKEY = 7924;
+	public static final int SNEAKY_WRAPPING_PAPER = 7934;
 	public static final int PICKY_TWEEZERS = 7936;
 	public static final int SLEEVE_DEUCE = 7941;
 	public static final int POCKET_ACE = 7942;

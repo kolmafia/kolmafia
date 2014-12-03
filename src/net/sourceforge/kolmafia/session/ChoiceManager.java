@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -163,6 +164,8 @@ public abstract class ChoiceManager
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
+	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "item(\\d+)=(\\d+)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7714,6 +7717,47 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 994:
+			// Hide a gift!
+			if ( text.contains( "You hide" ) )
+			{
+				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
+				HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
+				int index = -1;
+				int id;
+				int giftQty;
+
+				Matcher idMatcher = ChoiceManager.ITEMID_PATTERN.matcher( urlString );
+				while ( idMatcher.find() )
+				{
+					index = StringUtilities.parseInt( idMatcher.group( 1 ) );
+					if ( index < 1 ) continue;
+					id = StringUtilities.parseInt( idMatcher.group( 2 ) );
+					if ( id < 1 ) continue;
+					idMap.put( index, id );
+				}
+
+				Matcher qtyMatcher = ChoiceManager.QTY_PATTERN.matcher( urlString );
+				while ( qtyMatcher.find() )
+				{
+					index = StringUtilities.parseInt( qtyMatcher.group( 1 ) );
+					if ( index < 1 ) continue;
+					giftQty = StringUtilities.parseInt( qtyMatcher.group( 2 ) );
+					if ( giftQty < 1 ) continue;
+					qtyMap.put( index, giftQty );
+				}
+
+				for ( int i = 1; i <= 3; i++ )
+				{
+					Integer itemId = idMap.get( i );
+					Integer giftQuantity = qtyMap.get( i );
+					if ( itemId == null || giftQuantity == null ) continue;
+					ResultProcessor.processResult( ItemPool.get( itemId, -giftQuantity ) );
+				}
+				ResultProcessor.removeItem( ItemPool.SNEAKY_WRAPPING_PAPER );
+			}
+			break;
+
 		case 998:
 			if ( text.contains( "confiscate your deuces" ) )
 			{
@@ -11345,6 +11389,7 @@ public abstract class ChoiceManager
 		case 984: // A Radio on a Beach
 		case 986: // Control Panel
 		case 987: // The Post-Apocalyptic Survivor Encampment
+		case 994: // Hide a Gift!
 			return true;
 
 		default:
