@@ -82,7 +82,7 @@ public class ChatParser
 		Pattern.compile( "(?:<b>)(?:<b>)?<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)(?:</b>)?" );
 
 	private static final Pattern HUGGLER_PATTERN =
-		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!" );
+		Pattern.compile( "(.*?) just (beat down|bested|blasted|conquered|cowed|crushed|decimated|defeated|destroyed|devastated|flattened|humbled|lambasted|overcame|overpowered|overwhelmed|pounded|roasted|thwarted|took out|trounced|undid|vanquished|whupped|) (.*?)!" );
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
@@ -358,9 +358,9 @@ public class ChatParser
 		}
 		else if ( hugglerRadioMessage( content ) )
 		{
-			channel = Preferences.getBoolean( "useHugglerChannel" ) ? "/huggler" : "/pvp";
 			playerId = "-69";
 			playerName = "HMC Radio";
+			channel = Preferences.getBoolean( "useHugglerChannel" ) ? "HMC Radio" : "/pvp";
 		}
 		else
 		{
@@ -372,7 +372,6 @@ public class ChatParser
 			// The </span> is already at the end of the content
 			content = span + content;
 		}
-
 		ChatMessage message;
 
 		if ( playerName.equals( "System Message" ) )

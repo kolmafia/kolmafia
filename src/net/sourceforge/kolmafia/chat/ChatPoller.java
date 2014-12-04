@@ -42,7 +42,11 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -511,10 +515,18 @@ public class ChatPoller
 				continue;
 			}
 
-			if ( !debug && sender == null )
+			if ( sender == null )
 			{
-				ChatSender.processResponse( messages, content, sent );
-				continue;
+				if ( !debug )
+				{
+					ChatSender.processResponse( messages, content, sent );
+					continue;
+				}
+			}
+			else if ( sender.equals( "HMC Radio" ) )
+			{
+				// Put Huggler messages into their own tab
+				recipient = Preferences.getBoolean( "useHugglerChannel" ) ? "HMC Radio" : "/pvp";
 			}
 
 			if ( recipient == null )
@@ -531,11 +543,9 @@ public class ChatPoller
 				}
 				else
 				{
-					recipient = KoLCharacter.getUserName();
+					recipient = KoLCharacter.getUserName().replaceAll( " ", "_" );
 				}
 			}
-
-			recipient = recipient.replaceAll( " ", "_" );
 
 			// Apparently isAction corresponds to /em commands.
 			boolean isAction = format == 1;
