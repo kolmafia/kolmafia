@@ -248,13 +248,18 @@ public class ChatParser
 
 			StringBuilder currentLineBuilder = new StringBuilder( line );
 
-			while ( ++nextLine < lines.length && !lines[ nextLine ].contains( "<a" ) )
+			while ( ++nextLine < lines.length )
 			{
 				line = lines[ nextLine ];
 
 				if ( line.length() == 0 )
 				{
 					continue;
+				}
+
+				if ( line.contains( "<a" ) || hugglerRadioMessage( line ) )
+				{
+					break;
 				}
 
 				currentLineBuilder.append( "<br>" ).append( line );
@@ -353,7 +358,7 @@ public class ChatParser
 		}
 		else if ( hugglerRadioMessage( content ) )
 		{
-			channel = "/pvp";
+			channel = Preferences.getBoolean( "useHugglerChannel" ) ? "/huggler" : "/pvp";
 			playerId = "-69";
 			playerName = "HMC Radio";
 		}
