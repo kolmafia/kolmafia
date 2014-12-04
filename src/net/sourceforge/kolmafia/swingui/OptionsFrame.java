@@ -626,6 +626,7 @@ public class OptionsFrame
 				{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
 				{},
 				{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
+				{ "useHugglerChannel", "Put Huggler Radio announcements into /huggler" },
 				{ "greenScreenProtection", "Ignore event messages in KoLmafia chat" },
 				{ "broadcastEvents", "Send event messages to all open tabs in KoLmafia chat" },
 				{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
