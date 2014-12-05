@@ -370,7 +370,7 @@ jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes (+15 Mox, +25
 juniper berries	1	2	crappy	1	0	0	10-15
 junk food	2	1	good	4-5	4-5	4-5	4-5
 junkyard dog	3	1	awesome	11-13	0	0	0	30 Dog Breath (+5% Combat Rate, +30 Stench Dam, +3 Hot/Spooky Res)
-karma shawarma	5	7	EPIC	0	0	0	0
+karma shawarma	5	7	EPIC	28-32	0	50-100	0	20-100 MP, Instant Karma every 11th eaten
 ketchup	1	1	crappy	1	0	0	0
 king cookie	1	13	EPIC	4-6	15-30	15-30	15-30	30 The Royal We (+25..50 exp)
 kiwi	1	2	decent	2	0	0	0
