@@ -1401,7 +1401,7 @@ public class DebugDatabase
 		return text;
 	}
 
-	private static final Pattern OUTFIT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
+	private static final Pattern OUTFIT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
 
 	private static final String outfitDescriptionText( final String rawText )
 	{
@@ -1625,7 +1625,7 @@ public class DebugDatabase
 		return text;
 	}
 
-	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^.]*>(.*?)</div>", Pattern.DOTALL );
+	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
 
 	private static final String effectDescriptionText( final String rawText )
 	{
