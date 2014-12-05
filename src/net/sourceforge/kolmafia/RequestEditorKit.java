@@ -140,7 +140,6 @@ public class RequestEditorKit
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
 	private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN = Pattern.compile( "\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL );
 
-	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
 	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -250,7 +249,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "woods.php" );
 		RequestEditorKit.maps.add( "friars.php" );
 		RequestEditorKit.maps.add( "pandamonium.php" );
-		RequestEditorKit.maps.add( "mountains.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=mountains" );
 		RequestEditorKit.maps.add( "tutorial.php" );
 		RequestEditorKit.maps.add( "place.php?whichplace=mclargehuge" );
 		RequestEditorKit.maps.add( "island.php" );
@@ -1753,7 +1752,7 @@ public class RequestEditorKit
 
 	private static final void addChoiceSpoilers( final String location, final StringBuffer buffer )
 	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers"  ) )
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			return;
 		}
