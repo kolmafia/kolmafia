@@ -132,10 +132,6 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", "throneroom" );
 		}
-		else if ( formSource.equals( "mountains.php" ) )
-		{
-			this.addFormField( "orcs", "1" );
-		}
 		else if ( formSource.equals( "friars.php" ) )
 		{
 			this.addFormField( "action", "ritual" );
@@ -208,16 +204,6 @@ public class AdventureRequest
 		if ( !KoLmafia.permitsContinue() )
 		{
 			return;
-		}
-
-		if ( this.formSource.equals( "mountains.php" ) )
-		{
-			AdventureRequest.ZONE_UNLOCK.constructURLString( "mountains.php" ).run();
-			if ( AdventureRequest.ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
-			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "The Orc Chasm has already been bridged." );
-				return;
-			}
 		}
 
 		else if ( this.formSource.equals( "adventure.php" ) )
@@ -327,21 +313,6 @@ public class AdventureRequest
 		if ( this.formSource.equals( "lair6.php" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.PENDING, "The sorceress has already been defeated." );
-			return;
-		}
-
-		// If you haven't unlocked the orc chasm yet, try doing so now.
-
-		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
-		{
-			AdventureRequest bridge = new AdventureRequest( "Bridge the Orc Chasm", "mountains.php", "" );
-			bridge.run();
-
-			if ( KoLmafia.permitsContinue() )
-			{
-				this.run();
-			}
-
 			return;
 		}
 
