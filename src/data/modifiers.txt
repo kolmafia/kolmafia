@@ -3814,7 +3814,6 @@ Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 Bitterskin	Slime Hates It: +1
 # Black Day: Get any one item from any store for 10% less Meat
 Black Eyes	Spell Damage Percent: +15
-Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Black Lung: Stops Monsters from Attacking You
 Black Magic? Woah, Man!	Avatar: "black magic woman"
 Black Sweat	Spooky Resistance: +7
@@ -4281,6 +4280,7 @@ Fly for a White Guy	Avatar: "Gnollish Flyslayer"
 Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 # Foe-Splattered: Can't use Bifurcating Blow
 Fondid	Monster Level: +15
+Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Forbear, Warbears!: +40 WarBear Armor Penetration
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
@@ -6299,7 +6299,7 @@ Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 
 black candy heart	Effect: "Heart of Black", Effect Duration: 10
 black eye shadow	Effect: "Black Eyes", Effect Duration: 10
 black eyedrops	Effect: "Hyphemariffic", Effect Duration: 10
-black facepaint	Effect: "Black Face", Effect Duration: 10
+black facepaint	Effect: "Football Eyes", Effect Duration: 10
 black friar's tonsure	Effect: "Into the Friar", Effect Duration: 50
 black magic powder	Effect: "Black Magic? Woah, Man!", Effect Duration: 50
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10

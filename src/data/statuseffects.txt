@@ -381,7 +381,7 @@
 380
 381
 382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d	use 1 funky dried mushroom
-383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
+383	Football Eyes	football.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
 386	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1	#BM adv in Spooky Forest
