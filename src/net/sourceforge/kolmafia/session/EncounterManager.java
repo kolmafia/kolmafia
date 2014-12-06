@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -378,6 +381,39 @@ public abstract class EncounterManager
 		{
 			Preferences.setInteger( "booPeakProgress", 98 );
 			return;
+		}
+
+		if ( encounterName.equals( "A hidden surprise!" ) )
+		{
+			// You find a gift from <A href=showplayer.php?who=1253868 class=nounder><b>ElementalSSE</b>
+			// </a> hidden next to a discarded sausage!<center><table class="item" style="float: none"
+			// rel="id=2593&s=15&q=0&d=1&g=0&t=1&n=4&m=0&p=0&u=e"><tr><td>
+			// <img src="http://images.kingdomofloathing.com/itemimages/pasty.gif" alt="Knob pasty" title="Knob pasty"
+			// class=hand onClick='descitem(554994778)'></td><td valign=center class=effect>You acquire
+			// <b>4 Knob pasties</b> (stored in Hagnk's Ancestral Mini-Storage)</td></tr></table>
+			// </center>There's a note attached:<p><table cellpadding=10><tr><td style='border: 1px solid black;'>
+			// Happy knobmas!</td></tr></table><p><p><a href="adventure.php?snarfblat=114">Adventure Again
+
+			// Since this content is short-lived, create the patterns here every time
+			// the encounter is found instead of globally
+			Pattern GIFT_SENDER_PATTERN = Pattern.compile( "nounder><b>(.*?)</b></a>" );
+			Pattern NOTE_PATTERN = Pattern.compile( "1px solid black;'>(.*?)</td></tr>" );
+
+			Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher( responseText );
+			if ( senderMatcher.find() )
+			{
+				String sender = senderMatcher.group( 1 );
+				RequestLogger.printLine( "Gift sender: " + sender );
+				RequestLogger.updateSessionLog( "Gift sender: " + sender );
+			}
+
+			Matcher noteMatcher = NOTE_PATTERN.matcher( responseText );
+			if ( noteMatcher.find() )
+			{
+				String note = noteMatcher.group( 1 );
+				RequestLogger.printLine( "Gift note: " + note );
+				RequestLogger.updateSessionLog( "Gift note: " + note );
+			}
 		}
 	}
 
