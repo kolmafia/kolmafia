@@ -81,9 +81,6 @@ public class ChatParser
 	private static final Pattern SENDER_PATTERN =
 		Pattern.compile( "(?:<b>)(?:<b>)?<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)(?:</b>)?" );
 
-	private static final Pattern HUGGLER_PATTERN =
-		Pattern.compile( "(.*?) just (beat down|bested|blasted|conquered|cowed|crushed|decimated|defeated|destroyed|devastated|flattened|humbled|lambasted|overcame|overpowered|overwhelmed|pounded|roasted|thwarted|took out|trounced|undid|vanquished|whupped|) (.*?)!" );
-
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
 	public static void parseChannelList( final List<ChatMessage> newMessages, final String content )
@@ -246,6 +243,15 @@ public class ChatParser
 				continue;
 			}
 
+			// HMC Radio message detection is expensive. Do it once per line.
+			HugglerMessage huggler = HugglerMessage.constructMessage( line );
+			if ( huggler != null )
+			{
+				++nextLine;
+				chatMessages.add( huggler );
+				continue;
+			}
+
 			StringBuilder currentLineBuilder = new StringBuilder( line );
 
 			while ( ++nextLine < lines.length )
@@ -257,7 +263,13 @@ public class ChatParser
 					continue;
 				}
 
-				if ( line.contains( "<a" ) || hugglerRadioMessage( line ) )
+				if ( line.contains( "<a" ) )
+				{
+					break;
+				}
+
+				huggler = HugglerMessage.constructMessage( line );
+				if ( huggler != null )
 				{
 					break;
 				}
@@ -266,6 +278,12 @@ public class ChatParser
 			}
 
 			ChatParser.parseLine( chatMessages, currentLineBuilder.toString().trim() );
+
+			if ( huggler != null )
+			{
+				++nextLine;
+				chatMessages.add( huggler );
+			}
 		}
 	}
 
@@ -309,12 +327,6 @@ public class ChatParser
 		chatMessages.add( message );
 	}
 
-	private static boolean hugglerRadioMessage( final String line )
-	{
-		Matcher matcher = ChatParser.HUGGLER_PATTERN.matcher( line );
-		return matcher.lookingAt();
-	}
-
 	private static boolean parseChannelMessage( final List<ChatMessage> chatMessages, String line )
 	{
 		// If entire line is wrapped in a color - System Message, Mod Warning, and Mod Announcement - remove coloring
@@ -355,12 +367,6 @@ public class ChatParser
 			playerId = senderMatcher.group( 1 ).trim();
 			playerName = senderMatcher.group( 2 ).trim();
 			content = senderMatcher.group( 3 );
-		}
-		else if ( hugglerRadioMessage( content ) )
-		{
-			playerId = "-69";
-			playerName = "HMC Radio";
-			channel = Preferences.getBoolean( "useHugglerChannel" ) ? "HMC Radio" : "/pvp";
 		}
 		else
 		{
