@@ -525,8 +525,8 @@ public class ChatPoller
 			}
 			else if ( sender.equals( "HMC Radio" ) )
 			{
-				// Put Huggler messages into their own tab
-				recipient = Preferences.getBoolean( "useHugglerChannel" ) ? "HMC Radio" : "/pvp";
+				messages.add( new HugglerMessage( content ) );
+				continue;
 			}
 
 			if ( recipient == null )

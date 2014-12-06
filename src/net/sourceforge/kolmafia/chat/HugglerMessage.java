@@ -1,0 +1,176 @@
+/**
+ * Copyright (c) 2005-2014, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia.chat;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+public class HugglerMessage
+	extends ChatMessage
+{
+	private String winner;
+	private String loser;
+
+	// Yes, I understand that many of the following patterns could be
+	// collapsed, using (?:PHRASE1|PHRASE2|PHRASE3...) constructs.  That
+	// would certainly be more efficient. But, for now, until CDM is done
+	// adding new HMC Radio messages, this is more maintainable.
+
+	private static final Pattern[] WIN_MESSAGES =
+	{
+		Pattern.compile( "^<b>(.*?)</b> 1, (.*?) 0$" ),
+		Pattern.compile( "^<b>(.*?)</b> dropped a bomb on (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> gave (.*?) a lesson in failure.$" ),
+		Pattern.compile( "^<b>(.*?)</b> gave (.*?) a lesson in pain.$" ),
+		Pattern.compile( "^<b>(.*?)</b> is dancing in (.*?) ashes.$" ),
+		Pattern.compile( "^<b>(.*?)</b> is eating (.*?)'s lunch.$" ),
+		Pattern.compile( "^<b>(.*?)</b> is the victor! (.*?) is the loser.$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?beat down (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?bested (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?blasted (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?conquered (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?cowed (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?crushed (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?decimated (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?defeated (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?destroyed (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?devastated (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?flattened (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?humbled (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?lambasted (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?overcame (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?overpowered (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?overwhelmed (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?pounded (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?roasted (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?sniped (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?thwarted (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?took out (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?tripped over (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?trounced (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?undid (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?vanquished (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> (?:just )?whupped (.*?).$" ),
+		Pattern.compile( "^<b>(.*?)</b> made (.*?) beg for mercy.$" ),
+		Pattern.compile( "^<b>(.*?)</b> sent (.*?) in to next week.$" ),
+		Pattern.compile( "^<b>(.*?)</b> took (.*?) to school.$" ),
+		Pattern.compile( "^<b>(.*?)</b> took (.*?) to task.$" ),
+	};
+
+	private static final Pattern[] LOSE_MESSAGES =
+	{
+		Pattern.compile( "^(.*?) can't handle <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) couldn't beat <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) could not handle <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) failed to defeat <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) fell prey to <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) just fell to <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) just took a lesson in defeat from <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) just tripped over <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) lost to <b>(.*?)</b>.$" ),
+	};
+
+	public HugglerMessage( String content, String winner, String loser )
+	{
+		super( "HMC Radio", Preferences.getBoolean( "useHugglerChannel" ) ? "HMC Radio" : "/pvp", content, false );
+		this.winner = winner;
+		this.loser = loser;
+	}
+
+	public HugglerMessage( String content )
+	{
+		this( content, null, null );
+		this.setCombatants( content );
+	}
+
+	public String getWinner()
+	{
+		return this.winner;
+	}
+
+	public String getLoser()
+	{
+		return this.winner;
+	}
+
+	private void setCombatants( final String line )
+	{
+		for ( Pattern pattern : WIN_MESSAGES )
+		{
+			Matcher matcher = pattern.matcher( line );
+			if ( matcher.find() )
+			{
+				this.winner = matcher.group( 1 );
+				this.loser = matcher.group( 2 );
+				return;
+			}
+		}
+
+		for ( Pattern pattern : LOSE_MESSAGES )
+		{
+			Matcher matcher = pattern.matcher( line );
+			if ( matcher.find() )
+			{
+				this.winner = matcher.group( 2 );
+				this.loser = matcher.group( 1 );
+				return;
+			}
+		}
+	}
+
+	public static HugglerMessage constructMessage( final String line )
+	{
+		for ( Pattern pattern : WIN_MESSAGES )
+		{
+			Matcher matcher = pattern.matcher( line );
+			if ( matcher.find() )
+			{
+				return new HugglerMessage( line, matcher.group( 1 ), matcher.group( 2 ) );
+			}
+		}
+
+		for ( Pattern pattern : LOSE_MESSAGES )
+		{
+			Matcher matcher = pattern.matcher( line );
+			if ( matcher.find() )
+			{
+				return new HugglerMessage( line, matcher.group( 2 ), matcher.group( 1 ) );
+			}
+		}
+
+		return null;
+	}
+}
