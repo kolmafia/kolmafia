@@ -144,7 +144,7 @@ public class ResultProcessor
 	}
 
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
-	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>" );
+	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?" );
 
 	public static String registerNewItems( boolean combatResults, String results, List<AdventureResult> data )
 	{
@@ -180,6 +180,7 @@ public class ResultProcessor
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
 			String items = boldMatcher.find() ? boldMatcher.group(1) : null;
+			boolean hagnk = boldMatcher.group(2) != null;
 
 			// If we don't know this descid, it's an unknown item.
 			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
@@ -221,12 +222,24 @@ public class ResultProcessor
 
 			// If these are not combat results, process the
 			// acquisition and remove it from the buffer.
-			if ( !combatResults )
+			if ( !combatResults && !hagnk )
 			{
 				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
 				ResultProcessor.processItem( false, acquisition, item, data );
 				itemMatcher.appendReplacement( buffer, "" );
 				changed = true;
+			}
+			else if ( hagnk )
+			{
+				itemMatcher.appendReplacement( buffer, "" );
+				changed = true;
+				String message = "Stored in Hagnk's: " + item.toString();
+				RequestLogger.printLine( message );
+				if ( Preferences.getBoolean( "logAcquiredItems" ) )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+				AdventureResult.addResultToList( KoLConstants.storage, item );
 			}
 		}
 
@@ -2497,7 +2510,7 @@ public class ResultProcessor
 		}
 	}
 
-	private static Pattern HIPPY_PATTERN = Pattern.compile( "we donated (\\d+) meat" );
+	private static final Pattern HIPPY_PATTERN = Pattern.compile( "we donated (\\d+) meat" );
 	public static boolean onlyAutosellDonationsCount = true;
 
 	public static void handleDonations( final String urlString, final String responseText )
