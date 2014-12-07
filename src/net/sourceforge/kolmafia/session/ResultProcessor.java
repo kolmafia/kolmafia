@@ -180,7 +180,7 @@ public class ResultProcessor
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
 			String items = boldMatcher.find() ? boldMatcher.group(1) : null;
-			boolean hagnk = boldMatcher.group(2) != null;
+			boolean hagnk = items != null && boldMatcher.group(2) != null;
 
 			// If we don't know this descid, it's an unknown item.
 			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
