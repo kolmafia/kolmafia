@@ -55,7 +55,7 @@ public class HugglerMessage
 		Pattern.compile( "^<b>(.*?)</b> dropped a bomb on (.*?).$" ),
 		Pattern.compile( "^<b>(.*?)</b> gave (.*?) a lesson in failure.$" ),
 		Pattern.compile( "^<b>(.*?)</b> gave (.*?) a lesson in pain.$" ),
-		Pattern.compile( "^<b>(.*?)</b> is dancing in (.*?) ashes.$" ),
+		Pattern.compile( "^<b>(.*?)</b> is dancing in (.*?)'s ashes.$" ),
 		Pattern.compile( "^<b>(.*?)</b> is eating (.*?)'s lunch.$" ),
 		Pattern.compile( "^<b>(.*?)</b> is the victor! (.*?) is the loser.$" ),
 		Pattern.compile( "^<b>(.*?)</b> (?:just )?beat down (.*?).$" ),
