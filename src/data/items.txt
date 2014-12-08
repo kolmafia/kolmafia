@@ -640,7 +640,7 @@
 623	WA	456197349	wa.gif	none	t,d	152
 624	NG	522263123	ng.gif	none, combat	t,d	186
 625	wang	829507844	wang.gif	none, curse	t	0
-626	Wand of Nagamar	525000782	wand.gif	weapon	t,d	322	Wands of Nagamar
+626	Wand of Nagamar	525000782	wand.gif	weapon	q	0	Wands of Nagamar
 627	ND	500974900	nd.gif	none	t,d	187
 628	metallic A	469374414	metallica.gif	none	t,d	129
 629	glowing red eye	445874895	redeye.gif	accessory	t,d	165
