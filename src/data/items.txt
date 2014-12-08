@@ -6327,7 +6327,7 @@
 6308	celestial carrot juice	322513561	potion19.gif	usable	t	0
 6309	celestial au jus	897507910	potion22.gif	usable	t	0
 6310	celestial squid ink	809451164	potion21.gif	usable	t	0
-6311
+6311	Uncle Buck	128580832	unclebuck.gif	accessory	t	0
 6312	crate of fish meat	421662304	crate.gif	usable		0	crates of fish meat
 6313	damp old wallet	841851551	wallet.gif	usable		0
 6314	fishy pipe	330990978	corncobpipe.gif	reusable		0
@@ -7975,3 +7975,29 @@
 7956	Crimbo sapling	349106235	crimbosapling.gif	grow	t	0
 7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75
 7958	box of old Crimbo decorations	114808402	decorations.gif	usable	q	0
+7959
+7960
+7961
+7962
+7963
+7964
+7965
+7966
+7967
+7968
+7969
+7970
+7971
+7972
+7973
+7974
+7975
+7976
+7977
+7978
+7979
+7980
+7981
+7982
+7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0
+7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0

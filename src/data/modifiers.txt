@@ -2587,6 +2587,8 @@ shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 shock belt	Single Equip
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
+# Sister Accessory: (minimum of +20 Meat)
+Sister Accessory	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +25, Softcore Only
 sk8board	Initiative: +15
 # skeletal scabbard: Doubles the damage dealt by swords
 skeletal scabbard	Single Equip
@@ -2885,6 +2887,7 @@ toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 tube sock	Moxie: +20, Single Equip
+Uncle Buck	Maximum HP: +15, Softcore Only
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped
 # Uncle Hobo's epic beard: (+9 in December)
@@ -4579,6 +4582,7 @@ Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -1
 Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
 Juiced Up	Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
+Juicy Boost	Maximum HP: +30, Maximum MP: +30, Experience Percent (Muscle): +100, Experience Percent (Mysticality): +100, Experience Percent (Moxie): +100
 Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 # Just the Best Anapests: Da da dee, da da dee
@@ -6325,6 +6329,7 @@ Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 bone bons	Effect: "Bone Chilling", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
 BOOterfinger	Effect: "BOOsted", Effect Duration: 50
+Boosty Juice	Effect: "Juicy Boost", Effect Duration: 300
 Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
