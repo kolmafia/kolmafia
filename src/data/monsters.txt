@@ -1508,10 +1508,10 @@ outlaw behind an table	tableoutlaw.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 
 outlaw leader	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	big bag of money (n100)
 tetched prospector	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
 
-# Halloween 2014
-giant pumpkin-head	headpumpkin.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Big Punk (n100)	mimeplasm (c100)
-large-headed werewolf	headwolf.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Moonds (n100)	mimeplasm (c100)
-oddly-proportioned ghost	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
+# The Crimbonium Mining Camp (Crimbo 2014)
+ambulatory robo-minecart	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (0)	cylindrical mold (0)	servo-assisted exo-pants (c0)
+exo-suited miner	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (0)	cylindrical mold (0)	high-energy mining laser (c0)
+semi-autonomous drill unit	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (0)	cylindrical mold (0)	radiation-resistant helmet (c0)
 
 # Old Events
 
@@ -1742,6 +1742,11 @@ Chef Boy, R&amp;D	chefboy.gif	WANDERER Scale: 5 Init: -10000 P: dude Phys: 100
 Warbear Foot Soldier	warbear12.gif	Scale: -3 Cap: 10000 Floor: 20 Init: -10000 P: beast	warbear whosit (n100)
 Warbear Officer	warbear23.gif	P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
 High-Ranking Warbear Officer	warbear31.gif	Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)
+
+# Halloween 2014
+giant pumpkin-head	headpumpkin.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Big Punk (n100)	mimeplasm (c100)
+large-headed werewolf	headwolf.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Moonds (n100)	mimeplasm (c100)
+oddly-proportioned ghost	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
 
 # Obsolete Standard Monsters
 7-Foot Dwarf	miner.gif	HP: 40 Def: 47 Atk: 53 Meat: 34-48 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)

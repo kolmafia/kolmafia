@@ -225,6 +225,7 @@ pottery hat	45	none
 powdered wig	70	Mox: 20
 propeller beanie	30	none
 pumpkinhead mask	10	none
+radiation-resistant helmet	50	none
 Radio Free Baseball Cap	150	Mox: 60
 raspberry beret	50	Mox: 10
 rave visor	150	Mox: 60
@@ -477,6 +478,7 @@ rusty metal greaves	150	Mus: 60
 scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
+servo-assisted exo-pants	50	none
 slime-covered greaves	200	Mox: 200
 snailmail breeches	165	Mox: 67
 snow pants	50	Mox: 10
@@ -953,6 +955,7 @@ haunted paddle-ball	110	Mox: 40	1-handed flail
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
+high-energy mining laser	50	Mox: 0	2-handed rifle
 hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum

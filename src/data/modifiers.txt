@@ -309,6 +309,7 @@ pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk, cap 
 powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
+radiation-resistant helmet	Item Drop: -10, Familiar Effect: "1xFairy, cap 12"
 Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
@@ -586,7 +587,8 @@ red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xF
 rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
 sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
-sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "cold atk, 1xPotato, cap 40"
+sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
+servo-assisted exo-pants	Initiative: -30, Familiar Effect: "cold atk, 1xPotato, cap 12"
 slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "sleaze atk, 0.5xBarrr"
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
 snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
@@ -1112,6 +1114,7 @@ haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 heavy leather-bound tome	Weakens Monster
 heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
+high-energy mining laser	Fumble: 2, Hot Damage: +20
 hilarious comedy prop	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
 hippo whip	Monster Level: +10
 hippy bongo	Stench Damage: +5
@@ -4028,6 +4031,7 @@ Creepypasted	Spooky Damage: +50
 Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Flavor	Spell Damage: +30
 Crimbo Nostalgia	Experience: +5
+# Crimbonar: Detect the presence of Crimbonium
 Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
 Crocodile Tear	Familiar Weight (hidden): [10*(zone(The Sea)+loc(The Sunken Party Yacht))]
 Crotchety, Pining	Muscle Percent: +100
@@ -4631,6 +4635,7 @@ Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10
 # Long Live GORF: GORF is watching.
 # Long Live GORF: GORF approves.
+Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Lord of Acid	Avatar: "acid blob"
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
@@ -4766,6 +4771,7 @@ Oh Snap	Experience (Moxie): +10
 Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Oily Flavor	Muscle: +15
+# Oily Legs: Lets you mine Crimbonium faster
 Okee-Dokee Computer	Mysticality: +30
 Okee-Dokee Go!	Initiative: +20
 Okee-Dokee, Smokee	Spell Damage Percent: +20

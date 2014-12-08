@@ -2497,3 +2497,8 @@ Xiblaxian stealth trousers	5D, ROW335	Xiblaxian circuitry (9)	Xiblaxian polymer 
 Xiblaxian ultraburrito	5D, ROW339	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
 Xiblaxian space-whiskey	5D, ROW338	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
 Xiblaxian residence-cube	5D, ROW340	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
+
+# Crimbo 2014
+Crimbonium fuel rod	SMITH	cylindrical mold	nugget of Crimbonium
+neutron lollipop	COOK	peppermint tailings	skewer
+gamma nog	MIX	peppermint tailings	fermenting powder
