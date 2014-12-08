@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +45,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -299,6 +303,19 @@ public class PeeVPeeRequest
 			AdventureResult result = new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
 			ResultProcessor.processResult( result );
 			RequestLogger.printLine( printedStatMessage );
+		}
+	}
+
+	public static final void parseItems( final String responseText )
+	{
+		// This doesn't work in compact mode
+		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( responseText );
+		if ( itemMatcher.find() )
+		{
+			String relString = itemMatcher.group( 1 );
+			AdventureResult item = ItemDatabase.itemFromRelString( relString );
+
+			ResultProcessor.processItem( false, "You acquire an item:", item, (List<AdventureResult>) null );
 		}
 	}
 
