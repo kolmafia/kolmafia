@@ -7872,14 +7872,14 @@
 7853
 7854
 7855
-7856
-7857
-7858
-7859
-7860
-7861
-7862
-7863
+7856	flask of mining oil	476294680	flask.gif	usable	t,d	10	flasks of mining oil
+7857	radiation-resistant helmet	278774996	radihelm.gif	hat	t,d	20
+7858	servo-assisted exo-pants	357821055	radipants.gif	pants	t,d	20	pairs of servo-assisted exo-pants
+7859	high-energy mining laser	992099098	radilaser.gif	weapon	t,d	20
+7860	peppermint tailings	779557533	tailing.gif	none	0	lumps of peppermint tailings
+7861	nugget of Crimbonium	208532852	crimnugget.gif	none	t,d	5	nuggets of Crimbonium
+7862	cylindrical mold	564529049	rodmold.gif	none	t,d	5
+7863	Crimbonium fuel rod	944159359	fuelrod.gif	none	t	0
 7864	Petite Paintbrush	212937758	paintbrush.gif	familiar		0
 7865
 7866
@@ -7941,8 +7941,8 @@
 7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5	bottles of Friendly Turkey
 7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10	bottles of Agitated Turkey
 7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15	bottles of Ambitious Turkey
-7925
-7926
+7925	neutron lollipop	367228523	neutronpop.gif	food	t,d	11
+7926	gamma nog	416334851	oozenog.gif	drink	t,d	11	mugs of gamma nog
 7927
 7928
 7929

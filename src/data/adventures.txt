@@ -275,6 +275,9 @@ Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
+Crimbo14	adventure=419	Env: outdoor Stat: 0	The Crimbonium Mining Camp
+Crimbo14	mining=5	Env: none Stat: 0	The Crimbonium Mine
+
 Crimbo13	adventure=366	Env: indoor	WarBear Fortress (First Level)
 Crimbo13	adventure=367	Env: indoor	WarBear Fortress (Second Level)
 Crimbo13	adventure=368	Env: indoor	WarBear Fortress (Third Level)

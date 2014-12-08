@@ -212,6 +212,7 @@ The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Wh
 The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse: 1r75
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja
+The Crimbonium Mining Camp	100	ambulatory robo-minecart	exo-suited miner	semi-autonomous drill unit
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 The Dark Elbow of the Woods	95	Demoninja	G imp	L imp
 The Dark Heart of the Woods	95	Fallen Archfiend	G imp	P imp
@@ -369,6 +370,7 @@ Rumpelstiltskin's Workshop	0
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1
 The Arrrboretum	0
+The Crimbonium Mine	0
 The Knob Shaft (Mining)	0
 The Limerick Dungeon	0
 The Poker Room	0
