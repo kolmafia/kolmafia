@@ -2498,8 +2498,7 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "mall.php" ) ||
 		     urlString.startsWith( "account.php" ) ||
-		     urlString.startsWith( "records.php" ) ||
-		     ( urlString.startsWith( "peevpee.php" ) && this.getFormField( "lid" ) != null ) )
+		     urlString.startsWith( "records.php" ) )
 		{
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as
@@ -2547,6 +2546,17 @@ public class GenericRequest
 		else if ( urlString.startsWith( "afterlife.php" ) )
 		{
 			AfterLifeRequest.parseResponse( urlString, this.responseText );
+		}
+		else if ( urlString.startsWith( "peevpee.php" ) )
+		{
+			if ( this.getFormField( "lid" ) == null )
+			{
+				PeeVPeeRequest.parseItems( this.responseText );
+			}
+			else
+			{
+				return;
+			}
 		}
 		else
 		{
