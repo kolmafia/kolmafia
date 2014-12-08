@@ -1779,3 +1779,7 @@
 1777	Bloody Grin	rocks.gif	4b4aaccd35a9896d9d6fecb38ee638e5	drink 1 whiskey in a broken glass
 1778	Brainworm	woim.gif	99aa0ab114235cd01e094b52de50f4ff	drink 1 shot of mescal
 1779	Herbal Pert	bugle.gif	f2bc42bc3dc3f0611b0c4155b4524b44	drink 1 glass of herbal tequila
+1780
+1781
+1782
+1783	Juicy Boost	boostyjuice.gif	680e39240f4b80c5f388cbaf7f2479a9	use 1 Boosty Juice
