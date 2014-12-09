@@ -51,6 +51,7 @@ public class HugglerMessage
 
 	private static final Pattern[] WIN_MESSAGES =
 	{
+		Pattern.compile( "^Accolades for <b>(.*?)</b>, unaccolades for (.*?).$" ),
 		Pattern.compile( "^<b>(.*?)</b> 1, (.*?) 0$" ),
 		Pattern.compile( "^<b>(.*?)</b> dropped a bomb on (.*?).$" ),
 		Pattern.compile( "^<b>(.*?)</b> gave (.*?) a lesson in failure.$" ),
@@ -95,12 +96,18 @@ public class HugglerMessage
 		Pattern.compile( "^(.*?) can't handle <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) couldn't beat <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) could not handle <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) could not handle what <b>(.*?)</b> was cooking.$" ),
 		Pattern.compile( "^(.*?) failed to defeat <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) fell prey to <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) fell to <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) just fell to <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) just took a lesson in defeat from <b>(.*?)</b>.$" ),
 		Pattern.compile( "^(.*?) just tripped over <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) lost. +<b>(.*?)</b> won.$" ),
 		Pattern.compile( "^(.*?) lost to <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) was burned by <b>(.*?)</b>.$" ),
+		Pattern.compile( "^(.*?) went down in a blaze of failure. +Go <b>(.*?)</b>.$" ),
+		Pattern.compile( "^Why so sad (.*?)\\? +Did <b>(.*?)</b> just defeat you.$" ),
 	};
 
 	public HugglerMessage( String content, String winner, String loser )
