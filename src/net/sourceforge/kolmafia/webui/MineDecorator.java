@@ -38,7 +38,11 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -120,6 +124,11 @@ public abstract class MineDecorator
 			}
 			Preferences.setInteger( "lastMiningReset", KoLCharacter.getAscensions() );
 		}
+
+		if ( responseText.contains( "You use a convenient stick of minin' dynamite to quickly and effortlessly blast away some rock." ) )
+		{
+			ResultProcessor.processItem( ItemPool.MININ_DYNAMITE, -1 );
+		}
 		
 		Matcher m = MINE_PATTERN.matcher( location );
 		if ( !m.find() )
@@ -133,8 +142,7 @@ public abstract class MineDecorator
 			return;
 		}
 		m = WHICH_PATTERN.matcher( location );
-		if ( !m.find() || ( responseText.indexOf( "You acquire" ) == -1 &&
-			responseText.indexOf( "An inexpert swing" ) == -1 ) )
+		if ( !m.find() || ( !responseText.contains( "You acquire" ) && !responseText.contains( "An inexpert swing" ) ) )
 		{
 			return;
 		}

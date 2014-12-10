@@ -5716,6 +5716,7 @@ Gnauga Hides	Damage Reduction: 3
 Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
 Hateful Habiliment	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+High-Radiation Mining Gear	Cold Resistance: +3
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hot Daub Ensemble	Cold Resistance: +3
