@@ -1662,6 +1662,8 @@ public class ItemPool
 	public static final int CORN_MEDIOCREBAR = 5916;
 	public static final int CABBAGE_MEDIOCREBAR = 5917;
 	public static final int CHIBIBUDDY_OFF = 5925;
+	public static final int BITTYCAR_MEATCAR = 5926;
+	public static final int BITTYCAR_HOTCAR = 5927;
 	public static final int ELECTRONIC_DULCIMER_PANTS = 5963;
 	public static final int BOO_CLUE = 5964;
 	public static final int INFURIATING_SILENCE_RECORD = 5971;
@@ -1683,6 +1685,7 @@ public class ItemPool
 	public static final int DRESS_PANTS = 6030;
 	public static final int INCREDIBLE_PIZZA = 6038;
 	public static final int OIL_PAN = 6042;
+	public static final int BITTYCAR_SOULCAR = 6046;
 	public static final int MISTY_CLOAK = 6047;
 	public static final int MISTY_ROBE = 6048;
 	public static final int MISTY_CAPE = 6049;

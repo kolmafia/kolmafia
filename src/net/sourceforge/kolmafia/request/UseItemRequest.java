@@ -1024,6 +1024,18 @@ public class UseItemRequest
 			}
 			return Integer.MAX_VALUE;
 
+		case ItemPool.BITTYCAR_HOTCAR:
+			UseItemRequest.limiter = "already being active";
+			return Preferences.getString( "_bittycar" ).equals( "hotcar" ) ? 0 : 1;
+
+		case ItemPool.BITTYCAR_MEATCAR:
+			UseItemRequest.limiter = "already being active";
+			return Preferences.getString( "_bittycar" ).equals( "meatcar" ) ? 0 : 1;
+
+		case ItemPool.BITTYCAR_SOULCAR:
+			UseItemRequest.limiter = "already being active";
+			return Preferences.getString( "_bittycar" ).equals( "soulcar" ) ? 0 : 1;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -4880,6 +4892,18 @@ public class UseItemRequest
 
 		case ItemPool.PICKY_TWEEZERS:
 			Preferences.setBoolean( "_pickyTweezersUsed", true );
+			return;
+
+		case ItemPool.BITTYCAR_HOTCAR:
+			Preferences.setString( "_bittycar", "hotcar" );
+			return;
+
+		case ItemPool.BITTYCAR_MEATCAR:
+			Preferences.setString( "_bittycar", "meatcar" );
+			return;
+
+		case ItemPool.BITTYCAR_SOULCAR:
+			Preferences.setString( "_bittycar", "soulcar" );
 			return;
 
 		}
