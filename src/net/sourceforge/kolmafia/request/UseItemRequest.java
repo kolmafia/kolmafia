@@ -324,6 +324,7 @@ public class UseItemRequest
 		case ItemPool.GIANT_FARADAY_CAGE:
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
+		case ItemPool.RESIDENCE_CUBE:
 			return CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
 
 		case ItemPool.HOT_BEDDING:
@@ -1203,6 +1204,7 @@ public class UseItemRequest
 		case ItemPool.GIANT_FARADAY_CAGE:
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
+		case ItemPool.RESIDENCE_CUBE:
 			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
 			int oldLevel = CampgroundRequest.getCurrentDwellingLevel();
 			int newLevel = CampgroundRequest.dwellingLevel( itemId );
@@ -3598,6 +3600,10 @@ public class UseItemRequest
 		case ItemPool.TWIG_HOUSE:
 		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GIANT_FARADAY_CAGE:
+		case ItemPool.SNOW_FORT:
+		case ItemPool.ELEVENT:
+		case ItemPool.RESIDENCE_CUBE:
 
 			if ( responseText.contains( "You've already got" ) )
 			{
