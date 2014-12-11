@@ -7864,9 +7864,9 @@
 7845	perl necklace	659747022	perlneck.gif	usable	t,d	15
 7846	Fudge Fiber Armor Plating	306244770	chocfibre.gif	usable	t,d	15	chunks of Chocolate Fiber Armor Plating
 7847	ruby on canes	987976517	candycane.gif	usable	t,d	15	sticks of ruby on canes
-7848
-7849
-7850
+7848	petit fortran	357275807	fortran.gif	food	t,d	15
+7849	java cookie	615433732	javacookie.gif	food	t,d	15
+7850	cookie cookie	992752843	cookie.gif	food	t,d	15
 7851
 7852
 7853

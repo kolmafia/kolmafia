@@ -1762,9 +1762,9 @@
 1760	PERL of Great Price	perlneck.gif	a2898275d227b2ce969a9efb2b71a925	use 1 perl necklace
 1761	Armored Innards	chocfibre.gif	c298ca0c994cb84580f5fdaad72a13e2	use 1 Fudge Fiber Armor Plating
 1762	Ruby-ous	candycane.gif	c0d82589967944bc0103c5a6f5ee13f2	use 1 ruby on canes
-1763
-1764
-1765
+1763	Petit Forbearance	fortran.gif	14960b4b03e57f90e0d3e3eaaebd2d2a	eat 1 petit fortran
+1764	Updated	javacookie.gif	380dfcf8f0a3aaf32b63ec48b35827e0	eat 1 java cookie
+1765	Cookie Backup	cookie.gif	054b73678da2ad536cbcebebb024f5fe	eat 1 cookie cookie
 1766
 1767
 1768	Vented Spleen	liver.gif	1958208e342cd07f9f69ee796dfdd4ce	use 1 Bit O' Quail Spleen

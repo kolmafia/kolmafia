@@ -4013,6 +4013,7 @@ Consumed by Fear	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 10
 Consumed by Regret	Muscle Limit: 30, Mysticality Limit: 10, Moxie Limit: 30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
+# Cookie backup: automatically removes beaten up?
 Cool Spirit	Cold Damage: +20, Cold Spell Damage: +20
 Cool, Catlike	Cold Damage: +40, Moxie: +30
 Corona de la Salsa	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
@@ -4838,6 +4839,7 @@ Permafrosty	Cold Damage: +50
 Personal Thundercloud	Water Level: +2
 Perspicacious Pressure	Mysticality Percent: +300
 Pet Shop Song	Initiative: +10
+Petit Forbearance	MP Regen Min: 8, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Phairly Balanced: Equalize all your stats to your highest stat
 Phairly Balanced	Equalize: "High"
@@ -5385,6 +5387,7 @@ Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 Unmuffled	Combat Rate: +15
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
+Updated	Muscle: +20, Mysticality: +20, Moxie: +20
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Using Protection	Mana Cost: -2
 Vampin'	Avatar: "sexy vampire"
@@ -5968,6 +5971,7 @@ hot hi mein	Effect: "Hot Breath", Effect Duration: 5
 ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
+java cookie	Effect: "Updated", Effect Duration: 10
 jawbruiser	Effect: "Sugar Rush", Effect Duration: 5
 jive turkey leg	Effect: "Hollow Inside", Effect Duration: 50
 jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
@@ -5995,6 +5999,7 @@ packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 pawn cookie	Effect: "Pwnd", Effect Duration: 30
 pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 petit 4.1	Effect: "Petit Force", Effect Duration: 20
+petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
 powdered donut	Effect: "Powdered", Effect Duration: 5
