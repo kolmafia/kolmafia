@@ -908,6 +908,17 @@ public class SkillDatabase
 	}
 
 	/**
+	 * Returns whether or not the skill is a summon
+	 *
+	 * @return <code>true</code> if the skill is a summon
+	 */
+
+	public static final boolean isSummon( final int skillId )
+	{
+		return SkillDatabase.isType( skillId, SkillDatabase.SUMMON );
+	}
+
+	/**
 	 * Utility method used to determine if the given skill is of the appropriate type.
 	 */
 
