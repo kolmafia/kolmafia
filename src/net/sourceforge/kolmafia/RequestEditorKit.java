@@ -349,7 +349,11 @@ public class RequestEditorKit
 
 		// Make changes which only apply to a single page.
 
-		if ( location.startsWith( "account_combatmacros.php" ) )
+		if ( location.startsWith( "account.php" ) )
+		{
+			StringUtilities.singleStringReplace( buffer, "account_subscription.php\"", "#\" title='This will not work in KoLmafia'" );
+		}
+		else if ( location.startsWith( "account_combatmacros.php" ) )
 		{
 			StringUtilities.insertAfter( buffer, "</textarea>", "<script language=JavaScript src=\"/" + KoLConstants.MACROHELPER_JS + "\"></script>" );
 		}
@@ -498,6 +502,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "mrstore.php" ) )
+		{
+			StringUtilities.singleStringReplace( buffer, "account_subscription.php", "# title='This will not work in KoLmafia'" );
 		}
 		else if ( location.startsWith( "multiuse.php" ) )
 		{
