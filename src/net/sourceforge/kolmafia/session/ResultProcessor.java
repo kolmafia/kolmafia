@@ -1142,6 +1142,7 @@ public class ResultProcessor
 		case ItemPool.CRIMBCO_SCRIP:
 		case ItemPool.AWOL_COMMENDATION:
 		case ItemPool.MR_ACCESSORY:
+		case ItemPool.UNCLE_BUCK:
 		case ItemPool.FAT_LOOT_TOKEN:
 		case ItemPool.FUDGECULE:
 		case ItemPool.FDKOL_COMMENDATION:

@@ -1735,6 +1735,7 @@ public class ItemPool
 	public static final int RING_OF_DETECT_BORING_DOORS = 6303;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
+	public static final int UNCLE_BUCK = 6311;
 	public static final int FISH_MEAT_CRATE = 6312;
 	public static final int DAMP_WALLET = 6313;
 	public static final int FISHY_PIPE = 6314;

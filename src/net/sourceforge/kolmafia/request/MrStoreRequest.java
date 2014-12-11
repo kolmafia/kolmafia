@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -66,6 +67,7 @@ public class MrStoreRequest
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
+	public static final AdventureResult UNCLE_B = ItemPool.get( ItemPool.UNCLE_BUCK, 1 );
 	public static final CoinmasterData MR_STORE =
 		new CoinmasterData(
 			MrStoreRequest.master,
@@ -182,10 +184,32 @@ public class MrStoreRequest
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
 
+		// If we performed a Currency Exchange, account for it
 		String action = GenericRequest.getAction( urlString );
+
+		if ( action != null && action.equals( "a_to_b" ) )
+		{
+			if ( responseText.contains( "You acquire" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MR_ACCESSORY, -1 );
+				CoinMasterRequest.parseBalance( data, responseText );
+			}
+			return;
+		}
+
+		if ( action != null && action.equals( "b_to_a" ) )
+		{
+			if ( responseText.contains( "You acquire" ) )
+			{
+				ResultProcessor.processItem( ItemPool.UNCLE_BUCK, -10 );
+				CoinMasterRequest.parseBalance( data, responseText );
+			}
+			return;
+		}
+
 		if ( action != null && action.equals( "pullmras" ) )
 		{
-			if ( responseText.indexOf( "You acquire" ) != -1 )
+			if ( responseText.contains( "You acquire" ) )
 			{
 				// We pulled a Mr. A from storage.
 				AdventureResult remove = MrStoreRequest.MR_A.getInstance( -1 );
