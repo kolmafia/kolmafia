@@ -4872,7 +4872,6 @@ public class FightRequest
 			{
 				TagNode inode = node.findElementByName( "img", true );
 				FightRequest.processFamiliarAction( node, inode, status );
-				status.famaction = false;
 				return;
 			}
 
@@ -5505,6 +5504,8 @@ public class FightRequest
 
 	private static void processFamiliarAction( TagNode node, TagNode inode, TagStatus status )
 	{
+		status.famaction = false;
+
 		StringBuffer action = status.action;
 
 		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
