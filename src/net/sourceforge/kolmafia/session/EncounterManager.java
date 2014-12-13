@@ -397,7 +397,7 @@ public abstract class EncounterManager
 			// Since this content is short-lived, create the patterns here every time
 			// the encounter is found instead of globally
 			Pattern GIFT_SENDER_PATTERN = Pattern.compile( "nounder><b>(.*?)</b></a>" );
-			Pattern NOTE_PATTERN = Pattern.compile( "1px solid black;'>(.*?)</td></tr>" );
+			Pattern NOTE_PATTERN = Pattern.compile( "1px solid black;'>(.*?)</td></tr>", Pattern.DOTALL );
 
 			Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher( responseText );
 			if ( senderMatcher.find() )
