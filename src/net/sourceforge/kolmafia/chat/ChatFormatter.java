@@ -61,6 +61,7 @@ public class ChatFormatter
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
+	private static final Pattern EMPTY_SPAN_PATTERN = Pattern.compile( "<span[^>]*></span>" );
 
 	private static final Pattern GREEN_PATTERN =
 		Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
@@ -157,6 +158,7 @@ public class ChatFormatter
 
 		// normalSpanContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent , "<br></span>", "</span><br>" );
+		normalizedContent = ChatFormatter.EMPTY_SPAN_PATTERN.matcher( normalizedContent ).replaceAll( "" );
 
 		// colonOrderedContent
 		normalizedContent = StringUtilities.globalStringReplace( normalizedContent, ":</b></a>", "</a></b>:" );
