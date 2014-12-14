@@ -1301,18 +1301,14 @@ public class DailyDeedsPanel
 			public void actionPerformed( final ActionEvent e )
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
-				if ( cb.getSelectedIndex() == 0)
+				if ( cb.getSelectedIndex() <= 0)
 				{
 					setComboTarget( btn, "" );
 				}
 				else
 				{
 					String Choice = cb.getSelectedItem().toString();
-
-					if ( Choice != null )
-					{
-						setComboTarget(btn, "shower " + Choice );
-					}
+					setComboTarget(btn, "shower " + Choice );
 				}
 			}
 		}
@@ -1393,18 +1389,14 @@ public class DailyDeedsPanel
 			public void actionPerformed( final ActionEvent e )
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
-				if ( cb.getSelectedIndex() == 0 )
+				if ( cb.getSelectedIndex() <= 0 )
 				{
 					setComboTarget(btn, "");
 				}
 				else
 				{
 					String Choice = (String)cb.getSelectedItem().toString();
-
-					if ( Choice != null )
-					{
-						setComboTarget(btn, "summon " + Choice);
-					}
+					setComboTarget(btn, "summon " + Choice);
 				}
 			}
 		}
@@ -1522,7 +1514,7 @@ public class DailyDeedsPanel
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
 				int choice = cb.getSelectedIndex();
-				if ( choice == 0 )
+				if ( choice <= 0 )
 				{
 					setComboTarget( btn, "" );
 				}
@@ -2274,11 +2266,7 @@ public class DailyDeedsPanel
 				else
 				{
 					String Choice = MomRequest.FOOD[ index - 1 ];
-
-					if ( Choice != null )
-					{
-						setComboTarget(btn, "mom " + Choice);
-					}
+					setComboTarget(btn, "mom " + Choice);
 				}
 			}
 		}
@@ -3565,18 +3553,14 @@ public class DailyDeedsPanel
 					return;
 				}
 
-				if ( cb.getSelectedIndex() == 0 )
+				if ( cb.getSelectedIndex() <= 0 )
 				{
 					setComboTarget( btn, "" );
 				}
 				else
 				{
 					String Choice = cb.getSelectedItem().toString();
-
-					if ( Choice != null )
-					{
-						setComboTarget( btn, "hatter " + HatterDaily.getEffectHat( cb.getSelectedIndex() ) );
-					}
+					setComboTarget( btn, "hatter " + HatterDaily.getEffectHat( cb.getSelectedIndex() ) );
 				}
 			}
 		}
