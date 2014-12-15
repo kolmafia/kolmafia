@@ -1783,3 +1783,6 @@
 1781	Crimbonar	crimnugget.gif	33639ac47e3cea3194f71cb1fc729534
 1782	Oily Legs	radipants.gif	4dec80c43bba56c6e43480d45c57c05f
 1783	Juicy Boost	boostyjuice.gif	680e39240f4b80c5f388cbaf7f2479a9	use 1 Boosty Juice
+1784	Fitter, Bitter	fitbit.gif	5cd04192b4b5bc76b1c5712a5ff1aaa6	use 1 fitness wristband
+1785	Watch Out!	smartwatch.gif	60670dea7d5048f40e1bd8a559d2c5e1	use 1 smart watch
+1786	Glasshole	googleglass.gif	865ac04c090e7c8b890b39c0bd53b558	use 1 augmented-reality shades

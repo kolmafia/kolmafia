@@ -7881,28 +7881,28 @@
 7862	cylindrical mold	564529049	rodmold.gif	none	t,d	5
 7863	Crimbonium fuel rod	944159359	fuelrod.gif	none	t	0
 7864	Petite Paintbrush	212937758	paintbrush.gif	familiar		0
-7865	Crimbot schematic: Gun Face	429213508	crimschem.gif	usable	t,d	50
-7866
-7867
-7868
+7865	Crimbot schematic: Gun Face	429213508	crimschem.gif	usable	t,d	50	Crimbot schematics: Gun Face
+7866	Crimbot schematic: Big Head	810270984	crimschem.gif	usable	t,d	50	Crimbot schematics: Big Head
+7867	Crimbot schematic: Security Chassis	922438302	crimschem.gif	usable	t,d	50	Crimbot schematics: Security Chassis
+7868	Crimbot schematic: Military Chassis	411699647	crimschem.gif	usable	t,d	50	Crimbot schematics: Military Chassis
 7869
 7870
 7871
 7872
 7873
 7874
-7875	Crimbot schematic: Bug Zapper	450000928	crimschem.gif	usable	t,d	50
-7876
-7877
-7878
+7875	Crimbot schematic: Bug Zapper	450000928	crimschem.gif	usable	t,d	50	Crimbot schematics: Bug Zapper
+7876	Crimbot schematic: Rodent Gun	825574220	crimschem.gif	usable	t,d	50	Crimbot schematics: Rodent Gun
+7877	Crimbot schematic: Rivet Shocker	446015789	crimschem.gif	usable	t,d	50	Crimbot schematics: Rivet Shocker
+7878	Crimbot schematic: Mega Vise	226264861	crimschem.gif	usable	t,d	50	Crimbot schematics: Mega Vise
 7879
 7880
 7881
 7882
 7883
 7884
-7885
-7886	Crimbot schematic: Wrecking Ball	580452722	crimschem.gif	usable	t,d	50
+7885	Crimbot schematic: Power Arm	247822516	crimschem.gif	usable	t,d	50	Crimbot schematics: Power Arm
+7886	Crimbot schematic: Wrecking Ball	580452722	crimschem.gif	usable	t,d	50	Crimbot schematics: Wrecking Ball
 7887
 7888
 7889
@@ -7911,9 +7911,9 @@
 7892
 7893
 7894
-7895
-7896	Crimbot schematic: Tripod Legs	352200229	crimschem.gif	usable	t,d	50
-7897
+7895	Crimbot schematic: Heavy-Duty Legs	741014842	crimschem.gif	usable	t,d	50	Crimbot schematics: Heavy-Duty Legs
+7896	Crimbot schematic: Tripod Legs	352200229	crimschem.gif	usable	t,d	50	Crimbot schematics: Tripod Legs
+7897	Crimbot schematic: Rollerfeet	445249956	crimschem.gif	usable	t,d	50	Crimbot schematic: Rollerfeet
 7898
 7899
 7900
@@ -7921,10 +7921,10 @@
 7902
 7903
 7904
-7905
-7906
-7907
-7908
+7905	recovered elf magazine	904897344	origamimag.gif	none	q	0
+7906	recovered elf toothbrush	188531471	toothbrush.gif	none	q	0
+7907	recovered elf sleeping pills	754865758	goofballs.gif	none	q	0
+7908	recovered elf underpants	652661394	briefs.gif	none	q	0
 7909
 7910
 7911
@@ -7953,7 +7953,7 @@
 7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
 7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
-7937
+7937	Crimbo Credit	772180382	crimbocredit.gif	none		0	Crimbo Credits
 7938	single atom	904190479	blank.gif	multiple	d	300
 7939	Time Cape	790284934	timecape.gif	container	t	0
 7940	Time Cloak	160423604	timecape.gif	container	t	0
@@ -8001,3 +8001,35 @@
 7982
 7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0
 7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0
+7985
+7986
+7987
+7988
+7989
+7990
+7991
+7992
+7993
+7994
+7995
+7996
+7997
+7998
+7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
+8000	smart watch	887647767	smartwatch.gif	usable	t	0
+8001	augmented-reality shades	201387692	googleglass.gif	usable	t	0
+8002
+8003
+8004
+8005
+8006
+8007
+8008
+8009
+8010
+8011
+8012
+8013
+8014
+8015
+8016	fitness wristband	515708282	fitbit.gif	usable	t	0
