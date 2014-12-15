@@ -7923,12 +7923,12 @@
 7904
 7905	recovered elf magazine	904897344	origamimag.gif	none	q	0
 7906	recovered elf toothbrush	188531471	toothbrush.gif	none	q	0
-7907	recovered elf sleeping pills	754865758	goofballs.gif	none	q	0
-7908	recovered elf underpants	652661394	briefs.gif	none	q	0
-7909
-7910
-7911
-7912
+7907	recovered elf sleeping pills	754865758	goofballs.gif	none	q	0	bottles of recovered elf sleeping pills
+7908	recovered elf underpants	652661394	briefs.gif	none	q	0	pairs of recovered elf underpants
+7909	recovered elf wallet	869099448	wallet.gif	none	q	0
+7910	recovered elf pocketwatch	666025858	watch.gif	none	q	0
+7911	recovered elf photo album	195689858	book4.gif	none	q	0
+7912	recovered elf smartphone	902026506	ishield.gif	none	q	0
 7913	Size XI Wizard's Robe	410404363	xirobe.gif	container		0
 7914	Bit O' Quail Spleen	632392031	liver.gif	usable	t,d	5	Bits O' Quail Spleen
 7915	Take Eleven Bar	491996669	candybar.gif	usable	t,d	5

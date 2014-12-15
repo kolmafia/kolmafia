@@ -1509,9 +1509,9 @@ outlaw leader	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	bi
 tetched prospector	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
 
 # The Crimbonium Mining Camp (Crimbo 2014)
-ambulatory robo-minecart	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
-exo-suited miner	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
-semi-autonomous drill unit	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
+ambulatory robo-minecart	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
+exo-suited miner	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
+semi-autonomous drill unit	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
 
 # Old Events
 
