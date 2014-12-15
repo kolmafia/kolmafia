@@ -6466,6 +6466,7 @@ cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 1
 cream pie	Free Pull
 Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
+# Crimbo Credit: Use it to buy gifts in Crimbo Town!
 crimbo elfling	Free Pull
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo P. R. E. S. S. I. E.	Free Pull
