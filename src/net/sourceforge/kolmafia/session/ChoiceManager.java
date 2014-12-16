@@ -165,7 +165,7 @@ public abstract class ChoiceManager
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "item(\\d+)=(\\d+)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -7723,7 +7723,7 @@ public abstract class ChoiceManager
 			{
 				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
 				HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
-				int index = -1;
+				int index;
 				int id;
 				int giftQty;
 
