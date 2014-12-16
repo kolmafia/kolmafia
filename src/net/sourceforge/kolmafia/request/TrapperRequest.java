@@ -67,17 +67,14 @@ public class TrapperRequest
 			TrapperRequest.master,
 			"trapper",
 			TrapperRequest.class,
-			"shop.php?whichshop=trapper",
 			"yeti fur",
 			"no yeti furs",
 			false,
 			TrapperRequest.TOKEN_PATTERN,
 			TrapperRequest.YETI_FUR,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			TrapperRequest.itemRows,
+			"shop.php?whichshop=trapper",
 			"buyitem",
 			TrapperRequest.buyItems,
 			TrapperRequest.buyPrices,
@@ -85,8 +82,13 @@ public class TrapperRequest
 			null,
 			null,
 			null,
-			true,
-			TrapperRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public TrapperRequest()
@@ -94,34 +96,24 @@ public class TrapperRequest
 		super( TrapperRequest.TRAPPER );
 	}
 
-	public TrapperRequest( final String action )
+	public TrapperRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( TrapperRequest.TRAPPER, action );
+		super( TrapperRequest.TRAPPER, buying, attachments );
 	}
 
-	public TrapperRequest( final String action, final AdventureResult [] attachments )
+	public TrapperRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( TrapperRequest.TRAPPER, action, attachments );
+		super( TrapperRequest.TRAPPER, buying, attachment );
 	}
 
-	public TrapperRequest( final String action, final AdventureResult attachment )
+	public TrapperRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( TrapperRequest.TRAPPER, action, attachment );
-	}
-
-	public TrapperRequest( final String action, final int itemId, final int quantity )
-	{
-		super( TrapperRequest.TRAPPER, action, itemId, quantity );
-	}
-
-	public TrapperRequest( final String action, final int itemId )
-	{
-		super( TrapperRequest.TRAPPER, action, itemId );
+		super( TrapperRequest.TRAPPER, buying, itemId, quantity );
 	}
 
 	public TrapperRequest( final int itemId, final int quantity )
 	{
-		this( "Yep.", itemId, quantity );
+		this( true, itemId, quantity );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

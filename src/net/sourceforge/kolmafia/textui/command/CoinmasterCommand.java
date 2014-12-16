@@ -103,6 +103,7 @@ public class CoinmasterCommand
 			return;
 		}
 
+		String URL;
 		String action;
 
 		if ( isBuy )
@@ -160,7 +161,7 @@ public class CoinmasterCommand
 			}
 		}
 			
-		CoinMasterRequest request = data.getRequest( action, itemList );
+		CoinMasterRequest request = data.getRequest( isBuy, itemList );
 
 		RequestThread.postRequest( request );
 	}

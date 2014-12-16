@@ -69,26 +69,28 @@ public class TravelingTraderRequest
 			TravelingTraderRequest.master,
 			"trader",
 			TravelingTraderRequest.class,
-			"traveler.php",
 			"twinkly wad",
 			null,
 			false,
 			null,
 			TravelingTraderRequest.item,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			null,
+			"traveler.php",
 			"For Gnomeregan!",
 			TravelingTraderRequest.buyItems,
 			TravelingTraderRequest.buyPrices,
 			null,
 			null,
+			null,
+			null,
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
 			"usehagnk=1",
 			"tradeall=1",
-			true,
-			null
+			true
 			);
 
 	public TravelingTraderRequest()
@@ -96,29 +98,19 @@ public class TravelingTraderRequest
 		super( TravelingTraderRequest.TRAVELER );
 	}
 
-	public TravelingTraderRequest( final String action )
+	public TravelingTraderRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( TravelingTraderRequest.TRAVELER, action );
+		super( TravelingTraderRequest.TRAVELER, buying, attachments );
 	}
 
-	public TravelingTraderRequest( final String action, final AdventureResult [] attachments )
+	public TravelingTraderRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( TravelingTraderRequest.TRAVELER, action, attachments );
+		super( TravelingTraderRequest.TRAVELER, buying, attachment );
 	}
 
-	public TravelingTraderRequest( final String action, final AdventureResult attachment )
+	public TravelingTraderRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( TravelingTraderRequest.TRAVELER, action, attachment );
-	}
-
-	public TravelingTraderRequest( final String action, final int itemId, final int quantity )
-	{
-		super( TravelingTraderRequest.TRAVELER, action, itemId, quantity );
-	}
-
-	public TravelingTraderRequest( final String action, final int itemId )
-	{
-		super( TravelingTraderRequest.TRAVELER, action, itemId );
+		super( TravelingTraderRequest.TRAVELER, buying, itemId, quantity );
 	}
 
 	@Override

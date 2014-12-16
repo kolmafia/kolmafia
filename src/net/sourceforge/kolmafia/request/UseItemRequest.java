@@ -4889,6 +4889,22 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.CRIMBOT_TORSO_2:  case ItemPool.CRIMBOT_LEFTARM_2:  case ItemPool.CRIMBOT_RIGHTARM_2:  case ItemPool.CRIMBOT_PROPULSION_2:
+		case ItemPool.CRIMBOT_TORSO_3:  case ItemPool.CRIMBOT_LEFTARM_3:  case ItemPool.CRIMBOT_RIGHTARM_3:  case ItemPool.CRIMBOT_PROPULSION_3:
+		case ItemPool.CRIMBOT_TORSO_4:  case ItemPool.CRIMBOT_LEFTARM_4:  case ItemPool.CRIMBOT_RIGHTARM_4:  case ItemPool.CRIMBOT_PROPULSION_4:
+		case ItemPool.CRIMBOT_TORSO_5:  case ItemPool.CRIMBOT_LEFTARM_5:  case ItemPool.CRIMBOT_RIGHTARM_5:  case ItemPool.CRIMBOT_PROPULSION_5:
+		case ItemPool.CRIMBOT_TORSO_6:  case ItemPool.CRIMBOT_LEFTARM_6:  case ItemPool.CRIMBOT_RIGHTARM_6:  case ItemPool.CRIMBOT_PROPULSION_6:
+		case ItemPool.CRIMBOT_TORSO_7:  case ItemPool.CRIMBOT_LEFTARM_7:  case ItemPool.CRIMBOT_RIGHTARM_7:  case ItemPool.CRIMBOT_PROPULSION_7:
+		case ItemPool.CRIMBOT_TORSO_8:  case ItemPool.CRIMBOT_LEFTARM_8:  case ItemPool.CRIMBOT_RIGHTARM_8:  case ItemPool.CRIMBOT_PROPULSION_8:
+		case ItemPool.CRIMBOT_TORSO_9:  case ItemPool.CRIMBOT_LEFTARM_9:  case ItemPool.CRIMBOT_RIGHTARM_9:  case ItemPool.CRIMBOT_PROPULSION_9:
+		case ItemPool.CRIMBOT_TORSO_10: case ItemPool.CRIMBOT_LEFTARM_10: case ItemPool.CRIMBOT_RIGHTARM_10: case ItemPool.CRIMBOT_PROPULSION_10:
+		case ItemPool.CRIMBOT_TORSO_11: case ItemPool.CRIMBOT_LEFTARM_11: case ItemPool.CRIMBOT_RIGHTARM_11: case ItemPool.CRIMBOT_PROPULSION_11:
+			if ( !responseText.contains( "You feed the schematic into the Crimbot assembler" ) )
+			{
+				ResultProcessor.processItem( itemId, 1 );
+			}
+			return;
+
 		case ItemPool.GAUDY_KEY:
 			if ( !responseText.contains( "the key vanishes" ) )
 			{

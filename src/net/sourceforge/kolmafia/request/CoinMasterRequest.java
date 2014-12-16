@@ -71,41 +71,40 @@ public class CoinMasterRequest
 	protected String action = null;
 	protected AdventureResult[] attachments;
 
+	// A simple visit goes to the "buy" URL
 	public CoinMasterRequest( final CoinmasterData data )
 	{
-		super( data.getURL() );
+		super( data.getBuyURL() );
 		this.data = data;
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action )
 	{
 		this( data );
-		if ( action != null )
-		{
-			this.action = action;
-			this.addFormField( "action", action );
-		}
+		this.addFormField( "action", action );
+		this.action = action;
 	}
 
-	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult [] attachments )
+	public CoinMasterRequest( final CoinmasterData data, final boolean buying, final AdventureResult [] attachments )
 	{
-		this( data, action );
+		super( buying ? data.getBuyURL() : data.getSellURL() );
+		this.data = data;
+
+		String action = buying ? data.getBuyAction() : data.getSellAction();
+		this.action = action;
+		this.addFormField( "action", action );
+
 		this.attachments = attachments;
 	}
 
-	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult attachment )
+	public CoinMasterRequest( final CoinmasterData data, final boolean buying, final AdventureResult attachment )
 	{
-		this( data, action, new AdventureResult[] { attachment } );
+		this( data, buying, new AdventureResult[] { attachment } );
 	}
 
-	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId, final int quantity )
+	public CoinMasterRequest( final CoinmasterData data, final boolean buying, final int itemId, final int quantity )
 	{		
-		this( data, action, new AdventureResult( itemId, quantity ) );
-	}
-
-	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId )
-	{
-		this( data, action, new AdventureResult( itemId, 1 ) );
+		this( data, buying, new AdventureResult( itemId, quantity ) );
 	}
 
 	public final void setQuantity( final int quantity )
@@ -150,7 +149,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		CoinMasterRequest request = data.getRequest( action, new AdventureResult[] { it } );
+		CoinMasterRequest request = data.getRequest( true, new AdventureResult[] { it } );
 		request.transact( data );
 	}
 
@@ -177,7 +176,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		CoinMasterRequest request = data.getRequest( action, new AdventureResult[] { it } );
+		CoinMasterRequest request = data.getRequest( false, new AdventureResult[] { it } );
 		request.transact( data );
 	}
 

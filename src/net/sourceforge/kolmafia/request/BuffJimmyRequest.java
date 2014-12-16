@@ -60,19 +60,16 @@ public class BuffJimmyRequest
 	public static final CoinmasterData BUFF_JIMMY =
 		new CoinmasterData(
 			BuffJimmyRequest.master,
-			"buff_jimmy",
+			"Buff Jimmy",
 			BuffJimmyRequest.class,
-			"shop.php?whichshop=sbb_jimmy",
 			"Beach Buck",
 			null,
 			false,
 			BuffJimmyRequest.TOKEN_PATTERN,
 			BuffJimmyRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			BuffJimmyRequest.itemRows,
+			"shop.php?whichshop=sbb_jimmy",
 			"buyitem",
 			BuffJimmyRequest.buyItems,
 			BuffJimmyRequest.buyPrices,
@@ -80,8 +77,13 @@ public class BuffJimmyRequest
 			null,
 			null,
 			null,
-			true,
-			BuffJimmyRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public BuffJimmyRequest()
@@ -89,29 +91,19 @@ public class BuffJimmyRequest
 		super( BuffJimmyRequest.BUFF_JIMMY );
 	}
 
-	public BuffJimmyRequest( final String action )
+	public BuffJimmyRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BuffJimmyRequest.BUFF_JIMMY, action );
+		super( BuffJimmyRequest.BUFF_JIMMY, buying, attachments );
 	}
 
-	public BuffJimmyRequest( final String action, final AdventureResult [] attachments )
+	public BuffJimmyRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BuffJimmyRequest.BUFF_JIMMY, action, attachments );
+		super( BuffJimmyRequest.BUFF_JIMMY, buying, attachment );
 	}
 
-	public BuffJimmyRequest( final String action, final AdventureResult attachment )
+	public BuffJimmyRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BuffJimmyRequest.BUFF_JIMMY, action, attachment );
-	}
-
-	public BuffJimmyRequest( final String action, final int itemId, final int quantity )
-	{
-		super( BuffJimmyRequest.BUFF_JIMMY, action, itemId, quantity );
-	}
-
-	public BuffJimmyRequest( final String action, final int itemId )
-	{
-		super( BuffJimmyRequest.BUFF_JIMMY, action, itemId );
+		super( BuffJimmyRequest.BUFF_JIMMY, buying, itemId, quantity );
 	}
 
 	@Override

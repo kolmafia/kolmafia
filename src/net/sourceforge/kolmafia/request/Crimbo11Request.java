@@ -59,6 +59,7 @@ public class Crimbo11Request
 	public static final String master = "Crimbo 2011"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo11Request.master );
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo11Request.master );
+	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( Crimbo11Request.master );
 	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo11Request.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have.*?<b>([\\d,]+)</b> Candy Credit", Pattern.DOTALL );
 	public static final CoinmasterData CRIMBO11 =
@@ -66,26 +67,28 @@ public class Crimbo11Request
 			Crimbo11Request.master,
 			"crimbo11",
 			Crimbo11Request.class,
-			"crimbo11.php",
 			"Candy Credit",
 			null,
 			false,
 			Crimbo11Request.TOKEN_PATTERN,
 			null,
 			"availableCandyCredits",
+			null,
+			"crimbo11.php",
+			"reallybuygifts",
+			Crimbo11Request.buyItems,
+			Crimbo11Request.buyPrices,
+			"crimbo11.php",
+			"tradecandy",
+			Crimbo11Request.sellItems,
+			Crimbo11Request.sellPrices,
 			"whichitem",
 			GenericRequest.WHICHITEM_PATTERN,
 			"howmany",
 			GenericRequest.HOWMANY_PATTERN,
-			"reallybuygifts",
-			Crimbo11Request.buyItems,
-			Crimbo11Request.buyPrices,
-			"tradecandy",
-			Crimbo11Request.sellPrices,
 			null,
 			null,
-			false,
-			null
+			false
 			);
 
 	public Crimbo11Request()
@@ -93,29 +96,19 @@ public class Crimbo11Request
 		super( Crimbo11Request.CRIMBO11 );
 	}
 
-	public Crimbo11Request( final String action )
+	public Crimbo11Request( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( Crimbo11Request.CRIMBO11, action );
+		super( Crimbo11Request.CRIMBO11, buying, attachments );
 	}
 
-	public Crimbo11Request( final String action, final AdventureResult [] attachments )
+	public Crimbo11Request( final boolean buying, final AdventureResult attachment )
 	{
-		super( Crimbo11Request.CRIMBO11, action, attachments );
+		super( Crimbo11Request.CRIMBO11, buying, attachment );
 	}
 
-	public Crimbo11Request( final String action, final AdventureResult attachment )
+	public Crimbo11Request( final boolean buying, final int itemId, final int quantity )
 	{
-		super( Crimbo11Request.CRIMBO11, action, attachment );
-	}
-
-	public Crimbo11Request( final String action, final int itemId, final int quantity )
-	{
-		super( Crimbo11Request.CRIMBO11, action, itemId, quantity );
-	}
-
-	public Crimbo11Request( final String action, final int itemId )
-	{
-		super( Crimbo11Request.CRIMBO11, action, itemId );
+		super( Crimbo11Request.CRIMBO11, buying, itemId, quantity );
 	}
 
 	private static String placeString( final String urlString )

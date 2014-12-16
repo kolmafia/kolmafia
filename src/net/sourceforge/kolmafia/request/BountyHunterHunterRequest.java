@@ -74,17 +74,14 @@ public class BountyHunterHunterRequest
 			BountyHunterHunterRequest.master,
 			"hunter",
 			BountyHunterHunterRequest.class,
-			"bounty.php",
 			"lucre",
 			"You don't have any filthy lucre",
 			false,
 			BountyHunterHunterRequest.TOKEN_PATTERN,
 			BountyHunterHunterRequest.LUCRE,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"howmany",
-			GenericRequest.HOWMANY_PATTERN,
+			null,
+			"bounty.php",
 			"buy",
 			BountyHunterHunterRequest.buyItems,
 			BountyHunterHunterRequest.buyPrices,
@@ -92,8 +89,13 @@ public class BountyHunterHunterRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"howmany",
+			GenericRequest.HOWMANY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public BountyHunterHunterRequest()
@@ -106,24 +108,19 @@ public class BountyHunterHunterRequest
 		super( BountyHunterHunterRequest.BHH, action );
 	}
 
-	public BountyHunterHunterRequest( final String action, final AdventureResult [] attachments )
+	public BountyHunterHunterRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BountyHunterHunterRequest.BHH, action, attachments );
+		super( BountyHunterHunterRequest.BHH, buying, attachments );
 	}
 
-	public BountyHunterHunterRequest( final String action, final AdventureResult attachment )
+	public BountyHunterHunterRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BountyHunterHunterRequest.BHH, action, attachment );
+		super( BountyHunterHunterRequest.BHH, buying, attachment );
 	}
 
-	public BountyHunterHunterRequest( final String action, final int itemId, final int quantity )
+	public BountyHunterHunterRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BountyHunterHunterRequest.BHH, action, itemId, quantity );
-	}
-
-	public BountyHunterHunterRequest( final String action, final int itemId )
-	{
-		super( BountyHunterHunterRequest.BHH, action, itemId );
+		super( BountyHunterHunterRequest.BHH, buying, itemId, quantity );
 	}
 
 	@Override

@@ -67,17 +67,14 @@ public class SwaggerShopRequest
 			SwaggerShopRequest.master,
 			"swagger",
 			SwaggerShopRequest.class,
-			"peevpee.php?place=shop",
 			"swagger",
 			"You have 0 swagger",
 			false,
 			SwaggerShopRequest.TOKEN_PATTERN,
 			null,
 			"availableSwagger",
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
 			null,
-			null,
+			"peevpee.php?place=shop",
 			"buy",
 			SwaggerShopRequest.buyItems,
 			SwaggerShopRequest.buyPrices,
@@ -85,8 +82,13 @@ public class SwaggerShopRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	static
@@ -99,24 +101,14 @@ public class SwaggerShopRequest
 		super( SwaggerShopRequest.SWAGGER_SHOP );
 	}
 
-	public SwaggerShopRequest( final String action )
+	public SwaggerShopRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( SwaggerShopRequest.SWAGGER_SHOP, action );
+		super( SwaggerShopRequest.SWAGGER_SHOP, buying, attachment );
 	}
 
-	public SwaggerShopRequest( final String action, final AdventureResult attachment )
+	public SwaggerShopRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( SwaggerShopRequest.SWAGGER_SHOP, action, attachment );
-	}
-
-	public SwaggerShopRequest( final String action, final int itemId, final int quantity )
-	{
-		super( SwaggerShopRequest.SWAGGER_SHOP, action, itemId, quantity );
-	}
-
-	public SwaggerShopRequest( final String action, final int itemId )
-	{
-		super( SwaggerShopRequest.SWAGGER_SHOP, action, itemId );
+		super( SwaggerShopRequest.SWAGGER_SHOP, buying, itemId, quantity );
 	}
 
 	@Override

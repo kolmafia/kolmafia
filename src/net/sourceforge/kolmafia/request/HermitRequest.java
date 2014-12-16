@@ -74,17 +74,14 @@ public class HermitRequest
 			"Hermit",
 			"hermit",
 			HermitRequest.class,
-			"hermit.php",
 			"worthless item",
 			null,
 			false,
 			HermitRequest.TOKEN_PATTERN,
 			HermitRequest.WORTHLESS_ITEM,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			null,
+			"hermit.php",
 			"trade",
 			KoLConstants.hermitItems,
 			HermitRequest.buyPrices,
@@ -92,8 +89,13 @@ public class HermitRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	static
@@ -127,34 +129,24 @@ public class HermitRequest
 		super( HermitRequest.HERMIT );
 	}
 
-	public HermitRequest( final String action )
+	public HermitRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( HermitRequest.HERMIT, action );
+		super( HermitRequest.HERMIT, buying, attachments );
 	}
 
-	public HermitRequest( final String action, final AdventureResult [] attachments )
+	public HermitRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( HermitRequest.HERMIT, action, attachments );
+		super( HermitRequest.HERMIT, buying, attachment );
 	}
 
-	public HermitRequest( final String action, final AdventureResult attachment )
+	public HermitRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( HermitRequest.HERMIT, action, attachment );
-	}
-
-	public HermitRequest( final String action, final int itemId, final int quantity )
-	{
-		super( HermitRequest.HERMIT, action, itemId, quantity );
-	}
-
-	public HermitRequest( final String action, final int itemId )
-	{
-		super( HermitRequest.HERMIT, action, itemId, 1 );
+		super( HermitRequest.HERMIT, buying, itemId, quantity );
 	}
 
 	public HermitRequest( final int itemId, final int quantity )
 	{
-		this( "trade", itemId, quantity );
+		this( true, itemId, quantity );
 	}
 
 	private static final void registerHermitItem( final int itemId, final int count )

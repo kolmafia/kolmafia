@@ -73,17 +73,14 @@ public class MrStoreRequest
 			MrStoreRequest.master,
 			"mrstore",
 			MrStoreRequest.class,
-			"mrstore.php",
 			"Mr. A",
 			"You have no Mr. Accessories to trade",
 			false,
 			MrStoreRequest.TOKEN_PATTERN,
 			MrStoreRequest.MR_A,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
 			null,
-			null,
+			"mrstore.php",
 			"buy",
 			MrStoreRequest.buyItems,
 			MrStoreRequest.buyPrices,
@@ -91,8 +88,13 @@ public class MrStoreRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	public MrStoreRequest()
@@ -105,24 +107,19 @@ public class MrStoreRequest
 		super( MrStoreRequest.MR_STORE, action );
 	}
 
-	public MrStoreRequest( final String action, final AdventureResult [] attachments )
+	public MrStoreRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( MrStoreRequest.MR_STORE, action, attachments );
+		super( MrStoreRequest.MR_STORE, buying, attachments );
 	}
 
-	public MrStoreRequest( final String action, final AdventureResult attachment )
+	public MrStoreRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( MrStoreRequest.MR_STORE, action, attachment );
+		super( MrStoreRequest.MR_STORE, buying, attachment );
 	}
 
-	public MrStoreRequest( final String action, final int itemId, final int quantity )
+	public MrStoreRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( MrStoreRequest.MR_STORE, action, itemId, quantity );
-	}
-
-	public MrStoreRequest( final String action, final int itemId )
-	{
-		super( MrStoreRequest.MR_STORE, action, itemId );
+		super( MrStoreRequest.MR_STORE, buying, itemId, quantity );
 	}
 
 	@Override

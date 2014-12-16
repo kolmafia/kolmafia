@@ -66,17 +66,14 @@ public class AWOLQuartermasterRequest
 			AWOLQuartermasterRequest.master,
 			"awol",
 			AWOLQuartermasterRequest.class,
-			"inv_use.php?whichitem=5116&ajax=1",
 			"commendation",
 			null,
 			false,
 			AWOLQuartermasterRequest.TOKEN_PATTERN,
 			AWOLQuartermasterRequest.COMMENDATION,
 			null,
-			"tobuy",
-			AWOLQuartermasterRequest.TOBUY_PATTERN,
-			"howmany",
-			GenericRequest.HOWMANY_PATTERN,
+			null,
+			"inv_use.php?whichitem=5116&ajax=1",
 			null,
 			AWOLQuartermasterRequest.buyItems,
 			AWOLQuartermasterRequest.buyPrices,
@@ -84,8 +81,13 @@ public class AWOLQuartermasterRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"tobuy",
+			AWOLQuartermasterRequest.TOBUY_PATTERN,
+			"howmany",
+			GenericRequest.HOWMANY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	private static String lastURL = null;
@@ -95,29 +97,19 @@ public class AWOLQuartermasterRequest
 		super( AWOLQuartermasterRequest.AWOL );
 	}
 
-	public AWOLQuartermasterRequest( final String action )
+	public AWOLQuartermasterRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( AWOLQuartermasterRequest.AWOL, action );
+		super( AWOLQuartermasterRequest.AWOL, buying, attachments );
 	}
 
-	public AWOLQuartermasterRequest( final String action, final AdventureResult [] attachments )
+	public AWOLQuartermasterRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( AWOLQuartermasterRequest.AWOL, action, attachments );
+		super( AWOLQuartermasterRequest.AWOL, buying, attachment );
 	}
 
-	public AWOLQuartermasterRequest( final String action, final AdventureResult attachment )
+	public AWOLQuartermasterRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( AWOLQuartermasterRequest.AWOL, action, attachment );
-	}
-
-	public AWOLQuartermasterRequest( final String action, final int itemId, final int quantity )
-	{
-		super( AWOLQuartermasterRequest.AWOL, action, itemId, quantity );
-	}
-
-	public AWOLQuartermasterRequest( final String action, final int itemId )
-	{
-		super( AWOLQuartermasterRequest.AWOL, action, itemId );
+		super( AWOLQuartermasterRequest.AWOL, buying, itemId, quantity );
 	}
 
 	@Override

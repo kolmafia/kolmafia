@@ -62,7 +62,8 @@ public class CoinmasterData
 	private final String master;
 	private final String nickname;
 	private final Class requestClass;
-	private final String URL;
+	// The token(s) that you exchange for items.
+	// One, for now
 	private String token;
 	public String plural;
 	private final String tokenTest;
@@ -70,68 +71,79 @@ public class CoinmasterData
 	private final Pattern tokenPattern;
 	private AdventureResult item;
 	private final String property;
+	// For Coinmasters that deal with "rows", a map from item name to row number
+	private final Map<String, Integer> itemRows;
+	// The base URL used to buy things from this Coinmaster
+	private final String buyURL;
+	private final String buyAction;
+	private final LockableListModel<AdventureResult> buyItems;
+	private final Map<String, Integer> buyPrices;
+	// The base URL used to sell things to this Coinmaster
+	private final String sellURL;
+	private final String sellAction;
+	private final LockableListModel<AdventureResult> sellItems;
+	private final Map<String, Integer> sellPrices;
+	// Fields assumed to be common to buying & selling
 	private final String itemField;
 	private final Pattern itemPattern;
 	private final String countField;
 	private final Pattern countPattern;
-	private final String buyAction;
-	private final LockableListModel<AdventureResult> buyItems;
-	private final Map<String, Integer> buyPrices;
-	private final String sellAction;
-	private final Map<String, Integer> sellPrices;
 	private final String storageAction;
 	private final String tradeAllAction;
 	private final boolean canPurchase;
-	private final Map<String, Integer> itemRows;
 
 	public CoinmasterData( 
 		final String master,
 		final String nickname,
 		final Class requestClass,
-		final String URL,
 		final String token,
 		final String tokenTest,
 		final boolean positiveTest,
 		final Pattern tokenPattern,
 		final AdventureResult item,
 		final String property,
+		final Map<String, Integer> itemRows,
+		final String buyURL,
+		final String buyAction,
+		final LockableListModel<AdventureResult> buyItems,
+		final Map<String, Integer> buyPrices,
+		final String sellURL,
+		final String sellAction,
+		final LockableListModel<AdventureResult> sellItems,
+		final Map<String, Integer> sellPrices,
 		final String itemField,
 		final Pattern itemPattern,
 		final String countField,
 		final Pattern countPattern,
-		final String buyAction,
-		final LockableListModel<AdventureResult> buyItems,
-		final Map<String, Integer> buyPrices,
-		final String sellAction,
-		final Map<String, Integer> sellPrices,
 		final String storageAction,
 		final String tradeAllAction,
-		final boolean canPurchase,
-		final Map<String, Integer> itemRows )
+		final boolean canPurchase )
 	{
 		this.master = master;
 		this.nickname = nickname;
 		this.requestClass = requestClass;
-		this.URL = URL;
 		this.token = token;
 		this.tokenTest = tokenTest;
 		this.positiveTest = positiveTest;
 		this.tokenPattern = tokenPattern;
 		this.item = item;
 		this.property = property;
+		this.itemRows = itemRows;
+		this.buyURL = buyURL;
+		this.buyAction = buyAction;
+		this.buyItems = buyItems;
+		this.buyPrices = buyPrices;
+		this.sellURL = sellURL;
+		this.sellAction = sellAction;
+		this.sellItems = sellItems;
+		this.sellPrices = sellPrices;
 		this.itemField = itemField;
 		this.itemPattern = itemPattern;
 		this.countField = countField;
 		this.countPattern = countPattern;
-		this.buyAction = buyAction;
-		this.buyItems = buyItems;
-		this.buyPrices = buyPrices;
-		this.sellAction = sellAction;
-		this.sellPrices = sellPrices;
 		this.storageAction = storageAction;
 		this.tradeAllAction = tradeAllAction;
 		this.canPurchase = canPurchase;
-		this.itemRows = itemRows;
 
 		// Derived fields
 		this.plural = item != null ? ItemDatabase.getPluralName( token ) : token + "s";
@@ -152,9 +164,14 @@ public class CoinmasterData
 		return this.requestClass;
 	}
 
-	public final String getURL()
+	public final String getBuyURL()
 	{
-		return this.URL;
+		return this.buyURL;
+	}
+
+	public final String getSellURL()
+	{
+		return this.sellURL;
 	}
 
 	public final String getToken()
@@ -311,6 +328,11 @@ public class CoinmasterData
 		return this.sellAction;
 	}
 
+	public final LockableListModel<AdventureResult> getSellItems()
+	{
+		return this.sellItems;
+	}
+
 	public final Map<String, Integer> getSellPrices()
 	{
 		return this.sellPrices;
@@ -426,18 +448,18 @@ public class CoinmasterData
 		}
 	}
 
-	public CoinMasterRequest getRequest( final String action, final AdventureResult [] items )
+	public CoinMasterRequest getRequest( final boolean buying, final AdventureResult [] items )
 	{
 		Class requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 2 ] ;
-		parameters[ 0 ] = String.class;
+		parameters[ 0 ] = boolean.class;
 		parameters[ 1 ] = AdventureResult[].class;
 
 		try
 		{
 			Constructor constructor = requestClass.getConstructor( parameters );
 			Object [] initargs = new Object[ 2 ];
-			initargs[ 0 ] = action;
+			initargs[ 0 ] = buying;
 			initargs[ 1 ] = items;
 			return (CoinMasterRequest) constructor.newInstance( initargs );
 		}

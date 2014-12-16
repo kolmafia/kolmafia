@@ -79,6 +79,9 @@ public class CoinmastersDatabase
 	// Map from String -> Map from String -> Integer
 	public static final TreeMap<String, Map<String, Integer>> buyPrices = new TreeMap<String, Map<String, Integer>>();
 
+	// Map from String -> LockableListModel
+	public static final TreeMap<String,LockableListModel<AdventureResult>> sellItems = new TreeMap();
+
 	// Map from String -> Map from String -> Integer
 	public static final TreeMap<String, Map<String, Integer>> sellPrices = new TreeMap<String, Map<String, Integer>>();
 
@@ -98,6 +101,11 @@ public class CoinmastersDatabase
 	public static final Map<String, Integer> getBuyPrices( final String key )
 	{
 		return CoinmastersDatabase.buyPrices.get( key );
+	}
+
+	public static final LockableListModel<AdventureResult> getSellItems( final String key )
+	{
+		return CoinmastersDatabase.sellItems.get( key );
 	}
 
 	public static final Map<String, Integer> getSellPrices( final String key )
@@ -188,17 +196,26 @@ public class CoinmastersDatabase
 			Integer iprice = IntegerPool.get( price );
 			String rname = data[ 3 ];
 			String name = StringUtilities.getCanonicalName( rname );
-			AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
+
+			// *** Presumably we could parse a quantity here, if
+			// you have to trade in multiple of the item at once
+			int count = 1;
 
 			if ( type.equals( "buy" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
-				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
+				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
 				list.add( item );
+
+				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
 				map.put( name, iprice );
 			}
 			else if ( type.equals( "sell" ) )
 			{
+				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.sellItems );
+				AdventureResult item = new AdventureResult( name, count, false );
+				list.add( item );
+
 				Map<String, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
 				map.put( name, iprice );
 			}

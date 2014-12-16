@@ -64,17 +64,14 @@ public class FDKOLRequest
 			FDKOLRequest.master,
 			"FDKOL",
 			FDKOLRequest.class,
-			"shop.php?whichshop=fdkol",
 			"FDKOL commendation",
 			null,
 			false,
 			FDKOLRequest.TOKEN_PATTERN,
 			FDKOLRequest.FDKOL_TOKEN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			FDKOLRequest.itemRows,
+			"shop.php?whichshop=fdkol",
 			"buyitem",
 			FDKOLRequest.buyItems,
 			FDKOLRequest.buyPrices,
@@ -82,8 +79,13 @@ public class FDKOLRequest
 			null,
 			null,
 			null,
-			true,
-			FDKOLRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public FDKOLRequest()
@@ -91,19 +93,19 @@ public class FDKOLRequest
 		super( FDKOLRequest.FDKOL );
 	}
 
-	public FDKOLRequest( final String action, final AdventureResult [] attachments )
+	public FDKOLRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( FDKOLRequest.FDKOL, action, attachments );
+		super( FDKOLRequest.FDKOL, buying, attachments );
 	}
 
-	public FDKOLRequest( final String action, final AdventureResult attachment )
+	public FDKOLRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( FDKOLRequest.FDKOL, action, attachment );
+		super( FDKOLRequest.FDKOL, buying, attachment );
 	}
 
-	public FDKOLRequest( final String action, final int itemId, final int quantity )
+	public FDKOLRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( FDKOLRequest.FDKOL, action, itemId, quantity );
+		super( FDKOLRequest.FDKOL, buying, itemId, quantity );
 	}
 
 	public static void parseResponse( final String location, final String responseText )

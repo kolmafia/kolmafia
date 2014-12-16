@@ -62,17 +62,14 @@ public class BoutiqueRequest
 			BoutiqueRequest.master,
 			"boutique",
 			BoutiqueRequest.class,
-			"shop.php?whichshop=cindy",
 			"odd silver coin",
 			null,
 			false,
 			BoutiqueRequest.TOKEN_PATTERN,
 			BoutiqueRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			BoutiqueRequest.itemRows,
+			"shop.php?whichshop=cindy",
 			"buyitem",
 			BoutiqueRequest.buyItems,
 			BoutiqueRequest.buyPrices,
@@ -80,8 +77,13 @@ public class BoutiqueRequest
 			null,
 			null,
 			null,
-			true,
-			BoutiqueRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public BoutiqueRequest()
@@ -89,29 +91,19 @@ public class BoutiqueRequest
 		super( BoutiqueRequest.BOUTIQUE );
 	}
 
-	public BoutiqueRequest( final String action )
+	public BoutiqueRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BoutiqueRequest.BOUTIQUE, action );
+		super( BoutiqueRequest.BOUTIQUE, buying, attachments );
 	}
 
-	public BoutiqueRequest( final String action, final AdventureResult [] attachments )
+	public BoutiqueRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BoutiqueRequest.BOUTIQUE, action, attachments );
+		super( BoutiqueRequest.BOUTIQUE, buying, attachment );
 	}
 
-	public BoutiqueRequest( final String action, final AdventureResult attachment )
+	public BoutiqueRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BoutiqueRequest.BOUTIQUE, action, attachment );
-	}
-
-	public BoutiqueRequest( final String action, final int itemId, final int quantity )
-	{
-		super( BoutiqueRequest.BOUTIQUE, action, itemId, quantity );
-	}
-
-	public BoutiqueRequest( final String action, final int itemId )
-	{
-		super( BoutiqueRequest.BOUTIQUE, action, itemId );
+		super( BoutiqueRequest.BOUTIQUE, buying, itemId, quantity );
 	}
 
 	@Override

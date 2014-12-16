@@ -60,17 +60,14 @@ public class CRIMBCOGiftShopRequest
 			CRIMBCOGiftShopRequest.master,
 			"CRIMBCO",
 			CRIMBCOGiftShopRequest.class,
-			"crimbo10.php",
 			"CRIMBCO scrip",
 			"You don't have any CRIMBCO scrip",
 			false,
 			CRIMBCOGiftShopRequest.TOKEN_PATTERN,
 			CRIMBCOGiftShopRequest.CRIMBCO_SCRIP,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"howmany",
-			GenericRequest.HOWMANY_PATTERN,
+			null,
+			"crimbo10.php",
 			"buygift",
 			CRIMBCOGiftShopRequest.buyItems,
 			CRIMBCOGiftShopRequest.buyPrices,
@@ -78,8 +75,13 @@ public class CRIMBCOGiftShopRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"howmany",
+			GenericRequest.HOWMANY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public CRIMBCOGiftShopRequest()
@@ -87,29 +89,19 @@ public class CRIMBCOGiftShopRequest
 		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP );
 	}
 
-	public CRIMBCOGiftShopRequest( final String action )
+	public CRIMBCOGiftShopRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action );
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, buying, attachments );
 	}
 
-	public CRIMBCOGiftShopRequest( final String action, final AdventureResult [] attachments )
+	public CRIMBCOGiftShopRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, attachments );
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, buying, attachment );
 	}
 
-	public CRIMBCOGiftShopRequest( final String action, final AdventureResult attachment )
+	public CRIMBCOGiftShopRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, attachment );
-	}
-
-	public CRIMBCOGiftShopRequest( final String action, final int itemId, final int quantity )
-	{
-		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, itemId, quantity );
-	}
-
-	public CRIMBCOGiftShopRequest( final String action, final int itemId )
-	{
-		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, action, itemId );
+		super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP, buying, itemId, quantity );
 	}
 
 	@Override

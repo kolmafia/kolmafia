@@ -62,17 +62,14 @@ public class BrogurtRequest
 			BrogurtRequest.master,
 			"brogurt",
 			BrogurtRequest.class,
-			"shop.php?whichshop=sbb_brogurt",
 			"Beach Buck",
 			null,
 			false,
 			BrogurtRequest.TOKEN_PATTERN,
 			BrogurtRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			BrogurtRequest.itemRows,
+			"shop.php?whichshop=sbb_brogurt",
 			"buyitem",
 			BrogurtRequest.buyItems,
 			BrogurtRequest.buyPrices,
@@ -80,8 +77,13 @@ public class BrogurtRequest
 			null,
 			null,
 			null,
-			true,
-			BrogurtRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public BrogurtRequest()
@@ -89,29 +91,19 @@ public class BrogurtRequest
 		super( BrogurtRequest.BROGURT );
 	}
 
-	public BrogurtRequest( final String action )
+	public BrogurtRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BrogurtRequest.BROGURT, action );
+		super( BrogurtRequest.BROGURT, buying, attachments );
 	}
 
-	public BrogurtRequest( final String action, final AdventureResult [] attachments )
+	public BrogurtRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BrogurtRequest.BROGURT, action, attachments );
+		super( BrogurtRequest.BROGURT, buying, attachment );
 	}
 
-	public BrogurtRequest( final String action, final AdventureResult attachment )
+	public BrogurtRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BrogurtRequest.BROGURT, action, attachment );
-	}
-
-	public BrogurtRequest( final String action, final int itemId, final int quantity )
-	{
-		super( BrogurtRequest.BROGURT, action, itemId, quantity );
-	}
-
-	public BrogurtRequest( final String action, final int itemId )
-	{
-		super( BrogurtRequest.BROGURT, action, itemId );
+		super( BrogurtRequest.BROGURT, buying, itemId, quantity );
 	}
 
 	@Override

@@ -72,17 +72,14 @@ public class TerrifiedEagleInnRequest
 			TerrifiedEagleInnRequest.master,
 			"dreadsylvania",
 			TerrifiedEagleInnRequest.class,
-			"shop.php?whichshop=dv",
 			"Freddy Kruegerand",
 			null,
 			false,
 			TerrifiedEagleInnRequest.TOKEN_PATTERN,
 			TerrifiedEagleInnRequest.KRUEGERAND,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			TerrifiedEagleInnRequest.itemRows,
+			"shop.php?whichshop=dv",
 			"buyitem",
 			TerrifiedEagleInnRequest.buyItems,
 			TerrifiedEagleInnRequest.buyPrices,
@@ -90,8 +87,13 @@ public class TerrifiedEagleInnRequest
 			null,
 			null,
 			null,
-			true,
-			TerrifiedEagleInnRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public TerrifiedEagleInnRequest()
@@ -99,29 +101,19 @@ public class TerrifiedEagleInnRequest
 		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN );
 	}
 
-	public TerrifiedEagleInnRequest( final String action )
+	public TerrifiedEagleInnRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action );
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, attachments );
 	}
 
-	public TerrifiedEagleInnRequest( final String action, final AdventureResult [] attachments )
+	public TerrifiedEagleInnRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, attachments );
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, attachment );
 	}
 
-	public TerrifiedEagleInnRequest( final String action, final AdventureResult attachment )
+	public TerrifiedEagleInnRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, attachment );
-	}
-
-	public TerrifiedEagleInnRequest( final String action, final int itemId, final int quantity )
-	{
-		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, itemId, quantity );
-	}
-
-	public TerrifiedEagleInnRequest( final String action, final int itemId )
-	{
-		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, action, itemId );
+		super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, itemId, quantity );
 	}
 
 	@Override

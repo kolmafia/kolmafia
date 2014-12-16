@@ -62,6 +62,7 @@ public class QuartersmasterRequest
 	public static final String master = "Quartersmaster"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( QuartersmasterRequest.master );
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( QuartersmasterRequest.master );
+	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( QuartersmasterRequest.master );
 	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( QuartersmasterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got ([\\d,]+) quarter" );
@@ -70,26 +71,28 @@ public class QuartersmasterRequest
 			"Quartersmaster",
 			"quartersmaster",
 			QuartersmasterRequest.class,
-			"bigisland.php?place=camp&whichcamp=2",
 			"quarter",
 			"You don't have any quarters",
 			false,
 			QuartersmasterRequest.TOKEN_PATTERN,
 			null,
 			"availableQuarters",
+			null,
+			"bigisland.php?place=camp&whichcamp=2",
+			"getgear",
+			QuartersmasterRequest.buyItems,
+			QuartersmasterRequest.buyPrices,
+			"bigisland.php?place=camp&whichcamp=2",
+			"turnin",
+			QuartersmasterRequest.sellItems,
+			QuartersmasterRequest.sellPrices,
 			"whichitem",
 			GenericRequest.WHICHITEM_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"getgear",
-			QuartersmasterRequest.buyItems,
-			QuartersmasterRequest.buyPrices,
-			"turnin",
-			QuartersmasterRequest.sellPrices,
 			null,
 			null,
-			true,
-			null
+			true
 			);
 
 
@@ -103,29 +106,19 @@ public class QuartersmasterRequest
 		super( QuartersmasterRequest.FRATBOY );
 	}
 
-	public QuartersmasterRequest( final String action )
+	public QuartersmasterRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( QuartersmasterRequest.FRATBOY, action );
+		super( QuartersmasterRequest.FRATBOY, buying, attachments );
 	}
 
-	public QuartersmasterRequest( final String action, final AdventureResult [] attachments )
+	public QuartersmasterRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( QuartersmasterRequest.FRATBOY, action, attachments );
+		super( QuartersmasterRequest.FRATBOY, buying, attachment );
 	}
 
-	public QuartersmasterRequest( final String action, final AdventureResult attachment )
+	public QuartersmasterRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( QuartersmasterRequest.FRATBOY, action, attachment );
-	}
-
-	public QuartersmasterRequest( final String action, final int itemId, final int quantity )
-	{
-		super( QuartersmasterRequest.FRATBOY, action, itemId, quantity );
-	}
-
-	public QuartersmasterRequest( final String action, final int itemId )
-	{
-		super( QuartersmasterRequest.FRATBOY, action, itemId );
+		super( QuartersmasterRequest.FRATBOY, buying, itemId, quantity );
 	}
 
 	@Override

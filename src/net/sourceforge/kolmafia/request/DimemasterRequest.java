@@ -62,6 +62,7 @@ public class DimemasterRequest
 	public static final String master = "Dimemaster"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( DimemasterRequest.master );
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( DimemasterRequest.master );
+	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( DimemasterRequest.master );
 	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( DimemasterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got ([\\d,]+) dime" );
@@ -70,26 +71,28 @@ public class DimemasterRequest
 			DimemasterRequest.master,
 			"dimemaster",
 			DimemasterRequest.class,
-			"bigisland.php?place=camp&whichcamp=1",
 			"dime",
 			"You don't have any dimes",
 			false,
 			DimemasterRequest.TOKEN_PATTERN,
 			null,
 			"availableDimes",
+			null,
+			"bigisland.php?place=camp&whichcamp=1",
+			"getgear",
+			DimemasterRequest.buyItems,
+			DimemasterRequest.buyPrices,
+			"bigisland.php?place=camp&whichcamp=1",
+			"turnin",
+			DimemasterRequest.sellItems,
+			DimemasterRequest.sellPrices,
 			"whichitem",
 			GenericRequest.WHICHITEM_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"getgear",
-			DimemasterRequest.buyItems,
-			DimemasterRequest.buyPrices,
-			"turnin",
-			DimemasterRequest.sellPrices,
 			null,
 			null,
-			true,
-			null
+			true
 			);
 
 	
@@ -104,29 +107,19 @@ public class DimemasterRequest
 		super( DimemasterRequest.HIPPY );
 	}
 
-	public DimemasterRequest( final String action )
+	public DimemasterRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( DimemasterRequest.HIPPY, action );
+		super( DimemasterRequest.HIPPY, buying, attachments );
 	}
 
-	public DimemasterRequest( final String action, final AdventureResult [] attachments )
+	public DimemasterRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( DimemasterRequest.HIPPY, action, attachments );
+		super( DimemasterRequest.HIPPY, buying, attachment );
 	}
 
-	public DimemasterRequest( final String action, final AdventureResult attachment )
+	public DimemasterRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( DimemasterRequest.HIPPY, action, attachment );
-	}
-
-	public DimemasterRequest( final String action, final int itemId, final int quantity )
-	{
-		super( DimemasterRequest.HIPPY, action, itemId, quantity );
-	}
-
-	public DimemasterRequest( final String action, final int itemId )
-	{
-		super( DimemasterRequest.HIPPY, action, itemId );
+		super( DimemasterRequest.HIPPY, buying, itemId, quantity );
 	}
 
 	@Override
