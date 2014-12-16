@@ -62,17 +62,14 @@ public class SHAWARMARequest
 			SHAWARMARequest.master,
 			"SHAWARMA",
 			SHAWARMARequest.class,
-			"shop.php?whichshop=si_shop1",
 			"Coinspiracy",
 			null,
 			false,
 			SHAWARMARequest.TOKEN_PATTERN,
 			SHAWARMARequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			SHAWARMARequest.itemRows,
+			"shop.php?whichshop=si_shop1",
 			"buyitem",
 			SHAWARMARequest.buyItems,
 			SHAWARMARequest.buyPrices,
@@ -80,8 +77,13 @@ public class SHAWARMARequest
 			null,
 			null,
 			null,
-			true,
-			SHAWARMARequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public SHAWARMARequest()
@@ -89,29 +91,19 @@ public class SHAWARMARequest
 		super( SHAWARMARequest.SHAWARMA );
 	}
 
-	public SHAWARMARequest( final String action )
+	public SHAWARMARequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( SHAWARMARequest.SHAWARMA, action );
+		super( SHAWARMARequest.SHAWARMA, buying, attachments );
 	}
 
-	public SHAWARMARequest( final String action, final AdventureResult [] attachments )
+	public SHAWARMARequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( SHAWARMARequest.SHAWARMA, action, attachments );
+		super( SHAWARMARequest.SHAWARMA, buying, attachment );
 	}
 
-	public SHAWARMARequest( final String action, final AdventureResult attachment )
+	public SHAWARMARequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( SHAWARMARequest.SHAWARMA, action, attachment );
-	}
-
-	public SHAWARMARequest( final String action, final int itemId, final int quantity )
-	{
-		super( SHAWARMARequest.SHAWARMA, action, itemId, quantity );
-	}
-
-	public SHAWARMARequest( final String action, final int itemId )
-	{
-		super( SHAWARMARequest.SHAWARMA, action, itemId );
+		super( SHAWARMARequest.SHAWARMA, buying, itemId, quantity );
 	}
 
 	@Override

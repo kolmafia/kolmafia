@@ -66,17 +66,14 @@ public class FishboneryRequest
 			FishboneryRequest.master,
 			"Fishbonery",
 			FishboneryRequest.class,
-			"shop.php?whichshop=fishbones",
 			"freshwater fishbone",
 			"no freshwater fishbones",
 			false,
 			FishboneryRequest.TOKEN_PATTERN,
 			FishboneryRequest.FRESHWATER_FISHBONE,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			FishboneryRequest.itemRows,
+			"shop.php?whichshop=fishbones",
 			"buyitem",
 			FishboneryRequest.buyItems,
 			FishboneryRequest.buyPrices,
@@ -84,8 +81,13 @@ public class FishboneryRequest
 			null,
 			null,
 			null,
-			true,
-			FishboneryRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public FishboneryRequest()
@@ -93,19 +95,19 @@ public class FishboneryRequest
 		super( FishboneryRequest.FISHBONERY );
 	}
 
-	public FishboneryRequest( final String action, final AdventureResult [] attachments )
+	public FishboneryRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( FishboneryRequest.FISHBONERY, action, attachments );
+		super( FishboneryRequest.FISHBONERY, buying, attachments );
 	}
 
-	public FishboneryRequest( final String action, final AdventureResult attachment )
+	public FishboneryRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( FishboneryRequest.FISHBONERY, action, attachment );
+		super( FishboneryRequest.FISHBONERY, buying, attachment );
 	}
 
-	public FishboneryRequest( final String action, final int itemId, final int quantity )
+	public FishboneryRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( FishboneryRequest.FISHBONERY, action, itemId, quantity );
+		super( FishboneryRequest.FISHBONERY, buying, itemId, quantity );
 	}
 
 	@Override

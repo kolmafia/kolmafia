@@ -60,17 +60,14 @@ public class LunarLunchRequest
 			LunarLunchRequest.master,
 			"lunarlunch",
 			LunarLunchRequest.class,
-			"shop.php?whichshop=elvishp3",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			LunarLunchRequest.itemRows,
+			"shop.php?whichshop=elvishp3",
 			"buyitem",
 			LunarLunchRequest.buyItems,
 			LunarLunchRequest.buyPrices,
@@ -78,8 +75,13 @@ public class LunarLunchRequest
 			null,
 			null,
 			null,
-			true,
-			LunarLunchRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public LunarLunchRequest()
@@ -87,34 +89,24 @@ public class LunarLunchRequest
 		super( LunarLunchRequest.LUNAR_LUNCH );
 	}
 
-	public LunarLunchRequest( final String action )
+	public LunarLunchRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( LunarLunchRequest.LUNAR_LUNCH, action );
+		super( LunarLunchRequest.LUNAR_LUNCH, buying, attachments );
 	}
 
-	public LunarLunchRequest( final String action, final AdventureResult [] attachments )
+	public LunarLunchRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( LunarLunchRequest.LUNAR_LUNCH, action, attachments );
+		super( LunarLunchRequest.LUNAR_LUNCH, buying, attachment );
 	}
 
-	public LunarLunchRequest( final String action, final AdventureResult attachment )
+	public LunarLunchRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( LunarLunchRequest.LUNAR_LUNCH, action, attachment );
-	}
-
-	public LunarLunchRequest( final String action, final int itemId, final int quantity )
-	{
-		super( LunarLunchRequest.LUNAR_LUNCH, action, itemId, quantity );
-	}
-
-	public LunarLunchRequest( final String action, final int itemId )
-	{
-		super( LunarLunchRequest.LUNAR_LUNCH, action, itemId );
+		super( LunarLunchRequest.LUNAR_LUNCH, buying, itemId, quantity );
 	}
 
 	public static final void buy( final int itemId, final int count )
 	{
-		RequestThread.postRequest( new LunarLunchRequest( "buy", itemId, count ) );
+		RequestThread.postRequest( new LunarLunchRequest( true, itemId, count ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )

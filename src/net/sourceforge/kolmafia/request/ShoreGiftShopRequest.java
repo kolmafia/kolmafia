@@ -63,17 +63,14 @@ public class ShoreGiftShopRequest
 			ShoreGiftShopRequest.master,
 			"shore",
 			ShoreGiftShopRequest.class,
-			"shop.php?whichshop=shore",
 			"Shore Inc. Ship Trip Scrip",
 			"no Shore Inc. Ship Trip Scrip",
 			false,
 			ShoreGiftShopRequest.SCRIP_PATTERN,
 			ShoreGiftShopRequest.SHIP_TRIP_SCRIP,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			ShoreGiftShopRequest.itemRows,
+			"shop.php?whichshop=shore",
 			"buyitem",
 			ShoreGiftShopRequest.buyItems,
 			ShoreGiftShopRequest.buyPrices,
@@ -81,8 +78,13 @@ public class ShoreGiftShopRequest
 			null,
 			null,
 			null,
-			true,
-			ShoreGiftShopRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public ShoreGiftShopRequest()
@@ -90,29 +92,19 @@ public class ShoreGiftShopRequest
 		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP );
 	}
 
-	public ShoreGiftShopRequest( final String action )
+	public ShoreGiftShopRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action );
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, buying, attachments );
 	}
 
-	public ShoreGiftShopRequest( final String action, final AdventureResult [] attachments )
+	public ShoreGiftShopRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, attachments );
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, buying, attachment );
 	}
 
-	public ShoreGiftShopRequest( final String action, final AdventureResult attachment )
+	public ShoreGiftShopRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, attachment );
-	}
-
-	public ShoreGiftShopRequest( final String action, final int itemId, final int quantity )
-	{
-		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, itemId, quantity );
-	}
-
-	public ShoreGiftShopRequest( final String action, final int itemId )
-	{
-		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, action, itemId );
+		super( ShoreGiftShopRequest.SHORE_GIFT_SHOP, buying, itemId, quantity );
 	}
 
 	@Override

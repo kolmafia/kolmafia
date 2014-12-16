@@ -60,17 +60,14 @@ public class AltarOfBonesRequest
 			AltarOfBonesRequest.master,
 			"bonealtar",
 			AltarOfBonesRequest.class,
-			"bone_altar.php",
 			"bone chips",
 			"You have no bone chips",
 			false,
 			AltarOfBonesRequest.TOKEN_PATTERN,
 			AltarOfBonesRequest.BONE_CHIPS,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
 			null,
-			null,
+			"bone_altar.php",
 			"buy",
 			AltarOfBonesRequest.buyItems,
 			AltarOfBonesRequest.buyPrices,
@@ -78,8 +75,13 @@ public class AltarOfBonesRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	public AltarOfBonesRequest()
@@ -87,29 +89,19 @@ public class AltarOfBonesRequest
 		super( AltarOfBonesRequest.ALTAR_OF_BONES );
 	}
 
-	public AltarOfBonesRequest( final String action )
+	public AltarOfBonesRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( AltarOfBonesRequest.ALTAR_OF_BONES, action );
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, buying, attachments );
 	}
 
-	public AltarOfBonesRequest( final String action, final AdventureResult [] attachments )
+	public AltarOfBonesRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, attachments );
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, buying, attachment );
 	}
 
-	public AltarOfBonesRequest( final String action, final AdventureResult attachment )
+	public AltarOfBonesRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, attachment );
-	}
-
-	public AltarOfBonesRequest( final String action, final int itemId, final int quantity )
-	{
-		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, itemId, quantity );
-	}
-
-	public AltarOfBonesRequest( final String action, final int itemId )
-	{
-		super( AltarOfBonesRequest.ALTAR_OF_BONES, action, itemId );
+		super( AltarOfBonesRequest.ALTAR_OF_BONES, buying, itemId, quantity );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
+import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
@@ -93,6 +94,7 @@ public abstract class CoinmasterRegistry
 		CanteenRequest.CANTEEN,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
+		Crimbo14Request.CRIMBO14,
 		CrimboCartelRequest.CRIMBO_CARTEL,
 		DimemasterRequest.HIPPY,
 		DollHawkerRequest.DOLLHAWKER,

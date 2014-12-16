@@ -70,7 +70,6 @@ public class FudgeWandRequest
 			FudgeWandRequest.master,
 			"fudge",
 			FudgeWandRequest.class,
-			"choice.php?whichchoice=562",
 			"fudgecule",
 			null,
 			false,
@@ -78,9 +77,7 @@ public class FudgeWandRequest
 			FudgeWandRequest.FUDGECULE,
 			null,
 			null,
-			null,
-			null,
-			null,
+			"choice.php?whichchoice=562",
 			null,
 			FudgeWandRequest.buyItems,
 			FudgeWandRequest.buyPrices,
@@ -88,8 +85,13 @@ public class FudgeWandRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	private static String lastURL = null;
@@ -136,29 +138,19 @@ public class FudgeWandRequest
 		super( FudgeWandRequest.FUDGEWAND );
 	}
 
-	public FudgeWandRequest( final String action )
+	public FudgeWandRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( FudgeWandRequest.FUDGEWAND, action );
+		super( FudgeWandRequest.FUDGEWAND, buying, attachments );
 	}
 
-	public FudgeWandRequest( final String action, final AdventureResult [] attachments )
+	public FudgeWandRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( FudgeWandRequest.FUDGEWAND, action, attachments );
+		super( FudgeWandRequest.FUDGEWAND, buying, attachment );
 	}
 
-	public FudgeWandRequest( final String action, final AdventureResult attachment )
+	public FudgeWandRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( FudgeWandRequest.FUDGEWAND, action, attachment );
-	}
-
-	public FudgeWandRequest( final String action, final int itemId, final int quantity )
-	{
-		super( FudgeWandRequest.FUDGEWAND, action, itemId, quantity );
-	}
-
-	public FudgeWandRequest( final String action, final int itemId )
-	{
-		super( FudgeWandRequest.FUDGEWAND, action, itemId );
+		super( FudgeWandRequest.FUDGEWAND, buying, itemId, quantity );
 	}
 
 	@Override

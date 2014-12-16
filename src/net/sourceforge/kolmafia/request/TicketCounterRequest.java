@@ -67,17 +67,14 @@ public class TicketCounterRequest
 			TicketCounterRequest.master,
 			"arcade",
 			TicketCounterRequest.class,
-			"shop.php?whichshop=arcade",
 			"ticket",
 			"You currently have no Game Grid redemption tickets",
 			false,
 			TicketCounterRequest.TOKEN_PATTERN,
 			TicketCounterRequest.TICKET,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			TicketCounterRequest.itemRows,
+			"shop.php?whichshop=arcade",
 			"buyitem",
 			TicketCounterRequest.buyItems,
 			TicketCounterRequest.buyPrices,
@@ -85,8 +82,13 @@ public class TicketCounterRequest
 			null,
 			null,
 			null,
-			true,
-			TicketCounterRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public TicketCounterRequest()
@@ -94,29 +96,19 @@ public class TicketCounterRequest
 		super( TicketCounterRequest.TICKET_COUNTER );
 	}
 
-	public TicketCounterRequest( final String action )
+	public TicketCounterRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( TicketCounterRequest.TICKET_COUNTER, action );
+		super( TicketCounterRequest.TICKET_COUNTER, buying, attachments );
 	}
 
-	public TicketCounterRequest( final String action, final AdventureResult [] attachments )
+	public TicketCounterRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( TicketCounterRequest.TICKET_COUNTER, action, attachments );
+		super( TicketCounterRequest.TICKET_COUNTER, buying, attachment );
 	}
 
-	public TicketCounterRequest( final String action, final AdventureResult attachment )
+	public TicketCounterRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( TicketCounterRequest.TICKET_COUNTER, action, attachment );
-	}
-
-	public TicketCounterRequest( final String action, final int itemId, final int quantity )
-	{
-		super( TicketCounterRequest.TICKET_COUNTER, action, itemId, quantity );
-	}
-
-	public TicketCounterRequest( final String action, final int itemId )
-	{
-		super( TicketCounterRequest.TICKET_COUNTER, action, itemId );
+		super( TicketCounterRequest.TICKET_COUNTER, buying, itemId, quantity );
 	}
 
 	@Override

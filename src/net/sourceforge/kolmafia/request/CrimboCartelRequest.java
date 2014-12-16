@@ -60,17 +60,14 @@ public class CrimboCartelRequest
 			CrimboCartelRequest.master,
 			"cartel",
 			CrimboCartelRequest.class,
-			"crimbo09.php",
 			"Crimbuck",
 			"You do not currently have any Crimbux",
 			false,
 			CrimboCartelRequest.TOKEN_PATTERN,
 			CrimboCartelRequest.CRIMBUCK,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"howmany",
-			GenericRequest.HOWMANY_PATTERN,
+			null,
+			"crimbo09.php",
 			"buygift",
 			CrimboCartelRequest.buyItems,
 			CrimboCartelRequest.buyPrices,
@@ -78,8 +75,13 @@ public class CrimboCartelRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"howmany",
+			GenericRequest.HOWMANY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public CrimboCartelRequest()
@@ -87,29 +89,19 @@ public class CrimboCartelRequest
 		super( CrimboCartelRequest.CRIMBO_CARTEL );
 	}
 
-	public CrimboCartelRequest( final String action )
+	public CrimboCartelRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( CrimboCartelRequest.CRIMBO_CARTEL, action );
+		super( CrimboCartelRequest.CRIMBO_CARTEL, buying, attachments );
 	}
 
-	public CrimboCartelRequest( final String action, final AdventureResult [] attachments )
+	public CrimboCartelRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( CrimboCartelRequest.CRIMBO_CARTEL, action, attachments );
+		super( CrimboCartelRequest.CRIMBO_CARTEL, buying, attachment );
 	}
 
-	public CrimboCartelRequest( final String action, final AdventureResult attachment )
+	public CrimboCartelRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( CrimboCartelRequest.CRIMBO_CARTEL, action, attachment );
-	}
-
-	public CrimboCartelRequest( final String action, final int itemId, final int quantity )
-	{
-		super( CrimboCartelRequest.CRIMBO_CARTEL, action, itemId, quantity );
-	}
-
-	public CrimboCartelRequest( final String action, final int itemId )
-	{
-		super( CrimboCartelRequest.CRIMBO_CARTEL, action, itemId );
+		super( CrimboCartelRequest.CRIMBO_CARTEL, buying, itemId, quantity );
 	}
 
 	@Override

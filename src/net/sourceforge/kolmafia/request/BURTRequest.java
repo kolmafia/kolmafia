@@ -68,17 +68,14 @@ public class BURTRequest
 			BURTRequest.master,
 			"BURT",
 			BURTRequest.class,
-			"inv_use.php?whichitem=5683&ajax=1",
 			"BURT",
 			null,
 			false,
 			BURTRequest.TOKEN_PATTERN,
 			BURTRequest.BURT_TOKEN,
 			null,
-			"itemquantity",
-			BURTRequest.TOBUY_PATTERN,
 			null,
-			null,
+			"inv_use.php?whichitem=5683&ajax=1",
 			null,
 			BURTRequest.buyItems,
 			BURTRequest.buyPrices,
@@ -86,8 +83,13 @@ public class BURTRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"itemquantity",
+			BURTRequest.TOBUY_PATTERN,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	static
@@ -114,29 +116,19 @@ public class BURTRequest
 		super( BURTRequest.BURT );
 	}
 
-	public BURTRequest( final String action )
+	public BURTRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BURTRequest.BURT, action );
+		super( BURTRequest.BURT, buying, attachments );
 	}
 
-	public BURTRequest( final String action, final AdventureResult [] attachments )
+	public BURTRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BURTRequest.BURT, action, attachments );
+		super( BURTRequest.BURT, buying, attachment );
 	}
 
-	public BURTRequest( final String action, final AdventureResult attachment )
+	public BURTRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BURTRequest.BURT, action, attachment );
-	}
-
-	public BURTRequest( final String action, final int itemId, final int quantity )
-	{
-		super( BURTRequest.BURT, action, itemId, quantity );
-	}
-
-	public BURTRequest( final String action, final int itemId )
-	{
-		super( BURTRequest.BURT, action, itemId );
+		super( BURTRequest.BURT, buying, itemId, quantity );
 	}
 
 	@Override

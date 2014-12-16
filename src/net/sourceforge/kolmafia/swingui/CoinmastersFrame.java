@@ -748,7 +748,7 @@ public class CoinmastersFrame
 					return;
 				}
 
-				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=" + victim );
+				Crimbo11Panel.this.execute( true, items, "towho=" + victim );
 			}
 
 			@Override
@@ -778,7 +778,7 @@ public class CoinmastersFrame
 					return;
 				}
 
-				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=0" );
+				Crimbo11Panel.this.execute( true, items, "towho=0" );
 			}
 
 			@Override
@@ -1122,9 +1122,9 @@ public class CoinmastersFrame
 			return this.data.getRequest();
 		}
 
-		public CoinMasterRequest getRequest( final String action, final AdventureResult [] items )
+		public CoinMasterRequest getRequest( final boolean buying, final AdventureResult [] items )
 		{
-			return this.data.getRequest( action, items );
+			return this.data.getRequest( buying, items );
 		}
 
 		public final void setTitle()
@@ -1213,19 +1213,19 @@ public class CoinmastersFrame
 			}
 		}
 
-		protected void execute( final String action, final AdventureResult [] items )
+		protected void execute( final boolean buying, final AdventureResult [] items )
 		{
-			this.execute( action, items, null );
+			this.execute( buying, items, null );
 		}
 
-		protected void execute( final String action, final AdventureResult [] items, final String extraAction )
+		protected void execute( final boolean buying, final AdventureResult [] items, final String extraAction )
 		{
 			if ( items.length == 0 )
 			{
 				return;
 			}
 
-			CoinMasterRequest request = this.getRequest( action, items );
+			CoinMasterRequest request = this.getRequest( buying, items );
 			if ( extraAction != null )
 			{
 				request.addFormField( extraAction );
@@ -1418,7 +1418,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					CoinmasterPanel.this.execute( data.getSellAction(), items );
+					CoinmasterPanel.this.execute( false, items );
 				}
 
 				@Override
@@ -1549,7 +1549,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					CoinmasterPanel.this.execute( data.getBuyAction(), items );
+					CoinmasterPanel.this.execute( true, items );
 				}
 
 				@Override
@@ -1571,7 +1571,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getBuyAction(),
+					CoinmasterPanel.this.execute( true,
 						 items,
 						 CoinmasterPanel.this.data.getStorageAction() );
 				}

@@ -64,17 +64,14 @@ public class AppleStoreRequest
 			AppleStoreRequest.master,
 			"applestore",
 			AppleStoreRequest.class,
-			"shop.php?whichshop=applestore",
 			"Chroner",
 			"no Chroner",
 			false,
 			AppleStoreRequest.CHRONER_PATTERN,
 			AppleStoreRequest.CHRONER,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			AppleStoreRequest.itemRows,
+			"shop.php?whichshop=applestore",
 			"buyitem",
 			AppleStoreRequest.buyItems,
 			AppleStoreRequest.buyPrices,
@@ -82,8 +79,13 @@ public class AppleStoreRequest
 			null,
 			null,
 			null,
-			true,
-			AppleStoreRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public AppleStoreRequest()
@@ -91,29 +93,19 @@ public class AppleStoreRequest
 		super( AppleStoreRequest.APPLE_STORE );
 	}
 
-	public AppleStoreRequest( final String action )
+	public AppleStoreRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( AppleStoreRequest.APPLE_STORE, action );
+		super( AppleStoreRequest.APPLE_STORE, buying, attachments );
 	}
 
-	public AppleStoreRequest( final String action, final AdventureResult [] attachments )
+	public AppleStoreRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( AppleStoreRequest.APPLE_STORE, action, attachments );
+		super( AppleStoreRequest.APPLE_STORE, buying, attachment );
 	}
 
-	public AppleStoreRequest( final String action, final AdventureResult attachment )
+	public AppleStoreRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( AppleStoreRequest.APPLE_STORE, action, attachment );
-	}
-
-	public AppleStoreRequest( final String action, final int itemId, final int quantity )
-	{
-		super( AppleStoreRequest.APPLE_STORE, action, itemId, quantity );
-	}
-
-	public AppleStoreRequest( final String action, final int itemId )
-	{
-		super( AppleStoreRequest.APPLE_STORE, action, itemId );
+		super( AppleStoreRequest.APPLE_STORE, buying, itemId, quantity );
 	}
 
 	@Override

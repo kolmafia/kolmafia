@@ -62,17 +62,14 @@ public class ArmoryRequest
 			ArmoryRequest.master,
 			"armory",
 			ArmoryRequest.class,
-			"shop.php?whichshop=si_shop3",
 			"Coinspiracy",
 			null,
 			false,
 			ArmoryRequest.TOKEN_PATTERN,
 			ArmoryRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			ArmoryRequest.itemRows,
+			"shop.php?whichshop=si_shop3",
 			"buyitem",
 			ArmoryRequest.buyItems,
 			ArmoryRequest.buyPrices,
@@ -80,8 +77,13 @@ public class ArmoryRequest
 			null,
 			null,
 			null,
-			true,
-			ArmoryRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public ArmoryRequest()
@@ -89,29 +91,19 @@ public class ArmoryRequest
 		super( ArmoryRequest.ARMORY );
 	}
 
-	public ArmoryRequest( final String action )
+	public ArmoryRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( ArmoryRequest.ARMORY, action );
+		super( ArmoryRequest.ARMORY, buying, attachments );
 	}
 
-	public ArmoryRequest( final String action, final AdventureResult [] attachments )
+	public ArmoryRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( ArmoryRequest.ARMORY, action, attachments );
+		super( ArmoryRequest.ARMORY, buying, attachment );
 	}
 
-	public ArmoryRequest( final String action, final AdventureResult attachment )
+	public ArmoryRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( ArmoryRequest.ARMORY, action, attachment );
-	}
-
-	public ArmoryRequest( final String action, final int itemId, final int quantity )
-	{
-		super( ArmoryRequest.ARMORY, action, itemId, quantity );
-	}
-
-	public ArmoryRequest( final String action, final int itemId )
-	{
-		super( ArmoryRequest.ARMORY, action, itemId );
+		super( ArmoryRequest.ARMORY, buying, itemId, quantity );
 	}
 
 	@Override

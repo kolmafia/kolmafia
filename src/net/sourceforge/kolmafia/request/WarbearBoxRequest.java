@@ -63,17 +63,14 @@ public class WarbearBoxRequest
 			WarbearBoxRequest.master,
 			"warbear",
 			WarbearBoxRequest.class,
-			"shop.php?whichshop=warbear",
 			"warbear whosit",
 			null,
 			false,
 			WarbearBoxRequest.TOKEN_PATTERN,
 			WarbearBoxRequest.WHOSIT,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			WarbearBoxRequest.itemRows,
+			"shop.php?whichshop=warbear",
 			"buyitem",
 			WarbearBoxRequest.buyItems,
 			WarbearBoxRequest.buyPrices,
@@ -81,8 +78,13 @@ public class WarbearBoxRequest
 			null,
 			null,
 			null,
-			true,
-			WarbearBoxRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public WarbearBoxRequest()
@@ -90,29 +92,19 @@ public class WarbearBoxRequest
 		super( WarbearBoxRequest.WARBEARBOX );
 	}
 
-	public WarbearBoxRequest( final String action )
+	public WarbearBoxRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( WarbearBoxRequest.WARBEARBOX, action );
+		super( WarbearBoxRequest.WARBEARBOX, buying, attachments );
 	}
 
-	public WarbearBoxRequest( final String action, final AdventureResult [] attachments )
+	public WarbearBoxRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( WarbearBoxRequest.WARBEARBOX, action, attachments );
+		super( WarbearBoxRequest.WARBEARBOX, buying, attachment );
 	}
 
-	public WarbearBoxRequest( final String action, final AdventureResult attachment )
+	public WarbearBoxRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( WarbearBoxRequest.WARBEARBOX, action, attachment );
-	}
-
-	public WarbearBoxRequest( final String action, final int itemId, final int quantity )
-	{
-		super( WarbearBoxRequest.WARBEARBOX, action, itemId, quantity );
-	}
-
-	public WarbearBoxRequest( final String action, final int itemId )
-	{
-		super( WarbearBoxRequest.WARBEARBOX, action, itemId );
+		super( WarbearBoxRequest.WARBEARBOX, buying, itemId, quantity );
 	}
 
 	@Override

@@ -55,17 +55,14 @@ public class IsotopeSmitheryRequest
 			IsotopeSmitheryRequest.master,
 			"isotopesmithery",
 			IsotopeSmitheryRequest.class,
-			"shop.php?whichshop=elvishp1",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			IsotopeSmitheryRequest.itemRows,
+			"shop.php?whichshop=elvishp1",
 			"buyitem",
 			IsotopeSmitheryRequest.buyItems,
 			IsotopeSmitheryRequest.buyPrices,
@@ -73,8 +70,13 @@ public class IsotopeSmitheryRequest
 			null,
 			null,
 			null,
-			true,
-			IsotopeSmitheryRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public IsotopeSmitheryRequest()
@@ -82,29 +84,19 @@ public class IsotopeSmitheryRequest
 		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY );
 	}
 
-	public IsotopeSmitheryRequest( final String action )
+	public IsotopeSmitheryRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, buying, attachments );
 	}
 
-	public IsotopeSmitheryRequest( final String action, final AdventureResult [] attachments )
+	public IsotopeSmitheryRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, attachments );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, buying, attachment );
 	}
 
-	public IsotopeSmitheryRequest( final String action, final AdventureResult attachment )
+	public IsotopeSmitheryRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, attachment );
-	}
-
-	public IsotopeSmitheryRequest( final String action, final int itemId, final int quantity )
-	{
-		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, itemId, quantity );
-	}
-
-	public IsotopeSmitheryRequest( final String action, final int itemId )
-	{
-		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, itemId );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, buying, itemId, quantity );
 	}
 
 	public static final boolean registerRequest( final String urlString )

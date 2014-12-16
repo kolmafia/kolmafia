@@ -62,17 +62,14 @@ public class CanteenRequest
 			CanteenRequest.master,
 			"canteen",
 			CanteenRequest.class,
-			"shop.php?whichshop=si_shop2",
 			"Coinspiracy",
 			null,
 			false,
 			CanteenRequest.TOKEN_PATTERN,
 			CanteenRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			CanteenRequest.itemRows,
+			"shop.php?whichshop=si_shop2",
 			"buyitem",
 			CanteenRequest.buyItems,
 			CanteenRequest.buyPrices,
@@ -80,8 +77,13 @@ public class CanteenRequest
 			null,
 			null,
 			null,
-			true,
-			CanteenRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public CanteenRequest()
@@ -89,29 +91,19 @@ public class CanteenRequest
 		super( CanteenRequest.CANTEEN );
 	}
 
-	public CanteenRequest( final String action )
+	public CanteenRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( CanteenRequest.CANTEEN, action );
+		super( CanteenRequest.CANTEEN, buying, attachments );
 	}
 
-	public CanteenRequest( final String action, final AdventureResult [] attachments )
+	public CanteenRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( CanteenRequest.CANTEEN, action, attachments );
+		super( CanteenRequest.CANTEEN, buying, attachment );
 	}
 
-	public CanteenRequest( final String action, final AdventureResult attachment )
+	public CanteenRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( CanteenRequest.CANTEEN, action, attachment );
-	}
-
-	public CanteenRequest( final String action, final int itemId, final int quantity )
-	{
-		super( CanteenRequest.CANTEEN, action, itemId, quantity );
-	}
-
-	public CanteenRequest( final String action, final int itemId )
-	{
-		super( CanteenRequest.CANTEEN, action, itemId );
+		super( CanteenRequest.CANTEEN, buying, itemId, quantity );
 	}
 
 	@Override

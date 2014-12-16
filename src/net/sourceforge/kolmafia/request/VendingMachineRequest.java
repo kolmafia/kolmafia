@@ -62,17 +62,14 @@ public class VendingMachineRequest
 			VendingMachineRequest.master,
 			"vendingmachine",
 			VendingMachineRequest.class,
-			"shop.php?whichshop=damachine",
 			"fat loot token",
 			"no fat loot tokens",
 			false,
 			VendingMachineRequest.TOKEN_PATTERN,
 			VendingMachineRequest.FAT_LOOT_TOKEN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			VendingMachineRequest.itemRows,
+			"shop.php?whichshop=damachine",
 			"buyitem",
 			VendingMachineRequest.buyItems,
 			VendingMachineRequest.buyPrices,
@@ -80,8 +77,13 @@ public class VendingMachineRequest
 			null,
 			null,
 			null,
-			true,
-			VendingMachineRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public VendingMachineRequest()
@@ -89,29 +91,19 @@ public class VendingMachineRequest
 		super( VendingMachineRequest.VENDING_MACHINE );
 	}
 
-	public VendingMachineRequest( final String action )
+	public VendingMachineRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( VendingMachineRequest.VENDING_MACHINE, action );
+		super( VendingMachineRequest.VENDING_MACHINE, buying, attachments );
 	}
 
-	public VendingMachineRequest( final String action, final AdventureResult [] attachments )
+	public VendingMachineRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( VendingMachineRequest.VENDING_MACHINE, action, attachments );
+		super( VendingMachineRequest.VENDING_MACHINE, buying, attachment );
 	}
 
-	public VendingMachineRequest( final String action, final AdventureResult attachment )
+	public VendingMachineRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( VendingMachineRequest.VENDING_MACHINE, action, attachment );
-	}
-
-	public VendingMachineRequest( final String action, final int itemId, final int quantity )
-	{
-		super( VendingMachineRequest.VENDING_MACHINE, action, itemId, quantity );
-	}
-
-	public VendingMachineRequest( final String action, final int itemId )
-	{
-		super( VendingMachineRequest.VENDING_MACHINE, action, itemId );
+		super( VendingMachineRequest.VENDING_MACHINE, buying, itemId, quantity );
 	}
 
 	@Override

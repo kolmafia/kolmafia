@@ -55,17 +55,14 @@ public class DollHawkerRequest
 			DollHawkerRequest.master,
 			"dollhawker",
 			DollHawkerRequest.class,
-			"shop.php?whichshop=elvishp2",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			DollHawkerRequest.itemRows,
+			"shop.php?whichshop=elvishp2",
 			"buyitem",
 			DollHawkerRequest.buyItems,
 			DollHawkerRequest.buyPrices,
@@ -73,8 +70,13 @@ public class DollHawkerRequest
 			null,
 			null,
 			null,
-			true,
-			DollHawkerRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public DollHawkerRequest()
@@ -82,29 +84,19 @@ public class DollHawkerRequest
 		super( DollHawkerRequest.DOLLHAWKER );
 	}
 
-	public DollHawkerRequest( final String action )
+	public DollHawkerRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( DollHawkerRequest.DOLLHAWKER, action );
+		super( DollHawkerRequest.DOLLHAWKER, buying, attachments );
 	}
 
-	public DollHawkerRequest( final String action, final AdventureResult [] attachments )
+	public DollHawkerRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( DollHawkerRequest.DOLLHAWKER, action, attachments );
+		super( DollHawkerRequest.DOLLHAWKER, buying, attachment );
 	}
 
-	public DollHawkerRequest( final String action, final AdventureResult attachment )
+	public DollHawkerRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( DollHawkerRequest.DOLLHAWKER, action, attachment );
-	}
-
-	public DollHawkerRequest( final String action, final int itemId, final int quantity )
-	{
-		super( DollHawkerRequest.DOLLHAWKER, action, itemId, quantity );
-	}
-
-	public DollHawkerRequest( final String action, final int itemId )
-	{
-		super( DollHawkerRequest.DOLLHAWKER, action, itemId );
+		super( DollHawkerRequest.DOLLHAWKER, buying, itemId, quantity );
 	}
 
 	public static final boolean registerRequest( final String urlString )

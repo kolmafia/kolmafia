@@ -73,17 +73,14 @@ public class BigBrotherRequest
 			BigBrotherRequest.master,
 			"bigbrother",
 			BigBrotherRequest.class,
-			"monkeycastle.php?who=2",
 			"sand dollar",
 			"You haven't got any sand dollars",
 			false,
 			BigBrotherRequest.TOKEN_PATTERN,
 			BigBrotherRequest.SAND_DOLLAR,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			null,
+			"monkeycastle.php?who=2",
 			"buyitem",
 			BigBrotherRequest.buyItems,
 			BigBrotherRequest.buyPrices,
@@ -91,8 +88,13 @@ public class BigBrotherRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichitem",
+			GenericRequest.WHICHITEM_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
@@ -115,29 +117,19 @@ public class BigBrotherRequest
 		super( BigBrotherRequest.BIG_BROTHER );
 	}
 
-	public BigBrotherRequest( final String action )
+	public BigBrotherRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( BigBrotherRequest.BIG_BROTHER, action );
+		super( BigBrotherRequest.BIG_BROTHER, buying, attachments );
 	}
 
-	public BigBrotherRequest( final String action, final AdventureResult [] attachments )
+	public BigBrotherRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( BigBrotherRequest.BIG_BROTHER, action, attachments );
+		super( BigBrotherRequest.BIG_BROTHER, buying, attachment );
 	}
 
-	public BigBrotherRequest( final String action, final AdventureResult attachment )
+	public BigBrotherRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( BigBrotherRequest.BIG_BROTHER, action, attachment );
-	}
-
-	public BigBrotherRequest( final String action, final int itemId, final int quantity )
-	{
-		super( BigBrotherRequest.BIG_BROTHER, action, itemId, quantity );
-	}
-
-	public BigBrotherRequest( final String action, final int itemId )
-	{
-		super( BigBrotherRequest.BIG_BROTHER, action, itemId );
+		super( BigBrotherRequest.BIG_BROTHER, buying, itemId, quantity );
 	}
 
 	@Override

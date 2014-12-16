@@ -62,17 +62,14 @@ public class TacoDanRequest
 			TacoDanRequest.master,
 			"taco_dan",
 			TacoDanRequest.class,
-			"shop.php?whichshop=sbb_taco",
 			"Beach Buck",
 			null,
 			false,
 			TacoDanRequest.TOKEN_PATTERN,
 			TacoDanRequest.COIN,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			TacoDanRequest.itemRows,
+			"shop.php?whichshop=sbb_taco",
 			"buyitem",
 			TacoDanRequest.buyItems,
 			TacoDanRequest.buyPrices,
@@ -80,8 +77,13 @@ public class TacoDanRequest
 			null,
 			null,
 			null,
-			true,
-			TacoDanRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public TacoDanRequest()
@@ -89,29 +91,19 @@ public class TacoDanRequest
 		super( TacoDanRequest.TACO_DAN );
 	}
 
-	public TacoDanRequest( final String action )
+	public TacoDanRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( TacoDanRequest.TACO_DAN, action );
+		super( TacoDanRequest.TACO_DAN, buying, attachments );
 	}
 
-	public TacoDanRequest( final String action, final AdventureResult [] attachments )
+	public TacoDanRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( TacoDanRequest.TACO_DAN, action, attachments );
+		super( TacoDanRequest.TACO_DAN, buying, attachment );
 	}
 
-	public TacoDanRequest( final String action, final AdventureResult attachment )
+	public TacoDanRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( TacoDanRequest.TACO_DAN, action, attachment );
-	}
-
-	public TacoDanRequest( final String action, final int itemId, final int quantity )
-	{
-		super( TacoDanRequest.TACO_DAN, action, itemId, quantity );
-	}
-
-	public TacoDanRequest( final String action, final int itemId )
-	{
-		super( TacoDanRequest.TACO_DAN, action, itemId );
+		super( TacoDanRequest.TACO_DAN, buying, itemId, quantity );
 	}
 
 	@Override

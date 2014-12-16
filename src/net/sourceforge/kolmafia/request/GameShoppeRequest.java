@@ -61,6 +61,7 @@ public class GameShoppeRequest
 	public static final String master = "Game Shoppe"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GameShoppeRequest.master );
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GameShoppeRequest.master );
+	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( GameShoppeRequest.master );
 	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( GameShoppeRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) store credit" );
@@ -69,26 +70,28 @@ public class GameShoppeRequest
 			GameShoppeRequest.master,
 			"gameshoppe",
 			GameShoppeRequest.class,
-			"gamestore.php",
 			"store credit",
 			"You currently have no store credit",
 			false,
 			GameShoppeRequest.TOKEN_PATTERN,
 			null,
 			"availableStoreCredits",
+			null,
+			"gamestore.php",
+			"redeem",
+			GameShoppeRequest.buyItems,
+			GameShoppeRequest.buyPrices,
+			"gamestore.php",
+			"tradein",
+			GameShoppeRequest.sellItems,
+			GameShoppeRequest.sellPrices,
 			"whichitem",
 			GenericRequest.WHICHITEM_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"redeem",
-			GameShoppeRequest.buyItems,
-			GameShoppeRequest.buyPrices,
-			"tradein",
-			GameShoppeRequest.sellPrices,
 			null,
 			null,
-			true,
-			null
+			true
 			);
 
 	static
@@ -101,29 +104,19 @@ public class GameShoppeRequest
 		super( GameShoppeRequest.GAMESHOPPE );
 	}
 
-	public GameShoppeRequest( final String action )
+	public GameShoppeRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( GameShoppeRequest.GAMESHOPPE, action );
+		super( GameShoppeRequest.GAMESHOPPE, buying, attachments );
 	}
 
-	public GameShoppeRequest( final String action, final AdventureResult [] attachments )
+	public GameShoppeRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( GameShoppeRequest.GAMESHOPPE, action, attachments );
+		super( GameShoppeRequest.GAMESHOPPE, buying, attachment );
 	}
 
-	public GameShoppeRequest( final String action, final AdventureResult attachment )
+	public GameShoppeRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( GameShoppeRequest.GAMESHOPPE, action, attachment );
-	}
-
-	public GameShoppeRequest( final String action, final int itemId, final int quantity )
-	{
-		super( GameShoppeRequest.GAMESHOPPE, action, itemId, quantity );
-	}
-
-	public GameShoppeRequest( final String action, final int itemId )
-	{
-		super( GameShoppeRequest.GAMESHOPPE, action, itemId );
+		super( GameShoppeRequest.GAMESHOPPE, buying, itemId, quantity );
 	}
 
 	public static String canBuy()

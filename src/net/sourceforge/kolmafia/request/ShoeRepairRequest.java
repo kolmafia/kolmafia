@@ -64,17 +64,14 @@ public class ShoeRepairRequest
 			ShoeRepairRequest.master,
 			"shoeshop",
 			ShoeRepairRequest.class,
-			"shop.php?whichshop=shoeshop",
 			"Chroner",
 			"no Chroner",
 			false,
 			ShoeRepairRequest.CHRONER_PATTERN,
 			ShoeRepairRequest.CHRONER,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			ShoeRepairRequest.itemRows,
+			"shop.php?whichshop=shoeshop",
 			"buyitem",
 			ShoeRepairRequest.buyItems,
 			ShoeRepairRequest.buyPrices,
@@ -82,8 +79,13 @@ public class ShoeRepairRequest
 			null,
 			null,
 			null,
-			true,
-			ShoeRepairRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public ShoeRepairRequest()
@@ -91,29 +93,19 @@ public class ShoeRepairRequest
 		super( ShoeRepairRequest.SHOE_REPAIR );
 	}
 
-	public ShoeRepairRequest( final String action )
+	public ShoeRepairRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( ShoeRepairRequest.SHOE_REPAIR, action );
+		super( ShoeRepairRequest.SHOE_REPAIR, buying, attachments );
 	}
 
-	public ShoeRepairRequest( final String action, final AdventureResult [] attachments )
+	public ShoeRepairRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( ShoeRepairRequest.SHOE_REPAIR, action, attachments );
+		super( ShoeRepairRequest.SHOE_REPAIR, buying, attachment );
 	}
 
-	public ShoeRepairRequest( final String action, final AdventureResult attachment )
+	public ShoeRepairRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( ShoeRepairRequest.SHOE_REPAIR, action, attachment );
-	}
-
-	public ShoeRepairRequest( final String action, final int itemId, final int quantity )
-	{
-		super( ShoeRepairRequest.SHOE_REPAIR, action, itemId, quantity );
-	}
-
-	public ShoeRepairRequest( final String action, final int itemId )
-	{
-		super( ShoeRepairRequest.SHOE_REPAIR, action, itemId );
+		super( ShoeRepairRequest.SHOE_REPAIR, buying, itemId, quantity );
 	}
 
 	@Override

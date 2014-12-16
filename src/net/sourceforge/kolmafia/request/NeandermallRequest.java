@@ -64,17 +64,14 @@ public class NeandermallRequest
 			NeandermallRequest.master,
 			"caveshop",
 			NeandermallRequest.class,
-			"shop.php?whichshop=caveshop",
 			"Chroner",
 			"no Chroner",
 			false,
 			NeandermallRequest.CHRONER_PATTERN,
 			NeandermallRequest.CHRONER,
 			null,
-			"whichrow",
-			GenericRequest.WHICHROW_PATTERN,
-			"quantity",
-			GenericRequest.QUANTITY_PATTERN,
+			NeandermallRequest.itemRows,
+			"shop.php?whichshop=caveshop",
 			"buyitem",
 			NeandermallRequest.buyItems,
 			NeandermallRequest.buyPrices,
@@ -82,8 +79,13 @@ public class NeandermallRequest
 			null,
 			null,
 			null,
-			true,
-			NeandermallRequest.itemRows
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
+			"quantity",
+			GenericRequest.QUANTITY_PATTERN,
+			null,
+			null,
+			true
 			);
 
 	public NeandermallRequest()
@@ -91,29 +93,19 @@ public class NeandermallRequest
 		super( NeandermallRequest.NEANDERMALL );
 	}
 
-	public NeandermallRequest( final String action )
+	public NeandermallRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( NeandermallRequest.NEANDERMALL, action );
+		super( NeandermallRequest.NEANDERMALL, buying, attachments );
 	}
 
-	public NeandermallRequest( final String action, final AdventureResult [] attachments )
+	public NeandermallRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( NeandermallRequest.NEANDERMALL, action, attachments );
+		super( NeandermallRequest.NEANDERMALL, buying, attachment );
 	}
 
-	public NeandermallRequest( final String action, final AdventureResult attachment )
+	public NeandermallRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( NeandermallRequest.NEANDERMALL, action, attachment );
-	}
-
-	public NeandermallRequest( final String action, final int itemId, final int quantity )
-	{
-		super( NeandermallRequest.NEANDERMALL, action, itemId, quantity );
-	}
-
-	public NeandermallRequest( final String action, final int itemId )
-	{
-		super( NeandermallRequest.NEANDERMALL, action, itemId );
+		super( NeandermallRequest.NEANDERMALL, buying, itemId, quantity );
 	}
 
 	@Override

@@ -65,17 +65,14 @@ public class FreeSnackRequest
 			FreeSnackRequest.master,
 			"snacks",
 			FreeSnackRequest.class,
-			"gamestore.php",
 			"snack voucher",
 			"The teen glances at your snack voucher",
 			true,
 			FreeSnackRequest.TOKEN_PATTERN,
 			FreeSnackRequest.VOUCHER,
 			null,
-			"whichsnack",
-			FreeSnackRequest.SNACK_PATTERN,
 			null,
-			null,
+			"gamestore.php",
 			"buysnack",
 			FreeSnackRequest.buyItems,
 			FreeSnackRequest.buyPrices,
@@ -83,8 +80,13 @@ public class FreeSnackRequest
 			null,
 			null,
 			null,
-			true,
-			null
+			"whichsnack",
+			FreeSnackRequest.SNACK_PATTERN,
+			null,
+			null,
+			null,
+			null,
+			true
 			);
 
 	public FreeSnackRequest()
@@ -92,29 +94,19 @@ public class FreeSnackRequest
 		super( FreeSnackRequest.FREESNACKS );
 	}
 
-	public FreeSnackRequest( final String action )
+	public FreeSnackRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( FreeSnackRequest.FREESNACKS, action );
+		super( FreeSnackRequest.FREESNACKS, buying, attachments );
 	}
 
-	public FreeSnackRequest( final String action, final AdventureResult [] attachments )
+	public FreeSnackRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( FreeSnackRequest.FREESNACKS, action, attachments );
+		super( FreeSnackRequest.FREESNACKS, buying, attachment );
 	}
 
-	public FreeSnackRequest( final String action, final AdventureResult attachment )
+	public FreeSnackRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( FreeSnackRequest.FREESNACKS, action, attachment );
-	}
-
-	public FreeSnackRequest( final String action, final int itemId, final int quantity )
-	{
-		super( FreeSnackRequest.FREESNACKS, action, itemId, quantity );
-	}
-
-	public FreeSnackRequest( final String action, final int itemId )
-	{
-		super( FreeSnackRequest.FREESNACKS, action, itemId );
+		super( FreeSnackRequest.FREESNACKS, buying, itemId, quantity );
 	}
 
 	@Override
@@ -133,9 +125,9 @@ public class FreeSnackRequest
 		}
 	}
 
-	public static final void  buy( final int itemId, final int count )
+	public static final void buy( final int itemId, final int count )
 	{
-		RequestThread.postRequest( new FreeSnackRequest( "buysnack", itemId, count ) );
+		RequestThread.postRequest( new FreeSnackRequest( true, itemId, count ) );
 	}
 
 	public static String accessible()
