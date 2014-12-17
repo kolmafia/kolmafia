@@ -576,12 +576,12 @@ public class UseSkillRequest
 
 		case SkillPool.RAINBOW_GRAVITATION:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "prismaticSummons" ), 0 );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.COLD_WAD ), maximumCast );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.HOT_WAD ), maximumCast );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SLEAZE_WAD ), maximumCast );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SPOOKY_WAD ), maximumCast );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.STENCH_WAD ), maximumCast );
-			maximumCast = Math.min( InventoryManager.getCount( ItemPool.TWINKLY_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.COLD_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.HOT_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.SLEAZE_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.SPOOKY_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.STENCH_WAD ), maximumCast );
+			maximumCast = Math.min( InventoryManager.getAccessibleCount( ItemPool.TWINKLY_WAD ), maximumCast );
 			break;
 
 		case SkillPool.PASTAMASTERY:
@@ -1061,7 +1061,7 @@ public class UseSkillRequest
 
 		this.isRunning = true;
 		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
-		if( this.skillId == SkillPool.SUMMON_MINION || this.skillId == SkillPool.SUMMON_HORDE )
+		if ( this.skillId == SkillPool.SUMMON_MINION || this.skillId == SkillPool.SUMMON_HORDE )
 		{
 			ChoiceManager.setSkillUses( this.buffCount );
 		}
@@ -1101,6 +1101,17 @@ public class UseSkillRequest
 			{
 				return;
 			}
+		}
+
+		if ( this.skillId == SkillPool.RAINBOW_GRAVITATION )
+		{
+			// Acquire necessary wads
+			InventoryManager.retrieveItem( ItemPool.COLD_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.HOT_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.SLEAZE_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.SPOOKY_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.STENCH_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.TWINKLY_WAD, castsRemaining );
 		}
 
 		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
