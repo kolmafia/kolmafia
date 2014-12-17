@@ -487,6 +487,8 @@ public class AdventureResult
 			this.getName() :
 			this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY ?
 			BountyDatabase.getPlural( this.getName() ) :
+			this.itemId == -1 ?
+			this.getName() + "s" :
 			ItemDatabase.getPluralName( this.itemId );
 	}
 

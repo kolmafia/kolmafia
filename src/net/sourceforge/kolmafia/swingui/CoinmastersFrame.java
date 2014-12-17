@@ -514,15 +514,36 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		private JButton pull = new InvocationButton( "pull Mr. A", this, "pull" );
+		private JButton AToB = new InvocationButton( "Mr. A -> Uncle Bs", this, "AToB" );
+		private JButton BToA = new InvocationButton( "Uncle Bs -> Mr. A", this, "BToA" );
 		private int storageCount = 0;
+		private int ACount = 0;
+		private int BCount = 0;
 
 		public MrStorePanel()
 		{
 			super( MrStoreRequest.MR_STORE );
 			this.buyPanel.addButton( pull, false );
+			this.buyPanel.addButton( AToB, false );
+			this.buyPanel.addButton( BToA, false );
 			this.storageInTitle = true;
 			this.pullsInTitle = true;
 			this.update();
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( this.BCount ) );
+			buffer.append( " " );
+			buffer.append( "Uncle B" );
+			if ( this.BCount != 1 )
+			{
+				buffer.append( "s" );
+			}
+			buffer.append( ")" );
 		}
 
 		@Override
@@ -530,16 +551,22 @@ public class CoinmastersFrame
 		{
 			super.setEnabled( isEnabled );
 			this.pull.setEnabled( isEnabled && this.storageCount > 0 );
+			this.AToB.setEnabled( isEnabled && this.ACount > 0 );
+			this.BToA.setEnabled( isEnabled && this.BCount >= 10 );
 		}
 
 		@Override
 		public final void update()
 		{
 			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
+			this.ACount = MrStoreRequest.MR_A.getCount( KoLConstants.inventory );
+			this.BCount = MrStoreRequest.UNCLE_B.getCount( KoLConstants.inventory );
 			boolean canPull =
 				KoLCharacter.isHardcore() ||
 				ConcoctionDatabase.getPullsRemaining() != 0;
 			this.pull.setEnabled( canPull && this.storageCount > 0 );
+			this.AToB.setEnabled( this.ACount > 0 );
+			this.BToA.setEnabled( this.BCount >= 10 );
 		}
 
 		public void pull()
@@ -548,6 +575,16 @@ public class CoinmastersFrame
 				(GenericRequest) new MrStoreRequest( "pullmras" ) :
 				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
 			RequestThread.postRequest( request );
+		}
+
+		public void AToB()
+		{
+			RequestThread.postRequest( new MrStoreRequest( "a_to_b" ) );
+		}
+
+		public void BToA()
+		{
+			RequestThread.postRequest( new MrStoreRequest( "b_to_a" ) );
 		}
 	}
 
@@ -1350,8 +1387,7 @@ public class CoinmastersFrame
 						new SellListener(),
 					} );
 
-				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
-				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false ) );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, false ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -1459,8 +1495,7 @@ public class CoinmastersFrame
 
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
-				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
-				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true ) );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, true ) );
 				this.getElementList().setVisibleRowCount( 6 );
 				this.setEnabled( true );
 				this.filterItems();
@@ -1601,24 +1636,22 @@ public class CoinmastersFrame
 		}
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, final boolean buying )
 	{
-		return new CoinmasterRenderer( data, prices, usesTokens );
+		return new CoinmasterRenderer( data, buying );
 	}
 
 	private static class CoinmasterRenderer
 		extends DefaultListCellRenderer
 	{
 		private CoinmasterData data;
-		private Map prices;
-		private boolean usesTokens;
+		private boolean buying;
 
-		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens )
+		public CoinmasterRenderer( CoinmasterData data, final boolean buying )
 		{
 			this.setOpaque( true );
 			this.data = data;
-			this.prices = prices;
-			this.usesTokens = usesTokens;
+			this.buying = buying;
 		}
 
 		public boolean allowHighlight()
@@ -1654,18 +1687,18 @@ public class CoinmastersFrame
 
 			String name = ar.getName();
 			String canonicalName = StringUtilities.getCanonicalName( name );
+			AdventureResult cost = this.buying ? this.data.itemBuyPrice( name ) : this.data.itemSellPrice( name );
 
-			Integer iprice = (Integer)prices.get( canonicalName );
-
-			if ( iprice == null )
+			if ( cost == null )
 			{
 				return defaultComponent;
 			}
 
 			boolean show = CoinmastersDatabase.availableItem( canonicalName );
-			int price = iprice.intValue();
 
-			if ( show && this.usesTokens )
+			int price = cost.getCount();
+
+			if ( show && this.buying)
 			{
 				int balance1 = this.data.availableTokens();
 				int balance2 = this.data.availableStorageTokens();
@@ -1685,7 +1718,7 @@ public class CoinmastersFrame
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );
-			stringForm.append( price != 1 ? this.data.getPluralToken() : this.data.getToken() );
+			stringForm.append( cost.getPluralName( price ) );
 			stringForm.append( ")" );
 			int count = ar.getCount();
 			if ( count == -1 )

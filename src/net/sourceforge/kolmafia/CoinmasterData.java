@@ -309,18 +309,27 @@ public class CoinmasterData
 
 	public final int getBuyPrice( final String itemName )
 	{
-		if ( this.buyPrices != null )
+		if ( this.buyPrices == null )
 		{
-			String name = StringUtilities.getCanonicalName( itemName );
-			Integer price = (Integer) this.buyPrices.get( name );
-			return price != null ? price.intValue() : 0;
+			return 0;
 		}
-		return 0;
+
+		String name = StringUtilities.getCanonicalName( itemName );
+		Integer price = (Integer) this.buyPrices.get( name );
+		return price != null ? price.intValue() : 0;
 	}
 
-	public final int getBuyPrice( final int itemId )
+	public AdventureResult itemBuyPrice( final String itemName )
 	{
-		return this.getBuyPrice( ItemDatabase.getItemName( itemId ) );
+		int price = this.getBuyPrice( itemName );
+		return  this.item == null ?
+			AdventureResult.tallyItem( this.token, price, false ) :
+			this.item.getInstance( price );
+	}
+
+	public final AdventureResult itemBuyPrice( final int itemId )
+	{
+		return this.itemBuyPrice( ItemDatabase.getItemName( itemId ) );
 	}
 
 	public final String getSellAction()
@@ -357,6 +366,19 @@ public class CoinmasterData
 			return price != null ? price.intValue() : 0;
 		}
 		return 0;
+	}
+
+	public AdventureResult itemSellPrice( final String itemName )
+	{
+		int price = this.getSellPrice( itemName );
+		return  this.item == null ?
+			AdventureResult.tallyItem( this.token, price, false ) :
+			this.item.getInstance( price );
+	}
+
+	public final AdventureResult itemSellPrice( final int itemId )
+	{
+		return this.itemSellPrice( ItemDatabase.getItemName( itemId ) );
 	}
 
 	public final String getStorageAction()
