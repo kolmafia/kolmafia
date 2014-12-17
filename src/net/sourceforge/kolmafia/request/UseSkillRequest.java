@@ -98,6 +98,7 @@ public class UseSkillRequest
 		"Lunch Break",
 		"Spaghetti Breakfast",
 		"Grab a Cold One",
+		"Summon Holiday Fun!",
 	};
 
 	public static final String[] TOME_SKILLS =
@@ -1637,8 +1638,32 @@ public class UseSkillRequest
 
 		if ( responseText.contains( "You may only use three Tome summonings each day" ) )
 		{
-			UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
 			Preferences.setInteger( "tomeSummons", 3 );
+			if ( KoLCharacter.canInteract() )
+			{
+				switch ( skillId )
+				{
+				case SkillPool.SNOWCONE:
+					Preferences.setInteger( "_snowconeSummons", 3 );
+					break;
+				case SkillPool.STICKER:
+					Preferences.setInteger( "_stickerSummons", 3 );
+					break;
+				case SkillPool.SUGAR:
+					Preferences.setInteger( "_sugarSummons", 3 );
+					break;
+				case SkillPool.RAD_LIB:
+					Preferences.setInteger( "_radlibSummons", 3 );
+					break;
+				case SkillPool.SMITHSNESS:
+					Preferences.setInteger( "_smithsnessSummons", 3 );
+					break;
+				}
+			}
+			else
+			{
+				UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
+			}
 			ConcoctionDatabase.setRefreshNeeded( true );
 			return true;
 		}
