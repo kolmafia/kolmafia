@@ -473,16 +473,7 @@ public class CoinMasterRequest
 		return 1;
 	}
 
-	public static final int itemBuyPrice( final CoinmasterData data, final int itemId )
-	{
-		LockableListModel<AdventureResult> items = data.getBuyItems();
-		AdventureResult item = AdventureResult.findItem( itemId, items );
-		String name = item.getName();
-		Map prices = data.getBuyPrices();
-		return CoinmastersDatabase.getPrice( name, prices );
-	}
-
-	public static final int itemSellPrice( final CoinmasterData data, final int itemId )
+	private static final int itemSellPrice( final CoinmasterData data, final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		Map prices = data.getSellPrices();
@@ -516,14 +507,12 @@ public class CoinMasterRequest
 
 	public static final void buyStuff( final CoinmasterData data, final int itemId, final int count, final boolean storage )
 	{
-		int price = CoinMasterRequest.itemBuyPrice( data, itemId );
-		int cost = count * price;
-
-		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
+		AdventureResult tokenItem = data.itemBuyPrice( itemId );
+		int cost = count * tokenItem.getCount();
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName + ( storage ? " from storage" : "" ) );
+		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenItem.getPluralName( cost ) + " for " + count + " " + itemName + ( storage ? " from storage" : "" ) );
 	}
 
 	public static final void completePurchase( final CoinmasterData data, final String urlString )
@@ -552,7 +541,7 @@ public class CoinMasterRequest
 				return;
 			}
 
-			AdventureResult tokenItem = data.getItem();
+			AdventureResult tokenItem = data.itemBuyPrice( itemId );
 			String property = data.getProperty();
 
 			int available =
@@ -560,7 +549,7 @@ public class CoinMasterRequest
 				property != null ? Preferences.getInteger( property ) :
 				tokenItem.getCount( KoLConstants.inventory );
 
-			int price = CoinMasterRequest.itemBuyPrice( data, itemId );
+			int price = tokenItem.getCount();
 			count = available / price;
 		}
 
@@ -569,17 +558,16 @@ public class CoinMasterRequest
 
 	public static final void completePurchase( final CoinmasterData data, final int itemId, final int count, final boolean storage )
 	{
-		int price = CoinMasterRequest.itemBuyPrice( data, itemId );
+		AdventureResult tokenItem = data.itemBuyPrice( itemId );
+		int price = tokenItem.getCount();
 		int cost = count * price;
-
 		String property = data.getProperty();
+
 		if ( property != null && !storage )
 		{
 			Preferences.increment( property, -cost );
 		}
-
-		AdventureResult tokenItem = data.getItem();
-		if ( tokenItem != null )
+		else
 		{
 			AdventureResult current = tokenItem.getInstance( -cost );
 			if ( storage )

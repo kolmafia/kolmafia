@@ -103,10 +103,10 @@ public class BURTRequest
 		return ItemDatabase.getItemId( itemName );
 	}
 
-	private static int itemIdToPrice( final int itemId )
+	private static int itemNameToPrice( final String name )
 	{
 		CoinmasterData data = BURTRequest.BURT;
-		return data.getBuyPrice( itemId );
+		return data.getBuyPrice( name );
 	}
 
 	private static String lastURL = null;
@@ -136,8 +136,7 @@ public class BURTRequest
 	{
 		// The item field is the buy price; the number of BURTS spent
 		String itemField = this.data.getItemField();
-		int itemId = item.getItemId();
-		this.addFormField( itemField, String.valueOf( BURTRequest.itemIdToPrice( itemId ) ) );
+		this.addFormField( itemField, String.valueOf( BURTRequest.itemNameToPrice( item.getName() ) ) );
 	}
 
 	@Override
