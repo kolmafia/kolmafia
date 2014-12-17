@@ -5703,6 +5703,7 @@ Cool Irons	Damage Reduction: 20
 Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
 Crimbo Duds	Item Drop: +5
 Crimborg Assault Armor	Ranged Damage: +20
+Crimbot Crimboutfit	Crimbot Power: +3
 Cursed Zombie Pirate Costume	Spooky Damage: +30
 Dark Bro's Vestments	Spooky Spell Damage: +40
 Dire Drifter Duds	Familiar Weight: +5
