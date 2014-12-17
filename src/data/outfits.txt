@@ -109,3 +109,4 @@
 108	Gladiatorial Glad Rags	centurion helmet, madius, radiator heater shield, pteruges, gladiator tunica, Roman sadnals
 109	Xiblaxian Stealth Suit	Xiblaxian stealth cowl, Xiblaxian stealth vest, Xiblaxian stealth trousers
 110	High-Radiation Mining Gear	radiation-resistant helmet, servo-assisted exo-pants, high-energy mining laser
+111	Crimbot Crimboutfit	toy Crimbot mega face, toy Crimbot power glove, toy Crimbot super fist, toy Crimbot rocket legs
