@@ -274,6 +274,7 @@ The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
 tin tam	100	none
+toy Crimbot mega face	50	none
 toy space helmet	175	Mox: 72
 Tropical Crimbo Hat	100	Mox: 35
 turtle wax helmet	40	Mox: 5
@@ -504,6 +505,7 @@ The Sagittarian's leisure pants	75	none
 thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
+toy Crimbot rocket legs	50	none
 transparent pants	225	Mox: 200
 Travoltan trousers	100	none
 tree skirt	100	Mox: 35
@@ -1285,6 +1287,7 @@ titanium assault umbrella	130	Mus: 50	1-handed umbrella
 tommy gun	160	Mox: 65	2-handed rifle
 Totally Gay Claymore	70	Mus: 19	2-handed sword
 toy accordion	10	Mox: 0	2-handed accordion
+toy Crimbot power glove	50	Mus: 0	1-handed
 toy ray gun	175	Mox: 72	1-handed pistol
 toy taijijian	10	Mus: 0	1-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
@@ -1707,6 +1710,7 @@ Time Lord Participation Mug	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
 tortoboggan shield	100	Mus: 35	shield
+toy Crimbot super fist	0	none
 trench lighter	0	Mus: 200
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45

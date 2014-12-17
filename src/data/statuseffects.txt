@@ -1786,3 +1786,4 @@
 1784	Fitter, Bitter	fitbit.gif	5cd04192b4b5bc76b1c5712a5ff1aaa6	use 1 fitness wristband
 1785	Watch Out!	smartwatch.gif	60670dea7d5048f40e1bd8a559d2c5e1	use 1 smart watch
 1786	Glasshole	googleglass.gif	865ac04c090e7c8b890b39c0bd53b558	use 1 augmented-reality shades
+1787	Batteries Included	crimbattery.gif	d3d098dbf31cd15cafa87fb43bdf0197	use 1 Crimbot battery

@@ -8018,11 +8018,11 @@
 7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
 8000	smart watch	887647767	smartwatch.gif	usable	t	0
 8001	augmented-reality shades	201387692	googleglass.gif	usable	t	0
-8002
-8003
-8004
-8005
-8006
+8002	toy Crimbot mega face	769336750	crimbothead.gif	hat	t	0
+8003	toy Crimbot power glove	778543026	crimbotrarm.gif	weapon	t	0
+8004	toy Crimbot super fist	303500633	crimbotlarm.gif	offhand	t	0
+8005	toy Crimbot rocket legs	714381491	crimbotlegs.gif	pants	t	0
+8006	Crimbot battery	740930772	crimbattery.gif	usable	t	0
 8007
 8008
 8009
