@@ -626,6 +626,18 @@ public class EquipmentManager
 		case ItemPool.CUDDLY_TEDDY_BEAR:
 			KoLCharacter.addAvailableSkill( "Overload Teddy Bear" );
 			break;
+		case ItemPool.TOY_CRIMBOT_FACE:
+			KoLCharacter.addAvailableSkill( "LIGHT" );
+			break;
+		case ItemPool.TOY_CRIMBOT_GLOVE:
+			KoLCharacter.addAvailableSkill( "ZAP" );
+			break;
+		case ItemPool.TOY_CRIMBOT_FIST:
+			KoLCharacter.addAvailableSkill( "POW" );
+			break;
+		case ItemPool.TOY_CRIMBOT_LEGS:
+			KoLCharacter.addAvailableSkill( "BURN" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

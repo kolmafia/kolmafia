@@ -2204,6 +2204,10 @@ public class ItemPool
 	public static final int POCKET_ACE = 7942;
 	public static final int MININ_DYNAMITE = 7950;
 	public static final int BIG_BAG_OF_MONEY = 7955;
+	public static final int TOY_CRIMBOT_FACE = 8002;
+	public static final int TOY_CRIMBOT_GLOVE = 8003;
+	public static final int TOY_CRIMBOT_FIST = 8004;
+	public static final int TOY_CRIMBOT_LEGS = 8005;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -641,6 +641,30 @@
 7210	Overload Teddy Bear	teddybear.gif	5	0	0
 7211	Thousand-Yard Stare	blackeyes.gif	5	0	0
 7212	Activate Butt	asshat.gif	5	0	0
+7213
+7214
+7215
+7216
+7217
+7218
+7219
+7220
+7221
+7222
+7223
+7224
+7225
+7226
+7227
+7228
+7229
+7230
+7231
+7232
+7233	LIGHT	headlight.gif	5	0	0
+7234	ZAP	jigawatts.gif	5	0	0
+7235	POW	explosion.gif	5	0	0
+7236	BURN	fireball.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
