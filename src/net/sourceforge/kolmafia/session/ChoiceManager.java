@@ -11389,6 +11389,7 @@ public abstract class ChoiceManager
 		case 984: // A Radio on a Beach
 		case 986: // Control Panel
 		case 987: // The Post-Apocalyptic Survivor Encampment
+		case 991: // Build a Crimbot!
 		case 994: // Hide a Gift!
 			return true;
 
