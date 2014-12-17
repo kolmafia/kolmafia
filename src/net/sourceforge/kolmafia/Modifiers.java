@@ -221,6 +221,7 @@ public class Modifiers
 	public static final int GEARDROP = 111;
 	public static final int MAXIMUM_HOOCH = 112;
 	public static final int WATER_LEVEL = 113;
+	public static final int CRIMBOT_POWER = 114;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -736,6 +737,10 @@ public class Modifiers
 		{ "Water Level",
 		  null,
 		  Pattern.compile( "Water Level: " + EXPR )
+		},
+		{ "Crimbot Power",
+		  Pattern.compile( "([+-]\\d+) Crimbot Power" ),
+		  Pattern.compile( "Crimbot Power: " + EXPR )
 		},
 	};
 

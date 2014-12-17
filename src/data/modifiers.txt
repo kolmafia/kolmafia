@@ -360,6 +360,8 @@ The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Famil
 Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Familiar Effect: "MP regen, cap 25"
+# toy Crimbot mega face: Allows use of LIGHT in combat
+toy Crimbot mega face	Item Drop: +10, Crimbot Power: +1
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
@@ -615,6 +617,8 @@ The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, ca
 thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
+# toy Crimbot rocket legs: Allows use of BURN in combat
+toy Crimbot rocket legs	Initiative: +30, Crimbot Power: +1
 transparent pants	Sleaze Damage: +60, Sleaze Spell Damage: +60, Familiar Effect: "sleaze atk, 1xPotato"
 # Travoltan trousers: 5-Finger Discount
 # Travoltan trousers: Moxie used to determine Maximum MP
@@ -1493,6 +1497,8 @@ titanium assault umbrella	Spooky Resistance: +1, Stench Resistance: +1, Hot Resi
 tommy gun	Weapon Damage: +5
 # Totally Gay Claymore
 toy accordion	Song Duration: 5
+# toy Crimbot power glove: Allows use of ZAP in combat
+toy Crimbot power glove	Weapon Damage: +15, Crimbot Power: +1
 toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # toy taijijian
 Tropical Crimbo Sword	Weapon Damage: +5
@@ -2001,6 +2007,8 @@ Time Lord Participation Mug	Maximum Hooch: +3
 tiny black hole	Pickpocket Chance: +25, Initiative: -200
 tip jar	Meat Drop: +5
 tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
+# toy Crimbot super fist: Allows use of POW in combat
+toy Crimbot super fist	Damage Reduction: 10, Crimbot Power: +1
 trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby has day-dependent effects which are hard-coded
@@ -3793,6 +3801,7 @@ Bat Attitude	Spell Damage Percent: +100
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
 Batted Around	Avatar: "perpendicular bat"
+Batteries Included	Crimbot Power: +4
 # Bearserker Bearrage: +20 WarBear Armor Penetration
 Beastly Flavor	Familiar Weight: +3
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -6473,6 +6482,7 @@ Crimbo P. R. E. S. S. I. E.	Free Pull
 Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Crimbo sapling	Free Pull
+Crimbot battery	Effect: "Batteries Included", Effect Duration: 50
 crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
