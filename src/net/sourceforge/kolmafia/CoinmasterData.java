@@ -211,6 +211,32 @@ public class CoinmasterData
 		return this.storageAction != null ? this.item.getCount( KoLConstants.storage ) : 0;
 	}
 
+	public final int availableTokens( final AdventureResult currency )
+	{
+		int itemId = currency.getItemId();
+
+		if ( itemId != -1 )
+		{
+			return  itemId == ItemPool.WORTHLESS_ITEM ?
+				HermitRequest.getWorthlessItemCount() :
+				currency.getCount( KoLConstants.inventory );
+		}
+
+		if ( this.property != null )
+		{
+			return Preferences.getInteger( this.property );
+		}
+	
+		return 0;
+	}
+
+	public final int availableStorageTokens( final AdventureResult currency )
+	{
+		return  this.storageAction != null && currency.getItemId() != -1 ?
+			currency.getCount( KoLConstants.storage ) :
+			0;
+	}
+
 	public final int affordableTokens()
 	{
 		// Special handling for acquiring worthless items
