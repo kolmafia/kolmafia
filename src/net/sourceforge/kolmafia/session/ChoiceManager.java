@@ -7717,6 +7717,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 991:
+			// Build a Crimbot!
+			if ( lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.CRIMBONIUM_FUEL_ROD );
+			}
+			break;
+
 		case 994:
 			// Hide a gift!
 			if ( text.contains( "You hide" ) )
