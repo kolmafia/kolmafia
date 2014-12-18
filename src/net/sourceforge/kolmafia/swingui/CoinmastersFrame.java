@@ -522,8 +522,8 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		private JButton pull = new InvocationButton( "pull Mr. A", this, "pull" );
-		private JButton AToB = new InvocationButton( "Mr. A -> Uncle Bs", this, "AToB" );
-		private JButton BToA = new InvocationButton( "Uncle Bs -> Mr. A", this, "BToA" );
+		private JButton AToB = new InvocationButton( "1 A -> 10 B", this, "AToB" );
+		private JButton BToA = new InvocationButton( "10 B -> 1 A", this, "BToA" );
 		private int storageCount = 0;
 		private int ACount = 0;
 		private int BCount = 0;
@@ -1724,8 +1724,8 @@ public class CoinmastersFrame
 
 			if ( show && this.buying)
 			{
-				int balance1 = this.data.availableTokens();
-				int balance2 = this.data.availableStorageTokens();
+				int balance1 = this.data.availableTokens( cost );
+				int balance2 = this.data.availableStorageTokens( cost );
 				if ( price > balance1 && price > balance2 )
 				{
 					show = false;

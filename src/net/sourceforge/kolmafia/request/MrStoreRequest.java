@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,6 +98,10 @@ public class MrStoreRequest
 			true
 			);
 
+	// Since there are two different currencies, we need to have a map from
+	// item name to item/count of currency; an AdventureResult.
+	private static final Map<String, AdventureResult> buyCosts = new TreeMap<String, AdventureResult>();
+
 	public MrStoreRequest()
 	{
 		super( MrStoreRequest.MR_STORE );
@@ -139,7 +144,7 @@ public class MrStoreRequest
 	}
 
 	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "onClick='javascript:descitem\\((\\d+)\\)' class=nounder>(.*?)</a></b>.*?<font size=\\+1>(\\d)</font></b></td><form name=buy(\\d+)" );
+		Pattern.compile( "onClick='javascript:descitem\\((\\d+)\\)' class=nounder>(.*?)</a></b>.*?title=\"(.*?)\".*?<font size=\\+1>(\\d)</font></b></td><form name=buy(\\d+)" );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "mrstore.php" ) )
@@ -153,16 +158,19 @@ public class MrStoreRequest
 		CoinmasterData data = MrStoreRequest.MR_STORE;
 		LockableListModel<AdventureResult> items = MrStoreRequest.buyItems;
 		Map prices = MrStoreRequest.buyPrices;
+		Map costs = MrStoreRequest.buyCosts;
 		items.clear();
 		prices.clear();
+		costs.clear();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			String descId = matcher.group(1);
 			String itemName = matcher.group(2);
-			int price = StringUtilities.parseInt( matcher.group(3) );
-			int itemId = StringUtilities.parseInt( matcher.group(4) );
+			String currency = matcher.group(3);
+			int price = StringUtilities.parseInt( matcher.group(4) );
+			int itemId = StringUtilities.parseInt( matcher.group(5) );
 
 			String match = ItemDatabase.getItemDataName( itemId );
 			if ( match == null || !match.equals( itemName ) )
@@ -173,9 +181,11 @@ public class MrStoreRequest
 			// Add it to the Mr. Store inventory
 			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 			String name = StringUtilities.getCanonicalName( itemName );
-			Integer iprice = IntegerPool.get( price );
 			items.add( item );
+			Integer iprice = IntegerPool.get( price );
 			prices.put( name, iprice );
+			AdventureResult cost = new AdventureResult( currency, price, false );
+			costs.put( name, cost );
 		}
 
 		// Register the purchase requests, now that we know what is available
@@ -290,8 +300,8 @@ public class MrStoreRequest
 		@Override
 		public AdventureResult itemBuyPrice( final String itemName )
 		{
-			return super.itemBuyPrice( itemName );
+			String name = StringUtilities.getCanonicalName( itemName );
+			return MrStoreRequest.buyCosts.get( name );
 		}
 	}
-
 }
