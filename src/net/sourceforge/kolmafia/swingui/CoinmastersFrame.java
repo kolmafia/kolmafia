@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
+import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
@@ -179,6 +180,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel crimboCartelPanel = null;
 	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
+	private CoinmasterPanel crimbo14Panel = null;
 
 	public CoinmastersFrame()
 	{
@@ -337,6 +339,11 @@ public class CoinmastersFrame
 		this.selectorPanel.addCategory( "Special Events" );
 
 		panel = new JPanel( new BorderLayout() );
+		crimbo14Panel = new Crimbo14Panel();
+		panel.add( crimbo14Panel );
+		this.selectorPanel.addPanel( crimbo14Panel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
 		awolPanel = new CommendationPanel();
 		panel.add( awolPanel );
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
@@ -471,6 +478,7 @@ public class CoinmastersFrame
 		armoryPanel.update();
 		awolPanel.update();
 		crimbo11Panel.update();
+		crimbo14Panel.update();
 		fudgeWandPanel.update();
 		neandermallPanel.update();
 		shoeRepairPanel.update();
@@ -835,6 +843,22 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class Crimbo14Panel
+		extends CoinmasterPanel
+	{
+		public Crimbo14Panel()
+		{
+			super();
+
+			this.data = Crimbo14Request.CRIMBO14;
+
+			this.sellPanel = new SellPanel();
+			this.add( this.sellPanel, BorderLayout.NORTH );
+			this.buyPanel = new BuyPanel();
+			this.add( this.buyPanel, BorderLayout.CENTER );
+		}
+	}
+
 	public class TicketCounterPanel
 		extends CoinmasterPanel
 	{
@@ -1116,7 +1140,7 @@ public class CoinmastersFrame
 		{
 			return max;
 		}
-			}
+	}
 
 	public abstract class CoinmasterPanel
 		extends JPanel
@@ -1644,8 +1668,8 @@ public class CoinmastersFrame
 	private static class CoinmasterRenderer
 		extends DefaultListCellRenderer
 	{
-		private CoinmasterData data;
-		private boolean buying;
+		private final CoinmasterData data;
+		private final boolean buying;
 
 		public CoinmasterRenderer( CoinmasterData data, final boolean buying )
 		{

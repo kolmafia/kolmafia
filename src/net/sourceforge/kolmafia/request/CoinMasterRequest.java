@@ -39,8 +39,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -277,13 +275,13 @@ public class CoinMasterRequest
 
 						super.run();
 
-						if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
+						if ( this.responseText.contains( "You don't have enough" ) )
 						{
 							KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
 							break;
 						}
 
-						if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
+						if ( this.responseText.contains( "You don't have that many of that item" ) )
 						{
 							KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
 							break;
@@ -330,16 +328,19 @@ public class CoinMasterRequest
 			CoinMasterRequest.parseBalance( data, responseText );
 			return;
 		}
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
 
 		String buy = data.getBuyAction();
 		String sell = data.getSellAction();
-		if ( buy != null && action.equals( buy ) &&
-		     responseText.indexOf( "You don't have enough" ) == -1 )
+		String buyURL = data.getBuyURL();
+		String sellURL = data.getSellURL();
+		if ( buy != null && action.equals( buy ) && ( buyURL == null || buyURL.endsWith( shopId ) ) &&
+		     !responseText.contains( "You don't have enough" ) )
 		{
 			CoinMasterRequest.completePurchase( data, urlString );
 		}
-		else if ( sell != null && action.equals( sell ) &&
-			  responseText.indexOf( "You don't have that many" ) == -1 )
+		else if ( sell != null && action.equals( sell ) && ( sellURL == null || sellURL.endsWith( shopId ) ) &&
+			  !responseText.contains( "You don't have that many" ) )
 		{
 			CoinMasterRequest.completeSale( data, urlString );
 		}
@@ -376,7 +377,7 @@ public class CoinMasterRequest
 		if ( tokenTest != null )
 		{
 			boolean positive = data.getPositiveTest();
-			boolean found = responseText.indexOf( tokenTest ) != -1;
+			boolean found = responseText.contains( tokenTest );
 			// If there is a positive check for tokens and we found it
 			// or a negative check for tokens and we didn't find it,
 			// we can parse the token count on this page
@@ -420,7 +421,7 @@ public class CoinMasterRequest
 		{
 			// Check and adjust inventory count, just in case
 			int count = StringUtilities.parseInt( balance );
-			AdventureResult current = item.getInstance( count );
+			//AdventureResult current = item.getInstance( count );
 			int icount = item.getCount( KoLConstants.inventory );
 			if ( count != icount )
 			{
@@ -432,7 +433,7 @@ public class CoinMasterRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
-	public static final int extractItemId( final CoinmasterData data, final String urlString )
+	public static final int extractItemId( final CoinmasterData data, final String urlString )//
 	{
 		Matcher itemMatcher = data.getItemMatcher( urlString );
 		if ( !itemMatcher.find() )
@@ -588,26 +589,13 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher itemMatcher = data.getItemMatcher( urlString );
-		if ( itemMatcher == null )
+		int itemId = CoinMasterRequest.extractItemId( data, urlString );
+		if ( itemId == -1 )
 		{
 			return;
 		}
 
-		Matcher countMatcher = data.getCountMatcher( urlString );
-
-		if ( countMatcher == null )
-		{
-			return;
-		}
-
-		if ( !itemMatcher.find() || !countMatcher.find() )
-		{
-			return;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+		int count = CoinMasterRequest.extractCount( data, urlString );
 
 		CoinMasterRequest.sellStuff( data, itemId, count );
 	}
@@ -631,25 +619,12 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher itemMatcher = data.getItemMatcher( urlString );
-		if ( itemMatcher == null )
+		int itemId = CoinMasterRequest.extractItemId( data, urlString );
+		if ( itemId == -1 )
 		{
 			return;
 		}
-
-		Matcher countMatcher = data.getCountMatcher( urlString );
-		if ( countMatcher == null )
-		{
-			return;
-		}
-
-		if ( !itemMatcher.find() || !countMatcher.find() )
-		{
-			return;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int count = StringUtilities.parseInt( countMatcher.group( 1 ) );
+		int count = CoinMasterRequest.extractCount( data, urlString );
 
 		CoinMasterRequest.completeSale( data, itemId, count );
 	}
@@ -669,12 +644,7 @@ public class CoinMasterRequest
 		}
 
 		AdventureResult tokenItem = data.getItem();
-		if ( tokenItem != null )
-		{
-			AdventureResult current = tokenItem.getInstance( cost );
-			ResultProcessor.processResult( current );
-		}
-		else
+		if ( tokenItem == null )
 		{
 			// Real items get a "You acquire" message logged.
 			// Do so here for pseudo-items.
@@ -703,15 +673,21 @@ public class CoinMasterRequest
 			return true;
 		}
 
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
+
 		String buyAction = data.getBuyAction();
-		if ( buyAction != null && action.equals( buyAction ) )
+		String buyURL = data.getBuyURL();
+		if ( buyAction != null && action.equals( buyAction ) && 
+		     ( buyURL == null || shopId == null || buyURL.endsWith( shopId ) ) )
 		{
 			CoinMasterRequest.buyStuff( data, urlString );
 			return true;
 		}
 
 		String sellAction = data.getSellAction();
-		if ( sellAction != null && action.equals( sellAction ) )
+		String sellURL = data.getSellURL();
+		if ( sellAction != null && action.equals( sellAction ) && 
+		     ( sellURL == null || shopId == null || sellURL.endsWith( shopId ) ) )
 		{
 			CoinMasterRequest.sellStuff( data, urlString );
 			return true;

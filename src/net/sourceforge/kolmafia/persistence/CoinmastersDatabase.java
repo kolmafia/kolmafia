@@ -201,6 +201,29 @@ public class CoinmastersDatabase
 			// you have to trade in multiple of the item at once
 			int count = 1;
 
+			Integer row = null;
+			if ( data.length > 4 )
+			{
+				String[] extra = data[ 4 ].split( "\\s,\\s" );
+				for ( String extra1 : extra )
+				{
+					if ( extra1.startsWith( "ROW" ) )
+					{
+						row = IntegerPool.get( StringUtilities.parseInt( data[ 4 ].substring( 3 ) ) );
+						Map<String, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
+						rowMap.put( name, row );
+					}
+					else
+					{
+						int sellQty = StringUtilities.parseInt( extra1 );
+						if ( sellQty > 0 )
+						{
+							count = sellQty;
+						}
+					}
+				}
+			}
+
 			if ( type.equals( "buy" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
@@ -220,16 +243,6 @@ public class CoinmastersDatabase
 				map.put( name, iprice );
 			}
 			
-			Integer row = null;
-			if ( data.length > 4 )
-			{
-				if ( data[ 4 ].startsWith( "ROW" ) )
-				{
-					row = IntegerPool.get( StringUtilities.parseInt( data[ 4 ].substring( 3 ) ) );
-					Map<String, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
-					rowMap.put( name, row );
-				}
-			}
 		}
 
 		try

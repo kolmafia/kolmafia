@@ -698,7 +698,14 @@ public class NPCPurchaseRequest
 			AppleStoreRequest.parseResponse( urlString, responseText );
 			return;
 		}
+
+		if ( shopId.startsWith( "crimbo14" ) )
+		{
+			Crimbo14Request.parseResponse( urlString, responseText );
+			return;
 		}
+
+	}
 
 	public static final boolean registerShopRowRequest( final String urlString )
 	{
@@ -923,6 +930,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "arcade" ) )
 			{
 				return TicketCounterRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.startsWith( "crimbo14" ) )
+			{
+				return Crimbo14Request.registerRequest( urlString );
 			}
 
 			return false;
