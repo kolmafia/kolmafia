@@ -668,7 +668,7 @@ The Armory	buy	300	Merc Core Field Manual: Intimidation Techniques	ROW352
 The Armory	buy	1000	Merc Core challenge coin	ROW353
 
 # Crimbo 2014
-Crimbo 2014	sell	1	peppermint tailings	ROW397, 10
+Crimbo 2014	sell	1	peppermint tailings (10)	ROW397
 Crimbo 2014	sell	1	recovered elf toothbrush	ROW390
 Crimbo 2014	sell	1	recovered elf magazine	ROW389
 Crimbo 2014	sell	2	recovered elf sleeping pills	ROW391
