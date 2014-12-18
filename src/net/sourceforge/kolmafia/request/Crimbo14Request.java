@@ -35,25 +35,16 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Crimbo14Request
 	extends CoinMasterRequest
@@ -63,7 +54,7 @@ public class Crimbo14Request
 	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo14Request.master );
 	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( Crimbo14Request.master );
 	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo14Request.master );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(no|[\\d,]) Crimbo Credit", Pattern.DOTALL );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(no|[\\d,]) Crimbo Credit", Pattern.DOTALL );
 	public static final AdventureResult CRIMBO_CREDIT = ItemPool.get( ItemPool.CRIMBO_CREDIT, 1 );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo14Request.master );
 	public static final CoinmasterData CRIMBO14 =
@@ -113,5 +104,43 @@ public class Crimbo14Request
 	public Crimbo14Request( final boolean buying, final int itemId, final int quantity )
 	{
 		super( Crimbo14Request.CRIMBO14, buying, itemId, quantity );
+	}
+
+	@Override
+	public void processResults()
+	{
+		Crimbo14Request.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=crimbo14" ) )
+		{
+			return;
+		}
+
+		CoinmasterData data = Crimbo14Request.CRIMBO14;
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action != null )
+		{
+			CoinMasterRequest.parseResponse( data, urlString, responseText );
+		}
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=crimbo14" ) )
+		{
+			return false;
+		}
+
+		CoinmasterData data = Crimbo14Request.CRIMBO14;
+		return CoinMasterRequest.registerRequest( data, urlString );
+	}
+
+	public static String accessible()
+	{
+		return null;
 	}
 }
