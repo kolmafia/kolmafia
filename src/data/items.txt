@@ -7885,9 +7885,9 @@
 7866	Crimbot schematic: Big Head	810270984	crimschem.gif	usable	t,d	50	Crimbot schematics: Big Head
 7867	Crimbot schematic: Security Chassis	922438302	crimschem.gif	usable	t,d	50	Crimbot schematics: Security Chassis
 7868	Crimbot schematic: Military Chassis	411699647	crimschem.gif	usable	t,d	50	Crimbot schematics: Military Chassis
-7869
-7870
-7871
+7869	Crimbot schematic: Crab Core	537764022	crimschem.gif	usable	t,d	50
+7870	Crimbot schematic: Dynamo Head	874334072	crimschem.gif	usable	t,d	50
+7871	Crimbot schematic: Cyclopean Torso	587970399	crimschem.gif	usable	t,d	50
 7872
 7873
 7874
@@ -7895,29 +7895,29 @@
 7876	Crimbot schematic: Rodent Gun	825574220	crimschem.gif	usable	t,d	50	Crimbot schematics: Rodent Gun
 7877	Crimbot schematic: Rivet Shocker	446015789	crimschem.gif	usable	t,d	50	Crimbot schematics: Rivet Shocker
 7878	Crimbot schematic: Mega Vise	226264861	crimschem.gif	usable	t,d	50	Crimbot schematics: Mega Vise
-7879
-7880
+7879	Crimbot schematic: Mobile Girder	922678824	crimschem.gif	usable	t,d	50
+7880	Crimbot schematic: Swiss Arm	761107843	crimschem.gif	usable	t,d	50
 7881
 7882
 7883
 7884
 7885	Crimbot schematic: Power Arm	247822516	crimschem.gif	usable	t,d	50	Crimbot schematics: Power Arm
 7886	Crimbot schematic: Wrecking Ball	580452722	crimschem.gif	usable	t,d	50	Crimbot schematics: Wrecking Ball
-7887
-7888
-7889
-7890
-7891
+7887	Crimbot schematic: Ribbon Manipulator	165994118	crimschem.gif	usable		0
+7888	Crimbot schematic: Power Stapler	891912179	crimschem.gif	usable	t,d	50
+7889	Crimbot schematic: Grease Gun	782011981	crimschem.gif	usable	t,d	50
+7890	Crimbot schematic: Grease / Regular Gun	619700664	crimschem.gif	usable	t,d	50
+7891	Crimbot schematic: Snow Blower	314357686	crimschem.gif	usable	t,d	50
 7892
 7893
 7894
 7895	Crimbot schematic: Heavy-Duty Legs	741014842	crimschem.gif	usable	t,d	50	Crimbot schematics: Heavy-Duty Legs
 7896	Crimbot schematic: Tripod Legs	352200229	crimschem.gif	usable	t,d	50	Crimbot schematics: Tripod Legs
 7897	Crimbot schematic: Rollerfeet	445249956	crimschem.gif	usable	t,d	50	Crimbot schematic: Rollerfeet
-7898
-7899
-7900
-7901
+7898	Crimbot schematic: Sim-Simian Feet	119815634	crimschem.gif	usable	t,d	50
+7899	Crimbot schematic: High-Speed Fan	704654150	crimschem.gif	usable	t,d	50
+7900	Crimbot schematic: Big Wheel	129149647	crimschem.gif	usable	t,d	50
+7901	Crimbot schematic: Hoverjack	987045375	crimschem.gif	usable	t,d	50
 7902
 7903
 7904
