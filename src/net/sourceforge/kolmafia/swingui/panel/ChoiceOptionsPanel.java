@@ -419,7 +419,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
-		this.addChoiceSelect( "Mountain", "Orc Chasm", this.addingSelect );
+		this.addChoiceSelect( "Mountain", "The Valley of Rof L'm Fao", this.addingSelect );
 		this.addChoiceSelect( "Events", "Sorority House Attic", this.darkAtticSelect );
 		this.addChoiceSelect( "Events", "Sorority House Unliving Room", this.unlivingRoomSelect );
 		this.addChoiceSelect( "Events", "Sorority House Debasement", this.debasementSelect );
