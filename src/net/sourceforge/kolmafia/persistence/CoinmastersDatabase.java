@@ -194,12 +194,8 @@ public class CoinmastersDatabase
 			String type = data[ 1 ];
 			int price = StringUtilities.parseInt( data[ 2 ] );
 			Integer iprice = IntegerPool.get( price );
-			String rname = data[ 3 ];
-			String name = StringUtilities.getCanonicalName( rname );
-
-			// *** Presumably we could parse a quantity here, if
-			// you have to trade in multiple of the item at once
-			int count = 1;
+			AdventureResult item = AdventureResult.parseItem( data[ 3 ], true );
+			String name = StringUtilities.getCanonicalName( item.getName() );
 
 			Integer row = null;
 			if ( data.length > 4 )
@@ -213,22 +209,13 @@ public class CoinmastersDatabase
 						Map<String, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
 						rowMap.put( name, row );
 					}
-					else
-					{
-						int sellQty = StringUtilities.parseInt( extra1 );
-						if ( sellQty > 0 )
-						{
-							count = sellQty;
-						}
-					}
 				}
 			}
 
 			if ( type.equals( "buy" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
-				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
-				list.add( item );
+				list.add( item.getInstance( PurchaseRequest.MAX_QUANTITY ) );
 
 				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
 				map.put( name, iprice );
@@ -236,7 +223,6 @@ public class CoinmastersDatabase
 			else if ( type.equals( "sell" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.sellItems );
-				AdventureResult item = new AdventureResult( name, count, false );
 				list.add( item );
 
 				Map<String, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
