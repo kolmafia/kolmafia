@@ -6296,7 +6296,7 @@ astral badger	Free Pull
 astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
-augmented-reality shades Effect: "Glasshole", Effect Duration: 50
+augmented-reality shades	Effect: "Glasshole", Effect Duration: 50
 avatar of the Unconscious Collective	Free Pull
 bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 bad penguin egg	Free Pull
