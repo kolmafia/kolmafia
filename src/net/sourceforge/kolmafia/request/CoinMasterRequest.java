@@ -334,12 +334,14 @@ public class CoinMasterRequest
 		String sell = data.getSellAction();
 		String buyURL = data.getBuyURL();
 		String sellURL = data.getSellURL();
-		if ( buy != null && action.equals( buy ) && ( buyURL == null || buyURL.endsWith( shopId ) ) &&
+		if ( buy != null && action.equals( buy ) &&
+		     ( buyURL == null || shopId == null || buyURL.endsWith( shopId ) ) &&
 		     !responseText.contains( "You don't have enough" ) )
 		{
 			CoinMasterRequest.completePurchase( data, urlString );
 		}
-		else if ( sell != null && action.equals( sell ) && ( sellURL == null || sellURL.endsWith( shopId ) ) &&
+		else if ( sell != null && action.equals( sell ) &&
+			  ( sellURL == null || shopId == null || sellURL.endsWith( shopId ) ) &&
 			  !responseText.contains( "You don't have that many" ) )
 		{
 			CoinMasterRequest.completeSale( data, urlString );
