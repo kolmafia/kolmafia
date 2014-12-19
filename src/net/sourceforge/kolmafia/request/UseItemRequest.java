@@ -2938,6 +2938,12 @@ public class UseItemRequest
 		case ItemPool.HYPERSANE_BOOK:
 		case ItemPool.INTIMIDATING_MIEN_BOOK:
 		case ItemPool.HOLIDAY_FUN_BOOK:
+		case ItemPool.ROM_RAPID_PROTOTYPING:
+		case ItemPool.ROM_RAPID_PROTOTYPING_DIRTY:
+		case ItemPool.ROM_MATHMATICAL_PRECISION:
+		case ItemPool.ROM_MATHMATICAL_PRECISION_DIRTY:
+		case ItemPool.ROM_RUTHLESS_EFFICIENCY:
+		case ItemPool.ROM_RUTHLESS_EFFICIENCY_DIRTY:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5164,6 +5170,15 @@ public class UseItemRequest
 			return "Hypersane";
 		case ItemPool.INTIMIDATING_MIEN_BOOK:
 			return "Intimidating Mien";
+		case ItemPool.ROM_RAPID_PROTOTYPING:
+		case ItemPool.ROM_RAPID_PROTOTYPING_DIRTY:
+			return "Rapid Prototyping";
+		case ItemPool.ROM_MATHMATICAL_PRECISION:
+		case ItemPool.ROM_MATHMATICAL_PRECISION_DIRTY:
+			return "Mathematical Precision";
+		case ItemPool.ROM_RUTHLESS_EFFICIENCY:
+		case ItemPool.ROM_RUTHLESS_EFFICIENCY_DIRTY:
+			return "Ruthless Efficiency";
 		}
 
 		return null;

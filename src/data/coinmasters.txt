@@ -686,3 +686,6 @@ Crimbo 2014	buy	75	toy Crimbot power glove	ROW402
 Crimbo 2014	buy	75	toy Crimbot super fist	ROW403
 Crimbo 2014	buy	75	toy Crimbot rocket legs	ROW404
 Crimbo 2014	buy	5	Crimbot battery	ROW405
+Crimbo 2014	buy	300	Crimbot ROM: Rapid Prototyping	ROW406
+Crimbo 2014	buy	300	Crimbot ROM: Mathematical Precision	ROW407
+Crimbo 2014	buy	300	Crimbot ROM: Ruthless Efficiency	ROW408

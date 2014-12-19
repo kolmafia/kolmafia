@@ -792,14 +792,34 @@ public class CreateItemRequest
 			}
 			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) && created > turnsSaved )
 			{
+				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created - turnsSaved );
 				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
+				turnsSaved += thorsPliersTurnsSaved;
+			}
+			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
+			{
+				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
 			}
 		}
 		else if ( mode.equals( "jewelry" ) )
 		{
+			int turnsSaved = 0;
 			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) )
 			{
+				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created );
 				Preferences.increment( "_thorsPliersCrafting", 3 * created, 10, false );
+				turnsSaved += thorsPliersTurnsSaved;
+			}
+			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
+			{
+				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
+			}
+		}
+		else
+		{
+			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
+			{
+				Preferences.increment( "_rapidPrototypingUsed", created, 5, false );
 			}
 		}
 

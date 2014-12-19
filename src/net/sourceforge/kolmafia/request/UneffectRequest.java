@@ -325,6 +325,14 @@ public class UneffectRequest
 			"Rain Dancin'",
 			"Rain Dance",
 		},
+		{
+			"Mathematically Precise",
+			"Mathematical Precision",
+		},
+		{
+			"Ruthlessly Efficient",
+			"Ruthless Efficiency",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
