@@ -2175,7 +2175,8 @@ public class ConcoctionDatabase
 
 	public static int getFreeCraftingTurns()
 	{
-		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5;
+		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 +
+			( KoLCharacter.hasSkill( "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 );
 	}
 
 	public static int getFreeSmithJewelTurns()

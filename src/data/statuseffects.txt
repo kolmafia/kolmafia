@@ -1787,3 +1787,5 @@
 1785	Watch Out!	smartwatch.gif	60670dea7d5048f40e1bd8a559d2c5e1	use 1 smart watch
 1786	Glasshole	googleglass.gif	865ac04c090e7c8b890b39c0bd53b558	use 1 augmented-reality shades
 1787	Batteries Included	crimbattery.gif	d3d098dbf31cd15cafa87fb43bdf0197	use 1 Crimbot battery
+1788	Mathematically Precise	precision.gif	dac9eca56a9ca9b938de8c785259b704	cast 1 Mathematical Precision
+1789	Ruthlessly Efficient	ruthless.gif	9d2da35321e91f4706bccc0cc8524d44	cast 1 Ruthless Efficiency

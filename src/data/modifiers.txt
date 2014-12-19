@@ -4678,6 +4678,7 @@ Marinated	Muscle: +15, Mysticality: +15
 Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 Matador Nemesis	Avatar: "raging bull"
 Material Witness	Meat Drop: +10
+# Mathematically Precise: Combat items deal 50% more damage
 # Mayeaugh: Deals <font color=purple>Sleaze Damage</font> every round.
 # Meat Shielded
 Meat the Flintstones	Maximum HP Percent: +50
@@ -4970,6 +4971,7 @@ Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Ruby-ous	Initiative: +150, Weapon Damage: +10
 Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Rushin' Hands	Weapon Damage: +3
+# Ruthlessly Efficient: Deleveling is 50% more effective
 Sagittarius Rising	Ranged Damage: +30
 Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
@@ -5614,6 +5616,7 @@ Powers of Observatiogn	Item Drop: +10
 Precision of the Penguin	Critical Hit Percent: [Y]
 # Pulverize
 Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
+# Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting
 Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
 Riding the Lightning	Maximum MP Percent: +100

@@ -2208,6 +2208,12 @@ public class ItemPool
 	public static final int TOY_CRIMBOT_GLOVE = 8003;
 	public static final int TOY_CRIMBOT_FIST = 8004;
 	public static final int TOY_CRIMBOT_LEGS = 8005;
+	public static final int ROM_RAPID_PROTOTYPING = 8007;
+	public static final int ROM_MATHMATICAL_PRECISION = 8008;
+	public static final int ROM_RUTHLESS_EFFICIENCY = 8009;
+	public static final int ROM_RAPID_PROTOTYPING_DIRTY = 8013;
+	public static final int ROM_MATHMATICAL_PRECISION_DIRTY = 8014;
+	public static final int ROM_RUTHLESS_EFFICIENCY_DIRTY = 8015;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
