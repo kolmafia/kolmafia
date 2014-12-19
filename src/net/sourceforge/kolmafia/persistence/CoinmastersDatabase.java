@@ -326,10 +326,13 @@ public class CoinmastersDatabase
 		}
 	}
 
-	public static final void registerPurchaseRequest( CoinmasterData data, int itemId, int price, int quantity )
+	public static final void registerPurchaseRequest( final CoinmasterData data, final AdventureResult item, final AdventureResult price )
 	{
+		int itemId = item.getItemId();
+		int quantity = item.getCount();
+
 		// Register a purchase request
-		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price, quantity );
+		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, item, price );
 		CoinmastersDatabase.COINMASTER_ITEMS.put( IntegerPool.get( itemId ), request );
 
 		// Register this in the Concoction for the item
@@ -350,7 +353,7 @@ public class CoinmastersDatabase
 		if ( concoction.getMixingMethod() == CraftingType.NOCREATE )
 		{
 			concoction.setMixingMethod( CraftingType.COINMASTER );
-			concoction.addIngredient( request.getCost() );
+			concoction.addIngredient( price );
 		}
 
 		// If we can create this only via a coin master trade, save request
@@ -379,12 +382,6 @@ public class CoinmastersDatabase
 	public static final boolean contains( final String itemName )
 	{
 		return CoinmastersDatabase.contains( itemName, true );
-	}
-
-	public static final int price( final String itemName )
-	{
-		PurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( itemName );
-		return request == null ? 0 : request.getPrice();
 	}
 
 	public static final boolean contains( final String itemName, boolean validate )

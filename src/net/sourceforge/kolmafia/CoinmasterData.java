@@ -237,14 +237,11 @@ public class CoinmasterData
 			0;
 	}
 
-	public final int affordableTokens()
+	public final int affordableTokens( final AdventureResult currency )
 	{
-		// Special handling for acquiring worthless items
-		if ( this.item != null && this.item.getItemId() == ItemPool.WORTHLESS_ITEM )
-		{
-			return HermitRequest.getAcquirableWorthlessItemCount();
-		}
-		return this.availableTokens();
+		return  currency.getItemId() == ItemPool.WORTHLESS_ITEM ?
+			HermitRequest.getAcquirableWorthlessItemCount() :
+			this.availableTokens( currency );
 	}
 
 	public final String getTokenTest()
@@ -448,11 +445,8 @@ public class CoinmasterData
 		// For each item you can buy from this Coin Master, create a purchase request
 		for ( AdventureResult item : this.buyItems )
 		{
-			int itemId = item.getItemId();
-			String itemName = item.getName();
-			int price = CoinmastersDatabase.getPrice( itemName, this.buyPrices );
-			int quantity = item.getCount();
-			CoinmastersDatabase.registerPurchaseRequest( this, itemId, price, quantity );
+			AdventureResult price = this.itemBuyPrice( item.getName() );
+			CoinmastersDatabase.registerPurchaseRequest( this, item, price );
 		}
 	}
 

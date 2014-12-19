@@ -44,39 +44,32 @@ public class CoinMasterPurchaseRequest
 	extends PurchaseRequest
 {
 	private CoinmasterData data;
-	private CoinMasterRequest request;
-	private String priceString;
 	private AdventureResult cost;
+	private String priceString;
+	private CoinMasterRequest request;
 
 	/**
 	 * Constructs a new <code>CoinMasterPurchaseRequest</code> which retrieves things from Coin Masters.
 	 */
 
-	public CoinMasterPurchaseRequest( final CoinmasterData data, final int itemId, final int price, final int quantity )
+	public CoinMasterPurchaseRequest( final CoinmasterData data, final AdventureResult item, final AdventureResult price )
 	{
 		super( "" );		// We do not run this request itself
 
-		this.data = data;
-
-		this.isMallStore = false;
-		this.item = new AdventureResult( itemId, 1 );
-
 		this.shopName = data.getMaster();
-
-		this.quantity = quantity;
-		this.price = price;
-
-		AdventureResult item = data.getItem();
-		String token = item != null ? item.getName() : data.getToken();
-		String name = ( price != 1 ) ? data.getPluralToken() : token;
-		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + name;
-		this.cost = AdventureResult.tallyItem( token, price, true );
+		this.isMallStore = false;
+		this.item = item.getInstance( 1 );
+		this.price = price.getCount();
+		this.quantity = item.getCount();
 
 		this.limit = this.quantity;
 		this.canPurchase = true;
 
 		this.timestamp = 0L;
 
+		this.data = data;
+		this.cost = price;
+		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + price.getPluralName( this.price );
 		this.request = data.getRequest( true, new AdventureResult[] { this.item } );
 	}
 
@@ -100,20 +93,18 @@ public class CoinMasterPurchaseRequest
 	@Override
 	public String getCurrency( final int count )
 	{
-		String name = ( count != 1 ) ? data.getPluralToken() : data.getToken();
-		return name;
+		return this.cost.getPluralName( this.price );
 	}
 
 	public int getTokenItemId()
 	{
-		AdventureResult item = data.getItem();
-		return item != null ? item.getItemId() : -1;
+		return this.cost.getItemId();
 	}
 
 	@Override
 	public int affordableCount()
 	{
-		int tokens = this.data.affordableTokens();
+		int tokens = this.data.affordableTokens( this.cost );
 		int price = this.price;
 		return tokens / price;
 	}
@@ -156,7 +147,7 @@ public class CoinMasterPurchaseRequest
 		}
 
 		// Make sure we have enough tokens to buy what we want.
-		if ( this.data.availableTokens() < this.limit * this.price )
+		if ( this.data.availableTokens( this.cost ) < this.limit * this.price )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that." );
 			return;
