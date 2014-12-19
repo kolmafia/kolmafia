@@ -83,7 +83,7 @@ public class Crimbo14Request
 			GenericRequest.QUANTITY_PATTERN,
 			null,
 			null,
-			false
+			true
 			);
 
 	public Crimbo14Request()
