@@ -40,6 +40,7 @@ import java.awt.event.ActionListener;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -1310,13 +1311,9 @@ public class CoinmastersFrame
 			}
 
 			CoinmasterData data = this.data;
-			int originalBalance = fromStorage ?
-				data.availableStorageTokens() :
-				data.availableTokens();
-
+			Map<String,Integer> originalBalances = new TreeMap<String,Integer>();
+			Map<String,Integer> balances = new TreeMap<String,Integer>();
 			int neededSize = items.length;
-			int balance = originalBalance;
-			Map buyPrices = data.getBuyPrices();
 
 			for ( int i = 0; i < items.length; ++i )
 			{
@@ -1332,7 +1329,24 @@ public class CoinmastersFrame
 					continue;
 				}
 
-				int price = CoinmastersDatabase.getPrice( itemName, buyPrices );
+				AdventureResult cost = data.itemBuyPrice( itemName );
+				String currency = cost.getName();
+				int price = cost.getCount();
+
+				Integer value = originalBalances.get( currency );
+				if ( value == null )
+				{
+					int newValue = 
+						fromStorage ?
+						data.availableStorageTokens( cost ) :
+						data.availableTokens( cost );
+					value = new Integer( newValue );
+					originalBalances.put( currency, value );
+					balances.put( currency, value );
+				}
+
+				int originalBalance = value.intValue();
+				int balance = balances.get( currency ).intValue();
 
 				if ( price > originalBalance )
 				{
@@ -1348,14 +1362,14 @@ public class CoinmastersFrame
 				if ( max > 1 )
 				{
 					int def = CoinmasterPanel.this.buyDefault( max );
-					String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
-					if ( value == null )
+					String val = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
+					if ( val == null )
 					{
 						// He hit cancel
 						return null;
 					}
 
-					quantity = StringUtilities.parseInt( value );
+					quantity = StringUtilities.parseInt( val );
 				}
 
 				if ( quantity > max )
@@ -1372,6 +1386,7 @@ public class CoinmastersFrame
 
 				items[ i ] = item.getInstance( quantity );
 				balance -= quantity * price;
+				balances.put( currency, new Integer( balance ) );
 			}
 
 			// Shrink the array which will be returned so
