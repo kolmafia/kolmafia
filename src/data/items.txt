@@ -8030,7 +8030,7 @@
 8011
 8012
 8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0
-8014
-8015
+8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0
+8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
