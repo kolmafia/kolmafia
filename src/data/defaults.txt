@@ -9,16 +9,6 @@ global	allowSummonBurning	true
 global	autoLogin
 global	allowSocketTimeout	false
 global	autoHighlightOnFocus	true
-global	autoPlantHardcore	false
-global	autoPlantSoftcore	false
-global	autoSatisfyWithCloset	false
-global	autoSatisfyWithCoinmasters	false
-global	autoSatisfyWithMall	false
-global	autoSatisfyWithNPCs	false
-global	autoSatisfyWithStash	false
-global	autoSatisfyWithStorage	true
-global	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
-global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	broadcastEvents	true
 global	browserBookmarks
 global	cacheMallSearches	false
@@ -27,8 +17,6 @@ global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
-global	checkJackassHardcore	true
-global	checkJackassSoftcore	true
 global	cloverProtectActive	true
 global	coinMasterIndex	1
 global	combatHotkey0
@@ -63,14 +51,8 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
-global	grabCloversHardcore	false
-global	grabCloversSoftcore	true
 global	greenScreenProtection	false
-global	grimoireSkillsHardcore	none
-global	grimoireSkillsSoftcore	Summon Hilarious Objects
 global	guiUsesOneWindow	false
-global	harvestGardenHardcore	none
-global	harvestGardenSoftcore	none
 global	headerStates	Usable|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Restores|item name:0|autosell:1|quantity:2|mallprice:-1|HP restore:-1|MP restore:-1;General|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Recent|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Closet|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Storage|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Free Pulls|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Creatable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Cookable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Mixable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Fine Tuning|not implemented:0;Equipment|item name:0|power:1|quantity:2|mallprice:-1|autosell:-1;Storage|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Create|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;
 global	hideServerDebugText	false
 global	highlightList
@@ -95,8 +77,6 @@ global	lastRssUpdate	0
 global	lastRssVersion
 global	lastUserAgent
 global	lastUsername
-global	libramSkillsHardcore	none
-global	libramSkillsSoftcore	none
 global	logAcquiredItems	true
 global	logBattleAction	true
 global	logBrowserInteractions	false
@@ -107,8 +87,6 @@ global	logDecoratedResponses	false
 global	logFamiliarActions	true
 global	logGainMessages	true
 global	logReadableHTML	false
-global	loginRecoveryHardcore	false
-global	loginRecoverySoftcore	true
 global	loginScript
 global	loginServerName
 global	loginWindowLogo	lantern.gif
@@ -124,16 +102,12 @@ global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	outerChatColor	#b4460f
 global	outerTabColor	#0f46b4
-global	pathedSummonsHardcore	true
-global	pathedSummonsSoftcore	false
 global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
 global	protectAgainstOverdrink	true
 global	proxySet	false
-global	readManualHardcore	true
-global	readManualSoftcore	true
 global	relayAddsCustomCombat	true
 global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false
@@ -179,13 +153,9 @@ global	svnUpdateOnLogin	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
 global	syncAfterSvnUpdate	false
-global	tomeSkillsHardcore	Summon Snowcone
-global	tomeSkillsSoftcore	all
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true
-global	useCrimboToysHardcore	false
-global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
 global	useDevProxyServer	false
 global	useDockIconBadge	false
@@ -201,10 +171,6 @@ global	useToolbars	true
 global	useZoneComboBox	false
 global	userAgent
 global	verboseSpeakeasy	false
-global	visitLoungeHardcore	true
-global	visitLoungeSoftcore	true
-global	visitRumpusHardcore	true
-global	visitRumpusSoftcore	true
 global	_announcementShown	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
@@ -221,9 +187,17 @@ user	autoEntangle	false
 user	autoGarish	false
 user	autoManaRestore	false
 user	autoOlfact
+user	autoPlantHardcore	false
+user	autoPlantSoftcore	false
 user	autoPotionID	false
 user	autoPutty
 user	autoRepairBoxServants	false
+user	autoSatisfyWithCloset	false
+user	autoSatisfyWithCoinmasters	false
+user	autoSatisfyWithMall	false
+user	autoSatisfyWithNPCs	false
+user	autoSatisfyWithStash	false
+user	autoSatisfyWithStorage	true
 user	autoSphereID	false
 user	autoSteal	true
 user	autostartGalaktikQuest	true
@@ -310,6 +284,8 @@ user	bootsCharged	false
 user	borisPoints	0
 user	breakableHandling	1
 user	breakableHandling1964	2
+user	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+user	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 user	breakfastCompleted	false
 user	brodenBacteria	0
 user	brodenSprinkles	0
@@ -331,6 +307,8 @@ user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chatLiterate	false
 user	chatServesUpdates	false
+user	checkJackassHardcore	true
+user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
 user	chosenTrip
@@ -461,15 +439,21 @@ user	goldenMrAccessories	0
 user	gongPath	0
 user	goreCollected	0
 user	gourdItemCount	5
+user	grabCloversHardcore	false
+user	grabCloversSoftcore	true
 user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	grimoire3Summons	0
+user	grimoireSkillsHardcore	none
+user	grimoireSkillsSoftcore	Summon Hilarious Objects
 user	grimstoneCharge	0
 user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
+user	harvestGardenHardcore	none
+user	harvestGardenSoftcore	none
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
@@ -627,9 +611,13 @@ user	lastVioletFogMap	0
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
+user	libramSkillsHardcore	none
+user	libramSkillsSoftcore	none
 user	libramSummons	0
 user	libraryCardUsed	false
 user	lightsOutAutomation	1
+user	loginRecoveryHardcore	false
+user	loginRecoverySoftcore	true
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
@@ -697,6 +685,8 @@ user	pastaThrall5
 user	pastaThrall6
 user	pastaThrall7
 user	pastaThrall8
+user	pathedSummonsHardcore	true
+user	pathedSummonsSoftcore	false
 user	pendingMapReflections	0
 user	peteMotorbikeTires
 user	peteMotorbikeGasTank
@@ -808,6 +798,8 @@ user	raveCombo3
 user	raveCombo4
 user	raveCombo5
 user	raveCombo6
+user	readManualHardcore	true
+user	readManualSoftcore	true
 user	reagentSummons	0
 user	reanimatorArms	0
 user	reanimatorLegs	0
@@ -926,6 +918,8 @@ user	textColors	crappy:#999999|good:green|awesome:blue|epic:#8a2be2|junk:gray|me
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99
 user	timeTowerAvailable	false
+user	tomeSkillsHardcore	Summon Snowcone
+user	tomeSkillsSoftcore	all
 user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
@@ -944,6 +938,8 @@ user	usableOffhands	1
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
+user	useCrimboToysHardcore	false
+user	useCrimboToysSoftcore	true
 user	valueOfAdventure	500
 user	valueOfInventory	1.8
 user	valueOfStill	0
@@ -951,6 +947,10 @@ user	valueOfTome	0
 user	verboseMaximizer	false
 user	violetFogGoal	0
 user	violetFogLayout
+user	visitLoungeHardcore	true
+user	visitLoungeSoftcore	true
+user	visitRumpusHardcore	true
+user	visitRumpusSoftcore	true
 user	volcanoMaze1
 user	volcanoMaze2
 user	volcanoMaze3

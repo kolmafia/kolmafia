@@ -168,16 +168,10 @@ public class Preferences
 		{
 		}
 
-		Entry<Object, Object> currentEntry;
-		Iterator<Entry<Object, Object>> it = p.entrySet().iterator();
-
-		String currentName, currentValue;
-
-		while ( it.hasNext() )
+		for ( Entry<Object, Object> currentEntry : p.entrySet() )
 		{
-			currentEntry = it.next();
-			currentName = (String) currentEntry.getKey();
-			currentValue = (String) currentEntry.getValue();
+			String currentName = (String) currentEntry.getKey();
+			String currentValue = (String) currentEntry.getValue();
 
 			Preferences.propertyNames.put( currentName.toLowerCase(), currentName );
 			values.put( currentName, currentValue );
@@ -581,15 +575,9 @@ public class Preferences
 
 		try
 		{
-			Entry<String, Object> current;
-			Iterator<Entry<String, Object>> it = data.entrySet().iterator();
-
-			while ( it.hasNext() )
+			for ( Entry<String, Object> current : data.entrySet() )
 			{
-				current = it.next();
-				ostream.write( Preferences.encodeProperty(
-					(String) current.getKey(), current.getValue().toString() ).getBytes() );
-
+				ostream.write( Preferences.encodeProperty( current.getKey(), current.getValue().toString() ).getBytes() );
 				ostream.write( LINE_BREAK_AS_BYTES );
 			}
 		}
@@ -750,10 +738,12 @@ public class Preferences
 
 		for ( int i = 0; i < entries.length; ++i )
 		{
-			if ( !Preferences.userValues.containsKey( entries[ i ].getKey() ) )
+			String key = (String) entries[ i ].getKey();
+			if ( !Preferences.userValues.containsKey( key ) )
 			{
-				String key = (String) entries[ i ].getKey();
-				String value = (String) entries[ i ].getValue();
+				String value = Preferences.globalValues.containsKey( key ) ?
+					(String) Preferences.globalValues.get( key ) :
+					(String) entries[ i ].getValue();
 
 				Preferences.userValues.put( key, value );
 			}
@@ -774,16 +764,16 @@ public class Preferences
 
 	public static synchronized void resetDailies()
 	{
-		Iterator<String> i = Preferences.userValues.keySet().iterator();
-		while ( i.hasNext() )
-		{
-			String name = i.next();
+		Iterator<String> it = Preferences.userValues.keySet().iterator();
+		while ( it.hasNext() )
+ 		{
+			String name = it.next();
 			if ( name.startsWith( "_" ) )
 			{
 				if ( !Preferences.containsDefault( name ) )
 				{
 					// fully delete preferences that start with _ and aren't in defaults.txt
-					i.remove();
+					it.remove();
 					if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
 					{
 						Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
@@ -799,10 +789,8 @@ public class Preferences
 
 	public static synchronized void resetGlobalDailies()
 	{
-		Iterator<String> i = Preferences.globalValues.keySet().iterator();
-		while ( i.hasNext() )
+		for ( String name : Preferences.userValues.keySet() )
 		{
-			String name = i.next();
 			if ( name.startsWith( "_" ) )
 			{
 				String val = Preferences.globalNames.get( name );
