@@ -2637,9 +2637,24 @@ public class UseItemRequest
 			// ironically. There seems to be only one in the store,
 			// though."
 
-			if ( responseText.indexOf( "ironically" ) != -1 )
+			if ( responseText.contains( "ironically" ) )
 			{
 				int remaining = count - 1;
+				if ( remaining > 0 )
+				{
+					item = item.getInstance( remaining );
+					ResultProcessor.processResult( item );
+					(UseItemRequest.getInstance( item )).run();
+				}
+			}
+
+			return;
+
+		case ItemPool.MINING_OIL:
+		case ItemPool.TAINTED_MINING_OIL:
+			if ( responseText.contains( "Limiting to 100.  Sorry" ) )
+			{
+				int remaining = count - 100;
 				if ( remaining > 0 )
 				{
 					item = item.getInstance( remaining );
