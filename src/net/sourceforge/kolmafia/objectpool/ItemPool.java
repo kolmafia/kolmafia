@@ -2153,6 +2153,7 @@ public class ItemPool
 	public static final int ESP_COLLAR = 7835;
 	public static final int GPS_WATCH = 7836;
 	public static final int PROJECT_TLB = 7837;
+	public static final int MINING_OIL = 7856;
 	public static final int CRIMBONIUM_FUEL_ROD = 7863;
 	public static final int CRIMBOT_TORSO_2 = 7865;
 	public static final int CRIMBOT_TORSO_3 = 7866;
@@ -2214,6 +2215,7 @@ public class ItemPool
 	public static final int ROM_RAPID_PROTOTYPING_DIRTY = 8013;
 	public static final int ROM_MATHMATICAL_PRECISION_DIRTY = 8014;
 	public static final int ROM_RUTHLESS_EFFICIENCY_DIRTY = 8015;
+	public static final int TAINTED_MINING_OIL = 8017;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
