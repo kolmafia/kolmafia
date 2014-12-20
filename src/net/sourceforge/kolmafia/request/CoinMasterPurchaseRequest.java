@@ -91,7 +91,7 @@ public class CoinMasterPurchaseRequest
 	}
 
 	@Override
-	public String getCurrency( final int count )
+	public String getCurrency( final long count )
 	{
 		return this.cost.getPluralName( this.price );
 	}

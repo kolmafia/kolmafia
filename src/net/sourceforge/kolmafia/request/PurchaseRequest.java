@@ -118,7 +118,7 @@ public abstract class PurchaseRequest
 		return new AdventureResult( AdventureResult.MEAT, this.getPrice() );
 	}
 
-	public String getCurrency( final int count )
+	public String getCurrency( final long count )
 	{
 		return "Meat";
 	}

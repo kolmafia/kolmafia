@@ -332,7 +332,10 @@ public class MallSearchFrame
 			totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
 		}
 
-		return KoLConstants.COMMA_FORMAT.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + KoLConstants.COMMA_FORMAT.format( totalPrice ) + " meat";
+		return KoLConstants.COMMA_FORMAT.format( totalPurchases ) + " " +
+			currentPurchase.getItem().getPluralName( totalPurchases ) + " for " +
+			KoLConstants.COMMA_FORMAT.format( totalPrice ) + " " +
+			currentPurchase.getCurrency( totalPrice );
 	}
 
 	/**
