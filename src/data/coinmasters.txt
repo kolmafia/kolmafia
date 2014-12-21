@@ -689,3 +689,4 @@ Crimbo 2014	buy	5	Crimbot battery	ROW405
 Crimbo 2014	buy	300	Crimbot ROM: Rapid Prototyping	ROW406
 Crimbo 2014	buy	300	Crimbot ROM: Mathematical Precision	ROW407
 Crimbo 2014	buy	300	Crimbot ROM: Ruthless Efficiency	ROW408
+Crimbo 2014	buy	500	Mini-Crimbot crate	ROW409
