@@ -1710,7 +1710,7 @@ Time Lord Participation Mug	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
 tortoboggan shield	100	Mus: 35	shield
-toy Crimbot super fist	0	none
+toy Crimbot super fist	50	none
 trench lighter	0	Mus: 200
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
@@ -2395,6 +2395,7 @@ tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
 tiny plastic Ed the Undying	50	Mys: 10
+tiny plastic exo-suited miner	10	none
 tiny plastic fat stack of cash	0	none
 tiny plastic Father McGruber	10	none
 tiny plastic fax machine	0	none

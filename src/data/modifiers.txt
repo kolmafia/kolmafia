@@ -2782,6 +2782,7 @@ tiny plastic Dr. Awkward	Never Fumble
 tiny plastic drunk goat	Monster Level: +1
 tiny plastic Duke Starkiller	Monster Level: +1
 tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
+tiny plastic exo-suited miner	Muscle: +1
 tiny plastic fat stack of cash	Meat Drop: +3
 tiny plastic Father McGruber	Monster Level: +1
 tiny plastic fax machine	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
