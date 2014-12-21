@@ -7888,19 +7888,19 @@
 7869	Crimbot schematic: Crab Core	537764022	crimschem.gif	usable	t,d	50	Crimbot schematics: Crab Core
 7870	Crimbot schematic: Dynamo Head	874334072	crimschem.gif	usable	t,d	50	Crimbot schematics: Dynamo Head
 7871	Crimbot schematic: Cyclopean Torso	587970399	crimschem.gif	usable	t,d	50	Crimbot schematics: Cyclopean Torso
-7872
-7873
-7874
+7872	Crimbot schematic: Really Big Head	416893826	crimschem.gif	usable	t,d	50	Crimbot schematics: Really Big Head
+7873	Crimbot schematic: Nerding Module	409415857	crimschem.gif	usable	t,d	50	Crimbot schematics: Nerding Module
+7874	Crimbot schematic: Refrigerator Chassis	625819948	crimschem.gif	usable	t,d	50	Crimbot schematics: Refrigerator Chassis
 7875	Crimbot schematic: Bug Zapper	450000928	crimschem.gif	usable	t,d	50	Crimbot schematics: Bug Zapper
 7876	Crimbot schematic: Rodent Gun	825574220	crimschem.gif	usable	t,d	50	Crimbot schematics: Rodent Gun
 7877	Crimbot schematic: Rivet Shocker	446015789	crimschem.gif	usable	t,d	50	Crimbot schematics: Rivet Shocker
 7878	Crimbot schematic: Mega Vise	226264861	crimschem.gif	usable	t,d	50	Crimbot schematics: Mega Vise
 7879	Crimbot schematic: Mobile Girder	922678824	crimschem.gif	usable	t,d	50	Crimbot schematics: Mobile Girder
 7880	Crimbot schematic: Swiss Arm	761107843	crimschem.gif	usable	t,d	50	Crimbot schematics: Swiss Arm
-7881
-7882
-7883
-7884
+7881	Crimbot schematic: Data Analyzer	781860661	crimschem.gif	usable		0	Crimbot schematics: Data Analyzer
+7882	Crimbot schematic: Maxi-Mag Lite	292017235	crimschem.gif	usable	t,d	50	Crimbot schematics: Maxi-Mag Lite
+7883	Crimbot schematic: Bit Masher	663684219	crimschem.gif	usable	t,d	50	Crimbot schematics: Bit Masher
+7884	Crimbot schematic: Camera Claw	998212790	crimschem.gif	usable	t,d	50	Crimbot schematics: Camera Claw
 7885	Crimbot schematic: Power Arm	247822516	crimschem.gif	usable	t,d	50	Crimbot schematics: Power Arm
 7886	Crimbot schematic: Wrecking Ball	580452722	crimschem.gif	usable	t,d	50	Crimbot schematics: Wrecking Ball
 7887	Crimbot schematic: Ribbon Manipulator	165994118	crimschem.gif	usable		0	Crimbot schematics: Ribbon Manipulator
@@ -7908,9 +7908,9 @@
 7889	Crimbot schematic: Grease Gun	782011981	crimschem.gif	usable	t,d	50	Crimbot schematics: Grease Gun
 7890	Crimbot schematic: Grease / Regular Gun	619700664	crimschem.gif	usable	t,d	50	Crimbot schematics: Grease / Regular Gun
 7891	Crimbot schematic: Snow Blower	314357686	crimschem.gif	usable	t,d	50	Crimbot schematics: Snow Blower
-7892
-7893
-7894
+7892	Crimbot schematic: Cold Shoulder	853546778	crimschem.gif	usable	t,d	50	Crimbot schematics: Cold Shoulder
+7893	Crimbot schematic: Candle Lighter	641058992	crimschem.gif	usable	t,d	50	Crimbot schematics: Candle Lighter
+7894	Crimbot schematic: Lamp Filler	299981060	crimschem.gif	usable	t,d	50	Crimbot schematics: Lamp Filler
 7895	Crimbot schematic: Heavy-Duty Legs	741014842	crimschem.gif	usable	t,d	50	Crimbot schematics: Heavy-Duty Legs
 7896	Crimbot schematic: Tripod Legs	352200229	crimschem.gif	usable	t,d	50	Crimbot schematics: Tripod Legs
 7897	Crimbot schematic: Rollerfeet	445249956	crimschem.gif	usable	t,d	50	Crimbot schematic: Rollerfeet
@@ -7918,9 +7918,9 @@
 7899	Crimbot schematic: High-Speed Fan	704654150	crimschem.gif	usable	t,d	50	Crimbot schematics: High-Speed Fan
 7900	Crimbot schematic: Big Wheel	129149647	crimschem.gif	usable	t,d	50	Crimbot schematics: Big Wheel
 7901	Crimbot schematic: Hoverjack	987045375	crimschem.gif	usable	t,d	50	Crimbot schematics: Hoverjack
-7902
-7903
-7904
+7902	Crimbot schematic: Gun Legs	825810728	crimschem.gif	usable	t,d	50	Crimbot schematics: Gun Legs
+7903	Crimbot schematic: Heavy Treads	825666709	crimschem.gif	usable	t,d	50	Crimbot schematics: Heavy Treads
+7904	Crimbot schematic: Rocket Skirt	117877792	crimschem.gif	usable	t,d	50	Crimbot schematics: Rocket Skirt
 7905	recovered elf magazine	904897344	origamimag.gif	none	q	0
 7906	recovered elf toothbrush	188531471	toothbrush.gif	none	q	0
 7907	recovered elf sleeping pills	754865758	goofballs.gif	none	q	0	bottles of recovered elf sleeping pills
@@ -8026,8 +8026,8 @@
 8007	Crimbot ROM: Rapid Prototyping	550492564	crimbotchip.gif	usable	t	0
 8008	Crimbot ROM: Mathematical Precision	828239577	crimbotchip.gif	usable	t	0
 8009	Crimbot ROM: Ruthless Efficiency	842035173	crimbotchip.gif	usable	t	0
-8010
-8011
+8010	Mini-Crimbot crate	735760360	crate.gif	grow	t	0
+8011	heavy-duty Crimbot aerial	697101835	heavyaerial.gif	familiar	t,d	70
 8012
 8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0
 8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0
