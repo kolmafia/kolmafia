@@ -781,6 +781,7 @@ public class UseItemRequest
 		case ItemPool.BEET_MEDIOCREBAR:
 		case ItemPool.CORN_MEDIOCREBAR:
 		case ItemPool.CABBAGE_MEDIOCREBAR:
+		case ItemPool.CHOCO_CRIMBOT:
 			UseItemRequest.limiter = "daily limit";
 			return ( 3 - Preferences.getInteger( "_chocolatesUsed" ) );
 
@@ -4366,6 +4367,7 @@ public class UseItemRequest
 		case ItemPool.BEET_MEDIOCREBAR:
 		case ItemPool.CORN_MEDIOCREBAR:
 		case ItemPool.CABBAGE_MEDIOCREBAR:
+		case ItemPool.CHOCO_CRIMBOT:
 			Preferences.increment( "_chocolatesUsed" );
 			return;
 

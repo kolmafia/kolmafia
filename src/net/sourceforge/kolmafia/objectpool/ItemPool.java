@@ -2204,6 +2204,7 @@ public class ItemPool
 	public static final int SLEEVE_DEUCE = 7941;
 	public static final int POCKET_ACE = 7942;
 	public static final int MININ_DYNAMITE = 7950;
+	public static final int CHOCO_CRIMBOT = 7999;
 	public static final int BIG_BAG_OF_MONEY = 7955;
 	public static final int TOY_CRIMBOT_FACE = 8002;
 	public static final int TOY_CRIMBOT_GLOVE = 8003;
