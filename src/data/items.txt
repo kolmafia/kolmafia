@@ -3041,7 +3041,7 @@
 3022	medium stone triangle	960028209	trifrag2.gif	usable	t	0
 3023	small stone triangle	460043851	trifrag3.gif	usable	t	0
 3024	strange stone pyramid	211072893	pyramidkey.gif	none	t	0
-3025	corpse on the beach	619225682	corpsebeach.gif	drink	t,d	50	corpses on the beach
+3025	corpse on the beach	619225682	corpsebeach.gif	drink	t,d	50	corpses on the beaches
 3026	corpsetini	915696450	corpsetini.gif	drink	t,d	50
 3027	corpsedriver	410047686	corpsedriver.gif	drink	t,d	50
 3028	Corpse Island iced tea	924952398	corpseisland.gif	drink	t,d	50
@@ -4331,7 +4331,7 @@
 4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0	pairs of Goggles of Loathing
 4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0	Stick-Knives of Loathing
 4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0	pairs of Jeans of Loathing
-4315	Annual Ascot	804577053	ascot.gif	accessory		0
+4315	Annual Ascot	804577053	ascot.gif	accessory		0	I am a fish
 4316	Sledgehammer of the V&aelig;lkyr	139769370	sledge.gif	weapon	q	0
 4317	Flail of the Seven Aspects	601506510	7aspects.gif	weapon	q	0
 4318	Wrath of the Capsaician Pastalords	251972482	capspoon.gif	weapon	q	0
@@ -4827,7 +4827,7 @@
 4808
 4809
 4810	Holiday Hal's Happy-Time Fun Book!	486938484	book.gif	usable		0	Holiday Hal's Happy-Time Fun Books!
-4811	Holiday Fun!	166504292	holidaylog.gif	none	t	0
+4811	Holiday Fun!	166504292	holidaylog.gif	none	t	0	Hollandaise Fun!
 4812
 4813
 4814
@@ -4909,7 +4909,7 @@
 4890	sack lunch	208709924	mpe.gif	usable		0	sack lunches
 4891	bath ball gift set	117169875	bathballbag.gif	multiple		0
 4892	slow jam collection	630802094	jambox.gif	multiple		0
-4893	BGE shotglass	197265843	bgeshotglass.gif	drink helper	t	0
+4893	BGE shotglass	197265843	bgeshotglass.gif	drink helper	t	0	BGE shotglasses
 4894	festive sausage	945978968	festsausage.gif	food		0	links of festive sausage
 4895	holiday cheese log	533919064	cheeselog.gif	food		0	logs of holiday cheese
 4896	holiday log	404702334	holidaylog.gif	grow	t	0
@@ -5123,7 +5123,7 @@
 5104	fish juice box	568920711	fishjuice.gif	multiple	t,d	45	fish juice boxes
 5105	paint bomb	870472784	paintbomb.gif	none, combat	t,d	35
 5106	hideous egg	738192395	hideousegg.gif	none	t	0
-5107	Jeppson's Malort	192683451	blackrum.gif	drink	t	0
+5107	Jeppson's Malort	192683451	blackrum.gif	drink	t	0	bottles of Jeppson's Malort
 5108	fistful of ashes	499891496	disease.gif	none	d	0	fistsful of ashes
 5109	stress ball	217719453	stressball.gif	offhand	t,d	40
 5110	Li'l Businessman Kit	557750320	businesskit.gif	familiar	t,d	75
@@ -5375,7 +5375,7 @@
 5356	A Beginner's Guide to Charming Snakes (used)	275530990	book4.gif	reusable	d	1000	used copies of a book about snake charming
 5357	Zu Mannk&auml;se Dienen (used)	890650838	book4.gif	reusable	d	1000	used copies of Zu Mannk&auml;se Dienen
 5358	Autobiography Of Dynamite Superman Jones (used)	274466133	book4.gif	reusable	d	1000	used Autobiographies Of Dynamite Superman Jones
-5359	Inigo's Incantation of Inspiration (crumpled)	961976248	music.gif	reusable	d	1000	crumpled copies of Inigo's Incantation of Inspiration
+5359	Inigo's Incantation of Inspiration (crumpled)	961976248	music.gif	reusable	d	1000	used copies of Inigo's Incantation of Inspiration
 5360	Tales of a Kansas Toymaker (used)	618055110	book4.gif	reusable	d	1000	used copies of Tales of a Kansas Toymaker
 5361	The Joy of Wassailing (used)	585632918	book4.gif	reusable	d	1000	used copies of The Joy of Wassailing
 5362	CRIMBCO Employee Handbook (chapter 1) (used)	826471312	book4.gif	reusable	d	1000	CRIMBCO Employee Handbooks (chapter 1) (used)
@@ -5559,7 +5559,7 @@
 5540	desktop zen garden	618386151	zengarden.gif	usable	t,d	20
 5541	Vivian's Vitamin	287175202	stimpill2.gif	usable	t,d	75	Vivian's Vitamin
 5542	pink-belly slapper	843267797	slapper.gif	none, combat	t,d	80
-5543	Leapin' Trousers	610976794	knightpants.gif	pants		0
+5543	Leapin' Trousers	610976794	knightpants.gif	pants		0	I Am A Fish
 5544	green eggnog	237276764	coffeecup.gif	drink	t	0	glasses of green eggnog
 5545	green hamhock	434954792	ham.gif	food	t	0
 5546	The Thorax's Codex of Tormenting Plants	243374322	book3.gif	usable	t	0	copies of The Thorax's Codex of Tormenting Plants
@@ -5739,7 +5739,7 @@
 5720	fiery wing	846565515	fierywing.gif	food	t	0
 5721	wings of fire	446914873	wingsoffire.gif	container	t	0	wingses of fire
 5722	FDKOL fire hose	902073594	firehose.gif	weapon	t	0
-5723	bottle of fire	819615103	firebottle.gif	multiple	t	0
+5723	bottle of fire	819615103	firebottle.gif	multiple	t	0	bottles of fire
 5724	molten brick	750075762	burnbrick.gif	none	t	0
 5725	hot daub	962493147	claybrick.gif	multiple	t	0
 5726	hot daub bun	645623435	clayhat.gif	hat		0
@@ -5928,7 +5928,7 @@
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
-5912	Solstice Shield	120888971	shield.gif	offhand		0
+5912	Solstice Shield	120888971	shield.gif	offhand		0	I am a fish
 5913	powdered candy sushi set	292870983	sushitray.gif	usable	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
 5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
@@ -7609,11 +7609,11 @@
 7590	cup of &quot;tea&quot;	608728555	coffeecup.gif	drink	t,d	250
 7591	thermos of &quot;whiskey&quot;	712543371	thermos.gif	drink	t,d	250
 7592	Lucky Lindy	370494914	fruity.gif	drink	t,d	500
-7593	Bee's Knees	323267882	martini.gif	drink	t,d	500
+7593	Bee's Knees	323267882	martini.gif	drink	t,d	500	glasses of the Bee's Knees
 7594	Sockdollager	820266043	rocks.gif	drink	t,d	500
 7595	Ish Kabibble	556467503	chamfluteu.gif	drink	t,d	500
 7596	Hot Socks	727300012	rocks_f.gif	drink	t,d	5000
-7597	Phonus Balonus	846180998	hurricane.gif	drink	t,d	10000
+7597	Phonus Balonus	846180998	hurricane.gif	drink	t,d	10000	Phonus Balonii
 7598	Flivver	761660391	celloshot.gif	drink	t,d	20000
 7599	Sloppy Jalopy	483402014	fruitym.gif	drink	t,d	100000
 7600	haunted flame	710960621	flame.gif	multiple	t,d	5
@@ -7669,9 +7669,9 @@
 7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20	catfish whiskers
 7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
 7652	fishbone catcher's mitt	285996070	fb_glove.gif	offhand	t,d	50
-7653	fishbone kneepads	429018276	fb_kneepads.gif	accessory	t,d	50
+7653	fishbone kneepads	429018276	fb_kneepads.gif	accessory	t,d	50	pairs of fishbone kneepads
 7654	fishbone corset	795585330	fb_corset.gif	shirt	t,d	50
-7655	fishbone fins	850728829	fb_fins.gif	accessory	t,d	50
+7655	fishbone fins	850728829	fb_fins.gif	accessory	t,d	50	pairs of fishbone fins
 7656	fishbone facemask	874585861	fb_mask.gif	accessory	t,d	50
 7657	fishbone belt	705157567	fb_belt.gif	accessory	t,d	50
 7658	fishbone bracers	218156379	fb_bracers.gif	accessory	t,d	50	pairs of fishbone bracers
@@ -7683,7 +7683,7 @@
 7664	Ancient Protector Soda	364350526	soda.gif	usable	t,d	50	cans of Ancient Protector Soda
 7665	liquid ice	665942732	lightvial.gif	multiple	t,d	10000
 7666	Wet Russian	663498190	rocks.gif	drink	t,d	140
-7667	filet of The Fish	629586752	gnatfilet.gif	food	t,d	140
+7667	filet of The Fish	629586752	gnatfilet.gif	food	t,d	140	filets of The Fish
 7668	Thwaitgold spider statuette	253844172	thwaitspider.gif	none		0
 7669	thunder down underwear	729675249	downunderwear.gif	pants	q	0
 7670	famous blue raincoat	119922097	raincoat.gif	shirt	q	0
@@ -7747,8 +7747,8 @@
 7728	Freddie's blessing of Mercury	716371734	scroll1.gif	multiple	t,d	50	Freddie's blessings of Mercury
 7729	Chroner trigger	574065630	rib.gif	reusable	t	0
 7730	Xi Receiver Unit	976695514	transmitter.gif	usable	t	0
-7731	transmission from planet Xi	638258454	transmission.gif	usable	t	0
-7732	Black Bart's Booty	364177657	chest.gif	usable		0	Booties of Black Bart's
+7731	transmission from planet Xi	638258454	transmission.gif	usable	t	0	transmissions from planet Xi
+7732	Black Bart's Booty	364177657	chest.gif	usable		0	Booties of Black Bart
 7733	Xiblaxian circuitry	753030502	xicurcuit.gif	none	t	0	chunks of Xiblaxian circuitry
 7734	Xiblaxian polymer	541515996	xipolymer.gif	none	t	0	chunks of Xiblaxian polymer
 7735	Xiblaxian alloy	801172143	xialloy.gif	none	t	0	chunks of Xiblaxian alloy
@@ -7768,7 +7768,7 @@
 7749	Xiblaxian holo-schematic: xeno-goggles	531188789	transmission.gif	usable	t	0	Xiblaxian holo-schematics: xeno-goggles
 7750	Xiblaxian 5D printer	747922378	xiprinter.gif	none		0
 7751	Xiblaxian holo-bowtie	401623860	holobowtie.gif	familiar	t	0
-7752	Xiblaxian xeno-detection goggles	147449485	bigglasses.gif	accessory		0
+7752	Xiblaxian xeno-detection goggles	147449485	bigglasses.gif	accessory		0	pairs of Xiblaxian xeno-detection goggles
 7753	Xiblaxian stealth cowl	350277729	xicowl.gif	hat		0
 7754	Xiblaxian stealth trousers	553413438	xipants.gif	pants		0	pairs of Xiblaxian stealth trousers
 7755	Xiblaxian stealth vest	903610003	xivest.gif	shirt		0
@@ -7832,7 +7832,7 @@
 7813	seared dino steak	112386694	jarl_steak.gif	food	t,d	36
 7814	bottle of drinkin' gas	464736767	beerbottle.gif	drink	t,d	26	bottles of drinkin' gas
 7815	handful of napalm	957617467	blankoutglob.gif	none, combat	t,d	33	handsful of napalm
-7816	dove DNA	304834769	dna.gif	none	t,d	18	strands of dove DNA
+7816	dove DNA	304834769	dna.gif	none	t,d	18	strands of Dove DNA
 7817	gelatinous meat mass	936201139	wad.gif	none	t,d	18	gelatinous meat masses
 7818	99.44% pure math	881502992	10101.gif	none	t,d	49
 7819	simple AI	730435261	10101.gif	none	t,d	44
@@ -7866,7 +7866,7 @@
 7847	ruby on canes	987976517	candycane.gif	usable	t,d	15	sticks of ruby on canes
 7848	petit fortran	357275807	fortran.gif	food	t,d	15
 7849	java cookie	615433732	javacookie.gif	food	t,d	15
-7850	cookie cookie	992752843	cookie.gif	food	t,d	15
+7850	cookie cookie	992752843	cookie.gif	food	t,d	15	cookies cookies
 7851	tiny plastic exo-suited miner	391771316	crimbo14tp1.gif	accessory	t	0
 7852
 7853
@@ -7950,7 +7950,7 @@
 7931
 7932
 7933
-7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0
+7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0	rolls of sneaky wrapping paper
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
 7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
 7937	Crimbo Credit	772180382	crimbocredit.gif	none		0	Crimbo Credits
@@ -7960,20 +7960,20 @@
 7941	sleeve deuce	141010910	deuce.gif	none	t,d	23
 7942	pocket ace	492238100	ace.gif	none	t,d	23
 7943	nastygeist	533190608	nastygeist.gif	none, combat	t,d	12
-7944	gold tooth	262144049	goldtooth.gif	none	t,d	500
+7944	gold tooth	262144049	goldtooth.gif	none	t,d	500	gold teeth
 7945	portable table	312972111	portabletable.gif	none, combat	t,d	25
 7946	outlaw bandana	272872991	icecreamcone.gif	accessory	t,d	15
-7947	whiskey in a broken glass	380205567	rocks.gif	drink	t,d	72
-7948	shot of mescal	187980687	shot.gif	drink	t,d	88
-7949	glass of herbal tequila	674901247	rocks.gif	drink	t,d	69
-7950	minin' dynamite	984777417	minamite.gif	none	t,d	125
+7947	whiskey in a broken glass	380205567	rocks.gif	drink	t,d	72	whiskeys in broken glasses
+7948	shot of mescal	187980687	shot.gif	drink	t,d	88	shots of mescal
+7949	glass of herbal tequila	674901247	rocks.gif	drink	t,d	69	glasses of herbal tequila
+7950	minin' dynamite	984777417	minamite.gif	none	t,d	125	sticks of minin' dynamite
 7951	plaid cowboy hat	592449764	plaidhat.gif	hat	t,d	111
 7952	spooky lasso	733418882	lasso.gif	none, combat	t,d	77
 7953	rusted-out shootin' iron	930822550	rustygun.gif	weapon	t,d	92
 7954	rattler rattle	152439376	snakerattle.gif	none, combat	t,d	48
 7955	big bag of money	814252400	moneybag.gif	none	q	0
 7956	Crimbo sapling	349106235	crimbosapling.gif	grow	t	0
-7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75
+7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75	more strings of tinsel
 7958	box of old Crimbo decorations	114808402	decorations.gif	usable	q	0
 7959
 7960
