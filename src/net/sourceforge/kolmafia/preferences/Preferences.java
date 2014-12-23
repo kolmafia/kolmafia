@@ -789,7 +789,7 @@ public class Preferences
 
 	public static synchronized void resetGlobalDailies()
 	{
-		for ( String name : Preferences.userValues.keySet() )
+		for ( String name : Preferences.globalValues.keySet() )
 		{
 			if ( name.startsWith( "_" ) )
 			{
