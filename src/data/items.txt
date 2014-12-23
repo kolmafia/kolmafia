@@ -7913,7 +7913,7 @@
 7894	Crimbot schematic: Lamp Filler	299981060	crimschem.gif	usable	t,d	50	Crimbot schematics: Lamp Filler
 7895	Crimbot schematic: Heavy-Duty Legs	741014842	crimschem.gif	usable	t,d	50	Crimbot schematics: Heavy-Duty Legs
 7896	Crimbot schematic: Tripod Legs	352200229	crimschem.gif	usable	t,d	50	Crimbot schematics: Tripod Legs
-7897	Crimbot schematic: Rollerfeet	445249956	crimschem.gif	usable	t,d	50	Crimbot schematic: Rollerfeet
+7897	Crimbot schematic: Rollerfeet	445249956	crimschem.gif	usable	t,d	50	Crimbot schematics: Rollerfeet
 7898	Crimbot schematic: Sim-Simian Feet	119815634	crimschem.gif	usable	t,d	50	Crimbot schematics: Sim-Simian Feet
 7899	Crimbot schematic: High-Speed Fan	704654150	crimschem.gif	usable	t,d	50	Crimbot schematics: High-Speed Fan
 7900	Crimbot schematic: Big Wheel	129149647	crimschem.gif	usable	t,d	50	Crimbot schematics: Big Wheel
