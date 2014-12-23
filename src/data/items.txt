@@ -7868,8 +7868,8 @@
 7849	java cookie	615433732	javacookie.gif	food	t,d	15
 7850	cookie cookie	992752843	cookie.gif	food	t,d	15	cookies cookies
 7851	tiny plastic exo-suited miner	391771316	crimbo14tp1.gif	accessory	t	0
-7852
-7853
+7852	tiny plastic semi-autonomous drill unit	950927256	crimbo14tp2.gif	accessory	t	0
+7853	tiny plastic ambulatory robo-minecart	539877392	crimbo14tp3.gif	accessory	t	0
 7854
 7855
 7856	flask of mining oil	476294680	flask.gif	multiple	t,d	10	flasks of mining oil
@@ -8016,20 +8016,20 @@
 7997
 7998
 7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
-8000	smart watch	887647767	smartwatch.gif	usable	t	0
-8001	augmented-reality shades	201387692	googleglass.gif	usable	t	0
+8000	smart watch	887647767	smartwatch.gif	usable	t	0	smart watches
+8001	augmented-reality shades	201387692	googleglass.gif	usable	t	0	pairs of augmented-reality shades
 8002	toy Crimbot mega face	769336750	crimbothead.gif	hat	t	0
 8003	toy Crimbot power glove	778543026	crimbotrarm.gif	weapon	t	0
 8004	toy Crimbot super fist	303500633	crimbotlarm.gif	offhand	t	0
-8005	toy Crimbot rocket legs	714381491	crimbotlegs.gif	pants	t	0
-8006	Crimbot battery	740930772	crimbattery.gif	usable	t	0
-8007	Crimbot ROM: Rapid Prototyping	550492564	crimbotchip.gif	usable	t	0
-8008	Crimbot ROM: Mathematical Precision	828239577	crimbotchip.gif	usable	t	0
-8009	Crimbot ROM: Ruthless Efficiency	842035173	crimbotchip.gif	usable	t	0
+8005	toy Crimbot rocket legs	714381491	crimbotlegs.gif	pants	t	0	pairs of toy Crimbot rocket legs
+8006	Crimbot battery	740930772	crimbattery.gif	usable	t	0	Crimbot batteries
+8007	Crimbot ROM: Rapid Prototyping	550492564	crimbotchip.gif	usable	t	0	Crimbot ROMs: Rapid Prototyping
+8008	Crimbot ROM: Mathematical Precision	828239577	crimbotchip.gif	usable	t	0	Crimbot ROMs: Mathematical Precision
+8009	Crimbot ROM: Ruthless Efficiency	842035173	crimbotchip.gif	usable	t	0	Crimbot ROMs: Ruthless Efficiency
 8010	Mini-Crimbot crate	735760360	crate.gif	grow	t	0
 8011	heavy-duty Crimbot aerial	697101835	heavyaerial.gif	familiar	t,d	70
 8012
-8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0
+8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0	
 8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0
 8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
