@@ -1878,6 +1878,10 @@ public class DebugDatabase
 						logit = true;
 					}
 				}
+				else if ( otherPlural.equalsIgnoreCase( "I am a Fish" ) )
+				{
+					RequestLogger.printLine( "*** " + name + " has bogus Wiki plural: \"" + otherPlural + "\". Ignoring." );
+				}
 				else if ( plural.equals( "" ) )
 				{
 					// The Wiki has a plural, but ours is the

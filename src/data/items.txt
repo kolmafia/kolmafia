@@ -1681,7 +1681,7 @@
 1664	Radio KoL Maracas	888752795	rkolacc4.gif	accessory	t	0	Radio KoL Maracases, precious
 1665	Radio KoL Bottle Opener	616833564	rkolacc5.gif	accessory	t	0
 1666	Radio KoL Patch	622505825	rkolacc6.gif	accessory	t	0	Radio KoL Steenkin' Patches
-1667	Cat-Herding Prod	593197308	catprod.gif	accessory		0	I Am A Fish
+1667	Cat-Herding Prod	593197308	catprod.gif	accessory		0
 1668	star boomerang	718169110	sboomer.gif	weapon	t,d	165
 1669	star stiletto	114114505	sstiletto.gif	weapon	t,d	165
 1670	fraudwort	704469042	docherb1.gif	none	q	0
@@ -4331,7 +4331,7 @@
 4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0	pairs of Goggles of Loathing
 4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0	Stick-Knives of Loathing
 4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0	pairs of Jeans of Loathing
-4315	Annual Ascot	804577053	ascot.gif	accessory		0	I am a fish
+4315	Annual Ascot	804577053	ascot.gif	accessory		0
 4316	Sledgehammer of the V&aelig;lkyr	139769370	sledge.gif	weapon	q	0
 4317	Flail of the Seven Aspects	601506510	7aspects.gif	weapon	q	0
 4318	Wrath of the Capsaician Pastalords	251972482	capspoon.gif	weapon	q	0
@@ -5559,7 +5559,7 @@
 5540	desktop zen garden	618386151	zengarden.gif	usable	t,d	20
 5541	Vivian's Vitamin	287175202	stimpill2.gif	usable	t,d	75	Vivian's Vitamin
 5542	pink-belly slapper	843267797	slapper.gif	none, combat	t,d	80
-5543	Leapin' Trousers	610976794	knightpants.gif	pants		0	I Am A Fish
+5543	Leapin' Trousers	610976794	knightpants.gif	pants		0
 5544	green eggnog	237276764	coffeecup.gif	drink	t	0	glasses of green eggnog
 5545	green hamhock	434954792	ham.gif	food	t	0
 5546	The Thorax's Codex of Tormenting Plants	243374322	book3.gif	usable	t	0	copies of The Thorax's Codex of Tormenting Plants
@@ -5928,7 +5928,7 @@
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
-5912	Solstice Shield	120888971	shield.gif	offhand		0	I am a fish
+5912	Solstice Shield	120888971	shield.gif	offhand		0
 5913	powdered candy sushi set	292870983	sushitray.gif	usable	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
 5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
