@@ -2719,6 +2719,7 @@ tiny plastic 11 Dealer	Meat Drop: +4
 tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic abominable fudgeman	Weapon Damage: +10
 tiny plastic accordion thief	Moxie: +2, Mysticality: +1
+tiny plastic ambulatory robo-minecart	Moxie: +1
 tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
 tiny plastic ancient yuletide troll	Familiar Weight: +1
 tiny plastic angry bugbear	Monster Level: +1
@@ -2853,6 +2854,7 @@ tiny plastic scary clown	Monster Level: +1
 tiny plastic Scott the Miner	Monster Level: +1
 tiny plastic Scream Queen	Muscle: +1, Mysticality: +1, Moxie: +1
 tiny plastic seal clubber	Muscle: +2, Moxie: +1
+tiny plastic semi-autonomous drill unit	Mysticality: +1
 tiny plastic senile lihc	Monster Level: +1
 tiny plastic skeletal reindeer	Adventures: +1, Single Equip
 tiny plastic smarmy pirate	Monster Level: +1
