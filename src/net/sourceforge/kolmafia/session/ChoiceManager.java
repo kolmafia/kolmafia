@@ -7782,6 +7782,7 @@ public abstract class ChoiceManager
 		case 999:
 			if ( ChoiceManager.lastDecision == 1 )
 			{
+				Preferences.setBoolean( "_shrubDecorated", true );
 				Pattern topperPattern = Pattern.compile( "topper=(\\d)" );
 				Pattern lightsPattern = Pattern.compile( "lights=(\\d)" );
 				Pattern garlandPattern = Pattern.compile( "garland=(\\d)" );
