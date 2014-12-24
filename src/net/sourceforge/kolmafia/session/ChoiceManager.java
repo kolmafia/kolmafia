@@ -7778,6 +7778,69 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.POCKET_ACE );
 			}
 			break;
+
+		case 999:
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Pattern topperPattern = Pattern.compile( "topper=(\\d)" );
+				Pattern lightsPattern = Pattern.compile( "lights=(\\d)" );
+				Pattern garlandPattern = Pattern.compile( "garland=(\\d)" );
+				Pattern giftPattern = Pattern.compile( "gift=(\\d)" );
+				int decoration;
+
+				Matcher matcher = topperPattern.matcher( urlString );
+				if ( matcher.find() )
+				{
+					decoration = StringUtilities.parseInt( matcher.group(1) );
+					switch ( decoration )
+					{
+						case 1: Preferences.setString( "shrubTopper", "Muscle" ); break;
+						case 2: Preferences.setString( "shrubTopper", "Mysticality" ); break;
+						case 3: Preferences.setString( "shrubTopper", "Moxie" ); break;
+					}
+				}
+				
+				matcher = lightsPattern.matcher( urlString );
+				if ( matcher.find() )
+				{
+					decoration = StringUtilities.parseInt( matcher.group(1) );
+					switch ( decoration )
+					{
+						case 1: Preferences.setString( "shrubLights", "prismatic" ); break;
+						case 2: Preferences.setString( "shrubLights", "Hot" ); break;
+						case 3: Preferences.setString( "shrubLights", "Cold" ); break;
+						case 4: Preferences.setString( "shrubLights", "Stench" ); break;
+						case 5: Preferences.setString( "shrubLights", "Spooky" ); break;
+						case 6: Preferences.setString( "shrubLights", "Sleaze" ); break;
+					}
+				}
+
+				matcher = garlandPattern.matcher( urlString );
+				if ( matcher.find() )
+				{
+					decoration = StringUtilities.parseInt( matcher.group(1) );
+					switch ( decoration )
+					{
+						case 1: Preferences.setString( "shrubGarland", "HP" ); break;
+						case 2: Preferences.setString( "shrubGarland", "PvP" ); break;
+						case 3: Preferences.setString( "shrubGarland", "blocking" ); break;
+					}
+				}
+
+				matcher = giftPattern.matcher( urlString );
+				if ( matcher.find() )
+				{
+					decoration = StringUtilities.parseInt( matcher.group(1) );
+					switch ( decoration )
+					{
+						case 1: Preferences.setString( "shrubGifts", "yellow" ); break;
+						case 2: Preferences.setString( "shrubGifts", "meat" ); break;
+						case 3: Preferences.setString( "shrubGifts", "gifts" ); break;
+					}
+				}
+			}
+			break;
+
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
