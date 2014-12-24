@@ -277,11 +277,26 @@ public class Expression
 				v = Math.min( s[ --sp ], s[ --sp ] );
 				break;
 			case 'p':
-				String prefString = Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) );
-				v =
-					prefString.contains( "true" ) ? 1 : 
-					prefString.contains( "false" ) ? 0 : 
-					StringUtilities.parseDouble( prefString );
+				String first = (String) this.literals.get( (int) s[ --sp ] );
+				String second = null;
+				int commaIndex = first.indexOf( "," );
+				if ( commaIndex > -1 )
+				{
+					second = first.substring( commaIndex + 1 );
+					first = first.substring( 0, commaIndex );
+				}
+				String prefString = Preferences.getString( first );
+				if ( second != null )
+				{
+					v = second.equals( prefString ) ? 1 : 0;
+				}
+				else
+				{
+					v =
+						prefString.contains( "true" ) ? 1 :
+						prefString.contains( "false" ) ? 0 :
+						StringUtilities.parseDouble( prefString );
+				}
 				break;
 			case 's':
 				v = (double) Math.sqrt( s[ --sp ] );

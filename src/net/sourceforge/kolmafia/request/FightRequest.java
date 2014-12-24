@@ -3288,6 +3288,20 @@ public class FightRequest
 				}
 				break;
 
+			case FamiliarPool.CRIMBO_SHRUB:
+				if ( KoLCharacter.getHippyStoneBroken() && Preferences.getString("_shrubCharge" ).equals( "PvP" ) )
+				{
+					if ( responseText.contains( "You gain 1 PvP Fight" ) )
+					{
+						Preferences.setInteger( "_shrubCharge", 0 );
+					}
+					else
+					{
+						Preferences.increment( "_shrubCharge", 1 );
+					}
+				}
+				break;
+
 			case FamiliarPool.ANGRY_JUNG_MAN:
 				Preferences.increment( "jungCharge", 1 );
 				int newCharges = Preferences.getInteger( "jungCharge" );

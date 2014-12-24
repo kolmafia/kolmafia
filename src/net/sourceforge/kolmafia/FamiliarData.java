@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -72,6 +73,8 @@ public class FamiliarData
 		Pattern.compile( "<img(?<!:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
+	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
+	private static final Pattern SHRUB_LIGHT_PATTERN = Pattern.compile( "Deals (.*?) damage" );
 
 	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
 	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
@@ -948,6 +951,62 @@ public class FamiliarData
 	public static final DefaultListCellRenderer getRenderer()
 	{
 		return new FamiliarRenderer();
+	}
+
+	public static final void checkShrub()
+	{
+		if ( KoLCharacter.findFamiliar( FamiliarPool.CRIMBO_SHRUB ) == null )
+		{
+			return;
+		}
+
+		GenericRequest request = new GenericRequest( "desc_familiar.php?which=189" );
+		RequestThread.postRequest( request );
+		String response = request.responseText;
+
+		Matcher topperMatcher = SHRUB_TOPPER_PATTERN.matcher( response );
+		if ( topperMatcher.find() )
+		{
+			Preferences.setString( "shrubTopper", topperMatcher.group(1) );
+		}
+		else
+		{
+			Preferences.setString( "shrubTopper", KoLCharacter.mainStat().toString() );
+			// If we didn't find this pattern, we won't find anything else either
+			return;
+		}
+
+		Matcher lightsMatcher = SHRUB_LIGHT_PATTERN.matcher( response );
+		if ( lightsMatcher.find() )
+		{
+			Preferences.setString( "shrubLights", lightsMatcher.group(1) );
+		}
+
+		if ( response.contains( "Restores Hit Points" ) )
+		{
+			Preferences.setString( "shrubGarland", "HP" );
+		}
+		else if ( response.contains( "PvP fights" ) )
+		{
+			Preferences.setString( "shrubGarland", "PvP" );
+		}
+		else if ( response.contains( "Prevents monsters" ) )
+		{
+			Preferences.setString( "shrubGarland", "blocking" );
+		}
+
+		if ( response.contains( "Blast foes" ) )
+		{
+			Preferences.setString( "shrubGifts", "yellow" );
+		}
+		else if ( response.contains( "Filled with Meat" ) )
+		{
+			Preferences.setString( "shrubGifts", "meat" );
+		}
+		else if ( response.contains( "Exchange random gifts" ) )
+		{
+			Preferences.setString( "shrubGifts", "gifts" );
+		}
 	}
 
 	private static class FamiliarRenderer

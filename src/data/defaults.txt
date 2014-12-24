@@ -831,6 +831,10 @@ user	sexChanges	0
 user	showGainsPerUnit	false
 user	showNoSummonOnly	false
 user	showTurnFreeOnly	false
+user	shrubGarland
+user	shrubGifts
+user	shrubLights
+user	shrubTopper
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
 user	sidequestFarmCompleted	none
@@ -1157,6 +1161,7 @@ user	_sealScreeches	0
 user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sexChanged	false
+user	_shrubCharge	0
 user	_silverDreadFlaskUsed	false
 user	_skateBuff1	false
 user	_skateBuff2	false

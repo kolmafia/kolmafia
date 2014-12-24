@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -670,6 +669,14 @@ public class CharPaneDecorator
 		case FamiliarPool.FIST_TURKEY:
 			buffer.append( Preferences.getString( "_turkeyBooze" ) );
 			buffer.append( "/5" );
+			return buffer;
+
+		case FamiliarPool.CRIMBO_SHRUB:
+			if ( KoLCharacter.getHippyStoneBroken() && Preferences.getString( "shrubGarland" ).equals( "PvP" ) )
+			{
+				buffer.append( Preferences.getString( "_shrubCharge" ) );
+				buffer.append( "/20 charges" );
+			}
 			return buffer;
 
 		}

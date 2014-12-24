@@ -40,7 +40,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -53,6 +52,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -222,6 +222,9 @@ public class Modifiers
 	public static final int MAXIMUM_HOOCH = 112;
 	public static final int WATER_LEVEL = 113;
 	public static final int CRIMBOT_POWER = 114;
+	public static final int FAMILIAR_TUNING_MUSCLE = 115;
+	public static final int FAMILIAR_TUNING_MYSTICALITY = 116;
+	public static final int FAMILIAR_TUNING_MOXIE = 117;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -742,6 +745,21 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Crimbot Power" ),
 		  Pattern.compile( "Crimbot Power: " + EXPR )
 		},
+		{ "Familiar Tuning Muscle",
+		  null,
+		  Pattern.compile( "Familiar Tuning \\(Muscle\\): " + EXPR ),
+		  "Familiar Tuning (Muscle)"
+		},
+		{ "Familiar Tuning Mysticality",
+		  null,
+		  Pattern.compile( "Familiar Tuning \\(Mysticality\\): " + EXPR ),
+		  "Familiar Tuning (Mysticality)"
+		},
+		{ "Familiar Tuning Moxie",
+		  null,
+		  Pattern.compile( "Familiar Tuning \\(Moxie\\): " + EXPR ),
+		  "Familiar Tuning (Moxie)"
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -956,15 +974,14 @@ public class Modifiers
 	public static final int MODIFIERS = 4;
 	public static final int OUTFIT = 5;
 	public static final int STAT_TUNING = 6;
-	public static final int FAMILIAR_TUNING = 7;
-	public static final int EFFECT = 8;
-	public static final int EQUIPS_ON = 9;
-	public static final int FAMILIAR_EFFCT = 10;
-	public static final int JIGGLE = 11;
-	public static final int EQUALIZE_MUSCLE = 12;
-	public static final int EQUALIZE_MYST = 13;
-	public static final int EQUALIZE_MOXIE = 14;
-	public static final int AVATAR = 15;
+	public static final int EFFECT = 7;
+	public static final int EQUIPS_ON = 8;
+	public static final int FAMILIAR_EFFCT = 9;
+	public static final int JIGGLE = 10;
+	public static final int EQUALIZE_MUSCLE = 11;
+	public static final int EQUALIZE_MYST = 12;
+	public static final int EQUALIZE_MOXIE = 13;
+	public static final int AVATAR = 14;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -995,10 +1012,6 @@ public class Modifiers
 		{ "Stat Tuning",
 		  null,
 		  Pattern.compile( "Stat Tuning: \"(.*?)\"" )
-		},
-		{ "Familiar Tuning",
-		  null,
-		  Pattern.compile( "Familiar Tuning: \"(.*?)\"" )
 		},
 		{ "Effect",
 		  null,
@@ -1272,7 +1285,7 @@ public class Modifiers
 	private static final String MP_REGEN_MAX_TAG =
 		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
 
-	public static int elementalResistance( final Element element ) //unused?
+	public static int elementalResistance( final Element element )
 	{
 		switch ( element )
 		{
@@ -1755,11 +1768,6 @@ public class Modifiers
 		{
 			this.strings[ Modifiers.STAT_TUNING ] = val;
 		}
-		val = mods.strings[ Modifiers.FAMILIAR_TUNING ];
-		if ( !val.equals( "" ) )
-		{
-			this.strings[ Modifiers.FAMILIAR_TUNING ] = val;
-		}
 		val = mods.strings[ Modifiers.EQUALIZE_MUSCLE ];
 		if ( !val.equals( "" ) )
 		{
@@ -2023,6 +2031,7 @@ public class Modifiers
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			StringBuilder buffer = new StringBuilder();
@@ -2097,6 +2106,7 @@ public class Modifiers
 			return null;
 		}
 
+		@Override
 		public String toString()
 		{
 			StringBuilder buffer = new StringBuilder();
@@ -2596,19 +2606,31 @@ public class Modifiers
 			double factor = this.get( Modifiers.VOLLEYBALL_EFFECTIVENESS );
 			// The 0->1 factor for generic familiars conflicts with the JitB
 			if ( factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX ) factor = 1.0;
-			factor = factor * Math.sqrt( effective );
-			String tuning = this.getString( Modifiers.FAMILIAR_TUNING );
-			if ( tuning.equals( "Muscle" ) )
+			factor = factor * ( 2 + effective/5 );
+			double tuning;
+			if ( ( tuning = this.get( Modifiers.FAMILIAR_TUNING_MUSCLE ) ) > 0 )
 			{
-				this.add( Modifiers.MUS_EXPERIENCE, factor, "Tuned Volleyball" );
+				double mainstatFactor = tuning / 100;
+				double offstatFactor = ( 1 - mainstatFactor ) / 2;
+				this.add( Modifiers.MUS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
 			}
-			else if ( tuning.equals( "Mysticality" ) )
+			else if ( ( tuning = this.get( Modifiers.FAMILIAR_TUNING_MYSTICALITY ) ) > 0 )
 			{
-				this.add( Modifiers.MYS_EXPERIENCE, factor, "Tuned Volleyball" );
+				double mainstatFactor = tuning / 100;
+				double offstatFactor = ( 1 - mainstatFactor ) / 2;
+				this.add( Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MYS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
 			}
-			else if ( tuning.equals( "Moxie" ) )
+			else if ( ( tuning = this.get( Modifiers.FAMILIAR_TUNING_MOXIE ) ) > 0 )
 			{
-				this.add( Modifiers.MOX_EXPERIENCE, factor, "Tuned Volleyball" );
+				double mainstatFactor = tuning / 100;
+				double offstatFactor = ( 1 - mainstatFactor ) / 2;
+				this.add( Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball" );
+				this.add( Modifiers.MOX_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball" );
 			}
 			else
 			{
