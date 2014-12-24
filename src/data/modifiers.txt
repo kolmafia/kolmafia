@@ -16,6 +16,9 @@
 #	This has a value of 1 if the player's mainhand weapon class (sword, club, etc.)
 #	contains the text.
 # Preferences function: pref(text)
+#	Returns the value of the specified preference
+#             function: pref(text,compare)
+#	Returns 1 if the specified preference is equal to "compare", otherwise 0
 # Effect function: effect(text)
 #	This returns the number of turns remaining of the effect uniquely matching text.
 # Resistance function: res(text)
@@ -3056,7 +3059,7 @@ ant pitchfork	Generic, Familiar Effect: "stench damage, meat", Meat Bonus: +12.5
 ant rake	Generic, Familiar Effect: "hot damage, meat", Meat Bonus: +12.5
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Generic, Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5
-aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
+aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning (Mysticality): 100, Familiar Effect: "mys stats"
 astral pet sweater	Familiar Weight: +10, Generic
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
@@ -3078,13 +3081,13 @@ bugged beanie	Familiar Weight: +10
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
-charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
+charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning (Moxie): 100, Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
 chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 chocolate spurs	Familiar Weight: +5
 chocolate-stained collar	Candy Drop: +25, Generic
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
-crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
+crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning (Muscle): 100, Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
 crystal decanter	Familiar Weight: +5
 cute bow from beyond the stars	Familiar Weight: +5
 das boot	Familiar Weight: -10, Underwater Familiar, Generic, Familiar Effect: "adventure underwater"
@@ -3357,6 +3360,7 @@ Fam:Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
 Fam:Urchin Urchin	Underwater Familiar
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Fam:Xiblaxian Holo-Companion	Initiative: [2*W]
+Fam:Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)]
 
 # Enthroned familiars section of modifiers.txt
 
