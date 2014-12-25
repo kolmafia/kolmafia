@@ -4,7 +4,7 @@
 
 # Drink	Inebriety	Level Req	quality	Adv	Musc	Myst	Moxie
 
-5-hour acrimony	5	1	awesome	0	0	0	0	+10 PVP fights
+5-hour acrimony	5	1	awesome	0	0	0	0	+10 PvP fights
 a little sump'm sump'm	4	4	good	10-14	0	25-27	8-10
 acceptable vodka	3	1	decent	4-5	0	20-30	10-20
 accidental cider	3	1	decent	3-6	0	0	0
@@ -365,7 +365,7 @@ passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
 perpendicular hula	4	4	good	10-14	0	0	34-36
 Petite Porter	3	4		3-5	0	0	0
-Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PVP fights
+Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PvP fights
 pink pony	4	4	good	10-14	25-27	0	8-10
 Plague of Locusts	2	8	awesome	8-9	0	0	30-40	15 Cockroach Scurry (+50 Init)
 plain old beer	1	1	crappy	1	0	0	0
@@ -488,7 +488,7 @@ Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
-used beer	2	1	crappy	0	0	0	0	1 PvP Fight
+used beer	2	1	crappy	0	0	0	0	+1 PvP fight
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
 vodka and tonic	3	3	good	5-10	0	16-20	0

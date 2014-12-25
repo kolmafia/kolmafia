@@ -741,9 +741,9 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Water Level: " + EXPR )
 		},
-		{ "Crimbot Power",
-		  Pattern.compile( "([+-]\\d+) Crimbot Power" ),
-		  Pattern.compile( "Crimbot Power: " + EXPR )
+		{ "Crimbot Outfit Power",
+		  Pattern.compile( "([+-]\\d+) Crimbot Outfit Power" ),
+		  Pattern.compile( "Crimbot Outfit Power: " + EXPR )
 		},
 		{ "Familiar Tuning Muscle",
 		  null,
