@@ -7074,7 +7074,7 @@
 7055	breakfast mess	488394687	wbbreakfast.gif	food	t,d	5	breakfast messes
 7056	warbear breakfast machine	298578303	wbbbox2.gif	reusable		0
 7057	breakfast miracle	812331291	wbbreakfast2.gif	food	t	0
-7058	Cloaca Cola Polar	815249008	wbcola.gif	mp, usable	t,d	5	bottles of Cloaca Cola Polar
+7058	Cloaca Cola Polar	815249008	wbcola.gif	mp	t,d	5	bottles of Cloaca Cola Polar
 7059	warbear soda machine	427609176	wbsoda2.gif	reusable		0
 7060	festive warbear bank	453898282	wbbank.gif	reusable		0
 7061	grimstone mask	133403008	grimstonemask.gif	usable	t	0
@@ -7870,8 +7870,8 @@
 7851	tiny plastic exo-suited miner	391771316	crimbo14tp1.gif	accessory	t	0
 7852	tiny plastic semi-autonomous drill unit	950927256	crimbo14tp2.gif	accessory	t	0
 7853	tiny plastic ambulatory robo-minecart	539877392	crimbo14tp3.gif	accessory	t	0
-7854
-7855
+7854	tiny plastic Crimbot	549465277	crimbo14tp4.gif	accessory	t	0
+7855	tiny plastic Crimbomega	754436042	jarbo_garbo.gif	accessory	t	0
 7856	flask of mining oil	476294680	flask.gif	multiple	t,d	10	flasks of mining oil
 7857	radiation-resistant helmet	278774996	radihelm.gif	hat	t,d	20
 7858	servo-assisted exo-pants	357821055	radipants.gif	pants	t,d	20	pairs of servo-assisted exo-pants
@@ -8028,7 +8028,7 @@
 8009	Crimbot ROM: Ruthless Efficiency	842035173	crimbotchip.gif	usable	t	0	Crimbot ROMs: Ruthless Efficiency
 8010	Mini-Crimbot crate	735760360	crate.gif	grow	t	0
 8011	heavy-duty Crimbot aerial	697101835	heavyaerial.gif	familiar	t,d	70
-8012
+8012	Crimbomega drive chain	819272646	drivechain.gif	accessory	t	0
 8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0	
 8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0
 8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0

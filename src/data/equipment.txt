@@ -1853,6 +1853,7 @@ copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
 CRIMBCO lanyard	0	none
+Crimbomega drive chain	100	none
 crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
 crystalline seal eye	0	none
@@ -2386,7 +2387,9 @@ tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	10	none
 tiny plastic Crimbo reindeer	10	none
 tiny plastic Crimbo wreath	20	none
+tiny plastic Crimbomega	10	none
 tiny plastic Crimbomination	0	none
+tiny plastic Crimbot	10	none
 tiny plastic Crimboween pentagram	20	none
 tiny plastic cubist bull	10	none
 tiny plastic demoninja	10	none
