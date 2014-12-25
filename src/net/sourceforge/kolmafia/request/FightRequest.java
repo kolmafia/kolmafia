@@ -3289,7 +3289,7 @@ public class FightRequest
 				break;
 
 			case FamiliarPool.CRIMBO_SHRUB:
-				if ( KoLCharacter.getHippyStoneBroken() && Preferences.getString("_shrubCharge" ).equals( "PvP" ) )
+				if ( KoLCharacter.getHippyStoneBroken() && Preferences.getString( "shrubGarland" ).equals( "PvP" ) )
 				{
 					if ( responseText.contains( "You gain 1 PvP Fight" ) )
 					{
