@@ -3230,6 +3230,8 @@ public abstract class ChoiceManager
 		// Choice 988 is The Containment Unit
 		// Choice 989 is Paranormal Test Lab
 
+		// Choice 996 is (Untitled) Crimomega
+
 		// Choice 998 is Game of Cards
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure998", "Game of Cards",
