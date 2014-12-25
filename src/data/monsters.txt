@@ -1758,3 +1758,6 @@ eXtreme Sports Orcs	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 3
 Giant Pair of Tweezers	tweezers.gif	HP: 8 Def: 16 Atk: 16
 Gnollish Sorceress	gnollmage.gif	HP: 5 Def: 11 Atk: 11 Meat: 24	gnoll teeth (5)	gnoll lips (5)
 The Frattlesnake	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
+
+# The Fully Automated Crimbo Factory (Crimbo 2014)
+Crimbomega	crimbomega.gif	Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
