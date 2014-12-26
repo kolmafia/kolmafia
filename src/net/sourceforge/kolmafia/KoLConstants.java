@@ -409,7 +409,7 @@ public interface KoLConstants
 	public static final int MONSTERS_VERSION = 7;
 	public static final int NONFILLING_VERSION = 1;
 	public static final int NPCSTORES_VERSION = 2;
-	public static final int OUTFITS_VERSION = 1;
+	public static final int OUTFITS_VERSION = 2;
 	public static final int PACKAGES_VERSION = 1;
 	public static final int PULVERIZE_VERSION = 2;
 	public static final int RESTORES_VERSION = 2;

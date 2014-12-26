@@ -99,8 +99,15 @@ public class WikiUtilities
 		name = StringUtilities.globalStringReplace( name, "<i>", "" );
 		name = StringUtilities.globalStringReplace( name, "</i>", "" );
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
+
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-		return "http://kol.coldfront.net/thekolwiki/index.php/" +
-			StringUtilities.getURLEncode( CharacterEntities.unescape( name ) );
+
+		// Turn character entities into characters
+		name = CharacterEntities.unescape( name );
+
+		// The Wiki does not consistently work with UTF-8 (or ISO-8859-1) encoded URLS
+		// name = StringUtilities.getURLEncode( name );
+
+		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
 	}
 }

@@ -57,6 +57,7 @@ public class SpecialOutfit
 
 	private int outfitId;
 	private String outfitName;
+	private String outfitImage;
 	private final HashMap<Integer, AdventureResult> pieces;
 
 	private int hash;
@@ -74,6 +75,7 @@ public class SpecialOutfit
 		// The name is normally a substring of the equipment page,
 		// and would keep that entire page in memory if not copied.
 		this.outfitName = new String( outfitName );
+		this.outfitImage = null;
 		this.pieces = new HashMap<Integer, AdventureResult>();
 		this.hash = 0;
 	}
@@ -356,6 +358,16 @@ public class SpecialOutfit
 	public String getName()
 	{
 		return this.outfitName;
+	}
+
+	public void setImage( final String image )
+	{
+		this.outfitImage = new String( image );
+	}
+
+	public String getImage()
+	{
+		return this.outfitImage;
 	}
 
 	@Override

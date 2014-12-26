@@ -326,12 +326,10 @@ public class DebugDatabase
 	private static final void checkItems( final PrintStream report )
 	{
 		Set<Integer> keys = ItemDatabase.descriptionIdKeySet();
-		Iterator<Integer> it = keys.iterator();
 		int lastId = 0;
 
-		while ( it.hasNext() )
+		for ( Integer id : keys )
 		{
-			int id = ( it.next() ).intValue();
 			if ( id < 1 )
 			{
 				continue;
@@ -1323,6 +1321,7 @@ public class DebugDatabase
 
 		DebugDatabase.outfits.clear();
 		DebugDatabase.checkOutfits( report );
+		DebugDatabase.checkOutfitModifierMap( report, DebugDatabase.outfits );
 
 		report.close();
 	}
@@ -1330,12 +1329,22 @@ public class DebugDatabase
 	private static final void checkOutfits(final PrintStream report )
 	{
 		Set<Integer> keys = EquipmentDatabase.normalOutfits.keySet();
+		int lastId = 0;
+
 		for ( Integer id : keys )
 		{
+			if ( id < 1 )
+			{
+				continue;
+			}
+
+			while ( ++lastId < id )
+			{
+				report.println( lastId );
+			}
+
 			DebugDatabase.checkOutfit( id, report );
 		}
-
-		DebugDatabase.checkOutfitModifierMap( report, DebugDatabase.outfits );
 
 		DebugDatabase.saveScrapeData( keys.iterator(), rawOutfits, OUTFIT_HTML );
 	}
@@ -1346,6 +1355,7 @@ public class DebugDatabase
 		String name = outfit.getName();
 		if ( name == null )
 		{
+			report.println( outfitId );
 			return;
 		}
 
@@ -1363,6 +1373,15 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + outfitId + ") has malformed description text." );
 			return;
 		}
+
+		String image = outfit.getImage();
+		String descImage = DebugDatabase.parseImage( rawText );
+		if ( image != null && !image.equals( descImage ) )
+		{
+			report.println( "# *** " + name + " (" + outfitId + ") has image of " + image + " but should be " + descImage + "." );
+		}
+
+		report.println( EquipmentDatabase.outfitString( outfitId, name, descImage ) );
 
 		DebugDatabase.outfits.put( name, text );
 	}
@@ -1567,14 +1586,20 @@ public class DebugDatabase
 
 	// http://images.kingdomofloathing.com/itemimages/hp.gif
 	// http://images.kingdomofloathing.com/otherimages/folders/folder22.gif
+	// http://images.kingdomofloathing.com/otherimages/sigils/workouttat.gif
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "images.kingdomofloathing.com/(.*?\\.gif)" );
 
 	public static final String parseImage( final String text )
 	{
 		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
 		String path = matcher.find() ? matcher.group( 1 ) : "";
-		String prefix = "itemimages/";
-		return path.startsWith( prefix ) ? path.substring( prefix.length() ) : path;
+		String prefix1 = "itemimages/";
+		String prefix2 = "otherimages/sigils/";
+		return  path.startsWith( prefix1 ) ?
+			path.substring( prefix1.length() ) :
+			path.startsWith( prefix2 ) ?
+			path.substring( prefix2.length() ) :
+			path;
 	}
 
 	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"

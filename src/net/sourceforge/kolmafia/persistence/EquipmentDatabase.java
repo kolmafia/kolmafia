@@ -208,7 +208,7 @@ public class EquipmentDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length == 4 )
 			{
 				outfitId = StringUtilities.parseInt( data[ 0 ] );
 
@@ -227,7 +227,10 @@ public class EquipmentDatabase
 				SpecialOutfit outfit = new SpecialOutfit( outfitId, name );
 				outfitList.set( arrayIndex, outfit );
 
-				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
+				String image = new String( data[ 2 ] );
+				outfit.setImage( image );
+
+				String[] pieces = data[ 3 ].split( "\\s*,\\s*" );
 				Integer id = IntegerPool.get( outfitId );
 
 				EquipmentDatabase.outfitById.put( id, name );
@@ -526,6 +529,32 @@ public class EquipmentDatabase
 	public static final int getOutfitCount()
 	{
 		return EquipmentDatabase.normalOutfits.size();
+	}
+
+	public static final String outfitString( final int outfitId, final String name, final String outfitImage )
+	{
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append( String.valueOf( outfitId ) );
+		buffer.append( "\t" );
+		buffer.append( name );
+		buffer.append( "\t" );
+		buffer.append( outfitImage );
+
+		SpecialOutfit outfit = EquipmentDatabase.getOutfit( outfitId );
+		if ( outfit != null )
+		{
+			AdventureResult[] pieces = outfit.getPieces();
+			boolean first = true;
+			for ( AdventureResult piece : pieces )
+			{
+				buffer.append( first ? "\t" : ", " );
+				first = false;
+				buffer.append( piece.getName() );
+			}
+		}
+
+		return buffer.toString();
 	}
 
 	public static final boolean contains( final String itemName )
