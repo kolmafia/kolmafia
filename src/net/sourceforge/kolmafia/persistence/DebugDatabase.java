@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,17 +111,11 @@ public class DebugDatabase
 	 * Takes an item name and constructs the likely Wiki equivalent of that item name.
 	 */
 
-	private static final String constructWikiName( String name )
-	{
-		name = StringUtilities.globalStringReplace( StringUtilities.getDisplayName( name ), " ", "_" );
-		return Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-	}
-
 	private static final String readWikiData( final String name )
 	{
 		try
 		{
-			String url = "http://kol.coldfront.net/thekolwiki/index.php/" + DebugDatabase.constructWikiName( name );
+			String url = WikiUtilities.getWikiLocation( name, WikiUtilities.ITEM_TYPE );
 			HttpURLConnection connection = (HttpURLConnection) new URL( null, url ).openConnection();
 			connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
 			InputStream istream = connection.getInputStream();
@@ -140,7 +135,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final String readApiData( final int itemId )
+	private static final String readApiPlural( final int itemId )
 	{
 		GenericRequest request = new ApiRequest( "item", itemId );
 		RequestThread.postRequest( request );
@@ -1848,16 +1843,17 @@ public class DebugDatabase
 			boolean checkApi = InventoryManager.getCount( itemId ) > 1;
 			if ( checkApi )
 			{
-				otherPlural = DebugDatabase.readApiData( itemId );
+				otherPlural = DebugDatabase.readApiPlural( itemId );
 				if ( otherPlural.equals( "" ) )
 				{
 					otherPlural = name + "s";
 				}
-				if ( plural.equals( "" ) )
+				String test = plural;
+				if ( test.equals( "" ) )
 				{
-					plural = name + "s";
+					test = name + "s";
 				}
-				if ( !plural.equals( otherPlural ) )
+				if ( !test.equals( otherPlural ) )
 				{
 					RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + displayPlural + "\", KoL plural = \"" + otherPlural + "\"" );
 					plural = otherPlural;

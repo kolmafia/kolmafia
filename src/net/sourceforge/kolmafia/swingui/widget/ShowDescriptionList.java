@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -324,10 +325,7 @@ public class ShowDescriptionList
 		}
 
 		String name = null;
-
-		boolean isItem = false;
-		boolean isEffect = false;
-		boolean isSkill = false;
+		int type = WikiUtilities.ANY_TYPE;
 
 		if ( item instanceof Boost )
 		{
@@ -339,38 +337,41 @@ public class ShowDescriptionList
 			AdventureResult result = (AdventureResult) item;
 			name = result.getName();
 
-			isItem = result.isItem();
-			isEffect = result.isStatusEffect();
+			type =  result.isItem() ?
+				WikiUtilities.ITEM_TYPE :
+				result.isStatusEffect() ?
+				WikiUtilities.EFFECT_TYPE :
+				WikiUtilities.ANY_TYPE;
 		}
-		else if ( isSkill )
+		else if ( item instanceof UseSkillRequest )
 		{
 			name = ( (UseSkillRequest) item ).getSkillName();
-			isEffect = true;
+			type = WikiUtilities.SKILL_TYPE;
 		}
 		else if ( item instanceof Concoction )
 		{
 			name = ( (Concoction) item ).getName();
-			isItem = true;
+			type = WikiUtilities.ITEM_TYPE;
 		}
 		else if ( item instanceof QueuedConcoction )
 		{
 			name = ( (QueuedConcoction) item ).getName();
-			isItem = true;
+			type = WikiUtilities.ITEM_TYPE;
 		}
 		else if ( item instanceof CreateItemRequest )
 		{
 			name = ( (CreateItemRequest) item ).getName();
-			isItem = true;
+			type = WikiUtilities.ITEM_TYPE;
 		}
 		else if ( item instanceof PurchaseRequest )
 		{
 			name = ( (PurchaseRequest) item ).getItemName();
-			isItem = true;
+			type = WikiUtilities.ITEM_TYPE;
 		}
 		else if ( item instanceof SoldItem )
 		{
 			name = ( (SoldItem) item ).getItemName();
-			isItem = true;
+			type = WikiUtilities.ITEM_TYPE;
 		}
 		else if ( item instanceof String )
 		{
@@ -386,37 +387,7 @@ public class ShowDescriptionList
 			return null;
 		}
 
-		boolean inItemTable = ItemDatabase.contains( name );
-		boolean inEffectTable = EffectDatabase.contains( name );
-		boolean inSkillTable = SkillDatabase.contains( name );
-
-		Modifiers mods = Modifiers.getModifiers( name );
-		if ( mods != null )
-		{
-			String wikiname = mods.getString( "Wiki Name" );
-			if ( wikiname != null && wikiname.length() > 0 )
-			{
-				name = wikiname;
-			}
-		}
-
-		if ( isItem && ( inEffectTable || inSkillTable ) )
-		{
-			name = name + " (item)";
-		}
-		else if ( isEffect && ( inItemTable || inSkillTable ) )
-		{
-			name = name + " (effect)";
-		}
-		else if ( isSkill && ( inItemTable || inEffectTable ) )
-		{
-			name = name + " (skill)";
-		}
-
-		name = StringUtilities.globalStringReplace( name, " ", "_" );
-		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-		return "http://kol.coldfront.net/thekolwiki/index.php/" +
-			StringUtilities.getURLEncode( CharacterEntities.unescape( name ) );
+		return WikiUtilities.getWikiLocation( name, type );
 	}
 
 	public static final void showWikiDescription( final Object item )
