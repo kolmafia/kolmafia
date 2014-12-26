@@ -85,6 +85,8 @@ public class WikiUtilities
 		}
 
 		name = StringUtilities.globalStringReplace( name, "#", "" );
+		name = StringUtilities.globalStringReplace( name, "<i>", "" );
+		name = StringUtilities.globalStringReplace( name, "</i>", "" );
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 		return "http://kol.coldfront.net/thekolwiki/index.php/" +
