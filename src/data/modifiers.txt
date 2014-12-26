@@ -2355,7 +2355,6 @@ intergalactic pom poms	Moxie: +20, Initiative: +30
 Iron Beta of Industry	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, Single Equip
 # ironic oversized sunglasses: Damages Attacking Opponent
 ironic oversized sunglasses	Single Equip
-Item #13	Wiki Name: "Item_13"
 jam band	Item Drop: +5, Booze Drop: +20, Food Drop: +35
 jangly bracelet	Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +1
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
