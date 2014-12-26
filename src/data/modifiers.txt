@@ -3384,6 +3384,7 @@ Throne:Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP
 Throne:Baby Mutant Rattlesnake	Experience (Muscle): +2
 Throne:Baby Sandworm	Maximum HP: +10, Maximum MP: +10
 Throne:Baby Yeti	Spell Damage Percent: +10
+Throne:Baby Z-Rex	Experience (Muscle): +2
 Throne:Barrrnacle	Familiar Weight: +5
 Throne:Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne:Blavious Kloop	Maximum HP: +10, Maximum MP: +10
@@ -3400,6 +3401,7 @@ Throne:Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Cotton Candy Carnie	Initiative: +20
 Throne:Crimbo Elf	Weapon Damage: +10
 Throne:Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Crimbo Shrub	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Cuddlefish	Initiative: +20
 Throne:Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne:Dancing Frog	Meat Drop: +20
@@ -3458,8 +3460,10 @@ Throne:Mariachi Chihuahua	Experience (Moxie): +2
 Throne:Mechanical Songbird	Spell Damage Percent: 20, HP Regen Min: 5, HP Regen Max: 10
 Throne:Midget Clownfish	Spell Damage Percent: +10
 Throne:Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
+Throne:Mini-Crimbot	Cold Damage: +15
 Throne:Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Mini-Skulldozer	Initiative: +20
+Throne:MiniMechaElf	Muscle Percent: +15
 Throne:Misshapen Animal Skeleton	Familiar Weight: +5
 Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Mutant Cactus Bud	Meat Drop: +20
@@ -3509,6 +3513,7 @@ Throne:Spooky Pirate Skeleton	Familiar Weight: +5
 Throne:Squamous Gibberer	Initiative: +20
 Throne:Stab Bat	Muscle Percent: +15
 Throne:Star Starfish	Spell Damage Percent: +10
+Throne:Steam-Powered Cheerleader	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Stinky Gravy Fairy	Stench Damage: +20
 Throne:Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Sugar Fruit Fairy	Experience (Mysticality): +2
