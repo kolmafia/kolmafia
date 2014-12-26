@@ -65,7 +65,18 @@ public class WikiUtilities
 		switch ( type )
 		{
 		case ITEM_TYPE:
-			if ( inEffectTable || inSkillTable )
+			if ( name.equals( "sweet tooth" ) ||
+			     name.equals( "water wings" ) ||
+			     name.equals( "knuckle sandwich" ) ||
+			     name.equals( "industrial strength starch" ) )
+			{
+				// If its not an effect or skill, no disambiguation needed
+			}
+			else if ( name.equals( "Bulky Buddy Box" ) )
+			{
+				name = name + " (hatchling)";
+			}
+			else if ( inEffectTable || inSkillTable )
 			{
 				name = name + " (item)";
 			}

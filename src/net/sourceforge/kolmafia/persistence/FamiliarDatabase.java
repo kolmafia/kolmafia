@@ -39,6 +39,7 @@ import java.io.PrintStream;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -67,17 +68,17 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FamiliarDatabase
 	extends KoLDatabase
 {
-	private static final Map familiarById = new TreeMap();
-	private static final Map familiarByName = new TreeMap();
+	private static final Map<Integer,String> familiarById = new TreeMap<Integer,String>();
+	private static final Map<String,Integer> familiarByName = new TreeMap<String,Integer>();
 
-	private static final Map<Integer, String> familiarItemById = new HashMap();
-	private static final Map<String, Integer> familiarByItem = new HashMap();
+	private static final Map<Integer, String> familiarItemById = new HashMap<Integer,String>();
+	private static final Map<String, Integer> familiarByItem = new HashMap<String,Integer>();
 
-	private static final Map<Integer, Integer> familiarLarvaById = new HashMap();
-	private static final Map<Integer, Integer> familiarByLarva = new HashMap();
+	private static final Map<Integer, Integer> familiarLarvaById = new HashMap<Integer,Integer>();
+	private static final Map<Integer, Integer> familiarByLarva = new HashMap<Integer,Integer>();
 
-	private static final Map familiarImageById = new HashMap();
-	private static final Map familiarByImage = new HashMap();
+	private static final Map<Integer,String> familiarImageById = new HashMap<Integer,String>();
+	private static final Map<String,Integer> familiarByImage = new HashMap<String,Integer>();
 
 	private static final BooleanArray combatById = new BooleanArray();
 	private static final BooleanArray volleyById = new BooleanArray();
@@ -85,7 +86,7 @@ public class FamiliarDatabase
 	private static final BooleanArray meatDropById = new BooleanArray();
 	private static final BooleanArray fairyById = new BooleanArray();
 
-	private static final Map[] eventSkillByName = new HashMap[ 4 ];
+	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
 
 	public static boolean newFamiliars = false;
 	public static int maxFamiliarId = 0;
@@ -95,7 +96,7 @@ public class FamiliarDatabase
 		FamiliarDatabase.newFamiliars = false;
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ] = new HashMap();
+			FamiliarDatabase.eventSkillByName[ i ] = new HashMap<String,Integer>();
 		}
 
 		// This begins by opening up the data file and preparing
