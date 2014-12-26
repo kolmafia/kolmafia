@@ -6272,7 +6272,7 @@ white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 50
 white lightning	Effect: "Temporary Blindness", Effect Duration: 3
 white Xanadian	Effect: "Flashing Eyes", Effect Duration: 10
 world's most unappetizing beverage	Effect: "Literally Insane", Effect Duration: 10
-zmobie	Wiki Name: "Zmobie_(drink)"
+zmobie	Wiki Name: "Zmobie (drink)"
 Zoodriver	Effect: "Rampage!", Effect Duration: 5
 
 # Everything Else section of modifiers.txt
@@ -6398,12 +6398,14 @@ brick	Free Pull
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
 Bright Water	Effect: "Bright!", Effect Duration: 10
+BRICKO octopus	Wiki Name: "BRICKO octopus (item)"
 BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Bruno's blessing of Mars	Effect: "The Smeezingtons", Effect Duration: 50
 bubblin' chemistry solution	Effect: "Science is Real", Effect Duration: 100
 buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
+Bulky Buddy Box	Wiki Name: "Bulky Buddy Box (hatchling)"
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 Burt's blessing of Bacchus	Effect: "Smoking like a Bandit", Effect Duration: 50
 button rouge	Effect: "Buttons Rouged, Louisiana", Effect Duration: 50
