@@ -703,4 +703,9 @@ public class MonsterDatabase
 		}
 		return Phylum.NONE;
 	}
+
+	public static final boolean contains( final String name )
+	{
+		return MonsterDatabase.findMonster( name, false ) != null;
+	}
 }
