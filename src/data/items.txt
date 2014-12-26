@@ -7567,10 +7567,10 @@
 7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	10	handfuls of hot ashes
 7549	ash soda	551667583	beerbottle.gif	multiple	t,d	20	bottles of ash soda
 7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	10	droplets of liquid smoke
-7551	dollop of barbecue sauce	205083667	gooball.gif	usable	t,d	10	dollops of barbecue sauce
+7551	dollop of barbecue sauce	205083667	gooball.gif	multiple	t,d	10	dollops of barbecue sauce
 7552	bowl of marinade	972886583	soupbowl.gif	multiple	t,d	10	bowls of marinade
 7553	shaker of dry rub	397823341	dryrub.gif	none	t,d	20	shakers of dry rub
-7554	bottle of lighter fluid	943220764	lighterfluid.gif	usable	t,d	10	bottles of lighter fluid
+7554	bottle of lighter fluid	943220764	lighterfluid.gif	multiple	t,d	10	bottles of lighter fluid
 7555	white page	643839454	document.gif	reusable	t	0
 7556	white elephant gift	432215916	pressie.gif	reusable	t	0
 7557	white blood cells	819926103	redcells.gif	usable	t,d	15	globs of white blood cells
@@ -7629,7 +7629,7 @@
 7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
 7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5	bottles of Lewd Lemmy Oil
 7612	tomato soup poster	772276186	soupposter.gif	usable	t,d	5
-7613	bubblin' chemistry solution	784444484	beaker.gif	usable	t,d	5	beakers of bubblin' chemistry solution
+7613	bubblin' chemistry solution	784444484	beaker.gif	multiple	t,d	5	beakers of bubblin' chemistry solution
 7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
 7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5	vials of pygmy adder oil
 7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5	sprigs of pygmy witchhazel
@@ -7665,8 +7665,8 @@
 7646	lightning milk	448420871	milkcarton.gif	reusable	q	0
 7647	aquaconda brain	243801791	realbrain.gif	reusable	q	0
 7648	thunder thigh	912886581	thunderthigh.gif	reusable	q	0
-7649	gourmet gourami oil	240515575	lightvial.gif	usable	t,d	20	vials of gourmet gourami oil
-7650	catfish whiskers	320096181	whiskers.gif	usable	t,d	20	catfish whiskers
+7649	gourmet gourami oil	240515575	lightvial.gif	multiple	t,d	20	vials of gourmet gourami oil
+7650	catfish whiskers	320096181	whiskers.gif	multiple	t,d	20	catfish whiskers
 7651	freshwater fishbone	878161949	fishybone.gif	none	t,d	25
 7652	fishbone catcher's mitt	285996070	fb_glove.gif	offhand	t,d	50
 7653	fishbone kneepads	429018276	fb_kneepads.gif	accessory	t,d	50	pairs of fishbone kneepads
@@ -7680,7 +7680,7 @@
 7661	dumb mud	904103660	gooball.gif	none, combat	t,d	1000	globs of dumb mud
 7662	Sogg-Os	188639947	soupbowl.gif	food	t,d	111	bowls of Sogg-Os
 7663	Lord Soggyraven's Slippers	149080844	slippers.gif	accessory	t,d	200	pairs of Lord Soggyraven's Slippers
-7664	Ancient Protector Soda	364350526	soda.gif	usable	t,d	50	cans of Ancient Protector Soda
+7664	Ancient Protector Soda	364350526	soda.gif	multiple	t,d	50	cans of Ancient Protector Soda
 7665	liquid ice	665942732	lightvial.gif	multiple	t,d	10000
 7666	Wet Russian	663498190	rocks.gif	drink	t,d	140
 7667	filet of The Fish	629586752	gnatfilet.gif	food	t,d	140	filets of The Fish
@@ -7723,7 +7723,7 @@
 7704	LCD game: Garbage River	213977792	lcdgame.gif	usable	t,d	5	LCD games: Garbage River
 7705	LCD game: Burger Belt	266024617	lcdgame.gif	usable	t,d	5	LCD games: Burger Belt
 7706	The Confiscator's Grimoire	265625299	book4.gif	usable	t	0
-7707	rubber nubbin	493599105	rubbernub.gif	usable	t,d	5	rubber nubbins (but I hardly know her!)
+7707	rubber nubbin	493599105	rubbernub.gif	multiple	t,d	5	rubber nubbins (but I hardly know her!)
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
 7709	Thor's Pliers	453862933	thorpliers.gif	weapon	t	0	pairs of Thor's Pliers
 7710	candy UFOs	859892912	ufo.gif	usable	t	0	handfuls of candy UFOs
@@ -7801,13 +7801,13 @@
 7782	limp broccoli	543909195	broccoli.gif	food	t,d	72	stalks of limp broccoli
 7783	giant yellow hat	845667324	yellowhat.gif	hat	t,d	148
 7784	monkey barf	120029590	monkeybarf.gif	usable	t,d	12	handfuls of monkey barf
-7785	delicious candy	932332370	spookycandy.gif	usable	t,d	88	delicious candies
+7785	delicious candy	932332370	spookycandy.gif	multiple	t,d	88	delicious candies
 7786	jangly bracelet	966902502	janglybracelet.gif	accessory	t,d	111
 7787	cuddly teddy bear	383057642	teddybear.gif	offhand	t,d	144
 7788	ice-cold Cloaca Zero	506129190	cloaca.gif	none, combat	t,d	99	ice-cold Cloaca Zeroes
 7789	first-aid pouch	784746744	firstaidkit.gif	accessory	t,d	76	first-aid pouches
 7790	khaki duffel bag	957848856	duffelbag.gif	usable	t,d	295
-7791	airborne mutagen	287244084	mutagen.gif	usable	t,d	80
+7791	airborne mutagen	287244084	mutagen.gif	multiple	t,d	80
 7792	SHAWARMA Initiative Keycard	999100664	keycard.gif	usable	q	0
 7793	bottle-opener keycard	664955741	keycard.gif	usable	q	0
 7794	Armory keycard	958217602	keycard.gif	usable	q	0
@@ -7819,8 +7819,8 @@
 7800	Highest Bitter	733329352	beerbottle.gif	drink	t,d	240	bottles of Highest Bitter
 7801	mercenary pistol	893237225	happiness.gif	weapon	t	0
 7802	mercenary rifle	720436306	mercrifle.gif	weapon	t	0
-7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0
-7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0
+7803	Merc Core Field Manual: Sanity Maintenance	367327015	fieldmanual.gif	usable	t	0	Merc Core Field Manuals: Sanity Maintenance
+7804	Merc Core Field Manual: Intimidation Techniques	557192792	fieldmanual.gif	usable	t	0	Merc Core Field Manuals: Intimidation Techniques
 7805	Merc Core challenge coin	133154200	chalcoin.gif	usable	t	0
 7806	Merc Core deployment orders	423302992	envelope.gif	usable		0	sets of Merc Core deployment orders
 7807	TI-9000 calculator	930907222	longcalc.gif	none	t,d	25
@@ -7876,7 +7876,7 @@
 7857	radiation-resistant helmet	278774996	radihelm.gif	hat	t,d	20
 7858	servo-assisted exo-pants	357821055	radipants.gif	pants	t,d	20	pairs of servo-assisted exo-pants
 7859	high-energy mining laser	992099098	radilaser.gif	weapon	t,d	20
-7860	peppermint tailings	779557533	tailing.gif	none	0	lumps of peppermint tailings
+7860	peppermint tailings	779557533	tailing.gif	none		0	lumps of peppermint tailings
 7861	nugget of Crimbonium	208532852	crimnugget.gif	none	t,d	5	nuggets of Crimbonium
 7862	cylindrical mold	564529049	rodmold.gif	none	t,d	5
 7863	Crimbonium fuel rod	944159359	fuelrod.gif	none	t	0
@@ -8029,8 +8029,8 @@
 8010	Mini-Crimbot crate	735760360	crate.gif	grow	t	0
 8011	heavy-duty Crimbot aerial	697101835	heavyaerial.gif	familiar	t,d	70
 8012	Crimbomega drive chain	819272646	drivechain.gif	accessory	t	0
-8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0	
-8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0
-8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0
+8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0	Crimbot ROMs: Rapid Prototyping (dirty)
+8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0	Crimbot ROMs: Mathematical Precision (dirty)
+8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
