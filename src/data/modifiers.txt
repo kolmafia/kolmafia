@@ -6405,7 +6405,6 @@ bubblin' chemistry solution	Effect: "Science is Real", Effect Duration: 100
 buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
-Bulky Buddy Box	Wiki Name: "Bulky Buddy Box (hatchling)"
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 Burt's blessing of Bacchus	Effect: "Smoking like a Bandit", Effect Duration: 50
 button rouge	Effect: "Buttons Rouged, Louisiana", Effect Duration: 50
