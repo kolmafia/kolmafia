@@ -37,14 +37,18 @@ package net.sourceforge.kolmafia.webui;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RelayServer
 	implements Runnable
@@ -89,6 +93,49 @@ public class RelayServer
 	public static final int getPort()
 	{
 		return RelayServer.port;
+	}
+
+	public static final String trimPrefix( final String location )
+	{
+		// Remove prefix that will connect to our own relay socket
+
+		if ( !location.startsWith( "http://" ) )
+		{
+			return location;
+		}
+
+		int pathIndex = location.indexOf( "/", 7 );
+		if ( pathIndex == -1 )
+		{
+			return location;
+		}
+
+		int colon = location.indexOf( ":", 7 );
+		if ( colon == -1 || colon > pathIndex )
+		{
+			return location;
+		}
+
+		int port = StringUtilities.parseInt( location.substring( colon + 1, pathIndex ) );
+		if ( port != RelayServer.port )
+		{
+			return location;
+		}
+
+		try
+		{
+			String host = location.substring( 7, colon );
+			InetAddress address = InetAddress.getByName( host );
+			if ( address.isLoopbackAddress() )
+			{
+				return location.substring( pathIndex + 1 );
+			}
+		}
+		catch ( UnknownHostException e )
+		{
+		}
+
+		return location;
 	}
 
 	public static final boolean isRunning()

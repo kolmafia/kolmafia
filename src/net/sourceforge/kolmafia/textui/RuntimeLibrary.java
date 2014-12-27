@@ -209,6 +209,8 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.RelayServer;
+
 public abstract class RuntimeLibrary
 {
 	private static final RecordType itemDropRec = new RecordType(
@@ -2139,21 +2141,20 @@ public abstract class RuntimeLibrary
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		// See if we are inside a relay override
-		RelayRequest relayRequest = interpreter.getRelayRequest();
+		boolean inRelayOverride = interpreter.getRelayRequest() != null;
 
 		// If so, use a RelayRequest rather than a GenericRequest
-		GenericRequest request = ( relayRequest == null ) ? 
-			new GenericRequest( "" ) : new RelayRequest( false );
+		GenericRequest request = inRelayOverride ? new RelayRequest( false ) : new GenericRequest( "" );
 
 		// Build the desired URL
-		request.constructURLString( location, usePostMethod, encoded );
+		request.constructURLString( RelayServer.trimPrefix( location ), usePostMethod, encoded );
 		if ( GenericRequest.shouldIgnore( request ) )
 		{
 			return returnValue;
 		}
 
 		// If we are not in a relay script, ignore a request to an unstarted fight
-		if ( relayRequest == null &&
+		if ( !inRelayOverride &&
 		     request.getPath().equals( "fight.php" ) &&
 		     FightRequest.getCurrentRound() == 0 )
 		{
@@ -2165,7 +2166,7 @@ public abstract class RuntimeLibrary
 		while ( true )
 		{
 			RequestThread.postRequest( request );
-			if ( relayRequest == null || request.redirectLocation == null )
+			if ( !inRelayOverride || request.redirectLocation == null )
 			{
 				break;
 			}
