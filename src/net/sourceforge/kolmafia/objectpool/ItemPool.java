@@ -1165,6 +1165,7 @@ public class ItemPool
 	public static final int HACIENDA_KEY = 4233;
 	public static final int SILVER_PATE_KNIFE = 4234;
 	public static final int SILVER_CHEESE_SLICER = 4237;
+	public static final int SLEEP_MASK = 4241;
 	public static final int FISHERMANS_SACK = 4250;
 	public static final int FISH_OIL_SMOKE_BOMB = 4251;
 	public static final int VIAL_OF_SQUID_INK = 4252;
@@ -1785,6 +1786,7 @@ public class ItemPool
 	public static final int MARK_OF_THE_GHOST = 6437;
 	public static final int MARK_OF_THE_VAMPIRE = 6438;
 	public static final int MARK_OF_THE_SKELETON = 6439;
+	public static final int HELPS_YOU_SLEEP = 6443;
 	public static final int GREAT_WOLFS_LEFT_PAW = 6448;
 	public static final int GREAT_WOLFS_RIGHT_PAW = 6449;
 	public static final int GREAT_WOLFS_ROCKET_LAUNCHER = 6450;

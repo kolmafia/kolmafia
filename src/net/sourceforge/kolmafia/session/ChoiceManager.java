@@ -196,6 +196,8 @@ public abstract class ChoiceManager
 	private static final AdventureResult PIE_EFFECT = new AdventureResult( "Shepherd's Breath", 1, true );
 	private static final AdventureResult MAKESHIFT_TURBAN = ItemPool.get( ItemPool.MAKESHIFT_TURBAN, 1 );
 	private static final AdventureResult TEMPORARY_BLINDNESS = new AdventureResult( "Temporary Blindness", 1, true );
+	private static final AdventureResult HELPS_YOU_SLEEP = ItemPool.get( ItemPool.HELPS_YOU_SLEEP, 1 );
+	private static final AdventureResult SLEEP_MASK = ItemPool.get( ItemPool.SLEEP_MASK, 1 );
 
 	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
 	{
@@ -5258,7 +5260,9 @@ public abstract class ChoiceManager
 			boolean hasKiwiEffect = KoLConstants.activeEffects.contains( ChoiceManager.KIWITINI_EFFECT );
 			boolean isBlind =
 				KoLConstants.activeEffects.contains( ChoiceManager.TEMPORARY_BLINDNESS ) ||
-				KoLCharacter.hasEquipped( ChoiceManager.MAKESHIFT_TURBAN );
+				KoLCharacter.hasEquipped( ChoiceManager.MAKESHIFT_TURBAN ) ||
+				KoLCharacter.hasEquipped( ChoiceManager.HELPS_YOU_SLEEP ) ||
+				KoLCharacter.hasEquipped( ChoiceManager.SLEEP_MASK );
 			boolean kiwitiniAvailable = InventoryManager.getCount( ChoiceManager.BLOODY_KIWITINI ) > 0;
 
 			buffer.append( necklaceEquipped ? "moon-amber necklace equipped" :
