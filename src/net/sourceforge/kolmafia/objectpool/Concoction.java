@@ -152,7 +152,7 @@ public class Concoction
 			int itemId = concoction.getItemId();
 			String name = concoction.getName();
 			this.name = itemId == -1 ? name : ItemDatabase.getItemDataName( itemId );
-			this.hashCode = name.toLowerCase().hashCode();
+			this.hashCode = this.name.toLowerCase().hashCode();
 
 			this.isReagentPotion = this.mixingMisc.contains( CraftingMisc.TRIPLE_SAUCE );
 

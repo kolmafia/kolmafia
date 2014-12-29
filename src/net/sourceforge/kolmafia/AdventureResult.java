@@ -481,6 +481,11 @@ public class AdventureResult
 		}
 	}
 
+	public String getDataName()
+	{
+		return this.name;
+	}
+
 	public String getPluralName( final int count )
 	{
 		return count == 1 ?

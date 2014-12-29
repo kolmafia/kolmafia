@@ -33,11 +33,27 @@
 
 package net.sourceforge.kolmafia.utilities;
 
+import java.util.Map.Entry;
+
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.maximizer.Boost;
+
+import net.sourceforge.kolmafia.objectpool.Concoction;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class WikiUtilities
 {
@@ -109,5 +125,88 @@ public class WikiUtilities
 		// name = StringUtilities.getURLEncode( name );
 
 		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
+	}
+
+	public static final String getWikiLocation( Object item )
+	{
+		if ( item == null )
+		{
+			return null;
+		}
+
+		String name = null;
+		int type = WikiUtilities.ANY_TYPE;
+
+		if ( item instanceof Boost )
+		{
+			item = ((Boost) item).getItem();
+		}
+
+		if ( item instanceof AdventureResult )
+		{
+			AdventureResult result = (AdventureResult) item;
+			name = result.getDataName();
+
+			type =  result.isItem() ?
+				WikiUtilities.ITEM_TYPE :
+				result.isStatusEffect() ?
+				WikiUtilities.EFFECT_TYPE :
+				WikiUtilities.ANY_TYPE;
+		}
+		else if ( item instanceof UseSkillRequest )
+		{
+			name = ( (UseSkillRequest) item ).getSkillName();
+			type = WikiUtilities.SKILL_TYPE;
+		}
+		else if ( item instanceof Concoction )
+		{
+			name = ( (Concoction) item ).getName();
+			type = WikiUtilities.ITEM_TYPE;
+		}
+		else if ( item instanceof QueuedConcoction )
+		{
+			name = ( (QueuedConcoction) item ).getName();
+			type = WikiUtilities.ITEM_TYPE;
+		}
+		else if ( item instanceof CreateItemRequest )
+		{
+			name = ( (CreateItemRequest) item ).getName();
+			type = WikiUtilities.ITEM_TYPE;
+		}
+		else if ( item instanceof PurchaseRequest )
+		{
+			name = ( (PurchaseRequest) item ).getItem().getDataName();
+			type = WikiUtilities.ITEM_TYPE;
+		}
+		else if ( item instanceof SoldItem )
+		{
+			name = ( (SoldItem) item ).getItemName();
+			type = WikiUtilities.ITEM_TYPE;
+		}
+		else if ( item instanceof String )
+		{
+			name = (String) item;
+		}
+		else if ( item instanceof Entry )
+		{
+			name = (String) ( (Entry) item ).getValue();
+		}
+
+		if ( name == null )
+		{
+			return null;
+		}
+
+		return WikiUtilities.getWikiLocation( name, type );
+	}
+
+	public static final void showWikiDescription( final Object item )
+	{
+		String location = WikiUtilities.getWikiLocation( item );
+
+		if ( location != null )
+		{
+			RelayLoader.openSystemBrowser( location );
+		}
 	}
 }
