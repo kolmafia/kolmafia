@@ -73,6 +73,7 @@ import org.tmatesoft.svn.core.SVNURL;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -80,17 +81,23 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.maximizer.Boost;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.InstalledScript;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -99,15 +106,19 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
 import net.sourceforge.kolmafia.svn.SVNManager;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import com.centerkey.BareBonesBrowserLaunch;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
@@ -661,113 +672,6 @@ public class ShowDescriptionTable
 		}
 	}
 
-	public static final String getWikiLocation( Object item )
-	{
-		if ( item == null )
-		{
-			return null;
-		}
-
-		String name = null;
-
-		boolean isItem = false;
-		boolean isEffect = false;
-		boolean isSkill = false;
-
-		if ( item instanceof Boost )
-		{
-			item = ( (Boost) item ).getItem();
-		}
-
-		if ( item instanceof AdventureResult )
-		{
-			AdventureResult result = (AdventureResult) item;
-			name = result.getName();
-
-			isItem = result.isItem();
-			isEffect = result.isStatusEffect();
-		}
-		else if ( isSkill )
-		{
-			name = ( (UseSkillRequest) item ).getSkillName();
-			isEffect = true;
-		}
-		else if ( item instanceof Concoction )
-		{
-			name = ( (Concoction) item ).getName();
-			isItem = true;
-		}
-		else if ( item instanceof CreateItemRequest )
-		{
-			name = ( (CreateItemRequest) item ).getName();
-			isItem = true;
-		}
-		else if ( item instanceof PurchaseRequest )
-		{
-			name = ( (PurchaseRequest) item ).getItemName();
-			isItem = true;
-		}
-		else if ( item instanceof SoldItem )
-		{
-			name = ( (SoldItem) item ).getItemName();
-			isItem = true;
-		}
-		else if ( item instanceof String )
-		{
-			name = (String) item;
-		}
-		else if ( item instanceof Entry )
-		{
-			name = (String) ( (Entry) item ).getValue();
-		}
-
-		if ( name == null )
-		{
-			return null;
-		}
-
-		boolean inItemTable = ItemDatabase.contains( name );
-		boolean inEffectTable = EffectDatabase.contains( name );
-		boolean inSkillTable = SkillDatabase.contains( name );
-
-		Modifiers mods = Modifiers.getModifiers( name );
-		if ( mods != null )
-		{
-			String wikiname = mods.getString( "Wiki Name" );
-			if ( wikiname != null && wikiname.length() > 0 )
-			{
-				name = wikiname;
-			}
-		}
-
-		if ( isItem && ( inEffectTable || inSkillTable ) )
-		{
-			name = name + " (item)";
-		}
-		else if ( isEffect && ( inItemTable || inSkillTable ) )
-		{
-			name = name + " (effect)";
-		}
-		else if ( isSkill && ( inItemTable || inEffectTable ) )
-		{
-			name = name + " (skill)";
-		}
-
-		name = StringUtilities.globalStringReplace( name, " ", "_" );
-		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-		return "http://kol.coldfront.net/thekolwiki/index.php/" + StringUtilities.getURLEncode( name );
-	}
-
-	public static final void showWikiDescription( final Object item )
-	{
-		String location = ShowDescriptionTable.getWikiLocation( item );
-
-		if ( location != null )
-		{
-			RelayLoader.openSystemBrowser( location );
-		}
-	}
-
 	private class ContextMenuItem
 		extends ThreadedMenuItem
 	{
@@ -829,7 +733,7 @@ public class ShowDescriptionTable
 		@Override
 		public void executeAction()
 		{
-			ShowDescriptionTable.showWikiDescription( this.item );
+			WikiUtilities.showWikiDescription( this.item );
 		}
 	}
 

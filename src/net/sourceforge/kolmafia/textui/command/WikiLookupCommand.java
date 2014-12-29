@@ -40,9 +40,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -63,14 +62,14 @@ public class WikiLookupCommand
 			if ( names.size() == 1 )
 			{
 				AdventureResult result = new AdventureResult( (String) names.get( 0 ), 1, true );
-				ShowDescriptionList.showWikiDescription( result );
+				WikiUtilities.showWikiDescription( result );
 				return;
 			}
 
 			AdventureResult result = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 			if ( result != null )
 			{
-				ShowDescriptionList.showWikiDescription( result );
+				WikiUtilities.showWikiDescription( result );
 				return;
 			}
 		}

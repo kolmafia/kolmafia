@@ -107,12 +107,11 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
@@ -2826,7 +2825,8 @@ public class RelayRequest
 			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
 				String itemName = ItemDatabase.getItemName( descId );
-				String location = ShowDescriptionList.getWikiLocation( itemName );
+				AdventureResult item = new AdventureResult( itemName, 1, false );
+				String location = WikiUtilities.getWikiLocation( itemName );
 				if ( location != null )
 				{
 					this.pseudoResponse( "HTTP/1.1 302 Found", location );	
@@ -2844,8 +2844,7 @@ public class RelayRequest
 			{
 				String effectName = EffectDatabase.getEffectName( descId );
 				AdventureResult effect = new AdventureResult( effectName, 1, true );
-				String location = ShowDescriptionList.getWikiLocation( effect );
-
+				String location = WikiUtilities.getWikiLocation( effect );
 				if ( location != null )
 				{
 					this.pseudoResponse( "HTTP/1.1 302 Found", location );
