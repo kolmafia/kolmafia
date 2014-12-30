@@ -391,6 +391,15 @@ public class CampgroundRequest
 		}
 	}
 
+	public static void useSpinningWheel()
+	{
+		if ( CampgroundRequest.currentWorkshedItem != null &&
+		     CampgroundRequest.currentWorkshedItem.getItemId() == ItemPool.SPINNING_WHEEL )
+		{
+			RequestThread.postRequest( new CampgroundRequest( "spinningwheel" ) );
+		}
+	}
+
 	public static int freeRestsAvailable()
 	{
 		int freerests = 0;
@@ -592,6 +601,19 @@ public class CampgroundRequest
 			{
 				Preferences.setBoolean( "_dnaHybrid", true );
 				Preferences.setString( "_dnaSyringe", "" );
+			}
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseWorkshed( responseText );
+			return;
+		}
+		
+		if ( action.equals( "spinningwheel" ) )
+		{
+			// You work the spinning wheel and spin some air into Meat.
+			// You can't spin any more air into Meat today.
+			if ( responseText.contains( "air into Meat" ) )
+			{
+				Preferences.setBoolean( "_spinningWheel", true );
 			}
 			CampgroundRequest.parseCampground( responseText );
 			CampgroundRequest.parseWorkshed( responseText );
@@ -872,6 +894,10 @@ public class CampgroundRequest
 		else if ( findImage( responseText, "snowmachine.gif", ItemPool.SNOW_MACHINE ) )
 		{
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.SNOW_MACHINE );
+		}
+		else if ( findImage( responseText, "spinningwheel.gif", ItemPool.SPINNING_WHEEL ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.SPINNING_WHEEL );
 		}
 		else if ( findImage( responseText, "genelab.gif", ItemPool.DNA_LAB ) )
 		{
@@ -1286,6 +1312,10 @@ public class CampgroundRequest
 		if ( action.equals( "garden" ) )
 		{
 			message = "Harvesting your garden";
+		}
+		else if ( action.equals( "spinningwheel" ) )
+		{
+			message = "Spinning Meat from air";
 		}
 		else if ( action.equals( "dnapotion" ) )
 		{

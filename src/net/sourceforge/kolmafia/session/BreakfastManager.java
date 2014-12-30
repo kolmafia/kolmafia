@@ -106,6 +106,7 @@ public class BreakfastManager
 			readGuildManual();
 			getHermitClovers();
 			harvestGarden();
+			useSpinningWheel();
 			visitBigIsland();
 			visitVolcanoIsland();
 			checkJackass();
@@ -256,6 +257,11 @@ public class BreakfastManager
 		{
 			CampgroundRequest.harvestCrop();
 		}
+	}
+
+	public static void useSpinningWheel()
+	{
+		CampgroundRequest.useSpinningWheel();
 	}
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
