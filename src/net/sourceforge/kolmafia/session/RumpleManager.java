@@ -142,6 +142,7 @@ public abstract class RumpleManager
 		{ "lying on the floor, calling her spouse to come give a kiss", RumpleManager.LAZINESS, RumpleManager.LUSTFULNESS },
 		{ "lying on the floor", RumpleManager.LAZINESS, RumpleManager.NONE },
 		{ "sleeping soundly", RumpleManager.LAZINESS, RumpleManager.NONE },
+		{ "eyeing her spouse lasciviously", RumpleManager.LUSTFULNESS, RumpleManager.NONE },
 		{ "eyeing his spouse lasciviously", RumpleManager.LUSTFULNESS, RumpleManager.NONE },
 		{ "flipping through a lingerie catalog", RumpleManager.LUSTFULNESS, RumpleManager.NONE },
 		{ "moaning softly", RumpleManager.LUSTFULNESS, RumpleManager.NONE },
