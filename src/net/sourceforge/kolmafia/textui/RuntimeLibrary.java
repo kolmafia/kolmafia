@@ -192,6 +192,7 @@ import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
@@ -1022,6 +1023,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_custom_outfits", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "all_normal_outfits", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1033,6 +1037,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit_pieces", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit_tattoo", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
@@ -4737,29 +4744,48 @@ public abstract class RuntimeLibrary
 
 		return value;
 	}
+
+	public static Value outfit_tattoo( Interpreter interpreter, final Value outfit )
+	{
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
+
+		if ( so == null || so.getImage() == null )
+		{
+			return DataTypes.STRING_INIT;
+		}
+
+		return new Value( so.getImage() );
+	}
 	
 	public static Value get_outfits( Interpreter interpreter )
 	{
-		return outfitListToValue( interpreter, EquipmentManager.getOutfits() );
+		return RuntimeLibrary.outfitListToValue( interpreter, EquipmentManager.getOutfits(), false );
 	}
 
 	public static Value get_custom_outfits( Interpreter interpreter )
 	{
-		return outfitListToValue( interpreter, EquipmentManager.getCustomOutfits() );
+		return RuntimeLibrary.outfitListToValue( interpreter, EquipmentManager.getCustomOutfits(), false );
 	}
 
-	private static Value outfitListToValue( Interpreter interpreter, List< ? > outfits )
+	public static Value all_normal_outfits( Interpreter interpreter )
 	{
-		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, outfits.size() );
-		ArrayValue value = new ArrayValue( type );
+		return RuntimeLibrary.outfitListToValue( interpreter, EquipmentDatabase.normalOutfits.toList(), true );
+	}
 
-		for ( int i = 0; i < outfits.size(); ++i )
+	private static Value outfitListToValue( Interpreter interpreter, List<SpecialOutfit> outfits, boolean map )
+	{
+		AggregateValue value =
+			map ?
+			new MapValue( new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE ) ) :
+			new ArrayValue( new AggregateType( DataTypes.STRING_TYPE, outfits.size() ) );
+
+		for ( int i = 1; i < outfits.size(); ++i )
 		{
-			Object it = outfits.get( i );
-
-			if ( it == null ) continue;
-
-			value.aset( new Value( i ), new Value( it.toString() ) );
+			SpecialOutfit it = outfits.get( i );
+			if ( it != null )
+			{
+				value.aset( new Value( i ), new Value( it.toString() ) );
+			}
 		}
 
 		return value;
