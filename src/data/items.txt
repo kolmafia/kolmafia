@@ -8034,3 +8034,4 @@
 8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
+8018	red and green rain stick	121053600	rainstick.gif	reusable		0

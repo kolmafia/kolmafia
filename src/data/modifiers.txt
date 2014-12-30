@@ -4850,6 +4850,7 @@ Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Patient Smile	Experience (Muscle): +1
 # Paw swap: Extra-Vulnerable to Hot and Spooky
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
+Peaceful, Easy Feeling	Monster Level: -10
 Pecan Pied Piper	Candy Drop: +25
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
@@ -7071,6 +7072,7 @@ recording of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of 
 recording of Prelude of Precision	Effect: "Prelude of Precision", Effect Duration: 20
 recording of Rolando's Rondo of Resisto	Effect: "Rolando's Rondo of Resisto", Effect Duration: 20
 recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thingfinder", Effect Duration: 20
+red and green rain stick	Effect: "Peaceful, Easy Feeling", Effect Duration: 30
 Red Army camouflage kit	Effect: "Red, Red Skeleton", Effect Duration: 50
 red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
 red eye	Effect: "Seeing Red", Effect Duration: 20

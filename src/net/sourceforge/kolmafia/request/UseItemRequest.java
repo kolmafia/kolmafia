@@ -1038,6 +1038,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "already being active";
 			return Preferences.getString( "_bittycar" ).equals( "soulcar" ) ? 0 : 1;
 
+		case ItemPool.RED_GREEN_RAIN_STICK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_rainStickUsed" ) ? 0 : 1;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -4949,6 +4953,10 @@ public class UseItemRequest
 
 		case ItemPool.BITTYCAR_SOULCAR:
 			Preferences.setString( "_bittycar", "soulcar" );
+			return;
+
+		case ItemPool.RED_GREEN_RAIN_STICK:
+			Preferences.setBoolean( "_rainStickUsed", true );
 			return;
 
 		}
