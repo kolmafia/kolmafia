@@ -1180,6 +1180,7 @@ user	_softwareGlitchTurnReceived	false
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
+user	_spinningWheel	false
 user	_spookyAirportToday	false
 user	_stabonicScrollUsed	false
 user	_steamCardDrops	0
