@@ -2219,6 +2219,7 @@ public class ItemPool
 	public static final int ROM_MATHMATICAL_PRECISION_DIRTY = 8014;
 	public static final int ROM_RUTHLESS_EFFICIENCY_DIRTY = 8015;
 	public static final int TAINTED_MINING_OIL = 8017;
+	public static final int RED_GREEN_RAIN_STICK = 8018;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
@@ -2333,7 +2334,7 @@ public class ItemPool
 					// more than one missing item in set
 					return false;
 				}
-				missing = i;		
+				missing = i;
 			}
 			else
 			{
