@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
+import net.sourceforge.kolmafia.session.RumpleManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -516,6 +517,13 @@ public class TestCommand
 		if ( command.equals( "speakeasy" ) )
 		{
 			ClanLoungeRequest.parseSpeakeasy( TestCommand.contents, true );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "rumple" ) )
+		{
+			RumpleManager.spyOnParents( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}
