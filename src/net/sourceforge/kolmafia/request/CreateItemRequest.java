@@ -988,7 +988,7 @@ public class CreateItemRequest
 			// require one and have turns available to craft.
 			return !Preferences.getBoolean( "requireBoxServants" ) &&
 				( KoLCharacter.getAdventuresLeft() > 0 ||
-				  ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
+				  ConcoctionDatabase.getFreeCraftingTurns() > 0 );
 		}
 
 		// We want to autorepair.
@@ -1018,7 +1018,7 @@ public class CreateItemRequest
 			// available to craft.
 			return !Preferences.getBoolean( "requireBoxServants" ) &&
 				( KoLCharacter.getAdventuresLeft() > 0 ||
-				  ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
+				  ConcoctionDatabase.getFreeCraftingTurns() > 0 );
 		}
 
 		// Once you hit this point, you're guaranteed to
@@ -1319,17 +1319,20 @@ public class CreateItemRequest
 		{
 		case SMITH:
 		case SSMITH:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()  
-				- ConcoctionDatabase.getFreeSmithingTurns()
-				- ConcoctionDatabase.getFreeSmithJewelTurns() ) );
+			return Math.max( 0, ( quantityNeeded
+					      - ConcoctionDatabase.getFreeCraftingTurns()  
+					      - ConcoctionDatabase.getFreeSmithingTurns()
+					      - ConcoctionDatabase.getFreeSmithJewelTurns() ) );
 
 		case JEWELRY:
-			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns()  
-				- ConcoctionDatabase.getFreeSmithJewelTurns() ) );
+			return Math.max( 0, ( ( 3 * quantityNeeded )
+					      - ConcoctionDatabase.getFreeCraftingTurns()  
+					      - ConcoctionDatabase.getFreeSmithJewelTurns() ) );
 
 		case COOK_FANCY:
 		case MIX_FANCY:
-			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return Math.max( 0, ( quantityNeeded
+					      - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case WOK:
 			return quantityNeeded;

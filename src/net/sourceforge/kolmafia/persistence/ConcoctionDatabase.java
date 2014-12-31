@@ -1472,9 +1472,9 @@ public class ConcoctionDatabase
 		// concoction will use ADVs.
 
 		ConcoctionDatabase.adventureLimit.total = KoLCharacter.getAdventuresLeft() + 
-														ConcoctionDatabase.getFreeCraftingTurns();
+							  ConcoctionDatabase.getFreeCraftingTurns();
 		ConcoctionDatabase.adventureLimit.initial = ConcoctionDatabase.adventureLimit.total - 
-														ConcoctionDatabase.queuedAdventuresUsed;
+							  ConcoctionDatabase.queuedAdventuresUsed;
 		ConcoctionDatabase.adventureLimit.creatable = 0;
 		ConcoctionDatabase.adventureLimit.visibleTotal = ConcoctionDatabase.adventureLimit.total;
 		
@@ -1482,11 +1482,11 @@ public class ConcoctionDatabase
 		// concoction will use ADVs.
 
 		ConcoctionDatabase.adventureSmithingLimit.total = KoLCharacter.getAdventuresLeft() + 
-														ConcoctionDatabase.getFreeCraftingTurns() +
-														ConcoctionDatabase.getFreeSmithingTurns() + 
-														ConcoctionDatabase.getFreeSmithJewelTurns();
+								  ConcoctionDatabase.getFreeCraftingTurns() +
+								  ConcoctionDatabase.getFreeSmithingTurns() + 
+								  ConcoctionDatabase.getFreeSmithJewelTurns();
 		ConcoctionDatabase.adventureSmithingLimit.initial = ConcoctionDatabase.adventureSmithingLimit.total - 
-														ConcoctionDatabase.queuedAdventuresUsed;
+								    ConcoctionDatabase.queuedAdventuresUsed;
 		ConcoctionDatabase.adventureSmithingLimit.creatable = 0;
 		ConcoctionDatabase.adventureSmithingLimit.visibleTotal = ConcoctionDatabase.adventureSmithingLimit.total;
 		
@@ -1494,10 +1494,10 @@ public class ConcoctionDatabase
 		// concoction will use ADVs.
 
 		ConcoctionDatabase.adventureJewelcraftingLimit.total = KoLCharacter.getAdventuresLeft() + 
-		                                                       ConcoctionDatabase.getFreeCraftingTurns() +
-		                                                       ConcoctionDatabase.getFreeSmithJewelTurns();
+								       ConcoctionDatabase.getFreeCraftingTurns() +
+								       ConcoctionDatabase.getFreeSmithJewelTurns();
 		ConcoctionDatabase.adventureJewelcraftingLimit.initial = ConcoctionDatabase.adventureJewelcraftingLimit.total - 
-		                                                         ConcoctionDatabase.queuedAdventuresUsed;
+									 ConcoctionDatabase.queuedAdventuresUsed;
 		ConcoctionDatabase.adventureJewelcraftingLimit.creatable = 0;
 		ConcoctionDatabase.adventureJewelcraftingLimit.visibleTotal = ConcoctionDatabase.adventureJewelcraftingLimit.total;
 		
