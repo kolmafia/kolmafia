@@ -980,7 +980,7 @@ public class Concoction
 		int id = this.getItemId();
 		if ( id < 0 || this.speakeasy )
 		{
-				return;
+			return;
 		}
 	
 		int maxSuccess = this.initial;
