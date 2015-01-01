@@ -1171,6 +1171,14 @@ public class ResultProcessor
 			// it to get the skill, you ain't never gettin' another.
 			Preferences.setBoolean( "blackBartsBootyAvailable", false );
 			break;
+
+		case ItemPool.HOLIDAY_FUN_BOOK:
+			Preferences.setBoolean( "holidayHalsBookAvailable", false );
+			break;
+
+		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+			Preferences.setBoolean( "antagonisticSnowmanKitAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.

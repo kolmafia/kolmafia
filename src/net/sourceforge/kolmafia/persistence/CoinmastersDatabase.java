@@ -308,6 +308,10 @@ public class CoinmastersDatabase
 		{
 			return Preferences.getInteger( "holidaySwagger" ) >= 1000;
 		}
+		if ( name.equals( "antagonistic snowman kit" ) )
+		{
+			return Preferences.getInteger( "iceSwagger" ) >= 1000;
+		}
 
 		return true;
 	}
