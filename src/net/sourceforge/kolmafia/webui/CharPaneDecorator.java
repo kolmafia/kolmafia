@@ -676,9 +676,9 @@ public class CharPaneDecorator
 			{
 				buffer.append( Preferences.getString( "_shrubCharge" ) );
 				buffer.append( "/20 charges" );
+				return buffer;
 			}
-			return buffer;
-
+			return null;
 		}
 
 		return null;
