@@ -902,12 +902,12 @@ public class Concoction
 
 	public void calculate2()
 	{
-		int id = this.getItemId();
-		if ( id < 0 || this.speakeasy )
+		if ( this.speakeasy )
 		{
-				return;
+			return;
 		}
 
+		int id = this.getItemId();
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
@@ -977,12 +977,12 @@ public class Concoction
 	
 	public void calculate3()
 	{
-		int id = this.getItemId();
-		if ( id < 0 || this.speakeasy )
+		if ( this.speakeasy )
 		{
 			return;
 		}
 	
+		int id = this.getItemId();
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
