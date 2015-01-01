@@ -139,7 +139,8 @@ public class SwaggerShopRequest
 
 	// You've earned 600 swagger during a pirate season, yarrr.
 	// You've earned 2 swagger during a holiday season, fun!
-	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during a (pirate|holiday) season" );
+	// You've earned 0 swagger during an ice season, brrrr!
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during an? (pirate|holiday|ice) season" );
 
 	public static void parseResponse( final String location, final String responseText )
 	{
@@ -165,6 +166,11 @@ public class SwaggerShopRequest
 				{
 					Preferences.setInteger( "holidaySwagger", seasonSwagger );
 					Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
+				}
+				else if ( season.equals( "ice" ) )
+				{
+					Preferences.setInteger( "iceSwagger", seasonSwagger );
+					Preferences.setBoolean( "antagonisticSnowmanKitAvailable", responseText.contains( "Antagonistic Snowman Kit" ) );
 				}
 			}
 

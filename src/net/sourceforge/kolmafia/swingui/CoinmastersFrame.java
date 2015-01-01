@@ -643,6 +643,8 @@ public class CoinmastersFrame
 				return Preferences.getBoolean( "blackBartsBootyAvailable" );
 			case ItemPool.HOLIDAY_FUN_BOOK:
 				return Preferences.getBoolean( "holidayHalsBookAvailable" );
+			case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+				return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
 			}
 			return true;
 		}
