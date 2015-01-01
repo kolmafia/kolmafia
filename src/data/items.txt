@@ -7984,7 +7984,7 @@
 7965
 7966
 7967
-7968
+7968	topiary nugglet	491943392	nugglet.gif	usable	t	0
 7969
 7970
 7971
@@ -8035,3 +8035,18 @@
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
 8018	red and green rain stick	121053600	rainstick.gif	reusable		0
+8019	Chateau Mantegna room key	667086316	cmkey.gif	usable	t	0
+8020
+8021
+8022
+8023	electric muscle stimulator	791264166	stimulator.gif	none	q	0
+8024	foreign language tapes	401580658	tapedeck.gif	none	q	0
+8025	bowl of potpourri	829322849	potpourri.gif	none	q	0
+8026	ceiling fan	561986677	crate.gif	none	q	0
+8027	antler chandelier	904357733	crate.gif	none	q	0
+8028	artificial skylight	210559442	crate.gif	none	q	0
+8029	Swiss piggy bank	577497670	swisspig.gif	none	q	0
+8030	continental juice bar	227688587	juicebar.gif	none	q	0
+8031
+8032
+8033	alpine watercolor set	256906862	briefcase.gif	none, combat		0

@@ -6299,6 +6299,7 @@ alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
+# alpine watercolor set: Make a painting of a monster to hang on your wall
 Amnesiac Ale	Effect: "All Is Forgiven", Effect Duration: 30
 Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
@@ -6306,9 +6307,11 @@ Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
 antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
+# antler chandelier: +3 PvP Fights Per Day
 Apathargic Bandersnatch	Free Pull
 arrowgram	Free Pull
 arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
+# artificial skylight: +3 Adventures Per Day
 artisanal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Effect Duration: 50
 ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 ash soda	Effect: "Ashen Burps", Effect Duration: 15
@@ -6395,6 +6398,7 @@ bottle of Vangoghbitussin	Effect: "The 'Tussin", Effect Duration: 5
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
 bowl of marinade	Effect: "Marinated", Effect Duration: 15
+# bowl of potpourri: Gives some Moxie stats when you rest
 box of Dweebs	Effect: "Dweeby", Effect Duration: 15
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 box of sunshine	Free Pull
@@ -6434,12 +6438,14 @@ candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
 carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 catfish whiskers	Effect: "Fishy Whiskers", Effect Duration: 40
+# ceiling fan: Rest 5 times per day without using an Adventure
 celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
 celestial carrot juice	Effect: "Celestial Vision", Effect Duration: 10
 celestial olive oil	Effect: "Celestial Sheen", Effect Duration: 10
 celestial squid ink	Effect: "Celestial Camouflage", Effect Duration: 10
 censored can label	Effect: "Censored Can", Effect Duration: 50
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
+# Chateau Mantegna room key: Permanently unlocks a new residence in the Big Mountains
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
@@ -6485,6 +6491,7 @@ confiscated cell phone	Effect: "OMG WTF", Effect Duration: 20
 confiscated comic book	Effect: "Superheroic", Effect Duration: 20
 confiscated love note	Effect: "Notably Lovely", Effect Duration: 20
 Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
+# continental juice bar: Produces 3 random potions each day
 control crystal	Free Pull
 cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 cordial of concentration	Effect: "Concentration", Effect Duration: [R]
@@ -6575,6 +6582,7 @@ Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
+# electric muscle stimulator: Gives some Muscle stats when you rest
 elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 # eleven-foot pole: You know...  For traps.
 Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
@@ -6638,6 +6646,7 @@ floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 Fly-By-Knight Heraldry form	Free Pull
 foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
+# foreign language tapes: Gives some Mysticality stats when you rest
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
 fragment of Jarlsberg's soul	Free Pull
 Freddie's blessing of Mercury	Effect: "You're High as a Crow, Marty", Effect Duration: 50
@@ -7216,6 +7225,7 @@ swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet nutcracker	Free Pull
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
+# Swiss piggy bank: Produces 1,000 Meat each day
 Swizzler	Effect: "Sugar Rush", Effect Duration: 5
 Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
