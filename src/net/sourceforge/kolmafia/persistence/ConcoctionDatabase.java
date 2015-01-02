@@ -2065,8 +2065,8 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TORSO );
 		}
 
-		if ( HolidayDatabase.getHoliday().equals( "St. Sneaky Pete's Day" ) ||
-		     HolidayDatabase.getHoliday().equals( "Drunksgiving" ) )
+		if ( HolidayDatabase.getHoliday().contains( "St. Sneaky Pete's Day" ) ||
+		     HolidayDatabase.getHoliday().contains( "Drunksgiving" ) )
 		{
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.SSPD );
 		}

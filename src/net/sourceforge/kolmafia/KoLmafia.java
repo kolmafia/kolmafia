@@ -1309,7 +1309,7 @@ public abstract class KoLmafia
 				// You're allowed to trick or treat even when falling down drunk,
 				// so ignore any problems in this case.
 			}
-			else if ( holiday.indexOf( "St. Sneaky Pete's Day" ) == -1 && holiday.indexOf( "Drunksgiving" ) == -1 )
+			else if ( !holiday.contains( "St. Sneaky Pete's Day" ) && !holiday.contains( "Drunksgiving" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too drunk to continue." );
 				return;
