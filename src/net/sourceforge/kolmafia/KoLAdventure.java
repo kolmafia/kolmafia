@@ -305,9 +305,9 @@ public class KoLAdventure
 
 		String holiday = HolidayDatabase.getHoliday();
 
-		if ( holiday.equals( "El Dia De Los Muertos Borrachos" ) ||
-		     holiday.equals( "Feast of Boris" ) ||
-		     holiday.equals( "Talk Like a Pirate Day" ) )
+		if ( holiday.contains( "El Dia De Los Muertos Borrachos" ) ||
+		     holiday.contains( "Feast of Boris" ) ||
+		     holiday.contains( "Talk Like a Pirate Day" ) )
 		{
 			return true;
 		}

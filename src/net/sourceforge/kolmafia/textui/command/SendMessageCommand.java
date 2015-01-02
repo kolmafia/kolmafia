@@ -166,7 +166,7 @@ public class SendMessageCommand
 		List availablePackages = SendGiftRequest.getPackages();
 		int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
 
-		if ( HolidayDatabase.getHoliday().startsWith( "Valentine's" ) )
+		if ( HolidayDatabase.getHoliday().contains( "Valentine's" ) )
 		{
 			desiredPackageIndex = 0;
 		}

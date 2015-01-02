@@ -310,23 +310,23 @@ public class NPCStoreDatabase
 
 			if ( itemName.equals( "marshmallow" ) )
 			{
-				return holiday.equals( "Yuletide" );
+				return holiday.contains( "Yuletide" );
 			}
 			else if ( itemName.equals( "oyster basket" ) )
 			{
-				return holiday.equals( "Oyster Egg Day" );
+				return holiday.contains( "Oyster Egg Day" );
 			}
 			else if ( itemName.equals( "party hat" ) )
 			{
-				return holiday.equals( "Festival of Jarlsberg" );
+				return holiday.contains( "Festival of Jarlsberg" );
 			}
 			else if ( itemName.equals( "M-242" ) || itemName.equals( "snake" ) || itemName.equals( "sparkler" ) )
 			{
-				return holiday.equals( "Dependence Day" );
+				return holiday.contains( "Dependence Day" );
 			}
 			else if ( itemName.equals( "foam noodle" ) || itemName.equals( "inflatable duck" ) || itemName.equals( "water wings" ) )
 			{
-				return holiday.equals( "Generic Summer Holiday" );
+				return holiday.contains( "Generic Summer Holiday" );
 			}
 			else if ( itemName.equals( "Desert Bus pass" ) )
 			{

@@ -856,7 +856,7 @@ public class ItemDatabase
 			return;
 
 		String holiday = HolidayDatabase.getHoliday();
-		boolean isBorisDay = ( holiday.equals( "Feast of Boris" ) || holiday.equals( "Drunksgiving" ) );
+		boolean isBorisDay = ( holiday.contains( "Feast of Boris" ) || holiday.contains( "Drunksgiving" ) );
 
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
 
