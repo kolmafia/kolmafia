@@ -3103,7 +3103,7 @@ public abstract class ChoiceManager
 		// Choice 923 is All Over the Map
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure923", "Black Forest",
-			new Object[] { "fight blackberry bush or visit cobbler",
+			new Object[] { "fight blackberry bush, visit cobbler, or raid beehive",
 				       "visit blacksmith",
 				       "visit black gold mine",
 				       "visit black church" } ),
@@ -3112,7 +3112,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure924", "Blackberry",
 			new Object[] { "fight blackberry bush",
-				       "visit cobbler" } ),
+				       "visit cobbler",
+				       "head towards beehive", } ),
 
 		// Choice 925 is The Blackest Smith
 		new ChoiceAdventure(
@@ -3242,6 +3243,26 @@ public abstract class ChoiceManager
 				       new Option( "Gain 13 Chroner (80% chance)" ),
 				       new Option( "Gain 17 Chroner (60% chance)" ),
 				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
+
+		// Bee Persistent
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure1018", "Bees 1",
+			new Object[] { "head towards beehive",
+				       "give up" } ),
+
+		// Bee Rewarded
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure1019", "Bees 2",
+			new Object[] { new Option( "beehive", "beehive" ),
+				       "give up" } ),
+
+		// Home on the Free Range
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure1026", "Ground Floor Foodie",
+			new Object[] { "4 pieces of candy",
+				       new Option( "electric boning knife", "electric boning knife" ),
+				       "skip adventure" } ),
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
