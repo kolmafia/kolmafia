@@ -62,6 +62,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -521,8 +522,8 @@ public class ShowDescriptionTable
 			
 			if ( isSelected )
 			{
-				this.setBackground( SystemColor.textHighlight );
-				this.setForeground( SystemColor.textHighlightText );
+				this.setBackground( UIManager.getColor( "Table.selectionBackground" ) );
+				this.setForeground( UIManager.getColor( "Table.selectionForeground" ) );
 			}
 
 			return this;

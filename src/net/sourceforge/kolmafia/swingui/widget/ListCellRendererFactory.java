@@ -139,7 +139,7 @@ public class ListCellRendererFactory
 			String color = null;
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else
 			{
@@ -213,7 +213,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else 
 			{
@@ -272,7 +272,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else 
 			{
@@ -380,7 +380,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else
 			{
@@ -658,7 +658,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else
 			{
@@ -1003,7 +1003,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				setForeground( UIManager.getColor( "textHighlightText" ) );
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
 			}
 			else
 			{
