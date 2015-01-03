@@ -2221,6 +2221,14 @@ public class ItemPool
 	public static final int ROM_RUTHLESS_EFFICIENCY_DIRTY = 8015;
 	public static final int TAINTED_MINING_OIL = 8017;
 	public static final int RED_GREEN_RAIN_STICK = 8018;
+	public static final int CHATEAU_MUSCLE = 8023;
+	public static final int CHATEAU_MYST = 8024;
+	public static final int CHATEAU_MOXIE = 8025;
+	public static final int CHATEAU_FAN = 8026;
+	public static final int CHATEAU_CHANDELIER = 8027;
+	public static final int CHATEAU_SKYLIGHT = 8028;
+	public static final int CHATEAU_BANK = 8029;
+	public static final int CHATEAU_JUICE_BAR = 8030;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

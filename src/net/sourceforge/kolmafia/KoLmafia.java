@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -865,6 +866,8 @@ public abstract class KoLmafia
 
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();
+
+		ChateauRequest.refresh();
 
 		// Look up the current clan
 		ClanManager.resetClanId();
