@@ -109,7 +109,7 @@ public class TelescopeRequest
 			// "You've already peered into the Heavens
 			// today. You're already feeling as inspired as you can
 			// be for one day."
-			if ( this.responseText.indexOf( "already peered" ) != -1 )
+			if ( this.responseText.contains( "already peered" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You've already done that today." );
 				return;
@@ -128,7 +128,7 @@ public class TelescopeRequest
 			return;
 		}
 
-		if ( urlString.indexOf( "action=telescopehigh" ) != -1 )
+		if ( urlString.contains( "action=telescopehigh" ) )
 		{
 			Preferences.setBoolean( "telescopeLookedHigh", true );
 			return;
@@ -141,7 +141,7 @@ public class TelescopeRequest
 			return;
 		}
 
-		if ( urlString.indexOf( "action=telescopelow" ) == -1 )
+		if ( !urlString.contains( "action=telescopelow" ) )
 		{
 			return;
 		}
@@ -166,6 +166,12 @@ public class TelescopeRequest
 			Preferences.setString( "telescope" + upgrades, matcher.group( 1 ) );
 		}
 
+		int previousUpgrades = Preferences.getInteger( "telescopeUpgrades" );
+		if ( upgrades == 5 && previousUpgrades > upgrades )
+		{
+			// There is no way to detect upgrades 6 and 7 here
+			upgrades = previousUpgrades;
+		}
 		KoLCharacter.setTelescopeUpgrades( upgrades );
 		Preferences.setInteger( "telescopeUpgrades", upgrades );
 	}
@@ -177,35 +183,20 @@ public class TelescopeRequest
 
 	private static final Pattern[] PATTERNS =
 	{
-		// "You focus the telescope on the entrance of the cave, and
-		// see a wooden gate with an elaborate carving of <description>
-		// on it."
-		Pattern.compile( "carving of (.*?) on it." ),
+		// "You adjust the focus and see a second group of people <description>."
+		Pattern.compile( "second group of people (.*?)\\." ),
 
-		// "You raise the telescope a little higher, and see a window
-		// at the base of a tall brick tower. Through the window, you
-		// <description>."
-		Pattern.compile( "Through the window, you (.*?)\\." ),
+		// "You scan to the right a bit and see a third group of <description>."
+		Pattern.compile( "third group of (.*?)\\." ),
 
-		// "Further up, you see a second window. Through this one, you
-		// <description>."
-		Pattern.compile( "Through this one, you (.*?)\\." ),
+		// "You sweep the telescope up to reveal some <description>."
+		Pattern.compile( "reveal some (.*?)\\." ),
 
-		// "Even further up, you see a third window. Through it you
-		// <description>."
-		Pattern.compile( "Through it you (.*?)\\." ),
+		// "Beyond the maze's entrance you see <description>."
+		Pattern.compile( "entrance you see (.*?)\\." ),
 
-		// "Looking still higher, you see another window. Through the
-		// fourth window you <description>."
-		Pattern.compile( "Through the fourth window you (.*?)\\." ),
-
-		// "Even further up, you see a fifth window. Through that one
-		// you <description>."
-		Pattern.compile( "Through that one you (.*?)\\." ),
-
-		// "Near the top of the tower, you see a sixth and final
-		// window. Through it you <description>."
-		Pattern.compile( "final window. *Through it you (.*?)\\." ),
+		// "You focus the telescope on the back side of the keep, somehow, and see a pipe <description>."
+		Pattern.compile( "see a pipe (.*?)\\." ),
 	};
 
 	public static final boolean registerRequest( final String urlString )
