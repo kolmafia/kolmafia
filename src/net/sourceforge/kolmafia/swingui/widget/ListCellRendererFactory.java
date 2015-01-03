@@ -217,7 +217,7 @@ public class ListCellRendererFactory
 			}
 			else 
 			{
-				color = ColorFactory.getItemColor ( ar );
+				color = ColorFactory.getItemColor( ar );
 			}
 
 			if ( color != null )
@@ -733,7 +733,16 @@ public class ListCellRendererFactory
 				isHTML = true;
 			}
 			
-			String color = ColorFactory.getCreationColor( icr, true );
+			String color = null;
+
+			if ( isSelected )
+			{
+				setForeground( UIManager.getColor( "List.selectionForeground" ) );
+			}
+			else 
+			{
+				color = ColorFactory.getCreationColor( icr, true );
+			}
 
 			if ( color != null )
 			{
@@ -997,9 +1006,7 @@ public class ListCellRendererFactory
 
 			stringForm.append( "<html><nobr>" );
 
-			String name = ar.getName();
 			String color = null;
-
 
 			if ( isSelected )
 			{
@@ -1017,6 +1024,7 @@ public class ListCellRendererFactory
 				stringForm.append( ">" );
 			}
 
+			String name = ar.getName();
 			stringForm.append( name );
 
 			if ( color != null )
