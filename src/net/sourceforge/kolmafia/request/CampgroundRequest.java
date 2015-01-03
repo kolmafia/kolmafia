@@ -409,6 +409,7 @@ public class CampgroundRequest
 		if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
 		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;
 		if ( KoLCharacter.hasSkill( "Dog Tired" ) ) freerests += 5;
+		if ( ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals( "ceiling fan" ) ) freerests += 5;
 		return freerests;
 	}
 

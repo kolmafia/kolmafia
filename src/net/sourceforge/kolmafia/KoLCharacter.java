@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Snowsuit;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -5122,6 +5123,11 @@ public abstract class KoLCharacter
 		if ( HolidayDatabase.getGrimacePhase() == 5 )
 		{
 			newModifiers.add( Modifiers.RESTING_HP_PCT, 100, "Grimace full" );
+		}
+
+		if ( ChateauRequest.ceiling != null )
+		{
+			newModifiers.add( Modifiers.getModifiers( ChateauRequest.ceiling ) );
 		}
 
 		// Add other oddball interactions

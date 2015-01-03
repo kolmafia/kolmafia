@@ -729,6 +729,7 @@ public interface KoLConstants
 	public static final SortedListModel<AdventureResult> nopulls = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> collection = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> campground = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> chateau = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> pulverizeQueue = new SortedListModel<AdventureResult>();
 
 	public static final LockableListModel<UseSkillRequest> usableSkills = new LockableListModel<UseSkillRequest>();

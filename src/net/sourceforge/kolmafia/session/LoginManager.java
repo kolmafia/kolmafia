@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
@@ -188,6 +189,7 @@ public class LoginManager
 		BanishManager.clearCache();
 
 		CampgroundRequest.reset();
+		ChateauRequest.reset();
 		HermitRequest.reset();
 		SpecialOutfit.forgetCheckpoints();
 

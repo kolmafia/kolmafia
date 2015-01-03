@@ -2020,6 +2020,10 @@ public class GenericRequest
 				}
 				return !LoginRequest.isInstanceRunning();
 			}
+			if ( this.getURLString().contains( "action=chateau_painting" ) )
+			{
+				ChateauRequest.handlePantingFight();
+			}
 		}
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )

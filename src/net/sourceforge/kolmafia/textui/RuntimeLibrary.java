@@ -655,6 +655,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_chateau", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_dwelling", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
@@ -3584,6 +3587,23 @@ public abstract class RuntimeLibrary
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.campground.size() ];
 		KoLConstants.campground.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.parseItemValue( items[i].getName(), true ),
+				new Value( items[i].getCount() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_chateau( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.chateau.size() ];
+		KoLConstants.chateau.toArray( items );
 
 		for ( int i = 0; i < items.length; ++i )
 		{

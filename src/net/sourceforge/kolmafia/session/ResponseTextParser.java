@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanHallRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -274,7 +275,7 @@ public class ResponseTextParser
 			SeaMerkinRequest.parseColosseumResponse( location, responseText );
 		}
 
-		if ( location.startsWith( "api.php" ) )
+		else if ( location.startsWith( "api.php" ) )
 		{
 			ApiRequest.parseResponse( location, responseText );
 		}
@@ -673,9 +674,13 @@ public class ResponseTextParser
 			{
 				ArcadeRequest.parseResponse( location, responseText );
 			}
-			else if ( location.contains( "whichplace=orc_chasm" ) )
+			else if ( location.contains( "whichplace=chateau" ) )
 			{
-				OrcChasmRequest.parseResponse( location, responseText );
+				ChateauRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichplace=forestvillage" ) && location.contains( "action=fv_untinker" ) )
+			{
+				UntinkerRequest.parseResponse( location, responseText );
 			}
 			else if ( location.contains( "whichplace=junggate" ) )
 			{
@@ -685,13 +690,20 @@ public class ResponseTextParser
 			{
 				KnollRequest.parseResponse( location, responseText );
 			}
+			else if ( location.contains( "whichplace=mountains" ) )
+			{
+				if ( responseText.contains( "whichplace=chateau" ) )
+				{
+					Preferences.setBoolean( "chateauAvailable", true );
+				}
+			}
+			else if ( location.contains( "whichplace=orc_chasm" ) )
+			{
+				OrcChasmRequest.parseResponse( location, responseText );
+			}
 			else if ( location.contains( "whichplace=rabbithole" ) )
 			{
 				RabbitHoleRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=forestvillage" ) && location.contains( "action=fv_untinker" ) )
-			{
-				UntinkerRequest.parseResponse( location, responseText );
 			}
 			else if ( location.contains( "action=townwrong_artist_quest" ) )
 			{

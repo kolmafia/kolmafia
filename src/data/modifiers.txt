@@ -3698,6 +3698,16 @@ stained mattress	Sleaze Resistance: +2
 tin roof (rusted)	PvP Fights: +5
 Xiblaxian residence-cube	Base Resting HP: +99, Base Resting MP: +100
 
+# Chateau section of modifiers.txt
+antler chandelier	PvP Fights: +3
+artificial skylight	Adventures: +3
+# bowl of potpourri: Gives some Moxie stats when you rest
+# ceiling fan: Rest 5 times per day without using an Adventure
+# continental juice bar: Produces 3 random potions each day
+# electric muscle stimulator: Gives some Muscle stats when you rest
+# foreign language tapes: Gives some Mysticality stats when you rest
+# Swiss piggy bank: Produces 1,000 Meat each day
+
 # Status Effects section of modifiers.txt
 
 &quot;The Disease&quot;	Moxie: -5
