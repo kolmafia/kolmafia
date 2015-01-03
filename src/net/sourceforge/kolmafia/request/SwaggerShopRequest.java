@@ -160,18 +160,18 @@ public class SwaggerShopRequest
 				if ( season.equals( "pirate" ) )
 				{
 					Preferences.setInteger( "pirateSwagger", seasonSwagger );
-					Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
 				}
 				else if ( season.equals( "holiday" ) )
 				{
 					Preferences.setInteger( "holidaySwagger", seasonSwagger );
-					Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
 				}
 				else if ( season.equals( "ice" ) )
 				{
 					Preferences.setInteger( "iceSwagger", seasonSwagger );
-					Preferences.setBoolean( "antagonisticSnowmanKitAvailable", responseText.contains( "Antagonistic Snowman Kit" ) );
 				}
+				Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
+				Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
+				Preferences.setBoolean( "antagonisticSnowmanKitAvailable", responseText.contains( "Antagonistic Snowman Kit" ) );
 			}
 
 			return;
