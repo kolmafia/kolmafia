@@ -92,7 +92,9 @@ public class ChateauRequest
 	{
 
 		// place.php?whichplace=chateau&action=cheateau_restlabel
-		if ( urlString.contains( "action=chateau_restlabel" ) )
+		// or action=cheateau_restlabel
+		// or action=cheateau_restbox
+		if ( urlString.contains( "action=chateau_rest" ) )
 		{
 			Preferences.increment( "timesRested" );
 		}
