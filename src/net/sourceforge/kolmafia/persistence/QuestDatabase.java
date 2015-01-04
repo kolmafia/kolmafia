@@ -523,6 +523,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "controlPanel7" );
 		Preferences.resetToDefault( "controlPanel8" );
 		Preferences.resetToDefault( "controlPanel9" );
+		Preferences.resetToDefault( "controlPanelOmega" );
 	}
 
 	public static void handleCouncilText( String responseText )
