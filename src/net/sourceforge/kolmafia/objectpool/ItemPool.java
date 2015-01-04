@@ -2229,6 +2229,7 @@ public class ItemPool
 	public static final int CHATEAU_SKYLIGHT = 8028;
 	public static final int CHATEAU_BANK = 8029;
 	public static final int CHATEAU_JUICE_BAR = 8030;
+	public static final int CHATEAU_WATERCOLOR = 8033;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
