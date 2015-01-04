@@ -209,16 +209,6 @@ public class ValhallaDecorator
 			buffer.append( "</span>)</nobr><br>" );
 		}
 
-		if ( KoLCharacter.hasChef() )
-		{
-			buffer.append( "<nobr><a href=\"craft.php?mode=cook\">blow up your chef</a></nobr><br>" );
-		}
-
-		if ( KoLCharacter.hasBartender() )
-		{
-			buffer.append( "<nobr><a href=\"craft.php?mode=cocktail\">blow up your bartender</a></nobr><br>" );
-		}
-
 		if ( KoLCharacter.getZapper() != null )
 		{
 			buffer.append( "<nobr><a href=\"wand.php?whichwand=" );
@@ -268,13 +258,6 @@ public class ValhallaDecorator
 		{
 			buffer.append( "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">" );
 			buffer.append( "trade in rat whiskers for meat</a></nobr><br>" );
-		}
-
-		if ( Preferences.getInteger( "lastEasterEggBalloon" ) != KoLCharacter.getAscensions() )
-		{			
-			buffer.append( "<nobr><a href=\"lair2.php?preaction=key&whichkey=" );
-			buffer.append( ItemPool.BALLOON_MONKEY );
-			buffer.append( "\">get an easter egg balloon</a></nobr><br>" );
 		}
 
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
