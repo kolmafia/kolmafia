@@ -6174,6 +6174,14 @@ public class FightRequest
 			}
 			return false;
 
+		case ItemPool.CHATEAU_WATERCOLOR:
+			if ( responseText.contains( "Chateau Mantegna approaches" ) )
+			{
+				Preferences.setString( "chateauMonster", monsterName );
+				return true;
+			}
+			return false;
+
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
 
 			// You quickly quaff the anti-anti-antidote. You feel
