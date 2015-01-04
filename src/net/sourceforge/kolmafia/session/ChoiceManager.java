@@ -163,6 +163,7 @@ public abstract class ChoiceManager
 	private static final Pattern BENCH_WARRANT_PATTERN = Pattern.compile( "creep <font color=blueviolet><b>(\\d+)</b></font> of them" );
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
+	private static final Pattern OMEGA_PATTERN = Pattern.compile( "<br>Current power level: (\\d+)%</td>" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
@@ -7680,7 +7681,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
 			}
 			// Smokes quest started
-			else if ( text.contains( "acquire cigarettes by any means necessary" ) )
+			else if ( text.contains( "acquire cigarettes" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.STARTED );
 			}
@@ -7700,6 +7701,14 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 986:
+			// Control Panel
+			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 9 )
+			{
+				Preferences.setBoolean( "_controlPanelUsed", true );
+				Preferences.increment( "controlPanelOmega", 11, 100, false );
+			}
+			break;
 		case 987:
 			// The Post-Apocalyptic Survivor Encampment
 			if ( !text.contains( "accept your donation" ) )
@@ -9384,6 +9393,15 @@ public abstract class ChoiceManager
 			Preferences.setBoolean( "controlPanel7", !ChoiceManager.lastResponseText.contains( "Training algorithm: ROUND ROBIN" ) );
 			Preferences.setBoolean( "controlPanel8", !ChoiceManager.lastResponseText.contains( "Re-enactment supply closet: LOCKED" ) );
 			Preferences.setBoolean( "controlPanel9", !ChoiceManager.lastResponseText.contains( "Thermostat setting: 76 DEGREES" ) );
+			Matcher omegaMatcher = ChoiceManager.OMEGA_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( omegaMatcher.find() )
+			{
+				Preferences.increment( "controlPanelOmega", StringUtilities.parseInt( omegaMatcher.group( 1 ) ) );
+			}
+			if ( ChoiceManager.lastResponseText.contains( "Omega device activated" ) )
+			{
+				Preferences.setInteger( "controlPanelOmega", 0 );
+			}
 			break;
 		}
 	}

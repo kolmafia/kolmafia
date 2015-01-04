@@ -332,6 +332,7 @@ user	controlPanel6	false
 user	controlPanel7	false
 user	controlPanel8	false
 user	controlPanel9	false
+user	controlPanelOmega	0
 user	corralUnlocked	false
 user	cozyCounter6332	0
 user	cozyCounter6333	0
@@ -1014,6 +1015,7 @@ user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_coldOne	false
 user	_companionshipCasts	0
+user	_controlPanelUsed	false
 user	_corruptedStardustUsed	false
 user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
