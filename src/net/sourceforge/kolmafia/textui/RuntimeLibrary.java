@@ -460,6 +460,9 @@ public abstract class RuntimeLibrary
 		// updated usually once per day.
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "holiday", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2492,6 +2495,27 @@ public abstract class RuntimeLibrary
 
 	// Functions related to daily information which get
 	// updated usually once per day.
+
+	public static Value holiday( Interpreter interpreter )
+	{
+		Date today = new Date();
+		String gameHoliday = HolidayDatabase.getGameHoliday( today );
+		String realHoliday = HolidayDatabase.getRealLifeHoliday( today );
+		String result =
+			gameHoliday != null && realHoliday != null ?
+			gameHoliday + "/" + realHoliday :
+			gameHoliday != null ?
+			gameHoliday :
+			realHoliday != null ?
+			realHoliday :
+			"";
+		if ( result.equals( "St. Sneaky Pete's Day/Feast of Boris" ) ||
+		     result.equals( "Feast of Boris/St. Sneaky Pete's Day" ) )
+		{
+			result = "Drunksgiving";
+		}
+		return new Value( result );
+	}
 
 	public static Value today_to_string( Interpreter interpreter )
 	{

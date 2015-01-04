@@ -880,7 +880,7 @@ public class HolidayDatabase
 
 	public static final boolean isRealLifeHoliday( final Date time )
 	{
-		return HolidayDatabase.getRealLifeHoliday( KoLConstants.DAILY_FORMAT.format( time ) ) != null;
+		return HolidayDatabase.getRealLifeHoliday( time ) != null;
 	}
 
 	/**
@@ -973,8 +973,7 @@ public class HolidayDatabase
 
 				for ( int j = 0; j < currentEstimate; ++j )
 				{
-					testDate = KoLConstants.DAILY_FORMAT.format( holidayTester.getTime() );
-					testResult = HolidayDatabase.getRealLifeHoliday( testDate );
+					testResult = HolidayDatabase.getRealLifeHoliday( holidayTester.getTime() );
 
 					if ( holiday != null && testResult != null && testResult.equals( holiday ) )
 					{
@@ -993,7 +992,7 @@ public class HolidayDatabase
 
 		if ( HolidayDatabase.SPECIAL[ HolidayDatabase.getCalendarDay( time ) ] != HolidayDatabase.SP_HOLIDAY )
 		{
-			String holiday = HolidayDatabase.getRealLifeOnlyHoliday( KoLConstants.DAILY_FORMAT.format( time ) );
+			String holiday = HolidayDatabase.getRealLifeOnlyHoliday( time );
 			if ( holiday != null )
 			{
 				holidayList.add( new HolidayEntry( 0, holiday ) );
@@ -1091,11 +1090,8 @@ public class HolidayDatabase
 
 	public static final String getHoliday( final Date time, final boolean showPrediction )
 	{
-		int calendarDay = HolidayDatabase.getCalendarDay( time );
-		int[] calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( calendarDay );
-
-		String gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
-		String realHoliday = HolidayDatabase.getRealLifeHoliday( KoLConstants.DAILY_FORMAT.format( time ) );
+		String gameHoliday = HolidayDatabase.getGameHoliday( time );
+		String realHoliday = HolidayDatabase.getRealLifeHoliday( time );
 
 		if ( showPrediction && realHoliday == null )
 		{
@@ -1104,8 +1100,8 @@ public class HolidayDatabase
 				return gameHoliday + " today";
 			}
 
-			calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + 1 ) % 96 );
-			gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
+			int calendarDay = HolidayDatabase.getCalendarDay( time );
+			gameHoliday = HolidayDatabase.getGameHoliday( ( calendarDay + 1 ) % 96 );
 
 			if ( gameHoliday != null )
 			{
@@ -1114,8 +1110,7 @@ public class HolidayDatabase
 
 			for ( int i = 2; i < 96; ++i )
 			{
-				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + i ) % 96 );
-				gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
+				gameHoliday = HolidayDatabase.getGameHoliday( ( calendarDay + i ) % 96 );
 
 				if ( gameHoliday != null )
 				{
@@ -1151,9 +1146,25 @@ public class HolidayDatabase
 		return holiday;
 	}
 
+	public static final String getGameHoliday( final int calendarDay )
+	{
+		int[] calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( calendarDay );
+		return HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];
+	}
+
+	public static final String getGameHoliday( final Date time )
+	{
+		return HolidayDatabase.getGameHoliday( HolidayDatabase.getCalendarDay( time ) );
+	}
+
 	private static String cachedYear = "";
 	private static String easter = "";
 	private static String thanksgiving = "";
+
+	public static final String getRealLifeHoliday( final Date time )
+	{
+		return HolidayDatabase.getRealLifeHoliday( KoLConstants.DAILY_FORMAT.format( time ) );
+	}
 
 	public static final String getRealLifeHoliday( final String stringDate )
 	{
@@ -1251,6 +1262,11 @@ public class HolidayDatabase
 		}
 
 		return HolidayDatabase.getRealLifeOnlyHoliday( stringDate );
+	}
+
+	public static final String getRealLifeOnlyHoliday( final Date time )
+	{
+		return HolidayDatabase.getRealLifeOnlyHoliday( KoLConstants.DAILY_FORMAT.format( time ) );
 	}
 
 	public static final String getRealLifeOnlyHoliday( final String stringDate )
