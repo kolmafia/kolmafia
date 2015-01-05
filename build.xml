@@ -44,11 +44,6 @@
 
 		<echo message="Current revision: ${revision}" />
 
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = null"
-			value="REVISION = &quot;${revision}&quot;" />
-
 	</target>
 
 	<!-- ========================================== -->
@@ -74,19 +69,6 @@
 			<arg value="-c" />
 			<arg value="git svn info | grep '^Revision: [0-9]*$' | awk '{ print $2 }'" />
 		</exec>
-
-	</target>
-
-	<!-- ======================================================== -->
-	<!--  reverts any changes involved with setting the revision  -->
-	<!-- ======================================================== -->
-
-	<target name="unversion" depends="svn-version,gitsvn-version" if="revision">
-
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = &quot;${revision}&quot;"
-			value="REVISION = null" />
 
 	</target>
 
@@ -172,7 +154,10 @@
 			</fileset>
 		</copy>
 
-		<antcall target="version" />
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = null"
+			value="REVISION = &quot;${revision}&quot;" />
 
 		<javac
 			compiler="modern"
@@ -188,8 +173,16 @@
 			nowarn="on"
 			includeantruntime="false"
 			errorProperty="compile.failed" />
-		
-		<antcall target="unversion" />
+
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = &quot;${revision}&quot;"
+			value="REVISION = null" />
+
+		<replace
+			file="${KoLConstants}"
+			token="RELEASED = false"
+			value="RELEASED = true" />
 
 		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
@@ -341,11 +334,6 @@
 
 		<antcall target="jar" />
 
-		<replace
-			file="${KoLConstants}"
-			token="RELEASED = false"
-			value="RELEASED = true" />
-
 	</target>
 
 	<!-- ============================ -->
@@ -356,25 +344,10 @@
 
 		<replace
 			file="${KoLConstants}"
-			token="REVISION = null"
-			value="REVISION = &quot;${revision}&quot;" />
-
-		<replace
-			file="${KoLConstants}"
 			token="RELEASED = true"
 			value="RELEASED = false" />
 
 		<antcall target="compile" />
-
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = &quot;${revision}&quot;"
-			value="REVISION = null" />
-
-		<replace
-			file="${KoLConstants}"
-			token="RELEASED = false"
-			value="RELEASED = true" />
 
 		<jar
 			destfile="${dist}/${ant.project.name}-${revision}.jar"
