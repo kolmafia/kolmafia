@@ -1790,5 +1790,5 @@
 1788	Mathematically Precise	precision.gif	dac9eca56a9ca9b938de8c785259b704	cast 1 Mathematical Precision
 1789	Ruthlessly Efficient	ruthless.gif	9d2da35321e91f4706bccc0cc8524d44	cast 1 Ruthless Efficiency
 1790	Peaceful, Easy Feeling	rainstick.gif	a76e9fb8c669087668ce2f0c8db8620b	use 1 red and green rain stick
-1791
+1791	Confidence!	happy.gif	c918329e6701fd1a3f9eb65ce072d0b2
 1792	Alpine Mintiness	mintleaf.gif	877c29906128c5596df2f2240f1f68cc	drink 1 hot mint schnocolate
