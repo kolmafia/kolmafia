@@ -553,6 +553,14 @@ public class DrinkItemRequest
 			return;
 		}
 
+		// Booze is restricted by Type69.
+		if ( responseText.contains( "That item is too old to be used on this path" ) )
+		{
+			UseItemRequest.lastUpdate = item.getName() + " is too old to be used on this path.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		// You only have 1 of those, not 7.
 		if ( responseText.contains( "You only have" ) )
 		{

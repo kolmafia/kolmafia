@@ -208,6 +208,14 @@ public class SpleenItemRequest
 			return;
 		}
 
+		// Spleen is restricted by Type69.
+		if ( responseText.contains( "That item is too old to be used on this path" ) )
+		{
+			UseItemRequest.lastUpdate = item.getName() + " is too old to be used on this path.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
 		{
 			int attrs = ItemDatabase.getAttributes( item.getItemId() );
