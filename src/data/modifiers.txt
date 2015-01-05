@@ -2969,6 +2969,7 @@ white collar	Meat Drop: +3, Moxie: +1
 white earbuds	Spooky Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Monster Level: -11, Single Equip
 witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
+World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
@@ -4042,6 +4043,7 @@ Comprehensively Nourished	Experience: +2
 Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
 Concha de Tortuga	HP Regen Min: 6, HP Regen Max: 8
+Confidence!	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Confused	Mysticality Percent: -30
 # Consumed by Anger: You can only attack
 Consumed by Anger	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30

@@ -2559,6 +2559,7 @@ white collar	20	none
 white earbuds	100	Mys: 35
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
+World's Best Adventurer sash	0	none
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
@@ -2604,7 +2605,7 @@ old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 pillow shell	10	none
-polyester parachute	0	none
+polyester parachute	50	none
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
 sea cape	200	Mox: 85
