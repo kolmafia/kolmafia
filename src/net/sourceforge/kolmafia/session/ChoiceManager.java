@@ -9396,7 +9396,7 @@ public abstract class ChoiceManager
 			Matcher omegaMatcher = ChoiceManager.OMEGA_PATTERN.matcher( ChoiceManager.lastResponseText );
 			if ( omegaMatcher.find() )
 			{
-				Preferences.increment( "controlPanelOmega", StringUtilities.parseInt( omegaMatcher.group( 1 ) ) );
+				Preferences.setInteger( "controlPanelOmega", StringUtilities.parseInt( omegaMatcher.group( 1 ) ) );
 			}
 			if ( ChoiceManager.lastResponseText.contains( "Omega device activated" ) )
 			{
