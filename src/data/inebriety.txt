@@ -270,6 +270,7 @@ horizontal tango	4	4	good	10-14	0	34-36	0
 Horseradish-infused Vodka	5	1		12-13	0	0	0	15 Rad-ish (+25% Mox)
 Hot Buttered Rum	4	1	decent	6-10	0	0	0	20 Loaded Forwarbear (So-So Supercold Resistance)
 hot choculate	5	4		10-15	9-10	9-10	9-10
+hot mint schnocolate	1	1	good	0	0	0	0	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 Hot Socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4		6-10	7-8	7-8	7-8
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP

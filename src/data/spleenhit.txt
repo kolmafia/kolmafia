@@ -60,6 +60,7 @@ handful of Smithereens	1	1		1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
 Hatorade	5	1		0	0	0	0	+1 PvP fight
 hippy paste	4	4		5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4		5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
+homeopathic mint tea	1	1		1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 hot wad	1	6		1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 indescribably horrible paste	4	4		5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
 Instant Karma	5	13		20-25	60-70	60-70	60-70
