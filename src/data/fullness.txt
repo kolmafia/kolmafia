@@ -113,7 +113,7 @@ cherry	1	2	decent	2	0	0	0
 cherry pie	3	4	good	6-12	0	8-10	0
 Children's Meal of the Damned	0	1	crappy	0	0	0	0
 chilly dog	3	1	awesome	11-13	0	0	0	30 Chill Out, Dog (+30 Cold Dam, +3 Sleaze/Stench Res, +10 ML)
-Choco-Mint patty	1	1	good	0	0	0	0	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
+Choco-Mint patty	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chorizo brownies	3	2	decent	3-9	0	0	0
@@ -155,7 +155,7 @@ consummate steak	4	1	decent	5-7	0	20-30	10-20
 consummate strawberries	3	1	decent	4-5	5-10	20-30	5-10
 consummate toast	2	1	decent	3	10-20	20-30	0
 consummate whipped cream	2	1	decent	3	5-10	20-30	5-10
-cookie cookie	2	1	awesome	0	0	0	0	10 Cookie Backup (automatically removes beaten up?)
+cookie cookie	2	1	awesome	7-11	0	0	0	10 Cookie Backup (automatically removes beaten up?)
 Cool Brunch Pastaco	2	3	EPIC	11-12	0	0	60-100	40 Gyromitra Gymnastics (+40 Mox)
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
@@ -361,7 +361,7 @@ irradiated candy cane	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% a
 it came from beyond dessert	4	1		6-12	7-8	7-8	7-8	10 Sugar Rush
 Jack LaLanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy
 Jarlsberg's key lime pie	4	6	awesome	14-16	0	28-33	0	Jarlsberg's key
-java cookie	2	1	awesome	0	0	0	0	10 Updated (+20 all stats)
+java cookie	2	1	awesome	7-11	0	0	0	10 Updated (+20 all stats)
 jawbruiser	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
 jerky coins	1	1	EPIC	5-6	5-6	5-6	5-6
 jive turkey leg	1	1	good	2-3	5-10	0	0	50 Hollow Inside (+6 Maximum Hooch)
@@ -493,7 +493,7 @@ perfect chef salad	5	1	good	14-16	10-20	40-50	10-20
 perfect sandwich	5	1	good	14-16	10-20	40-50	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
 petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
-petit fortran	2	1	awesome	0	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-20 HP regen)
+petit fortran	2	1	awesome	7-11	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-20 HP regen)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
