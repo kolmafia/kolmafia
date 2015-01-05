@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -588,6 +589,11 @@ public class UseItemEnqueuePanel
 			AdventureResult item = creation.getItem();
 
 			if ( creation.getAvailable() == 0 )
+			{
+				return false;
+			}
+
+			if ( item != null && !Type69Request.isAllowed( "Items", item.getDataName() ) )
 			{
 				return false;
 			}
