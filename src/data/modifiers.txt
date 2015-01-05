@@ -3757,6 +3757,7 @@ All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
+Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Spell Damage: +25
 Also Schmeckt Zarathustra	Mysticality: +30
 Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Always In Motion	Initiative: +100
@@ -5953,6 +5954,7 @@ centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
 chaos popcorn	Effect Duration: 5
 cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
+Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
 circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
@@ -6208,6 +6210,7 @@ Herring Wallbanger	Effect: "Fishy", Effect Duration: 10
 herringcello	Effect: "Sugar Rush", Effect Duration: 20
 Herringtini	Effect: "Fishy", Effect Duration: 15
 honey mead	Effect: "Sugar Rush", Effect Duration: 5
+hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25
 Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
