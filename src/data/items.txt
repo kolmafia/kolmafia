@@ -8001,7 +8001,7 @@
 7982
 7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0	Sister Accessories
 7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0
-7985
+7985	polyester parachute	973760204	polyparachute.gif	container		0
 7986
 7987
 7988
