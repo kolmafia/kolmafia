@@ -196,4 +196,4 @@
 187	Baby Z-Rex	babyzrex.gif	none	7822	french-fry grabber	3	0	0	0
 188	Fist Turkey	fistturkey.gif	item0,combat	7920	brass turkey knuckles	3	2	2	3
 189	Crimbo Shrub	crimboshrub.gif	stat0	7956	even more tinsel	1	3	2	0
-190	Mini-Crimbot	minicrimbot.gif	none	8010	heavy-duty Crimbot aerial	1	2	3	0
+190	Mini-Crimbot	minicrimbot.gif	none	8010	heavy-duty Crimbot aerial	3	3	3	0
