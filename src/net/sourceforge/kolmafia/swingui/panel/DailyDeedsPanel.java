@@ -3614,7 +3614,7 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean sp = Preferences.getBoolean( "_olympicSwimmingPool" );
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "Swimming Pool" );
+			boolean allowed = Type69Request.isAllowed( "Clan Item", "Clan Swimming Pool" );
 			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed );
 			this.setEnabled( !sp );
 		}
