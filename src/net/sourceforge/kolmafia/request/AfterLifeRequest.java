@@ -532,6 +532,9 @@ public class AfterLifeRequest
 			case 21:
 				builder.append( "a Picky" );
 				break;
+			case 22:
+				builder.append( "the Standard" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );
