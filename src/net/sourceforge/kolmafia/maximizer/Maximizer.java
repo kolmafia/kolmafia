@@ -256,7 +256,7 @@ public class Maximizer
 				case 1:
 					isSpecial = true;
 				}
-				if ( Maximizer.eval.checkEffectConstraints( name ) )
+				if ( Evaluator.checkEffectConstraints( name ) )
 				{
 					continue;
 				}
@@ -676,7 +676,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !Type69Request.isAllowed( "Clan Item", "Swimming Pool" ) )
+					else if ( !Type69Request.isAllowed( "Clan Item", "Clan Swimming Pool" ) )
 					{
 						continue;
 					}
