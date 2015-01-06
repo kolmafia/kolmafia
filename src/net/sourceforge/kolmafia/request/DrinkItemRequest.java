@@ -99,16 +99,19 @@ public class DrinkItemRequest
 			null;
 	}
 
-	public static final int maximumUses( final int itemId, final String itemName, final int inebriety, final boolean allowOverDrink )
+	public static final int maximumUses( final int itemId, final String itemName, final int inebriety, boolean allowOverDrink )
 	{
-		if ( KoLCharacter.isJarlsberg() && ConcoctionDatabase.getMixingMethod( itemId ) != CraftingType.JARLS
-			  && !itemName.equals( "steel margarita" ) && !itemName.equals( "mediocre lager" ) )
+		if ( KoLCharacter.isJarlsberg() &&
+		     ConcoctionDatabase.getMixingMethod( itemId ) != CraftingType.JARLS &&
+		     !itemName.equals( "steel margarita" ) &&
+		     !itemName.equals( "mediocre lager" ) )
 		{
 			UseItemRequest.limiter = "its non-Jarlsbergian nature";
 			return 0;
 		}
 
-		if ( KoLCharacter.inHighschool() && !itemName.equals( "steel margarita" ) &&
+		if ( KoLCharacter.inHighschool() &&
+		     !itemName.equals( "steel margarita" ) &&
 		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
 		{
 			UseItemRequest.limiter = "your unrefined palate";
@@ -149,7 +152,7 @@ public class DrinkItemRequest
 			{
 				return 0;
 			}
-			else if ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) == 0 )
+			if ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) == 0 )
 			{
 				return 0;
 			}
@@ -159,7 +162,7 @@ public class DrinkItemRequest
 		if ( inebrietyLeft < inebriety )
 		{
 			// One drink will make us drunk
-			return 1;
+			allowOverDrink = true;
 		}
 
 		int maxNumber = inebrietyLeft / inebriety;
@@ -173,6 +176,16 @@ public class DrinkItemRequest
 		if ( maxNumber > maxAvailable )
 		{
 			maxNumber = maxAvailable;
+		}
+
+		if ( itemName.equals( "ice stein" ) )
+		{
+			int sixpacks = InventoryManager.getCount( ItemPool.ICE_COLD_SIX_PACK );
+			if ( maxNumber > sixpacks )
+			{
+				UseItemRequest.limiter = "ice-cold six-packs";
+				return sixpacks;
+			}
 		}
 
 		return maxNumber;
@@ -324,7 +337,8 @@ public class DrinkItemRequest
 		// Multi-consume with a helper actually DOES work, even though
 		// there is no interface for doing so in game, but that's
 		// probably not something that should be relied on.
-		return ( DrinkItemRequest.queuedDrinkHelper != null && DrinkItemRequest.queuedDrinkHelperCount > 0 );
+		return  itemId == ItemPool.ICE_STEIN ||
+			( DrinkItemRequest.queuedDrinkHelper != null && DrinkItemRequest.queuedDrinkHelperCount > 0 );
 	}
 
 	private static final boolean sequentialConsume( final int itemId )
@@ -631,6 +645,24 @@ public class DrinkItemRequest
 			// Consumption helpers are removed above when you
 			// successfully eat or drink.
 			return;
+		}
+
+		if ( item.getItemId() == ItemPool.ICE_STEIN )
+		{
+			// You're way too drunk already. (checked above)
+			// Hmm. One can of beer isn't going to be sufficient for this. This is a job for a six-pack.
+			if ( responseText.contains( "This is a job for a six-pack" ) )
+			{
+				// This shouldn't happen, since maximumUses
+				// checked for availability of six-packs
+				UseItemRequest.lastUpdate = "Your ice-stein needs an ice-cold six-pack.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			// You pull a beer from your six-pack, open it, pour it into the stein, and chug it down.
+			// It succeeded. Remove a six-pack from inventory
+			ResultProcessor.processItem( ItemPool.ICE_COLD_SIX_PACK, -1 );
 		}
 
 		// The drink was consumed successfully

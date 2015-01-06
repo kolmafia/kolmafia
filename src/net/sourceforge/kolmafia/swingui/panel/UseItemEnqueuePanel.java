@@ -644,6 +644,14 @@ public class UseItemEnqueuePanel
 				}
 				return super.isVisible( element );
 
+			case KoLConstants.CONSUME_USE:
+				if ( !UseItemEnqueuePanel.this.booze ||
+				     creation.getItemId() != ItemPool.ICE_STEIN )
+				{
+					return false;
+				}
+				return super.isVisible( element );
+
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( !UseItemEnqueuePanel.this.food ||
 				     creation.getItemId() != ItemPool.MUNCHIES_PILL )

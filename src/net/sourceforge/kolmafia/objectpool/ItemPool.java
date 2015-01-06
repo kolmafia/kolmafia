@@ -111,6 +111,7 @@ public class ItemPool
 	public static final int FRILLY_SKIRT = 131;
 	public static final int BITCHIN_MEATCAR = 134;
 	public static final int SWEET_RIMS = 135;
+	public static final int ICE_COLD_SIX_PACK = 138;
 	public static final int VALUABLE_TRINKET = 139;
 	public static final int DINGY_PLANKS = 140;
 	public static final int DINGHY_DINGY = 141;
