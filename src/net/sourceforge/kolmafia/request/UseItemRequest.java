@@ -1849,6 +1849,23 @@ public class UseItemRequest
 
 		String name = item.getName();
 
+		// At least one item - the ice stein - is neither a drink nor a
+		// drink helper, but acts like a drink. Delegate.
+
+		int inebriety = ItemDatabase.getInebriety( name );
+		if ( inebriety > 0 )
+		{
+			DrinkItemRequest.parseConsumption( item, helper, responseText );
+			return;
+		}
+
+		int fullness = ItemDatabase.getFullness( name );
+		if ( fullness > 0 )
+		{
+			EatItemRequest.parseConsumption( item, helper, responseText );
+			return;
+		}
+
 		int spleenHit = ItemDatabase.getSpleenHit( name );
 		if ( spleenHit > 0 )
 		{
@@ -4958,7 +4975,6 @@ public class UseItemRequest
 		case ItemPool.RED_GREEN_RAIN_STICK:
 			Preferences.setBoolean( "_rainStickUsed", true );
 			return;
-
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
