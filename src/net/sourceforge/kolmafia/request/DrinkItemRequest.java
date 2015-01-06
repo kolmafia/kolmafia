@@ -180,7 +180,7 @@ public class DrinkItemRequest
 
 		if ( itemName.equals( "ice stein" ) )
 		{
-			int sixpacks = InventoryManager.getCount( ItemPool.ICE_COLD_SIX_PACK );
+			int sixpacks = InventoryManager.getAccessibleCount( ItemPool.ICE_COLD_SIX_PACK );
 			if ( maxNumber > sixpacks )
 			{
 				UseItemRequest.limiter = "ice-cold six-packs";
@@ -247,6 +247,18 @@ public class DrinkItemRequest
 		if ( this.itemUsed.getCount() < 1 )
 		{
 			return;
+		}
+
+		if ( itemId == ItemPool.ICE_STEIN )
+		{
+			if ( !InventoryManager.retrieveItem( ItemPool.ICE_COLD_SIX_PACK, this.itemUsed.getCount() ) )
+			{
+				// This shouldn't happen, since
+				// maximumUses( ICE_STEIN ) considers
+				// availableCount( ICE_COLD_SIXPACK )
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient ice-cold-six-packs available." );
+				return;
+			}
 		}
 
 		if ( !DrinkItemRequest.sequentialConsume( itemId ) &&
