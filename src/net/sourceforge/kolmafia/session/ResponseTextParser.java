@@ -108,6 +108,7 @@ import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
@@ -333,6 +334,7 @@ public class ResponseTextParser
 		else if ( location.startsWith( "cafe.php" ) )
 		{
 			ChezSnooteeRequest.parseResponse( location, responseText );
+			MicroBreweryRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "cave.php" ) )
