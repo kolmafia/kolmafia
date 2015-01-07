@@ -1398,9 +1398,8 @@ public class UseSkillRequest
 			// 3) It provides the most bonus turns of any tool that
 			//    satisfies the first two conditions
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( BuffTool tool : options )
 			{
-				BuffTool tool = options[ i ];
 				// If we have the tool, we are good to go
 				if ( tool.hasItem( false ) && ( !tool.isClassLimited() || KoLCharacter.getClassType() == tool.getClassType() ) )
 				{
@@ -1431,26 +1430,16 @@ public class UseSkillRequest
 		// only to what is in inventory (or closet, if your retrieval
 		// settings allow you to use it).
 
-		// Iterate over items and remember which one you have equipped
-		// (if any) and the strongest one available.
+		// Iterate over items and remember the best one you have available.
 
-		BuffTool equippedTool = null;
 		BuffTool bestTool = null;
 
-		for ( int i = 0; i < options.length; ++i )
+		for ( BuffTool tool : options )
 		{
-			BuffTool tool = options[ i ];
-			if ( !tool.hasItem( false ) || ( tool.isClassLimited() && !( KoLCharacter.getClassType() == tool.getClassType() ) ) )
-			{
-				continue;
-			}
-			if ( tool.hasEquipped() )
-			{
-				equippedTool = tool;
-			}
-			if ( bestTool == null )
+			if ( tool.hasItem( false ) && ( !tool.isClassLimited() || ( KoLCharacter.getClassType() == tool.getClassType() ) ) )
 			{
 				bestTool = tool;
+				break;
 			}
 		}
 
@@ -1464,7 +1453,7 @@ public class UseSkillRequest
 		}
 
 		// if best tool is equipped, cool.
-		if ( bestTool == equippedTool)
+		if ( bestTool.hasEquipped() )
 		{
 			return;
 		}
