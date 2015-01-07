@@ -54,8 +54,9 @@ public class ChezSnooteeRequest
 	extends CafeRequest
 {
 	private static AdventureResult dailySpecial = null;
+
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(\\d+ Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -127,13 +128,8 @@ public class ChezSnooteeRequest
 			return;
 		}
 
-		Matcher specialMatcher = ChezSnooteeRequest.SPECIAL_PATTERN.matcher( this.responseText );
-		if ( specialMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( specialMatcher.group( 1 ) );
-			ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1 );
-
-		}
+		// If we are just visiting, parse the response to find the daily special
+		ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	protected void parseResponse()
@@ -152,9 +148,23 @@ public class ChezSnooteeRequest
 			return;
 		}
 
-		// If we were not attempting to consume an item, nothing to do
+		// If we were not attempting to consume an item, look for daily special
 		if ( !urlString.contains( "action=CONSUME" ) )
 		{
+			Matcher matcher = ChezSnooteeRequest.SPECIAL_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+				String descId = matcher.group( 2 );
+				String itemName = matcher.group( 3 );
+				String match = ItemDatabase.getItemDataName( itemId );
+				if ( match == null || !match.equals( itemName ) )
+				{
+					ItemDatabase.registerItem( itemId, itemName, descId );
+				}
+				ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1 );
+
+			}
 			return;
 		}
 

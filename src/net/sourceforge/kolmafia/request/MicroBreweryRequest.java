@@ -53,7 +53,7 @@ public class MicroBreweryRequest
 {
 	private static AdventureResult dailySpecial = null;
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(\\d+ Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -125,15 +125,39 @@ public class MicroBreweryRequest
 			return;
 		}
 
-		Matcher specialMatcher = MicroBreweryRequest.SPECIAL_PATTERN.matcher( this.responseText );
-		if ( specialMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( specialMatcher.group( 1 ) );
-			MicroBreweryRequest.dailySpecial = new AdventureResult( itemId, 1 );
-
-		}
+		// If we are just visiting, parse the response to find the daily special
+		MicroBreweryRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		// cafe.php?cafeid=2&pwd&action=CONSUME%21&whichitem=806
+		if ( !urlString.startsWith( "cafe.php" ) || !urlString.contains( "cafeid=2" ) )
+		{
+			return;
+		}
+
+		// If we were not attempting to consume an item, look for daily special
+		if ( !urlString.contains( "action=CONSUME" ) )
+		{
+			Matcher matcher = MicroBreweryRequest.SPECIAL_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+				String descId = matcher.group( 2 );
+				String itemName = matcher.group( 3 );
+				String match = ItemDatabase.getItemDataName( itemId );
+				if ( match == null || !match.equals( itemName ) )
+				{
+					ItemDatabase.registerItem( itemId, itemName, descId );
+				}
+				MicroBreweryRequest.dailySpecial = new AdventureResult( itemId, 1 );
+
+			}
+			return;
+		}
+	}
+	
 	public static final boolean onMenu( final String name )
 	{
 		return KoLConstants.microbreweryItems.contains( name );
