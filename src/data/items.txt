@@ -8050,3 +8050,7 @@
 8031
 8032
 8033	alpine watercolor set	256906862	briefcase.gif	none, combat		0
+8034
+8035
+8036
+8037	bowl of topioca	766474108	topibowl.gif	food	d	70
