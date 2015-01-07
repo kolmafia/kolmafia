@@ -70,6 +70,7 @@ bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70
 bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
+bowl of topioca	3	1	awesome	12	50-60	50-60	50-60	
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP

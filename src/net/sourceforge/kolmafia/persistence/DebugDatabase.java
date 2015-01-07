@@ -1251,6 +1251,14 @@ public class DebugDatabase
 				continue;
 			}
 
+			// Unfortunately, since KoL has removed any indication
+			// other than blue font to indicate what is an
+			// enchantment, "awesome" as a food quality matches.
+			if ( enchantment.equals( "(awesome)" ) )
+			{
+				continue;
+			}
+
 			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
