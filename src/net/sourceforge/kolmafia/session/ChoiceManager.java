@@ -3458,6 +3458,10 @@ public abstract class ChoiceManager
 			DreadScrollManager.decorate( buffer );
 			break;
 
+		case 850:
+			RumpleManager.decorateWorkshop( buffer );
+			break;
+
 		case 872:
 			ChoiceManager.decorateDrawnOnward( buffer );
 			break;
@@ -8583,46 +8587,13 @@ public abstract class ChoiceManager
 			}
 			else if ( ChoiceManager.lastDecision == 4 )
 			{
-				// We lose all Rumpelstiltskin ingredients
-				int straw = InventoryManager.getCount( ItemPool.STRAW );
-				int leather = InventoryManager.getCount( ItemPool.LEATHER );
-				int clay = InventoryManager.getCount( ItemPool.CLAY );
-				int filling = InventoryManager.getCount( ItemPool.FILLING );
-				int parchment = InventoryManager.getCount( ItemPool.PARCHMENT );
-				int glass = InventoryManager.getCount( ItemPool.GLASS );
-				if ( straw > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.STRAW, -straw );
-				}
-				if ( leather > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.LEATHER, -leather );
-				}
-				if ( clay > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.CLAY, -clay );
-				}
-				if ( filling > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.FILLING, -filling );
-				}
-				if ( parchment > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.PARCHMENT, -parchment );
-				}
-				if ( glass > 0 )
-				{
-					ResultProcessor.processItem( ItemPool.GLASS, -glass );
-				}
-				// Reset score
-				Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
-				Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
 				Preferences.setString( "grimstoneMaskPath", "gnome" );
 			}
 			else if ( ChoiceManager.lastDecision == 5 )
 			{
 				Preferences.setString( "grimstoneMaskPath", "hare" );
 			}
+			RumpleManager.reset( ChoiceManager.lastDecision );
 			break;
 	
 		case 844:
@@ -8635,12 +8606,12 @@ public abstract class ChoiceManager
 	
 		case 846:
 			// Bartering for the Future of Innocent Children
-			RumpleManager.pickParent( text );
+			RumpleManager.pickParent( ChoiceManager.lastDecision );
 			break;
 
 		case 847:
 			// Pick Your Poison
-			RumpleManager.pickSin( text );
+			RumpleManager.pickSin( ChoiceManager.lastDecision );
 			break;
 	
 		case 848:

@@ -656,7 +656,8 @@ public class AdventureDatabase
 			Matcher matcher = AdventureDatabase.SNARF_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Adventure #" + matcher.group(1) : null;
 		}
-		else if ( urlString.startsWith( "cave.php" ) )
+
+		if ( urlString.startsWith( "cave.php" ) )
 		{
 			if ( urlString.contains( "action=sanctum" ) )
 			{
@@ -664,11 +665,13 @@ public class AdventureDatabase
 			}
 			return null;
 		}
-		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+
+		if ( urlString.startsWith( "guild.php?action=chal" ) )
 		{
 			return "Guild Challenge";
 		}
-		else if ( urlString.startsWith( "lair4.php" ) )
+
+		if ( urlString.startsWith( "lair4.php" ) )
 		{
 			if ( urlString.contains( "action=level1" ) )
 			{
@@ -684,7 +687,8 @@ public class AdventureDatabase
 			}
 			return null;
 		}
-		else if ( urlString.startsWith( "lair5.php" ) )
+
+		if ( urlString.startsWith( "lair5.php" ) )
 		{
 			if ( urlString.contains( "action=level1" ) )
 			{
@@ -700,7 +704,8 @@ public class AdventureDatabase
 			}
 			return null;
 		}
-		else if ( urlString.startsWith( "lair6.php" ) )
+
+		if ( urlString.startsWith( "lair6.php" ) )
 		{
 			if ( urlString.contains( "place=0" ) )
 			{
@@ -714,8 +719,10 @@ public class AdventureDatabase
 			{
 				return "Sorceress Tower: Naughty Sorceress";
 			}
+			return null;
 		}
-		else if ( urlString.startsWith( "mining.php" ) )
+
+		if ( urlString.startsWith( "mining.php" ) )
 		{
 			if ( urlString.contains( "intro=1" ) )
 			{
@@ -724,27 +731,45 @@ public class AdventureDatabase
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
 		}
-		else if ( urlString.startsWith( "sea_merkin.php" ) )
+
+		if ( urlString.startsWith( "place.php" ) )
+		{
+			if ( urlString.contains( "whichplace=ioty2014_rumple" ) )
+			{
+				if ( urlString.contains( "action=workshop" ) )
+				{
+					return "Rumpelstiltskin's Workshop";
+				}
+				return null;
+			}
+
+			if ( urlString.contains( "whichplace=ioty2014_wolf" ) )
+			{ 
+				if ( urlString.contains( "action=wolf_houserun" ) )
+				{
+					return "Unleash Your Inner Wolf";
+				}
+				return null;
+			}
+			return null;
+		}
+
+		if ( urlString.startsWith( "sea_merkin.php" ) )
 		{
 			if ( urlString.contains( "action=temple" ) )
 			{
 				return "Mer-kin Temple";
 			}
+			return null;
 		}
-		else if ( urlString.startsWith( "town.php" ) )
+
+		if ( urlString.startsWith( "town.php" ) )
 		{
 			if ( urlString.contains( "action=trickortreat" ) )
 			{
 				return "Trick-or-Treating";
 			}
-		}
-		else if ( urlString.startsWith( "place.php" ) )
-		{
-			if ( urlString.contains( "whichplace=ioty2014_wolf" ) && 
-				urlString.contains( "action=wolf_houserun" ) )
-			{
-				return "Unleash Your Inner Wolf";
-			}
+			return null;
 		}
 
 		return null;
