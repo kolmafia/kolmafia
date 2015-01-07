@@ -40,10 +40,50 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public abstract class RumpleManager
 {
+	// adventure.php?snarfblat=381 -> Portal to Terrible Parents
+	// 844/1 -> spy on parents
+	// 844/2 -> enter the portal -> 846
+	// 844/3 -> return to map
+
+	// 846/1 -> Speak to father -> 847
+	// 846/1 -> Speak to mother -> 847
+	// 846/3 -> Speak to both parents -> 847
+	// 846/4 -> exit to 844
+
+	// 847/1 -> Appeal to greed -> 848
+	// 847/2 -> Appeal to gluttony -> 848
+	// 847/3 -> Appeal to vanity -> 848
+	// 847/4 -> Appeal to laziness -> 848
+	// 847/5 -> Appeal to lustfulness -> 848
+	// 847/6 -> Appeal to violence -> 848
+
+	// 848/1 -> 1 (3) kid offering
+	// 848/2 -> 5 (7) kid offering
+	// 848/3 -> 5 (7) kid offering
+	// 848/4 -> exit to 846
+
+	// place.php?whichplace=ioty2014_rumple&action=workshop -> Rumpelstiltskin's Workshop
+	// 845/1 -> practice crafting -> 849
+	// 845/2 -> craft stuff -> 850
+	// 845/3 -> tinker around (leads to shop)
+	// 845/4 -> return to map
+
+	// 849/1 -> practice making filling
+	// 849/2 -> practice making parchment
+	// 849/3 -> practice making glass
+	// 849/4 -> exit to 845
+
+	// 850/1 -> turn 3 straw into 1 filling
+	// 850/2 -> turn 3 leather into 1 parchment
+	// 850/3 -> turn 3 clay into 1 glass
+	// 850/4 -> exit to 845
+
 	// <span class='guts'>You peer through the portal into a house full of activity.  Children are everywhere!  The portal lets you watch them and their parents without fear of being noticed. You see the father tearing down the blinds to peep out of the window. You watch some of the many children play for awhile, and then you see the mother reclined in an overstuffed chair eating a bag of bacon-flavored onion rings. You're distracted by yet more kids romping around, and when you look back you see the father trying to squeeze into a girdle. Then the portal shimmers and you see no more.</span>
 	private static final Pattern GUTS_PATTERN = Pattern.compile( "<span class='guts'>(.*?)</span>", Pattern.DOTALL );
 	private static final Pattern PATTERN1 = Pattern.compile( "without fear of being noticed. *Y([^.]*)", Pattern.DOTALL );
@@ -68,6 +108,80 @@ public abstract class RumpleManager
 	private static String sin = RumpleManager.NONE;
 
 	private static String[][] sins = new String[3][];
+
+	private static final int CLOSED = 1;
+	private static final int STARTED = 2;
+	private static final int ENDED = 3;
+
+	private static int state = RumpleManager.CLOSED;
+
+	public static final void reset( final int choice )
+	{
+		// If this quest is currently closed, nothing to do
+		if ( RumpleManager.state == RumpleManager.CLOSED )
+		{
+			return;
+		}
+
+		// Otherwise, we are starting a new mask after having done a
+		// gnome quest.
+
+		// We lose all crafting ingredients
+
+		int straw = InventoryManager.getCount( ItemPool.STRAW );
+		if ( straw > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.STRAW, -straw );
+		}
+
+		int leather = InventoryManager.getCount( ItemPool.LEATHER );
+		if ( leather > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.LEATHER, -leather );
+		}
+
+		int clay = InventoryManager.getCount( ItemPool.CLAY );
+		if ( clay > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.CLAY, -clay );
+		}
+
+		int filling = InventoryManager.getCount( ItemPool.FILLING );
+		if ( filling > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.FILLING, -filling );
+		}
+
+		int parchment = InventoryManager.getCount( ItemPool.PARCHMENT );
+		if ( parchment > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.PARCHMENT, -parchment );
+		}
+
+		int glass = InventoryManager.getCount( ItemPool.GLASS );
+		if ( glass > 0 )
+		{
+			ResultProcessor.processItem( ItemPool.GLASS, -glass );
+		}
+
+		// Reset score
+		Preferences.setInteger( "rumpelstiltskinTurnsUsed", 0 );
+		Preferences.setInteger( "rumpelstiltskinKidsRescued", 0 );
+
+		// Reset parent sins
+		RumpleManager.resetSins();
+
+		// Finally, decide the state of this zone
+		RumpleManager.state = choice == 4 ? RumpleManager.STARTED : RumpleManager.CLOSED;
+	}
+
+	public static final void resetSins()
+	{
+		RumpleManager.parent = RumpleManager.NEITHER;
+		RumpleManager.sins[0] = null;
+		RumpleManager.sins[1] = null;
+		RumpleManager.sins[2] = null;
+	}
 
 	public static final void spyOnParents( final String responseText )
 	{
@@ -215,25 +329,56 @@ public abstract class RumpleManager
 		return record;
 	}
 	
-	public static final void pickParent( final String responseText )
+	public static final void pickParent( final int choice )
 	{
-		RumpleManager.parent =
-			responseText.contains( "You approach the Husband" ) ? RumpleManager.FATHER :
-			responseText.contains( "You approach the Wife" ) ? RumpleManager.MOTHER :
-			responseText.contains( "You approach the couple" ) ? RumpleManager.BOTH :
-			RumpleManager.NEITHER;
+		switch ( choice )
+		{
+		case 1:
+			RumpleManager.parent = RumpleManager.FATHER;
+			break;
+		case 2:
+			RumpleManager.parent = RumpleManager.MOTHER;
+			break;
+		case 3:
+			RumpleManager.parent = RumpleManager.BOTH;
+			break;
+		case 4:
+			if ( Preferences.getInteger( "rumpelstiltskinTurnsUsed" ) == 30 )
+			{
+				RumpleManager.state = RumpleManager.ENDED;
+			}
+			RumpleManager.resetSins();
+			break;
+		}
 	}
 
-	public static final void pickSin( final String responseText )
+	public static final void pickSin( final int choice )
 	{
-		RumpleManager.sin =
-			responseText.contains( "greediness" ) ? RumpleManager.GREED :
-			responseText.contains( "appetite" ) ? RumpleManager.GLUTTONY :
-			responseText.contains( "vanity" ) ? RumpleManager.VANITY :
-			responseText.contains( "laziness" ) ? RumpleManager.LAZINESS :
-			responseText.contains( "lustfulness" ) ? RumpleManager.LUSTFULNESS :
-			responseText.contains( "violent nature" ) ? RumpleManager.VIOLENCE :
-			RumpleManager.NONE;
+		switch ( choice )
+		{
+		case 1:
+			RumpleManager.sin = RumpleManager.GREED;
+			break;
+		case 2:
+			RumpleManager.sin = RumpleManager.GLUTTONY;
+			break;
+		case 3:
+			RumpleManager.sin = RumpleManager.VANITY;
+			break;
+		case 4:
+			RumpleManager.sin = RumpleManager.LAZINESS;
+			break;
+		case 5:
+			RumpleManager.sin = RumpleManager.LUSTFULNESS;
+			break;
+		case 6:
+			RumpleManager.sin = RumpleManager.VIOLENCE;
+			break;
+		default:
+			// There should be no other choice options
+			RumpleManager.sin = RumpleManager.NONE;
+			break;
+		}
 	}
 
 	public static final void recordTrade( final String text )
@@ -244,6 +389,7 @@ public abstract class RumpleManager
 			( text.contains( "semi-precious children" ) || text.contains( "five kids" ) ) ? 5 : 
 			( text.contains( "seven children" ) || text.contains( "seven kids" ) || text.contains( "seven of their not-so-precious-after-all children" ) ) ? 7 :
 			0;
+
 		Preferences.increment( "rumpelstiltskinKidsRescued", kids );
 
 		// You get the sense that your bartering proposals are becoming wearisome.
@@ -253,5 +399,145 @@ public abstract class RumpleManager
 
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
+	}
+
+	final static String STRAW = "straw";
+	final static String LEATHER = "leather";
+	final static String CLAY = "clay";
+	final static String FILLING = "filling";
+	final static String PARCHMENT = "parchment";
+	final static String GLASS = "glass";
+
+	private static final String[][] BRIBES =
+	{
+		{ RumpleManager.GREED, RumpleManager.STRAW },
+		{ RumpleManager.GREED, RumpleManager.STRAW, RumpleManager.PARCHMENT },
+		{ RumpleManager.GREED, RumpleManager.CLAY, RumpleManager.FILLING },
+		{ RumpleManager.GLUTTONY, RumpleManager.STRAW },
+		{ RumpleManager.GLUTTONY, RumpleManager.LEATHER, RumpleManager.PARCHMENT },
+		{ RumpleManager.GLUTTONY, RumpleManager.CLAY, RumpleManager.FILLING },
+		{ RumpleManager.VANITY, RumpleManager.LEATHER },
+		{ RumpleManager.VANITY, RumpleManager.CLAY, RumpleManager.PARCHMENT },
+		{ RumpleManager.VANITY, RumpleManager.STRAW, RumpleManager.GLASS },
+		{ RumpleManager.LAZINESS, RumpleManager.LEATHER },
+		{ RumpleManager.LAZINESS, RumpleManager.LEATHER, RumpleManager.FILLING },
+		{ RumpleManager.LAZINESS, RumpleManager.STRAW, RumpleManager.GLASS },
+		{ RumpleManager.LUSTFULNESS, RumpleManager.CLAY },
+		{ RumpleManager.LUSTFULNESS, RumpleManager.STRAW, RumpleManager.PARCHMENT },
+		{ RumpleManager.LUSTFULNESS, RumpleManager.LEATHER, RumpleManager.GLASS },
+		{ RumpleManager.VIOLENCE, RumpleManager.CLAY },
+		{ RumpleManager.VIOLENCE, RumpleManager.CLAY, RumpleManager.GLASS },
+		{ RumpleManager.VIOLENCE, RumpleManager.LEATHER, RumpleManager.FILLING },
+	};
+
+	public static final void decorateWorkshop( final StringBuffer buffer )
+	{
+		// If you have been through the portal 5 times, you can still
+		// access the workshop to craft things for use in tinkering,
+		// but the parents are no longer an issue.
+		if ( RumpleManager.state == RumpleManager.ENDED )
+		{
+			return;
+		}
+
+		// Otherwise, you should consider crafting things that will
+		// help you tempt the parents.
+
+		int insertionPoint = buffer.lastIndexOf( "</form>" ) + 7;
+		if ( insertionPoint == 6 )
+		{
+			return;
+		}
+
+		StringBuilder output = new StringBuilder();
+
+		output.append( "<p><center>" );
+
+		int turns = Preferences.getInteger( "rumpelstiltskinTurnsUsed" );
+		if ( turns > 0 && ( turns % 6 ) == 0 )
+		{
+			// The portal is open
+			if ( RumpleManager.sins[0] == null )
+			{
+				output.append( "<font color=red>Go spy on the parents to get clues about their sins</font>" );
+			}
+			else
+			{
+				for ( String [] sin : RumpleManager.sins )
+				{
+					if ( sin != null )
+					{
+						String parent = sin[0];
+						String sin1 = sin[1];
+						String sin2 = sin[2];
+							
+						output.append( parent );
+						output.append( ": " );
+						output.append( sin1 == RumpleManager.NONE ? "UNKNOWN" : sin1 );
+						if ( sin2 != RumpleManager.NONE  )
+						{
+							output.append( " or " );
+							output.append( sin2 );
+						}
+						output.append( "<br>" );
+					}
+				}
+			}
+		}
+		else
+		{
+			output.append( "<font color=red>The portal is not open yet.</font>" );
+		}
+
+		output.append( "</center>" );
+
+		output.append( "<p><center>" );
+		output.append( "<table border=2 cols=4>" );
+		output.append( "<tr>" );
+		output.append( "<th>Sin</th>" );
+		output.append( "<th>1 kid</th>" );
+		output.append( "<th>5 kids</th>" );
+		output.append( "<th>5 kids</th>" );
+		output.append( "</tr>" );
+
+		String lastsin = RumpleManager.NONE;
+
+		for ( String[] row : RumpleManager.BRIBES )
+		{
+			String sin = row[0];
+			if ( lastsin != sin )
+			{
+				if ( lastsin != RumpleManager.NONE )
+				{
+					output.append( "</tr>" );
+				}
+				output.append( "<tr><td>" );
+				output.append( sin );
+				output.append( "</td>" );
+				lastsin = sin;
+			}
+
+			output.append( "<td>" );
+			output.append( row[1] );
+			if ( row.length == 2 )
+			{
+				output.append( "&nbsp;" );
+			}
+			else
+			{
+				output.append( " + " );
+				output.append( row[2] );
+			}
+			output.append( "</td>" );
+		}
+
+		if ( lastsin != RumpleManager.NONE )
+		{
+			output.append( "</tr>" );
+		}
+
+		output.append( "</table></center>" );
+
+		buffer.insert( insertionPoint, output.toString() );
 	}
 }
