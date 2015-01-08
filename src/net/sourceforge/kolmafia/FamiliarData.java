@@ -407,6 +407,13 @@ public class FamiliarData
 			first.setFavorite( true );
 		}
 
+		if ( first.getId() == FamiliarPool.REANIMATOR && first.getId() != KoLCharacter.getFamiliar().getId() )
+		{
+			// Visit chat to familiar page to get current parts
+			KoLmafia.updateDisplay( "Getting current parts information for " + first.getName() + " the " + first.getRace() + "." );
+			RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
+		}
+
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );

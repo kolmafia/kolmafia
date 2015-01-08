@@ -301,13 +301,6 @@ public class FamiliarRequest
 
 		super.run();
 
-		if ( !this.enthrone && !this.bjornify && this.changeTo.getId() == FamiliarPool.REANIMATOR )
-		{
-			// Visit chat to familiar page to get current parts
-			KoLmafia.updateDisplay( "Getting current parts information for " + this.changeTo.getName() + " the " + this.changeTo.getRace() + "." );
-			RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
-		}
-
 		// If we didn't have a familiar before or don't have one now,
 		// leave equipment alone.
 
@@ -459,6 +452,13 @@ public class FamiliarRequest
 			if ( changeTo == null  || !changeTo.canEquip() )
 			{
 				return false;
+			}
+
+			if ( changeTo.getId() == FamiliarPool.REANIMATOR )
+			{
+				// Visit chat to familiar page to get current parts
+				KoLmafia.updateDisplay( "Getting current parts information for " + changeTo.getName() + " the " + changeTo.getRace() + "." );
+				RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
 			}
 
 			// If we have a familiar item locked and the new familiar can
