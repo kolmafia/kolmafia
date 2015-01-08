@@ -3404,22 +3404,27 @@ public class FightRequest
 			}
 
 			// Booze Filler surveys the scene from atop the throne, and gains 1 Experience
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
+			if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) &&
 			     responseText.contains( "throne, and gains 1 Experience" ) )
 			{
 				KoLCharacter.getEnthroned().addNonCombatExperience( 1 );
 			}
 
 			// Llama surveys the scene from your back, and gains 1 Experience.
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ) ) &&
+			if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) &&
 			     responseText.contains( "back, and gains 1 Experience" ) )
 			{
 				KoLCharacter.getBjorned().addNonCombatExperience( 1 );
 			}
 
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SNOW_SUIT, 1 ) ) )
+			if ( KoLCharacter.hasEquipped( ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR ) )
 			{
 				Preferences.increment( "_snowSuitCount", 1, 75, false );
+			}
+
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.XIBLAXIAN_HOLOWRIST_PUTER, 1 ) ) )
+			{
+				Preferences.increment( "_holoWristProgress" );
 			}
 
 			if ( IslandManager.isBattlefieldMonster( monster ) )

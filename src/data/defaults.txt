@@ -1071,6 +1071,8 @@ user	_hipsterAdv	0
 user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
 user	_holidayFunUsed	false
+user	_holoWristDrops	0
+user	_holoWristProgress	0
 user	_hotAshesDrops	0
 user	_hotTubSoaks	0
 user	_hyperinflatedSealLungUsed	false

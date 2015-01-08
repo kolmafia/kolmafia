@@ -2131,6 +2131,9 @@ public class ItemPool
 	public static final int MERCURY_BLESSING = 7728;
 	public static final int CHRONER_TRIGGER = 7729;
 	public static final int BLACK_BARTS_BOOTY = 7732;
+	public static final int XIBLAXIAN_CIRCUITRY = 7733;
+	public static final int XIBLAXIAN_POLYMER = 7734;
+	public static final int XIBLAXIAN_ALLOY = 7735;
 	public static final int XIBLAXIAN_HOLOTRAINING_SIMCODE = 7739;
 	public static final int XIBLAXIAN_POLITICAL_PRISONER = 7742;
 	public static final int XIBLAXIAN_SCHEMATIC_COWL = 7743;
@@ -2142,6 +2145,7 @@ public class ItemPool
 	public static final int XIBLAXIAN_SCHEMATIC_GOGGLES = 7749;
 	public static final int FIVE_D_PRINTER = 7750;
 	public static final int RESIDENCE_CUBE = 7758;
+	public static final int XIBLAXIAN_HOLOWRIST_PUTER = 7765;
 	public static final int CONSPIRACY_ISLAND_CHARTER = 7767;
 	public static final int CONSPIRACY_ISLAND_TICKET = 7768;
 	public static final int COINSPIRACY = 7769;

@@ -2489,6 +2489,16 @@ public class ResultProcessor
 				Preferences.increment( "_turkeyBooze" );
 			}
 			break;
+
+		case ItemPool.XIBLAXIAN_ALLOY:
+		case ItemPool.XIBLAXIAN_CIRCUITRY:
+		case ItemPool.XIBLAXIAN_POLYMER:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "_holoWristProgress", 0 );
+				Preferences.increment( "_holoWristDrops" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
