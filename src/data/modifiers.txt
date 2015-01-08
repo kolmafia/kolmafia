@@ -367,6 +367,7 @@ The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Famil
 Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Familiar Effect: "MP regen, cap 25"
+tope&eacute;	Stench Resistance: +3, Hot Resistance: +3
 # toy Crimbot mega face: Allows use of LIGHT in combat
 toy Crimbot mega face	Item Drop: +10, Crimbot Outfit Power: +1
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
@@ -628,6 +629,7 @@ The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, ca
 thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
+topiary tights	Cold Resistance: +3, Spooky Resistance: +3
 # toy Crimbot rocket legs: Allows use of BURN in combat
 toy Crimbot rocket legs	Initiative: +30, Crimbot Outfit Power: +1
 transparent pants	Sleaze Damage: +60, Sleaze Spell Damage: +60, Familiar Effect: "sleaze atk, 1xPotato"
@@ -2918,6 +2920,7 @@ tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 tiny plastic XXX pr0n	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
 tonguebone	Sleaze Resistance: +4, Single Equip
+topiary necktie	Sleaze Resistance: +3
 torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 3, Single Equip
 tortoboggan	Moxie: +4, Initiative: +20, Single Equip
 # tourmalime tourniquet: Makes Candy Diorama Fights Harder
@@ -3318,6 +3321,7 @@ tiny sombrero	Sombrero Bonus: +10
 # tiny top hat and cane: (adds item0 to familiar abilities)
 tiny top hat and cane	Fairy: 1.0
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Softcore Only, Generic
+topiary noseplugs	Familiar Weight: +5
 toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
 # undissolvable contact lenses: Helps your Slimeling See Better
@@ -5834,6 +5838,7 @@ Tawdry Tramp Togs	DB Combat Damage: +20
 Terrifying Clown Suit	Spooky Damage: +5
 Terrycloth Tackle	Damage Absorption: +30
 Time Trappings	Adventures: +3
+Topiaria	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Tropical Crimbo Duds	Muscle: +10, Mysticality: +10, Moxie: +10
 Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
