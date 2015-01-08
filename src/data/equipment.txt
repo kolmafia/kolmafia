@@ -1092,6 +1092,7 @@ pocket theremin	65	Mox: 17	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
 pool cue	50	Mus: 10	2-handed staff
+porcelain police baton	120	Mus: 40	1-handed club
 portable cassette player	20	none
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
