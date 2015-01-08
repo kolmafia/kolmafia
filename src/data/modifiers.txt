@@ -308,6 +308,10 @@ plaid cowboy hat	Weapon Damage: +20, Hot Resistance: +2
 plain paper hat	Cold Damage: +20, Cold Spell Damage: +25, Spell Damage Percent: +30
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 pointy red hat	Damage Reduction: 5, Familiar Effect: "1xVolley, 1xLep, cap 27"
+# polyester panama hat: Adds Damage to Disco Dances
+polyester panama hat	Experience (Moxie): +2, Meat Drop: +10
+# porcelain porkpie: Adds <font color=purple>Sleaze Damage</font> to all Pastamancer Spells
+porcelain porkpie	Food Drop: +20, Mysticality Percent: +20
 pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk, cap 11"
 powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
@@ -583,7 +587,11 @@ pink pinkslip slip	Initiative: +35, Damage Reduction: 4, Familiar Effect: "1xVol
 pixel pants	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "atk, 4xPotato, cap 12"
 plaid skirt	Initiative: +25, MP Regen Min: 6, MP Regen Max: 10, Familiar Effect: "1xPotato, 1xFairy, cap 38"
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
+# polyester pettipants: Makes Curse of Vichyssoise Way Better
+polyester pettipants	Experience (Mysticality): +2, Cold Resistance: +3
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
+# porcelain plus-fours: Increase Duration of Turtle Tamer Buffs by 4
+porcelain plus-fours	Muscle: +4, Mysticality: +4, Moxie: +4, Maximum HP: +4, Maximum MP: +4, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Critical Hit Percent: +4, Damage Reduction: 4, Familiar Weight: +4
 pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
 pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
@@ -1272,6 +1280,8 @@ plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +7
 pointed stick	Critical Hit Percent: +5, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
+# polyester peeler: Increases the Damage of Stuffed Mortar Shell
+polyester peeler	Spell Damage Percent: +20, MP Regen Min: 2, MP Regen Max: 4
 pool cue	Moxie: +5, Pool Skill: +3
 # porcelain police baton: Your Smacks Restore MP
 porcelain police baton	Maximum MP: +20, Muscle Percent: +20
@@ -1884,6 +1894,10 @@ plush mutated alielephant	Muscle Percent: [3*G], Mysticality Percent: [3*G], Mox
 plush mutated alielf	Muscle Percent: [G], Mysticality Percent: [G], Moxie Percent: [G]
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Muscle: +10, Damage Reduction: 9
+# polyester pad: Shieldbutting Always Causes Bad Guys to Stagger
+polyester pad	Damage Reduction: 13, HP Regen Min: 4, HP Regen Max: 8
+# porcelain pepper mill: Adds Physical Damage to Saucestorm
+porcelain pepper mill	Spell Critical Percent: +10, Weakens Monster
 # pool skimmer: Catches other people's washed-away items
 portable cassette player	Combat Rate: +5, Monster Level: +5, Single Equip
 pottery shield	Hot Damage: +5, Damage Reduction: 3
@@ -2511,6 +2525,10 @@ Pok&euml;mann figurine: Twitter	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Vegemite	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Vermouth	Familiar Weight: +3, Single Equip
 polka-dot bow tie	Moxie: +3, Clownosity: +2
+# polyester pulsera: Causes Songs in your Head to Restore HP
+polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
+# porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
+porcelain phantom mask	Accessory Drop: +20, Moxie Percent: +20, Single Equip
 porquoise bracelet	Moxie: +4, Never Fumble
 porquoise eyebrow ring	Moxie: +4, Never Fumble
 porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip
@@ -3025,6 +3043,8 @@ paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 
 pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 # polyester parachute: Fury Increases Your Initiative
 polyester parachute	Experience (Muscle): +2, Weapon Drop: +10
+# porcelain pelerine: Begin Fights with 1 Disco Momentum
+porcelain pelerine	Hat Drop: +20, Monster Level: +10
 Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
 sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*(zone(The Sea)+loc(The Sunken Party Yacht))], Critical Hit Percent: [15*(zone(The Sea)+loc(The Sunken Party Yacht))]
@@ -5731,6 +5751,7 @@ Bow Tux	Item Drop: +5
 BRICKOfig Outfit	Item Drop: +10
 Brogre Brouture	Muscle Percent: +50
 Bugbear Costume	Mysticality: +3, Spell Damage: +3
+Ceramic Suit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus: I <i>Meant</i> To Do That!
 # Clothing of Loathing: ???
@@ -5807,6 +5828,7 @@ Space Beast Furs	Damage Reduction: 25
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Sucker Samurai Suit	Damage Reduction: 10
 Swashbuckling Getup	Moxie: +7
+Synthetic Suit	Familiar Weight: +5
 Tapered Threads	Initiative: +30
 Tawdry Tramp Togs	DB Combat Damage: +20
 Terrifying Clown Suit	Spooky Damage: +5
