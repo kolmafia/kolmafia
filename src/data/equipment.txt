@@ -221,6 +221,8 @@ plaid cowboy hat	100	Mox: 35
 plain paper hat	150	Mox: 60
 plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
+polyester panama hat	50	none
+porcelain porkpie	120	Mox: 40
 pottery hat	45	none
 powdered wig	70	Mox: 20
 propeller beanie	30	none
@@ -469,7 +471,9 @@ pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
+polyester pettipants	50	none
 poodle skirt	200	Mox: 200
+porcelain plus-fours	120	Mox: 40
 pottery training pants	50	none
 pteruges	100	Mox: 35
 pygmy briefs	165	Mox: 67
@@ -1091,6 +1095,7 @@ plexiglass pikestaff	180	Mus: 75	2-handed club
 pocket theremin	65	Mox: 17	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
+polyester peeler	50	Mys: 0	1-handed utensil
 pool cue	50	Mus: 10	2-handed staff
 porcelain police baton	120	Mus: 40	1-handed club
 portable cassette player	20	none
@@ -1594,7 +1599,9 @@ plush mutated alielephant	0	none
 plush mutated alielf	0	none
 pocketwatch on a chain	50	Mys: 10
 polyalloy shield	140	Mus: 55	shield
+polyester pad	50	none	shield
 pool skimmer	10	none
+porcelain pepper mill	120	Mys: 40
 pottery shield	50	none	shield
 pretty bouquet	0	none
 radiator heater shield	100	Mus: 35	shield
@@ -2147,6 +2154,8 @@ Pok&euml;mann figurine: Twitter	10	none
 Pok&euml;mann figurine: Vegemite	10	none
 Pok&euml;mann figurine: Vermouth	10	none
 polka-dot bow tie	50	Mys: 10
+polyester pulsera	50	none
+porcelain phantom mask	120	Mys: 40
 porquoise bracelet	50	Mys: 10
 porquoise eyebrow ring	50	Mys: 10
 porquoise necklace	50	Mys: 10
@@ -2607,6 +2616,7 @@ palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 pillow shell	10	none
 polyester parachute	50	none
+porcelain pelerine	120	Mus: 40
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
 sea cape	200	Mox: 85

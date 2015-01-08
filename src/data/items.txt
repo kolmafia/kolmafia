@@ -8002,17 +8002,17 @@
 7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0	Sister Accessories
 7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0
 7985	polyester parachute	973760204	polyparachute.gif	container		0
-7986
-7987
-7988
-7989
-7990
+7986	polyester pad	785194437	polypad.gif	offhand		0
+7987	polyester peeler	752785902	polypeeler.gif	weapon		0
+7988	polyester pettipants	363871695	polypants.gif	pants		0
+7989	polyester panama hat	904629891	polyhat.gif	hat		0
+7990	polyester pulsera	163516524	polypulsera.gif	accessory		0
 7991	porcelain police baton	673638222	porcbaton.gif	weapon		0
-7992
-7993
-7994
-7995
-7996
+7992	porcelain plus-fours	307429812	porcpants.gif	pants		0
+7993	porcelain porkpie	613102105	porchat.gif	hat		0
+7994	porcelain pepper mill	947162933	porcshaker.gif	offhand		0
+7995	porcelain pelerine	903658041	porcpelegrine.gif	container		0
+7996	porcelain phantom mask	139044180	porcmask.gif	accessory		0
 7997
 7998
 7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
