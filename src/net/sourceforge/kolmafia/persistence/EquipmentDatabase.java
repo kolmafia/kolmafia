@@ -495,6 +495,72 @@ public class EquipmentDatabase
 		RequestLogger.updateSessionLog( printMe );
 	}
 
+	// <tr><td valign=top>Outfit:&nbsp;</td><td valign=top><b><span style='cursor: hand; cursor:pointer;' onClick='javascript:window.open("desc_outfit.php?whichoutfit=112","","height=200,width=300")'>Topiaria</span></b><br>(3&nbsp;items)</td></tr>
+
+	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "Outfit:.*?<span.*?whichoutfit=(\\d+).*?>(.*?)</span>" );
+
+	public static final void registerItemOutfit( final String itemName, final String text )
+	{
+		Matcher matcher = OUTFIT_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int outfitId = StringUtilities.parseInt( matcher.group( 1 ) );
+		String outfitName = matcher.group( 2 );
+
+		// If this is either a new outfit or this piece is not known to
+		// be on an outfit, register it.
+
+		if ( EquipmentDatabase.normalOutfits.get( outfitId ) == null ||
+		     EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) ) == null )
+		{
+			EquipmentDatabase.registerOutfit( outfitId, new String( outfitName ), new String( itemName ) );
+		}
+	}
+	
+	public static final void registerOutfit( final int outfitId, final String outfitName, final String itemName )
+	{
+		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( outfitId );
+		Integer id = IntegerPool.get( outfitId );
+
+		if ( outfit == null )
+		{
+			outfit = new SpecialOutfit( outfitId, outfitName );
+			EquipmentDatabase.normalOutfits.set( outfitId, outfit );
+			EquipmentDatabase.outfitById.put( id, outfitName );
+		}
+
+		if ( itemName != null )
+		{
+			EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( itemName ), id );
+			outfit.addPiece( new AdventureResult( itemName, 1, false ) );
+		}
+
+		String rawText = DebugDatabase.rawOutfitDescriptionText( outfitId );
+		String outfitImage = rawText != null ?  DebugDatabase.parseImage( rawText ) : "";
+		outfit.setImage( outfitImage );
+
+		String printMe;
+
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = EquipmentDatabase.outfitString( outfitId, outfitName, outfitImage );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		// Let modifiers database do what it wishes with this outfit
+		Modifiers.registerOutfit( outfitName, rawText );
+
+		// Done generating data
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+	}
+
 	public static final int nextEquipmentItemId( int prevId )
 	{
 		int limit = ItemDatabase.maxItemId();
@@ -523,7 +589,7 @@ public class EquipmentDatabase
 			return -1;
 		}
 
-		Integer result = (Integer) EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) );
+		Integer result = EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) );
 		return result == null ? -1 : result.intValue();
 	}
 

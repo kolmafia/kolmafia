@@ -1409,7 +1409,7 @@ public class DebugDatabase
 		return DebugDatabase.DESC_OUTFIT_REQUEST.responseText;
 	}
 
-	private static final String rawOutfitDescriptionText( final int outfitId )
+	public static final String rawOutfitDescriptionText( final int outfitId )
 	{
 		String previous = DebugDatabase.rawOutfits.get( outfitId );
 		if ( previous != null && !previous.equals( "" ) )
@@ -1425,7 +1425,7 @@ public class DebugDatabase
 
 	private static final Pattern OUTFIT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
 
-	private static final String outfitDescriptionText( final String rawText )
+	public static final String outfitDescriptionText( final String rawText )
 	{
 		if ( rawText == null )
 		{
@@ -1486,6 +1486,13 @@ public class DebugDatabase
 	public static final void parseOutfitEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown )
 	{
 		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.OUTFIT_ENCHANTMENT_PATTERN );
+	}
+
+	public static final String parseOutfitEnchantments( final String text, final ArrayList<String> unknown )
+	{
+		ModifierList known = new ModifierList();
+		DebugDatabase.parseOutfitEnchantments( text, known, unknown );
+		return DebugDatabase.createModifierString( known );
 	}
 
 	// **********************************************************

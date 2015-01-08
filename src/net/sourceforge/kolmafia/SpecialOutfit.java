@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,7 +58,9 @@ public class SpecialOutfit
 	private int outfitId;
 	private String outfitName;
 	private String outfitImage;
-	private final HashMap<Integer, AdventureResult> pieces;
+
+	// This is TreeMap so that the pieces will be ordered by slot
+	private final TreeMap<Integer, AdventureResult> pieces;
 
 	private int hash;
 
@@ -76,7 +78,7 @@ public class SpecialOutfit
 		// and would keep that entire page in memory if not copied.
 		this.outfitName = new String( outfitName );
 		this.outfitImage = null;
-		this.pieces = new HashMap<Integer, AdventureResult>();
+		this.pieces = new TreeMap<Integer, AdventureResult>();
 		this.hash = 0;
 	}
 
