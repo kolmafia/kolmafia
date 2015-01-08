@@ -930,7 +930,7 @@ public class EquipmentDatabase
 			return ItemPool.USELESS_POWDER;
 		}
 
-		String name = ItemDatabase.getItemName( id );
+		String name = ItemDatabase.getItemDataName( id );
 		if ( NPCStoreDatabase.contains( name, false ) )
 		{
 			return ItemPool.USELESS_POWDER;
