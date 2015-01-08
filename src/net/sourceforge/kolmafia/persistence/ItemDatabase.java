@@ -2835,14 +2835,19 @@ public class ItemDatabase
 		return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.get( itemId );
 	}
 
-	public static final String typeToPrimaryUsage( final int type )
-	{
-		return ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerPool.get( type ) );
-	}
-
 	public static final int getConsumptionType( final String itemName )
 	{
 		return ItemDatabase.getConsumptionType( ItemDatabase.getItemId( itemName ) );
+	}
+
+	public static final int getConsumptionType( final AdventureResult item )
+	{
+		return ItemDatabase.getConsumptionType( item.getItemId() );
+	}
+
+	public static final String typeToPrimaryUsage( final int type )
+	{
+		return ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerPool.get( type ) );
 	}
 
 	/**

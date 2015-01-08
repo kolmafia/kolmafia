@@ -1436,8 +1436,10 @@ public class EquipmentRequest
 
 		case EquipmentManager.WEAPON:
 			// Wielding a two-handed weapon automatically unequips
-			// anything in the off-hand
-			if ( EquipmentDatabase.getHands( newItem.getItemId() ) > 1 )
+			// anything in the off-hand.
+			// Dropping a weapon in the main hand automatically drops a weapon in the off-hand
+			if ( EquipmentDatabase.getHands( newItem.getItemId() ) > 1 ||
+			     ( newItem.equals( EquipmentRequest.UNEQUIP ) && EquipmentManager.isDualWielding() ) )
 			{
 				refresh |= EquipmentRequest.switchItem( EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP );
 			}
