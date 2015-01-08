@@ -3747,9 +3747,17 @@ public class Modifiers
 
 	public static final void registerEffect( final String name, final String text )
 	{
-		// Examine the item description and decide what it is.
+		// Examine the effect description and decide what it is.
 		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
+		Modifiers.registerObject( name, unknown, known );
+	}
+
+	public static final void registerOutfit( final String name, final String text )
+	{
+		// Examine the outfit description and decide what it is.
+		ArrayList<String> unknown = new ArrayList<String>();
+		String known = DebugDatabase.parseOutfitEnchantments( text, unknown );
 		Modifiers.registerObject( name, unknown, known );
 	}
 

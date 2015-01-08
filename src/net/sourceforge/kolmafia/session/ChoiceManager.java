@@ -3245,6 +3245,16 @@ public abstract class ChoiceManager
 				       new Option( "Gain 17 Chroner (60% chance)" ),
 				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
 
+		// Choice 1005 is Allo'
+		// Choice 1006 is One Small Step For Adventurer (topiary gopher)
+		// Choice 1007 is Twisty Little Passages, All Hedge (topiary chihuahua herd)
+		// Choice 1008 is Pooling Your Resources
+		// Choice 1009 is Good Ol' 44% Duck (topiary duck)
+		// Choice 1010 is Another Day, Another Fork
+		// Choice 1011 is Of Mouseholes and Manholes
+		// Choice 1012 is The Last Temptation
+		// Choice 1013 is Mazel Tov!
+		
 		// Bee Persistent
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure1018", "Bees 1",
