@@ -83,6 +83,12 @@ public class RelayAgent
 		RelayAgent.errorRequestPath = "/" + errorRequest.getPath();
 	}
 
+	public static void clearErrorRequest()
+	{
+		RelayAgent.errorRequest = null;
+		RelayAgent.errorRequestPath = null;
+	}
+
 	private final char[] data = new char[ 8192 ];
 	private final StringBuffer buffer = new StringBuffer();
 	private final PauseObject pauser = new PauseObject();
@@ -464,7 +470,7 @@ public class RelayAgent
 			// Modified response appropriately.
 		}
 
-		if ( errorRequest != null )
+		if ( RelayAgent.errorRequest != null )
 		{
 			if ( this.path.startsWith( "/main.php" ) )
 			{
@@ -474,7 +480,7 @@ public class RelayAgent
 
 			if ( this.path.equals( RelayAgent.errorRequestPath ) )
 			{
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", errorRequest.responseText );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", RelayAgent.errorRequest.responseText );
 				this.request.formatResponse();
 
 				RelayAgent.errorRequest = null;

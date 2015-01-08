@@ -1435,6 +1435,14 @@ public class GenericRequest
 	{
 		String urlString = this.getURLString();
 
+		if ( urlString.startsWith( "adventure.php" ) ||
+		     urlString.startsWith( "fight.php" ) ||
+		     urlString.startsWith( "choice.php" ) ||
+		     urlString.startsWith( "place.php" ) )
+		{
+			RelayAgent.clearErrorRequest();
+		}
+
 		if ( !GenericRequest.isRatQuest )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
