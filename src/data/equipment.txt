@@ -276,6 +276,7 @@ The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
 tin tam	100	none
+tope&eacute;	50	none
 toy Crimbot mega face	50	none
 toy space helmet	175	Mox: 72
 Tropical Crimbo Hat	100	Mox: 35
@@ -509,6 +510,7 @@ The Sagittarian's leisure pants	75	none
 thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
+topiary tights	50	none
 toy Crimbot rocket legs	50	none
 transparent pants	225	Mox: 200
 Travoltan trousers	100	none
@@ -2518,6 +2520,7 @@ tiny plastic Wu Tang the Betrayer	30	none
 tiny plastic XXX pr0n	10	none
 tiny plastic zmobie	10	none
 tonguebone	225	Mys: 200
+topiary necktie	50	none
 torquoise ring	40	none
 tortoboggan	90	Mox: 30
 tourmalime tourniquet	0	none
