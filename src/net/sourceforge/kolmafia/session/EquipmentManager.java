@@ -928,6 +928,15 @@ public class EquipmentManager
 		}
 	}
 
+	public static final boolean isDualWielding()
+	{
+		AdventureResult mainhand = EquipmentManager.equipment.get( EquipmentManager.WEAPON );
+		AdventureResult offhand = EquipmentManager.equipment.get( EquipmentManager.OFFHAND );
+		
+		return  !mainhand.equals( EquipmentRequest.UNEQUIP ) &&
+			ItemDatabase.getConsumptionType( offhand ) == KoLConstants.EQUIP_WEAPON;
+	}
+
 	/**
 	 * Accessor method to retrieve the name of the item equipped on the
 	 * character's familiar.
