@@ -465,6 +465,14 @@ Saucepanic	handful of Smithereens
 Frankly Mr. Shank	handful of Smithereens
 Shakespeare's Sister's Accordion	handful of Smithereens
 
+# Porcelain items
+porcelain police baton	porcelain powder
+porcelain plus-fours	porcelain powder
+porcelain porkpie	porcelain powder
+porcelain pepper mill	porcelain powder
+porcelain pelerine	porcelain powder
+porcelain phantom mask	porcelain powder
+
 # Grim Mask Leaderboard First place rewards are not smashable
 silver cow creamer	nosmash
 wolf whistle	nosmash
