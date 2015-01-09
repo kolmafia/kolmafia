@@ -99,6 +99,7 @@ public class UseSkillRequest
 		"Spaghetti Breakfast",
 		"Grab a Cold One",
 		"Summon Holiday Fun!",
+		"Summon Carrot",
 	};
 
 	public static final String[] TOME_SKILLS =
@@ -772,6 +773,10 @@ public class UseSkillRequest
 
 		case SkillPool.HOLIDAY_FUN:
 			maximumCast = Preferences.getBoolean( "_holidayFunUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.SUMMON_CARROT:
+			maximumCast = Preferences.getBoolean( "_summonCarrotUsed" ) ? 0 : 1;
 			break;
 		}
 
@@ -2124,6 +2129,10 @@ public class UseSkillRequest
 
 		case SkillPool.HOLIDAY_FUN:
 			Preferences.setBoolean( "_holidayFunUsed", true );
+			break;
+
+		case SkillPool.SUMMON_CARROT:
+			Preferences.setBoolean( "_summonCarrotUsed", true );
 			break;
 		}
 

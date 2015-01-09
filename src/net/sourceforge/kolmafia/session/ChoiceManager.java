@@ -3267,6 +3267,10 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "beehive", "beehive" ),
 				       "give up" } ),
 
+		// Choice 1020 is Closing Ceremony
+		// Choice 1021 is Meet Frank
+		// Choice 1022 is Meet Frank
+
 		// Home on the Free Range
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure1026", "Ground Floor Foodie",

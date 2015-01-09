@@ -1199,6 +1199,7 @@ user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false
 user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
+user	_summonCarrotUsed	false
 user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
@@ -1717,6 +1718,9 @@ user	choiceAdventure982	0
 user	choiceAdventure983	0
 user	choiceAdventure988	0
 user	choiceAdventure989	0
+user	choiceAdventure1020	1
+user	choiceAdventure1021	1
+user	choiceAdventure1022	1
 
 user	lockedItem4637	true
 user	lockedItem4638	true

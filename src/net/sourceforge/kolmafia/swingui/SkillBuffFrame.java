@@ -301,6 +301,9 @@ public class SkillBuffFrame
 			{
 				"Summon Holiday Fun!", "_holidayFunUsed", "boolean", "true",
 			},
+			{
+				"Summon Carrot", "_summonCarrotUsed", "boolean", "true",
+			},
 		};
 		
 		private void setSkillListeners()
