@@ -69,8 +69,10 @@ public class FamiliarData
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
+	// <tr class="frow expired" data-stats="1" data-other="1"><td valign=center>&nbsp;</td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/crayongoth.gif" class="hand fam" onClick='fam(160)'></td><td valign=top style='padding-top: .45em;'><b>Raven 'Raven' Ravengrrl</b>, the 1-pound Artistic Goth Kid (0 exp, 32,443 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=160&pwd=4438585275374d322da30a77b73cb7d5">[unfavorite]</a></font></td></tr>
+
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img(?<!:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( "(?:.*?<tr.*? class=\"([^\"]*)\")?.*?<img(?<!:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
@@ -121,11 +123,11 @@ public class FamiliarData
 
 	private FamiliarData( final Matcher dataMatcher )
 	{
-		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
-		this.race = dataMatcher.group( 4 );
+		this.id = StringUtilities.parseInt( dataMatcher.group( 3 ) );
+		this.race = dataMatcher.group( 5 );
 		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
-		String image = dataMatcher.group( 1 );
+		String image = dataMatcher.group( 2 );
 		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
 
 		this.update( dataMatcher );
@@ -133,10 +135,10 @@ public class FamiliarData
 
 	public final void update( final Matcher dataMatcher )
 	{
-		this.name = dataMatcher.group( 3 );
-		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
+		this.name = dataMatcher.group( 4 );
+		this.experience = StringUtilities.parseInt( dataMatcher.group( 6 ) );
 		this.setWeight();
-		String itemData = dataMatcher.group( 6 );
+		String itemData = dataMatcher.group( 7 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
 		this.favorite = itemData.indexOf( "[unfavorite]" ) != -1;
 	}
@@ -366,7 +368,13 @@ public class FamiliarData
 		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			String race = matcher.group( 4 );
+			String style = matcher.group( 1 );
+			if ( style != null && style.contains( "expired" ) )
+			{
+				continue;
+			}
+
+			String race = matcher.group( 5 );
 			FamiliarData familiar = KoLCharacter.findFamiliar( race );
 			if ( familiar == null )
 			{
@@ -380,11 +388,12 @@ public class FamiliarData
 				familiar.update( matcher );
 			}
 
-			if ( matcher.group( 6 ).contains( "kick out of Crown of Thrones" ) )
+			String itemData = matcher.group( 7 );
+			if ( itemData.contains( "kick out of Crown of Thrones" ) )
 			{
 				hatseat = familiar;
 			}
-			else if ( matcher.group( 6 ).contains( "kick out of Buddy Bjorn" ) )
+			else if ( itemData.contains( "kick out of Buddy Bjorn" ) )
 			{
 				buddy = familiar;
 			}

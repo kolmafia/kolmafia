@@ -391,8 +391,8 @@ public class CompactSidePane
 				Modifiers mods = Modifiers.getModifiers( "Fam:" + fam.getRace() );
 				boolean added = false;
 				if ( FamiliarDatabase.isVolleyType( id ) ||
-					  FamiliarDatabase.isSombreroType( id ) ||
-					  (mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
+				     FamiliarDatabase.isSombreroType( id ) ||
+				     (mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
 				{
 					stat.add( new FamiliarMenuItem( fam ) );
 					added = true;
