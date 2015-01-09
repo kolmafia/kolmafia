@@ -82,7 +82,7 @@ public class RequestFrame
 {
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN =
-		Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
+		Pattern.compile( "images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
 
 	private static final Pattern BOOKSHELF_PATTERN =
@@ -532,7 +532,7 @@ public class RequestFrame
 		Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher( responseText );
 		while ( imageMatcher.find() )
 		{
-			FileUtilities.downloadImage( imageMatcher.group() );
+			FileUtilities.downloadImage( "http://" + imageMatcher.group() );
 		}
 
 		this.mainDisplay.setText( responseText );
