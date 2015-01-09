@@ -77,9 +77,9 @@ public class UneffectRequest
 	extends GenericRequest
 {
 	private final int effectId;
-	private boolean isShruggable;
-	private boolean needsCocoa;
-	private boolean isTimer;
+	private final boolean isShruggable;
+	private final boolean needsCocoa;
+	private final boolean isTimer;
 	private final AdventureResult effect;
 
 	private static final Set<AdventureResult> currentEffectRemovals = new HashSet<AdventureResult>();
@@ -686,9 +686,9 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
 		removableEffects.add( "Iron Palms" );
 
-		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();	
+		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
-	
+
 	static
 	{
 		UneffectRequest.reset();

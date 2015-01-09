@@ -84,7 +84,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -369,7 +369,7 @@ public class ConcoctionDatabase
 		return mixingMethod == CraftingType.SUSHI;
 	}
 
-	public static final SortedListModel<AdventureResult> getKnownUses( final int itemId )
+	public static final SortedListModel<AdventureResult> getKnownUses( final int itemId )//
 	{
 		SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get( itemId );
 		return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
@@ -1354,7 +1354,7 @@ public class ConcoctionDatabase
 			     ar.getItemId() > 0 &&
 			     item.getPrice() <= 0 &&
 			     ItemDatabase.meetsLevelRequirement( item.getName() ) &&
-			     Type69Request.isAllowed( "Items", ar.getName() ) )
+			     StandardRequest.isAllowed( "Items", ar.getName() ) )
 			{
 				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
 			}

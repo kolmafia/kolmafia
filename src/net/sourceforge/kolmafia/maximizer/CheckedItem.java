@@ -36,12 +36,16 @@ package net.sourceforge.kolmafia.maximizer;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+
 import net.sourceforge.kolmafia.request.MrStoreRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
@@ -83,7 +87,7 @@ public class CheckedItem
 			return;
 		}
 
-		if ( !Type69Request.isAllowed( "Items", this.getName() ) )
+		if ( !StandardRequest.isAllowed( "Items", this.getName() ) )
 		{
 			// Unallowed items can't be bought or pulled, though the original code
 			// just reset everything to zero
@@ -119,7 +123,7 @@ public class CheckedItem
 	}
 
 	@Override
-	public int getCount()
+	public final int getCount()
 	{
 		if ( this.singleFlag )
 		{

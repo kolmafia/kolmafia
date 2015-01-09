@@ -70,7 +70,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -593,7 +593,7 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
-			if ( item != null && !Type69Request.isAllowed( "Items", item.getDataName() ) )
+			if ( item != null && !StandardRequest.isAllowed( "Items", item.getDataName() ) )
 			{
 				return false;
 			}
@@ -702,7 +702,7 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.isJarlsberg() && ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) )
 			{
-				// No hotdogs for Jarlsberg
+				// No VIP items for Jarlsberg
 				if ( creation.hotdog || creation.speakeasy )
 				{
 					return false;

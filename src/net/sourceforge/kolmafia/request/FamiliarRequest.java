@@ -78,8 +78,8 @@ public class FamiliarRequest
 	}
 
 	private FamiliarData changeTo;
-	private AdventureResult item;
-	private boolean locking;
+	private final AdventureResult item;
+	private final boolean locking;
 	private boolean enthrone, bjornify;
 
 	public FamiliarRequest()

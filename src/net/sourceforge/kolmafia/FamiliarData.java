@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -158,7 +158,7 @@ public class FamiliarData
 		}
 
 		// Unallowed familiars cannot be equipped
-		if ( !Type69Request.isAllowed( "Familiars", this.race ) )
+		if ( !StandardRequest.isAllowed( "Familiars", this.race ) )
 		{
 			return false;
 		}

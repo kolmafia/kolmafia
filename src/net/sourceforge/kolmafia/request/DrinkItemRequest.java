@@ -579,7 +579,7 @@ public class DrinkItemRequest
 			return;
 		}
 
-		// Booze is restricted by Type69.
+		// Booze is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
 		{
 			UseItemRequest.lastUpdate = item.getName() + " is too old to be used on this path.";
@@ -706,7 +706,7 @@ public class DrinkItemRequest
 		switch ( item.getItemId() )
 		{
 		case ItemPool.STEEL_LIVER:
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			if ( responseText.contains( "You acquire a skill" ) )
 			{
 				ResponseTextParser.learnSkill( "Liver of Steel" );
 			}

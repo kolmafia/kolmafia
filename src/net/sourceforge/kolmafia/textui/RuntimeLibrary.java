@@ -160,9 +160,9 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -6970,19 +6970,19 @@ public abstract class RuntimeLibrary
 		{
 
 			result =
-				Type69Request.isNotRestricted( "Items", key ) &&
-				Type69Request.isNotRestricted( "Bookshelf Books", key ) &&
-				Type69Request.isNotRestricted( "Skills", key ) &&
-				Type69Request.isNotRestricted( "Familiars", key ) &&
-				Type69Request.isNotRestricted( "Clan Items", key );
+				StandardRequest.isNotRestricted( "Items", key ) &&
+				StandardRequest.isNotRestricted( "Bookshelf Books", key ) &&
+				StandardRequest.isNotRestricted( "Skills", key ) &&
+				StandardRequest.isNotRestricted( "Familiars", key ) &&
+				StandardRequest.isNotRestricted( "Clan Items", key );
 		}
 		else if ( type.equals( DataTypes.TYPE_ITEM ) )
 		{
-			result = Type69Request.isNotRestricted( "Items", key );
+			result = StandardRequest.isNotRestricted( "Items", key );
 		}
 		else if ( type.equals( DataTypes.TYPE_FAMILIAR ) )
 		{
-			result = Type69Request.isNotRestricted( "Familiars", key );
+			result = StandardRequest.isNotRestricted( "Familiars", key );
 		}
 		else if ( type.equals( DataTypes.TYPE_SKILL ) )
 		{
@@ -6990,11 +6990,11 @@ public abstract class RuntimeLibrary
 			{
 				int itemId = SkillDatabase.skillToBook( key );
 				key = ItemDatabase.getItemName( itemId );
-				result = Type69Request.isNotRestricted( "Bookshelf Books", key );
+				result = StandardRequest.isNotRestricted( "Bookshelf Books", key );
 			}
 			else
 			{
-				result = Type69Request.isNotRestricted( "Skills", key );
+				result = StandardRequest.isNotRestricted( "Skills", key );
 			}
 		}
 		else

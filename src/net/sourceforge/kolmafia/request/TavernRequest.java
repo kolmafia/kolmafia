@@ -114,7 +114,7 @@ public class TavernRequest
 	
 		if ( location.indexOf( "place=susguy" ) != -1 ) {
 			if ( responseText.indexOf( "Take some goofballs (for free!)") == -1) {
-				Preferences.setInteger("lastGoofballBuy", KoLCharacter.getAscensions());
+				Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
 			}
 		}
 
@@ -122,7 +122,7 @@ public class TavernRequest
 		{
 			// Here you go, man. If you get caught, you didn't get
 			// these from me, man.
-			Preferences.setInteger("lastGoofballBuy", KoLCharacter.getAscensions());
+			Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
 			if ( responseText.indexOf( "If you get caught" ) == -1 )
 			{
 				return;
@@ -163,7 +163,7 @@ public class TavernRequest
 	private static final void parseCellarMap( final String text )
 	{
 		String oldLayout = TavernRequest.tavernLayout();
-		StringBuffer layout = new StringBuffer( oldLayout );
+		StringBuilder layout = new StringBuilder( oldLayout );
 
 		Matcher matcher = TavernRequest.MAP_PATTERN.matcher( text );
 		while ( matcher.find() )
@@ -364,7 +364,7 @@ public class TavernRequest
 
 	private static final void addTavernLocation( final int square, final char value )
 	{
-		StringBuffer layout = new StringBuffer( TavernRequest.tavernLayout() );
+		StringBuilder layout = new StringBuilder( TavernRequest.tavernLayout() );
 		layout.setCharAt( square - 1, value );
 		Preferences.setString( "tavernLayout", layout.toString() );
 	}
