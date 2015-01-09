@@ -6339,6 +6339,7 @@ abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
+Aggressive Carrot	Free Pull
 airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
