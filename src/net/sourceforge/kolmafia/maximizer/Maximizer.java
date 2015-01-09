@@ -65,7 +65,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -363,7 +363,7 @@ public class Maximizer
 							{
 								continue;
 							}
-							else if ( !Type69Request.isAllowed( "Clan Item", "Hot Dog Stand" ) )
+							else if ( !StandardRequest.isAllowed( "Clan Item", "Hot Dog Stand" ) )
 							{
 								continue;
 							}
@@ -624,7 +624,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !Type69Request.isAllowed( "Clan Item", "Pool Table" ) )
+					else if ( !StandardRequest.isAllowed( "Clan Item", "Pool Table" ) )
 					{
 						continue;
 					}
@@ -650,7 +650,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !Type69Request.isAllowed( "Clan Item", "April Shower" ) )
+					else if ( !StandardRequest.isAllowed( "Clan Item", "April Shower" ) )
 					{
 						continue;
 					}
@@ -676,7 +676,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !Type69Request.isAllowed( "Clan Item", "Clan Swimming Pool" ) )
+					else if ( !StandardRequest.isAllowed( "Clan Item", "Clan Swimming Pool" ) )
 					{
 						continue;
 					}

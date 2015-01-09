@@ -147,7 +147,7 @@ public class SingleUseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "multiuse.php") && !urlString.startsWith( "inv_use.php")  )
+		if ( !urlString.startsWith( "multiuse.php" ) && !urlString.startsWith( "inv_use.php" ) )
 		{
 			return false;
 		}

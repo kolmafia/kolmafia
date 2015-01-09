@@ -138,7 +138,7 @@ public class MultiUseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "multiuse.php") && !urlString.startsWith( "inv_use.php")  )
+		if ( !urlString.startsWith( "multiuse.php" ) && !urlString.startsWith( "inv_use.php" ) )
 		{
 			return false;
 		}
@@ -151,7 +151,7 @@ public class MultiUseRequest
 
 		int count = 1;
 
-		if ( urlString.startsWith( "multiuse.php") )
+		if ( urlString.startsWith( "multiuse.php" ) )
 		{
 			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( !quantityMatcher.find() )

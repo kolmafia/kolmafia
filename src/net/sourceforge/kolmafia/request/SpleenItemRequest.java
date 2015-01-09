@@ -208,7 +208,7 @@ public class SpleenItemRequest
 			return;
 		}
 
-		// Spleen is restricted by Type69.
+		// Spleen is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
 		{
 			UseItemRequest.lastUpdate = item.getName() + " is too old to be used on this path.";

@@ -63,7 +63,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -85,7 +85,7 @@ public class Evaluator
 	private int carriedFamiliarsNeeded = 0;
 	private boolean cardNeeded = false;
 
-	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
+	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
 	private int hands = 0;
 	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
@@ -1384,7 +1384,7 @@ public class Evaluator
 			for ( int f = 0; f < familiarList.size(); ++f )
 			{
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
-				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && Type69Request.isAllowed( "Familiars", familiar.getRace() ) &&
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && StandardRequest.isAllowed( "Familiars", familiar.getRace() ) &&
 				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
 					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) )
 				{

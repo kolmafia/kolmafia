@@ -79,7 +79,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1285,7 +1285,7 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean as = Preferences.getBoolean( "_aprilShower" );
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "April Shower" );
+			boolean allowed = StandardRequest.isAllowed( "Clan Item", "April Shower" );
 			this.setShown( ( !bm || kf ) && ( have || as ) && allowed );
 			this.setEnabled( !as );
 			box.setEnabled( !as );
@@ -2361,7 +2361,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "Pool Table" );
+			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Pool Table" );
 			int nf = Preferences.getInteger( "_poolGames" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && allowed );
 			this.setEnabled( nf < 3 );
@@ -2387,7 +2387,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "Crimbo Tree" );
+			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Crimbo Tree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
 			this.setShown( ( !bm || kf ) && tree && allowed );
 			this.setEnabled( ctd == 0 );
@@ -3290,7 +3290,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "Fax Machine" );
+			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Fax Machine" );
 			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
 				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
 				|| Preferences.getBoolean( "_photocopyUsed" );
@@ -3531,7 +3531,7 @@ public class DailyDeedsPanel
 			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 
-			this.setShown( Type69Request.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) );
+			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) );
 
 			setComboTarget(btn, "");
 		}
@@ -3614,7 +3614,7 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean sp = Preferences.getBoolean( "_olympicSwimmingPool" );
-			boolean allowed = Type69Request.isAllowed( "Clan Item", "Clan Swimming Pool" );
+			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Clan Swimming Pool" );
 			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed );
 			this.setEnabled( !sp );
 		}

@@ -295,7 +295,7 @@ public class CharSheetRequest
 		}
 
 		// This is where Path: optionally appears
-		KoLCharacter.setRestricted( responseText.contains( "type69" ) );
+		KoLCharacter.setRestricted( responseText.contains( "standard.php" ) );
 
 		// Consumption restrictions have special messages.
 		//

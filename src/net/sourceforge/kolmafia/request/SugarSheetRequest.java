@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -51,8 +50,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SugarSheetRequest
 	extends CreateItemRequest
 {
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-
 	public SugarSheetRequest( final Concoction conc )
 	{
 		// http://www.kingdomofloathing.com/shop.php?whichshop=sugarsheets&action=buyitem&quantity=1&whichrow=329

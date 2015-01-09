@@ -83,8 +83,8 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -215,7 +215,7 @@ public abstract class InventoryManager
 		}
 
 		int itemId = item.getItemId();
-		boolean allowed = Type69Request.isAllowed( "Items", item.getName() );
+		boolean allowed = StandardRequest.isAllowed( "Items", item.getName() );
 
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
@@ -422,7 +422,7 @@ public abstract class InventoryManager
 	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
 		int itemId = item.getItemId();
-		boolean allowed = Type69Request.isAllowed( "Items", item.getName() );
+		boolean allowed = StandardRequest.isAllowed( "Items", item.getName() );
 		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		Concoction concoction = ConcoctionPool.get( item.getName() );
 		boolean asked = false;
@@ -1742,7 +1742,7 @@ public abstract class InventoryManager
 
 		// The Crown of Thrones is not trendy, but double check anyway
 		AdventureResult item = InventoryManager.CROWN_OF_THRONES;
-		if ( !Type69Request.isAllowed( "Items", item.getName() ) )
+		if ( !StandardRequest.isAllowed( "Items", item.getName() ) )
 		{
 			return;
 		}
@@ -1780,7 +1780,7 @@ public abstract class InventoryManager
 
 		// Check if the Buddy Bjorn is Trendy
 		AdventureResult item = InventoryManager.BUDDY_BJORN;
-		if ( !Type69Request.isAllowed( "Items", item.getName() ) )
+		if ( !StandardRequest.isAllowed( "Items", item.getName() ) )
 		{
 			return;
 		}

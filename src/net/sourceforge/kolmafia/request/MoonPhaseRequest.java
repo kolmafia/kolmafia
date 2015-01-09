@@ -95,7 +95,7 @@ public class MoonPhaseRequest
 			GenericRequest.MENU_NORMAL;
 
 		// Get current phase of Ronald and Grimace
-		if ( text.indexOf( "minimoon" ) != -1 )
+		if ( text.contains( "minimoon" ) )
 		{
 			text = text.replaceAll( "minimoon", "" );
 		}

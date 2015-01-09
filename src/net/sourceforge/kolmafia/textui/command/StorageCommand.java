@@ -45,8 +45,8 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -111,6 +111,7 @@ public class StorageCommand
 
 				if ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStorage" ) )
 				{
+					// Don't double-count items in storage
 					availableCount -= storageCount;
 				}
 
@@ -202,7 +203,7 @@ public class StorageCommand
 					"You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
 			}
 
-			if ( !Type69Request.isAllowed( "Items", itemName ) )
+			if ( !StandardRequest.isAllowed( "Items", itemName ) )
 			{
 				KoLmafia.updateDisplay(
 					MafiaState.ERROR,

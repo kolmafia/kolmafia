@@ -76,7 +76,7 @@ public class ChateauRequest
 	public static void refresh()
 	{
 		ChateauRequest.reset();
-		if ( Preferences.getBoolean( "chateauAvailable" ) && Type69Request.isAllowed( "Items", "Chateau Mantegna room key" ) )
+		if ( Preferences.getBoolean( "chateauAvailable" ) && StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" ) )
 		{
 			RequestThread.postRequest( new ChateauRequest() );
 		}

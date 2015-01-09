@@ -92,8 +92,8 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -2985,7 +2985,7 @@ public abstract class KoLCharacter
 				KoLCharacter.resetSkills();
 			}
 
-			// Are we restricted by Type69 ?
+			// Are we restricted by Standard?
 			boolean restricted = KoLCharacter.getRestricted();
 
 			// Ronin is lifted and we can interact freely with the Kingdom
@@ -3791,11 +3791,11 @@ public abstract class KoLCharacter
 			{
 				int itemId = SkillDatabase.skillToBook( skillName );
 				skillName = ItemDatabase.getItemName( itemId );
-				isAllowed = Type69Request.isAllowed( "Bookshelf", skillName );
+				isAllowed = StandardRequest.isAllowed( "Bookshelf", skillName );
 			}
 			else
 			{
-				isAllowed = Type69Request.isAllowed( "Skills", skillName );
+				isAllowed = StandardRequest.isAllowed( "Skills", skillName );
 			}
 
 			if ( !isAllowed )
@@ -4428,7 +4428,7 @@ public abstract class KoLCharacter
 			FamiliarData familiar = familiarArray[ i ];
 			if ( familiar.getId() == familiarId )
 			{
-				if ( !Type69Request.isAllowed( "Familiars", familiar.getRace() ) )
+				if ( !StandardRequest.isAllowed( "Familiars", familiar.getRace() ) )
 				{
 					return null;
 				}

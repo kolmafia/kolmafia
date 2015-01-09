@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-public class Type69Request
+public class StandardRequest
 	extends GenericRequest
 {
 	// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Items".
@@ -56,43 +56,43 @@ public class Type69Request
 	private final static List<String> clanMap = new ArrayList<String>();
 	// There is a Miscellaneous category that doesn't seem useful
 
-	private static final Type69Request INSTANCE = new Type69Request();
+	private static final StandardRequest INSTANCE = new StandardRequest();
 	private static boolean running = false;
 
 	private static boolean initialized = false;
 
 	public static void reset()
 	{
-		Type69Request.initialized = false;
-		Type69Request.itemMap.clear();
-		Type69Request.bookshelfMap.clear();
-		Type69Request.familiarMap.clear();
-		Type69Request.skillMap.clear();
-		Type69Request.clanMap.clear();
+		StandardRequest.initialized = false;
+		StandardRequest.itemMap.clear();
+		StandardRequest.bookshelfMap.clear();
+		StandardRequest.familiarMap.clear();
+		StandardRequest.skillMap.clear();
+		StandardRequest.clanMap.clear();
 	}
 
 	public static void initialize()
 	{
-		if ( !Type69Request.initialized )
+		if ( !StandardRequest.initialized )
 		{
-			RequestThread.postRequest( Type69Request.INSTANCE );
+			RequestThread.postRequest( StandardRequest.INSTANCE );
 		}
 	}
 
 	private static List<String> typeToList( final String type )
 	{
 		return	
-			type.equals( "Items" ) ? Type69Request.itemMap :
-			type.equals( "Bookshelf Books" ) ? Type69Request.bookshelfMap :
-			type.equals( "Skills" ) ? Type69Request.skillMap :
-			type.equals( "Familiars" ) ? Type69Request.familiarMap :
-			type.equals( "Clan Items" ) ? Type69Request.clanMap :
+			type.equals( "Items" ) ? StandardRequest.itemMap :
+			type.equals( "Bookshelf Books" ) ? StandardRequest.bookshelfMap :
+			type.equals( "Skills" ) ? StandardRequest.skillMap :
+			type.equals( "Familiars" ) ? StandardRequest.familiarMap :
+			type.equals( "Clan Items" ) ? StandardRequest.clanMap :
 			null;
 	}
 
 	private static boolean isNotRestricted( final List<String> list, final String key )
 	{
-		Type69Request.initialize();
+		StandardRequest.initialize();
 		return list.indexOf( key.toLowerCase() ) == -1;
 	}
 
@@ -102,8 +102,8 @@ public class Type69Request
 		{
 			return true;
 		}
-		List<String> list = Type69Request.typeToList( type );
-		return list != null && Type69Request.isNotRestricted( list, key );
+		List<String> list = StandardRequest.typeToList( type );
+		return list != null && StandardRequest.isNotRestricted( list, key );
 	}
 
 	public static boolean isAllowed( String type, final String key )
@@ -126,13 +126,13 @@ public class Type69Request
 			type = "Clan Items";
 		}
 
-		List<String> list = Type69Request.typeToList( type );
-		return list != null && Type69Request.isNotRestricted( list, key );
+		List<String> list = StandardRequest.typeToList( type );
+		return list != null && StandardRequest.isNotRestricted( list, key );
 	}
 
-	public Type69Request()
+	public StandardRequest()
 	{
-		super( "type69.php" );
+		super( "standard.php" );
 	}
 
 	@Override
@@ -144,15 +144,15 @@ public class Type69Request
 	@Override
 	public void run()
 	{
-		if ( Type69Request.running )
+		if ( StandardRequest.running )
 		{
 			return;
 		}
 
-		Type69Request.running = true;
+		StandardRequest.running = true;
 		KoLmafia.updateDisplay( "Seeing what's still unrestricted today..." );
 		super.run();
-		Type69Request.running = false;
+		StandardRequest.running = false;
 	}
 
 	@Override
@@ -168,11 +168,11 @@ public class Type69Request
 		{
 			KoLmafia.updateDisplay( "KoL returned a blank page. Giving up." );
 			KoLmafia.forceContinue();
-			Type69Request.initialized = true;
+			StandardRequest.initialized = true;
 			return;
 		}
 
-		Type69Request.parseResponse( this.getURLString(), this.responseText );
+		StandardRequest.parseResponse( this.getURLString(), this.responseText );
 		KoLmafia.updateDisplay( "Done checking allowed items." );
 	}
 
@@ -184,17 +184,17 @@ public class Type69Request
 	// <span class="i">Tome of Sugar Shummoning</span><p>
 	// <b>Skills</b>
 
-	private static final Pattern TYPE69_PATTERN = Pattern.compile( "<b>(.*?)</b><p>(.*?)<p>" );
+	private static final Pattern STANDARD_PATTERN = Pattern.compile( "<b>(.*?)</b><p>(.*?)<p>" );
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
 		TrendyRequest.reset();
 
-		Matcher matcher = Type69Request.TYPE69_PATTERN.matcher( responseText );
+		Matcher matcher = StandardRequest.STANDARD_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			String type = matcher.group( 1 );
-			List<String> list = Type69Request.typeToList( type );
+			List<String> list = StandardRequest.typeToList( type );
 			if ( list == null )
 			{
 				continue;
@@ -216,12 +216,12 @@ public class Type69Request
 			}
 		}
 
-		Type69Request.initialized = true;
+		StandardRequest.initialized = true;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "type69.php" ) )
+		if ( !urlString.startsWith( "standard.php" ) )
 		{
 			return false;
 		}

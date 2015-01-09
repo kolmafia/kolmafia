@@ -72,8 +72,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
 
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -585,7 +585,7 @@ public class ItemManageFrame
 				{
 					AdventureResult item = items[ i ];
 					String itemName = item.getName();
-					if ( !Type69Request.isAllowed( "Items", itemName ) )
+					if ( !StandardRequest.isAllowed( "Items", itemName ) )
 					{
 						items[ i ] = null;
 					}

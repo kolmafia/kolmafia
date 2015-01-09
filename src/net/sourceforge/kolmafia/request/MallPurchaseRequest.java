@@ -120,7 +120,7 @@ public class MallPurchaseRequest
 	{
 		// whichitem=2272000000246
 
-		StringBuffer whichItem = new StringBuffer();
+		StringBuilder whichItem = new StringBuilder();
 		whichItem.append( itemId );
 
 		int originalLength = whichItem.length();

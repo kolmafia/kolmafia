@@ -70,7 +70,7 @@ public class ProfileRequest
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 	public static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 
-	private String playerName;
+	private final String playerName;
 	private String playerId;
 	private Integer playerLevel;
 	private boolean isHardcore;
