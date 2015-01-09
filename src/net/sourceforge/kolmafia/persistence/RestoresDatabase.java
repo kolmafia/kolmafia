@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.Type69Request;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -412,10 +412,11 @@ public class RestoresDatabase
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
 					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
-					( Type69Request.isAllowed( "Clan Item", "April Shower" ) );
+					( StandardRequest.isAllowed( "Clan Item", "April Shower" ) );
 			}
-			if ( name.equals( "Campground" ) || name.equals( "Comfy Sofa" ) ||
-				name.contains( "Doc Galaktik's" ) )
+			if ( name.equals( "Campground" ) ||
+			     name.equals( "Comfy Sofa" ) ||
+			     name.contains( "Doc Galaktik's" ) )
 			{
 				return true;
 			}
