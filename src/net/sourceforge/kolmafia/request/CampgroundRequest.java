@@ -188,10 +188,6 @@ public class CampgroundRequest
 		ItemPool.SALTWATERBED,
 		ItemPool.SPIRIT_BED,
 
-		// Inside dwelling: maids
-		ItemPool.MAID,
-		ItemPool.CLOCKWORK_MAID,
-
 		// Inside dwelling: miscellaneous
 		ItemPool.BONSAI_TREE,
 		ItemPool.CUCKOO_CLOCK,

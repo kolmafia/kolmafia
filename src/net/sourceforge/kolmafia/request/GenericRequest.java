@@ -167,6 +167,8 @@ public class GenericRequest
 	private String formURLString;
 	private String baseURLString;
 
+	private boolean hasResult;
+
 	public boolean isExternalRequest = false;
 	public boolean isChatRequest = false;
 	public boolean isDescRequest = false;
@@ -896,6 +898,11 @@ public class GenericRequest
 		return quest != -1 ? path.substring( 0, quest ) : path;
 	}
 
+	public boolean hasResult()
+	{
+		return ResponseTextParser.hasResult( this.getURLString() );
+	}
+
 	public String getHashField()
 	{
 		return ( !this.isExternalRequest ? "pwd" : null );
@@ -1262,13 +1269,17 @@ public class GenericRequest
 		this.allowRedirect = null;
 
 		String location = this.getURLString();
+
 		if ( StaticEntity.backtraceTrigger != null &&
-			location.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		     location.indexOf( StaticEntity.backtraceTrigger ) != -1 )
 		{
 			StaticEntity.printStackTrace( "Backtrace triggered by page load" );
 		}
 
-		if ( ResponseTextParser.hasResult( this.formURLString ) && this.stopForCounters() )
+		// Calculate this exactly once, now that we have the URL
+		this.hasResult = ResponseTextParser.hasResult( location );
+
+		if ( this.hasResult && this.stopForCounters() )
 		{
 			return;
 		}
@@ -1448,7 +1459,7 @@ public class GenericRequest
 			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
 		}
 
-		if ( GenericRequest.isRatQuest && ResponseTextParser.hasResult( this.formURLString ) && !urlString.startsWith( "cellar.php" ) )
+		if ( GenericRequest.isRatQuest && this.hasResult && !urlString.startsWith( "cellar.php" ) )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
 		}
@@ -1458,7 +1469,7 @@ public class GenericRequest
 			TavernRequest.preTavernVisit( this );
 		}
 
-		if ( ResponseTextParser.hasResult( this.formURLString ) && GenericRequest.isBarrelSmash )
+		if ( this.hasResult && GenericRequest.isBarrelSmash )
 		{
 			// Smash has resulted in a mimic.
 			// Continue tracking throughout the combat
@@ -1471,7 +1482,7 @@ public class GenericRequest
 			BarrelDecorator.beginSmash( urlString );
 		}
 
-		if ( ResponseTextParser.hasResult( this.formURLString ) )
+		if ( this.hasResult )
 		{
 			RequestLogger.registerRequest( this, urlString );
 		}
@@ -2305,8 +2316,7 @@ public class GenericRequest
 			ChoiceManager.postChoice1( this );
 		}
 
-		boolean hasResult = ResponseTextParser.hasResult( this.formURLString );
-		if ( hasResult )
+		if ( this.hasResult )
 		{
 			int initialHP = KoLCharacter.getCurrentHP();
 			this.parseResults();
@@ -2357,7 +2367,7 @@ public class GenericRequest
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( !hasResult || GenericRequest.suppressUpdate )
+		if ( !this.hasResult || GenericRequest.suppressUpdate )
 		{
 			return;
 		}
@@ -2581,7 +2591,7 @@ public class GenericRequest
 		boolean externalUpdate = false;
 		String path = this.getPath();
 
-		if ( ResponseTextParser.hasResult( path ) && !path.startsWith( "fight.php" ) )
+		if ( this.hasResult && !path.startsWith( "fight.php" ) )
 		{
 			externalUpdate = true;
 		}
