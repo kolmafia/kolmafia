@@ -3247,14 +3247,56 @@ public abstract class ChoiceManager
 
 		// Choice 1003 is Test Your Might And Also Test Other Things
 
-		// Choice 1005 is Allo'
-		// Choice 1006 is One Small Step For Adventurer (topiary gopher)
-		// Choice 1007 is Twisty Little Passages, All Hedge (topiary chihuahua herd)
-		// Choice 1008 is Pooling Your Resources
-		// Choice 1009 is Good Ol' 44% Duck (topiary duck)
-		// Choice 1010 is Another Day, Another Fork
-		// Choice 1011 is Of Mouseholes and Manholes
-		// Choice 1012 is The Last Temptation
+		// Choice 1004 is This Maze is... Mazelike...
+
+		// Allo'
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1005", "Hedge Maze 1",
+			new Object[] { new Option( "topiary nugglet and advance to Room 2", "topiary nugglet" ),
+				       new Option( "Test #1 and advance to Room 4" ) } ),
+
+		// One Small Step For Adventurer
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1006", "Hedge Maze 2",
+			new Object[] { new Option( "topiary nugglet and advance to Room 3", "topiary nugglet" ),
+				       new Option( "Fight topiary gopher and advance to Room 4" ) } ),
+
+		// Twisty Little Passages, All Hedge
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1007", "Hedge Maze 3",
+			new Object[] { new Option( "topiary nugglet and advance to Room 4", "topiary nugglet" ),
+				       new Option( "Fight topiary chihuahua herd and advance to Room 5" ) } ),
+
+		// Pooling Your Resources
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1008", "Hedge Maze 4",
+			new Object[] { new Option( "topiary nugglet and advance to Room 5", "topiary nugglet" ),
+				       new Option( "Test #2 and advance to Room 7" ) } ),
+
+		// Good Ol' 44% Duck
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1009", "Hedge Maze 5",
+			new Object[] { new Option( "topiary nugglet and advance to Room 6", "topiary nugglet" ),
+				       new Option( "Fight topiary duck and advance to Room 7" ) } ),
+
+		// Another Day, Another Fork
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1010", "Hedge Maze 6",
+			new Object[] { new Option( "topiary nugglet and advance to Room 7", "topiary nugglet" ),
+				       new Option( "Fight topiary kiwi and advance to Room 8" ) } ),
+
+		// Of Mouseholes and Manholes
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1011", "Hedge Maze 7",
+			new Object[] { new Option( "topiary nugglet and advance to Room 8", "topiary nugglet" ),
+				       new Option( "Test #3 and advance to Room 9" ) } ),
+
+		// The Last Temptation
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure10012", "Hedge Maze 8",
+			new Object[] { new Option( "Advance to Room 9" ),
+				       new Option( "Lose HP for no benefit and advance to Room 9" ) } ),
+
 		// Choice 1013 is Mazel Tov!
 
 		// Choice 1015 is The Mirror in the Tower has the View that is True
