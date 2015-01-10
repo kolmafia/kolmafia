@@ -113,64 +113,15 @@ public class TelescopeCommand
 			KoLCharacter.checkTelescope();
 		}
 
-		// Display what you saw through the telescope
 		RequestLogger.printLine( "You have a telescope with " + ( upgrades - 1 ) + " additional upgrades" );
 
-		// Every telescope shows you the gates.
-		String gates = Preferences.getString( "telescope1" );
-		String[] desc = SorceressLairManager.findGateByDescription( gates );
-		if ( desc != null )
+		int max = upgrades >= 5 ? 5 : upgrades;
+		for ( int i = 0; i <= max; ++i )
 		{
-			String name = SorceressLairManager.gateName( desc );
-			String effect = SorceressLairManager.gateEffect( desc );
-			String remedy = this.locateItem( desc[ 3 ] );
-			RequestLogger.printLine( "Outer gate: " + name + " (" + effect + "/" + remedy + ")" );
-		}
-		else
-		{
-			RequestLogger.printLine( "Outer gate: " + gates + " (unrecognized)" );
-		}
-
-		// Upgraded telescopes can show you tower monsters
-		for ( int i = 1; i < upgrades; ++i )
-		{
-			String prop = Preferences.getString( "telescope" + ( i + 1 ) );
-			desc = SorceressLairManager.findGuardianByDescription( prop );
-			if ( desc != null )
-			{
-				String name = SorceressLairManager.guardianName( desc );
-				String item = this.locateItem( SorceressLairManager.guardianItem( desc ) );
-				RequestLogger.printLine( "Tower Guardian #" + i + ": " + name + " (" + item + ")" );
-			}
-			else
-			{
-				RequestLogger.printLine( "Tower Guardian #" + i + ": " + prop + " (unrecognized)" );
-			}
-		}
-	}
-
-	private String locateItem( final String name )
-	{
-		AdventureResult item = ItemPool.get( name, 1 );
-		boolean closet = KoLConstants.closet.contains( item );
-		if ( KoLConstants.inventory.contains( item ) )
-		{
-			if ( closet )
-			{
-				return name + " - have &amp; in closet";
-			}
-			else
-			{
-				return name + " - have";
-			}
-		}
-		else if ( closet )
-		{
-			return name + " - in closet";
-		}
-		else
-		{
-			return name + " - NEED";
+			String challenge = SorceressLairManager.getChallengeName( i );
+			String text = i == 0 ? "" : Preferences.getString( "telescope" + i );
+			String description = SorceressLairManager.getChallengeDescription( i, text );
+			RequestLogger.printLine( challenge + ": " + description );
 		}
 	}
 }

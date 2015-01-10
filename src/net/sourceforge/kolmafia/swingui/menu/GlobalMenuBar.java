@@ -175,8 +175,7 @@ public class GlobalMenuBar
 
 		questsMenu.add( new JSeparator() );
 
-		questsMenu.add( new InvocationMenuItem( "Lucky Entryway", SorceressLairManager.class, "completeCloveredEntryway" ) );
-		questsMenu.add( new InvocationMenuItem( "Unlucky Entryway", SorceressLairManager.class, "completeCloverlessEntryway" ) );
+		questsMenu.add( new InvocationMenuItem( "Sorceress Entryway", SorceressLairManager.class, "completeEntryway" ) );
 		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLairManager.class, "completeHedgeMaze" ) );
 		questsMenu.add( new InvocationMenuItem( "Tower (Complete)", SorceressLairManager.class, "fightAllTowerGuardians" ) );
 		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLairManager.class, "fightMostTowerGuardians" ) );
