@@ -383,7 +383,6 @@ user	desktopHeight	600
 user	desktopWidth	800
 user	dnaSyringe
 user	dolphinItem
-user	doorCode
 user	dreadScroll1	0
 user	dreadScroll2	0
 user	dreadScroll3	0
@@ -516,7 +515,6 @@ user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDesertUnlock	-1
 user	lastDispensaryOpen	-1
-user	lastDoorCodeReset	-1
 user	lastDwarfDiceRolls
 user	lastDwarfDigitRunes	-------
 user	lastDwarfEquipmentRunes
@@ -611,7 +609,6 @@ user	lastTelescopeReset	-1
 user	lastTempleAdventures	-1
 user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
-user	lastTowerClimb	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastWuTangDefeated	-1

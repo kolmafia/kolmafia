@@ -597,16 +597,6 @@ public class ResponseTextParser
 			MushroomRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "lair2.php" ) )
-		{
-			SorceressLairManager.parseEntrywayResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "lair6.php" ) )
-		{
-			SorceressLairManager.parseChamberResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "leaflet.php" ) )
 		{
 			LeafletRequest.parseResponse( location, responseText );

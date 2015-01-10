@@ -475,17 +475,9 @@ public class RequestEditorKit
 		{
 			UseItemDecorator.decorate( location, buffer );
 		}
-		else if ( location.startsWith( "lair1.php?action=gates" ) )
-		{
-			SorceressLairManager.decorateGates( buffer );
-		}
 		else if ( location.startsWith( "lair2.php?preaction=key" ) )
 		{
 			SorceressLairManager.decorateKey( location, buffer );
-		}
-		else if ( location.startsWith( "lair6.php?preaction=heavydoor" ) )
-		{
-			SorceressLairManager.decorateHeavyDoor( buffer );
 		}
 		else if ( location.contains( "lchat.php" ) )
 		{
@@ -1406,23 +1398,6 @@ public class RequestEditorKit
 			int count = Preferences.getInteger( "blackPuddingsDefeated" );
 			monsterData.append( ", Defeated: ");
 			monsterData.append( count );
-		}
-
-		String[] guardianData = SorceressLairManager.findGuardianByName( monsterName );
-		if ( guardianData != null && Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			String itemName = SorceressLairManager.guardianItem( guardianData );
-			monsterData.append( "<br />Defeated by a <font color=#DD00FF>" ).append( itemName ).append( "</font>" );
-
-			// Auto-select the correct item in the dropdown, which
-			// must be later in the buffer than insertionPoint
-			// where we annotate the monster.
-
-			// We must remove any other selected item, since the
-			// last one in the select list wins.
-
-			int itemId = ItemDatabase.getItemId( itemName );
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( itemId ) );
 		}
 
 		String danceMoveStatus = NemesisDecorator.danceMoveStatus( monsterName );

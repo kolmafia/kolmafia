@@ -40,19 +40,11 @@ public class SorceressEntrywayCommand
 {
 	public SorceressEntrywayCommand()
 	{
-		this.usage = " [clover] - automatically complete quest [using a clover].";
+		this.usage = " does nothing";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( parameters.equalsIgnoreCase( "clover" ) )
-		{
-			SorceressLairManager.completeCloveredEntryway();
-		}
-		else
-		{
-			SorceressLairManager.completeCloverlessEntryway();
-		}
 	}
 }

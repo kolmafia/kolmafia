@@ -1407,17 +1407,6 @@ public class GenericRequest
 			ResultProcessor.removeItem( ItemPool.UNIVERSAL_KEY );
 		}
 
-		// To avoid wasting turns, buy a can of hair spray before
-		// climbing the tower. Also, if the person has an NG, make sure
-		// to construct it first.  If there are any tower items sitting
-		// in the closet or that have not been constructed, pull them
-		// out.
-
-		else if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
-		{
-			SorceressLairManager.makeGuardianItems();
-		}
-
 		this.execute();
 
 		// Response is ok or redirect

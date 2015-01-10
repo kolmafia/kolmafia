@@ -8072,7 +8072,9 @@ public abstract class ChoiceManager
 
 		case 162:
 			// Between a Rock and Some Other Rocks
-			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) && !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
+			if ( KoLmafia.isAdventuring() &&
+			     !EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) &&
+			     !KoLConstants.activeEffects.contains( EffectPool.get( Effect.EARTHEN_FIST ) ) )
 			{
 				QuestManager.unlockGoatlet();
 			}
@@ -10256,7 +10258,7 @@ public abstract class ChoiceManager
 
 			return decision.equals( "2" ) ? "2" :
 				EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) ? "1" :
-				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST )  ? "1" :
+				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( EffectPool.get( Effect.EARTHEN_FIST ) )  ? "1" :
 				KoLCharacter.inAxecore() ? "3" :
 				"2";
 			//Random Lack of an Encounter

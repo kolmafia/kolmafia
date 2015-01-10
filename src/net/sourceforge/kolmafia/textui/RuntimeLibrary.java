@@ -5810,7 +5810,6 @@ public abstract class RuntimeLibrary
 
 	public static Value entryway( Interpreter interpreter )
 	{
-		SorceressLairManager.completeCloverlessEntryway();
 		return RuntimeLibrary.continueValue();
 	}
 

@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
@@ -1264,7 +1266,7 @@ public class QuestManager
 			}
 
 			// If you don't have Earthen Fist active, get it.
-			if ( !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.EARTHEN_FIST ) ) )
 			{
 				UseSkillRequest request = UseSkillRequest.getInstance( "Worldpunch" );
 				request.setBuffCount( 1 );
