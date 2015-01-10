@@ -3245,6 +3245,8 @@ public abstract class ChoiceManager
 				       new Option( "Gain 17 Chroner (60% chance)" ),
 				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
 
+		// Choice 1003 is Test Your Might And Also Test Other Things
+
 		// Choice 1005 is Allo'
 		// Choice 1006 is One Small Step For Adventurer (topiary gopher)
 		// Choice 1007 is Twisty Little Passages, All Hedge (topiary chihuahua herd)
@@ -3254,6 +3256,8 @@ public abstract class ChoiceManager
 		// Choice 1011 is Of Mouseholes and Manholes
 		// Choice 1012 is The Last Temptation
 		// Choice 1013 is Mazel Tov!
+
+		// Choice 1015 is The Mirror in the Tower has the View that is True
 		
 		// Bee Persistent
 		new ChoiceAdventure(

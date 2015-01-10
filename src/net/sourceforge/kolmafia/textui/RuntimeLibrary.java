@@ -3609,6 +3609,10 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
+		// Your dwelling is not in the list of campground items
+		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
+		value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
+
 		AdventureResult [] items = new AdventureResult[ KoLConstants.campground.size() ];
 		KoLConstants.campground.toArray( items );
 
