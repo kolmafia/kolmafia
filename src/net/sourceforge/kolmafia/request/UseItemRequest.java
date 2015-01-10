@@ -4614,6 +4614,18 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.SHAWARMA_KEYCARD:
+			Preferences.setBoolean( "SHAWARMAInitiativeUnlocked", true );
+			return;
+
+		case ItemPool.BOTTLE_OPENER_KEYCARD:
+			Preferences.setBoolean( "canteenUnlocked", true );
+			return;
+
+		case ItemPool.ARMORY_KEYCARD:
+			Preferences.setBoolean( "armoryUnlocked", true );
+			return;
+
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			return;

@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class SHAWARMARequest
 	extends CoinMasterRequest
 {
@@ -145,7 +147,10 @@ public class SHAWARMARequest
 
 	public static String accessible()
 	{
-		// Not yet implemented
+		if ( !Preferences.getBoolean( "SHAWARMAInitiativeUnlocked" ) )
+		{
+			return "SHAWARMA Initiative is locked";
+		}
 		return null;
 	}
 }
