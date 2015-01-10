@@ -173,9 +173,7 @@ public class ResponseTextParser
 			queryString = location.substring( queryStringBegin + 1 );
 		}
 
-		boolean hasResult = PageRegistry.isGameAction( path, queryString );
-
-		if ( !hasResult )
+		if ( !PageRegistry.isGameAction( path, queryString ) )
 		{
 			return false;
 		}
@@ -933,7 +931,7 @@ public class ResponseTextParser
 
 	public static void learnRecipe( String location, String responseText )
 	{
-		if ( !hasResult( location ) )
+		if ( !ResponseTextParser.hasResult( location ) )
 		{
 			return;
 		}
@@ -971,7 +969,7 @@ public class ResponseTextParser
 
 	public static void learnSkill( final String location, final String responseText )
 	{
-		if ( !hasResult( location ) )
+		if ( !ResponseTextParser.hasResult( location ) )
 		{
 			return;
 		}

@@ -244,8 +244,7 @@ public abstract class RequestThread
 		// Make sure there is a URL string in the request
 		request.reconstructFields();
 
-		boolean force = RequestThread.threadMap.isEmpty() &&
-			ResponseTextParser.hasResult( request.getURLString() );
+		boolean force = RequestThread.threadMap.isEmpty() && request.hasResult();
 
 		RequestThread.postRequest( force, request );
 	}
