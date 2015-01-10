@@ -114,19 +114,26 @@ public class CampgroundRequest
 		ItemPool.SALTWATERBED,
 		ItemPool.SPIRIT_BED,
 
-		// Inside dwelling
-		ItemPool.BLACK_BLUE_LIGHT,
-		ItemPool.BONSAI_TREE,
+		// Inside dwelling: maids
+		ItemPool.MAID,
 		ItemPool.CLOCKWORK_MAID,
+
+		// Inside dwelling: miscellaneous
+		// (Certificate of Participation)
+		// (Shiny Certificate of Participation)
+		ItemPool.BONSAI_TREE,
 		ItemPool.CUCKOO_CLOCK,
 		ItemPool.FENG_SHUI,
 		ItemPool.LED_CLOCK,
-		ItemPool.LOUDMOUTH_LARRY,
 		ItemPool.LUCKY_CAT_STATUE,
-		ItemPool.MAID,
 		ItemPool.MEAT_GLOBE,
-		ItemPool.PLASMA_BALL,
+		ItemPool.PICTURE_OF_YOU,
 		ItemPool.TIN_ROOF,
+
+		// Inside dwelling: "Tasteful" items
+		ItemPool.BLACK_BLUE_LIGHT,
+		ItemPool.LOUDMOUTH_LARRY,
+		ItemPool.PLASMA_BALL,
 
 		// Kitchen
 		ItemPool.SHAKER,
@@ -164,6 +171,41 @@ public class CampgroundRequest
 
 		// Special item that aids resting
 		ItemPool.COMFY_BLANKET,
+	};
+
+	public static final int [] transientFurnishings =
+	{
+		// Bedding
+		ItemPool.BEANBAG_CHAIR,
+		ItemPool.COLD_BEDDING,
+		ItemPool.GAUZE_HAMMOCK,
+		ItemPool.HOT_BEDDING,
+		ItemPool.LAZYBONES_RECLINER,
+		ItemPool.SLEAZE_BEDDING,
+		ItemPool.SPOOKY_BEDDING,
+		ItemPool.STENCH_BEDDING,
+		ItemPool.SLEEPING_STOCKING,
+		ItemPool.SALTWATERBED,
+		ItemPool.SPIRIT_BED,
+
+		// Inside dwelling: maids
+		ItemPool.MAID,
+		ItemPool.CLOCKWORK_MAID,
+
+		// Inside dwelling: miscellaneous
+		ItemPool.BONSAI_TREE,
+		ItemPool.CUCKOO_CLOCK,
+		ItemPool.FENG_SHUI,
+		ItemPool.LED_CLOCK,
+		ItemPool.LUCKY_CAT_STATUE,
+		ItemPool.MEAT_GLOBE,
+		ItemPool.PICTURE_OF_YOU,
+		ItemPool.TIN_ROOF,
+
+		// Inside dwelling: "Tasteful" items
+		ItemPool.BLACK_BLUE_LIGHT,
+		ItemPool.LOUDMOUTH_LARRY,
+		ItemPool.PLASMA_BALL,
 	};
 
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
@@ -976,32 +1018,23 @@ public class CampgroundRequest
 
 	public static void destroyFurnishings()
 	{
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BEANBAG_CHAIR, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.COLD_BEDDING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.GAUZE_HAMMOCK, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.HOT_BEDDING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LAZYBONES_RECLINER, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SLEAZE_BEDDING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SPOOKY_BEDDING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.STENCH_BEDDING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SLEEPING_STOCKING, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.PLASMA_BALL, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SALTWATERBED, 1 ) );
-		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SPIRIT_BED, 1 ) );
+		CampgroundRequest.setCurrentBed( null );
+		for ( int itemId : CampgroundRequest.transientFurnishings )
+		{
+			CampgroundRequest.removeCampgroundItem( ItemPool.get( itemId, 1 ) );
+		}
 	}
 
 	public static AdventureResult getCurrentBed()
 	{
-		return currentBed;
+		return CampgroundRequest.currentBed;
 	}
 
 	public static void setCurrentBed( AdventureResult bed )
 	{
-		if ( CampgroundRequest.getCurrentBed() != null )
+		if ( CampgroundRequest.currentBed != null )
 		{
-			CampgroundRequest.removeCampgroundItem( CampgroundRequest.getCurrentBed() );
+			CampgroundRequest.removeCampgroundItem( CampgroundRequest.currentBed );
 		}
 		CampgroundRequest.currentBed = bed;
 	}
@@ -1085,7 +1118,7 @@ public class CampgroundRequest
 		case ItemPool.ELEVENT:
 			return 13;
 		case ItemPool.RESIDENCE_CUBE:
-			return 13;
+			return 14;
 		}
 		return 0;
 	}
