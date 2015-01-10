@@ -8013,7 +8013,7 @@
 7994	porcelain pepper mill	947162933	porcshaker.gif	offhand		0
 7995	porcelain pelerine	903658041	porcpelegrine.gif	container		0
 7996	porcelain phantom mask	139044180	porcmask.gif	accessory		0
-7997
+7997	polyesterene powder	438934830	scpowder.gif	usable		0
 7998	porcelain powder	961757708	scpowder.gif	usable		0
 7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
 8000	smart watch	887647767	smartwatch.gif	usable	t	0	smart watches

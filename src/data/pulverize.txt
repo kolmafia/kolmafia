@@ -465,6 +465,14 @@ Saucepanic	handful of Smithereens
 Frankly Mr. Shank	handful of Smithereens
 Shakespeare's Sister's Accordion	handful of Smithereens
 
+# Polyester items
+polyester parachute	polyesterene powder
+polyester pad	polyesterene powder
+polyester peeler	polyesterene powder
+polyester pettipants	polyesterene powder
+polyester panama hat	polyesterene powder
+polyester pulsera	polyesterene powder
+
 # Porcelain items
 porcelain police baton	porcelain powder
 porcelain plus-fours	porcelain powder
