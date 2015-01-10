@@ -136,9 +136,11 @@ public class CharPaneRequest
 		{
 			if ( interaction && KoLCharacter.getRestricted() )
 			{
-				// Refresh skills when leaving ronin or hardcore from a restricted path
+				// Refresh skills & familiars when leaving
+				// ronin or hardcore from a restricted path
 				RequestThread.postRequest( new CharSheetRequest() );
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+				RequestThread.postRequest( new FamiliarRequest() );
 				KoLCharacter.setRestricted( false ); // redundant, but kept for clarity
 			}
 			CharPaneRequest.canInteract = interaction;

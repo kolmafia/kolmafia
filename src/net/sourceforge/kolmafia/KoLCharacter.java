@@ -3022,11 +3022,11 @@ public abstract class KoLCharacter
 			// If we are leaving a restricted path, then skills were refreshed earlier
 			else if ( !restricted && (
 				  wasInHardcore ||
-			        oldPath.equals( "Trendy" ) ||
-			        oldPath.equals( "Class Act" ) ||
-			        oldPath.equals( "Way of the Surprising Fist" ) ||
-			        oldPath.equals( "Class Act II: A Class For Pigs" ) ||
-			        oldPath.equals( "Heavy Rains" ) ||
+				  oldPath.equals( "Trendy" ) ||
+				  oldPath.equals( "Class Act" ) ||
+				  oldPath.equals( "Way of the Surprising Fist" ) ||
+				  oldPath.equals( "Class Act II: A Class For Pigs" ) ||
+				  oldPath.equals( "Heavy Rains" ) ||
 				  oldPath.equals( "Picky" )
 			        ) )
 			{
@@ -3055,12 +3055,6 @@ public abstract class KoLCharacter
 			{
 				TurnCounter.stopCounting( "Rain Monster window begin" );
 				TurnCounter.stopCounting( "Rain Monster window end" );
-			}
-
-			if ( oldPath.equals( "Picky" ) )
-			{
-				// Retrieve the Terrarium
-				RequestThread.postRequest( new FamiliarRequest() );
 			}
 
 			// If leaving a path with a unique class, wait until player picks a new class.
