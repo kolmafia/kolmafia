@@ -524,6 +524,9 @@ public class QuestDatabase
 		Preferences.resetToDefault( "controlPanel8" );
 		Preferences.resetToDefault( "controlPanel9" );
 		Preferences.resetToDefault( "controlPanelOmega" );
+		Preferences.resetToDefault( "SHAWARMAInitiativeUnlocked" );
+		Preferences.resetToDefault( "canteenUnlocked" );
+		Preferences.resetToDefault( "armoryUnlocked" );
 	}
 
 	public static void handleCouncilText( String responseText )

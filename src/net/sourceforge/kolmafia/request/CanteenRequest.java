@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class CanteenRequest
 	extends CoinMasterRequest
 {
@@ -145,7 +147,10 @@ public class CanteenRequest
 
 	public static String accessible()
 	{
-		// Not yet implemented
+		if ( !Preferences.getBoolean( "canteenUnlocked" ) )
+		{
+			return "The Canteen is locked";
+		}
 		return null;
 	}
 }

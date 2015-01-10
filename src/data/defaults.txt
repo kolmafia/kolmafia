@@ -178,6 +178,7 @@ global	_svnUpdated	false
 user	addingScrolls	-1
 user	afterAdventureScript
 user	arcadeGameHints	false
+user	armoryUnlocked	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
@@ -299,6 +300,7 @@ user	burrowgrubSummonsRemaining	0
 user	buyScript
 user	cameraMonster
 user	camerasUsed	0
+user	canteenUnlocked	false
 user	carboLoading	0
 user	cellarLayout	0
 user	charitableDonations	0
@@ -832,6 +834,7 @@ user	semirareCounter	0
 user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
+user	SHAWARMAInitiativeUnlocked	false
 user	showGainsPerUnit	false
 user	showNoSummonOnly	false
 user	showTurnFreeOnly	false
