@@ -666,8 +666,8 @@
 7228
 7229
 7230
-7231
-7232
+7231	Open a Big Yellow Present	5	0	0
+7232	Open a Big Red Present	5	0	0
 7233	LIGHT	headlight.gif	5	0	0
 7234	ZAP	jigawatts.gif	5	0	0
 7235	POW	explosion.gif	5	0	0
