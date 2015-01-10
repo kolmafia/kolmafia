@@ -69,10 +69,18 @@ public class FamiliarData
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
+	// <center>Current Familiar:<br><img src="http://images.kingdomofloathing.com/itemimages/jungman.gif" class=hand onClick='fam(165)'><br><b>Jung Grrl</b><br>20-pound Angry Jung Man (500 experience, 29,380 kills)<table><tr><td valign=center>Equipment:</td><td><img src="http://images.kingdomofloathing.com/itemimages/antsickle.gif" class=hand onClick='descitem(235040244)'></td><td valign=center>ant sickle <font size=1><a href='inv_equip.php?pwd=4438585275374d322da30a77b73cb7d5&action=unequip&type=familiarequip&terrarium=1'>[unequip]</a></font></td><td><a href='familiar.php?action=lockequip&pwd=4438585275374d322da30a77b73cb7d5'><img src="http://images.kingdomofloathing.com/itemimages/openpadlock.gif" class=hand title='This Familiar Equipment is Unlocked'></a></td><td valign=top><font size=-1><b><a class=nounder href='javascript:doc("famequiplock");'>?</a></b></font></td></tr></table><p><form name=rename action=familiar.php method=post><input type=hidden name=action value="rename"><input type=hidden name=pwd value='4438585275374d322da30a77b73cb7d5'>Change your Familiar's Name:<br><input class=text type=text size=40 maxlength=40 name=newname value="Jung Grrl"> <input class=button type=submit value="Rename"></form>
+
+	private static final Pattern CURRENT_PATTERN =
+		Pattern.compile( "Current Familiar:.*?</form>" );
+
 	// <tr class="frow expired" data-stats="1" data-other="1"><td valign=center>&nbsp;</td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/crayongoth.gif" class="hand fam" onClick='fam(160)'></td><td valign=top style='padding-top: .45em;'><b>Raven 'Raven' Ravengrrl</b>, the 1-pound Artistic Goth Kid (0 exp, 32,443 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=160&pwd=4438585275374d322da30a77b73cb7d5">[unfavorite]</a></font></td></tr>
 
-	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "(?:.*?<tr.*? class=\"([^\"]*)\")?.*?<img(?<!:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+	private static final Pattern FROW_PATTERN =
+		Pattern.compile( "<tr class=\"frow .*?</tr>" );
+
+	private static final Pattern FAMILIAR_PATTERN =
+		Pattern.compile( ".*?<img src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
@@ -123,24 +131,24 @@ public class FamiliarData
 
 	private FamiliarData( final Matcher dataMatcher )
 	{
-		this.id = StringUtilities.parseInt( dataMatcher.group( 3 ) );
-		this.race = dataMatcher.group( 5 );
+		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
+		this.race = dataMatcher.group( 4 );
 		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
-		String image = dataMatcher.group( 2 );
+		String image = dataMatcher.group( 1 );
 		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
 
 		this.update( dataMatcher );
 	}
 
-	public final void update( final Matcher dataMatcher )
+	private final void update( final Matcher dataMatcher )
 	{
-		this.name = dataMatcher.group( 4 );
-		this.experience = StringUtilities.parseInt( dataMatcher.group( 6 ) );
+		this.name = dataMatcher.group( 3 );
+		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
 		this.setWeight();
-		String itemData = dataMatcher.group( 7 );
+		String itemData = dataMatcher.group( 6 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
-		this.favorite = itemData.indexOf( "[unfavorite]" ) != -1;
+		this.favorite = itemData.contains( "[unfavorite]" );
 	}
 
 	public final boolean canEquip()
@@ -361,73 +369,80 @@ public class FamiliarData
 	public static final void registerFamiliarData( final String responseText )
 	{
 		// Assume he has no familiar
-		FamiliarData first = FamiliarData.NO_FAMILIAR;
-		FamiliarData hatseat = null;
-		FamiliarData buddy = null;
+		FamiliarData current = FamiliarData.NO_FAMILIAR;
 
-		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
-		while ( matcher.find() )
+		if ( !responseText.contains( "You do not currently have a familiar" ) )
 		{
-			String style = matcher.group( 1 );
-			if ( style != null && style.contains( "expired" ) )
+			Matcher currentMatcher = FamiliarData.CURRENT_PATTERN.matcher( responseText );
+			if ( currentMatcher.find() )
+			{
+				Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( currentMatcher.group() );
+				if ( familiarMatcher.find() )
+				{
+					current = FamiliarData.registerFamiliar( familiarMatcher );
+					// There's no indication of whether your current familiar is a
+					// favorite or not.  Safest to assume it is:
+					current.setFavorite( true );
+				}
+			}
+		}
+
+		Matcher frowMatcher  = FamiliarData.FROW_PATTERN.matcher( responseText );
+		while ( frowMatcher.find() )
+		{
+			String frow = frowMatcher.group();
+			if ( frow.contains( "\"frow expired\"" ) )
 			{
 				continue;
 			}
 
-			String race = matcher.group( 5 );
-			FamiliarData familiar = KoLCharacter.findFamiliar( race );
-			if ( familiar == null )
+			Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( frow );
+			if ( !familiarMatcher.find() )
 			{
-				// Add new familiar to list
-				familiar = new FamiliarData( matcher );
-				KoLCharacter.addFamiliar( familiar );
-			}
-			else
-			{
-				// Update existing familiar
-				familiar.update( matcher );
+				continue;
 			}
 
-			String itemData = matcher.group( 7 );
-			if ( itemData.contains( "kick out of Crown of Thrones" ) )
-			{
-				hatseat = familiar;
-			}
-			else if ( itemData.contains( "kick out of Buddy Bjorn" ) )
-			{
-				buddy = familiar;
-			}
+			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher );
 
-			// First in the list might be equipped
-			if ( first == FamiliarData.NO_FAMILIAR )
+			if ( frow.contains( "kick out of Crown of Thrones" ) )
 			{
-				first = familiar;
+				KoLCharacter.setEnthroned( familiar );
+			}
+			else if ( frow.contains( "kick out of Buddy Bjorn" ) )
+			{
+				KoLCharacter.setBjorned( familiar );
 			}
 		}
 
-		// He may have familiars but none are equipped.
-		if ( responseText.contains( "You do not currently have a familiar" ) )
-		{
-			first = FamiliarData.NO_FAMILIAR;
-		}
-		else if ( first != FamiliarData.NO_FAMILIAR )
-		{	// There's no indication of whether your current familiar is a
-			// favorite or not.  Safest to assume it is:
-			first.setFavorite( true );
-		}
-
-		if ( first.getId() == FamiliarPool.REANIMATOR && first.getId() != KoLCharacter.getFamiliar().getId() )
+		int currentId = current.getId();
+		if ( currentId == FamiliarPool.REANIMATOR && currentId != KoLCharacter.getFamiliar().getId() )
 		{
 			// Visit chat to familiar page to get current parts
-			KoLmafia.updateDisplay( "Getting current parts information for " + first.getName() + " the " + first.getRace() + "." );
+			KoLmafia.updateDisplay( "Getting current parts information for " + current.getName() + " the " + current.getRace() + "." );
 			RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
 		}
 
-		KoLCharacter.setFamiliar( first );
-		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
+		KoLCharacter.setFamiliar( current );
+		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, current.getItem() );
 		FamiliarData.checkLockedItem( responseText );
-		if ( hatseat != null ) KoLCharacter.setEnthroned( hatseat );
-		if ( buddy != null ) KoLCharacter.setBjorned( buddy );
+	}
+
+	private static final FamiliarData registerFamiliar( final Matcher matcher )
+	{
+		String race = matcher.group( 4 );
+		FamiliarData familiar = KoLCharacter.findFamiliar( race );
+		if ( familiar == null )
+		{
+			// Add new familiar to list
+			familiar = new FamiliarData( matcher );
+			KoLCharacter.addFamiliar( familiar );
+		}
+		else
+		{
+			// Update existing familiar
+			familiar.update( matcher );
+		}
+		return familiar;
 	}
 
 	public static final FamiliarData registerFamiliar( final int id, final int experience )
