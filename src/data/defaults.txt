@@ -672,6 +672,11 @@ user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nosyNoseMonster	
 user	noodleSummons	0
+user	nsChallenge1	none
+user	nsChallenge2	none
+user	nsChallenge3	none
+user	nsChallenge4	none
+user	nsChallenge5	none
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual

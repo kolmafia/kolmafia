@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -51,6 +52,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -98,15 +100,18 @@ public abstract class SorceressLairManager
 		// The second crowd: Stat tests
 		{
 			"standing around flexing their muscles and using grip exercisers",
-			"Strongest Adventurer"
+			"Strongest Adventurer",
+			Stat.MUSCLE.toString(),
 		},
 		{
 			"sitting around playing chess and solving complicated-looking logic puzzles",
-			"Smartest Adventurer"
+			"Smartest Adventurer",
+			Stat.MYSTICALITY.toString(),
 		},
 		{
 			"all wearing sunglasses and dancing",
-			"Smoothest Adventurer"
+			"Smoothest Adventurer",
+			Stat.MOXIE.toString(),
 		},
 	};
 
@@ -115,23 +120,28 @@ public abstract class SorceressLairManager
 		// The third crowd: Elemental tests
 		{
 			"people, all of whom appear to be on fire",
-			"Hottest Adventurer"
+			"Hottest Adventurer",
+			Element.HOT.toString(),
 		},
 		{
 			"people, clustered around a group of igloos",
-			"Coolest Adventurer"
+			"Coolest Adventurer",
+			Element.COLD.toString(),
 		},
 		{
 			"people, surrounded by a cloud of eldritch mist",
-			"Spookiest Adventurer"
+			"Spookiest Adventurer",
+			Element.SPOOKY.toString(),
 		},
 		{
 			"people, surrounded by garbage and clouds of flies",
-			"Stinkiest Adventurer"
+			"Stinkiest Adventurer",
+			Element.STENCH.toString(),
 		},
 		{
 			"greasy-looking people furtively skulking around",
-			"Sleaziest Adventurer"
+			"Sleaziest Adventurer",
+			Element.SLEAZE.toString(),
 		},
 	};
 
@@ -140,23 +150,28 @@ public abstract class SorceressLairManager
 		// The first maze trap
 		{
 			"smoldering bushes on the outskirts of a hedge maze",
-			"Hot Damage"
+			"Hot Damage",
+			Element.HOT.toString(),
 		},
 		{
 			"frost-rimed bushes on the outskirts of a hedge maze",
-			"Cold Damage"
+			"Cold Damage",
+			Element.COLD.toString(),
 		},
 		{
 			"creepy-looking black bushes on the outskirts of a hedge maze",
-			"Spooky Damage"
+			"Spooky Damage",
+			Element.SPOOKY.toString(),
 		},
 		{
 			"nasty-looking, dripping green bushes on the outskirts of a hedge maze",
-			"Stench Damage"
+			"Stench Damage",
+			Element.STENCH.toString(),
 		},
 		{
 			"purplish, greasy-looking hedges",
-			"Sleaze Damage"
+			"Sleaze Damage",
+			Element.SLEAZE.toString(),
 		},
 	};
 
@@ -165,23 +180,28 @@ public abstract class SorceressLairManager
 		// The second maze trap
 		{
 			"smoke rising from deeper within the maze",
-			"Hot Damage"
+			"Hot Damage",
+			Element.HOT.toString(),
 		},
 		{
 			"wintry mists rising from deeper within the maze",
-			"Cold Damage"
+			"Cold Damage",
+			Element.COLD.toString(),
 		},
 		{
 			"a miasma of eldritch vapors rising from deeper within the maze",
-			"Spooky Damage"
+			"Spooky Damage",
+			Element.SPOOKY.toString(),
 		},
 		{
 			"a cloud of green gas hovering over the maze",
-			"Stench Damage"
+			"Stench Damage",
+			Element.STENCH.toString(),
 		},
 		{
 			"a greasy purple cloud hanging over the center of the maze",
-			"Sleaze Damage"
+			"Sleaze Damage",
+			Element.SLEAZE.toString(),
 		},
 	};
 
@@ -190,23 +210,28 @@ public abstract class SorceressLairManager
 		// The third maze trap
 		{
 			"with lava slowly oozing out of it",
-			"Hot Damage"
+			"Hot Damage",
+			Element.HOT.toString(),
 		},
 		{
 			"occasionally disgorging a bunch of ice cubes",
-			"Cold Damage"
+			"Cold Damage",
+			Element.COLD.toString(),
 		},
 		{
 			"surrounded by creepy black mist",
-			"Spooky Damage"
+			"Spooky Damage",
+			Element.SPOOKY.toString(),
 		},
 		{
 			"disgorging a really surprising amount of sewage",
-			"Stench Damage"
+			"Stench Damage",
+			Element.STENCH.toString(),
 		},
 		{
 			"that occasionally vomits out a greasy ball of hair",
-			"Sleaze Damage"
+			"Sleaze Damage",
+			Element.SLEAZE.toString(),
 		},
 	};
 
@@ -216,6 +241,46 @@ public abstract class SorceressLairManager
 	public static final int TRAP1 = 3;
 	public static final int TRAP2 = 4;
 	public static final int TRAP3 = 5;
+
+	public static String[][] challengeToData( final int challenge )
+	{
+		switch ( challenge )
+		{
+		case SorceressLairManager.CROWD2:
+			return SorceressLairManager.CROWD2_DATA;
+		case SorceressLairManager.CROWD3:
+			return SorceressLairManager.CROWD3_DATA;
+		case SorceressLairManager.TRAP1:
+			return SorceressLairManager.MAZE_TRAP1_DATA;
+		case SorceressLairManager.TRAP2:
+			return SorceressLairManager.MAZE_TRAP2_DATA;
+		case SorceressLairManager.TRAP3:
+			return SorceressLairManager.MAZE_TRAP3_DATA;
+		default:
+			return null;
+		}
+	}
+	
+	public static void parseChallenge( final int challenge, final String test, final String setting1, final String setting2 )
+	{
+		Preferences.setString( setting1, test );
+		Preferences.setString( setting2, "none" );
+
+		String[][] data = SorceressLairManager.challengeToData( challenge );
+		if ( data == null )
+		{
+			return;
+		}
+
+		for ( String [] entry : data )
+		{
+			if ( test.equals( entry[ 0 ] ) )
+			{
+				Preferences.setString( setting2, entry[ 2 ] );
+				return;
+			}
+		}
+	}
 
 	public static String getChallengeName( final int challenge )
 	{
@@ -240,34 +305,20 @@ public abstract class SorceressLairManager
 	
 	public static String getChallengeDescription( final int challenge, final String test )
 	{
-		String[][] data;
-
-		switch ( challenge )
+		if ( challenge == SorceressLairManager.CROWD1)
 		{
-		case SorceressLairManager.CROWD1:
 			return "Fastest Adventurer";
-		case SorceressLairManager.CROWD2:
-			data = SorceressLairManager.CROWD2_DATA;
-			break;
-		case SorceressLairManager.CROWD3:
-			data = SorceressLairManager.CROWD3_DATA;
-			break;
-		case SorceressLairManager.TRAP1:
-			data = SorceressLairManager.MAZE_TRAP1_DATA;
-			break;
-		case SorceressLairManager.TRAP2:
-			data = SorceressLairManager.MAZE_TRAP2_DATA;
-			break;
-		case SorceressLairManager.TRAP3:
-			data = SorceressLairManager.MAZE_TRAP3_DATA;
-			break;
-		default:
+		}
+
+		String[][] data = SorceressLairManager.challengeToData( challenge );
+		if ( data == null )
+		{
 			return "(bogus)";
 		}
 
 		for ( String [] entry : data )
 		{
-			if ( test.equals( entry[ 0 ] ) )
+			if ( test.equals( entry[ 2 ] ) )
 			{
 				return entry[ 1 ];
 			}
