@@ -859,10 +859,10 @@ Odorous Humongous	adv_stench4.gif	P: dude
 
 # -- Spookiest Adventurer
 
-# Spooky Mob #1	adv_spooky1.gif	P: dude
-# Spooky Mob #2	adv_spooky2.gif	P: dude
-# Spooky Mob #3	adv_spooky3.gif	P: dude
-# Spooky Mob #4	adv_spooky4.gif	P: dude
+# Spooky Mob #1	adv_spooky1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+# Spooky Mob #2	adv_spooky2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+# Spooky Mob #3	adv_spooky3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Arthur Frankenstein	adv_spooky4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Sleaziest Adventurer
 
