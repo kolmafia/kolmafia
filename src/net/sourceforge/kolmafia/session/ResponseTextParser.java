@@ -718,7 +718,7 @@ public class ResponseTextParser
 			RaffleRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "runskillz.php" ) )
+		else if ( location.startsWith( "runskillz.php" ) || location.startsWith( "skillz.php" ) )
 		{
 			UseSkillRequest.parseResponse( location, responseText );
 		}
