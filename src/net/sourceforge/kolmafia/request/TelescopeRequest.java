@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+
 public class TelescopeRequest
 	extends GenericRequest
 {
@@ -134,19 +136,30 @@ public class TelescopeRequest
 			return;
 		}
 
-		// In Bugbear Invasion, there is no point in looking low
-		// through your telescope
-		if ( KoLCharacter.inBugcore() )
-		{
-			return;
-		}
-
 		if ( !urlString.contains( "action=telescopelow" ) )
 		{
 			return;
 		}
 
 		Preferences.setInteger( "lastTelescopeReset", KoLCharacter.getAscensions() );
+		Preferences.setString( "telescope1", "" );
+		Preferences.setString( "telescope2", "" );
+		Preferences.setString( "telescope3", "" );
+		Preferences.setString( "telescope4", "" );
+		Preferences.setString( "telescope5", "" );
+		Preferences.setString( "telescope6", "" );
+		Preferences.setString( "telescope7", "" );
+		Preferences.setString( "nsChallenge1", "none" );
+		Preferences.setString( "nsChallenge2", "none" );
+		Preferences.setString( "nsChallenge3", "none" );
+		Preferences.setString( "nsChallenge4", "none" );
+		Preferences.setString( "nsChallenge5", "none" );
+
+		// In Bugbear Invasion, there is no point in looking low through your telescope
+		if ( KoLCharacter.inBugcore() )
+		{
+			return;
+		}
 
 		int upgrades = 0;
 
@@ -162,8 +175,13 @@ public class TelescopeRequest
 				break;
 			}
 
-			upgrades++ ;
-			Preferences.setString( "telescope" + upgrades, matcher.group( 1 ) );
+			upgrades++;
+
+			String test = matcher.group( 1 );
+			String setting1 = "telescope" + upgrades;
+			String setting2 = "nsChallenge" + upgrades;
+
+			SorceressLairManager.parseChallenge( upgrades, test, setting1, setting2 );
 		}
 
 		int previousUpgrades = Preferences.getInteger( "telescopeUpgrades" );

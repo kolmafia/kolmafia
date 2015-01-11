@@ -3294,7 +3294,7 @@ public abstract class ChoiceManager
 		// The Last Temptation
 		new ChoiceAdventure(
 			"Sorceress", "choiceAdventure10012", "Hedge Maze 8",
-			new Object[] { new Option( "Advance to Room 9" ),
+			new Object[] { new Option( "topiary nugglet and advance to Room 9", "topiary nugglet" ),
 				       new Option( "Lose HP for no benefit and advance to Room 9" ) } ),
 
 		// Choice 1013 is Mazel Tov!

@@ -119,8 +119,8 @@ public class TelescopeCommand
 		for ( int i = 0; i <= max; ++i )
 		{
 			String challenge = SorceressLairManager.getChallengeName( i );
-			String text = i == 0 ? "" : Preferences.getString( "telescope" + i );
-			String description = SorceressLairManager.getChallengeDescription( i, text );
+			String test = i == 0 ? "" : Preferences.getString( "nsChallenge" + i );
+			String description = SorceressLairManager.getChallengeDescription( i, test );
 			RequestLogger.printLine( challenge + ": " + description );
 		}
 	}
