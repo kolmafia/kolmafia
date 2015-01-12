@@ -327,6 +327,67 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
+	private static final Pattern STAT_ADVENTURER_PATTERN = Pattern.compile( "(Strongest|Smartest|Smoothest) Adventurer contest" );
+	private static final Pattern ELEMENT_ADVENTURER_PATTERN = Pattern.compile( "(Hottest|Coldest|Spookiest|Stinkiest|Sleaziest) Adventurer contest" );
+
+	public static void parseContestBooth( final String responseText )
+	{
+		// You feel <feeling> about your chances in the <attribute> Adventurer contest.
+		//
+		// "You already entered the <attribute> Adventurer contest. You
+		// should go get in line and wait for it to start. My clipboard
+		// here says that there are X Adventurers in the contest
+		// besides you."
+		//
+		// "You already entered the <attribute> Adventurer contest. You
+		// should go get in line and wait for it to start. Wait -- my
+		// clipboard says that you're the only Adventurer who
+		// entered. That can't be right, can it? Well, if it's true,
+		// then I guess you're definitely going to win!"
+		//
+		// "You already entered the <attribute> Adventurer contest. You
+		// should go wait in line with the other Adventurers. Actually,
+		// wait -- it says here on my clipboard that you're the only
+		// entrant, so I guess you win that one by default."
+
+		// Look at the responseText and set nsChallenge1 to the "stat"
+		// and nsChallenge2 to the "element"
+
+		Matcher matcher = SorceressLairManager.STAT_ADVENTURER_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String stat = matcher.group( 1 );
+			String  value =
+				stat.equals( "Strongest" ) ?
+				Stat.MUSCLE.toString() :
+				stat.equals( "Smartest" ) ?
+				Stat.MYSTICALITY.toString() :
+				stat.equals( "Smoothest" ) ?
+				Stat.MOXIE.toString() :
+				"none";
+			Preferences.setString( "nsChallenge1", stat );
+		}
+
+		matcher = SorceressLairManager.ELEMENT_ADVENTURER_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String element = matcher.group( 1 );
+			String value =
+				element.equals( "Hottest" ) ?
+				Element.HOT.toString() :
+				element.equals( "Coldest" ) ?
+				Element.COLD.toString() :
+				element.equals( "Spookiest" ) ?
+				Element.SPOOKY.toString() :
+				element.equals( "Stinkiest" ) ?
+				Element.STENCH.toString() :
+				element.equals( "Sleaziest" ) ?
+				Element.SLEAZE.toString() :
+				"none";
+			Preferences.setString( "nsChallenge2", element );
+		}
+	}
+
 	public static void parseDoorResponse( final String location, final String responseText )
 	{
 		String action = GenericRequest.getAction( location );

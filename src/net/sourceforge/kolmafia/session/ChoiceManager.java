@@ -7942,6 +7942,10 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1003:
+			// Test Your Might And Also Test Other Things
+			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
+			break;
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
@@ -9435,6 +9439,11 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "controlPanelOmega", 0 );
 			}
+			break;
+
+		case 1003:
+			// Test Your Might And Also Test Other Things
+			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
 			break;
 		}
 	}
