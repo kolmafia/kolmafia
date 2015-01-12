@@ -153,6 +153,7 @@ public class OptionsFrame
 		selectorPanel.addPanel( "Automation", new ScriptPanel(), true );
 		selectorPanel.addPanel( " - In Ronin", new BreakfastPanel( "Hardcore" ), true );
 		selectorPanel.addPanel( " - After Ronin", new BreakfastPanel( "Softcore" ), true );
+		selectorPanel.addPanel( " - Always", new BreakfastAlwaysPanel(), true );
 
 		JPanel customDeedPanel = new JPanel();
 		customDeedPanel.setLayout( new BoxLayout( customDeedPanel, BoxLayout.Y_AXIS ) );
@@ -2103,6 +2104,79 @@ public class OptionsFrame
 			this.chatbotScript.setText( chatbotScript );
 		}
 
+	}
+
+	protected class BreakfastAlwaysPanel
+		extends JPanel
+		implements ActionListener
+	{
+		private final JCheckBox[] skillOptions;
+
+		public BreakfastAlwaysPanel()
+		{
+			super( new CardLayout( 10, 10 ) );
+
+			JPanel centerContainer = new JPanel();
+			centerContainer.setLayout( new BoxLayout( centerContainer, BoxLayout.Y_AXIS ) );
+
+			int rows = ( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length ) / 2 + 5;
+
+			JPanel centerPanel = new JPanel( new GridLayout( rows, 2 ) );
+
+			this.skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length ];
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
+			{
+				this.skillOptions[ i ] = new JCheckBox( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ].toLowerCase() );
+				this.skillOptions[ i ].addActionListener( this );
+				centerPanel.add( this.skillOptions[ i ] );
+			}
+
+			centerContainer.add( centerPanel );
+			centerContainer.add( Box.createVerticalGlue() );
+
+			this.add( centerContainer, "" );
+
+			this.actionCancelled();
+		}
+
+		public void actionPerformed( final ActionEvent e )
+		{
+			this.actionConfirmed();
+		}
+
+		public void actionConfirmed()
+		{
+			StringBuilder skillString = new StringBuilder();
+
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
+			{
+				if ( this.skillOptions[ i ].isSelected() )
+				{
+					if ( skillString.length() != 0 )
+					{
+						skillString.append( "," );
+					}
+
+					skillString.append( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ] );
+				}
+			}
+
+			Preferences.setString( "breakfastAlways", skillString.toString() );
+		}
+
+		public void actionCancelled()
+		{
+			String skillString = Preferences.getString( "breakfastAlways" );
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
+			{
+				this.skillOptions[ i ].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ] ) != -1 );
+			}
+		}
+
+		@Override
+		public void setEnabled( final boolean isEnabled )
+		{
+		}
 	}
 
 	protected class BreakfastPanel

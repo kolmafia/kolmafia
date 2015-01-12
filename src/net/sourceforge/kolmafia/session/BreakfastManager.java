@@ -266,9 +266,27 @@ public class BreakfastManager
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
 	{
+		String skillSetting = Preferences.getString( "breakfastAlways" );
+		for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
+		{
+			String skill = UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ];
+
+			if ( !skillSetting.contains( skill ) )
+			{
+				continue;
+			}
+
+			if ( !KoLCharacter.hasSkill( skill ) )
+			{
+				continue;
+			}
+
+			BreakfastManager.castSkill( skill, Integer.MAX_VALUE, false, 0 );
+		}
+
 		String suffix = ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" );
 
-		String skillSetting = Preferences.getString( "breakfast" + suffix );
+		skillSetting = Preferences.getString( "breakfast" + suffix );
 		if ( skillSetting.equals( "" ) )
 		{
 			return true;
@@ -281,7 +299,7 @@ public class BreakfastManager
 		{
 			String skill = UseSkillRequest.BREAKFAST_SKILLS[ i ];
 
-			if ( skillSetting.indexOf( skill ) == -1 )
+			if ( !skillSetting.contains( skill ) )
 			{
 				continue;
 			}
@@ -333,7 +351,10 @@ public class BreakfastManager
 		{
 			int available = KoLCharacter.getCurrentMP() - manaRemaining;
 			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
-			castCount = Math.min( castCount, available / perCast );
+			if ( perCast != 0 )
+			{
+				castCount = Math.min( castCount, available / perCast );
+			}
 		}
 
 		if ( castCount == 0 )
