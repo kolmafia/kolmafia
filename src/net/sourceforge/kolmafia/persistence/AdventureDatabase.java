@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -61,6 +62,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -459,6 +461,40 @@ public class AdventureDatabase
 		if ( adventureURL.contains( "action=pyramid_state" ) )
 		{
 			return AdventureDatabase.getAdventure( "The Lower Chambers" );
+		}
+
+		if ( adventureURL.contains( "whichplace=nstower" ) )
+		{
+			if ( adventureURL.contains( "action=ns_01_crowd2" ) )
+			{
+				String stat = Preferences.getString( "nsChallenge1" );
+				String  adventure =
+					stat.equals( Stat.MUSCLE.toString() ) ?
+					"Strongest Adventurer Contest" :
+					stat.equals( Stat.MYSTICALITY.toString() ) ?
+					"Smartest Adventurer Contest" :
+					stat.equals( Stat.MOXIE.toString() ) ?
+					"Smoothest Adventurer Contest" :
+					"A Crowd of (Stat) Adventurers";
+				return AdventureDatabase.getAdventure( adventure );
+			}
+			if ( adventureURL.contains( "action=ns_01_crowd3" ) )
+			{
+				String element = Preferences.getString( "nsChallenge2" );
+				String  adventure =
+					element.equals( Element.HOT.toString() ) ?
+					"Hottest Adventurer Contest" :
+					element.equals( Element.COLD.toString() ) ?
+					"Coldest Adventurer Contest" :
+					element.equals( Element.SPOOKY.toString() ) ?
+					"Spookiest Adventurer Contest" :
+					element.equals( Element.STENCH.toString() ) ?
+					"Stinkiest Adventurer Contest" :
+					element.equals( Element.SLEAZE.toString() ) ?
+					"Sleaziest Adventurer Contest" :
+					"A Crowd of (Element) Adventurers";
+				return AdventureDatabase.getAdventure( adventure );
+			}
 		}
 
 		// place.php?whichplace=manor4&action=manor4_chamber

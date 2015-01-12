@@ -133,28 +133,7 @@ public class TestCommand
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
 
-		if ( command.equals( "intcache" ) )
-		{
-			int cacheHits = IntegerPool.getCacheHits();
-			int cacheMissLows = IntegerPool.getCacheMissLows();
-			int cacheMissHighs = IntegerPool.getCacheMissHighs();
-			int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
-
-			float successRate = 0.0f;
-
-			if ( totalAccesses != 0 )
-			{
-				successRate = (float) cacheHits / (float) totalAccesses * 100.0f;
-			}
-
-			RequestLogger.printLine( "cache hits: " + cacheHits );
-			RequestLogger.printLine( "cache misses (too low): " + cacheMissLows );
-			RequestLogger.printLine( "cache misses (too high): " + cacheMissHighs );
-			RequestLogger.printLine( "success rate: " + successRate + " %" );
-
-			return;
-		}
-
+		// Load an HTML file to be used by a subsequent "test" command
 		if ( command.equals( "load" ) )
 		{
 			if ( split.length < 2 )
@@ -179,6 +158,28 @@ public class TestCommand
 			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) +
 						" bytes into a " + KoLConstants.COMMA_FORMAT.format( string.length() ) +
 						" character string" );
+		}
+
+		if ( command.equals( "intcache" ) )
+		{
+			int cacheHits = IntegerPool.getCacheHits();
+			int cacheMissLows = IntegerPool.getCacheMissLows();
+			int cacheMissHighs = IntegerPool.getCacheMissHighs();
+			int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
+
+			float successRate = 0.0f;
+
+			if ( totalAccesses != 0 )
+			{
+				successRate = (float) cacheHits / (float) totalAccesses * 100.0f;
+			}
+
+			RequestLogger.printLine( "cache hits: " + cacheHits );
+			RequestLogger.printLine( "cache misses (too low): " + cacheMissLows );
+			RequestLogger.printLine( "cache misses (too high): " + cacheMissHighs );
+			RequestLogger.printLine( "success rate: " + successRate + " %" );
+
+			return;
 		}
 		
 		if ( command.equals( "xpath" ) )
@@ -241,18 +242,16 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "hedgepuzzle" ) )
+		if ( command.equals( "adventure" ) )
 		{
-			if ( TestCommand.contents == null )
+			if ( split.length < 2 )
 			{
-				RequestThread.postRequest( new HedgePuzzleRequest() );
-				HedgePuzzleRequest.computeSolution();
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test adventure URL" );
+				return;
 			}
-			else
-			{
-				HedgePuzzleRequest.computeSolution( TestCommand.contents );
-				TestCommand.contents = null;
-			}
+			String adventureURL = split[ 1 ].trim();
+			KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
+			RequestLogger.printLine( "returned " + adventure );
 			return;
 		}
 
@@ -315,6 +314,7 @@ public class TestCommand
 			RequestLogger.printLine( "returned " + result );
 			return;
 		}
+
 		if ( command.equals( "result" ) )
 		{
 			if ( split.length < 2 )
