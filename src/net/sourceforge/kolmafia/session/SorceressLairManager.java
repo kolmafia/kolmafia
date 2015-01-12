@@ -327,6 +327,70 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
+	public static void parseDoorResponse( final String location, final String responseText )
+	{
+		String action = GenericRequest.getAction( location );
+
+		if ( action == null )
+		{
+			return;
+		}
+
+		AdventureResult key =
+			action.equals( "ns_lock1" ) ?
+			SorceressLairManager.BORIS :
+			action.equals( "ns_lock2" ) ?
+			SorceressLairManager.JARLSBERG :
+			action.equals( "ns_lock3" ) ?
+			SorceressLairManager.SNEAKY_PETE :
+			action.equals( "ns_lock4" ) ?
+			SorceressLairManager.STAR_KEY :
+			action.equals( "ns_lock5" ) ?
+			SorceressLairManager.SKELETON :
+			action.equals( "ns_lock6" ) ?
+			SorceressLairManager.DIGITAL :
+			null;
+
+		if ( key == null )
+		{
+			return;
+		}
+
+		// You place Boris's key in the lock and turn it. You hear a
+		// jolly bellowing in the distance as the lock vanishes, along
+		// with the metal plate it was attached to. Huh.
+
+		// You put Jarlsberg's key in the lock and turn it. You hear a
+		// nasal, sort of annoying laugh in the distance as the lock
+		// vanishes in a puff of rotten-egg-smelling smoke.
+
+		// You put the key in the lock and hear the roar of a
+		// motorcycle behind you. By the time you turn around to check
+		// out the cool motorcycle guy he's gone, but when you turn
+		// back to the lock it is <i>also</i> gone.
+
+		// You put the key in and turn it. There is a flash of
+		// brilliant starlight accompanied by a competent but not
+		// exceptional drum solo, and when both have faded, the lock is
+		// gone.
+
+		// You put the skeleton key in the lock and turn it. The key,
+		// the lock, and the metal plate the lock is attached to all
+		// crumble to dust. And rust, in the case of the metal.
+
+		// You put the digital key in the lock and turn it. A familiar
+		// sequence of eight tones plays as the lock disappears.
+
+		if ( responseText.contains( "the lock vanishes" ) ||
+		     responseText.contains( "turn back to the lock" ) ||
+		     responseText.contains( "the lock is gone" ) ||
+		     responseText.contains( "crumble to dust" ) ||
+		     responseText.contains( "the lock disappears" ) )
+		{
+			ResultProcessor.processResult( key.getNegation() );
+		}
+	}
+
 	private static final boolean checkPrerequisites( final int min, final int max )
 	{
 		KoLmafia.updateDisplay( "Checking prerequisites..." );
