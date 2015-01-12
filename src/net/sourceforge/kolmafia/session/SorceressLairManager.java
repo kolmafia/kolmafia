@@ -449,6 +449,8 @@ public abstract class SorceressLairManager
 		     responseText.contains( "the lock disappears" ) )
 		{
 			ResultProcessor.processResult( key.getNegation() );
+			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
+			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + key.getDataName() );
 		}
 	}
 
