@@ -152,33 +152,41 @@ public class AdventureRequest
 		{
 			this.addFormField( "mine", adventureId );
 		}
-		else if ( formSource.equals( "place.php" ) && adventureId.equals( "cloudypeak2" ) )
+		else if ( formSource.equals( "place.php" ) )
 		{
-			this.addFormField( "whichplace", "mclargehuge" );
-			this.addFormField( "action", adventureId );
-		}
-		else if ( this.formSource.equals( "place.php" ) && this.adventureId.equals( "pyramid_state" ) )
-		{
-			this.addFormField( "whichplace", "pyramid" );
-			StringBuilder action = new StringBuilder();
-			action.append( adventureId );
-			action.append( Preferences.getString( "pyramidPosition" ) );
-			if ( Preferences.getBoolean( "pyramidBombUsed" ) )
+			if ( adventureId.equals( "cloudypeak2" ) )
 			{
-				action.append( "a" );
+				this.addFormField( "whichplace", "mclargehuge" );
+				this.addFormField( "action", adventureId );
 			}
-			this.addFormField( "action", action.toString() );
-		}
-		else if ( this.formSource.equals( "place.php" ) && this.adventureId.startsWith( "manor4_chamber" ) )
-		{
-			this.addFormField( "whichplace", "manor4" );
-			if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
+			else if ( this.adventureId.equals( "pyramid_state" ) )
 			{
-				this.addFormField( "action", "manor4_chamberboss" );
+				this.addFormField( "whichplace", "pyramid" );
+				StringBuilder action = new StringBuilder();
+				action.append( adventureId );
+				action.append( Preferences.getString( "pyramidPosition" ) );
+				if ( Preferences.getBoolean( "pyramidBombUsed" ) )
+				{
+					action.append( "a" );
+				}
+				this.addFormField( "action", action.toString() );
 			}
-			else
+			else if ( this.adventureId.startsWith( "manor4_chamber" ) )
 			{
-				this.addFormField( "action", "manor4_chamber" );
+				this.addFormField( "whichplace", "manor4" );
+				if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
+				{
+					this.addFormField( "action", "manor4_chamberboss" );
+				}
+				else
+				{
+					this.addFormField( "action", "manor4_chamber" );
+				}
+			}
+			else if ( this.adventureId.startsWith( "ns_" ) )
+			{
+				this.addFormField( "whichplace", "nstower" );
+				this.addFormField( "action", adventureId );
 			}
 		}
 		else if ( !formSource.equals( "basement.php" ) &&

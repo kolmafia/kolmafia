@@ -648,6 +648,11 @@ public class ResponseTextParser
 			UseItemRequest.parseConsumption( responseText, false );
 		}
 
+		else if ( location.startsWith( "mrstore.php" ) )
+		{
+			MrStoreRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "pandamonium.php" ) )
 		{
 			PandamoniumRequest.parseResponse( location, responseText );
@@ -686,6 +691,10 @@ public class ResponseTextParser
 				{
 					Preferences.setBoolean( "chateauAvailable", true );
 				}
+			}
+			else if ( location.contains( "whichplace=nstower_door" ) )
+			{
+				SorceressLairManager.parseDoorResponse( location, responseText );
 			}
 			else if ( location.contains( "whichplace=orc_chasm" ) )
 			{

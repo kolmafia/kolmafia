@@ -944,6 +944,11 @@ public class CharPaneRequest
 			}
 		}
 
+		if ( adventureName == null || adventureName.equals( "The Naughty Sorceress' Tower" ) )
+		{
+			return;
+		}
+
 		CharPaneRequest.setLastAdventure( "", adventureName, adventureURL, container );
 	}
 
@@ -954,7 +959,7 @@ public class CharPaneRequest
 			return;
 		}
 
-		if ( adventureName == null )
+		if ( adventureName == null || adventureName.equals( "The Naughty Sorceress' Tower" ) )
 		{
 			return;
 		}
