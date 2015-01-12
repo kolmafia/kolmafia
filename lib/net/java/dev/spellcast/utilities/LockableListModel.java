@@ -55,8 +55,8 @@ import javax.swing.MutableComboBoxModel;
  */
 
 public class LockableListModel<E>
-	extends AbstractListModel<E>
-	implements Cloneable, List<E>, ListModel<E>, ComboBoxModel<E>, MutableComboBoxModel<E>
+	extends AbstractListModel
+	implements Cloneable, List<E>, ListModel, ComboBoxModel, MutableComboBoxModel
 {
 	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
@@ -960,9 +960,9 @@ public class LockableListModel<E>
 	 * function.
 	 */
 
-	public void addElement( final E element )
+	public void addElement( final Object element )
 	{
-		this.add( element );
+		this.add( (E)element );
 	}
 
 	/**
@@ -970,9 +970,9 @@ public class LockableListModel<E>
 	 * regarding this function.
 	 */
 
-	public void insertElementAt( final E element, final int index )
+	public void insertElementAt( final Object element, final int index )
 	{
-		this.add( element );
+		this.add( (E)element );
 	}
 
 	/**
