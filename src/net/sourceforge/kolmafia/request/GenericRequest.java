@@ -100,7 +100,6 @@ import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
@@ -197,6 +196,7 @@ public class GenericRequest
 	public static boolean ascending = false;
 	public static String itemMonster = null;
 	private static boolean suppressUpdate = false;
+	private static boolean ignoreChatRequest = false;
 
 	public static void reset()
 	{
@@ -325,7 +325,7 @@ public class GenericRequest
 
 	private static final boolean substringMatches( final String a, final String b )
 	{
-		return a.indexOf( b ) != -1 || b.indexOf( a ) != -1;
+		return a.contains( b ) || b.contains( a );
 	}
 
 	/**
@@ -1264,6 +1264,12 @@ public class GenericRequest
 			return;
 		}
 
+		if ( this.isChatRequest && GenericRequest.ignoreChatRequest )
+		{
+			return;
+		}
+		GenericRequest.ignoreChatRequest = false;
+
 		this.timeoutCount = 0;
 		this.redirectCount = 0;
 		this.allowRedirect = null;
@@ -1271,7 +1277,7 @@ public class GenericRequest
 		String location = this.getURLString();
 
 		if ( StaticEntity.backtraceTrigger != null &&
-		     location.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		     location.contains( StaticEntity.backtraceTrigger ) )
 		{
 			StaticEntity.printStackTrace( "Backtrace triggered by page load" );
 		}
@@ -1302,14 +1308,14 @@ public class GenericRequest
 
 			// If he wants us to automatically get a worthless item
 			// in the sewer, do it.
-			if ( location.indexOf( "autoworthless=on" ) != -1 )
+			if ( location.contains( "autoworthless=on" ) )
 			{
 				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false );
 			}
 
 			// If he wants us to automatically get a hermit permit, if needed, do it.
 			// If he happens to have a hermit script, use it and obviate permits
-			if ( location.indexOf( "autopermit=on" ) != -1 )
+			if ( location.contains( "autopermit=on" ) )
 			{
 				if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 				{
@@ -1484,13 +1490,13 @@ public class GenericRequest
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
+		if ( urlString.startsWith( "lair6.php" ) && urlString.contains( "place=5" ) )
 		{
 			KoLConstants.activeEffects.clear();
 			// *** Do we retain intrinsic effects?
 		}
 
-		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
+		if ( urlString.startsWith( "ascend.php" ) && urlString.contains( "action=ascend" ) )
 		{
 			GenericRequest.ascending = true;
 			KoLmafia.forceContinue();
@@ -1534,8 +1540,8 @@ public class GenericRequest
 		String requestURL = GenericRequest.decodeField( request.formURLString );
 		return requestURL == null ||
 			// Disallow mall searches
-			requestURL.indexOf( "mall.php" ) != -1 ||
-			requestURL.indexOf( "manageprices.php" ) != -1 ||
+			requestURL.contains( "mall.php" ) ||
+			requestURL.contains( "manageprices.php" ) ||
 			// Disallow anything to do with chat
 			request.isChatRequest;
 	}
@@ -1630,7 +1636,7 @@ public class GenericRequest
 
 		if ( !this.isExternalRequest )
 		{
-			if ( Preferences.getBoolean( "useSecureLogin" ) && urlString.indexOf( "login.php" ) != -1 )
+			if ( Preferences.getBoolean( "useSecureLogin" ) && urlString.contains( "login.php" ) )
 			{
 				context = GenericRequest.KOL_SECURE_ROOT;
 			}
@@ -2055,6 +2061,13 @@ public class GenericRequest
 			if ( this.formURLString.startsWith( "logout.php" ) )
 			{
 				return true;
+			}
+
+			if ( this.isChatRequest )
+			{
+				RequestLogger.printLine( "You are logged out.  Chat will no longer update." );
+				GenericRequest.ignoreChatRequest = true;
+				return false;
 			}
 
 			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
@@ -2494,7 +2507,7 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
-		if ( this.responseText.indexOf( "You break the bottle on the ground" ) != -1 )
+		if ( this.responseText.contains( "You break the bottle on the ground" ) )
 		{
 			// You break the bottle on the ground, and stomp it to powder
 			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
