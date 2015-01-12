@@ -500,6 +500,7 @@ public class ValhallaManager
 		Preferences.setString( "nsChallenge3", "none" );
 		Preferences.setString( "nsChallenge4", "none" );
 		Preferences.setString( "nsChallenge5", "none" );
+		Preferences.setString( "nsTowerDoorKeysUsed", "" );
 		Preferences.setInteger( "singleFamiliarRun", 0 );
 		Preferences.setString( "plantingDate", "");
 		Preferences.setInteger( "plantingDay", -1);
