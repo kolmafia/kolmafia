@@ -118,7 +118,7 @@ public class ChoiceCommand
 	}
 
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
-	private static final Pattern LINK_PATTERN = Pattern.compile( "href='choice.php\\?.*option=(\\d+)'" );
+	private static final Pattern LINK_PATTERN = Pattern.compile( "choice.php\\?whichchoice=\\d+&option=(\\d+)" );
 
 	public static TreeMap parseChoices( final boolean spoilers )
 	{

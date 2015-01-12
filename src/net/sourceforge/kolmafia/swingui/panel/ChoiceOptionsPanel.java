@@ -129,6 +129,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
 	private final JComboBox addingSelect;
+	private final JComboBox paranormalLabSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -404,6 +405,10 @@ public class ChoiceOptionsPanel
 		this.addingSelect.addItem( "create goal & 668 scrolls" );
 		this.addingSelect.addItem( "create goal, 31337, 668 scrolls" );
 
+		this.paranormalLabSelect = new JComboBox();
+		this.paranormalLabSelect.addItem( "show in browser" );
+		this.paranormalLabSelect.addItem( "automate" );
+
 		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
 		this.addChoiceSelect( "Item-Driven", "Breakable Equipment", this.breakableSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
@@ -438,6 +443,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
 		this.addChoiceSelect( "Dungeon", "Daily Dungeon", this.dailyDungeonDoorSelect );
+		this.addChoiceSelect( "Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -913,6 +919,8 @@ public class ChoiceOptionsPanel
 						dailyDungeonDoorIndex == 3 ? "12" :
 						currentSetting );
 		
+		Preferences.setString( "choiceAdventure989", String.valueOf( this.paranormalLabSelect.getSelectedIndex() ) );
+
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1260,6 +1268,8 @@ public class ChoiceOptionsPanel
 			break;
 		}
 		
+		this.paranormalLabSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure989" ) );
+
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
 
