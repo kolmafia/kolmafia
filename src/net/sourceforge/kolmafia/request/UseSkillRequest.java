@@ -102,6 +102,13 @@ public class UseSkillRequest
 		"Summon Carrot",
 	};
 
+	// These are skills where someone would not care if they are in-run,
+	// generally because they do not cost MP
+	public static final String[] BREAKFAST_ALWAYS_SKILLS =
+	{
+		"Summon Annoyance",
+	};
+
 	public static final String[] TOME_SKILLS =
 	{
 		"Summon Snowcones",
