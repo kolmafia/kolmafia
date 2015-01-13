@@ -155,7 +155,7 @@ public class NPCPurchaseRequest
 	{
 		return  storeId.contains( "." ) ?
 			storeId :
-			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) || storeId.equals( "blackmarket" ) ?
+			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) || storeId.equals( "blackmarket" ) || storeId.equals( "chateau" ) ?
 			"shop.php" :
 			"store.php";
 	}
@@ -570,6 +570,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "chateau" ) )
+		{
+			ChateauRequest.parseShopResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "hiddentavern" ) )
 		{
 			// If Hidden Tavern not already unlocked, new items available
@@ -704,7 +710,6 @@ public class NPCPurchaseRequest
 			Crimbo14Request.parseResponse( urlString, responseText );
 			return;
 		}
-
 	}
 
 	public static final boolean registerShopRowRequest( final String urlString )

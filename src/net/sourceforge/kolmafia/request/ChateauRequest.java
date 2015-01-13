@@ -91,15 +91,6 @@ public class ChateauRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-
-		// place.php?whichplace=chateau&action=cheateau_restlabel
-		// or action=cheateau_restlabel
-		// or action=cheateau_restbox
-		if ( urlString.contains( "action=chateau_rest" ) )
-		{
-			Preferences.increment( "timesRested" );
-		}
-
 		KoLConstants.chateau.clear();
 
 		Matcher paintingMatcher = ChateauRequest.PAINTING_PATTERN.matcher( responseText );
@@ -149,6 +140,26 @@ public class ChateauRequest
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_JUICE_BAR );
 		}
 
+		String action = GenericRequest.getAction( urlString );
+
+		// Nothing more to do for a simple visit
+		if ( action == null )
+		{
+			return;
+		}
+
+		// place.php?whichplace=chateau&action=cheateau_restlabelfree
+		// or action=cheateau_restlabel
+		// or action=cheateau_restbox
+		if ( action.startsWith( "cheateau_rest" ) )
+		{
+			Preferences.increment( "timesRested" );
+			KoLCharacter.updateStatus();
+		}
+	}
+
+	public static final void parseShopResponse( final String urlString, final String responseText )
+	{
 		// Adjust for changes in rollover adventures/fights or free rests
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
@@ -168,5 +179,52 @@ public class ChateauRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + count + "] Chateau Painting" );
 		GenericRequest.itemMonster = "Chateau Painting";
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=chateau" ) )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			return true;
+		}
+
+		String message = null;
+
+		if ( action.equals( "chateau_desk1" ) )
+		{
+			message = "Collecting Meat from Swiss piggy bank";
+		}
+		else if ( action.equals( "chateau_desk2" ) )
+		{
+			message = "Collecting juice from continental juice bar";
+		}
+		else if ( action.equals( "cheateau_restlabelfree" ) )
+		{
+			message = "Rest in your bed in the Chateau";
+		}
+		else if ( action.equals( "cheateau_restlabel" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your bed in the Chateau";
+		}
+
+		if ( message == null )
+		{
+			// Log URL for anything else
+			return false;
+		}
+
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }

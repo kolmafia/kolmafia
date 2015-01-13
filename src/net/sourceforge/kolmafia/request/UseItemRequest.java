@@ -3006,6 +3006,10 @@ public class UseItemRequest
 			return;
 		}
 
+		case ItemPool.CHATEAU_ROOM_KEY:
+			Preferences.setBoolean( "chateauAvailable", true );
+			return;
+
 		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
 			if ( responseText.contains( "don't have the item you're trying to use" ) )
