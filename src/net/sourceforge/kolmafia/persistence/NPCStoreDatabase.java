@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -222,6 +223,11 @@ public class NPCStoreDatabase
 		{
 			// Black Market
 			return QuestLogRequest.isBlackMarketAvailable();
+		}
+		else if ( storeId.equals( "chateau" ) )
+		{
+			// Chateau Mantenga
+			return Preferences.getBoolean( "chateauAvailable" ) && StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
 		}
 		else if ( storeId.equals( "c" ) )
 		{
