@@ -145,12 +145,6 @@ public class FishboneryRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( urlString.startsWith( "inv_use.php" ) && urlString.contains( "whichitem=7651" ) )
-		{
-			// This is a simple visit to the Fishbonery
-			return true;
-		}
-
 		// shop.php?pwd&whichshop=fishbones
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=fishbones" ) )
 		{

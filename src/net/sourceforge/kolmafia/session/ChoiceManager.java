@@ -5806,8 +5806,10 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		for ( int stepCount = 0; !KoLmafia.refusesContinue() && ( request.responseText.contains( "action=choice.php" ) ||
-																request.responseText.contains( "href=choice.php" ) ); ++stepCount )
+		for ( int stepCount = 0;
+		      !KoLmafia.refusesContinue() &&
+			      ( request.responseText.contains( "action=choice.php" ) || request.responseText.contains( "href=choice.php" ) );
+		      ++stepCount )
 		{
 			request.clearDataFields();
 

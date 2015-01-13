@@ -1198,6 +1198,17 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
+		// Shops
+		case ItemPool.FRESHWATER_FISHBONE:
+			useType = "assemble";
+			useLocation = "shop.php?whichshop=fishbones";
+			break;
+
+		case ItemPool.TOPIARY_NUGGLET:
+			useType = "sculpt";
+			useLocation = "shop.php?whichshop=topiary";
+			break;
+			
 		// Subject 37 File goes to Cell #37
 		case ItemPool.SUBJECT_37_FILE:
 			useType = "cell #37";
