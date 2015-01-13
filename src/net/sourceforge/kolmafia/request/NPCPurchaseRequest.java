@@ -805,7 +805,8 @@ public class NPCPurchaseRequest
 
 		if ( itemId == -1 )
 		{
-			return false;
+			// Just visiting the shop
+			return true;
 		}
 
 		String itemName = ItemDatabase.getItemName( itemId );

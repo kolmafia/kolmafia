@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -1012,7 +1013,7 @@ public class ResultProcessor
 	public static final void tallyResult( final AdventureResult result, final boolean updateCalculatedLists )
 	{
 		// Treat the result as normal from this point forward.
-		// Figure out which list the skill should be added to
+		// Figure out which list the result should be added to
 		// and add it to that list.
 
 		String resultName = result.getName();
@@ -1023,6 +1024,21 @@ public class ResultProcessor
 
 		if ( result.isItem() )
 		{
+			// Certain items that you "gain" don't really enter inventory
+			switch (result.getItemId() )
+			{
+			case ItemPool.CHATEAU_MUSCLE:
+			case ItemPool.CHATEAU_MYST:
+			case ItemPool.CHATEAU_MOXIE:
+			case ItemPool.CHATEAU_FAN:
+			case ItemPool.CHATEAU_CHANDELIER:
+			case ItemPool.CHATEAU_SKYLIGHT:
+			case ItemPool.CHATEAU_BANK:
+			case ItemPool.CHATEAU_JUICE_BAR:
+				ChateauRequest.gainItem( result );
+				return;
+			}
+
 			AdventureResult.addResultToList( KoLConstants.inventory, result );
 
 			if ( updateCalculatedLists )

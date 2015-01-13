@@ -2025,7 +2025,7 @@ public class GenericRequest
 		{
 			GenericRequest.checkItemRedirection( this.getURLString() );
 
-			if ( this instanceof UseItemRequest )
+			if ( this instanceof UseItemRequest || this instanceof ChateauRequest )
 			{
 				FightRequest.INSTANCE.run();
 				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight )
@@ -2033,10 +2033,6 @@ public class GenericRequest
 					KoLmafia.executeAfterAdventureScript();
 				}
 				return !LoginRequest.isInstanceRunning();
-			}
-			if ( this.getURLString().contains( "action=chateau_painting" ) )
-			{
-				ChateauRequest.handlePaintingFight();
 			}
 		}
 
@@ -2645,7 +2641,11 @@ public class GenericRequest
 
 	private static final void checkItemRedirection( final String location )
 	{
-		AdventureResult item = UseItemRequest.extractItem( location );
+		AdventureResult item =
+			location.contains( "action=chateau_painting" ) ?
+			ChateauRequest.CHATEAU_PAINTING :
+			UseItemRequest.extractItem( location );
+
 		GenericRequest.itemMonster = null;
 
 		if ( item == null )
@@ -2922,6 +2922,13 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.CHATEAU_WATERCOLOR:
+			itemName = "Chateau Painting";
+			consumed = false;
+			Preferences.setBoolean( "_chateauMonsterFought", true );
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		default:
 			return;
 		}
@@ -2946,12 +2953,13 @@ public class GenericRequest
 			EncounterManager.registerAdventure( adventure.getAdventureName() );
 		}
 
-		int count = KoLAdventure.getAdventureCount();
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
 		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + count + "] " + itemName );
+		RequestLogger.printLine( message );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + count + "] " + itemName );
+		RequestLogger.updateSessionLog( message );
+
 		GenericRequest.itemMonster = itemName;
 	}
 
