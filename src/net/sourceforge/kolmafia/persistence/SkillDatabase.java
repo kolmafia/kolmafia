@@ -1144,7 +1144,7 @@ public class SkillDatabase
 
 	public static final boolean isBookshelfSkill( final int skillId )
 	{
-		return ( skillId / 1000 ) == 8;
+		return skillId >= SkillPool.SNOWCONE && skillId <= SkillPool.CONFISCATOR;
 	}
 
 	public static final boolean isBookshelfSkill( final String skillName )
