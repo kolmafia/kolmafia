@@ -648,24 +648,24 @@
 7210	Overload Teddy Bear	teddybear.gif	5	0	0
 7211	Thousand-Yard Stare	blackeyes.gif	5	0	0
 7212	Activate Butt	asshat.gif	5	0	0
-7213
-7214
-7215
-7216
-7217
-7218
-7219
-7220
-7221
-7222
-7223
-7224
-7225
-7226
-7227
-7228
-7229
-7230
+7213	Summon Snowcones	book.gif	1	2	0
+7214	Summon Stickers	book3.gif	1	2	0
+7215	Summon Sugar Sheets	book4.gif	1	2	0
+7216	Summon Clip Art	book3.gif	1	2	0
+7217	Summon Rad Libs	radlibtome.gif	1	2	0
+7218	Summon Smithsness	book4.gif	1	2	0
+7219	Summon Candy Heart	book.gif	1	0	0
+7220	Summon Party Favor	book3.gif	1	0	0
+7221	Summon Love Song	book4.gif	1	0	0
+7222	Summon BRICKOs	book2.gif	1	0	0
+7223	Summon Dice	gygaxlibram.gif	1	0	0
+7224	Summon Resolutions	book5.gif	1	0	0
+7225	Summon Taffy	book4.gif	1	0	0
+7226	Summon Hilarious Objects	book2.gif	1	5	0
+7227	Summon Tasteful Items	book4.gif	1	5	0
+7228	Summon Alice's Army Cards	book3.gif	1	5	0
+7229	Summon Geeky Gifts	nerdgrimoire.gif	1	5	0
+7230	Summon Confiscated Things	book4.gif	1	5	0
 7231	Open a Big Yellow Present	pressie.gif	5	0	0
 7232	Open a Big Red Present	pressie.gif	5	0	0
 7233	LIGHT	headlight.gif	5	0	0
@@ -674,25 +674,26 @@
 7236	BURN	fireball.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
+# These skills were renumbered.  This section kept for historical purposes only.
 
-8000	Summon Snowcones		1	2	0
-8001	Summon Stickers		1	2	0
-8002	Summon Sugar Sheets		1	2	0
-8003	Summon Clip Art		1	2	0
-8004	Summon Rad Libs		1	2	0
-8005	Summon Smithsness		1	2	0
-8100	Summon Candy Heart		1	0	0
-8101	Summon Party Favor		1	0	0
-8102	Summon Love Song		1	0	0
-8103	Summon BRICKOs		1	0	0
-8104	Summon Dice		1	0	0
-8105	Summon Resolutions		1	0	0
-8106	Summon Taffy		1	0	0
-8200	Summon Hilarious Objects		1	5	0
-8201	Summon Tasteful Items		1	5	0
-8202	Summon Alice's Army Cards		1	5	0
-8203	Summon Geeky Gifts		1	5	0
-8204	Summon Confiscated Things		1	5	0
+# 8000	Summon Snowcones		1	2	0
+# 8001	Summon Stickers		1	2	0
+# 8002	Summon Sugar Sheets		1	2	0
+# 8003	Summon Clip Art		1	2	0
+# 8004	Summon Rad Libs		1	2	0
+# 8005	Summon Smithsness		1	2	0
+# 8100	Summon Candy Heart		1	0	0
+# 8101	Summon Party Favor		1	0	0
+# 8102	Summon Love Song		1	0	0
+# 8103	Summon BRICKOs		1	0	0
+# 8104	Summon Dice		1	0	0
+# 8105	Summon Resolutions		1	0	0
+# 8106	Summon Taffy		1	0	0
+# 8200	Summon Hilarious Objects		1	5	0
+# 8201	Summon Tasteful Items		1	5	0
+# 8202	Summon Alice's Army Cards		1	5	0
+# 8203	Summon Geeky Gifts		1	5	0
+# 8204	Summon Confiscated Things		1	5	0
 
 # Skills available to Avatars of Boris
 
