@@ -670,7 +670,7 @@
 653	intragalactic rowboat	126122919	airboat.gif	none	q	0
 654	star	943226144	star.gif	none	t,d	50
 655	line	302848153	line.gif	none	t,d	50
-656	star chart	259814104	starchart.gif	reusable	t,d	100
+656	star chart	259814104	starchart.gif	none	t,d	100
 657	star sword	333225664	starsword.gif	weapon	t,d	225
 658	star crossbow	270537157	starbow.gif	weapon	t,d	225
 659	star staff	835485871	starstaff.gif	weapon	t,d	225	star staves
