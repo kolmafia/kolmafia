@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 public class ChateauRequest
 	extends GenericRequest
 {
-
 	private static final Pattern PAINTING_PATTERN = Pattern.compile( "Painting of a[n]? (.*?) \\(1\\)\" title" );
 
 	private static final AdventureResult CHATEAU_MUSCLE = ItemPool.get( ItemPool.CHATEAU_MUSCLE, 1 );
@@ -60,12 +59,20 @@ public class ChateauRequest
 	private static final AdventureResult CHATEAU_BANK = ItemPool.get( ItemPool.CHATEAU_BANK, 1 );
 	private static final AdventureResult CHATEAU_JUICE_BAR = ItemPool.get( ItemPool.CHATEAU_JUICE_BAR, 1 );
 
+	public static final AdventureResult CHATEAU_PAINTING = ItemPool.get( ItemPool.CHATEAU_WATERCOLOR, 1 );
+
 	public static String ceiling = null;
 
 	public ChateauRequest()
 	{
 		super( "place.php" );
 		this.addFormField( "whichplace", "chateau" );
+	}
+
+	public ChateauRequest( final String action )
+	{
+		this();
+		this.addFormField( "action", action );
 	}
 
 	public static void reset()
@@ -91,7 +98,7 @@ public class ChateauRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		KoLConstants.chateau.clear();
+		ChateauRequest.reset();
 
 		Matcher paintingMatcher = ChateauRequest.PAINTING_PATTERN.matcher( responseText );
 		if ( paintingMatcher.find() )
@@ -156,6 +163,56 @@ public class ChateauRequest
 			Preferences.increment( "timesRested" );
 			KoLCharacter.updateStatus();
 		}
+
+		// *** Detect and remember if desk item is been used
+	}
+
+	public static final void gainItem( final AdventureResult result )
+	{
+		switch ( result.getItemId () )
+		{
+		case ItemPool.CHATEAU_MUSCLE:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_MUSCLE );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MYST );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MOXIE );
+			break;
+		case ItemPool.CHATEAU_MYST:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_MYST );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MUSCLE );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MOXIE );
+			break;
+		case ItemPool.CHATEAU_MOXIE:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_MOXIE );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MUSCLE );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MOXIE );
+			break;
+		case ItemPool.CHATEAU_FAN:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_FAN );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_CHANDELIER );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_SKYLIGHT );
+			ChateauRequest.ceiling = "ceiling fan";
+			break;
+		case ItemPool.CHATEAU_CHANDELIER:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_CHANDELIER );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_FAN );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_SKYLIGHT );
+			ChateauRequest.ceiling = "antler chandelier";
+			break;
+		case ItemPool.CHATEAU_SKYLIGHT:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_SKYLIGHT );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_FAN );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_CHANDELIER );
+			ChateauRequest.ceiling = "artificial skylight";
+			break;
+		case ItemPool.CHATEAU_BANK:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_BANK );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_JUICE_BAR );
+			break;
+		case ItemPool.CHATEAU_JUICE_BAR:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_JUICE_BAR );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_BANK );
+			break;
+		}
 	}
 
 	public static final void parseShopResponse( final String urlString, final String responseText )
@@ -163,22 +220,6 @@ public class ChateauRequest
 		// Adjust for changes in rollover adventures/fights or free rests
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
-	}
-
-	public static void handlePaintingFight()
-	{
-		Preferences.setBoolean( "_chateauMonsterFought", true );
-		EncounterManager.ignoreSpecialMonsters();
-		KoLAdventure.lastVisitedLocation = null;
-		KoLAdventure.lastLocationName = null;
-		KoLAdventure.setNextAdventure( "None" );
-		int count = KoLAdventure.getAdventureCount();
-		RequestLogger.printLine();
-		RequestLogger.printLine( "[" + count + "] Chateau Painting" );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + count + "] Chateau Painting" );
-		GenericRequest.itemMonster = "Chateau Painting";
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -204,7 +245,7 @@ public class ChateauRequest
 		{
 			message = "Collecting juice from continental juice bar";
 		}
-		else if ( action.equals( "cheateau_restlabelfree" ) )
+		else if ( action.equals( "cheateau_restlabelfree" ) || action.equals( "cheateau_restbox" ) )
 		{
 			message = "Rest in your bed in the Chateau";
 		}
