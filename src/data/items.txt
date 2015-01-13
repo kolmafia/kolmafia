@@ -7974,7 +7974,7 @@
 7955	big bag of money	814252400	moneybag.gif	none	q	0
 7956	Crimbo sapling	349106235	crimbosapling.gif	grow	t	0
 7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75	more strings of tinsel
-7958	box of old Crimbo decorations	114808402	decorations.gif	usable	q	0
+7958	box of old Crimbo decorations	114808402	decorations.gif	reusable	q	0
 7959
 7960
 7961
