@@ -158,7 +158,9 @@ public class ChateauRequest
 		// place.php?whichplace=chateau&action=cheateau_restlabelfree
 		// or action=cheateau_restlabel
 		// or action=cheateau_restbox
-		if ( action.startsWith( "cheateau_rest" ) )
+		//
+		// The labels may or may not be misspelled "cheateau".
+		if ( action.startsWith( "chateau_rest" ) || action.startsWith( "cheateau_rest" ) )
 		{
 			Preferences.increment( "timesRested" );
 			KoLCharacter.updateStatus();
@@ -245,11 +247,13 @@ public class ChateauRequest
 		{
 			message = "Collecting juice from continental juice bar";
 		}
-		else if ( action.equals( "cheateau_restlabelfree" ) || action.equals( "cheateau_restbox" ) )
+		else if ( action.equals( "chateau_restlabelfree" ) || action.equals( "chateau_restbox" ) ||
+			  action.equals( "cheateau_restlabelfree" ) || action.equals( "cheateau_restbox" ))
 		{
 			message = "Rest in your bed in the Chateau";
 		}
-		else if ( action.equals( "cheateau_restlabel" ) )
+		else if ( action.equals( "chateau_restlabel" ) ||
+			  action.equals( "cheateau_restlabel" ))
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your bed in the Chateau";
 		}
