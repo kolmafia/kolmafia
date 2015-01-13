@@ -224,6 +224,12 @@ public class ChatSender
 
 	public static final void processResponse( List<ChatMessage> newMessages, String responseText, String graf )
 	{
+		// Protect against server lagging out
+		if ( responseText == null || responseText.equals( "" ) )
+		{
+			return;
+		}
+
 		if ( graf.equals( "/listen" ) )
 		{
 			ChatParser.parseChannelList( newMessages, responseText );
