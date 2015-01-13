@@ -2036,7 +2036,7 @@ public class GenericRequest
 			}
 			if ( this.getURLString().contains( "action=chateau_painting" ) )
 			{
-				ChateauRequest.handlePantingFight();
+				ChateauRequest.handlePaintingFight();
 			}
 		}
 

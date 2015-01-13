@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -147,9 +148,13 @@ public class ChateauRequest
 		{
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_JUICE_BAR );
 		}
+
+		// Adjust for changes in rollover adventures/fights or free rests
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 	}
 
-	public static void handlePantingFight()
+	public static void handlePaintingFight()
 	{
 		Preferences.setBoolean( "_chateauMonsterFought", true );
 		EncounterManager.ignoreSpecialMonsters();
