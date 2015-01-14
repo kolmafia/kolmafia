@@ -83,7 +83,6 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -457,10 +456,6 @@ public class RequestEditorKit
 			// Do any monster-specific decoration
 			FightDecorator.decorate( buffer );
 		}
-		else if ( location.startsWith( "hedgepuzzle.php" ) )
-		{
-			HedgePuzzleRequest.decorate( buffer );
-		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
@@ -474,10 +469,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "inv_use.php" ) )
 		{
 			UseItemDecorator.decorate( location, buffer );
-		}
-		else if ( location.startsWith( "lair2.php?preaction=key" ) )
-		{
-			SorceressLairManager.decorateKey( location, buffer );
 		}
 		else if ( location.contains( "lchat.php" ) )
 		{

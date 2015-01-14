@@ -85,7 +85,6 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
@@ -524,16 +523,6 @@ public class TestCommand
 			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
 			TestCommand.contents = null;
 			RequestLogger.printLine( tale );
-			return;
-		}
-
-		if ( command.equals( "digital" ) )
-		{
-			String location = "lair2.php?preaction=key&whichkey=6663";
-			StringBuffer buffer = new StringBuffer( TestCommand.contents );
-			TestCommand.contents = null;
-			SorceressLairManager.decorateKey( location, buffer );
-			TestCommand.dump( buffer.toString() );
 			return;
 		}
 

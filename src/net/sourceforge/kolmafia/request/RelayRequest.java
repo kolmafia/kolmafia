@@ -1074,14 +1074,14 @@ public class RelayRequest
 	private boolean sendHardcorePVPWarning()
 	{
 		// Don't remind a second time in a session if you decide not to do it.
-		if ( this.getFormField( CONFIRM_HARDCOREPVP ) != null )
+		String urlString = this.getURLString();
+		if ( urlString.contains( CONFIRM_HARDCOREPVP ) )
 		{
 			return false;
 		}
 
 		// If not talking to King, ignore
-		String place = this.getFormField( "place" );
-		if ( place == null || !place.equals( "6" ) )
+		if ( !urlString.contains( "action=ns_11_prism" ) )
 		{
 			return false;
 		}
@@ -1904,20 +1904,32 @@ public class RelayRequest
 		// If the person is visiting the sorceress and they
 		// forgot to make the Wand, remind them.
 
-		if ( this.getFormField( CONFIRM_SORCERESS ) != null )
+		String urlString = this.getURLString();
+		if ( urlString.contains( CONFIRM_SORCERESS ) )
 		{
 			return false;
 		}
 
 		// Some paths don't need a wand
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg()
-		     || KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() ||
+		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() )
 		{
 			return false;
 		}
 
-		String place = this.getFormField( "place" );
-		if ( place == null || !place.equals( "5" ) )
+		// You can gain the Confidence! intrinsic at action=ns_08_monster4
+		//
+		// The Shadow is action=ns_09_monster5
+		// The Sorceress is action=ns_10_sorcfight
+		//
+		// If you adventure outside the tower - to get wand or items
+		// for the shadow, for example - you lose the intrinsic.
+		// 
+		// Therefore, give the warning before you have the option to
+		// get the intrinsic, as well as before the sorceress herself.
+
+		if ( !urlString.contains( "action=ns_08_monster4" ) &&
+		     !urlString.contains( "action=ns_10_sorcfight" ) )
 		{
 			return false;
 		}
@@ -2877,19 +2889,6 @@ public class RelayRequest
 		{
 			return;
 		}
-
-		// If the person is unlocking the easter egg balloon, retrieve a balloon
-		// monkey first
-
-		if ( path.startsWith( "lair2.php" ) )
-		{
-			String key = this.getFormField( "whichkey" );
-
-			if ( key != null && key.equals( "436" ) )
-			{
-				InventoryManager.retrieveItem( ItemPool.BALLOON_MONKEY );
-			}
-		}
 		
 		// If it gets this far, it's a normal file.  Go ahead and
 		// process it accordingly.
@@ -3067,12 +3066,12 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
+		if ( path.contains( "whichplace=nstower" ) && this.sendSorceressWarning() )
 		{
 			return true;
 		}
 
-		if ( path.startsWith( "lair6.php" ) && this.sendHardcorePVPWarning() )
+		if ( path.contains( "whichplace=nstower" ) && this.sendHardcorePVPWarning() )
 		{
 			return true;
 		}

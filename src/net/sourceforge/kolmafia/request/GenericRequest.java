@@ -1408,11 +1408,6 @@ public class GenericRequest
 			}
 		}
 
-		else if ( location.equals( "lair2.php?preaction=key&whichkey=6663" ) )
-		{
-			ResultProcessor.removeItem( ItemPool.UNIVERSAL_KEY );
-		}
-
 		this.execute();
 
 		// Response is ok or redirect
