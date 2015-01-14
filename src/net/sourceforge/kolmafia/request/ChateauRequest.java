@@ -165,8 +165,10 @@ public class ChateauRequest
 			Preferences.increment( "timesRested" );
 			KoLCharacter.updateStatus();
 		}
-
-		// *** Detect and remember if desk item is been used
+		else if ( action.startsWith( "chateau_desk" ) )
+		{
+			Preferences.setBoolean( "_chateauDeskHarvested", true );
+		}
 	}
 
 	public static final void gainItem( final AdventureResult result )
@@ -186,7 +188,7 @@ public class ChateauRequest
 		case ItemPool.CHATEAU_MOXIE:
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_MOXIE );
 			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MUSCLE );
-			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MOXIE );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_MYST );
 			break;
 		case ItemPool.CHATEAU_FAN:
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_FAN );
@@ -234,22 +236,32 @@ public class ChateauRequest
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
+			// Nothing to log for simple visits
 			return true;
 		}
 
 		String message = null;
 
-		if ( action.equals( "chateau_desk1" ) )
+		if ( action.startsWith( "chateau_desk" ) )
 		{
-			message = "Collecting Meat from Swiss piggy bank";
-		}
-		else if ( action.equals( "chateau_desk2" ) )
-		{
-			message = "Collecting juice from continental juice bar";
-		}
-		else if ( action.equals( "chateau_desk" ) )
-		{
-			message = "Collecting swag from the item on your desk";
+			if ( Preferences.getBoolean( "_chateauDeskHarvested" ) )
+			{
+				// Claim this, but don't bother logging it
+				return true;
+			}
+				
+			if ( action.equals( "chateau_desk1" ) )
+			{
+				message = "Collecting Meat from Swiss piggy bank";
+			}
+			else if ( action.equals( "chateau_desk2" ) )
+			{
+				message = "Collecting potions from continental juice bar";
+			}
+			else if ( action.equals( "chateau_desk" ) )
+			{
+				message = "Collecting swag from the item on your desk";
+			}
 		}
 		else if ( action.startsWith( "chateau_rest" ) ||
 			  // It will be nice when KoL fixes this misspelling
