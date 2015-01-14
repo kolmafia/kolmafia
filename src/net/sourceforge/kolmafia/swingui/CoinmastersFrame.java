@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
+import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
@@ -164,6 +165,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
+	private CoinmasterPanel nuggletcraftingPanel = null;
 	private CoinmasterPanel terrifiedEagleInnPanel = null;
 	private CoinmasterPanel BURTPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
@@ -227,6 +229,11 @@ public class CoinmastersFrame
 		swaggerShopPanel = new SwaggerShopPanel();
 		panel.add( swaggerShopPanel );
 		this.selectorPanel.addPanel( swaggerShopPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		nuggletcraftingPanel = new NuggletCraftingPanel();
+		panel.add( nuggletcraftingPanel );
+		this.selectorPanel.addPanel( nuggletcraftingPanel.getPanelSelector(), panel );
 
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
@@ -665,6 +672,15 @@ public class CoinmastersFrame
 		public FishboneryPanel()
 		{
 			super( FishboneryRequest.FISHBONERY );
+		}
+	}
+
+	public class NuggletCraftingPanel
+		extends CoinmasterPanel
+	{
+		public NuggletCraftingPanel()
+		{
+			super( NuggletCraftingRequest.NUGGLETCRAFTING );
 		}
 	}
 

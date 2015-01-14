@@ -8008,7 +8008,7 @@
 7989	polyester panama hat	904629891	polyhat.gif	hat		0
 7990	polyester pulsera	163516524	polypulsera.gif	accessory		0
 7991	porcelain police baton	673638222	porcbaton.gif	weapon		0
-7992	porcelain plus-fours	307429812	porcpants.gif	pants		0
+7992	porcelain plus-fours	307429812	porcpants.gif	pants		0	pairs of porcelain plus-fours
 7993	porcelain porkpie	613102105	porchat.gif	hat		0
 7994	porcelain pepper mill	947162933	porcshaker.gif	offhand		0
 7995	porcelain pelerine	903658041	porcpelegrine.gif	container		0

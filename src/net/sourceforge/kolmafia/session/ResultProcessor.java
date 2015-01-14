@@ -1169,6 +1169,7 @@ public class ResultProcessor
 		case ItemPool.BURT:
 		case ItemPool.FRESHWATER_FISHBONE:
 		case ItemPool.CRIMBO_CREDIT:
+		case ItemPool.TOPIARY_NUGGLET:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.GG_TOKEN:
