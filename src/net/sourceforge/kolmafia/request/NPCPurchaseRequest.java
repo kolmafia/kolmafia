@@ -705,6 +705,18 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "topiary" ) )
+		{
+			NuggletCraftingRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "fishbones" ) )
+		{
+			FishboneryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.startsWith( "crimbo14" ) )
 		{
 			Crimbo14Request.parseResponse( urlString, responseText );
@@ -936,6 +948,16 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "arcade" ) )
 			{
 				return TicketCounterRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "fishbones" ) )
+			{
+				return FishboneryRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "topiary" ) )
+			{
+				return NuggletCraftingRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.startsWith( "crimbo14" ) )
