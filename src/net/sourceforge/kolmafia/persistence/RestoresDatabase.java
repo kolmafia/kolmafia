@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -355,7 +354,7 @@ public class RestoresDatabase
 
 		if ( name.equals( "Free rests" ) )
 		{
-			return Math.max( CampgroundRequest.freeRestsAvailable() - Preferences.getInteger( "timesRested" ), 0 );
+			return Math.max( KoLCharacter.freeRestsAvailable() - Preferences.getInteger( "timesRested" ), 0 );
 		}
 		String usesLeft = RestoresDatabase.usesLeftByName.get( name );
 		if ( usesLeft == null )
@@ -422,7 +421,7 @@ public class RestoresDatabase
 			}
 			if ( name.equals( "Free rests" ) )
 			{
-				return CampgroundRequest.freeRestsAvailable() > 0;
+				return KoLCharacter.freeRestsAvailable() > 0;
 			}
 			if ( name.equals( "Nunnery (Frat Warrior)" ) )
 			{

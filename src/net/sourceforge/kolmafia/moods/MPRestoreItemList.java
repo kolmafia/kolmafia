@@ -55,9 +55,11 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -79,6 +81,8 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem DISCOREST =
 		new MPRestoreItem( "free disco rest", Integer.MAX_VALUE, false );
 
+	public static final MPRestoreItem CHATEAU =
+		new MPRestoreItem( "rest at the chateau", 125, false );
 	private static final MPRestoreItem NUNS =
 		new MPRestoreItem( "visit the nuns", 1000, false);
 	private static final MPRestoreItem OSCUS =
@@ -97,6 +101,7 @@ public abstract class MPRestoreItemList
 	{
 		MPRestoreItemList.EXPRESS,
 		MPRestoreItemList.SOFA,
+		MPRestoreItemList.CHATEAU,
 		MPRestoreItemList.CAMPGROUND,
 		MPRestoreItemList.DISCOREST,
 		MPRestoreItemList.GALAKTIK,
@@ -178,7 +183,10 @@ public abstract class MPRestoreItemList
 
 	public static void updateManaRestored()
 	{
-		MPRestoreItemList.CAMPGROUND.manaPerUse = MPRestoreItemList.DISCOREST.manaPerUse =
+		MPRestoreItemList.CAMPGROUND.manaPerUse = KoLCharacter.getRestingMP();
+		MPRestoreItemList.DISCOREST.manaPerUse =
+			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
+			125 :
 			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
@@ -350,6 +358,12 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
+			if ( this == MPRestoreItemList.CHATEAU )
+			{
+				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				return;
+			}
+
 			if ( this == MPRestoreItemList.CAMPGROUND )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
@@ -358,9 +372,14 @@ public abstract class MPRestoreItemList
 
 			if ( this == MPRestoreItemList.DISCOREST )
 			{
-				if ( Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ) return;
-
-				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
+				{
+					GenericRequest request =
+						(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
+						new ChateauRequest( "chateau_restbox" ) :
+						new CampgroundRequest( "rest" );
+					RequestThread.postRequest( request );
+				}
 				return;
 			}
 

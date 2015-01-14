@@ -340,6 +340,7 @@ public class OptionsFrame
 				{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 				{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 				{ "allowSummonBurning", "Cast summoning skills during buff balancing" },
+				{ "restUsingChateau", "Rest in the Chateau Mantegna rather than at your dwelling" },
 
 				{},
 
