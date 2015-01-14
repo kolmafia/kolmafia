@@ -255,6 +255,29 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "restriction" ) )
+		{
+			// Get current values
+			boolean oldRestriction = KoLCharacter.getRestricted();
+			boolean oldInteraction = KoLCharacter.canInteract();
+			int pulls = ConcoctionDatabase.getPullsRemaining();
+
+			// Pretend we are restricted and in-run
+			KoLCharacter.setRestricted( true );
+			CharPaneRequest.setInteraction( false );
+			RequestLogger.printLine( "restricted = " + KoLCharacter.getRestricted() + " can interact = " + KoLCharacter.canInteract() );
+
+			// Now pretend we broke ronin or freed the king!
+			CharPaneRequest.setInteraction( true );
+			RequestLogger.printLine( "restricted = " + KoLCharacter.getRestricted() + " can interact = " + KoLCharacter.canInteract() );
+
+			// Restore original state
+			KoLCharacter.setRestricted( oldRestriction );
+			CharPaneRequest.setInteraction( oldInteraction );
+			ConcoctionDatabase.setPullsRemaining( pulls );
+			return;
+		}
+
 		if ( command.equals( "newitem" ) )
 		{
 			if ( split.length < 3 )

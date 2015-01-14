@@ -1490,10 +1490,10 @@ public class GenericRequest
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( urlString.startsWith( "lair6.php" ) && urlString.contains( "place=5" ) )
+		if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=nstower" ) && urlString.contains( "action=ns_10_sorcfight" ) )
 		{
 			KoLConstants.activeEffects.clear();
-			// *** Do we retain intrinsic effects?
+			// *** We retain (some) intrinsic effects
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) && urlString.contains( "action=ascend" ) )
@@ -2303,7 +2303,7 @@ public class GenericRequest
 		{
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
-		else if ( urlString.startsWith( "lair6.php" ) && urlString.contains( "place=6" ) )
+		else if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=nstower" ) && urlString.contains( "action=ns_11_prism" ) )
 		{
 			KoLCharacter.liberateKing();
 		}
