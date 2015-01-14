@@ -68,6 +68,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public abstract class MPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
@@ -78,8 +80,8 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND =
 		new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE, false );
-	public static final MPRestoreItem DISCOREST =
-		new MPRestoreItem( "free disco rest", Integer.MAX_VALUE, false );
+	public static final MPRestoreItem FREEREST =
+		new MPRestoreItem( "free rest", Integer.MAX_VALUE, false );
 
 	public static final MPRestoreItem CHATEAU =
 		new MPRestoreItem( "rest at the chateau", 125, false );
@@ -103,7 +105,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.SOFA,
 		MPRestoreItemList.CHATEAU,
 		MPRestoreItemList.CAMPGROUND,
-		MPRestoreItemList.DISCOREST,
+		MPRestoreItemList.FREEREST,
 		MPRestoreItemList.GALAKTIK,
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
@@ -184,7 +186,7 @@ public abstract class MPRestoreItemList
 	public static void updateManaRestored()
 	{
 		MPRestoreItemList.CAMPGROUND.manaPerUse = KoLCharacter.getRestingMP();
-		MPRestoreItemList.DISCOREST.manaPerUse =
+		MPRestoreItemList.FREEREST.manaPerUse =
 			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
 			125 :
 			KoLCharacter.getRestingMP();
@@ -201,6 +203,8 @@ public abstract class MPRestoreItemList
 	public static final JCheckBox[] getCheckboxes()
 	{
 		String mpRestoreSetting = Preferences.getString( "mpAutoRecoveryItems" );
+		// Automatically convert changed restorative name
+		mpRestoreSetting = StringUtilities.singleStringReplace( mpRestoreSetting, "free disco rest", "free rest" );
 		JCheckBox[] restoreCheckbox = new JCheckBox[ MPRestoreItemList.CONFIGURES.length ];
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
@@ -370,7 +374,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.DISCOREST )
+			if ( this == MPRestoreItemList.FREEREST )
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{

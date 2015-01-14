@@ -68,6 +68,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public abstract class HPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
@@ -78,7 +80,7 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CHATEAU = new HPRestoreItem( "rest at the chateau", 250 );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
-	private static final HPRestoreItem DISCOREST = new HPRestoreItem( "free disco rest", 40 );
+	private static final HPRestoreItem FREEREST = new HPRestoreItem( "free rest", 40 );
 	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
 
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
@@ -99,7 +101,7 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.SOFA,
 		HPRestoreItemList.CHATEAU,
 		HPRestoreItemList.CAMPGROUND,
-		HPRestoreItemList.DISCOREST,
+		HPRestoreItemList.FREEREST,
 		HPRestoreItemList.GALAKTIK,
 		HPRestoreItemList.HERBS,
 		HPRestoreItemList.SCROLL,
@@ -172,7 +174,7 @@ public abstract class HPRestoreItemList
 	public static void updateHealthRestored()
 	{
 		HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
-		HPRestoreItemList.DISCOREST.healthPerUse =
+		HPRestoreItemList.FREEREST.healthPerUse =
 			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
 			250 :
 			KoLCharacter.getRestingHP();
@@ -189,6 +191,8 @@ public abstract class HPRestoreItemList
 	public static final JCheckBox[] getCheckboxes()
 	{
 		String hpRestoreSetting = Preferences.getString( "hpAutoRecoveryItems" );
+		// Automatically convert changed restorative name
+		hpRestoreSetting = StringUtilities.singleStringReplace( hpRestoreSetting, "free disco rest", "free rest" );
 		JCheckBox[] restoreCheckbox = new JCheckBox[ HPRestoreItemList.CONFIGURES.length ];
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
@@ -346,7 +350,7 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			if ( this == HPRestoreItemList.DISCOREST )
+			if ( this == HPRestoreItemList.FREEREST )
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
