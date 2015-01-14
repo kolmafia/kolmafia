@@ -2967,12 +2967,6 @@ public abstract class KoLCharacter
 
 			Preferences.setBoolean( "kingLiberated", true );
 
-			// We are no longer in Hardcore
-			KoLCharacter.setHardcore( false );
-
-			// We are no longer subject to path restrictions
-			KoLCharacter.setPath( NONE );
-
 			if ( oldPath.equals( AVATAR_OF_BORIS ) )
 			{
 				int borisPoints = wasInHardcore ? 2 : 1;
@@ -3001,10 +2995,18 @@ public abstract class KoLCharacter
 			// Are we restricted by Standard?
 			boolean restricted = KoLCharacter.getRestricted();
 
+			// We are no longer in Hardcore
+			KoLCharacter.setHardcore( false );
+
 			// Ronin is lifted and we can interact freely with the Kingdom
-			// Allowing interaction triggers skill refreshing after a restricted path
 			KoLCharacter.setRonin( false );
+
+			// If the path was restricted, this clears restriction
+			// and triggers a skill and terrarium refresh
 			CharPaneRequest.setInteraction( true );
+
+			// We are no longer subject to consumption restrictions
+			KoLCharacter.setPath( NONE );
 
 			// Storage is freely available
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
@@ -3016,7 +3018,7 @@ public abstract class KoLCharacter
 			// We can use all familiars again
 			GearChangeFrame.updateFamiliars();
 			
-			// Breakfast may want to be re-run, for various reasons
+			// We may want to re-run breakfast, for various reasons
 			Preferences.setBoolean( "breakfastCompleted", false );
 
 			// Available hermit items and clover numbers may have changed

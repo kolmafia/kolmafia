@@ -141,7 +141,7 @@ public class CharPaneRequest
 				RequestThread.postRequest( new CharSheetRequest() );
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 				RequestThread.postRequest( new FamiliarRequest() );
-				KoLCharacter.setRestricted( false ); // redundant, but kept for clarity
+				KoLCharacter.setRestricted( false );
 			}
 			CharPaneRequest.canInteract = interaction;
 			MallSearchFrame.updateMeat();
