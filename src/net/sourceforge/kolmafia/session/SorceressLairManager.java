@@ -80,6 +80,7 @@ public abstract class SorceressLairManager
 	private static final AdventureResult BORIS = ItemPool.get( ItemPool.BORIS_KEY, 1 );
 	private static final AdventureResult JARLSBERG = ItemPool.get( ItemPool.JARLSBERG_KEY, 1 );
 	private static final AdventureResult SNEAKY_PETE = ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 );
+	private static final AdventureResult UNIVERSAL = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
 
 	private static final AdventureResult KEY_RING = ItemPool.get( ItemPool.SKELETON_KEY_RING, 1 );
 	private static final AdventureResult BALLOON = ItemPool.get( ItemPool.BALLOON_MONKEY, 1 );
@@ -397,7 +398,7 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		AdventureResult key =
+		AdventureResult lock =
 			action.equals( "ns_lock1" ) ?
 			SorceressLairManager.BORIS :
 			action.equals( "ns_lock2" ) ?
@@ -412,10 +413,15 @@ public abstract class SorceressLairManager
 			SorceressLairManager.DIGITAL :
 			null;
 
-		if ( key == null )
+		if ( lock == null )
 		{
 			return;
 		}
+
+		AdventureResult key =
+			responseText.contains( "universal key" ) ?
+			SorceressLairManager.UNIVERSAL :
+			lock;
 
 		// You place Boris's key in the lock and turn it. You hear a
 		// jolly bellowing in the distance as the lock vanishes, along
@@ -450,7 +456,7 @@ public abstract class SorceressLairManager
 		{
 			ResultProcessor.processResult( key.getNegation() );
 			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + key.getDataName() );
+			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + lock.getDataName() );
 		}
 	}
 
