@@ -529,6 +529,16 @@ The Swagger Shop	buy	1000	Antagonistic Snowman Kit
 The Swagger Shop	buy	5000	Essence of Annoyance
 
 Conditional	Black Bart's Booty
+Conditional	Holiday Hal's Happy-Time Fun Book!
+Conditional	Antagonistic Snowman Kit
+
+# Things you can buy with topiary nugglets
+
+Topiary Nuggletcrafting	buy	3	bowl of topioca	ROW424
+Topiary Nuggletcrafting	buy	6	tope&eacute;	ROW421
+Topiary Nuggletcrafting	buy	6	topiary necktie	ROW422
+Topiary Nuggletcrafting	buy	6	topiary tights	ROW423
+Topiary Nuggletcrafting	buy	15	topiary skunk	ROW425
 
 # Things you can buy with BURTs
 
@@ -668,7 +678,8 @@ The Armory	buy	300	Merc Core Field Manual: Sanity Maintenance	ROW351
 The Armory	buy	300	Merc Core Field Manual: Intimidation Techniques	ROW352
 The Armory	buy	1000	Merc Core challenge coin	ROW353
 
-# Crimbo 2014
+# Things you can buy with Crimbo Credits
+
 Crimbo 2014	sell	1	peppermint tailings (10)	ROW397
 Crimbo 2014	sell	1	recovered elf toothbrush	ROW390
 Crimbo 2014	sell	1	recovered elf magazine	ROW389

@@ -242,7 +242,7 @@ public class CoinMasterRequest
 
 			if ( justVisiting )
 			{
-				KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+				KoLmafia.updateDisplay( "Visiting " + master + "..." );
 				super.run();
 			}
 			else
