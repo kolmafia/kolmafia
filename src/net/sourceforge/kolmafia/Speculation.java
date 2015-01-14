@@ -232,7 +232,11 @@ public class Speculation
 						"Unknown familiar: " + params );
 					return true;
 				}
-				FamiliarData fam = new FamiliarData( id );
+				FamiliarData fam = KoLCharacter.findFamiliar( id );
+				if ( fam == null )
+				{
+					fam = new FamiliarData( id );
+				}
 				this.setFamiliar( fam );
 			}
 			else if ( cmd.equals( "enthrone" ) )
