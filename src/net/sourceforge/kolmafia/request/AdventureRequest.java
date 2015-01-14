@@ -136,10 +136,6 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", "ritual" );
 		}
-		else if ( formSource.equals( "lair6.php" ) )
-		{
-			this.addFormField( "place", adventureId );
-		}
 		else if ( formSource.equals( "invasion.php" ) )
 		{
 			this.addFormField( "action", adventureId );
@@ -297,30 +293,6 @@ public class AdventureRequest
 			this.responseText.contains( "No, that isn't a place yet." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get to that area yet." );
-			return;
-		}
-
-		// The hedge maze should always result in you getting
-		// a fight redirect.  If this is not the case, then
-		// if the hedge maze is not complete, use up all their
-		// pieces first, then go adventuring.
-
-		if ( this.formSource.equals( "lair3.php" ) )
-		{
-			if ( InventoryManager.hasItem( HedgePuzzleRequest.HEDGE_KEY ) && InventoryManager.hasItem( HedgePuzzleRequest.PUZZLE_PIECE ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Unexpected hedge maze puzzle state." );
-			}
-
-			return;
-		}
-
-		// The sorceress fight should always result in you getting
-		// a fight redirect.
-
-		if ( this.formSource.equals( "lair6.php" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.PENDING, "The sorceress has already been defeated." );
 			return;
 		}
 

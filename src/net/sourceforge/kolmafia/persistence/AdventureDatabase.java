@@ -707,57 +707,6 @@ public class AdventureDatabase
 			return "Guild Challenge";
 		}
 
-		if ( urlString.startsWith( "lair4.php" ) )
-		{
-			if ( urlString.contains( "action=level1" ) )
-			{
-				return "Sorceress Tower: Level 1";
-			}
-			else if ( urlString.contains( "action=level2" ) )
-			{
-				return "Sorceress Tower: Level 2";
-			}
-			else if ( urlString.contains( "action=level3" ) )
-			{
-				return "Sorceress Tower: Level 3";
-			}
-			return null;
-		}
-
-		if ( urlString.startsWith( "lair5.php" ) )
-		{
-			if ( urlString.contains( "action=level1" ) )
-			{
-				return "Sorceress Tower: Level 4";
-			}
-			else if ( urlString.contains( "action=level2" ) )
-			{
-				return "Sorceress Tower: Level 5";
-			}
-			else if ( urlString.contains( "action=level3" ) )
-			{
-				return "Sorceress Tower: Level 6";
-			}
-			return null;
-		}
-
-		if ( urlString.startsWith( "lair6.php" ) )
-		{
-			if ( urlString.contains( "place=0" ) )
-			{
-				return "Sorceress Tower: Door Puzzles";
-			}
-			else if ( urlString.contains( "place=2" ) )
-			{
-				return "Sorceress Tower: Shadow Fight";
-			}
-			else if ( urlString.contains( "place=5" ) )
-			{
-				return "Sorceress Tower: Naughty Sorceress";
-			}
-			return null;
-		}
-
 		if ( urlString.startsWith( "mining.php" ) )
 		{
 			if ( urlString.contains( "intro=1" ) )
@@ -787,6 +736,16 @@ public class AdventureDatabase
 				}
 				return null;
 			}
+
+			if ( urlString.contains( "whichplace=nstower_door" ) )
+			{ 
+				if ( !urlString.contains( "action" ) )
+				{
+					return "Tower Door";
+				}
+				return null;
+			}
+
 			return null;
 		}
 
