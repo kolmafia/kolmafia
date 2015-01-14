@@ -263,6 +263,12 @@ public class ChateauRequest
 				message = "Collecting swag from the item on your desk";
 			}
 		}
+		if ( action.startsWith( "chateau_nightstand" ) ||
+		     action.startsWith( "chateau_ceiling" ) )
+		{
+			// Clicking it gives you info, but does nothing.
+			return true;
+		}
 		else if ( action.startsWith( "chateau_rest" ) ||
 			  // It will be nice when KoL fixes this misspelling
 			  action.startsWith( "cheateau_rest" ))

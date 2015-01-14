@@ -815,17 +815,17 @@ Tasmanian Dervish	adv_fast4.gif	Atk: 0 Def: 0 HP: 0 Init: 10000 P: dude
 
 # -- Strongest Adventurer
 
-Macho Man	adv_strong1.gif	P: dude
-Iron Chef	adv_strong2.gif	P: dude
-Entire Shoplifter	adv_strong3.gif	P: dude
-Mr. Loathing	adv_strong4.gif	P: dude
+Macho Man	adv_strong1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Iron Chef	adv_strong2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Entire Shoplifter	adv_strong3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Mr. Loathing	adv_strong4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Smartest Adventurer
 
-Accountant Barbarian	adv_smart4.gif	P: dude
-Metaphysical Gastronomist	adv_smart4.gif	P: dude
-Kleptobraniac	adv_smart4.gif	P: dude
-The Mastermind	adv_smart4.gif	P: dude
+Accountant-Barbarian	adv_smart4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Metaphysical Gastronomist	adv_smart4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Kleptobrainiac	adv_smart4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+The Mastermind	adv_smart4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Smoothest Adventurer
 
@@ -838,30 +838,30 @@ Seannery the Conman	adv_smooth4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Hottest Adventurer
 
-Fire Fighter	adv_hot1.gif	P: dude
-# Hot Mob #2	adv_hot2.gif	P: dude
-Burnglar	adv_hot3.gif	P: dude
-The Lavalier	adv_hot4.gif	P: dude
+Fire Fighter	adv_hot1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+# Hot Mob #2	adv_hot2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Burnglar	adv_hot3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+The Lavalier	adv_hot4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Coldest Adventurer
 
-Snowbrawler	adv_cold1.gif	P: dude
-Ice Cream Conjurer	adv_cold2.gif	P: dude
-Iceberglar	adv_cold3.gif	P: dude
-Mrs. Freeze	adv_cold4.gif	P: dude
+Snowbrawler	adv_cold1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Ice Cream Conjurer	adv_cold2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Iceberglar	adv_cold3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Mrs. Freeze	adv_cold4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Stinkiest Adventurer
 
-Granola Barbarian	adv_stench1.gif	P: dude
-Cheese Wizard	adv_stench2.gif	P: dude
-Assassin	adv_stench3.gif	P: dude
-Odorous Humongous	adv_stench4.gif	P: dude
+Granola Barbarian	adv_stench1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Cheese Wizard	adv_stench2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Assassin	adv_stench3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Odorous Humongous	dv_stench4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Spookiest Adventurer
 
-# Spooky Mob #1	adv_spooky1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
-# Spooky Mob #2	adv_spooky2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
-# Spooky Mob #3	adv_spooky3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Ghostpuncher	adv_spooky1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Plague Chef	adv_spooky2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Batburglar	adv_spooky3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 Arthur Frankenstein	adv_spooky4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
 # -- Sleaziest Adventurer
