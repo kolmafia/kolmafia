@@ -1012,6 +1012,7 @@ user	_candySummons	0
 user	_carboLoaded	false
 user	_carnieCandyDrops	0
 user	_carrotNoseDrops	0
+user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
 user	_chipBags	0
