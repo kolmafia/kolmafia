@@ -4436,7 +4436,7 @@ public abstract class RuntimeLibrary
 
 	public static Value total_free_rests( Interpreter interpreter )
 	{
-		return new Value( CampgroundRequest.freeRestsAvailable() );
+		return new Value( KoLCharacter.freeRestsAvailable() );
 	}
 
 	public static Value get_ignore_zone_warnings( Interpreter interpreter )

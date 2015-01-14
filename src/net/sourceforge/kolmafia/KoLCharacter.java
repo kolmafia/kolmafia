@@ -1595,6 +1595,19 @@ public abstract class KoLCharacter
 		return KoLCharacter.availableMeat;
 	}
 
+	public static int freeRestsAvailable()
+	{
+		int freerests = 0;
+		if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
+		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) ) freerests += 2;
+		if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
+		if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
+		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;
+		if ( KoLCharacter.hasSkill( "Dog Tired" ) ) freerests += 5;
+		if ( ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals( "ceiling fan" ) ) freerests += 5;
+		return freerests;
+	}
+
 	/**
 	 * Sets the character's current stat values. Each parameter in the list comes in pairs: the adjusted value (based on
 	 * equipment and spell effects) and the total number of subpoints acquired through adventuring for that statistic.

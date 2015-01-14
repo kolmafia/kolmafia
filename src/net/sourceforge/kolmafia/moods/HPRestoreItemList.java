@@ -55,9 +55,11 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -74,6 +76,7 @@ public abstract class HPRestoreItemList
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
+	private static final HPRestoreItem CHATEAU = new HPRestoreItem( "rest at the chateau", 250 );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 	private static final HPRestoreItem DISCOREST = new HPRestoreItem( "free disco rest", 40 );
 	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
@@ -94,6 +97,7 @@ public abstract class HPRestoreItemList
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
 		HPRestoreItemList.SOFA,
+		HPRestoreItemList.CHATEAU,
 		HPRestoreItemList.CAMPGROUND,
 		HPRestoreItemList.DISCOREST,
 		HPRestoreItemList.GALAKTIK,
@@ -167,7 +171,10 @@ public abstract class HPRestoreItemList
 
 	public static void updateHealthRestored()
 	{
-		HPRestoreItemList.CAMPGROUND.healthPerUse = HPRestoreItemList.DISCOREST.healthPerUse =
+		HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
+		HPRestoreItemList.DISCOREST.healthPerUse =
+			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
+			250 :
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 		HPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
@@ -327,6 +334,12 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
+			if ( this == HPRestoreItemList.CHATEAU )
+			{
+				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				return;
+			}
+
 			if ( this == HPRestoreItemList.CAMPGROUND )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
@@ -335,9 +348,14 @@ public abstract class HPRestoreItemList
 
 			if ( this == HPRestoreItemList.DISCOREST )
 			{
-				if ( Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ) return;
-
-				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
+				{
+					GenericRequest request =
+						(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
+						new ChateauRequest( "chateau_restbox" ) :
+						new CampgroundRequest( "rest" );
+					RequestThread.postRequest( request );
+				}
 				return;
 			}
 

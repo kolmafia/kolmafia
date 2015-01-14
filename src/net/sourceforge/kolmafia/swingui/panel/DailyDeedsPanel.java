@@ -76,7 +76,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -2171,7 +2170,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int nr = Preferences.getInteger( "timesRested" );
-			int fr = CampgroundRequest.freeRestsAvailable();
+			int fr = KoLCharacter.freeRestsAvailable();
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + "/" + fr );

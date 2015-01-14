@@ -247,6 +247,10 @@ public class ChateauRequest
 		{
 			message = "Collecting juice from continental juice bar";
 		}
+		else if ( action.equals( "chateau_desk" ) )
+		{
+			message = "Collecting swag from the item on your desk";
+		}
 		else if ( action.startsWith( "chateau_rest" ) ||
 			  // It will be nice when KoL fixes this misspelling
 			  action.startsWith( "cheateau_rest" ))

@@ -24,67 +24,48 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLCharacter;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CampgroundCommand
-	extends AbstractCommand
+public class RestChateauMenuItem
+	extends ThreadedMenuItem
 {
-	public CampgroundCommand()
+	public RestChateauMenuItem()
 	{
-		this.usage = " rest | <etc.> [<numTimes>] - perform campground actions.";
+		super( "Rest in the Chateau", new RestChateauListener() );
 	}
 
-	@Override
-	public void run( final String cmd, final String parameters )
+	private static class RestChateauListener
+		extends ThreadedListener
 	{
-		String[] parameterList = parameters.split( "\\s+" );
-
-		String command = parameterList[ 0 ];
-		GenericRequest request = null;
-
-		if ( command.equals( "rest" ) &&
-		     Preferences.getBoolean( "restUsingChateau" ) &&
-		     Preferences.getBoolean( "chateauAvailable" ) )
+		@Override
+		protected void execute()
 		{
-			request = new ChateauRequest( "chateau_restbox" );
-		}
-		else
-		{
-			request = new CampgroundRequest( command );
-		}
-
-		int count = 1;
-
-		if ( parameterList.length > 1 )
-		{
-			if ( command.equals( "rest" ) && parameterList[ 1 ].equals( "free" ) )
+			String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
+			if ( turnCount == null )
 			{
-				count = Preferences.getInteger( "timesRested" ) >= KoLCharacter.freeRestsAvailable() ? 0 : 1;
+				return;
 			}
-			else
-			{
-				count = StringUtilities.parseInt( parameterList[ 1 ] );
-			}
-		}
 
-		KoLmafia.makeRequest( request, count );
+			ChateauRequest request = new ChateauRequest( "chateau_restbox" );
+			int turnCountValue = StringUtilities.parseInt( turnCount );
+
+			KoLmafia.makeRequest( request, turnCountValue );
+		}
 	}
 }

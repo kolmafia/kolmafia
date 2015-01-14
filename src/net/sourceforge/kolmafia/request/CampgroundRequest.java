@@ -314,7 +314,7 @@ public class CampgroundRequest
 	public int getAdventuresUsed()
 	{
 		return this.action.equals( "rest" ) &&
-			Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ? 1 : 0;
+			Preferences.getInteger( "timesRested" ) >= KoLCharacter.freeRestsAvailable() ? 1 : 0;
 	}
 
 	public static void setCampgroundItem( final int itemId, int count )
@@ -436,19 +436,6 @@ public class CampgroundRequest
 		{
 			RequestThread.postRequest( new CampgroundRequest( "spinningwheel" ) );
 		}
-	}
-
-	public static int freeRestsAvailable()
-	{
-		int freerests = 0;
-		if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
-		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) ) freerests += 2;
-		if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
-		if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
-		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;
-		if ( KoLCharacter.hasSkill( "Dog Tired" ) ) freerests += 5;
-		if ( ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals( "ceiling fan" ) ) freerests += 5;
-		return freerests;
 	}
 
 	@Override
