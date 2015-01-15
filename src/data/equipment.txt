@@ -2643,4 +2643,7 @@ wings of fire	100	Mys: 100
 # Virtual equipment
 
 rock 0 none
+shotgun	60	none
+spelunking fedora	0	none
 torch 0 none
+trusty whip	30	none
