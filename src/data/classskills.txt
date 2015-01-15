@@ -151,6 +151,7 @@
 126	Mathematical Precision	precision.gif	3	10	20
 127	Ruthless Efficiency	ruthless.gif	3	10	20
 128	Summon Carrot	carrot.gif	1	11	0
+129	Speluck	spelpick.gif	0	0	0
 
 # Skills available to Clubbers
 
