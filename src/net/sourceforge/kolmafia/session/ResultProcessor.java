@@ -2033,6 +2033,20 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.TALES_OF_SPELUNKING:
+			if ( combatResults )
+			{
+				Preferences.increment( "_spelunkingTalesDrops", 1 );
+			}
+			break;
+
+		case ItemPool.POWDERED_GOLD:
+			if ( combatResults )
+			{
+				Preferences.increment( "_powderedGoldDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:
