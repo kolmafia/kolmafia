@@ -693,6 +693,14 @@ public class DrinkItemRequest
 			ResultProcessor.processResult( ItemPool.get( ItemPool.TWIST_OF_LIME, Math.max( -item.getCount(), -limeCount ) ) );
 		}
 
+		// So are black labels, for base booze. Check response text to see if it was used.
+		// "You slap a black label on the bottle to make it fancier."
+		int labelCount = InventoryManager.getCount( ItemPool.BLACK_LABEL );
+		if ( labelCount > 0 && responseText.contains( "You slap a black label on the bottle" ) )
+		{
+			ResultProcessor.processResult( ItemPool.get( ItemPool.BLACK_LABEL, Math.max( -item.getCount(), -labelCount ) ) );
+		}
+
 		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
