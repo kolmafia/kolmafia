@@ -3168,6 +3168,7 @@ gnomish housemaid's kgnee	Equips On: "Reagnimated Gnome", Familiar Effect: "gain
 gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Item Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Meat Drop Penalty: [10*(zone(The Sea)+loc(The Sunken Party Yacht))], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
 # gnomish tennis elbow: Lets your gnome attack enemies
 gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
+golden banana	Familiar Weight: +5
 green pixie spog	Familiar Weight: +5
 Grim Brothers' story book	Familiar Weight: +5
 grimstone galoshes	Familiar Weight: +5
@@ -3289,6 +3290,8 @@ solid shifting time weirdness	Adventures: +4, PvP Fights: +4, Generic
 solid state loom	Familiar Weight: +10
 spoon!	Familiar Weight: +5
 spruce juice	Familiar Weight: +5
+# Stembridge sidearm: Decisively ends fights, but only occasionally
+Stembridge sidearm	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
 stomp box	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
@@ -6774,6 +6777,7 @@ goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
 goblin water	Effect: "Wet and Greedy", Effect Duration: 100
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
+golden monkey statuette	Free Pull
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
@@ -7095,6 +7099,7 @@ pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R
 pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
 prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 probability potion	Effect: "Uncertain", Effect Duration: 10
+Professor of Spelunkology	Free Pull
 programmable turtle	Effect: "Spiro Gyro", Effect Duration: 15
 pulled blue taffy	Effect: "Blue Swayed", Effect Duration: 10
 pulled green taffy	Effect: "Soda Jerked", Effect Duration: 10
