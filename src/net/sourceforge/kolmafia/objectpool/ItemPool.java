@@ -2241,6 +2241,8 @@ public class ItemPool
 	public static final int CHATEAU_BANK = 8029;
 	public static final int CHATEAU_JUICE_BAR = 8030;
 	public static final int CHATEAU_WATERCOLOR = 8033;
+	public static final int TALES_OF_SPELUNKING = 8063;
+	public static final int POWDERED_GOLD = 8066;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

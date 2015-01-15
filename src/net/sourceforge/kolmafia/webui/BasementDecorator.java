@@ -204,6 +204,12 @@ public class BasementDecorator
 			case FamiliarPool.GALLOPING_GRILL:
 				useful = Preferences.getInteger( "_hotAshesDrops" ) < 5;
 				break;
+			case FamiliarPool.GOLDEN_MONKEY:
+				useful = Preferences.getInteger( "_powderedGoldDrops" ) < 5;
+				break;
+			case FamiliarPool.ADVENTUROUS_SPELUNKER:
+				useful = Preferences.getInteger( "_spelunkingTalesDrops" ) < 1;
+				break;
 			}
 			if ( !useful ) continue;
 

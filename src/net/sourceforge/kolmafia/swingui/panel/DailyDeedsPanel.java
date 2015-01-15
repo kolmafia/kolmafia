@@ -2690,6 +2690,8 @@ public class DailyDeedsPanel
 			this.addListener( "_grimFairyTaleDropsCrown" );
 			this.addListener( "_hotAshesDrops" );
 			this.addListener( "_turkeyBooze" );
+			this.addListener( "_spelunkingTalesDrops" );
+			this.addListener( "_powderedGoldDrops" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
@@ -3083,6 +3085,44 @@ public class DailyDeedsPanel
 				buffer.append( turkeyDrops );
 				buffer.append( " turkey booze" );
 				if ( turkeyDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData goldenMonkey = KoLCharacter.findFamiliar( FamiliarPool.GOLDEN_MONKEY );
+			int goldenMonkeyDrops = Preferences.getInteger( "_powderedGoldDrops" );
+			if ( ( goldenMonkey != null && goldenMonkey.canEquip() ) || goldenMonkeyDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( goldenMonkeyDrops );
+				buffer.append( " powdered gold" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData spelunker = KoLCharacter.findFamiliar( FamiliarPool.ADVENTUROUS_SPELUNKER );
+			int spelunkerDrops = Preferences.getInteger( "_spelunkerDrops" );
+			if ( ( spelunker != null && spelunker.canEquip() ) || spelunkerDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( spelunkerDrops );
+				buffer.append( " tales of spelunking" );
 				shown = true;
 				count++;
 			}

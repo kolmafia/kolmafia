@@ -679,6 +679,17 @@ public class CharPaneDecorator
 				return buffer;
 			}
 			return null;
+
+		case FamiliarPool.GOLDEN_MONKEY:
+			buffer.append( Preferences.getString( "_powderedGoldDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
+		case FamiliarPool.ADVENTUROUS_SPELUNKER:
+			buffer.append( Preferences.getString( "_spelunkingTalesDrops" ) );
+			buffer.append( "/1" );
+			return buffer;
+
 		}
 
 		return null;

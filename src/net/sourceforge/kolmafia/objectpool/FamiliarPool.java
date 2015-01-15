@@ -111,4 +111,6 @@ public class FamiliarPool
 	public static final int GALLOPING_GRILL = 183;
 	public static final int FIST_TURKEY = 188;
 	public static final int CRIMBO_SHRUB = 189;
+	public static final int GOLDEN_MONKEY = 192;
+	public static final int ADVENTUROUS_SPELUNKER = 193;
 }
