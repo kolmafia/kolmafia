@@ -72,7 +72,7 @@ public class DatabaseFrame
 
 	public DatabaseFrame()
 	{
-		super( "Internal Database" );
+		super( "Encyclopedia" );
 
 		this.tabs.addTab( "Items", new ExamineItemsPanel() );
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( DatabaseFrame.allFamiliars, "familiar", "which" ) );

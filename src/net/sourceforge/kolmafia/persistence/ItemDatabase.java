@@ -1365,7 +1365,7 @@ public class ItemDatabase
 		ConcoctionPool.set( c );
 		ConcoctionDatabase.addUsableConcoction( c );
 
-		// Add the new item to the Internal Database
+		// Add the new item to the Encyclopedia
 		DatabaseFrame.addItem( id, itemName );
 	}
 
