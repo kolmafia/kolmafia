@@ -89,6 +89,7 @@ penguin paste	4	4		5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
 pirate paste	4	4		5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	5	0	0	0
 porcelain powder	3	1	10	0	0	0
+powdered gold	4	1		5-10	20-30	20-30	20-30
 prismatic wad	3	7		5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 puce paisley oyster egg	1	1		0	11-15	11-15	0
 puce polka-dot oyster egg	1	1		0	11-15	0	11-15

@@ -3339,6 +3339,13 @@ woolen cravat	Familiar Weight: +5
 Xiblaxian holo-bowtie	Familiar Weight: +5
 # zen motorcycle: Makes Llama Lamas friendlier
 
+# Virtual Equipment
+
+# rock: Can be thrown
+# torch: Burns foes
+# torch: Lights dark places
+# torch: Can be thrown
+
 # Minstrel section of modifiers.txt
 
 Clancy's sackbut	HP Regen Min: [C], HP Regen Max: [C*2], MP Regen Min: [C], MP Regen Max: [C*2]
