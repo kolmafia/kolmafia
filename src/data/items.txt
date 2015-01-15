@@ -8004,7 +8004,7 @@
 7985	polyester parachute	973760204	polyparachute.gif	container		0
 7986	polyester pad	785194437	polypad.gif	offhand		0
 7987	polyester peeler	752785902	polypeeler.gif	weapon		0
-7988	polyester pettipants	363871695	polypants.gif	pants		0
+7988	polyester pettipants	363871695	polypants.gif	pants		0	pairs of polyester pettipants
 7989	polyester panama hat	904629891	polyhat.gif	hat		0
 7990	polyester pulsera	163516524	polypulsera.gif	accessory		0
 7991	porcelain police baton	673638222	porcbaton.gif	weapon		0

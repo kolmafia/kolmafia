@@ -452,6 +452,7 @@ public class RequestEditorKit
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( buffer );
 			RequestEditorKit.addTaleOfDread( buffer );
+			RequestEditorKit.addDesertProgress( buffer );
 
 			// Do any monster-specific decoration
 			FightDecorator.decorate( buffer );
@@ -1694,6 +1695,26 @@ public class RequestEditorKit
 		replace.append( "\">read it</a>]</font>" );
 
 		StringUtilities.singleStringReplace( buffer, find, replace.toString() );
+	}
+	
+	private static final Pattern EXPLORATION_PATTERN = Pattern.compile( "Desert exploration <b>\\+\\d+%</b>" );
+	private static final void addDesertProgress( final StringBuffer buffer )
+	{
+		String lastAdventure = Preferences.getString( "lastAdventure" );
+		if ( !lastAdventure.equals( "The Arid, Extra-Dry Desert" ) ||
+		     buffer.indexOf( "WINWINWIN" ) == -1 )
+		{
+			return;
+		}
+
+		Matcher m = RequestEditorKit.EXPLORATION_PATTERN.matcher( buffer );
+		if ( !m.find() )
+		{
+			return;
+		}
+
+		String progress = " (" + String.valueOf( Preferences.getInteger( "desertExploration" ) ) + "% explored)";
+		buffer.insert( m.end(), progress );
 	}
 
 	private static final void insertRoundNumbers( final StringBuffer buffer )
