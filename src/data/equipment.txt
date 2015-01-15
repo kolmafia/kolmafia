@@ -2647,7 +2647,7 @@ crumbling skull	0	none
 jetpack	0	none
 pot	0	none
 rock	0	none
-shotgun	60	Mox: 0
+shotgun	60	Mox: 0	1-handed pistol
 spelunking fedora	0	none
 sturdy machete	30	none	1-handed sword
 torch	0	none
