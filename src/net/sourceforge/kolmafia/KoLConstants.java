@@ -257,7 +257,7 @@ public interface KoLConstants
 			"CalendarFrame"
 		},
 		{
-			"Internal Database",
+			"Encyclopedia",
 			"DatabaseFrame"
 		},
 		{

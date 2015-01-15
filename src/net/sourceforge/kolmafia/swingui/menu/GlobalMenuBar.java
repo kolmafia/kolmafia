@@ -209,7 +209,7 @@ public class GlobalMenuBar
 		helperMenu.add( new JSeparator() );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", "CalendarFrame" ) );
-		helperMenu.add( new DisplayFrameMenuItem( "Internal Database", "DatabaseFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Encyclopedia", "DatabaseFrame" ) );
 
 		helperMenu.add( new JSeparator() );
 
@@ -223,7 +223,6 @@ public class GlobalMenuBar
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new RelayBrowserMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
 		helperMenu.add( new RelayBrowserMenuItem(
 			"The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
