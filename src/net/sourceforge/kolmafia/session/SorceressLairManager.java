@@ -366,7 +366,7 @@ public abstract class SorceressLairManager
 				stat.equals( "Smoothest" ) ?
 				Stat.MOXIE.toString() :
 				"none";
-			Preferences.setString( "nsChallenge1", stat );
+			Preferences.setString( "nsChallenge1", value );
 		}
 
 		matcher = SorceressLairManager.ELEMENT_ADVENTURER_PATTERN.matcher( responseText );
@@ -385,7 +385,7 @@ public abstract class SorceressLairManager
 				element.equals( "Sleaziest" ) ?
 				Element.SLEAZE.toString() :
 				"none";
-			Preferences.setString( "nsChallenge2", element );
+			Preferences.setString( "nsChallenge2", value );
 		}
 	}
 

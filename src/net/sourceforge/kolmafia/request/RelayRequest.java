@@ -1071,10 +1071,18 @@ public class RelayRequest
 		return true;
 	}
 
-	private boolean sendHardcorePVPWarning()
+	private boolean sendHardcorePVPWarning( final String urlString )
 	{
+		// If the person is in hardcore and about to free the king,
+		// warn them if they are participating in PVP
+
+		if ( !urlString.contains( "whichplace=nstower" ) )
+		{
+			// We are not even in the tower.
+			return false;
+		}
+
 		// Don't remind a second time in a session if you decide not to do it.
-		String urlString = this.getURLString();
 		if ( urlString.contains( CONFIRM_HARDCOREPVP ) )
 		{
 			return false;
@@ -1899,12 +1907,17 @@ public class RelayRequest
 		return true;
 	}
 
-	private boolean sendSorceressWarning()
+	private boolean sendSorceressWarning( final String urlString )
 	{
 		// If the person is visiting the sorceress and they
 		// forgot to make the Wand, remind them.
 
-		String urlString = this.getURLString();
+		if ( !urlString.contains( "whichplace=nstower" ) )
+		{
+			// We are not even in the tower.
+			return false;
+		}
+		     
 		if ( urlString.contains( CONFIRM_SORCERESS ) )
 		{
 			return false;
@@ -3066,12 +3079,12 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( path.contains( "whichplace=nstower" ) && this.sendSorceressWarning() )
+		if ( this.sendSorceressWarning( urlString ) )
 		{
 			return true;
 		}
 
-		if ( path.contains( "whichplace=nstower" ) && this.sendHardcorePVPWarning() )
+		if ( this.sendHardcorePVPWarning( urlString ) )
 		{
 			return true;
 		}
