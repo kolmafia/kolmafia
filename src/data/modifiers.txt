@@ -7283,6 +7283,7 @@ Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Du
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 Take Eleven Bar	Effect: "Took Eleven", Effect Duration: 20
 Tales of Dread	Free Pull
+# Tales of Spelunking: Begins a Spelunking Adventure!
 Tallowcreme Halloween Pumpkin	Effect: "Halloweeny", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
