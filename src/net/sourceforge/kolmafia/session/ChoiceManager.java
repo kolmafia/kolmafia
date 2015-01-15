@@ -11413,6 +11413,17 @@ public abstract class ChoiceManager
 		case 634:	// Goodbye Fnord
 			// These all arise out of a multifight, rather than by
 			// visiting a location.
+		case 1006:	// One Small Step For Adventurer
+		case 1007:	// Twisty Little Passages, All Hedge
+		case 1008:	// Pooling Your Resources
+		case 1009:	// Good Ol' 44% Duck
+		case 1010:	// Another Day, Another Fork
+		case 1011:	// Of Mouseholes and Manholes
+		case 1012:	// The Last Temptation
+		case 1013:	// Mazel Tov!
+			// This is chain of choices that either immediately
+			// follow a fight or the previous choice, either of
+			// which takes a turn (unlike normal choice chains)
 			RequestLogger.registerLastLocation();
 			break;
 		}
