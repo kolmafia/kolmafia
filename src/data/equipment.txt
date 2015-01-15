@@ -2639,3 +2639,8 @@ Time Cloak	100	none
 toy jet pack	175	Mys: 75
 whatsit-covered turtle shell	50	Mus: 20
 wings of fire	100	Mys: 100
+
+# Virtual equipment
+
+rock 0 none
+torch 0 none
