@@ -111,9 +111,16 @@ public abstract class UseLinkDecorator
 		boolean usedNativeMacro = macro != null && !macro.equals( "" ) && !macro.equals( "0" );
 		boolean usedMafiaMacro = location.indexOf( "action=done" ) != -1;
 		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
-		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
+
+		// Some combats lead to a non-optional choice
+		boolean duringCombat = inCombat && ( FightRequest.getCurrentRound() != 0 || buffer.indexOf( "action=choice.php" ) != -1 );
+		// Some choices lead to a non-optional choice
 		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1 && !ChoiceManager.canWalkAway();
+
+		// If we are currently in a combat or choice, we should consider deferring
 		boolean deferrable = inCombat || inChoice;
+
+		// If we are forced to continue to be in a combat or choice, continue deferring
 		boolean deferring = duringCombat || duringChoice;
 
 		String text = buffer.toString();
