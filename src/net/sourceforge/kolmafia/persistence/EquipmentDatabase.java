@@ -741,10 +741,15 @@ public class EquipmentDatabase
 		case KoLConstants.EQUIP_SHIRT:
 			return "shirt";
 		case KoLConstants.EQUIP_WEAPON:
-			return EquipmentDatabase.itemTypes.get( itemId );
+		{
+			String type = EquipmentDatabase.itemTypes.get( itemId );
+			return type != null ? type : "weapon";
+		}
 		case KoLConstants.EQUIP_OFFHAND:
+		{
 			String type = EquipmentDatabase.itemTypes.get( itemId );
 			return type != null ? type : "offhand";
+		}
 		case KoLConstants.MP_RESTORE:
 			return "mp restore";
 		case KoLConstants.HP_RESTORE:
