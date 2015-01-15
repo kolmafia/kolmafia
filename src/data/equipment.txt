@@ -2642,8 +2642,14 @@ wings of fire	100	Mys: 100
 
 # Virtual equipment
 
-rock 0 none
-shotgun	60	none
+boomerang 30 Mox: 0 1-handed boomerang
+crumbling skull	0	none
+jetpack	0	none
+pot	0	none
+rock	0	none
+shotgun	60	Mox: 0
 spelunking fedora	0	none
-torch 0 none
-trusty whip	30	none
+sturdy machete	30	none	1-handed sword
+torch	0	none
+trusty whip	30	none	1-handed whip
+X-ray goggles	0	none

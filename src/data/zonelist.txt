@@ -92,13 +92,14 @@ Elemental International Airport	Town	Elemental International Airport
 Spring Break Beach	Elemental International Airport	Spring Break Beach
 Conspiracy Island	Elemental International Airport	Conspiracy Island
 
+Spelunky Area	Unsorted	Spelunky Area
+
 Item-Driven	Item-Driven	Item-Driven Zones
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
-Crimbo14	Holiday	Christmas 2014
 
 Override	Unsorted	Discoveries
 
@@ -115,4 +116,5 @@ Crimbo10	Removed	Christmas 2010
 The Candy Diorama	Removed	Christmas 2011
 Crimbo12	Removed	Christmas 2012
 Crimbo13	Removed	Christmas 2013
+Crimbo14	Removed	Christmas 2014
 WhiteWed	Removed	White Wednesday
