@@ -8056,13 +8056,13 @@
 8037	bowl of topioca	766474108	topibowl.gif	food	d	70
 8038	topiary skunk	801393694	topiskunk.gif	grow		0
 8039	topiary noseplugs	765635512	topiplugs.gif	familiar	d	70
-8040
+8040	trusty whip	553091778	spelwhip.gif	weapon	q	0
 8041
 8042	rock	683893245	spelrock.gif	offhand	q	0
 8043
-8044
+8044	spelunking fedora	717110827	hobofedora.gif	q	0
 8045
-8046
+8046	shotgun	606913715	shotgun.gif	weapon	q	0
 8047
 8048
 8049
@@ -8082,7 +8082,7 @@
 8063	Tales of Spelunking	875497902	speltales.gif	usable	t	0
 8064	golden monkey statuette	243083851	goldmonkeystat.gif	grow	t	0
 8065	golden banana	986943479	goldbanana.gif	familiar	t,d	70
-8066	powdered gold	364590955	goldpowder.gif	multiple	t	0
+8066	powdered gold	364590955	goldpowder.gif	usable	t	0
 8067	gold nuggets	195235025	goldnug.gif	none	t,d	100
 8068	Professor of Spelunkology	736483425	spelprof.gif	grow	t	0
 8069	Stembridge sidearm	501515953	stembridge.gif	familiar	t,d	70
