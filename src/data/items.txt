@@ -8086,3 +8086,7 @@
 8067	gold nuggets	195235025	goldnug.gif	none	t,d	100
 8068	Professor of Spelunkology	736483425	spelprof.gif	grow	t	0
 8069	Stembridge sidearm	501515953	stembridge.gif	familiar	t,d	70
+8070
+8071
+8072
+8073	Spelunker of Fortune	630875553	spelunkmag.gif	usable	t	0

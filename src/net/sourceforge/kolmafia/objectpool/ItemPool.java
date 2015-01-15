@@ -2243,6 +2243,7 @@ public class ItemPool
 	public static final int CHATEAU_WATERCOLOR = 8033;
 	public static final int TALES_OF_SPELUNKING = 8063;
 	public static final int POWDERED_GOLD = 8066;
+	public static final int SPELUNKER_FORTUNE = 8073;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

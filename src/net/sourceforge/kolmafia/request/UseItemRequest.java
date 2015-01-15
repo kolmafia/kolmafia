@@ -2982,6 +2982,7 @@ public class UseItemRequest
 		case ItemPool.ROM_RUTHLESS_EFFICIENCY:
 		case ItemPool.ROM_RUTHLESS_EFFICIENCY_DIRTY:
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+		case ItemPool.SPELUNKER_FORTUNE:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5239,6 +5240,8 @@ public class UseItemRequest
 		case ItemPool.ROM_RUTHLESS_EFFICIENCY:
 		case ItemPool.ROM_RUTHLESS_EFFICIENCY_DIRTY:
 			return "Ruthless Efficiency";
+		case ItemPool.SPELUNKER_FORTUNE:
+			return "Speluck";
 		}
 
 		return null;

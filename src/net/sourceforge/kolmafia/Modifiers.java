@@ -90,6 +90,7 @@ public class Modifiers
 	private static final ArrayList<String> mutexes = new ArrayList<String>();
 	public static String currentLocation = "";
 	public static String currentZone = "";
+	public static String currentEnvironment = "";
 	public static double currentML = 4.0;
 	public static String currentFamiliar = "";
 	public static String mainhandClass = "";
@@ -1384,7 +1385,7 @@ public class Modifiers
 
 	public Modifiers( Modifiers copy )
 	{
-		this();	
+		this();
 		this.set( copy );
 	};
 
@@ -3259,6 +3260,7 @@ public class Modifiers
 
 		Modifiers.currentLocation = location.getAdventureName();
 		Modifiers.currentZone = location.getZone();
+		Modifiers.currentEnvironment = location.getEnvironment();
 		AreaCombatData data = location.getAreaSummary();
 		Modifiers.currentML = Math.max( 4.0, data == null ? 0.0 : data.getAverageML() );
 	}
