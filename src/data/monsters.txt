@@ -1457,6 +1457,19 @@ lab monkey	labmonkey.gif	Atk: [200+150*pref(controlPanel3)+150*pref(controlPanel
 super-sized Cola Wars soldier	colasoldier.gif	Atk: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky	ice-cold Cloaca Zero (c0)	first-aid pouch (c0)	khaki duffel bag (c0)	airborne mutagen (c0)
 E.V.E., the robot zombie	eve.gif	Atk: 300 Def: 300 HP: 500 Init: 150 P: construct E: spooky
 
+# Tales of Spelunking (Adventrous Spelunker Year 2015)
+alien	spelunkalien.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
+alien UFO	spelunkufo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
+bat	spelunkbat.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
+bee	spelunkbee.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
+cobra	spelunkcobra.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: beast
+scorpion	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
+skeleton	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead
+snake	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
+spider	spelunkspider.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: bug
+spider queen	spelunkspider.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug
+tikiman	spelunktiki.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: dude
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
@@ -1595,11 +1608,6 @@ nest of rattlers	snakenest.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: beast
 outlaw behind an table	tableoutlaw.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	portable table (10)	outlaw bandana (5)
 outlaw leader	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	big bag of money (n100)
 tetched prospector	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
-
-# The Crimbonium Mining Camp (Crimbo 2014)
-ambulatory robo-minecart	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
-exo-suited miner	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
-semi-autonomous drill unit	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
 
 # Old Events
 
@@ -1849,3 +1857,8 @@ The Frattlesnake	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Ini
 
 # The Fully Automated Crimbo Factory (Crimbo 2014)
 Crimbomega	crimbomega.gif	Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
+
+# The Crimbonium Mining Camp (Crimbo 2014)
+ambulatory robo-minecart	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
+exo-suited miner	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
+semi-autonomous drill unit	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)

@@ -3341,10 +3341,20 @@ Xiblaxian holo-bowtie	Familiar Weight: +5
 
 # Virtual Equipment
 
+boomerang Weakens Monster
+# crumbling skull: Can be thrown
+jetpack	Moxie: +10
+# pot: Can be thrown
+pot	Damage Reduction: 2
 # rock: Can be thrown
+spelunking fedora	Muscle: +5, Moxie: +5
+sturdy machete	Weapon Damage: +5
 # torch: Burns foes
 # torch: Lights dark places
 # torch: Can be thrown
+X-ray goggles	Moxie: -5
+# X-ray goggles: +5 Luck
+# X-ray goggles: Reveals Secrets
 
 # Minstrel section of modifiers.txt
 

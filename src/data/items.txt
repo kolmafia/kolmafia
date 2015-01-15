@@ -8057,18 +8057,18 @@
 8038	topiary skunk	801393694	topiskunk.gif	grow		0
 8039	topiary noseplugs	765635512	topiplugs.gif	familiar	d	70
 8040	trusty whip	553091778	spelwhip.gif	weapon	q	0
-8041
+8041	crumbling skull	620275176	spelskull.gif	offhand	q	0
 8042	rock	683893245	spelrock.gif	offhand	q	0
-8043
+8043	pot	699815101	spelpot.gif	offhand	q	0
 8044	spelunking fedora	717110827	hobofedora.gif	q	0
-8045
+8045	sturdy machete	993613711	machetito.gif	q	0
 8046	shotgun	606913715	shotgun.gif	weapon	q	0
-8047
+8047	boomerang	598963930	spelboomerang.gif	weapon	q	0
 8048
 8049
-8050
+8050	X-ray goggles	844054839	spelgog.gif	hat	q	0
 8051
-8052
+8052	jetpack	438561058	speljetpack.gif	container	q	0
 8053
 8054
 8055

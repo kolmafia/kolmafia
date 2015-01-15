@@ -278,9 +278,11 @@ The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch law
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
+The Ice Caves	-1	alien	alien UFO
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
+The Jungle	-1	bee	scorpion	skeleton	tikiman
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
 The Knob Shaft	85	ghost miner
 The Landscaper's Lair	100	menacing lawn gnome	mowing lawn gnome	mounted lawn gnome
@@ -290,6 +292,7 @@ The Mansion of Dr. Weirdeaux	100	one of Doctor Weirdeaux's creations
 The Marinara Trench	95	diving belle	fisherfish	giant squid	Mer-kin diver
 The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
 The Middle Chamber	100	tomb asp	tomb rat	tomb servant
+The Mines	-1	bat	cobra	snake	spider
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
 The Naughty Sorceress' Chamber	100	Naughty Sorceress
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
@@ -320,6 +323,7 @@ The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing b
 The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
+The Spider Hole	-1	spider	spider queen: 0
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
 The Spooky Forest	60	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1
 The Spooky Gravy Burrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
