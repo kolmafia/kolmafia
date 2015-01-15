@@ -342,6 +342,9 @@ public class Expression
 			case 'h':
 				v = Modifiers.mainhandClass.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
+			case 'j':
+				v = Modifiers.currentEnvironment.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
 			case 'l':
 				v = Modifiers.currentLocation.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
