@@ -8079,7 +8079,7 @@
 8060
 8061
 8062
-8063
+8063	Tales of Spelunking	875497902	speltales.gif	usable	t	0
 8064	golden monkey statuette	243083851	goldmonkeystat.gif	grow	t	0
 8065	golden banana	986943479	goldbanana.gif	familiar	t,d	70
 8066
