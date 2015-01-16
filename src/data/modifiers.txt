@@ -349,6 +349,7 @@ space beast fur hat	Damage Reduction: 5, Familiar Effect: "1xVolley"
 space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 spaghetti cult mask	Spell Damage Percent: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 38"
 spangly sombrero	Experience (Moxie): +3, Familiar Effect: "2xFairy, 2xPotato, cap 37"
+Spelunker's fedora	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Adventures: +4, Experience: +2
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
@@ -610,6 +611,7 @@ snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
 space beast fur pants	Damage Reduction: 5, Familiar Effect: "1xVolley"
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 10xLep, cap 2"
 spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10, Familiar Effect: "2xFairy, 2xPotato, cap 37"
+Spelunker's khakis	Initiative: +25, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Combat Rate: +5
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30, Familiar Effect: "hot atk, 1xPotato"
 stainless steel slacks	Initiative: +15, Meat Drop: +20, Moxie Percent: +15, Familiar Effect: "prismatic atk, 4xBarrr, cap 22"
@@ -1399,6 +1401,7 @@ space needle	Weapon Damage: +10, Spooky Resistance: +2
 # Space Tourist Phaser: This Phaser is set to Fun
 # spectral axe: +30 Damage vs. Ghosts
 spectral axe	Cold Damage: +15
+Spelunker's whip	Weapon Damage Percent: +25, Item Drop: +10, Familiar Weight: +5
 spiked femur	Spooky Damage: +6
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 spooky bicycle chain	Spooky Damage: +5, Critical Hit Percent: +5
