@@ -139,7 +139,7 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
-	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
+	public static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
 	private static final Pattern REANIMATOR_LEG_PATTERN = Pattern.compile( "(\\d+) legs??<br>" );
@@ -11362,6 +11362,21 @@ public abstract class ChoiceManager
 				return true;
 			case 546:	// Interview With You
 				return true;
+			case 1003:	// Test Your Might And Also Test Other Things
+			case 1015:	// The Mirror in the Tower has the View that is True
+			case 1020:	// Closing Ceremony
+			case 1021:	// Meet Frank
+			case 1022:	// Meet Frank
+			case 1005:	// Allo'
+			case 1006:	// One Small Step For Adventurer
+			case 1007:	// Twisty Little Passages, All Hedge
+			case 1008:	// Pooling Your Resources
+			case 1009:	// Good Ol' 44% Duck
+			case 1010:	// Another Day, Another Fork
+			case 1011:	// Of Mouseholes and Manholes
+			case 1012:	// The Last Temptation
+			case 1013:	// Mazel Tov!
+				return SorceressLairManager.registerChoice( choice, urlString );
 			}
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
 			if ( matcher.find() )
@@ -11413,6 +11428,8 @@ public abstract class ChoiceManager
 		case 634:	// Goodbye Fnord
 			// These all arise out of a multifight, rather than by
 			// visiting a location.
+			RequestLogger.registerLastLocation();
+			break;
 		case 1006:	// One Small Step For Adventurer
 		case 1007:	// Twisty Little Passages, All Hedge
 		case 1008:	// Pooling Your Resources
@@ -11424,7 +11441,8 @@ public abstract class ChoiceManager
 			// This is chain of choices that either immediately
 			// follow a fight or the previous choice, either of
 			// which takes a turn (unlike normal choice chains)
-			RequestLogger.registerLastLocation();
+			String location = "The Hedge Maze (Room " + String.valueOf( choice - 1004 ) + ")";
+			RequestLogger.registerLocation(location );
 			break;
 		}
 	}
