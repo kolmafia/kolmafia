@@ -130,6 +130,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox breakableSelect;
 	private final JComboBox addingSelect;
 	private final JComboBox paranormalLabSelect;
+	private final JComboBox containmentSelect;
 
 	/**
 	 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -409,6 +410,10 @@ public class ChoiceOptionsPanel
 		this.paranormalLabSelect.addItem( "show in browser" );
 		this.paranormalLabSelect.addItem( "automate" );
 
+		this.containmentSelect = new JComboBox();
+		this.containmentSelect.addItem( "show in browser" );
+		this.containmentSelect.addItem( "automate" );
+
 		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
 		this.addChoiceSelect( "Item-Driven", "Breakable Equipment", this.breakableSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
@@ -444,6 +449,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
 		this.addChoiceSelect( "Dungeon", "Daily Dungeon", this.dailyDungeonDoorSelect );
 		this.addChoiceSelect( "Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect );
+		this.addChoiceSelect( "Conspiracy Island", "Containment Unit", this.containmentSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -920,6 +926,7 @@ public class ChoiceOptionsPanel
 						currentSetting );
 		
 		Preferences.setString( "choiceAdventure989", String.valueOf( this.paranormalLabSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure988", String.valueOf( this.containmentSelect.getSelectedIndex() ) );
 
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
@@ -1268,7 +1275,25 @@ public class ChoiceOptionsPanel
 			break;
 		}
 		
-		this.paranormalLabSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure989" ) );
+		int paranormalLabIndex = Preferences.getInteger( "choiceAdventure989" );
+		if ( paranormalLabIndex <= 1 && paranormalLabIndex >= 0 )
+		{
+			this.paranormalLabSelect.setSelectedIndex( paranormalLabIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + paranormalLabIndex + " for choiceAdventure989." );
+		}
+
+		int containmentIndex = Preferences.getInteger( "choiceAdventure988" );
+		if ( containmentIndex <= 1 && containmentIndex >= 0 )
+		{
+			this.containmentSelect.setSelectedIndex( containmentIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + containmentIndex + " for choiceAdventure988." );
+		}
 
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
