@@ -254,26 +254,29 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "restriction" ) )
+		if ( command.equals( "register" ) )
 		{
-			// Get current values
-			boolean oldRestriction = KoLCharacter.getRestricted();
-			boolean oldInteraction = KoLCharacter.canInteract();
-			int pulls = ConcoctionDatabase.getPullsRemaining();
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test register URL..." );
+				return;
+			}
 
-			// Pretend we are restricted and in-run
-			KoLCharacter.setRestricted( true );
-			CharPaneRequest.setInteraction( false );
-			RequestLogger.printLine( "restricted = " + KoLCharacter.getRestricted() + " can interact = " + KoLCharacter.canInteract() );
-
-			// Now pretend we broke ronin or freed the king!
-			CharPaneRequest.setInteraction( true );
-			RequestLogger.printLine( "restricted = " + KoLCharacter.getRestricted() + " can interact = " + KoLCharacter.canInteract() );
-
-			// Restore original state
-			KoLCharacter.setRestricted( oldRestriction );
-			CharPaneRequest.setInteraction( oldInteraction );
-			ConcoctionDatabase.setPullsRemaining( pulls );
+			GenericRequest request = new GenericRequest( "" );
+			for ( int i = 1; i < split.length; ++i )
+			{
+				String urlString = split[ i ];
+				request.constructURLString( urlString );
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.locationLogged = false;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = null;
+				RequestLogger.registerRequest( request, urlString );
+				if ( KoLAdventure.lastLocationName != null )
+				{
+					KoLAdventure.recordToSession( urlString, "Response text" );
+				}
+			}
 			return;
 		}
 

@@ -737,15 +737,6 @@ public class AdventureDatabase
 				return null;
 			}
 
-			if ( urlString.contains( "whichplace=nstower_door" ) )
-			{ 
-				if ( !urlString.contains( "action" ) )
-				{
-					return "Tower Door";
-				}
-				return null;
-			}
-
 			return null;
 		}
 

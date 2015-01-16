@@ -40,11 +40,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -460,132 +462,128 @@ public abstract class SorceressLairManager
 		}
 	}
 
-	private static final boolean checkPrerequisites( final int min, final int max )
+	public static boolean registerRequest( final String urlString )
 	{
-		KoLmafia.updateDisplay( "Checking prerequisites..." );
-
-		// Make sure he's been given the quest
-
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "main.php" ) );
-
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "lair.php" ) == -1 )
+		if ( !urlString.startsWith( "place.php" ) )
 		{
-			// Visit the council to see if the quest can be
-			// unlocked, but only if you've reached level 13.
-
-			boolean unlockedQuest = false;
-			if ( KoLCharacter.getLevel() >= 13 )
-			{
-				// We should theoretically be able to figure out
-				// whether or not the quest is unlocked from the
-				// HTML in the council request, but for now, use
-				// this inefficient workaround.
-
-				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-				RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "main.php" ) );
-				unlockedQuest = SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "lair.php" ) != -1;
-			}
-
-			if ( !unlockedQuest )
-			{
-				KoLmafia.updateDisplay(
-					MafiaState.ERROR, "You haven't been given the quest to fight the Sorceress!" );
-				return false;
-			}
+			return false;
 		}
 
-		// Make sure he can get to the desired area
+		String prefix = "[" + KoLAdventure.getAdventureCount() + "] ";
+		String message = null;
 
-		// Deduce based on which image map is used:
-		//
-		// NoMap = lair1
-		// Map = lair1, lair3
-		// Map2 = lair1, lair3, lair4
-		// Map3 = lair1, lair3, lair4, lair5
-		// Map4 = lair1, lair3, lair4, lair5, lair6
-
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair.php" ) );
-		Matcher mapMatcher = SorceressLairManager.MAP_PATTERN.matcher( SorceressLairManager.QUEST_HANDLER.responseText );
-
-		if ( mapMatcher.find() )
+		if ( urlString.contains( "whichplace=nstower_door" ) )
 		{
-			String map = mapMatcher.group( 1 );
-			int reached;
-
-			if ( map.equals( "NoMap" ) )
+			String action = GenericRequest.getAction( urlString );
+			if ( action == null )
 			{
-				reached = 1;
-			}
-			else if ( map.equals( "Map" ) )
-			{
-				reached = 3;
-			}
-			else if ( map.equals( "Map2" ) )
-			{
-				reached = 4;
-			}
-			else if ( map.equals( "Map3" ) )
-			{
-				reached = 5;
-			}
-			else if ( map.equals( "Map4" ) )
-			{
-				reached = 6;
+				RequestLogger.printLine();
+				RequestLogger.updateSessionLog();
+				message =  prefix + "Tower Door";
 			}
 			else
 			{
-				reached = 0;
-			}
-
-			if ( reached < min )
-			{
-				switch ( min )
-				{
-				case 0:
-				case 1:
-					KoLmafia.updateDisplay( MafiaState.ERROR, "The sorceress quest has not yet unlocked." );
-					return false;
-				case 2:
-				case 3:
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the entryway first." );
-					return false;
-				case 4:
-				case 5:
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the hedge maze first." );
-					return false;
-				case 6:
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the tower first." );
-					return false;
-				}
-			}
-
-			if ( reached > max )
-			{
-				KoLmafia.updateDisplay( "You're already past this script." );
-				return false;
+				message =
+					action.equals( "ns_lock1" ) ? "Tower Door: Boris's lock" :
+					action.equals( "ns_lock2" ) ? "Tower Door: Jarlsberg's lock" :
+					action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's's lock" :
+					action.equals( "ns_lock4" ) ? "Tower Door: star lock" :
+					action.equals( "ns_lock5" ) ? "Tower Door: skeleton's lock" :
+					action.equals( "ns_lock6" ) ? "Tower Door: digital's lock" :
+					action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
+					null;
 			}
 		}
+		else if ( urlString.contains( "whichplace=nstower" ) )
+		{
+			String action = GenericRequest.getAction( urlString );
+			if ( action != null )
+			{
+				message =
+					action.equals( "ns_01_contestbooth" ) ? prefix + "Tower: Contest Booth" :
+					action.equals( "ns_02_coronation" ) ? prefix + "Tower: Closing Ceremony" :
+					action.equals( "ns_11_prism" ) ? prefix + "Tower: Breaking the Prism" :
+					null;
 
-		// Otherwise, they've passed all the standard checks
-		// on prerequisites.  Return true.
+				if ( message == null )
+				{
+					return false;
+				}
+
+				RequestLogger.printLine();
+				RequestLogger.updateSessionLog();
+			}
+		}
+		else if ( urlString.startsWith( "choice.php" ) )
+		{
+		}
+
+		if ( message == null )
+		{
+			return false;
+		}
+
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 
 		return true;
 	}
 
+	public static boolean registerChoice( final int choice, final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
+		int option =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		String message = null;
+
+		switch ( choice )
+		{
+		case 1003:	// Test Your Might And Also Test Other Things
+			if ( option >= 1 && option <= 3 )
+			{
+				int challenge = option - 1;
+				String test = challenge == 0 ? "" : Preferences.getString( "nsChallenge" + challenge );
+				String description = SorceressLairManager.getChallengeDescription( challenge, test );
+				message = "Registering for the " + description + " Contest";
+			}
+			else if ( option == 4 )
+			{
+				message = "Claiming your prize";
+			}
+			else
+			{
+				return true;
+			}
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return true;
+		case 1015:	// The Mirror in the Tower has the View that is True
+		case 1020:	// Closing Ceremony
+		case 1021:	// Meet Frank
+		case 1022:	// Meet Frank
+			return true;
+		case 1005:	// Allo'
+		case 1006:	// One Small Step For Adventurer
+		case 1007:	// Twisty Little Passages, All Hedge
+		case 1008:	// Pooling Your Resources
+		case 1009:	// Good Ol' 44% Duck
+		case 1010:	// Another Day, Another Fork
+		case 1011:	// Of Mouseholes and Manholes
+		case 1012:	// The Last Temptation
+		case 1013:	// Mazel Tov!
+			// Don't log the URL for these; the encounter suffices
+			return true;
+		}
+		return false;
+	}
+
+	// *** Here follow obsolete methods
+	
 	public static final void completeEntryway()
 	{
-		if ( !SorceressLairManager.checkPrerequisites( 1, 2 ) )
-		{
-			return;
-		}
 	}
 
 	public static final void completeHedgeMaze()
 	{
-		if ( !SorceressLairManager.checkPrerequisites( 3, 3 ) )
-		{
-			return;
-		}
 	}
 
 	public static final int fightAllTowerGuardians()
@@ -600,11 +598,6 @@ public abstract class SorceressLairManager
 
 	private static final int fightTowerGuardians( boolean fightShadow )
 	{
-		if ( !SorceressLairManager.checkPrerequisites( 4, 6 ) )
-		{
-			return -1;
-		}
-
 		// Disable automation while Form of... Bird! is active,
 		// as it disables item usage.
 
@@ -713,48 +706,6 @@ public abstract class SorceressLairManager
 	/*
 	 * Methods to decorate lair pages for the Relay Browser
 	 */
-
-	public static final Pattern WHICHKEY_PATTERN = Pattern.compile( "whichkey=(\\d+)" );
-	public static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>" );
-
-	public static final void decorateKey( final String location, final StringBuffer buffer )
-	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-
-		Matcher matcher = SorceressLairManager.WHICHKEY_PATTERN.matcher( location );
-		if ( !matcher.find() )
-		{
-			return;
-		}
-
-		int key = StringUtilities.parseInt( matcher.group( 1 ) );
-
-		if ( key == ItemPool.UNIVERSAL_KEY )
-		{
-			// The key instantly morphs into another shape.
-			//   You acquire an item: <b>xxx</b>
-			//
-			// or
-			// 
-			// You can't figure out anything else to do with your universal key.
-
-			if ( buffer.indexOf( "You can't figure out anything else to do with your universal key" ) != -1 )
-			{
-				return;
-			}
-
-			matcher = SorceressLairManager.ACQUIRE_PATTERN.matcher( buffer );
-			if ( !matcher.find() )
-			{
-				return;
-			}
-
-			key = ItemDatabase.getItemId( matcher.group( 1 ) );
-		}
-	}
 
 	public static void handleQuestChange( String location, String responseText )
 	{

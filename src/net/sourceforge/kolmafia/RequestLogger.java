@@ -173,6 +173,7 @@ import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.NullStream;
@@ -649,6 +650,13 @@ public class RequestLogger
 
 		// We want to register simple visits to the Volcano Maze
 		if ( ( request instanceof VolcanoMazeRequest || isExternal ) && VolcanoMazeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// We want to register simple visits to parts of the Sorceress' Lair
+		if ( SorceressLairManager.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1437,14 +1445,19 @@ public class RequestLogger
 		RequestLogger.updateSessionLog( urlString );
 	}
 
-	public static final void registerLastLocation()
+	public static final void registerLocation( final String location )
 	{
-		String message = "[" + KoLAdventure.getAdventureCount() + "] " + KoLAdventure.lastLocationName;
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 
 		RequestLogger.printLine();
 		RequestLogger.printLine( message );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
+	}
+
+	public static final void registerLastLocation()
+	{
+		RequestLogger.registerLocation( KoLAdventure.lastLocationName );
 	}
 }
