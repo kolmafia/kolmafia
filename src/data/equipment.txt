@@ -258,6 +258,7 @@ space beast fur hat	100	Mox: 35
 space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 60
+Spelunker's fedora	100	Mox: 35
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
@@ -492,6 +493,7 @@ snowboarder pants	100	Mox: 35
 space beast fur pants	100	Mox: 35
 spandex anniversary shorts	10	none
 spangly mariachi pants	150	Mox: 60
+Spelunker's khakis	100	Mox: 35
 Spooky Putty leotard	100	none
 square sponge pants	200	Mox: 85
 stainless steel slacks	90	Mox: 30
@@ -1194,6 +1196,7 @@ space heater	100	Mox: 35	1-handed laser cannon
 space needle	100	Mus: 35	1-handed sword
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
 spectral axe	150	Mus: 50	1-handed axe
+Spelunker's whip	10	Mus: 0	1-handed whip
 spiked femur	100	Mus: 35	1-handed club
 Spirit Precipice	135	Mus: 45	2-handed sword
 spooky bicycle chain	80	Mus: 25	1-handed flail
