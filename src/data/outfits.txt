@@ -113,3 +113,4 @@
 112	Topiaria	topitat.gif	tope&eacute;, topiary tights, topiary necktie
 113	Synthetic Suit	polytat.gif	polyester panama hat, polyester peeler, polyester pad, polyester parachute, polyester pettipants, polyester pulsera
 114	Ceramic Suit	porctat.gif	porcelain porkpie, porcelain police baton, porcelain pepper mill, porcelain pelerine, porcelain plus-fours, porcelain phantom mask
+115	Spelunker's Gear	spelunktat.gif	Spelunker's fedora, Spelunker's whip, Spelunker's khakis
