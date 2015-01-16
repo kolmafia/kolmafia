@@ -1453,10 +1453,9 @@ public class FightRequest
 		}
 
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
-		String zone = location != null ? location.getZone() : null;
+		String environment = location != null ? location.getEnvironment() : null;
 
-		if ( zone != null && !zone.equals( "The Sea" ) &&
-		     !location.getAdventureName().equals( "The Sunken Party Yacht" ) )
+		if ( environment != null && !environment.equals( "underwater" )  )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless out of water." );
 			return true;
@@ -6682,37 +6681,37 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
-			if ( responseText.contains( "surprisingly loud bang, and your opponent flees in terror" ) || itemRunawaySuccess )
+			if ( responseText.contains( "surprisingly loud bang, and your opponent" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "divine champagne popper" );
 			}
 			break;
 		case ItemPool.HAROLDS_HAMMER:
-			if ( responseText.contains( "opponent cringes and walks away" ) || itemRunawaySuccess )
+			if ( responseText.contains( "throw the bell away" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "harold's bell" );
 			}
 			break;
 		case ItemPool.INDIGO_TAFFY:
-			if ( responseText.contains( "ink clears, your opponent is nowhere to be found" ) || itemRunawaySuccess )
+			if ( responseText.contains( "nowhere to be found" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "pulled indigo taffy" );
 			}
 			break;
 		case ItemPool.CLASSY_MONKEY:
-			if ( responseText.contains( "Your opponent turns tail and runs away screaming" ) || itemRunawaySuccess )
+			if ( responseText.contains( "EEEEEEEEEEEEEEEEEEEEEEEEK!" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "classy monkey" );
 			}
 			break;
 		case ItemPool.DIRTY_STINKBOMB:
-			if ( responseText.contains( "your opponent flees the scene in disgust" ) || itemRunawaySuccess )
+			if ( responseText.contains( "don't expect to see" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "dirty stinkbomb" );
 			}
 			break;
 		case ItemPool.DEATHCHUCKS:
-			if ( responseText.contains( "opponent slowly backs away, running off once he gets far enough away from you" ) || itemRunawaySuccess )
+			if ( responseText.contains( "far enough away from you" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "deathchucks" );
 			}
@@ -6724,7 +6723,7 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.LOUDER_THAN_BOMB:
-			if ( responseText.contains( "opponent is nowhere to be seen" ) || itemRunawaySuccess )
+			if ( responseText.contains( "nowhere to be seen" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "louder than bomb" );
 			}
@@ -6736,7 +6735,7 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
-			if ( responseText.contains( "slowly fades from view" ) || itemRunawaySuccess )
+			if ( responseText.contains( "A wistful expression" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
 			}
