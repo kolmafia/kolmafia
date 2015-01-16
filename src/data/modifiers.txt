@@ -5853,6 +5853,7 @@ Slimesuit	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky
 Smoked Pottery	Hot Damage: +15
 Snowman Suit	Cold Damage: +15
 Space Beast Furs	Damage Reduction: 25
+Spelunker's Gear	Critical Hit Percent: +15
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Sucker Samurai Suit	Damage Reduction: 10
 Swashbuckling Getup	Moxie: +7
