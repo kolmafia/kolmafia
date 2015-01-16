@@ -8090,3 +8090,7 @@
 8071
 8072
 8073	Spelunker of Fortune	630875553	spelunkmag.gif	usable	t	0
+8074
+8075
+8076
+8077	Spelunker's Guild prize sack	496820001	spelunksack.gif	usable	t	0
