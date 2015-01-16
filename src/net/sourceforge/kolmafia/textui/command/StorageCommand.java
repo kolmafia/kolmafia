@@ -198,16 +198,14 @@ public class StorageCommand
 
 			if ( storageCount < item.getCount() )
 			{
-				KoLmafia.updateDisplay(
-					MafiaState.ERROR,
-					"You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
+				KoLmafia.updateDisplay( "You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
+				items[ i ] = item.getInstance( storageCount );
 			}
 
 			if ( !StandardRequest.isAllowed( "Items", itemName ) )
 			{
-				KoLmafia.updateDisplay(
-					MafiaState.ERROR,
-					itemName + " is not allowed right now." );
+				KoLmafia.updateDisplay( itemName + " is not allowed right now." );
+				items[ i ] = null;
 			}
 		}
 

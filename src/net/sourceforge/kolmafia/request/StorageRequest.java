@@ -303,6 +303,24 @@ public class StorageRequest
 			return;
 		}
 
+		if ( this.moveType == StorageRequest.STORAGE_TO_INVENTORY )
+		{
+			boolean nonNullItems = false;
+			for ( AdventureResult attachment : this.attachments )
+			{
+				if ( attachment != null )
+				{
+					nonNullItems = true;
+					break;
+				}
+			}
+			if ( !nonNullItems )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No items could be removed from storage." );
+				return;
+			}
+		}
+
 		// Let TransferItemRequest handle it
 		super.run();
 	}
