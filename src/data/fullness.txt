@@ -436,7 +436,7 @@ magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
-&quot;meat&quot; stick	1	5	good	4-5	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
+&quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 Medical Pastaco	2	3	decent	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
