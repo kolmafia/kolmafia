@@ -278,7 +278,7 @@ The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch law
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
-The Ice Caves	-1	alien	alien UFO
+The Ice Caves	-1	alien	alien UFO	caveman	yeti
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
@@ -331,6 +331,7 @@ The Spooky Old Abandoned Mine	100	cowskeleton	nest of rattlers	tetched prospecto
 The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skating Muse	toothless mastiff bitch
 The Sunken Party Yacht	100	broctopus	cocktail shrimp	wild girl	drownedbeat: 0	son of a son of a sailor: 0	taco fish: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
+The Temple Ruins	-1	crocodile man	magma man	mummy
 The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
