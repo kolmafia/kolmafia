@@ -59,8 +59,6 @@ import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.ArcadeRequest;
-import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -71,7 +69,6 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanHallRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -103,7 +100,6 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
-import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -114,12 +110,11 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
-import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SeaMerkinRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
@@ -135,7 +130,6 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
-import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -659,56 +653,7 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "place.php" ) )
 		{
-			if ( location.contains( "whichplace=arcade" ) )
-			{
-				ArcadeRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=chateau" ) )
-			{
-				ChateauRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=forestvillage" ) && location.contains( "action=fv_untinker" ) )
-			{
-				UntinkerRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=junggate" ) )
-			{
-				UseItemRequest.parseConsumption( responseText, false );
-			}
-			else if ( location.contains( "whichplace=knoll_friendly" ) )
-			{
-				KnollRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=mountains" ) )
-			{
-				if ( responseText.contains( "whichplace=chateau" ) )
-				{
-					Preferences.setBoolean( "chateauAvailable", true );
-				}
-			}
-			else if ( location.contains( "whichplace=nstower_door" ) )
-			{
-				SorceressLairManager.parseDoorResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=orc_chasm" ) )
-			{
-				OrcChasmRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=rabbithole" ) )
-			{
-				RabbitHoleRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "action=townwrong_artist_quest" ) )
-			{
-				ArtistRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichplace=twitch" ) )
-			{
-				if ( location.contains( "action=twitch_bank" ) && responseText.contains( "Thanks fer bringin' the money back" ) )
-				{
-					ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );
-				}
-			}
+			PlaceRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "questlog.php" ) )
