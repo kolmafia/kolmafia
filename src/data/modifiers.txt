@@ -3346,6 +3346,9 @@ Xiblaxian holo-bowtie	Familiar Weight: +5
 
 boomerang Weakens Monster
 # crumbling skull: Can be thrown
+# cursed coffee cup: -2 Luck
+# cursed coffee cup: Drink blood, get healthy
+heavy pickaxe	Muscle: +5, Mysticality: +5, Moxie: +5
 jetpack	Moxie: +10
 # pot: Can be thrown
 pot	Damage Reduction: 2
@@ -3358,6 +3361,7 @@ sturdy machete	Weapon Damage: +5
 X-ray goggles	Moxie: -5
 # X-ray goggles: +5 Luck
 # X-ray goggles: Reveals Secrets
+yellow cape	Moxie: +5
 
 # Minstrel section of modifiers.txt
 

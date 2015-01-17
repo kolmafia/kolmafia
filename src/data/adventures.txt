@@ -420,3 +420,4 @@ Spelunky Area	adventure=425	Env: none Stat: 0	The Jungle
 Spelunky Area	adventure=426	Env: none Stat: 0	The Ice Caves
 Spelunky Area	adventure=427	Env: none Stat: 0	The Temple Ruins
 Spelunky Area	adventure=430	Env: none Stat: 0	The Spider Hole
+Spelunky Area	adventure=435	Env: none Stat: 0	LOLmec's Lair

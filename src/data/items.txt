@@ -8067,18 +8067,18 @@
 8048
 8049
 8050	X-ray goggles	844054839	spelgog.gif	hat	q	0
-8051
+8051	yellow cape	473030303	spelcape.gif	container	q	0
 8052	jetpack	438561058	speljetpack.gif	container	q	0
 8053
 8054
-8055
+8055	heavy pickaxe	646903155	spelpick.gif	offhand	q	0
 8056	torch	404717759	speltorch.gif	offhand	q	0
 8057
 8058
 8059
 8060
 8061
-8062
+8062	cursed coffee cup	496387510	spelcup.gif	offhand	q	0
 8063	Tales of Spelunking	875497902	speltales.gif	usable	t	0
 8064	golden monkey statuette	243083851	goldmonkeystat.gif	grow	t	0
 8065	golden banana	986943479	goldbanana.gif	familiar	t,d	70
