@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PixelRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -1212,6 +1213,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PixelRequest || isExternal ) && PixelRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
