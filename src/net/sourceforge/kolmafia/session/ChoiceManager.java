@@ -11576,6 +11576,7 @@ public abstract class ChoiceManager
 		case 870: // Hair Today
 		case 871: // inspecting Motorbike
 		case 872: // Drawn Onward
+		case 922: // Summoning Chamber
 		case 929: // Control Freak
 		case 984: // A Radio on a Beach
 		case 986: // Control Panel

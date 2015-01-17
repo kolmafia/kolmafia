@@ -269,6 +269,12 @@ public class ChateauRequest
 			// Clicking it gives you info, but does nothing.
 			return true;
 		}
+		if ( action.startsWith( "chateau_painting" ) )
+		{
+			// Clicking painting redirects to a fight, unless
+			// you've already fought today. Ignore that.
+			return true;
+		}
 		else if ( action.startsWith( "chateau_rest" ) ||
 			  // It will be nice when KoL fixes this misspelling
 			  action.startsWith( "cheateau_rest" ))
