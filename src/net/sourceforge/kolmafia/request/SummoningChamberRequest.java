@@ -141,15 +141,29 @@ public class SummoningChamberRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		// place.php?whichplace=manor4&action=manor4_chamber
-		if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=manor4" ) && urlString.contains( "action=manor4_chamber" ) )
+		if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=manor4" ) )
 		{
-			String message = "[" + KoLAdventure.getAdventureCount() + "] Summoning Chamber";
+			String action = GenericRequest.getAction( urlString );
+			if ( action == null )
+			{
+				return true;
+			}
 
-			RequestLogger.printLine( "" );
-			RequestLogger.printLine( message );
+			String message = null;
 
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( message );
+			if ( action.equals( "manor4_chamberwall" ) || action.equals( "manor4_chamberwalllabel" ) )
+			{
+				message = "Inspecting Suspicious Masonry";
+			}
+
+			if ( message != null )
+			{
+				RequestLogger.printLine( "" );
+				RequestLogger.printLine( message );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
 
 			return true;
 		}
@@ -174,6 +188,7 @@ public class SummoningChamberRequest
 			return true;
 		}
 
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "summon " + demon );
 
 		return true;

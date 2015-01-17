@@ -140,10 +140,6 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", adventureId );
 		}
-		else if ( formSource.equals( "manor3.php" ) )
-		{
-			this.addFormField( "place", "chamber" );
-		}
 		else if ( formSource.equals( "mining.php" ) )
 		{
 			this.addFormField( "mine", adventureId );
@@ -167,17 +163,10 @@ public class AdventureRequest
 				}
 				this.addFormField( "action", action.toString() );
 			}
-			else if ( this.adventureId.startsWith( "manor4_chamber" ) )
+			else if ( this.adventureId.equals( "manor4_chamberboss" ) )
 			{
 				this.addFormField( "whichplace", "manor4" );
-				if ( !QuestDatabase.isQuestFinished( Quest.MANOR ) )
-				{
-					this.addFormField( "action", "manor4_chamberboss" );
-				}
-				else
-				{
-					this.addFormField( "action", "manor4_chamber" );
-				}
+				this.addFormField( "action", adventureId );
 			}
 			else if ( this.adventureId.startsWith( "ns_" ) )
 			{
@@ -414,7 +403,7 @@ public class AdventureRequest
 		else if ( urlString.startsWith( "choice.php" ) )
 		{
 			int choice = ChoiceManager.extractChoice( responseText );
-			encounter = parseChoiceEncounter( urlString, choice, responseText );
+			encounter = AdventureRequest.parseChoiceEncounter( urlString, choice, responseText );
 			type = choiceType( choice );
 			ChoiceManager.registerDeferredChoice( choice, encounter );
 		}
@@ -713,7 +702,7 @@ public class AdventureRequest
 		// No "encounter" when moving on the chessboard
 		if ( choice == 443 && urlString.contains( "xy" ) )
 		{
-		return null;
+			return null;
 		}
 
 		// No "encounter" for certain arcade games
@@ -729,15 +718,15 @@ public class AdventureRequest
 
 		switch ( choice )
 		{
-		case 535: // Deep Inside Ronald, Baby
-		case 536: // Deep Inside Grimace, Bow Chick-a Bow Bow	
-		case 585: // Screwing Around!
-		case 595: // Fire! I... have made... fire!
-		case 807: // Breaker Breaker!
+		case 535:	// Deep Inside Ronald, Baby
+		case 536:	// Deep Inside Grimace, Bow Chick-a Bow Bow	
+		case 585:	// Screwing Around!
+		case 595:	// Fire! I... have made... fire!
+		case 807:	// Breaker Breaker!
 			return null;
 		}
 
-		return parseEncounter( responseText );
+		return AdventureRequest.parseEncounter( responseText );
 	}
 
 	private static final String choiceType( final int choice )

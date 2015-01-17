@@ -132,6 +132,7 @@ public class FriarRequest
 			return true;
 		}
 
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "friars blessing " + matcher.group( 1 ) );
 		return true;
 	}
