@@ -388,38 +388,75 @@ public class IslandRequest
 			{
 				return CoinMasterRequest.registerRequest( data, urlString );
 			}
-			return false;
 		}
 
 		String action = GenericRequest.getAction( urlString );
+		String message = null;
 
 		if ( action == null )
 		{
-			return false;
-		}
+			String place = GenericRequest.getPlace( urlString );
 
-		String message = null;
+			// place=concert
+			// place=junkyard
+			// place=orchard
+			// place=farm
+			// place=nunnery
+			// place=lighthouse
+
+			// Most of these are containers and simply visiting the
+			// place does nothing; you can either adventure in a
+			// location or visit an NPC with action=xxx
+
+			// Visiting the arena before you have started the quest
+			// grants you advertising flyers
+			if ( place.equals( "concert" ) )
+			{
+				message = "Visiting the Mysterious Island Arena";
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
+			return true;
+		}
 
 		if ( action.equals( "concert" ) )
 		{
 			Matcher matcher = OPTION_PATTERN.matcher( urlString );
 			if ( !matcher.find() )
 			{
-				return false;
+				return true;
 			}
 			message = "concert " + matcher.group( 1 );
+		}
+		else if ( action.equals( "junkman" ) )
+		{
+			message = "Visiting Yossarian";
+		}
+		else if ( action.equals( "stand" ) )
+		{
+			message = "Visiting The Organic Produce Stand";
+		}
+		else if ( action.equals( "farmer" ) )
+		{
+			message = "Visiting Farmer McMillicancuddy";
+		}
+		else if ( action.equals( "nuns" ) )
+		{
+			message = "Visiting Our Lady of Perpetual Indecision ";
 		}
 		else if ( action.equals( "pyro" ) )
 		{
 			int count = IslandRequest.GUNPOWDER.getCount( KoLConstants.inventory );
 			message = "Visiting the lighthouse keeper with " + count + " barrel" + ( count == 1 ? "" : "s" ) + " of gunpowder.";
-			RequestLogger.printLine( message );
 		}
-		else
+
+		if ( message == null )
 		{
+			// Log URL of unknown actions
 			return false;
 		}
 
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
 
 		return true;
