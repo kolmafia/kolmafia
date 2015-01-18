@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -671,8 +672,7 @@ public class BreakfastManager
 	{
 		if ( KoLCharacter.desertBeachAccessible() && KoLCharacter.getCurrentDays() >= Preferences.getInteger( "lastAnticheeseDay" ) + 5 )
 		{
-			GenericRequest request = new GenericRequest( "place.php?whichplace=desertbeach&action=db_nukehouse" );
-			RequestThread.postRequest( request );
+			RequestThread.postRequest( new PlaceRequest( "desertbeach", "db_nukehouse" ) );
 		}
 	}
 }

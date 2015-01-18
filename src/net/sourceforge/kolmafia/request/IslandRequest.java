@@ -392,6 +392,7 @@ public class IslandRequest
 
 		String action = GenericRequest.getAction( urlString );
 		String message = null;
+		boolean gcli = false;
 
 		if ( action == null )
 		{
@@ -435,10 +436,12 @@ public class IslandRequest
 		else if ( action.equals( "stand" ) )
 		{
 			message = "Visiting The Organic Produce Stand";
+			gcli = true;	// Part of Breakfast
 		}
 		else if ( action.equals( "farmer" ) )
 		{
 			message = "Visiting Farmer McMillicancuddy";
+			gcli = true;	// Part of Breakfast
 		}
 		else if ( action.equals( "nuns" ) )
 		{
@@ -448,12 +451,18 @@ public class IslandRequest
 		{
 			int count = IslandRequest.GUNPOWDER.getCount( KoLConstants.inventory );
 			message = "Visiting the lighthouse keeper with " + count + " barrel" + ( count == 1 ? "" : "s" ) + " of gunpowder.";
+			gcli = true;	// Part of Breakfast
 		}
 
 		if ( message == null )
 		{
 			// Log URL of unknown actions
 			return false;
+		}
+
+		if ( gcli )
+		{
+			RequestLogger.printLine( message );
 		}
 
 		RequestLogger.updateSessionLog();

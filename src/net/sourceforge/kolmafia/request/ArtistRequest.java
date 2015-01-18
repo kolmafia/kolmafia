@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class ArtistRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
 	public static final AdventureResult WHISKER = ItemPool.get( ItemPool.RAT_WHISKER, 1 );
 
@@ -56,19 +56,11 @@ public class ArtistRequest
 
 	public ArtistRequest( boolean whiskers )
 	{
-		super( "place.php" );
-		this.addFormField( "whichplace", "town_wrong" );
-		this.addFormField( "action", "townwrong_artist_quest" );
+		super( "town_wrong", "townwrong_artist_quest" );
 		if ( whiskers )
 		{
 			this.addFormField( "subaction", "whisker" );
 		}
-	}
-
-	@Override
-	public void processResults()
-	{
-		ArtistRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final void parseResponse( final String location, final String responseText )

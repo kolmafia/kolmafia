@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class RabbitHoleRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
 	public RabbitHoleRequest()
 	{
@@ -47,25 +47,11 @@ public class RabbitHoleRequest
 
 	public RabbitHoleRequest( final String action )
 	{
-		super( "rabbithole" );
-		this.addFormField( "action", action );
-	}
-
-	@Override
-	public void run()
-	{
-		super.run();
-
-		RabbitHoleRequest.parseResponse( this.getURLString(), this.responseText );
+		super( "rabbithole", action );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=rabbithole" ) )
-		{
-			return;
-		}
-
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{

@@ -66,9 +66,9 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UntinkerRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
-	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "place.php?whichplace=forestvillage&action=fv_untinker" );
+	private static final GenericRequest AVAILABLE_CHECKER = new UntinkerRequest();
 
 	private static boolean canUntinker;
 	private static int lastUserId = -1;
@@ -85,6 +85,12 @@ public class UntinkerRequest
 		UntinkerRequest.lastUserId = -1;
 	}
 
+	public UntinkerRequest()
+	{
+		super( "forestvillage", "fv_untinker" );
+		this.itemId = -1;
+	}
+	
 	public UntinkerRequest( final int itemId )
 	{
 		this( itemId, Integer.MAX_VALUE );
@@ -92,10 +98,7 @@ public class UntinkerRequest
 
 	public UntinkerRequest( final int itemId, final int itemCount )
 	{
-		super( "place.php" );
-
-		this.addFormField( "whichplace", "forestvillage" );
-		this.addFormField( "action", "fv_untinker" );
+		super( "forestvillage", "fv_untinker" );
 		this.addFormField( "preaction", "untinker" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
@@ -185,23 +188,16 @@ public class UntinkerRequest
 		KoLmafia.updateDisplay( "Successfully untinkered " + this.item );
 	}
 
-	@Override
-	public void processResults()
-	{
-		UntinkerRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
 	public static final void parseResponse( final String location, final String responseText )
 	{
-		// If not forest village, or action not untinker or screwquest
-		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "screwquest" ) ) )
+		if ( !location.contains( "fv_untinker" ) && !location.contains( "screwquest" ) )
 		{
 			return;
 		}
 
 		// "Thanks! I'll tell ya, I'm just lost without my screwdriver. Here, lemme mark the Knoll on your map."
-		if ( responseText.contains( "I'm just lost without my screwdriver" )
-		     || responseText.contains( "I'll go find your screwdriver for you" ) // Zombie Slayer
+		if ( responseText.contains( "I'm just lost without my screwdriver" ) ||
+		     responseText.contains( "I'll go find your screwdriver for you" ) // Zombie Slayer
 		   )
 		{
 			QuestDatabase.setQuestProgress( Quest.UNTINKER, QuestDatabase.STARTED );
@@ -262,8 +258,8 @@ public class UntinkerRequest
 		// paste, but you don't have anything like that..."
 
 		UntinkerRequest.canUntinker =
-			UntinkerRequest.AVAILABLE_CHECKER.responseText.contains( "you don't have anything like that" ) 
-				|| UntinkerRequest.AVAILABLE_CHECKER.responseText.contains( "<select name=whichitem>" );
+			UntinkerRequest.AVAILABLE_CHECKER.responseText.contains( "you don't have anything like that" ) ||
+			UntinkerRequest.AVAILABLE_CHECKER.responseText.contains( "<select name=whichitem>" );
 
 		return UntinkerRequest.canUntinker;
 	}
@@ -275,14 +271,10 @@ public class UntinkerRequest
 
 		if ( KoLCharacter.knollAvailable() )
 		{
-			GenericRequest tinkVisit = new GenericRequest( "place.php" );
-			tinkVisit.addFormField( "whichplace", "forestvillage" );
+			PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest" );
 			tinkVisit.addFormField( "preaction", "screwquest" );
-			tinkVisit.addFormField( "action", "fv_untinker_quest" );
 			tinkVisit.run();
-			GenericRequest knollVisit = new GenericRequest( "place.php" );
-			knollVisit.addFormField( "whichplace", "knoll_friendly" );
-			knollVisit.addFormField( "action", "dk_innabox" );
+			PlaceRequest knollVisit = new PlaceRequest( "knoll_friendly", "dk_innabox" );
 			knollVisit.run();
 
 			return true;
@@ -299,10 +291,8 @@ public class UntinkerRequest
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
 
-		GenericRequest tinkVisit = new GenericRequest( "place.php" );
-		tinkVisit.addFormField( "whichplace", "forestvillage" );
+		PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest" );
 		tinkVisit.addFormField( "preaction", "screwquest" );
-		tinkVisit.addFormField( "action", "fv_untinker_quest" );
 		tinkVisit.run();
 
 		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=354" );
@@ -380,7 +370,7 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !urlString.startsWith( "place.php?whichplace=forestvillage" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=forestvillage" ) )
 		{
 			return false;
 		}

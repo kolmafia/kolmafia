@@ -67,13 +67,18 @@ public class PlaceRequest
 		this.addFormField( "action", action );
 	}
 
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
 	@Override
 	public void processResults()
 	{
 		PlaceRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final void parseResponse( final String urlString, final String responseText )
+	public static void parseResponse( final String urlString, final String responseText )
 	{
 		String place = GenericRequest.getPlace( urlString );
 		if ( place == null )
@@ -145,7 +150,7 @@ public class PlaceRequest
 		}
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "place.php" ) )
 		{
@@ -165,6 +170,8 @@ public class PlaceRequest
 		}
 
 		String message = null;
+		boolean turns = false;
+		boolean compact = false;
 
 		if ( place.equals( "airport_spooky" ) )
 		{
@@ -195,6 +202,7 @@ public class PlaceRequest
 			else if ( action.equals( "db_nukehouse" ) )
 			{
 				message = "Visiting the Ruined House";
+				compact = true;	// Part of Breakfast
 			}
 			else if ( action.equals( "db_pyramid1" ) )
 			{
@@ -255,6 +263,25 @@ public class PlaceRequest
 				message = "Talking to Lady Spookyraven";
 			}
 		}
+		else if ( place.equals( "manor4" ) )
+		{
+			if ( action.equals( "manor4_chamber" ) )
+			{
+				return true;
+			}
+			if ( action.equals( "manor4_chamberwall" ) ||
+			     action.equals( "manor4_chamberwalllabel" ) )
+			{
+				message = "Inspecting Suspicious Masonry";
+			}
+		}
+		else if ( place.equals( "mclargehuge" ) )
+		{
+			if ( action.equals( "trappercabin" ) )
+			{
+				message = "Visiting the Trapper";
+			}
+		}
 		else if ( place.equals( "mountains" ) )
 		{
 			if ( action.equals( "mts_melvin" ) )
@@ -295,8 +322,16 @@ public class PlaceRequest
 			{
 				if ( !InventoryManager.hasItem( ItemPool.CLANCY_LUTE ) )
 				{
-					message = "[" + KoLAdventure.getAdventureCount() + "] The Luter's Grave";
+					message = "The Luter's Grave";
+					turns = true;
 				}
+			}
+		}
+		else if ( place.equals( "town" ) )
+		{
+			if ( action.equals( "town_oddjobs" ) )
+			{
+				message = "Visiting the Odd Jobs Board";
 			}
 		}
 		else if ( place.equals( "town_wrong" ) )
@@ -328,7 +363,15 @@ public class PlaceRequest
 			return false;
 		}
 
-		RequestLogger.printLine();
+		if ( turns )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + message;
+		}
+
+		if ( !compact )
+		{
+			RequestLogger.printLine();
+		}
 		RequestLogger.printLine( message );
 
 		RequestLogger.updateSessionLog();

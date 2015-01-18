@@ -42,18 +42,16 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class KnollRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
 	public KnollRequest()
 	{
-		super( "place.php" );
-		this.addFormField( "whichplace", "knoll_friendly" );
+		super( "knoll_friendly" );
 	}
 
 	public KnollRequest( final String action)
 	{
-		this();
-		this.addFormField( "action", action );
+		super( "knoll_friendly", action );
 	}
 
 	public static String getNPCName( final String action )
@@ -81,19 +79,8 @@ public class KnollRequest
 		return null;
 	}
 
-	@Override
-	public void processResults()
-	{
-		KnollRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "knoll_friendly" ) )
-		{
-			return;
-		}
-
 		String action = GenericRequest.getAction( urlString );
 
 		if ( action == null )

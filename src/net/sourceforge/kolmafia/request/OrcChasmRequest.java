@@ -48,24 +48,13 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class OrcChasmRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=bridge([^>]*)" );
 
 	public OrcChasmRequest()
 	{
-		super( "place.php?whichplace=orc_chasm" );
-	}
-
-	@Override
-	public void processResults()
-	{
-		if ( !this.getURLString().startsWith( "place.php?whichplace=orc_chasm" ) )
-		{
-			return;
-		}
-
-		OrcChasmRequest.parseResponse( this.getURLString(), this.responseText );
+		super( "orc_chasm" );
 	}
 
 	public static final void parseResponse( final String location, final String responseText )
@@ -112,7 +101,6 @@ public class OrcChasmRequest
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastChasmReset", KoLCharacter.getAscensions() );
-			
 			Preferences.setInteger( "chasmBridgeProgress", 0 );
 		}
 	}

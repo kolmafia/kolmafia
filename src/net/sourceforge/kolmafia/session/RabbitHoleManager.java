@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -1685,7 +1686,7 @@ public abstract class RabbitHoleManager
 		}
 
 		RequestLogger.printLine( "Getting " + effectName + " (" + effectModifiers + ") from the Mad Tea Party..." );
-		RequestThread.postRequest( new GenericRequest( "place.php?whichplace=rabbithole&action=rabbithole_teaparty" ) );
+		RequestThread.postRequest( new PlaceRequest( "rabbithole", "rabbithole_teaparty" ) );
 		RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=441&option=1", true ) );
 
 		RequestThread.postRequest( new EquipmentRequest( oldHat, EquipmentManager.HAT ) );
