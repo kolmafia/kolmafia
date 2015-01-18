@@ -173,7 +173,22 @@ public class PlaceRequest
 		boolean turns = false;
 		boolean compact = false;
 
-		if ( place.equals( "airport_spooky" ) )
+		if ( place.equals( "airport_sleaze" ) )
+		{
+			if ( action.equals( "airport1_npc1" ) )
+			{
+				message = "Talking to Buff Jimmy";
+			}
+			else if ( action.equals( "airport1_npc2" ) )
+			{
+				message = "Talking to Taco Dan";
+			}
+			else if ( action.equals( "airport1_npc3" ) )
+			{
+				message = "Talking to Broden";
+			}
+		}
+		else if ( place.equals( "airport_spooky" ) )
 		{
 			if ( action.equals( "airport2_radio" ) )
 			{
@@ -191,6 +206,17 @@ public class PlaceRequest
 			if ( action.equals( "si_shop1locked" ) )
 			{
 				message = "Manipulating the Control Panel in the Conspiracy Island bunker";
+			}
+		}
+		else if ( place.equals( "canadia" ) )
+		{
+			if ( action.equals( "lc_mcd" ) )
+			{
+				message = "Visiting the Super-Secret Canadian Mind Control Device";
+			}
+			else if ( action.equals( "lc_marty" ) )
+			{
+				message = "Talking to Marty";
 			}
 		}
 		else if ( place.equals( "desertbeach" ) )
@@ -334,11 +360,26 @@ public class PlaceRequest
 				message = "Visiting the Odd Jobs Board";
 			}
 		}
-		else if ( place.equals( "town_wrong" ) )
+		else if ( place.equals( "town" ) )
 		{
-			if ( action.equals( "townwrong_artist_noquest" ) || action.equals( "townwrong_artist_quest" ) )
+			if ( action.equals( "town_oddjobs" ) )
 			{
-				message = "Visiting the Pretentious Artist";
+				message = "Visiting the Odd Jobs Board";
+			}
+		}
+		else if ( place.equals( "rabbithole" ) )
+		{
+			if ( action.equals( "rabbithole_teaparty" ) )
+			{
+				message = "Visiting the Mad Tea Party";
+			}
+		}
+		else if ( place.equals( "sea_oldman" ) )
+		{
+			// place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
+			if ( action.equals( "oldman_oldman" ) )
+			{
+				message = "Talking to the Old Man";
 			}
 		}
 		else if ( place.equals( "woods" ) )
@@ -359,8 +400,10 @@ public class PlaceRequest
 
 		if ( message == null )
 		{
-			// Let another class take responsibility if it wishes
-			return false;
+			// Other classes have already been given the
+			// opportunity to claim this request. Don't log the URL
+			// of simple visits, but do log unclaimed actions.
+			return action.equals( "" );
 		}
 
 		if ( turns )

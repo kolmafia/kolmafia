@@ -70,32 +70,4 @@ public class RabbitHoleRequest
 			}
 		}
 	}
-
-	public static boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=rabbithole" ) )
-		{
-			return false;
-		}
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			// Simple visit to the map
-			return true;
-		}
-
-		if ( !action.equals( "teaparty" ) )
-		{
-			// Unknown action.
-			return false;
-		}
-
-		String message = "Visiting the Mad Tea Party";
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( message );
-
-		return true;
-	}
 }
