@@ -36,12 +36,14 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
@@ -164,7 +166,27 @@ public class PlaceRequest
 
 		String message = null;
 
-		if ( place.equals( "desertbeach" ) )
+		if ( place.equals( "airport_spooky" ) )
+		{
+			if ( action.equals( "airport2_radio" ) )
+			{
+				message = "Using the radio on Conspiracy Island";
+			}
+		}
+		else if ( place.equals( "airport_spooky_bunker" ) )
+		{
+			if ( action.equals( "si_shop1locked" ) ||
+			     action.equals( "si_shop2locked" ) ||
+			     action.equals( "si_shop3locked" ))
+			{
+				return true;
+			}
+			if ( action.equals( "si_shop1locked" ) )
+			{
+				message = "Manipulating the Control Panel in the Conspiracy Island bunker";
+			}
+		}
+		else if ( place.equals( "desertbeach" ) )
 		{
 			if ( action.equals( "db_gnasir" ) )
 			{
@@ -181,6 +203,11 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "forestvillage" ) )
 		{
+			if ( action.equals( "fv_friar" ) )
+			{
+				// Don't log this
+				return true;
+			}
 			if ( action.equals( "fv_mystic" ) )
 			{
 				message = "Talking to the Crackpot Mystic";
@@ -195,7 +222,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "manor1" ) )
 		{
-			if ( action.equals( "manor1lock_kitchen" ) ||
+			if ( action.equals( "manor1lock_billiards" ) ||
 			     action.equals( "manor1lock_library" ) ||
 			     action.equals( "manor1lock_stairsup" ) )
 			{
@@ -209,6 +236,9 @@ public class PlaceRequest
 		else if ( place.equals( "manor2" ) )
 		{
 			if ( action.equals( "manor2lock_ballroom" ) ||
+			     action.equals( "manor2lock_bathroom" ) ||
+			     action.equals( "manor2lock_bedroom" ) ||
+			     action.equals( "manor2lock_gallery" ) ||
 			     action.equals( "manor2lock_stairsup" ) )
 			{
 				return true;
@@ -223,6 +253,13 @@ public class PlaceRequest
 			if ( action.equals( "manor3_ladys" ) )
 			{
 				message = "Talking to Lady Spookyraven";
+			}
+		}
+		else if ( place.equals( "mountains" ) )
+		{
+			if ( action.equals( "mts_melvin" ) )
+			{
+				message = "Talking to Melvign the Gnome";
 			}
 		}
 		else if ( place.equals( "orc_chasm" ) )
@@ -244,11 +281,44 @@ public class PlaceRequest
 				message = "Visiting Mr. Alarm's's office";
 			}
 		}
+		else if ( place.equals( "plains" ) )
+		{
+			if ( action.equals( "rift_scorch" ) )
+			{
+				return true;
+			}
+			if ( action.equals( "garbage_grounds" ) )
+			{
+				message = "Inspecting the Giant Pile of Coffee Grounds";
+			}
+			else if ( action.equals( "lutersgrave" ) )
+			{
+				if ( !InventoryManager.hasItem( ItemPool.CLANCY_LUTE ) )
+				{
+					message = "[" + KoLAdventure.getAdventureCount() + "] The Luter's Grave";
+				}
+			}
+		}
 		else if ( place.equals( "town_wrong" ) )
 		{
 			if ( action.equals( "townwrong_artist_noquest" ) || action.equals( "townwrong_artist_quest" ) )
 			{
 				message = "Visiting the Pretentious Artist";
+			}
+		}
+		else if ( place.equals( "woods" ) )
+		{
+			if ( action.equals( "woods_smokesignals" ) )
+			{
+				message = "Investigating the Smoke Signals";
+			}
+			if ( action.equals( "woods_hippy" ) )
+			{
+				message = "Talking to that Hippy";
+			}
+			if ( action.equals( "woods_dakota_anim" ) || action.equals( "woods_dakota" ) )
+			{
+				message = "Talking to Dakota Fanning";
 			}
 		}
 
