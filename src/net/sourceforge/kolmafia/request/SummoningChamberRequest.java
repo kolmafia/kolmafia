@@ -75,7 +75,7 @@ public class SummoningChamberRequest
 		KoLmafia.updateDisplay( "Summoning " + this.demon + "..." );
 
 		// Go to the Summoning Chamber
-		RequestThread.postRequest( new GenericRequest( "place.php?whichplace=manor4&action=manor4_chamber" ) );
+		RequestThread.postRequest( new PlaceRequest( "manor4", "manor4_chamber" ) );
 
 		// Submit the choice adventure
 		super.run();
@@ -140,35 +140,9 @@ public class SummoningChamberRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		// place.php?whichplace=manor4&action=manor4_chamber
-		if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=manor4" ) )
-		{
-			String action = GenericRequest.getAction( urlString );
-			if ( action == null )
-			{
-				return true;
-			}
-
-			String message = null;
-
-			if ( action.equals( "manor4_chamberwall" ) || action.equals( "manor4_chamberwalllabel" ) )
-			{
-				message = "Inspecting Suspicious Masonry";
-			}
-
-			if ( message != null )
-			{
-				RequestLogger.printLine( "" );
-				RequestLogger.printLine( message );
-
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( message );
-			}
-
-			return true;
-		}
-
-		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=922" ) || !urlString.contains( "option=1" ) )
+		if ( !urlString.startsWith( "choice.php" ) ||
+		     !urlString.contains( "whichchoice=922" ) ||
+		     !urlString.contains( "option=1" ) )
 		{
 			return false;
 		}

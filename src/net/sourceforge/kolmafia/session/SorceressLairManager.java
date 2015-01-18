@@ -500,9 +500,9 @@ public abstract class SorceressLairManager
 			if ( action != null )
 			{
 				message =
-					action.equals( "ns_01_contestbooth" ) ? prefix + "Tower: Contest Booth" :
-					action.equals( "ns_02_coronation" ) ? prefix + "Tower: Closing Ceremony" :
-					action.equals( "ns_11_prism" ) ? prefix + "Tower: Breaking the Prism" :
+					action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
+					action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
+					action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
 					null;
 
 				if ( message == null )

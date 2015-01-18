@@ -130,12 +130,6 @@ public class TrapperRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( urlString.startsWith( "place.php" ) && urlString.contains( "action=trappercabin" ) )
-		{
-			RequestLogger.updateSessionLog( "Visiting the Trapper" );
-			return true;
-		}
-
 		// shop.php?pwd&whichshop=trapper
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=trapper" ) )
 		{

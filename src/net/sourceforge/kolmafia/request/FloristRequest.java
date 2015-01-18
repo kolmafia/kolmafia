@@ -230,7 +230,7 @@ public class FloristRequest
 			return;
 		}
 
-		GenericRequest forestVisit = new GenericRequest( "place.php?whichplace=forestvillage&action=fv_friar" );
+		GenericRequest forestVisit = new PlaceRequest( "forestvillage", "fv_friar" );
 		RequestThread.postRequest( forestVisit );
 		if ( forestVisit.responseText != null && !forestVisit.responseText.contains( "The Florist Friar's Cottage" ) )
 		{

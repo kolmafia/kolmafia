@@ -46,7 +46,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager;
 
 public class ChateauRequest
-	extends GenericRequest
+	extends PlaceRequest
 {
 	private static final Pattern PAINTING_PATTERN = Pattern.compile( "Painting of a[n]? (.*?) \\(1\\)\" title" );
 
@@ -65,14 +65,12 @@ public class ChateauRequest
 
 	public ChateauRequest()
 	{
-		super( "place.php" );
-		this.addFormField( "whichplace", "chateau" );
+		super( "chateau" );
 	}
 
 	public ChateauRequest( final String action )
 	{
-		this();
-		this.addFormField( "action", action );
+		super( "chateau", action );
 	}
 
 	public static void reset()

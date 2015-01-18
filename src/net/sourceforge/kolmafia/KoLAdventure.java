@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -100,8 +101,6 @@ public class KoLAdventure
 		{ "Strange Cube", "The Pleasures of the Flesh" },
 		{ "Battlefield", "Infernal Thirst" },
 	};
-
-	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 	public static final AdventureResult PERFUME = EffectPool.get( Effect.PERFUME );
@@ -556,9 +555,8 @@ public class KoLAdventure
 			AdventureResult transfunctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
 			if ( !InventoryManager.hasItem( transfunctioner ) )
 			{
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=forestvillage&action=fv_mystic" ) );
-				GenericRequest pixelRequest = KoLAdventure.ZONE_UNLOCK.constructURLString( "choice.php?pwd=" + 
-					GenericRequest.passwordHash + "&whichchoice=664&option=1&choiceform1" );
+				RequestThread.postRequest( new PlaceRequest( "forestvillage", "fv_mystic" ) );
+				GenericRequest pixelRequest = new GenericRequest( "choice.php?whichchoice=664&option=1" );
 				// The early steps cannot be skipped
 				RequestThread.postRequest( pixelRequest );
 				RequestThread.postRequest( pixelRequest );
@@ -585,15 +583,16 @@ public class KoLAdventure
 
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
+
 			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.STARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
-				"place.php?whichplace=plains" ) );
-			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.contains( "palinlink.gif" ) ;
+			GenericRequest request = new PlaceRequest( "plains" );
+			RequestThread.postRequest( request );
+			this.isValidAdventure = request.responseText.contains( "palinlink.gif" ) ;
 			return;
 		}
 
@@ -617,8 +616,7 @@ public class KoLAdventure
 			if ( !unlocked )
 			{
 				// Visit the distant woods and take a look.
-
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
+				RequestThread.postRequest( new GenericRequest( "woods" ) );
 				unlocked = KoLCharacter.getTempleUnlocked();
 			}
 
@@ -807,10 +805,10 @@ public class KoLAdventure
 				return;
 			}
 
-			KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+			GenericRequest request = new PlaceRequest( "plains" );
+			RequestThread.postRequest( request );
 
-			if ( !KoLAdventure.ZONE_UNLOCK.responseText.contains( "place.php?whichplace=beanstalk" ) )
+			if ( !request.responseText.contains( "place.php?whichplace=beanstalk" ) )
 			{
 				// We see no beanstalk in the Nearby Plains.
 				// Acquire an enchanted bean and plant it.
@@ -827,8 +825,7 @@ public class KoLAdventure
 				}
 
 				// Use the enchanted bean by clicking on the coffee grounds.
-				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+				RequestThread.postRequest( new PlaceRequest( "plains", "garbage_grounds" ) );
 			}
 			this.isValidAdventure = true;
 
@@ -855,8 +852,8 @@ public class KoLAdventure
 			return;
 		}
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_BATHROOM_ID ) ||
-			this.adventureId.equals( AdventurePool.HAUNTED_BEDROOM_ID ) ||
-			this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
+		     this.adventureId.equals( AdventurePool.HAUNTED_BEDROOM_ID ) ||
+		     this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
 		{
 			// Haunted Bathroom, Bedroom & Gallery
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED );
@@ -869,8 +866,8 @@ public class KoLAdventure
 			return;
 		}
 		if ( this.adventureId.equals( AdventurePool.HAUNTED_LABORATORY_ID ) ||
-			this.adventureId.equals( AdventurePool.HAUNTED_NURSERY_ID ) ||
-			this.adventureId.equals( AdventurePool.HAUNTED_STORAGE_ROOM_ID ) )
+		     this.adventureId.equals( AdventurePool.HAUNTED_NURSERY_ID ) ||
+		     this.adventureId.equals( AdventurePool.HAUNTED_STORAGE_ROOM_ID ) )
 		{
 			// Haunted Lab, Nursery & Storage Room
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_DANCE, "step3" );
@@ -924,20 +921,16 @@ public class KoLAdventure
 			sonarToUse = Math.min( sonarToUse, sonar.getCount( KoLConstants.inventory ) );
 
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) )
-			{
-				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1;
-			}
-			else if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) )
-			{
-				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1;
-			}
-			else
-			{
-				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1;
-			}
+			GenericRequest request = new PlaceRequest( "bathole" );
+			RequestThread.postRequest( request );
+
+			this.isValidAdventure =
+				this.adventureId.equals( AdventurePool.BATRAT_ID ) ?
+				request.responseText.contains( "batrockleft.gif" ) :
+				this.adventureId.equals( AdventurePool.BEANBAT_ID ) ?
+				request.responseText.contains( "batrockright.gif" ) :
+				request.responseText.contains( "batrockbottom.gif" );
 
 			return;
 		}
@@ -949,8 +942,10 @@ public class KoLAdventure
 				this.isValidAdventure = true;
 				return;
 			}
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
-			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.contains( "grove.gif" );
+
+			GenericRequest request = new GenericRequest( "woods.php" );
+			RequestThread.postRequest( request );
+			this.isValidAdventure = request.responseText.contains( "grove.gif" );
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -999,7 +994,7 @@ public class KoLAdventure
 			}
 
 			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge&action=trappercabin" ) );
+			RequestThread.postRequest( new PlaceRequest( "mclargehuge", "trappercabin" ) );
 
 			this.validate( true );
 			return;
@@ -1017,15 +1012,14 @@ public class KoLAdventure
 		}
 
 		if ( this.adventureId.equals( AdventurePool.FUN_GUY_MANSION_ID ) ||
-			this.adventureId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
-			this.adventureId.equals( AdventurePool.YACHT_ID ) )
+		     this.adventureId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+		     this.adventureId.equals( AdventurePool.YACHT_ID ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "sleazeAirportAlways" ) || Preferences.getBoolean( "_sleazeAirportToday" );
 			if ( !unlocked )
 			{
 				// Visit the airport and take a look.
-
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=airport" ) );
+				RequestThread.postRequest( new PlaceRequest( "airport" ) );
 				unlocked = Preferences.getBoolean( "sleazeAirportAlways" ) || Preferences.getBoolean( "_sleazeAirportToday" );
 			}
 
@@ -1034,15 +1028,15 @@ public class KoLAdventure
 		}
 
 		if ( this.adventureId.equals( AdventurePool.DR_WEIRDEAUX_ID ) ||
-			this.adventureId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
-			this.adventureId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
+		     this.adventureId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+		     this.adventureId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "spookyAirportAlways" ) || Preferences.getBoolean( "_spookyAirportToday" );
 			if ( !unlocked )
 			{
 				// Visit the airport and take a look.
 
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=airport" ) );
+				RequestThread.postRequest( new PlaceRequest( "airport" ) );
 				unlocked = Preferences.getBoolean( "spookyAirportAlways" ) || Preferences.getBoolean( "_spookyAirportToday" );
 			}
 

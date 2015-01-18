@@ -291,7 +291,7 @@ public class ClanRumpusRequest
 			if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 			{
 				// First load the choice adventure page
-				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=knoll_friendly&action=dk_gym" ) );
+				RequestThread.postRequest( new PlaceRequest( "knoll_friendly", "dk_gym" ) );
 				this.constructURLString( "choice.php" );
 				this.addFormField( "whichchoice", "792" );
 				this.addFormField( "option", "1" );
@@ -310,7 +310,7 @@ public class ClanRumpusRequest
 			if ( KoLCharacter.canadiaAvailable() )
 			{
 				// First load the choice adventure page
-				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=canadia&action=lc_institute" ) );
+				RequestThread.postRequest( new PlaceRequest( "canadia", "lc_institute" ) );
 				this.constructURLString( "choice.php" );
 				this.addFormField( "whichchoice", "770" );
 				this.addFormField( "option", "1" );
@@ -567,33 +567,42 @@ public class ClanRumpusRequest
 	{
 		String action = null;
 
-		if ( urlString.startsWith( "place.php" ) && urlString.indexOf( "action=dk_gym" ) != -1 )
+		if ( urlString.startsWith( "clan_rumpus.php" ) )
 		{
-			action = "Pump Up Muscle";
+			if ( urlString.contains( "whichgym=3" ) )
+			{
+				action = "Pump Up Muscle";
+			}
+			else if ( urlString.contains( "whichgym=1" ) )
+			{
+				action = "Pump Up Mysticality";
+			}
+			else if ( urlString.contains( "whichgym=2" ) )
+			{
+				action = "Pump Up Moxie";
+			}
+			else if ( urlString.contains( "preaction=nap" ) )
+			{
+				action = "Rest in Clan Sofa";
+			}
 		}
-		else if ( urlString.startsWith( "canadia.php" ) && urlString.indexOf( "action=institute" ) != -1 )
+		else if ( urlString.startsWith( "place.php" ) )
 		{
-			action = "Pump Up Mysticality";
+			if ( urlString.contains( "action=dk_gym" ) )
+			{
+				action = "Pump Up Muscle";
+			}
+			else if ( urlString.contains( "action=institute" ) )
+			{
+				action = "Pump Up Mysticality";
+			}
 		}
-		else if ( urlString.startsWith( "gnomes.php" ) && urlString.indexOf( "action=train" ) != -1 )
+		else if ( urlString.startsWith( "gnomes.php" ) )
 		{
-			action = "Pump Up Moxie";
-		}
-		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=3" ) != -1 )
-		{
-			action = "Pump Up Muscle";
-		}
-		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=1" ) != -1 )
-		{
-			action = "Pump Up Mysticality";
-		}
-		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "whichgym=2" ) != -1 )
-		{
-			action = "Pump Up Moxie";
-		}
-		else if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "preaction=nap" ) != -1 )
-		{
-			action = "Rest in Clan Sofa";
+			if ( urlString.contains( "action=train" ) )
+			{
+				action = "Pump Up Moxie";
+			}
 		}
 
 		if ( action != null )

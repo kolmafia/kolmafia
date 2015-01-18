@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.BugbearManager;
@@ -1999,7 +2000,7 @@ public class ResultProcessor
 			if ( Preferences.getInteger( "lastArcadeAscension" ) < KoLCharacter.getAscensions() )
 			{
 				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
-				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
+				RequestThread.postRequest( new PlaceRequest( "town_wrong" ) );
 			}
 			break;
 
@@ -2331,13 +2332,18 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.PROFESSOR_WHAT_TSHIRT:
-			if ( RequestLogger.getLastURLString().equals( "place.php?whichplace=mountains&action=mts_melvin" ) )
+		{
+			String lastURL = RequestLogger.getLastURLString();
+			if ( lastURL.startsWith( "place.php" ) &&
+			     lastURL.contains( "whichplace=mountains" ) &&
+			     lastURL.contains( "action=mts_melvin" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SHIRT, QuestDatabase.FINISHED );
 				ResultProcessor.removeItem( ItemPool.PROFESSOR_WHAT_GARMENT );
 				ResponseTextParser.learnSkill( "Torso Awaregness" );
 			}
 			break;
+		}
 
 		case ItemPool.ANTICHEESE:
 			if ( RequestLogger.getLastURLString().contains( "db_nukehouse ") )

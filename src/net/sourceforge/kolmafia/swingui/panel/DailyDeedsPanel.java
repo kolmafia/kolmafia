@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -3814,7 +3815,7 @@ public class DailyDeedsPanel
 			if ( !unlocked && unlockable )
 			{
 				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
-				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
+				RequestThread.postRequest( new PlaceRequest( "town_wrong" ) );
 				unlocked = true;
 			}
 
