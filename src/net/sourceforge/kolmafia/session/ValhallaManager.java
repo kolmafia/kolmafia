@@ -412,6 +412,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Picky" );
 		}
+		else if ( KoLCharacter.getRestricted() )
+		{
+			sessionStream.print( "Standard" );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
@@ -429,10 +433,7 @@ public class ValhallaManager
 			sessionStream.print( "Oxygenarian " );
 		}
 
-		if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
-		{
-			sessionStream.println( KoLCharacter.getClassType() );
-		}
+		sessionStream.println( KoLCharacter.getClassType() );
 
 		sessionStream.println( KoLCharacter.getSign() );
 		sessionStream.println();
