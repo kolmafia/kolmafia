@@ -3109,7 +3109,7 @@ public class DailyDeedsPanel
 			}
 
 			FamiliarData spelunker = KoLCharacter.findFamiliar( FamiliarPool.ADVENTUROUS_SPELUNKER );
-			int spelunkerDrops = Preferences.getInteger( "_spelunkerDrops" );
+			int spelunkerDrops = Preferences.getInteger( "_spelunkingTalesDrops" );
 			if ( ( spelunker != null && spelunker.canEquip() ) || spelunkerDrops > 0 )
 			{
 				if ( count >= 5 )
