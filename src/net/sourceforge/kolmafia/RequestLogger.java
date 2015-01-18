@@ -133,7 +133,6 @@ import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
-import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -574,6 +573,15 @@ public class RequestLogger
 	{
 		RequestLogger.lastURLString = urlString;
 
+		if ( urlString.startsWith( "login" ) ||
+		     urlString.startsWith( "logout" ) ||
+		     urlString.startsWith( "account" ) ||
+		     urlString.startsWith( "api" ) ||
+		     urlString.startsWith( "charpane" ) )
+		{
+			return;
+		}
+
 		// There are some adventures which do not post any
 		// form fields, so handle them first.
 
@@ -694,15 +702,6 @@ public class RequestLogger
 			return;
 		}
 
-		if ( urlString.startsWith( "login" ) ||
-		     urlString.startsWith( "logout" ) ||
-		     urlString.startsWith( "account" ) ||
-		     urlString.startsWith( "api" ) ||
-		     urlString.startsWith( "charpane" ) )
-		{
-			return;
-		}
-
 		// We want to register some visits to the Campground
 		if ( ( request instanceof CampgroundRequest || isExternal ) && CampgroundRequest.registerRequest( urlString ) )
 		{
@@ -737,8 +736,7 @@ public class RequestLogger
 		     urlString.startsWith( "inventory.php?which=" ) ||
 		     urlString.startsWith( "inventory.php?action=message" ) ||
 		     urlString.startsWith( "lair" ) ||
-		     urlString.startsWith( "mining" ) ||
-		     urlString.equals( "forestvillage.php?place=untinker" ) )
+		     urlString.startsWith( "mining" ) )
 		{
 			return;
 		}
@@ -1218,31 +1216,13 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
 		if ( ( request instanceof PulverizeRequest || isExternal ) && PulverizeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ( request instanceof PurchaseRequest || isExternal ) && PurchaseRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
 		if ( ( request instanceof QuartersmasterRequest || isExternal ) && QuartersmasterRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof RabbitHoleRequest || isExternal ) && RabbitHoleRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1434,9 +1414,21 @@ public class RequestLogger
 			return;
 		}
 
-		// place.php is now a thing. Don't bother registering simple visits to places.
-		if ( urlString.startsWith( "place.php" ) && !urlString.contains( "action=" ) )
+		// Do PurchaseRequest after all Coinmaster shops so they can
+		// register simple visits, if they so choose.
+
+		if ( ( request instanceof PurchaseRequest || isExternal ) && PurchaseRequest.registerRequest( urlString ) )
 		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Finally let the "placeholder" for place.php take every
+		// otherwise unclaimed call to that URL
+
+		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
