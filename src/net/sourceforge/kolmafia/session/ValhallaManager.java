@@ -218,15 +218,23 @@ public class ValhallaManager
 			ChatManager.setChatLiteracy( chatLiterate );
 		}
 
-		Preferences.increment( "knownAscensions", 1 );
-		Preferences.setInteger( "lastBreakfast", -1 );
-		KoLCharacter.setCurrentRun( 0 );
+		try
+		{
+			PreferenceListenerRegistry.deferPreferenceListeners( true );
+			Preferences.increment( "knownAscensions", 1 );
+			Preferences.setInteger( "lastBreakfast", -1 );
+			KoLCharacter.setCurrentRun( 0 );
 
-		KoLmafia.resetCounters();
-		ValhallaManager.resetPerAscensionCounters();
+			KoLmafia.resetCounters();
+			ValhallaManager.resetPerAscensionCounters();
 
-		UntinkerRequest.reset();
-		KoLCharacter.setGuildStoreOpen( false );
+			UntinkerRequest.reset();
+			KoLCharacter.setGuildStoreOpen( false );
+		}
+		finally
+		{
+			PreferenceListenerRegistry.deferPreferenceListeners( false );
+		}
 
 		KoLmafia.resetSession();
 	}

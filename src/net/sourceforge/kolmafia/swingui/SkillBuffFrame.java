@@ -308,9 +308,11 @@ public class SkillBuffFrame
 		
 		private void setSkillListeners()
 		{
+			PreferenceListenerRegistry.registerPreferenceListener( "tomeSummons", this );
 			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
 			{
-				PreferenceListenerRegistry.registerPreferenceListener( DAILY_LIMITED_SKILLS[ i ][ 1 ], this );
+				String setting = DAILY_LIMITED_SKILLS[ i ][ 1 ];
+				PreferenceListenerRegistry.registerPreferenceListener( setting, this );
 			}
 		}
 		
@@ -318,32 +320,35 @@ public class SkillBuffFrame
 		{
 			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
 			{
+				String skill = DAILY_LIMITED_SKILLS[ i ][ 0 ];
+				String setting = DAILY_LIMITED_SKILLS[ i ][ 1 ];
+				String type = DAILY_LIMITED_SKILLS[ i ][ 2 ];
+				String value = DAILY_LIMITED_SKILLS[ i ][ 3 ];
+
 				boolean skillDisable = false;
 				
-				// Handle Boolean Preferences
-				if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "boolean" ) )
+				if ( type.equals( "boolean" ) )
 				{
-					skillDisable = Preferences.getBoolean( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == Boolean.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
+					skillDisable = Preferences.getBoolean( setting ) == Boolean.valueOf( value );
 				}
-				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "integer" ) )
+				else if ( type.equals( "integer" ) )
 				{
-					skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= Integer.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
+					skillDisable = Preferences.getInteger( setting ) >= Integer.valueOf( value );
 				}
-				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "variable" ) )
+				else if ( type.equals( "variable" ) )
 				{
-					if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "tomesummons" ) )
+					if ( value.equals( "tomesummons" ) )
 					{
-						int maxCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ), 0 ) :
-							Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+						int used = Preferences.getInteger( KoLCharacter.canInteract() ? setting : "tomeSummons" );
+						int maxCast =  Math.max( 3 - used, 0 );
 						skillDisable = maxCast == 0;
 					}
 				}
 				
 				for ( int j = 0 ; j < SkillBuffFrame.this.skillSelect.getItemCount() ; j++ )
 				{
-					if ( SkillBuffFrame.this.skillSelect.getItemAt( j ).toString().contains( DAILY_LIMITED_SKILLS[ i ][ 0 ] ) )
+					if ( SkillBuffFrame.this.skillSelect.getItemAt( j ).toString().contains( skill ) )
 					{
-						
 						SkillBuffFrame.this.skillSelect.setDisabledIndex( j, skillDisable );
 						if ( skillDisable && j == SkillBuffFrame.this.skillSelect.getSelectedIndex() )
 						{
