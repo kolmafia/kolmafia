@@ -422,6 +422,21 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "decorate" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test decorate URL" );
+				return;
+			}
+			String urlString = split[ 1 ].trim();
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			RequestEditorKit.getFeatureRichHTML( urlString, buffer, true );
+			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
 		if ( command.equals( "charpane" ) )
 		{
 			CharPaneRequest.processResults( TestCommand.contents );
