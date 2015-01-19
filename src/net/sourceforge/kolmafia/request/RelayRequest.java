@@ -2472,7 +2472,7 @@ public class RelayRequest
 				{
 					String location = matcher.group( 4 );
 
-					if ( location.startsWith( "http" ) )
+					if ( location.startsWith( "http" ) || location.startsWith( "javascript" ) )
 					{
 						matcher.appendReplacement( buffer, "$0" );
 					}
