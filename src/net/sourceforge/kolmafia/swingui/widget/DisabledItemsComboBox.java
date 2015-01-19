@@ -142,6 +142,15 @@ public class DisabledItemsComboBox
 		this.tooltips = tooltips;
 	}
 
+	public void dumpDisabledItems()
+	{
+		for ( Object item: disabledItems )
+		{
+			System.out.println( item );
+		}
+		System.out.println( "-------" );
+	}
+
 	// Custom renderer to disable individual items within a combo box
 	// with individual item tooltips
 	// AFAIK nothing else in mafia implements individually disabled list elements.

@@ -125,6 +125,14 @@ public class SkillBuffFrame
 		this.targetSelect.setSelectedItem( recipient );
 	}
 
+	public void dumpDisabledSkills()
+	{
+		if ( this.skillSelect != null )
+		{
+			this.skillSelect.dumpDisabledItems();
+		}
+	}
+
 	private class SkillReselector
 		implements ListSelectionListener
 	{
