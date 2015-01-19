@@ -169,6 +169,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -999,8 +1000,14 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "throw_items", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "run_turn", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "stun_skill", DataTypes.SKILL_TYPE, params ) );
@@ -4659,6 +4666,32 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=useitem&whichitem=" + (int) item1.intValue() + "&whichitem2=" + (int) item2.intValue() );
 	}
 
+	public static Value run_choice( Interpreter interpreter, final Value decision )
+	{
+		int option = (int) decision.intValue();
+		String response = null;
+		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null ||
+		     option == 0 )
+		{
+			// If you are not in a choice, or you send 0, just return the last response
+			response = ChoiceManager.lastResponseText;
+		}
+		else if ( option == -1 )
+		{
+			// Try to automate using existing settings
+			response = ChoiceManager.gotoGoal();
+		}
+		else if ( option > 0 )
+		{
+			String message = "Submitting option " + option + " for choice " + ChoiceManager.getLastChoice();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			// Submit the option chosen
+			response = ChoiceManager.processChoiceAdventure( option, false );
+		}
+		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+	}
+
 	public static Value run_combat( Interpreter interpreter )
 	{
 		RelayRequest relayRequest = interpreter.getRelayRequest();
@@ -4671,6 +4704,19 @@ public abstract class RuntimeLibrary
 			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+	}
+
+	public static Value run_turn( Interpreter interpreter )
+	{
+		if ( FightRequest.currentRound > 0 || FightRequest.inMultiFight )
+		{
+			return RuntimeLibrary.run_combat( interpreter );
+		}
+		else if ( ChoiceManager.handlingChoice && ChoiceManager.lastResponseText != null )
+		{
+			return RuntimeLibrary.run_choice( interpreter, new Value( -1 ) );
+		}
+		return new Value( DataTypes.BUFFER_TYPE, "" );
 	}
 
 	public static Value stun_skill( Interpreter interpreter )

@@ -48,8 +48,6 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
-
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -112,9 +110,9 @@ public class ChoiceCommand
 			String pref = "choiceAdventure" + ChoiceManager.currentChoice();
 			RequestLogger.printLine( pref + " => " + decision );
 			Preferences.setInteger( pref, decision );
-		}		
+		}
 
-		ChoiceManager.processChoiceAdventure( decision );
+		ChoiceManager.processChoiceAdventure( decision, true );
 	}
 
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
@@ -150,7 +148,7 @@ public class ChoiceCommand
 					text = text + " (" + option.toString() + ")";
 				}
 			}
-			rv.put( IntegerPool.get( decision ), text );
+			rv.put( key, text );
 		}
 
 		m = LINK_PATTERN.matcher( ChoiceManager.lastResponseText );
