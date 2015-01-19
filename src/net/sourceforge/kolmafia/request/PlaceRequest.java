@@ -307,6 +307,10 @@ public class PlaceRequest
 			{
 				message = "Visiting the Trapper";
 			}
+			else if ( action.equals( "cloudypeak" ) )
+			{
+				message = "Ascending the Mist-Shrouded Peak";
+			}
 		}
 		else if ( place.equals( "mountains" ) )
 		{
@@ -384,6 +388,11 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "woods" ) )
 		{
+			if ( action.equals( "woods_emptybm" ) )
+			{
+				// Visiting the Empty Black Market
+				return true;
+			}
 			if ( action.equals( "woods_smokesignals" ) )
 			{
 				message = "Investigating the Smoke Signals";

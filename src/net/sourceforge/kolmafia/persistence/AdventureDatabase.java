@@ -222,6 +222,28 @@ public class AdventureDatabase
 				}
 			}
 
+			String name = new String( data[ 3 ] );
+
+			if ( environment == null )
+			{
+				RequestLogger.printLine( "Adventure area \"" + name + "\" is missing environment data" );
+			}
+
+			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
+			{
+				RequestLogger.printLine( "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"" );
+				continue;
+			}
+
+			AdventureDatabase.zoneLookup.put( name, zone );
+			AdventureDatabase.adventureTable[ 0 ].add( zone );
+			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
+			AdventureDatabase.adventureTable[ 2 ].add( new String( location[ 1 ] ) );
+			AdventureDatabase.adventureTable[ 3 ].add( name );
+			AdventureDatabase.environmentLookup.put( name, environment );
+
+			AdventureDatabase.statLookup.put( name, stat );
+
 			// Build base water level if not specified
 			if ( waterLevel == -1 )
 			{
@@ -246,28 +268,6 @@ public class AdventureDatabase
 					waterLevel = 0;
 				}
 			}
-
-			String name = new String( data[ 3 ] );
-
-			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
-			{
-				RequestLogger.printLine( "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"" );
-				continue;
-			}
-
-			AdventureDatabase.zoneLookup.put( name, zone );
-			AdventureDatabase.adventureTable[ 0 ].add( zone );
-			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
-			AdventureDatabase.adventureTable[ 2 ].add( new String( location[ 1 ] ) );
-			AdventureDatabase.adventureTable[ 3 ].add( name );
-
-			if ( environment == null )
-			{
-				RequestLogger.printLine( name + " is missing environment data" );
-			}
-			AdventureDatabase.environmentLookup.put( name, environment );
-
-			AdventureDatabase.statLookup.put( name, stat );
 
 			AdventureDatabase.waterLevelLookup.put( name, waterLevel );
 
@@ -871,7 +871,8 @@ public class AdventureDatabase
 
 	public static final String getEnvironment( String adventureName )
 	{
-		return AdventureDatabase.environmentLookup.get( adventureName );
+		String env = AdventureDatabase.environmentLookup.get( adventureName );
+		return env == null ? "none" : env;
 	}
 
 	public static final int getRecommendedStat( String adventureName )
