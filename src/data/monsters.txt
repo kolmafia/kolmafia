@@ -1467,12 +1467,14 @@ cobra	spelunkcobra.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: beast
 crocodile man	spelunkcroc.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: dude
 magma man	spelunkmagma.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: elemental
 mummy	spelunkmumm.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: undead
+queen bee	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug
 scorpion	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 skeleton	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead
 snake	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
 spider	spelunkspider.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: bug
 spider queen	spelunkspider.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug
 tikiman	spelunktiki.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: dude
+vampire	spelunkvampire.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: undead
 yeti	spelunkyeti.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
 
 # KoL Con

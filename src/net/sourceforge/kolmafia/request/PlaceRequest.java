@@ -134,6 +134,10 @@ public class PlaceRequest
 		{
 			RabbitHoleRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "spelunky" ) )
+		{
+			SpelunkyRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "town_wrong" ) )
 		{
 			if ( action.equals( "townwrong_artist_quest" ) )

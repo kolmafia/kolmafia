@@ -8065,12 +8065,12 @@
 8046	shotgun	606913715	shotgun.gif	weapon	q	0
 8047	boomerang	598963930	spelboomerang.gif	weapon	q	0
 8048
-8049
+8049	mining helmet	117389128	spelhelmet.gif	hat	q	0
 8050	X-ray goggles	844054839	spelgog.gif	hat	q	0
 8051	yellow cape	473030303	spelcape.gif	container	q	0
 8052	jetpack	438561058	speljetpack.gif	container	q	0
-8053
-8054
+8053	spring boots	596727152	spelboots1.gif	accessory	q	0
+8054	spiked boots	555161602	spelboots2.gif	accessory	q	0
 8055	heavy pickaxe	646903155	spelpick.gif	offhand	q	0
 8056	torch	404717759	speltorch.gif	offhand	q	0
 8057

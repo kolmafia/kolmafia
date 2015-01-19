@@ -923,6 +923,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_clan_name", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "limit_mode", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_florist_plants",
 			new AggregateType( new AggregateType( DataTypes.STRING_TYPE, 3 ),
 			DataTypes.LOCATION_TYPE ), params ) );
@@ -4403,6 +4406,11 @@ public abstract class RuntimeLibrary
 	public static Value get_clan_name( Interpreter interpreter )
 	{
 		return new Value( ClanManager.getClanName( true ) );
+	}
+
+	public static Value limit_mode( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getLimitmode() );
 	}
 
 	public static Value get_florist_plants( Interpreter interpreter )
