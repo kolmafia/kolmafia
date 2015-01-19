@@ -5764,7 +5764,7 @@ public abstract class ChoiceManager
 		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, "choice.php", responseText );
 	}
 
-	public static final void processChoiceAdventure( int decision )
+	public static final String processChoiceAdventure( final int decision, final boolean tryToAutomate )
 	{
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
 
@@ -5774,7 +5774,13 @@ public abstract class ChoiceManager
 		request.addFormField( "pwd", GenericRequest.passwordHash );
 		request.run();
 
-		ChoiceManager.processChoiceAdventure( request, "choice.php", request.responseText );
+		if ( tryToAutomate )
+		{
+			ChoiceManager.processChoiceAdventure( request, "choice.php", request.responseText );
+			return "";
+		}
+		
+		return request.responseText;
 	}
 
 	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, final String responseText )
@@ -11305,7 +11311,7 @@ public abstract class ChoiceManager
 		buffer.insert( index, button );
 	}
 
-	public static final void gotoGoal()
+	public static final String gotoGoal()
 	{
 		String responseText = ChoiceManager.lastResponseText;
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
@@ -11315,6 +11321,7 @@ public abstract class ChoiceManager
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		RelayRequest.specialCommandResponse = buffer.toString();
 		RelayRequest.specialCommandIsAdventure = true;
+		return request.responseText;
 	}
 
 	public static final boolean registerRequest( final String urlString )
