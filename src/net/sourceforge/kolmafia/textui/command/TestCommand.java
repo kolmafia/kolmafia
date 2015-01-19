@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.awt.Frame;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -93,6 +95,8 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.RumpleManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
+import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -124,6 +128,18 @@ public class TestCommand
 		catch ( Exception e )
 		{
 		}
+	}
+
+	private static Frame findFrame( final Class type )
+	{
+		for ( Frame frame : Frame.getFrames() )
+		{
+			if ( frame.getClass() == type )
+			{
+				return frame;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -413,6 +429,17 @@ public class TestCommand
 			}
 			double itemDrop = Modifiers.getNumericModifier( familiar, "Item Drop" );
 			RequestLogger.printLine( "Item Drop: " + itemDrop );
+			return;
+		}
+
+		if ( command.equals( "dump_disabled_skills" ) )
+		{
+			Frame frame = TestCommand.findFrame( SkillBuffFrame.class );
+			if ( frame != null )
+			{
+				SkillBuffFrame sbf = (SkillBuffFrame) frame;
+				sbf.dumpDisabledSkills();
+			}
 			return;
 		}
 
