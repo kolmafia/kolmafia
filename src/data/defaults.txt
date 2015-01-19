@@ -886,6 +886,8 @@ user	slimelingStacksDue	0
 user	sneakyPetePoints	0
 user	sortByRoom	true
 user	spadingData
+user	spelunkyStatus	
+user	spelunkyUpgrades	NNNNNNNNN
 user	spiceMelangeUsed	false
 user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
@@ -1729,6 +1731,7 @@ user	choiceAdventure982	0
 user	choiceAdventure983	0
 user	choiceAdventure988	0
 user	choiceAdventure989	0
+user	choiceAdventure993	0
 user	choiceAdventure1003	4
 user	choiceAdventure1005	0
 user	choiceAdventure1006	0
@@ -1742,6 +1745,15 @@ user	choiceAdventure1013	1
 user	choiceAdventure1020	1
 user	choiceAdventure1021	1
 user	choiceAdventure1022	1
+user	choiceAdventure1027	0
+user	choiceAdventure1028	0
+user	choiceAdventure1030	0
+user	choiceAdventure1031	0
+user	choiceAdventure1032	0
+user	choiceAdventure1034	0
+user	choiceAdventure1038	0
+user	choiceAdventure1041	0
+user	choiceAdventure1042	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

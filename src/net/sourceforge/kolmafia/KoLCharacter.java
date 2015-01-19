@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -144,6 +145,9 @@ public abstract class KoLCharacter
 
 	// Paths
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
+
+	// Limitmode
+	public static final String SPELUNKY = "spelunky";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -334,10 +338,12 @@ public abstract class KoLCharacter
 	private static int soulsauce = 0;
 	private static int disco_momentum = 0;
 	private static int audience = 0;
-	
+
 	private static int thunder = 0;
 	private static int rain = 0;
 	private static int lightning = 0;
+
+	private static String limitmode = null;
 
 	public static final int MAX_BASEPOINTS = 65535;
 
@@ -477,6 +483,8 @@ public abstract class KoLCharacter
 		KoLCharacter.thunder = 0;
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
+
+		KoLCharacter.limitmode = null;
 
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
@@ -1420,6 +1428,28 @@ public abstract class KoLCharacter
 			KoLCharacter.isMysticalityClass() ? Stat.MYSTICALITY :
 			KoLCharacter.isMoxieClass() ? Stat.MOXIE :
 			Stat.NONE;
+	}
+
+	public static final void setLimitmode( final String limitmode )
+	{
+		if ( limitmode == null && KoLCharacter.getLimitmode() != null )
+		{
+			// Leaving limitmode
+			SpelunkyRequest.reset();
+		}
+		if ( limitmode != null && limitmode.equals( KoLCharacter.SPELUNKY ) )
+		{
+			KoLCharacter.limitmode = KoLCharacter.SPELUNKY;
+		}
+		else
+		{
+			KoLCharacter.limitmode = null;
+		}
+	}
+
+	public static final String getLimitmode()
+	{
+		return KoLCharacter.limitmode;
 	}
 
 	/**

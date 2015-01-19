@@ -499,6 +499,12 @@ public abstract class MoodManager
 			return;
 		}
 
+		// If in limitmode, eg. Spelunky, do not run moods
+		if ( KoLCharacter.getLimitmode() != null )
+		{
+			return;
+		}
+
 		MoodManager.isExecuting = true;
 
 		MoodTrigger current = null;

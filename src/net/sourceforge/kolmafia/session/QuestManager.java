@@ -64,8 +64,9 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1574,6 +1575,10 @@ public class QuestManager
 		else if ( monster.equalsIgnoreCase( "E.V.E., the robot zombie" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.EVE, "step1" );
+		}
+		else if ( monster.equalsIgnoreCase( "queen bee" ) )
+		{
+			SpelunkyRequest.queenBeeDefeated();
 		}
 
 		int adventure = KoLAdventure.lastAdventureId();

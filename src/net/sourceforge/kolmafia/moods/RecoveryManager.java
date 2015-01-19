@@ -92,7 +92,7 @@ public class RecoveryManager
 			FightRequest.currentRound == 0 &&
 			!FightRequest.inMultiFight &&	
 			( !ChoiceManager.handlingChoice || ChoiceManager.canWalkAway() ) &&
-			!CharPaneRequest.inValhalla();
+			!CharPaneRequest.inValhalla() && KoLCharacter.getLimitmode() == null;
 	}
 
 	public static boolean runThresholdChecks()

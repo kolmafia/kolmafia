@@ -3350,10 +3350,14 @@ boomerang Weakens Monster
 # cursed coffee cup: Drink blood, get healthy
 heavy pickaxe	Muscle: +5, Mysticality: +5, Moxie: +5
 jetpack	Moxie: +10
+# mining helmet: Lights Dark Places
+mining helmet	Damage Reduction: 2
 # pot: Can be thrown
 pot	Damage Reduction: 2
 # rock: Can be thrown
 spelunking fedora	Muscle: +5, Moxie: +5
+# spiked boots: Deal some damage at the start of combat
+# spring boots: Sometimes Avoid Enemy Attacks
 sturdy machete	Weapon Damage: +5
 # torch: Burns foes
 # torch: Lights dark places

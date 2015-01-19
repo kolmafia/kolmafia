@@ -61,7 +61,7 @@ public class ManaBurnManager
 {
 	public static final void burnExtraMana( final boolean isManualInvocation )
 	{
-		if ( KoLmafia.refusesContinue() || KoLCharacter.inZombiecore() )
+		if ( KoLmafia.refusesContinue() || KoLCharacter.inZombiecore() || KoLCharacter.getLimitmode() != null )
 		{
 			return;
 		}

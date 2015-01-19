@@ -60,6 +60,8 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -171,9 +173,20 @@ public class CharPaneRequest
 
 		CharPaneRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
 
+		// Are we in a limitmode?
+		if ( responseText.contains( ">Last Spelunk</a>" ) )
+		{
+			SpelunkyRequest.parseCharpane( responseText );
+			KoLCharacter.setLimitmode( KoLCharacter.SPELUNKY );
+		}
+		else
+		{
+			KoLCharacter.setLimitmode( null );
+		}
+
 		// If we are in Valhalla, do special processing
-		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 ||
-		     responseText.indexOf( "<br>Lvl. <img" ) != -1 )
+		if ( KoLCharacter.getLimitmode() == null && ( responseText.contains( "otherimages/spirit.gif" ) ||
+		     responseText.contains( "<br>Lvl. <img" ) ) )
 		{
 			processValhallaCharacterPane( responseText );
 			return true;
@@ -1309,6 +1322,8 @@ public class CharPaneRequest
 			int lightning = JSON.getInt( "lightning" );
 			KoLCharacter.setLightning( lightning );
 		}
+
+		KoLCharacter.setLimitmode( JSON.getString( "limitmode" ) );
 
 		// *** Assume that roninleft always equals 0 if casual
 		KoLCharacter.setRonin( roninLeft > 0 );

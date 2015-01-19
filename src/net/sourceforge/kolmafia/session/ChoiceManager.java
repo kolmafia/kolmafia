@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
@@ -168,7 +169,7 @@ public abstract class ChoiceManager
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
 
-	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
+	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input class=button type=submit value=\"(.*?)\">" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
@@ -3234,6 +3235,8 @@ public abstract class ChoiceManager
 		// Choice 988 is The Containment Unit
 		// Choice 989 is Paranormal Test Lab
 
+		// Choice 993 is Tales of Spelunking
+
 		// Choice 996 is (Untitled) Crimomega
 
 		// Choice 998 is Game of Cards
@@ -3324,6 +3327,15 @@ public abstract class ChoiceManager
 				       new Option( "electric boning knife", "electric boning knife" ),
 				       "skip adventure" } ),
 
+		// Choice 1027 is The End of the Tale of Spelunking
+		// Choice 1028 is A Shop
+		// Choice 1030 is It's a Trap!  A Dart Trap.
+		// Choice 1031 is A Tombstone
+		// Choice 1032 is It's a Trap!  A Tiki Trap.
+		// Choice 1034 is A Landmine
+		// Choice 1038 is A Wicked Web
+		// choice 1041 is Spelunkrifice
+		// choice 1042 is Pick a Perk!
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -6063,6 +6075,11 @@ public abstract class ChoiceManager
 			// No Whammies
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step8" );
 			break;
+
+		case 1028:
+			// A Shop
+			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
+			break;
 		}
 	}
 
@@ -7954,6 +7971,55 @@ public abstract class ChoiceManager
 		case 1003:
 			// Test Your Might And Also Test Other Things
 			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
+			break;
+
+		case 1030:
+			// It's a Trap!  A Dart Trap
+			if ( ChoiceManager.lastResponseText.contains( "The Spider Hole" ) )
+			{
+				SpelunkyRequest.unlockSpiderHole();
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "The Snake Pit" ) )
+			{
+				SpelunkyRequest.unlockSnakePit();
+			}
+			break;
+
+		case 1032:
+			// It's a Trap!  A Tiki Trap.
+			if ( ChoiceManager.lastResponseText.contains( "The Ancient Burial Ground" ) )
+			{
+				SpelunkyRequest.unlockBurialGround();
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "The Beehive" ) )
+			{
+				SpelunkyRequest.unlockBeehive();
+			}
+			break;
+
+		case 1034:
+			// A Landmine
+			if ( ChoiceManager.lastResponseText.contains( "An Ancient Altar" ) )
+			{
+				SpelunkyRequest.unlockAltar();
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "Crashed UFO" ) )
+			{
+				SpelunkyRequest.unlockCrashedUFO();
+			}
+			break;
+
+		case 1041:
+			// Spelunkrifice
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				SpelunkyRequest.sacrifice();
+			}
+			break;
+
+		case 1042:
+			// Leaving Spelunky, choosing ugprade
+			SpelunkyRequest.upgrade( ChoiceManager.lastDecision );
 			break;
 		}
 		// Certain choices cost meat or items when selected
