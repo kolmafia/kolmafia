@@ -3623,14 +3623,11 @@ public abstract class RuntimeLibrary
 		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
 		value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
 
-		AdventureResult [] items = new AdventureResult[ KoLConstants.campground.size() ];
-		KoLConstants.campground.toArray( items );
-
-		for ( int i = 0; i < items.length; ++i )
+		for ( AdventureResult item : KoLConstants.campground )
 		{
 			value.aset(
-				DataTypes.parseItemValue( items[i].getName(), true ),
-				new Value( items[i].getCount() ) );
+				DataTypes.parseItemValue( item.getName(), true ),
+				new Value( item.getCount() ) );
 		}
 
 		return value;
@@ -3640,14 +3637,11 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
-		AdventureResult [] items = new AdventureResult[ KoLConstants.chateau.size() ];
-		KoLConstants.chateau.toArray( items );
-
-		for ( int i = 0; i < items.length; ++i )
+		for ( AdventureResult item : KoLConstants.chateau )
 		{
 			value.aset(
-				DataTypes.parseItemValue( items[i].getName(), true ),
-				new Value( items[i].getCount() ) );
+				DataTypes.parseItemValue( item.getName(), true ),
+				new Value( item.getCount() ) );
 		}
 
 		return value;

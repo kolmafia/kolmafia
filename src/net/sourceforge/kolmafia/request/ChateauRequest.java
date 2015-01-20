@@ -58,6 +58,7 @@ public class ChateauRequest
 	private static final AdventureResult CHATEAU_SKYLIGHT = ItemPool.get( ItemPool.CHATEAU_SKYLIGHT, 1 );
 	private static final AdventureResult CHATEAU_BANK = ItemPool.get( ItemPool.CHATEAU_BANK, 1 );
 	private static final AdventureResult CHATEAU_JUICE_BAR = ItemPool.get( ItemPool.CHATEAU_JUICE_BAR, 1 );
+	private static final AdventureResult CHATEAU_PENS = ItemPool.get( ItemPool.CHATEAU_PENS, 1 );
 
 	public static final AdventureResult CHATEAU_PAINTING = ItemPool.get( ItemPool.CHATEAU_WATERCOLOR, 1 );
 
@@ -144,6 +145,10 @@ public class ChateauRequest
 		{
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_JUICE_BAR );
 		}
+		else if ( responseText.contains( "desk_stat.gif" ) )
+		{
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_PENS );
+		}
 
 		String action = GenericRequest.getAction( urlString );
 
@@ -209,9 +214,16 @@ public class ChateauRequest
 		case ItemPool.CHATEAU_BANK:
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_BANK );
 			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_JUICE_BAR );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_PENS );
 			break;
 		case ItemPool.CHATEAU_JUICE_BAR:
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_JUICE_BAR );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_BANK );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_PENS );
+			break;
+		case ItemPool.CHATEAU_PENS:
+			KoLConstants.chateau.add( ChateauRequest.CHATEAU_PENS );
+			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_JUICE_BAR );
 			KoLConstants.chateau.remove( ChateauRequest.CHATEAU_BANK );
 			break;
 		}
@@ -255,6 +267,10 @@ public class ChateauRequest
 			else if ( action.equals( "chateau_desk2" ) )
 			{
 				message = "Collecting potions from continental juice bar";
+			}
+			else if ( action.equals( "chateau_desk3" ) )
+			{
+				message = "Collecting pens from fancy stationery set";
 			}
 			else if ( action.equals( "chateau_desk" ) )
 			{
