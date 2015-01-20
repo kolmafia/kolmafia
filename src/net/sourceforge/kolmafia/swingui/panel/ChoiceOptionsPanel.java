@@ -628,7 +628,10 @@ public class ChoiceOptionsPanel
 
 		public void loadSettings()
 		{
-			this.loadSettings( Preferences.getString( "oceanDestination" ) );
+			String dest = Preferences.getString( "oceanDestination" );
+			this.removeAllItems();
+			this.createMenu( dest );
+			this.loadSettings( dest );
 		}
 
 		private void loadSettings( String dest )
