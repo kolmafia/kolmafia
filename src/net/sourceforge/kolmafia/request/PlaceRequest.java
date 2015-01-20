@@ -223,6 +223,13 @@ public class PlaceRequest
 				message = "Talking to Marty";
 			}
 		}
+		else if ( place.equals( "crashsite" ) )
+		{
+			if ( action.equals( "crash_ship" ) )
+			{
+				message = "Visiting the Crashed Spaceship";
+			}
+		}
 		else if ( place.equals( "desertbeach" ) )
 		{
 			if ( action.equals( "db_gnasir" ) )
@@ -256,6 +263,20 @@ public class PlaceRequest
 			if ( action.equals( "highlands_dude" ) )
 			{
 				message = "Talking to the Highland Lord";
+			}
+		}
+		else if ( place.equals( "ioty2014_candy" ) )
+		{
+			if ( action.equals( "witch_house" ) )
+			{
+				message = "Visiting the Candy Witch's House";
+			}
+		}
+		else if ( place.equals( "ioty2014_rumple" ) )
+		{
+			if ( action.equals( "workshop" ) )
+			{
+				message = "Visiting Rumplestiltskin's Workshop";
 			}
 		}
 		else if ( place.equals( "manor1" ) )
@@ -344,7 +365,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "plains" ) )
 		{
-			if ( action.equals( "rift_scorch" ) )
+			if ( action.equals( "rift_scorch" ) || action.equals( "rift_light" ) )
 			{
 				return true;
 			}
@@ -361,6 +382,13 @@ public class PlaceRequest
 				}
 			}
 		}
+		else if ( place.equals( "pyramid" ) )
+		{
+			if ( action.equals( "pyramid_control" ) )
+			{
+				message = "Visiting the Pyramid Control Room";
+			}
+		}
 		else if ( place.equals( "town" ) )
 		{
 			if ( action.equals( "town_oddjobs" ) )
@@ -373,6 +401,34 @@ public class PlaceRequest
 			if ( action.equals( "town_oddjobs" ) )
 			{
 				message = "Visiting the Odd Jobs Board";
+			}
+		}
+		else if ( place.equals( "twitch" ) )
+		{
+			if ( action.equals( "twitch_votingbooth" ) )
+			{
+				message = "Visiting the Voting / Phone Booth";
+			}
+			else if ( action.equals( "twitch_dancave1" ) ||
+				  action.equals( "twitch_dancave1" ) )
+			{
+				message = "Visiting Caveman Dan's Cave";
+			}
+			else if ( action.equals( "twitch_shoerepair" ) )
+			{
+				message = "Visiting the Shoe Repair Store";
+			}
+			else if ( action.equals( "twitch_colosseum" ) )
+			{
+				message = "Visiting the Chariot-Racing Colosseum";
+			}
+			else if ( action.equals( "twitch_survivors" ) )
+			{
+				message = "Visiting the Post-Apocalyptic Survivor Encampment";
+			}
+			else if ( action.equals( "twitch_bank" ) )
+			{
+				message = "Visiting the Third Four-Fifths Bank of the West";
 			}
 		}
 		else if ( place.equals( "rabbithole" ) )
