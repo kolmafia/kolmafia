@@ -6700,6 +6700,7 @@ fairy-worn boots	Free Pull
 fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
 # fancy oil painting: Useful for Bridge-Building
+# fancy stationery set: Produces 3 fancy calligraphy pens each day
 fat loot token	No Pull
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10

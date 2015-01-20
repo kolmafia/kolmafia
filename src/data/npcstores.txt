@@ -326,6 +326,7 @@ Chateau Mantenga Gift Shop	chateau	antler chandelier	1500	ROW415
 Chateau Mantenga Gift Shop	chateau	artificial skylight	1500	ROW416
 Chateau Mantenga Gift Shop	chateau	ceiling fan	1500	ROW414
 Chateau Mantenga Gift Shop	chateau	continental juice bar	1500	ROW418
+Chateau Mantenga Gift Shop	chateau	fancy stationery set	1500	ROW419
 Chateau Mantenga Gift Shop	chateau	Swiss piggy bank	1500	ROW417
 Chateau Mantenga Gift Shop	chateau	alpine watercolor set	5000	ROW420
 
