@@ -116,6 +116,7 @@ import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
+import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
@@ -628,6 +629,8 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+
+		SkillBuffFrame.update();
 	}
 
 	static final void resetPerAscensionData()
@@ -3754,39 +3757,27 @@ public abstract class KoLCharacter
 	 * @param newSkillSet The list of the names of available skills
 	 */
 
-	public static final void setAvailableSkills( final List newSkillSet )
+	public static final void setAvailableSkills( final List<UseSkillRequest> newSkillSet )
 	{
-		// Check all available skills to see if they
-		// qualify to be added as combat or usables.
-
-		for ( int i = 0; i < newSkillSet.size(); ++i )
+		for ( UseSkillRequest skill : newSkillSet )
 		{
-			KoLCharacter.addAvailableSkill( (UseSkillRequest) newSkillSet.get( i ) );
+			KoLCharacter.addAvailableSkill( skill );
 		}
-
-		// Add derived skills based on base skills
-
-		KoLConstants.usableSkills.sort();
-		KoLConstants.summoningSkills.sort();
-		KoLConstants.remedySkills.sort();
-		KoLConstants.selfOnlySkills.sort();
-		KoLConstants.buffSkills.sort();
-		KoLConstants.songSkills.sort();
-		KoLConstants.expressionSkills.sort();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 
 		DiscoCombatHelper.initialize();
+
+		SkillBuffFrame.update();
 	}
 
-	public static final void setPermedSkills( final List newSkillSet )
+	public static final void setPermedSkills( final List<UseSkillRequest> newSkillSet )
 	{
 		KoLConstants.permedSkills.clear();
 
-		for ( int i = 0; i < newSkillSet.size(); ++i )
+		for ( UseSkillRequest skill : newSkillSet )
 		{
-			UseSkillRequest skill = (UseSkillRequest) newSkillSet.get( i );
 			KoLConstants.permedSkills.add( skill );
 		}
 	}

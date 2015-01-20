@@ -35,10 +35,12 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -83,7 +85,7 @@ public class SkillBuffFrame
 	private LockableListModel<String> contacts;
 
 	private SkillTypeComboBox typeSelect;
-	private AutoFilterComboBox skillSelect;
+	private SkillSelectComboBox skillSelect;
 	private AutoHighlightTextField amountField;
 	private AutoFilterComboBox targetSelect;
 	private final ShowDescriptionList effectList;
@@ -111,6 +113,21 @@ public class SkillBuffFrame
 		this.setCenterComponent( skillWrapper );
 
 		this.setRecipient( recipient );
+	}
+
+	public static void update()
+	{
+		for ( Frame frame : Frame.getFrames() )
+		{
+			if ( frame.getClass() == SkillBuffFrame.class )
+			{
+				SkillBuffFrame sbf = (SkillBuffFrame) frame;
+				if ( sbf.skillSelect != null )
+				{
+					sbf.skillSelect.update();
+				}
+			}
+		}
 	}
 
 	public void setRecipient( String recipient )
@@ -148,29 +165,13 @@ public class SkillBuffFrame
 		}
 	}
 
-	private class SkillBuffPanel
-		extends GenericPanel
+	private class SkillSelectComboBox
+		extends AutoFilterComboBox
 		implements Listener
 	{
-		public SkillBuffPanel()
+		public SkillSelectComboBox( final LockableListModel<UseSkillRequest> model )
 		{
-			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
-			SkillBuffFrame.this.skillSelect = new AutoFilterComboBox( KoLConstants.usableSkills, false );
-			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
-
-			SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
-			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
-
-			VerifiableElement[] elements = new VerifiableElement[ 4 ];
-			elements[ 0 ] = new VerifiableElement( "Skill Type: ", SkillBuffFrame.this.typeSelect );
-			elements[ 1 ] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
-			elements[ 2 ] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
-			elements[ 3 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
-
-			this.setContent( elements );
-			
+			super( model, false );
 			this.update();
 			this.setSkillListeners();
 		}
@@ -326,6 +327,8 @@ public class SkillBuffFrame
 		
 		public void update()
 		{
+			this.clearDisabledItems();
+			
 			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
 			{
 				String skill = DAILY_LIMITED_SKILLS[ i ][ 0 ];
@@ -353,21 +356,47 @@ public class SkillBuffFrame
 					}
 				}
 				
-				for ( int j = 0 ; j < SkillBuffFrame.this.skillSelect.getItemCount() ; j++ )
+				int selected = this.getSelectedIndex();
+				for ( int j = 0 ; j < this.getItemCount() ; j++ )
 				{
-					if ( SkillBuffFrame.this.skillSelect.getItemAt( j ).toString().contains( skill ) )
+					Object obj = this.getItemAt( j );
+					if ( obj.toString().contains( skill ) )
 					{
-						SkillBuffFrame.this.skillSelect.setDisabledIndex( j, skillDisable );
-						if ( skillDisable && j == SkillBuffFrame.this.skillSelect.getSelectedIndex() )
+						this.setDisabledIndex( j, skillDisable );
+						if ( skillDisable && j == selected )
 						{
-							SkillBuffFrame.this.skillSelect.setSelectedIndex( -1 );
+							this.setSelectedIndex( -1 );
 						}
 						continue;
 					}
 				}
 			}
 		}
-		
+	}
+
+	private class SkillBuffPanel
+		extends GenericPanel
+	{
+		public SkillBuffPanel()
+		{
+			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
+			SkillBuffFrame.this.skillSelect = new SkillSelectComboBox( KoLConstants.usableSkills );
+			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
+
+			SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
+			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
+
+			VerifiableElement[] elements = new VerifiableElement[ 4 ];
+			elements[ 0 ] = new VerifiableElement( "Skill Type: ", SkillBuffFrame.this.typeSelect );
+			elements[ 1 ] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
+			elements[ 2 ] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
+			elements[ 3 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
+
+			this.setContent( elements );
+		}
+
 		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
@@ -465,37 +494,43 @@ public class SkillBuffFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
-				int index = SkillTypeComboBox.this.getSelectedIndex();
-				switch ( index )
+				ComboBoxModel oldModel = SkillBuffFrame.this.skillSelect.getModel();
+				ComboBoxModel newModel = oldModel;
+				switch ( SkillTypeComboBox.this.getSelectedIndex() )
 				{
 				case 0:
 					// All skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.usableSkills );
+					newModel = KoLConstants.usableSkills;
 					break;
 				case 1:
 					// Summoning skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.summoningSkills );
+					newModel = KoLConstants.summoningSkills;
 					break;
 				case 2:
 					// Remedy skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.remedySkills );
+					newModel = KoLConstants.remedySkills;
 					break;
 				case 3:
 					// Self-only skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.selfOnlySkills );
+					newModel = KoLConstants.selfOnlySkills;
 					break;
 				case 4:
 					// Buff skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.buffSkills );
+					newModel = KoLConstants.buffSkills;
 					break;
 				case 5:
 					// Song skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.songSkills );
+					newModel = KoLConstants.songSkills;
 					break;
 				case 6:
 					// Expression skills
-					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.expressionSkills );
+					newModel = KoLConstants.expressionSkills;
 					break;
+				}
+				if ( newModel != oldModel )
+				{
+					int index = SkillTypeComboBox.this.getSelectedIndex();
+					SkillBuffFrame.this.skillSelect.setModel( newModel );
 				}
 			}
 		}

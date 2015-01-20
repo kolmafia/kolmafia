@@ -115,6 +115,11 @@ public class DisabledItemsComboBox
 		}
 	}
 
+	public void clearDisabledItems()
+	{
+		this.disabledItems.clear();
+	}
+
 	// This is called whenever we have an existing element that
 	// we want to disable or reenable.
 	public void setDisabledIndex( int index, boolean disabled )
