@@ -839,7 +839,7 @@ Seannery the Conman	adv_smooth4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 # -- Hottest Adventurer
 
 Fire Fighter	adv_hot1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
-# Hot Mob #2	adv_hot2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
+Cereal Arsonist	adv_hot2.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 Burnglar	adv_hot3.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 The Lavalier	adv_hot4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude
 
