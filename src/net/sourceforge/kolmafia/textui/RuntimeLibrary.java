@@ -180,7 +180,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
@@ -5855,29 +5854,6 @@ public abstract class RuntimeLibrary
 	}
 
 	// Quest completion functions.
-
-	public static Value entryway( Interpreter interpreter )
-	{
-		return RuntimeLibrary.continueValue();
-	}
-
-	public static Value hedgemaze( Interpreter interpreter )
-	{
-		SorceressLairManager.completeHedgeMaze();
-		return RuntimeLibrary.continueValue();
-	}
-
-	public static Value guardians( Interpreter interpreter )
-	{
-		int itemId = SorceressLairManager.fightAllTowerGuardians();
-		return DataTypes.makeItemValue( itemId );
-	}
-
-	public static Value chamber( Interpreter interpreter )
-	{
-		SorceressLairManager.fightAllTowerGuardians();
-		return RuntimeLibrary.continueValue();
-	}
 
 	public static Value tavern( Interpreter interpreter )
 	{

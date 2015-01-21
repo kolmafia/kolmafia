@@ -714,10 +714,6 @@ public class KoLmafiaCLI
 		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
 		new ComparisonShopCommand().register( "cheapest" ).register( "expensive" );
 		new CompleteQuestCommand().register( "maze" ).
-			registerPrefix( "hedge" ).
-			register( "tower" ).
-			register( "guardians" ).
-			register( "chamber" ).
 			register( "guild" ).
 			register( "gourd" ).
 			register( "tavern" ).
@@ -842,7 +838,6 @@ public class KoLmafiaCLI
 		new SkeeballCommand().register( "skeeball" );
 		new SkeletonCommand().register( "skeleton" );
 		new SlimeStackCommand().registerPrefix( "slime-stack");
-		new SorceressEntrywayCommand().register( "entryway" );
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new SpookyravenCommand().register( "spookyraven" );
 		new StickersCommand().registerPrefix( "sticker" );
@@ -859,7 +854,6 @@ public class KoLmafiaCLI
 		new TelescopeCommand().register( "telescope" );
 		new TestCommand().register( "test" );
 		new ThrowItemCommand().register( "throw" );
-		new TowerToShadowQuestCommand().register( "partialtower" );
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
