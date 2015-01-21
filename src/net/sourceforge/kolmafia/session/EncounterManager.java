@@ -226,31 +226,31 @@ public abstract class EncounterManager
 	public static boolean isWanderingMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.WANDERER ? true : false;
+		return monster != null && monster.getType() == EncounterType.WANDERER;
 	}
 
 	public static boolean isSemiRareMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.SEMIRARE ? true : false;
+		return monster != null && monster.getType() == EncounterType.SEMIRARE;
 	}
 
 	public static boolean isSuperlikelyMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.SUPERLIKELY ? true : false;
+		return monster != null && monster.getType() == EncounterType.SUPERLIKELY;
 	}
 
 	public static boolean isFreeCombatMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.FREE_COMBAT ? true : false;
+		return monster != null && monster.getType() == EncounterType.FREE_COMBAT;
 	}
 
 	public static boolean isUltrarareMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.ULTRARARE ? true : false;
+		return monster != null && monster.getType() == EncounterType.ULTRARARE;
 	}
 
 	// Used to ignore special monsters re-encountered via copying
@@ -383,17 +383,16 @@ public abstract class EncounterManager
 			return;
 		}
 
+		if ( encounterName.equals( "Daily Done, John." ) )
+		{
+			// Daily Dungeon Complete
+			Preferences.setBoolean( "dailyDungeonDone", true );
+			Preferences.setInteger( "_lastDailyDungeonRoom", 15 );
+			return;
+		}
+
 		if ( encounterName.equals( "A hidden surprise!" ) )
 		{
-			// You find a gift from <A href=showplayer.php?who=1253868 class=nounder><b>ElementalSSE</b>
-			// </a> hidden next to a discarded sausage!<center><table class="item" style="float: none"
-			// rel="id=2593&s=15&q=0&d=1&g=0&t=1&n=4&m=0&p=0&u=e"><tr><td>
-			// <img src="http://images.kingdomofloathing.com/itemimages/pasty.gif" alt="Knob pasty" title="Knob pasty"
-			// class=hand onClick='descitem(554994778)'></td><td valign=center class=effect>You acquire
-			// <b>4 Knob pasties</b> (stored in Hagnk's Ancestral Mini-Storage)</td></tr></table>
-			// </center>There's a note attached:<p><table cellpadding=10><tr><td style='border: 1px solid black;'>
-			// Happy knobmas!</td></tr></table><p><p><a href="adventure.php?snarfblat=114">Adventure Again
-
 			// Since this content is short-lived, create the patterns here every time
 			// the encounter is found instead of globally
 			Pattern GIFT_SENDER_PATTERN = Pattern.compile( "nounder><b>(.*?)</b></a>" );
