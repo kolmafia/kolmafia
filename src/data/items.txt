@@ -8048,7 +8048,7 @@
 8029	Swiss piggy bank	577497670	swisspig.gif	none	q	0
 8030	continental juice bar	227688587	juicebar.gif	none	q	0
 8031	fancy stationery set	628040951	stationary.gif	none	q	0
-8032	fancy calligraphy pen	224300796	calpen.gif	none, curse	t,d	150
+8032	fancy calligraphy pen	224300796	calpen.gif	none, curse	t	150
 8033	alpine watercolor set	256906862	briefcase.gif	none, combat		0
 8034	tope&eacute;	656752459	topihat.gif	hat		0
 8035	topiary tights	858882198	topipants.gif	pants		0
