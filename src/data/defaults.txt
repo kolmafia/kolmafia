@@ -346,6 +346,7 @@ user	crudeMonster
 user	currentEasyBountyItem	
 user	currentExtremity	0
 user	currentHardBountyItem	
+user	currentHedgeMazeRoom	0
 user	currentHippyStore	none
 user	currentJunkyardTool
 user	currentJunkyardLocation

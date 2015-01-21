@@ -337,6 +337,12 @@ public abstract class SorceressLairManager
 	{
 		// You feel <feeling> about your chances in the <attribute> Adventurer contest.
 		//
+		// According to my evaluation, you qualify to start at rank <b>#N</b> in the <attribute> Adventurer contest.
+		//
+		// The man wraps a measuring tape around various parts of your body and declares that you are qualified to begin the contest at rank <b>#N</b>.
+		//
+		// The man peers at you through a magnifying glass for a little while, then writes <b>#N</b> on his clipboard.
+		//
 		// "You already entered the <attribute> Adventurer contest. You
 		// should go get in line and wait for it to start. My clipboard
 		// here says that there are X Adventurers in the contest
@@ -561,7 +567,7 @@ public abstract class SorceressLairManager
 		case 1021:	// Meet Frank
 		case 1022:	// Meet Frank
 			return true;
-		case 1005:	// Allo'
+		case 1005:	// 'Allo
 		case 1006:	// One Small Step For Adventurer
 		case 1007:	// Twisty Little Passages, All Hedge
 		case 1008:	// Pooling Your Resources
@@ -574,6 +580,24 @@ public abstract class SorceressLairManager
 			return true;
 		}
 		return false;
+	}
+
+	public static void visitChoice( final int choice, final String responseText )
+	{
+		switch ( choice )
+		{
+		case 1005:	// 'Allo
+		case 1006:	// One Small Step For Adventurer
+		case 1007:	// Twisty Little Passages, All Hedge
+		case 1008:	// Pooling Your Resources
+		case 1009:	// Good Ol' 44% Duck
+		case 1010:	// Another Day, Another Fork
+		case 1011:	// Of Mouseholes and Manholes
+		case 1012:	// The Last Temptation
+		case 1013:	// Mazel Tov!
+			Preferences.setInteger( "currentHedgeMazeRoom", choice - 1004 );
+			break;
+		}
 	}
 
 	// *** Here follow obsolete methods

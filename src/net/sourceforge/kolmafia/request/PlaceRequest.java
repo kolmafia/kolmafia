@@ -360,7 +360,7 @@ public class PlaceRequest
 			}
 			else if ( action.equals( "pal_mrlabel" ) || action.equals( "pal_mroffice" ) )
 			{
-				message = "Visiting Mr. Alarm's's office";
+				message = "Visiting Mr. Alarm's office";
 			}
 		}
 		else if ( place.equals( "plains" ) )
