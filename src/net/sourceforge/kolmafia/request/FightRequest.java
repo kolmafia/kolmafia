@@ -4543,6 +4543,7 @@ public class FightRequest
 		public String enthroned;
 		public String bjorned;
 		public final boolean doppel;
+		public final boolean crimbo;
 		public String diceMessage;
 		public final String ghost;
 		public final boolean logFamiliar;
@@ -4565,10 +4566,12 @@ public class FightRequest
 		public TagStatus()
 		{
 			FamiliarData current = KoLCharacter.getFamiliar();
+			int familiarId = current.getId();
 			this.familiar = current.getImageLocation();
 			this.doppel =
-				( current.getId() == FamiliarPool.DOPPEL ) ||
+				( familiarId == FamiliarPool.DOPPEL ) ||
 				KoLCharacter.hasEquipped( ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR );
+			this.crimbo = (familiarId == FamiliarPool.CRIMBO_SHRUB );
 
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 
@@ -4923,6 +4926,11 @@ public class FightRequest
 		else if ( name.equals( "p" ) )
 		{
 			if ( FightRequest.handleKisses( node, status ) )
+			{
+				return;
+			}
+
+			if ( FightRequest.handleCrimboPresent( node, status ) )
 			{
 				return;
 			}
@@ -5491,6 +5499,30 @@ public class FightRequest
 		{
 			FightRequest.dreadCastleKisses = kisses;
 		}
+
+		return true;
+	}
+
+	// It's from <a href=showplayer.php?who=2379226><b>TroyMcClure2</b></a>!
+
+	public static final Pattern CRIMBO_PATTERN = Pattern.compile( "It's from (.*?)!" );
+	private static boolean handleCrimboPresent( TagNode node, TagStatus status )
+	{
+		if ( !status.crimbo )
+		{
+			return false;
+		}
+
+		StringBuffer text = node.getText();
+		String str = text.toString();
+
+		Matcher matcher = FightRequest.CRIMBO_PATTERN.matcher( str );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		FightRequest.logText( str, status );
 
 		return true;
 	}
