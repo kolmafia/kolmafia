@@ -397,6 +397,46 @@ public abstract class SorceressLairManager
 		}
 	}
 
+	public static void parseMazeTrap( final int choice, final String responseText )
+	{
+		// If we experienced the effect of a maze trap, remember the
+		// element.
+
+		String setting =
+			choice == 1005 ?	// 'Allo
+			"nsChallenge3" :
+			choice == 1008 ?	// Pooling Your Resources
+			"nsChallenge4" :
+			choice == 1011 ?	// Of Mouseholes and Manholes
+			"nsChallenge5" :
+			null;
+
+		if ( setting == null )
+		{
+			return;
+		}
+
+		String element =
+			responseText.contains( "hot damage" ) ?
+			Element.HOT.toString() :
+			responseText.contains( "cold damage" ) ?
+			Element.COLD.toString() :
+			responseText.contains( "spooky damage" ) ?
+			Element.SPOOKY.toString() :
+			responseText.contains( "stench damage" ) ?
+			Element.STENCH.toString() :
+			responseText.contains( "sleaze damage" ) ?
+			Element.SLEAZE.toString() :
+			null;
+
+		if ( element == null )
+		{
+			return;
+		}
+
+		Preferences.setString( setting, element );
+	}
+
 	public static void parseDoorResponse( final String location, final String responseText )
 	{
 		String action = GenericRequest.getAction( location );
@@ -618,113 +658,6 @@ public abstract class SorceressLairManager
 	public static final int fightMostTowerGuardians()
 	{
 		return -1;
-	}
-
-	private static final int fightTowerGuardians( boolean fightShadow )
-	{
-		// Disable automation while Form of... Bird! is active,
-		// as it disables item usage.
-
-		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-		{
-			return -1;
-		}
-
-		// You must have at least 70 in all stats before you can enter
-		// the chamber.
-
-		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.ERROR, "You can't enter the chamber unless all base stats are 70 or higher." );
-			return -1;
-		}
-
-		return -1;
-	}
-
-	private static final void fightShadow()
-	{
-		RecoveryManager.recoverHP( KoLCharacter.getMaximumHP() );
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
-		int itemCount = 0;
-
-		for ( int i = 0; i < SorceressLairManager.HEALING_ITEMS.length; ++i )
-		{
-			itemCount += SorceressLairManager.HEALING_ITEMS[ i ].getCount( KoLConstants.inventory );
-		}
-
-		if ( itemCount < 6 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient healing items to continue." );
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Fighting your shadow..." );
-
-		// Start the battle!
-
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=2" ) );
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
-			return;
-		}
-
-		String continueString = Preferences.getBoolean( "serverAddsCustomCombat" ) ? "(show old combat form)" : "action=fight.php";
-		int itemIndex = 0;
-
-		do
-		{
-			SorceressLairManager.QUEST_HANDLER.constructURLString( "fight.php" );
-
-			while ( !KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) )
-			{
-				++itemIndex;
-			}
-
-			SorceressLairManager.QUEST_HANDLER.addFormField( "action", "useitem" );
-			SorceressLairManager.QUEST_HANDLER.addFormField( "whichitem", String.valueOf( SorceressLairManager.HEALING_ITEMS[ itemIndex ].getItemId() ) );
-
-			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
-			{
-				boolean needsIncrement =
-					!KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) || SorceressLairManager.HEALING_ITEMS[ itemIndex ].getCount( KoLConstants.inventory ) < 2;
-
-				if ( needsIncrement )
-				{
-					++itemIndex;
-					while ( !KoLConstants.inventory.contains( SorceressLairManager.HEALING_ITEMS[ itemIndex ] ) )
-					{
-						++itemIndex;
-					}
-				}
-
-				SorceressLairManager.QUEST_HANDLER.addFormField(
-					"whichitem2", String.valueOf( SorceressLairManager.HEALING_ITEMS[ itemIndex ].getItemId() ) );
-			}
-
-			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
-		}
-		while ( SorceressLairManager.QUEST_HANDLER.responseText.contains( continueString ) );
-
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.contains( "<!--WINWINWIN-->" ) )
-		{
-			KoLmafia.updateDisplay( "Your shadow has been defeated." );
-		}
-		else
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to defeat your shadow." );
-		}
 	}
 
 	/*

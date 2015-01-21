@@ -7977,6 +7977,12 @@ public abstract class ChoiceManager
 			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
 			break;
 
+		case 1005:	// 'Allo
+		case 1008:	// Pooling Your Resources
+		case 1011:	// Of Mouseholes and Manholes
+			SorceressLairManager.parseMazeTrap( ChoiceManager.ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
+			break;
+
 		case 1030:
 			// It's a Trap!  A Dart Trap
 			if ( ChoiceManager.lastResponseText.contains( "The Spider Hole" ) )
