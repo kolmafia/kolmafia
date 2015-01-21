@@ -504,6 +504,7 @@ public class ValhallaManager
 		Preferences.setString( "telescope5", "" );
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
+		Preferences.setInteger( "currentHedgeMazeRoom", 0 );
 		Preferences.setString( "nsChallenge1", "none" );
 		Preferences.setString( "nsChallenge2", "none" );
 		Preferences.setString( "nsChallenge3", "none" );

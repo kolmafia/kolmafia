@@ -3252,7 +3252,7 @@ public abstract class ChoiceManager
 
 		// Choice 1004 is This Maze is... Mazelike...
 
-		// Allo'
+		// 'Allo
 		new ChoiceAdventure(
 			"Sorceress", "choiceAdventure1005", "Hedge Maze 1",
 			new Object[] { new Option( "topiary nugglet and advance to Room 2", "topiary nugglet" ),
@@ -3302,7 +3302,11 @@ public abstract class ChoiceManager
 
 		// Choice 1013 is Mazel Tov!
 
-		// Choice 1015 is The Mirror in the Tower has the View that is True
+		// The Mirror in the Tower has the View that is True
+		new ChoiceAdventure(
+			"Sorceress", "choiceAdventure1015", "Tower Mirror",
+			new Object[] { new Option( "Gain Confidence! intrinsic until leave tower (1 turn)" ),
+				       new Option( "Make Sorceress tougher (0 turns)" ) } ),
 		
 		// Bee Persistent
 		new ChoiceAdventure(
@@ -9520,6 +9524,18 @@ public abstract class ChoiceManager
 			// Test Your Might And Also Test Other Things
 			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
 			break;
+
+		case 1005:	// 'Allo
+		case 1006:	// One Small Step For Adventurer
+		case 1007:	// Twisty Little Passages, All Hedge
+		case 1008:	// Pooling Your Resources
+		case 1009:	// Good Ol' 44% Duck
+		case 1010:	// Another Day, Another Fork
+		case 1011:	// Of Mouseholes and Manholes
+		case 1012:	// The Last Temptation
+		case 1013:	// Mazel Tov!
+			SorceressLairManager.visitChoice( ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
+			break;
 		}
 	}
 
@@ -11440,7 +11456,7 @@ public abstract class ChoiceManager
 			case 1020:	// Closing Ceremony
 			case 1021:	// Meet Frank
 			case 1022:	// Meet Frank
-			case 1005:	// Allo'
+			case 1005:	// 'Allo
 			case 1006:	// One Small Step For Adventurer
 			case 1007:	// Twisty Little Passages, All Hedge
 			case 1008:	// Pooling Your Resources
