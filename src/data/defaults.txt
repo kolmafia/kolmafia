@@ -976,6 +976,7 @@ user	warProgress	unstarted
 user	waxMonster
 user	welcomeBackAdv	0
 user	workteaClue
+user	writingDesksDefeated	0
 user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false
 user	yearbookCameraTarget

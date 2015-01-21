@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
@@ -81,6 +83,11 @@ public class FightDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
 		String name = MonsterStatusTracker.getLastMonsterName().toLowerCase();
 		if ( name.equals( "dad sea monkee" ) )
 		{
@@ -102,9 +109,14 @@ public class FightDecorator
 			FightDecorator.decorateNetDragger( buffer );
 			return;
 		}
-		if ( name.equalsIgnoreCase( "Falls-From-Sky" ) )
+		if ( name.equals( "falls-from-sky" ) )
 		{
 			FightDecorator.decorateFallsFromSky( buffer );
+			return;
+		}
+		if ( name.equals( "writing desk" ) )
+		{
+			FightDecorator.decorateWritingDesk( buffer );
 			return;
 		}
 	}
@@ -223,5 +235,19 @@ public class FightDecorator
 			FightDecorator.selectSkill( buffer, "Hide Behind a Tree" );
 			return;
 		}
+	}
+
+	private static final void decorateWritingDesk( final StringBuffer buffer )
+	{
+		String indexString = "any necklaces.";
+		int index = buffer.indexOf( indexString );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		index += indexString.length();
+
+		buffer.insert( index, " (" + Preferences.getInteger( "writingDesksDefeated" ) + "/5 defeated)" );
 	}
 }
