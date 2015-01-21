@@ -7980,7 +7980,7 @@ public abstract class ChoiceManager
 		case 1005:	// 'Allo
 		case 1008:	// Pooling Your Resources
 		case 1011:	// Of Mouseholes and Manholes
-			SorceressLairManager.parseMazeTrap( ChoiceManager.ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
+			SorceressLairManager.parseMazeTrap( ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
 			break;
 
 		case 1030:
