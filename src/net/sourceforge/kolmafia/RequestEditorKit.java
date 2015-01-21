@@ -1391,6 +1391,14 @@ public class RequestEditorKit
 			monsterData.append( ", Defeated: ");
 			monsterData.append( count );
 		}
+		else if ( monsterName.equalsIgnoreCase( "wall of skin" ) )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.BEEHIVE ) );
+		}
+		else if ( monsterName.equalsIgnoreCase( "wall of bones" ) )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ELECTRIC_BONING_KNIFE ) );
+		}
 
 		String danceMoveStatus = NemesisDecorator.danceMoveStatus( monsterName );
 		if ( danceMoveStatus != null )
