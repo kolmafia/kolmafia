@@ -113,9 +113,9 @@ public abstract class UseLinkDecorator
 		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
 
 		// Some combats lead to a non-optional choice
-		boolean duringCombat = inCombat && ( FightRequest.getCurrentRound() != 0 || buffer.indexOf( "action=choice.php" ) != -1 );
+		boolean duringCombat = inCombat && ( FightRequest.getCurrentRound() != 0 || buffer.indexOf( "choice.php" ) != -1 );
 		// Some choices lead to a non-optional choice
-		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1 && !ChoiceManager.canWalkAway();
+		boolean duringChoice = inChoice && buffer.indexOf( "choice.php" ) != -1 && !ChoiceManager.canWalkAway();
 
 		// If we are currently in a combat or choice, we should consider deferring
 		boolean deferrable = inCombat || inChoice;
