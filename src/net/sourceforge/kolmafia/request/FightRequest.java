@@ -3457,6 +3457,13 @@ public class FightRequest
 			{
 				BugbearManager.clearShipZone( "Medbay" );
 			}
+			else if ( monster.equalsIgnoreCase( "writing desk" ) )
+			{
+				if ( responseText.contains( "You open" ) )
+				{
+					Preferences.increment( "writingDesksDefeated" );
+				}
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )
