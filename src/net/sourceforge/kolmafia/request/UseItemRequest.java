@@ -86,7 +86,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -1190,10 +1189,6 @@ public class UseItemRequest
 			String status = Preferences.getInteger( "lastTempleUnlock" ) == KoLCharacter.getAscensions() ? "step1" : QuestDatabase.STARTED;
 			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, status );
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
-			return;
-
-		case ItemPool.PUZZLE_PIECE:
-			SorceressLairManager.completeHedgeMaze();
 			return;
 
 		case ItemPool.NEWBIESPORT_TENT:

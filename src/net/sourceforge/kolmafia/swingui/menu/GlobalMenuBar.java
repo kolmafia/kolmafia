@@ -174,12 +174,9 @@ public class GlobalMenuBar
 		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", LeafletManager.class, "leafletNoMagic" ) );
 		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", LeafletManager.class, "leafletWithMagic" ) );
 
-		questsMenu.add( new JSeparator() );
+		// Naughty Sorceress Quest Scripts follow
 
-		questsMenu.add( new InvocationMenuItem( "Sorceress Entryway", SorceressLairManager.class, "completeEntryway" ) );
-		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLairManager.class, "completeHedgeMaze" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (Complete)", SorceressLairManager.class, "fightAllTowerGuardians" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLairManager.class, "fightMostTowerGuardians" ) );
+		// questsMenu.add( new JSeparator() );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static final lists.

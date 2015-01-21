@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.GourdManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
@@ -56,12 +55,6 @@ public class CompleteQuestCommand
 	@Override
 	public void run( final String command, final String parameters )
 	{
-		if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
-		{
-			SorceressLairManager.fightAllTowerGuardians();
-			return;
-		}
-
 		if ( command.equals( "guild" ) )
 		{
 			GuildUnlockManager.unlockGuild();

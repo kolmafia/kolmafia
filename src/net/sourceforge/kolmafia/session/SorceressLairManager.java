@@ -641,29 +641,26 @@ public abstract class SorceressLairManager
 	}
 
 	// *** Here follow obsolete methods
+
+	// Once we have the steps defined for the new tower, we can use the
+	// following to parse place.php?whichplace=nstower:
+	//
+	// otherimages/nstower/nstower_regdesk.gif
+	// otherimages/nstower/crowd1.gif
+	// otherimages/nstower/crowd2.gif
+	// otherimages/nstower/crowd3.gif
+	// otherimages/nstower/nstower_courtyard.gif
+	// otherimages/nstower/nstower_hedgemaze.gif
+	// otherimages/nstower/nstower_towerdoor.gif
+	// otherimages/nstower/nstower_tower1.gif
+	// otherimages/nstower/nstower_tower2.gif
+	// otherimages/nstower/nstower_tower3.gif
+	// otherimages/nstower/nstower_tower4.gif
+	// otherimages/nstower/nstower_tower5.gif
+	// otherimages/nstower/chamberlabel.gif
+	// otherimages/nstower/../lair/kingprismanim.gif
+	// otherimages/nstower/../gash.gif
 	
-	public static final void completeEntryway()
-	{
-	}
-
-	public static final void completeHedgeMaze()
-	{
-	}
-
-	public static final int fightAllTowerGuardians()
-	{
-		return -1;
-	}
-
-	public static final int fightMostTowerGuardians()
-	{
-		return -1;
-	}
-
-	/*
-	 * Methods to decorate lair pages for the Relay Browser
-	 */
-
 	public static void handleQuestChange( String location, String responseText )
 	{
 		// lair.php and lair1-6.php all can check for the same things.
