@@ -289,6 +289,8 @@ public class ValhallaDecorator
 		ValhallaDecorator.switchFolderHolder( buffer );
 		
 		ValhallaDecorator.checkIceHouse( buffer );
+
+		ValhallaDecorator.switchChateau( buffer );
 	}
 
 	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
@@ -647,5 +649,71 @@ public class ValhallaDecorator
 			iceHouseBuffer.append( "(none currently)</a></nobr>" );
 		}
 		buffer.append( iceHouseBuffer );
+	}
+
+	private static final void switchChateau( StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "chateauAvailable" ) )
+		{
+			return;
+		}
+
+		StringBuilder chateauBuffer = new StringBuilder();
+
+		chateauBuffer.append( "<br>Chateau: " );
+
+		for ( AdventureResult item : KoLConstants.chateau )
+		{
+			chateauBuffer.append( "<nobr><a href=\"shop.php?whichshop=chateau\" title=\"Change from giving " );
+			switch ( item.getItemId() )
+			{
+			case ItemPool.CHATEAU_MUSCLE:
+				chateauBuffer.append( "muscle stats when resting" );
+				break;
+			case ItemPool.CHATEAU_MYST:
+				chateauBuffer.append( "mysticality stats when resting" );
+				break;
+			case ItemPool.CHATEAU_MOXIE:
+				chateauBuffer.append( "moxie stats when resting" );
+				break;
+			case ItemPool.CHATEAU_FAN:
+				chateauBuffer.append( "+5 free rests per day" );
+				break;
+			case ItemPool.CHATEAU_CHANDELIER:
+				chateauBuffer.append( "+3 PvP fights at rollover" );
+				break;
+			case ItemPool.CHATEAU_SKYLIGHT:
+				chateauBuffer.append( "+3 adventures at rollover" );
+				break;
+			case ItemPool.CHATEAU_BANK:
+				chateauBuffer.append( "1,000 meat per day" );
+				break;
+			case ItemPool.CHATEAU_JUICE_BAR:
+				chateauBuffer.append( "3 random potions per day" );
+				break;
+			default:
+				chateauBuffer.append( "unknown" );
+				break;
+			}
+			chateauBuffer.append( "\">" );
+			chateauBuffer.append( item.getName() );
+			chateauBuffer.append( "</a></nobr> " );
+		}
+
+		String monster = Preferences.getString( "chateauMonster" );
+		chateauBuffer.append( "<br>Chateau monster: " );
+		chateauBuffer.append( "<nobr><a href=\"place.php?whichplace=chateau\" title=\"Check painted monster\">" );
+		if ( monster.equals( "" ) )
+		{
+			chateauBuffer.append( "(none currently)" );
+		}
+		else
+		{
+			chateauBuffer.append( monster );
+			chateauBuffer.append( " (currently)" );
+		}
+		chateauBuffer.append( "</a></nobr> " );
+
+		buffer.append( chateauBuffer );
 	}
 }
