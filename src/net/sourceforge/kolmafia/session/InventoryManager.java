@@ -215,7 +215,6 @@ public abstract class InventoryManager
 		}
 
 		int itemId = item.getItemId();
-		boolean allowed = StandardRequest.isAllowed( "Items", item.getName() );
 
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
@@ -232,25 +231,26 @@ public abstract class InventoryManager
 			count += item.getCount( KoLConstants.closet );
 		}
 
-		// Free Pulls from Hagnk's are accessible, except untrendy items for Trendy characters
-		if ( allowed )
+		// Consider items in storage - if they are not restricted
+		if ( StandardRequest.isAllowed( "Items", item.getName() ) )
 		{
+			// Free Pulls from Hagnk's are always accessible
 			count += item.getCount( KoLConstants.freepulls );
-		}
 
-		if ( KoLCharacter.canInteract() && allowed )
-		{
-			// Storage is always accessible once you are out of
-			// Ronin or have freed the king, but, again, the user
-			// can mark it as out-of-bounds
-			if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+			// Storage and your clan stash are always accessible
+			// once you are out of Ronin or have freed the king,
+			// but the user can mark either as out-of-bounds
+			if ( KoLCharacter.canInteract() )
 			{
-				count += item.getCount( KoLConstants.storage );
-			}
+				if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+				{
+					count += item.getCount( KoLConstants.storage );
+				}
 
-			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
-			{
-				count += item.getCount( ClanManager.getStash() );
+				if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
+				{
+					count += item.getCount( ClanManager.getStash() );
+				}
 			}
 		}
 
@@ -261,7 +261,7 @@ public abstract class InventoryManager
 			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
 
 			if ( !current.equals( KoLCharacter.getFamiliar() ) &&
-				current.getItem() != null && current.getItem().equals( item ) )
+			     current.getItem() != null && current.getItem().equals( item ) )
 			{
 				++count;
 			}
@@ -397,19 +397,16 @@ public abstract class InventoryManager
 			return InventoryManager.doRetrieveItem( item, isAutomated, sim );
 		}
 
-		String rv;
-
 		try
 		{
 			InventoryManager.setCloverProtection( false );
-			rv = InventoryManager.doRetrieveItem( item, isAutomated, sim );
+			return InventoryManager.doRetrieveItem( item, isAutomated, false );
 		}
 		finally
 		{
 			// Restore clover protection
 			InventoryManager.setCloverProtection( true );
 		}
-		return rv;
 	}
 
 	// When called with sim=true, retrieveItem should return a non-empty string
