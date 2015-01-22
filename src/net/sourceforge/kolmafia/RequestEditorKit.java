@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -494,6 +495,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "multiuse.php" ) )
 		{
 			RequestEditorKit.addMultiuseModifiers( buffer );
+		}
+		else if ( location.startsWith( "ocean.php" ) )
+		{
+			OceanManager.decorate( buffer );
 		}
 		else if ( location.startsWith( "pandamonium.php" ) )
 		{
