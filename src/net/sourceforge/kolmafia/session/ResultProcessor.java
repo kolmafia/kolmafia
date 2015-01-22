@@ -2150,8 +2150,10 @@ public class ResultProcessor
 			if ( RequestLogger.getLastURLString().contains( "action=jung" ) )
 			{
 				Preferences.setBoolean( "_psychoJarFilled", true );
+				ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
 			}
-		// fall through
+			break;
+
 		case ItemPool.SUSPICIOUS_JAR:
 		case ItemPool.GOURD_JAR:
 		case ItemPool.MYSTIC_JAR:
@@ -2166,7 +2168,7 @@ public class ResultProcessor
 
 		case ItemPool.BRICKO_EYE:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_brickoEyeSummons" );
 			}
@@ -2176,7 +2178,7 @@ public class ResultProcessor
 		case ItemPool.DIVINE_CRACKER:
 		case ItemPool.DIVINE_FLUTE:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_favorRareSummons" );
 			}
@@ -2184,7 +2186,7 @@ public class ResultProcessor
 
 		case ItemPool.YELLOW_TAFFY:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_taffyRareSummons" );
 				Preferences.increment( "_taffyYellowSummons" );
@@ -2194,7 +2196,7 @@ public class ResultProcessor
 		case ItemPool.GREEN_TAFFY:
 		case ItemPool.INDIGO_TAFFY:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
-				RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
 			{
 				Preferences.increment( "_taffyRareSummons" );
 			}
@@ -2345,13 +2347,6 @@ public class ResultProcessor
 			}
 			break;
 		}
-
-		case ItemPool.ANTICHEESE:
-			if ( RequestLogger.getLastURLString().contains( "db_nukehouse ") )
-			{
-				Preferences.setInteger( "lastAnticheeseDay", KoLCharacter.getCurrentDays() );
-			}
-			break;
 
 		case ItemPool.THINKNERD_PACKAGE:
 			if ( combatResults )

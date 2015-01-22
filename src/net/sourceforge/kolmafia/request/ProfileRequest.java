@@ -701,9 +701,9 @@ public class ProfileRequest
 
 	public static void parseResponse( String location, String responseText )
 	{
-		if ( location.equals( "showplayer.php?who=1" ) && // see if we're looking at Jick's profile
-			 InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) && // and that we have an empty jar
-			 !Preferences.getBoolean( "_psychoJarFilled" ) ) // and that we haven't already filled a jar
+		if ( location.equals( "showplayer.php?who=1" ) &&		// see if we're looking at Jick's profile
+		     InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and that we have an empty jar
+		     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and that we haven't already filled a jar
 		{
 			Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
 		}
