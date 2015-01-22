@@ -8060,8 +8060,8 @@
 8041	crumbling skull	620275176	spelskull.gif	offhand	q	0
 8042	rock	683893245	spelrock.gif	offhand	q	0
 8043	pot	699815101	spelpot.gif	offhand	q	0
-8044	spelunking fedora	717110827	hobofedora.gif	q	0
-8045	sturdy machete	993613711	machetito.gif	q	0
+8044	spelunking fedora	717110827	hobofedora.gif	hat	q	0
+8045	sturdy machete	993613711	machetito.gif	weapon	q	0
 8046	shotgun	606913715	shotgun.gif	weapon	q	0
 8047	boomerang	598963930	spelboomerang.gif	weapon	q	0
 8048
@@ -8074,10 +8074,10 @@
 8055	heavy pickaxe	646903155	spelpick.gif	offhand	q	0
 8056	torch	404717759	speltorch.gif	offhand	q	0
 8057
-8058
-8059
-8060
-8061
+8058	plasma rifle	705644620	spelplasma.gif	weapon	q	0
+8059	Bananubis's Staff	493722531	spelstaff.gif	weapon	q	0
+8060	The Joke Book of the Dead	806963834	spelbook.gif	offhand	q	0
+8061	The Clown Crown	608565004	spelcrown.gif	hat	q	0
 8062	cursed coffee cup	496387510	spelcup.gif	offhand	q	0
 8063	Tales of Spelunking	875497902	speltales.gif	usable	t	0
 8064	golden monkey statuette	243083851	goldmonkeystat.gif	grow	t	0

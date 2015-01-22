@@ -3344,6 +3344,8 @@ Xiblaxian holo-bowtie	Familiar Weight: +5
 
 # Virtual Equipment
 
+# Bananubis's Staff: -6 Luck
+# Bananubis's Staff: Raise Skeleton Buddies
 boomerang Weakens Monster
 # crumbling skull: Can be thrown
 # cursed coffee cup: -2 Luck
@@ -3352,6 +3354,7 @@ heavy pickaxe	Muscle: +5, Mysticality: +5, Moxie: +5
 jetpack	Moxie: +10
 # mining helmet: Lights Dark Places
 mining helmet	Damage Reduction: 2
+plasma rifle	Ranged Damage: +20
 # pot: Can be thrown
 pot	Damage Reduction: 2
 # rock: Can be thrown
@@ -3359,6 +3362,9 @@ spelunking fedora	Muscle: +5, Moxie: +5
 # spiked boots: Deal some damage at the start of combat
 # spring boots: Sometimes Avoid Enemy Attacks
 sturdy machete	Weapon Damage: +5
+# The Clown Crown: -6 Luck
+# The Joke Book of the Dead: -6 Luck
+The Joke Book of the Dead	Damage Reduction: 5, Weapon Damage: +5
 # torch: Burns foes
 # torch: Lights dark places
 # torch: Can be thrown
