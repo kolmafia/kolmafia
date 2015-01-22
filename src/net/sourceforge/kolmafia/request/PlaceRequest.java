@@ -115,6 +115,32 @@ public class PlaceRequest
 		{
 			KnollRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "manor1" ) )
+		{
+			if ( action.equals( "manor1_ladys" ) )
+			{
+				if ( responseText.contains( "ghost of a necklace" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.SPOOKYRAVEN_NECKLACE );
+				}
+			}
+		}
+		else if ( place.equals( "manor2" ) )
+		{
+			if ( action.equals( "manor2_ladys" ) )
+			{
+				// Lady Spookyraven's ghostly eyes light up at the sight of her dancing
+				// finery. She grabs it from you and excitedly shouts "Meet me in the
+				// ballroom in five minutes!" as she darts through the wall.
+
+				if ( responseText.contains( "She grabs it from you" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.POWDER_PUFF );
+					ResultProcessor.removeItem( ItemPool.FINEST_GOWN );
+					ResultProcessor.removeItem( ItemPool.DANCING_SHOES );
+				}
+			}
+		}
 		else if ( place.equals( "mountains" ) )
 		{
 			if ( responseText.contains( "chateau" ) )
