@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -99,6 +100,16 @@ public class PlaceRequest
 		else if ( place.equals( "chateau" ) )
 		{
 			ChateauRequest.parseResponse( urlString, responseText );
+		}
+		else if ( place.equals( "desertbeach" ) )
+		{
+			if ( action.equals( "db_nukehouse" ) )
+			{
+				if ( responseText.contains( "anticheese" ) )
+				{
+					Preferences.setInteger( "lastAnticheeseDay", KoLCharacter.getCurrentDays() );
+				}
+			}
 		}
 		else if ( place.equals( "forestvillage" ) )
 		{
