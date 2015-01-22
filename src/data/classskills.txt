@@ -673,6 +673,14 @@
 7234	ZAP	jigawatts.gif	5	0	0
 7235	POW	explosion.gif	5	0	0
 7236	BURN	fireball.gif	5	0	0
+7237
+7238	Throw Skull	spelskull	5	0	0
+7239	Throw Rock	spelrock	5	0	0
+7240	Use Rope	spelrope	5	0	0
+7241	Throw Bomb	bluebomb	5	0	0
+7242	Throw Pot	spelpot	5	0	0
+7243	Throw Ten Bombs	bluebomb	5	0	0
+7244	Throw Torch	speltorch	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

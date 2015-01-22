@@ -423,4 +423,6 @@ Spelunky Area	adventure=429	Env: none Stat: 0	The Snake Pit
 Spelunky Area	adventure=430	Env: none Stat: 0	The Spider Hole
 Spelunky Area	adventure=431	Env: none Stat: 0	The Ancient Burial Ground
 Spelunky Area	adventure=432	Env: none Stat: 0	The Beehive
+Spelunky Area	adventure=433	Env: none Stat: 0	The Crashed U. F. O.
+Spelunky Area	adventure=434	Env: none Stat: 0	The City of Goooold
 Spelunky Area	adventure=435	Env: none Stat: 0	LOLmec's Lair

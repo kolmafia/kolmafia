@@ -2645,12 +2645,14 @@ wings of fire	100	Mys: 100
 
 # Virtual equipment
 
+Bananubis's Staff	30	Mus: 0	1-handed
 boomerang 30 Mox: 0 1-handed boomerang
 crumbling skull	0	none
 cursed coffee cup	0	none
 heavy pickaxe	0	none
 jetpack	0	none
 mining helmet	0	none
+plasma rifle	90	Mox: 0	1-handed
 pot	0	none
 rock	0	none
 shotgun	60	Mox: 0	1-handed 
@@ -2658,6 +2660,8 @@ spelunking fedora	0	none
 spiked boots	0	none
 spring boots	0	none
 sturdy machete	30	none	1-handed sword
+The Clown Crown	0	none
+The Joke Book of the Dead	0	none
 torch	0	none
 trusty whip	30	none	1-handed whip
 X-ray goggles	0	none

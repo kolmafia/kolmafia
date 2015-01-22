@@ -132,6 +132,7 @@ Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
+LOLmec's Lair	100	LOLmec: 0
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
 McMillicancuddy's Barn	100	generic duck
@@ -202,7 +203,7 @@ The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker: 0	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 The Beanbat Chamber	100	beanbat	screambat: 0
-The Beehive	-1	bee	queen bee: 0
+The Beehive	-1	bee	queen bee (spelunky): 0
 The Black Forest	100	black adder	black panther	black widow	black friar	black magic woman	blackberry bush: 0
 The Boss Bat's Lair	100	beefy bodyguard bat	Boss Bat
 The Brinier Deepers	100	bazookafish	clubfish	scimitarfish
@@ -216,10 +217,12 @@ The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	F
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
 The Cave Before Time	-1	droll	pterodactyl	sabre-toothed kiwi	Adventurer echo: 0
+The City of Goooold	-1	mummy	Bananubis: 0
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
 The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja
 The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse: 1r75
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
+The Crashed U. F. O.	-1	alien UFO	alien queen: 0
 The Crimbonium Mining Camp	100	ambulatory robo-minecart	exo-suited miner	semi-autonomous drill unit
 The Daily Dungeon	-1	apathetic lizardman	dairy ooze	dodecapede	giant giant moth	mayonnaise wasp	pencil golem	sabre-toothed lime	tonic water elemental	vampire clam
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
@@ -333,7 +336,7 @@ The Spooky Old Abandoned Mine	100	cowskeleton	nest of rattlers	tetched prospecto
 The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skating Muse	toothless mastiff bitch
 The Sunken Party Yacht	100	broctopus	cocktail shrimp	wild girl	drownedbeat: 0	son of a son of a sailor: 0	taco fish: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
-The Temple Ruins	-1	crocodile man	magma man	mummy
+The Temple Ruins	-1	crocodile man	cultist	magma man	mummy
 The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton

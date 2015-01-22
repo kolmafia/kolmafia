@@ -1459,15 +1459,19 @@ E.V.E., the robot zombie	eve.gif	Atk: 300 Def: 300 HP: 500 Init: 150 P: construc
 
 # Tales of Spelunking (Adventrous Spelunker Year 2015)
 alien	spelunkalien.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
+alien queen	spelunkalienq.gif	Atk: 70 Def: 70 HP: 70 Init: -10000 P: weird	plasma rifle (100)	jetpack (100)
 alien UFO	spelunkufo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
+Bananubis	spelbanana.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: beast	Bananubis's Staff (100)
 bat	spelunkbat.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
 bee	spelunkbee.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 caveman	spelunkcaveman.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: dude
 cobra	spelunkcobra.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: beast
 crocodile man	spelunkcroc.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: dude
+cultist	spelunkhawk.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: dude
+LOLmec	spelunklolm.gif	Atk: 200 Def: 200 HP: 300 Init: -10000 P: construct
 magma man	spelunkmagma.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: elemental
 mummy	spelunkmumm.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: undead
-queen bee	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug
+queen bee (spelunky)	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug
 scorpion	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 skeleton	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead
 snake	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
