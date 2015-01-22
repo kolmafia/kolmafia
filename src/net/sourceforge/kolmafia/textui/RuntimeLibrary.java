@@ -1310,18 +1310,6 @@ public abstract class RuntimeLibrary
 		// Quest handling functions.
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "entryway", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "hedgemaze", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "guardians", DataTypes.ITEM_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "chamber", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] {};
 		functions.add( new LibraryFunction( "tavern", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
