@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.awt.Point;
+
 import java.io.File;
 import java.io.PrintStream;
 
@@ -62,14 +64,12 @@ public class OceanManager
 		OceanManager.processOceanAdventure( OceanManager.OCEAN_HANDLER );
 	}
 
-	public static final void processOceanAdventure( final GenericRequest request )
+	public static final Point getDestination()
 	{
 		String dest = Preferences.getString( "oceanDestination" );
 		if ( dest.equals( "manual" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "Pick a course." );
-			request.showInBrowser( true );
-			return;
+			return null;
 		}
 
 		int lon = 0;
@@ -109,6 +109,23 @@ public class OceanManager
 				lat = StringUtilities.parseInt( matcher.group( 2 ) );
 			}
 		}
+
+		return new Point( lon, lat );
+	}
+
+	public static final void processOceanAdventure( final GenericRequest request )
+	{
+		Point destination = OceanManager.getDestination();
+
+		if ( destination == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Pick a course." );
+			request.showInBrowser( true );
+			return;
+		}
+
+		int lon = destination.x;
+		int lat = destination.y;
 
 		String action = Preferences.getString( "oceanAction" );
 		boolean stop = action.equals( "stop" ) || action.equals( "savestop" );
@@ -179,6 +196,39 @@ public class OceanManager
 
 			// Pick a different random destination
 			lon = lat = 0;
+		}
+	}
+
+	private static final Pattern LON_PATTERN = Pattern.compile( "<input type=text class=text size=5 name=lon" );
+	private static final Pattern LAT_PATTERN = Pattern.compile( "<input type=text class=text size=5 name=lat" );
+	
+	public static final void decorate( final StringBuffer buffer )
+	{
+		Point destination = OceanManager.getDestination();
+
+		if ( destination == null )
+		{
+			return;
+		}
+
+		int lon = destination.x;
+		int lat = destination.y;
+
+		if ( lon < 1 || lon > 242 || lat < 1 || lat > 100 )
+		{
+			return;
+		}
+
+		Matcher lonMatcher = OceanManager.LON_PATTERN.matcher( buffer );
+		if ( lonMatcher.find() )
+		{
+			buffer.insert( lonMatcher.end(), " value=\"" + String.valueOf( lon ) + "\"" );
+		}
+		
+		Matcher latMatcher = OceanManager.LAT_PATTERN.matcher( buffer );
+		if ( latMatcher.find() )
+		{
+			buffer.insert( latMatcher.end(), " value=\"" + String.valueOf( lat ) + "\"" );
 		}
 	}
 }
