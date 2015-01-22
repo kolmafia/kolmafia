@@ -1638,6 +1638,33 @@ public abstract class UseLinkDecorator
 		case ItemPool.GOLD_PIECE:
 			return new UseLink( itemId, InventoryManager.getCount( itemId ) );
 
+		case ItemPool.SPOOKYRAVEN_NECKLACE:
+
+			useType = "talk to Lady Spookyraven";
+			useLocation = "place.php?whichplace=manor1&action=manor1_ladys";
+			break;
+
+		case ItemPool.POWDER_PUFF:
+		case ItemPool.FINEST_GOWN:
+		case ItemPool.DANCING_SHOES:
+
+			if ( !InventoryManager.hasItem( ItemPool.POWDER_PUFF ) ||
+			     !InventoryManager.hasItem( ItemPool.FINEST_GOWN ) ||
+			     !InventoryManager.hasItem( ItemPool.DANCING_SHOES ) )
+			{
+				return null;
+			}
+
+			useType = "talk to Lady Spookyraven";
+			useLocation = "place.php?whichplace=manor2&action=manor2_ladys";
+			break;
+
+		case ItemPool.BABY_GHOSTS:
+
+			useType = "talk to Lady Spookyraven";
+			useLocation = "place.php?whichplace=manor3&action=manor3_ladys";
+			break;
+
 		case ItemPool.PACK_OF_SMOKES:
 		{
 			int count = InventoryManager.getCount( itemId );

@@ -1756,6 +1756,7 @@ public class ResultProcessor
 
 		case ItemPool.GHOST_FORMULA:
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.FINISHED );
+			ResultProcessor.removeItem( ItemPool.BABY_GHOSTS );
 			break;
 
 		case ItemPool.NEOPRENE_SKULLCAP:

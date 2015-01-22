@@ -2051,6 +2051,9 @@ public class ItemPool
 	public static final int LIBRARY_KEY = 7302;
 	public static final int SPOOKYRAVEN_NECKLACE = 7303;
 	public static final int SPOOKYRAVEN_TELEGRAM = 7304;
+	public static final int POWDER_PUFF = 7305;
+	public static final int FINEST_GOWN = 7306;
+	public static final int DANCING_SHOES = 7307;
 	public static final int DUSTY_POPPET = 7314;
 	public static final int BABY_GHOSTS = 7317;
 	public static final int GHOST_NECKLACE = 7318;
