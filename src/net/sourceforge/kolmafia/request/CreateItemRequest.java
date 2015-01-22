@@ -102,13 +102,6 @@ public class CreateItemRequest
 
 	protected int quantityNeeded, quantityPossible, quantityPullable;
 
-	private static final int[][] DOUGH_DATA =
-	{
-		// input, tool, output
-		{ ItemPool.DOUGH, ItemPool.ROLLING_PIN, ItemPool.FLAT_DOUGH },
-		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING_PIN, ItemPool.DOUGH }
-	};
-
 	/**
 	 * Constructs a new <code>CreateItemRequest</code> with nothing known other than the form to use. This is used
 	 * by descendant classes to avoid weird type-casting problems, as it assumes that there is no known way for the item
@@ -449,21 +442,7 @@ public class CreateItemRequest
 				break;
 
 			case ROLLING_PIN:
-				int ingredientsOnHand = InventoryManager.getAccessibleCount( this.concoction
-					.getIngredients()[ 0 ] );
-				if ( ingredientsOnHand > 0 )
-				{
-					// If we have some of the other kind of dough, make up to that amount first
-					// before we make any purchases.
-					int temp = this.quantityNeeded;
-					this.quantityNeeded = Math.min( this.quantityNeeded, ingredientsOnHand );
-					this.makeDough( true );
-					this.quantityNeeded = temp;
-				}
-				else
-				{
-					this.makeDough();
-				}
+				this.makeDough();
 				break;
 
 			case COINMASTER:
@@ -512,76 +491,117 @@ public class CreateItemRequest
 		return false;
 	}
 
+	private static final AdventureResult[][] DOUGH_DATA =
+	{
+		// input, tool, output
+		{
+			ItemPool.get( ItemPool.DOUGH, 1 ),
+			ItemPool.get( ItemPool.ROLLING_PIN, 1 ),
+			ItemPool.get( ItemPool.FLAT_DOUGH, 1 ),
+		},
+		{
+			ItemPool.get( ItemPool.FLAT_DOUGH, 1 ),
+			ItemPool.get( ItemPool.UNROLLING_PIN, 1 ),
+			ItemPool.get( ItemPool.DOUGH, 1 ),
+		},
+	};
+
 	public void makeDough()
 	{
-		makeDough( false );
-	}
-
-	public void makeDough( boolean onHand )
-	{
-		int input = -1;
-		int tool = -1;
-		int output = -1;
+		AdventureResult input = null;
+		AdventureResult tool = null;
+		AdventureResult output = null;
 
 		// Find the array row and load the
 		// correct tool/input/output data.
 
-		for ( int i = 0; i < CreateItemRequest.DOUGH_DATA.length; ++i )
+		for ( AdventureResult[] row : CreateItemRequest.DOUGH_DATA )
 		{
-			output = CreateItemRequest.DOUGH_DATA[ i ][ 2 ];
-			if ( this.itemId == output )
+			output = row[ 2 ];
+			if ( this.itemId == output.getItemId() )
 			{
-				tool = CreateItemRequest.DOUGH_DATA[ i ][ 1 ];
-				input = CreateItemRequest.DOUGH_DATA[ i ][ 0 ];
+				tool = row[ 1 ];
+				input = row[ 0 ];
 				break;
 			}
 		}
 
-		if ( tool == -1 )
+		if ( tool == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't deduce correct tool to use." );
 			return;
 		}
 
-		if ( !onHand )
+		int needed = this.quantityNeeded;
+
+		// See how many of the ingredient are already available
+		int available = InventoryManager.getAccessibleCount( input );
+
+		// See how many of those we should pull into inventory
+		int retrieve = Math.min( available, needed );
+
+		// See how many we need to purchase
+		int purchase = needed - retrieve;
+
+		// Pull accessible ingredients into inventory
+		if ( !InventoryManager.retrieveItem( input.getInstance( retrieve ) ) )
 		{
-			// If we got here, we have some of one ingredient and none of the other.
+			// This should not happen, but cope.
+			purchase = needed - input.getCount( KoLConstants.inventory );
+		}
+
+		if ( purchase > 0 )
+		{
+			// If we got here, we don't have all of the ingredient that we need
 			// It's always cheaper to buy wads of dough, so just do that.
 			// Using makePurchases directly because retrieveItem does not handle this recursion gracefully.
-			AdventureResult dough = ItemPool.get( ItemPool.DOUGH, this.quantityNeeded );
+
+			AdventureResult dough = ItemPool.get( ItemPool.DOUGH, purchase );
 			ArrayList<PurchaseRequest> results = StoreManager.searchNPCs( dough );
-			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), dough.getCount(), false, 50 );
+			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), purchase, false, 50 );
+
+			// And if we are making wads of dough, that reduces how many we need
+
+			if ( output.getItemId() == ItemPool.DOUGH )
+			{
+				needed -= purchase;
+			}
+		}
+
+		// Purchasing might have satisfied our needs
+
+		if ( needed == 0 )
+		{
+			return;
 		}
 
 		// If we don't have the correct tool, and the person wishes to
 		// create more than 10 dough, then notify the person that they
 		// should purchase a tool before continuing.
 
-		if ( ( this.quantityNeeded >= 10 || InventoryManager.hasItem( tool ) ) && !InventoryManager.retrieveItem( tool ) )
+		if ( needed > 10 && !InventoryManager.retrieveItem( tool ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Please purchase a " + ItemDatabase.getItemName( tool ) + " first." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Please purchase a " + tool.getName() + " first." );
 			return;
 		}
 
-		// If we have the correct tool, use it to
-		// create the needed dough type.
+		// If we have the correct tool, use it to create the dough.
 
-		if ( InventoryManager.hasItem( tool ) )
+		if ( InventoryManager.hasItem( tool ) && InventoryManager.retrieveItem( tool ) )
 		{
-			KoLmafia.updateDisplay( "Using " + ItemDatabase.getItemName( tool ) + "..." );
-			UseItemRequest.getInstance( ItemPool.get( tool, 1 ) ).run();
+			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
+			UseItemRequest.getInstance( tool ).run();
 			return;
 		}
 
-		// Without the right tool, we must manipulate
-		// the dough by hand.
+		// Without the right tool, we must knead the dough by hand.
 
-		String name = ItemDatabase.getItemName( output );
-		UseItemRequest request = UseItemRequest.getInstance( ItemPool.get( input, 1 ) );
+		String name = output.getName();
+		UseItemRequest request = UseItemRequest.getInstance( input );
 
-		for ( int i = 1; KoLmafia.permitsContinue() && i <= this.quantityNeeded; ++i )
+		for ( int i = 1; KoLmafia.permitsContinue() && i <= needed; ++i )
 		{
-			KoLmafia.updateDisplay( "Creating " + name + " (" + i + " of " + this.quantityNeeded + ")..." );
+			KoLmafia.updateDisplay( "Creating " + name + " (" + i + " of " + needed + ")..." );
 			request.run();
 		}
 	}
