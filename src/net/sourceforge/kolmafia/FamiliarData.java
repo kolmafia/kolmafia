@@ -1004,6 +1004,10 @@ public class FamiliarData
 		{
 			Preferences.setString( "shrubTopper", KoLCharacter.mainStat().toString() );
 			// If we didn't find this pattern, we won't find anything else either
+			// The remaining values are either random or nothing
+			Preferences.setString( "shrubLights", "" );
+			Preferences.setString( "shrubGarland", "" );
+			Preferences.setString( "shrubGifts", "" );
 			return;
 		}
 
