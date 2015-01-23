@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -96,6 +97,7 @@ public abstract class SorceressLairManager
 	};
 
 	// Items for the chamber
+	private static final AdventureResult CONFIDENCE = EffectPool.get( "Confidence!", Integer.MAX_VALUE );
 	public static final AdventureResult NAGAMAR = ItemPool.get( ItemPool.WAND_OF_NAGAMAR, 1 );
 
 	private static final String[][] CROWD2_DATA =
@@ -640,116 +642,93 @@ public abstract class SorceressLairManager
 		}
 	}
 
-	// *** Here follow obsolete methods
-
-	// Once we have the steps defined for the new tower, we can use the
-	// following to parse place.php?whichplace=nstower:
-	//
-	// otherimages/nstower/nstower_regdesk.gif
-	// otherimages/nstower/crowd1.gif
-	// otherimages/nstower/crowd2.gif
-	// otherimages/nstower/crowd3.gif
-	// otherimages/nstower/nstower_courtyard.gif
-	// otherimages/nstower/nstower_hedgemaze.gif
-	// otherimages/nstower/nstower_towerdoor.gif
-	// otherimages/nstower/nstower_tower1.gif
-	// otherimages/nstower/nstower_tower2.gif
-	// otherimages/nstower/nstower_tower3.gif
-	// otherimages/nstower/nstower_tower4.gif
-	// otherimages/nstower/nstower_tower5.gif
-	// otherimages/nstower/chamberlabel.gif
-	// otherimages/nstower/../lair/kingprismanim.gif
-	// otherimages/nstower/../gash.gif
-	
-	public static void handleQuestChange( String location, String responseText )
+	public static void enterSorceressFight()
 	{
-		// lair.php and lair1-6.php all can check for the same things.
-		// Work backwards from the end to see what zones are unlocked.
-		// King deprismed
-		if ( responseText.contains( "gash.gif" ) )
+		// We retain (some) intrinsic effects. In particular, Confidence!
+		boolean isConfident = KoLConstants.activeEffects.contains( SorceressLairManager.CONFIDENCE );
+		KoLConstants.activeEffects.clear();
+		if ( isConfident )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
+			KoLConstants.activeEffects.add( SorceressLairManager.CONFIDENCE );
 		}
-		// Naughty Sorceress defeated
-		else if ( responseText.contains( "kingprism1.gif" ) )
+	}
+
+	private static final String[][] TOWER_DATA =
+	{
 		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step16" );
+			"nstower_regdesk.gif",
+			"step1",
+		},
+		{
+			"nstower_courtyard.gif",
+			"step2",
+		},
+		{
+			"nstower_hedgemaze.gif",
+			"step3",
+		},
+		{
+			"nstower_towerdoor.gif",
+			"step4",
+		},
+		{
+			"nstower_tower1.gif",
+			"step5",
+		},
+		{
+			"nstower_tower2.gif",
+			"step6",
+		},
+		{
+			"nstower_tower3.gif",
+			"step7",
+		},
+		{
+			"nstower_tower4.gif",
+			"step8",
+		},
+		{
+			"nstower_tower5.gif",
+			"step9",
+		},
+		{
+			"chamberlabel.gif",
+			"step10",
+		},
+		{
+			"kingprism",
+			"step11",
+		},
+		{
+			"gash.gif",
+			QuestDatabase.FINISHED,
+		},
+	};
+
+	public static void parseTower( String responseText )
+	{
+		String step = QuestDatabase.UNSTARTED;
+
+		for ( String[] spot : SorceressLairManager.TOWER_DATA )
+		{
+			if ( responseText.contains( spot[0] ) )
+			{
+				step = spot[1];
+				break;
+			}
 		}
 
-		// step13 and step14 were the 2 familiars contests. Those are
-		// now gone. We could remove those steps from questslog.txt and
-		// make the final battle with Her Naughtiness be step13 and the
-		// emprismed king be step14, but for backward compatibility
-		// (for now), defeating the shadow takes you to step15.
+		QuestDatabase.setQuestProgress( Quest.FINAL, step );
+
+		// If step is "step1", the following images might or might not
+		// be present
 		//
-		// Comment: In Avatar of Boris, Clancy replaces the familiars -
-		// and he still exists, even though the familiars are gone. I
-		// don't think we have the questlog text for that step.
-
-		// Shadow (or Clancy?) defeated
-		else if ( responseText.contains( "chamber5.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step15" );
-		}
-		// Deflect energy with mirror shard
-		else if ( responseText.contains( "chamber2.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step12" );
-		}
-		// Open Heavy door
-		else if ( responseText.contains( "chamber1.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step11" );
-		}
-		// Lower Monster 6 defeated
-		else if ( responseText.contains( "chamber0.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step10" );
-		}
-		// Lower Monster 5 defeated
-		else if ( responseText.contains( "tower6.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step9" );
-		}
-		// Lower Monster 4 defeated
-		else if ( responseText.contains( "tower5.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step8" );
-		}
-		// Lower Monster 3 defeated
-		else if ( responseText.contains( "tower4.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step7" );
-		}
-		// Lower Monster 2 defeated
-		else if ( responseText.contains( "tower3.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step6" );
-		}
-		// Lower Monster 1 defeated
-		else if ( responseText.contains( "tower2.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step5" );
-		}
-		// Maze completed
-		else if ( responseText.contains( "gate squeaks open" ) || responseText.contains( "tower1.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
-		}
-		// Cave done
-		else if ( responseText.contains( "cave22done.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step3" );
-		}
-		// Huge mirror broken
-		else if ( responseText.contains( "cave1mirrordone" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step2" );
-		}
-		// Passed the three gates
-		else if ( responseText.contains( "cave1mirror.gif" ) )
-		{
-			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step1" );
-		}
+		// crowd1.gif
+		// crowd2.gif
+		// crowd3.gif
+		//
+		// However, if absent, you may have not yet entered that
+		// contest or you may have finished it, and there is no
+		// indication of how far you are in the crowd.
 	}
 }

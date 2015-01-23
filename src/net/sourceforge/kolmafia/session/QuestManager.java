@@ -210,10 +210,6 @@ public class QuestManager
 				BURTRequest.parseResponse( location, responseText );
 			}
 		}
-		else if ( location.startsWith( "lair" ) )
-		{
-			SorceressLairManager.handleQuestChange( location, responseText );
-		}
 		else if ( location.startsWith( "manor" ) )
 		{
 			handleManorFirstFloorChange( responseText );
@@ -1406,51 +1402,46 @@ public class QuestManager
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "Beer Batter" ) ||
-			monster.equalsIgnoreCase( "best-selling novelist" ) ||
-			monster.equalsIgnoreCase( "Big Meat Golem" ) ||
-			monster.equalsIgnoreCase( "Bowling Cricket" ) ||
-			monster.equalsIgnoreCase( "Bronze Chef" ) ||
-			monster.equalsIgnoreCase( "collapsed mineshaft golem" ) ||
-			monster.equalsIgnoreCase( "concert pianist" ) ||
-			monster.equalsIgnoreCase( "the darkness" ) ||
-			monster.equalsIgnoreCase( "El Diablo" ) ||
-			monster.equalsIgnoreCase( "Electron Submarine" ) ||
-			monster.equalsIgnoreCase( "Enraged Cow" ) ||
-			monster.equalsIgnoreCase( "endangered inflatable white tiger" ) ||
-			monster.equalsIgnoreCase( "fancy bath slug" ) ||
-			monster.equalsIgnoreCase( "Fickle Finger of F8" ) ||
-			monster.equalsIgnoreCase( "Flaming Samurai" ) ||
-			monster.equalsIgnoreCase( "giant bee" ) ||
-			monster.equalsIgnoreCase( "giant fried egg" ) ||
-			monster.equalsIgnoreCase( "Giant Desktop Globe" ) ||
-			monster.equalsIgnoreCase( "Ice Cube" ) ||
-			monster.equalsIgnoreCase( "malevolent crop circle" ) ||
-			monster.equalsIgnoreCase( "possessed pipe-organ" ) ||
-			monster.equalsIgnoreCase( "Pretty Fly" ) ||
-			monster.equalsIgnoreCase( "Tyrannosaurus Tex" ) ||
-			monster.equalsIgnoreCase( "Vicious Easel" ) )
+		else if ( monster.equalsIgnoreCase( "topiary gopher" ) ||
+			  monster.equalsIgnoreCase( "topiary chihuahua herd" ) ||
+			  monster.equalsIgnoreCase( "topiary duck" ) ||
+			  monster.equalsIgnoreCase( "topiary kiwi" ) )
 		{
-			QuestDatabase.advanceQuest( Quest.FINAL );
+			// We are still in the Hedge Maze
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
+		}
+		else if ( monster.equalsIgnoreCase( "wall of skin" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
+		}
+		else if ( monster.equalsIgnoreCase( "wall of meat" ) &&
+			  responseText.contains( "the stairs to the next floor are clear" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
+		}
+		else if ( monster.equalsIgnoreCase( "wall of bones" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step8" );
 		}
 		else if ( monster.equalsIgnoreCase( "Your Shadow" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step13" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 		}
 		else if ( monster.equalsIgnoreCase( "Clancy" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step15" );
+			// We do not currently have a distinct step for Clancy
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 		}
 		else if ( monster.equalsIgnoreCase( "The Naughty Sorceress (3)" ) ||
-			monster.equalsIgnoreCase( "The Avatar of Sneaky Pete" ) ||
-			monster.equalsIgnoreCase( "The Avatar of Boris" ) ||
-			monster.equalsIgnoreCase( "Principal Mooney" ) ||
-			monster.equalsIgnoreCase( "Rene C. Corman" ) ||
-			monster.equalsIgnoreCase( "The Avatar of Jarlsberg" ) ||
-			monster.equalsIgnoreCase( "The Rain King" ) ||
-			responseText.contains( "Thwaitgold bee statuette" ) )
+			  monster.equalsIgnoreCase( "The Avatar of Sneaky Pete" ) ||
+			  monster.equalsIgnoreCase( "The Avatar of Boris" ) ||
+			  monster.equalsIgnoreCase( "Principal Mooney" ) ||
+			  monster.equalsIgnoreCase( "Rene C. Corman" ) ||
+			  monster.equalsIgnoreCase( "The Avatar of Jarlsberg" ) ||
+			  monster.equalsIgnoreCase( "The Rain King" ) ||
+			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step16" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step11" );
 		}
 		else if ( monster.equalsIgnoreCase( "The Clownlord Beelzebozo" ) )
 		{
