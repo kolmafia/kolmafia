@@ -218,6 +218,10 @@ public class SkillPool
 	public static final int CARDS = 7228;
 	public static final int GEEKY = 7229;
 	public static final int CONFISCATOR = 7230;
+	public static final int THROW_SKULL = 7238;
+	public static final int THROW_ROCK = 7239;
+	public static final int THROW_POT = 7242;
+	public static final int THROW_TORCH = 7244;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

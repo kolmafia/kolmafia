@@ -725,6 +725,7 @@ public interface KoLConstants
 	public static final SortedListModel<AdventureResult> inventory = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> closet = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> storage = new SortedListModel<AdventureResult>();
+	public static final SortedListModel<AdventureResult> unlimited = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> freepulls = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> nopulls = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> collection = new SortedListModel<AdventureResult>();

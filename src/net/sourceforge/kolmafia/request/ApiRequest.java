@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -51,6 +53,7 @@ public class ApiRequest
 	extends GenericRequest
 {
 	private static final ApiRequest INSTANCE = new ApiRequest( "status" );
+	private static final CharPaneRequest CHARPANE = new CharPaneRequest();
 
 	private String what;
 	private String id;
@@ -88,8 +91,14 @@ public class ApiRequest
 		return ApiRequest.updateStatus( false );
 	}
 
-	public synchronized static String updateStatus( final boolean silent)
+	public synchronized static String updateStatus( final boolean silent )
 	{
+		// If in limitmode, API status doesn't contain the full information, so use Character Sheet instead
+		if ( KoLCharacter.getLimitmode() != null )
+		{
+			ApiRequest.CHARPANE.run();
+			return ApiRequest.CHARPANE.redirectLocation;
+		}
 		ApiRequest.INSTANCE.silent = silent;
 		ApiRequest.INSTANCE.run();
 		return ApiRequest.INSTANCE.redirectLocation;
@@ -347,14 +356,14 @@ public class ApiRequest
 			// Many config options are available
 			AccountRequest.parseStatus( JSON );
 
+			// Many things from the Char Pane are available
+			CharPaneRequest.parseStatus( JSON );
+
 			// Many things from the Char Sheet are available
 			CharSheetRequest.parseStatus( JSON );
 
 			// Parse currently worn equipment
 			EquipmentManager.parseStatus( JSON );
-
-			// Many things from the Char Pane are available
-			CharPaneRequest.parseStatus( JSON );
 		}
 		catch ( JSONException e )
 		{

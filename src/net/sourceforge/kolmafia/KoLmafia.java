@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -124,6 +125,7 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -953,6 +955,47 @@ public abstract class KoLmafia
 			// Run a user-supplied script
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
 		}
+	}
+
+	public static final void resetAfterLimitmode()
+	{
+		KoLmafia.setIsRefreshing( true );
+
+		// Set this first to prevent duplicate skill refreshing
+		KoLCharacter.setRestricted( false );
+
+		// Start out fetching the status using the KoL API. This
+		// provides data from a lot of different standard pages
+		ApiRequest.updateStatus();
+
+		// Retrieve the character sheet. It's necessary to do this
+		// before concoctions have a chance to get refreshed.
+
+		// Clear skills first, since we no longer know Limitmode skills
+		KoLCharacter.resetSkills();
+
+		RequestThread.postRequest( new CharSheetRequest() );
+
+		// Clear preferences
+		SpelunkyRequest.reset();
+
+		// Retrieve inventory contents, since quest items may disappear.
+		InventoryManager.refresh();
+
+		// Retrieve the Terrarium
+		RequestThread.postRequest( new FamiliarRequest() );
+
+		// Retrieve the bookshelf
+		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+
+		// Finally, update available concoctions
+		ConcoctionDatabase.resetQueue();
+		ConcoctionDatabase.refreshConcoctions();
+
+		KoLmafia.setIsRefreshing( false );
+
+		// Ensure Gear Changer accurate
+		GearChangeFrame.validateSelections();
 	}
 
 	/**

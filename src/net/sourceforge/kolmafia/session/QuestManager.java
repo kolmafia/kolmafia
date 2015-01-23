@@ -1567,10 +1567,6 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.EVE, "step1" );
 		}
-		else if ( monster.equalsIgnoreCase( "queen bee" ) )
-		{
-			SpelunkyRequest.queenBeeDefeated();
-		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 

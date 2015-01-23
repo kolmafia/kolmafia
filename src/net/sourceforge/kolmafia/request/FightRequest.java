@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
@@ -102,6 +103,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -2692,6 +2694,26 @@ public class FightRequest
 		case SkillPool.OVERLOAD_TEDDY_BEAR:
 			EquipmentManager.discardEquipment( ItemPool.CUDDLY_TEDDY_BEAR );
 			break;
+
+		case SkillPool.THROW_SKULL:
+			KoLmafia.updateDisplay( "Skull discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_SKULL, -1 );
+			break;
+
+		case SkillPool.THROW_ROCK:
+			KoLmafia.updateDisplay( "Rock discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_ROCK, -1 );
+			break;
+
+		case SkillPool.THROW_POT:
+			KoLmafia.updateDisplay( "Pot discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_POT, -1 );
+			break;
+
+		case SkillPool.THROW_TORCH:
+			KoLmafia.updateDisplay( "Torch discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_TORCH, -1 );
+			break;
 		}
 
 		if ( monster.endsWith( "gremlin" ) )
@@ -3006,6 +3028,41 @@ public class FightRequest
 				String updateMessage = "You recover " + gain + " bolts of lightning";
 				RequestLogger.updateSessionLog( updateMessage );
 				KoLmafia.updateDisplay( updateMessage );
+			}
+		}
+
+		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			Preferences.increment( "spelunkyWinCount", 1 );
+			// Check for gold gain
+			SpelunkyRequest.gainGold( FightRequest.lastResponseText );
+			// Check for unlocks
+			if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
+			{
+				if ( FightRequest.lastResponseText.contains( "The Jungle" ) )
+				{
+					SpelunkyRequest.unlock( "The Jungle", "Jungle" );
+				}
+				if ( FightRequest.lastResponseText.contains( "The Ice Caves" ) )
+				{
+					SpelunkyRequest.unlock( "The Ice Caves", "Ice Caves" );
+				}
+				if ( FightRequest.lastResponseText.contains( "The Temple Ruins" ) )
+				{
+					SpelunkyRequest.unlock( "The Temple Ruins", "Temple Ruins" );
+				}
+				if ( FightRequest.lastResponseText.contains( "LOLmec's Lair" ) )
+				{
+					SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
+				}
+			}
+			if ( monster.equalsIgnoreCase( "queen bee (spelunky)" ) )
+			{
+				SpelunkyRequest.unlock( "Sticky Bombs", "Sticky Bombs" );
+			}
+			if ( monster.equalsIgnoreCase( "shopkeeper" ) )
+			{
+				Preferences.increment( "spelunkyNextNoncombat", 1 );
 			}
 		}
 

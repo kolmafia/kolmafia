@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
@@ -169,20 +170,21 @@ public class CharPaneRequest
 		CharPaneRequest.lastResponseTimestamp = responseTimestamp;
 		CharPaneRequest.lastResponse = responseText;
 
-		// We can deduce whether we are in compact charpane mode
-
-		CharPaneRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
-
 		// Are we in a limitmode?
 		if ( responseText.contains( ">Last Spelunk</a>" ) )
 		{
+			KoLCharacter.setLimitmode( Limitmode.SPELUNKY );
 			SpelunkyRequest.parseCharpane( responseText );
-			KoLCharacter.setLimitmode( KoLCharacter.SPELUNKY );
+			return true;
 		}
 		else
 		{
 			KoLCharacter.setLimitmode( null );
 		}
+
+		// We can deduce whether we are in compact charpane mode
+
+		CharPaneRequest.compactCharacterPane = responseText.contains( "<br>Lvl. " );
 
 		// If we are in Valhalla, do special processing
 		if ( KoLCharacter.getLimitmode() == null && ( responseText.contains( "otherimages/spirit.gif" ) ||
@@ -1244,6 +1246,8 @@ public class CharPaneRequest
 			ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 		}
 
+		KoLCharacter.setLimitmode( JSON.getString( "limitmode" ) );
+
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
@@ -1323,14 +1327,16 @@ public class CharPaneRequest
 			KoLCharacter.setLightning( lightning );
 		}
 
-		KoLCharacter.setLimitmode( JSON.getString( "limitmode" ) );
-
 		// *** Assume that roninleft always equals 0 if casual
 		KoLCharacter.setRonin( roninLeft > 0 );
 
 		CharPaneRequest.setInteraction();
 
-		if ( KoLCharacter.inAxecore() )
+		if ( Limitmode.limitFamiliars() )
+		{
+			// No familiar
+		}
+		else if ( KoLCharacter.inAxecore() )
 		{
 			int level = JSON.getInt( "clancy_level" );
 			int itype = JSON.getInt( "clancy_instrument" );

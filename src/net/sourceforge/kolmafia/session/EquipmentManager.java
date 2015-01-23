@@ -315,8 +315,23 @@ public class EquipmentManager
 			case EquipmentManager.OFFHAND:
 				GearChangeFrame.updateWeapons();
 				break;
+			case EquipmentManager.SHIRT:
+				GearChangeFrame.updateShirts();
+				break;
+			case EquipmentManager.CONTAINER:
+				GearChangeFrame.updateContainers();
+				break;
 			case EquipmentManager.PANTS:
 				GearChangeFrame.updatePants();
+				break;
+			case EquipmentManager.ACCESSORY1:
+				GearChangeFrame.updateAccessories1();
+				break;
+			case EquipmentManager.ACCESSORY2:
+				GearChangeFrame.updateAccessories2();
+				break;
+			case EquipmentManager.ACCESSORY3:
+				GearChangeFrame.updateAccessories3();
 				break;
 			}
 		}
@@ -391,6 +406,26 @@ public class EquipmentManager
 		case EquipmentManager.PANTS:
 			EquipmentManager.checkFamiliar( slot );
 			GearChangeFrame.updatePants();
+			break;
+
+		case EquipmentManager.SHIRT:
+			GearChangeFrame.updateShirts();
+			break;
+
+		case EquipmentManager.CONTAINER:
+			GearChangeFrame.updateContainers();
+			break;
+
+		case EquipmentManager.ACCESSORY1:
+			GearChangeFrame.updateAccessories1();
+			break;
+
+		case EquipmentManager.ACCESSORY2:
+			GearChangeFrame.updateAccessories2();
+			break;
+
+		case EquipmentManager.ACCESSORY3:
+			GearChangeFrame.updateAccessories3();
 			break;
 
 		case EquipmentManager.FAMILIAR:
@@ -724,6 +759,24 @@ public class EquipmentManager
 			}
 		}
 		return -1;
+	}
+
+	public static final void removeAllEquipment()
+	{
+		for ( int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot )
+		{
+			AdventureResult item = EquipmentManager.getEquipment( slot );
+			if ( !item.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+				// FamiliarData.setItem moved the current familiar item to
+				// inventory when we unequipped it above
+				if ( slot != EquipmentManager.FAMILIAR )
+				{
+					AdventureResult.addResultToList( KoLConstants.inventory, item );
+				}
+			}
+		}
 	}
 
 	public static final int discardEquipment( final int itemId )
@@ -1802,7 +1855,7 @@ public class EquipmentManager
 		{
 			return false;
 		}
-		
+
 		String requirement = EquipmentDatabase.getEquipRequirement( itemId );
 		int req;
 

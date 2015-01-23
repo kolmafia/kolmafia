@@ -1468,6 +1468,7 @@ caveman	spelunkcaveman.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: dude
 cobra	spelunkcobra.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: beast
 crocodile man	spelunkcroc.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: dude
 cultist	spelunkhawk.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: dude
+devil	spelunkdevil.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: demon
 LOLmec	spelunklolm.gif	Atk: 200 Def: 200 HP: 300 Init: -10000 P: construct
 magma man	spelunkmagma.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: elemental
 mummy	spelunkmumm.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: undead

@@ -88,6 +88,8 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -127,6 +129,7 @@ public abstract class InventoryManager
 		}
 
 		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> unlimited = new ArrayList<AdventureResult>();
 
 		try
 		{
@@ -145,7 +148,14 @@ public abstract class InventoryManager
 					ItemDatabase.registerItem( itemId );
 				}
 
-				items.add( new AdventureResult( itemId, count ) );
+				if ( Limitmode.limitItem( itemId ) )
+				{
+					unlimited.add( new AdventureResult( itemId, count ) );
+				}
+				else
+				{
+					items.add( new AdventureResult( itemId, count ) );
+				}					
 			}
 		}
 		catch ( JSONException e )
@@ -156,6 +166,8 @@ public abstract class InventoryManager
 
 		KoLConstants.inventory.clear();
 		KoLConstants.inventory.addAll( items );
+		KoLConstants.unlimited.clear();
+		KoLConstants.unlimited.addAll( unlimited );
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions();
 		PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
