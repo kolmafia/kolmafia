@@ -148,7 +148,7 @@ public class SpelunkyRequest
 		matcher = SpelunkyRequest.BUDDY_PATTERN.matcher( responseText );
 		String buddy = matcher.find() ? matcher.group( 1 ) : "";
 		matcher = SpelunkyRequest.UNLOCK_STATUS_PATTERN.matcher( spelunkyStatus );
-		String unlocks = ( turnsLeft != 40 && matcher.find() ) ? matcher.group( 1 ) : "";
+		String unlocks = matcher.find() ? matcher.group( 1 ) : "";
 		matcher = SpelunkyRequest.GEAR_SECTION_PATTERN.matcher( responseText );
 		String gear = matcher.find() ? matcher.group( 1 ) : "";
 		matcher = SpelunkyRequest.EQUIPMENT_PATTERN.matcher( gear );
@@ -529,14 +529,18 @@ public class SpelunkyRequest
 
 	public static void parseChoice( final int choice, final String responseText, final int decision )
 	{
-		Preferences.resetToDefault( "spelunkyWinCount" );
-		// Not all choices increment the counter
-		if ( choice != 1041 && !( choice == 1028 && decision != 6 ) )
+		// Sacrifice doesn't increment win count or counter
+		if ( choice != 1041 )
 		{
-			Preferences.increment( "spelunkyNextNoncombat", 1 );
-			if ( Preferences.getInteger( "spelunkyNextNoncombat" ) > 3 )
+			Preferences.resetToDefault( "spelunkyWinCount" );
+			// Shopkeeper doesn't increment the counter til you leave or fight
+			if ( !( choice == 1028 && decision < 5 ) )
 			{
-				Preferences.setInteger( "spelunkyNextNoncombat", 1 );
+				Preferences.increment( "spelunkyNextNoncombat", 1 );
+				if ( Preferences.getInteger( "spelunkyNextNoncombat" ) > 3 )
+				{
+					Preferences.setInteger( "spelunkyNextNoncombat", 1 );
+				}
 			}
 		}
 		

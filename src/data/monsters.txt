@@ -1474,6 +1474,7 @@ magma man	spelunkmagma.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: elemental
 mummy	spelunkmumm.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: undead
 queen bee (spelunky)	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug
 scorpion	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
+shopkeeper	shopkeep.gif	Atk: 60 Def: 60 HP: 150 Init: -10000 P: dude
 skeleton	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead
 snake	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
 spider	spelunkspider.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: bug
