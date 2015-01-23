@@ -53,6 +53,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -76,6 +77,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
 import net.sourceforge.kolmafia.session.StoreManager;
+
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateSpecialPanel;
@@ -185,8 +187,9 @@ public class ItemManageFrame
 		selectorPanel.addPanel( " - Recent", new InventoryPanel( KoLConstants.tally, false ) );
 		selectorPanel.addPanel( " - Closet", new InventoryPanel( KoLConstants.closet, false ) );
 		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( false ) );
+		selectorPanel.addPanel( " - Unlimited", new ViewOnlyPanel( KoLConstants.unlimited ) );
 		selectorPanel.addPanel( " - Free Pulls", new FreePullsPanel() );
-		selectorPanel.addPanel( " - No Pull", new NoPullPanel() );
+		selectorPanel.addPanel( " - No Pull", new ViewOnlyPanel( KoLConstants.nopulls ) );
 
 		selectorPanel.addSeparator();
 
@@ -683,12 +686,12 @@ public class ItemManageFrame
 		}
 	}
 	
-	private class NoPullPanel
+	private class ViewOnlyPanel
 		extends InventoryPanel
 	{
-		public NoPullPanel()
+		public ViewOnlyPanel( final LockableListModel elementModel )
 		{
-			super( KoLConstants.nopulls );
+			super( elementModel );
 		}
 	}
 

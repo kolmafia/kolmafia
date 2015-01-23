@@ -887,8 +887,11 @@ user	slimelingStacksDue	0
 user	sneakyPetePoints	0
 user	sortByRoom	true
 user	spadingData
+user	spelunkyNextNoncombat	1
+user	spelunkySacrifices	0
 user	spelunkyStatus	
 user	spelunkyUpgrades	NNNNNNNNN
+user	spelunkyWinCount	0
 user	spiceMelangeUsed	false
 user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none

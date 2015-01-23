@@ -2248,9 +2248,16 @@ public class ItemPool
 	public static final int CHATEAU_JUICE_BAR = 8030;
 	public static final int CHATEAU_PENS = 8031;
 	public static final int CHATEAU_WATERCOLOR = 8033;
+	public static final int SPELUNKY_SKULL = 8041;
+	public static final int SPELUNKY_ROCK = 8042;
+	public static final int SPELUNKY_POT = 8043;
+	public static final int SPELUNKY_PICKAXE = 8055;
+	public static final int SPELUNKY_TORCH = 8056;
+	public static final int SPELUNKY_COFFEE_CUP = 8062;
 	public static final int TALES_OF_SPELUNKING = 8063;
 	public static final int POWDERED_GOLD = 8066;
 	public static final int SPELUNKER_FORTUNE = 8073;
+	
 
 	public static final AdventureResult get( String itemName, int count )
 	{

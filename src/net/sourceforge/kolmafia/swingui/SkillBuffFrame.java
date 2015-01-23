@@ -355,7 +355,7 @@ public class SkillBuffFrame
 						skillDisable = maxCast == 0;
 					}
 				}
-				
+
 				int selected = this.getSelectedIndex();
 				for ( int j = 0 ; j < this.getItemCount() ; j++ )
 				{

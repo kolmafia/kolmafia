@@ -663,6 +663,8 @@ public class AdventureRequest
 				image.startsWith( "sadiator" ) ? "Sadiator" :
 				// The Spooky Old Abandoned Mine
 				image.startsWith( "outlawboss" ) ? "outlaw leader" :
+				// Spelunky
+				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
 				null;
 		}
 

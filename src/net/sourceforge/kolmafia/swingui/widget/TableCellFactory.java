@@ -405,7 +405,8 @@ public class TableCellFactory
 		}
 		else if ( originalModel == KoLConstants.inventory || originalModel == KoLConstants.tally
 			|| originalModel == KoLConstants.freepulls || originalModel == KoLConstants.storage
-			|| originalModel == KoLConstants.closet || originalModel == KoLConstants.nopulls )
+			|| originalModel == KoLConstants.closet || originalModel == KoLConstants.nopulls
+			|| originalModel == KoLConstants.unlimited )
 		{
 			return new String[]
 			{

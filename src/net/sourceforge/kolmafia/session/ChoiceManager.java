@@ -3333,13 +3333,102 @@ public abstract class ChoiceManager
 
 		// Choice 1027 is The End of the Tale of Spelunking
 		// Choice 1028 is A Shop
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1028", "A Shop",
+			new Object[] { new Option( "chance to fight shopkeeper", 5 ),
+				       new Option( "leave", 6 ) } ),
+		// Choice 1029 is An Old Clay Pot
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1029", "An Old Clay Pot",
+			new Object[] { new Option( "gain gold", 1 ),
+				       new Option( "gain pot", 5, "pot" ) } ),
+
 		// Choice 1030 is It's a Trap!  A Dart Trap.
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1030", "It's a Trap!  A Dart Trap.",
+			new Object[] { new Option( "escape with whip", 1 ),
+				       new Option( "unlock The Snake Pit using bomb", 2 ),
+				       new Option( "unlock The Spider Hole using rope", 3 ),
+				       new Option( "escape using offhand item", 4 ),
+				       new Option( "take damage", 6 ) } ),
+
 		// Choice 1031 is A Tombstone
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1031", "A Tombstone",
+			new Object[] { new Option( "gain gold or buddy", 1 ),
+				       new Option( "gain shotgun with pickaxe", 2, "shotgun" ),
+				       new Option( "gain Clown Crown with x-ray specs", 3, "The Clown Crown" ) } ),
+
 		// Choice 1032 is It's a Trap!  A Tiki Trap.
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1032", "It's a Trap!  A Tiki Trap.",
+			new Object[] { new Option( "escape with spring boots, take damage without back item", 1 ),
+				       new Option( "unlock The Beehive using bomb, take damage without sticky bomb", 2 ),
+				       new Option( "unlock The Ancient Burial Ground using rope, take damage without back item", 3 ),
+				       new Option( "take damage", 6 ) } ),
+
+		// Choice 1033 is A Big Block of Ice
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1033", "A Big Block of Ice",
+			new Object[] { new Option( "gain gold and restore health", 1 ),
+				       new Option( "gain buddy with torch", 2 ) } ),
+
 		// Choice 1034 is A Landmine
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1034", "A Landmine",
+			new Object[] { new Option( "unlock An Ancient Altar and take damage", 2 ),
+				       new Option( "unlock The Crashed UFO using 3 ropes", 3 ),
+				       new Option( "take damage", 6 ) } ),
+
+		// Choice 1035 is A Crate
+		// Choice 1036 is Idolatry
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1036", "Idolatry",
+			new Object[] { new Option( "gain gold with Resourceful Kid", 1 ),
+				       new Option( "gain gold with spring boots, take damage without yellow cloak", 2 ),
+				       new Option( "gain gold with jetpack, take damage without back item", 3 ),
+				       new Option( "gain gold and lose all hp", 4 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1037 is It's a Trap!  A Smashy Trap.
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1037", "It's a Trap!  A Smashy Trap.",
+			new Object[] { new Option( "unlock The City of Goooold with key, or take damage", 2 ),
+				       new Option( "take damage", 6 ) } ),
+
 		// Choice 1038 is A Wicked Web
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1038", "A Wicked Web",
+			new Object[] { new Option( "gain gold", 1 ),
+				       new Option( "gain buddy with machete", 2 ) } ),
+
+		// Choice 1039 is A Golden Chest
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1039", "A Golden Chest",
+			new Object[] { new Option( "gain gold with key", 1 ),
+				       new Option( "gain gold with bomb", 2 ),
+				       new Option( "gain gold and take damage", 3 ) } ),
+
+		// Choice 1040 is It's Lump. It's Lump.
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1040", "It's Lump. It's Lump",
+			new Object[] { new Option( "gain pickaxe with bomb", 1, "heavy pickaxe" ),
+				       new Option( "leave", 6 ) } ),
+
 		// choice 1041 is Spelunkrifice
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1041", "Spelunkrifice",
+			new Object[] { new Option( "sacrifice buddy", 1 ),
+				       new Option( "leave", 6 ) } ),
+
 		// choice 1042 is Pick a Perk!
+		// choice 1044 is The Gates of Hell
+		// choice 1045 is Hostile Work Environment
+		new ChoiceAdventure(
+			"Spelunky Area", "choiceAdventure1045", "Hostile Work Environment",
+			new Object[] { new Option( "fight shopkeeper", 1 ),
+				       new Option( "take damage", 6 ) } ),
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -7855,6 +7944,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 993:
+			// Tales of Spelunking
+			if ( lastDecision == 1 )
+			{
+				KoLCharacter.enterLimitmode( Limitmode.SPELUNKY );
+			}
+			break;
+
 		case 994:
 			// Hide a gift!
 			if ( text.contains( "You hide" ) )
@@ -7983,53 +8080,35 @@ public abstract class ChoiceManager
 			SorceressLairManager.parseMazeTrap( ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
 			break;
 
-		case 1030:
-			// It's a Trap!  A Dart Trap
-			if ( ChoiceManager.lastResponseText.contains( "The Spider Hole" ) )
-			{
-				SpelunkyRequest.unlockSpiderHole();
-			}
-			else if ( ChoiceManager.lastResponseText.contains( "The Snake Pit" ) )
-			{
-				SpelunkyRequest.unlockSnakePit();
-			}
-			break;
 
-		case 1032:
-			// It's a Trap!  A Tiki Trap.
-			if ( ChoiceManager.lastResponseText.contains( "The Ancient Burial Ground" ) )
-			{
-				SpelunkyRequest.unlockBurialGround();
-			}
-			else if ( ChoiceManager.lastResponseText.contains( "The Beehive" ) )
-			{
-				SpelunkyRequest.unlockBeehive();
-			}
-			break;
-
-		case 1034:
-			// A Landmine
-			if ( ChoiceManager.lastResponseText.contains( "An Ancient Altar" ) )
-			{
-				SpelunkyRequest.unlockAltar();
-			}
-			else if ( ChoiceManager.lastResponseText.contains( "Crashed UFO" ) )
-			{
-				SpelunkyRequest.unlockCrashedUFO();
-			}
-			break;
-
-		case 1041:
-			// Spelunkrifice
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				SpelunkyRequest.sacrifice();
-			}
+		case 1028:	// A Shop
+		case 1029:	// An Old Clay Pot
+		case 1030:	// It's a Trap!  A Dart Trap.
+		case 1031:	// A Tombstone
+		case 1032:	// It's a Trap!  A Tiki Trap.
+		case 1033:	// A Big Block of Ice 
+		case 1034:	// A Landmine
+		case 1035:	// A Crate
+		case 1036:	// Idolatry
+		case 1037:	// It's a Trap!  A Smashy Trap.
+		case 1038:	// A Wicked Web
+		case 1039:	// A Golden Chest
+		case 1040:	// It's Lump. It's Lump.
+		case 1041:	// Spelunkrifice
+			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
 			break;
 
 		case 1042:
-			// Leaving Spelunky, choosing ugprade
+			// Pick a Perk
 			SpelunkyRequest.upgrade( ChoiceManager.lastDecision );
+			break;
+
+		case 1044:
+			// The Gates of Hell
+			if ( ChoiceManager.lastResponseText.contains( "unlock the padlock" ) )
+			{
+				SpelunkyRequest.unlock( "Hell", "Hell" );
+			}
 			break;
 		}
 		// Certain choices cost meat or items when selected

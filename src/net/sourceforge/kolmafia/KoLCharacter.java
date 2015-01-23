@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -146,9 +147,6 @@ public abstract class KoLCharacter
 
 	// Paths
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
-
-	// Limitmode
-	public static final String SPELUNKY = "spelunky";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -345,7 +343,8 @@ public abstract class KoLCharacter
 	private static int lightning = 0;
 
 	private static String limitmode = null;
-
+	private static boolean limitmodeEndNeeded = false;
+	
 	public static final int MAX_BASEPOINTS = 65535;
 
 	static { resetTriggers(); }
@@ -484,8 +483,6 @@ public abstract class KoLCharacter
 		KoLCharacter.thunder = 0;
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
-
-		KoLCharacter.limitmode = null;
 
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
@@ -1435,24 +1432,68 @@ public abstract class KoLCharacter
 
 	public static final void setLimitmode( final String limitmode )
 	{
-		if ( limitmode == null && KoLCharacter.getLimitmode() != null )
+		if ( limitmode != null && limitmode.equals( Limitmode.SPELUNKY ) )
 		{
-			// Leaving limitmode
-			SpelunkyRequest.reset();
-		}
-		if ( limitmode != null && limitmode.equals( KoLCharacter.SPELUNKY ) )
-		{
-			KoLCharacter.limitmode = KoLCharacter.SPELUNKY;
+			KoLCharacter.limitmode = Limitmode.SPELUNKY;
+			KoLCharacter.limitmodeEndNeeded = false;
 		}
 		else
 		{
+			if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
+			{
+				KoLCharacter.limitmodeEndNeeded = true;
+			}
 			KoLCharacter.limitmode = null;
+		}
+
+		if ( KoLCharacter.limitmodeEndNeeded == true )
+		{
+			// Can we safely run the code yet ? If upgrade being chosen may be in a choice
+			if ( GenericRequest.abortIfInFightOrChoice( true ) )
+			{
+				return;
+			}
+			KoLCharacter.limitmodeEndNeeded = false;
+			KoLmafia.resetAfterLimitmode();
 		}
 	}
 
 	public static final String getLimitmode()
 	{
 		return KoLCharacter.limitmode;
+	}
+
+	public static final void enterLimitmode( final String limitmode )
+	{
+		// Entering Spelunky
+		if ( limitmode == Limitmode.SPELUNKY )
+		{
+			KoLCharacter.limitmode = Limitmode.SPELUNKY;
+			KoLCharacter.resetSkills();
+			EquipmentManager.removeAllEquipment();
+			KoLCharacter.familiars.clear();
+			KoLCharacter.familiars.add( FamiliarData.NO_FAMILIAR );
+			KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
+			KoLCharacter.effectiveFamiliar = FamiliarData.NO_FAMILIAR;
+			KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
+			KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
+			KoLCharacter.isUsingStabBat = false;
+			KoLCharacter.companion = null;
+			KoLCharacter.currentPastaThrall = PastaThrallData.NO_THRALL;
+			KoLCharacter.pastaThralls.clear();
+			KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
+			KoLCharacter.stillsAvailable = -1;
+			KoLCharacter.mindControlLevel = 0;
+			KoLConstants.recentEffects.clear();
+			KoLConstants.activeEffects.clear();
+			ChezSnooteeRequest.reset();
+			MicroBreweryRequest.reset();
+			HellKitchenRequest.reset();
+			GearChangeFrame.clearFamiliarList();
+			InventoryManager.refresh();
+			SkillBuffFrame.update();
+			SpelunkyRequest.reset();
+		}
 	}
 
 	/**
@@ -1716,7 +1757,7 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	private static final long calculatePointSubpoints( final int basePoints )
+	public static final long calculatePointSubpoints( final int basePoints )
 	{
 		return basePoints * (long) basePoints;
 	}
@@ -3813,6 +3854,11 @@ public abstract class KoLCharacter
 			return;
 		}
 
+		if ( Limitmode.limitSkill( skill ) )
+		{
+			return;
+		}
+
 		if ( checkAllowed && ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() ) )
 		{
 			boolean isAllowed;
@@ -3964,6 +4010,10 @@ public abstract class KoLCharacter
 
 	public static final void removeAvailableSkill( final String name )
 	{
+		if ( !KoLCharacter.hasSkill( name ) )
+		{
+			return;
+		}
 		String message = "Unlearning skill: " + name;
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );

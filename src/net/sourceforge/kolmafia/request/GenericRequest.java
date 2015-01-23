@@ -1228,21 +1228,35 @@ public class GenericRequest
 
 	public static final boolean abortIfInFightOrChoice()
 	{
+		return GenericRequest.abortIfInFightOrChoice( false );
+	}
+
+	public static final boolean abortIfInFightOrChoice( final boolean silent )
+	{
 		if ( FightRequest.currentRound != 0 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a fight." );
+			if ( !silent )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a fight." );
+			}
 			return true;
 		}
 
 		if ( FightRequest.inMultiFight )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a multi-stage fight." );
+			if ( !silent )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a multi-stage fight." );
+			}
 			return true;
 		}
 
 		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
+			if ( !silent )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
+			}
 			return true;
 		}
 
