@@ -159,6 +159,13 @@ public class PlaceRequest
 				Preferences.setBoolean( "chateauAvailable", true );
 			}
 		}
+		else if ( place.equals( "nstower" ) )
+		{
+			if ( action.equals( "" ) )
+			{
+				SorceressLairManager.parseTower( responseText );
+			}
+		}
 		else if ( place.equals( "nstower_door" ) )
 		{
 			SorceressLairManager.parseDoorResponse( urlString, responseText );
