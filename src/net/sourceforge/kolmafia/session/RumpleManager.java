@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,18 +105,27 @@ public abstract class RumpleManager
 
 	private static String sin = RumpleManager.NONE;
 
-	private static String[][] sins = new String[3][];
+	private static final String[][] sins = new String[3][];
 
-	private static final int CLOSED = 1;
-	private static final int STARTED = 2;
-	private static final int ENDED = 3;
 
-	private static int state = RumpleManager.CLOSED;
+	private enum State
+	{
+		CLOSED,
+		STARTED,
+		ENDED
+	}
+
+	private static State state = State.CLOSED;
 
 	public static final void reset( final int choice )
 	{
+		if ( choice == 4 )
+		{
+			// No matter what the previous state was, it is started now
+			RumpleManager.state = State.STARTED;
+		}
 		// If this quest is currently closed, nothing to do
-		if ( RumpleManager.state == RumpleManager.CLOSED )
+		if ( RumpleManager.state == State.CLOSED )
 		{
 			return;
 		}
@@ -171,8 +178,11 @@ public abstract class RumpleManager
 		// Reset parent sins
 		RumpleManager.resetSins();
 
-		// Finally, decide the state of this zone
-		RumpleManager.state = choice == 4 ? RumpleManager.STARTED : RumpleManager.CLOSED;
+		// If the zone wasn't just started, it is now closed
+		if ( choice != 4 )
+		{
+			RumpleManager.state = State.CLOSED;
+		}
 	}
 
 	public static final void resetSins()
@@ -345,7 +355,7 @@ public abstract class RumpleManager
 		case 4:
 			if ( Preferences.getInteger( "rumpelstiltskinTurnsUsed" ) == 30 )
 			{
-				RumpleManager.state = RumpleManager.ENDED;
+				RumpleManager.state = State.ENDED;
 			}
 			RumpleManager.resetSins();
 			break;
@@ -435,7 +445,7 @@ public abstract class RumpleManager
 		// If you have been through the portal 5 times, you can still
 		// access the workshop to craft things for use in tinkering,
 		// but the parents are no longer an issue.
-		if ( RumpleManager.state == RumpleManager.ENDED )
+		if ( RumpleManager.state == State.ENDED )
 		{
 			return;
 		}

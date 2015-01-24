@@ -8838,7 +8838,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "grimstoneMaskPath", "wolf" );
 			}
-			else if ( ChoiceManager.lastDecision == 2 )
+			else if ( ChoiceManager.lastDecision == 3 )
 			{
 				Preferences.setString( "grimstoneMaskPath", "witch" );
 			}
