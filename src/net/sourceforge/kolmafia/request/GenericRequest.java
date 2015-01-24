@@ -1486,23 +1486,16 @@ public class GenericRequest
 			BarrelDecorator.beginSmash( urlString );
 		}
 
-		if ( this.hasResult )
-		{
-			RequestLogger.registerRequest( this, urlString );
-		}
-
+		// Do this before registering the request now that we have a
+		// choice chain that takes a turn per choice
 		if ( urlString.startsWith( "choice.php" ) )
 		{
 			ChoiceManager.preChoice( this );
 		}
 
-		// If you're about to fight the Naughty Sorceress,
-		// clear your list of effects.
-
-		if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=nstower" ) && urlString.contains( "action=ns_10_sorcfight" ) )
+		if ( this.hasResult )
 		{
-			KoLConstants.activeEffects.clear();
-			// *** We retain (some) intrinsic effects
+			RequestLogger.registerRequest( this, urlString );
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) && urlString.contains( "action=ascend" ) )
@@ -2312,10 +2305,6 @@ public class GenericRequest
 		{
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
-		else if ( urlString.startsWith( "place.php" ) && urlString.contains( "whichplace=nstower" ) && urlString.contains( "action=ns_11_prism" ) )
-		{
-			KoLCharacter.liberateKing();
-		}
 
 		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
 		{
@@ -2488,10 +2477,6 @@ public class GenericRequest
 		//
 		// Most places, this is signaled by the message "Your (or your)
 		// ten-leaf clover disappears in a puff of smoke."
-		//
-		// In the Sorceress's entryway, the message is "You see a puff
-		// of smoke come from your sack, and catch a whiff of burnt
-		// clover"
 		//
 		// In the Spooky Forest's Lucky, Lucky! encounter, the message is
 		// "Your ten-leaf clover disappears into the leprechaun's pocket"

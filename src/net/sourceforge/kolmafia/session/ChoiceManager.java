@@ -6169,6 +6169,21 @@ public abstract class ChoiceManager
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step8" );
 			break;
 
+		case 1005:	// 'Allo
+		case 1006:	// One Small Step For Adventurer
+		case 1007:	// Twisty Little Passages, All Hedge
+		case 1008:	// Pooling Your Resources
+		case 1009:	// Good Ol' 44% Duck
+		case 1010:	// Another Day, Another Fork
+		case 1011:	// Of Mouseholes and Manholes
+		case 1012:	// The Last Temptation
+		case 1013:	// Mazel Tov!
+			// Taking any of these takes a turn. We'll eventually
+			// be informed of that in a charpane/api refresh, but
+			// that's too late for logging.
+			ResultProcessor.processAdventuresUsed( 1 );
+			break;
+
 		case 1028:
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
@@ -6193,8 +6208,7 @@ public abstract class ChoiceManager
 		}
 
 		String urlString = request.getURLString();
-		ChoiceManager.lastResponseText = request.responseText;
-		String text = ChoiceManager.lastResponseText;
+		String text = ChoiceManager.lastResponseText = request.responseText;;
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -7420,7 +7434,7 @@ public abstract class ChoiceManager
 		case 812:
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Matcher matcher = ChoiceManager.UNPERM_PATTERN.matcher( ChoiceManager.lastResponseText );
+				Matcher matcher = ChoiceManager.UNPERM_PATTERN.matcher( text );
 				if ( matcher.find() )
 				{
 					KoLCharacter.removeAvailableSkill( matcher.group( 1 ) );
@@ -8071,15 +8085,28 @@ public abstract class ChoiceManager
 
 		case 1003:
 			// Test Your Might And Also Test Other Things
-			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
+			SorceressLairManager.parseContestBooth( ChoiceManager.lastDecision, text );
 			break;
 
 		case 1005:	// 'Allo
 		case 1008:	// Pooling Your Resources
 		case 1011:	// Of Mouseholes and Manholes
-			SorceressLairManager.parseMazeTrap( ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
+			SorceressLairManager.parseMazeTrap( ChoiceManager.lastChoice, text );
 			break;
 
+		case 1013:	// Mazel Tov!
+			// Then you both giggle and head through the exit at the same time.
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
+			break;
+
+		case 1015:	// The Mirror in the Tower has the View that is True
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
+			break;
+
+		case 1022:	// Meet Frank
+			// Frank bobs his head toward the hedge maze in front of you.
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
+			break;
 
 		case 1028:	// A Shop
 		case 1029:	// An Old Clay Pot
@@ -8095,7 +8122,7 @@ public abstract class ChoiceManager
 		case 1039:	// A Golden Chest
 		case 1040:	// It's Lump. It's Lump.
 		case 1041:	// Spelunkrifice
-			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
+			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, text, ChoiceManager.lastDecision );
 			break;
 
 		case 1042:
@@ -9152,7 +9179,7 @@ public abstract class ChoiceManager
 	private static void visitChoice( final GenericRequest request )
 	{
 		ChoiceManager.lastChoice = ChoiceManager.extractChoice( request.responseText );
-		ChoiceManager.lastResponseText = request.responseText;
+		String text = ChoiceManager.lastResponseText = request.responseText;
 
 		if ( ChoiceManager.lastChoice == 0 )
 		{
@@ -9167,37 +9194,37 @@ public abstract class ChoiceManager
 		{
 		case 360:
 			// Wumpus Hunt
-			WumpusManager.visitChoice( ChoiceManager.lastResponseText );
+			WumpusManager.visitChoice( text );
 			break;
 
 		case 440:
 			// Puttin' on the Wax
-			HaciendaManager.preRecording( ChoiceManager.lastResponseText );
+			HaciendaManager.preRecording( text );
 			break;
 
 		case 460:
 			// Space Trip
-			ArcadeRequest.visitSpaceTripChoice( ChoiceManager.lastResponseText );
+			ArcadeRequest.visitSpaceTripChoice( text );
 			break;
 
 		case 471:
 			// DemonStar
-			ArcadeRequest.visitDemonStarChoice( ChoiceManager.lastResponseText );
+			ArcadeRequest.visitDemonStarChoice( text );
 			break;
 
 		case 485:
 			// Fighters Of Fighting
-			ArcadeRequest.visitFightersOfFightingChoice( ChoiceManager.lastResponseText );
+			ArcadeRequest.visitFightersOfFightingChoice( text );
 			break;
 
 		case 486:
 			// DungeonFist!
-			ArcadeRequest.visitDungeonFistChoice( ChoiceManager.lastResponseText );
+			ArcadeRequest.visitDungeonFistChoice( text );
 			break;
 
 		case 488:
 			// Meteoid
-			ArcadeRequest.visitMeteoidChoice( ChoiceManager.lastResponseText );
+			ArcadeRequest.visitMeteoidChoice( text );
 			break;
 
 		case 496:
@@ -9221,21 +9248,21 @@ public abstract class ChoiceManager
 
 		case 537:
 			// Play Porko!
-			SpaaaceRequest.visitPorkoChoice( ChoiceManager.lastResponseText );
+			SpaaaceRequest.visitPorkoChoice( text );
 			break;
 
 		case 540:
 			// Big-Time Generator
-			SpaaaceRequest.visitGeneratorChoice( ChoiceManager.lastResponseText );
+			SpaaaceRequest.visitGeneratorChoice( text );
 			break;
 
 		case 570:
-			GameproManager.parseGameproMagazine( ChoiceManager.lastResponseText );
+			GameproManager.parseGameproMagazine( text );
 			break;
 
 		case 641:
 			// Stupid Pipes.
-			if ( !ChoiceManager.lastResponseText.contains( "Dive Down" ) && 
+			if ( !text.contains( "Dive Down" ) && 
 			     KoLCharacter.getElementalResistanceLevels( Element.HOT ) >= 25 )
 			{
 				Preferences.setBoolean( "flickeringPixel1", true );
@@ -9244,7 +9271,7 @@ public abstract class ChoiceManager
 
 		case 642:
 			// You're Freaking Kidding Me
-			if ( !ChoiceManager.lastResponseText.contains( "Wait a minute..." ) &&
+			if ( !text.contains( "Wait a minute..." ) &&
 			     KoLCharacter.getAdjustedMuscle() >= 500 && 
 			     KoLCharacter.getAdjustedMysticality() >= 500 &&
 			     KoLCharacter.getAdjustedMoxie() >= 500 )
@@ -9255,7 +9282,7 @@ public abstract class ChoiceManager
 
 		case 644:
 			// Snakes.
-			if ( !ChoiceManager.lastResponseText.contains( "Tie the snakes in a knot." ) &&
+			if ( !text.contains( "Tie the snakes in a knot." ) &&
 			     KoLCharacter.getAdjustedMoxie() >= 300 )
 			{
 				Preferences.setBoolean( "flickeringPixel3", true );
@@ -9264,7 +9291,7 @@ public abstract class ChoiceManager
 
 		case 645:
 			// So... Many... Skulls...
-			if ( !ChoiceManager.lastResponseText.contains( "You fear no evil" ) &&
+			if ( !text.contains( "You fear no evil" ) &&
 			     KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) >= 25 )
 			{
 				Preferences.setBoolean( "flickeringPixel4", true );
@@ -9275,7 +9302,7 @@ public abstract class ChoiceManager
 			// A Stupid Dummy. Also, a Straw Man.
 
 			// *** unspaded
-			if ( !ChoiceManager.lastResponseText.contains( "Graaaaaaaaargh!" ) &&
+			if ( !text.contains( "Graaaaaaaaargh!" ) &&
 			     KoLCharacter.currentBonusDamage() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel5", true );
@@ -9285,7 +9312,7 @@ public abstract class ChoiceManager
 		case 648:
 			// Slings and Arrows
 			// *** Yes, there supposed to be two spaces there.
-			if ( !ChoiceManager.lastResponseText.contains( "Arrows?  Ha." ) &&
+			if ( !text.contains( "Arrows?  Ha." ) &&
 			     KoLCharacter.getCurrentHP() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel6", true );
@@ -9294,7 +9321,7 @@ public abstract class ChoiceManager
 
 		case 650:
 			// This Is Your Life. Your Horrible, Horrible Life.
-			if ( !ChoiceManager.lastResponseText.contains( "Then watch it again with the commentary on!" ) &&
+			if ( !text.contains( "Then watch it again with the commentary on!" ) &&
 			     KoLCharacter.getCurrentMP() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel7", true );
@@ -9303,7 +9330,7 @@ public abstract class ChoiceManager
 
 		case 651:
 			// The Wall of Wailing
-			if ( !ChoiceManager.lastResponseText.contains( "Make the tide resist you" ) &&
+			if ( !text.contains( "Make the tide resist you" ) &&
 			     KoLCharacter.currentPrismaticDamage() >= 60 )
 			{
 				Preferences.setBoolean( "flickeringPixel8", true );
@@ -9334,7 +9361,7 @@ public abstract class ChoiceManager
 		case 692:
 		case 693:
 			// I Wanna Be a Door and It's Almost Certainly a Trap
-			Matcher chamberMatcher = ChoiceManager.CHAMBER_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher chamberMatcher = ChoiceManager.CHAMBER_PATTERN.matcher( text );
 			if ( chamberMatcher.find() )
 			{
 				int round = StringUtilities.parseInt( chamberMatcher.group( 1 ) );
@@ -9355,7 +9382,7 @@ public abstract class ChoiceManager
 			// obviously empty socket on the base of it. You plug
 			// it in, and The Machine whirs ominously to life.......
 
-			if ( ChoiceManager.lastResponseText.contains( "You plug it in" ) )
+			if ( text.contains( "You plug it in" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SKULL_CAPACITOR, -1 ) );
 			}
@@ -9374,7 +9401,7 @@ public abstract class ChoiceManager
 		case 801:
 		{
 			// A Reanimated Conversation
-			Matcher matcher = ChoiceManager.REANIMATOR_ARM_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher matcher = ChoiceManager.REANIMATOR_ARM_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "reanimatorArms", StringUtilities.parseInt( matcher.group(1) ) );
@@ -9383,7 +9410,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "reanimatorArms", 0 );
 			}
-			matcher = ChoiceManager.REANIMATOR_LEG_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.REANIMATOR_LEG_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "reanimatorLegs", StringUtilities.parseInt( matcher.group(1) ) );
@@ -9392,7 +9419,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "reanimatorLegs", 0 );
 			}
-			matcher = ChoiceManager.REANIMATOR_SKULL_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.REANIMATOR_SKULL_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "reanimatorSkulls", StringUtilities.parseInt( matcher.group(1) ) );
@@ -9401,7 +9428,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "reanimatorSkulls", 0 );
 			}
-			matcher = ChoiceManager.REANIMATOR_WEIRDPART_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.REANIMATOR_WEIRDPART_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "reanimatorWeirdParts", StringUtilities.parseInt( matcher.group(1) ) );
@@ -9410,7 +9437,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "reanimatorWeirdParts", 0 );
 			}
-			matcher = ChoiceManager.REANIMATOR_WING_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.REANIMATOR_WING_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "reanimatorWings", StringUtilities.parseInt( matcher.group(1) ) );
@@ -9425,7 +9452,7 @@ public abstract class ChoiceManager
 		case 836:
 		{
 			// Adventures Who Live in Ice Houses...
-			Matcher matcher = ChoiceManager.ICEHOUSE_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher matcher = ChoiceManager.ICEHOUSE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				String icehouseMonster = matcher.group( 1 ).toLowerCase();
@@ -9457,7 +9484,7 @@ public abstract class ChoiceManager
 			// Where the Magic Happens & The Practice & World of Bartercraft
 			Preferences.setString( "grimstoneMaskPath", "gnome" );
 			// Update remaining materials
-			Matcher matcher = ChoiceManager.RUMPLE_MATERIAL_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher matcher = ChoiceManager.RUMPLE_MATERIAL_PATTERN.matcher( text );
 			while ( matcher.find() )
 			{
 				String material = matcher.group( 1 );
@@ -9517,12 +9544,12 @@ public abstract class ChoiceManager
 		case 871:
 		{
 			// inspecting Motorbike
-			Matcher matcher = ChoiceManager.MOTORBIKE_TIRES_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher matcher = ChoiceManager.MOTORBIKE_TIRES_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeTires", matcher.group( 1 ).trim() );
 			}
-			matcher = ChoiceManager.MOTORBIKE_GASTANK_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.MOTORBIKE_GASTANK_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeGasTank", matcher.group( 1 ).trim() );
@@ -9535,22 +9562,22 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 				}
 			}
-			matcher = ChoiceManager.MOTORBIKE_HEADLIGHT_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.MOTORBIKE_HEADLIGHT_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeHeadlight", matcher.group( 1 ).trim() );
 			}
-			matcher = ChoiceManager.MOTORBIKE_COWLING_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.MOTORBIKE_COWLING_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeCowling", matcher.group( 1 ).trim() );
 			}
-			matcher = ChoiceManager.MOTORBIKE_MUFFLER_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.MOTORBIKE_MUFFLER_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeMuffler", matcher.group( 1 ).trim() );
 			}
-			matcher = ChoiceManager.MOTORBIKE_SEAT_PATTERN.matcher( ChoiceManager.lastResponseText );
+			matcher = ChoiceManager.MOTORBIKE_SEAT_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "peteMotorbikeSeat", matcher.group( 1 ).trim() );
@@ -9585,21 +9612,21 @@ public abstract class ChoiceManager
 
 		case 986:
 			// Control Panel
-			Preferences.setBoolean( "controlPanel1", !ChoiceManager.lastResponseText.contains( "All-Ranchero FM station: VOLUNTARY" ) );
-			Preferences.setBoolean( "controlPanel2", !ChoiceManager.lastResponseText.contains( "&pi; sleep-hypnosis generators: OFF" ) );
-			Preferences.setBoolean( "controlPanel3", !ChoiceManager.lastResponseText.contains( "Simian Ludovico Wednesdays: CANCELLED" ) );
-			Preferences.setBoolean( "controlPanel4", !ChoiceManager.lastResponseText.contains( "Monkey food safety protocols: OBEYED" ) );
-			Preferences.setBoolean( "controlPanel5", !ChoiceManager.lastResponseText.contains( "Shampoo Dispensers: CHILD-SAFE" ) );
-			Preferences.setBoolean( "controlPanel6", !ChoiceManager.lastResponseText.contains( "Assemble-a-Bear kiosks: CLOSED" ) );
-			Preferences.setBoolean( "controlPanel7", !ChoiceManager.lastResponseText.contains( "Training algorithm: ROUND ROBIN" ) );
-			Preferences.setBoolean( "controlPanel8", !ChoiceManager.lastResponseText.contains( "Re-enactment supply closet: LOCKED" ) );
-			Preferences.setBoolean( "controlPanel9", !ChoiceManager.lastResponseText.contains( "Thermostat setting: 76 DEGREES" ) );
-			Matcher omegaMatcher = ChoiceManager.OMEGA_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Preferences.setBoolean( "controlPanel1", !text.contains( "All-Ranchero FM station: VOLUNTARY" ) );
+			Preferences.setBoolean( "controlPanel2", !text.contains( "&pi; sleep-hypnosis generators: OFF" ) );
+			Preferences.setBoolean( "controlPanel3", !text.contains( "Simian Ludovico Wednesdays: CANCELLED" ) );
+			Preferences.setBoolean( "controlPanel4", !text.contains( "Monkey food safety protocols: OBEYED" ) );
+			Preferences.setBoolean( "controlPanel5", !text.contains( "Shampoo Dispensers: CHILD-SAFE" ) );
+			Preferences.setBoolean( "controlPanel6", !text.contains( "Assemble-a-Bear kiosks: CLOSED" ) );
+			Preferences.setBoolean( "controlPanel7", !text.contains( "Training algorithm: ROUND ROBIN" ) );
+			Preferences.setBoolean( "controlPanel8", !text.contains( "Re-enactment supply closet: LOCKED" ) );
+			Preferences.setBoolean( "controlPanel9", !text.contains( "Thermostat setting: 76 DEGREES" ) );
+			Matcher omegaMatcher = ChoiceManager.OMEGA_PATTERN.matcher( text );
 			if ( omegaMatcher.find() )
 			{
 				Preferences.setInteger( "controlPanelOmega", StringUtilities.parseInt( omegaMatcher.group( 1 ) ) );
 			}
-			if ( ChoiceManager.lastResponseText.contains( "Omega device activated" ) )
+			if ( text.contains( "Omega device activated" ) )
 			{
 				Preferences.setInteger( "controlPanelOmega", 0 );
 			}
@@ -9607,7 +9634,7 @@ public abstract class ChoiceManager
 
 		case 1003:
 			// Test Your Might And Also Test Other Things
-			SorceressLairManager.parseContestBooth( ChoiceManager.lastResponseText );
+			SorceressLairManager.parseContestBooth( 0, text );
 			break;
 
 		case 1005:	// 'Allo
@@ -9619,7 +9646,7 @@ public abstract class ChoiceManager
 		case 1011:	// Of Mouseholes and Manholes
 		case 1012:	// The Last Temptation
 		case 1013:	// Mazel Tov!
-			SorceressLairManager.visitChoice( ChoiceManager.lastChoice, ChoiceManager.lastResponseText );
+			SorceressLairManager.visitChoice( ChoiceManager.lastChoice, text );
 			break;
 		}
 	}

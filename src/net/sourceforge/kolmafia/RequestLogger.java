@@ -573,17 +573,27 @@ public class RequestLogger
 	{
 		RequestLogger.lastURLString = urlString;
 
-		if ( urlString.startsWith( "login" ) ||
-		     urlString.startsWith( "logout" ) ||
+		if ( urlString.startsWith( "api" ) ||
+		     urlString.startsWith( "charpane" ) ||
 		     urlString.startsWith( "account" ) ||
-		     urlString.startsWith( "api" ) ||
-		     urlString.startsWith( "charpane" ) )
+		     urlString.startsWith( "login" ) ||
+		     urlString.startsWith( "logout" ) )
 		{
 			return;
 		}
 
-		// There are some adventures which do not post any
-		// form fields, so handle them first.
+		// We want to do special things when we visit locations within
+		// the Sorceress' Lair. Those locations which are "adventures"
+		// but are not claimed here will be picked up by KoLAdventure
+
+		if ( SorceressLairManager.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Some adventures do not post any form fields,
+		// so handle them first.
 
 		if ( KoLAdventure.recordToSession( urlString ) )
 		{
@@ -659,13 +669,6 @@ public class RequestLogger
 
 		// We want to register simple visits to the Volcano Maze
 		if ( ( request instanceof VolcanoMazeRequest || isExternal ) && VolcanoMazeRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		// We want to register simple visits to parts of the Sorceress' Lair
-		if ( SorceressLairManager.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
