@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -45,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
@@ -531,5 +533,51 @@ public class PlaceRequest
 		RequestLogger.updateSessionLog( message );
 
 		return true;
+	}
+
+	public static void decorate( final String urlString, final StringBuffer buffer  )
+	{
+		String place = GenericRequest.getPlace( urlString );
+		if ( place == null )
+		{
+			return;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			action = "";
+		}
+
+		if ( place.equals( "forestvillage" ) )
+		{
+			// We decorate simple visits to the untinker and also
+			// accepting his quest
+			if ( action.equals( "fv_untinker" ) )
+			{
+				UntinkerRequest.decorate( buffer );
+			}
+		}
+		else if ( place.equals( "manor1" ) )
+		{
+			if ( action.equals( "manor1_ladys" ) )
+			{
+				if ( buffer.indexOf( "ghost of a necklace" ) != -1 )
+				{
+					RequestEditorKit.addAdventureAgainSection( buffer,
+										   "place.php?whichplace=manor2&action=manor2_ladys",
+										   "Talk to Lady Spookyraven on the Second Floor" );
+				}
+			}
+		}
+		else if ( place.equals( "rabbithole" ) )
+		{
+			RabbitHoleManager.decorateRabbitHole( buffer );
+		}
+		else if ( place.equals( "spookyraven2" ) )
+		{
+			// This is dead now
+			RequestEditorKit.add2ndFloorSpoilers( buffer );
+		}
 	}
 }

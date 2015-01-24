@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
@@ -366,9 +367,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "adventure.php" ) )
 		{
 			RequestEditorKit.fixTavernCellar( buffer );
-			StationaryButtonDecorator.decorate( location, buffer );
+			RequestEditorKit.fixBallroom1( buffer );
 			RequestEditorKit.fixDucks( buffer );
-			RequestEditorKit.fixRottingMatilda( buffer );
+			StationaryButtonDecorator.decorate( location, buffer );
+			RequestEditorKit.fixBallroom2( buffer );
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
@@ -527,17 +529,9 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace( buffer,
 				"Arcade</b>", note.toString() );
 		}
-		else if ( location.startsWith( "place.php?whichplace=forestvillage" ) )
+		else if ( location.startsWith( "place.php" ) )
 		{
-			UntinkerRequest.decorate( location, buffer );
-		}
-		else if ( location.startsWith( "place.php?whichplace=rabbithole" ) )
-		{
-			RabbitHoleManager.decorateRabbitHole( buffer );
-		}
-		else if ( location.startsWith( "place.php?whichplace=spookyraven2" ) )
-		{
-			RequestEditorKit.add2ndFloorSpoilers( buffer );
+			PlaceRequest.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
 		{
@@ -1490,7 +1484,7 @@ public class RequestEditorKit
 		RequestEditorKit.changePotionNames( buffer );
 	}
 
-	private static final void add2ndFloorSpoilers( final StringBuffer buffer )
+	public static final void add2ndFloorSpoilers( final StringBuffer buffer )
 	{
 		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
@@ -2162,21 +2156,39 @@ public class RequestEditorKit
 			return;
 		}
 
-		int index = buffer.indexOf( "</body></html>" );
-		if ( index != -1 )
-		{
-			buffer.insert( index, "<center><table width=95% cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><p><a href=\"" + url + "\">Go back to The Mysterious Island of Mystery</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center>" );
-		}
+		RequestEditorKit.addAdventureAgainSection( buffer, url, "Go back to The Mysterious Island of Mystery");
 	}
 
-	private static final AdventureResult DANCE_CARD = ItemPool.get( ItemPool.DANCE_CARD, 1);
-
-	private static final void fixRottingMatilda( final StringBuffer buffer )
+	public static final void addAdventureAgainSection( final StringBuffer buffer, final String link, final String tag )
 	{
-		// Give player a link to use another dance card
+		int index = buffer.indexOf( "</center></td></tr><tr><td height=4></td></tr></table>" );
+		if ( index == -1 )
+		{
+			return;
+		}
 
-		if ( buffer.indexOf( "Rotting Matilda" ) == -1 ||
-		     DANCE_CARD.getCount( KoLConstants.inventory ) <= 0 )
+		StringBuilder section = new StringBuilder();
+		section.append( "<center><p><a href=\"" );
+		section.append( link );
+		section.append( "\">" );
+		section.append( tag );
+		section.append( "</a></center>" );
+		buffer.insert( index, section.toString() );
+	}
+
+	private static final void fixBallroom1( final StringBuffer buffer )
+	{
+		// Things that go BEFORE Stationary Buttons have been generated
+
+		String link = null;
+
+		if ( buffer.indexOf( "Having a Ball in the Ballroom" ) != -1)
+		{
+			// Give the player a link to talk to Lady Spookyraven again (on the third floor)
+			link = "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+		}
+
+		if ( link == null )
 		{
 			return;
 		}
@@ -2184,7 +2196,36 @@ public class RequestEditorKit
 		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=395\">" );
 		if ( index != -1 )
 		{
-			String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another dance card</a>";
+			buffer.insert( index, link );
+		}
+	}
+	
+	private static final AdventureResult DANCE_CARD = ItemPool.get( ItemPool.DANCE_CARD, 1);
+
+	private static final void fixBallroom2( final StringBuffer buffer )
+	{
+		// Things that go AFTER Stationary Buttons have been generated
+
+		String link = null;
+
+		if ( buffer.indexOf( "Rotting Matilda" ) != -1 )
+		{
+			// Give player a link to use another dance card
+			if ( DANCE_CARD.getCount( KoLConstants.inventory ) <= 0 )
+			{
+				return;
+			}
+			link = "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another dance card</a>";
+		}
+
+		if ( link == null )
+		{
+			return;
+		}
+
+		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=395\">" );
+		if ( index != -1 )
+		{
 			buffer.insert( index, link );
 		}
 	}

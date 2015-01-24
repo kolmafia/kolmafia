@@ -331,15 +331,8 @@ public class UntinkerRequest
 		"Oh right, Degrassi Knoll. Okay, I'll be right back.&quot;"
 	};
 
-	public static final void decorate( final String urlString, final StringBuffer buffer )
+	public static void decorate( final StringBuffer buffer )
 	{
-		// We decorate simple visits to the untinker and also
-		// accepting his quest
-		if ( !urlString.contains( "action=fv_untinker" ) )
-		{
-			return;
-		}
-
 		String test = "";
 		int index = -1;
 		for ( int i = 0; index == -1 && i < UNTINKER_STRINGS.length; ++i )
