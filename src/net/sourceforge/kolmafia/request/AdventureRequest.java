@@ -725,6 +725,7 @@ public class AdventureRequest
 		case 585:	// Screwing Around!
 		case 595:	// Fire! I... have made... fire!
 		case 807:	// Breaker Breaker!
+		case 1003:	// Test Your Might And Also Test Other Things
 			return null;
 		}
 

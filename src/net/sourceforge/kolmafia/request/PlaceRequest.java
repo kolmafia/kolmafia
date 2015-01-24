@@ -161,14 +161,11 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "nstower" ) )
 		{
-			if ( action.equals( "" ) )
-			{
-				SorceressLairManager.parseTower( responseText );
-			}
+			SorceressLairManager.parseTowerResponse( action, responseText );
 		}
 		else if ( place.equals( "nstower_door" ) )
 		{
-			SorceressLairManager.parseDoorResponse( urlString, responseText );
+			SorceressLairManager.parseTowerDoorResponse( action, responseText );;
 		}
 		else if ( place.equals( "orc_chasm" ) )
 		{

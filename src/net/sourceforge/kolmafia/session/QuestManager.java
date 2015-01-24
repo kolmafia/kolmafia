@@ -1311,6 +1311,26 @@ public class QuestManager
 	 */
 	public static void updateQuestData( String responseText, String monster )
 	{
+		String adventureId = KoLAdventure.lastAdventureIdString();
+		String counter =
+			adventureId.equals( "ns_01_crowd1" ) ?
+			"nsContestants1" :
+			adventureId.equals( "ns_01_crowd2" ) ?
+			"nsContestants2" :
+			adventureId.equals( "ns_01_crowd3" ) ?
+			"nsContestants3" :
+			null;
+
+		if ( counter != null )
+		{
+			int crowd = Preferences.getInteger( counter );
+			if ( crowd > 0 )
+			{
+				Preferences.setInteger( counter, crowd - 1 );
+			}
+			return;
+		}
+
 		if ( monster.equalsIgnoreCase( "Screambat" ) )
 		{
 			if ( !QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )

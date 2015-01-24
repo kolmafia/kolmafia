@@ -332,23 +332,119 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
-	private static final Pattern STAT_ADVENTURER_PATTERN = Pattern.compile( "(Strongest|Smartest|Smoothest) Adventurer contest" );
-	private static final Pattern ELEMENT_ADVENTURER_PATTERN = Pattern.compile( "(Hottest|Coldest|Spookiest|Stinkiest|Sleaziest) Adventurer contest" );
+	private static final Pattern RANK_PATTERN = Pattern.compile( "<b>#(\\d+)</b>" );
+	private static final Pattern OPTIMISM_PATTERN = Pattern.compile( "You feel (.*?) about your chances in the (.*?) Adventurer contest" );
+	private static final Pattern ENTERED_PATTERN = Pattern.compile( "&quot;You already entered the (.*?) Adventurer contest.*?&quot;", Pattern.DOTALL );
+	private static final Pattern QUEUED_PATTERN = Pattern.compile( "there are (\\d+) (Adventurers|other Adventurers|of them)" );
 
-	public static void parseContestBooth( final String responseText )
+	private static String contestToStat( final String contest )
 	{
+		return  contest.equals( "Strongest" ) ?
+			Stat.MUSCLE.toString() :
+			contest.equals( "Smartest" ) ?
+			Stat.MYSTICALITY.toString() :
+			contest.equals( "Smoothest" ) ?
+			Stat.MOXIE.toString() :
+			null;
+	}
+
+	private static String contestToElement( final String contest )
+	{
+		return  contest.equals( "Hottest" ) ?
+			Element.HOT.toString() :
+			contest.equals( "Coldest" ) ?
+			Element.COLD.toString() :
+			contest.equals( "Spookiest" ) ?
+			Element.SPOOKY.toString() :
+			contest.equals( "Stinkiest" ) ?
+			Element.STENCH.toString() :
+			contest.equals( "Sleaziest" ) ?
+			Element.SLEAZE.toString() :
+			null;
+	}
+
+	public static void parseContestBooth( final int decision, final String responseText )
+	{
+		if ( decision == 4 )
+		{
+			// Claim your prize
+			if ( responseText.contains( "World's Best Adventurer sash" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
+			}
+			return;
+		}
+
+		QuestDatabase.setQuestIfBetter( Quest.FINAL, "step1" );
+
+		// Are we entering a contest?
+		if ( decision >= 1 && decision <= 3 )
+		{
+			// According to my evaluation, you qualify to start at rank
+			// <b>#N</b> in the <attribute> Adventurer contest.
+			//
+			// The man wraps a measuring tape around various parts of your
+			// body and declares that you are qualified to begin the
+			// contest at rank <b>#N</b>.
+			//
+			// The man peers at you through a magnifying glass for a little
+			// while, then writes <b>#N</b> on his clipboard.
+
+			Matcher rankMatcher = SorceressLairManager.RANK_PATTERN.matcher( responseText );
+			if ( rankMatcher.find() )
+			{
+				String setting = "nsContestants" + String.valueOf( decision );
+				int value = StringUtilities.parseInt( rankMatcher.group( 1 ) );
+				Preferences.setInteger( setting, value - 1 );
+			}
+			return;
+		}
+
 		// You feel <feeling> about your chances in the <attribute> Adventurer contest.
-		//
-		// According to my evaluation, you qualify to start at rank <b>#N</b> in the <attribute> Adventurer contest.
-		//
-		// The man wraps a measuring tape around various parts of your body and declares that you are qualified to begin the contest at rank <b>#N</b>.
-		//
-		// The man peers at you through a magnifying glass for a little while, then writes <b>#N</b> on his clipboard.
-		//
+
+		Matcher optimismMatcher = SorceressLairManager.OPTIMISM_PATTERN.matcher( responseText );
+		while ( optimismMatcher.find() )
+		{
+			String mood = optimismMatcher.group( 1 );
+			String contest = optimismMatcher.group( 2 );
+
+			if ( contest.equals( "Fastest" ) )
+			{
+				continue;
+			}
+
+			String stat = SorceressLairManager.contestToStat( contest );
+			if ( stat != null )
+			{
+				Preferences.setString( "nsChallenge1", stat );
+				continue;
+			}
+
+			String element = SorceressLairManager.contestToElement( contest );
+			if ( element != null )
+			{
+				Preferences.setString( "nsChallenge2", element );
+				continue;
+			}
+		}
+
 		// "You already entered the <attribute> Adventurer contest. You
 		// should go get in line and wait for it to start. My clipboard
 		// here says that there are X Adventurers in the contest
 		// besides you."
+		//
+		// "You already entered the <attribute> Adventurer contest. You
+		// should go wait with the other entrants. According to my
+		// clipboard here, there are X other Adventurers waiting."
+		//
+		// "You already entered the <attribute> Adventurer contest. You
+		// should go wait in line with the other Adventurers. It says
+		// here that there are X of them besides you"
+		//
+		// "You already entered the <attribute> Adventurer contest.  You
+		// should go get in line and wait for it to start.  It says
+		// here that the contest is current you and one other
+		// Adventurer.  Hey, a 50/50 chance is pretty good, eh?"
 		//
 		// "You already entered the <attribute> Adventurer contest. You
 		// should go get in line and wait for it to start. Wait -- my
@@ -361,41 +457,42 @@ public abstract class SorceressLairManager
 		// wait -- it says here on my clipboard that you're the only
 		// entrant, so I guess you win that one by default."
 
-		// Look at the responseText and set nsChallenge1 to the "stat"
-		// and nsChallenge2 to the "element"
-
-		Matcher matcher = SorceressLairManager.STAT_ADVENTURER_PATTERN.matcher( responseText );
-		if ( matcher.find() )
+		Matcher enteredMatcher = SorceressLairManager.ENTERED_PATTERN.matcher( responseText );
+		while ( enteredMatcher.find() )
 		{
-			String stat = matcher.group( 1 );
-			String  value =
-				stat.equals( "Strongest" ) ?
-				Stat.MUSCLE.toString() :
-				stat.equals( "Smartest" ) ?
-				Stat.MYSTICALITY.toString() :
-				stat.equals( "Smoothest" ) ?
-				Stat.MOXIE.toString() :
-				"none";
-			Preferences.setString( "nsChallenge1", value );
-		}
+			String contest = enteredMatcher.group( 1 );
+			String text = enteredMatcher.group( 0 );
+			Matcher queuedMatcher = SorceressLairManager.QUEUED_PATTERN.matcher( text );
+			int queue =
+				queuedMatcher.find() ?
+				StringUtilities.parseInt( queuedMatcher.group( 1 ) ) :
+				text.contains( "you and one other" ) ?
+				1 :
+				text.contains( "only Adventurer" ) || text.contains( "only entrant" ) ?
+				0 :
+				-1;
 
-		matcher = SorceressLairManager.ELEMENT_ADVENTURER_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			String element = matcher.group( 1 );
-			String value =
-				element.equals( "Hottest" ) ?
-				Element.HOT.toString() :
-				element.equals( "Coldest" ) ?
-				Element.COLD.toString() :
-				element.equals( "Spookiest" ) ?
-				Element.SPOOKY.toString() :
-				element.equals( "Stinkiest" ) ?
-				Element.STENCH.toString() :
-				element.equals( "Sleaziest" ) ?
-				Element.SLEAZE.toString() :
-				"none";
-			Preferences.setString( "nsChallenge2", value );
+			if ( contest.equals( "Fastest" ) )
+			{
+				Preferences.setInteger( "nsContestants1", queue );
+				continue;
+			}
+
+			String stat = SorceressLairManager.contestToStat( contest );
+			if ( stat != null )
+			{
+				Preferences.setInteger( "nsContestants2", queue );
+				Preferences.setString( "nsChallenge1", stat );
+				continue;
+			}
+
+			String element = SorceressLairManager.contestToElement( contest );
+			if ( element != null )
+			{
+				Preferences.setInteger( "nsContestants3", queue );
+				Preferences.setString( "nsChallenge2", element );
+				continue;
+			}
 		}
 	}
 
@@ -439,12 +536,35 @@ public abstract class SorceressLairManager
 		Preferences.setString( setting, element );
 	}
 
-	public static void parseDoorResponse( final String location, final String responseText )
+	public static void parseTowerResponse( final String action, final String responseText )
 	{
-		String action = GenericRequest.getAction( location );
-
-		if ( action == null )
+		if ( action == null || action.equals( "" ) )
 		{
+			// Simple visit to the tower. See where we are!
+			SorceressLairManager.parseTower( responseText );
+		}
+		else if ( action.equals( "ns_11_prism" ) )
+		{
+			// Freeing the king finishes the quest.
+			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
+			KoLCharacter.liberateKing();
+		}
+	}
+
+	public static void parseTowerDoorResponse( final String action, final String responseText )
+	{
+		if ( action == null || action.equals( "" ) )
+		{
+			return;
+		}
+
+		if ( action.equals( "ns_doorknob" ) )
+		{
+			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
+			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
+			}
 			return;
 		}
 
@@ -517,14 +637,51 @@ public abstract class SorceressLairManager
 			return false;
 		}
 
-		String prefix = "[" + KoLAdventure.getAdventureCount() + "] ";
+		String place = GenericRequest.getPlace( urlString );
+		if ( place == null )
+		{
+			return false;
+		}
+
 		String message = null;
 
-		if ( urlString.contains( "whichplace=nstower_door" ) )
+		if ( place.equals( "nstower" ) )
+		{
+			String action = GenericRequest.getAction( urlString );
+			if ( action != null )
+			{
+				if ( action.equals( "ns_10_sorcfight" ) )
+				{
+					// You are about to confront Her Naughtiness
+					// Clear effects other than Confidence!
+					SorceressLairManager.enterSorceressFight();
+
+					// Let KoLAdventure claim this
+					return false;
+				}
+
+				message =
+					action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
+					action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
+					action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
+					null;
+
+				if ( message == null )
+				{
+					// Everything else is a KoLAdventure
+					return false;
+				}
+
+				RequestLogger.printLine();
+				RequestLogger.updateSessionLog();
+			}
+		}
+		else if ( place.equals( "nstower_door" ) )
 		{
 			String action = GenericRequest.getAction( urlString );
 			if ( action == null )
 			{
+				String prefix = "[" + KoLAdventure.getAdventureCount() + "] ";
 				RequestLogger.printLine();
 				RequestLogger.updateSessionLog();
 				message =  prefix + "Tower Door";
@@ -541,29 +698,6 @@ public abstract class SorceressLairManager
 					action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
 					null;
 			}
-		}
-		else if ( urlString.contains( "whichplace=nstower" ) )
-		{
-			String action = GenericRequest.getAction( urlString );
-			if ( action != null )
-			{
-				message =
-					action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
-					action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
-					action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
-					null;
-
-				if ( message == null )
-				{
-					return false;
-				}
-
-				RequestLogger.printLine();
-				RequestLogger.updateSessionLog();
-			}
-		}
-		else if ( urlString.startsWith( "choice.php" ) )
-		{
 		}
 
 		if ( message == null )
@@ -604,11 +738,14 @@ public abstract class SorceressLairManager
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			return true;
+
 		case 1015:	// The Mirror in the Tower has the View that is True
 		case 1020:	// Closing Ceremony
 		case 1021:	// Meet Frank
 		case 1022:	// Meet Frank
+			// Don't log the URL for these; the encounter suffices
 			return true;
+
 		case 1005:	// 'Allo
 		case 1006:	// One Small Step For Adventurer
 		case 1007:	// Twisty Little Passages, All Hedge
