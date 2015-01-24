@@ -50,8 +50,21 @@ public class LowerCaseEntry
 	public LowerCaseEntry( final Entry<Object, Object> original )
 	{
 		this.original = original;
+
 		this.key = original.getKey();
 		this.value = original.getValue();
+
+		this.pairString = this.value + " (" + this.key + ")";
+		this.lowercase = this.value.toString().toLowerCase();
+	}
+
+	public LowerCaseEntry( final Object key, final Object value )
+	{
+		this.original = null;
+
+		this.key = key;
+		this.value = value;
+
 		this.pairString = this.value + " (" + this.key + ")";
 		this.lowercase = this.value.toString().toLowerCase();
 	}
@@ -59,12 +72,14 @@ public class LowerCaseEntry
 	@Override
 	public boolean equals( final Object o )
 	{
-		if ( o instanceof LowerCaseEntry )
+		if ( o instanceof Entry )
 		{
-			return this.original.equals( ( (LowerCaseEntry) o ).original );
+			Entry entry = (Entry) o;
+
+			return this.key.equals( entry.getKey() ) && this.value.equals( entry.getValue() );
 		}
 
-		return this.original.equals( o );
+		return false;
 	}
 
 	public Object getKey()
@@ -86,14 +101,19 @@ public class LowerCaseEntry
 	@Override
 	public int hashCode()
 	{
-		return this.original.hashCode();
+		return this.key.hashCode();
 	}
 
 	public Object setValue( final Object newValue )
 	{
-		Object returnValue = this.original.setValue( newValue );
-
+		Object returnValue = this.value;
 		this.value = newValue;
+
+		if ( this.original != null )
+		{
+			this.original.setValue( newValue );
+		}
+
 		this.pairString = this.value + " (" + this.key + ")";
 		this.lowercase = this.value.toString().toLowerCase();
 
