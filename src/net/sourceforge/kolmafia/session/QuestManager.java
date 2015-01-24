@@ -62,16 +62,15 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
@@ -89,68 +88,75 @@ public class QuestManager
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 
-	public static final void handleQuestChange( final String location, final String responseText )
+	public static final void handleQuestChange( GenericRequest request )
 	{
+		String location = request.getURLString();
+		String responseText = request.responseText;
+		String locationId = request.getFormField( "snarfblat" );
+		if ( locationId == null )
+		{
+			locationId = "";
+		}
 		if ( location.startsWith( "adventure" ) )
 		{
-			if ( location.contains( AdventurePool.ROAD_TO_WHITE_CITADEL_ID ) )
+			if ( locationId.equals( AdventurePool.ROAD_TO_WHITE_CITADEL_ID ) )
 			{
 				handleWhiteCitadelChange( responseText );
 			}
-			if ( location.contains( AdventurePool.WHITEYS_GROVE_ID ) )
+			else if ( locationId.equals( AdventurePool.WHITEYS_GROVE_ID ) )
 			{
 				handleWhiteysGroveChange( responseText );
 			}
-			else if ( location.contains( AdventurePool.EXTREME_SLOPE_ID ) )
+			else if ( locationId.equals( AdventurePool.EXTREME_SLOPE_ID ) )
 			{
 				handleExtremityChange( responseText );
 			}
-			else if ( location.contains( AdventurePool.AIRSHIP_ID ) ||
-					  location.contains( AdventurePool.CASTLE_BASEMENT_ID ) ||
-					  location.contains( AdventurePool.CASTLE_GROUND_ID ) ||
-					  location.contains( AdventurePool.CASTLE_TOP_ID ) )
+			else if ( locationId.equals( AdventurePool.AIRSHIP_ID ) ||
+			          locationId.equals( AdventurePool.CASTLE_BASEMENT_ID ) ||
+			          locationId.equals( AdventurePool.CASTLE_GROUND_ID ) ||
+			          locationId.equals( AdventurePool.CASTLE_TOP_ID ) )
 			{
 				handleBeanstalkChange( location, responseText );
 			}
-			else if ( location.contains( AdventurePool.ZEPPELIN_PROTESTORS_ID ) )
+			else if ( locationId.equals( AdventurePool.ZEPPELIN_PROTESTORS_ID ) )
 			{
 				handleZeppelinMobChange( responseText );
 			}
-			else if ( location.contains( AdventurePool.RED_ZEPPELIN_ID ) )
+			else if ( locationId.equals( AdventurePool.RED_ZEPPELIN_ID ) )
 			{
 				handleZeppelinChange( responseText );
 			}
-			else if ( location.contains( AdventurePool.PALINDOME_ID ) )
+			else if ( locationId.equals( AdventurePool.PALINDOME_ID ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 			}
-			else if ( location.contains( AdventurePool.POOP_DECK_ID ) )
+			else if ( locationId.equals( AdventurePool.POOP_DECK_ID ) )
 			{
 				handlePoopDeckChange( responseText );
 			}
-			else if ( location.contains( AdventurePool.HAUNTED_BALLROOM_ID ) )
+			else if ( locationId.equals( AdventurePool.HAUNTED_BALLROOM_ID ) )
 			{
 				handleManorSecondFloorChange( location, responseText );
 			}
-			else if ( location.contains( AdventurePool.UPPER_CHAMBER_ID ) ||
-			          location.contains( AdventurePool.MIDDLE_CHAMBER_ID ) )
+			else if ( locationId.equals( AdventurePool.UPPER_CHAMBER_ID ) ||
+			          locationId.equals( AdventurePool.MIDDLE_CHAMBER_ID ) )
 			{
 				handlePyramidChange( location, responseText );
 			}
-			else if ( location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
-			          location.contains( AdventurePool.FUN_GUY_MANSION_ID ) ||
-			          location.contains( AdventurePool.YACHT_ID ) ||
-			          location.contains( AdventurePool.DR_WEIRDEAUX_ID ) ||
-			          location.contains( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
-			          location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
+			else if ( locationId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+			          locationId.equals( AdventurePool.FUN_GUY_MANSION_ID ) ||
+			          locationId.equals( AdventurePool.YACHT_ID ) ||
+			          locationId.equals( AdventurePool.DR_WEIRDEAUX_ID ) ||
+			          locationId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+			          locationId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
 			{
 				handleAirportChange( location, responseText );
 			}
-			else if ( location.contains( AdventurePool.MARINARA_TRENCH_ID ) ||
-			          location.contains( AdventurePool.ANENOME_MINE_ID ) ||
-			          location.contains( AdventurePool.DIVE_BAR_ID ) ||
-			          location.contains( AdventurePool.MERKIN_OUTPOST_ID ) ||
-			          location.contains( AdventurePool.CALIGINOUS_ABYSS_ID ) )
+			else if ( locationId.equals( AdventurePool.MARINARA_TRENCH_ID ) ||
+			          locationId.equals( AdventurePool.ANENOME_MINE_ID ) ||
+			          locationId.equals( AdventurePool.DIVE_BAR_ID ) ||
+			          locationId.equals( AdventurePool.MERKIN_OUTPOST_ID ) ||
+			          locationId.equals( AdventurePool.CALIGINOUS_ABYSS_ID ) )
 			{
 				handleSeaChange( location, responseText );
 			}
@@ -194,8 +200,8 @@ public class QuestManager
 			handleGuildChange( responseText );
 		}
 		else if ( location.contains( "whichplace=highlands" ) ||
-			location.contains( AdventurePool.ABOO_PEAK_ID ) ||
-			location.contains( AdventurePool.OIL_PEAK_ID )	)
+		          locationId.equals( AdventurePool.ABOO_PEAK_ID ) ||
+		          locationId.equals( AdventurePool.OIL_PEAK_ID ) )
 		{
 			handleHighlandsChange( location, responseText );
 		}
