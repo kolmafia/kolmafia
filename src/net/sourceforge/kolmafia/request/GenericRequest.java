@@ -1441,7 +1441,7 @@ public class GenericRequest
 		// Call central dispatch method for locations that require
 		// special handling
 
-		QuestManager.handleQuestChange( location, this.responseText );
+		QuestManager.handleQuestChange( this );
 
 		this.formatResponse();
 	}
