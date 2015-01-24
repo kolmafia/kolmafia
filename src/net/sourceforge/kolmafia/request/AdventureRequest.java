@@ -278,10 +278,19 @@ public class AdventureRequest
 		// Sometimes, there's no response from the server.
 		// In this case, skip and continue onto the next one.
 
-		if ( this.responseText == null || this.responseText.trim().length() == 0 ||
-			this.responseText.contains( "No, that isn't a place yet." ) )
+		if ( this.responseText == null ||
+		     this.responseText.trim().length() == 0 ||
+		     this.responseText.contains( "No, that isn't a place yet." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get to that area yet." );
+			return;
+		}
+
+		if ( this.formSource.equals( "place.php" ) )
+		{
+			// nstower locations redirect to a fight or choice. If
+			// it didn't do that, you can't adventure there.
+			KoLmafia.updateDisplay( MafiaState.PENDING, "You can't adventure there." );
 			return;
 		}
 
