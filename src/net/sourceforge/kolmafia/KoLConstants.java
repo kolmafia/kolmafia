@@ -399,7 +399,7 @@ public interface KoLConstants
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int ENCOUNTERS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
-	public static final int FAMILIARS_VERSION = 2;
+	public static final int FAMILIARS_VERSION = 3;
 	public static final int FAXBOTS_VERSION = 1;
 	public static final int FOLDGROUPS_VERSION = 1;
 	public static final int FULLNESS_VERSION = 2;
