@@ -262,6 +262,9 @@ public class DailyDeedsPanel
 		{
 			"Special", "Defective Token"
 		},
+		{
+			"Special", "Chateau Desk"
+		},
 	};
 
 	private static final int getVersion( String deed )
@@ -269,7 +272,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Ultra Mega Sour Ball" ) )
+		if ( deed.equals( "Chateau Desk" ) )
+			return 9;
+		else if ( deed.equals( "Ultra Mega Sour Ball" ) )
 			return 8;
 		else if ( deed.equals( "Avatar of Jarlberg Staves" ) )
 			return 6;
@@ -1016,6 +1021,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Defective Token" ) )
 		{
 			this.add( new DefectiveTokenDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Chateau Desk" ) )
+		{
+			this.add( new ChateauDeskDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3829,6 +3838,62 @@ public class DailyDeedsPanel
 			{
 				this.setText( "click to check" );
 				this.button.setVisible( true );
+			}
+		}
+	}
+
+	public static class ChateauDeskDaily
+		extends Daily
+	{
+		private JButton button;
+
+		public ChateauDeskDaily()
+		{
+			this.addListener( "_chateauDeskHarvested" );
+			this.addListener( "kingLiberated" );
+			this.button = this.addButton( "Chateau desk" );
+			this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk\",false);" );
+			this.addLabel( "Click to harvest" );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = Preferences.getBoolean( "chateauAvailable" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
+			this.setShown( ( !bm || kf ) && have && allowed );
+
+			boolean harvested = Preferences.getBoolean( "_chateauDeskHarvested" );
+
+			if ( harvested )
+			{
+				this.setText( "Already harvested the chateau desk" );
+				this.button.setVisible( false );
+				return;
+			}
+
+			for ( AdventureResult item : KoLConstants.chateau )
+			{
+				switch ( item.getItemId() )
+				{
+				case ItemPool.CHATEAU_BANK:
+					this.setText( "1,000 meat" );
+					this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk1\",false);" );
+					this.button.setVisible( true );
+					break;
+				case ItemPool.CHATEAU_JUICE_BAR:
+					this.setText( "3 random potions" );
+					this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk2\",false);" );
+					this.button.setVisible( true );
+					break;
+				case ItemPool.CHATEAU_PENS:
+					this.setText( "3 fancy calligraphy pens" );
+					this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk3\",false);" );
+					this.button.setVisible( true );
+					break;
+				}
 			}
 		}
 	}

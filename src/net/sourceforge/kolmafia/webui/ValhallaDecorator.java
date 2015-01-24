@@ -691,6 +691,9 @@ public class ValhallaDecorator
 			case ItemPool.CHATEAU_JUICE_BAR:
 				chateauBuffer.append( "3 random potions per day" );
 				break;
+			case ItemPool.CHATEAU_PENS:
+				chateauBuffer.append( "3 fancy calligraphy pens per day" );
+				break;
 			default:
 				chateauBuffer.append( "unknown" );
 				break;
