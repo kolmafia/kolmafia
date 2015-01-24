@@ -553,7 +553,7 @@ public class PlaceRequest
 		{
 			// We decorate simple visits to the untinker and also
 			// accepting his quest
-			if ( action.equals( "fv_untinker" ) )
+			if ( action.equals( "fv_untinker" ) || urlString.contains( "preaction=screwquest" ) )
 			{
 				UntinkerRequest.decorate( buffer );
 			}
