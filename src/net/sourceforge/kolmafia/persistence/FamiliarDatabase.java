@@ -127,7 +127,8 @@ public class FamiliarDatabase
 				String familiarName = new String( data[ 1 ] );
 				String familiarImage = new String( data[ 2 ] );
 				String familiarType = new String( data[ 3 ] );
-				Integer familiarLarva = Integer.valueOf( data[ 4 ] );
+				String familiarLarvaName = new String( data[ 4 ] );
+				Integer familiarLarva = Integer.valueOf( ItemDatabase.getItemId( familiarLarvaName ) );
 				String familiarItemName = new String( data[ 5 ] );
 
 				FamiliarDatabase.familiarById.put( familiarId, StringUtilities.getDisplayName( familiarName ) );
@@ -552,24 +553,25 @@ public class FamiliarDatabase
 			String name = FamiliarDatabase.getFamiliarName( nextInteger );
 			String image = FamiliarDatabase.getFamiliarImageLocation( familiarId );
 			String type = FamiliarDatabase.getFamiliarType( familiarId );
-			int larva = FamiliarDatabase.getFamiliarLarva( nextInteger ) ;
+			int larvaId = FamiliarDatabase.getFamiliarLarva( nextInteger ) ;
 			int itemId = FamiliarDatabase.getFamiliarItemId( nextInteger );
 			int[] skills = FamiliarDatabase.getFamiliarSkills( nextInteger );
 
-			FamiliarDatabase.writeFamiliar( writer, familiarId, name, image, type, larva, itemId, skills );
+			FamiliarDatabase.writeFamiliar( writer, familiarId, name, image, type, larvaId, itemId, skills );
 		}
 	}
 
 	public static void writeFamiliar( final PrintStream writer,
 					  final int familiarId, final String name, final String image,
-					  final String type, final int larva, final int itemId, final int [] skills )
+					  final String type, final int larvaId, final int itemId, final int [] skills )
 	{
-		writer.println( FamiliarDatabase.familiarString( familiarId, name, image, type, larva, itemId, skills ) );
+		writer.println( FamiliarDatabase.familiarString( familiarId, name, image, type, larvaId, itemId, skills ) );
 	}
 
 	public static String familiarString( final int familiarId, final String name, final String image,
-					     final String type, final int larva, final int itemId, final int [] skills )
+					     final String type, final int larvaId, final int itemId, final int [] skills )
 	{
+		String larva  = larvaId == -1 ? "" : ItemDatabase.getItemDataName( larvaId );
 		String item = itemId == -1 ? "" : ItemDatabase.getItemDataName( itemId );
 		return familiarId + "\t" +
 		       name + "\t" +
