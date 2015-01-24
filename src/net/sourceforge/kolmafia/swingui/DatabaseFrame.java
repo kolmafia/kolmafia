@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Map.Entry;
 
@@ -85,8 +84,7 @@ public class DatabaseFrame
 
 	public static void addItem( final Integer id, final String itemName )
 	{
-		SimpleEntry entry = new SimpleEntry( id, itemName );
-		DatabaseFrame.allItems.add( new LowerCaseEntry( entry ) );
+		DatabaseFrame.allItems.add( new LowerCaseEntry( id, itemName ) );
 		DatabaseFrame.allItems.sort( new IntegerEntryKeyComparator() );
 	}
 
