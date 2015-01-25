@@ -565,6 +565,7 @@ public abstract class SorceressLairManager
 	{
 		if ( action == null || action.equals( "" ) )
 		{
+			SorceressLairManager.parseTowerDoor( responseText );
 			return;
 		}
 
@@ -638,6 +639,47 @@ public abstract class SorceressLairManager
 			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + lock.getDataName() );
 		}
+	}
+
+	public static void parseTowerDoor( String responseText )
+	{
+		// Based on which locks are absent, deduce which keys have been used.
+
+		StringBuilder buffer = new StringBuilder();
+		int keys = 0;
+
+		if ( !responseText.contains( "ns_lock1" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.BORIS.getDataName() );
+		}
+		if ( !responseText.contains( "ns_lock2" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.JARLSBERG.getDataName() );
+		}
+		if ( !responseText.contains( "ns_lock3" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.SNEAKY_PETE.getDataName() );
+		}
+		if ( !responseText.contains( "ns_lock4" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.STAR_KEY.getDataName() );
+		}
+		if ( !responseText.contains( "ns_lock5" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.SKELETON.getDataName() );
+		}
+		if ( !responseText.contains( "ns_lock6" ) )
+		{
+			buffer.append( keys++ > 0 ? "," : "" );
+			buffer.append( SorceressLairManager.DIGITAL.getDataName() );
+		}
+
+		Preferences.setString( "nsTowerDoorKeysUsed", buffer.toString() );
 	}
 
 	public static boolean registerRequest( final String urlString )
