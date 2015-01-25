@@ -6184,6 +6184,25 @@ public abstract class ChoiceManager
 			ResultProcessor.processAdventuresUsed( 1 );
 			break;
 
+		case 924:	// You Found Your Thrill
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// head towards beehive
+				// This takes take a turn
+				ResultProcessor.processAdventuresUsed( 1 );
+			}
+			break;
+
+		case 1018:	// Bee Persistent
+		case 1019:	// Bee Rewarded
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// head towards beehive
+				// This takes take a turn
+				ResultProcessor.processAdventuresUsed( 1 );
+			}
+			break;
+
 		case 1028:
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
@@ -11524,7 +11543,7 @@ public abstract class ChoiceManager
 		{
 			return false;
 		}
-
+ 
 		if ( urlString.equals( "choice.php" ) )
 		{
 			// Continuing after a multi-fight.
@@ -11543,6 +11562,7 @@ public abstract class ChoiceManager
 			case 443:
 				// Chess Puzzle
 				return RabbitHoleManager.registerChessboardRequest( urlString );
+
 			case 460: case 461: case 462: case 463: case 464:
 			case 465:	    case 467: case 468: case 469:
 			case 470:	    case 472: case 473: case 474:
@@ -11558,11 +11578,14 @@ public abstract class ChoiceManager
 			case 488: case 489: case 490: case 491:
 				// Meteoid
 				return true;
+
 			case 535:	// Deep Inside Ronald
 			case 536:	// Deep Inside Grimace
 				return true;
+
 			case 546:	// Interview With You
 				return true;
+
 			case 1003:	// Test Your Might And Also Test Other Things
 			case 1015:	// The Mirror in the Tower has the View that is True
 			case 1020:	// Closing Ceremony
@@ -11579,6 +11602,7 @@ public abstract class ChoiceManager
 			case 1013:	// Mazel Tov!
 				return SorceressLairManager.registerChoice( choice, urlString );
 			}
+
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
 			if ( matcher.find() )
 			{
@@ -11602,7 +11626,7 @@ public abstract class ChoiceManager
 
 		if ( choice == 0 && decision == 0 )
 		{
-			// forecoption=0 will redirect to the real choice.
+			// forceoption=0 will redirect to the real choice.
 			// Don't bother logging it.
 			return true;
 		}
@@ -11631,6 +11655,7 @@ public abstract class ChoiceManager
 			// visiting a location.
 			RequestLogger.registerLastLocation();
 			break;
+
 		case 1006:	// One Small Step For Adventurer
 		case 1007:	// Twisty Little Passages, All Hedge
 		case 1008:	// Pooling Your Resources
@@ -11643,8 +11668,15 @@ public abstract class ChoiceManager
 			// follow a fight or the previous choice, either of
 			// which takes a turn (unlike normal choice chains)
 			String location = "The Hedge Maze (Room " + String.valueOf( choice - 1004 ) + ")";
-			RequestLogger.registerLocation(location );
+			RequestLogger.registerLocation( location );
 			break;
+
+		case 1018:	// Bee Persistent
+		case 1019:	// Bee Rewarded
+			// These also take a turn
+			RequestLogger.registerLocation( "The Black Forest" );
+			break;
+
 		}
 	}
 
