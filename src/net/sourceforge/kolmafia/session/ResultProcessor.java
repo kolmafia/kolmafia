@@ -381,7 +381,8 @@ public class ResultProcessor
 
 		if ( acquisition.startsWith( "You acquire" ) )
 		{
-			if ( acquisition.contains( "clan trophy" ) )
+			if ( acquisition.contains( "clan trophy" ) ||
+			     acquisition.contains( "7 Years of Bad Luck" ) )
 			{
 				return false;
 			}
