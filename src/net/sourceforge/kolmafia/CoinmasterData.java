@@ -65,6 +65,7 @@ public class CoinmasterData
 	// The token(s) that you exchange for items.
 	// One, for now
 	private String token;
+	private AdventureResult tokenItem;
 	public String plural;
 	private final String tokenTest;
 	private final boolean positiveTest;
@@ -147,6 +148,18 @@ public class CoinmasterData
 
 		// Derived fields
 		this.plural = item != null ? ItemDatabase.getPluralName( token ) : token + "s";
+		this.tokenItem = this.makeTokenItem();
+	}
+
+	private final AdventureResult makeTokenItem()
+	{
+		AdventureResult item = new AdventureResult( this.token, -1, 1 ) {
+				public String getPluralName( final int count )
+				{
+					return count == 1 ? CoinmasterData.this.token : CoinmasterData.this.plural;
+				}
+			};
+		return item;
 	}
 
 	public final String getMaster()
@@ -346,7 +359,7 @@ public class CoinmasterData
 	{
 		int price = this.getBuyPrice( itemName );
 		return  this.item == null ?
-			AdventureResult.tallyItem( this.token, price, false ) :
+			this.tokenItem.getInstance( price ) :
 			this.item.getInstance( price );
 	}
 
