@@ -2631,10 +2631,15 @@ public class ItemDatabase
 		}
 	}
 
+	public static final boolean isEquipment( final String itemName )
+	{
+		return ItemDatabase.isEquipment( ItemDatabase.getItemId( itemName ) );
+	}
+
 	public static final boolean isEquipment( final int itemId )
 	{
 		int useType = ItemDatabase.useTypeById.get( itemId );
-		return EquipmentDatabase.isEquipment( useType );
+		return EquipmentDatabase.isEquipment( useType ) || useType == KoLConstants.EQUIP_FAMILIAR;
 	}
 
 	public static final boolean isMultiUsable( final int itemId )

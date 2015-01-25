@@ -538,9 +538,9 @@ public abstract class InventoryManager
 		}
 
 		// Don't waste time checking equipment and familiars for
-		// restricted items.
+		// restricted items or non-equipment.
 
-		if ( !isRestricted )
+		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) )
 		{
 			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
 			{

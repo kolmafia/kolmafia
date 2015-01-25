@@ -493,7 +493,7 @@ public class TableCellFactory
 			name = ( (CreateItemRequest) value ).getName();
 		}
 		
-		if ( !EquipmentDatabase.isEquipment( ItemDatabase.getConsumptionType( name ) ) )
+		if ( !ItemDatabase.isEquipment( name ) )
 		{
 			return null;
 		}
