@@ -538,17 +538,27 @@ public abstract class SorceressLairManager
 
 	public static void parseTowerResponse( final String action, final String responseText )
 	{
-		if ( action == null || action.equals( "" ) )
-		{
-			// Simple visit to the tower. See where we are!
-			SorceressLairManager.parseTower( responseText );
-		}
-		else if ( action.equals( "ns_11_prism" ) )
+		// King Ralph the XI stands before you in all his regal glory.
+		// "I'm sorry, adventurer," he says, "but the king is in
+		// another castle." Then he breaks into a hearty chuckle. "Well
+		// done, adventurer! You laid the smack down on that skank with
+		// admirable derring-do and panache. I am eternally in your debt."
+
+		if ( action.equals( "ns_11_prism" ) &&
+		     responseText.contains( "King Ralph the XI stands before you in all his regal glory" ) )
 		{
 			// Freeing the king finishes the quest.
 			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
 			KoLCharacter.liberateKing();
+			return;
 		}
+
+		// Other "actions" all redirect to a choice or fight, if they
+		// are allowed, otherwise simply return the tower image, as
+		// does a request to see the tower with no action. Parse the
+		// image and see what we can glean.
+
+		SorceressLairManager.parseTower( responseText );
 	}
 
 	public static void parseTowerDoorResponse( final String action, final String responseText )
@@ -867,5 +877,13 @@ public abstract class SorceressLairManager
 		// However, if absent, you may have not yet entered that
 		// contest or you may have finished it, and there is no
 		// indication of how far you are in the crowd.
+
+		// If we are past the contests, mark them all finished.
+		if ( QuestDatabase.isQuestLaterThan( Quest.FINAL, "step1" ) )
+		{
+			Preferences.setInteger( "nsContestants1", 0 );
+			Preferences.setInteger( "nsContestants2", 0 );
+			Preferences.setInteger( "nsContestants3", 0 );
+		}
 	}
 }
