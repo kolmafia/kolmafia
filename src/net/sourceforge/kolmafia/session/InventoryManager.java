@@ -492,12 +492,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		// If this item is restricted, give up now; we cannot obtain it in any way.
-		if ( !StandardRequest.isAllowed( "Items", item.getName() ) )
-		{
-			return sim ? "fail" : null;
-		}
-
 		int availableCount = item.getCount( KoLConstants.inventory );
 		int missingCount = item.getCount() - availableCount;
 
@@ -509,52 +503,8 @@ public abstract class InventoryManager
 			return sim ? "have" : "";
 		}
 
-		for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
-		{
-			if ( EquipmentManager.getEquipment( i ).equals( item ) )
-			{
-				if ( sim )
-				{
-					return "remove";
-				}
-
-				SpecialOutfit.forgetEquipment( item );
-
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
-
-				if ( --missingCount <= 0 )
-				{
-					return "";
-				}
-			}
-		}
-
-		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
-		{
-			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
-
-			if ( current.getItem() != null && current.getItem().equals( item ) )
-			{
-				if ( sim )
-				{
-					return "steal";
-				}
-
-				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
-				FamiliarRequest request = new FamiliarRequest( current, EquipmentRequest.UNEQUIP );
-				RequestThread.postRequest( request );
-
-				if ( --missingCount <= 0 )
-				{
-					return "";
-				}
-
-				// Keep going; generic familiar equipment might
-				// be retrievable from multiple familiars.
-			}
-		}
-
 		// Handle the bridge by untinkering the abridged dictionary
+		// You can have at most one of these.
 
 		if ( itemId == ItemPool.BRIDGE )
 		{
@@ -576,16 +526,72 @@ public abstract class InventoryManager
 			return item.getCount( KoLConstants.inventory ) > 0 ? "" : null;
 		}
 
-		// First, attempt to pull the item from the closet.
-		// If this is successful, return from the method.
+		boolean isRestricted = !StandardRequest.isAllowed( "Items", item.getName() );
+		CreateItemRequest creator = CreateItemRequest.getInstance( item );
+
+		// If this item is restricted, we might be able to create it.
+		// If we can't, give up now; we cannot obtain it in any way.
+
+		if ( isRestricted && creator == null )
+		{
+			return sim ? "fail" : null;
+		}
+
+		// Don't waste time checking equipment and familiars for
+		// restricted items.
+
+		if ( !isRestricted )
+		{
+			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
+			{
+				if ( EquipmentManager.getEquipment( i ).equals( item ) )
+				{
+					if ( sim )
+					{
+						return "remove";
+					}
+
+					SpecialOutfit.forgetEquipment( item );
+
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
+
+					if ( --missingCount <= 0 )
+					{
+						return "";
+					}
+				}
+			}
+
+			for ( FamiliarData current: KoLCharacter.getFamiliarList() )
+			{
+				if ( current.getItem() != null && current.getItem().equals( item ) )
+				{
+					if ( sim )
+					{
+						return "steal";
+					}
+
+					KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
+					FamiliarRequest request = new FamiliarRequest( current, EquipmentRequest.UNEQUIP );
+					RequestThread.postRequest( request );
+
+					if ( --missingCount <= 0 )
+					{
+						return "";
+					}
+
+					// Keep going; generic familiar equipment might
+					// be retrievable from multiple familiars.
+				}
+			}
+		}
+
+		// Attempt to pull the item from the closet.
 
 		boolean shouldUseCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
-		int itemCount = 0;
-
 		if ( shouldUseCloset )
 		{
-			itemCount = item.getCount( KoLConstants.closet );
-
+			int itemCount = item.getCount( KoLConstants.closet );
 			if ( itemCount > 0 )
 			{
 				if ( sim )
@@ -604,36 +610,36 @@ public abstract class InventoryManager
 			}
 		}
 
-		// Next, if the item is a free pull from Hagnk's, pull it
-		// If this is successful, return from the method.
+		// If the item is a free pull from Hagnk's, pull it
 
-		itemCount = item.getCount( KoLConstants.freepulls );
-
-		if ( itemCount > 0 )
+		if ( !isRestricted )
 		{
-			if ( sim )
+			int itemCount = item.getCount( KoLConstants.freepulls );
+			if ( itemCount > 0 )
 			{
-				return "free pull";
-			}
+				if ( sim )
+				{
+					return "free pull";
+				}
 
-			int retrieveCount = Math.min( itemCount, missingCount );
-			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( retrieveCount ) ) );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+				int retrieveCount = Math.min( itemCount, missingCount );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( retrieveCount ) ) );
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
-			if ( missingCount <= 0 )
-			{
-				return "";
+				if ( missingCount <= 0 )
+				{
+					return "";
+				}
 			}
 		}
 
-		// Next, attempt to pull the items out of storage, if you are
-		// out of ronin and the user has not marked that location as
-		// inaccessible.
+		// Attempt to pull the items out of storage, if you are out of
+		// ronin and the user wishes to use storage
 
 		boolean shouldUseStorage = Preferences.getBoolean( "autoSatisfyWithStorage" );
-		if ( shouldUseStorage && KoLCharacter.canInteract() )
+		if ( !isRestricted && shouldUseStorage && KoLCharacter.canInteract() )
 		{
-			itemCount = item.getCount( KoLConstants.storage );
+			int itemCount = item.getCount( KoLConstants.storage );
 
 			if ( itemCount > 0 )
 			{
@@ -652,18 +658,18 @@ public abstract class InventoryManager
 			}
 		}
 
-		// See if the item can be retrieved from the clan stash.  If it
-		// can, go ahead and pull as many items as possible from there.
+		// Attempt to pull the item from the clan stash, if it is
+		// available there and the user wishes to use the stash
 
 		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
-		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+		if ( !isRestricted && shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 		{
 			if ( !ClanManager.isStashRetrieved() )
 			{
 				RequestThread.postRequest( new ClanStashRequest() );
 			}
 
-			itemCount = item.getCount( ClanManager.getStash() );
+			int itemCount = item.getCount( ClanManager.getStash() );
 
 			if ( itemCount > 0 )
 			{
@@ -683,37 +689,42 @@ public abstract class InventoryManager
 			}
 		}
 
-		// Next, attempt to create the item from existing ingredients
-		// (if possible).
-
-		boolean forceNoMall = false;
-
+		// From here on, we will consider buying the item. Decide if we
+		// want to use only NPCs or if the mall is possible.
+		
 		boolean shouldUseNPCStore =
 			Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
 			NPCStoreDatabase.contains( item.getName() );
 
-		if ( shouldUseNPCStore )
+		boolean forceNoMall = isRestricted;
+
+		if ( !forceNoMall )
 		{
-			// If Price from NPC store is 100 or below and available, never try mall.
-			int NPCPrice = NPCStoreDatabase.availablePrice( item.getName() );
-			int autosellPrice = ItemDatabase.getPriceById( itemId );
-			if ( NPCPrice > 0 && NPCPrice <= Math.max( 100, autosellPrice * 2 ) )
+			if ( shouldUseNPCStore )
+			{
+				// If Price from NPC store is 100 or below and available, never try mall.
+				int NPCPrice = NPCStoreDatabase.availablePrice( item.getName() );
+				int autosellPrice = ItemDatabase.getPriceById( itemId );
+				if ( NPCPrice > 0 && NPCPrice <= Math.max( 100, autosellPrice * 2 ) )
+				{
+					forceNoMall = true;
+				}
+			}
+
+			// Things that we can construct out of pure Meat cannot
+			// possibly be cheaper to buy.
+			if ( creator != null && creator instanceof CombineMeatRequest )
 			{
 				forceNoMall = true;
 			}
 		}
 
-		CreateItemRequest creator = CreateItemRequest.getInstance( item );
-
-		// Things that we can construct out of pure Meat cannot
-		// possibly be cheaper to buy.
-		if ( creator != null && creator instanceof CombineMeatRequest )
-		{
-			forceNoMall = true;
-		}
-
 		boolean shouldUseMall = !forceNoMall && InventoryManager.canUseMall( item );
 		boolean scriptSaysBuy = false;
+
+		// Attempt to create the item from existing ingredients (if
+		// possible).  The user's buyScript can kick in here and force
+		// it to be purchased, rather than created
 
 		Concoction concoction = ConcoctionPool.get( item.getName() );
 		boolean asked = false;
@@ -773,7 +784,7 @@ public abstract class InventoryManager
 			}
 		}
 
-		// The ten-leaf clover can be created (by using a disassembled
+		// A ten-leaf clover can be created (by using a disassembled
 		// clover) or purchased from the Hermit (if he has any in
 		// stock. We tried the former above. Now try the latter.
 
@@ -781,7 +792,7 @@ public abstract class InventoryManager
 		if ( shouldUseCoinmasters && KoLConstants.hermitItems.contains( item ) &&
 		     ( !shouldUseMall || InventoryManager.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
 		{
-			itemCount =
+			int itemCount =
 				itemId == ItemPool.TEN_LEAF_CLOVER ?
 				HermitRequest.cloverCount() :
 				PurchaseRequest.MAX_QUANTITY;
@@ -805,8 +816,8 @@ public abstract class InventoryManager
 		}
 
 		// Try to purchase the item from the mall, if the user wishes
-		// to autosatisfy through purchases, and the item is not
-		// creatable through combines.
+		// to autosatisfy through purchases, and we have none of the
+		// ingredients needed to create the item
 
 		if ( shouldUseMall && !scriptSaysBuy && !InventoryManager.hasAnyIngredient( itemId ) )
 		{
@@ -840,7 +851,7 @@ public abstract class InventoryManager
 			}
 
 			// If buying from the mall will leave the item in storage, use only NPCs
-			boolean onlyNPC = !KoLCharacter.canInteract() || forceNoMall;
+			boolean onlyNPC = forceNoMall || !KoLCharacter.canInteract();
 			ArrayList<PurchaseRequest> results = onlyNPC ? StoreManager.searchNPCs( item ) : StoreManager.searchMall( item );
 			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated, 0 );
 			if ( !onlyNPC )
@@ -858,7 +869,7 @@ public abstract class InventoryManager
 
 		// Use budgeted pulls if the item is available from storage.
 
-		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
+		if ( !isRestricted && !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
 		{
 			int pullCount = Math.min( item.getCount( KoLConstants.storage ), ConcoctionDatabase.getPullsBudgeted() );
 
@@ -979,6 +990,9 @@ public abstract class InventoryManager
 			}
 		}
 
+		// All other options have been exhausted. Buy the remaining
+		// items from the mall.
+		
 		if ( shouldUseMall )
 		{
 			if ( sim )
@@ -997,9 +1011,8 @@ public abstract class InventoryManager
 			}
 		}
 
-		// If the item does not exist in sufficient quantities,
-		// then notify the user that there aren't enough items
-		// available to continue and cancel the request.
+		// We were unable to obtain as many of the item as the user desired.
+		// Fail now.
 
 		if ( sim )
 		{
