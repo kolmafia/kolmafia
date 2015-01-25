@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
@@ -288,9 +289,13 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "place.php" ) )
 		{
-			// nstower locations redirect to a fight or choice. If
-			// it didn't do that, you can't adventure there.
-			KoLmafia.updateDisplay( MafiaState.PENDING, "You can't adventure there." );
+			if ( this.getURLString().contains( "whichplace=nstower" ) )
+			{
+				// nstower locations redirect to a fight or choice. If
+				// it didn't do that, you can't adventure there.
+				KoLmafia.updateDisplay( MafiaState.PENDING, "You can't adventure there." );
+				SorceressLairManager.parseTowerResponse( "", this.responseText );
+			}
 			return;
 		}
 
