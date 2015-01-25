@@ -5680,9 +5680,9 @@ public abstract class RuntimeLibrary
 
 		if ( !showEquip )
 		{
-			for ( int i = 0; i < m.size(); ++i )
+			for ( Boost boo : m )
 			{
-				if ( !m.get( i ).isEquipment() )
+				if ( !boo.isEquipment() )
 					break;
 				lastEquipIndex++ ;
 			}

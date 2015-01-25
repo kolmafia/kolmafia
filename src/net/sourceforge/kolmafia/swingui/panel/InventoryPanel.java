@@ -155,10 +155,10 @@ public class InventoryPanel
 		ButtonGroup filterGroup = new ButtonGroup();
 		JPanel filterPanel = new JPanel();
 
-		for ( int i = 0; i < 7; ++i )
+		for ( FilterRadioButton button : this.equipmentFilters )
 		{
-			filterGroup.add( this.equipmentFilters[ i ] );
-			filterPanel.add( this.equipmentFilters[ i ] );
+			filterGroup.add( button );
+			filterPanel.add( button );
 		}
 
 		this.northPanel.add( filterPanel, BorderLayout.NORTH );
