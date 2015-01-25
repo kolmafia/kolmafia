@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.CloneNotSupportedException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +59,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
-	implements Comparable<AdventureResult>
+	implements Comparable<AdventureResult>, Cloneable
 {
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
@@ -240,6 +242,21 @@ public class AdventureResult
 		this.priority = AdventureResult.ITEM_PRIORITY;
 	}
 
+	public AdventureResult( final String name, final int itemId, final int count )
+	{
+		this.name = name;
+		this.itemId = itemId;
+		this.count = count;
+		this.priority = AdventureResult.ITEM_PRIORITY;
+	}
+
+	// Need this to retain instance-specific methods
+	protected Object clone()
+		throws CloneNotSupportedException
+	{
+		return super.clone();
+	}
+
 	public void normalizeEffectName()
 	{
 		this.priority = AdventureResult.EFFECT_PRIORITY;
@@ -314,7 +331,7 @@ public class AdventureResult
 		}
 
 		// Make a pseudo-item with the required name
-		return AdventureResult.tallyItem( name, false );
+		return new AdventureResult( name, -1, 1 );
 	}
 
 	public static final AdventureResult tallyItem( final String name )
@@ -332,10 +349,7 @@ public class AdventureResult
 
 	public static final AdventureResult tallyItem( final String name, final int itemId )
 	{
-		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
-		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = itemId;
-		return item;
+		return new AdventureResult( name, itemId, 1 );
 	}
 
 	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
@@ -1101,10 +1115,21 @@ public class AdventureResult
 				return this;
 			}
 
-			// Handle pseudo and tally items
-			AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
-			item.priority = AdventureResult.ITEM_PRIORITY;
-			item.itemId = this.itemId;
+			// Handle pseudo and tally items that override methods of AdventureResult
+
+			AdventureResult item;
+			try
+			{
+				item = (AdventureResult) this.clone();
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				// This should not happen. Hope for the best.
+				item = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
+				item.priority = AdventureResult.ITEM_PRIORITY;
+				item.itemId = this.itemId;
+			}
+
 			item.count = quantity;
 			return item;
 		}
