@@ -77,13 +77,13 @@ public abstract class SorceressLairManager
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 
 	// Items for the tower doorway
-	private static final AdventureResult DIGITAL = ItemPool.get( ItemPool.DIGITAL_KEY, 1 );
+	private static final AdventureResult DIGITAL_KEY = ItemPool.get( ItemPool.DIGITAL_KEY, 1 );
 	private static final AdventureResult STAR_KEY = ItemPool.get( ItemPool.STAR_KEY, 1 );
-	private static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
-	private static final AdventureResult BORIS = ItemPool.get( ItemPool.BORIS_KEY, 1 );
-	private static final AdventureResult JARLSBERG = ItemPool.get( ItemPool.JARLSBERG_KEY, 1 );
-	private static final AdventureResult SNEAKY_PETE = ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 );
-	private static final AdventureResult UNIVERSAL = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
+	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
+	private static final AdventureResult BORIS_KEY = ItemPool.get( ItemPool.BORIS_KEY, 1 );
+	private static final AdventureResult JARLSBERG_KEY = ItemPool.get( ItemPool.JARLSBERG_KEY, 1 );
+	private static final AdventureResult SNEAKY_PETE_KEY = ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 );
+	private static final AdventureResult UNIVERSAL_KEY = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
 
 	private static final AdventureResult KEY_RING = ItemPool.get( ItemPool.SKELETON_KEY_RING, 1 );
 	private static final AdventureResult BALLOON = ItemPool.get( ItemPool.BALLOON_MONKEY, 1 );
@@ -581,17 +581,17 @@ public abstract class SorceressLairManager
 
 		AdventureResult lock =
 			action.equals( "ns_lock1" ) ?
-			SorceressLairManager.BORIS :
+			SorceressLairManager.BORIS_KEY :
 			action.equals( "ns_lock2" ) ?
-			SorceressLairManager.JARLSBERG :
+			SorceressLairManager.JARLSBERG_KEY :
 			action.equals( "ns_lock3" ) ?
-			SorceressLairManager.SNEAKY_PETE :
+			SorceressLairManager.SNEAKY_PETE_KEY :
 			action.equals( "ns_lock4" ) ?
 			SorceressLairManager.STAR_KEY :
 			action.equals( "ns_lock5" ) ?
-			SorceressLairManager.SKELETON :
+			SorceressLairManager.SKELETON_KEY :
 			action.equals( "ns_lock6" ) ?
-			SorceressLairManager.DIGITAL :
+			SorceressLairManager.DIGITAL_KEY :
 			null;
 
 		if ( lock == null )
@@ -601,7 +601,7 @@ public abstract class SorceressLairManager
 
 		AdventureResult key =
 			responseText.contains( "universal key" ) ?
-			SorceressLairManager.UNIVERSAL :
+			SorceressLairManager.UNIVERSAL_KEY :
 			lock;
 
 		// You place Boris's key in the lock and turn it. You hear a
@@ -651,17 +651,17 @@ public abstract class SorceressLairManager
 		if ( !responseText.contains( "ns_lock1" ) )
 		{
 			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.BORIS.getDataName() );
+			buffer.append( SorceressLairManager.BORIS_KEY.getDataName() );
 		}
 		if ( !responseText.contains( "ns_lock2" ) )
 		{
 			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.JARLSBERG.getDataName() );
+			buffer.append( SorceressLairManager.JARLSBERG_KEY.getDataName() );
 		}
 		if ( !responseText.contains( "ns_lock3" ) )
 		{
 			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.SNEAKY_PETE.getDataName() );
+			buffer.append( SorceressLairManager.SNEAKY_PETE_KEY.getDataName() );
 		}
 		if ( !responseText.contains( "ns_lock4" ) )
 		{
@@ -671,12 +671,12 @@ public abstract class SorceressLairManager
 		if ( !responseText.contains( "ns_lock5" ) )
 		{
 			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.SKELETON.getDataName() );
+			buffer.append( SorceressLairManager.SKELETON_KEY.getDataName() );
 		}
 		if ( !responseText.contains( "ns_lock6" ) )
 		{
 			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.DIGITAL.getDataName() );
+			buffer.append( SorceressLairManager.DIGITAL_KEY.getDataName() );
 		}
 
 		Preferences.setString( "nsTowerDoorKeysUsed", buffer.toString() );
