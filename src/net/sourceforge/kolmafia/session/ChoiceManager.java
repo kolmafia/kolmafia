@@ -3018,7 +3018,7 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure879", "One Rustic Nightstand",
 			new Object[] { new Option( "moxie", 1 ),
 				       new Option( "grouchy restless spirit or empty drawer", 2, "grouchy restless spirit" ),
-				       new Option( "enter combat with mistress (once only)", 3 ),
+				       new Option( "enter combat with mistress (1)", 3 ),
 				       new Option( "Engorged Sausages and You or moxie", 4 ),
 				       new Option( "moxie substats (with ghost key)", 5 ),
 				       new Option( "skip", 6 )} ),
@@ -3305,19 +3305,19 @@ public abstract class ChoiceManager
 		// The Mirror in the Tower has the View that is True
 		new ChoiceAdventure(
 			"Sorceress", "choiceAdventure1015", "Tower Mirror",
-			new Object[] { new Option( "Gain Confidence! intrinsic until leave tower (1 turn)" ),
+			new Object[] { new Option( "Gain Confidence! intrinsic until leave tower (1)" ),
 				       new Option( "Make Sorceress tougher (0 turns)" ) } ),
 		
 		// Bee Persistent
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure1018", "Bees 1",
-			new Object[] { "head towards beehive",
+			new Object[] { "head towards beehive (1)",
 				       "give up" } ),
 
 		// Bee Rewarded
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure1019", "Bees 2",
-			new Object[] { new Option( "beehive", "beehive" ),
+			new Object[] { new Option( "beehive (1)", "beehive" ),
 				       "give up" } ),
 
 		// Choice 1020 is Closing Ceremony
@@ -11618,9 +11618,6 @@ public abstract class ChoiceManager
 					}
 				}
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
-				// For now, leave the raw URL in the log in case some analysis
-				// tool is relying on it.
-				//return true;
 			}
 		}
 
@@ -11633,6 +11630,15 @@ public abstract class ChoiceManager
 
 		// By default, we log the url of any choice we take
 		RequestLogger.updateSessionLog( urlString );
+
+		// Special cases
+		if ( choice == 879 && decision == 3 )
+		{
+			// This redirects to a fight with the remains of a
+			// jilted mistress. Unlike other such redirections,
+			// this takes a turn.
+			RequestLogger.registerLocation( "The Haunted Bedroom" );
+		}
 
 		return true;
 	}
@@ -11676,7 +11682,6 @@ public abstract class ChoiceManager
 			// These also take a turn
 			RequestLogger.registerLocation( "The Black Forest" );
 			break;
-
 		}
 	}
 
