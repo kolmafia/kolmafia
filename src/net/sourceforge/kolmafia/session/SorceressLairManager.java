@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -332,6 +333,64 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
+	private static final Object[][] LOCK_DATA =
+	{
+		{
+			SorceressLairManager.BORIS_KEY,
+			"ns_lock1",
+		},
+		{
+			SorceressLairManager.JARLSBERG_KEY,
+			"ns_lock2",
+		},
+		{
+			SorceressLairManager.SNEAKY_PETE_KEY,
+			"ns_lock3",
+		},
+		{
+			SorceressLairManager.STAR_KEY,
+			"ns_lock4",
+		},
+		{
+			SorceressLairManager.SKELETON_KEY,
+			"ns_lock5",
+		},
+		{
+			SorceressLairManager.DIGITAL_KEY,
+			"ns_lock6",
+		},
+	};
+
+	public static AdventureResult lockToKey( final String lock )
+	{
+		for ( Object [] row : SorceressLairManager.LOCK_DATA )
+		{
+			if ( lock.equals( (String) row[ 1 ] ) )
+			{
+				return (AdventureResult) row[ 0 ];
+			}
+		}
+		return null;
+	}
+
+	public static String keyToLock( final AdventureResult key )
+	{
+		return SorceressLairManager.keyToLock( key.getName() );
+	}
+
+	public static String keyToLock( final String keyName )
+	{
+		for ( Object [] row : SorceressLairManager.LOCK_DATA )
+		{
+			AdventureResult key = (AdventureResult) row[ 0 ];
+			if ( keyName.equals( key.getName() ) )
+			{
+				return (String) row[ 1 ];
+			}
+		}
+		return null;
+	}
+
 	private static final Pattern RANK_PATTERN = Pattern.compile( "<b>#(\\d+)</b>" );
 	private static final Pattern OPTIMISM_PATTERN = Pattern.compile( "You feel (.*?) about your chances in the (.*?) Adventurer contest" );
 	private static final Pattern ENTERED_PATTERN = Pattern.compile( "&quot;You already entered the (.*?) Adventurer contest.*?&quot;", Pattern.DOTALL );
@@ -579,20 +638,7 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		AdventureResult lock =
-			action.equals( "ns_lock1" ) ?
-			SorceressLairManager.BORIS_KEY :
-			action.equals( "ns_lock2" ) ?
-			SorceressLairManager.JARLSBERG_KEY :
-			action.equals( "ns_lock3" ) ?
-			SorceressLairManager.SNEAKY_PETE_KEY :
-			action.equals( "ns_lock4" ) ?
-			SorceressLairManager.STAR_KEY :
-			action.equals( "ns_lock5" ) ?
-			SorceressLairManager.SKELETON_KEY :
-			action.equals( "ns_lock6" ) ?
-			SorceressLairManager.DIGITAL_KEY :
-			null;
+		AdventureResult lock = SorceressLairManager.lockToKey( action );
 
 		if ( lock == null )
 		{
@@ -648,35 +694,15 @@ public abstract class SorceressLairManager
 		StringBuilder buffer = new StringBuilder();
 		int keys = 0;
 
-		if ( !responseText.contains( "ns_lock1" ) )
+		for ( Object [] row : SorceressLairManager.LOCK_DATA )
 		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.BORIS_KEY.getDataName() );
-		}
-		if ( !responseText.contains( "ns_lock2" ) )
-		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.JARLSBERG_KEY.getDataName() );
-		}
-		if ( !responseText.contains( "ns_lock3" ) )
-		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.SNEAKY_PETE_KEY.getDataName() );
-		}
-		if ( !responseText.contains( "ns_lock4" ) )
-		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.STAR_KEY.getDataName() );
-		}
-		if ( !responseText.contains( "ns_lock5" ) )
-		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.SKELETON_KEY.getDataName() );
-		}
-		if ( !responseText.contains( "ns_lock6" ) )
-		{
-			buffer.append( keys++ > 0 ? "," : "" );
-			buffer.append( SorceressLairManager.DIGITAL_KEY.getDataName() );
+			String lock = (String) row[ 1 ];
+			if ( !responseText.contains( lock ) )
+			{
+				AdventureResult key = (AdventureResult) row[ 0 ];
+				buffer.append( keys++ > 0 ? "," : "" );
+				buffer.append( key.getDataName() );
+			}
 		}
 
 		Preferences.setString( "nsTowerDoorKeysUsed", buffer.toString() );
@@ -926,6 +952,305 @@ public abstract class SorceressLairManager
 			Preferences.setInteger( "nsContestants1", 0 );
 			Preferences.setInteger( "nsContestants2", 0 );
 			Preferences.setInteger( "nsContestants3", 0 );
+		}
+	}
+
+	// Quest scripts
+
+	public static final int HEDGE_MAZE_TRAPS = 1;
+	public static final int HEDGE_MAZE_GOPHER_DUCK = 2;
+	public static final int HEDGE_MAZE_CHIHUAHUA_KIWI = 3;
+	public static final int HEDGE_MAZE_NUGGLETS = 4;
+
+	public static final void hedgeMazeTrapsScript()
+	{
+		SorceressLairManager.hedgeMazeScript( SorceressLairManager.HEDGE_MAZE_TRAPS );
+	}
+
+	public static final void hedgeMazeGopherDuckScript()
+	{
+		SorceressLairManager.hedgeMazeScript( SorceressLairManager.HEDGE_MAZE_GOPHER_DUCK );
+	}
+
+	public static final void hedgeMazeChihuahuaKiwiScript()
+	{
+		SorceressLairManager.hedgeMazeScript( SorceressLairManager.HEDGE_MAZE_CHIHUAHUA_KIWI );
+	}
+
+	public static final void hedgeMazeNuggletsScript()
+	{
+		SorceressLairManager.hedgeMazeScript( SorceressLairManager.HEDGE_MAZE_NUGGLETS );
+	}
+
+	public static final void hedgeMazeScript( final String tag )
+	{
+		int mode =
+			tag.equals( "traps" ) ?
+			SorceressLairManager.HEDGE_MAZE_TRAPS :
+			( tag.equals( "gopher" ) || tag.equals( "duck" ) ) ?
+			SorceressLairManager.HEDGE_MAZE_GOPHER_DUCK :
+			( tag.equals( "chihuahua" ) || tag.equals( "kiwi" ) ) ?
+			SorceressLairManager.HEDGE_MAZE_CHIHUAHUA_KIWI :
+			tag.equals( "nugglets" ) ?
+			SorceressLairManager.HEDGE_MAZE_NUGGLETS :
+			0;
+
+		if ( mode == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What do you mean by '" + tag + "'?" );
+			return;
+		}
+
+		SorceressLairManager.hedgeMazeScript( mode );
+	}
+
+	private static final void hedgeMazeScript( final int mode )
+	{
+		// Is the Hedge maze open? Go look at the tower.
+		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
+
+		String status = Preferences.getString( Quest.FINAL.getPref() );
+		if ( !status.equals( "step3" ) )
+		{
+			String message =
+				status.equals( "unstarted" ) ?
+				"You haven't been given the quest to fight the Sorceress!" :
+				QuestDatabase.isQuestLaterThan( status, "step3" ) ?
+				"You have already completed the Hedge Maze." :
+				"You haven't reached the Hedge Maze yet.";
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
+			return;
+		}
+
+		// The Hedge Maze is available
+		switch ( mode )
+		{
+		case HEDGE_MAZE_TRAPS:
+			// This is the expected path, entering in room 1
+			Preferences.setInteger( "choiceAdventure1005", 2 );	// 'Allo
+			Preferences.setInteger( "choiceAdventure1008", 2 );	// Pooling Your Resources
+			Preferences.setInteger( "choiceAdventure1011", 2 );	// Of Mouseholes and Manholes
+			Preferences.setInteger( "choiceAdventure1013", 1 );	// Mazel Tov!
+			// If the user is already part way into the maze, the
+			// following will eventually get him back on track.
+			Preferences.setInteger( "choiceAdventure1006", 1 );	// One Small Step For Adventurer
+			Preferences.setInteger( "choiceAdventure1007", 1 );	// Twisty Little Passages, All Hedge
+			Preferences.setInteger( "choiceAdventure1009", 1 );	// Good Ol' 44% Duck
+			Preferences.setInteger( "choiceAdventure1010", 1 );	// Another Day, Another Fork
+			Preferences.setInteger( "choiceAdventure1012", 1 );	// The Last Temptation
+			break;
+		case HEDGE_MAZE_GOPHER_DUCK:
+			// This is the expected path, entering in room 1
+			Preferences.setInteger( "choiceAdventure1005", 1 );	// 'Allo
+			Preferences.setInteger( "choiceAdventure1006", 2 );	// One Small Step For Adventurer
+			Preferences.setInteger( "choiceAdventure1008", 1 );	// Pooling Your Resources
+			Preferences.setInteger( "choiceAdventure1009", 2 );	// Good Ol' 44% Duck
+			Preferences.setInteger( "choiceAdventure1011", 1 );	// Of Mouseholes and Manholes
+			Preferences.setInteger( "choiceAdventure1012", 1 );	// The Last Temptation
+			Preferences.setInteger( "choiceAdventure1013", 1 );	// Mazel Tov!
+			// If the user is already part way into the maze, the
+			// following will eventually get him back on track.
+			Preferences.setInteger( "choiceAdventure1007", 1 );	// Twisty Little Passages, All Hedge
+			Preferences.setInteger( "choiceAdventure1010", 1 );	// Another Day, Another Fork
+			break;
+		case HEDGE_MAZE_CHIHUAHUA_KIWI:
+			// This is the expected path, entering in room 1
+			Preferences.setInteger( "choiceAdventure1005", 1 );	// 'Allo
+			Preferences.setInteger( "choiceAdventure1006", 1 );	// One Small Step For Adventurer
+			Preferences.setInteger( "choiceAdventure1007", 2 );	// Twisty Little Passages, All Hedge
+			Preferences.setInteger( "choiceAdventure1009", 2 );	// Good Ol' 44% Duck
+			Preferences.setInteger( "choiceAdventure1011", 1 );	// Of Mouseholes and Manholes
+			Preferences.setInteger( "choiceAdventure1012", 1 );	// The Last Temptation
+			Preferences.setInteger( "choiceAdventure1013", 1 );	// Mazel Tov!
+			// If the user is already part way into the maze, the
+			// following will eventually get him back on track.
+			Preferences.setInteger( "choiceAdventure1008", 1 );	// Pooling Your Resources
+			Preferences.setInteger( "choiceAdventure1010", 1 );	// Another Day, Another Fork
+			break;
+		case HEDGE_MAZE_NUGGLETS:
+			// This is the expected path, entering in room 1
+			Preferences.setInteger( "choiceAdventure1005", 1 );	// 'Allo
+			Preferences.setInteger( "choiceAdventure1006", 1 );	// One Small Step For Adventurer
+			Preferences.setInteger( "choiceAdventure1007", 1 );	// Twisty Little Passages, All Hedge
+			Preferences.setInteger( "choiceAdventure1008", 1 );	// Pooling Your Resources
+			Preferences.setInteger( "choiceAdventure1009", 1 );	// Good Ol' 44% Duck
+			Preferences.setInteger( "choiceAdventure1010", 1 );	// Another Day, Another Fork
+			Preferences.setInteger( "choiceAdventure1011", 1 );	// Of Mouseholes and Manholes
+			Preferences.setInteger( "choiceAdventure1012", 1 );	// The Last Temptation
+			Preferences.setInteger( "choiceAdventure1013", 1 );	// Mazel Tov!
+			break;
+		default:
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Internal error: unknown mode (" + mode + ")." );
+			return;
+		}
+
+		// See if we have enough turns available.
+		int currentRoom = Preferences.getInteger( "currentHedgeMazeRoom" );
+		int turns = 0;
+
+		int room = 1005 + ( currentRoom >= 1 && currentRoom <= 9 ? ( currentRoom - 1 ) : 0 );
+		while ( room <= 1013 )
+		{
+			// Visiting the current room takes a turn.
+			turns++;
+
+			// Going left always takes 1 turn
+			if ( Preferences.getInteger( "choiceAdventure" + room ) == 1 )
+			{
+				room++;
+				continue;
+			}
+
+			// Going right takes more depending on which room it is
+			room += room == 1005 ? 3 :	// Trap 1
+				room == 1006 ? 2 :	// topiary gopher
+				room == 1007 ? 2 :	// topiary chihuahua herd
+				room == 1008 ? 3 :	// Trap 2
+				room == 1009 ? 2 :	// topiary duck
+				room == 1010 ? 2 :	// topiary kiwi
+				room == 1011 ? 2 :	// Trap 3
+				1;
+		}
+
+		KoLmafia.updateDisplay( "You are currently in room " + currentRoom + " and it will take you " + turns + " to clear the maze." );
+
+		// *** Check turns remaining
+
+		// If it is all traps, assess readiness
+		if ( mode == SorceressLairManager.HEDGE_MAZE_TRAPS )
+		{
+			// First trap takes 90% of maximum HP
+			// Second trap takes 80% of maximum HP
+			// Third trap takes 70% of maximum HP
+			//
+			// With no resistances, you will lose 90% + 70% + 50% =
+			// 240% of your maximum HP.
+			//
+			// Elemental resistances ameliorate that. Resistance
+			// Level 7 reduces elemental damage by ~61%.
+			//    240 * .39 = 93.6%
+			//
+			// That suffices. Level 6 does not.
+			//
+			// Note that if you have a telescope (or have failed a
+			// trap before) we may know the specific element(s) of
+			// the traps.
+			//
+			// For now, assume that the user has already prepared
+			// sufficiently to pass.
+		}
+
+		// Unless it's all nugglets, all the time, heal up first.
+		if ( mode != SorceressLairManager.HEDGE_MAZE_NUGGLETS )
+		{
+			RecoveryManager.recoverHP( KoLCharacter.getMaximumHP() );
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+		}
+
+		KoLmafia.updateDisplay( "Entering the Hedge Maze..." );
+
+		while ( status.equals( "step3" ) )
+		{
+			GenericRequest request = new PlaceRequest( "nstower", "ns_03_hedgemaze" );
+			RequestThread.postRequest( request );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				// Presumably, we got beaten up by a fight or
+				// trap, and an error message was displayed.
+				return;
+			}
+
+			// *** If we won a fight, will we redirect into the choice?
+
+			// *** What if we ran out of turns?
+			if ( request.responseText.contains( "You don't have time" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
+				return;
+			}
+
+			status = Preferences.getString( Quest.FINAL.getPref() );
+		}
+
+		KoLmafia.updateDisplay( "Hedge Maze cleared!" );
+	}
+
+	public static final void towerDoorScript()
+	{
+		// Is the Tower Door open? Go look at the tower.
+		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
+
+		String status = Preferences.getString( Quest.FINAL.getPref() );
+		if ( !status.equals( "step4" ) )
+		{
+			String message =
+				status.equals( "unstarted" ) ?
+				"You haven't been given the quest to fight the Sorceress!" :
+				QuestDatabase.isQuestLaterThan( status, "step4" ) ?
+				"You have already opened the Tower Door." :
+				"You haven't reached the Tower Door yet.";
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
+			return;
+		}
+
+		// Look at the door to decide what remains to be done
+		RequestThread.postRequest( new PlaceRequest( "nstower_door" ) );
+
+		String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
+
+		ArrayList<Object[]> needed = new ArrayList<Object[]>();
+		for ( Object[] row : SorceressLairManager.LOCK_DATA )
+		{
+			AdventureResult key = (AdventureResult) row[ 0 ];
+			if ( !keys.contains( key.getName() ) )
+			{
+				needed.add( row );
+			}
+		}
+
+		// If we have any locks left to open, acquire the correct key and unlock them
+		if ( needed.size() > 0 )
+		{
+			// First acquire all needed keys
+			for ( Object[] row : needed )
+			{
+				AdventureResult key = (AdventureResult) row[ 0 ];
+				if ( !InventoryManager.retrieveItem( key ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to acquire " + key );
+					return;
+				}
+			}
+
+			// Then unlock each lock
+			for ( Object[] row : needed )
+			{
+				AdventureResult key = (AdventureResult) row[ 0 ];
+				String keyName = key.getName();
+				String action = (String) row[ 1 ];
+				RequestThread.postRequest( new PlaceRequest( "nstower_door", action ) );
+				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
+				if ( !keys.contains( keyName ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open lock using " + key );
+					return;
+				}
+			}
+		}
+
+		// Now turn the doorknob
+		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob" ) );
+
+		status = Preferences.getString( Quest.FINAL.getPref() );
+		if ( status.equals( "step5" ) )
+		{
+			KoLmafia.updateDisplay( "Tower Door open!" );
 		}
 	}
 }
