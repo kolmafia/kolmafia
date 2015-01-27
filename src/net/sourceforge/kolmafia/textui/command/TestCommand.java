@@ -358,12 +358,18 @@ public class TestCommand
 
 		if ( command.equals( "result" ) )
 		{
-			if ( split.length < 2 )
+			String text;
+			if ( TestCommand.contents == null )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test result ...text..." );
-				return;
+				int index = parameters.indexOf( " " );
+				text = parameters.substring( index + 1 );
 			}
-			String text = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+			else
+			{
+				text = TestCommand.contents.trim();
+				TestCommand.contents = null;
+			}
+
 			boolean result = ResultProcessor.processResults( false, text, null );
 			RequestLogger.printLine( "returned " + result );
 			ConcoctionDatabase.refreshConcoctionsNow();
