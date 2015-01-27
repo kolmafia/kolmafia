@@ -70,11 +70,6 @@ public class PlaceRequest
 		this.addFormField( "action", action );
 	}
 
-	protected boolean shouldFollowRedirect()
-	{
-		return true;
-	}
-
 	@Override
 	public void processResults()
 	{

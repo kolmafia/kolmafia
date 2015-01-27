@@ -176,7 +176,13 @@ public class GlobalMenuBar
 
 		// Naughty Sorceress Quest Scripts follow
 
-		// questsMenu.add( new JSeparator() );
+		questsMenu.add( new JSeparator() );
+
+		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Traps)", SorceressLairManager.class, "hedgeMazeTrapsScript" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Gopher & Duck)", SorceressLairManager.class, "hedgeMazeGopherDuckScript" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Chihuahua Herd & Kiwi)", SorceressLairManager.class, "hedgeMazeChihuahuaKiwiScript" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Nugglets)", SorceressLairManager.class, "hedgeMazeNuggletsScript" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower Door", SorceressLairManager.class, "towerDoorScript" ) );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static final lists.
