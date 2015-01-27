@@ -3062,7 +3062,6 @@ public class FightRequest
 			}
 			if ( monster.equalsIgnoreCase( "shopkeeper" ) )
 			{
-				Preferences.increment( "spelunkyNextNoncombat", 1 );
 				Preferences.decrement( "spelunkyWinCount", 1 );
 			}
 		}
