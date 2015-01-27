@@ -723,7 +723,7 @@ public abstract class UseLinkDecorator
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
-
+		{
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
 
@@ -771,7 +771,8 @@ public abstract class UseLinkDecorator
 			}
 
 			return new UseLink( itemId, useCount, use, "multiuse.php?passitem=" );
-
+		}
+		
 		case KoLConstants.CONSUME_FOLDER:
 
 			// Not inline, since the redirection to a choice
@@ -940,12 +941,12 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, 1, "spend", "shop.php?whichshop=cindy" );
 
 			case ItemPool.TOMB_RATCHET:
-			case ItemPool.CRUMBLING_WHEEL:
-				if ( !Preferences.getBoolean( "controlRoomUnlock" ) )
-				{
-					return null;
-				}
-				return new UseLink( itemId, InventoryManager.getCount( itemId ), "place.php?whichplace=pyramid&action=pyramid_control" );
+			{
+				int count = InventoryManager.getCount( itemId );
+				return !Preferences.getBoolean( "controlRoomUnlock" ) ?
+					new UseLink( itemId, count ) :
+					new UseLink( itemId, count, "place.php?whichplace=pyramid&action=pyramid_control" );
+			}
 
 			default:
 
@@ -1665,6 +1666,14 @@ public abstract class UseLinkDecorator
 			useType = "talk to Lady Spookyraven";
 			useLocation = "place.php?whichplace=manor3&action=manor3_ladys";
 			break;
+
+		case ItemPool.CRUMBLING_WHEEL:
+		{
+			int count = InventoryManager.getCount( itemId );
+			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
+				new UseLink( itemId, count ) :
+				new UseLink( itemId, count, "place.php?whichplace=pyramid&action=pyramid_control" );
+		}
 
 		case ItemPool.PACK_OF_SMOKES:
 		{
