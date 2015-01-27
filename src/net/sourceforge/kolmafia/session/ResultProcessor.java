@@ -297,7 +297,9 @@ public class ResultProcessor
 
 	public static boolean processNormalResults( boolean combatResults, String results, List<AdventureResult> data )
 	{
-		String plainTextResult = KoLConstants.ANYTAG_BUT_ITALIC_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
+		Matcher bodyMatcher = KoLConstants.BODY_PATTERN.matcher( results );
+		String body = bodyMatcher.find() ? bodyMatcher.group( 1 ) : results;
+		String plainTextResult = KoLConstants.ANYTAG_BUT_ITALIC_PATTERN.matcher( body ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
 		{
@@ -381,8 +383,7 @@ public class ResultProcessor
 
 		if ( acquisition.startsWith( "You acquire" ) )
 		{
-			if ( acquisition.contains( "clan trophy" ) ||
-			     acquisition.contains( "7 Years of Bad Luck" ) )
+			if ( acquisition.contains( "clan trophy" ) )
 			{
 				return false;
 			}
@@ -407,6 +408,11 @@ public class ResultProcessor
 	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
 	{
 		String item = parsedResults.nextToken();
+
+		if ( item.equals( "7 Years of Bad Luck" ) )
+		{
+			return;
+		}
 
 		if ( acquisition.contains( "an item" ) )
 		{
