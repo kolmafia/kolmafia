@@ -40,14 +40,24 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class RabbitHoleRequest
 	extends PlaceRequest
 {
+	private final String action;
+
 	public RabbitHoleRequest()
 	{
 		super( "rabbithole" );
+		this.action = null;
 	}
 
 	public RabbitHoleRequest( final String action )
 	{
 		super( "rabbithole", action );
+		this.action = action;
+	}
+
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return action != null && action.equals( "rabbithole_teaparty" );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -58,7 +68,7 @@ public class RabbitHoleRequest
 			return;
 		}
 
-		if ( action.equals( "teaparty" ) )
+		if ( action.equals( "rabbithole_teaparty" ) )
 		{
 			// You've already attended a Tea Party today, and it
 			// was weird enough that you're not inclined to attend
