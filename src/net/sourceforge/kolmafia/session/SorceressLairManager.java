@@ -1245,7 +1245,7 @@ public abstract class SorceressLairManager
 		}
 
 		// Now turn the doorknob
-		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob" ) );
+		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
 
 		status = Preferences.getString( Quest.FINAL.getPref() );
 		if ( status.equals( "step5" ) )

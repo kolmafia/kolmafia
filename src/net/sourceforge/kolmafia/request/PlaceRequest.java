@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 public class PlaceRequest
 	extends GenericRequest
 {
+	public boolean followRedirects = false;
+
 	public PlaceRequest()
 	{
 		super( "place.php" );
@@ -68,6 +70,18 @@ public class PlaceRequest
 	{
 		this( place );
 		this.addFormField( "action", action );
+	}
+
+	public PlaceRequest( final String place, final String action, final boolean followRedirects )
+	{
+		this( place, action );
+		this.followRedirects = followRedirects;
+	}
+
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return this.followRedirects;
 	}
 
 	@Override
