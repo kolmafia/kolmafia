@@ -1108,7 +1108,7 @@ wire sculpture	wiresculpture.gif	Scale: 4 Cap: 200 Init: 40 P: construct	twisted
 X-fingered Shop Teacher	shopteacher.gif	SEMIRARE Scale: 6 Cap: 200 Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)
 
 # Avatar of Sneaky Pete
-Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
+The Avatar of Jarlsberg	aojarls.gif	Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
 
 # Heavy Rains
 alley catfish	catfish.gif	WANDERER Scale: -35 Init: 70 P: fish Meat: 80	catfish whiskers (0)
@@ -1457,7 +1457,7 @@ lab monkey	labmonkey.gif	Atk: [200+150*pref(controlPanel3)+150*pref(controlPanel
 super-sized Cola Wars soldier	colasoldier.gif	Atk: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky	ice-cold Cloaca Zero (c0)	first-aid pouch (c0)	khaki duffel bag (c0)	airborne mutagen (c0)
 E.V.E., the robot zombie	eve.gif	Atk: 300 Def: 300 HP: 500 Init: 150 P: construct E: spooky
 
-# Tales of Spelunking (Adventrous Spelunker Year 2015)
+# Tales of Spelunking (Adventurous Spelunker Year 2015)
 alien	spelunkalien.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
 alien queen	spelunkalienq.gif	Atk: 70 Def: 70 HP: 70 Init: -10000 P: weird	plasma rifle (100)	jetpack (100)
 alien UFO	spelunkufo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct

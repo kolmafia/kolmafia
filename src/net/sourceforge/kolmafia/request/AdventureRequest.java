@@ -455,11 +455,11 @@ public class AdventureRequest
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
 				// Only queue normal monster encounters
 				if ( !EncounterManager.ignoreSpecialMonsters &&
-					!EncounterManager.isWanderingMonster( encounter ) &&
-					!EncounterManager.isUltrarareMonster( encounter ) &&
-					!EncounterManager.isSemiRareMonster( encounter ) &&
-					!EncounterManager.isSuperlikelyMonster( encounter ) &&
-					!EncounterManager.isFreeCombatMonster( encounter ) )
+				     !EncounterManager.isWanderingMonster( encounter ) &&
+				     !EncounterManager.isUltrarareMonster( encounter ) &&
+				     !EncounterManager.isSemiRareMonster( encounter ) &&
+				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
+				     !EncounterManager.isFreeCombatMonster( encounter ) )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
 				}

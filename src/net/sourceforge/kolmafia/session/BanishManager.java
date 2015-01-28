@@ -308,7 +308,7 @@ public class BanishManager
 
 	public static final void banishCurrentMonster( final String banishName )
 	{
-		BanishManager.banishMonster( MonsterStatusTracker.getLastMonsterName(), banishName );
+		BanishManager.banishMonster( MonsterStatusTracker.getLastMonster().getName(), banishName );
 	}
 
 	public static final void banishMonster( final String monsterName, final String banishName )

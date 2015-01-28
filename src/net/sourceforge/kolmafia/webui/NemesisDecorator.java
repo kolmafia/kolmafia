@@ -188,7 +188,8 @@ public class NemesisDecorator
 	public static final void decorateRaverFight( final StringBuffer buffer )
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();
-		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonsterName() );
+
+		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonster().getName() );
 		if ( moves == null )
 		{
 			return;
@@ -214,7 +215,7 @@ public class NemesisDecorator
 
 	public static final boolean specialRaverMove( final String text )
 	{
-		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonsterName() );
+		String moves[] = NemesisDecorator.findRaver( MonsterStatusTracker.getLastMonster().getName() );
 		if ( moves == null )
 		{
 			return false;
