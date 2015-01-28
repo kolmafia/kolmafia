@@ -2997,75 +2997,6 @@ public class FightRequest
 			}
 		}
 
-		if ( KoLCharacter.inRaincore() )
-		{
-			// Check for Thunder gain
-			Matcher thunderMatcher = FightRequest.THUNDER_PATTERN.matcher( FightRequest.lastResponseText );
-			if ( thunderMatcher.find() )
-			{
-				String gainThunder = thunderMatcher.group( 1 );
-				KoLCharacter.incrementThunder( StringUtilities.parseInt( gainThunder ) );
-				String updateMessage = "You swallow " + gainThunder + " dB of Thunder";
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
-			}
-
-			Matcher rainMatcher = FightRequest.RAIN_PATTERN.matcher( FightRequest.lastResponseText );
-			if ( rainMatcher.find() )
-			{
-				String gain = rainMatcher.group( 1 );
-				KoLCharacter.incrementRain( StringUtilities.parseInt( gain ) );
-				String updateMessage = "You recover " + gain + " drops of Rain";
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
-			}
-
-			Matcher lightningMatcher = FightRequest.LIGHTNING_PATTERN.matcher( FightRequest.lastResponseText );
-			if ( lightningMatcher.find() )
-			{
-				String gain = lightningMatcher.group( 1 );
-				KoLCharacter.incrementLightning( StringUtilities.parseInt( gain ) );
-				String updateMessage = "You recover " + gain + " bolts of lightning";
-				RequestLogger.updateSessionLog( updateMessage );
-				KoLmafia.updateDisplay( updateMessage );
-			}
-		}
-
-		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
-		{
-			Preferences.increment( "spelunkyWinCount", 1 );
-			// Check for gold gain
-			SpelunkyRequest.gainGold( FightRequest.lastResponseText );
-			// Check for unlocks
-			if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
-			{
-				if ( FightRequest.lastResponseText.contains( "The Jungle" ) )
-				{
-					SpelunkyRequest.unlock( "The Jungle", "Jungle" );
-				}
-				if ( FightRequest.lastResponseText.contains( "The Ice Caves" ) )
-				{
-					SpelunkyRequest.unlock( "The Ice Caves", "Ice Caves" );
-				}
-				if ( FightRequest.lastResponseText.contains( "The Temple Ruins" ) )
-				{
-					SpelunkyRequest.unlock( "The Temple Ruins", "Temple Ruins" );
-				}
-				if ( FightRequest.lastResponseText.contains( "LOLmec's Lair" ) )
-				{
-					SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
-				}
-			}
-			if ( monster.equalsIgnoreCase( "queen bee (spelunky)" ) )
-			{
-				SpelunkyRequest.unlock( "Sticky Bombs", "Sticky Bombs" );
-			}
-			if ( monster.equalsIgnoreCase( "shopkeeper" ) )
-			{
-				Preferences.decrement( "spelunkyWinCount", 1 );
-			}
-		}
-
 		// Lose Disco Momentum
 		KoLCharacter.resetDiscoMomentum();
 
@@ -3457,6 +3388,75 @@ public class FightRequest
 					Preferences.increment( "reanimatorWings", 1 );
 				}
 				break;
+			}
+
+			if ( KoLCharacter.inRaincore() )
+			{
+				// Check for Thunder gain
+				Matcher thunderMatcher = FightRequest.THUNDER_PATTERN.matcher( FightRequest.lastResponseText );
+				if ( thunderMatcher.find() )
+				{
+					String gainThunder = thunderMatcher.group( 1 );
+					KoLCharacter.incrementThunder( StringUtilities.parseInt( gainThunder ) );
+					String updateMessage = "You swallow " + gainThunder + " dB of Thunder";
+					RequestLogger.updateSessionLog( updateMessage );
+					KoLmafia.updateDisplay( updateMessage );
+				}
+
+				Matcher rainMatcher = FightRequest.RAIN_PATTERN.matcher( FightRequest.lastResponseText );
+				if ( rainMatcher.find() )
+				{
+					String gain = rainMatcher.group( 1 );
+					KoLCharacter.incrementRain( StringUtilities.parseInt( gain ) );
+					String updateMessage = "You recover " + gain + " drops of Rain";
+					RequestLogger.updateSessionLog( updateMessage );
+					KoLmafia.updateDisplay( updateMessage );
+				}
+
+				Matcher lightningMatcher = FightRequest.LIGHTNING_PATTERN.matcher( FightRequest.lastResponseText );
+				if ( lightningMatcher.find() )
+				{
+					String gain = lightningMatcher.group( 1 );
+					KoLCharacter.incrementLightning( StringUtilities.parseInt( gain ) );
+					String updateMessage = "You recover " + gain + " bolts of lightning";
+					RequestLogger.updateSessionLog( updateMessage );
+					KoLmafia.updateDisplay( updateMessage );
+				}
+			}
+
+			if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+			{
+				Preferences.increment( "spelunkyWinCount", 1 );
+				// Check for gold gain
+				SpelunkyRequest.gainGold( FightRequest.lastResponseText );
+				// Check for unlocks
+				if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
+				{
+					if ( FightRequest.lastResponseText.contains( "The Jungle" ) )
+					{
+						SpelunkyRequest.unlock( "The Jungle", "Jungle" );
+					}
+					if ( FightRequest.lastResponseText.contains( "The Ice Caves" ) )
+					{
+						SpelunkyRequest.unlock( "The Ice Caves", "Ice Caves" );
+					}
+					if ( FightRequest.lastResponseText.contains( "The Temple Ruins" ) )
+					{
+						SpelunkyRequest.unlock( "The Temple Ruins", "Temple Ruins" );
+					}
+					if ( FightRequest.lastResponseText.contains( "LOLmec's Lair" ) )
+					{
+						SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
+					}
+				}
+				if ( monster.equalsIgnoreCase( "queen bee (spelunky)" ) )
+				{
+					SpelunkyRequest.unlock( "Sticky Bombs", "Sticky Bombs" );
+				}
+				if ( monster.equalsIgnoreCase( "shopkeeper" ) )
+				{
+					Preferences.decrement( "spelunkyWinCount", 1 );
+				}
 			}
 
 			// Booze Filler surveys the scene from atop the throne, and gains 1 Experience
