@@ -824,14 +824,14 @@ Mr. Loathing	adv_strong4.gif	Atk: 300 Def: 150 HP: 300 Init: -10000 P: dude
 
 Accountant-Barbarian	adv_smart4.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
 Metaphysical Gastronomist	adv_smart4.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-Kleptobrainiac	adv_smart4.gif	[200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
+Kleptobrainiac	adv_smart4.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
 The Mastermind	adv_smart4.gif	Atk: 250 Def: 250 HP: 200 Init: -10000 P: dude
 
 # -- Smoothest Adventurer
 
 Savage Beatnik	adv_smooth1.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
 Creamweaver	adv_smooth2.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-smooth criminal	adv_smooth3.gif	[200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
+smooth criminal	adv_smooth3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
 Seannery the Conman	adv_smooth4.gif	Atk: 200 Def: 300 HP: 250 Init: -10000 P: dude
 
 # - Adventurer Crowd 3
