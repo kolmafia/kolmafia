@@ -7922,7 +7922,10 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 9 )
 			{
 				Preferences.setBoolean( "_controlPanelUsed", true );
-				Preferences.increment( "controlPanelOmega", 11, 100, false );
+				if ( !text.contains( "minimum of 24 hours" ) )
+				{
+					Preferences.increment( "controlPanelOmega", 11, 100, false );
+				}
 			}
 			break;
 		case 987:
@@ -8141,6 +8144,7 @@ public abstract class ChoiceManager
 		case 1039:	// A Golden Chest
 		case 1040:	// It's Lump. It's Lump.
 		case 1041:	// Spelunkrifice
+		case 1045:	// Hostile Work Environment
 			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, text, ChoiceManager.lastDecision );
 			break;
 
