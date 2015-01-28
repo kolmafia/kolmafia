@@ -1337,7 +1337,7 @@ public class QuestManager
 			return;
 		}
 
-		if ( monsterName.equals( "Screambat" ) )
+		if ( monsterName.equals( "screambat" ) )
 		{
 			if ( !QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
 			{
@@ -1345,7 +1345,7 @@ public class QuestManager
 			}
 		}
 
-		else if ( monsterName.equals( "Dirty Thieving Brigand" ) )
+		else if ( monsterName.equals( "dirty thieving brigand" ) )
 		{
 			// "Well," you say, "it would really help the war effort if
 			// your convent could serve as a hospital for our wounded
@@ -1364,7 +1364,7 @@ public class QuestManager
 		// oil baron: 31.7
 		// oil cartel: 63.4
 		// dress pants: 6.34
-		else if ( monsterName.equals( "Oil Slick" ) )
+		else if ( monsterName.equals( "oil slick" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1374,7 +1374,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monsterName.equals( "Oil Tycoon" ) )
+		else if ( monsterName.equals( "oil tycoon" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1383,7 +1383,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monsterName.equals( "Oil Baron" ) )
+		else if ( monsterName.equals( "oil baron" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1392,7 +1392,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monsterName.equals( "Oil Cartel" ) )
+		else if ( monsterName.equals( "oil cartel" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1563,7 +1563,7 @@ public class QuestManager
 		{
 			TavernRequest.addTavernLocation( '6' );
 		}
-		else if ( monsterName.equals( "Wumpus" ) )
+		else if ( monsterName.equals( "wumpus" ) )
 		{
 			WumpusManager.reset();
 		}
