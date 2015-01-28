@@ -185,10 +185,10 @@ public class NPCPurchaseRequest
 
 	private static int currentPrice( final int price )
 	{
-		double factor = 1.0;
-		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 0.05;
-		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 0.05;
-		return (int) Math.round( price * factor );
+		long factor = 100;
+		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 5;
+		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 5;
+		return ( price * factor ) / 100;
 	}
 
 	private static boolean usingTrousers()
