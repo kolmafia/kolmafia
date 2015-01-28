@@ -8101,3 +8101,4 @@
 8082
 8083
 8084	LOLmec statuette	688758713	lolmecidol.gif	usable	t	0
+8085	Spelunker of Fortune (used)	239518160	spelunkmag.gif	usable		0
