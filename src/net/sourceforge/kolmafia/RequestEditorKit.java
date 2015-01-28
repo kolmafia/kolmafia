@@ -1269,18 +1269,18 @@ public class RequestEditorKit
 			matcher.appendTail( buffer );
 		}
 
-		String monster = MonsterStatusTracker.getLastMonsterName();
+		String monsterName = MonsterStatusTracker.getLastMonster().getName();
 
 		// We want to decorate battlefield monsters, whether or not you
 		// actually find them on the battlefield.
-		if ( IslandManager.isBattlefieldMonster( monster ) )
+		if ( IslandManager.isBattlefieldMonster( monsterName ) )
 		{
 			IslandDecorator.decorateBattlefieldFight( buffer );
 		}
 
-		if ( monster.endsWith( "gremlin" ) )
+		if ( monsterName.endsWith( "gremlin" ) )
 		{
-			IslandDecorator.decorateGremlinFight( monster, buffer );
+			IslandDecorator.decorateGremlinFight( monsterName, buffer );
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -1373,8 +1373,9 @@ public class RequestEditorKit
 		monsterData.append( ", Type: " );
 		monsterData.append( MonsterStatusTracker.getMonsterPhylum().toString() );
 
-		String monsterName = MonsterStatusTracker.getLastMonsterName();
-		if ( monsterName.indexOf( "pirate" ) != -1 && !( monsterName.equalsIgnoreCase( "Stone Temple Pirate" ) ) )
+		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+
+		if ( monsterName.contains( "pirate" ) && !monsterName.equals( "stone temple pirate" ) )
 		{
 			int count = BeerPongRequest.countPirateInsults();
 			monsterData.append( ", Insults: ");
@@ -1384,17 +1385,17 @@ public class RequestEditorKit
 			monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
 			monsterData.append( "%)");
 		}
-		else if ( monsterName.equalsIgnoreCase( "Black Pudding" ) )
+		else if ( monsterName.equals( "black pudding" ) )
 		{
 			int count = Preferences.getInteger( "blackPuddingsDefeated" );
 			monsterData.append( ", Defeated: ");
 			monsterData.append( count );
 		}
-		else if ( monsterName.equalsIgnoreCase( "wall of skin" ) )
+		else if ( monsterName.equals( "wall of skin" ) )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.BEEHIVE ) );
 		}
-		else if ( monsterName.equalsIgnoreCase( "wall of bones" ) )
+		else if ( monsterName.equals( "wall of bones" ) )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ELECTRIC_BONING_KNIFE ) );
 		}
@@ -1690,12 +1691,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		String monster = StringUtilities.singleStringReplace( MonsterStatusTracker.getLastMonsterName(), " (dreadsylvanian)", "" );
+		String monsterName = StringUtilities.singleStringReplace( MonsterStatusTracker.getLastMonster().getName(), " (Dreadsylvanian)", "" );
 		String find = "your scary storybook!";
 		StringBuilder replace = new StringBuilder( find );
 		replace.append( " <font size=1>[<a href=\"" );
 		replace.append( "/KoLmafia/redirectedCommand?cmd=taleofdread " );
-		replace.append( monster );
+		replace.append( monsterName );
 		replace.append( " redirect" );
 		replace.append( "&pwd=" );
 		replace.append( GenericRequest.passwordHash );

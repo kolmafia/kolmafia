@@ -759,9 +759,9 @@ public class StationaryButtonDecorator
 		// If there is none, perhaps we fought a monster as a result of
 		// using an item.
 
-		String monster = MonsterStatusTracker.getLastMonsterName();
+		String monsterName = MonsterStatusTracker.getLastMonster().getName();
 
-		if ( monster.equals( "giant sandworm" ) )
+		if ( monsterName.equals( "giant sandworm" ) )
 		{
 			AdventureResult drumMachine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( KoLConstants.inventory.contains( drumMachine ) )
@@ -773,7 +773,7 @@ public class StationaryButtonDecorator
 			return "adventure.php?snarfblat=122";
 		}
 
-		if ( monster.equals( "scary pirate" ) )
+		if ( monsterName.equals( "scary pirate" ) )
 		{
 			return "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
 		}

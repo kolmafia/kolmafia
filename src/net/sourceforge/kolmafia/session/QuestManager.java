@@ -1315,7 +1315,7 @@ public class QuestManager
 	 * @param responseText The text from (at least) the winning round of the fight
 	 * @param monster The monster which <s>died</s>got beaten up.
 	 */
-	public static void updateQuestData( String responseText, String monster )
+	public static void updateQuestData( String responseText, String monsterName )
 	{
 		String adventureId = KoLAdventure.lastAdventureIdString();
 		String counter =
@@ -1337,7 +1337,7 @@ public class QuestManager
 			return;
 		}
 
-		if ( monster.equalsIgnoreCase( "Screambat" ) )
+		if ( monsterName.equals( "Screambat" ) )
 		{
 			if ( !QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
 			{
@@ -1345,7 +1345,7 @@ public class QuestManager
 			}
 		}
 
-		else if ( monster.equalsIgnoreCase( "Dirty Thieving Brigand" ) )
+		else if ( monsterName.equals( "Dirty Thieving Brigand" ) )
 		{
 			// "Well," you say, "it would really help the war effort if
 			// your convent could serve as a hospital for our wounded
@@ -1364,7 +1364,7 @@ public class QuestManager
 		// oil baron: 31.7
 		// oil cartel: 63.4
 		// dress pants: 6.34
-		else if ( monster.equalsIgnoreCase( "Oil Slick" ) )
+		else if ( monsterName.equals( "Oil Slick" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1374,7 +1374,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monster.equalsIgnoreCase( "Oil Tycoon" ) )
+		else if ( monsterName.equals( "Oil Tycoon" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1383,7 +1383,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monster.equalsIgnoreCase( "Oil Baron" ) )
+		else if ( monsterName.equals( "Oil Baron" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1392,7 +1392,7 @@ public class QuestManager
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
-		else if ( monster.equalsIgnoreCase( "Oil Cartel" ) )
+		else if ( monsterName.equals( "Oil Cartel" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
 			float current = Preferences.getFloat( "oilPeakProgress" );
@@ -1402,20 +1402,20 @@ public class QuestManager
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
 
-		else if ( monster.equalsIgnoreCase( "Battlie Knight Ghost" ) ||
-			monster.equalsIgnoreCase( "Claybender Sorcerer Ghost" ) ||
-			monster.equalsIgnoreCase( "Dusken Raider Ghost" ) ||
-			monster.equalsIgnoreCase( "Space Tourist Explorer Ghost" ) ||
-			monster.equalsIgnoreCase( "Whatsian Commando Ghost" ) )
+		else if ( monsterName.equals( "Battlie Knight Ghost" ) ||
+			  monsterName.equals( "Claybender Sorcerer Ghost" ) ||
+			  monsterName.equals( "Dusken Raider Ghost" ) ||
+			  monsterName.equals( "Space Tourist Explorer Ghost" ) ||
+			  monsterName.equals( "Whatsian Commando Ghost" ) )
 		{
 			Preferences.decrement( "booPeakProgress", 2 );
 		}
 
-		else if ( monster.equalsIgnoreCase( "panicking Knott Yeti" ) )
+		else if ( monsterName.equals( "panicking Knott Yeti" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step4" );
 		}
-		else if ( monster.equalsIgnoreCase( "pygmy witch accountant" ) )
+		else if ( monsterName.equals( "pygmy witch accountant" ) )
 		{
 			// If you don't have McClusky File (complete), or
 			// McClusky File 5, and accountant doesn't drop file,
@@ -1428,78 +1428,78 @@ public class QuestManager
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "topiary gopher" ) ||
-			  monster.equalsIgnoreCase( "topiary chihuahua herd" ) ||
-			  monster.equalsIgnoreCase( "topiary duck" ) ||
-			  monster.equalsIgnoreCase( "topiary kiwi" ) )
+		else if ( monsterName.equals( "topiary gopher" ) ||
+			  monsterName.equals( "topiary chihuahua herd" ) ||
+			  monsterName.equals( "topiary duck" ) ||
+			  monsterName.equals( "topiary kiwi" ) )
 		{
 			// We are still in the Hedge Maze
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
 		}
-		else if ( monster.equalsIgnoreCase( "wall of skin" ) )
+		else if ( monsterName.equals( "wall of skin" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
 		}
-		else if ( monster.equalsIgnoreCase( "wall of meat" ) &&
+		else if ( monsterName.equals( "wall of meat" ) &&
 			  responseText.contains( "the stairs to the next floor are clear" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
 		}
-		else if ( monster.equalsIgnoreCase( "wall of bones" ) )
+		else if ( monsterName.equals( "wall of bones" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step8" );
 		}
-		else if ( monster.equalsIgnoreCase( "Your Shadow" ) )
+		else if ( monsterName.equals( "Your Shadow" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 		}
-		else if ( monster.equalsIgnoreCase( "Clancy" ) )
+		else if ( monsterName.equals( "Clancy" ) )
 		{
 			// We do not currently have a distinct step for Clancy
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 		}
-		else if ( monster.equalsIgnoreCase( "The Naughty Sorceress (3)" ) ||
-			  monster.equalsIgnoreCase( "The Avatar of Sneaky Pete" ) ||
-			  monster.equalsIgnoreCase( "The Avatar of Boris" ) ||
-			  monster.equalsIgnoreCase( "Principal Mooney" ) ||
-			  monster.equalsIgnoreCase( "Rene C. Corman" ) ||
-			  monster.equalsIgnoreCase( "The Avatar of Jarlsberg" ) ||
-			  monster.equalsIgnoreCase( "The Rain King" ) ||
+		else if ( monsterName.equals( "Naughty Sorceress (3)" ) ||
+			  monsterName.equals( "The Avatar of Sneaky Pete" ) ||
+			  monsterName.equals( "The Avatar of Boris" ) ||
+			  monsterName.equals( "Principal Mooney" ) ||
+			  monsterName.equals( "Rene C. Corman" ) ||
+			  monsterName.equals( "The Avatar of Jarlsberg" ) ||
+			  monsterName.equals( "The Rain King" ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step11" );
 		}
-		else if ( monster.equalsIgnoreCase( "The Clownlord Beelzebozo" ) )
+		else if ( monsterName.equals( "The Clownlord Beelzebozo" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step2" );
 		}
-		else if ( monster.equalsIgnoreCase( "menacing thug" ) )
+		else if ( monsterName.equals( "menacing thug" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
 		}
-		else if ( monster.equalsIgnoreCase( "Mob Penguin hitman" ) )
+		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
 		}
-		else if ( monster.equalsIgnoreCase( "hunting seal" ) ||
-			monster.equalsIgnoreCase( "turtle trapper" ) ||
-			monster.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
-			monster.equalsIgnoreCase( "b&eacute;arnaise zombie" ) ||
-			monster.equalsIgnoreCase( "flock of seagulls" ) ||
-			monster.equalsIgnoreCase( "mariachi bandolero" ) )
+		else if ( monsterName.equals( "hunting seal" ) ||
+			  monsterName.equals( "turtle trapper" ) ||
+			  monsterName.equals( "evil spaghetti cult assassin" ) ||
+			  monsterName.equals( "b&eacute;arnaise zombie" ) ||
+			  monsterName.equals( "flock of seagulls" ) ||
+			  monsterName.equals( "mariachi bandolero" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
 		}
-		else if ( monster.equalsIgnoreCase( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Spaghetti Elemental (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Spirit of New Wave (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
+		else if ( monsterName.equals( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
+			  monsterName.equals( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
+			  monsterName.equals( "Spaghetti Elemental (Volcanic Cave)" ) ||
+			  monsterName.equals( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
+			  monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
+			  monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
 		}
-		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Burger" ) )
+		else if ( monsterName.equals( "Sloppy Seconds Burger" ) )
 		{
 			if ( responseText.contains( "You consult the list and grab the next ingredient" ) )
 			{
@@ -1510,7 +1510,7 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Cocktail" ) )
+		else if ( monsterName.equals( "Sloppy Seconds Cocktail" ) )
 		{
 			if ( responseText.contains( "cocktail sauce bottle" ) || responseText.contains( "defeated foe with your bottle" ) )
 			{
@@ -1521,7 +1521,7 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "Sloppy Seconds Sundae" ) )
+		else if ( monsterName.equals( "Sloppy Seconds Sundae" ) )
 		{
 			if ( responseText.contains( "sprinkles off" ) )
 			{
@@ -1532,7 +1532,7 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "taco fish" ) )
+		else if ( monsterName.equals( "taco fish" ) )
 		{
 			Matcher FishMeatMatcher = QuestManager.TACO_FISH_PATTERN.matcher( responseText );
 			if ( FishMeatMatcher.find() )
@@ -1544,7 +1544,7 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "Fun-Guy Playmate" ) )
+		else if ( monsterName.equals( "Fun-Guy Playmate" ) )
 		{
 			if ( responseText.contains( "hot tub with some more bacteria" ) )
 			{
@@ -1555,19 +1555,19 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "Wu Tang the Betrayer" ) )
+		else if ( monsterName.equals( "Wu Tang the Betrayer" ) )
 		{
 			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 		}
-		else if ( monster.equalsIgnoreCase( "Baron Von Ratsworth" ) )
+		else if ( monsterName.equals( "Baron Von Ratsworth" ) )
 		{
 			TavernRequest.addTavernLocation( '6' );
 		}
-		else if ( monster.equalsIgnoreCase( "Wumpus" ) )
+		else if ( monsterName.equals( "Wumpus" ) )
 		{
 			WumpusManager.reset();
 		}
-		else if ( monster.equalsIgnoreCase( "pair of burnouts" ) )
+		else if ( monsterName.equals( "pair of burnouts" ) )
 		{
 			int increment = responseText.contains( "throw the opium grenade" ) ? 3 : 1;
 			Preferences.increment( "burnoutsDefeated", increment, 30, false );
@@ -1576,20 +1576,20 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step4" );
 			}
 		}
-		else if ( monster.equalsIgnoreCase( "biclops" ) )
+		else if ( monsterName.equals( "biclops" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step5" );
 		}
-		else if ( monster.equalsIgnoreCase( "surprised and annoyed witch" ) ||
-				monster.equalsIgnoreCase( "extremely annoyed witch" ) )
+		else if ( monsterName.equals( "surprised and annoyed witch" ) ||
+			  monsterName.equals( "extremely annoyed witch" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step7" );
 		}
-		else if ( monster.equalsIgnoreCase( "Elp&iacute;zo & Crosybdis" ) )
+		else if ( monsterName.equals( "Elp&iacute;zo & Crosybdis" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step10" );
 		}
-		else if ( monster.equalsIgnoreCase( "E.V.E., the robot zombie" ) )
+		else if ( monsterName.equals( "E.V.E., the robot zombie" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.EVE, "step1" );
 		}
@@ -1600,12 +1600,12 @@ public class QuestManager
 		{
 		case AdventurePool.MERKIN_COLOSSEUM:
 			// Do not increment round for wandering monsters
-			if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
-			       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
-			       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
-			       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
-			       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
-			       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
+			if ( ( monsterName.equals( "Mer-kin balldodger" ) ||
+			       monsterName.equals( "Mer-kin netdragger" ) ||
+			       monsterName.equals( "Mer-kin bladeswitcher" ) ||
+			       monsterName.equals( "Georgepaul, the Balldodger" ) ||
+			       monsterName.equals( "Johnringo, the Netdragger" ) ||
+			       monsterName.equals( "Ringogeorge, the Bladeswitcher" ) ) &&
 			     // Do mark path chosen unless won round 15
 			     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
 			{
@@ -1714,7 +1714,7 @@ public class QuestManager
 			}
 			if ( responseText.contains( "The gore sloshes around nauseatingly in your bucket" ) )
 			{
-					QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
+				QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
 			}
 			break;
 		}
@@ -1724,35 +1724,35 @@ public class QuestManager
 	 * @param responseText The text from (at least) the losing round of the fight
 	 * @param monster The monster which beat us up.
 	 */
-	public static void updateQuestFightLost( String responseText, String monster )
+	public static void updateQuestFightLost( String responseText, String monsterName )
 	{
-		if ( monster.equalsIgnoreCase( "menacing thug" ) )
+		if ( monsterName.equals( "menacing thug" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
 		}
-		else if ( monster.equalsIgnoreCase( "Mob Penguin hitman" ) )
+		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
 		}
-		else if ( monster.equalsIgnoreCase( "hunting seal" ) ||
-			monster.equalsIgnoreCase( "turtle trapper" ) ||
-			monster.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
-			monster.equalsIgnoreCase( "b&eacute;arnaise zombie" ) ||
-			monster.equalsIgnoreCase( "flock of seagulls" ) ||
-			monster.equalsIgnoreCase( "mariachi bandolero" ) )
+		else if ( monsterName.equals( "hunting seal" ) ||
+			  monsterName.equals( "turtle trapper" ) ||
+			  monsterName.equals( "evil spaghetti cult assassin" ) ||
+			  monsterName.equals( "b&eacute;arnaise zombie" ) ||
+			  monsterName.equals( "flock of seagulls" ) ||
+			  monsterName.equals( "mariachi bandolero" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step11" );
 		}
-		else if ( monster.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
-			monster.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
-			monster.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
-			monster.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
-			monster.equalsIgnoreCase( "Jocko Homo" ) ||
-			monster.equalsIgnoreCase( "The Mariachi With No Name" ) )
+		else if ( monsterName.equals( "Argarggagarg the Dire Hellseal" ) ||
+			  monsterName.equals( "Safari Jack, Small-Game Hunter" ) ||
+			  monsterName.equals( "Yakisoba the Executioner" ) ||
+			  monsterName.equals( "Heimandatz, Nacho Golem" ) ||
+			  monsterName.equals( "Jocko Homo" ) ||
+			  monsterName.equals( "The Mariachi With No Name" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
 		}
-		else if ( monster.equalsIgnoreCase( "mother hellseal" ) )
+		else if ( monsterName.equals( "mother hellseal" ) )
 		{
 			Preferences.decrement( "_sealScreeches", 1, 0 );
 		}
@@ -1762,14 +1762,14 @@ public class QuestManager
 	 * @param responseText The text from (at least) the first round of the fight
 	 * @param monster The monster
 	 */
-	public static void updateQuestFightStarted( final String responseText, final String monster )
+	public static void updateQuestFightStarted( final String responseText, final String monsterName )
 	{
-		if ( monster.equalsIgnoreCase( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Spaghetti Elemental (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Spirit of New Wave (Volcanic Cave)" ) ||
-			monster.equalsIgnoreCase( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
+		if ( monsterName.equals( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
+		     monsterName.equals( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
+		     monsterName.equals( "Spaghetti Elemental (Volcanic Cave)" ) ||
+		     monsterName.equals( "Lumpy, the Sinister Sauceblob (Volcanic Cave)" ) ||
+		     monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
+		     monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
 		}

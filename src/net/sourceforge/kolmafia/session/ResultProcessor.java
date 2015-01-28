@@ -2239,7 +2239,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.MERKIN_LOCKKEY:
-			String lockkeyMonster = MonsterStatusTracker.getLastMonsterName();
+			String lockkeyMonster = MonsterStatusTracker.getLastMonster().getName();
 			Preferences.setString( "merkinLockkeyMonster", lockkeyMonster );
 			if ( lockkeyMonster.equals( "mer-kin burglar" ) )
 			{

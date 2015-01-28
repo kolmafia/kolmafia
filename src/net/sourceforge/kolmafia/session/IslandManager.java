@@ -73,8 +73,7 @@ public class IslandManager
 	
 	public static final boolean isBattlefieldMonster()
 	{
-		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		return IslandManager.isBattlefieldMonster( monster );
+		return IslandManager.isBattlefieldMonster( MonsterStatusTracker.getLastMonster() );
 	}
 
 	public static final boolean isBattlefieldMonster( final String name )

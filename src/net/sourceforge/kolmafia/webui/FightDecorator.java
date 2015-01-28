@@ -88,7 +88,7 @@ public class FightDecorator
 			return;
 		}
 
-		String name = MonsterStatusTracker.getLastMonsterName().toLowerCase();
+		String name = MonsterStatusTracker.getLastMonster().getName().toLowerCase();
 		if ( name.equals( "dad sea monkee" ) )
 		{
 			FightDecorator.decorateDadSeaMonkee( buffer );

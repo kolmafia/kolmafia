@@ -245,10 +245,10 @@ public class DiscoCombatHelper
 		}
 
 		// Rave Steal in the volcano island always works
-		String encounter = MonsterStatusTracker.getLastMonsterName();
-		if ( encounter.equalsIgnoreCase( "Breakdancing Raver" ) ||
-			 encounter.equalsIgnoreCase( "Pop-and-Lock Raver" ) ||
-			 encounter.equalsIgnoreCase( "Running Man" ) )
+		String encounter = MonsterStatusTracker.getLastMonster().getName();
+		if ( encounter.equals( "Breakdancing Raver" ) ||
+		     encounter.equals( "Pop-and-Lock Raver" ) ||
+		     encounter.equals( "Running Man" ) )
 		{
 			return true;
 		}
@@ -572,11 +572,11 @@ public class DiscoCombatHelper
 			RequestLogger.updateSessionLog( message );
 		}
 
-		// Track successfull Rave Steal usage
+		// Track successful Rave Steal usage
 		if ( combo == RAVE_STEAL )
 		{
 			// Rave Steal in the volcano island shouldn't count
-			String encounter = MonsterStatusTracker.getLastMonsterName();
+			String encounter = MonsterStatusTracker.getLastMonster().getName();
 			if ( encounter.equalsIgnoreCase( "Breakdancing Raver" ) ||
 			     encounter.equalsIgnoreCase( "Pop-and-Lock Raver" ) ||
 			     encounter.equalsIgnoreCase( "Running Man" ) )
