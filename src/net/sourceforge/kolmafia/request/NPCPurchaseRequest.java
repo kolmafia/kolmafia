@@ -188,7 +188,7 @@ public class NPCPurchaseRequest
 		long factor = 100;
 		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 5;
 		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 5;
-		return ( price * factor ) / 100;
+		return (int) ( ( price * factor ) / 100 );
 	}
 
 	private static boolean usingTrousers()
