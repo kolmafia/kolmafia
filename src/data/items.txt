@@ -8094,3 +8094,10 @@
 8075	Spelunker's whip	270574245	spelwhip.gif	weapon		0
 8076	Spelunker's khakis	315558457	khakis.gif	pants		0
 8077	Spelunker's Guild prize sack	496820001	spelunksack.gif	usable	t	0
+8078
+8079
+8080
+8081
+8082
+8083
+8084	LOLmec statuette	688758713	lolmecidol.gif	usable	t	0
