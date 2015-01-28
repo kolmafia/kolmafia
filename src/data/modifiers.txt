@@ -6955,6 +6955,7 @@ llama lama cria	Free Pull
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Loathing Legion jackhammer	Softcore Only
 Lobos Mints	Effect: "Lobos Fresh", Effect Duration: 20
+# LOLmec statuette: Sells for 1 Million Meat
 lotion of coldness	Effect: "Cold Hands", Effect Duration: [R+5]
 lotion of hotness	Effect: "Hot Hands", Effect Duration: [R+5]
 lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R+5]
