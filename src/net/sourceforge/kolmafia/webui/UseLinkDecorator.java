@@ -794,6 +794,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.LOATHING_LEGION_KNIFE:
 			case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
 			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
+			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 				if ( itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE )
 				{
@@ -810,12 +811,16 @@ public abstract class UseLinkDecorator
 					return uses.get( 0 );
 				}
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 
 			case ItemPool.MACGUFFIN_DIARY:
+				return new UseLink( itemId, 1, "read", "diary.php?textversion=1" );
 
-				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
+			case ItemPool.VOLCANO_MAP:
+				return new UseLink( itemId, 1, "read", "inv_use.php?which=3&whichitem=" );
 
 			case ItemPool.ENCHANTED_BEAN:
+
 				return  KoLCharacter.getLevel() < 10 ?
 					null :
 					new UseLink( itemId, "plant", "place.php?whichplace=plains&action=garbage_grounds" );
@@ -942,10 +947,12 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.TOMB_RATCHET:
 			{
-				int count = InventoryManager.getCount( itemId );
+				int count1 = InventoryManager.getCount( itemId );
+				int count2 = InventoryManager.getCount( ItemPool.CRUMBLING_WHEEL );
+				String useType = String.valueOf( count2 ) + "+" + String.valueOf( count1 );
 				return !Preferences.getBoolean( "controlRoomUnlock" ) ?
-					new UseLink( itemId, count ) :
-					new UseLink( itemId, count, "place.php?whichplace=pyramid&action=pyramid_control" );
+					new UseLink( itemId, count1, useType, "javascript:return false;" ) :
+					new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
 			}
 
 			default:
@@ -1632,11 +1639,6 @@ public abstract class UseLinkDecorator
 			useLocation = "adventure.php?snarfblat=383";
 			break;
 
-		case ItemPool.VOLCANO_MAP:
-			useType = "guild";
-			useLocation = "guild.php?place=scg";
-			break;
-
 		case ItemPool.GOLD_PIECE:
 			return new UseLink( itemId, InventoryManager.getCount( itemId ) );
 
@@ -1669,10 +1671,12 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.CRUMBLING_WHEEL:
 		{
-			int count = InventoryManager.getCount( itemId );
+			int count1 = InventoryManager.getCount( itemId );
+			int count2 = InventoryManager.getCount( ItemPool.TOMB_RATCHET );
+			useType = String.valueOf( count1 ) + "+" + String.valueOf( count2 );
 			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
-				new UseLink( itemId, count ) :
-				new UseLink( itemId, count, "place.php?whichplace=pyramid&action=pyramid_control" );
+				new UseLink( itemId, count1, useType, "javascript:return false;" ) :
+				new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
 		}
 
 		case ItemPool.PACK_OF_SMOKES:
