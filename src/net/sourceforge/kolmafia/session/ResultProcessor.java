@@ -2241,15 +2241,15 @@ public class ResultProcessor
 		case ItemPool.MERKIN_LOCKKEY:
 			String lockkeyMonster = MonsterStatusTracker.getLastMonster().getName();
 			Preferences.setString( "merkinLockkeyMonster", lockkeyMonster );
-			if ( lockkeyMonster.equals( "mer-kin burglar" ) )
+			if ( lockkeyMonster.equals( "Mer-kin burglar" ) )
 			{
 				Preferences.setInteger( "choiceAdventure312", 1 );
 			}
-			else if ( lockkeyMonster.equals( "mer-kin raider" ) )
+			else if ( lockkeyMonster.equals( "Mer-kin raider" ) )
 			{
 				Preferences.setInteger( "choiceAdventure312", 2 );
 			}
-			else if ( lockkeyMonster.equals( "mer-kin healer" ) )
+			else if ( lockkeyMonster.equals( "Mer-kin healer" ) )
 			{
 				Preferences.setInteger( "choiceAdventure312", 3 );
 			}
