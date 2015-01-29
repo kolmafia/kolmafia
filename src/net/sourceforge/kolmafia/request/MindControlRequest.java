@@ -140,7 +140,7 @@ public class MindControlRequest
 		// Visit the first URL to set it up, then let the second URL be handled normally
 		if ( KoLCharacter.canadiaAvailable() )
 		{
-			RequestThread.postRequest( new PlaceRequest( "canadia", "lc_mcd" ) );
+			RequestThread.postRequest( new PlaceRequest( "canadia", "lc_mcd", true ) );
 		}
 		super.run();
 	}

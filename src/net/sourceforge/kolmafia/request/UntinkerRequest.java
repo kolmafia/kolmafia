@@ -87,7 +87,7 @@ public class UntinkerRequest
 
 	public UntinkerRequest()
 	{
-		super( "forestvillage", "fv_untinker" );
+		super( "forestvillage", "fv_untinker", true );
 		this.itemId = -1;
 	}
 	
@@ -271,7 +271,7 @@ public class UntinkerRequest
 
 		if ( KoLCharacter.knollAvailable() )
 		{
-			PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest" );
+			PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest", true );
 			tinkVisit.addFormField( "preaction", "screwquest" );
 			tinkVisit.run();
 			PlaceRequest knollVisit = new PlaceRequest( "knoll_friendly", "dk_innabox" );
@@ -291,7 +291,7 @@ public class UntinkerRequest
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
 
-		PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest" );
+		PlaceRequest tinkVisit = new PlaceRequest( "forestvillage", "fv_untinker_quest", true );
 		tinkVisit.addFormField( "preaction", "screwquest" );
 		tinkVisit.run();
 
