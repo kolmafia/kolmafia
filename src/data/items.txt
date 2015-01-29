@@ -2058,7 +2058,7 @@
 2041	ferret bait	665792687	ferretbait.gif	none, combat	t,d	150	handfuls of ferret bait
 2042	exploding hacky-sack	380296478	hackeysack.gif	none, combat	t,d	150	exploding hackensacks
 2043	macrame net	376426839	macramenet.gif	none, combat	t,d	150
-2044	your father's MacGuffin diary	972316396	book2.gif	usable	q	0
+2044	your father's MacGuffin diary	972316396	book2.gif	reusable	q	0
 2045	brain-meltingly-hot chicken wings	190046939	hotwings.gif	food	t,d	85	plates of brain-meltingly-hot chicken wings
 2046	frat brats	572391996	brat.gif	food	t,d	85	frat bratses
 2047	knob ka-bobs	699369403	kabob.gif	food	t,d	85	knob ka-bob-er-anns
@@ -3307,7 +3307,7 @@
 3288	shimmering tendrils	221770723	tendrils.gif	guardian	d	500
 3289	scintillating powder	712356699	scpowder.gif	guardian	d	400
 3290	abandoned candy	189526641	punkin.gif	multiple, candy	t,d	150	buckets of abandoned candy
-3291	secret tropical island volcano lair map	844206887	map.gif	none	q	0
+3291	secret tropical island volcano lair map	844206887	map.gif	reusable	q	0
 3292	adorable seal larva	141694486	seallarva.gif	grow		0	adorable seal larvae
 3293	untamable turtle	493540053	untamed.gif	grow		0
 3294	macaroni duck	600037556	macaroniduck.gif	grow		0

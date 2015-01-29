@@ -700,6 +700,16 @@ public class RequestEditorKit
 		}
 	}
 
+	private static final String TOPMENU_REFRESH = "<script>top.menupane.location.href=\"topmenu.php\";</script>";
+	public static final void addTopmenuRefresh( final StringBuffer buffer )
+	{
+		int index = buffer.indexOf( "</body>" );
+		if ( index != -1 )
+		{
+			buffer.insert( index, RequestEditorKit.TOPMENU_REFRESH );
+		}
+	}
+
 	private static final void decorateLevelGain( final StringBuffer buffer )
 	{
 		String test = "<b>You gain a Level!</b>";
