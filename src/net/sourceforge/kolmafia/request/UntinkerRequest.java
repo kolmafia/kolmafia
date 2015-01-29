@@ -66,9 +66,9 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UntinkerRequest
-	extends PlaceRequest
+	extends GenericRequest
 {
-	private static final GenericRequest AVAILABLE_CHECKER = new UntinkerRequest();
+	private static final GenericRequest AVAILABLE_CHECKER = new PlaceRequest( "forestvillage", "fv_untinker", true );
 
 	private static boolean canUntinker;
 	private static int lastUserId = -1;
@@ -84,12 +84,6 @@ public class UntinkerRequest
 		UntinkerRequest.canUntinker = false;
 		UntinkerRequest.lastUserId = -1;
 	}
-
-	public UntinkerRequest()
-	{
-		super( "forestvillage", "fv_untinker", true );
-		this.itemId = -1;
-	}
 	
 	public UntinkerRequest( final int itemId )
 	{
@@ -98,7 +92,9 @@ public class UntinkerRequest
 
 	public UntinkerRequest( final int itemId, final int itemCount )
 	{
-		super( "forestvillage", "fv_untinker" );
+		super( "place.php" );
+		this.addFormField( "whichplace", "forestvillage" );
+		this.addFormField( "action", "fv_untinker" );
 		this.addFormField( "preaction", "untinker" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
