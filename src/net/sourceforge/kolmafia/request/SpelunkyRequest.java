@@ -63,8 +63,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SpelunkyRequest
 	extends GenericRequest
 {
-	private static final Pattern MUSCLE_PATTERN = Pattern.compile( "Mus:</td><td><font color=blue><b>(\\d+)</font> \\((\\d+)\\)</b>" );
-	private static final Pattern MOXIE_PATTERN = Pattern.compile( "Mox:</td><td><font color=blue><b>(\\d+)</font> \\((\\d+)\\)</b>" );
+	private static final Pattern MUSCLE_PATTERN = Pattern.compile( "Mus:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>" );
+	private static final Pattern MOXIE_PATTERN = Pattern.compile( "Mox:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>" );
 	private static final Pattern HP_PATTERN = Pattern.compile( "HP:</td><td><b>(\\d+) / (\\d+)" );
 	private static final Pattern TURNS_PATTERN = Pattern.compile( "Ghost'><br><b>(\\d+)</b>" );
 	private static final Pattern GOLD_PATTERN = Pattern.compile( "Gold: <b>\\$(\\d+)</b>" );
@@ -117,14 +117,22 @@ public class SpelunkyRequest
 		if ( matcher.find() )
 		{
 			buffedMus = StringUtilities.parseInt( matcher.group( 1 ) );
-			int baseMus = StringUtilities.parseInt( matcher.group( 2 ) );
+			int baseMus = buffedMus;
+			if ( matcher.group( 2 ) != null )
+			{
+				baseMus = StringUtilities.parseInt( matcher.group( 2 ) );
+			}
 			baseMusPoints = KoLCharacter.calculatePointSubpoints( baseMus );
 		}
 		matcher = SpelunkyRequest.MOXIE_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
 			buffedMox = StringUtilities.parseInt( matcher.group( 1 ) );
-			int baseMox = StringUtilities.parseInt( matcher.group( 2 ) );
+			int baseMox = buffedMox;
+			if ( matcher.group( 2 ) != null )
+			{
+				baseMox = StringUtilities.parseInt( matcher.group( 2 ) );
+			}
 			baseMoxPoints = KoLCharacter.calculatePointSubpoints( baseMox );
 		}
 		KoLCharacter.setStatPoints( buffedMus, baseMusPoints, 0, 0, buffedMox, baseMoxPoints );

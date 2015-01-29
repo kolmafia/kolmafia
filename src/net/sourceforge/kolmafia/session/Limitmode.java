@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -151,6 +152,29 @@ public class Limitmode
 		return false;
 	}
 
+	public static final boolean limitAdventure( KoLAdventure adventure )
+	{
+		return Limitmode.limitZone( adventure.getZone() );
+	}
+
+	public static final boolean limitZone( final String zoneName )
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			if ( zoneName.equals( "Spelunky Area" ) )
+			{
+				return false;
+			}
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
 	public static final boolean limitMall()
 	{
 		if ( KoLCharacter.getLimitmode() == null )
@@ -180,6 +204,34 @@ public class Limitmode
 	}
 
 	public static final boolean limitCoinmasters()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitClan()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitCampground()
 	{
 		if ( KoLCharacter.getLimitmode() == null )
 		{

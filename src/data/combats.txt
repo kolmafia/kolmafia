@@ -372,6 +372,7 @@ Wartime Hippy Camp (Frat Disguise)	80	War Hippy drill sergeant	War Hippy (space)
 Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	scavenger bugbear
 Whitey's Grove	85	Knight in White Satin	white chocolate golem	white lion	whitesnake	white elephant: 0
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
+Yomama's Throne	-1	Yomama: 0
 
 # Areas with no combat data
 

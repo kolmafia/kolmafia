@@ -1278,6 +1278,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_aprilShower" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 
 			//the string is used to set the combobox width. pick the largest, add a space
 			box = this.addComboBox( choices, ttips, "April Shower " );
@@ -2043,6 +2044,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "nunsVisits" );
 			this.addListener( "sidequestNunsCompleted" );
+			this.addListener( "(character)" );
 			this.addButton( "Nuns" );
 			this.addLabel( "" );
 		}
@@ -2068,6 +2070,7 @@ public class DailyDeedsPanel
 			this.state = state;
 			this.visited = visited;
 			this.addListener( "skateParkStatus" );
+			this.addListener( "(character)" );
 			this.addListener( visited );
 			this.addButton( "skate " + name );
 			this.addLabel( desc );
@@ -2108,6 +2111,7 @@ public class DailyDeedsPanel
 			this.addListener( "telescopeLookedHigh" );
 			this.addListener( "telescopeUpgrades" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "telescope high" );
 			this.addLabel( "" );
 		}
@@ -2131,6 +2135,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "concertVisited" );
 			this.addListener( "sidequestArenaCompleted" );
+			this.addListener( "(character)" );
 			this.addButton( "concert ?" );
 			this.addButton( "concert ?" );
 			this.addButton( "concert ?" );
@@ -2172,6 +2177,7 @@ public class DailyDeedsPanel
 			this.addListener( "timesRested" );
 			this.addListener( "(skill)" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "rest free" );
 			this.addLabel( "" );
 		}
@@ -2244,6 +2250,7 @@ public class DailyDeedsPanel
 
 			this.addListener( "_momFoodReceived" );
 			this.addListener( "questS02Monkees" );
+			this.addListener( "(character)" );
 
 			box = this.addComboBox( choices, ttips, "Get Food from Mom" );
 			box.addActionListener(new MomComboListener() );
@@ -2287,6 +2294,7 @@ public class DailyDeedsPanel
 		public StyxDaily()
 		{
 			this.addListener( "styxPixieVisited" );
+			this.addListener( "(character)" );
 			this.addButton( "styx muscle", "+25% musc, +10 weapon dmg, +5 DR, 10 turns" );
 			this.addButton( "styx mysticality", "+25% myst, +15 spell dmg, 10-15 MP regen, 10 turns" );
 			this.addButton( "styx moxie", "+25% mox, +40% meat, +20% item, 10 turns" );
@@ -2309,6 +2317,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "currentMojoFilters" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addItem( ItemPool.MOJO_FILTER );
 			this.addButton( "use mojo filter" );
 			this.addLabel( "" );
@@ -2333,6 +2342,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_hotTubSoaks" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "hottub" );
 			this.addLabel( "" );
 		}
@@ -2358,6 +2368,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_poolGames" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "pool 1", "weapon dmg +50%, +5 lbs, 10 turns" );
 			this.addButton( "pool 2", "spell dmg +50%, 10 MP per Adv, 10 turns" );
 			this.addButton( "pool 3", "init +50%, +10% item, 10 turns" );
@@ -2386,6 +2397,7 @@ public class DailyDeedsPanel
 			this.addListener( "_crimboTree" );
 			this.addListener( "crimboTreeDays" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "crimbotree get" );
 			this.addLabel( "" );
 		}
@@ -2411,6 +2423,7 @@ public class DailyDeedsPanel
 		{
 			this.addItem( ItemPool.SPICE_MELANGE );
 			this.addListener( "spiceMelangeUsed" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2438,6 +2451,7 @@ public class DailyDeedsPanel
 		{
 			this.addItem( ItemPool.ULTRA_MEGA_SOUR_BALL );
 			this.addListener( "_ultraMegaSourBallUsed" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2466,6 +2480,7 @@ public class DailyDeedsPanel
 			this.addListener( "(stills)" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "lastGuildStoreOpen" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2488,6 +2503,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.DRINK_ME_POTION );
 			this.addListener( "_madTeaParty" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2532,6 +2548,7 @@ public class DailyDeedsPanel
 			this.addListener( "_brickoFights" );
 			this.addListener( "_hipsterAdv" );
 			this.addListener( "_sealsSummoned" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2576,6 +2593,7 @@ public class DailyDeedsPanel
 			this.addListener( "_banderRunaways" );
 			this.addListener( "_navelRunaways" );
 			this.addListener( "_petePeeledOut" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -2702,6 +2720,7 @@ public class DailyDeedsPanel
 			this.addListener( "_turkeyBooze" );
 			this.addListener( "_spelunkingTalesDrops" );
 			this.addListener( "_powderedGoldDrops" );
+			this.addListener( "(character)" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
@@ -3157,6 +3176,7 @@ public class DailyDeedsPanel
 			this.addListener( "_timeHelmetAdv" );
 			this.addListener( "_vmaskAdv" );
 			this.addListener( "_gnomeAdv" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3202,6 +3222,7 @@ public class DailyDeedsPanel
 			this.addListener( "_raindohCopiesMade" );
 			this.addListener( "rainDohMonster" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addItem( ItemPool.SPOOKY_PUTTY_SHEET );
 			this.addItem( ItemPool.RAIN_DOH_BOX );
 			this.addLabel( "" );
@@ -3266,6 +3287,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "_cameraUsed" );
 			this.addListener( "cameraMonster" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3292,6 +3314,7 @@ public class DailyDeedsPanel
 			this.addListener( "_badlyRomanticArrows" );
 			this.addListener( "_romanticFightsLeft" );
 			this.addListener( "romanticTarget" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3330,6 +3353,7 @@ public class DailyDeedsPanel
 			this.addListener( "_photocopyUsed" );
 			this.addListener( "photocopyMonster" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3366,6 +3390,7 @@ public class DailyDeedsPanel
 			this.addListener( "_envyfishEggUsed" );
 			this.addListener( "envyfishMonster" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3397,6 +3422,7 @@ public class DailyDeedsPanel
 			this.addListener( "_feastUsed" );
 			this.addListener( "_feastedFamiliars" );
 			this.addButton( "use moveable feast" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3427,6 +3453,7 @@ public class DailyDeedsPanel
 		public PuddingDaily()
 		{
 			this.addListener( "blackPuddingsDefeated" );
+			this.addListener( "(character)" );
 			this.addButton( "eat black pudding" );
 			this.addLabel( "" );
 		}
@@ -3446,6 +3473,7 @@ public class DailyDeedsPanel
 		public ChipsDaily()
 		{
 			this.addListener( "_chipBags" );
+			this.addListener( "(character)" );
 			this.addButton( "chips radium", "moxie +30 for 10" );
 			this.addButton( "chips wintergreen", "muscle +30 for 10" );
 			this.addButton( "chips ennui", "mysticality +30 for 10" );
@@ -3470,6 +3498,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "_ballpit" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "ballpit", "stat boost for 20" );
 		}
 
@@ -3502,6 +3531,7 @@ public class DailyDeedsPanel
 			this.addListener( "_madTeaParty" );
 			this.addListener( "(hats)" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 
 			this.addItem( ItemPool.DRINK_ME_POTION );
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
@@ -3623,6 +3653,7 @@ public class DailyDeedsPanel
 		public BanishedDaily()
 		{
 			this.addListener( "banishedMonsters" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3651,6 +3682,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_olympicSwimmingPool" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.addButton( "swim laps", "init +30%, +25 stench dmg, +20 ml, 50 turns" );
 			this.addButton( "swim sprints", "-5% combat, 50 turns" );
 			this.addLabel( "" );
@@ -3678,6 +3710,7 @@ public class DailyDeedsPanel
 		{
 			this.addItem( ItemPool.PSYCHOANALYTIC_JAR );
 			this.addListener( "_jickJarAvailable" );
+			this.addListener( "(character)" );
 			this.button = this.addButton( "Jick Jar" );
 			this.button.setActionCommand( "ashq visit_url(\"showplayer.php?who=1\");" );
 			this.addLabel( "click to check" );
@@ -3720,6 +3753,7 @@ public class DailyDeedsPanel
 			this.addListener( "_jiggleCream" );
 			this.addListener( "_jiggleCreamedMonster" );
 			this.addListener( "_jiggleCheesedMonsters" );
+			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
@@ -3800,6 +3834,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.GG_TICKET );
 			this.addItem( ItemPool.GG_TOKEN );
 			this.addListener( "_defectiveTokenChecked" );
+			this.addListener( "(character)" );
 			this.button = this.addButton( "defective token" );
 			this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=arcade&action=arcade_plumber\",false);" );
 			this.addLabel( "click to check" );
@@ -3851,6 +3886,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "_chateauDeskHarvested" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
 			this.button = this.addButton( "Chateau desk" );
 			this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk\",false);" );
 			this.addLabel( "Click to harvest" );

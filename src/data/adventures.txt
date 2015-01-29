@@ -427,3 +427,4 @@ Spelunky Area	adventure=432	Env: none Stat: 0	The Beehive
 Spelunky Area	adventure=433	Env: none Stat: 0	The Crashed U. F. O.
 Spelunky Area	adventure=434	Env: none Stat: 0	The City of Goooold
 Spelunky Area	adventure=435	Env: none Stat: 0	LOLmec's Lair
+Spelunky Area	adventure=436	Env: none Stat: 0	Yomama's Throne
