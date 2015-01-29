@@ -1482,6 +1482,7 @@ spider queen	spelunkspider.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug
 tikiman	spelunktiki.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: dude
 vampire	spelunkvampire.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: undead
 yeti	spelunkyeti.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
+Yomama	yomamma.gif	Atk: 100 Def: 100 HP: 300 Init: -10000 P: dude
 
 # KoL Con
 

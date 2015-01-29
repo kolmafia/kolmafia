@@ -1469,6 +1469,7 @@ public abstract class KoLCharacter
 		if ( limitmode == Limitmode.SPELUNKY )
 		{
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
+			SpelunkyRequest.reset();
 			KoLCharacter.resetSkills();
 			EquipmentManager.removeAllEquipment();
 			KoLCharacter.familiars.clear();
@@ -1492,7 +1493,6 @@ public abstract class KoLCharacter
 			GearChangeFrame.clearFamiliarList();
 			InventoryManager.refresh();
 			SkillBuffFrame.update();
-			SpelunkyRequest.reset();
 		}
 	}
 
@@ -3882,6 +3882,7 @@ public abstract class KoLCharacter
 
 		KoLConstants.availableSkills.add( skill );
 		KoLConstants.availableSkillsMap.put( skill, null );
+		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 
 		switch ( SkillDatabase.getSkillType( skill.getSkillId() ) )
 		{
