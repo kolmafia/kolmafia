@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.RequestEditorKit;
+
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -83,6 +85,14 @@ public class FightDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
+		// If we won the fight and got the volcano map, force a topmenu
+		// refresh so that the "volcano" link is there.
+		if ( buffer.indexOf( "WINWINWIN" ) != -1 &&
+		     buffer.indexOf( "secret tropical island volcano lair map" ) != -1 )
+		{
+			RequestEditorKit.addTopmenuRefresh( buffer );
+		}
+
 		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			return;

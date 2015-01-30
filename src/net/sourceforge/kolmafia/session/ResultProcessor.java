@@ -1318,6 +1318,16 @@ public class ResultProcessor
 			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
 			break;
 
+		case ItemPool.VOLCANO_MAP:
+			// A counter was made in case we lost the fight against the
+			// final assassin, but since this dropped we won the fight
+			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
+			TurnCounter.stopCounting( "Nemesis Assassin window end" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
+			// Automatically use the map to open zones
+			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			break;
+
 		case ItemPool.FIRST_PIZZA:
 		case ItemPool.LACROSSE_STICK:
 		case ItemPool.EYE_OF_THE_STARS:
@@ -2253,14 +2263,6 @@ public class ResultProcessor
 			{
 				Preferences.setInteger( "choiceAdventure312", 3 );
 			}
-			break;
-
-		case ItemPool.VOLCANO_MAP:
-			// A counter was made in case we lost the fight against the
-			// final assassin, but since this dropped we won the fight
-			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
-			TurnCounter.stopCounting( "Nemesis Assassin window end" );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
 			break;
 
 		case ItemPool.YEARBOOK_CAMERA:
