@@ -3501,12 +3501,12 @@ public abstract class KoLCharacter
 
 	public static final boolean canEat()
 	{
-		return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
+		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER ) && !Limitmode.limitEating();
 	}
 
 	public static final boolean canDrink()
 	{
-		return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN;
+		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN) && !Limitmode.limitEating();
 	}
 
 	/**

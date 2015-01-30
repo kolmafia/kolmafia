@@ -1434,29 +1434,29 @@ public class QuestManager
 			  monsterName.equals( "topiary kiwi" ) )
 		{
 			// We are still in the Hedge Maze
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
 		}
 		else if ( monsterName.equals( "wall of skin" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
 		}
 		else if ( monsterName.equals( "wall of meat" ) &&
 			  responseText.contains( "the stairs to the next floor are clear" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
 		}
 		else if ( monsterName.equals( "wall of bones" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step8" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
 		}
 		else if ( monsterName.equals( "Your Shadow" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
 		}
 		else if ( monsterName.equals( "Clancy" ) )
 		{
 			// We do not currently have a distinct step for Clancy
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
 		}
 		else if ( monsterName.equals( "Naughty Sorceress (3)" ) ||
 			  monsterName.equals( "The Avatar of Sneaky Pete" ) ||
@@ -1467,7 +1467,7 @@ public class QuestManager
 			  monsterName.equals( "The Rain King" ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step11" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 		}
 		else if ( monsterName.equals( "The Clownlord Beelzebozo" ) )
 		{
