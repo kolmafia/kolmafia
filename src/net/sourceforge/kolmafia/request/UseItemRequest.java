@@ -1175,6 +1175,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.MACGUFFIN_DIARY:
+		{
 			// Make it a RelayRequest since we don't want a charpane refresh
 			RelayRequest request = new RelayRequest( false );
 			request.constructURLString( "diary.php?textversion=1" );
@@ -1190,6 +1191,24 @@ public class UseItemRequest
 			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, status );
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
+		}
+
+		case ItemPool.VOLCANO_MAP:
+		{
+			try
+			{
+				GenericRequest.suppressUpdate( true );
+				GenericRequest request = new GenericRequest( "inv_use.php?which=3&whichitem=3291&pwd" );
+				RequestThread.postRequest( request );
+				// This will redirect to volcanoisland.php
+			}
+			finally
+			{
+				GenericRequest.suppressUpdate( false );
+			}
+			KoLmafia.updateDisplay( "The secret tropical island volcano lair map has been read." );
+			return;
+		}
 
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:

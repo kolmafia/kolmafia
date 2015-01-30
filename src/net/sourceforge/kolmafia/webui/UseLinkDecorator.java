@@ -817,7 +817,7 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, 1, "read", "diary.php?textversion=1" );
 
 			case ItemPool.VOLCANO_MAP:
-				return new UseLink( itemId, 1, "read", "inv_use.php?which=3&whichitem=" );
+				return new UseLink( itemId, 1, "read", "volcanoisland.php?intro=1" );
 
 			case ItemPool.ENCHANTED_BEAN:
 
@@ -1764,10 +1764,11 @@ public abstract class UseLinkDecorator
 			     !this.useLocation.startsWith( "adventure.php" ) &&
 			     !this.useLocation.startsWith( "place.php" ) &&
 			     !this.useLocation.startsWith( "council.php" ) &&
+			     !this.useLocation.startsWith( "guild.php" ) &&
 			     !this.useLocation.startsWith( "wand.php" ) &&
 			     !this.useLocation.startsWith( "diary.php" ) &&
-			     !this.useLocation.startsWith( "cobbsknob.php" ) &&
-			     !this.useLocation.startsWith( "guild.php" ) )
+			     !this.useLocation.startsWith( "volcanoisland.php" ) &&
+			     !this.useLocation.startsWith( "cobbsknob.php" ) )
 			{
 				this.useLocation += "&pwd=" + GenericRequest.passwordHash;
 			}
