@@ -88,7 +88,6 @@ public class PulverizePanel
 				new ClearListener(),
 				new PulverizeListener(),
 				new SmashbotListener(),
-				new WadbotListener(),
 		} );
 
 		this.getElementList().setCellRenderer( ListCellRendererFactory.getPulverizationRenderer() );
@@ -498,71 +497,6 @@ public class PulverizePanel
 		public String toString()
 		{
 			return "send to smashbot";
-		}
-	}
-
-	public class WadbotListener
-		extends ThreadedListener
-	{
-		@Override
-		protected void execute()
-		{
-			if ( KoLConstants.pulverizeQueue.isEmpty() )
-			{
-				InputFieldUtilities.alert( "No items in queue!" );
-				return;
-			}
-
-			String message;
-			if ( KoLmafia.isPlayerOnline( "wadbot" ) )
-			{	// bot online
-				if ( KoLCharacter.canInteract() )
-				{
-					message = "Wadbot is online, and ready to SMASH!";
-				}
-				else
-				{
-					message = "Wadbot is online, but you won't be able to receive your smashed items while you are under hardcore/Ronin restrictions.  Are you sure you want to continue?";
-				}
-			}
-			else
-			{	// bot offline
-				if ( KoLCharacter.canInteract() )
-				{
-					message = "Wadbot is offline, so there will be a delay before you receive your smashed items.  Are you sure you want to continue?";
-				}
-				else
-				{
-					message = "You won't be able to receive your smashed items while you are under hardcore/Ronin restrictions.  Wadbot isn't online, anyway.  Proceed at your own risk.";
-				}
-			}
-
-			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
-				new MsgOption[] {
-					new MsgOption( "receive results as is", "powders" ),
-					new MsgOption( "powders -> nuggets", "nuggets" ),
-					new MsgOption( "also nuggets -> wads", "wads" ),
-				}, null );
-			if ( selected == null )
-			{
-				return;
-			}
-
-			AdventureResult[] items =
-				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
-			KoLConstants.pulverizeQueue.toArray( items );
-			KoLConstants.pulverizeQueue.clear();
-			LockableListModel inv = (LockableListModel)
-				PulverizePanel.this.getElementList().getModel();
-			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
-			SendMessageCommand.send( "wadbot", selected.toMessage(),
-				items, false, true );
-		}
-
-		@Override
-		public String toString()
-		{
-			return "send to wadbot";
 		}
 	}
 }
