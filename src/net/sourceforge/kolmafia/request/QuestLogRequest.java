@@ -320,6 +320,18 @@ public class QuestLogRequest
 			QuestDatabase.isQuestFinished( Quest.PYRAMID ) );
 		Preferences.setBoolean( "bigBrotherRescued", 
 			QuestDatabase.isQuestLaterThan( Quest.SEA_MONKEES, "step1" ) );
+		if ( QuestDatabase.isQuestFinished ( Quest.ISLAND_WAR ) )
+		{
+			Preferences.setString( "warProgress", "finished" );
+		}
+		else if ( QuestDatabase.isQuestLaterThan( Quest.ISLAND_WAR, QuestDatabase.STARTED ) )
+		{
+			Preferences.setString( "warProgress", "started" );
+		}
+		else
+		{
+			Preferences.setString( "warProgress", "unstarted" );
+		}
 	}
 
 	private static void handleQuestText( String response, int source )
