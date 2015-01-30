@@ -244,4 +244,46 @@ public class Limitmode
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
+
+	public static final boolean limitEating()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitDrinking()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitSpleening()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
 }

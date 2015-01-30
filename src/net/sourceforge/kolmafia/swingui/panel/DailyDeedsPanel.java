@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -1296,7 +1297,8 @@ public class DailyDeedsPanel
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean as = Preferences.getBoolean( "_aprilShower" );
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "April Shower" );
-			this.setShown( ( !bm || kf ) && ( have || as ) && allowed );
+			boolean limited = Limitmode.limitClan();
+			this.setShown( ( !bm || kf ) && ( have || as ) && allowed && !limited );
 			this.setEnabled( !as );
 			box.setEnabled( !as );
 		}
@@ -1768,6 +1770,7 @@ public class DailyDeedsPanel
 			this.itemId = itemId;
 			this.addItem( itemId );
 			this.addListener( preference );
+			this.addListener( "(character)" );
 			this.addButton( command );
 		}
 
@@ -1788,6 +1791,7 @@ public class DailyDeedsPanel
 			this.itemId = itemId;
 			this.addItem( itemId );
 			this.addListener( preference );
+			this.addListener( "(character)" );
 			this.addComboButton( command, displayText );
 		}
 
@@ -1811,6 +1815,7 @@ public class DailyDeedsPanel
 			this.maxUses = maxUses;
 			this.addItem( itemId );
 			this.addListener( preference );
+			this.addListener( "(character)" );
 			this.addComboButton( command, displayText );
 			this.addLabel( "" );
 		}
@@ -1837,6 +1842,7 @@ public class DailyDeedsPanel
 			this.maxUses = maxUses;
 			this.addItem( itemId );
 			this.addListener( preference );
+			this.addListener( "(character)" );
 			this.addComboButton( command, displayText, toolTip );
 			this.addLabel( "" );
 		}
@@ -2054,7 +2060,8 @@ public class DailyDeedsPanel
 		{
 			int nv = Preferences.getInteger( "nunsVisits" );
 			boolean snc = Preferences.getString( "sidequestNunsCompleted" ).equals( "none" );
-			this.setShown( !snc );
+			boolean limited = Limitmode.limitZone( "IsleWar" );
+			this.setShown( !snc && !limited );
 			this.setEnabled( nv < 3 && !snc );
 			this.setText( nv + "/3" );
 		}
@@ -2079,7 +2086,8 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) );
+			boolean limited = Limitmode.limitZone( "The Sea" );
+			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) && !limited);
 			this.setEnabled( !Preferences.getBoolean( this.visited ) );
 		}
 	}
@@ -2121,8 +2129,9 @@ public class DailyDeedsPanel
 		{
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
+			boolean limited = Limitmode.limitCampground();
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
-			this.setShown( ( !bm || kf ) && ( nu > 0 ) );
+			this.setShown( ( !bm || kf ) && ( nu > 0 ) && !limited );
 			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
 			this.setText( nu == 0 ? "" : ("+" + nu*5 + "% all, 10 turns") );
 		}
@@ -2146,9 +2155,10 @@ public class DailyDeedsPanel
 		{
 			boolean cv = Preferences.getBoolean( "concertVisited" );
 			String side = Preferences.getString( "sidequestArenaCompleted" );
+			boolean limited = Limitmode.limitZone( "IsleWar" );
 			if ( side.equals( "fratboy" ) )
 			{
-				this.setShown( true );
+				this.setShown( true && !limited );
 				this.setEnabled( !cv );
 				this.buttonText( 0, "concert Elvish", "+10% all stats, 20 turns" );
 				this.buttonText( 1, "concert Winklered", "+40% meat, 20 turns" );
@@ -2156,7 +2166,7 @@ public class DailyDeedsPanel
 			}
 			else if ( side.equals( "hippy" ) )
 			{
-				this.setShown( true );
+				this.setShown( true && !limited );
 				this.setEnabled( !cv );
 				this.buttonText( 0, "concert Moon'd", "+5 stats per fight, 20 turns" );
 				this.buttonText( 1, "concert Dilated Pupils", "+20% items, 20 turns" );
@@ -2187,7 +2197,8 @@ public class DailyDeedsPanel
 		{
 			int nr = Preferences.getInteger( "timesRested" );
 			int fr = KoLCharacter.freeRestsAvailable();
-			this.setShown( fr > 0 );
+			boolean limited = Limitmode.limitCampground() && Limitmode.limitZone( "Mountain" );
+			this.setShown( fr > 0 && !limited );
 			this.setEnabled( nr < fr );
 			this.setText( nr + "/" + fr );
 		}
@@ -2213,7 +2224,8 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
 			int ka = Preferences.getInteger( "knownAscensions" );
-			this.setShown( kf || lfc == ka );
+			boolean limited = Limitmode.limitZone( "Friars" );
+			this.setShown( ( kf || lfc == ka ) && !limited );
 			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
@@ -2263,7 +2275,8 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			this.setShown( QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) );
+			boolean limited = Limitmode.limitZone( "The Sea" );
+			this.setShown( QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) && !limited );
 			this.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) );
 			box.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) ); // this.setEnabled will not disable the combo box, for whatever reason
 		}
@@ -2304,7 +2317,8 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-			this.setShown( bm );
+			boolean limited = Limitmode.limitZone( "BadMoon" );
+			this.setShown( bm && !limited );
 			this.setEnabled( !Preferences.getBoolean( "styxPixieVisited" ) &&
 				bm );
 		}
@@ -2353,8 +2367,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean limited = Limitmode.limitClan();
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
-			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && !limited );
 			this.setEnabled( nf < 5 );
 			this.setText( nf + "/5" );
 		}
@@ -2382,8 +2397,9 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Pool Table" );
+			boolean limited = Limitmode.limitClan();
 			int nf = Preferences.getInteger( "_poolGames" );
-			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && allowed );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && allowed && !limited );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
 		}
@@ -2409,8 +2425,9 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Crimbo Tree" );
+			boolean limited = Limitmode.limitClan();
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
-			this.setShown( ( !bm || kf ) && tree && allowed );
+			this.setShown( ( !bm || kf ) && tree && allowed && !limited );
 			this.setEnabled( ctd == 0 );
 			this.setText( ctd + " days to go." );
 		}
@@ -2512,10 +2529,11 @@ public class DailyDeedsPanel
 		{
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
+			boolean limited = Limitmode.limitZone( "RabbitHole" );
 			int have = InventoryManager.getCount( ItemPool.DRINK_ME_POTION );
 			if ( Preferences.getBoolean( "_madTeaParty" ) )
 			{
-				this.setShown( !bm || kf );
+				this.setShown( ( !bm || kf ) && !limited );
 				if ( have == 1 )
 				{
 					this.setText( "Mad Tea Party used, have " + have + " potion");
@@ -2527,7 +2545,7 @@ public class DailyDeedsPanel
 			}
 			else
 			{
-				this.setShown( have > 0 );
+				this.setShown( have > 0 && !limited );
 				if ( have == 1 )
 				{
 					this.setText( "Mad Tea Party not used, have " + have + " potion" );
@@ -2555,8 +2573,9 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			boolean bf = !KoLCharacter.isHardcore() ||
-				(KoLCharacter.isHardcore() && KoLCharacter.hasSkill( "Summon BRICKOs" ));
+			boolean limited = Limitmode.limitMall();
+			boolean bf = ( !KoLCharacter.isHardcore() && !limited ) ||
+				KoLCharacter.hasSkill( "Summon BRICKOs" );
 			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
 			FamiliarData goth = KoLCharacter.findFamiliar( FamiliarPool.ARTISTIC_GOTH_KID );
 			boolean hh = hipster != null && hipster.canEquip() ;
@@ -3364,6 +3383,7 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Fax Machine" );
+			boolean limited = Limitmode.limitClan();
 			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
 				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
 				|| Preferences.getBoolean( "_photocopyUsed" );
@@ -3376,7 +3396,7 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
-			this.setShown( photo || (!bm || kf) && have && allowed );
+			this.setShown( photo || (!bm || kf) && have && allowed && !limited );
 		}
 	}
 
@@ -3483,9 +3503,10 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
+			boolean limited = Limitmode.limitClan();
 			int nf = Preferences.getInteger( "_chipBags" );
 			this.setShown( KoLCharacter.hasClan() &&
-				KoLCharacter.canInteract() );
+				KoLCharacter.canInteract() && !limited );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
 		}
@@ -3506,8 +3527,9 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean dun = Preferences.getBoolean( "_ballpit" );
+			boolean limited = Limitmode.limitClan();
 			this.setShown( KoLCharacter.hasClan() &&
-				KoLCharacter.canInteract());
+				KoLCharacter.canInteract() && !limited );
 			this.setEnabled( !dun );
 		}
 	}
@@ -3606,11 +3628,12 @@ public class DailyDeedsPanel
 			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
 				|| ( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
 			boolean active = KoLConstants.activeEffects.contains( EffectPool.get( Effect.DOWN_THE_RABBIT_HOLE ) );
+			boolean limited = Limitmode.limitZone( "RabbitHole" );
 
 			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 
-			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) );
+			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) && !limited );
 
 			setComboTarget(btn, "");
 		}
@@ -3696,7 +3719,8 @@ public class DailyDeedsPanel
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean sp = Preferences.getBoolean( "_olympicSwimmingPool" );
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Clan Swimming Pool" );
-			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed );
+			boolean limited = Limitmode.limitClan();
+			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed && !limited );
 			this.setEnabled( !sp );
 		}
 	}
@@ -3855,7 +3879,12 @@ public class DailyDeedsPanel
 			boolean unlocked = Preferences.getInteger( "lastArcadeAscension" ) == KoLCharacter.getAscensions();
 			boolean unlockable = unlocked || // Having those items doesn't matter if it's already unlocked
 			        InventoryManager.hasItem( ItemPool.GG_TOKEN ) || InventoryManager.hasItem( ItemPool.GG_TICKET );
+			boolean limited = Limitmode.limitClan();
 
+			if ( limited )
+			{
+				this.setShown( false );
+			}
 			if ( !unlocked && unlockable )
 			{
 				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
@@ -3899,7 +3928,8 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = Preferences.getBoolean( "chateauAvailable" );
 			boolean allowed = StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
-			this.setShown( ( !bm || kf ) && have && allowed );
+			boolean limited = Limitmode.limitZone( "Mountain" );
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
 
 			boolean harvested = Preferences.getBoolean( "_chateauDeskHarvested" );
 

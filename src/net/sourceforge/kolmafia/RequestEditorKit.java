@@ -902,6 +902,10 @@ public class RequestEditorKit
 			{
 				url = "place.php?whichplace=desertbeach&action=db_pyramid1";
 			}
+			else if ( locname.contains( "An Ancient Altar" ) )
+			{
+				url = "place.php?whichplace=spelunky&action=spelunky_side6";
+			}
 			else
 			{
 				KoLAdventure adventure = AdventureDatabase.getAdventure( locname );

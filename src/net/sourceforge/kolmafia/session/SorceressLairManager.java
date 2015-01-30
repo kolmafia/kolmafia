@@ -429,12 +429,12 @@ public abstract class SorceressLairManager
 			// Claim your prize
 			if ( responseText.contains( "World's Best Adventurer sash" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step1" );
 			}
 			return;
 		}
 
-		QuestDatabase.setQuestIfBetter( Quest.FINAL, "step1" );
+		QuestDatabase.setQuestIfBetter( Quest.FINAL, QuestDatabase.STARTED );
 
 		// Are we entering a contest?
 		if ( decision >= 1 && decision <= 3 )
@@ -633,7 +633,7 @@ public abstract class SorceressLairManager
 			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
 			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			}
 			return;
 		}
@@ -872,47 +872,47 @@ public abstract class SorceressLairManager
 	{
 		{
 			"nstower_regdesk.gif",
-			"step1",
+			QuestDatabase.STARTED,
 		},
 		{
 			"nstower_courtyard.gif",
-			"step2",
+			"step1",
 		},
 		{
 			"nstower_hedgemaze.gif",
-			"step3",
+			"step2",
 		},
 		{
 			"nstower_towerdoor.gif",
-			"step4",
+			"step3",
 		},
 		{
 			"nstower_tower1.gif",
-			"step5",
+			"step4",
 		},
 		{
 			"nstower_tower2.gif",
-			"step6",
+			"step5",
 		},
 		{
 			"nstower_tower3.gif",
-			"step7",
+			"step6",
 		},
 		{
 			"nstower_tower4.gif",
-			"step8",
+			"step7",
 		},
 		{
 			"nstower_tower5.gif",
-			"step9",
+			"step8",
 		},
 		{
 			"chamberlabel.gif",
-			"step10",
+			"step9",
 		},
 		{
 			"kingprism",
-			"step11",
+			"step10",
 		},
 		{
 			"gash.gif",
@@ -947,7 +947,7 @@ public abstract class SorceressLairManager
 		// indication of how far you are in the crowd.
 
 		// If we are past the contests, mark them all finished.
-		if ( QuestDatabase.isQuestLaterThan( Quest.FINAL, "step1" ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.FINAL, QuestDatabase.STARTED ) )
 		{
 			Preferences.setInteger( "nsContestants1", 0 );
 			Preferences.setInteger( "nsContestants2", 0 );
@@ -1010,12 +1010,12 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
 		String status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( !status.equals( "step3" ) )
+		if ( !status.equals( "step2" ) )
 		{
 			String message =
-				status.equals( "unstarted" ) ?
+				status.equals( QuestDatabase.UNSTARTED ) ?
 				"You haven't been given the quest to fight the Sorceress!" :
-				QuestDatabase.isQuestLaterThan( status, "step3" ) ?
+				QuestDatabase.isQuestLaterThan( status, "step2" ) ?
 				"You have already completed the Hedge Maze." :
 				"You haven't reached the Hedge Maze yet.";
 
@@ -1153,7 +1153,7 @@ public abstract class SorceressLairManager
 
 		KoLmafia.updateDisplay( "Entering the Hedge Maze..." );
 
-		while ( status.equals( "step3" ) )
+		while ( status.equals( "step2" ) )
 		{
 			GenericRequest request = new PlaceRequest( "nstower", "ns_03_hedgemaze" );
 			RequestThread.postRequest( request );
@@ -1186,12 +1186,12 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
 		String status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( !status.equals( "step4" ) )
+		if ( !status.equals( "step3" ) )
 		{
 			String message =
-				status.equals( "unstarted" ) ?
+				status.equals( QuestDatabase.UNSTARTED ) ?
 				"You haven't been given the quest to fight the Sorceress!" :
-				QuestDatabase.isQuestLaterThan( status, "step4" ) ?
+				QuestDatabase.isQuestLaterThan( status, "step3" ) ?
 				"You have already opened the Tower Door." :
 				"You haven't reached the Tower Door yet.";
 
@@ -1248,7 +1248,7 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
 
 		status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( status.equals( "step5" ) )
+		if ( status.equals( "step4" ) )
 		{
 			KoLmafia.updateDisplay( "Tower Door open!" );
 		}
