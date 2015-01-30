@@ -62,6 +62,9 @@ public class MonsterStatusTracker
 	private static int attackManuel = 0;
 	private static int defenseManuel = 0;
 	private static boolean manuelFound = false;
+	private static int originalHealth = 0;
+	private static int originalAttack = 0;
+	private static int originalDefense = 0;
 
 	public static final void reset()
 	{
@@ -123,6 +126,10 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
 		}
 
+		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
+		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
+		MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+
 		MonsterStatusTracker.lastMonsterName = monsterName;
 	}
 
@@ -176,7 +183,7 @@ public class MonsterStatusTracker
 			return MonsterStatusTracker.healthManuel;
 		}
 
-		return MonsterStatusTracker.monsterData.getHP() - MonsterStatusTracker.healthModifier;
+		return MonsterStatusTracker.originalHealth - MonsterStatusTracker.healthModifier;
 	}
 
 	public static final void healMonster( int amount )
@@ -222,7 +229,7 @@ public class MonsterStatusTracker
 			return MonsterStatusTracker.attackManuel;
 		}
 
-		int baseAttack = MonsterStatusTracker.monsterData.getAttack();
+		int baseAttack = MonsterStatusTracker.originalAttack;
 		int adjustedAttack = baseAttack + MonsterStatusTracker.attackModifier;
 		return baseAttack == 0 ? adjustedAttack: Math.max( adjustedAttack, 1 );
 	}
@@ -279,7 +286,7 @@ public class MonsterStatusTracker
 			return MonsterStatusTracker.defenseManuel;
 		}
 
-		int baseDefense = MonsterStatusTracker.monsterData.getDefense();
+		int baseDefense = MonsterStatusTracker.originalDefense;
 		int adjustedDefense = baseDefense + MonsterStatusTracker.defenseModifier;
 		return baseDefense == 0 ? adjustedDefense : Math.max( adjustedDefense, 1 );
 	}
@@ -376,6 +383,15 @@ public class MonsterStatusTracker
 
 	public static void setManuelStats( int attack, int defense, int hp )
 	{
+		// If these are the first stats from Manuel
+		if ( !manuelFound )
+		{
+			// Save them as the monster's original stats
+			MonsterStatusTracker.originalAttack = attack;
+			MonsterStatusTracker.originalDefense = defense;
+			MonsterStatusTracker.originalHealth = hp;
+		}
+
 		MonsterStatusTracker.attackManuel = attack;
 		MonsterStatusTracker.defenseManuel = defense;
 		MonsterStatusTracker.healthManuel = hp;

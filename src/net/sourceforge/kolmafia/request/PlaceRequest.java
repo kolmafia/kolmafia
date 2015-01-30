@@ -129,9 +129,9 @@ public class PlaceRequest
 				UntinkerRequest.parseResponse( urlString, responseText );
 			}
 		}
-		else if ( place.equals( "junggate" ) )
+		else if ( place.startsWith( "junggate" ) )
 		{
-			UseItemRequest.parseConsumption( responseText, false );
+			UseItemRequest.parseJungGate( responseText );
 		}
 		else if ( place.equals( "knoll_friendly" ) )
 		{

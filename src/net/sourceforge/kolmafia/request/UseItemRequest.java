@@ -1799,6 +1799,39 @@ public class UseItemRequest
 		UseItemRequest.parseConsumption( "", true );
 	}
 
+	public static final void parseJungGate( final String responseText )
+	{
+		if ( UseItemRequest.lastItemUsed == null )
+		{
+			return;
+		}
+
+		AdventureResult item = UseItemRequest.lastItemUsed;
+		int itemId = item.getItemId();
+
+		UseItemRequest.lastUpdate = "";
+		UseItemRequest.lastItemUsed = null;
+		UseItemRequest.lastHelperUsed = null;
+
+		switch ( itemId )
+		{
+		case ItemPool.SUSPICIOUS_JAR:
+		case ItemPool.GOURD_JAR:
+		case ItemPool.MYSTIC_JAR:
+		case ItemPool.OLD_MAN_JAR:
+		case ItemPool.ARTIST_JAR:
+		case ItemPool.MEATSMITH_JAR:
+		case ItemPool.JICK_JAR:
+			// You may have succeeded
+			if ( responseText.contains( "You open the jar and peer inside." ) )
+			{
+				CampgroundRequest.setCampgroundItem( itemId, 1 );
+				Preferences.setBoolean( "_psychoJarUsed", true );
+			}
+			return;
+		}
+	}
+
 	public static final void parseConsumption( final String responseText, final boolean showHTML )
 	{
 		if ( UseItemRequest.lastItemUsed == null )
@@ -4540,26 +4573,6 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.CRIMBO_HOT_MUG, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_TREE_FLOCKER, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_RUDOLPH_DOLL, -1 );
-			return;
-
-		case ItemPool.SUSPICIOUS_JAR:
-		case ItemPool.GOURD_JAR:
-		case ItemPool.MYSTIC_JAR:
-		case ItemPool.OLD_MAN_JAR:
-		case ItemPool.ARTIST_JAR:
-		case ItemPool.MEATSMITH_JAR:
-		case ItemPool.JICK_JAR:
-			// You may have been successful
-			if ( responseText.contains( "You open the jar and peer inside." ) )
-			{
-				CampgroundRequest.setCampgroundItem( itemId, 1 );
-				Preferences.setBoolean( "_psychoJarUsed", true );
-			}
-			else
-			{
-				// If not, don't remove it
-				ResultProcessor.processResult( item );
-			}
 			return;
 
 		case ItemPool.FISHY_PIPE:

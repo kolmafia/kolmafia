@@ -981,6 +981,16 @@ public abstract class UseLinkDecorator
 
 			switch ( itemId )
 			{
+			case ItemPool.BATSKIN_BELT:
+			case ItemPool.BONERDAGON_SKULL:
+				// If we found it in a battle, take it to the
+				// council to complete the quest.
+				if ( combatResults )
+				{
+					return new UseLink( itemId, "council", "council.php" );
+				}
+				break;
+
 			case ItemPool.WORM_RIDING_HOOKS:
 
 				// Can you even get the hooks if the desert is fully explored?
@@ -1011,21 +1021,23 @@ public abstract class UseLinkDecorator
 			case ItemPool.ANCIENT_SAUCEHELM:
 			case ItemPool.DISCO_FRO_PICK:
 			case ItemPool.EL_SOMBRERO_DE_LOPEZ:
+			{
 				// If we "acquire" the Nemesis hat from
 				// a fight, give a link to the guild to collect
 				// the reward as well as "equip" link.
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
 				if ( combatResults )
 				{
 					ArrayList<UseLink> uses = new ArrayList<UseLink>();
-					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 					// scg = Same Class in Guild
 					uses.add( new UseLink( itemId, "guild", "guild.php?place=scg" ) );
-					uses.add( new UseLink( itemId, itemCount,
-							       getEquipmentSpeculation( "equip", itemId, -1 ),
-							       "inv_equip.php?which=2&action=equip&whichitem=" ) );
-
+					uses.add( equipLink );
 					return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 				}
+				return equipLink;
+			}
 
 			case ItemPool.INFERNAL_SEAL_CLAW:
 			case ItemPool.TURTLE_POACHER_GARTER:
@@ -1502,8 +1514,6 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GOLD_BOWLING_BALL:
 		case ItemPool.REALLY_DENSE_MEAT_STACK:
-		case ItemPool.BATSKIN_BELT:
-		case ItemPool.BONERDAGON_SKULL:
 			if ( !combatResults ) break;
 			/*FALLTHRU*/
 		case ItemPool.HOLY_MACGUFFIN:
