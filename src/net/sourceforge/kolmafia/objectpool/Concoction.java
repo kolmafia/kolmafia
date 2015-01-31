@@ -1284,7 +1284,7 @@ public class Concoction
 
 	public int getAdventuresNeeded( final int quantityNeeded )
 	{
-		return getAdventuresNeeded( quantityNeeded, false );
+		return this.getAdventuresNeeded( quantityNeeded, false );
 	}
 	
 	public int getAdventuresNeeded( final int quantityNeeded, boolean considerInigos )
@@ -1311,6 +1311,13 @@ public class Concoction
 		}
 
 		int runningTotal = ConcoctionDatabase.getAdventureUsage( this.mixingMethod ) * create;
+		int yield = this.getYield();
+		if ( yield > 1 )
+		{
+			// Determine how many turns will really be used to make
+			// this many of the item.
+			runningTotal = ( runningTotal + yield - 1 ) / yield;
+		}
 
 		// If this creation method takes no adventures, no recursion
 
