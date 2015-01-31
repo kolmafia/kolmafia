@@ -1412,6 +1412,10 @@ public class ClanLoungeRequest
 	public static boolean availableSpeakeasyDrink( final String itemName )
 	{
 		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
+		if ( index < 0 )
+		{
+			return false;
+		}
 		Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get( index );
 		return ConcoctionDatabase.getUsables().contains( item );
 	}
@@ -1419,6 +1423,10 @@ public class ClanLoungeRequest
 	private static Concoction addSpeakeasyDrink( final String itemName )
 	{
 		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
+		if ( index < 0 )
+		{
+			return null;
+		}
 		Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get( index );
 		if ( ConcoctionDatabase.getUsables().contains( item ) )
 		{
