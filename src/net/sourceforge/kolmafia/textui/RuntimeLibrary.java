@@ -143,6 +143,7 @@ import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -3846,7 +3847,10 @@ public abstract class RuntimeLibrary
 		String it = ItemDatabase.getItemName( (int) item.intValue() );
 		return new Value(
 			NPCStoreDatabase.contains( it, true ) ?
-			NPCStoreDatabase.price( it ) : 0 );
+			NPCStoreDatabase.price( it ) :
+			ClanLoungeRequest.availableSpeakeasyDrink( it ) ?
+			ClanLoungeRequest.speakeasyNameToCost(  it ).intValue() :
+			0 );
 	}
  
 	public static Value shop_price( Interpreter interpreter, final Value item )
