@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 
 public class ClanHallRequest
 {
-	private static final Pattern CLAN_NAME_PATTERN = Pattern.compile( "<center><b>(.*?)</b><br><span class=small>" );
+	private static final Pattern CLAN_NAME_PATTERN = Pattern.compile( "<center><b>(.*?)</b>" );
 
 	public static void parseResponse( String location, String responseText )
 	{
