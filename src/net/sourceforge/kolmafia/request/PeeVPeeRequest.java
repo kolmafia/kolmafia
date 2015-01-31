@@ -290,8 +290,8 @@ public class PeeVPeeRequest
 			{
 				continue;
 			}
-			int index = blocks[i].lastIndexOf( " lost " );
 			String printedStatMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
+			int index = printedStatMessage.indexOf( " lost " );
 			String statMessage = printedStatMessage.substring( index + 6 );
 			String[] stats = statMessage.split( " " );
 			int statsLost = -1 * Integer.parseInt( stats[0] );
