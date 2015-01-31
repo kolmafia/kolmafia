@@ -195,7 +195,6 @@ public class CampgroundRequest
 		ItemPool.LED_CLOCK,
 		ItemPool.LUCKY_CAT_STATUE,
 		ItemPool.MEAT_GLOBE,
-		ItemPool.PICTURE_OF_YOU,
 		ItemPool.TIN_ROOF,
 
 		// Inside dwelling: "Tasteful" items

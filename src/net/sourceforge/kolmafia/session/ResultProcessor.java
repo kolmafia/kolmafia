@@ -1769,6 +1769,9 @@ public class ResultProcessor
 
 		case ItemPool.BABY_GHOSTS:
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_BABIES, "step1" );
+			ResultProcessor.removeItem( ItemPool.DUSTY_POPPET );
+			ResultProcessor.removeItem( ItemPool.RICKETY_ROCKING_HORSE );
+			ResultProcessor.removeItem( ItemPool.ANTIQUE_JACK_IN_THE_BOX );
 			break;
 
 		case ItemPool.GHOST_FORMULA:
