@@ -291,7 +291,7 @@ public class PeeVPeeRequest
 				continue;
 			}
 			String printedStatMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
-			int index = printedStatMessage.indexOf( " lost " );
+			int index = printedStatMessage.lastIndexOf( " lost " );
 			String statMessage = printedStatMessage.substring( index + 6 );
 			String[] stats = statMessage.split( " " );
 			int statsLost = -1 * Integer.parseInt( stats[0] );
