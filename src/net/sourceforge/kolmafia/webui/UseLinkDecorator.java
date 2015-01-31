@@ -1592,7 +1592,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.HACIENDA_KEY:
 
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
-			useLocation = "volcanoisland.php?action=tniat";
+			useLocation = "volcanoisland.php?action=tniat&pwd=" + GenericRequest.passwordHash;
 			break;
 
 		case ItemPool.NOSTRIL_OF_THE_SERPENT:
