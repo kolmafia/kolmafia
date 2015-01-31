@@ -125,6 +125,7 @@ Black Market	blackmarket	black sheepskin diploma	300	ROW285
 Black Market	blackmarket	can of black paint	1000	ROW282
 Black Market	blackmarket	forged identification documents	5000	ROW281
 Black Market	blackmarket	exotic parrot egg	500000	ROW287
+Black Market	blackmarket	Red Zeppelin ticket	5000	ROW289
 
 The General Store	m	Ben-Gal&trade; Balm	24
 The General Store	m	glittery mascara	24
