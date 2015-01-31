@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.lang.StringBuilder;
-
-import java.util.Arrays;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +41,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -55,8 +50,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -285,16 +278,16 @@ public class SpelunkyRequest
 		// Have we gained a buddy? Log it
 		if ( turnsLeft != 40 && !buddy.equals( "" ) && !spelunkyStatus.contains( buddy ) )
 		{
-			StringBuffer buddyMessage = new StringBuffer( "" );
+			StringBuilder buddyMessage = new StringBuilder( "" );
 			buddyMessage.append( "You have found a new Buddy, " );
 			buddyMessage.append( buddy );
 			String message = buddyMessage.toString();
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
-	
+
 		// Write status string
-		StringBuffer statusString = new StringBuffer( "" );
+		StringBuilder statusString = new StringBuilder( "" );
 		statusString.append( "Turns: " );
 		statusString.append( turnsLeft );
 		if ( ghostWaving )
@@ -316,7 +309,7 @@ public class SpelunkyRequest
 		Preferences.setString( "spelunkyStatus", statusString.toString() );
 
 		String upgradeString = Preferences.getString( "spelunkyUpgrades" );
-		StringBuffer newUpgradeString = new StringBuffer( upgradeString );
+		StringBuilder newUpgradeString = new StringBuilder( upgradeString );
 
 		// If we have all upgrades, no point looking at upgrades
 		// If first turn, update upgrades unlocked
@@ -395,7 +388,7 @@ public class SpelunkyRequest
 		}
 		if ( iceCavesUnlocked && !unlocks.contains( "Ice Caves" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -403,7 +396,7 @@ public class SpelunkyRequest
 		}
 		if ( templeRuinsUnlocked && !unlocks.contains( "Temple Ruins" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -411,7 +404,7 @@ public class SpelunkyRequest
 		}
 		if ( snakePitUnlocked && !unlocks.contains( "SnakePit" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -419,7 +412,7 @@ public class SpelunkyRequest
 		}
 		if ( spiderHoleUnlocked && !unlocks.contains( "Spider Hole" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -427,7 +420,7 @@ public class SpelunkyRequest
 		}
 		if ( beehiveUnlocked && !unlocks.contains( "Beehive" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -435,7 +428,7 @@ public class SpelunkyRequest
 		}
 		if ( burialGroundUnlocked && !unlocks.contains( "Burial Ground" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -443,7 +436,7 @@ public class SpelunkyRequest
 		}
 		if ( crashedUFOUnlocked && !unlocks.contains( "Crashed UFO" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -451,7 +444,7 @@ public class SpelunkyRequest
 		}
 		if ( altarUnlocked && !unlocks.contains( "Altar" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -459,7 +452,7 @@ public class SpelunkyRequest
 		}
 		if ( cityOfGooooldUnlocked && !unlocks.contains( "City of Goooold" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -467,7 +460,7 @@ public class SpelunkyRequest
 		}
 		if ( LOLmecLairUnlocked && !unlocks.contains( "LOLmec's Lair" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -475,7 +468,7 @@ public class SpelunkyRequest
 		}
 		if ( HellUnlocked && !unlocks.contains( "Hell" ) )
 		{
-			if ( !unlocks.equals( "" ) || !newUnlocks.equals( "" ) )
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
 			{
 				newUnlocks.append( ", " );
 			}
@@ -483,7 +476,7 @@ public class SpelunkyRequest
 		}
 
 		// Write status string
-		StringBuffer statusString = new StringBuffer( "" );
+		StringBuilder statusString = new StringBuilder( "" );
 		statusString.append( "Turns: " );
 		statusString.append( turnsLeft );
 		if ( ghostWaving )
@@ -505,7 +498,7 @@ public class SpelunkyRequest
 		Preferences.setString( "spelunkyStatus", statusString.toString() );
 
 		String upgradeString = Preferences.getString( "spelunkyUpgrades" );
-		StringBuffer newUpgradeString = new StringBuffer( upgradeString );
+		StringBuilder newUpgradeString = new StringBuilder( upgradeString );
 
 		// If we have all upgrades, no point looking at upgrades
 		// If first turn, update unlocks
@@ -538,7 +531,7 @@ public class SpelunkyRequest
 	public static void parseChoice( final int choice, final String responseText, final int decision )
 	{
 		// Sacrifice doesn't increment win count or counter
-		if ( choice != 1041 )
+		if ( choice != 1040 && choice != 1041 )
 		{
 			Preferences.resetToDefault( "spelunkyWinCount" );
 			// Shopkeeper doesn't increment the counter til you leave or fight
@@ -604,7 +597,7 @@ public class SpelunkyRequest
 				Matcher matcher = SpelunkyRequest.BUDDY_STATUS_PATTERN.matcher( spelunkyStatus );
 				String buddy = matcher.find() ? matcher.group( 1 ) : "";
 
-				StringBuffer sacrificeMessage = new StringBuffer( "" );
+				StringBuilder sacrificeMessage = new StringBuilder( "" );
 				sacrificeMessage.append( "You have sacrificed your Buddy, " );
 				sacrificeMessage.append( buddy );
 				String message = sacrificeMessage.toString();
@@ -644,14 +637,14 @@ public class SpelunkyRequest
 	public static void upgrade( final int choice )
 	{
 		String upgradeString = Preferences.getString( "spelunkyUpgrades" );
-		StringBuffer newUpgradeString = new StringBuffer( upgradeString );
+		StringBuilder newUpgradeString = new StringBuilder( upgradeString );
 
 		if ( choice >= 1 && choice <= 9 && !upgradeString.equals( "YYYYYYYYY" ) )
 		{
 			newUpgradeString.replace( choice - 1, choice, "Y" );
-			
+
 			// Log upgrade
-			StringBuffer upgradeMessage = new StringBuffer( "" );
+			StringBuilder upgradeMessage = new StringBuilder( "" );
 			upgradeMessage.append( "Spelunky Finished. Upgrade chosen is " );
 			switch( choice )
 			{
@@ -710,7 +703,7 @@ public class SpelunkyRequest
 			String upgradeString = Preferences.getString( "spelunkyUpgrades" );
 			if ( choice == 4 && !upgradeString.equals( "YYYYYYYYY" ) )
 			{
-				StringBuffer newUpgradeString = new StringBuffer( upgradeString );
+				StringBuilder newUpgradeString = new StringBuilder( upgradeString );
 				newUpgradeString.replace( 4, 5, "Y" );
 				Preferences.setString( "spelunkyUpgrades", newUpgradeString.toString() );
 			}
