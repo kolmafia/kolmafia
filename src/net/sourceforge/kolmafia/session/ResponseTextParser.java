@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SeaMerkinRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.ShowClanRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -414,41 +415,6 @@ public class ResponseTextParser
 			ShrineRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1 )
-		{
-			FamiliarData.registerFamiliarData( responseText );
-		}
-
-		else if ( location.startsWith( "familiarbinger.php" ) )
-		{
-			UseItemRequest.parseBinge( location, responseText );
-		}
-
-		else if ( location.startsWith( "galaktik.php" ) )
-		{
-			GalaktikRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "gamestore.php" ) )
-		{
-			GameShoppeRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "guild.php" ) )
-		{
-			GuildRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "hermit.php" ) )
-		{
-			HermitRequest.parseHermitTrade( location, responseText );
-		}
-
-		else if ( location.startsWith( "heydeze.php" ) )
-		{
-			HeyDezeRequest.parseResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "desc_skill.php" ) && location.indexOf( "self=true" ) != -1 )
 		{
 			Matcher m = ResponseTextParser.NEWSKILL2_PATTERN.matcher( location );
@@ -500,7 +466,44 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "familiar.php" ) )
 		{
-			FamiliarRequest.parseResponse( location, responseText );
+			if ( !location.contains( "ajax=1" ) )
+			{
+				FamiliarData.registerFamiliarData( responseText );
+			}
+			else
+			{
+				FamiliarRequest.parseResponse( location, responseText );
+			}
+		}
+
+		else if ( location.startsWith( "familiarbinger.php" ) )
+		{
+			UseItemRequest.parseBinge( location, responseText );
+		}
+
+		else if ( location.startsWith( "galaktik.php" ) )
+		{
+			GalaktikRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "gamestore.php" ) )
+		{
+			GameShoppeRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "guild.php" ) )
+		{
+			GuildRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "hermit.php" ) )
+		{
+			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		else if ( location.startsWith( "heydeze.php" ) )
+		{
+			HeyDezeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "friars.php" ) )
@@ -699,6 +702,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "shop.php" ) )
 		{
 			NPCPurchaseRequest.parseShopResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "showclan.php" ) )
+		{
+			ShowClanRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "skills.php" ) )
