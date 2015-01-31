@@ -3849,7 +3849,7 @@ public abstract class RuntimeLibrary
 			NPCStoreDatabase.contains( it, true ) ?
 			NPCStoreDatabase.price( it ) :
 			ClanLoungeRequest.availableSpeakeasyDrink( it ) ?
-			ClanLoungeRequest.speakeasyNameToCost(  it ).intValue() :
+			ClanLoungeRequest.speakeasyNameToCost( it ).intValue() :
 			0 );
 	}
  

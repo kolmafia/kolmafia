@@ -168,27 +168,24 @@ public abstract class ClanManager
 
 	public static final void setClanName( String name )
 	{
-		Boolean changed = false;
+		boolean changed = false;
 		if ( name == null )
 		{
 			changed = ClanManager.clanName != null;
 		}
+		else if ( ClanManager.clanName != null )
+		{
+			changed = !ClanManager.clanName.equals( name );
+		}
 		else
 		{
-			if ( ClanManager.clanName != null )
-			{
-				changed = !ClanManager.clanName.equals( name );
-			}
-			else
-			{
-				changed = true;
-			}
+			changed = true;
 		}
 		KoLCharacter.setClan( name != null );
 		if ( changed )
 		{
-			// Reset most clan information, but set clan Id already set correctly,
-			// so set Id and name
+			// Reset most clan information, but clanId already set
+			// correctly, so save it and set Id and name
 			clanId = ClanManager.clanId;
 			ClanManager.clearCache();
 			ClanManager.clanId = clanId;

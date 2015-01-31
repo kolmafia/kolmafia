@@ -2587,7 +2587,9 @@ public class GenericRequest
 		{
 			externalUpdate = true;
 		}
-		else if ( path.startsWith( "desc_" ) )
+		else if ( path.startsWith( "desc_" ) ||
+			  path.startsWith( "clan_hall.php" ) ||
+			  path.startsWith( "showclan.php" ) )
 		{
 			externalUpdate = true;
 		}

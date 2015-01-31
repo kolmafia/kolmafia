@@ -40,27 +40,39 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 
-public class ClanHallRequest
+public class ShowClanRequest
 {
-	private static final Pattern CLAN_NAME_PATTERN = Pattern.compile( "<center><b>(.*?)</b><br><span class=small>" );
+	// showclan.php?action=joinclan&pwd&whichclan=38808&ajax=1&confirm=1
 
 	public static void parseResponse( String location, String responseText )
 	{
-		if ( !location.startsWith( "clan_hall.php" ) )
+		if ( !location.startsWith( "showclan.php" ) )
 		{
 			return;
 		}
-		Matcher m = CLAN_NAME_PATTERN.matcher( responseText );
-		if ( m.find() )
+
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
-			// If name is different from what we know, then we need to refresh information
-			String currentClan = ClanManager.getClanName( false );
-			String newClan = m.group( 1 );
-			if ( currentClan == null || !currentClan.equals( newClan ) )
-			{
-				ClanManager.resetClanId();
-				ClanManager.getClanId();
-			}
+			return;
+		}
+
+		if ( !action.equals( "joinclan" ) )
+		{
+			return;
+		}
+
+		// Normally, this redirects to clan_hall.php. However, if done
+		// via "/whitelist", it uses ajax=1 and simply returns a
+		// message.
+
+		// You have now changed your allegiance.
+
+		if ( responseText.contains( "You have now changed your allegiance" ) )
+		{
+			// We need to refresh information
+			ClanManager.resetClanId();
+			ClanManager.getClanId();
 		}
 	}
 }
