@@ -531,6 +531,10 @@ public class ClanLoungeRequest
 
 	private static final int speakeasyNameToIndex( final String name )
 	{
+		if ( name == null )
+		{
+			return -1;
+		}
 		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
 		{
 			if ( name.equalsIgnoreCase( (String)ClanLoungeRequest.SPEAKEASY_DATA[i][0] ) )
