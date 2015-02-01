@@ -3488,7 +3488,7 @@ public class FightRequest
 			{
 				IslandManager.handleBattlefieldMonster( responseText, monsterName );
 			}
-			else if ( monsterName.equals( "Black Pudding" ) )
+			else if ( monsterName.equals( "black budding" ) )
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
@@ -3531,7 +3531,8 @@ public class FightRequest
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
 
-			if ( responseText.contains( "You move a bone on the abacus to record your victory" ) )
+			if ( KoLCharacter.hasEquipped( ItemPool.BONE_ABACUS, EquipmentManager.OFFHAND ) &&
+			     responseText.contains( "You move a bone on the abacus to record your victory" ) )
 			{
 				Preferences.increment( "boneAbacusVictories", 1 );
 			}
