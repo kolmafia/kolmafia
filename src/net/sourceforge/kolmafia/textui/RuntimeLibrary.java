@@ -740,6 +740,18 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "creatable_amount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "get_ingredients", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -3966,6 +3978,45 @@ public abstract class RuntimeLibrary
 	{
 		CreateItemRequest item = CreateItemRequest.getInstance( (int) arg.intValue() );
 		return new Value( item == null ? 0 : item.getQuantityPossible() );
+	}
+
+	public static Value creatable_turns( Interpreter interpreter, final Value itemId )
+	{
+		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1 );
+		if ( item == null )
+		{
+			return new Value( 0 );
+		}
+		int initialAmount = item.getCount( KoLConstants.inventory );
+		Concoction concoction = ConcoctionPool.get( item.getName() );
+		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + 1 ) );
+	}
+
+	public static Value creatable_turns( Interpreter interpreter, final Value itemId, final Value count )
+	{
+		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1 );
+		int number = (int) count.intValue();
+		if ( item == null )
+		{
+			return new Value( 0 );
+		}
+		int initialAmount = item.getCount( KoLConstants.inventory );
+		Concoction concoction = ConcoctionPool.get( item.getName() );
+		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + number ) );
+	}
+
+	public static Value creatable_turns( Interpreter interpreter, final Value itemId, final Value count, final Value freeCrafting )
+	{
+		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1 );
+		int number = (int) count.intValue();
+		boolean considerFreeCrafting = freeCrafting.intValue() == 1;
+		if ( item == null )
+		{
+			return new Value( 0 );
+		}
+		int initialAmount = item.getCount( KoLConstants.inventory );
+		Concoction concoction = ConcoctionPool.get( item.getName() );
+		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + number, considerFreeCrafting ) );
 	}
 
 	public static Value get_ingredients( Interpreter interpreter, final Value arg )
