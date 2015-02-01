@@ -38,12 +38,15 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -373,6 +376,7 @@ public class IslandRequest
 		return null;
 	}
 
+	static private CoinmasterData lastCampVisited = null;
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "bigisland.php" ) && !urlString.startsWith( "postwarisland.php" ) )
@@ -380,17 +384,53 @@ public class IslandRequest
 			return false;
 		}
 
+		String action = GenericRequest.getAction( urlString );
+
 		if ( urlString.startsWith( "bigisland.php" ) )
 		{
 			// You can only visit the two camps during the war
 			CoinmasterData data = IslandRequest.findCampMaster( urlString );
 			if ( data != null )
 			{
+				IslandRequest.lastCampVisited = data;
 				return CoinMasterRequest.registerRequest( data, urlString );
+			}
+
+			if ( action != null && action.equals( "bossfight" ) )
+			{
+				// You can only get here by visiting a specific
+				// camp first. We saved that above.
+
+				KoLAdventure location = null;
+				String headquarters = null;
+
+				if ( IslandRequest.lastCampVisited == DimemasterRequest.HIPPY )
+				{
+					headquarters = "Hippy Camp";
+					location = AdventureDatabase.getAdventure( "The Battlefield (Frat Uniform)" );
+				}
+				else if ( IslandRequest.lastCampVisited == QuartersmasterRequest.FRATBOY )
+				{
+					headquarters = "Frat House";
+					location = AdventureDatabase.getAdventure( "The Battlefield (Hippy Uniform)" );
+				}
+				else
+				{
+					// This shouldn't happen; you can't get to the
+					// boss fight without visiting a camp first.
+					headquarters = "Headquarters";
+					location = AdventureDatabase.getAdventure( "The Battlefield (Hippy Uniform)" );;
+				}
+
+				// Remember that this counts as a battlefield fight,
+				// even if the player just went somewhere else.
+
+				KoLAdventure.lastVisitedLocation = location;
+				RequestLogger.registerLocation( headquarters );
+				return true;
 			}
 		}
 
-		String action = GenericRequest.getAction( urlString );
 		String message = null;
 		boolean gcli = false;
 

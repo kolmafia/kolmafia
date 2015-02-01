@@ -985,16 +985,16 @@ public class IslandManager
 			return;
 		}
 
-		String name = monster.getName();
-		if ( name.equalsIgnoreCase( "The Big Wisniewski" ) ||
-			name.equalsIgnoreCase( "Big Wisnaqua" ) )
+		String monsterName = monster.getName();
+		if ( monsterName.equals( "The Big Wisniewski" ) ||
+		     monsterName.equals( "Big Wisnaqua" ) )
 		{
 			IslandManager.handleEndOfWar( "hippies" );
 			return;
 		}
 
-		if ( name.equalsIgnoreCase( "The Man" ) ||
-			name.equalsIgnoreCase( "The Aquaman" ) )
+		if ( monsterName.equals( "The Man" ) ||
+		     monsterName.equals( "The Aquaman" ) )
 		{
 			IslandManager.handleEndOfWar( "fratboys" );
 			return;

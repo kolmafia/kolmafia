@@ -166,44 +166,44 @@ public abstract class ClanManager
 		ClanManager.clanId = id;
 	}
 
-	public static final void setClanName( String name )
+	public static final void changeClan( final int clanId, String clanName )
 	{
-		boolean changed = false;
-		if ( name == null )
+		// Drop all saved clan information
+		ClanManager.clearCache();
+
+		// Save new clan information
+		ClanManager.clanId = clanId;
+		ClanManager.clanName = clanName;
+
+		// Visit lounge and rumpus room to see what is there
+		if ( clanName != null )
 		{
-			changed = ClanManager.clanName != null;
-		}
-		else if ( ClanManager.clanName != null )
-		{
-			changed = !ClanManager.clanName.equals( name );
+			RequestLogger.printLine( "You are currently a member of " + clanName );
+
+			// Visit lounge and check hotdog stand and speakeasy.
+			// As a side effect, report on whether you have a present waiting
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
 		}
 		else
 		{
-			changed = true;
+			RequestLogger.printLine( "You are not currently a member of a clan." );
 		}
+	}
+
+	public static final void setClanName( String name )
+	{
+		boolean changed =
+			( name == null ) ?
+			ClanManager.clanName != null :
+			( ClanManager.clanName != null ) ?
+			!ClanManager.clanName.equals( name ) :
+			true;
+
 		KoLCharacter.setClan( name != null );
 		if ( changed )
 		{
-			// Reset most clan information, but clanId already set
-			// correctly, so save it and set Id and name
-			clanId = ClanManager.clanId;
-			ClanManager.clearCache();
-			ClanManager.clanId = clanId;
-			ClanManager.clanName = name;
-			// Update Clan Information
-			if ( name != null )
-			{
-				RequestLogger.printLine( "You are currently a member of " + name );
-
-				// Visit lounge and check hotdog stand and speakeasy.
-				// As a side effect, report on whether you have a present waiting
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
-			}
-			else
-			{
-				RequestLogger.printLine( "You are not currently a member of a clan." );
-			}
+			ClanManager.changeClan( ClanManager.clanId, name );
 		}
 	}
 
