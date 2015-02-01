@@ -1911,6 +1911,7 @@ public class ItemPool
 	public static final int CRACKLING_STONE_SPHERE = 6699;
 	public static final int SCORCHED_STONE_SPHERE = 6700;
 	public static final int STONE_TRIANGLE = 6701;
+	public static final int BONE_ABACUS = 6712;
 	public static final int SHIP_TRIP_SCRIP = 6725;
 	public static final int UV_RESISTANT_COMPASS = 6729;
 	public static final int FUNKY_JUNK_KEY = 6730;
