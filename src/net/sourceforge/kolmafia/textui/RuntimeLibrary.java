@@ -745,9 +745,6 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
-
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
 
