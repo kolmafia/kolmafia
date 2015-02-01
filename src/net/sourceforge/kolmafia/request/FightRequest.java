@@ -3488,7 +3488,7 @@ public class FightRequest
 			{
 				IslandManager.handleBattlefieldMonster( responseText, monsterName );
 			}
-			else if ( monsterName.equals( "black budding" ) )
+			else if ( monsterName.equals( "black pudding" ) )
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
