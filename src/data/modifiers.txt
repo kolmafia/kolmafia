@@ -6475,6 +6475,7 @@ bottle of fire	Effect: "The Fire Inside", Effect Duration: 10
 bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of lighter fluid	Effect: "Lit Up", Effect Duration: 10
 bottle of limeade	Effect: "Sugar Rush", Effect Duration: 20
+# bottle of lovebug pheromones: Unlocks lovebug abilities and encounters
 bottle of melodramamine	Effect: "Emotion Sickness", Effect Duration: 5
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
