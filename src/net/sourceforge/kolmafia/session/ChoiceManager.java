@@ -3115,7 +3115,7 @@ public abstract class ChoiceManager
 			"Woods", "choiceAdventure924", "Blackberry",
 			new Object[] { "fight blackberry bush",
 				       "visit cobbler",
-				       "head towards beehive", } ),
+				       "head towards beehive (1)", } ),
 
 		// Choice 925 is The Blackest Smith
 		new ChoiceAdventure(
@@ -11666,6 +11666,7 @@ public abstract class ChoiceManager
 			RequestLogger.registerLastLocation();
 			break;
 
+		case 1005:	// 'Allo
 		case 1006:	// One Small Step For Adventurer
 		case 1007:	// Twisty Little Passages, All Hedge
 		case 1008:	// Pooling Your Resources

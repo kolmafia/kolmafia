@@ -133,6 +133,7 @@ public class QuartersmasterRequest
 		}
 
 		CoinmasterData data = QuartersmasterRequest.FRATBOY;
+		IslandRequest.lastCampVisited = data;
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
