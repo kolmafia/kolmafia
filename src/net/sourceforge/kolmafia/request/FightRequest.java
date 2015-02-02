@@ -2878,10 +2878,13 @@ public class FightRequest
 
 		if ( responseText.contains( "acquire a bounty item:" ) )
 		{
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			String locationName = null;
 			if ( KoLAdventure.lastVisitedLocation() != null )
 			{
-				BountyHunterHunterRequest.parseFight( monsterName, KoLAdventure.lastVisitedLocation().getAdventureName(), responseText );
+				locationName = location.getAdventureName();
 			}
+			BountyHunterHunterRequest.parseFight( monsterName, locationName, responseText );
 		}
 		// Check for bounty item not dropping from a monster
 		// that is known to drop the item.
