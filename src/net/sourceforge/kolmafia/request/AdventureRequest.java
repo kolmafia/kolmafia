@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -75,7 +76,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
-import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class AdventureRequest
 	extends GenericRequest
@@ -1104,7 +1104,7 @@ public class AdventureRequest
 		else if ( formSource.startsWith( "tiles.php" ) )
 		{
 			// Only register initial encounter of Dvorak's Revenge
-			DvorakDecorator.saveResponse( responseText );
+			DvorakManager.saveResponse( responseText );
 			return responseText.contains( "I before E, except after C" );
 		}
 		else if ( formSource.startsWith( "barrel.php?smash" ) )

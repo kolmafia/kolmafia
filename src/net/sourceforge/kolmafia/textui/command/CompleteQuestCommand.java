@@ -38,11 +38,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.GourdManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.TavernManager;
-
-import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class CompleteQuestCommand
 	extends AbstractCommand
@@ -55,9 +54,21 @@ public class CompleteQuestCommand
 	@Override
 	public void run( final String command, final String parameters )
 	{
-		if ( command.equals( "guild" ) )
+		if ( command.equals( "baron" ) )
 		{
-			GuildUnlockManager.unlockGuild();
+			TavernManager.locateBaron();
+			return;
+		}
+
+		if ( command.equals( "choice-goal" ) )
+		{
+			ChoiceManager.gotoGoal();
+			return;
+		}
+
+		if ( command.equals( "dvorak" ) )
+		{
+			DvorakManager.solve();
 			return;
 		}
 
@@ -67,21 +78,9 @@ public class CompleteQuestCommand
 			return;
 		}
 
-		if ( command.equals( "tavern" ) )
+		if ( command.equals( "guild" ) )
 		{
-			TavernManager.locateTavernFaucet();
-			return;
-		}
-
-		if ( command.equals( "baron" ) )
-		{
-			TavernManager.locateBaron();
-			return;
-		}
-
-		if ( command.equals( "dvorak" ) )
-		{
-			DvorakDecorator.solve();
+			GuildUnlockManager.unlockGuild();
 			return;
 		}
 
@@ -91,9 +90,9 @@ public class CompleteQuestCommand
 			return;
 		}
 
-		if ( command.equals( "choice-goal" ) )
+		if ( command.equals( "tavern" ) )
 		{
-			ChoiceManager.gotoGoal();
+			TavernManager.locateTavernFaucet();
 			return;
 		}
 

@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -116,7 +117,6 @@ import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
-import net.sourceforge.kolmafia.webui.DvorakDecorator;
 import net.sourceforge.kolmafia.webui.FightDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -553,7 +553,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "tiles.php" ) )
 		{
-			DvorakDecorator.decorate( buffer );
+			DvorakManager.decorate( buffer );
 		}
 		else if ( location.startsWith( "volcanomaze.php" ) )
 		{

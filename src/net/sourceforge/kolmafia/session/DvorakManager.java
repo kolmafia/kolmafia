@@ -31,21 +31,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.webui;
+package net.sourceforge.kolmafia.session;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
-
-public abstract class DvorakDecorator
+public abstract class DvorakManager
 {
 	public static final void decorate( final StringBuffer buffer )
 	{
@@ -75,7 +74,7 @@ public abstract class DvorakDecorator
 
 	public static final void saveResponse( final String responseText )
 	{
-		DvorakDecorator.lastResponse = responseText;
+		DvorakManager.lastResponse = responseText;
 	}
 
         // <td class='cell greyed'><img
@@ -92,7 +91,7 @@ public abstract class DvorakDecorator
 
 	public static final void solve()
 	{
-		if ( DvorakDecorator.lastResponse == null )
+		if ( DvorakManager.lastResponse == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't appear to be at the tiles puzzle" );
 			return;
@@ -104,7 +103,7 @@ public abstract class DvorakDecorator
 		char [][] tiles = new char[7][9];
 		int currentRow = 0;
 
-		Matcher matcher = DvorakDecorator.TILE_PATTERN.matcher( DvorakDecorator.lastResponse );
+		Matcher matcher = DvorakManager.TILE_PATTERN.matcher( DvorakManager.lastResponse );
 		int count = 0;
 		while ( matcher.find() )
 		{
@@ -194,6 +193,6 @@ public abstract class DvorakDecorator
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		RelayRequest.specialCommandResponse = buffer.toString();
 		RelayRequest.specialCommandIsAdventure = true;
-		DvorakDecorator.lastResponse = null;
+		DvorakManager.lastResponse = null;
 	}
 }
