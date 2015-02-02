@@ -128,14 +128,24 @@ public class BountyDatabase
 		BountyDatabase.numberByName.put( name, Integer.toString( number ) );
 		BountyDatabase.monsterByName.put( name, monster );
 		BountyDatabase.nameByMonster.put( monster, name );
-		BountyDatabase.locationByName.put( name, location );
+		if ( location != null )
+		{
+			BountyDatabase.locationByName.put( name, location );
+		}
 		String printMe = "Unknown bounty:";
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 		printMe = "--------------------";
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
-		printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\t" + location;
+		if ( location != null )
+		{
+			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\t" + location;
+		}
+		else
+		{
+			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\tunknown";
+		}
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 		printMe = "--------------------";
