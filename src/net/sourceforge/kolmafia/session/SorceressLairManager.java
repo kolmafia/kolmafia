@@ -738,6 +738,17 @@ public abstract class SorceressLairManager
 					return false;
 				}
 
+				if ( action.equals( "ns_03_hedgemaze" ) )
+				{
+					// The hedgemaze is an adventure location.
+					// However, visiting this place/action
+					// will redirect to a choice and we
+					// will log it with room number.
+					//
+					// Therefore, claim this and defer logging.
+					return true;
+				}
+
 				message =
 					action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
 					action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :

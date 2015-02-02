@@ -134,6 +134,7 @@ public class DimemasterRequest
 		}
 
 		CoinmasterData data = DimemasterRequest.HIPPY;
+		IslandRequest.lastCampVisited = data;
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 

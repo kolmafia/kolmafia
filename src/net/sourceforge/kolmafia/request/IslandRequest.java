@@ -376,7 +376,7 @@ public class IslandRequest
 		return null;
 	}
 
-	static private CoinmasterData lastCampVisited = null;
+	static public CoinmasterData lastCampVisited = null;
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "bigisland.php" ) && !urlString.startsWith( "postwarisland.php" ) )
