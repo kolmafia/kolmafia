@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.TreeSet;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +55,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 public class PlaceRequest
 	extends GenericRequest
 {
+	public static TreeSet<String> places = new TreeSet<String>();
 	public boolean followRedirects = false;
 
 	public PlaceRequest()
@@ -448,13 +451,6 @@ public class PlaceRequest
 				message = "Visiting the Odd Jobs Board";
 			}
 		}
-		else if ( place.equals( "town" ) )
-		{
-			if ( action.equals( "town_oddjobs" ) )
-			{
-				message = "Visiting the Odd Jobs Board";
-			}
-		}
 		else if ( place.equals( "twitch" ) )
 		{
 			if ( action.equals( "twitch_votingbooth" ) )
@@ -509,14 +505,28 @@ public class PlaceRequest
 			{
 				message = "Investigating the Smoke Signals";
 			}
-			if ( action.equals( "woods_hippy" ) )
+			else if ( action.equals( "woods_hippy" ) )
 			{
 				message = "Talking to that Hippy";
 			}
-			if ( action.equals( "woods_dakota_anim" ) || action.equals( "woods_dakota" ) )
+			else if ( action.equals( "woods_dakota_anim" ) || action.equals( "woods_dakota" ) )
 			{
 				message = "Talking to Dakota Fanning";
 			}
+		}
+		else if ( place.equals( "airport" ) ||
+			  place.equals( "bathole" ) ||
+			  place.equals( "beanstalk" ) ||
+			  place.equals( "giantcastle" ) ||
+			  place.equals( "hiddencity" ) ||
+			  place.equals( "nstower" ) ||
+			  place.equals( "town_market" ) ||
+			  place.equals( "town_right" ) ||
+			  place.equals( "town_wrong" ) )
+		{
+			// It is not interesting to log simple visits to these
+			// places. Other classes may claim specific actions.
+			return action.equals( "" );
 		}
 		else
 		{
@@ -544,6 +554,36 @@ public class PlaceRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
+
+		return true;
+	}
+
+	public static boolean unclaimedPlace( final String urlString )
+	{
+		// Claim all place.php?whichplace=xxx with no action=yyy
+
+		if ( !urlString.startsWith( "place.php" ) )
+		{
+			return false;
+		}
+
+		String place = GenericRequest.getPlace( urlString );
+		if ( place == null )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action != null )
+		{
+			return false;
+		}
+
+		// Save the unclaimed "place". It might be interesting to log
+		// them en masse when you log out, just to see if there are any
+		// that we want to handle differently.<
+
+		PlaceRequest.places.add( place );
 
 		return true;
 	}

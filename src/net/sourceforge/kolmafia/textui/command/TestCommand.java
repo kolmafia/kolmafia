@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
@@ -447,6 +448,23 @@ public class TestCommand
 				SkillBuffFrame sbf = (SkillBuffFrame) frame;
 				sbf.dumpDisabledSkills();
 			}
+			return;
+		}
+
+		if ( command.equals( "places" ) )
+		{
+			int count = PlaceRequest.places.size();
+			if ( count == 0 )
+			{
+				RequestLogger.printLine( "No unclaimed places" );
+				return;
+			}
+			
+			for ( String place : PlaceRequest.places )
+			{
+				RequestLogger.printLine( "place.php?whichplace=" + place );
+			}
+
 			return;
 		}
 

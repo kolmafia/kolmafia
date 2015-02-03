@@ -1441,6 +1441,15 @@ public class RequestLogger
 			return;
 		}
 
+		// Let PlaceRequest step in and suppress logging for any
+		// unclaimed simple visits to a place.php container
+
+		if ( PlaceRequest.unclaimedPlace( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// Otherwise, print the raw URL so that it's at least mentioned
 		// in the session log.
 
