@@ -3429,6 +3429,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "fight shopkeeper", 1 ),
 				       new Option( "take damage", 6 ) } ),
 
+		// Choice 1056 is Now It's Dark
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8160,6 +8161,16 @@ public abstract class ChoiceManager
 				SpelunkyRequest.unlock( "Hell", "Hell" );
 			}
 			break;
+
+		case 1056:
+			// Now It's Dark
+			// Twin Peak fourth choice
+			if ( text.contains( "When the lights come back" ) )
+			{
+				// the other three must be completed at this point.
+				Preferences.setInteger( "twinPeakProgress", 15 );
+			}
+			return;
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
