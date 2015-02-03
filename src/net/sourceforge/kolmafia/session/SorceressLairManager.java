@@ -726,44 +726,48 @@ public abstract class SorceressLairManager
 		if ( place.equals( "nstower" ) )
 		{
 			String action = GenericRequest.getAction( urlString );
-			if ( action != null )
+
+			if ( action == null )
 			{
-				if ( action.equals( "ns_10_sorcfight" ) )
-				{
-					// You are about to confront Her Naughtiness
-					// Clear effects other than Confidence!
-					SorceressLairManager.enterSorceressFight();
-
-					// Let KoLAdventure claim this
-					return false;
-				}
-
-				if ( action.equals( "ns_03_hedgemaze" ) )
-				{
-					// The hedgemaze is an adventure location.
-					// However, visiting this place/action
-					// will redirect to a choice and we
-					// will log it with room number.
-					//
-					// Therefore, claim this and defer logging.
-					return true;
-				}
-
-				message =
-					action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
-					action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
-					action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
-					null;
-
-				if ( message == null )
-				{
-					// Everything else is a KoLAdventure
-					return false;
-				}
-
-				RequestLogger.printLine();
-				RequestLogger.updateSessionLog();
+				// Nothing to log for simply looking at the tower.
+				return true;
 			}
+
+			if ( action.equals( "ns_10_sorcfight" ) )
+			{
+				// You are about to confront Her Naughtiness
+				// Clear effects other than Confidence!
+				SorceressLairManager.enterSorceressFight();
+
+				// Let KoLAdventure claim this
+				return false;
+			}
+
+			if ( action.equals( "ns_03_hedgemaze" ) )
+			{
+				// The hedgemaze is an adventure location.
+				// However, visiting this place/action
+				// will redirect to a choice and we
+				// will log it with room number.
+				//
+				// Therefore, claim this and defer logging.
+				return true;
+			}
+
+			message =
+				action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
+				action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
+				action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
+				null;
+
+			if ( message == null )
+			{
+				// Everything else is a KoLAdventure
+				return false;
+			}
+
+			RequestLogger.printLine();
+			RequestLogger.updateSessionLog();
 		}
 		else if ( place.equals( "nstower_door" ) )
 		{
@@ -787,6 +791,11 @@ public abstract class SorceressLairManager
 					action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
 					null;
 			}
+		}
+		else
+		{
+			// Let any other "place" be claimed by other classes.
+			return false;
 		}
 
 		if ( message == null )
