@@ -747,6 +747,11 @@ public class ResponseTextParser
 			TavernRequest.parseResponse( location, responseText );
 		}
 
+		if ( location.startsWith( "tiles.php" ) )
+		{
+			DvorakManager.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "town_altar.php" ) )
 		{
 			AltarOfLiteracyRequest.parseResponse( location, responseText );

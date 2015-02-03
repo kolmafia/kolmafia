@@ -6106,6 +6106,20 @@ public abstract class ChoiceManager
 
 			break;
 
+		case 123:	// At Least It's Not Full Of Trash
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Raise your hands up towards the heavens
+				// This takes take a turn and advances to the tiles
+				ResultProcessor.processAdventuresUsed( 1 );
+			}
+			break;
+
+		case 125:	// No visible means of support
+			// The tiles took a turn to get here
+			ResultProcessor.processAdventuresUsed( 1 );
+			break;
+
 		// Start the Island War Quest
 		case 142:
 		case 146:
@@ -9226,6 +9240,11 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
+		case 125:
+			// No visible means of support
+			DvorakManager.lastTile( text );
+			break;
+
 		case 360:
 			// Wumpus Hunt
 			WumpusManager.visitChoice( text );
@@ -11668,6 +11687,12 @@ public abstract class ChoiceManager
 
 		switch ( choice )
 		{
+		case 123:	// At Least It's Not Full Of Trash
+		case 125:	// No Visible Means of Support
+			// These also take a turn
+			RequestLogger.registerLocation( "The Hidden Temple" );
+			break;
+
 		case 620:	// A Blow Is Struck!
 		case 621:	// Hold the Line!
 		case 622:	// The Moment of Truth

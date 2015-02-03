@@ -173,6 +173,7 @@ import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -1018,6 +1019,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof DreadsylvaniaRequest || isExternal ) && DreadsylvaniaRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( DvorakManager.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
