@@ -518,11 +518,15 @@ public class PlaceRequest
 				message = "Talking to Dakota Fanning";
 			}
 		}
+		else
+		{
+			// Let any other "place" be claimed by other classes.
+			return false;
+		}
 
 		if ( message == null )
 		{
-			// Other classes have already been given the
-			// opportunity to claim this request. Don't log the URL
+			// For the "places" we claim here, do not log the URL
 			// of simple visits, but do log unclaimed actions.
 			return action.equals( "" );
 		}

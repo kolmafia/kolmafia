@@ -783,6 +783,15 @@ public class RequestLogger
 			return;
 		}
 
+		// Let the "placeholder" for place.php take every otherwise
+		// unclaimed call to that URL.
+
+		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
@@ -1420,15 +1429,6 @@ public class RequestLogger
 		// register simple visits, if they so choose.
 
 		if ( ( request instanceof PurchaseRequest || isExternal ) && PurchaseRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		// Finally let the "placeholder" for place.php take every
-		// otherwise unclaimed call to that URL
-
-		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -262,7 +262,7 @@ public class UntinkerRequest
 
 	public static final boolean completeQuest()
 	{
-		// If the are in a muscle sign, this is a trivial task;
+		// If they are in a muscle sign, this is a trivial task;
 		// just have them visit Innabox.
 
 		if ( KoLCharacter.knollAvailable() )
