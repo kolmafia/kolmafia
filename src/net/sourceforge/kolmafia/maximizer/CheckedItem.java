@@ -173,6 +173,7 @@ public class CheckedItem
 
 	public boolean buyableFlag;
 	public boolean automaticFlag;
+	public boolean requiredFlag;
 	public boolean conditionalFlag;
 	public boolean singleFlag;
 }

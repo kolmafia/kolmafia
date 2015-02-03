@@ -1234,6 +1234,7 @@ public class Evaluator
 				if ( this.posEquip.contains( item ) )
 				{
 					item.automaticFlag = true;
+					item.requiredFlag = true;
 					break gotItem;
 				}
 
@@ -1447,157 +1448,175 @@ public class Evaluator
 
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
-			// If we currently have nothing equipped, also consider leaving nothing equipped
-			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
-			{
-				ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
-			}
+			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
+			ArrayList<MaximizerSpeculation> speculationList = new ArrayList<MaximizerSpeculation>();
 
 			if ( this.dump > 0 )
 			{
 				RequestLogger.printLine( "SLOT " + slot );
 			}
-			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
-			ArrayList<MaximizerSpeculation> speculationList = new ArrayList<MaximizerSpeculation>();
 
+			// Do we have any required items for the slot?
+			int total = 0;
+			int requiredCount = 0;
 			for ( CheckedItem item : checkedItemList )
 			{
-				MaximizerSpeculation spec = new MaximizerSpeculation();
-				spec.attachment = item;
-				int useSlot = Evaluator.toUseSlot( slot );
-				if ( slot >= EquipmentManager.ALL_SLOTS )
+				if ( item.requiredFlag )
 				{
-					spec.setFamiliar( this.familiars.get(
-						slot - EquipmentManager.ALL_SLOTS ) );
-					useSlot = EquipmentManager.FAMILIAR;
-				}
-				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
-				spec.equipment[ useSlot ] = item;
-				if ( item.getItemId() == ItemPool.HATSEAT )
-				{
-					if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
-					{
-						spec.setEnthroned( useCrownFamiliar );
-					}
-					else if ( this.carriedFamiliarsNeeded > 1 )
-					{
-						item.automaticFlag = true;
-						spec.setEnthroned( secondBestCarriedFamiliar );
-					}
-					else
-					{
-						spec.setEnthroned( bestCarriedFamiliar );
-					}
-				}
-				else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
-				{
-					if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
-					{
-						spec.setBjorned( useBjornFamiliar );
-					}
-					else if ( this.carriedFamiliarsNeeded > 1 )
-					{
-						item.automaticFlag = true;
-						spec.setBjorned( secondBestCarriedFamiliar );
-					}
-					else
-					{
-						spec.setBjorned( bestCarriedFamiliar );
-					}
-				}
-				else if ( EquipmentManager.isStickerWeapon( item ) )
-				{
-					MaximizerSpeculation current = new MaximizerSpeculation();
-					spec.equipment[ EquipmentManager.STICKER1 ] = current.equipment[ EquipmentManager.STICKER1 ];
-					spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
-					spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
-				}
-				else if ( item.getItemId() == ItemPool.CARD_SLEEVE )
-				{
-					MaximizerSpeculation current = new MaximizerSpeculation();
-					if ( bestCard != null )
-					{
-						spec.equipment[ EquipmentManager.CARD_SLEEVE ] = bestCard;
-						useCard = (AdventureResult) bestCard;
-					}
-					else
-					{
-						spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
-						useCard = (AdventureResult) current.equipment[ EquipmentManager.CARD_SLEEVE ];
-					}
-				}
-				else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
-				{
-					MaximizerSpeculation current = new MaximizerSpeculation();
-					spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
-					spec.equipment[ EquipmentManager.FOLDER2 ] = current.equipment[ EquipmentManager.FOLDER2 ];
-					spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
-					spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
-					spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
-				}
-				spec.getScore();	// force evaluation
-				spec.failed = false;	// individual items are not expected
-										// to fulfill all requirements
-
-				speculationList.add( spec );
-			}
-
-			Collections.sort( speculationList );
-
-			if ( this.dump > 1 )
-			{
-				RequestLogger.printLine( speculationList.toString() );
-			}
-
-			ListIterator<MaximizerSpeculation> speculationIterator = speculationList.listIterator( speculationList.size() );
-
-			int total = 0;
-			int beeotches = 0;
-			int beeosity = 0;
-			int b;
-			int useful = this.maxUseful( slot );
-
-			while ( speculationIterator.hasPrevious() )
-			{
-				CheckedItem item = speculationIterator.previous().attachment;
-				item.validate( maxPrice, priceLevel );
-
-				if ( item.getCount() == 0 )
-				{
-					continue;
-				}
-				if ( KoLCharacter.inBeecore() &&
-					(b = KoLCharacter.getBeeosity( item.getName() )) > 0 )
-				{	// This item is a beeotch!
-					// Don't count it towards the number of items desired
-					// in this slot's shortlist, since it may turn out to be
-					// advantageous to use up all our allowed beeosity on
-					// other slots.
-					if ( item.automaticFlag )
-					{
-						automatic[ slot ].add( item );
-						beeotches += item.getCount();
-						beeosity += b * item.getCount();
-					}
-					else if ( total < useful && beeotches < useful &&
-						beeosity < this.beeosity )
-					{
-						automatic[ slot ].add( item );
-						beeotches += item.getCount();
-						beeosity += b * item.getCount();
-					}
-				}
-				else if ( item.automaticFlag )
-				{
+					requiredCount++;
 					automatic[ slot ].add( item );
 					total += item.getCount();
 				}
-				else if ( total < useful )
+			}
+
+			int useful = this.maxUseful( slot ) - requiredCount;
+
+			// If slots already handled by required items, we're done with the slot
+			if ( useful > 0 )
+			{
+				// If we currently have nothing equipped, also consider leaving nothing equipped
+				if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
 				{
-					automatic[ slot ].add( item );
-					if ( !item.conditionalFlag )
+					ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+				}
+			
+				for ( CheckedItem item : checkedItemList )
+				{
+					MaximizerSpeculation spec = new MaximizerSpeculation();
+					spec.attachment = item;
+					int useSlot = Evaluator.toUseSlot( slot );
+					if ( slot >= EquipmentManager.ALL_SLOTS )
 					{
+						spec.setFamiliar( this.familiars.get(
+							slot - EquipmentManager.ALL_SLOTS ) );
+						useSlot = EquipmentManager.FAMILIAR;
+					}
+					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+					spec.equipment[ useSlot ] = item;
+					if ( item.getItemId() == ItemPool.HATSEAT )
+					{
+						if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
+						{
+							spec.setEnthroned( useCrownFamiliar );
+						}
+						else if ( this.carriedFamiliarsNeeded > 1 )
+						{
+							item.automaticFlag = true;
+							spec.setEnthroned( secondBestCarriedFamiliar );
+						}
+						else
+						{
+							spec.setEnthroned( bestCarriedFamiliar );
+						}
+					}
+					else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+					{
+						if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
+						{
+							spec.setBjorned( useBjornFamiliar );
+						}
+						else if ( this.carriedFamiliarsNeeded > 1 )
+						{
+							item.automaticFlag = true;
+							spec.setBjorned( secondBestCarriedFamiliar );
+						}
+						else
+						{
+							spec.setBjorned( bestCarriedFamiliar );
+						}
+					}
+					else if ( EquipmentManager.isStickerWeapon( item ) )
+					{
+						MaximizerSpeculation current = new MaximizerSpeculation();
+						spec.equipment[ EquipmentManager.STICKER1 ] = current.equipment[ EquipmentManager.STICKER1 ];
+						spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
+						spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
+					}
+					else if ( item.getItemId() == ItemPool.CARD_SLEEVE )
+					{
+						MaximizerSpeculation current = new MaximizerSpeculation();
+						if ( bestCard != null )
+						{
+							spec.equipment[ EquipmentManager.CARD_SLEEVE ] = bestCard;
+							useCard = (AdventureResult) bestCard;
+						}
+						else
+						{
+							spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
+							useCard = (AdventureResult) current.equipment[ EquipmentManager.CARD_SLEEVE ];
+						}
+					}
+					else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
+					{
+						MaximizerSpeculation current = new MaximizerSpeculation();
+						spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
+						spec.equipment[ EquipmentManager.FOLDER2 ] = current.equipment[ EquipmentManager.FOLDER2 ];
+						spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
+						spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
+						spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
+					}
+					spec.getScore();	// force evaluation
+					spec.failed = false;	// individual items are not expected
+											// to fulfill all requirements
+
+					speculationList.add( spec );
+				}
+
+				Collections.sort( speculationList );
+
+				if ( this.dump > 1 )
+				{
+					RequestLogger.printLine( speculationList.toString() );
+				}
+
+				ListIterator<MaximizerSpeculation> speculationIterator = speculationList.listIterator( speculationList.size() );
+
+				int beeotches = 0;
+				int beeosity = 0;
+				int b;
+
+				while ( speculationIterator.hasPrevious() )
+				{
+					CheckedItem item = speculationIterator.previous().attachment;
+					item.validate( maxPrice, priceLevel );
+
+					if ( item.getCount() == 0 )
+					{
+						continue;
+					}
+					if ( KoLCharacter.inBeecore() &&
+						(b = KoLCharacter.getBeeosity( item.getName() )) > 0 )
+					{	// This item is a beeotch!
+						// Don't count it towards the number of items desired
+						// in this slot's shortlist, since it may turn out to be
+						// advantageous to use up all our allowed beeosity on
+						// other slots.
+						if ( item.automaticFlag )
+						{
+							automatic[ slot ].add( item );
+							beeotches += item.getCount();
+							beeosity += b * item.getCount();
+						}
+						else if ( total < useful && beeotches < useful &&
+							beeosity < this.beeosity )
+						{
+							automatic[ slot ].add( item );
+							beeotches += item.getCount();
+							beeosity += b * item.getCount();
+						}
+					}
+					else if ( item.automaticFlag )
+					{
+						automatic[ slot ].add( item );
 						total += item.getCount();
+					}
+					else if ( total < useful )
+					{
+						automatic[ slot ].add( item );
+						if ( !item.conditionalFlag )
+						{
+							total += item.getCount();
+						}
 					}
 				}
 			}
@@ -1666,7 +1685,7 @@ public class Evaluator
 						outfitSpec.equipment[ slot ] = outfitItem;
 					}
 				}
-				if ( outfitSpec.compareTo( compareSpec ) <= 0 )
+				if ( outfitSpec.compareTo( compareSpec ) <= 0 || outfitSpec.failed )
 				{
 					usefulOutfits.set( i, false );
 				}
