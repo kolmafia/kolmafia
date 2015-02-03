@@ -4659,6 +4659,14 @@ public class UseItemRequest
 			Preferences.setBoolean( "armoryUnlocked", true );
 			return;
 
+		case ItemPool.LOVEBUG_PHEROMONES:
+			if ( !responseText.contains( "have been permanently unlocked" ) )
+			{
+				ResultProcessor.processResult( item );
+			}
+			Preferences.setBoolean( "lovebugsUnlocked", true );
+			return;
+
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			return;

@@ -681,6 +681,9 @@
 7242	Throw Pot	spelpot	5	0	0
 7243	Throw Ten Bombs	bluebomb	5	0	0
 7244	Throw Torch	speltorch	5	0	0
+7245	Summon Love Mosquito	lb_mosquito	5	0	0
+7246	Summon Love Stinkbug	lb_stink	5	0	0
+7247	Summon Love Gnats	lb_gnats	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
