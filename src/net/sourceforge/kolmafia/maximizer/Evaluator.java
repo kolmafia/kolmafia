@@ -1593,26 +1593,38 @@ public class Evaluator
 						// other slots.
 						if ( item.automaticFlag )
 						{
-							automatic[ slot ].add( item );
+							if ( !automatic[ slot ].contains( item ) )
+							{
+								automatic[ slot ].add( item );
+							}
 							beeotches += item.getCount();
 							beeosity += b * item.getCount();
 						}
 						else if ( total < useful && beeotches < useful &&
 							beeosity < this.beeosity )
 						{
-							automatic[ slot ].add( item );
+							if ( !automatic[ slot ].contains( item ) )
+							{
+								automatic[ slot ].add( item );
+							}
 							beeotches += item.getCount();
 							beeosity += b * item.getCount();
 						}
 					}
 					else if ( item.automaticFlag )
 					{
-						automatic[ slot ].add( item );
+						if ( !automatic[ slot ].contains( item ) )
+						{
+							automatic[ slot ].add( item );
+						}
 						total += item.getCount();
 					}
 					else if ( total < useful )
 					{
-						automatic[ slot ].add( item );
+						if ( !automatic[ slot ].contains( item ) )
+						{
+							automatic[ slot ].add( item );
+						}
 						if ( !item.conditionalFlag )
 						{
 							total += item.getCount();
