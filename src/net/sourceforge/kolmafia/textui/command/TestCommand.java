@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.RumpleManager;
@@ -481,6 +482,21 @@ public class TestCommand
 		{
 			List<ChatMessage> chatMessages = ChatParser.parseLines(TestCommand.contents );
 			ChatManager.processMessages( chatMessages );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "dvorak" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test dvorak URL" );
+				return;
+			}
+			String url = split[ 1 ].trim();
+			DvorakManager.registerRequest( url );
+			DvorakManager.parseResponse( url, TestCommand.contents );
+			DvorakManager.printTiles();
 			TestCommand.contents = null;
 			return;
 		}
