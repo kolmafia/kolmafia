@@ -626,6 +626,7 @@ user	loginRecoverySoftcore	true
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
+user	lovebugsUnlocked	false
 user	lowerChamberUnlock	false
 user	makeFriendsMonster	
 user	manaBurnSummonThreshold	10

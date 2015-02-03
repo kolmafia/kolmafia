@@ -3912,6 +3912,11 @@ public class FightRequest
 		{
 			int skillId = StringUtilities.parseInt( m.group( 1 ) );
 			KoLCharacter.addAvailableCombatSkill( SkillDatabase.getSkillName( skillId ) );
+			// If lovebug skills present, they've been unlocked
+			if ( skillId >= 7245 && skillId <= 7247 )
+			{
+				Preferences.setBoolean( "lovebugsUnlocked", true );
+			}
 		}
 	}
 
