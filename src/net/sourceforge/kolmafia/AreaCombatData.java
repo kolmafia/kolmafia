@@ -951,7 +951,7 @@ public class AreaCombatData
 		}
 		else if ( init == 10000 )
 		{
-			buffer.append( "Always wins initiative" );
+			buffer.append( ", Always wins initiative" );
 		}
 		else
 		{
