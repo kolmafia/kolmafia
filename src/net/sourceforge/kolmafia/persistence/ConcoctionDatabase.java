@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -90,7 +92,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -3063,7 +3064,7 @@ public class ConcoctionDatabase
 		if ( !StaticEntity.isHeadless() )
 		{
 			ItemManageFrame.updatePullsRemaining( pullsRemaining );
-			CoinmastersFrame.externalUpdate();
+			NamedListenerRegistry.fireChange( "(coinmaster)" );
 		}
 
 		if ( pullsRemaining < pullsBudgeted )

@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -59,8 +61,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -462,7 +462,7 @@ public class StorageRequest
 
 				InventoryManager.refresh();
 				ClosetRequest.refresh();
-				CoinmastersFrame.externalUpdate();
+				NamedListenerRegistry.fireChange( "(coinmaster)" );
 
 				// If we are still in a Trendy run or are pulling only
 				// "favorite things", we may have left items in storage.
@@ -678,7 +678,7 @@ public class StorageRequest
 		// Assume that at least one item in the list required each of
 		// these updates:
 
-		CoinmastersFrame.externalUpdate();
+		NamedListenerRegistry.fireChange( "(coinmaster)" );
 
 		KoLmafia.updateDisplay( "Processing complete." );
 	}

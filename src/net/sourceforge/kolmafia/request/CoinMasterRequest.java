@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -56,8 +58,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -432,7 +432,7 @@ public class CoinMasterRequest
 			}
 		}
 
-		CoinmastersFrame.externalUpdate();
+		NamedListenerRegistry.fireChange( "(coinmaster)" );
 	}
 
 	public static final int extractItemId( final CoinmasterData data, final String urlString )//

@@ -45,13 +45,13 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -186,7 +186,7 @@ public class GameShoppeRequest
 			if ( responseText.indexOf( "You don't have enough" ) == -1 )
 			{
 				CoinMasterRequest.completePurchase( data, location );
-				CoinmastersFrame.externalUpdate();
+				NamedListenerRegistry.fireChange( "(coinmaster)" );
 			}
 		}
 		else if ( action.equals( "tradein" ) )

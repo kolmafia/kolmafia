@@ -71,7 +71,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
@@ -1690,7 +1689,7 @@ public class EquipmentManager
 		EquipmentManager.normalOutfits.addAll( available );
 
 		// We may have gotten the war hippy or frat outfits
-		CoinmastersFrame.externalUpdate();
+		NamedListenerRegistry.fireChange( "(outfit)" );
 	}
 
 	/**

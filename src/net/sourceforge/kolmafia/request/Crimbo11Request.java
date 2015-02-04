@@ -46,10 +46,10 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -190,7 +190,7 @@ public class Crimbo11Request
 			     responseText.indexOf( "My elves will stuff that stocking just right" ) != -1 )
 			{
 				CoinMasterRequest.completePurchase( data, location );
-				CoinmastersFrame.externalUpdate();
+				NamedListenerRegistry.fireChange( "(coinmaster)" );
 			}
 			// Your fingers are writing checks that your Crimbo
 			// Credit Balance can't cash.
@@ -232,7 +232,7 @@ public class Crimbo11Request
 			if ( responseText.indexOf( "You don't have that much candy" ) == -1 )
 			{
 				CoinMasterRequest.completeSale( data, location );
-				CoinmastersFrame.externalUpdate();
+				NamedListenerRegistry.fireChange( "(coinmaster)" );
 			}
 		}
 		else

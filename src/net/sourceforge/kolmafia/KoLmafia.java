@@ -64,6 +64,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -123,7 +124,6 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -878,7 +878,7 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		// Inventory may have changed
-		CoinmastersFrame.externalUpdate();
+		NamedListenerRegistry.fireChange( "(coinmaster)" );
 
 		ConcoctionDatabase.refreshConcoctions();
 

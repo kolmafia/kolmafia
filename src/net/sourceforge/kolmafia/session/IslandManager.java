@@ -62,8 +62,6 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandManager
@@ -1037,7 +1035,6 @@ public class IslandManager
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
 		QuestDatabase.setQuestProgress( QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final void handleBattlefieldMonster( final String responseText, final String monsterName )
@@ -1587,6 +1584,5 @@ public class IslandManager
 		String loser = ( !hippiesLost ) ? "fratboys" : ( !fratboysLost ) ? "hippies" : "both";
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
-		CoinmastersFrame.externalUpdate();
 	}
 }

@@ -698,6 +698,13 @@ public class RequestLogger
 			return;
 		}
 
+		// We want to register a simple visit to tiles.php
+		if ( DvorakManager.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// Anything else that doesn't submit an actual form
 		// should not be registered.
 
@@ -1019,12 +1026,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof DreadsylvaniaRequest || isExternal ) && DreadsylvaniaRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( DvorakManager.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
