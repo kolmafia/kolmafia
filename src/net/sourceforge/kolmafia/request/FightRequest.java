@@ -5822,6 +5822,11 @@ public class FightRequest
 			evilness++;
 		}
 
+		if ( text.contains( "Evilometer beeps once" ) )
+		{
+			evilness++;
+		}
+
 		if ( evilness == 0 )
 		{
 			Matcher m = BEEP_PATTERN.matcher( text );
