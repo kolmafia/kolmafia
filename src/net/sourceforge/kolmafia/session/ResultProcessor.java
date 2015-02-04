@@ -88,8 +88,6 @@ import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1184,7 +1182,7 @@ public class ResultProcessor
 			// You can trade tokens for tickets
 		case ItemPool.TRANSPORTER_TRANSPONDER:
 			// You can go to spaaace with a transponder
-			CoinmastersFrame.externalUpdate();
+			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;
 
 		case ItemPool.FAKE_HAND:

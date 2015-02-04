@@ -45,9 +45,9 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class FreeSnackRequest
 	extends CoinMasterRequest
@@ -121,7 +121,7 @@ public class FreeSnackRequest
 		{
 			CoinmasterData data = FreeSnackRequest.FREESNACKS;
 			CoinMasterRequest.completePurchase( data, location );
-			CoinmastersFrame.externalUpdate();
+			NamedListenerRegistry.fireChange( "(coinmaster)" );
 		}
 	}
 

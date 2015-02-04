@@ -44,6 +44,7 @@ import java.util.TreeMap;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -58,6 +59,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -138,8 +143,6 @@ public class CoinmastersFrame
 				    new AdventureResult[] { MrStoreRequest.MR_A } );
 
 	private static final List<AdventureResult> conditionalItems = CoinmastersDatabase.getItems( "Conditional" );
-
-	private static CoinmastersFrame INSTANCE = null;
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
@@ -423,10 +426,13 @@ public class CoinmastersFrame
 		wrapperPanel.add( new StatusPanel(), BorderLayout.SOUTH );
 
 		this.setCenterComponent( wrapperPanel );
+	}
 
-		CoinmastersFrame.INSTANCE = this;
-
-		RequestThread.executeMethodAfterInitialization( this.getClass(), "externalUpdate" );
+	private CoinmasterPanel currentPanel()
+	{
+		JComponent panel = this.selectorPanel.currentPanel();
+		Component cm = ( panel instanceof JPanel ) ? ( (JPanel) panel ).getComponent( 0 ) : null;
+		return ( cm instanceof CoinmasterPanel ) ? ( (CoinmasterPanel) cm )  : null;
 	}
 
 	/**
@@ -435,68 +441,11 @@ public class CoinmastersFrame
 
 	public void stateChanged( final ChangeEvent e )
 	{
-		this.setTitle();
-	}
-
-	private void setTitle()
-	{
-		JPanel panel = (JPanel) this.selectorPanel.currentPanel();
-		Component cm = ( panel instanceof JPanel ) ? panel.getComponent( 0 ) : null;
-		if ( cm instanceof CoinmasterPanel )
+		CoinmasterPanel current = this.currentPanel();
+		if ( current != null )
 		{
-			( (CoinmasterPanel) cm ).setTitle();
+			current.setTitle();
 		}
-	}
-
-	public static void externalUpdate()
-	{
-		if ( INSTANCE == null )
-		{
-			return;
-		}
-
-		INSTANCE.update();
-	}
-
-	private void update()
-	{
-		dimemasterPanel.update();
-		quartersmasterPanel.update();
-		bhhPanel.update();
-		mrStorePanel.update();
-		hermitPanel.update();
-		swaggerShopPanel.update();
-		BURTPanel.update();
-		fishboneryPanel.update();
-		shoreGiftShopPanel.update();
-		trapperPanel.update();
-		vendingMachinePanel.update();
-		bigBrotherPanel.update();
-		arcadePanel.update();
-		gameShoppePanel.update();
-		freeSnackPanel.update();
-		isotopeSmitheryPanel.update();
-		dollhawkerPanel.update();
-		lunarLunchPanel.update();
-		brogurtPanel.update();
-		buffJimmyPanel.update();
-		tacoDanPanel.update();
-		SHAWARMAPanel.update();
-		canteenPanel.update();
-		armoryPanel.update();
-		awolPanel.update();
-		crimbo11Panel.update();
-		crimbo14Panel.update();
-		fudgeWandPanel.update();
-		neandermallPanel.update();
-		shoeRepairPanel.update();
-		applePanel.update();
-		travelerPanel.update();
-		altarOfBonesPanel.update();
-		crimboCartelPanel.update();
-		CRIMBCOGiftShopPanel.update();
-		fdkolPanel.update();
-		this.setTitle();
 	}
 
 	private class DimemasterPanel
@@ -548,6 +497,21 @@ public class CoinmastersFrame
 		}
 
 		@Override
+		public final void update()
+		{
+			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
+			this.ACount = MrStoreRequest.MR_A.getCount( KoLConstants.inventory );
+			this.BCount = MrStoreRequest.UNCLE_B.getCount( KoLConstants.inventory );
+			boolean canPull =
+				KoLCharacter.isHardcore() ||
+				ConcoctionDatabase.getPullsRemaining() != 0;
+			this.pull.setEnabled( canPull && this.storageCount > 0 );
+			this.AToB.setEnabled( this.ACount > 0 );
+			this.BToA.setEnabled( this.BCount >= 10 );
+			super.update();
+		}
+
+		@Override
 		public void setTitle( final StringBuffer buffer )
 		{
 			this.standardTitle( buffer );
@@ -569,20 +533,6 @@ public class CoinmastersFrame
 			this.pull.setEnabled( isEnabled && this.storageCount > 0 );
 			this.AToB.setEnabled( isEnabled && this.ACount > 0 );
 			this.BToA.setEnabled( isEnabled && this.BCount >= 10 );
-		}
-
-		@Override
-		public final void update()
-		{
-			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
-			this.ACount = MrStoreRequest.MR_A.getCount( KoLConstants.inventory );
-			this.BCount = MrStoreRequest.UNCLE_B.getCount( KoLConstants.inventory );
-			boolean canPull =
-				KoLCharacter.isHardcore() ||
-				ConcoctionDatabase.getPullsRemaining() != 0;
-			this.pull.setEnabled( canPull && this.storageCount > 0 );
-			this.AToB.setEnabled( this.ACount > 0 );
-			this.BToA.setEnabled( this.BCount >= 10 );
 		}
 
 		public void pull()
@@ -638,6 +588,19 @@ public class CoinmastersFrame
 		public SwaggerShopPanel()
 		{
 			super( SwaggerShopRequest.SWAGGER_SHOP );
+			PreferenceListenerRegistry.registerPreferenceListener( "availableSwagger", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "blackBartsBootyAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "holidayHalsBookAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "antagonisticSnowmanKitAvailable", this );
+		}
+
+		@Override
+		public final void update()
+		{
+			// Update title if tokens changed
+			super.update();
+			// Remove item if no longer available
+			this.buyPanel.filterItems();
 		}
 
 		@Override
@@ -888,7 +851,17 @@ public class CoinmastersFrame
 		{
 			super( TicketCounterRequest.TICKET_COUNTER );
 			this.buyPanel.addButton( skeeball, false );
+			this.update();
+		}
+
+		@Override
+		public final void update()
+		{
+			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
+			this.skeeball.setEnabled( this.gameGridTokens > 0 );
 			this.buyPanel.filterItems();
+			// Update title if tokens changed
+			super.update();
 		}
 
 		@Override
@@ -913,14 +886,6 @@ public class CoinmastersFrame
 		{
 			super.setEnabled( isEnabled );
 			this.skeeball.setEnabled( isEnabled && this.gameGridTokens > 0 );
-		}
-
-		@Override
-		public final void update()
-		{
-			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
-			this.skeeball.setEnabled( this.gameGridTokens > 0 );
-			this.buyPanel.filterItems();
 		}
 
 		@Override
@@ -1140,10 +1105,23 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		String side;
+
 		public WarMasterPanel( CoinmasterData data, String side )
 		{
 			super( data );
 			this.side = side;
+			this.buyPanel.filterItems();
+			NamedListenerRegistry.registerNamedListener( "(outfit)", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "warProgress", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "sidequestLighthouseCompleted", this );
+		}
+
+		@Override
+		public void update()
+		{
+			// Update title if tokens changed
+			super.update();
+			// Add items if lighthouse now completed
 			this.buyPanel.filterItems();
 		}
 
@@ -1163,6 +1141,7 @@ public class CoinmastersFrame
 
 	public abstract class CoinmasterPanel
 		extends JPanel
+		implements Listener
 	{
 		protected CoinmasterData data;
 		protected boolean storageInTitle = false;
@@ -1174,11 +1153,12 @@ public class CoinmastersFrame
 		public CoinmasterPanel()
 		{
 			super( new BorderLayout() );
+			NamedListenerRegistry.registerNamedListener( "(coinmaster)", this );
 		}
 
 		public CoinmasterPanel( final CoinmasterData data )
 		{
-			super( new BorderLayout() );
+			this();
 
 			this.data = data;
 
@@ -1197,6 +1177,12 @@ public class CoinmastersFrame
 			this.storageInTitle = this.data.getStorageAction() != null;
 		}
 
+		public void update()
+		{
+			// (coinmaster) is fired when tokens change
+			this.setTitle();
+		}
+
 		public CoinMasterRequest getRequest()
 		{
 			return this.data.getRequest();
@@ -1209,9 +1195,12 @@ public class CoinmastersFrame
 
 		public final void setTitle()
 		{
-			StringBuffer buffer = new StringBuffer();
-			this.setTitle( buffer );
-			CoinmastersFrame.this.setTitle( buffer.toString() );
+			if ( this == CoinmastersFrame.this.currentPanel() )
+			{
+				StringBuffer buffer = new StringBuffer();
+				this.setTitle( buffer );
+				CoinmastersFrame.this.setTitle( buffer.toString() );
+			}
 		}
 
 		public void setTitle( final StringBuffer buffer )
@@ -1275,10 +1264,6 @@ public class CoinmastersFrame
 			return this.data.isAccessible();
 		}
 
-		public void update()
-		{
-		}
-
 		public int buyDefault( final int max )
 		{
 			return 1;
@@ -1310,15 +1295,13 @@ public class CoinmastersFrame
 			{
 				request.addFormField( extraAction );
 			}
+
 			RequestThread.postRequest( request );
 
 			if ( this.buyPanel != null )
 			{
 				this.buyPanel.filterItems();
 			}
-
-			// Update our token count in the title
-			this.setTitle();
 		}
 
 		public AdventureResult[] getDesiredBuyItems( Object[] items, final boolean fromStorage )

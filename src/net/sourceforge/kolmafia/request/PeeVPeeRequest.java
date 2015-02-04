@@ -52,8 +52,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PeeVPeeRequest
@@ -186,7 +184,6 @@ public class PeeVPeeRequest
 				if ( swaggerMatcher.find() )
 				{
 					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
-					CoinmastersFrame.externalUpdate();
 				}
 
 				boolean compactResults = false;

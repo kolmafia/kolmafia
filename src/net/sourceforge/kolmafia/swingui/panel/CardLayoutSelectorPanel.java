@@ -154,7 +154,7 @@ public class CardLayoutSelectorPanel
 	public JComponent currentPanel()
 	{
 		int cardIndex = CardLayoutSelectorPanel.this.panelList.getSelectedIndex();
-		return (JComponent) this.panels.get( cardIndex );
+		return cardIndex == -1 ? null : (JComponent) this.panels.get( cardIndex );
 	}
 
 	private class CardSwitchListener
