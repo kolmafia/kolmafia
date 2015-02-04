@@ -3064,7 +3064,7 @@ public class ConcoctionDatabase
 		if ( !StaticEntity.isHeadless() )
 		{
 			ItemManageFrame.updatePullsRemaining( pullsRemaining );
-			NamedListenerRegistry.fireChange( "(coinmaster)" );
+			NamedListenerRegistry.fireChange( "(pullsremaining)" );
 		}
 
 		if ( pullsRemaining < pullsBudgeted )
