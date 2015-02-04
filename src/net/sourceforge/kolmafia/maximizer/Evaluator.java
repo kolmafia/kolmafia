@@ -1231,6 +1231,11 @@ public class Evaluator
 					this.cardNeeded = true;
 				}
 
+				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
+				{
+					slot = Evaluator.WATCHES;
+				}
+
 				if ( this.posEquip.contains( item ) )
 				{
 					item.automaticFlag = true;
@@ -1287,10 +1292,6 @@ public class Evaluator
 					newMods.add( mods );
 					newMods.add( Modifiers.getModifiers( intrinsic ) );
 					mods = newMods;
-				}
-				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
-				{
-					slot = Evaluator.WATCHES;
 				}
 				double delta = this.getScore( mods ) - nullScore;
 				if ( delta < 0.0 ) continue;
