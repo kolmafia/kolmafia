@@ -350,11 +350,6 @@ public class CoinmastersFrame
 		this.selectorPanel.addCategory( "Special Events" );
 
 		panel = new JPanel( new BorderLayout() );
-		crimbo14Panel = new Crimbo14Panel();
-		panel.add( crimbo14Panel );
-		this.selectorPanel.addPanel( crimbo14Panel.getPanelSelector(), panel );
-
-		panel = new JPanel( new BorderLayout() );
 		awolPanel = new CommendationPanel();
 		panel.add( awolPanel );
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
@@ -417,6 +412,11 @@ public class CoinmastersFrame
 		crimbo11Panel = new Crimbo11Panel();
 		panel.add( crimbo11Panel );
 		this.selectorPanel.addPanel( crimbo11Panel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo14Panel = new Crimbo14Panel();
+		panel.add( crimbo14Panel );
+		this.selectorPanel.addPanel( crimbo14Panel.getPanelSelector(), panel );
 
 		this.selectorPanel.addChangeListener( this );
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
@@ -492,7 +492,7 @@ public class CoinmastersFrame
 			this.buyPanel.addButton( AToB, false );
 			this.buyPanel.addButton( BToA, false );
 			this.storageInTitle = true;
-			this.pullsInTitle = true;
+			this.setPullsInTitle();
 			this.update();
 		}
 
@@ -588,7 +588,6 @@ public class CoinmastersFrame
 		public SwaggerShopPanel()
 		{
 			super( SwaggerShopRequest.SWAGGER_SHOP );
-			PreferenceListenerRegistry.registerPreferenceListener( "availableSwagger", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "blackBartsBootyAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "holidayHalsBookAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "antagonisticSnowmanKitAvailable", this );
@@ -730,7 +729,7 @@ public class CoinmastersFrame
 		{
 			super();
 
-			this.data = Crimbo11Request.CRIMBO11;
+			this.setData( Crimbo11Request.CRIMBO11 );
 
 			this.sellPanel = new SellPanel();
 			this.add( this.sellPanel, BorderLayout.NORTH );
@@ -832,7 +831,7 @@ public class CoinmastersFrame
 		{
 			super();
 
-			this.data = Crimbo14Request.CRIMBO14;
+			this.setData( Crimbo14Request.CRIMBO14 );
 
 			this.sellPanel = new SellPanel();
 			this.add( this.sellPanel, BorderLayout.NORTH );
@@ -1156,11 +1155,28 @@ public class CoinmastersFrame
 			NamedListenerRegistry.registerNamedListener( "(coinmaster)", this );
 		}
 
+		protected void setData( final CoinmasterData data )
+		{
+			this.data = data;
+
+			String property = data.getProperty();
+			if ( property != null )
+			{
+				PreferenceListenerRegistry.registerPreferenceListener( property, this );
+			}
+		}
+
+		protected void setPullsInTitle()
+		{
+			this.pullsInTitle = true;
+			NamedListenerRegistry.registerNamedListener( "(pullsremaining)", this );
+		}
+		
 		public CoinmasterPanel( final CoinmasterData data )
 		{
 			this();
 
-			this.data = data;
+			this.setData( data );
 
 			if ( data.getSellPrices() != null )
 			{
