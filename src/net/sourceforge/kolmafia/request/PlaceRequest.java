@@ -134,7 +134,7 @@ public class PlaceRequest
 		}
 		else if ( place.startsWith( "junggate" ) )
 		{
-			UseItemRequest.parseJungGate( responseText );
+			UseItemRequest.parseConsumption( responseText, false );
 		}
 		else if ( place.equals( "knoll_friendly" ) )
 		{

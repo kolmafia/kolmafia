@@ -216,7 +216,7 @@ public abstract class DvorakManager
 
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
-		
+
 		return true;
 	}
 
