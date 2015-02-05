@@ -4899,7 +4899,7 @@ public abstract class KoLCharacter
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER3 );
 
 		case KoLConstants.CONSUME_CARD:
-			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.CARD_SLEEVE );
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.CARDSLEEVE );
 
 		case KoLConstants.CONSUME_FOLDER:
 			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER1 ) ||
@@ -4965,8 +4965,8 @@ public abstract class KoLCharacter
 			EquipmentManager.NONE;
 
 		case KoLConstants.CONSUME_CARD:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.CARD_SLEEVE ) ?
-				EquipmentManager.CARD_SLEEVE :
+			return KoLCharacter.hasEquipped( item, EquipmentManager.CARDSLEEVE ) ?
+				EquipmentManager.CARDSLEEVE :
 			EquipmentManager.NONE;
 
 		case KoLConstants.CONSUME_FOLDER:
@@ -5430,7 +5430,7 @@ public abstract class KoLCharacter
 		case ItemPool.CARD_SLEEVE:
 		{
 			// Apply card
-			AdventureResult card = equipment[ EquipmentManager.CARD_SLEEVE ];
+			AdventureResult card = equipment[ EquipmentManager.CARDSLEEVE ];
 			if ( card != null && card != EquipmentRequest.UNEQUIP )
 			{
 				newModifiers.add( Modifiers.getModifiers( card.getName() ) );

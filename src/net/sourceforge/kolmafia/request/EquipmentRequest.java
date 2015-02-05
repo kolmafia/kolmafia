@@ -114,7 +114,6 @@ public class EquipmentRequest
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	public static final AdventureResult TRUSTY = ItemPool.get( ItemPool.TRUSTY, 1 );
 	private static final AdventureResult SPECTACLES = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
-	public final static AdventureResult cardSleeve = ItemPool.get( ItemPool.CARD_SLEEVE, 1 );
 
 	public static final int REFRESH = 0;
 	public static final int EQUIPMENT = 1;
@@ -274,15 +273,15 @@ public class EquipmentRequest
 
 		switch ( equipmentSlot )
 		{
-		case EquipmentManager.CROWN_OF_THRONES:
-		case EquipmentManager.BUDDY_BJORN:
+		case EquipmentManager.CROWNOFTHRONES:
+		case EquipmentManager.BUDDYBJORN:
 			break;
 		case EquipmentManager.STICKER1:
 		case EquipmentManager.STICKER2:
 		case EquipmentManager.STICKER3:
 			this.initializeStickerData( changeItem, equipmentSlot, force );
 			break;
-		case EquipmentManager.CARD_SLEEVE:
+		case EquipmentManager.CARDSLEEVE:
 			this.initializeCardSleeveData( changeItem );
 			break;
 		case EquipmentManager.FOLDER1:
@@ -317,9 +316,9 @@ public class EquipmentRequest
 	private static final String chooseEquipmentLocation( final int slot )
 	{
 		return	slot < EquipmentManager.SLOTS ? "inv_equip.php" :
-			slot == EquipmentManager.CROWN_OF_THRONES || slot == EquipmentManager.BUDDY_BJORN ? "bogus.php" :
+			slot == EquipmentManager.CROWNOFTHRONES || slot == EquipmentManager.BUDDYBJORN ? "bogus.php" :
 			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
-			slot == EquipmentManager.CARD_SLEEVE ? "inv_use.php" :
+			slot == EquipmentManager.CARDSLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
 			( slot >= EquipmentManager.FOLDER1 && slot <= EquipmentManager.FOLDER5 ) ? "choice.php" :
 			"bogus.php";
@@ -431,7 +430,7 @@ public class EquipmentRequest
 
 	private void initializeCardSleeveData( final AdventureResult card )
 	{
-		this.equipmentSlot = EquipmentManager.CARD_SLEEVE;
+		this.equipmentSlot = EquipmentManager.CARDSLEEVE;
 		this.addFormField( "whichitem", String.valueOf( ItemPool.CARD_SLEEVE ) );
 
 		if ( card.equals( EquipmentRequest.UNEQUIP ) )
@@ -638,7 +637,7 @@ public class EquipmentRequest
 			return EquipmentRequest.availableSticker();
 
 		case KoLConstants.CONSUME_CARD:
-			return EquipmentManager.CARD_SLEEVE;
+			return EquipmentManager.CARDSLEEVE;
 
 		case KoLConstants.CONSUME_FOLDER:
 			return EquipmentRequest.availableFolder();
@@ -949,13 +948,13 @@ public class EquipmentRequest
 			KoLmafia.updateDisplay( 
 				( this.equipmentSlot == EquipmentManager.WEAPON ? "Wielding " :
 				  this.equipmentSlot == EquipmentManager.OFFHAND ? "Holding " :
-				  this.equipmentSlot == EquipmentManager.CARD_SLEEVE ? "Sliding in " :
+				  this.equipmentSlot == EquipmentManager.CARDSLEEVE ? "Sliding in " :
 				  "Putting on " ) +
 				ItemDatabase.getItemName( this.itemId ) + "..." );
 			break;
 
 		case EquipmentRequest.REMOVE_ITEM:
-			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.CARD_SLEEVE ? "Sliding out " :
+			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.CARDSLEEVE ? "Sliding out " :
 						  "Taking off " ) + 
 						( this.equipmentSlot == EquipmentManager.FAKEHAND ?
 						  "fake hands" :
@@ -970,8 +969,8 @@ public class EquipmentRequest
 
 		// You can only change a card in the card sleeve while it is in inventory
 		boolean changeCardSleeve =
-			this.equipmentSlot == EquipmentManager.CARD_SLEEVE &&
-			KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
+			this.equipmentSlot == EquipmentManager.CARDSLEEVE &&
+			KoLCharacter.hasEquipped( EquipmentManager.CARD_SLEEVE );
 
 		if ( changeCardSleeve )
 		{
@@ -987,7 +986,7 @@ public class EquipmentRequest
 
 		if ( changeCardSleeve )
 		{
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.cardSleeve, EquipmentManager.OFFHAND ) );
+			RequestThread.postRequest( new EquipmentRequest( EquipmentManager.CARD_SLEEVE, EquipmentManager.OFFHAND ) );
 		}
 
 		switch ( this.requestType )
@@ -1089,7 +1088,7 @@ public class EquipmentRequest
 		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.UNEQUIP_ALL:
-			if ( this.equipmentSlot == EquipmentManager.CARD_SLEEVE )
+			if ( this.equipmentSlot == EquipmentManager.CARDSLEEVE )
 			{
 				EquipmentRequest.parseCardSleeve( responseText );
 			}
@@ -1226,7 +1225,7 @@ public class EquipmentRequest
 
 		// Put the old item into inventory and remove the new one
 		EquipmentRequest.switchItem( oldItem, newItem );
-		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, newItem );
+		EquipmentManager.setEquipment( EquipmentManager.CARDSLEEVE, newItem );
 	}
 
 	public static final AdventureResult idToFolder( final String id )
@@ -2076,7 +2075,7 @@ public class EquipmentRequest
 	private static final Pattern SLEEVECARD_PATTERN = Pattern.compile( "sleevecard=(\\d+)" );
 	public static final boolean registerCardSleeve( final String urlString )
 	{
-		UseItemRequest.setLastItemUsed( ItemPool.get( ItemPool.CARD_SLEEVE, 1 ) );
+		UseItemRequest.setLastItemUsed( EquipmentManager.CARD_SLEEVE );
 		Matcher m = SLEEVECARD_PATTERN.matcher( urlString );
 		String message =
 			m.find() ?

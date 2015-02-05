@@ -686,7 +686,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				if ( count <= 0 ) continue;
 				if ( item.getItemId() == ItemPool.CARD_SLEEVE )
 				{
-					this.equipment[ EquipmentManager.CARD_SLEEVE ] = bestCard;
+					this.equipment[ EquipmentManager.CARDSLEEVE ] = bestCard;
 				}
 				this.equipment[ EquipmentManager.OFFHAND ] = item;
 				this.tryOffhands( possibles, bestCard );
