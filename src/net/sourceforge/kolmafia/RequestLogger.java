@@ -794,7 +794,7 @@ public class RequestLogger
 		// Let the "placeholder" for place.php take every otherwise
 		// unclaimed call to that URL.
 
-		if ( ( request instanceof PlaceRequest || isExternal ) && PlaceRequest.registerRequest( urlString ) )
+		if ( PlaceRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

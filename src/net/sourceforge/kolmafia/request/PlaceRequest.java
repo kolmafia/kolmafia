@@ -267,10 +267,6 @@ public class PlaceRequest
 				message = "Manipulating the Control Panel in the Conspiracy Island bunker";
 			}
 		}
-		else if ( place.equals( "arcade" ) )
-		{
-			return ArcadeRequest.registerRequest( urlString );
-		}
 		else if ( place.equals( "canadia" ) )
 		{
 			if ( action.equals( "lc_mcd" ) )
@@ -281,10 +277,6 @@ public class PlaceRequest
 			{
 				message = "Talking to Marty";
 			}
-		}
-		else if ( place.equals( "chateau" ) )
-		{
-			return ChateauRequest.registerRequest( urlString );
 		}
 		else if ( place.equals( "crashsite" ) )
 		{
@@ -316,9 +308,10 @@ public class PlaceRequest
 				// Don't log this
 				return true;
 			}
-			if ( action.equals( "fv_untinker" ) )
+			if ( action.startsWith( "fv_untinker" ) )
 			{
-				return UntinkerRequest.registerRequest( urlString );
+				// Let UntinkerRequest claim this
+				return false;
 			}
 			if ( action.equals( "fv_mystic" ) )
 			{
@@ -345,12 +338,6 @@ public class PlaceRequest
 			{
 				message = "Visiting Rumplestiltskin's Workshop";
 			}
-		}
-		else if ( place.equals( "knoll_friendly" ) )
-		{
-			return action.equals( "dk_gym" ) ?
-				ClanRumpusRequest.registerRequest( urlString ) :
-				KnollRequest.registerRequest( urlString );
 		}
 		else if ( place.equals( "manor1" ) )
 		{
@@ -484,14 +471,6 @@ public class PlaceRequest
 				message = "Visiting the Odd Jobs Board";
 			}
 		}
-		else if ( place.equals( "town_wrong" ) )
-		{
-			if ( action.startsWith( "townwrong_artist" ) )
-			{
-				return ArtistRequest.registerRequest( urlString );
-			}
-			return action.equals( "" );
-		}
 		else if ( place.equals( "twitch" ) )
 		{
 			if ( action.equals( "twitch_votingbooth" ) )
@@ -541,13 +520,17 @@ public class PlaceRequest
 			}
 		}
 		else if ( place.equals( "airport" ) ||
+			  place.equals( "arcade" ) ||
 			  place.equals( "bathole" ) ||
 			  place.equals( "beanstalk" ) ||
+			  place.equals( "chateau" ) ||
 			  place.equals( "giantcastle" ) ||
 			  place.equals( "hiddencity" ) ||
+			  place.equals( "knoll_friendly" ) ||
 			  place.equals( "nstower" ) ||
 			  place.equals( "town_market" ) ||
 			  place.equals( "town_right" ) ||
+			  place.equals( "town_wrong" ) ||
 			  place.equals( "wormwood" ) )
 		{
 			// It is not interesting to log simple visits to these
