@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
@@ -716,7 +717,7 @@ public class CoinmastersFrame
 			case ItemPool.BLACK_GLASS:
 				return BigBrotherRequest.BLACK_GLASS.getCount( KoLConstants.inventory ) == 0;
 			case ItemPool.FOLDER_19:
-				return KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
+				return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
 			}
 			return true;
 		}
@@ -875,7 +876,7 @@ public class CoinmastersFrame
 			if ( itemId == ItemPool.FOLDER_14 )
 			{
 				// Jackass Plumber folder
-				return KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
+				return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
 			}
 			return !Preferences.getBoolean( "lockedItem" + itemId );
 		}

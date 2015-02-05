@@ -134,11 +134,6 @@ public class GearChangeFrame
 	private FamLockCheckbox famLockCheckbox;
 	private FakeHandsSpinner fakeHands;
 
-	private final static AdventureResult fakeHand = ItemPool.get( ItemPool.FAKE_HAND, 1 );
-	private final static AdventureResult crownOfThrones = ItemPool.get( ItemPool.HATSEAT, 1 );
-	private final static AdventureResult buddyBjorn = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
-	public final static AdventureResult FOLDER_HOLDER = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
-
 	public GearChangeFrame()
 	{
 		super( "Gear Changer" );
@@ -573,7 +568,7 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement() );
 
-			rows.add( new VerifiableElement( "Card Sleeve:", GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ] ) );
+			rows.add( new VerifiableElement( "Card Sleeve:", GearChangeFrame.this.equipment[ EquipmentManager.CARDSLEEVE ] ) );
 
 			rows.add( new VerifiableElement() );
 			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ] ) );
@@ -598,21 +593,21 @@ public class GearChangeFrame
 		{
 			super.setEnabled( isEnabled );
 
-			boolean hasCrownOfThrones = KoLCharacter.hasEquipped( GearChangeFrame.crownOfThrones );
+			boolean hasCrownOfThrones = KoLCharacter.hasEquipped( EquipmentManager.CROWN_OF_THRONES );
 			GearChangeFrame.this.crownSelect.setEnabled( isEnabled && hasCrownOfThrones );
 
-			boolean hasBuddyBjorn = KoLCharacter.hasEquipped( GearChangeFrame.buddyBjorn );
+			boolean hasBuddyBjorn = KoLCharacter.hasEquipped( EquipmentManager.BUDDY_BJORN );
 			GearChangeFrame.this.bjornSelect.setEnabled( isEnabled && hasBuddyBjorn );
 
 			boolean hasFakeHands = GearChangeFrame.this.fakeHands.getAvailableFakeHands() > 0;
 			GearChangeFrame.this.fakeHands.setEnabled( isEnabled && hasFakeHands );
 
-			boolean hasCardSleeve = EquipmentRequest.cardSleeve.getCount( KoLConstants.inventory ) > 0 ||
-				KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
-			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( isEnabled && hasCardSleeve );
+			boolean hasCardSleeve = EquipmentManager.CARD_SLEEVE.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( EquipmentManager.CARD_SLEEVE );
+			GearChangeFrame.this.equipment[ EquipmentManager.CARDSLEEVE ].setEnabled( isEnabled && hasCardSleeve );
 
-			boolean hasFolderHolder = GearChangeFrame.FOLDER_HOLDER.getCount( KoLConstants.inventory ) > 0 ||
-				KoLCharacter.hasEquipped( GearChangeFrame.FOLDER_HOLDER );
+			boolean hasFolderHolder = EquipmentManager.FOLDER_HOLDER.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
 			boolean inHighSchool = KoLCharacter.inHighschool();
 
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( isEnabled && hasFolderHolder );
@@ -656,10 +651,10 @@ public class GearChangeFrame
 		}
 
 		// Card Sleeve
-		AdventureResult card = (AdventureResult) this.equipment[ EquipmentManager.CARD_SLEEVE ].getSelectedItem();
-		if ( !EquipmentManager.getEquipment( EquipmentManager.CARD_SLEEVE ).equals( card ) )
+		AdventureResult card = (AdventureResult) this.equipment[ EquipmentManager.CARDSLEEVE ].getSelectedItem();
+		if ( !EquipmentManager.getEquipment( EquipmentManager.CARDSLEEVE ).equals( card ) )
 		{
-			RequestThread.postRequest( new EquipmentRequest( card, EquipmentManager.CARD_SLEEVE, true ) );
+			RequestThread.postRequest( new EquipmentRequest( card, EquipmentManager.CARDSLEEVE, true ) );
 		}
 
 		// Stickers
@@ -713,7 +708,7 @@ public class GearChangeFrame
 			// Equip fake hands one at a time until we have enough
 			while ( oldFakeHands++ < newFakeHands )
 			{
-				EquipmentRequest request = new EquipmentRequest( GearChangeFrame.fakeHand, EquipmentManager.FAKEHAND );
+				EquipmentRequest request = new EquipmentRequest( EquipmentManager.FAKE_HAND, EquipmentManager.FAKEHAND );
 				RequestThread.postRequest( request );
 			}
 		}
@@ -1212,9 +1207,9 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
 		this.equipment[ EquipmentManager.FAMILIAR ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
 		this.updateEquipmentList( this.crownFamiliars, this.carriableFamiliars( currentFamiliar, bjornedFamiliar ), selectedThroneFamiliar );
-		this.equipment[ EquipmentManager.CROWN_OF_THRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+		this.equipment[ EquipmentManager.CROWNOFTHRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
 		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
-		this.equipment[ EquipmentManager.BUDDY_BJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
 	}
 
 	private List validHatItems( final AdventureResult currentHat )
@@ -1770,7 +1765,7 @@ public class GearChangeFrame
 
 		public void update()
 		{
-			int available = GearChangeFrame.fakeHand.getCount( KoLConstants.inventory );
+			int available = EquipmentManager.FAKE_HAND.getCount( KoLConstants.inventory );
 			this.currentFakeHands = EquipmentManager.getFakeHands();
 			this.availableFakeHands = this.currentFakeHands + available;
 			this.setValue( IntegerPool.get( this.currentFakeHands ) );

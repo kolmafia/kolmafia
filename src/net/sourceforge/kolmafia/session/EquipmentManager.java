@@ -101,13 +101,13 @@ public class EquipmentManager
 	public static final int SLOTS = 10;
 
 	// Pseudo-equipment slots
-	public static final int CROWN_OF_THRONES = 10;
+	public static final int CROWNOFTHRONES = 10;
 
 	public static final int STICKER1 = 11;
 	public static final int STICKER2 = 12;
 	public static final int STICKER3 = 13;
 
-	public static final int CARD_SLEEVE = 14;
+	public static final int CARDSLEEVE = 14;
 
 	public static final int FOLDER1 = 15;
 	public static final int FOLDER2 = 16;
@@ -115,7 +115,7 @@ public class EquipmentManager
 	public static final int FOLDER4 = 18;
 	public static final int FOLDER5 = 19;
 
-	public static final int BUDDY_BJORN = 20;
+	public static final int BUDDYBJORN = 20;
 
 	// Count of all equipment slots: HAT to FOLDER5
 	public static final int ALL_SLOTS = 21;
@@ -136,6 +136,12 @@ public class EquipmentManager
 	private static final int[] turnsRemaining = new int[ 3 ];
 
 	private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
+
+	public final static AdventureResult FAKE_HAND = ItemPool.get( ItemPool.FAKE_HAND, 1 );
+	public final static AdventureResult CARD_SLEEVE = ItemPool.get( ItemPool.CARD_SLEEVE, 1 );
+	public final static AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
+	public final static AdventureResult BUDDY_BJORN = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
+	public final static AdventureResult FOLDER_HOLDER = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
 
 	static
 	{
@@ -1449,7 +1455,7 @@ public class EquipmentManager
 		case EquipmentManager.STICKER2:
 		case EquipmentManager.STICKER3:
 			return KoLConstants.CONSUME_STICKER;
-		case EquipmentManager.CARD_SLEEVE:
+		case EquipmentManager.CARDSLEEVE:
 			return KoLConstants.CONSUME_CARD;
 		case EquipmentManager.FOLDER1:
 		case EquipmentManager.FOLDER2:
@@ -1485,7 +1491,7 @@ public class EquipmentManager
 		case KoLConstants.CONSUME_STICKER:
 			return EquipmentManager.STICKER1;
 		case KoLConstants.CONSUME_CARD:
-			return EquipmentManager.CARD_SLEEVE;
+			return EquipmentManager.CARDSLEEVE;
 		case KoLConstants.CONSUME_FOLDER:
 			return EquipmentManager.STICKER1;
 		default:

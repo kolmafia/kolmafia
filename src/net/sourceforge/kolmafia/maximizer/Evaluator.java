@@ -1219,14 +1219,15 @@ public class Evaluator
 
 				// If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
 				// unless you specified not to change them
-				if ( ( ( id == ItemPool.HATSEAT && this.slots[ EquipmentManager.CROWN_OF_THRONES ] >= 0 ) 
-					|| ( id == ItemPool.BUDDY_BJORN && this.slots[ EquipmentManager.BUDDY_BJORN ] >= 0 ) ) &&
-					!KoLCharacter.isSneakyPete() && !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
+
+				if ( ( ( id == ItemPool.HATSEAT && this.slots[ EquipmentManager.CROWNOFTHRONES ] >= 0 ) ||
+				       ( id == ItemPool.BUDDY_BJORN && this.slots[ EquipmentManager.BUDDYBJORN ] >= 0 ) ) &&
+				     !KoLCharacter.isSneakyPete() && !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
 				{
 					this.carriedFamiliarsNeeded++;
 				}
 
-				if ( id == ItemPool.CARD_SLEEVE && this.slots[ EquipmentManager.CARD_SLEEVE ] >= 0 )
+				if ( id == ItemPool.CARD_SLEEVE && this.slots[ EquipmentManager.CARDSLEEVE ] >= 0 )
 				{
 					this.cardNeeded = true;
 				}
@@ -1323,7 +1324,7 @@ public class Evaluator
 		if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
 		{
 			// If we're not allowed to change the current familiar, blacklist it
-			if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
+			if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
 			{
 				useBjornFamiliar = KoLCharacter.getBjorned();
 			}
@@ -1335,7 +1336,7 @@ public class Evaluator
 		if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) )
 		{
 			// If we're not allowed to change the current familiar, add it
-			if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
+			if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
 			{
 				useCrownFamiliar = KoLCharacter.getEnthroned();
 			}
@@ -1437,7 +1438,7 @@ public class Evaluator
 					spec.attachment = sleeve;
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ EquipmentManager.OFFHAND ] = sleeve;
-					spec.equipment[ EquipmentManager.CARD_SLEEVE ] = card;
+					spec.equipment[ EquipmentManager.CARDSLEEVE ] = card;
 					if ( spec.compareTo( best ) > 0 )
 					{
 						best = (MaximizerSpeculation) spec.clone();
@@ -1496,7 +1497,7 @@ public class Evaluator
 					spec.equipment[ useSlot ] = item;
 					if ( item.getItemId() == ItemPool.HATSEAT )
 					{
-						if ( this.slots[ EquipmentManager.CROWN_OF_THRONES ] < 0 )
+						if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
 						{
 							spec.setEnthroned( useCrownFamiliar );
 						}
@@ -1512,7 +1513,7 @@ public class Evaluator
 					}
 					else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 					{
-						if ( this.slots[ EquipmentManager.BUDDY_BJORN ] < 0 )
+						if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
 						{
 							spec.setBjorned( useBjornFamiliar );
 						}
@@ -1538,13 +1539,13 @@ public class Evaluator
 						MaximizerSpeculation current = new MaximizerSpeculation();
 						if ( bestCard != null )
 						{
-							spec.equipment[ EquipmentManager.CARD_SLEEVE ] = bestCard;
+							spec.equipment[ EquipmentManager.CARDSLEEVE ] = bestCard;
 							useCard = (AdventureResult) bestCard;
 						}
 						else
 						{
-							spec.equipment[ EquipmentManager.CARD_SLEEVE ] = current.equipment[ EquipmentManager.CARD_SLEEVE ];
-							useCard = (AdventureResult) current.equipment[ EquipmentManager.CARD_SLEEVE ];
+							spec.equipment[ EquipmentManager.CARDSLEEVE ] = current.equipment[ EquipmentManager.CARDSLEEVE ];
+							useCard = (AdventureResult) current.equipment[ EquipmentManager.CARDSLEEVE ];
 						}
 					}
 					else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
