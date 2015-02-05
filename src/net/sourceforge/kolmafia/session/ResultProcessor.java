@@ -220,16 +220,8 @@ public class ResultProcessor
 				ItemDatabase.registerPlural( itemId, plural );
 			}
 
-			// If these are not combat results, process the
-			// acquisition and remove it from the buffer.
-			if ( !combatResults && !hagnk )
-			{
-				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
-				ResultProcessor.processItem( false, acquisition, item, data );
-				itemMatcher.appendReplacement( buffer, "" );
-				changed = true;
-			}
-			else if ( hagnk )
+			// If the item went to Hagnk's process it now.
+			if ( hagnk )
 			{
 				itemMatcher.appendReplacement( buffer, "" );
 				changed = true;
