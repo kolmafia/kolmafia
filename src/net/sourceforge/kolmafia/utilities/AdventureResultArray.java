@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -44,6 +45,7 @@ import net.sourceforge.kolmafia.AdventureResult;
  */
 
 public class AdventureResultArray
+	implements Iterable<AdventureResult>
 {
 	private final ArrayList<AdventureResult> internalList;
 
@@ -55,6 +57,11 @@ public class AdventureResultArray
 	public AdventureResultArray( final List data )
 	{
 		this.internalList = new ArrayList<AdventureResult>( data );
+	}
+
+	public Iterator<AdventureResult> iterator()
+	{
+		return this.internalList.iterator();
 	}
 
 	public AdventureResult get( final int index )

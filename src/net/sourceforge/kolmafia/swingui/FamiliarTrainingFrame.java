@@ -91,15 +91,13 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
@@ -657,110 +655,10 @@ public class FamiliarTrainingFrame
 			private class EquipAllListener
 				extends ThreadedListener
 			{
-				private final ArrayList<AdventureResult> closetItems = new ArrayList<AdventureResult>();
-				private final ArrayList<AdventureResult> storageItems = new ArrayList<AdventureResult>();
-				private final ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
-
 				@Override
 				protected void execute()
 				{
-					KoLmafia.updateDisplay( "Equipping familiars..." );
-
-					FamiliarData current = KoLCharacter.getFamiliar();
-
-					FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-					KoLCharacter.getFamiliarList().toArray( familiars );
-
-					for ( int i = 0; i < familiars.length; ++i )
-					{
-						this.equipFamiliar( familiars[ i ] );
-					}
-
-					// If nothing to do, do nothing!
-
-					if ( this.requests.size() == 0 )
-					{
-						return;
-					}
-
-					if ( closetItems.size() > 0 )
-					{
-						AdventureResult[] array = new AdventureResult[ this.closetItems.size() ];
-						this.closetItems.toArray( array );
-						RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, array ) );
-					}
-
-					if ( storageItems.size() > 0 )
-					{
-						AdventureResult[] array = new AdventureResult[ this.storageItems.size() ];
-						this.storageItems.toArray( array );
-						RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, array ) );
-					}
-
-					GenericRequest[] array = new GenericRequest[ this.requests.size() ];
-					this.requests.toArray( array );
-
-					for ( int i = 0; i < array.length; ++i )
-					{
-						RequestThread.postRequest( array[ i ] );
-					}
-
-					RequestThread.postRequest( new FamiliarRequest( current ) );
-
-					// Leave list empty for next time and
-					// allow garbage collection.
-
-					this.closetItems.clear();
-					this.storageItems.clear();
-					this.requests.clear();
-				}
-
-				private void equipFamiliar( FamiliarData familiar )
-				{
-					String itemName = FamiliarDatabase.getFamiliarItem( familiar.getId() );
-
-					if ( itemName == null || itemName.equals( "" ) )
-					{
-						return;
-					}
-
-					if ( familiar.getItem().getName().equals( itemName ) )
-					{
-						return;
-					}
-
-					AdventureResult item = new AdventureResult( itemName, 1, false );
-					if ( item.getCount( KoLConstants.inventory ) > 0 )
-					{
-						// Use one from inventory
-					}
-					else if ( item.getCount( KoLConstants.closet ) > 0 )
-					{
-						// Use one from the closet
-						this.closetItems.add( item );
-					}
-					else if ( item.getCount( KoLConstants.storage ) > 0 )
-					{
-						// Use one from storage
-						this.storageItems.add( item );
-					}
-					else
-					{
-						return;
-					}
-
-					GenericRequest req;
-					if ( KoLCharacter.getFamiliar().equals( familiar ) )
-					{
-						req = new EquipmentRequest( item );
-					}
-					else
-					{
-						req = new FamiliarRequest( familiar, item );
-					}
-					this.requests.add( req );
-
-					return;
+					FamiliarManager.equipAllFamiliars();
 				}
 			}
 

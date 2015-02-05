@@ -176,6 +176,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
@@ -1024,7 +1025,6 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "stun_skill", DataTypes.SKILL_TYPE, params ) );
 		
-		
 		// Equipment functions.
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -1066,6 +1066,8 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit_tattoo", DataTypes.STRING_TYPE, params ) );
 
+		// Familiar functions.
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
@@ -1098,6 +1100,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "equip_all_familiars", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
@@ -5022,6 +5027,12 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 		}
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value equip_all_familiars( Interpreter interpreter )
+	{
+		FamiliarManager.equipAllFamiliars();
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value minstrel_level( Interpreter interpreter )
