@@ -2057,7 +2057,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				message = "eat " + hotdog;
+				message = "eat 1 " + hotdog;
 			}
 			else if ( action.equals( "hotdogsupply" ) )
 			{
@@ -2105,7 +2105,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				message = "drink " + speakeasyDrink;
+				message = "drink 1 " + speakeasyDrink;
 			}
 			else
 			{
