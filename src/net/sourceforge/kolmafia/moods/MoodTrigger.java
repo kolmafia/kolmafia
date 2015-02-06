@@ -95,12 +95,27 @@ public class MoodTrigger
 
 			if ( action.startsWith( "use" ) )
 			{
-				this.item = ItemFinder.getFirstMatchingItem( parameters, false );
-
-				if ( this.item != null )
+				boolean star = parameters.charAt( 0 ) == '*';
+				if ( star )
 				{
-					this.count = this.item.getCount();
-					this.action = "use " + this.count + " " + this.item.bangPotionAlias();
+					spaceIndex = parameters.indexOf( " " );
+					parameters = parameters.substring( spaceIndex ).trim();
+				}
+
+				AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, false );
+
+				if ( item != null )
+				{
+					if ( star )
+					{
+						this.action = "use * " + item.bangPotionAlias();
+					}
+					else
+					{
+						this.item = item;
+						this.count = this.item.getCount();
+						this.action = "use " + this.count + " " + this.item.bangPotionAlias();
+					}
 				}
 			}
 			else
