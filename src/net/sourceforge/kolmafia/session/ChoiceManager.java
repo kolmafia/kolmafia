@@ -6115,11 +6115,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 125:	// No visible means of support
-			// The tiles took a turn to get here
-			ResultProcessor.processAdventuresUsed( 1 );
-			break;
-
 		// Start the Island War Quest
 		case 142:
 		case 146:
@@ -6212,8 +6207,7 @@ public abstract class ChoiceManager
 		case 1019:	// Bee Rewarded
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				// head towards beehive
-				// This takes take a turn
+				// Heading towards beehive takes a turn
 				ResultProcessor.processAdventuresUsed( 1 );
 			}
 			break;
@@ -6221,6 +6215,45 @@ public abstract class ChoiceManager
 		case 1028:
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
+			break;
+		}
+	}
+
+	public static void postChoice0( final GenericRequest request )
+	{
+		// Things that have to be done before we register the encounter.
+		
+		String text = request.responseText;
+		int choice =
+			ChoiceManager.lastChoice == 0 ?
+			ChoiceManager.extractChoice( text ) :
+			ChoiceManager.lastChoice;
+
+		if ( choice == 0 )
+		{
+			// choice.php did not offer us any choices.
+			// This would be a bug in KoL itself.
+			return;
+		}
+
+		switch ( choice )
+		{
+		case 125:	// No Visible Means of Support
+			if ( ChoiceManager.lastChoice == 0 )
+			{
+				// If we are visiting for the first time,
+				// finish the tiles
+				DvorakManager.lastTile( text );
+			}
+			break;
+
+		case 1019:	// Bee Rewarded
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// This took a turn, but does not contain an
+				// "Encounter", so was not logged.
+				RequestLogger.registerLocation( "The Black Forest" );
+			}
 			break;
 		}
 	}
@@ -6237,7 +6270,6 @@ public abstract class ChoiceManager
 		{
 			// We are viewing the choice page for the first time.
 			ChoiceManager.visitChoice( request );
-			// Set starting turncount
 			return;
 		}
 
@@ -8297,6 +8329,7 @@ public abstract class ChoiceManager
 				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
 			break;
+
 		case 125:
 			// No visible means of support
 			if ( ChoiceManager.lastDecision == 3  )
@@ -9240,11 +9273,6 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
-		case 125:
-			// No visible means of support
-			DvorakManager.lastTile( text );
-			break;
-
 		case 360:
 			// Wumpus Hunt
 			WumpusManager.visitChoice( text );
@@ -11688,9 +11716,18 @@ public abstract class ChoiceManager
 		switch ( choice )
 		{
 		case 123:	// At Least It's Not Full Of Trash
-		case 125:	// No Visible Means of Support
-			// These also take a turn
 			RequestLogger.registerLocation( "The Hidden Temple" );
+			break;
+
+		case 125:	// No Visible Means of Support
+			// The tiles took a turn to get here
+			ResultProcessor.processAdventuresUsed( 1 );
+			RequestLogger.registerLocation( "The Hidden Temple" );
+			break;
+
+		case 437:	// Flying In Circles
+			ResultProcessor.processAdventuresUsed( 1 );
+			RequestLogger.registerLocation( "The Nemesis' Lair" );
 			break;
 
 		case 620:	// A Blow Is Struck!
@@ -11719,7 +11756,6 @@ public abstract class ChoiceManager
 			break;
 
 		case 1018:	// Bee Persistent
-		case 1019:	// Bee Rewarded
 			// These also take a turn
 			RequestLogger.registerLocation( "The Black Forest" );
 			break;

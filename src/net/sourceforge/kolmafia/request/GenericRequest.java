@@ -2299,6 +2299,12 @@ public class GenericRequest
 			GenericRequest.isRatQuest = false;
 		}
 
+		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
+		{
+			// Handle choices BEFORE registering Encounter
+			ChoiceManager.postChoice0( this );
+		}
+
 		this.encounter = AdventureRequest.registerEncounter( this );
 
 		if ( urlString.startsWith( "fight.php" ) )
@@ -2330,7 +2336,8 @@ public class GenericRequest
 		}
 
 		if ( urlString.startsWith( "fight.php" ) )
-		{ // This has to be done after parseResults() to properly
+		{
+			// This has to be done after parseResults() to properly
 			// deal with combat items received during combat.
 			FightRequest.parseCombatItems( this.responseText );
 			FightRequest.parseAvailableCombatSkills( this.responseText );

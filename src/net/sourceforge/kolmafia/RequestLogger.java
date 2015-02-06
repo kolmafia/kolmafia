@@ -604,7 +604,7 @@ public class RequestLogger
 
 		// Anything past this is not an "adventure" per se
 
-		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
+		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest || request instanceof PlaceRequest;
 
 		if ( ( request instanceof FightRequest || isExternal ) && FightRequest.registerRequest( isExternal, urlString ) )
 		{
