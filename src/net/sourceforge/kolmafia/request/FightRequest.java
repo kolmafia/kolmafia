@@ -596,7 +596,7 @@ public class FightRequest
 				FightRequest.ireallymeanit = null;
 			}
 
-			if ( macro != null && macro.length() > 0 && ( macro.indexOf( "\n" ) != -1 || macro.indexOf( ";" ) != -1 ) )
+			if ( macro != null && macro.length() > 0 && ( macro.contains( "\n" ) || macro.contains( ";" ) ) )
 			{
 				this.handleMacroAction( macro );
 			}
@@ -5844,7 +5844,7 @@ public class FightRequest
 		}
 
 		Preferences.decrement( setting, evilness, 0 );
-		Preferences.decrement( "cyrptTotalEvilness", -evilness, 0 );
+		Preferences.decrement( "cyrptTotalEvilness", evilness, 0 );
 		return true;
 	}
 	
