@@ -11862,6 +11862,7 @@ public abstract class ChoiceManager
 		case 987: // The Post-Apocalyptic Survivor Encampment
 		case 991: // Build a Crimbot!
 		case 994: // Hide a Gift!
+		case 1003: // Contest Booth
 			return true;
 
 		default:

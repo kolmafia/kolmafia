@@ -5665,6 +5665,12 @@ public class FightRequest
 		FightRequest.extractVerse( node, text, null );
 		String str = text.toString();
 
+		// Lovebugs are tagged as <!--familiarmessage--> and can remove evil
+		if ( FightRequest.handleEvilometer( str, status ) )
+		{
+			return;
+		}
+
 		// For some unknown reason, gladiator moves are tagged as <!--familiarmessage-->
 		if ( str.startsWith( "New Special Move Unlocked" ) )
 		{
