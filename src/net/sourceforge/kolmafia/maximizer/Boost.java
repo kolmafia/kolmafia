@@ -180,7 +180,12 @@ implements Comparable<Boost>
 	{
 		return this.cmd;
 	}
-	
+
+	public int getSlot()
+	{
+		return this.slot;
+	}
+
 	public boolean isEquipment()
 	{
 		return this.isEquipment;

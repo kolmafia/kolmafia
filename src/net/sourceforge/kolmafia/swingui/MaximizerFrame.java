@@ -59,6 +59,7 @@ import java.util.Iterator;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -275,6 +276,7 @@ public class MaximizerFrame
 		{
 			KoLmafia.forceContinue();
 			boolean any = false;
+			Maximizer.acquireDuplicateEquipment( Maximizer.boosts );
 			Iterator i = Maximizer.boosts.iterator();
 			while ( i.hasNext() )
 			{
@@ -298,6 +300,15 @@ public class MaximizerFrame
 			KoLmafia.forceContinue();
 			boolean any = false;
 			Object[] boosts = this.elementList.getSelectedValues();
+			LockableListModel<Boost> boostList = new LockableListModel<Boost>();
+			for ( int i = 0; i < boosts.length; ++i )
+			{
+				if ( boosts[ i ] instanceof Boost )
+				{
+					boostList.add( (Boost) boosts[ i ] );
+				}
+			}
+			Maximizer.acquireDuplicateEquipment( boostList );
 			for ( int i = 0; i < boosts.length; ++i )
 			{
 				if ( boosts[ i ] instanceof Boost )

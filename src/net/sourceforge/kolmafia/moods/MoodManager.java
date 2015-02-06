@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -870,7 +871,7 @@ public abstract class MoodManager
 
 	public static final boolean canMasterTrivia()
 	{
-		if ( KoLCharacter.canInteract() )
+		if ( KoLCharacter.canInteract() && !Limitmode.limitMall() )
 		{
 			return true;
 		}
