@@ -1079,14 +1079,14 @@ public abstract class SorceressLairManager
 			Preferences.setInteger( "choiceAdventure1005", 1 );	// 'Allo
 			Preferences.setInteger( "choiceAdventure1006", 1 );	// One Small Step For Adventurer
 			Preferences.setInteger( "choiceAdventure1007", 2 );	// Twisty Little Passages, All Hedge
-			Preferences.setInteger( "choiceAdventure1009", 2 );	// Good Ol' 44% Duck
-			Preferences.setInteger( "choiceAdventure1011", 1 );	// Of Mouseholes and Manholes
+			Preferences.setInteger( "choiceAdventure1009", 1 );	// Good Ol' 44% Duck
+			Preferences.setInteger( "choiceAdventure1010", 2 );	// Another Day, Another Fork
 			Preferences.setInteger( "choiceAdventure1012", 1 );	// The Last Temptation
 			Preferences.setInteger( "choiceAdventure1013", 1 );	// Mazel Tov!
 			// If the user is already part way into the maze, the
 			// following will eventually get him back on track.
 			Preferences.setInteger( "choiceAdventure1008", 1 );	// Pooling Your Resources
-			Preferences.setInteger( "choiceAdventure1010", 1 );	// Another Day, Another Fork
+			Preferences.setInteger( "choiceAdventure1011", 1 );	// Of Mouseholes and Manholes
 			break;
 		case HEDGE_MAZE_NUGGLETS:
 			// This is the expected path, entering in room 1
