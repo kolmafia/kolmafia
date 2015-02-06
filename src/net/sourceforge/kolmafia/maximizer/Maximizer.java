@@ -1288,7 +1288,6 @@ public class Maximizer
 					{
 						equipment[ (int) slot ] = ((Boost) boost).getItem( false );
 					}
-					KoLmafia.updateDisplay( "Boost: " + ((Boost) boost).getItem( false ) + " in slot " + slot );
 				}
 			}
 		}
@@ -1320,12 +1319,10 @@ public class Maximizer
 				if ( count != null )
 				{
 					countById.put( itemId, count + 1 );
-					KoLmafia.updateDisplay( "Count: " + (count+1) + " " + array[ slot ].getName() );
 				}
 				else
 				{
 					countById.put( itemId, 1 );
-					KoLmafia.updateDisplay( "Count: 1 " + array[ slot ].getName() );
 				}
 			}
 		}
@@ -1338,7 +1335,6 @@ public class Maximizer
 			int equippedCount = InventoryManager.getEquippedCount( itemId );
 			int inventoryCount = InventoryManager.getCount( itemId );
 			int needed = (int) equip.getValue();
-			KoLmafia.updateDisplay( "ItemId: " + itemId + ", Equipped: " + equippedCount + ", Inventory: " + inventoryCount + ", Needed: " + needed );
 			if ( needed > equippedCount + inventoryCount )
 			{
 				InventoryManager.retrieveItem( itemId, needed - equippedCount, true, false );
