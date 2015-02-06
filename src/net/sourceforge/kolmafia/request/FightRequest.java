@@ -5843,8 +5843,8 @@ public class FightRequest
 			evilness = StringUtilities.parseInt( m.group(1) );
 		}
 
-		Preferences.increment( setting, -evilness );
-		Preferences.increment( "cyrptTotalEvilness", -evilness );
+		Preferences.decrement( setting, evilness, 0 );
+		Preferences.decrement( "cyrptTotalEvilness", -evilness, 0 );
 		return true;
 	}
 	
