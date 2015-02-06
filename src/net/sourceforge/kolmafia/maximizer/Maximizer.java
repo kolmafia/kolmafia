@@ -34,7 +34,10 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -71,6 +74,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
@@ -183,6 +187,11 @@ public class Maximizer
 			MaximizerSpeculation.showProgress();
 
 			boolean[] alreadyDone = new boolean[ EquipmentManager.ALL_SLOTS ];
+
+			if ( equipLevel == -1 )
+			{
+				Maximizer.acquireDuplicateEquipment( Maximizer.best.equipment );
+			}
 
 			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot )
 			{
@@ -372,6 +381,10 @@ public class Maximizer
 							{
 								continue;
 							}
+							else if ( Limitmode.limitClan() )
+							{
+								continue;
+							}
 							else if ( !haveVipKey )
 							{
 								if ( includeAll )
@@ -456,7 +469,7 @@ public class Maximizer
 				{
 					int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
 					int ka = Preferences.getInteger( "knownAscensions" );
-					if ( lfc < ka )
+					if ( lfc < ka || Limitmode.limitZone( "Friars" ) )
 					{
 						continue;
 					}
@@ -481,6 +494,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitZone( "RabbitHole" ) )
+					{
+						continue;
+					}
 					else if ( Preferences.getBoolean( "_madTeaParty" ) )
 					{
 						cmd = "";
@@ -491,6 +508,10 @@ public class Maximizer
 				else if ( cmd.startsWith( "mom " ) )
 				{
 					if ( !QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitZone( "The Sea" ) )
 					{
 						continue;
 					}
@@ -512,6 +533,10 @@ public class Maximizer
 						.getQuantityPossible();
 
 					if ( !KoLCharacter.canInteract() && ( onHand + creatable ) < 1 )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitZone( "Manor0" ) )
 					{
 						continue;
 					}
@@ -546,6 +571,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitZone( "Island" ) || Limitmode.limitZone( "IsleWar" ) )
+					{
+						continue;
+					}
 					else if ( side.equals( "fratboy" ) )
 					{
 						available = cmd.indexOf( "Elvish" ) != -1 ||
@@ -572,7 +601,11 @@ public class Maximizer
 				}
 				else if ( cmd.startsWith( "telescope " ) )
 				{
-					if ( Preferences.getInteger( "telescopeUpgrades" ) == 0 )
+					if ( Limitmode.limitCampground() )
+					{
+						continue;
+					}
+					else if ( Preferences.getInteger( "telescopeUpgrades" ) == 0 )
 					{
 						if ( includeAll )
 						{
@@ -598,6 +631,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitClan() )
+					{
+						continue;
+					}
 					else if ( Preferences.getBoolean( "_ballpit" ) )
 					{
 						cmd = "";
@@ -608,6 +645,10 @@ public class Maximizer
 				else if ( cmd.startsWith( "jukebox" ) )
 				{
 					if ( !KoLCharacter.canInteract() )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitClan() )
 					{
 						continue;
 					}
@@ -625,6 +666,10 @@ public class Maximizer
 						continue;
 					}
 					else if ( !StandardRequest.isAllowed( "Clan Item", "Pool Table" ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitClan() )
 					{
 						continue;
 					}
@@ -654,6 +699,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitClan() )
+					{
+						continue;
+					}
 					else if ( !haveVipKey )
 					{
 						if ( includeAll )
@@ -680,6 +729,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitClan() )
+					{
+						continue;
+					}
 					else if ( !haveVipKey )
 					{
 						if ( includeAll )
@@ -702,6 +755,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					else if ( Limitmode.limitZone( "BadMoon" ) )
+					{
+						continue;
+					}
 					else if ( Preferences.getBoolean( "styxPixieVisited" ) )
 					{
 						cmd = "";
@@ -718,6 +775,10 @@ public class Maximizer
 					String buffStatus = (String) data[6];
 
 					if ( !status.equals( buffStatus ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitZone( "The Sea" ) )
 					{
 						continue;
 					}
@@ -771,7 +832,11 @@ public class Maximizer
 					FamiliarData fam = KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER );
 					if ( fam == null )
 					{
-						if ( includeAll )
+						if ( Limitmode.limitFamiliars() )
+						{
+							continue;
+						}
+						else if ( includeAll )
 						{
 							text = "(get a Grim Brother familiar for " + name + ")";
 							cmd = "";
@@ -854,7 +919,7 @@ public class Maximizer
 							}
 							int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
 							count -= buy;
-							if ( buy > 0 )
+							if ( buy > 0 && !Limitmode.limitNPCShops() )
 							{
 								text = buy > 1 ? "buy " + buy + " & " + text
 									: "buy & " + text;
@@ -864,7 +929,8 @@ public class Maximizer
 							if ( count > 0 )
 							{
 								if ( !KoLCharacter.canInteract() ||
-									!ItemDatabase.isTradeable( item.getItemId() ) )
+									!ItemDatabase.isTradeable( item.getItemId() ) ||
+									Limitmode.limitMall() )
 								{
 									continue;
 								}
@@ -875,7 +941,8 @@ public class Maximizer
 						if ( priceLevel == 2 || (priceLevel == 1 && count > 0) )
 						{
 							if ( price <= 0 && KoLCharacter.canInteract() &&
-								ItemDatabase.isTradeable( item.getItemId() ) )
+								ItemDatabase.isTradeable( item.getItemId() ) &&
+								!Limitmode.limitMall() )
 							{
 								if ( MallPriceDatabase.getPrice( item.getItemId() )
 									> maxPrice * 2 )
@@ -1204,4 +1271,78 @@ public class Maximizer
 		return equipLevel;
 	}
 
+	public static void acquireDuplicateEquipment( final LockableListModel<Boost> boosts )
+	{
+		AdventureResult[] equipment = new AdventureResult[ EquipmentManager.SLOTS ];
+		// Make array of equipment boosts
+		Iterator i = boosts.iterator();
+		while ( i.hasNext() )
+		{
+			Object boost = i.next();
+			if ( boost instanceof Boost )
+			{
+				if ( ((Boost) boost).isEquipment() )
+				{
+					Integer slot = ((Boost) boost).getSlot();
+					if ( slot != null && slot >= 0 && slot < EquipmentManager.SLOTS )
+					{
+						equipment[ (int) slot ] = ((Boost) boost).getItem( false );
+					}
+					KoLmafia.updateDisplay( "Boost: " + ((Boost) boost).getItem( false ) + " in slot " + slot );
+				}
+			}
+		}
+		Maximizer.acquireDuplicateEquipment( equipment );
+	}
+
+	public static void acquireDuplicateEquipment( final AdventureResult[] newEquipment )
+	{
+		// Acquire equipment if you need more than one of each piece
+		AdventureResult[] array = new AdventureResult[ EquipmentManager.SLOTS ];
+		// Start with current equipment
+		array = EquipmentManager.currentEquipment();
+		// Replace current equipment with planned equipment
+		for( int slot = 0 ; slot < EquipmentManager.SLOTS ; ++slot )
+		{
+			if ( newEquipment[ slot ] != null )
+			{
+				array[ slot ] = newEquipment[ slot ];
+			}
+		}
+		// Count numbers of items
+		Map<Integer, Integer> countById = new HashMap<Integer, Integer>();
+		for( int slot = 0 ; slot < EquipmentManager.SLOTS ; ++slot )
+		{
+			if ( array[ slot ] != null )
+			{
+				int itemId = array[ slot ].getItemId();
+				Integer count = countById.get( itemId );
+				if ( count != null )
+				{
+					countById.put( itemId, count + 1 );
+					KoLmafia.updateDisplay( "Count: " + (count+1) + " " + array[ slot ].getName() );
+				}
+				else
+				{
+					countById.put( itemId, 1 );
+					KoLmafia.updateDisplay( "Count: 1 " + array[ slot ].getName() );
+				}
+			}
+		}
+		// acquire equipment for duplicate items if needed > inventory + equipped
+		Iterator<Map.Entry<Integer, Integer>> equips = countById.entrySet().iterator();
+		while ( equips.hasNext() )
+		{
+			Map.Entry<Integer, Integer> equip = equips.next();
+			int itemId = (int) equip.getKey();
+			int equippedCount = InventoryManager.getEquippedCount( itemId );
+			int inventoryCount = InventoryManager.getCount( itemId );
+			int needed = (int) equip.getValue();
+			KoLmafia.updateDisplay( "ItemId: " + itemId + ", Equipped: " + equippedCount + ", Inventory: " + inventoryCount + ", Needed: " + needed );
+			if ( needed > equippedCount + inventoryCount )
+			{
+				InventoryManager.retrieveItem( itemId, needed - equippedCount, true, false );
+			}
+		}
+	}
 }

@@ -1666,7 +1666,7 @@ public abstract class KoLCharacter
 
 	public static final int getAvailableMeat()
 	{
-		return KoLCharacter.availableMeat;
+		return Limitmode.limitMeat() ? 0 : KoLCharacter.availableMeat;
 	}
 
 	public static int freeRestsAvailable()

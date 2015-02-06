@@ -175,6 +175,20 @@ public class Limitmode
 		return false;
 	}
 
+	public static final boolean limitMeat()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
 	public static final boolean limitMall()
 	{
 		if ( KoLCharacter.getLimitmode() == null )

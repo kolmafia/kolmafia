@@ -305,52 +305,77 @@ public abstract class InventoryManager
 
 	public static final boolean retrieveItem( final int itemId )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), true, true );
 	}
 
 	public static final boolean retrieveItem( final int itemId, final boolean isAutomated )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), isAutomated, true );
+	}
+
+	public static final boolean retrieveItem( final int itemId, final boolean isAutomated, final boolean useEquipped )
+	{
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), isAutomated, useEquipped );
 	}
 
 	public static final boolean retrieveItem( final int itemId, final int count )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), true, true );
 	}
 
 	public static final boolean retrieveItem( final int itemId, final int count, final boolean isAutomated )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), isAutomated, true );
+	}
+
+	public static final boolean retrieveItem( final int itemId, final int count, final boolean isAutomated, final boolean useEquipped )
+	{
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), isAutomated, useEquipped );
 	}
 
 	public static final boolean retrieveItem( final String itemName )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), true, true );
 	}
 
 	public static final boolean retrieveItem( final String itemName, final boolean isAutomated )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), isAutomated, true );
+	}
+
+	public static final boolean retrieveItem( final String itemName, final boolean isAutomated, final boolean useEquipped )
+	{
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), isAutomated, useEquipped );
 	}
 
 	public static final boolean retrieveItem( final String itemName, final int count )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), true, true );
 	}
 
 	public static final boolean retrieveItem( final String itemName, final int count, final boolean isAutomated )
 	{
-		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), isAutomated, true );
+	}
+
+	public static final boolean retrieveItem( final String itemName, final int count, final boolean isAutomated, final boolean useEquipped )
+	{
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), isAutomated, useEquipped );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item )
 	{
-		return InventoryManager.retrieveItem( item, true );
+		return InventoryManager.retrieveItem( item, true, true );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
-		String rv = InventoryManager.retrieveItem( item, isAutomated, false );
+		return InventoryManager.retrieveItem( item, isAutomated, true );
+	}
+
+	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped )
+	{
+		String rv = InventoryManager.retrieveItem( item, isAutomated, useEquipped, false );
 		if ( rv == null )
 		{
 			return false;
@@ -394,7 +419,7 @@ public abstract class InventoryManager
 
 	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
-		String rv = InventoryManager.retrieveItem( item, isAutomated, true );
+		String rv = InventoryManager.retrieveItem( item, isAutomated, true, true );
 		if ( rv == null || rv.equals( "" ) )
 		{
 			RequestLogger.printLine( "INTERNAL ERROR: retrieveItem didn't return string when simulating!" );
@@ -403,18 +428,18 @@ public abstract class InventoryManager
 		return rv;
 	}
 
-	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
+	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean sim )
 	{
 		// if we're simulating, we don't need to waste time disabling/enabling clover protection
 		if ( sim )
 		{
-			return InventoryManager.doRetrieveItem( item, isAutomated, sim );
+			return InventoryManager.doRetrieveItem( item, isAutomated, useEquipped, sim );
 		}
 
 		try
 		{
 			InventoryManager.setCloverProtection( false );
-			return InventoryManager.doRetrieveItem( item, isAutomated, false );
+			return InventoryManager.doRetrieveItem( item, isAutomated, useEquipped, false );
 		}
 		finally
 		{
@@ -430,7 +455,7 @@ public abstract class InventoryManager
 	// When called with sim=false, it should return "" for success (equivalent
 	// to the previous return value of true), null for failure (previously false).
 
-	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
+	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean sim )
 	{
 		int itemId = item.getItemId();
 
@@ -540,7 +565,7 @@ public abstract class InventoryManager
 		// Don't waste time checking equipment and familiars for
 		// restricted items or non-equipment.
 
-		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) )
+		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) && useEquipped )
 		{
 			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
 			{
