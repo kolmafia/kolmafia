@@ -295,8 +295,6 @@ public abstract class DvorakManager
 			request.run();
 		}
 
-		KoLmafia.updateDisplay( "Tile puzzle completed." );
-
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		RelayRequest.specialCommandResponse = buffer.toString();
