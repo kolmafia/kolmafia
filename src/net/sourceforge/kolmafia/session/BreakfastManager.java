@@ -619,7 +619,7 @@ public class BreakfastManager
 			return;
 		}
 		KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-		RequestThread.postRequest( new GenericRequest( "store.php?whichstore=h" ) );
+		RequestThread.postRequest( new GenericRequest( "shop.php?whichshop=hippy" ) );
 		KoLmafia.forceContinue();
 	}
 
