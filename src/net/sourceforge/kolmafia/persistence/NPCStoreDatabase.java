@@ -184,27 +184,7 @@ public class NPCStoreDatabase
 
 		String classType = KoLCharacter.getClassType();
 
-		if ( storeId.equals( "1" ) )
-		{
-			// Shadowy Store
-			return	KoLCharacter.isMoxieClass() &&
-				KoLCharacter.getGuildStoreOpen();
-		}
-		else if ( storeId.equals( "2" ) )
-		{
-			// Gouda's Grimoire and Grocery
-			return ( KoLCharacter.isMysticalityClass() ||
-				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) ) &&
-				KoLCharacter.getGuildStoreOpen();
-		}
-		else if ( storeId.equals( "3" ) )
-		{
-			// Smacketeria
-			return ( ( KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris() ) ||
-				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
-				KoLCharacter.getGuildStoreOpen();
-		}
-		else if ( storeId.equals( "4" ) )
+		if ( storeId.equals( "4" ) )
 		{
 			// Degrassi Knoll Bakery and Hardware Store
 			return KoLCharacter.knollAvailable();
@@ -218,6 +198,11 @@ public class NPCStoreDatabase
 		{
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
+		}
+		else if ( storeId.equals( "bartender" ) )
+		{
+			// The Typical Tavern
+			return !KoLCharacter.inZombiecore() && QuestLogRequest.isTavernAvailable();
 		}
 		else if ( storeId.equals( "blackmarket" ) )
 		{
@@ -234,6 +219,26 @@ public class NPCStoreDatabase
 			// Chinatown Shops
 			return KoLConstants.inventory.contains( ItemPool.get( ItemPool.STRANGE_GOGGLES, 1 ) ) &&
 			       KoLConstants.campground.contains( ItemPool.get( ItemPool.SUSPICIOUS_JAR, 1 ) );
+		}
+		else if ( storeId.equals( "guildstore1" ) )
+		{
+			// Shadowy Store
+			return	KoLCharacter.isMoxieClass() &&
+				KoLCharacter.getGuildStoreOpen();
+		}
+		else if ( storeId.equals( "guildstore2" ) )
+		{
+			// Gouda's Grimoire and Grocery
+			return ( KoLCharacter.isMysticalityClass() ||
+				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) ) &&
+				KoLCharacter.getGuildStoreOpen();
+		}
+		else if ( storeId.equals( "guildstore3" ) )
+		{
+			// Smacketeria
+			return ( ( KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris() ) ||
+				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
+				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "h" ) )
 		{
@@ -398,11 +403,6 @@ public class NPCStoreDatabase
 		{
 			// Meatsmith's Shop
 			return !KoLCharacter.inZombiecore();
-		}
-		else if ( storeId.equals( "v" ) )
-		{
-			// The Typical Tavern
-			return !KoLCharacter.inZombiecore() && QuestLogRequest.isTavernAvailable();
 		}
 		else if ( storeId.equals( "w" ) )
 		{
