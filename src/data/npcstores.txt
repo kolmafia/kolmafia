@@ -108,15 +108,15 @@ Little Canadia Jewelers	j	extra-fancy ring setting	1000
 Little Canadia Jewelers	j	jewelry-making pliers	1000
 Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
 
-The Knob Dispensary	dispensary	Knob Goblin seltzer	80	ROW521
-The Knob Dispensary	dispensary	Knob Goblin stink bomb	130	ROW518
-The Knob Dispensary	dispensary	Knob Goblin nasal spray	150	ROW513
-The Knob Dispensary	dispensary	Knob Goblin love potion	170	ROW517
-The Knob Dispensary	dispensary	Knob Goblin eyedrops	200	ROW514
-The Knob Dispensary	dispensary	Knob Goblin sharpening spray	230	ROW519
-The Knob Dispensary	dispensary	Knob Goblin steroids	250	ROW516
-The Knob Dispensary	dispensary	Knob Goblin pet-buffing spray	250	ROW520
-The Knob Dispensary	dispensary	Knob Goblin learning pill	300	ROW515
+The Knob Dispensary	knobdisp	Knob Goblin seltzer	80	ROW521
+The Knob Dispensary	knobdisp	Knob Goblin stink bomb	130	ROW518
+The Knob Dispensary	knobdisp	Knob Goblin nasal spray	150	ROW513
+The Knob Dispensary	knobdisp	Knob Goblin love potion	170	ROW517
+The Knob Dispensary	knobdisp	Knob Goblin eyedrops	200	ROW514
+The Knob Dispensary	knobdisp	Knob Goblin sharpening spray	230	ROW519
+The Knob Dispensary	knobdisp	Knob Goblin steroids	250	ROW516
+The Knob Dispensary	knobdisp	Knob Goblin pet-buffing spray	250	ROW520
+The Knob Dispensary	knobdisp	Knob Goblin learning pill	300	ROW515
 
 Black Market	blackmarket	black cherry soda	80	ROW283
 Black Market	blackmarket	Black Body&trade; spray	300	ROW286
