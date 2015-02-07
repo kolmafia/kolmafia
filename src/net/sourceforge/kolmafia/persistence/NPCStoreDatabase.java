@@ -184,17 +184,17 @@ public class NPCStoreDatabase
 
 		String classType = KoLCharacter.getClassType();
 
-		if ( storeId.equals( "4" ) )
+		if ( storeId.equals( "gnoll" ) )
 		{
 			// Degrassi Knoll Bakery and Hardware Store
 			return KoLCharacter.knollAvailable();
 		}
-		else if ( storeId.equals( "a" ) )
+		else if ( storeId.equals( "tweedle" ) )
 		{
 			// The Tweedleporium
 			return KoLConstants.activeEffects.contains( NPCStoreDatabase.RABBIT_HOLE );
 		}
-		else if ( storeId.equals( "b" ) )
+		else if ( storeId.equals( "bugbear" ) )
 		{
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
@@ -214,7 +214,7 @@ public class NPCStoreDatabase
 			// Chateau Mantenga
 			return Preferences.getBoolean( "chateauAvailable" ) && StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
 		}
-		else if ( storeId.equals( "c" ) )
+		else if ( storeId.equals( "chinatown" ) )
 		{
 			// Chinatown Shops
 			return KoLConstants.inventory.contains( ItemPool.get( ItemPool.STRANGE_GOGGLES, 1 ) ) &&
@@ -240,7 +240,7 @@ public class NPCStoreDatabase
 				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
 				KoLCharacter.getGuildStoreOpen();
 		}
-		else if ( storeId.equals( "h" ) )
+		else if ( storeId.equals( "hippy" ) )
 		{
 			int level = KoLCharacter.getLevel();
 
@@ -308,12 +308,12 @@ public class NPCStoreDatabase
 			// The Knob Dispensary
 			return KoLCharacter.getDispensaryOpen();
 		}
-		else if ( storeId.equals( "j" ) )
+		else if ( storeId.equals( "jewelers" ) )
 		{
 			// Little Canadia Jewelers
 			return !KoLCharacter.inZombiecore() && KoLCharacter.canadiaAvailable();
 		}
-		else if ( storeId.equals( "m" ) )
+		else if ( storeId.equals( "generalstore" ) )
 		{
 			// General Store
 			// Some items restricted, often because of holidays
@@ -356,17 +356,17 @@ public class NPCStoreDatabase
 			}
 			return true;
 		}
-		else if ( storeId.equals( "n" ) )
+		else if ( storeId.equals( "gnomart" ) )
 		{
 			// Gno-Mart
 			return !KoLCharacter.inZombiecore() && KoLCharacter.gnomadsAvailable();
 		}
-		else if ( storeId.equals( "p" ) )
+		else if ( storeId.equals( "unclep" ) )
 		{
 			// Uncle P's Antiques
 			return !KoLCharacter.inZombiecore() && KoLCharacter.desertBeachAccessible();
 		}
-		else if ( storeId.equals( "r" ) )
+		else if ( storeId.equals( "bartlebys" ) )
 		{
 			boolean available;
 			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
@@ -399,21 +399,21 @@ public class NPCStoreDatabase
 			return EquipmentManager.hasOutfit( OutfitPool.SWASHBUCKLING_GETUP ) ||
 				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
-		else if ( storeId.equals( "s" ) )
+		else if ( storeId.equals( "meatsmith" ) )
 		{
 			// Meatsmith's Shop
 			return !KoLCharacter.inZombiecore();
 		}
-		else if ( storeId.equals( "w" ) )
+		else if ( storeId.equals( "whitecitadel" ) )
 		{
 			return QuestLogRequest.isWhiteCitadelAvailable();
 		}
-		else if ( storeId.equals( "y" ) )
+		else if ( storeId.equals( "nerve" ) )
 		{
 			// Nervewrecker's Store
 			return KoLCharacter.inBadMoon();
 		}
-		else if ( storeId.equals( "z" ) )
+		else if ( storeId.equals( "armory" ) )
 		{
 			// Armory and Leggery
 			return !KoLCharacter.inZombiecore();
