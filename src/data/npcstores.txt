@@ -342,4 +342,4 @@ Chinatown Shops	chinatown	furry pink pillow	500	ROW573
 Chinatown Shops	chinatown	novelty tattoo sleeves	1000	ROW574
 Chinatown Shops	chinatown	toy taijijian	1000	ROW575
 Chinatown Shops	chinatown	bonsai tree	1500	ROW576
-Chinatown Shops	chinatown	lucky cat statue	2000	577ROW
+Chinatown Shops	chinatown	lucky cat statue	2000	ROW577
