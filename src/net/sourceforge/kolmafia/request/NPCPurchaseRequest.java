@@ -158,7 +158,7 @@ public class NPCPurchaseRequest
 			return storeId;
 		}
 		if ( storeId.equals( "armory" ) || storeId.equals( "blackmarket" ) || storeId.equals( "chateau" ) ||
-		     storeId.equals( "dispensary" ) || storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) ||
+		     storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) || storeId.equals( "knobdisp" ) ||
 		     storeId.equals( "meatsmith" ) || storeId.equals( "unclep" ) )
 		{
 			return "shop.php";

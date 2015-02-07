@@ -298,7 +298,7 @@ public class NPCStoreDatabase
 
 			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( outfit );
 		}
-		else if ( storeId.equals( "dispensary" ) )
+		else if ( storeId.equals( "knobdisp" ) )
 		{
 			// The Knob Dispensary
 			return KoLCharacter.getDispensaryOpen();
