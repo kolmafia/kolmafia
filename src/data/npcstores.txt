@@ -1,28 +1,28 @@
 2
-Shadowy Store	1	ye olde golde frontes	1500
-Shadowy Store	1	bejeweled accordion strap	2000
-Shadowy Store	1	moxie magnet	3000
+Shadowy Store	guildstore1	ye olde golde frontes	1500	ROW522
+Shadowy Store	guildstore1	bejeweled accordion strap	2000	ROW523
+Shadowy Store	guildstore1	moxie magnet	3000	ROW524
 
-Gouda's Grimoire and Grocery	2	magical mystery juice	100
-Gouda's Grimoire and Grocery	2	delectable catalyst	1000
-Gouda's Grimoire and Grocery	2	MSG	1000
-Gouda's Grimoire and Grocery	2	big stirring stick	1500
-Gouda's Grimoire and Grocery	2	ladle of mystery	3000
-Gouda's Grimoire and Grocery	2	kickback cookbook	4000
-Gouda's Grimoire and Grocery	2	Codex of Capsaicin Conjuration	4000
-Gouda's Grimoire and Grocery	2	Gazpacho's Glacial Grimoire	4000
-Gouda's Grimoire and Grocery	2	special sauce glove	5000
+Gouda's Grimoire and Grocery	guildstore2	magical mystery juice	100	ROW527
+Gouda's Grimoire and Grocery	guildstore2	delectable catalyst	1000	ROW531
+Gouda's Grimoire and Grocery	guildstore2	MSG	1000	ROW532
+Gouda's Grimoire and Grocery	guildstore2	big stirring stick	1500	ROW533
+Gouda's Grimoire and Grocery	guildstore2	ladle of mystery	3000	ROW530
+Gouda's Grimoire and Grocery	guildstore2	kickback cookbook	4000	ROW528
+Gouda's Grimoire and Grocery	guildstore2	Codex of Capsaicin Conjuration	4000	ROW526
+Gouda's Grimoire and Grocery	guildstore2	Gazpacho's Glacial Grimoire	4000	ROW525
+Gouda's Grimoire and Grocery	guildstore2	special sauce glove	5000	ROW529
 
-Smacketeria	3	Medicinal Herb's medicinal herbs	100
-Smacketeria	3	cheap wind-up clock	200
-Smacketeria	3	blood of the Wereseal	500
-Smacketeria	3	enchanted brass knuckles	1000
-Smacketeria	3	seal-blubber candle	100
-Smacketeria	3	figurine of a wretched-looking seal	150
-Smacketeria	3	figurine of a cute baby seal	250
-Smacketeria	3	figurine of an armored seal	500
-Smacketeria	3	turtle pheromones	50
-Smacketeria	3	turtling rod	500
+Smacketeria	guildstore3	Medicinal Herb's medicinal herbs	100	ROW536
+Smacketeria	guildstore3	cheap wind-up clock	200	ROW537
+Smacketeria	guildstore3	blood of the Wereseal	500	ROW535
+Smacketeria	guildstore3	enchanted brass knuckles	1000	ROW534
+Smacketeria	guildstore3	seal-blubber candle	100	ROW539
+Smacketeria	guildstore3	figurine of a wretched-looking seal	150	ROW540
+Smacketeria	guildstore3	figurine of a cute baby seal	250	ROW541
+Smacketeria	guildstore3	figurine of an armored seal	500	ROW542
+Smacketeria	guildstore3	turtle pheromones	50	ROW538
+Smacketeria	guildstore3	turtling rod	500	ROW543
 
 Degrassi Knoll Bakery and Hardware Store	4	Gnollish pie tin	30
 Degrassi Knoll Bakery and Hardware Store	4	wad of dough	50
@@ -219,9 +219,9 @@ Meatsmith's Shop	meatsmith	sinewy crossbow string	1000	ROW503
 Meatsmith's Shop	meatsmith	sturdy sword hilt	1000	ROW504
 Meatsmith's Shop	meatsmith	tenderizing hammer	1000	ROW498
 
-The Typical Tavern	v	day-old beer	25
-The Typical Tavern	v	plain old beer	50
-The Typical Tavern	v	overpriced &quot;imported&quot; beer	100
+The Typical Tavern	bartender	day-old beer	25	ROW562
+The Typical Tavern	bartender	plain old beer	50	ROW563
+The Typical Tavern	bartender	overpriced &quot;imported&quot; beer	100	ROW564
 
 White Citadel	w	White Citadel burger	100
 White Citadel	w	White Citadel fries	80
