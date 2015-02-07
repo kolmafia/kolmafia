@@ -586,7 +586,9 @@ public abstract class InventoryManager
 					}
 				}
 			}
-
+		}
+		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) )
+		{
 			for ( FamiliarData current: KoLCharacter.getFamiliarList() )
 			{
 				if ( current.getItem() != null && current.getItem().equals( item ) )
