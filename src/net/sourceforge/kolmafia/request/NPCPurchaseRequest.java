@@ -78,7 +78,6 @@ public class NPCPurchaseRequest
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
 
-	private static final Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
 	private static final Pattern NPCSHOPID_PATTERN = Pattern.compile( "whichshop=([^&]*)" );
 
 	private final String npcStoreId;
@@ -151,11 +150,11 @@ public class NPCPurchaseRequest
 		}
 	}
 
-	public static String pickForm( final String storeId )
+	public static String pickForm( final String shopId )
 	{
-		if ( storeId.contains( "." ) )
+		if ( shopId.contains( "." ) )
 		{
-			return storeId;
+			return shopId;
 		}
 		return "shop.php";
 	}
@@ -215,18 +214,18 @@ public class NPCPurchaseRequest
 
 		int neededOutfit = OutfitPool.NONE;
 
-		if ( this.npcStoreId.equals( "b" ) )
+		if ( this.npcStoreId.equals( "bugbear" ) )
 		{
 			neededOutfit = OutfitPool.BUGBEAR_COSTUME;
 		}
-		else if ( this.npcStoreId.equals( "r" ) )
+		else if ( this.npcStoreId.equals( "bartlebys" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( NPCPurchaseRequest.FLEDGES ) )
 			{
 				neededOutfit = OutfitPool.SWASHBUCKLING_GETUP;
 			}
 		}
-		else if ( this.npcStoreId.equals( "h" ) )
+		else if ( this.npcStoreId.equals( "hippy" ) )
 		{
 			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
@@ -328,11 +327,7 @@ public class NPCPurchaseRequest
 	{
 		String urlString = this.getURLString();
 
-		if ( urlString.startsWith( "store.php" ) )
-		{
-			NPCPurchaseRequest.parseResponse( urlString, this.responseText );
-		}
-		else if ( urlString.startsWith( "shop.php" ) )
+		if ( urlString.startsWith( "shop.php" ) )
 		{
 			NPCPurchaseRequest.parseShopResponse( urlString, this.responseText );
 		}
@@ -343,8 +338,7 @@ public class NPCPurchaseRequest
 		{
 			// Normal NPC stores say "You spent xxx Meat" and we
 			// have already parsed that.
-			if ( !urlString.startsWith( "store.php" ) &&
-			     !urlString.startsWith( "shop.php" ) &&
+			if ( !urlString.startsWith( "shop.php" ) &&
 			     !urlString.startsWith( "galaktik.php" ) )
 			{
 				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
@@ -355,91 +349,9 @@ public class NPCPurchaseRequest
 		}
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>.*?<b>(.*?)</b>", Pattern.DOTALL );
-
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "store.php" ) )
-		{
-			return;
-		}
-
-		// Learn new items by simply visiting a store
-		Matcher matcher = ITEM_PATTERN.matcher( responseText );
-		while ( matcher.find() )
-		{
-			int id = StringUtilities.parseInt( matcher.group(1) );
-			String desc = matcher.group(2);
-			String name = matcher.group(3);
-			String data = ItemDatabase.getItemDataName( id );
-			if ( data == null || !data.equals( name ) )
-			{
-				ItemDatabase.registerItem( id, name, desc );
-			}
-		}
-
-		Matcher m = NPCPurchaseRequest.NPCSTOREID_PATTERN.matcher( urlString );
-		if ( !m.find() )
-		{
-			return;
-		}
-
-		// When we purchase items from NPC stores using ajax, the
-		// response tells us nothing about the contents of the store.
-		if ( urlString.indexOf( "ajax=1" ) != -1 )
-		{
-			return;
-		}
-
-		String storeId = m.group(1);
-
-		if ( storeId.equals( "r" ) )
-		{
-			m = PIRATE_EPHEMERA_PATTERN.matcher( responseText );
-			if ( m.find() )
-			{
-				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
-				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
-			}
-			return;
-		}
-
-		if ( storeId.equals( "h" ) )
-		{
-			// Check to see if any of the items offered in the
-			// hippy store are special.
-
-			String side = "none";
-
-			if ( responseText.indexOf( "peach" ) != -1 &&
-			     responseText.indexOf( "pear" ) != -1 &&
-			     responseText.indexOf( "plum" ) != -1 )
-			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "hippy";
-			}
-			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
-				  responseText.indexOf( "cob of corn" ) != -1 &&
-				  responseText.indexOf( "juniper berries" ) != -1 )
-			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "fratboy";
-			}
-
-			Preferences.setString( "currentHippyStore", side );
-			Preferences.setString( "sidequestOrchardCompleted", side );
-
-			if ( responseText.contains( "Oh, hey, boss!  Welcome back!" ) )
-			{
-				Preferences.setBoolean( "_hippyMeatCollected", true );
-			}
-			return;
-		}
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "store.php" ) && !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
+		if ( !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
 		{
 			return false;
 		}
@@ -461,15 +373,17 @@ public class NPCPurchaseRequest
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		int priceVal = NPCStoreDatabase.price( itemName );
 
-		Matcher m = NPCPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
-		String storeId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
-		String storeName = storeId != null ? storeId : "an NPC Store";
+		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
+		String shopId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
+		String shopName = shopId != null ? shopId : "an NPC Store";
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + storeName );
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + shopName );
 
 		return true;
 	}
+
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>", Pattern.DOTALL );
 
 	public static final void parseShopRowResponse( final String urlString, final String responseText )
 	{
@@ -511,7 +425,7 @@ public class NPCPurchaseRequest
 		}
 	}
 
-	public static final void parseShopResponse( final String urlString, final String responseText )
+	public static final void parseShopResponse( final String urlString, final String responseText )//
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
 		{
@@ -522,6 +436,20 @@ public class NPCPurchaseRequest
 		if ( shopId == null )
 		{
 			return;
+		}
+
+		// Learn new items by simply visiting a store
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int id = StringUtilities.parseInt( matcher.group(1) );
+			String desc = matcher.group(2);
+			String name = matcher.group(3);
+			String data = ItemDatabase.getItemDataName( id );
+			if ( data == null || !data.equals( name ) )
+			{
+				ItemDatabase.registerItem( id, name, desc );
+			}
 		}
 
 		// The following trade collections of ingredients for an item
@@ -714,6 +642,56 @@ public class NPCPurchaseRequest
 		if ( shopId.startsWith( "crimbo14" ) )
 		{
 			Crimbo14Request.parseResponse( urlString, responseText );
+			return;
+		}
+
+		// When we purchase items from NPC stores using ajax, the
+		// response tells us nothing about the contents of the store.
+		if ( urlString.contains( "ajax=1" ) )
+		{
+			return;
+		}
+		// These shops have variable offerings
+		if ( shopId.equals( "bartlebys" ) )
+		{
+			Matcher m = PIRATE_EPHEMERA_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
+				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
+			}
+			return;
+		}
+
+		if ( shopId.equals( "hippy" ) )
+		{
+			// Check to see if any of the items offered in the
+			// hippy store are special.
+
+			String side = "none";
+
+			if ( responseText.contains( "peach" ) &&
+			     responseText.contains( "pear" ) &&
+			     responseText.contains( "plum" ) )
+			{
+				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
+				side = "hippy";
+			}
+			else if ( responseText.contains( "bowl of rye sprouts" ) &&
+			          responseText.contains( "cob of corn" ) &&
+			          responseText.contains( "juniper berries" ) )
+			{
+				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
+				side = "fratboy";
+			}
+
+			Preferences.setString( "currentHippyStore", side );
+			Preferences.setString( "sidequestOrchardCompleted", side );
+
+			if ( responseText.contains( "Oh, hey, boss!  Welcome back!" ) )
+			{
+				Preferences.setBoolean( "_hippyMeatCollected", true );
+			}
 			return;
 		}
 	}

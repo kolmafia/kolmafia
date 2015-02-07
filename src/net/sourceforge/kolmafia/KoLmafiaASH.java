@@ -100,10 +100,6 @@ public abstract class KoLmafiaASH
 			{
 				field = request.getFormField( "whichshop" );
 			}
-			else if ( script.equals( "store.php" ) )
-			{
-				field = request.getFormField( "whichstore" );
-			}
 		}
 
 		if ( field != null )
