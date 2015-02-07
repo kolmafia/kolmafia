@@ -930,7 +930,7 @@ public abstract class UseLinkDecorator
 					ItemPool.DINGY_PLANKS,
 					1,
 					"buy planks",
-					"store.php?phash=" + GenericRequest.passwordHash + "&whichstore=m&buying=Yep.&howmany=1&whichitem=",
+					"shop.php?&whichstore=generalstore&action=buyitem&quantity=1&whichrow=629",
 					true );
 
 			case ItemPool.BARLEY:

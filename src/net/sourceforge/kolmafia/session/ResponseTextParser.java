@@ -727,11 +727,6 @@ public class ResponseTextParser
 			StorageRequest.parseTransfer( location, responseText );
 		}
 
-		else if ( location.startsWith( "store.php" ) )
-		{
-			NPCPurchaseRequest.parseResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "suburbandis.php" ) )
 		{
 			SuburbanDisRequest.parseResponse( location, responseText );
