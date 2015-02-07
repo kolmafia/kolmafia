@@ -2258,6 +2258,12 @@ public class GenericRequest
 
 	public void processResponse()
 	{
+		if ( this.responseText == null )
+		{
+			// KoL or network error
+			return;
+		}
+		
 		if ( this.shouldUpdateDebugLog() )
 		{
 			String text = this.responseText;
