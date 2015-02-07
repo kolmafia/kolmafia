@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -331,7 +332,14 @@ public class Expression
 				v = KoLCharacter.hasSkill( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'e':
-				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
+				String effectName = (String) this.literals.get( (int) s[ --sp ] );
+				// If effect name is a number, convert to name
+				if ( StringUtilities.isNumeric( effectName ) )
+				{
+					int effectId = StringUtilities.parseInt( effectName );
+					effectName = EffectDatabase.getEffectName( effectId );
+				}
+				AdventureResult eff = new AdventureResult( effectName, 1, true );
 				v = eff == null ? 0.0 :
 					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
