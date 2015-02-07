@@ -481,13 +481,6 @@ public class UseItemRequest
 			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
 		}
 
-		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
-		if ( restorationMaximum < Integer.MAX_VALUE )
-		{
-			UseItemRequest.limiter = "needed restoration";
-			return restorationMaximum;
-		}
-
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
@@ -1041,6 +1034,13 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_rainStickUsed" ) ? 0 : 1;
 
+		}
+
+		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
+		if ( restorationMaximum < Integer.MAX_VALUE )
+		{
+			UseItemRequest.limiter = "needed restoration";
+			return restorationMaximum;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
