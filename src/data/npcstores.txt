@@ -108,15 +108,15 @@ Little Canadia Jewelers	j	extra-fancy ring setting	1000
 Little Canadia Jewelers	j	jewelry-making pliers	1000
 Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
 
-The Knob Dispensary	k	Knob Goblin seltzer	80
-The Knob Dispensary	k	Knob Goblin stink bomb	130
-The Knob Dispensary	k	Knob Goblin nasal spray	150
-The Knob Dispensary	k	Knob Goblin love potion	170
-The Knob Dispensary	k	Knob Goblin eyedrops	200
-The Knob Dispensary	k	Knob Goblin sharpening spray	230
-The Knob Dispensary	k	Knob Goblin steroids	250
-The Knob Dispensary	k	Knob Goblin pet-buffing spray	250
-The Knob Dispensary	k	Knob Goblin learning pill	300
+The Knob Dispensary	dispensary	Knob Goblin seltzer	80	ROW521
+The Knob Dispensary	dispensary	Knob Goblin stink bomb	130	ROW518
+The Knob Dispensary	dispensary	Knob Goblin nasal spray	150	ROW513
+The Knob Dispensary	dispensary	Knob Goblin love potion	170	ROW517
+The Knob Dispensary	dispensary	Knob Goblin eyedrops	200	ROW514
+The Knob Dispensary	dispensary	Knob Goblin sharpening spray	230	ROW519
+The Knob Dispensary	dispensary	Knob Goblin steroids	250	ROW516
+The Knob Dispensary	dispensary	Knob Goblin pet-buffing spray	250	ROW520
+The Knob Dispensary	dispensary	Knob Goblin learning pill	300	ROW515
 
 Black Market	blackmarket	black cherry soda	80	ROW283
 Black Market	blackmarket	Black Body&trade; spray	300	ROW286
@@ -181,12 +181,12 @@ Gno-Mart	n	vial of Gnomochloric acid	500
 Gno-Mart	n	flask of Gnomochloric acid	1000
 Gno-Mart	n	jug of Gnomochloric acid	5000
 
-Uncle P's Antiques	p	Clancy's crumhorn	2500
-Uncle P's Antiques	p	antique accordion	2500
-Uncle P's Antiques	p	fancy black tie	1000000
-Uncle P's Antiques	p	fancy tophat	1000000
-Uncle P's Antiques	p	fancy tuxedo pants	1000000
-Uncle P's Antiques	p	'Villa' document	100000000
+Uncle P's Antiques	unclep	Clancy's crumhorn	2500	ROW507
+Uncle P's Antiques	unclep	antique accordion	2500	ROW512
+Uncle P's Antiques	unclep	fancy black tie	1000000	ROW508
+Uncle P's Antiques	unclep	fancy tophat	1000000	ROW506
+Uncle P's Antiques	unclep	fancy tuxedo pants	1000000	ROW509
+Uncle P's Antiques	unclep	'Villa' document	100000000	ROW507
 
 Huggler Memorial Colosseum Snack Bar	q	Hatorade	500
 Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
@@ -204,20 +204,20 @@ Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate tract	300
 Barrrtleby's Barrrgain Books (Bees Hate You)	r	Massive Manual of Marauder Mockery	500
 Barrrtleby's Barrrgain Books (Bees Hate You)	r	abridged dictionary	1000
 
-Meatsmith's Shop	s	meatsmithing guide	50
-Meatsmith's Shop	s	sword hilt	100
-Meatsmith's Shop	s	helmet recipe	100
-Meatsmith's Shop	s	pants kit	100
-Meatsmith's Shop	s	big stick	100
-Meatsmith's Shop	s	crossbow string	100
-Meatsmith's Shop	s	whip kit	100
-Meatsmith's Shop	s	buckler buckle	100
-Meatsmith's Shop	s	skirt / kilt kit	100
-Meatsmith's Shop	s	shirt kit	100
-Meatsmith's Shop	s	bigger stick	1000
-Meatsmith's Shop	s	sinewy crossbow string	1000
-Meatsmith's Shop	s	sturdy sword hilt	1000
-Meatsmith's Shop	s	tenderizing hammer	1000
+Meatsmith's Shop	meatsmith	meatsmithing guide	50	ROW495
+Meatsmith's Shop	meatsmith	sword hilt	100	ROW492
+Meatsmith's Shop	meatsmith	helmet recipe	100	ROW493
+Meatsmith's Shop	meatsmith	pants kit	100	ROW494
+Meatsmith's Shop	meatsmith	big stick	100	ROW496
+Meatsmith's Shop	meatsmith	crossbow string	100	ROW497
+Meatsmith's Shop	meatsmith	whip kit	100	ROW499
+Meatsmith's Shop	meatsmith	buckler buckle	100	ROW500
+Meatsmith's Shop	meatsmith	skirt / kilt kit	100	ROW501
+Meatsmith's Shop	meatsmith	shirt kit	100	ROW505
+Meatsmith's Shop	meatsmith	bigger stick	1000	ROW502
+Meatsmith's Shop	meatsmith	sinewy crossbow string	1000	ROW503
+Meatsmith's Shop	meatsmith	sturdy sword hilt	1000	ROW504
+Meatsmith's Shop	meatsmith	tenderizing hammer	1000	ROW498
 
 The Typical Tavern	v	day-old beer	25
 The Typical Tavern	v	plain old beer	50
@@ -234,32 +234,32 @@ Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
 Nervewrecker's Store	y	Dramatic&trade; range	500
 Nervewrecker's Store	y	tenderizing hammer	500
 
-Armory and Leggery	z	cool whip	30
-Armory and Leggery	z	sweet ninja sword	50
-Armory and Leggery	z	suede shortsword	300
-Armory and Leggery	z	25-meat staff	525
-Armory and Leggery	z	bamboo bokuto	750
-Armory and Leggery	z	two-handed depthsword	900
-Armory and Leggery	z	bill bec-de-bardiche glaive-guisarme	1125
-Armory and Leggery	z	toy accordion	150
-Armory and Leggery	z	slightly peevedbow	450
-Armory and Leggery	z	lead yo-yo	600
-Armory and Leggery	z	sack of doorknobs	825
-Armory and Leggery	z	lucky ball-and-chain	975
-Armory and Leggery	z	automatic catapult	1125
-Armory and Leggery	z	snorkel	30
-Armory and Leggery	z	Kentucky-style derby	50
-Armory and Leggery	z	pentacorn hat	300
-Armory and Leggery	z	goofily-plumed helmet	525
-Armory and Leggery	z	yellow plastic hard hat	675
-Armory and Leggery	z	wooden salad bowl	900
-Armory and Leggery	z	football helmet	1125
-Armory and Leggery	z	studded leather boxer shorts	50
-Armory and Leggery	z	chain-mail monokini	225
-Armory and Leggery	z	union scalemail pants	375
-Armory and Leggery	z	paper-plate-mail pants	600
-Armory and Leggery	z	troutpiece	825
-Armory and Leggery	z	alpha-mail pants	1050
+Armory and Leggery	armory	cool whip	30	ROW487
+Armory and Leggery	armory	sweet ninja sword	50	ROW490
+Armory and Leggery	armory	suede shortsword	300	ROW466
+Armory and Leggery	armory	25-meat staff	525	ROW468
+Armory and Leggery	armory	bamboo bokuto	750	ROW467
+Armory and Leggery	armory	two-handed depthsword	900	ROW469
+Armory and Leggery	armory	bill bec-de-bardiche glaive-guisarme	1125	ROW470
+Armory and Leggery	armory	toy accordion	150	ROW491
+Armory and Leggery	armory	slightly peevedbow	450	ROW472
+Armory and Leggery	armory	lead yo-yo	600	ROW471
+Armory and Leggery	armory	sack of doorknobs	825	ROW473
+Armory and Leggery	armory	lucky ball-and-chain	975	ROW474
+Armory and Leggery	armory	automatic catapult	1125	ROW475
+Armory and Leggery	armory	snorkel	30	ROW488
+Armory and Leggery	armory	Kentucky-style derby	50	ROW486
+Armory and Leggery	armory	pentacorn hat	300	ROW476
+Armory and Leggery	armory	goofily-plumed helmet	525	ROW477
+Armory and Leggery	armory	yellow plastic hard hat	675	ROW478
+Armory and Leggery	armory	wooden salad bowl	900	ROW479
+Armory and Leggery	armory	football helmet	1125	ROW480
+Armory and Leggery	armory	studded leather boxer shorts	50	ROW489
+Armory and Leggery	armory	chain-mail monokini	225	ROW481
+Armory and Leggery	armory	union scalemail pants	375	ROW482
+Armory and Leggery	armory	paper-plate-mail pants	600	ROW483
+Armory and Leggery	armory	troutpiece	825	ROW484
+Armory and Leggery	armory	alpha-mail pants	1050	ROW485
 
 Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
 Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30

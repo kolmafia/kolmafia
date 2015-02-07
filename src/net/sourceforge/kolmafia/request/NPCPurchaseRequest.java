@@ -153,11 +153,17 @@ public class NPCPurchaseRequest
 
 	public static String pickForm( final String storeId )
 	{
-		return  storeId.contains( "." ) ?
-			storeId :
-			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) || storeId.equals( "blackmarket" ) || storeId.equals( "chateau" ) ?
-			"shop.php" :
-			"store.php";
+		if ( storeId.contains( "." ) )
+		{
+			return storeId;
+		}
+		if ( storeId.equals( "armory" ) || storeId.equals( "blackmarket" ) || storeId.equals( "chateau" ) ||
+		     storeId.equals( "dispensary" ) || storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) ||
+		     storeId.equals( "meatsmith" ) || storeId.equals( "unclep" ) )
+		{
+			return "shop.php";
+		}
+		return "store.php";
 	}
 
 	public static String getShopId( final String urlString )

@@ -298,15 +298,15 @@ public class NPCStoreDatabase
 
 			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( outfit );
 		}
+		else if ( storeId.equals( "dispensary" ) )
+		{
+			// The Knob Dispensary
+			return KoLCharacter.getDispensaryOpen();
+		}
 		else if ( storeId.equals( "j" ) )
 		{
 			// Little Canadia Jewelers
 			return !KoLCharacter.inZombiecore() && KoLCharacter.canadiaAvailable();
-		}
-		else if ( storeId.equals( "k" ) )
-		{
-			// The Knob Dispensary
-			return KoLCharacter.getDispensaryOpen();
 		}
 		else if ( storeId.equals( "m" ) )
 		{
