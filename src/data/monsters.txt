@@ -435,7 +435,7 @@ Mer-kin poseur	merkinposeur.gif	Atk: 720 Def: 750 HP: 750 Init: 125 P: mer-kin	M
 Mer-kin punisher	merkinpunisher.gif	Atk: 700 Def: 600 HP: 800 Init: 75 P: mer-kin	Mer-kin mouthsoap (0)	Mer-kin finpaddle (0)	Mer-kin hallpass (0)
 Mer-kin raider	merkinraider.gif	Atk: 750 Def: 585 HP: 800 Init: 50 Meat: 250 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
 Mer-kin researcher	merkinresearcher.gif	Atk: 800 Def: 750 HP: 900 Init: 75 P: mer-kin	Mer-kin healscroll (0)	Mer-kin killscroll (0)	Mer-kin darkbook (0)
-Mer-Kin rustler	merkinspear.gif	Atk: 700 Def: 675 HP: 750 Init: 100 P: mer-kin	Mer-kin thingpouch (n15)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)
+Mer-kin rustler	merkinspear.gif	Atk: 700 Def: 675 HP: 750 Init: 100 P: mer-kin	Mer-kin thingpouch (n15)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)
 Mer-kin scavenger	merkinscav.gif	Atk: 450 Def: 405 HP: 600 Init: 100 Meat: 200 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
 Mer-kin specter	merkinghost.gif	Atk: 750 Def: 600 HP: 600 Init: 100 P: undead
 Mer-kin teacher	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-kin	Mer-kin lipstick (0)	Mer-kin bunwig (0)	Mer-kin hallpass (0)	folder (catfish) (c0)
