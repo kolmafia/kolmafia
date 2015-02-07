@@ -181,7 +181,7 @@ Gno-Mart	n	vial of Gnomochloric acid	500
 Gno-Mart	n	flask of Gnomochloric acid	1000
 Gno-Mart	n	jug of Gnomochloric acid	5000
 
-Uncle P's Antiques	unclep	Clancy's crumhorn	2500	ROW507
+Uncle P's Antiques	unclep	Clancy's crumhorn	2500	ROW511
 Uncle P's Antiques	unclep	antique accordion	2500	ROW512
 Uncle P's Antiques	unclep	fancy black tie	1000000	ROW508
 Uncle P's Antiques	unclep	fancy tophat	1000000	ROW506
