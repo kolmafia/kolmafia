@@ -24,89 +24,89 @@ Smacketeria	guildstore3	figurine of an armored seal	500	ROW542
 Smacketeria	guildstore3	turtle pheromones	50	ROW538
 Smacketeria	guildstore3	turtling rod	500	ROW543
 
-Degrassi Knoll Bakery and Hardware Store	4	Gnollish pie tin	30
-Degrassi Knoll Bakery and Hardware Store	4	wad of dough	50
-Degrassi Knoll Bakery and Hardware Store	4	flat dough	70
-Degrassi Knoll Bakery and Hardware Store	4	skewer	80
-Degrassi Knoll Bakery and Hardware Store	4	taco shell	80
-Degrassi Knoll Bakery and Hardware Store	4	Gnollish casserole dish	150
+Degrassi Knoll Bakery and Hardware Store	gnoll	Gnollish pie tin	30	ROW599
+Degrassi Knoll Bakery and Hardware Store	gnoll	wad of dough	50	ROW600
+Degrassi Knoll Bakery and Hardware Store	gnoll	flat dough	70	ROW603
+Degrassi Knoll Bakery and Hardware Store	gnoll	skewer	80	ROW604
+Degrassi Knoll Bakery and Hardware Store	gnoll	taco shell	80	ROW606
+Degrassi Knoll Bakery and Hardware Store	gnoll	Gnollish casserole dish	150	ROW610
 
-Degrassi Knoll Bakery and Hardware Store	4	cog	20
-Degrassi Knoll Bakery and Hardware Store	4	empty meat tank	20
-Degrassi Knoll Bakery and Hardware Store	4	spring	20
-Degrassi Knoll Bakery and Hardware Store	4	sprocket	20
-Degrassi Knoll Bakery and Hardware Store	4	tires	28
+Degrassi Knoll Bakery and Hardware Store	gnoll	cog	20	ROW597
+Degrassi Knoll Bakery and Hardware Store	gnoll	empty meat tank	20	ROW595
+Degrassi Knoll Bakery and Hardware Store	gnoll	spring	20	ROW596
+Degrassi Knoll Bakery and Hardware Store	gnoll	sprocket	20	ROW594
+Degrassi Knoll Bakery and Hardware Store	gnoll	tires	28	ROW598
 
-Degrassi Knoll Bakery and Hardware Store	4	bugbear beanie	70
-Degrassi Knoll Bakery and Hardware Store	4	bugbear bungguard	70
-Degrassi Knoll Bakery and Hardware Store	4	frilly skirt	80
-Degrassi Knoll Bakery and Hardware Store	4	Gnollish flyswatter	80
-Degrassi Knoll Bakery and Hardware Store	4	Gnollish plunger	80
-Degrassi Knoll Bakery and Hardware Store	4	maiden wig	80
-Degrassi Knoll Bakery and Hardware Store	4	detuned radio	300
+Degrassi Knoll Bakery and Hardware Store	gnoll	bugbear beanie	70	ROW601
+Degrassi Knoll Bakery and Hardware Store	gnoll	bugbear bungguard	70	ROW602
+Degrassi Knoll Bakery and Hardware Store	gnoll	frilly skirt	80	ROW609
+Degrassi Knoll Bakery and Hardware Store	gnoll	Gnollish flyswatter	80	ROW608
+Degrassi Knoll Bakery and Hardware Store	gnoll	Gnollish plunger	80	ROW605
+Degrassi Knoll Bakery and Hardware Store	gnoll	maiden wig	80	ROW607
+Degrassi Knoll Bakery and Hardware Store	gnoll	detuned radio	300	ROW611
 
-The Tweedleporium	a	puff of smoke	100
-The Tweedleporium	a	stuffed porpoise	10000
-The Tweedleporium	a	stuffed pocketwatch	10000
-The Tweedleporium	a	stuffed bandersnatch	10000
-The Tweedleporium	a	stuffed caterpillar	10000
-The Tweedleporium	a	stuffed walrus	10000
-The Tweedleporium	a	stuffed carpenter	10000
-The Tweedleporium	a	stuffed dodo	10000
-The Tweedleporium	a	insane tophat	20000
-The Tweedleporium	a	helm of the white knight	30000
-The Tweedleporium	a	trousers of the white knight	30000
-The Tweedleporium	a	wristwatch of the white knight	30000
+The Tweedleporium	tweedle	puff of smoke	100	ROW578
+The Tweedleporium	tweedle	stuffed porpoise	10000	ROW582
+The Tweedleporium	tweedle	stuffed pocketwatch	10000	ROW579
+The Tweedleporium	tweedle	stuffed bandersnatch	10000	ROW583
+The Tweedleporium	tweedle	stuffed caterpillar	10000	ROW580
+The Tweedleporium	tweedle	stuffed walrus	10000	ROW584
+The Tweedleporium	tweedle	stuffed carpenter	10000	ROW581
+The Tweedleporium	tweedle	stuffed dodo	10000	ROW585
+The Tweedleporium	tweedle	insane tophat	20000	ROW586
+The Tweedleporium	tweedle	helm of the white knight	30000	ROW587
+The Tweedleporium	tweedle	trousers of the white knight	30000	ROW588
+The Tweedleporium	tweedle	wristwatch of the white knight	30000	ROW589
 
-Bugbear Bakery	b	Gnollish pie tin	30
-Bugbear Bakery	b	wad of dough	50
-Bugbear Bakery	b	taco shell	80
-Bugbear Bakery	b	skewer	80
-Bugbear Bakery	b	Gnollish casserole dish	150
-Bugbear Bakery	b	rolling pin	500
-Bugbear Bakery	b	unrolling pin	500
+Bugbear Bakery	bugbear	Gnollish pie tin	30	ROW677
+Bugbear Bakery	bugbear	wad of dough	50	ROW678
+Bugbear Bakery	bugbear	taco shell	80	ROW679
+Bugbear Bakery	bugbear	skewer	80	ROW680
+Bugbear Bakery	bugbear	Gnollish casserole dish	150	ROW681
+Bugbear Bakery	bugbear	rolling pin	500	ROW683
+Bugbear Bakery	bugbear	unrolling pin	500	ROW682
 
-Hippy Store (Pre-War)	h	herbs	64
-Hippy Store (Pre-War)	h	orange	70
-Hippy Store (Pre-War)	h	grapefruit	70
-Hippy Store (Pre-War)	h	grapes	70
-Hippy Store (Pre-War)	h	olive	70
-Hippy Store (Pre-War)	h	tomato	70
-Hippy Store (Pre-War)	h	strawberry	70
-Hippy Store (Pre-War)	h	lemon	70
+Hippy Store (Pre-War)	hippy	herbs	64	ROW663
+Hippy Store (Pre-War)	hippy	orange	70	ROW665
+Hippy Store (Pre-War)	hippy	grapefruit	70	ROW669
+Hippy Store (Pre-War)	hippy	grapes	70	ROW666
+Hippy Store (Pre-War)	hippy	olive	70	ROW670
+Hippy Store (Pre-War)	hippy	tomato	70	ROW667
+Hippy Store (Pre-War)	hippy	strawberry	70	ROW668
+Hippy Store (Pre-War)	hippy	lemon	70	ROW664
 
-Hippy Store (Hippy)	h	herbs	64
-Hippy Store (Hippy)	h	orange	70
-Hippy Store (Hippy)	h	grapefruit	70
-Hippy Store (Hippy)	h	grapes	70
-Hippy Store (Hippy)	h	olive	70
-Hippy Store (Hippy)	h	tomato	70
-Hippy Store (Hippy)	h	strawberry	70
-Hippy Store (Hippy)	h	lemon	70
-Hippy Store (Hippy)	h	peach	300
-Hippy Store (Hippy)	h	pear	300
-Hippy Store (Hippy)	h	plum	300
+Hippy Store (Hippy)	hippy	herbs	64	ROW663
+Hippy Store (Hippy)	hippy	orange	70	ROW665
+Hippy Store (Hippy)	hippy	grapefruit	70	ROW669
+Hippy Store (Hippy)	hippy	grapes	70	ROW666
+Hippy Store (Hippy)	hippy	olive	70	ROW670
+Hippy Store (Hippy)	hippy	tomato	70	ROW667
+Hippy Store (Hippy)	hippy	strawberry	70	ROW668
+Hippy Store (Hippy)	hippy	lemon	70	ROW664
+Hippy Store (Hippy)	hippy	peach	300	ROW673
+Hippy Store (Hippy)	hippy	pear	300	ROW676
+Hippy Store (Hippy)	hippy	plum	300	ROW672
 
-Hippy Store (Fratboy)	h	herbs	64
-Hippy Store (Fratboy)	h	orange	70
-Hippy Store (Fratboy)	h	grapefruit	70
-Hippy Store (Fratboy)	h	grapes	70
-Hippy Store (Fratboy)	h	olive	70
-Hippy Store (Fratboy)	h	tomato	70
-Hippy Store (Fratboy)	h	strawberry	70
-Hippy Store (Fratboy)	h	lemon	70
-Hippy Store (Fratboy)	h	bowl of rye sprouts	300
-Hippy Store (Fratboy)	h	cob of corn	300
-Hippy Store (Fratboy)	h	juniper berries	300
+Hippy Store (Fratboy)	hippy	herbs	64	ROW663
+Hippy Store (Fratboy)	hippy	orange	70	ROW665
+Hippy Store (Fratboy)	hippy	grapefruit	70	ROW669
+Hippy Store (Fratboy)	hippy	grapes	70	ROW666
+Hippy Store (Fratboy)	hippy	olive	70	ROW670
+Hippy Store (Fratboy)	hippy	tomato	70	ROW667
+Hippy Store (Fratboy)	hippy	strawberry	70	ROW668
+Hippy Store (Fratboy)	hippy	lemon	70	ROW664
+Hippy Store (Fratboy)	hippy	bowl of rye sprouts	300	ROW674
+Hippy Store (Fratboy)	hippy	cob of corn	300	ROW671
+Hippy Store (Fratboy)	hippy	juniper berries	300	ROW675
 
-Little Canadia Jewelers	j	piercing post	64
-Little Canadia Jewelers	j	necklace chain	70
-Little Canadia Jewelers	j	ring setting	200
-Little Canadia Jewelers	j	precious piercing post	1000
-Little Canadia Jewelers	j	heavy necklace chain	1000
-Little Canadia Jewelers	j	extra-fancy ring setting	1000
-Little Canadia Jewelers	j	jewelry-making pliers	1000
-Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
+Little Canadia Jewelers	jewelers	piercing post	64	ROW544
+Little Canadia Jewelers	jewelers	necklace chain	70	ROW545
+Little Canadia Jewelers	jewelers	ring setting	200	ROW546
+Little Canadia Jewelers	jewelers	precious piercing post	1000	ROW550
+Little Canadia Jewelers	jewelers	heavy necklace chain	1000	ROW551
+Little Canadia Jewelers	jewelers	extra-fancy ring setting	1000	ROW549
+Little Canadia Jewelers	jewelers	jewelry-making pliers	1000	ROW547
+Little Canadia Jewelers	jewelers	Really Expensive Jewelry and You	5000	ROW548
 
 The Knob Dispensary	knobdisp	Knob Goblin seltzer	80	ROW521
 The Knob Dispensary	knobdisp	Knob Goblin stink bomb	130	ROW518
@@ -127,59 +127,61 @@ Black Market	blackmarket	forged identification documents	5000	ROW281
 Black Market	blackmarket	exotic parrot egg	500000	ROW287
 Black Market	blackmarket	Red Zeppelin ticket	5000	ROW289
 
-The General Store	m	Ben-Gal&trade; Balm	24
-The General Store	m	glittery mascara	24
-The General Store	m	hair spray	24
-The General Store	m	cup of lukewarm tea	40
-The General Store	m	fortune cookie	40
-The General Store	m	pickled egg	40
-The General Store	m	chewing gum on a string	50
-The General Store	m	spray paint	50
-The General Store	m	fermenting powder	70
-The General Store	m	soda water	70
-The General Store	m	casino pass	100
-The General Store	m	hermit permit	100
-The General Store	m	loose purse strings	100
-The General Store	m	third-hand lantern	100
-The General Store	m	marshmallow	100
-The General Store	m	oyster basket	300
-The General Store	m	party hat	300
-The General Store	m	M-242	300
-The General Store	m	snake	300
-The General Store	m	sparkler	300
-The General Store	m	foam noodle	300
-The General Store	m	inflatable duck	300
-The General Store	m	water wings	300
-The General Store	m	sweet rims	300
-The General Store	m	dingy planks	400
-The General Store	m	Familiar-Gro&trade; Terrarium	500
-The General Store	m	sneaky wrapping paper	1000
-The General Store	m	Desert Bus pass	5000
+The General Store	generalstore	Ben-Gal&trade; Balm	24	ROW630
+The General Store	generalstore	glittery mascara	24	ROW629
+The General Store	generalstore	hair spray	24	ROW631
+The General Store	generalstore	cup of lukewarm tea	40	ROW644
+The General Store	generalstore	fortune cookie	40	ROW645
+The General Store	generalstore	pickled egg	40	ROW646
+The General Store	generalstore	chewing gum on a string	50	ROW648
+The General Store	generalstore	spray paint	50	ROW647
+The General Store	generalstore	fermenting powder	70	ROW649
+The General Store	generalstore	soda water	70	ROW650
+The General Store	generalstore	casino pass	100	ROW651
+The General Store	generalstore	hermit permit	100	ROW652
+The General Store	generalstore	loose purse strings	100	ROW632
+The General Store	generalstore	third-hand lantern	100	ROW633
+The General Store	generalstore	marshmallow	100	ROW662
+The General Store	generalstore	oyster basket	300	ROW658
+The General Store	generalstore	party hat	300	ROW654
+The General Store	generalstore	M-242	300	ROW
+The General Store	generalstore	snake	300	ROW
+The General Store	generalstore	sparkler	300	ROW
+The General Store	generalstore	foam noodle	300	ROW660
+The General Store	generalstore	inflatable duck	300	ROW659
+The General Store	generalstore	water wings	300	ROW661
+The General Store	generalstore	sweet rims	300	ROW653
+The General Store	generalstore	dingy planks	400	ROW655
+The General Store	generalstore	Familiar-Gro&trade; Terrarium	500	ROW656
+The General Store	generalstore	Desert Bus pass	5000	ROW657
 
 # Only with an over-the-shoulder folder holder
-The General Store	m	folder (blue)	10
-The General Store	m	folder (green)	10
-The General Store	m	folder (red)	10
+The General Store	generalstore	folder (blue)	10	ROW636
+The General Store	generalstore	folder (green)	10	ROW635
+The General Store	generalstore	folder (red)	10	ROW634
 
-The General Store	m	Dramatic&trade; range	1000
-The General Store	m	Queue Du Coq cocktailcrafting kit	1000
+The General Store	generalstore	Dramatic&trade; range	1000	ROW643
+The General Store	generalstore	Queue Du Coq cocktailcrafting kit	1000	ROW642
 
 # Only in Heavy Rains
-The General Store	m	water wings for babies	50
-The General Store	m	miniature life preserver	100
-The General Store	m	heavy duty umbrella	300
-The General Store	m	pool skimmer	500
+The General Store	generalstore	water wings for babies	50	ROW625
+The General Store	generalstore	miniature life preserver	100	ROW626
+The General Store	generalstore	heavy duty umbrella	300	ROW627
+The General Store	generalstore	pool skimmer	500	ROW628
 
-Gno-Mart	n	jaba&ntilde;ero-flavored chewing gum	200
-Gno-Mart	n	lime-and-chile-flavored chewing gum	200
-Gno-Mart	n	pickle-flavored chewing gum	200
-Gno-Mart	n	tamarind-flavored chewing gum	200
-Gno-Mart	n	handsomeness potion	300
-Gno-Mart	n	marzipan skull	300
-Gno-Mart	n	Meleegra&trade; pills	300
-Gno-Mart	n	vial of Gnomochloric acid	500
-Gno-Mart	n	flask of Gnomochloric acid	1000
-Gno-Mart	n	jug of Gnomochloric acid	5000
+# No longer available, and the row number isn't known if it ever does come back
+# The General Store	generalstore	sneaky wrapping paper	1000
+
+Gno-Mart	gnomart	jaba&ntilde;ero-flavored chewing gum	200	ROW553
+Gno-Mart	gnomart	lime-and-chile-flavored chewing gum	200	ROW552
+Gno-Mart	gnomart	pickle-flavored chewing gum	200	ROW555
+Gno-Mart	gnomart	tamarind-flavored chewing gum	200	ROW554
+Gno-Mart	gnomart	handsomeness potion	300	ROW556
+Gno-Mart	gnomart	marzipan skull	300	ROW558
+Gno-Mart	gnomart	Meleegra&trade; pills	300	ROW557
+Gno-Mart	gnomart	vial of Gnomochloric acid	500	ROW559
+Gno-Mart	gnomart	flask of Gnomochloric acid	1000	ROW560
+Gno-Mart	gnomart	jug of Gnomochloric acid	5000	ROW561
 
 Uncle P's Antiques	unclep	Clancy's crumhorn	2500	ROW511
 Uncle P's Antiques	unclep	antique accordion	2500	ROW512
@@ -188,21 +190,21 @@ Uncle P's Antiques	unclep	fancy tophat	1000000	ROW506
 Uncle P's Antiques	unclep	fancy tuxedo pants	1000000	ROW509
 Uncle P's Antiques	unclep	'Villa' document	100000000	ROW507
 
-Huggler Memorial Colosseum Snack Bar	q	Hatorade	500
-Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
-Huggler Memorial Colosseum Snack Bar	q	used beer	500
+Huggler Memorial Colosseum Snack Bar	snackbar	Hatorade	500	ROW565
+Huggler Memorial Colosseum Snack Bar	snackbar	nailswurst	500	ROW566
+Huggler Memorial Colosseum Snack Bar	snackbar	used beer	500	ROW567
 
-Barrrtleby's Barrrgain Books	r	pirate brochure	300
-Barrrtleby's Barrrgain Books	r	pirate pamphlet	300
-Barrrtleby's Barrrgain Books	r	pirate tract	300
-Barrrtleby's Barrrgain Books	r	The Big Book of Pirate Insults	500
-Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
+Barrrtleby's Barrrgain Books	bartlebys	pirate brochure	300	ROW612
+Barrrtleby's Barrrgain Books	bartlebys	pirate pamphlet	300	ROW613
+Barrrtleby's Barrrgain Books	bartlebys	pirate tract	300	ROW614
+Barrrtleby's Barrrgain Books	bartlebys	The Big Book of Pirate Insults	500	ROW615
+Barrrtleby's Barrrgain Books	bartlebys	abridged dictionary	1000	ROW617
 
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate brochure	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate pamphlet	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate tract	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	Massive Manual of Marauder Mockery	500
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	abridged dictionary	1000
+Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate brochure	300	ROW612
+Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate pamphlet	300	ROW613
+Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate tract	300	ROW614
+Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	Massive Manual of Marauder Mockery	500	ROW616
+Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	abridged dictionary	1000	ROW617
 
 Meatsmith's Shop	meatsmith	meatsmithing guide	50	ROW495
 Meatsmith's Shop	meatsmith	sword hilt	100	ROW492
@@ -223,16 +225,16 @@ The Typical Tavern	bartender	day-old beer	25	ROW562
 The Typical Tavern	bartender	plain old beer	50	ROW563
 The Typical Tavern	bartender	overpriced &quot;imported&quot; beer	100	ROW564
 
-White Citadel	w	White Citadel burger	100
-White Citadel	w	White Citadel fries	80
-White Citadel	w	onion shurikens	80
-White Citadel	w	Cherry Cloaca Cola	80
-White Citadel	w	Diet Cloaca Cola	80
-White Citadel	w	Regular Cloaca Cola	80
+White Citadel	whitecitadel	White Citadel burger	100	ROW623
+White Citadel	whitecitadel	White Citadel fries	80	ROW618
+White Citadel	whitecitadel	onion shurikens	80	ROW619
+White Citadel	whitecitadel	Cherry Cloaca Cola	80	ROW621
+White Citadel	whitecitadel	Diet Cloaca Cola	80	ROW620
+White Citadel	whitecitadel	Regular Cloaca Cola	80	ROW622
 
-Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
-Nervewrecker's Store	y	Dramatic&trade; range	500
-Nervewrecker's Store	y	tenderizing hammer	500
+Nervewrecker's Store	nerve	Queue Du Coq cocktailcrafting kit	500	ROW592
+Nervewrecker's Store	nerve	Dramatic&trade; range	500	ROW591
+Nervewrecker's Store	nerve	tenderizing hammer	500	ROW593
 
 Armory and Leggery	armory	cool whip	30	ROW487
 Armory and Leggery	armory	sweet ninja sword	50	ROW490
@@ -331,13 +333,13 @@ Chateau Mantenga Gift Shop	chateau	fancy stationery set	1500	ROW419
 Chateau Mantenga Gift Shop	chateau	Swiss piggy bank	1500	ROW417
 Chateau Mantenga Gift Shop	chateau	alpine watercolor set	5000	ROW420
 
-Chinatown Shops	c	fortune cookie	40
-Chinatown Shops	c	brass abacus	150
-Chinatown Shops	c	cheap Chinese beer	250
-Chinatown Shops	c	bottle of limeade	300
-Chinatown Shops	c	rhinoceros horn	375
-Chinatown Shops	c	furry pink pillow	500
-Chinatown Shops	c	novelty tattoo sleeves	1000
-Chinatown Shops	c	toy taijijian	1000
-Chinatown Shops	c	bonsai tree	1500
-Chinatown Shops	c	lucky cat statue	2000
+Chinatown Shops	chinatown	fortune cookie	40	ROW568
+Chinatown Shops	chinatown	brass abacus	150	ROW569
+Chinatown Shops	chinatown	cheap Chinese beer	250	ROW570
+Chinatown Shops	chinatown	bottle of limeade	300	ROW571
+Chinatown Shops	chinatown	rhinoceros horn	375	ROW572
+Chinatown Shops	chinatown	furry pink pillow	500	ROW573
+Chinatown Shops	chinatown	novelty tattoo sleeves	1000	ROW574
+Chinatown Shops	chinatown	toy taijijian	1000	ROW575
+Chinatown Shops	chinatown	bonsai tree	1500	ROW576
+Chinatown Shops	chinatown	lucky cat statue	2000	577ROW

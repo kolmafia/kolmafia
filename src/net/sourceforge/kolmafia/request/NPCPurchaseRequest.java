@@ -157,14 +157,7 @@ public class NPCPurchaseRequest
 		{
 			return storeId;
 		}
-		if ( storeId.equals( "armory" ) || storeId.equals( "bartender" ) || storeId.equals( "blackmarket" ) ||
-			 storeId.equals( "chateau" ) || storeId.equals( "fdkol" ) || storeId.equals( "guildstore1" ) ||
-			 storeId.equals( "guildstore2" ) || storeId.equals( "guildstore3" ) || storeId.equals( "hiddentavern" ) ||
-			 storeId.equals( "knobdisp" ) || storeId.equals( "meatsmith" ) || storeId.equals( "unclep" ) )
-		{
-			return "shop.php";
-		}
-		return "store.php";
+		return "shop.php";
 	}
 
 	public static String getShopId( final String urlString )
