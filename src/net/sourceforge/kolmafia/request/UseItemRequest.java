@@ -481,6 +481,8 @@ public class UseItemRequest
 			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
 		}
 
+		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
+
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
@@ -497,7 +499,7 @@ public class UseItemRequest
 			// If you are currently Beaten Up, allow a single
 			// usage. Otherwise, let code below limit based on
 			// needed HP/MP recovery
-			if ( KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+			if ( KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) && restorationMaximum == 0 )
 			{
 				UseItemRequest.limiter = "needed restoration";
 				return 1;
@@ -506,9 +508,16 @@ public class UseItemRequest
 
 		case ItemPool.GONG:
 		case ItemPool.KETCHUP_HOUND:
-		case ItemPool.MEDICINAL_HERBS:
 			UseItemRequest.limiter = "usability";
 			return 1;
+
+		case ItemPool.MEDICINAL_HERBS:
+			if ( restorationMaximum > 0 )
+			{
+				UseItemRequest.limiter = "usability";
+				return 1;
+			}
+			break;
 
 		case ItemPool.FIELD_GAR_POTION:
 			// Disallow using potion if already Gar-ish
@@ -734,8 +743,12 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_allYearSucker" ) ? 0 : 1;
 
 		case ItemPool.DARK_CHOCOLATE_HEART:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_darkChocolateHeart" ) ? 0 : 1;
+			if ( restorationMaximum > 0 )
+			{
+				UseItemRequest.limiter = "daily limit";
+				return Preferences.getBoolean( "_darkChocolateHeart" ) ? 0 : 1;
+			}
+			break;
 
 		case ItemPool.JACKASS_PLUMBER_GAME:
 			UseItemRequest.limiter = "daily limit";
@@ -916,8 +929,12 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_brassDreadFlaskUsed" ) ? 0 : 1;
 
 		case ItemPool.ETERNAL_CAR_BATTERY:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_eternalCarBatteryUsed" ) ? 0 : 1;
+			if ( restorationMaximum > 0 )
+			{
+				UseItemRequest.limiter = "daily limit";
+				return Preferences.getBoolean( "_eternalCarBatteryUsed" ) ? 0 : 1;
+			}
+			break;
 
 		case ItemPool.FOLDER_01:
 		case ItemPool.FOLDER_02:
@@ -1036,7 +1053,6 @@ public class UseItemRequest
 
 		}
 
-		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
 		if ( restorationMaximum < Integer.MAX_VALUE )
 		{
 			UseItemRequest.limiter = "needed restoration";
