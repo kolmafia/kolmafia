@@ -281,7 +281,7 @@ public class GuildRequest
 			return;
 		}
 		
-		KoLCharacter.setGuildStoreOpen( responseText.indexOf( "\"store.php" ) != -1 );
+		KoLCharacter.setGuildStoreOpen( responseText.contains( "\"shop.php" ) );
 
 		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
 		String place = matcher.find() ? matcher.group( 1 ) : null;
