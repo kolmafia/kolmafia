@@ -92,6 +92,7 @@ public interface KoLConstants
 	public static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	public static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	public static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+	public static final Pattern HEAD_PATTERN = Pattern.compile( "<head>(.*?)</head>" );
 	public static final Pattern BODY_PATTERN = Pattern.compile( "<body>(.*?)</body>" );
 
 	public static final DecimalFormat COMMA_FORMAT =

@@ -95,40 +95,7 @@ public class StarChartRequest
 			return;
 		}
 
-		StarChartRequest.parseResponse( urlString, responseText );
-	}
-
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=starchart" ) )
-		{
-			return;
-		}
-
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
-		{
-			return;
-		}
-
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
-
-		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
-		if ( item == null )
-		{
-			return; // this is an unknown item
-		}
-
-		// quantity can only be 1, so it does not need to be parsed from the URL
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
-		}
+		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )

@@ -532,22 +532,16 @@ public class NPCPurchaseRequest
 		}
 
 		// The following trade collections of ingredients for an item
-		if ( shopId.equals( "mystic" ) ||
-		     shopId.startsWith( "kolhs_" ) ||
+		if ( shopId.equals( "beergarden" ) ||
 		     shopId.equals( "grandma" ) ||
-		     shopId.equals( "beergarden" ) ||
 		     shopId.equals( "junkmagazine" ) ||
+		     shopId.startsWith( "kolhs_" ) ||
+		     shopId.equals( "mystic" ) ||
+		     shopId.equals( "rumple" ) ||
 		     shopId.equals( "snowgarden" ) ||
-		     shopId.equals( "rumple" ) )
+		     shopId.equals( "starchart" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
-			return;
-		}
-
-		// The following does too, but always makes a single item
-		if ( shopId.equals( "starchart" ) )
-		{
-			StarChartRequest.parseResponse( urlString, responseText );
 			return;
 		}
 

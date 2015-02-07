@@ -287,8 +287,8 @@ public class ResultProcessor
 
 	public static boolean processNormalResults( boolean combatResults, String results, List<AdventureResult> data )
 	{
-		Matcher bodyMatcher = KoLConstants.BODY_PATTERN.matcher( results );
-		String body = bodyMatcher.find() ? bodyMatcher.group( 1 ) : results;
+		// Whacky, whacky KoL can insert <head> sections within the <body>
+		String body = KoLConstants.HEAD_PATTERN.matcher( results ).replaceAll( "" );
 		String plainTextResult = KoLConstants.ANYTAG_BUT_ITALIC_PATTERN.matcher( body ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
