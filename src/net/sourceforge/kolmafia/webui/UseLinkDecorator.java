@@ -930,7 +930,7 @@ public abstract class UseLinkDecorator
 					ItemPool.DINGY_PLANKS,
 					1,
 					"buy planks",
-					"shop.php?&whichstore=generalstore&action=buyitem&quantity=1&whichrow=629",
+					"shop.php?&whichshop=generalstore&action=buyitem&quantity=1&whichrow=655",
 					true );
 
 			case ItemPool.BARLEY:
