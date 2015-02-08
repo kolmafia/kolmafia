@@ -6194,24 +6194,6 @@ public abstract class ChoiceManager
 			ResultProcessor.processAdventuresUsed( 1 );
 			break;
 
-		case 924:	// You Found Your Thrill
-			if ( ChoiceManager.lastDecision == 3 )
-			{
-				// head towards beehive
-				// This takes take a turn
-				ResultProcessor.processAdventuresUsed( 1 );
-			}
-			break;
-
-		case 1018:	// Bee Persistent
-		case 1019:	// Bee Rewarded
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				// Heading towards beehive takes a turn
-				ResultProcessor.processAdventuresUsed( 1 );
-			}
-			break;
-
 		case 1028:
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
@@ -6250,8 +6232,8 @@ public abstract class ChoiceManager
 		case 1019:	// Bee Rewarded
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				// This took a turn, but does not contain an
-				// "Encounter", so was not logged.
+				// This does not contain an "Encounter", so was
+				// not logged.
 				RequestLogger.registerLocation( "The Black Forest" );
 			}
 			break;
@@ -11756,7 +11738,9 @@ public abstract class ChoiceManager
 			break;
 
 		case 1018:	// Bee Persistent
-			// These also take a turn
+		case 1019:	// Bee Rewarded
+			// Getting here took a turn
+			ResultProcessor.processAdventuresUsed( 1 );
 			RequestLogger.registerLocation( "The Black Forest" );
 			break;
 		}
