@@ -2100,6 +2100,12 @@ public class ItemPool
 	public static final int MOIST_BEADS = 7475;
 	public static final int MIND_DESTROYER = 7476;
 	public static final int SWEET_TOOTH = 7481;
+	public static final int LOOSENING_POWDER = 7485;
+	public static final int POWDERED_CASTOREUM = 7486;
+	public static final int DRAIN_DISSOLVER = 7487;
+	public static final int TRIPLE_DISTILLED_TURPENTINE = 7488;
+	public static final int DETARTRATED_ANHYDROUS_SUBLICALC = 7489;
+	public static final int TRIATOMACEOUS_DUST = 7490;
 	public static final int UNSTABLE_FULMINATE = 7493;
 	public static final int WINE_BOMB = 7494;
 	public static final int MORTAR_DISSOLVING_RECIPE = 7495;
