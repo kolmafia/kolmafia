@@ -354,19 +354,19 @@ public class FightRequest
 	private static final String[][] EVIL_ZONES =
 	{
 		{
-			"defiled alcove",
+			"The Defiled Alcove",
 			"cyrptAlcoveEvilness",
 		},
 		{
-			"defiled cranny",
+			"The Defiled Cranny",
 			"cyrptCrannyEvilness",
 		},
 		{
-			"defiled niche",
+			"The Defiled Niche",
 			"cyrptNicheEvilness",
 		},
 		{
-			"defiled nook",
+			"The Ddefiled Nook",
 			"cyrptNookEvilness",
 		},
 	};
@@ -5828,11 +5828,6 @@ public class FightRequest
 			evilness++;
 		}
 
-		if ( text.contains( "Evilometer beeps once" ) )
-		{
-			evilness++;
-		}
-
 		if ( evilness == 0 )
 		{
 			Matcher m = BEEP_PATTERN.matcher( text );
@@ -5845,6 +5840,27 @@ public class FightRequest
 
 		Preferences.decrement( setting, evilness, 0 );
 		Preferences.decrement( "cyrptTotalEvilness", evilness, 0 );
+
+		if ( text.contains( "Evilometer beeps once" ) )
+		{
+			// lovebugs
+			setting = null;
+			String loc = KoLAdventure.lastLocationName;
+			for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
+			{
+				String[] data = FightRequest.EVIL_ZONES[ i ];
+				if ( loc.equals( data[ 0 ] ) )
+				{
+					setting = data[ 1 ];
+					break;
+				}
+			}
+			if ( setting != null )
+			{
+				Preferences.decrement( setting, 1, 0 );
+			}
+		}
+
 		return true;
 	}
 	
