@@ -366,7 +366,7 @@ public class FightRequest
 			"cyrptNicheEvilness",
 		},
 		{
-			"The Ddefiled Nook",
+			"The Defiled Nook",
 			"cyrptNookEvilness",
 		},
 	};
