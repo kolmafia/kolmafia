@@ -3437,6 +3437,7 @@ Fam:Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Famili
 # Throne:MiniMechaElf
 Throne:Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30, MP Regen Min: 10, MP Regen Max: 12
+Throne:Adventurous Spelunker	Item Drop: +15
 Throne:Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Angry Goat	Muscle Percent: +15
 Throne:Angry Jung Man	Maximum HP: 10, Maximum MP: 10
@@ -3491,6 +3492,7 @@ Throne:Gelatinous Cubeling	Familiar Weight: +5
 Throne:Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Gluttonous Green Ghost	Food Drop: +15
+Throne:Golden Monkey	Meat Drop: +25
 Throne:Green Pixie	Maximum HP: +10, Maximum MP: +10
 Throne:Grim Brother	Combat Rate: +5
 Throne:Grimstone Golem	Combat Rate: -5
