@@ -131,7 +131,7 @@ public abstract class SorceressLairManager
 		},
 		{
 			"people, clustered around a group of igloos",
-			"Coolest Adventurer",
+			"Coldest Adventurer",
 			Element.COLD.toString(),
 		},
 		{
