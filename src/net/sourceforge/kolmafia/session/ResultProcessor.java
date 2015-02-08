@@ -2422,7 +2422,6 @@ public class ResultProcessor
 
 		case ItemPool.WINE_BOMB:
 			EquipmentManager.discardEquipment( ItemPool.UNSTABLE_FULMINATE );
-			QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );
 			break;
 
 		case ItemPool.LIGHTNING_MILK:

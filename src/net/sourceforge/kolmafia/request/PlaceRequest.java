@@ -45,6 +45,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -163,6 +166,39 @@ public class PlaceRequest
 					ResultProcessor.removeItem( ItemPool.POWDER_PUFF );
 					ResultProcessor.removeItem( ItemPool.FINEST_GOWN );
 					ResultProcessor.removeItem( ItemPool.DANCING_SHOES );
+				}
+			}
+		}
+		else if ( place.equals( "manor4" ) )
+		{
+			if ( action.equals( "manor4_chamberwall" ) ||
+			     action.equals( "manor4_chamberwalllabel" ) )
+			{
+				// You mix the mortar-dissolving ingredients
+				// into a nasty-smelling paste, and smear it
+				// all over the brickwork with a mortar. Smoke
+				// begins to pour from the cracks between
+				// bricks as the solution does its work. The
+				// wall collapses, revealing an eerily-lit
+				// chamber beyond.
+				if ( responseText.contains( "The wall collapses" ) )
+				{
+					ResultProcessor.processItem( ItemPool.LOOSENING_POWDER, -1 );
+					ResultProcessor.processItem( ItemPool.POWDERED_CASTOREUM, -1 );
+					ResultProcessor.processItem( ItemPool.DRAIN_DISSOLVER, -1 );
+					ResultProcessor.processItem( ItemPool.TRIPLE_DISTILLED_TURPENTINE, -1 );
+					ResultProcessor.processItem( ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC, -1 );
+					ResultProcessor.processItem( ItemPool.TRIATOMACEOUS_DUST, -1 );
+					QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );
+				}
+				//You shake up the wine bomb and hurl it at the
+				//masonry. The ensuing blast leaves a giant
+				//jagged hole in the wall, leading into an
+				//eerily lit chamber beyond.
+				else if ( responseText.contains( "a giant jagged hole in the wall" ) )
+				{
+					ResultProcessor.processItem( ItemPool.WINE_BOMB, -1 );
+					QuestDatabase.setQuestProgress( Quest.MANOR, "step3" );
 				}
 			}
 		}
