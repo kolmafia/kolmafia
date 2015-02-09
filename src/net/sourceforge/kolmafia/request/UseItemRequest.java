@@ -250,6 +250,8 @@ public class UseItemRequest
 			return "inv_eat.php";
 		case KoLConstants.CONSUME_DRINK:
 			return "inv_booze.php";
+		case KoLConstants.CONSUME_SPLEEN:
+			return "inv_spleen.php";
 		case KoLConstants.GROW_FAMILIAR:
 			return "inv_familiar.php";
 		case KoLConstants.CONSUME_HOBO:
@@ -262,7 +264,6 @@ public class UseItemRequest
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.CONSUME_SPLEEN:
 			if ( item.getCount() > 1 )
 			{
 				return "multiuse.php";
@@ -5400,6 +5401,7 @@ public class UseItemRequest
 		if ( !urlString.startsWith( "inv_use.php" ) &&
 		     !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&
+		     !urlString.startsWith( "inv_spleen.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
@@ -5431,10 +5433,11 @@ public class UseItemRequest
 
 		int itemCount = 1;
 
-		if ( urlString.indexOf( "multiuse.php" ) != -1 ||
-		     urlString.indexOf( "inv_eat.php" ) != -1 ||
-		     urlString.indexOf( "inv_booze.php" ) != -1 ||
-		     urlString.indexOf( "inv_use.php" ) != -1)
+		if ( urlString.contains( "multiuse.php" ) ||
+		     urlString.contains( "inv_eat.php" ) ||
+		     urlString.contains( "inv_booze.php" ) ||
+		     urlString.contains( "inv_spleen.php" ) ||
+		     urlString.contains( "inv_use.php" ))
 		{
 			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
@@ -5476,6 +5479,7 @@ public class UseItemRequest
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&
+		     !urlString.startsWith( "inv_spleen.php" ) &&
 		     !urlString.startsWith( "inv_use.php" ) )
 		{
 			return null;
@@ -5657,6 +5661,11 @@ public class UseItemRequest
 		if ( urlString.startsWith( "inv_eat.php" ) )
 		{
 			return EatItemRequest.registerRequest();
+		}
+
+		if ( urlString.startsWith( "inv_spleen.php" ) )
+		{
+			return SpleenItemRequest.registerRequest();
 		}
 
 		String name = item.getName();

@@ -107,14 +107,6 @@ public class SpleenItemRequest
 			return;
 		}
 
-		// If we were previously using multiuse.php but have reduced consumption to 1,
-		// switch to inv_use.php
-		if ( maximumUses == 1 && this.getPath().equals( "multiuse.php" ) )
-		{
-			this.constructURLString( "inv_use.php" );
-			this.addFormField( "whichitem", String.valueOf( this.itemUsed.getItemId() ) );
-		}
-
 		int iterations = 1;
 		int origCount = this.itemUsed.getCount();
 
@@ -158,22 +150,8 @@ public class SpleenItemRequest
 			return;
 		}
 
-		switch ( this.consumptionType )
-		{
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			if ( this.itemUsed.getCount() > 1 )
-			{
-				this.addFormField( "action", "useitem" );
-				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
-			}
-			// Fall through
-		default:
-			this.addFormField( "ajax", "1" );
-			break;
-		}
+		this.addFormField( "ajax", "1" );
+		this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}
