@@ -116,7 +116,7 @@ Chunky Mary	4	1	good	11-13	0	0	30-40
 Cinco Mayo Lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 Cobb's Knob Wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
-Cold One	1	1		6	0	0	0	
+Cold One	1	1		6	0	0	0
 complex mushroom wine	4	3	EPIC	22-24	0	100-150	0	80 Omphalotus Omnipresence (+40 Mys)
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 Corpse Island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
@@ -147,7 +147,7 @@ Cyder	3	5		5	0	0	0
 Dark & Starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP
 Das Sauerlager	3	1	decent	4-5	0	20-30	10-20
 day-old beer	1	1	crappy	1	0	0	0
-decanter of fine Scotch	4	9	EPIC	18-22	5-10	5-10	50-80
+decanter of fine Scotch	4	9	awesome	18-22	5-10	5-10	50-80
 Desert Island Iced Tea	5	1		12-13	0	0	0	15 Castaway Physique (+25% Muscle)
 dew yoana lei	3	4	decent	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
@@ -226,8 +226,8 @@ Fromage Pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (+30 St
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
 fuzzbump	4	4	good	10-14	34-36	0	0
 Fuzzy Tentacle	2	4	awesome	6-7	0	20-30	0	10 Void Between the Stars (+50 Cold Damage)
-gamma nog	3	1	awesome	9-12	10-20	10-20	10-20	
-Gets-You-Drunk	2	1	awesome	8-10	60-100	60-100	60-100	Spooky damage for 3 combats then 8-10 adventures	
+gamma nog	3	1	awesome	9-12	10-20	10-20	10-20
+Gets-You-Drunk	2	1	awesome	8-10	60-100	60-100	60-100	Spooky damage for 3 combats then 8-10 adventures
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20
 gimlet	4	6	awesome	14-18	0	40-47	0
@@ -299,7 +299,7 @@ knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
 La Fantasma y La Oscuridad	3	1	good	8-10	0	13	0	13 La Oscuridad Adentro (+3 Mys exp, +13 spooky dam, +13 spooky spell dam)
 large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
 Le Roi	3	1	good	8-10	0	0	30-40
-legitimate business on the beach	2	5	awesome	6-8	20-30	20-30	20-30	
+legitimate business on the beach	2	5	awesome	6-8	20-30	20-30	20-30
 Locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 Lollipop Drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 Lucky Lindy	1	1	good	2-4	0	0	0	semi-rare number
@@ -345,7 +345,7 @@ nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10
 natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 Neuromancer	4	6	awesome	14-18	25-27	0	16-20
 New Zealand iced tea	2	4	awesome	6-8	20-30	0	0	20 New Zeal (+40 HP, +20 MP)
-non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	
+non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10
 ocean motion	4	4	good	10-14	25-27	8-10	0
 Oh, the Humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP
 Oil Nog	4	5		7-9	0	0	0
@@ -458,7 +458,7 @@ spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 stealth bomber	3	6	awesome	9-12	10-20	0	10-20
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
-stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30	
+stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10
 strawberry wine	3	1	decent	5-6	0	0	8-10

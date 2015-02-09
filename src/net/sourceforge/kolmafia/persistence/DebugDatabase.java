@@ -45,7 +45,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -200,14 +199,6 @@ public class DebugDatabase
 	private static final String ITEM_DATA = "itemdata.txt";
 	private static final StringArray rawItems = new StringArray();
 
-	private static final Comparator<String> ignoreCaseComparator = new Comparator<String>()
-	{
-		public int compare( String s1, String s2 )
-		{
-			return s1.compareToIgnoreCase( s2 );
-		}
-	};
-
 	private static class ItemMap
 	{
 		private final String tag;
@@ -218,7 +209,7 @@ public class DebugDatabase
 		{
 			this.tag = tag;
 			this.type = type;
-			this.map = new TreeMap<String, String>( DebugDatabase.ignoreCaseComparator );
+			this.map = new TreeMap<String, String>( KoLConstants.ignoreCaseComparator );
 		}
 
 		public String getTag()
@@ -257,6 +248,7 @@ public class DebugDatabase
 	{
 		new ItemMap( "Foods", KoLConstants.CONSUME_EAT ),
 		new ItemMap( "Boozes", KoLConstants.CONSUME_DRINK ),
+		new ItemMap( "Spleens", KoLConstants.CONSUME_SPLEEN ),
 		new ItemMap( "Hats", KoLConstants.EQUIP_HAT ),
 		new ItemMap( "Weapons", KoLConstants.EQUIP_WEAPON ),
 		new ItemMap( "Offhands", KoLConstants.EQUIP_OFFHAND ),
@@ -579,6 +571,10 @@ public class DebugDatabase
 		{
 			return KoLConstants.CONSUME_DRINK;
 		}
+		if ( type.startsWith( "spleen item" ) )
+		{
+			return KoLConstants.CONSUME_SPLEEN;
+		}
 		if ( type.contains( "self or others" ) )
 		{
 			// Curse items are special
@@ -667,6 +663,7 @@ public class DebugDatabase
 			       descType == KoLConstants.CONSUME_USE;
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
+		case KoLConstants.CONSUME_SPLEEN:
 		case KoLConstants.GROW_FAMILIAR:
 		case KoLConstants.EQUIP_FAMILIAR:
 		case KoLConstants.EQUIP_ACCESSORY:
@@ -677,12 +674,19 @@ public class DebugDatabase
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
 			return descType == type;
-		case KoLConstants.CONSUME_USE:
-		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
+			return descType == KoLConstants.CONSUME_USE ||
+			       // descType == KoLConstants.CONSUME_MULTIPLE ||
+			       // descType == KoLConstants.CONSUME_EAT ||
+			       // descType == KoLConstants.CONSUME_DRINK ||
+			       descType == KoLConstants.CONSUME_SPLEEN ||
+			       // descType == KoLConstants.NO_CONSUME ||
+				false;
 		case KoLConstants.MESSAGE_DISPLAY:
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.INFINITE_USES:
 			return descType == KoLConstants.CONSUME_USE ||
 			       descType == KoLConstants.CONSUME_MULTIPLE ||
@@ -735,6 +739,7 @@ public class DebugDatabase
 
 		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
 		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
+		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ) );
 	}
 
 	private static final void checkLevelMap( final PrintStream report, final ItemMap imap )
@@ -747,11 +752,15 @@ public class DebugDatabase
 
 		String tag = imap.getTag();
 		int type = imap.getType();
+		String  file =
+			type == KoLConstants.CONSUME_EAT ? "fullness" :
+			type == KoLConstants.CONSUME_DRINK ? "inebriety" :
+			"spleenhit";
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
 		report.println( "" );
-		report.println( "# Level requirements in " + ( type == KoLConstants.CONSUME_EAT ? "fullness" : "inebriety" ) + ".txt" );
+		report.println( "# Level requirements in " + file + ".txt" );
 
 		Object[] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -949,17 +958,6 @@ public class DebugDatabase
 		return "none";
 	}
 
-	public static final int parseSize( final String text )
-	{
-		int size = DebugDatabase.parseFullness( text );
-		if ( size > 0 )
-		{
-			return size;
-		}
-
-		return DebugDatabase.parseInebriety( text );
-	}
-
 	private static final Pattern FULLNESS_PATTERN = Pattern.compile( "Size: <b>(\\d+)</b>" );
 
 	public static final int parseFullness( final String text )
@@ -973,6 +971,14 @@ public class DebugDatabase
 	public static final int parseInebriety( final String text )
 	{
 		Matcher matcher = DebugDatabase.INEBRIETY_PATTERN.matcher( text );
+		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) ) : 0;
+	}
+
+	private static final Pattern TOXICITY_PATTERN = Pattern.compile( "Toxicity: <b>(\\d+)</b>" );
+
+	public static final int parseToxicity( final String text )
+	{
+		Matcher matcher = DebugDatabase.TOXICITY_PATTERN.matcher( text );
 		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) ) : 0;
 	}
 
@@ -998,6 +1004,7 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_FAMILIAR ) );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ), false );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ), false );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ), false );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ), false );
 	}
 
@@ -2148,9 +2155,9 @@ public class DebugDatabase
 
 	private static final void checkConsumables( final PrintStream report )
 	{
-		DebugDatabase.checkConsumables( report, ItemDatabase.fullnessByName, "Fullness" );
-		DebugDatabase.checkConsumables( report, ItemDatabase.inebrietyByName, "Inebriety" );
-		DebugDatabase.checkConsumables( report, ItemDatabase.spleenHitByName, "Spleenhit" );
+		DebugDatabase.checkConsumables( report, ItemDatabase.fullnessByName, "fullness" );
+		DebugDatabase.checkConsumables( report, ItemDatabase.inebrietyByName, "inebriety" );
+		DebugDatabase.checkConsumables( report, ItemDatabase.spleenHitByName, "spleenhit" );
 	}
 
 	private static final void checkConsumables( final PrintStream report, final Map map, final String tag )
@@ -2185,7 +2192,7 @@ public class DebugDatabase
 
 		int level = ItemDatabase.getLevelReqByName( name ).intValue();
 		String adv = ItemDatabase.getAdvRangeByName( name );
-		String quality = DebugDatabase.parseQuality( text );
+		String quality = ( itemId == -1 ) ? ItemDatabase.getQuality( name ) : DebugDatabase.parseQuality( text );
 		String mus = ItemDatabase.getMuscleByName( name );
 		String mys = ItemDatabase.getMysticalityByName( name );
 		String mox = ItemDatabase.getMoxieByName( name );

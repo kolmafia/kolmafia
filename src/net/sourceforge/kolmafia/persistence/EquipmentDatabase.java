@@ -716,6 +716,8 @@ public class EquipmentDatabase
 			return "food";
 		case KoLConstants.CONSUME_DRINK:
 			return "booze";
+		case KoLConstants.CONSUME_SPLEEN:
+			return "spleen item";
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			return "food helper";
 		case KoLConstants.CONSUME_DRINK_HELPER:

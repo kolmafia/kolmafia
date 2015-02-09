@@ -44,6 +44,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.Locale;
 import java.util.Random;
@@ -524,35 +525,51 @@ public interface KoLConstants
 		LIBRAM
 	}
 
+	// Cannot be "used" in any way by itself
 	public static final int NO_CONSUME = 0;
+
+	// Consumables
 	public static final int CONSUME_EAT = 1;
 	public static final int CONSUME_DRINK = 2;
-	public static final int CONSUME_USE = 3;
-	public static final int CONSUME_MULTIPLE = 4;
-	public static final int GROW_FAMILIAR = 5;
-	public static final int CONSUME_ZAP = 6;
-	public static final int EQUIP_FAMILIAR = 7;
-	public static final int EQUIP_ACCESSORY = 8;
-	public static final int EQUIP_HAT = 9;
-	public static final int EQUIP_PANTS = 10;
-	public static final int EQUIP_SHIRT = 11;
-	public static final int EQUIP_WEAPON = 12;
-	public static final int EQUIP_OFFHAND = 13;
-	public static final int MP_RESTORE = 14;
-	public static final int MESSAGE_DISPLAY = 15;
-	public static final int HP_RESTORE = 16;
-	public static final int HPMP_RESTORE = 17;
-	public static final int INFINITE_USES = 18;
-	public static final int EQUIP_CONTAINER = 19;
-	public static final int CONSUME_SPHERE = 20;
-	public static final int CONSUME_FOOD_HELPER = 21;
-	public static final int CONSUME_DRINK_HELPER = 22;
-	public static final int CONSUME_STICKER = 23;
-	public static final int CONSUME_GUARDIAN = 24;
-	public static final int MULTI_USE = 25;
-	public static final int CONSUME_CARD = 26;
-	public static final int CONSUME_FOLDER = 27;
+	public static final int CONSUME_SPLEEN = 3;
 
+	// Usables
+	public static final int CONSUME_USE = 4;
+	public static final int CONSUME_MULTIPLE = 5;
+	public static final int INFINITE_USES = 6;
+	public static final int MESSAGE_DISPLAY = 7;
+
+	// Familiar hatchlings
+	public static final int GROW_FAMILIAR = 8;
+
+	// Equipment
+	public static final int EQUIP_HAT = 9;
+	public static final int EQUIP_WEAPON = 10;
+	public static final int EQUIP_OFFHAND = 11;
+	public static final int EQUIP_CONTAINER = 12;
+	public static final int EQUIP_SHIRT = 13;
+	public static final int EQUIP_PANTS = 14;
+	public static final int EQUIP_ACCESSORY = 15;
+	public static final int EQUIP_FAMILIAR = 16;
+
+	// Customizable "equipment"
+	public static final int CONSUME_STICKER = 17;
+	public static final int CONSUME_CARD = 18;
+	public static final int CONSUME_FOLDER = 19;
+
+	// Restoratives
+	public static final int HP_RESTORE = 20;
+	public static final int MP_RESTORE = 21;
+	public static final int HPMP_RESTORE = 22;
+
+	// Special "uses"
+	public static final int CONSUME_FOOD_HELPER = 23;
+	public static final int CONSUME_DRINK_HELPER = 24;
+	public static final int CONSUME_ZAP = 25;
+	public static final int CONSUME_SPHERE = 26;
+	public static final int CONSUME_GUARDIAN = 27;
+
+	// Familiar "uses"
 	public static final int CONSUME_MIMIC = 96;
 	public static final int CONSUME_SLIME = 97;
 	public static final int CONSUME_HOBO = 98;
@@ -766,4 +783,12 @@ public interface KoLConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final StyledChatBuffer commandBuffer = new StyledChatBuffer( "", "blue", false );
+
+	public static final Comparator<String> ignoreCaseComparator = new Comparator<String>()
+	{
+		public int compare( String s1, String s2 )
+		{
+			return s1.compareToIgnoreCase( s2 );
+		}
+	};
 }

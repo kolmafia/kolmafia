@@ -193,11 +193,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			return new EatItemRequest( item );
-		}
-
-		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
-		if ( spleenHit > 0 )
-		{
+		case KoLConstants.CONSUME_SPLEEN:
 			return new SpleenItemRequest( item );
 		}
 
@@ -266,6 +262,7 @@ public class UseItemRequest
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_SPLEEN:
 			if ( item.getCount() > 1 )
 			{
 				return "multiuse.php";
@@ -1874,6 +1871,10 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			EatItemRequest.parseConsumption( item, helper, responseText );
+			return;
+
+		case KoLConstants.CONSUME_SPLEEN:
+			SpleenItemRequest.parseConsumption( item, helper, responseText );
 			return;
 		}
 

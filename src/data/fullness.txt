@@ -4,6 +4,7 @@
 
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
+&quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
@@ -70,7 +71,7 @@ bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70
 bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
-bowl of topioca	3	1	awesome	12	50-60	50-60	50-60	
+bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
@@ -258,7 +259,7 @@ fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
-flavorless gruel	4	4	good	9-11	90-110	0	0	
+flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
 foie gras	1	2	decent	1-3	0	0	0	1 Beaten Up
@@ -276,7 +277,7 @@ fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
 Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
-ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures	
+ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures
 ghuol egg	1	1	crappy	1	-3	0	0
 ghuol egg quiche	3	2	decent	3-9	0	0	0
 ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19
@@ -436,8 +437,7 @@ magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
-&quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
-Medical Pastaco	2	3	decent	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
+Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
 Miserable Pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)
@@ -456,7 +456,7 @@ nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanit
 nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
-neutron lollipop	3	1	awesome	9-12	10-20	10-20	10-20	
+neutron lollipop	3	1	awesome	9-12	10-20	10-20	10-20
 New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0
@@ -602,10 +602,10 @@ Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
 snow berries	1	1	good	2-3	3-5	3-5	3-5	30 Berry Berry Cold (+10 Cold Damage, +20 Cold Spell Damage)
 snow crab	1	1	EPIC	5-7	10-20	10-20	10-20
-Sogg-Os	1	11	EPIC	5	1-100	1-100	1-100	
+Sogg-Os	1	11	EPIC	5	1-100	1-100	1-100
 Soylent Red and Green	3	5		4-5	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
-spaghetti breakfast	1	1	crappy	6	0	0	0	
+spaghetti breakfast	1	1		6	0	0	0
 spaghetti con calaveras	6	6	awesome	23-27	47-52	0	0	10 Eso S&iacute; Que Es
 Spaghetti with Moonballs	3	2	good	8-10	10-20	0	20-30
 spaghetti with Skullheads	6	6	awesome	22-27	47-52	0	0
@@ -733,14 +733,14 @@ Ur-Donut	1	1	good	2-3	65-85	65-85	65-85
 urinal cake	2	1	crappy	2	0	0	0
 Valentine's Day cake	3	1	crappy	3	0	0	0
 vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
-vampire chowder	4	4	good	9-11	0	0	90-110	
+vampire chowder	4	4	good	9-11	0	0	90-110
 vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
 Vegas Volcano Lava Roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hot Dog (+25 Item Drop, +25 Meat Drop)
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
 warbear feasting bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Gift of the Warbear (+15% Items from WarBears)
-warbear gyro	3	3	good	7-9	10-20	10-20	10-20	
+warbear gyro	3	3	good	7-9	10-20	10-20	10-20
 warbear thermoregulator bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Superheated Guts (Serious Supercold resistance)
 warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to Playyyy (+60 WarBear Armor Penetration)
 warm mushroom	2	1	decent	2-3	12-14	0	0

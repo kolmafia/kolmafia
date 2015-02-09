@@ -388,7 +388,7 @@ public class UseItemEnqueuePanel
 			}
 			if ( UseItemEnqueuePanel.this.spleen )
 			{
-				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_USE );
+				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_SPLEEN );
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 			ConcoctionDatabase.getUsables().sort();

@@ -721,7 +721,7 @@ public class ConcoctionDatabase
 		// KoLConstants.NO_CONSUME - create or retrieve items
 		// KoLConstants.CONSUME_EAT - eat food items
 		// KoLConstants.CONSUME_DRINK - drink booze items
-		// KoLConstants.CONSUME_USE - use spleen items
+		// KoLConstants.CONSUME_SPLEEN - use spleen items
 		// KoLConstants.CONSUME_GHOST - binge ghost with food
 		// KoLConstants.CONSUME_HOBO - binge hobo with booze
 
@@ -756,7 +756,7 @@ public class ConcoctionDatabase
 
 			if ( consumptionType != KoLConstants.CONSUME_EAT &&
 			     consumptionType != KoLConstants.CONSUME_DRINK &&
-			     consumptionType != KoLConstants.CONSUME_USE)
+			     consumptionType != KoLConstants.CONSUME_SPLEEN)
 			{
 				// Binge familiar or create only
 
@@ -1113,6 +1113,7 @@ public class ConcoctionDatabase
 		{
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
+		case KoLConstants.CONSUME_SPLEEN:
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.CONSUME_FOOD_HELPER:
