@@ -1751,7 +1751,6 @@ public abstract class InventoryManager
 
 		switch ( ItemDatabase.getConsumptionType( itemId ) )
 		{
-		case KoLConstants.MULTI_USE:
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:

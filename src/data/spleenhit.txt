@@ -4,118 +4,123 @@
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 
-agua de vida	4	4		5-10	0	0	0	empty agua de vida bottle
-ancient protein powder	1	1		0	12-14	0	0
-antimatter wad	2	3		5-7	-20-30	-20-30	-20-30
-antique bottle of cough syrup	1	6		0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
-astral energy drink	8	1		6	0	0	0
-astronaut ice-cream	1	7		8-10	0	0	0
-beastly paste	4	4		5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
-bit-o-cactus	1	1		0	0	10-12	0
-black paisley oyster egg	1	1		0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
-black polka-dot oyster egg	1	1		0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
-black striped oyster egg	1	1		0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
-blue paisley oyster egg	1	1		0	0	11-15	0	31-35 MP
-blue polka-dot oyster egg	1	1		0	0	0	11-15	31-35 MP
-blue striped oyster egg	1	1		0	11-15	0	0	31-35 MP
-bottle of melodramamine	1	1		0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
-bottle of ultravitamins	1	6		0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
-Breathetastic&trade; Premium Canned Air	5	13		20-25	60-70	60-70	60-70
-bug paste	4	4		5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
-can of Red Minotaur	3	1		0	0	0	0	+1 PvP fight, 5 Wings
-can-can-in-a-can	1	1		0	0	0	10-12
-carrot juice	3	1		4-5	0	0	0	10 Pla-see-bo (+10% item drop)
-chlorophyll paste	4	4		5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
-coffee pixie stick	4	4		5-10	0	0	0
-cold wad	1	6		1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
-concentrated magicalness pill	1	2		0	0	5-7	0
-cosmic paste	4	4		5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
-Crimbo paste	4	4		5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
-demonic paste	4	4		5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
-ectoplasmic paste	4	4		5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
-elemental paste	4	4		5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
-enchanted barbell	1	2		0	5-7	0	0
-enchanted leopard-print barbell	5	12		15-25	50-100	50-100	50-100
-epic cluster	1	20		6	170-200	170-200	170-200
-epic wad	1	15		5	140-150	140-150	140-150
-expensive cigar	1	7		1-2	0	0	0
-extra-strength strongness elixir	1	3		0	8-10	0	0
-fishy paste	4	4		5-10	18-22	18-22	18-22	10 Fishy
-Five Second Energy&trade;	3	1		0	0	0	0	+3 PvP fights
-giant moxie weed	1	2		0	0	0	5-7
-glimmering buzzard feather	1	1		0	0	0	0	20 Carrion' On (+60% meat drop)
-glimmering great tit feather	1	1		0	0	0	0	20 The Great Tit's Blessing (+20 ML)
-glimmering penguin feather	1	1		0	0	0	0	20 Antarctic Memories (+40 HP/MP regen)
-glimmering phoenix feather	1	1		0	0	0	0	20 Phoenix, Right? (+6 exp)
-glimmering raven feather	1	1		0	0	0	0	20 Melancholy Burden (+60% item drop)
-glimmering roc feather	4	4		6-10	20-30	20-30	20-30
-goblin paste	4	4		5-10	18-22	18-22	18-22	10 Gobliny Flavor (5 DR)
-gooey paste	4	4		5-10	18-22	18-22	18-22
-greasy paste	4	4		5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
-grim fairy tale	4	1		5-10	20-30	20-30	20-30
-groose grease	4	1		5-10	20-30	20-30	20-30	50 Just the Best Anapests
-guy made of bee pollen	3	8		6-10	18-60	18-60	18-60
-handful of moss	1	1		0	0	0	12-14
-handful of Smithereens	1	1		1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
-Hatorade	5	1		0	0	0	0	+1 PvP fight
-hippy paste	4	4		5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
-hobo paste	4	4		5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
-homeopathic mint tea	1	1		1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
-hot wad	1	6		1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
-indescribably horrible paste	4	4		5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
-Instant Karma	5	13		20-25	60-70	60-70	60-70
-jug-o-magicalness	1	3		0	0	8-10	0
-lavender paisley oyster egg	1	1		0	0	11-15	11-15
-lavender polka-dot oyster egg	1	1		0	0	0	22-30
-lavender striped oyster egg	1	1		0	11-15	0	11-15
-liquid shifting time weirdness	2	6		4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
-magicalness-in-a-can	1	1		0	0	1-3	0
-Mariner's Friend cough drops	1	1		0	10-12	0	0
-mauve paisley oyster egg	1	1		0	0	22-30	0
-mauve polka-dot oyster egg	1	1		0	0	11-15	11-15
-mauve striped oyster egg	1	1		0	11-15	11-15	0
-Medicinal Herb's medicinal herbs	1	3		0	0	0	0	full heal
-Mer-kin paste	4	4		5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
-molotov soda	3	2		8-10	0	0	0
-moxie weed	1	1		0	0	0	1-3
-not-a-pipe	4	4		4-12	20-30	20-30	20-30
-off-white paisley oyster egg	1	1		0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
-off-white polka-dot oyster egg	1	1		0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
-off-white striped oyster egg	1	1		0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
-oily paste	4	4		5-10	18-22	18-22	18-22	10 Oily Flavor (+15 mus)
-orc paste	4	4		5-10	18-22	18-22	18-22	10 Fratty Flavor (+15 mox)
-patent antipsychotics	1	1		0	0	10-12	0
-penguin paste	4	4		5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
-pirate paste	4	4		5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
-polyesterene powder	2	1	5	0	0	0
-porcelain powder	3	1	10	0	0	0
-powdered gold	4	1		5-10	20-30	20-30	20-30
-prismatic wad	3	7		5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
-puce paisley oyster egg	1	1		0	11-15	11-15	0
-puce polka-dot oyster egg	1	1		0	11-15	0	11-15
-puce striped oyster egg	1	1		0	22-30	0	0
-red paisley oyster egg	1	1		0	0	11-15	0	31-35 HP
-red polka-dot oyster egg	1	1		0	0	0	11-15	31-35 HP
-red striped oyster egg	1	1		0	11-15	0	0	31-35 HP
-residual zeal	5	20		0	25000-35000	25000-35000	25000-35000
-single atom	1	1		1	0	0	0
-sleaze wad	1	6		1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
-slimy alveolus	1	5		1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
-slimy paste	4	4		5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
-spooky wad	1	6		1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
-steel-scented air freshener	5	5		0	0	0	0	Spleen of Steel skill
-stench wad	1	6		1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
-strange paste	4	4		5-10	18-22	18-22	18-22
-strongness elixir	1	1		0	1-3	0	0
-suntan lotion of moxiousness	1	3		0	0	0	8-10
-thermos of brew	2	1		3-5	25-40	25-40	25-40	LWA ring (1 time)
-transdermal smoke patch	1	5		2-3	-10-15	-10-15	-10-15
-tube of hair oil	1	6		0	0	0	18-20	10 Got Your Boots On (+10% mox)
-twinkly wad	1	6		1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
-ultimate wad	15	6		0	0	0	0	+1 level
-Unconscious Collective Dream Jar	4	1		5-10	20-30	20-30	20-30
-voodoo snuff	3	13		8	0	100-150	0
-watered-down Red Minotaur	2	1		0	0	0	0	+1 PvP fight, 5 Water Wings
-yellow paisley oyster egg	1	1		0	0	11-15	0	20 Egg-headedness (+10% mys)
-yellow polka-dot oyster egg	1	1		0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
-yellow striped oyster egg	1	1		0	11-15	0	0	20 Egg-stra Arm (+10% mus)
+agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
+alien protein powder	3	4	awesome	8-10	0	0	0
+ancient protein powder	1	1	good	0	12-14	0	0
+antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
+antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
+astral energy drink	8	1	awesome	29-35	0	0	0
+astronaut ice-cream	1	7	EPIC	8-10	0	0	0
+beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
+bit-o-cactus	1	1	good	0	0	10-12	0
+black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
+black polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
+black striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
+blue paisley oyster egg	1	1	good	0	0	11-15	0	31-35 MP
+blue polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 MP
+blue striped oyster egg	1	1	good	0	11-15	0	0	31-35 MP
+bottle of extra-strength melodramamine	3	1	good	0	0	0	0	50 Emotion Sickness (+ Meat and Items underwater)
+bottle of melodramamine	1	1	good	0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
+bottle of ultravitamins	1	6	awesome	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
+Breathetastic&trade; Premium Canned Air	5	13	EPIC	20-25	60-70	60-70	60-70
+bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
+can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
+can-can-in-a-can	1	1	good	0	0	0	10-12
+carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
+chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
+coffee pixie stick	4	4	awesome	5-10	0	0	0
+cold wad	1	6	crappy	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
+concentrated magicalness pill	1	2	decent	0	0	5-7	0
+cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
+Crimbo paste	4	4	good	5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
+demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
+ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
+elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
+enchanted barbell	1	2	decent	0	5-7	0	0
+enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
+epic cluster	1	20	EPIC	6	170-200	170-200	170-200
+epic wad	1	15	EPIC	5	140-150	140-150	140-150
+expensive cigar	1	7	decent	1-2	0	0	0
+extra-strength strongness elixir	1	3	good	0	8-10	0	0
+fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
+Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
+giant moxie weed	1	2	decent	0	0	0	5-7
+glimmering buzzard feather	1	1	good	0	0	0	0	20 Carrion' On (+60% meat drop)
+glimmering great tit feather	1	1	crappy	0	0	0	0	20 The Great Tit's Blessing (+20 ML)
+glimmering penguin feather	1	1	good	0	0	0	0	20 Antarctic Memories (+40 HP/MP regen)
+glimmering phoenix feather	1	1	good	0	0	0	0	20 Phoenix, Right? (+6 exp)
+glimmering raven feather	1	1	good	0	0	0	0	20 Melancholy Burden (+60% item drop)
+glimmering roc feather	4	4	good	6-10	20-30	20-30	20-30
+goblin paste	4	4	good	5-10	18-22	18-22	18-22	10 Gobliny Flavor (5 DR)
+gooey paste	4	4	good	5-10	18-22	18-22	18-22
+greasy paste	4	4	good	5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
+grim fairy tale	4	1	good	5-10	20-30	20-30	20-30
+groose grease	4	1	good	5-10	20-30	20-30	20-30	50 Just the Best Anapests
+guy made of bee pollen	3	8	awesome	6-10	18-60	18-60	18-60
+handful of moss	1	1	good	0	0	0	12-14
+handful of Smithereens	1	1	decent	1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
+Hatorade	5	1	crappy	0	0	0	0	+1 PvP fight
+haunted battery	1	1	EPIC	0	0	30-40	0
+hippy paste	4	4	good	5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
+hobo paste	4	4	good	5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
+homeopathic mint tea	1	1	decent	1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
+hot wad	1	6	crappy	1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
+indescribably horrible paste	4	4	good	5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
+Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
+jug-o-magicalness	1	3	good	0	0	8-10	0
+lavender paisley oyster egg	1	1	awesome	0	0	11-15	11-15
+lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
+lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
+liquid shifting time weirdness	2	6	good	4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
+magicalness-in-a-can	1	1	crappy	0	0	1-3	0
+Mariner's Friend cough drops	1	1	good	0	10-12	0	0
+mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
+mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
+mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
+Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
+Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
+molotov soda	3	2	good	8-10	0	0	0
+moxie weed	1	1	crappy	0	0	0	1-3
+not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
+off-white paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
+off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
+off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
+oily paste	4	4	good	5-10	18-22	18-22	18-22	10 Oily Flavor (+15 mus)
+orc paste	4	4	good	5-10	18-22	18-22	18-22	10 Fratty Flavor (+15 mox)
+patent antipsychotics	1	1	good	0	0	10-12	0
+penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
+pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
+polyesterene powder	2	1	good	5	0	0	0
+porcelain powder	3	1	awesome	10	0	0	0
+powdered gold	4	1	good	5-10	20-30	20-30	20-30
+prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
+puce paisley oyster egg	1	1	awesome	0	11-15	11-15	0
+puce polka-dot oyster egg	1	1	awesome	0	11-15	0	11-15
+puce striped oyster egg	1	1	awesome	0	22-30	0	0
+red paisley oyster egg	1	1	good	0	0	11-15	0	31-35 HP
+red polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 HP
+red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
+residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
+single atom	1	1	decent	1	0	0	0
+sleaze wad	1	6	crappy	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
+slimy alveolus	1	5	decent	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
+slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
+spooky wad	1	6	decent	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
+steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
+stench wad	1	6	crappy	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
+strange paste	4	4	good	5-10	18-22	18-22	18-22
+strongness elixir	1	1	crappy	0	1-3	0	0
+suntan lotion of moxiousness	1	3	good	0	0	0	8-10
+synthetic marrow	1	1	EPIC	0	30-40	0	0
+the funk	1	1	EPIC	0	0	0	30-40
+thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
+transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
+tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)
+twinkly wad	1	6	crappy	1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
+ultimate wad	15	13	EPIC	0	0	0	0	+1 level
+Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
+voodoo snuff	3	13	good	8	0	100-150	0
+watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
+yellow paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-headedness (+10% mys)
+yellow polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
+yellow striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stra Arm (+10% mus)

@@ -117,6 +117,7 @@ public class UseItemPanel
 				break;
 
 			case KoLConstants.CONSUME_USE:
+			case KoLConstants.CONSUME_SPLEEN:
 			case KoLConstants.MESSAGE_DISPLAY:
 			case KoLConstants.INFINITE_USES:
 			case KoLConstants.CONSUME_MULTIPLE:

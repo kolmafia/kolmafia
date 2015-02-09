@@ -123,9 +123,9 @@ public class ItemDatabase
 	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
 
 	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
-	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>();
-	public static final Map<String, Integer> inebrietyByName = new TreeMap<String, Integer>();
-	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>();
+	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
+	public static final Map<String, Integer> inebrietyByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
+	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
 	private static final Map<String, String> qualityByName = new HashMap<String, String>();
 	private static final Map<String, String> notesByName = new HashMap<String, String>();
 	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
@@ -311,7 +311,6 @@ public class ItemDatabase
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
 	private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
 	private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE = new TreeMap<Integer, String>();
-	private static final Set secondaryUsageEntrySet;
 
 	private static void definePrimaryUse( final String key, final int usage )
 	{
@@ -330,49 +329,59 @@ public class ItemDatabase
 	static
 	{
 		ItemDatabase.definePrimaryUse( "none", KoLConstants.NO_CONSUME );
+
 		ItemDatabase.definePrimaryUse( "food", KoLConstants.CONSUME_EAT );
 		ItemDatabase.definePrimaryUse( "drink", KoLConstants.CONSUME_DRINK );
+		ItemDatabase.definePrimaryUse( "spleen", KoLConstants.CONSUME_SPLEEN );
+
 		ItemDatabase.definePrimaryUse( "usable", KoLConstants.CONSUME_USE );
 		ItemDatabase.definePrimaryUse( "multiple", KoLConstants.CONSUME_MULTIPLE );
+		ItemDatabase.definePrimaryUse( "reusable", KoLConstants.INFINITE_USES );
+		ItemDatabase.definePrimaryUse( "message", KoLConstants.MESSAGE_DISPLAY );
+
 		ItemDatabase.definePrimaryUse( "grow", KoLConstants.GROW_FAMILIAR );
-		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
-		ItemDatabase.definePrimaryUse( "familiar", KoLConstants.EQUIP_FAMILIAR );
-		ItemDatabase.definePrimaryUse( "accessory", KoLConstants.EQUIP_ACCESSORY );
+
 		ItemDatabase.definePrimaryUse( "hat", KoLConstants.EQUIP_HAT );
-		ItemDatabase.definePrimaryUse( "pants", KoLConstants.EQUIP_PANTS );
-		ItemDatabase.definePrimaryUse( "container", KoLConstants.EQUIP_CONTAINER );
-		ItemDatabase.definePrimaryUse( "shirt", KoLConstants.EQUIP_SHIRT );
 		ItemDatabase.definePrimaryUse( "weapon", KoLConstants.EQUIP_WEAPON );
 		ItemDatabase.definePrimaryUse( "offhand", KoLConstants.EQUIP_OFFHAND );
-		ItemDatabase.definePrimaryUse( "mp", KoLConstants.MP_RESTORE );
-		ItemDatabase.definePrimaryUse( "message", KoLConstants.MESSAGE_DISPLAY );
-		ItemDatabase.definePrimaryUse( "hp", KoLConstants.HP_RESTORE );
-		ItemDatabase.definePrimaryUse( "hpmp", KoLConstants.HPMP_RESTORE );
-		ItemDatabase.definePrimaryUse( "reusable", KoLConstants.INFINITE_USES );
 		ItemDatabase.definePrimaryUse( "container", KoLConstants.EQUIP_CONTAINER );
-		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
-		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
-		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
+		ItemDatabase.definePrimaryUse( "shirt", KoLConstants.EQUIP_SHIRT );
+		ItemDatabase.definePrimaryUse( "pants", KoLConstants.EQUIP_PANTS );
+		ItemDatabase.definePrimaryUse( "accessory", KoLConstants.EQUIP_ACCESSORY );
+		ItemDatabase.definePrimaryUse( "familiar", KoLConstants.EQUIP_FAMILIAR );
+
 		ItemDatabase.definePrimaryUse( "sticker", KoLConstants.CONSUME_STICKER );
 		ItemDatabase.definePrimaryUse( "card", KoLConstants.CONSUME_CARD );
 		ItemDatabase.definePrimaryUse( "folder", KoLConstants.CONSUME_FOLDER );
+
+		ItemDatabase.definePrimaryUse( "hp", KoLConstants.HP_RESTORE );
+		ItemDatabase.definePrimaryUse( "mp", KoLConstants.MP_RESTORE );
+		ItemDatabase.definePrimaryUse( "hpmp", KoLConstants.HPMP_RESTORE );
+
+		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
+		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
+		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
+		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
 
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
 		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );
 		ItemDatabase.defineSecondaryUse( "reusable", ItemDatabase.ATTR_REUSABLE );
+
 		ItemDatabase.defineSecondaryUse( "combat", ItemDatabase.ATTR_COMBAT );
 		ItemDatabase.defineSecondaryUse( "combat reusable", ItemDatabase.ATTR_COMBAT_REUSABLE );
+
 		ItemDatabase.defineSecondaryUse( "single", ItemDatabase.ATTR_SINGLE );
 		ItemDatabase.defineSecondaryUse( "solo", ItemDatabase.ATTR_SOLO );
+
 		ItemDatabase.defineSecondaryUse( "curse", ItemDatabase.ATTR_CURSE );
 		ItemDatabase.defineSecondaryUse( "bounty", ItemDatabase.ATTR_BOUNTY );
 		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY );
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
 		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
-
-		secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
 	}
+
+	private static final Set secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
 
 	public static boolean newItems = false;
 
@@ -728,7 +737,7 @@ public class ItemDatabase
 			if ( data.length < 2 )
 				continue;
 
-			String name = StringUtilities.getCanonicalName( data[ 0 ] );
+			String name = data[ 0 ];
 			ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 1 ] ) );
 
 			if ( data.length < 3 )
@@ -849,7 +858,7 @@ public class ItemDatabase
 		if ( data.length < 2 )
 			return;
 
-		String name = StringUtilities.getCanonicalName( data[ 0 ] );
+		String name = data[ 0 ];
 		map.put( name, Integer.valueOf( data[ 1 ] ) );
 
 		if ( data.length < 8 )
@@ -904,7 +913,8 @@ public class ItemDatabase
 	public static final String qualityValue( String value )
 	{
 		// Reduce string allocations...
-		return value.equals( "crappy" ) ? ItemDatabase.CRAPPY :
+		return  value == null ? ItemDatabase.NONE :
+			value.equals( "crappy" ) ? ItemDatabase.CRAPPY :
 			value.equals( "decent" ) ? ItemDatabase.DECENT :
 			value.equals( "good" ) ? ItemDatabase.GOOD :
 			value.equals( "awesome" ) ? ItemDatabase.AWESOME :
@@ -933,7 +943,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.advRangeByName.get( name );
 		if ( range == null )
 		{
 			return "";
@@ -1474,7 +1484,7 @@ public class ItemDatabase
 			// Let equipment database do what it wishes with this item
 			EquipmentDatabase.registerItem( itemId, itemName, text, power );
 		}
-		else if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK )
+		else if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK || usage == KoLConstants.CONSUME_SPLEEN )
 		{
 			ItemDatabase.registerConsumable( itemName, usage, text );
 		}
@@ -1521,6 +1531,10 @@ public class ItemDatabase
 		{
 			size = DebugDatabase.parseInebriety( text );
 		}
+		else if ( usage == KoLConstants.CONSUME_SPLEEN )
+		{
+			size = DebugDatabase.parseToxicity( text );
+		}
 		else
 		{
 			return;
@@ -1530,16 +1544,20 @@ public class ItemDatabase
 		String quality = DebugDatabase.parseQuality( text );
 
 		// Add consumption data for this session
-		String canonical = StringUtilities.getCanonicalName( itemName );
 		if ( usage == KoLConstants.CONSUME_EAT )
 		{
-			ItemDatabase.fullnessByName.put( canonical, size );
+			ItemDatabase.fullnessByName.put( itemName, size );
 		}
 		else if ( usage == KoLConstants.CONSUME_DRINK )
 		{
-			ItemDatabase.inebrietyByName.put( canonical, size );
+			ItemDatabase.inebrietyByName.put( itemName, size );
 		}
-		ItemDatabase.setConsumptionData( canonical, size, level, quality, "0", "0", "0", "0", "unkown adventure yield" );
+		else if ( usage == KoLConstants.CONSUME_SPLEEN )
+		{
+			ItemDatabase.spleenHitByName.put( itemName, size );
+		}
+
+		ItemDatabase.setConsumptionData( itemName, size, level, quality, "0", "0", "0", "0", "unknown adventure yield" );
 
 		// Print what goes in fullness.txt
 		String printMe = ItemDatabase.consumableString( itemName, size, level, quality, "0", "0", "0", "0", "" );
@@ -1983,7 +2001,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.levelReqByName.get( name );
 	}
 
 	public static final boolean meetsLevelRequirement( final String name )
@@ -1993,7 +2011,7 @@ public class ItemDatabase
 			return false;
 		}
 
-		Integer requirement = ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
+		Integer requirement = ItemDatabase.levelReqByName.get( name );
 		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
@@ -2003,7 +2021,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.fullnessByName.get( name );
 	}
 
 	public static final int getFullness( final String name )
@@ -2018,7 +2036,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.inebrietyByName.get( name );
 	}
 
 	public static final int getInebriety( final String name )
@@ -2033,7 +2051,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.spleenHitByName.get( name );
 	}
 
 	public static final int getSpleenHit( final String name )
@@ -2049,7 +2067,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return ItemDatabase.qualityByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.qualityByName.get( name );
 	}
 
 	public static final String getNotes( final String name )
@@ -2059,7 +2077,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.notesByName.get( name );
 	}
 
 	private static final Pattern PVP_NOTES_PATTERN = Pattern.compile( "\\+?(\\d+) PvP fights?", Pattern.CASE_INSENSITIVE );
@@ -2098,9 +2116,10 @@ public class ItemDatabase
 		if ( ItemDatabase.isMartini ( itemId ) )
 		{
 			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) 
-				|| Preferences.getBoolean( "autoTuxedo" ) && EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
-				&& ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
+			     Preferences.getBoolean( "autoTuxedo" ) &&
+			     EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT ) &&
+			     ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
 			{
 				return perUnit ? ( 2.0 / inebriety ) : 2.0;
 			}
@@ -2110,11 +2129,13 @@ public class ItemDatabase
 		{
 			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY 
-				&& ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) 
-				|| Preferences.getBoolean( "autoGarish" ) && ( KoLCharacter.canInteract()
-				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
-				|| InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
+			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY &&
+			     ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) ||
+			       Preferences.getBoolean( "autoGarish" ) &&
+			       ( KoLCharacter.canInteract() ||
+				 KoLCharacter.hasSkill( SkillPool.CLIP_ART ) &&
+				 UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0 ||
+				 InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
 			{
 				return perUnit ? ( 5.0 / fullness ) : 5.0;
 			}
@@ -2174,19 +2195,19 @@ public class ItemDatabase
 								      !sushi && milk,
 								      !sushi && lunch,
 								      !sushi && gourmand,
-								      !sushi && munchies ).get( cname );
+								      !sushi && munchies ).get( name );
 		}
 		else if ( ItemDatabase.getRawInebriety( name ) != null )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
 			boolean rowdyDrinker = KoLCharacter.hasSkill( "Rowdy Drinker" );
 			range = ItemDatabase.getAdventureMap(
-				perUnit, odeEffect, rowdyDrinker, false, false ).get( cname );
+				perUnit, odeEffect, rowdyDrinker, false, false ).get( name );
 		}
 		else if ( ItemDatabase.getRawSpleenHit( name ) != null )
 		{
 			range = ItemDatabase.getAdventureMap(
-				perUnit, false, false, false, false ).get( cname );
+				perUnit, false, false, false, false ).get( name );
 		}
 
 		if ( range == null )
@@ -2194,7 +2215,7 @@ public class ItemDatabase
 			return 0.0;
 		}
 
-		range += ItemDatabase.conditionalExtraAdventures( cname, perUnit );			
+		range += ItemDatabase.conditionalExtraAdventures( name, perUnit );			
 
 		return range.doubleValue();
 	}
@@ -2236,7 +2257,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.muscleByName.get( name );
 		return range == null ? "" : range;
 	}
 
@@ -2247,10 +2268,10 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String muscle = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		String muscle = ItemDatabase.muscleByName.get( name );
 		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		muscleFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		int statUnit = ItemDatabase.getStatUnit( name );
 		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
@@ -2262,7 +2283,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.mysticalityByName.get( name );
 		return range == null ? "" : range;
 	}
 
@@ -2273,10 +2294,10 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String mysticality = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		String mysticality = ItemDatabase.mysticalityByName.get( name );
 		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		mysticalityFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		int statUnit = ItemDatabase.getStatUnit( name );
 		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
@@ -2288,7 +2309,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.moxieByName.get( name );
 		return range == null ? "" : range;
 	}
 
@@ -2299,10 +2320,10 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String moxie = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		String moxie = ItemDatabase.moxieByName.get( name );
 		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		moxieFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( StringUtilities.getCanonicalName( name ) );
+		int statUnit = ItemDatabase.getStatUnit( name );
 		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor, statUnit );
 		return range == null ? "+0.0" : range;
 	}
