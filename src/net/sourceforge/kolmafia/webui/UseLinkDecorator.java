@@ -791,6 +791,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
 			return new UseLink( itemId, useCount, 
 					    getPotionSpeculation( "chew", itemId ),
 					    "inv_spleen.php?whichitem=" );
