@@ -383,8 +383,6 @@ public class NPCPurchaseRequest
 		return true;
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>", Pattern.DOTALL );
-
 	public static final void parseShopRowResponse( final String urlString, final String responseText )
 	{
 		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
@@ -425,6 +423,8 @@ public class NPCPurchaseRequest
 		}
 	}
 
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
+
 	public static final void parseShopResponse( final String urlString, final String responseText )//
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
@@ -448,6 +448,7 @@ public class NPCPurchaseRequest
 			String data = ItemDatabase.getItemDataName( id );
 			if ( data == null || !data.equals( name ) )
 			{
+				RequestLogger.printLine( name + " is ROW" + matcher.group(4) );
 				ItemDatabase.registerItem( id, name, desc );
 			}
 		}
