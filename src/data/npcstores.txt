@@ -238,10 +238,16 @@ Nervewrecker's Store	nerve	tenderizing hammer	500	ROW593
 
 Armory and Leggery	armory	cool whip	30	ROW487
 Armory and Leggery	armory	sweet ninja sword	50	ROW490
+Armory and Leggery	armory	rubber spatula	150	ROW685
+Armory and Leggery	armory	wooden spoon	300	ROW685
 Armory and Leggery	armory	suede shortsword	300	ROW466
+Armory and Leggery	armory	crystalline reamer	525	ROW686
 Armory and Leggery	armory	25-meat staff	525	ROW468
+Armory and Leggery	armory	macroplane grater	750	ROW687
 Armory and Leggery	armory	bamboo bokuto	750	ROW467
+Armory and Leggery	armory	bastard baster	900	ROW688
 Armory and Leggery	armory	two-handed depthsword	900	ROW469
+Armory and Leggery	armory	obsidian nutcracker	1125	ROW689
 Armory and Leggery	armory	bill bec-de-bardiche glaive-guisarme	1125	ROW470
 Armory and Leggery	armory	toy accordion	150	ROW491
 Armory and Leggery	armory	slightly peevedbow	450	ROW472
