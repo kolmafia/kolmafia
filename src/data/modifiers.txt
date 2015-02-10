@@ -846,6 +846,7 @@ basic meat crossbow	Moxie: +1
 basic meat spork	Muscle: +3, Weapon Damage: +3
 basic meat staff	Mysticality: +1
 basic meat sword	Muscle: +1
+bastard baster	Spell Damage Percent: +20
 bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
 battery-powered drill	Spell Damage Percent: +100, Maximum HP: +50, Maximum MP: +50, Monster Level: +10, Meat Drop: +10
@@ -971,6 +972,7 @@ Crimbo ukulele	Item Drop: +10
 # Crimbomination Contraption
 crowbar	Initiative: +25
 crowbarrr	Initiative: +15
+crystalline reamer	Spell Damage: +10
 curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
 cursed cutlass	Muscle: +15
@@ -1200,6 +1202,7 @@ logging hatchet	Weapon Damage: +5
 lupine sword	Spooky Damage: +9, Synergetic
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 machetito	Weapon Damage: +9
+macroplane grater	Spell Damage Percent: +10
 madius	Monster Level: +7
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 magic whistle	Monster Level: +4, Familiar Weight: +1
@@ -1241,6 +1244,7 @@ non-Euclidean non-accordion	Initiative: [15*(1+skill(Accordion Appreciation))], 
 # non-stick pugil stick: On Critical:  Stuns Opponent
 non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+obsidian nutcracker	Spell Damage Percent: +30
 ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
 octopus's spade	Item Drop: +5, Initiative: +10, Weapon Damage: +15
 office-supply crossbow	Moxie: +3, Ranged Damage: +3
@@ -1328,6 +1332,7 @@ roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 rubber axe	Sleaze Damage: +2
 rubber band gun	Moxie: +5
+rubber spatula	Spell Damage: +2
 # Ruby Rod
 rusted-out shootin' iron	Meat Drop: +10, Ranged Damage: +50, Combat Rate: -5
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
@@ -1569,6 +1574,7 @@ witty rapier	Experience (Mysticality): +2
 # wolf whistle: Blowable for massive <font color=blueviolet>Sleaze Damage</font>
 wolf whistle	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Sleaze Damage: +100
 wooden axe	Muscle: +3
+wooden spoon	Spell Damage: +5
 wooden stakes	Weapon Damage: +1
 # Work is a Four Letter Sword: (+Damage based on Smithsness)
 Work is a Four Letter Sword	HP Regen Min: 4, HP Regen Max: 6, Critical Hit Percent: +5, Smithsness: +5, Weapon Damage: [K]

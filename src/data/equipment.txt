@@ -710,6 +710,7 @@ basic meat crossbow	20	Mox: 5	2-handed crossbow
 basic meat spork	45	Mys: 7	1-handed utensil
 basic meat staff	20	Mus: 5	2-handed staff
 basic meat sword	20	Mus: 5	2-handed sword
+bastard baster	125	Mys: 47	1-handed utensil
 bat whip	30	Mus: 0	1-handed whip
 batblade	145	Mus: 57	1-handed knife
 battery-powered drill	125	Mus: 47	1-handed drill
@@ -820,6 +821,7 @@ Crimbo ukulele	80	Mox: 20	2-handed guitar
 Crimbomination Contraption	100	Mus: 0	2-handed club
 crowbar	140	Mus: 55	1-handed club
 crowbarrr	80	Mus: 25	2-handed staff
+crystalline reamer	75	Mys: 22	1-handed utensil
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
@@ -1028,6 +1030,7 @@ lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 machetito	110	Mus: 40	1-handed sword
+macroplane grater	100	Mys: 35	1-handed utensil
 madius	100	Mus: 35	1-handed sword
 Mafia violin case	100	Mus: 35	1-handed club
 magic whistle	85	Mox: 27	1-handed whistle
@@ -1059,6 +1062,7 @@ ninja mop	90	Mus: 30	2-handed polearm
 non-Euclidean non-accordion	115	Mox: 42	2-handed accordion
 non-stick pugil stick	200	Mus: 85	2-handed club
 obsidian dagger	30	Mus: 10	1-handed knife
+obsidian nutcracker	150	Mys: 60	1-handed utensil
 ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
@@ -1136,6 +1140,7 @@ roboduck-on-a-string	100	Mus: 35	1-handed flail
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
+rubber spatula	25	Mys: 0	1-handed utensil
 Ruby Rod	120	Mus: 40	1-handed rod
 rusted-out shootin' iron	100	Mus: 35	1-handed club
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
@@ -1334,6 +1339,7 @@ Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
 witty rapier	150	Mus: 60	1-handed sword
 wolf whistle	200	Mox: 85	1-handed whistle
 wooden axe	60	Mus: 15	2-handed axe
+wooden spoon	50	Mys: 10	1-handed utensil
 wooden stakes	25	Mus: 0	2-handed knife
 Work is a Four Letter Sword	100	Mus: 0	1-handed sword
 world's smallest violin	150	Mox: 60	1-handed violin
