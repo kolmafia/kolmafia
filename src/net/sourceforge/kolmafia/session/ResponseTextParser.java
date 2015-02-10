@@ -578,7 +578,10 @@ public class ResponseTextParser
 			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
 
-		else if ( ( location.startsWith( "inv_eat.php" ) || location.startsWith( "inv_booze.php" ) || location.startsWith( "inv_use.php" ) || location.startsWith( "inv_familiar.php" ) ) && location.indexOf( "whichitem" ) != -1 )
+		else if ( ( location.startsWith( "inv_eat.php" ) || location.startsWith( "inv_booze.php" ) || 
+		            location.startsWith( "inv_use.php" ) || location.startsWith( "inv_familiar.php" ) ||
+		            location.startsWith( "inv_spleen.php" ) )
+		          && location.contains( "whichitem" ) )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
