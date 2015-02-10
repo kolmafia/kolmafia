@@ -8163,5 +8163,9 @@
 8135
 8136
 8137
-8138
-8139
+8138	rubber spatula	343980594	rubberspat.gif	weapon	t,d	25
+8139	wooden spoon	476435981	woodspoon.gif	weapon	t,d	50
+8140	crystalline reamer	579661202	reamer.gif	weapon	t,d	75
+8141	macroplane grater	695896449	grater.gif	weapon	t,d	100
+8142	bastard baster	374459204	baster.gif	weapon	t,d	125
+8143	obsidian nutcracker	290867998	obsnutcracker.gif	weapon	t,d	150
