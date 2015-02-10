@@ -780,6 +780,22 @@ public abstract class UseLinkDecorator
 
 			return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
+		case KoLConstants.CONSUME_SPLEEN:
+		{
+			int count = InventoryManager.getCount( itemId );
+			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
+
+			// If we are limited to 0 uses, no use link needed
+			if ( useCount == 0 )
+			{
+				return null;
+			}
+
+			return new UseLink( itemId, useCount, 
+					    getPotionSpeculation( "chew", itemId ),
+					    "inv_spleen.php?whichitem=" );
+		}
+
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
