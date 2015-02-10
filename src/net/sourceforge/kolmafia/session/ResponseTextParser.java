@@ -578,9 +578,11 @@ public class ResponseTextParser
 			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
 
-		else if ( ( location.startsWith( "inv_eat.php" ) || location.startsWith( "inv_booze.php" ) || 
-		            location.startsWith( "inv_use.php" ) || location.startsWith( "inv_familiar.php" ) ||
-		            location.startsWith( "inv_spleen.php" ) )
+		else if ( ( location.startsWith( "inv_eat.php" ) ||
+			    location.startsWith( "inv_booze.php" ) ||
+		            location.startsWith( "inv_spleen.php" ) || 
+		            location.startsWith( "inv_use.php" ) ||
+			    location.startsWith( "inv_familiar.php" ) )
 		          && location.contains( "whichitem" ) )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
@@ -927,8 +929,10 @@ public class ResponseTextParser
 		// UseItemRequest will detect it.
 		// Don't parse steel margarita/lasagna here, either.
 
-		if ( location.startsWith( "inv_use.php" ) || location.startsWith( "inv_booze.php" )
-			|| location.startsWith( "inv_eat.php" ) )
+		if ( location.startsWith( "inv_use.php" ) ||
+		     location.startsWith( "inv_eat.php" ) ||
+		     location.startsWith( "inv_booze.php" ) ||
+		     location.startsWith( "inv_spleen.php" ) )
 		{
 			return;
 		}
