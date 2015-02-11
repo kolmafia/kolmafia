@@ -903,6 +903,12 @@ public class DiscoCombatHelper
 			return;
 		}
 
+		// If you are in Limitmode, no way
+		if ( KoLCharacter.getLimitmode() != null )
+		{
+			return;
+		}
+
 		// If you don't want the Disco Helper, you don't have to have it
 		if ( !Preferences.getBoolean( "relayAddsDiscoHelper" ) )
 		{

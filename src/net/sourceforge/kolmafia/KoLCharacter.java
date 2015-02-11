@@ -829,6 +829,10 @@ public abstract class KoLCharacter
 
 	public static final int getSpleenLimit()
 	{
+		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return 0;
+		}
 		return KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15;
 	}
 
