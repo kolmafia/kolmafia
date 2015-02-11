@@ -516,8 +516,8 @@ public class RelayRequest
 	{
 		// Alternating path, original, replacement
 		"images/adventureimages/hellion.gif",
-		"http://images.kingdomofloathing.com/adventureimages/hellion.gif\" width=100 height=100",
-		"/images/adventureimages/hellion.gif\" width=60 height=100",
+		"http://images.kingdomofloathing.com/adventureimages/hellion.gif",
+		"/images/adventureimages/hellion.gif",
 	};
 
 	public static final void overrideImages( final StringBuffer buffer )
