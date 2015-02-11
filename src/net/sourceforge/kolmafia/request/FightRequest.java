@@ -5666,7 +5666,7 @@ public class FightRequest
 		String str = text.toString();
 
 		// Lovebugs are tagged as <!--familiarmessage--> and can remove evil
-		if ( FightRequest.handleEvilometer( str, status ) )
+		if ( FightRequest.handleEvilometerLovebug( str ) )
 		{
 			return;
 		}
@@ -5841,10 +5841,14 @@ public class FightRequest
 		Preferences.decrement( setting, evilness, 0 );
 		Preferences.decrement( "cyrptTotalEvilness", evilness, 0 );
 
+		return true;
+	}
+
+	private static boolean handleEvilometerLovebug( final String text )
+	{
+		String setting = null;
 		if ( text.contains( "Evilometer beeps once" ) )
 		{
-			// lovebugs
-			setting = null;
 			String loc = KoLAdventure.lastLocationName;
 			for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
 			{
@@ -5858,12 +5862,12 @@ public class FightRequest
 			if ( setting != null )
 			{
 				Preferences.decrement( setting, 1, 0 );
+				return true;
 			}
 		}
-
-		return true;
+		return false;
 	}
-	
+
 	private static boolean handleKeyotron( String text, TagStatus status )
 	{
 		if ( !text.contains( "key-o-tron" ) )
