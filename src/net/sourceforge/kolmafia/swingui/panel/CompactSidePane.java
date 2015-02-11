@@ -65,6 +65,9 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
+
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
@@ -87,15 +90,19 @@ public class CompactSidePane
 	private final JPanel levelPanel;
 	private final JProgressBar levelMeter;
 	private final JLabel levelLabel, roninLabel, mcdLabel;
-	private final JLabel musLabel, mysLabel, moxLabel, classLabel, classValueLabel;
-	private final JLabel fullLabel, drunkLabel, spleenLabel;
-	private final JLabel hpLabel, mpLabel, meatLabel, advLabel, pvpLabel;
+	private final int STAT_LABELS = 3;
+	private final JLabel[] statLabel = new JLabel[ STAT_LABELS ];
+	private final JLabel[] statValueLabel = new JLabel[ STAT_LABELS ];
+	private final int STATUS_LABELS = 6;
+	private final JLabel[] statusLabel = new JLabel[ STATUS_LABELS ];
+	private final JLabel[] statusValueLabel = new JLabel[ STATUS_LABELS ];
+	private final int CONSUMPTION_LABELS = 3;
+	private final JLabel[] consumptionLabel = new JLabel[ CONSUMPTION_LABELS ];
+	private final JLabel[] consumptionValueLabel = new JLabel[ CONSUMPTION_LABELS ];
 	private final JLabel familiarLabel;
-	private final JLabel mlLabel, encLabel, initLabel;
-	private final JLabel expLabel, meatDropLabel, itemDropLabel;
-	private final int MISC_LABELS = 4;
-	private final JLabel[] miscLabel = new JLabel[ MISC_LABELS ];
-	private final JLabel[] miscValueLabel = new JLabel[ MISC_LABELS ];
+	private final int BONUS_LABELS = 10;
+	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
+	private final JLabel[] bonusValueLabel = new JLabel[ BONUS_LABELS ];
 	private final JPopupMenu modPopup;
 	private final JLabel modPopLabel;
 
@@ -137,19 +144,21 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 		panels[ panelCount ].setOpaque( false );
 
-		labelPanel = new JPanel( new GridLayout( 3, 1 ) );
+		labelPanel = new JPanel( new GridLayout( this.STAT_LABELS, 1 ) );
 		labelPanel.setOpaque( false );
 
-		labelPanel.add( new JLabel( "   Mus: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   Mys: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   Mox: ", JLabel.RIGHT ) );
+		for ( int i = 0; i < this.STAT_LABELS ; i++ )
+		{
+			labelPanel.add( this.statLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
+		}
 
-		valuePanel = new JPanel( new GridLayout( 3, 1 ) );
+		valuePanel = new JPanel( new GridLayout( this.STAT_LABELS, 1 ) );
 		valuePanel.setOpaque( false );
 
-		valuePanel.add( this.musLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.mysLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.moxLabel = new JLabel( " ", JLabel.LEFT ) );
+		for ( int i = 0; i < this.STAT_LABELS ; i++ )
+		{
+			valuePanel.add( this.statValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
+		}
 
 		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
@@ -157,25 +166,21 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 		panels[ panelCount ].setOpaque( false );
 
-		labelPanel = new JPanel( new GridLayout( 6, 1 ) );
+		labelPanel = new JPanel( new GridLayout( this.STATUS_LABELS, 1 ) );
 		labelPanel.setOpaque( false );
 
-		labelPanel.add( new JLabel( "   HP: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( KoLCharacter.inZombiecore() ? "Horde: " : "   MP: ", JLabel.RIGHT ) );
-		labelPanel.add( this.classLabel = new JLabel( " ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   Meat: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   PvP: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   Adv: ", JLabel.RIGHT ) );
+		for ( int i = 0; i < this.STATUS_LABELS ; i++ )
+		{
+			labelPanel.add( this.statusLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
+		}
 
-		valuePanel = new JPanel( new GridLayout( 6, 1 ) );
+		valuePanel = new JPanel( new GridLayout( this.STATUS_LABELS, 1 ) );
 		valuePanel.setOpaque( false );
 
-		valuePanel.add( this.hpLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.mpLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.classValueLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.meatLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.pvpLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.advLabel = new JLabel( " ", JLabel.LEFT ) );
+		for ( int i = 0; i < this.STATUS_LABELS ; i++ )
+		{
+			valuePanel.add( this.statusValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
+		}
 
 		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
@@ -183,19 +188,21 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 		panels[ panelCount ].setOpaque( false );
 
-		labelPanel = new JPanel( new GridLayout( 3, 1 ) );
+		labelPanel = new JPanel( new GridLayout( this.CONSUMPTION_LABELS, 1 ) );
 		labelPanel.setOpaque( false );
 
-		labelPanel.add( new JLabel( "  Full: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "  Drunk: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "  Spleen: ", JLabel.RIGHT ) );
+		for ( int i = 0; i < this.CONSUMPTION_LABELS ; i++ )
+		{
+			labelPanel.add( this.consumptionLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
+		}
 
-		valuePanel = new JPanel( new GridLayout( 3, 1 ) );
+		valuePanel = new JPanel( new GridLayout( this.CONSUMPTION_LABELS, 1 ) );
 		valuePanel.setOpaque( false );
 
-		valuePanel.add( this.fullLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.drunkLabel = new JLabel( " ", JLabel.LEFT ) );
-		valuePanel.add( this.spleenLabel = new JLabel( " ", JLabel.LEFT ) );
+		for ( int i = 0; i < this.CONSUMPTION_LABELS ; i++ )
+		{
+			valuePanel.add( this.consumptionValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
+		}
 
 		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
@@ -211,24 +218,12 @@ public class CompactSidePane
 		this.motPopup = new JPopupMenu();
 		this.motPopup.insert( this.motPopLabel, 0 );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( ( 6 + this.MISC_LABELS ), 2 ) );
-		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.encLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.initLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Exp: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.expLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( this.BONUS_LABELS , 2 ) );
 		
-		for ( int i = 0; i < this.MISC_LABELS ; i++ )
+		for ( int i = 0; i < this.BONUS_LABELS ; i++ )
 		{
-			panels[ panelCount ].add( this.miscLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( this.miscValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.bonusLabel[ i ] = new JLabel( " ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( this.bonusValueLabel[ i ] = new JLabel( " ", JLabel.LEFT ) );
 		}
 
 		this.modPopLabel = new JLabel();
@@ -263,30 +258,26 @@ public class CompactSidePane
 		this.levelLabel.setForeground( Color.BLACK );
 		this.roninLabel.setForeground( Color.BLACK );
 		this.mcdLabel.setForeground( Color.BLACK );
-		this.musLabel.setForeground( Color.BLACK );
-		this.mysLabel.setForeground( Color.BLACK );
-		this.moxLabel.setForeground( Color.BLACK );
-		this.fullLabel.setForeground( Color.BLACK );
-		this.drunkLabel.setForeground( Color.BLACK );
-		this.spleenLabel.setForeground( Color.BLACK );
-		this.hpLabel.setForeground( Color.BLACK );
-		this.mpLabel.setForeground( Color.BLACK );
-		this.classLabel.setForeground( Color.BLACK );
-		this.classValueLabel.setForeground( Color.BLACK );
-		this.meatLabel.setForeground( Color.BLACK );
-		this.advLabel.setForeground( Color.BLACK );
-		this.pvpLabel.setForeground( Color.BLACK );
-		this.familiarLabel.setForeground( Color.BLACK );
-		this.mlLabel.setForeground( Color.BLACK );
-		this.encLabel.setForeground( Color.BLACK );
-		this.initLabel.setForeground( Color.BLACK );
-		this.expLabel.setForeground( Color.BLACK );
-		this.meatDropLabel.setForeground( Color.BLACK );
-		this.itemDropLabel.setForeground( Color.BLACK );
-		for ( int i = 0; i < this.MISC_LABELS ; i++ )
+		for ( int i = 0; i < this.STAT_LABELS ; i++ )
 		{
-			this.miscLabel[ i ].setForeground( Color.BLACK );
-			this.miscValueLabel[ i ].setForeground( Color.BLACK );
+			this.statLabel[ i ].setForeground( Color.BLACK );
+			this.statValueLabel[ i ].setForeground( Color.BLACK );
+		}
+		for ( int i = 0; i < this.STATUS_LABELS ; i++ )
+		{
+			this.statusLabel[ i ].setForeground( Color.BLACK );
+			this.statusValueLabel[ i ].setForeground( Color.BLACK );
+		}
+		for ( int i = 0; i < this.CONSUMPTION_LABELS ; i++ )
+		{
+			this.consumptionLabel[ i ].setForeground( Color.BLACK );
+			this.consumptionValueLabel[ i ].setForeground( Color.BLACK );
+		}
+		this.familiarLabel.setForeground( Color.BLACK );
+		for ( int i = 0; i < this.BONUS_LABELS ; i++ )
+		{
+			this.bonusLabel[ i ].setForeground( Color.BLACK );
+			this.bonusValueLabel[ i ].setForeground( Color.BLACK );
 		}
 	}
 
@@ -532,9 +523,22 @@ public class CompactSidePane
 
 	public void run()
 	{
-		this.levelLabel.setText( "Level " + KoLCharacter.getLevel() );
+		String limitmode = KoLCharacter.getLimitmode();
 
-		if ( CharPaneRequest.inValhalla() )
+		if ( limitmode != Limitmode.SPELUNKY )
+		{
+			this.levelLabel.setText( "Level " + KoLCharacter.getLevel() );
+		}
+		else
+		{
+			this.levelLabel.setText( " " );
+		}
+
+		if ( limitmode == Limitmode.SPELUNKY )
+		{
+			this.roninLabel.setText( "(Spelunkin')" );
+		}
+		else if ( CharPaneRequest.inValhalla() )
 		{
 			this.roninLabel.setText( "(Valhalla)" );
 		}
@@ -555,113 +559,222 @@ public class CompactSidePane
 			this.roninLabel.setText( "(Ronin for " + ( 1000 - KoLCharacter.getCurrentRun() ) + ")" );
 		}
 
-		this.mcdLabel.setText( "ML @ " + KoLCharacter.getMindControlLevel() );
-
-		this.musLabel.setText( this.getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
-		this.mysLabel.setText( this.getStatText(
-			KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
-		this.moxLabel.setText( this.getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
-		this.fullLabel.setText( KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
-		this.drunkLabel.setText( KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
-		this.spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
-
-		this.hpLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
-		this.mpLabel.setText( 
-			KoLCharacter.inZombiecore() ?
-			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) :
-			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
-		if ( KoLCharacter.getFuryLimit() > 0 )
+		if ( limitmode != Limitmode.SPELUNKY )
 		{
-			this.classLabel.setText( "  Fury: " );
-			this.classValueLabel.setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
-		}
-		else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
-		{
-			this.classLabel.setText( "Soulsauce: ");
-			this.classValueLabel.setText( KoLCharacter.getSoulsauce() + " / 100" );
-		}
-		else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT )
-		{
-			this.classLabel.setText( " Disco: " );
-			this.classValueLabel.setText( KoLCharacter.getDiscoMomentum() + " / 3" );
-		}
-		else if ( KoLCharacter.isSneakyPete() )
-		{
-			int limit = KoLCharacter.getAudienceLimit();
-			this.classLabel.setText( "  Aud: " );
-			this.classValueLabel.setText( KoLCharacter.getAudience() + " / " + limit );
+			this.mcdLabel.setText( "ML @ " + KoLCharacter.getMindControlLevel() );
 		}
 		else
 		{
-			this.classLabel.setText( " " );
-			this.classValueLabel.setText( " " );
-		}		
-		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-		this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
-		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
-		this.pvpLabel.setText( KoLCharacter.getHippyStoneBroken() ? String.valueOf( KoLCharacter.getAttacksLeft() ) : "--" );
+			this.mcdLabel.setText( "" );
+		}
 
-		// Remove this if/when KoL supports Water Level effect on Oil Peak/Tavern
-		if ( KoLCharacter.inRaincore() )
-		{
-			this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) +
-				" (" + KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL ) ) + ")" );
-		}
-		else
-		{
-			this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
-		}
-		this.encLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
-		this.initLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-		this.expLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
-		this.meatDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
-		this.itemDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
-		int hobo = KoLCharacter.getHoboPower();
-		int clown = KoLCharacter.getClownosity();
-		int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
-		int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
-		int smithsness = KoLCharacter.getSmithsness();
 		int count = 0;
-		if ( hobo != 0 && count < this.MISC_LABELS )
+		this.statLabel[ count ].setText( "   Mus: " );
+		this.statValueLabel[ count ].setText( this.getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
+		count++;
+		if ( limitmode != Limitmode.SPELUNKY )
 		{
-			this.miscLabel[ count ].setText( "Hobo: " );
-			this.miscValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+			this.statLabel[ count ].setText( "   Mys: " );
+			this.statValueLabel[ count ].setText( this.getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
 			count++;
 		}
-		if ( smithsness != 0 && count < this.MISC_LABELS )
+		this.statLabel[ count ].setText( "   Mox: " );
+		this.statValueLabel[ count ].setText( this.getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
+		count++;
+		for( int i = count ; i < STAT_LABELS ; i++ )
 		{
-			this.miscLabel[ count ].setText( "Smithsness: " );
-			this.miscValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
+			this.statLabel[ i ].setText( "" );
+			this.statValueLabel[ i ].setText( "" );
+		}
+
+		count = 0;
+		int limit = KoLCharacter.getFullnessLimit();
+		if ( limit > 0 )
+		{
+			this.consumptionLabel[ count ].setText( "  Full: " );
+			this.consumptionValueLabel[ count ].setText( KoLCharacter.getFullness() + " / " + limit );
 			count++;
 		}
-		if ( KoLCharacter.inBeecore() && count < this.MISC_LABELS )
+		limit = KoLCharacter.getInebrietyLimit();
+		if ( limit > 0 )
 		{
-			int bee = KoLCharacter.getBeeosity();
-			this.miscLabel[ count ].setText( "Bees: " );
-			this.miscValueLabel[ count ].setText( bee + "" );
-		}
-		if ( surgeon != 0 && count < this.MISC_LABELS )
-		{
-			this.miscLabel[ count ].setText( "Surgeon: " );
-			this.miscValueLabel[ count ].setText( surgeon + "/5" );
+			this.consumptionLabel[ count ].setText( " Drunk: " );
+			this.consumptionValueLabel[ count ].setText( KoLCharacter.getInebriety() + " / " + limit );
 			count++;
 		}
-		if ( rave != 0 && count < this.MISC_LABELS )
+		limit = KoLCharacter.getSpleenLimit();
+		if ( limit > 0 )
 		{
-			this.miscLabel[ count ].setText( "Rave: " );
-			this.miscValueLabel[ count ].setText( rave + "/7" );
+			this.consumptionLabel[ count ].setText( "Spleen: " );
+			this.consumptionValueLabel[ count ].setText( KoLCharacter.getSpleenUse() + " / " + limit );
 			count++;
 		}
-		if ( clown != 0 && count < this.MISC_LABELS )
+		for( int i = count ; i < CONSUMPTION_LABELS ; i++ )
 		{
-			this.miscLabel[ count ].setText( "Clown: " );
-			this.miscValueLabel[ count ].setText( clown + "/4" );
+			this.consumptionLabel[ i ].setText( "" );
+			this.consumptionValueLabel[ i ].setText( "" );
+		}
+
+		count = 0;
+		this.statusLabel[ count ].setText( "    HP: " );
+		this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
+		count++;
+		if ( limitmode != Limitmode.SPELUNKY )
+		{
+			if ( KoLCharacter.inZombiecore() )
+			{
+				this.statusLabel[ count ].setText( " Horde: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getCurrentMP() ) );
+				count++;
+			}
+			else
+			{
+				this.statusLabel[ count ].setText( "    MP: " );
+				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+				count++;
+			}
+			if ( KoLCharacter.getFuryLimit() > 0 )
+			{
+				this.statusLabel[ count ].setText( "  Fury: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
+				count++;
+			}
+			else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+			{
+				this.statusLabel[ count ].setText( "Soulsauce: ");
+				this.statusValueLabel[ count ].setText( KoLCharacter.getSoulsauce() + " / 100" );
+				count++;
+			}
+			else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT )
+			{
+				this.statusLabel[ count ].setText( " Disco: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getDiscoMomentum() + " / 3" );
+				count++;
+			}
+			else if ( KoLCharacter.isSneakyPete() )
+			{
+				limit = KoLCharacter.getAudienceLimit();
+				this.statusLabel[ count ].setText( "   Aud: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getAudience() + " / " + limit );
+				count++;
+			}
+			this.statusLabel[ count ].setText( "  Meat: " );
+			this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
+			this.statusValueLabel[ count ].setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
+			count++;
+			if ( KoLCharacter.getHippyStoneBroken() )
+			{
+				this.statusLabel[ count ].setText( "   PvP: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getAttacksLeft() ) );
+				count++;
+			}
+			this.statusLabel[ count ].setText( "   Adv: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			count++;
 		}
-		for( int i = count ; i < MISC_LABELS ; i++ )
+		else
 		{
-			this.miscLabel[ i ].setText( "" );
-			this.miscValueLabel[ i ].setText( "" );
+			this.statusLabel[ count ].setText( "  Gold: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( SpelunkyRequest.getGold() ) );
+			count++;
+			this.statusLabel[ count ].setText( "  Bomb: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( SpelunkyRequest.getBomb() ) );
+			count++;
+			this.statusLabel[ count ].setText( "  Rope: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( SpelunkyRequest.getRope() ) );
+			count++;
+			this.statusLabel[ count ].setText( "   Key: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( SpelunkyRequest.getKey() ) );
+			count++;
+			this.statusLabel[ count ].setText( " Turns: " );
+			this.statusValueLabel[ count ].setText( String.valueOf( SpelunkyRequest.getTurnsLeft() ) );
+			count++;
+		}
+		for( int i = count ; i < STATUS_LABELS ; i++ )
+		{
+			this.statusLabel[ i ].setText( "" );
+			this.statusValueLabel[ i ].setText( "" );
+		}
+
+		count = 0;
+		if ( limitmode != Limitmode.SPELUNKY )
+		{
+			// Remove this if/when KoL supports Water Level effect on Oil Peak/Tavern
+			if ( KoLCharacter.inRaincore() )
+			{
+				this.bonusLabel[ count ].setText( "    ML: " );
+				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) +
+					" (" + KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL ) ) + ")" );
+				count++;
+			}
+			else
+			{
+				this.bonusLabel[ count ].setText( "    ML: " );
+				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+				count++;
+			}
+			this.bonusLabel[ count ].setText( "   Enc: " );
+			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
+			count++;
+			this.bonusLabel[ count ].setText( "  Init: " );
+			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
+			count++;
+			this.bonusLabel[ count ].setText( "   Exp: " );
+			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
+			count++;
+			this.bonusLabel[ count ].setText( "  Meat: " );
+			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
+			count++;
+			this.bonusLabel[ count ].setText( "  Item: " );
+			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+			count++;
+			int hobo = KoLCharacter.getHoboPower();
+			int clown = KoLCharacter.getClownosity();
+			int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
+			int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
+			int smithsness = KoLCharacter.getSmithsness();
+			if ( hobo != 0 && count < this.BONUS_LABELS )
+			{
+				this.bonusLabel[ count ].setText( "Hobo: " );
+				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+				count++;
+			}
+			if ( smithsness != 0 && count < this.BONUS_LABELS )
+			{
+				this.bonusLabel[ count ].setText( "Smithsness: " );
+				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
+				count++;
+			}
+			if ( KoLCharacter.inBeecore() && count < this.BONUS_LABELS )
+			{
+				int bee = KoLCharacter.getBeeosity();
+				this.bonusLabel[ count ].setText( "Bees: " );
+				this.bonusValueLabel[ count ].setText( String.valueOf( bee ) );
+				count++;
+			}
+			if ( surgeon != 0 && count < this.BONUS_LABELS )
+			{
+				this.bonusLabel[ count ].setText( "Surgeon: " );
+				this.bonusValueLabel[ count ].setText( surgeon + " / 5" );
+				count++;
+			}
+			if ( rave != 0 && count < this.BONUS_LABELS )
+			{
+				this.bonusLabel[ count ].setText( "Rave: " );
+				this.bonusValueLabel[ count ].setText( rave + " / 7" );
+				count++;
+			}
+			if ( clown != 0 && count < this.BONUS_LABELS )
+			{
+				this.bonusLabel[ count ].setText( "Clown: " );
+				this.bonusValueLabel[ count ].setText( clown + " / 4" );
+				count++;
+			}
+		}
+		for( int i = count ; i < BONUS_LABELS ; i++ )
+		{
+			this.bonusLabel[ i ].setText( "" );
+			this.bonusValueLabel[ i ].setText( "" );
 		}
 
 		try
@@ -675,19 +788,46 @@ public class CompactSidePane
 			// occasionally gets triggered during the setText().
 		}
 
-		long currentLevel = KoLCharacter.calculateLastLevel();
-		long nextLevel = KoLCharacter.calculateNextLevel();
-		long totalPrime = KoLCharacter.getTotalPrime();
+		if ( limitmode != Limitmode.SPELUNKY )
+		{
+			long currentLevel = KoLCharacter.calculateLastLevel();
+			long nextLevel = KoLCharacter.calculateNextLevel();
+			long totalPrime = KoLCharacter.getTotalPrime();
+			this.levelMeter.setMaximum( (int) (nextLevel - currentLevel) );
+			this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
+			this.levelMeter.setString( " " );
+			this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + 
+				"&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) +
+				" subpoints needed)&nbsp;&nbsp;</html>" );
+		}
+		else
+		{
+			this.levelMeter.setMaximum( 1 );
+			this.levelMeter.setValue( 1 );
+			this.levelMeter.setString( " " );
+			this.levelPanel.setToolTipText( "" ); 
+		}
 
-		this.levelMeter.setMaximum( (int) (nextLevel - currentLevel) );
-		this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
-		this.levelMeter.setString( " " );
-
-		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + 
-			"&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) +
-			" subpoints needed)&nbsp;&nbsp;</html>" );
-
-		if ( KoLCharacter.inAxecore() )
+		if ( limitmode == Limitmode.SPELUNKY )
+		{
+			String imageName = SpelunkyRequest.getBuddyImageName();
+			if ( imageName == null )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+				this.familiarLabel.setText( "" );
+			}
+			else
+			{
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/otherimages/" + imageName );
+				ImageIcon icon = JComponentUtilities.getImage( "otherimages/" + imageName );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+				String buddy = SpelunkyRequest.getBuddyName();
+				this.familiarLabel.setText( buddy );
+			}
+		}
+		else if ( KoLCharacter.inAxecore() )
 		{
 			AdventureResult item = KoLCharacter.getCurrentInstrument();
 			if ( item == null )
@@ -757,8 +897,8 @@ public class CompactSidePane
 				icon.setImageObserver( this );
 				int weight = current.getModifiedWeight();
 				this.familiarLabel.setText( "<HTML><center>" + weight +
-							    ( weight == 1 ? " lb." : " lbs." ) +
-							    ( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
+								( weight == 1 ? " lb." : " lbs." ) +
+								( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
 			}
 		}
 

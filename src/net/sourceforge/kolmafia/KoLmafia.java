@@ -985,8 +985,13 @@ public abstract class KoLmafia
 		// Retrieve the Terrarium
 		RequestThread.postRequest( new FamiliarRequest() );
 
-		// Retrieve the bookshelf
+		// If we logged in during limitmode, we may not have seen the Campground
+		CampgroundRequest.reset();
+		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+		RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+		KoLCharacter.checkTelescope();
 
 		// Finally, update available concoctions
 		ConcoctionDatabase.resetQueue();

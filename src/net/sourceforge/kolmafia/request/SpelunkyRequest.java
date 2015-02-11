@@ -60,7 +60,7 @@ public class SpelunkyRequest
 	private static final Pattern MOXIE_PATTERN = Pattern.compile( "Mox:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>" );
 	private static final Pattern HP_PATTERN = Pattern.compile( "HP:</td><td><b>(\\d+) / (\\d+)" );
 	private static final Pattern TURNS_PATTERN = Pattern.compile( "Ghost'><br><b>(\\d+)</b>" );
-	private static final Pattern GOLD_PATTERN = Pattern.compile( "Gold: <b>\\$(\\d+)</b>" );
+	private static final Pattern GOLD_PATTERN = Pattern.compile( "Gold: <b>\\$((\\d{1,3},\\d{3})|(\\d+))</b>" );
 	private static final Pattern BOMB_PATTERN = Pattern.compile( "Bombs' width=30 height=30></td><td valign=center align=left><b>(\\d+)</b>" );
 	private static final Pattern ROPE_PATTERN = Pattern.compile( "Ropes' width=30 height=30></td><td valign=center align=left><b>(\\d+)</b>" );
 	private static final Pattern KEY_PATTERN = Pattern.compile( "Keys' width=30 height=30></td><td valign=center align=left><b>(\\d+)</b>" );
@@ -68,7 +68,7 @@ public class SpelunkyRequest
 	private static final Pattern GEAR_SECTION_PATTERN = Pattern.compile( "Gear:</b(.*?)</table>" );
 	private static final Pattern EQUIPMENT_PATTERN = Pattern.compile( "descitem\\((\\d+)\\)" );
 	private static final Pattern SHOP_PATTERN = Pattern.compile( "Buddy:</b(?:.*)alt='(.*?)' " );
-	private static final Pattern GOLD_GAIN_PATTERN =	Pattern.compile( "goldnug.gif (?:.*?)+<b>(\\d+) Gold!</b>" );
+	private static final Pattern GOLD_GAIN_PATTERN = Pattern.compile( "(?:goldnug.gif|coinpurse.gif) (?:.*?)+<b>(\\d+) Gold!</b>" );
 
 	private static final Pattern TURNS_STATUS_PATTERN = Pattern.compile( "Turns: (\\d+)" );
 	private static final Pattern GOLD_STATUS_PATTERN = Pattern.compile( "Gold: (\\d+)" );
@@ -77,6 +77,14 @@ public class SpelunkyRequest
 	private static final Pattern KEY_STATUS_PATTERN = Pattern.compile( "Keys: (\\d+)" );
 	private static final Pattern BUDDY_STATUS_PATTERN = Pattern.compile( "Buddy: (.*?)," );
 	private static final Pattern UNLOCK_STATUS_PATTERN = Pattern.compile( "Unlocks: (.*)" );
+
+	private static final String[][] BUDDY = 
+	{
+		{	"Skeleton", "spelbuddy1.gif", "Punches opponent"	},
+		{	"Helpful Guy", "spelbuddy2.gif", "Delevels opponent"	},
+		{	"Damselfly", "spelbuddy3.gif", "Heals after combat"	},
+		{	"Resourceful Kid", "spelbuddy4.gif", "Finds extra gold"	},
+	};
 
 	public SpelunkyRequest()
 	{
@@ -139,7 +147,7 @@ public class SpelunkyRequest
 		matcher = SpelunkyRequest.TURNS_PATTERN.matcher( responseText );
 		int turnsLeft = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 		matcher = SpelunkyRequest.GOLD_PATTERN.matcher( responseText );
-		int gold = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		int gold = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ).replaceAll( ",", "" ) ) : 0;
 		matcher = SpelunkyRequest.BOMB_PATTERN.matcher( responseText );
 		int bombs = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 		matcher = SpelunkyRequest.ROPE_PATTERN.matcher( responseText );
@@ -337,6 +345,8 @@ public class SpelunkyRequest
 			}
 			Preferences.setString( "spelunkyUpgrades", newUpgradeString.toString() );
 		}
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -708,5 +718,82 @@ public class SpelunkyRequest
 				Preferences.setString( "spelunkyUpgrades", newUpgradeString.toString() );
 			}
 		}
+	}
+
+	public static String getBuddyName()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.BUDDY_STATUS_PATTERN.matcher( spelunkyStatus );
+		String buddy = matcher.find() ? matcher.group( 1 ) : null;
+		return buddy;
+	}
+
+	public static String getBuddyImageName()
+	{
+		String buddy = SpelunkyRequest.getBuddyName();
+		if ( buddy == null )
+		{
+			return null;
+		}
+		for ( String[] s : BUDDY )
+		{
+			if ( buddy.contains( s[ 0 ] ) )
+			{
+				return s[1];
+			}
+		}
+		return null;
+	}
+
+	public static String getBuddyRole()
+	{
+		String buddy = SpelunkyRequest.getBuddyName();
+		if ( buddy == null )
+		{
+			return null;
+		}
+		for ( String[] s : BUDDY )
+		{
+			if ( buddy.contains( s[ 0 ] ) )
+			{
+				return s[2];
+			}
+		}
+		return null;
+	}
+
+	public static int getGold()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.GOLD_STATUS_PATTERN.matcher( spelunkyStatus );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	public static int getBomb()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.BOMB_STATUS_PATTERN.matcher( spelunkyStatus );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	public static int getRope()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.ROPE_STATUS_PATTERN.matcher( spelunkyStatus );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	public static int getKey()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.KEY_STATUS_PATTERN.matcher( spelunkyStatus );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	public static int getTurnsLeft()
+	{
+		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
+		Matcher matcher = SpelunkyRequest.TURNS_STATUS_PATTERN.matcher( spelunkyStatus );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 }
