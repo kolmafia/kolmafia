@@ -57,7 +57,7 @@ public class SpleenItemRequest
 {
 	public SpleenItemRequest( final AdventureResult item )
 	{
-		super( UseItemRequest.getConsumptionType( item ), item );
+		super( ItemDatabase.getConsumptionType( item.getItemId() ), item );
 	}
 
 	@Override

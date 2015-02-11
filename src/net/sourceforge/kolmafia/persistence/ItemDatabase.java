@@ -2677,6 +2677,7 @@ public class ItemDatabase
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
+		case KoLConstants.CONSUME_SPLEEN:
 			return ( attributes & ItemDatabase.ATTR_USABLE ) == 0;
 		default:
 			return ( attributes & ItemDatabase.ATTR_MULTIPLE ) != 0;
