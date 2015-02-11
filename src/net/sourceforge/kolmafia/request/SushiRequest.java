@@ -63,7 +63,7 @@ public class SushiRequest
 	private static final Pattern TOPPING_PATTERN = Pattern.compile( "whichtopping=(\\d+)" );
 	private static final Pattern FILLING1_PATTERN = Pattern.compile( "whichfilling1=(\\d+)" );
 	private static final Pattern VEGGIE_PATTERN = Pattern.compile( "veggie=(\\d+)" );
-	private static final Pattern DIPPIN_PATTERN = Pattern.compile( "dippin=(\\d+)" );
+	private static final Pattern DIPPING_PATTERN = Pattern.compile( "dipping=(\\d+)" );
 
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
 
@@ -191,7 +191,7 @@ public class SushiRequest
 
 	private static int nameToId( final String name )
 	{
-		// Bento Boxes do not have special names based on veggie or dippin' sauce
+		// Bento Boxes do not have special names based on veggie or dipping sauce
 		if ( name.contains( "bento box" ) )
 		{
 			return 7;
@@ -367,7 +367,7 @@ public class SushiRequest
 		return -1;
 	}
 
-	private static final Object[][] DIPPIN =
+	private static final Object[][] DIPPING =
 	{
 		{ "anemone sauce", IntegerPool.get( ItemPool.ANEMONE_SAUCE ) },
 		{ "inky squid sauce", IntegerPool.get( ItemPool.INKY_SQUID_SAUCE ) },
@@ -376,12 +376,12 @@ public class SushiRequest
 		{ "peanut sauce", IntegerPool.get( ItemPool.PEANUT_SAUCE ) },
 	};
 
-	private static String dippinToName( final String baseName, final int dippin )
+	private static String dippingToName( final String baseName, final int dipping )
 	{
-		for ( int i = 0; i < DIPPIN.length; ++i )
+		for ( int i = 0; i < DIPPING.length; ++i )
 		{
-			Object [] sushi = DIPPIN[i];
-			if ( dippin == ((Integer)sushi[1]).intValue() )
+			Object [] sushi = DIPPING[i];
+			if ( dipping == ((Integer)sushi[1]).intValue() )
 			{
 				return baseName + " with " + (String)sushi[0];
 			}
@@ -390,11 +390,11 @@ public class SushiRequest
 		return baseName;
 	}
 
-	private static int nameToDippin( final String name )
+	private static int nameToDipping( final String name )
 	{
-		for ( int i = 0; i < DIPPIN.length; ++i )
+		for ( int i = 0; i < DIPPING.length; ++i )
 		{
-			Object [] sushi = DIPPIN[i];
+			Object [] sushi = DIPPING[i];
 			if ( name.endsWith( (String)sushi[0] ) )
 			{
 				return ((Integer)sushi[1]).intValue();
@@ -404,7 +404,7 @@ public class SushiRequest
 		return -1;
 	}
 
-	private static String sushiName( final int id, final int topping, final int filling1, final int veggie, final int dippin )
+	private static String sushiName( final int id, final int topping, final int filling1, final int veggie, final int dipping )
 	{
 		String name = SushiRequest.idToName( id );
 
@@ -421,9 +421,9 @@ public class SushiRequest
 				name = SushiRequest.veggieToName( name, veggie );
 			}
 
-			if ( dippin > 0 )
+			if ( dipping > 0 )
 			{
-				name = SushiRequest.dippinToName( name, dippin );
+				name = SushiRequest.dippingToName( name, dipping );
 			}
 		}
 		else
@@ -454,7 +454,7 @@ public class SushiRequest
 		int topping = 0;
 		int filling1 = 0;
 		int veggie = 0;
-		int dippin = 0;
+		int dipping = 0;
 
 		matcher = SushiRequest.TOPPING_PATTERN.matcher( urlString );
 		if ( matcher.find() )
@@ -474,13 +474,13 @@ public class SushiRequest
 			veggie = StringUtilities.parseInt( matcher.group( 1 ) );
 		}
 
-		matcher = SushiRequest.DIPPIN_PATTERN.matcher( urlString );
+		matcher = SushiRequest.DIPPING_PATTERN.matcher( urlString );
 		if ( matcher.find() )
 		{
-			dippin = StringUtilities.parseInt( matcher.group( 1 ) );
+			dipping = StringUtilities.parseInt( matcher.group( 1 ) );
 		}
 
-		return SushiRequest.sushiName( id, topping, filling1, veggie, dippin );
+		return SushiRequest.sushiName( id, topping, filling1, veggie, dipping );
 	}
 
 	public SushiRequest( Concoction conc )
@@ -514,10 +514,10 @@ public class SushiRequest
 			this.addFormField( "veggie", String.valueOf( veggie ) );
 		}
 
-		int dippin = SushiRequest.nameToDippin( name );
-		if ( dippin > 0 )
+		int dipping = SushiRequest.nameToDipping( name );
+		if ( dipping > 0 )
 		{
-			this.addFormField( "dippin", String.valueOf( dippin ) );
+			this.addFormField( "dipping", String.valueOf( dipping ) );
 		}
 	}
 
