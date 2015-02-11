@@ -514,11 +514,28 @@ public class RelayRequest
 
 	private static final String [] IMAGES = new String[]
 	{
-		// Alternating path, original, replacement
-		"images/adventureimages/hellion.gif",
-		"http://images.kingdomofloathing.com/adventureimages/hellion.gif",
-		"/images/adventureimages/hellion.gif",
+		"adventureimages/hellion.gif",
+		// "itemimages/goldmonkey.gif",
 	};
+
+	private static final String OVERRIDE_DIRECTORY = "images/overrides/";
+
+	public static final void loadOverrideImages( final boolean enabled )
+	{
+		for ( String filename : IMAGES )
+		{
+			String path = "images/" + filename;
+			File cachedFile = new File( KoLConstants.ROOT_LOCATION, path );
+			cachedFile.delete();
+			if ( enabled )
+			{
+				int index = path.lastIndexOf( "/" );
+				File parent = new File( KoLConstants.ROOT_LOCATION, path.substring( 0, index ) );
+				String localname = path.substring( index + 1 );
+				FileUtilities.loadLibrary( parent, RelayRequest.OVERRIDE_DIRECTORY, localname );
+			}
+		}
+	}
 
 	public static final void overrideImages( final StringBuffer buffer )
 	{
@@ -527,45 +544,12 @@ public class RelayRequest
 			return;
 		}
 
-		for ( int i = 0; i < IMAGES.length; i += 3 )
+		for ( String filename : IMAGES )
 		{
-			String find = IMAGES[ i + 1 ] ;
-			String replace = IMAGES[ i + 2 ] ;
+			String find = "http://images.kingdomofloathing.com/" + filename;
+			String replace = "/images/" + filename;
 			StringUtilities.globalStringReplace( buffer, find, replace );
 		}
-	}
-
-	public static final void flushOverrideImages()
-	{
-		for ( int i = 0; i < IMAGES.length; i += 3 )
-		{
-			// Copy built-in override file to images
-			String filename = IMAGES[ i ];
-			File cachedFile = new File( KoLConstants.ROOT_LOCATION, filename );
-			cachedFile.delete();
-		}
-	}
-
-	private static final String OVERRIDE_DIRECTORY = "images/overrides/";
-
-	private void sendOverrideImage( final String filename )
-	{
-		if ( Preferences.getBoolean( "relayOverridesImages" ) )
-		{
-			for ( int i = 0; i < IMAGES.length; i += 3 )
-			{
-				if ( filename.equals( IMAGES[ i ] ) )
-				{
-					// Copy built-in override file to images
-					int index = filename.lastIndexOf( "/" );
-					File cachedFile = new File( KoLConstants.ROOT_LOCATION, filename.substring( 0, index ) );
-					String localname = filename.substring( index + 1 );
-					FileUtilities.loadLibrary( cachedFile, RelayRequest.OVERRIDE_DIRECTORY, localname );
-					break;
-				}
-			}
-		}
-		this.sendLocalImage( filename );
 	}
 
 	private static final FilenameFilter RELAYIMAGES_FILTER = new FilenameFilter()
@@ -2740,18 +2724,13 @@ public class RelayRequest
 		// Check to see if it's a request from the local images folder.
 		// If it is, go ahead and send it.
 
-		if ( path.startsWith( "images/playerpics/" ) )
-		{
-			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + path.substring( path.indexOf( "playerpics" ) ) );
-
-			this.sendLocalImage( path );
-			return;
-		}
-
 		if ( path.startsWith( "images/" ) || path.endsWith( "favicon.ico" ) )
 		{
-			// We can override specific images.
-			this.sendOverrideImage( path );
+			if ( path.startsWith( "images/playerpics/" ) )
+			{
+				FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + path.substring( path.indexOf( "playerpics" ) ) );
+			}
+			this.sendLocalImage( path );
 			return;
 		}
 

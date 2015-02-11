@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 
@@ -174,6 +175,9 @@ public class LoginManager
 
 		// Get rid of cached password hashes in KoLAdventures
 		AdventureDatabase.refreshAdventureList();
+
+		// Clear and/or load overridden image cache
+		RelayRequest.loadOverrideImages( Preferences.getBoolean( "relayOverridesImages" ) );
 
 		// Load (or reset) adventure queue
 		AdventureQueueDatabase.deserialize();
