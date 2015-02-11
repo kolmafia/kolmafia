@@ -515,7 +515,7 @@ public class RelayRequest
 	private static final String [] IMAGES = new String[]
 	{
 		"adventureimages/hellion.gif",
-		// "itemimages/goldmonkey.gif",
+		"itemimages/goldmonkey.gif",
 	};
 
 	private static final String OVERRIDE_DIRECTORY = "images/overrides/";
