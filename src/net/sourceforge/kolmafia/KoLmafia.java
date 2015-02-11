@@ -708,7 +708,7 @@ public abstract class KoLmafia
 
 		// It would be nice to not have to do this
 		IslandManager.ensureUpdatedBigIsland();
-
+	
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 

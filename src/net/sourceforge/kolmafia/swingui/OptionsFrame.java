@@ -284,13 +284,13 @@ public class OptionsFrame
 		@Override
 		public void actionConfirmed()
 		{
-			boolean overrideImages = Preferences.getBoolean( "relayOverridesImages" );
+			boolean old = Preferences.getBoolean( "relayOverridesImages" );
 
 			super.actionConfirmed();
 
-			if ( overrideImages != Preferences.getBoolean( "relayOverridesImages" ) )
+			if ( old != Preferences.getBoolean( "relayOverridesImages" ) )
 			{
-				RelayRequest.flushOverrideImages();
+				RelayRequest.loadOverrideImages( !old );
 			}
 		}
 
