@@ -1590,7 +1590,7 @@ Zim Merman's guitar	Ranged Damage: +20
 zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song, Class: "Accordion Thief", Single Equip, Song Duration: 20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 
-# Off-hand section of modifiers.txt
+# Off-hand Items section of modifiers.txt
 
 'WILL WORK FOR BOOZE' sign	Booze Drop: +30
 1-ball	Initiative: +10
@@ -6003,7 +6003,7 @@ _hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen M
 _slimeHate	Monster Level: [zone(The Slime Tube)]
 _smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent: +2, Muscle Percent: +2, Weapon Damage: +1, Monster Level: +1, Spell Damage: +2, Initiative: +1, Maximum MP: +2, Maximum HP: +2
 
-# Foods section of modifiers.txt
+# Food section of modifiers.txt
 
 &quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
 3vi1 pr0n m4nic0tti	Effect: "A Little Bit Evil", Effect Duration: 10
@@ -6187,7 +6187,7 @@ witch's bread	Effect: "Witch Breaded", Effect Duration: 20
 wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
 yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
-# Boozes section of modifiers.txt
+# Booze section of modifiers.txt
 
 Agitated Turkey	Effect: "Turkey-Agitated", Effect Duration: 25
 Alewife&trade; Ale	Effect: "Brined Liver", Effect Duration: 5
@@ -6378,7 +6378,7 @@ world's most unappetizing beverage	Effect: "Literally Insane", Effect Duration: 
 zmobie	Wiki Name: "Zmobie (drink)"
 Zoodriver	Effect: "Rampage!", Effect Duration: 5
 
-# Spleens section of modifiers.txt
+# Spleen Toxins section of modifiers.txt
 
 antique bottle of cough syrup	Effect: "Vitamin-Maxed", Effect Duration: 10
 beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
@@ -6396,7 +6396,7 @@ cold wad	Effect: "Cold Blooded", Effect Duration: 10
 cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
-ectoplasmic paste	Effect: "Oily Flavor", Effect Duration: 10
+ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 fishy paste	Effect: "Fishy", Effect Duration: 10
 glimmering buzzard feather	Effect: "Carrion' On", Effect Duration: 20
@@ -6404,7 +6404,7 @@ glimmering great tit feather	Effect: "The Great Tit's Blessing", Effect Duration
 glimmering penguin feather	Effect: "Antarctic Memories", Effect Duration: 20
 glimmering phoenix feather	Effect: "Phoenix, Right?", Effect Duration: 20
 glimmering raven feather	Effect: "Melancholy Burden", Effect Duration: 20
-goblin paste	Effect: "Pulchritudinous Pressure", Effect Duration: 10
+goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
 greasy paste	Effect: "Greasy Flavor", Effect Duration: 10
 groose grease	Effect: "Just the Best Anapests", Effect Duration: 50
 handful of Smithereens	Effect: "Smithsness Presence", Effect Duration: 100
@@ -6537,7 +6537,6 @@ Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
 bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
-bottle of extra-strength melodramamine	Effect: "Emotion Sickness", Effect Duration: 50
 bottle of fire	Effect: "The Fire Inside", Effect Duration: 10
 bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of lighter fluid	Effect: "Lit Up", Effect Duration: 10

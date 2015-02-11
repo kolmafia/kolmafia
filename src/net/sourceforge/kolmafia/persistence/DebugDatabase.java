@@ -246,12 +246,12 @@ public class DebugDatabase
 
 	private static final ItemMap [] ITEM_MAPS =
 	{
-		new ItemMap( "Foods", KoLConstants.CONSUME_EAT ),
-		new ItemMap( "Boozes", KoLConstants.CONSUME_DRINK ),
-		new ItemMap( "Spleens", KoLConstants.CONSUME_SPLEEN ),
+		new ItemMap( "Food", KoLConstants.CONSUME_EAT ),
+		new ItemMap( "Booze", KoLConstants.CONSUME_DRINK ),
+		new ItemMap( "Spleen Toxins", KoLConstants.CONSUME_SPLEEN ),
 		new ItemMap( "Hats", KoLConstants.EQUIP_HAT ),
 		new ItemMap( "Weapons", KoLConstants.EQUIP_WEAPON ),
-		new ItemMap( "Offhands", KoLConstants.EQUIP_OFFHAND ),
+		new ItemMap( "Off-hand Items", KoLConstants.EQUIP_OFFHAND ),
 		new ItemMap( "Shirts", KoLConstants.EQUIP_SHIRT ),
 		new ItemMap( "Pants", KoLConstants.EQUIP_PANTS ),
 		new ItemMap( "Accessories", KoLConstants.EQUIP_ACCESSORY ),
