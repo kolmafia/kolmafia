@@ -1353,7 +1353,7 @@ Zim Merman's guitar	200	Mox: 85	2-handed guitar
 zombie accordion	300	Mox: 250	1-handed accordion
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 
-# Offhands section of equipment.txt
+# Off-hand Items section of equipment.txt
 
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
 1-ball	60	Mys: 15
@@ -2664,7 +2664,7 @@ shotgun	60	Mox: 0	1-handed
 spelunking fedora	0	none
 spiked boots	0	none
 spring boots	0	none
-sturdy machete	30	none	1-handed sword
+sturdy machete	30	Mus: 0	1-handed sword
 The Clown Crown	0	none
 The Joke Book of the Dead	0	none
 torch	0	none
