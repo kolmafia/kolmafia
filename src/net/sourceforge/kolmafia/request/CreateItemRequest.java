@@ -1027,7 +1027,7 @@ public class CreateItemRequest
 		{
 			usedServant = servant;
 		}
-		else if ( KoLCharacter.canInteract() && ( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) ) )
+		else if ( InventoryManager.canUseMall() || InventoryManager.canUseClanStash() )
 		{
 			usedServant = servant;
 		}

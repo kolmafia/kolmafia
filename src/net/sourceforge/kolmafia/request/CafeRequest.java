@@ -54,6 +54,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeRequest
@@ -94,7 +96,7 @@ public class CafeRequest
 		}
 
 		// If you have a LARP card in storage, pull it.
-		if ( KoLCharacter.canInteract() && LARP.getCount( KoLConstants.storage ) > 0 )
+		if ( InventoryManager.canUseStorage( LARP ) )
 		{
 			RequestThread.postRequest( LARP_REQUEST );
 		}

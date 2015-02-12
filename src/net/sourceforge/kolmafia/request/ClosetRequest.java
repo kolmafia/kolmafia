@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -117,7 +119,7 @@ public class ClosetRequest
 
 		KoLConstants.closet.clear();
 		KoLConstants.closet.addAll( items );
-		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+		if ( InventoryManager.canUseCloset() )
 		{
 			ConcoctionDatabase.refreshConcoctions();
 		}

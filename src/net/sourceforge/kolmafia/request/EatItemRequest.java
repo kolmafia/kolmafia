@@ -421,7 +421,7 @@ public class EatItemRequest
 		boolean canLunch = KoLCharacter.inAxecore() && KoLConstants.availableSkills.contains( lunch );
 
 		// See if the character has (or can buy) a milk of magnesium.
-		boolean canMilk = InventoryManager.hasItem( ItemPool.MILK_OF_MAGNESIUM, true) || KoLCharacter.canInteract();
+		boolean canMilk = InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM );
 
 		// If you either can't get or don't care about both effects, don't nag
 		if ( ( !canLunch || skipLunchNag ) && ( !canMilk || skipMilkNag ) )
@@ -500,7 +500,7 @@ public class EatItemRequest
 
 		// If we don't have skill, all summons are used, and we can't get one, no need to ask
 		if ( ( !KoLCharacter.hasSkill( SkillPool.CLIP_ART ) || UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() == 0 )
-			&& !KoLCharacter.canInteract() && !InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) )
+			&& !InventoryManager.itemAvailable( ItemPool.FIELD_GAR_POTION ) )
 		{
 			return true;
 		}

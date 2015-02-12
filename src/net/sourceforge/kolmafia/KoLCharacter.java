@@ -3702,7 +3702,7 @@ public abstract class KoLCharacter
 
 	public static final boolean knollAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL;
+		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL && !Limitmode.limitZone( "MusSign" );
 	}
 
 	/**
@@ -3717,7 +3717,7 @@ public abstract class KoLCharacter
 
 	public static final boolean canadiaAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA;
+		return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA && !Limitmode.limitZone( "Little Canadia" );
 	}
 
 	/**
@@ -3748,9 +3748,10 @@ public abstract class KoLCharacter
 		{
 		case CANADIA:
 			// Direct access to the Mind Control Device
+			return KoLCharacter.canadiaAvailable();
 		case KNOLL:
 			// detuned radio from Degrassi Knoll General Store
-			return true;
+			return KoLCharacter.knollAvailable();
 		case GNOMADS:
 			// Annoyotron available on beach
 			return KoLCharacter.desertBeachAccessible();
@@ -3776,7 +3777,8 @@ public abstract class KoLCharacter
 				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			}
 		}
-		return Preferences.getInteger( "lastDesertUnlock" ) == KoLCharacter.getAscensions();
+		return Preferences.getInteger( "lastDesertUnlock" ) == KoLCharacter.getAscensions() &&
+				!Limitmode.limitZone( "Beach" );
 	}
 
 	public static final boolean mysteriousIslandAccessible()
@@ -3793,7 +3795,8 @@ public abstract class KoLCharacter
 				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			}
 		}
-		return Preferences.getInteger( "lastIslandUnlock" ) == KoLCharacter.getAscensions();
+		return Preferences.getInteger( "lastIslandUnlock" ) == KoLCharacter.getAscensions() &&
+				!Limitmode.limitZone( "Island" );
 	}
 	
 	/**

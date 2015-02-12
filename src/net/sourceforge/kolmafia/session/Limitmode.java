@@ -203,7 +203,7 @@ public class Limitmode
 		return false;
 	}
 
-	public static final boolean limitNPCShops()
+	public static final boolean limitNPCStores()
 	{
 		if ( KoLCharacter.getLimitmode() == null )
 		{
@@ -246,6 +246,20 @@ public class Limitmode
 	}
 
 	public static final boolean limitCampground()
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			return false;
+		}
+		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitStorage()
 	{
 		if ( KoLCharacter.getLimitmode() == null )
 		{

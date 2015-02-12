@@ -850,9 +850,9 @@ public class UneffectRequest
 			String itemName = ItemDatabase.getItemName( itemId );
 
 			if ( InventoryManager.hasItem( itemId ) ||
-			     Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
-			     Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) && CoinmastersDatabase.contains( itemName ) ||
-			     (this.needsCocoa || !hasRemedy) && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+			     InventoryManager.canUseNPCStores( itemId ) ||
+			     InventoryManager.canUseCoinmasters( itemId ) ||
+			     (this.needsCocoa || !hasRemedy) && ( InventoryManager.canUseMall( itemId ) || InventoryManager.canUseClanStash( itemId ) ) )
 			{
 				KoLmafia.updateDisplay( name + " will be removed by item " + itemName + "..." );
 

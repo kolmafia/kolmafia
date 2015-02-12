@@ -144,7 +144,7 @@ public class StorageRequest
 		KoLConstants.nopulls.clear();
 		KoLConstants.nopulls.addAll( nopulls );
 
-		if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+		if ( InventoryManager.canUseStorage() )
 		{
 			ConcoctionDatabase.refreshConcoctions();
 		}

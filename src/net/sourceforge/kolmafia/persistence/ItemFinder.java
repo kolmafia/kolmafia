@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
@@ -532,7 +534,7 @@ public class ItemFinder
 		// In the event that the person wanted all except a certain
 		// quantity, be sure to update the item count.
 
-		if ( sourceList == KoLConstants.storage && KoLCharacter.canInteract() )
+		if ( sourceList == KoLConstants.storage && InventoryManager.canUseStorage() )
 		{
 			itemCount = matchCount;
 			firstMatch = firstMatch.getInstance( itemCount );

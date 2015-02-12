@@ -871,7 +871,7 @@ public abstract class MoodManager
 
 	public static final boolean canMasterTrivia()
 	{
-		if ( KoLCharacter.canInteract() && !Limitmode.limitMall() )
+		if ( InventoryManager.canUseMall() )
 		{
 			return true;
 		}

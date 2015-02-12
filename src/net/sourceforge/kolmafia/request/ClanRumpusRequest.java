@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest
@@ -281,6 +283,12 @@ public class ClanRumpusRequest
 	@Override
 	public void run()
 	{
+		// Sometimes can't access in Limitmode
+		if ( Limitmode.limitClan() )
+		{
+			return;
+		}
+
 		switch ( this.action )
 		{
 		case SEARCH:
@@ -500,6 +508,11 @@ public class ClanRumpusRequest
 
 	public static void getBreakfast()
 	{
+		// Sometimes can't access in Limitmode
+		if ( Limitmode.limitClan() )
+		{
+			return;
+		}
 		ClanRumpusRequest request = new ClanRumpusRequest();
 
 		// Search for available equipment
