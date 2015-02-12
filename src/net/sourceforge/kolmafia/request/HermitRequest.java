@@ -470,7 +470,7 @@ public class HermitRequest
 
 		if ( all )
 		{
-			if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+			if ( InventoryManager.canUseCloset() )
 			{
 				count +=
 					HermitRequest.TRINKET.getCount( KoLConstants.closet ) +
@@ -478,7 +478,7 @@ public class HermitRequest
 					HermitRequest.KNICK_KNACK.getCount( KoLConstants.closet );
 			}
 
-			if ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+			if ( InventoryManager.canUseStorage() )
 			{
 				count +=
 					HermitRequest.TRINKET.getCount( KoLConstants.storage ) +
@@ -493,7 +493,7 @@ public class HermitRequest
 	public static final int getAcquirableWorthlessItemCount()
 	{
 		int count = HermitRequest.getWorthlessItemCount( true );
-		if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) )
+		if ( InventoryManager.canUseNPCStores() )
 		{
 			int cost = InventoryManager.currentWorthlessItemCost();
 			count += KoLCharacter.getAvailableMeat() / cost;

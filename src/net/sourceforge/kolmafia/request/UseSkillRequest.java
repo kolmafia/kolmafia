@@ -1394,7 +1394,7 @@ public class UseSkillRequest
 
 	public static final void prepareTool( final BuffTool[] options, int skillId )
 	{
-		if ( KoLCharacter.canInteract() )
+		if ( InventoryManager.canUseMall() || InventoryManager.canUseStorage() )
 		{
 			// If we are here, you are out of Hardcore/Ronin and
 			// have access to storage and the mall.

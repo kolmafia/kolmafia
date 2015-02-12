@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -154,6 +155,11 @@ public class MallPurchaseRequest
 	public void run()
 	{
 		if ( this.shopId == KoLCharacter.getUserId() )
+		{
+			return;
+		}
+
+		if ( Limitmode.limitMall() )
 		{
 			return;
 		}

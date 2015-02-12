@@ -192,7 +192,7 @@ public class GoalManager
 			{
 				currentCount = goal.getCount( KoLConstants.inventory );
 
-				if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+				if ( InventoryManager.canUseCloset() )
 				{
 					currentCount += goal.getCount( KoLConstants.closet );
 				}

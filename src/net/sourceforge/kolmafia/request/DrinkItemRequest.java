@@ -535,7 +535,7 @@ public class DrinkItemRequest
 		// If equipped already or can't be equipped, or we can't get one, no need to ask
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) )
 			|| !EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
-			|| !KoLCharacter.canInteract() && !InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) )
+			|| !InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) )
 		{
 			return true;
 		}

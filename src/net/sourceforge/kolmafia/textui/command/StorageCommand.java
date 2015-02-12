@@ -109,7 +109,7 @@ public class StorageCommand
 				// Count of item in storage
 				int storageCount = piece.getCount( KoLConstants.storage );
 
-				if ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+				if ( InventoryManager.canUseStorage() )
 				{
 					// Don't double-count items in storage
 					availableCount -= storageCount;

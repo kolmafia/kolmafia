@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
@@ -344,12 +345,7 @@ public abstract class MPRestoreItemList
 					return;
 				}
 
-				if ( ClanManager.getStash().isEmpty() )
-				{
-					RequestThread.postRequest( new ClanStashRequest() );
-				}
-
-				if ( !ClanManager.getStash().contains( EXPRESS_CARD ) )
+				if ( !InventoryManager.canUseClanStash( EXPRESS_CARD ) )
 				{
 					return;
 				}
@@ -362,13 +358,13 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CHATEAU )
+			if ( this == MPRestoreItemList.CHATEAU && !Limitmode.limitZone( "Mountain" ) )
 			{
 				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CAMPGROUND )
+			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
@@ -378,18 +374,24 @@ public abstract class MPRestoreItemList
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
-					GenericRequest request =
-						(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
-						new ChateauRequest( "chateau_restbox" ) :
-						new CampgroundRequest( "rest" );
-					RequestThread.postRequest( request );
+					if ( Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) &&
+						!Limitmode.limitZone( "Mountain" ) )
+					{
+						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+						return;
+					}
+					else if ( !Limitmode.limitCampground() )
+					{
+						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+						return;
+					}
 				}
 				return;
 			}
 
 			if ( this == MPRestoreItemList.GALAKTIK )
 			{
-				if ( purchase && needed > KoLCharacter.getCurrentMP() )
+				if ( purchase && needed > KoLCharacter.getCurrentMP() && InventoryManager.canUseNPCStores() )
 				{
 					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.MP, Math.min(
 						needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
@@ -401,6 +403,7 @@ public abstract class MPRestoreItemList
 			if ( this == MPRestoreItemList.NUNS )
 			{
 				if ( Preferences.getInteger( "nunsVisits" ) >= 3 ) return;
+				if ( Limitmode.limitZone( "IsleWar" ) ) return;
 				String side = Preferences.getString( "sidequestNunsCompleted" );
 				if ( !side.equals( "fratboy" ) ) return;	// no MP for hippies!
 				if ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() < 1000 )
@@ -448,7 +451,7 @@ public abstract class MPRestoreItemList
 
 			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaRestored() ), 1 );
 
-			if ( this == MPRestoreItemList.SOFA )
+			if ( this == MPRestoreItemList.SOFA && !Limitmode.limitClan() )
 			{
 				RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
@@ -459,7 +462,7 @@ public abstract class MPRestoreItemList
 			// If you need to purchase, then calculate a better
 			// purchasing strategy.
 
-			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+			if ( purchase && numberAvailable < numberToUse && InventoryManager.canUseNPCStores( this.itemUsed ) )
 			{
 				int numberToBuy = numberToUse;
 				int unitPrice = ItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;

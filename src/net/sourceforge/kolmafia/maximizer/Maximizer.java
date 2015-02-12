@@ -919,7 +919,7 @@ public class Maximizer
 							}
 							int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
 							count -= buy;
-							if ( buy > 0 && !Limitmode.limitNPCShops() )
+							if ( buy > 0 && InventoryManager.canUseNPCStores( item ) )
 							{
 								text = buy > 1 ? "buy " + buy + " & " + text
 									: "buy & " + text;
@@ -928,9 +928,7 @@ public class Maximizer
 							}
 							if ( count > 0 )
 							{
-								if ( !KoLCharacter.canInteract() ||
-									!ItemDatabase.isTradeable( item.getItemId() ) ||
-									Limitmode.limitMall() )
+								if ( !InventoryManager.canUseMall( item ) )
 								{
 									continue;
 								}
@@ -940,9 +938,7 @@ public class Maximizer
 						}
 						if ( priceLevel == 2 || (priceLevel == 1 && count > 0) )
 						{
-							if ( price <= 0 && KoLCharacter.canInteract() &&
-								ItemDatabase.isTradeable( item.getItemId() ) &&
-								!Limitmode.limitMall() )
+							if ( price <= 0 && InventoryManager.canUseMall ( item ) )
 							{
 								if ( MallPriceDatabase.getPrice( item.getItemId() )
 									> maxPrice * 2 )

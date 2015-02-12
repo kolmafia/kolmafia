@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 
@@ -1156,7 +1157,7 @@ public class FamiliarTrainingFrame
 		     !InventoryManager.hasItem( FamiliarData.SUGAR_SHIELD ) &&
 		     status.familiarItemWeight != 0 &&
 		     !InventoryManager.hasItem( status.familiarItem ) &&
-		     KoLCharacter.canInteract() )
+		     InventoryManager.itemAvailable( status.familiarItem ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1495,18 +1496,12 @@ public class FamiliarTrainingFrame
 				KoLCharacter.hasSkill( "Empathy of the Newt" ) && UseSkillRequest.hasTotem();
 			FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
-			FamiliarTrainingFrame.bestialAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.HALF_ORCHID );
-			FamiliarTrainingFrame.blackConeAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BLACK_SNOWCONE );
-			FamiliarTrainingFrame.greenConeAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
-			FamiliarTrainingFrame.greenHeartAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
-			FamiliarTrainingFrame.heavyPettingAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
-			FamiliarTrainingFrame.worstEnemyAvailable =
-				KoLCharacter.canInteract() || InventoryManager.hasItem( FamiliarTrainingFrame.SPIKY_COLLAR );
+			FamiliarTrainingFrame.bestialAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.HALF_ORCHID );
+			FamiliarTrainingFrame.blackConeAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.BLACK_SNOWCONE );
+			FamiliarTrainingFrame.greenConeAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.GREEN_SNOWCONE );
+			FamiliarTrainingFrame.greenHeartAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.GREEN_CANDY );
+			FamiliarTrainingFrame.heavyPettingAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.BUFFING_SPRAY );
+			FamiliarTrainingFrame.worstEnemyAvailable = InventoryManager.itemAvailable( FamiliarTrainingFrame.SPIKY_COLLAR );
 
 			// Look at effects to decide which ones are active;
 			FamiliarTrainingFrame.empathyActive = FamiliarTrainingFrame.EMPATHY.getCount( KoLConstants.activeEffects );

@@ -999,14 +999,12 @@ public class ConcoctionDatabase
 	{
 		boolean includeCloset =
 			!KoLConstants.closet.isEmpty() &&
-			Preferences.getBoolean( "autoSatisfyWithCloset" );
+			InventoryManager.canUseCloset();
 		boolean includeStorage =
-			KoLCharacter.canInteract() &&
 			!KoLConstants.storage.isEmpty() &&
-			Preferences.getBoolean( "autoSatisfyWithStorage" );
+			InventoryManager.canUseStorage();
 		boolean includeStash =
-			KoLCharacter.canInteract() &&
-			Preferences.getBoolean( "autoSatisfyWithStash" ) &&
+			InventoryManager.canUseClanStash() &&
 			!ClanManager.getStash().isEmpty();
 
 		boolean includeQueue =
@@ -1230,7 +1228,7 @@ public class ConcoctionDatabase
 		// appropriately depending on whether it is an NPC item, a Coin
 		// Master item, or anything else.
 
-		boolean useNPCStores = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+		boolean useNPCStores = InventoryManager.canUseNPCStores();
 
 		Iterator it = ConcoctionPool.iterator();
 
@@ -1464,11 +1462,10 @@ public class ConcoctionDatabase
 		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
 		boolean willBuyTool =
 			KoLCharacter.getAvailableMeat() >= toolCost &&
-			Preferences.getBoolean( "autoSatisfyWithNPCs" );
-		boolean willBuyServant = KoLCharacter.canInteract() &&
-			Preferences.getBoolean( "autoRepairBoxServants" ) &&
-			( Preferences.getBoolean( "autoSatisfyWithMall" ) ||
-			  Preferences.getBoolean( "autoSatisfyWithStash" ) );
+			InventoryManager.canUseNPCStores();
+		boolean willBuyServant = Preferences.getBoolean( "autoRepairBoxServants" ) &&
+			( InventoryManager.canUseMall() ||
+			  InventoryManager.canUseClanStash() );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.

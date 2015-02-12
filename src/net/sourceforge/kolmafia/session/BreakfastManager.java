@@ -156,7 +156,7 @@ public class BreakfastManager
 
 	public static void checkRumpusRoom()
 	{
-		if ( Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( !Limitmode.limitClan() && Preferences.getBoolean( "visitRumpus" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			ClanRumpusRequest.getBreakfast();
 			KoLmafia.forceContinue();
@@ -165,7 +165,7 @@ public class BreakfastManager
 
 	public static void checkVIPLounge()
 	{
-		if ( InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( !Limitmode.limitClan() && InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			ClanLoungeRequest.getBreakfast();
 			KoLmafia.forceContinue();
@@ -234,7 +234,7 @@ public class BreakfastManager
 
 	public static void getHermitClovers()
 	{
-		if ( KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.inBadMoon() || Limitmode.limitZone( "Woods" ) )
 		{
 			return;
 		}
@@ -254,7 +254,7 @@ public class BreakfastManager
 	public static void harvestGarden()
 	{
 		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-		if ( CampgroundRequest.hasCropOrBetter( crop ) )
+		if ( !Limitmode.limitCampground() && CampgroundRequest.hasCropOrBetter( crop ) )
 		{
 			CampgroundRequest.harvestCrop();
 		}
@@ -262,7 +262,10 @@ public class BreakfastManager
 
 	public static void useSpinningWheel()
 	{
-		CampgroundRequest.useSpinningWheel();
+		if ( !Limitmode.limitCampground() )
+		{
+			CampgroundRequest.useSpinningWheel();
+		}
 	}
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
@@ -505,7 +508,7 @@ public class BreakfastManager
 
 	private static void checkJackass()
 	{
-		if ( Preferences.getBoolean( "_defectiveTokenChecked" ) )
+		if ( Preferences.getBoolean( "_defectiveTokenChecked" ) || Limitmode.limitZone( "Town" ) )
 		{
 			return;
 		}
@@ -519,11 +522,19 @@ public class BreakfastManager
 
 	public static void visitVolcanoIsland()
 	{
-		VolcanoIslandRequest.getBreakfast();
+		if ( !Limitmode.limitZone( "Volcano" ) )
+		{
+			VolcanoIslandRequest.getBreakfast();
+		}
 	}
 
 	public static void visitBigIsland()
 	{
+		if ( Limitmode.limitZone( "Island" ) || Limitmode.limitZone( "IsleWar" ) )
+		{
+			return;
+		}
+
 		// Don't visit the Farm Stand in Fistcore, since you will just
 		// donate the profits to charity
 

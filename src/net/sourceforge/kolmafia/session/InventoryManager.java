@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -244,7 +245,7 @@ public abstract class InventoryManager
 
 		// Items in closet might be accessible, but if the user has
 		// marked items in the closet as out-of-bounds, honor that.
-		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+		if ( InventoryManager.canUseCloset() )
 		{
 			count += item.getCount( KoLConstants.closet );
 		}
@@ -255,17 +256,14 @@ public abstract class InventoryManager
 		// Storage and your clan stash are always accessible
 		// once you are out of Ronin or have freed the king,
 		// but the user can mark either as out-of-bounds
-		if ( KoLCharacter.canInteract() )
+		if ( InventoryManager.canUseStorage() )
 		{
-			if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
-			{
-				count += item.getCount( KoLConstants.storage );
-			}
+			count += item.getCount( KoLConstants.storage );
+		}
 
-			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
-			{
-				count += item.getCount( ClanManager.getStash() );
-			}
+		if ( InventoryManager.canUseClanStash() )
+		{
+			count += item.getCount( ClanManager.getStash() );
 		}
 
 		count += InventoryManager.getEquippedCount( item );
@@ -615,7 +613,7 @@ public abstract class InventoryManager
 
 		// Attempt to pull the item from the closet.
 
-		boolean shouldUseCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
+		boolean shouldUseCloset = InventoryManager.canUseCloset();
 		if ( shouldUseCloset )
 		{
 			int itemCount = item.getCount( KoLConstants.closet );
@@ -663,8 +661,7 @@ public abstract class InventoryManager
 		// Attempt to pull the items out of storage, if you are out of
 		// ronin and the user wishes to use storage
 
-		boolean shouldUseStorage = Preferences.getBoolean( "autoSatisfyWithStorage" );
-		if ( !isRestricted && shouldUseStorage && KoLCharacter.canInteract() )
+		if ( !isRestricted && InventoryManager.canUseStorage() )
 		{
 			int itemCount = item.getCount( KoLConstants.storage );
 
@@ -688,14 +685,8 @@ public abstract class InventoryManager
 		// Attempt to pull the item from the clan stash, if it is
 		// available there and the user wishes to use the stash
 
-		boolean shouldUseStash = Preferences.getBoolean( "autoSatisfyWithStash" );
-		if ( !isRestricted && shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+		if ( !isRestricted && InventoryManager.canUseClanStash() )
 		{
-			if ( !ClanManager.isStashRetrieved() )
-			{
-				RequestThread.postRequest( new ClanStashRequest() );
-			}
-
 			int itemCount = item.getCount( ClanManager.getStash() );
 
 			if ( itemCount > 0 )
@@ -720,8 +711,7 @@ public abstract class InventoryManager
 		// want to use only NPCs or if the mall is possible.
 		
 		boolean shouldUseNPCStore =
-			Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
-			NPCStoreDatabase.contains( item.getName() );
+			InventoryManager.canUseNPCStores( item );
 
 		boolean forceNoMall = isRestricted;
 
@@ -815,7 +805,7 @@ public abstract class InventoryManager
 		// clover) or purchased from the Hermit (if he has any in
 		// stock. We tried the former above. Now try the latter.
 
-		boolean shouldUseCoinmasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
+		boolean shouldUseCoinmasters = InventoryManager.canUseCoinmasters();
 		if ( shouldUseCoinmasters && KoLConstants.hermitItems.contains( item ) &&
 		     ( !shouldUseMall || InventoryManager.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
 		{
@@ -878,7 +868,7 @@ public abstract class InventoryManager
 			}
 
 			// If buying from the mall will leave the item in storage, use only NPCs
-			boolean onlyNPC = forceNoMall || !KoLCharacter.canInteract();
+			boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
 			ArrayList<PurchaseRequest> results = onlyNPC ? StoreManager.searchNPCs( item ) : StoreManager.searchMall( item );
 			KoLmafia.makePurchases( results, results.toArray( new PurchaseRequest[0] ), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated, 0 );
 			if ( !onlyNPC )
@@ -1090,7 +1080,7 @@ public abstract class InventoryManager
 		}
 
 		// Figure out if you already have enough items in the closet
-		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+		if ( InventoryManager.canUseCloset() )
 		{
 			InventoryManager.transferWorthlessItems( false );
 			count = HermitRequest.getWorthlessItemCount();
@@ -1102,7 +1092,7 @@ public abstract class InventoryManager
 		}
 
 		// Figure out if you already have enough items in storage
-		if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) && KoLCharacter.canInteract() )
+		if ( InventoryManager.canUseStorage() )
 		{
 			InventoryManager.pullWorthlessItems();
 			count = HermitRequest.getWorthlessItemCount();
@@ -1682,7 +1672,7 @@ public abstract class InventoryManager
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( itemId );
-		boolean shouldUseCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
+		boolean shouldUseCloset = InventoryManager.canUseCloset();
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -1760,11 +1750,164 @@ public abstract class InventoryManager
 		return false;
 	}
 
-	private static boolean canUseMall( final AdventureResult item )
+	public static boolean itemAvailable( final AdventureResult item )
 	{
-		return  KoLCharacter.canInteract() &&
-			ItemDatabase.isTradeable( item.getItemId() ) &&
-			Preferences.getBoolean( "autoSatisfyWithMall" );
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.itemAvailable( item.getItemId() );
+	}
+
+	public static boolean itemAvailable( final int itemId )
+	{
+		return InventoryManager.hasItem( itemId ) ||
+				InventoryManager.canUseStorage( itemId ) ||
+				InventoryManager.canUseMall( itemId ) ||
+				InventoryManager.canUseNPCStores( itemId ) ||
+				InventoryManager.canUseCoinmasters( itemId ) ||
+				InventoryManager.canUseClanStash( itemId ) ||
+				InventoryManager.canUseCloset( itemId );
+	}
+
+	public static boolean canUseMall( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseMall( item.getItemId() );
+	}
+
+	public static boolean canUseMall( final int itemId )
+	{
+		return ItemDatabase.isTradeable( itemId ) &&
+			InventoryManager.canUseMall();
+	}
+
+	public static boolean canUseMall()
+	{
+		return KoLCharacter.canInteract() &&
+			Preferences.getBoolean( "autoSatisfyWithMall" ) &&
+			!Limitmode.limitMall();
+	}
+
+	public static boolean canUseNPCStores( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseNPCStores() &&
+			NPCStoreDatabase.contains( item.getName() );
+	}
+
+	public static boolean canUseNPCStores( final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.canUseNPCStores( item );
+	}
+
+	public static boolean canUseNPCStores()
+	{
+		return Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
+			!Limitmode.limitNPCStores();
+	}
+
+	public static boolean canUseCoinmasters( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseCoinmasters() &&
+			CoinmastersDatabase.contains( item.getName() );
+	}
+
+	public static boolean canUseCoinmasters( final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.canUseCoinmasters( item );
+	}
+
+	public static boolean canUseCoinmasters()
+	{
+		return Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) &&
+			!Limitmode.limitCoinmasters();
+	}
+
+	public static boolean canUseClanStash( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		boolean canUseStash = InventoryManager.canUseClanStash();
+		if ( canUseStash && !ClanManager.isStashRetrieved() )
+		{
+			RequestThread.postRequest( new ClanStashRequest() );
+		}
+		return canUseStash &&
+			item.getCount( ClanManager.getStash() ) > 0;
+	}
+
+	public static boolean canUseClanStash( final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.canUseClanStash( item );
+	}
+
+	public static boolean canUseClanStash()
+	{
+		return KoLCharacter.canInteract() &&
+			Preferences.getBoolean( "autoSatisfyWithStash" ) &&
+			KoLCharacter.hasClan() &&
+			!Limitmode.limitClan();
+	}
+
+	public static boolean canUseCloset( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseCloset() &&
+			item.getCount( KoLConstants.closet ) > 0;
+	}
+
+	public static boolean canUseCloset( final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.canUseCloset( item );
+	}
+
+	public static boolean canUseCloset()
+	{
+		return Preferences.getBoolean( "autoSatisfyWithCloset" ) &&
+			!Limitmode.limitCampground();
+	}
+
+	public static boolean canUseStorage( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseStorage() &&
+			item.getCount( KoLConstants.storage ) > 0;
+	}
+
+	public static boolean canUseStorage( final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.canUseStorage( item );
+	}
+
+	public static boolean canUseStorage()
+	{
+		return KoLCharacter.canInteract() &&
+			Preferences.getBoolean( "autoSatisfyWithStorage" ) &&
+			!Limitmode.limitStorage();
 	}
 
 	public static final void fireInventoryChanged( final int itemId )

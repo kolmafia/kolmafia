@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -233,8 +234,7 @@ public class UseItemEnqueuePanel
 			this.buttons[ bingeIndex ].setEnabled( haveGhost );
 
 			// The milk listener is just after the ghost listener
-			boolean milkAvailable = InventoryManager.getAccessibleCount( ItemPool.MILK_OF_MAGNESIUM ) > 0
-						|| ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+			boolean milkAvailable = InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM )
 						|| KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
 						|| CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0;
 
@@ -275,8 +275,7 @@ public class UseItemEnqueuePanel
 		if ( isEnabled && this.spleen )
 		{
 			int flushIndex = this.buttons.length - 1;
-			boolean filterAvailable = InventoryManager.getAccessibleCount( ItemPool.MOJO_FILTER ) > 0 ||
-					( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) );
+			boolean filterAvailable = InventoryManager.itemAvailable( ItemPool.MOJO_FILTER );
 			boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;
 			boolean canUseFilter = Preferences.getInteger( "currentMojoFilters" ) < 3;
 			boolean canFlush = filterAvailable && haveSpleen && canUseFilter;
@@ -739,13 +738,13 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( creation.fancydog && 
+			if ( creation.fancydog && !Limitmode.limitClan() &&
 			     ( ConcoctionDatabase.queuedFancyDog || Preferences.getBoolean( "_fancyHotDogEaten" ) ) )
 			{
 				return false;
 			}
 
-			if ( creation.speakeasy && 
+			if ( creation.speakeasy && !Limitmode.limitClan() &&
 			     ( ConcoctionDatabase.queuedSpeakeasyDrink + Preferences.getInteger( "_speakeasyDrinksDrunk" ) >= 3 ) )
 			{
 				return false;

@@ -96,10 +96,10 @@ public class CheckedItem
 			this.creatable = 0;
 			this.npcBuyable = 0;
 		}
-		else if ( KoLCharacter.canInteract() )
+		else if ( InventoryManager.canUseMall( itemId ) )
 		{
 			// consider Mall buying
-			if ( this.getCount() == 0 && ItemDatabase.isTradeable( itemId ) )
+			if ( this.getCount() == 0 )
 			{	// but only if none are otherwise available
 				if ( priceLevel == 0 ||
 					MallPriceDatabase.getPrice( itemId ) < maxPrice * 2 )

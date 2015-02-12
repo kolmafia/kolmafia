@@ -2119,7 +2119,7 @@ public class ItemDatabase
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
 			     Preferences.getBoolean( "autoTuxedo" ) &&
 			     EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT ) &&
-			     ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
+			     InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) )
 			{
 				return perUnit ? ( 2.0 / inebriety ) : 2.0;
 			}
@@ -2132,10 +2132,9 @@ public class ItemDatabase
 			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY &&
 			     ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) ||
 			       Preferences.getBoolean( "autoGarish" ) &&
-			       ( KoLCharacter.canInteract() ||
-				 KoLCharacter.hasSkill( SkillPool.CLIP_ART ) &&
+			       ( KoLCharacter.hasSkill( SkillPool.CLIP_ART ) &&
 				 UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0 ||
-				 InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
+				 InventoryManager.itemAvailable( ItemPool.FIELD_GAR_POTION ) ) ) )
 			{
 				return perUnit ? ( 5.0 / fullness ) : 5.0;
 			}

@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
@@ -295,7 +296,7 @@ public class KoLmafiaGUI
 				RequestThread.postRequest( new ClanWarRequest() );
 			}
 
-			if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
+			if ( InventoryManager.canUseClanStash() && ClanManager.getStash().isEmpty() )
 			{
 				KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
 				RequestThread.postRequest( new ClanStashRequest() );
@@ -349,7 +350,7 @@ public class KoLmafiaGUI
 				MicroBreweryRequest.getMenu();
 			}
 
-			if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+			if ( InventoryManager.canUseClanStash() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
 				{
