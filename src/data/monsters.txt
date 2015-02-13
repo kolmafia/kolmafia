@@ -808,7 +808,7 @@ zombie waltzers	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 100 E: spooky
 
 Cheetahman	adv_fast1.gif	Atk: [300-15*max(pref(nsContestants1)-1,0)] Def: [150-5*max(pref(nsContestants1)-1,0)] HP: [300-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
 Microwave Magus	adv_fast2.gif	Atk: [250-10*max(pref(nsContestants1)-1,0)] Def: [250-10*max(pref(nsContestants1)-1,0)] HP: [200-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
-Kung-Fu Hustler	Atk: [200-5*max(pref(nsContestants1)-1,0)] Def: [300-15*max(pref(nsContestants1)-1,0)] HP: [250-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
+Kung-Fu Hustler	adv_fast3.gif	Atk: [200-5*max(pref(nsContestants1)-1,0)] Def: [300-15*max(pref(nsContestants1)-1,0)] HP: [250-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
 Tasmanian Dervish	adv_fast4.gif	Atk: 300 Def: 150 HP: 300 Init: 10000 P: dude
 
 # - Adventurer Crowd 2
@@ -822,9 +822,9 @@ Mr. Loathing	adv_strong4.gif	Atk: 300 Def: 150 HP: 300 Init: -10000 P: dude
 
 # -- Smartest Adventurer
 
-Accountant-Barbarian	adv_smart4.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-Metaphysical Gastronomist	adv_smart4.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-Kleptobrainiac	adv_smart4.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
+Accountant-Barbarian	adv_smart1.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
+Metaphysical Gastronomist	adv_smart2.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
+Kleptobrainiac	adv_smart3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
 The Mastermind	adv_smart4.gif	Atk: 250 Def: 250 HP: 200 Init: -10000 P: dude
 
 # -- Smoothest Adventurer
@@ -1595,7 +1595,7 @@ unstill	unstill.gif	Scale: 1 Cap: 1000 Init: -10000 P: construct	unquiet spirits
 banjoccultist	banjowizard.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 10	blue grass (20)	banjo kazoo mount (2)
 hep cat	hepcat.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 20	jive turkey leg (20)	hep waders (2)
 cigarette girl	ciggirl.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 20	candy cigarette (20)	birdbone corset (2)
-Mob penguin entrepreneur	peng_ent.gif	Scale: 1 Cap: 1000 Init: -10000 P: penguin Meat: 40	legitimate business on the beach (20)	law-abiding citizen cane (2)
+Mob Penguin entrepreneur	peng_ent.gif	Scale: 1 Cap: 1000 Init: -10000 P: penguin Meat: 40	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
 # Twitch 4 - The Roman Forum (August 2014)
 hypocritical medicus	medicus.gif	Scale: 0 Cap: 1000 Floor: 10 Init: -10000 P: dude	non-aged vinegar (20)	unsanitized scalpel (2)

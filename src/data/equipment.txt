@@ -448,6 +448,7 @@ mostly rat-hide leggings	200	Mox: 200
 muddy skirt	225	Mox: 200
 Newman's Own Trousers	125	Mys: 30
 ninja hot pants	70	Mox: 20
+ninjammies	100	Mox: 20
 oil slacks	120	Mox: 45
 Ol' Scratch's ol' britches	200	Mys: 200
 old patched suit-pants	200	Mox: 200
@@ -1964,6 +1965,7 @@ giant motorcycle boots	120	Mus: 45
 giant pinky ring	100	Mys: 35
 Girdle of Hatred	200	Mus: 125
 glacial clock	30	none
+glass eye	100	Mys: 50
 glow-in-the-dark necklace	100	Mys: 10
 glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60

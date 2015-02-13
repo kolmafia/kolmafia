@@ -1345,7 +1345,7 @@
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
 1344	Uncaged Power	faraday.gif	42a059ec52faec3eae460b5290f38b0f
 1345	Truthful	angry.gif	91efff803038276ed174097fcbf3f0c2	use 1 sodium pentasomething
-1346	Slightly Larger Than Usual	moth.gif	544f2cfabb3b6764c04b75dd22630438
+1346	Slightly Larger Than Usual	moth.gif	544f2cfabb3b6764c04b75dd22630438	use 1 giant giant moth dust
 1347	Mayeaugh	blankoutglob.gif	60664e31f3af2a0da746fb5102080eaa	use 1 glob of spoiled mayo
 1348	Once-Cursed	curse1.gif	a431a6af64d18d15a649c9932a225b9f
 1349	Twice-Cursed	curse2.gif	47094efaee457577e66cacd958342526
@@ -1792,3 +1792,16 @@
 1790	Peaceful, Easy Feeling	rainstick.gif	a76e9fb8c669087668ce2f0c8db8620b	use 1 red and green rain stick
 1791	Confidence!	happy.gif	c918329e6701fd1a3f9eb65ce072d0b2
 1792	Alpine Mintiness	mintleaf.gif	877c29906128c5596df2f2240f1f68cc	drink 1 hot mint schnocolate
+1793
+1794
+1795
+1796
+1797
+1798
+1799
+1800
+1801
+1802
+1803
+1804
+1805	Invisible (20 Minutes Ago)	blank.gif	74a30d393bc0cb97c84c017240ebaf93	use 1 invisible potion

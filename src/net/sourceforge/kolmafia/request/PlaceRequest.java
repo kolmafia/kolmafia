@@ -534,6 +534,14 @@ public class PlaceRequest
 			{
 				message = "Visiting the Third Four-Fifths Bank of the West";
 			}
+			else if ( action.equals( "twitch_boat2" ) )
+			{
+				message = "Visiting The Pinta";
+			}
+			else if ( action.equals( "twitch_boat3" ) )
+			{
+				message = "Visiting The Santa Claus";
+			}
 		}
 		else if ( place.equals( "woods" ) )
 		{

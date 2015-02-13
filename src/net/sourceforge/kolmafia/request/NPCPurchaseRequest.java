@@ -423,7 +423,8 @@ public class NPCPurchaseRequest
 		}
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
+	private static final Pattern SHOP_NAME_PATTERN = Pattern.compile(  "bgcolor=blue><b>(.*?)</b>" , Pattern.DOTALL );
 
 	public static final void parseShopResponse( final String urlString, final String responseText )//
 	{
@@ -448,7 +449,44 @@ public class NPCPurchaseRequest
 			String data = ItemDatabase.getItemDataName( id );
 			if ( data == null || !data.equals( name ) )
 			{
-				RequestLogger.printLine( name + " is ROW" + matcher.group(4) );
+				// Unknown item in shop
+				String currency = matcher.group(4);
+				String cost = matcher.group(5).replaceAll( ",", "" );
+				String row = matcher.group(6);
+				String shopName = "";
+				Matcher nameMatcher = SHOP_NAME_PATTERN.matcher( responseText );
+				if ( nameMatcher.find() )
+				{
+					shopName = nameMatcher.group(1);
+				}
+				if ( currency.equals( "Meat" ) )
+				{
+					String printMe;
+					// Print what goes in npcstores.txt
+					printMe = "--------------------";
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+					printMe = shopName + "\t" + shopId + "\t" + name + "\t" + cost + "\tROW" + row;
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+					printMe = "--------------------";
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+				}
+				else
+				{
+					String printMe;
+					// Print what goes in coinmasters.txt
+					printMe = "--------------------";
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+					printMe = shopName + "\tbuy\t" + cost + "\t" + name + "\tROW" + row;
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+					printMe = "--------------------";
+					RequestLogger.printLine( printMe );
+					RequestLogger.updateSessionLog( printMe );
+				}
 				ItemDatabase.registerItem( id, name, desc );
 			}
 		}
@@ -625,6 +663,12 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "applestore" ) )
 		{
 			AppleStoreRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "nina" ) )
+		{
+			NinjaStoreRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -916,6 +960,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "applestore" ) )
 			{
 				return AppleStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "nina" ) )
+			{
+				return NinjaStoreRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "arcade" ) )

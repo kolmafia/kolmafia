@@ -124,6 +124,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
+import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
@@ -1206,6 +1207,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof NemesisRequest || isExternal ) && NemesisRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof NinjaStoreRequest || isExternal ) && NinjaStoreRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

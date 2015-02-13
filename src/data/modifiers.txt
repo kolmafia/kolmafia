@@ -558,6 +558,8 @@ mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "s
 muddy skirt	Familiar Effect: "sleaze atk, 1xFairy"
 Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato, cap 31"
 ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, 3xPotato, cap 17"
+# ninjammies: Grants 50 Adventures of Morninja at Rollover
+ninjammies	Adventures: +2, PvP Fights: +2
 oil slacks	Initiative: +20, Familiar Effect: "1xPotato, cap 30"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato"
 old patched suit-pants	Monster Level: +40, Moxie Percent: +5, Familiar Effect: "1xPotato, 0.5xFairy"
@@ -1727,6 +1729,8 @@ giant clay ashtray	Muscle: +5, Damage Reduction: 3
 giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
 Glass Balls of the Goblin King	Mysticality: +14
+# glass eye: +40% Item Drops in the Time-Twitching Tower
+glass eye Initiative: +20, Weapon Damage: +20, Item Drop: [40*zone(Twitch)], Single Equip
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 # glowing esca: +20% Item Drops from Monsters (Underwater only)
@@ -4665,6 +4669,8 @@ Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
 Intimidating Mien	Spooky Damage: +15
 Into the Friar	Avatar: "black friar"
+# Invisible (20 Minutes Ago): Makes You Invisible In The Past
+Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
 Is This Your Card?	Spell Damage Percent: +50
@@ -6940,6 +6946,7 @@ industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration
 infant sandworm	Free Pull
 initiative shawarma	Effect: "Shawarma Initiative", Effect Duration: 30
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
+invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
 ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 irradiated turtle	Effect: "Turtle Power", Effect Duration: 15
@@ -7372,6 +7379,7 @@ The Smith's Tome	Free Pull
 They liver	Effect: "You Liver", Effect Duration: 20
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Thinknerd's Grimoire of Geeky Gifts	Free Pull
+# time shuriken: (does not go away when used)
 time sleigh	Free Pull
 time's arrow	Free Pull
 tin cup	Effect: "Tingling Feeling", Effect Duration: 20

@@ -651,6 +651,12 @@ The Applecalypse Store	buy	300	iShield	ROW356
 The Applecalypse Store	buy	600	white earbuds	ROW357
 The Applecalypse Store	buy	900	iFlail	ROW358
 
+# Things you can buy with Chroners
+
+Ni&ntilde;a Store	buy	10	invisible potion	ROW690
+Ni&ntilde;a Store	buy	200	time shuriken	ROW691
+Ni&ntilde;a Store	buy	1000	ninjammies	ROW692
+
 # Things you can buy with freshwater fishbones
 
 Freshwater Fishbonery	buy	5	fishbone belt	ROW326

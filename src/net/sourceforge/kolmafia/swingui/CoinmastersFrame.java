@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
+import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
@@ -165,6 +166,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel neandermallPanel = null;
 	private CoinmasterPanel shoeRepairPanel = null;
 	private CoinmasterPanel applePanel = null;
+	private CoinmasterPanel ninjaPanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
@@ -374,6 +376,11 @@ public class CoinmastersFrame
 		applePanel = new ApplePanel();
 		panel.add( applePanel );
 		this.selectorPanel.addPanel( applePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		ninjaPanel = new NinjaPanel();
+		panel.add( ninjaPanel );
+		this.selectorPanel.addPanel( ninjaPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		travelerPanel = new TravelingTraderPanel();
@@ -671,6 +678,15 @@ public class CoinmastersFrame
 		public ApplePanel()
 		{
 			super( AppleStoreRequest.APPLE_STORE );
+		}
+	}
+
+	public class NinjaPanel
+		extends CoinmasterPanel
+	{
+		public NinjaPanel()
+		{
+			super( NinjaStoreRequest.NINJA_STORE );
 		}
 	}
 
