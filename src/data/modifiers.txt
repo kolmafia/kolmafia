@@ -1729,8 +1729,7 @@ giant clay ashtray	Muscle: +5, Damage Reduction: 3
 giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
 Glass Balls of the Goblin King	Mysticality: +14
-# glass eye: +40% Item Drops in the Time-Twitching Tower
-glass eye Initiative: +20, Weapon Damage: +20, Item Drop: [40*zone(Twitch)], Single Equip
+glass eye	Initiative: +20, Weapon Damage: +20, Item Drop: [40*zone(Twitch)], Single Equip
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 # glowing esca: +20% Item Drops from Monsters (Underwater only)
