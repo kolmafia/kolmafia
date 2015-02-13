@@ -3176,6 +3176,8 @@ public abstract class ChoiceManager
 				       "fight white elephant",
 				       "skip" } ),
 
+		// Choice 950 is Time-Twitching Tower Voting / Phone Booth
+
 		// Choice 955 is Time Cave.  Period.
 		new ChoiceAdventure(
 			"Twitch", "choiceAdventure955", "Time Cave",
@@ -3429,6 +3431,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "fight shopkeeper", 1 ),
 				       new Option( "take damage", 6 ) } ),
 
+		// Choice 1048 is Twitch Event #8 Time Period
 		// Choice 1056 is Now It's Dark
 	};
 
