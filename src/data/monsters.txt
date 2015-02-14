@@ -1461,7 +1461,7 @@ E.V.E., the robot zombie	eve.gif	Atk: 300 Def: 300 HP: 500 Init: 150 P: construc
 alien	spelunkalien.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
 alien queen	spelunkalienq.gif	Atk: 70 Def: 70 HP: 70 Init: -10000 P: weird	plasma rifle (100)	jetpack (100)
 alien UFO	spelunkufo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
-Bananubis	spelbanana.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: beast	Bananubis's Staff (100)
+Bananubis	spelbanana.gif	Atk: 80 Def: 80 HP: 80 Init: -10000 P: beast	Bananubis's Staff (100)
 bat	spelunkbat.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
 bee	spelunkbee.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 caveman	spelunkcaveman.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: dude

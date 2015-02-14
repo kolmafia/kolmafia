@@ -84,6 +84,7 @@ public class SpelunkyRequest
 		{	"Helpful Guy", "spelbuddy2.gif", "Delevels opponent"	},
 		{	"Damselfly", "spelbuddy3.gif", "Heals after combat"	},
 		{	"Resourceful Kid", "spelbuddy4.gif", "Finds extra gold"	},
+		{	"Golden Monkey", "spelbuddy5.gif", "Finds extra gold"	},
 	};
 
 	public SpelunkyRequest()
