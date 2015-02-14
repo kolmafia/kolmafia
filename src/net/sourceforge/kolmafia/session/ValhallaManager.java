@@ -467,7 +467,6 @@ public class ValhallaManager
 		Preferences.setString( "currentSpecialBountyItem", "" );
 		Preferences.setInteger( "crimboTreeDays", 7 );
 		Preferences.setString( "currentHippyStore", "none" );
-		Preferences.setString( "currentWheelPosition", "muscle" );
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
@@ -505,15 +504,6 @@ public class ValhallaManager
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
 		Preferences.setInteger( "currentHedgeMazeRoom", 0 );
-		Preferences.setString( "nsChallenge1", "none" );
-		Preferences.setString( "nsChallenge2", "none" );
-		Preferences.setString( "nsChallenge3", "none" );
-		Preferences.setString( "nsChallenge4", "none" );
-		Preferences.setString( "nsChallenge5", "none" );
-		Preferences.setInteger( "nsContestants1", -1 );
-		Preferences.setInteger( "nsContestants2", -1 );
-		Preferences.setInteger( "nsContestants3", -1 );
-		Preferences.setString( "nsTowerDoorKeysUsed", "" );
 		Preferences.setInteger( "singleFamiliarRun", 0 );
 		Preferences.setString( "plantingDate", "");
 		Preferences.setInteger( "plantingDay", -1);

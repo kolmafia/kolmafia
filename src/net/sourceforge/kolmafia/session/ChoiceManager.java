@@ -8150,16 +8150,16 @@ public abstract class ChoiceManager
 
 		case 1013:	// Mazel Tov!
 			// Then you both giggle and head through the exit at the same time.
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
 			break;
 
 		case 1015:	// The Mirror in the Tower has the View that is True
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step8" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 			break;
 
 		case 1022:	// Meet Frank
 			// Frank bobs his head toward the hedge maze in front of you.
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			break;
 
 		case 1028:	// A Shop

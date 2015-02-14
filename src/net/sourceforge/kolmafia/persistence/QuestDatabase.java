@@ -145,6 +145,7 @@ public class QuestDatabase
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 	public static final Pattern BOO_PEAK_PATTERN = Pattern.compile( "It is currently (\\d+)%" );
 	public static final Pattern OIL_PEAK_PATTERN = Pattern.compile( "The pressure is currently ([\\d\\.]+) microbowies" );
+	public static final Pattern COMPETITION_PATTERN = Pattern.compile( "Contest #(\\d): ((\\d+) competitor|(Won!))" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -282,6 +283,10 @@ public class QuestDatabase
 		{
 			// this is step2.  We need to do some other handling for the three sub-parts.
 			return handlePeakStatus( details );
+		}
+		if ( pref.equals( Quest.FINAL.getPref() ) )
+		{
+			handleCompetitionStatus( details );
 		}
 
 		// First thing to do is find which quest we're talking about.
@@ -453,6 +458,29 @@ public class QuestDatabase
 		return "";
 	}
 
+	private static void handleCompetitionStatus( String details )
+	{
+		Matcher competition = QuestDatabase.COMPETITION_PATTERN.matcher( details );
+		while ( competition.find() )
+		{
+			String preference = "nsContestants" + StringUtilities.parseInt( competition.group( 1 ) );
+			int left = -1;
+			if( competition.group( 2 ).equals( "Won!" ) )
+			{
+				left = 0;
+			}
+			else
+			{
+				left = StringUtilities.parseInt( competition.group( 3 ) );
+			}
+			Preferences.setInteger( preference, left );
+		}
+		if ( details.contains( "Ascend the <a href=place.php?whichplace=nstower class=nounder target=mainpane><b>Naughty Sorceress' Tower</b></a>." ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step6" );
+		}
+	}
+
 	public static void setQuestProgress( Quest quest, String progress )
 	{
 		if ( quest == null )
@@ -503,6 +531,15 @@ public class QuestDatabase
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
 		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
 		Preferences.resetToDefault( "blackForestProgress" );
+		Preferences.resetToDefault( "nsChallenge1" );
+		Preferences.resetToDefault( "nsChallenge2" );
+		Preferences.resetToDefault( "nsChallenge3" );
+		Preferences.resetToDefault( "nsChallenge4" );
+		Preferences.resetToDefault( "nsChallenge5" );
+		Preferences.resetToDefault( "nsContestants1" );
+		Preferences.resetToDefault( "nsContestants2" );
+		Preferences.resetToDefault( "nsContestants3" );
+		Preferences.resetToDefault( "nsTowerDoorKeysUsed" );
 		Preferences.resetToDefault( "maraisDarkUnlock" );
 		Preferences.resetToDefault( "maraisWildlifeUnlock" );
 		Preferences.resetToDefault( "maraisCorpseUnlock" );

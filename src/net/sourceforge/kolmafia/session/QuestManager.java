@@ -1334,6 +1334,12 @@ public class QuestManager
 			{
 				Preferences.setInteger( counter, crowd - 1 );
 			}
+			if ( Preferences.getInteger( "nsContestants1" ) == 0 &&
+				Preferences.getInteger( "nsContestants2" ) == 0 &&
+				Preferences.getInteger( "nsContestants3" ) == 0 )
+			{
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
+			}
 			return;
 		}
 
@@ -1438,29 +1444,29 @@ public class QuestManager
 			  monsterName.equals( "topiary kiwi" ) )
 		{
 			// We are still in the Hedge Maze
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 		}
 		else if ( monsterName.equals( "wall of skin" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
 		}
 		else if ( monsterName.equals( "wall of meat" ) &&
 			  responseText.contains( "the stairs to the next floor are clear" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step8" );
 		}
 		else if ( monsterName.equals( "wall of bones" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step7" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
 		}
 		else if ( monsterName.equals( "Your Shadow" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step11" );
 		}
 		else if ( monsterName.equals( "Clancy" ) )
 		{
 			// We do not currently have a distinct step for Clancy
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step9" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step11" );
 		}
 		else if ( monsterName.equals( "Naughty Sorceress (3)" ) ||
 			  monsterName.equals( "The Avatar of Sneaky Pete" ) ||
@@ -1471,7 +1477,7 @@ public class QuestManager
 			  monsterName.equals( "The Rain King" ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
 		}
 		else if ( monsterName.equals( "The Clownlord Beelzebozo" ) )
 		{
