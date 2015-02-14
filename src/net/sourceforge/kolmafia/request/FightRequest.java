@@ -3433,7 +3433,6 @@ public class FightRequest
 
 			if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
 			{
-				Preferences.increment( "spelunkyWinCount", 1 );
 				// Check for gold gain
 				SpelunkyRequest.gainGold( FightRequest.lastResponseText );
 				// Check for unlocks
@@ -3460,9 +3459,9 @@ public class FightRequest
 				{
 					SpelunkyRequest.spiderQueenDefeated();
 				}
-				if ( monsterName.equals( "shopkeeper" ) )
+				if ( !monsterName.equals( "shopkeeper" ) )
 				{
-					Preferences.decrement( "spelunkyWinCount", 1 );
+					Preferences.increment( "spelunkyWinCount", 1 );
 				}
 			}
 
