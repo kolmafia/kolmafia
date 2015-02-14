@@ -194,7 +194,7 @@ public class QuestLogRequest
 
 	public static final void registerQuests( final boolean isExternal, final String urlString, final String responseText )
 	{
-		if ( urlString.contains( "which=1" ) || urlString.contains( "which=7" ) )
+		if ( urlString.contains( "which=1" ) || urlString.contains( "which=7" ) || !urlString.contains( "which" ) )
 		{
 			parseResponse( responseText, 1 );
 		}

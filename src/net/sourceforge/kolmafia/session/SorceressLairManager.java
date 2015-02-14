@@ -429,7 +429,7 @@ public abstract class SorceressLairManager
 			// Claim your prize
 			if ( responseText.contains( "World's Best Adventurer sash" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.FINAL, "step1" );
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step3" );
 			}
 			return;
 		}
@@ -633,7 +633,7 @@ public abstract class SorceressLairManager
 			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
 			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
+				QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
 			}
 			return;
 		}
@@ -891,48 +891,60 @@ public abstract class SorceressLairManager
 	private static final String[][] TOWER_DATA =
 	{
 		{
+			"crowd1.gif",
+			"step1",
+		},
+		{
+			"crowd2.gif",
+			"step1",
+		},
+		{
+			"crowd3.gif",
+			"step1",
+		},
+		{
 			"nstower_regdesk.gif",
 			QuestDatabase.STARTED,
 		},
 		{
 			"nstower_courtyard.gif",
-			"step1",
-		},
-		{
-			"nstower_hedgemaze.gif",
-			"step2",
-		},
-		{
-			"nstower_towerdoor.gif",
 			"step3",
 		},
 		{
-			"nstower_tower1.gif",
+			"nstower_hedgemaze.gif",
 			"step4",
 		},
 		{
-			"nstower_tower2.gif",
+			"nstower_towerdoor.gif",
 			"step5",
 		},
 		{
-			"nstower_tower3.gif",
+			"nstower_tower1.gif",
 			"step6",
 		},
 		{
-			"nstower_tower4.gif",
+			"nstower_tower2.gif",
 			"step7",
 		},
 		{
-			"nstower_tower5.gif",
+			"nstower_tower3.gif",
 			"step8",
 		},
 		{
-			"chamberlabel.gif",
+			"nstower_tower4.gif",
 			"step9",
 		},
 		{
-			"kingprism",
+			"nstower_tower5.gif",
 			"step10",
+		},
+		{
+			"chamberlabel.gif",
+			"step11",
+		},
+		{
+			"kingprism",
+			"step12",
 		},
 		{
 			"gash.gif",
@@ -953,7 +965,7 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		QuestDatabase.setQuestProgress( Quest.FINAL, step );
+		QuestDatabase.setQuestIfBetter( Quest.FINAL, step );
 
 		// If step is "step1", the following images might or might not
 		// be present
@@ -967,7 +979,7 @@ public abstract class SorceressLairManager
 		// indication of how far you are in the crowd.
 
 		// If we are past the contests, mark them all finished.
-		if ( QuestDatabase.isQuestLaterThan( Quest.FINAL, QuestDatabase.STARTED ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.FINAL, "step1" ) )
 		{
 			Preferences.setInteger( "nsContestants1", 0 );
 			Preferences.setInteger( "nsContestants2", 0 );
@@ -1030,12 +1042,12 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
 		String status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( !status.equals( "step2" ) )
+		if ( !status.equals( "step4" ) )
 		{
 			String message =
 				status.equals( QuestDatabase.UNSTARTED ) ?
 				"You haven't been given the quest to fight the Sorceress!" :
-				QuestDatabase.isQuestLaterThan( status, "step2" ) ?
+				QuestDatabase.isQuestLaterThan( status, "step4" ) ?
 				"You have already completed the Hedge Maze." :
 				"You haven't reached the Hedge Maze yet.";
 
@@ -1173,7 +1185,7 @@ public abstract class SorceressLairManager
 
 		KoLmafia.updateDisplay( "Entering the Hedge Maze..." );
 
-		while ( status.equals( "step2" ) )
+		while ( status.equals( "step4" ) )
 		{
 			GenericRequest request = new PlaceRequest( "nstower", "ns_03_hedgemaze" );
 			RequestThread.postRequest( request );
@@ -1206,12 +1218,12 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
 		String status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( !status.equals( "step3" ) )
+		if ( !status.equals( "step5" ) )
 		{
 			String message =
 				status.equals( QuestDatabase.UNSTARTED ) ?
 				"You haven't been given the quest to fight the Sorceress!" :
-				QuestDatabase.isQuestLaterThan( status, "step3" ) ?
+				QuestDatabase.isQuestLaterThan( status, "step5" ) ?
 				"You have already opened the Tower Door." :
 				"You haven't reached the Tower Door yet.";
 
@@ -1268,7 +1280,7 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
 
 		status = Preferences.getString( Quest.FINAL.getPref() );
-		if ( status.equals( "step4" ) )
+		if ( status.equals( "step6" ) )
 		{
 			KoLmafia.updateDisplay( "Tower Door open!" );
 		}
