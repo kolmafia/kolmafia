@@ -635,10 +635,22 @@ public class SpelunkyRequest
 	public static void gainGold( final String responseText )
 	{
 		Matcher goldMatcher = SpelunkyRequest.GOLD_GAIN_PATTERN.matcher( responseText );
-		if ( goldMatcher.find() )
+		while ( goldMatcher.find() )
 		{
 			String gain = goldMatcher.group( 1 );
 			String updateMessage = "You gain " + gain + " gold";
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+		if ( responseText.contains( "you find a bomb!" ) )
+		{
+			String updateMessage = "You find a bomb";
+			RequestLogger.updateSessionLog( updateMessage );
+			KoLmafia.updateDisplay( updateMessage );
+		}
+		if ( responseText.contains( "you find a rope!" ) )
+		{
+			String updateMessage = "You find a rope";
 			RequestLogger.updateSessionLog( updateMessage );
 			KoLmafia.updateDisplay( updateMessage );
 		}

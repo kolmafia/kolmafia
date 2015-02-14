@@ -4022,9 +4022,6 @@ public abstract class KoLCharacter
 		{
 			return;
 		}
-		String message = "Unlearning skill: " + name;
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
 		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( name );
 
 		KoLConstants.availableSkills.remove( skill );
