@@ -366,6 +366,11 @@ public class KoLAdventure
 	{
 		this.isValidAdventure = false;
 
+		if ( Limitmode.limitZone( this.zone ) )
+		{
+			return;
+		}
+
 		if ( this.zone.equals( "Astral" ) )
 		{
 			// Update the choice adventure setting

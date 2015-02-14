@@ -161,6 +161,10 @@ public class Limitmode
 	{
 		if ( KoLCharacter.getLimitmode() == null )
 		{
+			if ( zoneName.equals( "Spelunky Area" ) )
+			{
+				return true;
+			}
 			return false;
 		}
 		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
