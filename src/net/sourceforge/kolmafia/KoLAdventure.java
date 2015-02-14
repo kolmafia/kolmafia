@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -76,6 +77,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -2270,7 +2272,15 @@ public class KoLAdventure
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
 		EncounterManager.registerAdventure( location );
 
-		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
+		String message = null;
+		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
+		}
+		else
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
+		}
 		RequestLogger.printLine();
 		RequestLogger.printLine( message );
 
