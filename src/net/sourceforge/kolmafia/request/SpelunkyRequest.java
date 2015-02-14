@@ -526,7 +526,7 @@ public class SpelunkyRequest
 		}
 	}
 
-	public static void queenBeeDefeated()
+	public static void spiderQueenDefeated()
 	{
 		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
 		if ( !spelunkyStatus.contains( "Sticky Bombs" ) )
@@ -634,7 +634,7 @@ public class SpelunkyRequest
 
 	public static void gainGold( final String responseText )
 	{
-		Matcher goldMatcher = SpelunkyRequest.GOLD_GAIN_PATTERN.matcher( FightRequest.lastResponseText );
+		Matcher goldMatcher = SpelunkyRequest.GOLD_GAIN_PATTERN.matcher( responseText );
 		if ( goldMatcher.find() )
 		{
 			String gain = goldMatcher.group( 1 );
