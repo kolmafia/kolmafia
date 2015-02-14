@@ -654,8 +654,29 @@ public class CoinmastersFrame
 		}
 	}
 
-	public class NeandermallPanel
+	private abstract class TwitchPanel
 		extends CoinmasterPanel
+	{
+		public TwitchPanel( CoinmasterData data )
+		{
+			super( data );
+			PreferenceListenerRegistry.registerPreferenceListener( "timeTowerAvailable", this );
+		}
+
+		@Override
+		public final void update()
+		{
+			super.update();
+			if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
+			{
+				this.setEnabled( false );
+			}
+		}
+
+	}
+
+	public class NeandermallPanel
+		extends TwitchPanel
 	{
 		public NeandermallPanel()
 		{
@@ -664,7 +685,7 @@ public class CoinmastersFrame
 	}
 
 	public class ShoeRepairPanel
-		extends CoinmasterPanel
+		extends TwitchPanel
 	{
 		public ShoeRepairPanel()
 		{
@@ -673,7 +694,7 @@ public class CoinmastersFrame
 	}
 
 	public class ApplePanel
-		extends CoinmasterPanel
+		extends TwitchPanel
 	{
 		public ApplePanel()
 		{
@@ -682,7 +703,7 @@ public class CoinmastersFrame
 	}
 
 	public class NinjaPanel
-		extends CoinmasterPanel
+		extends TwitchPanel
 	{
 		public NinjaPanel()
 		{
@@ -1289,12 +1310,26 @@ public class CoinmastersFrame
 
 		public String getPanelSelector()
 		{
-			return "- " + this.data.getMaster();
+			return "<html>- " + this.data.getMaster() + "</html>";
 		}
 
 		public boolean enabled()
 		{
 			return this.data.isAccessible();
+		}
+
+		@Override
+		public void setEnabled( final boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			if ( this.buyPanel != null )
+			{
+				this.buyPanel.setEnabled( isEnabled );
+			}
+			if ( this.sellPanel != null )
+			{
+				this.sellPanel.setEnabled( isEnabled );
+			}
 		}
 
 		public int buyDefault( final int max )
