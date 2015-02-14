@@ -3456,9 +3456,9 @@ public class FightRequest
 						SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
 					}
 				}
-				if ( monsterName.equals( "queen bee (spelunky)" ) )
+				if ( monsterName.equals( "spider queen" ) )
 				{
-					SpelunkyRequest.unlock( "Sticky Bombs", "Sticky Bombs" );
+					SpelunkyRequest.spiderQueenDefeated();
 				}
 				if ( monsterName.equals( "shopkeeper" ) )
 				{
