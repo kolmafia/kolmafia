@@ -8169,7 +8169,7 @@
 8141	macroplane grater	695896449	grater.gif	weapon	t,d	100
 8142	bastard baster	374459204	baster.gif	weapon	t,d	125
 8143	obsidian nutcracker	290867998	obsnutcracker.gif	weapon	t,d	150
-8144
+8144	talisman of Seshat	124337463	ankhcookie.gif	usable	t	0
 8145	glass eye	179260051	cglasseye.gif	accessory		0
 8146	invisible potion	842330124	blank.gif	usable	t,d	100
 8147	time shuriken	250878826	shuriken.gif	none, combat reusable	t	0
