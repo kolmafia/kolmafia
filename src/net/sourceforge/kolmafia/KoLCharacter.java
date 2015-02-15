@@ -680,6 +680,15 @@ public abstract class KoLCharacter
 			baseFullness -= 10;
 		}
 
+		else if ( KoLCharacter.isEd() )
+		{
+			baseFullness = 0;
+			if ( KoLCharacter.hasSkill( "Replacement Stomach" ) )
+			{
+				baseFullness += 5;
+			}
+		}
+
 		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
 		{
 			baseFullness++;
@@ -804,6 +813,15 @@ public abstract class KoLCharacter
 			}
 		}
 
+		else if ( KoLCharacter.isEd() )
+		{
+			limit = 0;
+			if ( KoLCharacter.hasSkill( "Replacement Liver" ) )
+			{
+				limit += 4;
+			}
+		}
+
 		else if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
 		{
 			limit = 4;
@@ -831,11 +849,23 @@ public abstract class KoLCharacter
 
 	public static final int getSpleenLimit()
 	{
+		int limit = 15;
 		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
 		{
 			return 0;
 		}
-		return KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15;
+		if ( KoLCharacter.isEd() )
+		{
+			limit = 5;
+			if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+			if ( KoLCharacter.hasSkill( "Another Extra Spleen" ) ) limit += 5;
+			if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+		}
+		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) ) limit += 5;
+		return limit;
 	}
 
 	/**
