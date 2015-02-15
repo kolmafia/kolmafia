@@ -918,4 +918,14 @@
 
 # Ed the Undying
 
+# Invocations
+
+17000	Prayer of Seshat	seshat.gif	3	5	10
+17001	Wisdom of Thoth	thoth.gif	3	5	10
+17002	Power of Heka	heka.gif	3	10	10
+17003	Hide of Sobek	sobek.gif	3	10	10
+17004	Blessing of Serqet	serqet.gif	3	15	10
+17005	Shelter of Shed	shed.gif	3	15	10
+17006	Bounty of Renenutet	3	20	10
+
 17047	Mild Curse	exclam.gif	5	0	0
