@@ -431,6 +431,9 @@ public class AfterLifeRequest
 			case 15:
 				builder.append( "Avatar of Sneaky Pete" );
 				break;
+			case 17:
+				builder.append( "Ed" );
+				break;
 			default:
 				builder.append( "(Class " );
 				builder.append( String.valueOf( pclass ) );
@@ -534,6 +537,9 @@ public class AfterLifeRequest
 				break;
 			case 22:
 				builder.append( "the Standard" );
+				break;
+			case 23:
+				builder.append( "an Actually Ed the Undying" );
 				break;
 			default:
 				builder.append( "(Path " );

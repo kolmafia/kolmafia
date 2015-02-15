@@ -364,7 +364,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() )
+			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
@@ -380,7 +380,7 @@ public abstract class MPRestoreItemList
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 						return;
 					}
-					else if ( !Limitmode.limitCampground() )
+					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
 					{
 						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 						return;

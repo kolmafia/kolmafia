@@ -34,11 +34,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+
+import net.sourceforge.kolmafia.session.Limitmode;
 
 public class GardenCommand
 	extends AbstractCommand
@@ -75,7 +78,10 @@ public class GardenCommand
 				return;
 			}
 
-			CampgroundRequest.harvestCrop();
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			{
+				CampgroundRequest.harvestCrop();
+			}
 		}
 	}
 }

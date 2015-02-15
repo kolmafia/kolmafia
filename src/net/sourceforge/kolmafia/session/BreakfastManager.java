@@ -254,7 +254,7 @@ public class BreakfastManager
 	public static void harvestGarden()
 	{
 		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-		if ( !Limitmode.limitCampground() && CampgroundRequest.hasCropOrBetter( crop ) )
+		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && CampgroundRequest.hasCropOrBetter( crop ) )
 		{
 			CampgroundRequest.harvestCrop();
 		}
@@ -262,7 +262,7 @@ public class BreakfastManager
 
 	public static void useSpinningWheel()
 	{
-		if ( !Limitmode.limitCampground() )
+		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
 		{
 			CampgroundRequest.useSpinningWheel();
 		}

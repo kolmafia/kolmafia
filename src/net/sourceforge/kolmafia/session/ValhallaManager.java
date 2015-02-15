@@ -420,6 +420,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Picky" );
 		}
+		else if ( KoLCharacter.isEd() )
+		{
+			sessionStream.print( "Actually Ed the Undying" );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard" );

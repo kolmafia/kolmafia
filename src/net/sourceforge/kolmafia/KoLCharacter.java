@@ -144,9 +144,11 @@ public abstract class KoLCharacter
 	public static final String ZOMBIE_MASTER = "Zombie Master";
 	public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
 	public static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
+	public static final String ED = "Ed";
 
 	// Paths
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
+	public static final String ACTUALLY_ED_THE_UNDYING = "Actually Ed the Undying";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -988,6 +990,7 @@ public abstract class KoLCharacter
 
 		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
 		     classType.equals( KoLCharacter.PASTAMANCER ) ||
+		     classType.equals( KoLCharacter.ED ) ||
 		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) )
 		{
 			return 1;
@@ -1313,6 +1316,7 @@ public abstract class KoLCharacter
 			classtype == 12 ? KoLCharacter.ZOMBIE_MASTER :
 			classtype == 14 ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			classtype == 15 ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
+			classtype == 17 ? KoLCharacter.ED :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1385,6 +1389,7 @@ public abstract class KoLCharacter
 			classname.equals( KoLCharacter.ZOMBIE_MASTER ) ? KoLCharacter.ZOMBIE_MASTER :
 			classname.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			classname.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
+			classname.equals( KoLCharacter.ED ) ? KoLCharacter.ED :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1416,7 +1421,8 @@ public abstract class KoLCharacter
 	{
 		return	KoLCharacter.classtype == KoLCharacter.PASTAMANCER ||
 			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
-			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG;
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG ||
+			KoLCharacter.classtype == KoLCharacter.ED;
 	}
 
 	public static final boolean isMoxieClass()
@@ -3060,6 +3066,11 @@ public abstract class KoLCharacter
 				int sneakyPetePoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
 			}
+			else if ( oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+			{
+				int edPoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "edPoints", edPoints );
+			}
 			else if ( oldPath.equals( ZOMBIE_SLAYER ) )
 			{
 				int zombiePoints = wasInHardcore ? 2 : 1;
@@ -3154,7 +3165,8 @@ public abstract class KoLCharacter
 			if ( !oldPath.equals( AVATAR_OF_BORIS ) &&
 			     !oldPath.equals( ZOMBIE_SLAYER ) &&
 			     !oldPath.equals( AVATAR_OF_JARLSBERG ) &&
-			     !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+			     !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) &&
+			     !oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
 			{
 				// Run a user-supplied script
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
@@ -3452,6 +3464,11 @@ public abstract class KoLCharacter
 	public static final boolean isPicky()
 	{
 		return KoLCharacter.ascensionPath.equals( "Picky" );
+	}
+
+	public static final boolean isEd()
+	{
+		return KoLCharacter.ascensionPath.equals( "Actually Ed the Undying" );
 	}
 
 	public static final boolean isUnarmed()
@@ -3772,7 +3789,7 @@ public abstract class KoLCharacter
 				KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
 				Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
 				Preferences.getString( "questG01Meatcar" ).equals( "finished" ) ||
-				KoLCharacter.kingLiberated() )
+				KoLCharacter.kingLiberated() || KoLCharacter.isEd() )
 			{
 				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			}
