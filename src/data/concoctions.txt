@@ -2274,6 +2274,7 @@ sea mantle	GRANDMA, ROW120	pristine fish scale (5)
 sea shawl	GRANDMA, ROW121	pristine fish scale (5)
 sea cape	GRANDMA, ROW122	pristine fish scale (5)
 saltwaterbed	GRANDMA, ROW123	sea leather (15)
+scale-mail underwear	GRANDMA, ROW132	dull fish scale (25)	pristine fish scale
 
 # KOL High School Art Class
 giant eraser	ARTCLASS, ROW163	eraser nubbin (4)
