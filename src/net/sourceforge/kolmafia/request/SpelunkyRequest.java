@@ -92,12 +92,53 @@ public class SpelunkyRequest
 		super( "place.php" );
 	}
 
+	private static final AdventureResult[] ITEMS =
+	{
+		ItemPool.get( ItemPool.SPELUNKY_WHIP, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_SKULL, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_ROCK, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_POT, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_FEDORA, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_MACHETE, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_SHOTGUN, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_BOOMERANG, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_HELMET, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_GOGGLES, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_CAPE, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_JETPACK, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_SPRING_BOOTS, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_SPIKED_BOOTS, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_PICKAXE, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_TORCH, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_RIFLE, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_STAFF, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_JOKE_BOOK, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_CROWN, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_COFFEE_CUP, 1 ),
+	};
+
 	public static void reset()
 	{
 		Preferences.resetToDefault( "spelunkyNextNoncombat" );
 		Preferences.resetToDefault( "spelunkySacrifices" );
 		Preferences.resetToDefault( "spelunkyStatus" );
 		Preferences.resetToDefault( "spelunkyWinCount" );
+		SpelunkyRequest.resetItems();
+	}
+
+	public static void resetItems()
+	{
+		EquipmentManager.removeAllEquipment();
+		for ( AdventureResult item : SpelunkyRequest.ITEMS )
+		{
+			int count = item.getCount( KoLConstants.inventory );
+			if ( count > 0 )
+			{
+				AdventureResult result = item.getInstance( -count );
+				AdventureResult.addResultToList( KoLConstants.inventory, result );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
+			}
+		}
 	}
 
 	public static void parseCharpane( final String responseText )

@@ -1079,6 +1079,12 @@ public abstract class UseLinkDecorator
 					return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 				}
 				break;
+
+			case ItemPool.SPELUNKY_SPRING_BOOTS:
+			case ItemPool.SPELUNKY_SPIKED_BOOTS:
+				// Spelunky "accessories" need a single "equip"
+				// link which goes to slot 1
+				return new UseLink( itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&slot=1&whichitem=" );
 			}
 
 			// Don't offer an "equip" link for weapons or offhands
