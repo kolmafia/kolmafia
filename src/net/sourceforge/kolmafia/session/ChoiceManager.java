@@ -141,6 +141,7 @@ public abstract class ChoiceManager
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	public static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
+	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
 	private static final Pattern REANIMATOR_LEG_PATTERN = Pattern.compile( "(\\d+) legs??<br>" );
@@ -3325,6 +3326,7 @@ public abstract class ChoiceManager
 		// Choice 1020 is Closing Ceremony
 		// Choice 1021 is Meet Frank
 		// Choice 1022 is Meet Frank
+		// Choice 1023 is Like a Bat Into Hell 
 
 		// Home on the Free Range
 		new ChoiceAdventure(
@@ -3431,7 +3433,10 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "fight shopkeeper", 1 ),
 				       new Option( "take damage", 6 ) } ),
 
+		// Choice 1046 is Actually Ed the Undying
 		// Choice 1048 is Twitch Event #8 Time Period
+		// Choice 1051 is (choose Ed skills)
+		// Choice 1052 is Underworld Body Shop
 		// Choice 1056 is Now It's Dark
 	};
 
@@ -8190,6 +8195,48 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastResponseText.contains( "unlock the padlock" ) )
 			{
 				SpelunkyRequest.unlock( "Hell", "Hell" );
+			}
+			break;
+
+		case 1052:
+			// Underworld Body Shop
+			Matcher skillidMatcher = ChoiceManager.URL_SKILLID_PATTERN.matcher( urlString );
+			if ( skillidMatcher.find() )
+			{
+				int cost = 0;
+				switch( StringUtilities.parseInt( skillidMatcher.group( 1 ) ) )
+				{
+				case 30:
+					cost = 5;
+					break;
+				case 31:
+				case 36:
+				case 39:
+				case 40:
+				case 43:
+				case 44:
+					cost = 10;
+					break;
+				case 32:
+					cost = 15;
+					break;
+				case 33:
+				case 37:
+				case 38:
+				case 41:
+				case 42:
+					cost = 20;
+					break;
+				case 34:
+					cost = 25;
+					break;
+				case 28:
+				case 29:
+				case 35:
+					cost = 30;
+					break;
+				}
+				ResultProcessor.processResult( ItemPool.get( ItemPool.KA_COIN, -cost ) );
 			}
 			break;
 
