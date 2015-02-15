@@ -1354,10 +1354,12 @@ public class GenericRequest
 				InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 			}
 		}
+		/*
 		else if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
 		{
 			ResultProcessor.autoCreate( ItemPool.STAFF_OF_ED );
 		}
+		*/
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
 		{
 			int comedyItemID = GenericRequest.getWhichItem( location );
