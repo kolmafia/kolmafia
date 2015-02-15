@@ -948,6 +948,16 @@
 17019	Curse of Vacation	jetplane.gif	5	30	0
 17020	Curse of Stench	stench.gif	5	35	0
 
+# Servant Skills
+
+17021	Gift of the Cat	edserv1.gif	0	0	0
+17022	Gift of the Dancer	edserv2.gif	0	0	0
+17023	Gift of the Maid	edserv3.gif	0	0	0
+17024	Gift of the Bodyguard	edserv4.gif	0	0	0
+17025	Gift of the Scribe	edserv5.gif	0	0	0
+17026	Gift of the Priest	edserv6.gif	0	0	0
+17027	Gift of the Assassin	edserv7.gif	0	0	0
+
 # Underworld Body Shop
 
 17028	Replacement Stomach	stomach.gif	0	0	0
@@ -955,6 +965,9 @@
 17030	Extra Spleen	woim.gif	0	0	0
 17031	Another Extra Spleen	woim.gif	0	0	0
 17032	Yet Another Extra Spleen	woim.gif	0	0	0
+17033	Still Another Extra Spleen	woim.gif	0	0	0
+17034	Just One More Extra Spleen	woim.gif	0	0	0
+17035	Okay Seriously, This is the Last Spleen	woim.gif	0	0	0
 17036	Upgraded Legs	edlegs.gif	0	0	0
 17037	Upgraded Arms	edarms.gif	0	0	0
 17038	Upgraded Spine	clspine.gif	0	0	0
@@ -964,5 +977,6 @@
 17042	Arm Blade	spine.gif	0	0	0
 17043	Healing Scarabs	chocscarab.gif	0	0	0
 17044	Elemental Wards	henna.gif	0	0	0
-
+17045	More Elemental Wards	henna.gif	0	0	0
+17046	Even More Elemental Wards	henna.gif	0	0	0
 17047	Mild Curse	exclam.gif	5	0	0

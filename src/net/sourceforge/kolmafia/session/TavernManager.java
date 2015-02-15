@@ -463,7 +463,8 @@ public class TavernManager
 	public static void handleTavernChange( String responseText )
 	{
 		if ( responseText.contains( "have a few drinks on the house" ) ||
-			responseText.contains( "something that wasn't booze" ) )
+			responseText.contains( "something that wasn't booze" ) ||
+			responseText.contains( "a round on the house" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.RAT, QuestDatabase.FINISHED );
 		}
