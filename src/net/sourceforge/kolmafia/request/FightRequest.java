@@ -1358,6 +1358,17 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Curse of Fortune" ) )
+		{
+			// You can only use this skill if you have ka coins
+
+			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.KA_COIN, 1 ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
@@ -2630,6 +2641,13 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.CURSE_OF_VACATION:
+			//if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
+			//{
+				BanishManager.banishMonster( monsterName, "curse of vacation" );
+			//}
+			break;
+
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:
 			if ( responseText.contains( "You toss a bundle" ) || FightRequest.anapest || FightRequest.haiku )
@@ -2683,6 +2701,14 @@ public class FightRequest
 			}
 			break;
 		
+		// Casting Curse of Fortune uses Ka Coin
+		case SkillPool.CURSE_OF_FORTUNE:
+			//if ( responseText.contains( "hot coal into the shovel" ) || FightRequest.anapest || FightRequest.haiku )
+			//{
+				ResultProcessor.processItem( ItemPool.KA_COIN, -1 );
+			//}
+			break;
+
 		case SkillPool.SUMMON_HOBO:
 			// The first part is for a hobo underling being summoned
 			// The second part is from using a dinged-up triangle to summon it

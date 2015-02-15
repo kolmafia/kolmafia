@@ -926,6 +926,26 @@
 17003	Hide of Sobek	sobek.gif	3	10	10
 17004	Blessing of Serqet	serqet.gif	3	15	10
 17005	Shelter of Shed	shed.gif	3	15	10
-17006	Bounty of Renenutet	3	20	10
+17006	Bounty of Renenutet	renenutet.gif	3	20	10
+
+# Evocations
+
+17007	Fist of the Mummy	krakfist.gif	5	5	0
+17008	Howl of the Jackal	jackalhead.gif	5	10	0
+17009	Roar of the Lion	lionface.gif	5	15	0
+17010	Storm of the Scarab	scarab.gif	5	8	0
+17011	Purr of the Feline	blackcat.gif	3	10	10
+17012	Lash of the Cobra	cobrahead.gif	5	12	0
+17013	Wrath of Ra	sun.gif	5	40	0
+
+# Curses
+
+17014	Curse of the Marshmallow	marshmallow.gif	5	2	0
+17015	Curse of Indecision	confused.gif	5	5	0
+17016	Curse of Yuck	gooball.gif	5	5	0
+17017	Curse of Heredity	familytree.gif	5	10	0
+17018	Curse of Fortune	kacoin.gif	5	0	0
+17019	Curse of Vacation	jetplane.gif	5	30	0
+17020	Curse of Stench	stench.gif	5	35	0
 
 17047	Mild Curse	exclam.gif	5	0	0

@@ -7984,14 +7984,14 @@
 7956	Crimbo sapling	349106235	crimbosapling.gif	grow	t	0
 7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75	more strings of tinsel
 7958	box of old Crimbo decorations	114808402	decorations.gif	reusable	q	0
-7959
+7959	letter to Ed the Undying	855687606	envelope.gif	usable	q	0
 7960
 7961	Staff of Ed	206414383	staffofed.gif	weapon	q	0
 7962
 7963
 7964
 7965
-7966
+7966	Ka coin	826932303	kacoin.gif	none	q	0
 7967	World's Best Adventurer sash	584125368	bestsash.gif	accessory	q	0
 7968	topiary nugglet	491943392	nugglet.gif	none	t	0
 7969	beehive	905003610	beehive.gif	none, combat	q	0
@@ -8114,9 +8114,9 @@
 8086
 8087
 8088	solid gold jewel	341423397	strawberyl.gif	usable	t	0
-8089
-8090
-8091
+8089	headless sparrow	494470945	headlessbird.gif	none	t,d	34
+8090	mangled squirrel	342596763	mangled.gif	none	t,d	44
+8091	rat carcass	530591444	ratcorpse.gif	none	t,d	54
 8092
 8093
 8094
