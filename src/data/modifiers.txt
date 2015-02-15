@@ -3948,6 +3948,7 @@ Blade Rolling	Moxie Percent: +100
 Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
+Blessing of Serqet	Monster Level: +20
 Blessing of She-Who-Was	Mysticality: +5, Spooky Damage: +5
 # Blessing of Squirtlcthulli: Recover HP and MP after battle
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
@@ -3994,6 +3995,7 @@ Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Bottle in front of Me	Spell Damage: +15
+Bounty of Renenutet	Item Drop: +50
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
@@ -4574,6 +4576,7 @@ Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)
 Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
+Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Hiding in Plain Sight	Initiative: +100
 High Blood Chocolate Content	Candy Drop: +30
 High Colognic	Combat Rate: +5
@@ -4993,6 +4996,8 @@ Pop-eyed	Weapon Damage: +30
 Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
+Power of Heka	Spell Damage: +20, Spell Critical Percent: +10, Spell Damage Percent: +50
+Prayer of Seshat	Experience (Mysticality): +3
 # Predjudicetidigitation: You are much less attracted to monsters
 # Predjudicetidigitation: (because you hate them)
 Predjudicetidigitation	Combat Rate: -10
@@ -5134,6 +5139,7 @@ Sharin' Stone	Avatar: "Stone Golem"
 Stormswaddled	Spell Damage Percent: +100
 Shawarma Initiative	Initiative: +150
 Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
+Shelter of Shed	Combat Rate: -20
 Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
 Shiny Happy Cupcake	Experience: +3
@@ -5592,6 +5598,7 @@ Winklered	Meat Drop: +40
 Winning Smile	Experience: +3
 Wintergreen Warmongery	Muscle: +30
 Wintry Breath	Cold Damage: +10
+Wisdom of Thoth	Mysticality: +10, Mysticality Percent: +50
 Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
 Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20

@@ -1793,14 +1793,14 @@
 1791	Confidence!	happy.gif	c918329e6701fd1a3f9eb65ce072d0b2
 1792	Alpine Mintiness	mintleaf.gif	877c29906128c5596df2f2240f1f68cc	drink 1 hot mint schnocolate
 1793
-1794
-1795
-1796
-1797
-1798
-1799
+1794	Wisdom of Thoth	thoth.gif	14c15d7bd15409d39a304e7563b09fe8	cast 1 Wisdom of Thoth
+1795	Prayer of Seshat	seshat.gif	4f33419678ca3e8cfdebda240494adaf	cast 1 Prayer of Seshat
+1796	Power of Heka	heka.gif	e9325e8e890f2a27335a564ff7a70837	cast 1 Power of Heka
+1797	Hide of Sobek	sobek.gif	6068d97b54748b2ad7a3952552d4d39b	cast 1 Hide of Sobek
+1798	Shelter of Shed	shed.gif	a05f18a04e4cbce8dbc7d3591201eba0	cast 1 Shelter of Shed
+1799	Bounty of Renenutet	renenutet.gif	3aff2266de86005e3c9cb455af836b7a	cast 1 Bounty of Renenutet
 1800
-1801
+1801	Blessing of Serqet	serqet.gif	e54f33048e615d4598bab444030df180	cast 1 Blessing of Serqet
 1802
 1803
 1804
