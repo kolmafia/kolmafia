@@ -8225,6 +8225,7 @@ public abstract class ChoiceManager
 				case 38:
 				case 41:
 				case 42:
+				case 45:
 					cost = 20;
 					break;
 				case 34:
@@ -8233,6 +8234,7 @@ public abstract class ChoiceManager
 				case 28:
 				case 29:
 				case 35:
+				case 46:
 					cost = 30;
 					break;
 				}

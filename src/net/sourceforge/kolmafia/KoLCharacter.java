@@ -857,12 +857,30 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.isEd() )
 		{
 			limit = 5;
-			if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
-			if ( KoLCharacter.hasSkill( "Another Extra Spleen" ) ) limit += 5;
-			if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
-			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
-			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
-			//if ( KoLCharacter.hasSkill( "Extra Spleen" ) ) limit += 5;
+			if ( KoLCharacter.hasSkill( "Okay Seriously, This is the Last Spleen" ) )
+			{
+				limit += 30;
+			}
+			else if ( KoLCharacter.hasSkill( "Just One More Extra Spleen" ) )
+			{
+				limit += 25;
+			}
+			else if ( KoLCharacter.hasSkill( "Still Another Extra Spleen" ) )
+			{
+				limit += 20;
+			}
+			else if ( KoLCharacter.hasSkill( "Yet Another Extra Spleen" ) )
+			{
+				limit += 15;
+			}
+			else if ( KoLCharacter.hasSkill( "Another Extra Spleen" ) )
+			{
+				limit += 10;
+			}
+			else if ( KoLCharacter.hasSkill( "Extra Spleen" ) )
+			{
+				limit += 5;
+			}
 		}
 		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) ) limit += 5;
 		return limit;

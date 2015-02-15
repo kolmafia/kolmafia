@@ -101,7 +101,9 @@ public class TavernRequest
 
 		if ( location.contains( "place=barkeep" ) )
 		{
-			if ( responseText.contains( "have a few drinks on the house" ) )
+			if ( responseText.contains( "have a few drinks on the house" ) ||
+				responseText.contains( "something that wasn't booze" ) ||
+				responseText.contains( "a round on the house" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.RAT, "finished" );
 			}
