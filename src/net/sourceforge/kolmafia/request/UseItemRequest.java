@@ -4895,6 +4895,13 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.SESHAT_TALISMAN:
+			if ( responseText.contains( "transform into knowledge" ) )
+			{
+				Preferences.increment( "edPoints" );
+			}
+			return;
+
 		case ItemPool.ESSENCE_OF_ANNOYANCE:
 			if ( responseText.contains( "You quaff" ) )
 			{
