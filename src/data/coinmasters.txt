@@ -708,3 +708,19 @@ Crimbo 2014	buy	300	Crimbot ROM: Rapid Prototyping	ROW406
 Crimbo 2014	buy	300	Crimbot ROM: Mathematical Precision	ROW407
 Crimbo 2014	buy	300	Crimbot ROM: Ruthless Efficiency	ROW408
 Crimbo 2014	buy	500	Mini-Crimbot crate	ROW409
+
+# Ed stuff
+Everything Under the World	buy	5	mummified fig	ROW426
+Everything Under the World	buy	10	mummified loaf of bread	ROW427
+Everything Under the World	buy	15	mummified beef haunch	ROW428
+Everything Under the World	buy	1	holy spring water	ROW436
+Everything Under the World	buy	2	spirit beer	ROW432
+Everything Under the World	buy	3	sacramental wine	ROW433
+Everything Under the World	buy	1	linen bandages	ROW429
+Everything Under the World	buy	3	cotton bandages	ROW430
+Everything Under the World	buy	5	silk bandages	ROW431
+Everything Under the World	buy	3	ancient cure-all	ROW435
+Everything Under the World	buy	2	talisman of Thoth	ROW434
+Everything Under the World	buy	1	talisman of Renenutet	ROW439
+Everything Under the World	buy	5	talisman of Horus	ROW693
+

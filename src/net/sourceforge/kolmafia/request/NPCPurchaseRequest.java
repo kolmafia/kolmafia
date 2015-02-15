@@ -690,6 +690,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "edunder_shopshop" ) )
+		{
+			EdShopRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )
@@ -985,6 +991,11 @@ public class NPCPurchaseRequest
 			if ( shopId.startsWith( "crimbo14" ) )
 			{
 				return Crimbo14Request.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "edunder_shopshop" ) )
+			{
+				return EdShopRequest.registerRequest( urlString );
 			}
 
 			return false;

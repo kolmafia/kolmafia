@@ -1805,3 +1805,10 @@
 1803
 1804
 1805	Invisible (20 Minutes Ago)	blank.gif	74a30d393bc0cb97c84c017240ebaf93	use 1 invisible potion
+1806
+1807
+1808
+1809
+1810
+1811
+1812	Taunt of Horus	tal_h.gif	8b54838db1cda65ce182f4b36e537618	use 1 talisman of Horus
