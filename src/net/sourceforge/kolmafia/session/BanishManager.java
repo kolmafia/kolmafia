@@ -114,6 +114,7 @@ public class BanishManager
 		new Banisher( "classy monkey", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "cocktail napkin", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "crystal skull", 20, 1, false, Reset.TURN_RESET ),
+		new Banisher( "curse of vacation", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "deathchucks", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "dirty stinkbomb",-1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "divine champagne popper", 5, 1, true, Reset.TURN_RESET ),

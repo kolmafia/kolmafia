@@ -2229,6 +2229,7 @@ public class ItemPool
 	public static final int SLEEVE_DEUCE = 7941;
 	public static final int POCKET_ACE = 7942;
 	public static final int MININ_DYNAMITE = 7950;
+	public static final int KA_COIN = 7966;
 	public static final int TOPIARY_NUGGLET = 7968;
 	public static final int BEEHIVE = 7969;
 	public static final int ELECTRIC_BONING_KNIFE = 7970;

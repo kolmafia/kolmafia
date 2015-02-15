@@ -1019,6 +1019,7 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? "Blend" :
 			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? "Snap Fingers" :
+			KoLCharacter.classtype.equals( KoLCharacter.ED ) ? "Curse of Indecision" :
 			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
