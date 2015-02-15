@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -67,6 +69,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -671,6 +674,12 @@ public class CompactSidePane
 			this.statusLabel[ count ].setText( "   Adv: " );
 			this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			count++;
+			if ( KoLCharacter.isEd() )
+			{
+				this.statusLabel[ count ].setText( "    Ka: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( InventoryManager.getCount( ItemPool.KA_COIN ) ) );
+				count++;
+			}
 		}
 		else
 		{
