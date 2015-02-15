@@ -11935,6 +11935,8 @@ public abstract class ChoiceManager
 		case 991: // Build a Crimbot!
 		case 994: // Hide a Gift!
 		case 1003: // Contest Booth
+		case 1051: // The Book of the Undying
+		case 1053: // The Servants' Quarters
 			return true;
 
 		default:
