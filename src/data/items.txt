@@ -7997,17 +7997,17 @@
 7969	beehive	905003610	beehive.gif	none, combat	q	0
 7970	electric boning knife	580217520	elecbone.gif	none, combat	q	0
 7971	Aggressive Carrot	839021006	carrot.gif	none, curse	t	0
-7972
-7973
-7974
-7975
-7976
-7977
-7978
-7979
-7980
-7981
-7982
+7972	mummified fig	530883912	mumfig.gif	spleen	q	0
+7973	mummified loaf of bread	134806194	mumbread.gif	spleen	q	0
+7974	mummified beef haunch	293686530	mumhaunch.gif	spleen	q	0
+7975	linen bandages	796486342	bandage1.gif	usable, combat	q,d	5
+7976	cotton bandages	928227858	bandage2.gif	usable, combat	q,d	10
+7977	silk bandages	320967148	bandage3.gif	usable, combat	q,d	15
+7978	holy spring water	269559122	springwater.gif	usable, combat	q,d	5
+7979	spirit beer	997842655	beerbottle.gif	usable, combat	q,d	10
+7980	sacramental wine	272024795	wine.gif	usable, combat	q,d	15
+7981	talisman of Thoth	311479589	tal_t.gif	usable	q,d	25
+7982	ancient cure-all	323441002	ancientcureall.gif	usable	q,d	25
 7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0	Sister Accessories
 7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0
 7985	polyester parachute	973760204	polyparachute.gif	container		0
@@ -8161,7 +8161,7 @@
 8133
 8134	bottle of lovebug pheromones	556990927	lovebugjuice.gif	usable	t	0
 8135
-8136
+8136	talisman of Renenutet	893207221	tal_r.gif	none, combat	q	0
 8137
 8138	rubber spatula	343980594	rubberspat.gif	weapon	t,d	25
 8139	wooden spoon	476435981	woodspoon.gif	weapon	t,d	50
@@ -8174,3 +8174,10 @@
 8146	invisible potion	842330124	blank.gif	usable	t,d	100
 8147	time shuriken	250878826	shuriken.gif	none, combat reusable	t	0
 8148	ninjammies	838593734	ninjammies.gif	pants	t	0
+8149
+8150
+8151
+8152
+8153
+8154
+8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25

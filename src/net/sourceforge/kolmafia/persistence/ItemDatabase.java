@@ -1557,10 +1557,10 @@ public class ItemDatabase
 			ItemDatabase.spleenHitByName.put( itemName, size );
 		}
 
-		ItemDatabase.setConsumptionData( itemName, size, level, quality, "0", "0", "0", "0", "unknown adventure yield" );
+		ItemDatabase.setConsumptionData( itemName, size, level, quality, "1-1", "0", "0", "0", "unknown adventure yield" );
 
 		// Print what goes in fullness.txt
-		String printMe = ItemDatabase.consumableString( itemName, size, level, quality, "0", "0", "0", "0", "" );
+		String printMe = ItemDatabase.consumableString( itemName, size, level, quality, "1-1", "0", "0", "0", "" );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 	}
