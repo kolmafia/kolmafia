@@ -8167,6 +8167,14 @@ public abstract class ChoiceManager
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			break;
 
+		case 1027:	// The End of the Tale of Spelunking
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Remove all virtual items from inventory/tally
+				SpelunkyRequest.resetItems();
+			}
+			break;
+
 		case 1028:	// A Shop
 		case 1029:	// An Old Clay Pot
 		case 1030:	// It's a Trap!  A Dart Trap.

@@ -186,6 +186,7 @@ Mer-kin sneakmask	200	Mox: 85
 mesh cap	165	Mox: 50
 metallic foil cat ears	30	none
 miner's helmet	80	Mox: 25
+mining helmet	0	none
 Mohawk wig	140	Mox: 55
 moist sailor's cap	200	Mox: 85
 Moonthril Circlet	100	Mox: 40
@@ -259,6 +260,7 @@ space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 60
 Spelunker's fedora	100	Mox: 35
+spelunking fedora	0	none
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
@@ -273,6 +275,7 @@ superhero mask	10	none
 suspicious-looking fedora	60	Mox: 15
 sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
+The Clown Crown	0	none
 The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
@@ -312,6 +315,7 @@ wool hat	175	Mox: 72
 worn tophat	85	Mox: 27
 wreath of laurels	200	Mox: 85
 wumpus-hair wig	100	Mox: 35
+X-ray goggles	0	none
 Xiblaxian stealth cowl	100	none
 yabba dabba doo rag	110	Mox: 40
 yak toupee	100	Mox: 35
@@ -473,6 +477,7 @@ pig-iron shinguards	90	Mox: 30
 pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
+plaid skirt	155	Mox: 62
 plexiglass pants	180	Mox: 75
 polyester pettipants	50	none
 poodle skirt	200	Mox: 200
@@ -623,7 +628,6 @@ Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
 origami pasties	100	none
 pirate shirt	50	Mus: 10
-plaid skirt	155	Mox: 62
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
 psycho sweater	100	Mus: 35
@@ -704,6 +708,7 @@ bag of unfinished business	225	Mox: 200	2-handed doggie bag
 Bal-musette accordion	50	Mox: 0	2-handed accordion
 balloon sword	50	Mus: 10	1-handed sword
 bamboo bokuto	100	Mus: 35	1-handed sword
+Bananubis's Staff	30	Mus: 0	1-handed 
 bar whip	10	Mus: 0	1-handed whip
 baritone accordion	30	Mox: 0	2-handed accordion
 Barney's rake	25	Mus: 0	2-handed polearm
@@ -742,6 +747,7 @@ bone rattle	30	Mox: 0	1-handed rattle
 bonerang	20	Mox: 0	1-handed boomerang
 Bonestabber	100	Mus: 0	1-handed sword
 boning knife	20	Mus: 0	1-handed knife
+boomerang	30	Mox: 0	1-handed boomerang
 boot knife	50	Mus: 0	1-handed knife
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
@@ -1097,6 +1103,7 @@ pixel chain whip	50	Mus: 10	1-handed whip
 pixel morning star	75	Mus: 22	1-handed whip
 pixel sword	50	Mus: 10	1-handed sword
 pixel whip	10	Mus: 0	1-handed whip
+plasma rifle	90	Mox: 0	1-handed 
 plastic guitar	100	Mox: 35	2-handed guitar
 plastic nunchaku	100	Mus: 10	2-handed flail
 plastic replica blaster pistol	40	Mox: 0	1-handed pistol
@@ -1110,7 +1117,7 @@ porcelain police baton	120	Mus: 40	1-handed club
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 pottery club	50	Mus: 0	1-handed club
-pottery yo-yo	50	Mox: 0	1-handed yo-yo
+pottery yo-yo	50	Mox: 0	1-handed yoyo
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
@@ -1170,6 +1177,7 @@ sharpened spoon	100	Mus: 20	1-handed knife
 Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 shiny butcherknife	60	Mys: 15	1-handed utensil
 short-handled mop	165	Mus: 67	1-handed polearm
+shotgun	60	Mox: 0	1-handed 
 shuddersword	125	Mus: 45	2-handed sword
 silent pea shooter	100	Mox: 35	1-handed slingshot
 silver cheese-slicer	140	Mys: 55	1-handed utensil
@@ -1266,6 +1274,7 @@ stolen accordion	10	Mox: 0	2-handed accordion
 stone banjo	25	Mox: 0	2-handed banjo
 stuffed club	5	Mus: 0	1-handed club
 stuffed crazy bastard sword	10	Mus: 0	1-handed sword
+sturdy machete	30	Mus: 0	1-handed sword
 styrofoam crossbow	60	Mox: 15	2-handed crossbow
 styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
@@ -1309,6 +1318,8 @@ toy taijijian	10	Mus: 0	1-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 trout fang	160	Mus: 65	1-handed knife
 Trusty	100	Mus: 0	2-handed axe
+trusty torch	30	Mus: 0	1-handed club
+trusty whip	30	Mus: 0	1-handed whip
 Truthsayer	200	Mus: 200	1-handed sword
 turtle totem	10	Mus: 0	1-handed totem
 twisted-up wet towel	10	Mus: 0	1-handed whip
@@ -1431,8 +1442,10 @@ Crimbo Elf creepy bobble-head	20	none
 Crimbo light-up Rudolph doll	20	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
+crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
+cursed coffee cup	0	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 deck of lewd playing cards	75	Mys: 22
@@ -1491,6 +1504,7 @@ hand of Mr. Cards	10	none
 handmade hobby horse	20	none
 heart-shaped balloon	10	none
 heavy duty umbrella	10	none
+heavy pickaxe	0	none
 heavy-duty clipboard	125	Mus: 47	shield
 hippo skin buckler	90	Mus: 30	shield
 HOA regulation book	350	Mus: 100	shield
@@ -1614,6 +1628,7 @@ polyalloy shield	140	Mus: 55	shield
 polyester pad	50	none	shield
 pool skimmer	10	none
 porcelain pepper mill	120	Mys: 40
+pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
 radiator heater shield	100	Mus: 35	shield
@@ -1627,6 +1642,7 @@ red China marble	203	Mys: 85
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 rice bowl	30	none
+rock	0	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
 rusty old lantern	200	Mys: 85
@@ -1723,6 +1739,7 @@ Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	0	none
+The Joke Book of the Dead	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 third-hand lantern	10	none
@@ -1731,6 +1748,7 @@ Tiki lighter	20	none
 Time Lord Participation Mug	10	none
 tiny black hole	10	none
 tip jar	135	Mys: 52
+torch	0	none
 tortoboggan shield	100	Mus: 35	shield
 toy Crimbot super fist	50	none
 trench lighter	0	Mus: 200
@@ -2282,9 +2300,11 @@ spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	10	none
 sphygmomanometer	160	Mys: 65
+spiked boots	0	none
 spiky turtle shoulderpads	130	Mus: 50
 spirit bell	0	none
 spooky glove	60	Mys: 15
+spring boots	0	none
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30
@@ -2616,6 +2636,7 @@ ghost shawl	250	Mys: 200
 giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
 hemp backpack	0	Mys: 75
+jetpack	0	none
 Lord Flameface's cloak	0	Mys: 75
 makeshift cape	100	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250
@@ -2650,28 +2671,4 @@ Time Cloak	100	none
 toy jet pack	175	Mys: 75
 whatsit-covered turtle shell	50	Mus: 20
 wings of fire	100	Mys: 100
-
-# Virtual equipment
-
-Bananubis's Staff	30	Mus: 0	1-handed
-boomerang	30	Mox: 0	1-handed boomerang
-crumbling skull	0	none
-cursed coffee cup	0	none
-heavy pickaxe	0	none
-jetpack	0	none
-mining helmet	0	none
-plasma rifle	90	Mox: 0	1-handed
-pot	0	none
-rock	0	none
-shotgun	60	Mox: 0	1-handed 
-spelunking fedora	0	none
-spiked boots	0	none
-spring boots	0	none
-sturdy machete	30	Mus: 0	1-handed sword
-The Clown Crown	0	none
-The Joke Book of the Dead	0	none
-torch	0	none
-trusty torch	30	Mus: 0	1-handed club
-trusty whip	30	Mus: 0	1-handed whip
-X-ray goggles	0	none
 yellow cape	0	none
