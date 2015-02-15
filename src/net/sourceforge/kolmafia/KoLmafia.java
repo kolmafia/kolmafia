@@ -118,6 +118,7 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -838,12 +839,15 @@ public abstract class KoLmafia
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf
 
-		KoLmafia.updateDisplay( "Retrieving campground data..." );
-		CampgroundRequest.reset();
-		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
-		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
-		RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
-		KoLCharacter.checkTelescope();
+		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+		{
+			KoLmafia.updateDisplay( "Retrieving campground data..." );
+			CampgroundRequest.reset();
+			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+			KoLCharacter.checkTelescope();
+		}
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
@@ -986,12 +990,15 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new FamiliarRequest() );
 
 		// If we logged in during limitmode, we may not have seen the Campground
-		CampgroundRequest.reset();
-		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
-		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
-		RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
-		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
-		KoLCharacter.checkTelescope();
+		if ( !KoLCharacter.isEd() )
+		{
+			CampgroundRequest.reset();
+			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+			KoLCharacter.checkTelescope();
+		}
 
 		// Finally, update available concoctions
 		ConcoctionDatabase.resetQueue();

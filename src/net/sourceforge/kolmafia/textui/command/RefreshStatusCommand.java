@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -45,6 +46,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 public class RefreshStatusCommand
 	extends AbstractCommand
@@ -83,7 +85,10 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.startsWith( "camp" ) )
 		{
-			RequestThread.postRequest( new CampgroundRequest() );
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			{
+				RequestThread.postRequest( new CampgroundRequest() );
+			}
 			return;
 		}
 		else if ( parameters.equals( "storage" ) )

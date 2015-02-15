@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundCommand
@@ -68,7 +70,10 @@ public class CampgroundCommand
 		}
 		else
 		{
-			request = new CampgroundRequest( command );
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			{
+				request = new CampgroundRequest( command );
+			}
 		}
 
 		int count = 1;

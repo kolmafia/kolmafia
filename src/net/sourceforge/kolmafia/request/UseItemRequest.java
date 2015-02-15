@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -4377,8 +4378,11 @@ public class UseItemRequest
 		case ItemPool.DRAGON_TEETH:
 		case ItemPool.BEER_SEEDS:
 		case ItemPool.WINTER_SEEDS:
-			CampgroundRequest.clearCrop();
-			RequestThread.postRequest( new CampgroundRequest() );
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			{
+				CampgroundRequest.clearCrop();
+				RequestThread.postRequest( new CampgroundRequest() );
+			}
 			return;
 
 		case ItemPool.ESSENTIAL_TOFU:

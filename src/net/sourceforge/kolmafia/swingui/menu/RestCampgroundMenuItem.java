@@ -33,9 +33,12 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -57,7 +60,7 @@ public class RestCampgroundMenuItem
 		protected void execute()
 		{
 			String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
-			if ( turnCount == null )
+			if ( turnCount == null || Limitmode.limitCampground() || KoLCharacter.isEd() )
 			{
 				return;
 			}

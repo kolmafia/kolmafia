@@ -106,6 +106,8 @@ public class SkillDatabase
 	private static final String ZOMBIE_MASTER = "zombie master";
 	private static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
 	private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
+	private static final String HEAVY_RAINS = "Heavy Rains";
+	private static final String ED = "Ed the Undying";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -125,6 +127,8 @@ public class SkillDatabase
 		"13XXX",			// 13xxx
 		SkillDatabase.AVATAR_OF_JARLSBERG,	// 14xxx
 		SkillDatabase.AVATAR_OF_SNEAKY_PETE,	// 15xxx
+		SkillDatabase.HEAVY_RAINS,	// 16xxx
+		SkillDatabase.ED,	// 17xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
@@ -418,6 +422,10 @@ public class SkillDatabase
 		if ( name == KoLCharacter.AVATAR_OF_SNEAKY_PETE )
 		{
 			return 15000;
+		}
+		if ( name == KoLCharacter.ED )
+		{
+			return 17000;
 		}
 
 		return 0;
@@ -1136,6 +1144,7 @@ public class SkillDatabase
 		case 14:			// Avatar of Jarlsberg skills
 		case 15:			// Avatar of Sneaky Pete skills
 		case 16:			// Heavy Rains skills
+		case 17:			// Ed skills
 			return false;
 		}
 

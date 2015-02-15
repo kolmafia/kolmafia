@@ -393,6 +393,7 @@ user	dreadScroll5	0
 user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
+user	edPoints	0
 user	envyfishMonster
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false

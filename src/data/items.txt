@@ -7986,7 +7986,7 @@
 7958	box of old Crimbo decorations	114808402	decorations.gif	reusable	q	0
 7959
 7960
-7961
+7961	Staff of Ed	206414383	staffofed.gif	weapon	q	0
 7962
 7963
 7964

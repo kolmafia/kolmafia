@@ -915,3 +915,7 @@
 16025	Lightning Bolt	beanbag2.gif	5	0	0
 16026	Lightning Rod	lightningrod.gif	1	0	0
 16027	Riding the Lightning	lightning2.gif	0	0	0
+
+# Ed the Undying
+
+17047	Mild Curse	exclam.gif	5	0	0

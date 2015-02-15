@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
@@ -274,6 +275,10 @@ public abstract class HPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
+			if ( KoLCharacter.isEd() )
+			{
+				return false;
+			}
 			if ( this.itemUsed == null || !KoLCharacter.inBeecore() )
 			{
 				return true;
@@ -332,6 +337,12 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
+			// None of these work in Ed
+			if ( KoLCharacter.isEd() )
+			{
+				return;
+			}
+
 			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains(
 				EffectPool.get( Effect.FORM_OF_BIRD ) ) )
 			{
@@ -344,7 +355,7 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			if ( this == HPRestoreItemList.CAMPGROUND )
+			if ( this == HPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
@@ -353,12 +364,19 @@ public abstract class HPRestoreItemList
 			if ( this == HPRestoreItemList.FREEREST )
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
+				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
-					GenericRequest request =
-						(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
-						new ChateauRequest( "chateau_restbox" ) :
-						new CampgroundRequest( "rest" );
-					RequestThread.postRequest( request );
+					if ( Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) &&
+						!Limitmode.limitZone( "Mountain" ) )
+					{
+						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+						return;
+					}
+					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+					{
+						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+						return;
+					}
 				}
 				return;
 			}

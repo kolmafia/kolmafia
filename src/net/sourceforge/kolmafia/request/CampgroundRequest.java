@@ -306,6 +306,7 @@ public class CampgroundRequest
 
 	public CampgroundRequest()
 	{
+		// Not available in Ed and some Limitmodes
 		this( "inspectdwelling" );
 	}
 
