@@ -1300,6 +1300,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.MACGUFFIN_DIARY:
+		case ItemPool.ED_DIARY:
 			// If you get your father's MacGuffin diary, you lose
 			// your forged identification documents
 			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );

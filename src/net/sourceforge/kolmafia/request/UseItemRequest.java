@@ -1190,6 +1190,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.MACGUFFIN_DIARY:
+		case ItemPool.ED_DIARY:
 		{
 			// Make it a RelayRequest since we don't want a charpane refresh
 			RelayRequest request = new RelayRequest( false );
