@@ -46,6 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -3437,6 +3438,7 @@ public abstract class ChoiceManager
 		// Choice 1048 is Twitch Event #8 Time Period
 		// Choice 1051 is (choose Ed skills)
 		// Choice 1052 is Underworld Body Shop
+		// Choice 1053 is The Servants' Quarters
 		// Choice 1056 is Now It's Dark
 	};
 
@@ -8250,6 +8252,10 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1053:	// The Servants' Quarters
+			EdServantData.manipulateServants( request, text );
+			break;
+
 		case 1056:
 			// Now It's Dark
 			// Twin Peak fourth choice
@@ -9770,6 +9776,10 @@ public abstract class ChoiceManager
 		case 1012:	// The Last Temptation
 		case 1013:	// Mazel Tov!
 			SorceressLairManager.visitChoice( ChoiceManager.lastChoice, text );
+			break;
+
+		case 1053:	// The Servants' Quarters
+			EdServantData.inspectServants( text );
 			break;
 		}
 	}
