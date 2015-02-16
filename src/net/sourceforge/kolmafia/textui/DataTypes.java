@@ -119,7 +119,9 @@ public class DataTypes
 		KoLCharacter.ZOMBIE_MASTER,
 		"",
 		KoLCharacter.AVATAR_OF_JARLSBERG,
-		KoLCharacter.AVATAR_OF_SNEAKY_PETE
+		KoLCharacter.AVATAR_OF_SNEAKY_PETE,
+		"",
+		KoLCharacter.ED,
 	};
 
 	public static final Type ANY_TYPE = new Type( null, DataTypes.TYPE_ANY );
