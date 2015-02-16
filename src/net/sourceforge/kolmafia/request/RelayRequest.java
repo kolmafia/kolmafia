@@ -1542,7 +1542,8 @@ public class RelayRequest
 		}
 
 		// If they have already got the diary, which we read automatically, no problem
-		if ( InventoryManager.hasItem( ItemPool.MACGUFFIN_DIARY ) )
+		if ( InventoryManager.hasItem( ItemPool.MACGUFFIN_DIARY ) ||
+		     InventoryManager.hasItem( ItemPool.ED_DIARY ) )
 		{
 			return false;
 		}

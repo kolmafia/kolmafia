@@ -7985,11 +7985,11 @@
 7957	even more tinsel	813311872	moretinsel.gif	familiar	t,d	75	more strings of tinsel
 7958	box of old Crimbo decorations	114808402	decorations.gif	reusable	q	0
 7959	letter to Ed the Undying	855687606	envelope.gif	usable	q	0
-7960
+7960	copy of a jerk adventurer's father's diary	745358149	book2.gif	usable	q	0
 7961	Staff of Ed	206414383	staffofed.gif	weapon	q	0
-7962
-7963
-7964
+7962	Eye of Ed	456612257	biggem.gif	none	q	0
+7963	ancient amulet	441617955	aamulet.gif	none	q	0
+7964	Staff of Fats	620113505	poolcue.gif	weapon	q	0
 7965
 7966	Ka coin	826932303	kacoin.gif	none	q	0
 7967	World's Best Adventurer sash	584125368	bestsash.gif	accessory	q	0

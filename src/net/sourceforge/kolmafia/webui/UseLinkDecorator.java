@@ -835,6 +835,7 @@ public abstract class UseLinkDecorator
 			}
 
 			case ItemPool.MACGUFFIN_DIARY:
+			case ItemPool.ED_DIARY:
 				return new UseLink( itemId, 1, "read", "diary.php?textversion=1" );
 
 			case ItemPool.VOLCANO_MAP:
