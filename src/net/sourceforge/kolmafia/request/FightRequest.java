@@ -5887,6 +5887,7 @@ public class FightRequest
 			if ( setting != null )
 			{
 				Preferences.decrement( setting, 1, 0 );
+				Preferences.decrement( "cyrptTotalEvilness", 1, 0 );
 				return true;
 			}
 		}
