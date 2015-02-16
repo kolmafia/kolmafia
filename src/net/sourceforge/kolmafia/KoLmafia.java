@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
+import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -832,9 +833,16 @@ public abstract class KoLmafia
 			}
 		}
 
-		// Retrieve the Terrarium
-
-		RequestThread.postRequest( new FamiliarRequest() );
+		if ( KoLCharacter.isEd() )
+		{
+			// Inspect your servants
+			RequestThread.postRequest( new EdBaseRequest( "edbase_door", true ) );
+		}
+		else if ( !KoLCharacter.inAxecore() && KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() )
+		{
+			// Retrieve the Terrarium
+			RequestThread.postRequest( new FamiliarRequest() );
+		}
 
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf

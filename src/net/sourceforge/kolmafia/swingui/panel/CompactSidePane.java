@@ -53,10 +53,12 @@ import javax.swing.JProgressBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -67,6 +69,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.EdBaseRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -312,6 +316,10 @@ public class CompactSidePane
 			{
 				this.addInstruments( famPopup );
 			}
+			else if ( KoLCharacter.isEd() )
+			{
+				this.addServants( famPopup );
+			}
 			else
 			{
 				this.addFamiliars( famPopup );
@@ -336,6 +344,18 @@ public class CompactSidePane
 			if ( item.getCount( KoLConstants.inventory ) > 0 )
 			{
 				famPopup.add( new InstrumentMenuItem( item ) );
+			}
+		}
+
+		private void addServants( JPopupMenu famPopup )
+		{
+			EdServantData current = EdServantData.currentServant();
+			for ( EdServantData servant : EdServantData.getServants() )
+			{
+				if ( servant != current )
+				{
+					famPopup.add( new ServantMenuItem( servant ) );
+				}
 			}
 		}
 
@@ -516,6 +536,38 @@ public class CompactSidePane
 		protected void execute()
 		{
 			CommandDisplayFrame.executeCommand( this.command );
+		}
+	}
+
+	private static class ServantMenuItem
+		extends ThreadedMenuItem
+	{
+		public ServantMenuItem( final EdServantData servant )
+		{
+			super( servant.getType(), new ChangeServantListener( servant ) );
+			ImageIcon icon = servant.getServantImage();
+			this.setIcon( icon );
+			icon.setImageObserver( this );
+		}
+	}
+
+	private static class ChangeServantListener
+		extends ThreadedListener
+	{
+		private EdBaseRequest edBaseRequest;
+		private GenericRequest choiceRequest;
+
+		public ChangeServantListener( EdServantData servant )
+		{
+			edBaseRequest = new EdBaseRequest( "edbase_door", true );
+			choiceRequest = new GenericRequest( "choice.php?whichchoice=1053&option=1&sid=" + servant.getId() );
+		}
+
+		@Override
+		protected void execute()
+		{
+			RequestThread.postRequest( edBaseRequest );
+			RequestThread.postRequest( choiceRequest );
 		}
 	}
 
@@ -884,6 +936,25 @@ public class CompactSidePane
 			{
 				// Ignore errors - there seems to be a Java bug that
 				// occasionally gets triggered during the setText().
+			}
+		}
+		else if ( KoLCharacter.isEd() )
+		{
+			EdServantData servant = EdServantData.currentServant();
+			if ( servant == EdServantData.NO_SERVANT )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+			}
+			else
+			{
+				String image = servant.getImage();
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
+				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + image );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+				int level = servant.getLevel();
+				this.familiarLabel.setText( "<HTML><center>level " + level + "</center></HTML>" );
 			}
 		}
 		else
