@@ -234,6 +234,11 @@ public class MonsterStatusTracker
 		return baseAttack == 0 ? adjustedAttack: Math.max( adjustedAttack, 1 );
 	}
 
+	public static final int getMonsterOriginalAttack()
+	{
+		return MonsterStatusTracker.monsterData == null  ? 0 : MonsterStatusTracker.originalAttack;
+	}
+
 	public static final Element getMonsterAttackElement()
 	{
 		if ( MonsterStatusTracker.monsterData == null )

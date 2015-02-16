@@ -6076,18 +6076,29 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
-		boolean itemSuccess = ( FightRequest.anapest && ( responseText.contains( "used a thing from your bag" ) ||
-							  responseText.contains( "item caused something to happen" ) ) ) ||
-							  ( FightRequest.haiku && ( responseText.contains( "do some stuff with a thing" ) ||
-							  responseText.contains( "some inscrutable end" ) ) );
-		boolean itemDamageSuccess = ( FightRequest.anapest && ( responseText.contains( "hurl a thing" ) ||
-							  responseText.contains( "thing you hold up" ) || responseText.contains( "fling a thing" ) ||
-							  responseText.contains( "pain with that thing" ) ) ) ||
-							  ( FightRequest.haiku && ( responseText.contains( "like a mighty summer storm" ) ||
-							  responseText.contains( "whip out a thing" ) || responseText.contains( "Like a killing frost" ) ||
-							  responseText.contains( "thing you just threw" ) || responseText.contains( "combat items!" ) ||
-							  responseText.contains( "sling an item" ) || responseText.contains( "item you just threw" ) ||
-							  responseText.contains( "item just hit" ) ) );
+		boolean itemSuccess =
+			( FightRequest.anapest &&
+			  ( responseText.contains( "used a thing from your bag" ) ||
+			    responseText.contains( "item caused something to happen" ) ) ) ||
+			( FightRequest.haiku &&
+			  ( responseText.contains( "do some stuff with a thing" ) ||
+			    responseText.contains( "some inscrutable end" ) ) );
+
+		boolean itemDamageSuccess =
+			( FightRequest.anapest &&
+			  ( responseText.contains( "hurl a thing" ) ||
+			    responseText.contains( "thing you hold up" ) ||
+			    responseText.contains( "fling a thing" ) ||
+			    responseText.contains( "pain with that thing" ) ) ) ||
+			( FightRequest.haiku &&
+			  ( responseText.contains( "like a mighty summer storm" ) ||
+			    responseText.contains( "whip out a thing" ) ||
+			    responseText.contains( "Like a killing frost" ) ||
+			    responseText.contains( "thing you just threw" ) ||
+			    responseText.contains( "combat items!" ) ||
+			    responseText.contains( "sling an item" ) ||
+			    responseText.contains( "item you just threw" ) ||
+			    responseText.contains( "item just hit" ) ) );
 
 		if ( itemId == ItemPool.ICEBALL )
 		{
@@ -6140,7 +6151,7 @@ public class FightRequest
 			// ringing your windchimes (failure)
 			if ( responseText.contains( "bang out a series of chimes" ) ||
 			     responseText.contains( "ringing your windchimes" )  || 
-				 itemSuccess )
+			     itemSuccess )
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -6167,7 +6178,7 @@ public class FightRequest
 			// message to HQ (failure)
 			if ( responseText.contains( "punch a few buttons on the phone" ) ||
 			     responseText.contains( "send a message to HQ" ) ||
-				 itemSuccess )
+			     itemSuccess )
 			{
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
@@ -6581,13 +6592,20 @@ public class FightRequest
 		}
 
 		// Non damaging skills all have the same success messages for Anapest or Haiku
-		boolean skillSuccess = ( FightRequest.anapest && responseText.contains( "skills don't have to cause pain" ) ) ||
-							   ( FightRequest.haiku && responseText.contains( "accomplish something" ) );
-		boolean familiarSkillSuccess = ( FightRequest.anapest &&
-							   ( responseText.contains( "familiar did something" ) || responseText.contains( "pet did a thing" ) ) ) ||
-							   ( FightRequest.haiku && ( responseText.contains( "wish you had just seen" ) || 
-							   responseText.contains( "what did your familiar do" ) || responseText.contains( "familiar does something" ) ||
-							   responseText.contains( "you don't see what it does" ) || responseText.contains( "you missed what it did" ) ) );
+		boolean skillSuccess =
+			( FightRequest.anapest &&
+			  responseText.contains( "skills don't have to cause pain" ) ) ||
+			( FightRequest.haiku && responseText.contains( "accomplish something" ) );
+		boolean familiarSkillSuccess =
+			( FightRequest.anapest &&
+			  ( responseText.contains( "familiar did something" ) ||
+			    responseText.contains( "pet did a thing" ) ) ) ||
+			( FightRequest.haiku &&
+			  ( responseText.contains( "wish you had just seen" ) || 
+			    responseText.contains( "what did your familiar do" ) ||
+			    responseText.contains( "familiar does something" ) ||
+			    responseText.contains( "you don't see what it does" ) ||
+			    responseText.contains( "you missed what it did" ) ) );
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -6794,13 +6812,19 @@ public class FightRequest
 			return;
 		}
 
-		boolean itemSuccess = ( FightRequest.anapest && ( responseText.contains( "used a thing from your bag" ) ||
-							  responseText.contains( "item caused something to happen" ) ) ) ||
-							  ( FightRequest.haiku && ( responseText.contains( "do some stuff with a thing" ) ||
-							  responseText.contains( "some inscrutable end" ) ) );
-		boolean itemRunawaySuccess = ( FightRequest.anapest && responseText.contains( "wings on your heels" ) ) ||
-									 ( FightRequest.haiku && ( responseText.contains( "burps taste like pride" ) ||
-									 responseText.contains( "beat a retreat" ) ) );
+		boolean itemSuccess =
+			( FightRequest.anapest &&
+			  ( responseText.contains( "used a thing from your bag" ) ||
+			    responseText.contains( "item caused something to happen" ) ) ) ||
+			( FightRequest.haiku &&
+			  ( responseText.contains( "do some stuff with a thing" ) ||
+			    responseText.contains( "some inscrutable end" ) ) );
+		boolean itemRunawaySuccess =
+			( FightRequest.anapest &&
+			  responseText.contains( "wings on your heels" ) ) ||
+			( FightRequest.haiku &&
+			  ( responseText.contains( "burps taste like pride" ) ||
+			    responseText.contains( "beat a retreat" ) ) );
 
 		switch ( itemId )
 		{
@@ -6920,7 +6944,7 @@ public class FightRequest
 
 			if ( responseText.contains( "You slap a flyer" ) || itemSuccess )
 			{
-				int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() - MonsterStatusTracker.getMonsterAttackModifier() );
+				int ML = Math.max( 0, MonsterStatusTracker.getMonsterOriginalAttack() );
 				Preferences.increment( "flyeredML", ML );
 				AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
