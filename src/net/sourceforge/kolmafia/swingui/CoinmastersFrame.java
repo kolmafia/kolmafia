@@ -268,7 +268,7 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( fishboneryPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		edshopPanel = new FishboneryPanel();
+		edshopPanel = new EdShopPanel();
 		panel.add( edshopPanel );
 		this.selectorPanel.addPanel( edshopPanel.getPanelSelector(), panel );
 
@@ -652,21 +652,21 @@ public class CoinmastersFrame
 		}
 	}
 
-	public class NuggletCraftingPanel
-		extends CoinmasterPanel
-	{
-		public NuggletCraftingPanel()
-		{
-			super( NuggletCraftingRequest.NUGGLETCRAFTING );
-		}
-	}
-
 	public class EdShopPanel
 		extends CoinmasterPanel
 	{
 		public EdShopPanel()
 		{
 			super ( EdShopRequest.EDSHOP );
+		}
+	}
+
+	public class NuggletCraftingPanel
+		extends CoinmasterPanel
+	{
+		public NuggletCraftingPanel()
+		{
+			super( NuggletCraftingRequest.NUGGLETCRAFTING );
 		}
 	}
 
