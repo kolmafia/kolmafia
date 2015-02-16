@@ -1592,7 +1592,7 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() )
 		{
 			return false;
 		}
