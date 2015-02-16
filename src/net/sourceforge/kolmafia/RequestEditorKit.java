@@ -89,7 +89,6 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
-import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -101,7 +100,6 @@ import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 
@@ -756,6 +754,19 @@ public class RequestEditorKit
 		else if ( KoLCharacter.isSneakyPete() && newLevel <= 15 )
 		{
 			links.append( " [<a href=\"da.php?place=gate3\">sneaky pete</a>]" );
+			haveLinks = true;
+		}
+
+		else if ( KoLCharacter.isEd() )
+		{
+			if ( newLevel % 3 == 0 )
+			{
+				links.append( " [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant</a>]" );
+			}
+			else
+			{
+				links.append( " [<a href=\"/place.php?whichplace=edbase&action=edbase_book\">skill book</a>]" );
+			}
 			haveLinks = true;
 		}
 
