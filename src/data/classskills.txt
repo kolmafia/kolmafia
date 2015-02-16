@@ -684,6 +684,7 @@
 7245	Summon Love Mosquito	lb_mosquito	5	0	0
 7246	Summon Love Stinkbug	lb_stink	5	0	0
 7247	Summon Love Gnats	lb_gnats	5	0	0
+7248	Summon Love Scarabs	lb_scarab	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
