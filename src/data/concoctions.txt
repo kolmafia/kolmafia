@@ -81,7 +81,8 @@ cog and sprocket assembly	COMBINE	cog	sprocket assembly
 dope wheels	COMBINE	tires	sweet rims
 full meat tank	COMBINE	empty meat tank	meat stack
 Harold's hammer	COMBINE	Harold's hammer head	Harold's hammer handle
-headpiece of the Staff of Ed	COMBINE	ancient amulet	Eye of Ed
+# headpiece of the Staff of Ed	COMBINE	ancient amulet	Eye of Ed
+headpiece of the Staff of Ed	COMBINE	[2180]	[2286]
 heavy metal sonata	COMBINE	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	COMBINE	acoustic guitarrr	chrome ore
 hosed fishbowl	COMBINE	fishbowl	fish hose
@@ -95,9 +96,12 @@ oyster basket	COMBINE	tisket	tasket
 really really sticky spider web	COMBINE	really sticky spider web	really sticky spider web
 really sticky spider web	COMBINE	spider web	spider web
 skeleton key	COMBINE	skeleton bone	loose teeth
-Staff of Ed	COMBINE	headpiece of the Staff of Ed	Staff of Fats
-Staff of Ed	COMBINE	Eye of Ed	Staff of Ed, almost
-Staff of Ed, almost	COMBINE	ancient amulet	Staff of Fats
+# Staff of Ed	COMBINE	headpiece of the Staff of Ed	Staff of Fats
+[2325]	COMBINE	headpiece of the Staff of Ed	[2268]
+# Staff of Ed	COMBINE	Eye of Ed	Staff of Ed, almost
+[2325]	COMBINE	[2286]	Staff of Ed, almost
+# Staff of Ed, almost	COMBINE	ancient amulet	Staff of Fats
+Staff of Ed, almost	COMBINE	[2180]	[2268]
 rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet

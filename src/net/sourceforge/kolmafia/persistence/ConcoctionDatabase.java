@@ -252,7 +252,7 @@ public class ConcoctionDatabase
 			bogus = true;
 		}
 
-		AdventureResult item = AdventureResult.parseItem( name, true );
+		AdventureResult item = ConcoctionDatabase.parseIngredient( name );
 		int itemId = item.getItemId();
 
 		if ( itemId < 0 && !ConcoctionDatabase.pseudoItemMixingMethod( ConcoctionDatabase.mixingMethod ) )
@@ -270,6 +270,7 @@ public class ConcoctionDatabase
 				if ( StringUtilities.isNumeric( data[ i ] ) )
 				{	// Treat all-numeric element as parameter instead of item.
 					// Up to 4 such parameters can be given if each fits in a byte.
+					// Currently only used for Clip Art
 					param = (param << 8) | StringUtilities.parseInt( data[ i ] );
 					continue;
 				}
@@ -450,7 +451,7 @@ public class ConcoctionDatabase
 		// Otherwise, it's a standard ingredient - use
 		// the standard adventure result parsing routine.
 
-		return AdventureResult.parseResult( data );
+		return AdventureResult.parseItem( data, true );
 	}
 
 	public static final LockableListModel<AdventureResult> getQueuedIngredients( boolean food, boolean booze, boolean spleen )
