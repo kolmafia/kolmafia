@@ -695,8 +695,11 @@ public class AccountRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );
 
-		boolean liberated = JSON.getInt( "freedralph" ) == 1;
-		KoLCharacter.setKingLiberated( liberated );
+		if ( !path.equals( "Actually Ed the Undying" ) )
+		{
+			boolean liberated = JSON.getInt( "freedralph" ) == 1;
+			KoLCharacter.setKingLiberated( liberated );
+		}
 
 		boolean recalled = JSON.getInt( "recalledskills" ) == 1;
 		KoLCharacter.setSkillsRecalled( recalled );
