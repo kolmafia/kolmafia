@@ -838,7 +838,7 @@ public abstract class KoLmafia
 			// Inspect your servants
 			RequestThread.postRequest( new EdBaseRequest( "edbase_door", true ) );
 		}
-		else if ( !KoLCharacter.inAxecore() && KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() )
+		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() )
 		{
 			// Retrieve the Terrarium
 			RequestThread.postRequest( new FamiliarRequest() );
