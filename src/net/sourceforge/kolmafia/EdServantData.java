@@ -37,6 +37,7 @@ import java.io.File;
 
 import java.util.List;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,6 +61,7 @@ public class EdServantData
 	public static final Object[][] SERVANTS =
 	{
 		// Servant type
+		// Canonical servant type
 		// Servant ID
 		// Image file name
 		// Level 1 Power
@@ -69,6 +71,7 @@ public class EdServantData
 
 		{
 			"Cat",
+			StringUtilities.getCanonicalName( "Cat" ),
 			IntegerPool.get( 1 ),
 			"edserv1.gif",
 			"Gives unpleasant gifts",
@@ -78,6 +81,7 @@ public class EdServantData
 		},
 		{
 			"Belly-Dancer",
+			StringUtilities.getCanonicalName( "Belly-Dancer" ),
 			IntegerPool.get( 2 ),
 			"edserv2.gif",
 			"Lowers enemy stats",
@@ -87,6 +91,7 @@ public class EdServantData
 		},
 		{
 			"Maid",
+			StringUtilities.getCanonicalName( "Maid" ),
 			IntegerPool.get( 3 ),
 			"edserv3.gif",
 			"Helps find meat",
@@ -96,6 +101,7 @@ public class EdServantData
 		},
 		{
 			"Bodyguard",
+			StringUtilities.getCanonicalName( "Bodyguard" ),
 			IntegerPool.get( 4 ),
 			"edserv4.gif",
 			"Prevents enemy attacks",
@@ -105,6 +111,7 @@ public class EdServantData
 		},
 		{
 			"Scribe",
+			StringUtilities.getCanonicalName( "Scribe" ),
 			IntegerPool.get( 5 ),
 			"edserv5.gif",
 			"Improves stat gains",
@@ -114,6 +121,7 @@ public class EdServantData
 		},
 		{
 			"Priest",
+			StringUtilities.getCanonicalName( "Priest" ),
 			IntegerPool.get( 6 ),
 			"edserv6.gif",
 			"Attacks undead enemies",
@@ -123,6 +131,7 @@ public class EdServantData
 		},
 		{
 			"Assassin",
+			StringUtilities.getCanonicalName( "Assassin" ),
 			IntegerPool.get( 7 ),
 			"edserv7.gif",
 			"Attacks enemies",
@@ -132,39 +141,57 @@ public class EdServantData
 		},
 	};
 
+	public static final String [] SERVANT_ARRAY = new String[ EdServantData.SERVANTS.length ];
+	public static final String [] CANONICAL_SERVANT_ARRAY = new String[ EdServantData.SERVANTS.length ];
+	static
+	{
+		for ( int i = 0; i < EdServantData.SERVANT_ARRAY.length; ++i )
+		{
+			Object [] data = EdServantData.SERVANTS[ i ];
+			EdServantData.SERVANT_ARRAY[ i ] = EdServantData.dataToType( data );
+			EdServantData.CANONICAL_SERVANT_ARRAY[ i ] = EdServantData.dataToCanonicalType( data );
+		}
+		Arrays.sort( EdServantData.SERVANT_ARRAY );
+	};
+
 	public static String dataToType( Object[] data )
 	{
 		return data == null ? "" : (String)data[ 0 ];
 	}
 
+	public static String dataToCanonicalType( Object[] data )
+	{
+		return data == null ? "" : (String)data[ 1 ];
+	}
+
 	public static int dataToId( Object[] data )
 	{
-		return data == null ? 0 : ((Integer)data[ 1 ]).intValue();
+		return data == null ? 0 : ((Integer)data[ 2 ]).intValue();
 	}
 
 	public static String dataToImage( Object[] data )
 	{
-		return data == null ? null : (String)data[ 2 ];
+		return data == null ? null : (String)data[ 3 ];
 	}
 
 	public static String dataToLevel1Ability( Object[] data )
 	{
-		return data == null ? null : (String)data[ 3 ];
+		return data == null ? null : (String)data[ 4 ];
 	}
 
 	public static String dataToLevel7Ability( Object[] data )
 	{
-		return data == null ? null : (String)data[ 4 ];
+		return data == null ? null : (String)data[ 5 ];
 	}
 
 	public static String dataToLevel14Ability( Object[] data )
 	{
-		return data == null ? null : (String)data[ 5 ];
+		return data == null ? null : (String)data[ 6 ];
 	}
 
 	public static String dataToLevel21Ability( Object[] data )
 	{
-		return data == null ? null : (String)data[ 6 ];
+		return data == null ? null : (String)data[ 7 ];
 	}
 
 	public static Object[] idToData( final int id )
@@ -181,13 +208,22 @@ public class EdServantData
 
 	public static Object[] typeToData( final String type )
 	{
+		// Do fuzzy matching
+		List<String> matchingNames = StringUtilities.getMatchingNames( EdServantData.CANONICAL_SERVANT_ARRAY, type );
+		if ( matchingNames.size() != 1 )
+		{
+			return null;
+		}
+
+		String name = matchingNames.get( 0 );
 		for ( Object[] data : EdServantData.SERVANTS )
 		{
-			if ( EdServantData.dataToType( data ).equals( type ) )
+			if ( name.equals( EdServantData.dataToCanonicalType( data ) ) )
 			{
 				return data;
 			}
 		}
+
 		return null;
 	}
 

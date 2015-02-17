@@ -40,6 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -96,6 +97,7 @@ public class DataTypes
 	public static final int TYPE_PHYLUM = 111;
 	public static final int TYPE_THRALL = 112;
 	public static final int TYPE_BOUNTY = 113;
+	public static final int TYPE_SERVANT = 114;
 
 	public static final int TYPE_STRICT_STRING = 1000;
 	public static final int TYPE_AGGREGATE = 1001;
@@ -147,6 +149,7 @@ public class DataTypes
 	public static final Type PHYLUM_TYPE = new Type( "phylum", DataTypes.TYPE_PHYLUM );
 	public static final Type BOUNTY_TYPE = new Type( "bounty", DataTypes.TYPE_BOUNTY );
 	public static final Type THRALL_TYPE = new Type( "thrall", DataTypes.TYPE_THRALL );
+	public static final Type SERVANT_TYPE = new Type( "servant", DataTypes.TYPE_SERVANT );
 
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
@@ -216,6 +219,7 @@ public class DataTypes
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", Phylum.NONE );
 	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
 	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
+	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -244,6 +248,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.PHYLUM_TYPE );
 		simpleTypes.add( DataTypes.BOUNTY_TYPE );
 		simpleTypes.add( DataTypes.THRALL_TYPE );
+		simpleTypes.add( DataTypes.SERVANT_TYPE );
 	}
 
 	// For each simple data type X, we supply:
@@ -613,6 +618,29 @@ public class DataTypes
 		return new Value( DataTypes.THRALL_TYPE, id, name, data );
 	}
 
+	public static final Value parseServantValue( String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.SERVANT_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.SERVANT_INIT;
+		}
+
+		Object [] data = EdServantData.typeToData( name );
+		if ( data == null )
+		{
+			return returnDefault ? DataTypes.SERVANT_INIT : null;
+		}
+
+		int id = EdServantData.dataToId( data );
+		name = EdServantData.dataToType( data );
+		return new Value( DataTypes.SERVANT_TYPE, id, name, data );
+	}
+
 	public static final Value parseBountyValue( final String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )
@@ -789,6 +817,27 @@ public class DataTypes
 		return new Value( DataTypes.THRALL_TYPE, num, name, data );
 	}
 
+	public static final Value makeServantValue( final EdServantData servant )
+	{
+		if ( servant == null || servant == EdServantData.NO_SERVANT )
+		{
+			return DataTypes.SERVANT_INIT;
+		}
+		return new Value( DataTypes.SERVANT_TYPE, servant.getId(), servant.getType(), servant.getData() );
+	}
+
+	public static final Value makeServantValue( final int num )
+	{
+		Object [] data = EdServantData.idToData( num );
+		if ( data == null )
+		{
+			return DataTypes.SERVANT_INIT;
+		}
+
+		String name = EdServantData.dataToType( data );
+		return new Value( DataTypes.SERVANT_TYPE, num, name, data );
+	}
+
 	// Also supply:
 	// public static final String promptForValue()
 
@@ -838,6 +887,9 @@ public class DataTypes
 
 		case TYPE_THRALL:
 			return (String) InputFieldUtilities.input( message, PastaThrallData.THRALL_ARRAY );
+
+		case TYPE_SERVANT:
+			return (String) InputFieldUtilities.input( message, EdServantData.SERVANT_ARRAY );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );

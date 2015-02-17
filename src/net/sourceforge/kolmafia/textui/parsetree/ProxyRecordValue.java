@@ -42,6 +42,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -621,6 +622,81 @@ public class ProxyRecordValue
 		{
 			PastaThrallData thrall = KoLCharacter.findPastaThrall( this.contentString );
 			return thrall == null ? "" : thrall.getCurrentModifiers();
+		}
+	}
+
+	public static class ServantProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "id", DataTypes.INT_TYPE )
+			.add( "name", DataTypes.STRING_TYPE )
+			.add( "level", DataTypes.INT_TYPE )
+			.add( "experience", DataTypes.INT_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
+			.add( "level1_ability", DataTypes.STRING_TYPE )
+			.add( "level7_ability", DataTypes.STRING_TYPE )
+			.add( "level14_ability", DataTypes.STRING_TYPE )
+			.add( "level21_ability", DataTypes.STRING_TYPE )
+			.finish( "servant proxy" );
+
+		public ServantProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public int get_id()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? 0 : EdServantData.dataToId( data );
+		}
+
+		public String get_name()
+		{
+			EdServantData servant = EdServantData.findEdServant( this.contentString );
+			return servant == null ? "" : servant.getName();
+		}
+
+		public int get_level()
+		{
+			EdServantData servant = EdServantData.findEdServant( this.contentString );
+			return servant == null ? 0 : servant.getLevel();
+		}
+
+		public int get_experience()
+		{
+			EdServantData servant = EdServantData.findEdServant( this.contentString );
+			return servant == null ? 0 : servant.getExperience();
+		}
+
+		public String get_image()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : EdServantData.dataToImage( data );
+		}
+
+		public String get_level1_ability()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : EdServantData.dataToLevel1Ability( data );
+		}
+
+		public String get_level7_ability()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : EdServantData.dataToLevel7Ability( data );
+		}
+
+		public String get_level14_ability()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : EdServantData.dataToLevel14Ability( data );
+		}
+
+		public String get_level21_ability()
+		{
+			Object [] data = (Object [])this.content;
+			return data == null ? "" : EdServantData.dataToLevel21Ability( data );
 		}
 	}
 

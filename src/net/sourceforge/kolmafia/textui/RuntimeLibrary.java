@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.Expression;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -376,6 +377,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.THRALL_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.SERVANT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
@@ -451,6 +454,11 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_thrall", DataTypes.THRALL_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_servant", DataTypes.SERVANT_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_servant", DataTypes.SERVANT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
@@ -1136,6 +1144,15 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_thrall", DataTypes.THRALL_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_servant", DataTypes.SERVANT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SERVANT_TYPE };
+		functions.add( new LibraryFunction( "have_servant", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SERVANT_TYPE };
+		functions.add( new LibraryFunction( "use_servant", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
@@ -2493,6 +2510,16 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.parseThrallValue( value.toString(), true );
+	}
+
+	public static Value to_servant( Interpreter interpreter, final Value value )
+	{
+		if ( value.getType().equals( DataTypes.TYPE_INT ) )
+		{
+			return DataTypes.makeServantValue( (int) value.intValue() );
+		}
+
+		return DataTypes.parseServantValue( value.toString(), true );
 	}
 
 	public static Value to_plural( Interpreter interpreter, final Value item ) {
@@ -4985,6 +5012,17 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
+	public static Value have_servant( Interpreter interpreter, final Value servant )
+	{
+		return DataTypes.makeBooleanValue( EdServantData.findEdServant( servant.toString() ) != null );
+	}
+
+	public static Value use_servant( Interpreter interpreter, final Value servant )
+	{
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "servant", servant.toString() );
+		return RuntimeLibrary.continueValue();
+	}
+
 	public static Value enthrone_familiar( Interpreter interpreter, final Value familiar )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "enthrone", familiar.toString() );
@@ -5063,6 +5101,11 @@ public abstract class RuntimeLibrary
 	public static Value my_thrall( Interpreter interpreter )
 	{
 		return DataTypes.makeThrallValue( KoLCharacter.currentPastaThrall() );
+	}
+
+	public static Value my_servant( Interpreter interpreter )
+	{
+		return DataTypes.makeServantValue( EdServantData.currentServant() );
 	}
 
 	// Random other functions related to current in-game
