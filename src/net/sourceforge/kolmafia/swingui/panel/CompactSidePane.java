@@ -69,8 +69,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.EdBaseRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -554,20 +552,17 @@ public class CompactSidePane
 	private static class ChangeServantListener
 		extends ThreadedListener
 	{
-		private EdBaseRequest edBaseRequest;
-		private GenericRequest choiceRequest;
+		private final EdServantData servant;
 
 		public ChangeServantListener( EdServantData servant )
 		{
-			edBaseRequest = new EdBaseRequest( "edbase_door", true );
-			choiceRequest = new GenericRequest( "choice.php?whichchoice=1053&option=1&sid=" + servant.getId() );
+			this.servant = servant;
 		}
 
 		@Override
 		protected void execute()
 		{
-			RequestThread.postRequest( edBaseRequest );
-			RequestThread.postRequest( choiceRequest );
+			CommandDisplayFrame.executeCommand( "servant " + this.servant.getType() );
 		}
 	}
 
