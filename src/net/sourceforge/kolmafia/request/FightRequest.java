@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -3081,6 +3082,7 @@ public class FightRequest
 			}
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
+			EdServantData.currentServant().addCombatExperience( responseText );
 			
 			switch ( familiar.getId() )
 			{

@@ -784,7 +784,7 @@ public abstract class SorceressLairManager
 				message =
 					action.equals( "ns_lock1" ) ? "Tower Door: Boris's lock" :
 					action.equals( "ns_lock2" ) ? "Tower Door: Jarlsberg's lock" :
-					action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's's lock" :
+					action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's lock" :
 					action.equals( "ns_lock4" ) ? "Tower Door: star lock" :
 					action.equals( "ns_lock5" ) ? "Tower Door: skeleton lock" :
 					action.equals( "ns_lock6" ) ? "Tower Door: digital lock" :

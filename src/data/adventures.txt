@@ -146,6 +146,7 @@ Friars	adventure=239	Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagr
 Friars	adventure=238	Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles
 Friars	adventure=237	Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife|3 fraudwort
 Friars	friars=0	Env: none Stat: 0	Friar Ceremony Location
+Friars	adventure=438	Env: outdoor	Pandamonium
 Pandamonium	adventure=248	Env: outdoor Stat: 45	Pandamonium Slums	1 wussiness potion, 1 ruby W|3 fraudwort|+1 SPF 451 lip balm|+5 figurine of a charred seal
 Pandamonium	adventure=242	Env: indoor Stat: 60	The Laugh Floor	5 imp air
 Pandamonium	adventure=243	Env: indoor Stat: 55	Infernal Rackets Backstage	5 bus pass
