@@ -352,7 +352,7 @@ public class CompactSidePane
 			EdServantData current = EdServantData.currentServant();
 			for ( EdServantData servant : EdServantData.getServants() )
 			{
-				if ( servant != current )
+				if ( servant != current && servant != EdServantData.NO_SERVANT )
 				{
 					famPopup.add( new ServantMenuItem( servant ) );
 				}

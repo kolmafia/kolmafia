@@ -208,7 +208,7 @@ public class EdServantData
 	public static final SortedListModel<EdServantData> edServants = new SortedListModel<EdServantData>();
 	public static EdServantData currentEdServant = EdServantData.NO_SERVANT;
 
-	public static void reset()
+	public static void initialize()
 	{
 		EdServantData.edServants.clear();
 		EdServantData.edServants.add( EdServantData.NO_SERVANT );
@@ -399,6 +399,27 @@ public class EdServantData
 	public static final List<EdServantData> getServants()
 	{
 		return EdServantData.edServants;
+	}
+
+	public final void addCombatExperience( String responseText )
+	{
+		// As far as I know:
+		// - once you select your first servant, you can never NOT have one
+		// (but you might not be Ed or might not have selected a servant yet)
+		if ( this == EdServantData.NO_SERVANT )
+		{
+			return;
+		}
+
+		// - a servant gains 1 XP every time you win a fight
+		// - they level up when their XP hits the square of the level
+		// - each servant has a unique "this servant leveled up" message.
+		// (which is cute, but we can derive level from experience)
+		int next = this.level + 1;
+		if ( ++this.experience == ( next * next ) )
+		{
+			++this.level;
+		}
 	}
 
 	public static final EdServantData findEdServant( final String type )
