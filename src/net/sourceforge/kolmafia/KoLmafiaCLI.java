@@ -740,6 +740,7 @@ public class KoLmafiaCLI
 		new EchoCommand().register( "echo" ).register( "print" );
 		new EditCommand().register( "edit" );
 		new EditMoodCommand().registerPrefix( "trigger" );
+		new EdServantCommand().register( "servant" ).register( "servants" );;
 		new ElseIfStatement().register( "elseif" );
 		new ElseStatement().register( "else" );
 		new EnableCommand().register( "enable" ).register( "disable" );
