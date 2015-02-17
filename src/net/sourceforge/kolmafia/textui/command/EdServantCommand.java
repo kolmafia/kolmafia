@@ -69,11 +69,18 @@ public class EdServantCommand
 			String type = parameters.trim();
 			if ( !type.equals( "" ) )
 			{
+				Object [] data = EdServantData.typeToData( type );
+				if ( data == null )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Ed has no servants of type \"" + type + "\"." );
+					return;
+				}
+				type = EdServantData.dataToType( data );
 				// Switch servant
 				EdServantData servant = EdServantData.findEdServant( type );
 				if ( servant == null )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You have not called forth a \"" + type + "\" to be your servant." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You have not called forth a " + type + " to be your servant." );
 					return;
 				}
 
