@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
@@ -129,7 +130,7 @@ public class EatItemRequest
 		}
 
 		if ( KoLCharacter.inZombiecore() && !itemName.equals( "steel lasagna" ) &&
-		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "Zombie Slayer" ) ) )
+		     ( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "Zombie Slayer" ) ) )
 		{
 			UseItemRequest.limiter = "it not being a brain";
 			return 0;
@@ -183,7 +184,7 @@ public class EatItemRequest
 			return;
 		}
 
-		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -395,7 +396,7 @@ public class EatItemRequest
 		}
 		
 		// If the item doesn't give any adventures, it won't benefit from using milk
-		String advGain = ItemDatabase.getAdvRangeByName( name );
+		String advGain = ConsumablesDatabase.getAdvRangeByName( name );
 		if ( advGain.equals( "0" ) )
 		{
 			return true;
@@ -431,14 +432,14 @@ public class EatItemRequest
 
 		// Calculate how much fullness we are about to add
 
-		int fullness = ItemDatabase.getFullness( name );
+		int fullness = ConsumablesDatabase.getFullness( name );
 		int consumptionTurns = count * fullness;
 
 		// Check for Glorious Lunch
 		if ( !skipLunchNag && canLunch )
 		{
 			// See if already have enough of the Glorious Lunch effect
-			int lunchTurns = ItemDatabase.GLORIOUS_LUNCH.getCount( KoLConstants.activeEffects );
+			int lunchTurns = ConsumablesDatabase.GLORIOUS_LUNCH.getCount( KoLConstants.activeEffects );
 
 			if ( lunchTurns < consumptionTurns )
 			{
@@ -458,7 +459,7 @@ public class EatItemRequest
 		if ( !skipMilkNag && canMilk )
 		{
 			// See if already have enough of the Got Milk effect
-			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+			int milkyTurns = ConsumablesDatabase.MILK.getCount( KoLConstants.activeEffects );
 
 			if ( milkyTurns < consumptionTurns )
 			{
@@ -480,7 +481,7 @@ public class EatItemRequest
 	private static final boolean askAboutGarish( String itemName )
 	{
 		// Only affects lasagna
-		if ( !ItemDatabase.isLasagna( ItemDatabase.getItemId( itemName ) ) )
+		if ( !ConsumablesDatabase.isLasagna( ItemDatabase.getItemId( itemName ) ) )
 		{
 			return true;
 		}
@@ -576,7 +577,7 @@ public class EatItemRequest
 			return;
 		}
 
-		int fullness = ItemDatabase.getFullness( item.getName() );
+		int fullness = ConsumablesDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 		boolean shouldUpdateFullness = !responseText.contains( " Fullness" );
 

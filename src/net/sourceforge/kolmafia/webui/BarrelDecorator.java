@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -261,11 +261,11 @@ public abstract class BarrelDecorator
 
 		char type;
 		String name = item.getName();
-		if ( ItemDatabase.getInebriety( name ) > 0 )
+		if ( ConsumablesDatabase.getInebriety( name ) > 0 )
 		{
 			type = 'B';
 		}
-		else if ( ItemDatabase.getSpleenHit( name ) == 1 &&
+		else if ( ConsumablesDatabase.getSpleenHit( name ) == 1 &&
 			!name.endsWith( "egg" ) )
 		{
 			type = 'S';

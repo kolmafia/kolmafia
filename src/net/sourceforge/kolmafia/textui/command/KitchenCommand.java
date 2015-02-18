@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -110,7 +111,7 @@ public class KitchenCommand
 			{
 				if ( name.equals( "Imp Ale" ) )
 				{
-					int inebriety = ItemDatabase.getInebriety( name );
+					int inebriety = ConsumablesDatabase.getInebriety( name );
 					if ( inebriety > 0 )
 					{
 						count = ( KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety() ) / inebriety;
@@ -118,7 +119,7 @@ public class KitchenCommand
 				}
 				else
 				{
-					int fullness = ItemDatabase.getFullness( name );
+					int fullness = ConsumablesDatabase.getFullness( name );
 					if ( fullness > 0 )
 					{
 						count = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;

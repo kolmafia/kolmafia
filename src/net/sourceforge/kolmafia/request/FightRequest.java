@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -7066,7 +7067,7 @@ public class FightRequest
 
 		// Bandersnatch + Ode = weight/5 free runaways
 		if ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BANDER &&
-			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
+			KoLConstants.activeEffects.contains( ConsumablesDatabase.ODE ) )
 		{
 			if ( !FightRequest.castCleesh &&
 				KoLCharacter.getFamiliar().getModifiedWeight() / 5 >

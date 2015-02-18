@@ -39,14 +39,12 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -98,10 +96,6 @@ import org.json.JSONObject;
 public class ItemDatabase
 	extends KoLDatabase
 {
-	public static final AdventureResult ODE = EffectPool.get( Effect.ODE );
-	public static final AdventureResult MILK = EffectPool.get( Effect.MILK );
-	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( Effect.GLORIOUS_LUNCH );
-
 	private static int maxItemId = 0;
 
 	private static String [] canonicalNames = new String[0];
@@ -121,55 +115,13 @@ public class ItemDatabase
 	private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
 
 	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
-
-	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
-	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
-	public static final Map<String, Integer> inebrietyByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
-	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
-	private static final Map<String, String> qualityByName = new HashMap<String, String>();
-	private static final Map<String, String> notesByName = new HashMap<String, String>();
 	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
-	
-	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
-	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
-	private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
-	private static final Map<String, Integer> advStartByName = new HashMap<String, Integer>();
-	private static final Map<String, Integer> advEndByName = new HashMap<String, Integer>();
-
-	private static Set<String> advNames = null;
 
 	public static final String QUEST_FLAG = "q";
 	public static final String GIFT_FLAG = "g";
 	public static final String TRADE_FLAG = "t";
 	public static final String DISCARD_FLAG = "d";
 	public static final String BOGUS_FLAG = "z";
-
-	public static final String NONE = "";
-	public static final String CRAPPY = "crappy";
-	public static final String DECENT = "decent";
-	public static final String GOOD = "good";
-	public static final String AWESOME = "awesome";
-	public static final String EPIC = "EPIC";
-
-	static
-	{
-		for ( int i1 = 0; i1 <= 1; ++i1 )
-		{
-			for ( int i2 = 0; i2 <= 1; ++i2 )
-			{
-				for ( int i3 = 0; i3 <= 1; ++i3 )
-				{
-					for ( int i4 = 0; i4 <= 1; ++i4 )
-					{
-						for ( int i5 = 0; i5 <= 1; ++i5 )
-						{
-							ItemDatabase.advsByName[ i1 ][ i2 ][ i3 ][ i4 ][ i5 ] = new HashMap();
-						}
-					}
-				}
-			}
-		}
-	}
 
 	public static Object[][] PUNCHCARDS =
 	{
@@ -222,34 +174,6 @@ public class ItemDatabase
 		}
 	};
 
-	public static Object[][] DUSTY_BOTTLES =
-	{
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MERLOT ),
-		  "dusty bottle of Merlot",
-		  "dusty bottle of average Merlot",
-		},
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_PORT ),
-		  "dusty bottle of Port",
-		  "dusty bottle of vinegar Port",
-		},
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR ),
-		  "dusty bottle of Pinot Noir",
-		  "dusty bottle of spooky Pinot Noir",
-		},
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL ),
-		  "dusty bottle of Zinfandel",
-		  "dusty bottle of great Zinfandel",
-		},
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MARSALA ),
-		  "dusty bottle of Marsala",
-		  "dusty bottle of glassy Marsala",
-		},
-		{ IntegerPool.get( ItemPool.DUSTY_BOTTLE_OF_MUSCAT ),
-		  "dusty bottle of Muscat",
-		  "dusty bottle of bad Muscat",
-		}
-	};
-
 	private static final Object[][] ALIASES =
 	{
 		{ IntegerPool.get( 4577 ), "bugged bonnet" },
@@ -283,10 +207,6 @@ public class ItemDatabase
 		}
 		return data;
 	}
-
-	private static final Map<String, String> muscleByName = new HashMap<String, String>();
-	private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
-	private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
 	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 
@@ -403,14 +323,7 @@ public class ItemDatabase
 		ItemDatabase.itemIdByName.clear();
 
 		ItemDatabase.readItems();
-
-		ItemDatabase.readConsumptionData( "fullness.txt", KoLConstants.FULLNESS_VERSION, ItemDatabase.fullnessByName );
-		ItemDatabase.readConsumptionData( "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ItemDatabase.inebrietyByName );
-		ItemDatabase.readConsumptionData( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION , ItemDatabase.spleenHitByName );
-		ItemDatabase.readNonfillingData();
-
 		ItemDatabase.readFoldGroups();
-
 		ItemDatabase.addPseudoItems();
 		ItemDatabase.saveCanonicalNames();
 	}
@@ -563,30 +476,6 @@ public class ItemDatabase
 		}
 	}
 
-	public static void writeConsumable( final PrintStream writer, final String name, final int size,
-					    final int level, final String quality, final String adv,
-					    final String mus, final String mys, final String mox,
-					    final String notes )
-	{
-		writer.println( ItemDatabase.consumableString( name, size, level, quality, adv, mus, mys, mox, notes ) );
-	}
-
-	public static String consumableString( final String name, final int size,
-					       final int level, final String quality, final String adv,
-					       final String mus, final String mys, final String mox,
-					       final String notes )
-	{
-		return name +
-			"\t" + size +
-			"\t" + level +
-			"\t" + quality +
-			"\t" + adv +
-			"\t" + mus +
-			"\t" + mys +
-			"\t" + mox +
-			( notes == null ? "" : ("\t" + notes ) );
-	}
-
 	public static void writeItems( final File output )
 	{
 		RequestLogger.printLine( "Writing data override: " + output );
@@ -631,7 +520,6 @@ public class ItemDatabase
 
 	public static void writeItem()
 	{
-
 	}
 
 	public static String itemString( final int itemId, final String name, final String descId, final String image,
@@ -640,124 +528,6 @@ public class ItemDatabase
 		return itemId + "\t" + name + "\t" + descId + "\t" + image + "\t" +
 				typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
 				access + "\t" + autosell + ( plural == null || plural.equals( "" ) ? "" : "\t" + plural );
-	}
-
-	private static void readConsumptionData( String filename, int version, Map<String, Integer> map )
-	{
-		BufferedReader reader = FileUtilities.getVersionedReader( filename, version );
-
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			ItemDatabase.saveConsumptionValues( data, map );
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	private static final void setConsumptionData( final String name, final int size, final String adventures,
-		final String muscle, final String mysticality, final String moxie, final String note )
-	{
-		ItemDatabase.setConsumptionData( name, size, 1, "", adventures, muscle, mysticality, moxie, note );
-	}
-
-	private static final void setConsumptionData( final String name, final int size, final int level, final String quality,
-		final String adventures, final String muscle, final String mysticality, final String moxie, final String note )
-	{
-		ItemDatabase.levelReqByName.put( name, level );
-		ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( quality ) );
-		ItemDatabase.saveAdventureRange( name, size, adventures );
-		ItemDatabase.calculateAdventureRange( name );
-		ItemDatabase.muscleByName.put( name, muscle );
-		ItemDatabase.mysticalityByName.put( name, mysticality );
-		ItemDatabase.moxieByName.put( name, moxie );
-		if ( note != null && note.length() > 0 )
-		{
-			ItemDatabase.notesByName.put( name, note );
-		}
-	}
-
-	private static final void cloneConsumptionData( final String name, final String alias )
-	{
-		int size = 0;
-
-		Integer fullness = ItemDatabase.getRawFullness( name );
-		if ( fullness != null )
-		{
-			ItemDatabase.fullnessByName.put( alias, fullness );
-			size = fullness.intValue();
-		}
-
-		Integer inebriety = ItemDatabase.getRawInebriety( name );
-		if ( inebriety != null )
-		{
-			ItemDatabase.inebrietyByName.put( alias, inebriety );
-			size = inebriety.intValue();
-		}
-
-		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
-		if ( spleenhit != null )
-		{
-			ItemDatabase.spleenHitByName.put( alias, spleenhit );
-			size = spleenhit.intValue();
-		}
-
-		if ( size == 0 )
-		{
-			return;
-		}
-
-		Integer level = ItemDatabase.levelReqByName.get( name );
-		String quality = ItemDatabase.qualityByName.get( name );
-		String adventures = ItemDatabase.getAdvRangeByName( name );
-		String muscle = ItemDatabase.muscleByName.get( name );
-		String mysticality = ItemDatabase.mysticalityByName.get( name );
-		String moxie = ItemDatabase.moxieByName.get( name );
-		String note = ItemDatabase.notesByName.get( name );
-
-		ItemDatabase.setConsumptionData( alias, size, level == null ? 1 : level.intValue(), quality, adventures, muscle, mysticality, moxie, note );
-	}
-
-	private static void readNonfillingData()
-	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "nonfilling.txt", KoLConstants.NONFILLING_VERSION );
-
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			if ( data.length < 2 )
-				continue;
-
-			String name = data[ 0 ];
-			ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 1 ] ) );
-
-			if ( data.length < 3 )
-				continue;
-
-			String notes = data[ 2 ];
-			if ( notes.length() > 0 )
-			{
-				ItemDatabase.notesByName.put( name, notes );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
 	}
 
 	private static void readFoldGroups()
@@ -807,7 +577,7 @@ public class ItemDatabase
 		ItemDatabase.itemIdByName.put( "worthless item", id );
 
 		// Set aliases for the dusty bottles
-		for ( Object[] dusty : ItemDatabase.DUSTY_BOTTLES )
+		for ( Object[] dusty : ConsumablesDatabase.DUSTY_BOTTLES )
 		{
 			id = (Integer) dusty[0];
 			String name = StringUtilities.getCanonicalName( (String) dusty[1] );
@@ -815,7 +585,7 @@ public class ItemDatabase
 			String plural = StringUtilities.singleStringReplace( alias, "bottle", "bottles" );
 			ItemDatabase.itemIdByName.put( alias, id );
 			ItemDatabase.itemIdByPlural.put( plural, id );
-			ItemDatabase.cloneConsumptionData( name, alias );
+			ConsumablesDatabase.cloneConsumptionData( name, alias );
 		}
 
 		// Set aliases for the El Vibrato punch cards
@@ -851,270 +621,6 @@ public class ItemDatabase
 		ItemDatabase.itemIdByName.keySet().toArray( newArray );
 		Arrays.sort( newArray );
 		ItemDatabase.canonicalNames = newArray;
-	}
-
-	private static final void saveConsumptionValues( String[] data, Map<String, Integer> map )
-	{
-		if ( data.length < 2 )
-			return;
-
-		String name = data[ 0 ];
-		map.put( name, Integer.valueOf( data[ 1 ] ) );
-
-		if ( data.length < 8 )
-			return;
-
-		String holiday = HolidayDatabase.getHoliday();
-		boolean isBorisDay = ( holiday.contains( "Feast of Boris" ) || holiday.contains( "Drunksgiving" ) );
-
-		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-
-		// Some items different on Feast of Boris
-		if ( !isBorisDay )
-		{
-			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
-			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
-		}
-		else if( name.equals( "cranberries" ) )
-		{
-			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
-			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "2-4" );
-		}
-		else if( name.equals( "redrum" ) )
-		{
-			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
-			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "5-9" );
-		}
-		else if( name.equals( "vodka and cranberries" ) )
-		{
-			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
-			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "6-9" );
-		}
-		else
-		{
-			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
-			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
-		}
-		
-		ItemDatabase.muscleByName.put( name, data[ 5 ] );
-		ItemDatabase.mysticalityByName.put( name, data[ 6 ] );
-		ItemDatabase.moxieByName.put( name, data[ 7 ] );
-
-		if ( data.length < 9 )
-			return;
-
-		String notes = data[ 8 ];
-		if ( notes.length() > 0 )
-		{
-			ItemDatabase.notesByName.put( name, notes );
-		}
-	}
-
-	public static final String qualityValue( String value )
-	{
-		// Reduce string allocations...
-		return  value == null ? ItemDatabase.NONE :
-			value.equals( "crappy" ) ? ItemDatabase.CRAPPY :
-			value.equals( "decent" ) ? ItemDatabase.DECENT :
-			value.equals( "good" ) ? ItemDatabase.GOOD :
-			value.equals( "awesome" ) ? ItemDatabase.AWESOME :
-			value.equals( "EPIC" ) ? ItemDatabase.EPIC :
-			ItemDatabase.NONE;
-	}
-
-	private static final void saveAdventureRange( final String name, final int unitCost, String range )
-	{
-		range = range.trim();
-
-		int dashIndex = range.indexOf( "-" );
-		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
-		int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-		ItemDatabase.advRangeByName.put( name, range );
-		ItemDatabase.unitCostByName.put( name, IntegerPool.get( unitCost ) );
-		ItemDatabase.advStartByName.put( name, IntegerPool.get( start ) );
-		ItemDatabase.advEndByName.put( name, IntegerPool.get( end ) );
-		ItemDatabase.advNames = null;
-	}
-
-	public static final String getAdvRangeByName( final String name )
-	{
-		if ( name == null )
-		{
-			return "";
-		}
-
-		String range = ItemDatabase.advRangeByName.get( name );
-		if ( range == null )
-		{
-			return "";
-		}
-		if ( KoLCharacter.inSlowcore() )
-		{
-			return "0";
-		}
-		return range;
-	}
-
-	public static final void calculateAdventureRanges()
-	{
-		if ( ItemDatabase.advNames == null )
-		{
-			ItemDatabase.advNames = ItemDatabase.unitCostByName.keySet();
-		}
-
-		Iterator<String> it = ItemDatabase.advNames.iterator();
-
-		while ( it.hasNext() )
-		{
-			String name = it.next();
-			ItemDatabase.calculateAdventureRange( name );
-		}
-	}
-
-	private static final void calculateAdventureRange( final String name )
-	{
-		ItemDatabase.calculateAdventureRange( name, ItemDatabase.getRawFullness( name ) != null );
-	}
-
-	private static final void calculateAdventureRange( final String name, final boolean isFood )
-	{
-		Concoction c = ConcoctionPool.get( name );
-		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
-
-		int unitCost = ItemDatabase.unitCostByName.get( name ).intValue();
-		int start = ItemDatabase.advStartByName.get( name ).intValue();
-		int end = ItemDatabase.advEndByName.get( name ).intValue();
-		
-		// Adventure gain modifier #1 is ode or milk, which adds
-		// unitCost adventures to the result.
-
-		// Adventure gain modifier #2 is Song of the Glorious Lunch or Rowdy Drinker, which adds
-		// unitCost adventures to the result.
-
-		// Adventure gain modifier #3 is Gourmand or Neurogourmet, which adds
-		// unitCost adventures to the result.
-
-		// Adventure gain modifier #4 is the munchies pill, which adds
-		// 1-3 adventures
-
-		// Consumables that generate no adventures do not benefit from ode or milk.
-		double average = ( start + end ) / 2.0 - advs;
-		boolean benefit = ( average != 0.0 );
-
-		double gain0 = benefit ? ( average ) : 0.0;
-		double gain1 = benefit ? ( average + unitCost ) : 0.0;
-		double gain2 = benefit ? ( average + unitCost * 2.0 ) : 0.0;
-
-		// With no effects active, average
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, gain0 );
-
-		// With only one effect, average + unitCost
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, false, gain1 );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
-
-		// With two effects, average + unitCost * 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, gain2 );
-
-		// Only foods have effects 3-4
-		if ( !isFood )
-		{
-			return;
-		}
-		
-		// calculate munchies pill effect
-		double munchieBonus;
-		if ( end <= 3 )
-		{
-			munchieBonus = 3.0;
-		}
-		else if (start >= 7 )
-		{
-			munchieBonus = 1.0;
-		}
-		else
-		{
-			int munchieTotal = 0;
-			for( int i = start; i <= end ; i++ )
-			{
-				munchieTotal += Math.max( (12-i)/3, 1 );
-			}
-			munchieBonus = (double) munchieTotal / ( end-start + 1 );
-		}
-		
-		double gain3 = benefit ? ( average + unitCost * 3.0 ) : 0.0;
-		double gain0a = benefit ? ( average + munchieBonus ) : 0.0;
-		double gain1a = benefit ? ( average + unitCost + munchieBonus ) : 0.0;
-		double gain2a = benefit ? ( average + unitCost * 2.0 + munchieBonus ) : 0.0;
-		double gain3a = benefit ? ( average + unitCost * 3.0 + munchieBonus ) : 0.0;
-
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
-
-		// With two effects, average + unitCost * 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, false, gain2 );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, false, gain2 );
-
-		// With three effects, average + unitCost * 3
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, false, gain3 );
-
-		// With only munchies pill, average + 2
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, true, gain0a );
-
-		// With one effect and munchies pill, average + unitCost + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, true, gain1a );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, true, gain1a );
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, true, gain1a );
-
-		// With two effects and munchies pill, average + unitCost * 2 + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, true, gain2a );
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, true, gain2a );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, true, gain2a );
-
-		// With three effects and munchies pill, average + unitCost * 3 + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
-	}
-
-	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
-	{
-		// Remove adventure gains from zodiac signs
-		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result ) );
-		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result / ( unitCost == 0 ? 1 : unitCost ) ) );
-	}
-
-	private static final Map<String, Double> getAdventureMap( final boolean perUnit,
-						  final boolean gainEffect1, final boolean gainEffect2,
-						  final boolean gainEffect3, final boolean gainEffect4)
-	{
-		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
-	}
-
-	private static final String extractStatRange( String range, double statFactor, int statUnit )
-	{
-		if ( range == null )
-		{
-			return null;
-		}
-
-		range = range.trim();
-
-		boolean isNegative = range.startsWith( "-" );
-		if ( isNegative )
-		{
-			range = range.substring( 1 );
-		}
-
-		int dashIndex = range.indexOf( "-" );
-		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
-
-		if ( dashIndex == -1 )
-		{
-			double num = isNegative ? 0 - start : start;
-			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num / statUnit );
-		}
-
-		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-		double num = ( start + end ) / ( isNegative ? -2.0 : 2.0 );
-		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num / statUnit );
 	}
 
 	/**
@@ -1486,7 +992,7 @@ public class ItemDatabase
 		}
 		else if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK || usage == KoLConstants.CONSUME_SPLEEN )
 		{
-			ItemDatabase.registerConsumable( itemName, usage, text );
+			ConsumablesDatabase.registerConsumable( itemName, usage, text );
 		}
 
 		// Let modifiers database do what it wishes with this item
@@ -1517,52 +1023,6 @@ public class ItemDatabase
 		{
 			FamiliarDatabase.registerFamiliar( id, text );
 		}
-	}
-
-	public static void registerConsumable( final String itemName, final int usage, final String text )
-	{
-		// Get information from description
-		int size;
-		if ( usage == KoLConstants.CONSUME_EAT )
-		{
-			size = DebugDatabase.parseFullness( text );
-		}
-		else if ( usage == KoLConstants.CONSUME_DRINK )
-		{
-			size = DebugDatabase.parseInebriety( text );
-		}
-		else if ( usage == KoLConstants.CONSUME_SPLEEN )
-		{
-			size = DebugDatabase.parseToxicity( text );
-		}
-		else
-		{
-			return;
-		}
-
-		int level = DebugDatabase.parseLevel( text );
-		String quality = DebugDatabase.parseQuality( text );
-
-		// Add consumption data for this session
-		if ( usage == KoLConstants.CONSUME_EAT )
-		{
-			ItemDatabase.fullnessByName.put( itemName, size );
-		}
-		else if ( usage == KoLConstants.CONSUME_DRINK )
-		{
-			ItemDatabase.inebrietyByName.put( itemName, size );
-		}
-		else if ( usage == KoLConstants.CONSUME_SPLEEN )
-		{
-			ItemDatabase.spleenHitByName.put( itemName, size );
-		}
-
-		ItemDatabase.setConsumptionData( itemName, size, level, quality, "1-1", "0", "0", "0", "unknown adventure yield" );
-
-		// Print what goes in fullness.txt
-		String printMe = ItemDatabase.consumableString( itemName, size, level, quality, "1-1", "0", "0", "0", "" );
-		RequestLogger.printLine( printMe );
-		RequestLogger.updateSessionLog( printMe );
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
@@ -1994,110 +1454,6 @@ public class ItemDatabase
 		return JComponentUtilities.getImage( path );
 	}
 
-	public static final Integer getLevelReqByName( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		return ItemDatabase.levelReqByName.get( name );
-	}
-
-	public static final boolean meetsLevelRequirement( final String name )
-	{
-		if ( name == null )
-		{
-			return false;
-		}
-
-		Integer requirement = ItemDatabase.levelReqByName.get( name );
-		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
-	}
-
-	public static final Integer getRawFullness( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-		return ItemDatabase.fullnessByName.get( name );
-	}
-
-	public static final int getFullness( final String name )
-	{
-		Integer fullness = ItemDatabase.getRawFullness( name );
-		return fullness == null ? 0 : fullness.intValue();
-	}
-
-	public static final Integer getRawInebriety( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-		return ItemDatabase.inebrietyByName.get( name );
-	}
-
-	public static final int getInebriety( final String name )
-	{
-		Integer inebriety = ItemDatabase.getRawInebriety( name );
-		return inebriety == null ? 0 : inebriety.intValue();
-	}
-
-	public static final Integer getRawSpleenHit( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-		return ItemDatabase.spleenHitByName.get( name );
-	}
-
-	public static final int getSpleenHit( final String name )
-	{
-		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
-		return spleenhit == null ? 0 : spleenhit.intValue();
-	}
-
-	public static final String getQuality( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		return ItemDatabase.qualityByName.get( name );
-	}
-
-	public static final String getNotes( final String name )
-	{
-		if ( name == null )
-		{
-			return null;
-		}
-
-		return ItemDatabase.notesByName.get( name );
-	}
-
-	private static final Pattern PVP_NOTES_PATTERN = Pattern.compile( "\\+?(\\d+) PvP fights?", Pattern.CASE_INSENSITIVE );
-
-	public static final int getPvPFights( final String name )
-	{
-		int PvPFights = 0;
-		String notes = ItemDatabase.getNotes( name );
-
-		if ( notes != null ) {
-			Matcher matcher = PVP_NOTES_PATTERN.matcher( ItemDatabase.getNotes( name ) );
-
-			if ( matcher.find() ) {
-				PvPFights = Integer.parseInt( matcher.group(1) );
-			}
-		}
-
-		return PvPFights;
-	}
-
 	public static final ArrayList getFoldGroup( final String name )
 	{
 		if ( name == null )
@@ -2106,225 +1462,6 @@ public class ItemDatabase
 		}
 
 		return ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
-	}
-
-	private static final double conditionalExtraAdventures( final String name, final boolean perUnit )
-	{
-		int itemId = ItemDatabase.getItemId( name );
-		int fullness = ItemDatabase.getFullness( name );
-		int inebriety = ItemDatabase.getInebriety( name );
-		if ( ItemDatabase.isMartini ( itemId ) )
-		{
-			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
-			     Preferences.getBoolean( "autoTuxedo" ) &&
-			     EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT ) &&
-			     InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) )
-			{
-				return perUnit ? ( 2.0 / inebriety ) : 2.0;
-			}
-			return 0.0;
-		}
-		if ( ItemDatabase.isLasagna( itemId ) )
-		{
-			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY &&
-			     ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) ||
-			       Preferences.getBoolean( "autoGarish" ) &&
-			       ( KoLCharacter.hasSkill( SkillPool.CLIP_ART ) &&
-				 UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0 ||
-				 InventoryManager.itemAvailable( ItemPool.FIELD_GAR_POTION ) ) ) )
-			{
-				return perUnit ? ( 5.0 / fullness ) : 5.0;
-			}
-			return 0.0;
-		}
-		if ( ItemDatabase.isPizza( itemId ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
-		{
-			return perUnit ? 1.0 : fullness;
-		}
-		if ( ItemDatabase.isSaucy( itemId ) && KoLCharacter.hasSkill( SkillPool.SAUCEMAVEN ) )
-		{
-			if ( KoLCharacter.isMysticalityClass() )
-			{
-				return perUnit ? ( 10.0 / fullness ) : 5.0;
-			}
-			else
-			{
-				return perUnit ? ( 5.0 / fullness ) : 5.0;
-			}
-		}
-		return 0.0;
-	}
-
-	private static final double conditionalStatMultiplier( final String name )
-	{
-		if ( ItemDatabase.isPizza( ItemDatabase.getItemId( name ) ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
-		{
-			return 2.0;
-		}
-		return 1.0;
-	}
-
-	public static final double getAdventureRange( final String name )
-	{
-		if ( name == null )
-		{
-			return 0.0;
-		}
-
-		if ( KoLCharacter.inSlowcore() )
-		{
-			return 0.0;
-		}
-
-		String cname = StringUtilities.getCanonicalName( name );
-		boolean perUnit = Preferences.getBoolean( "showGainsPerUnit" );
-		Double range = null;
-
-		if ( ItemDatabase.getRawFullness( name ) != null )
-		{
-			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == CraftingType.SUSHI;
-			boolean milk = KoLConstants.activeEffects.contains( ItemDatabase.MILK );
-			boolean lunch = KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH );
-			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" ) || KoLCharacter.hasSkill( "Neurogourmet" );
-			boolean munchies = Preferences.getInteger( "munchiesPillsUsed" ) > 0;
-			range = ItemDatabase.getAdventureMap( perUnit,
-								      !sushi && milk,
-								      !sushi && lunch,
-								      !sushi && gourmand,
-								      !sushi && munchies ).get( name );
-		}
-		else if ( ItemDatabase.getRawInebriety( name ) != null )
-		{
-			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
-			boolean rowdyDrinker = KoLCharacter.hasSkill( "Rowdy Drinker" );
-			range = ItemDatabase.getAdventureMap(
-				perUnit, odeEffect, rowdyDrinker, false, false ).get( name );
-		}
-		else if ( ItemDatabase.getRawSpleenHit( name ) != null )
-		{
-			range = ItemDatabase.getAdventureMap(
-				perUnit, false, false, false, false ).get( name );
-		}
-
-		if ( range == null )
-		{
-			return 0.0;
-		}
-
-		range += ItemDatabase.conditionalExtraAdventures( name, perUnit );			
-
-		return range.doubleValue();
-	}
-
-	private static final int getStatUnit( final String name )
-	{
-		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
-		{
-			return 1;
-		}
-		int unit = 0;
-		Integer fullness = ItemDatabase.getRawFullness( name );
-		Integer inebriety = ItemDatabase.getRawInebriety( name );
-		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
-		
-		if ( fullness != null )
-		{
-			unit += fullness.intValue();
-		}
-		if ( inebriety != null )
-		{
-			unit += inebriety.intValue();
-		}
-		if ( spleenhit != null )
-		{
-			unit += spleenhit.intValue();
-		}
-		if ( unit == 0 )
-		{
-			unit = 1;
-		}
-		return unit;
-	}
-
-	public static final String getMuscleByName( final String name )
-	{
-		if ( name == null )
-		{
-			return "";
-		}
-
-		String range = ItemDatabase.muscleByName.get( name );
-		return range == null ? "" : range;
-	}
-
-	public static final String getMuscleRange( final String name )
-	{
-		if ( name == null )
-		{
-			return "+0.0";
-		}
-
-		String muscle = ItemDatabase.muscleByName.get( name );
-		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
-		muscleFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( name );
-		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor, statUnit );
-		return range == null ? "+0.0" : range;
-	}
-
-	public static final String getMysticalityByName( final String name )
-	{
-		if ( name == null )
-		{
-			return "";
-		}
-
-		String range = ItemDatabase.mysticalityByName.get( name );
-		return range == null ? "" : range;
-	}
-
-	public static final String getMysticalityRange( final String name )
-	{
-		if ( name == null )
-		{
-			return "+0.0";
-		}
-
-		String mysticality = ItemDatabase.mysticalityByName.get( name );
-		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
-		mysticalityFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( name );
-		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit );
-		return range == null ? "+0.0" : range;
-	}
-
-	public static final String getMoxieByName( final String name )
-	{
-		if ( name == null )
-		{
-			return "";
-		}
-
-		String range = ItemDatabase.moxieByName.get( name );
-		return range == null ? "" : range;
-	}
-
-	public static final String getMoxieRange( final String name )
-	{
-		if ( name == null )
-		{
-			return "+0.0";
-		}
-
-		String moxie = ItemDatabase.moxieByName.get( name );
-		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
-		moxieFactor *= ItemDatabase.conditionalStatMultiplier( name );
-		int statUnit = ItemDatabase.getStatUnit( name );
-		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor, statUnit );
-		return range == null ? "+0.0" : range;
 	}
 
 	/**
@@ -2785,70 +1922,6 @@ public class ItemDatabase
 		}
 		return false;
 	}
-
-	public static final boolean isMartini( final int itemId )
-	{
-		switch ( itemId )
-		{
-		case ItemPool.DRY_MARTINI:
-		case ItemPool.DRY_VODKA_MARTINI:
-		case ItemPool.GIBSON:
-		case ItemPool.MARTINI:
-		case ItemPool.ROCKIN_WAGON:
-		case ItemPool.SOFT_GREEN_ECHO_ANTIDOTE_MARTINI:
-		case ItemPool.VODKA_GIBSON:
-		case ItemPool.VODKA_MARTINI:
-			return true;
-		}
-		return false;
-	}
-
-	public static final boolean isLasagna( final int itemId )
-	{
-		switch ( itemId )
-		{
-		case ItemPool.FISHY_FISH_LASAGNA:
-		case ItemPool.GNAT_LASAGNA:
-		case ItemPool.LONG_PORK_LASAGNA:
-			return true;
-		}
-		return false;
-	}
-	public static final boolean isSaucy( final int itemId )
-	{
-		switch ( itemId )
-		{
-		case ItemPool.COLD_HI_MEIN:
-		case ItemPool.HOT_HI_MEIN:
-		case ItemPool.SLEAZY_HI_MEIN:
-		case ItemPool.SPOOKY_HI_MEIN:
-		case ItemPool.STINKY_HI_MEIN:
-		case ItemPool.HELL_RAMEN:
-		case ItemPool.FETTUCINI_INCONNU:
-		case ItemPool.SPAGHETTI_WITH_SKULLHEADS:
-		case ItemPool.GNOCCHETTI_DI_NIETZSCHE:
-		case ItemPool.SPAGHETTI_CON_CALAVERAS:
-			return true;
-		}
-		return false;
-	}
-
-	public static final boolean isPizza( final int itemId )
-	{
-		// Could just detect pizza in the name, but KoL tends to break that in time
-		switch ( itemId )
-		{
-		case ItemPool.PLAIN_PIZZA:
-		case ItemPool.SAUSAGE_PIZZA:
-		case ItemPool.GOAT_CHEESE_PIZZA:
-		case ItemPool.MUSHROOM_PIZZA:
-		case ItemPool.WHITE_CHOCOLATE_AND_TOMATO_PIZZA:
-		case ItemPool.SLICE_OF_PIZZA:
-		case ItemPool.INCREDIBLE_PIZZA:
-			return true;
-		}
-		return false;
-	}
 	
 	/**
 	 * Returns the kind of consumption associated with an item
@@ -2933,135 +2006,6 @@ public class ItemDatabase
 	public static final int maxItemId()
 	{
 		return ItemDatabase.maxItemId;
-	}
-
-	// Support for astral consumables and other level dependant consumables
-
-	public static final void setVariableConsumables()
-	{
-		int level = Math.min( 11, Math.max( 3, KoLCharacter.getLevel() ) );
-
-		// astral pilsner:
-		//
-		// You gain X Adventures.
-		// You gain 0-2X Strongness.
-		// You gain 0-2X Enchantedness.
-		// You gain 0-2X Chutzpah.
-		// You gain 1 Drunkenness.
-		//
-		// X is equal to your level with a minimum of 3 and a maximum of 11
-
-		String name = "astral pilsner";
-		int size = 1;
-		String adventures = String.valueOf( level );
-		String statGain = "0-" + String.valueOf( 2 * level );
-		String muscle = statGain;
-		String mysticality = statGain;
-		String moxie = statGain;
-		String note = "";
-
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
-
-		// astral hot dog
-		//
-		// You gain X Adventures.
-		// You gain Y Beefiness.
-		// You gain Y Enchantedness.
-		// You gain Y Cheek.
-		// (You gain 3 Fullness.)
-
-		// X and Y are based off of your current level.
-		// Levels 1 and 2 use Level 3 stats. The level is capped at level 11.
-		// X ranges between 1.8 times your level (rounded up) and 2.2
-		//   times your level (rounded down).
-		// Y will be between 16 and 20 times your level.
-
-		name = "astral hot dog";
-		size = 3;
-		int a1 = (int) Math.ceil( 1.8 * level );
-		int a2 = (int) Math.floor( 2.2 * level );
-		adventures = String.valueOf( a1 ) + "-" + String.valueOf( a2 );
-		statGain = String.valueOf( 16 * level ) + "-" + String.valueOf( 20 * level );
-		muscle = statGain;
-		mysticality = statGain;
-		moxie = statGain;
-		note = "";
-
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
-
-		// astral energy drink
-		//
-		// You gain X Adventures.
-		// (You gain 8 Spleen.)
-		//
-		// Adventure gains appear to be 10 + (your level * 2) +/- 3. Gains are
-		// (probably) capped at level 11 giving 29-35 adventures, and levels 1-3
-		// are (probably) lumped together giving 13-19 adventures.
-
-		name = "astral energy drink";
-		size = 8;
-		int a = 10 + level * 2;
-		adventures = String.valueOf( a - 3 ) + "-" + String.valueOf( a + 3 );
-		muscle = "0";
-		mysticality = "0";
-		moxie = "0";
-		note = "";
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
-		
-		// spaghetti breakfast
-		//
-		// You gain X Adventures.
-		// (You gain 1 Fullness.)
-		//
-		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
-		
-		name = "spaghetti breakfast";
-		size = 1;
-		float sbAdv = ( level + 1 ) / 2;
-		adventures = String.valueOf( sbAdv );
-		muscle = "0";
-		mysticality = "0";
-		moxie = "0";
-		note = "";
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
-		
-		// cold one
-		//
-		// You gain X Adventures.
-		// (You gain 1 Fullness.)
-		//
-		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
-		
-		name = "cold one";
-		size = 1;
-		float coAdv = ( level + 1 ) / 2;
-		adventures = String.valueOf( coAdv );
-		muscle = "0";
-		mysticality = "0";
-		moxie = "0";
-		note = "";
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
-	}
-
-	// Support for dusty bottles of wine
-
-	public static final String dustyBottleType( final int itemId )
-	{
-		return
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_MERLOT ) ? "average" :
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_PORT ) ? "vinegar" :
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR ) ? "spooky" :
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL ) ? "great" :
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_MARSALA ) ? "glassy" :
-			( itemId == ItemPool.DUSTY_BOTTLE_OF_MUSCAT ) ? "bad" :
-			"dusty";
-	}
-
-	public static final String dustyBottleName( final int itemId )
-	{
-		String name = ItemDatabase.getItemName( itemId );
-		String type = ItemDatabase.dustyBottleType( itemId );
-		return type.equals( "dusty" ) ? name : StringUtilities.globalStringReplace( name, " of", " of " + type );
 	}
 
 	public static int parseYearbookCamera( final String desc )

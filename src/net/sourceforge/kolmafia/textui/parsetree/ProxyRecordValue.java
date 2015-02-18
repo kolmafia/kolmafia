@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -295,47 +296,47 @@ public class ProxyRecordValue
 
 		public Integer get_levelreq()
 		{
-			return ItemDatabase.getLevelReqByName( this.contentString );
+			return ConsumablesDatabase.getLevelReqByName( this.contentString );
 		}
 
 		public String get_quality()
 		{
-			return ItemDatabase.getQuality( this.contentString );
+			return ConsumablesDatabase.getQuality( this.contentString );
 		}
 
 		public String get_adventures()
 		{
-			return ItemDatabase.getAdvRangeByName( this.contentString );
+			return ConsumablesDatabase.getAdvRangeByName( this.contentString );
 		}
 
 		public String get_muscle()
 		{
-			return ItemDatabase.getMuscleByName( this.contentString );
+			return ConsumablesDatabase.getMuscleByName( this.contentString );
 		}
 
 		public String get_mysticality()
 		{
-			return ItemDatabase.getMysticalityByName( this.contentString );
+			return ConsumablesDatabase.getMysticalityByName( this.contentString );
 		}
 
 		public String get_moxie()
 		{
-			return ItemDatabase.getMoxieByName( this.contentString );
+			return ConsumablesDatabase.getMoxieByName( this.contentString );
 		}
 
 		public int get_fullness()
 		{
-			return ItemDatabase.getFullness( this.contentString );
+			return ConsumablesDatabase.getFullness( this.contentString );
 		}
 
 		public int get_inebriety()
 		{
-			return ItemDatabase.getInebriety( this.contentString );
+			return ConsumablesDatabase.getInebriety( this.contentString );
 		}
 
 		public int get_spleen()
 		{
-			return ItemDatabase.getSpleenHit( this.contentString );
+			return ConsumablesDatabase.getSpleenHit( this.contentString );
 		}
 
 		public int get_minhp()
@@ -365,7 +366,7 @@ public class ProxyRecordValue
 
 		public String get_notes()
 		{
-			return ItemDatabase.getNotes( this.contentString );
+			return ConsumablesDatabase.getNotes( this.contentString );
 		}
 
 		public boolean get_quest()

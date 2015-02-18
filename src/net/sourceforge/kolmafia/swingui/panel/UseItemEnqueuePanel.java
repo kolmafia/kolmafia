@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
@@ -606,21 +607,21 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( ItemDatabase.getRawFullness( creation.getName() ) != null )
+			if ( ConsumablesDatabase.getRawFullness( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.food )
 				{
 					return false;
 				}
 			}
-			else if ( ItemDatabase.getRawInebriety( creation.getName() ) != null )
+			else if ( ConsumablesDatabase.getRawInebriety( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
 			}
-			else if ( ItemDatabase.getRawSpleenHit( creation.getName() ) != null )
+			else if ( ConsumablesDatabase.getRawSpleenHit( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.spleen )
 				{
@@ -692,7 +693,7 @@ public class UseItemEnqueuePanel
 				{
 					String name = item != null ? item.getName() : null;
 					if ( name != null && !name.equals( "steel lasagna" ) &&
-					     ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
+					     ( ConsumablesDatabase.getNotes( name ) == null || !ConsumablesDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
 					{
 						return false;
 					}
@@ -730,7 +731,7 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				String notes = ItemDatabase.getNotes( name );
+				String notes = ConsumablesDatabase.getNotes( name );
 				if ( !name.equals( "steel margarita" ) &&
 				     ( notes == null || !notes.startsWith( "KOLHS" ) ) )
 				{
@@ -771,7 +772,7 @@ public class UseItemEnqueuePanel
 			}
 			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
 			{
-				String range = ItemDatabase.getMuscleRange( creation.getName() );
+				String range = ConsumablesDatabase.getMuscleRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;
@@ -780,7 +781,7 @@ public class UseItemEnqueuePanel
 
 			if ( UseItemEnqueuePanel.this.filters[ 4 ].isSelected() )
 			{
-				String range = ItemDatabase.getMysticalityRange( creation.getName() );
+				String range = ConsumablesDatabase.getMysticalityRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;
@@ -789,7 +790,7 @@ public class UseItemEnqueuePanel
 
 			if ( UseItemEnqueuePanel.this.filters[ 5 ].isSelected() )
 			{
-				String range = ItemDatabase.getMoxieRange( creation.getName() );
+				String range = ConsumablesDatabase.getMoxieRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;

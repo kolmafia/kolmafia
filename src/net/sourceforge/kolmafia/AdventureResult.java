@@ -43,6 +43,7 @@ import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -447,7 +448,7 @@ public class AdventureResult
 		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
 		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
 
-			return ItemDatabase.dustyBottleName( this.itemId );
+			return ConsumablesDatabase.dustyBottleName( this.itemId );
 
 		case ItemPool.MILKY_POTION:
 		case ItemPool.SWIRLY_POTION:

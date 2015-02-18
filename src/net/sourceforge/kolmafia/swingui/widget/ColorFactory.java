@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -131,7 +132,7 @@ public final class ColorFactory
 			return color;
 		}
 
-		return	ItemDatabase.meetsLevelRequirement( name ) ?
+		return	ConsumablesDatabase.meetsLevelRequirement( name ) ?
 			ColorFactory.getQualityColor( name ) :
 			getNotAvailableColor();
 	}
@@ -148,7 +149,7 @@ public final class ColorFactory
 			return color;
 		}
 
-		if ( !ItemDatabase.meetsLevelRequirement( name ) || !EquipmentManager.canEquip( name ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( name ) || !EquipmentManager.canEquip( name ) )
 		{
 			color = getNotAvailableColor();
 		}
@@ -163,33 +164,33 @@ public final class ColorFactory
 	{
 		String pref;
 		String color = null;
-		String quality = ItemDatabase.getQuality( name );
+		String quality = ConsumablesDatabase.getQuality( name );
 
 		if ( quality == null )
 		{
 			return null;
 		}
-		if ( quality.equals( ItemDatabase.CRAPPY ) )
+		if ( quality.equals( ConsumablesDatabase.CRAPPY ) )
 		{
 			pref = checkPref( "crappy" );
 			color = pref != null ? pref : "#999999";
 		}
-		else if ( quality.equals( ItemDatabase.DECENT ) )
+		else if ( quality.equals( ConsumablesDatabase.DECENT ) )
 		{
 			pref = checkPref( "decent" );
 			color = pref;
 		}
-		else if ( quality.equals( ItemDatabase.GOOD ) )
+		else if ( quality.equals( ConsumablesDatabase.GOOD ) )
 		{
 			pref = checkPref( "good" );
 			color = pref != null ? pref : "green";
 		}
-		else if ( quality.equals( ItemDatabase.AWESOME ) )
+		else if ( quality.equals( ConsumablesDatabase.AWESOME ) )
 		{
 			pref = checkPref( "awesome" );
 			color = pref != null ? pref : "blue";
 		}
-		else if ( quality.equals( ItemDatabase.EPIC ) )
+		else if ( quality.equals( ConsumablesDatabase.EPIC ) )
 		{
 			pref = checkPref( "epic" );
 			color = pref != null ? pref : "#8a2be2";

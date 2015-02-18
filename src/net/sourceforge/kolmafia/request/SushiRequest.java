@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -584,7 +584,7 @@ public class SushiRequest
 
 		if ( updateFullness )
 		{
-			int fullness = ItemDatabase.getFullness( name );
+			int fullness = ConsumablesDatabase.getFullness( name );
 			if ( fullness > 0 && !responseText.contains( "Fullness" ) )
 			// ResultProcessor will handle fullness gain if fullness display is enabled
 			{

@@ -773,7 +773,7 @@ public class DebugDatabase
 
 	private static final void checkLevelDatum( final String name, final String text, final PrintStream report )
 	{
-		Integer requirement = ItemDatabase.getLevelReqByName( name );
+		Integer requirement = ConsumablesDatabase.getLevelReqByName( name );
 		int level = requirement == null ? 0 : requirement.intValue();
 		int descLevel = DebugDatabase.parseLevel( text );
 		if ( level != descLevel )
@@ -2155,9 +2155,9 @@ public class DebugDatabase
 
 	private static final void checkConsumables( final PrintStream report )
 	{
-		DebugDatabase.checkConsumables( report, ItemDatabase.fullnessByName, "fullness" );
-		DebugDatabase.checkConsumables( report, ItemDatabase.inebrietyByName, "inebriety" );
-		DebugDatabase.checkConsumables( report, ItemDatabase.spleenHitByName, "spleenhit" );
+		DebugDatabase.checkConsumables( report, ConsumablesDatabase.fullnessByName, "fullness" );
+		DebugDatabase.checkConsumables( report, ConsumablesDatabase.inebrietyByName, "inebriety" );
+		DebugDatabase.checkConsumables( report, ConsumablesDatabase.spleenHitByName, "spleenhit" );
 	}
 
 	private static final void checkConsumables( final PrintStream report, final Map map, final String tag )
@@ -2190,15 +2190,15 @@ public class DebugDatabase
 			return;
 		}
 
-		int level = ItemDatabase.getLevelReqByName( name ).intValue();
-		String adv = ItemDatabase.getAdvRangeByName( name );
-		String quality = ( itemId == -1 ) ? ItemDatabase.getQuality( name ) : DebugDatabase.parseQuality( text );
-		String mus = ItemDatabase.getMuscleByName( name );
-		String mys = ItemDatabase.getMysticalityByName( name );
-		String mox = ItemDatabase.getMoxieByName( name );
-		String notes = ItemDatabase.getNotes( name );
+		int level = ConsumablesDatabase.getLevelReqByName( name ).intValue();
+		String adv = ConsumablesDatabase.getAdvRangeByName( name );
+		String quality = ( itemId == -1 ) ? ConsumablesDatabase.getQuality( name ) : DebugDatabase.parseQuality( text );
+		String mus = ConsumablesDatabase.getMuscleByName( name );
+		String mys = ConsumablesDatabase.getMysticalityByName( name );
+		String mox = ConsumablesDatabase.getMoxieByName( name );
+		String notes = ConsumablesDatabase.getNotes( name );
 
-		ItemDatabase.writeConsumable( report, name, size, level, quality, adv, mus, mys, mox, notes );
+		ConsumablesDatabase.writeConsumable( report, name, size, level, quality, adv, mus, mys, mox, notes );
 	}
 
 	// Type: <b>food <font color=#999999>(crappy)</font></b>
@@ -2211,7 +2211,7 @@ public class DebugDatabase
 	public static final String parseQuality( final String text )
 	{
 		Matcher matcher = DebugDatabase.QUALITY_PATTERN.matcher( text );
-		return ItemDatabase.qualityValue( matcher.find() ? matcher.group( 1 ) : "" );
+		return ConsumablesDatabase.qualityValue( matcher.find() ? matcher.group( 1 ) : "" );
 	}
 
 	// **********************************************************
@@ -2334,7 +2334,7 @@ public class DebugDatabase
 
 		String line = name + "\t" + fullness + "\t" + level + "\t" + advs + "\t" + musc + "\t" + myst + "\t" + mox;
 
-		int present = ItemDatabase.getFullness( name );
+		int present = ConsumablesDatabase.getFullness( name );
 
 		if ( present == 0 )
 		{
@@ -2343,7 +2343,7 @@ public class DebugDatabase
 		}
 		else
 		{
-			String note = ItemDatabase.getNotes( name );
+			String note = ConsumablesDatabase.getNotes( name );
 			if ( note != null )
 			{
 				line = line + "\t" + note;
@@ -2429,7 +2429,7 @@ public class DebugDatabase
 
 		String line = name + "\t" + drunk + "\t" + level + "\t" + advs + "\t" + musc + "\t" + myst + "\t" + mox;
 
-		int present = ItemDatabase.getInebriety( name );
+		int present = ConsumablesDatabase.getInebriety( name );
 
 		if ( present == 0 )
 		{
@@ -2438,7 +2438,7 @@ public class DebugDatabase
 		}
 		else
 		{
-			String note = ItemDatabase.getNotes( name );
+			String note = ConsumablesDatabase.getNotes( name );
 			if ( note != null )
 			{
 				line = line + "\t" + note;

@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -581,7 +582,7 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
 	{
-		if ( !ItemDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
 		{
 			return null;
 		}

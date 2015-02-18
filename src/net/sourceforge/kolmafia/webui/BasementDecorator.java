@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
@@ -440,9 +440,9 @@ public class BasementDecorator
 				if ( this.item != null )
 				{
 					this.itemAvailable = InventoryManager.hasItem( this.item );
-					this.fullness = ItemDatabase.getFullness( item.getName() );
-					this.spleen = ItemDatabase.getSpleenHit( item.getName() );
-					this.inebriety = ItemDatabase.getInebriety( item.getName() );
+					this.fullness = ConsumablesDatabase.getFullness( item.getName() );
+					this.spleen = ConsumablesDatabase.getSpleenHit( item.getName() );
+					this.inebriety = ConsumablesDatabase.getInebriety( item.getName() );
 				}
 			}
 		}

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -107,8 +108,8 @@ public class CafeRequest
 		this.isPurchase = true;
 		this.itemName = itemName;
 		this.price = price;
-		this.fullness = ItemDatabase.getFullness( itemName );
-		this.inebriety = ItemDatabase.getInebriety( itemName );
+		this.fullness = ConsumablesDatabase.getFullness( itemName );
+		this.inebriety = ConsumablesDatabase.getInebriety( itemName );
 		this.addFormField( "action", "CONSUME!" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
@@ -209,7 +210,7 @@ public class CafeRequest
 
 	protected void parseResponse()
 	{
-		int fullness = ItemDatabase.getFullness( this.itemName );
+		int fullness = ConsumablesDatabase.getFullness( this.itemName );
 		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) )
 		// if fullness display is on, ResultProcessor will handle incrementing fullness
 		{
@@ -282,7 +283,7 @@ public class CafeRequest
 
 	public static final void registerItemUsage( final String itemName, int price )
 	{
-		int inebriety = ItemDatabase.getInebriety( itemName );
+		int inebriety = ConsumablesDatabase.getInebriety( itemName );
 		String consume = inebriety > 0 ? "drink" : "eat";
 
 		price = CafeRequest.discountedPrice( price );
