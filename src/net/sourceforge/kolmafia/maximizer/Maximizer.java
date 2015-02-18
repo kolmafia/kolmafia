@@ -49,21 +49,27 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -72,12 +78,15 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.StoreManager;
+
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
@@ -403,7 +412,7 @@ public class Maximizer
 							}
 							// Is it Fancy and has one been used?
 							if ( ClanLoungeRequest.isFancyHotDog( iName ) &&
-								Preferences.getBoolean( "_fancyHotDogEaten" ) )
+							     Preferences.getBoolean( "_fancyHotDogEaten" ) )
 							{
 								continue;
 							}
@@ -869,19 +878,19 @@ public class Maximizer
 						continue;
 					}
 
-					int full = ItemDatabase.getFullness( iname );
+					int full = ConsumablesDatabase.getFullness( iname );
 					if ( full > 0 &&
 						KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
 					{
 						cmd = "";
 					}
-					full = ItemDatabase.getInebriety( iname );
+					full = ConsumablesDatabase.getInebriety( iname );
 					if ( full > 0 &&
 						KoLCharacter.getInebriety() + full > KoLCharacter.getInebrietyLimit() )
 					{
 						cmd = "";
 					}
-					full = ItemDatabase.getSpleenHit( iname );
+					full = ConsumablesDatabase.getSpleenHit( iname );
 					if ( full > 0 && cmd.indexOf( "chew" ) == -1 )
 					{
 						RequestLogger.printLine( "(Note: extender for " +
@@ -892,7 +901,7 @@ public class Maximizer
 					{
 						cmd = "";
 					}
-					if ( !ItemDatabase.meetsLevelRequirement( iname ) )
+					if ( !ConsumablesDatabase.meetsLevelRequirement( iname ) )
 					{
 						if ( includeAll )
 						{

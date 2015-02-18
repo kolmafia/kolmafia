@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -83,7 +84,7 @@ public class SpleenItemRequest
 	@Override
 	public void run()
 	{
-		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -207,7 +208,7 @@ public class SpleenItemRequest
 			return;
 		}
 
-		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
+		int spleenHit = ConsumablesDatabase.getSpleenHit( item.getName() );
 		int count = item.getCount();
 		int spleenUse = spleenHit * count;
 

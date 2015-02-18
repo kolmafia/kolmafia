@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -131,7 +132,7 @@ public class RestaurantCommand
 
 			if ( count == 0 )
 			{
-				int fullness = ItemDatabase.getFullness( name );
+				int fullness = ConsumablesDatabase.getFullness( name );
 				if ( fullness > 0 )
 				{
 					count = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
@@ -206,7 +207,7 @@ public class RestaurantCommand
 
 			if ( count == 0 )
 			{
-				int inebriety = ItemDatabase.getInebriety( name );
+				int inebriety = ConsumablesDatabase.getInebriety( name );
 				if ( inebriety > 0 )
 				{
 					count = ( KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety() ) / inebriety;
@@ -265,7 +266,7 @@ public class RestaurantCommand
 			}
 
 			int available = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
-			int fullness = ItemDatabase.getFullness( hotdog );
+			int fullness = ConsumablesDatabase.getFullness( hotdog );
 			if ( fullness > available )
 			{
 				KoLmafia.updateDisplay( "You are too full to eat a " + hotdog );
@@ -331,7 +332,7 @@ public class RestaurantCommand
 		}
 
 		int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-		int inebriety = ItemDatabase.getInebriety( speakeasyDrink );
+		int inebriety = ConsumablesDatabase.getInebriety( speakeasyDrink );
 		if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 		{
 			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||

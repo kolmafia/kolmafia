@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -348,7 +349,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		int PvPGain = ItemDatabase.getPvPFights( itemName );
+		int PvPGain = ConsumablesDatabase.getPvPFights( itemName );
 
 		// Does this item even give us PvP fights?
 		if ( PvPGain <= 0 )
@@ -462,19 +463,19 @@ public class UseItemRequest
 
 		// Delegate to specialized classes as appropriate
 
-		int inebriety = ItemDatabase.getInebriety( itemName );
+		int inebriety = ConsumablesDatabase.getInebriety( itemName );
 		if ( inebriety > 0 )
 		{
 			return DrinkItemRequest.maximumUses( itemId, itemName, inebriety, allowOverDrink );
 		}
 
-		int fullness = ItemDatabase.getFullness( itemName );
+		int fullness = ConsumablesDatabase.getFullness( itemName );
 		if ( fullness > 0 )
 		{
 			return EatItemRequest.maximumUses( itemId, itemName, fullness );
 		}
 
-		int spleenHit = ItemDatabase.getSpleenHit( itemName );
+		int spleenHit = ConsumablesDatabase.getSpleenHit( itemName );
 		if ( spleenHit > 0 )
 		{
 			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
@@ -670,7 +671,7 @@ public class UseItemRequest
 
 		case ItemPool.MILK_OF_MAGNESIUM:
 			UseItemRequest.limiter = "remaining fullness";
-			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+			int milkyTurns = ConsumablesDatabase.MILK.getCount( KoLConstants.activeEffects );
 			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
 			// If our current dose of Got Milk is sufficient to
 			// fill us up, no milk is needed.
@@ -1335,7 +1336,7 @@ public class UseItemRequest
 		}
 
 		UseItemRequest.lastUpdate = "";
-		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -1886,21 +1887,21 @@ public class UseItemRequest
 		// At least one item - the ice stein - is neither a drink nor a
 		// drink helper, but acts like a drink. Delegate.
 
-		int inebriety = ItemDatabase.getInebriety( name );
+		int inebriety = ConsumablesDatabase.getInebriety( name );
 		if ( inebriety > 0 )
 		{
 			DrinkItemRequest.parseConsumption( item, helper, responseText );
 			return;
 		}
 
-		int fullness = ItemDatabase.getFullness( name );
+		int fullness = ConsumablesDatabase.getFullness( name );
 		if ( fullness > 0 )
 		{
 			EatItemRequest.parseConsumption( item, helper, responseText );
 			return;
 		}
 
-		int spleenHit = ItemDatabase.getSpleenHit( name );
+		int spleenHit = ConsumablesDatabase.getSpleenHit( name );
 		if ( spleenHit > 0 )
 		{
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
@@ -5682,7 +5683,7 @@ public class UseItemRequest
 
 		String name = item.getName();
 
-		if ( ItemDatabase.getSpleenHit( name ) > 0 )
+		if ( ConsumablesDatabase.getSpleenHit( name ) > 0 )
 		{
 			return SpleenItemRequest.registerRequest();
 		}

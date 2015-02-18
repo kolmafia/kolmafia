@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -579,8 +580,8 @@ public abstract class KoLCharacter
 		CoinmasterRegistry.reset();
 		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions();
-		ItemDatabase.setVariableConsumables();
-		ItemDatabase.calculateAdventureRanges();
+		ConsumablesDatabase.setVariableConsumables();
+		ConsumablesDatabase.calculateAdventureRanges();
 
 		RelayRequest.reset();
 
@@ -1098,7 +1099,7 @@ public abstract class KoLCharacter
 			{
 				HPRestoreItemList.updateHealthRestored();
 				MPRestoreItemList.updateManaRestored();
-				ItemDatabase.setVariableConsumables();
+				ConsumablesDatabase.setVariableConsumables();
 			}
 		}
 
@@ -2883,7 +2884,7 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.hasOven = hasOven;
 			ConcoctionDatabase.setRefreshNeeded( true );
-			ItemDatabase.calculateAdventureRanges();
+			ConsumablesDatabase.calculateAdventureRanges();
 		}
 	}
 

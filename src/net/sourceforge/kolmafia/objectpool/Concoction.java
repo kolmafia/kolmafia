@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -218,9 +219,9 @@ public class Concoction
 
 	private void setConsumptionData()
 	{
-		this.fullness = ItemDatabase.getFullness( this.name );
-		this.inebriety = ItemDatabase.getInebriety( this.name );
-		this.spleenhit = ItemDatabase.getSpleenHit( this.name );
+		this.fullness = ConsumablesDatabase.getFullness( this.name );
+		this.inebriety = ConsumablesDatabase.getInebriety( this.name );
+		this.spleenhit = ConsumablesDatabase.getSpleenHit( this.name );
 
 		this.sortOrder = this.fullness > 0 ? FOOD_PRIORITY :
 			this.inebriety > 0 ? BOOZE_PRIORITY :
@@ -236,13 +237,13 @@ public class Concoction
 		switch ( KoLCharacter.mainStat() )
 		{
 		case MUSCLE:
-			range = ItemDatabase.getMuscleRange( this.name );
+			range = ConsumablesDatabase.getMuscleRange( this.name );
 			break;
 		case MYSTICALITY:
-			range = ItemDatabase.getMysticalityRange( this.name );
+			range = ConsumablesDatabase.getMysticalityRange( this.name );
 			break;
 		case MOXIE:
-			range = ItemDatabase.getMoxieRange( this.name );
+			range = ConsumablesDatabase.getMoxieRange( this.name );
 			break;
 		}
 		this.mainstatGain = StringUtilities.parseDouble( range );
@@ -512,8 +513,8 @@ public class Concoction
 			}
 		}
 
-		double adventures1 = ItemDatabase.getAdventureRange( this.name );
-		double adventures2 = ItemDatabase.getAdventureRange( o.name );
+		double adventures1 = ConsumablesDatabase.getAdventureRange( this.name );
+		double adventures2 = ConsumablesDatabase.getAdventureRange( o.name );
 
 		if ( adventures1 != adventures2 )
 		{

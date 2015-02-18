@@ -926,7 +926,7 @@ public class ConcoctionDatabase
 		else if ( consumptionType == KoLConstants.CONSUME_DRINK )
 		{
 			int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-			int inebriety = ItemDatabase.getInebriety( name );
+			int inebriety = ConsumablesDatabase.getInebriety( name );
 			if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 			{
 				if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
@@ -1354,7 +1354,7 @@ public class ConcoctionDatabase
 			if ( considerPulls &&
 			     ar.getItemId() > 0 &&
 			     item.getPrice() <= 0 &&
-			     ItemDatabase.meetsLevelRequirement( item.getName() ) &&
+			     ConsumablesDatabase.meetsLevelRequirement( item.getName() ) &&
 			     StandardRequest.isAllowed( "Items", ar.getName() ) )
 			{
 				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
@@ -1401,7 +1401,7 @@ public class ConcoctionDatabase
 
 		if ( ConcoctionDatabase.recalculateAdventureRange )
 		{
-			ItemDatabase.calculateAdventureRanges();
+			ConsumablesDatabase.calculateAdventureRanges();
 			ConcoctionDatabase.recalculateAdventureRange = false;
 		}
 	}
@@ -1429,12 +1429,9 @@ public class ConcoctionDatabase
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 
-		ConcoctionDatabase.setBuyableItem(
-			availableIngredients, ItemPool.MEAT_PASTE, 10 );
-		ConcoctionDatabase.setBuyableItem(
-			availableIngredients, ItemPool.MEAT_STACK, 100 );
-		ConcoctionDatabase.setBuyableItem(
-			availableIngredients, ItemPool.DENSE_STACK, 1000 );
+		ConcoctionDatabase.setBuyableItem( availableIngredients, ItemPool.MEAT_PASTE, 10 );
+		ConcoctionDatabase.setBuyableItem( availableIngredients, ItemPool.MEAT_STACK, 100 );
+		ConcoctionDatabase.setBuyableItem( availableIngredients, ItemPool.DENSE_STACK, 1000 );
 	}
 
 	private static final void setBuyableItem( final List availableIngredients, final int itemId, final int price )

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class DustyBottlesCommand
@@ -51,7 +52,7 @@ public class DustyBottlesCommand
 		for ( int i = 2271; i <= 2276; ++i )
 		{
 			String bottle = ItemDatabase.getItemName( i );
-			String type = ItemDatabase.dustyBottleType( i );
+			String type = ConsumablesDatabase.dustyBottleType( i );
 			RequestLogger.printLine( bottle + ": " + type );
 		}
 	}

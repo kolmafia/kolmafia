@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -451,9 +452,9 @@ public class ListCellRendererFactory
 				break;
 
 			default:
-				Integer fullness = ItemDatabase.getRawFullness( name );
-				Integer inebriety = ItemDatabase.getRawInebriety( name );
-				Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
+				Integer fullness = ConsumablesDatabase.getRawFullness( name );
+				Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
+				Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
 	
 				if ( fullness != null )
 				{
@@ -471,7 +472,7 @@ public class ListCellRendererFactory
 					stringForm.append( " spleen" );
 				}
 	
-				this.appendRange( stringForm, ItemDatabase.getAdventureRange( name ), "adv" );
+				this.appendRange( stringForm, ConsumablesDatabase.getAdventureRange( name ), "adv" );
 	
 				if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 				{
@@ -489,10 +490,10 @@ public class ListCellRendererFactory
 					}
 				}
 	
-				this.appendRange( stringForm, ItemDatabase.getMuscleRange( name ), "mus" );
-				this.appendRange( stringForm, ItemDatabase.getMysticalityRange( name ), "mys" );
-				this.appendRange( stringForm, ItemDatabase.getMoxieRange( name ), "mox" );
-				String notes = ItemDatabase.getNotes( name );
+				this.appendRange( stringForm, ConsumablesDatabase.getMuscleRange( name ), "mus" );
+				this.appendRange( stringForm, ConsumablesDatabase.getMysticalityRange( name ), "mys" );
+				this.appendRange( stringForm, ConsumablesDatabase.getMoxieRange( name ), "mox" );
+				String notes = ConsumablesDatabase.getNotes( name );
 				if ( notes != null && notes.length() > 0 )
 				{
 					stringForm.append( ", " );
@@ -1042,8 +1043,8 @@ public class ListCellRendererFactory
 			}
 			else
 			{
-				Integer fullness = ItemDatabase.getRawFullness( ar.getName() );
-				Integer inebriety = ItemDatabase.getRawInebriety( ar.getName() );
+				Integer fullness = ConsumablesDatabase.getRawFullness( ar.getName() );
+				Integer inebriety = ConsumablesDatabase.getRawInebriety( ar.getName() );
 				
 				if ( fullness != null || inebriety != null )
 				{
@@ -1058,7 +1059,7 @@ public class ListCellRendererFactory
 					}
 	
 					this.appendRange( stringForm,
-						ItemDatabase.getAdventureRange( ar.getName() ), "adv" );
+						ConsumablesDatabase.getAdventureRange( ar.getName() ), "adv" );
 	
 					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 					{

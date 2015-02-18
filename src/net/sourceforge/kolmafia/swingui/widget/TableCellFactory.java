@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -151,11 +152,11 @@ public class TableCellFactory
 		case 3:
 			return IntegerPool.get( MallPriceDatabase.getPrice( (Integer) result.getKey() ) );
 		case 4:
-			return ItemDatabase.getFullness( (String) result.getValue() ) + ItemDatabase.getInebriety( (String) result.getValue() ) + ItemDatabase.getSpleenHit( (String) result.getValue() );
+			return ConsumablesDatabase.getFullness( (String) result.getValue() ) + ConsumablesDatabase.getInebriety( (String) result.getValue() ) + ConsumablesDatabase.getSpleenHit( (String) result.getValue() );
 		case 5:
-			return ItemDatabase.getAdvRangeByName( ItemDatabase.getCanonicalName( (Integer) result.getKey() ) );
+			return ConsumablesDatabase.getAdvRangeByName( ItemDatabase.getCanonicalName( (Integer) result.getKey() ) );
 		case 6:
-			return ItemDatabase.getLevelReqByName( (String) result.getValue() );
+			return ConsumablesDatabase.getLevelReqByName( (String) result.getValue() );
 		}
 		return null;
 	}
@@ -185,12 +186,12 @@ public class TableCellFactory
 			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		case 5:
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( advresult.getName() ) + ConsumablesDatabase.getInebriety( advresult.getName() ) + ConsumablesDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
-			double advRange = ItemDatabase.getAdventureRange( advresult.getName() );
+			double advRange = ConsumablesDatabase.getAdventureRange( advresult.getName() );
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( advresult.getName() ) + ConsumablesDatabase.getInebriety( advresult.getName() ) + ConsumablesDatabase.getSpleenHit( advresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				advRange = advRange / fill;
@@ -226,12 +227,12 @@ public class TableCellFactory
 			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		case 5:
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( advresult.getName() ) + ConsumablesDatabase.getInebriety( advresult.getName() ) + ConsumablesDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
-			double advRange = ItemDatabase.getAdventureRange( advresult.getName() );
+			double advRange = ConsumablesDatabase.getAdventureRange( advresult.getName() );
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( advresult.getName() ) + ConsumablesDatabase.getInebriety( advresult.getName() ) + ConsumablesDatabase.getSpleenHit( advresult.getName() ) );
 
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
@@ -266,19 +267,19 @@ public class TableCellFactory
 			return ( price > 0 ) ? price : null;
 		case 4:
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( CIRresult.getName() ) + ConsumablesDatabase.getInebriety( CIRresult.getName() ) + ConsumablesDatabase.getSpleenHit( CIRresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 5:
-			double advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
+			double advRange = ConsumablesDatabase.getAdventureRange( CIRresult.getName() );
 			fill =
-				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
+				IntegerPool.get( ConsumablesDatabase.getFullness( CIRresult.getName() ) + ConsumablesDatabase.getInebriety( CIRresult.getName() ) + ConsumablesDatabase.getSpleenHit( CIRresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				advRange = advRange / fill;
 			}
 			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
 		case 6:
-			Integer lev = ItemDatabase.getLevelReqByName( CIRresult.getName() );
+			Integer lev = ConsumablesDatabase.getLevelReqByName( CIRresult.getName() );
 			return lev != null ? IntegerPool.get( lev ) : null;
 		default:
 			return null;

@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -112,7 +113,7 @@ public class DrinkItemRequest
 
 		if ( KoLCharacter.inHighschool() &&
 		     !itemName.equals( "steel margarita" ) &&
-		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
+		     ( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
 		{
 			UseItemRequest.limiter = "your unrefined palate";
 			return 0;
@@ -225,7 +226,7 @@ public class DrinkItemRequest
 			return;
 		}
 
-		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -387,7 +388,7 @@ public class DrinkItemRequest
 
 	public static final boolean allowBoozeConsumption( String itemName, final int count )
 	{
-		int inebriety = ItemDatabase.getInebriety( itemName );
+		int inebriety = ConsumablesDatabase.getInebriety( itemName );
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
 		{
@@ -451,7 +452,7 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		String advGain = ItemDatabase.getAdvRangeByName( itemName );
+		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
 		// If the item doesn't give any adventures, it won't benefit from ode
 		if ( advGain.equals( "0" ) )
 		{
@@ -464,7 +465,7 @@ public class DrinkItemRequest
 		}
 
 		// See if already have enough turns of Ode to Booze
-		int odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
+		int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
 		int consumptionTurns = count * inebriety;
 
 		if ( consumptionTurns <= odeTurns )
@@ -491,7 +492,7 @@ public class DrinkItemRequest
 		{
 			ode.setBuffCount( 1 );
 			RequestThread.postRequest( ode );
-			int newTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
+			int newTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
 			if ( odeTurns == newTurns )
 			{
 				// No progress
@@ -521,7 +522,7 @@ public class DrinkItemRequest
 	private static final boolean askAboutTuxedo( String itemName )
 	{
 		// Only affects some drinks
-		if ( !ItemDatabase.isMartini( ItemDatabase.getItemId( itemName ) ) )
+		if ( !ConsumablesDatabase.isMartini( ItemDatabase.getItemId( itemName ) ) )
 		{
 			return true;
 		}

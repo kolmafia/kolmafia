@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -243,7 +244,7 @@ public abstract class HPRestoreItemList
 			if ( ItemDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = ItemPool.get( restoreName, 1 );
-				this.spleenHit = ItemDatabase.getSpleenHit( restoreName );
+				this.spleenHit = ConsumablesDatabase.getSpleenHit( restoreName );
 				this.skillId = -1;
 			}
 			else if ( SkillDatabase.contains( restoreName ) )
