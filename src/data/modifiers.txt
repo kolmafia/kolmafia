@@ -1424,7 +1424,7 @@ spork	Muscle: +2
 squeaky staff	Mysticality: +3, Monster Level: +6
 Squeezebox of the Ages	Moxie: [11*(1+skill(Accordion Appreciation))], Ranged Damage: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
-Staff of Ed	Mysticality Percent: +25, Spell Damage Percent: +25, MP Regen Min: 2, MP Regen Max: 6, Pool Skill: +5
+Staff of Ed	Mysticality Percent: +25, Spell Damage Percent: +25, MP Regen Min: 2, MP Regen Max: 6, Pool Skill: +5, Class: "Ed"
 Staff of Fats	Pool Skill: +5
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Deal Some Prismatic Damage"
 Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
