@@ -5740,6 +5740,7 @@ Master Accordion Master Thief	Pickpocket Chance: +10
 Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
 Master Saucier	Spell Damage Percent: +10
 More Elemental Wards	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+More Legs	Initiative: +50
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
 Natural Dancer	Item Drop: +200
