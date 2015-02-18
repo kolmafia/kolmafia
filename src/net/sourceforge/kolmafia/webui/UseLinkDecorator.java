@@ -1394,6 +1394,7 @@ public abstract class UseLinkDecorator
 			break;
 
 		case ItemPool.GROARS_FUR:
+		case ItemPool.WINGED_YETI_FUR:
 
 			useType = "trapper";
 			useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";

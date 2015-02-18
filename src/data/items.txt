@@ -8160,7 +8160,7 @@
 8132
 8133
 8134	bottle of lovebug pheromones	556990927	lovebugjuice.gif	usable	t	0
-8135
+8135	winged yeti fur	169085168	furfur.gif	none	q	0
 8136	talisman of Renenutet	893207221	tal_r.gif	none, combat	q	0
 8137
 8138	rubber spatula	343980594	rubberspat.gif	weapon	t,d	25
