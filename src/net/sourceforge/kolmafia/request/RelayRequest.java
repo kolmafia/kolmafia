@@ -1910,7 +1910,8 @@ public class RelayRequest
 
 		// Some paths don't need a wand
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() ||
-		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() )
+		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() ||
+		     KoLCharacter.isEd() )
 		{
 			return false;
 		}
