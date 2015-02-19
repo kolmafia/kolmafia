@@ -8171,6 +8171,17 @@ public abstract class ChoiceManager
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			break;
 
+		case 1023: // Like a Bat Into Hell
+			KoLCharacter.setLimitmode( Limitmode.ED );
+			return;
+
+		case 1024: // Like a Bat out of Hell
+			if( ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2 )
+			{
+				KoLCharacter.setLimitmode( null );
+			}
+			return;
+
 		case 1027:	// The End of the Tale of Spelunking
 			if ( ChoiceManager.lastDecision == 1 )
 			{
