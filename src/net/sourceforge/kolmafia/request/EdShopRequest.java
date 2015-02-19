@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+
+import net.sourceforge.kolmafia.session.Limitmode;
  
 public class EdShopRequest
 	extends CoinMasterRequest
@@ -144,12 +146,10 @@ public class EdShopRequest
 		{
 			return "Only Ed can come here.";
 		}
-		/* Need a limitmode check, after that gets implemented
-		if ( KoLCharacter.getLimitmode() != Limitmode.ED )
+		if ( !KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
-
+			return "You must be in the Underworld to shop here.";
 		}
-		*/
 		return null;
 	}
 

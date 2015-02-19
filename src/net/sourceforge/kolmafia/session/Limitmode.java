@@ -40,18 +40,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 
 public class Limitmode
 {
 	// Limitmode
 	public static final String SPELUNKY = "spelunky";
+	public static final String ED = "edunder";
 
 	public static final boolean limitSkill( final int skillId )
 	{
@@ -99,6 +94,10 @@ public class Limitmode
 			}
 			return true;
 		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
+			return true;
+		}
 		// Should only hit this when a new limitmode is added, default to none
 		return false;
 	}
@@ -132,6 +131,10 @@ public class Limitmode
 			case EquipmentManager.ACCESSORY1:
 				return false;
 			}
+			return true;
+		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
 			return true;
 		}
 		// Should only hit this when a new limitmode is added, default to allow
@@ -173,6 +176,10 @@ public class Limitmode
 			{
 				return false;
 			}
+			return true;
+		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
 			return true;
 		}
 		// Should only hit this when a new limitmode is added, default to allow
@@ -217,6 +224,10 @@ public class Limitmode
 		{
 			return true;
 		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
+			return true;
+		}
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
@@ -242,6 +253,10 @@ public class Limitmode
 			return false;
 		}
 		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
@@ -287,6 +302,10 @@ public class Limitmode
 		{
 			return true;
 		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
+			return true;
+		}
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
@@ -301,6 +320,10 @@ public class Limitmode
 		{
 			return true;
 		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		{
+			return true;
+		}
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
@@ -312,6 +335,10 @@ public class Limitmode
 			return false;
 		}
 		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			return true;
+		}
+		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}

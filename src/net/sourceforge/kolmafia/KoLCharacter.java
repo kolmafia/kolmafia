@@ -1496,13 +1496,17 @@ public abstract class KoLCharacter
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
 			KoLCharacter.limitmodeEndNeeded = false;
 		}
-		else
+		else if ( limitmode == null )
 		{
 			if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
 			{
 				KoLCharacter.limitmodeEndNeeded = true;
 			}
 			KoLCharacter.limitmode = null;
+		}
+		else
+		{
+			KoLCharacter.limitmode = limitmode;
 		}
 
 		if ( KoLCharacter.limitmodeEndNeeded == true )
@@ -3576,7 +3580,15 @@ public abstract class KoLCharacter
 
 	public static final boolean canDrink()
 	{
-		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN) && !Limitmode.limitEating();
+		if ( Limitmode.limitDrinking() )
+		{
+			return false;
+		}
+		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Liver" ) )
+		{
+			return false;
+		}
+		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN );
 	}
 
 	/**
