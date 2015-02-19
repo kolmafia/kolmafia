@@ -447,14 +447,18 @@ public class EdServantData
 			return;
 		}
 
-		// - a servant gains 1 XP every time you win a fight
-		// - they level up when their XP hits the square of the level
-		// - each servant has a unique "this servant leveled up" message.
-		// (which is cute, but we can derive level from experience)
-		int next = this.level + 1;
-		if ( ++this.experience == ( next * next ) )
+		// - a servant's experience caps at 441 (level 21)
+		if ( this.experience < 441 )
 		{
-			++this.level;
+			// - a servant gains 1 XP every time you win a fight
+			// - they level up when their XP hits the square of the level
+			// - each servant has a unique "this servant leveled up" message.
+			// (which is cute, but we can derive level from experience)
+			int next = this.level + 1;
+			if ( ++this.experience == ( next * next ) )
+			{
+				++this.level;
+			}
 		}
 	}
 
