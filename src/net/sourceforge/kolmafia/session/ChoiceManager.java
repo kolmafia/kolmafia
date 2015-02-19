@@ -3439,6 +3439,8 @@ public abstract class ChoiceManager
 		// Choice 1051 is (choose Ed skills)
 		// Choice 1052 is Underworld Body Shop
 		// Choice 1053 is The Servants' Quarters
+		// Choice 1054 is Returning the MacGuffin
+		// Choice 1055 is Returning the MacGuffin
 		// Choice 1056 is Now It's Dark
 	};
 
@@ -9237,6 +9239,11 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.CHRONER, -1 );
 			}
+			break;
+
+		case 1055:
+			// Returning the MacGuffin
+			ChoiceManager.handleAfterAvatar();
 			break;
 		}
 
