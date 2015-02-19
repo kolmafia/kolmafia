@@ -194,6 +194,7 @@ Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber	1 filth
 Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
 Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
 Mountain	adventure=92	Env: underground Stat: 0	The Dire Warren
+Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
 Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N|1 meat vortex
 Mountain	adventure=177	Env: underground Stat: 0	Mt. Molehill
 Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
