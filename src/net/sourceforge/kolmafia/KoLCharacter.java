@@ -1489,8 +1489,12 @@ public abstract class KoLCharacter
 			Stat.NONE;
 	}
 
-	public static final void setLimitmode( final String limitmode )
+	public static final void setLimitmode( String limitmode )
 	{
+		if ( limitmode.equals( "0" ) )
+		{
+			limitmode = null;
+		}
 		if ( limitmode != null && limitmode.equals( Limitmode.SPELUNKY ) )
 		{
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
