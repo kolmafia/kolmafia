@@ -2230,6 +2230,8 @@ public class ItemPool
 	public static final int POCKET_ACE = 7942;
 	public static final int MININ_DYNAMITE = 7950;
 	public static final int ED_DIARY = 7960;
+	public static final int ED_STAFF = 7961;
+	public static final int ED_EYE = 7962;
 	public static final int KA_COIN = 7966;
 	public static final int TOPIARY_NUGGLET = 7968;
 	public static final int BEEHIVE = 7969;

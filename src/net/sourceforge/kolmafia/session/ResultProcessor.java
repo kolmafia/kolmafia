@@ -2534,6 +2534,12 @@ public class ResultProcessor
 				Preferences.increment( "_holoWristDrops" );
 			}
 			break;
+
+		case ItemPool.ED_EYE:
+			EquipmentManager.removeEquipment( ItemPool.ED_STAFF );
+			ResultProcessor.removeItem( ItemPool.ED_STAFF );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.
