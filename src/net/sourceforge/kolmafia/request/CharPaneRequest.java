@@ -177,7 +177,7 @@ public class CharPaneRequest
 			SpelunkyRequest.parseCharpane( responseText );
 			return true;
 		}
-		else
+		else if ( KoLCharacter.getLimitmode() != null && KoLCharacter.getLimitmode().equals( Limitmode.SPELUNKY ) )
 		{
 			KoLCharacter.setLimitmode( null );
 		}

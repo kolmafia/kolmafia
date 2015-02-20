@@ -146,7 +146,7 @@ public class EdShopRequest
 		{
 			return "Only Ed can come here.";
 		}
-		if ( !KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		if ( KoLCharacter.getLimitmode() == null || !KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return "You must be in the Underworld to shop here.";
 		}
