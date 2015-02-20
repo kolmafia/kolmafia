@@ -1491,7 +1491,7 @@ public abstract class KoLCharacter
 
 	public static final void setLimitmode( String limitmode )
 	{
-		if ( limitmode.equals( "0" ) )
+		if ( limitmode != null && limitmode.equals( "0" ) )
 		{
 			limitmode = null;
 		}
