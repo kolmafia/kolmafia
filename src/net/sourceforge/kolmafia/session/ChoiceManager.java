@@ -8172,7 +8172,10 @@ public abstract class ChoiceManager
 			break;
 
 		case 1023: // Like a Bat Into Hell
-			KoLCharacter.setLimitmode( Limitmode.ED );
+			if( ChoiceManager.lastDecision == 1 )
+			{
+				KoLCharacter.setLimitmode( Limitmode.ED );
+			}
 			return;
 
 		case 1024: // Like a Bat out of Hell
