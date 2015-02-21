@@ -543,7 +543,7 @@ public class CompactSidePane
 		public ServantMenuItem( final EdServantData servant )
 		{
 			super( servant.getType(), new ChangeServantListener( servant ) );
-			ImageIcon icon = servant.getServantImage();
+			ImageIcon icon = FileUtilities.downloadIcon( servant.getImage(), "itemimages", "debug.gif" );
 			this.setIcon( icon );
 			icon.setImageObserver( this );
 		}

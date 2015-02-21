@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.io.File;
+
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -43,6 +45,8 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public class EdServantCommand
 	extends AbstractCommand
@@ -55,17 +59,26 @@ public class EdServantCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( !KoLCharacter.isEd() )
+		// If User wants to see all possible servants, list them.
+		if ( cmd.equals( "servants" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Only Ed the Undying has entombed servants!" );
-			return;
+			StringBuilder output = new StringBuilder();
+			this.printServants( output );
+			if ( KoLCharacter.isEd() )
+			{
+				this.printCurrentServant( output );
+			}
 		}
-
-		StringBuilder output = new StringBuilder();
 
 		// If Ed wants to switch his active servant, attempt it.
 		if ( cmd.equals( "servant" ) )
 		{
+			if ( !KoLCharacter.isEd() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Only Ed the Undying has entombed servants!" );
+				return;
+			}
+
 			String type = parameters.trim();
 			if ( !type.equals( "" ) )
 			{
@@ -90,15 +103,9 @@ public class EdServantCommand
 			}
 
 			// Print your current servant
+			StringBuilder output = new StringBuilder();
 			this.printCurrentServant( output );
 			return;
-		}
-
-		// If Ed wants to see all possible servants, list them.
-		if ( cmd.equals( "servants" ) )
-		{
-			this.printServants( output );
-			this.printCurrentServant( output );
 		}
 	}
 
@@ -106,15 +113,20 @@ public class EdServantCommand
 	{
 		output.setLength( 0 );
 
-		output.append( "<table border=2 cols=3 cellpadding=5>" );
+		output.append( "<table border=2 cols=4 cellpadding=5>" );
 		output.append( "<tr>" );
 		output.append( "<th>Type</th>" );
+		output.append( "<th>Image</th>" );
 		output.append( "<th>Name</th>" );
 		output.append( "<th>Abilities</th>" );
 		output.append( "</tr>" );
 
 		for ( Object[] data : EdServantData.SERVANTS )
 		{
+			// Download the image
+			String image = EdServantData.dataToImage( data );;
+			File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
+
 			String type = EdServantData.dataToType( data );
 			EdServantData servant = EdServantData.findEdServant( type );
 
@@ -122,6 +134,17 @@ public class EdServantCommand
 
 			output.append( "<td>" );
 			output.append( type );
+			output.append( "</td>" );
+
+			output.append( "<td>" );
+			if ( file != null )
+			{
+				output.append( "<img src=\"/images/itemimages/" );
+				output.append( image );
+				output.append( "\" alt = \"" );
+				output.append( type );
+				output.append( "\">" );
+			}
 			output.append( "</td>" );
 
 			output.append( "<td>" );
