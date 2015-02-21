@@ -5698,13 +5698,13 @@ Ferocity	Critical Hit Percent: +25
 # Five Finger Discount Items in stores cost 5% less Meat
 Food Coma	Base Resting MP: 9999
 Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
-# Gift of the Assassin: Improves physical damage and critical hit chance
-# Gift of the Bodyguard: Bonus to Damage Absorption
-# Gift of the Cat:	Increases item drop rate
-# Gift of the Dancer: MP regeneration
-# Gift of the Maid: Improves meat drop rate
-# Gift of the Scribe: Boost to Mysticality stat gains
-# Gift of the Priest: Improves spell damage
+Gift of the Assassin	Weapon Damage: +10, Critical Hit Percent: +30
+Gift of the Bodyguard	Damage Absorption: +200
+Gift of the Cat	Item Drop: +25
+Gift of the Dancer	MP Regen Min: 4, MP Regen Max: 8
+Gift of the Maid	Meat Drop: +50
+Gift of the Scribe	Experience (Mysticality): +5
+Gift of the Priest	Spell Damage: +40
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
 # Good Singing Voice: Doubles duration of Boris songs
