@@ -110,15 +110,6 @@ public class LoginRequest
 
 	private boolean detectChallenge()
 	{
-		// If this is a devster, login to the dev server.
-
-		String lowercase = this.username.toLowerCase();
-
-		if ( lowercase.startsWith( "devster" ) )
-		{
-			Preferences.setBoolean( "useDevProxyServer", true );
-		}
-
 		// Setup the login server in order to ensure that
 		// the initial try is randomized.  Or, in the case
 		// of a devster, the developer server.
