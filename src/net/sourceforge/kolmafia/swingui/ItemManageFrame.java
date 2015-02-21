@@ -626,7 +626,10 @@ public class ItemManageFrame
 			{
 				for ( int i = 0; i < items.length; ++i )
 				{
-					RequestThread.postRequest( new EquipmentRequest( items[ i ] ) );
+					if ( items[ i ] != null )
+					{
+						RequestThread.postRequest( new EquipmentRequest( items[ i ] ) );
+					}
 				}
 			}
 			else
