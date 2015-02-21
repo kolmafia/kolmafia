@@ -4569,10 +4569,12 @@ public abstract class RuntimeLibrary
 
 	public static Value have_effect( Interpreter interpreter, final Value arg )
 	{
-		List potentialEffects = EffectDatabase.getMatchingNames( arg.toString() );
-		AdventureResult effect =
-			potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
-		return effect == null ? DataTypes.ZERO_VALUE : new Value( effect.getCount( KoLConstants.activeEffects ) );
+		if ( arg == DataTypes.EFFECT_INIT )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+		AdventureResult effect = new AdventureResult( arg.toString(), 0, true );
+		return new Value( effect.getCount( KoLConstants.activeEffects ) );
 	}
 
 	public static Value my_effects( Interpreter interpreter )

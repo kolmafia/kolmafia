@@ -52,6 +52,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -443,6 +445,31 @@ public class FileUtilities
 
 			return null;
 		}
+	}
+
+	/**
+	 * Downloads an image from the KoL image server and returns it as an icon
+	 */
+
+	public static final ImageIcon downloadIcon( final String image, final String container, final String defaultImage )
+	{
+		if ( image == null || image.equals( "" ) )
+		{
+			return JComponentUtilities.getImage( defaultImage );
+		}
+
+		String  path =
+			container == null || container.equals( "" ) ?
+			image :
+			container + "/" + image;
+
+		File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + path );
+		if ( file == null )
+		{
+			return JComponentUtilities.getImage( defaultImage );
+		}
+		ImageIcon icon = JComponentUtilities.getImage( path );
+		return icon != null ? icon : JComponentUtilities.getImage( defaultImage );
 	}
 
 	/**

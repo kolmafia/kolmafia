@@ -333,10 +333,15 @@ public class PastaThrallData
 		return null;
 	}
 
+	public static final List<String> getMatchingNames( final String substring )
+	{
+		return StringUtilities.getMatchingNames( PastaThrallData.CANONICAL_THRALL_ARRAY, substring );
+	}
+
 	public static Object[] typeToData( final String type )
 	{
 		// Do fuzzy matching
-		List<String> matchingNames = StringUtilities.getMatchingNames( PastaThrallData.CANONICAL_THRALL_ARRAY, type );
+		List<String> matchingNames = PastaThrallData.getMatchingNames( type );
 		if ( matchingNames.size() != 1 )
 		{
 			return null;

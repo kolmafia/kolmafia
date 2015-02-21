@@ -41,9 +41,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
-
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -52,7 +49,6 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EdServantData
@@ -206,10 +202,15 @@ public class EdServantData
 		return null;
 	}
 
+	public static final List<String> getMatchingNames( final String substring )
+	{
+		return StringUtilities.getMatchingNames( EdServantData.CANONICAL_SERVANT_ARRAY, substring );
+	}
+
 	public static Object[] typeToData( final String type )
 	{
 		// Do fuzzy matching
-		List<String> matchingNames = StringUtilities.getMatchingNames( EdServantData.CANONICAL_SERVANT_ARRAY, type );
+		List<String> matchingNames = EdServantData.getMatchingNames( type );
 		if ( matchingNames.size() != 1 )
 		{
 			return null;
@@ -309,33 +310,6 @@ public class EdServantData
 	public String getImage()
 	{
 		return this.data == null ? "" : EdServantData.dataToImage( this.data );
-	}
-
-	public static final ImageIcon getNoServantImage()
-	{
-		return JComponentUtilities.getImage( "debug.gif" );
-	}
-
-	public ImageIcon getServantImage()
-	{
-		if ( this.data == null )
-		{
-			return EdServantData.getNoServantImage();
-		}
-
-		String image = EdServantData.dataToImage( this.data );
-		if ( image == null || image.equals( "" ) )
-		{
-			return EdServantData.getNoServantImage();
-		}
-
-		File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
-		if ( file == null )
-		{
-			return EdServantData.getNoServantImage();
-		}
-		ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + image );
-		return icon != null ? icon : EdServantData.getNoServantImage();
 	}
 
 	public String getLevel1Ability()
