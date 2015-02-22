@@ -1007,7 +1007,7 @@ public class ItemDatabase
 		EquipmentDatabase.registerItemOutfit( itemName, text );
 
 		// Potions grant an effect. Check for a new effect.
-		String effectName = Modifiers.getStringModifier( itemName, "Effect" );
+		String effectName = Modifiers.getStringModifier( "Item", itemId, "Effect" );
 		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName, true ) == -1 )
 		{
 			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
@@ -1079,6 +1079,25 @@ public class ItemDatabase
 
 	public static final int getItemId( final String itemName, final int count, final boolean substringMatch )
 	{
+		//If name starts with [nnnn] then that is explicitly the item id 
+		if ( itemName.startsWith( "[" ) )
+		{
+			int index = itemName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = itemName.substring( 1, index );
+				int itemId = -1;
+				try 
+				{
+					itemId = StringUtilities.parseInt( idString );
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				return itemId;
+				
+			}
+		}
 		String name = ItemDatabase.getCanonicalName( itemName, count, substringMatch );
 		if ( name == null )
 		{
@@ -1137,6 +1156,16 @@ public class ItemDatabase
 		String canonicalName = StringUtilities.getCanonicalName( itemName );
 		Object itemId;
 
+		// If name is specified by use of [xxxx], return CanonicalName
+		if ( itemName.startsWith( "[" ) )
+		{
+			int index = itemName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				itemId = StringUtilities.parseInt( itemName.substring( 1,  index ) );
+				return ItemDatabase.getCanonicalName( (Integer) itemId );
+			}
+		}
 		// See if it's a weird pluralization with a pattern we can't
 		// guess before checking for singles.
 
@@ -1699,6 +1728,19 @@ public class ItemDatabase
 		return ItemDatabase.dataNameById.entrySet();
 	}
 
+	public static final String getItemDisplayName( final String itemName )
+	{
+		if ( itemName.startsWith( "[" ) )
+		{
+			int ind = itemName.indexOf( "]" );
+			if ( ind > 0 )
+			{
+				int itemId = StringUtilities.parseInt( itemName.substring( 1, ind ) );
+				return getItemName( itemId );
+			}
+		}
+		return itemName;
+	}
 	/**
 	 * Returns the name for an item, given its Id number.
 	 *

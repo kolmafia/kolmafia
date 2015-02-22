@@ -39,12 +39,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 
 public class DebugModifiers
 	extends Modifiers
 {
 	private static HashMap wanted, adjustments;
+	private static String currentType;
 	private static String currentDesc;
 	private static StringBuffer buffer;
 
@@ -61,6 +63,7 @@ public class DebugModifiers
 			}
 		}
 		DebugModifiers.adjustments = (HashMap) DebugModifiers.wanted.clone();
+		DebugModifiers.currentType = "type";
 		DebugModifiers.currentDesc = "source";
 		DebugModifiers.buffer = new StringBuffer( "<table border=2>" );
 		return DebugModifiers.wanted.size();
@@ -69,7 +72,16 @@ public class DebugModifiers
 	private static void flushRow()
 	{
 		DebugModifiers.buffer.append( "<tr><td>" );
-		DebugModifiers.buffer.append( DebugModifiers.currentDesc );
+		DebugModifiers.buffer.append( DebugModifiers.currentType );
+		DebugModifiers.buffer.append( "</td><td>" );
+		if ( DebugModifiers.currentType.equals( "Item" ) )
+		{
+			DebugModifiers.buffer.append( ItemDatabase.getItemDisplayName( DebugModifiers.currentDesc ) );
+		}
+		else
+		{
+			DebugModifiers.buffer.append( DebugModifiers.currentDesc );
+		}
 		DebugModifiers.buffer.append( "</td>" );
 		Iterator i = DebugModifiers.wanted.keySet().iterator();
 		while ( i.hasNext() )
@@ -105,12 +117,27 @@ public class DebugModifiers
 			return;
 		}
 		
+		String lookup = desc;
+		String type = null;
+		String name = null;
+		int ind = lookup.indexOf( ":" );
+		if ( ind > 0 )
+		{
+			type = lookup.substring( 0, ind );
+			name = lookup.replace( type + ":", "" );
+		}
+		else
+		{
+			type = "";
+			name = desc;
+		}
 		if ( !desc.equals( DebugModifiers.currentDesc ) ||
 			DebugModifiers.adjustments.containsKey( key ) )
 		{
 			DebugModifiers.flushRow();
 		}
-		DebugModifiers.currentDesc = desc;
+		DebugModifiers.currentType = type;
+		DebugModifiers.currentDesc = name;
 		DebugModifiers.adjustments.put( key, "<td>" +
 			KoLConstants.ROUNDED_MODIFIER_FORMAT.format( mod ) + "</td><td>=&nbsp;" +
 			KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.get( index ) ) + "</td>" );
@@ -139,12 +166,25 @@ public class DebugModifiers
 			Iterator allmods = Modifiers.getAllModifiers();
 			while ( allmods.hasNext() )
 			{
-				String name = (String) allmods.next();
-				Modifiers mods = Modifiers.getModifiers( name );
+				String lookup = (String) allmods.next();
+				String type = null;
+				String name = null;
+				int ind = lookup.indexOf( ":" );
+				if ( ind > 0 )
+				{
+					type = lookup.substring( 0, ind );
+					name = lookup.replace( type + ":", "" );			
+				}
+				else
+				{
+					type = "";
+					name = lookup;
+				}
+				Modifiers mods = Modifiers.getModifiers( type, name );
 				double value = mods.get( ikey );
 				if ( value != 0.0 )
 				{
-					list.add( new Change( name, value,
+					list.add( new Change( type, name, value,
 						mods.getBoolean( Modifiers.VARIABLE ) ) );
 				}
 				if ( list.size() > 0 )
@@ -193,12 +233,14 @@ public class DebugModifiers
 	private static class Change
 	implements Comparable<Change>
 	{
+		String type;
 		String name;
 		double value;
 		boolean variable;
 		
-		public Change( String name, double value, boolean variable )
+		public Change( String type, String name, double value, boolean variable )
 		{
+			this.type = type;
 			this.name = name;
 			this.value = value;
 			this.variable = variable;
@@ -207,7 +249,13 @@ public class DebugModifiers
 		@Override
 		public String toString()
 		{
-			return "<td>" + this.name + "</td><td>" +
+			if ( this.type.equals( "Item" ) )
+			{
+				return "<td>Item</td><td>" + ItemDatabase.getItemDisplayName( this.name ) + "</td><td>" +
+					KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.value ) +
+					( this.variable? "v" : "" ) + "</td>";
+			}
+			return "<td>" + this.type + "</td><td>" + this.name + "</td><td>" +
 				KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.value ) +
 				( this.variable? "v" : "" ) + "</td>";
 		}

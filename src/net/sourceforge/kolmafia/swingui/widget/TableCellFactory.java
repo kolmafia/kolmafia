@@ -484,32 +484,32 @@ public class TableCellFactory
 		// Code almost entirely lifted from GearChangeFrame.
 
 		int modifiersWidth = 100;
-		String name = null;
+		int itemId = -1;
 		if ( value instanceof AdventureResult )
 		{
-			name = ( (AdventureResult) value ).getName();
+			itemId = ( (AdventureResult) value ).getItemId();
 		}
 		else if ( value instanceof CreateItemRequest )
 		{
-			name = ( (CreateItemRequest) value ).getName();
+			itemId = ( (CreateItemRequest) value ).getItemId();
 		}
 		
-		if ( !ItemDatabase.isEquipment( name ) )
+		if ( itemId == -1 || !ItemDatabase.isEquipment( itemId ) )
 		{
 			return null;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 		if ( mods == null )
 		{
 			return null;
 		}
-		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+		String name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 		if ( name.length() > 0 )
 		{
 			Modifiers newMods = new Modifiers();
 			newMods.add( mods );
-			newMods.add( Modifiers.getModifiers( name ) );
+			newMods.add( Modifiers.getModifiers( "Effect", name ) );
 			mods = newMods;
 		}
 

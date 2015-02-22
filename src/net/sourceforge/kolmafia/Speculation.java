@@ -72,10 +72,10 @@ public class Speculation
 		for ( int i = this.equipment.length - 1; i >= 0; --i )
 		{
 			if ( this.equipment[ i ] == null ) continue;
-			String name = this.equipment[ i ].getName();
-			Modifiers mods = Modifiers.getModifiers( name );
+			int itemId = this.equipment[ i ].getItemId();
+			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 			if ( mods == null ) continue;
-			name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+			String name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 			if ( name.length() == 0 ) continue;
 			this.effects.remove( new AdventureResult( name, 1, true ) );
 		}

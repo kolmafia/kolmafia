@@ -400,7 +400,7 @@ public class CompactSidePane
 				}
 
 				int id = fam.getId();
-				Modifiers mods = Modifiers.getModifiers( "Fam:" + fam.getRace() );
+				Modifiers mods = Modifiers.getModifiers( "Familiar", fam.getRace() );
 				boolean added = false;
 				if ( FamiliarDatabase.isVolleyType( id ) ||
 				     FamiliarDatabase.isSombreroType( id ) ||

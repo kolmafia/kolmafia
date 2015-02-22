@@ -731,7 +731,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 
 	private static int getMutex( AdventureResult item )
 	{
-		Modifiers mods = Modifiers.getModifiers( item.getName() );
+		Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
 		if ( mods == null )
 		{
 			return 0;

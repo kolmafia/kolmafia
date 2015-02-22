@@ -373,6 +373,7 @@ public class ItemFinder
 		// Find the item id
 
 		int itemCount = 1;
+		int itemId = -1;
 
 		// Allow the person to ask for all of the item from the source
 		if ( parameters.charAt( 0 ) == '*' )
@@ -383,7 +384,7 @@ public class ItemFinder
 
 		List<String> matchList;
 
-		if ( parameters.contains( "\u00B6" ) )
+		if ( parameters.contains( "\u00B6" ) || parameters.contains( "[" ) )
 		{
 			// At least one item is specified by item ID
 			if ( parameters.contains( "," ) )
@@ -415,16 +416,16 @@ public class ItemFinder
 			// If the pilcrow character is first, it is followed by an item ID
 			if ( name.startsWith( "\u00B6" ) )
 			{
-				int itemId = StringUtilities.parseInt( parameters.substring( 1 ) );
-				name = ItemDatabase.getItemName( itemId );
-				if ( name == null )
+				itemId = StringUtilities.parseInt( parameters.substring( 1 ) );
+			}
+			else if ( name.startsWith( "[" ) )
+			{
+				int index = name.indexOf( "]" );
+				if ( index == -1 )
 				{
-					if ( errorOnFailure )
-					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown item ID " + itemId );
-					}
 					return null;
 				}
+				itemId = StringUtilities.parseInt( name.substring( 1, index ) );
 			}
 			else if ( ItemDatabase.getItemId( parameters, 1 ) == -1 )
 			{
@@ -437,7 +438,14 @@ public class ItemFinder
 			}
 
 			matchList = new ArrayList<String>();
-			matchList.add( name );
+			if ( itemId != -1 )
+			{
+				matchList.add( "[" + itemId + "]" );
+			}
+			else
+			{
+				matchList.add( name );
+			}
 		}
 		else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
 		{
@@ -490,7 +498,15 @@ public class ItemFinder
 			return null;
 		}
 
-		AdventureResult firstMatch = ItemPool.get( itemName, itemCount );
+		AdventureResult firstMatch = null;
+		if ( itemId != -1 )
+		{
+			firstMatch = ItemPool.get( itemId, itemCount );
+		}
+		else
+		{
+			firstMatch = ItemPool.get( itemName, itemCount );
+		}
 
 		// The result also depends on the number of items which
 		// are available in the given match area.

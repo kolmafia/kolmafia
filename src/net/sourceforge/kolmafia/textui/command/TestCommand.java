@@ -435,7 +435,7 @@ public class TestCommand
 			{
 				return;
 			}
-			double itemDrop = Modifiers.getNumericModifier( familiar, "Item Drop" );
+			double itemDrop = Modifiers.getNumericModifier( "Familiar", familiar.getRace(), "Item Drop" );
 			RequestLogger.printLine( "Item Drop: " + itemDrop );
 			return;
 		}

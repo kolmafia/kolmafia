@@ -612,7 +612,7 @@ public class ValhallaDecorator
 				String enchantments;
 				if ( name.startsWith( "folder (" ) )
 				{
-					Modifiers mods = Modifiers.getModifiers( name );
+					Modifiers mods = Modifiers.getModifiers( "Item", folder.getItemId() );
 					name = name.substring( 8, name.indexOf( ")" ) );
 					enchantments = mods != null ? mods.getString( "Modifiers" ) : "none";
 				}

@@ -624,6 +624,11 @@ public class EquipmentDatabase
 		return buffer.toString();
 	}
 
+	public static final boolean contains( final int itemId )
+	{
+		return itemId > 0 && EquipmentDatabase.statRequirements.get( itemId ) != null;
+	}
+
 	public static final boolean contains( final String itemName )
 	{
 		int itemId = ItemDatabase.getItemId( itemName );
@@ -944,7 +949,7 @@ public class EquipmentDatabase
 		}
 
 		int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
-		Modifiers mods = Modifiers.getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( "Item", id );
 		if ( mods == null )
 		{	// Apparently no enchantments at all, which would imply that this
 			// item pulverizes to useless powder.  However, there are many items

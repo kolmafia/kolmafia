@@ -129,7 +129,7 @@ public class SetPreferencesCommand
 
 		if ( name.equals( "_userMods" ) )
 		{
-			Modifiers.overrideModifier( "_userMods", value );
+			Modifiers.overrideModifier( "Generated:_userMods", value );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 		}

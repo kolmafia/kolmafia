@@ -213,30 +213,44 @@ public class GearChangeFrame
 		EquipmentTabPanel pane = (EquipmentTabPanel)GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
 
 		String name = null;
+		String type = null;
+		int itemId = -1;
 		if ( value instanceof AdventureResult )
 		{
 			name = ((AdventureResult) value).getName();
+			itemId = ((AdventureResult) value).getItemId();
 			if ( isFamiliarItem &&
 			     ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK ||
 			       KoLCharacter.getFamiliar().getId() == FamiliarPool.SCARECROW ) )
 			{
-				name = "FamItem:" + name;
+				type = "FamItem";
+				name = name;
 			}
 		}
 		else if ( value instanceof SpecialOutfit )
 		{
+			type = "Outfit";
 			name = ((SpecialOutfit) value).getName();
 		}
 		else if ( value instanceof FamiliarData && pane == GearChangeFrame.INSTANCE.customizablePanel )
 		{
-			name = "Throne:" + ((FamiliarData) value).getRace();
+			type = "Throne";
+			name = ((FamiliarData) value).getRace();
 		}
 		else
 		{
 			return;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( name );
+		Modifiers mods = null;
+		if ( itemId != -1 )
+		{
+			mods = Modifiers.getModifiers( "Item", itemId );
+		}
+		else
+		{
+			mods = Modifiers.getModifiers( type, name );
+		}
 		if ( mods == null )
 		{
 			pane.getModifiersLabel().setText( "" );
@@ -248,7 +262,7 @@ public class GearChangeFrame
 		{
 			Modifiers newMods = new Modifiers();
 			newMods.add( mods );
-			newMods.add( Modifiers.getModifiers( name ) );
+			newMods.add( Modifiers.getModifiers( "Effect", name ) );
 			mods = newMods;
 		}
 

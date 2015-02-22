@@ -6904,6 +6904,51 @@ public abstract class RuntimeLibrary
 		return DataTypes.ELEMENT_INIT;
 	}
 
+	private static String getModifierType( final Value arg )
+	{
+		Type type = arg.getType();
+		String name = arg.toString();
+		int id = (int) arg.intValue();
+		if ( type.equals( DataTypes.ITEM_TYPE ) )
+		{
+			return "Item";
+		}
+		if ( type.equals( DataTypes.EFFECT_TYPE ) )
+		{
+			return "Effect";
+		}
+		if ( type.equals( DataTypes.SKILL_TYPE ) )
+		{
+			return "Skill";
+		}
+		if ( type.equals( DataTypes.THRALL_TYPE ) )
+		{
+			return "Thrall";
+		}
+		if ( name.contains( ":" ) )
+		{
+			return name.substring( 0, name.indexOf( ":" ) );
+		}
+		return "Item";
+	}
+
+	private static String getModifierName( final Value arg )
+	{
+		Type type = arg.getType();
+		String name = arg.toString();
+		int id = (int) arg.intValue();
+		if ( type.equals( DataTypes.ITEM_TYPE ) )
+		{
+			return "[" + id + "]";
+		}
+		int index = name.indexOf( ":" );
+		if ( index != -1 )
+		{
+			return name.substring( index, name.length() - index );
+		}
+		return name;
+	}
+
 	public static Value numeric_modifier( Interpreter interpreter, final Value modifier )
 	{
 		String mod = modifier.toString();
@@ -6912,9 +6957,10 @@ public abstract class RuntimeLibrary
 
 	public static Value numeric_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return new Value( Modifiers.getNumericModifier( name, mod ) );
+		return new Value( Modifiers.getNumericModifier( type, name, mod ) );
 	}
 
 	public static Value numeric_modifier( Interpreter interpreter, final Value familiar, final Value modifier, final Value weight, final Value item )
@@ -6935,9 +6981,10 @@ public abstract class RuntimeLibrary
 
 	public static Value boolean_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( name, mod ) );
+		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( type, name, mod ) );
 	}
 
 	public static Value string_modifier( Interpreter interpreter, final Value modifier )
@@ -6948,30 +6995,34 @@ public abstract class RuntimeLibrary
 
 	public static Value string_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return new Value( Modifiers.getStringModifier( name, mod ) );
+		return new Value( Modifiers.getStringModifier( type, name, mod ) );
 	}
 
 	public static Value effect_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return new Value( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return new Value( DataTypes.parseEffectValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value class_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return new Value( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return new Value( DataTypes.parseClassValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value stat_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
-		String name = arg.toString();
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
-		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
+		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value galaktik_cures_discounted( Interpreter interpreter )

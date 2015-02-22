@@ -68,7 +68,7 @@ public class WikiUtilities
 		boolean inEffectTable = EffectDatabase.contains( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
 
-		Modifiers mods = Modifiers.getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( "Item", name );
 		if ( mods != null )
 		{
 			String wikiname = mods.getString( "Wiki Name" );

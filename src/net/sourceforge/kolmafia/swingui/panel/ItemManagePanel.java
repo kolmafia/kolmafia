@@ -566,7 +566,7 @@ public abstract class ItemManagePanel
 		case KoLConstants.EQUIP_PANTS:
 			return Preferences.getInteger( "usablePants" );
 		case KoLConstants.EQUIP_ACCESSORY:
-			Modifiers mods = Modifiers.getModifiers( itemName );
+			Modifiers mods = Modifiers.getModifiers( "Item", id );
 			if ( mods != null && mods.getBoolean( Modifiers.SINGLE ) )
 			{
 				return Preferences.getInteger( "usable1xAccs" );

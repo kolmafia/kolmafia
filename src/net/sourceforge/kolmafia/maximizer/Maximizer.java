@@ -227,7 +227,12 @@ public class Maximizer
 		Iterator<String> i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
 		{
-			String name = i.next();
+			String lookup = i.next();
+			if ( !lookup.startsWith( "Effect:" ) )
+			{
+				continue;
+			}
+			String name = lookup.substring( 7 );
 			if ( !EffectDatabase.contains( name ) )
 			{
 				continue;
@@ -264,7 +269,7 @@ public class Maximizer
 					continue;
 				}
 				switch ( Maximizer.eval.checkConstraints(
-					Modifiers.getModifiers( name ) ) )
+					Modifiers.getModifiers( "Effect", name ) ) )
 				{
 				case -1:
 					continue;
@@ -295,7 +300,7 @@ public class Maximizer
 				spec.removeEffect( effect );
 				delta = spec.getScore() - current;
 				switch ( Maximizer.eval.checkConstraints(
-					Modifiers.getModifiers( name ) ) )
+					Modifiers.getModifiers( "Effect", name ) ) )
 				{
 				case 1:
 					continue;
@@ -369,10 +374,13 @@ public class Maximizer
 					{
 						String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
 						item = ItemFinder.getFirstMatchingItem( iName, false );
-						Modifiers effMod = Modifiers.getModifiers( iName );
-						if ( effMod != null )
+						if ( item != null )
 						{
-							duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
+							Modifiers effMod = Modifiers.getModifiers( "Item", item.getItemId() );
+							if ( effMod != null )
+							{
+								duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
+							}
 						}
 						// Hot Dogs don't have items
 						if ( item == null && ClanLoungeRequest.isHotDog( iName ) )
@@ -1187,16 +1195,19 @@ public class Maximizer
 			if ( itemId == ItemPool.HATSEAT && enthroned != currEnthroned )
 			{
 				cmd = "enthrone " + enthroned.getRace();
+				text = cmd;
 			}
 			else if ( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
 			{
 				cmd = "bjornify " + bjorned.getRace();
+				text = cmd;
 			}
 			else
 			{
-				cmd = "equip " + slotname + " " + item.getName();
+				cmd = "equip " + slotname + " \u00B6" + item.getItemId();
+				text = "equip " + slotname + " " + item.getName();
 			}
-			text = cmd + " (";
+			text = text + " (";
 
 			CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
 
