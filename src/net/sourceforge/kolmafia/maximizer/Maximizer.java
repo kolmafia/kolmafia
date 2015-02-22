@@ -426,6 +426,11 @@ public class Maximizer
 							}
 							else
 							{
+								Modifiers effMod = Modifiers.getModifiers( "Item", iName );
+								if ( effMod != null )
+								{
+									duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
+								}
 								usesRemaining = 1;
 							}
 						}
