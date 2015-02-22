@@ -2688,7 +2688,7 @@ public class Modifiers
 			this.add( Modifiers.EXPERIENCE, Math.min( 
 				  Math.max( factor * ( Modifiers.currentML / 4 ) * ( 0.1 + 0.005 * effective ), 1 ),
 				  maxStats ),
-				  "Sombrero:" + race );
+				  "Familiar:" + race );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
@@ -2701,7 +2701,7 @@ public class Modifiers
 			double factor = this.get( Modifiers.LEPRECHAUN_EFFECTIVENESS );
 			if ( factor == 0.0 ) factor = 1.0;
 			this.add( Modifiers.MEATDROP, factor * (Math.sqrt( 220 * effective ) + 2 * effective - 6),
-				"Leprechaun:" + race );
+				"Familiar:" + race );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.FAIRY_WEIGHT );
@@ -2715,7 +2715,7 @@ public class Modifiers
 			// The 0->1 factor for generic familiars conflicts with the JitB
 			if ( factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX ) factor = 1.0;
 			this.add( Modifiers.ITEMDROP, factor * (Math.sqrt( 55 * effective ) + effective - 3),
-				"Fairy:" + race );
+				"Familiar:" + race );
 		}
 
 		switch ( familiarId )
