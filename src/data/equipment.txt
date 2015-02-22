@@ -1103,7 +1103,7 @@ pixel chain whip	50	Mus: 10	1-handed whip
 pixel morning star	75	Mus: 22	1-handed whip
 pixel sword	50	Mus: 10	1-handed sword
 pixel whip	10	Mus: 0	1-handed whip
-plasma rifle	90	Mox: 0	1-handed 
+plasma rifle	90	Mox: 0	1-handed rifle
 plastic guitar	100	Mox: 35	2-handed guitar
 plastic nunchaku	100	Mus: 10	2-handed flail
 plastic replica blaster pistol	40	Mox: 0	1-handed pistol
