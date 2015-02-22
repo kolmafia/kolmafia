@@ -418,7 +418,7 @@ public class PastaThrallData
 
 		if ( this.id != 0 )
 		{
-			Modifiers mods = Modifiers.getModifiers( this.type );
+			Modifiers mods = Modifiers.getModifiers( "Thrall", this.type );
 			if ( mods != null )
 			{
 				this.mods = mods.getString( "Modifiers" );

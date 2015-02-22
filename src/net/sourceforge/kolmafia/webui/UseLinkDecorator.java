@@ -1239,7 +1239,7 @@ public abstract class UseLinkDecorator
 
 	private static final String getPotionSpeculation( String label, int itemId )
 	{
-		Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 		if ( mods == null ) return label;
 		String effect = mods.getString( Modifiers.EFFECT );
 		if ( effect.equals( "" ) ) return label;

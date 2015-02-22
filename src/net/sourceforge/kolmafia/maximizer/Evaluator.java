@@ -903,7 +903,7 @@ public class Evaluator
 				continue;
 			}
 
-			Modifiers mods = Modifiers.getModifiers( outfit.getName() );
+			Modifiers mods = Modifiers.getModifiers( "Outfit", outfit.getName() );
 			if ( mods == null )	continue;
 
 			switch ( this.checkConstraints( mods ) )
@@ -922,7 +922,7 @@ public class Evaluator
 		Iterator syn = Modifiers.getSynergies();
 		while ( syn.hasNext() )
 		{
-			Modifiers mods = Modifiers.getModifiers( (String) syn.next() );
+			Modifiers mods = Modifiers.getModifiers( "Synergy", (String) syn.next() );
 			int value = ((Integer) syn.next()).intValue();
 			if ( mods == null )	continue;
 			double delta = this.getScore( mods ) - nullScore;
@@ -931,7 +931,7 @@ public class Evaluator
 
 		boolean hoboPowerUseful = false;
 		{
-			Modifiers mods = Modifiers.getModifiers( "_hoboPower" );
+			Modifiers mods = Modifiers.getModifiers( "MaxCat", "_hoboPower" );
 			if ( mods != null &&
 				this.getScore( mods ) - nullScore > 0.0 )
 			{
@@ -941,7 +941,7 @@ public class Evaluator
 
 		boolean smithsnessUseful = false;
 		{
-			Modifiers mods = Modifiers.getModifiers( "_smithsness" );
+			Modifiers mods = Modifiers.getModifiers( "MaxCat", "_smithsness" );
 			if ( mods != null &&
 				this.getScore( mods ) - nullScore > 0.0 )
 			{
@@ -951,7 +951,7 @@ public class Evaluator
 
 		boolean brimstoneUseful = false;
 		{
-			Modifiers mods = Modifiers.getModifiers( "_brimstone" );
+			Modifiers mods = Modifiers.getModifiers( "MaxCat", "_brimstone" );
 			if ( mods != null &&
 				this.getScore( mods ) - nullScore > 0.0 )
 			{
@@ -961,7 +961,7 @@ public class Evaluator
 
 		boolean cloathingUseful = false;
 		{
-			Modifiers mods = Modifiers.getModifiers( "_cloathing" );
+			Modifiers mods = Modifiers.getModifiers( "MaxCat", "_cloathing" );
 			if ( mods != null &&
 				this.getScore( mods ) - nullScore > 0.0 )
 			{
@@ -971,7 +971,7 @@ public class Evaluator
 		
 		boolean slimeHateUseful = false;
 		{
-			Modifiers mods = Modifiers.getModifiers( "_slimeHate" );
+			Modifiers mods = Modifiers.getModifiers( "MaxCat", "_slimeHate" );
 			if ( mods != null &&
 				this.getScore( mods ) - nullScore > 0.0 )
 			{
@@ -1199,7 +1199,7 @@ public class Evaluator
 					item.automaticFlag = true;
 				}
 
-				Modifiers mods = Modifiers.getModifiers( name );
+				Modifiers mods = Modifiers.getModifiers( "Item", id );
 				if ( mods == null )	// no enchantments
 				{
 					mods = new Modifiers();
@@ -1291,7 +1291,7 @@ public class Evaluator
 				{
 					Modifiers newMods = new Modifiers();
 					newMods.add( mods );
-					newMods.add( Modifiers.getModifiers( intrinsic ) );
+					newMods.add( Modifiers.getModifiers( "Effect", intrinsic ) );
 					mods = newMods;
 				}
 				double delta = this.getScore( mods ) - nullScore;

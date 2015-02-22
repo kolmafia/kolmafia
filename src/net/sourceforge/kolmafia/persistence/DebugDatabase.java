@@ -1048,16 +1048,16 @@ public class DebugDatabase
 
 		// Compare to what is already registered, logging differences
 		// and substituting expressions, as appropriate.
-		DebugDatabase.checkModifiers( name, known, true, report );
+		DebugDatabase.checkModifiers( "Item", name, known, true, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
 		if ( showAll || known.size() > 0 || unknown.size() > 0 )
 		{
-			DebugDatabase.logModifierDatum( name, known, unknown, report );
+			DebugDatabase.logModifierDatum( "Item", name, known, unknown, report );
 		}
 	}
 
-	private static final void checkModifiers( final String name, final ModifierList known, final boolean appendCurrent, final PrintStream report )
+	private static final void checkModifiers( final String type, final String name, final ModifierList known, final boolean appendCurrent, final PrintStream report )
 	{
 		// - Keep modifiers in the same order they are listed in the item description
 		// - If a modifier is variable (has an expression), evaluate
@@ -1066,7 +1066,7 @@ public class DebugDatabase
 		//   of parsed modifiers in the order they appear in modifiers.txt
 
 		// Get the existing modifiers for the name
-		ModifierList existing = Modifiers.getModifierList( name );
+		ModifierList existing = Modifiers.getModifierList( type, name );
 
 		// Look at each modifier in known
 		for ( Modifier modifier : known )
@@ -1156,7 +1156,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void logModifierDatum( final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
+	private static final void logModifierDatum( final String type, final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
@@ -1172,7 +1172,7 @@ public class DebugDatabase
 		}
 		else
 		{
-			Modifiers.writeModifierString( report, name, DebugDatabase.createModifierString( known ) );
+			Modifiers.writeModifierString( report, type, name, DebugDatabase.createModifierString( known ) );
 		}
 	}
 
@@ -1481,10 +1481,10 @@ public class DebugDatabase
 
 		// Compare to what is already registered.
 		// Log differences and substitute formulas, as appropriate.
-		DebugDatabase.checkModifiers( name, known, false, report );
+		DebugDatabase.checkModifiers( "Outfit", name, known, false, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
-		DebugDatabase.logModifierDatum( name, known, unknown, report );
+		DebugDatabase.logModifierDatum( "Outfit", name, known, unknown, report );
 	}
 
 	private static final Pattern OUTFIT_ENCHANTMENT_PATTERN =
@@ -1740,10 +1740,10 @@ public class DebugDatabase
 
 		// Compare to what is already registered.
 		// Log differences and substitute formulas, as appropriate.
-		DebugDatabase.checkModifiers( name, known, true, report );
+		DebugDatabase.checkModifiers( "Effect", name, known, true, report );
 
 		// Print the modifiers in the format modifiers.txt expects.
-		DebugDatabase.logModifierDatum( name, known, unknown, report );
+		DebugDatabase.logModifierDatum( "Effect", name, known, unknown, report );
 	}
 
 	// **********************************************************
@@ -2129,7 +2129,7 @@ public class DebugDatabase
 
 			// Potions grant an effect. Check for a new effect.
 			String itemName = ItemDatabase.getItemDataName( id );
-			String effectName = Modifiers.getStringModifier( itemName, "Effect" );
+			String effectName = Modifiers.getStringModifier( "Item", itemId, "Effect" );
 			if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName, true ) == -1 )
 			{
 				String rawText = DebugDatabase.rawItemDescriptionText( itemId );

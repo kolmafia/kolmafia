@@ -189,11 +189,11 @@ public class FamiliarData
 
 		double experienceModifier = KoLCharacter.currentNumericModifier( Modifiers.FAMILIAR_EXP );
 
-		if ( getItem().getItemId() == ItemPool.MAYFLOWER_BOUQUET )
+		int itemId = getItem().getItemId();
+		if ( itemId == ItemPool.MAYFLOWER_BOUQUET )
 		{
-			String itemName = getItem().getName();
 			String modifierName = Modifiers.getModifierName( Modifiers.FAMILIAR_EXP );
-			double itemModifier = Modifiers.getNumericModifier( itemName, modifierName );
+			double itemModifier = Modifiers.getNumericModifier( "Item", itemId, modifierName );
 
 			experienceModifier -= itemModifier;
 
@@ -596,7 +596,7 @@ public class FamiliarData
 			AdventureResult item = familiar.getItem();
 			if ( item != EquipmentRequest.UNEQUIP )
 			{
-				Modifiers mods = Modifiers.getModifiers( item.getName() );
+				Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
 				if ( mods != null )
 				{
 					fixed -= mods.get( Modifiers.FAMILIAR_WEIGHT );
@@ -614,7 +614,7 @@ public class FamiliarData
 			item = this.getItem();
 			if ( item != EquipmentRequest.UNEQUIP )
 			{
-				Modifiers mods = Modifiers.getModifiers( item.getName() );
+				Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
 				if ( mods != null )
 				{
 					fixed += mods.get( Modifiers.FAMILIAR_WEIGHT );
@@ -654,7 +654,7 @@ public class FamiliarData
 
 	public static final int itemWeightModifier( final int itemId )
 	{
-		Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 		return mods == null ? 0 : (int) mods.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
@@ -718,7 +718,7 @@ public class FamiliarData
 
 	public boolean waterBreathing()
 	{
-		Modifiers mods = Modifiers.getModifiers( "Fam:" + this.getRace() );
+		Modifiers mods = Modifiers.getModifiers( "Familiar", this.getRace() );
 		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
 
@@ -802,7 +802,7 @@ public class FamiliarData
 
 		case FamiliarPool.HAND:
 			// Disembodied Hand can't equip Mainhand only items or Single Equip items
-			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && !Modifiers.getBooleanModifier( name, "Single Equip" ) )
+			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && !Modifiers.getBooleanModifier( "Item", name, "Single Equip" ) )
 			{
 				return true;
 			}
@@ -822,7 +822,7 @@ public class FamiliarData
 			return true;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 		if ( mods == null )
 		{
 			return false;
@@ -855,7 +855,7 @@ public class FamiliarData
 			return false;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( item.getName() );
+		Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
 		return mods != null && mods.getBoolean( Modifiers.GENERIC );
 	}
 

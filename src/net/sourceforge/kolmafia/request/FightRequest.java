@@ -3016,7 +3016,7 @@ public class FightRequest
 		}
 
 		// Cancel any combat modifiers
-		Modifiers.overrideModifier( "fightMods", null );
+		Modifiers.overrideModifier( "Generated:fightMods", null );
 
 		if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 		{
@@ -6744,13 +6744,13 @@ public class FightRequest
 			break;
 
 		case SkillPool.HOBO_JOKE:
-			Modifiers.overrideModifier( "fightMods", "Meat Drop: +100" );
+			Modifiers.overrideModifier( "Generated:fightMods", "Meat Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
 
 		case SkillPool.HOBO_DANCE:
-			Modifiers.overrideModifier( "fightMods", "Item Drop: +100" );
+			Modifiers.overrideModifier( "Generated:fightMods", "Item Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;

@@ -171,20 +171,29 @@ public class AccordionsCommand
 			this.monster = monster;
 			this.hands = EquipmentDatabase.getHands( itemId );
 
-			Modifiers mods = Modifiers.getModifiers( this.name );
-			this.songDuration = (int)mods.get( Modifiers.SONG_DURATION );
-
-			if ( itemId == ItemPool.AUTOCALLIOPE )
+			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+			if ( mods != null )
 			{
-				// Special case to prevent stretching table way wide
-				this.enchantments = "Prismatic Damage: [2*(1+skill(Accordion Appreciation))]";
+				this.songDuration = (int)mods.get( Modifiers.SONG_DURATION );
+
+				if ( itemId == ItemPool.AUTOCALLIOPE )
+				{
+					// Special case to prevent stretching table way wide
+					this.enchantments = "Prismatic Damage: [2*(1+skill(Accordion Appreciation))]";
+				}
+				else
+				{
+					String enchantments = mods.getString( "Modifiers" );
+					enchantments = Modifiers.trimModifiers( enchantments, "Class" );
+					enchantments = Modifiers.trimModifiers( enchantments, "Song Duration" );
+					this.enchantments = enchantments;
+				}
 			}
 			else
 			{
-				String enchantments = mods.getString( "Modifiers" );
-				enchantments = Modifiers.trimModifiers( enchantments, "Class" );
-				enchantments = Modifiers.trimModifiers( enchantments, "Song Duration" );
-				this.enchantments = enchantments;
+				// Handle modifiers missing from modifiers.txt
+				this.songDuration = 0;
+				this.enchantments = "";
 			}
 		}
 

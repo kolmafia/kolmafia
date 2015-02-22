@@ -854,7 +854,7 @@ public class ListCellRendererFactory
 				if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 				{
 					int count;
-					Modifiers mods = Modifiers.getModifiers( ar.getName() );
+					Modifiers mods = Modifiers.getModifiers( "Item", ar.getItemId() );
 					if ( mods != null && mods.getBoolean( Modifiers.SINGLE ) )
 					{
 						count = 1;

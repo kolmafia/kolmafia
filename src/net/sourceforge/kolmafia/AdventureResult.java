@@ -893,7 +893,7 @@ public class AdventureResult
 		}
 
 		return ( !ar.isItem() || this.itemId == ar.itemId ) &&
-			this.name.equalsIgnoreCase( ar.name );
+			this.name.equals( ar.name );
 	}
 
 	@Override
@@ -940,8 +940,14 @@ public class AdventureResult
 			return -1;
 		}
 
+		int itemComparison = 0;
+		if ( ar.isItem() )
+		{
+			itemComparison = this.itemId - ar.itemId;
+		}
+
 		int nameComparison = this.name.compareToIgnoreCase( ar.name );
-		if ( nameComparison == 0 )
+		if ( nameComparison == 0 & itemComparison == 0 )
 		{
 			return 0;
 		}
@@ -951,7 +957,12 @@ public class AdventureResult
 			return this.getCount() - ar.getCount();
 		}
 
-		return nameComparison;
+		if ( nameComparison != 0 )
+		{
+			return nameComparison;
+		}
+
+		return itemComparison;
 	}
 
 	/**

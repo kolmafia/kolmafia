@@ -1848,7 +1848,7 @@ public class EquipmentManager
 		
 		if ( KoLCharacter.isHardcore() )
 		{
-			Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
 			if ( mods != null && mods.getBoolean( Modifiers.SOFTCORE ) )
 			{
 				return false;

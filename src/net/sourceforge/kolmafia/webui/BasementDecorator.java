@@ -625,7 +625,16 @@ public class BasementDecorator
 
 		public int computeBoost()
 		{
-			Modifiers m = Modifiers.getModifiers( this.name );
+			Modifiers m;
+			int itemId = this.item.getItemId();
+			if ( itemId != -1 )
+			{
+				m = Modifiers.getModifiers( "Item", itemId );
+			}
+			else
+			{
+				m = Modifiers.getModifiers( "Effect", this.name );
+			}
 			if ( m == null )
 			{
 				return 0;

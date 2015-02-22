@@ -418,12 +418,12 @@ public class StorageRequest
 			return false;
 		}
 
-		return Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
+		return Modifiers.getBooleanModifier( "Item", itemId, "Free Pull" );
 	}
 
 	public static boolean isNoPull( final AdventureResult item )
 	{
-		return Modifiers.getBooleanModifier( item.getName(), "No Pull" );
+		return Modifiers.getBooleanModifier( "Item", item.getItemId(), "No Pull" );
 	}
 
 	@Override

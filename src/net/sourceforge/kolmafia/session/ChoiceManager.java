@@ -4561,7 +4561,7 @@ public abstract class ChoiceManager
 			// Check for familiars
 			if ( !KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 			{
-				bonus = Modifiers.getNumericModifier( KoLCharacter.getFamiliar(), "Item Drop" );
+				bonus = Modifiers.getNumericModifier( "Familiar", KoLCharacter.getFamiliar().getRace(), "Item Drop" );
 			}
 			// Check for Clancy
 			else if ( KoLCharacter.getCurrentInstrument() != null &&
@@ -4575,7 +4575,18 @@ public abstract class ChoiceManager
 			{
 				bonus = KoLCharacter.hasSkill( "Working Lunch" ) ? 75 : 50;
 			}
-
+			// Check for Throne
+			FamiliarData throned = KoLCharacter.getEnthroned();
+			if ( !throned.equals( FamiliarData.NO_FAMILIAR ) )
+			{
+				bonus += Modifiers.getNumericModifier( "Throne", throned.getRace(), "Item Drop" );
+			}
+			// Check for Bjorn
+			FamiliarData bjorned = KoLCharacter.getBjorned();
+			if ( !bjorned.equals( FamiliarData.NO_FAMILIAR ) )
+			{
+				bonus += Modifiers.getNumericModifier( "Throne", bjorned.getRace(), "Item Drop" );
+			}
 			result[ 1 ] =
 				"need +50% item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
 				KoLCharacter.currentNumericModifier( Modifiers.FOODDROP ) - bonus ) + "%";
