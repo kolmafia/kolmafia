@@ -6206,6 +6206,13 @@ public abstract class ChoiceManager
 			ResultProcessor.processAdventuresUsed( 1 );
 			break;
 
+		case 1024: // Like a Bat out of Hell
+			if( ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2 )
+			{
+				KoLCharacter.setLimitmode( null );
+			}
+			break;
+
 		case 1028:
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
@@ -8176,14 +8183,7 @@ public abstract class ChoiceManager
 			{
 				KoLCharacter.setLimitmode( Limitmode.ED );
 			}
-			return;
-
-		case 1024: // Like a Bat out of Hell
-			if( ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2 )
-			{
-				KoLCharacter.setLimitmode( null );
-			}
-			return;
+			break;
 
 		case 1027:	// The End of the Tale of Spelunking
 			if ( ChoiceManager.lastDecision == 1 )
