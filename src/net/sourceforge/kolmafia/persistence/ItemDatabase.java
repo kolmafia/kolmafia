@@ -1079,6 +1079,11 @@ public class ItemDatabase
 
 	public static final int getItemId( final String itemName, final int count, final boolean substringMatch )
 	{
+		if ( itemName == null )
+		{
+			return -1;
+		}
+
 		//If name starts with [nnnn] then that is explicitly the item id 
 		if ( itemName.startsWith( "[" ) )
 		{
@@ -1095,7 +1100,6 @@ public class ItemDatabase
 				{
 				}
 				return itemId;
-				
 			}
 		}
 		String name = ItemDatabase.getCanonicalName( itemName, count, substringMatch );
@@ -1103,7 +1107,6 @@ public class ItemDatabase
 		{
 			return -1;
 		}
-
 		Object itemId = ItemDatabase.itemIdByName.get( name );
 		if ( itemId == null )
 		{
