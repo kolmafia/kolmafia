@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
+import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -4586,6 +4587,18 @@ public abstract class ChoiceManager
 			if ( !bjorned.equals( FamiliarData.NO_FAMILIAR ) )
 			{
 				bonus += Modifiers.getNumericModifier( "Throne", bjorned.getRace(), "Item Drop" );
+			}
+			// Check for Florist
+			if ( !FloristRequest.haveFlorist() )
+			{
+				ArrayList<Florist> plants = FloristRequest.getPlants( "Twin Peak" );
+				if ( plants != null )
+				{
+					for ( Florist plant : plants )
+					{
+						bonus += Modifiers.getNumericModifier( "Florist", plant.toString(), "Item Drop" );
+					}
+				}
 			}
 			result[ 1 ] =
 				"need +50% item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
