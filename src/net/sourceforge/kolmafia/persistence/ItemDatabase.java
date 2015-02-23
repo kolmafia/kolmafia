@@ -1014,6 +1014,7 @@ public class ItemDatabase
 			String command =
 				usage == KoLConstants.CONSUME_EAT ? "eat 1 " :
 				usage == KoLConstants.CONSUME_DRINK ? "drink 1 " :
+				usage == KoLConstants.CONSUME_SPLEEN ? "chew 1 " :
 				"use 1 ";
 			EffectDatabase.registerEffect( effectName, effectDescid, command + itemName );
 		}
