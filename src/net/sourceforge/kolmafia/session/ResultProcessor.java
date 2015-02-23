@@ -220,6 +220,7 @@ public class ResultProcessor
 				ItemDatabase.registerPlural( itemId, plural );
 			}
 
+	
 			// If the item went to Hagnk's process it now.
 			if ( hagnk )
 			{
@@ -232,6 +233,16 @@ public class ResultProcessor
 					RequestLogger.updateSessionLog( message );
 				}
 				AdventureResult.addResultToList( KoLConstants.storage, item );
+			}
+
+			// If the item was not found in combat, process the
+			// acquisition and remove it from the buffer.
+			else if ( !combatResults )
+			{
+				itemMatcher.appendReplacement( buffer, "" );
+				changed = true;
+				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
+				ResultProcessor.processItem( false, acquisition, item, data );
 			}
 		}
 
