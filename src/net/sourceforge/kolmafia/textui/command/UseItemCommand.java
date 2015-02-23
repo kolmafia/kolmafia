@@ -223,12 +223,10 @@ public class UseItemCommand
 						return false;
 					case KoLConstants.CONSUME_DRINK:
 					case KoLConstants.CONSUME_DRINK_HELPER:
-						KoLmafia.updateDisplay(
-							MafiaState.ERROR, currentMatch.getName() + " must be drunk." );
+						KoLmafia.updateDisplay( MafiaState.ERROR, currentMatch.getName() + " must be drunk." );
 						return false;
 					case KoLConstants.CONSUME_SPLEEN:
-						KoLmafia.updateDisplay(
-							MafiaState.ERROR, currentMatch.getName() + " must be chewed." );
+						KoLmafia.updateDisplay( MafiaState.ERROR, currentMatch.getName() + " must be chewed." );
 						return false;
 					}
 				}

@@ -595,6 +595,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "last_item_message", DataTypes.STRING_TYPE, params ) );
 
@@ -3090,6 +3093,18 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " \u00B6" + (int) item.intValue() );
+		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	}
+
+	public static Value chew( Interpreter interpreter, final Value countValue, final Value item )
+	{
+		int count = (int) countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "chew", count + " \u00B6" + (int) item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
