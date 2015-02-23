@@ -132,7 +132,7 @@ public class Maximizer
 		}
 
 		Modifiers mods = Maximizer.best.calculate();
-		Modifiers.overrideModifier( "_spec", mods );
+		Modifiers.overrideModifier( "Generated:_spec", mods );
 
 		return !Maximizer.best.failed;
 	}

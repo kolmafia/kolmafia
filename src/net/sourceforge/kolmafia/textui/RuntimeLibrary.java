@@ -6959,7 +6959,7 @@ public abstract class RuntimeLibrary
 		int index = name.indexOf( ":" );
 		if ( index != -1 )
 		{
-			return name.substring( index, name.length() - index );
+			return name.substring( index + 1 );
 		}
 		return name;
 	}

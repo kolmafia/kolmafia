@@ -57,7 +57,7 @@ public class SpeculateCommand
 		Speculation spec = new Speculation();
 		boolean quiet = spec.parse( parameters );
 		Modifiers mods = spec.calculate();
-		Modifiers.overrideModifier( "_spec", mods );
+		Modifiers.overrideModifier( "Generated:_spec", mods );
 		if ( quiet )
 		{
 			return;
