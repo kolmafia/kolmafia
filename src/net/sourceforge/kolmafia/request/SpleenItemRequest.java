@@ -127,12 +127,12 @@ public class SpleenItemRequest
 			}
 
 			this.constructURLString( originalURLString );
-			this.useOnce( i, iterations, "Using" );
+			this.useOnce( i, iterations, "Chewing" );
 		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			KoLmafia.updateDisplay( "Finished using " + origCount + " " + this.itemUsed.getName() + "." );
+			KoLmafia.updateDisplay( "Finished chewing " + origCount + " " + this.itemUsed.getName() + "." );
 		}
 	}
 
@@ -147,7 +147,7 @@ public class SpleenItemRequest
 
 		if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
-			UseItemRequest.lastUpdate = "Insufficient items to use.";
+			UseItemRequest.lastUpdate = "Insufficient items to chew.";
 			return;
 		}
 
@@ -270,7 +270,7 @@ public class SpleenItemRequest
 		int count = item.getCount();
 		String name = item.getName();
 
-		String useString = "use " + count + " " + name ;
+		String useString = "chew " + count + " " + name ;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( useString );
