@@ -225,6 +225,7 @@ public class RelayAgent
 		String host = null;
 		String referer = null;
 
+		this.request.cookies = null;
 		while ( ( currentLine = this.reader.readLine() ) != null && !currentLine.equals( "" ) )
 		{
 			if ( debugging )
@@ -262,19 +263,21 @@ public class RelayAgent
 				continue;
 			}
 
-			if ( currentLine.startsWith( "Cookie" ) )
+			if ( currentLine.startsWith( "Cookie: " ) )
 			{
+				String cookies = currentLine.substring( 8 );
 				if ( this.path.startsWith( "/inventory" ) )
 				{
-					String[] cookieList = currentLine.substring( 8 ).split( "\\s*;\\s*" );
-					for ( int i = 0; i < cookieList.length; ++i )
+					for ( String cookie : cookies.split( "\\s*;\\s*" ) )
 					{
-						if ( cookieList[ i ].startsWith( "inventory" ) )
+						if ( cookie.startsWith( "inventory" ) )
 						{
-							GenericRequest.inventoryCookie = cookieList[ i ];
+							GenericRequest.inventoryCookie = cookie;
+							break;
 						}
 					}
 				}
+				this.request.cookies = new String( cookies );
 				continue;
 			}
 		}

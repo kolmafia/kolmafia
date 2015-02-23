@@ -1594,17 +1594,9 @@ public class GenericRequest
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
-		if ( GenericRequest.serverCookie != null )
+		if ( !this.isExternalRequest && GenericRequest.serverCookie != null )
 		{
-			if ( this.formURLString.startsWith( "inventory" ) && GenericRequest.inventoryCookie != null )
-			{
-				this.formConnection.addRequestProperty(
-					"Cookie", GenericRequest.inventoryCookie + "; " + GenericRequest.serverCookie );
-			}
-			else if ( !this.isExternalRequest )
-			{
-				this.formConnection.addRequestProperty( "Cookie", GenericRequest.serverCookie );
-			}
+			this.formConnection.addRequestProperty( "Cookie", this.getCookies( new StringBuilder() ).toString() );
 		}
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
@@ -1622,6 +1614,19 @@ public class GenericRequest
 		}
 
 		return true;
+	}
+
+	public StringBuilder getCookies( final StringBuilder cookies )
+	{
+		if ( GenericRequest.inventoryCookie != null && this.formURLString.startsWith( "inventory" ) )
+		{
+			cookies.append( GenericRequest.inventoryCookie );
+			cookies.append( "; " );
+		}
+
+		cookies.append( GenericRequest.serverCookie );
+
+		return cookies;
 	}
 
 	private URL buildURL()
@@ -3093,13 +3098,11 @@ public class GenericRequest
 		RequestLogger.updateDebugLog();
 		RequestLogger.updateDebugLog( "Requesting: " + URL );
 
-		Map requestProperties = formConnection.getRequestProperties();
+		Map<String,List<String>> requestProperties = formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
 
-		Iterator iterator = requestProperties.entrySet().iterator();
-		while ( iterator.hasNext() )
+		for ( Entry<String,List<String>> entry : requestProperties.entrySet() )
 		{
-			Entry entry = (Entry) iterator.next();
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
@@ -3116,13 +3119,11 @@ public class GenericRequest
 		RequestLogger.updateDebugLog();
 		RequestLogger.updateDebugLog( "Retrieved: " + URL );
 
-		Map headerFields = formConnection.getHeaderFields();
+		Map<String,List<String>> headerFields = formConnection.getHeaderFields();
 		RequestLogger.updateDebugLog( headerFields.size() + " header fields" );
 
-		Iterator iterator = headerFields.entrySet().iterator();
-		while ( iterator.hasNext() )
+		for ( Entry<String,List<String>> entry : headerFields.entrySet() )
 		{
-			Entry entry = (Entry) iterator.next();
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
