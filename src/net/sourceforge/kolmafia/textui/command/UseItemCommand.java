@@ -152,6 +152,11 @@ public class UseItemCommand
 			consumptionType = KoLConstants.CONSUME_HOBO;
 			filter = ItemFinder.BOOZE_MATCH;
 		}
+		if ( command.equals( "chew" ) )
+		{
+			consumptionType = KoLConstants.CONSUME_SPLEEN;
+			filter = ItemFinder.SPLEEN_MATCH;
+		}
 		else if ( command.equals( "slimeling" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_SLIME;
@@ -198,6 +203,15 @@ public class UseItemCommand
 						return false;
 					}
 				}
+				else if ( command.equals( "chew" ) )
+				{
+					if ( consumpt != KoLConstants.CONSUME_SPLEEN )
+					{
+						KoLmafia.updateDisplay(
+							MafiaState.ERROR, currentMatch.getName() + " is not a spleen toxin." );
+						return false;
+					}
+				}
 
 				if ( command.equals( "use" ) )
 				{
@@ -210,7 +224,11 @@ public class UseItemCommand
 					case KoLConstants.CONSUME_DRINK:
 					case KoLConstants.CONSUME_DRINK_HELPER:
 						KoLmafia.updateDisplay(
-							MafiaState.ERROR, currentMatch.getName() + " is an alcoholic beverage." );
+							MafiaState.ERROR, currentMatch.getName() + " must be drunk." );
+						return false;
+					case KoLConstants.CONSUME_SPLEEN:
+						KoLmafia.updateDisplay(
+							MafiaState.ERROR, currentMatch.getName() + " must be chewed." );
 						return false;
 					}
 				}

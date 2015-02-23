@@ -65,10 +65,11 @@ public class ItemFinder
 	public static final int ANY_MATCH = 1;
 	public static final int FOOD_MATCH = 2;
 	public static final int BOOZE_MATCH = 3;
-	public static final int USE_MATCH = 4;
-	public static final int CREATE_MATCH = 5;
-	public static final int UNTINKER_MATCH = 6;
-	public static final int EQUIP_MATCH = 7;
+	public static final int SPLEEN_MATCH = 4;
+	public static final int USE_MATCH = 5;
+	public static final int CREATE_MATCH = 6;
+	public static final int UNTINKER_MATCH = 7;
+	public static final int EQUIP_MATCH = 8;
 
 	public static final List<String> getMatchingNames( String searchString )
 	{
@@ -205,7 +206,10 @@ public class ItemFinder
 			}
 		}
 
-		if ( !restoreList.isEmpty() && filterType != ItemFinder.FOOD_MATCH && filterType != ItemFinder.BOOZE_MATCH )
+		if ( !restoreList.isEmpty() &&
+		     filterType != ItemFinder.FOOD_MATCH &&
+		     filterType != ItemFinder.BOOZE_MATCH &&
+		     filterType != ItemFinder.SPLEEN_MATCH )
 		{
 			nameList.clear();
 			nameList.addAll( restoreList );
@@ -236,6 +240,9 @@ public class ItemFinder
 			case ItemFinder.BOOZE_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_DRINK
 					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
+				break;
+			case ItemFinder.SPLEEN_MATCH:
+				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_SPLEEN );
 				break;
 			case ItemFinder.CREATE_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
