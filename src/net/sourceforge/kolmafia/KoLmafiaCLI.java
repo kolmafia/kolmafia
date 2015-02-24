@@ -810,6 +810,7 @@ public class KoLmafiaCLI
 		new PlayerSnapshotCommand().register( "log" );
 		new PoolCommand().register( "pool" );
 		new PoolskillCommand().register( "poolskill" );
+		new PrefRefCommand().register( "prefref" );
 		new PrefTraceCommand().register( "ptrace" );
 		new PripheaCommand().register( "priphea" );
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
