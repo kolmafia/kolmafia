@@ -487,6 +487,24 @@ public class Preferences
 		return map.get( key );
 	}
 
+	public static final TreeMap<String, String> getMap( boolean defaults, boolean user )
+	{
+		if ( defaults )
+		{
+			return new TreeMap<String, String>( user ? userNames : globalNames );
+		}
+		else
+		{
+			TreeMap<String, String> map = new TreeMap<String, String>();
+			TreeMap<String, Object> srcmap = user ? userValues : globalValues;
+			for ( String pref : srcmap.keySet() )
+			{
+				map.put( pref, getString( pref ) );
+			}
+			return map;
+		}
+	}
+
 	public static final void setString( final String user, final String name, final String value )
 	{
 		String old = Preferences.getString( user, name );
