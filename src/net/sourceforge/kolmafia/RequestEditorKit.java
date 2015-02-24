@@ -2211,7 +2211,8 @@ public class RequestEditorKit
 		if ( buffer.indexOf( "Having a Ball in the Ballroom" ) != -1)
 		{
 			// Give the player a link to talk to Lady Spookyraven again (on the third floor)
-			link = "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+			// Unfortunately, action=manor3_ladys does not work until you visit the third floor map
+			link = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
 		}
 
 		if ( link == null )
