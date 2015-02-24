@@ -883,6 +883,7 @@ public abstract class KoLCharacter
 			}
 		}
 		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) ) limit += 5;
+		if ( Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ) limit ++;
 		return limit;
 	}
 

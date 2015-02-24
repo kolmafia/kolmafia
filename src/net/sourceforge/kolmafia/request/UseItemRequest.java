@@ -1051,6 +1051,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_rainStickUsed" ) ? 0 : 1;
 
+		case ItemPool.STILL_BEATING_SPLEEN:
+			UseItemRequest.limiter = "already being active";
+			return Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5046,6 +5050,14 @@ public class UseItemRequest
 
 		case ItemPool.RED_GREEN_RAIN_STICK:
 			Preferences.setBoolean( "_rainStickUsed", true );
+			return;
+
+		case ItemPool.STILL_BEATING_SPLEEN:
+			Preferences.setInteger( "lastStillBeatingSpleen", KoLCharacter.getAscensions() );
+			if ( !responseText.contains( "assimilate" ) )
+			{
+				ResultProcessor.processResult( item );
+			}
 			return;
 		}
 
