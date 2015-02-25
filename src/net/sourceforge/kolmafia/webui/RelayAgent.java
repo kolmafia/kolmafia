@@ -266,18 +266,25 @@ public class RelayAgent
 			if ( currentLine.startsWith( "Cookie: " ) )
 			{
 				String cookies = currentLine.substring( 8 );
-				if ( this.path.startsWith( "/inventory" ) )
+				StringBuilder buffer = new StringBuilder();
+				boolean inventory = this.path.startsWith( "/inventory" );
+				for ( String cookie : cookies.split( "\\s*;\\s*" ) )
 				{
-					for ( String cookie : cookies.split( "\\s*;\\s*" ) )
+					if ( cookie.contains( "appserver" ) )
 					{
-						if ( cookie.startsWith( "inventory" ) )
-						{
-							GenericRequest.inventoryCookie = cookie;
-							break;
-						}
+						continue;
 					}
+					if ( inventory && cookie.startsWith( "inventory" ) )
+					{
+						GenericRequest.inventoryCookie = cookie;
+					}
+					if ( buffer.length() > 0 )
+					{
+						buffer.append( "; " );
+					}
+					buffer.append( cookie );
 				}
-				this.request.cookies = new String( cookies );
+				this.request.cookies = buffer.toString();
 				continue;
 			}
 		}
