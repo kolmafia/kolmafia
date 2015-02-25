@@ -674,19 +674,19 @@
 7235	POW	explosion.gif	5	0	0
 7236	BURN	fireball.gif	5	0	0
 7237
-7238	Throw Skull	spelskull	5	0	0
-7239	Throw Rock	spelrock	5	0	0
-7240	Use Rope	spelrope	5	0	0
-7241	Throw Bomb	bluebomb	5	0	0
-7242	Throw Pot	spelpot	5	0	0
-7243	Throw Ten Bombs	bluebomb	5	0	0
-7244	Throw Torch	speltorch	5	0	0
-7245	Summon Love Mosquito	lb_mosquito	5	0	0
-7246	Summon Love Stinkbug	lb_stink	5	0	0
-7247	Summon Love Gnats	lb_gnats	5	0	0
-7248	Summon Love Scarabs	lb_scarab	5	0	0
-7249	Tell a Skeleton What To Do	skelring	5	0	0
-7250	Tell This Skeleton What To Do	skelring	5	0	0
+7238	Throw Skull	spelskull.gif	5	0	0
+7239	Throw Rock	spelrock.gif	5	0	0
+7240	Use Rope	spelrope.gif	5	0	0
+7241	Throw Bomb	bluebomb.gif	5	0	0
+7242	Throw Pot	spelpot.gif	5	0	0
+7243	Throw Ten Bombs	bluebomb.gif	5	0	0
+7244	Throw Torch	speltorch.gif	5	0	0
+7245	Summon Love Mosquito	lb_mosquito.gif	5	0	0
+7246	Summon Love Stinkbug	lb_stink.gif	5	0	0
+7247	Summon Love Gnats	lb_gnats.gif	5	0	0
+7248	Summon Love Scarabs	lb_scarab.gif	5	0	0
+7249	Tell a Skeleton What To Do	skelring.gif	5	0	0
+7250	Tell This Skeleton What To Do	skelring.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
