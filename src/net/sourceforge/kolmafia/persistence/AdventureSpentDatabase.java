@@ -52,9 +52,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.request.FightRequest;
 
 /*
- * Instead of packing and unpacking a giant map into user preference files, this is a way of persisting a variable across sessions.
+ * Instead of packing and unpacking a giant map into user preference files,
+ * this is a way of persisting a variable across sessions.
  * Uses the Java Serializable interface.
  */
 
@@ -125,12 +127,20 @@ public class AdventureSpentDatabase
 
 	public static void addTurn( KoLAdventure adv )
 	{
+		if ( FightRequest.edFightInProgress )
+		{
+			return;
+		}
 		String name = adv.getAdventureName();
 		AdventureSpentDatabase.addTurn( name );
 	}
 
 	public static void addTurn( final String loc )
 	{
+		if ( FightRequest.edFightInProgress )
+		{
+			return;
+		}
 		if ( loc == null )
 		{
 			return;

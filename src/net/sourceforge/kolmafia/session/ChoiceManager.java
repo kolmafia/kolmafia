@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -6231,8 +6232,12 @@ public abstract class ChoiceManager
 			break;
 
 		case 1024: // Like a Bat out of Hell
-			if( ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2 )
+			switch ( ChoiceManager.lastDecision )
 			{
+			case 2:
+				FightRequest.edFightInProgress = false;
+				// fall through
+			case 1:
 				KoLCharacter.setLimitmode( null );
 			}
 			break;

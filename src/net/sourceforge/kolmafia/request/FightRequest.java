@@ -162,6 +162,7 @@ public class FightRequest
 	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
+	public static boolean edFightInProgress = false;
 	private static boolean isTrackingFights = false;
 	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
@@ -3074,6 +3075,10 @@ public class FightRequest
 		if ( !won )
 		{
 			QuestManager.updateQuestFightLost( responseText, monsterName );
+			if ( KoLCharacter.isEd() )
+			{
+				FightRequest.edFightInProgress = true;
+			}
 		}
 		else
 		{
@@ -3572,6 +3577,8 @@ public class FightRequest
 			}
 
 			QuestManager.updateQuestData( responseText, monsterName );
+
+			FightRequest.edFightInProgress = false;
 		}
 
 		FightRequest.clearInstanceData();
