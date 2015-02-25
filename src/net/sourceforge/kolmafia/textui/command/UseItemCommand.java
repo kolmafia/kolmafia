@@ -152,7 +152,7 @@ public class UseItemCommand
 			consumptionType = KoLConstants.CONSUME_HOBO;
 			filter = ItemFinder.BOOZE_MATCH;
 		}
-		if ( command.equals( "chew" ) )
+		else if ( command.equals( "chew" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_SPLEEN;
 			filter = ItemFinder.SPLEEN_MATCH;
