@@ -289,6 +289,7 @@ Item	orange traffic cone	Moxie: +3, Spooky Resistance: +2, Familiar Effect: "cap
 Item	Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
 Item	oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
 Item	outrageous sombrero	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+Item	oversized skullcap	Muscle: +2, Damage Reduction: 3
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 Item	paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: 5, Familiar Effect: "atk, cap 12"
@@ -630,6 +631,7 @@ Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 2
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
 Item	The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, cap 18"
+Item	three-legged pants	Muscle: +2, Maximum HP: +5
 Item	thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 Item	tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 Item	time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
@@ -1323,6 +1325,7 @@ Item	red hot poker	Hot Damage: +15
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
 Item	regret hose	Cold Damage: +10
+Item	remaindered axe	Muscle: +2, Weapon Damage: +2
 # remorseless knife: Successful hit causes bleeding.
 Item	repeating crossbow	Moxie: +2, Critical Hit Percent: +15
 Item	rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
@@ -1817,6 +1820,7 @@ Item	Loathing Legion moondial	Adventures: +4, Softcore Only
 Item	Loathing Legion pizza stone	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Damage Reduction: 6, Softcore Only
 Item	Loathing Legion tape measure	Critical Hit Percent: +10, Softcore Only
 # loose purse strings: Monsters Will Drop Additional Meat
+Item	low-budget shield	Damage Reduction: 3
 Item	lucky lighter	Hot Damage: +6, Critical Hit Percent: +5
 Item	mad scientist's sock monkey	Moxie: +3
 Item	magic lamp	Mysticality: +5
@@ -2601,6 +2605,8 @@ Item	ring of half-assed regeneration	Single Equip, HP Regen Min: 0, HP Regen Max
 Item	ring of increase damage	Weapon Damage: +10, Spell Damage: +10
 # ring of teleportation: Your position seems uncertain...
 Item	ring of teleportation	Single Equip
+# Item:ring of telling skeletons what to do: Lets you tell skeletons what to do
+Item	ring of telling skeletons what to do	Muscle: +2, Mysticality: +2, Moxie: +2
 Item	Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
 Item	Roman sadnals	Experience: +2, Single Equip
 Item	rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
@@ -4329,6 +4335,7 @@ Effect	Experimental Effect G-9	Muscle Percent: +156, Mysticality Percent: +156, 
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
+Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
 Effect	Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Effect	Extra-Sharp Weapon	Weapon Damage Percent: +30
@@ -4755,6 +4762,7 @@ Effect	Lit Up	Hot Damage: +20, Hot Spell Damage: +20
 # Literally Insane: Insane in the BRAIN!
 Effect	Litterboxing	Stench Damage: +30, Item Drop: +15
 Effect	Litterbug	Monster Level: +25
+# Effect:Little Mouse Skull Buddy: Occasionally attacks your enemies for you
 Effect	Livin' Large	Meat Drop: +10
 Effect	Living Fast	Initiative: +100, Maximum HP Percent: -30
 Effect	Loaded Forwarbear	Supercold Resistance: +2
@@ -7187,6 +7195,7 @@ Item	mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
 # Mountain Stream Code Black Alert: Restores 15-20 MP
 # Mountain Stream soda: Restores 6-9 MP
+Item	mouse skull	Effect: "Little Mouse Skull Buddy", Effect Duration: 20
 Item	Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
 Item	My Own Pen Pal kit	Free Pull
@@ -7356,6 +7365,7 @@ Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 
 Item	Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Item	ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 # really thick bandage: Restores 100-120 HP
+Item	really thick spine	Effect: "Extra Backbone", Effect Duration: 15
 Item	recording of Benetton's Medley of Diversity	Effect: "Benetton's Medley of Diversity", Effect Duration: 20
 Item	recording of Chorale of Companionship	Effect: "Chorale of Companionship", Effect Duration: 20
 Item	recording of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 20

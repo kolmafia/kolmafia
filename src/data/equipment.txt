@@ -206,6 +206,7 @@ orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
 outrageous sombrero	100	none
+oversized skullcap	20	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
 paperclip turban	50	none
@@ -515,6 +516,7 @@ sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
+three-legged pants	20	none
 thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
@@ -1138,6 +1140,7 @@ rave whistle	135	Mox: 52	1-handed whistle
 red hot poker	165	Mus: 67	1-handed club
 Red Rover BB gun	50	Mox: 10	2-handed gun
 regret hose	85	Mox: 30	1-handed forearm replacement
+remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
@@ -1556,6 +1559,7 @@ Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 loose purse strings	10	none
+low-budget shield	0	none	shield
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -2238,6 +2242,7 @@ ring of gain strength	80	Mys: 25
 ring of half-assed regeneration	50	none
 ring of increase damage	80	Mys: 25
 ring of teleportation	80	Mys: 25
+ring of telling skeletons what to do	0	none
 Ring of the Sewer Snake	150	Mys: 60
 Roman sadnals	100	Mys: 35
 rope with some soap on it	200	Mys: 200

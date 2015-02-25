@@ -324,6 +324,7 @@ The Royal Guard Chamber	100	filthworm royal guard
 The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
+The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
 The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
