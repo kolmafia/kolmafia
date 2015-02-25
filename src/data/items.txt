@@ -8183,7 +8183,7 @@
 8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
 8157	Skeleton Store office key	916430296	officekey.gif	none	q	0
-8158
+8158	bone with a price tag on it	517247442	tagbone.gif	usable	q	0
 8159	half of a gold tooth	748601819	halftooth.gif	none	t,d	150
 8160	mouse skull	170482813	mouseskull.gif	usable	t,d	25
 8161	really thick spine	879878605	bigspine.gif	usable	t,d	25
