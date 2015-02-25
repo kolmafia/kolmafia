@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class EncounterManager
@@ -288,7 +290,8 @@ public abstract class EncounterManager
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
 		     !EncounterManager.isRomanticEncounter( responseText ) &&
-			 !responseText.contains( "clover disappears" ) )
+		     !responseText.contains( "clover disappears" ) &&
+		     !FightRequest.edFightInProgress )
 		{
 			KoLCharacter.registerSemirare();
 			return;
