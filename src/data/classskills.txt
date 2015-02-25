@@ -685,6 +685,8 @@
 7246	Summon Love Stinkbug	lb_stink	5	0	0
 7247	Summon Love Gnats	lb_gnats	5	0	0
 7248	Summon Love Scarabs	lb_scarab	5	0	0
+7249	Tell a Skeleton What To Do	skelring	5	0	0
+7250	Tell This Skeleton What To Do	skelring	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

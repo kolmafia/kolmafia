@@ -8181,3 +8181,27 @@
 8153
 8154
 8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25
+8156	check to the Meatsmith	899679045	check.gif	none	q	0
+8157	Skeleton Store office key	916430296	officekey.gif	none	q	0
+8158
+8159	half of a gold tooth	748601819	halftooth.gif	none	t,d	150
+8160	mouse skull	170482813	mouseskull.gif	usable	t,d	25
+8161	really thick spine	879878605	bigspine.gif	usable	t,d	25
+8162	oversized skullcap	853613051	bighelmet.gif	hat	t,d	25
+8163	three-legged pants	582529200	3legpants.gif	pants	t,d	25
+8164	remaindered axe	225226001	headlessaxe.gif	weapon	t,d	25
+8165	low-budget shield	474565785	woodyshield.gif	offhand	t,d	25
+8166
+8167
+8168
+8169
+8170
+8171
+8172
+8173
+8174
+8175
+8176
+8177
+8178
+8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0
