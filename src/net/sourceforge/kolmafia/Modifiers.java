@@ -2259,7 +2259,7 @@ public class Modifiers
 		return list.toString();
 	}
 
-	private boolean override( final String name )
+	private boolean override( final String lookup )
 	{
 		if ( this.expressions != null )
 		{
@@ -2272,6 +2272,15 @@ public class Modifiers
 				}
 			}
 			return true;
+		}
+
+		String type = Modifiers.getTypeFromLookup( lookup );
+		String name = Modifiers.getNameFromLookup( lookup );
+
+		// Currently only override items
+		if ( !type.equals( "Item" ) )
+		{
+			return false;
 		}
 
 		int itemId = ItemDatabase.getItemId( name );
@@ -2508,11 +2517,11 @@ public class Modifiers
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				String lookup = (String) keys[ i ];
-				if ( !lookup.startsWith( "Skill:" ) )
+				if ( !Modifiers.getTypeFromLookup( lookup ).equals( "Skill" ) )
 				{
 					continue;
 				}
-				String skill = lookup.replace( "Skill:", "" );
+				String skill = Modifiers.getNameFromLookup( lookup );
 				if ( !SkillDatabase.contains( skill ) )
 				{
 					continue;
@@ -3317,6 +3326,26 @@ public class Modifiers
 		return type + ":" + name;
 	}
 
+	public static String getTypeFromLookup( final String lookup )
+	{
+		int index = lookup.indexOf( ":" );
+		if ( index != -1 )
+		{
+			return lookup.substring( 0, index );
+		}
+		return "";
+	}
+
+	public static String getNameFromLookup( final String lookup )
+	{
+		int index = lookup.indexOf( ":" );
+		if ( index != -1 )
+		{
+			return lookup.substring( index + 1 );
+		}
+		return lookup;
+	}
+
 	static
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
@@ -3742,7 +3771,7 @@ public class Modifiers
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String lookup = type + ":" + name;
+			String lookup = Modifiers.getLookupName( type, name );
 			Object modifiers = Modifiers.modifiersByName.get( lookup );
 			Modifiers.writeModifierItem( writer, type, name, modifiers );
 		}
@@ -3821,7 +3850,7 @@ public class Modifiers
 	private static final void registerObject( final String type, final String name, final ArrayList unknown, final String known )
 	{
 		String printMe;
-		String lookup = type + ":" + name;
+		String lookup = Modifiers.getLookupName( type, name );
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
 			printMe = Modifiers.modifierCommentString( lookup, (String) unknown.get( i ) );
