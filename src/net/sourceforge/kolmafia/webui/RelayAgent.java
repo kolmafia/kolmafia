@@ -277,6 +277,7 @@ public class RelayAgent
 					if ( inventory && cookie.startsWith( "inventory" ) )
 					{
 						GenericRequest.inventoryCookie = cookie;
+						continue;
 					}
 					if ( buffer.length() > 0 )
 					{

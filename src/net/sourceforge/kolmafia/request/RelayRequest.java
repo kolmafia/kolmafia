@@ -423,19 +423,25 @@ public class RelayRequest
 					continue;
 				}
 
+				// KoL is known to send back CONTENT-LENGTH headers.
+				// Since there is no built-in startsWithIgnoreCase,
+				// upper-case the key when using startsWith.
+				// Just in case, use this key even when using equals
+				String ukey = key.toUpperCase();
+
 				// We generate our own Content-Type, Content-Length,
 				// Cache-Control, and Pragma headers.
-				if ( key.startsWith( "Content" ) ||
-				     key.startsWith( "Cache" ) ||
-				     key.equals( "Pragma" ) )
+				if ( ukey.startsWith( "CONTENT" ) ||
+				     ukey.startsWith( "CACHE" ) ||
+				     ukey.equals( "PRAGMA" ) )
 				{
 					continue;
 				}
 
 				// Suppress certain other KoL server headers
 				// that we do not emulate
-				if ( key.equals( "Transfer-Encoding" ) ||
-				     key.equals( "Connection" ) )
+				if ( ukey.equals( "TRANSFER-ENCODING" ) ||
+				     ukey.equals( "CONNECTION" ) )
 				{
 					continue;
 				}
