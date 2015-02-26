@@ -572,6 +572,9 @@ public class AdventureRequest
 			image = monster.group( 1 );
 		}
 
+		// You'd think that the following could/should be:
+		// - in MonsterDatabase
+		// - a Map lookup
 		if ( image != null )
 		{
 			// Always-available monsters are listed above obsolete monsters
@@ -631,7 +634,7 @@ public class AdventureRequest
 				image.startsWith( "spookyhobo" ) ? "Spooky Hobo" :
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
-				image.startsWith( "slime" ) ? "Slime" + image.charAt( 5 ) :
+				image.startsWith( "slime" ) ? image.substring( 0, 5 ) :
 				// GamePro Bosses
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
@@ -642,17 +645,17 @@ public class AdventureRequest
 				image.startsWith( "paulblart" ) ? "suburban security civilian" :
 				image.startsWith( "tooold" ) ? "kid who is too old to be Trick-or-Treating" :
 				// Bugbear Invasion
-				image.startsWith( "bb_caveman" ) ? "Angry Cavebugbear" :
+				image.startsWith( "bb_caveman" ) ? "angry cavebugbear" :
 				// Crimbo 2012 wandering elves
-				image.startsWith( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
-				image.startsWith( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
-				image.startsWith( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
+				image.startsWith( "tacoelf_sign" ) ? "sign-twirling Crimbo elf" :
+				image.startsWith( "tacoelf_taco" ) ? "taco-clad Crimbo elf" :
+				image.startsWith( "tacoelf_cart" ) ? "tacobuilding Crimbo elf" :
 				// Crimbobokutown Toy Factory
-				image.startsWith( "animelf1" ) ? "Tiny-Screwing Animelf" :
-				image.startsWith( "animelf2" ) ? "Plastic-Extruding Animelf" :
-				image.startsWith( "animelf3" ) ? "Circuit-Soldering Animelf" :
-				image.startsWith( "animelf4" ) ? "Quality Control Animelf" :
-				image.startsWith( "animelf5" ) ? "Toy Assembling Animelf" :
+				image.startsWith( "animelf1" ) ? "tiny-screwing animelf" :
+				image.startsWith( "animelf2" ) ? "plastic-extruding animelf" :
+				image.startsWith( "animelf3" ) ? "circuit-soldering animelf" :
+				image.startsWith( "animelf4" ) ? "quality control animelf" :
+				image.startsWith( "animelf5" ) ? "toy assembling animelf" :
 				// Elf Alley
 				image.startsWith( "elfhobo" ) ? "Hobelf" :
 				// Haunted Sorority House
@@ -681,6 +684,7 @@ public class AdventureRequest
 				image.startsWith( "outlawboss" ) ? "outlaw leader" :
 				// Spelunky
 				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
+				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
 				null;
 		}
 
