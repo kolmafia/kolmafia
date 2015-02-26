@@ -5287,6 +5287,9 @@ Effect	Spirit of Wormwood	Spell Damage: +10
 # Spirit Pariah
 Effect	Spirit Schooled	Maximum MP Percent: +20
 Effect	Spirit Souvenirs	Maximum MP: +10, MP Regen Min: 8, MP Regen Max: 10
+Effect	Spiritually Awake	MP Regen Min: 2, MP Regen Max: 4
+Effect	Spiritually Aware	MP Regen Min: 5, MP Regen Max: 7
+Effect	Spiritually Awash	MP Regen Min: 8, MP Regen Max: 10
 Effect	Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
@@ -7056,6 +7059,7 @@ Item	Holiday Fun!	Free Pull
 Item	holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 Item	holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 # holy spring water: Restores 20-25 MP
+Item	holy spring water	Effect: "Spiritually Awake", Effect Duration: 10
 Item	homeless hobo spirit	Free Pull
 Item	honey stick	Effect: "Stuck That Way", Effect Duration: 10
 # honey-dipped locust: Restores 30-40 HP and MP
@@ -7409,6 +7413,7 @@ Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 Item	ruby on canes	Effect: "Ruby-ous", Effect Duration: 20
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 # sacramental wine: Restores 80-100 MP
+Item	sacramental wine	Effect: "Spiritually Awash", Effect Duration: 10
 Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
@@ -7486,6 +7491,7 @@ Item	sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 Item	SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 # spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
+Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10
 Item	spirit gum	Effect: "Spirit Bubble", Effect Duration: 10
 Item	spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 Item	spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
