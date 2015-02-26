@@ -1664,10 +1664,17 @@ public class QuestManager
 			break;
 
 		case AdventurePool.HAUNTED_KITCHEN:
-			Matcher DrawerMatcher = QuestManager.DRAWER_PATTERN.matcher( responseText );
-			if ( DrawerMatcher.find() )
+			if ( !InventoryManager.hasItem( ItemPool.BILLIARDS_KEY ) )
 			{
-				Preferences.increment( "manorDrawerCount", StringUtilities.parseInt( DrawerMatcher.group( 1 ) ) );
+				Matcher drawerMatcher = QuestManager.DRAWER_PATTERN.matcher( responseText );
+				if ( drawerMatcher.find() )
+				{
+					Preferences.increment( "manorDrawerCount", StringUtilities.parseInt( drawerMatcher.group( 1 ) ) );
+				}
+				else
+				{
+					Preferences.increment( "manorDrawerCount", 1 );
+				}
 			}
 			break;
 
