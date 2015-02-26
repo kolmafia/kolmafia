@@ -7408,7 +7408,7 @@
 7380	ghast iron codpiece	129597155	gi_codpiece.gif	pants	t,d	200
 7381	Pendant of Gargalesis	202475813	fingernecklace.gif	accessory	t,d	150	Pendants of Gargalesis
 7382	Little Geneticist DNA-Splicing Lab	951406097	genelab.gif	usable	t	0
-7383	DNA extraction syringe	883789777	syringe3.gif	reusable, combat	q	0
+7383	DNA extraction syringe	883789777	syringe3.gif	none, combat reusable	q	0
 7384	Gene Tonic: Dude	505091265	genetonic.gif	multiple	t,d	25	Gene Tonics: Dude
 7385	Gene Tonic: Beast	680967658	genetonic.gif	multiple	t,d	25	Gene Tonics: Beast
 7386	Gene Tonic: Construct	227991248	genetonic.gif	multiple	t,d	25	Gene Tonics: Construct
