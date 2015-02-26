@@ -1801,9 +1801,9 @@
 1799	Bounty of Renenutet	renenutet.gif	3aff2266de86005e3c9cb455af836b7a	cast 1 Bounty of Renenutet
 1800	Purr of the Feline	blackcat.gif	a2ed9f5e059a87faca2e4888e0030414	cast 1 Purr of the Feline
 1801	Blessing of Serqet	serqet.gif	e54f33048e615d4598bab444030df180	cast 1 Blessing of Serqet
-1802
-1803
-1804
+1802	Spiritually Awake	springwater.gif	6d1cada66034e7018eae8cdaa8ba72bf	use 1 holy spring water
+1803	Spiritually Aware	beerbottle.gif	34152bd6bbb2e9988f5d1c243404393c	use 1 spirit beer
+1804	Spiritually Awash	wine.gif	3972b793f9f5f2d7fe515ea3efe53082	use 1 sacramental wine
 1805	Invisible (20 Minutes Ago)	blank.gif	74a30d393bc0cb97c84c017240ebaf93	use 1 invisible potion
 1806
 1807
