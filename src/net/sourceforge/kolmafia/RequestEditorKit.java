@@ -365,7 +365,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "adventure.php" ) )
 		{
 			RequestEditorKit.fixTavernCellar( buffer );
-			RequestEditorKit.fixBallroom1( buffer );
+			// RequestEditorKit.fixBallroom1( buffer );
 			RequestEditorKit.fixDucks( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixBallroom2( buffer );
@@ -2211,8 +2211,17 @@ public class RequestEditorKit
 		if ( buffer.indexOf( "Having a Ball in the Ballroom" ) != -1)
 		{
 			// Give the player a link to talk to Lady Spookyraven again (on the third floor)
-			// Unfortunately, action=manor3_ladys does not work until you visit the third floor map
-			link = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
+			// 
+			// Unfortunately, place.php?whichplace=manor3&action=manor3_ladys does not work until you visit the third floor map
+			// link = "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+			// 
+			// Unfortunately, place.php?whichplace=manor3 doesn't work until you visit the second floor map again.
+			// link = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
+			// 
+			// Which makes this whole function useless, unless we
+			// can figure out a way - via a sidepane command, say -
+			// to unlock the third floor and then talk to Lady S on
+			// the third floor
 		}
 
 		if ( link == null )
