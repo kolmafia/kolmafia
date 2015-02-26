@@ -1460,21 +1460,19 @@ public class Evaluator
 
 			// Do we have any required items for the slot?
 			int total = 0;
-			int requiredCount = 0;
 			for ( CheckedItem item : checkedItemList )
 			{
 				if ( item.requiredFlag )
 				{
-					requiredCount++;
 					automatic[ slot ].add( item );
 					total += item.getCount();
 				}
 			}
 
-			int useful = this.maxUseful( slot ) - requiredCount;
+			int useful = this.maxUseful( slot );
 
 			// If slots already handled by required items, we're done with the slot
-			if ( useful > 0 )
+			if ( useful > total )
 			{
 				// If we currently have nothing equipped, also consider leaving nothing equipped
 				if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
@@ -1618,18 +1616,21 @@ public class Evaluator
 						if ( !automatic[ slot ].contains( item ) )
 						{
 							automatic[ slot ].add( item );
+							if ( !item.conditionalFlag )
+							{
+								total += item.getCount();
+							}
 						}
-						total += item.getCount();
 					}
 					else if ( total < useful )
 					{
 						if ( !automatic[ slot ].contains( item ) )
 						{
 							automatic[ slot ].add( item );
-						}
-						if ( !item.conditionalFlag )
-						{
-							total += item.getCount();
+							if ( !item.conditionalFlag )
+							{
+								total += item.getCount();
+							}
 						}
 					}
 				}
