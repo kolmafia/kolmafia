@@ -2541,8 +2541,9 @@ public class ResultProcessor
 		case ItemPool.XIBLAXIAN_POLYMER:
 			if ( combatResults )
 			{
-				Preferences.setInteger( "_holoWristProgress", 0 );
 				Preferences.increment( "_holoWristDrops" );
+				// This will be incremented to 0 during later processing
+				Preferences.setInteger( "_holoWristProgress", -1 );
 			}
 			break;
 
