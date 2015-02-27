@@ -322,6 +322,7 @@ The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	
 The Rowdy Saloon	100	animated spittoon	craggy bartender	gamblin' man	outlaw behind an table
 The Royal Guard Chamber	100	filthworm royal guard
 The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
+The Secret Council Warehouse	100	warehouse clerk	warehouse guard	warehouse janitor
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0
