@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -428,7 +427,7 @@ public class AdventureRequest
 			if ( responseText.contains( "charpane.php" ) )
 			{
 				// Since a charpane refresh was requested, this might have taken a turn
-				AdventureSpentDatabase.noncombatEncountered = true;
+				AdventureSpentDatabase.setNoncombatEncountered( true );
 			}
 		}
 
@@ -1121,7 +1120,7 @@ public class AdventureRequest
 		{
 			if ( formSource.contains( "which=" ) )
 			{
-				AdventureSpentDatabase.noncombatEncountered = true;
+				AdventureSpentDatabase.setNoncombatEncountered( true );
 			}
 			return false;
 		}

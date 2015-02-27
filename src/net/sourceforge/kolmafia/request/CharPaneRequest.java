@@ -986,11 +986,11 @@ public class CharPaneRequest
 			KoLAdventure.setNextAdventure( adventure );
 		}
 
-		if ( AdventureSpentDatabase.noncombatEncountered && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated() )
+		if ( AdventureSpentDatabase.getNoncombatEncountered() && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated() )
 		{
 			AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 		}
-		AdventureSpentDatabase.noncombatEncountered = false;
+		AdventureSpentDatabase.setNoncombatEncountered( false );
 		AdventureSpentDatabase.setLastTurnUpdated( KoLCharacter.getCurrentRun() );
 	}
 
