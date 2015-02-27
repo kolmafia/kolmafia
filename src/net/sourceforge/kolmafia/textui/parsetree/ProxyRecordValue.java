@@ -972,6 +972,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "id", DataTypes.INT_TYPE )
 			.add( "base_hp", DataTypes.INT_TYPE )
 			.add( "base_attack", DataTypes.INT_TYPE )
 			.add( "base_defense", DataTypes.INT_TYPE )
@@ -990,12 +991,19 @@ public class ProxyRecordValue
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
+			.add( "images",
+				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "attributes", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public int get_id()
+		{
+			return ((MonsterData) this.content).getId();
 		}
 
 		public int get_base_hp()
@@ -1096,6 +1104,16 @@ public class ProxyRecordValue
 		public String get_image()
 		{
 			return ((MonsterData) this.content).getImage();
+		}
+
+		public Value get_images()
+		{
+			ArrayList<Value> rv = new ArrayList<Value>();
+			for ( String image : ((MonsterData) this.content).getImages() )
+			{
+				rv.add( new Value( image ) );
+			}
+			return new PluralValue( DataTypes.STRING_TYPE, rv );
 		}
 
 		public String get_attributes()

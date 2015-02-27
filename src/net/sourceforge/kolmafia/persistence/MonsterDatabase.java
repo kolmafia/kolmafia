@@ -222,10 +222,14 @@ public class MonsterDatabase
 			}
 
 			String name = data[ 0 ];
-			String image = data.length > 1 ? data[ 1 ] : "";
-			String attributes = data.length > 2 ? data[ 2 ] : "";
+			String idString = data.length > 1 ? data[ 1 ] : "";
+			String imageString = data.length > 2 ? data[ 2 ] : "";
+			String attributes = data.length > 3 ? data[ 3 ] : "";
 
-			MonsterData monster = MonsterDatabase.registerMonster( name, image, attributes );
+			int id = StringUtilities.isNumeric( idString ) ? StringUtilities.parseInt( idString ) : 0;
+			String [] images = imageString.split( "\\s*,\\s*" );
+
+			MonsterData monster = MonsterDatabase.registerMonster( name, id, images, attributes );
 			if ( monster == null )
 			{
 				continue;
@@ -233,7 +237,7 @@ public class MonsterDatabase
 
 			boolean bogus = false;
 
-			for ( int i = 3; i < data.length; ++i )
+			for ( int i = 4; i < data.length; ++i )
 			{
 				AdventureResult item = MonsterDatabase.parseItem( data[ i ] );
 				if ( item == null || item.getItemId() == -1 || item.getName() == null )
@@ -252,7 +256,7 @@ public class MonsterDatabase
 				String keyName = CombatActionManager.encounterKey( data[ 0 ] );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
-				if ( !image.equals( "" ) )
+				for ( String image : images )
 				{
 					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
 				}
@@ -364,7 +368,7 @@ public class MonsterDatabase
 	// Register an unknown monster
 	public static final MonsterData registerMonster( final String name )
 	{
-		MonsterData monster = MonsterDatabase.registerMonster( name, "", "" );
+		MonsterData monster = MonsterDatabase.registerMonster( name, 0, new String[0], "" );
 		MonsterDatabase.MONSTER_DATA.put( name, monster );
 		return monster;
 	}
@@ -374,7 +378,7 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
-	public static final MonsterData registerMonster( final String name, final String image, final String s )
+	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( name, false );
 		if ( monster != null )
@@ -401,7 +405,7 @@ public class MonsterDatabase
 		EncounterType type = EncounterType.NONE;
 		int physical = 0;
 
-		StringTokenizer tokens = new StringTokenizer( s, " " );
+		StringTokenizer tokens = new StringTokenizer( attributes, " " );
 		while ( tokens.hasMoreTokens() )
 		{
 			String option = tokens.nextToken();
@@ -643,17 +647,21 @@ public class MonsterDatabase
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, s );
+				StaticEntity.printStackTrace( e, attributes );
 			}
 
 			return null;
 		}
 
-		monster = new MonsterData( name, health, attack, defense, initiative, experience,
+		monster = new MonsterData( name, id,
+					   health, attack, defense,
+					   initiative, experience,
 					   scale, cap, floor, mlMult,
-					   attackElement, defenseElement, physical,
+					   attackElement, defenseElement,
+					   physical,
 					   meat,
-					   phylum, poison, boss, type, image, s );
+					   phylum, poison, boss, type,
+					   images, attributes );
 		return monster;
 	}
 
