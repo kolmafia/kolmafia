@@ -65,23 +65,28 @@ public class MonsterData
 	private final boolean boss;
 	private final EncounterType type;
 	private final String image;
+	private final String[] images;
 	private final String attributes;
 	private final int beeCount;
 
 	private final ArrayList<AdventureResult> items;
 	private final ArrayList<Double> pocketRates;
 
-	public MonsterData( final String name, final Object health,
-			    final Object attack, final Object defense,
+	public MonsterData( final String name, final int id,
+			    final Object health, final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
-				final int scale, final int cap, final int floor, final int mlMult,
+			    final int scale, final int cap, final int floor, final int mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
 			    final int meat,
 			    final Phylum phylum, final int poison, final boolean boss,
-			    final EncounterType type, final String image, final String attributes )
+			    final EncounterType type, final String[] images,
+			    final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
+
+		// It will be nice when this is simply "id".
+		this.itemId = id;
 
 		this.health = health;
 		this.attack = attack;
@@ -100,7 +105,8 @@ public class MonsterData
 		this.poison = poison;
 		this.boss = boss;
 		this.type = type;
-		this.image = image;
+		this.image = images.length > 0 ? images[ 0 ] : "";
+		this.images = images;
 		this.attributes = attributes;
 
 		int beeCount = 0;
@@ -133,6 +139,11 @@ public class MonsterData
 	private double getBeeosity()
 	{
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
+	}
+
+	public int getId()
+	{
+		return this.itemId;
 	}
 
 	public int getHP()
@@ -451,6 +462,11 @@ public class MonsterData
 	public String getImage()
 	{
 		return this.image == null ? "" : this.image;
+	}
+
+	public String[] getImages()
+	{
+		return this.images == null ? new String[0] : this.images;
 	}
 
 	public String getAttributes()

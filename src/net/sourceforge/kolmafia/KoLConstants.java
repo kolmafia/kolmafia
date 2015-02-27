@@ -409,7 +409,7 @@ public interface KoLConstants
 	public static final int INEBRIETY_VERSION = 2;
 	public static final int ITEMS_VERSION = 1;
 	public static final int MODIFIERS_VERSION = 3;
-	public static final int MONSTERS_VERSION = 7;
+	public static final int MONSTERS_VERSION = 8;
 	public static final int NONFILLING_VERSION = 1;
 	public static final int NPCSTORES_VERSION = 2;
 	public static final int OUTFITS_VERSION = 2;

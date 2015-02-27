@@ -67,7 +67,7 @@ public class AdventureResult
 	protected String name;
 	protected int priority;
 	private int count;
-	private int itemId;
+	protected int itemId;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
@@ -706,6 +706,11 @@ public class AdventureResult
 			return "(Unrecognized result)";
 		}
 
+		if ( this.priority == AdventureResult.MONSTER_PRIORITY )
+		{
+			return this.name;
+		}
+
 		if ( this.name.equals( AdventureResult.ADV ) )
 		{
 			return " Advs Used: " + KoLConstants.COMMA_FORMAT.format( this.count );
@@ -754,11 +759,6 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) || this.name.equals( AdventureResult.FULL ) )
 		{
 			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count );
-		}
-
-		if ( this.priority == AdventureResult.MONSTER_PRIORITY )
-		{
-			return this.name;
 		}
 
 		String name = this.getName();
