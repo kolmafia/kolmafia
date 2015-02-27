@@ -68,7 +68,7 @@ public class AdventureSpentDatabase
 
 	private static int lastTurnUpdated = -1;
 	
-	public static boolean noncombatEncountered = false;
+	private static boolean noncombatEncountered = false;
 
 	// debugging tool
 	public static void showTurns()
@@ -261,5 +261,19 @@ public class AdventureSpentDatabase
 	public static final void setLastTurnUpdated( final int turnUpdated )
 	{
 		AdventureSpentDatabase.lastTurnUpdated = turnUpdated;
+	}
+
+	public static final boolean getNoncombatEncountered()
+	{
+		return AdventureSpentDatabase.noncombatEncountered;
+	}
+
+	public static final void setNoncombatEncountered( final boolean encountered )
+	{
+		if ( encountered && FightRequest.edFightInProgress )
+		{
+			return;
+		}
+		AdventureSpentDatabase.noncombatEncountered = encountered;
 	}
 }

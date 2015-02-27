@@ -9299,7 +9299,7 @@ public abstract class ChoiceManager
 		if ( text.contains( "charpane.php" ) )
 		{
 			// Since a charpane refresh was requested, a turn might have been spent
-			AdventureSpentDatabase.noncombatEncountered = true;
+			AdventureSpentDatabase.setNoncombatEncountered( true );
 		}
 
 		PostChoiceAction action = ChoiceManager.action;
