@@ -61,6 +61,7 @@ questM19Hippy	Give a Hippy a Boat...	Find a boat for that hippy near the Old Lan
 questM20Necklace	Lady Spookyraven's Necklace	Search the Haunted Kitchen for the key to the Haunted Billiards Room.	Search the Haunted Billiards Room for the key to the Haunted Library.	Beat the ghost at pool.	Search desks in the Haunted Library until you find Lady Spookyraven's necklace.	Take the necklace to Lady Spookyraven in Spookyraven Manor.	You retrieved the necklace that totally belonged to Lady Spookyraven.
 questM21Dance	Lady Spookyraven's Dance	Go see Lady Spookyraven on the second floor of Spookyraven Manor.	Lady Spookyraven wants to dance again, but first she needs:	Go back to Lady Spookyraven with her dancin' supplies.	Go dancing with Lady Spookyraven in the Haunted Ballroom.	You saved the last dance for Lady Spookyraven.
 questM22Shirt	The Shirt Off His Lack of Back	Go to the Thinknerd Warehouse and find Melvign's "shirt."	Take the shirt back to Melvign.	You've retrieved Melvin's T-shirt, which was, as it turned out, of no use to him.
+questM23Meatsmith	Helping Make Ends Meat	The Meatsmith wants you to recover his check from the Skeleton Store in Market Square	Take the recovered check back to The Meatsmith.	You helped the Meatsmith almost collect his debt from the Skeleton Store's former owner.
 
 # Sea Quests
 questS01OldGuy	An Old Guy and The Ocean	The Old Man wants you to find his boot in The Sea.	Take the boot back to the Old Man.	You helped the Old Man retrieve his boot from The Sea. Marvelous!

@@ -3444,6 +3444,14 @@ public abstract class ChoiceManager
 		// Choice 1054 is Returning the MacGuffin
 		// Choice 1055 is Returning the MacGuffin
 		// Choice 1056 is Now It's Dark
+		// Choice 1059 is Helping Make Ends Meat
+		// Choice 1060 is Temporarily Out of Skeletons
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1060", "Skeleton Store",
+			new Object[] { new Option( "gain office key, then ~35 meat", 1, "Skeleton Store office key" ),
+				       new Option( "gain ring of telling skeletons what to do, then 300 meat, with skeleton key", 2, "ring of telling skeletons what to do" ),
+				       new Option( "gain muscle stats", 3 ),
+					   new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8310,7 +8318,26 @@ public abstract class ChoiceManager
 				// the other three must be completed at this point.
 				Preferences.setInteger( "twinPeakProgress", 15 );
 			}
-			return;
+			break;
+
+		case 1059:
+			// Helping Make Ends Meat
+			if ( text.contains( "excitedly takes the check" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MEATSMITH, QuestDatabase.FINISHED );
+			}
+			else if ( text.contains( "skeleton store is right next door" ) || text.contains( "I'll be here when you get back" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MEATSMITH, QuestDatabase.STARTED );
+			}
+			break;
+
+		case 1060:
+			// Temporarily Out of Skeletons
+			if ( text.contains( "it snaps off" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.SKELETON_KEY  );
+			}
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );

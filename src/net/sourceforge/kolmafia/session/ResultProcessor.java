@@ -2552,6 +2552,9 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.ED_STAFF );
 			break;
 
+		case ItemPool.MEATSMITH_CHECK:
+			QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
+			break;
 		}
 
 		// Gaining items can achieve goals.

@@ -678,6 +678,10 @@ public class EquipmentManager
 		case ItemPool.TOY_CRIMBOT_LEGS:
 			KoLCharacter.addAvailableSkill( "BURN" );
 			break;
+		case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
+			KoLCharacter.addAvailableSkill( "Tell a Skeleton What To Do" );
+			KoLCharacter.addAvailableSkill( "Tell This Skeleton What To Do" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

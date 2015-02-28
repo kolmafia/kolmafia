@@ -805,6 +805,8 @@ user	questM18Swamp	unstarted
 user	questM19Hippy	unstarted
 user	questM20Necklace	unstarted
 user	questM21Dance	unstarted
+user	questM22Shirt	unstarted
+user	questM23Meatsmith	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
@@ -1780,6 +1782,8 @@ user	choiceAdventure1048	0
 user	choiceAdventure1051	0
 user	choiceAdventure1052	0
 user	choiceAdventure1056	1
+user	choiceAdventure1059	0
+user	choiceAdventure1060	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true
