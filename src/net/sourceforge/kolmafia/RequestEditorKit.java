@@ -1932,8 +1932,9 @@ public class RequestEditorKit
 			// Chess Puzzle
 			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 			break;
-		// Of Course!
-		case 509:
+
+		case 509:	// Of Course!
+		case 1000:	// Everything in Moderation
 			// You should probably go tell Bart you've fixed his rat problem.
 			// You should probably go tell Bart you've fixed his lack-of-rat problem.
 			StringUtilities.singleStringReplace(

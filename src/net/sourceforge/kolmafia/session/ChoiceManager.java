@@ -3254,6 +3254,8 @@ public abstract class ChoiceManager
 				       new Option( "Gain 17 Chroner (60% chance)" ),
 				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
 
+		// Choice 1000 is Everything in Moderation
+
 		// Choice 1003 is Test Your Might And Also Test Other Things
 
 		// Choice 1004 is This Maze is... Mazelike...
@@ -3313,6 +3315,9 @@ public abstract class ChoiceManager
 			"Sorceress", "choiceAdventure1015", "Tower Mirror",
 			new Object[] { new Option( "Gain Confidence! intrinsic until leave tower (1)" ),
 				       new Option( "Make Sorceress tougher (0 turns)" ) } ),
+
+		// Choice 1016 is Frank Gets Earnest
+		// Choice 1017 is Bear Verb Orgy
 		
 		// Bee Persistent
 		new ChoiceAdventure(
@@ -3330,6 +3335,7 @@ public abstract class ChoiceManager
 		// Choice 1021 is Meet Frank
 		// Choice 1022 is Meet Frank
 		// Choice 1023 is Like a Bat Into Hell 
+		// Choice 1024 is Like a Bat out of Hell 
 
 		// Home on the Free Range
 		new ChoiceAdventure(
@@ -3339,11 +3345,13 @@ public abstract class ChoiceManager
 				       "skip adventure" } ),
 
 		// Choice 1027 is The End of the Tale of Spelunking
+
 		// Choice 1028 is A Shop
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1028", "A Shop",
 			new Object[] { new Option( "chance to fight shopkeeper", 5 ),
 				       new Option( "leave", 6 ) } ),
+
 		// Choice 1029 is An Old Clay Pot
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1029", "An Old Clay Pot",
@@ -3388,6 +3396,7 @@ public abstract class ChoiceManager
 				       new Option( "take damage", 6 ) } ),
 
 		// Choice 1035 is A Crate
+
 		// Choice 1036 is Idolatry
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1036", "Idolatry",
@@ -3430,7 +3439,7 @@ public abstract class ChoiceManager
 
 		// choice 1042 is Pick a Perk!
 		// choice 1044 is The Gates of Hell
-		// choice 1045 is Hostile Work Environment
+
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1045", "Hostile Work Environment",
 			new Object[] { new Option( "fight shopkeeper", 1 ),
@@ -3438,7 +3447,7 @@ public abstract class ChoiceManager
 
 		// Choice 1046 is Actually Ed the Undying
 		// Choice 1048 is Twitch Event #8 Time Period
-		// Choice 1051 is (choose Ed skills)
+		// Choice 1051 is The Book of the Undying
 		// Choice 1052 is Underworld Body Shop
 		// Choice 1053 is The Servants' Quarters
 		// Choice 1054 is Returning the MacGuffin
