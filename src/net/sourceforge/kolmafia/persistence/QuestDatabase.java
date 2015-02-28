@@ -104,6 +104,7 @@ public class QuestDatabase
 			SPOOKYRAVEN_NECKLACE( "questM20Necklace" ),
 			SPOOKYRAVEN_DANCE( "questM21Dance" ),
 			SHIRT( "questM22Shirt" ),
+			MEATSMITH( "questM23Meatsmith" ),
 			GENERATOR( "questF04Elves" ),
 			SEA_OLD_GUY( "questS01OldGuy" ),
 			SEA_MONKEES( "questS02Monkees" ),

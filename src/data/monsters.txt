@@ -222,7 +222,7 @@ eXtreme cross-country hippy	0	skihippy.gif	Atk: 73 Def: 65 HP: 65 Init: 60 E: st
 eXtreme Orcish snowboarder	0	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 40 E: sleaze P: orc	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 extremely annoyed witch	0	witchy2.gif	Atk: 36 Def: 32 HP: 32 Init: 25 P: dude Meat: 45-45	wand of pigification (c100)
 eye in the darkness	0	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 E: spooky P: horror	black tear (n50)
-factory-irregular skeleton	0	badskel4.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead
+factory-irregular skeleton	0	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	really thick spine (0)	oversized skullcap (0)	three-legged pants (0)	skeleton bone (0)	loose teeth (0)
 Fallen Archfiend	0	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 45 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)	heavy-duty bendy straw (c0)
 Family Jewels	0	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 fan dancer	0	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 100	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
@@ -476,7 +476,7 @@ Ninja Snowman (Hilt/Mask)	0	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 E: cold 
 ninja snowman assassin	0	ninja_ass.gif	SUPERLIKELY Atk: 150 Def: 135 HP: 0 Init: 150 E: cold P: elemental	ninja rope (n100)	ninja crampons (n100)	ninja carabiner (n100)
 Ninja Snowman Janitor	0	ninjamop.gif	Atk: 80 Def: 81 HP: 70 Init: 60 ED: cold P: elemental	frigid ninja stars (20)	ninja mop (5)	pail (10)
 Ninja Snowman Weaponmaster	0	ninjacloud.gif	Atk: 90 Def: 81 HP: 80 Init: 75 ED: cold P: elemental	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (0)	frigid mote (p5)
-novelty tropical skeleton	0	tropicalskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead
+novelty tropical skeleton	0	tropicalskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	cherry (0)	cherry (0)	grapefruit (0)	grapefruit (0)	orange (0)	orange (0)	strawberry (0)	strawberry (0)
 nurse shark	0	nurseshark.gif	Atk: 450 Def: 405 HP: 800 Init: 50 Meat: 200 P: fish	blank prescription sheet (c11)	nurse's hat (n5)	sea salt scrubs (c5)	slug of rum (21)
 oasis monster	0	whirlwind.gif	Atk: 132 Def: 123 HP: 139 Init: 40 Meat: 100 P: dude	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
 octopus gardener	0	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P: fish	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)
@@ -554,7 +554,7 @@ Red Herring	0	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 P: dude Meat: 12
 red skeleton	0	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead E: spooky	red box (15)	red blood cells (25)	red eye (5)	Red Army camouflage kit (c0)
 Red Snapper	0	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat: 125	red box (30)
 regular old bat	0	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 22 P: beast	bat guano (15)	batgut (15)	bat wing (15)
-remaindered skeleton	0	headlessskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead
+remaindered skeleton	0	headlessskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	skeleton bone (0)	remaindered axe (0)	low-budget shield (0)
 remains of a jilted mistress	0	mistress.gif	Atk: 65 Def: 60 HP: 65 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
 Renaissance Giant	0	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid	giant turkey leg (10)	Ye Olde Bawdy Limerick (25)	Ye Olde Meade (15)	Ye Olde Medieval Insult (25)
 revolting bugbear	0	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 E: stench P: beast
@@ -682,7 +682,7 @@ swarm of killer bees	0	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 "Somewhat Pois
 swarm of Knob lice	0	kg_lice.gif	Atk: 25 Def: 22 HP: 30 Init: 50 Phys: 50 P: bug
 swarm of lowercase As	0	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 P: bug	lowercase a (5)	percent sign (25)
 swarm of scarab beatles	0	beatles.gif	Atk: 136 Def: 117 HP: 131 Init: 50 Meat: 175 E: spooky P: bug	Colonel Mustard's Lonely Spades Club Jacket (c1)	Corporal Fennel's Lonely Clubs Club Jacket (c1)	General Sage's Lonely Diamonds Club Jacket (c1)	Private Pepper's Lonely Hearts Club Jacket (c1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (c10)	hot date (5)	happiness (5)
-swarm of skulls	0	skullswarm.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead
+swarm of skulls	0	skullswarm.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	half of a gold tooth (0)	mouse skull (0)	loose teeth (0)
 swarthy pirate	0	pirate1.gif	Atk: 63 Def: 56 HP: 53 Init: 65 Meat: 25 P: pirate	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
 Taco Cat	0	cacotat.gif	Atk: 139 Def: 131 HP: 145 Init: 30 Meat: 100 P: beast	cat appendix (30)	catgut (30)	taco shell (30)
 talking head	0	kasemhead.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: weird	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	evil paper umbrella (0)
@@ -693,7 +693,7 @@ tetchy pirate	0	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 40 P: pirate
 The Big Wisniewski	0	thisdude.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	0	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
 The Darkness (blind)	0	darkness.gif
-the former owner of the Skeleton Store	0	skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead
+the former owner of the Skeleton Store	0	skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead	check to the Meatsmith (c100)
 the ghost of Phil Bunion	0	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 P: undead E: spooky Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
 the gunk	0	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
 The Man	0	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
