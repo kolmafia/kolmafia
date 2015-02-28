@@ -5527,6 +5527,10 @@ public class FightRequest
 				FightRequest.logText( action, status );
 				status.lastCombatItem = -1;
 			}
+			else if ( status.lastCombatItem == ItemPool.DISPOSABLE_CAMERA )
+			{
+				// do nothing, this isn't the Yearbook Club Camera
+			}
 			else
 			{
 				FightRequest.handleYearbookCamera( status );
@@ -5970,6 +5974,10 @@ public class FightRequest
 
 	private static void handleYearbookCamera( TagStatus status )
 	{
+		if ( !KoLCharacter.inHighschool() )
+		{
+			return;
+		}
 		Preferences.setBoolean( "yearbookCameraPending", true );
 
 		StringBuilder buffer = new StringBuilder();
