@@ -252,19 +252,12 @@ public class AdventureResult
 		this.count = count;
 	}
 
-	public AdventureResult( final String name, final int itemId, final int count, final boolean isStatusEffect )
+	public AdventureResult( final String name, final int id, final int count, final boolean isStatusEffect )
 	{
 		this.name = name;
 		this.id = id;
 		this.count = count;
-		if ( isStatusEffect )
-		{
-			this.priority = AdventureResult.EFFECT_PRIORITY;
-		}
-		else
-		{
-			this.priority = AdventureResult.ITEM_PRIORITY;
-		}
+		this.priority = isStatusEffect ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
 	}
 
 	// Need this to retain instance-specific methods
