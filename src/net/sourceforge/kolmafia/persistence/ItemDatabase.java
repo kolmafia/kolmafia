@@ -945,13 +945,17 @@ public class ItemDatabase
 
 		// Parse use type, access, and price from description
 		String type = DebugDatabase.parseType( text );
-		int usage = DebugDatabase.typeToPrimary( type, multi );
+		int usage = DebugDatabase.parseRestoreType( text );
+		if ( usage == -1 )
+		{
+			usage = DebugDatabase.typeToPrimary( type, multi );
+		}
 		ItemDatabase.useTypeById.set( itemId, usage );
 
 		String access = DebugDatabase.parseAccess( text );
 		ItemDatabase.accessById.put( id, access );
 
-		int attrs = DebugDatabase.typeToSecondary( type );
+		int attrs = DebugDatabase.typeToSecondary( type, usage, multi );
 		attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
 		attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFT : 0;
 		attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST : 0;

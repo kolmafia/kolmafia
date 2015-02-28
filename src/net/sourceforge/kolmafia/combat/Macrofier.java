@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -629,6 +630,11 @@ public class Macrofier
 		{
 			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{
+				AdventureResult restoreItem = MPRestoreItemList.CONFIGURES[ i ].getItem();
+				if ( restoreItem == null )
+				{
+					continue;
+				}
 				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount( KoLConstants.inventory );
 				if ( count <= 0 )
 					continue;

@@ -2281,9 +2281,7 @@
 2255	furry green turtle	789152841	fuzzyturtle.gif	hat	t,d	50
 2256	furry green earmuffs	684854850	earmuffs.gif	accessory	t,d	50	sets of furry green earmuffs
 2257	reinforced furry underpants	415591001	furryunderpants.gif	accessory	t,d	35	pairs of reinforced furry underpants
-# This item exists only in the inventory of people who did the old quest.
-# A new one with the same name was added.
-# 2258	&quot;I Love Me, Vol. I&quot;	969815696	book4.gif	message	q	0
+2258	&quot;I Love Me, Vol. I&quot;	969815696	book4.gif	message	q	0
 2259	photograph of God	447128250	godphoto.gif	none	q	0
 2260	hard rock candy	827058631	rednugget.gif	none, candy	q	0
 2261	hard-boiled ostrich egg	406582855	egg.gif	none	q	0
@@ -6371,7 +6369,7 @@
 6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45	tubes of Mer-kin lipstick
 6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33	bars of Mer-kin mouthsoap
 6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44	bottles of Mer-kin strongjuice
-6346	Mer-kin fitbrine	588060401	monstar.gif	multiple	t,d	38	bottles of Mer-kin fitbrine
+6346	Mer-kin fitbrine	588060401	monstar.gif	hpmp, multiple	t,d	38	bottles of Mer-kin fitbrine
 6347	Mer-kin ragejuice	987788255	potion15.gif	usable	t,d	42	bottles of Mer-kin ragejuice
 6348	Mer-kin dragbelt	644915247	merkinbelt.gif	accessory	t,d	74
 6349	Mer-kin eyeglasses	921916806	spectacles.gif	accessory	t,d	82	pairs of Mer-kin eyeglasses

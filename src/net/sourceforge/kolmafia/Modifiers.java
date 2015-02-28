@@ -3781,7 +3781,7 @@ public class Modifiers
 	{
 		if ( modifiers == null )
 		{
-			Modifiers.writeModifierComment( writer, name );
+			Modifiers.writeModifierComment( writer, type, name );
 			return;
 		}
 
@@ -3803,24 +3803,24 @@ public class Modifiers
 		return type + "\t" + name + "\t" + modifiers;
 	}
 
-	public static void writeModifierComment( final PrintStream writer, final String name, final String unknown )
+	public static void writeModifierComment( final PrintStream writer, final String type, final String name, final String unknown )
 	{
-		writer.println( Modifiers.modifierCommentString( name, unknown ) );
+		writer.println( Modifiers.modifierCommentString( type, name, unknown ) );
 	}
 
-	public static String modifierCommentString( final String name, final String unknown )
+	public static String modifierCommentString( final String type, final String name, final String unknown )
 	{
-		return "# " + name + ": " + unknown;
+		return "# " + type + " " + name + ": " + unknown;
 	}
 
-	public static void writeModifierComment( final PrintStream writer, final String name )
+	public static void writeModifierComment( final PrintStream writer, final String type, final String name )
 	{
-		writer.println( Modifiers.modifierCommentString( name ) );
+		writer.println( Modifiers.modifierCommentString( type, name ) );
 	}
 
-	public static String modifierCommentString( final String name )
+	public static String modifierCommentString( final String type, final String name )
 	{
-		return "# " + name;
+		return "# " + type + " " + name;
 	}
 
 	public static final void registerItem( final String name, final String text, final int type )
@@ -3828,6 +3828,7 @@ public class Modifiers
 		// Examine the item description and decide what it is.
 		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown, type );
+		DebugDatabase.parseRestores( name, text );
 		Modifiers.registerObject( "Item", name, unknown, known );
 	}
 
@@ -3862,7 +3863,7 @@ public class Modifiers
 		{
 			if ( unknown.size() == 0 )
 			{
-				printMe = Modifiers.modifierCommentString( lookup );
+				printMe = Modifiers.modifierCommentString( type, name );
 				RequestLogger.printLine( printMe );
 				RequestLogger.updateSessionLog( printMe );
 			}
