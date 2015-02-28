@@ -5059,6 +5059,16 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
+
+		case ItemPool.WAREHOUSE_MAP_PAGE:
+		case ItemPool.WAREHOUSE_INVENTORY_PAGE:
+			ResultProcessor.processResult( item );
+			if ( responseText.contains( "compare the map" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.WAREHOUSE_INVENTORY_PAGE );
+				ResultProcessor.removeItem( ItemPool.WAREHOUSE_MAP_PAGE );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
