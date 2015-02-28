@@ -2284,6 +2284,8 @@ public class ItemPool
 	public static final int SPELUNKY_COFFEE_CUP = 8062;
 	public static final int TALES_OF_SPELUNKING = 8063;
 	public static final int POWDERED_GOLD = 8066;
+	public static final int WAREHOUSE_MAP_PAGE = 8070;
+	public static final int WAREHOUSE_INVENTORY_PAGE = 8071;
 	public static final int SPELUNKER_FORTUNE = 8073;
 	public static final int SPELUNKER_FORTUNE_USED = 8085;
 	public static final int STILL_BEATING_SPLEEN = 8086;
