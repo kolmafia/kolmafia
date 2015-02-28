@@ -147,16 +147,22 @@ public class RestoresDatabase
 		}
 	}
 
-	public static final void setValue( String name, String type, int hpMin, int hpMax, int mpMin, int mpMax, int advCost, int usesLeft, String notes )
+	public static final void setValue( String name, String type, String hpMin, String hpMax, String mpMin, String mpMax, int advCost, int usesLeft, String notes )
 	{
 		RestoresDatabase.typeByName.put( name, type );
-		RestoresDatabase.hpMinByName.put( name, Integer.toString( hpMin ) );
-		RestoresDatabase.hpMaxByName.put( name, Integer.toString( hpMax ) );
-		RestoresDatabase.mpMinByName.put( name, Integer.toString( mpMin ) );
-		RestoresDatabase.mpMaxByName.put( name, Integer.toString( mpMax ) );
+		RestoresDatabase.hpMinByName.put( name, hpMin );
+		RestoresDatabase.hpMaxByName.put( name, hpMax );
+		RestoresDatabase.mpMinByName.put( name, mpMin );
+		RestoresDatabase.mpMaxByName.put( name, mpMax );
 		RestoresDatabase.advCostByName.put( name, IntegerPool.get( advCost ) );
-		RestoresDatabase.usesLeftByName.put( name, Integer.toString( usesLeft ) );
-		RestoresDatabase.notesByName.put( name, notes );
+		if ( usesLeft != -1 )
+		{
+			RestoresDatabase.usesLeftByName.put( name, Integer.toString( usesLeft ) );
+		}
+		if ( notes != null )
+		{
+			RestoresDatabase.notesByName.put( name, notes );
+		}
 	}
 
 	private static final int getValue( String stringValue, String name )

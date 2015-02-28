@@ -376,7 +376,11 @@ public class DebugDatabase
 
 		int type = ItemDatabase.getConsumptionType( itemId );
 		String descType = DebugDatabase.parseType( text );
-		int descPrimary = DebugDatabase.typeToPrimary( descType, false );
+		int descPrimary = DebugDatabase.parseRestoreType( text );
+		if ( descPrimary == -1 )
+		{
+			descPrimary = DebugDatabase.typeToPrimary( descType, false );
+		}
 		if ( !typesMatch( type, descPrimary ) )
 		{
 			String primary = ItemDatabase.typeToPrimaryUsage( type );
@@ -384,7 +388,7 @@ public class DebugDatabase
 		}
 
 		int attrs = ItemDatabase.getAttributes( itemId );
-		int descAttrs = DebugDatabase.typeToSecondary( descType );
+		int descAttrs = DebugDatabase.typeToSecondary( descType, descPrimary, false );
 		if ( !DebugDatabase.attributesMatch( attrs, descAttrs ) )
 		{
 			String secondary = ItemDatabase.attrsToSecondaryUsage( attrs );
@@ -580,6 +584,18 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
+		if ( type.contains( "hpmp" ) )
+		{
+			return KoLConstants.HPMP_RESTORE;
+		}
+		if ( type.contains( "mp" ) )
+		{
+			return KoLConstants.MP_RESTORE;
+		}
+		if ( type.contains( "hp" ) )
+		{
+			return KoLConstants.HP_RESTORE;
+		}
 		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) || type.equals( "potion" ) )
 		{
 			// Although most potions end up being multi-usable, KoL
@@ -630,16 +646,30 @@ public class DebugDatabase
 		return KoLConstants.NO_CONSUME;
 	}
 
-	public static final int typeToSecondary( final String type )
+	public static final int typeToSecondary( final String type, final int primary, final boolean multi )
 	{
 		int attributes = 0;
-		if ( type.contains( "(reusable)" ) )
+		boolean usable = type.startsWith( "usable" ) || type.contains( " usable" ) || type.contains( "spleen" ) ||
+							type.contains( "potion" ) || type.equals( "gift package" );
+		if ( type.contains( "combat" ) && type.contains( "reusable" ) )
 		{
 			attributes |= ItemDatabase.ATTR_COMBAT_REUSABLE;
 		}
 		else if ( type.contains( "combat" ) )
 		{
 			attributes |= ItemDatabase.ATTR_COMBAT;
+		}
+		else if ( type.contains( "reusable" ) )
+		{
+			attributes |= ItemDatabase.ATTR_REUSABLE;
+		}
+		if ( multi && primary != KoLConstants.CONSUME_MULTIPLE && usable )
+		{
+			attributes |= ItemDatabase.ATTR_MULTIPLE;
+		}
+		if ( !multi && primary != KoLConstants.CONSUME_USE && usable )
+		{
+			attributes |= ItemDatabase.ATTR_USABLE;
 		}
 		if ( type.contains( "self or others" ) )
 		{
@@ -664,6 +694,9 @@ public class DebugDatabase
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
 		case KoLConstants.CONSUME_SPLEEN:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.GROW_FAMILIAR:
 		case KoLConstants.EQUIP_FAMILIAR:
 		case KoLConstants.EQUIP_ACCESSORY:
@@ -674,16 +707,6 @@ public class DebugDatabase
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
 			return descType == type;
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			return descType == KoLConstants.CONSUME_USE ||
-			       // descType == KoLConstants.CONSUME_MULTIPLE ||
-			       // descType == KoLConstants.CONSUME_EAT ||
-			       // descType == KoLConstants.CONSUME_DRINK ||
-			       descType == KoLConstants.CONSUME_SPLEEN ||
-			       // descType == KoLConstants.NO_CONSUME ||
-				false;
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
@@ -1167,7 +1190,7 @@ public class DebugDatabase
 		{
 			if ( unknown.size() == 0 )
 			{
-				Modifiers.writeModifierComment( report, name );
+				Modifiers.writeModifierComment( report, type, name );
 			}
 		}
 		else
@@ -1224,6 +1247,104 @@ public class DebugDatabase
 				DebugDatabase.appendModifier( known, "Generic" );
 			}
 		}
+	}
+
+	private static final Pattern RESTORE_RANGE_PATTERN = Pattern.compile( "(\\d+)-(\\d+) (?:HP|MP|Hit Points)" );
+	private static final Pattern RESTORE_RANGE2_PATTERN = Pattern.compile( "(\\d+)-(\\d+) HP and (\\d+)-(\\d+) MP" );
+	private static final Pattern RESTORE_UPTO_PATTERN = Pattern.compile( "up to (.*?) (?:HP|MP)" );
+
+	public static final int parseRestoreType( final String text )
+	{
+		Matcher enchantMatcher = DebugDatabase.ITEM_ENCHANTMENT_PATTERN.matcher( text );
+		if ( !enchantMatcher.find() )
+		{
+			return -1;
+		}
+		String enchant = enchantMatcher.group( 1 );
+		if ( !enchant.contains( "Restores" ) && !enchant.contains( "Heals" ) )
+		{
+			return -1;
+		}
+		if ( enchant.contains( "HP" ) && enchant.contains( "MP" ) )
+		{
+			return KoLConstants.HPMP_RESTORE;
+		}
+		if ( enchant.contains( "HP" ) || enchant.contains( "Hit Points" ) )
+		{
+			return KoLConstants.HP_RESTORE;
+		}
+		if ( enchant.contains( "MP" ) )
+		{
+			return KoLConstants.MP_RESTORE;
+		}
+		return -1;
+	}
+
+	public static final void parseRestores( final String name, final String text )
+	{
+		Matcher enchantMatcher = DebugDatabase.ITEM_ENCHANTMENT_PATTERN.matcher( text );
+		if ( !enchantMatcher.find() )
+		{
+			return;
+		}
+		String enchant = enchantMatcher.group( 1 );
+		if ( !enchant.contains( "Restores" ) && !enchant.contains( "Heals" ) )
+		{
+			return;
+		}
+		String hpmin = "0";
+		String hpmax = "0";
+		String mpmin = "0";
+		String mpmax = "0";
+		Matcher matcher = DebugDatabase.RESTORE_RANGE_PATTERN.matcher( enchant );
+		if ( matcher.find() )
+		{
+			if ( enchant.contains( "HP" ) || enchant.contains( "Hit Points" ) )
+			{
+				hpmin = matcher.group( 1 );
+				hpmax = matcher.group( 2 );
+			}
+			if ( enchant.contains( "MP" ) )
+			{
+				mpmin = matcher.group( 1 );
+				mpmax = matcher.group( 2 );
+			}
+		}
+		matcher = DebugDatabase.RESTORE_RANGE2_PATTERN.matcher( enchant );
+		if ( matcher.find() )
+		{
+			hpmin = matcher.group( 1 );
+			hpmax = matcher.group( 2 );
+			mpmin = matcher.group( 3 );
+			mpmax = matcher.group( 4 );
+		}
+		matcher = DebugDatabase.RESTORE_UPTO_PATTERN.matcher( enchant );
+		if ( matcher.find() )
+		{
+			if ( enchant.contains( "HP" ) )
+			{
+				hpmin = hpmax = matcher.group( 1 );
+			}
+			if ( enchant.contains( "MP" ) )
+			{
+				mpmin = mpmax = matcher.group( 1 );
+			}
+		}
+		if ( enchant.contains( "all" ) )
+		{
+			if ( enchant.contains( "HP" ) )
+			{
+				hpmin = hpmax = "[HP]";
+			}
+			if ( enchant.contains( "MP" ) )
+			{
+				mpmin = mpmax = "[MP]";
+			}
+		}
+		RestoresDatabase.setValue( name, "item", hpmin, hpmax, mpmin, mpmax, 0, -1, null );
+		String printMe = name + "\titem\t" + hpmin + "\t" + hpmax + "\t" + mpmin + "\t" + mpmax + "\t0";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 	}
 
 	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown, final int type )
