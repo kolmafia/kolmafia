@@ -581,7 +581,7 @@ Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, H
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
 # papier-m&acirc;churidars: Improves things
-papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25"
+Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25"
 Item	parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk, 5xBarrr, cap 7"
 Item	penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 Item	penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy, cap 30"
@@ -3366,7 +3366,7 @@ Item	Xiblaxian holo-bowtie	Familiar Weight: +5
 
 # Bananubis's Staff: -6 Luck
 # Bananubis's Staff: Raise Skeleton Buddies
-Item	boomerang Weakens Monster
+Item	boomerang	Weakens Monster
 # crumbling skull: Can be thrown
 # cursed coffee cup: -2 Luck
 # cursed coffee cup: Drink blood, get healthy
@@ -4170,7 +4170,7 @@ Effect	Crusty Head	Damage Reduction: 10
 Effect	Crying, Dying	Item Drop: +60
 Effect	Cult Fiction	Avatar: "Blue Oyster cultist"
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
-Effect	Cunctatitis: Initiative: -1000
+Effect	Cunctatitis	Initiative: -1000
 Effect	Cupcake of Choice	Item Drop: +30
 Effect	Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Curiosity of Br'er Tarrypin	Experience (familiar): +1

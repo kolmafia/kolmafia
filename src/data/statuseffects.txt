@@ -1667,7 +1667,7 @@
 1665	Thuggity Yak	yaktat.gif	a7e34916ae29be49705af42b24cd8fba	use 1 temporary yak tattoo
 1666	Fit As a Poster	fitposter.gif	acdd6405de02fe089f3bc36d752d61da	use 1 Fitspiration&trade; poster
 1667	Majestic Neckbeard	mohawk.gif	9cef3eea047dd7b8b2718b10eaaab0ed	use 1 giant neckbeard
-1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisinal hand-squeezed wheatgrass juice
+1668	Artisanal Retentive	shot.gif	fb6179f9e82836e2642ef2d796d85647	use 1 artisanal hand-squeezed wheatgrass juice
 1669	Patchy Punk	punkpatch.gif	994185184974160db5c01ba484ed63e0	use 1 punk patch
 1670	Full Steam Ahead	bottle.gif	bf499d287023f4ebf41248f62456c457	use 1 steampunk potion
 1671	Hag-gard	vial.gif	f11dca7996e8407773255c7e4f5db990	use 1 vial of swamp vapors
