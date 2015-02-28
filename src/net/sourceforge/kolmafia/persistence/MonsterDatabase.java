@@ -305,19 +305,13 @@ public class MonsterDatabase
 			name = name.substring( 0, left );
 		}
 
-		// Convert item numbers to names
-		if ( name.startsWith( "[" ) )
-		{
-			int end = name.indexOf( "]" );
-			int itemId = StringUtilities.parseInt( name.substring( 1, end ) );
-			name = ItemDatabase.getItemName( itemId );
-		}
-		else if ( ItemDatabase.getItemId( name, 1 ) == -1 )
+		int itemId = ItemDatabase.getItemId( name );
+		if ( itemId == -1 )
 		{
 			return new AdventureResult( data, (int)'0' );
 		}
 
-		return new AdventureResult( name, (count << 16) | prefix );
+		return new AdventureResult( itemId, (count << 16) | prefix, false );
 	}
 	
 	private synchronized static final void initializeMonsterStrings()

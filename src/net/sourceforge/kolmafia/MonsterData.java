@@ -85,8 +85,7 @@ public class MonsterData
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
-		// It will be nice when this is simply "id".
-		this.itemId = id;
+		this.id = id;
 
 		this.health = health;
 		this.attack = attack;
@@ -143,7 +142,7 @@ public class MonsterData
 
 	public int getId()
 	{
-		return this.itemId;
+		return this.id;
 	}
 
 	public int getHP()

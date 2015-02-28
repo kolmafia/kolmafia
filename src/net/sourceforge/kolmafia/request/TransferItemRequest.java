@@ -501,7 +501,7 @@ public abstract class TransferItemRequest
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
-			AdventureResult item = new AdventureResult( itemId, quantity );
+			AdventureResult item = new AdventureResult( itemId, quantity, false );
 
 			if ( quantity < 1 )
 			{
@@ -550,7 +550,7 @@ public abstract class TransferItemRequest
 				continue;
 			}
 
-			AdventureResult item = new AdventureResult( itemId, quantity );
+			AdventureResult item = new AdventureResult( itemId, quantity, false );
 			if ( item.getCount( source ) == 0 )
 			{
 				continue;
@@ -613,7 +613,7 @@ public abstract class TransferItemRequest
 			String name = m.group( 1 );
 			int count = StringUtilities.parseInt( m.group( 2 ) );
 			int itemId = ItemDatabase.getItemId( name, count,  true );
-			AdventureResult item = new AdventureResult( itemId, count );
+			AdventureResult item = new AdventureResult( itemId, count, false );
 			list.add( item );
 		}
 	}
@@ -631,7 +631,7 @@ public abstract class TransferItemRequest
 			String name = m.group( 2 );
 			int count = StringUtilities.parseInt( m.group( 1 ) );
 			int itemId = ItemDatabase.getItemId( name, count,  true );
-			AdventureResult item = new AdventureResult( itemId, count );
+			AdventureResult item = new AdventureResult( itemId, count, false );
 			list.add( item );
 		}
 	}

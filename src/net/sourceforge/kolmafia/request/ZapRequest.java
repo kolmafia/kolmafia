@@ -112,7 +112,7 @@ public class ZapRequest
 				{
 					String name = StringUtilities.getCanonicalName( list[ i ] );
 					int itemId = ItemDatabase.getItemId( name );
-					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1 ) );
+					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1, false ) );
 					ZapRequest.isZappable.set( itemId, true );
 					ZapRequest.zapGroups.put( IntegerPool.get( itemId ), list );
 				}
@@ -219,7 +219,7 @@ public class ZapRequest
 
 		// Remove the item which was transformed.
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		AdventureResult item = new AdventureResult( itemId, -1 );
+		AdventureResult item = new AdventureResult( itemId, -1, false );
 		ResultProcessor.processResult( item );
 
 		// increment zap count
@@ -272,7 +272,7 @@ public class ZapRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		AdventureResult item = new AdventureResult( itemId, -1 );
+		AdventureResult item = new AdventureResult( itemId, -1, false );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "zap " + item.getName() );

@@ -243,7 +243,7 @@ public abstract class DisplayCaseManager
 
 			String countString = optionMatcher.group( 2 );
 			int itemCount = countString == null ? 1 : StringUtilities.parseInt( countString );
-			AdventureResult item = new AdventureResult( itemId, itemCount );
+			AdventureResult item = new AdventureResult( itemId, itemCount, false );
 
 			int shelf = StringUtilities.parseInt( optionMatcher.group( 4 ) );
 

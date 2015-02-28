@@ -151,7 +151,7 @@ public class MicroBreweryRequest
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
-				MicroBreweryRequest.dailySpecial = new AdventureResult( itemId, 1 );
+				MicroBreweryRequest.dailySpecial = new AdventureResult( itemId, 1, false );
 
 			}
 			return;

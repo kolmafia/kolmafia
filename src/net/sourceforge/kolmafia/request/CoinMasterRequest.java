@@ -102,7 +102,7 @@ public class CoinMasterRequest
 
 	public CoinMasterRequest( final CoinmasterData data, final boolean buying, final int itemId, final int quantity )
 	{		
-		this( data, buying, new AdventureResult( itemId, quantity ) );
+		this( data, buying, new AdventureResult( itemId, quantity, false ) );
 	}
 
 	public final void setQuantity( final int quantity )
@@ -636,7 +636,7 @@ public class CoinMasterRequest
 		int price = CoinMasterRequest.itemSellPrice( data, itemId );
 		int cost = count * price;
 
-		AdventureResult item = new AdventureResult( itemId, -count );
+		AdventureResult item = new AdventureResult( itemId, -count, false );
 		ResultProcessor.processResult( item );
 
 		String property = data.getProperty();

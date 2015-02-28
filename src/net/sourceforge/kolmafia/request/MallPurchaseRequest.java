@@ -83,13 +83,13 @@ public class MallPurchaseRequest
 				    final String shopName, final int price, final int limit,
 				    final boolean canPurchase )
 	{
-		this( new AdventureResult( itemId, 1 ), quantity, shopId, shopName, price, limit, canPurchase );
+		this( new AdventureResult( itemId, 1, false ), quantity, shopId, shopName, price, limit, canPurchase );
 	}
 
 	public MallPurchaseRequest( final int itemId, final int quantity, final int shopId,
 		final String shopName, final int price, final int limit )
 	{
-		this( new AdventureResult( itemId, 1 ), quantity, shopId, shopName, price, limit, true );
+		this( new AdventureResult( itemId, 1, false ), quantity, shopId, shopName, price, limit, true );
 	}
 
 	public MallPurchaseRequest( final AdventureResult item, final int quantity, final int shopId,

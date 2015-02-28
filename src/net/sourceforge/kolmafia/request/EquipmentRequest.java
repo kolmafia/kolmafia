@@ -1212,8 +1212,8 @@ public class EquipmentRequest
 		String acquired = acquiresMatcher.find() ? acquiresMatcher.group( 1 ) : null;
 		Matcher containsMatcher = EquipmentRequest.CONTAINS_PATTERN.matcher( responseText );
 		String contains = containsMatcher.find() ? containsMatcher.group( 1 ) : null;
-		AdventureResult oldItem = acquired != null ? new AdventureResult( acquired, 1, false) : EquipmentRequest.UNEQUIP;
-		AdventureResult newItem = contains != null ? new AdventureResult( contains, 1, false) : EquipmentRequest.UNEQUIP;
+		AdventureResult oldItem = acquired != null ? new AdventureResult( acquired, 1, false ) : EquipmentRequest.UNEQUIP;
+		AdventureResult newItem = contains != null ? new AdventureResult( contains, 1, false ) : EquipmentRequest.UNEQUIP;
 
 		if ( acquired != null )
 		{
@@ -1662,7 +1662,7 @@ public class EquipmentRequest
 				// Make a brand-new AdventureResult for each item
 				if ( piece != EquipmentRequest.UNEQUIP )
 				{
-					piece = new AdventureResult( piece.getItemId(), 1 );
+					piece = new AdventureResult( piece.getItemId(), 1, false );
 				}
 				outfit.addPiece( piece );
 			}

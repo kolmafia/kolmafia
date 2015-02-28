@@ -153,7 +153,7 @@ public class CoinmasterData
 
 	private final AdventureResult makeTokenItem()
 	{
-		AdventureResult item = new AdventureResult( this.token, -1, 1 ) {
+		AdventureResult item = new AdventureResult( this.token, -1, 1, false ) {
 				public String getPluralName( final int count )
 				{
 					return count == 1 ? CoinmasterData.this.token : CoinmasterData.this.plural;

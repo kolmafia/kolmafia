@@ -1457,7 +1457,7 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Use " + tool );
 
 			// *** Should do this after we get response text back
-			AdventureResult item = new AdventureResult( ingredient, 1 );
+			AdventureResult item = new AdventureResult( ingredient, 1, false );
 			int quantity = item.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
 

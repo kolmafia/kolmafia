@@ -345,7 +345,7 @@ public class NPCStoreDatabase
 			}
 			else if ( itemName.startsWith( "folder (" ) )
 			{
-				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1 );
+				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1, false );
 				return folderHolder.getCount( KoLConstants.inventory ) + folderHolder.getCount( KoLConstants.closet ) +
 					folderHolder.getCount( KoLConstants.collection ) > 0 || KoLCharacter.hasEquipped( folderHolder );
 			}

@@ -328,7 +328,7 @@ public class ClanStashRequest
 				ItemDatabase.registerItem( itemId, itemString, descId );
 			}
 
-			items.add( new AdventureResult( itemId, quantity ) );
+			items.add( new AdventureResult( itemId, quantity, false ) );
 		}
 
 		// Add everything en masse to the stash

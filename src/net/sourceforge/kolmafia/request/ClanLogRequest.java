@@ -287,7 +287,7 @@ public class ClanLogRequest
 				entryCount = StringUtilities.parseInt( entryMatcher.group( 3 ) );
 
 				lastItemId = ItemDatabase.getItemId( entryMatcher.group( 4 ), entryCount );
-				entryBuffer.append( ( new AdventureResult( lastItemId, entryCount ) ).toString() );
+				entryBuffer.append( ( new AdventureResult( lastItemId, entryCount, false ) ).toString() );
 
 				entryBuffer.append( " " );
 				entryBuffer.append( suffixDescription );

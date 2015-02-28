@@ -162,7 +162,7 @@ public class RaffleRequest
 			ResultProcessor.processMeat( -cost );
 		}
 
-		AdventureResult item = new AdventureResult( ItemPool.RAFFLE_TICKET, quantity );
+		AdventureResult item = new AdventureResult( ItemPool.RAFFLE_TICKET, quantity, false );
 		ResultProcessor.processItem( false, "You acquire", item, null );
 	}
 

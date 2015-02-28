@@ -120,7 +120,7 @@ public class StorageRequest
 					ItemDatabase.registerItem( itemId );
 				}
 
-				AdventureResult item = new AdventureResult( itemId, count );
+				AdventureResult item = new AdventureResult( itemId, count, false );
 				ArrayList list =
 					KoLCharacter.canInteract() ? items :
 					StorageRequest.isFreePull( item ) ? freepulls :

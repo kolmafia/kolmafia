@@ -406,8 +406,8 @@ public class BasementDecorator
 		private static boolean spiritOfRavioli = false;
 		private static boolean wisdomOfTheElderTortoise = false;
 
-		private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
-		private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1 );
+		private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1, false );
+		private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1, false );
 
 		public StatBooster( final String name )
 		{

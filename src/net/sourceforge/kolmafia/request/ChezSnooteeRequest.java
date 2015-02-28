@@ -163,7 +163,7 @@ public class ChezSnooteeRequest
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
-				ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1 );
+				ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1, false );
 
 			}
 			return;

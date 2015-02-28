@@ -981,14 +981,14 @@ public class FightRequest
 				item2 = -1;
 			}
 
-			int itemCount = ( new AdventureResult( item1, 1 ) ).getCount( KoLConstants.inventory );
+			int itemCount = ( new AdventureResult( item1, 1, false ) ).getCount( KoLConstants.inventory );
 
 			if ( itemCount == 0 && item2 != -1 )
 			{
 				item1 = item2;
 				item2 = -1;
 
-				itemCount = ( new AdventureResult( item1, 1 ) ).getCount( KoLConstants.inventory );
+				itemCount = ( new AdventureResult( item1, 1, false ) ).getCount( KoLConstants.inventory );
 			}
 
 			if ( itemCount == 0 )
@@ -1028,7 +1028,7 @@ public class FightRequest
 
 			if ( item2 != -1 )
 			{
-				itemCount = ( new AdventureResult( item2, 1 ) ).getCount( KoLConstants.inventory );
+				itemCount = ( new AdventureResult( item2, 1, false ) ).getCount( KoLConstants.inventory );
 
 				if ( itemCount > 1 || item1 != item2 && itemCount > 0 )
 				{
@@ -6999,7 +6999,7 @@ public class FightRequest
 
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( itemId, -1 ) );
+			ResultProcessor.processResult( new AdventureResult( itemId, -1, false ) );
 			return;
 		}
 	}
