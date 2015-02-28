@@ -236,7 +236,7 @@ public class PulverizeRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
-		ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
+		ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity, false ) );
 
 		return quantity;
 	}

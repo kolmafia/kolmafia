@@ -237,7 +237,7 @@ public class SpecialOutfit
 
 			if ( InventoryManager.getAccessibleCount( piece ) >= pieceCount )
 			{
-				InventoryManager.retrieveItem( new AdventureResult( piece.getItemId(), pieceCount ) );
+				InventoryManager.retrieveItem( new AdventureResult( piece.getItemId(), pieceCount, false ) );
 				continue;
 			}
 
@@ -332,7 +332,7 @@ public class SpecialOutfit
 
 			if ( accessibleCount < pieceCount )
 			{
-				missing.add( new AdventureResult( piece.getItemId(), pieceCount - accessibleCount ) );
+				missing.add( new AdventureResult( piece.getItemId(), pieceCount - accessibleCount, false ) );
 				continue;
 			}
 		}

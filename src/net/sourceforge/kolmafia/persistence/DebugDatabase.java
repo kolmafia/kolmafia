@@ -2143,7 +2143,7 @@ public class DebugDatabase
 		JSONObject JSON = request.JSON;
 		if ( JSON == null )
 		{
-			AdventureResult item = new AdventureResult( itemId, 1 );
+			AdventureResult item = new AdventureResult( itemId, 1, false );
 			String location = 
 				KoLConstants.inventory.contains( item ) ? "inventory" :
 				KoLConstants.closet.contains( item ) ? "closet" :

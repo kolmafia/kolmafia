@@ -107,7 +107,7 @@ public class ClosetRequest
 					ItemDatabase.registerItem( itemId );
 				}
 
-				items.add( new AdventureResult( itemId, count ) );
+				items.add( new AdventureResult( itemId, count, false ) );
 
 			}
 		}

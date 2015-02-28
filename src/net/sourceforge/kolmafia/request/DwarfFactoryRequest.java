@@ -2131,7 +2131,7 @@ public class DwarfFactoryRequest
 				return null;
 			}
 			int count = this.oreQuantities[ item ][ hopper ];
-			return new AdventureResult( itemId, count );
+			return new AdventureResult( itemId, count, false );
 		}
 
 		public int getOreQuantity( final int item, final int hopper )

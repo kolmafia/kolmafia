@@ -473,7 +473,7 @@ public class ResultProcessor
 		}
 		else
 		{
-			result = new AdventureResult( itemId, itemCount );
+			result = new AdventureResult( itemId, itemCount, false );
 		}
 
 		ResultProcessor.processItem( combatResults, acquisition, result, data );

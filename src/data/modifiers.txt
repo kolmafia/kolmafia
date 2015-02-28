@@ -884,7 +884,6 @@ Item	bone rattle	Spooky Damage: +4
 # Bonestabber: +30% Damage vs. Skeletons
 Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
 # boning knife: +10% Damage vs. Skeletons
-Item	boomerang	Weakens Monster
 # boot knife
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
 Item	bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Softcore Only

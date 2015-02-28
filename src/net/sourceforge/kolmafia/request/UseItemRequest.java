@@ -1729,7 +1729,7 @@ public class UseItemRequest
 			Matcher matcher = UseItemRequest.BRICKO_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
-				AdventureResult brickoItem = new AdventureResult( matcher.group( 1 ), -1 );
+				AdventureResult brickoItem = new AdventureResult( matcher.group( 1 ), -1, false );
 				ResultProcessor.processResult( brickoItem );
 			}
 		}
@@ -3205,7 +3205,7 @@ public class UseItemRequest
 
 			for ( int i = 1802; i < 1900; ++i )
 			{
-				ResultProcessor.processResult( new AdventureResult( i, -1 ) );
+				ResultProcessor.processResult( new AdventureResult( i, -1, false ) );
 			}
 
 			return;
@@ -5481,7 +5481,7 @@ public class UseItemRequest
 			}
 		}
 
-		return new AdventureResult( itemId, itemCount );
+		return new AdventureResult( itemId, itemCount, false );
 	}
 
 	public static final AdventureResult extractBingedItem( final String urlString )
@@ -5507,7 +5507,7 @@ public class UseItemRequest
 			itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
-		return new AdventureResult( itemId, itemCount );
+		return new AdventureResult( itemId, itemCount, false );
 	}
 
 	private static final AdventureResult extractHelper( final String urlString )
@@ -5537,7 +5537,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		return new AdventureResult( itemId, 1 );
+		return new AdventureResult( itemId, 1, false );
 	}
 
 	public static final boolean registerBingeRequest( final String urlString )

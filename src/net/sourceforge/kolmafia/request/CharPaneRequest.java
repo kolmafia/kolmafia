@@ -847,7 +847,7 @@ public class CharPaneRequest
 			// Intrinsic effect
 		}
 
-		return new AdventureResult( effectName, duration, true );
+		return new AdventureResult( effectId, duration, true );
 	}
 
 	private static final void refreshEffects( final String responseText )

@@ -103,7 +103,7 @@ public class ManageStoreRequest
 		qty = Math.min( qty, StoreManager.shopAmount( itemId ) );
 		if ( qty > 1 )
 		{
-			AdventureResult item = new AdventureResult( itemId, 1 );
+			AdventureResult item = new AdventureResult( itemId, 1, false );
 			if ( KoLConstants.profitableList.contains( item ) )
 			{
 				KoLConstants.profitableList.remove( item );

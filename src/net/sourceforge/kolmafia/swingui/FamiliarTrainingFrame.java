@@ -145,17 +145,17 @@ public class FamiliarTrainingFrame
 	private static final AdventureResult WORST_ENEMY = new AdventureResult( "Man's Worst Enemy", 0, true );
 
 	// Familiar buffing items
-	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
-	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1 );
+	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1, false );
+	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1, false );
 
-	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
+	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1, false );
 	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = ItemPool.get( ItemPool.BLACK_SNOWCONE, 1 );
-	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1 );
-	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1 );
-	private static final AdventureResult SPIKY_COLLAR = new AdventureResult( 2667, 1 );
+	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1, false );
+	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1, false );
+	private static final AdventureResult SPIKY_COLLAR = new AdventureResult( 2667, 1, false );
 
-	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1 );
+	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1, false );
 	private static final int[] tinyPlasticNormal = new int[]
 	{
 		969,
@@ -1816,13 +1816,13 @@ public class FamiliarTrainingFrame
 				return;
 			}
 
-			AdventureResult ar = new AdventureResult( id, 1 );
+			AdventureResult ar = new AdventureResult( id, 1, false );
 			int count = ar.getCount( KoLConstants.inventory );
 
 			// Make a new one for each slot
 			while ( count-- > 0 && this.tpCount < 3 )
 			{
-				this.tp[ this.tpCount++ ] = new AdventureResult( id, 1 );
+				this.tp[ this.tpCount++ ] = new AdventureResult( id, 1, false );
 			}
 		}
 

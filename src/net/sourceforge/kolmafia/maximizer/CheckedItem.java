@@ -55,7 +55,7 @@ public class CheckedItem
 {
 	public CheckedItem( int itemId, int equipLevel, int maxPrice, int priceLevel )
 	{
-		super( itemId, 1 );
+		super( itemId, 1, false );
 
 		// special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
 		if ( itemId == 0 )

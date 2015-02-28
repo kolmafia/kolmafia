@@ -334,17 +334,21 @@ public class Expression
 			case 'e':
 				String effectName = (String) this.literals.get( (int) s[ --sp ] );
 				// If effect name is a number, convert to name
+				AdventureResult eff = null;
 				if ( StringUtilities.isNumeric( effectName ) )
 				{
 					int effectId = StringUtilities.parseInt( effectName );
-					effectName = EffectDatabase.getEffectName( effectId );
+					eff = new AdventureResult( effectId, 1, true );
 				}
-				AdventureResult eff = new AdventureResult( effectName, 1, true );
+				else
+				{
+					eff = new AdventureResult( effectName, 1, true );
+				}
 				v = eff == null ? 0.0 :
 					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'g':
-				AdventureResult item = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1 );
+				AdventureResult item = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, false );
 				v = KoLCharacter.hasEquipped( item ) ? 1 : 0;
 				break;
 			case 'h':

@@ -10663,7 +10663,7 @@ public abstract class ChoiceManager
 			// Check if we have all of Azazel's objects of evil
 			for ( int i = 2566; i <= 2568; ++i )
 			{
-				AdventureResult item = new AdventureResult( i, 1 );
+				AdventureResult item = new AdventureResult( i, 1, false );
 				if ( !KoLConstants.inventory.contains( item ) )
 				{
 					return "4";

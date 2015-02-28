@@ -67,7 +67,7 @@ public class AdventureResult
 	protected String name;
 	protected int priority;
 	private int count;
-	protected int itemId;
+	protected int id;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
@@ -186,7 +186,7 @@ public class AdventureResult
 			this.name = new String( name );
 			if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
 			{	// bypass normalizeItemName()
-				this.itemId = -1;
+				this.id = -1;
 				this.priority = AdventureResult.ITEM_PRIORITY;
 			}
 		}
@@ -234,21 +234,37 @@ public class AdventureResult
 		return AdventureResult.ITEM_PRIORITY;
 	}
 
-	public AdventureResult( final int itemId, final int count )
+	public AdventureResult( final int id, final int count, final boolean isStatusEffect )
 	{
-		String name = ItemDatabase.getItemDataName( itemId );
-		this.name = name != null ? name : "(unknown item " + String.valueOf( itemId ) + ")";
-		this.itemId = itemId;
+		if ( isStatusEffect )
+		{
+			String name = EffectDatabase.getEffectName( id );
+			this.name = name != null ? name : "(unknown effect " + String.valueOf( id ) + ")";
+			this.priority = AdventureResult.EFFECT_PRIORITY;
+		}
+		else
+		{
+			String name = ItemDatabase.getItemDataName( id );
+			this.name = name != null ? name : "(unknown item " + String.valueOf( id ) + ")";
+			this.priority = AdventureResult.ITEM_PRIORITY;
+		}
+		this.id = id;
 		this.count = count;
-		this.priority = AdventureResult.ITEM_PRIORITY;
 	}
 
-	public AdventureResult( final String name, final int itemId, final int count )
+	public AdventureResult( final String name, final int itemId, final int count, final boolean isStatusEffect )
 	{
 		this.name = name;
-		this.itemId = itemId;
+		this.id = id;
 		this.count = count;
-		this.priority = AdventureResult.ITEM_PRIORITY;
+		if ( isStatusEffect )
+		{
+			this.priority = AdventureResult.EFFECT_PRIORITY;
+		}
+		else
+		{
+			this.priority = AdventureResult.ITEM_PRIORITY;
+		}
 	}
 
 	// Need this to retain instance-specific methods
@@ -268,17 +284,17 @@ public class AdventureResult
 			return;
 		}
 
-		int effectId = EffectDatabase.getEffectId( this.name );
-		if ( effectId != -1 )
+		this.id = EffectDatabase.getEffectId( this.name );
+		if ( this.id != -1 )
 		{
-			String name = EffectDatabase.getEffectName( effectId );
+			String name = EffectDatabase.getEffectName( this.id );
 			if ( name != null )
 			{
 				this.name = name;
 			}
 			else
 			{
-				RequestLogger.printLine( "Effect database error: id = " + effectId + " name = \"" + this.name + "\"" );
+				RequestLogger.printLine( "Effect database error: id = " + this.id + " name = \"" + this.name + "\"" );
 			}
 		}
 		else
@@ -293,7 +309,7 @@ public class AdventureResult
 
 		if ( this.name == null )
 		{
-			this.name = "(unknown item " + String.valueOf( this.itemId ) + ")";
+			this.name = "(unknown item " + String.valueOf( this.id ) + ")";
 			return;
 		}
 
@@ -302,18 +318,18 @@ public class AdventureResult
 			return;
 		}
 
-		this.itemId = ItemDatabase.getItemId( this.name, this.getCount() );
+		this.id = ItemDatabase.getItemId( this.name, this.getCount() );
 
-		if ( this.itemId > 0 )
+		if ( this.id > 0 )
 		{
-			String name = ItemDatabase.getItemDataName( this.itemId );
+			String name = ItemDatabase.getItemDataName( this.id );
 			if ( name != null )
 			{
 				this.name = name;
 			}
 			else
 			{
-				RequestLogger.printLine( "Item database error: id = " + this.itemId + " name = \"" + this.name + "\"" );
+				RequestLogger.printLine( "Item database error: id = " + this.id + " name = \"" + this.name + "\"" );
 			}
 		}
 		else
@@ -332,7 +348,7 @@ public class AdventureResult
 		}
 
 		// Make a pseudo-item with the required name
-		return new AdventureResult( name, -1, 1 );
+		return new AdventureResult( name, -1, 1 , false );
 	}
 
 	public static final AdventureResult tallyItem( final String name )
@@ -344,13 +360,13 @@ public class AdventureResult
 	{
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1, false ) : -1;
+		item.id = setItemId ? ItemDatabase.getItemId( name, 1, false ) : -1;
 		return item;
 	}
 
 	public static final AdventureResult tallyItem( final String name, final int itemId )
 	{
-		return new AdventureResult( name, itemId, 1 );
+		return new AdventureResult( name, itemId, 1, false );
 	}
 
 	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
@@ -439,7 +455,7 @@ public class AdventureResult
 
 	public String getName()
 	{
-		switch ( this.itemId )
+		switch ( this.id )
 		{
 		case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
 		case ItemPool.DUSTY_BOTTLE_OF_PORT:
@@ -448,7 +464,7 @@ public class AdventureResult
 		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
 		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
 
-			return ConsumablesDatabase.dustyBottleName( this.itemId );
+			return ConsumablesDatabase.dustyBottleName( this.id );
 
 		case ItemPool.MILKY_POTION:
 		case ItemPool.SWIRLY_POTION:
@@ -460,7 +476,7 @@ public class AdventureResult
 		case ItemPool.DARK_POTION:
 		case ItemPool.MURKY_POTION:
 
-			return AdventureResult.bangPotionName( this.itemId );
+			return AdventureResult.bangPotionName( this.id );
 
 		case ItemPool.VIAL_OF_RED_SLIME:
 		case ItemPool.VIAL_OF_YELLOW_SLIME:
@@ -475,7 +491,7 @@ public class AdventureResult
 		case ItemPool.VIAL_OF_INDIGO_SLIME:
 		case ItemPool.VIAL_OF_PURPLE_SLIME:
 
-			return AdventureResult.slimeVialName( this.itemId );
+			return AdventureResult.slimeVialName( this.id );
 
 		case ItemPool.PUNCHCARD_ATTACK:
 		case ItemPool.PUNCHCARD_REPAIR:
@@ -489,7 +505,7 @@ public class AdventureResult
 		case ItemPool.PUNCHCARD_WALL:
 		case ItemPool.PUNCHCARD_SPHERE:
 
-			return AdventureResult.punchCardName( this.itemId );
+			return AdventureResult.punchCardName( this.id );
 
 		default:
 			return this.name;
@@ -507,9 +523,9 @@ public class AdventureResult
 			this.getName() :
 			this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY ?
 			BountyDatabase.getPlural( this.getName() ) :
-			this.itemId == -1 ?
+			this.id == -1 ?
 			this.getName() + "s" :
-			ItemDatabase.getPluralName( this.itemId );
+			ItemDatabase.getPluralName( this.id );
 	}
 
 	/**
@@ -520,7 +536,20 @@ public class AdventureResult
 
 	public int getItemId()
 	{
-		return this.itemId;
+		if ( this.priority == AdventureResult.ITEM_PRIORITY )
+		{
+			return this.id;
+		}
+		return -1;
+	}
+
+	public int getEffectId()
+	{
+		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
+		{
+			return this.id;
+		}
+		return -1;
 	}
 
 	/**
@@ -681,11 +710,11 @@ public class AdventureResult
 		// Hand craft an item Adventure Result, regardless of the name
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
-		item.itemId = ItemDatabase.getItemId( name, 1, false );
+		item.id = ItemDatabase.getItemId( name, 1, false );
 		item.count = count;
-		if ( item.itemId > 0 )
+		if ( item.id > 0 )
 		{	// normalize name
-			item.name = ItemDatabase.getItemDataName( item.itemId );
+			item.name = ItemDatabase.getItemDataName( item.id );
 		}
 
 		return item;
@@ -892,7 +921,7 @@ public class AdventureResult
 			return ar.equals( this );
 		}
 
-		return ( !ar.isItem() || this.itemId == ar.itemId ) &&
+		return ( !( ar.isItem() || ar.isStatusEffect() ) || this.id == ar.id ) &&
 			this.name.equals( ar.name );
 	}
 
@@ -940,14 +969,14 @@ public class AdventureResult
 			return -1;
 		}
 
-		int itemComparison = 0;
-		if ( ar.isItem() )
+		int idComparison = 0;
+		if ( ar.isItem() || ar.isStatusEffect() )
 		{
-			itemComparison = this.itemId - ar.itemId;
+			idComparison = this.id - ar.id;
 		}
 
 		int nameComparison = this.name.compareToIgnoreCase( ar.name );
-		if ( nameComparison == 0 & itemComparison == 0 )
+		if ( nameComparison == 0 & idComparison == 0 )
 		{
 			return 0;
 		}
@@ -962,7 +991,7 @@ public class AdventureResult
 			return nameComparison;
 		}
 
-		return itemComparison;
+		return idComparison;
 	}
 
 	/**
@@ -1106,13 +1135,13 @@ public class AdventureResult
 
 	public AdventureResult getNegation()
 	{
-		if ( this.isItem() && this.itemId != -1 )
+		if ( this.isItem() && this.id != -1 )
 		{
-			return this.count == 0 ? this : new AdventureResult( this.itemId, 0 - this.count );
+			return this.count == 0 ? this : new AdventureResult( this.id, 0 - this.count, false );
 		}
-		else if ( this.isStatusEffect() )
+		else if ( this.isStatusEffect() && this.id != -1 )
 		{
-			return this.count == 0 ? this : new AdventureResult( this.name, 0 - this.count, true );
+			return this.count == 0 ? this : new AdventureResult( this.id, 0 - this.count, true );
 		}
 
 		return this.getInstance( -this.count );
@@ -1139,7 +1168,7 @@ public class AdventureResult
 				// This should not happen. Hope for the best.
 				item = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
 				item.priority = AdventureResult.ITEM_PRIORITY;
-				item.itemId = this.itemId;
+				item.id = this.id;
 			}
 
 			item.count = quantity;
@@ -1148,7 +1177,21 @@ public class AdventureResult
 
 		if ( this.isStatusEffect() )
 		{
-			return this.count == quantity ? this : new AdventureResult( this.name, quantity, true );
+			AdventureResult effect;
+			try
+			{
+				effect = (AdventureResult) this.clone();
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				// This should not happen. Hope for the best.
+				effect = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
+				effect.priority = AdventureResult.EFFECT_PRIORITY;
+				effect.id = this.id;
+			}
+
+			effect.count = quantity;
+			return effect;
 		}
 
 		return new AdventureResult( this.name, quantity );
@@ -1210,9 +1253,9 @@ public class AdventureResult
 
 	public final String bangPotionAlias()
 	{
-		if ( this.itemId >= 819 && this.itemId <= 827 )
+		if ( this.isItem() && this.id >= 819 && this.id <= 827 )
 		{
-			String effect = Preferences.getString( "lastBangPotion" + this.itemId );
+			String effect = Preferences.getString( "lastBangPotion" + this.id );
 			if ( effect.equals( "" ) )
 			{
 				return this.name;
@@ -1220,9 +1263,9 @@ public class AdventureResult
 
 			return "potion of " + effect;
 		}
-		if ( this.itemId >= ItemPool.VIAL_OF_RED_SLIME && this.itemId <= ItemPool.VIAL_OF_PURPLE_SLIME )
+		if ( this.isItem() && this.id >= ItemPool.VIAL_OF_RED_SLIME && this.id <= ItemPool.VIAL_OF_PURPLE_SLIME )
 		{
-			String effect = Preferences.getString( "lastSlimeVial" + this.itemId );
+			String effect = Preferences.getString( "lastSlimeVial" + this.id );
 			if ( effect.equals( "" ) )
 			{
 				return this.name;

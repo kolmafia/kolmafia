@@ -2311,7 +2311,7 @@ public class ItemPool
 
 	public static final AdventureResult get( int itemId, int count )
 	{
-		return new AdventureResult( itemId, count );
+		return new AdventureResult( itemId, count, false );
 	}
 
 	// Support for various classes of items:
@@ -2458,7 +2458,7 @@ public class ItemPool
 				continue;	// already identified;
 			}
 			++unknown;
-			AdventureResult item = new AdventureResult( i, 1 );
+			AdventureResult item = new AdventureResult( i, 1, false );
 			count = item.getCount( KoLConstants.inventory );
 			if ( count <= 0 )
 			{
