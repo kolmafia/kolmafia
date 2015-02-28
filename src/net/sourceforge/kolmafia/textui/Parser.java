@@ -2855,7 +2855,7 @@ public class Parser
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
 
-		StringBuffer resultString = new StringBuffer();
+		StringBuilder resultString = new StringBuilder();
 		char stopCharacter, ch;
 		ArrayList<Value> list = null;
 		if ( type == null )
@@ -2968,15 +2968,18 @@ public class Parser
 						throw this.parseException( "Bad " + type.toString() + " value: \"" + element + "\"" );
 					}
 
-					String fullName = value.toString();
-					if ( !element.equalsIgnoreCase( fullName ) )
+					if ( !StringUtilities.isNumeric( element ) )
 					{
-						String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ) );
-						String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
-						ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
-						RequestLogger.printLine( ex.getMessage() );
+						String fullName = value.toString();
+						if ( !element.equalsIgnoreCase( fullName ) )
+						{
+							String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ) );
+							String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
+							ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
+							RequestLogger.printLine( ex.getMessage() );
+						}
 					}
-
+					
 					list.add( value );
 				}
 				if ( ch == ']' )
@@ -3007,7 +3010,7 @@ public class Parser
 
 		if ( type == null )
 		{
-			StringBuffer buf = new StringBuffer( this.currentLine );
+			StringBuilder buf = new StringBuilder( this.currentLine );
 			int length = name.length();
 
 			if ( name.endsWith( "ies" ) )
@@ -3070,7 +3073,7 @@ public class Parser
 			throw this.parseException( "Can't enumerate all " + name );
 		}
 
-		StringBuffer resultString = new StringBuffer();
+		StringBuilder resultString = new StringBuilder();
 
 		for ( int i = 1;; ++i )
 		{
@@ -3101,13 +3104,16 @@ public class Parser
 					throw this.parseException( "Bad " + type.toString() + " value: \"" + input + "\"" );
 				}
 				// If validating script, give warning if fuzzy matching kicked in
-				String fullName = value.toString();
-				if ( !input.equalsIgnoreCase( fullName ) )
+				if ( !StringUtilities.isNumeric( input ) )
 				{
-					String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( input, ",", "\\," ) );
-					String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
-					ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
-					RequestLogger.printLine( ex.getMessage() );
+					String fullName = value.toString();
+					if ( !input.equalsIgnoreCase( fullName ) )
+					{
+						String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( input, ",", "\\," ) );
+						String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
+						ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
+						RequestLogger.printLine( ex.getMessage() );
+					}
 				}
 				return value;
 			}
