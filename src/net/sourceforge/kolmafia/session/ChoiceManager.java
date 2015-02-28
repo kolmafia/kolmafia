@@ -10143,6 +10143,7 @@ public abstract class ChoiceManager
 	private static void checkGuyMadeOfBees( final GenericRequest request )
 	{
 		KoLCharacter.ensureUpdatedGuyMadeOfBees();
+		Preferences.increment( "guyMadeOfBeesCount", 1, 5, true );
 
 		String text = request.responseText;
 		String urlString = request.getPath();
@@ -10155,21 +10156,11 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 			}
 		}
-		else if ( urlString.startsWith( "choice.php" ) )
+		else if ( urlString.startsWith( "choice.php" ) && text.contains( "that ship is sailed" ) )
 		{
-			if ( text.contains( "that ship is sailed" ) )
-			{
-				// For some reason, we didn't notice when we
-				// beat the guy made of bees. Record it now.
-				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
-			}
-			else
-			{
-				// Increment the number of times we've
-				// called the guy made of bees.
-				Preferences.increment( "guyMadeOfBeesCount", 1, 5, true );
-			}
-
+			// For some reason, we didn't notice when we
+			// beat the guy made of bees. Record it now.
+			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 		}
 	}
 
