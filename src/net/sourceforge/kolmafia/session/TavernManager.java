@@ -51,8 +51,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.textui.command.CouncilCommand;
 
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 
 public class TavernManager
@@ -180,7 +180,7 @@ public class TavernManager
 		KoLmafia.updateDisplay( message );
 
 		// Make sure we have the quest from the council
-		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+		RequestThread.postRequest( CouncilCommand.COUNCIL_VISIT );
 
 		// Make sure Bart Ender has given us access to the cellar
 		GenericRequest barkeep = new GenericRequest( "tavern.php?place=barkeep" );

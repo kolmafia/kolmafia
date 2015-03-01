@@ -35,14 +35,14 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-
+import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CouncilCommand
 	extends AbstractCommand
 {
+	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
+
 	public CouncilCommand()
 	{
 		this.usage = " - visit the Council to advance quest progress.";
@@ -51,9 +51,9 @@ public class CouncilCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+		RequestThread.postRequest( CouncilCommand.COUNCIL_VISIT );
 
 		KoLmafiaCLI.showHTML( StringUtilities.singleStringReplace(
-			CouncilFrame.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
+			CouncilCommand.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 	}
 }
