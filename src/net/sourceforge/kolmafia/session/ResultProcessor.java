@@ -62,12 +62,12 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -531,7 +531,7 @@ public class ResultProcessor
 		}
 
 		// If Gar-ish is gained or loss, and autoGarish not set, benefit of Lasagna changes
-		if ( effectName.equals( Effect.GARISH.effectName() ) && !Preferences.getBoolean( "autoGarish" ) )
+		if ( effectName.equals( EffectDatabase.getEffectName( EffectPool.GARISH ) ) && !Preferences.getBoolean( "autoGarish" ) )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
@@ -544,7 +544,7 @@ public class ResultProcessor
 
 			// If you lose Inigo's, what you can craft changes
 
-			if ( effectName.equals( Effect.INIGO.effectName() ) )
+			if ( effectName.equals( EffectDatabase.getEffectName( EffectPool.INIGOS ) ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( true );
 			}
@@ -1096,7 +1096,7 @@ public class ResultProcessor
 						KoLConstants.activeEffects.remove( i );
 
 						// If you lose Inigo's, what you can craft changes
-						if ( effect.getName().equals( Effect.INIGO.effectName() ) )
+						if ( effect.getName().equals( EffectDatabase.getEffectName( EffectPool.INIGOS ) ) )
 						{
 							ConcoctionDatabase.setRefreshNeeded( true );
 						}

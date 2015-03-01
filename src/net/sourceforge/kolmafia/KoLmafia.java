@@ -69,7 +69,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -1092,7 +1092,7 @@ public abstract class KoLmafia
 			AdventureResult effect = KoLConstants.recentEffects.get( j );
 			AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
 
-			if ( effect.getName().equals( Effect.INIGO.effectName() ) )
+			if ( effect.getEffectId() == EffectPool.INIGOS )
 			{
 				concoctionRefreshNeeded = true;
 			}

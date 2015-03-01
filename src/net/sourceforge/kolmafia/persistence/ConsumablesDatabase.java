@@ -66,7 +66,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -94,9 +93,9 @@ import org.json.JSONObject;
 public class ConsumablesDatabase
 	extends KoLDatabase
 {
-	public static final AdventureResult ODE = EffectPool.get( Effect.ODE );
-	public static final AdventureResult MILK = EffectPool.get( Effect.MILK );
-	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( Effect.GLORIOUS_LUNCH );
+	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
+	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
+	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( EffectPool.GLORIOUS_LUNCH );
 
 	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
 	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
@@ -758,7 +757,7 @@ public class ConsumablesDatabase
 			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY &&
-			     ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) ||
+			     ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH ) ) ||
 			       Preferences.getBoolean( "autoGarish" ) &&
 			       ( KoLCharacter.hasSkill( SkillPool.CLIP_ART ) &&
 				 UseSkillRequest.getUnmodifiedInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0 ||

@@ -537,7 +537,7 @@ public class HaciendaManager
 			"_donhosCasts",
 		},
 		{
-			IntegerPool.get( EffectPool.INIGOS_INCANTATION_OF_INSPIRATION ),
+			IntegerPool.get( EffectPool.INIGOS ),
 			"_inigosCasts",
 		},
 	};

@@ -482,7 +482,7 @@ public class SkillDatabase
 	 * @return The MP consumed by the skill, or 0 if unknown
 	 */
 
-	private static final AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
+	private static final AdventureResult SUPER_SKILL = EffectPool.get( EffectPool.SUPER_SKILL );
 
 	public static final int getMPConsumptionById( final int skillId )
 	{

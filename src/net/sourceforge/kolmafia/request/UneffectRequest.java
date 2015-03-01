@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -389,18 +388,18 @@ public class UneffectRequest
 		{
 		case -1:
 			// So, what about the following?
-		case EffectPool.EAU_DE_TORTUE_ID:
-		case EffectPool.CURSED_BY_RNG_ID:
-		case EffectPool.FORM_OF_BIRD_ID:
+		case EffectPool.EAU_DE_TORTUE:
+		case EffectPool.CURSED_BY_RNG:
+		case EffectPool.FORM_OF_BIRD:
 
-		case EffectPool.GOOFBALL_WITHDRAWAL_ID:
-		case EffectPool.SOUL_CRUSHING_HEADACHE_ID:
-		case EffectPool.COVERED_IN_SLIME_ID:
-		case EffectPool.EVERYTHING_LOOKS_YELLOW_ID:
-		case EffectPool.EVERYTHING_LOOKS_BLUE_ID:
-		case EffectPool.EVERYTHING_LOOKS_RED_ID:
-		case EffectPool.DEEP_TAINTED_MIND_ID:
-		case EffectPool.SPIRIT_PARIAH_ID:
+		case EffectPool.GOOFBALL_WITHDRAWAL:
+		case EffectPool.SOUL_CRUSHING_HEADACHE:
+		case EffectPool.COATED_IN_SLIME:
+		case EffectPool.EVERYTHING_LOOKS_YELLOW:
+		case EffectPool.EVERYTHING_LOOKS_BLUE:
+		case EffectPool.EVERYTHING_LOOKS_RED:
+		case EffectPool.DEEP_TAINTED_MIND:
+		case EffectPool.SPIRIT_PARIAH:
 		case EffectPool.BORED_WITH_EXPLOSIONS:
 			return false;
 		default:
@@ -953,13 +952,13 @@ public class UneffectRequest
 		KoLConstants.activeEffects.remove( this.effect );
 
 		// If you lose Inigo's, what you can craft changes
-		if ( this.effect.getName().equals( Effect.INIGO.effectName() ) )
+		if ( this.effect.getEffectId() == EffectPool.INIGOS )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 
 		// If Gar-ish is gained or lost and autoGarish isn't set, benefit of Lasagna changes
-		if ( this.effect.getName().equals( Effect.GARISH.effectName() ) && !Preferences.getBoolean( "autoGarish" ) )
+		if ( this.effect.getEffectId() == EffectPool.GARISH && !Preferences.getBoolean( "autoGarish" ) )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}

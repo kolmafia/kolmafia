@@ -71,7 +71,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -144,8 +143,8 @@ public class FightRequest
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
-	public static AdventureResult haikuEffect = EffectPool.get( Effect.HAIKU_STATE_OF_MIND );
-	public static AdventureResult anapestEffect = EffectPool.get( Effect.JUST_THE_BEST_ANAPESTS );
+	public static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
+	public static AdventureResult anapestEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
 
 	private static final int HEALTH = 0;
 	private static final int ATTACK = 1;
@@ -1121,7 +1120,7 @@ public class FightRequest
 			// your skills.
 
 			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.ON_THE_TRAIL ) ) )
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1309,7 +1308,7 @@ public class FightRequest
 		{
 			// You can't walk away from explosions whilst bored of them
 
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.BORED_WITH_EXPLOSIONS ) ) )
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BORED_WITH_EXPLOSIONS ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -3592,7 +3591,7 @@ public class FightRequest
 
 		boolean haveSkill, haveItem;
 		String pref = Preferences.getString( "autoOlfact" );
-		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ON_THE_TRAIL ) ) )
+		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 		{
 			haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
 				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillPool.OLFACTION ) );
@@ -5326,7 +5325,7 @@ public class FightRequest
 					munged = "You acquire an effect: " + effect;
 				}
 				ResultProcessor.processEffect( effect, munged );
-				if ( effect.equalsIgnoreCase( Effect.HAIKU_STATE_OF_MIND.effectName() ) )
+				if ( effect.equalsIgnoreCase( EffectDatabase.getEffectName( EffectPool.HAIKU_STATE_OF_MIND ) ) )
 				{
 					FightRequest.haiku = true;
 					if ( status.logMonsterHealth )
@@ -5335,7 +5334,7 @@ public class FightRequest
 					}
 					MonsterStatusTracker.damageMonster( 17 );
 				}
-				else if ( effect.equalsIgnoreCase( Effect.JUST_THE_BEST_ANAPESTS.effectName() ) )
+				else if ( effect.equalsIgnoreCase( EffectDatabase.getEffectName( EffectPool.JUST_THE_BEST_ANAPESTS ) ) )
 				{
 					FightRequest.anapest = true;
 				}

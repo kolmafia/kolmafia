@@ -54,7 +54,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1862,14 +1861,14 @@ public class Modifiers
 		return newMods;
 	}
 
-	public final static Modifiers parseModifiers( final String name, final String string )
+	public final static Modifiers parseModifiers( final String lookup, final String string )
 	{
 		Modifiers newMods = new Modifiers();
 		double[] newDoubles = newMods.doubles;
 		int[] newBitmaps = newMods.bitmaps;
 		String[] newStrings = newMods.strings;
 
-		newMods.name = name;
+		newMods.name = lookup;
 
 		for ( int i = 0; i < newDoubles.length; ++i )
 		{
@@ -1895,6 +1894,7 @@ public class Modifiers
 				{
 					newMods.expressions = new ModifierExpression[ Modifiers.DOUBLE_MODIFIERS ];
 				}
+				String name = Modifiers.getNameFromLookup( lookup );
 				newMods.expressions[ i ] = ModifierExpression.getInstance( matcher.group( 2 ), name );
 			}
 		}
@@ -1928,7 +1928,7 @@ public class Modifiers
 				Modifiers.bitmapMasks[ i ] <<= 2;
 				break;
 			default:
-				KoLmafia.updateDisplay( "ERROR: invalid count for bitmap modifier in " + name );
+				KoLmafia.updateDisplay( "ERROR: invalid count for bitmap modifier in " + lookup );
 				continue;
 			}
 			if ( Modifiers.bitmapMasks[ i ] == 0 )
@@ -2023,7 +2023,8 @@ public class Modifiers
 				return;
 			}
 
-			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), this.name );
+			String name = Modifiers.getNameFromLookup( this.name );
+			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), name );
 			if ( expr.hasErrors() )
 			{
 				return;
@@ -2596,7 +2597,7 @@ public class Modifiers
 		return Modifiers.synergies.iterator();
 	}
 
-	private static final AdventureResult somePigs = EffectPool.get( Effect.SOME_PIGS );
+	private static final AdventureResult somePigs = EffectPool.get( EffectPool.SOME_PIGS );
 	
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{

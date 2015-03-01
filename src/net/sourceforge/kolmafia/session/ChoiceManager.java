@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -8480,7 +8479,7 @@ public abstract class ChoiceManager
 			// Between a Rock and Some Other Rocks
 			if ( KoLmafia.isAdventuring() &&
 			     !EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) &&
-			     !KoLConstants.activeEffects.contains( EffectPool.get( Effect.EARTHEN_FIST ) ) )
+			     !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.EARTHEN_FIST ) ) )
 			{
 				QuestManager.unlockGoatlet();
 			}
@@ -9905,16 +9904,16 @@ public abstract class ChoiceManager
 			break;
 		}
 
-		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
+		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SPOOKYFORM ) ) ? 1.0 :
 			  Math.max( damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0 - diff, 1 );
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SLEAZEFORM ) ) )
 		{
 			spookyDamage *= 2;
 		}
 
-		double coldDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) ? 1.0 :
+		double coldDamage = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.COLDFORM ) ) ? 1.0 :
 			  Math.max( damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0 - diff, 1 );
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.STENCHFORM ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SLEAZEFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.STENCHFORM ) ) )
 		{
 			coldDamage *= 2;
 		}
@@ -10681,7 +10680,7 @@ public abstract class ChoiceManager
 
 			return decision.equals( "2" ) ? "2" :
 				EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) ? "1" :
-				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( EffectPool.get( Effect.EARTHEN_FIST ) )  ? "1" :
+				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.EARTHEN_FIST ) )  ? "1" :
 				KoLCharacter.inAxecore() ? "3" :
 				"2";
 			//Random Lack of an Encounter

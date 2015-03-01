@@ -67,8 +67,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1089,7 +1087,7 @@ public class ItemDatabase
 			return -1;
 		}
 
-		//If name starts with [nnnn] then that is explicitly the item id 
+		// If name starts with [nnnn] then that is explicitly the item id 
 		if ( itemName.startsWith( "[" ) )
 		{
 			int index = itemName.indexOf( "]" );

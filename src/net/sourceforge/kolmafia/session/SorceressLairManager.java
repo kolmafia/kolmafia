@@ -98,7 +98,7 @@ public abstract class SorceressLairManager
 	};
 
 	// Items for the chamber
-	private static final AdventureResult CONFIDENCE = EffectPool.get( "Confidence!", Integer.MAX_VALUE );
+	private static final AdventureResult CONFIDENCE = EffectPool.get( EffectPool.CONFIDENCE, Integer.MAX_VALUE );
 	public static final AdventureResult NAGAMAR = ItemPool.get( ItemPool.WAND_OF_NAGAMAR, 1 );
 
 	private static final String[][] CROWD2_DATA =

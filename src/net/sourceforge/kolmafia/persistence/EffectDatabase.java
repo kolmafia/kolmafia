@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
@@ -361,6 +361,29 @@ public class EffectDatabase
 
 	public static final int getEffectId( final String effectName, final boolean exact )
 	{
+		if ( effectName == null )
+		{
+			return -1;
+		}
+
+		// If name starts with [nnnn] then that is explicitly the effect id 
+		if ( effectName.startsWith( "[" ) )
+		{
+			int index = effectName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = effectName.substring( 1, index );
+				int effectId = -1;
+				try 
+				{
+					effectId = StringUtilities.parseInt( idString );
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				return effectId;
+			}
+		}
 		Integer effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
 		if ( effectId != null )
 		{
@@ -670,12 +693,12 @@ public class EffectDatabase
 
 	public static final int[] POISON_ID = {
    		0,
-   		Effect.TOAD_IN_THE_HOLE.effectId(),
-   		Effect.MAJORLY_POISONED.effectId(),
-   		Effect.REALLY_QUITE_POISONED.effectId(),
-   		Effect.SOMEWHAT_POISONED.effectId(),
-   		Effect.A_LITTLE_BIT_POISONED.effectId(),
-   		Effect.HARDLY_POISONED.effectId()
+   		EffectPool.TOAD_IN_THE_HOLE,
+   		EffectPool.MAJORLY_POISONED,
+   		EffectPool.REALLY_QUITE_POISONED,
+   		EffectPool.SOMEWHAT_POISONED,
+   		EffectPool.A_LITTLE_BIT_POISONED,
+   		EffectPool.HARDLY_POISONED
    	};
 
 	public static int getPoisonLevel( String text )
