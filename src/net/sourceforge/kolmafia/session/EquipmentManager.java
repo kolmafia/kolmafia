@@ -1558,13 +1558,13 @@ public class EquipmentManager
 	 * club. Mother Hellseals require an actual club...
 	 */
 
-	public static final AdventureResult IRON_PALM = EffectPool.get( "Iron Palm" );
+	public static final AdventureResult IRON_PALMS = EffectPool.get( EffectPool.IRON_PALMS );
 
 	public static final boolean wieldingClub( final boolean includeEffect )
 	{
 		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
 		return type.equals( "club" ) ||
-			( includeEffect && KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALM ) && type.equals( "sword" ) );
+			( includeEffect && KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALMS ) && type.equals( "sword" ) );
 	}
 
 	public static final boolean wieldingKnife()

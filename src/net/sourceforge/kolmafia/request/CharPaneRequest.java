@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -1000,7 +999,7 @@ public class CharPaneRequest
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
 	private static final Pattern familiarImagePattern =
 		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?\\.gif)" );
-	private static final AdventureResult somePigs = EffectPool.get( Effect.SOME_PIGS );
+	private static final AdventureResult somePigs = EffectPool.get( EffectPool.SOME_PIGS );
 
 	private static final void checkFamiliar( final String responseText )
 	{

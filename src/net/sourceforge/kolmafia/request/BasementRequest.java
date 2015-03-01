@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -121,9 +120,9 @@ public class BasementRequest
 	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
 
-	public static final AdventureResult MUS_EQUAL = EffectPool.get( Effect.STABILIZING_OILINESS );
-	public static final AdventureResult MYS_EQUAL = EffectPool.get( Effect.EXPERT_OILINESS );
-	public static final AdventureResult MOX_EQUAL = EffectPool.get( Effect.SLIPPERY_OILINESS );
+	public static final AdventureResult MUS_EQUAL = EffectPool.get( EffectPool.STABILIZING_OILINESS );
+	public static final AdventureResult MYS_EQUAL = EffectPool.get( EffectPool.EXPERT_OILINESS );
+	public static final AdventureResult MOX_EQUAL = EffectPool.get( EffectPool.SLIPPERY_OILINESS );
 
 	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
 
@@ -561,14 +560,14 @@ public class BasementRequest
 		}
 
 		// Add some effects that resist all elements
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ASTRAL_SHELL ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
 		{
-			BasementRequest.desirableEffects.add( EffectPool.get( Effect.ASTRAL_SHELL ) );
+			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
 		}
 
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ELEMENTAL_SPHERE ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) ) )
 		{
-			BasementRequest.desirableEffects.add( EffectPool.get( Effect.ELEMENTAL_SPHERE ) );
+			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) );
 		}
 
 		if ( !KoLConstants.activeEffects.contains( BasementRequest.BLACK_PAINT ) )
@@ -990,14 +989,14 @@ public class BasementRequest
 			BasementRequest.addDesiredEqualizer();
 
 			// Add some effects that improve Damage Absorption
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ASTRAL_SHELL ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
 			{
-				BasementRequest.desirableEffects.add( EffectPool.get( Effect.ASTRAL_SHELL ) );
+				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
 			}
 
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.GHOSTLY_SHELL ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GHOSTLY_SHELL ) ) )
 			{
-				BasementRequest.desirableEffects.add( EffectPool.get( Effect.GHOSTLY_SHELL ) );
+				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.GHOSTLY_SHELL ) );
 			}
 
 			double damageAbsorb =

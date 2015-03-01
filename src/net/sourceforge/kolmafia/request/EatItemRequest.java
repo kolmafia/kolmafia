@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
@@ -488,7 +487,7 @@ public class EatItemRequest
 		
 		// If you've got Garish, or it's Monday, no need to ask
 		Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-		if( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) || date.get( Calendar.DAY_OF_WEEK ) == Calendar.MONDAY )
+		if( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH ) ) || date.get( Calendar.DAY_OF_WEEK ) == Calendar.MONDAY )
 		{
 			return true;
 		}
@@ -510,7 +509,7 @@ public class EatItemRequest
 		if ( Preferences.getBoolean( "autoGarish" ) )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.FIELD_GAR_POTION ) );
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH ) ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to use Potion of the Field Gar." );
 				return false;

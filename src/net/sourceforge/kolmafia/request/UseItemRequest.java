@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -148,11 +147,11 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( Effect.HALF_ASTRAL ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ABSINTHE ), EffectPool.get( Effect.ABSINTHE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
 
-		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( Effect.EAU_DE_TORTUE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
 	}
 
 	public static String lastUpdate = "";
@@ -527,7 +526,7 @@ public class UseItemRequest
 				UseItemRequest.limiter = "uselessness on Mondays";
 				return 0;
 			}
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) )
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH ) ) )
 			{
 				UseItemRequest.limiter = "existing effect";
 				return 0;
@@ -699,11 +698,11 @@ public class UseItemRequest
 		case ItemPool.BITE_LIPSTICK:
 		case ItemPool.WHISKER_PENCIL:
 		case ItemPool.PRESS_ON_RIBS:
-			if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.HAUNTING_LOOKS ) ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.DEAD_SEXY ) ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.VAMPIN ) ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.YIFFABLE_YOU ) ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( Effect.BONE_US_ROUND ) ) )
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.HAUNTING_LOOKS ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DEAD_SEXY ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.VAMPIN ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.YIFFABLE_YOU ) ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BONE_US_ROUND ) ) )
 			{
 				UseItemRequest.limiter = "your current sexy costume";
 				return 0;
@@ -2355,11 +2354,11 @@ public class UseItemRequest
 			{
 				if ( UseItemRequest.retrying ||
 					KoLConstants.activeEffects.contains(
-						EffectPool.get( Effect.FORM_OF_BIRD ) ) ||
+						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 					KoLConstants.activeEffects.contains(
-						EffectPool.get( Effect.SHAPE_OF_MOLE ) ) ||
+						EffectPool.get( EffectPool.SHAPE_OF_MOLE ) ) ||
 					KoLConstants.activeEffects.contains(
-						EffectPool.get( Effect.FORM_OF_ROACH ) ) )
+						EffectPool.get( EffectPool.FORM_OF_ROACH ) ) )
 				{
 					UseItemRequest.lastUpdate = "You're still under a gong effect.";
 					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );

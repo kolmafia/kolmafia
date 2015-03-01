@@ -1147,24 +1147,24 @@ public abstract class KoLCharacter
 	
 	public static final String getBlessingType()
 	{
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_THE_WAR_SNAPPER ) ) )
 		{
 			return KoLCharacter.WAR_BLESSING;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_SHE_WHO_WAS ) ) )
 		{
 			return KoLCharacter.SHE_WHO_WAS_BLESSING;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_THE_STORM_TORTOISE ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_THE_STORM_TORTOISE ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_THE_STORM_TORTOISE ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_THE_STORM_TORTOISE ) ) )
 		{
 			return KoLCharacter.STORM_BLESSING;
 		}
@@ -1173,31 +1173,31 @@ public abstract class KoLCharacter
 
 	public static final int getBlessingLevel()
 	{
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_1 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_1 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_1 ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BLESSING_OF_THE_STORM_TORTOISE ) ) )
 		{
 			return 1;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_2 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_2 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_2 ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GRAND_BLESSING_OF_THE_STORM_TORTOISE ) ) )
 		{
 			return 2;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_BLESSING_3 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_BLESSING_3 ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_BLESSING_3 ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GLORIOUS_BLESSING_OF_THE_STORM_TORTOISE ) ) )
 		{
 			return 3;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.WAR_AVATAR ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SHE_WHO_WAS_AVATAR ) ) ||
-		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.STORM_AVATAR ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_THE_WAR_SNAPPER ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_SHE_WHO_WAS ) ) ||
+		     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.AVATAR_OF_THE_STORM_TORTOISE ) ) )
 		{
 			return 4;
 		}
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.SPIRIT_PARIAH ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SPIRIT_PARIAH ) ) )
 		{
 			return -1;
 		}
@@ -4520,7 +4520,7 @@ public abstract class KoLCharacter
 	public static final boolean canPickpocket()
 	{
 		return KoLCharacter.isMoxieClass() ||
-		       KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.FORM_OF_BIRD ) ) ||
+		       KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 		       KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND );
 	}
 

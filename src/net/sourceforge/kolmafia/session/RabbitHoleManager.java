@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -1648,7 +1647,7 @@ public abstract class RabbitHoleManager
 	{
 		AdventureResult oldHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
 
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.DOWN_THE_RABBIT_HOLE ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) ) )
 		{
 			if ( !InventoryManager.hasItem( ItemPool.DRINK_ME_POTION ) )
 			{

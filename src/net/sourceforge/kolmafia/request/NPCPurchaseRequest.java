@@ -69,11 +69,11 @@ public class NPCPurchaseRequest
 {
 	private static final AdventureResult TROUSERS = ItemPool.get( ItemPool.TRAVOLTAN_TROUSERS, 1 );
 	private static final AdventureResult FLEDGES = ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 );
-	private final static AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
-	private final static AdventureResult SUPER_STRUCTURE = EffectPool.get( "Super Structure" );
-	private final static AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
-	private final static AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
-	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
+	private final static AdventureResult SUPER_SKILL = EffectPool.get( EffectPool.SUPER_SKILL );
+	private final static AdventureResult SUPER_STRUCTURE = EffectPool.get( EffectPool.SUPER_STRUCTURE );
+	private final static AdventureResult SUPER_VISION = EffectPool.get( EffectPool.SUPER_VISION );
+	private final static AdventureResult SUPER_SPEED = EffectPool.get( EffectPool.SUPER_SPEED );
+	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( EffectPool.SUPER_ACCURACY );
 
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );

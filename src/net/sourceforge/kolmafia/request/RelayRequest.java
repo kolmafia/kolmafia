@@ -80,7 +80,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -1187,7 +1186,7 @@ public class RelayRequest
 		}
 
 		// If they are already Ultrahydrated, no problem
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.HYDRATED ) ) )
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.HYDRATED ) ) )
 		{
 			return false;
 		}
@@ -1399,7 +1398,7 @@ public class RelayRequest
 		}
 
 		// If they don't have the Chalky Hand effect, but do have hand chalk, it's an option
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.CHALKY_HAND ) ) &&
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.CHALKY_HAND ) ) &&
 			InventoryManager.hasItem( ItemPool.HAND_CHALK ) )
 		{
 			image3 = "disease.gif";
@@ -1723,7 +1722,7 @@ public class RelayRequest
 		}
 
 		// If you don't have the first Kung Fu effect active, there's nothing to warn about
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.KUNG_FU_FIGHTING ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.KUNG_FU_FIGHTING ) ) )
 		{
 			return false;
 		}

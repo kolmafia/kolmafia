@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1145,7 +1144,7 @@ public class AdventureRequest
 		String zone = AdventureDatabase.getZone( this.adventureName );
 		if ( zone != null && ( zone.equals( "The Sea" ) || this.adventureId.equals( AdventurePool.YACHT_ID ) ) )
 		{
-			return KoLConstants.activeEffects.contains( EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
+			return KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FISHY ) ) ? 1 : 2;
 		}
 		return 1;
 	}
