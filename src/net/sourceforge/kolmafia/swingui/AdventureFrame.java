@@ -42,23 +42,21 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.KoLAdventure;
-
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.swingui.panel.ChoiceOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
 import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class AdventureFrame
-	extends GenericFrame
+	extends GenericFrame implements Listener
 {
 	private static AdventureSelectPanel adventureSelector = null;
 	private static ChoiceOptionsPanel choiceOptionsPanel;
@@ -105,6 +103,7 @@ public class AdventureFrame
 		JComponentUtilities.setComponentSize( adventurePanel, 640, 480 );
 
 		this.setCenterComponent( adventurePanel );
+		NamedListenerRegistry.registerNamedListener( "(koladventure)", this );
 	}
 
 	@Override
@@ -260,5 +259,10 @@ public class AdventureFrame
 	{
 		Preferences.setInteger( "defaultDropdownSplit", AdventureFrame.sessionGrid.getLastDividerLocation() );
 		super.dispose();
+	}
+
+	@Override
+	public void update() {
+		updateSelectedAdventure(KoLCharacter.getSelectedLocation());
 	}
 }

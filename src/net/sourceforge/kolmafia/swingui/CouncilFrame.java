@@ -33,13 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import net.sourceforge.kolmafia.request.CouncilRequest;
+import net.sourceforge.kolmafia.textui.command.CouncilCommand;
 
 public class CouncilFrame
 	extends RequestFrame
 {
-	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
-
 	public CouncilFrame()
 	{
 		super( "Council of Loathing" );
@@ -52,8 +50,8 @@ public class CouncilFrame
 
 		if ( isVisible )
 		{
-			CouncilFrame.COUNCIL_VISIT.responseText = null;
-			this.displayRequest( CouncilFrame.COUNCIL_VISIT );
+			CouncilCommand.COUNCIL_VISIT.responseText = null;
+			this.displayRequest( CouncilCommand.COUNCIL_VISIT );
 		}
 	}
 

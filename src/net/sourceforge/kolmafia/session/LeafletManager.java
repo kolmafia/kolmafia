@@ -40,12 +40,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.request.LeafletRequest;
-
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.textui.command.CouncilCommand;
 
 public abstract class LeafletManager
 {
@@ -200,12 +197,12 @@ public abstract class LeafletManager
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 			{
-				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+				RequestThread.postRequest( CouncilCommand.COUNCIL_VISIT );
 			}
 			else
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too low level for that quest." );
-				return CouncilFrame.COUNCIL_VISIT.responseText;
+				return CouncilCommand.COUNCIL_VISIT.responseText;
 			}
 		}
 
