@@ -448,6 +448,11 @@ public class AdventureResult
 
 	public String getName()
 	{
+		if ( !this.isItem() )
+		{
+			return this.name;
+		}
+
 		switch ( this.id )
 		{
 		case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
