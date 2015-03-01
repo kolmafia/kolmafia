@@ -414,6 +414,12 @@ public class BasementDecorator
 		{
 			this.name = name;
 
+			this.computedBoost = this.computeBoost();
+			this.effectiveBoost = this.computedBoost > 0.0 ? this.computedBoost : 0 - this.computedBoost;
+
+			this.action =
+				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
+
 			this.item = null;
 			this.itemAvailable = true;
 			this.fullness = 0;
@@ -443,12 +449,6 @@ public class BasementDecorator
 					this.inebriety = ConsumablesDatabase.getInebriety( item.getName() );
 				}
 			}
-
-			this.computedBoost = this.computeBoost();
-			this.effectiveBoost = this.computedBoost > 0.0 ? this.computedBoost : 0 - this.computedBoost;
-
-			this.action =
-				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
 		}
 
 		public static final boolean moxieControlsMP()
@@ -629,16 +629,7 @@ public class BasementDecorator
 
 		public int computeBoost()
 		{
-			Modifiers m;
-			int itemId = this.item.getItemId();
-			if ( itemId != -1 )
-			{
-				m = Modifiers.getModifiers( "Item", itemId );
-			}
-			else
-			{
-				m = Modifiers.getModifiers( "Effect", this.name );
-			}
+			Modifiers m = Modifiers.getModifiers( "Effect", this.name );
 			if ( m == null )
 			{
 				return 0;
