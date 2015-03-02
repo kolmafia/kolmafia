@@ -1317,40 +1317,43 @@ public class Maximizer
 	public static void acquireDuplicateEquipment( final AdventureResult[] newEquipment )
 	{
 		// Acquire equipment if you need more than one of each piece
-		AdventureResult[] array = new AdventureResult[ EquipmentManager.SLOTS ];
 		// Start with current equipment
-		array = EquipmentManager.currentEquipment();
+		AdventureResult[] array = EquipmentManager.currentEquipment();
+		int length = Math.min( newEquipment.length, array.length );
+		
 		// Replace current equipment with planned equipment
-		for( int slot = 0 ; slot < EquipmentManager.SLOTS ; ++slot )
+		for ( int slot = 0 ; slot < length ; ++slot )
 		{
-			if ( newEquipment[ slot ] != null )
+			AdventureResult item = newEquipment[ slot ];
+			if ( item != null )
 			{
-				array[ slot ] = newEquipment[ slot ];
+				array[ slot ] = item;
 			}
 		}
+
 		// Count numbers of items
 		Map<Integer, Integer> countById = new HashMap<Integer, Integer>();
-		for( int slot = 0 ; slot < EquipmentManager.SLOTS ; ++slot )
+		for ( int slot = 0 ; slot < length; ++slot )
 		{
-			if ( array[ slot ] != null )
+			AdventureResult item = array[ slot ];
+			if ( item != null )
 			{
-				int itemId = array[ slot ].getItemId();
-				Integer count = countById.get( itemId );
-				if ( count != null )
-				{
-					countById.put( itemId, count + 1 );
-				}
-				else
-				{
-					countById.put( itemId, 1 );
-				}
+				array[ slot ] = item;
 			}
+
+			int itemId = item.getItemId();
+			if ( itemId == -1 )
+			{
+				continue;
+			}
+
+			Integer count = countById.get( itemId );
+			countById.put( itemId, count == null ? 1 : count + 1 );
 		}
+		
 		// acquire equipment for duplicate items if needed > inventory + equipped
-		Iterator<Map.Entry<Integer, Integer>> equips = countById.entrySet().iterator();
-		while ( equips.hasNext() )
+		for ( Map.Entry<Integer, Integer> equip : countById.entrySet() )
 		{
-			Map.Entry<Integer, Integer> equip = equips.next();
 			int itemId = (int) equip.getKey();
 			int equippedCount = InventoryManager.getEquippedCount( itemId );
 			int inventoryCount = InventoryManager.getCount( itemId );
