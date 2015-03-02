@@ -212,52 +212,41 @@ public class GearChangeFrame
 
 		EquipmentTabPanel pane = (EquipmentTabPanel)GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
 
-		String name = null;
-		String type = null;
-		int itemId = -1;
+		Modifiers mods = null;
+
 		if ( value instanceof AdventureResult )
 		{
-			name = ((AdventureResult) value).getName();
-			itemId = ((AdventureResult) value).getItemId();
 			if ( isFamiliarItem &&
 			     ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK ||
 			       KoLCharacter.getFamiliar().getId() == FamiliarPool.SCARECROW ) )
 			{
-				type = "FamItem";
-				name = name;
+				mods = Modifiers.getModifiers( "FamItem", ((AdventureResult) value).getName() );
+			}
+			else
+			{
+				mods = Modifiers.getModifiers( "Item", ((AdventureResult) value).getItemId() );
 			}
 		}
 		else if ( value instanceof SpecialOutfit )
 		{
-			type = "Outfit";
-			name = ((SpecialOutfit) value).getName();
+			mods = Modifiers.getModifiers( "Outfit", ((SpecialOutfit) value).getName() );
 		}
 		else if ( value instanceof FamiliarData && pane == GearChangeFrame.INSTANCE.customizablePanel )
 		{
-			type = "Throne";
-			name = ((FamiliarData) value).getRace();
+			mods = Modifiers.getModifiers( "Throne", ((FamiliarData) value).getRace() );
 		}
 		else
 		{
 			return;
 		}
 
-		Modifiers mods = null;
-		if ( itemId != -1 )
-		{
-			mods = Modifiers.getModifiers( "Item", itemId );
-		}
-		else
-		{
-			mods = Modifiers.getModifiers( type, name );
-		}
 		if ( mods == null )
 		{
 			pane.getModifiersLabel().setText( "" );
 			return;
 		}
 
-		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+		String name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 		if ( name.length() > 0 )
 		{
 			Modifiers newMods = new Modifiers();
