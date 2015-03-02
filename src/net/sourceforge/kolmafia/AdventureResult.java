@@ -64,10 +64,10 @@ public class AdventureResult
 {
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
-	protected String name;
 	protected int priority;
-	private int count;
 	protected int id;
+	protected String name;
+	private int count;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
@@ -898,12 +898,11 @@ public class AdventureResult
 	}
 
 	/**
-	 * Compares the <code>AdventureResult</code> with the given object for name equality. Note that this will still
-	 * return <code>true</code> if the values do not match; this merely matches on names.
+	 * Compares the <code>AdventureResult</code> with the given object for equality.
 	 *
 	 * @param o The <code>Object</code> to be compared with this <code>AdventureResult</code>
-	 * @return <code>true</code> if the <code>Object</code> is an <code>AdventureResult</code> and has the same
-	 *	   name as this one
+	 * @return <code>true</code> if the <code>Object</code> is an <code>AdventureResult</code>
+	 *         and has the same name as this one
 	 */
 
 	@Override
@@ -914,20 +913,18 @@ public class AdventureResult
 			return false;
 		}
 
-		AdventureResult ar = (AdventureResult) o;
-		if ( this.name == null || ar.name == null )
+		if ( o instanceof WildcardResult )
 		{
-			return false;
+			return o.equals( this );
 		}
 
-		if ( ar instanceof WildcardResult )
-		{
-			return ar.equals( this );
-		}
+		AdventureResult ar = (AdventureResult) o;
 
 		return  this.priority == ar.priority &&
 			this.id == ar.id &&
-			this.name.equals( ar.name );
+			( this.name == null || ar.name == null ?
+			  this.name == ar.name :
+			  this.name.equals( ar.name ) );
 	}
 
 	@Override
@@ -948,51 +945,47 @@ public class AdventureResult
 
 	public int compareTo( final AdventureResult o )
 	{
-		if ( o == this ) return 0;
-		if ( !( o instanceof AdventureResult ) )
+		if ( o == null )
 		{
-			return -1;
+			throw new NullPointerException();
 		}
 
-		AdventureResult ar = (AdventureResult) o;
-
-		int priorityDifference = this.priority - ar.priority;
-		if ( priorityDifference != 0 )
-		{
-			return priorityDifference;
-		}
-
-		// Do not take exceptions if name is null
-
-		if ( this.name == null )
-		{
-			return 1;
-		}
-
-		if ( ar.name == null )
-		{
-			return -1;
-		}
-
-		int idComparison = this.id - ar.id;
-		int nameComparison = this.name.compareToIgnoreCase( ar.name );
-
-		if ( nameComparison == 0 && idComparison == 0 )
+		if ( o == this )
 		{
 			return 0;
 		}
 
-		if ( this.isStatusEffect() )
+		if ( this.priority != o.priority )
 		{
-			return this.getCount() - ar.getCount();
+			return this.priority - o.priority;
 		}
 
-		if ( nameComparison != 0 )
+		if ( this.name == null )
 		{
-			return nameComparison;
+			return o.name == null ? 0 : 1;
 		}
 
-		return idComparison;
+		if ( o.name == null )
+		{
+			return -1;
+		}
+
+		if ( this.priority == EFFECT_PRIORITY )
+		{
+			// Status effects have IDs and durations.  Sort by
+			// duration, or by name, if durations are equal.
+			int countComparison =  this.getCount() - o.getCount();
+			return  countComparison != 0 ?
+				countComparison :
+				this.id != o.id ?
+				this.name.compareToIgnoreCase( o.name ) :
+				0;
+		}
+
+		int nameComparison = this.name.compareToIgnoreCase( o.name );
+		return  nameComparison != 0 ?
+			nameComparison :
+			this.id - o.id;
 	}
 
 	/**
