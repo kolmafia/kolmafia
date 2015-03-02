@@ -159,6 +159,11 @@ public class ResponseTextParser
 		String path = location;
 		String queryString = "";
 
+		if ( location == null )
+		{
+			return false;
+		}
+
 		int queryStringBegin = location.indexOf( '?' );
 
 		if ( queryStringBegin != -1 )
