@@ -172,23 +172,28 @@ public class AdventureResult
 		this.name = name;
 		this.count = count;
 		this.priority = subType;
+		this.id = -1;
+
 		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
 		{
+			// This will also set this.id as appropriate
 			this.normalizeEffectName();
 		}
 		else if ( this.priority == AdventureResult.ITEM_PRIORITY )
 		{
+			// This will also set this.id as appropriate
 			this.normalizeItemName();
+		}
+		else if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
+		{
+			// Detach substring from larger text
+			this.name = new String( name );
+			this.priority = AdventureResult.ITEM_PRIORITY;
 		}
 		else
 		{
 			// Detach substring from larger text
 			this.name = new String( name );
-			if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
-			{	// bypass normalizeItemName()
-				this.id = -1;
-				this.priority = AdventureResult.ITEM_PRIORITY;
-			}
 		}
 	}
 
@@ -914,12 +919,14 @@ public class AdventureResult
 		{
 			return false;
 		}
+
 		if ( ar instanceof WildcardResult )
 		{
 			return ar.equals( this );
 		}
 
-		return ( !( ar.isItem() || ar.isStatusEffect() ) || this.id == ar.id ) &&
+		return  this.priority == ar.priority &&
+			this.id == ar.id &&
 			this.name.equals( ar.name );
 	}
 
@@ -967,14 +974,10 @@ public class AdventureResult
 			return -1;
 		}
 
-		int idComparison = 0;
-		if ( ar.isItem() || ar.isStatusEffect() )
-		{
-			idComparison = this.id - ar.id;
-		}
-
+		int idComparison = this.id - ar.id;
 		int nameComparison = this.name.compareToIgnoreCase( ar.name );
-		if ( nameComparison == 0 & idComparison == 0 )
+
+		if ( nameComparison == 0 && idComparison == 0 )
 		{
 			return 0;
 		}
@@ -1470,7 +1473,7 @@ public class AdventureResult
 	}
 
 	public static class WildcardResult
-	extends AdventureResult
+		extends AdventureResult
 	{
 		// Note that these objects must not be placed in a sorted list, since they
 		// are not meaningfully comparable other than via equals().
