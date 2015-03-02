@@ -131,7 +131,8 @@ public class MrStoreRequest
 	public void processResults()
 	{
 		String responseText = this.responseText;
-		if ( action != null && this.action.equals( "pullmras" ) )
+		if ( this.action != null &&
+		     ( this.action.equals( "pullmras" ) || this.action.equals( "pullunclebs" ) ) )
 		{
 			// You can't pull any more items out of storage today.
 			if ( responseText.indexOf( "You can't pull any more items out of storage today" ) != -1 )
@@ -226,6 +227,18 @@ public class MrStoreRequest
 			return;
 		}
 
+		if ( action != null && action.equals( "pullunclebs" ) )
+		{
+			if ( responseText.contains( "You acquire" ) )
+			{
+				// We pulled an Uncle B from storage.
+				AdventureResult remove = MrStoreRequest.UNCLE_B.getInstance( -1 );
+				AdventureResult.addResultToList( KoLConstants.storage, remove );
+				CoinMasterRequest.parseBalance( data, responseText );
+			}
+			return;
+		}
+
 		CoinMasterRequest.parseResponse( data, urlString, responseText );
 
 		// If we bought a Golden Mr. Accessory, it is now in inventory
@@ -245,11 +258,20 @@ public class MrStoreRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		if ( action != null && action.equals( "pullmras" ) )
+		if ( action != null )
 		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Pulling a Mr. Accessory from storage" );
-			return true;
+			String  message =
+				action.equals( "pullmras" ) ?
+				"Pulling a Mr. Accessory from storage" :
+				action.equals( "pullunclebs" ) ?
+				"Pulling an Uncle Buck from storage" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+				return true;
+			}
 		}
 
 		CoinmasterData data = MrStoreRequest.MR_STORE;
