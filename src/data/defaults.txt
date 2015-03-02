@@ -393,6 +393,7 @@ user	dreadScroll5	0
 user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
+user	drunkenSwagger	0
 user	edPoints	0
 user	envyfishMonster
 user	EVEDirections	LLRLR0
@@ -635,10 +636,11 @@ user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
 user	manorDrawerCount	0
-user	mapToMadnessReefPurchased	false
-user	mapToTheMarinaraTrenchPurchased	false
 user	mapToAnemoneMinePurchased	false
+user	mapToKokomoAvailable	true
+user	mapToMadnessReefPurchased	false
 user	mapToTheDiveBarPurchased	false
+user	mapToTheMarinaraTrenchPurchased	false
 user	mapToTheSkateParkPurchased	false
 user	maraisBeaverUnlock	false
 user	maraisCorpseUnlock	false

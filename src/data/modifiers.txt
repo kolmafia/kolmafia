@@ -7159,6 +7159,7 @@ Item	mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 # magnolia blossom: Restores 15-30 HP and MP
 Item	mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
+Item	Map to Kokomo	Free Pull
 Item	March hat	Free Pull
 Item	mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 # Marquis de Poivre soda: Restores 30-40 MP

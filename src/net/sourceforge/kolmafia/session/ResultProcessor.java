@@ -1205,6 +1205,10 @@ public class ResultProcessor
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 			Preferences.setBoolean( "antagonisticSnowmanKitAvailable", false );
 			break;
+
+		case ItemPool.MAP_TO_KOKOMO:
+			Preferences.setBoolean( "mapToKokomoAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.

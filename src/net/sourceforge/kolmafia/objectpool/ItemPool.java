@@ -2295,6 +2295,7 @@ public class ItemPool
 	public static final int SESHAT_TALISMAN = 8144;
 	public static final int MEATSMITH_CHECK = 8156;
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
+	public static final int MAP_TO_KOKOMO = 8182;
 
 
 	public static final AdventureResult get( String itemName, int count )
