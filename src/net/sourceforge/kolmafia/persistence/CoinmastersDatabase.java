@@ -312,6 +312,10 @@ public class CoinmastersDatabase
 		{
 			return Preferences.getInteger( "iceSwagger" ) >= 1000;
 		}
+		if ( name.equals( "map to kokomo" ) )
+		{
+			return Preferences.getInteger( "drunkenSwagger" ) >= 1234;
+		}
 
 		return true;
 	}

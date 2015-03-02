@@ -606,6 +606,7 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "blackBartsBootyAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "holidayHalsBookAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "antagonisticSnowmanKitAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "mapToKokomoAvailable", this );
 		}
 
 		@Override
@@ -629,6 +630,8 @@ public class CoinmastersFrame
 				return Preferences.getBoolean( "holidayHalsBookAvailable" );
 			case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 				return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
+			case ItemPool.MAP_TO_KOKOMO:
+				return Preferences.getBoolean( "mapToKokomoAvailable" );
 			}
 			return true;
 		}

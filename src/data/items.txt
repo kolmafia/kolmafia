@@ -8203,3 +8203,6 @@
 8177
 8178
 8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0
+8180
+8181
+8182	Map to Kokomo	734514643	map.gif	usable		0
