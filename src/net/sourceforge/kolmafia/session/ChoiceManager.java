@@ -100,9 +100,10 @@ public abstract class ChoiceManager
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
 	public static boolean handlingChoice = false;
-	private static int lastChoice = 0;
-	private static int lastDecision = 0;
+	public static int lastChoice = 0;
+	public static int lastDecision = 0;
 	public static String lastResponseText = "";
+
 	private static int skillUses = 0;
 	private static boolean canWalkAway;
 	private static int abooPeakLevel = 0;
@@ -172,7 +173,7 @@ public abstract class ChoiceManager
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
 
-	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input class=button type=submit value=\"(.*?)\">" );
+	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
@@ -9872,14 +9873,12 @@ public abstract class ChoiceManager
 
 	private static String booPeakDamage()
 	{
-		int damageTaken = 0;
-		int diff = 0;
-		String decisionText = ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText );
-
-		int booPeakLevel = ChoiceManager.findBooPeakLevel( decisionText );
-
+		int booPeakLevel = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) );
 		if ( booPeakLevel < 1 )
 			return "";
+
+		int damageTaken = 0;
+		int diff = 0;
 
 		switch ( booPeakLevel )
 		{
