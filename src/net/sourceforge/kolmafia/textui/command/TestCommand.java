@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -501,6 +502,34 @@ public class TestCommand
 			List<ChatMessage> chatMessages = ChatParser.parseLines(TestCommand.contents );
 			ChatManager.processMessages( chatMessages );
 			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "choice" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test choice CHOICE" );
+				return;
+			}
+			int choice = StringUtilities.parseInt( split[ 1 ] );
+			String lastResponseText = ChoiceManager.lastResponseText;
+			boolean handlingChoice = ChoiceManager.handlingChoice;
+			int lastChoice = ChoiceManager.lastChoice;
+			try
+			{
+				ChoiceManager.lastResponseText = TestCommand.contents;
+				ChoiceManager.handlingChoice = true;
+				ChoiceManager.lastChoice = choice;
+				TestCommand.contents = null;
+				ChoiceCommand.printChoices();
+			}
+			finally
+			{
+				ChoiceManager.lastResponseText = lastResponseText;
+				ChoiceManager.handlingChoice = handlingChoice;
+				ChoiceManager.lastChoice = lastChoice;
+			}
 			return;
 		}
 
