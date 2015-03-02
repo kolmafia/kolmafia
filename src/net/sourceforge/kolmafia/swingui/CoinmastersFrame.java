@@ -144,6 +144,9 @@ public class CoinmastersFrame
 	private static final StorageRequest PULL_MR_A_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
 				    new AdventureResult[] { MrStoreRequest.MR_A } );
+	private static final StorageRequest PULL_UNCLE_B_REQUEST =
+		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
+				    new AdventureResult[] { MrStoreRequest.UNCLE_B } );
 
 	private static final List<AdventureResult> conditionalItems = CoinmastersDatabase.getItems( "Conditional" );
 
@@ -493,17 +496,20 @@ public class CoinmastersFrame
 	public class MrStorePanel
 		extends CoinmasterPanel
 	{
-		private JButton pull = new InvocationButton( "pull Mr. A", this, "pull" );
+		private JButton pullA = new InvocationButton( "pull Mr. A", this, "pullA" );
+		private JButton pullB = new InvocationButton( "pull Uncle B", this, "pullB" );
 		private JButton AToB = new InvocationButton( "1 A -> 10 B", this, "AToB" );
 		private JButton BToA = new InvocationButton( "10 B -> 1 A", this, "BToA" );
-		private int storageCount = 0;
+		private int ACountStorage = 0;
+		private int BCountStorage = 0;
 		private int ACount = 0;
 		private int BCount = 0;
 
 		public MrStorePanel()
 		{
 			super( MrStoreRequest.MR_STORE );
-			this.buyPanel.addButton( pull, false );
+			this.buyPanel.addButton( pullA, false );
+			this.buyPanel.addButton( pullB, false );
 			this.buyPanel.addButton( AToB, false );
 			this.buyPanel.addButton( BToA, false );
 			this.storageInTitle = true;
@@ -514,13 +520,15 @@ public class CoinmastersFrame
 		@Override
 		public final void update()
 		{
-			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
 			this.ACount = MrStoreRequest.MR_A.getCount( KoLConstants.inventory );
 			this.BCount = MrStoreRequest.UNCLE_B.getCount( KoLConstants.inventory );
+			this.ACountStorage = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
+			this.BCountStorage = MrStoreRequest.UNCLE_B.getCount( KoLConstants.storage );
 			boolean canPull =
 				KoLCharacter.isHardcore() ||
 				ConcoctionDatabase.getPullsRemaining() != 0;
-			this.pull.setEnabled( canPull && this.storageCount > 0 );
+			this.pullA.setEnabled( canPull && this.ACountStorage > 0 );
+			this.pullB.setEnabled( canPull && this.BCountStorage > 0 );
 			this.AToB.setEnabled( this.ACount > 0 );
 			this.BToA.setEnabled( this.BCount >= 10 );
 			super.update();
@@ -538,6 +546,9 @@ public class CoinmastersFrame
 			{
 				buffer.append( "s" );
 			}
+			buffer.append( ", " );
+			buffer.append( String.valueOf( this.BCountStorage ) );
+			buffer.append( " in storage" );
 			buffer.append( ")" );
 		}
 
@@ -545,16 +556,25 @@ public class CoinmastersFrame
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			this.pull.setEnabled( isEnabled && this.storageCount > 0 );
+			this.pullA.setEnabled( isEnabled && this.ACountStorage > 0 );
+			this.pullB.setEnabled( isEnabled && this.BCountStorage > 0 );
 			this.AToB.setEnabled( isEnabled && this.ACount > 0 );
 			this.BToA.setEnabled( isEnabled && this.BCount >= 10 );
 		}
 
-		public void pull()
+		public void pullA()
 		{
 			GenericRequest request = KoLCharacter.isHardcore() ?
 				(GenericRequest) new MrStoreRequest( "pullmras" ) :
 				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
+			RequestThread.postRequest( request );
+		}
+
+		public void pullB()
+		{
+			GenericRequest request = KoLCharacter.isHardcore() ?
+				(GenericRequest) new MrStoreRequest( "pullunclebs" ) :
+				(GenericRequest) CoinmastersFrame.PULL_UNCLE_B_REQUEST;
 			RequestThread.postRequest( request );
 		}
 
