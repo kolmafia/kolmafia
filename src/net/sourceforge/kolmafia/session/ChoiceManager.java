@@ -3463,6 +3463,16 @@ public abstract class ChoiceManager
 				       new Option( "gain ring of telling skeletons what to do, then 300 meat, with skeleton key", 2, "ring of telling skeletons what to do" ),
 				       new Option( "gain muscle stats", 3 ),
 					   new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
+
+		// Choice 1063 is Adjust your 'Edpiece
+		new ChoiceSpoiler(
+			"choiceAdventure1063", "Crown of Ed the Undying",
+			new Object[] { "Muscle +20, +2 Muscle Stats Per Fight",
+				       "Mysticality +20, +2 Mysticality Stats Per Fight",
+				       "Moxie +20, +2 Moxie Stats Per Fight",
+				       "+20 to Monster Level",
+				       "+10% Item Drops from Monsters, +20% Meat from Monsters",
+				       "The first attack against you will always miss, Regenerate 10-20 HP per Adventure" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -12033,6 +12043,7 @@ public abstract class ChoiceManager
 		case 1003: // Contest Booth
 		case 1051: // The Book of the Undying
 		case 1053: // The Servants' Quarters
+		case 1063: // Adjust your 'Edpiece
 			return true;
 
 		default:
