@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -163,7 +165,7 @@ public class ChezSnooteeRequest
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
-				ChezSnooteeRequest.dailySpecial = new AdventureResult( itemId, 1, false );
+				ChezSnooteeRequest.dailySpecial = ItemPool.get( itemId );
 
 			}
 			return;

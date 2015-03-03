@@ -466,6 +466,26 @@ public class EffectDatabase
 
 	public static final List<String> getMatchingNames( final String substring )
 	{
+		// If name starts with [nnnn] then that is explicitly the effect id 
+		if ( substring.startsWith( "[" ) )
+		{
+			int index = substring.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = substring.substring( 1, index );
+				try 
+				{
+					int effectId = StringUtilities.parseInt( idString );
+					// It parsed to a number so is valid
+					List<String> list = new ArrayList<String>();
+					list.add( substring );
+					return list;
+				}
+				catch (NumberFormatException e)
+				{
+				}
+			}
+		}
 		return StringUtilities.getMatchingNames( EffectDatabase.canonicalNames, substring );
 	}
 
@@ -688,7 +708,7 @@ public class EffectDatabase
 			return null;
 		}
 
-		return new AdventureResult( effectName, duration, true );
+		return EffectPool.get( effectName, duration );
 	}
 
 	public static final int[] POISON_ID = {

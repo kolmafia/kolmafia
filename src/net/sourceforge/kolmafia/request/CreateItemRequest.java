@@ -1434,32 +1434,29 @@ public class CreateItemRequest
 				return false;
 			}
 
-			int whichitem = StringUtilities.parseInt( whichMatcher.group( 1 ) );
+			int tool = StringUtilities.parseInt( whichMatcher.group( 1 ) );
 
-			String tool = "";
-			String ingredient = "";
+			int ingredient = -1;
 
-			switch ( whichitem )
+			switch ( tool )
 			{
 			case ItemPool.ROLLING_PIN:
-				tool = "rolling pin";
-				ingredient = "wad of dough";
+				ingredient = ItemPool.DOUGH;
 				break;
 			case ItemPool.UNROLLING_PIN:
-				tool = "unrolling pin";
-				ingredient = "flat dough";
+				ingredient = ItemPool.FLAT_DOUGH;
 				break;
 			default:
 				return false;
 			}
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Use " + tool );
+			RequestLogger.updateSessionLog( "Use " + ItemDatabase.getDisplayName( tool ) );
 
 			// *** Should do this after we get response text back
-			AdventureResult item = new AdventureResult( ingredient, 1, false );
+			AdventureResult item = ItemPool.get( ingredient );
 			int quantity = item.getCount( KoLConstants.inventory );
-			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
+			ResultProcessor.processItem( ingredient, 0 - quantity );
 
 			return true;
 		}

@@ -1676,7 +1676,7 @@ public class UseItemRequest
 
 	public static String elementalHelper( String remove, Element resist, int amount )
 	{
-		AdventureResult effect = new AdventureResult( remove, 1, true );
+		AdventureResult effect = EffectPool.get( remove );
 		if ( KoLConstants.activeEffects.contains( effect ) )
 		{
 			RequestThread.postRequest( new UneffectRequest( effect ) );
@@ -1728,7 +1728,7 @@ public class UseItemRequest
 			Matcher matcher = UseItemRequest.BRICKO_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
-				AdventureResult brickoItem = new AdventureResult( matcher.group( 1 ), -1, false );
+				AdventureResult brickoItem = ItemPool.get( matcher.group( 1 ), -1 );
 				ResultProcessor.processResult( brickoItem );
 			}
 		}
@@ -3204,7 +3204,7 @@ public class UseItemRequest
 
 			for ( int i = 1802; i < 1900; ++i )
 			{
-				ResultProcessor.processResult( new AdventureResult( i, -1, false ) );
+				ResultProcessor.removeItem( i );
 			}
 
 			return;
@@ -3224,7 +3224,7 @@ public class UseItemRequest
 				else
 				{
 					// You lose your hooks
-					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
+					ResultProcessor.removeItem( ItemPool.WORM_RIDING_HOOKS );
 				}
 
 				int gnasirProgress = Preferences.getInteger( "gnasirProgress" );
@@ -5480,7 +5480,7 @@ public class UseItemRequest
 			}
 		}
 
-		return new AdventureResult( itemId, itemCount, false );
+		return ItemPool.get( itemId, itemCount );
 	}
 
 	public static final AdventureResult extractBingedItem( final String urlString )
@@ -5506,7 +5506,7 @@ public class UseItemRequest
 			itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
-		return new AdventureResult( itemId, itemCount, false );
+		return ItemPool.get( itemId, itemCount );
 	}
 
 	private static final AdventureResult extractHelper( final String urlString )
@@ -5536,7 +5536,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		return new AdventureResult( itemId, 1, false );
+		return ItemPool.get( itemId );
 	}
 
 	public static final boolean registerBingeRequest( final String urlString )

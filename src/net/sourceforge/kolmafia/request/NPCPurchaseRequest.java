@@ -93,7 +93,7 @@ public class NPCPurchaseRequest
 		super( NPCPurchaseRequest.pickForm( storeId ) );
 
 		this.isMallStore = false;
-		this.item = new AdventureResult( itemId, 1, false );
+		this.item = ItemPool.get( itemId );
 
 		this.shopName = storeName;
 		this.npcStoreId = storeId;

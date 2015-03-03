@@ -36,15 +36,22 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Stack;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpecialOutfit
@@ -237,7 +244,7 @@ public class SpecialOutfit
 
 			if ( InventoryManager.getAccessibleCount( piece ) >= pieceCount )
 			{
-				InventoryManager.retrieveItem( new AdventureResult( piece.getItemId(), pieceCount, false ) );
+				InventoryManager.retrieveItem( ItemPool.get( piece.getItemId(), pieceCount ) );
 				continue;
 			}
 
@@ -332,7 +339,7 @@ public class SpecialOutfit
 
 			if ( accessibleCount < pieceCount )
 			{
-				missing.add( new AdventureResult( piece.getItemId(), pieceCount - accessibleCount, false ) );
+				missing.add( ItemPool.get( piece.getItemId(), pieceCount - accessibleCount ) );
 				continue;
 			}
 		}

@@ -78,7 +78,7 @@ import org.json.JSONObject;
 public class CharPaneRequest
 	extends GenericRequest
 {
-	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
+	private static final AdventureResult ABSINTHE = EffectPool.get( EffectPool.ABSINTHE );
 
 	private static long lastResponseTimestamp = 0;
 	private static String lastResponse = "";
@@ -846,7 +846,7 @@ public class CharPaneRequest
 			// Intrinsic effect
 		}
 
-		return new AdventureResult( effectId, duration, true );
+		return EffectPool.get( effectId, duration );
 	}
 
 	private static final void refreshEffects( final String responseText )

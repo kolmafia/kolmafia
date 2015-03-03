@@ -156,6 +156,7 @@ public class ItemPool
 	public static final int BORIS_KEY = 282;
 	public static final int JARLSBERG_KEY = 283;
 	public static final int SNEAKY_PETE_KEY = 284;
+	public static final int RUBBER_AXE = 292;
 	public static final int FLAT_DOUGH = 301;
 	public static final int DRY_NOODLES = 304;
 	public static final int KNOB_GOBLIN_PERFUME = 307;
@@ -226,6 +227,8 @@ public class ItemPool
 	public static final int JARLSBERG_PIE = 514;
 	public static final int SNEAKY_PETE_PIE = 515;
 	public static final int HEY_DEZE_MAP = 516;
+	public static final int MMJ = 518;
+	public static final int MOXIE_MAGNET = 519;
 	public static final int STRANGE_LEAFLET = 520;
 	public static final int HOUSE = 526;
 	public static final int VOLLEYBALL = 527;
@@ -251,6 +254,7 @@ public class ItemPool
 	public static final int GNOCCHETTI_DI_NIETZSCHE = 585;
 	public static final int REMEDY = 588;
 	public static final int TINY_HOUSE = 592;
+	public static final int PHONICS_DOWN = 593;
 	public static final int EXTREME_AMULET = 594;
 	public static final int DRASTIC_HEALING = 595;
 	public static final int TITANIUM_UMBRELLA = 596;
@@ -381,6 +385,7 @@ public class ItemPool
 	public static final int GIFT11 = 1177;
 	public static final int RAT_BALLOON = 1218;
 	public static final int STAINLESS_STEEL_SOLITAIRE = 1226;
+	public static final int PLEXIGLASS_PITH_HELMET = 1231;
 	public static final int PLEXIGLASS_POCKETWATCH = 1232;
 	public static final int PLEXIGLASS_PENDANT = 1235;
 	public static final int TOY_HOVERCRAFT = 1243;
@@ -433,6 +438,7 @@ public class ItemPool
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;
 	public static final int FAKE_HAND = 1511;
+	public static final int PET_BUFFING_SPRAY = 1512;
 	public static final int VAMPIRE_HEART = 1518;
 	public static final int BAKULA = 1519;
 	public static final int RADIO_KOL_COFFEE_MUG = 1520;
@@ -592,6 +598,7 @@ public class ItemPool
 	public static final int CHOMSKYS_COMICS = 2301;
 	public static final int WORM_RIDING_HOOKS = 2302;
 	public static final int CANDY_BOOK = 2303;
+	public static final int GREEN_CANDY = 2309;
 	public static final int ANCIENT_BRONZE_TOKEN = 2317;
 	public static final int ANCIENT_BOMB = 2318;
 	public static final int CARVED_WOODEN_WHEEL = 2319;
@@ -636,6 +643,7 @@ public class ItemPool
 	public static final int ENCRYPTION_KEY = 2441;
 	public static final int COBBS_KNOB_MAP = 2442;
 	public static final int GOATSKIN_UMBRELLA = 2451;
+	public static final int BAR_WHIP = 2455;
 	public static final int ODOR_EXTRACTOR = 2462;
 	public static final int OLFACTION_BOOK = 2463;
 	public static final int TUXEDO_SHIRT = 2489;
@@ -683,10 +691,12 @@ public class ItemPool
 	public static final int TUESDAYS_RUBY = 2604;
 	public static final int PALM_FROND = 2605;
 	public static final int MOJO_FILTER = 2614;
+	public static final int WEAVING_MANUAL = 2630;
 	public static final int MUMMY_WRAP = 2634;
 	public static final int GAUZE_HAMMOCK = 2638;
 	public static final int MAXWELL_HAMMER = 2642;
 	public static final int ABSINTHE = 2655;
+	public static final int SPIKY_COLLAR = 2667;
 	public static final int LIBRARY_CARD = 2672;
 	public static final int SPECTRE_SCEPTER = 2678;
 	public static final int SPARKLER = 2679;
@@ -877,6 +887,7 @@ public class ItemPool
 	public static final int FROSTYS_MUG = 3324;
 	public static final int FERMENTED_PICKLE_JUICE = 3325;
 	public static final int EXTRA_GREASY_SLIDER = 3327;
+	public static final int CRUMPLED_FELT_FEDORA = 3328;
 	public static final int DOUBLE_SIDED_TAPE = 3336;
 	public static final int HOT_BEDDING = 3344;	// bed of coals
 	public static final int COLD_BEDDING = 3345;	// frigid air mattress
@@ -2313,6 +2324,11 @@ public class ItemPool
 	public static final AdventureResult get( int itemId, int count )
 	{
 		return new AdventureResult( itemId, count, false );
+	}
+
+	public static final AdventureResult get( int itemId )
+	{
+		return new AdventureResult( itemId, 1, false );
 	}
 
 	// Support for various classes of items:

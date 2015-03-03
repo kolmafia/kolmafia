@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -112,7 +113,7 @@ public class ZapRequest
 				{
 					String name = StringUtilities.getCanonicalName( list[ i ] );
 					int itemId = ItemDatabase.getItemId( name );
-					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1, false ) );
+					ZapRequest.zappableItems.add( ItemPool.get( itemId ) );
 					ZapRequest.isZappable.set( itemId, true );
 					ZapRequest.zapGroups.put( IntegerPool.get( itemId ), list );
 				}
@@ -219,8 +220,7 @@ public class ZapRequest
 
 		// Remove the item which was transformed.
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		AdventureResult item = new AdventureResult( itemId, -1, false );
-		ResultProcessor.processResult( item );
+		ResultProcessor.removeItem( itemId );
 
 		// increment zap count
 		Preferences.increment( "_zapCount" );
@@ -272,7 +272,7 @@ public class ZapRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		AdventureResult item = new AdventureResult( itemId, -1, false );
+		AdventureResult item = ItemPool.get( itemId );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "zap " + item.getName() );

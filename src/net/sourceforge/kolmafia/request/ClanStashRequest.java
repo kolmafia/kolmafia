@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -328,7 +330,7 @@ public class ClanStashRequest
 				ItemDatabase.registerItem( itemId, itemString, descId );
 			}
 
-			items.add( new AdventureResult( itemId, quantity, false ) );
+			items.add( ItemPool.get( itemId, quantity ) );
 		}
 
 		// Add everything en masse to the stash

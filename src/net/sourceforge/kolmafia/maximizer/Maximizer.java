@@ -232,7 +232,8 @@ public class Maximizer
 				continue;
 			}
 			String name = lookup.substring( 7 );
-			if ( !EffectDatabase.contains( name ) )
+			int effectId = EffectDatabase.getEffectId( name );
+			if ( effectId == -1 )
 			{
 				continue;
 			}
@@ -240,7 +241,7 @@ public class Maximizer
 			double delta;
 			boolean isSpecial = false;
 			MaximizerSpeculation spec = new MaximizerSpeculation();
-			AdventureResult effect = new AdventureResult( name, 1, true );
+			AdventureResult effect = EffectPool.get( effectId );
 			name = effect.getName();
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
 			Iterator<String> sources;

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -407,8 +408,8 @@ public class BasementDecorator
 		private static boolean spiritOfRavioli = false;
 		private static boolean wisdomOfTheElderTortoise = false;
 
-		private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1, false );
-		private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1, false );
+		private static final AdventureResult MOXIE_MAGNET = ItemPool.get( ItemPool.MOXIE_MAGNET, 1 );
+		private static final AdventureResult TRAVOLTAN_TROUSERS = ItemPool.get( ItemPool.TRAVOLTAN_TROUSERS, 1 );
 
 		public StatBooster( final String name )
 		{

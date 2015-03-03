@@ -44,6 +44,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class FlaggedItems
@@ -262,7 +265,12 @@ public class FlaggedItems
 
 		for ( int i = 0; i < defaults.length; ++i )
 		{
-			item = new AdventureResult( defaults[ i ], 1, false );
+			int itemId = ItemDatabase.getItemId( defaults[ i ] );
+			if ( itemId == -1 )
+			{
+				continue;
+			}
+			item = ItemPool.get( itemId );
 			if ( !model.contains( item ) )
 			{
 				model.add( item );
@@ -328,7 +336,8 @@ public class FlaggedItems
 				}
 				else if ( model != null && ItemDatabase.contains( line ) )
 				{
-					item = new AdventureResult( line, 1, false );
+					int itemId = ItemDatabase.getItemId( line );
+					item = ItemPool.get( itemId );
 
 					if ( !model.contains( item ) )
 					{

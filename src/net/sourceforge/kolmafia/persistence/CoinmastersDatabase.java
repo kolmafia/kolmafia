@@ -180,7 +180,7 @@ public class CoinmastersDatabase
 			{
 				String rname = data[ 1 ];
 				String name = StringUtilities.getCanonicalName( rname );
-				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
+				AdventureResult item = ItemPool.get( name, PurchaseRequest.MAX_QUANTITY );
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
 				list.add( item );
 				continue;

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1248,7 +1249,7 @@ public abstract class UseLinkDecorator
 		if ( effect.equals( "" ) ) return label;
 		int duration = (int)mods.get( Modifiers.EFFECT_DURATION );
 		Speculation spec = new Speculation();
-		spec.addEffect( new AdventureResult( effect, Math.max( 1, duration ), true ) );
+		spec.addEffect( EffectPool.get( effect, Math.max( 1, duration ) ) );
 		mods = spec.calculate();
 		mods.set( Modifiers.EFFECT, effect );
 		if ( duration > 0 )

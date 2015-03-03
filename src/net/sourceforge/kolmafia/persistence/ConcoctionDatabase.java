@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -152,7 +153,7 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 
-	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
+	public static final AdventureResult INIGO = EffectPool.get( EffectPool.INIGOS, 0 );
 
 	private static final HashMap<Integer,Concoction> chefStaff = new HashMap<Integer,Concoction>();
 	private static final HashMap<Integer,Concoction> singleUse = new HashMap<Integer,Concoction>();

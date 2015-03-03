@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -115,8 +116,8 @@ public class CompactSidePane
 	private final JPopupMenu motPopup;
 	private final JLabel motPopLabel;
 
-	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
-	private static final AdventureResult SLIMED = new AdventureResult( "Coated in Slime", 1, true );
+	private static final AdventureResult CLUMSY = EffectPool.get( EffectPool.CLUMSY );
+	private static final AdventureResult SLIMED = EffectPool.get( EffectPool.COATED_IN_SLIME );
 
 	public CompactSidePane()
 	{

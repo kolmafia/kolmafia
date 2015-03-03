@@ -1315,12 +1315,14 @@ public class Modifiers
 
 		for ( int i = 0; i < check.length; ++i )
 		{
-			if ( !EffectDatabase.contains( ( (String) check[ i ] ).replace( "Effect:", "" ) ) )
+			String effectName = ( (String) check[ i ] ).replace( "Effect:", "" );
+			int effectId = EffectDatabase.getEffectId( effectName );
+			if ( effectId == -1 )
 			{
 				continue;
 			}
 
-			currentTest = Modifiers.getModifiers( "Effect", ( (String) check[ i ] ).replace( "Effect:", "" ) );
+			currentTest = Modifiers.getModifiers( "Effect", effectId );
 			double value = ( (Modifiers) currentTest ).get( index );
 
 			if ( value == 0.0 )
@@ -1328,7 +1330,7 @@ public class Modifiers
 				continue;
 			}
 
-			currentEffect = new AdventureResult( ( (String) check[ i ] ).replace( "Effect:", "" ), 1, true );
+			currentEffect = EffectPool.get( effectId );
 			hasEffect = KoLConstants.activeEffects.contains( currentEffect );
 
 			if ( value > 0.0 && !hasEffect )

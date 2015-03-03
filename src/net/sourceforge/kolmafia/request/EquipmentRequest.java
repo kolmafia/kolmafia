@@ -108,10 +108,10 @@ public class EquipmentRequest
 	private static final Pattern OUTFITNAME_PATTERN = Pattern.compile( "outfitname=([^&]*)" );
 	private static final Pattern OUTFITID_PATTERN = Pattern.compile( "outfitid: (\\d+)" );
 
-	private static final Pattern EQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item equipped:</td><td>.*?<b>(.*?)</b></td>" );
-	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item unequipped:</td><td>.*?<b>(.*?)</b></td>" );
+	private static final Pattern EQUIPPED_PATTERN = Pattern.compile( "(?:Item equipped|equip an item):</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>" );
+	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile(  "Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>"  );
 
-	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
+	public static final AdventureResult UNEQUIP = ItemPool.get( "(none)", 1 );
 	public static final AdventureResult TRUSTY = ItemPool.get( ItemPool.TRUSTY, 1 );
 	private static final AdventureResult SPECTACLES = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
 
@@ -1210,10 +1210,12 @@ public class EquipmentRequest
 
 		Matcher acquiresMatcher = EquipmentRequest.ACQUIRE_PATTERN.matcher( responseText );
 		String acquired = acquiresMatcher.find() ? acquiresMatcher.group( 1 ) : null;
+		int acquiredId = ItemDatabase.getItemId( acquired );
 		Matcher containsMatcher = EquipmentRequest.CONTAINS_PATTERN.matcher( responseText );
 		String contains = containsMatcher.find() ? containsMatcher.group( 1 ) : null;
-		AdventureResult oldItem = acquired != null ? new AdventureResult( acquired, 1, false ) : EquipmentRequest.UNEQUIP;
-		AdventureResult newItem = contains != null ? new AdventureResult( contains, 1, false ) : EquipmentRequest.UNEQUIP;
+		int containsId = ItemDatabase.getItemId( contains );
+		AdventureResult oldItem = acquired != null ? ItemPool.get( acquiredId ) : EquipmentRequest.UNEQUIP;
+		AdventureResult newItem = contains != null ? ItemPool.get( containsId ) : EquipmentRequest.UNEQUIP;
 
 		if ( acquired != null )
 		{
@@ -1366,15 +1368,16 @@ public class EquipmentRequest
 			return;
 		}
 
+		String descId = matcher.group( 1 ) != null ? matcher.group( 2 ) : "";
 		String name = matcher.group( 3 ).trim();
+		int itemId = ItemDatabase.getItemIdFromDescription( descId );
 		AdventureResult item;
-		if ( EquipmentDatabase.contains( name ) )
+		if ( EquipmentDatabase.contains( itemId ) )
 		{
-			item = new AdventureResult( name, 1, false );
+			item = ItemPool.get( itemId );
 		}
 		else
 		{
-			String descId = matcher.group( 1 ) != null ? matcher.group( 2 ) : "";
 			RequestLogger.printLine( "Found unknown equipped item: \"" + name + "\" descid = " + descId );
 
 			// No itemId available for equipped items!
@@ -1662,7 +1665,7 @@ public class EquipmentRequest
 				// Make a brand-new AdventureResult for each item
 				if ( piece != EquipmentRequest.UNEQUIP )
 				{
-					piece = new AdventureResult( piece.getItemId(), 1, false );
+					piece = ItemPool.get( piece.getItemId() );
 				}
 				outfit.addPiece( piece );
 			}
@@ -1703,15 +1706,16 @@ public class EquipmentRequest
 			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
 			while ( unequipped.find() )
 			{
-				String name = unequipped.group( 1 );
+				String descId = unequipped.group( 1 );
 
-				if ( !EquipmentDatabase.contains( name ) )
+				int itemId = ItemDatabase.getItemIdFromDescription( descId );
+				if ( !EquipmentDatabase.contains( itemId ) )
 				{
 					continue;
 				}
 
-				AdventureResult item = new AdventureResult( name, 1, false );
-				int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
+				AdventureResult item = ItemPool.get( itemId );
+				int slot = EquipmentManager.itemIdToEquipmentType( itemId );
 				switch ( slot )
 				{
 				case EquipmentManager.ACCESSORY1:
@@ -1791,15 +1795,16 @@ public class EquipmentRequest
 			Matcher equipped = EQUIPPED_PATTERN.matcher( responseText );
 			while ( equipped.find() )
 			{
-				String name = equipped.group( 1 );
+				String descId = equipped.group( 1 );
 
-				if ( !EquipmentDatabase.contains( name ) )
+				int itemId = ItemDatabase.getItemIdFromDescription( descId );
+				if ( !EquipmentDatabase.contains( itemId ) )
 				{
 					continue;
 				}
 
-				AdventureResult item = new AdventureResult( name, 1, false );
-				int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
+				AdventureResult item = ItemPool.get( itemId );
+				int slot = EquipmentManager.itemIdToEquipmentType( itemId );
 				switch ( slot )
 				{
 				case EquipmentManager.ACCESSORY1:

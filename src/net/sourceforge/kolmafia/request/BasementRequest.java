@@ -124,7 +124,7 @@ public class BasementRequest
 	public static final AdventureResult MYS_EQUAL = EffectPool.get( EffectPool.EXPERT_OILINESS );
 	public static final AdventureResult MOX_EQUAL = EffectPool.get( EffectPool.SLIPPERY_OILINESS );
 
-	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
+	private static final AdventureResult BLACK_PAINT = EffectPool.get( EffectPool.RED_DOOR_SYNDROME );
 
 	private static final AdventureResult HOT_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_HOTNESS, 1 );
 	private static final AdventureResult COLD_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_COLDNESS, 1 );
@@ -132,17 +132,17 @@ public class BasementRequest
 	private static final AdventureResult STENCH_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_STENCH, 1 );
 	private static final AdventureResult SLEAZE_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_SLEAZINESS, 1 );
 
-	public static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
-	public static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
-	public static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
-	public static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
-	public static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
+	public static final AdventureResult MAX_HOT = EffectPool.get( EffectPool.FIREPROOF_LIPS );
+	public static final AdventureResult MAX_COLD = EffectPool.get( EffectPool.FEVER_FROM_THE_FLAVOR );
+	public static final AdventureResult MAX_SPOOKY = EffectPool.get( EffectPool.HYPHEMARIFFIC );
+	public static final AdventureResult MAX_STENCH = EffectPool.get( EffectPool.CANT_SMELL_NOTHING );
+	public static final AdventureResult MAX_SLEAZE = EffectPool.get( EffectPool.HYPEROFFENDED );
 
-	private static final AdventureResult HOT_FORM = new AdventureResult( "Hotform", 1, true );
-	private static final AdventureResult COLD_FORM = new AdventureResult( "Coldform", 1, true );
-	private static final AdventureResult SPOOKY_FORM = new AdventureResult( "Spookyform", 1, true );
-	private static final AdventureResult STENCH_FORM = new AdventureResult( "Stenchform", 1, true );
-	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
+	private static final AdventureResult HOT_FORM = EffectPool.get( EffectPool.HOTFORM );
+	private static final AdventureResult COLD_FORM = EffectPool.get( EffectPool.COLDFORM );
+	private static final AdventureResult SPOOKY_FORM = EffectPool.get( EffectPool.SPOOKYFORM );
+	private static final AdventureResult STENCH_FORM = EffectPool.get( EffectPool.STENCHFORM );
+	private static final AdventureResult SLEAZE_FORM = EffectPool.get( EffectPool.SLEAZEFORM );
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 

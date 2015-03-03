@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -83,13 +85,13 @@ public class MallPurchaseRequest
 				    final String shopName, final int price, final int limit,
 				    final boolean canPurchase )
 	{
-		this( new AdventureResult( itemId, 1, false ), quantity, shopId, shopName, price, limit, canPurchase );
+		this( ItemPool.get( itemId ), quantity, shopId, shopName, price, limit, canPurchase );
 	}
 
 	public MallPurchaseRequest( final int itemId, final int quantity, final int shopId,
 		final String shopName, final int price, final int limit )
 	{
-		this( new AdventureResult( itemId, 1, false ), quantity, shopId, shopName, price, limit, true );
+		this( ItemPool.get( itemId ), quantity, shopId, shopName, price, limit, true );
 	}
 
 	public MallPurchaseRequest( final AdventureResult item, final int quantity, final int shopId,

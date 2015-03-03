@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
@@ -243,7 +245,7 @@ public abstract class DisplayCaseManager
 
 			String countString = optionMatcher.group( 2 );
 			int itemCount = countString == null ? 1 : StringUtilities.parseInt( countString );
-			AdventureResult item = new AdventureResult( itemId, itemCount, false );
+			AdventureResult item = ItemPool.get( itemId, itemCount );
 
 			int shelf = StringUtilities.parseInt( optionMatcher.group( 4 ) );
 

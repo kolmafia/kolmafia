@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -287,7 +289,7 @@ public class ClanLogRequest
 				entryCount = StringUtilities.parseInt( entryMatcher.group( 3 ) );
 
 				lastItemId = ItemDatabase.getItemId( entryMatcher.group( 4 ), entryCount );
-				entryBuffer.append( ( new AdventureResult( lastItemId, entryCount, false ) ).toString() );
+				entryBuffer.append( ( ItemPool.get( lastItemId, entryCount ) ).toString() );
 
 				entryBuffer.append( " " );
 				entryBuffer.append( suffixDescription );

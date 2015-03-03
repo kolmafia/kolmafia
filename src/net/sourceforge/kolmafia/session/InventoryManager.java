@@ -151,11 +151,11 @@ public abstract class InventoryManager
 
 				if ( Limitmode.limitItem( itemId ) )
 				{
-					unlimited.add( new AdventureResult( itemId, count, false ) );
+					unlimited.add( ItemPool.get( itemId, count ) );
 				}
 				else
 				{
-					items.add( new AdventureResult( itemId, count, false ) );
+					items.add( ItemPool.get( itemId, count ) );
 				}
 			}
 		}

@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -112,8 +114,9 @@ public class ComparisonShopCommand
 		Iterator i = names.iterator();
 		while ( i.hasNext() )
 		{
-			AdventureResult item = new AdventureResult( (String) i.next() );
-			if ( !ItemDatabase.isTradeable( item.getItemId() ) || StoreManager.getMallPrice( item ) <= 0 )
+			int itemId = ItemDatabase.getItemId( (String) i.next() );
+			AdventureResult item = ItemPool.get( itemId );
+			if ( !ItemDatabase.isTradeable( itemId ) || StoreManager.getMallPrice( item ) <= 0 )
 			{
 				continue;
 			}

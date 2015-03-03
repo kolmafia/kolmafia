@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -168,7 +170,7 @@ public class DreadsylvaniaRequest
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		matcher = DreadsylvaniaRequest.BOOZEQUANTITY_PATTERN.matcher( urlString );
 		int count = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 1;
-		return new AdventureResult( itemId, count, false );
+		return ItemPool.get( itemId, count );
 	}
 
 	@Override

@@ -119,7 +119,7 @@ public class AdventureDatabase
 	{
 		for ( int i = 0; i < 12; ++i )
 		{
-			AdventureDatabase.WOODS_ITEMS[ i ] = new AdventureResult( i + 1, 1, false );
+			AdventureDatabase.WOODS_ITEMS[ i ] = ItemPool.get( i + 1 );
 		}
 	}
 

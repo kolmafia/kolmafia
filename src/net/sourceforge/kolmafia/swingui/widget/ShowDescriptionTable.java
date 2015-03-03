@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.InstalledScript;
@@ -980,13 +981,14 @@ public class ShowDescriptionTable
 				}
 				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
-					data = new AdventureResult( (String) items[ i ], 1, false );
+					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
+					data = ItemPool.get( itemId );
 				}
 				else if ( items[ i ] instanceof Entry
 					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
-					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1,
-						false );
+					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
+					data = ItemPool.get( itemId );
 				}
 
 				if ( data == null )
@@ -1028,13 +1030,14 @@ public class ShowDescriptionTable
 				}
 				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
-					data = new AdventureResult( (String) items[ i ], 1, false );
+					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
+					data = ItemPool.get( itemId );
 				}
 				else if ( items[ i ] instanceof Entry
 					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
-					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1,
-						false );
+					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
+					data = ItemPool.get( itemId );
 				}
 
 				if ( data == null )
@@ -1080,13 +1083,14 @@ public class ShowDescriptionTable
 				}
 				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
-					data = new AdventureResult( (String) items[ i ], 1, false );
+					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
+					data = ItemPool.get( itemId );
 				}
 				else if ( items[ i ] instanceof Entry
 					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
-					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1,
-						false );
+					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
+					data = ItemPool.get( itemId );
 				}
 
 				if ( data != null && !KoLConstants.mementoList.contains( data ) )

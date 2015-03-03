@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 public class ModifierExpression
@@ -59,9 +61,10 @@ public class ModifierExpression
 	{
 		// The first check also matches "[zone(The Slime Tube)]"
 		// Hence the second check.
-		if ( text.indexOf( "T" ) != -1 && EffectDatabase.contains( this.name ) )
+		int effectId = EffectDatabase.getEffectId( this.name );
+		if ( text.contains( "T" ) && effectId != -1 )
 		{
-			this.effect = new AdventureResult( name, 0, true );
+			this.effect = EffectPool.get( effectId, 0 );
 		}
 	}
 

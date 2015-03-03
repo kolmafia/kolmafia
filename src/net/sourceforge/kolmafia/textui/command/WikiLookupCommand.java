@@ -37,6 +37,8 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -61,7 +63,8 @@ public class WikiLookupCommand
 			List names = EffectDatabase.getMatchingNames( parameters );
 			if ( names.size() == 1 )
 			{
-				AdventureResult result = new AdventureResult( (String) names.get( 0 ), 1, true );
+				int effectId = EffectDatabase.getEffectId( (String) names.get( 0 ) );
+				AdventureResult result = EffectPool.get( effectId );
 				WikiUtilities.showWikiDescription( result );
 				return;
 			}

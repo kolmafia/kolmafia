@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -345,12 +346,12 @@ public abstract class BuffBotManager
 					if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
 					{
 						AdventureResult restores =
-							new AdventureResult( "magical mystery juice", BuffBotManager.initialRestores );
+							ItemPool.get( ItemPool.MMJ, BuffBotManager.initialRestores );
 						BuffBotHome.setBuffBotActive( InventoryManager.retrieveItem( restores ) );
 					}
 					else
 					{
-						AdventureResult restores = new AdventureResult( "phonics down", BuffBotManager.initialRestores );
+						AdventureResult restores = ItemPool.get( ItemPool.PHONICS_DOWN, BuffBotManager.initialRestores );
 						BuffBotHome.setBuffBotActive( InventoryManager.retrieveItem( restores ) );
 					}
 				}

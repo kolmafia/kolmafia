@@ -315,7 +315,7 @@ public class DwarfContraptionRequest
 
 			int count = StringUtilities.parseInt( itemMatcher.group(1) );
 			int itemId = StringUtilities.parseInt( itemMatcher.group(2) );
-			ResultProcessor.processResult( new AdventureResult( itemId, -count, false ) );
+			ResultProcessor.processResult( ItemPool.get( itemId, -count ) );
 		}
 	}
 
@@ -354,7 +354,7 @@ public class DwarfContraptionRequest
 
 			int count = StringUtilities.parseInt( itemMatcher.group(1) );
 			int itemId = StringUtilities.parseInt( itemMatcher.group(2) );
-			AdventureResult item = new AdventureResult( itemId, count, false );
+			AdventureResult item = ItemPool.get( itemId, count );
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Putting " + item + " into the vacuum chamber." );
 			return true;

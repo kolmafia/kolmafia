@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -96,10 +98,11 @@ public class UneffectCommand
 			for ( int i = 0; i < matchingEffects.size(); ++i )
 			{
 				buffToCheck = (String) matchingEffects.get( i );
-				if ( UneffectRequest.isShruggable( buffToCheck ) )
+				int effectId = EffectDatabase.getEffectId( buffToCheck );
+				if ( UneffectRequest.isShruggable( effectId ) )
 				{
 					++shruggableCount;
-					buffToRemove = new AdventureResult( buffToCheck, 1, true );
+					buffToRemove = EffectPool.get( effectId );
 				}
 			}
 
@@ -125,7 +128,8 @@ public class UneffectCommand
 			return;
 		}
 
-		AdventureResult effect = new AdventureResult( (String) matchingEffects.get( 0 ), 1, true );
+		int effectId = EffectDatabase.getEffectId( (String) matchingEffects.get( 0 ) );
+		AdventureResult effect = EffectPool.get( effectId );
 
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 		{

@@ -116,6 +116,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -2879,7 +2880,7 @@ public abstract class RuntimeLibrary
 		}
 
 		int itemId = (int) item.intValue();
-		AdventureResult itemToBuy = new AdventureResult( itemId, 1, false );
+		AdventureResult itemToBuy = ItemPool.get( itemId );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
@@ -2899,7 +2900,7 @@ public abstract class RuntimeLibrary
 		}
 
 		int itemId = (int) arg2.intValue();
-		AdventureResult itemToBuy = new AdventureResult( itemId, 1, false );
+		AdventureResult itemToBuy = ItemPool.get( itemId );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId + "@" + arg3.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
@@ -2919,7 +2920,7 @@ public abstract class RuntimeLibrary
 		}
 
 		int itemId = (int) item.intValue();
-		AdventureResult itemToBuy = new AdventureResult( itemId, 1, false );
+		AdventureResult itemToBuy = ItemPool.get( itemId );
 		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.storage ) );
@@ -2939,7 +2940,7 @@ public abstract class RuntimeLibrary
 		}
 
 		int itemId = (int) item.intValue();
-		AdventureResult itemToBuy = new AdventureResult( itemId, 1, false );
+		AdventureResult itemToBuy = ItemPool.get( itemId );
 		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId + "@" + limitValue.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.storage ) - initialAmount );
@@ -2975,7 +2976,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		AdventureResult item = new AdventureResult( (int) itemValue.intValue(), count, false );
+		AdventureResult item = ItemPool.get( (int) itemValue.intValue() );
 		int initialAmount = item.getCount( KoLConstants.inventory );
 		CoinMasterRequest.buy( data, item );
 		return DataTypes.makeBooleanValue( initialAmount + count == item.getCount( KoLConstants.inventory ) );
@@ -3001,7 +3002,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			AdventureResult item = new AdventureResult( itemId, count, false );
+			AdventureResult item = ItemPool.get( itemId );
 			CoinMasterRequest.sell( data, item );
 		}
 		return RuntimeLibrary.continueValue();
@@ -3532,7 +3533,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( new AdventureResult( (int) item.intValue(), count, false ) ) );
+		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( ItemPool.get( (int) item.intValue(), count ) ) );
 	}
 
 	public static Value faxbot( Interpreter interpreter, final Value arg )
@@ -3895,7 +3896,7 @@ public abstract class RuntimeLibrary
 	public static Value mall_price( Interpreter interpreter, final Value item )
 	{
 		return new Value( StoreManager.getMallPrice(
-			new AdventureResult( (int) item.intValue(), 0, false ) ) );
+			ItemPool.get( (int) item.intValue(), 0 ) ) );
 	}
 
 	public static Value npc_price( Interpreter interpreter, final Value item )
@@ -3986,25 +3987,25 @@ public abstract class RuntimeLibrary
 
 	public static Value available_amount( Interpreter interpreter, final Value arg )
 	{
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return DataTypes.makeIntValue( InventoryManager.getAccessibleCount( item ) );
 	}
 
 	public static Value item_amount( Interpreter interpreter, final Value arg )
 	{
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.inventory ) );
 	}
 
 	public static Value closet_amount( Interpreter interpreter, final Value arg )
 	{
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.closet ) );
 	}
 
 	public static Value equipped_amount( Interpreter interpreter, final Value arg )
 	{
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		int runningTotal = 0;
 
 		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
@@ -4026,7 +4027,7 @@ public abstract class RuntimeLibrary
 
 	public static Value creatable_turns( Interpreter interpreter, final Value itemId )
 	{
-		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1, false );
+		AdventureResult item = ItemPool.get( (int) itemId.intValue() );
 		if ( item == null )
 		{
 			return new Value( 0 );
@@ -4038,7 +4039,7 @@ public abstract class RuntimeLibrary
 
 	public static Value creatable_turns( Interpreter interpreter, final Value itemId, final Value count )
 	{
-		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1, false );
+		AdventureResult item = ItemPool.get( (int) itemId.intValue() );
 		int number = (int) count.intValue();
 		if ( item == null )
 		{
@@ -4051,7 +4052,7 @@ public abstract class RuntimeLibrary
 
 	public static Value creatable_turns( Interpreter interpreter, final Value itemId, final Value count, final Value freeCrafting )
 	{
-		AdventureResult item = new AdventureResult( (int) itemId.intValue(), 1, false );
+		AdventureResult item = ItemPool.get( (int) itemId.intValue() );
 		int number = (int) count.intValue();
 		boolean considerFreeCrafting = freeCrafting.intValue() == 1;
 		if ( item == null )
@@ -4099,7 +4100,7 @@ public abstract class RuntimeLibrary
 
 	public static Value storage_amount( Interpreter interpreter, final Value arg )
 	{
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.storage ) );
 	}
 
@@ -4115,7 +4116,7 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
 
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.collection ) );
 	}
 
@@ -4153,7 +4154,7 @@ public abstract class RuntimeLibrary
 
 		List stash = ClanManager.getStash();
 
-		AdventureResult item = new AdventureResult( (int) arg.intValue(), 0, false );
+		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( stash ) );
 	}
 
@@ -4588,7 +4589,8 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.ZERO_VALUE;
 		}
-		AdventureResult effect = new AdventureResult( arg.toString(), 0, true );
+		int effectId = EffectDatabase.getEffectId( arg.toString() );
+		AdventureResult effect = EffectPool.get( effectId, 0 );
 		return new Value( effect.getCount( KoLConstants.activeEffects ) );
 	}
 
@@ -4873,7 +4875,7 @@ public abstract class RuntimeLibrary
 
 	public static Value have_equipped( Interpreter interpreter, final Value item )
 	{
-		return DataTypes.makeBooleanValue( KoLCharacter.hasEquipped( new AdventureResult( (int) item.intValue(), 1, false ) ) );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasEquipped( ItemPool.get( (int) item.intValue() ) ) );
 	}
 
 	public static Value outfit( Interpreter interpreter, final Value outfit )
@@ -6983,7 +6985,7 @@ public abstract class RuntimeLibrary
 		FamiliarData fam = new FamiliarData( (int) familiar.intValue() );
 		String mod = modifier.toString();
 		int w = Math.max( 1, (int) weight.intValue() );
-		AdventureResult it = new AdventureResult( (int) item.intValue(), 1, false );
+		AdventureResult it = ItemPool.get( (int) item.intValue() );
 
 		return new Value( Modifiers.getNumericModifier( fam, mod, w, it ) );
 	}
