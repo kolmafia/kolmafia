@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
+import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -857,6 +858,11 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
+		}
+
+		if ( KoLCharacter.isEd() )
+		{
+			RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 		}
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
