@@ -77,15 +77,15 @@ public abstract class MoodManager
 {
 	private static final AdventureResult[] AUTO_CLEAR =
 	{
-		new AdventureResult( "Beaten Up", 1, true ),
-		new AdventureResult( "Tetanus", 1, true ),
-		new AdventureResult( "Amnesia", 1, true ),
-		new AdventureResult( "Cunctatitis", 1, true ),
-		new AdventureResult( "Hardly Poisoned at All", 1, true ),
-		new AdventureResult( "Majorly Poisoned", 1, true ),
-		new AdventureResult( "A Little Bit Poisoned", 1, true ),
-		new AdventureResult( "Somewhat Poisoned", 1, true ),
-		new AdventureResult( "Really Quite Poisoned", 1, true ),
+		EffectPool.get( EffectPool.BEATEN_UP ),
+		EffectPool.get( EffectPool.TETANUS ),
+		EffectPool.get( EffectPool.AMNESIA ),
+		EffectPool.get( EffectPool.CUNCTATISIS ),
+		EffectPool.get( EffectPool.HARDLY_POISONED ),
+		EffectPool.get( EffectPool.MAJORLY_POISONED ),
+		EffectPool.get( EffectPool.A_LITTLE_BIT_POISONED ),
+		EffectPool.get( EffectPool.SOMEWHAT_POISONED ),
+		EffectPool.get( EffectPool.REALLY_QUITE_POISONED ),
 	};
 
 	public static final AdventureResult TURTLING_ROD = ItemPool.get( ItemPool.TURTLING_ROD, 1 );

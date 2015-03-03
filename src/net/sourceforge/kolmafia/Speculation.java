@@ -35,8 +35,10 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -77,7 +79,8 @@ public class Speculation
 			if ( mods == null ) continue;
 			String name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 			if ( name.length() == 0 ) continue;
-			this.effects.remove( new AdventureResult( name, 1, true ) );
+			int effectId = EffectDatabase.getEffectId( name );
+			this.effects.remove( EffectPool.get( effectId ) );
 		}
 		this.familiar = KoLCharacter.currentFamiliar;
 		this.enthroned = KoLCharacter.currentEnthroned;
@@ -277,7 +280,8 @@ public class Speculation
 					return true;
 				}
 
-				AdventureResult effect = new AdventureResult( (String) effects.get( 0 ), 1, true );
+				int effectId = EffectDatabase.getEffectId( (String) effects.get( 0 ) );
+				AdventureResult effect = EffectPool.get( effectId );
 				if ( !this.hasEffect( effect ) )
 				{
 					this.addEffect( effect );
@@ -293,7 +297,8 @@ public class Speculation
 					return true;
 				}
 
-				AdventureResult effect = new AdventureResult( (String) effects.get( 0 ), 1, true );
+				int effectId = EffectDatabase.getEffectId( (String) effects.get( 0 ) );
+				AdventureResult effect = EffectPool.get( effectId );
 				this.removeEffect( effect );
 			}
 			else if ( cmd.equals( "quiet" ) )

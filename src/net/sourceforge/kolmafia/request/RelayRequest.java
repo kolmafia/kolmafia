@@ -2876,7 +2876,6 @@ public class RelayRequest
 			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
 				String itemName = ItemDatabase.getItemName( descId );
-				AdventureResult item = new AdventureResult( itemName, 1, false );
 				String location = WikiUtilities.getWikiLocation( itemName );
 				if ( location != null )
 				{
@@ -2894,7 +2893,7 @@ public class RelayRequest
 			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
 				int effectId = EffectDatabase.getEffectId( descId );
-				AdventureResult effect = new AdventureResult( effectId, 1, true );
+				AdventureResult effect = EffectPool.get( effectId );
 				String location = WikiUtilities.getWikiLocation( effect );
 				if ( location != null )
 				{

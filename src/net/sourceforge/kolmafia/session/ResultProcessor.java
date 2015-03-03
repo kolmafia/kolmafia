@@ -473,7 +473,7 @@ public class ResultProcessor
 		}
 		else
 		{
-			result = new AdventureResult( itemId, itemCount, false );
+			result = ItemPool.get( itemId, itemCount );
 		}
 
 		ResultProcessor.processItem( combatResults, acquisition, result, data );
@@ -582,7 +582,7 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
-		AdventureResult result = new AdventureResult( effectName, Integer.MAX_VALUE, true );
+		AdventureResult result = EffectPool.get( effectName, Integer.MAX_VALUE );
 
 		if ( message.startsWith( "You lose" ) )
 		{
@@ -770,7 +770,7 @@ public class ResultProcessor
 		Matcher matcher = ResultProcessor.DISCARD_PATTERN.matcher( lastToken );
 		if ( matcher.find() )
 		{
-			AdventureResult item = new AdventureResult( matcher.group( 1 ), -1, false );
+			AdventureResult item = ItemPool.get( matcher.group( 1 ), -1 );
 			AdventureResult.addResultToList( KoLConstants.inventory, item );
 			AdventureResult.addResultToList( KoLConstants.tally, item );
 			switch ( item.getItemId() )
@@ -828,7 +828,7 @@ public class ResultProcessor
 			count = StringUtilities.parseInt( m.group( 2 ) );
 		}
 
-		return ResultProcessor.processResult( new AdventureResult( result, count, true ) );
+		return ResultProcessor.processResult( EffectPool.get( result, count ) );
 	}
 
 	/**

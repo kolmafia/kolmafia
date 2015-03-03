@@ -39,6 +39,9 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -217,7 +220,8 @@ public abstract class AbstractCommand
 			return null;
 		}
 
-		return new AdventureResult( (String) potentialItems.get( 0 ), 0, false );
+		int itemId = ItemDatabase.getItemId( (String) potentialItems.get( 0 ) );
+		return ItemPool.get( itemId, 0 );
 	}
 
 	protected static final AdventureResult effectParameter( final String parameter )
@@ -228,6 +232,7 @@ public abstract class AbstractCommand
 			return null;
 		}
 
-		return new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
+		int effectId = EffectDatabase.getEffectId( (String) potentialEffects.get( 0 ) );
+		return EffectPool.get( effectId, 0 );
 	}
 }

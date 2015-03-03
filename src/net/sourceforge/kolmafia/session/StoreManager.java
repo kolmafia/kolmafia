@@ -278,7 +278,7 @@ public abstract class StoreManager
 				int count = itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt( itemMatcher.group(3) );
 
 				// Register using item ID, since the name might have changed
-				item = new AdventureResult( itemId, count, false );
+				item = ItemPool.get( itemId, count );
 				price = StringUtilities.parseInt( itemMatcher.group( 4 ) );
 
 				// In this case, the limit could appear as

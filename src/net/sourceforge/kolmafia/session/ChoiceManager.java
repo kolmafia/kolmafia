@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -176,32 +177,32 @@ public abstract class ChoiceManager
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
-	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
+	private static final AdventureResult MAIDEN_EFFECT = EffectPool.get( EffectPool.DREAMS_AND_LIGHTS );
 	private static final AdventureResult MODEL_AIRSHIP = ItemPool.get( ItemPool.MODEL_AIRSHIP, 1 );
  
-	private static final AdventureResult CURSE1_EFFECT = new AdventureResult( "Once-Cursed", 1, true );
-	private static final AdventureResult CURSE2_EFFECT = new AdventureResult( "Twice-Cursed", 1, true );
-	private static final AdventureResult CURSE3_EFFECT = new AdventureResult( "Thrice-Cursed", 1, true );
+	private static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
+	private static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
+	private static final AdventureResult CURSE3_EFFECT = EffectPool.get( EffectPool.THRICE_CURSED );
 	private static final AdventureResult MCCLUSKY_FILE = ItemPool.get( ItemPool.MCCLUSKY_FILE, 1 );
 	private static final AdventureResult MCCLUSKY_FILE_PAGE5 = ItemPool.get( ItemPool.MCCLUSKY_FILE_PAGE5, 1 );
 	private static final AdventureResult BINDER_CLIP = ItemPool.get( ItemPool.BINDER_CLIP, 1 );
 	private static final AdventureResult STONE_TRIANGLE = ItemPool.get( ItemPool.STONE_TRIANGLE, 1 );
 	
-	private static final AdventureResult JOCK_EFFECT = new AdventureResult( "Jamming with the Jocks", 1, true );
-	private static final AdventureResult NERD_EFFECT = new AdventureResult( "Nerd is the Word", 1, true );
-	private static final AdventureResult GREASER_EFFECT = new AdventureResult( "Greaser Lightnin'", 1, true );
+	private static final AdventureResult JOCK_EFFECT = EffectPool.get( EffectPool.JAMMING_WITH_THE_JOCKS );
+	private static final AdventureResult NERD_EFFECT = EffectPool.get( EffectPool.NERD_IS_THE_WORD );
+	private static final AdventureResult GREASER_EFFECT = EffectPool.get( EffectPool.GREASER_LIGHTNIN );
 	
 	// Dreadsylvania items and effects
 	private static final AdventureResult MOON_AMBER_NECKLACE = ItemPool.get( ItemPool.MOON_AMBER_NECKLACE, 1 );
 	private static final AdventureResult BLOODY_KIWITINI = ItemPool.get( ItemPool.BLOODY_KIWITINI, 1 );
-	private static final AdventureResult KIWITINI_EFFECT = new AdventureResult( "First Blood Kiwi", 1, true );
+	private static final AdventureResult KIWITINI_EFFECT = EffectPool.get( EffectPool.FIRST_BLOOD_KIWI );
 	private static final AdventureResult AUDITORS_BADGE = ItemPool.get( ItemPool.AUDITORS_BADGE, 1 );
 	private static final AdventureResult WEEDY_SKIRT = ItemPool.get( ItemPool.WEEDY_SKIRT, 1 );
 	private static final AdventureResult GHOST_SHAWL = ItemPool.get( ItemPool.GHOST_SHAWL, 1 );
 	private static final AdventureResult SHEPHERDS_PIE = ItemPool.get( ItemPool.SHEPHERDS_PIE, 1 );
-	private static final AdventureResult PIE_EFFECT = new AdventureResult( "Shepherd's Breath", 1, true );
+	private static final AdventureResult PIE_EFFECT = EffectPool.get( EffectPool.SHEPHERDS_BREATH );
 	private static final AdventureResult MAKESHIFT_TURBAN = ItemPool.get( ItemPool.MAKESHIFT_TURBAN, 1 );
-	private static final AdventureResult TEMPORARY_BLINDNESS = new AdventureResult( "Temporary Blindness", 1, true );
+	private static final AdventureResult TEMPORARY_BLINDNESS = EffectPool.get( EffectPool.TEMPORARY_BLINDNESS );
 	private static final AdventureResult HELPS_YOU_SLEEP = ItemPool.get( ItemPool.HELPS_YOU_SLEEP, 1 );
 	private static final AdventureResult SLEEP_MASK = ItemPool.get( ItemPool.SLEEP_MASK, 1 );
 
@@ -271,7 +272,8 @@ public abstract class ChoiceManager
 		{
 			this.name = name;
 			this.option = option;
-			this.item = item != null ? new AdventureResult( item ) : null;
+			int itemId = ItemDatabase.getItemId( item );
+			this.item = item != null ? ItemPool.get( itemId ) : null;
 		}
 
 		public String getName()
@@ -421,7 +423,7 @@ public abstract class ChoiceManager
 				       new Option( "skip adventure", "rubber axe" ) } ),
 		// Denim Axes Examined
 		new Object[]{ IntegerPool.get(2), IntegerPool.get(1),
-		  new AdventureResult( "rubber axe", -1 ) },
+		  ItemPool.get( ItemPool.RUBBER_AXE, -1 ) },
 
 		// The Oracle Will See You Now
 		new ChoiceSpoiler(
@@ -6365,7 +6367,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "You gain" ) )
 			{
 				// You spend 20 hobo nickels
-				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
+				AdventureResult cost = ItemPool.get( ItemPool.HOBO_NICKEL, -20 );
 				ResultProcessor.processResult( cost );
 
 				// You gain 5 fullness
@@ -6382,7 +6384,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "You gain" ) )
 			{
 				// You spend 20 hobo nickels
-				AdventureResult cost = new AdventureResult( "hobo nickel", -20 );
+				AdventureResult cost = ItemPool.get( ItemPool.HOBO_NICKEL, -20 );
 				ResultProcessor.processResult( cost );
 
 				// You gain 5 drunkenness.  This will be set
@@ -6400,7 +6402,7 @@ public abstract class ChoiceManager
 				if ( matcher.find() )
 				{
 					int tattoo = StringUtilities.parseInt( matcher.group(1) );
-					AdventureResult cost = new AdventureResult( "hobo nickel", -20 * tattoo );
+					AdventureResult cost = ItemPool.get( ItemPool.HOBO_NICKEL, -20 * tattoo );
 					ResultProcessor.processResult( cost );
 				}
 			}
@@ -10661,7 +10663,7 @@ public abstract class ChoiceManager
 			// Check if we have all of Azazel's objects of evil
 			for ( int i = 2566; i <= 2568; ++i )
 			{
-				AdventureResult item = new AdventureResult( i, 1, false );
+				AdventureResult item = ItemPool.get( i );
 				if ( !KoLConstants.inventory.contains( item ) )
 				{
 					return "4";

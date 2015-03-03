@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 
@@ -308,10 +309,10 @@ public class MonsterDatabase
 		int itemId = ItemDatabase.getItemId( name );
 		if ( itemId == -1 )
 		{
-			return new AdventureResult( data, (int)'0' );
+			return ItemPool.get( data, (int)'0' );
 		}
 
-		return new AdventureResult( itemId, (count << 16) | prefix, false );
+		return ItemPool.get( itemId, (count << 16) | prefix );
 	}
 	
 	private synchronized static final void initializeMonsterStrings()

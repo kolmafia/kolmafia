@@ -38,10 +38,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 public class PalmFrondRequest
 	extends MultiUseRequest
 {
-	public static final AdventureResult MANUAL = new AdventureResult( "Hugo's Weaving Manual", -1 );
+	public static final AdventureResult MANUAL = ItemPool.get( ItemPool.WEAVING_MANUAL );
 
 	public PalmFrondRequest( final int itemId )
 	{

@@ -1205,9 +1205,9 @@ public class QuestManager
 
 		else if ( responseText.contains( "He takes the load of cheese and ore" ) )
 		{
-			AdventureResult item = new AdventureResult( Preferences.getString( "trapperOre" ), -3, false );
+			AdventureResult item = ItemPool.get( Preferences.getString( "trapperOre" ), -3 );
 			ResultProcessor.processResult( item );
-			ResultProcessor.processResult( new AdventureResult( "goat cheese", -3, false ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.GOAT_CHEESE, -3 ) );
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
 		}
 
@@ -1236,15 +1236,11 @@ public class QuestManager
 
 		if ( responseText.contains( "500" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "mosquito larva", -1, false ) );
-		}
-		if ( responseText.contains( "batskin belt" ) )
-		{
-			ResultProcessor.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
+			ResultProcessor.removeItem( ItemPool.MOSQUITO_LARVA );
 		}
 		if ( responseText.contains( "dragonbone belt buckle" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
+			ResultProcessor.removeItem( ItemPool.BONERDAGON_SKULL );
 		}
 		QuestDatabase.handleCouncilText( responseText );
 		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, QuestDatabase.UNSTARTED ) )

@@ -120,7 +120,7 @@ public class StorageRequest
 					ItemDatabase.registerItem( itemId );
 				}
 
-				AdventureResult item = new AdventureResult( itemId, count, false );
+				AdventureResult item = ItemPool.get( itemId, count );
 				ArrayList list =
 					KoLCharacter.canInteract() ? items :
 					StorageRequest.isFreePull( item ) ? freepulls :
@@ -535,7 +535,7 @@ public class StorageRequest
 			String name = matcher.group( 1 );
 			int count = StringUtilities.parseInt( matcher.group( 2 ) );
 
-			AdventureResult item = new AdventureResult( name, count, false );
+			AdventureResult item = ItemPool.get( name, count );
 
 			List source;
 

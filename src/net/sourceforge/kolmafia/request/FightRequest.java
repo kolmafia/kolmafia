@@ -132,12 +132,12 @@ public class FightRequest
 	private static final PauseObject PAUSER = new PauseObject();
 	public static final FightRequest INSTANCE = new FightRequest();
 
-	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
-	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
-	public static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
-	public static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
-	public static final AdventureResult MOLEFORM = new AdventureResult( "Shape of...Mole!", 1, true );
-	public static final AdventureResult INFERNO = new AdventureResult( "Taste the Inferno", 1, true );
+	private static final AdventureResult AMNESIA = EffectPool.get( EffectPool.AMNESIA );
+	private static final AdventureResult CUNCTATITIS = EffectPool.get( EffectPool.CUNCTATISIS );
+	public static final AdventureResult ONTHETRAIL = EffectPool.get( EffectPool.ON_THE_TRAIL );
+	public static final AdventureResult BIRDFORM = EffectPool.get( EffectPool.FORM_OF_BIRD );
+	public static final AdventureResult MOLEFORM = EffectPool.get( EffectPool.SHAPE_OF_MOLE );
+	public static final AdventureResult INFERNO = EffectPool.get( EffectPool.TASTE_THE_INFERNO );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -980,14 +980,14 @@ public class FightRequest
 				item2 = -1;
 			}
 
-			int itemCount = ( new AdventureResult( item1, 1, false ) ).getCount( KoLConstants.inventory );
+			int itemCount = ( ItemPool.get( item1 ) ).getCount( KoLConstants.inventory );
 
 			if ( itemCount == 0 && item2 != -1 )
 			{
 				item1 = item2;
 				item2 = -1;
 
-				itemCount = ( new AdventureResult( item1, 1, false ) ).getCount( KoLConstants.inventory );
+				itemCount = ( ItemPool.get( item1 ) ).getCount( KoLConstants.inventory );
 			}
 
 			if ( itemCount == 0 )
@@ -1027,7 +1027,7 @@ public class FightRequest
 
 			if ( item2 != -1 )
 			{
-				itemCount = ( new AdventureResult( item2, 1, false ) ).getCount( KoLConstants.inventory );
+				itemCount = ( ItemPool.get( item2 ) ).getCount( KoLConstants.inventory );
 
 				if ( itemCount > 1 || item1 != item2 && itemCount > 0 )
 				{
@@ -6998,7 +6998,7 @@ public class FightRequest
 
 		if ( FightRequest.isItemConsumed( itemId, responseText ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( itemId, -1, false ) );
+			ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
 			return;
 		}
 	}

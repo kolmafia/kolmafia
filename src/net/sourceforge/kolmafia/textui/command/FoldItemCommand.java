@@ -145,7 +145,8 @@ public class FoldItemCommand
 		while ( sourceIndex != targetIndex )
 		{
 			String form = (String) group.get( sourceIndex );
-			AdventureResult item = new AdventureResult( form, 1, false );
+			int itemId = ItemDatabase.getItemId( form );
+			AdventureResult item = ItemPool.get( itemId );
 
 			// If we have this item in inventory, use it
 			if ( item.getCount( KoLConstants.inventory ) > 0 )
@@ -281,7 +282,8 @@ public class FoldItemCommand
 		while ( sourceIndex != targetIndex )
 		{
 			String form = (String) group.get( sourceIndex );
-			AdventureResult item = new AdventureResult( form, 1, false );
+			int itemId = ItemDatabase.getItemId( form );
+			AdventureResult item = ItemPool.get( itemId );
 
 			// Consider the next item. Skip index 0.
 			sourceIndex = ( sourceIndex < count - 1 ) ? sourceIndex + 1 : 1;

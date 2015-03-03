@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -134,28 +135,28 @@ public class FamiliarTrainingFrame
 	public static final int LEARN = 4;
 
 	// Familiar buffing skills and effects
-	public static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
-	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
-	private static final AdventureResult BESTIAL_SYMPATHY = new AdventureResult( "Bestial Sympathy", 0, true );
-	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
-	private static final AdventureResult GREEN_GLOW = new AdventureResult( "Healthy Green Glow", 0, true );
-	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
-	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
-	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
-	private static final AdventureResult WORST_ENEMY = new AdventureResult( "Man's Worst Enemy", 0, true );
+	public static final AdventureResult EMPATHY = EffectPool.get( EffectPool.EMPATHY );
+	private static final AdventureResult LEASH = EffectPool.get( EffectPool.LEASH_OF_LINGUINI );
+	private static final AdventureResult BESTIAL_SYMPATHY = EffectPool.get( EffectPool.BESTIAL_SYMPATHY );
+	private static final AdventureResult BLACK_TONGUE = EffectPool.get( EffectPool.BLACK_TONGUE );
+	private static final AdventureResult GREEN_GLOW = EffectPool.get( EffectPool.HEALTHY_GREEN_GLOW );
+	private static final AdventureResult GREEN_HEART = EffectPool.get( EffectPool.HEART_OF_GREEN );
+	private static final AdventureResult GREEN_TONGUE = EffectPool.get( EffectPool.GREEN_TONGUE );
+	private static final AdventureResult HEAVY_PETTING = EffectPool.get( EffectPool.HEAVY_PETTING );
+	private static final AdventureResult WORST_ENEMY = EffectPool.get( EffectPool.MANS_WORST_ENEMY );
 
 	// Familiar buffing items
-	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1, false );
-	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1, false );
+	private static final AdventureResult PITH_HELMET = ItemPool.get( ItemPool.PLEXIGLASS_PITH_HELMET );
+	private static final AdventureResult CRUMPLED_FEDORA = ItemPool.get( ItemPool.CRUMPLED_FELT_FEDORA );
 
-	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1, false );
-	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE, 1 );
-	private static final AdventureResult BLACK_SNOWCONE = ItemPool.get( ItemPool.BLACK_SNOWCONE, 1 );
-	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1, false );
-	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1, false );
-	private static final AdventureResult SPIKY_COLLAR = new AdventureResult( 2667, 1, false );
+	private static final AdventureResult BUFFING_SPRAY = ItemPool.get( ItemPool.PET_BUFFING_SPRAY );
+	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE );
+	private static final AdventureResult BLACK_SNOWCONE = ItemPool.get( ItemPool.BLACK_SNOWCONE );
+	private static final AdventureResult GREEN_CANDY = ItemPool.get( ItemPool.GREEN_CANDY );
+	private static final AdventureResult HALF_ORCHID = ItemPool.get( ItemPool.HALF_ORCHID );
+	private static final AdventureResult SPIKY_COLLAR = ItemPool.get( ItemPool.SPIKY_COLLAR );
 
-	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1, false );
+	private static final AdventureResult BAR_WHIP = ItemPool.get( ItemPool.BAR_WHIP );
 	private static final int[] tinyPlasticNormal = new int[]
 	{
 		969,
@@ -1459,9 +1460,9 @@ public class FamiliarTrainingFrame
 			this.familiar = KoLCharacter.getFamiliar();
 
 			// Get details about the special item it can wear
-			String name = FamiliarDatabase.getFamiliarItem( this.familiar.getId() );
-			this.familiarItem = new AdventureResult( name, 1, false );
-			this.familiarItemWeight = FamiliarData.itemWeightModifier( this.familiarItem.getItemId() );
+			int itemId = FamiliarDatabase.getFamiliarItemId( this.familiar.getId() );
+			this.familiarItem = ItemPool.get( itemId );
+			this.familiarItemWeight = FamiliarData.itemWeightModifier( itemId );
 
 			// No turns have been used yet
 			this.turns = 0;
@@ -1816,13 +1817,13 @@ public class FamiliarTrainingFrame
 				return;
 			}
 
-			AdventureResult ar = new AdventureResult( id, 1, false );
+			AdventureResult ar = ItemPool.get( id );
 			int count = ar.getCount( KoLConstants.inventory );
 
 			// Make a new one for each slot
 			while ( count-- > 0 && this.tpCount < 3 )
 			{
-				this.tp[ this.tpCount++ ] = new AdventureResult( id, 1, false );
+				this.tp[ this.tpCount++ ] = ItemPool.get( id );
 			}
 		}
 

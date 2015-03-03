@@ -41,6 +41,10 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -128,7 +132,8 @@ public class CustomOutfitRequest
 				{
 					continue;
 				}
-				AdventureResult piece = new AdventureResult( pieceName, 1, false );
+				int itemId = ItemDatabase.getItemId( pieceName );
+				AdventureResult piece = ItemPool.get( itemId );
 				outfit.addPiece( piece );
 			}
 

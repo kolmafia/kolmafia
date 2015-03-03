@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -102,7 +104,7 @@ public class CoinMasterRequest
 
 	public CoinMasterRequest( final CoinmasterData data, final boolean buying, final int itemId, final int quantity )
 	{		
-		this( data, buying, new AdventureResult( itemId, quantity, false ) );
+		this( data, buying, ItemPool.get( itemId, quantity ) );
 	}
 
 	public final void setQuantity( final int quantity )
@@ -636,7 +638,7 @@ public class CoinMasterRequest
 		int price = CoinMasterRequest.itemSellPrice( data, itemId );
 		int cost = count * price;
 
-		AdventureResult item = new AdventureResult( itemId, -count, false );
+		AdventureResult item = ItemPool.get( itemId, -count );
 		ResultProcessor.processResult( item );
 
 		String property = data.getProperty();

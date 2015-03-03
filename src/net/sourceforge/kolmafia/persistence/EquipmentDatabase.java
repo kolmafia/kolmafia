@@ -240,7 +240,7 @@ public class EquipmentDatabase
 				{
 					String piece = pieces[ i ];
 					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( piece ), id );
-					outfit.addPiece( new AdventureResult( piece, 1, false ) );
+					outfit.addPiece( ItemPool.get( piece, 1 ) );
 				}
 			}
 		}
@@ -535,7 +535,7 @@ public class EquipmentDatabase
 		if ( itemName != null )
 		{
 			EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( itemName ), id );
-			outfit.addPiece( new AdventureResult( itemName, 1, false ) );
+			outfit.addPiece( ItemPool.get( itemName, 1 ) );
 		}
 
 		String rawText = DebugDatabase.rawOutfitDescriptionText( outfitId );

@@ -39,8 +39,12 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -338,17 +342,20 @@ public class Expression
 				if ( StringUtilities.isNumeric( effectName ) )
 				{
 					int effectId = StringUtilities.parseInt( effectName );
-					eff = new AdventureResult( effectId, 1, true );
+					eff = EffectPool.get( effectId );
 				}
 				else
 				{
-					eff = new AdventureResult( effectName, 1, true );
+					int effectId = EffectDatabase.getEffectId( effectName );
+					eff = EffectPool.get( effectId );
 				}
 				v = eff == null ? 0.0 :
 					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'g':
-				AdventureResult item = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, false );
+				String itemName = (String) this.literals.get( (int) s[ --sp ] );
+				int itemId = ItemDatabase.getItemId( itemName );
+				AdventureResult item = ItemPool.get( itemId );
 				v = KoLCharacter.hasEquipped( item ) ? 1 : 0;
 				break;
 			case 'h':

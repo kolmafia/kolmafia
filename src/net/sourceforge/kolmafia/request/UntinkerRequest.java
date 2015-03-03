@@ -101,7 +101,7 @@ public class UntinkerRequest
 		this.itemId = itemId;
 		this.iterationsNeeded = 1;
 
-		this.item = new AdventureResult( itemId, itemCount, false );
+		this.item = ItemPool.get( itemId, itemCount );
 
 		if ( itemCount == Integer.MAX_VALUE )
 		{
@@ -157,7 +157,7 @@ public class UntinkerRequest
 
 		if ( !this.responseText.contains( "You acquire" ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( this.itemId, 1, false ) );
+			ResultProcessor.processResult( ItemPool.get( this.itemId ) );
 
 			UntinkerRequest.AVAILABLE_CHECKER.run();
 
@@ -225,7 +225,7 @@ public class UntinkerRequest
 			}
 
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			AdventureResult result = new AdventureResult( itemId, -1, false );
+			AdventureResult result = ItemPool.get( itemId, -1 );
 
 			if ( location.contains( "untinkerall=on" ) )
 			{

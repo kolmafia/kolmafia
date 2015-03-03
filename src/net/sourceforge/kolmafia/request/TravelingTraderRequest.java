@@ -197,7 +197,7 @@ public class TravelingTraderRequest
 			int idelta = num1 - icount;
 			if ( idelta != 0 )
 			{
-				AdventureResult result = new AdventureResult( itemId, idelta, false );
+				AdventureResult result = ItemPool.get( itemId, idelta );
 				AdventureResult.addResultToList( KoLConstants.inventory, result );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
@@ -220,7 +220,7 @@ public class TravelingTraderRequest
 			int sdelta = num2 - scount;
 			if ( sdelta != 0 )
 			{
-				AdventureResult result = new AdventureResult( itemId, sdelta, false );
+				AdventureResult result = ItemPool.get( itemId, sdelta );
 				AdventureResult.addResultToList( KoLConstants.storage, result );
 			}
 		}

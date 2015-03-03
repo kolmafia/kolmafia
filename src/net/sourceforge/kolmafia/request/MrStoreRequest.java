@@ -185,7 +185,7 @@ public class MrStoreRequest
 			items.add( item );
 			Integer iprice = IntegerPool.get( price );
 			prices.put( name, iprice );
-			AdventureResult cost = new AdventureResult( currency, price, false );
+			AdventureResult cost = ItemPool.get( currency, price );
 			costs.put( name, cost );
 		}
 

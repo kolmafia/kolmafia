@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
@@ -1082,9 +1083,9 @@ public class UseSkillRequest
 		this.isRunning = false;
 	}
 
-	private static final AdventureResult ONCE_CURSED = new AdventureResult( "Once-Cursed", 1, true );
-	private static final AdventureResult TWICE_CURSED = new AdventureResult( "Twice-Cursed", 1, true );
-	private static final AdventureResult THRICE_CURSED = new AdventureResult( "Thrice-Cursed", 1, true );
+	private static final AdventureResult ONCE_CURSED = EffectPool.get( EffectPool.ONCE_CURSED );
+	private static final AdventureResult TWICE_CURSED = EffectPool.get( EffectPool.TWICE_CURSED );
+	private static final AdventureResult THRICE_CURSED = EffectPool.get( EffectPool.THRICE_CURSED );
 
 	private void useSkillLoop()
 	{

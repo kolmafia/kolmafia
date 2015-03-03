@@ -339,7 +339,8 @@ public class CoinmasterData
 			return false;
 		}
 
-		AdventureResult item = new AdventureResult( itemName, 1, false );
+		int itemId = ItemDatabase.getItemId( itemName );
+		AdventureResult item = ItemPool.get( itemId, 1 );
 		return item.getCount( this.buyItems ) > 0;
 	}
 

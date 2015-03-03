@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -115,9 +116,9 @@ public class ClanLoungeRequest
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
 	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
 	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
-	private static final AdventureResult CURSE1_EFFECT = new AdventureResult( "Once-Cursed", 1, true );
-	private static final AdventureResult CURSE2_EFFECT = new AdventureResult( "Twice-Cursed", 1, true );
-	private static final AdventureResult CURSE3_EFFECT = new AdventureResult( "Thrice-Cursed", 1, true );
+	private static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
+	private static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
+	private static final AdventureResult CURSE3_EFFECT = EffectPool.get( EffectPool.THRICE_CURSED );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{

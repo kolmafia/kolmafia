@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -501,7 +503,7 @@ public abstract class TransferItemRequest
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
-			AdventureResult item = new AdventureResult( itemId, quantity, false );
+			AdventureResult item = ItemPool.get( itemId, quantity );
 
 			if ( quantity < 1 )
 			{
@@ -550,7 +552,7 @@ public abstract class TransferItemRequest
 				continue;
 			}
 
-			AdventureResult item = new AdventureResult( itemId, quantity, false );
+			AdventureResult item = ItemPool.get( itemId, quantity );
 			if ( item.getCount( source ) == 0 )
 			{
 				continue;
@@ -613,7 +615,7 @@ public abstract class TransferItemRequest
 			String name = m.group( 1 );
 			int count = StringUtilities.parseInt( m.group( 2 ) );
 			int itemId = ItemDatabase.getItemId( name, count,  true );
-			AdventureResult item = new AdventureResult( itemId, count, false );
+			AdventureResult item = ItemPool.get( itemId, count );
 			list.add( item );
 		}
 	}
@@ -631,7 +633,7 @@ public abstract class TransferItemRequest
 			String name = m.group( 2 );
 			int count = StringUtilities.parseInt( m.group( 1 ) );
 			int itemId = ItemDatabase.getItemId( name, count,  true );
-			AdventureResult item = new AdventureResult( itemId, count, false );
+			AdventureResult item = ItemPool.get( itemId, count );
 			list.add( item );
 		}
 	}

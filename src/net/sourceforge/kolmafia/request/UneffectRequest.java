@@ -336,14 +336,13 @@ public class UneffectRequest
 
 	public UneffectRequest( final AdventureResult effect )
 	{
-		super( UneffectRequest.isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
+		super( UneffectRequest.isShruggable( effect.getEffectId() ) ? "charsheet.php" : "uneffect.php" );
 
 		this.effect = effect;
-		String name = effect.getName();
-		this.effectId = EffectDatabase.getEffectId( name );
-		this.isShruggable = UneffectRequest.isShruggable( name );
-		this.needsCocoa = UneffectRequest.needsCocoa( name );
-		this.isTimer = name.startsWith( "Timer " );
+		this.effectId = effect.getEffectId();
+		this.isShruggable = UneffectRequest.isShruggable( this.effectId );
+		this.needsCocoa = UneffectRequest.needsCocoa( this.effectId );
+		this.isTimer = this.effectId >= EffectPool.TIMER1 && this.effectId <= EffectPool.TIMER10;
 
 		if ( this.isShruggable )
 		{
@@ -407,20 +406,31 @@ public class UneffectRequest
 		}
 	}
 
+	public static final boolean isShruggable( final int effectId )
+	{
+		if ( effectId >= EffectPool.TIMER1 && effectId <= EffectPool.TIMER10 )
+		{
+			return true;
+		}
+
+		if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS )
+		{
+			return true;
+		}
+
+		String name = EffectDatabase.getEffectName( effectId );
+		if ( name == null )
+		{
+			return false;
+		}
+		int id = SkillDatabase.getSkillId( UneffectRequest.effectToSkill( name ) );
+		return id != -1 && SkillDatabase.isBuff( id );
+	}
+
 	public static final boolean isShruggable( final String effectName )
 	{
-		if ( effectName.startsWith( "Timer " ) )
-		{
-			return true;
-		}
-
-		if ( effectName.equals( "Just the Best Anapests" ) )
-		{
-			return true;
-		}
-
-		int id = SkillDatabase.getSkillId( UneffectRequest.effectToSkill( effectName ) );
-		return id != -1 && SkillDatabase.isBuff( id );
+		int effectId = EffectDatabase.getEffectId( effectName );
+		return UneffectRequest.isShruggable( effectId );
 	}
 
 	public static final boolean needsCocoa( final String effectName )
@@ -534,156 +544,157 @@ public class UneffectRequest
 	}
 
 	private static Set REMOVABLE_BY_SKILL;
-	private static final Map<String, Set<String>> removeWithSkillMap = new LinkedHashMap<String, Set<String>>();
+	private static final Map<String, Set<Integer>> removeWithSkillMap = new LinkedHashMap<String, Set<Integer>>();
 
 	private static Set REMOVABLE_BY_ITEM;
-	private static final Map<Integer, Set<String>> removeWithItemMap = new LinkedHashMap<Integer, Set<String>>();
+	private static final Map<Integer, Set<Integer>> removeWithItemMap = new LinkedHashMap<Integer, Set<Integer>>();
 
 	public static final void reset()
 	{
-		Set<String> removableEffects;
+		Set<Integer> removableEffects;
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.ANTIDOTE ), removableEffects );
-		removableEffects.add( "Hardly Poisoned at All" );
-		removableEffects.add( "Majorly Poisoned" );
-		removableEffects.add( "A Little Bit Poisoned" );
-		removableEffects.add( "Somewhat Poisoned" );
-		removableEffects.add( "Really Quite Poisoned" );
+		removableEffects.add( IntegerPool.get( EffectPool.HARDLY_POISONED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.MAJORLY_POISONED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.A_LITTLE_BIT_POISONED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SOMEWHAT_POISONED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.REALLY_QUITE_POISONED ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TINY_HOUSE ), removableEffects );
-		removableEffects.add( "Beaten Up" );
-		removableEffects.add( "Confused" );
-		removableEffects.add( "Embarrassed" );
-		removableEffects.add( "Sunburned" );
-		removableEffects.add( "Wussiness" );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.EMBARRASSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TEARS ), removableEffects );
-		removableEffects.add( "Beaten Up" );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 		
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TRIPPLES ), removableEffects );
-		removableEffects.add( "Beaten Up" );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.HOT_DREADSYLVANIAN_COCOA ), removableEffects );
-		removableEffects.add( "Touched by a Ghost" );
-		removableEffects.add( "Chilled to the Bone" );
-		removableEffects.add( "Nauseated" );
-		removableEffects.add( "Curse of Hollowness" );
-		removableEffects.add( "Curse of Vulnerability" );
-		removableEffects.add( "Curse of Exposure" );
-		removableEffects.add( "Curse of Impotence" );
-		removableEffects.add( "Curse of Dullness" );
-		removableEffects.add( "Curse of Weakness" );
-		removableEffects.add( "Curse of Sluggishness" );
-		removableEffects.add( "Curse of Forgetfulness" );
-		removableEffects.add( "Curse of Misfortune" );
-		removableEffects.add( "Curse of Clumsiness" );
-		removableEffects.add( "Curse of Loneliness" );
+		removableEffects.add( IntegerPool.get( EffectPool.TOUCHED_BY_A_GHOST ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CHILLED_TO_THE_BONE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.NAUSEATED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_HOLLOWNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_VULNERABILITY ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_EXPOSURE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_IMPOTENCE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_DULLNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_WEAKNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_SLUGGISHNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_FORGETFULNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_MISFORTUNE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_CLUMSINESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CURSE_OF_LONELINESS ) );
 
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Tongue of the Walrus", removableEffects );
-		removableEffects.add( "Axe Wound" );
-		removableEffects.add( "Beaten Up" );
-		removableEffects.add( "Grilled" );
-		removableEffects.add( "Half-Eaten Brain" );
-		removableEffects.add( "Missing Fingers" );
-		removableEffects.add( "Sunburned" );
+		removableEffects.add( IntegerPool.get( EffectPool.AXE_WOUND ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
+		removableEffects.add( IntegerPool.get( EffectPool.GRILLED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.HALF_EATEN_BRAIN ) );
+		removableEffects.add( IntegerPool.get( EffectPool.MISSING_FINGERS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Disco Nap", removableEffects );
-		removableEffects.add( "Confused" );
-		removableEffects.add( "Embarrassed" );
-		removableEffects.add( "Sleepy" );
-		removableEffects.add( "Sunburned" );
-		removableEffects.add( "Wussiness" );
+		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.EMBARRASSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SLEEPY ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
 		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) )
 		{
-			removableEffects.add( "Affronted Decency" );
-			removableEffects.add( "Apathy" );
-			removableEffects.add( "Consumed by Fear" );
-			removableEffects.add( "Cunctatitis" );
-			removableEffects.add( "Easily Embarrassed" );
-			removableEffects.add( "Existential Torment" );
-			removableEffects.add( "Light-Headed" );
-			removableEffects.add( "N-Spatial vision" );
-			removableEffects.add( "Prestidigysfunction" );
-			removableEffects.add( "Rainy Soul Miasma" );
-			removableEffects.add( "Socialismydia" );
-			removableEffects.add( "Tenuous Grip on Reality" );
-			removableEffects.add( "Tetanus" );
-			removableEffects.add( "The Colors..." );
-			removableEffects.add( "\"The Disease\"" );
+			removableEffects.add( IntegerPool.get( EffectPool.AFFRONTED_DECENCY ) );
+			removableEffects.add( IntegerPool.get( EffectPool.APATHY ) );
+			removableEffects.add( IntegerPool.get( EffectPool.CONSUMED_BY_FEAR ) );
+			removableEffects.add( IntegerPool.get( EffectPool.CUNCTATISIS ) );
+			removableEffects.add( IntegerPool.get( EffectPool.EASILY_EMBARRASSED ) );
+			removableEffects.add( IntegerPool.get( EffectPool.EXISTENTIAL_TORMENT ) );
+			removableEffects.add( IntegerPool.get( EffectPool.LIGHT_HEADED ) );
+			removableEffects.add( IntegerPool.get( EffectPool.N_SPATIAL_VISION ) );
+			removableEffects.add( IntegerPool.get( EffectPool.PRESTIDIGYSFUNCTION ) );
+			removableEffects.add( IntegerPool.get( EffectPool.RAINY_SOUL_MIASMA ) );
+			removableEffects.add( IntegerPool.get( EffectPool.SOCIALISMYDIA ) );
+			removableEffects.add( IntegerPool.get( EffectPool.TENUOUS_GRIP_ON_REALITY ) );
+			removableEffects.add( IntegerPool.get( EffectPool.TETANUS ) );
+			removableEffects.add( IntegerPool.get( EffectPool.THE_COLORS ) );
+			removableEffects.add( IntegerPool.get( EffectPool.THE_DISEASE ) );
 		}
 		
 		// If it can be removed by Shake It Off, it can also be removed by Hot Tub
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Shake It Off", removableEffects );
-		removableEffects.add( "A Revolution in Your Mouth" );
-		removableEffects.add( "Affronted Decency" );
-		removableEffects.add( "All Covered In Whatsit" );
-		removableEffects.add( "Apathy" );
-		removableEffects.add( "Axe Wound" );
-		removableEffects.add( "Barking Dogs" );
-		removableEffects.add( "Beaten Up" );
-		removableEffects.add( "Beer in Your Shoes" );
-		removableEffects.add( "Bloody Hand" );
-		removableEffects.add( "Confused" );
-		removableEffects.add( "Consumed by Fear" );
-		removableEffects.add( "Corroded Weapon" );
-		removableEffects.add( "Cunctatitis" );
-		removableEffects.add( "Deadened palate" );
-		removableEffects.add( "Easily Embarrassed" );
-		removableEffects.add( "Embarrassed" );
-		removableEffects.add( "Existential Torment" );
-		removableEffects.add( "Flared Nostrils" );
-		removableEffects.add( "Grilled" );
-		removableEffects.add( "Half-Eaten Brain" );
-		removableEffects.add( "Hernia!" );
-		removableEffects.add( "Light-Headed" );
-		removableEffects.add( "Missing Fingers" );
-		removableEffects.add( "N-Spatial vision" );
-		removableEffects.add( "Natural 1" );
-		removableEffects.add( "Prestidigysfunction" );
-		removableEffects.add( "Rainy Soul Miasma" );
-		removableEffects.add( "Sleepy" );
-		removableEffects.add( "Socialismydia" );
-		removableEffects.add( "Strangulated" );
-		removableEffects.add( "Sunburned" );
-		removableEffects.add( "Tangled Up" );
-		removableEffects.add( "Temporary Blindness" );
-		removableEffects.add( "Tenuous Grip on Reality" );
-		removableEffects.add( "Tetanus" );
-		removableEffects.add( "Toad In The Hole" );
-		removableEffects.add( "Turned Into a Skeleton" );
-		removableEffects.add( "The Colors..." );
-		removableEffects.add( "\"The Disease\"" );
-		removableEffects.add( "Wussiness" );
+		removableEffects.add( IntegerPool.get( EffectPool.A_REVOLUTION_IN_YOUR_MOUTH ) );
+		removableEffects.add( IntegerPool.get( EffectPool.AFFRONTED_DECENCY ) );
+		removableEffects.add( IntegerPool.get( EffectPool.ALL_COVERED_IN_WHATSIT ) );
+		removableEffects.add( IntegerPool.get( EffectPool.APATHY  ) );
+		removableEffects.add( IntegerPool.get( EffectPool.AXE_WOUND ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BARKING_DOGS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BEER_IN_YOUR_SHOES ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BLOODY_HAND ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CONSUMED_BY_FEAR ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CORRODED_WEAPON ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CUNCTATISIS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.DEADENED_PALATE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.EASILY_EMBARRASSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.EMBARRASSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.EXISTENTIAL_TORMENT ) );
+		removableEffects.add( IntegerPool.get( EffectPool.FLARED_NOSTRILS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.GRILLED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.HALF_EATEN_BRAIN ) );
+		removableEffects.add( IntegerPool.get( EffectPool.HERNIA ) );
+		removableEffects.add( IntegerPool.get( EffectPool.LIGHT_HEADED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.MISSING_FINGERS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.N_SPATIAL_VISION ) );
+		removableEffects.add( IntegerPool.get( EffectPool.NATURAL_1 ) );
+		removableEffects.add( IntegerPool.get( EffectPool.PRESTIDIGYSFUNCTION ) );
+		removableEffects.add( IntegerPool.get( EffectPool.RAINY_SOUL_MIASMA ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SLEEPY ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SOCIALISMYDIA ) );
+		removableEffects.add( IntegerPool.get( EffectPool.STRANGULATED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TANGLED_UP ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TEMPORARY_BLINDNESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TENUOUS_GRIP_ON_REALITY ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TETANUS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TOAD_IN_THE_HOLE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TURNED_INTO_A_SKELETON ) );
+		removableEffects.add( IntegerPool.get( EffectPool.THE_COLORS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.THE_DISEASE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
-		removableEffects.add( "Overconfident" );
+		removableEffects.add( IntegerPool.get( EffectPool.OVERCONFIDENT ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Blood Sugar Sauce Magic", removableEffects );
-		removableEffects.add( "Blood Sugar Sauce Magic" );
+		removableEffects.add( IntegerPool.get( EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.BLOOD_SUGAR_SAUCE_MAGIC ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Spirit of Nothing", removableEffects );
-		removableEffects.add( "Spirit of Cayenne" );
-		removableEffects.add( "Spirit of Peppermint" );
-		removableEffects.add( "Spirit of Garlic" );
-		removableEffects.add( "Spirit of Wormwood" );
-		removableEffects.add( "Spirit of Bacon Grease" );
+		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_CAYENNE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_PEPPERMINT ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_GARLIC ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_WORMWOOD ) );
+		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_BACON_GREASE ) );
 
-		removableEffects = new HashSet<String>();
+		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
-		removableEffects.add( "Iron Palms" );
+		removableEffects.add( IntegerPool.get( EffectPool.IRON_PALMS ) );
 
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
@@ -723,13 +734,13 @@ public class UneffectRequest
 
 		while ( it.hasNext() )
 		{
-			String name = (String)it.next();
-			AdventureResult effect = new AdventureResult( name, 1, true );
+			int effectId = StringUtilities.parseInt( (String) it.next() );
+			AdventureResult effect = EffectPool.get( effectId );
 			KoLConstants.activeEffects.remove( effect );
 		}
 	}
 
-	public static String getUneffectSkill( final String effectName )
+	public static String getUneffectSkill( final int effectId )
 	{
 		Iterator skillIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
 		while ( skillIterator.hasNext() )
@@ -737,7 +748,7 @@ public class UneffectRequest
 			Entry removable = (Entry) skillIterator.next();
 			Set removables = (Set) removable.getValue();
 
-			if ( !removables.contains( effectName ) )
+			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
@@ -752,11 +763,18 @@ public class UneffectRequest
 
 		return "";
 	}
+	
+	public static String getUneffectSkill( final String effectName )
+	{
+		int effectId = EffectDatabase.getEffectId( effectName );
+		return UneffectRequest.getUneffectSkill( effectId );
+	}
 
 	private String getAction()
 	{
 		Boolean canRemoveWithHotTub = false;
 		String name = this.effect.getName();
+		int effectId = this.effectId;
 
 		// If there's an action defined in your mood, use it.
 
@@ -788,7 +806,7 @@ public class UneffectRequest
 
 		if ( this.isShruggable )
 		{
-			return "uneffect " + name;
+			return "uneffect [" + effectId + "]";
 		}
 
 		// See if it can be removed by a skill.
@@ -799,7 +817,7 @@ public class UneffectRequest
 			Entry removable = (Entry) skillIterator.next();
 			Set removables = (Set) removable.getValue();
 
-			if ( !removables.contains( name ) )
+			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
@@ -840,7 +858,7 @@ public class UneffectRequest
 			Entry removable = (Entry) itemIterator.next();
 			Set removables = (Set) removable.getValue();
 
-			if ( !removables.contains( name ) )
+			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
@@ -855,7 +873,7 @@ public class UneffectRequest
 			{
 				KoLmafia.updateDisplay( name + " will be removed by item " + itemName + "..." );
 
-				return "use 1 " + itemName;
+				return "use 1 [" + itemId + "]";
 			}
 		}
 
@@ -863,7 +881,7 @@ public class UneffectRequest
 
 		KoLmafia.updateDisplay( name + " cannot be removed with an available item or skill..." );
 
-		return "uneffect " + name;
+		return "uneffect [" + effectId + "]";
 	}
 
 	@Override
@@ -886,6 +904,7 @@ public class UneffectRequest
 
 		if ( effect.getCount() == Integer.MAX_VALUE &&
 		     this.effectId != EffectPool.OVERCONFIDENT &&
+		     this.effectId != EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE &&
 		     this.effectId != EffectPool.BLOOD_SUGAR_SAUCE_MAGIC )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is intrinsic and cannot be removed." );
@@ -952,13 +971,13 @@ public class UneffectRequest
 		KoLConstants.activeEffects.remove( this.effect );
 
 		// If you lose Inigo's, what you can craft changes
-		if ( this.effect.getEffectId() == EffectPool.INIGOS )
+		if ( this.effectId == EffectPool.INIGOS )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 
 		// If Gar-ish is gained or lost and autoGarish isn't set, benefit of Lasagna changes
-		if ( this.effect.getEffectId() == EffectPool.GARISH && !Preferences.getBoolean( "autoGarish" ) )
+		if ( this.effectId == EffectPool.GARISH && !Preferences.getBoolean( "autoGarish" ) )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
