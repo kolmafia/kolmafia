@@ -440,7 +440,7 @@ public class EdServantData
 			int next = this.level + 1;
 			int delta = KoLCharacter.hasEquipped( EdServantData.CROWN_OF_ED, EquipmentManager.HAT ) ? 2 : 1;
 			this.experience = Math.min( this.experience + delta, 441 );
-			if ( this.experience == ( next * next ) )
+			if ( this.experience >= ( next * next ) )
 			{
 				++this.level;
 			}
