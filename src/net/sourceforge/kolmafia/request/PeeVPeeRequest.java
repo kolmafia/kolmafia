@@ -146,7 +146,15 @@ public class PeeVPeeRequest
 		if ( location.contains( "place=fight" ) )
 		{
 			Matcher attacksMatcher = PeeVPeeRequest.ATTACKS_PATTERN.matcher( responseText );
-			KoLCharacter.setAttacksLeft( attacksMatcher.find() ? StringUtilities.parseInt( attacksMatcher.group( 1 ) ) : 0 );
+			if ( attacksMatcher.find() )
+			{
+				KoLCharacter.setAttacksLeft( StringUtilities.parseInt( attacksMatcher.group( 1 ) ) );
+				KoLCharacter.setHippyStoneBroken( true );
+			}
+			else
+			{
+				KoLCharacter.setAttacksLeft( 0 );
+			}
 
 			if ( location.contains( "action=fight" ) )
 			{
