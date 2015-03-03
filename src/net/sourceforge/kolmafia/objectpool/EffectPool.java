@@ -122,13 +122,54 @@ public class EffectPool
 	public static final int RED_DOOR_SYNDROME = 354;
 	public static final int ABSINTHE = 357;
 	public static final int MANS_WORST_ENEMY = 368;
+	public static final int MISSING_KIDNEY = 386;
+	public static final int DUHHH = 387;
 	public static final int AFFRONTED_DECENCY = 388;
+	public static final int MAID_DISSERVICE = 389;
+	public static final int MINIONED = 390;
+	public static final int ENHANCED_ARCHAEOLOGIST = 391;
+	public static final int CHRONOLOGICALLY_PUMMELLED = 392;
+	public static final int ANIMAL_EXPLOITER = 393;
+	public static final int SCENT_OF_A_KITCHEN_ELF = 394;
+	public static final int ONCE_BITTEN_TWICE_SHY = 395;
+	public static final int THE_RAGE = 396;
+	public static final int SHAMED_AND_MANIPULATED = 397;
+	public static final int DRUMMED_OUT = 398;
+	public static final int DREADLOCKED = 399;
+	public static final int HORNSWAGGLED = 400;
+	public static final int THIRD_EYE_BLIND = 401;
+	public static final int THE_VITUS_VIRUS = 402;
+	public static final int YOUR_NUMBER_1_PROBLEM = 403;
+	public static final int BRAAAINS = 404;
+	public static final int BRAAAAAAINS = 405;
+	public static final int RE_POSSESSED = 406;
+	public static final int BURNING_HEART = 407;
+	public static final int FROSTBITTEN = 408;
+	public static final int FREAKED_OUT = 409;
+	public static final int GUANIFIED = 410;
+	public static final int BASTED = 411;
+	public static final int RAVING_LUNATIC = 412;
+	public static final int SOLAR_FLAIR = 413;
+	public static final int HYPERBOLIC_HYPOTHERMIA = 414;
+	public static final int SLIMED = 415;
+	public static final int TAR_STRUCK = 416;
+	public static final int GREASED = 417;
+	public static final int BATIQUE = 418;
+	public static final int CUPSHOTTEN = 419;
+	public static final int DEEP_FRIED = 420;
+	public static final int PAW_SWAP = 421;
+	public static final int SIDE_AFFECTATION = 422;
+	public static final int SHIRTLESS_IN_SEATTLE = 423;
+	public static final int SCARED_STIFF = 424;
+	public static final int MIDGETIZED = 425;
+	public static final int SYNTHESIZED = 426;
 	public static final int FLARED_NOSTRILS = 432;
 	public static final int EASILY_EMBARRASSED = 433;
 	public static final int ALL_COVERED_IN_WHATSIT = 434;
 	public static final int BEER_IN_YOUR_SHOES = 435;
 	public static final int TOAD_IN_THE_HOLE = 436;
 	public static final int STRANGULATED = 437;
+	public static final int DANG_NEAR_CUT_IN_HALF = 445;
 	public static final int A_REVOLUTION_IN_YOUR_MOUTH = 453;
 	public static final int SOUL_CRUSHING_HEADACHE = 465;
 	public static final int FORM_OF_ROACH = 509;
@@ -255,15 +296,5 @@ public class EffectPool
 	public static final AdventureResult get( final int effectId, final int turns )
 	{
 		return new AdventureResult( effectId, turns, true );
-	}
-
-	public static final AdventureResult get( final String effectName )
-	{
-		return new AdventureResult( effectName, 1, true );
-	}
-
-	public static final AdventureResult get( final String effectName, final int turns )
-	{
-		return new AdventureResult( effectName, turns, true );
 	}
 }

@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1676,7 +1677,8 @@ public class UseItemRequest
 
 	public static String elementalHelper( String remove, Element resist, int amount )
 	{
-		AdventureResult effect = EffectPool.get( remove );
+		int effectId = EffectDatabase.getEffectId( remove );
+		AdventureResult effect = EffectPool.get( effectId );
 		if ( KoLConstants.activeEffects.contains( effect ) )
 		{
 			RequestThread.postRequest( new UneffectRequest( effect ) );

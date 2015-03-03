@@ -530,21 +530,23 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
+		int effectId = EffectDatabase.getEffectId( effectName );
+
 		// If Gar-ish is gained or loss, and autoGarish not set, benefit of Lasagna changes
-		if ( effectName.equals( EffectDatabase.getEffectName( EffectPool.GARISH ) ) && !Preferences.getBoolean( "autoGarish" ) )
+		if ( effectId == EffectPool.GARISH && !Preferences.getBoolean( "autoGarish" ) )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 
 		if ( message.startsWith( "You lose" ) )
 		{
-			AdventureResult result = EffectPool.get( effectName );
+			AdventureResult result = EffectPool.get( effectId );
 			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
 
 			// If you lose Inigo's, what you can craft changes
 
-			if ( effectName.equals( EffectDatabase.getEffectName( EffectPool.INIGOS ) ) )
+			if ( effectId == EffectPool.INIGOS )
 			{
 				ConcoctionDatabase.setRefreshNeeded( true );
 			}
@@ -582,7 +584,8 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
-		AdventureResult result = EffectPool.get( effectName, Integer.MAX_VALUE );
+		int effectId = EffectDatabase.getEffectId( effectName );
+		AdventureResult result = EffectPool.get( effectId, Integer.MAX_VALUE );
 
 		if ( message.startsWith( "You lose" ) )
 		{
@@ -828,7 +831,8 @@ public class ResultProcessor
 			count = StringUtilities.parseInt( m.group( 2 ) );
 		}
 
-		return ResultProcessor.processResult( EffectPool.get( result, count ) );
+		int effectId = EffectDatabase.getEffectId( result );
+		return ResultProcessor.processResult( EffectPool.get( effectId, count ) );
 	}
 
 	/**
@@ -1096,7 +1100,7 @@ public class ResultProcessor
 						KoLConstants.activeEffects.remove( i );
 
 						// If you lose Inigo's, what you can craft changes
-						if ( effect.getName().equals( EffectDatabase.getEffectName( EffectPool.INIGOS ) ) )
+						if ( effect.getEffectId() == EffectPool.INIGOS )
 						{
 							ConcoctionDatabase.setRefreshNeeded( true );
 						}

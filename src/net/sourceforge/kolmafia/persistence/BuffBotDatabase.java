@@ -215,7 +215,8 @@ public class BuffBotDatabase
 			return amount;
 		}
 
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( bestMatch.buffs[ 0 ] ) ) )
+		int effectId = EffectDatabase.getEffectId( bestMatch.buffs[ 0 ] );
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( effectId ) ) )
 		{
 			return 0;
 		}

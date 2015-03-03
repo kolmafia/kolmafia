@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -1248,8 +1249,9 @@ public abstract class UseLinkDecorator
 		String effect = mods.getString( Modifiers.EFFECT );
 		if ( effect.equals( "" ) ) return label;
 		int duration = (int)mods.get( Modifiers.EFFECT_DURATION );
+		int effectId = EffectDatabase.getEffectId( effect );
 		Speculation spec = new Speculation();
-		spec.addEffect( EffectPool.get( effect, Math.max( 1, duration ) ) );
+		spec.addEffect( EffectPool.get( effectId, Math.max( 1, duration ) ) );
 		mods = spec.calculate();
 		mods.set( Modifiers.EFFECT, effect );
 		if ( duration > 0 )
