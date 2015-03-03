@@ -277,6 +277,7 @@ suspicious-looking fedora	60	Mox: 15
 sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
 The Clown Crown	0	none
+The Crown of Ed the Undying	100	none
 The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35

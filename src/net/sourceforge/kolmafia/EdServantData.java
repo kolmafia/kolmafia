@@ -43,17 +43,25 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EdServantData
 	implements Comparable<EdServantData>
 {
+	public static final AdventureResult CROWN_OF_ED = ItemPool.get( ItemPool.CROWN_OF_ED, 1 );
+
 	public static final Object[][] SERVANTS =
 	{
 		// Servant type
@@ -425,11 +433,14 @@ public class EdServantData
 		if ( this.experience < 441 )
 		{
 			// - a servant gains 1 XP every time you win a fight
+			// - (if you are wearing the Crown of Ed the Undying, they gain 2)
 			// - they level up when their XP hits the square of the level
 			// - each servant has a unique "this servant leveled up" message.
 			// (which is cute, but we can derive level from experience)
 			int next = this.level + 1;
-			if ( ++this.experience == ( next * next ) )
+			int delta = KoLCharacter.hasEquipped( EdServantData.CROWN_OF_ED, EquipmentManager.HAT ) ? 2 : 1;
+			this.experience = Math.min( this.experience + delta, 441 );
+			if ( this.experience == ( next * next ) )
 			{
 				++this.level;
 			}
