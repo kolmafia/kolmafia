@@ -974,7 +974,7 @@ public class AdventureResult
 		{
 			// Status effects have IDs and durations.  Sort by
 			// duration, or by name, if durations are equal.
-			int countComparison =  this.getCount() - o.getCount();
+			int countComparison = this.getCount() - o.getCount();
 			return  countComparison != 0 ?
 				countComparison :
 				this.id != o.id ?

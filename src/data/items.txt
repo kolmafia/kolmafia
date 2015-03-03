@@ -8206,3 +8206,6 @@
 8180
 8181
 8182	Map to Kokomo	734514643	map.gif	usable		0
+8183
+8184	Ed the Undying exhibit crate	456673748	crate.gif	usable	t	0
+8185	The Crown of Ed the Undying	538837118	nemes.gif	hat		0
