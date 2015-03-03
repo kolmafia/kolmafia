@@ -253,7 +253,7 @@ public class ConcoctionDatabase
 			bogus = true;
 		}
 
-		AdventureResult item = ConcoctionDatabase.parseIngredient( name );
+		AdventureResult item = AdventureResult.parseItem( name, true );
 		int itemId = item.getItemId();
 
 		if ( itemId < 0 && !ConcoctionDatabase.pseudoItemMixingMethod( ConcoctionDatabase.mixingMethod ) )
@@ -275,7 +275,7 @@ public class ConcoctionDatabase
 					param = (param << 8) | StringUtilities.parseInt( data[ i ] );
 					continue;
 				}
-				AdventureResult ingredient = ConcoctionDatabase.parseIngredient( data[ i ] );
+				AdventureResult ingredient = AdventureResult.parseItem( data[ i ], true );
 				if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
 				{
 					RequestLogger.printLine( "Unknown ingredient (" + data[ i ] + ") for concoction: " + name );
@@ -431,28 +431,6 @@ public class ConcoctionDatabase
 		}
 
 		return true;
-	}
-
-	private static final AdventureResult parseIngredient( final String data )
-	{
-		// If the ingredient is specified inside of brackets,
-		// then a specific item Id is being designated.
-
-		if ( data.startsWith( "[" ) )
-		{
-			int closeBracketIndex = data.indexOf( "]" );
-			String itemIdString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
-			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
-
-			return ItemPool.get(
-				StringUtilities.parseInt( itemIdString ),
-				quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
-		}
-
-		// Otherwise, it's a standard ingredient - use
-		// the standard adventure result parsing routine.
-
-		return AdventureResult.parseItem( data, true );
 	}
 
 	public static final LockableListModel<AdventureResult> getQueuedIngredients( boolean food, boolean booze, boolean spleen )
