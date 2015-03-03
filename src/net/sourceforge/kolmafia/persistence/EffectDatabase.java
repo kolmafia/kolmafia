@@ -708,7 +708,8 @@ public class EffectDatabase
 			return null;
 		}
 
-		return EffectPool.get( effectName, duration );
+		int effectId = EffectDatabase.getEffectId( effectName );
+		return EffectPool.get( effectId, duration );
 	}
 
 	public static final int[] POISON_ID = {
