@@ -224,7 +224,7 @@ public class GearChangeFrame
 			}
 			else
 			{
-				mods = Modifiers.getModifiers( "Item", ((AdventureResult) value).getItemId() );
+				mods = Modifiers.getItemModifiers( ((AdventureResult) value).getItemId() );
 			}
 		}
 		else if ( value instanceof SpecialOutfit )
@@ -1115,7 +1115,7 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.weapons, weaponItems, weaponItem );
 		this.equipment[ EquipmentManager.WEAPON ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.WEAPON ) );
 
-		int weaponHands = EquipmentDatabase.getHands( weaponItem.getName() );
+		int weaponHands = EquipmentDatabase.getHands( weaponItem.getItemId() );
 
 		if ( KoLCharacter.inFistcore() )
 		{
@@ -1137,11 +1137,11 @@ public class GearChangeFrame
 				offhandItem = currentOffhand;
 			}
 
-			if ( EquipmentDatabase.getHands( offhandItem.getName() ) > 0 )
+			if ( EquipmentDatabase.getHands( offhandItem.getItemId() ) > 0 )
 			{
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.getWeaponType( weaponItem.getName() ) != EquipmentDatabase.getWeaponType( offhandItem.getName() ) )
+				if ( weaponHands == 0 || EquipmentDatabase.getWeaponType( weaponItem.getItemId() ) != EquipmentDatabase.getWeaponType( offhandItem.getItemId() ) )
 				{
 					offhandItem = EquipmentRequest.UNEQUIP;
 				}
@@ -1477,7 +1477,7 @@ public class GearChangeFrame
 
 	private boolean filterWeapon( final AdventureResult weapon )
 	{
-		if ( this.weapon1H.isSelected() && EquipmentDatabase.getHands( weapon.getName() ) > 1 )
+		if ( this.weapon1H.isSelected() && EquipmentDatabase.getHands( weapon.getItemId() ) > 1 )
 		{
 			return false;
 		}
@@ -1487,11 +1487,11 @@ public class GearChangeFrame
 			return true;
 		}
 
-		switch ( EquipmentDatabase.getWeaponType( weapon.getName() ) )
+		switch ( EquipmentDatabase.getWeaponType( weapon.getItemId() ) )
 		{
-		case MELEE:
+		case  MELEE:
 			return this.weaponTypes[ 1 ].isSelected();
-		case RANGED:
+		case  RANGED:
 			return this.weaponTypes[ 2 ].isSelected();
 		}
 		return false;
@@ -1515,11 +1515,11 @@ public class GearChangeFrame
 		// We can have weapons if we can dual wield and there is
 		// one-handed weapon in the main hand
 		boolean weapons =
-			EquipmentDatabase.getHands( weapon.getName() ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
+			EquipmentDatabase.getHands( weapon.getItemId() ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 
 		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		WeaponType type = EquipmentDatabase.getWeaponType( weapon.getName() );
+		WeaponType type = EquipmentDatabase.getWeaponType( weapon.getItemId() );
 
 		// Search inventory for suitable items
 
@@ -1574,7 +1574,7 @@ public class GearChangeFrame
 			{
 				return false;
 			}
-			if ( type != EquipmentDatabase.getWeaponType( currentItem.getName() ) )
+			if ( type != EquipmentDatabase.getWeaponType( currentItem.getItemId() ) )
 			{
 				return false;
 			}

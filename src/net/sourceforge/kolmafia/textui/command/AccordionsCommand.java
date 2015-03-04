@@ -171,7 +171,7 @@ public class AccordionsCommand
 			this.monster = monster;
 			this.hands = EquipmentDatabase.getHands( itemId );
 
-			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+			Modifiers mods = Modifiers.getItemModifiers( itemId );
 			if ( mods != null )
 			{
 				this.songDuration = (int)mods.get( Modifiers.SONG_DURATION );

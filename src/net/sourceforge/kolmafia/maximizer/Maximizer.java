@@ -376,7 +376,7 @@ public class Maximizer
 						item = ItemFinder.getFirstMatchingItem( iName, false );
 						if ( item != null )
 						{
-							Modifiers effMod = Modifiers.getModifiers( "Item", item.getItemId() );
+							Modifiers effMod = Modifiers.getItemModifiers( item.getItemId() );
 							if ( effMod != null )
 							{
 								duration = (int) effMod.get( Modifiers.EFFECT_DURATION );

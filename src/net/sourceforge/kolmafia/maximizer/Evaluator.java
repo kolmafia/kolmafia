@@ -1199,7 +1199,7 @@ public class Evaluator
 					item.automaticFlag = true;
 				}
 
-				Modifiers mods = Modifiers.getModifiers( "Item", id );
+				Modifiers mods = Modifiers.getItemModifiers( id );
 				if ( mods == null )	// no enchantments
 				{
 					mods = new Modifiers();

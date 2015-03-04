@@ -82,7 +82,7 @@ public class EquipmentDatabase
 	private static final StringArray itemTypes = new StringArray();
 	private static final StringArray statRequirements = new StringArray();
 
-	private static final HashMap<String, Integer> outfitPieces = new HashMap<String, Integer>();
+	private static final HashMap<Integer, Integer> outfitPieces = new HashMap<Integer, Integer>();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
 	private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
@@ -238,9 +238,9 @@ public class EquipmentDatabase
 
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					String piece = pieces[ i ];
-					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( piece ), id );
-					outfit.addPiece( ItemPool.get( piece, 1 ) );
+					int pieceId = ItemDatabase.getItemId( pieces[ i ] );
+					EquipmentDatabase.outfitPieces.put( IntegerPool.get( pieceId ), id );
+					outfit.addPiece( ItemPool.get( pieceId ) );
 				}
 			}
 		}
@@ -499,7 +499,7 @@ public class EquipmentDatabase
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "Outfit:.*?<span.*?whichoutfit=(\\d+).*?>(.*?)</span>" );
 
-	public static final void registerItemOutfit( final String itemName, final String text )
+	public static final void registerItemOutfit( final int itemId, final String text )
 	{
 		Matcher matcher = OUTFIT_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -514,13 +514,13 @@ public class EquipmentDatabase
 		// be on an outfit, register it.
 
 		if ( EquipmentDatabase.normalOutfits.get( outfitId ) == null ||
-		     EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) ) == null )
+		     EquipmentDatabase.outfitPieces.get( IntegerPool.get( itemId ) ) == null )
 		{
-			EquipmentDatabase.registerOutfit( outfitId, new String( outfitName ), new String( itemName ) );
+			EquipmentDatabase.registerOutfit( outfitId, new String( outfitName ), itemId );
 		}
 	}
 	
-	public static final void registerOutfit( final int outfitId, final String outfitName, final String itemName )
+	public static final void registerOutfit( final int outfitId, final String outfitName, final int itemId )
 	{
 		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( outfitId );
 		Integer id = IntegerPool.get( outfitId );
@@ -532,10 +532,10 @@ public class EquipmentDatabase
 			EquipmentDatabase.outfitById.put( id, outfitName );
 		}
 
-		if ( itemName != null )
+		if ( itemId != -1 )
 		{
-			EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( itemName ), id );
-			outfit.addPiece( ItemPool.get( itemName, 1 ) );
+			EquipmentDatabase.outfitPieces.put( IntegerPool.get( itemId ), id );
+			outfit.addPiece( ItemPool.get( itemId ) );
 		}
 
 		String rawText = DebugDatabase.rawOutfitDescriptionText( outfitId );
@@ -583,13 +583,7 @@ public class EquipmentDatabase
 			return -1;
 		}
 
-		String itemName = ItemDatabase.getItemName( itemId );
-		if ( itemName == null )
-		{
-			return -1;
-		}
-
-		Integer result = EquipmentDatabase.outfitPieces.get( StringUtilities.getCanonicalName( itemName ) );
+		Integer result = EquipmentDatabase.outfitPieces.get( IntegerPool.get( itemId ) );
 		return result == null ? -1 : result.intValue();
 	}
 
@@ -629,12 +623,6 @@ public class EquipmentDatabase
 		return itemId > 0 && EquipmentDatabase.statRequirements.get( itemId ) != null;
 	}
 
-	public static final boolean contains( final String itemName )
-	{
-		int itemId = ItemDatabase.getItemId( itemName );
-		return itemId > 0 && EquipmentDatabase.statRequirements.get( itemId ) != null;
-	}
-
 	public static final int getPower( final int itemId )
 	{
 		return EquipmentDatabase.power.get( itemId );
@@ -645,43 +633,9 @@ public class EquipmentDatabase
 		EquipmentDatabase.power.set( itemId, power );
 	}
 
-	public static final int getPower( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return 0;
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return 0;
-		}
-
-		return EquipmentDatabase.getPower( itemId );
-	}
-
 	public static final int getHands( final int itemId )
 	{
 		return EquipmentDatabase.hands.get( itemId );
-	}
-
-	public static final int getHands( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return 0;
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return 0;
-		}
-
-		return EquipmentDatabase.getHands( itemId );
 	}
 
 	public static final String getEquipRequirement( final int itemId )
@@ -694,23 +648,6 @@ public class EquipmentDatabase
 		}
 
 		return "none";
-	}
-
-	public static final String getEquipRequirement( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return "none";
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return "none";
-		}
-
-		return EquipmentDatabase.getEquipRequirement( itemId );
 	}
 
 	public static final String getItemType( final int itemId )
@@ -802,23 +739,6 @@ public class EquipmentDatabase
 		return Stat.MUSCLE;
 	}
 
-	public static final Stat getWeaponStat( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return Stat.NONE;
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return Stat.NONE;
-		}
-
-		return EquipmentDatabase.getWeaponStat( itemId );
-	}
-
 	public static final WeaponType getWeaponType( final int itemId )
 	{
 		switch ( EquipmentDatabase.getWeaponStat( itemId ) )
@@ -830,23 +750,6 @@ public class EquipmentDatabase
 		default:
 			return WeaponType.MELEE;
 		}
-	}
-
-	public static final WeaponType getWeaponType( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return WeaponType.NONE;
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return WeaponType.NONE;
-		}
-
-		return EquipmentDatabase.getWeaponType( itemId );
 	}
 
 	public static final boolean isChefStaff( final AdventureResult item )
@@ -882,23 +785,6 @@ public class EquipmentDatabase
 	public static final boolean isMainhandOnly( final int itemId )
 	{
 		return  EquipmentDatabase.isChefStaff( itemId ) || EquipmentDatabase.isSpecialAccordion( itemId ) || EquipmentDatabase.getHands( itemId ) != 1;
-	}
-
-	public static final int getPulverization( final String itemName )
-	{
-		if ( itemName == null )
-		{
-			return -1;
-		}
-
-		int itemId = ItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-		{
-			return -1;
-		}
-
-		return EquipmentDatabase.getPulverization( itemId );
 	}
 
 	public static final int getPulverization( final int id )
@@ -949,7 +835,7 @@ public class EquipmentDatabase
 		}
 
 		int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
-		Modifiers mods = Modifiers.getModifiers( "Item", id );
+		Modifiers mods = Modifiers.getItemModifiers( id );
 		if ( mods == null )
 		{	// Apparently no enchantments at all, which would imply that this
 			// item pulverizes to useless powder.  However, there are many items

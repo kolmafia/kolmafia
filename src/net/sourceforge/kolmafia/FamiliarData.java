@@ -596,7 +596,7 @@ public class FamiliarData
 			AdventureResult item = familiar.getItem();
 			if ( item != EquipmentRequest.UNEQUIP )
 			{
-				Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
+				Modifiers mods = Modifiers.getItemModifiers( item.getItemId() );
 				if ( mods != null )
 				{
 					fixed -= mods.get( Modifiers.FAMILIAR_WEIGHT );
@@ -614,7 +614,7 @@ public class FamiliarData
 			item = this.getItem();
 			if ( item != EquipmentRequest.UNEQUIP )
 			{
-				Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
+				Modifiers mods = Modifiers.getItemModifiers( item.getItemId() );
 				if ( mods != null )
 				{
 					fixed += mods.get( Modifiers.FAMILIAR_WEIGHT );
@@ -654,7 +654,7 @@ public class FamiliarData
 
 	public static final int itemWeightModifier( final int itemId )
 	{
-		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+		Modifiers mods = Modifiers.getItemModifiers( itemId );
 		return mods == null ? 0 : (int) mods.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
@@ -822,7 +822,7 @@ public class FamiliarData
 			return true;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+		Modifiers mods = Modifiers.getItemModifiers( itemId );
 		if ( mods == null )
 		{
 			return false;
@@ -855,7 +855,7 @@ public class FamiliarData
 			return false;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( "Item", item.getItemId() );
+		Modifiers mods = Modifiers.getItemModifiers( item.getItemId() );
 		return mods != null && mods.getBoolean( Modifiers.GENERIC );
 	}
 

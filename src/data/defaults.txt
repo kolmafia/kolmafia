@@ -1787,6 +1787,7 @@ user	choiceAdventure1048	0
 user	choiceAdventure1051	0
 user	choiceAdventure1052	0
 user	choiceAdventure1056	1
+user	choiceAdventure1057	0
 user	choiceAdventure1059	0
 user	choiceAdventure1060	0
 
