@@ -283,7 +283,7 @@ public class Maximizer
 				{
 					continue;
 				}
-				sources = EffectDatabase.getAllActions( name );
+				sources = EffectDatabase.getAllActions( effectId );
 				cmd = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !sources.hasNext() )
 				{

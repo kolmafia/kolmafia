@@ -71,8 +71,7 @@ public class EffectDatabase
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> effectByName = new TreeMap<String, Integer>();
-	private static final HashMap<String, String> defaultActions = new HashMap<String, String>();
-	private static final HashMap<Integer, String> defaultActionsById = new HashMap<Integer, String>();
+	private static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
 
 	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
 	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
@@ -144,8 +143,7 @@ public class EffectDatabase
 
 		if ( defaultAction != null )
 		{
-			EffectDatabase.defaultActions.put( canonicalName, defaultAction );
-			EffectDatabase.defaultActionsById.put( effectId, defaultAction );
+			EffectDatabase.defaultActions.put( effectId, defaultAction );
 		}
 	}
 
@@ -155,41 +153,7 @@ public class EffectDatabase
 		{
 			return null;
 		}
-		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActionsById.get( IntegerPool.get( effectId ) ) );
-		if ( rv == null )
-		{
-			return null;
-		}
-		if ( rv.startsWith( "#" ) )
-		{	// Callers of this API expect an actual command, not a note.
-			return null;
-		}
-		for ( String it: rv.split( "\\|" ) )
-		{
-			String[] split = it.split( " ", 2 );
-			boolean works = true; // assume the command works if we don't check it here
-
-			if ( it.startsWith( "use" ) || it.startsWith( "eat" ) || it.startsWith( "drink" ) || it.startsWith( "chew" ) )
-			{
-				works = UseItemCommand.use( split[ 0 ], split[ 1 ], true );
-			}
-			else if ( it.startsWith( "cast" ) )
-			{
-				works = UseSkillCommand.cast( split[1], true );
-			}
-
-			if ( works )
-			{
-				return it;
-			}
-		}
-		// if nothing worked, fall through and dispatch the command so that an appropriate failure can be printed
-		return rv.split( "\\|" )[0];
-	}
-
-	public static final String getDefaultAction( final String effectName )
-	{
-		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( IntegerPool.get( effectId ) ) );
 		if ( rv == null )
 		{
 			return null;
@@ -227,38 +191,7 @@ public class EffectDatabase
 		{
 			return Collections.<String>emptyList().iterator();
 		}
-		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActionsById.get( IntegerPool.get( effectId ) ) );
-		if ( actions == null )
-		{
-			return Collections.<String>emptyList().iterator();
-		}
-		ArrayList<String> rv = new ArrayList<String>();
-		String[] pieces = actions.split( "\\|" );
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			String action = pieces[ i ];
-			String[] either = action.split( " ", 3 );
-			if ( either.length == 3 && either[ 1 ].equals( "either" ) )
-			{	// Split commands like "use either X, Y" into "use X", "use Y"
-				String cmd = either[ 0 ];
-				either = either[ 2 ].split( "\\s*,\\s*" );
-				for ( int j = 0; j < either.length; ++j )
-				{
-					rv.add( cmd + " " + either[ j ] );
-				}
-			}
-			else
-			{
-				rv.add( action );
-			}
-		}
-
-		return rv.iterator();
-	}
-
-	public static final Iterator<String> getAllActions( final String effectName )
-	{
-		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( IntegerPool.get( effectId ) ) );
 		if ( actions == null )
 		{
 			return Collections.<String>emptyList().iterator();
@@ -293,17 +226,7 @@ public class EffectDatabase
 		{
 			return null;
 		}
-		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActionsById.get( IntegerPool.get( effectId ) ) );
-		if ( rv != null && rv.startsWith( "#" ) )
-		{
-			return rv.substring( 1 ).trim();
-		}
-		return null;
-	}
-
-	public static final String getActionNote( final String effectName )
-	{
-		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( IntegerPool.get( effectId ) ) );
 		if ( rv != null && rv.startsWith( "#" ) )
 		{
 			return rv.substring( 1 ).trim();
@@ -445,6 +368,11 @@ public class EffectDatabase
 	 * @return <code>true</code> if the effect is in the database
 	 */
 
+	public static final boolean contains( final String effectName )
+	{
+		return EffectDatabase.contains( EffectDatabase.getEffectId( effectName ) );
+	}
+
 	public static final boolean contains( final int effectId )
 	{
 		if ( effectId == -1 )
@@ -452,11 +380,6 @@ public class EffectDatabase
 			return false;
 		}
 		return EffectDatabase.nameById.get( IntegerPool.get( effectId ) ) != null;
-	}
-
-	public static final boolean contains( final String effectName )
-	{
-		return Arrays.binarySearch( EffectDatabase.canonicalNames, StringUtilities.getCanonicalName( effectName ) ) >= 0;
 	}
 
 	/**
@@ -531,8 +454,7 @@ public class EffectDatabase
 		EffectDatabase.effectByDescription.put( descId, id );
 		if ( defaultAction != null )
 		{
-			EffectDatabase.defaultActions.put( canonicalName, defaultAction );
-			EffectDatabase.defaultActionsById.put( id, defaultAction );
+			EffectDatabase.defaultActions.put( id, defaultAction );
 		}
 
 		String printMe;
@@ -587,8 +509,7 @@ public class EffectDatabase
 			String name = entry.getValue();
 			String image = EffectDatabase.imageById.get( nextInteger );
 			String descId = EffectDatabase.descriptionById.get( nextInteger );
-			String canonicalName = StringUtilities.getCanonicalName( name );
-			String defaultAction = EffectDatabase.defaultActions.get( canonicalName );
+			String defaultAction = EffectDatabase.defaultActions.get( nextInteger );
 			EffectDatabase.writeEffect( writer, effectId, name, image, descId, defaultAction );
 		}
 

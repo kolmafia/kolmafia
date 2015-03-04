@@ -73,7 +73,7 @@ public class ExtendEffectCommand
 			String action = MoodManager.getDefaultAction( "lose_effect", effect );
 			if ( action.equals( "" ) )
 			{
-				action = EffectDatabase.getActionNote( effect );
+				action = EffectDatabase.getActionNote( effectId );
 				if ( action != null )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "No direct source for: " + effect );

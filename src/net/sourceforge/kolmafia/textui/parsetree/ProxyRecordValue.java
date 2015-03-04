@@ -813,18 +813,18 @@ public class ProxyRecordValue
 
 		public String get_default()
 		{
-			return EffectDatabase.getDefaultAction( this.contentString );
+			return EffectDatabase.getDefaultAction( (int)this.contentLong );
 		}
 
 		public String get_note()
 		{
-			return EffectDatabase.getActionNote( this.contentString );
+			return EffectDatabase.getActionNote( (int)this.contentLong );
 		}
 
 		public Value get_all()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			Iterator i = EffectDatabase.getAllActions( this.contentString );
+			Iterator i = EffectDatabase.getAllActions( (int)this.contentLong );
 			while ( i.hasNext() )
 			{
 				rv.add( new Value( (String) i.next() ) );
