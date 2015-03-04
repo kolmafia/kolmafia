@@ -57,8 +57,8 @@ public class TerrifiedEagleInnRequest
 {
 	public static final String master = "The Terrified Eagle Inn"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( TerrifiedEagleInnRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TerrifiedEagleInnRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TerrifiedEagleInnRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TerrifiedEagleInnRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( TerrifiedEagleInnRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(\\w+) Freddy Kruegerand(?:s?)</td>" );
 	public static final AdventureResult KRUEGERAND = ItemPool.get( ItemPool.KRUEGERAND, 1 );

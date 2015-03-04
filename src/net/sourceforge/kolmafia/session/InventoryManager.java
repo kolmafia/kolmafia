@@ -1820,14 +1820,13 @@ public abstract class InventoryManager
 		{
 			return false;
 		}
-		return InventoryManager.canUseCoinmasters() &&
-			CoinmastersDatabase.contains( item.getName() );
+		return InventoryManager.canUseCoinmasters( item.getItemId() );
 	}
 
 	public static boolean canUseCoinmasters( final int itemId )
 	{
-		AdventureResult item = ItemPool.get( itemId, 1 );
-		return InventoryManager.canUseCoinmasters( item );
+		return InventoryManager.canUseCoinmasters() &&
+			CoinmastersDatabase.contains( itemId );
 	}
 
 	public static boolean canUseCoinmasters()

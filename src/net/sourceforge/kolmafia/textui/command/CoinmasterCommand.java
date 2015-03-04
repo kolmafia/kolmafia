@@ -118,10 +118,9 @@ public class CoinmasterCommand
 			for ( int i = 0; i < itemList.length; ++i )
 			{
 				AdventureResult item = itemList[ i ];
-				String itemName = item.getName();
-				if ( !data.canBuyItem( itemName ) )
+				if ( !data.canBuyItem( item.getItemId() ) )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy " + itemName + " from " + data.getMaster() );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy " + item.getName() + " from " + data.getMaster() );
 					return;
 				}
 			}
@@ -145,10 +144,9 @@ public class CoinmasterCommand
 			for ( int i = 0; i < itemList.length; ++i )
 			{
 				AdventureResult item = itemList[ i ];
-				String itemName = item.getName();
-				if ( !data.canSellItem( itemName ) )
+				if ( !data.canSellItem( item.getItemId() ) )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't sell " + itemName + " to " + data.getMaster() );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't sell " + item.getName() + " to " + data.getMaster() );
 					return;
 				}
 			}

@@ -52,8 +52,8 @@ public class TacoDanRequest
 {
 	public static final String master = "Taco Dan's Taco Stand";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( TacoDanRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TacoDanRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TacoDanRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TacoDanRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( TacoDanRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Beach Bucks" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.BEACH_BUCK, 1 );

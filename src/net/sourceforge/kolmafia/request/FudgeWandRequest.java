@@ -59,7 +59,7 @@ public class FudgeWandRequest
 {
 	public static final String master = "Fudge Wand"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( FudgeWandRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FudgeWandRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FudgeWandRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? fudgecule" );
 	public static final AdventureResult FUDGECULE = ItemPool.get( ItemPool.FUDGECULE, 1 );

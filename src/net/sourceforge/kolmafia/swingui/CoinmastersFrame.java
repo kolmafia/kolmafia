@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -1419,17 +1420,16 @@ public class CoinmastersFrame
 			}
 
 			CoinmasterData data = this.data;
-			Map<String,Integer> originalBalances = new TreeMap<String,Integer>();
-			Map<String,Integer> balances = new TreeMap<String,Integer>();
+			Map<Integer,Integer> originalBalances = new TreeMap<Integer,Integer>();
+			Map<Integer,Integer> balances = new TreeMap<Integer,Integer>();
 			int neededSize = items.length;
 
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
-				String itemName = item.getName();
-				String canonicalName = StringUtilities.getCanonicalName( itemName );
+				int itemId = item.getItemId();
 
-				if ( !CoinmastersDatabase.availableItem( canonicalName ) )
+				if ( !CoinmastersDatabase.availableItem( itemId ) )
 				{
 					// This was shown but was grayed out.
 					items[ i ] = null;
@@ -1437,8 +1437,8 @@ public class CoinmastersFrame
 					continue;
 				}
 
-				AdventureResult cost = data.itemBuyPrice( itemName );
-				String currency = cost.getName();
+				AdventureResult cost = data.itemBuyPrice( itemId );
+				Integer currency = IntegerPool.get( cost.getItemId() );
 				int price = cost.getCount();
 
 				Integer value = originalBalances.get( currency );
@@ -1448,7 +1448,7 @@ public class CoinmastersFrame
 						fromStorage ?
 						data.availableStorageTokens( cost ) :
 						data.availableTokens( cost );
-					value = new Integer( newValue );
+					value = IntegerPool.get( newValue );
 					originalBalances.put( currency, value );
 					balances.put( currency, value );
 				}
@@ -1470,7 +1470,7 @@ public class CoinmastersFrame
 				if ( max > 1 )
 				{
 					int def = CoinmasterPanel.this.buyDefault( max );
-					String val = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
+					String val = InputFieldUtilities.input( "Buying " + item.getName() + "...", KoLConstants.COMMA_FORMAT.format( def ) );
 					if ( val == null )
 					{
 						// He hit cancel
@@ -1494,7 +1494,7 @@ public class CoinmastersFrame
 
 				items[ i ] = item.getInstance( quantity );
 				balance -= quantity * price;
-				balances.put( currency, new Integer( balance ) );
+				balances.put( currency, IntegerPool.get( balance ) );
 			}
 
 			// Shrink the array which will be returned so
@@ -1622,7 +1622,7 @@ public class CoinmastersFrame
 						return false;
 					}
 					AdventureResult ar = (AdventureResult)element;
-					int price = CoinmastersDatabase.getPrice( ar.getName(), CoinmasterPanel.this.data.getSellPrices() );
+					int price = CoinmastersDatabase.getPrice( ar.getItemId(), CoinmasterPanel.this.data.getSellPrices() );
 					return ( price > 0 ) && super.isVisible( element );
 				}
 			}
@@ -1832,16 +1832,15 @@ public class CoinmastersFrame
 				return defaultComponent;
 			}
 
-			String name = ar.getName();
-			String canonicalName = StringUtilities.getCanonicalName( name );
-			AdventureResult cost = this.buying ? this.data.itemBuyPrice( name ) : this.data.itemSellPrice( name );
+			int itemId = ar.getItemId();
+			AdventureResult cost = this.buying ? this.data.itemBuyPrice( itemId ) : this.data.itemSellPrice( itemId );
 
 			if ( cost == null )
 			{
 				return defaultComponent;
 			}
 
-			boolean show = CoinmastersDatabase.availableItem( canonicalName );
+			boolean show = CoinmastersDatabase.availableItem( itemId );
 
 			int price = cost.getCount();
 
@@ -1861,7 +1860,7 @@ public class CoinmastersFrame
 			{
 				stringForm.append( "<font color=gray>" );
 			}
-			stringForm.append( name );
+			stringForm.append( ar.getName() );
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );

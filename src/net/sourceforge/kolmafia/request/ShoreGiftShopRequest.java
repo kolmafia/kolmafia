@@ -53,8 +53,8 @@ public class ShoreGiftShopRequest
 	public static final String master = "The Shore, Inc. Gift Shop"; 
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ShoreGiftShopRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ShoreGiftShopRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( ShoreGiftShopRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ShoreGiftShopRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ShoreGiftShopRequest.master );
 	private static final Pattern SCRIP_PATTERN = Pattern.compile( "(\\d+) Shore Inc. Ship Trip Scrip" );
 	public static final AdventureResult SHIP_TRIP_SCRIP = ItemPool.get( ItemPool.SHIP_TRIP_SCRIP, 1 );
 

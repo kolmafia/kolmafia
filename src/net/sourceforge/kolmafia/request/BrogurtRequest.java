@@ -52,8 +52,8 @@ public class BrogurtRequest
 {
 	public static final String master = "The Frozen Brogurt Stand";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BrogurtRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BrogurtRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( BrogurtRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BrogurtRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( BrogurtRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Beach Bucks" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.BEACH_BUCK, 1 );

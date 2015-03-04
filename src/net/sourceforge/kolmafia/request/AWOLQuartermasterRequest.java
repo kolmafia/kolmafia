@@ -56,7 +56,7 @@ public class AWOLQuartermasterRequest
 {
 	public static final String master = "A. W. O. L. Quartermaster"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( AWOLQuartermasterRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( AWOLQuartermasterRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( AWOLQuartermasterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? A. W. O. L. commendation" );
 	public static final AdventureResult COMMENDATION = ItemPool.get( ItemPool.AWOL_COMMENDATION, 1 );

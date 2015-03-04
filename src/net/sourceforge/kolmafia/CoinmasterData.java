@@ -72,18 +72,18 @@ public class CoinmasterData
 	private final Pattern tokenPattern;
 	private AdventureResult item;
 	private final String property;
-	// For Coinmasters that deal with "rows", a map from item name to row number
-	private final Map<String, Integer> itemRows;
+	// For Coinmasters that deal with "rows", a map from item id to row number
+	private final Map<Integer, Integer> itemRows;
 	// The base URL used to buy things from this Coinmaster
 	private final String buyURL;
 	private final String buyAction;
 	private final LockableListModel<AdventureResult> buyItems;
-	private final Map<String, Integer> buyPrices;
+	private final Map<Integer, Integer> buyPrices;
 	// The base URL used to sell things to this Coinmaster
 	private final String sellURL;
 	private final String sellAction;
 	private final LockableListModel<AdventureResult> sellItems;
-	private final Map<String, Integer> sellPrices;
+	private final Map<Integer, Integer> sellPrices;
 	// Fields assumed to be common to buying & selling
 	private final String itemField;
 	private final Pattern itemPattern;
@@ -103,15 +103,15 @@ public class CoinmasterData
 		final Pattern tokenPattern,
 		final AdventureResult item,
 		final String property,
-		final Map<String, Integer> itemRows,
+		final Map<Integer, Integer> itemRows,
 		final String buyURL,
 		final String buyAction,
 		final LockableListModel<AdventureResult> buyItems,
-		final Map<String, Integer> buyPrices,
+		final Map<Integer, Integer> buyPrices,
 		final String sellURL,
 		final String sellAction,
 		final LockableListModel<AdventureResult> sellItems,
-		final Map<String, Integer> sellPrices,
+		final Map<Integer, Integer> sellPrices,
 		final String itemField,
 		final Pattern itemPattern,
 		final String countField,
@@ -327,46 +327,39 @@ public class CoinmasterData
 		return this.buyItems;
 	}
 
-	public final Map<String, Integer> getBuyPrices()
+	public final Map<Integer, Integer> getBuyPrices()
 	{
 		return this.buyPrices;
 	}
 
-	public final boolean canBuyItem( final String itemName )
+	public final boolean canBuyItem( final int itemId )
 	{
 		if ( this.buyItems == null )
 		{
 			return false;
 		}
 
-		int itemId = ItemDatabase.getItemId( itemName );
 		AdventureResult item = ItemPool.get( itemId, 1 );
 		return item.getCount( this.buyItems ) > 0;
 	}
 
-	public final int getBuyPrice( final String itemName )
+	public final int getBuyPrice( final int itemId )
 	{
 		if ( this.buyPrices == null )
 		{
 			return 0;
 		}
 
-		String name = StringUtilities.getCanonicalName( itemName );
-		Integer price = (Integer) this.buyPrices.get( name );
+		Integer price = (Integer) this.buyPrices.get( itemId );
 		return price != null ? price.intValue() : 0;
 	}
 
-	public AdventureResult itemBuyPrice( final String itemName )
+	public AdventureResult itemBuyPrice( final int itemId )
 	{
-		int price = this.getBuyPrice( itemName );
+		int price = this.getBuyPrice( itemId );
 		return  this.item == null ?
 			this.tokenItem.getInstance( price ) :
 			this.item.getInstance( price );
-	}
-
-	public final AdventureResult itemBuyPrice( final int itemId )
-	{
-		return this.itemBuyPrice( ItemDatabase.getItemName( itemId ) );
 	}
 
 	public final String getSellAction()
@@ -379,43 +372,36 @@ public class CoinmasterData
 		return this.sellItems;
 	}
 
-	public final Map<String, Integer> getSellPrices()
+	public final Map<Integer, Integer> getSellPrices()
 	{
 		return this.sellPrices;
 	}
 
-	public final boolean canSellItem( final String itemName )
+	public final boolean canSellItem( final int itemId )
 	{
 		if ( this.sellPrices != null )
 		{
-			String name = StringUtilities.getCanonicalName( itemName );
-			return this.sellPrices.containsKey( name );
+			return this.sellPrices.containsKey( itemId );
 		}
 		return false;
 	}
 
-	public final int getSellPrice( final String itemName )
+	public final int getSellPrice( final int itemId )
 	{
 		if ( this.sellPrices != null )
 		{
-			String name = StringUtilities.getCanonicalName( itemName );
-			Integer price = (Integer) this.sellPrices.get( name );
+			Integer price = (Integer) this.sellPrices.get( itemId );
 			return price != null ? price.intValue() : 0;
 		}
 		return 0;
 	}
 
-	public AdventureResult itemSellPrice( final String itemName )
+	public AdventureResult itemSellPrice( final int itemId )
 	{
-		int price = this.getSellPrice( itemName );
+		int price = this.getSellPrice( itemId );
 		return  this.item == null ?
 			AdventureResult.tallyItem( this.token, price, false ) :
 			this.item.getInstance( price );
-	}
-
-	public final AdventureResult itemSellPrice( final int itemId )
-	{
-		return this.itemSellPrice( ItemDatabase.getItemName( itemId ) );
 	}
 
 	public final String getStorageAction()
@@ -428,7 +414,7 @@ public class CoinmasterData
 		return this.tradeAllAction;
 	}
 
-	public Map<String, Integer> getRows()
+	public Map<Integer, Integer> getRows()
 	{
 		return this.itemRows;
 	}
@@ -439,8 +425,7 @@ public class CoinmasterData
 		{
 			return IntegerPool.get( itemId );
 		}
-		String name = ItemDatabase.getCanonicalName( itemId );
-		Integer row = this.itemRows.get( name );
+		Integer row = this.itemRows.get( itemId );
 		return row;
 	}
 
@@ -459,7 +444,7 @@ public class CoinmasterData
 		// For each item you can buy from this Coin Master, create a purchase request
 		for ( AdventureResult item : this.buyItems )
 		{
-			AdventureResult price = this.itemBuyPrice( item.getName() );
+			AdventureResult price = this.itemBuyPrice( item.getItemId() );
 			CoinmastersDatabase.registerPurchaseRequest( this, item, price );
 		}
 	}

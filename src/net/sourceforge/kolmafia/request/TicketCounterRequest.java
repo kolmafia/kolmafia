@@ -57,8 +57,8 @@ public class TicketCounterRequest
 {
 	public static final String master = "Arcade Ticket Counter"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( TicketCounterRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TicketCounterRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TicketCounterRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TicketCounterRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( TicketCounterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) Game Grid redemption ticket" );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );

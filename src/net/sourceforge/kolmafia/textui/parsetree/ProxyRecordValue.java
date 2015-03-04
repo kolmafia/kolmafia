@@ -438,15 +438,13 @@ public class ProxyRecordValue
 		public CoinmasterData get_seller()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			String itemName = ItemDatabase.getItemName( id );
-			return CoinmasterRegistry.findSeller( itemName );
+			return CoinmasterRegistry.findSeller( id );
 		}
 
 		public CoinmasterData get_buyer()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			String itemName = ItemDatabase.getItemName( id );
-			return CoinmasterRegistry.findBuyer( itemName );
+			return CoinmasterRegistry.findBuyer( id );
 		}
 
 		public int get_name_length()

@@ -57,8 +57,8 @@ public class TrapperRequest
 {
 	public static String master = "The Trapper"; 
 	public static LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( TrapperRequest.master );
-	private static Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TrapperRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TrapperRequest.master );
+	private static Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( TrapperRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( TrapperRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) yeti fur" );
 	public static final AdventureResult YETI_FUR = ItemPool.get( ItemPool.YETI_FUR, 1 );

@@ -54,8 +54,8 @@ public class AppleStoreRequest
 	public static final String master = "The Applecalypse Store";
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( AppleStoreRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( AppleStoreRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( AppleStoreRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( AppleStoreRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( AppleStoreRequest.master );
 	private static final Pattern CHRONER_PATTERN = Pattern.compile( "([\\d,]+) Chroner" );
 	public static final AdventureResult CHRONER = ItemPool.get( ItemPool.CHRONER, 1 );
 

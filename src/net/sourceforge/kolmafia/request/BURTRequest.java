@@ -57,8 +57,8 @@ public class BURTRequest
 {
 	public static final String master = "Bugbear Token"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BURTRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BURTRequest.master );
-	private static final Map<Integer, String> itemByPrice = CoinmastersDatabase.invert( BURTRequest.buyPrices );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BURTRequest.master );
+	private static final Map<Integer, Integer> itemByPrice = CoinmastersDatabase.invert( BURTRequest.buyPrices );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) BURT" );
 	public static final AdventureResult BURT_TOKEN = ItemPool.get( ItemPool.BURT, 1 );
@@ -99,14 +99,14 @@ public class BURTRequest
 
 	private static int priceToItemId( final int price )
 	{
-		String itemName = (String) BURTRequest.itemByPrice.get( IntegerPool.get( price ) );
-		return ItemDatabase.getItemId( itemName );
+		int itemId = (int) BURTRequest.itemByPrice.get( IntegerPool.get( price ) );
+		return itemId;
 	}
 
-	private static int itemNameToPrice( final String name )
+	private static int itemIdToPrice( final int itemId )
 	{
 		CoinmasterData data = BURTRequest.BURT;
-		return data.getBuyPrice( name );
+		return data.getBuyPrice( itemId );
 	}
 
 	private static String lastURL = null;
@@ -136,7 +136,7 @@ public class BURTRequest
 	{
 		// The item field is the buy price; the number of BURTS spent
 		String itemField = this.data.getItemField();
-		this.addFormField( itemField, String.valueOf( BURTRequest.itemNameToPrice( item.getName() ) ) );
+		this.addFormField( itemField, String.valueOf( BURTRequest.itemIdToPrice( item.getItemId() ) ) );
 	}
 
 	@Override

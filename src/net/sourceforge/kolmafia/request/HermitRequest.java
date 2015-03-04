@@ -67,7 +67,7 @@ public class HermitRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) tradable items" );
 	public static final AdventureResult WORTHLESS_ITEM = ItemPool.get( ItemPool.WORTHLESS_ITEM, 1 );
-	private static final Map<String, Integer> buyPrices = new TreeMap<String, Integer>();
+	private static final Map<Integer, Integer> buyPrices = new TreeMap<Integer, Integer>();
 
 	public static final CoinmasterData HERMIT =
 		new CoinmasterData(
@@ -152,9 +152,8 @@ public class HermitRequest
 	private static final void registerHermitItem( final int itemId, final int count )
 	{
 		AdventureResult item = ItemPool.get( itemId, count );
-		String name = StringUtilities.getCanonicalName( item.getName() );
 		KoLConstants.hermitItems.add( item );
-		HermitRequest.buyPrices.put( name, HermitRequest.ONE );
+		HermitRequest.buyPrices.put( itemId, HermitRequest.ONE );
 	}
 
 	public static final void initialize()

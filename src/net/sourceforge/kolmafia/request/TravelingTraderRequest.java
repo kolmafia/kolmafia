@@ -59,7 +59,7 @@ public class TravelingTraderRequest
 {
 	public static final String master = "Traveling Trader"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getNewMap();
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
 	// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
 	private static AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );

@@ -64,7 +64,7 @@ public class MrStoreRequest
 {
 	public static final String master = "Mr. Store"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getNewMap();
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
@@ -291,15 +291,15 @@ public class MrStoreRequest
 			final Pattern tokenPattern,
 			final AdventureResult item,
 			final String property,
-			final Map<String, Integer> itemRows,
+			final Map<Integer, Integer> itemRows,
 			final String buyURL,
 			final String buyAction,
 			final LockableListModel<AdventureResult> buyItems,
-			final Map<String, Integer> buyPrices,
+			final Map<Integer, Integer> buyPrices,
 			final String sellURL,
 			final String sellAction,
 			final LockableListModel<AdventureResult> sellItems,
-			final Map<String, Integer> sellPrices,
+			final Map<Integer, Integer> sellPrices,
 			final String itemField,
 			final Pattern itemPattern,
 			final String countField,
@@ -320,10 +320,9 @@ public class MrStoreRequest
 		}
 
 		@Override
-		public AdventureResult itemBuyPrice( final String itemName )
+		public AdventureResult itemBuyPrice( final int itemId )
 		{
-			String name = StringUtilities.getCanonicalName( itemName );
-			return MrStoreRequest.buyCosts.get( name );
+			return MrStoreRequest.buyCosts.get( IntegerPool.get( itemId ) );
 		}
 	}
 }

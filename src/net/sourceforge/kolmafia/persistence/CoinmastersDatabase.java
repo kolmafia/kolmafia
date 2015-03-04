@@ -76,17 +76,17 @@ public class CoinmastersDatabase
 	// Map from String -> LockableListModel
 	public static final TreeMap<String,LockableListModel<AdventureResult>> buyItems = new TreeMap();
 
-	// Map from String -> Map from String -> Integer
-	public static final TreeMap<String, Map<String, Integer>> buyPrices = new TreeMap<String, Map<String, Integer>>();
+	// Map from String -> Map from Integer -> Integer
+	public static final TreeMap<String, Map<Integer, Integer>> buyPrices = new TreeMap<String, Map<Integer, Integer>>();
 
 	// Map from String -> LockableListModel
 	public static final TreeMap<String,LockableListModel<AdventureResult>> sellItems = new TreeMap();
 
-	// Map from String -> Map from String -> Integer
-	public static final TreeMap<String, Map<String, Integer>> sellPrices = new TreeMap<String, Map<String, Integer>>();
+	// Map from String -> Map from Integer -> Integer
+	public static final TreeMap<String, Map<Integer, Integer>> sellPrices = new TreeMap<String, Map<Integer, Integer>>();
 
-	// Map from String -> Map from String -> Integer
-	public static final TreeMap<String, Map<String, Integer>> itemRows = new TreeMap<String, Map<String, Integer>>();
+	// Map from String -> Map from Integer -> Integer
+	public static final TreeMap<String, Map<Integer, Integer>> itemRows = new TreeMap<String, Map<Integer, Integer>>();
 
 	public static final LockableListModel<AdventureResult> getItems( final String key )
 	{
@@ -98,7 +98,7 @@ public class CoinmastersDatabase
 		return CoinmastersDatabase.buyItems.get( key );
 	}
 
-	public static final Map<String, Integer> getBuyPrices( final String key )
+	public static final Map<Integer, Integer> getBuyPrices( final String key )
 	{
 		return CoinmastersDatabase.buyPrices.get( key );
 	}
@@ -108,12 +108,12 @@ public class CoinmastersDatabase
 		return CoinmastersDatabase.sellItems.get( key );
 	}
 
-	public static final Map<String, Integer> getSellPrices( final String key )
+	public static final Map<Integer, Integer> getSellPrices( final String key )
 	{
 		return CoinmastersDatabase.sellPrices.get( key );
 	}
 
-	public static final Map<String, Integer> getRows( final String key )
+	public static final Map<Integer, Integer> getRows( final String key )
 	{
 		return CoinmastersDatabase.itemRows.get( key );
 	}
@@ -123,9 +123,9 @@ public class CoinmastersDatabase
 		return new LockableListModel<AdventureResult>();
 	}
 
-	public static final Map<String, Integer> getNewMap()
+	public static final Map<Integer, Integer> getNewMap()
 	{
-		return new TreeMap<String, Integer>();
+		return new TreeMap<Integer, Integer>();
 	}
 
 	private static final LockableListModel<AdventureResult> getOrMakeList( final String key, final Map<String,LockableListModel<AdventureResult>> map )
@@ -139,9 +139,9 @@ public class CoinmastersDatabase
 		return retval;
 	}
 
-	private static final Map<String, Integer> getOrMakeMap( final String key, final Map<String, Map<String, Integer>> map )
+	private static final Map<Integer, Integer> getOrMakeMap( final String key, final Map<String, Map<Integer, Integer>> map )
 	{
-		Map<String, Integer> retval = (Map<String, Integer>) map.get( key );
+		Map<Integer, Integer> retval = (Map<Integer, Integer>) map.get( key );
 		if ( retval == null )
 		{
 			retval = CoinmastersDatabase.getNewMap();
@@ -150,10 +150,10 @@ public class CoinmastersDatabase
 		return retval;
 	}
 
-	public static final Map<Integer, String> invert( final Map<String, Integer> map )
+	public static final Map<Integer, Integer> invert( final Map<Integer, Integer> map )
 	{
-		Map<Integer, String> retval = new TreeMap<Integer, String>();
-		for ( Entry<String, Integer> entry : map.entrySet() )
+		Map<Integer, Integer> retval = new TreeMap<Integer, Integer>();
+		for ( Entry<Integer, Integer> entry : map.entrySet() )
 		{
 			retval.put(entry.getValue(), entry.getKey());
 		}
@@ -179,8 +179,8 @@ public class CoinmastersDatabase
 			if ( data.length == 2 )
 			{
 				String rname = data[ 1 ];
-				String name = StringUtilities.getCanonicalName( rname );
-				AdventureResult item = ItemPool.get( name, PurchaseRequest.MAX_QUANTITY );
+				int itemId = ItemDatabase.getItemId( rname );
+				AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
 				list.add( item );
 				continue;
@@ -195,7 +195,7 @@ public class CoinmastersDatabase
 			int price = StringUtilities.parseInt( data[ 2 ] );
 			Integer iprice = IntegerPool.get( price );
 			AdventureResult item = AdventureResult.parseItem( data[ 3 ], true );
-			String name = StringUtilities.getCanonicalName( item.getName() );
+			Integer iitemId = IntegerPool.get( item.getItemId() );
 
 			Integer row = null;
 			if ( data.length > 4 )
@@ -206,8 +206,8 @@ public class CoinmastersDatabase
 					if ( extra1.startsWith( "ROW" ) )
 					{
 						row = IntegerPool.get( StringUtilities.parseInt( data[ 4 ].substring( 3 ) ) );
-						Map<String, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
-						rowMap.put( name, row );
+						Map<Integer, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
+						rowMap.put( iitemId, row );
 					}
 				}
 			}
@@ -217,16 +217,16 @@ public class CoinmastersDatabase
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
 				list.add( item.getInstance( PurchaseRequest.MAX_QUANTITY ) );
 
-				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
-				map.put( name, iprice );
+				Map<Integer, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
+				map.put( iitemId, iprice );
 			}
 			else if ( type.equals( "sell" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.sellItems );
 				list.add( item );
 
-				Map<String, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
-				map.put( name, iprice );
+				Map<Integer, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
+				map.put( iitemId, iprice );
 			}
 			
 		}
@@ -244,76 +244,48 @@ public class CoinmastersDatabase
 		}
 	}
 
-	public static final int getPrice( final String name, final Map prices )
+	public static final int getPrice( final int itemId, final Map prices )
 	{
-		if ( name == null )
+		if ( itemId == -1 )
 		{
 			return 0;
 		}
-		Integer price = (Integer) prices.get( StringUtilities.getCanonicalName( name ) );
+		Integer price = (Integer) prices.get( (Integer) itemId );
 		return ( price == null ) ? 0 : price.intValue();
 	}
 
-	public static final boolean availableItem( final String name )
+	public static final boolean availableItem( final int itemId )
 	{
-		if ( name.equals( "a crimbo carol, ch. 1" ) )
+		switch( itemId )
 		{
+		case ItemPool.CRIMBO_CAROL_V1:
 			return KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER );
-		}
-		if ( name.equals( "a crimbo carol, ch. 2" ) )
-		{
+
+		case ItemPool.CRIMBO_CAROL_V2:
 			return KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER );
-		}
-		if ( name.equals( "a crimbo carol, ch. 3" ) )
-		{
+
+		case ItemPool.CRIMBO_CAROL_V3:
 			return KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER );
-		}
-		if ( name.equals( "a crimbo carol, ch. 4" ) )
-		{
+
+		case ItemPool.CRIMBO_CAROL_V4:
 			return KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
-		}
-		if ( name.equals( "a crimbo carol, ch. 5" ) )
-		{
+
+		case ItemPool.CRIMBO_CAROL_V5:
 			return KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT );
-		}
-		if ( name.equals( "a crimbo carol, ch. 6" ) )
-		{
+
+		case ItemPool.CRIMBO_CAROL_V6:
 			return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
-		}
-		if ( name.equals( "a. w. o. l. tattoo #1" ) )
-		{
-			return KoLCharacter.AWOLtattoo == 1;
-		}
-		if ( name.equals( "a. w. o. l. tattoo #2" ) )
-		{
-			return KoLCharacter.AWOLtattoo == 2;
-		}
-		if ( name.equals( "a. w. o. l. tattoo #3" ) )
-		{
-			return KoLCharacter.AWOLtattoo == 3;
-		}
-		if ( name.equals( "a. w. o. l. tattoo #4" ) )
-		{
-			return KoLCharacter.AWOLtattoo == 4;
-		}
-		if ( name.equals( "a. w. o. l. tattoo #5" ) )
-		{
-			return KoLCharacter.AWOLtattoo == 5;
-		}
-		if ( name.equals( "black bart's booty" ) )
-		{
+
+		case ItemPool.BLACK_BARTS_BOOTY:
 			return Preferences.getInteger( "pirateSwagger" ) >= 1000;
-		}
-		if ( name.equals( "holiday hal's happy-time fun book!" ) )
-		{
+
+		case ItemPool.HOLIDAY_FUN_BOOK:
 			return Preferences.getInteger( "holidaySwagger" ) >= 1000;
-		}
-		if ( name.equals( "antagonistic snowman kit" ) )
-		{
+
+		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 			return Preferences.getInteger( "iceSwagger" ) >= 1000;
-		}
-		if ( name.equals( "map to kokomo" ) )
-		{
+
+		case ItemPool.MAP_TO_KOKOMO:
 			return Preferences.getInteger( "drunkenSwagger" ) >= 1234;
 		}
 
@@ -371,10 +343,10 @@ public class CoinmastersDatabase
 		}
 	}
 
-	public static final CoinMasterPurchaseRequest getPurchaseRequest( final String itemName )
+	public static final CoinMasterPurchaseRequest getPurchaseRequest( final int itemId )
 	{
-		Integer id = IntegerPool.get( ItemDatabase.getItemId( itemName, 1, false ) );
-		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get(  id );
+		Integer id = IntegerPool.get( itemId );
+		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get( id );
 
 		if ( request == null )
 		{
@@ -387,14 +359,14 @@ public class CoinmastersDatabase
 		return request;
 	}
 
-	public static final boolean contains( final String itemName )
+	public static final boolean contains( final int itemId )
 	{
-		return CoinmastersDatabase.contains( itemName, true );
+		return CoinmastersDatabase.contains( itemId, true );
 	}
 
-	public static final boolean contains( final String itemName, boolean validate )
+	public static final boolean contains( final int itemId, boolean validate )
 	{
-		PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemId );
 		return item != null && ( !validate || item.canPurchase() );
 	}
 }

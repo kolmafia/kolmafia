@@ -52,8 +52,8 @@ public class WarbearBoxRequest
 {
 	public static final String master = "Warbear Black Box";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( WarbearBoxRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( WarbearBoxRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( WarbearBoxRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( WarbearBoxRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( WarbearBoxRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) warbear whosit" );
 	public static final AdventureResult WHOSIT = ItemPool.get( ItemPool.WARBEAR_WHOSIT, 1 );
