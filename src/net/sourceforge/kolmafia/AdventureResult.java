@@ -620,6 +620,10 @@ public class AdventureResult
 			int sign = parsedGain.nextToken().startsWith( "gain" ) ? 1 : -1;
 			// Make sure we are looking at a number
 			String val = parsedGain.nextToken();
+			if ( val.equals( "no" ) )
+			{
+				val = "0";
+			}
 			if ( !StringUtilities.isNumeric( val ) )
 			{
 				return null;
