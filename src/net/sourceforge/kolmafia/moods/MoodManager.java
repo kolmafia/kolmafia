@@ -370,7 +370,8 @@ public abstract class MoodManager
 			}
 
 			String effectName = UneffectRequest.skillToEffect( skillName );
-			if ( EffectDatabase.contains( effectName ) )
+			int effectId = EffectDatabase.getEffectId( effectName );
+			if ( EffectDatabase.contains( effectId ) )
 			{
 				String action = MoodManager.getDefaultAction( "lose_effect", effectName );
 				MoodManager.addTrigger( "lose_effect", effectName, action );
@@ -829,7 +830,8 @@ public abstract class MoodManager
 		{
 			if ( action.equals( "" ) )
 			{
-				action = EffectDatabase.getDefaultAction( name );
+				int effectId = EffectDatabase.getEffectId( name );
+				action = EffectDatabase.getDefaultAction( effectId );
 
 				if ( action == null )
 				{
