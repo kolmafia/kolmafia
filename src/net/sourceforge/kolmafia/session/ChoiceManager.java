@@ -3455,6 +3455,7 @@ public abstract class ChoiceManager
 		// Choice 1054 is Returning the MacGuffin
 		// Choice 1055 is Returning the MacGuffin
 		// Choice 1056 is Now It's Dark
+		// Choice 1057 is A Stone Shrine
 		// Choice 1059 is Helping Make Ends Meat
 		// Choice 1060 is Temporarily Out of Skeletons
 		new ChoiceAdventure(
@@ -8338,6 +8339,14 @@ public abstract class ChoiceManager
 			{
 				// the other three must be completed at this point.
 				Preferences.setInteger( "twinPeakProgress", 15 );
+			}
+			break;
+
+		case 1057:
+			// A Stone Shrine
+			if ( text.contains( "shatter the" ) )
+			{
+				KoLCharacter.setHippyStoneBroken( true );
 			}
 			break;
 
