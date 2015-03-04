@@ -475,15 +475,33 @@ public class DataTypes
 			return DataTypes.EFFECT_INIT;
 		}
 
+		// Allow for an effect number to be specified
+		// inside of the "effect" construct.
+
+		int effectId;
+		
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			effectId = StringUtilities.parseInt( name );
+			name = EffectDatabase.getEffectName( effectId );
+
+			if ( name == null  )
+			{
+				return returnDefault ? DataTypes.EFFECT_INIT : null;
+			}
+
+			return new Value( DataTypes.EFFECT_TYPE, effectId, name );
+		}
+
 		AdventureResult effect = EffectDatabase.getFirstMatchingEffect( name, false );
 		if ( effect == null )
 		{
 			return returnDefault ? DataTypes.EFFECT_INIT : null;
 		}
 
-		int num = EffectDatabase.getEffectId( effect.getName() );
-		name = EffectDatabase.getEffectName( num );
-		return new Value( DataTypes.EFFECT_TYPE, num, name );
+		effectId = EffectDatabase.getEffectId( effect.getName() );
+		name = EffectDatabase.getEffectName( effectId );
+		return new Value( DataTypes.EFFECT_TYPE, effectId, name );
 	}
 
 	public static final Value parseFamiliarValue( String name, final boolean returnDefault )
