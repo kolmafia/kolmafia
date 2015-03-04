@@ -1136,7 +1136,7 @@ The Aquaman	0	theaquaman.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude	fi
 The Rain King	0	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 
 # Actually Ed the Undying
-Boss Bat?	0	deadbossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast
+Boss Bat?	0	deadbossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: undead
 new Knob Goblin King	0	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
 Donerbagon	0	donerbagon.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
 # <your winged yeti>	0	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
