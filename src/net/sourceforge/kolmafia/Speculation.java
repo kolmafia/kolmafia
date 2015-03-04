@@ -75,7 +75,7 @@ public class Speculation
 		{
 			if ( this.equipment[ i ] == null ) continue;
 			int itemId = this.equipment[ i ].getItemId();
-			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+			Modifiers mods = Modifiers.getItemModifiers( itemId );
 			if ( mods == null ) continue;
 			String name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 			if ( name.length() == 0 ) continue;

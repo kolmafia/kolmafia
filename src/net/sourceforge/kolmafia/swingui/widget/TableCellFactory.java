@@ -499,7 +499,7 @@ public class TableCellFactory
 			return null;
 		}
 
-		Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+		Modifiers mods = Modifiers.getItemModifiers( itemId );
 		if ( mods == null )
 		{
 			return null;

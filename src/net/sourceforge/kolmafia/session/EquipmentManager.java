@@ -1300,14 +1300,15 @@ public class EquipmentManager
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			String currentItemName = currentItem.getName();
 
-			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
+			int itemId = currentItem.getItemId();
+			int type = ItemDatabase.getConsumptionType( itemId );
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
 			if ( filterId == KoLConstants.EQUIP_OFFHAND && type == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.isMainhandOnly( currentItem ) || EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
+				if ( EquipmentDatabase.isMainhandOnly( itemId ) || EquipmentDatabase.getWeaponType( itemId ) != weaponType )
 				{
 					continue;
 				}
@@ -1335,7 +1336,7 @@ public class EquipmentManager
 
 			else if ( filterId == KoLConstants.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.getWeaponType( currentItemName ) != weaponType )
+				if ( EquipmentDatabase.getHands( itemId ) == 1 && EquipmentDatabase.getWeaponType( itemId ) != weaponType )
 				{
 					continue;
 				}
@@ -1516,7 +1517,7 @@ public class EquipmentManager
 
 	public static final int getWeaponHandedness()
 	{
-		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
+		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
 	}
 
 	/**
@@ -1527,7 +1528,7 @@ public class EquipmentManager
 
 	public static final boolean usingTwoWeapons()
 	{
-		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getName() ) == 1;
+		return EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getItemId() ) == 1;
 	}
 
 	/**
@@ -1599,7 +1600,7 @@ public class EquipmentManager
 
 	public static final WeaponType getWeaponType()
 	{
-		return EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
+		return EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
 	}
 
 	/**
@@ -1852,7 +1853,7 @@ public class EquipmentManager
 		
 		if ( KoLCharacter.isHardcore() )
 		{
-			Modifiers mods = Modifiers.getModifiers( "Item", itemId );
+			Modifiers mods = Modifiers.getItemModifiers( itemId );
 			if ( mods != null && mods.getBoolean( Modifiers.SOFTCORE ) )
 			{
 				return false;

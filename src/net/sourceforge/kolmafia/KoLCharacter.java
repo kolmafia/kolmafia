@@ -5269,17 +5269,17 @@ public abstract class KoLCharacter
 			}
 			for ( int count = item.getCount(); count > 0; --count )
 			{
-				newModifiers.add( Modifiers.getModifiers( "Item", item.getItemId() ) );
+				newModifiers.add( Modifiers.getItemModifiers( item.getItemId() ) );
 			}
 		}
 
 		// Add modifiers from dwelling
 		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
-		newModifiers.add( Modifiers.getModifiers( "Item", dwelling.getItemId() ) );
+		newModifiers.add( Modifiers.getItemModifiers( dwelling.getItemId() ) );
 
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.COMFY_BLANKET, 1 ) ) )
 		{
-			newModifiers.add( Modifiers.getModifiers( "Item", ItemPool.COMFY_BLANKET ) );
+			newModifiers.add( Modifiers.getItemModifiers( ItemPool.COMFY_BLANKET ) );
 		}
 
 		if ( HolidayDatabase.getRonaldPhase() == 5 )
@@ -5462,7 +5462,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		Modifiers imod = Modifiers.getModifiers( "Item", itemId );
+		Modifiers imod = Modifiers.getItemModifiers( itemId );
 
 		if ( slot == EquipmentManager.FAMILIAR && consume == KoLConstants.EQUIP_WEAPON )
 		{
@@ -5507,7 +5507,7 @@ public abstract class KoLCharacter
 				AdventureResult sticker = equipment[ i ];
 				if ( sticker != null && sticker != EquipmentRequest.UNEQUIP )
 				{
-					newModifiers.add( Modifiers.getModifiers( "Item", sticker.getItemId() ) );
+					newModifiers.add( Modifiers.getItemModifiers( sticker.getItemId() ) );
 				}
 			}
 			break;
@@ -5518,7 +5518,7 @@ public abstract class KoLCharacter
 			AdventureResult card = equipment[ EquipmentManager.CARDSLEEVE ];
 			if ( card != null && card != EquipmentRequest.UNEQUIP )
 			{
-				newModifiers.add( Modifiers.getModifiers( "Item", card.getItemId() ) );
+				newModifiers.add( Modifiers.getItemModifiers( card.getItemId() ) );
 			}
 			break;
 		}
@@ -5530,7 +5530,7 @@ public abstract class KoLCharacter
 				AdventureResult folder = equipment[ i ];
 				if ( folder != null && folder != EquipmentRequest.UNEQUIP )
 				{
-					newModifiers.add( Modifiers.getModifiers( "Item", folder.getItemId() ) );
+					newModifiers.add( Modifiers.getItemModifiers( folder.getItemId() ) );
 				}
 			}
 			break;
@@ -5594,7 +5594,7 @@ public abstract class KoLCharacter
 			if ( item != null )
 			{
 				int itemId = item.getItemId();
-				Modifiers imod = Modifiers.getModifiers( "Item", itemId );
+				Modifiers imod = Modifiers.getItemModifiers( itemId );
 				if ( imod != null )
 				{
 					String classType = imod.getString( Modifiers.CLASS );

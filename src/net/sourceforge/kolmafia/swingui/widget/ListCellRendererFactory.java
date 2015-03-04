@@ -680,7 +680,7 @@ public class ListCellRendererFactory
 				stringForm.append( "</font>" );
 			}
 
-			int power = EquipmentDatabase.getPower( ar.getName() );
+			int power = EquipmentDatabase.getPower( ar.getItemId() );
 
 			if ( power > 0 )
 			{
@@ -707,7 +707,7 @@ public class ListCellRendererFactory
 
 			stringForm.append( icr.getName() );
 
-			int power = EquipmentDatabase.getPower( icr.getName() );
+			int power = EquipmentDatabase.getPower( icr.getItemId() );
 
 			if ( power > 0 )
 			{
@@ -829,9 +829,9 @@ public class ListCellRendererFactory
 			}
 
 			AdventureResult ar = (AdventureResult) value;
-			int equipmentType = ItemDatabase.getConsumptionType( ar.getName() );
+			int equipmentType = ItemDatabase.getConsumptionType( ar.getItemId() );
 
-			int power = EquipmentDatabase.getPower( ar.getName() );
+			int power = EquipmentDatabase.getPower( ar.getItemId() );
 			String stringForm = null;
 
 			if ( equipmentType == KoLConstants.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
@@ -854,7 +854,7 @@ public class ListCellRendererFactory
 				if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 				{
 					int count;
-					Modifiers mods = Modifiers.getModifiers( "Item", ar.getItemId() );
+					Modifiers mods = Modifiers.getItemModifiers( ar.getItemId() );
 					if ( mods != null && mods.getBoolean( Modifiers.SINGLE ) )
 					{
 						count = 1;
@@ -1033,7 +1033,7 @@ public class ListCellRendererFactory
 				stringForm.append( "</font>" );
 			}
 
-			int power = EquipmentDatabase.getPower( ar.getName() );
+			int power = EquipmentDatabase.getPower( ar.getItemId() );
 
 			if ( power > 0 )
 			{

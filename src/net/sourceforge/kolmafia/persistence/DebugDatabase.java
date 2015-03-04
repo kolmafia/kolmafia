@@ -874,6 +874,7 @@ public class DebugDatabase
 			hasPower = true;
 		}
 
+		int itemId = ItemDatabase.getItemId( name );
 		int power = 0;
 		if ( isWeapon || hasPower )
 		{
@@ -883,11 +884,11 @@ public class DebugDatabase
 		{
 			// Until KoL puts off-hand and accessory power into the
 			// description, use hand-entered "secret" value.
-			power = EquipmentDatabase.getPower( name );
+			power = EquipmentDatabase.getPower( itemId );
 		}
 
 		// Now check against what we already have
-		int oldPower = EquipmentDatabase.getPower( name );
+		int oldPower = EquipmentDatabase.getPower( itemId );
 		if ( power != oldPower )
 		{
 			report.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
@@ -896,7 +897,7 @@ public class DebugDatabase
 		String weaponType = isWeapon ? DebugDatabase.parseWeaponType( type ) : "";
 		String req = DebugDatabase.parseReq( text, type );
 
-		String oldReq = EquipmentDatabase.getEquipRequirement( name );
+		String oldReq = EquipmentDatabase.getEquipRequirement( itemId );
 		if ( !req.equals( oldReq ) )
 		{
 			report.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
@@ -905,7 +906,7 @@ public class DebugDatabase
 		if ( isWeapon )
 		{
 			int spaceIndex = weaponType.indexOf( " " );
-			String oldHanded = EquipmentDatabase.getHands( name ) + "-handed";
+			String oldHanded = EquipmentDatabase.getHands( itemId ) + "-handed";
 
 			if ( spaceIndex != -1 && !weaponType.startsWith( oldHanded ) )
 			{

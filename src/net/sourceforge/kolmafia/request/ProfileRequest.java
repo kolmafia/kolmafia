@@ -339,15 +339,16 @@ public class ProfileRequest
 				;
 			}
 
-			while ( EquipmentDatabase.contains( token = st.nextToken() ) )
+			int itemId = -1;
+			while ( EquipmentDatabase.contains( itemId = ItemDatabase.getItemId( token = st.nextToken() ) ) )
 			{
-				switch ( ItemDatabase.getConsumptionType( token ) )
+				switch ( ItemDatabase.getConsumptionType( itemId ) )
 				{
 				case KoLConstants.EQUIP_HAT:
 				case KoLConstants.EQUIP_PANTS:
 				case KoLConstants.EQUIP_SHIRT:
 
-					this.equipmentPower += EquipmentDatabase.getPower( token );
+					this.equipmentPower += EquipmentDatabase.getPower( itemId );
 					break;
 				}
 			}

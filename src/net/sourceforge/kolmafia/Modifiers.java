@@ -1322,7 +1322,7 @@ public class Modifiers
 				continue;
 			}
 
-			currentTest = Modifiers.getModifiers( "Effect", effectId );
+			currentTest = Modifiers.getModifiers( "Effect", effectName );
 			double value = ( (Modifiers) currentTest ).get( index );
 
 			if ( value == 0.0 )
@@ -1795,14 +1795,14 @@ public class Modifiers
 		}
 	}
 
-	public static final Modifiers getModifiers( final String type, final int id )
+	public static final Modifiers getItemModifiers( final int id )
 	{
 		if ( id <= 0 )
 		{
 			return null;
 		}
 		String name = "[" + id + "]";
-		return Modifiers.getModifiers( type, name );
+		return Modifiers.getModifiers( "Item", name );
 	}
 
 	public static final Modifiers getModifiers( String type, final String name )
@@ -2458,7 +2458,7 @@ public class Modifiers
 		     ( familiarId != FamiliarPool.SCARECROW || type != KoLConstants.EQUIP_PANTS ) )
 		{
 			// Add in all the modifiers bestowed by this item
-			tempMods.add( Modifiers.getModifiers( "Item", itemId ) );
+			tempMods.add( Modifiers.getItemModifiers( itemId ) );
 
 			// Apply weight modifiers right now
 			weight += (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT );

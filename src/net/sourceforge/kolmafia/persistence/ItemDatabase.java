@@ -1006,7 +1006,7 @@ public class ItemDatabase
 		RequestLogger.updateSessionLog( printMe );
 
 		// Equipment can be part of an outfit.
-		EquipmentDatabase.registerItemOutfit( itemName, text );
+		EquipmentDatabase.registerItemOutfit( itemId, text );
 
 		// Potions grant an effect. Check for a new effect.
 		String effectName = Modifiers.getStringModifier( "Item", itemId, "Effect" );
