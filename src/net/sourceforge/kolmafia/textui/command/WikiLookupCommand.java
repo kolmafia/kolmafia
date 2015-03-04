@@ -36,11 +36,24 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
+
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+
+import net.sourceforge.kolmafia.textui.DataTypes;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
@@ -52,31 +65,105 @@ public class WikiLookupCommand
 {
 	public WikiLookupCommand()
 	{
-		this.usage = " <item> | <effect> - go to appropriate KoL Wiki page.";
+		this.usage = " [effect|familiar|item|skill|outfit|monster|location] <target> - go to appropriate KoL Wiki page. If not specified, defaults to effect then item if no matches.";
 	}
 
 	@Override
 	public void run( final String command, final String parameters )
 	{
-		if ( command.equals( "lookup" ) )
+		int index = parameters.indexOf( " " );
+		String type = null;
+		String target = parameters;
+		if ( index != -1 )
 		{
-			List names = EffectDatabase.getMatchingNames( parameters );
-			if ( names.size() == 1 )
-			{
-				int effectId = EffectDatabase.getEffectId( (String) names.get( 0 ) );
-				AdventureResult result = EffectPool.get( effectId );
-				WikiUtilities.showWikiDescription( result );
-				return;
-			}
-
-			AdventureResult result = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
-			if ( result != null )
-			{
-				WikiUtilities.showWikiDescription( result );
-				return;
-			}
+			type = parameters.substring( 0, index ).toLowerCase().trim();
+			target = parameters.substring( index + 1 ).trim();
 		}
+		if ( type == null || ( !type.startsWith( "effect" ) && !type.startsWith( "familiar" ) &&
+			!type.startsWith( "item" ) && !type.startsWith( "skill" ) && !type.startsWith( "outfit" ) &&
+			!type.startsWith( "monster" ) && !type.startsWith( "location" ) ) )
+		{
+			// No type specified
+			type = "item or effect";
+		}
+		if ( command.equals( "lookup" ) && target.length() > 0 )
+		{
+			if ( type.startsWith( "effect" ) || type.startsWith( "item or effect" ) )
+ 			{
+				List names = EffectDatabase.getMatchingNames( target );
+				if ( names.size() == 1 )
+				{
+					int effectId = EffectDatabase.getEffectId( (String) names.get( 0 ) );
+					AdventureResult result = EffectPool.get( effectId );
+					WikiUtilities.showWikiDescription( result );
+					return;
+				}
+			}
 
-		RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.getURLEncode( parameters ) + "&go=Go" );
+			if ( type.startsWith( "familiar" ) )
+			{
+				int num = FamiliarDatabase.getFamiliarId( target );
+				if ( num != -1 )
+				{
+					target = FamiliarDatabase.getFamiliarName( num );
+				}
+				WikiUtilities.showWikiDescription( target );
+ 				return;
+ 			}
+
+			if ( type.startsWith( "item" ) )
+			{
+				AdventureResult result = ItemFinder.getFirstMatchingItem( target, ItemFinder.ANY_MATCH );
+				if ( result != null )
+				{
+					WikiUtilities.showWikiDescription( result );
+					return;
+				}
+			}
+
+			if ( type.startsWith( "skill" ) )
+			{
+				List names = SkillDatabase.getMatchingNames( target );
+				if ( names.size() == 1 )
+				{
+					int num = SkillDatabase.getSkillId( (String) names.get( 0 ) );
+					target = SkillDatabase.getSkillDataName( num );
+					WikiUtilities.showWikiDescription( target );
+					return;
+				}
+			}
+
+			if ( type.startsWith( "outfit" ) )
+			{
+				SpecialOutfit so = EquipmentManager.getMatchingOutfit( target.toString() );
+				if ( so != null )
+				{
+					WikiUtilities.showWikiDescription( so.toString() );
+					return;
+				}
+			}
+
+			if ( type.startsWith( "monster" ) )
+			{
+				MonsterData monster = MonsterDatabase.findMonster( target, true );
+				if ( monster != null )
+				{
+					WikiUtilities.showWikiDescription( monster.getName() );
+					return;
+				}
+			}
+
+			if ( type.startsWith( "location" ) )
+			{
+				KoLAdventure content = AdventureDatabase.getAdventure( target );
+				if ( content != null )
+				{
+					WikiUtilities.showWikiDescription( content.getAdventureName() );
+					return;
+				}
+			}
+ 		}
+
+		RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.getURLEncode( target ) + "&go=Go" );
 	}
 }
