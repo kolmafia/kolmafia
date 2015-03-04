@@ -52,7 +52,7 @@ public class FreeSnackRequest
 {
 	public static final String master = "Game Shoppe Snacks"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( FreeSnackRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FreeSnackRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FreeSnackRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) free snack voucher" );
 	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );

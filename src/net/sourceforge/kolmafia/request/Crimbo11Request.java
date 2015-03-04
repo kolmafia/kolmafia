@@ -58,9 +58,9 @@ public class Crimbo11Request
 {
 	public static final String master = "Crimbo 2011"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo11Request.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo11Request.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo11Request.master );
 	private static final LockableListModel<AdventureResult> sellItems = CoinmastersDatabase.getSellItems( Crimbo11Request.master );
-	private static final Map<String, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo11Request.master );
+	private static final Map<Integer, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo11Request.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have.*?<b>([\\d,]+)</b> Candy Credit", Pattern.DOTALL );
 	public static final CoinmasterData CRIMBO11 =
 		new CoinmasterData(
@@ -265,8 +265,8 @@ public class Crimbo11Request
 		AdventureResult item = AdventureResult.findItem( itemId, items );
 		String name = item != null ? item.getName() :
 			( "item #" + itemIdString );
-		Map<String, Integer> prices = data.getBuyPrices();
-		int price = CoinmastersDatabase.getPrice( name, prices );
+		Map<Integer, Integer> prices = data.getBuyPrices();
+		int price = CoinmastersDatabase.getPrice( itemId, prices );
 		int cost = count * price;
 
 		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();

@@ -3885,7 +3885,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_coinmaster_item( Interpreter interpreter, final Value item )
 	{
-		return DataTypes.makeBooleanValue( CoinmastersDatabase.contains( ItemDatabase.getItemName( (int) item.intValue() ), false ) );
+		return DataTypes.makeBooleanValue( CoinmastersDatabase.contains( (int) item.intValue(), false ) );
 	}
 
 	public static Value autosell_price( Interpreter interpreter, final Value item )
@@ -3930,29 +3930,25 @@ public abstract class RuntimeLibrary
 	public static Value buys_item( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		String itemName = ItemDatabase.getItemName( (int) item.intValue() );
-		return DataTypes.makeBooleanValue( data != null && data.canSellItem( itemName ) );
+		return DataTypes.makeBooleanValue( data != null && data.canSellItem( (int) item.intValue() ) );
 	}
 
 	public static Value buy_price( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		String itemName = ItemDatabase.getItemName( (int) item.intValue() );
-		return DataTypes.makeIntValue( data != null ? data.getSellPrice( itemName ) : 0 );
+		return DataTypes.makeIntValue( data != null ? data.getSellPrice( (int) item.intValue() ) : 0 );
 	}
 
 	public static Value sells_item( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		String itemName = ItemDatabase.getItemName( (int) item.intValue() );
-		return DataTypes.makeBooleanValue( data != null && data.canBuyItem( itemName ) );
+		return DataTypes.makeBooleanValue( data != null && data.canBuyItem( (int) item.intValue() ) );
 	}
 
 	public static Value sell_price( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		String itemName = ItemDatabase.getItemName( (int) item.intValue() );
-		return DataTypes.makeIntValue( data != null ? data.getBuyPrice( itemName ) : 0 );
+		return DataTypes.makeIntValue( data != null ? data.getBuyPrice( (int) item.intValue() ) : 0 );
 	}
 
 	public static Value historical_price( Interpreter interpreter, final Value item )

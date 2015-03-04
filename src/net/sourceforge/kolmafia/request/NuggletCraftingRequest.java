@@ -53,8 +53,8 @@ public class NuggletCraftingRequest
 	public static final String master = "Topiary Nuggletcrafting";
 
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( NuggletCraftingRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( NuggletCraftingRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( NuggletCraftingRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( NuggletCraftingRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( NuggletCraftingRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) topiary nugglet" );
 	public static final AdventureResult TOPIARY_NUGGLET =  ItemPool.get( ItemPool.TOPIARY_NUGGLET, 1 );

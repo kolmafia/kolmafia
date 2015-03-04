@@ -65,7 +65,7 @@ public class BountyHunterHunterRequest
 {
 	public static final String master = "Bounty Hunter Hunter"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BountyHunterHunterRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BountyHunterHunterRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BountyHunterHunterRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have.*?<b>([\\d,]+)</b> filthy lucre" );
 	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, 1 );

@@ -194,9 +194,9 @@ public abstract class CoinmasterRegistry
 		return null;
 	}
 
-	public static CoinmasterData findBuyer( final String itemName )
+	public static CoinmasterData findBuyer( final int itemId )
 	{
-		if ( itemName == null )
+		if ( itemId == -1 )
 		{
 			return null;
 		}
@@ -204,7 +204,7 @@ public abstract class CoinmasterRegistry
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
 			CoinmasterData data = COINMASTERS[ i ];
-			if ( data.canSellItem( itemName ) )
+			if ( data.canSellItem( itemId ) )
 			{
 				return data;
 			}
@@ -213,12 +213,12 @@ public abstract class CoinmasterRegistry
 		return null;
 	}
 
-	public static CoinmasterData findSeller( final String itemName )
+	public static CoinmasterData findSeller( final int itemId )
 	{
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
 			CoinmasterData data = COINMASTERS[ i ];
-			if ( data.canBuyItem( itemName ) )
+			if ( data.canBuyItem( itemId ) )
 			{
 				return data;
 			}

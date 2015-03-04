@@ -54,8 +54,8 @@ public class ArmoryRequest
 {
 	public static final String master = "The Armory";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ArmoryRequest.master );
-	private static final Map<String, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ArmoryRequest.master );
-	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( ArmoryRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ArmoryRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ArmoryRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Coins-spiracy" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.COINSPIRACY, 1 );

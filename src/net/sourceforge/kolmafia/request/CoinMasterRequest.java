@@ -135,8 +135,9 @@ public class CoinMasterRequest
 		}
 
 		String action = data.getBuyAction();
+		int itemId = it.getItemId();
 		String itemName = it.getName();
-		if ( action == null || !data.canBuyItem( itemName ) )
+		if ( action == null || !data.canBuyItem( itemId ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy " + itemName + " from " + data.getMaster() );
 			return;
@@ -162,8 +163,9 @@ public class CoinMasterRequest
 		}
 
 		String action = data.getSellAction();
+		int itemId = it.getItemId();
 		String itemName = it.getName();
-		if ( action == null || !data.canSellItem( itemName ) )
+		if ( action == null || !data.canSellItem( itemId ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't sell " + itemName + " to " + data.getMaster() );
 			return;
@@ -449,12 +451,12 @@ public class CoinMasterRequest
 		if ( data.getRows() != null )
 		{
 			// itemId above is actually the row
-			for ( Entry<String, Integer> entry : data.getRows().entrySet() )
+			for ( Entry<Integer, Integer> entry : data.getRows().entrySet() )
 			{
 				if ( itemId == entry.getValue() )
 				{
 					// This is the actual itemId
-					return ItemDatabase.getItemId( entry.getKey(), 1 );
+					return (int) entry.getKey();
 				}
 			}
 			return -1;
@@ -480,9 +482,8 @@ public class CoinMasterRequest
 
 	private static final int itemSellPrice( final CoinmasterData data, final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
 		Map prices = data.getSellPrices();
-		return CoinmastersDatabase.getPrice( name, prices );
+		return CoinmastersDatabase.getPrice( itemId, prices );
 	}
 
 	public static final void buyStuff( final CoinmasterData data, final String urlString )
