@@ -72,7 +72,7 @@ MONSTER	Orcish Frat Boy	fratskirt\.gif	"Orcish Frat Boy (Pledge)"
 MONSTER	Orcish Frat Boy	rectify	"Orcish Frat Boy (Music Lover)"
 MONSTER	Orcish Frat Boy	.	"Orcish Frat Boy (Paddler)"
 
-MONSTER	Guard Turtle	frenchturtle\.gif	"French Guard Turtle"
+MONSTER	guard turtle	frenchturtle\.gif	"french guard turtle"
 
 MONSTER	Trippy Floating Head	kasemhead\.gif	"Trippy Floating Head (Casey Kasem)"
 MONSTER	Trippy Floating Head	tarkinhead\.gif	"Trippy Floating Head (Grand Moff Tarkin)"
