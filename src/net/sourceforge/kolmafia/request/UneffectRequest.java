@@ -58,11 +58,9 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -706,7 +704,7 @@ public class UneffectRequest
 
 	public static void removeEffectsWithItem( final int itemId )
 	{
-		HashSet effects = (HashSet) UneffectRequest.removeWithItemMap.get( IntegerPool.get( itemId ) );
+		Set<Integer> effects = UneffectRequest.removeWithItemMap.get( IntegerPool.get( itemId ) );
 		UneffectRequest.removeEffects( effects );
 	}
 
@@ -719,22 +717,19 @@ public class UneffectRequest
 			return;
 		}
 
-		HashSet effects = (HashSet) UneffectRequest.removeWithSkillMap.get( skillName );
+		Set<Integer> effects = UneffectRequest.removeWithSkillMap.get( skillName );
 		UneffectRequest.removeEffects( effects );
 	}
 
-	private static void removeEffects( final HashSet effects )
+	private static void removeEffects( final Set<Integer> effects )
 	{
 		if ( effects == null )
 		{
 			return;
 		}
 
-		Iterator it = effects.iterator();
-
-		while ( it.hasNext() )
+		for ( Integer effectId : effects )
 		{
-			int effectId = StringUtilities.parseInt( (String) it.next() );
 			AdventureResult effect = EffectPool.get( effectId );
 			KoLConstants.activeEffects.remove( effect );
 		}
