@@ -627,7 +627,7 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 			}
-			else switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
+			else switch ( ItemDatabase.getConsumptionType( creation.getItemId() ) )
 			{
 			case KoLConstants.CONSUME_FOOD_HELPER:
 				if ( !UseItemEnqueuePanel.this.food )

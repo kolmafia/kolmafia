@@ -962,7 +962,11 @@ public abstract class ItemManagePanel
 			String name = AutoFilterTextField.getResultName( element );
 			boolean isVisibleWithFilter = true;
 
-			switch ( ItemDatabase.getConsumptionType( name ) )
+			int itemId = element instanceof AdventureResult ?
+				( (AdventureResult) element ).getItemId() :
+				ItemDatabase.getItemId( name, 1, false );
+
+			switch ( ItemDatabase.getConsumptionType( itemId ) )
 			{
 			case KoLConstants.CONSUME_EAT:
 				isVisibleWithFilter = FilterItemField.this.food;
@@ -987,7 +991,7 @@ public abstract class ItemManagePanel
 
 				if ( element instanceof CreateItemRequest )
 				{
-					switch ( ConcoctionDatabase.getMixingMethod( name ) )
+					switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
 					{
 					case COOK:
 					case COOK_FANCY:
@@ -1030,10 +1034,6 @@ public abstract class ItemManagePanel
 			{
 				return false;
 			}
-
-			int itemId = element instanceof AdventureResult ?
-				( (AdventureResult) element ).getItemId() :
-				ItemDatabase.getItemId( name, 1, false );
 
 			if ( itemId < 1 )
 			{

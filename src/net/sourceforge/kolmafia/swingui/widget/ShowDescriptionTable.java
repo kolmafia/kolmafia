@@ -639,7 +639,7 @@ public class ShowDescriptionTable
 		else if ( item instanceof Concoction )
 		{
 			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem="
-				+ ItemDatabase.getDescriptionId( ( (Concoction) item ).getName() ) );
+				+ ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
 		}
 		else if ( item instanceof CreateItemRequest )
 		{
