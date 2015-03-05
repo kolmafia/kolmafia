@@ -274,24 +274,22 @@ public class ProxyRecordValue
 
 		public String get_plural()
 		{
-			return ItemDatabase.getPluralName( this.contentString );
+			return ItemDatabase.getPluralName( (int) this.contentLong );
 		}
 
 		public String get_descid()
 		{
-			return ItemDatabase.getDescriptionId( this.contentString );
+			return ItemDatabase.getDescriptionId( (int) this.contentLong );
 		}
 
 		public String get_image()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getImage( id );
+			return ItemDatabase.getImage( (int) this.contentLong );
 		}
 
 		public String get_smallimage()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getSmallImage( id );
+			return ItemDatabase.getSmallImage( (int) this.contentLong );
 		}
 
 		public Integer get_levelreq()
@@ -371,86 +369,73 @@ public class ProxyRecordValue
 
 		public boolean get_quest()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isQuestItem( id );
+			return ItemDatabase.isQuestItem( (int) this.contentLong );
 		}
 
 		public boolean get_gift()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isGiftItem( id );
+			return ItemDatabase.isGiftItem( (int) this.contentLong );
 		}
 
 		public boolean get_tradeable()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isTradeable( id );
+			return ItemDatabase.isTradeable( (int) this.contentLong );
 		}
 
 		public boolean get_discardable()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isDiscardable( id );
+			return ItemDatabase.isDiscardable( (int) this.contentLong );
 		}
 
 		public boolean get_combat()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE );
+			return ItemDatabase.getAttribute( (int) this.contentLong, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
 		public boolean get_combat_reusable()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT_REUSABLE );
+			return ItemDatabase.getAttribute( (int) this.contentLong, ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
 		public boolean get_usable()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isUsable( id );
+			return ItemDatabase.isUsable( (int) this.contentLong );
 		}
 
 		public boolean get_reusable()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
+			int id = (int) this.contentLong;
 			return ItemDatabase.getConsumptionType( id ) == KoLConstants.INFINITE_USES || ItemDatabase.getAttribute( id, ItemDatabase.ATTR_REUSABLE );
 		}
 
 		public boolean get_multi()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isMultiUsable( id );
+			return ItemDatabase.isMultiUsable( (int) this.contentLong );
 		}
 
 		public boolean get_fancy()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isFancyItem( id );
+			return ItemDatabase.isFancyItem( (int) this.contentLong );
 		}
 
 		public boolean get_candy()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isCandyItem( id );
+			return ItemDatabase.isCandyItem( (int) this.contentLong );
 		}
 
 		public CoinmasterData get_seller()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return CoinmasterRegistry.findSeller( id );
+			return CoinmasterRegistry.findSeller( (int) this.contentLong);
 		}
 
 		public CoinmasterData get_buyer()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return CoinmasterRegistry.findBuyer( id );
+			return CoinmasterRegistry.findBuyer( (int) this.contentLong );
 		}
 
 		public int get_name_length()
 		{
-			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getNameLength( id );
+			return ItemDatabase.getNameLength( (int) this.contentLong );
 		}
 	}
 

@@ -1801,17 +1801,6 @@ public class ItemDatabase
 	 * @return <code>true</code> if the item is usable
 	 */
 
-	public static final boolean isUsable( final String itemName )
-	{
-		int itemId = ItemDatabase.getItemId( itemName );
-		if ( itemId <= 0 )
-		{
-			return false;
-		}
-
-		return ItemDatabase.isUsable( itemId );
-	}
-
 	public static final boolean isUsable( final int itemId )
 	{
 		// Anything that you can manipulate with inv_use.php
@@ -1834,11 +1823,6 @@ public class ItemDatabase
 		default:
 			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE ) ) != 0;
 		}
-	}
-
-	public static final boolean isEquipment( final String itemName )
-	{
-		return ItemDatabase.isEquipment( ItemDatabase.getItemId( itemName ) );
 	}
 
 	public static final boolean isEquipment( final int itemId )
@@ -1982,11 +1966,6 @@ public class ItemDatabase
 		return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.get( itemId );
 	}
 
-	public static final int getConsumptionType( final String itemName )
-	{
-		return ItemDatabase.getConsumptionType( ItemDatabase.getItemId( itemName ) );
-	}
-
 	public static final int getConsumptionType( final AdventureResult item )
 	{
 		return ItemDatabase.getConsumptionType( item.getItemId() );
@@ -2002,12 +1981,6 @@ public class ItemDatabase
 	 *
 	 * @return The description Id associated with the item
 	 */
-
-	public static final String getDescriptionId( final String itemName )
-	{
-		int itemId = ItemDatabase.getItemId( itemName, 1, false );
-		return ItemDatabase.getDescriptionId( itemId );
-	}
 
 	public static final String getDescriptionId( final int itemId )
 	{

@@ -72,16 +72,24 @@ public class WikiLookupCommand
 	public void run( final String command, final String parameters )
 	{
 		int index = parameters.indexOf( " " );
-		String type = null;
 		String target = parameters;
+		String type = null;
 		if ( index != -1 )
 		{
 			type = parameters.substring( 0, index ).toLowerCase().trim();
-			target = parameters.substring( index + 1 ).trim();
+			if ( type.startsWith( "effect" ) || type.startsWith( "familiar" ) || type.startsWith( "item" ) ||
+				type.startsWith( "skill" ) || type.startsWith( "outfit" ) || type.startsWith( "monster" ) || 
+				type.startsWith( "location" ) )
+			{
+				target = parameters.substring( index + 1 ).trim();
+			}
+			else
+			{
+			// No type specified
+				type = "item or effect";
+			}
 		}
-		if ( type == null || ( !type.startsWith( "effect" ) && !type.startsWith( "familiar" ) &&
-			!type.startsWith( "item" ) && !type.startsWith( "skill" ) && !type.startsWith( "outfit" ) &&
-			!type.startsWith( "monster" ) && !type.startsWith( "location" ) ) )
+		else
 		{
 			// No type specified
 			type = "item or effect";

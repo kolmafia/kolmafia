@@ -3145,6 +3145,11 @@ public class ConcoctionDatabase
 			return this.concoction.getName();
 		}
 
+		public int getItemId()
+		{
+			return this.concoction.getItemId();
+		}
+
 		@Override
 		public String toString()
 		{

@@ -287,11 +287,11 @@ public class ShowDescriptionList
 		}
 		else if ( item instanceof Concoction )
 		{
-			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getName() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
 		}
 		else if ( item instanceof QueuedConcoction )
 		{
-			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (QueuedConcoction) item ).getName() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (QueuedConcoction) item ).getItemId() ) );
 		}
 		else if ( item instanceof CreateItemRequest )
 		{
