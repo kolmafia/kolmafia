@@ -360,6 +360,13 @@ public class ItemPool
 	public static final int SANGRIA_DEL_DIABLO = 1025;
 	public static final int TAM_O_SHANTER = 1040;
 	public static final int GREEN_BEER = 1041;
+	public static final int RED_STRIPED_EGG = 1048;
+	public static final int RED_POLKA_EGG = 1059;
+	public static final int RED_PAISLEY_EGG = 1050;
+	public static final int BLUE_STRIPED_EGG = 1052;
+	public static final int BLUE_POLKA_EGG = 1053;
+	public static final int BLUE_PAISLEY_EGG = 1054;
+	public static final int OYSTER_BASKET = 1080;
 	public static final int TARGETING_CHIP = 1102;
 	public static final int CLOCKWORK_BARTENDER = 1111;
 	public static final int CLOCKWORK_CHEF = 1112;
@@ -734,6 +741,7 @@ public class ItemPool
 	public static final int GREAT_TREE_BRANCH = 2852;
 	public static final int PHIL_BUNION_AXE = 2853;
 	public static final int SWAMP_ROSE_BOUQUET = 2854;
+	public static final int PARTY_HAT = 2945;
 	public static final int V_MASK = 2946;
 	public static final int PIRATE_INSULT_BOOK = 2947;
 	public static final int CARONCH_MAP = 2950;
@@ -850,6 +858,9 @@ public class ItemPool
 	public static final int DUMPLINGS = 3228;
 	public static final int OIL_OF_OILINESS = 3230;
 	public static final int TATTERED_PAPER_CROWN = 3231;
+	public static final int INFLATABLE_DUCK = 3233;
+	public static final int WATER_WINGS = 3234;
+	public static final int FOAM_NOODLE = 3235;
 	public static final int KISSIN_COUSINS = 3236;
 	public static final int TALES_FROM_THE_FIRESIDE = 3237;
 	public static final int BLIZZARDS_I_HAVE_DIED_IN = 3238;
@@ -2141,6 +2152,8 @@ public class ItemPool
 	public static final int PHONUS_BALONUS = 7597;
 	public static final int FLIVVER = 7598;
 	public static final int SLOPPY_JALOPY = 7599;
+	public static final int HEAVY_DUTY_UMBRELLA = 7643;
+	public static final int POOL_SKIMMER = 7644;
 	public static final int MINI_LIFE_PRESERVER = 7645;
 	public static final int LIGHTNING_MILK = 7646;
 	public static final int AQUA_BRAIN = 7647;
@@ -2152,6 +2165,7 @@ public class ItemPool
 	public static final int CAP_GUN = 7695;
 	public static final int CONFISCATOR_BOOK = 7706;
 	public static final int THORS_PLIERS = 7709;
+	public static final int WATER_WINGS_FOR_BABIES = 7711;
 	public static final int BEAUTIFUL_RAINBOW = 7712;
 	public static final int CHRONER_CROSS = 7723;
 	public static final int MERCURY_BLESSING = 7728;

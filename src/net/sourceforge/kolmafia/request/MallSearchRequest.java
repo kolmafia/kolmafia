@@ -266,7 +266,7 @@ public class MallSearchRequest
 			int itemId = ItemDatabase.getItemId( itemName );
 			boolean untradeable = !ItemDatabase.isTradeable( itemId );
 
-			if ( NPCStoreDatabase.contains( itemName ) ||
+			if ( NPCStoreDatabase.contains( itemId ) ||
 			     CoinmastersDatabase.contains( itemId ) )
 			{
 				npcItemCount++;
@@ -436,7 +436,7 @@ public class MallSearchRequest
 				if ( previousItemId != itemId )
 				{
 					previousItemId = itemId;
-					this.addNPCStoreItem( itemName );
+					this.addNPCStoreItem( itemId );
 					this.addCoinMasterItem( itemId );
 					itemNames.remove( itemName );
 				}
@@ -458,11 +458,11 @@ public class MallSearchRequest
 		this.finalizeList( itemNames );
 	}
 
-	private void addNPCStoreItem( final String itemName )
+	private void addNPCStoreItem( final int itemId )
 	{
-		if ( NPCStoreDatabase.contains( itemName, false ) )
+		if ( NPCStoreDatabase.contains( itemId, false ) )
 		{
-			PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
+			PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemId );
 			if ( !this.results.contains( item ) )
 			{
 				this.results.add( item );
@@ -492,8 +492,9 @@ public class MallSearchRequest
 		for ( int i = 0; i < itemNames.size(); ++i )
 		{
 			String itemName = (String) itemNames.get( i );
-			this.addNPCStoreItem( itemName );
-			this.addCoinMasterItem( ItemDatabase.getItemId( itemName ) );
+			int itemId = ItemDatabase.getItemId( itemName );
+			this.addNPCStoreItem( itemId );
+			this.addCoinMasterItem( itemId );
 		}
 	}
 

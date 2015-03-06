@@ -177,12 +177,13 @@ public class CleanupJunkRequest
 					continue;
 				}
 
+				int itemId = currentItem.getItemId();
 				itemCount = currentItem.getCount( KoLConstants.inventory );
-				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
+				itemPower = EquipmentDatabase.getPower( itemId );
 
-				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName(), false ) )
+				if ( itemCount > 0 && !NPCStoreDatabase.contains( itemId, false ) )
 				{
-					switch ( ItemDatabase.getConsumptionType( currentItem.getItemId() ) )
+					switch ( ItemDatabase.getConsumptionType( itemId ) )
 					{
 					case KoLConstants.EQUIP_HAT:
 					case KoLConstants.EQUIP_PANTS:

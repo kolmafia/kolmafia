@@ -371,7 +371,7 @@ public class NPCPurchaseRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-		int priceVal = NPCStoreDatabase.price( itemName );
+		int priceVal = NPCStoreDatabase.price( itemId );
 
 		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
 		String shopId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
@@ -845,7 +845,7 @@ public class NPCPurchaseRequest
 		}
 
 		String itemName = ItemDatabase.getItemName( itemId );
-		int priceVal = NPCStoreDatabase.price( itemName );
+		int priceVal = NPCStoreDatabase.price( itemId );
 
 		// A "shop" can have items for Meat and also for tokens.
 		// If  there is no Meat price, let correct class claim it.

@@ -136,10 +136,8 @@ public class NPCStoreDatabase
 		return (String) NPCStoreDatabase.storeNameById.get( storeId );
 	}
 
-	public static final PurchaseRequest getPurchaseRequest( final String itemName )
+	public static final PurchaseRequest getPurchaseRequest( final int itemId )
 	{
-		int itemId = ItemDatabase.getItemId( itemName, 1, false );
-
 		NPCPurchaseRequest foundItem = null;
 
 		List<NPCPurchaseRequest> items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
@@ -152,7 +150,7 @@ public class NPCStoreDatabase
 		{
 			foundItem = item;
 
-			if ( !NPCStoreDatabase.canPurchase( item.getStoreId(), item.getShopName(), itemName ) )
+			if ( !NPCStoreDatabase.canPurchase( item.getStoreId(), item.getShopName(), itemId ) )
 			{
 				continue;
 			}
@@ -171,7 +169,7 @@ public class NPCStoreDatabase
 	}
 
 	private static final boolean canPurchase( final String storeId, final String shopName,
-		final String itemName )
+		final int itemId )
 	{
 		if ( storeId == null )
 		{
@@ -319,38 +317,38 @@ public class NPCStoreDatabase
 			// Some items restricted, often because of holidays
 			String holiday = HolidayDatabase.getHoliday();
 
-			if ( itemName.equals( "marshmallow" ) )
+			if ( itemId == ItemPool.MARSHMALLOW )
 			{
 				return holiday.contains( "Yuletide" );
 			}
-			else if ( itemName.equals( "oyster basket" ) )
+			else if ( itemId == ItemPool.OYSTER_BASKET )
 			{
 				return holiday.contains( "Oyster Egg Day" );
 			}
-			else if ( itemName.equals( "party hat" ) )
+			else if ( itemId == ItemPool.PARTY_HAT )
 			{
 				return holiday.contains( "Festival of Jarlsberg" );
 			}
-			else if ( itemName.equals( "M-242" ) || itemName.equals( "snake" ) || itemName.equals( "sparkler" ) )
+			else if ( itemId == ItemPool.M282 || itemId == ItemPool.SNAKE || itemId == ItemPool.SPARKLER )
 			{
 				return holiday.contains( "Dependence Day" );
 			}
-			else if ( itemName.equals( "foam noodle" ) || itemName.equals( "inflatable duck" ) || itemName.equals( "water wings" ) )
+			else if ( itemId == ItemPool.FOAM_NOODLE || itemId == ItemPool.INFLATABLE_DUCK || itemId == ItemPool.WATER_WINGS )
 			{
 				return holiday.contains( "Generic Summer Holiday" );
 			}
-			else if ( itemName.equals( "Desert Bus pass" ) )
+			else if ( itemId == ItemPool.DESERT_BUS_PASS )
 			{
 				return !KoLCharacter.desertBeachAccessible();
 			}
-			else if ( itemName.startsWith( "folder (" ) )
+			else if ( itemId == ItemPool.FOLDER_01 || itemId == ItemPool.FOLDER_02 || itemId == ItemPool.FOLDER_03 )
 			{
 				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1, false );
 				return folderHolder.getCount( KoLConstants.inventory ) + folderHolder.getCount( KoLConstants.closet ) +
 					folderHolder.getCount( KoLConstants.collection ) > 0 || KoLCharacter.hasEquipped( folderHolder );
 			}
-			else if ( itemName.equals( "water wings for babies" ) || itemName.equals( "miniature life preserver" ) ||
-				itemName.equals( "heavy duty umbrella" )  || itemName.equals( "pool skimmer" ) )
+			else if ( itemId == ItemPool.WATER_WINGS_FOR_BABIES || itemId == ItemPool.MINI_LIFE_PRESERVER ||
+				itemId == ItemPool.HEAVY_DUTY_UMBRELLA  || itemId == ItemPool.POOL_SKIMMER )
 			{
 				return KoLCharacter.inRaincore();
 			}
@@ -388,6 +386,7 @@ public class NPCStoreDatabase
 				return false;
 			}
 
+			String itemName = ItemDatabase.getItemName( itemId );
 			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
 				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
 			{
@@ -461,26 +460,26 @@ public class NPCStoreDatabase
 		return -1;
 	}
 
-	public static final boolean contains( final String itemName )
+	public static final boolean contains( final int itemId )
 	{
-		return NPCStoreDatabase.contains( itemName, true );
+		return NPCStoreDatabase.contains( itemId, true );
 	}
 
-	public static final int price( final String itemName )
+	public static final int price( final int itemId )
 	{
-		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemId );
 		return request == null ? 0 : request.getPrice();
 	}
 
-	public static final int availablePrice( final String itemName )
+	public static final int availablePrice( final int itemId )
 	{
-		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemId );
 		return request == null || !request.canPurchase() ? 0 : request.getPrice();
 	}
 
-	public static final boolean contains( final String itemName, boolean validate )
+	public static final boolean contains( final int itemId, boolean validate )
 	{
-		PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemId );
 		return item != null && ( !validate || item.canPurchaseIgnoringMeat() );
 	}
 }
