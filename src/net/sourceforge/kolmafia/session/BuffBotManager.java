@@ -343,7 +343,7 @@ public abstract class BuffBotManager
 			{
 				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
-					if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
+					if ( NPCStoreDatabase.contains( ItemPool.MMJ ) )
 					{
 						AdventureResult restores =
 							ItemPool.get( ItemPool.MMJ, BuffBotManager.initialRestores );

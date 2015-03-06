@@ -571,8 +571,7 @@ public abstract class StoreManager
 			return results;
 		}
 
-		String itemName = ItemDatabase.getItemDataName( IntegerPool.get( itemId ) );
-		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemId );
 
 		if ( request != null )
 		{
@@ -691,17 +690,18 @@ public abstract class StoreManager
 	public static final synchronized int getMallPrice( final AdventureResult item )
 	{
 		StoreManager.flushCache();
-		if ( item.getItemId() < 1 ||
-		     ( !ItemDatabase.isTradeable( item.getItemId() ) && !NPCStoreDatabase.contains( item.getName(), true ) ) )
+		int itemId = item.getItemId();
+		if ( itemId < 1 ||
+		     ( !ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemId, true ) ) )
 		{
 			return 0;
 		}
-		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
+		if ( StoreManager.mallPrices.get( itemId ) == 0 )
 		{
 			ArrayList<PurchaseRequest> results = StoreManager.searchMall( item.getInstance( 5 ) );
 			StoreManager.updateMallPrice( item, results );
 		}
-		return StoreManager.mallPrices.get( item.getItemId() );
+		return StoreManager.mallPrices.get( itemId );
 	}
 
 	public static int getMallPrice( AdventureResult item, float maxAge )
@@ -911,22 +911,23 @@ public abstract class StoreManager
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[ i ].getItemId() == ItemPool.MEAT_PASTE || items[ i ].getItemId() == ItemPool.MEAT_STACK || items[ i ].getItemId() == ItemPool.DENSE_STACK )
+			int itemId = items[ i ].getItemId();
+			if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
 			{
 				continue;
 			}
 
-			if ( !ItemDatabase.isTradeable( items[ i ].getItemId() ) )
+			if ( !ItemDatabase.isTradeable( itemId ) )
 			{
 				continue;
 			}
 
-			if ( ItemDatabase.getPriceById( items[ i ].getItemId() ) <= 0 )
+			if ( ItemDatabase.getPriceById( itemId ) <= 0 )
 			{
 				continue;
 			}
 
-			if ( NPCStoreDatabase.contains( items[ i ].getName(), false ) )
+			if ( NPCStoreDatabase.contains( itemId, false ) )
 			{
 				autosell.add( items[ i ] );
 			}

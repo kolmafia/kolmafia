@@ -720,7 +720,7 @@ public abstract class InventoryManager
 			if ( shouldUseNPCStore )
 			{
 				// If Price from NPC store is 100 or below and available, never try mall.
-				int NPCPrice = NPCStoreDatabase.availablePrice( item.getName() );
+				int NPCPrice = NPCStoreDatabase.availablePrice( itemId );
 				int autosellPrice = ItemDatabase.getPriceById( itemId );
 				if ( NPCPrice > 0 && NPCPrice <= Math.max( 100, autosellPrice * 2 ) )
 				{
@@ -1412,7 +1412,7 @@ public abstract class InventoryManager
 	  Cost(X) = 12.5 * ( 17 - X ) Meat
 	 */
 
-	public static PurchaseRequest CHEWING_GUM = NPCStoreDatabase.getPurchaseRequest( "chewing gum on a string" );
+	public static PurchaseRequest CHEWING_GUM = NPCStoreDatabase.getPurchaseRequest( ItemPool.CHEWING_GUM );
 
 	public static int currentWorthlessItemCost()
 	{
@@ -1798,14 +1798,13 @@ public abstract class InventoryManager
 		{
 			return false;
 		}
-		return InventoryManager.canUseNPCStores() &&
-			NPCStoreDatabase.contains( item.getName() );
+		return InventoryManager.canUseNPCStores( item.getItemId() );
 	}
 
 	public static boolean canUseNPCStores( final int itemId )
 	{
-		AdventureResult item = ItemPool.get( itemId, 1 );
-		return InventoryManager.canUseNPCStores( item );
+		return InventoryManager.canUseNPCStores() &&
+			NPCStoreDatabase.contains( itemId );
 	}
 
 	public static boolean canUseNPCStores()

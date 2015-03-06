@@ -3880,7 +3880,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_npc_item( Interpreter interpreter, final Value item )
 	{
-		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( (int) item.intValue() ), false ) );
+		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( (int) item.intValue(), false ) );
 	}
 
 	public static Value is_coinmaster_item( Interpreter interpreter, final Value item )
@@ -3901,10 +3901,11 @@ public abstract class RuntimeLibrary
 
 	public static Value npc_price( Interpreter interpreter, final Value item )
 	{
-		String it = ItemDatabase.getItemName( (int) item.intValue() );
+		int itemId = (int) item.intValue();
+		String it = ItemDatabase.getItemName( itemId );
 		return new Value(
-			NPCStoreDatabase.contains( it, true ) ?
-			NPCStoreDatabase.price( it ) :
+			NPCStoreDatabase.contains( itemId, true ) ?
+			NPCStoreDatabase.price( itemId ) :
 			ClanLoungeRequest.availableSpeakeasyDrink( it ) ?
 			ClanLoungeRequest.speakeasyNameToCost( it ).intValue() :
 			0 );

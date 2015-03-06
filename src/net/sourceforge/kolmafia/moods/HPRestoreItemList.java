@@ -470,17 +470,18 @@ public abstract class HPRestoreItemList
 				// from the mall.
 
 				int numberAvailable = this.itemUsed.getCount( KoLConstants.inventory );
+				int itemId = this.itemUsed.getItemId();
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
 					int numberToBuy = numberAvailable;
-					int unitPrice = ItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
+					int unitPrice = ItemDatabase.getPriceById( itemId ) * 2;
 
-					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( itemId ) )
 					{
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
 					}
-					else if ( NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+					else if ( NPCStoreDatabase.contains( itemId ) )
 					{
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
 					}

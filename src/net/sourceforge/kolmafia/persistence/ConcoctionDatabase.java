@@ -1234,17 +1234,14 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-
-			String name = concoction.getName();
-
-			if ( useNPCStores && NPCStoreDatabase.contains( name, true ) )
+			if ( useNPCStores && NPCStoreDatabase.contains( itemId, true ) )
 			{
 				if ( itemId != ItemPool.FLAT_DOUGH )
 				{
 					// Don't buy flat dough from Degrassi Knoll Bakery -
 					// buy wads of dough for 20 meat less, instead.
 
-					item.price = NPCStoreDatabase.price( name );
+					item.price = NPCStoreDatabase.price( itemId );
 					item.initial = concoction.getCount( availableIngredients );
 					item.creatable = 0;
 					item.total = item.initial;

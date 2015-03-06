@@ -318,7 +318,7 @@ public class ItemFinder
 			conditionalRemove( nameIterator, itemId != -1 &&
 				!ItemDatabase.getAttribute( itemId,
 					ItemDatabase.ATTR_TRADEABLE | ItemDatabase.ATTR_MATCHABLE | ItemDatabase.ATTR_QUEST ) &&
-				!NPCStoreDatabase.contains( itemName ) );
+				!NPCStoreDatabase.contains( itemId ) );
 		}
 
 		// restore from last step iff we filtered _everything_

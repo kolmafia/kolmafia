@@ -260,7 +260,7 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( NPCStoreDatabase.contains( ItemDatabase.getItemName( itemId ) ) )
+		if ( NPCStoreDatabase.contains( itemId ) )
 		{
 			if ( price == 100 || price > Math.abs( ItemDatabase.getPriceById( itemId ) ) * 2 )
 			{
