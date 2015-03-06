@@ -694,12 +694,6 @@ public class EquipmentDatabase
 			String type = EquipmentDatabase.itemTypes.get( itemId );
 			return type != null ? type : "offhand";
 		}
-		case KoLConstants.MP_RESTORE:
-			return "mp restore";
-		case KoLConstants.HP_RESTORE:
-			return "hp restore";
-		case KoLConstants.HPMP_RESTORE:
-			return "hp+mp restore";
 		case KoLConstants.EQUIP_CONTAINER:
 			return "container";
 		case KoLConstants.CONSUME_GUARDIAN:

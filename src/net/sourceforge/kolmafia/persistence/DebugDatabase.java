@@ -376,11 +376,7 @@ public class DebugDatabase
 
 		int type = ItemDatabase.getConsumptionType( itemId );
 		String descType = DebugDatabase.parseType( text );
-		int descPrimary = DebugDatabase.parseRestoreType( text );
-		if ( descPrimary == -1 )
-		{
-			descPrimary = DebugDatabase.typeToPrimary( descType, false );
-		}
+		int descPrimary = DebugDatabase.typeToPrimary( descType, false );
 		if ( !typesMatch( type, descPrimary ) )
 		{
 			String primary = ItemDatabase.typeToPrimaryUsage( type );
@@ -584,18 +580,6 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.contains( "hpmp" ) )
-		{
-			return KoLConstants.HPMP_RESTORE;
-		}
-		if ( type.contains( "mp" ) )
-		{
-			return KoLConstants.MP_RESTORE;
-		}
-		if ( type.contains( "hp" ) )
-		{
-			return KoLConstants.HP_RESTORE;
-		}
 		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) || type.equals( "potion" ) )
 		{
 			// Although most potions end up being multi-usable, KoL
@@ -694,9 +678,6 @@ public class DebugDatabase
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_DRINK:
 		case KoLConstants.CONSUME_SPLEEN:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.GROW_FAMILIAR:
 		case KoLConstants.EQUIP_FAMILIAR:
 		case KoLConstants.EQUIP_ACCESSORY:
@@ -1253,33 +1234,6 @@ public class DebugDatabase
 	private static final Pattern RESTORE_RANGE_PATTERN = Pattern.compile( "(\\d+)-(\\d+) (?:HP|MP|Hit Points)" );
 	private static final Pattern RESTORE_RANGE2_PATTERN = Pattern.compile( "(\\d+)-(\\d+) HP and (\\d+)-(\\d+) MP" );
 	private static final Pattern RESTORE_UPTO_PATTERN = Pattern.compile( "up to (.*?) (?:HP|MP)" );
-
-	public static final int parseRestoreType( final String text )
-	{
-		Matcher enchantMatcher = DebugDatabase.ITEM_ENCHANTMENT_PATTERN.matcher( text );
-		if ( !enchantMatcher.find() )
-		{
-			return -1;
-		}
-		String enchant = enchantMatcher.group( 1 );
-		if ( !enchant.contains( "Restores" ) && !enchant.contains( "Heals" ) )
-		{
-			return -1;
-		}
-		if ( enchant.contains( "HP" ) && enchant.contains( "MP" ) )
-		{
-			return KoLConstants.HPMP_RESTORE;
-		}
-		if ( enchant.contains( "HP" ) || enchant.contains( "Hit Points" ) )
-		{
-			return KoLConstants.HP_RESTORE;
-		}
-		if ( enchant.contains( "MP" ) )
-		{
-			return KoLConstants.MP_RESTORE;
-		}
-		return -1;
-	}
 
 	public static final void parseRestores( final String name, final String text )
 	{

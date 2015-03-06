@@ -272,10 +272,6 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "card", KoLConstants.CONSUME_CARD );
 		ItemDatabase.definePrimaryUse( "folder", KoLConstants.CONSUME_FOLDER );
 
-		ItemDatabase.definePrimaryUse( "hp", KoLConstants.HP_RESTORE );
-		ItemDatabase.definePrimaryUse( "mp", KoLConstants.MP_RESTORE );
-		ItemDatabase.definePrimaryUse( "hpmp", KoLConstants.HPMP_RESTORE );
-
 		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
 		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
 		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
@@ -943,11 +939,7 @@ public class ItemDatabase
 
 		// Parse use type, access, and price from description
 		String type = DebugDatabase.parseType( text );
-		int usage = DebugDatabase.parseRestoreType( text );
-		if ( usage == -1 )
-		{
-			usage = DebugDatabase.typeToPrimary( type, multi );
-		}
+		int usage = DebugDatabase.typeToPrimary( type, multi );
 		ItemDatabase.useTypeById.set( itemId, usage );
 
 		String access = DebugDatabase.parseAccess( text );
@@ -1816,9 +1808,6 @@ public class ItemDatabase
 		case KoLConstants.INFINITE_USES:
 			// Multi-use
 		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
 			return true;
 		default:
 			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE ) ) != 0;
@@ -1842,9 +1831,6 @@ public class ItemDatabase
 		{
 		case KoLConstants.CONSUME_MULTIPLE:
 			return true;
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.CONSUME_SPLEEN:
 			return ( attributes & ItemDatabase.ATTR_USABLE ) == 0;
 		default:
