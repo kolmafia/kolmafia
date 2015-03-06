@@ -4029,7 +4029,7 @@ public abstract class RuntimeLibrary
 			return new Value( 0 );
 		}
 		int initialAmount = item.getCount( KoLConstants.inventory );
-		Concoction concoction = ConcoctionPool.get( item.getName() );
+		Concoction concoction = ConcoctionPool.get( item );
 		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + 1 ) );
 	}
 
@@ -4042,7 +4042,7 @@ public abstract class RuntimeLibrary
 			return new Value( 0 );
 		}
 		int initialAmount = item.getCount( KoLConstants.inventory );
-		Concoction concoction = ConcoctionPool.get( item.getName() );
+		Concoction concoction = ConcoctionPool.get( item );
 		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + number ) );
 	}
 
@@ -4056,7 +4056,7 @@ public abstract class RuntimeLibrary
 			return new Value( 0 );
 		}
 		int initialAmount = item.getCount( KoLConstants.inventory );
-		Concoction concoction = ConcoctionPool.get( item.getName() );
+		Concoction concoction = ConcoctionPool.get( item );
 		return new Value( concoction == null ? 0 : concoction.getAdventuresNeeded( initialAmount + number, considerFreeCrafting ) );
 	}
 

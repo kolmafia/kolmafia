@@ -37,7 +37,6 @@ import java.lang.NullPointerException;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;

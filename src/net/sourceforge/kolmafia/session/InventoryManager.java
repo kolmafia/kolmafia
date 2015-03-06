@@ -460,7 +460,7 @@ public abstract class InventoryManager
 		if ( itemId < 0 )
 		{
 			// See if it is a Coin Master token.
-			Concoction concoction = ConcoctionPool.get( item.getName() );
+			Concoction concoction = ConcoctionPool.get( item );
 			String property = concoction != null ? concoction.property : null;
 			if ( property == null )
 			{
@@ -743,7 +743,7 @@ public abstract class InventoryManager
 		// possible).  The user's buyScript can kick in here and force
 		// it to be purchased, rather than created
 
-		Concoction concoction = ConcoctionPool.get( item.getName() );
+		Concoction concoction = ConcoctionPool.get( item );
 		boolean asked = false;
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
