@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -214,12 +213,9 @@ public class ConcoctionDatabase
 
 		// Add all concoctions to usable list
 
-		Iterator it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction current = (Concoction) it.next();
-			ConcoctionDatabase.usableList.add( current );
+			ConcoctionDatabase.usableList.add( item );
 		}
 
 		ConcoctionDatabase.usableList.sort();
@@ -393,10 +389,9 @@ public class ConcoctionDatabase
 		}
 
 		// If we don't meet special creation requirements for this item, punt
-		Iterator reqs = requirements.iterator();
-		while ( reqs.hasNext() )
+		for ( CraftingRequirements requirement : requirements )
 		{
-			if ( !ConcoctionDatabase.REQUIREMENT_MET.contains( (CraftingRequirements) reqs.next() ) )
+			if ( !ConcoctionDatabase.REQUIREMENT_MET.contains( requirement ) )
 			{
 				return false;
 			}
@@ -975,7 +970,7 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.queuedSpleenHit;
 	}
 
-	private static final List getAvailableIngredients()
+	private static final List<AdventureResult> getAvailableIngredients()
 	{
 		boolean includeCloset =
 			!KoLConstants.closet.isEmpty() &&
@@ -1202,7 +1197,7 @@ public class ConcoctionDatabase
 	{
 		ConcoctionDatabase.refreshNeeded = false;
 
-		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
+		List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
 		// Iterate through the concoction table, Initialize each one
 		// appropriately depending on whether it is an NPC item, a Coin
@@ -1210,12 +1205,8 @@ public class ConcoctionDatabase
 
 		boolean useNPCStores = InventoryManager.canUseNPCStores();
 
-		Iterator it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction item = (Concoction) it.next();
-
 			// Initialize all the variables
 			item.resetCalculations();
 
@@ -1299,12 +1290,8 @@ public class ConcoctionDatabase
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
 
-		it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction item = (Concoction) it.next();
-
 			item.calculate2();
 			item.calculate3();
 		}
@@ -1318,12 +1305,8 @@ public class ConcoctionDatabase
 			!KoLCharacter.isHardcore() &&
 			ConcoctionDatabase.getPullsBudgeted() > ConcoctionDatabase.queuedPullsUsed;
 
-		it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction item = (Concoction) it.next();
-
 			AdventureResult ar = item.getItem();
 			if ( ar == null )
 			{
@@ -1392,18 +1375,15 @@ public class ConcoctionDatabase
 
 	public static final void resetConcoctionStatGains()
 	{
-		Iterator it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction current = (Concoction) it.next();
-			current.setStatGain();
+			item.setStatGain();
 		}
 
 		ConcoctionDatabase.usableList.sort();
 	}
 
-	private static final void calculateBasicItems( final List availableIngredients )
+	private static final void calculateBasicItems( final List<AdventureResult> availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
@@ -1413,7 +1393,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.setBuyableItem( availableIngredients, ItemPool.DENSE_STACK, 1000 );
 	}
 
-	private static final void setBuyableItem( final List availableIngredients, final int itemId, final int price )
+	private static final void setBuyableItem( final List<AdventureResult> availableIngredients, final int itemId, final int price )
 	{
 		Concoction creation = ConcoctionPool.get( itemId );
 		if ( creation == null )
@@ -1434,7 +1414,7 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult THORS_PLIERS = ItemPool.get( ItemPool.THORS_PLIERS, 1 );
 
-	private static final void cachePermitted( final List availableIngredients )
+	private static final void cachePermitted( final List<AdventureResult> availableIngredients )
 	{
 		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
 		boolean willBuyTool =
@@ -2493,11 +2473,11 @@ public class ConcoctionDatabase
 
 	public static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
 	{
-		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
+		List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 		return ConcoctionDatabase.getIngredients( ingredients, availableIngredients );
 	}
 
-	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients, List availableIngredients )
+	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients, List<AdventureResult> availableIngredients )
 	{
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
@@ -2563,17 +2543,14 @@ public class ConcoctionDatabase
 		return item == null ? ConcoctionDatabase.NO_INGREDIENTS : item.getIngredients();
 	}
 
-	private static final AdventureResult getBetterIngredient( final int itemId1,
-		final int itemId2, final List availableIngredients )
+	private static final AdventureResult getBetterIngredient( final int itemId1, final int itemId2, final List<AdventureResult> availableIngredients )
 	{
 		AdventureResult ingredient1 = ItemPool.get( itemId1, 1 );
 		AdventureResult ingredient2 = ItemPool.get( itemId2, 1 );
-		int diff = ingredient1.getCount( availableIngredients ) -
-			ingredient2.getCount( availableIngredients );
+		int diff = ingredient1.getCount( availableIngredients ) - ingredient2.getCount( availableIngredients );
 		if ( diff == 0 )
 		{
-			diff = MallPriceDatabase.getPrice( itemId2 ) -
-				MallPriceDatabase.getPrice( itemId1 );
+			diff = MallPriceDatabase.getPrice( itemId2 ) - MallPriceDatabase.getPrice( itemId1 );
 		}
 		return diff > 0 ? ingredient1 : ingredient2;
 	}

@@ -51,22 +51,28 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool
 {
-	private static final TreeMap<String, Concoction> map = new TreeMap<String, Concoction>();
+	// Canonical Name -> Concoction
+	// *** since item names can be duplicated, this only has last entered name
+	private static final Map<String, Concoction> names = new TreeMap<String, Concoction>();
+
+	// ItemID -> Concoction
+	private static final Map<Integer,Concoction> items = new TreeMap<Integer,Concoction>();
+
+	// Name -> Concoction
+	private static final Map<String, Concoction> nonitems = new TreeMap<String, Concoction>();
+
+	// All concoctions
 	private static Collection<Concoction> values = null;
-	private static final ConcoctionArray cache = new ConcoctionArray();
 	private static final Map<Integer, Integer> rowCache = new TreeMap<Integer, Integer>();
 
 	static
 	{
 		// Pre-set concoctions for all items.
-
 		int maxItemId = ItemDatabase.maxItemId();
 		for ( int i = 1; i <= maxItemId; ++i )
 		{
-			String name = ItemDatabase.getItemName( i );
-
 			// Skip non-existent items
-			if ( name != null )
+			if ( ItemDatabase.getItemName( i ) != null )
 			{
 				AdventureResult ar = ItemPool.get( i, 1 );
 				Concoction c = new Concoction( ar, CraftingType.NOCREATE );
@@ -77,40 +83,56 @@ public class ConcoctionPool
 
 	public static Concoction get( int itemId )
 	{
-		return ConcoctionPool.cache.get( itemId );
+		return ConcoctionPool.items.get( itemId );
 	}
 
 	public static Concoction get( final String name )
 	{
+		// *** item names can be duplicated.
+		// *** why is this canonical?
 		String cname = StringUtilities.getCanonicalName( name );
-		return ConcoctionPool.map.get( cname );
+		return ConcoctionPool.names.get( cname );
 	}
 
 	public static Concoction get( final AdventureResult ar )
 	{
 		int itemId = ar.getItemId();
-		return itemId > 0 ? ConcoctionPool.get( itemId ) : ConcoctionPool.get( ar.getName() );
+		return itemId > 0 ? ConcoctionPool.items.get( itemId ) : ConcoctionPool.nonitems.get( ar.getName() );
 	}
 
 	public static void set( final Concoction c )
 	{
-		String cname = StringUtilities.getCanonicalName( c.getName() );
-		ConcoctionPool.map.put( cname, c );
-		ConcoctionPool.values = null;
+		String name = c.getName();
+
+		// *** item names can be duplicated.
+		// *** why is this canonical?
+		String cname = StringUtilities.getCanonicalName( name );
+		ConcoctionPool.names.put( cname, c );
 
 		int itemId = c.getItemId();
+
 		if ( itemId > 0 )
 		{
-			ConcoctionPool.cache.set( itemId, c );
+			ConcoctionPool.items.put( itemId, c );
 		}
-		if ( c.getRow() > 0 )
+		else
 		{
-			if ( ConcoctionPool.rowCache.containsKey( c.getRow() ) )
+			ConcoctionPool.nonitems.put( name, c );
+		}
+
+		int row = c.getRow();
+
+		if ( row > 0 )
+		{
+			if ( ConcoctionPool.rowCache.containsKey( row ) )
 			{
 				RequestLogger.printLine( "Duplicate row for item " + itemId );
 			}
-			ConcoctionPool.rowCache.put( c.getRow(), itemId );
+			ConcoctionPool.rowCache.put( row, itemId );
 		}
+
+		// Rebuild values next time is is needed
+		ConcoctionPool.values = null;
 	}
 
 	public static int idToRow( int itemId )
@@ -134,13 +156,15 @@ public class ConcoctionPool
 		return -1;
 	}
 
-	public static Iterator<Concoction> iterator()
+	public static Collection<Concoction> concoctions()
 	{
 		if ( ConcoctionPool.values == null )
 		{
-			ConcoctionPool.values = ConcoctionPool.map.values();
+			ConcoctionPool.values = new ArrayList<Concoction>();
+			ConcoctionPool.values.addAll( ConcoctionPool.items.values() );
+			ConcoctionPool.values.addAll( ConcoctionPool.nonitems.values() );
 		}
-		return ConcoctionPool.values.iterator();
+		return ConcoctionPool.values;
 	}
 
 	/**
@@ -150,28 +174,24 @@ public class ConcoctionPool
 
 	public static final Concoction findConcoction( final CraftingType mixingMethod, final int itemId, final int used )
 	{
-		int count = ConcoctionPool.cache.size();
-
-		for ( int i = 0; i < count; ++i )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction concoction = ConcoctionPool.cache.get( i );
-			if ( concoction == null || concoction.getMixingMethod() != mixingMethod )
+			if ( item.getMixingMethod() != mixingMethod )
 			{
 				continue;
 			}
 
-			AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( i );
+			AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( item.concoction.getItemId() );
 			if ( ingredients == null )
 			{
 				continue;
 			}
 
-			for ( int j = 0; j < ingredients.length; ++j )
+			for ( AdventureResult ingredient : ingredients )
 			{
-                                AdventureResult ingredient = ingredients[ j ];
 				if ( ingredient.getItemId() == itemId && ingredient.getCount() == used )
 				{
-					return concoction;
+					return item;
 				}
 			}
 		}
@@ -181,68 +201,15 @@ public class ConcoctionPool
 
 	public static final Concoction findConcoction( final AdventureResult[] ingredients )
 	{
-		Iterator it = ConcoctionPool.iterator();
-		while ( it.hasNext() )
+		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
-			Concoction current = (Concoction) it.next();
-			if ( current.hasIngredients( ingredients ) )
+			if ( item.hasIngredients( ingredients ) )
 			{
-				return current;
+				return item;
 			}
 		}
 
 		return null;
 	}
 
-	/**
-	 * Internal class which functions exactly an array of concoctions,
-	 * except it uses "sets" and "gets" like a list.
-	 *
-	 * This could be done with generics (Java 1.5) but is done like this so
-	 * that we get backwards compatibility.
-	 */
-
-	private static class ConcoctionArray
-	{
-		private final ArrayList<Concoction> internalList = new ArrayList<Concoction>( ItemDatabase.maxItemId() );
-		private int max = 0;
-
-		public ConcoctionArray()
-		{
-			int max = ItemDatabase.maxItemId();
-			for ( int i = 0; i <= max; ++i )
-			{
-				this.internalList.add( null );
-}
-			this.max = max;
-		}
-
-		public Concoction get( final int index )
-		{
-			if ( index < 0 || index > this.max )
-			{
-				return null;
-			}
-
-			return this.internalList.get( index );
-		}
-
-		public void set( final int index, final Concoction value )
-		{
-			if ( index > this.max )
-			{
-				for ( int i = max + 1; i <= index; ++i )
-				{
-					this.internalList.add( null );
-				}
-				this.max = index;
-			}
-			this.internalList.set( index, value );
-		}
-
-		public int size()
-		{
-			return this.internalList.size();
-		}
-	}
 }

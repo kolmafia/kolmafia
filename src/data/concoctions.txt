@@ -81,7 +81,6 @@ cog and sprocket assembly	COMBINE	cog	sprocket assembly
 dope wheels	COMBINE	tires	sweet rims
 full meat tank	COMBINE	empty meat tank	meat stack
 Harold's hammer	COMBINE	Harold's hammer head	Harold's hammer handle
-headpiece of the Staff of Ed	COMBINE	[2180]ancient amulet	[2286]Eye of Ed
 heavy metal sonata	COMBINE	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	COMBINE	acoustic guitarrr	chrome ore
 hosed fishbowl	COMBINE	fishbowl	fish hose
@@ -95,15 +94,17 @@ oyster basket	COMBINE	tisket	tasket
 really really sticky spider web	COMBINE	really sticky spider web	really sticky spider web
 really sticky spider web	COMBINE	spider web	spider web
 skeleton key	COMBINE	skeleton bone	loose teeth
-[2325]Staff of Ed	COMBINE	headpiece of the Staff of Ed	[2268]Staff of Fats
-[2325]Staff of Ed	COMBINE	[2286]Eye of Ed	Staff of Ed, almost
-Staff of Ed, almost	COMBINE	[2180]ancient amulet	[2268]Staff of Fats
 rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
 pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
 peppermint parasol	ACOMBINE	peppermint patty	peppermint crook
 candy cane candygram	ACOMBINE	peppermint crook	peppermint crook
+
+headpiece of the Staff of Ed	COMBINE	[2180]ancient amulet	[2286]Eye of Ed
+Staff of Ed, almost	COMBINE	[2180]ancient amulet	[2268]Staff of Fats
+[2325]Staff of Ed	COMBINE	headpiece of the Staff of Ed	[2268]Staff of Fats
+[2325]Staff of Ed	COMBINE	[2286]Eye of Ed	Staff of Ed, almost
 
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
