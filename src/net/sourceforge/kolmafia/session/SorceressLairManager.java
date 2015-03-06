@@ -352,11 +352,11 @@ public abstract class SorceressLairManager
 			"ns_lock4",
 		},
 		{
-			SorceressLairManager.SKELETON_KEY,
+			SorceressLairManager.DIGITAL_KEY,
 			"ns_lock5",
 		},
 		{
-			SorceressLairManager.DIGITAL_KEY,
+			SorceressLairManager.SKELETON_KEY,
 			"ns_lock6",
 		},
 	};
@@ -786,8 +786,8 @@ public abstract class SorceressLairManager
 					action.equals( "ns_lock2" ) ? "Tower Door: Jarlsberg's lock" :
 					action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's lock" :
 					action.equals( "ns_lock4" ) ? "Tower Door: star lock" :
-					action.equals( "ns_lock5" ) ? "Tower Door: skeleton lock" :
-					action.equals( "ns_lock6" ) ? "Tower Door: digital lock" :
+					action.equals( "ns_lock5" ) ? "Tower Door: digital lock" :
+					action.equals( "ns_lock6" ) ? "Tower Door: skeleton lock" :
 					action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
 					null;
 			}
