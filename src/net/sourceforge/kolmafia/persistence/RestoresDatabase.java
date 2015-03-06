@@ -147,7 +147,8 @@ public class RestoresDatabase
 		}
 	}
 
-	public static final void setValue( String name, String type, String hpMin, String hpMax, String mpMin, String mpMax, int advCost, int usesLeft, String notes )
+	public static final void setValue( final String name, final String type, final String hpMin, final String hpMax, 
+				final String mpMin, final String mpMax, final int advCost, final int usesLeft, final String notes )
 	{
 		RestoresDatabase.typeByName.put( name, type );
 		RestoresDatabase.hpMinByName.put( name, hpMin );
@@ -165,7 +166,7 @@ public class RestoresDatabase
 		}
 	}
 
-	private static final int getValue( String stringValue, String name )
+	private static final int getValue( final String stringValue, final String name )
 	{
 		if ( stringValue == null )
 		{
@@ -186,7 +187,7 @@ public class RestoresDatabase
 		return (int) expr.eval();
 	}
 
-	public static final String getType( String name )
+	public static final String getType( final String name )
 	{
 		if ( name == null )
 		{
@@ -196,7 +197,7 @@ public class RestoresDatabase
 		return RestoresDatabase.typeByName.get( name );
 	}
 
-	public static final int getHPMin( String name )
+	public static final int getHPMin( final String name )
 	{
 		if ( name == null )
 		{
@@ -216,7 +217,7 @@ public class RestoresDatabase
 		return (int) Math.floor( RestoresDatabase.getValue( hpMin, name ) );
 	}
 
-	public static final int getHPMax( String name )
+	public static final int getHPMax( final String name )
 	{
 		if ( name == null )
 		{
@@ -236,7 +237,7 @@ public class RestoresDatabase
 		return (int) Math.ceil( RestoresDatabase.getValue( hpMax, name ) );
 	}
 
-	public static final int getMPMin( String name )
+	public static final int getMPMin( final String name )
 	{
 		if ( name == null )
 		{
@@ -256,7 +257,7 @@ public class RestoresDatabase
 		return (int) Math.floor( RestoresDatabase.getValue( mpMin, name ) );
 	}
 
-	public static final Integer getMPMax( String name )
+	public static final Integer getMPMax( final String name )
 	{
 		if ( name == null )
 		{
@@ -276,7 +277,7 @@ public class RestoresDatabase
 		return (int) Math.ceil( RestoresDatabase.getValue( mpMax, name ) );
 	}
 
-	public static final double getHPAverage( String name )
+	public static final double getHPAverage( final String name )
 	{
 		if ( name == null )
 		{
@@ -286,7 +287,7 @@ public class RestoresDatabase
 		return ( RestoresDatabase.getHPMax( name ) + RestoresDatabase.getHPMin( name ) ) / 2.0;
 	}
 
-	public static final double getMPAverage( String name )
+	public static final double getMPAverage( final String name )
 	{
 		if ( name == null )
 		{
@@ -296,7 +297,7 @@ public class RestoresDatabase
 		return ( RestoresDatabase.getMPMax( name ) + RestoresDatabase.getMPMin( name ) ) / 2.0;
 	}
 
-	public static final String getHPRange( String name )
+	public static final String getHPRange( final String name )
 	{
 		if ( name == null )
 		{
@@ -316,7 +317,7 @@ public class RestoresDatabase
 		return ( Integer.toString( hpMin ) + "-" + Integer.toString( hpMax ) );
 	}
 
-	public static final String getMPRange( String name )
+	public static final String getMPRange( final String name )
 	{
 		if ( name == null )
 		{
@@ -336,7 +337,7 @@ public class RestoresDatabase
 		return ( Integer.toString( mpMin ) + "-" + Integer.toString( mpMax ) );
 	}
 
-	public static final int getAdvCost( String name )
+	public static final int getAdvCost( final String name )
 	{
 		if ( name == null )
 		{
@@ -351,7 +352,7 @@ public class RestoresDatabase
 		return ( (int) advCost );
 	}
 
-	public static final int getUsesLeft( String name )
+	public static final int getUsesLeft( final String name )
 	{
 		if ( name == null )
 		{
@@ -374,7 +375,7 @@ public class RestoresDatabase
 		return (int) Math.floor( RestoresDatabase.getValue( usesLeft, name ) );
 	}
 
-	public static final String getNotes( String name )
+	public static final String getNotes( final String name )
 	{
 		if ( name == null )
 		{
@@ -389,7 +390,22 @@ public class RestoresDatabase
 		return notes;
 	}
 
-	public static final Boolean restoreAvailable( String name, Boolean purchaseable )
+	public static final Boolean isRestore( final int itemId )
+	{
+		String name = ItemDatabase.getItemName( itemId );
+		if ( name == null )
+		{
+			return false;
+		}
+		String type = RestoresDatabase.getType( name );
+		if ( type == null )
+		{
+			return false;
+		}
+		return type.equalsIgnoreCase( "item" );
+	}
+
+	public static final Boolean restoreAvailable( final String name, final Boolean purchaseable )
 	{
 		String type = RestoresDatabase.getType( name );
 		
@@ -441,7 +457,7 @@ public class RestoresDatabase
 		return false;
 	}
 
-	public static final String[][] getRestoreData( String level )
+	public static final String[][] getRestoreData( final String level )
 	{
 		Iterator<String> it = RestoresDatabase.restoreNames.iterator();
 

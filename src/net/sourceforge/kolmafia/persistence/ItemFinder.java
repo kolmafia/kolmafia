@@ -193,16 +193,10 @@ public class ItemFinder
 		{
 			itemName = nameList.get( i );
 			itemId = ItemDatabase.getItemId( itemName );
-			useType = ItemDatabase.getConsumptionType( itemId );
 
-			switch ( useType )
+			if ( RestoresDatabase.isRestore( itemId ) )
 			{
-			case KoLConstants.HP_RESTORE:
-			case KoLConstants.MP_RESTORE:
-			case KoLConstants.HPMP_RESTORE:
-
 				restoreList.add( itemName );
-				break;
 			}
 		}
 
@@ -278,9 +272,6 @@ public class ItemFinder
 				{
 				case KoLConstants.CONSUME_USE:
 				case KoLConstants.CONSUME_MULTIPLE:
-				case KoLConstants.HP_RESTORE:
-				case KoLConstants.MP_RESTORE:
-				case KoLConstants.HPMP_RESTORE:
 				case KoLConstants.CONSUME_SPHERE:
 					break;
 

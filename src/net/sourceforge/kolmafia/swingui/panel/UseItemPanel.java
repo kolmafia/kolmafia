@@ -123,9 +123,6 @@ public class UseItemPanel
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.GROW_FAMILIAR:
 			case KoLConstants.CONSUME_ZAP:
-			case KoLConstants.MP_RESTORE:
-			case KoLConstants.HP_RESTORE:
-			case KoLConstants.HPMP_RESTORE:
 				filter = UsableItemFilterField.this.other;
 				break;
 

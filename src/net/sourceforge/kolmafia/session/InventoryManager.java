@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1739,11 +1740,8 @@ public abstract class InventoryManager
 		// We bulk purchase consumable items if we are
 		// auto-adventuring.
 
-		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		if ( RestoresDatabase.isRestore( itemId ) )
 		{
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
 			return true;
 		}
 

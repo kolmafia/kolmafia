@@ -389,10 +389,9 @@ public abstract class UseLinkDecorator
 			return CraftingType.NOCREATE;
 		}
 
-		// Skip items which are multi-use or are mp restores.
+		// Skip items which are multi-use.
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
-		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ||
-		     consumeMethod == KoLConstants.MP_RESTORE )
+		if ( consumeMethod == KoLConstants.CONSUME_MULTIPLE )
 		{
 			return CraftingType.NOCREATE;
 		}
@@ -732,9 +731,6 @@ public abstract class UseLinkDecorator
 			return new UseLink( itemId, 1, "drink with", "inv_use.php?which=1&whichitem=" );
 		
 		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
 		{
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );

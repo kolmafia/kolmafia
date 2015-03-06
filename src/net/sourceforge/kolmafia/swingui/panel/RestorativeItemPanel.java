@@ -102,11 +102,8 @@ public class RestorativeItemPanel
 			AdventureResult item = (AdventureResult) element;
 			int itemId = item.getItemId();
 
-			switch ( ItemDatabase.getConsumptionType( itemId ) )
+			if ( RestoresDatabase.isRestore( itemId ) )
 			{
-			case KoLConstants.MP_RESTORE:
-			case KoLConstants.HP_RESTORE:
-			case KoLConstants.HPMP_RESTORE:
 				String itemName = item.getName();
 				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
 				{
@@ -117,10 +114,8 @@ public class RestorativeItemPanel
 					return false;
 				}
 				return super.isVisible( element );
-
-			default:
-				return false;
 			}
+			return false;
 		}
 	}
 }

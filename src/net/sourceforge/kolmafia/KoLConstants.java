@@ -557,17 +557,12 @@ public interface KoLConstants
 	public static final int CONSUME_CARD = 18;
 	public static final int CONSUME_FOLDER = 19;
 
-	// Restoratives
-	public static final int HP_RESTORE = 20;
-	public static final int MP_RESTORE = 21;
-	public static final int HPMP_RESTORE = 22;
-
 	// Special "uses"
-	public static final int CONSUME_FOOD_HELPER = 23;
-	public static final int CONSUME_DRINK_HELPER = 24;
-	public static final int CONSUME_ZAP = 25;
-	public static final int CONSUME_SPHERE = 26;
-	public static final int CONSUME_GUARDIAN = 27;
+	public static final int CONSUME_FOOD_HELPER = 20;
+	public static final int CONSUME_DRINK_HELPER = 21;
+	public static final int CONSUME_ZAP = 22;
+	public static final int CONSUME_SPHERE = 23;
+	public static final int CONSUME_GUARDIAN = 24;
 
 	// Familiar "uses"
 	public static final int CONSUME_MIMIC = 96;
