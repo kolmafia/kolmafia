@@ -2743,6 +2743,13 @@ public class FightRequest
 			KoLmafia.updateDisplay( "Torch discard" );
 			ResultProcessor.processItem( ItemPool.SPELUNKY_TORCH, -1 );
 			break;
+
+		case SkillPool.LASH_OF_COBRA:
+			if ( responseText.contains( "You acquire an item" ) )
+			{
+				Preferences.increment( "_edLashCount" );
+			}
+			break;
 		}
 
 		if ( monsterName.endsWith( "gremlin" ) )
