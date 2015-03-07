@@ -272,6 +272,7 @@ public class SkillPool
 	public static final int SHEET_LIGHTNING = 16024;
 	public static final int LIGHTNING_BOLT = 16025;
 	public static final int LIGHTNING_ROD = 16026;
+	public static final int LASH_OF_COBRA = 17012;
 	public static final int CURSE_OF_FORTUNE = 17018;
 	public static final int CURSE_OF_VACATION = 17019;
 }
