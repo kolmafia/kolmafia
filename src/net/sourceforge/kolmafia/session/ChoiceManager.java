@@ -10482,6 +10482,11 @@ public abstract class ChoiceManager
 				request.addFormField( "quantity", String.valueOf( ChoiceManager.skillUses ) );
 			}
 			break;
+
+		case 770:
+		case 792:
+			// Workout in Gyms - no need to do anything further?
+			return true;
 		}
 
 		if ( decision == null )
