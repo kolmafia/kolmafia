@@ -518,7 +518,6 @@ public class ValhallaManager
 		Preferences.setInteger( "miniAdvClass", 0 );
 		Preferences.setInteger( "turtleBlessingTurns", 0 );
 		Preferences.setString( "testudinalTeachings", "" );
-		Preferences.setInteger( "writingDesksDefeated", 0 );
 		Preferences.setString( "yearbookCameraTarget", "" );
 		Preferences.setBoolean( "yearbookCameraPending", false );
 		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );

@@ -166,6 +166,7 @@ public class AdventurePool
 	public static final String ZEPPELIN_PROTESTORS_ID = "384";
 	public static final int RED_ZEPPELIN = 385;
 	public static final String RED_ZEPPELIN_ID = "385";
+	public static final int PALINDOME = 386;
 	public static final String PALINDOME_ID = "386";
 	public static final String HAUNTED_KITCHEN_ID = "388";
 	public static final int HAUNTED_CONSERVATORY = 389;
