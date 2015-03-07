@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
@@ -759,23 +760,27 @@ public class StationaryButtonDecorator
 		// If there is none, perhaps we fought a monster as a result of
 		// using an item.
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
-
-		if ( monsterName.equals( "giant sandworm" ) )
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		if ( monster != null )
 		{
-			AdventureResult drumMachine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
-			if ( KoLConstants.inventory.contains( drumMachine ) )
+			String monsterName = monster.getName();
+
+			if ( monsterName.equals( "giant sandworm" ) )
 			{
-				return "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.DRUM_MACHINE;
+				AdventureResult drumMachine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
+				if ( KoLConstants.inventory.contains( drumMachine ) )
+				{
+					return "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.DRUM_MACHINE;
+				}
+
+				// Look for more drum machines in the Oasis
+				return "adventure.php?snarfblat=122";
 			}
 
-			// Look for more drum machines in the Oasis
-			return "adventure.php?snarfblat=122";
-		}
-
-		if ( monsterName.equals( "scary pirate" ) )
-		{
-			return "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
+			if ( monsterName.equals( "scary pirate" ) )
+			{
+				return "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
+			}
 		}
 
 		return "main.php";
