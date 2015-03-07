@@ -131,7 +131,7 @@ public class ConcoctionPool
 			ConcoctionPool.rowCache.put( row, itemId );
 		}
 
-		// Rebuild values next time is is needed
+		// Rebuild values next time it is needed
 		ConcoctionPool.values = null;
 	}
 

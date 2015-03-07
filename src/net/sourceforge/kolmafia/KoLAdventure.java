@@ -2133,6 +2133,16 @@ public class KoLAdventure
 			"area around the portal is quiet",
 			"The Abyssal Portal is quiet.",
 		},
+
+		// The Secret Government Laboratory
+		//
+		// You can't go in there without wearing a Personal Ventilation
+		// Unit. Who knows what would happen if you breathed the air in
+		// there.
+		{
+			"Who knows what would happen if you breathed the air",
+			"You need to equip your Personal Ventilation Unit.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
