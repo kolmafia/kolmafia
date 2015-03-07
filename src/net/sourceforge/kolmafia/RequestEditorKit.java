@@ -456,7 +456,10 @@ public class RequestEditorKit
 			RequestEditorKit.addDesertProgress( buffer );
 
 			// Do any monster-specific decoration
-			FightDecorator.decorate( buffer );
+			FightDecorator.decorateMonster( buffer );
+
+			// Do any location-specific decoration
+			FightDecorator.decorateLocation( buffer );
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{

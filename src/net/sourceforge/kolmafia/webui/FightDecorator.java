@@ -36,9 +36,12 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -83,7 +86,7 @@ public class FightDecorator
 		StringUtilities.singleStringReplace( buffer, oldForm, newForm.toString() );
 	}
 
-	public static final void decorate( final StringBuffer buffer )
+	public static final void decorateMonster( final StringBuffer buffer )
 	{
 		// If we won the fight and got the volcano map, force a topmenu
 		// refresh so that the "volcano" link is there.
@@ -128,6 +131,23 @@ public class FightDecorator
 		{
 			FightDecorator.decorateWritingDesk( buffer );
 			return;
+		}
+	}
+
+	public static final void decorateLocation( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
+		int adventure = KoLAdventure.lastAdventureId();
+
+		switch ( adventure )
+		{
+		case AdventurePool.HAUNTED_KITCHEN:
+			FightDecorator.decorateHauntedKitchen( buffer );
+			break;
 		}
 	}
 
@@ -259,5 +279,40 @@ public class FightDecorator
 		index += indexString.length();
 
 		buffer.insert( index, " (" + Preferences.getInteger( "writingDesksDefeated" ) + "/5 defeated)" );
+	}
+
+	private static final void decorateHauntedKitchen( final StringBuffer buffer )
+	{
+		// The kitchen's resident flame-belching demon oven kicks into serious overdrive,
+		// but you manage to tolerate the heat long enough to search through X drawers.
+
+		// The garbage disposal turns itself on, filling the kitchen with an indescribably foul
+		// odor, but you manage to tolerate it long enough to search through X drawers.
+		String indexString = "drawers.";
+		int index = buffer.indexOf( indexString );
+		if ( index == -1 )
+		{
+			// You manage to dig through a single drawer looking for the key, but the
+			// garbage disposal turns itself on, releasing a terrible, terrible smell.
+			// It drives you back out into the hallway.
+			indexString = "hallway.";
+			index = buffer.indexOf( indexString );
+			if ( index == -1 )
+			{
+				// You manage to dig through a single drawer looking for the key,
+				// but the constant demonic flames belching out of the oven results
+				// in the kitchen getting too hot for you, and you have to get out of it.
+				indexString = "out of it.";
+				index = buffer.indexOf( indexString );
+				if ( index == -1 )
+				{
+					return;
+				}
+			}
+		}
+
+		index += indexString.length();
+
+		buffer.insert( index, " (" + Preferences.getInteger( "manorDrawerCount" ) + "/21 searched)" );
 	}
 }
