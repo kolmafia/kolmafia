@@ -230,6 +230,11 @@ public abstract class InventoryManager
 
 		int itemId = item.getItemId();
 
+		if ( itemId <= 0 )
+		{
+			return 0;
+		}
+
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
