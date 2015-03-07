@@ -102,8 +102,8 @@ public class TavernRequest
 		if ( location.contains( "place=barkeep" ) )
 		{
 			if ( responseText.contains( "have a few drinks on the house" ) ||
-				responseText.contains( "something that wasn't booze" ) ||
-				responseText.contains( "a round on the house" ) )
+			     responseText.contains( "something that wasn't booze" ) ||
+			     responseText.contains( "a round on the house" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.RAT, "finished" );
 			}
@@ -115,7 +115,7 @@ public class TavernRequest
 		}
 	
 		if ( location.contains( "place=susguy" ) ) {
-			if ( responseText.contains( "Take some goofballs (for free!)") ) {
+			if ( !responseText.contains( "Take some goofballs (for free!)") ) {
 				Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
 			}
 		}
@@ -125,7 +125,7 @@ public class TavernRequest
 			// Here you go, man. If you get caught, you didn't get
 			// these from me, man.
 			Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
-			if ( responseText.contains( "If you get caught" ) )
+			if ( !responseText.contains( "If you get caught" ) )
 			{
 				return;
 			}
@@ -226,7 +226,7 @@ public class TavernRequest
 	private static final int getSquare( final String urlString )
 	{
 		// cellar.php?action=explore&whichspot=4
-		if ( !urlString.startsWith( "cellar.php" ) || urlString.contains( "action=explore") )
+		if ( !urlString.startsWith( "cellar.php" ) || !urlString.contains( "action=explore") )
 		{
 			return 0;
 		}
