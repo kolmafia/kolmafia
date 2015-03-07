@@ -511,7 +511,7 @@ public class GenericRequest
 	public String getURLString()
 	{
 		return this.data.isEmpty() ?
-			this.formURLString :
+			StringUtilities.singleStringReplace( this.formURLString, GenericRequest.passwordHashValue, "" ) :
 			this.formURLString + "?" + this.getDisplayDataString();
 	}
 
@@ -520,13 +520,6 @@ public class GenericRequest
 		return this.data.isEmpty() ?
 			this.formURLString :
 			this.formURLString + "?" + this.getDataString();
-	}
-
-	public String getDisplayURLString()
-	{
-		return this.data.isEmpty() ?
-			StringUtilities.singleStringReplace( this.formURLString, GenericRequest.passwordHashValue, "" ) :
-			this.formURLString + "?" + this.getDisplayDataString();
 	}
 
 	/**
@@ -3085,7 +3078,7 @@ public class GenericRequest
 
 	public String requestURL()
 	{
-		return this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString();
+		return this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getURLString();
 	}
 
 	public void printRequestProperties()
