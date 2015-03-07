@@ -114,18 +114,18 @@ public class TavernRequest
 			}
 		}
 	
-		if ( location.indexOf( "place=susguy" ) != -1 ) {
-			if ( responseText.indexOf( "Take some goofballs (for free!)") == -1) {
+		if ( location.contains( "place=susguy" ) ) {
+			if ( responseText.contains( "Take some goofballs (for free!)") ) {
 				Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
 			}
 		}
 
-		if ( location.indexOf( "action=buygoofballs" ) != -1 )
+		if ( location.contains( "action=buygoofballs" ) )
 		{
 			// Here you go, man. If you get caught, you didn't get
 			// these from me, man.
 			Preferences.setInteger( "lastGoofballBuy", KoLCharacter.getAscensions() );
-			if ( responseText.indexOf( "If you get caught" ) == -1 )
+			if ( responseText.contains( "If you get caught" ) )
 			{
 				return;
 			}
@@ -145,13 +145,13 @@ public class TavernRequest
 			return;
 		}
 
-		if ( location.indexOf( "sleazy=1" ) != -1 )
+		if ( location.contains( "sleazy=1" ) )
 		{
 			// The suspicious-looking guy takes your gloomy black
 			// mushroom and smiles that unsettling little smile
 			// that makes you nervous. "Sweet, man. Here ya go."
 
-			if ( responseText.indexOf ("takes your gloomy black mushroom" ) != -1 )
+			if ( responseText.contains ("takes your gloomy black mushroom" ) )
 			{
 				ResultProcessor.processItem( ItemPool.GLOOMY_BLACK_MUSHROOM, -1 );
 			}
@@ -200,7 +200,7 @@ public class TavernRequest
 			}
 			else if ( type.startsWith( "A Tiny Mansion" ) )
 			{
-				code = text.indexOf( "mansion2.gif" ) != -1 ? '6' : '4';
+				code = text.contains( "mansion2.gif" ) ? '6' : '4';
 			}
 			else if ( type.startsWith( "Stairs Up" ) )
 			{
@@ -226,7 +226,7 @@ public class TavernRequest
 	private static final int getSquare( final String urlString )
 	{
 		// cellar.php?action=explore&whichspot=4
-		if ( !urlString.startsWith( "cellar.php" ) || urlString.indexOf( "action=explore") == -1 )
+		if ( !urlString.startsWith( "cellar.php" ) || urlString.contains( "action=explore") )
 		{
 			return 0;
 		}
@@ -293,10 +293,11 @@ public class TavernRequest
 	public static final void postTavernVisit( final GenericRequest request )
 	{
 		String urlString = request.getURLString();
+		String responseText = request.responseText;
 
 		if ( urlString.equals( "cellar.php" ) )
 		{
-			TavernRequest.parseCellarMap( request.responseText );
+			TavernRequest.parseCellarMap( responseText );
 			return;
 		}
 
@@ -310,7 +311,7 @@ public class TavernRequest
 		if ( urlString.startsWith( "fight.php" ) )
 		{
 			int square = Preferences.getInteger( "lastTavernSquare" );
-			char replacement = request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1';
+			char replacement = responseText.contains( "Baron" ) ? '4' : '1';
 			TavernRequest.addTavernLocation( square, replacement );
 			return;
 		}
@@ -324,31 +325,33 @@ public class TavernRequest
 		}
 
 		char replacement = '1';
-		if ( request.responseText.indexOf( "Those Who Came Before You" ) != -1 )
+		if ( responseText.contains( "Those Who Came Before You" ) )
 		{
 			// Dead adventurer
 			replacement = '2';
 		}
-		else if ( request.responseText.indexOf( "Of Course!" ) != -1 ||
-			  request.responseText.indexOf( "Hot and Cold Running Rats" ) != -1 )
+		else if ( responseText.contains( "Of Course!" ) ||
+			  responseText.contains( "Hot and Cold Running Rats" ) ||
+			  responseText.contains( "Everything in Moderation" ) ||
+			  responseText.contains( "Hot and Cold Dripping Rats" ))
 		{
 			// Rat faucet, before and after turning off
 			replacement = '3';
 			QuestDatabase.setQuestIfBetter( Quest.RAT, "step2" );
 		}
-		else if ( request.responseText.indexOf( "is it Still a Mansion" ) != -1 )
+		else if ( responseText.contains( "is it Still a Mansion" ) )
 		{
 			// Baron von Ratsworth
 			replacement = '4';
 		}
 		// The little mansion is silent and empty, you having slain the
 		// man... er... the rat of the house.
-		else if ( request.responseText.indexOf( "little mansion is silent and empty" ) != -1 )
+		else if ( responseText.contains( "little mansion is silent and empty" ) )
 		{
 			// Defeated Baron von Ratsworth
 			replacement = '6';
 		}
-		else if ( request.responseText.indexOf( "whichchoice" ) != -1 )
+		else if ( responseText.contains( "whichchoice" ) )
 		{
 			// Various Barrels
 			replacement = '5';
@@ -379,26 +382,26 @@ public class TavernRequest
 		}
 
 		String message;
-		if ( urlString.indexOf( "action=buygoofballs" ) != -1 )
+		if ( urlString.contains( "action=buygoofballs" ) )
 		{
 			message = "Buying goofballs from the suspicious looking guy";
 		}
-		else if ( urlString.indexOf( "sleazy=1" ) != -1 )
+		else if ( urlString.contains( "sleazy=1" ) )
 		{
 			message = "Trading a gloomy black mushroom for an oily golden mushroom";
 		}
-		else if ( urlString.indexOf( "sleazy=2" ) != -1 )
+		else if ( urlString.contains( "sleazy=2" ) )
 		{
 			// Keeping your gloomy black mushroom
 			return true;
 		}
-		else if ( urlString.indexOf( "place=susguy" ) != -1 )
+		else if ( urlString.contains( "place=susguy" ) )
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();
 			message = "Visiting the suspicious looking guy";
 		}
-		else if ( urlString.indexOf( "place=barkeep" ) != -1 )
+		else if ( urlString.contains( "place=barkeep" ) )
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();
