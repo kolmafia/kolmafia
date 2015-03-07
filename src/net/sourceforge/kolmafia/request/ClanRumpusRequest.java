@@ -405,6 +405,37 @@ public class ClanRumpusRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
+		if ( urlString.startsWith( "choice.php" ) )
+		{
+			if ( urlString.contains( "whichchoice=770" ) || urlString.contains( "whichchoice=792" ) )
+			{
+				if ( responseText.contains( "feel the burn" ) ||
+					responseText.contains( "learn from the sages" ) )
+				{
+					RequestLogger.printLine( "Workout completed." );
+				}
+				else
+				{
+					KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
+				}
+			}
+		}
+
+		if ( urlString.startsWith( "gnomes.php" ) )
+		{
+			if ( urlString.contains( "place=train" ) )
+			{
+				if ( responseText.contains(  "learn to be sneakier" ) )
+				{
+					RequestLogger.printLine( "Workout completed." );
+				}
+				else
+				{
+					KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
+				}
+			}
+		}
+
 		if ( !urlString.startsWith( "clan_rumpus.php" ) )
 		{
 			return;
@@ -605,7 +636,7 @@ public class ClanRumpusRequest
 			{
 				action = "Pump Up Muscle";
 			}
-			else if ( urlString.contains( "action=institute" ) )
+			else if ( urlString.contains( "action=lc_institute" ) )
 			{
 				action = "Pump Up Mysticality";
 			}
@@ -623,6 +654,13 @@ public class ClanRumpusRequest
 			Matcher matcher = ClanRumpusRequest.TURN_PATTERN.matcher( urlString );
 			if ( !matcher.find() )
 			{
+				String message = "[" + KoLAdventure.getAdventureCount() + "] " + action;
+
+				RequestLogger.printLine();
+				RequestLogger.updateSessionLog();
+
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 				return true;
 			}
 
