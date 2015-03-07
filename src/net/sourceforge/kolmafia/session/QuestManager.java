@@ -1598,6 +1598,13 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.EVE, "step1" );
 		}
+		else if ( monsterName.equals( "writing desk" ) )
+		{
+			if ( responseText.contains( "You open" ) )
+			{
+				Preferences.increment( "writingDesksDefeated", 1, 5, false );
+			}
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -1727,6 +1734,15 @@ public class QuestManager
 			if ( responseText.contains( "The gore sloshes around nauseatingly in your bucket" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
+			}
+			break;
+
+		case AdventurePool.PALINDOME:
+			if ( monsterName.equals( "Drab Bard" ) ||
+			     monsterName.equals( "Bob Racecar" ) ||
+			     monsterName.equals( "Racecar Bob" ) )
+			{
+				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
 			}
 			break;
 		}

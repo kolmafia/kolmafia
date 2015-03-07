@@ -565,6 +565,8 @@ public class QuestDatabase
 		Preferences.resetToDefault( "SHAWARMAInitiativeUnlocked" );
 		Preferences.resetToDefault( "canteenUnlocked" );
 		Preferences.resetToDefault( "armoryUnlocked" );
+		Preferences.resetToDefault( "writingDesksDefeated" );
+		Preferences.resetToDefault( "palindomeDudesDefeated" );
 	}
 
 	public static void handleCouncilText( String responseText )
