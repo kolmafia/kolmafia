@@ -3245,7 +3245,7 @@ public abstract class ChoiceManager
 
 		// Choice 993 is Tales of Spelunking
 
-		// Choice 996 is (Untitled) Crimomega
+		// Choice 996 is (Untitled) Crimbomega
 
 		// Choice 998 is Game of Cards
 		new ChoiceAdventure(
@@ -3257,6 +3257,7 @@ public abstract class ChoiceManager
 				       new Option( "Gain 21 Chroner, lose pocket ace" ) } ),
 
 		// Choice 1000 is Everything in Moderation
+		// Choice 1001 is Hot and Cold Dripping Rats
 
 		// Choice 1003 is Test Your Might And Also Test Other Things
 
