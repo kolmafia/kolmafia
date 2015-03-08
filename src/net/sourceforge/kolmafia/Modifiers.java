@@ -2812,6 +2812,29 @@ public class Modifiers
 		}
 	}
 
+	public void applyServantModifiers( EdServantData servant )
+	{
+		int id = servant.getId();
+		int level = servant.getLevel();
+		switch ( id )
+		{
+		case 1: // Cat
+			if ( servant.getLevel() >= 7 )
+			{
+				this.add( Modifiers.ITEMDROP, Math.sqrt( 55 * level ) + level - 3, "Servant: Cat" );
+			}
+			break;
+
+		case 3: // Maid
+			this.add( Modifiers.MEATDROP, Math.sqrt( 220 * level ) + 2 * level - 6, "Servant: Maid" );
+			break;
+
+		case 5: // Scribe
+			this.add( Modifiers.EXPERIENCE, 2 + level/5, "Servant: Scribe" );
+			break;
+		}
+	}
+
 
 	// Parsing item enchantments into KoLmafia modifiers
 
