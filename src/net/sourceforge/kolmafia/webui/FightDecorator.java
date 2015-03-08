@@ -42,12 +42,14 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -283,6 +285,11 @@ public class FightDecorator
 
 	private static final void decorateHauntedKitchen( final StringBuffer buffer )
 	{
+		if ( InventoryManager.hasItem( ItemPool.BILLIARDS_KEY ) )
+		{
+			// Don't show progress on the turn where the key is received
+			return;
+		}
 		// The kitchen's resident flame-belching demon oven kicks into serious overdrive,
 		// but you manage to tolerate the heat long enough to search through X drawers.
 
@@ -313,6 +320,15 @@ public class FightDecorator
 
 		index += indexString.length();
 
-		buffer.insert( index, " (" + Preferences.getInteger( "manorDrawerCount" ) + "/21 searched)" );
+		int checked = Preferences.getInteger( "manorDrawerCount" );
+		StringBuilder insertBuffer = new StringBuilder();
+		insertBuffer.append( " (" ).append( checked ).append( "/21 searched" );
+		if ( checked >= 21 )
+		{
+			insertBuffer.append( ", key next combat" );
+		}
+		insertBuffer.append( ")" );
+
+		buffer.insert( index, insertBuffer );
 	}
 }
