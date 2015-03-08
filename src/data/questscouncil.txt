@@ -71,6 +71,14 @@ questL13Final	started	Adventurer, the time has come! Clouds are gathering thick 
 questL13Final	step16	So, it was the Rain King that was making all the rain? Well, we suppose that makes sense. Kings, man. You can't live with 'em, you can't leave 'em stuck in a prism where they can't do any harm while a representative democratic Council fairly and gently enforces order. Am I right?<p>I mean, you're an Adventurer, not a politician. It probably wouldn't do for you to meddle in affairs of state like re-establishing the monarchical status quo. Best to leave it to us.<p>Well, I mean, we can't stop you if you want to break the King's prism...and we suppose that is the heroic thing to do...aw, man. Just don't rush into it, okay? There's plenty of time. No hurry.
 
 # Ed the Undying
-questL02Larva	started	"Yes. I am afraid I don't understand their reasons, but that was definitely Samuel Spade's first mission: to obtain a mosquito larva from the Spooky Forest, within the Distant Woods. Do you wish to investigate this matter personally?"	"Were you able to find a mosquito larva, boss?' Amun asks.
+questL02Larva	started	first mission: to obtain a mosquito larva from the Spooky Forest, within the Distant Woods. Do you wish to investigate this matter personally?"	"Were you able to find a mosquito larva, boss?' Amun asks.
 questL02Larva	finished	You hand Amun the wriggling mosquito larva, and he looks at it blankly. "That is indeed a mosquito larva, boss," he says. "Well done."
-questL03Rat	started	"The Council's records show that the next quest they sent Samuel Spade on was to the Typical Tavern, in the Distant Woods," Amun says, as he marks its location on your map.	"Were you able to find any information at the Tavern, boss?" Amun asks.
+questL03Rat	started	was to the Typical Tavern, in the Distant Woods," Amun says, as he marks its location on your map.	"Were you able to find any information at the Tavern, boss?" Amun asks.
+questL04Bat	started	tasked with slaying a creature called the Boss Bat	"Were there any traces of the adventurer at the Bat Hole, boss?" Amun asks.
+questL04Bat	finished	Well, at least you got a free belt, boss. That’s something."
+questL05Goblin	started	The adventurer was to accomplish this by assassinating the Goblin King.	"Nope. Still can't figure out this map code dealie."
+questL01Goblin	step1	"How is the investigation of Cobb's Knob proceeding, boss?" Amun asks.
+questL06Friar	started	The adventurer's next quest was to aid the Deep Fat Friars, in the Distant Woods.	Who? Oh, those weird monks? Right. I'll get right on that.
+questL07Cyrptic	started	investigate an ancient cyrpt near the Misspelled Cemetary.	"Is your investigation of the Cyrpt going well, boss?" Amun asks.
+questL08Trapper	started	find a Trapper who had requested the Council's assistance	"Were you able to locate the Trapper, boss?" Amun asks.
+questL09Topping	started	Allow me to mark the location of the tower on your map.	"Were you able to find out anything from the Highland Lord, boss?"
