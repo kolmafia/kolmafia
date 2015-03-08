@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-
 import java.util.List;
 
 import java.util.Arrays;
@@ -48,6 +46,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -61,6 +60,7 @@ public class EdServantData
 	implements Comparable<EdServantData>
 {
 	public static final AdventureResult CROWN_OF_ED = ItemPool.get( ItemPool.CROWN_OF_ED, 1 );
+	public static final AdventureResult PURR = EffectPool.get( EffectPool.PURR_OF_THE_FELINE );
 
 	public static final Object[][] SERVANTS =
 	{
@@ -307,7 +307,9 @@ public class EdServantData
 
 	public int getLevel()
 	{
-		return this.level;
+		int level = this.level;
+		if ( KoLConstants.activeEffects.contains( EdServantData.PURR ) ) level += 5;
+		return level;
 	}
 
 	public int getExperience()

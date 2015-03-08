@@ -286,6 +286,7 @@ public class EffectPool
 	public static final int BORED_WITH_EXPLOSIONS = 1557;
 	public static final int SOME_PIGS = 1640;
 	public static final int CONFIDENCE = 1791;
+	public static final int PURR_OF_THE_FELINE = 1800;
 
 
 	public static final AdventureResult get( final int effectId )

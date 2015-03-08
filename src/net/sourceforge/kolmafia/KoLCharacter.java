@@ -883,7 +883,7 @@ public abstract class KoLCharacter
 			}
 		}
 		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) ) limit += 5;
-		if ( Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ) limit ++;
+		if ( Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ) limit++;
 		return limit;
 	}
 
@@ -5370,6 +5370,11 @@ public abstract class KoLCharacter
 			newModifiers.applyCompanionModifiers( KoLCharacter.companion );
 		}
 
+		if ( KoLCharacter.isEd() && EdServantData.currentServant() != null )
+		{
+			newModifiers.applyServantModifiers( EdServantData.currentServant() );
+		}
+
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
@@ -5578,7 +5583,7 @@ public abstract class KoLCharacter
 		case EquipmentManager.FAMILIAR:
 			if ( itemId == ItemPool.SNOW_SUIT )
 			{
-				newModifiers.add( Modifiers.getModifiers( "Snowsuit", "" + KoLCharacter.getSnowsuit() ) );
+				newModifiers.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
 			}
 			break;
 		}

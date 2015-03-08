@@ -124,7 +124,7 @@ public class EdServantCommand
 		for ( Object[] data : EdServantData.SERVANTS )
 		{
 			// Download the image
-			String image = EdServantData.dataToImage( data );;
+			String image = EdServantData.dataToImage( data );
 			File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
 
 			String type = EdServantData.dataToType( data );
