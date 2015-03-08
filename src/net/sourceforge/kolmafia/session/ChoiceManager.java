@@ -3358,7 +3358,7 @@ public abstract class ChoiceManager
 		// Choice 1029 is An Old Clay Pot
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1029", "An Old Clay Pot",
-			new Object[] { new Option( "gain gold", 1 ),
+			new Object[] { new Option( "gain 4-5 gold", 1 ),
 				       new Option( "gain pot", 5, "pot" ) } ),
 
 		// Choice 1030 is It's a Trap!  A Dart Trap.
@@ -3373,7 +3373,7 @@ public abstract class ChoiceManager
 		// Choice 1031 is A Tombstone
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1031", "A Tombstone",
-			new Object[] { new Option( "gain gold or buddy", 1 ),
+			new Object[] { new Option( "gain 8-10 gold or buddy", 1 ),
 				       new Option( "gain shotgun with pickaxe", 2, "shotgun" ),
 				       new Option( "gain Clown Crown with x-ray specs", 3, "The Clown Crown" ) } ),
 
@@ -3418,7 +3418,7 @@ public abstract class ChoiceManager
 		// Choice 1038 is A Wicked Web
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1038", "A Wicked Web",
-			new Object[] { new Option( "gain gold", 1 ),
+			new Object[] { new Option( "gain 4-5 gold", 1 ),
 				       new Option( "gain buddy with machete", 2 ),
 				       new Option( "gain 35-50 gold with torch", 2 ) } ),
 
@@ -3432,7 +3432,7 @@ public abstract class ChoiceManager
 		// Choice 1040 is It's Lump. It's Lump.
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1040", "It's Lump. It's Lump",
-			new Object[] { new Option( "gain pickaxe with bomb", 1, "heavy pickaxe" ),
+			new Object[] { new Option( "gain heavy pickaxe with bomb", 1, "heavy pickaxe" ),
 				       new Option( "leave", 6 ) } ),
 
 		// choice 1041 is Spelunkrifice
