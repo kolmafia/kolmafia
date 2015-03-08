@@ -3812,12 +3812,12 @@ Effect	8-bit Apparition	Avatar: "ancient ghost"
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 # A Hole in the World: Time destroys everything
-Effect	A Little Bit Evil (Accordion Thief)	Monster Level: +2
-Effect	A Little Bit Evil (Disco Bandit)	Monster Level: +2
-Effect	A Little Bit Evil (Pastamancer)	Monster Level: +2
-Effect	A Little Bit Evil (Sauceror)	Monster Level: +2
-Effect	A Little Bit Evil (Seal Clubber)	Monster Level: +2
-Effect	A Little Bit Evil (Turtle Tamer)	Monster Level: +2
+Effect	[597]A Little Bit Evil	Monster Level: +2
+Effect	[598]A Little Bit Evil	Monster Level: +2
+Effect	[599]A Little Bit Evil	Monster Level: +2
+Effect	[600]A Little Bit Evil	Monster Level: +2
+Effect	[601]A Little Bit Evil	Monster Level: +2
+Effect	[602]A Little Bit Evil	Monster Level: +2
 Effect	A Little Bit Frightening	Spooky Damage: [3*L]
 Effect	A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	A Revolution in Your Mouth	Moxie Percent: -10
@@ -5199,7 +5199,8 @@ Effect	Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Effect	Sleepy	Muscle Percent: -30
 # Sleight of Mind: You See What Taco Dan Saw
-Effect	Slicked-Back Do	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
+Effect	[1342]Slicked-Back Do	Moxie: +20
+Effect	[1553]Slicked-Back Do	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
@@ -6061,7 +6062,7 @@ MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality 
 # Food section of modifiers.txt
 
 Item	&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
-Item	3vi1 pr0n m4nic0tti	Effect: "A Little Bit Evil", Effect Duration: 10
+Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
@@ -6119,12 +6120,12 @@ Item	elven <i>limbos</i> gingerbread	Effect: "Yuletide Industry", Effect Duratio
 Item	Energy Buzz Pastaco	Effect: "Stemonitis Storm", Effect Duration: 40
 Item	escargotsicle	Effect: "Extremely Poor Taste", Effect Duration: 10
 Item	Every Day is Like This Sundae	Effect: "Smithsness Dinner", Effect Duration: 100
-Item	evil boring spaghetti	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil delicious noodles	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil delicious spicy noodles	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil painful penne pasta	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil ravioli della hippy	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil spicy noodles	Effect: "A Little Bit Evil", Effect Duration: 10
+Item	evil boring spaghetti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	evil delicious noodles	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	evil delicious spicy noodles	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	evil painful penne pasta	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	evil ravioli della hippy	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	evil spicy noodles	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
 Item	expired can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 30
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
@@ -6228,7 +6229,7 @@ Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
-Item	turtle soup	Effect: "A Little Bit Evil"
+Item	turtle soup	Effect: "[598]A Little Bit Evil"
 Item	ultrafondue	Effect: "Fondid", Effect Duration: 30
 Item	unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
 Item	unidentifiable dried fruit	Effect: "Fruited", Effect Duration: 50
@@ -6251,7 +6252,7 @@ Item	Agitated Turkey	Effect: "Turkey-Agitated", Effect Duration: 25
 Item	Alewife&trade; Ale	Effect: "Brined Liver", Effect Duration: 5
 Item	Ambitious Turkey	Effect: "Turkey-Ambitious", Effect Duration: 25
 Item	Amnesiac Ale	Effect: "All Is Forgiven", Effect Duration: 30
-Item	an evil little sump'm sump'm	Effect: "A Little Bit Evil", Effect Duration: 10
+Item	an evil little sump'm sump'm	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	artisanal limoncello	Effect: "Sugar Rush", Effect Duration: 30
 Item	Aura Libre	Effect: "Transcendental Wind", Effect Duration: 15
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
@@ -6322,9 +6323,9 @@ Item	electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 Item	elven cellocello	Effect: "Sugar Rush", Effect Duration: 20
 Item	elven moonshine	Effect: "Drunk With Power", Effect Duration: 20
 Item	En Una Fila Tequila	Effect: "Mr. Skullhead's Birthday Happiness", Effect Duration: 20
-Item	evil ducha de oro	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil horizontal tango	Effect: "A Little Bit Evil", Effect Duration: 10
-Item	evil roll in the hay	Effect: "A Little Bit Evil", Effect Duration: 10
+Item	evil ducha de oro	Effect: "[601]A Little Bit Evil", Effect Duration: 10
+Item	evil horizontal tango	Effect: "[601]A Little Bit Evil", Effect Duration: 10
+Item	evil roll in the hay	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 30
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
@@ -7032,7 +7033,7 @@ Item	gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 Item	Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
 Item	haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 Item	hair of the fish	Effect: "Antihangover", Effect Duration: 10
-Item	hair oil	Effect: "Slicked-Back Do", Effect Duration: 10
+Item	hair oil	Effect: "[1342]Slicked-Back Do", Effect Duration: 10
 Item	hair spray	Effect: "Butt-Rock Hair", Effect Duration: 3
 Item	half-baked potion	Effect Duration: 5
 Item	half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10

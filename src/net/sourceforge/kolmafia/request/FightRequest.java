@@ -5299,7 +5299,7 @@ public class FightRequest
 				}
 
 				int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
-				AdventureResult result = ItemPool.get( itemId, 1 );
+				AdventureResult result = ItemPool.get( itemId );
 				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
 				if ( str.contains( "Item unequipped:" ) )
 				{	// Item removed by Zombo
@@ -5313,19 +5313,15 @@ public class FightRequest
 			{
 				// Gain/loss of effect
 				status.shouldRefresh = true;
-				String effect = EffectDatabase.getEffectName( m.group( 1 ) );
-				if ( effect == null )
+				String descId = m.group( 1 );
+				int effectId = EffectDatabase.getEffect( descId );
+				if ( effectId == -1 )
 				{
 					return false;
 				}
-				// For prettiness
-				String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-				if ( FightRequest.haiku || FightRequest.anapest )
-				{	// the haiku doesn't name the effect
-					munged = "You acquire an effect: " + effect;
-				}
-				ResultProcessor.processEffect( effect, munged );
-				if ( effect.equalsIgnoreCase( EffectDatabase.getEffectName( EffectPool.HAIKU_STATE_OF_MIND ) ) )
+				AdventureResult result = EffectPool.get( effectId );				
+				ResultProcessor.processEffect( true, "You acquire an effect:", result, (List<AdventureResult>) null );
+				if ( effectId == EffectPool.HAIKU_STATE_OF_MIND )
 				{
 					FightRequest.haiku = true;
 					if ( status.logMonsterHealth )
@@ -5334,7 +5330,7 @@ public class FightRequest
 					}
 					MonsterStatusTracker.damageMonster( 17 );
 				}
-				else if ( effect.equalsIgnoreCase( EffectDatabase.getEffectName( EffectPool.JUST_THE_BEST_ANAPESTS ) ) )
+				else if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS )
 				{
 					FightRequest.anapest = true;
 				}
