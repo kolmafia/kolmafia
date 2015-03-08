@@ -105,7 +105,7 @@ public class TavernRequest
 			     responseText.contains( "something that wasn't booze" ) ||
 			     responseText.contains( "a round on the house" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.RAT, "finished" );
+				QuestDatabase.setQuestProgress( Quest.RAT, QuestDatabase.FINISHED );
 			}
 			else
 			{
@@ -332,7 +332,7 @@ public class TavernRequest
 		}
 		else if ( responseText.contains( "Of Course!" ) ||
 			  responseText.contains( "Hot and Cold Running Rats" ) ||
-			  responseText.contains( "Everything in Moderation" ) ||
+			  responseText.contains( "tell Bart you've fixed his lack-of-rat problem" ) ||
 			  responseText.contains( "Hot and Cold Dripping Rats" ))
 		{
 			// Rat faucet, before and after turning off

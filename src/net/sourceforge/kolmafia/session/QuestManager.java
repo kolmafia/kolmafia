@@ -828,7 +828,7 @@ public class QuestManager
 	{
 		// "Thank you, Adventurer."
 
-		if ( responseText.contains( "Thank you" ) )
+		if ( responseText.contains( "Thank you" ) || responseText.contains( "Please return to us if there's ever anything we can do for you in return" ) )
 		{
 			ResultProcessor.processItem( ItemPool.DODECAGRAM, -1 );
 			ResultProcessor.processItem( ItemPool.CANDLES, -1 );
