@@ -5253,7 +5253,7 @@ public abstract class KoLCharacter
 
 		for ( int i = 0; i < effects.size(); ++i )
 		{
-			newModifiers.add( Modifiers.getModifiers( "Effect", effects.get( i ).getName() ) );
+			newModifiers.add( Modifiers.getEffectModifiers( effects.get( i ).getEffectId() ) );
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
@@ -5609,7 +5609,7 @@ public abstract class KoLCharacter
 
 		for ( AdventureResult effect : effects )
 		{
-			Modifiers emod = Modifiers.getModifiers( "Effect", effect.getName() );
+			Modifiers emod = Modifiers.getEffectModifiers( effect.getEffectId() );
 			if ( emod != null )
 			{
 				smithsness += emod.get( Modifiers.SMITHSNESS );

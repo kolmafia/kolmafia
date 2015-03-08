@@ -255,6 +255,67 @@ public class ResultProcessor
 		return results;
 	}
 
+	public static Pattern EFFECT_DESC_PATTERN = Pattern.compile( "eff\\(\\\"(.*?)\\\"\\).*?effect>(.*?)<b>(.*?)</b><br>\\(duration: (\\d+) Adventure" );
+
+	public static String processEffectByDescId( boolean combatResults, String results, List<AdventureResult> data )
+	{
+		// Results now come in like this:
+		//
+		// <table><tr><td>You narrow your eyes and begin to leer at things.<center><table><tr><td>
+		// <img class=hand src="http://images.kingdomofloathing.com/itemimages/discoleer.gif" 
+		// onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30 alt="Disco Leer"
+		// title="Disco Leer"></td><td valign=center class=effect>You acquire an effect: <b>Disco Leer</b>
+		// <br>(duration: 10 Adventures)</td></tr></table></center></td></tr></table>
+		//
+		// Pre-process all such matches.
+		//
+		// If these are not combat results, add the effects.
+		// (FightRequest wants to handle the effects itself.)
+
+		StringBuffer buffer = new StringBuffer();
+		boolean changed = false;
+
+		Matcher effectMatcher = ResultProcessor.EFFECT_DESC_PATTERN.matcher( results );
+		while ( effectMatcher.find() )
+		{
+			String descId = effectMatcher.group( 1 );
+			String acquisition = effectMatcher.group( 2 );
+			String effectName = effectMatcher.group( 3 );
+			int duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
+
+			int effectId = EffectDatabase.getEffect( descId );
+			// If we don't know this effectId, it's an unknown effect
+			if ( effectId == -1 )
+			{
+				effectId = EffectDatabase.learnEffectId( effectName, descId );
+			}
+
+			if ( acquisition.contains( "lose" ) )
+			{
+				duration = -duration;
+			}
+
+			AdventureResult effect = EffectPool.get( effectId, duration );
+
+			// If the effect was not found in combat, process the
+			// acquisition and remove it from the buffer.
+			if ( !combatResults )
+			{
+				effectMatcher.appendReplacement( buffer, "" );
+				changed = true;
+				ResultProcessor.processItem( false, acquisition, effect, data );
+			}
+		}
+
+		if ( changed )
+		{
+			effectMatcher.appendTail( buffer );
+			return buffer.toString();
+		}
+
+		return results;
+	}
+
 	public static boolean processResults( boolean combatResults, String results )
 	{
 		return ResultProcessor.processResults( combatResults, results, null );
@@ -278,6 +339,10 @@ public class ResultProcessor
 		// we strip out the HTML.
 
 		results = ResultProcessor.registerNewItems( combatResults, results, data );
+
+		// We'd prefer to process Effects before stripping out HTML too.
+
+		results = ResultProcessor.processEffectByDescId( combatResults, results, data );
 
 		boolean requiresRefresh = false;
 
@@ -519,6 +584,25 @@ public class ResultProcessor
 		}
 
 		return ResultProcessor.processEffect( effectName, message );
+	}
+
+	public static void processEffect( boolean combatResults, String acquisition, AdventureResult result, List<AdventureResult> data )
+	{
+		if ( data != null )
+		{
+			AdventureResult.addResultToList( data, result );
+			return;
+		}
+
+		String message = acquisition + " " + result.toString();
+
+		RequestLogger.printLine( message );
+		if ( Preferences.getBoolean( "logStatusEffects" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		ResultProcessor.processResult( combatResults, result );
 	}
 
 	public static boolean processEffect( String effectName, String message )

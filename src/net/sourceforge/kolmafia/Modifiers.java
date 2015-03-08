@@ -1322,7 +1322,7 @@ public class Modifiers
 				continue;
 			}
 
-			currentTest = Modifiers.getModifiers( "Effect", effectName );
+			currentTest = Modifiers.getEffectModifiers( effectId );
 			double value = ( (Modifiers) currentTest ).get( index );
 
 			if ( value == 0.0 )
@@ -1803,6 +1803,16 @@ public class Modifiers
 		}
 		String name = "[" + id + "]";
 		return Modifiers.getModifiers( "Item", name );
+	}
+
+	public static final Modifiers getEffectModifiers( final int id )
+	{
+		if ( id <= 0 )
+		{
+			return null;
+		}
+		String name = "[" + id + "]";
+		return Modifiers.getModifiers( "Effect", name );
 	}
 
 	public static final Modifiers getModifiers( String type, final String name )
@@ -3324,6 +3334,14 @@ public class Modifiers
 			if ( itemId >= 0 )
 			{
 				return "Item:[" + itemId + "]";
+			}
+		}
+		if ( type.equals( "Effect" ) )
+		{
+			int effectId = EffectDatabase.getEffectId( name );
+			if ( effectId >= 0 )
+			{
+				return "Effect:[" + effectId + "]";
 			}
 		}
 		return type + ":" + name;

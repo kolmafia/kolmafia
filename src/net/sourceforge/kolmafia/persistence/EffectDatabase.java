@@ -254,6 +254,20 @@ public class EffectDatabase
 		return effectId == null ? null : EffectDatabase.getEffectName( effectId.intValue() );
 	}
 
+	public static final String getEffectDisplayName( final String effectName )
+	{
+		if ( effectName.startsWith( "[" ) )
+		{
+			int ind = effectName.indexOf( "]" );
+			if ( ind > 0 )
+			{
+				int effectId = StringUtilities.parseInt( effectName.substring( 1, ind ) );
+				return getEffectName( effectId );
+			}
+		}
+		return effectName;
+	}
+
 	public static final int getEffect( final String descriptionId )
 	{
 		Integer effectId = EffectDatabase.effectByDescription.get( descriptionId );

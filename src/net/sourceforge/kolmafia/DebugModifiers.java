@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 
@@ -77,6 +78,10 @@ public class DebugModifiers
 		if ( DebugModifiers.currentType.equals( "Item" ) )
 		{
 			DebugModifiers.buffer.append( ItemDatabase.getItemDisplayName( DebugModifiers.currentDesc ) );
+		}
+		else if ( DebugModifiers.currentType.equals( "Effect" ) )
+		{
+			DebugModifiers.buffer.append( EffectDatabase.getEffectDisplayName( DebugModifiers.currentDesc ) );
 		}
 		else
 		{

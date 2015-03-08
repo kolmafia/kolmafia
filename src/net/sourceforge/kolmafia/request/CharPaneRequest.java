@@ -836,11 +836,6 @@ public class CharPaneRequest
 			effectName = EffectDatabase.getEffectName( effectId );
 		}
 
-		if ( effectName.equals( "A Little Bit Evil" ) )
-		{
-			effectName = effectName + " (" + KoLCharacter.getClassType() + ")";
-		}
-
 		if ( duration == Integer.MAX_VALUE )
 		{
 			// Intrinsic effect
