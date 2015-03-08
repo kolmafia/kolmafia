@@ -3380,7 +3380,7 @@ public abstract class ChoiceManager
 		// Choice 1032 is It's a Trap!  A Tiki Trap.
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1032", "It's a Trap!  A Tiki Trap.",
-			new Object[] { new Option( "escape with spring boots, take damage without back item", 1 ),
+			new Object[] { new Option( "escape with spring boots", 1 ),
 				       new Option( "unlock The Beehive using bomb, take damage without sticky bomb", 2 ),
 				       new Option( "unlock The Ancient Burial Ground using rope, take damage without back item", 3 ),
 				       new Option( "take damage", 6 ) } ),
@@ -3403,10 +3403,10 @@ public abstract class ChoiceManager
 		// Choice 1036 is Idolatry
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1036", "Idolatry",
-			new Object[] { new Option( "gain gold with Resourceful Kid", 1 ),
-				       new Option( "gain gold with spring boots, take damage without yellow cloak", 2 ),
-				       new Option( "gain gold with jetpack, take damage without back item", 3 ),
-				       new Option( "gain gold and lose all hp", 4 ),
+			new Object[] { new Option( "gain 250 gold with Resourceful Kid", 1 ),
+				       new Option( "gain 250 gold with spring boots and yellow cloak", 2 ),
+				       new Option( "gain 250 gold with jetpack", 3 ),
+				       new Option( "gain 250 gold and lose all hp", 4 ),
 				       new Option( "leave", 6 ) } ),
 
 		// Choice 1037 is It's a Trap!  A Smashy Trap.
@@ -3419,14 +3419,15 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1038", "A Wicked Web",
 			new Object[] { new Option( "gain gold", 1 ),
-				       new Option( "gain buddy with machete", 2 ) } ),
+				       new Option( "gain buddy with machete", 2 ),
+				       new Option( "gain 35-50 gold with torch", 2 ) } ),
 
 		// Choice 1039 is A Golden Chest
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1039", "A Golden Chest",
-			new Object[] { new Option( "gain gold with key", 1 ),
-				       new Option( "gain gold with bomb", 2 ),
-				       new Option( "gain gold and take damage", 3 ) } ),
+			new Object[] { new Option( "gain 150 gold with key", 1 ),
+				       new Option( "gain 80-95 gold with bomb", 2 ),
+				       new Option( "gain 60 gold and take damage", 3 ) } ),
 
 		// Choice 1040 is It's Lump. It's Lump.
 		new ChoiceAdventure(
