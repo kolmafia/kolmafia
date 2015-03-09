@@ -80,5 +80,8 @@ questL05Goblin	started	The adventurer was to accomplish this by assassinating th
 questL01Goblin	step1	"How is the investigation of Cobb's Knob proceeding, boss?" Amun asks.
 questL06Friar	started	The adventurer's next quest was to aid the Deep Fat Friars, in the Distant Woods.	Who? Oh, those weird monks? Right. I'll get right on that.
 questL07Cyrptic	started	investigate an ancient cyrpt near the Misspelled Cemetary.	"Is your investigation of the Cyrpt going well, boss?" Amun asks.
+questL07Cyrptic	finished	"Discombobulated, yeah, you could say that."
 questL08Trapper	started	find a Trapper who had requested the Council's assistance	"Were you able to locate the Trapper, boss?" Amun asks.
 questL09Topping	started	Allow me to mark the location of the tower on your map.	"Were you able to find out anything from the Highland Lord, boss?"
+questL10Garbage	started	The adventurer's next mission was to investigate a rain of giant garbage that was falling on the Nearby Plains	"How goes your assessment of the Giants' castle, boss?" Amun asks. 
+questL10Garbage	finished	found some traces of the adventurer on the Giants' kitchen counter

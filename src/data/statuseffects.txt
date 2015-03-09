@@ -4,7 +4,7 @@
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	use 1 Senior Mints
 4	Embarrassed	blush.gif	c489e39537ea426cd1b8fae88ed5032c	use 1 patchouli incense stick
 5	Far Out	farout.gif	5ad503e9df2df73bfbbb5377b622c8c4	use 1 patchouli incense stick
-6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74	use 1 can of Red Minotaur
+6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74	chew 1 can of Red Minotaur
 7	Beaten Up	beatenup.gif	acf143c704afaf7504ac07375084f79e
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584	use 1 marzipan skull
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79	use 1 Knob Goblin perfume
@@ -1001,7 +1001,7 @@
 1000	Voracious Gorging	knifefork.gif	d9b987d7a727652855885d6535c2faa6
 1001	Sated and Furious	madfat.gif	9da3fc08702409c4d95e8728fea9a39d
 1002	Vanity Rage	handmirror.gif	8013791092bfc2ae26faf70a0381e091
-1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 groose grease
+1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	chew 1 groose grease
 1004	You're In Trouble	waterglass.gif	48ab070676e3c10517ed995178037f73
 1005	Song of the Glorious Lunch	song_lunch.gif	7b264e29b6b609413606658dfd8817a7	cast 1 Song of the Glorious Lunch
 1006	Song of Accompaniment	chorale.gif	aaac7e8fb34094b6e0f5936ffcaa2006	cast 1 Song of Accompaniment
@@ -1032,7 +1032,7 @@
 1031	Stone-Faced	stonewool.gif	b33c7d995dbd1b194c881e91d009106a	use 1 stone wool
 1032	Lapdog	laps.gif	93df2d1d03536deec7adbf70847fe466	swim laps
 1033	Silent Running	dasboot.gif	c781c7a1ab57b20200e07228ef913165	swim sprints
-1034	Water Wings	poolwings.gif	1b8a656358c481bfb2a97126f3ae68f1	use 1 watered-down Red Minotaur
+1034	Water Wings	poolwings.gif	1b8a656358c481bfb2a97126f3ae68f1	chew 1 watered-down Red Minotaur
 1035	N-Spatial vision	eyes.gif	81dc1790b51b5fb794222e50646d8d16
 1036	Extra-Wet	doublewater.gif	128eb24cfd0d9996bfa2e26280db8680	use 1 drop of water-37
 1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	eat 1 FDKOL hotcakes
@@ -1661,7 +1661,7 @@
 1659	The Strength... of the Future	strboost.gif	332e06d519892d99db38ab7f918b1edf	use 1 future drug: Muscularactum
 1660	The Wisdom... of the Future	realbrain.gif	5195b0d7c3f8baadb81831530ce6617b	use 1 future drug: Smartinex
 1661	The Style... of the Future	bigglasses.gif	77d99bc7b798752d3152f770128c4db6	use 1 future drug: Coolscaline
-1662	Liquid Luck	blooddrops.gif	13911104896407aceda3c1ee4e2b670c	use 1 liquid shifting time weirdness
+1662	Liquid Luck	blooddrops.gif	13911104896407aceda3c1ee4e2b670c	chew 1 liquid shifting time weirdness
 1663	Meat the Flintstones	dinoribs.gif	c56b9bb80c288d83fbb99b6b9b809e26	eat 1 rack of dinosaur ribs
 1664	Hair on Your Chest	chesthair.gif	d99183ffe1998b9735a9f121fcec66f6	drink 1 scotch on the rocks
 1665	Thuggity Yak	yaktat.gif	a7e34916ae29be49705af42b24cd8fba	use 1 temporary yak tattoo

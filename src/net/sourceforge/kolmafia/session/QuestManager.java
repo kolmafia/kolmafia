@@ -1218,6 +1218,14 @@ public class QuestManager
 			ResultProcessor.removeItem( ItemPool.GROARS_FUR );
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
 		}
+
+		// "Yeehaw!" John exclaims as you drag the huge yeti pelt into his shack.
+		else if ( responseText.contains( "drag the huge yeti pelt into his shack" ) )
+		{
+			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
+			ResultProcessor.removeItem( ItemPool.WINGED_YETI_FUR );
+			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
+		}
 	}
 
 	private static final void handleExtremityChange( final String responseText )
