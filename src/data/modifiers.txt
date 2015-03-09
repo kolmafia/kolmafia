@@ -3655,6 +3655,16 @@ Snowsuit	GOATEE	HP Regen Min: 1, HP Regen Max: 20
 Snowsuit	HAT	MP Regen Min: 1, MP Regen Max: 10
 Snowsuit	NOSE	Item Drop: 10
 
+# Edpiece section
+
+Edpiece	bear	Muscle: +20, Experience (Muscle): +2
+Edpiece	owl	Mysticality: +20, Experience (Mysticality): +2
+Edpiece	puma	Moxie: +20, Experience (Moxie): +2
+Edpiece	hyena	Monster Level: +20
+Edpiece	mouse	Item Drop: +10, Meat Drop: +20
+# Edpiece	weasel First attack against you will always miss
+Edpiece	weasel	HP Regen Min: 10, HP Regen Max: 20
+
 # Bedazzlements section of modifiers.txt
 
 Item	scratch 'n' sniff apple sticker	Experience: +2

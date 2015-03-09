@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -58,6 +60,7 @@ public class Speculation
 	public AdventureResult[] equipment;
 	private ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
+	private String edPiece;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -85,18 +88,19 @@ public class Speculation
 		this.familiar = KoLCharacter.currentFamiliar;
 		this.enthroned = KoLCharacter.currentEnthroned;
 		this.bjorned = KoLCharacter.currentBjorned;
+		this.edPiece = Preferences.getString( "edPiece" );
 	}
-	
+
 	public void setMindControlLevel( int MCD )
 	{
 		this.MCD = MCD;
 	}
-	
+
 	public void setFamiliar( FamiliarData familiar )
 	{
 		this.familiar = familiar;
 	}
-	
+
 	public void setEnthroned( FamiliarData familiar )
 	{
 		this.enthroned = familiar;
@@ -106,7 +110,12 @@ public class Speculation
 	{
 		this.bjorned = familiar;
 	}
-	
+
+	public void setEdPiece( String edPiece )
+	{
+		this.edPiece = edPiece;
+	}
+
 	public FamiliarData getEnthroned()
 	{
 		return this.enthroned;
@@ -116,12 +125,17 @@ public class Speculation
 	{
 		return this.bjorned;
 	}
-	
+
 	public FamiliarData getFamiliar()
 	{
 		return this.familiar;
 	}
-	
+
+	public String getEdPiece()
+	{
+		return this.edPiece;
+	}
+
 	public void equip( int slot, AdventureResult item )
 	{
 		if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) return;
@@ -132,7 +146,7 @@ public class Speculation
 			this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
 		}
 	}
-	
+
 	public boolean hasEffect( AdventureResult effect )
 	{
 		return this.effects.contains( effect );
@@ -161,17 +175,18 @@ public class Speculation
 			this.familiar,
 			this.enthroned,
 			this.bjorned,
+			this.edPiece,
 			true );
 		this.calculated = true;
 		return this.mods;
 	}
-	
+
 	public Modifiers getModifiers()
 	{
 		if ( !this.calculated ) this.calculate();
 		return this.mods;
 	}
-	
+
 	public boolean parse( String text )
 	{
 		boolean quiet = false;
@@ -254,7 +269,7 @@ public class Speculation
 				FamiliarData fam = new FamiliarData( id );
 				this.setEnthroned( fam );
 				this.equip( EquipmentManager.HAT,
-					ItemPool.get( ItemPool.HATSEAT, 1 ) );
+					ItemPool.get( ItemPool.HATSEAT ) );
 			}
 			else if ( cmd.equals( "bjornify" ) )
 			{
@@ -268,7 +283,21 @@ public class Speculation
 				FamiliarData fam = new FamiliarData( id );
 				this.setBjorned( fam );
 				this.equip( EquipmentManager.CONTAINER,
-					ItemPool.get( ItemPool.BUDDY_BJORN, 1 ) );
+					ItemPool.get( ItemPool.BUDDY_BJORN ) );
+			}
+			else if ( cmd.equals( "edpiece" ) )
+			{
+				if ( !params.equals( "bear" ) && !params.equals( "owl" ) && 
+					!params.equals( "puma" ) && !params.equals( "hyena" ) && 
+					!params.equals( "mouse" ) && !params.equals( "weasel" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR,
+						"Unknown animal: " + params );
+					return true;
+				}		
+				this.setEdPiece( params );
+				this.equip( EquipmentManager.HAT,
+					ItemPool.get( ItemPool.CROWN_OF_ED ) );
 			}
 			else if ( cmd.equals( "up" ) )
 			{

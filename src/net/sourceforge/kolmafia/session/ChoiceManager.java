@@ -165,6 +165,7 @@ public abstract class ChoiceManager
 	private static final Pattern MOTORBIKE_COWLING_PATTERN = Pattern.compile( "<b>Cowling:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
+	private static final Pattern EDPIECE_PATTERN = Pattern.compile( "<p>The crown is currently adorned with a golden (.*?).<center>" );
 	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
 	private static final Pattern BENCH_WARRANT_PATTERN = Pattern.compile( "creep <font color=blueviolet><b>(\\d+)</b></font> of them" );
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
@@ -9823,7 +9824,7 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
-		
+
 		case 875:
 			// Welcome To Our ool Table
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, "step2" );
@@ -9891,6 +9892,17 @@ public abstract class ChoiceManager
 		case 1053:	// The Servants' Quarters
 			EdServantData.inspectServants( text );
 			break;
+
+		case 1063:
+		{
+			// Adjust your 'Edpiece
+			Matcher matcher = ChoiceManager.EDPIECE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "edPiece", matcher.group( 1 ).trim() );
+			}
+			break;
+		}
 		}
 	}
 
