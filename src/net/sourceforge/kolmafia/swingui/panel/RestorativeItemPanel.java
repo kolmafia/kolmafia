@@ -113,6 +113,10 @@ public class RestorativeItemPanel
 				{
 					return false;
 				}
+				if ( RestoresDatabase.getHPRange( itemName ).length() == 0 && RestoresDatabase.getMPRange( itemName ).length() == 0 )
+				{
+					return false;
+				}
 				return super.isVisible( element );
 			}
 			return false;

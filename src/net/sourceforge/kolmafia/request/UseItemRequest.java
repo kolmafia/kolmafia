@@ -1860,6 +1860,13 @@ public class UseItemRequest
 			return;
 		}
 
+		if ( responseText.contains( "no|in a special area" ) )
+		{
+			UseItemRequest.lastUpdate = "Restricted by limitmode.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 		switch ( consumptionType )
 		{

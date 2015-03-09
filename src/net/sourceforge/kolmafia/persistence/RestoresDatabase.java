@@ -199,7 +199,7 @@ public class RestoresDatabase
 
 	public static final int getHPMin( final String name )
 	{
-		if ( name == null )
+		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
 			return 0;
 		}
@@ -219,7 +219,7 @@ public class RestoresDatabase
 
 	public static final int getHPMax( final String name )
 	{
-		if ( name == null )
+		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
 			return 0;
 		}
@@ -279,7 +279,7 @@ public class RestoresDatabase
 
 	public static final double getHPAverage( final String name )
 	{
-		if ( name == null )
+		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
 			return 0;
 		}
@@ -299,7 +299,7 @@ public class RestoresDatabase
 
 	public static final String getHPRange( final String name )
 	{
-		if ( name == null )
+		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
 			return "";
 		}
@@ -489,5 +489,14 @@ public class RestoresDatabase
 		}
 
 		return null;
+	}
+
+	private static final boolean edSafe( final String hpRestore )
+	{
+		if ( hpRestore.equals( "cotton bandages" ) || hpRestore.equals( "linen bandages" ) || hpRestore.equals( "silk bandages" ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }
