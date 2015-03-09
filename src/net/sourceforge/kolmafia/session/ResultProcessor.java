@@ -1706,6 +1706,7 @@ public class ResultProcessor
 
 		case ItemPool.GROARS_FUR:
 		case ItemPool.LIQUID_ICE:
+		case ItemPool.WINGED_YETI_FUR:
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, "step5" );
 			break;
 
