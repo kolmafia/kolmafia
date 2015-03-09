@@ -85,3 +85,4 @@ questL08Trapper	started	find a Trapper who had requested the Council's assistanc
 questL09Topping	started	Allow me to mark the location of the tower on your map.	"Were you able to find out anything from the Highland Lord, boss?"
 questL10Garbage	started	The adventurer's next mission was to investigate a rain of giant garbage that was falling on the Nearby Plains	"How goes your assessment of the Giants' castle, boss?" Amun asks. 
 questL10Garbage	finished	found some traces of the adventurer on the Giants' kitchen counter
+questL11MacGuffin	started	next task the Council sent him on was to steal the Holy MacGuffin!	"Have you finished dealing with the guardians of your Staff, boss?"
