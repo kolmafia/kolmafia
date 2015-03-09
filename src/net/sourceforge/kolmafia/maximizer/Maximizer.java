@@ -1152,9 +1152,12 @@ public class Maximizer
 		int itemId = -1;
 		FamiliarData enthroned = Maximizer.best.getEnthroned();
 		FamiliarData bjorned = Maximizer.best.getBjorned();
+		String edPiece = Maximizer.best.getEdPiece();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
+		String currEdPiece = Preferences.getString( "edPiece" );
+
 		if ( item == null )
 		{
 			item = EquipmentRequest.UNEQUIP;
@@ -1165,7 +1168,8 @@ public class Maximizer
 		}
 		if ( curr.equals( item ) &&
 			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
-			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) )
+			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
+			!( itemId == ItemPool.CROWN_OF_ED && !edPiece.equals( currEdPiece ) ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -1182,9 +1186,13 @@ public class Maximizer
 		{
 			spec.setEnthroned( enthroned );
 		}
-		if ( itemId == ItemPool.BUDDY_BJORN )
+		else if ( itemId == ItemPool.BUDDY_BJORN )
 		{
 			spec.setBjorned( bjorned );
+		}
+		else if ( itemId == ItemPool.CROWN_OF_ED )
+		{
+			spec.setEdPiece( edPiece );
 		}
 		double delta = spec.getScore() - current;
 		String cmd, text;
@@ -1205,6 +1213,11 @@ public class Maximizer
 			else if ( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
 			{
 				cmd = "bjornify " + bjorned.getRace();
+				text = cmd;
+			}
+			else if ( itemId == ItemPool.CROWN_OF_ED && edPiece != currEdPiece )
+			{
+				cmd = "edpiece " + edPiece;
 				text = cmd;
 			}
 			else

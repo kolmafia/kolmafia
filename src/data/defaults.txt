@@ -394,6 +394,7 @@ user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
 user	drunkenSwagger	0
+user	edPiece	
 user	edPoints	0
 user	envyfishMonster
 user	EVEDirections	LLRLR0

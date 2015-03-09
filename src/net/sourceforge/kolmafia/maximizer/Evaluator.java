@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -84,6 +85,7 @@ public class Evaluator
 	private ArrayList<FamiliarData> carriedFamiliars;
 	private int carriedFamiliarsNeeded = 0;
 	private boolean cardNeeded = false;
+	private boolean edPieceNeeded = false;
 
 	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -1176,6 +1178,12 @@ public class Evaluator
 							continue;
 						}
 						break;
+					case ItemPool.CROWN_OF_ED:
+						if ( !KoLCharacter.isEd() )
+						{
+							continue;
+						}
+						break;
 					default:
 						break;
 					}
@@ -1232,6 +1240,11 @@ public class Evaluator
 					this.cardNeeded = true;
 				}
 
+				if ( id == ItemPool.CROWN_OF_ED && this.slots[ EquipmentManager.HAT ] >= 0 )
+				{
+					this.edPieceNeeded = true;
+				}
+
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
 					slot = Evaluator.WATCHES;
@@ -1280,8 +1293,13 @@ public class Evaluator
 				{
 					break gotItem;
 				}
-				
+
 				if ( id == ItemPool.CARD_SLEEVE )
+				{
+					break gotItem;
+				}
+
+				if ( id == ItemPool.CROWN_OF_ED )
 				{
 					break gotItem;
 				}
@@ -1448,6 +1466,31 @@ public class Evaluator
 			}
 		}
 
+		String bestEdPiece = null;
+
+		if ( this.edPieceNeeded )
+		{
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+
+			// Check each animal in Crown of Ed to see if they are worthwhile
+			for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
+			{
+				String animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
+				spec.attachment = edPiece;
+				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+				spec.equipment[ EquipmentManager.HAT ] = edPiece;
+				spec.setEdPiece( animal );
+				if ( spec.compareTo( best ) > 0 )
+				{
+					best = (MaximizerSpeculation) spec.clone();
+					bestEdPiece = animal;
+				}
+			}
+		}
+			
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
@@ -1554,6 +1597,13 @@ public class Evaluator
 						spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
 						spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
 						spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
+					}
+					else if ( item.getItemId() == ItemPool.CROWN_OF_ED )
+					{
+						if ( bestEdPiece != null )
+						{
+							spec.setEdPiece( bestEdPiece );
+						}
 					}
 					spec.getScore();	// force evaluation
 					spec.failed = false;	// individual items are not expected
@@ -1756,6 +1806,8 @@ public class Evaluator
 				}
 			}
 		}
+
+		spec.setEdPiece( bestEdPiece );
 
 		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic, useCard, useCrownFamiliar, useBjornFamiliar );
 	}

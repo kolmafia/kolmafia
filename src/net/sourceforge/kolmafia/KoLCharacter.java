@@ -5115,10 +5115,11 @@ public abstract class KoLCharacter
 				KoLCharacter.effectiveFamiliar,
 				KoLCharacter.currentEnthroned,
 				KoLCharacter.currentBjorned,
+				Preferences.getString( "edPiece" ),
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, String edPiece, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5207,7 +5208,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, applyIntrinsics, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, applyIntrinsics, taoFactor );
 		}
 
 		// Consider fake hands
@@ -5448,8 +5449,8 @@ public abstract class KoLCharacter
 	}
 
 	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
-						     AdventureResult[] equipment, FamiliarData enthroned,
-						     FamiliarData bjorned, boolean applyIntrinsics, int taoFactor )
+						     AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
+							 String edPiece, boolean applyIntrinsics, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -5549,6 +5550,10 @@ public abstract class KoLCharacter
 			// Apply bjorned familiar
 			newModifiers.add( Modifiers.getModifiers( "Bjorn", bjorned.getRace() ) );
 			break;
+
+		case ItemPool.CROWN_OF_ED:
+			newModifiers.add( Modifiers.getModifiers( "Edpiece", edPiece ) );
+			break;
 		}
 
 		// Add modifiers that depend on equipment power
@@ -5570,6 +5575,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
 					  taoFactor * EquipmentDatabase.getPower( itemId ), "Item:hat power" );
 			break;
+
 		case EquipmentManager.PANTS:
 			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
 					  taoFactor * EquipmentDatabase.getPower( itemId ), "Item:pants power" );
