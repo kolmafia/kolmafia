@@ -760,7 +760,7 @@ public class RequestEditorKit
 			haveLinks = true;
 		}
 
-		else if ( KoLCharacter.isEd() )
+		else if ( KoLCharacter.isEd() && newLevel <= 15 )
 		{
 			if ( newLevel % 3 == 0 )
 			{
