@@ -1332,6 +1332,10 @@ public class Concoction
 		{
 			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
 
+			if ( ingredient == null )
+			{
+				return 0;
+			}
 			runningTotal += ingredient.getAdventuresNeeded( create );
 		}
 
