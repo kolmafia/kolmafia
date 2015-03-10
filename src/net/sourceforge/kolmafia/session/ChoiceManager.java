@@ -7617,6 +7617,19 @@ public abstract class ChoiceManager
 			ResultProcessor.removeItem( ItemPool.SHIELD_OF_BROOK );
 			break;
 
+		case 872:
+			// Drawn Onward - Handle quest in Ed
+			if ( text.contains( "Rot in a jar of dog paws!" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
+				ResultProcessor.removeItem( ItemPool.ED_FATS_STAFF );
+				if ( InventoryManager.getCount( ItemPool.ED_EYE ) == 0 && InventoryManager.getCount( ItemPool.ED_AMULET ) == 0 )
+				{
+					QuestDatabase.setQuestProgress( Quest.MACGUFFIN, QuestDatabase.FINISHED );
+				}
+			}
+			break;
+
 		case 890:
 			// Lights Out in the Storage Room
 			if ( text.contains( "BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!" ) )
@@ -8211,6 +8224,19 @@ public abstract class ChoiceManager
 						case 2: Preferences.setString( "shrubGifts", "meat" ); break;
 						case 3: Preferences.setString( "shrubGifts", "gifts" ); break;
 					}
+				}
+			}
+			break;
+
+		case 1002:
+			// Temple of the Legend in the Hidden City - Handle quest in Ed
+			if ( text.contains( "The spectre nods emphatically" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, QuestDatabase.FINISHED );
+				ResultProcessor.removeItem( ItemPool.ED_AMULET );
+				if ( InventoryManager.getCount( ItemPool.ED_EYE ) == 0 && InventoryManager.getCount( ItemPool.ED_FATS_STAFF ) == 0 )
+				{
+					QuestDatabase.setQuestProgress( Quest.MACGUFFIN, QuestDatabase.FINISHED );
 				}
 			}
 			break;
