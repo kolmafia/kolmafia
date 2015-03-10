@@ -782,7 +782,8 @@ public class FightRequest
 
 	public static final String getCurrentKey()
 	{
-		return CombatActionManager.encounterKey( MonsterStatusTracker.getLastMonster().getName() );
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		return monster == null ? "default" : CombatActionManager.encounterKey( monster.getName() );
 	}
 
 	private void updateCurrentAction()
