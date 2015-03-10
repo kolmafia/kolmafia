@@ -9483,6 +9483,8 @@ public abstract class ChoiceManager
 			// 1984 Had Nothing on This Cellar
 		case 515:
 			// A Rat's Home...
+		case 1000:
+			// Everything in Moderation
 			TavernRequest.postTavernVisit( request );
 			break;
 

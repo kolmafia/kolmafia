@@ -239,6 +239,10 @@ public class TavernManager
 			Preferences.setInteger( "choiceAdventure511", 2 );
 		}
 
+		// Set preferences to automatically adjust the faucet
+		Preferences.setInteger( "choiceAdventure509", 1 );
+		Preferences.setInteger( "choiceAdventure1000", 1 );
+
 		while ( ( goal == TavernManager.FAUCET && faucet == -1 ||
 			  goal == TavernManager.BARON && baron == -1 ||
 			  goal == TavernManager.FIGHT_BARON && baron == -1 ||
