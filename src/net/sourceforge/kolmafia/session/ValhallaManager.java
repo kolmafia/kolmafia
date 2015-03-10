@@ -472,6 +472,7 @@ public class ValhallaManager
 		Preferences.setInteger( "crimboTreeDays", 7 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "dnaSyringe", "" );
+		Preferences.setString( "edPiece", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "guardTurtlesFreed", 0 );
