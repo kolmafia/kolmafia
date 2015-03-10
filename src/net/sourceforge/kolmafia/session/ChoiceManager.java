@@ -9478,13 +9478,15 @@ public abstract class ChoiceManager
 		case 512:
 			// Hot and Cold Running Rats
 		case 513:
-			//  Staring Down the Barrel
+			// Staring Down the Barrel
 		case 514:
 			// 1984 Had Nothing on This Cellar
 		case 515:
 			// A Rat's Home...
 		case 1000:
 			// Everything in Moderation
+		case 1001:
+			// Hot and Cold Dripping Rats
 			TavernRequest.postTavernVisit( request );
 			break;
 
