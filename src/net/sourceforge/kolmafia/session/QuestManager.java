@@ -273,6 +273,15 @@ public class QuestManager
 				QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+				if ( responseText.contains( "Cold as ice and twice as smooth" ) )
+				{
+					QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
+					ResultProcessor.removeItem( ItemPool.ED_EYE );
+					if ( InventoryManager.getCount( ItemPool.ED_FATS_STAFF ) == 0 && InventoryManager.getCount( ItemPool.ED_AMULET ) == 0 )
+					{
+						QuestDatabase.setQuestProgress( Quest.MACGUFFIN, QuestDatabase.FINISHED );
+					}
+				}
 			}
 			else if ( location.contains( "whichplace=marais" ) )
 			{
