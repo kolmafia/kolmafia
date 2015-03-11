@@ -5066,6 +5066,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.removeItem( ItemPool.WAREHOUSE_INVENTORY_PAGE );
 				ResultProcessor.removeItem( ItemPool.WAREHOUSE_MAP_PAGE );
+				Preferences.increment( "warehouseProgress", 8 );
 			}
 			return;
 		}

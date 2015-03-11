@@ -88,3 +88,7 @@ questL10Garbage	finished	found some traces of the adventurer on the Giants' kitc
 questL11MacGuffin	started	next task the Council sent him on was to steal the Holy MacGuffin!	"Have you finished dealing with the guardians of your Staff, boss?"
 questL12War	started	next task was to infiltrate one of the factions that live on the Mysterious Island nearby, and start a war.	"Have you been able to start a war on the Mysterious Island, boss?"
 questL12War	step1	"My agents report that the war on the Mysterious Island is going nicely."
+questL12War	finished	"Indeed, boss. By the way, my agents all chipped in and we got you a little something to commemorate your victory."
+questL13Final	started	"Time to show a jumped-up errand-boy what happens when you cross Ed the Undying."	"Boss! You're back! How did it go?" 
+questL13Warehouse	started	“There is a cave there called ‘Noob Cave’. There is a secret entrance to the warehouse in back of it.”	"I have faith that you will be successful, boss."
+questL13Warehouse	finished	"Boss!" Amum exclaims. "You did it, didn't you? You retrieved the Holy MacGuffin!"

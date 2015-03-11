@@ -83,6 +83,7 @@ public class QuestDatabase
 			DESERT( "questL11Desert" ),
 			ISLAND_WAR( "questL12War" ),
 			FINAL( "questL13Final" ),
+			WAREHOUSE( "questL13Warehouse" ),
 			MEATCAR( "questG01Meatcar" ),
 			CITADEL( "questG02Whitecastle" ),
 			NEMESIS( "questG04Nemesis" ),
@@ -567,6 +568,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "armoryUnlocked" );
 		Preferences.resetToDefault( "writingDesksDefeated" );
 		Preferences.resetToDefault( "palindomeDudesDefeated" );
+		Preferences.resetToDefault( "warehouseProgress" );
 	}
 
 	public static void handleCouncilText( String responseText )

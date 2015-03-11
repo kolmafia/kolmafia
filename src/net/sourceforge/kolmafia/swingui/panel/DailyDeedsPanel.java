@@ -1379,9 +1379,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
-			boolean have = InventoryManager.getCount( ItemPool.EYE_OF_ED ) > 0
-				|| InventoryManager.getCount( ItemPool.HEADPIECE_OF_ED ) > 0
-				|| InventoryManager.getCount( ItemPool.STAFF_OF_ED ) > 0;
+			boolean have = QuestDatabase.isQuestFinished( Quest.MANOR );
 			this.setShown( have );
 			this.setEnabled( !summoned );
 			box.setEnabled( !summoned ); // this.setEnabled will not disable the combo box, for whatever reason

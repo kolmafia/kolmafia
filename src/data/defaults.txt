@@ -788,6 +788,7 @@ user	questL11Spare	unstarted
 user	questL11Worship	unstarted
 user	questL12War	unstarted
 user	questL13Final	unstarted
+user	questL13Warehouse	unstarted
 user	questM01Untinker	unstarted
 user	questM02Artist	unstarted
 user	questM03Bugbear	unstarted
@@ -990,6 +991,7 @@ user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
 user	warProgress	unstarted
+user	warehouseProgress	0
 user	waxMonster
 user	welcomeBackAdv	0
 user	workteaClue
@@ -1768,7 +1770,7 @@ user	choiceAdventure1017	1
 user	choiceAdventure1020	1
 user	choiceAdventure1021	1
 user	choiceAdventure1022	1
-user	choiceAdventure1023	1
+user	choiceAdventure1023	0
 user	choiceAdventure1027	0
 user	choiceAdventure1028	0
 user	choiceAdventure1029	0
@@ -1789,6 +1791,9 @@ user	choiceAdventure1046	1
 user	choiceAdventure1048	0
 user	choiceAdventure1051	0
 user	choiceAdventure1052	0
+user	choiceAdventure1053	0
+user	choiceAdventure1054	0
+user	choiceAdventure1055	0
 user	choiceAdventure1056	1
 user	choiceAdventure1057	0
 user	choiceAdventure1059	0
