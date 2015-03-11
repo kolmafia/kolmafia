@@ -1169,7 +1169,7 @@ public class Maximizer
 		if ( curr.equals( item ) &&
 			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
 			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
-			!( itemId == ItemPool.CROWN_OF_ED && !edPiece.equals( currEdPiece ) ) )
+			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
