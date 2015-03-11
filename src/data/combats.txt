@@ -41,7 +41,7 @@
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Keese	Koopa Troopa	Octorok	Tektite	Zol
-A Barroom Brawl	100	drunken 7-foot Dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
+A Barroom Brawl	100	drunken 7-foot dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Crowd of (Element) Adventurers	100
 A Crowd of (Stat) Adventurers	100
@@ -128,7 +128,7 @@ Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	d
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
-Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
+Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
@@ -169,7 +169,7 @@ Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	
 Post-Cyrpt Cemetary	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Pre-Cyrpt Cemetary	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
-Professor Jacking's Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
+Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Science Lab	100	bugbear scientist	spiderbugbear
@@ -258,14 +258,14 @@ The Haiku Dungeon	90	amateur ninja	ancient insane monk	ferocious bugbear	gelatin
 The Hallowed Halls	100	sporto	wastoid	dweebie	motorhead
 The Hatching Chamber	100	larval filthworm
 The Haunted Ballroom	80	floating platter of hors d'oeuvres	ghastly organist: 0	zombie waltzers	tapdancing skeleton
-The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made of Bees: 0	cosmetics wraith: 0
+The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made Of Bees: 0	cosmetics wraith: 0
 The Haunted Bedroom	-1	Wardr&ouml;b nightstand	animated mahogany nightstand	animated ornate nightstand	animated rustic nightstand	elegant animated nightstand	remains of a jilted mistress: 0
 The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	Pooltergeist (Ultra-Rare): -1
 The Haunted Boiler Room	-1	coaltergeist	monstrous boiler	steam elemental	Bram the Stoker: 0
 The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey
 The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0
 The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef
-The Haunted Laboratory	-1	Jacob's Adder	model skeleton	the gunk	Stephen Spookyraven: 0
+The Haunted Laboratory	-1	Jacob's adder	model skeleton	the gunk	Stephen Spookyraven: 0
 The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
 The Haunted Library	75	banshee librarian	bookbat	writing desk
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
@@ -350,7 +350,7 @@ The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
 Throne Room	100	Knob Goblin King
-Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	Gnu Jack Gnome	vicious gnauga
+Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	gnu jack gnome	vicious gnauga
 Tower Level 1	100	wall of skin
 Tower Level 2	100	wall of meat
 Tower Level 3	100	wall of bones
@@ -370,7 +370,7 @@ WarBear Fortress (Third Level)	100	High-Ranking Warbear Officer
 Wartime Frat House	0	War Hippy Spy
 Wartime Frat House (Hippy Disguise)	80	War Pledge	Frat Warrior drill sergeant
 Wartime Hippy Camp	0	Orcish Frat Boy Spy
-Wartime Hippy Camp (Frat Disguise)	80	War Hippy drill sergeant	War Hippy (space) Cadet
+Wartime Hippy Camp (Frat Disguise)	80	War Hippy drill sergeant	War Hippy (space) cadet
 Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	scavenger bugbear
 Whitey's Grove	85	Knight in White Satin	white chocolate golem	white lion	whitesnake	white elephant: 0
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
