@@ -1728,7 +1728,7 @@ public class ResultProcessor
 
 		case ItemPool.SNAKEHEAD_CHARM:
 			if ( result.getCount( KoLConstants.inventory ) >= 2 &&
-			     InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
+			     !InventoryManager.hasItem( ItemPool.TALISMAN ) )
 			{
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
@@ -1745,7 +1745,8 @@ public class ResultProcessor
 				QuestDatabase.setQuestProgress( Quest.RON, QuestDatabase.FINISHED );
 			}
 			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) &&
-			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
+			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) &&
+			     !InventoryManager.hasItem( ItemPool.TALISMAN ) )
 			{
 				Concoction conc = new Concoction( ItemPool.get( ItemPool.TALISMAN, 1 ),
 						CraftingType.ACOMBINE,
@@ -1755,10 +1756,7 @@ public class ResultProcessor
 				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM, 1 ) );
 				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM_RAMPANT, 1 ) );
 				ConcoctionPool.set( conc );
-				if ( InventoryManager.getCount( ItemPool.TALISMAN ) == 0 )
-				{
-					ResultProcessor.autoCreate( ItemPool.TALISMAN );
-				}
+				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
 			break;
 
@@ -2671,9 +2669,8 @@ public class ResultProcessor
 
 		if ( possible > 0 )
 		{
-			// Make as many as you can
 			ResultProcessor.autoCrafting = true;
-			creator.setQuantityNeeded( possible );
+			creator.setQuantityNeeded( 1 );
 			RequestThread.postRequest( creator );
 			ResultProcessor.autoCrafting = false;
 		}
