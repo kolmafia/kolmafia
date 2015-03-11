@@ -203,6 +203,8 @@ public abstract class UseLinkDecorator
 		}
 	}
 
+	// <table class="item" style="float: none" rel="id=2334&s=0&q=1&d=0&g=0&t=0&n=1&m=0&p=0&u=."><tr><td><img src="http://images.kingdomofloathing.com/itemimages/macguffin.gif" alt="Holy MacGuffin" title="Holy MacGuffin" class=hand onClick='descitem(302128482)'></td><td valign=center class=effect>You acquire an item: <b>Holy MacGuffin</b></td></tr></table>
+
 	private static final Pattern ACQUIRE_PATTERN =
 		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
 
