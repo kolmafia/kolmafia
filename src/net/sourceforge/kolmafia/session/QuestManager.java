@@ -1212,7 +1212,8 @@ public class QuestManager
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step1" );
 		}
 
-		else if ( responseText.contains( "He takes the load of cheese and ore" ) )
+		else if ( responseText.contains( "He takes the load of cheese and ore" ) ||
+				responseText.contains( "haul your load of ore and cheese" ) )
 		{
 			AdventureResult item = ItemPool.get( Preferences.getString( "trapperOre" ), -3 );
 			ResultProcessor.processResult( item );
@@ -1610,6 +1611,12 @@ public class QuestManager
 		else if ( monsterName.equals( "Elp&iacute;zo & Crosybdis" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step10" );
+		}
+		else if ( monsterName.equals( "warehouse guard" ) ||
+				monsterName.equals( "warehouse janitor" ) ||
+				monsterName.equals( "warehouse clerk" ) )
+		{
+			Preferences.increment( "warehouseProgress", 1 );
 		}
 		else if ( monsterName.equals( "E.V.E., the robot zombie" ) )
 		{

@@ -2260,6 +2260,7 @@ public class ItemPool
 	public static final int ED_EYE = 7962;
 	public static final int ED_AMULET = 7963;
 	public static final int ED_FATS_STAFF = 7964;
+	public static final int ED_HOLY_MACGUFFIN = 7965;
 	public static final int KA_COIN = 7966;
 	public static final int TOPIARY_NUGGLET = 7968;
 	public static final int BEEHIVE = 7969;
@@ -2317,6 +2318,7 @@ public class ItemPool
 	public static final int SPELUNKER_FORTUNE = 8073;
 	public static final int SPELUNKER_FORTUNE_USED = 8085;
 	public static final int STILL_BEATING_SPLEEN = 8086;
+	public static final int SCARAB_BEETLE_STATUETTE = 8087;
 	public static final int LOVEBUG_PHEROMONES = 8134;
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;

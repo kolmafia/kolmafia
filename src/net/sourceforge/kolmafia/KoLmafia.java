@@ -960,7 +960,12 @@ public abstract class KoLmafia
 		// Retrieve the Terrarium
 		RequestThread.postRequest( new FamiliarRequest() );
 
-		// Retrieve the bookshelf
+		// Check the campground
+		CampgroundRequest.reset();
+		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+		RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+		KoLCharacter.checkTelescope();
 		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 
 		// Finally, update available concoctions

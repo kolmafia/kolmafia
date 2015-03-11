@@ -2648,6 +2648,10 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.ED_STAFF );
 			break;
 
+		case ItemPool.SCARAB_BEETLE_STATUETTE:
+			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
+			break;
+
 		case ItemPool.MEATSMITH_CHECK:
 			QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
 			break;
