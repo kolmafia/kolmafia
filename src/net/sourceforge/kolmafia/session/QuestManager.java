@@ -875,7 +875,8 @@ public class QuestManager
 
 	private static final void handleHighlandsChange( final String location, final String responseText )
 	{
-		if ( location.contains( "action=highlands_dude" ) && responseText.contains( "trying to, like, order a pizza" ) )
+		if ( location.contains( "action=highlands_dude" ) &&
+			( responseText.contains( "trying to, like, order a pizza" ) || responseText.contains( "trying to order a pizza" ) ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.TOPPING, "step2" );
 		}
