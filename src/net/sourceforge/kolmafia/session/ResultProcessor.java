@@ -255,7 +255,10 @@ public class ResultProcessor
 		return results;
 	}
 
-	public static Pattern EFFECT_DESC_PATTERN = Pattern.compile( "eff\\(\\\"(.*?)\\\"\\).*?effect>(.*?)<b>(.*?)</b><br>\\(duration: (\\d+) Adventure" );
+	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
+	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/milk.gif" onClick='eff("225aa10e75476b0ad5fa576c89df3901");' width=30 height=30></td><td valign=center class=effect>You lose some of an effect: <b>Got Milk</b> (5 Adventures)</td></tr></table>
+
+	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\)</td></tr></table>" );
 
 	public static String processEffectByDescId( boolean combatResults, String results, List<AdventureResult> data )
 	{
@@ -275,20 +278,27 @@ public class ResultProcessor
 		StringBuffer buffer = new StringBuffer();
 		boolean changed = false;
 
-		Matcher effectMatcher = ResultProcessor.EFFECT_DESC_PATTERN.matcher( results );
+		Matcher effectMatcher = ResultProcessor.EFFECT_TABLE_PATTERN.matcher( results );
 		while ( effectMatcher.find() )
 		{
 			String descId = effectMatcher.group( 1 );
-			String acquisition = effectMatcher.group( 2 );
 			String effectName = effectMatcher.group( 3 );
-			int duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
-
 			int effectId = EffectDatabase.getEffect( descId );
+
 			// If we don't know this effectId, it's an unknown effect
 			if ( effectId == -1 )
 			{
 				effectId = EffectDatabase.learnEffectId( effectName, descId );
 			}
+
+			if ( combatResults )
+			{
+				// FightRequest will log this its own way
+				continue;
+			}
+
+			String acquisition = effectMatcher.group( 2 );
+			int duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
 
 			if ( acquisition.contains( "lose" ) )
 			{
@@ -297,14 +307,9 @@ public class ResultProcessor
 
 			AdventureResult effect = EffectPool.get( effectId, duration );
 
-			// If the effect was not found in combat, process the
-			// acquisition and remove it from the buffer.
-			if ( !combatResults )
-			{
-				effectMatcher.appendReplacement( buffer, "" );
-				changed = true;
-				ResultProcessor.processItem( false, acquisition, effect, data );
-			}
+			effectMatcher.appendReplacement( buffer, "" );
+			changed = true;
+			ResultProcessor.processEffect( false, acquisition, effect, data );
 		}
 
 		if ( changed )
