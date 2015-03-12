@@ -458,7 +458,7 @@ public class AdventureRequest
 				     !EncounterManager.isSemiRareMonster( encounter ) &&
 				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
 				     !EncounterManager.isFreeCombatMonster( encounter ) &&
-				     !FightRequest.edFightInProgress )
+				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
 				}
@@ -467,7 +467,7 @@ public class AdventureRequest
 			{
 				// only log the FIRST choice that we see in a choiceadventure chain.
 				if ( ( !urlString.startsWith( "choice.php" ) || ChoiceManager.getLastChoice() == 0 ) &&
-				     !FightRequest.edFightInProgress )
+				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueueNoncombat( KoLAdventure.lastVisitedLocation(), encounter );
 				}

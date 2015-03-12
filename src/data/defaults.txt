@@ -394,6 +394,7 @@ user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
 user	drunkenSwagger	0
+user	edDefeatAbort	2
 user	edPiece	
 user	edPoints	0
 user	envyfishMonster
@@ -1066,6 +1067,7 @@ user	_dnaHybrid	false
 user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_edLashCount	0
+user	_edDefeats	0
 user	_elronsCasts	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
