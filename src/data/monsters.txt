@@ -156,7 +156,7 @@ creepy doll	1549	creepydoll.gif	Atk: 88 Def: 76 HP: 75 Init: 25 P: construct E: 
 Creepy Ginger Twin	1243	twins_ginger.gif	Atk: 95 Def: 86 HP: 95 Init: 30 P: dude	creepy ginger ale (15)	stolen necklace (5)	fireclutch (c30)
 crusty hippy	54	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 crusty hippy jewelry maker	60	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (5)	Spanish fly (c25)
-crusty hippy Vegan chef570	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
+crusty hippy Vegan chef	570	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 crusty pirate	625	crustpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 ED: stench Meat: 64 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
 cubist bull	393	cubistbull.gif	Atk: 56 Def: 50 HP: 55 Init: 50 Meat: 200 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean non-accordion (a0)
 curmudgeonly pirate	623	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate Meat: 62	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)

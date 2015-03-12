@@ -1470,15 +1470,25 @@ public class Evaluator
 
 		if ( this.edPieceNeeded )
 		{
+			// Assume best is current edPiece
 			MaximizerSpeculation best = new MaximizerSpeculation();
+			CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
+			best.attachment = edPiece;
 			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
-
+			bestEdPiece = Preferences.getString( "edPiece" );
+			best.equipment[ EquipmentManager.HAT ] = edPiece;
+			best.setEdPiece( bestEdPiece );
+			
 			// Check each animal in Crown of Ed to see if they are worthwhile
 			for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
 			{
 				String animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
+				if ( animal.equals( bestEdPiece ) )
+				{
+					// Don't bother if we've already done it for best
+					continue;
+				}
 				MaximizerSpeculation spec = new MaximizerSpeculation();
-				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
 				spec.attachment = edPiece;
 				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ EquipmentManager.HAT ] = edPiece;
