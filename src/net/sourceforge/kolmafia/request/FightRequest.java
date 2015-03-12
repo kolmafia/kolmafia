@@ -3505,6 +3505,13 @@ public class FightRequest
 				}
 			}
 
+			// You see a strange cartouche painted on a nearby wall.
+			if ( KoLCharacter.hasEquipped( ItemPool.CROWN_OF_ED, EquipmentManager.HAT ) &&
+			     responseText.contains( "You see a strange cartouche" ) )
+			{
+				FightRequest.handleCartouche( responseText );
+			}
+
 			// Booze Filler surveys the scene from atop the throne, and gains 1 Experience
 			if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) &&
 			     responseText.contains( "throne, and gains 1 Experience" ) )
@@ -3583,6 +3590,27 @@ public class FightRequest
 		FightRequest.clearInstanceData();
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 		ChoiceManager.handlingChoice = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+	}
+
+	// <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative; display: inline-block; z-index 0;'><img src=/images/otherimages/cartouche.gif><div style='position: absolute; left: 15; top: 30; z-index 1;'><img src=/images/itemimages/hiero12.gif></div><div style='position: absolute; left: 15; top: 62; z-index 1;'><img src=/images/itemimages/hiero24.gif></div><div style='position: absolute; left: 15; top: 94; z-index 1;'><img src=/images/itemimages/hiero21.gif></div></div>
+
+	private static final Pattern HIERO_PATTERN = Pattern.compile( "itemimages/hiero(.*?)\\.gif" );
+
+	private static final void handleCartouche( final String responseText )
+	{
+		StringBuilder buffer = new StringBuilder();
+		Matcher matcher = FightRequest.HIERO_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			buffer.append( buffer.length() == 0 ? "Cartouche: " : ", " );
+			buffer.append( matcher.group( 1 ) );
+		}
+		if ( buffer.length() > 0 )
+		{
+			String message = buffer.toString();
+			RequestLogger.updateSessionLog( message );
+			KoLmafia.updateDisplay( message );
+		}
 	}
 
 	public static final String getSpecialAction()
