@@ -231,11 +231,21 @@ public class GearChangeFrame
 				switch ( itemId )
 				{
 				case ItemPool.CROWN_OF_ED:
-					mods.add( Modifiers.getModifiers( "Edpiece", Preferences.getString( "edPiece" ) ) );
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					newMods.add( Modifiers.getModifiers( "Edpiece", Preferences.getString( "edPiece" ) ) );
+					mods = newMods;
 					break;
+				}
 				case ItemPool.SNOW_SUIT:
-					mods.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					newMods.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
+					mods = newMods;
 					break;
+				}
 				}
 			}
 		}
