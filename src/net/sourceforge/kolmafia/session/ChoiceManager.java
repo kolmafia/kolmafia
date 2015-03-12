@@ -166,6 +166,7 @@ public abstract class ChoiceManager
 	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
 	private static final Pattern EDPIECE_PATTERN = Pattern.compile( "<p>The crown is currently adorned with a golden (.*?).<center>" );
+	private static final Pattern ED_RETURN_PATTERN = Pattern.compile( "Return to the fight! \\((\\d+) Ka\\)" );
 	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
 	private static final Pattern BENCH_WARRANT_PATTERN = Pattern.compile( "creep <font color=blueviolet><b>(\\d+)</b></font> of them" );
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
@@ -6042,6 +6043,14 @@ public abstract class ChoiceManager
 				return;
 			}
 
+			if ( KoLCharacter.isEd() && Preferences.getInteger( "_edDefeats" ) >= Preferences.getInteger( "edDefeatAbort" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Hit Ed defeat threshold - Manual control requested for choice #" + choice  );
+				ChoiceCommand.printChoices();
+				request.showInBrowser( true );
+				return;
+			}
+
 			// Bail if no setting determines the decision
 
 			if ( decision.equals( "" ) )
@@ -6264,14 +6273,31 @@ public abstract class ChoiceManager
 			ResultProcessor.processAdventuresUsed( 1 );
 			break;
 
+		case 1023: // Like a Bat into Hell
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				int edDefeats = Preferences.getInteger( "_edDefeats" );
+				int kaCost = edDefeats > 2 ? (int) ( Math.pow( 2, Math.min( edDefeats - 3, 5 ) ) ) : 0;
+				AdventureResult cost = ItemPool.get( ItemPool.KA_COIN, -kaCost );
+				ResultProcessor.processResult( cost );
+				KoLCharacter.setLimitmode( null );
+			}
+			break;
+
 		case 1024: // Like a Bat out of Hell
 			switch ( ChoiceManager.lastDecision )
 			{
 			case 2:
-				FightRequest.edFightInProgress = false;
-				// fall through
-			case 1:
+				Preferences.setInteger( "_edDefeats", 0 );
 				KoLCharacter.setLimitmode( null );
+				break;
+			case 1:
+				int edDefeats = Preferences.getInteger( "_edDefeats" );
+				int kaCost = edDefeats > 2 ? (int) ( Math.pow( 2, Math.min( edDefeats - 3, 5 ) ) ) : 0;
+				AdventureResult cost = ItemPool.get( ItemPool.KA_COIN, -kaCost );
+				ResultProcessor.processResult( cost );
+				KoLCharacter.setLimitmode( null );
+				break;
 			}
 			break;
 
@@ -9926,6 +9952,21 @@ public abstract class ChoiceManager
 		case 1013:	// Mazel Tov!
 			SorceressLairManager.visitChoice( ChoiceManager.lastChoice, text );
 			break;
+
+		case 1023:
+		case 1024:
+		{
+			// Like a Bat into Hell
+			// Like a Bat out of Hell
+			Matcher matcher = ChoiceManager.ED_RETURN_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				int cost = StringUtilities.parseInt( matcher.group( 1 ) );
+				int defeats = 3 + (int) ( Math.log( cost ) / Math.log( 2 ) );
+				Preferences.setInteger( "_edDefeats", defeats );
+			}
+			break;
+		}
 
 		case 1053:	// The Servants' Quarters
 			EdServantData.inspectServants( text );

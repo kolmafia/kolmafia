@@ -161,7 +161,6 @@ public class FightRequest
 	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
-	public static boolean edFightInProgress = false;
 	private static boolean isTrackingFights = false;
 	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
@@ -3084,7 +3083,7 @@ public class FightRequest
 			QuestManager.updateQuestFightLost( responseText, monsterName );
 			if ( KoLCharacter.isEd() )
 			{
-				FightRequest.edFightInProgress = true;
+				Preferences.increment( "_edDefeats", 1 );
 			}
 		}
 		else
@@ -3578,7 +3577,7 @@ public class FightRequest
 
 			QuestManager.updateQuestData( responseText, monsterName );
 
-			FightRequest.edFightInProgress = false;
+			Preferences.setInteger( "_edDefeats", 0 );
 		}
 
 		FightRequest.clearInstanceData();
@@ -7037,6 +7036,11 @@ public class FightRequest
 	public static final int getRoundIndex()
 	{
 		return FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
+	}
+
+	public static final boolean edFightInProgress()
+	{
+		return KoLCharacter.isEd() && Preferences.getInteger( "_edDefeats" ) != 0;
 	}
 
 	public static final boolean alreadyJiggled()

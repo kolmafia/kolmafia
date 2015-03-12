@@ -165,7 +165,7 @@ public class RecoveryManager
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 
-		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 )
+		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 && !FightRequest.edFightInProgress() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "Insufficient health to continue (auto-abort triggered)." );
 		}

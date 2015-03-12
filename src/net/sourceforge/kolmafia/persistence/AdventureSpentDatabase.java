@@ -127,7 +127,7 @@ public class AdventureSpentDatabase
 
 	public static void addTurn( KoLAdventure adv )
 	{
-		if ( FightRequest.edFightInProgress )
+		if ( FightRequest.edFightInProgress() )
 		{
 			return;
 		}
@@ -137,7 +137,7 @@ public class AdventureSpentDatabase
 
 	public static void addTurn( final String loc )
 	{
-		if ( FightRequest.edFightInProgress )
+		if ( FightRequest.edFightInProgress() )
 		{
 			return;
 		}
@@ -270,7 +270,7 @@ public class AdventureSpentDatabase
 
 	public static final void setNoncombatEncountered( final boolean encountered )
 	{
-		if ( encountered && FightRequest.edFightInProgress )
+		if ( encountered && FightRequest.edFightInProgress() )
 		{
 			return;
 		}

@@ -291,7 +291,7 @@ public abstract class EncounterManager
 		     !ignoreSpecialMonsters &&
 		     !EncounterManager.isRomanticEncounter( responseText ) &&
 		     !responseText.contains( "clover disappears" ) &&
-		     !FightRequest.edFightInProgress )
+		     !FightRequest.edFightInProgress() )
 		{
 			KoLCharacter.registerSemirare();
 			return;
