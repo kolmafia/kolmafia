@@ -81,6 +81,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 
@@ -224,7 +226,17 @@ public class GearChangeFrame
 			}
 			else
 			{
-				mods = Modifiers.getItemModifiers( ((AdventureResult) value).getItemId() );
+				int itemId = ((AdventureResult) value).getItemId();
+				mods = Modifiers.getItemModifiers( itemId );
+				switch ( itemId )
+				{
+				case ItemPool.CROWN_OF_ED:
+					mods.add( Modifiers.getModifiers( "Edpiece", Preferences.getString( "edPiece" ) ) );
+					break;
+				case ItemPool.SNOW_SUIT:
+					mods.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
+					break;
+				}
 			}
 		}
 		else if ( value instanceof SpecialOutfit )
