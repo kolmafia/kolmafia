@@ -1031,6 +1031,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_turn", DataTypes.BUFFER_TYPE, params ) );
 
@@ -2976,7 +2979,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		AdventureResult item = ItemPool.get( (int) itemValue.intValue() );
+		AdventureResult item = ItemPool.get( (int) itemValue.intValue(), count );
 		int initialAmount = item.getCount( KoLConstants.inventory );
 		CoinMasterRequest.buy( data, item );
 		return DataTypes.makeBooleanValue( initialAmount + count == item.getCount( KoLConstants.inventory ) );
@@ -4791,6 +4794,28 @@ public abstract class RuntimeLibrary
 		}
 		String response = relayRequest == null ?
 			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
+
+		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+	}
+
+	public static Value run_combat( Interpreter interpreter, Value filterFunction )
+	{
+		if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight )
+		{
+			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( "" ) );
+		}
+		try
+		{
+			String filter = filterFunction.toString();
+			Macrofier.setMacroOverride( filter, interpreter );
+			FightRequest.INSTANCE.nextRound( null );
+		}
+		finally
+		{
+			Macrofier.resetMacroOverride();
+		}
+
+		String response = FightRequest.lastResponseText;
 
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 	}
