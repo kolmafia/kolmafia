@@ -196,11 +196,6 @@ public class Maximizer
 
 			boolean[] alreadyDone = new boolean[ EquipmentManager.ALL_SLOTS ];
 
-			if ( equipLevel == -1 )
-			{
-				Maximizer.acquireDuplicateEquipment( Maximizer.best.equipment );
-			}
-
 			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot )
 			{
 				if ( Maximizer.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
@@ -1157,7 +1152,8 @@ public class Maximizer
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
 		String currEdPiece = Preferences.getString( "edPiece" );
-
+		Boolean setEdPiece = false;
+		
 		if ( item == null )
 		{
 			item = EquipmentRequest.UNEQUIP;
@@ -1219,6 +1215,7 @@ public class Maximizer
 			{
 				cmd = "edpiece " + edPiece;
 				text = cmd;
+				setEdPiece = true;
 			}
 			else
 			{
@@ -1231,6 +1228,22 @@ public class Maximizer
 
 			int price = 0;
 
+			// How many have been needed so far to make this maximization set?
+			// We need 1 + that number to equip this item, not just 1
+			int count = 0;
+			Iterator i = Maximizer.boosts.iterator();
+			while ( i.hasNext() )
+			{
+				Object boost = i.next();
+				if ( boost instanceof Boost )
+				{
+					if ( item.equals( ((Boost) boost).getItem() ) )
+					{
+						count++;
+					}
+				}
+			}
+
 			// The "initial" quantity comes from InventoryManager.getAccessibleCount.
 			// It can include inventory, closet, and storage.  However, anything that
 			// is included should also be supported by retrieveItem(), so we don't need
@@ -1239,32 +1252,34 @@ public class Maximizer
 			if ( curr.equals( item ) )
 			{
 			}
-			else if ( checkedItem.initial != 0 )
+			else if ( checkedItem.initial > count )
 			{
-				String method = InventoryManager.simRetrieveItem( item.getInstance( 1 ) );
+				// This may look odd, but we need an item, not a checked item
+				// The count of a checked item includes creatable, buyable, pullable etc.
+				String method = InventoryManager.simRetrieveItem( ItemPool.get( item.getItemId(), count + 1 ) );
 				if ( !method.equals( "have" ) )
 				{
 					text = method + " & " + text;
 				}
 			}
-			else if ( checkedItem.creatable != 0 )
+			else if ( checkedItem.creatable + checkedItem.initial > count )
 			{
 				text = "make & " + text;
 			}
-			else if ( checkedItem.npcBuyable != 0 )
+			else if ( checkedItem.npcBuyable + checkedItem.initial > count )
 			{
 				text = "buy & " + text;
 				cmd = "buy 1 \u00B6" + item.getItemId() +
 						";" + cmd;
 				price = ConcoctionPool.get( item ).price;
 			}
-			else if ( checkedItem.foldable != 0 )
+			else if ( checkedItem.foldable + checkedItem.initial > count )
 			{
 				text = "fold & " + text;
 				cmd = "fold \u00B6" + item.getItemId() +
 						";" + cmd;
 			}
-			else if ( checkedItem.pullable != 0 )
+			else if ( checkedItem.pullable + checkedItem.initial > count )
 			{
 				text = "pull & " + text;
 				cmd = "pull 1 \u00B6" + item.getItemId() +
@@ -1288,7 +1303,12 @@ public class Maximizer
 				delta ) + ")";
 		}
 
-		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned );
+		if ( !setEdPiece )
+		{
+			edPiece = null;
+		}
+
+		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece );
 		if ( equipLevel == -1 )
 		{	// called from CLI
 			boost.execute( true );
@@ -1303,79 +1323,5 @@ public class Maximizer
 			Maximizer.boosts.add( boost );
 		}
 		return equipLevel;
-	}
-
-	public static void acquireDuplicateEquipment( final LockableListModel<Boost> boosts )
-	{
-		AdventureResult[] equipment = new AdventureResult[ EquipmentManager.SLOTS ];
-		// Make array of equipment boosts
-		Iterator i = boosts.iterator();
-		while ( i.hasNext() )
-		{
-			Object boost = i.next();
-			if ( boost instanceof Boost )
-			{
-				if ( ((Boost) boost).isEquipment() )
-				{
-					Integer slot = ((Boost) boost).getSlot();
-					if ( slot != null && slot >= 0 && slot < EquipmentManager.SLOTS )
-					{
-						equipment[ (int) slot ] = ((Boost) boost).getItem( false );
-					}
-				}
-			}
-		}
-		Maximizer.acquireDuplicateEquipment( equipment );
-	}
-
-	public static void acquireDuplicateEquipment( final AdventureResult[] newEquipment )
-	{
-		// Acquire equipment if you need more than one of each piece
-		// Start with current equipment
-		AdventureResult[] array = EquipmentManager.currentEquipment();
-		int length = Math.min( newEquipment.length, array.length );
-		
-		// Replace current equipment with planned equipment
-		for ( int slot = 0 ; slot < length ; ++slot )
-		{
-			AdventureResult item = newEquipment[ slot ];
-			if ( item != null )
-			{
-				array[ slot ] = item;
-			}
-		}
-
-		// Count numbers of items
-		Map<Integer, Integer> countById = new HashMap<Integer, Integer>();
-		for ( int slot = 0 ; slot < length; ++slot )
-		{
-			AdventureResult item = array[ slot ];
-			if ( item != null )
-			{
-				array[ slot ] = item;
-			}
-
-			int itemId = item.getItemId();
-			if ( itemId == -1 )
-			{
-				continue;
-			}
-
-			Integer count = countById.get( itemId );
-			countById.put( itemId, count == null ? 1 : count + 1 );
-		}
-		
-		// acquire equipment for duplicate items if needed > inventory + equipped
-		for ( Map.Entry<Integer, Integer> equip : countById.entrySet() )
-		{
-			int itemId = (int) equip.getKey();
-			int equippedCount = InventoryManager.getEquippedCount( itemId );
-			int inventoryCount = InventoryManager.getCount( itemId );
-			int needed = (int) equip.getValue();
-			if ( needed > equippedCount + inventoryCount )
-			{
-				InventoryManager.retrieveItem( itemId, needed - equippedCount, true, false );
-			}
-		}
 	}
 }
