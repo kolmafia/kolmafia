@@ -841,6 +841,7 @@ public class KoLmafiaCLI
 		new SkeeballCommand().register( "skeeball" );
 		new SkeletonCommand().register( "skeleton" );
 		new SlimeStackCommand().registerPrefix( "slime-stack");
+		new SnowsuitCommand().register( "snowsuit" );
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new SpookyravenCommand().register( "spookyraven" );
 		new StickersCommand().registerPrefix( "sticker" );

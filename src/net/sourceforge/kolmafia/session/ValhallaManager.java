@@ -473,6 +473,7 @@ public class ValhallaManager
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
+		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "guardTurtlesFreed", 0 );

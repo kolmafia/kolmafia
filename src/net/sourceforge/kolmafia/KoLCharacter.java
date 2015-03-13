@@ -79,7 +79,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
-import net.sourceforge.kolmafia.request.CharPaneRequest.Snowsuit;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -413,9 +412,6 @@ public abstract class KoLCharacter
 
 	public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<PastaThrallData>();
 	public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
-
-	// Snow Suit decoration
-	private static Snowsuit snowsuit = null;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -4391,22 +4387,6 @@ public abstract class KoLCharacter
 		KoLCharacter.updateStatus();
 	}
 
-	public static final Snowsuit getSnowsuit()
-	{
-		return KoLCharacter.snowsuit;
-	}
-
-	public static final void setSnowsuit( Snowsuit snowsuit )
-	{
-		if ( KoLCharacter.snowsuit == snowsuit )
-		{
-			return;
-		}
-		KoLCharacter.snowsuit = snowsuit;
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
-	}
-
 	/**
 	 * Accessor method to get arena wins
 	 *
@@ -5116,10 +5096,11 @@ public abstract class KoLCharacter
 				KoLCharacter.currentEnthroned,
 				KoLCharacter.currentBjorned,
 				Preferences.getString( "edPiece" ),
+				Preferences.getString( "snowsuit" ),
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, String edPiece, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, String edPiece, String snowsuit, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5208,7 +5189,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, applyIntrinsics, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, applyIntrinsics, taoFactor );
 		}
 
 		// Consider fake hands
@@ -5450,7 +5431,7 @@ public abstract class KoLCharacter
 
 	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
 						     AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
-							 String edPiece, boolean applyIntrinsics, int taoFactor )
+							 String edPiece, String snowsuit, boolean applyIntrinsics, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -5554,6 +5535,10 @@ public abstract class KoLCharacter
 		case ItemPool.CROWN_OF_ED:
 			newModifiers.add( Modifiers.getModifiers( "Edpiece", edPiece ) );
 			break;
+
+		case ItemPool.SNOW_SUIT:
+			newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );
+			break;
 		}
 
 		// Add modifiers that depend on equipment power
@@ -5584,13 +5569,6 @@ public abstract class KoLCharacter
 		case EquipmentManager.SHIRT:
 			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
 					  EquipmentDatabase.getPower( itemId ), "Item:shirt power" );
-			break;
-
-		case EquipmentManager.FAMILIAR:
-			if ( itemId == ItemPool.SNOW_SUIT )
-			{
-				newModifiers.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
-			}
 			break;
 		}
 	}

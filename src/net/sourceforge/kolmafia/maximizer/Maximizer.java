@@ -1148,11 +1148,14 @@ public class Maximizer
 		FamiliarData enthroned = Maximizer.best.getEnthroned();
 		FamiliarData bjorned = Maximizer.best.getBjorned();
 		String edPiece = Maximizer.best.getEdPiece();
+		String snowsuit = Maximizer.best.getSnowsuit();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
 		String currEdPiece = Preferences.getString( "edPiece" );
 		Boolean setEdPiece = false;
+		String currSnowsuit = Preferences.getString( "snowsuit" );
+		Boolean setSnowsuit = false;
 		
 		if ( item == null )
 		{
@@ -1165,7 +1168,8 @@ public class Maximizer
 		if ( curr.equals( item ) &&
 			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
 			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
-			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) )
+			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) &&
+			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -1189,6 +1193,10 @@ public class Maximizer
 		else if ( itemId == ItemPool.CROWN_OF_ED )
 		{
 			spec.setEdPiece( edPiece );
+		}
+		else if ( itemId == ItemPool.SNOW_SUIT )
+		{
+			spec.setSnowsuit( snowsuit );
 		}
 		double delta = spec.getScore() - current;
 		String cmd, text;
@@ -1216,6 +1224,12 @@ public class Maximizer
 				cmd = "edpiece " + edPiece;
 				text = cmd;
 				setEdPiece = true;
+			}
+			else if ( itemId == ItemPool.SNOW_SUIT && snowsuit != currSnowsuit )
+			{
+				cmd = "snowsuit " + snowsuit;
+				text = cmd;
+				setSnowsuit = true;
 			}
 			else
 			{
@@ -1308,7 +1322,12 @@ public class Maximizer
 			edPiece = null;
 		}
 
-		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece );
+		if ( !setSnowsuit )
+		{
+			snowsuit = null;
+		}
+
+		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit );
 		if ( equipLevel == -1 )
 		{	// called from CLI
 			boost.execute( true );

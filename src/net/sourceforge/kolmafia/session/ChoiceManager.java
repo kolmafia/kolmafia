@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
+import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -8915,6 +8916,11 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.CHIBIBUDDY_OFF, -1 );
 				ResultProcessor.processItem( ItemPool.CHIBIBUDDY_ON, 1 );
 			}
+			break;
+
+		case 640:
+			// Tailor the Snow Suit
+			Preferences.setString( "snowsuit", SnowsuitCommand.DECORATION[ ChoiceManager.lastDecision - 1 ][ 0 ] );
 			break;
 
 		case 641:

@@ -69,6 +69,8 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 
+import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONArray;
@@ -1177,35 +1179,6 @@ public class CharPaneRequest
 		}
 	}
 
-	public enum Snowsuit
-	{
-		EYEBROWS( 1 ),
-		SMIRK( 2 ),
-		NOSE( 3 ),
-		GOATEE( 4 ),
-		HAT( 5 ),
-		;
-
-		private final int suitValue;
-
-		private Snowsuit( int suitValue )
-		{
-			this.suitValue = suitValue;
-		}
-
-		public static Snowsuit getSnowsuit( int snowValue )
-		{
-			for ( Snowsuit snowsuit : Snowsuit.values() )
-			{
-				if ( snowValue == snowsuit.suitValue )
-				{
-					return snowsuit;
-				}
-			}
-			return null;
-		}
-	}
-
 	private static final Pattern snowsuitPattern =
 		Pattern.compile( "snowface([1-5]).gif" );
 
@@ -1214,8 +1187,8 @@ public class CharPaneRequest
 		Matcher matcher = CharPaneRequest.snowsuitPattern.matcher( responseText );
 		if ( matcher.find() )
 		{
-			int snow = StringUtilities.parseInt( matcher.group( 1 ) );
-			KoLCharacter.setSnowsuit( Snowsuit.getSnowsuit( snow ) );
+			int id = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
+			Preferences.setString( "snowsuit", SnowsuitCommand.DECORATION[ id ][ 0 ] );
 		}
 	}
 
