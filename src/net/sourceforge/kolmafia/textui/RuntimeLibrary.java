@@ -3002,7 +3002,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			AdventureResult item = ItemPool.get( itemId );
+			AdventureResult item = ItemPool.get( itemId, count );
 			CoinMasterRequest.sell( data, item );
 		}
 		return RuntimeLibrary.continueValue();
