@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -86,6 +87,7 @@ public class Evaluator
 	private int carriedFamiliarsNeeded = 0;
 	private boolean cardNeeded = false;
 	private boolean edPieceNeeded = false;
+	private boolean snowsuitNeeded = false;
 
 	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -1245,6 +1247,11 @@ public class Evaluator
 					this.edPieceNeeded = true;
 				}
 
+				if ( id == ItemPool.SNOW_SUIT && this.slots[ EquipmentManager.FAMILIAR ] >= 0 )
+				{
+					this.snowsuitNeeded = true;
+				}
+
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
 					slot = Evaluator.WATCHES;
@@ -1501,6 +1508,41 @@ public class Evaluator
 			}
 		}
 			
+		String bestSnowsuit = null;
+
+		if ( this.snowsuitNeeded )
+		{
+			// Assume best is current Snowsuit
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			CheckedItem snowsuit = new CheckedItem( ItemPool.SNOW_SUIT, equipLevel, maxPrice, priceLevel );
+			best.attachment = snowsuit;
+			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+			bestSnowsuit = Preferences.getString( "snowsuit" );
+			best.equipment[ EquipmentManager.FAMILIAR ] = snowsuit;
+			best.setSnowsuit( bestSnowsuit );
+			
+			// Check each decoration in Snowsuit to see if they are worthwhile
+			for ( int i = 0; i < SnowsuitCommand.DECORATION.length; i++ )
+			{
+				String decoration = SnowsuitCommand.DECORATION[ i ][ 0 ];
+				if ( decoration.equals( bestSnowsuit ) )
+				{
+					// Don't bother if we've already done it for best
+					continue;
+				}
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				spec.attachment = snowsuit;
+				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+				spec.equipment[ EquipmentManager.FAMILIAR ] = snowsuit;
+				spec.setSnowsuit( decoration );
+				if ( spec.compareTo( best ) > 0 )
+				{
+					best = (MaximizerSpeculation) spec.clone();
+					bestSnowsuit = decoration;
+				}
+			}
+		}
+			
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
@@ -1546,7 +1588,8 @@ public class Evaluator
 					}
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ useSlot ] = item;
-					if ( item.getItemId() == ItemPool.HATSEAT )
+					int itemId = item.getItemId();
+					if ( itemId == ItemPool.HATSEAT )
 					{
 						if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
 						{
@@ -1562,7 +1605,7 @@ public class Evaluator
 							spec.setEnthroned( bestCarriedFamiliar );
 						}
 					}
-					else if ( item.getItemId() == ItemPool.BUDDY_BJORN )
+					else if ( itemId == ItemPool.BUDDY_BJORN )
 					{
 						if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
 						{
@@ -1585,7 +1628,7 @@ public class Evaluator
 						spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
 						spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
 					}
-					else if ( item.getItemId() == ItemPool.CARD_SLEEVE )
+					else if ( itemId == ItemPool.CARD_SLEEVE )
 					{
 						MaximizerSpeculation current = new MaximizerSpeculation();
 						if ( bestCard != null )
@@ -1599,7 +1642,7 @@ public class Evaluator
 							useCard = (AdventureResult) current.equipment[ EquipmentManager.CARDSLEEVE ];
 						}
 					}
-					else if ( item.getItemId() == ItemPool.FOLDER_HOLDER )
+					else if ( itemId == ItemPool.FOLDER_HOLDER )
 					{
 						MaximizerSpeculation current = new MaximizerSpeculation();
 						spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
@@ -1608,11 +1651,18 @@ public class Evaluator
 						spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
 						spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
 					}
-					else if ( item.getItemId() == ItemPool.CROWN_OF_ED )
+					else if ( itemId == ItemPool.CROWN_OF_ED )
 					{
 						if ( bestEdPiece != null )
 						{
 							spec.setEdPiece( bestEdPiece );
+						}
+					}
+					else if ( itemId == ItemPool.SNOW_SUIT )
+					{
+						if ( bestSnowsuit != null )
+						{
+							spec.setSnowsuit( bestSnowsuit );
 						}
 					}
 					spec.getScore();	// force evaluation
@@ -1818,6 +1868,7 @@ public class Evaluator
 		}
 
 		spec.setEdPiece( bestEdPiece );
+		spec.setSnowsuit( bestSnowsuit );
 
 		spec.tryAll( this.familiars, this.carriedFamiliars, usefulOutfits, outfitPieces, automatic, useCard, useCrownFamiliar, useBjornFamiliar );
 	}

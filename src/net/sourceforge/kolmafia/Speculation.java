@@ -60,7 +60,7 @@ public class Speculation
 	public AdventureResult[] equipment;
 	private ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
-	private String edPiece;
+	private String edPiece, snowsuit;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -89,6 +89,7 @@ public class Speculation
 		this.enthroned = KoLCharacter.currentEnthroned;
 		this.bjorned = KoLCharacter.currentBjorned;
 		this.edPiece = Preferences.getString( "edPiece" );
+		this.snowsuit = Preferences.getString( "snowsuit" );
 	}
 
 	public void setMindControlLevel( int MCD )
@@ -116,6 +117,11 @@ public class Speculation
 		this.edPiece = edPiece;
 	}
 
+	public void setSnowsuit( String snowsuit )
+	{
+		this.snowsuit = snowsuit;
+	}
+
 	public FamiliarData getEnthroned()
 	{
 		return this.enthroned;
@@ -134,6 +140,11 @@ public class Speculation
 	public String getEdPiece()
 	{
 		return this.edPiece;
+	}
+
+	public String getSnowsuit()
+	{
+		return this.snowsuit;
 	}
 
 	public void equip( int slot, AdventureResult item )
@@ -176,6 +187,7 @@ public class Speculation
 			this.enthroned,
 			this.bjorned,
 			this.edPiece,
+			this.snowsuit,
 			true );
 		this.calculated = true;
 		return this.mods;
@@ -298,6 +310,20 @@ public class Speculation
 				this.setEdPiece( params );
 				this.equip( EquipmentManager.HAT,
 					ItemPool.get( ItemPool.CROWN_OF_ED ) );
+			}
+			else if ( cmd.equals( "snowsuit" ) )
+			{
+				if ( !params.equals( "eyebrows" ) && !params.equals( "smirk" ) && 
+					!params.equals( "nose" ) && !params.equals( "goatee" ) && 
+					!params.equals( "hat" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR,
+						"Unknown decoration: " + params );
+					return true;
+				}		
+				this.setSnowsuit( params );
+				this.equip( EquipmentManager.FAMILIAR,
+					ItemPool.get( ItemPool.SNOW_SUIT ) );
 			}
 			else if ( cmd.equals( "up" ) )
 			{

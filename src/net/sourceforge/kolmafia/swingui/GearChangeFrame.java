@@ -242,7 +242,7 @@ public class GearChangeFrame
 				{
 					Modifiers newMods = new Modifiers();
 					newMods.add( mods );
-					newMods.add( Modifiers.getModifiers( "Snowsuit", String.valueOf( KoLCharacter.getSnowsuit() ) ) );
+					newMods.add( Modifiers.getModifiers( "Snowsuit", Preferences.getString( "snowsuit" ) ) );
 					mods = newMods;
 					break;
 				}

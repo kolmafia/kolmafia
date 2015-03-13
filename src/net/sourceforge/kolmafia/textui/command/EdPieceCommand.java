@@ -77,7 +77,7 @@ public class EdPieceCommand
 	{
 		String currentAnimal = Preferences.getString( "edPiece" );
 
-		if ( parameters.length() == 1 )
+		if ( parameters.length() == 0 )
 		{
 			KoLmafia.updateDisplay( "Current decoration on EdPiece is a golden " + currentAnimal );			
 			return;

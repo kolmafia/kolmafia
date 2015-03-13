@@ -3649,11 +3649,10 @@ Motorbike	Sweepy Red Light	Experience: +5
 # Motorbike	Ultrabright Yellow Bulb adds yellow ray to Flash Headlight
 
 # Snow Suit decoration section
-# Decoration names must match enum names in CharPaneRequest
 
-Snowsuit	GOATEE	HP Regen Min: 1, HP Regen Max: 20
-Snowsuit	HAT	MP Regen Min: 1, MP Regen Max: 10
-Snowsuit	NOSE	Item Drop: 10
+Snowsuit	goatee	HP Regen Min: 1, HP Regen Max: 20
+Snowsuit	hat	MP Regen Min: 1, MP Regen Max: 10
+Snowsuit	nose	Item Drop: 10
 
 # Edpiece section
 
