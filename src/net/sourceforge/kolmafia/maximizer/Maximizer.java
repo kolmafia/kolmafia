@@ -1287,7 +1287,7 @@ public class Maximizer
 				// We assume that there is only one available fold item type of the right group.
 				// Not always right, but will do for now.
 				String method = InventoryManager.simRetrieveItem( ItemPool.get( checkedItem.foldItemId, count + 1 ) );
-				if ( method.equals( "have" ) )
+				if ( method.equals( "have" ) || method.equals( "remove" ) )
 				{
 					text = "fold & " + text;
 					cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
