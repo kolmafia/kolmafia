@@ -33,15 +33,21 @@
 
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -65,6 +71,31 @@ public class CheckedItem
 
 		this.initial = InventoryManager.getAccessibleCount( itemId );
 
+		String itemName = this.getName();
+		this.foldable = 0;
+
+		if ( itemId > 0 && Preferences.getBoolean( "maximizerFoldables" ) )
+		{
+			ArrayList group = ItemDatabase.getFoldGroup( itemName );
+			if ( group != null )
+			{
+				for ( int i = 1; i < group.size(); ++i )
+				{
+					String form = (String) group.get( i );
+					if ( !form.equals( itemName ) )
+					{
+						int foldItemId = ItemDatabase.getItemId( form );
+						int count = InventoryManager.getAccessibleCount( foldItemId );
+						this.foldable += count;
+						if ( count > 0 )
+						{
+							this.foldItemId = foldItemId;
+						}
+					}
+				}
+			}
+		}
+
 		if ( this.initial >= 3 || equipLevel < 2 )
 		{
 			return;
@@ -80,14 +111,12 @@ public class CheckedItem
 			this.npcBuyable = maxPrice / c.price;
 		}
 
-		// TODO: check foldability
-
 		if ( this.getCount() >= 3 || equipLevel < 3 )
 		{
 			return;
 		}
 
-		if ( !StandardRequest.isAllowed( "Items", this.getName() ) )
+		if ( !StandardRequest.isAllowed( "Items", itemName ) )
 		{
 			// Unallowed items can't be bought or pulled, though the original code
 			// just reset everything to zero
@@ -113,6 +142,30 @@ public class CheckedItem
 		{
 			// consider pulling
 			this.pullable = this.getCount( KoLConstants.storage );
+
+			this.pullfoldable = 0;
+			if ( itemId > 0 && Preferences.getBoolean( "maximizerFoldables" ) )
+			{
+				ArrayList group = ItemDatabase.getFoldGroup( itemName );
+				if ( group != null )
+				{
+					for ( int i = 1; i < group.size(); ++i )
+					{
+						String form = (String) group.get( i );
+						if ( !form.equals( itemName ) )
+						{
+							int foldItemId = ItemDatabase.getItemId( form );
+							AdventureResult foldItem = ItemPool.get( foldItemId );
+							int count = foldItem.getCount( KoLConstants.storage );
+							this.pullfoldable += count;
+							if ( count > 0 )
+							{
+								this.foldItemId = foldItemId;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		// We never want to suggest turning Mr. Accessories into other items
@@ -170,6 +223,8 @@ public class CheckedItem
 	public int mallBuyable;
 	public int foldable;
 	public int pullable;
+	public int pullfoldable;
+	public int foldItemId;
 
 	public boolean buyableFlag;
 	public boolean automaticFlag;

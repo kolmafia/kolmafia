@@ -97,7 +97,7 @@ public class MaximizerFrame
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
 	private JCheckBox includeAll;
-	private PreferenceListenerCheckBox verboseSelect;
+	private PreferenceListenerCheckBox foldableSelect, verboseSelect;
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 
@@ -212,6 +212,7 @@ public class MaximizerFrame
 
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
+			MaximizerFrame.this.foldableSelect = new PreferenceListenerCheckBox( "consider foldable items", "maximizerFoldables" );
 			MaximizerFrame.this.includeAll = new JCheckBox( "effects with no direct source, skills you don't have, etc." );
 			MaximizerFrame.this.verboseSelect = new PreferenceListenerCheckBox( "show turns of effect and number of casts/items remaining", "verboseMaximizer" );
 
@@ -219,7 +220,7 @@ public class MaximizerFrame
 			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "none" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand", true ) );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable/foldable" ) );
+			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
 
 			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
@@ -229,12 +230,13 @@ public class MaximizerFrame
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "buyable only" ) );
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 5 ];
+			VerifiableElement[] elements = new VerifiableElement[ 6 ];
 			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
 			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
-			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( "Verbose: ", MaximizerFrame.this.verboseSelect );
-			elements[ 4 ] = new VerifiableElement( "Include: ", MaximizerFrame.this.includeAll );
+			elements[ 2 ] = new VerifiableElement( "Foldables: ", MaximizerFrame.this.foldableSelect );
+			elements[ 3 ] = new VerifiableElement( "Max price: ", mallPanel );
+			elements[ 4 ] = new VerifiableElement( "Verbose: ", MaximizerFrame.this.verboseSelect );
+			elements[ 5 ] = new VerifiableElement( "Include: ", MaximizerFrame.this.includeAll );
 
 			this.setContent( elements );
 		}
