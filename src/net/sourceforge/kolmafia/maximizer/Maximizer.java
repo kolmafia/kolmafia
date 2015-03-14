@@ -164,10 +164,6 @@ public class Maximizer
 		Maximizer.boosts.clear();
 		if ( equipLevel != 0 )
 		{
-			if ( equipLevel > 1 )
-			{
-				Maximizer.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0 ) );
-			}
 			Maximizer.best = new MaximizerSpeculation();
 			Maximizer.best.getScore();
 			// In case the current outfit scores better than any tried combination,
@@ -1283,21 +1279,36 @@ public class Maximizer
 			else if ( checkedItem.npcBuyable + checkedItem.initial > count )
 			{
 				text = "buy & " + text;
-				cmd = "buy 1 \u00B6" + item.getItemId() +
-						";" + cmd;
+				cmd = "buy 1 \u00B6" + item.getItemId() + ";" + cmd;
 				price = ConcoctionPool.get( item ).price;
 			}
 			else if ( checkedItem.foldable + checkedItem.initial > count )
 			{
-				text = "fold & " + text;
-				cmd = "fold \u00B6" + item.getItemId() +
-						";" + cmd;
+				// We assume that there is only one available fold item type of the right group.
+				// Not always right, but will do for now.
+				String method = InventoryManager.simRetrieveItem( ItemPool.get( checkedItem.foldItemId, count + 1 ) );
+				if ( method.equals( "have" ) )
+				{
+					text = "fold & " + text;
+					cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
+				}
+				else
+				{
+					text = method + " & fold & " + text;
+					cmd = "acquire 1 \u00B6" + checkedItem.foldItemId + ";fold \u00B6" + item.getItemId() + ";" + cmd;
+				}
 			}
-			else if ( checkedItem.pullable + checkedItem.initial > count )
+			else if ( checkedItem.pullable + checkedItem.foldable + checkedItem.initial > count )
 			{
 				text = "pull & " + text;
-				cmd = "pull 1 \u00B6" + item.getItemId() +
-						";" + cmd;
+				cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+			}
+			else if ( checkedItem.pullable + checkedItem.foldable + checkedItem.pullfoldable + checkedItem.initial > count )
+			{
+				// We assume that there is only one available fold item type of the right group.
+				// Not always right, but will do for now.
+				text = "pull & fold & " + text;
+				cmd = "pull 1 \u00B6" + checkedItem.foldItemId + ";fold \u00B6" + item.getItemId() + ";" + cmd;
 			}
 			else 	// Mall buyable
 			{

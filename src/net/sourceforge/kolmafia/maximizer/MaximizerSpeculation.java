@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -64,6 +65,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 
 	public boolean failed = false;
 	public CheckedItem attachment;
+	private boolean foldables = false;
 
 	@Override
 	public Object clone()
@@ -188,6 +190,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			AdventureResult bestCard, FamiliarData useCrownFamiliar, FamiliarData useBjornFamiliar )
 		throws MaximizerInterruptedException
 	{
+		this.foldables = Preferences.getBoolean( "maximizerFoldables" );
 		this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		for ( int i = 0; i < familiars.size(); ++i )
 		{
@@ -309,6 +312,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.FAMILIAR && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.FAMILIAR ] = item;
 				this.tryContainers( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
@@ -336,12 +355,24 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				//int count = item.getCount();
-				//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
-				//{
-				//	--count;
-				//}
-				//if ( count <= 0 ) continue;
+				int count = item.getCount();
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.CONTAINER && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
+				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.CONTAINER ] = item;
 				if ( item.getItemId() == ItemPool.BUDDY_BJORN )
 				{
@@ -408,6 +439,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				for ( count = Math.min( free, count ); count > 0; --count )
 				{
@@ -476,6 +523,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.HAT && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.HAT ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
@@ -532,11 +595,27 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
 					int count = item.getCount();
-					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
-					//{
-					//	--count;
-					//}
-					//if ( count <= 0 ) continue;
+					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					{
+						--count;
+					}
+					ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+					if ( group != null && this.foldables )
+					{
+						String groupName = (String) group.get( 1 );
+						for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+						{
+							if ( slot != EquipmentManager.SHIRT && this.equipment[ slot ] != null )
+							{
+								ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+								if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+								{
+									--count;
+								}
+							}
+						}
+					}	
+					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.SHIRT ] = item;
 					this.tryPants( possibles, bestCard );
 					any = true;
@@ -568,6 +647,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.PANTS && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.PANTS ] = item;
 				this.tryWeapons( possibles, bestCard );
@@ -616,6 +711,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.WEAPON && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.WEAPON ] = item;
 				this.tryOffhands( possibles, bestCard );
@@ -683,6 +794,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				{
 					--count;
 				}
+				ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+				if ( group != null && this.foldables )
+				{
+					String groupName = (String) group.get( 1 );
+					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+					{
+						if ( slot != EquipmentManager.OFFHAND && this.equipment[ slot ] != null )
+						{
+							ArrayList groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
+							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							{
+								--count;
+							}
+						}
+					}
+				}	
 				if ( count <= 0 ) continue;
 				if ( item.getItemId() == ItemPool.CARD_SLEEVE )
 				{

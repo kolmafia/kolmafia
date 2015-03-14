@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -1034,7 +1035,7 @@ public class Evaluator
 			{
 				continue;
 			}
-			
+
 			int auxSlot = -1;
 		gotItem:
 			{
@@ -1543,14 +1544,134 @@ public class Evaluator
 			}
 		}
 			
+		ArrayList<MaximizerSpeculation>[] speculationList = new ArrayList[ ranked.length ];
+		for ( int i = ranked.length - 1; i >= 0; --i )
+		{
+			speculationList[ i ] = new ArrayList<MaximizerSpeculation>();
+		}
+
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
-			ArrayList<MaximizerSpeculation> speculationList = new ArrayList<MaximizerSpeculation>();
+
+			// If we currently have nothing equipped, also consider leaving nothing equipped
+			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
+			{
+				ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+			}
+
+			for ( CheckedItem item : checkedItemList )
+			{
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				spec.attachment = item;
+				int useSlot = Evaluator.toUseSlot( slot );
+				if ( slot >= EquipmentManager.ALL_SLOTS )
+				{
+					spec.setFamiliar( this.familiars.get(
+						slot - EquipmentManager.ALL_SLOTS ) );
+					useSlot = EquipmentManager.FAMILIAR;
+				}
+				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+				spec.equipment[ useSlot ] = item;
+				int itemId = item.getItemId();
+				if ( itemId == ItemPool.HATSEAT )
+				{
+					if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
+					{
+						spec.setEnthroned( useCrownFamiliar );
+					}
+					else if ( this.carriedFamiliarsNeeded > 1 )
+					{
+						item.automaticFlag = true;
+						spec.setEnthroned( secondBestCarriedFamiliar );
+					}
+					else
+					{
+						spec.setEnthroned( bestCarriedFamiliar );
+					}
+				}
+				else if ( itemId == ItemPool.BUDDY_BJORN )
+				{
+					if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
+					{
+						spec.setBjorned( useBjornFamiliar );
+					}
+					else if ( this.carriedFamiliarsNeeded > 1 )
+					{
+						item.automaticFlag = true;
+						spec.setBjorned( secondBestCarriedFamiliar );
+					}
+					else
+					{
+						spec.setBjorned( bestCarriedFamiliar );
+					}
+				}
+				else if ( EquipmentManager.isStickerWeapon( item ) )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.STICKER1 ] = current.equipment[ EquipmentManager.STICKER1 ];
+					spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
+					spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
+				}
+				else if ( itemId == ItemPool.CARD_SLEEVE )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					if ( bestCard != null )
+					{
+						spec.equipment[ EquipmentManager.CARDSLEEVE ] = bestCard;
+						useCard = (AdventureResult) bestCard;
+					}
+					else
+					{
+						spec.equipment[ EquipmentManager.CARDSLEEVE ] = current.equipment[ EquipmentManager.CARDSLEEVE ];
+						useCard = (AdventureResult) current.equipment[ EquipmentManager.CARDSLEEVE ];
+					}
+				}
+				else if ( itemId == ItemPool.FOLDER_HOLDER )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
+					spec.equipment[ EquipmentManager.FOLDER2 ] = current.equipment[ EquipmentManager.FOLDER2 ];
+					spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
+					spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
+					spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
+				}
+				else if ( itemId == ItemPool.CROWN_OF_ED )
+				{
+					if ( bestEdPiece != null )
+					{
+						spec.setEdPiece( bestEdPiece );
+					}
+				}
+				else if ( itemId == ItemPool.SNOW_SUIT )
+				{
+					if ( bestSnowsuit != null )
+					{
+						spec.setSnowsuit( bestSnowsuit );
+					}
+				}
+				spec.getScore();	// force evaluation
+				spec.failed = false;	// individual items are not expected
+										// to fulfill all requirements
+
+				speculationList[ slot ].add( spec );
+			}
+
+			Collections.sort( speculationList[ slot ] );
+		}
+
+		for ( int slot = 0; slot < ranked.length; ++slot )
+		{
+			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
 
 			if ( this.dump > 0 )
 			{
 				RequestLogger.printLine( "SLOT " + slot );
+			}
+
+			if ( this.dump > 1 )
+			{
+				RequestLogger.printLine( speculationList[ slot ].toString() );
 			}
 
 			// Do we have any required items for the slot?
@@ -1560,7 +1681,7 @@ public class Evaluator
 				if ( item.requiredFlag )
 				{
 					automatic[ slot ].add( item );
-					total += item.getCount();
+					++total;
 				}
 			}
 
@@ -1569,117 +1690,7 @@ public class Evaluator
 			// If slots already handled by required items, we're done with the slot
 			if ( useful > total )
 			{
-				// If we currently have nothing equipped, also consider leaving nothing equipped
-				if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
-				{
-					ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
-				}
-			
-				for ( CheckedItem item : checkedItemList )
-				{
-					MaximizerSpeculation spec = new MaximizerSpeculation();
-					spec.attachment = item;
-					int useSlot = Evaluator.toUseSlot( slot );
-					if ( slot >= EquipmentManager.ALL_SLOTS )
-					{
-						spec.setFamiliar( this.familiars.get(
-							slot - EquipmentManager.ALL_SLOTS ) );
-						useSlot = EquipmentManager.FAMILIAR;
-					}
-					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
-					spec.equipment[ useSlot ] = item;
-					int itemId = item.getItemId();
-					if ( itemId == ItemPool.HATSEAT )
-					{
-						if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
-						{
-							spec.setEnthroned( useCrownFamiliar );
-						}
-						else if ( this.carriedFamiliarsNeeded > 1 )
-						{
-							item.automaticFlag = true;
-							spec.setEnthroned( secondBestCarriedFamiliar );
-						}
-						else
-						{
-							spec.setEnthroned( bestCarriedFamiliar );
-						}
-					}
-					else if ( itemId == ItemPool.BUDDY_BJORN )
-					{
-						if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
-						{
-							spec.setBjorned( useBjornFamiliar );
-						}
-						else if ( this.carriedFamiliarsNeeded > 1 )
-						{
-							item.automaticFlag = true;
-							spec.setBjorned( secondBestCarriedFamiliar );
-						}
-						else
-						{
-							spec.setBjorned( bestCarriedFamiliar );
-						}
-					}
-					else if ( EquipmentManager.isStickerWeapon( item ) )
-					{
-						MaximizerSpeculation current = new MaximizerSpeculation();
-						spec.equipment[ EquipmentManager.STICKER1 ] = current.equipment[ EquipmentManager.STICKER1 ];
-						spec.equipment[ EquipmentManager.STICKER2 ] = current.equipment[ EquipmentManager.STICKER2 ];
-						spec.equipment[ EquipmentManager.STICKER3 ] = current.equipment[ EquipmentManager.STICKER3 ];
-					}
-					else if ( itemId == ItemPool.CARD_SLEEVE )
-					{
-						MaximizerSpeculation current = new MaximizerSpeculation();
-						if ( bestCard != null )
-						{
-							spec.equipment[ EquipmentManager.CARDSLEEVE ] = bestCard;
-							useCard = (AdventureResult) bestCard;
-						}
-						else
-						{
-							spec.equipment[ EquipmentManager.CARDSLEEVE ] = current.equipment[ EquipmentManager.CARDSLEEVE ];
-							useCard = (AdventureResult) current.equipment[ EquipmentManager.CARDSLEEVE ];
-						}
-					}
-					else if ( itemId == ItemPool.FOLDER_HOLDER )
-					{
-						MaximizerSpeculation current = new MaximizerSpeculation();
-						spec.equipment[ EquipmentManager.FOLDER1 ] = current.equipment[ EquipmentManager.FOLDER1 ];
-						spec.equipment[ EquipmentManager.FOLDER2 ] = current.equipment[ EquipmentManager.FOLDER2 ];
-						spec.equipment[ EquipmentManager.FOLDER3 ] = current.equipment[ EquipmentManager.FOLDER3 ];
-						spec.equipment[ EquipmentManager.FOLDER4 ] = current.equipment[ EquipmentManager.FOLDER4 ];
-						spec.equipment[ EquipmentManager.FOLDER5 ] = current.equipment[ EquipmentManager.FOLDER5 ];
-					}
-					else if ( itemId == ItemPool.CROWN_OF_ED )
-					{
-						if ( bestEdPiece != null )
-						{
-							spec.setEdPiece( bestEdPiece );
-						}
-					}
-					else if ( itemId == ItemPool.SNOW_SUIT )
-					{
-						if ( bestSnowsuit != null )
-						{
-							spec.setSnowsuit( bestSnowsuit );
-						}
-					}
-					spec.getScore();	// force evaluation
-					spec.failed = false;	// individual items are not expected
-											// to fulfill all requirements
-
-					speculationList.add( spec );
-				}
-
-				Collections.sort( speculationList );
-
-				if ( this.dump > 1 )
-				{
-					RequestLogger.printLine( speculationList.toString() );
-				}
-
-				ListIterator<MaximizerSpeculation> speculationIterator = speculationList.listIterator( speculationList.size() );
+				ListIterator<MaximizerSpeculation> speculationIterator = speculationList[ slot ].listIterator( speculationList[ slot ].size() );
 
 				int beeotches = 0;
 				int beeosity = 0;
@@ -1689,6 +1700,49 @@ public class Evaluator
 				{
 					CheckedItem item = speculationIterator.previous().attachment;
 					item.validate( maxPrice, priceLevel );
+
+					// If we only need as many fold items as we have, then we can 
+					// count them against the items we need to pass through
+					ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+					int foldItemsNeeded = 0;
+					if ( group != null && Preferences.getBoolean( "maximizerFoldables" ) )
+					{
+						// How many times have we already used this fold item?
+						for ( int checkSlot = 0; checkSlot < slot; ++checkSlot )
+						{
+							ArrayList<CheckedItem> checkItemList = automatic[ checkSlot ];
+							if ( checkItemList != null )
+							{
+								for ( CheckedItem checkItem : checkItemList )
+								{
+									ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
+									if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
+									{
+										foldItemsNeeded += checkItem.getCount();
+									}
+								}
+							}
+						}
+						// And how many times do we expect to use them for the rest of the slots?
+						for ( int checkSlot = slot + 1; checkSlot < ranked.length; checkSlot++ )
+						{
+							ListIterator<MaximizerSpeculation> checkIterator = speculationList[ checkSlot ].listIterator( speculationList[ checkSlot ].size() );
+							int usefulCheckCount = this.maxUseful( checkSlot );
+							while ( checkIterator.hasPrevious() && usefulCheckCount > 0 )
+							{
+								CheckedItem checkItem = checkIterator.previous().attachment;
+								ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
+								if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
+								{
+									foldItemsNeeded += checkItem.getCount();
+								}
+								else if ( checkItem.automaticFlag || !checkItem.conditionalFlag )
+								{
+									usefulCheckCount--;
+								}
+							}
+						}
+					}
 
 					if ( item.getCount() == 0 )
 					{
@@ -1726,7 +1780,7 @@ public class Evaluator
 						if ( !automatic[ slot ].contains( item ) )
 						{
 							automatic[ slot ].add( item );
-							if ( !item.conditionalFlag )
+							if ( !item.conditionalFlag && item.getCount() >= foldItemsNeeded )
 							{
 								total += item.getCount();
 							}
@@ -1737,7 +1791,7 @@ public class Evaluator
 						if ( !automatic[ slot ].contains( item ) )
 						{
 							automatic[ slot ].add( item );
-							if ( !item.conditionalFlag )
+							if ( !item.conditionalFlag && item.getCount() >= foldItemsNeeded )
 							{
 								total += item.getCount();
 							}
