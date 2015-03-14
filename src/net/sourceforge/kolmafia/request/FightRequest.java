@@ -2647,7 +2647,6 @@ public class FightRequest
 			//if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
 			//{
 				BanishManager.banishMonster( monsterName, "curse of vacation" );
-				Preferences.setInteger( "_edDefeats", -1 );
 			//}
 			break;
 
@@ -3082,10 +3081,6 @@ public class FightRequest
 		if ( !won )
 		{
 			QuestManager.updateQuestFightLost( responseText, monsterName );
-			if ( KoLCharacter.isEd() )
-			{
-				Preferences.increment( "_edDefeats", 1 );
-			}
 		}
 		else
 		{
@@ -3584,8 +3579,18 @@ public class FightRequest
 			}
 
 			QuestManager.updateQuestData( responseText, monsterName );
+		}
 
-			Preferences.setInteger( "_edDefeats", 0 );
+		if ( KoLCharacter.isEd() )
+		{
+			if ( responseText.contains( "Continue to the Underworld" ) )
+			{
+				Preferences.increment( "_edDefeats" );
+			}
+			else
+			{
+				Preferences.setInteger( "_edDefeats", 0 );
+			}
 		}
 
 		FightRequest.clearInstanceData();
