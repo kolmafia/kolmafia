@@ -768,7 +768,16 @@ public class RequestEditorKit
 			}
 			else
 			{
-				links.append( " [<a href=\"/place.php?whichplace=edbase&action=edbase_book\">skill book</a>]" );
+				if ( KoLCharacter.hasSkill( "Bounty of Renenutet" ) &&
+				     KoLCharacter.hasSkill( "Wrath of Ra" ) &&
+				     KoLCharacter.hasSkill( "Curse of Stench" ) )
+				{
+					links.append( " [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant xp</a>]" );
+				}
+				else
+				{
+					links.append( " [<a href=\"/place.php?whichplace=edbase&action=edbase_book\">skill book</a>]" );
+				}
 			}
 			haveLinks = true;
 		}
