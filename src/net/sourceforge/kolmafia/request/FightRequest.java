@@ -2647,6 +2647,7 @@ public class FightRequest
 			//if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
 			//{
 				BanishManager.banishMonster( monsterName, "curse of vacation" );
+				Preferences.setInteger( "_edDefeats", -1 );
 			//}
 			break;
 
