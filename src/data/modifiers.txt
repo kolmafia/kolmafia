@@ -3865,7 +3865,7 @@ Effect	Amorous	Moxie: +5, Sleaze Damage: +5
 # Amorous Avarice: Meat Drop: +X
 Effect	Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Ancestral Disapproval	Mysticality Percent: +10
-Effect	Ancient Annoying Serpent Poison	Muscle: -20, Mysticality: -20, Moxie: -20
+Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
 # Angry Bone: +40 Damage vs. Undead
