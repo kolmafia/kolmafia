@@ -3685,6 +3685,16 @@ public abstract class ChoiceManager
 			// Highlight valid card
 			ChoiceManager.decorateParanormalTestLab( buffer );
 			break;
+
+		case 1023:
+			// Like a Bat Into Hell
+			StringUtilities.globalStringReplace( buffer, "Go right back to the fight!", "UNDYING!" );
+			break;
+
+		case 1024:
+			// Like a Bat out of Hell
+			StringUtilities.globalStringReplace( buffer, "Return to the fight!", "UNDYING!" );
+			break;
 		}
 	}
 
