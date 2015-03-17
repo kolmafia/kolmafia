@@ -122,7 +122,7 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init">
+	<target name="compile" depends="init,version">
 
 		<javac
 			compiler="modern"
@@ -244,7 +244,8 @@
 		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
 
 		<jsmooth project="${win.tmp.jsmoothfile}" skeletonroot="${util}/windows/skeletons" />
-        <delete file="${win.tmp.jsmoothfile}" />
+
+                <delete file="${win.tmp.jsmoothfile}" />
 
 	</target>
 
@@ -293,7 +294,7 @@
 	<!--  create a Debian package   -->
 	<!-- ========================== -->
 
-	<target name="debian" depends="init,version,jar,desktop">
+	<target name="debian" depends="init,jar,desktop">
 
 		<taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/debian/ant-deb.jar" />
 
