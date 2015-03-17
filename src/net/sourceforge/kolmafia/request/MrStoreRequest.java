@@ -99,8 +99,8 @@ public class MrStoreRequest
 			);
 
 	// Since there are two different currencies, we need to have a map from
-	// item name to item/count of currency; an AdventureResult.
-	private static final Map<String, AdventureResult> buyCosts = new TreeMap<String, AdventureResult>();
+	// itemId to item/count of currency; an AdventureResult.
+	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<Integer, AdventureResult>();
 
 	public MrStoreRequest()
 	{
@@ -181,12 +181,9 @@ public class MrStoreRequest
 
 			// Add it to the Mr. Store inventory
 			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
-			String name = StringUtilities.getCanonicalName( itemName );
 			items.add( item );
-			Integer iprice = IntegerPool.get( price );
-			prices.put( name, iprice );
 			AdventureResult cost = ItemPool.get( currency, price );
-			costs.put( name, cost );
+			costs.put( itemId, cost );
 		}
 
 		// Register the purchase requests, now that we know what is available
