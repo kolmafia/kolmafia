@@ -1553,7 +1553,7 @@ public class CreateItemRequest
 		if ( usesTurns )
 		{
 			buffer.append( "[" );
-			buffer.append( String.valueOf( KoLAdventure.getAdventureCount() + 1 ) );
+			buffer.append( String.valueOf( KoLAdventure.getAdventureCount() ) );
 			buffer.append( "] " );
 		}
 
