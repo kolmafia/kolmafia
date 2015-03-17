@@ -34,10 +34,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -60,7 +57,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -317,6 +313,10 @@ public class Maximizer
 			boolean orFlag = false;
 			while ( sources.hasNext() )
 			{
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return;
+				}
 				cmd = text = sources.next();
 				AdventureResult item = null;
 
