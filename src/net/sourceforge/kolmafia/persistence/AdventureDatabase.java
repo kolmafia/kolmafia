@@ -690,7 +690,15 @@ public class AdventureDatabase
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
 			Matcher matcher = AdventureDatabase.SNARF_PATTERN.matcher( urlString );
-			return matcher.find() ? "Unknown Adventure #" + matcher.group(1) : null;
+			if ( matcher.find() )
+			{
+				String name = "Unknown Adventure #" + matcher.group(1);
+				String message = name + " = " + urlString;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				return name;
+			}
+			return null;
 		}
 
 		if ( urlString.startsWith( "cave.php" ) )
