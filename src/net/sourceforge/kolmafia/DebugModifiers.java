@@ -60,7 +60,7 @@ public class DebugModifiers
 			if ( name.toLowerCase().indexOf( parameters ) != -1 )
 			{
 				DebugModifiers.wanted.put( IntegerPool.get( i ),
-					"<td colspan=2>" + name + "</td>" );
+					"<td colspan=3>" + name + "</td>" );
 			}
 		}
 		DebugModifiers.adjustments = (HashMap) DebugModifiers.wanted.clone();
@@ -186,6 +186,10 @@ public class DebugModifiers
 					name = lookup;
 				}
 				Modifiers mods = Modifiers.getModifiers( type, name );
+				if ( mods == null )
+				{
+					continue;
+				}
 				double value = mods.get( ikey );
 				if ( value != 0.0 )
 				{
@@ -257,6 +261,12 @@ public class DebugModifiers
 			if ( this.type.equals( "Item" ) )
 			{
 				return "<td>Item</td><td>" + ItemDatabase.getItemDisplayName( this.name ) + "</td><td>" +
+					KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.value ) +
+					( this.variable? "v" : "" ) + "</td>";
+			}
+			if ( this.type.equals( "Effect" ) )
+			{
+				return "<td>Effect</td><td>" + EffectDatabase.getEffectDisplayName( this.name ) + "</td><td>" +
 					KoLConstants.ROUNDED_MODIFIER_FORMAT.format( this.value ) +
 					( this.variable? "v" : "" ) + "</td>";
 			}
