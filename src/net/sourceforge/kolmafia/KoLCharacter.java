@@ -1035,15 +1035,15 @@ public abstract class KoLCharacter
 
 		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
 		     classType.equals( KoLCharacter.PASTAMANCER ) ||
-		     classType.equals( KoLCharacter.ED ) ||
-		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) )
+		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ||
+		     classType.equals( KoLCharacter.ED ) )
 		{
 			return 1;
 		}
 
 		if ( classType.equals( KoLCharacter.DISCO_BANDIT ) ||
-			classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ||
-			classType.equals( KoLCharacter.ACCORDION_THIEF ) )
+		     classType.equals( KoLCharacter.ACCORDION_THIEF ) ||
+		     classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) )
 		{
 			return 2;
 		}
@@ -1055,16 +1055,16 @@ public abstract class KoLCharacter
 	{
 		return
 			KoLCharacter.classtype == null ? "none" :
-			KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) ? "Club Foot" :
-			KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER ) ? "Shell Up" :
-			KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) ? "Entangling Noodles" :
-			KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR ) ? "Soul Bubble" :
-			KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF ) ? "Accordion Bash" :
-			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_BORIS ) ? "Broadside" :
-			KoLCharacter.classtype.equals( KoLCharacter.ZOMBIE_MASTER ) ? "Corpse Pile" :
-			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? "Blend" :
-			KoLCharacter.classtype.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? "Snap Fingers" :
-			KoLCharacter.classtype.equals( KoLCharacter.ED ) ? "Curse of Indecision" :
+			KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ? "Club Foot" :
+			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ? "Shell Up" :
+			KoLCharacter.classtype == KoLCharacter.PASTAMANCER ? "Entangling Noodles" :
+			KoLCharacter.classtype == KoLCharacter.SAUCEROR ? "Soul Bubble" :
+			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ? "Accordion Bash" :
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS ? "Broadside" :
+			KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER ? "Corpse Pile" :
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG ? "Blend" :
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ? "Snap Fingers" :
+			KoLCharacter.classtype == KoLCharacter.ED ? "Curse of Indecision" :
 			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
@@ -1111,7 +1111,8 @@ public abstract class KoLCharacter
 	public static final int getFuryLimit()
 	{
 		// 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in additon
-		return ( KoLCharacter.classtype == null || !KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) || !KoLCharacter.hasSkill( "Wrath of the Wolverine" ) ) ? 0 :
+		return  ( KoLCharacter.classtype != KoLCharacter.SEAL_CLUBBER ||
+			  !KoLCharacter.hasSkill( "Wrath of the Wolverine" ) ) ? 0 :
 			KoLCharacter.hasSkill( "Ire of the Orca" ) ? 5 : 3;
 	}
 	
@@ -1392,7 +1393,7 @@ public abstract class KoLCharacter
 	{
 		return 5 +
 		       ( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 ) +
-		       ( KoLCharacter.classtype.equals(KoLCharacter.SAUCEROR) ? 5 : 0 );
+		       ( KoLCharacter.classtype == KoLCharacter.SAUCEROR ? 5 : 0 );
 
 	}
 
@@ -4476,12 +4477,13 @@ public abstract class KoLCharacter
 			return false;
 		}
 
-		// Avatar characters can't join a guild
-		if ( KoLCharacter.inAxecore() ||
-		     KoLCharacter.inZombiecore() ||
-		     KoLCharacter.isJarlsberg() ||
-		     KoLCharacter.isSneakyPete() ||
-		     KoLCharacter.isEd() )
+		// Only the six original character classes can join a guild
+		if ( KoLCharacter.classtype != KoLCharacter.SEAL_CLUBBER &&
+		     KoLCharacter.classtype != KoLCharacter.TURTLE_TAMER &&
+		     KoLCharacter.classtype != KoLCharacter.PASTAMANCER &&
+		     KoLCharacter.classtype != KoLCharacter.SAUCEROR &&
+		     KoLCharacter.classtype != KoLCharacter.DISCO_BANDIT &&
+		     KoLCharacter.classtype != KoLCharacter.ACCORDION_THIEF )
 		{
 			KoLCharacter.guildStoreStateKnown = true;
 			return false;
