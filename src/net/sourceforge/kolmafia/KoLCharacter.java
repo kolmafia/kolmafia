@@ -4470,10 +4470,23 @@ public abstract class KoLCharacter
 		{
 			return true;
 		}
+
 		if ( KoLCharacter.guildStoreStateKnown )
 		{
 			return false;
 		}
+
+		// Avatar characters can't join a guild
+		if ( KoLCharacter.inAxecore() ||
+		     KoLCharacter.inZombiecore() ||
+		     KoLCharacter.isJarlsberg() ||
+		     KoLCharacter.isSneakyPete() ||
+		     KoLCharacter.isEd() )
+		{
+			KoLCharacter.guildStoreStateKnown = true;
+			return false;
+		}
+
 		RequestThread.postRequest( new GuildRequest() );
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" );
 	}
