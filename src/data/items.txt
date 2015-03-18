@@ -8109,7 +8109,7 @@
 8084	LOLmec statuette	688758713	lolmecidol.gif	usable	t	0
 8085	Spelunker of Fortune (used)	239518160	spelunkmag.gif	usable		0
 8086	still-beating spleen	812404013	kidney.gif	usable	t	0
-8087	thwaitgold scarab beetle statuette	502031992	thwaitscarab.gif	none		0
+8087	Thwaitgold scarab beetle statuette	502031992	thwaitscarab.gif	none		0
 8088	solid gold jewel	341423397	strawberyl.gif	usable	t	0
 8089	headless sparrow	494470945	headlessbird.gif	none	t,d	34
 8090	mangled squirrel	342596763	mangled.gif	none	t,d	44

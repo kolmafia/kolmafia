@@ -475,17 +475,11 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "decorate" ) )
+		if ( command.equals( "barrel" ) )
 		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test decorate URL" );
-				return;
-			}
-			String urlString = split[ 1 ].trim();
 			StringBuffer buffer = new StringBuffer( TestCommand.contents );
 			TestCommand.contents = null;
-			RequestEditorKit.getFeatureRichHTML( urlString, buffer, true );
+			BarrelDecorator.decorate( buffer );
 			TestCommand.dump( buffer.toString() );
 			return;
 		}
@@ -533,6 +527,45 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "dad" ) )
+		{
+			if ( !DadManager.solve( TestCommand.contents ) )
+			{
+				RequestLogger.printLine( "Unable to solve for elemental weaknesses" );
+			}
+			CLI.executeLine( "dad" );
+			return;
+		}
+
+		if ( command.equals( "decorate" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test decorate URL" );
+				return;
+			}
+			String urlString = split[ 1 ].trim();
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			RequestEditorKit.getFeatureRichHTML( urlString, buffer, true );
+			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "div" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test div LABEL" );
+				return;
+			}
+			String label = split[ 1 ].trim();
+			String string = ResponseTextParser.parseDivLabel( label, TestCommand.contents );
+			TestCommand.contents = null;
+			RequestLogger.printLine( "string = \"" + string + "\"" );
+			return;
+		}
+
 		if ( command.equals( "dvorak" ) )
 		{
 			if ( split.length < 2 )
@@ -548,25 +581,26 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "mchat" ) )
-		{
-			List<ChatMessage> chatMessages = ChatPoller.parseNewChat( TestCommand.contents );
-			ChatManager.processMessages( chatMessages );
-			TestCommand.contents = null;
-			return;
-		}
-
-		if ( command.equals( "div" ) )
+		if ( command.equals( "encounter" ) )
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test div LABEL" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test encounter URL" );
 				return;
 			}
-			String label = split[ 1 ].trim();
-			String string = ResponseTextParser.parseDivLabel( label, TestCommand.contents );
+
+			String urlString = split[ 1 ];
+			GenericRequest request = new GenericRequest( urlString );
+			request.responseText = TestCommand.contents;
 			TestCommand.contents = null;
-			RequestLogger.printLine( "string = \"" + string + "\"" );
+
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.locationLogged = false;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = null;
+
+			RequestLogger.registerRequest( request, urlString );
+			AdventureRequest.registerEncounter( request );
 			return;
 		}
 
@@ -597,16 +631,6 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "dad" ) )
-		{
-			if ( !DadManager.solve( TestCommand.contents ) )
-			{
-				RequestLogger.printLine( "Unable to solve for elemental weaknesses" );
-			}
-			CLI.executeLine( "dad" );
-			return;
-		}
-
 		if ( command.equals( "generator" ) )
 		{
 			SpaaaceRequest.visitGeneratorChoice( TestCommand.contents );
@@ -623,20 +647,18 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "barrel" ) )
+		if ( command.equals( "mchat" ) )
 		{
-			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			List<ChatMessage> chatMessages = ChatPoller.parseNewChat( TestCommand.contents );
+			ChatManager.processMessages( chatMessages );
 			TestCommand.contents = null;
-			BarrelDecorator.decorate( buffer );
-			TestCommand.dump( buffer.toString() );
 			return;
 		}
 
-		if ( command.equals( "taleofdread" ) )
+		if ( command.equals( "rumple" ) )
 		{
-			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
+			RumpleManager.spyOnParents( TestCommand.contents );
 			TestCommand.contents = null;
-			RequestLogger.printLine( tale );
 			return;
 		}
 
@@ -647,10 +669,11 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "rumple" ) )
+		if ( command.equals( "taleofdread" ) )
 		{
-			RumpleManager.spyOnParents( TestCommand.contents );
+			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
 			TestCommand.contents = null;
+			RequestLogger.printLine( tale );
 			return;
 		}
 	}
