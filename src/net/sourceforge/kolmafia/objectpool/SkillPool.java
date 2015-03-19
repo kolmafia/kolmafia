@@ -275,4 +275,5 @@ public class SkillPool
 	public static final int LASH_OF_COBRA = 17012;
 	public static final int CURSE_OF_FORTUNE = 17018;
 	public static final int CURSE_OF_VACATION = 17019;
+	public static final int CURSE_OF_STENCH = 17020;
 }

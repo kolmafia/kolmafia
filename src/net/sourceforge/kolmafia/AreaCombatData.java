@@ -160,6 +160,11 @@ public class AreaCombatData
 			{
 				currentWeighting += 3 * baseWeighting;
 			}
+			// If Curse of Stench used, add three to encounter pool
+			if ( Preferences.getString( "stenchCursedMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += 3 * baseWeighting;
+			}
 
 			if ( BanishManager.isBanished( monsterName ) )
 			{
