@@ -1950,7 +1950,7 @@ public class Evaluator
 					int newSlot = slot + ( slot == EquipmentManager.ACCESSORY1 ? accCount : 0 );
 					int compareItemNo = speculationList[ slot ].size() - 1;
 					int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
-					do
+					while ( compareItemNo >= 0 )
 					{
 						CheckedItem compareItem = speculationList[ slot ].get( compareItemNo ).attachment;
 						if ( compareItem.conditionalFlag )
@@ -1974,7 +1974,6 @@ public class Evaluator
 							break;
 						}
 					}
-					while ( compareItemNo >= 0 );
 					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
 					outfitSpec.equipment[ newSlot ] = outfitItem;
 				}
