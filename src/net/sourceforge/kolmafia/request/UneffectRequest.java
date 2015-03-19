@@ -82,6 +82,7 @@ public class UneffectRequest
 	private static final Set<AdventureResult> currentEffectRemovals = new HashSet<AdventureResult>();
 
 	private static final AdventureResult USED_REMEDY = ItemPool.get( ItemPool.REMEDY, -1 );
+	private static final AdventureResult USED_CURE_ALL = ItemPool.get( ItemPool.ANCIENT_CURE_ALL, -1 );
 
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
@@ -845,7 +846,7 @@ public class UneffectRequest
 
 		// See if it can be removed by an item.
 
-		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY );
+		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY ) || InventoryManager.hasItem( ItemPool.ANCIENT_CURE_ALL );
 
 		Iterator itemIterator = UneffectRequest.REMOVABLE_BY_ITEM.iterator();
 		while ( itemIterator.hasNext() )
@@ -936,6 +937,10 @@ public class UneffectRequest
 		{
 			KoLmafia.updateDisplay( "Shrugging off your buff..." );
 		}
+		else if ( InventoryManager.retrieveItem( ItemPool.ANCIENT_CURE_ALL ) )
+		{
+			KoLmafia.updateDisplay( "Using ancient cure-all..." );
+		}
 		else if ( InventoryManager.retrieveItem( ItemPool.REMEDY ) )
 		{
 			KoLmafia.updateDisplay( "Using soft green whatever..." );
@@ -1005,7 +1010,14 @@ public class UneffectRequest
 
 		if ( UneffectRequest.isRemovable( id ) && location.startsWith( "uneffect" ) )
 		{
-			ResultProcessor.processResult( UneffectRequest.USED_REMEDY );
+			if ( InventoryManager.getCount( ItemPool.ANCIENT_CURE_ALL ) > 0 )
+			{
+				ResultProcessor.processResult( UneffectRequest.USED_CURE_ALL );
+			}
+			else
+			{
+				ResultProcessor.processResult( UneffectRequest.USED_REMEDY );
+			}
 		}
 
 		RequestLogger.updateSessionLog();

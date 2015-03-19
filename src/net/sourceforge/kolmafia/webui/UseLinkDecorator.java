@@ -1315,6 +1315,7 @@ public abstract class UseLinkDecorator
 		// Soft green echo eyedrop antidote gets an uneffect link
 
 		case ItemPool.REMEDY:
+		case ItemPool.ANCIENT_CURE_ALL:
 
 			useType = "use";
 			useLocation = "uneffect.php";
