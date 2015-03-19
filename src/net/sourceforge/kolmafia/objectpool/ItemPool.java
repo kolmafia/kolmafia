@@ -1150,6 +1150,12 @@ public class ItemPool
 	public static final int BEACH_BALL_MARBLE = 4103;
 	public static final int BLACK_CATSEYE_MARBLE = 4104;
 	public static final int BIG_BUMBOOZER_MARBLE = 4105;
+	public static final int MONSTROUS_MONOCLE = 4108;
+	public static final int MUSTY_MOCCASINS = 4109;
+	public static final int MOLTEN_MEDALLION = 4110;
+	public static final int BRAZEN_BRACELET = 4111;
+	public static final int BITTER_BOWTIE = 4112;
+	public static final int BEWITCHING_BOOTS = 4113;
 	public static final int SECRET_FROM_THE_FUTURE = 4114;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
 	public static final int TEMPURA_AIR = 4133;

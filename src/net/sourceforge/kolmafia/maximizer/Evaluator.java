@@ -1660,6 +1660,345 @@ public class Evaluator
 			Collections.sort( speculationList[ slot ] );
 		}
 
+		// Compare synergies with best items in the same spots, and remove automatic flag if not better
+		Iterator it = Modifiers.getSynergies();
+		while ( it.hasNext() )
+		{
+			String synergy = (String) it.next();
+			int mask = ((Integer) it.next()).intValue();
+			int index = synergy.indexOf( "/");
+			String itemName1 = synergy.substring( 0, index );
+			String itemName2 = synergy.substring( index + 1 ); 
+			int itemId1 = ItemDatabase.getItemId( itemName1 );
+			int itemId2 = ItemDatabase.getItemId( itemName2 );
+			int slot1 = EquipmentManager.itemIdToEquipmentType( itemId1 );
+			int slot2 = EquipmentManager.itemIdToEquipmentType( itemId2 );
+			CheckedItem item1 = null;
+			CheckedItem item2 = null;
+
+			// The only times the slots will be wrong for current synergies are 1 handed swords
+			// They are always item 1
+			int hands = EquipmentDatabase.getHands( itemId1 );
+			WeaponType weaponType = EquipmentDatabase.getWeaponType( itemId1 );
+			if ( hands == 1 && weaponType == WeaponType.MELEE )
+			{
+				slot1 = Evaluator.WEAPON_1H;
+			}
+
+			if ( slot1 == -1 || slot2 == -1 )
+			{
+				continue;
+			}
+
+			ListIterator<MaximizerSpeculation> sI = speculationList[ slot1 ].listIterator( speculationList[ slot1 ].size() );
+
+			while ( sI.hasPrevious() )
+			{
+				CheckedItem checkItem = sI.previous().attachment;
+				checkItem.validate( maxPrice, priceLevel );
+				if ( checkItem.getName().equals( itemName1 ) )
+				{
+					item1 = checkItem;
+				}
+			}
+
+			sI = speculationList[ slot2 ].listIterator( speculationList[ slot2 ].size() );
+
+			while ( sI.hasPrevious() )
+			{
+				CheckedItem checkItem = sI.previous().attachment;
+				checkItem.validate( maxPrice, priceLevel );
+				if ( checkItem.getName().equals( itemName2 ) )
+				{
+					item2 = checkItem;
+				}
+			}
+
+			if ( item1 == null || item2 == null )
+			{
+				continue;
+			}
+
+			// Found a synergy in our speculationList, so compare it with the best individual items
+			
+			int accCompared = 0;
+			MaximizerSpeculation synergySpec = new MaximizerSpeculation();
+			MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+
+			int newSlot1 = slot1;
+			int compareItemNo = slot1 == EquipmentManager.ACCESSORY1 ? speculationList[ slot1 ].size() - 3 : speculationList[ slot1 ].size() - 1;
+			do
+			{
+				CheckedItem compareItem = speculationList[ slot1 ].get( compareItemNo ).attachment;
+				if ( compareItem.conditionalFlag )
+				{
+					compareItemNo--;
+				}
+				else
+				{
+					compareSpec.equipment[ newSlot1 ] = speculationList[ slot1 ].get( compareItemNo ).attachment;
+					break;
+				}
+				if ( compareItemNo < 0 )
+				{
+					compareSpec.equipment[ newSlot1 ] = EquipmentRequest.UNEQUIP;
+					break;
+				}
+			}
+			while ( compareItemNo >= 0 );
+			if ( slot1 == EquipmentManager.ACCESSORY1 )
+			{
+				accCompared++;
+			}
+			synergySpec.equipment[ newSlot1 ] = item1;
+
+			int newSlot2 = slot2 + ( slot2 == EquipmentManager.ACCESSORY1 ? accCompared : 0 );
+			compareItemNo = slot2 == EquipmentManager.ACCESSORY1 ? speculationList[ slot2 ].size() - 2 : speculationList[ slot2 ].size() - 1;
+			do
+			{
+				CheckedItem compareItem = speculationList[ slot2 ].get( compareItemNo ).attachment;
+				if ( compareItem.conditionalFlag || compareItem.getName().equals( compareSpec.equipment[ newSlot1 ].getName() ) )
+				{
+					compareItemNo--;
+				}
+				else
+				{
+					compareSpec.equipment[ newSlot2 ] = speculationList[ slot2 ].get( compareItemNo ).attachment;
+					break;
+				}
+				if ( compareItemNo < 0 )
+				{
+					compareSpec.equipment[ newSlot2 ] = EquipmentRequest.UNEQUIP;
+					break;
+				}
+			}
+			while ( compareItemNo >= 0 );
+			synergySpec.equipment[ newSlot2 ] = item2;
+
+			if ( synergySpec.compareTo( compareSpec ) <= 0 || synergySpec.failed )
+			{
+				// Not useful, so remove it's automatic flag so it won't be put forward unless it's good enough in it's own right
+				sI = speculationList[ slot1 ].listIterator( speculationList[ slot1 ].size() );
+
+				while ( sI.hasPrevious() )
+				{
+					MaximizerSpeculation spec = sI.previous();
+					CheckedItem checkItem = spec.attachment;
+					checkItem.validate( maxPrice, priceLevel );
+					if ( checkItem.getName().equals( itemName1 ) )
+					{
+						spec.attachment.automaticFlag = false;
+					}
+				}
+
+				sI = speculationList[ slot2 ].listIterator( speculationList[ slot2 ].size() );
+
+				while ( sI.hasPrevious() )
+				{
+					MaximizerSpeculation spec = sI.previous();
+					CheckedItem checkItem = spec.attachment;
+					checkItem.validate( maxPrice, priceLevel );
+					if ( checkItem.getName().equals( itemName2 ) )
+					{
+						spec.attachment.automaticFlag = false;
+					}
+				}
+			}
+		}
+
+		// However, that's only two item Synergies, and there are two three item synergies effectively.
+		// Ugly hack to reinstate them if necessary. They are always accessories, which simplifies things.
+		int count = 0;
+		while ( count < 2 )
+		{
+			int itemId1 = -1;
+			int itemId2 = -1;
+			int itemId3 = -1;
+			CheckedItem item1 = null;
+			CheckedItem item2 = null;
+			CheckedItem item3 = null;
+			int slot = EquipmentManager.ACCESSORY1;
+
+			if ( count == 0 )
+			{
+				itemId1 = ItemPool.MONSTROUS_MONOCLE;
+				itemId2 = ItemPool.MUSTY_MOCCASINS;
+				itemId3 = ItemPool.MOLTEN_MEDALLION;
+				count++;
+			}
+			else
+			{
+				itemId1 = ItemPool.BRAZEN_BRACELET;
+				itemId2 = ItemPool.BITTER_BOWTIE;
+				itemId3 = ItemPool.BEWITCHING_BOOTS;
+				count++;
+			}
+
+			ListIterator<MaximizerSpeculation> sI = speculationList[ slot ].listIterator( speculationList[ slot ].size() );
+
+			while ( sI.hasPrevious() )
+			{
+				CheckedItem checkItem = sI.previous().attachment;
+				checkItem.validate( maxPrice, priceLevel );
+				if ( checkItem.getItemId() == itemId1 )
+				{
+					item1 = checkItem;
+				}
+				else if ( checkItem.getItemId() == itemId2 )
+				{
+					item2 = checkItem;
+				}
+				else if ( checkItem.getItemId() == itemId3 )
+				{
+					item3 = checkItem;
+				}
+				if ( item1 != null && item2 != null && item3 != null )
+				{
+					break;
+				}
+			}
+
+			if ( item1 == null || item2 == null || item3 == null )
+			{
+				continue;
+			}
+
+			// All three in our speculationList, so compare it with the best 3 accessories items
+			
+			MaximizerSpeculation synergySpec = new MaximizerSpeculation();
+			MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+
+			int compareItemNo = speculationList[ slot ].size() - 1;
+			compareSpec.equipment[ slot ] = EquipmentRequest.UNEQUIP;
+			compareSpec.equipment[ slot + 1 ] = EquipmentRequest.UNEQUIP;
+			compareSpec.equipment[ slot + 2 ] = EquipmentRequest.UNEQUIP;
+			int newSlot = slot;
+			do
+			{
+				CheckedItem compareItem = speculationList[ slot ].get( compareItemNo ).attachment;
+				if ( !compareItem.conditionalFlag )
+				{
+					compareSpec.equipment[ newSlot ] = speculationList[ slot ].get( compareItemNo ).attachment;
+					newSlot++;
+				}
+				compareItemNo--;
+			}
+			while ( compareItemNo >= 0 && newSlot < slot + 3 );
+			synergySpec.equipment[ slot ] = item1;
+			synergySpec.equipment[ slot + 1 ] = item2;
+			synergySpec.equipment[ slot + 2 ] = item3;
+
+			if ( synergySpec.compareTo( compareSpec ) > 0 && !synergySpec.failed )
+			{
+				// Useful, so automatic flag it again
+				sI = speculationList[ slot ].listIterator( speculationList[ slot ].size() );
+
+				int found = 0;
+				while ( sI.hasPrevious() && found < 3 )
+				{
+					MaximizerSpeculation spec = sI.previous();
+					CheckedItem checkItem = spec.attachment;
+					checkItem.validate( maxPrice, priceLevel );
+					if ( checkItem.getItemId() == itemId1 )
+					{
+						spec.attachment.automaticFlag = true;
+						found++;
+					}
+					else if ( checkItem.getItemId() == itemId2 )
+					{
+						spec.attachment.automaticFlag = true;
+						found++;
+					}
+					else if ( checkItem.getItemId() == itemId3 )
+					{
+						spec.attachment.automaticFlag = true;
+						found++;
+					}
+				}
+			}
+		}
+
+		// Compare outfits with best item in the same spot, and remove if not better
+		// Compare the accessories to the worst ones, not the best
+		StringBuffer outfitSummary = new StringBuffer();
+		outfitSummary.append( "Outfits [" );
+		int outfitCount = 0;
+		for ( int i = 0 ; i < usefulOutfits.size() ; i++ )
+		{
+			if ( usefulOutfits.get( i ) )
+			{
+				int accCount = 0;
+				MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
+				MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+				// Get pieces of outfit
+				SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+				AdventureResult[] pieces = outfit.getPieces();
+				for ( int j = 0; j < pieces.length; ++j )
+				{
+					int outfitItemId = pieces[j].getItemId();
+					int slot = EquipmentManager.itemIdToEquipmentType( outfitItemId );
+					// For some items, Evaluator uses a different slot
+					// I don't think any outfits use an offhand weapon or watch though?
+					int hands = EquipmentDatabase.getHands( outfitItemId );
+					if ( hands == 1 )
+					{
+						slot = Evaluator.WEAPON_1H;
+					}
+
+					// Compare outfit with best individual non conditional item that hasn't previously been used
+					// For accessories compare with 3rd best for first accessory, 2nd best for second accessory, best for third
+					int newSlot = slot + ( slot == EquipmentManager.ACCESSORY1 ? accCount : 0 );
+					int compareItemNo = speculationList[ slot ].size() - 1;
+					int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
+					do
+					{
+						CheckedItem compareItem = speculationList[ slot ].get( compareItemNo ).attachment;
+						if ( compareItem.conditionalFlag )
+						{
+							compareItemNo--;
+						}
+						else if ( accSkip > 0 )
+						{
+							// Valid item, but we're looking for 2nd or 3rd best non-conditional
+							compareItemNo--;
+							accSkip--;
+						}
+						else
+						{
+							compareSpec.equipment[ newSlot ] = compareItem;
+							break;
+						}
+						if ( compareItemNo < 0 )
+						{
+							compareSpec.equipment[ newSlot ] = EquipmentRequest.UNEQUIP;
+							break;
+						}
+					}
+					while ( compareItemNo >= 0 );
+					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
+					outfitSpec.equipment[ newSlot ] = outfitItem;
+				}
+				if ( outfitSpec.compareTo( compareSpec ) <= 0 || outfitSpec.failed )
+				{
+					usefulOutfits.set( i, false );
+				}
+				else
+				{
+					if ( outfitCount > 0 )
+					{
+						outfitSummary.append( ", " );
+					}
+					outfitSummary.append( outfit.toString() );
+					outfitCount++;
+				}
+			}
+		}
+		if ( this.dump > 0 )
+		{
+			outfitSummary.append( "]" );
+			RequestLogger.printLine( outfitSummary.toString() );
+		}
+
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
 			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
@@ -1809,81 +2148,6 @@ public class Evaluator
 		automatic[ EquipmentManager.WEAPON ].addAll( automatic[ Evaluator.WEAPON_1H ] );
 		automatic[ Evaluator.OFFHAND_MELEE ].addAll( automatic[ EquipmentManager.OFFHAND ] );
 		automatic[ Evaluator.OFFHAND_RANGED ].addAll( automatic[ EquipmentManager.OFFHAND ] );
-
-		// Compare outfits with best item in the same spot, and remove if not better
-		// Working on all combinations would be strictly better, but lets not go there yet!
-		StringBuffer outfitSummary = new StringBuffer();
-		outfitSummary.append( "Outfits [" );
-		int outfitCount = 0;
-		for ( int i = 0 ; i < usefulOutfits.size() ; i++ )
-		{
-			if ( usefulOutfits.get( i ) )
-			{
-				int accCount = 0;
-				MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
-				MaximizerSpeculation compareSpec = new MaximizerSpeculation();
-				// Get pieces of outfit
-				SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
-				AdventureResult[] pieces = outfit.getPieces();
-				for ( int j = 0; j < pieces.length; ++j )
-				{
-					int outfitItemId = pieces[j].getItemId();
-					int slot = EquipmentManager.itemIdToEquipmentType( outfitItemId );
-					// If outfit includes more than one accessory, handle it
-					if ( slot == EquipmentManager.ACCESSORY1 )
-					{
-						if ( automatic[ slot ].size() <= accCount )
-						{
-							compareSpec.equipment[ slot + accCount ] = EquipmentRequest.UNEQUIP;
-						}
-						else
-						{
-							AdventureResult cItem = automatic[ slot ].get( accCount );
-							int compareItemId = cItem.getItemId();
-							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
-							compareSpec.equipment[ slot + accCount ] = compareItem;
-						}
-						CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
-						outfitSpec.equipment[ slot + accCount ] = outfitItem;
-						accCount++;
-					}
-					else
-					{
-						if ( automatic[ slot ].size() == 0 )
-						{
-							compareSpec.equipment[ slot ] = EquipmentRequest.UNEQUIP;
-						}
-						else
-						{
-							AdventureResult cItem = automatic[ slot ].get( 0 );
-							int compareItemId = cItem.getItemId();
-							CheckedItem compareItem = new CheckedItem( compareItemId, equipLevel, maxPrice, priceLevel );
-							compareSpec.equipment[ slot ] = compareItem;
-						}
-						CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
-						outfitSpec.equipment[ slot ] = outfitItem;
-					}
-				}
-				if ( outfitSpec.compareTo( compareSpec ) <= 0 || outfitSpec.failed )
-				{
-					usefulOutfits.set( i, false );
-				}
-				else
-				{
-					if ( outfitCount > 0 )
-					{
-						outfitSummary.append( ", " );
-					}
-					outfitSummary.append( outfit.toString() );
-					outfitCount++;
-				}
-			}
-		}
-		if ( this.dump > 0 )
-		{
-			outfitSummary.append( "]" );
-			RequestLogger.printLine( outfitSummary.toString() );
-		}
 
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		// The threshold in the slots array that indicates that a slot
