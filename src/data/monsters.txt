@@ -1143,14 +1143,14 @@ The Rain King	0	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 
 # Actually Ed the Undying
 Boss Bat?	1664	deadbossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: undead
-new Knob Goblin King	0	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
+new Knob Goblin King	1665	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
 Donerbagon	1666	donerbagon.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
-# <your winged yeti>	0	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
-hulking bridge troll	0	bridgetroll.gif	BOSS Atk: 100 Def: 100 HP: 140 Init: 50 P: humanoid
-# <you> the Adventurer	1669		BOSS Atk: 240 Def: 210 HP: 900 Init: 150 P: dude
-warehouse guard	0	warehouseclerk.gif	Atk: 210 Def: 230 HP: 250 Init: 50 P: dude	warehouse map page (0)
-warehouse janitor	0	warehouseclerk.gif	Atk: 230 Def: 230 HP: 230 Init: 150 P: dude	janitor sponge (0)
-warehouse clerk	0	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 P: dude	warehouse inventory page (0)
+Your winged yeti	1667	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
+hulking bridge troll	1668	bridgetroll.gif	BOSS Atk: 100 Def: 100 HP: 140 Init: 50 P: humanoid
+You the Adventurer	1669		BOSS Atk: 240 Def: 210 HP: 900 Init: 150 P: dude
+warehouse guard	1740	warehouseclerk.gif	Atk: 210 Def: 230 HP: 250 Init: 50 P: dude	warehouse map page (0)
+warehouse janitor	1741	warehouseclerk.gif	Atk: 230 Def: 230 HP: 230 Init: 150 P: dude	janitor sponge (0)
+warehouse clerk	1742	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 P: dude	warehouse inventory page (0)
 
 # Items of the Month
 

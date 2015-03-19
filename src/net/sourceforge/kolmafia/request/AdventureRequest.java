@@ -638,6 +638,9 @@ public class AdventureRequest
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
 				// KOLHS
 				image.startsWith( "shopteacher" ) ? "X-fingered Shop Teacher" :
+				// Actually Ed the Undying
+				image.startsWith( "classav" ) ? "You the Adventurer" :
+				image.startsWith( "wingedyeti" ) && KoLCharacter.isEd() ? "Your winged yeti" :
 				// Trick or Treat
 				image.startsWith( "vandalkid" ) ? "vandal kid" :
 				image.startsWith( "paulblart" ) ? "suburban security civilian" :
