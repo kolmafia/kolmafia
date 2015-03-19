@@ -2271,6 +2271,7 @@ public class ItemPool
 	public static final int TOPIARY_NUGGLET = 7968;
 	public static final int BEEHIVE = 7969;
 	public static final int ELECTRIC_BONING_KNIFE = 7970;
+	public static final int ANCIENT_CURE_ALL = 7982;
 	public static final int CHOCO_CRIMBOT = 7999;
 	public static final int BIG_BAG_OF_MONEY = 7955;
 	public static final int TOY_CRIMBOT_FACE = 8002;
