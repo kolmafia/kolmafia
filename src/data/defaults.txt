@@ -928,6 +928,7 @@ user	statusScienceLab	0
 user	statusSonar	0
 user	statusSpecialOps	0
 user	statusWasteProcessing	0
+user	stenchCursedMonster	
 user	styxPixieVisited	false
 user	sugarCounter4178	0
 user	sugarCounter4179	0

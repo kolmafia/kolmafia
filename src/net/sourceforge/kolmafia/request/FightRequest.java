@@ -2495,263 +2495,6 @@ public class FightRequest
 			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
 		}
 
-		String action = FightRequest.nextAction;
-		int skillNumber = 0;
-		if ( action != null && action.startsWith( "skill" ) )
-		{
-			skillNumber = StringUtilities.parseInt( action.substring( 5 ) );
-		}
-
-		// Non damaging skills all have the same success messages for Anapest or Haiku
-		boolean skillSuccess = ( FightRequest.anapest && responseText.contains( "skills don't have to cause pain" ) ) ||
-							   ( FightRequest.haiku && responseText.contains( "accomplish something" ) );
-		boolean familiarSkillSuccess = ( FightRequest.anapest &&
-							   ( responseText.contains( "familiar did something" ) || responseText.contains( "pet did a thing" ) ) ) ||
-							   ( FightRequest.haiku && ( responseText.contains( "wish you had just seen" ) || 
-							   responseText.contains( "what did your familiar do" ) || responseText.contains( "familiar does something" ) ||
-							   responseText.contains( "you don't see what it does" ) || responseText.contains( "you missed what it did" ) ) );
-		boolean skillRunawaySuccess = ( FightRequest.anapest && responseText.contains( "wings on your heels" ) ) ||
-									 ( FightRequest.haiku && ( responseText.contains( "burps taste like pride" ) ||
-									 responseText.contains( "beat a retreat" ) ) );
-
-		switch ( skillNumber )
-		{
-		case SkillPool.BADLY_ROMANTIC_ARROW:
-		case SkillPool.WINK:
-			if ( responseText.contains( "fires a badly romantic" ) ||
-			     responseText.contains( "You point a finger" ) ||
-				familiarSkillSuccess )
-			{
-				boolean hasQuake = ( KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR ) ||
-					EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
-				int fights = hasQuake ? 3 : 2;
-				Preferences.setInteger( "_romanticFightsLeft", fights );
-				Preferences.setString( "romanticTarget", monsterName );
-
-				TurnCounter.stopCounting( "Romantic Monster window begin" );
-				TurnCounter.stopCounting( "Romantic Monster window end" );
-				TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
-			}
-			break;
-
-		case SkillPool.OLFACTION:
-			if ( responseText.contains( "fill your entire being" ) || skillSuccess )
-			{
-				Preferences.setString( "olfactedMonster", monsterName );
-				Preferences.setString( "autoOlfact", "" );
-				FightRequest.canOlfact = false;
-			}
-			break;
-
-		// Banishing Shout has lots of success messages.  Check for the failure message instead
-		case SkillPool.BANISHING_SHOUT:
-			if ( !responseText.contains( "but this foe refuses" ) )
-			{
-				BanishManager.banishMonster( monsterName, "banishing shout" );
-			}
-			break;
-
-		case SkillPool.HOWL_ALPHA:
-			if ( responseText.contains( "your opponent turns and runs" ) || skillRunawaySuccess )
-			{
-				BanishManager.banishMonster( monsterName, "howl of the alpha" );
-			}
-			break;
-
-		case SkillPool.CREEPY_GRIN:
-			if ( responseText.contains( "an even creepier grin" ) || skillRunawaySuccess )
-			{
-				Preferences.setBoolean( "_vmaskBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "v for vivala mask" );
-			}
-			break;
-
-		case SkillPool.STINKEYE:
-			if ( responseText.contains( "You fix an extremely disdainful eye" ) || skillRunawaySuccess )
-			{
-				Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "stinky cheese eye" );
-			}
-			break;
-
-		case SkillPool.UNLEASH_NANITES:
-			if ( responseText.contains( "You roar with sudden power" ) || skillRunawaySuccess )
-			{
-				BanishManager.banishMonster( monsterName, "nanorhino" );
-			}
-			break;
-
-		case SkillPool.BATTER_UP:
-			if ( responseText.contains( "knocked out of the park" ) || skillRunawaySuccess )
-			{
-				BanishManager.banishMonster( monsterName, "batter up!" );
-			}
-			break;
-
-		case SkillPool.TALK_ABOUT_POLITICS:
-			if ( responseText.contains( "won't be seeing" ) || skillSuccess )
-			{
-				Preferences.increment( "_pantsgivingBanish" );
-				BanishManager.banishMonster( monsterName, "pantsgiving" );
-			}
-			break;
-
-		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
-			if ( responseText.contains( "foe is obliterated in a spectacular explosion" ) || skillSuccess )
-			{
-				BanishManager.banishMonster( monsterName, "walk away from explosion" );
-			}
-			break;
-
-		case SkillPool.THUNDER_CLAP:
-			if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
-			{
-				BanishManager.banishMonster( monsterName, "thunder clap" );
-			}
-			break;
-
-		case SkillPool.POCKET_CRUMBS:
-			if ( responseText.contains( "pocket next to the crumbs" ) )
-			{
-				Preferences.increment( "_pantsgivingCrumbs" );
-			}
-			break;
-
-		case SkillPool.FIX_JUKEBOX:
-			if ( responseText.contains( "jukebox" ) || skillSuccess)
-			{
-				Preferences.increment( "_peteJukeboxFixed" );
-			}
-			break;
-
-		case SkillPool.PEEL_OUT:
-			if ( responseText.contains( "peel out" ) || responseText.contains( "peels out" ) || skillRunawaySuccess )
-			{
-				Preferences.increment( "_petePeeledOut" );
-				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
-				{
-					BanishManager.banishMonster( monsterName, "peel out" );
-				}
-			}
-			break;
-
-		case SkillPool.JUMP_SHARK:
-			if ( responseText.contains( "shark" ) || skillSuccess )
-			{
-				Preferences.increment( "_peteJumpedShark" );
-			}
-			break;
-
-		case SkillPool.CURSE_OF_VACATION:
-			//if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
-			//{
-				BanishManager.banishMonster( monsterName, "curse of vacation" );
-			//}
-			break;
-
-		// Casting Carbohydrate Cudgel uses Dry Noodles
-		case SkillPool.CARBOHYDRATE_CUDGEL:
-			if ( responseText.contains( "You toss a bundle" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.DRY_NOODLES, -1 );
-			}
-			break;
-
-		// Casting Unload Tommy Gun uses Tommy Ammo
-		case SkillPool.UNLOAD_TOMMY_GUN:
-			if ( responseText.contains( "firing the tommy gun" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
-			}
-			break;
-
-		// Casting Shovel Hot Coal uses Hot Coal
-		case SkillPool.SHOVEL_HOT_COAL:
-			if ( responseText.contains( "hot coal into the shovel" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
-			}
-			break;
-
-		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
-		case SkillPool.RAGE_FLAME:
-			if ( responseText.contains( "resulting torrent of flame" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
-			}
-			break;
-
-		case SkillPool.DOUBT_SHACKLES:
-			if ( responseText.contains( "looking less confident" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
-			}
-			break;
-
-		case SkillPool.FEAR_VAPOR:
-			if ( responseText.contains( "converts the energy into pure horror" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
-			}
-			break;
-
-		case SkillPool.TEAR_WAVE:
-			if ( responseText.contains( "deluge of tears bursts forth" ) || FightRequest.anapest || FightRequest.haiku )
-			{
-				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
-			}
-			break;
-		
-		// Casting Curse of Fortune uses Ka Coin
-		case SkillPool.CURSE_OF_FORTUNE:
-			//if ( responseText.contains( "hot coal into the shovel" ) || FightRequest.anapest || FightRequest.haiku )
-			//{
-				ResultProcessor.processItem( ItemPool.KA_COIN, -1 );
-			//}
-			break;
-
-		case SkillPool.SUMMON_HOBO:
-			// The first part is for a hobo underling being summoned
-			// The second part is from using a dinged-up triangle to summon it
-			if ( responseText.contains( "A hobo runs up to you" ) || FightRequest.anapest || FightRequest.haiku && !responseText.contains( "You give the triangle a vigorous ringing." ) )
-			{
-				Preferences.increment( "_hoboUnderlingSummons", 1 );
-			}
-			break;
-
-		case SkillPool.OVERLOAD_TEDDY_BEAR:
-			EquipmentManager.discardEquipment( ItemPool.CUDDLY_TEDDY_BEAR );
-			break;
-
-		case SkillPool.THROW_SKULL:
-			KoLmafia.updateDisplay( "Skull discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_SKULL, -1 );
-			break;
-
-		case SkillPool.THROW_ROCK:
-			KoLmafia.updateDisplay( "Rock discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_ROCK, -1 );
-			break;
-
-		case SkillPool.THROW_POT:
-			KoLmafia.updateDisplay( "Pot discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_POT, -1 );
-			break;
-
-		case SkillPool.THROW_TORCH:
-			KoLmafia.updateDisplay( "Torch discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_TORCH, -1 );
-			break;
-
-		case SkillPool.LASH_OF_COBRA:
-			if ( responseText.contains( "You acquire an item" ) )
-			{
-				Preferences.increment( "_edLashCount" );
-			}
-			break;
-		}
-
 		if ( monsterName.endsWith( "gremlin" ) )
 		{
 			IslandManager.handleGremlin( responseText );
@@ -6654,6 +6397,12 @@ public class FightRequest
 			    responseText.contains( "familiar does something" ) ||
 			    responseText.contains( "you don't see what it does" ) ||
 			    responseText.contains( "you missed what it did" ) ) );
+		boolean skillRunawaySuccess =
+			( FightRequest.anapest &&
+				responseText.contains( "wings on your heels" ) ) ||
+			( FightRequest.haiku && 
+			  ( responseText.contains( "burps taste like pride" ) ||
+				responseText.contains( "beat a retreat" ) ) );
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -6799,11 +6548,6 @@ public class FightRequest
 			KoLCharacter.updateStatus();
 			break;
 
-		case SkillPool.BADLY_ROMANTIC_ARROW:
-		case SkillPool.WINK:
-			Preferences.increment( "_badlyRomanticArrows", 1 );
-			break;
-
 		case SkillPool.BOXING_GLOVE_ARROW:
 			Preferences.increment( "_boxingGloveArrows", 1 );
 			break;
@@ -6848,6 +6592,252 @@ public class FightRequest
 			if ( responseText.contains( "you become fast friends" ) || skillSuccess )
 			{
 				Preferences.setString( "makeFriendsMonster", monsterName );
+			}
+			break;
+
+		case SkillPool.BADLY_ROMANTIC_ARROW:
+		case SkillPool.WINK:
+			if ( responseText.contains( "fires a badly romantic" ) ||
+			     responseText.contains( "You point a finger" ) ||
+				familiarSkillSuccess )
+			{
+				boolean hasQuake = ( KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR ) ||
+					EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
+				int fights = hasQuake ? 3 : 2;
+				Preferences.setInteger( "_romanticFightsLeft", fights );
+				Preferences.setString( "romanticTarget", monsterName );
+				Preferences.increment( "_badlyRomanticArrows", 1 );
+
+				TurnCounter.stopCounting( "Romantic Monster window begin" );
+				TurnCounter.stopCounting( "Romantic Monster window end" );
+				TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
+			}
+			break;
+
+		case SkillPool.OLFACTION:
+			if ( responseText.contains( "fill your entire being" ) || skillSuccess )
+			{
+				Preferences.setString( "olfactedMonster", monsterName );
+				Preferences.setString( "autoOlfact", "" );
+				FightRequest.canOlfact = false;
+			}
+			break;
+
+		// Banishing Shout has lots of success messages.  Check for the failure message instead
+		case SkillPool.BANISHING_SHOUT:
+			if ( !responseText.contains( "but this foe refuses" ) )
+			{
+				BanishManager.banishMonster( monsterName, "banishing shout" );
+			}
+			break;
+
+		case SkillPool.HOWL_ALPHA:
+			if ( responseText.contains( "your opponent turns and runs" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "howl of the alpha" );
+			}
+			break;
+
+		case SkillPool.CREEPY_GRIN:
+			if ( responseText.contains( "an even creepier grin" ) || skillRunawaySuccess )
+			{
+				Preferences.setBoolean( "_vmaskBanisherUsed", true );
+				BanishManager.banishMonster( monsterName, "v for vivala mask" );
+			}
+			break;
+
+		case SkillPool.STINKEYE:
+			if ( responseText.contains( "You fix an extremely disdainful eye" ) || skillRunawaySuccess )
+			{
+				Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
+				BanishManager.banishMonster( monsterName, "stinky cheese eye" );
+			}
+			break;
+
+		case SkillPool.UNLEASH_NANITES:
+			if ( responseText.contains( "You roar with sudden power" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "nanorhino" );
+			}
+			break;
+
+		case SkillPool.BATTER_UP:
+			if ( responseText.contains( "knocked out of the park" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "batter up!" );
+			}
+			break;
+
+		case SkillPool.TALK_ABOUT_POLITICS:
+			if ( responseText.contains( "won't be seeing" ) || skillSuccess )
+			{
+				Preferences.increment( "_pantsgivingBanish" );
+				BanishManager.banishMonster( monsterName, "pantsgiving" );
+			}
+			break;
+
+		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
+			if ( responseText.contains( "foe is obliterated in a spectacular explosion" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "walk away from explosion" );
+			}
+			break;
+
+		case SkillPool.THUNDER_CLAP:
+			if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "thunder clap" );
+			}
+			break;
+
+		case SkillPool.POCKET_CRUMBS:
+			if ( responseText.contains( "pocket next to the crumbs" ) )
+			{
+				Preferences.increment( "_pantsgivingCrumbs" );
+			}
+			break;
+
+		case SkillPool.FIX_JUKEBOX:
+			if ( responseText.contains( "jukebox" ) || skillSuccess)
+			{
+				Preferences.increment( "_peteJukeboxFixed" );
+			}
+			break;
+
+		case SkillPool.PEEL_OUT:
+			if ( responseText.contains( "peel out" ) || responseText.contains( "peels out" ) || skillRunawaySuccess )
+			{
+				Preferences.increment( "_petePeeledOut" );
+				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
+				{
+					BanishManager.banishMonster( monsterName, "peel out" );
+				}
+			}
+			break;
+
+		case SkillPool.JUMP_SHARK:
+			if ( responseText.contains( "shark" ) || skillSuccess )
+			{
+				Preferences.increment( "_peteJumpedShark" );
+			}
+			break;
+
+		// Casting Carbohydrate Cudgel uses Dry Noodles
+		case SkillPool.CARBOHYDRATE_CUDGEL:
+			if ( responseText.contains( "You toss a bundle" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.DRY_NOODLES, -1 );
+			}
+			break;
+
+		// Casting Unload Tommy Gun uses Tommy Ammo
+		case SkillPool.UNLOAD_TOMMY_GUN:
+			if ( responseText.contains( "firing the tommy gun" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.TOMMY_AMMO, -1 );
+			}
+			break;
+
+		// Casting Shovel Hot Coal uses Hot Coal
+		case SkillPool.SHOVEL_HOT_COAL:
+			if ( responseText.contains( "hot coal into the shovel" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.HOT_COAL, -1 );
+			}
+			break;
+
+		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
+		case SkillPool.RAGE_FLAME:
+			if ( responseText.contains( "resulting torrent of flame" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
+			}
+			break;
+
+		case SkillPool.DOUBT_SHACKLES:
+			if ( responseText.contains( "looking less confident" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
+			}
+			break;
+
+		case SkillPool.FEAR_VAPOR:
+			if ( responseText.contains( "converts the energy into pure horror" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
+			}
+			break;
+
+		case SkillPool.TEAR_WAVE:
+			if ( responseText.contains( "deluge of tears bursts forth" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
+			}
+			break;
+		
+		case SkillPool.SUMMON_HOBO:
+			// The first part is for a hobo underling being summoned
+			// The second part is from using a dinged-up triangle to summon it
+			if ( responseText.contains( "A hobo runs up to you" ) || skillSuccess && !responseText.contains( "You give the triangle a vigorous ringing." ) )
+			{
+				Preferences.increment( "_hoboUnderlingSummons", 1 );
+			}
+			break;
+
+		case SkillPool.OVERLOAD_TEDDY_BEAR:
+			EquipmentManager.discardEquipment( ItemPool.CUDDLY_TEDDY_BEAR );
+			break;
+
+		case SkillPool.THROW_SKULL:
+			KoLmafia.updateDisplay( "Skull discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_SKULL, -1 );
+			break;
+
+		case SkillPool.THROW_ROCK:
+			KoLmafia.updateDisplay( "Rock discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_ROCK, -1 );
+			break;
+
+		case SkillPool.THROW_POT:
+			KoLmafia.updateDisplay( "Pot discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_POT, -1 );
+			break;
+
+		case SkillPool.THROW_TORCH:
+			KoLmafia.updateDisplay( "Torch discard" );
+			ResultProcessor.processItem( ItemPool.SPELUNKY_TORCH, -1 );
+			break;
+
+		case SkillPool.LASH_OF_COBRA:
+			if ( responseText.contains( "You acquire an item" ) || skillSuccess )
+			{
+				Preferences.increment( "_edLashCount" );
+			}
+			break;
+
+		// Casting Curse of Fortune uses Ka Coin
+		case SkillPool.CURSE_OF_FORTUNE:
+			if ( responseText.contains( "Jackal demon shrugs and produces a large wad of meat" ) || skillSuccess )
+			{
+				ResultProcessor.processItem( ItemPool.KA_COIN, -1 );
+				Modifiers.overrideModifier( "Generated:fightMods", "Meat Drop: +200" );
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+			}
+			break;
+
+		case SkillPool.CURSE_OF_VACATION:
+			if ( responseText.contains( "call after him as the vortex disappears" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "curse of vacation" );
+			}
+			break;
+
+		case SkillPool.CURSE_OF_STENCH:
+			if ( responseText.contains( "cat peed in a box of rotten eggs" ) || skillSuccess )
+			{
+				Preferences.setString( "stenchCursedMonster", monsterName );
 			}
 			break;
 		}
