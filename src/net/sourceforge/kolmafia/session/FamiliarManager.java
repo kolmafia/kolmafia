@@ -122,9 +122,7 @@ public abstract class FamiliarManager
 		// Pull all items that are in storage but not inventory or the closet
 		if ( storageItems.size() > 0 )
 		{
-			// *** We'd like to do this transfer without adding the
-			// *** items to the session tally
-			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray() ) );
+			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), true ) );
 		}
 
 		// If you do a "pull all", some items can end up in the
