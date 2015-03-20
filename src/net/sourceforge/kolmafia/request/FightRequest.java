@@ -6828,7 +6828,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.CURSE_OF_VACATION:
-			if ( responseText.contains( "call after him as the vortex disappears" ) || skillSuccess )
+			if ( responseText.contains( "as the vortex disappears" ) || skillSuccess )
 			{
 				BanishManager.banishMonster( monsterName, "curse of vacation" );
 			}
