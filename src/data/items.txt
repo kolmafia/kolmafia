@@ -8171,12 +8171,12 @@
 8146	invisible potion	842330124	blank.gif	usable	t,d	100
 8147	time shuriken	250878826	shuriken.gif	none, combat reusable	t	0
 8148	ninjammies	838593734	ninjammies.gif	pants	t	0
-8149
-8150
-8151
-8152
-8153
-8154
+8149	Glo-Pop	357068615	glopop.gif	usable	t,d	5
+8150	sugar sphere	120351532	cueball.gif	usable	t,d	5
+8151	Shrubble Bubble	551227147	nugglet.gif	usable	t,d	5
+8152	polyeaster egg	230673096	polyegg.gif	usable	t	0
+8153	porcelain candy dish	317824568	porcbowl.gif	usable	t	0
+8154	Spechunky bar	114809341	sbar.gif	usable	t,d	5
 8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
 8157	Skeleton Store office key	916430296	officekey.gif	none	q	0

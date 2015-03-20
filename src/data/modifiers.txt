@@ -4104,6 +4104,7 @@ Effect	Cholestoriffic	Sleaze Damage: [min(100,T)]
 Effect	Chorale of Companionship	Familiar Weight: +10
 Effect	Chow Downed	Familiar Weight: +5
 Effect	Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
+Effect	Chunky	Maximum HP: +30
 Effect	Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Effect	Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
 Effect	Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Experience (Moxie): [ceil(min(T,50)/10)]
@@ -4485,6 +4486,7 @@ Effect	Gingerbread Robust	Muscle Percent: +100, Mysticality Percent: +100, Moxie
 Effect	Glasshole	Moxie Percent: +100, Pickpocket Chance: +10
 Effect	Gleaming White Teeth	Moxie Percent: +50
 Effect	Glittering Eyelashes	Mysticality Percent: +15
+Effect	Glo-Face	MP Regen Min: 3, MP Regen Max: 5
 Effect	Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
 Effect	Glorious Blessing of the Storm Tortoise	Initiative: +15, Maximum MP: +30
 Effect	Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
@@ -4679,6 +4681,7 @@ Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
 # Inebriate Pride: Experience: +X
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
+Effect	Influence of Sphere	Pool Skill: +5
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Effect	Inky Camouflage	Combat Rate: -5
 # Inner Dog: +50% Damage vs. Zombies
@@ -4714,6 +4717,7 @@ Effect	Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jammin': and on...
 # Jamming with the Jocks: +25% Item Drops from Monsters (Shop Class only)
 Effect	Jamming with the Jocks	Muscle: +5, Item Drop: [25*loc(Shop Class)]
+Effect	Jawin'	Moxie: +5
 Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 # Jazz Hands
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
@@ -5084,6 +5088,7 @@ Effect	Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
 Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [150*env(underwater)], MP Regen Min: [140*env(underwater)], MP Regen Max: [150*env(underwater)]
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
+Effect	Red in Tooth	Meat Drop: [min(300,T)]
 Effect	Red Lettered	Monster Level: +15
 # Red Misty-Eyed: +10 Damage against Seals
 Effect	Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
@@ -5104,6 +5109,7 @@ Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
 # Robocamo: Beep Boop
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
+Effect	Roly Poly	Initiative: [min(300,T)]
 Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
@@ -7001,6 +7007,7 @@ Item	glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 Item	glass of warm water	Free Pull
 Item	glass slipper	Effect: "Don't Step to Your Stepmother", Effect Duration: 10
 Item	glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
+Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 Item	glowing El Vibrato drone	Effect: "Inscrutable exoskeleton", Effect Duration: 10
 Item	glowing frisbee	Free Pull
@@ -7328,8 +7335,10 @@ Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 Item	Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Item	Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Item	polo trophy	Effect: "Polonoia", Effect Duration: 15
+Item	polyeaster egg	Effect: "Roly Poly", Effect Duration: 5
 Item	Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 Item	poppy	Effect: "It's Soporiffic!", Effect Duration: 10
+Item	porcelain candy dish	Effect: "Red in Tooth", Effect Duration: 5
 Item	portable wall	Effect: "Wallflowering", Effect Duration: 20
 Item	possibility potion	Effect: "Always In Motion", Effect Duration: 10
 Item	post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1
@@ -7466,6 +7475,7 @@ Item	Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Item	short deposition	Effect: "A Short Trial", Effect Duration: 50
 Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
+Item	Shrubble Bubble	Effect: "Jawin'", Effect Duration: 10
 Item	siesta-ing Casagnova gnome	Free Pull
 # silk bandages: Restores 40-80 HP
 Item	silk garter snake	Free Pull
@@ -7501,6 +7511,7 @@ Item	sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 Item	sour powder	Effect: "Puckered Up", Effect Duration: 5
 Item	space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 Item	sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
+Item	Spechunky bar	Effect: "Chunky", Effect Duration: 10
 Item	SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 # spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
@@ -7542,6 +7553,7 @@ Item	Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Item	sugar fairy	Effect: "Dance of the Sugar Fairy", Effect Duration: 20
 Item	sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 # sugar shard: Restores 10-20 HP and 5-10 MP
+Item	sugar sphere	Effect: "Influence of Sphere", Effect Duration: 10
 Item	sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 Item	Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
