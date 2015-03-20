@@ -71,6 +71,7 @@ public class StorageRequest
 	extends TransferItemRequest
 {
 	private int moveType;
+	private boolean bulkTransfer;
 
 	public static final int REFRESH = 0;
 	public static final int EMPTY_STORAGE = 1;
@@ -174,8 +175,14 @@ public class StorageRequest
 
 	public StorageRequest( final int moveType, final AdventureResult[] attachments )
 	{
+		this( moveType, attachments, false );
+	}
+
+	public StorageRequest( final int moveType, final AdventureResult[] attachments, final boolean bulkTransfer )
+	{
 		super( "storage.php", attachments );
 		this.moveType = moveType;
+		this.bulkTransfer = bulkTransfer;
 
 		// Figure out the actual URL information based on the
 		// different request types.
@@ -267,7 +274,7 @@ public class StorageRequest
 	@Override
 	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
-		return new StorageRequest( this.moveType, attachments );
+		return new StorageRequest( this.moveType, attachments, this.bulkTransfer );
 	}
 
 	@Override
@@ -429,28 +436,33 @@ public class StorageRequest
 	@Override
 	public boolean parseTransfer()
 	{
-		return StorageRequest.parseTransfer( this.getURLString(), this.responseText );
+		return StorageRequest.parseTransfer( this.getURLString(), this.responseText, this.bulkTransfer );
 	}
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-		if ( urlString.indexOf( "action" ) == -1 )
+		return StorageRequest.parseTransfer( urlString, responseText, false );
+	}
+
+	private static final boolean parseTransfer( final String urlString, final String responseText, final boolean bulkTransfer )
+	{
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			StorageRequest.parseStorage( urlString, responseText );
 			return true;
-
 		}
 
 		boolean transfer = false;
 
-		if ( urlString.indexOf( "action=pullall" ) != -1 )
+		if ( action.equals( "pullall" ) )
 		{
 			// Hagnk leans back and yells something
 			// ugnigntelligible to a group of Knob Goblin teegnage
 			// delignquegnts, who go and grab all of your stuff
 			// from storage and bring it to you.
 
-			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
+			if ( responseText.contains( "go and grab all of your stuff" ) )
 			{
 				KoLConstants.storage.clear();
 				KoLConstants.freepulls.clear();
@@ -478,26 +490,26 @@ public class StorageRequest
 			}
 		}
 
-		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		else if ( action.equals( "takemeat" ) )
 		{
-			if ( responseText.indexOf( "Meat out of storage" ) != -1 )
+			if ( responseText.contains( "Meat out of storage" ) )
 			{
 				StorageRequest.transferMeat( urlString );
 				transfer = true;
 			}
 		}
 
-		else if ( urlString.indexOf( "action=pull" ) != -1 )
+		else if ( action.equals( "pull" ) )
 		{
-			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
+			if ( responseText.contains( "moved from storage to inventory" ) )
 			{
 				// Pull items from storage and/or freepulls
-				StorageRequest.transferItems( responseText );
+				StorageRequest.transferItems( responseText, bulkTransfer );
 				transfer = true;
 			}
 		}
 
-		if ( urlString.indexOf( "ajax=1" ) == -1 )
+		if ( !urlString.contains( "ajax=1" ) )
 		{
 			StorageRequest.parseStorage( urlString, responseText );
 		}
@@ -523,12 +535,14 @@ public class StorageRequest
 	// <b>star hat (1)</b> moved from storage to inventory.
 	private static final Pattern PULL_ITEM_PATTERN = Pattern.compile( "<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory" );
 
-	private static final void transferItems( final String responseText )
+	private static final void transferItems( final String responseText, final boolean bulkTransfer )
 	{
 		// Transfer items from storage and/or freepulls
 
 		Matcher matcher = StorageRequest.PULL_ITEM_PATTERN.matcher( responseText );
 		int pulls = 0;
+
+		ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
 
 		while ( matcher.find() )
 		{
@@ -552,8 +566,22 @@ public class StorageRequest
 			// Remove from storage
 			AdventureResult.addResultToList( source, item.getNegation() );
 
-			// Add to inventory
-			ResultProcessor.processResult( item );
+			if ( bulkTransfer )
+			{
+				list.add( item );
+			}
+			else
+			{
+				// Add to inventory
+				ResultProcessor.processResult( item );
+			}
+		}
+
+		if ( bulkTransfer )
+		{
+			AdventureResult[] array = new AdventureResult[ list.size() ];
+			array = list.toArray( array );
+			StorageRequest.processBulkItems( array );
 		}
 
 		// If remaining is -1, pulls are unlimited.
@@ -578,14 +606,14 @@ public class StorageRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "action=pullall" ) != -1 )
+		if ( urlString.contains( "action=pullall" ) )
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Emptying storage" );
 			return true;
 		}
 
-		if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		if ( urlString.contains( "action=takemeat" ) )
 		{
 			int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 			String message = "pull: " + meat + " Meat";
@@ -599,7 +627,7 @@ public class StorageRequest
 			return true;
 		}
 
-		if ( urlString.indexOf( "pull" ) != -1 )
+		if ( urlString.contains( "pull" ) )
 		{
 			return TransferItemRequest.registerRequest(
 				"pull", urlString, KoLConstants.storage, 0 );
@@ -650,8 +678,8 @@ public class StorageRequest
 
 
 	/**
-	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
-	 * deferring updates to the end as much as possible.
+	 * Handle lots of items being received at once, deferring updates to
+	 * the end as much as possible.
 	 */
 	private static void processBulkItems( AdventureResult[] items )
 	{
@@ -665,18 +693,15 @@ public class StorageRequest
 			RequestLogger.updateDebugLog( "Processing bulk items" );
 		}
 
-		KoLmafia.updateDisplay( "Processing, this may take a while..." );
+		KoLmafia.updateDisplay( "Processing bulk items..." );
 
-		for ( int i = 0; i < items.length; ++i )
+		for ( AdventureResult result : items )
 		{
-			AdventureResult result = items[ i ];
-
 			AdventureResult.addResultToList( KoLConstants.inventory, result );
 			EquipmentManager.processResult( result );
 		}
 
-		// Assume that at least one item in the list required each of
-		// these updates:
+		// Assume that at least one item in the list requires this update
 
 		NamedListenerRegistry.fireChange( "(coinmaster)" );
 
