@@ -380,14 +380,16 @@ public class AdventureRequest
 
 	public static final String registerEncounter( final GenericRequest request )
 	{
-		String urlString = request.getURLString();
-		String responseText = request.responseText;
-
 		// No encounters in chat!
 		if ( request.isChatRequest )
 		{
 			return "";
 		}
+
+		String urlString = request.getURLString();
+		String responseText = request.responseText;
+		boolean isFight = urlString.startsWith( "fight.php" );
+		boolean isChoice = urlString.startsWith( "choice.php" );
 
 		// If we were redirected into a fight or a choice through using
 		// an item, there will be an encounter in the responseText.
@@ -407,22 +409,22 @@ public class AdventureRequest
 		String encounter = null;
 		String type = null;
 
-		if ( urlString.startsWith( "fight.php" ) )
+		if ( isFight )
 		{
-			encounter = parseCombatEncounter( responseText );
 			type = "Combat";
+			encounter = parseCombatEncounter( responseText );
 		}
-		else if ( urlString.startsWith( "choice.php" ) )
+		else if ( isChoice )
 		{
 			int choice = ChoiceManager.extractChoice( responseText );
-			encounter = AdventureRequest.parseChoiceEncounter( urlString, choice, responseText );
 			type = choiceType( choice );
+			encounter = AdventureRequest.parseChoiceEncounter( urlString, choice, responseText );
 			ChoiceManager.registerDeferredChoice( choice, encounter );
 		}
 		else
 		{
-			encounter = parseNoncombatEncounter( urlString, responseText );
 			type = "Noncombat";
+			encounter = parseNoncombatEncounter( urlString, responseText );
 			if ( responseText.contains( "charpane.php" ) )
 			{
 				// Since a charpane refresh was requested, this might have taken a turn
@@ -445,6 +447,9 @@ public class AdventureRequest
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
 		AdventureRequest.registerDemonName( encounter, responseText );
+
+		// We are done registering the item's encounter.
+		GenericRequest.itemMonster = null;
 
 		if ( type != null )
 		{
