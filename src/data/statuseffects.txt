@@ -1805,12 +1805,12 @@
 1803	Spiritually Aware	beerbottle.gif	34152bd6bbb2e9988f5d1c243404393c	use 1 spirit beer
 1804	Spiritually Awash	wine.gif	3972b793f9f5f2d7fe515ea3efe53082	use 1 sacramental wine
 1805	Invisible (20 Minutes Ago)	blank.gif	74a30d393bc0cb97c84c017240ebaf93	use 1 invisible potion
-1806
-1807
-1808
-1809
-1810
-1811
+1806	Chunky	sbar.gif	8c294284ce5ca674df9a5e1dfe822090	use 1 Spechunky bar
+1807	Jawin'	nugglet.gif	20d6ecccced82b95ff16ec9ef70314dd	use 1 Shrubble Bubble
+1808	Glo-Face	glopop.gif	bf01e3662c72b74e27b03e2eb95673a2	use 1 Glo-Pop
+1809	Roly Poly	polyegg.gif	51cbc65fb96a2edf312be54db20f1aa2	use 1 polyeaster egg
+1810	Red in Tooth	teeth.gif	1f43f3b95e7df0f23c6aded9b192f8ce	use 1 porcelain candy dish
+1811	Influence of Sphere	cueball.gif	4dfa2fe0826855ffcb4930e145bd074f	use 1 sugar sphere
 1812	Taunt of Horus	tal_h.gif	8b54838db1cda65ce182f4b36e537618	use 1 talisman of Horus
 1813	Little Mouse Skull Buddy	mouseskull.gif	06cf6eac71000fa3297d0a514e73cf78	use 1 mouse skull
 1814	Extra Backbone	bigspine.gif	7026c30f6df80fffdf3a48f78e24f8d9	use 1 really thick spine
