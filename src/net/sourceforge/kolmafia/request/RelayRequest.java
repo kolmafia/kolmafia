@@ -1389,8 +1389,26 @@ public class RelayRequest
 		String image3 = null;
 		String action3 = null;
 
-		// If they don't have the Pool Cue equipped, but do have it it's an option
-		if ( !KoLCharacter.hasEquipped( ItemPool.POOL_CUE , EquipmentManager.WEAPON ) &&
+		// If they don't have Staff of Ed (as Ed), Staff of Fats or Pool Cue equipped, but do have them, present the best as an option
+		if ( !KoLCharacter.hasEquipped( ItemPool.STAFF_OF_FATS , EquipmentManager.WEAPON ) &&
+			InventoryManager.hasItem( ItemPool.STAFF_OF_FATS ) )
+		{
+			image2 = "poolcuef.gif";
+			action2 = "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.STAFF_OF_FATS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"";
+		}
+		else if ( !KoLCharacter.hasEquipped( ItemPool.ED_STAFF , EquipmentManager.WEAPON ) &&
+			InventoryManager.hasItem( ItemPool.ED_STAFF ) )
+		{
+			image2 = "staffofed.gif";
+			action2 = "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.ED_STAFF + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"";
+		}
+		else if ( !KoLCharacter.hasEquipped( ItemPool.ED_FATS_STAFF , EquipmentManager.WEAPON ) &&
+			InventoryManager.hasItem( ItemPool.ED_FATS_STAFF ) )
+		{
+			image2 = "poolcuef.gif";
+			action2 = "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.ED_FATS_STAFF + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"";
+		}
+		else if ( !KoLCharacter.hasEquipped( ItemPool.POOL_CUE , EquipmentManager.WEAPON ) &&
 			InventoryManager.hasItem( ItemPool.POOL_CUE ) )
 		{
 			image2 = "poolcue.gif";
@@ -1442,6 +1460,15 @@ public class RelayRequest
 			if ( image2 == "poolcue.gif" )
 			{
 				warning.append( "<br>If you want to wield the cue first, for an extra three skill, click the icon on the right. " );
+			}
+			else if ( image2 == "poolcuef.gif" )
+			{
+				warning.append( "<br>If you want to wield the Staff of Fats first, for an extra five skill, click the icon on the right. " );
+				image2 = "poolcue.gif";
+			}
+			else if ( image2 == "staffofed.gif" )
+			{
+				warning.append( "<br>If you want to wield the Staff of Ed first, for an extra five skill, click the icon on the right. " );
 			}
 			else if ( image2 == "disease.gif" )
 			{
