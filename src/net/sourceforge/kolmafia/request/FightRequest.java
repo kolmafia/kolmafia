@@ -5097,7 +5097,14 @@ public class FightRequest
 					return false;
 				}
 				AdventureResult result = EffectPool.get( effectId );				
-				ResultProcessor.processEffect( true, "You acquire an effect:", result, (List<AdventureResult>) null );
+				if ( str.startsWith( "You lose" ) )
+				{
+					ResultProcessor.processEffect( true, "You lose an effect:", result, (List<AdventureResult>) null );
+				}
+				else
+				{
+					ResultProcessor.processEffect( true, "You acquire an effect:", result, (List<AdventureResult>) null );
+				}
 				if ( effectId == EffectPool.HAIKU_STATE_OF_MIND )
 				{
 					FightRequest.haiku = true;
