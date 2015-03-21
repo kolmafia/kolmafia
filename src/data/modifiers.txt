@@ -3452,6 +3452,7 @@ Familiar	Urchin Urchin	Underwater Familiar
 Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
 Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)]
+Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)]
 
 # Enthroned familiars section of modifiers.txt
 

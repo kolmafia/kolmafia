@@ -166,6 +166,9 @@ public abstract class ChoiceManager
 	private static final Pattern MOTORBIKE_COWLING_PATTERN = Pattern.compile( "<b>Cowling:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_MUFFLER_PATTERN = Pattern.compile( "<b>Muffler:</b> (.*?)?\\(" );
 	private static final Pattern MOTORBIKE_SEAT_PATTERN = Pattern.compile( "<b>Seat:</b> (.*?)?\\(" );
+	private static final Pattern CRIMBOT_CHASSIS_PATTERN = Pattern.compile( "base chassis is the (.*?)," );
+	private static final Pattern CRIMBOT_ARM_PATTERN = Pattern.compile( "(?:My arm is the|</i> equipped with a) (.*?)," );
+	private static final Pattern CRIMBOT_PROPULSION_PATTERN = Pattern.compile( "(?:provided by a|am mobilized by an|equipped with a pair of|move via) (.*?)," );
 	private static final Pattern EDPIECE_PATTERN = Pattern.compile( "<p>The crown is currently adorned with a golden (.*?).<center>" );
 	private static final Pattern ED_RETURN_PATTERN = Pattern.compile( "Return to the fight! \\((\\d+) Ka\\)" );
 	private static final Pattern POOL_SKILL_PATTERN = Pattern.compile( "(\\d+) Pool Skill</b>" );
@@ -9984,6 +9987,27 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1025:
+		{
+			// Reconfigure your Mini-Crimbot
+			Matcher matcher = ChoiceManager.CRIMBOT_CHASSIS_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "crimbotChassis", matcher.group( 1 ) );
+			}
+			matcher = ChoiceManager.CRIMBOT_ARM_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "crimbotArm", matcher.group( 1 ) );
+			}
+			matcher = ChoiceManager.CRIMBOT_PROPULSION_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "crimbotPropulsion", matcher.group( 1 ) );
+			}
+			break;
+		}
+
 		case 1053:	// The Servants' Quarters
 			EdServantData.inspectServants( text );
 			break;
@@ -12164,6 +12188,7 @@ public abstract class ChoiceManager
 		case 991: // Build a Crimbot!
 		case 994: // Hide a Gift!
 		case 1003: // Contest Booth
+		case 1025: // Reconfigure your Mini-Crimbot
 		case 1051: // The Book of the Undying
 		case 1053: // The Servants' Quarters
 		case 1063: // Adjust your 'Edpiece

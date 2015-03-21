@@ -466,6 +466,9 @@ public class ValhallaManager
 		Preferences.setFloat( "slimelingFullness", 0.0F );
 		Preferences.setInteger( "slimelingStacksDropped", 0 );
 		Preferences.setInteger( "slimelingStacksDue", 0 );
+		Preferences.setString( "crimbotChassis", "" );
+		Preferences.setString( "crimbotArm", "" );
+		Preferences.setString( "crimbotPropulsion", "" );
 		Preferences.setString( "currentEasyBountyItem", "" );
 		Preferences.setString( "currentHardBountyItem", "" );
 		Preferences.setString( "currentSpecialBountyItem", "" );
