@@ -644,7 +644,7 @@ public class AdventureRequest
 				// KOLHS
 				image.startsWith( "shopteacher" ) ? "X-fingered Shop Teacher" :
 				// Actually Ed the Undying
-				image.startsWith( "classav" ) ? "You the Adventurer" :
+				image.startsWith( "../otherimages/classav" ) ? "You the Adventurer" :
 				image.startsWith( "wingedyeti" ) && KoLCharacter.isEd() ? "Your winged yeti" :
 				// Trick or Treat
 				image.startsWith( "vandalkid" ) ? "vandal kid" :
