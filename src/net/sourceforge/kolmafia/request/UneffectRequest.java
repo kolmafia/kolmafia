@@ -937,7 +937,7 @@ public class UneffectRequest
 		{
 			KoLmafia.updateDisplay( "Shrugging off your buff..." );
 		}
-		else if ( InventoryManager.retrieveItem( ItemPool.ANCIENT_CURE_ALL ) )
+		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_CURE_ALL ) )
 		{
 			KoLmafia.updateDisplay( "Using ancient cure-all..." );
 		}
