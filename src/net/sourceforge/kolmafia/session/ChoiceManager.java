@@ -4625,6 +4625,19 @@ public abstract class ChoiceManager
 			{
 				bonus = KoLCharacter.hasSkill( "Working Lunch" ) ? 75 : 50;
 			}
+			// Check for Cat Servant
+			else if ( KoLCharacter.isEd() )
+			{
+				EdServantData servant = EdServantData.currentServant();
+				if ( servant != null && servant.getId() == 1 )
+				{
+					int level = servant.getLevel();
+					if ( level >= 7 )
+					{
+						bonus = Math.sqrt( 55 * level ) + level - 3;
+					}
+				}
+			}
 			// Check for Throne
 			FamiliarData throned = KoLCharacter.getEnthroned();
 			if ( !throned.equals( FamiliarData.NO_FAMILIAR ) )
