@@ -200,6 +200,10 @@ public class LoginManager
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		Preferences.setString( "lastUsername", username );
 
+		// Open the session log
+
+		RequestLogger.openSessionLog();
+
 		// Perform requests to read current character's data
 
 		KoLmafia.refreshSession();
@@ -208,9 +212,7 @@ public class LoginManager
 
 		KoLmafia.resetSession();
 
-		// Open the session log and indicate that we've logged in.
-
-		RequestLogger.openSessionLog();
+		// If desired, show status in session log
 
 		if ( Preferences.getBoolean( "logStatusOnLogin" ) )
 		{

@@ -8173,7 +8173,7 @@
 8148	ninjammies	838593734	ninjammies.gif	pants	t	0
 8149	Glo-Pop	357068615	glopop.gif	usable	t,d	5
 8150	sugar sphere	120351532	cueball.gif	usable	t,d	5
-8151	Shrubble Bubble	551227147	nugglet.gif	usable	t,d	5
+8151	Shrubble Bubble	551227147	nugglet.gif	usable	t,d	5	pieces of Shrubble Bubble
 8152	polyeaster egg	230673096	polyegg.gif	usable	t	0
 8153	porcelain candy dish	317824568	porcbowl.gif	usable	t	0
 8154	Spechunky bar	114809341	sbar.gif	usable	t,d	5
