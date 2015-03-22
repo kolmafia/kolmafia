@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -146,7 +147,7 @@ public class ResultProcessor
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
 	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?" );
 
-	public static String registerNewItems( boolean combatResults, String results, List<AdventureResult> data )
+	public static String processItems( final String results, final List<AdventureResult> data, final List<AdventureResult> items )
 	{
 		// Results now come in like this:
 		//
@@ -163,11 +164,9 @@ public class ResultProcessor
 		// <td valign=center class=effect><b>rusty metal shaft</b><br>was once your foe's, is now yours.<br>
 		// Beaters-up, keepers.</td></tr></table>
 		//
-		// Pre-process all such matches and register new items.
+		// Pre-process all such matches and save them to a list of items.
+		// Register new items.
 		// Check multi-usability and plurals
-		//
-		// If these are not combat results, add the items to inventory.
-		// (FightRequest wants to handle the items itself.)
 
 		StringBuffer buffer = new StringBuffer();
 		boolean changed = false;
@@ -179,13 +178,13 @@ public class ResultProcessor
 			String itemName = itemMatcher.group( 2 );
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
-			String items = boldMatcher.find() ? boldMatcher.group(1) : null;
-			boolean hagnk = items != null && boldMatcher.group(2) != null;
+			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
+			boolean hagnk = boldName != null && boldMatcher.group(2) != null;
 
 			// If we don't know this descid, it's an unknown item.
 			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
 			{
-				ItemDatabase.registerItem( itemName, descId, relString, items );
+				ItemDatabase.registerItem( itemName, descId, relString, boldName );
 			}
 
 			// Extract item from the relstring
@@ -210,7 +209,7 @@ public class ResultProcessor
 
 			// If we got more than one, check if plural name
 			// conflicts with our expectations
-			String plural = ItemDatabase.extractItemsPlural( count, items );
+			String plural = ItemDatabase.extractItemsPlural( count, boldName );
 			String ourPlural = plural == null ? null : ItemDatabase.getPluralName( itemId );
 			if ( plural != null && !plural.equals( ourPlural ) )
 			{
@@ -235,14 +234,10 @@ public class ResultProcessor
 				AdventureResult.addResultToList( KoLConstants.storage, item );
 			}
 
-			// If the item was not found in combat, process the
-			// acquisition and remove it from the buffer.
-			else if ( !combatResults )
+			// Otherwise, add it to the list of items we found
+			else if ( items != null )
 			{
-				itemMatcher.appendReplacement( buffer, "" );
-				changed = true;
-				String acquisition = count > 1 ? "You acquire" : "You acquire an item:";
-				ResultProcessor.processItem( false, acquisition, item, data );
+				items.add( item );
 			}
 		}
 
@@ -260,7 +255,7 @@ public class ResultProcessor
 
 	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\)</td></tr></table>" );
 
-	public static String processEffectByDescId( boolean combatResults, String results, List<AdventureResult> data )
+	public static void processEffects( String results, List<AdventureResult> data, List<AdventureResult> effects )
 	{
 		// Results now come in like this:
 		//
@@ -270,13 +265,7 @@ public class ResultProcessor
 		// title="Disco Leer"></td><td valign=center class=effect>You acquire an effect: <b>Disco Leer</b>
 		// <br>(duration: 10 Adventures)</td></tr></table></center></td></tr></table>
 		//
-		// Pre-process all such matches.
-		//
-		// If these are not combat results, add the effects.
-		// (FightRequest wants to handle the effects itself.)
-
-		StringBuffer buffer = new StringBuffer();
-		boolean changed = false;
+		// Pre-process all such matches and add them to the passed in list of effects.
 
 		Matcher effectMatcher = ResultProcessor.EFFECT_TABLE_PATTERN.matcher( results );
 		while ( effectMatcher.find() )
@@ -291,12 +280,6 @@ public class ResultProcessor
 				effectId = EffectDatabase.learnEffectId( effectName, descId );
 			}
 
-			if ( combatResults )
-			{
-				// FightRequest will log this its own way
-				continue;
-			}
-
 			String acquisition = effectMatcher.group( 2 );
 			int duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
 
@@ -306,19 +289,8 @@ public class ResultProcessor
 			}
 
 			AdventureResult effect = EffectPool.get( effectId, duration );
-
-			effectMatcher.appendReplacement( buffer, "" );
-			changed = true;
-			ResultProcessor.processEffect( false, acquisition, effect, data );
+			effects.add( effect );
 		}
-
-		if ( changed )
-		{
-			effectMatcher.appendTail( buffer );
-			return buffer.toString();
-		}
-
-		return results;
 	}
 
 	public static boolean processResults( boolean combatResults, String results )
@@ -339,21 +311,24 @@ public class ResultProcessor
 		// If items are wrapped in a table with a "rel" string, that
 		// precisely identifies what has been acquired.
 		//
-		// Process those first, registering new items, checking for
-		// plurals and multi-usability, and moving to inventory, before
-		// we strip out the HTML.
+		// Pre-process all such matches and save them to a list of items.
+		// Register new items.
+		// Check multi-usability and plurals
 
-		results = ResultProcessor.registerNewItems( combatResults, results, data );
+		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
+		results = ResultProcessor.processItems( results, data, items );
 
-		// We'd prefer to process Effects before stripping out HTML too.
+		// Process effects similarly, saving them to a list of effects.
+		// Register new effects.
 
-		results = ResultProcessor.processEffectByDescId( combatResults, results, data );
+		LinkedList<AdventureResult> effects = new LinkedList<AdventureResult>();
+		ResultProcessor.processEffects( results, data, effects );
 
 		boolean requiresRefresh = false;
 
 		try
 		{
-			requiresRefresh = processNormalResults( combatResults, results, data );
+			requiresRefresh = processNormalResults( combatResults, results, data, items, effects );
 		}
 		finally
 		{
@@ -366,7 +341,8 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	public static boolean processNormalResults( boolean combatResults, String results, List<AdventureResult> data )
+	private static boolean processNormalResults( boolean combatResults, String results, List<AdventureResult> data,
+						     LinkedList<AdventureResult> items,  LinkedList<AdventureResult> effects )
 	{
 		// Whacky, whacky KoL can insert <head> sections within the <body>
 		String body = KoLConstants.HEAD_PATTERN.matcher( results ).replaceAll( "" );
@@ -382,7 +358,7 @@ public class ResultProcessor
 
 		while ( parsedResults.hasMoreTokens() )
 		{
-			shouldRefresh |= ResultProcessor.processNextResult( combatResults, parsedResults, data );
+			shouldRefresh |= ResultProcessor.processNextResult( combatResults, parsedResults, data, items, effects );
 		}
 
 		return shouldRefresh;
@@ -413,7 +389,8 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List<AdventureResult> data )
+	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List<AdventureResult> data,
+						  LinkedList<AdventureResult> items,  LinkedList<AdventureResult> effects )
 	{
 		String lastToken = parsedResults.nextToken();
 
@@ -443,7 +420,7 @@ public class ResultProcessor
 		     acquisition.startsWith( "You lose an effect" ) ||
 		     acquisition.startsWith( "You lose some of an effect" ) )
 		{
-			return ResultProcessor.processEffect( parsedResults, acquisition, data );
+			return ResultProcessor.processEffect( parsedResults, acquisition, data, effects );
 		}
 
 		if ( acquisition.startsWith( "You acquire an intrinsic" ) ||
@@ -459,7 +436,7 @@ public class ResultProcessor
 				return false;
 			}
 
-			ResultProcessor.processItem( combatResults, parsedResults, acquisition, data );
+			ResultProcessor.processItem( combatResults, parsedResults, acquisition, data, items );
 			return false;
 		}
 
@@ -476,7 +453,8 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
+	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List<AdventureResult> data,
+					 LinkedList<AdventureResult> items )
 	{
 		String item = parsedResults.nextToken();
 
@@ -487,7 +465,16 @@ public class ResultProcessor
 
 		if ( acquisition.contains( "an item" ) )
 		{
-			AdventureResult result = ItemPool.get( item, 1 );
+			AdventureResult result = items.getFirst();
+
+			if ( result != null && item.equals( result.getName() ) )
+			{
+				items.removeFirst();
+				ResultProcessor.processItem( combatResults, acquisition, result, data );
+				return;
+			}
+
+			result = ItemPool.get( item, 1 );
 
 			if ( result.getItemId() == -1 )
 			{
@@ -528,13 +515,21 @@ public class ResultProcessor
 			itemName = item;
 		}
 
+		AdventureResult result = items.getFirst();
+
+		if ( result != null && itemName.equals( result.getName() ) )
+		{
+			items.removeFirst();
+			ResultProcessor.processItem( combatResults, acquisition, result, data );
+			return;
+		}
+
 		int itemCount = StringUtilities.parseInt( countString );
 
 		// If we got more than one, do substring matching. This might
 		// allow recognition of an unknown (or changed) plural form.
 
 		int itemId = ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 );
-		AdventureResult result;
 
 		if ( itemId < 0 )
 		{
@@ -568,7 +563,10 @@ public class ResultProcessor
 		ResultProcessor.processResult( combatResults, result );
 	}
 
-	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
+	public static Pattern DURATION_PATTERN = Pattern.compile( "\\((?:duration: )?(\\d+) Adventures?\\)" );
+
+	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data,
+					      LinkedList<AdventureResult> effects )
 	{
 		if ( data != null )
 		{
@@ -576,27 +574,41 @@ public class ResultProcessor
 		}
 
 		String effectName = parsedResults.nextToken();
-		String message;
+		AdventureResult effect = effects.getFirst();
 
-		if ( acquisition.startsWith( "You lose" ) )
+		if ( effect != null && effectName.equals( effect.getName() ) )
 		{
-			message = acquisition + " " + effectName;
+			effects.removeFirst();
+			return ResultProcessor.processEffect( false, acquisition, effect, data );
 		}
-		else
+
+		int effectId = EffectDatabase.getEffectId( effectName );
+		int duration = 0;
+
+		if ( acquisition.contains( "Adventures" ) )
 		{
 			String lastToken = parsedResults.nextToken();
-			message = acquisition + " " + effectName + " " + lastToken;
+			Matcher m = DURATION_PATTERN.matcher( lastToken );
+			if ( m.find() )
+			{
+				duration = StringUtilities.parseInt( m.group(1) );
+			}
+			if ( acquisition.startsWith( "You lose" ) )
+			{
+				duration = -duration;
+			}
 		}
 
-		return ResultProcessor.processEffect( effectName, message );
+		effect = EffectPool.get( effectId, duration );
+		return ResultProcessor.processEffect( false, acquisition, effect, data );
 	}
 
-	public static void processEffect( boolean combatResults, String acquisition, AdventureResult result, List<AdventureResult> data )
+	public static boolean processEffect( boolean combatResults, String acquisition, AdventureResult result, List<AdventureResult> data )
 	{
 		if ( data != null )
 		{
 			AdventureResult.addResultToList( data, result );
-			return;
+			return false;
 		}
 
 		String message = acquisition + " " + result.toString();
@@ -607,54 +619,7 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
-		ResultProcessor.processResult( combatResults, result );
-	}
-
-	public static boolean processEffect( String effectName, String message )
-	{
-		RequestLogger.printLine( message );
-
-		if ( Preferences.getBoolean( "logStatusEffects" ) )
-		{
-			RequestLogger.updateSessionLog( message );
-		}
-
-		int effectId = EffectDatabase.getEffectId( effectName );
-
-		// If Gar-ish is gained or loss, and autoGarish not set, benefit of Lasagna changes
-		if ( effectId == EffectPool.GARISH && !Preferences.getBoolean( "autoGarish" ) )
-		{
-			ConcoctionDatabase.setRefreshNeeded( true );
-		}
-
-		if ( message.startsWith( "You lose" ) )
-		{
-			AdventureResult result = EffectPool.get( effectId );
-			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
-			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
-
-			// If you lose Inigo's, what you can craft changes
-
-			if ( effectId == EffectPool.INIGOS )
-			{
-				ConcoctionDatabase.setRefreshNeeded( true );
-			}
-
-			return true;
-		}
-
-		if ( message.indexOf( "duration" ) != -1 )
-		{
-			Matcher m = INT_PATTERN.matcher( message );
-			if ( m.find() )
-			{
-				int duration = StringUtilities.parseInt( m.group(1) );
-				return ResultProcessor.parseEffect( effectName + " (" + duration + ")" );
-			}
-		}
-
-		ResultProcessor.parseEffect( effectName );
-		return false;
+		return ResultProcessor.processResult( combatResults, result );
 	}
 
 	private static boolean processIntrinsic( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
@@ -905,25 +870,6 @@ public class ResultProcessor
 		}
 	}
 
-	private static boolean parseEffect( String result )
-	{
-		if ( RequestLogger.isDebugging() )
-		{
-			RequestLogger.updateDebugLog( "Parsing effect: " + result );
-		}
-
-		Matcher m = ResultProcessor.TRAILING_INT_PATTERN.matcher( result );
-		int count = 1;
-		if ( m.matches() )
-		{
-			result = m.group( 1 );
-			count = StringUtilities.parseInt( m.group( 2 ) );
-		}
-
-		int effectId = EffectDatabase.getEffectId( result );
-		return ResultProcessor.processResult( EffectPool.get( effectId, count ) );
-	}
-
 	/**
 	 * Utility. The method used to process a result. By default, this will
 	 * also add an adventure result to the tally. Use this whenever the
@@ -964,7 +910,9 @@ public class ResultProcessor
 		}
 		else if ( result.isStatusEffect() )
 		{
-			shouldRefresh |= !KoLConstants.activeEffects.contains( result );
+			int active = result.getCount( KoLConstants.activeEffects );
+			int duration = result.getCount();
+			shouldRefresh |= duration > 0 ? active == 0 : active == duration;
 			AdventureResult.addResultToList( KoLConstants.recentEffects, result );
 		}
 		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
@@ -1065,6 +1013,27 @@ public class ResultProcessor
 			}
 
 			return false;
+		}
+		else if ( result.isStatusEffect() )
+		{
+			switch ( result.getEffectId() )
+			{
+			case EffectPool.GARISH:
+				// If you gain or lose Gar-ish, and autoGarish
+				// not set, benefit of Lasagna changes
+				if ( !Preferences.getBoolean( "autoGarish" ) )
+				{
+					ConcoctionDatabase.setRefreshNeeded( true );
+				}
+				break;
+			case EffectPool.INIGOS:
+				// If you gain or lose Inigo's, what you can
+				// craft changes
+				ConcoctionDatabase.setRefreshNeeded( true );
+				break;
+			}
+
+			return shouldRefresh;
 		}
 
 		GoalManager.updateProgress( result );

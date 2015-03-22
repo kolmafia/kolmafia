@@ -793,7 +793,7 @@ public class ItemDatabase
 		ItemDatabase.registerItem( itemId, itemName, descId, null, 0, false );
 	}
 
-	public static final void registerItem( final String itemName, final String descId, final String relString, final String items )
+	public static final void registerItem( final String itemName, final String descId, final String relString, final String boldName )
 	{
 		// This works for any item that comes in to inventory accompanied by a relstring.
 
@@ -826,9 +826,9 @@ public class ItemDatabase
 			return;
 		}
 
-		// If we found more than one item and the "items" string is not
+		// If we found more than one item and the "boldName" string is not
 		// null, we probably have the plural.
-		String plural = extractItemsPlural( count, items );
+		String plural = extractItemsPlural( count, boldName );
 		ItemDatabase.registerItem( itemId, itemName, descId, plural, 0, multi );
 	}
 
