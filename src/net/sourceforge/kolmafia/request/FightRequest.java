@@ -2096,9 +2096,9 @@ public class FightRequest
 				TurnCounter.startCounting( 35, "Holiday Monster window end loc=*", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "Sign-Twirling Crimbo Elf" ) ||
-				    encounter.equalsIgnoreCase( "Tacobuilding Crimbo Elf" ) ||
-				    encounter.equalsIgnoreCase( "Taco-Clad Crimbo Elf" )
+				  ( encounter.equals( "sign-twirling Crimbo elf" ) ||
+				    encounter.equals( "tacobuilding elf" ) ||
+				    encounter.equals( "taco-clad Crimbo elf" )
 				    ) )
 			{
 				TurnCounter.stopCounting( "Taco Elf window begin" );

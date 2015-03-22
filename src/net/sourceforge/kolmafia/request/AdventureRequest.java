@@ -655,7 +655,7 @@ public class AdventureRequest
 				// Crimbo 2012 wandering elves
 				image.startsWith( "tacoelf_sign" ) ? "sign-twirling Crimbo elf" :
 				image.startsWith( "tacoelf_taco" ) ? "taco-clad Crimbo elf" :
-				image.startsWith( "tacoelf_cart" ) ? "tacobuilding Crimbo elf" :
+				image.startsWith( "tacoelf_cart" ) ? "tacobuilding elf" :
 				// Crimbobokutown Toy Factory
 				image.startsWith( "animelf1" ) ? "tiny-screwing animelf" :
 				image.startsWith( "animelf2" ) ? "plastic-extruding animelf" :
