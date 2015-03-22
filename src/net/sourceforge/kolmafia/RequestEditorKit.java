@@ -1778,6 +1778,15 @@ public class RequestEditorKit
 			{	// Initial round - add # after "Combat"
 				m.appendReplacement( buffer, "<b>Combat: Round " );
 				buffer.append( round++ );
+				if ( KoLCharacter.isEd() )
+				{
+					int edfight = Preferences.getInteger( "_edDefeats" );
+					if ( FightRequest.currentRound != 0 )
+					{
+						edfight++;
+					}
+					buffer.append( ", Fight " ).append( edfight );
+				}
 				buffer.append( "!</b>" );
 			}
 			else
