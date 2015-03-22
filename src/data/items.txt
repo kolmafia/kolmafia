@@ -7995,8 +7995,8 @@
 7970	electric boning knife	580217520	elecbone.gif	none, combat	q	0
 7971	Aggressive Carrot	839021006	carrot.gif	none, curse	t	0
 7972	mummified fig	530883912	mumfig.gif	spleen	q	0
-7973	mummified loaf of bread	134806194	mumbread.gif	spleen, usable	q	0	mummified loaves of bread
-7974	mummified beef haunch	293686530	mumhaunch.gif	spleen, usable	q	0	mummified beef haunches
+7973	mummified loaf of bread	134806194	mumbread.gif	spleen	q	0	mummified loaves of bread
+7974	mummified beef haunch	293686530	mumhaunch.gif	spleen	q	0	mummified beef haunches
 7975	linen bandages	796486342	bandage1.gif	usable, combat	q,d	5	rolls of linen bandages
 7976	cotton bandages	928227858	bandage2.gif	usable, combat	q,d	10	rolls of cotton bandages
 7977	silk bandages	320967148	bandage3.gif	usable, combat	q,d	15	rolls of silk bandages
