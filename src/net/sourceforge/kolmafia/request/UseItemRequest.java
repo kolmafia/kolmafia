@@ -220,6 +220,24 @@ public class UseItemRequest
 	public static final int getConsumptionType( final AdventureResult item )
 	{
 		int itemId = item.getItemId();
+
+		// We want to display the result of using certin items
+		switch ( itemId )
+		{
+		case ItemPool.HOBO_CODE_BINDER:
+		case ItemPool.STUFFED_BARON:
+			return KoLConstants.MESSAGE_DISPLAY;
+		}
+
+		int consumptionType = ItemDatabase.getConsumptionType( itemId );
+
+		// Spleen items can be marked "usable", if you can only use one
+		// at a time, but must use a SpleenItemRequest
+		if ( consumptionType == KoLConstants.CONSUME_SPLEEN )
+		{
+			return KoLConstants.CONSUME_SPLEEN;
+		}
+
 		int attrs = ItemDatabase.getAttributes( itemId );
 		if ( (attrs & ItemDatabase.ATTR_USABLE) != 0 )
 		{
@@ -234,14 +252,7 @@ public class UseItemRequest
 			return KoLConstants.INFINITE_USES;
 		}
 
-		switch ( itemId )
-		{
-		case ItemPool.HOBO_CODE_BINDER:
-		case ItemPool.STUFFED_BARON:
-			return KoLConstants.MESSAGE_DISPLAY;
-		}
-
-		return ItemDatabase.getConsumptionType( itemId );
+		return consumptionType;
 	}
 
 	private static final String getConsumptionLocation( final int consumptionType, final AdventureResult item )
