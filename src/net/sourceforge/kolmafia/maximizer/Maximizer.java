@@ -959,7 +959,15 @@ public class Maximizer
 									continue;
 								}
 
-								price = StoreManager.getMallPrice( item );
+								// Depending on preference, either get historical mall price or look it up
+								if ( Preferences.getBoolean( "maximizerCurrentMallPrices" ) )
+								{
+									price = StoreManager.getMallPrice( item );
+								}
+								else
+								{
+									price = StoreManager.getMallPrice( item, 7.0f );
+								}
 							}
 						}
 						if ( price > maxPrice || price == -1 ) continue;
