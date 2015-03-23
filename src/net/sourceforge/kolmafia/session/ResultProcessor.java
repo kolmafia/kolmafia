@@ -465,7 +465,7 @@ public class ResultProcessor
 
 		if ( acquisition.contains( "an item" ) )
 		{
-			AdventureResult result = items.getFirst();
+			AdventureResult result = items.size() == 0 ? null : items.getFirst();
 
 			if ( result != null && item.equals( result.getName() ) )
 			{
@@ -515,7 +515,7 @@ public class ResultProcessor
 			itemName = item;
 		}
 
-		AdventureResult result = items.getFirst();
+		AdventureResult result = items.size() == 0 ? null : items.getFirst();
 
 		if ( result != null && itemName.equals( result.getName() ) )
 		{
@@ -574,7 +574,7 @@ public class ResultProcessor
 		}
 
 		String effectName = parsedResults.nextToken();
-		AdventureResult effect = effects.getFirst();
+		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
 
 		if ( effect != null && effectName.equals( effect.getName() ) )
 		{
