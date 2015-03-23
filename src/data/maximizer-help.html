@@ -48,6 +48,8 @@ Among effects, stat equalizer potions have a major effect on the suggested boost
 <h3>GUI Use</h3>
 If the Max Price field is zero or blank, the limit will be the smaller of your available meat, or your autoBuyPriceLimit (default 20,000).  The other options should be self-explanatory.
 <p>
+Prices are based on the mall price database, so if the price has been looked up in the last 7 days that value is used, otherwise the current mall price is queried. If preference <b>maximizerCurrentMallPrices</b> is set to <b>true</b> the current mall price is always queried, this will be much slower and cause many more server hits.
+<p>
 You can select multiple boosts, and the title of the list will indicate the net effect of applying them all - note that this isn't always just the sum of their individual effects.
 <h3>CLI Use</h3>
 The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (unless you invoked the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated.  An error will be generated if the equipment changes weren't sufficient to fulfill all <b>min</b> keywords in the expression.
