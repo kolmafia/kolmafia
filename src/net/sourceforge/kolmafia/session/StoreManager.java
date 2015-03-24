@@ -90,7 +90,7 @@ public abstract class StoreManager
 	private static boolean sortItemsByName = false;
 	private static long potentialEarnings = 0;
 
-	private static final LockableListModel<Comparable<StoreLogEntry>> storeLog = new LockableListModel<Comparable<StoreLogEntry>>();
+	private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<StoreLogEntry>();
 	private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<SoldItem>();
 	private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<SoldItem>();
 
@@ -183,7 +183,7 @@ public abstract class StoreManager
 		return StoreManager.sortedSoldItemList;
 	}
 
-	public static final LockableListModel<Comparable<StoreLogEntry>> getStoreLog()
+	public static final LockableListModel<StoreLogEntry> getStoreLog()
 	{
 		return StoreManager.storeLog;
 	}
@@ -316,8 +316,6 @@ public abstract class StoreManager
 	public static final void parseLog( final String logText )
 	{
 		StoreManager.storeLog.clear();
-		ArrayList<Comparable<StoreLogEntry>> currentLog = new ArrayList<Comparable<StoreLogEntry>>();
-
 		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
 		{
@@ -326,14 +324,14 @@ public abstract class StoreManager
 				return;
 			}
 
-			String entryString;
-			StoreLogEntry entry;
+			ArrayList<StoreLogEntry> currentLog = new ArrayList<StoreLogEntry>();
+
 			String[] entries = logMatcher.group().split( "<br>" );
 
 			for ( int i = 0; i < entries.length - 1; ++i )
 			{
-				entryString = KoLConstants.ANYTAG_PATTERN.matcher( entries[ i ] ).replaceAll( "" );
-				entry = new StoreLogEntry( entries.length - i - 1, entryString );
+				String entryString = KoLConstants.ANYTAG_PATTERN.matcher( entries[ i ] ).replaceAll( "" );
+				StoreLogEntry entry = new StoreLogEntry( entries.length - i - 1, entryString );
 				currentLog.add( entry );
 			}
 
@@ -342,7 +340,7 @@ public abstract class StoreManager
 		}
 	}
 
-	private static class StoreLogEntry
+	public static class StoreLogEntry
 		implements Comparable<StoreLogEntry>
 	{
 		private final int id;
