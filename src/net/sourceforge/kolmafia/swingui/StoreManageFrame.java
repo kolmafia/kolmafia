@@ -105,11 +105,17 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+
 import net.sourceforge.kolmafia.swingui.table.IntegerRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -873,11 +879,17 @@ public class StoreManageFrame
 	}
 
 	private class StoreLogPanel
-		extends ItemListManagePanel
+		extends ScrollablePanel
 	{
 		public StoreLogPanel()
 		{
-			super( "refresh", "resort", StoreManager.getStoreLog() );
+			super( "", "refresh", "resort", new JList( StoreManager.getStoreLog()), false );
+
+			JPanel northPanel = new JPanel( new BorderLayout() );
+			this.actualPanel.add( northPanel, BorderLayout.NORTH );
+
+			AutoFilterTextField filterfield = new AutoFilterTextField( (JList) this.scrollComponent );
+			this.centerPanel.add( filterfield, BorderLayout.NORTH );
 		}
 
 		@Override
