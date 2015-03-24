@@ -42,7 +42,7 @@ public class EffectPool
 	public static final int EMBARRASSED = 4;
 	public static final int BEATEN_UP = 7;
 	public static final int HARDLY_POISONED = 8;
-	public static final int PERFUME = 9;
+	public static final int KNOB_GOBLIN_PERFUME = 9;
 	public static final int BLOODY_HAND = 15;
 	public static final int LEASH_OF_LINGUINI = 16;
 	public static final int GHOSTLY_SHELL = 18;
@@ -102,6 +102,9 @@ public class EffectPool
 	public static final int A_LITTLE_BIT_POISONED = 282;
 	public static final int SOMEWHAT_POISONED = 283;
 	public static final int REALLY_QUITE_POISONED = 284;
+	public static final int FILTHWORM_LARVA_STENCH = 285;
+	public static final int FILTHWORM_DRONE_STENCH = 286;
+	public static final int FILTHWORM_GUARD_STENCH = 287;
 	public static final int LIGHT_HEADED = 288;
 	public static final int TETANUS = 292;
 	public static final int HALF_EATEN_BRAIN = 293;
@@ -222,9 +225,11 @@ public class EffectPool
 	public static final int VAMPIN = 939;
 	public static final int YIFFABLE_YOU = 940;
 	public static final int BONE_US_ROUND = 941;
+	public static final int DIS_ABLED = 963;
 	public static final int JUST_THE_BEST_ANAPESTS = 1003;
 	public static final int GLORIOUS_LUNCH = 1005;
 	public static final int OVERCONFIDENT = 1011;
+	public static final int STONE_FACED = 1031;
 	public static final int N_SPATIAL_VISION = 1035;
 	public static final int CONSUMED_BY_FEAR = 1146;
 	public static final int DEEP_TAINTED_MIND = 1217;
