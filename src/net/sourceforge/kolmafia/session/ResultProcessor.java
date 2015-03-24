@@ -147,7 +147,7 @@ public class ResultProcessor
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
 	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?" );
 
-	public static String processItems( final String results, final List<AdventureResult> data, final List<AdventureResult> items )
+	public static String processItems( final String results, final List<AdventureResult> items )
 	{
 		// Results now come in like this:
 		//
@@ -250,12 +250,41 @@ public class ResultProcessor
 		return results;
 	}
 
+	public static LinkedList<AdventureResult> parseItems( final String results )
+	{
+		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
+
+		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
+		while ( itemMatcher.find() )
+		{
+			String relString = itemMatcher.group( 1 );
+			String itemName = itemMatcher.group( 2 );
+			String descId = itemMatcher.group( 3 );
+			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
+			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
+			boolean hagnk = boldName != null && boldMatcher.group(2) != null;
+
+			// If we don't know this descid, it's an unknown item.
+			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
+			{
+				ItemDatabase.registerItem( itemName, descId, relString, boldName );
+			}
+
+			if ( !hagnk )
+			{
+				items.add( ItemDatabase.itemFromRelString( relString ) );
+			}
+		}
+
+		return items;
+	}
+
 	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
 	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/milk.gif" onClick='eff("225aa10e75476b0ad5fa576c89df3901");' width=30 height=30></td><td valign=center class=effect>You lose some of an effect: <b>Got Milk</b> (5 Adventures)</td></tr></table>
 
 	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\)</td></tr></table>" );
 
-	public static void processEffects( String results, List<AdventureResult> data, List<AdventureResult> effects )
+	public static LinkedList<AdventureResult> parseEffects( String results )
 	{
 		// Results now come in like this:
 		//
@@ -266,6 +295,8 @@ public class ResultProcessor
 		// <br>(duration: 10 Adventures)</td></tr></table></center></td></tr></table>
 		//
 		// Pre-process all such matches and add them to the passed in list of effects.
+
+		LinkedList<AdventureResult> effects = new LinkedList<AdventureResult>();
 
 		Matcher effectMatcher = ResultProcessor.EFFECT_TABLE_PATTERN.matcher( results );
 		while ( effectMatcher.find() )
@@ -291,6 +322,8 @@ public class ResultProcessor
 			AdventureResult effect = EffectPool.get( effectId, duration );
 			effects.add( effect );
 		}
+
+		return effects;
 	}
 
 	public static boolean processResults( boolean combatResults, String results )
@@ -316,13 +349,12 @@ public class ResultProcessor
 		// Check multi-usability and plurals
 
 		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
-		results = ResultProcessor.processItems( results, data, items );
+		results = ResultProcessor.processItems( results, items );
 
 		// Process effects similarly, saving them to a list of effects.
 		// Register new effects.
 
-		LinkedList<AdventureResult> effects = new LinkedList<AdventureResult>();
-		ResultProcessor.processEffects( results, data, effects );
+		LinkedList<AdventureResult> effects = ResultProcessor.parseEffects( results );
 
 		boolean requiresRefresh = false;
 

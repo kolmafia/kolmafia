@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -75,6 +76,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
@@ -113,7 +115,7 @@ public abstract class UseLinkDecorator
 		boolean inChoice = location.startsWith( "choice.php" );
 		if ( !inCombat && !inChoice &&
 		     buffer.indexOf( "You acquire" ) == -1 &&
-		     buffer.indexOf( "O hai, I made dis" ) == -1)
+		     buffer.indexOf( "O hai, I made dis" ) == -1 )
 		{
 			return;
 		}
@@ -212,6 +214,12 @@ public abstract class UseLinkDecorator
 	
 	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro )
 	{
+		// Get a list of of items via "rel" strings
+		LinkedList<AdventureResult> items = ResultProcessor.parseItems( text );
+
+		// Get a list of effects via descid
+		LinkedList<AdventureResult> effects = ResultProcessor.parseEffects( text );
+
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		int specialLinkId = 0;
@@ -220,7 +228,7 @@ public abstract class UseLinkDecorator
 		while ( useLinkMatcher.find() )
 		{
 			// See if it's an effect
-			if ( UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer ) )
+			if ( UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer, effects ) )
 			{
 				continue;
 			}
@@ -249,6 +257,7 @@ public abstract class UseLinkDecorator
 			}
 			else if ( !useLinkMatcher.group( 4 ).contains( "Hagnk" ) )
 			{
+				int itemId = -1;
 				int itemCount = 1;
 				String itemName = useLinkMatcher.group( 3 );
 
@@ -259,7 +268,19 @@ public abstract class UseLinkDecorator
 					itemName = itemName.substring( spaceIndex + 1 );
 				}
 
-				int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
+				AdventureResult item = items.size() == 0 ? null : items.getFirst();
+
+				if ( item != null && itemName.equals( item.getName() ) )
+				{
+					items.removeFirst();
+					itemId = item.getItemId();
+					itemCount = item.getCount();
+				}
+				else
+				{
+					itemId = ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 );
+				}
+
 				if ( itemId == -1 )
 				{
 					continue;
@@ -268,8 +289,7 @@ public abstract class UseLinkDecorator
 				// Certain items get use special links to minimize the
 				// amount of scrolling to find the item again.
 
-				if ( location.startsWith( "inventory.php" ) ||
-				     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
+				if ( location.startsWith( "inventory.php" ) || ( location.startsWith( "inv_use.php" ) && location.contains( "ajax=1" ) ) )
 				{
 					switch ( itemId )
 					{
@@ -478,7 +498,7 @@ public abstract class UseLinkDecorator
 		return CraftingType.NOCREATE;
 	}
 
-	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer )
+	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer, LinkedList<AdventureResult> effects )
 	{
 		String message = useLinkMatcher.group(0);
 		if ( message.indexOf( "You acquire an effect" ) == -1 )
@@ -486,43 +506,47 @@ public abstract class UseLinkDecorator
 			return false;
 		}
 
-		String effect = useLinkMatcher.group(3);
-		UseLink link = null;
+		String effectName = useLinkMatcher.group(3);
+		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
 
-		if ( effect.equals( "Filthworm Larva Stench" ) )
+		if ( effect != null && effectName.equals( effect.getName() ) )
 		{
-			link = new UseLink( 0, "feeding chamber", "adventure.php?snarfblat=128" );
-		}
-		else if ( effect.equals( "Filthworm Drone Stench" ) )
-		{
-			link = new UseLink( 0, "guards' chamber", "adventure.php?snarfblat=129" );
-		}
-		else if ( effect.equals( "Filthworm Guard Stench" ) )
-		{
-			link = new UseLink( 0, "queen's chamber", "adventure.php?snarfblat=130" );
-		}
-		else if ( effect.equals( "Knob Goblin Perfume" ) )
-		{
-			link = new UseLink( 0, "throne room", "cobbsknob.php?action=throneroom" );
-		}
-		else if ( effect.equals( "Down the Rabbit Hole" ) )
-		{
-			link = new UseLink( 0, "rabbit hole", "place.php?whichplace=rabbithole" );
-		}
-		else if ( effect.equals( "Transpondent" ) )
-		{
-			link = new UseLink( 0, "spaaace", "spaaace.php?arrive=1" );
-		}
-		else if ( effect.equals( "Stone-Faced" ) )
-		{
-			link = new UseLink( 0, "hidden temple", "adventure.php?snarfblat=280" );
-		}
-		else if ( effect.equals( "Dis Abled" ) )
-		{
-			link = new UseLink( 0, "portal to dis", "suburbandis.php" );
+			effects.removeFirst();
 		}
 		else
 		{
+			effect = EffectPool.get( EffectDatabase.getEffectId( effectName ), 1 );
+		}
+
+		UseLink link = null;
+
+		switch ( effect.getEffectId() )
+		{
+		case EffectPool.FILTHWORM_LARVA_STENCH:
+			link = new UseLink( 0, "feeding chamber", "adventure.php?snarfblat=128" );
+			break;
+		case EffectPool.FILTHWORM_DRONE_STENCH:
+			link = new UseLink( 0, "guards' chamber", "adventure.php?snarfblat=129" );
+			break;
+		case EffectPool.FILTHWORM_GUARD_STENCH:
+			link = new UseLink( 0, "queen's chamber", "adventure.php?snarfblat=130" );
+			break;
+		case EffectPool.KNOB_GOBLIN_PERFUME:
+			link = new UseLink( 0, "throne room", "cobbsknob.php?action=throneroom" );
+			break;
+		case EffectPool.DOWN_THE_RABBIT_HOLE:
+			link = new UseLink( 0, "rabbit hole", "place.php?whichplace=rabbithole" );
+			break;
+		case EffectPool.TRANSPONDENT:
+			link = new UseLink( 0, "spaaace", "spaaace.php?arrive=1" );
+			break;
+		case EffectPool.STONE_FACED:
+			link = new UseLink( 0, "hidden temple", "adventure.php?snarfblat=280" );
+			break;
+		case EffectPool.DIS_ABLED:
+			link = new UseLink( 0, "portal to dis", "suburbandis.php" );
+			break;
+		default:
 			// There are several effect names which are also items.
 			// We know that we're dealing with an effect here, so there's
 			// no point in also checking for an item match.

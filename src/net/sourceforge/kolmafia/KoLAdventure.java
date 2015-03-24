@@ -97,7 +97,7 @@ public class KoLAdventure
 	};
 
 	public static final AdventureResult BEATEN_UP = EffectPool.get( EffectPool.BEATEN_UP, 4 );
-	public static final AdventureResult PERFUME = EffectPool.get( EffectPool.PERFUME );
+	public static final AdventureResult PERFUME = EffectPool.get( EffectPool.KNOB_GOBLIN_PERFUME, 1 );
 
 	public static KoLAdventure lastVisitedLocation = null;
 	public static boolean locationLogged = false;
