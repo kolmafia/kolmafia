@@ -1844,6 +1844,13 @@ public class KoLAdventure
 			MafiaState.PENDING
 		},
 
+		// There are no hippy soldiers left -- the way to their camp is clear!
+		{
+			"the way to their camp is clear",
+			"There are no hippy soldiers left.",
+			MafiaState.PENDING
+		},
+
 		// Cobb's Knob King's Chamber after defeating the goblin king.
 		{
 			"You've already slain the Goblin King",
