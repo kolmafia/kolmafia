@@ -62,6 +62,7 @@ public class MonsterDatabase
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
+	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
 
 	public enum Element
 	{
@@ -261,6 +262,10 @@ public class MonsterDatabase
 				{
 					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
 				}
+				if ( id != 0 )
+				{
+					MonsterDatabase.MONSTER_IDS.put( id, monster );
+				}
 			}
 		}
 
@@ -358,6 +363,11 @@ public class MonsterDatabase
 	public static final MonsterData findMonsterByImage( final String image )
 	{
 		return MonsterDatabase.MONSTER_IMAGES.get( image );
+	}
+
+	public static final MonsterData findMonsterById( final int id )
+	{
+		return MonsterDatabase.MONSTER_IDS.get( id );
 	}
 
 	// Register an unknown monster

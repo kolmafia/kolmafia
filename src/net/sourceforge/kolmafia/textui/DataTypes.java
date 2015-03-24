@@ -213,7 +213,7 @@ public class DataTypes
 	public static final Value EFFECT_INIT = new Value( DataTypes.EFFECT_TYPE, -1, "none" );
 	public static final Value FAMILIAR_INIT = new Value( DataTypes.FAMILIAR_TYPE, -1, "none" );
 	public static final Value SLOT_INIT = new Value( DataTypes.SLOT_TYPE, -1, "none" );
-	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, "none", (Object) null );
+	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, 0, "none", (Object) null );
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", Element.NONE );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", Phylum.NONE );
@@ -566,7 +566,7 @@ public class DataTypes
 			return returnDefault ? DataTypes.MONSTER_INIT : null;
 		}
 
-		return new Value( DataTypes.MONSTER_TYPE, monster.getName(), monster );
+		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
 	}
 
 	public static final Value parseElementValue( String name, final boolean returnDefault )
@@ -812,6 +812,16 @@ public class DataTypes
 			return DataTypes.FAMILIAR_INIT;
 		}
 		return new Value( DataTypes.FAMILIAR_TYPE, num, name );
+	}
+
+	public static final Value makeMonsterValue( final int num )
+	{
+		MonsterData monster = MonsterDatabase.findMonsterById( num );
+		if ( monster == null )
+		{
+			return DataTypes.MONSTER_INIT;
+		}
+		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
 	}
 
 	public static final Value makeThrallValue( final PastaThrallData thrall )
