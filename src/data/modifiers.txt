@@ -5089,7 +5089,7 @@ Effect	Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
 Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [150*env(underwater)], MP Regen Min: [140*env(underwater)], MP Regen Max: [150*env(underwater)]
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
-Effect	Red in Tooth	Meat Drop: [min(300,T)]
+Effect	Red in Tooth	Meat Drop: [min(500,T)]
 Effect	Red Lettered	Monster Level: +15
 # Red Misty-Eyed: +10 Damage against Seals
 Effect	Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
@@ -5110,7 +5110,7 @@ Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
 # Robocamo: Beep Boop
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
-Effect	Roly Poly	Initiative: [min(300,T)]
+Effect	Roly Poly	Initiative: [min(500,T)]
 Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
