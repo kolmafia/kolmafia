@@ -1133,12 +1133,16 @@ public class SkillDatabase
 		case SkillPool.GEMELLIS_MARCH_OF_TESTERY:
 			// Skills players can't get
 			return false;
+
+		case SkillPool.MILD_CURSE:
+			// Other skills from this class are not permable
+			return true;
 		}
 
 		switch ( skillId / 1000 )
 		{
-		case 7:				// Skills granted by items
-		case 8:				// Mystical Bookshelf Skills
+		case 7: 			// Skills granted by items
+		case 8: 			// Mystical Bookshelf Skills
 		case 11:			// Avatar of Boris skills
 		case 12:			// Zombie Slayer skills
 		case 14:			// Avatar of Jarlsberg skills
