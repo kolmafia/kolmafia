@@ -503,7 +503,8 @@ public class AdventureRequest
 		Pattern.compile( "You're fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL ),
 		// papier weapons can change "fighting" to some other verb
 		Pattern.compile( "You're (?:<u>.*?</u>) <span id='monname'>(.*?)</span>", Pattern.DOTALL ),
-		Pattern.compile( "<b>.*?(<b>.*?:?</b>.*?)<br>", Pattern.DOTALL ),
+		// KoL sure generates a lot of bogus HTML
+		Pattern.compile( "<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL ),
 	};
 
 	private static final String parseCombatEncounter( final String responseText )
@@ -516,9 +517,9 @@ public class AdventureRequest
 
 		String name = null;
 
-		for ( int i = 0; i < MONSTER_NAME_PATTERNS.length; ++i )
+		for ( Pattern pattern : MONSTER_NAME_PATTERNS )
 		{
-			Matcher matcher = MONSTER_NAME_PATTERNS[i].matcher( responseText );
+			Matcher matcher = pattern.matcher( responseText );
 			if ( matcher.find() )
 			{
 				name = matcher.group(1);
@@ -534,6 +535,20 @@ public class AdventureRequest
 		// If the name has bold markup, strip formatting
 		name = StringUtilities.globalStringReplace( name, "<b>", "" );
 		name = StringUtilities.globalStringReplace( name, "</b>", "" );
+
+		// KoL sure generates a lot of bogus HTML
+		name = StringUtilities.globalStringReplace( name, "</td>", "" );
+
+		// If name ends with punctuation, remove it
+		int length = name.length();
+		if ( length > 1 )
+		{
+			String last = name.substring( length - 1 );
+			if ( ".,:".contains( last ) )
+			{
+				name = name.substring( 0, length - 1);
+			}
+		}
 
 		// Canonicalize
 		name = CombatActionManager.encounterKey( name, false );
