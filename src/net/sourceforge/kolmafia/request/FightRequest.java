@@ -4938,17 +4938,6 @@ public class FightRequest
 					continue;
 				}
 
-				if ( text.startsWith( "You acquire a skill" ) )
-				{
-					TagNode bnode = node.findElementByName( "b", true );
-					if ( bnode != null )
-					{
-						String skill = bnode.getText().toString();
-						ResponseTextParser.learnSkill( skill );
-					}
-					continue;
-				}
-
 				if ( text.startsWith( "You gain" ) )
 				{
 					status.shouldRefresh |= ResultProcessor.processGainLoss( text, null );
@@ -5083,6 +5072,20 @@ public class FightRequest
 					EquipmentManager.discardEquipment( itemId );
 				}
 				return false;
+			}
+
+			if ( onclick.contains( "desc_skill.php" ) )
+			{
+				if ( str.startsWith( "You acquire a skill" ) )
+				{
+					TagNode bnode = node.findElementByName( "b", true );
+					if ( bnode != null )
+					{
+						String skill = bnode.getText().toString();
+						ResponseTextParser.learnSkill( skill );
+					}
+					return false;
+				}
 			}
 
 			Matcher m = EFF_PATTERN.matcher( onclick );
@@ -7397,7 +7400,6 @@ public class FightRequest
 		if ( name.equals( "script" ) ||
 		     name.equals( "form" ) ||
 		     name.equals( "input" ) ||
-		     name.equals( "a" ) ||
 		     name.equals( "div" ) )
 		{
 			return;
