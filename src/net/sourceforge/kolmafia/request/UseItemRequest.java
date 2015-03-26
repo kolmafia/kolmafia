@@ -418,6 +418,12 @@ public class UseItemRequest
 			return 0;
 		}
 
+		if ( FightRequest.choiceFollowsFight )
+		{
+			UseItemRequest.limiter = "choice adventure follows the fight";
+			return 0;
+		}
+
 		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
 			UseItemRequest.limiter = "choice adventure in progress";

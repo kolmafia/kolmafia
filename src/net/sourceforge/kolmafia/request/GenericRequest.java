@@ -1244,6 +1244,15 @@ public class GenericRequest
 			return true;
 		}
 
+		if ( FightRequest.choiceFollowsFight )
+		{
+			if ( !silent )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "A choice follows this fight immediately." );
+			}
+			return true;
+		}
+
 		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
 			if ( !silent )
@@ -2029,7 +2038,7 @@ public class GenericRequest
 			if ( this instanceof UseItemRequest || this instanceof ChateauRequest )
 			{
 				FightRequest.INSTANCE.run();
-				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight )
+				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 				{
 					KoLmafia.executeAfterAdventureScript();
 				}
