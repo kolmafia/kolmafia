@@ -4770,7 +4770,7 @@ public abstract class RuntimeLibrary
 	{
 		int option = (int) decision.intValue();
 		String response = null;
-		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null ||
+		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) || ChoiceManager.lastResponseText == null ||
 		     option == 0 )
 		{
 			// If you are not in a choice, or you send 0, just return the last response
@@ -4834,7 +4834,8 @@ public abstract class RuntimeLibrary
 		{
 			return RuntimeLibrary.run_combat( interpreter );
 		}
-		else if ( ChoiceManager.handlingChoice && ChoiceManager.lastResponseText != null )
+		else if ( ( ChoiceManager.handlingChoice && ChoiceManager.lastResponseText != null ) ||
+			FightRequest.choiceFollowsFight )
 		{
 			return RuntimeLibrary.run_choice( interpreter, new Value( -1 ) );
 		}

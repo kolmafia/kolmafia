@@ -289,6 +289,7 @@ public class FightRequest
 	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
+	public static boolean choiceFollowsFight = false;
 	public static boolean fightingCopy = false;
 
 	private static String nextAction = null;
@@ -3338,7 +3339,7 @@ public class FightRequest
 
 		FightRequest.clearInstanceData();
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
-		ChoiceManager.handlingChoice = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+		FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
 	}
 
 	// <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative; display: inline-block; z-index 0;'><img src=/images/otherimages/cartouche.gif><div style='position: absolute; left: 15; top: 30; z-index 1;'><img src=/images/itemimages/hiero12.gif></div><div style='position: absolute; left: 15; top: 62; z-index 1;'><img src=/images/itemimages/hiero24.gif></div><div style='position: absolute; left: 15; top: 94; z-index 1;'><img src=/images/itemimages/hiero21.gif></div></div>
@@ -7204,7 +7205,7 @@ public class FightRequest
 
 		if ( urlString.equals( "fight.php" ) || urlString.indexOf( "ireallymeanit=" ) != -1 )
 		{
-			if ( FightRequest.inMultiFight )
+			if ( FightRequest.inMultiFight || FightRequest.choiceFollowsFight )
 			{
 				RequestLogger.registerLastLocation();
 			}

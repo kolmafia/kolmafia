@@ -927,7 +927,7 @@ public class CharPaneRequest
 
 	private static final void setLastAdventure( final String responseText )
 	{
-		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight )
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight )
 		{
 			return;
 		}
@@ -965,7 +965,7 @@ public class CharPaneRequest
 
 	private static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
-		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight )
+		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight )
 		{
 			return;
 		}

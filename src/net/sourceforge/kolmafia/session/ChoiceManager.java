@@ -6145,6 +6145,7 @@ public abstract class ChoiceManager
 
 	public static final void preChoice( final GenericRequest request )
 	{
+		FightRequest.choiceFollowsFight = false;
 		ChoiceManager.handlingChoice = true;
 
 		String choice = request.getFormField( "whichchoice" );
