@@ -57,8 +57,10 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -6317,6 +6319,7 @@ public abstract class ChoiceManager
 			{
 			case 2:
 				Preferences.setInteger( "_edDefeats", 0 );
+				MonsterStatusTracker.reset();
 				KoLCharacter.setLimitmode( null );
 				break;
 			case 1:

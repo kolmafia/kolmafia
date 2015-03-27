@@ -5822,7 +5822,11 @@ public class FightRequest
 		// FightRequest.haiku = false;
 		// FightRequest.anapest = false;
 
-		MonsterStatusTracker.reset();
+		// In Ed we'll only clear the monster status when we have won or abandoned the fight
+		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) > 0 )
+		{
+			MonsterStatusTracker.reset();
+		}
 
 		FightRequest.nextAction = null;
 
