@@ -7190,7 +7190,6 @@ public abstract class RuntimeLibrary
 
 		if ( type.equals( DataTypes.TYPE_STRING ) )
 		{
-
 			result =
 				StandardRequest.isNotRestricted( "Items", key ) &&
 				StandardRequest.isNotRestricted( "Bookshelf Books", key ) &&
@@ -7212,7 +7211,11 @@ public abstract class RuntimeLibrary
 			{
 				int itemId = SkillDatabase.skillToBook( key );
 				key = ItemDatabase.getItemName( itemId );
-				result = StandardRequest.isNotRestricted( "Bookshelf Books", key );
+				result = StandardRequest.isNotRestricted( "Bookshelf Books", key ) &&
+					// Work around a KoL bug: most restricted books are
+					// listed both under Bookshelf Books and Items, but
+					// 3 are listed under only one or the other.
+					StandardRequest.isNotRestricted( "Items", key );
 			}
 			else
 			{

@@ -185,6 +185,7 @@ public class StandardRequest
 	// <b>Skills</b>
 
 	private static final Pattern STANDARD_PATTERN = Pattern.compile( "<b>(.*?)</b><p>(.*?)<p>" );
+	private static final Pattern OBJECT_PATTERN = Pattern.compile( "<span class=\"i\">(.*?)(, )?</span>" );
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
@@ -200,19 +201,14 @@ public class StandardRequest
 				continue;
 			}
 
-
-			String objects = matcher.group( 2 );
-			String[] splits = objects.split( "<span class=\"i\">" );
-			for ( int i = 0; i < splits.length; ++i )
+			Matcher objectMatcher = StandardRequest.OBJECT_PATTERN.matcher( matcher.group( 2 ) );
+			while ( objectMatcher.find() )
 			{
-				String object = splits[ i ].trim().toLowerCase();
-				if ( object.length() == 0 )
+				String object = objectMatcher.group( 1 ).trim().toLowerCase();
+				if ( object.length() > 0 )
 				{
-					continue;
+					list.add( object );
 				}
-				int sub = ( i == splits.length - 1 ? 7 : 9 );
-				object = object.substring( 0, object.length() - sub );
-				list.add( object );
 			}
 		}
 
