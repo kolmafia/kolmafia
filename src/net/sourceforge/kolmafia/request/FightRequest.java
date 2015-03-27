@@ -606,7 +606,12 @@ public class FightRequest
 			return;
 		}
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		// Always let the user see rare monsters
 
@@ -999,7 +1004,12 @@ public class FightRequest
 				return;
 			}
 
-			String monsterName = MonsterStatusTracker.getLastMonster().getName();
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			String monsterName = "";
+			if ( monster != null )
+			{
+				monsterName = monster.getName();
+			}
 
 			if ( item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
 			{
@@ -1761,8 +1771,14 @@ public class FightRequest
 
 			if ( action.startsWith( "custom" ) )
 			{
+				MonsterData monster = MonsterStatusTracker.getLastMonster();
+				String monsterName = "";
+				if ( monster != null )
+				{
+					monsterName = monster.getName();
+				}
 				String file = Preferences.getBoolean( "debugPathnames" ) ? CombatActionManager.getStrategyLookupFile().getAbsolutePath() : CombatActionManager.getStrategyLookupName();
-				action = file + " [" + CombatActionManager.getBestEncounterKey( MonsterStatusTracker.getLastMonster().getName() ) + "]";
+				action = file + " [" + CombatActionManager.getBestEncounterKey( monsterName ) + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );
@@ -2178,7 +2194,12 @@ public class FightRequest
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
-			String monsterName = MonsterStatusTracker.getLastMonster().getName();
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			String monsterName = "";
+			if ( monster != null )
+			{
+				monsterName = monster.getName();
+			}
 			for ( int i = 0; i < 10; ++i )
 			{
 				if ( CombatActionManager.getShortCombatOptionName(
@@ -2280,7 +2301,11 @@ public class FightRequest
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = monster.getName(); 
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monster.getName();
+		}
 
 		// First round quest update
 		if ( FightRequest.currentRound == 1 )
@@ -3484,7 +3509,12 @@ public class FightRequest
 
 		if ( isMonster )
 		{
-			rv = MonsterStatusTracker.getLastMonsterName().indexOf( pref ) != -1;
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			if ( monster == null )
+			{
+				return false;
+			}
+			rv = monster.getName().contains( pref );
 		}
 		else
 		{
@@ -5946,7 +5976,12 @@ public class FightRequest
 			return false;
 		}
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		switch ( itemId )
 		{
@@ -6274,7 +6309,12 @@ public class FightRequest
 			return;
 		}
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		switch ( KoLCharacter.getEffectiveFamiliar().getId() )
 		{
@@ -7223,7 +7263,12 @@ public class FightRequest
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
 
 		StringBuilder action = new StringBuilder();
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.

@@ -336,7 +336,12 @@ public class IslandDecorator
 		}
 
 		// Don't bother showing progress of the war if you've just won
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 		if ( monsterName.equals( "The Big Wisniewski" ) || monsterName.equals( "The Man" ) )
 		{
 			return;

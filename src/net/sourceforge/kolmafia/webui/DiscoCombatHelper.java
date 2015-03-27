@@ -38,6 +38,7 @@ import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -245,7 +246,12 @@ public class DiscoCombatHelper
 		}
 
 		// Rave Steal in the volcano island always works
-		String encounter = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		if ( monster == null )
+		{
+			return false;
+		}
+		String encounter = monster.getName();
 		if ( encounter.equals( "Breakdancing Raver" ) ||
 		     encounter.equals( "Pop-and-Lock Raver" ) ||
 		     encounter.equals( "Running Man" ) )
@@ -576,7 +582,12 @@ public class DiscoCombatHelper
 		if ( combo == RAVE_STEAL )
 		{
 			// Rave Steal in the volcano island shouldn't count
-			String encounter = MonsterStatusTracker.getLastMonster().getName();
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			String encounter = "";
+			if ( monster != null )
+			{
+				encounter = monster.getName();
+			}
 			if ( encounter.equalsIgnoreCase( "Breakdancing Raver" ) ||
 			     encounter.equalsIgnoreCase( "Pop-and-Lock Raver" ) ||
 			     encounter.equalsIgnoreCase( "Running Man" ) )

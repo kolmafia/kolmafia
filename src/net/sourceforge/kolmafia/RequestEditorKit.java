@@ -64,6 +64,8 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.sourceforge.kolmafia.MonsterData;
+
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -1306,7 +1308,12 @@ public class RequestEditorKit
 			matcher.appendTail( buffer );
 		}
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		// We want to decorate battlefield monsters, whether or not you
 		// actually find them on the battlefield.
@@ -1410,7 +1417,7 @@ public class RequestEditorKit
 		monsterData.append( ", Type: " );
 		monsterData.append( MonsterStatusTracker.getMonsterPhylum().toString() );
 
-		String monsterName = MonsterStatusTracker.getLastMonster().getName();
+		String monsterName = monster.getName();
 
 		if ( monsterName.contains( "pirate" ) && !monsterName.equals( "stone temple pirate" ) )
 		{
@@ -1444,7 +1451,7 @@ public class RequestEditorKit
 			monsterData.append( danceMoveStatus );
 		}
 
-		List items = MonsterStatusTracker.getLastMonster().getItems();
+		List items = monster.getItems();
 		if ( !items.isEmpty() )
 		{
 			monsterData.append( "<br />Drops: " );
@@ -1728,7 +1735,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		String monsterName = StringUtilities.singleStringReplace( MonsterStatusTracker.getLastMonster().getName(), " (Dreadsylvanian)", "" );
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			StringUtilities.singleStringReplace( monster.getName(), " (Dreadsylvanian)", "" );
+		}
 		String find = "your scary storybook!";
 		StringBuilder replace = new StringBuilder( find );
 		replace.append( " <font size=1>[<a href=\"" );
