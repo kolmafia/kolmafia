@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -103,7 +104,12 @@ public class FightDecorator
 			return;
 		}
 
-		String name = MonsterStatusTracker.getLastMonster().getName().toLowerCase();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		if ( monster == null )
+		{
+			return;
+		}
+		String name = monster.getName().toLowerCase();
 		if ( name.equals( "dad sea monkee" ) )
 		{
 			FightDecorator.decorateDadSeaMonkee( buffer );

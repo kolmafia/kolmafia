@@ -88,11 +88,19 @@ public class IslandManager
 
 	public static final boolean isFratboyBattlefieldMonster( MonsterData monster )
 	{
+		if ( monster == null )
+		{
+			return false;
+		}
 		return	IslandManager.fratboyBattlefield.hasMonster( monster );
 	}
 
 	public static final boolean isHippyBattlefieldMonster( MonsterData monster )
 	{
+		if ( monster == null )
+		{
+			return false;
+		}
 		return	IslandManager.hippyBattlefield.hasMonster( monster );
 	}
 
@@ -971,7 +979,7 @@ public class IslandManager
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.
-			RequestLogger.updateSessionLog( "Unknown monster found on battlefield: " + MonsterStatusTracker.getLastMonsterName() );
+			RequestLogger.updateSessionLog( "Unknown monster found on battlefield: " + monster.getName() );
 			return;
 		}
 

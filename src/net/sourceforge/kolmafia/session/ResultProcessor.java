@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -58,6 +59,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -2351,7 +2353,12 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.MERKIN_LOCKKEY:
-			String lockkeyMonster = MonsterStatusTracker.getLastMonster().getName();
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			if ( monster == null )
+			{
+				break;
+			}
+			String lockkeyMonster = monster.getName();
 			Preferences.setString( "merkinLockkeyMonster", lockkeyMonster );
 			if ( lockkeyMonster.equals( "Mer-kin burglar" ) )
 			{

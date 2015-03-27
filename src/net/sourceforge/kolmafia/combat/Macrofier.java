@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -139,7 +140,12 @@ public class Macrofier
 
 		// Begin monster-specific macrofication.
 
-		String monsterName = MonsterStatusTracker.getLastMonsterName();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = "";
+		if ( monster != null )
+		{
+			monsterName = monster.getName();
+		}
 
 		if ( Macrofier.macroInterpreter != null )
 		{
