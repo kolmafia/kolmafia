@@ -536,9 +536,6 @@ public class AdventureRequest
 		name = StringUtilities.globalStringReplace( name, "<b>", "" );
 		name = StringUtilities.globalStringReplace( name, "</b>", "" );
 
-		// KoL sure generates a lot of bogus HTML
-		name = StringUtilities.globalStringReplace( name, "</td>", "" );
-
 		// Brute force fix for haiku dungeon monsters, which have
 		// punctuation at the end because of bad HTML
 		name =  name.startsWith( "amateur ninja" ) ? "amateur ninja" :
