@@ -2170,7 +2170,11 @@ public class FightRequest
 				TurnCounter.startCounting( 45, "Rain Monster window end loc=*", "rparen.gif" );
 			}
 
-			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
+			// In Ed we'll only set the monster name when we have won or abandoned the fight
+			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) > 0 )
+			{
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
+			}
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
