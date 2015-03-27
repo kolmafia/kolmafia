@@ -539,16 +539,14 @@ public class AdventureRequest
 		// KoL sure generates a lot of bogus HTML
 		name = StringUtilities.globalStringReplace( name, "</td>", "" );
 
-		// If name ends with punctuation, remove it
-		int length = name.length();
-		if ( length > 1 )
-		{
-			String last = name.substring( length - 1 );
-			if ( ".,:".contains( last ) )
-			{
-				name = name.substring( 0, length - 1);
-			}
-		}
+		// Brute force fix for haiku dungeon monsters, which have
+		// punctuation at the end because of bad HTML
+		name =  name.startsWith( "amateur ninja" ) ? "amateur ninja" :
+			name.startsWith( "ancient insane monk" ) ? "ancient insane monk" :
+			name.startsWith( "Ferocious bugbear" ) ? "ferocious bugbear" :
+			name.startsWith( "gelatinous cube" ) ? "gelatinous cube" :
+			name.startsWith( "Knob Goblin poseur" ) ? "Knob Goblin poseur" :
+			name;
 
 		// Canonicalize
 		name = CombatActionManager.encounterKey( name, false );
