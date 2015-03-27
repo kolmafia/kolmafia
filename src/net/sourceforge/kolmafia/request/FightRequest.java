@@ -2187,7 +2187,7 @@ public class FightRequest
 			}
 
 			// In Ed we'll only set the monster name when we have won or abandoned the fight
-			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) > 0 )
+			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 			{
 				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
 			}
@@ -5857,7 +5857,7 @@ public class FightRequest
 		// FightRequest.anapest = false;
 
 		// In Ed we'll only clear the monster status when we have won or abandoned the fight
-		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) > 0 )
+		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 		{
 			MonsterStatusTracker.reset();
 		}
