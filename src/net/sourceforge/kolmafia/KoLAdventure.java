@@ -583,7 +583,7 @@ public class KoLAdventure
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
 
-			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.STARTED ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.UNSTARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;
