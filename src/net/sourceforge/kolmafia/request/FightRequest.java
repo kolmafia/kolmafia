@@ -2301,11 +2301,7 @@ public class FightRequest
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		// First round quest update
 		if ( FightRequest.currentRound == 1 )
