@@ -280,7 +280,6 @@ public class FightRequest
 	private static boolean castCleesh = false;
 	private static boolean insultedPirate = false;
 	private static boolean usedFlyer = false;
-	public static boolean usedLash = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
@@ -1376,7 +1375,7 @@ public class FightRequest
 		{
 			// You can only use this skill successfully once per Ed combat
 
-			if ( FightRequest.usedLash )
+			if ( Preferences.getBoolean( "edUsedLash" ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -3371,7 +3370,7 @@ public class FightRequest
 			else
 			{
 				Preferences.setInteger( "_edDefeats", 0 );
-				FightRequest.usedLash = false;
+				Preferences.setBoolean( "edUsedLash", false );
 			}
 		}
 
@@ -6878,7 +6877,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.LASH_OF_COBRA:
-			FightRequest.usedLash = true;
+			Preferences.setBoolean( "edUsedLash", true );
 			if ( responseText.contains( "You acquire an item" ) || skillSuccess )
 			{
 				Preferences.increment( "_edLashCount" );

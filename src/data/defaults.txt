@@ -400,6 +400,7 @@ user	drunkenSwagger	0
 user	edDefeatAbort	2
 user	edPiece	
 user	edPoints	0
+user	edUsedLash	false
 user	envyfishMonster
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
