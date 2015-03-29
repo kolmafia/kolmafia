@@ -54,6 +54,7 @@ public class DebugModifiers
 	public static int setup( String parameters )
 	{
 		DebugModifiers.wanted = new HashMap();
+		DebugModifiers.adjustments = new HashMap();
 		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
 			String name = Modifiers.getModifierName( i );
@@ -61,9 +62,10 @@ public class DebugModifiers
 			{
 				DebugModifiers.wanted.put( IntegerPool.get( i ),
 					"<td colspan=3>" + name + "</td>" );
+				DebugModifiers.adjustments.put( IntegerPool.get( i ),
+					"<td colspan=2>" + name + "</td>" );
 			}
 		}
-		DebugModifiers.adjustments = (HashMap) DebugModifiers.wanted.clone();
 		DebugModifiers.currentType = "type";
 		DebugModifiers.currentDesc = "source";
 		DebugModifiers.buffer = new StringBuffer( "<table border=2>" );
@@ -218,7 +220,7 @@ public class DebugModifiers
 				Iterator li = (Iterator) DebugModifiers.adjustments.get( key );
 				if ( li == null )
 				{
-					DebugModifiers.buffer.append( "<td colspan=2></td>" );
+					DebugModifiers.buffer.append( "<td colspan=3></td>" );
 				}
 				else
 				{
