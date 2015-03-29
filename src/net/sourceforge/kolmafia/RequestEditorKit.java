@@ -603,6 +603,7 @@ public class RequestEditorKit
 		RequestEditorKit.addFolioLink( buffer );
 		RequestEditorKit.addNewLocationLinks( buffer );
 		RequestEditorKit.suppressPotentialMalware( buffer );
+		RequestEditorKit.extendRightClickMenu( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
 
@@ -703,6 +704,13 @@ public class RequestEditorKit
 		{
 			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
+		}
+	}
+
+	private static final void extendRightClickMenu(StringBuffer buffer) {
+		if ( buffer.contains( "pop_ircm_contents" ) )
+		{
+			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.IRCM_JS + "\"></script>" );
 		}
 	}
 
