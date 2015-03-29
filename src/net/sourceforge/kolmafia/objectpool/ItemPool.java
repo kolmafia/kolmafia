@@ -2195,6 +2195,7 @@ public class ItemPool
 	public static final int CONSPIRACY_ISLAND_CHARTER = 7767;
 	public static final int CONSPIRACY_ISLAND_TICKET = 7768;
 	public static final int COINSPIRACY = 7769;
+	public static final int VENTILATION_UNIT = 7770;
 	public static final int CUDDLY_TEDDY_BEAR = 7787;
 	public static final int FIRST_AID_POUCH = 7789;
 	public static final int SHAWARMA_KEYCARD = 7792;

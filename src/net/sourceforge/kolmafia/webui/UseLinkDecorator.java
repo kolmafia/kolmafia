@@ -1252,7 +1252,7 @@ public abstract class UseLinkDecorator
 		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
 	}
 
-	private static final String getEquipmentSpeculation( String label, int itemId, int slot )
+	public static final String getEquipmentSpeculation( String label, int itemId, int slot )
 	{
 		if ( slot == -1 )
 		{

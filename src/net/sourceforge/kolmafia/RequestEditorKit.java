@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -130,6 +131,7 @@ import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.TopMenuDecorator;
 import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
+import net.sourceforge.kolmafia.webui.UseLinkDecorator.UseLink;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 
 public class RequestEditorKit
@@ -373,6 +375,7 @@ public class RequestEditorKit
 			RequestEditorKit.fixDucks( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixBallroom2( buffer );
+			RequestEditorKit.fixGovernmentLab( buffer );
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
@@ -708,7 +711,7 @@ public class RequestEditorKit
 	}
 
 	private static final void extendRightClickMenu(StringBuffer buffer) {
-		if ( buffer.contains( "pop_ircm_contents" ) )
+		if ( buffer.indexOf( "pop_ircm_contents" ) != -1 )
 		{
 			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.IRCM_JS + "\"></script>" );
 		}
@@ -2337,6 +2340,36 @@ public class RequestEditorKit
 		{
 			buffer.insert( index, link );
 		}
+	}
+
+	private static final void fixGovernmentLab( final StringBuffer buffer )
+	{
+		// Things that go AFTER Stationary Buttons have been generated
+
+		String link = null;
+
+		String test = "without wearing a Personal Ventilation Unit.";
+		int index = buffer.indexOf( test );
+		
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		// Give player a link to equip the PVU
+		link = " <a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=1&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc1]</a>" +
+			"<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=2&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc2]</a>" +
+			"<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=3&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc3]</a>";
+		UseLinkDecorator.UseLink link1 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					UseLinkDecorator.getEquipmentSpeculation( "acc1", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY1 ),
+					"inv_equip.php?which=2&action=equip&slot=1&whichitem=" );
+		UseLinkDecorator.UseLink link2 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					UseLinkDecorator.getEquipmentSpeculation( "acc2", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY2 ),
+					"inv_equip.php?which=2&action=equip&slot=2&whichitem=" );
+		UseLinkDecorator.UseLink link3 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					UseLinkDecorator.getEquipmentSpeculation( "acc3", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY3 ),
+					"inv_equip.php?which=2&action=equip&slot=3&whichitem=" );
+		buffer.insert( index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML() );
 	}
 
 	private static class KoLSubmitView
