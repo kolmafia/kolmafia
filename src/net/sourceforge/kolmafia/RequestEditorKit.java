@@ -456,6 +456,7 @@ public class RequestEditorKit
 			RequestEditorKit.addFightModifiers( buffer );
 			RequestEditorKit.addTaleOfDread( buffer );
 			RequestEditorKit.addDesertProgress( buffer );
+			RequestEditorKit.addBlackForestProgress( buffer );
 
 			// Do any monster-specific decoration
 			FightDecorator.decorateMonster( buffer );
@@ -1754,7 +1755,7 @@ public class RequestEditorKit
 		StringUtilities.singleStringReplace( buffer, find, replace.toString() );
 	}
 	
-	private static final Pattern EXPLORATION_PATTERN = Pattern.compile( "Desert exploration <b>\\+\\d+%</b>" );
+	private static final Pattern DESERT_EXPLORATION_PATTERN = Pattern.compile( "Desert exploration <b>\\+\\d+%</b>" );
 	private static final void addDesertProgress( final StringBuffer buffer )
 	{
 		String lastAdventure = Preferences.getString( "lastAdventure" );
@@ -1764,13 +1765,33 @@ public class RequestEditorKit
 			return;
 		}
 
-		Matcher m = RequestEditorKit.EXPLORATION_PATTERN.matcher( buffer );
+		Matcher m = RequestEditorKit.DESERT_EXPLORATION_PATTERN.matcher( buffer );
 		if ( !m.find() )
 		{
 			return;
 		}
 
 		String progress = " (" + String.valueOf( Preferences.getInteger( "desertExploration" ) ) + "% explored)";
+		buffer.insert( m.end(), progress );
+	}
+
+	private static final Pattern FOREST_EXPLORATION_PATTERN = Pattern.compile( "(location on your black map\\.|Halloween falls on a Sunday, maybe\\.|realize why that would have been a bad idea\\.)" );
+	private static final void addBlackForestProgress( final StringBuffer buffer )
+	{
+		String lastAdventure = Preferences.getString( "lastAdventure" );
+		if ( !lastAdventure.equals( "The Black Forest" ) ||
+		     buffer.indexOf( "WINWINWIN" ) == -1 )
+		{
+			return;
+		}
+
+		Matcher m = RequestEditorKit.FOREST_EXPLORATION_PATTERN.matcher( buffer );
+		if ( !m.find() )
+		{
+			return;
+		}
+
+		String progress = " (" + String.valueOf( Preferences.getInteger( "blackForestProgress" ) ) + "/5 Landmarks marked on your map)";
 		buffer.insert( m.end(), progress );
 	}
 
