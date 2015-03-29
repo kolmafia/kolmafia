@@ -6319,7 +6319,7 @@ public abstract class ChoiceManager
 			{
 			case 2:
 				Preferences.setInteger( "_edDefeats", 0 );
-				FightRequest.usedLash = false;
+				Preferences.setBoolean( "edUsedLash", false );
 				MonsterStatusTracker.reset();
 				KoLCharacter.setLimitmode( null );
 				break;
