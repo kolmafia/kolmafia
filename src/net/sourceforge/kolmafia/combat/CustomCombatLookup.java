@@ -71,7 +71,7 @@ public class CustomCombatLookup
 
 	public String getBestEncounterKey( final String encounter )
 	{
-		String encounterKey = StringUtilities.getCanonicalName( encounter );
+		String encounterKey = CombatActionManager.encounterKey( encounter );
 		MonsterData monsterData = MonsterDatabase.findMonster( encounterKey, false );
 
 		encounterKey = getLongestMatch( encounterKey, monsterData );
