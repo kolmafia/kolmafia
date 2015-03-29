@@ -1941,6 +1941,25 @@ public class KoLAdventure
 			"You already looted the temple in that square.",
 		},
 
+		// You climb the stairs from the castle's basement, but the
+		// door at the top is closed and you can't find the doorknob.
+		//
+		// You'll have to find another way up.
+		{
+			"You'll have to find another way up",
+			"You haven't opened the ground floor of the castle yet.",
+		},
+
+		// The door at the top of the ground floor stairway is also
+		// closed, and you're still too short to reach a doorknob
+		// that's forty feet over your head.
+		//
+		// You'll have to figure out some other way to get upstairs.
+		{
+			"You'll have to figure out some other way to get upstairs",
+			"You haven't opened the top floor of the castle yet.",
+		},
+
 		// The portal is open! Head home and prepare to save some children!
 		{
 			"prepare to save some children",
