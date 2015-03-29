@@ -78,6 +78,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -740,7 +742,15 @@ public class RequestEditorKit
 		// If we are Level 13 or less, the Council might have quests for us
 		if ( newLevel <= 13 )
 		{
-			links.append( " [<a href=\"council.php\">council</a>]" );
+			// If we're Ed, and have already found we're talking to Amun instead, link to Amun
+			if ( KoLCharacter.isEd() && QuestDatabase.isQuestLaterThan( Quest.LARVA, QuestDatabase.UNSTARTED ) )
+			{
+				links.append( " [<a href=\"council.php\">Amun</a>]" );
+			}
+			else
+			{
+				links.append( " [<a href=\"council.php\">council</a>]" );
+			}
 			haveLinks = true;
 		}
 

@@ -1590,6 +1590,12 @@ public abstract class UseLinkDecorator
 			useLocation = "council.php";
 			break;
 
+		case ItemPool.ED_HOLY_MACGUFFIN:
+
+			useType = "Amun";
+			useLocation = "council.php";
+			break;
+
 		// Link to the Pretentious Artist when you find his last tool
 
 		case ItemPool.PRETENTIOUS_PAINTBRUSH:
