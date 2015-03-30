@@ -478,7 +478,6 @@ public class TurnCounter
 		}
 
 		String urlString = request.getURLString();
-		String path = request.getPath();
 
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
@@ -489,22 +488,27 @@ public class TurnCounter
 			return 1;
 		}
 
-		if ( path.equals( "inv_use.php" ) || path.equals( "inv_eat.php" ) )
+		if ( urlString.startsWith( "inv_use.php" ) || urlString.startsWith( "inv_eat.php" ) )
 		{
 			return UseItemRequest.getAdventuresUsed( urlString );
 		}
 
-		if ( path.equals( "runskillz.php" ) )
+		if ( urlString.startsWith( "runskillz.php" ) )
 		{
 			return UseSkillRequest.getAdventuresUsed( urlString );
 		}
 
-		if ( path.equals( "craft.php" ) || path.equals( "guild.php" ) )
+		if ( urlString.startsWith( "craft.php" ) || urlString.startsWith( "guild.php" ) )
 		{
 			return CreateItemRequest.getAdventuresUsed( request );
 		}
 
-		if ( path.equals( "crimbo09.php" ) )
+		if ( urlString.startsWith( "place.php?whichplace=chateau" ) && urlString.contains( "action=chateau_painting" ) )
+		{
+			return Preferences.getBoolean( "_chateauMonsterFought" ) ? 0 : 1;
+		}
+
+		if ( urlString.startsWith( "crimbo09.php" ) )
 		{
 			return Crimbo09Request.getTurnsUsed( request );
 		}

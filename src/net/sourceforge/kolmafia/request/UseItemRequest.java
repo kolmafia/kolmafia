@@ -5966,7 +5966,10 @@ public class UseItemRequest
 
 	public static int getAdventuresUsed( final String urlString )
 	{
-		AdventureResult item = UseItemRequest.extractItem( urlString );
+		AdventureResult item =
+			urlString.contains( "action=chateau_painting" ) ?
+			ChateauRequest.CHATEAU_PAINTING :
+			UseItemRequest.extractItem( urlString );
 		return item == null ? 0 :  UseItemRequest.getAdventuresUsedByItem( item );
 	}
 
@@ -5978,6 +5981,7 @@ public class UseItemRequest
 		case ItemPool.ABYSSAL_BATTLE_PLANS:
 		case ItemPool.BLACK_PUDDING:
 		case ItemPool.CARONCH_MAP:
+		case ItemPool.CHATEAU_WATERCOLOR:
 		case ItemPool.CRUDE_SCULPTURE:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.DOLPHIN_WHISTLE:
