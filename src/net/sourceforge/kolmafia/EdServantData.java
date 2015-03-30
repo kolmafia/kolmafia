@@ -408,7 +408,12 @@ public class EdServantData
 			}
 		}
 
-		EdServantData.currentEdServant = current;
+		if ( current != EdServantData.currentEdServant )
+		{
+			EdServantData.currentEdServant = current;
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	public static final EdServantData currentServant()
@@ -461,6 +466,18 @@ public class EdServantData
 		return null;
 	}
 
+	public static final EdServantData findEdServantById( final int id )
+	{
+		for ( EdServantData servant : EdServantData.edServants )
+		{
+			if ( servant.id == id )
+			{
+				return servant;
+			}
+		}
+		return null;
+	}
+
 	private static final EdServantData registerEdServant( final Matcher matcher )
 	{
 		String type = matcher.group( 3 );
@@ -482,6 +499,29 @@ public class EdServantData
 		servant.experience = experience;
 
 		return servant;
+	}
+
+	public static final void setEdServant( final Matcher matcher )
+	{
+		int id = StringUtilities.parseInt( matcher.group( 3 ) );
+		EdServantData servant = EdServantData.findEdServantById( id );
+		if ( servant == null )
+		{
+			return;
+		}
+
+		String name = matcher.group( 1 );
+		int level = StringUtilities.parseInt( matcher.group( 2 ) );
+
+		servant.name = new String( name );
+		servant.level = level;
+
+		if ( servant != EdServantData.currentEdServant )
+		{
+			EdServantData.currentEdServant = servant;
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	public static final void manipulateServants( final GenericRequest request, final String responseText )
