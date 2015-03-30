@@ -245,7 +245,19 @@ public class TavernRequest
 		int square = TavernRequest.getSquare( urlString );
 		if ( square == 0 )
 		{
-			return null;
+			// cellar.php?action=autofaucet redirects to
+			// choice.php?forceoption=1 so this doesn't work.
+			if ( !urlString.contains( "action=autofaucet" ) )
+			{
+				return null;
+			}
+			String layout = TavernRequest.tavernLayout();
+			int faucet = layout.indexOf( "3" );
+			if ( faucet == -1 )
+			{
+				return null;
+			}
+			square = faucet + 1;
 		}
 
 		int row = ( ( square - 1 ) / 5 ) + 1;
