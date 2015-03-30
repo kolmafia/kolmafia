@@ -4653,7 +4653,7 @@ public abstract class ChoiceManager
 				bonus += Modifiers.getNumericModifier( "Throne", bjorned.getRace(), "Item Drop" );
 			}
 			// Check for Florist
-			if ( !FloristRequest.haveFlorist() )
+			if ( FloristRequest.haveFlorist() )
 			{
 				ArrayList<Florist> plants = FloristRequest.getPlants( "Twin Peak" );
 				if ( plants != null )
