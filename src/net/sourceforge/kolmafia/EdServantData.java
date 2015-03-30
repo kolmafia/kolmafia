@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
@@ -501,6 +502,8 @@ public class EdServantData
 		return servant;
 	}
 
+	private static final AdventureResult PURR_OF_THE_FELINE = EffectPool.get( EffectPool.PURR_OF_THE_FELINE );
+
 	public static final void setEdServant( final Matcher matcher )
 	{
 		int id = StringUtilities.parseInt( matcher.group( 3 ) );
@@ -514,7 +517,7 @@ public class EdServantData
 		int level = StringUtilities.parseInt( matcher.group( 2 ) );
 
 		servant.name = new String( name );
-		servant.level = level;
+		servant.level = level - ( KoLConstants.activeEffects.contains( EdServantData.PURR_OF_THE_FELINE ) ? 5 : 0 );
 
 		if ( servant != EdServantData.currentEdServant )
 		{
