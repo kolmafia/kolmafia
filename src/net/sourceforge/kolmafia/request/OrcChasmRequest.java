@@ -111,7 +111,7 @@ public class OrcChasmRequest
 		return Preferences.getInteger( "chasmBridgeProgress" );
 	}
 
-	private static final void setChasmProgress( int progress )
+	public static final void setChasmProgress( int progress )
 	{
 		OrcChasmRequest.ensureUpdatedChasm();
 		Preferences.setInteger( "chasmBridgeProgress", progress );
