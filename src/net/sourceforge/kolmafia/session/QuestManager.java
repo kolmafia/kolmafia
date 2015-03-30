@@ -1613,6 +1613,10 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.CITADEL, "step10" );
 		}
+		else if ( monsterName.equals( "hulking bridge troll" ) )
+		{
+			OrcChasmRequest.setChasmProgress( 0 );
+		}
 		else if ( monsterName.equals( "warehouse guard" ) ||
 				monsterName.equals( "warehouse janitor" ) ||
 				monsterName.equals( "warehouse clerk" ) )
