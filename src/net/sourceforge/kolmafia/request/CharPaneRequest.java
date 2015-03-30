@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -260,6 +261,10 @@ public class CharPaneRequest
 		else if ( KoLCharacter.isSneakyPete() )
 		{
 			// No familiar-type checking needed
+		}
+		else if ( KoLCharacter.isEd() )
+		{
+			CharPaneRequest.checkServant( responseText );
 		}
 		else
 		{
@@ -1061,6 +1066,23 @@ public class CharPaneRequest
 				image.equals( "3" ) ? CharPaneRequest.LUTE :
 				null;
 			KoLCharacter.setClancy( StringUtilities.parseInt( level ), instrument, att );
+		}
+	}
+
+	private static final Pattern compactServantPattern =
+		Pattern.compile( "<b>Servant:</b>.*?target=\"mainpane\">(.*?) \\(lvl (\\d+)\\).*?edserv(\\d+).gif", Pattern.DOTALL );
+	private static final Pattern expandedServantPattern =
+		Pattern.compile(  "<b>Servant:</b>.*?target=\"mainpane\">(.*?) the (\\d+) level.*?edserv(\\d+).gif" , Pattern.DOTALL );
+
+	private static final void checkServant( final String responseText )
+	{
+		Pattern pattern = CharPaneRequest.compactCharacterPane ?
+			CharPaneRequest.compactServantPattern :
+			CharPaneRequest.expandedServantPattern;
+		Matcher servantMatcher = pattern.matcher( responseText );
+		if ( servantMatcher.find() )
+		{
+			EdServantData.setEdServant( servantMatcher );
 		}
 	}
 
