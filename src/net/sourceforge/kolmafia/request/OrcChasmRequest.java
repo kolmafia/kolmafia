@@ -119,7 +119,7 @@ public class OrcChasmRequest
 
 	private static final void subtractBridgeParts( final int parts )
 	{
-		if ( parts == 0 )
+		if ( parts <= 0 )
 		{
 			return;
 		}
