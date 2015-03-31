@@ -5844,7 +5844,6 @@ public class FightRequest
 	private static final void clearInstanceData()
 	{
 		KoLCharacter.resetEffectiveFamiliar();
-		IslandManager.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castShellUp = false;
@@ -5864,9 +5863,10 @@ public class FightRequest
 		// FightRequest.haiku = false;
 		// FightRequest.anapest = false;
 
-		// In Ed we'll only clear the monster status when we have won or abandoned the fight
+		// In Ed we'll only clear the monster status and Gremlins when we have won or abandoned the fight
 		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 		{
+			IslandManager.startFight();
 			MonsterStatusTracker.reset();
 		}
 
