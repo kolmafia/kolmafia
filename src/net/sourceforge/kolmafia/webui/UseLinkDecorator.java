@@ -631,7 +631,14 @@ public abstract class UseLinkDecorator
 
 			if ( itemId  == ItemPool.MOSQUITO_LARVA )
 			{
-				return new UseLink( itemId, "council", "council.php" );
+				if ( KoLCharacter.isEd() )
+				{
+					return new UseLink( itemId, "Amun", "council.php" );
+				}
+				else
+				{
+					return new UseLink( itemId, "council", "council.php" );
+				}
 			}
 
 			if ( KoLCharacter.isPicky() )
@@ -1046,7 +1053,14 @@ public abstract class UseLinkDecorator
 				// council to complete the quest.
 				if ( combatResults )
 				{
-					return new UseLink( itemId, "council", "council.php" );
+					if ( KoLCharacter.isEd() )
+					{
+						return new UseLink( itemId, "Amun", "council.php" );
+					}
+					else
+					{
+						return new UseLink( itemId, "council", "council.php" );
+					}
 				}
 				break;
 
@@ -1585,14 +1599,16 @@ public abstract class UseLinkDecorator
 			if ( !combatResults ) break;
 			/*FALLTHRU*/
 		case ItemPool.HOLY_MACGUFFIN:
-
-			useType = "council";
-			useLocation = "council.php";
-			break;
-
 		case ItemPool.ED_HOLY_MACGUFFIN:
 
-			useType = "Amun";
+			if ( KoLCharacter.isEd() )
+			{
+				useType = "Amun";
+			}
+			else
+			{
+				useType = "council";
+			}
 			useLocation = "council.php";
 			break;
 
