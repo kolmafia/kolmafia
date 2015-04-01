@@ -151,6 +151,7 @@ decanter of fine Scotch	4	9	awesome	18-22	5-10	5-10	50-80
 Desert Island Iced Tea	5	1		12-13	0	0	0	15 Castaway Physique (+25% Muscle)
 dew yoana lei	3	4	decent	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
+Dinsey Whinskey	2	5	EPIC	1-1	0	0	0	
 dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 Disappointed Russian	4	1	decent	7-9	0	0	30-40
 discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +30% DB Skill Weaken)

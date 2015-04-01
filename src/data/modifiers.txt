@@ -205,6 +205,9 @@ Item	Hairpiece On Fire	Cold Resistance: +2, Adventures: +4, Smithsness: +5, Maxi
 Item	hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 Item	hardened slime hat	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
 Item	Hat O' Nine Tails	Moxie Percent: +9
+# hazmat helmet: 75% Chance of Preventing Negative Status Attacks
+# hazmat helmet: Changes Your Avatar
+Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
 Item	helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 Item	helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
@@ -604,6 +607,8 @@ Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: 
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
+# ratskin pajama pants: Grants 40 Adventures of Pajama Party at Rollover
+Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
@@ -841,6 +846,7 @@ Item	astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
 Item	autocalliope	Spooky Damage: [2*(1+skill(Accordion Appreciation))], Stench Damage: [2*(1+skill(Accordion Appreciation))], Hot Damage: [2*(1+skill(Accordion Appreciation))], Cold Damage: [2*(1+skill(Accordion Appreciation))], Sleaze Damage: [2*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 # automatic catapult
 # Ax of L'rose
+Item	backwoods banjo	Experience Percent (Moxie): +20, Ranged Damage: +40, Maximum HP: +200, Maximum MP: +200
 Item	bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 Item	Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
@@ -1072,6 +1078,7 @@ Item	frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 Item	frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 Item	frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 Item	ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
+Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapon Drop: +20, Hat Drop: +20, Meat Drop: +30
 Item	gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 Item	ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 Item	ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
@@ -1367,6 +1374,7 @@ Item	sealhide whip	Cold Damage: +25
 Item	Seeger's Unstoppable Banjo	Moxie: +15, Meat Drop: +23, DB Combat Damage: +15, Class: "Disco Bandit"
 Item	serpentine sword	Monster Level: +10, Synergetic
 Item	severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
+Item	sewage-clogged pistol	Monster Level: +10, Stench Damage: +20
 Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Class: "Disco Bandit"
 # Shakespeare's Sister's Accordion: (+% to Moxie Based on Smithsness)
 # Shakespeare's Sister's Accordion: Has a cool Cadenza
@@ -1695,6 +1703,7 @@ Item	demon buckler	Hot Damage: +3, Damage Reduction: 5
 Item	depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
 Item	detour shield	Damage Absorption: +10, Damage Reduction: 6
+Item	dirty rigging rope	Initiative: +30, Stench Damage: +15
 Item	disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
 # double-ice box: Deals 10-20 cold damage every round
@@ -2187,6 +2196,8 @@ Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 Item	cement shoes	Mysticality: +20, Moxie: +20
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 Item	cheap studded belt	Damage Reduction: 1
+# cheap sunglasses: +60% Meat Drops from Tourists
+Item	cheap sunglasses	Single Equip
 # Chester's Aquarius medallion: All Spells Cast Are Sleazy
 Item	Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
@@ -2277,6 +2288,7 @@ Item	energy drink IV	MP Regen Min: 5, MP Regen Max: 7, Single Equip
 Item	enormous hoop earring	Moxie: +5
 Item	evil flaming eyeball pendant	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 Item	exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
+Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
@@ -2514,6 +2526,7 @@ Item	pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Single
 Item	pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Single Equip, Item Drop: [20*env(underwater)]
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
+Item	perfume-soaked bandana	Stench Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 Item	phase-tuned shield generator belt	Single Equip
 Item	phat turquoise bracelet	Mysticality: +5
@@ -2693,6 +2706,9 @@ Item	Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
 Item	stick-on eyebrow piercing	Muscle: +1
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip
 Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
+# stinky fannypack: +40% Item Drops while on Vacation
+# stinky fannypack: (in any Elemental Airport area)
+Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25
 Item	stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 Item	strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
@@ -3156,6 +3172,8 @@ Item	eye 'n' horn shampoo	Familiar Weight: +5
 Item	eye-pod	Familiar Weight: +5
 Item	false eyelashes	Familiar Weight: +5
 # farfalle bow tie: +10 lbs. of Barnacle
+# filthy child leash: Deals <font color=green>Stench Damage</font> Every Round
+Item	filthy child leash	Familiar Weight: +5, Generic
 Item	fin-bit wax	Familiar Weight: +5
 # fishbone belt: (Heavy Rains only)
 Item	fishbone belt	Critical Hit Percent: [25*path(Heavy Rains)], Weapon Damage: [25*path(Heavy Rains)], Single Equip
@@ -3214,6 +3232,7 @@ Item	ittah bittah hookah	Familiar Weight: +5, Generic
 Item	jalape&ntilde;o slices	Meat Drop: +60.9
 Item	Jawmaster 2000&trade;	Familiar Weight: +5
 Item	kitty sheet music	Familiar Weight: +5
+Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
 # Li'l Businessman Kit: Lets your familiar make deals
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
@@ -4628,6 +4647,7 @@ Effect	Hot Sweat	Hot Resistance: +7
 Effect	Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
 Effect	Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
+# How to Scam Tourists: +300% Meat Drops from Tourists
 Effect	Human-Beast Hybrid	Weapon Damage: +30
 Effect	Human-Constellation Hybrid	Meat Drop: +50
 Effect	Human-Demon Hybrid	Hot Damage: +20, Hot Spell Damage: +20
@@ -4963,6 +4983,7 @@ Effect	Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
+Effect	Pajama Party	Familiar Weight: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Effect	Partially Paralyzed	Moxie Percent: -50
 Effect	Pasta Eyeball	Meat Drop: +10
@@ -5271,6 +5292,7 @@ Effect	Song of Solitude	Combat Rate: -20
 Effect	Song of Starch	Maximum HP Percent: +50
 # Song of the Glorious Lunch: Food Sounds Great!
 Effect	Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
+# Song of the Southern Turtle Helps you tame turtles
 # Soul Freeze: Brrrrrrr...
 # Soul Funk: Deal some <font color=green>Stench Damage</font> every round
 Effect	Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
@@ -5348,6 +5370,7 @@ Effect	Stiff Upper Lip	Damage Reduction: 10
 Effect	Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Effect	Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 Effect	Stinking Cloud	Stench Resistance: +1
+# Stinkybeard: Deals <font color=green>Stench Damage</font> every round
 # Stinky Breath: Can breathe stench in combat
 Effect	Stinky Hands	Stench Damage: +10, Stench Spell Damage: +20, Hot Resistance: +2, Spooky Resistance: +2
 Effect	Stinky Weapon	Stench Damage: +3
@@ -5440,6 +5463,9 @@ Effect	The Champion's Breakfast	Initiative: [min(60,2*T)]
 Effect	The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 Effect	The Cupcake of Wrath	Monster Level: +10
 Effect	The Dark Lord Rides in Force Tonight	Spooky Damage: +40
+Effect	The Dinsey Look	Monster Level: +40
+Effect	The Dinsey Spirit	Item Drop: +40
+Effect	The Dinsey Way	Meat Drop: +80
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 Effect	The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 Effect	The Glistening	Initiative: +20, Damage Reduction: 5
@@ -6122,6 +6148,7 @@ Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect D
 Item	cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
 Item	D roll	Effect: "On a Roll", Effect Duration: 20
 Item	devil dog	Effect: "Devil Inside", Effect Duration: 30
+Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30
 Item	dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 Item	Dreadsylvanian cold pocket	Effect: "Dreadful Chill", Effect Duration: 200
 Item	Dreadsylvanian hot pocket	Effect: "Dreadful Heat", Effect Duration: 200
@@ -6318,6 +6345,7 @@ Item	crystal skeleton vodka	Effect: "Aykrophobia", Effect Duration: 20
 Item	cursed bottle of black-label rum	Effect: "Curse Magnet", Effect Duration: 10
 Item	dew yoana lei	Effect: "Brined Liver", Effect Duration: 20
 Item	dew yoana salacious lei	Effect: "Brined Liver", Effect Duration: 30
+Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
 Item	Drac & Tan	Effect: "Creepypasted ", Effect Duration: 5
@@ -6567,6 +6595,7 @@ Item	bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 Item	bad penguin egg	Free Pull
 Item	bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 Item	bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
+# bag of park garbage: Maybe there's something valuable inside?
 # bag of pygmy blood: Restores 30-40 HP
 Item	bag of pygmy blood	Effect: "Blood-Rich", Effect Duration: 20
 Item	bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
@@ -6579,6 +6608,7 @@ Item	Bangyomaman battle juice	Effect: "Pug Ugly", Effect Duration: 50
 Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
 Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
+Item	beard incense	Effect: "Stinkybeard", Effect Duration: 20
 # beer-scented teddy bear: Restores 15-20 MP
 Item	beet-flavored Mr. Mediocrebar	Effect: "Block-Rockin' Beet", Effect Duration: 30
 Item	begpwnia	Effect: "Can't Be a Chooser", Effect Duration: 10
@@ -6815,6 +6845,8 @@ Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 # Diet Cloaca Cola: Restores 7-9 MP
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 # dingy dinghy: <b>Allows Travel to The Mysterious Island of Mystery</b>
+Item	Dinsey face paint	Effect: "The Dinsey Look", Effect Duration: 20
+# Dinsey tattoo kit: Grants a cool Dinsey tattoo when used
 Item	disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
 Item	disco horoscope (Aries)	Effect: "Aries Rising", Effect Duration: 10
 Item	disco horoscope (Cancer)	Effect: "Cancer Rising", Effect Duration: 10
@@ -7035,6 +7067,8 @@ Item	gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 Item	gremlin mutagen	Effect: "Mutated", Effect Duration: 1
 Item	grey cube	Effect: "Square Jaw And Everything Else", Effect Duration: 100
 Item	grisly shell fragment	Effect: "Thick, Sick", Effect Duration: 1
+# grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
+# grogpagne: Restores 30-50 MP
 Item	groupie spangles	Effect: "Spangled Star", Effect Duration: 5
 Item	gummi ammonite	Effect: "Sugar Rush", Effect Duration: 100
 Item	gummi belemnite	Effect: "Sugar Rush", Effect Duration: 100
@@ -7089,6 +7123,7 @@ Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breat
 Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
 Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
+Item	How to Avoid Scams	Effect: "How to Scam Tourists", Effect Duration: 20
 Item	Huggler Radio	Free Pull
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
@@ -7114,6 +7149,7 @@ Item	Jackass Plumber home game	Effect: "Gamer Rage", Effect Duration: 10
 Item	jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
 Item	janglin' bones	Effect: "Bony Dancer", Effect Duration: 30
 Item	jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
+# jar of swamp honey: You can dip food in it
 Item	jazz soap	Free Pull, Effect: "Jazz Hands", Effect Duration: 20
 Item	jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
 Item	jitterbug larva	Free Pull
@@ -7624,6 +7660,7 @@ Item	Tome of Sugar Shummoning	Free Pull
 # tonic water: Restores 30-50 MP
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
+# toxic globule: Can be scienced into various objects
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
@@ -7631,6 +7668,7 @@ Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP
 Item	turtle mud	Effect: "Muddy Buddy", Effect Duration: 50
 Item	turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
+Item	turtle voicebox	Effect: "Song of the Southern Turtle", Effect Duration: 15
 Item	twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 Item	twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 # twitching trigger finger: <b>Only Pastamancers may use this item.</b>

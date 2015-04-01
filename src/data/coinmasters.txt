@@ -730,3 +730,16 @@ Everything Under the World	buy	2	talisman of Thoth	ROW434
 Everything Under the World	buy	1	talisman of Renenutet	ROW439
 Everything Under the World	buy	5	talisman of Horus	ROW693
 
+# Things you can buy with Fun Funds
+
+The Dinsey Company Store	buy	1	Dinsey face paint	ROW701
+The Dinsey Company Store	buy	2	Dinsey food-cone	ROW699
+The Dinsey Company Store	buy	2	Dinsey Whinskey	ROW700
+The Dinsey Company Store	buy	20	one-day ticket to Dinseylandfill	ROW715
+The Dinsey Company Store	buy	25	stinky fannypack	ROW702
+The Dinsey Company Store	buy	25	garbage sticker	ROW703
+The Dinsey Company Store	buy	25	hazmat helmet	ROW704
+The Dinsey Company Store	buy	50	Scratch-and-Sniff Guide to Dinseylandfill	ROW705
+The Dinsey Company Store	buy	50	Trash, a Memoir	ROW706
+The Dinsey Company Store	buy	50	Dinsey Maintenance Manual	ROW707
+The Dinsey Company Store	buy	100	Dinsey tattoo kit	ROW708

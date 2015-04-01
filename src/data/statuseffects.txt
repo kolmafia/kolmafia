@@ -1814,3 +1814,15 @@
 1812	Taunt of Horus	tal_h.gif	8b54838db1cda65ce182f4b36e537618	use 1 talisman of Horus
 1813	Little Mouse Skull Buddy	mouseskull.gif	06cf6eac71000fa3297d0a514e73cf78	use 1 mouse skull
 1814	Extra Backbone	bigspine.gif	7026c30f6df80fffdf3a48f78e24f8d9	use 1 really thick spine
+1815
+1816
+1817
+1818
+1819	How to Scam Tourists	book2.gif	f51578e6c4ff07634d3a21699d5cd38b	use 1 How to Avoid Scams
+1820	Stinkybeard	stinkbeard.gif	dced1d78f892945edf41daf254885166	use 1 beard incense
+1821
+1822	Pajama Party	atpants.gif	aa4b43321ec247f1848c461c606b5432
+1823	The Dinsey Way	dinsey1.gif	ca318881c5f144467c1f36ad22d57b02	eat 1 Dinsey food-cone
+1824	The Dinsey Spirit	dinsey2.gif	47b77ff340e9478b1c8ef1d20a324c37	drink 1 Dinsey Whinskey
+1825	The Dinsey Look	dinsey3.gif	f48e0507f2971de874b906e0356482d1	use 1 Dinsey face paint
+1826	Song of the Southern Turtle	turtle.gif	13cc4b4a406672b3f6f30c4fbde974f5	use 1 turtle voicebox

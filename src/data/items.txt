@@ -8226,3 +8226,56 @@
 8201
 8202
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0
+8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0
+8205
+8206	expensive camera	438775690	camera.gif	accessory	t,d	150
+8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150
+8208	How to Avoid Scams	948718713	book2.gif	usable	t,d	50
+8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75
+8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25
+8211	bag of park garbage	884529141	parkgarbage.gif	usable	t,d	10
+8212	grogpagne	583183522	champagne.gif	usable	t,d	36
+8213	dirty rigging rope	289454217	stinkrope.gif	offhand	t,d	66
+8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45
+8215	sewage-clogged pistol	660740541	sewagepistol.gif	weapon	t,d	77
+8216	beard incense	204763905	incense.gif	usable	t,d	15
+8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
+8218	toxic globule	389466175	toxglob.gif	usable	t,d	5
+8219
+8220
+8221
+8222
+8223
+8224
+8225	lead collar	639074313	leadcollar.gif	familiar	t,d	75
+8226	jar of swamp honey	215171688	honeyjar.gif	none	t,d	0
+8227	backwoods banjo	257129869	seegerbanjo.gif	weapon	t	0
+8228	grody jug	889553685	jug.gif	none, combat	t,d	25
+8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
+8230	turtle voicebox	485498068	turtlebox.gif	usable	t,d	35
+8231
+8232
+8233
+8234
+8235
+8236
+8237
+8238
+8239
+8240
+8241
+8242
+8243
+8244
+8245
+8246
+8247	Dinsey food-cone	985911733	foodcone.gif	food	d	44
+8248	Dinsey Whinskey	117634063	bottle.gif	drink	d	66
+8249	Dinsey face paint	167820864	palette.gif	usable	d	22
+8250	stinky fannypack	748377249	fannypack.gif	accessory	d	120
+8251	garbage sticker	945648888	arbsticker.gif	weapon	d	150
+8252	hazmat helmet	124905161	hazhelmet.gif	hat	d	200
+8253	Scratch-and-Sniff Guide to Dinseylandfill	950015537	book3.gif	usable	t,d	250
+8254	Trash, a Memoir	417573941	book4.gif	usable	t,d	250
+8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t,d	250
+8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t,d	200
