@@ -8208,3 +8208,21 @@
 8183
 8184	Ed the Undying exhibit crate	456673748	crate.gif	usable	t	0
 8185	The Crown of Ed the Undying	538837118	nemes.gif	hat		0
+8186
+8187
+8188
+8189
+8190
+8191
+8192
+8193
+8194
+8194
+8196
+8197
+8198
+8199
+8200
+8201
+8202
+8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0

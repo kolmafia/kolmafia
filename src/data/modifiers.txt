@@ -6532,6 +6532,7 @@ Item	Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Item	Aggressive Carrot	Free Pull
 Item	airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 Item	airplane charter: Conspiracy Island	Free Pull
+Item	airplane charter: Dinseylandfill	Free Pull
 Item	airplane charter: Spring Break Beach	Free Pull
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 Item	alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
