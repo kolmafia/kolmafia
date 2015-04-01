@@ -4690,6 +4690,10 @@ public class UseItemRequest
 			Preferences.setBoolean( "armoryUnlocked", true );
 			return;
 
+		case ItemPool.DINSEY_CHARTER:
+			Preferences.setBoolean( "stenchAirportAlways", true );
+			return;
+
 		case ItemPool.LOVEBUG_PHEROMONES:
 			if ( !responseText.contains( "have been permanently unlocked" ) )
 			{
