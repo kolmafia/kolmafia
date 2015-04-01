@@ -126,6 +126,15 @@ public class StandardRequest
 			type = "Clan Items";
 		}
 
+		if ( type.equals( "Bookshelf Books" ) )
+		{
+			// Work around a KoL bug: most restricted books are
+			// listed both under Bookshelf Books and Items, but
+			// 3 are listed under only one or the other.
+			return  StandardRequest.isNotRestricted( "Bookshelf Books", key ) &&
+				StandardRequest.isNotRestricted( "Items", key );
+		}
+
 		List<String> list = StandardRequest.typeToList( type );
 		return list != null && StandardRequest.isNotRestricted( list, key );
 	}
