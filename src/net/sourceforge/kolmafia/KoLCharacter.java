@@ -3954,7 +3954,7 @@ public abstract class KoLCharacter
 			{
 				int itemId = SkillDatabase.skillToBook( skillName );
 				skillName = ItemDatabase.getItemName( itemId );
-				isAllowed = StandardRequest.isAllowed( "Bookshelf", skillName );
+				isAllowed = StandardRequest.isAllowed( "Bookshelf Books", skillName );
 			}
 			else
 			{
