@@ -130,6 +130,7 @@ Hairpiece On Fire	100	none
 hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
+hazmat helmet	200	Mox: 85
 Helm of the Scream Emperor	120	none
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
@@ -488,6 +489,7 @@ pottery training pants	50	none
 pteruges	100	Mox: 35
 pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
+ratskin pajama pants	150	Mox: 50
 red silk skirt	155	Mox: 62
 rusty metal greaves	150	Mus: 60
 scale-mail underwear	200	Mox: 85
@@ -706,6 +708,7 @@ astral pistol	50	Mox: 0	1-handed pistol
 autocalliope	130	Mox: 50	2-handed accordion
 automatic catapult	150	Mox: 60	2-handed autopult
 Ax of L'rose	50	Mus: 0	2-handed axe
+backwoods banjo	150	Mox: 50	2-handed banjo
 bad-ass club	130	Mus: 50	2-handed club
 bag of unfinished business	225	Mox: 200	2-handed doggie bag
 Bal-musette accordion	50	Mox: 0	2-handed accordion
@@ -915,6 +918,7 @@ frozen nunchaku	80	Mus: 25	2-handed flail
 frozen seal spine	140	Mus: 55	1-handed club
 frying brainpan	225	Mys: 200	1-handed saucepan
 ga-ga radio	125	Mox: 47	2-handed radio
+garbage sticker	200	Mus: 85	1-handed spear
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
 ghast iron cleaver	175	Mus: 72	1-handed club
 ghost accordion	140	Mox: 55	2-handed accordion
@@ -1175,6 +1179,7 @@ sealhide whip	35	Mus: 2	1-handed whip
 Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
+sewage-clogged pistol	100	Mox: 35	1-handed pistol
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
@@ -1460,6 +1465,7 @@ demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
+dirty rigging rope	0	Mus: 30
 disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
 Drunkula's wineglass	300	Mys: 100
@@ -1872,6 +1878,7 @@ cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
 cheap elven gloves	30	none
 cheap studded belt	10	none
+cheap sunglasses	0	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
@@ -1946,6 +1953,7 @@ enormous hoop earring	120	Mys: 45
 ESP suppression collar	0	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
+expensive camera	0	Mys: 30
 eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
@@ -2157,6 +2165,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
+perfume-soaked bandana	0	Mys: 15
 Personal Ventilation Unit	100	none
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
@@ -2319,6 +2328,7 @@ Star of Bravery	200	none
 stick-on eyebrow piercing	10	none
 sticky gloves	70	none
 stinky cheese eye	0	none
+stinky fannypack	200	Mys: 85
 stolen necklace	90	Mys: 30
 strawberyl necklace	0	none
 streetfighting champion's belt	100	Mus: 35
