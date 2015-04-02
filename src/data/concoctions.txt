@@ -171,8 +171,8 @@ phat turquoise bracelet	COMBINE	phat turquoise bead	hemp string
 spooky staff	COMBINE	spooky shrunken head	spooky stick
 
 snakehead charrrm	SUSE	gaudy key
-Talisman o' Nam	SUSE	snakehead charrrm	snakehead charrrm
-Talisman o' Nam	ACOMBINE	Copperhead Charm	Copperhead Charm (rampant)
+Talisman o' Namsilat	SUSE	snakehead charrrm	snakehead charrrm
+Talisman o' Namsilat	ACOMBINE	Copperhead Charm	Copperhead Charm (rampant)
 
 boxing glove on a spring	COMBINE	spring	boxing glove
 grass whistle	COMBINE	leaf of grass	leaf of grass

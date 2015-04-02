@@ -2200,7 +2200,7 @@ Item	cement shoes	Mysticality: +20, Moxie: +20
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 Item	cheap studded belt	Damage Reduction: 1
 # cheap sunglasses: +60% Meat Drops from Tourists
-Item	cheap sunglasses	Single Equip
+Item	cheap sunglasses	Meat Drop: [60*zone(Dinseylandfill)], Single Equip
 # Chester's Aquarius medallion: All Spells Cast Are Sleazy
 Item	Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
@@ -2712,7 +2712,7 @@ Item	sticky gloves	Pickpocket Chance: +20, Single Equip
 Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
 # stinky fannypack: +40% Item Drops while on Vacation
 # stinky fannypack: (in any Elemental Airport area)
-Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25
+Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Item Drop: [40*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill))]
 Item	stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 Item	strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
@@ -4652,6 +4652,7 @@ Effect	Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
 Effect	Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
 # How to Scam Tourists: +300% Meat Drops from Tourists
+Effect	How to Scam Tourists	Meat Drop: [300*zone(Dinseylandfill)]
 Effect	Human-Beast Hybrid	Weapon Damage: +30
 Effect	Human-Constellation Hybrid	Meat Drop: +50
 Effect	Human-Demon Hybrid	Hot Damage: +20, Hot Spell Damage: +20
