@@ -730,7 +730,7 @@ Everything Under the World	buy	2	talisman of Thoth	ROW434
 Everything Under the World	buy	1	talisman of Renenutet	ROW439
 Everything Under the World	buy	5	talisman of Horus	ROW693
 
-# Things you can buy with Fun Funds
+# Things you can buy with FunFunds&trade;
 
 The Dinsey Company Store	buy	1	Dinsey face paint	ROW701
 The Dinsey Company Store	buy	2	Dinsey food-cone	ROW699
