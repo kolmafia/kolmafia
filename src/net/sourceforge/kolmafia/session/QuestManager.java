@@ -586,8 +586,10 @@ public class QuestManager
 		if ( !Preferences.getBoolean( "sleazeAirportAlways" ) )
 		{
 			// Detect if Airport is open today
-			if ( location.contains( AdventurePool.FUN_GUY_MANSION_ID ) || location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
-				location.contains( AdventurePool.YACHT_ID ) || location.contains( "whichplace=airport_sleaze" ) )
+			if ( location.contains( AdventurePool.FUN_GUY_MANSION_ID ) ||
+			     location.contains( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
+			     location.contains( AdventurePool.YACHT_ID ) ||
+			     location.contains( "whichplace=airport_sleaze" ) )
 			{
 				Preferences.setBoolean( "_sleazeAirportToday", true );
 			}
@@ -599,12 +601,15 @@ public class QuestManager
 				}
 			}
 		}
+
 		// Check Spooky settings
 		if ( !Preferences.getBoolean( "spookyAirportAlways" ) )
 		{
 			// Detect if Airport is open today
-			if ( location.contains( AdventurePool.DR_WEIRDEAUX_ID ) || location.contains( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
-				location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) || location.contains( "whichplace=airport_spooky" ) )
+			if ( location.contains( AdventurePool.DR_WEIRDEAUX_ID ) ||
+			     location.contains( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
+			     location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) ||
+			     location.contains( "whichplace=airport_spooky" ) )
 			{
 				Preferences.setBoolean( "_spookyAirportToday", true );
 			}
@@ -616,6 +621,28 @@ public class QuestManager
 				}
 			}
 		}
+
+		// Check Stench settings
+		if ( !Preferences.getBoolean( "stenchAirportAlways" ) )
+		{
+			// Detect if Airport is open today
+			if ( location.contains( AdventurePool.BARF_MOUNTAIN_ID ) ||
+			     location.contains( AdventurePool.GARBAGE_BARGES_ID ) ||
+			     location.contains( AdventurePool.TOXIC_TEACUPS_ID ) ||
+			     location.contains( AdventurePool.LIQUID_WASTE_SLUICE_ID ) ||
+			     location.contains( "whichplace=airport_stench" ) )
+			{
+				Preferences.setBoolean( "_stenchAirportToday", true );
+			}
+			else if ( location.contains( "whichplace=airport" ) )
+			{
+				if ( responseText.contains( "whichplace=airport_stench" ) )
+				{
+					Preferences.setBoolean( "_stenchAirportToday", true );
+				}
+			}
+		}
+
 		// Detect Bunker state
 		if ( location.contains( "whichplace=airport_spooky_bunker" ) )
 		{
@@ -659,6 +686,7 @@ public class QuestManager
 				ResultProcessor.removeItem( ItemPool.ARMORY_KEYCARD );
 			}
 		}
+
 		return;
 	}
 

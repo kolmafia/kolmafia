@@ -1235,6 +1235,7 @@ user	_spinningWheel	false
 user	_spookyAirportToday	false
 user	_stabonicScrollUsed	false
 user	_steamCardDrops	0
+user	_stenchAirportToday	false
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0
 user	_stinkyCheeseBanisherUsed	false

@@ -4694,6 +4694,18 @@ public class UseItemRequest
 			Preferences.setBoolean( "stenchAirportAlways", true );
 			return;
 
+		case ItemPool.DINSEY_TICKET:
+			if ( !responseText.contains( "already have access to that place" ) )
+			{
+				Preferences.setBoolean( "_stenchAirportToday", true );
+			}
+			else
+			{
+				// If you already have access it is not consumed
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.LOVEBUG_PHEROMONES:
 			if ( !responseText.contains( "have been permanently unlocked" ) )
 			{
