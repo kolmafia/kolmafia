@@ -1315,6 +1315,11 @@ public abstract class UseLinkDecorator
 			useType = "sculpt";
 			useLocation = "shop.php?whichshop=topiary";
 			break;
+
+		case ItemPool.TOXIC_GLOBULE:
+			useType = "do science";
+			useLocation = "shop.php?whichshop=toxic";
+			break;
 			
 		// Subject 37 File goes to Cell #37
 		case ItemPool.SUBJECT_37_FILE:

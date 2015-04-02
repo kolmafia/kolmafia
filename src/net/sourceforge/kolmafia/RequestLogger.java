@@ -160,6 +160,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
@@ -1382,6 +1383,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof TicketCounterRequest || isExternal ) && TicketCounterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ToxicChemistryRequest || isExternal ) && ToxicChemistryRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

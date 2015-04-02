@@ -2335,6 +2335,8 @@ public class ItemPool
 	public static final int MAP_TO_KOKOMO = 8182;
 	public static final int CROWN_OF_ED = 8185;
 	public static final int DINSEY_CHARTER = 8203;
+	public static final int FUNFUNDS = 8205;
+	public static final int TOXIC_GLOBULE = 8218;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

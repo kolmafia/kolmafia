@@ -678,6 +678,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "toxic" ) )
+		{
+			ToxicChemistryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "fishbones" ) )
 		{
 			FishboneryRequest.parseResponse( urlString, responseText );
@@ -986,6 +992,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "topiary" ) )
 			{
 				return NuggletCraftingRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "toxic" ) )
+			{
+				return ToxicChemistryRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.startsWith( "crimbo14" ) )

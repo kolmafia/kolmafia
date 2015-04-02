@@ -117,6 +117,7 @@ import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
@@ -190,6 +191,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel SHAWARMAPanel = null;
 	private CoinmasterPanel canteenPanel = null;
 	private CoinmasterPanel armoryPanel = null;
+	private CoinmasterPanel toxicChemistryPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -358,6 +360,11 @@ public class CoinmastersFrame
 		armoryPanel = new ArmoryPanel();
 		panel.add( armoryPanel );
 		this.selectorPanel.addPanel( armoryPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		toxicChemistryPanel = new ToxicChemistryPanel();
+		panel.add( toxicChemistryPanel );
+		this.selectorPanel.addPanel( toxicChemistryPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1148,6 +1155,15 @@ public class CoinmastersFrame
 		public ArmoryPanel()
 		{
 			super( ArmoryRequest.ARMORY );
+		}
+	}
+
+	public class ToxicChemistryPanel
+		extends CoinmasterPanel
+	{
+		public ToxicChemistryPanel()
+		{
+			super( ToxicChemistryRequest.TOXIC_CHEMISTRY );
 		}
 	}
 
