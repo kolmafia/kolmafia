@@ -147,6 +147,7 @@ invisible bag	10	none
 irate sombrero	45	Mox: 7
 iron helmet	100	Mox: 20
 ironic knit cap	40	Mox: 5
+isotophat	100	Mox: 35
 Jarlsberg's hat	30	none
 jewel-eyed wizard hat	10	none
 Kentucky-style derby	20	none
@@ -519,6 +520,7 @@ sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
+Three Mile Island shorts	100	Mox: 35
 three-legged pants	20	none
 thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
@@ -1321,6 +1323,7 @@ tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 tommy gun	160	Mox: 65	2-handed rifle
 Totally Gay Claymore	70	Mus: 19	2-handed sword
+toxic mop	150	Mus: 50	2-handed polearm
 toy accordion	10	Mox: 0	2-handed accordion
 toy Crimbot power glove	50	Mus: 0	1-handed knuckles
 toy ray gun	175	Mox: 72	1-handed pistol
@@ -1567,6 +1570,7 @@ Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 loose purse strings	10	none
 low-budget shield	0	none	shield
+lube-shoes	0	none
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none

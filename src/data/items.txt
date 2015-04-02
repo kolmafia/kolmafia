@@ -8241,12 +8241,12 @@
 8216	beard incense	204763905	incense.gif	usable	t,d	15
 8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
 8218	toxic globule	389466175	toxglob.gif	usable	t,d	5
-8219
-8220
-8221
-8222
-8223
-8224
+8219	toxo	879522066	toxo.gif	food	d	22
+8220	Lemonade-235	531649603	toxlemonade.gif	drink	d	22
+8221	isotophat	188051518	toxhat.gif	hat	d	50
+8222	Three Mile Island shorts	696890895	toxshorts.gif	pants	d	50
+8223	toxic mop	248150281	mop.gif	weapon	d	90
+8224	inert sludgepuppy	469414689	sludgepup.gif	grow		0
 8225	lead collar	639074313	leadcollar.gif	familiar	t,d	75
 8226	jar of swamp honey	215171688	honeyjar.gif	none	t,d	0
 8227	backwoods banjo	257129869	seegerbanjo.gif	weapon	t	0
@@ -8266,7 +8266,7 @@
 8241
 8242
 8243
-8244
+8244	lube-shoes	524575541	lubeshoes.gif	accessory	q	0
 8245
 8246
 8247	Dinsey food-cone	985911733	foodcone.gif	food	d	44

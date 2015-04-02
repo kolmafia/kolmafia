@@ -715,6 +715,7 @@ tofurkey leg	3	5	awesome	7-14	70-74	0	0
 tofurkey nugget	3	1	good	4-11	30-33	0	0
 tomato	1	1	crappy	1	0	0	0
 tombstone-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Crimbo Epiphany (+10% mys)
+toxo	2	5	good	1-1	0	0	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
 traffic jam toast	1	1	decent	1-3	50	0	0
 tree-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
 triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)

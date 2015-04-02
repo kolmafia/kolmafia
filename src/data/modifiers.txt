@@ -225,6 +225,7 @@ Item	invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 Item	irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 Item	iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10, Familiar Effect: "atk, 1xFairy, cap 25"
 Item	ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
+Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20
 Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
 # jewel-eyed wizard hat: Regenerate MP Based on Level
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
@@ -639,6 +640,7 @@ Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 2
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
 Item	The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, cap 18"
+Item	Three Mile Island shorts	Stench Damage: +20, Stench Spell Damage: +10
 Item	three-legged pants	Muscle: +2, Maximum HP: +5
 Item	thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 Item	tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
@@ -1540,6 +1542,7 @@ Item	tiny plastic sword	Moxie: +1
 Item	titanium assault umbrella	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	tommy gun	Weapon Damage: +5
 # Totally Gay Claymore
+Item	toxic mop	Stench Damage: +20, Stench Spell Damage: +20
 Item	toy accordion	Song Duration: 5
 # toy Crimbot power glove: Allows use of ZAP in combat
 Item	toy Crimbot power glove	Weapon Damage: +15, Crimbot Outfit Power: +1
@@ -2438,7 +2441,8 @@ Item	long-forgotten necklace	Meat Drop: +15
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 # Lord Spookyraven's spectacles
-Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
+# Item lube-shoes Good for lubricating rollercoaster tracks
+Item	lube-shoes	Moxie: -10Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	lucky cat collar	Meat Drop: +7, Single Equip
 # lucky Crimbo tiki necklace: Brings Good Luck!
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
@@ -5086,6 +5090,7 @@ Effect	Quivering with Rage	Muscle Percent: -10
 Effect	QWOPped Up	Initiative: -100
 Effect	Rad-ish	Moxie Percent: +25
 Effect	Radiant Personality	Moxie Percent: +30
+Effect	Radiated and Grodiated	Mysticality Percent: +50, Stench Spell Damage: +25, Stench Resistance: +3
 Effect	Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical Hit Percent: +10
 Effect	Radio Head	Moxie: +20
 Effect	Radium Radicality	Moxie: +30
@@ -5546,6 +5551,7 @@ Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10, Critical Hit Percent:
 Effect	Tortious	Monster Level: +10
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
+Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
 Effect	Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Effect	Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
@@ -6408,6 +6414,7 @@ Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Jackhammer	Effect: "Mortarfied", Effect Duration: 10
 Item	Jungle Juice	Effect: "Jungle Juiced", Effect Duration: 30
 Item	La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
+Item	Lemonade-235	Effect: "Radiated and Grodiated", Effect Duration: 40
 Item	Locust	Effect: "Cockroach Scurry", Effect Duration: 10
 Item	Lollipop Drop	Effect: "Holiday Bliss", Effect Duration: 5
 Item	Lumineux Limnio	Effect: "Bright!", Effect Duration: 50
