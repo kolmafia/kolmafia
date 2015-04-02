@@ -73,6 +73,7 @@ Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
 Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
+Barf Mountain	100	angry tourist	garbage tourist	horrible tourist family
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
@@ -166,6 +167,7 @@ Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin: 2	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
+Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate	flashy pirate
 Post-Cyrpt Cemetary	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Pre-Cyrpt Cemetary	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
@@ -343,6 +345,7 @@ The Temple Ruins	-1	crocodile man	cultist	magma man	mummy
 The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
+The Toxic Teacups	100	toxic beastie
 The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Upper Chamber	-1	Iiti Kitty	tomb bat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
@@ -359,6 +362,7 @@ Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Less
 Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
 Trick-or-Treating	100	vandal kid	suburban security civilian	kid who is too old to be Trick-or-Treating	All-Hallow's Steve: 0
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
+Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	Cbzzter the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)
