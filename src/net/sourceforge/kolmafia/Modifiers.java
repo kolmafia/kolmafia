@@ -3847,24 +3847,24 @@ public class Modifiers
 		return type + "\t" + name + "\t" + modifiers;
 	}
 
-	public static void writeModifierComment( final PrintStream writer, final String type, final String name, final String unknown )
+	public static String modifierCommentString( final String type, final String name, final String value )
 	{
-		writer.println( Modifiers.modifierCommentString( type, name, unknown ) );
+		return "# " + type + " " + name + ": " + value;
 	}
 
-	public static String modifierCommentString( final String type, final String name, final String unknown )
+	public static void writeModifierComment( final PrintStream writer, final String type, final String name, final String value )
 	{
-		return "# " + type + " " + name + ": " + unknown;
-	}
-
-	public static void writeModifierComment( final PrintStream writer, final String type, final String name )
-	{
-		writer.println( Modifiers.modifierCommentString( type, name ) );
+		writer.println( Modifiers.modifierCommentString( type, name, value ) );
 	}
 
 	public static String modifierCommentString( final String type, final String name )
 	{
 		return "# " + type + " " + name;
+	}
+
+	public static void writeModifierComment( final PrintStream writer, final String type, final String name )
+	{
+		writer.println( Modifiers.modifierCommentString( type, name ) );
 	}
 
 	public static final void registerItem( final String name, final String text, final int type )
@@ -3892,13 +3892,11 @@ public class Modifiers
 		Modifiers.registerObject( "Outfit", name, unknown, known );
 	}
 
-	private static final void registerObject( final String type, final String name, final ArrayList unknown, final String known )
+	private static final void registerObject( final String type, final String name, final ArrayList<String> unknown, final String known )
 	{
-		String printMe;
-		String lookup = Modifiers.getLookupName( type, name );
-		for ( int i = 0; i < unknown.size(); ++i )
+		for ( String value : unknown )
 		{
-			printMe = Modifiers.modifierCommentString( lookup, (String) unknown.get( i ) );
+			String printMe = Modifiers.modifierCommentString( type, name, value );
 			RequestLogger.printLine( printMe );
 			RequestLogger.updateSessionLog( printMe );
 		}
@@ -3907,17 +3905,18 @@ public class Modifiers
 		{
 			if ( unknown.size() == 0 )
 			{
-				printMe = Modifiers.modifierCommentString( type, name );
+				String printMe = Modifiers.modifierCommentString( type, name );
 				RequestLogger.printLine( printMe );
 				RequestLogger.updateSessionLog( printMe );
 			}
 		}
 		else
 		{
-			printMe = Modifiers.modifierString( type, name, known );
+			String printMe = Modifiers.modifierString( type, name, known );
 			RequestLogger.printLine( printMe );
 			RequestLogger.updateSessionLog( printMe );
 
+			String lookup = Modifiers.getLookupName( type, name );
 			if ( !Modifiers.modifiersByName.containsKey( lookup ) )
 			{
 				Modifiers.modifiersByName.put( lookup, known );
