@@ -678,6 +678,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "landfillstore" ) )
+		{
+			DinseyCompanyStoreRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "toxic" ) )
 		{
 			ToxicChemistryRequest.parseResponse( urlString, responseText );
@@ -992,6 +998,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "topiary" ) )
 			{
 				return NuggletCraftingRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "landfillstore" ) )
+			{
+				return DinseyCompanyStoreRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "toxic" ) )

@@ -8227,7 +8227,7 @@
 8202
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0
 8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0
-8205	FunFunds&trade;	940383486	funfunds.gif	none	0	FunFunds&trade;
+8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
 8206	expensive camera	438775690	camera.gif	accessory	t,d	150
 8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150
 8208	How to Avoid Scams	948718713	book2.gif	usable	t,d	50

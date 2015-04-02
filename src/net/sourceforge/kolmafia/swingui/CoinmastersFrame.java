@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
+import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
@@ -191,6 +192,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel SHAWARMAPanel = null;
 	private CoinmasterPanel canteenPanel = null;
 	private CoinmasterPanel armoryPanel = null;
+	private CoinmasterPanel dinseyCompanyStorePanel = null;
 	private CoinmasterPanel toxicChemistryPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
@@ -360,6 +362,11 @@ public class CoinmastersFrame
 		armoryPanel = new ArmoryPanel();
 		panel.add( armoryPanel );
 		this.selectorPanel.addPanel( armoryPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		dinseyCompanyStorePanel = new DinseyCompanyStorePanel();
+		panel.add( dinseyCompanyStorePanel );
+		this.selectorPanel.addPanel( dinseyCompanyStorePanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		toxicChemistryPanel = new ToxicChemistryPanel();
@@ -1155,6 +1162,15 @@ public class CoinmastersFrame
 		public ArmoryPanel()
 		{
 			super( ArmoryRequest.ARMORY );
+		}
+	}
+
+	private class DinseyCompanyStorePanel
+		extends CoinmasterPanel
+	{
+		public DinseyCompanyStorePanel()
+		{
+			super( DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE );
 		}
 	}
 
