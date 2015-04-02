@@ -743,3 +743,12 @@ The Dinsey Company Store	buy	50	Scratch-and-Sniff Guide to Dinseylandfill	ROW705
 The Dinsey Company Store	buy	50	Trash, a Memoir	ROW706
 The Dinsey Company Store	buy	50	Dinsey Maintenance Manual	ROW707
 The Dinsey Company Store	buy	100	Dinsey tattoo kit	ROW708
+
+# Things you can buy with toxic globules
+
+Toxic Chemistry	buy	5	Lemonade-235	ROW710
+Toxic Chemistry	buy	5	toxo	ROW709
+Toxic Chemistry	buy	50	isotophat	ROW711
+Toxic Chemistry	buy	50	Three Mile Island shorts	ROW712
+Toxic Chemistry	buy	50	toxic mop	ROW713
+Toxic Chemistry	buy	500	inert sludgepuppy	ROW714
