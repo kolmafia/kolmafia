@@ -686,7 +686,7 @@ swamp entity	596	swampentity.gif	Atk: 20 Def: 18 HP: 25 Init: 30 P: elemental E:
 swamp gator	595	swampgator.gif	Atk: 36 Def: 32 HP: 32 Init: 40 P: beast Meat: 30	fine aged cheddarwurst (0)	seegar butt (0)
 swamp hag	1344	swamphag.gif	Atk: 35 Def: 28 HP: 40 Init: 30 P: dude E: stench Meat: 25	moonberry wine cooler (0)	witch wart (0)	vial of swamp vapors (c0)
 swamp owl	1350	swampowl.gif	Atk: 56 Def: 48 HP: 46 Init: 80 P: beast Meat: 20	moonberry wine cooler (0)	dilapidated wizard hat (0)
-swamp skunk	1353	swampskunk.gif	Atk: 68 Def: 66 HP: 65 Init: 50 P: beast E: stench Meat: 35	bouquet of swamp roses (0)	floral-print skirt (0)
+swamp skunk	1353	swampskunk.gif	Atk: 68 Def: 66 HP: 65 Init: 50 P: beast E: stench Meat: 35	bouquet of swamp roses (0)	floral-print skirt (0)	pogo stick (0)
 swarm of fire ants	461	ants.gif	Atk: 142 Def: 119 HP: 136 Init: 60 E: hot P: bug Meat: 50	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
 swarm of ghuol whelps	1072	whelps1.gif	Atk: 50 Def: 45 HP: 100 Init: 300 E: spooky P: undead
 swarm of killer bees	221	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 "Somewhat Poisoned" P: bug	baby killer bee (5)	royal jelly (25)
