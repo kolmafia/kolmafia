@@ -1817,10 +1817,10 @@
 1815
 1816
 1817
-1818
+1818	Toxic Vengeance	dizzy.gif	6a88a4aa93f9e0dffd803c4c01464b6a
 1819	How to Scam Tourists	book2.gif	f51578e6c4ff07634d3a21699d5cd38b	use 1 How to Avoid Scams
 1820	Stinkybeard	stinkbeard.gif	dced1d78f892945edf41daf254885166	use 1 beard incense
-1821
+1821	Radiated and Grodiated	radiation.gif	1e66883b06b10801f4cc305734643848	drink 1 Lemonade-235
 1822	Pajama Party	atpants.gif	aa4b43321ec247f1848c461c606b5432
 1823	The Dinsey Way	dinsey1.gif	ca318881c5f144467c1f36ad22d57b02	eat 1 Dinsey food-cone
 1824	The Dinsey Spirit	dinsey2.gif	47b77ff340e9478b1c8ef1d20a324c37	drink 1 Dinsey Whinskey
