@@ -1208,6 +1208,13 @@ public class AreaCombatData
 				return -4;
 			}
 		}
+		else if ( zone.equals( "Pirates of the Garbage Barges" ) )
+		{
+			if ( monster.equals( "flashy pirate" ) && !Preferences.getBoolean( "dinseyGarbagePirate" ) )
+			{
+				return 0;
+			}
+		}
 		else if ( zone.equals( "The Post-Mall" ) )
 		{
 			int mallTurns = AdventureSpentDatabase.getTurns( zone );

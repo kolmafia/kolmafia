@@ -386,6 +386,10 @@ user	demonSummoned	false
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dinseyGarbagePirate	false
+user	dinseyGatorStenchDamage	ON
+user	dinseyRollercoasterStats	Standard
+user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	dolphinItem
 user	dreadScroll1	0
@@ -1810,6 +1814,11 @@ user	choiceAdventure1056	1
 user	choiceAdventure1057	0
 user	choiceAdventure1059	0
 user	choiceAdventure1060	0
+user	choiceAdventure1067	0
+user	choiceAdventure1068	0
+user	choiceAdventure1069	0
+user	choiceAdventure1070	0
+user	choiceAdventure1071	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true
