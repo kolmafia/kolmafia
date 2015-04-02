@@ -1043,6 +1043,24 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.BARF_MOUNTAIN_ID ) ||
+		     this.adventureId.equals( AdventurePool.GARBAGE_BARGES_ID ) ||
+		     this.adventureId.equals( AdventurePool.TOXIC_TEACUPS_ID ) ||
+		     this.adventureId.equals( AdventurePool.LIQUID_WASTE_SLUICE_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "stenchAirportAlways" ) || Preferences.getBoolean( "_stenchAirportToday" );
+			if ( !unlocked )
+			{
+				// Visit the airport and take a look.
+
+				RequestThread.postRequest( new PlaceRequest( "airport" ) );
+				unlocked = Preferences.getBoolean( "stenchAirportAlways" ) || Preferences.getBoolean( "_stenchAirportToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.EDGE_OF_THE_SWAMP_ID ) )
 		{
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SWAMP, "unstarted" );

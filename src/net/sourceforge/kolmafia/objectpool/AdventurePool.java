@@ -198,4 +198,12 @@ public class AdventurePool
 	public static final int DEEP_DARK_JUNGLE = 417;
 	public static final String DEEP_DARK_JUNGLE_ID = "417";
 	public static final int POST_MALL = 418;
+	public static final int BARF_MOUNTAIN = 442;
+	public static final String BARF_MOUNTAIN_ID = "442";
+	public static final int GARBAGE_BARGES = 443;
+	public static final String GARBAGE_BARGES_ID = "443";
+	public static final int TOXIC_TEACUPS = 444;
+	public static final String TOXIC_TEACUPS_ID = "444";
+	public static final int LIQUID_WASTE_SLUICE = 445;
+	public static final String LIQUID_WASTE_SLUICE_ID = "445";
 }
