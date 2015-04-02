@@ -508,7 +508,7 @@
 483	Newbiesport&trade; backpack	521931231	backpack.gif	container	t	0
 484	hemp backpack	478166706	backpack.gif	container	t	0
 485	snakehead charrrm	997590293	scharm.gif	usable	q	0
-486	Talisman o' Nam	898684465	talisman.gif	accessory	q	0	Talismen o' Nam
+486	Talisman o' Namsilat	898684465	talisman.gif	accessory	q	0	Talismen o' Namsilat
 487	arrrgyle socks	346364457	socks.gif	accessory	t,d	48	pairs of arrrgyle socks
 488	guitar pick	376472670	guitpick.gif	none	t,d	25
 489	drab sonata	656965977	music.gif	message	t,d	155
