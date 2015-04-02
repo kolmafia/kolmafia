@@ -1328,6 +1328,7 @@ toy accordion	10	Mox: 0	2-handed accordion
 toy Crimbot power glove	50	Mus: 0	1-handed knuckles
 toy ray gun	175	Mox: 72	1-handed pistol
 toy taijijian	10	Mus: 0	1-handed sword
+trash net	10	Mus: 0	2-handed polearm
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 trout fang	160	Mus: 65	1-handed knife
 Trusty	100	Mus: 0	2-handed axe
