@@ -713,14 +713,16 @@ public class KoLmafiaCLI
 		new CoinmasterCommand().register( "coinmaster" );
 		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
 		new ComparisonShopCommand().register( "cheapest" ).register( "expensive" );
-		new CompleteQuestCommand().register( "maze" ).
-			register( "guild" ).
-			register( "gourd" ).
-			register( "tavern" ).
+		new CompleteQuestCommand().
 			register( "baron" ).
-			register( "dvorak" ).
 			register( "choice-goal" ).
-			register( "sven" );
+			register( "door" ).
+			register( "dvorak" ).
+			register( "gourd" ).
+			register( "guild" ).
+			register( "maze" ).
+			register( "sven" ).
+			register( "tavern" );
 		new ConcertCommand().register( "concert" );
 		new ConditionsCommand().registerPrefix( "goal" ).registerPrefix( "condition" ).registerPrefix( "objective" );
 		new CondRefCommand().register( "condref" );

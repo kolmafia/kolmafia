@@ -184,6 +184,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
@@ -1356,6 +1357,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "tavern", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "hedge_maze", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "tower_door", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Arithmetic utility functions.
 
@@ -6026,6 +6033,19 @@ public abstract class RuntimeLibrary
 			result = TavernManager.exploreTavern();
 		}
 		return new Value( KoLmafia.permitsContinue() ? result : -1 );
+	}
+
+	public static Value hedge_maze( Interpreter interpreter, final Value arg )
+	{
+		String goal = arg.toString();
+		SorceressLairManager.hedgeMazeScript( goal );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value tower_door( Interpreter interpreter )
+	{
+		SorceressLairManager.towerDoorScript();
+		return RuntimeLibrary.continueValue();
 	}
 
 	// Arithmetic utility functions.

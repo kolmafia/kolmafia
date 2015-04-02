@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.GourdManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 
 public class CompleteQuestCommand
@@ -66,6 +67,12 @@ public class CompleteQuestCommand
 			return;
 		}
 
+		if ( command.equals( "door" ) )
+		{
+			SorceressLairManager.towerDoorScript();
+			return;
+		}
+
 		if ( command.equals( "dvorak" ) )
 		{
 			DvorakManager.solve();
@@ -81,6 +88,12 @@ public class CompleteQuestCommand
 		if ( command.equals( "guild" ) )
 		{
 			GuildUnlockManager.unlockGuild();
+			return;
+		}
+
+		if ( command.equals( "maze" ) )
+		{
+			SorceressLairManager.hedgeMazeScript( parameters.trim() );
 			return;
 		}
 
