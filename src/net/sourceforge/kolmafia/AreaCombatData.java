@@ -1185,7 +1185,30 @@ public class AreaCombatData
 				return bossTurns > 7 || QuestDatabase.isQuestLaterThan( Quest.BAT, "step3" ) ? -4 : 1;
 			}
 		}
-		if ( zone.equals( "The Post-Mall" ) )
+		else if ( zone.equals( "The Hidden Park" ) )
+		{
+			if ( monster.equals( "pygmy janitor" ) && Preferences.getInteger( "relocatePygmyJanitor" ) != KoLCharacter.getAscensions() )
+			{
+				return -4;
+			}
+			if ( monster.equals( "pygmy witch lawyer" ) && Preferences.getInteger( "relocatePygmyLawyer" ) != KoLCharacter.getAscensions() )
+			{
+				return -4;
+			}
+		}
+		else if ( zone.equals( "The Hidden Apartment Building" ) || zone.equals( "The Hidden Hospital" ) ||
+					zone.equals( "The Hidden Office Building" ) || zone.equals( "The Hidden Bowling Alley" ) )
+		{
+			if ( monster.equals( "pygmy janitor" ) && Preferences.getInteger( "relocatePygmyJanitor" ) == KoLCharacter.getAscensions() )
+			{
+				return -4;
+			}
+			if ( monster.equals( "pygmy witch lawyer" ) && Preferences.getInteger( "relocatePygmyLawyer" ) == KoLCharacter.getAscensions() )
+			{
+				return -4;
+			}
+		}
+		else if ( zone.equals( "The Post-Mall" ) )
 		{
 			int mallTurns = AdventureSpentDatabase.getTurns( zone );
 			if ( monster.equals( "sentient ATM" ) )

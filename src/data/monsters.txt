@@ -1533,12 +1533,12 @@ funky pirate	1762	stinkpirate2.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate
 flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: construct Init: -10000	beard incense (0)	dirty rigging rope (0)	grogpagne (0)	nasty snuff (0)	perfume-soaked bandana (0)	sewage-clogged pistol (0)
 
 # Toxic Teacups (Dinseylandfill April 2015)
-toxic beastie	1765	toxbeast3.gif	Atk: 125 Def: 200 HP: 150 Init: -10000	toxic globule (0)	toxic globule (0)	toxic globule (0)
+toxic beastie	1765	toxbeast3.gif	Scale: 5 Cap: 11111 Floor: 50 Init: -10000	toxic globule (0)	toxic globule (0)	toxic globule (0)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
-Cbzzter the Grisly Bear	1766	animbear.gif	Scale: 5 E: stench P: construct Init: -10000	jar of swamp honey (0)
-Gurgle the Turgle	1769	animturtle.gif	Scale: 5 E: stench P: construct Init: -10000	turtle voicebox (0)
-Skeezy the Jug Rat	1768	animrat.gif	Scale: 5 E: stench P: construct Init: -10000	grody jug (0)
+Cbzzter the Grisly Bear	1766	animbear.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	jar of swamp honey (0)	backwoods banjo (0)
+Gurgle the Turgle	1769	animturtle.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	turtle voicebox (0)	ratskin pajama pants (0)
+Skeezy the Jug Rat	1768	animrat.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	grody jug (0)
 
 # KoL Con
 

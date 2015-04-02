@@ -277,7 +277,7 @@ public class MonsterData
 			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
+			defense = (int) Math.floor( ( defense + ml * this.mlMult ) * getBeeosity() );
 			defense = defense < this.floor ? this.floor : defense;
 			return (int) Math.floor( Math.max( 1, defense * ( 1 - reduceMonsterDefense ) ) );
 		}			
