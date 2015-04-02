@@ -181,6 +181,10 @@ public abstract class ChoiceManager
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
+	private static final Pattern DINSEY_ROLLERCOASTER_PATTERN = Pattern.compile( "rollercoaster is currently set to (.*?) Mode" );
+	private static final Pattern DINSEY_PIRATE_PATTERN = Pattern.compile( "'Updated Pirate' is (lit|dark)" );
+	private static final Pattern DINSEY_TEACUP_PATTERN = Pattern.compile( "'Current Teacup Spin Rate' points to (\\d+),000 RPM" );
+	private static final Pattern DINSEY_SLUICE_PATTERN = Pattern.compile( "'Sluice Swishers' is currently in the (.*?) position" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -3484,6 +3488,12 @@ public abstract class ChoiceManager
 				       "+20 to Monster Level",
 				       "+10% Item Drops from Monsters, +20% Meat from Monsters",
 				       "The first attack against you will always miss, Regenerate 10-20 HP per Adventure" } ),
+
+		// Choice 1067 is Maint Misbehavin'
+		// Choice 1068 is Barf Mountain Breakdown
+		// Choice 1069 is The Pirate Bay
+		// Choice 1070 is In Your Cups
+		// Choice 1071 is Gator Gamer
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -10037,6 +10047,50 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				Preferences.setString( "edPiece", matcher.group( 1 ).trim() );
+			}
+			break;
+		}
+
+		case 1068:
+		{
+			// Barf Mountain Breakdown
+			Matcher matcher = ChoiceManager.DINSEY_ROLLERCOASTER_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "dinseyRollercoasterStats", matcher.group( 1 ).trim() );
+			}
+			break;
+		}
+
+		case 1069:
+		{
+			// The Pirate Bay
+			Matcher matcher = ChoiceManager.DINSEY_PIRATE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setBoolean( "dinseyGarbagePirate", ( matcher.group( 1 ).equals( "lit" ) ? true : false ) );
+			}
+			break;
+		}
+
+		case 1070:
+		{
+			// In Your Cups
+			Matcher matcher = ChoiceManager.DINSEY_TEACUP_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "dinseyToxicMultiplier", matcher.group( 1 ).trim() );
+			}
+			break;
+		}
+
+		case 1071:
+		{
+			// Gator Gamer
+			Matcher matcher = ChoiceManager.DINSEY_SLUICE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "dinseyGatorStenchDamage", matcher.group( 1 ).trim() );
 			}
 			break;
 		}

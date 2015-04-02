@@ -569,6 +569,10 @@ public class QuestDatabase
 		Preferences.resetToDefault( "writingDesksDefeated" );
 		Preferences.resetToDefault( "palindomeDudesDefeated" );
 		Preferences.resetToDefault( "warehouseProgress" );
+		Preferences.resetToDefault( "dinseyRollercoasterStats" );
+		Preferences.resetToDefault( "dinseyGatorStenchDamage" );
+		Preferences.resetToDefault( "dinseyGarbagePirate" );
+		Preferences.resetToDefault( "dinseyToxicMultiplier" );
 	}
 
 	public static void handleCouncilText( String responseText )
