@@ -1145,7 +1145,7 @@ public abstract class SorceressLairManager
 				1;
 		}
 
-		KoLmafia.updateDisplay( "You are currently in room " + currentRoom + " and it will take you " + turns + " to clear the maze." );
+		KoLmafia.updateDisplay( "You are currently in room " + currentRoom + " and it will take you " + turns + " turns to clear the maze." );
 
 		// *** Check turns remaining
 
