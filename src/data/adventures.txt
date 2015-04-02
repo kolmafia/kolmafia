@@ -418,6 +418,11 @@ Conspiracy Island	adventure=415	Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
 Conspiracy Island	adventure=416	Env: indoor Stat: 0	The Secret Government Laboratory
 Conspiracy Island	adventure=417	Env: outdoor Stat: 0	The Deep Dark Jungle
 
+Disneylandfill	adventure=442	Env: indoor Stat: 0	Barf Mountain
+Disneylandfill	adventure=443	Env: indoor Stat: 0	Pirates of the Garbage Barges
+Disneylandfill	adventure=444	Env: outdoor Stat: 0	The Toxic Teacups
+Disneylandfill	adventure=445	Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice
+
 Spelunky Area	adventure=424	Env: none Stat: 0	The Mines
 Spelunky Area	adventure=425	Env: none Stat: 0	The Jungle
 Spelunky Area	adventure=426	Env: none Stat: 0	The Ice Caves
