@@ -701,6 +701,8 @@ public class AdventureRequest
 				// Spelunky
 				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
 				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
+				// Dinseylandfill
+				image.startsWith( "animbear" ) ? "Cbzzter the Grisly Bear" :
 				null;
 		}
 

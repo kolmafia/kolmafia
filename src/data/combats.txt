@@ -167,7 +167,7 @@ Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin: 2	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
-Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate	flashy pirate
+Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Post-Cyrpt Cemetary	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Pre-Cyrpt Cemetary	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
@@ -281,7 +281,7 @@ The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch ac
 The Hidden Bowling Alley	100	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	ancient protector spirit: 0
 The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy witch nurse	ancient protector spirit: 0
 The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit: 0
-The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer
+The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer	pygmy janitor
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
