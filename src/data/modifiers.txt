@@ -2445,7 +2445,8 @@ Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 # Lord Spookyraven's spectacles
 # Item lube-shoes Good for lubricating rollercoaster tracks
-Item	lube-shoes	Moxie: -10Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
+Item	lube-shoes	Moxie: -10
+Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	lucky cat collar	Meat Drop: +7, Single Equip
 # lucky Crimbo tiki necklace: Brings Good Luck!
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
