@@ -1279,6 +1279,14 @@ public class Maximizer
 				{
 					text = method + " & " + text;
 				}
+				if ( method.equals( "uncloset" ) )
+				{
+					cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+				}
+				else if ( method.equals( "unstash" ) )
+				{
+					cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+				}
 			}
 			else if ( checkedItem.creatable + checkedItem.initial > count )
 			{
