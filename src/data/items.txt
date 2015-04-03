@@ -8240,7 +8240,7 @@
 8215	sewage-clogged pistol	660740541	sewagepistol.gif	weapon	t,d	77
 8216	beard incense	204763905	incense.gif	usable	t,d	15
 8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
-8218	toxic globule	389466175	toxglob.gif	usable	t,d	5
+8218	toxic globule	389466175	toxglob.gif	none	t,d	5
 8219	toxo	879522066	toxo.gif	food	d	22
 8220	Lemonade-235	531649603	toxlemonade.gif	drink	d	22
 8221	isotophat	188051518	toxhat.gif	hat	d	50
