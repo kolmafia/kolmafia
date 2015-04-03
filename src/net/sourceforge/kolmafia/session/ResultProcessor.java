@@ -2666,6 +2666,10 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
 			break;
 
+		case ItemPool.LUBE_SHOES:
+			QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.STARTED );
+			break;
+
 		case ItemPool.TRASH_NET:
 			QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.STARTED );
 			break;

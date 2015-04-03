@@ -766,6 +766,7 @@ user	questESpOutOfOrder	unstarted
 user	questEStFishTrash	unstarted
 user	questEStSocialJusticeI	unstarted
 user	questEStSocialJusticeII	unstarted
+user	questEStSuperLuber	unstarted
 user	questEStZippityDooDah	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted

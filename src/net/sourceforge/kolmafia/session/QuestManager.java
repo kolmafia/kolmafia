@@ -148,7 +148,11 @@ public class QuestManager
 			          locationId.equals( AdventurePool.YACHT_ID ) ||
 			          locationId.equals( AdventurePool.DR_WEIRDEAUX_ID ) ||
 			          locationId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
-			          locationId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
+			          locationId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) ||
+			          locationId.equals( AdventurePool.BARF_MOUNTAIN_ID ) ||
+			          locationId.equals( AdventurePool.GARBAGE_BARGES_ID ) ||
+			          locationId.equals( AdventurePool.TOXIC_TEACUPS_ID ) ||
+			          locationId.equals( AdventurePool.LIQUID_WASTE_SLUICE_ID ) )
 			{
 				handleAirportChange( location, responseText );
 			}
@@ -687,6 +691,14 @@ public class QuestManager
 			}
 		}
 
+		// Detect lubing rollercoaster
+		if ( location.contains( AdventurePool.BARF_MOUNTAIN_ID ) )
+		{
+			if ( responseText.contains( "lubricating every inch of the tracks" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, "step2" );
+			}
+		}
 		return;
 	}
 
@@ -1937,6 +1949,10 @@ public class QuestManager
 
 		case ItemPool.GPS_WATCH:
 			QuestDatabase.setQuestIfBetter( Quest.OUT_OF_ORDER, "step1" );
+			break;
+
+		case ItemPool.LUBE_SHOES:
+			QuestDatabase.setQuestIfBetter( Quest.SUPER_LUBER, "step1" );
 			break;
 
 		case ItemPool.MASCOT_MASK:

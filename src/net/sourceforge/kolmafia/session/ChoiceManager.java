@@ -8488,6 +8488,12 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "dinseySocialJusticeIIProgress", 0 );
 					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED );
 				}
+				if ( QuestDatabase.isQuestLaterThan( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED ) )
+				{
+					EquipmentManager.discardEquipment( ItemPool.LUBE_SHOES );
+					ResultProcessor.removeItem( ItemPool.LUBE_SHOES );
+					QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED );
+				}
 				if ( QuestDatabase.isQuestLaterThan( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED ) )
 				{
 					EquipmentManager.discardEquipment( ItemPool.MASCOT_MASK );

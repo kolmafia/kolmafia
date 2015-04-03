@@ -129,6 +129,7 @@ public class QuestDatabase
 			FISH_TRASH( "questEStFishTrash" ),
 			SOCIAL_JUSTICE_I( "questEStSocialJusticeI" ),
 			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),
+			SUPER_LUBER( "questEStSuperLuber" ),
 			ZIPPITY_DOO_DAH( "questEStZippityDooDah" );
 
 		private String pref;
