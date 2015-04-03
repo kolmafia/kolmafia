@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -695,7 +697,8 @@ public class AccountRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );
 
-		if ( !path.equals( "Actually Ed the Undying" ) )
+		// This isn't safe in Ed after defeating adventurer.
+		if ( !path.equals( "Actually Ed the Undying" ) || !QuestDatabase.isQuestFinished( Quest.FINAL ) )
 		{
 			boolean liberated = JSON.getInt( "freedralph" ) == 1;
 			KoLCharacter.setKingLiberated( liberated );
