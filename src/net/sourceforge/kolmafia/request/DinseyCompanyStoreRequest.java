@@ -64,7 +64,7 @@ public class DinseyCompanyStoreRequest
 			DinseyCompanyStoreRequest.master,
 			"DinsyStore",
 			DinseyCompanyStoreRequest.class,
-			"FunFunds",
+			"FunFunds&trade;",
 			null,
 			false,
 			DinseyCompanyStoreRequest.TOKEN_PATTERN,
@@ -90,7 +90,7 @@ public class DinseyCompanyStoreRequest
 
 	static
 	{
-		DINSEY_COMPANY_STORE.plural = "FunFunds";
+		DINSEY_COMPANY_STORE.plural = "FunFunds&trade;";
 	}
 
 	public DinseyCompanyStoreRequest()

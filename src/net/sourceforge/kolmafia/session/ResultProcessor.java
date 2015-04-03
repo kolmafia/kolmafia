@@ -573,6 +573,14 @@ public class ResultProcessor
 		else
 		{
 			result = ItemPool.get( itemId, itemCount );
+			if ( items.size() > 0 )
+			{
+				AdventureResult first = items.getFirst();
+				if ( first.getName().equals( result.getName() ) )
+				{
+					result = items.removeFirst();
+				}
+			}
 		}
 
 		ResultProcessor.processItem( combatResults, acquisition, result, data );

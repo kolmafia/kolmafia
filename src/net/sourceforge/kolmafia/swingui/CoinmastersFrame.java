@@ -1172,6 +1172,15 @@ public class CoinmastersFrame
 		{
 			super( DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE );
 		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			String title = buffer.toString();
+			buffer.setLength( 0 );
+			buffer.append( StringUtilities.getEntityDecode( title ) );
+		}
 	}
 
 	public class ToxicChemistryPanel
