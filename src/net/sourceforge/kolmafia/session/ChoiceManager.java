@@ -8511,6 +8511,14 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.STARTED );
 			}
 			break;
+
+		case 1067:
+			// Maint Misbehavin'
+			if ( text.contains( "throw a bag of garbage into it" ) )
+			{
+				ResultProcessor.processItem( ItemPool.GARBAGE_BAG, -1 );
+				Preferences.setBoolean( "_dinseyGarbageDisposed", true );
+			}
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
