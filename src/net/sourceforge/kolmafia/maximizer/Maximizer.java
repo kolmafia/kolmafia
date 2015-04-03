@@ -1249,15 +1249,33 @@ public class Maximizer
 			// How many have been needed so far to make this maximization set?
 			// We need 1 + that number to equip this item, not just 1
 			int count = 0;
-			Iterator i = Maximizer.boosts.iterator();
-			while ( i.hasNext() )
+
+			// If we're running from command line then execute them straight away,
+			// so we have to count how much we've used in 'earlier' items
+			if ( equipLevel == -1 )
 			{
-				Object boost = i.next();
-				if ( boost instanceof Boost )
+				for ( int piece = EquipmentManager.HAT ; piece < slot ; piece++ )
 				{
-					if ( item.equals( ((Boost) boost).getItem() ) )
+					AdventureResult equipped = EquipmentManager.getEquipment( piece );
+					if ( equipped != null && item.getItemId() == equipped.getItemId() )
 					{
 						count++;
+					}
+				}
+			}
+			else
+			// Otherwise we iterate through the maximization set so far
+			{
+				Iterator i = Maximizer.boosts.iterator();
+				while ( i.hasNext() )
+				{
+					Object boost = i.next();
+					if ( boost instanceof Boost )
+					{
+						if ( item.equals( ((Boost) boost).getItem() ) )
+						{
+							count++;
+						}
 					}
 				}
 			}
@@ -1274,7 +1292,8 @@ public class Maximizer
 			{
 				// This may look odd, but we need an item, not a checked item
 				// The count of a checked item includes creatable, buyable, pullable etc.
-				String method = InventoryManager.simRetrieveItem( ItemPool.get( item.getItemId(), count + 1 ) );
+				String method = InventoryManager.simRetrieveItem( ItemPool.get( item.getItemId(), count + 1 ),
+					equipLevel == -1, false );
 				if ( !method.equals( "have" ) )
 				{
 					text = method + " & " + text;
