@@ -423,7 +423,12 @@ public abstract class InventoryManager
 
 	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
-		String rv = InventoryManager.retrieveItem( item, isAutomated, true, true );
+		return InventoryManager.simRetrieveItem( item, isAutomated, true );
+	}
+
+	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped )
+	{
+		String rv = InventoryManager.retrieveItem( item, isAutomated, useEquipped, true );
 		if ( rv == null || rv.equals( "" ) )
 		{
 			RequestLogger.printLine( "INTERNAL ERROR: retrieveItem didn't return string when simulating!" );
