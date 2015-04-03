@@ -8253,7 +8253,7 @@
 8228	grody jug	889553685	jug.gif	none, combat	t,d	25
 8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
 8230	turtle voicebox	485498068	turtlebox.gif	usable	t,d	35
-8231
+8231	fake washboard	814903923	washboard.gif	offhand	t	0
 8232
 8233
 8234

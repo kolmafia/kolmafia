@@ -1733,6 +1733,7 @@ Item	Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
 Item	eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 Item	fake hand	Weapon Damage: -1
+Item	fake washboard	Experience Percent (Muscle): +25, Damage Absorption: +50, Accessory Drop: +75, Damage Reduction: 13
 Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
