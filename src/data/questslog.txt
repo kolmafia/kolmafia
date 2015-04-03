@@ -100,4 +100,5 @@ questESpOutOfOrder	Out of Order	Equip the GPS tracking wristwatch.	Your mysterio
 questEStFishTrash	Teach a Man to Fish Trash	(missing message equip trash net)	Ride Pirates of the Garbage Barges and fish garbage out of the waterway.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStSocialJusticeI	Social Justice Adventurer I	(missing message)	Return to the Kiosk to collect your wages.	(no completion message)
 questEStSocialJusticeII	Social Justice Adventurer II	Make Uncle Gator's ride less racist.	Return to the Kiosk to collect your wages.	(no completion message)
+questEStSuperLuber	Super Luber	(missing message equip lube-shoes)	Ride the Barf Mountain rollercoaster to lubricate the tracks.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStZippityDooDah	Whistling Zippity-Doo-Dah	Equip the mascot mask and "have fun" on the Toxic Teacups.	Have some "fun" on the Toxic Teacups ride.	Return to the Kiosk to collect your wages.	(no completion message)
