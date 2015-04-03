@@ -42,8 +42,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -697,11 +695,15 @@ public class AccountRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );
 
-		// This isn't safe in Ed after defeating adventurer.
-		if ( !path.equals( "Actually Ed the Undying" ) || !QuestDatabase.isQuestFinished( Quest.FINAL ) )
+		// This isn't safe in Ed after defeating adventurer, but if we're Ed we haven't freed ralph!
+		if ( !path.equals( "Actually Ed the Undying" ) )
 		{
 			boolean liberated = JSON.getInt( "freedralph" ) == 1;
 			KoLCharacter.setKingLiberated( liberated );
+		}
+		else
+		{
+			KoLCharacter.setKingLiberated( false );
 		}
 
 		boolean recalled = JSON.getInt( "recalledskills" ) == 1;
