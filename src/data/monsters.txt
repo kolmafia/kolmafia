@@ -1537,15 +1537,15 @@ toxic beastie	1765	toxbeast3.gif	Scale: 5 Cap: 11111 Floor: 50 Init: -10000	toxi
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
 Cbzzter the Grisly Bear	1766	animbear.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	jar of swamp honey (0)	backwoods banjo (0)
-Gurgle the Turgle	1769	animturtle.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	turtle voicebox (0)	ratskin pajama pants (0)
-Skeezy the Jug Rat	1768	animrat.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	grody jug (0)
+Gurgle the Turgle	1769	animturtle.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	turtle voicebox (0)
+Skeezy the Jug Rat	1768	animrat.gif	Scale: 5 Cap: 11111 Floor: 100 MLMult: 3 E: stench P: construct Init: -10000	grody jug (0)	ratskin pajama pants (0)
 
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
 family of kobolds	1101	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
 
-# Transmissions from planet Xi (Xi Reciever KoL Con XI)
+# Transmissions from planet Xi (Xi Receiver KoL Con XI)
 holographic army	1629	holoarmy.gif	Scale: 30 Cap: 10000 Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
 They	1631	they.gif	Scale: 20 Cap: 10000 Init: -10000 P: humanoid	They liver (0)	They liver (0)
 Xiblaxian political prisoner	1630	polprisoner.gif	Scale: 40 Cap: 10000 Init: -10000 P: weird	residual zeal (n100)
