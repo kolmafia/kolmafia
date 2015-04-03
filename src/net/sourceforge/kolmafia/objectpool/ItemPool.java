@@ -1274,6 +1274,7 @@ public class ItemPool
 	public static final int DYNAMITE_SUPERMAN_JONES = 4410;
 	public static final int INIGO_BOOK = 4411;
 	public static final int QUANTUM_TACO = 4412;
+	public static final int SCHRODINGERS_THERMOS = 4413;
 	public static final int BLACK_HYMNAL = 4426;
 	public static final int GLOWSTICK_ON_A_STRING = 4428;
 	public static final int CANDY_NECKLACE = 4429;

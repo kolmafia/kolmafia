@@ -222,8 +222,8 @@ public class Concoction
 		this.inebriety = ConsumablesDatabase.getInebriety( this.name );
 		this.spleenhit = ConsumablesDatabase.getSpleenHit( this.name );
 
-		this.sortOrder = this.fullness > 0 ? FOOD_PRIORITY :
-			this.inebriety > 0 ? BOOZE_PRIORITY :
+		this.sortOrder = this.fullness > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.QUANTUM_TACO ) ? FOOD_PRIORITY :
+			this.inebriety > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.SCHRODINGERS_THERMOS ) ? BOOZE_PRIORITY :
 			this.spleenhit > 0 ? SPLEEN_PRIORITY :
 			NO_PRIORITY;
 

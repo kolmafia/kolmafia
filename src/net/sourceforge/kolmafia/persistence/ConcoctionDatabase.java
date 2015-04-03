@@ -444,13 +444,14 @@ public class ConcoctionDatabase
 		int consumpt = ItemDatabase.getConsumptionType( id );
 
 		if ( c.getFullness() > 0 || consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
-		     id == ItemPool.MUNCHIES_PILL )
+		     id == ItemPool.MUNCHIES_PILL || id == ItemPool.QUANTUM_TACO )
 		{
 			queue = ConcoctionDatabase.queuedFood;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		}
-		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER )
+		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER ||
+			 id == ItemPool.SCHRODINGERS_THERMOS )
 		{
 			queue = ConcoctionDatabase.queuedBooze;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
