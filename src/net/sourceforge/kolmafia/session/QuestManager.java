@@ -1795,6 +1795,51 @@ public class QuestManager
 			}
 			break;
 
+		case AdventurePool.GARBAGE_BARGES:
+			if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
+			{
+				Preferences.increment( "dinseySocialJusticeIProgress", 1 );
+			}
+			else if ( responseText.contains( "probably not embarrassingly sexist anymore" ) )
+			{
+				Preferences.setInteger( "dinseySocialJusticeIProgress", 15 );
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, "step1" );
+			}
+			break;
+
+		case AdventurePool.TOXIC_TEACUPS:
+			if ( responseText.contains( "pretend to be having a good time" ) )
+			{
+				Preferences.increment( "dinseyFunProgress", 1 );
+			}
+			else if ( responseText.contains( "surrounding crowd seems to be pretty excited about the ride" ) )
+			{
+				Preferences.setInteger( "dinseyFunProgress", 15 );
+				QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, "step2" );
+			}
+			break;
+
+		case AdventurePool.LIQUID_WASTE_SLUICE:
+			if ( responseText.contains( "probably not unacceptably racist anymore" ) )
+			{
+				Preferences.setInteger( "dinseySocialJusticeIIProgress", 15 );
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, "step1" );
+			}
+			else if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED ) )
+			{
+				Preferences.increment( "dinseySocialJusticeIIProgress", 1 );
+			}
+			if ( responseText.contains( "at least the barges aren't getting hung up on it anymore" ) )
+			{
+				Preferences.setInteger( "dinseyFishTrashProgress", 15 );
+				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, "step2" );
+			}
+			else if ( responseText.contains( "larger chunks of garbage out of the waterway" ) )
+			{
+				Preferences.increment( "dinseyFishTrashProgress", 1 );
+			}
+			break;
+
 		case AdventurePool.PALINDOME:
 			if ( monsterName.equals( "Drab Bard" ) ||
 			     monsterName.equals( "Bob Racecar" ) ||
@@ -1892,6 +1937,10 @@ public class QuestManager
 
 		case ItemPool.GPS_WATCH:
 			QuestDatabase.setQuestIfBetter( Quest.OUT_OF_ORDER, "step1" );
+			break;
+
+		case ItemPool.MASCOT_MASK:
+			QuestDatabase.setQuestIfBetter( Quest.ZIPPITY_DOO_DAH, "step1" );
 			break;
 		}
 	}

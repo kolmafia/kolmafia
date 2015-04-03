@@ -2665,6 +2665,14 @@ public class ResultProcessor
 		case ItemPool.MEATSMITH_CHECK:
 			QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
 			break;
+
+		case ItemPool.TRASH_NET:
+			QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.MASCOT_MASK:
+			QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.STARTED );
+			break;
 		}
 
 		// Gaining items can achieve goals.

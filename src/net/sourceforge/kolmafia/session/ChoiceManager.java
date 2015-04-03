@@ -8465,6 +8465,46 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.removeItem( ItemPool.SKELETON_KEY  );
 			}
+
+		case 1066:
+			// Employee Assignment Kiosk
+			if ( text.contains( "Performance Review:" ) )
+			{
+				// Completed quest, text is the same, but there should be only one at a time
+				if ( QuestDatabase.isQuestLaterThan( Quest.FISH_TRASH, QuestDatabase.UNSTARTED ) )
+				{
+					EquipmentManager.discardEquipment( ItemPool.TRASH_NET );
+					ResultProcessor.removeItem( ItemPool.TRASH_NET );
+					Preferences.setInteger( "dinseyFishTrashProgress", 0 );
+					QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.UNSTARTED );
+				}
+				if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
+				{
+					Preferences.setInteger( "dinseySocialJusticeIProgress", 0 );
+					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED );
+				}
+				if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED ) )
+				{
+					Preferences.setInteger( "dinseySocialJusticeIIProgress", 0 );
+					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED );
+				}
+				if ( QuestDatabase.isQuestLaterThan( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED ) )
+				{
+					EquipmentManager.discardEquipment( ItemPool.MASCOT_MASK );
+					ResultProcessor.removeItem( ItemPool.MASCOT_MASK );
+					Preferences.setInteger( "dinseyFunProgress", 0 );
+					QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED );
+				}
+			}
+			else if ( text.contains( "lists all of the sexist aspects of the ride" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "ideas are all themselves so racist" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.STARTED );
+			}
+			break;
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
