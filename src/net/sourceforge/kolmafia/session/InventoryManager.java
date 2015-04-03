@@ -566,31 +566,9 @@ public abstract class InventoryManager
 			return sim ? "fail" : null;
 		}
 
-		// Don't waste time checking equipment and familiars for
+		// Don't waste time checking familiars and equipment for
 		// restricted items or non-equipment.
 
-		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) && useEquipped )
-		{
-			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
-			{
-				if ( EquipmentManager.getEquipment( i ).equals( item ) )
-				{
-					if ( sim )
-					{
-						return "remove";
-					}
-
-					SpecialOutfit.forgetEquipment( item );
-
-					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
-
-					if ( --missingCount <= 0 )
-					{
-						return "";
-					}
-				}
-			}
-		}
 		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) )
 		{
 			for ( FamiliarData current: KoLCharacter.getFamiliarList() )
@@ -617,6 +595,28 @@ public abstract class InventoryManager
 			}
 		}
 
+		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) && useEquipped )
+		{
+			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
+			{
+				if ( EquipmentManager.getEquipment( i ).equals( item ) )
+				{
+					if ( sim )
+					{
+						return "remove";
+					}
+
+					SpecialOutfit.forgetEquipment( item );
+
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
+
+					if ( --missingCount <= 0 )
+					{
+						return "";
+					}
+				}
+			}
+		}
 		// Attempt to pull the item from the closet.
 
 		boolean shouldUseCloset = InventoryManager.canUseCloset();
