@@ -8268,7 +8268,7 @@
 8243
 8244	lube-shoes	524575541	lubeshoes.gif	accessory	q	0
 8245	trash net	390284625	poolskimmer.gif	weapon	q	0
-8246
+8246	Dinsey mascot mask	831344174	mascotmask.gif	hat	q	0
 8247	Dinsey food-cone	985911733	foodcone.gif	food	d	44
 8248	Dinsey Whinskey	117634063	bottle.gif	drink	d	66
 8249	Dinsey face paint	167820864	palette.gif	usable	d	22

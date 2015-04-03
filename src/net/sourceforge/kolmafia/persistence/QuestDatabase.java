@@ -125,7 +125,11 @@ public class QuestDatabase
 			FAKE_MEDIUM( "questESpFakeMedium" ),
 			SERUM( "questESpSerum" ),
 			SMOKES( "questESpSmokes" ),
-			OUT_OF_ORDER( "questESpOutOfOrder" );
+			OUT_OF_ORDER( "questESpOutOfOrder" ),
+			FISH_TRASH( "questEStFishTrash" ),
+			SOCIAL_JUSTICE_I( "questEStSocialJusticeI" ),
+			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),
+			ZIPPITY_DOO_DAH( "questEStZippityDooDah" );
 
 		private String pref;
 
@@ -569,9 +573,13 @@ public class QuestDatabase
 		Preferences.resetToDefault( "writingDesksDefeated" );
 		Preferences.resetToDefault( "palindomeDudesDefeated" );
 		Preferences.resetToDefault( "warehouseProgress" );
-		Preferences.resetToDefault( "dinseyRollercoasterStats" );
+		Preferences.resetToDefault( "dinseyFishTrashProgress" );
+		Preferences.resetToDefault( "dinseyFunProgress" );
 		Preferences.resetToDefault( "dinseyGatorStenchDamage" );
 		Preferences.resetToDefault( "dinseyGarbagePirate" );
+		Preferences.resetToDefault( "dinseyRollercoasterStats" );
+		Preferences.resetToDefault( "dinseySocialJusticeIProgress" );
+		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );
 		Preferences.resetToDefault( "dinseyToxicMultiplier" );
 	}
 

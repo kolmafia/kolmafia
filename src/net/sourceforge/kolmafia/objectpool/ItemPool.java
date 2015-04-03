@@ -2338,6 +2338,8 @@ public class ItemPool
 	public static final int DINSEY_TICKET = 8204;
 	public static final int FUNFUNDS = 8205;
 	public static final int TOXIC_GLOBULE = 8218;
+	public static final int TRASH_NET = 8245;
+	public static final int MASCOT_MASK = 8246;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

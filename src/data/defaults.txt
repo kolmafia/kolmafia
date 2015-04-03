@@ -386,9 +386,13 @@ user	demonSummoned	false
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dinseyFishTrashProgress	0
+user	dinseyFunProgress	0
 user	dinseyGarbagePirate	false
 user	dinseyGatorStenchDamage	ON
 user	dinseyRollercoasterStats	Standard
+user	dinseySocialJusticeIProgress	0
+user	dinseySocialJusticeIIProgress	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	dolphinItem
@@ -759,6 +763,10 @@ user	questESpFakeMedium	unstarted
 user	questESpSerum	unstarted
 user	questESpSmokes	unstarted
 user	questESpOutOfOrder	unstarted
+user	questEStFishTrash	unstarted
+user	questEStSocialJusticeI	unstarted
+user	questEStSocialJusticeII	unstarted
+user	questEStZippityDooDah	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted
