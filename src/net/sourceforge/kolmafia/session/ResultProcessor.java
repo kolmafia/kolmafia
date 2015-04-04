@@ -2680,6 +2680,7 @@ public class ResultProcessor
 
 		case ItemPool.TRASH_NET:
 			QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.STARTED );
+			Preferences.setInteger( "dinseyFilthLevel", 100 );
 			break;
 
 		case ItemPool.MASCOT_MASK:

@@ -1675,6 +1675,12 @@ public class QuestManager
 				Preferences.increment( "writingDesksDefeated", 1, 5, false );
 			}
 		}
+		else if ( monsterName.equals( "nasty bear" ) )
+		{
+			Preferences.increment( "dinseyNastyBearsDefeated", 1, 8, false );
+			QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, 
+				( Preferences.getInteger( "dinseyNastyBearsDefeated" ) == 8 ? "step2" : "step1" ) );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -1817,6 +1823,16 @@ public class QuestManager
 				Preferences.setInteger( "dinseySocialJusticeIProgress", 15 );
 				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, "step1" );
 			}
+			if ( responseText.contains( "at least the barges aren't getting hung up on it anymore" ) )
+			{
+				Preferences.setInteger( "dinseyFilthLevel", 0 );
+				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, "step2" );
+			}
+			else if ( responseText.contains( "larger chunks of garbage out of the waterway" ) )
+			{
+				Preferences.decrement( "dinseyFilthLevel", 5, 0 );
+				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, "step1" );
+			}
 			break;
 
 		case AdventurePool.TOXIC_TEACUPS:
@@ -1840,15 +1856,6 @@ public class QuestManager
 			else if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED ) )
 			{
 				Preferences.increment( "dinseySocialJusticeIIProgress", 1 );
-			}
-			if ( responseText.contains( "at least the barges aren't getting hung up on it anymore" ) )
-			{
-				Preferences.setInteger( "dinseyFishTrashProgress", 15 );
-				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, "step2" );
-			}
-			else if ( responseText.contains( "larger chunks of garbage out of the waterway" ) )
-			{
-				Preferences.increment( "dinseyFishTrashProgress", 1 );
 			}
 			break;
 
@@ -1949,6 +1956,10 @@ public class QuestManager
 
 		case ItemPool.GPS_WATCH:
 			QuestDatabase.setQuestIfBetter( Quest.OUT_OF_ORDER, "step1" );
+			break;
+
+		case ItemPool.TRASH_NET:
+			QuestDatabase.setQuestIfBetter( Quest.FISH_TRASH, "step1" );
 			break;
 
 		case ItemPool.LUBE_SHOES:

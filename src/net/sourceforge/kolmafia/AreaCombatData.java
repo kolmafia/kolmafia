@@ -1215,6 +1215,13 @@ public class AreaCombatData
 				return 0;
 			}
 		}
+		else if ( zone.equals( "Uncle Gator's Country Fun-Time Liquid Waste Sluice" ) )
+		{
+			if ( monster.equals( "nasty bear" ) && QuestDatabase.isQuestStep( Quest.NASTY_BEARS, "step1" ) )
+			{
+				return 1;
+			}
+		}
 		else if ( zone.equals( "The Post-Mall" ) )
 		{
 			int mallTurns = AdventureSpentDatabase.getTurns( zone );
