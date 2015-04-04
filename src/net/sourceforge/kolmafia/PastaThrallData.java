@@ -407,6 +407,7 @@ public class PastaThrallData
 	private int level;
 	private String name;
 	private String mods;
+	private String modsLookup;
 
 	public PastaThrallData( final Object [] data )
 	{
@@ -422,6 +423,7 @@ public class PastaThrallData
 			if ( mods != null )
 			{
 				this.mods = mods.getString( "Modifiers" );
+				this.modsLookup = mods.getName();
 			}
 		}
 	}
@@ -517,7 +519,7 @@ public class PastaThrallData
 		try
 		{
 			KoLCharacter.setPastaThrall( this );
-			return Modifiers.evaluateModifiers( this.mods );
+			return Modifiers.evaluateModifiers( this.modsLookup, this.mods );
 		}
 		finally
 		{

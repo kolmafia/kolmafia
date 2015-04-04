@@ -143,7 +143,7 @@ public class AccordionsCommand
 			output.append( "<tr>" );
 
 			output.append( "<td colspan=4>" );
-			output.append( Modifiers.evaluateModifiers( accordion.getEnchantments() ) );
+			output.append( Modifiers.evaluateModifiers( accordion.getModsLookup(), accordion.getEnchantments() ) );
 			output.append( "</td>" );
 
 			output.append( "</tr>" );
@@ -162,6 +162,7 @@ public class AccordionsCommand
 		private final String monster;
 		private final int hands;
 		private final int songDuration;
+		private final String modsLookup;
 		private final String enchantments;
 
 		public Accordion( final int itemId, final String monster )
@@ -175,6 +176,7 @@ public class AccordionsCommand
 			if ( mods != null )
 			{
 				this.songDuration = (int)mods.get( Modifiers.SONG_DURATION );
+				this.modsLookup = mods.getName();
 
 				if ( itemId == ItemPool.AUTOCALLIOPE )
 				{
@@ -191,8 +193,9 @@ public class AccordionsCommand
 			}
 			else
 			{
-				// Handle modifiers missing from modifiers.txt
+				// Handle items missing from modifiers.txt
 				this.songDuration = 0;
+				this.modsLookup = "";
 				this.enchantments = "";
 			}
 		}
@@ -220,6 +223,11 @@ public class AccordionsCommand
 		public int getSongDuration()
 		{
 			return this.songDuration;
+		}
+
+		public String getModsLookup()
+		{
+			return this.modsLookup;
 		}
 
 		public String getEnchantments()
