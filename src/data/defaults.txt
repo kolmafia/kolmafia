@@ -1831,6 +1831,7 @@ user	choiceAdventure1068	0
 user	choiceAdventure1069	0
 user	choiceAdventure1070	0
 user	choiceAdventure1071	0
+user	choiceAdventure1073	1
 
 user	lockedItem4637	true
 user	lockedItem4638	true
