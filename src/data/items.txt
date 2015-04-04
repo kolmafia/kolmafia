@@ -8230,15 +8230,15 @@
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
 8206	expensive camera	438775690	camera.gif	accessory	t,d	150
 8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150
-8208	How to Avoid Scams	948718713	book2.gif	usable	t,d	50
+8208	How to Avoid Scams	948718713	book2.gif	multiple	t,d	50
 8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75
 8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25
-8211	bag of park garbage	884529141	parkgarbage.gif	usable	t,d	10
-8212	grogpagne	583183522	champagne.gif	usable	t,d	36
+8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10
+8212	grogpagne	583183522	champagne.gif	multiple	t,d	36
 8213	dirty rigging rope	289454217	stinkrope.gif	offhand	t,d	66
 8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45
 8215	sewage-clogged pistol	660740541	sewagepistol.gif	weapon	t,d	77
-8216	beard incense	204763905	incense.gif	usable	t,d	15
+8216	beard incense	204763905	incense.gif	multiple	t,d	15
 8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
 8218	toxic globule	389466175	toxglob.gif	none	t,d	5
 8219	toxo	879522066	toxo.gif	food	d	22

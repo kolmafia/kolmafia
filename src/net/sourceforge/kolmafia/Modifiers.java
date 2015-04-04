@@ -1390,6 +1390,11 @@ public class Modifiers
 		this.set( copy );
 	};
 
+	public String getName()
+	{
+		return this.name;
+	};
+
 	public final void reset()
 	{
 		Arrays.fill( this.doubles, 0.0 );
@@ -1526,7 +1531,7 @@ public class Modifiers
 		// that can change within a session, like character level.
 		if ( name.equals( "Evaluated Modifiers" ) )
 		{
-			return Modifiers.evaluateModifiers( this.strings[ Modifiers.MODIFIERS ] );
+			return Modifiers.evaluateModifiers( this.name, this.strings[ Modifiers.MODIFIERS ] );
 		}
 
 		int index = Modifiers.findName( Modifiers.stringModifiers, name );
@@ -1881,6 +1886,7 @@ public class Modifiers
 		String[] newStrings = newMods.strings;
 
 		newMods.name = lookup;
+		String name = Modifiers.getNameFromLookup( lookup );
 
 		for ( int i = 0; i < newDoubles.length; ++i )
 		{
@@ -1906,7 +1912,6 @@ public class Modifiers
 				{
 					newMods.expressions = new ModifierExpression[ Modifiers.DOUBLE_MODIFIERS ];
 				}
-				String name = Modifiers.getNameFromLookup( lookup );
 				newMods.expressions[ i ] = ModifierExpression.getInstance( matcher.group( 2 ), name );
 			}
 		}
@@ -2016,7 +2021,7 @@ public class Modifiers
 			this.value = value;
 		}
 
-		public void eval()
+		public void eval( final String name )
 		{
 			if ( this.value == null )
 			{
@@ -2035,7 +2040,6 @@ public class Modifiers
 				return;
 			}
 
-			String name = Modifiers.getNameFromLookup( this.name );
 			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), name );
 			if ( expr.hasErrors() )
 			{
@@ -2094,6 +2098,7 @@ public class Modifiers
 		{
 			this.list.addAll( list.list );
 		}
+
 		public void addModifier( final Modifier modifier )
 		{
 			this.list.add( modifier );
@@ -2245,7 +2250,7 @@ public class Modifiers
 		return list;
 	}
 
-	public final static String evaluateModifiers( final String modifiers )
+	public final static String evaluateModifiers( final String lookup, final String modifiers )
 	{
 		// Nothing to do if no expressions
 		if ( !modifiers.contains( "[" ) )
@@ -2259,7 +2264,7 @@ public class Modifiers
 		for ( Modifier modifier : list )
 		{
 			// Evaluate the modifier expression
-			modifier.eval();
+			modifier.eval( lookup );
 		}
 
 		return list.toString();
