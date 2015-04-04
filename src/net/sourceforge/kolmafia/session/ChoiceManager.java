@@ -3494,6 +3494,11 @@ public abstract class ChoiceManager
 		// Choice 1069 is The Pirate Bay
 		// Choice 1070 is In Your Cups
 		// Choice 1071 is Gator Gamer
+		// Choice 1073 is This Ride Is Like... A Rollercoaster Baby Baby
+		new ChoiceAdventure(
+			"Dinseylandfill", "choiceAdventure1073", "This Ride Is Like... A Rollercoaster Baby Baby",
+			new Object[] { new Option( "gain stats and meat", 1 ),
+				       new Option( "skip adventure and guarantees this adventure will reoccur", 6 ) } ),		
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8468,43 +8473,43 @@ public abstract class ChoiceManager
 
 		case 1066:
 			// Employee Assignment Kiosk
-			if ( text.contains( "Performance Review:" ) )
+			if ( text.contains( "Performance Review:  Sufficient" ) )
 			{
-				// Completed quest, text is the same, but there should be only one at a time
-				if ( QuestDatabase.isQuestLaterThan( Quest.FISH_TRASH, QuestDatabase.UNSTARTED ) )
-				{
-					EquipmentManager.discardEquipment( ItemPool.TRASH_NET );
-					ResultProcessor.removeItem( ItemPool.TRASH_NET );
-					Preferences.setInteger( "dinseyFilthLevel", 0 );
-					QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.UNSTARTED );
-				}
-				if ( QuestDatabase.isQuestLaterThan( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED ) )
-				{
-					Preferences.setInteger( "dinseyNastyBearsDefeated", 0 );
-					QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED );
-				}
-				if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
+				EquipmentManager.discardEquipment( ItemPool.TRASH_NET );
+				ResultProcessor.removeItem( ItemPool.TRASH_NET );
+				Preferences.setInteger( "dinseyFilthLevel", 0 );
+				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.UNSTARTED );
+			}
+			else if ( text.contains( "Performance Review:  Bearable" ) )
+			{
+				Preferences.setInteger( "dinseyNastyBearsDefeated", 0 );
+				QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED );
+			}
+			else if ( text.contains( "Performance Review:  Fair" ) )
+			{
+				Preferences.setInteger( "dinseySocialJusticeIIProgress", 0 );
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED );
+			}
+			else if ( text.contains( "Performance Review:  Average" ) )
+			{
+				EquipmentManager.discardEquipment( ItemPool.LUBE_SHOES );
+				ResultProcessor.removeItem( ItemPool.LUBE_SHOES );
+				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED );
+			}
+			else if ( text.contains( "Performance Review:  Tolerable" ) )
+			{
+				EquipmentManager.discardEquipment( ItemPool.MASCOT_MASK );
+				ResultProcessor.removeItem( ItemPool.MASCOT_MASK );
+				Preferences.setInteger( "dinseyFunProgress", 0 );
+				QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED );
+			}
+			// Need the review text
+			else if ( text.contains( "Performance Review:" ) )
+			{
+				if (QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
 				{
 					Preferences.setInteger( "dinseySocialJusticeIProgress", 0 );
 					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED );
-				}
-				if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED ) )
-				{
-					Preferences.setInteger( "dinseySocialJusticeIIProgress", 0 );
-					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED );
-				}
-				if ( QuestDatabase.isQuestLaterThan( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED ) )
-				{
-					EquipmentManager.discardEquipment( ItemPool.LUBE_SHOES );
-					ResultProcessor.removeItem( ItemPool.LUBE_SHOES );
-					QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED );
-				}
-				if ( QuestDatabase.isQuestLaterThan( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED ) )
-				{
-					EquipmentManager.discardEquipment( ItemPool.MASCOT_MASK );
-					ResultProcessor.removeItem( ItemPool.MASCOT_MASK );
-					Preferences.setInteger( "dinseyFunProgress", 0 );
-					QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED );
 				}
 			}
 			else if ( text.contains( "anatomical diagram of a nasty bear" ) )
