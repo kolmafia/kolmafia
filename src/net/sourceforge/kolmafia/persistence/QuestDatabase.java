@@ -127,6 +127,7 @@ public class QuestDatabase
 			SMOKES( "questESpSmokes" ),
 			OUT_OF_ORDER( "questESpOutOfOrder" ),
 			FISH_TRASH( "questEStFishTrash" ),
+			NASTY_BEARS( "questEStNastyBears" ),
 			SOCIAL_JUSTICE_I( "questEStSocialJusticeI" ),
 			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),
 			SUPER_LUBER( "questEStSuperLuber" ),
@@ -574,10 +575,11 @@ public class QuestDatabase
 		Preferences.resetToDefault( "writingDesksDefeated" );
 		Preferences.resetToDefault( "palindomeDudesDefeated" );
 		Preferences.resetToDefault( "warehouseProgress" );
-		Preferences.resetToDefault( "dinseyFishTrashProgress" );
+		Preferences.resetToDefault( "dinseyFilthLevel" );
 		Preferences.resetToDefault( "dinseyFunProgress" );
 		Preferences.resetToDefault( "dinseyGatorStenchDamage" );
 		Preferences.resetToDefault( "dinseyGarbagePirate" );
+		Preferences.resetToDefault( "dinseyNastyBearsDefeated" );
 		Preferences.resetToDefault( "dinseyRollercoasterStats" );
 		Preferences.resetToDefault( "dinseySocialJusticeIProgress" );
 		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );

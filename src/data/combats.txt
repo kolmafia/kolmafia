@@ -362,7 +362,7 @@ Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Less
 Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
 Trick-or-Treating	100	vandal kid	suburban security civilian	kid who is too old to be Trick-or-Treating	All-Hallow's Steve: 0
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
-Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	Cbzzter the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat
+Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	Cbzzter the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat	nasty bear: 0
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)

@@ -8475,8 +8475,13 @@ public abstract class ChoiceManager
 				{
 					EquipmentManager.discardEquipment( ItemPool.TRASH_NET );
 					ResultProcessor.removeItem( ItemPool.TRASH_NET );
-					Preferences.setInteger( "dinseyFishTrashProgress", 0 );
+					Preferences.setInteger( "dinseyFilthLevel", 0 );
 					QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.UNSTARTED );
+				}
+				if ( QuestDatabase.isQuestLaterThan( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED ) )
+				{
+					Preferences.setInteger( "dinseyNastyBearsDefeated", 0 );
+					QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED );
 				}
 				if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
 				{
@@ -8501,6 +8506,10 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "dinseyFunProgress", 0 );
 					QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED );
 				}
+			}
+			else if ( text.contains( "anatomical diagram of a nasty bear" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, QuestDatabase.STARTED );
 			}
 			else if ( text.contains( "lists all of the sexist aspects of the ride" ) )
 			{

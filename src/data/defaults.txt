@@ -386,10 +386,11 @@ user	demonSummoned	false
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
-user	dinseyFishTrashProgress	0
+user	dinseyFilthLevel	0
 user	dinseyFunProgress	0
 user	dinseyGarbagePirate	false
 user	dinseyGatorStenchDamage	ON
+user	dinseyNastyBearsDefeated	0
 user	dinseyRollercoasterStats	Standard
 user	dinseySocialJusticeIProgress	0
 user	dinseySocialJusticeIIProgress	0
@@ -764,6 +765,7 @@ user	questESpSerum	unstarted
 user	questESpSmokes	unstarted
 user	questESpOutOfOrder	unstarted
 user	questEStFishTrash	unstarted
+user	questEStNastyBears	unstarted
 user	questEStSocialJusticeI	unstarted
 user	questEStSocialJusticeII	unstarted
 user	questEStSuperLuber	unstarted
