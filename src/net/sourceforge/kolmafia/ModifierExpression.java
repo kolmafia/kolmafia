@@ -61,10 +61,14 @@ public class ModifierExpression
 	{
 		// The first check also matches "[zone(The Slime Tube)]"
 		// Hence the second check.
-		int effectId = EffectDatabase.getEffectId( this.name );
-		if ( text.contains( "T" ) && effectId != -1 )
+		String type = Modifiers.getTypeFromLookup( this.name );
+		if ( type.equals( "Effect" ) && text.contains( "T" ) )
 		{
-			this.effect = EffectPool.get( effectId, 0 );
+			int effectId = EffectDatabase.getEffectId( Modifiers.getNameFromLookup( this.name ) );
+			if ( effectId != -1 )
+			{
+				this.effect = EffectPool.get( effectId, 0 );
+			}
 		}
 	}
 

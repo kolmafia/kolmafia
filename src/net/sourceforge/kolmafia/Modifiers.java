@@ -1912,7 +1912,7 @@ public class Modifiers
 				{
 					newMods.expressions = new ModifierExpression[ Modifiers.DOUBLE_MODIFIERS ];
 				}
-				newMods.expressions[ i ] = ModifierExpression.getInstance( matcher.group( 2 ), name );
+				newMods.expressions[ i ] = ModifierExpression.getInstance( matcher.group( 2 ), lookup );
 			}
 		}
 
@@ -2021,7 +2021,7 @@ public class Modifiers
 			this.value = value;
 		}
 
-		public void eval( final String name )
+		public void eval( final String lookup )
 		{
 			if ( this.value == null )
 			{
@@ -2040,7 +2040,7 @@ public class Modifiers
 				return;
 			}
 
-			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), name );
+			ModifierExpression expr = new ModifierExpression( this.value.substring( lb + 1, rb ), lookup );
 			if ( expr.hasErrors() )
 			{
 				return;
