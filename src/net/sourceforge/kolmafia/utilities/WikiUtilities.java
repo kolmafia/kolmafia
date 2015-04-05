@@ -68,13 +68,22 @@ public class WikiUtilities
 		boolean inEffectTable = EffectDatabase.contains( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
 
-		Modifiers mods = Modifiers.getModifiers( "Item", name );
-		if ( mods != null )
+		if ( type != ANY_TYPE )
 		{
-			String wikiname = mods.getString( "Wiki Name" );
-			if ( wikiname != null && wikiname.length() > 0 )
+			String modType =
+				type == ITEM_TYPE ? "Item" :
+				type == EFFECT_TYPE ? "Effect" :
+				type == SKILL_TYPE ? "Skill" :
+				"None";
+
+			Modifiers mods = Modifiers.getModifiers( modType, name );
+			if ( mods != null )
 			{
-				name = wikiname;
+				String wikiname = mods.getString( "Wiki Name" );
+				if ( wikiname != null && wikiname.length() > 0 )
+				{
+					name = wikiname;
+				}
 			}
 		}
 
