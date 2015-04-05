@@ -349,99 +349,111 @@ public class Maximizer
 					orFlag = false;
 				}
 				else if ( cmd.startsWith( "use " ) || cmd.startsWith( "chew " ) ||
-					cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
+					  cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
 				{
 					// Hardcoded exception for "Trivia Master", which has a non-standard use command.
 					if ( cmd.contains( "use 1 Trivial Avocations Card: What?, 1 Trivial Avocations Card: When?" ) && !MoodManager.canMasterTrivia() )
 					{
 						continue;
 					}
+
 					// Can get Box of Sunshine in hardcore/ronin, but can't use it
-					else if ( !KoLCharacter.canInteract() && cmd.startsWith( "use 1 box of sunshine" ) )
+					if ( !KoLCharacter.canInteract() && cmd.startsWith( "use 1 box of sunshine" ) )
 					{
 						continue;
 					}
-					else
+
+					String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
+					item = ItemFinder.getFirstMatchingItem( iName, false );
+
+					if ( item != null )
 					{
-						String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
-						item = ItemFinder.getFirstMatchingItem( iName, false );
-						if ( item != null )
+						// Resolve bang potions and slime vials
+						int itemId = item.getItemId();
+						if ( itemId == -1 )
 						{
-							Modifiers effMod = Modifiers.getItemModifiers( item.getItemId() );
-							if ( effMod != null )
-							{
-								duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
-							}
+							item = item.resolveBangPotion();
+							itemId = item.getItemId();
 						}
-						// Hot Dogs don't have items
-						if ( item == null && ClanLoungeRequest.isHotDog( iName ) )
+						if ( itemId == -1 )
 						{
-							if ( KoLCharacter.inBadMoon() )
-							{
-								continue;
-							}
-							else if ( !StandardRequest.isAllowed( "Clan Item", "Hot Dog Stand" ) )
-							{
-								continue;
-							}
-							// Jarlsberg and Zombie characters can't eat hot dogs
-							else if ( KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster() )
-							{
-								continue;
-							}
-							else if ( Limitmode.limitClan() )
-							{
-								continue;
-							}
-							else if ( !haveVipKey )
-							{
-								if ( includeAll )
-								{
-									text = "( get access to the VIP lounge )";
-									cmd = "";
-								}
-								else continue;
-							}
-							// Fullness available?
-							int full = ClanLoungeRequest.hotdogNameToFullness( iName );
-							if ( full > 0 &&
-								KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
-							{
-								continue;
-							}
-							// Is it Fancy and has one been used?
-							if ( ClanLoungeRequest.isFancyHotDog( iName ) &&
-							     Preferences.getBoolean( "_fancyHotDogEaten" ) )
-							{
-								continue;
-							}
-							else
-							{
-								Modifiers effMod = Modifiers.getModifiers( "Item", iName );
-								if ( effMod != null )
-								{
-									duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
-								}
-								usesRemaining = 1;
-							}
+							continue;
 						}
-						else if ( item == null && !cmd.contains( "," ) )
+
+						Modifiers effMod = Modifiers.getItemModifiers( item.getItemId() );
+						if ( effMod != null )
+						{
+							duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
+						}
+					}
+					// Hot Dogs don't have items
+					if ( item == null && ClanLoungeRequest.isHotDog( iName ) )
+					{
+						if ( KoLCharacter.inBadMoon() )
+						{
+							continue;
+						}
+						else if ( !StandardRequest.isAllowed( "Clan Item", "Hot Dog Stand" ) )
+						{
+							continue;
+						}
+						// Jarlsberg and Zombie characters can't eat hot dogs
+						else if ( KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster() )
+						{
+							continue;
+						}
+						else if ( Limitmode.limitClan() )
+						{
+							continue;
+						}
+						else if ( !haveVipKey )
 						{
 							if ( includeAll )
 							{
-								text = "(identify & " + cmd + ")";
+								text = "( get access to the VIP lounge )";
 								cmd = "";
 							}
 							else continue;
 						}
-						else if ( item != null )
+						// Fullness available?
+						int full = ClanLoungeRequest.hotdogNameToFullness( iName );
+						if ( full > 0 &&
+						     KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
 						{
-							int itemId = item.getItemId();
-							usesRemaining = UseItemRequest.maximumUses( itemId );
-							if ( usesRemaining <= 0 )
+							continue;
+						}
+						// Is it Fancy and has one been used?
+						if ( ClanLoungeRequest.isFancyHotDog( iName ) &&
+						     Preferences.getBoolean( "_fancyHotDogEaten" ) )
+						{
+							continue;
+						}
+						else
+						{
+							Modifiers effMod = Modifiers.getModifiers( "Item", iName );
+							if ( effMod != null )
 							{
-								continue;
+								duration = (int) effMod.get( Modifiers.EFFECT_DURATION );
 							}
+							usesRemaining = 1;
+						}
+					}
+					else if ( item == null && !cmd.contains( "," ) )
+					{
+						if ( includeAll )
+						{
+							text = "(identify & " + cmd + ")";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( item != null )
+					{
+						int itemId = item.getItemId();
+						usesRemaining = UseItemRequest.maximumUses( itemId );
+						if ( usesRemaining <= 0 )
+						{
+							continue;
 						}
 					}
 				}
