@@ -70,12 +70,12 @@ public class EffectDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-	private static final Map<String, Integer> effectByName = new TreeMap<String, Integer>();
+	private static final Map<String, Integer> effectIdByName = new TreeMap<String, Integer>();
 	private static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
 
 	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
 	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-	private static final Map<String, Integer> effectByDescription = new HashMap<String, Integer>();
+	private static final Map<String, Integer> effectIdByDescription = new HashMap<String, Integer>();
 
 	public static boolean newEffects = false;
 
@@ -123,8 +123,8 @@ public class EffectDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		EffectDatabase.canonicalNames = new String[ EffectDatabase.effectByName.size() ];
-		EffectDatabase.effectByName.keySet().toArray( EffectDatabase.canonicalNames );
+		EffectDatabase.canonicalNames = new String[ EffectDatabase.effectIdByName.size() ];
+		EffectDatabase.effectIdByName.keySet().toArray( EffectDatabase.canonicalNames );
 	}
 
 	private static final void addToDatabase( final Integer effectId, final String name, final String image,
@@ -132,13 +132,13 @@ public class EffectDatabase
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		EffectDatabase.nameById.put( effectId, name );
-		EffectDatabase.effectByName.put( canonicalName, effectId );
+		EffectDatabase.effectIdByName.put( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
 		if ( descriptionId != null )
 		{
 			EffectDatabase.descriptionById.put( effectId, descriptionId );
-			EffectDatabase.effectByDescription.put( descriptionId, effectId );
+			EffectDatabase.effectIdByDescription.put( descriptionId, effectId );
 		}
 
 		if ( defaultAction != null )
@@ -250,7 +250,7 @@ public class EffectDatabase
 
 	public static final String getEffectName( final String descriptionId )
 	{
-		Integer effectId = EffectDatabase.effectByDescription.get( descriptionId );
+		Integer effectId = EffectDatabase.effectIdByDescription.get( descriptionId );
 		return effectId == null ? null : EffectDatabase.getEffectName( effectId.intValue() );
 	}
 
@@ -268,9 +268,9 @@ public class EffectDatabase
 		return effectName;
 	}
 
-	public static final int getEffect( final String descriptionId )
+	public static final int getEffectIdFromDescription( final String descriptionId )
 	{
-		Integer effectId = EffectDatabase.effectByDescription.get( descriptionId );
+		Integer effectId = EffectDatabase.effectIdByDescription.get( descriptionId );
 		return effectId == null ? -1 : effectId.intValue();
 	}
 
@@ -321,7 +321,7 @@ public class EffectDatabase
 				return effectId;
 			}
 		}
-		Integer effectId = EffectDatabase.effectByName.get( StringUtilities.getCanonicalName( effectName ) );
+		Integer effectId = EffectDatabase.effectIdByName.get( StringUtilities.getCanonicalName( effectName ) );
 		if ( effectId != null )
 		{
 			return effectId.intValue();
@@ -462,10 +462,10 @@ public class EffectDatabase
 		Integer id = IntegerPool.get( effectId );
 
 		EffectDatabase.nameById.put( id, name );
-		EffectDatabase.effectByName.put( canonicalName, id );
+		EffectDatabase.effectIdByName.put( canonicalName, id );
 		EffectDatabase.imageById.put( id, image );
 		EffectDatabase.descriptionById.put( id, descId );
-		EffectDatabase.effectByDescription.put( descId, id );
+		EffectDatabase.effectIdByDescription.put( descId, id );
 		if ( defaultAction != null )
 		{
 			EffectDatabase.defaultActions.put( id, defaultAction );
