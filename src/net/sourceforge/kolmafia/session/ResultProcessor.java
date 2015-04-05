@@ -2674,6 +2674,14 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
 			break;
 
+		case ItemPool.TOXIC_GLOBULE:
+			if ( InventoryManager.getCount( ItemPool.TOXIC_GLOBULE ) + count >= 20 &&
+				QuestDatabase.isQuestStep( Quest.GIVE_ME_FUEL, QuestDatabase.STARTED ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.GIVE_ME_FUEL, "step1" );
+			}
+			break;
+
 		case ItemPool.LUBE_SHOES:
 			QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.STARTED );
 			break;

@@ -8480,10 +8480,20 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "dinseyFilthLevel", 0 );
 				QuestDatabase.setQuestProgress( Quest.FISH_TRASH, QuestDatabase.UNSTARTED );
 			}
+			else if ( text.contains( "Performance Review:  Unobjectionable" ) )
+			{
+				ResultProcessor.processItem( ItemPool.TOXIC_GLOBULE, -20 );
+				QuestDatabase.setQuestProgress( Quest.GIVE_ME_FUEL, QuestDatabase.UNSTARTED );
+			}
 			else if ( text.contains( "Performance Review:  Bearable" ) )
 			{
 				Preferences.setInteger( "dinseyNastyBearsDefeated", 0 );
 				QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, QuestDatabase.UNSTARTED );
+			}
+			else if ( text.contains( "Performance Review:  Acceptable" ) )
+			{
+				Preferences.setInteger( "dinseySocialJusticeIProgress", 0 );
+				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED );
 			}
 			else if ( text.contains( "Performance Review:  Fair" ) )
 			{
@@ -8503,13 +8513,15 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "dinseyFunProgress", 0 );
 				QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.UNSTARTED );
 			}
-			// Need the review text
-			else if ( text.contains( "Performance Review:" ) )
+			else if ( text.contains( "weren't kidding about the power" ) )
 			{
-				if (QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED ) )
+				if ( InventoryManager.getCount( ItemPool.TOXIC_GLOBULE ) >= 20 )
 				{
-					Preferences.setInteger( "dinseySocialJusticeIProgress", 0 );
-					QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED );
+					QuestDatabase.setQuestProgress( Quest.GIVE_ME_FUEL, "step1" );
+				}
+				else
+				{
+					QuestDatabase.setQuestProgress( Quest.GIVE_ME_FUEL, QuestDatabase.STARTED );
 				}
 			}
 			else if ( text.contains( "anatomical diagram of a nasty bear" ) )
