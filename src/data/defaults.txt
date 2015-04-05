@@ -394,6 +394,7 @@ user	dinseyNastyBearsDefeated	0
 user	dinseyRollercoasterStats	Standard
 user	dinseySocialJusticeIProgress	0
 user	dinseySocialJusticeIIProgress	0
+user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	dolphinItem
@@ -770,6 +771,7 @@ user	questEStNastyBears	unstarted
 user	questEStSocialJusticeI	unstarted
 user	questEStSocialJusticeII	unstarted
 user	questEStSuperLuber	unstarted
+user	questEStWorkWithFood	unstarted
 user	questEStZippityDooDah	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted

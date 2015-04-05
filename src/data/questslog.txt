@@ -103,4 +103,5 @@ questEStNastyBears	Nasty, Nasty Bears	Remove 8 nasty bears from Uncle Gator's ri
 questEStSocialJusticeI	Social Justice Adventurer I	Make the Pirates of the Garbage Barges ride less sexist.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStSocialJusticeII	Social Justice Adventurer II	Make Uncle Gator's ride less racist.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStSuperLuber	Super Luber	(missing message equip lube-shoes)	Ride the Barf Mountain rollercoaster to lubricate the tracks.	Return to the Kiosk to collect your wages.	(no completion message)
+questEStWorkWithFood	Will Work With Food	Feed guests in line for Barf Mountain.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStZippityDooDah	Whistling Zippity-Doo-Dah	Equip the mascot mask and "have fun" on the Toxic Teacups.	Have some "fun" on the Toxic Teacups ride.	Return to the Kiosk to collect your wages.	(no completion message)

@@ -132,6 +132,7 @@ public class QuestDatabase
 			SOCIAL_JUSTICE_I( "questEStSocialJusticeI" ),
 			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),
 			SUPER_LUBER( "questEStSuperLuber" ),
+			WORK_WITH_FOOD( "questEStWorkWithFood" ),
 			ZIPPITY_DOO_DAH( "questEStZippityDooDah" );
 
 		private String pref;
@@ -584,6 +585,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "dinseyRollercoasterStats" );
 		Preferences.resetToDefault( "dinseySocialJusticeIProgress" );
 		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );
+		Preferences.resetToDefault( "dinseyTouristsFed" );
 		Preferences.resetToDefault( "dinseyToxicMultiplier" );
 	}
 
