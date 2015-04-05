@@ -8506,6 +8506,12 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.LUBE_SHOES );
 				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, QuestDatabase.UNSTARTED );
 			}
+			else if ( text.contains( "Performance Review:  Adequate" ) )
+			{
+				Preferences.setInteger( "dinseyTouristsFed", 0 );
+				ResultProcessor.removeItem( ItemPool.DINSEY_REFRESHMENTS );
+				QuestDatabase.setQuestProgress( Quest.WORK_WITH_FOOD, QuestDatabase.UNSTARTED );
+			}
 			else if ( text.contains( "Performance Review:  Tolerable" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.MASCOT_MASK );
@@ -8535,6 +8541,11 @@ public abstract class ChoiceManager
 			else if ( text.contains( "ideas are all themselves so racist" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SOCIAL_JUSTICE_II, QuestDatabase.STARTED );
+			}
+			else if ( text.contains( "box of snacks issues forth" ) )
+			{
+				Preferences.setInteger( "dinseyTouristsFed", 0 );
+				QuestDatabase.setQuestProgress( Quest.WORK_WITH_FOOD, QuestDatabase.STARTED );
 			}
 			break;
 

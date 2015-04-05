@@ -87,6 +87,7 @@ public class QuestManager
 	private static final Pattern TACO_FISH_PATTERN = Pattern.compile( "gain (\\d+) taco fish meat" );
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
+	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
@@ -1680,6 +1681,32 @@ public class QuestManager
 			Preferences.increment( "dinseyNastyBearsDefeated", 1, 8, false );
 			QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, 
 				( Preferences.getInteger( "dinseyNastyBearsDefeated" ) == 8 ? "step2" : "step1" ) );
+		}
+		else if ( monsterName.equals( "angry tourist" ) ||
+				monsterName.equals( "garbage tourist" ) )
+		{
+			if ( responseText.contains( "realize that the box of refreshments is empty" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORK_WITH_FOOD, "step1" );
+				Preferences.setInteger( "dinseyTouristsFed", 30 );
+			}
+			else if ( responseText.contains( "hand out snacks to your opponent" ) )
+			{
+				int count = 1;
+				if ( responseText.contains( "and the tourist in front" ) )
+				{
+					count++;
+				}
+				else
+				{
+					Matcher touristMatcher = QuestManager.TOURIST_PATTERN.matcher( responseText );
+					if ( touristMatcher.find() )
+					{
+						count+=StringUtilities.parseInt( touristMatcher.group( 1 ) );
+					}
+				}
+				Preferences.increment( "dinseyTouristsFed", count, 30, false );
+			}
 		}
 
 		int adventure = KoLAdventure.lastAdventureId();

@@ -2340,6 +2340,7 @@ public class ItemPool
 	public static final int FUNFUNDS = 8205;
 	public static final int GARBAGE_BAG = 8211;
 	public static final int TOXIC_GLOBULE = 8218;
+	public static final int DINSEY_REFRESHMENTS = 8243;
 	public static final int LUBE_SHOES = 8244;
 	public static final int TRASH_NET = 8245;
 	public static final int MASCOT_MASK = 8246;
