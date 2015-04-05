@@ -8265,7 +8265,7 @@
 8240
 8241
 8242
-8243
+8243	complimentary Dinsey refreshments	960333234	basket.gif	none, combat reusable	q	0
 8244	lube-shoes	524575541	lubeshoes.gif	accessory	q	0
 8245	trash net	390284625	poolskimmer.gif	weapon	q	0
 8246	Dinsey mascot mask	831344174	mascotmask.gif	hat	q	0
