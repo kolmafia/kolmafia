@@ -1251,28 +1251,66 @@ public class AdventureResult
 
 	public final String bangPotionAlias()
 	{
-		if ( this.isItem() && this.id >= 819 && this.id <= 827 )
+		if ( this.isItem() )
 		{
-			String effect = Preferences.getString( "lastBangPotion" + this.id );
-			if ( effect.equals( "" ) )
+			if ( this.id >= ItemPool.FIRST_BANG_POTION && this.id <= ItemPool.LAST_BANG_POTION )
 			{
-				return this.name;
-			}
+				String effect = Preferences.getString( "lastBangPotion" + this.id );
+				if ( effect.equals( "" ) )
+				{
+					return this.name;
+				}
 
-			return "potion of " + effect;
-		}
-		if ( this.isItem() && this.id >= ItemPool.VIAL_OF_RED_SLIME && this.id <= ItemPool.VIAL_OF_PURPLE_SLIME )
-		{
-			String effect = Preferences.getString( "lastSlimeVial" + this.id );
-			if ( effect.equals( "" ) )
+				return "potion of " + effect;
+			}
+			if ( this.id >= ItemPool.FIRST_SLIME_VIAL && this.id < ItemPool.LAST_SLIME_VIAL )
 			{
-				return this.name;
-			}
+				String effect = Preferences.getString( "lastSlimeVial" + this.id );
+				if ( effect.equals( "" ) )
+				{
+					return this.name;
+				}
 
-			return "vial of slime: " + effect;
+				return "vial of slime: " + effect;
+			}
 		}
 
 		return this.name;
+	}
+
+	public final AdventureResult resolveBangPotion()
+	{
+		String name = this.name;
+
+		if ( name.startsWith( "potion of " ) )
+		{
+			String effect = name.substring( 10 );
+			for ( int itemId = ItemPool.FIRST_BANG_POTION; itemId <= ItemPool.LAST_BANG_POTION; ++itemId )
+			{
+				String potion = Preferences.getString( "lastBangPotion" + itemId );
+				if ( !potion.equals( "" ) && name.endsWith( potion ) )
+				{
+					return ItemPool.get( itemId, this.getCount() );
+				}
+			}
+			return this;
+		}
+
+		if ( name.startsWith( "vial of slime: " ) )
+		{
+			String effect = name.substring( 15 );
+			for ( int itemId = ItemPool.FIRST_SLIME_VIAL; itemId < ItemPool.LAST_SLIME_VIAL; ++itemId )
+			{
+				String vial = Preferences.getString( "lastSlimeVial" + itemId );
+				if ( !vial.equals( "" ) && name.endsWith( vial ) )
+				{
+					return ItemPool.get( itemId, this.getCount() );
+				}
+			}
+			return this;
+		}
+
+		return this;
 	}
 
 	public static final String punchCardName( final int itemId )

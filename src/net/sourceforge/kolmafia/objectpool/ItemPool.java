@@ -327,6 +327,7 @@ public class ItemPool
 	public static final int GOLDEN_MR_ACCESSORY = 792;
 	public static final int ROCKIN_WAGON = 797;
 	public static final int PLUS_SIGN = 818;
+	public static final int FIRST_BANG_POTION = 819;
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;
 	public static final int BUBBLY_POTION = 821;
@@ -336,6 +337,7 @@ public class ItemPool
 	public static final int FIZZY_POTION = 825;
 	public static final int DARK_POTION = 826;
 	public static final int MURKY_POTION = 827;
+	public static final int LAST_BANG_POTION = 827;
 	public static final int ANTIDOTE = 829;
 	public static final int SHOCK_COLLAR = 856;
 	public static final int MOONGLASSES = 857;
@@ -1068,6 +1070,7 @@ public class ItemPool
 	public static final int FOUET_DE_TORTUE_DRESSAGE = 3881;
 	public static final int CULT_MEMO = 3883;
 	public static final int DECODED_CULT_DOCUMENTS = 3884;
+	public static final int FIRST_SLIME_VIAL = 3885;
 	public static final int VIAL_OF_RED_SLIME = 3885;
 	public static final int VIAL_OF_YELLOW_SLIME = 3886;
 	public static final int VIAL_OF_BLUE_SLIME = 3887;
@@ -1081,6 +1084,7 @@ public class ItemPool
 	public static final int VIAL_OF_INDIGO_SLIME = 3895;
 	public static final int VIAL_OF_PURPLE_SLIME = 3896;
 	public static final int VIAL_OF_BROWN_SLIME = 3897;
+	public static final int LAST_SLIME_VIAL = 3897;
 	public static final int BOTTLE_OF_GU_GONE = 3898;
 	public static final int SEAL_BLUBBER_CANDLE = 3901;
 	public static final int WRETCHED_SEAL = 3902;
