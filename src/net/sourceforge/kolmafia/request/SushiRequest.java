@@ -164,6 +164,28 @@ public class SushiRequest
 		"tempura radish bento box with peanut sauce",
 	};
 
+	public static final String [] CANONICAL_SUSHI = new String[ SUSHI.length ];
+	static
+	{
+		for ( int i = 0; i < SUSHI.length; ++i )
+		{
+			CANONICAL_SUSHI[ i ] = StringUtilities.getCanonicalName( SUSHI[ i ] );
+		}
+	};
+
+	public static String isSushiName( final String name )
+	{
+		String canonical = StringUtilities.getCanonicalName( name );
+		for ( int i = 0; i < CANONICAL_SUSHI.length; ++i )
+		{
+			if ( CANONICAL_SUSHI[ i ].equals( name ) )
+			{
+				return SUSHI[ i ];
+			}
+		}
+		return null;
+	}
+
 	private static final Object[][] BASE_SUSHI =
 	{
 		{ IntegerPool.get(1), "beefy nigiri" },
