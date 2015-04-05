@@ -5137,7 +5137,7 @@ public class FightRequest
 				// Gain/loss of effect
 				status.shouldRefresh = true;
 				String descId = m.group( 1 );
-				int effectId = EffectDatabase.getEffect( descId );
+				int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 				if ( effectId == -1 )
 				{
 					return false;

@@ -305,7 +305,7 @@ public class ResultProcessor
 		{
 			String descId = effectMatcher.group( 1 );
 			String effectName = effectMatcher.group( 3 );
-			int effectId = EffectDatabase.getEffect( descId );
+			int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 
 			// If we don't know this effectId, it's an unknown effect
 			if ( effectId == -1 )

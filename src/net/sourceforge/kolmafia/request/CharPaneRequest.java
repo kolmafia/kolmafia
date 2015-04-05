@@ -832,7 +832,7 @@ public class CharPaneRequest
 
 	public static final AdventureResult extractEffect( final String descId, String effectName, int duration )
 	{
-		int effectId = EffectDatabase.getEffect( descId );
+		int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 
 		if ( effectId == -1 )
 		{
