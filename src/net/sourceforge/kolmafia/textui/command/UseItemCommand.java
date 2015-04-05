@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
+import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -176,7 +177,27 @@ public class UseItemCommand
 			// level=2: use all items in list, buy/make as needed
 			for ( AdventureResult currentMatch: itemList )
 			{
-				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
+				int itemId = currentMatch.getItemId();
+				if ( itemId == -1 )
+				{
+					// We matched a name but didn't resolve
+					// it to item ID. This can happen with
+					// unidentified bang potions and slime
+					// vials - or sushi
+					String name = currentMatch.toString();
+					String sushi = SushiRequest.isSushiName( name );
+					if ( sushi != null )
+					{
+						RequestLogger.printLine( "For now, you must 'create " + sushi + "'" );
+					}
+					else
+					{
+						RequestLogger.printLine( "You have not yet identified the " + name );
+					}
+					continue;
+				}
+
+				int consumpt = ItemDatabase.getConsumptionType( itemId );
 
 				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )
 				{ // allowed
