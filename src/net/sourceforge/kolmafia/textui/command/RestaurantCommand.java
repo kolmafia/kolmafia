@@ -325,7 +325,7 @@ public class RestaurantCommand
 			KoLmafia.updateDisplay( "You've already drunk three speakeasy drinks today." );
 			return true;
 		}
-		if ( count + drunkCount >= 3 )
+		if ( count + drunkCount > 3 )
 		{
 			KoLmafia.updateDisplay( "(You can only drink 3 speakeasy drinks per day; reducing count to " + ( 3 - drunkCount ) + ".)" );
 			count = 3 - drunkCount;
