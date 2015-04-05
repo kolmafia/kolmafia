@@ -127,6 +127,7 @@ public class QuestDatabase
 			SMOKES( "questESpSmokes" ),
 			OUT_OF_ORDER( "questESpOutOfOrder" ),
 			FISH_TRASH( "questEStFishTrash" ),
+			GIVE_ME_FUEL( "questEStGiveMeFuel" ),
 			NASTY_BEARS( "questEStNastyBears" ),
 			SOCIAL_JUSTICE_I( "questEStSocialJusticeI" ),
 			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),

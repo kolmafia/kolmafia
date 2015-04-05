@@ -765,6 +765,7 @@ user	questESpSerum	unstarted
 user	questESpSmokes	unstarted
 user	questESpOutOfOrder	unstarted
 user	questEStFishTrash	unstarted
+user	questEStGiveMeFuel	unstarted
 user	questEStNastyBears	unstarted
 user	questEStSocialJusticeI	unstarted
 user	questEStSocialJusticeII	unstarted
