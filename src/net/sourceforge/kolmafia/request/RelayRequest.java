@@ -2902,8 +2902,9 @@ public class RelayRequest
 			// Show the Wiki, if that is desired
 			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
-				String itemName = ItemDatabase.getItemName( descId );
-				String location = WikiUtilities.getWikiLocation( itemName );
+				int itemId = ItemDatabase.getItemIdFromDescription( descId );
+				AdventureResult item = ItemPool.get( itemId, 0 );
+				String location = WikiUtilities.getWikiLocation( item );
 				if ( location != null )
 				{
 					this.pseudoResponse( "HTTP/1.1 302 Found", location );	
@@ -2919,7 +2920,7 @@ public class RelayRequest
 			// Show the Wiki, if that is desired
 			if ( descId != null && Preferences.getBoolean( "relayAddsWikiLinks" ) )
 			{
-				int effectId = EffectDatabase.getEffectId( descId );
+				int effectId = EffectDatabase.getEffect( descId );
 				AdventureResult effect = EffectPool.get( effectId );
 				String location = WikiUtilities.getWikiLocation( effect );
 				if ( location != null )
