@@ -102,19 +102,19 @@ public class MoodTrigger
 					parameters = parameters.substring( spaceIndex ).trim();
 				}
 
-				AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, false );
+				AdventureResult item = MoodTrigger.getUsableItem( parameters );
 
 				if ( item != null )
 				{
 					if ( star )
 					{
-						this.action = "use * " + item.bangPotionAlias();
+						this.action = "use * " + item.getDataName();
 					}
 					else
 					{
 						this.item = item;
-						this.count = this.item.getCount();
-						this.action = "use " + this.count + " " + this.item.bangPotionAlias();
+						this.count = item.getCount();
+						this.action = "use " + this.count + " " + item.getDataName();
 					}
 				}
 			}
@@ -171,6 +171,20 @@ public class MoodTrigger
 
 		this.stringForm = new StringBuffer();
 		this.updateStringForm();
+	}
+
+	private static AdventureResult getUsableItem( final String parameters )
+	{
+		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, false );
+		if ( item != null )
+		{
+			String name = item.bangPotionAlias();
+			if ( !name.equals( item.getDataName() ) )
+			{
+				item = AdventureResult.tallyItem( name, item.getCount(), false );
+			}
+		}
+		return item;
 	}
 
 	public static String getKnownSources( String name )
@@ -267,7 +281,7 @@ public class MoodTrigger
 
 		if ( this.item != null )
 		{
-			return this.type + " " + canonical + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.bangPotionAlias() );
+			return this.type + " " + canonical + " => use " + this.count + " " + StringUtilities.getCanonicalName( this.item.getDataName() );
 		}
 
 		if ( this.skill != null )

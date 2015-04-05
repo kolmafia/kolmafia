@@ -189,11 +189,17 @@ public class UseItemCommand
 					if ( sushi != null )
 					{
 						RequestLogger.printLine( "For now, you must 'create " + sushi + "'" );
+						continue;
 					}
-					else
-					{
-						RequestLogger.printLine( "You have not yet identified the " + name );
-					}
+
+					currentMatch = currentMatch.resolveBangPotion();
+					itemId = currentMatch.getItemId();
+				}
+
+				if ( itemId == -1 )
+				{
+					String name = currentMatch.toString();
+					RequestLogger.printLine( "You have not yet identified the " + name );
 					continue;
 				}
 
