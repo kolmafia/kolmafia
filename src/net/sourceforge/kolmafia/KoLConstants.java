@@ -136,10 +136,6 @@ public interface KoLConstants
 	public static final String[][] GOTO_MENU = new String[][]
 	{
 		{
-			"Spookyraven",
-			"manor.php"
-		},
-		{
 			"Council",
 			"council.php"
 		},
@@ -148,8 +144,8 @@ public interface KoLConstants
 			"guild.php"
 		},
 		{
-			"Mt. McLargeHuge",
-			"place.php?whichplace=mclargehuge"
+			"Spookyraven",
+			"manor.php"
 		},
 		{
 			"Cobb's Knob",
@@ -160,8 +156,16 @@ public interface KoLConstants
 			"crypt.php"
 		},
 		{
+			"Mt. McLargeHuge",
+			"place.php?whichplace=mclargehuge"
+		},
+		{
 			"The Beanstalk",
 			"beanstalk.php"
+		},
+		{
+			"Elemental International Airport",
+			"place.php?whichplace=airport"
 		},
 		{
 			"The Sea",
