@@ -582,6 +582,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "dinseyGatorStenchDamage" );
 		Preferences.resetToDefault( "dinseyGarbagePirate" );
 		Preferences.resetToDefault( "dinseyNastyBearsDefeated" );
+		Preferences.resetToDefault( "dinseyRollercoasterNext" );
 		Preferences.resetToDefault( "dinseyRollercoasterStats" );
 		Preferences.resetToDefault( "dinseySocialJusticeIProgress" );
 		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );

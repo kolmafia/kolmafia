@@ -9546,6 +9546,18 @@ public abstract class ChoiceManager
 			// Returning the MacGuffin
 			ChoiceManager.handleAfterAvatar();
 			break;
+
+		case 1073:
+			// This Ride Is Like... A Rollercoaster Baby Baby
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "dinseyRollercoasterNext", false );
+			}
+			if ( text.contains( "lubricating every inch of the tracks" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, "step2" );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )

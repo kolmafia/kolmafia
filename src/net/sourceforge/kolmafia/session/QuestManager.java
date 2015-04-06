@@ -691,15 +691,6 @@ public class QuestManager
 				ResultProcessor.removeItem( ItemPool.ARMORY_KEYCARD );
 			}
 		}
-
-		// Detect lubing rollercoaster
-		if ( location.contains( AdventurePool.BARF_MOUNTAIN_ID ) )
-		{
-			if ( responseText.contains( "lubricating every inch of the tracks" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, "step2" );
-			}
-		}
 		return;
 	}
 
@@ -1837,6 +1828,13 @@ public class QuestManager
 			if ( responseText.contains( "The gore sloshes around nauseatingly in your bucket" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.GORE, "step2" );
+			}
+			break;
+
+		case AdventurePool.BARF_MOUNTAIN:
+			if ( responseText.contains( "made it to the front of the line" ) )
+			{
+				Preferences.setBoolean( "dinseyRollercoasterNext", true );
 			}
 			break;
 
