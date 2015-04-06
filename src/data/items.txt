@@ -8275,7 +8275,7 @@
 8250	stinky fannypack	748377249	fannypack.gif	accessory	d	120
 8251	garbage sticker	945648888	arbsticker.gif	weapon	d	150
 8252	hazmat helmet	124905161	hazhelmet.gif	hat	d	200
-8253	Scratch-and-Sniff Guide to Dinseylandfill	950015537	book3.gif	usable	t,d	250
-8254	Trash, a Memoir	417573941	book4.gif	usable	t,d	250
+8253	Scratch-and-Sniff Guide to Dinseylandfill	950015537	book3.gif	usable	t,d	250	Scratch-and-Sniff Guides to Dinseylandfill
+8254	Trash, a Memoir	417573941	book4.gif	usable	t,d	250	copies of Trash, a Memoir
 8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t,d	250
 8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t,d	200

@@ -5818,6 +5818,7 @@ Skill	Never Late for Dinner	Adventures: +10, Initiative: +50
 Skill	Nimble Fingers	Meat Drop: +20
 Skill	Northern Exposure	Cold Resistance: +2
 # Okay Seriously, This is the Last Spleen Another +5 spleen capacity. That's it, for real.
+Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Overdeveloped Sense of Self Preservation	Initiative: +20
 # Pizza Lover You really, really like pizza
 Skill	Powers of Observatiogn	Item Drop: +10
