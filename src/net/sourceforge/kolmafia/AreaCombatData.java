@@ -815,6 +815,12 @@ public class AreaCombatData
 
 	public double areaCombatPercent()
 	{
+		// Some areas have fixed non-combats, if we're tracking this, handle them here.
+		if ( this.zone.equals( "Barf Mountain" ) )
+		{
+			return Preferences.getBoolean( "dinseyRollercoasterNext" ) ? 0 : 100;
+		}
+
 		// If we don't have the data, pretend it's all combat
 		if ( this.combats < 0 )
 		{

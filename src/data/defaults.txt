@@ -391,6 +391,7 @@ user	dinseyFunProgress	0
 user	dinseyGarbagePirate	false
 user	dinseyGatorStenchDamage	ON
 user	dinseyNastyBearsDefeated	0
+user	dinseyRollercoasterNext	false
 user	dinseyRollercoasterStats	Standard
 user	dinseySocialJusticeIProgress	0
 user	dinseySocialJusticeIIProgress	0
