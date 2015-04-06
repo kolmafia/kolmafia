@@ -2534,7 +2534,7 @@ Item	pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Single
 Item	pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Single Equip, Item Drop: [20*env(underwater)]
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
-Item	perfume-soaked bandana	Stench Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
+Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 Item	phase-tuned shield generator belt	Single Equip
 Item	phat turquoise bracelet	Mysticality: +5
