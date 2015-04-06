@@ -3039,6 +3039,9 @@ public class UseItemRequest
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 		case ItemPool.SPELUNKER_FORTUNE:
 		case ItemPool.SPELUNKER_FORTUNE_USED:
+		case ItemPool.DINSY_GUIDE_BOOK:
+		case ItemPool.TRASH_MEMOIR_BOOK:
+		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5352,6 +5355,12 @@ public class UseItemRequest
 		case ItemPool.SPELUNKER_FORTUNE:
 		case ItemPool.SPELUNKER_FORTUNE_USED:
 			return "Speluck";
+		case ItemPool.DINSY_GUIDE_BOOK:
+			return "Olfactory Burnout";
+		case ItemPool.TRASH_MEMOIR_BOOK:
+			return "Garbage Nova";
+		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
+			return "Dinsey Operations Expert";
 		}
 
 		return null;
