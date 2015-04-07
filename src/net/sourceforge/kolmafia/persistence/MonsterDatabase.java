@@ -397,10 +397,10 @@ public class MonsterDatabase
 		Object defense = null;
 		Object initiative = null;
 		Object experience = null;
-		int scale = Integer.MIN_VALUE;
+		Object scale = null;
 		int cap = Integer.MAX_VALUE;
 		int floor = Integer.MIN_VALUE;
-		int mlMult = 1;
+		Object mlMult = null;
 		int meat = 0;
 		Element attackElement = Element.NONE;
 		Element defenseElement = Element.NONE;
@@ -449,11 +449,7 @@ public class MonsterDatabase
 
 				else if ( option.equals( "Scale:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						scale = StringUtilities.parseInt( tokens.nextToken() );
-						continue;
-					}
+					scale = parseNumeric( tokens );
 					continue;
 				}
 
@@ -479,11 +475,7 @@ public class MonsterDatabase
 
 				else if ( option.equals( "MLMult:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						mlMult = StringUtilities.parseInt( tokens.nextToken() );
-						continue;
-					}
+					mlMult = parseNumeric( tokens );
 					continue;
 				}
 

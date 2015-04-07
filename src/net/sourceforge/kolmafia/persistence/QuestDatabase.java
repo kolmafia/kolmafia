@@ -577,13 +577,16 @@ public class QuestDatabase
 		Preferences.resetToDefault( "writingDesksDefeated" );
 		Preferences.resetToDefault( "palindomeDudesDefeated" );
 		Preferences.resetToDefault( "warehouseProgress" );
+		Preferences.resetToDefault( "dinseyAudienceEngagement" );
 		Preferences.resetToDefault( "dinseyFilthLevel" );
 		Preferences.resetToDefault( "dinseyFunProgress" );
 		Preferences.resetToDefault( "dinseyGatorStenchDamage" );
 		Preferences.resetToDefault( "dinseyGarbagePirate" );
 		Preferences.resetToDefault( "dinseyNastyBearsDefeated" );
+		Preferences.resetToDefault( "dinseyRapidPassEnabled" );
 		Preferences.resetToDefault( "dinseyRollercoasterNext" );
 		Preferences.resetToDefault( "dinseyRollercoasterStats" );
+		Preferences.resetToDefault( "dinseySafetyProtocolsLoose" );
 		Preferences.resetToDefault( "dinseySocialJusticeIProgress" );
 		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );
 		Preferences.resetToDefault( "dinseyTouristsFed" );
