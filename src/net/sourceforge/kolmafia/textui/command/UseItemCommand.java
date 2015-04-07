@@ -188,7 +188,10 @@ public class UseItemCommand
 					String sushi = SushiRequest.isSushiName( name );
 					if ( sushi != null )
 					{
-						RequestLogger.printLine( "For now, you must 'create " + sushi + "'" );
+						if ( !sim )
+						{
+							RequestLogger.printLine( "For now, you must 'create " + sushi + "'" );
+						}
 						continue;
 					}
 
@@ -198,8 +201,10 @@ public class UseItemCommand
 
 				if ( itemId == -1 )
 				{
-					String name = currentMatch.toString();
-					RequestLogger.printLine( "You have not yet identified the " + name );
+					if ( !sim )
+					{
+						RequestLogger.printLine( "You have not yet identified the " + currentMatch.toString() );
+					}
 					continue;
 				}
 
