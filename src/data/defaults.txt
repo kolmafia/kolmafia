@@ -386,13 +386,16 @@ user	demonSummoned	false
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dinseyAudienceEngagement	false
 user	dinseyFilthLevel	0
 user	dinseyFunProgress	0
 user	dinseyGarbagePirate	false
 user	dinseyGatorStenchDamage	ON
 user	dinseyNastyBearsDefeated	0
+user	dinseyRapidPassEnabled	false
 user	dinseyRollercoasterNext	false
 user	dinseyRollercoasterStats	Standard
+user	dinseySafetyProtocolsLoose	false
 user	dinseySocialJusticeIProgress	0
 user	dinseySocialJusticeIIProgress	0
 user	dinseyTouristsFed	0

@@ -10162,6 +10162,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "dinseyRollercoasterStats", matcher.group( 1 ).trim() );
 			}
+			Preferences.setBoolean( "dinseyRapidPassEnabled", text.contains( "Disable Rapid-Pass System" ) );
 			break;
 		}
 
@@ -10184,6 +10185,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "dinseyToxicMultiplier", matcher.group( 1 ).trim() );
 			}
+			Preferences.setBoolean( "dinseySafetyProtocolsLoose", text.contains( "protocols seem pretty loose" ) );
 			break;
 		}
 
@@ -10195,6 +10197,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "dinseyGatorStenchDamage", matcher.group( 1 ).trim() );
 			}
+			Preferences.setBoolean( "dinseyAudienceEngagement", text.contains( "High Engagement Mode" ) );
 			break;
 		}
 		}
