@@ -4981,6 +4981,17 @@ public class FightRequest
 					continue;
 				}
 
+				if ( text.startsWith( "You acquire a skill" ) )
+				{
+					TagNode bnode = node.findElementByName( "b", true );
+					if ( bnode != null )
+					{
+						String skill = bnode.getText().toString();
+						ResponseTextParser.learnSkill( skill );
+					}
+					continue;
+				}
+
 				if ( text.startsWith( "You gain" ) )
 				{
 					status.shouldRefresh |= ResultProcessor.processGainLoss( text, null );
