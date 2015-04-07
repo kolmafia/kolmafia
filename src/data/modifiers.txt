@@ -2490,7 +2490,7 @@ Item	Mudflap-Girl Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Damage: +4
 Item	musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 Item	natty blue ascot	Meat Drop: +20
-Item	navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only, Item Drop (sporadic): 20, Meat Drop (sporadic): 20
+Item	navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25
 Item	Nickel Gamma of Frugality	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 Item	night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 Item	Nose Ring of Putrescence	Hot Resistance: +3, Spooky Resistance: +3, Single Equip
