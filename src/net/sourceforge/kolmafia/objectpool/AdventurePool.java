@@ -103,7 +103,12 @@ public class AdventurePool
 	public static final int SEASIDE_MEGALOPOLIS = 206;
 	public static final int MERKIN_COLOSSEUM = 210;
 	public static final String MERKIN_COLOSSEUM_ID = "210";
+	public static final int BROODLING_GROUNDS = 214;
+	public static final int OUTER_COMPOUND = 215;
+	public static final int TEMPLE_PORTICO = 217;
+	public static final int CONVENTION_HALL_LOBBY = 218;
 	public static final int OUTSIDE_THE_CLUB = 219;
+	public static final int ISLAND_BARRACKS = 220;
 	public static final int BARROOM_BRAWL = 233;
 	public static final int NOOB_CAVE = 240;
 	public static final int PANDAMONIUM_SLUMS = 248;

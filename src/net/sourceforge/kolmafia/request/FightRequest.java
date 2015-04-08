@@ -6706,14 +6706,14 @@ public class FightRequest
 		case SkillPool.BANISHING_SHOUT:
 			if ( !responseText.contains( "but this foe refuses" ) )
 			{
-				BanishManager.banishMonster( monsterName, "banishing shout", responseText );
+				BanishManager.banishMonster( monsterName, "banishing shout" );
 			}
 			break;
 
 		case SkillPool.HOWL_ALPHA:
 			if ( responseText.contains( "your opponent turns and runs" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "howl of the alpha", responseText );
+				BanishManager.banishMonster( monsterName, "howl of the alpha" );
 			}
 			break;
 
@@ -6721,7 +6721,7 @@ public class FightRequest
 			if ( responseText.contains( "an even creepier grin" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_vmaskBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "v for vivala mask", responseText );
+				BanishManager.banishMonster( monsterName, "v for vivala mask" );
 			}
 			break;
 
@@ -6729,21 +6729,21 @@ public class FightRequest
 			if ( responseText.contains( "You fix an extremely disdainful eye" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "stinky cheese eye", responseText );
+				BanishManager.banishMonster( monsterName, "stinky cheese eye" );
 			}
 			break;
 
 		case SkillPool.UNLEASH_NANITES:
 			if ( responseText.contains( "You roar with sudden power" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "nanorhino", responseText );
+				BanishManager.banishMonster( monsterName, "nanorhino" );
 			}
 			break;
 
 		case SkillPool.BATTER_UP:
 			if ( responseText.contains( "knocked out of the park" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "batter up!", responseText );
+				BanishManager.banishMonster( monsterName, "batter up!" );
 			}
 			break;
 
@@ -6751,21 +6751,21 @@ public class FightRequest
 			if ( responseText.contains( "won't be seeing" ) || skillSuccess )
 			{
 				Preferences.increment( "_pantsgivingBanish" );
-				BanishManager.banishMonster( monsterName, "pantsgiving", responseText );
+				BanishManager.banishMonster( monsterName, "pantsgiving" );
 			}
 			break;
 
 		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
 			if ( responseText.contains( "foe is obliterated in a spectacular explosion" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "walk away from explosion", responseText );
+				BanishManager.banishMonster( monsterName, "walk away from explosion" );
 			}
 			break;
 
 		case SkillPool.THUNDER_CLAP:
 			if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "thunder clap", responseText );
+				BanishManager.banishMonster( monsterName, "thunder clap" );
 			}
 			break;
 
@@ -6789,7 +6789,7 @@ public class FightRequest
 				Preferences.increment( "_petePeeledOut" );
 				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
 				{
-					BanishManager.banishMonster( monsterName, "peel out", responseText );
+					BanishManager.banishMonster( monsterName, "peel out" );
 				}
 			}
 			break;
@@ -6909,7 +6909,7 @@ public class FightRequest
 		case SkillPool.CURSE_OF_VACATION:
 			if ( responseText.contains( "as the vortex disappears" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "curse of vacation", responseText );
+				BanishManager.banishMonster( monsterName, "curse of vacation" );
 			}
 			break;
 

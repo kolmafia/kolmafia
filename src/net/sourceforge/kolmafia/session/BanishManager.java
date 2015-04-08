@@ -37,11 +37,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -298,11 +301,11 @@ public class BanishManager
 
 	public static final Banisher findBanisher( final String banisher )
 	{
-		for ( int i = 0 ; i < BANISHER.length ; i++ )
+		for ( Banisher ban : BANISHER )
 		{
-			if ( BANISHER[ i ].getName().equals( banisher ) )
+			if ( ban.getName().equals( banisher ) )
 			{
-				return BANISHER[ i ];
+				return ban;
 			}
 		}
 		return null;
@@ -315,18 +318,28 @@ public class BanishManager
 		{
 			return;
 		}
-		BanishManager.banishMonster( monster.getName(), banishName, responseText );
+		BanishManager.banishMonster( monster.getName(), banishName );
 	}
 
-	public static final void banishMonster( final String monsterName, final String banishName, final String responseText )
+	public static final void banishMonster( final String monsterName, final String banishName )
 	{
 		if ( BanishManager.countBanishes( banishName ) >= BanishManager.findBanisher( banishName ).getQueueSize() )
 		{
 			BanishManager.removeOldestBanish( banishName );
 		}
 		// Banishes fail in some areas
-		if ( responseText.contains( "This is a really confined space..." ) )
+		int adventure = KoLAdventure.lastAdventureId();
+		switch ( adventure )
 		{
+		// Nemesis quest
+		case AdventurePool.BROODLING_GROUNDS:
+		case AdventurePool.OUTER_COMPOUND:
+		case AdventurePool.TEMPLE_PORTICO:
+		case AdventurePool.CONVENTION_HALL_LOBBY:
+		case AdventurePool.OUTSIDE_THE_CLUB:
+		case AdventurePool.ISLAND_BARRACKS:
+
+		case AdventurePool.SECRET_GOVERNMENT_LAB:
 			KoLmafia.updateDisplay( "Banish " + banishName + " failed." );
 			return;
 		}
@@ -334,7 +347,7 @@ public class BanishManager
 		int turnCost = BanishManager.findBanisher( banishName ).isTurnFree() ? 0 : 1;
 		BanishManager.addBanishedMonster( monsterName, banishName, KoLCharacter.getCurrentRun() + turnCost );
 		BanishManager.saveBanishedMonsters();
-		
+
 		// Legacy support
 		if ( banishName.equals( "nanorhino" ) )
 		{
