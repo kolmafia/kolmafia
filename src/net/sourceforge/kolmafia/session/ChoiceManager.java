@@ -6170,7 +6170,7 @@ public abstract class ChoiceManager
 
 		if ( choice == null || option == null )
 		{
-			// Visiting a choice page but not yet making a decision
+		// Visiting a choice page but not yet making a decision
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.lastDecision = 0;
 			ChoiceManager.lastResponseText = null;
@@ -6441,7 +6441,7 @@ public abstract class ChoiceManager
 			// Chatterboxing
 			if ( ChoiceManager.lastDecision == 2 && text.contains( "find a valuable trinket that looks promising" ) )
 			{
-				BanishManager.banishMonster( "chatty pirate", "chatterboxing", text );
+				BanishManager.banishMonster( "chatty pirate", "chatterboxing" );
 			}
 			break;
 
@@ -9914,7 +9914,7 @@ public abstract class ChoiceManager
 				if ( !knownBanishes.contains( icehouseMonster ) )
 				{
 					// If not already known to be banished, add it
-					BanishManager.banishMonster( icehouseMonster, "ice house", text );
+					BanishManager.banishMonster( icehouseMonster, "ice house" );
 				}
 			}
 			break;
