@@ -6441,7 +6441,7 @@ public abstract class ChoiceManager
 			// Chatterboxing
 			if ( ChoiceManager.lastDecision == 2 && text.contains( "find a valuable trinket that looks promising" ) )
 			{
-				BanishManager.banishMonster( "chatty pirate", "chatterboxing" );
+				BanishManager.banishMonster( "chatty pirate", "chatterboxing", text );
 			}
 			break;
 
@@ -9914,7 +9914,7 @@ public abstract class ChoiceManager
 				if ( !knownBanishes.contains( icehouseMonster ) )
 				{
 					// If not already known to be banished, add it
-					BanishManager.banishMonster( icehouseMonster, "ice house" );
+					BanishManager.banishMonster( icehouseMonster, "ice house", text );
 				}
 			}
 			break;

@@ -6427,7 +6427,7 @@ public class FightRequest
 				if ( responseText.contains( "turns tail and runs" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
-					BanishManager.banishCurrentMonster( "staff of the standalone cheese" );
+					BanishManager.banishCurrentMonster( "staff of the standalone cheese", responseText );
 				}
 				break;
 
@@ -6706,14 +6706,14 @@ public class FightRequest
 		case SkillPool.BANISHING_SHOUT:
 			if ( !responseText.contains( "but this foe refuses" ) )
 			{
-				BanishManager.banishMonster( monsterName, "banishing shout" );
+				BanishManager.banishMonster( monsterName, "banishing shout", responseText );
 			}
 			break;
 
 		case SkillPool.HOWL_ALPHA:
 			if ( responseText.contains( "your opponent turns and runs" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "howl of the alpha" );
+				BanishManager.banishMonster( monsterName, "howl of the alpha", responseText );
 			}
 			break;
 
@@ -6721,7 +6721,7 @@ public class FightRequest
 			if ( responseText.contains( "an even creepier grin" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_vmaskBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "v for vivala mask" );
+				BanishManager.banishMonster( monsterName, "v for vivala mask", responseText );
 			}
 			break;
 
@@ -6729,21 +6729,21 @@ public class FightRequest
 			if ( responseText.contains( "You fix an extremely disdainful eye" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
-				BanishManager.banishMonster( monsterName, "stinky cheese eye" );
+				BanishManager.banishMonster( monsterName, "stinky cheese eye", responseText );
 			}
 			break;
 
 		case SkillPool.UNLEASH_NANITES:
 			if ( responseText.contains( "You roar with sudden power" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "nanorhino" );
+				BanishManager.banishMonster( monsterName, "nanorhino", responseText );
 			}
 			break;
 
 		case SkillPool.BATTER_UP:
 			if ( responseText.contains( "knocked out of the park" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "batter up!" );
+				BanishManager.banishMonster( monsterName, "batter up!", responseText );
 			}
 			break;
 
@@ -6751,21 +6751,21 @@ public class FightRequest
 			if ( responseText.contains( "won't be seeing" ) || skillSuccess )
 			{
 				Preferences.increment( "_pantsgivingBanish" );
-				BanishManager.banishMonster( monsterName, "pantsgiving" );
+				BanishManager.banishMonster( monsterName, "pantsgiving", responseText );
 			}
 			break;
 
 		case SkillPool.WALK_AWAY_FROM_EXPLOSION:
 			if ( responseText.contains( "foe is obliterated in a spectacular explosion" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "walk away from explosion" );
+				BanishManager.banishMonster( monsterName, "walk away from explosion", responseText );
 			}
 			break;
 
 		case SkillPool.THUNDER_CLAP:
 			if ( responseText.contains( "opponent heads for the hills" ) || skillRunawaySuccess )
 			{
-				BanishManager.banishMonster( monsterName, "thunder clap" );
+				BanishManager.banishMonster( monsterName, "thunder clap", responseText );
 			}
 			break;
 
@@ -6789,7 +6789,7 @@ public class FightRequest
 				Preferences.increment( "_petePeeledOut" );
 				if ( Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Smelly Muffler" ) )
 				{
-					BanishManager.banishMonster( monsterName, "peel out" );
+					BanishManager.banishMonster( monsterName, "peel out", responseText );
 				}
 			}
 			break;
@@ -6909,7 +6909,7 @@ public class FightRequest
 		case SkillPool.CURSE_OF_VACATION:
 			if ( responseText.contains( "as the vortex disappears" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "curse of vacation" );
+				BanishManager.banishMonster( monsterName, "curse of vacation", responseText );
 			}
 			break;
 
@@ -6983,67 +6983,67 @@ public class FightRequest
 		case ItemPool.CRYSTAL_SKULL:
 			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "crystal skull" );
+				BanishManager.banishCurrentMonster( "crystal skull", responseText );
 			}
 			break;
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 			if ( responseText.contains( "surprisingly loud bang, and your opponent" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "divine champagne popper" );
+				BanishManager.banishCurrentMonster( "divine champagne popper", responseText );
 			}
 			break;
 		case ItemPool.HAROLDS_HAMMER:
 			if ( responseText.contains( "throw the bell away" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "harold's bell" );
+				BanishManager.banishCurrentMonster( "harold's bell", responseText );
 			}
 			break;
 		case ItemPool.INDIGO_TAFFY:
 			if ( responseText.contains( "nowhere to be found" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "pulled indigo taffy" );
+				BanishManager.banishCurrentMonster( "pulled indigo taffy", responseText );
 			}
 			break;
 		case ItemPool.CLASSY_MONKEY:
 			if ( responseText.contains( "EEEEEEEEEEEEEEEEEEEEEEEEK!" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "classy monkey" );
+				BanishManager.banishCurrentMonster( "classy monkey", responseText );
 			}
 			break;
 		case ItemPool.DIRTY_STINKBOMB:
 			if ( responseText.contains( "don't expect to see" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "dirty stinkbomb" );
+				BanishManager.banishCurrentMonster( "dirty stinkbomb", responseText );
 			}
 			break;
 		case ItemPool.DEATHCHUCKS:
 			if ( responseText.contains( "far enough away from you" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "deathchucks" );
+				BanishManager.banishCurrentMonster( "deathchucks", responseText );
 			}
 			break;
 		case ItemPool.COCKTAIL_NAPKIN:
 			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "cocktail napkin" );
+				BanishManager.banishCurrentMonster( "cocktail napkin", responseText );
 			}
 			break;
 		case ItemPool.LOUDER_THAN_BOMB:
 			if ( responseText.contains( "nowhere to be seen" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "louder than bomb" );
+				BanishManager.banishCurrentMonster( "louder than bomb", responseText );
 			}
 			break;
 		case ItemPool.SMOKE_GRENADE:
 			if ( responseText.contains( "flee in the ensuing confusion" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "smoke grenade" );
+				BanishManager.banishCurrentMonster( "smoke grenade", responseText );
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
 			if ( responseText.contains( "A wistful expression" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
+				BanishManager.banishCurrentMonster( "spooky music box mechanism", responseText );
 			}
 			break;
 		case ItemPool.ICE_HOUSE:
@@ -7052,7 +7052,7 @@ public class FightRequest
 			// the house on display with it still inside it.
 			if ( responseText.contains( "toss the ice house" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "ice house" );
+				BanishManager.banishCurrentMonster( "ice house", responseText );
 			}
 			break;
 		case ItemPool.ROCK_BAND_FLYERS:

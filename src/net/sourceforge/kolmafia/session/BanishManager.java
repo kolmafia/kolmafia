@@ -308,23 +308,29 @@ public class BanishManager
 		return null;
 	}
 
-	public static final void banishCurrentMonster( final String banishName )
+	public static final void banishCurrentMonster( final String banishName, final String responseText )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			return;
 		}
-		BanishManager.banishMonster( monster.getName(), banishName );
+		BanishManager.banishMonster( monster.getName(), banishName, responseText );
 	}
 
-	public static final void banishMonster( final String monsterName, final String banishName )
+	public static final void banishMonster( final String monsterName, final String banishName, final String responseText )
 	{
-		KoLmafia.updateDisplay( monsterName + " banished by " + banishName + "." );
 		if ( BanishManager.countBanishes( banishName ) >= BanishManager.findBanisher( banishName ).getQueueSize() )
 		{
 			BanishManager.removeOldestBanish( banishName );
 		}
+		// Banishes fail in some areas
+		if ( responseText.contains( "This is a really confined space..." ) )
+		{
+			KoLmafia.updateDisplay( "Banish " + banishName + " failed." );
+			return;
+		}
+		KoLmafia.updateDisplay( monsterName + " banished by " + banishName + "." );
 		int turnCost = BanishManager.findBanisher( banishName ).isTurnFree() ? 0 : 1;
 		BanishManager.addBanishedMonster( monsterName, banishName, KoLCharacter.getCurrentRun() + turnCost );
 		BanishManager.saveBanishedMonsters();
