@@ -1673,32 +1673,6 @@ public class QuestManager
 			QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, 
 				( Preferences.getInteger( "dinseyNastyBearsDefeated" ) == 8 ? "step2" : "step1" ) );
 		}
-		else if ( monsterName.equals( "angry tourist" ) ||
-				monsterName.equals( "garbage tourist" ) )
-		{
-			if ( responseText.contains( "realize that the box of refreshments is empty" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.WORK_WITH_FOOD, "step1" );
-				Preferences.setInteger( "dinseyTouristsFed", 30 );
-			}
-			else if ( responseText.contains( "hand out snacks to your opponent" ) )
-			{
-				int count = 1;
-				if ( responseText.contains( "and the tourist in front" ) )
-				{
-					count++;
-				}
-				else
-				{
-					Matcher touristMatcher = QuestManager.TOURIST_PATTERN.matcher( responseText );
-					if ( touristMatcher.find() )
-					{
-						count+=StringUtilities.parseInt( touristMatcher.group( 1 ) );
-					}
-				}
-				Preferences.increment( "dinseyTouristsFed", count, 30, false );
-			}
-		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -1962,6 +1936,32 @@ public class QuestManager
 				{
 					QuestDatabase.setQuestProgress( Quest.CLIPPER, "step1" );
 				}
+			}
+			break;
+
+		case ItemPool.DINSEY_REFRESHMENTS:
+			if ( responseText.contains( "realize that the box of refreshments is empty" ) ||
+				responseText.contains( "box of snacks is empty" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORK_WITH_FOOD, "step1" );
+				Preferences.setInteger( "dinseyTouristsFed", 30 );
+			}
+			else if ( responseText.contains( "hand out snacks to your opponent" ) )
+			{
+				int count = 1;
+				if ( responseText.contains( "and the tourist in front" ) )
+				{
+					count++;
+				}
+				else
+				{
+					Matcher touristMatcher = QuestManager.TOURIST_PATTERN.matcher( responseText );
+					if ( touristMatcher.find() )
+					{
+						count+=StringUtilities.parseInt( touristMatcher.group( 1 ) );
+					}
+				}
+				Preferences.increment( "dinseyTouristsFed", count, 30, false );
 			}
 			break;
 		}
