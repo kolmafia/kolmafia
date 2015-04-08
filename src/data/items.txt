@@ -7187,7 +7187,7 @@
 7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3	plumber's lunches
 7163	skull gearshift knob	639725530	skullknob.gif	offhand	t,d	85
 7164	nachos of the night	950915178	jarl_nachos.gif	food	t,d	22	plates of nachos of the night
-7165	Sketcherz&trade;	853013827	kicks.gif	accessory	t,d	45
+7165	Sketcherz&trade;	853013827	kicks.gif	accessory	t,d	45	pairs of Sketcherz&trade;
 7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19	cans of Adultwitch&trade;
 7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
 7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
