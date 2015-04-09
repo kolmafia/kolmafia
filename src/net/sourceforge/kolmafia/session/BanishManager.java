@@ -331,6 +331,8 @@ public class BanishManager
 		int adventure = KoLAdventure.lastAdventureId();
 		switch ( adventure )
 		{
+		// Main quest
+		case AdventurePool.BOSSBAT:
 		// Nemesis quest
 		case AdventurePool.BROODLING_GROUNDS:
 		case AdventurePool.OUTER_COMPOUND:
@@ -338,8 +340,13 @@ public class BanishManager
 		case AdventurePool.CONVENTION_HALL_LOBBY:
 		case AdventurePool.OUTSIDE_THE_CLUB:
 		case AdventurePool.ISLAND_BARRACKS:
-
+		// Elemental zones
+		case AdventurePool.SLOPPY_SECONDS_DINER:
 		case AdventurePool.SECRET_GOVERNMENT_LAB:
+		case AdventurePool.BARF_MOUNTAIN:
+		case AdventurePool.GARBAGE_BARGES:
+		case AdventurePool.TOXIC_TEACUPS:
+		case AdventurePool.LIQUID_WASTE_SLUICE:
 			KoLmafia.updateDisplay( "Banish " + banishName + " failed." );
 			return;
 		}
