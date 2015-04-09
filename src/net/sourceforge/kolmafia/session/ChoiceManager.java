@@ -6281,9 +6281,10 @@ public abstract class ChoiceManager
 			break;
 
 		case 866:
+			// Choice 866 is Methinks the Protesters Doth Protest Too Little
 			// If you have a clover, this is a clover adventure.
 			// Otherwise it is a semirare
-			if ( InventoryManager.hasItem( ItemPool.TEN_LEAF_CLOVER ) )
+			if ( InventoryManager.getCount( ItemPool.TEN_LEAF_CLOVER ) > 0 )
 			{
 				ResultProcessor.removeItem( ItemPool.TEN_LEAF_CLOVER );
 			}
