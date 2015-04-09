@@ -416,15 +416,15 @@ public class ListCellRendererFactory
 			switch ( item.getItemId() )
 			{
 			case ItemPool.MUNCHIES_PILL:
-				stringForm.append( "+1-3 adv from next food eaten" );
+				stringForm.append( "+1-3 adv from next food" );
 				break;
 
 			case ItemPool.SUSHI_DOILY:
-				stringForm.append( "+3 adv from next sushi eaten (automatically used from inventory)" );
+				stringForm.append( "+3 adv from next sushi (automatically used from inventory)" );
 				break;
 
 			case ItemPool.GRAINS_OF_SALT:
-				stringForm.append( "+3 adv from next food eaten (automatically used from inventory)" );
+				stringForm.append( "+3 adv from next food (automatically used from inventory)" );
 				break;
 
 			case ItemPool.SCRATCHS_FORK:
@@ -449,6 +449,10 @@ public class ListCellRendererFactory
 
 			case ItemPool.FUDGE_SPORK:
 				stringForm.append( "+3 adv from next food, 10 sugar rush" );
+				break;
+
+			case ItemPool.JAR_OF_SWAMP_HONEY:
+				stringForm.append( "+10-15 mus/mys/mox from next food (automatically used from inventory)" );
 				break;
 
 			default:

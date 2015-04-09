@@ -8248,7 +8248,7 @@
 8223	toxic mop	248150281	mop.gif	weapon	d	90
 8224	inert sludgepuppy	469414689	sludgepup.gif	grow		0
 8225	lead collar	639074313	leadcollar.gif	familiar	t,d	75
-8226	jar of swamp honey	215171688	honeyjar.gif	none	t,d	0
+8226	jar of swamp honey	215171688	honeyjar.gif	food helper	t,d	0
 8227	backwoods banjo	257129869	seegerbanjo.gif	weapon	t	0
 8228	grody jug	889553685	jug.gif	none, combat	t,d	25
 8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
