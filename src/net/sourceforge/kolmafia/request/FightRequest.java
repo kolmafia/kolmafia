@@ -607,11 +607,7 @@ public class FightRequest
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		// Always let the user see rare monsters
 
@@ -1005,11 +1001,7 @@ public class FightRequest
 			}
 
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
-			String monsterName = "";
-			if ( monster != null )
-			{
-				monsterName = monster.getName();
-			}
+			String monsterName = monster != null ? monster.getName() : "";
 
 			if ( item1 == ItemPool.DICTIONARY || item1 == ItemPool.FACSIMILE_DICTIONARY )
 			{
@@ -1783,11 +1775,7 @@ public class FightRequest
 			if ( action.startsWith( "custom" ) )
 			{
 				MonsterData monster = MonsterStatusTracker.getLastMonster();
-				String monsterName = "";
-				if ( monster != null )
-				{
-					monsterName = monster.getName();
-				}
+				String monsterName = monster != null ? monster.getName() : "";
 				String file = Preferences.getBoolean( "debugPathnames" ) ? CombatActionManager.getStrategyLookupFile().getAbsolutePath() : CombatActionManager.getStrategyLookupName();
 				action = file + " [" + CombatActionManager.getBestEncounterKey( monsterName ) + "]";
 			}
@@ -2206,11 +2194,7 @@ public class FightRequest
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
-			String monsterName = "";
-			if ( monster != null )
-			{
-				monsterName = monster.getName();
-			}
+			String monsterName = monster != null ? monster.getName() : "";
 			for ( int i = 0; i < 10; ++i )
 			{
 				if ( CombatActionManager.getShortCombatOptionName(
@@ -3792,7 +3776,8 @@ public class FightRequest
 	private static final void updateMonsterHealth( final String responseText )
 	{
 		StringBuffer action = new StringBuffer();
-		String monsterName = Preferences.getString( "lastEncounter" );
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = monster != null ? monster.getName() : Preferences.getString( "lastEncounter" );
 
 		Matcher m = FightRequest.NS_ML_PATTERN.matcher( responseText );
 		if ( m.find() )
@@ -3883,7 +3868,8 @@ public class FightRequest
 			return;
 		}
 
-		String monsterName = Preferences.getString( "lastEncounter" );
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = monster != null ? monster.getName() : Preferences.getString( "lastEncounter" );
 
 		FightRequest.getRound( action );
 		action.append( monsterName );
@@ -4511,7 +4497,7 @@ public class FightRequest
 			this.shouldRefresh = false;
 
 			this.monster = MonsterStatusTracker.getLastMonster();
-			this.monsterName = Preferences.getString( "lastEncounter" );
+			this.monsterName = this.monster != null ? monster.getName() : "";
 
 			// Note if we are taming a wild seahorse
 			this.seahorse = this.monsterName.equals( "wild seahorse" );
@@ -5996,11 +5982,7 @@ public class FightRequest
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		switch ( itemId )
 		{
@@ -6329,11 +6311,7 @@ public class FightRequest
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		switch ( KoLCharacter.getEffectiveFamiliar().getId() )
 		{
@@ -7284,11 +7262,7 @@ public class FightRequest
 
 		StringBuilder action = new StringBuilder();
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.

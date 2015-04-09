@@ -1331,11 +1331,7 @@ public class RequestEditorKit
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = monster != null ? monster.getName() : "";
 
 		// We want to decorate battlefield monsters, whether or not you
 		// actually find them on the battlefield.
