@@ -683,6 +683,13 @@ public class EatItemRequest
 			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
 		}
 
+		// You dip the spaghetti breakfast in swamp honey before you
+		// eat it. Mmmmm!
+		if ( responseText.contains( "in swamp honey before you eat it." ) )
+		{
+			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -1 );
+		}
+
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
