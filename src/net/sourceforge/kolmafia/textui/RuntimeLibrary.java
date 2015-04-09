@@ -6296,8 +6296,7 @@ public abstract class RuntimeLibrary
 	public static Value last_monster( Interpreter interpreter )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		return DataTypes.parseMonsterValue(
-			monster != null ? monster.getName() : "none", true );
+		return monster == null ? DataTypes.MONSTER_INIT : DataTypes.parseMonsterValue( monster.getName(), true );
 	}
 
 	public static Value get_monsters( Interpreter interpreter, final Value location )
