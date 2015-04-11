@@ -59,7 +59,8 @@ The Daily Dungeon	STOP	The Final Reward
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
 A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
 A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
-A Mob of Zeppelin Protesters	SEMIRARE	Methinks the Protesters Doth Protest Too Little
+# Since this is both a semirare and a clover adventure, it has special handling in ChoiceManager
+# A Mob of Zeppelin Protesters	SEMIRARE	Methinks the Protesters Doth Protest Too Little
 An Octopus's Garden	SEMIRARE	moister oyster
 Art Class	SEMIRARE	Fran&ccedil;ois Verte, Art Teacher
 Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
@@ -130,7 +131,8 @@ Whitey's Grove	SEMIRARE	Monty of County Crisco
 Ye Olde Medievale Villagee	SEMIRARE	Clay Is Great, But Leather Is Bether
 
 ### Clover Adventures
-A Mob of Zeppelin Protesters	CLOVER	Methinks the Protesters Doth Protest Too Little
+# Since this is both a semirare and a clover adventure, it has special handling in ChoiceManager
+# A Mob of Zeppelin Protesters	CLOVER	Methinks the Protesters Doth Protest Too Little
 A-Boo Peak	CLOVER	The "Journalist"
 Camp Logging Camp	CLOVER	Oot to Lunch
 Cobb's Knob Kitchens	CLOVER	Luck in the Kitchens
