@@ -4371,7 +4371,7 @@ Effect	Everything Must Go!	Combat Rate: +10
 Effect	Everything's Zen	Experience Percent (Mysticality): +20
 # EVISCERATE!: Attacks enemies every round
 # Existential Torment: Who are you?  Who are you <i>really</i>?
-Effect	Experimental Effect G-9	Muscle Percent: +156, Mysticality Percent: +156, Moxie Percent: +156
+Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Percent: [pref(_g9Effect)], Moxie Percent: [pref(_g9Effect)]
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
