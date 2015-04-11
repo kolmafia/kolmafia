@@ -2369,7 +2369,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.makeItemValue( (int) value.intValue() );
 		}
 
-		return DataTypes.parseItemValue( value.toString(), true );
+		return DataTypes.parseItemValue( value.toString(), true, true );
 	}
 
 	public static Value to_item( Interpreter interpreter, final Value name, final Value count )

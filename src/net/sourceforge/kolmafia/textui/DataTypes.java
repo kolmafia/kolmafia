@@ -304,6 +304,11 @@ public class DataTypes
 
 	public static final Value parseItemValue( String name, final boolean returnDefault )
 	{
+		return DataTypes.parseItemValue( name, returnDefault, false );
+	}
+
+	public static final Value parseItemValue( String name, final boolean returnDefault, final boolean resolveAliases )
+	{
 		if ( name == null || name.trim().equals( "" ) )
 		{
 			return returnDefault ? DataTypes.ITEM_INIT : null;
@@ -317,11 +322,9 @@ public class DataTypes
 		// Allow for an item number to be specified
 		// inside of the "item" construct.
 
-		int itemId;
-		
 		if ( StringUtilities.isNumeric( name ) )
 		{
-			itemId = StringUtilities.parseInt( name );
+			int itemId = StringUtilities.parseInt( name );
 			name = ItemDatabase.getItemDataName( itemId );
 
 			if ( name == null  )
@@ -334,12 +337,24 @@ public class DataTypes
 		
 		AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 
-		if ( item == null || item.getItemId() == -1 )
+		if ( item == null )
 		{
 			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
 
-		itemId = item.getItemId();
+		int itemId = item.getItemId();
+
+		if ( itemId == -1 && resolveAliases )
+		{
+			item = item.resolveBangPotion();
+			itemId = item.getItemId();
+		}
+
+		if ( itemId == -1 )
+		{
+			return returnDefault ? DataTypes.ITEM_INIT : null;
+		}
+
 		name = ItemDatabase.getItemDataName( itemId );
 		return new Value( DataTypes.ITEM_TYPE, itemId, name );
 	}
