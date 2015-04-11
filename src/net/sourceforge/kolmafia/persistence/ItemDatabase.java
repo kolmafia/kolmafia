@@ -1429,6 +1429,10 @@ public class ItemDatabase
 
 	public static final String getPluralName( final int itemId )
 	{
+		if ( itemId == -1 )
+		{
+			return "";
+		}
 		String plural = pluralById.get( itemId );
 		if ( plural == null || plural.equals( "" ) )
 		{
