@@ -1712,6 +1712,15 @@ public class UseItemRequest
 	@Override
 	public void processResults()
 	{
+		if ( this.getPath().startsWith( "choice.php" ) )
+		{
+			// We have been redirected. Unlike a redirection to fight.php,
+			// which GenericRequest automates in FightRequest.INSTANCE, we
+			// automate this ourself in runOneIteration. Item consumption
+			// was handled in GenericRequest.checkItemRedirection, so punt.
+			return;
+		}
+		
 		switch ( this.consumptionType )
 		{
 		case KoLConstants.CONSUME_GHOST:
@@ -3605,6 +3614,16 @@ public class UseItemRequest
 			ResultProcessor.processResult( item );
 
 			return;
+
+		case ItemPool.RUSTY_HEDGE_TRIMMERS:
+
+			// If we are redirected to a choice, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
+
+			ResultProcessor.processResult( item );
+
+			break;
 
 		case ItemPool.MOJO_FILTER:
 
