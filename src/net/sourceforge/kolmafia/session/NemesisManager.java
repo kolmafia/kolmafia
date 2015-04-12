@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -277,7 +278,7 @@ public abstract class NemesisManager
 
 	private static final boolean identifyPaperStrip( final int itemId )
 	{
-		String description = DebugDatabase.rawItemDescriptionText( itemId, true );
+		String description = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), true );
 		if ( description == null )
 		{
 			return false;

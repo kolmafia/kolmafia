@@ -69,16 +69,11 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 
@@ -790,19 +785,21 @@ public class ItemDatabase
 		}
 	}
 
-	public static void registerItem( int itemId, String descId )
+	public static void registerItem( String descId )
 	{
-		// Link this itemId and descId
-		Integer id = IntegerPool.get( itemId );
-		ItemDatabase.descriptionById.put( id, descId );
-		ItemDatabase.itemIdByDescription.put( descId, id );
-
 		// Pull the itemName from the item description, which will be cached
-		String text = DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, true ) );
+		String text = DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( descId, true ) );
 		if ( text == null )
 		{
 			return;
 		}
+
+		int itemId = DebugDatabase.parseItemId( text );
+
+		// Link this itemId and descId
+		Integer id = IntegerPool.get( itemId );
+		ItemDatabase.descriptionById.put( id, descId );
+		ItemDatabase.itemIdByDescription.put( descId, id );
 
 		String itemName = DebugDatabase.parseName( text );
 

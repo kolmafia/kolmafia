@@ -40,7 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.htmlcleaner.HtmlCleaner;
@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -96,7 +95,6 @@ import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.RumpleManager;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 
@@ -301,15 +299,14 @@ public class TestCommand
 
 		if ( command.equals( "newitem" ) )
 		{
-			if ( split.length < 3 )
+			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test newitem itemId descId" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test newitem descId" );
 				return;
 			}
 
-			int itemId = StringUtilities.parseInt( split[ 1 ] );
-			String descId = split[ 2 ].trim();
-			ItemDatabase.registerItem( itemId, descId );
+			String descId = split[ 1 ].trim();
+			ItemDatabase.registerItem( descId );
 			return;
 		}
 
