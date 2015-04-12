@@ -1668,7 +1668,7 @@ public class ClanLoungeRequest
 		{
 			if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
 			{
-				String description = DebugDatabase.rawItemDescriptionText( ItemPool.PHOTOCOPIED_MONSTER, true );
+				String description = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.PHOTOCOPIED_MONSTER ), true );
 				ConsequenceManager.parseItemDesc( ItemDatabase.getDescriptionId( ItemPool.PHOTOCOPIED_MONSTER ), description );
 
 				String monster = Preferences.getString( "photocopyMonster" );

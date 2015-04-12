@@ -434,24 +434,26 @@ public class DebugDatabase
 
 	public static final String itemDescriptionText( final int itemId, boolean forceReload )
 	{
-		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, forceReload ) );
+		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), forceReload ) );
 	}
 
 	public static final String rawItemDescriptionText( final int itemId )
 	{
-		return DebugDatabase.rawItemDescriptionText( itemId, false );
+		return DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), false );
 	}
 
-	public static final String rawItemDescriptionText( final int itemId, boolean forceReload )
+	public static final String rawItemDescriptionText( final String descId, boolean forceReload )
 	{
-		Integer id = IntegerPool.get( itemId );
-		String descId = ItemDatabase.getDescriptionId( id );
-		if ( descId == null || descId.equals( "" ) )
+		if ( descId == null )
 		{
-			return null;
+			return "";
 		}
-
-		String previous = DebugDatabase.rawItems.get( itemId );
+		int itemId = ItemDatabase.getItemIdFromDescription( descId );
+		String previous = null;
+		if ( itemId != -1 )
+		{
+			previous = DebugDatabase.rawItems.get( itemId );
+		}
 		if ( !forceReload && previous != null && !previous.equals( "" ) )
 		{
 			return previous;
@@ -460,6 +462,10 @@ public class DebugDatabase
 		DebugDatabase.DESC_ITEM_REQUEST.clearDataFields();
 		DebugDatabase.DESC_ITEM_REQUEST.addFormField( "whichitem", descId );
 		RequestThread.postRequest( DebugDatabase.DESC_ITEM_REQUEST );
+		if ( itemId == -1 )
+		{
+			itemId = DebugDatabase.parseItemId( DebugDatabase.DESC_ITEM_REQUEST.responseText );
+		}
 		DebugDatabase.rawItems.set( itemId, DebugDatabase.DESC_ITEM_REQUEST.responseText );
 
 		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
@@ -476,6 +482,19 @@ public class DebugDatabase
 
 		Matcher matcher = DebugDatabase.ITEM_DATA_PATTERN.matcher( rawText );
 		return matcher.find() ? matcher.group( 1 ) : null;
+	}
+
+	// <!-- itemid: 806 -->
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "<!-- itemid: ([\\d]*) -->" );
+	public static final int parseItemId( final String text )
+	{
+		Matcher matcher = DebugDatabase.ITEMID_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
