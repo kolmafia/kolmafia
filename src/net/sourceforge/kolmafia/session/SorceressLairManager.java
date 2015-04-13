@@ -500,10 +500,21 @@ public abstract class SorceressLairManager
 		// should go wait in line with the other Adventurers. It says
 		// here that there are X of them besides you"
 		//
-		// "You already entered the <attribute> Adventurer contest.  You
+		// "You already entered the Fastest Adventurer contest.  You
 		// should go get in line and wait for it to start.  It says
-		// here that the contest is current you and one other
+		// here that the contest is currently you and one other
 		// Adventurer.  Hey, a 50/50 chance is pretty good, eh?"
+		//
+		// "You already entered the <attribute> Adventurer contest.
+		// You should go wait in line with the other Adventurers.  It
+		// says on my clipboard that only one other Adventurer besides
+		// you entered this one.  So you should go wait in line with
+		// the other Adventurer, is what I meant to say."
+		//
+		// "You already entered the <attribute> Adventurer contest.  You
+		// should go wait with the other entrants.  It says here that
+		// there's only one other person in that contest, actually.  So
+		// go wait with the... entrant."
 		//
 		// "You already entered the <attribute> Adventurer contest. You
 		// should go get in line and wait for it to start. Wait -- my
@@ -525,7 +536,9 @@ public abstract class SorceressLairManager
 			int queue =
 				queuedMatcher.find() ?
 				StringUtilities.parseInt( queuedMatcher.group( 1 ) ) :
-				text.contains( "you and one other" ) ?
+				( text.contains( "you and one other" ) ||
+				  text.contains( "only one other Adventurer besides you" ) ||
+				  text.contains( "only one other person in that contest" ) ) ?
 				1 :
 				text.contains( "only Adventurer" ) || text.contains( "only entrant" ) ?
 				0 :
