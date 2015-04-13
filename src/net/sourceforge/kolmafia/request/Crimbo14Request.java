@@ -141,6 +141,6 @@ public class Crimbo14Request
 
 	public static String accessible()
 	{
-		return null;
+		return "Crimbo Credits are no longer exchangeable";
 	}
 }
