@@ -858,6 +858,7 @@ depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
 diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
+Dinsey's pizza cutter	200	Mys: 100	1-handed utensil
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
 dishrag	35	Mus: 2	1-handed whip
