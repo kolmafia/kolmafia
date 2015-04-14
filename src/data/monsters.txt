@@ -1542,7 +1542,7 @@ Skeezy the Jug Rat	1767	animrat.gif	Scale: [5+20*pref(dinseyAudienceEngagement)]
 nasty bear	1769	nastybear.gif	Atk: 150 Def: 150 HP: 1000 E: stench P: beast Init: -10000
 
 # Dinseylandfill (April 2015)
-Wart Dinsey	1770	wartdinsey.gif	Atk: 700 Def: 700 HP: 1000 E: stench P: construct Init: 250	Dinsey's brain (0)	brain preservation fluid (c100)	Wart Dinsey: An Afterlife (c100)
+Wart Dinsey	1770	wartdinsey.gif	Atk: 700 Def: 700 HP: 1000 E: stench P: construct Init: 250	Dinsey's brain (0)	brain preservation fluid (c100)	Wart Dinsey: An Afterlife (0)
 
 # KoL Con
 
