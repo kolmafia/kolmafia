@@ -71,6 +71,7 @@ demon-horned hat	70	Mox: 20
 depleted Grimacite ninja mask	100	Mox: 35
 dilapidated wizard hat	125	Mox: 47
 Dinsey mascot mask	10	none
+Dinsey's brain	200	Mox: 100
 Disco 'Fro Pick	100	Mox: 15
 disco mask	10	none
 Dolphin King's crown	35	Mox: 2
