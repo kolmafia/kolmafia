@@ -5032,7 +5032,7 @@
 5007	Alice's Army Foil Martyr	267211165	aacard.gif	card	t,d	20000
 5008	Single Alice's Army Foil	358154228	aapack.gif	usable	t	0	Packets of Single Alice's Army Foils
 5009	card sleeve	251309076	cardsleeve.gif	offhand	t	0
-5010	evil eye	272996974	zomboeye.gif	usable	q	0
+5010	evil eye	272996974	zomboeye.gif	multiple	q	0
 5011	Alice's Army Foil tattoo	231901229	aatat.gif	usable	t	0
 5012	Ye Wizard's Shack snack voucher	801715967	snackvoucher.gif	none	t,d	5
 5013	wasabi pocky	499607486	gspocky.gif	food	t,d	5	sticks of wasabi pocky
