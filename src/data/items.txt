@@ -8257,14 +8257,14 @@
 8232
 8233
 8234
-8235
+8235	Dinsey's brain	329884447	dinseybrain.gif	hat		0
 8236
 8237
-8238
-8239
-8240
-8241
-8242
+8238	brain preservation fluid	602405203	dinseyfluid.gif	usable	t	0
+8239	keycard &alpha;	288390491	keycarda.gif	none	q	0
+8240	keycard &beta;	658910692	keycardb.gif	none	q	0
+8241	keycard &gamma;	148032289	keycardc.gif	none	q	0
+8242	keycard &delta;	839841798	keycardd.gif	none	q	0
 8243	complimentary Dinsey refreshments	960333234	basket.gif	none, combat reusable	q	0
 8244	lube-shoes	524575541	lubeshoes.gif	accessory	q	0
 8245	trash net	390284625	poolskimmer.gif	weapon	q	0
@@ -8279,3 +8279,5 @@
 8254	Trash, a Memoir	417573941	book4.gif	usable	t,d	250	copies of Trash, a Memoir
 8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t,d	250
 8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t,d	200
+8257
+8258	Wart Dinsey: An Afterlife	284076427	book4.gif	usable	t	0

@@ -141,6 +141,7 @@ Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Famili
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
 # Item Dinsey mascot mask: Changes Your Avatar
 Item	Dinsey mascot mask	Item Drop: -50, Initiative: -100
+Item	Dinsey's brain	Stench Spell Damage: +30, Mysticality Percent: +30
 Item	Disco 'Fro Pick	Moxie: +11, Initiative: +11, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 25"
 Item	disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 Item	Dolphin King's crown	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "atk, 2xGhuol, cap 8"
