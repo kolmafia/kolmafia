@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.maximizer.Evaluator;
@@ -333,9 +334,23 @@ public class MoodTrigger
 
 		if ( this.item != null )
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( this.item.getInstance( Math.max(
-				this.count, this.count * multiplicity ) ) ) );
+			AdventureResult item = this.item;
+			int itemId = item.getItemId();
 
+			if ( itemId == -1 )
+			{
+				item = item.resolveBangPotion();
+				itemId = item.getItemId();
+			}
+
+			if ( itemId == -1 )
+			{
+				RequestLogger.printLine( "You have not yet identified the " + item.toString() );
+				return;
+			}
+
+			item = item.getInstance( Math.max( this.count, this.count * multiplicity ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 			return;
 		}
 
