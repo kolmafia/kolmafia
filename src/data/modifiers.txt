@@ -1011,6 +1011,7 @@ Item	depleted Grimacite kneecapping stick	Critical Hit Percent: [ceil(G/2)]
 Item	diabolical crossbow	Spooky Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
 Item	diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 Item	didgeridooka	Moxie: +9
+Item	Dinsey's pizza cutter	Spell Damage Percent: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # disco ball
 Item	Disco Banjo	Moxie: +7, DB Combat Damage: +3, Class: "Disco Bandit"
 Item	dishrag	Stench Damage: +5
