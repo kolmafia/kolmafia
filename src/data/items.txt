@@ -8254,12 +8254,12 @@
 8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
 8230	turtle voicebox	485498068	turtlebox.gif	usable	t,d	35
 8231	fake washboard	814903923	washboard.gif	offhand	t	0
-8232
-8233
+8232	Dinsey's oculus	218999656	dinseyeye.gif	accessory		0
+8233	Dinsey's radar dish	402040908	dinseydish.gif	offhand		0
 8234	Dinsey's pizza cutter	932991337	dinseycutter.gif	weapon		0
 8235	Dinsey's brain	329884447	dinseybrain.gif	hat		0
-8236
-8237
+8236	Dinsey's glove	531250036	dinseyglove.gif	accessory		0
+8237	Dinsey's pants	699250342	disneypants.gif	pants		0
 8238	brain preservation fluid	602405203	dinseyfluid.gif	usable	t	0
 8239	keycard &alpha;	288390491	keycarda.gif	none	q	0
 8240	keycard &beta;	658910692	keycardb.gif	none	q	0

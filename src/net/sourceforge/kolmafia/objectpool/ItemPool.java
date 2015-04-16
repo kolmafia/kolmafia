@@ -2352,6 +2352,7 @@ public class ItemPool
 	public static final int DINSY_GUIDE_BOOK = 8253;
 	public static final int TRASH_MEMOIR_BOOK = 8254;
 	public static final int DINSEY_MAINTENANCE_MANUAL = 8255;
+	public static final int DINSEY_AN_AFTERLIFE = 8258;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

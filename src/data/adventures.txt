@@ -418,10 +418,10 @@ Conspiracy Island	adventure=415	Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
 Conspiracy Island	adventure=416	Env: indoor Stat: 0	The Secret Government Laboratory
 Conspiracy Island	adventure=417	Env: outdoor Stat: 0	The Deep Dark Jungle
 
-Dinseylandfill	adventure=442	Env: indoor Stat: 0	Barf Mountain
-Dinseylandfill	adventure=443	Env: indoor Stat: 0	Pirates of the Garbage Barges
-Dinseylandfill	adventure=444	Env: outdoor Stat: 0	The Toxic Teacups
-Dinseylandfill	adventure=445	Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice
+Dinseylandfill	adventure=442	Env: indoor Stat: 0	Barf Mountain	1 keycard &alpha;
+Dinseylandfill	adventure=443	Env: indoor Stat: 0	Pirates of the Garbage Barges	1 keycard &beta;
+Dinseylandfill	adventure=444	Env: outdoor Stat: 0	The Toxic Teacups	1 keycard &gamma;
+Dinseylandfill	adventure=445	Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice	1 keycard &delta;
 
 Spelunky Area	adventure=424	Env: none Stat: 0	The Mines
 Spelunky Area	adventure=425	Env: none Stat: 0	The Jungle

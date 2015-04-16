@@ -482,6 +482,8 @@ Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 Item	Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato, cap 17"
 Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
+# Item Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
+Item	Dinsey's pants	DB Combat Damage: +15
 Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
 Item	double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40, Familiar Effect: "cold atk, 3xVolley, 3xLep, cap 17"
 Item	drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20, Familiar Effect: "1.5xVolley"
@@ -1710,6 +1712,8 @@ Item	demon buckler	Hot Damage: +3, Damage Reduction: 5
 Item	depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
 Item	detour shield	Damage Absorption: +10, Damage Reduction: 6
+# Item Dinsey's radar dish: Deals Increasing Damage Every Round
+Item	Dinsey's radar dish	MP Regen Min: 8, MP Regen Max: 10, Damage Reduction: 15
 Item	dirty rigging rope	Initiative: +30, Stench Damage: +15
 Item	disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
@@ -2263,6 +2267,9 @@ Item	depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Si
 Item	depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
 Item	dethklok	Spooky Damage: +15
 # diamond necklace
+# Item Dinsey's glove: +30 damage to Accordion Thief Combat Skills
+Item	Dinsey's glove	Moxie Percent: +30, Single Equip
+Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip
 Item	dirty hobo gloves	Stench Damage: +2, Single Equip
 Item	disbelief suspenders	Sleaze Resistance: +1
 Item	disembodied smile	Spooky Damage: +2, Single Equip
@@ -5146,6 +5153,7 @@ Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stenc
 Effect	Roly Poly	Initiative: [min(500,T)]
 Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
+Effect	Rotten Memories	Stench Damage: +15
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Rushin' Hands	Weapon Damage: +3
@@ -5930,6 +5938,7 @@ Outfit	Crimborg Assault Armor	Ranged Damage: +20
 Outfit	Crimbot Crimboutfit	Crimbot Outfit Power: +3
 Outfit	Cursed Zombie Pirate Costume	Spooky Damage: +30
 Outfit	Dark Bro's Vestments	Spooky Spell Damage: +40
+Outfit	Dinsey's Exoskeleton	Muscle: +100, Mysticality: +100, Moxie: +100
 Outfit	Dire Drifter Duds	Familiar Weight: +5
 Outfit	Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
 Outfit	Dreadful Ghost Suit	Spooky Damage: +50, Spooky Spell Damage: +50
