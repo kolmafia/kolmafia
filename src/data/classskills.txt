@@ -155,6 +155,7 @@
 130	Olfactory Burnout	stinknose.gif	0	0	0
 131	Garbage Nova	garbagenova.gif	5	50	0
 132	Dinsey Operations Expert	dinsey1.gif	0	0	0
+133	Rotten Memories	dinseybrain.gif	3	10	15
 
 # Skills available to Clubbers
 

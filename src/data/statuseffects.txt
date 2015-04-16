@@ -1826,3 +1826,5 @@
 1824	The Dinsey Spirit	dinsey2.gif	47b77ff340e9478b1c8ef1d20a324c37	drink 1 Dinsey Whinskey
 1825	The Dinsey Look	dinsey3.gif	f48e0507f2971de874b906e0356482d1	use 1 Dinsey face paint
 1826	Song of the Southern Turtle	turtle.gif	13cc4b4a406672b3f6f30c4fbde974f5	use 1 turtle voicebox
+1827
+1828	Rotten Memories	dinseybrain.gif	af58c92657da238027c76d6084ba8a7c	cast 1 Rotten Memories

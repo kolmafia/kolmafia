@@ -26,6 +26,7 @@ bottle of Vangoghbitussin	item	100	100	100	100	0
 Camp Scout pup tent	item	1000	1000	0	0	0
 # Special - handled in code.
 Campground	loc	1	1	1	1	1
+# Special - handled in code.
 Free rests	loc	1	1	1	1	0
 can of CRIMBCOLA	item	0	0	80	100	0
 Cannelloni Cocoon	skill	[HP]	[HP]	0	0	0

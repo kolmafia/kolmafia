@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -427,13 +428,15 @@ public class RestoresDatabase
 			if( name.equals( "A Relaxing Hot Tub" ) )
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
-					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() );
+					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
+					!Limitmode.limitCampground();
 			}
 			if ( name.equals( "April Shower" ) )
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
 					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
-					( StandardRequest.isAllowed( "Clan Item", "April Shower" ) );
+					StandardRequest.isAllowed( "Clan Item", "April Shower" ) &&
+					!Limitmode.limitCampground();
 			}
 			if ( name.equals( "Campground" ) ||
 			     name.equals( "Comfy Sofa" ) ||
@@ -489,6 +492,16 @@ public class RestoresDatabase
 		}
 
 		return null;
+	}
+
+	public static final boolean restoresMaxHP( final String restore )
+	{
+		return RestoresDatabase.hpMinByName.get( restore ).equals( "[HP]" );
+	}
+
+	public static final boolean restoresMaxMP( final String restore )
+	{
+		return RestoresDatabase.mpMinByName.get( restore ).equals( "[MP]" );
 	}
 
 	private static final boolean edSafe( final String hpRestore )

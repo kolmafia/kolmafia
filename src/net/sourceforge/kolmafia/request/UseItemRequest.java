@@ -3051,6 +3051,7 @@ public class UseItemRequest
 		case ItemPool.DINSY_GUIDE_BOOK:
 		case ItemPool.TRASH_MEMOIR_BOOK:
 		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
+		case ItemPool.DINSEY_AN_AFTERLIFE:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5380,6 +5381,8 @@ public class UseItemRequest
 			return "Garbage Nova";
 		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
 			return "Dinsey Operations Expert";
+		case ItemPool.DINSEY_AN_AFTERLIFE:
+			return "Rotten Memories";
 		}
 
 		return null;

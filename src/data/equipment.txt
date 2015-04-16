@@ -379,6 +379,7 @@ cursed breeches	200	Mox: 85
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
+Dinsey's pants	200	Mox: 100
 distressed denim pants	170	Mox: 70
 double-ice britches	70	Mox: 20
 drafty drawers	225	Mox: 200
@@ -1472,7 +1473,8 @@ demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
-dirty rigging rope	0	Mus: 30
+Dinsey's radar dish	200	Mus: 100	shield
+dirty rigging rope	100	Mus: 30
 disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
 Drunkula's wineglass	300	Mys: 100
@@ -1574,7 +1576,7 @@ Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 loose purse strings	10	none
-low-budget shield	0	none	shield
+low-budget shield	60	none	shield
 lube-shoes	0	none
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
@@ -1887,7 +1889,7 @@ cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
 cheap elven gloves	30	none
 cheap studded belt	10	none
-cheap sunglasses	0	Mys: 20
+cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
@@ -1933,6 +1935,8 @@ depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
 diamond necklace	10	none
+Dinsey's glove	200	Mys: 100
+Dinsey's oculus	200	Mus: 100
 dirty hobo gloves	20	none
 disbelief suspenders	50	Mys: 10
 disembodied smile	20	none
@@ -1962,7 +1966,7 @@ enormous hoop earring	120	Mys: 45
 ESP suppression collar	0	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
-expensive camera	0	Mys: 30
+expensive camera	100	Mys: 30
 eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
@@ -2174,7 +2178,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
-perfume-soaked bandana	0	Mys: 15
+perfume-soaked bandana	75	Mys: 15
 Personal Ventilation Unit	100	none
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20

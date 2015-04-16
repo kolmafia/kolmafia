@@ -121,3 +121,4 @@
 120
 121
 122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts
+123	Dinsey's Exoskeleton	wdbraintat.gif	Dinsey's oculus, Dinsey's radar dish, Dinsey's pizza cutter, Dinsey's brain, Dinsey's glove, Dinsey's pants
