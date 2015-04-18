@@ -47,8 +47,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -68,6 +72,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -463,28 +468,65 @@ public abstract class ChatManager
 
 	public static final void processEvent( final EventMessage message )
 	{
+		String content = message.getContent();
+
+		// Parse buffs bestowed upon us, etc.
+		ChatManager.parseEvent( content );
+
+		// If we are suppressing event display, bail now
 		if ( Preferences.getBoolean( "greenScreenProtection" ) || BuffBotHome.isBuffBotActive() || message.isHidden() )
 		{
 			return;
 		}
 
-		String content = message.getContent();
-
-		if ( content.indexOf( " has " ) != -1 )
-		{
-			switch ( KoLmafia.displayState )
-			{
-			case ABORT:
-			case ERROR:
-			case ENABLE:
-				ApiRequest.updateStatus( true );
-			}
-		}
-
+		// Otherwise, munge it, save it, and display it
 		EventManager.addChatEvent( ChatFormatter.formatChatMessage( message, false ) );
 		String cleanContent = KoLConstants.ANYTAG_PATTERN.matcher( content ).replaceAll( "" );
 		ChatManager.processCommand( "", cleanContent, "Events" );
 		ChatManager.broadcastEvent( message );
+	}
+
+	// <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> has played Fat Leon's Phat Loot Lyric  for you. (10 Adventures)
+
+	// An Elemental Saucesphere has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> (5 Adventures)
+	// An Jalape&ntilde;o Saucesphere has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> (5 Adventures)
+	// An Antibiotic Saucesphere has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> (5 Adventures)
+	// A layer of Scarysauce has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> (5 Adventures)
+
+	// <a href='showplayer.php?who=121572' style='color: green' target='mainpane'>Veracity</a> has given you a psychokinetic hug!
+
+	// <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> has fortified you with the Empathy of the Newt. (10 Adventures)
+	// <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> has imbued you with Reptilian Fortitude. (10 Adventures)
+	// <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a> has given you the Tenacity of the Snapper. (10 Adventures)
+	// An Astral Shell has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a>. (10 Adventures)
+	// A Ghostly Shell has been conjured around you by <a class=nounder target=mainpane href=showplayer.php?who=121572><b>Veracity</b></a>. (10 Adventures)
+
+	private static final Pattern BUFF_PATTERN = Pattern.compile( "(?:A layer of |A |An |has played |has fortified you with |has imbued you with |has given you the )(.*?) *(?:for you|has been conjured around you|\\.).*?\\(([\\d]*) Adventures\\)" );
+
+	public static final void parseEvent( final String content )
+	{
+		if ( content.contains( " has " ) )
+		{
+			// This is a nice idea, but if we are doing other
+			// things, we may already have seen api.php or
+			// charpane.php and have up-to-date effects
+			if ( false )
+			{
+				Matcher buffMatcher = BUFF_PATTERN.matcher( content );
+				if ( buffMatcher.find() )
+				{
+					String skillName = buffMatcher.group( 1 );
+					String effectName = UneffectRequest.skillToEffect( skillName );
+					int duration = StringUtilities.parseInt( buffMatcher.group( 2 ) );
+					AdventureResult effect = new AdventureResult( effectName, duration, true );
+					AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
+					return;
+				}
+			}
+
+			// If we can't figure it out, refresh effects via api.php
+			ApiRequest.updateStatus( true );
+		}
 	}
 
 	public static final void processSystemMessage( final SystemMessage message )
