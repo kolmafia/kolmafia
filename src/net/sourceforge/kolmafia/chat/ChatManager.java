@@ -55,6 +55,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
+import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -503,8 +504,23 @@ public abstract class ChatManager
 
 	private static final Pattern BUFF_PATTERN = Pattern.compile( "(?:A layer of |A |An |has played |has fortified you with |has imbued you with |has given you the )(.*?) *(?:for you|has been conjured around you|\\.).*?\\(([\\d]*) Adventures\\)" );
 
+	// &quot;Hey, Lazy Servant, get to work&quot; you bark at your Priest.<!--js(parent.charpane.location.href="charpane.php";)-->
+
+	private static final Pattern BARK_PATTERN = Pattern.compile( "you bark at your (.*?)\\." );
+
 	public static final void parseEvent( final String content )
 	{
+		if ( content.contains( "Lazy Servant" ) )
+		{
+			Matcher barkMatcher = BARK_PATTERN.matcher( content );
+			if ( barkMatcher.find() )
+			{
+				String servantType = barkMatcher.group( 1 );
+				EdServantData.setEdServant( servantType );
+			}
+			return;
+		}
+
 		if ( content.contains( " has " ) )
 		{
 			// This is a nice idea, but if we are doing other
