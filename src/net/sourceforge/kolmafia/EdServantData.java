@@ -527,6 +527,18 @@ public class EdServantData
 		}
 	}
 
+	public static final void setEdServant( final String type )
+	{
+		EdServantData servant = EdServantData.findEdServant( type );
+
+		if ( servant != EdServantData.currentEdServant )
+		{
+			EdServantData.currentEdServant = servant;
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+		}
+	}
+
 	public static final void manipulateServants( final GenericRequest request, final String responseText )
 	{
 		// This should be a response to choice #1053
