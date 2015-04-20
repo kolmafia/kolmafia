@@ -1437,7 +1437,7 @@ public class RequestEditorKit
 
 		String monsterName = monster.getName();
 
-		if ( monsterName.contains( "pirate" ) && !monsterName.equals( "stone temple pirate" ) )
+		if ( FightRequest.isPirate( monster ) )
 		{
 			int count = BeerPongRequest.countPirateInsults();
 			monsterData.append( ", Insults: ");
