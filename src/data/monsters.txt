@@ -1533,7 +1533,7 @@ funky pirate	1762	stinkpirate2.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate
 flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: construct Init: -10000	beard incense (0)	dirty rigging rope (0)	grogpagne (0)	nasty snuff (0)	perfume-soaked bandana (0)	sewage-clogged pistol (0)
 
 # Toxic Teacups (Dinseylandfill April 2015)
-toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: 11111 Floor: 50 Init: -10000	toxic globule (0)	toxic globule (0)	toxic globule (0)
+toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: 11111 Floor: 50 Init: -10000 E: stench P: slime	toxic globule (0)	toxic globule (0)	toxic globule (0)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
 C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	jar of swamp honey (0)	backwoods banjo (c0)
