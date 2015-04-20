@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -465,28 +466,25 @@ public class FightRequest
 
 	public static final boolean isPirate()
 	{
-		AreaCombatData barr = AdventureDatabase.getAreaCombatData( "Barrrney's Barrr" );
-		AreaCombatData belowdecks = AdventureDatabase.getAreaCombatData( "Belowdecks" );
-		AreaCombatData cove = AdventureDatabase.getAreaCombatData( "The Obligatory Pirate's Cove" );
-		AreaCombatData fcle = AdventureDatabase.getAreaCombatData( "The F'c'le" );
-		AreaCombatData poopDeck = AdventureDatabase.getAreaCombatData( "The Poop Deck" );
-		
-		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		
-		return ( barr.hasMonster( monster ) ||
-			 belowdecks.hasMonster( monster ) ||
-			 cove.hasMonster( monster ) ||
-			 fcle.hasMonster( monster ) ||
-			 poopDeck.hasMonster( monster ) );
+		return FightRequest.isPirate( MonsterStatusTracker.getLastMonster() );
+	}
+
+	public static final boolean isPirate( MonsterData monster )
+	{
+		return ( AdventureDatabase.getAreaCombatData( "The Obligatory Pirate's Cove" ).hasMonster( monster ) ||
+			 AdventureDatabase.getAreaCombatData( "Barrrney's Barrr" ).hasMonster( monster ) ||
+			 AdventureDatabase.getAreaCombatData( "The F'c'le" ).hasMonster( monster ) ||
+			 AdventureDatabase.getAreaCombatData( "The Poop Deck" ).hasMonster( monster ) ||
+			 AdventureDatabase.getAreaCombatData( "Belowdecks" ).hasMonster( monster ) );
 	}
 	
 	public static final boolean canPirateInsult()
 	{
-		return ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) ) ||
-			 KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) ) ) &&
+		return ( InventoryManager.getCount( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) ) > 0 ||
+			 InventoryManager.getCount( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) ) > 0 ) &&
 			BeerPongRequest.countPirateInsults() != 8 &&
-			insultedPirate == false &&
-			isPirate();
+			FightRequest.insultedPirate == false &&
+			FightRequest.isPirate();
 	}
 	
 	public static final boolean canJamFlyer()
