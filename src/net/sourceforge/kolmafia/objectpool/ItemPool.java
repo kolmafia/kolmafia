@@ -2102,6 +2102,7 @@ public class ItemPool
 	public static final int COAL_SHOVEL = 7355;
 	public static final int HOT_COAL = 7356;
 	public static final int DNA_LAB = 7382;
+	public static final int DNA_SYRINGE = 7383;
 	public static final int STEAM_FIST_1 = 7406;
 	public static final int STEAM_FIST_2 = 7407;
 	public static final int STEAM_FIST_3 = 7408;
