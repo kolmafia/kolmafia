@@ -301,7 +301,7 @@ La Fantasma y La Oscuridad	3	1	good	8-10	0	13	0	13 La Oscuridad Adentro (+3 Mys 
 large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
 Le Roi	3	1	good	8-10	0	0	30-40
 legitimate business on the beach	2	5	awesome	6-8	20-30	20-30	20-30
-Lemonade-235	2	5	good	1-1	0	0	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
+Lemonade-235	2	5	good	5-7	0	15-20	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
 Locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 Lollipop Drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 Lucky Lindy	1	1	good	2-4	0	0	0	semi-rare number
