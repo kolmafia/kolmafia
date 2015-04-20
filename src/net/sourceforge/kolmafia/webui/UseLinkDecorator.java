@@ -1601,6 +1601,7 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GOLD_BOWLING_BALL:
 		case ItemPool.REALLY_DENSE_MEAT_STACK:
+		case ItemPool.SCARAB_BEETLE_STATUETTE:
 			if ( !combatResults ) break;
 			/*FALLTHRU*/
 		case ItemPool.HOLY_MACGUFFIN:
