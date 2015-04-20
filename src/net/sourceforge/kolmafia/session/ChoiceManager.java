@@ -704,7 +704,7 @@ public abstract class ChoiceManager
 		// History is Fun!
 		new ChoiceSpoiler(
 			"choiceAdventure87", "Haunted Library",
-			new Object[] { "Spookyraven Chapter 4", "Spookyraven Chapter 5 (Gallery Quest)", "Spookyraven Chapter 6" } ),
+			new Object[] { "Spookyraven Chapter 4", "Spookyraven Chapter 5", "Spookyraven Chapter 6" } ),
 
 		// Naughty, Naughty
 		new ChoiceSpoiler(
@@ -3066,7 +3066,7 @@ public abstract class ChoiceManager
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
 			"choiceAdventure889", "Haunted Library",
-			new Object[] { "gallery quest",
+			new Object[] { "background history",
 				       "cocktailcrafting recipe",
 				       "muscle substats",
 				       "skip adventure" } ),
