@@ -2432,13 +2432,6 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		// "Your opponent is shocked into inaction as you plunge the syringe into it and extract a sample of its DNA."
-		if ( responseText.contains( "plunge the syringe" ) )
-		{
-			Phylum dna = monster.getPhylum();
-			Preferences.setString( "dnaSyringe", dna.toString() );
-		}
-
 		// Your Detective Skull's eyes glow yellow and it murmurs &quot;The dame said... That dame... She... 
 		// She said... <font color=yellow>sword</font>...&quot;
 		if ( responseText.contains( "Detective Skull's eyes glow yellow" ) )
@@ -7066,6 +7059,15 @@ public class FightRequest
 				// "Safe" interval between uses is 50 turns
 				TurnCounter.stopCounting( "Zombo's Empty Eye" );
 				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
+			}
+			break;
+		case ItemPool.DNA_SYRINGE:
+			// "Your opponent is shocked into inaction as you plunge the syringe into it and extract a sample of its DNA."
+			if ( responseText.contains( "plunge the syringe" ) )
+			{
+				MonsterData monster = MonsterStatusTracker.getLastMonster();
+				Phylum dna = monster != null ? monster.getPhylum() : Phylum.NONE;
+				Preferences.setString( "dnaSyringe", dna.toString() );
 			}
 			break;
 		}
