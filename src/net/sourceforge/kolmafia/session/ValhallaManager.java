@@ -275,11 +275,6 @@ public class ValhallaManager
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
 
-		if ( Preferences.getBoolean( "autostartGalaktikQuest" ) )
-		{
-			RequestThread.postRequest( new GalaktikRequest( "startquest" ) );
-		}
-
 		ValhallaManager.pullFreeItems();
 
 		if ( Preferences.getBoolean( "autoQuest" ) )
