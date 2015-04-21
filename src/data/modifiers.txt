@@ -106,6 +106,7 @@ Item	BRICKO hat	Maximum MP: +3, Familiar Effect: "atk, cap 7"
 Item	Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 Item	Brogre bucket hat	Combat Rate: +5, Familiar Effect: "1xVolley, 1xBarrr, cap 14"
 Item	brown felt tophat	Mysticality: +5, Familiar Effect: "1xLep, cap 37"
+Item	brown paper bag mask	Moxie: +2, Maximum HP: +3, Maximum MP: +3
 Item	bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
 Item	bugbear beanie	Familiar Effect: "atk, cap 7"
 Item	bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
@@ -462,6 +463,7 @@ Item	BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect
 Item	BRICKO pants	Damage Absorption: +9, Familiar Effect: "1.5xVolley, 2xLep, 1xPotato, cap 22"
 Item	Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 Item	Brogre brorts	Monster Level: +10, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
+Item	brown paper pants	Moxie: +2, Initiative: +10
 Item	bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 Item	bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 Item	buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
@@ -1383,6 +1385,7 @@ Item	Seeger's Unstoppable Banjo	Moxie: +15, Meat Drop: +23, DB Combat Damage: +1
 Item	serpentine sword	Monster Level: +10, Synergetic
 Item	severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 Item	sewage-clogged pistol	Monster Level: +10, Stench Damage: +20
+Item	sewer snake	Stench Damage: +3
 Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Class: "Disco Bandit"
 # Shakespeare's Sister's Accordion: (+% to Moxie Based on Smithsness)
 # Shakespeare's Sister's Accordion: Has a cool Cadenza
@@ -2426,6 +2429,7 @@ Item	jam band	Item Drop: +5, Booze Drop: +20, Food Drop: +35
 Item	jangly bracelet	Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +1
 Item	jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Jarlsberg's earring	Mysticality: +10
+Item	jaunty feather	Muscle: +1, Mysticality: +1, Moxie: +1, Maximum HP: +3, Maximum MP: +3
 Item	Jefferson wings	Sleaze Damage: +20
 Item	Jekyllin hide belt	Muscle: [9-M], Mysticality: [9-M], Moxie: [9-M], Item Drop: [15+5*M], Softcore Only
 Item	Jolly Roger charrrm bracelet	Moxie: +5
@@ -3892,6 +3896,7 @@ Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2,
 Effect	All Is Forgiven	Familiar Weight: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
+Effect	Almost Cool	Moxie: +5, Experience (Moxie): +1
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Spell Damage: +25
@@ -7278,6 +7283,7 @@ Item	Moonds	Effect: "Moon-Eyed", Effect Duration: 50
 Item	moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Item	Moping Artistic Goth Kid	Free Pull
 Item	Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
+Item	mostly-broken sunglasses	Effect: "Almost Cool", Effect Duration: 15
 Item	mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
 # Mountain Stream Code Black Alert: Restores 15-20 MP

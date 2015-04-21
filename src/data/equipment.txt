@@ -40,6 +40,7 @@ BRICKO hat	30	none
 Brimstone Beret	200	Mox: 30
 Brogre bucket hat	100	Mox: 35
 brown felt tophat	150	Mox: 60
+brown paper bag mask	20	none
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
@@ -359,6 +360,7 @@ BRAINS shorts	200	Mox: 200
 BRICKO pants	90	none
 Brimstone Boxers	200	Mox: 30
 Brogre brorts	100	Mox: 35
+brown paper pants	20	none
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
@@ -1186,6 +1188,7 @@ Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 sewage-clogged pistol	100	Mox: 35	1-handed pistol
+sewer snake	30	Mox: 0	1-handed flail
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
@@ -2078,6 +2081,7 @@ jam band	200	Mys: 85
 jangly bracelet	125	Mys: 20
 jar of anniversary jam	10	none
 Jarlsberg's earring	80	Mys: 25
+jaunty feather	0	none
 Jefferson wings	160	Mys: 65
 Jekyllin hide belt	0	none
 Jolly Roger charrrm bracelet	70	Mys: 20
