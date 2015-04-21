@@ -765,7 +765,6 @@ public class KoLmafiaCLI
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );
 		new ForumCommand().registerPrefix( "forum" );
 		new FriarBlessingCommand().register( "friars" );
-		new GalaktikCommand().register( "galaktik" );
 		new GapCommand().register("gap");
 		new GardenCommand().register( "garden" );
 		new GongCommand().register( "gong" );
