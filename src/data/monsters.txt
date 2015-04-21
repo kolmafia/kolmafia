@@ -143,6 +143,7 @@ completely different spider	157	spider2.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5
 confused goth music student	376	lilgoth.gif	Atk: 24 Def: 21 HP: 24 Init: 50 P: dude	pocket theremin (10)	clove-flavored lip balm (c0)
 conjoined zmombie	197	2zombies.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/3] Init: 60 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)
 conservationist hippy	597	conhippy.gif	Atk: 64 Def: 68 HP: 70 Init: 40 P: hippy E: stench Meat: 40	branch from the Great Tree (0)	super-strong air freshener (0)
+cooler wino	1751	coolerwino.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: hobo	unflavored wine cooler (0)	unflavored wine cooler (0)	mostly-broken sunglasses (0)
 Copperhead Club bartender	1510	coppertender.gif	Atk: 140 Def: 140 HP: 150 Init: 25 P: dude Meat: 100	handful of tips (20)	unnamed cocktail (15)	unrequired jacket (0)	electric copperhead potion (c0)
 corpulent zobmie	196	fatzombie.gif	Atk: 54 Def: 49 HP: 50 Init: 50 E: spooky Meat: 75 P: undead	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 cosmetics wraith	1545	makeupwraith.gif	Atk: 65 Def: 55 HP: 65 Init: 50 P: undead E: spooky	Lady Spookyraven's powder puff (c100)	old eyebrow pencil (0)	old rosewater cream (0)	old bronzer (0)
@@ -171,6 +172,7 @@ Demon of New Wave	892	5_4a.gif	BOSS Atk: 200 Def: 180 HP: 500 Init: 100 Phys: 40
 demonic icebox	373	demfridge.gif	Atk: 21 Def: 19 HP: 21 Meat: 5 Init: 50 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
 Demoninja	126	demoninja.gif	Atk: 48 Def: 27 HP: 48 Init: 75 E: hot Meat: 50 P: demon	demon skin (15)	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
 dense liana	1426	liana.gif	Atk: 144 Def: 140 HP: 150 Init: -10000 P: plant	exotic jungle fruit (0)
+dire pigeon	1753	direpigeon.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: beast	jaunty feather (0)	pigeon egg (0)
 dirty hippy	53	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (5)	Spanish fly (c25)
 dirty hippy jewelry maker	59	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (5)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 dirty hippy Vegan chef	56	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	carob chunks (30)	double-barreled sling (5)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)
@@ -418,6 +420,7 @@ mad wino	1563	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 P: hobo	pie man was
 magic dragonfish	758	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 200 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 MagiMechTech MechaMech	175	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent hair clog	389	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 ED: spooky P: horror	gob of wet hair (40)
+malt liquor golem	1754	maltliquorgolem.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: beast	premium malt liquor (0)	premium malt liquor (0)	brown paper bag mask (0)	brown paper pants (0)
 man with the red buttons	1520	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 P: dude Meat: 150	red box (15)	red button (0)	big red button (n1)	button rouge (c0)
 man-eating plant	382	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant
 mariachi bandolero	700	bandolero.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
@@ -597,6 +600,7 @@ security slime	869	securityslime.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: slime
 senile lihc	192	lich.gif	Atk: 56 Def: 51 HP: 50 Init: 50 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
 serialbus	982	serialbus.gif	Atk: 60 Def: 54 HP: 60 Init: 50 E: hot Meat: 30 P: demon	bus pass (25)
 Servant of Grodstank	799	grodseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror	fustulent seal grulch (35)	infernal toilet brush (5)
+sewer snake with a sewer snake in it	1752	sewersnake.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: stench P: beast	carton of snake milk (0)	carton of snake milk (0)	sewer snake (0)
 shadow of Black Bubbles	798	shadowseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror	scrap of shadow (35)	shadowy seal eye (5)
 shady pirate	107	pirate1.gif	Atk: 67 Def: 60 HP: 57 Init: 75 Meat: 28 P: pirate	safarrri hat (10)
 shaky clown	285	clown.gif	Atk: 19 Def: 17 HP: 16 Init: 80 E: sleaze Meat: 20 P: horror	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	clown skin (10)	polka-dot bow tie (p5)

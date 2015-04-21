@@ -8192,15 +8192,15 @@
 8167
 8168
 8169
-8170
-8171
-8172
-8173
-8174
-8175
-8176
-8177
-8178
+8170	mostly-broken sunglasses	649978519	brokeshades.gif	usable	t,d	25
+8171	unflavored wine cooler	314851779	winecooler.gif	drink	t,d	25
+8172	carton of snake milk	273705150	milkcarton.gif	food	t,d	25
+8173	sewer snake	773521845	sewersnake.gif	weapon	t,d	35
+8174	pigeon egg	986654614	tinyegg.gif	food	t,d	25
+8175	jaunty feather	524424816	coolfeather.gif	accessory	t,d	25
+8176	premium malt liquor	602053119	good40.gif	drink	t,d	25
+8177	brown paper pants	463340033	paperpants.gif	pants	t,d	25
+8178	brown paper bag mask	476925222	paperbaghat.gif	hat	t,d	25
 8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0
 8180
 8181

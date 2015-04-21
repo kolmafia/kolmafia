@@ -376,6 +376,7 @@ plain old beer	1	1	crappy	1	0	0	0
 plastic cup of beer	1	1	crappy	1	0	0	0
 plum wine	2	8	good	4-8	14-20	0	0
 pointy mushroom wine	3	6	awesome	10-14	0	0	8-10
+premium malt liquor	3	1	decent	1-1	0	0	0
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
 Psychotic Train wine	6	11	awesome	19-20	150-250	0	0
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP
@@ -489,6 +490,7 @@ tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
+unflavored wine cooler	2	1	decent	1-1	0	0	0
 unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
