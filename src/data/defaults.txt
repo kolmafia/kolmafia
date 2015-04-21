@@ -202,7 +202,6 @@ user	autoSatisfyWithStash	false
 user	autoSatisfyWithStorage	true
 user	autoSphereID	false
 user	autoSteal	true
-user	autostartGalaktikQuest	true
 user	autoTuxedo	false
 user	availableCandyCredits	0
 user	availableDimes	0
