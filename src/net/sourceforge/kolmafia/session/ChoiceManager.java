@@ -6411,7 +6411,7 @@ public abstract class ChoiceManager
 		}
 
 		String urlString = request.getURLString();
-		String text = ChoiceManager.lastResponseText = request.responseText;;
+		String text = ChoiceManager.lastResponseText = request.responseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -12371,6 +12371,7 @@ public abstract class ChoiceManager
 		case 1051: // The Book of the Undying
 		case 1053: // The Servants' Quarters
 		case 1063: // Adjust your 'Edpiece
+		case 1067: // Maint Misbehavin'
 			return true;
 
 		default:
