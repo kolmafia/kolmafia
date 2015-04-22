@@ -4282,6 +4282,10 @@ public abstract class KoLCharacter
 		{
 			return KoLConstants.availableSkillsMap.containsKey( skill );
 		}
+		if ( list == KoLConstants.availableCombatSkills )
+		{
+			return KoLConstants.availableCombatSkillsMap.containsKey( skill );
+		}
 		return list.contains( skill );
 	}
 
@@ -4405,8 +4409,8 @@ public abstract class KoLCharacter
 
 	public static final int getStillsAvailable()
 	{
-		if ( ( !KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && !KoLCharacter.hasSkill( "Mixologist" ) )
-			|| !KoLCharacter.isMoxieClass() )
+		if ( ( !KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && !KoLCharacter.hasSkill( "Mixologist" ) ) ||
+		     !KoLCharacter.isMoxieClass() )
 		{
 			return 0;
 		}

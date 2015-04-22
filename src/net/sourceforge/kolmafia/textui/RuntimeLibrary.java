@@ -4557,7 +4557,10 @@ public abstract class RuntimeLibrary
 
 	public static Value have_skill( Interpreter interpreter, final Value arg )
 	{
-		return DataTypes.makeBooleanValue( KoLCharacter.hasSkill( (int) arg.intValue() ) );
+		String skillName = SkillDatabase.getSkillName( (int) arg.intValue() );
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+		return DataTypes.makeBooleanValue( KoLCharacter.hasSkill( skill, KoLConstants.availableSkills ) ||
+						   KoLCharacter.hasSkill( skill, KoLConstants.availableCombatSkills ) );
 	}
 
 	public static Value mp_cost( Interpreter interpreter, final Value skill )
