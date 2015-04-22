@@ -441,7 +441,7 @@ public abstract class EncounterManager
 		@Override
 		public String toString()
 		{
-			return "<html>" + this.stringform + " (" + this.encounterCount + ")</html>";
+			return this.stringform + " (" + this.encounterCount + ")";
 		}
 
 		public int compareTo( final RegisteredEncounter o )

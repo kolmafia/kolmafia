@@ -412,7 +412,7 @@ public class AdventureRequest
 		if ( isFight )
 		{
 			type = "Combat";
-			encounter = parseCombatEncounter( responseText );
+			encounter = AdventureRequest.parseCombatEncounter( responseText );
 		}
 		else if ( isChoice )
 		{

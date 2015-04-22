@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 
+import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -129,6 +130,16 @@ public class ListCellRendererFactory
 			{
 				return this.getRenderer( defaultComponent, (QueuedConcoction) value,
 					list.getWidth(), isSelected );
+			}
+
+			if ( value instanceof RegisteredEncounter )
+			{
+				StringBuilder buffer = new StringBuilder();
+				buffer.append( "<html><nobr>" );
+				buffer.append( value.toString() );
+				buffer.append( "</nobr></html>" );
+				( (JLabel) defaultComponent ).setText( buffer.toString() );
+				return defaultComponent;
 			}
 
 			return defaultComponent;

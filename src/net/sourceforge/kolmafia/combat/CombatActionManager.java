@@ -221,8 +221,12 @@ public abstract class CombatActionManager
 	{
 		line = StringUtilities.globalStringReplace( line.trim(), "  ", " " );
 
-		String key = StringUtilities.getCanonicalName( line );
+		// Preserve <i></i> tags
 		line = StringUtilities.getEntityEncode( line );
+		line = StringUtilities.globalStringReplace( line, "&lt;i&gt;", "<i>" );
+		line = StringUtilities.globalStringReplace( line, "&lt;/i&gt;", "</i>" );
+
+		String key = line.toLowerCase();
 
 		if ( key.startsWith( "a " ) )
 		{
@@ -236,7 +240,7 @@ public abstract class CombatActionManager
 		}
 		else if ( key.startsWith( "the " ) )
 		{
-			// It really is "The Man" or "The Astronomer"
+			// It really is "The Man" or "The Big Wisniewski"
 		}
 		else if ( key.startsWith( "some " ) )
 		{
