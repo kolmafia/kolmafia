@@ -9565,7 +9565,7 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.STARTED );
 			}
-			else if ( ChoiceManager.lastDecision == 2 );
+			else if ( ChoiceManager.lastDecision == 2 )
 			{
 				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.FINISHED );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.FRAUDWORT, -3 ) );
