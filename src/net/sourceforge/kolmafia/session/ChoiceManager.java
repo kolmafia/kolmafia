@@ -3480,6 +3480,8 @@ public abstract class ChoiceManager
 				       new Option( "gain muscle stats", 3 ),
 				       new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
 
+		// Choice 1061 is Doc G Quest Choice
+
 		// Choice 1062 is Lots of Options
 		new ChoiceAdventure(
 			"Town", "choiceAdventure1062", "Overgrown Lot",
