@@ -143,7 +143,6 @@ public class GlobalMenuBar
 		JMenu travelMenu = new JMenu( "Travel" );
 		this.add( travelMenu );
 
-		travelMenu.add( new RelayBrowserMenuItem( "Doc Galaktik", "galaktik.php" ) );
 		travelMenu.add( new RestChateauMenuItem() );
 		travelMenu.add( new RestCampgroundMenuItem() );
 		travelMenu.add( new RestClanSofaMenuItem() );

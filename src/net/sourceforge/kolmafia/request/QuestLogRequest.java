@@ -125,11 +125,6 @@ public class QuestLogRequest
 		return Preferences.getString( pref ).equals( QuestDatabase.FINISHED );
 	}
 
-	public static final boolean galaktikCuresAvailable()
-	{
-		return GalaktikRequest.getDiscount();
-	}
-
 	public static final boolean isDungeonOfDoomAvailable()
 	{
 		return QuestLogRequest.dungeonOfDoomAvailable;
@@ -202,8 +197,6 @@ public class QuestLogRequest
 		else if ( urlString.contains( "which=2" ) )
 		{
 			parseResponse( responseText, 2 );
-
-			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( Quest.GALAKTIK.getPref() ) );
 		}
 
 		else if ( urlString.contains( "which=3" ) )

@@ -93,7 +93,7 @@ public class QuestDatabase
 			UNTINKER( "questM01Untinker" ),
 			ARTIST( "questM02Artist" ),
 			BUGBEAR( "questM03Bugbear" ),
-			GALAKTIK( "questM04Galaktic" ),
+			//GALAKTIK( "questM04Galaktic" ),
 			AZAZEL( "questM10Azazel" ),
 			PIRATE( "questM12Pirate" ),
 			ESCAPE( "questM13Escape" ),
@@ -106,6 +106,7 @@ public class QuestDatabase
 			SPOOKYRAVEN_DANCE( "questM21Dance" ),
 			SHIRT( "questM22Shirt" ),
 			MEATSMITH( "questM23Meatsmith" ),
+			DOC( "questM24Doc" ),
 			GENERATOR( "questF04Elves" ),
 			SEA_OLD_GUY( "questS01OldGuy" ),
 			SEA_MONKEES( "questS02Monkees" ),
@@ -133,9 +134,10 @@ public class QuestDatabase
 			SOCIAL_JUSTICE_II( "questEStSocialJusticeII" ),
 			SUPER_LUBER( "questEStSuperLuber" ),
 			WORK_WITH_FOOD( "questEStWorkWithFood" ),
-			ZIPPITY_DOO_DAH( "questEStZippityDooDah" );
+			ZIPPITY_DOO_DAH( "questEStZippityDooDah" ),
+			;
 
-		private String pref;
+		private final String pref;
 
 		private Quest( String pref )
 		{
@@ -253,7 +255,7 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 0 ].toLowerCase().indexOf( pref.toLowerCase() ) != -1 )
+			if ( questLogData[ i ][ 0 ].toLowerCase().contains( pref.toLowerCase() ) )
 			{
 				return questLogData[ i ][ 1 ];
 			}
@@ -267,7 +269,7 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 0 ].toLowerCase().indexOf( pref.toLowerCase() ) != -1 )
+			if ( questLogData[ i ][ 0 ].toLowerCase().contains( pref.toLowerCase() ) )
 			{
 				return i;
 			}
@@ -321,7 +323,7 @@ public class QuestDatabase
 
 		for ( int i = 2; i < questLogData[ index ].length; ++i )
 		{
-			if ( questLogData[ index ][ i ].indexOf( details ) != -1 )
+			if ( questLogData[ index ][ i ].contains( details ) )
 			{
 				foundAtStep = i - 2;
 				break;
@@ -341,7 +343,7 @@ public class QuestDatabase
 			{
 				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] )
 					.replaceAll( "" ).toLowerCase();
-				if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+				if ( cleanedQuest.contains( cleanedResponse ) )
 				{
 					foundAtStep = i - 2;
 					break;
@@ -375,8 +377,8 @@ public class QuestDatabase
 					questEnd = cleanedQuest.substring( cleanedQuest.length() - 100 );
 				}
 
-				if ( cleanedResponse.indexOf( questStart ) != -1
-					|| cleanedResponse.indexOf( questEnd ) != -1 )
+				if ( cleanedResponse.contains( questStart )
+					|| cleanedResponse.contains( questEnd ) )
 				{
 					foundAtStep = i - 2;
 					break;
@@ -449,18 +451,17 @@ public class QuestDatabase
 
 	private static String handleWarStatus( String details )
 	{
-		if ( details.indexOf( "You led the filthy hippies to victory" ) != -1
-			|| details.indexOf( "You led the Orcish frat boys to victory" ) != -1
-			|| details.indexOf( "You started a chain of events" ) != -1 )
+		if ( details.contains( "You led the filthy hippies to victory" )
+			|| details.contains( "You led the Orcish frat boys to victory" )
+			|| details.contains( "You started a chain of events" ) )
 		{
 			return QuestDatabase.FINISHED;
 		}
-		else if ( details.indexOf( "You've managed to get the war between the hippies and frat boys started" ) != -1 )
+		else if ( details.contains( "You've managed to get the war between the hippies and frat boys started" ) )
 		{
 			return "step1";
 		}
-		else if ( details
-			.indexOf( "The Council has gotten word of tensions building between the hippies and the frat boys" ) != -1 )
+		else if ( details.contains( "The Council has gotten word of tensions building between the hippies and the frat boys" ) )
 		{
 			return QuestDatabase.STARTED;
 		}
@@ -508,7 +509,7 @@ public class QuestDatabase
 		}
 
 		if ( !status.equals( QuestDatabase.STARTED ) && !status.equals( QuestDatabase.FINISHED )
-			&& status.indexOf( "step" ) == -1 && !status.equals( QuestDatabase.UNSTARTED ) )
+			&& !status.contains( "step" ) && !status.equals( QuestDatabase.UNSTARTED ) )
 		{
 			return;
 		}
@@ -618,7 +619,7 @@ public class QuestDatabase
 					{
 						cleanedQuestToken = QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" ).toLowerCase();
 
-						if ( cleanedResponseToken.indexOf( cleanedQuestToken ) != -1 )
+						if ( cleanedResponseToken.contains( cleanedQuestToken ) )
 						{
 							setQuestIfBetter( councilData[ i ][ 0 ], councilData[ i ][ 1 ] );
 							break;

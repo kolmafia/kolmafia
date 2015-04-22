@@ -1470,7 +1470,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = "galaktik";
-			useLocation = "galaktik.php";
+			useLocation = "shop.php?whichshop=doc";
 			break;
 
 		// Disintegrating sheet music gets a link which lets you sing it

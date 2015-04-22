@@ -119,14 +119,7 @@ public class NPCPurchaseRequest
 
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		if ( storeId.equals( "galaktik.php" ) )
-		{
-			// Annoying special case.
-			this.addFormField( "action", "buyitem" );
-			this.hashField = "pwd";
-			this.quantityField = "howmany";
-		}
-		else if ( storeId.equals( "town_giftshop.php" ) )
+		if ( storeId.equals( "town_giftshop.php" ) )
 		{
 			this.addFormField( "action", "buy" );
 			this.hashField = "pwd";
@@ -179,15 +172,18 @@ public class NPCPurchaseRequest
 	@Override
 	public int getPrice()
 	{
-		return NPCPurchaseRequest.currentPrice( this.price );
-	}
-
-	private static int currentPrice( final int price )
-	{
 		long factor = 100;
+		if ( this.shopName.equals( "Doc Galaktik's Medicine Show" ) && QuestDatabase.isQuestFinished( Quest.DOC ) )
+		{
+			// This is before the subtractions on purpose. It is possible that KoL
+			// will change and this will need to be moved down.
+			// The exact multiplier is 2/3 but with rounding this will give
+			// the desired result.
+			factor = 67;
+		}
 		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 5;
 		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 5;
-		return (int) ( ( price * factor ) / 100 );
+		return (int) ( ( this.price * factor ) / 100 );
 	}
 
 	private static boolean usingTrousers()
@@ -338,8 +334,7 @@ public class NPCPurchaseRequest
 		{
 			// Normal NPC stores say "You spent xxx Meat" and we
 			// have already parsed that.
-			if ( !urlString.startsWith( "shop.php" ) &&
-			     !urlString.startsWith( "galaktik.php" ) )
+			if ( !urlString.startsWith( "shop.php" ) )
 			{
 				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
 				KoLCharacter.updateStatus();
@@ -351,7 +346,7 @@ public class NPCPurchaseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
+		if ( !urlString.startsWith( "town_giftshop.php" ) )
 		{
 			return false;
 		}

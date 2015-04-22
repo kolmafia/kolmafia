@@ -100,7 +100,6 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
-import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
@@ -370,7 +369,7 @@ public class RequestLogger
 				colorBuffer.append( "<br>" );
 			}
 
-			if ( message.indexOf( "<" ) == -1 && message.indexOf( KoLConstants.LINE_BREAK ) != -1 )
+			if ( !message.contains( "<" ) && message.contains( KoLConstants.LINE_BREAK ) )
 			{
 				colorBuffer.append( "</pre>" );
 			}
@@ -469,7 +468,7 @@ public class RequestLogger
 	public static final void updateSessionLog( final String line )
 	{
 		if ( StaticEntity.backtraceTrigger != null &&
-			line.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		     line.contains( StaticEntity.backtraceTrigger ) )
 		{
 			StaticEntity.printStackTrace( "Backtrace triggered by session log message" );
 		}
@@ -508,7 +507,7 @@ public class RequestLogger
 	public static final void updateDebugLog( final String line )
 	{
 		if ( StaticEntity.backtraceTrigger != null &&
-			line.indexOf( StaticEntity.backtraceTrigger ) != -1 )
+		     line.contains( StaticEntity.backtraceTrigger ) )
 		{
 			StaticEntity.printStackTrace( "Backtrace triggered by debug log message" );
 		}
@@ -644,13 +643,6 @@ public class RequestLogger
 			return;
 		}
 
-		// We want to register simple visits to Doc Galaktik
-		if ( ( request instanceof GalaktikRequest || isExternal ) && GalaktikRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
 		// We want to register simple visits to HeyDeze
 		if ( ( request instanceof HeyDezeRequest || isExternal ) && HeyDezeRequest.registerRequest( urlString ) )
 		{
@@ -712,7 +704,7 @@ public class RequestLogger
 		// Anything else that doesn't submit an actual form
 		// should not be registered.
 
-		if ( urlString.indexOf( "?" ) == -1 )
+		if ( !urlString.contains( "?" ) )
 		{
 			return;
 		}

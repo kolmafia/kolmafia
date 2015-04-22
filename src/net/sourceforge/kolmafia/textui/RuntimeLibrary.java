@@ -1660,9 +1660,6 @@ public abstract class RuntimeLibrary
 		// Quest status inquiries
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "galaktik_cures_discounted", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] {};
 		functions.add( new LibraryFunction( "white_citadel_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -7090,11 +7087,6 @@ public abstract class RuntimeLibrary
 		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( type, name, mod ), true ) );
-	}
-
-	public static Value galaktik_cures_discounted( Interpreter interpreter )
-	{
-		return DataTypes.makeBooleanValue( QuestLogRequest.galaktikCuresAvailable() );
 	}
 
 	public static Value white_citadel_available( Interpreter interpreter )

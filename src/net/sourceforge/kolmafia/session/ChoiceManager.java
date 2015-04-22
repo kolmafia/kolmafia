@@ -9547,6 +9547,21 @@ public abstract class ChoiceManager
 			// Returning the MacGuffin
 			ChoiceManager.handleAfterAvatar();
 			break;
+			
+		case 1064:
+			// Doc G Quest Choice
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.STARTED );
+			}
+			else if ( ChoiceManager.lastDecision == 2 );
+			{
+				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.FINISHED );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FRAUDWORT, -3 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SHYSTERWEED, -3 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SWINDLEBLOSSOM, -3 ) );
+			}
+			break;
 
 		case 1073:
 			// This Ride Is Like... A Rollercoaster Baby Baby
