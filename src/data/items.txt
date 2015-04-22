@@ -8281,3 +8281,4 @@
 8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t,d	200
 8257
 8258	Wart Dinsey: An Afterlife	284076427	book4.gif	usable	t	0
+8259	The Lot's engagement ring	929948166	bvbox.gif	offhand	t,d	100
