@@ -257,6 +257,25 @@ public class KoLAdventure
 		return this.adventureName;
 	}
 
+	// In chamber <b>#1</b> of the Daily Dungeon, you encounter ...
+	// In the <b>5th</b> chamber of the Daily Dungeon, you encounter ...
+	private static final Pattern DAILY_DUNGEON_CHAMBER = Pattern.compile( "<b>#?([\\d]+)(?:th)?</b>" );
+
+	public static String getPrettyAdventureName( final String locationName, final String responseText )
+	{
+		if ( locationName.equals( "The Daily Dungeon" ) )
+		{
+			// Parse room number from responseText
+			Matcher matcher = KoLAdventure.DAILY_DUNGEON_CHAMBER.matcher( responseText );
+			if ( matcher.find() )
+			{
+				String room = matcher.group( 1 );
+				return locationName + " (Room " + room + ")"; 
+			}
+		}
+		return locationName;
+	}
+
 	/**
 	 * Returns the adventure Id for this adventure.
 	 *
@@ -2187,6 +2206,20 @@ public class KoLAdventure
 			"Who knows what would happen if you breathed the air",
 			"You need to equip your Personal Ventilation Unit.",
 		},
+
+		// GameInformPowerPro video game levels
+		//
+		// You already cleared out this area.
+		{
+			"You already cleared out this area",
+			"You already cleared out this area",
+		},
+
+		// This area is closed.
+		{
+			"This area is closed",
+			"You completed the video game",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
@@ -2315,6 +2348,9 @@ public class KoLAdventure
 			// Redirected to a choice. We may or may not be
 			// adventuring where we thought we were.
 		}
+
+		// Customize location name, perhaps
+		location = KoLAdventure.getPrettyAdventureName( location, responseText );
 
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
