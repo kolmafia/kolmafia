@@ -58,6 +58,7 @@ Doc Galaktik's Ailment Ointment	item	8	10	0	0	0
 Doc Galaktik's Curative Nostrum	loc	1	1	0	0	0
 Doc Galaktik's Fizzy Invigorating Tonic	loc	0	0	1	1	0
 Doc Galaktik's Homeopathic Elixir	item	18	20	0	0	0
+Doc Galaktik's Invigorating Tonic	item	0	0	9	11	0
 Doc Galaktik's Pungent Unguent	item	3	5	0	0	0
 Doc Galaktik's Restorative Balm	item	13	15	0	0	0
 dueling turtle	item	10	20	10	20	0

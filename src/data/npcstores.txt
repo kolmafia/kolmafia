@@ -269,11 +269,11 @@ Armory and Leggery	armory	paper-plate-mail pants	600	ROW483
 Armory and Leggery	armory	troutpiece	825	ROW484
 Armory and Leggery	armory	alpha-mail pants	1050	ROW485
 
-Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Restorative Balm	120
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Homeopathic Elixir	240
+Doc Galaktik's Medicine Show	doc	anti-anti-antidote	30	ROW694
+Doc Galaktik's Medicine Show	doc	Doc Galaktik's Pungent Unguent	30	ROW695
+Doc Galaktik's Medicine Show	doc	Doc Galaktik's Homeopathic Elixir	120	ROW696
+Doc Galaktik's Medicine Show	doc	Doc Galaktik's Invigorating Tonic	90	ROW679
+# Doc Galaktik's Medicine Show	doc	Doc Galaktik's Vitality Serum	40 ROW698
 
 Gift Shop	town_giftshop.php	Valentine	500
 Gift Shop	town_giftshop.php	potted cactus	20
