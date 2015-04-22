@@ -1816,7 +1816,7 @@
 1814	Extra Backbone	bigspine.gif	7026c30f6df80fffdf3a48f78e24f8d9	use 1 really thick spine
 1815	Almost Cool	brokeshades.gif	9331698654bc9026043261b61727791f	use 1 mostly-broken sunglasses
 1816
-1817
+1817	Vital	coughsyrup.gif	9655060d265b52316d5cc7eafff3a5a8	use 1 Doc Galaktik's Vitality Serum
 1818	Toxic Vengeance	dizzy.gif	6a88a4aa93f9e0dffd803c4c01464b6a
 1819	How to Scam Tourists	book2.gif	f51578e6c4ff07634d3a21699d5cd38b	use 1 How to Avoid Scams
 1820	Stinkybeard	stinkbeard.gif	dced1d78f892945edf41daf254885166	use 1 beard incense
