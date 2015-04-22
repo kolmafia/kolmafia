@@ -2063,6 +2063,8 @@ Item	Sword of the Brouhaha Prince	Muscle Percent: +12
 Item	tailbone shield	Stench Damage: +40, Damage Reduction: 16
 Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
+# Item The Lot's engagement ring: Allows Noxious Proposals
+Item	The Lot's engagement ring	Stench Damage: +3
 # The Necbromancer's Stein: All Spells Cast Are Spooky
 Item	The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30
 Item	The Spirit of Crimbo	Free Pull

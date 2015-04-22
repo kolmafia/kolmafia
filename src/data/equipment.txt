@@ -1766,6 +1766,7 @@ tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	0	none
 The Joke Book of the Dead	0	none
+The Lot's engagement ring	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 third-hand lantern	10	none
