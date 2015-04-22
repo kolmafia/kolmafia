@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -57,12 +56,8 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
-import net.sourceforge.kolmafia.request.GalaktikRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -91,8 +86,6 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "Oscus's neverending soda", 250, false);
 	private static final MPRestoreItem QUARK =
 		new MPRestoreItem( "unstable quark + junk item", 100, false);
-	private static final MPRestoreItem GALAKTIK =
-		new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
 	public static final MPRestoreItem MYSTERY_JUICE =
 		new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
@@ -106,7 +99,6 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.CHATEAU,
 		MPRestoreItemList.CAMPGROUND,
 		MPRestoreItemList.FREEREST,
-		MPRestoreItemList.GALAKTIK,
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
 		MPRestoreItemList.QUARK,
@@ -192,7 +184,6 @@ public abstract class MPRestoreItemList
 			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
-		MPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 12 : 17;
 	}
 
 	public static final boolean contains( final AdventureResult item )
@@ -210,7 +201,7 @@ public abstract class MPRestoreItemList
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
 			restoreCheckbox[ i ] = new JCheckBox( MPRestoreItemList.CONFIGURES[ i ].toString() );
-			restoreCheckbox[ i ].setSelected( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+			restoreCheckbox[ i ].setSelected( mpRestoreSetting.contains( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) );
 		}
 
 		return restoreCheckbox;
@@ -222,7 +213,7 @@ public abstract class MPRestoreItemList
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			restoreCheckbox[ i ].setSelected( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+			restoreCheckbox[ i ].setSelected( mpRestoreSetting.contains( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) );
 		}
 	}
 
@@ -266,7 +257,7 @@ public abstract class MPRestoreItemList
 
 		public boolean isSkill()
 		{
-			return this.itemUsed == null && this != MPRestoreItemList.GALAKTIK;
+			return this.itemUsed == null;
 		}
 
 		public boolean isCombatUsable()
@@ -308,7 +299,7 @@ public abstract class MPRestoreItemList
 				return true;
 			}
 			String name = this.itemUsed.getName();
-			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+			return !name.contains( "b" ) && !name.contains( "B" );
 		}
 
 		public void recoverMP( final int needed, final boolean purchase )
@@ -385,17 +376,6 @@ public abstract class MPRestoreItemList
 						return;
 					}
 				}
-				return;
-			}
-
-			if ( this == MPRestoreItemList.GALAKTIK )
-			{
-				if ( purchase && needed > KoLCharacter.getCurrentMP() && InventoryManager.canUseNPCStores() )
-				{
-					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.MP, Math.min(
-						needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
-				}
-
 				return;
 			}
 

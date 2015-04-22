@@ -2340,6 +2340,7 @@ public class ItemPool
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
 	public static final int MAP_TO_KOKOMO = 8182;
 	public static final int CROWN_OF_ED = 8185;
+	public static final int DOC_VITALITY_SERUM = 8202;
 	public static final int DINSEY_CHARTER = 8203;
 	public static final int DINSEY_TICKET = 8204;
 	public static final int FUNFUNDS = 8205;

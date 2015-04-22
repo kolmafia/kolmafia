@@ -411,22 +411,6 @@ public class RequestFrame
 			displayHTML = displayHTML.replaceAll( "<div id='fightform' class='hideform'>.*?</div>(<p><center>You win the fight!)", "$1" );
 		}
 
-		// Doc Galaktik's page is going to get completely
-		// killed, except for the main purchases.
-
-		if ( displayHTML.indexOf( "action=galaktik.php" ) != -1 )
-		{
-			displayHTML =
-				StringUtilities.globalStringReplace( displayHTML, "</tr><td valign=center>", "</tr><tr><td valign=center>" );
-			displayHTML = StringUtilities.globalStringReplace( displayHTML, "<td>", "</td><td>" );
-			displayHTML = StringUtilities.globalStringReplace( displayHTML, "</td></td>", "</td>" );
-
-			displayHTML =
-				displayHTML.replaceAll(
-					"<table><table>(.*?)(<form action=galaktik\\.php method=post><input[^>]+><input[^>]+>)",
-					"<table><tr><td>$2<table>$1<tr>" );
-		}
-
 		// The library bookshelf has some secretive Javascript
 		// which needs to be removed.
 

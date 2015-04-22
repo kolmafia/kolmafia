@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -421,11 +422,6 @@ public class NPCStoreDatabase
 		{
 			return false;
 		}
-		else if ( storeId.equals( "galaktik.php" ) )
-		{
-			// Doc Galaktik's Medicine Show
-			return !KoLCharacter.inZombiecore();
-		}
 		else if ( shopName.equals( "Gift Shop" ) )
 		{
 			return !KoLCharacter.inBadMoon();
@@ -433,6 +429,13 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "hiddentavern" ) )
 		{
 			return Preferences.getInteger( "hiddenTavernUnlock" ) == KoLCharacter.getAscensions();
+		}
+		else if ( storeId.equals( "doc" ) )
+		{
+			if ( itemId == ItemPool.DOC_VITALITY_SERUM )
+			{
+				return QuestDatabase.isQuestFinished( Quest.DOC );
+			}
 		}
 
 		// If it gets this far, then the item is definitely available

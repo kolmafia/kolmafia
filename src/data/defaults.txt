@@ -821,7 +821,6 @@ user	questL13Warehouse	unstarted
 user	questM01Untinker	unstarted
 user	questM02Artist	unstarted
 user	questM03Bugbear	unstarted
-user	questM04Galaktic	unstarted
 user	questM05Toot	unstarted
 user	questM06Gourd	unstarted
 user	questM07Hammer	unstarted
@@ -841,6 +840,7 @@ user	questM20Necklace	unstarted
 user	questM21Dance	unstarted
 user	questM22Shirt	unstarted
 user	questM23Meatsmith	unstarted
+user	questM24Doc	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false

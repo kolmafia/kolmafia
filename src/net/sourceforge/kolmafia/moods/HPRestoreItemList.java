@@ -58,9 +58,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.GalaktikRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -84,7 +81,6 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem FREEREST = new HPRestoreItem( "free rest", 40 );
 	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
 
-	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
 	private static final HPRestoreItem NUNS = new HPRestoreItem( "visit the nuns", 1000 );
 	private static final HPRestoreItem HERBS =
 		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
@@ -103,7 +99,6 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.CHATEAU,
 		HPRestoreItemList.CAMPGROUND,
 		HPRestoreItemList.FREEREST,
-		HPRestoreItemList.GALAKTIK,
 		HPRestoreItemList.HERBS,
 		HPRestoreItemList.SCROLL,
 		HPRestoreItemList.MASSAGE_OIL,
@@ -180,7 +175,6 @@ public abstract class HPRestoreItemList
 			250 :
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
-		HPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
 		HPRestoreItemList.DISCONAP.healthPerUse = KoLCharacter.hasSkill( "Adventurer of Leisure" ) ? 40 : 20;
 	}
 
@@ -199,7 +193,7 @@ public abstract class HPRestoreItemList
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 		{
 			restoreCheckbox[ i ] = new JCheckBox( HPRestoreItemList.CONFIGURES[ i ].toString() );
-			restoreCheckbox[ i ].setSelected( hpRestoreSetting.indexOf( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+			restoreCheckbox[ i ].setSelected( hpRestoreSetting.contains( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) );
 		}
 
 		return restoreCheckbox;
@@ -211,7 +205,7 @@ public abstract class HPRestoreItemList
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			restoreCheckbox[ i ].setSelected( hpRestoreSetting.indexOf( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
+			restoreCheckbox[ i ].setSelected( hpRestoreSetting.contains( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) );
 		}
 	}
 
@@ -284,7 +278,7 @@ public abstract class HPRestoreItemList
 				return true;
 			}
 			String name = this.itemUsed.getName();
-			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+			return !name.contains( "b" ) && !name.contains( "B" );
 		}
 
 		public int compareTo( final HPRestoreItem o )
@@ -364,7 +358,6 @@ public abstract class HPRestoreItemList
 			if ( this == HPRestoreItemList.FREEREST )
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
-				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
 					if ( Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) &&
 						!Limitmode.limitZone( "Mountain" ) )
@@ -417,17 +410,6 @@ public abstract class HPRestoreItemList
 				}
 
 				new ClanLoungeRequest( ClanLoungeRequest.HOTTUB );
-				return;
-			}
-
-			if ( this == HPRestoreItemList.GALAKTIK )
-			{
-				if ( purchase && needed > KoLCharacter.getCurrentHP() )
-				{
-					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.HP, Math.min(
-						needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
-				}
-
 				return;
 			}
 

@@ -392,8 +392,7 @@ public abstract class PurchaseRequest
 			return MallPurchaseRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.startsWith( "galaktik.php" ) ||
-		     urlString.startsWith( "town_giftshop.php" ) )
+		if ( urlString.startsWith( "town_giftshop.php" ) )
 		{
 			return NPCPurchaseRequest.registerRequest( urlString );
 		}

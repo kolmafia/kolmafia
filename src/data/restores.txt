@@ -55,8 +55,6 @@ Devour Minions	skill	[max(floor(HP*0.5),20)]	[max(floor(HP*0.5),20)]	0	0	0
 Diet Cloaca Cola	item	0	0	7	9	0
 Disco Nap	skill	[20*(1+skill(Adventurer of Leisure))]	[20*(1+skill(Adventurer of Leisure))]	0	0	0
 Doc Galaktik's Ailment Ointment	item	8	10	0	0	0
-Doc Galaktik's Curative Nostrum	loc	1	1	0	0	0
-Doc Galaktik's Fizzy Invigorating Tonic	loc	0	0	1	1	0
 Doc Galaktik's Homeopathic Elixir	item	18	20	0	0	0
 Doc Galaktik's Invigorating Tonic	item	0	0	9	11	0
 Doc Galaktik's Pungent Unguent	item	3	5	0	0	0
