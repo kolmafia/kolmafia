@@ -311,6 +311,7 @@ The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant ma
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
+The Overgrown Lot	-1	cooler wino	dire pigeon	malt liquor golem	sewer snake with a sewer snake in it	Lot's Wife: 0
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 The Poop Deck	100	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pirate
 The Post-Mall	-1	T-9000	damned dirty ape	jet-ski bandit	Z-Rex	superdupervirus	sentient ATM: 0

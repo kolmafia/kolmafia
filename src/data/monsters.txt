@@ -402,6 +402,7 @@ lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 78 P:
 # Monster ids 668, 674
 lonely construct	0	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
 Lord Spookyraven	464	lordspooky.gif	BOSS Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 ED: spooky P: undead	Eye of Ed (100)	Lord Spookyraven's ear trumpet (100)
+Lot's Wife	1757	lotswife.gif	Atk: 3 Def: 3 HP: 10 P: beast Init: -10000	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish	amber aviator shades (n5)	hair of the fish (c7)	rough fish scale (n4)	slug of shochu (21)
 lowercase B	934	lower_b.gif	Atk: 58 Def: 52 HP: 70 Init: 40 P: slime	left parenthesis (15)
 lowercase H	936	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	left bracket (15)	left parenthesis (20)	percent sign (25)
