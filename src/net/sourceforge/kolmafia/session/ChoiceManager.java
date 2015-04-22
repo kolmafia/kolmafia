@@ -3471,13 +3471,22 @@ public abstract class ChoiceManager
 		// Choice 1056 is Now It's Dark
 		// Choice 1057 is A Stone Shrine
 		// Choice 1059 is Helping Make Ends Meat
+
 		// Choice 1060 is Temporarily Out of Skeletons
 		new ChoiceAdventure(
 			"Town", "choiceAdventure1060", "Skeleton Store",
 			new Object[] { new Option( "gain office key, then ~35 meat", 1, "Skeleton Store office key" ),
 				       new Option( "gain ring of telling skeletons what to do, then 300 meat, with skeleton key", 2, "ring of telling skeletons what to do" ),
 				       new Option( "gain muscle stats", 3 ),
-					   new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
+				       new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
+
+		// Choice 1062 is Lots of Options
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1062", "Overgrown Lot",
+			new Object[] { new Option( "acquire flowers", 1 ),
+				       new Option( "acquire food", 2 ),
+				       new Option( "acquire drinks", 3 ),
+				       new Option( "gain moxie stats", 4 ) } ),
 
 		// Choice 1063 is Adjust your 'Edpiece
 		new ChoiceSpoiler(
