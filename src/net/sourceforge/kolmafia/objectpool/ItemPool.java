@@ -2340,11 +2340,13 @@ public class ItemPool
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
 	public static final int MAP_TO_KOKOMO = 8182;
 	public static final int CROWN_OF_ED = 8185;
+	public static final int BOOZE_MAP = 8187;
 	public static final int DOC_VITALITY_SERUM = 8202;
 	public static final int DINSEY_CHARTER = 8203;
 	public static final int DINSEY_TICKET = 8204;
 	public static final int FUNFUNDS = 8205;
 	public static final int GARBAGE_BAG = 8211;
+	public static final int SEWAGE_CLOGGED_PISTOL = 8215;
 	public static final int TOXIC_GLOBULE = 8218;
 	public static final int JAR_OF_SWAMP_HONEY = 8226;
 	public static final int DINSEY_REFRESHMENTS = 8243;
@@ -2355,6 +2357,7 @@ public class ItemPool
 	public static final int TRASH_MEMOIR_BOOK = 8254;
 	public static final int DINSEY_MAINTENANCE_MANUAL = 8255;
 	public static final int DINSEY_AN_AFTERLIFE = 8258;
+	public static final int LOTS_ENGAGEMENT_RING = 8259;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
