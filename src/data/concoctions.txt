@@ -2504,3 +2504,11 @@ Xiblaxian residence-cube	5D, ROW340	Xiblaxian circuitry (11)	Xiblaxian polymer (
 Crimbonium fuel rod	SMITH	cylindrical mold	nugget of Crimbonium
 neutron lollipop	COOK	peppermint tailings	skewer
 gamma nog	MIX	peppermint tailings	fermenting powder
+
+# Overgrown Lot
+glob of cream cheese (3)	SUSE	carton of snake milk
+Breakfast Blast wine cooler	MIX	unflavored wine cooler	grapefruit
+Citrus Crush wine cooler	MIX	unflavored wine cooler	lemon
+Orangemageddon wine cooler	MIX	unflavored wine cooler	orange
+Radberry Rip wine cooler	MIX	unflavored wine cooler	strawberry
+Cherrytastrophe wine cooler	MIX	unflavored wine cooler	cherry

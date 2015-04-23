@@ -2694,6 +2694,34 @@ public class ResultProcessor
 		case ItemPool.MASCOT_MASK:
 			QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.STARTED );
 			break;
+
+		case ItemPool.FRAUDWORT:
+			if ( InventoryManager.getCount( ItemPool.FRAUDWORT ) + count >= 3 &&
+				InventoryManager.getCount( ItemPool.SHYSTERWEED ) >= 3 &&
+				InventoryManager.getCount( ItemPool.SWINDLEBLOSSOM ) >= 3 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.DOC, "step1" );
+			}
+			break;
+
+		case ItemPool.SHYSTERWEED:
+			if ( InventoryManager.getCount( ItemPool.FRAUDWORT ) >= 3 &&
+				InventoryManager.getCount( ItemPool.SHYSTERWEED ) + count >= 3 &&
+				InventoryManager.getCount( ItemPool.SWINDLEBLOSSOM ) >= 3 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.DOC, "step1" );
+			}
+			break;
+
+		case ItemPool.SWINDLEBLOSSOM:
+			if ( InventoryManager.getCount( ItemPool.FRAUDWORT ) >= 3 &&
+				InventoryManager.getCount( ItemPool.SHYSTERWEED ) >= 3 &&
+				InventoryManager.getCount( ItemPool.SWINDLEBLOSSOM ) + count >= 3 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.DOC, "step1" );
+			}
+			break;
+		
 		}
 
 		// Gaining items can achieve goals.

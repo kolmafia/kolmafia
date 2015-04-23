@@ -682,6 +682,12 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Tell a Skeleton What To Do" );
 			KoLCharacter.addAvailableSkill( "Tell This Skeleton What To Do" );
 			break;
+		case ItemPool.SEWAGE_CLOGGED_PISTOL:
+			KoLCharacter.addAvailableSkill( "Fire Sewage Pistol" );
+			break;
+		case ItemPool.LOTS_ENGAGEMENT_RING:
+			KoLCharacter.addAvailableSkill( "Propose To Your Opponent" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

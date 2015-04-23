@@ -3488,7 +3488,8 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "acquire flowers", 1 ),
 				       new Option( "acquire food", 2 ),
 				       new Option( "acquire drinks", 3 ),
-				       new Option( "gain moxie stats", 4 ) } ),
+				       new Option( "gain moxie stats", 4 ),
+				       new Option( "acquire more booze with map", 5 ) } ),
 
 		// Choice 1063 is Adjust your 'Edpiece
 		new ChoiceSpoiler(
@@ -9559,6 +9560,13 @@ public abstract class ChoiceManager
 			ChoiceManager.handleAfterAvatar();
 			break;
 			
+		case 1062:
+			// Lots of Options
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processItem( ItemPool.BOOZE_MAP, -1 );
+			}
+			break;
 		case 1064:
 			// Doc G Quest Choice
 			if ( ChoiceManager.lastDecision == 1 )
