@@ -106,7 +106,7 @@ carob chunk noodles	3	2	decent	3-9	0	0	0
 carob chunks	1	1	crappy	1	0	0	0
 carrot cake	3	3	decent	7	4-6	4-6	4-6	10 Pla-see-bo (+10 Item Drop)
 Carrot, Cabbage, and Kale Pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise (8-10 HP Regen)
-carton of snake milk	3	1	decent	1-1	0	0	0
+carton of snake milk	3	1	decent	6	0	0	3
 catgut taco	2	1	decent	2-5	11-33	0	0
 catsup	1	1	crappy	1	0	0	0
 Caviar Carbonara	3	1		7-11	0	0	0
@@ -305,7 +305,7 @@ glass of goat's milk	1	1	crappy	1	0	0	0
 glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
 glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy
 glistening nigiri	2	1		4-8	0	8-16	0	20/30 Fishy
-glob of cream cheese	1	1	decent	1-1	0	0	0
+glob of cream cheese	1	1	decent	2	0	0	0
 glowing fungus	3	1	good	6-7	0	3-5	0	8-10 MP
 gnat lasagna	3	10	awesome	12-16	45-54	0	0
 gnatloaf	2	8	good	3-9	25-50	0	0
@@ -504,7 +504,7 @@ phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
 pie man was not meant to eat	100	15	EPIC	0	0	0	0
 piece of wedding cake	2	1	decent	2-5	0	0	0
-pigeon egg	1	1	decent	1-1	0	0	0
+pigeon egg	1	1	decent	2	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 plain pizza	2	1	decent	2-4	0	0	0
 plum	1	4	good	3	15-20	0	0

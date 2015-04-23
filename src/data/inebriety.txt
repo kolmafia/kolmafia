@@ -88,7 +88,7 @@ boxed champagne	3	2	decent	4-8	0	0	0
 boxed wine	3	1	crappy	3	0	0	0
 braincracker sweet	5	1		10-15	0	0	0	10 Sugar Rush
 breaded beer	4	5	EPIC	26-29	0	0	93-107
-Breakfast Blast wine cooler	2	1	good	1-1	0	0	0
+Breakfast Blast wine cooler	2	1	good	6	0	7-8	0
 broberry brogurt	3	11	EPIC	15-18	100-200	0	0	40 Broberry Brotality (+100% Mus, +10% Crit, +50 Meat drop)
 brocolate brogurt	3	11	EPIC	15-18	0	100-200	0	40 Brocolate Brostidigitation (+100% Mys, +20% Spell Crit, +25 Item drop)
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
@@ -112,11 +112,11 @@ Cement Mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied (+100 DA)
 Chakra Libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind (+50 Myst)
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
-Cherrytastrophe wine cooler	2	1	good	1-1	0	0	0
+Cherrytastrophe wine cooler	2	1	good	6	0	0	7-8
 chocotini	3	5	good	7-8	0	0	10-20	30 High Blood Chocolate Content (+30% candy drop)
 Chunky Mary	4	1	good	11-13	0	0	30-40
 Cinco Mayo Lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
-Citrus Crush wine cooler	2	1	good	1-1	0	0	0
+Citrus Crush wine cooler	2	1	good	6	2-3	2-3	2-3
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 Cobb's Knob Wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
 Cold One	1	1		6	0	0	0
@@ -358,7 +358,7 @@ oily mushroom wine	3	7	awesome	12-17	14-15	12-15	12-15
 old-fashioned	3	3	good	5-10	0	8-10	0
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
-Orangemageddon wine cooler	2	1	good	1-1	0	0	0
+Orangemageddon wine cooler	2	1	good	6	2-3	2-3	2-3
 Oreille Divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 Over Easy Rider	3	1	good	8-10	0	0	30-40
 overpowering mushroom wine	4	3	EPIC	22-24	100-150	0	0	80 Boletus Swoletus (+40 Mus)
@@ -387,7 +387,7 @@ pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP
 Punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
 rabbit punch	3	3	good	5-10	0	0	16-20
-Radberry Rip wine cooler	2	1	good	1-1	0	0	0
+Radberry Rip wine cooler	2	1	good	6	7-8	0	0
 Ralph IX cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 Ram's Face Lager	1	2	decent	2	8-10	0	0	4-8 MP
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
@@ -495,7 +495,7 @@ tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
-unflavored wine cooler	2	1	decent	1-1	0	0	0
+unflavored wine cooler	2	1	decent	4	0	0	0
 unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
