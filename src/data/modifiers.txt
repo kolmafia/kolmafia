@@ -2751,7 +2751,7 @@ Item	support cummerbund	Maximum HP: +20
 # surgical mask: Makes you look like a doctor
 Item	surgical mask	Maximum MP: +40, Surgeonosity: +1
 Item	sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaze Spell Damage: +5
-Item	Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
+Item	Talisman o' Namsilat	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 # Talisman of Baio: All Attributes Increase with Moonlight
 Item	Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]
 # Talisman of Bakula: Hemophilia
@@ -6302,6 +6302,7 @@ Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
 Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
+Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
 Item	turtle soup	Effect: "[598]A Little Bit Evil"
@@ -6652,7 +6653,7 @@ Item	big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 Item	Big Punk	Effect: "Big Punkin'", Effect Duration: 50
 Item	birthday candle	Effect: "Light!", Effect Duration: 3
 Item	Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
-Item	Bit O' Quail Item	Effect: "Vented Spleen", Effect Duration: 10
+Item	Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10
 # bitchin' meatcar: <b>Allows Travel to Desert Beach</b>
 Item	bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 Item	bitter pill	Effect: "Bitterskin", Effect Duration: 100
@@ -7717,6 +7718,9 @@ Item	Underworld acorn	Free Pull
 Item	unemployed hunchbacked minion	Free Pull
 Item	unholy water	Effect: "Shocking Biology", Effect Duration: 30
 Item	uniclops egg	Free Pull
+Item	Unmotivator: Crashed Meat Car	Free Pull
+Item	Unmotivator: Crashed Orca	Free Pull
+Item	Unmotivator: Success Warrior	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 Item	unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 Item	unused walkie-talkie	Free Pull
