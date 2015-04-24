@@ -185,7 +185,7 @@
 160	pie crust	601030110	piecrust.gif	none	t,d	35
 161	ghuol egg	806730322	egg.gif	food	t,d	16
 162	ghuol egg quiche	480094541	pie.gif	food	t,d	46
-163	skeleton bone	247485062	bone.gif	weapon	t,d	35
+163	skeleton bone	247485062	goodbone.gif	weapon	t,d	35
 164	smart skull	962644297	smartskull.gif	message	t,d	20
 165	skewer	766374877	sharpstick.gif	none	t,d	40
 166	ghuol ears	344168980	ears.gif	none	t,d	16	pairs of ghuol ears
@@ -254,9 +254,9 @@
 229	Kentucky-fried meat crossbow	115544265	crossbow.gif	weapon	t,d	75
 230	dead guy's watch	678672280	watch.gif	accessory	t,d	60	dead guys' watches
 231	Doc Galaktik's Pungent Unguent	555651223	balm.gif	multiple, combat	t,d	15	tins of Doc Galaktik's Pungent Unguent
-232	Doc Galaktik's Ailment Ointment	420199984	balm.gif	multiple, combat	t,d	30	tins of Doc Galaktik's Ailment Ointment
-233	Doc Galaktik's Restorative Balm	504849907	balm.gif	multiple, combat	t,d	60	tins of Doc Galaktik's Restorative Balm
-234	Doc Galaktik's Homeopathic Elixir	492143729	elixir.gif	multiple, combat	t,d	120	bottles of Doc Galaktik's Homeopathic Elixir
+232	Doc Galaktik's Ailment Ointment	420199984	balm.gif	multiple, combat	t,d	20	tins of Doc Galaktik's Ailment Ointment
+233	Doc Galaktik's Restorative Balm	504849907	balm.gif	multiple, combat	t,d	25	tins of Doc Galaktik's Restorative Balm
+234	Doc Galaktik's Homeopathic Elixir	492143729	elixir.gif	multiple, combat	t,d	30	bottles of Doc Galaktik's Homeopathic Elixir
 235	Bigger Bugfinder Blade	198004428	nicesword.gif	weapon		0
 236	Queue Du Coq cocktailcrafting kit	472946483	cocktailkit.gif	usable	t,d	250
 237	bottle of gin	693995227	bottle.gif	drink	t,d	35	bottles of gin
@@ -8248,7 +8248,7 @@
 8223	toxic mop	248150281	mop.gif	weapon	d	90
 8224	inert sludgepuppy	469414689	sludgepup.gif	grow		0
 8225	lead collar	639074313	leadcollar.gif	familiar	t,d	75
-8226	jar of swamp honey	215171688	honeyjar.gif	food helper	t,d	0
+8226	jar of swamp honey	215171688	honeyjar.gif	food helper	t,d	25
 8227	backwoods banjo	257129869	seegerbanjo.gif	weapon	t	0
 8228	grody jug	889553685	jug.gif	none, combat	t,d	25
 8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
@@ -8269,16 +8269,16 @@
 8244	lube-shoes	524575541	lubeshoes.gif	accessory	q	0
 8245	trash net	390284625	poolskimmer.gif	weapon	q	0
 8246	Dinsey mascot mask	831344174	mascotmask.gif	hat	q	0
-8247	Dinsey food-cone	985911733	foodcone.gif	food	d	44
-8248	Dinsey Whinskey	117634063	bottle.gif	drink	d	66
-8249	Dinsey face paint	167820864	palette.gif	usable	d	22
-8250	stinky fannypack	748377249	fannypack.gif	accessory	d	120
-8251	garbage sticker	945648888	arbsticker.gif	weapon	d	150
-8252	hazmat helmet	124905161	hazhelmet.gif	hat	d	200
-8253	Scratch-and-Sniff Guide to Dinseylandfill	950015537	book3.gif	usable	t,d	250	Scratch-and-Sniff Guides to Dinseylandfill
-8254	Trash, a Memoir	417573941	book4.gif	usable	t,d	250	copies of Trash, a Memoir
-8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t,d	250
-8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t,d	200
+8247	Dinsey food-cone	985911733	foodcone.gif	food		0
+8248	Dinsey Whinskey	117634063	bottle.gif	drink		0
+8249	Dinsey face paint	167820864	palette.gif	usable		0
+8250	stinky fannypack	748377249	fannypack.gif	accessory		0
+8251	garbage sticker	945648888	arbsticker.gif	weapon		0
+8252	hazmat helmet	124905161	hazhelmet.gif	hat		0
+8253	Scratch-and-Sniff Guide to Dinseylandfill	950015537	book3.gif	usable	t	0	Scratch-and-Sniff Guides to Dinseylandfill
+8254	Trash, a Memoir	417573941	book4.gif	usable	t	0	copies of Trash, a Memoir
+8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t	0
+8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t	0
 8257
 8258	Wart Dinsey: An Afterlife	284076427	book4.gif	usable	t	0
 8259	The Lot's engagement ring	929948166	bvbox.gif	offhand	t,d	100
