@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -84,7 +86,6 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem NUNS = new HPRestoreItem( "visit the nuns", 1000 );
 	private static final HPRestoreItem HERBS =
 		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
-	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 );
 
 	public static final HPRestoreItem HOTTUB = new HPRestoreItem( "relaxing hot tub", Integer.MAX_VALUE );
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
@@ -92,6 +93,8 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 	private static final HPRestoreItem SHAKE_IT_OFF = new HPRestoreItem( "Shake It Off", Integer.MAX_VALUE );
 	private static final HPRestoreItem GRUB = new HPRestoreItem( "plump juicy grub", 95 );
+	private static final HPRestoreItem DOCS_UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4, 30 );
+	private static final HPRestoreItem DOCS_ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 120 );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
@@ -138,15 +141,13 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "cotton candy skoshe", 22 ),
 		HPRestoreItemList.DISCONAP,
 		new HPRestoreItem( "Lasagna Bandages", 20 ),
-		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ),
+		HPRestoreItemList.DOCS_ELIXIR,
 		new HPRestoreItem( "cast", 17 ),
 		new HPRestoreItem( "cotton candy smidgen", 17 ),
 		new HPRestoreItem( "sugar shard", 15 ),
-		new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
-		HPRestoreItemList.OINTMENT,
 		new HPRestoreItem( "cotton candy pinch", 9 ),
 		new HPRestoreItem( "forest tears", 7 ),
-		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 ),
+		HPRestoreItemList.DOCS_UNGUENT,
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter II", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35 ),
@@ -176,6 +177,8 @@ public abstract class HPRestoreItemList
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 		HPRestoreItemList.DISCONAP.healthPerUse = KoLCharacter.hasSkill( "Adventurer of Leisure" ) ? 40 : 20;
+		HPRestoreItemList.DOCS_UNGUENT.purchaseCost = QuestDatabase.isQuestFinished( Quest.DOC ) ? 20 : 30;
+		HPRestoreItemList.DOCS_ELIXIR.purchaseCost = QuestDatabase.isQuestFinished( Quest.DOC ) ? 80 : 120;
 	}
 
 	public static final boolean contains( final AdventureResult item )
