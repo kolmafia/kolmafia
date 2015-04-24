@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -89,6 +91,7 @@ public abstract class MPRestoreItemList
 	public static final MPRestoreItem MYSTERY_JUICE =
 		new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
+	public static final MPRestoreItem DOCS_TONIC = new MPRestoreItem( "Doc Galaktik's Invigorating Tonic", 10, 90, false );
 	private static final MPRestoreItem MOTH =
 		new MPRestoreItem( "delicious shimmering moth", 35, false );
 
@@ -152,6 +155,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.MYSTERY_JUICE,
 		new MPRestoreItem( "black cherry soda", 10, 80, false ),
 		MPRestoreItemList.SELTZER,
+		MPRestoreItemList.DOCS_TONIC,
 		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ),
 		new MPRestoreItem( "soda water", 4, 70, false ),
 		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35, false ),
@@ -184,6 +188,7 @@ public abstract class MPRestoreItemList
 			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
+		MPRestoreItemList.DOCS_TONIC.purchaseCost = QuestDatabase.isQuestFinished( Quest.DOC ) ? 60 : 90;
 	}
 
 	public static final boolean contains( final AdventureResult item )
