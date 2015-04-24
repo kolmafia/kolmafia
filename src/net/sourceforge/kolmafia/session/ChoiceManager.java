@@ -60,6 +60,9 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -9579,6 +9582,8 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.FRAUDWORT, -3 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SHYSTERWEED, -3 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SWINDLEBLOSSOM, -3 ) );
+				HPRestoreItemList.updateHealthRestored();
+				MPRestoreItemList.updateManaRestored();
 			}
 			break;
 
