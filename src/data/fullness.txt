@@ -199,7 +199,7 @@ devil's-food cake	3	1	crappy	3	0	0	0
 deviled egg	1	5	EPIC	5-6	2-4	2-4	2-4
 digital key lime pie	4	6	awesome	14-16	10-22	10-22	10-22	8-10 white pixels
 dinner roll	1	4	awesome	4-5	0	0	0
-Dinsey food-cone	2	5	EPIC	1-1	0	0	0	
+Dinsey food-cone	2	5	EPIC	9-12	10-20	10-20	10-20	
 dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 Disc-Shaped Nutrition Unit	4	5		6-9	0	0	0
 Double Bacon Beelzeburger	3	1	decent	4-6	15-20	-15-20	0
@@ -719,7 +719,7 @@ tofurkey leg	3	5	awesome	7-14	70-74	0	0
 tofurkey nugget	3	1	good	4-11	30-33	0	0
 tomato	1	1	crappy	1	0	0	0
 tombstone-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Crimbo Epiphany (+10% mys)
-toxo	2	5	good	1-1	0	0	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
+toxo	2	5	good	7-9	0	15-20	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
 traffic jam toast	1	1	decent	1-3	50	0	0
 tree-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
 triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)
