@@ -76,8 +76,8 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String VERSION_NAME = "KoLmafia v16.8";
-	public static final String VERSION_DATE = "Released on February 11, 2014";
+	public static final String VERSION_NAME = "KoLmafia v16.9";
+	public static final String VERSION_DATE = "Released on April 25, 2015";
 	public static final boolean RELEASED = true;
 	public static final String REVISION = null;
 
