@@ -4141,8 +4141,8 @@ Effect	Chill Out, Dog	Cold Damage: +30, Stench Resistance: +3, Sleaze Resistance
 Effect	Chilled to the Bone	Mana Cost: +3
 Effect	Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Effect	Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
-Effect	Chocolate Reign	Moxie: +10
-# Chocolate Reign Avatar: "white chocolate golem" - Commented out as there is already an effect with this name
+Effect	[800]Chocolate Reign	Moxie: +10
+Effect	[1060]Chocolate Reign	Avatar: "white chocolate golem"
 Effect	Chocolatesphere	Combat Rate: -15
 Effect	Cholestoriffic	Sleaze Damage: [min(100,T)]
 Effect	Chorale of Companionship	Familiar Weight: +10
@@ -6768,7 +6768,7 @@ Item	cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 Item	Cheshire Bitten	Free Pull
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
-Item	chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
+Item	chocolate bath ball	Effect: "[800]Chocolate Reign", Effect Duration: 10
 Item	chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 Item	chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
 Item	chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
@@ -7765,7 +7765,7 @@ Item	Whenchamacallit bar	Effect: "Spooky Blur", Effect Duration: 20
 Item	whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 Item	white blood cells	Effect: "White Blooded", Effect Duration: 50
 Item	white candy heart	Effect: "Heart of White", Effect Duration: 10
-Item	White Chocolate Golem Seeds	Effect: "Chocolate Reign", Effect Duration: 30
+Item	White Chocolate Golem Seeds	Effect: "[1060]Chocolate Reign", Effect Duration: 30
 Item	willyweed	Effect: "Wet Willied", Effect Duration: 30
 Item	wind-up ensign	Effect: "Red-Shirted Escort", Effect Duration: 20
 Item	wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
