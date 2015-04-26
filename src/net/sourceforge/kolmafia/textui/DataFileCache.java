@@ -55,9 +55,9 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class DataFileCache
 {
-	private static RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
-	private static Map<String, Long> dataFileTimestampCache = new HashMap<String, Long>();
-	private static Map<String, byte[]> dataFileDataCache = new HashMap<String, byte[]>();
+	private static final RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
+	private static final Map<String, Long> dataFileTimestampCache = new HashMap<String, Long>();
+	private static final Map<String, byte[]> dataFileDataCache = new HashMap<String, byte[]>();
 
 	public static void clearCache()
 	{
@@ -72,6 +72,9 @@ public class DataFileCache
 		{
 			return null;
 		}
+
+		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
+		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
 
 		File[] parents;
 
@@ -101,19 +104,8 @@ public class DataFileCache
 				return file;
 			}
 		}
-		
-		File file = new File( KoLConstants.DATA_LOCATION, filename );
-		if ( checkFile( parents, file, false ) )
-		{
-			return file;
-		}
-		
-		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
-		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
 
-		file = new File( KoLConstants.DATA_LOCATION, filename );
-
-		return file;
+		return new File( KoLConstants.DATA_LOCATION, filename );
 	}
 
 	private static boolean checkFile( File[] parents, File file, boolean checkExists )
