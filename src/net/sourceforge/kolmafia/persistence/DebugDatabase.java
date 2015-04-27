@@ -1104,9 +1104,10 @@ public class DebugDatabase
 				String currentValue = current.getValue();
 				if ( currentValue == null )
 				{
-					// No value
+					continue;	// No value
 				}
-				else if ( currentValue.contains( "[" ) )
+
+				if ( Modifiers.isNumericModifier( key ) && currentValue.contains( "[" ) )
 				{
 					// Evaluate the expression
 					int lbracket = currentValue.indexOf( "[" );
@@ -1137,23 +1138,23 @@ public class DebugDatabase
 
 					// Keep the expression, regardless
 					modifier.setValue( currentValue );
+					continue;
 				}
-				else if ( !value.equals( currentValue ) )
+
+				// If the value is not an expression, it must match exactly
+				if ( !value.equals( currentValue ) )
 				{
 					// Value is not an expression and does not match
 					report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
 				}
 			}
+			else if ( value == null )
+			{
+				report.println( "# *** new enchantment: " + key + " seen" );
+			}
 			else
 			{
-				if ( value == null )
-				{
-					report.println( "# *** new enchantment: " + key + " seen" );
-				}
-				else
-				{
-					report.println( "# *** new enchantment: " + key + ": " + value + " seen" );
-				}
+				report.println( "# *** new enchantment: " + key + ": " + value + " seen" );
 			}
 		}
 
