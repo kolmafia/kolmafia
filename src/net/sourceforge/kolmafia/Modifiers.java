@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -763,6 +764,20 @@ public class Modifiers
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
+
+	private static final HashSet<String> numericModifiers = new HashSet<String>();
+	static
+	{
+		for ( Object[] modifier : Modifiers.doubleModifiers )
+		{
+			Modifiers.numericModifiers.add( (String) modifier[ 0 ] );
+		}
+	};
+
+	public static boolean isNumericModifier( final String key )
+	{
+		return Modifiers.numericModifiers.contains( key );
+	}
 
 	public static final int BOOLEANS = 0;
 	public static final int CLOWNOSITY = 1;
