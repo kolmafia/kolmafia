@@ -1176,7 +1176,11 @@ public class CharPaneDecorator
 
 			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
 			{
-				buffer.append( StringUtilities.getEntityEncode( Preferences.getString( "olfactedMonster" ) ) );
+				String monsterName = Preferences.getString( "olfactedMonster" );
+				monsterName = StringUtilities.getEntityEncode( monsterName );
+				monsterName = StringUtilities.singleStringReplace( monsterName, "&lt;i&gt;", "<i>" );
+				monsterName = StringUtilities.singleStringReplace( monsterName, "&lt;/i&gt;", "</i>" );
+				buffer.append( monsterName );
 				buffer.append( ", " );
 			}
 			else if ( effectName.equalsIgnoreCase( "Shape of...Mole!" ) )
