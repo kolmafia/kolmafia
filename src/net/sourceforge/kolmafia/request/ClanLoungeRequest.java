@@ -506,7 +506,6 @@ public class ClanLoungeRequest
 	}
 
 	public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
-	private static final ArrayList<String> SPEAKEASY_NAMES = new ArrayList<String>();
 	private static final String [] CANONICAL_SPEAKEASY_ARRAY = new String[ ClanLoungeRequest.SPEAKEASY_DATA.length ];
 
 	static
@@ -518,7 +517,6 @@ public class ClanLoungeRequest
 			concoction.speakeasy = true;
 			concoction.price = ClanLoungeRequest.speakeasyNameToCost( itemName );
 			ClanLoungeRequest.ALL_SPEAKEASY.add( concoction );
-			ClanLoungeRequest.SPEAKEASY_NAMES.add( itemName );
 			ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[ i ] = StringUtilities.getCanonicalName( itemName );
 		}
 	};
@@ -840,43 +838,43 @@ public class ClanLoungeRequest
 			return null;
 		}
 
-		if ( urlString.indexOf( "klaw" ) != -1 )
+		if ( urlString.contains( "klaw" ) )
 		{
 			return "Deluxe Mr. Klaw \"Skill\" Crane Game";
 		}
-		if ( urlString.indexOf( "hottub" ) != -1 )
+		if ( urlString.contains( "hottub" ) )
 		{
 			return "Relaxing Hot Tub";
 		}
-		if ( urlString.indexOf( "pooltable" ) != -1 )
+		if ( urlString.contains( "pooltable" ) )
 		{
 			return "Pool Table";
 		}
-		if ( urlString.indexOf( "crimbotree" ) != -1 )
+		if ( urlString.contains( "crimbotree" ) )
 		{
 			return "Crimbo Tree";
 		}
-		if ( urlString.indexOf( "lookingglass" ) != -1 )
+		if ( urlString.contains( "lookingglass" ) )
 		{
 			return "Looking Glass";
 		}
-		if ( urlString.indexOf( "faxmachine" ) != -1 )
+		if ( urlString.contains( "faxmachine" ) )
 		{
 			return "Fax Machine";
 		}
-		if ( urlString.indexOf( "action=shower" ) != -1 )
+		if ( urlString.contains( "action=shower" ) )
 		{
 			return "April Shower";
 		}
-		if ( urlString.indexOf( "action=swimmingpool" ) != -1 )
+		if ( urlString.contains( "action=swimmingpool" ) )
 		{
 			return "Swimming Pool";
 		}
-		if ( urlString.indexOf( "action=hotdogstand" ) != -1 )
+		if ( urlString.contains( "action=hotdogstand" ) )
 		{
 			return "Hot Dog Stand";
 		}
-		if ( urlString.indexOf( "action=speakeasy" ) != -1 )
+		if ( urlString.contains( "action=speakeasy" ) )
 		{
 			return "Speakeasy";
 		}
@@ -1056,28 +1054,28 @@ public class ClanLoungeRequest
 		switch ( this.action )
 		{
 		case ClanLoungeRequest.POOL_TABLE:
-			if ( responseText.indexOf( "You skillfully defeat" ) != -1 )
+			if ( responseText.contains( "You skillfully defeat" ) )
 			{
 				RequestLogger.printLine( "You won the pool game!" );
 			}
-			else if ( responseText.indexOf( "You play a game of pool against yourself" ) != -1 )
+			else if ( responseText.contains( "You play a game of pool against yourself" ) )
 			{
 				RequestLogger.printLine( "You beat yourself at pool. Is that a win or a loss?" );
 			}
-			else if ( responseText.indexOf( "you are unable to defeat" ) != -1 )
+			else if ( responseText.contains( "you are unable to defeat" ) )
 			{
 				RequestLogger.printLine( "You lost. Boo hoo." );
 			}
-			else if ( responseText.indexOf( "kind of pooled out" ) != -1 )
+			else if ( responseText.contains( "kind of pooled out" ) )
 			{
 				RequestLogger.printLine( "You decided not to play." );
 			}
 			// Those things are old news.  You only care about the <i>latest</i> gadgets.
-			else if ( responseText.indexOf( "Those things are old news" ) != -1 )
+			else if ( responseText.contains( "Those things are old news" ) )
 			{
 				KoLmafia.updateDisplay( "Boring! Nobody plays <i>that</i> any more." );
 			}
-			else if ( responseText.indexOf( "pooltable.gif" ) == -1 )
+			else if ( !responseText.contains( "pooltable.gif" ) )
 			{
 				KoLmafia.updateDisplay( "There is no pool table in this clan." );
 			}
@@ -1088,7 +1086,7 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.FAX_MACHINE:
-			if ( responseText.indexOf( "Your photocopy slowly slides into the machine" ) != -1 )
+			if ( responseText.contains( "Your photocopy slowly slides into the machine" ) )
 			{
 				String monster = Preferences.getString( "photocopyMonster" );
 				if ( !monster.equals( "" ) )
@@ -1100,31 +1098,31 @@ public class ClanLoungeRequest
 					KoLmafia.updateDisplay( "You load your photocopied monster in the fax machine." );
 				}
 			}
-			else if ( responseText.indexOf( "just be a blank sheet of paper" ) != -1 )
+			else if ( responseText.contains( "just be a blank sheet of paper" ) )
 			{
 				KoLmafia.updateDisplay( "Your fax machine doesn't have any monster." );
 			}
-			else if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
+			else if ( responseText.contains( "top half of a document prints out" ) )
 			{
 				// the message is printed by parseResponse()
 			}
-			else if ( responseText.indexOf( "waiting for an important fax" ) != -1 )
+			else if ( responseText.contains( "waiting for an important fax" ) )
 			{
 				KoLmafia.updateDisplay( "You already had a photocopied monster in your inventory." );
 			}
 			// Those things are old news.  You only care about the <i>latest</i> gadgets.
-			else if ( responseText.indexOf( "Those things are old news" ) != -1 )
+			else if ( responseText.contains( "Those things are old news" ) )
 			{
 				KoLmafia.updateDisplay( "The fax machine is <i>so</i> last year." );
 			}
 			// You approach the fax machine.  Loathing wells up
 			// within you and fear clutches at your heart...  What
 			// do you want to do?
-			else if ( responseText.indexOf( "What do you want to do?" ) != -1 )
+			else if ( responseText.contains( "What do you want to do?" ) )
 			{
 				// Simple visit.
 			}
-			else if ( responseText.indexOf( "faxmachine.gif" ) == -1 )
+			else if ( !responseText.contains( "faxmachine.gif" ) )
 			{
 				KoLmafia.updateDisplay( "There is no fax machine in this clan." );
 			}
@@ -1135,36 +1133,36 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.APRIL_SHOWER:
-			if ( responseText.indexOf( "this is way too hot" ) != -1 )
+			if ( responseText.contains( "this is way too hot" ) )
 			{
 				RequestLogger.printLine( "You took a hot shower." );
 			}
-			else if ( responseText.indexOf( "relaxes your muscles" ) != -1 )
+			else if ( responseText.contains( "relaxes your muscles" ) )
 			{
 				RequestLogger.printLine( "You took a warm shower." );
 			}
-			else if ( responseText.indexOf( "mind expands" ) != -1 )
+			else if ( responseText.contains( "mind expands" ) )
 			{
 				RequestLogger.printLine( "You took a lukewarm shower." );
 			}
-			else if ( responseText.indexOf( "your goosebumps absorb" ) != -1 )
+			else if ( responseText.contains( "your goosebumps absorb" ) )
 			{
 				RequestLogger.printLine( "You took a cool shower." );
 			}
-			else if ( responseText.indexOf( "shards of frosty double-ice" ) != -1 )
+			else if ( responseText.contains( "shards of frosty double-ice" ) )
 			{
 				RequestLogger.printLine( "You took a cold shower." );
 			}
-			else if ( responseText.indexOf( "already had a shower today" ) != -1 ||
-				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "aprilshower.gif" ) != -1 )
+			else if ( responseText.contains( "already had a shower today" ) ||
+				  responseText.contains( "<table><tr><td></td></tr></table>" ) && responseText.contains( "aprilshower.gif" ) )
 			{
 				RequestLogger.printLine( "You already took a shower today." );
 			}
-			else if ( responseText.indexOf( "Shower!" ) != -1 )
+			else if ( responseText.contains( "Shower!" ) )
 			{
 				// Simple visit.
 			}
-			else if ( responseText.indexOf( "aprilshower.gif" ) == -1 )
+			else if ( !responseText.contains( "aprilshower.gif" ) )
 			{
 				KoLmafia.updateDisplay( "There is no April shower in this clan." );
 			}
@@ -1179,24 +1177,24 @@ public class ClanLoungeRequest
 			{
 				RequestLogger.printLine( "You start screwing around in the swimming pool." );
 			}
-			else if ( responseText.indexOf( "manage to swim" ) != -1 )
+			else if ( responseText.contains( "manage to swim" ) )
 			{
 				// the message is printed by parseResponse()
 			}
-			else if ( responseText.indexOf( "doing submarine sprints" ) != -1 )
+			else if ( responseText.contains( "doing submarine sprints" ) )
 			{
 				// the message is printed by parseResponse()
 			}
-			else if ( responseText.indexOf( "already worked out in the pool today" ) != -1 ||
-				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "vippool.gif" ) != -1 )
+			else if ( responseText.contains( "already worked out in the pool today" ) ||
+				  responseText.contains( "<table><tr><td></td></tr></table>" ) && responseText.contains( "vippool.gif" ) )
 			{
 				RequestLogger.printLine( "You already worked out in the pool today." );
 			}
-			else if ( responseText.indexOf( "change into your swimsuit" ) != -1 )
+			else if ( responseText.contains( "change into your swimsuit" ) )
 			{
 				// Simple visit.
 			}
-			else if ( responseText.indexOf( "vippool.gif" ) == -1 )
+			else if ( !responseText.contains( "vippool.gif" ) )
 			{
 				KoLmafia.updateDisplay( "There is no swimming pool in this clan." );
 			}
@@ -1239,7 +1237,7 @@ public class ClanLoungeRequest
 		}
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
-		if ( responseText.indexOf( "tree5.gif" ) != -1 )
+		if ( responseText.contains( "tree5.gif" ) )
 		{
 			Preferences.setInteger( "crimboTreeDays", 0 );
 			Preferences.setBoolean( "_crimboTree", true );
@@ -1249,7 +1247,7 @@ public class ClanLoungeRequest
 				RequestLogger.printLine( "You have a present under the Crimbo tree in your clan's VIP lounge!" );
 			}
 		}
-		else if ( responseText.indexOf( "crimbotree" ) != -1 )
+		else if ( responseText.contains( "crimbotree" ) )
 		{
 			if ( !Preferences.getBoolean( "_crimboTree" ) )
 			{
@@ -1544,14 +1542,14 @@ public class ClanLoungeRequest
 			// the button (which is mahogany inlaid with
 			// mother-of-pearl -- very nice!) -- the claw slowly
 			// descends...
-			if ( responseText.indexOf( "claw slowly descends" ) != -1 )
+			if ( responseText.contains( "claw slowly descends" ) )
 			{
 				Preferences.increment( "_deluxeKlawSummons", 1 );
 			}
 			// You probably shouldn't play with this machine any
 			// more today -- you wouldn't want to look greedy in
 			// front of the other VIPs, would you?
-			else if ( responseText.indexOf( "you wouldn't want to look greedy" ) != -1 )
+			else if ( responseText.contains( "you wouldn't want to look greedy" ) )
 			{
 				Preferences.setInteger( "_deluxeKlawSummons", 3 );
 			}
@@ -1583,16 +1581,16 @@ public class ClanLoungeRequest
 			// Try as you might, you are unable to defeat
 			// (player). Ah well. You gave it your best.
 
-			if ( responseText.indexOf( "take control of the table" ) != -1 ||
-			     responseText.indexOf( "play a game of pool against yourself" ) != -1 ||
-			     responseText.indexOf( "you are unable to defeat" ) != -1 )
+			if ( responseText.contains( "take control of the table" ) ||
+			     responseText.contains( "play a game of pool against yourself" ) ||
+			     responseText.contains( "you are unable to defeat" ) )
 			{
 				Preferences.increment( "_poolGames", 1, 3, false );
 			}
 
 			// You're kind of pooled out for today. Maybe you'll be
 			// in the mood to play again tomorrow.
-			else if ( responseText.indexOf( "pooled out for today" ) != -1 )
+			else if ( responseText.contains( "pooled out for today" ) )
 			{
 				Preferences.setInteger( "_poolGames", 3 );
 			}
@@ -1611,15 +1609,15 @@ public class ClanLoungeRequest
 		{
 			// You look under the Crimbo Tree and find a present
 			// with your name on it! You excitedly tear it open.
-			if ( responseText.indexOf( "You look under the Crimbo Tree and find a present" ) != -1 )
+			if ( responseText.contains( "You look under the Crimbo Tree and find a present" ) )
 			{
 				Preferences.setInteger( "crimboTreeDays", 7 );
 			}
-			else if ( responseText.indexOf( "Check back tomorrow" ) != -1 )
+			else if ( responseText.contains( "Check back tomorrow" ) )
 			{
 				Preferences.setInteger( "crimboTreeDays", 1 );
 			}
-			else if ( responseText.indexOf( "There's nothing under the Crimbo Tree" ) != -1 )
+			else if ( responseText.contains( "There's nothing under the Crimbo Tree" ) )
 			{
 				int ctd;
 				String groupStr = "";
@@ -1654,7 +1652,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "sendfax" ) )
 		{
-			if ( responseText.indexOf( "Your photocopy slowly slides into the machine" ) != -1 )
+			if ( responseText.contains( "Your photocopy slowly slides into the machine" ) )
 			{
 				ResultProcessor.processItem( ItemPool.PHOTOCOPIED_MONSTER, -1 );
 				Preferences.setString( "photocopyMonster", "" );
@@ -1666,7 +1664,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "receivefax" ) )
 		{
-			if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
+			if ( responseText.contains( "top half of a document prints out" ) )
 			{
 				String description = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.PHOTOCOPIED_MONSTER ), true );
 				ConsequenceManager.parseItemDesc( ItemDatabase.getDescriptionId( ItemPool.PHOTOCOPIED_MONSTER ), description );
@@ -1683,7 +1681,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "shower" ) )
 		{
-			if ( responseText.indexOf( "already had a shower today" ) != -1 )
+			if ( responseText.contains( "already had a shower today" ) )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
 			}
@@ -1692,13 +1690,13 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "takeshower" ) )
 		{
-			if ( responseText.indexOf( "this is way too hot" ) != -1 ||
-			     responseText.indexOf( "relaxes your muscles" ) != -1 ||
-			     responseText.indexOf( "mind expands" ) != -1 ||
-			     responseText.indexOf( "your goosebumps absorb" ) != -1 ||
-			     responseText.indexOf( "shards of frosty double-ice" ) != -1 ||
-			     responseText.indexOf( "already had a shower today" ) != -1 ||
-			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "aprilshower.gif" ) != -1 )
+			if ( responseText.contains( "this is way too hot" ) ||
+			     responseText.contains( "relaxes your muscles" ) ||
+			     responseText.contains( "mind expands" ) ||
+			     responseText.contains( "your goosebumps absorb" ) ||
+			     responseText.contains( "shards of frosty double-ice" ) ||
+			     responseText.contains( "already had a shower today" ) ||
+			     responseText.contains( "<table><tr><td></td></tr></table>" ) && responseText.contains( "aprilshower.gif" ) )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
 				ResponseTextParser.learnRecipe( urlString, responseText );
@@ -1708,7 +1706,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "swimmingpool" ) )
 		{
-			if ( responseText.indexOf( "already worked out in the pool today" ) != -1 )
+			if ( responseText.contains( "already worked out in the pool today" ) )
 			{
 				Preferences.setBoolean( "_olympicSwimmingPool", true );
 			}
@@ -1717,7 +1715,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "goswimming" ) )
 		{
-			if ( responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "vippool.gif" ) != -1 )
+			if ( responseText.contains( "<table><tr><td></td></tr></table>" ) && responseText.contains( "vippool.gif" ) )
 			{
 				Preferences.setBoolean( "_olympicSwimmingPool", true );
 				return;
@@ -1761,7 +1759,7 @@ public class ClanLoungeRequest
 				return;
 			}
 			// If consumption of a fancy hot dog failed, remember
-			if ( responseText.indexOf( "You aren't in the mood for any more fancy dogs today" ) != -1 )
+			if ( responseText.contains( "You aren't in the mood for any more fancy dogs today" ) )
 			{
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 				return;
@@ -1802,7 +1800,7 @@ public class ClanLoungeRequest
 		{
 			// You have put some hot dog making supplies into the
 			// hot dog cart man's hot dog cart supply crate.
-			if ( responseText.indexOf( "You have put some hot dog making supplies" ) == -1 )
+			if ( !responseText.contains( "You have put some hot dog making supplies" ) )
 			{
 				return;
 			}
@@ -1841,7 +1839,7 @@ public class ClanLoungeRequest
 			// <b>You have unlocked a new hot dog!</b>
 			// Your clan members should be really grateful!
 
-			if ( responseText.indexOf( "Your clan members should be really grateful" ) == -1 )
+			if ( !responseText.contains( "Your clan members should be really grateful" ) )
 			{
 				return;
 			}
@@ -1939,7 +1937,7 @@ public class ClanLoungeRequest
 		}
 
 		// Not every clan has a looking glass
-		if ( VISIT_REQUEST.responseText.indexOf( "lookingglass.gif" ) != -1 &&
+		if ( VISIT_REQUEST.responseText.contains( "lookingglass.gif" ) &&
 		     !Preferences.getBoolean( "_lookingGlass" ) )
 		{
 			request = new ClanLoungeRequest( ClanLoungeRequest.LOOKING_GLASS );
@@ -1947,12 +1945,12 @@ public class ClanLoungeRequest
 		}
 
 		// Not every clan has a crimbo tree
-		if ( VISIT_REQUEST.responseText.indexOf( "crimbotree" ) != -1 )
+		if ( VISIT_REQUEST.responseText.contains( "crimbotree" ) )
 		{
 			Preferences.setBoolean( "_crimboTree", true );
 		}
 
-		if ( VISIT_REQUEST.responseText.indexOf( "tree5.gif" ) != -1 )
+		if ( VISIT_REQUEST.responseText.contains( "tree5.gif" ) )
 		{
 			// Get the crimbo gift now whenever breakfast is run, since there is
 			// no reason not to anymore.
@@ -1988,6 +1986,10 @@ public class ClanLoungeRequest
 		if ( message == null )
 		{
 			String action = GenericRequest.getAction( urlString );
+			if ( action == null )
+			{
+				return true;
+			}
 			if ( action.equals( "poolgame" ) )
 			{
 				Matcher m = STANCE_PATTERN.matcher( urlString );
