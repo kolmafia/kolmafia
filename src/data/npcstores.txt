@@ -349,3 +349,14 @@ Chinatown Shops	chinatown	novelty tattoo sleeves	1000	ROW574
 Chinatown Shops	chinatown	toy taijijian	1000	ROW575
 Chinatown Shops	chinatown	bonsai tree	1500	ROW576
 Chinatown Shops	chinatown	lucky cat statue	2000	ROW577
+
+The Mayo Clinic	mayoclinic	Mayonex	1000	ROW716
+The Mayo Clinic	mayoclinic	Mayodiol	1000	ROW717
+The Mayo Clinic	mayoclinic	Mayostat	1000	ROW718
+The Mayo Clinic	mayoclinic	Mayozapine	1000	ROW719
+The Mayo Clinic	mayoclinic	Mayoflex	1000	ROW720
+The Mayo Clinic	mayoclinic	Mayo Minder&trade;	5000	ROW725
+The Mayo Clinic	mayoclinic	sphygmayomanometer	2500	ROW722
+The Mayo Clinic	mayoclinic	tomayohawk-style reflex hammer	2500	ROW723
+The Mayo Clinic	mayoclinic	mayo lance	2500	ROW724
+The Mayo Clinic	mayoclinic	miracle whip	10000	ROW721
