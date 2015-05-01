@@ -70,6 +70,7 @@ public class ClanLoungeRequest
 	extends GenericRequest
 {
 	private static final int SEARCH = 0;
+	private static final int SEARCH2 = 200;
 
 	public static final int KLAW = 1;
 	public static final int HOTTUB = 2;
@@ -831,6 +832,11 @@ public class ClanLoungeRequest
 		return ClanLoungeRequest.visitLounge( SEARCH );
 	}
 
+	public static boolean visitLoungeFloor2()
+	{
+		return ClanLoungeRequest.visitLounge( SEARCH2 );
+	}
+
 	private static String equipmentName( final String urlString )
 	{
 		if ( urlString.contains( "preaction" ) )
@@ -904,6 +910,11 @@ public class ClanLoungeRequest
 		case ClanLoungeRequest.SEARCH:
 			break;
 
+		case ClanLoungeRequest.SEARCH2:
+			this.constructURLString( "clan_viplounge.php" );
+			this.addFormField( "whichfloor", "2" );
+			break;
+
 		case ClanLoungeRequest.KLAW:
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "klaw" );
@@ -938,6 +949,7 @@ public class ClanLoungeRequest
 			{
 				this.addFormField( "action", "pooltable" );
 			}
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.CRIMBO_TREE:
@@ -948,6 +960,7 @@ public class ClanLoungeRequest
 		case ClanLoungeRequest.LOOKING_GLASS:
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "lookingglass" );
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.FAX_MACHINE:
@@ -966,6 +979,7 @@ public class ClanLoungeRequest
 				this.addFormField( "action", "faxmachine" );
 				break;
 			}
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.APRIL_SHOWER:
@@ -981,6 +995,7 @@ public class ClanLoungeRequest
 			{
 				this.addFormField( "action", "shower" );
 			}
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.SWIMMING_POOL:
@@ -1005,6 +1020,7 @@ public class ClanLoungeRequest
 				this.addFormField( "action", "swimmingpool" );
 				break;
 			}
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.HOT_DOG_STAND:
@@ -1234,6 +1250,15 @@ public class ClanLoungeRequest
 		if ( hottubMatcher.find() )
 		{
 			Preferences.setInteger( "_hotTubSoaks", 5 - Integer.parseInt( hottubMatcher.group( 1 ) ) );
+		}
+	}
+
+	private static void parseLoungeFloor2( final String action, final String clan, final String responseText )
+	{
+		if ( !clan.equals( ClanManager.getClanName( false ) ) )
+		{
+			ClanManager.setClanName( clan );
+			ClanManager.setClanId( 0 );
 		}
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
@@ -1502,7 +1527,8 @@ public class ClanLoungeRequest
 		ConcoctionDatabase.refreshConcoctions();
 	}
 
-	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
+	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
+	private static final Pattern LOUNGE2_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge \\(Attic\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -1516,6 +1542,12 @@ public class ClanLoungeRequest
 		if ( loungeMatcher.find() )
 		{
 			ClanLoungeRequest.parseLounge( action, loungeMatcher.group(1), loungeMatcher.group(2) );
+		}
+
+		loungeMatcher = LOUNGE2_PATTERN.matcher( responseText );
+		if ( loungeMatcher.find() )
+		{
+			ClanLoungeRequest.parseLoungeFloor2( action, loungeMatcher.group(1), loungeMatcher.group(2) );
 		}
 
 		if ( action == null )
@@ -1915,7 +1947,7 @@ public class ClanLoungeRequest
 			return;
 		}
 
-		// Visit the lounge to see what furniture is available
+		// Visit the lounge to see what furniture is available in ground floor
 		if ( !visitLounge() )
 		{
 			return;
@@ -1934,6 +1966,12 @@ public class ClanLoungeRequest
 		while ( Preferences.getInteger( "_deluxeKlawSummons" ) < 3 )
 		{
 			request.run();
+		}
+
+		// Visit the lounge to see what furniture is available in ground floor
+		if ( !visitLoungeFloor2() )
+		{
+			return;
 		}
 
 		// Not every clan has a looking glass
