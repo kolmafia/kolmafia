@@ -2359,6 +2359,11 @@ public class ItemPool
 	public static final int DINSEY_AN_AFTERLIFE = 8258;
 	public static final int LOTS_ENGAGEMENT_RING = 8259;
 	public static final int MAYO_CLINIC = 8260;
+	public static final int MAYONEX = 8261;
+	public static final int MAYODIOL = 8262;
+	public static final int MAYOSTAT = 8263;
+	public static final int MAYOZAPINE = 8264;
+	public static final int MAYOFLEX = 8265;
 	public static final int MIRACLE_WHIP = 8266;
 	public static final int SPHYGMAYOMANOMETER = 8267;
 	public static final int REFLEX_HAMMER = 8268;

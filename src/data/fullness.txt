@@ -8,6 +8,7 @@
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
+acceptable mayolus	1	3	good	1-1	0	0	0
 accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30
 actual tapas	1	11	awesome	4-5	30-50	0	0
 amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
@@ -236,6 +237,7 @@ elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
 Energy Buzz Pastaco	2	3	EPIC	12-14	0	30-50	0	40 Stemonitis Storm (+50 max MP, +5-10 MP regen)
 Ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
+enticing mayolus	1	4	awesome	1-1	0	0	0
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
 Every Day is Like This Sundae	2	1	good	4-6	0	4-6	0	100 Smithsness Dinner (+10 Smithsness)
 evil boring spaghetti	3	3	good	6-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
@@ -450,6 +452,7 @@ mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
+mouth-watering mayolus	1	5	EPIC	1-1	0	0	0
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
