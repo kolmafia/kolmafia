@@ -287,6 +287,9 @@ public class CoinmastersDatabase
 
 		case ItemPool.MAP_TO_KOKOMO:
 			return Preferences.getInteger( "drunkenSwagger" ) >= 1234;
+
+		case ItemPool.ESSENCE_OF_BEAR:
+			return Preferences.getInteger( "bearSwagger" ) >= 1000;
 		}
 
 		return true;

@@ -5748,6 +5748,7 @@ Skill	Armor Plating	Damage Reduction: 10
 # Audacity of the Otter Critical hits do 3x damage
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
+# Bear Essence +20% Picnic Basket Drops from monsters
 # Best Dressed You are aware of your torso.  It is awesome.
 Skill	Best Dressed	Experience (Moxie): +1
 Skill	Best Served Cold	Spell Damage Percent: +100
