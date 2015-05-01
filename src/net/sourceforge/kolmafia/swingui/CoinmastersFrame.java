@@ -642,6 +642,7 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "holidayHalsBookAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "antagonisticSnowmanKitAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "mapToKokomoAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfBearAvailable", this );
 		}
 
 		@Override
@@ -667,6 +668,8 @@ public class CoinmastersFrame
 				return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
 			case ItemPool.MAP_TO_KOKOMO:
 				return Preferences.getBoolean( "mapToKokomoAvailable" );
+			case ItemPool.ESSENCE_OF_BEAR:
+				return Preferences.getBoolean( "essenceOfBearAvailable" );
 			}
 			return true;
 		}

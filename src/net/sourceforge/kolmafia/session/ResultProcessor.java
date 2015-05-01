@@ -1315,6 +1315,10 @@ public class ResultProcessor
 		case ItemPool.MAP_TO_KOKOMO:
 			Preferences.setBoolean( "mapToKokomoAvailable", false );
 			break;
+
+		case ItemPool.ESSENCE_OF_BEAR:
+			Preferences.setBoolean( "essenceOfBearAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.

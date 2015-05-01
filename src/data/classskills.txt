@@ -156,6 +156,7 @@
 131	Garbage Nova	garbagenova.gif	5	50	0
 132	Dinsey Operations Expert	dinsey1.gif	0	0	0
 133	Rotten Memories	dinseybrain.gif	3	10	15
+134	Bear Essence	stench.gif	0	0	0
 
 # Skills available to Clubbers
 

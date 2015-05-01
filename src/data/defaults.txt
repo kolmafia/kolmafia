@@ -265,6 +265,7 @@ user	barrelLayout	?????????
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
 user	battleAction	attack with weapon
+user	bearSwagger	0
 user	beeCounter	0
 user	beforePVPScript
 user	betweenBattleScript
@@ -416,6 +417,7 @@ user	edPiece
 user	edPoints	0
 user	edUsedLash	false
 user	envyfishMonster
+user	essenceOfBearAvailable	true
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0

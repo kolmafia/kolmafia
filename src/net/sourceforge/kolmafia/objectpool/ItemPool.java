@@ -2358,6 +2358,7 @@ public class ItemPool
 	public static final int DINSEY_MAINTENANCE_MANUAL = 8255;
 	public static final int DINSEY_AN_AFTERLIFE = 8258;
 	public static final int LOTS_ENGAGEMENT_RING = 8259;
+	public static final int ESSENCE_OF_BEAR = 8277;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

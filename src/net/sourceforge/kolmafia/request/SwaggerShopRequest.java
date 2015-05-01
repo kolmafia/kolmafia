@@ -174,10 +174,15 @@ public class SwaggerShopRequest
 				{
 					Preferences.setInteger( "drunkenSwagger", seasonSwagger );
 				}
+				else if ( season.equals( "bear" ) )
+				{
+					Preferences.setInteger( "bearSwagger", seasonSwagger );
+				}
 				Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
 				Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
 				Preferences.setBoolean( "antagonisticSnowmanKitAvailable", responseText.contains( "Antagonistic Snowman Kit" ) );
 				Preferences.setBoolean( "mapToKokomoAvailable", responseText.contains( "Map to Kokomo" ) );
+				Preferences.setBoolean( "essenceOfBearAvailable", responseText.contains( "Essence of Bear" ) );
 			}
 
 			return;
