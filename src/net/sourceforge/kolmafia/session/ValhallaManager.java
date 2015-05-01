@@ -470,7 +470,8 @@ public class ValhallaManager
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
-		Preferences.setBoolean( "edUsedLash", false );
+		Preferences.setInteger( "mayoLevel", 0 );
+		Preferences.setBoolean( "mayoWhipRented", false );
 		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );

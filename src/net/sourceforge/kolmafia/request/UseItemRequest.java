@@ -5126,6 +5126,22 @@ public class UseItemRequest
 				Preferences.increment( "warehouseProgress", 8 );
 			}
 			return;
+
+		case ItemPool.MAYONEX:
+		case ItemPool.MAYODIOL:
+		case ItemPool.MAYOSTAT:
+		case ItemPool.MAYOZAPINE:
+		case ItemPool.MAYOFLEX:
+			if ( responseText.contains( "mouth is already full" ) )
+			{
+				ResultProcessor.processResult( item );
+			}
+			else
+			{
+				Preferences.increment( "mayoLevel", 1 );
+			}
+			return;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

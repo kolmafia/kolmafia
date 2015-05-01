@@ -8294,9 +8294,9 @@
 8269	mayo lance	740009343	mayolance.gif	none, combat reusable	q	0
 8270
 8271
-8272
-8273
-8274
+8272	acceptable mayolus	718817117	mayobolus.gif	food	t,d	15
+8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20
+8274	mouth-watering mayolus	274561499	mayobolus.gif	food	t,d	25
 8275
 8276
 8277	Essence of Bear	164421832	stench.gif	usable		0

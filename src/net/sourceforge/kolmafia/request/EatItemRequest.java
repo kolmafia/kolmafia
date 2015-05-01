@@ -698,7 +698,45 @@ public class EatItemRequest
 			Preferences.setInteger( "carboLoading", 0 );
 		}
 
-		int fullnessUsed = fullness * count;
+		// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
+		int reduceFullness = 0;
+		if ( responseText.contains( "Mayodiol kicks in" ) )
+		{
+			reduceFullness = 1;
+		}
+
+		// If you have Mayo Minder running, you don't need to use the mayo helpers, but they are still used up
+		// Your Mayo Minder™ beeps, reminding you to squirt some mayonnaise in your mouth before eating.
+		// You feel the Mayonex gurgling in your stomach.
+		// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
+		// The Mayostat kicks in and you belch up a mayonnaise-coated bolus of food.
+		// The Mayozapine kicks in and makes the food extra-delicious!
+		// The Mayoflex kicks in and makes the food more nutritious.
+		if ( responseText.contains( "reminding you to squirt some mayonnaise" ) )
+		{
+			if ( responseText.contains( "feel the Mayonex gurgling" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYONEX, -1 );
+			}
+			else if ( responseText.contains( "Mayodiol kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYODIOL, -1 );
+			}
+			else if ( responseText.contains( "Mayostat kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOSTAT, -1 );
+			}
+			else if ( responseText.contains( "Mayozapine kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -1 );
+			}
+			else if ( responseText.contains( "Mayoflex kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
+			}
+		}
+
+		int fullnessUsed = fullness * count - reduceFullness;
 
 		// The food was consumed successfully
 		// If the user has fullness display turned on ( "You gain x Fullness" ) DON'T touch fullness here.  It is handled in ResultProcessor.
