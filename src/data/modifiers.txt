@@ -1257,6 +1257,7 @@ Item	mercenary rifle	Ranged Damage: +20, Initiative: +50
 # Meteoid ice beam: On Critical:  Freeze Opponent
 Item	Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +10
 Item	miniature deck cannon	Ranged Damage: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop: +100, Lasts Until Rollover
 # Mjolnir Jr.
 Item	Moonthril Flamberge	Muscle Percent: [15*G]
 Item	Moonthril Longbow	Moxie Percent: [15*G]
@@ -2716,6 +2717,7 @@ Item	spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 Item	sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
 # special sauce glove: Allows you to equip Chefstaves
 Item	special sauce glove	Class: "Sauceror", Single Equip
+Item	sphygmayomanometer	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Lasts Until Rollover
 Item	sphygmomanometer	Maximum HP: +60, HP Regen Min: 5, HP Regen Max: 10
 # spiky turtle shoulderpads: Damages Attacking Opponent
 Item	spiky turtle shoulderpads	Damage Absorption: +75, Single Equip
@@ -4476,6 +4478,7 @@ Effect	Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 Effect	Fondid	Monster Level: +15
 Effect	Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 # Forbear, Warbears!: +40 WarBear Armor Penetration
+Effect	Force of Mayo Be With You	Sleaze Damage: +10, Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
@@ -7259,6 +7262,14 @@ Item	mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 # Marquis de Poivre soda: Restores 30-40 MP
 Item	Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 Item	marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
+# Item mayo lance: Unleash a torrent of inner mayonnaise.  The torrent will be yellow and ray-like.
+Item	mayo lance	Lasts Until Rollover
+# Item Mayo Minder&trade;: Makes it so packets of prescription mayonnaise are automatically consumed as you eat
+# Item Mayodiol: One Fullness of the next thing you eat will be converted into Drunkenness
+# Item Mayoflex: The next thing you eat will grant an additional Adventure
+# Item Mayonex: Instead of giving Adventures, the next thing you eat will increase your blood-mayonnaise level.
+# Item Mayostat: Recover a portion of the next thing you eat for later use
+# Item Mayozapine: Increases the stat gains from the next thing you eat
 Item	Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
@@ -7414,6 +7425,7 @@ Item	polyeaster egg	Effect: "Roly Poly", Effect Duration: 5
 Item	Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 Item	poppy	Effect: "It's Soporiffic!", Effect Duration: 10
 Item	porcelain candy dish	Effect: "Red in Tooth", Effect Duration: 5
+# Item portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
 Item	portable wall	Effect: "Wallflowering", Effect Duration: 20
 Item	possibility potion	Effect: "Always In Motion", Effect Duration: 10
 Item	post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1
@@ -7690,6 +7702,8 @@ Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20
 Item	tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Item	tomato soup poster	Effect: "War is Hol", Effect Duration: 100
+# Item tomayohawk-style reflex hammer: Stops enemy from attacking and deals <font color=blueviolet>Sleaze Damage</font> based on your blood-mayonnaise concentration.
+Item	tomayohawk-style reflex hammer	Lasts Until Rollover
 Item	Tome of Clip Art	Free Pull
 Item	Tome of Rad Libs	Free Pull
 Item	Tome of Snowcone Summoning	Free Pull

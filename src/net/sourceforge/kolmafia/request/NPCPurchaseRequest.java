@@ -420,6 +420,7 @@ public class NPCPurchaseRequest
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
 	private static final Pattern SHOP_NAME_PATTERN = Pattern.compile(  "bgcolor=blue><b>(.*?)</b>" , Pattern.DOTALL );
+	private static final Pattern BLOOD_MAYO_PATTERN = Pattern.compile( "blood mayonnaise concentration: (\\d+) mayograms" );
 
 	public static final void parseShopResponse( final String urlString, final String responseText )//
 	{
@@ -529,6 +530,32 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "chateau" ) )
 		{
 			ChateauRequest.parseShopResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "mayoclinic" ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.MAYO_CLINIC );
+			Matcher mayoMatcher = BLOOD_MAYO_PATTERN.matcher( responseText );
+			if ( mayoMatcher.find() )
+			{
+				Preferences.setString( "mayoLevel", mayoMatcher.group( 1 ) );
+			}
+			if ( responseText.contains( "miracle whip" ) )
+			{
+				Preferences.setBoolean( "_mayoDeviceRented", false );
+				Preferences.setBoolean( "mayoWhipRented", false );
+			}
+			else if ( responseText.contains( "mayo lance" ) )
+			{
+				Preferences.setBoolean( "_mayoDeviceRented", false );
+				Preferences.setBoolean( "mayoWhipRented", true );
+			}
+			else
+			{
+				Preferences.setBoolean( "_mayoDeviceRented", true );
+			}
+			Preferences.setBoolean( "_mayoTankSoaked", !responseText.contains( "Soak in the Mayo Tank" ) );			
 			return;
 		}
 

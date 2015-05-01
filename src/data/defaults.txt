@@ -677,6 +677,8 @@ user	maximizerCurrentMallPrices	false
 user	maximizerFoldables	true
 user	maxManaBurn	1000
 user	mayflyExperience	0
+user	mayoLevel	0
+user	mayoWhipRented	false
 user	meansuckerPrice	400
 user	meatDropSpading	false
 user	merkinQuestPath	none
@@ -1192,6 +1194,8 @@ user	_madTeaParty	false
 user	_managerialManipulationUsed	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
+user	_mayoDeviceRented	false
+user	_mayoTankSoaked	false
 user	_mediumSiphons	0
 user	_momFoodReceived	false
 user	_nanorhinoBanishedMonster

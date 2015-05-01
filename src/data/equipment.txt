@@ -1075,6 +1075,7 @@ mercenary pistol	50	Mox: 10	1-handed pistol
 mercenary rifle	150	Mox: 30	2-handed rifle
 Meteoid ice beam	80	Mox: 25	1-handed gun
 miniature deck cannon	200	Mox: 85	2-handed handcannon
+miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
@@ -2333,6 +2334,7 @@ spaghetti cult rosary	140	Mys: 55
 spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	10	none
+sphygmayomanometer	100	none
 sphygmomanometer	160	Mys: 65
 spiked boots	0	none
 spiky turtle shoulderpads	130	Mus: 50

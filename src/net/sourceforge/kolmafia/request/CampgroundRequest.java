@@ -155,6 +155,7 @@ public class CampgroundRequest
 		ItemPool.SNOW_MACHINE,
 		ItemPool.SPINNING_WHEEL,
 		ItemPool.DNA_LAB,
+		ItemPool.MAYO_CLINIC,
 
 		// Garden
 		ItemPool.PUMPKIN,
@@ -259,6 +260,7 @@ public class CampgroundRequest
 		CampgroundRequest.workshedItems.add( ItemPool.SNOW_MACHINE );
 		CampgroundRequest.workshedItems.add( ItemPool.SPINNING_WHEEL );
 		CampgroundRequest.workshedItems.add( ItemPool.DNA_LAB );
+		CampgroundRequest.workshedItems.add( ItemPool.MAYO_CLINIC );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -946,6 +948,7 @@ public class CampgroundRequest
 				Preferences.setBoolean( "_dnaHybrid", true );
 			}
 		}
+		// Mayo Clinic redirects to Store, so handle in NPCPurchaseRequest
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )

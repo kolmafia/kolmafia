@@ -2725,6 +2725,15 @@ public class ResultProcessor
 				QuestDatabase.setQuestIfBetter( Quest.DOC, "step1" );
 			}
 			break;
+
+		case ItemPool.MIRACLE_WHIP:
+			Preferences.setBoolean( "mayoWhipRented", true );
+			// Deliberate fallthrough
+		case ItemPool.SPHYGMAYOMANOMETER:
+		case ItemPool.REFLEX_HAMMER:
+		case ItemPool.MAYO_LANCE:
+			Preferences.setBoolean( "_mayoDeviceRented", true );
+			break;
 		
 		}
 

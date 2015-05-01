@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -359,6 +360,25 @@ public class NPCStoreDatabase
 		{
 			// Gno-Mart
 			return !KoLCharacter.inZombiecore() && KoLCharacter.gnomadsAvailable();
+		}
+		else if ( storeId.equals( "mayoclinic" ) )
+		{
+			// The Mayo Clinic
+			boolean available = false;
+			AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+			if ( workshedItem != null )
+			{
+				available = workshedItem.getItemId() == ItemPool.MAYO_CLINIC && StandardRequest.isAllowed( "Items", "portable Mayo Clinic" );
+				if ( itemId == ItemPool.MIRACLE_WHIP )
+				{
+					return available && !Preferences.getBoolean( "_mayoDeviceRented" ) && !Preferences.getBoolean( "mayoWhipRented" );
+				}
+				if ( itemId == ItemPool.SPHYGMAYOMANOMETER || itemId == ItemPool.REFLEX_HAMMER || itemId == ItemPool.MAYO_LANCE )
+				{
+					return available && !Preferences.getBoolean( "_mayoDeviceRented" );
+				}
+			}
+			return available;
 		}
 		else if ( storeId.equals( "unclep" ) )
 		{
