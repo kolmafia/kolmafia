@@ -141,7 +141,9 @@ public class SwaggerShopRequest
 	// You've earned 2 swagger during a holiday season, fun!
 	// You've earned 0 swagger during an ice season, brrrr!
 	// You've earned 152 swagger during a drunken season!
-	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during an? (pirate|holiday|ice|drunken) season" );
+	// You've earned 0 swagger during bear season!
+
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear) season" );
 
 	public static void parseResponse( final String location, final String responseText )
 	{
