@@ -70,7 +70,7 @@ public class PvpManager
 	// <select name="stance"><option value="0" >Bear Hugs All Around</option><option value="1" selected>Beary Famous</option><option value="2" >Barely Dressed</option><option value="3" >Basket Reaver</option><option value="4" >Polar Envy</option><option value="5" >Maul Power</option><option value="6" >Grave Robbery</option><option value="7" >Most Things Eaten</option><option value="8" >Hibernation Ready</option><option value="9" >Visiting the Cousins</option><option value="10" >Northern Digestion</option><option value="11" >Most Murderous</option></select>
 
 	private static final Pattern STANCE_DROPDOWN_PATTERN = Pattern.compile( "<select name=\"stance\">.*?</select>", Pattern.DOTALL );
-	private static final Pattern STANCE_OPTION_PATTERN = Pattern.compile( "<option value=\"([\\d]*)\" *>(.*?)</option>" );
+	private static final Pattern STANCE_OPTION_PATTERN = Pattern.compile( "<option value=\"([\\d]*)\" (?:selected)?>(.*?)</option>" );
 
 	public static final boolean checkStances()
 	{

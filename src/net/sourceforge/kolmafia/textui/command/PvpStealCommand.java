@@ -137,7 +137,10 @@ public class PvpStealCommand
 		{
 			// Find stance using fuzzy matching
 			stance = PvpManager.findStance( stanceString );
-			stanceString = PvpManager.findStance( stance );
+			if ( stance >= 0 )
+			{
+				stanceString = PvpManager.findStance( stance );
+			}
 		}
 
 		if ( stance < 0 )
