@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -46,24 +47,68 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class PvpAttackCommand
 	extends AbstractCommand
 {
 	public PvpAttackCommand()
 	{
-		this.usage = " <target> [, <target>...] - PvP for items or fame";
+		this.usage = " <target> [, <target>...] <stance=> - PvP for items or fame using the selected stance";
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
+		if ( !PvpManager.checkStances() )
+		{
+			KoLmafia.updateDisplay( "Cannot determine valid stances" );
+			return;
+		}
+		
+		parameters = parameters.trim();
+		
 		if ( parameters.equals( "" ) )
 		{
-			RequestLogger.printLine( "You must specify a target." );
+			for ( Integer option : PvpManager.optionToStance.keySet() )
+			{
+				RequestLogger.printLine( option + ": " + PvpManager.optionToStance.get( option ) ); 
+			}
+			return;
+		}
+		
+		String[] params = parameters.split( "stance=" );
+
+		String[] names = params[0].trim().split( "\\s*,\\s*" );
+		String stanceString = params[1].trim();
+		int stance = 0;
+
+		if ( StringUtilities.isNumeric( stanceString ) )
+		{
+			stance = StringUtilities.parseInt( stanceString );
+			stanceString = PvpManager.findStance( stance );
+			if ( stanceString == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, stance + " is not a valid stance" );
+				return;
+			}
+		}
+		else
+		{
+			// Find stance using fuzzy matching
+			stance = PvpManager.findStance( stanceString );
+			if ( stance >= 0 )
+			{
+				stanceString = PvpManager.findStance( stance );
+			}
+		}
+
+		if ( stance < 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "\"" + stanceString + "\" is not a currently known stance" );
 			return;
 		}
 
-		String[] names = parameters.split( "\\s*,\\s*" );
 		ProfileRequest[] targets = new ProfileRequest[ names.length ];
 
 		for ( int i = 0; i < names.length; ++i )
@@ -101,6 +146,6 @@ public class PvpAttackCommand
 
 		String mission = KoLCharacter.canInteract() ? "lootwhatever" : "fame";
 		PeeVPeeRequest request = new PeeVPeeRequest( "", 0, mission );
-		PvpManager.executePvpRequest( targets, request );
+		PvpManager.executePvpRequest( targets, request, stance );
 	}
 }
