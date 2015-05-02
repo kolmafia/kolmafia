@@ -43,8 +43,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -56,12 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpManager
 {
-	// The following is no longer guaranteed; Season 19 lets you use any mini as a stance
-	public static final int MUSCLE_STANCE = IntegerPool.get( 1 );
-	public static final int MYST_STANCE = IntegerPool.get( 2 );
-	public static final int MOXIE_STANCE = IntegerPool.get( 3 );
-	public static final int BALLYHOO_STANCE = IntegerPool.get( 4 );
-
 	// The current mapping of stances
 	public static final TreeMap<Integer,String> optionToStance = new TreeMap<Integer,String>();
 	public static final TreeMap<String,Integer> stanceToOption = new TreeMap<String,Integer>();
@@ -134,24 +126,7 @@ public class PvpManager
 		return true;
 	}
 
-	private static int pickStance()
-	{
-		if ( KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMysticality() &&
-		     KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMoxie() )
-		{
-			return PvpManager.MUSCLE_STANCE;
-		}
-
-		if ( KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMuscle() &&
-		     KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMoxie() )
-		{
-			return PvpManager.MYST_STANCE;
-		}
-
-		return PvpManager.MOXIE_STANCE;
-	}
-
-	public static void executePvpRequest( final int attacks, final String mission, final int stance )
+	public static void executePvpRequest( final int attacks, final String mission, final int stance )//
 	{
 		if ( !PvpManager.checkHippyStone() )
 		{
@@ -194,7 +169,7 @@ public class PvpManager
 		}
 	}
 
-	public static final void executePvpRequest( final ProfileRequest[] targets, final PeeVPeeRequest request )
+	public static final void executePvpRequest( final ProfileRequest[] targets, final PeeVPeeRequest request, final int stance )
 	{
 		if ( !PvpManager.checkHippyStone() )
 		{
@@ -208,7 +183,7 @@ public class PvpManager
 				continue;
 			}
 
-			if ( Preferences.getString( "currentPvpVictories" ).indexOf( targets[ i ].getPlayerName() ) != -1 )
+			if ( Preferences.getString( "currentPvpVictories" ).contains( targets[ i ].getPlayerName() ) )
 			{
 				continue;
 			}
@@ -223,14 +198,14 @@ public class PvpManager
 
 			// Choose current "best" stance
 			// *** this is broken, as of Season 19
-			request.addFormField( "stance", String.valueOf( PvpManager.pickStance() ) );
+			request.addFormField( "stance", String.valueOf( stance ) );
 
 			KoLmafia.updateDisplay( "Attacking " + targets[ i ].getPlayerName() + "..." );
 			request.setTarget( targets[ i ].getPlayerName() );
 			request.setTargetType( "0" );
 			RequestThread.postRequest( request );
 
-			if ( request.responseText.indexOf( "lost some dignity in the attempt" ) != -1 )
+			if ( request.responseText.contains( "lost some dignity in the attempt" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You lost to " + targets[ i ].getPlayerName() + "." );
 			}
