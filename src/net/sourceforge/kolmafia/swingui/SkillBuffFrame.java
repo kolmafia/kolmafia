@@ -313,6 +313,9 @@ public class SkillBuffFrame
 			{
 				"Summon Carrot", "_summonCarrotUsed", "boolean", "true",
 			},
+			{
+				"Summon Kokomo Resort Pass", "_summonResortPassUsed", "boolean", "true",
+			},
 		};
 		
 		private void setSkillListeners()

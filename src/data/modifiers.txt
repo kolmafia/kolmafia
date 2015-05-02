@@ -5586,6 +5586,7 @@ Effect	Tremella Tremens	Item Drop: +40
 Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Effect	Triangle, Man	Muscle Percent: +10
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+# Effect Tropical Contact High: Grants Access to Kokomo
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
 Effect	Tundra Mouth	Cold Damage: [min(100,T)]
@@ -7210,6 +7211,7 @@ Item	Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Item	Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 # Knob Goblin superseltzer: Restores 25-29 MP
 Item	kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
+Item	Kokomo Resort Pass	Effect: "Tropical Contact High", Effect Duration: 10
 Item	KoLHS Pep Squad Box	Free Pull
 Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
