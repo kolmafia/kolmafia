@@ -157,6 +157,7 @@
 132	Dinsey Operations Expert	dinsey1.gif	0	0	0
 133	Rotten Memories	dinseybrain.gif	3	10	15
 134	Bear Essence	stench.gif	0	0	0
+135	Summon Kokomo Resort Pass	palmtree.gif	1	1	0
 
 # Skills available to Clubbers
 

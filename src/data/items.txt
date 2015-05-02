@@ -8306,5 +8306,5 @@
 8281
 8282
 8283
-8284
+8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0

@@ -101,6 +101,7 @@ public class UseSkillRequest
 		"Grab a Cold One",
 		"Summon Holiday Fun!",
 		"Summon Carrot",
+		"Summon Kokomo Resort Pass",
 	};
 
 	// These are skills where someone would not care if they are in-run,
@@ -785,6 +786,10 @@ public class UseSkillRequest
 
 		case SkillPool.SUMMON_CARROT:
 			maximumCast = Preferences.getBoolean( "_summonCarrotUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
+			maximumCast = Preferences.getBoolean( "_summonResortPassUsed" ) ? 0 : 1;
 			break;
 		}
 
@@ -2141,6 +2146,10 @@ public class UseSkillRequest
 
 		case SkillPool.SUMMON_CARROT:
 			Preferences.setBoolean( "_summonCarrotUsed", true );
+			break;
+
+		case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
+			Preferences.setBoolean( "_summonResortPassUsed", true );
 			break;
 		}
 

@@ -1275,6 +1275,7 @@ user	_styxSprayUsed	false
 user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
 user	_summonCarrotUsed	false
+user	_summonResortPassUsed	false
 user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false

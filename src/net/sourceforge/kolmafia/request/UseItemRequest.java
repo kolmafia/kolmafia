@@ -3052,6 +3052,7 @@ public class UseItemRequest
 		case ItemPool.TRASH_MEMOIR_BOOK:
 		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
 		case ItemPool.DINSEY_AN_AFTERLIFE:
+		case ItemPool.MAP_TO_KOKOMO:
 		case ItemPool.ESSENCE_OF_BEAR:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
@@ -5376,6 +5377,8 @@ public class UseItemRequest
 			return "Summon Holiday Fun!";
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 			return "Summon Carrot";
+		case ItemPool.MAP_TO_KOKOMO:
+			return "Summon Kokomo Resort Pass";
 		case ItemPool.HYPERSANE_BOOK:
 			return "Hypersane";
 		case ItemPool.INTIMIDATING_MIEN_BOOK:
