@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -279,6 +280,10 @@ public class PeeVPeeRequest
 				{
 					PeeVPeeRequest.parseStatLoss( responseText );
 				}
+			}
+			else if ( !PvpManager.stancesKnown )
+			{
+				PvpManager.parseStances( responseText );
 			}
 			return;
 		}

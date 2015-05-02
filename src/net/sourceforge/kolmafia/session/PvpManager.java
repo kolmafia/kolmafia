@@ -33,6 +33,11 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.TreeMap;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -47,28 +52,89 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpManager
 {
+	// The following is no longer guaranteed; Season 19 lets you use any mini as a stance
 	public static final int MUSCLE_STANCE = IntegerPool.get( 1 );
 	public static final int MYST_STANCE = IntegerPool.get( 2 );
 	public static final int MOXIE_STANCE = IntegerPool.get( 3 );
 	public static final int BALLYHOO_STANCE = IntegerPool.get( 4 );
 
-	private static void checkHippyStone()
+	// The current mapping of stances
+	public static final TreeMap<Integer,String> optionToStance = new TreeMap<Integer,String>();
+	public static final TreeMap<String,Integer> stanceToOption = new TreeMap<String,Integer>();
+	public static boolean stancesKnown = false;
+
+	// <select name="stance"><option value="0" >Bear Hugs All Around</option><option value="1" selected>Beary Famous</option><option value="2" >Barely Dressed</option><option value="3" >Basket Reaver</option><option value="4" >Polar Envy</option><option value="5" >Maul Power</option><option value="6" >Grave Robbery</option><option value="7" >Most Things Eaten</option><option value="8" >Hibernation Ready</option><option value="9" >Visiting the Cousins</option><option value="10" >Northern Digestion</option><option value="11" >Most Murderous</option></select>
+
+	private static final Pattern STANCE_DROPDOWN_PATTERN = Pattern.compile( "<select name=\"stance\">.*?</select>", Pattern.DOTALL );
+	private static final Pattern STANCE_OPTION_PATTERN = Pattern.compile( "<option value=\"([\\d]*)\" *>(.*?)</option>" );
+
+	public static final boolean checkStances()
+	{
+		if ( !PvpManager.stancesKnown )
+		{
+			PeeVPeeRequest request = new PeeVPeeRequest( "fight" );
+			RequestThread.postRequest( request );
+		}
+		return PvpManager.stancesKnown;
+	}
+
+	public static final void parseStances( final String responseText )
+	{
+		Matcher stanceMatcher = PvpManager.STANCE_DROPDOWN_PATTERN.matcher( responseText );
+		if ( !stanceMatcher.find() )
+		{
+			return;
+		}
+
+		String stances = stanceMatcher.group( 0 );
+
+		PvpManager.optionToStance.clear();
+		PvpManager.stanceToOption.clear();
+
+		Matcher optionsMatcher = PvpManager.STANCE_OPTION_PATTERN.matcher( stances );
+		while ( optionsMatcher.find() )
+		{
+			int option = StringUtilities.parseInt( optionsMatcher.group( 1 ) );
+			String stance = optionsMatcher.group( 2 );
+			PvpManager.optionToStance.put( option, stance );
+			PvpManager.stanceToOption.put( stance, option );
+		}
+
+		PvpManager.stancesKnown = true;
+	}
+
+	public static final int findStance( final String stanceName )
+	{
+		// *** Could do fuzzy matching here
+		Integer stance = PvpManager.stanceToOption.get( stanceName );
+		return stance == null ? -1 : stance.intValue();
+	}
+
+	public static final String findStance( final int stance )
+	{
+		return PvpManager.optionToStance.get( stance );
+	}
+
+	private static boolean checkHippyStone()
 	{
 		if ( !KoLCharacter.getHippyStoneBroken() )
 		{
 			if ( !InputFieldUtilities.confirm( "Would you like to break your hippy stone?" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "This feature is not available to hippies." );
-				return;
+				return false;
 			}
 			new GenericRequest( "campground.php?confirm=on&smashstone=Yep." ).run();
+			return KoLCharacter.getHippyStoneBroken();
 		}
+		return true;
 	}
 
-	public static int pickStance()
+	private static int pickStance()
 	{
 		if ( KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMysticality() &&
 		     KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMoxie() )
@@ -85,15 +151,14 @@ public class PvpManager
 		return PvpManager.MOXIE_STANCE;
 	}
 
-	public static void executePvpRequest( final int attacks, final String mission, final int initialStance )
+	public static void executePvpRequest( final int attacks, final String mission, final int stance )
 	{
-		PvpManager.checkHippyStone();
-		if ( KoLmafia.refusesContinue() )
+		if ( !PvpManager.checkHippyStone() )
 		{
 			return;
 		}
 
-		PeeVPeeRequest request = new PeeVPeeRequest( "", initialStance, mission );
+		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
 		
 		int availableFights = KoLCharacter.getAttacksLeft();
 		int totalFights = ( attacks > availableFights || attacks == 0 ) ? availableFights : attacks;
@@ -109,13 +174,6 @@ public class PvpManager
 			if ( KoLmafia.refusesContinue() )
 			{
 				break;
-			}
-
-			// If he wants us to use the "best" stance, choose it
-			// now, since the beforePVPScript can change it
-			if ( initialStance == 0 )
-			{
-				request.addFormField( "stance", String.valueOf( PvpManager.pickStance() ) );
 			}
 
 			KoLmafia.updateDisplay( "Attack " + fightsCompleted + " of " + totalFights );
@@ -138,7 +196,10 @@ public class PvpManager
 
 	public static final void executePvpRequest( final ProfileRequest[] targets, final PeeVPeeRequest request )
 	{
-		PvpManager.checkHippyStone();
+		if ( !PvpManager.checkHippyStone() )
+		{
+			return;
+		}
 		
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
@@ -161,6 +222,7 @@ public class PvpManager
 			KoLmafia.executeBeforePVPScript();
 
 			// Choose current "best" stance
+			// *** this is broken, as of Season 19
 			request.addFormField( "stance", String.valueOf( PvpManager.pickStance() ) );
 
 			KoLmafia.updateDisplay( "Attacking " + targets[ i ].getPlayerName() + "..." );
