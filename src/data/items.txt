@@ -8293,18 +8293,18 @@
 8268	tomayohawk-style reflex hammer	236443644	mayohammer.gif	none, combat reusable	q	0
 8269	mayo lance	740009343	mayolance.gif	none, combat reusable	q	0
 8270
-8271
+8271	uninteresting mayolus	332512548	mayobolus.gif	food	t,d	10
 8272	acceptable mayolus	718817117	mayobolus.gif	food	t,d	15
 8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20
 8274	mouth-watering mayolus	274561499	mayobolus.gif	food	t,d	25
 8275
 8276
 8277	Essence of Bear	164421832	stench.gif	usable		0
-8278
-8279
-8280
-8281
-8282
+8278	Afternoon Delight	449375148	martini.gif	drink	t,d	100
+8279	Kokomo Resort Chip	736517029	circle.gif	usable	t,d	10
+8280	Golden Kokomo Resort Chip	809938599	circle.gif	none, combat	t,d	1000
+8281	Kokomo Resort Brand Suntan Oil	342279179	lotion.gif	usable	t,d	100
+8282	Kokomo Resort Order Pad	947783783	notebook.gif	none, combat	t,d	100
 8283
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0

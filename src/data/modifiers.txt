@@ -7211,6 +7211,7 @@ Item	Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Item	Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 # Knob Goblin superseltzer: Restores 25-29 MP
 Item	kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
+Item	Kokomo Resort Brand Suntan Oil	Effect: "Tropical Contact High", Effect Duration: 3
 Item	Kokomo Resort Pass	Effect: "Tropical Contact High", Effect Duration: 10
 Item	KoLHS Pep Squad Box	Free Pull
 Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30

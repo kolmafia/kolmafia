@@ -12,6 +12,7 @@ Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
 Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
 Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
 Beach	adventure=355	Env: indoor Stat: 0	The Shore, Inc. Travel Agency
+Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
 Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	1 choiceadv|10 crumbling wooden wheel
 Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	2 choiceadv|10 tomb ratchet
 Pyramid	place=pyramid_state	Env: none Stat: 0 Level: 6	The Lower Chambers
