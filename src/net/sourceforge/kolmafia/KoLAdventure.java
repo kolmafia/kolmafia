@@ -2220,6 +2220,12 @@ public class KoLAdventure
 			"This area is closed",
 			"You completed the video game",
 		},
+
+		// You wander around, off the Florida Keys, but can't find anything
+		{
+			"off the Florida Keys",
+			"You need a Tropical Contact High to go there.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
