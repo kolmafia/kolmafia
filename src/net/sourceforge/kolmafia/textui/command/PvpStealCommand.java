@@ -137,16 +137,12 @@ public class PvpStealCommand
 		{
 			// Find stance using fuzzy matching
 			stance = PvpManager.findStance( stanceString );
-			if ( stance >= 0 )
+			if ( stance < 0 )
 			{
-				stanceString = PvpManager.findStance( stance );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "\"" + stanceString + "\" does not uniquely match a currently known stance" );
+				return;
 			}
-		}
-
-		if ( stance < 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "\"" + stanceString + "\" is not a currently known stance" );
-			return;
+			stanceString = PvpManager.findStance( stance );
 		}
 
 		KoLmafia.updateDisplay( "Use " + ( attacks == 0 ? "all remaining" : String.valueOf( attacks ) ) + " PVP attacks to steal " +  missionType + " via " + stanceString );

@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -79,7 +79,12 @@ public class PvpAttackCommand
 		
 		String[] params = parameters.split( "stance=" );
 
-		String[] names = params[0].trim().split( "\\s*,\\s*" );
+		if ( params.length < 2 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You must specify stance=STANCE" );
+			return;
+		}
+
 		String stanceString = params[1].trim();
 		int stance = 0;
 
@@ -89,7 +94,7 @@ public class PvpAttackCommand
 			stanceString = PvpManager.findStance( stance );
 			if ( stanceString == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, stance + " is not a valid stance" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, stance + " is not a valid stance" );
 				return;
 			}
 		}
@@ -97,18 +102,15 @@ public class PvpAttackCommand
 		{
 			// Find stance using fuzzy matching
 			stance = PvpManager.findStance( stanceString );
-			if ( stance >= 0 )
+			if ( stance < 0 )
 			{
-				stanceString = PvpManager.findStance( stance );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "\"" + stanceString + "\" does not uniquely match a currently known stance" );
+				return;
 			}
+			stanceString = PvpManager.findStance( stance );
 		}
 
-		if ( stance < 0 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "\"" + stanceString + "\" is not a currently known stance" );
-			return;
-		}
-
+		String[] names = params[0].trim().split( "\\s*,\\s*" );
 		ProfileRequest[] targets = new ProfileRequest[ names.length ];
 
 		for ( int i = 0; i < names.length; ++i )
