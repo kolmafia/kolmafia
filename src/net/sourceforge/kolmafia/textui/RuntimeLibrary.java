@@ -183,6 +183,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -941,6 +942,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "pvp_attacks_left", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "current_pvp_stances", new AggregateType( DataTypes.INT_TYPE, DataTypes.STRING_TYPE ), params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_clan_id", DataTypes.INT_TYPE, params ) );
@@ -4489,6 +4493,22 @@ public abstract class RuntimeLibrary
 	public static Value pvp_attacks_left( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAttacksLeft() );
+	}
+
+	public static Value current_pvp_stances( Interpreter interpreter )
+	{
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, DataTypes.STRING_TYPE );
+		MapValue value = new MapValue( type );
+
+		if ( PvpManager.checkStances() )
+		{
+			for ( Entry<String, Integer> entry : PvpManager.stanceToOption.entrySet() )
+			{
+				value.aset( new Value( entry.getKey() ), new Value( entry.getValue() ) );
+			}
+		}
+
+		return value;
 	}
 
 	public static Value get_clan_id( Interpreter interpreter )
