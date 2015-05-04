@@ -638,6 +638,7 @@ user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
+user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
@@ -1062,6 +1063,7 @@ user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_boxingGloveArrows	0
 user	_boxOfHammersUsed	false
+user	_brainPreservationFluidUsed	false
 user	_brassDreadFlaskUsed	false
 user	_brickoFights	0
 user	_brickoEyeSummons	0
@@ -1145,6 +1147,7 @@ user	_holoWristDrops	0
 user	_holoWristProgress	0
 user	_hotAshesDrops	0
 user	_hotTubSoaks	0
+user	_hungerSauceUsed	false
 user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
 user	_iceSculptureUsed	false
