@@ -1673,6 +1673,10 @@ public class QuestManager
 			QuestDatabase.setQuestProgress( Quest.NASTY_BEARS, 
 				( Preferences.getInteger( "dinseyNastyBearsDefeated" ) == 8 ? "step2" : "step1" ) );
 		}
+		else if ( monsterName.equals( "Wart Dinsey" ) )
+		{
+			Preferences.setInteger( "lastWartDinseyDefeated", KoLCharacter.getAscensions() );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 

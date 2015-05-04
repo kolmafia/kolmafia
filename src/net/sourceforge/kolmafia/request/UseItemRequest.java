@@ -1069,6 +1069,13 @@ public class UseItemRequest
 			UseItemRequest.limiter = "already being active";
 			return Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ? 0 : 1;
 
+		case ItemPool.HUNGER_SAUCE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_hungerSauceUsed" ) ? 0 : 1;
+
+		case ItemPool.BRAIN_PRESERVATION_FLUID:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_brainPreservationFluidUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5143,6 +5150,13 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.HUNGER_SAUCE:
+			Preferences.setBoolean( "_hungerSauceUsed", true );
+			return;
+
+		case ItemPool.BRAIN_PRESERVATION_FLUID:
+			Preferences.setBoolean( "_brainPreservationFluidUsed", true );
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
