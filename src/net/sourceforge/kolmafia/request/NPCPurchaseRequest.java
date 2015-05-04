@@ -417,8 +417,8 @@ public class NPCPurchaseRequest
 				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 	}
-
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
+	
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
 	private static final Pattern SHOP_NAME_PATTERN = Pattern.compile(  "bgcolor=blue><b>(.*?)</b>" , Pattern.DOTALL );
 	private static final Pattern BLOOD_MAYO_PATTERN = Pattern.compile( "blood mayonnaise concentration: (\\d+) mayograms" );
 
