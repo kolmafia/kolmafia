@@ -272,9 +272,11 @@ public class EatItemRequest
 
 		if ( EatItemRequest.queuedFoodHelper != null && EatItemRequest.queuedFoodHelperCount > 0 )
 		{
-			int helperItemId = EatItemRequest.queuedFoodHelper.getItemId(); 
-			if ( helperItemId == ItemPool.SCRATCHS_FORK )
+			int helperItemId = EatItemRequest.queuedFoodHelper.getItemId();
+			switch ( helperItemId )
 			{
+			case ItemPool.SCRATCHS_FORK:
+				// Check it can be safely used
 				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Hotform", Element.HOT, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
@@ -282,8 +284,15 @@ public class EatItemRequest
 					EatItemRequest.queuedFoodHelper = null;
 					return;
 				}
+				// deliberate fallthrough
+			case ItemPool.FUDGE_SPORK:
+				// Items submitted with utensil
+				this.addFormField( "utensil", String.valueOf( helperItemId ) );
+				break;
+			default:
+				// Autoused helpers are ignored
+				this.removeFormField( "utensil" );
 			}
-			this.addFormField( "utensil", String.valueOf( helperItemId ) );
 			EatItemRequest.queuedFoodHelperCount -= 1;
 		}
 		else

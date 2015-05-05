@@ -7265,6 +7265,7 @@ Item	mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 # Marquis de Poivre soda: Restores 30-40 MP
 Item	Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 Item	marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
+Item	Mayo de Mayo&trade; mayo	Effect: "Force of Mayo Be With You", Effect Duration: 5
 # Item mayo lance: Unleash a torrent of inner mayonnaise.  The torrent will be yellow and ray-like.
 Item	mayo lance	Lasts Until Rollover
 # Item Mayo Minder&trade;: Makes it so packets of prescription mayonnaise are automatically consumed as you eat

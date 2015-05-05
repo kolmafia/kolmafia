@@ -355,7 +355,7 @@ The Mayo Clinic	mayoclinic	Mayodiol	1000	ROW717
 The Mayo Clinic	mayoclinic	Mayostat	1000	ROW718
 The Mayo Clinic	mayoclinic	Mayozapine	1000	ROW719
 The Mayo Clinic	mayoclinic	Mayoflex	1000	ROW720
-The Mayo Clinic	mayoclinic	Mayo Minder&trade;	5000	ROW725
+The Mayo Clinic	mayoclinic	Mayo Minder&trade;	99	ROW725
 The Mayo Clinic	mayoclinic	sphygmayomanometer	2500	ROW722
 The Mayo Clinic	mayoclinic	tomayohawk-style reflex hammer	2500	ROW723
 The Mayo Clinic	mayoclinic	mayo lance	2500	ROW724
