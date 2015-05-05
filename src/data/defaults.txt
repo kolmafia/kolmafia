@@ -1082,6 +1082,7 @@ user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
+user	_cocktailShakerUsed	false
 user	_coldOne	false
 user	_companionshipCasts	0
 user	_controlPanelUsed	false

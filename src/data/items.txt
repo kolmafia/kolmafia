@@ -8301,11 +8301,11 @@
 8276
 8277	Essence of Bear	164421832	stench.gif	usable		0
 8278	Afternoon Delight	449375148	martini.gif	drink	t,d	100
-8279	Kokomo Resort Chip	736517029	circle.gif	usable	t,d	10
+8279	Kokomo Resort Chip	736517029	circle.gif	reusable	t,d	10
 8280	Golden Kokomo Resort Chip	809938599	circle.gif	none, combat	t,d	1000
 8281	Kokomo Resort Brand Suntan Oil	342279179	lotion.gif	usable	t,d	100
 8282	Kokomo Resort Order Pad	947783783	notebook.gif	none, combat	t,d	100
-8283
+8283	The Cocktail Shaker	590266333	theshaker.gif	usable		0
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
 8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0

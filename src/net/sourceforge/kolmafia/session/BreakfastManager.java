@@ -89,6 +89,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.CHRONER_CROSS, 1 ),
 		ItemPool.get( ItemPool.CHRONER_TRIGGER, 1 ),
 		ItemPool.get( ItemPool.PICKY_TWEEZERS, 1 ),
+		ItemPool.get( ItemPool.COCKTAIL_SHAKER, 1 ),
 
 	};
 
