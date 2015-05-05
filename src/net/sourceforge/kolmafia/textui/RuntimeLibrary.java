@@ -4321,15 +4321,15 @@ public abstract class RuntimeLibrary
 
 		if ( stat.equalsIgnoreCase( Stat.SUBMUSCLE.toString() ) )
 		{
-			return new Value( (int) KoLCharacter.getTotalMuscle() );
+			return new Value( KoLCharacter.getTotalMuscle() );
 		}
 		if ( stat.equalsIgnoreCase( Stat.SUBMYST.toString() ) )
 		{
-			return new Value( (int) KoLCharacter.getTotalMysticality() );
+			return new Value( KoLCharacter.getTotalMysticality() );
 		}
 		if ( stat.equalsIgnoreCase( Stat.SUBMOXIE.toString() ) )
 		{
-			return new Value( (int) KoLCharacter.getTotalMoxie() );
+			return new Value( KoLCharacter.getTotalMoxie() );
 		}
 
 		return DataTypes.ZERO_VALUE;
