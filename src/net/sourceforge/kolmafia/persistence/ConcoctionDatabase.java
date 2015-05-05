@@ -435,6 +435,32 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedSpleenIngredients;
 	}
 
+	public static final boolean canQueueFood( final int id )
+	{
+		switch ( id )
+		{
+		case ItemPool.QUANTUM_TACO:
+		case ItemPool.MUNCHIES_PILL:
+		case ItemPool.MAYONEX:
+		case ItemPool.MAYODIOL:
+		case ItemPool.MAYOSTAT:
+		case ItemPool.MAYOZAPINE:
+		case ItemPool.MAYOFLEX:
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean canQueueBooze( final int id )
+	{
+		switch ( id )
+		{
+		case ItemPool.SCHRODINGERS_THERMOS:
+			return true;
+		}
+		return false;
+	}
+	
 	public static final void push( final Concoction c, final int quantity )
 	{
 		LockableListModel<QueuedConcoction> queue;
@@ -444,14 +470,14 @@ public class ConcoctionDatabase
 		int consumpt = ItemDatabase.getConsumptionType( id );
 
 		if ( c.getFullness() > 0 || consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
-		     id == ItemPool.MUNCHIES_PILL || id == ItemPool.QUANTUM_TACO )
+		     ConcoctionDatabase.canQueueFood( id ) )
 		{
 			queue = ConcoctionDatabase.queuedFood;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		}
 		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER ||
-			 id == ItemPool.SCHRODINGERS_THERMOS )
+			 ConcoctionDatabase.canQueueBooze( id ) )
 		{
 			queue = ConcoctionDatabase.queuedBooze;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;

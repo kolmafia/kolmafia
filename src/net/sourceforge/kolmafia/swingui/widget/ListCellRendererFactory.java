@@ -466,6 +466,26 @@ public class ListCellRendererFactory
 				stringForm.append( "+10-15 mus/mys/mox from next food (automatically used from inventory)" );
 				break;
 
+			case ItemPool.MAYONEX:
+				stringForm.append( "adv from next food converted to BMC" );
+				break;
+
+			case ItemPool.MAYODIOL:
+				stringForm.append( "1 full from next food converted to drunk" );
+				break;
+
+			case ItemPool.MAYOSTAT:
+				stringForm.append( "return some of next food" );
+				break;
+
+			case ItemPool.MAYOZAPINE:
+				stringForm.append( "x2 stat gain from next food" );
+				break;
+
+			case ItemPool.MAYOFLEX:
+				stringForm.append( "+1 adv from next food" );
+				break;
+
 			default:
 				Integer fullness = ConsumablesDatabase.getRawFullness( name );
 				Integer inebriety = ConsumablesDatabase.getRawInebriety( name );

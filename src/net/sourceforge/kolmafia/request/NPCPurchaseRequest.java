@@ -535,6 +535,12 @@ public class NPCPurchaseRequest
 
 		if ( shopId.equals( "mayoclinic" ) )
 		{
+			boolean refreshConcoctions = false;
+			AdventureResult currentWorkshed = CampgroundRequest.getCurrentWorkshedItem();
+			if ( currentWorkshed == null || currentWorkshed.getItemId() != ItemPool.MAYO_CLINIC )
+			{
+				refreshConcoctions = true;
+			}
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.MAYO_CLINIC );
 			Matcher mayoMatcher = BLOOD_MAYO_PATTERN.matcher( responseText );
 			if ( mayoMatcher.find() )
@@ -555,7 +561,11 @@ public class NPCPurchaseRequest
 			{
 				Preferences.setBoolean( "_mayoDeviceRented", true );
 			}
-			Preferences.setBoolean( "_mayoTankSoaked", !responseText.contains( "Soak in the Mayo Tank" ) );			
+			Preferences.setBoolean( "_mayoTankSoaked", !responseText.contains( "Soak in the Mayo Tank" ) );
+			if ( refreshConcoctions )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
 			return;
 		}
 

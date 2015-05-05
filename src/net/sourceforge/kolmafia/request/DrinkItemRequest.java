@@ -323,8 +323,10 @@ public class DrinkItemRequest
 		if ( DrinkItemRequest.queuedDrinkHelper != null && DrinkItemRequest.queuedDrinkHelperCount > 0 )
 		{
 			int helperItemId = DrinkItemRequest.queuedDrinkHelper.getItemId(); 
-			if ( helperItemId == ItemPool.FROSTYS_MUG )
+			switch ( helperItemId )
 			{
+			case ItemPool.FROSTYS_MUG:
+				// Check it can be safely used
 				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Coldform", Element.COLD, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
@@ -332,9 +334,17 @@ public class DrinkItemRequest
 					DrinkItemRequest.queuedDrinkHelper = null;
 					return;
 				}
+				// deliberate fallthrough
+			case ItemPool.DIVINE_FLUTE:
+			case ItemPool.CRIMBCO_MUG:
+			case ItemPool.BGE_SHOTGLASS:
+				// Items submitted with utensil
+				this.addFormField( "utensil", String.valueOf( helperItemId ) );
+				break;
+			default:
+				// Autoused helpers are ignored
+				this.removeFormField( "utensil" );
 			}
-			this.addFormField( "utensil", String.valueOf( helperItemId ) );
-			DrinkItemRequest.queuedDrinkHelperCount -= 1;
 		}
 		else
 		{
