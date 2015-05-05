@@ -1076,6 +1076,10 @@ public class UseItemRequest
 		case ItemPool.BRAIN_PRESERVATION_FLUID:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_brainPreservationFluidUsed" ) ? 0 : 1;
+
+		case ItemPool.COCKTAIL_SHAKER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_cocktailShakerUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5156,6 +5160,17 @@ public class UseItemRequest
 
 		case ItemPool.BRAIN_PRESERVATION_FLUID:
 			Preferences.setBoolean( "_brainPreservationFluidUsed", true );
+			return;
+
+		case ItemPool.GOLDEN_RESORT_CHIP:
+			if ( responseText.contains( "turn in 100 chips at the redemption center" ) )
+			{
+				ResultProcessor.processItem( ItemPool.RESORT_CHIP, -100 );
+			}
+			return;
+
+		case ItemPool.COCKTAIL_SHAKER:
+			Preferences.setBoolean( "_cocktailShakerUsed", true );
 			return;
 		}
 

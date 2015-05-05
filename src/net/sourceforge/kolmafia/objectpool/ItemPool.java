@@ -2371,6 +2371,9 @@ public class ItemPool
 	public static final int REFLEX_HAMMER = 8268;
 	public static final int MAYO_LANCE = 8269;
 	public static final int ESSENCE_OF_BEAR = 8277;
+	public static final int RESORT_CHIP = 8279;
+	public static final int GOLDEN_RESORT_CHIP = 8280;
+	public static final int COCKTAIL_SHAKER = 8283;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
