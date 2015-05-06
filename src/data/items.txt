@@ -8292,12 +8292,12 @@
 8267	sphygmayomanometer	861428060	mayocuff.gif	accessory	q	0
 8268	tomayohawk-style reflex hammer	236443644	mayohammer.gif	none, combat reusable	q	0
 8269	mayo lance	740009343	mayolance.gif	none, combat reusable	q	0
-8270
+8270	unappetizing mayolus	885654580	mayobolus.gif	food	t,d	5
 8271	uninteresting mayolus	332512548	mayobolus.gif	food	t,d	10
 8272	acceptable mayolus	718817117	mayobolus.gif	food	t,d	15
 8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20
 8274	mouth-watering mayolus	274561499	mayobolus.gif	food	t,d	25
-8275
+8275	newly-hatched mayonnaise wasp	326252153	mayolarva.gif	grow		0
 8276
 8277	Essence of Bear	164421832	stench.gif	usable		0
 8278	Afternoon Delight	449375148	martini.gif	drink	t,d	100
