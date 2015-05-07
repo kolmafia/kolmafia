@@ -8230,7 +8230,7 @@
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
 8206	expensive camera	438775690	camera.gif	accessory	t,d	150
 8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150
-8208	How to Avoid Scams	948718713	book2.gif	multiple	t,d	50
+8208	How to Avoid Scams	948718713	book2.gif	multiple	t,d	50	copies of How to Avoid Scams
 8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75
 8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25
 8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10

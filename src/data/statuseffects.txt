@@ -1791,7 +1791,7 @@
 1790	Peaceful, Easy Feeling	rainstick.gif	a76e9fb8c669087668ce2f0c8db8620b	use 1 red and green rain stick
 1791	Confidence!	happy.gif	c918329e6701fd1a3f9eb65ce072d0b2
 1792	Alpine Mintiness	mintleaf.gif	877c29906128c5596df2f2240f1f68cc	drink 1 hot mint schnocolate
-1793
+1793	Morninja	ninjammies.gif	c1e27e7a2d8e9fe8d5c2653ba0131f72
 1794	Wisdom of Thoth	thoth.gif	14c15d7bd15409d39a304e7563b09fe8	cast 1 Wisdom of Thoth
 1795	Prayer of Seshat	seshat.gif	4f33419678ca3e8cfdebda240494adaf	cast 1 Prayer of Seshat
 1796	Power of Heka	heka.gif	e9325e8e890f2a27335a564ff7a70837	cast 1 Power of Heka
