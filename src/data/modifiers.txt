@@ -3275,6 +3275,7 @@ Item	lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
 Item	magnifying glass	Familiar Weight: +5
 Item	many-eyed glasses	Familiar Weight: +5
 Item	Mayflower bouquet	Familiar Weight: +5, Softcore Only, Generic, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375
+Item	mayo pump	Familiar Weight: +5
 Item	Meat detector	Familiar Weight: +5
 Item	meatcar model	Familiar Weight: +5
 Item	menorette	Familiar Weight: +5

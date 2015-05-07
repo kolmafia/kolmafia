@@ -8298,7 +8298,7 @@
 8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20
 8274	mouth-watering mayolus	274561499	mayobolus.gif	food	t,d	25
 8275	newly-hatched mayonnaise wasp	326252153	mayolarva.gif	grow		0
-8276
+8276	mayo pump	583654667	mayopump.gif	familiar	t,d	75
 8277	Essence of Bear	164421832	stench.gif	usable		0
 8278	Afternoon Delight	449375148	martini.gif	drink	t,d	100
 8279	Kokomo Resort Chip	736517029	circle.gif	reusable	t,d	10
