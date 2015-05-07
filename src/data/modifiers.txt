@@ -4908,6 +4908,7 @@ Effect	Moon'd	Experience: +5
 Effect	Moon-Eyed	Mysticality: +30
 Effect	Moose Wisdom	Mysticality: +20
 Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
+Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
 Effect	Motorhair	Avatar: "motorhead"
 # Mr. Skullhead's Birthday Happiness: Puts a birthday smile on your face.
