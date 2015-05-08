@@ -467,6 +467,13 @@ public class CampgroundRequest
 		CampgroundRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		// Workshed may be redirected to Shop if Mayo Clinic installed
+		return action != null && action.equals( "workshed" );
+	}
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "campground.php" ) )
