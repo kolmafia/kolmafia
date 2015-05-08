@@ -1409,7 +1409,7 @@ yakuza courier	1310	yakcourier.gif	Atk: 70 Def: 70 HP: 85 Init: 65 P: humanoid	b
 triad code wizard	1306	triadwizard.gif	Atk: 73 Def: 67 HP: 85 Init: 50 P: dude	triad summoning scroll (0)	ASCII fu manchu (c0)
 clean-room daemon	1307	cleanroomdemon.gif	Atk: 70 Def: 70 HP: 85 Init: 50 P: demon	rubber gloves (0)	demonic surgical gloves (c0)
 fabricator gu&agrave;i	1308	guai.gif	Atk: 67 Def: 73 HP: 90 Init: 40 P: demon	Chinese curse words (0)
-The Sierpinski brothers	1309	sierpinski.gif	Atk: 77 Def: 74 HP: 95 Init: 70 P: dude	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)	magical battery (0)
+The Sierpinski brothers	1309	sierpinski.gif	Atk: 77 Def: 74 HP: 95 Init: 70 P: dude	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)	magical battery (c1)
 security robot	1313	secrobot.gif	Atk: 72 Def: 78 HP: 85 Init: 40 P: construct	great big capacitor (0)
 salaryninja	1312	salaryninja.gif	Atk: 78 Def: 72 HP: 80 Init: 60 P: dude	pencil kunai (0)	pencil kunai (0)	weighted paperclip chain (0)	cheap clip-on ninja tie (c0)
 yakuza guard	1311	yakguard.gif	Atk: 75 Def: 75 HP: 95 Init: 50 P: humanoid	butterfly knife (0)	tube of herbal ointment (0)
