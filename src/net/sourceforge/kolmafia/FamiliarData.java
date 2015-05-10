@@ -120,8 +120,9 @@ public class FamiliarData
 	{
 		this.id = id;
 		this.name = name;
-		this.race = id == -1 ? "(none)" : FamiliarDatabase.getFamiliarName( id );
-		this.beeware = this.race != null && this.race.contains( "b" ) || this.race.contains( "B" );
+		String race = FamiliarDatabase.getFamiliarName( id );
+		this.race = ( id == -1 || race == null ) ? "(none)" : race;
+		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
 
 		this.weight = weight;
 		this.item = item;
@@ -133,7 +134,7 @@ public class FamiliarData
 	{
 		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
 		this.race = dataMatcher.group( 4 );
-		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
+		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
 
 		String image = dataMatcher.group( 1 );
 		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
@@ -739,7 +740,7 @@ public class FamiliarData
 	@Override
 	public String toString()
 	{
-		return this.id == -1 ? "(none)" : this.race + " (" + this.getModifiedWeight() + " lbs)";
+		return this.race + " (" + this.getModifiedWeight() + " lbs)";
 	}
 
 	@Override
