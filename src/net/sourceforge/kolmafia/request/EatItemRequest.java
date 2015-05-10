@@ -585,12 +585,12 @@ public class EatItemRequest
 			return;
 		}
 
-		int fullness = ConsumablesDatabase.getFullness( item.getName() );
-		int count = item.getCount();
 		boolean shouldUpdateFullness = !responseText.contains( " Fullness" );
-
 		if ( responseText.contains( "too full" ) )
 		{
+			int fullness = ConsumablesDatabase.getFullness( item.getName() );
+			int count = item.getCount();
+
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
@@ -612,7 +612,10 @@ public class EatItemRequest
 			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
 			if ( couldEat > 0 )
 			{
-				if ( shouldUpdateFullness ) KoLCharacter.setFullness( KoLCharacter.getFullness() + couldEat * fullness );
+				if ( shouldUpdateFullness )
+				{
+					KoLCharacter.setFullness( KoLCharacter.getFullness() + couldEat * fullness );
+				}
 				Preferences.decrement( "munchiesPillsUsed", couldEat );
 				ResultProcessor.processResult( item.getInstance( -couldEat ) );
 			}
@@ -677,7 +680,6 @@ public class EatItemRequest
 		}
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
-
 		if ( consumptionType == KoLConstants.CONSUME_FOOD_HELPER )
 		{
 			// Consumption helpers are removed above when you
@@ -685,75 +687,8 @@ public class EatItemRequest
 			return;
 		}
 
-		// You chase it with that salt you made in the chemistry
-		// lab. Man. Teenagers will eat anything.
-		if ( responseText.contains( "You chase it with that salt you made" ) )
-		{
-			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
-		}
-
-		// You dip the spaghetti breakfast in swamp honey before you
-		// eat it. Mmmmm!
-		if ( responseText.contains( "in swamp honey before you eat it." ) )
-		{
-			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -1 );
-		}
-
-		// You feel the canticle take hold, and feel suddenly bloated
-		// as the pasta expands in your belly.
-		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
-		     responseText.indexOf( "feel suddenly bloated" ) != -1 )
-		{
-			Preferences.setInteger( "carboLoading", 0 );
-		}
-
-		// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
-		int reduceFullness = 0;
-		if ( responseText.contains( "Mayodiol kicks in" ) )
-		{
-			reduceFullness = 1;
-		}
-
-		// If you have Mayo Minder running, you don't need to use the mayo helpers, but they are still used up
-		// Your Mayo Minder™ beeps, reminding you to squirt some mayonnaise in your mouth before eating.
-		// You feel the Mayonex gurgling in your stomach.
-		// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
-		// The Mayostat kicks in and you belch up a mayonnaise-coated bolus of food.
-		// The Mayozapine kicks in and makes the food extra-delicious!
-		// The Mayoflex kicks in and makes the food more nutritious.
-		if ( responseText.contains( "reminding you to squirt some mayonnaise" ) )
-		{
-			if ( responseText.contains( "feel the Mayonex gurgling" ) )
-			{
-				ResultProcessor.processItem( ItemPool.MAYONEX, -1 );
-			}
-			else if ( responseText.contains( "Mayodiol kicks in" ) )
-			{
-				ResultProcessor.processItem( ItemPool.MAYODIOL, -1 );
-			}
-			else if ( responseText.contains( "Mayostat kicks in" ) )
-			{
-				ResultProcessor.processItem( ItemPool.MAYOSTAT, -1 );
-			}
-			else if ( responseText.contains( "Mayozapine kicks in" ) )
-			{
-				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -1 );
-			}
-			else if ( responseText.contains( "Mayoflex kicks in" ) )
-			{
-				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
-			}
-		}
-
-		int fullnessUsed = fullness * count - reduceFullness;
-
 		// The food was consumed successfully
-		// If the user has fullness display turned on ( "You gain x Fullness" ) DON'T touch fullness here.  It is handled in ResultProcessor.
-		if ( shouldUpdateFullness )
-		{
-			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
-		}
-		Preferences.decrement( "munchiesPillsUsed", count );
+		EatItemRequest.handleFoodHelper( item, responseText );
 
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
@@ -810,7 +745,10 @@ public class EatItemRequest
 			// our fullness, but it wasn't actually consumed.
 
 			ResultProcessor.processResult( item );
-			if ( shouldUpdateFullness ) KoLCharacter.setFullness( KoLCharacter.getFullness() -3 );
+			if ( shouldUpdateFullness )
+			{
+				KoLCharacter.setFullness( KoLCharacter.getFullness() -3 );
+			}
 
 			// "You don't have time to properly enjoy a black
 			// pudding right now."
@@ -850,6 +788,83 @@ public class EatItemRequest
 			return;
 
 		}
+	}
+
+	public static final void handleFoodHelper( final AdventureResult item, final String responseText )
+	{
+		// You chase it with that salt you made in the chemistry
+		// lab. Man. Teenagers will eat anything.
+		if ( responseText.contains( "You chase it with that salt you made" ) )
+		{
+			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
+		}
+
+		// You dip the spaghetti breakfast in swamp honey before you
+		// eat it. Mmmmm!
+		if ( responseText.contains( "in swamp honey before you eat it." ) )
+		{
+			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -1 );
+		}
+
+		// You feel the canticle take hold, and feel suddenly bloated
+		// as the pasta expands in your belly.
+		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
+		     responseText.indexOf( "feel suddenly bloated" ) != -1 )
+		{
+			Preferences.setInteger( "carboLoading", 0 );
+		}
+
+		// If you have Mayo Minder running, you don't need to use the mayo helpers, but they are still used up
+		// Your Mayo Minder™ beeps, reminding you to squirt some mayonnaise in your mouth before eating.
+		// You feel the Mayonex gurgling in your stomach.
+		// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
+		// The Mayostat kicks in and you belch up a mayonnaise-coated bolus of food.
+		// The Mayozapine kicks in and makes the food extra-delicious!
+		// The Mayoflex kicks in and makes the food more nutritious.
+		if ( responseText.contains( "reminding you to squirt some mayonnaise" ) )
+		{
+			if ( responseText.contains( "feel the Mayonex gurgling" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYONEX, -1 );
+			}
+			else if ( responseText.contains( "Mayodiol kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYODIOL, -1 );
+			}
+			else if ( responseText.contains( "Mayostat kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOSTAT, -1 );
+			}
+			else if ( responseText.contains( "Mayozapine kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -1 );
+			}
+			else if ( responseText.contains( "Mayoflex kicks in" ) )
+			{
+				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
+			}
+		}
+
+		int count = item.getCount();
+
+		// If the user has fullness display turned on ( "You gain x
+		// Fullness" ) DON'T touch fullness here.  It is handled in
+		// ResultProcessor.
+		if ( !responseText.contains( " Fullness" ) )
+		{
+			int fullness = ConsumablesDatabase.getFullness( item.getName() );
+			int fullnessUsed = fullness * count;
+
+			// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
+			if ( responseText.contains( "Mayodiol kicks in" ) )
+			{
+				fullnessUsed -= 1;
+			}
+
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
+		}
+
+		Preferences.decrement( "munchiesPillsUsed", count );
 	}
 
 	private static final void handleFortuneCookie( final Matcher matcher )
