@@ -198,4 +198,4 @@
 192	Golden Monkey	goldmonkey.gif	stat0,meat0	golden monkey statuette	golden banana	1	2	3	0
 193	Adventurous Spelunker	spelunker.gif	item0,meat0	Professor of Spelunkology	Stembridge sidearm	3	3	3	3
 194	Sludgepuppy	sludgepuppy.gif	combat	inert sludgepuppy	lead collar	1	3	3	0
-194	Baby Mayonnaise Wasp	mayowasp.gif	combat	newly-hatched mayonnaise wasp	mayo pump	0	0	0	0
+195	Baby Mayonnaise Wasp	mayowasp.gif	combat	newly-hatched mayonnaise wasp	mayo pump	0	0	0	0
