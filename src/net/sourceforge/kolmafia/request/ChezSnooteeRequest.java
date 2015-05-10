@@ -137,10 +137,7 @@ public class ChezSnooteeRequest
 
 	protected void parseResponse()
 	{
-		// If this is an internal request, we'll follow it up with a
-		// call to api.php, which will update fullness for us.
-
-		// ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );
+		ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -177,30 +174,10 @@ public class ChezSnooteeRequest
 			return;
 		}
 
-		// If we are displaying fullness, we'll pick up the change via the charpane
-		if ( responseText.contains( "Fullness" ) )
-		{
-			return;
-		}
+		AdventureResult item = ItemPool.get( GenericRequest.getWhichItem( urlString ), 1 );
 
-		// Figure out which item this is
-		int itemId = GenericRequest.getWhichItem( urlString );
-		if ( itemId == -1 )
-		{
-			return;
-		}
-
-		String itemName = ChezSnooteeRequest.cafeItemName( itemId );
-		if ( itemName == null )
-		{
-			return;
-		}
-
-		int fullness = ConsumablesDatabase.getFullness( itemName );
-		if ( fullness > 0 )
-		{
-			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
-		}
+		// Handle food helpers and adjust fullness, if necessary
+		EatItemRequest.handleFoodHelper( item, responseText );
 	}
 
 	public static final boolean onMenu( final String name )
