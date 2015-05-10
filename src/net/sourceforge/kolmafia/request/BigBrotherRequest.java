@@ -78,7 +78,7 @@ public class BigBrotherRequest
 			BigBrotherRequest.SAND_DOLLAR,
 			null,
 			null,
-			"monkeycastle.php?who=2",
+			"monkeycastle.php",
 			"buyitem",
 			BigBrotherRequest.buyItems,
 			BigBrotherRequest.buyPrices,
@@ -305,7 +305,7 @@ public class BigBrotherRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "action" ) == -1 && urlString.indexOf( "who=2" ) == -1 )
+		if ( !urlString.contains( "action=buyitem" ) && !urlString.contains( "who=2" ) )
 		{
 			return false;
 		}

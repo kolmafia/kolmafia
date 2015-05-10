@@ -439,7 +439,7 @@ public class CoinMasterRequest
 		NamedListenerRegistry.fireChange( "(coinmaster)" );
 	}
 
-	public static final int extractItemId( final CoinmasterData data, final String urlString )//
+	public static final int extractItemId( final CoinmasterData data, final String urlString )
 	{
 		Matcher itemMatcher = data.getItemMatcher( urlString );
 		if ( !itemMatcher.find() )
