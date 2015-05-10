@@ -622,9 +622,9 @@ public class ResponseTextParser
 			MineDecorator.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "monkeycastle" ) )
+		else if ( location.startsWith( "monkeycastle.php" ) )
 		{
-			if ( location.contains( "who=2" ) )
+			if ( location.contains( "who=2" ) || location.contains( "action=buyitem" ) )
 			{
 				BigBrotherRequest.parseResponse( location, responseText );
 			}
