@@ -1671,7 +1671,7 @@
 1646	spooky and sour sauce	185117899	goodgravy.gif	none	t,d	100	tureens of spooky and sour sauce
 1647	stench and sour sauce	196207579	goodgravy.gif	none	t,d	100	tureens of stench and sour sauce
 1648	sleazy and sour sauce	651557405	goodgravy.gif	none	t,d	100	tureens of sleazy and sour sauce
-1649	brick	456411411	brick.gif	none, curse	g	0
+1649	brick	456411411	brick.gif	none, curse		0
 1650	milk of magnesium	802819764	milk.gif	multiple	t,d	36	milks of magnesia
 1651	foie gras	731952928	liver.gif	food	t,d	30	foieu grasoix
 1652	candy brain	936651516	realbrain.gif	multiple, candy	t,d	54
