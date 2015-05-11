@@ -76,6 +76,8 @@ public class EatItemRequest
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 	private static final Pattern INSUFFICIENT_QUANTITY_PATTERN =
 		Pattern.compile( "You only have (\\d+) of those, not (\\d+)" );
+	private static final Pattern MAYONEX_PATTERN =
+		Pattern.compile( "Force of Mayo Be With You</b><br>\\(duration: (\\d+) Adventure" );
 
 	private static int ignoreMilkPrompt = 0;
 	private static int askedAboutMilk = 0;
@@ -842,6 +844,16 @@ public class EatItemRequest
 			else if ( responseText.contains( "Mayoflex kicks in" ) )
 			{
 				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
+			}
+		}
+		
+		// With Mayonex, you gain mayoLevel rather than adventures
+		if ( responseText.contains( "feel the Mayonex gurgling" ) )
+		{
+			Matcher mayonexMatcher = EatItemRequest.MAYONEX_PATTERN.matcher( responseText );
+			if ( mayonexMatcher.find() )
+			{
+				Preferences.increment( "mayoLevel", StringUtilities.parseInt( mayonexMatcher.group( 1 ) ) );
 			}
 		}
 
