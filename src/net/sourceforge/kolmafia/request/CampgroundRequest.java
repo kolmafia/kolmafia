@@ -476,6 +476,13 @@ public class CampgroundRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
+		// Workshed may redirect to shop.php
+		if ( urlString.startsWith( "shop.php" ) )
+		{
+			NPCPurchaseRequest.parseShopResponse( urlString, responseText );
+			return;
+		}
+
 		if ( !urlString.startsWith( "campground.php" ) )
 		{
 			return;
