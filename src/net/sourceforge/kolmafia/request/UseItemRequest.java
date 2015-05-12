@@ -1080,6 +1080,14 @@ public class UseItemRequest
 		case ItemPool.COCKTAIL_SHAKER:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_cocktailShakerUsed" ) ? 0 : 1;
+
+		case ItemPool.MAYONEX:
+		case ItemPool.MAYODIOL:
+		case ItemPool.MAYOSTAT:
+		case ItemPool.MAYOZAPINE:
+		case ItemPool.MAYOFLEX:
+			UseItemRequest.limiter = "mayonaise already in mouth";
+			return Preferences.getString( "mayoInMouth" ).equals( "" ) ? 1 : 0;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5150,6 +5158,7 @@ public class UseItemRequest
 			}
 			else
 			{
+				Preferences.setString( "mayoInMouth", item.getName() );
 				Preferences.increment( "mayoLevel", 1 );
 			}
 			return;

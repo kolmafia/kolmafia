@@ -857,6 +857,9 @@ public class EatItemRequest
 			}
 		}
 
+		// If you had mayo in your mouth, you do no longer
+		Preferences.setString( "mayoInMouth", "" );
+
 		int count = item.getCount();
 
 		// If the user has fullness display turned on ( "You gain x
