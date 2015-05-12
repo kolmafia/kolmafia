@@ -8308,4 +8308,4 @@
 8283	The Cocktail Shaker	590266333	theshaker.gif	usable		0
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100	Kokomo Resort Passes
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
-8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0
+8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0	jars of Mayo de Mayo&trade; mayo
