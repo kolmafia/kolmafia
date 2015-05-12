@@ -8283,11 +8283,11 @@
 8258	Wart Dinsey: An Afterlife	284076427	book4.gif	usable	t	0
 8259	The Lot's engagement ring	929948166	bvbox.gif	offhand	t,d	100
 8260	portable Mayo Clinic	284472365	mayocase.gif	usable	t	0
-8261	Mayonex	342184917	mayo1.gif	usable		0
-8262	Mayodiol	586340786	mayo2.gif	usable		0
-8263	Mayostat	704639252	mayo3.gif	usable		0
-8264	Mayozapine	277017070	mayo4.gif	usable		0
-8265	Mayoflex	818467537	mayo5.gif	usable		0
+8261	Mayonex	342184917	mayo1.gif	usable		0	packets of Mayonex
+8262	Mayodiol	586340786	mayo2.gif	usable		0	packets of Mayodiol
+8263	Mayostat	704639252	mayo3.gif	usable		0	packets of Mayostat
+8264	Mayozapine	277017070	mayo4.gif	usable		0	packets of Mayozapine
+8265	Mayoflex	818467537	mayo5.gif	usable		0	packets of Mayoflex
 8266	miracle whip	183199398	mayowhip.gif	weapon	q	0
 8267	sphygmayomanometer	861428060	mayocuff.gif	accessory	q	0
 8268	tomayohawk-style reflex hammer	236443644	mayohammer.gif	none, combat reusable	q	0
