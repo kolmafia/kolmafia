@@ -471,6 +471,7 @@ public class ValhallaManager
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
 		Preferences.setInteger( "mayoLevel", 0 );
+		Preferences.setString( "mayoInMouth", "" );
 		Preferences.setBoolean( "mayoWhipRented", false );
 		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );

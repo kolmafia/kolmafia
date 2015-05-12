@@ -679,6 +679,7 @@ user	maximizerFoldables	true
 user	maxManaBurn	1000
 user	mayflyExperience	0
 user	mayoLevel	0
+user	mayoInMouth	
 user	mayoWhipRented	false
 user	meansuckerPrice	400
 user	meatDropSpading	false
