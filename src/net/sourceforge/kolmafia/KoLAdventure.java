@@ -2226,6 +2226,20 @@ public class KoLAdventure
 			"off the Florida Keys",
 			"You need a Tropical Contact High to go there.",
 		},
+
+		// You approach the adorable little door, but you can't figure
+		// out how to open it. I guess it's a secret door that will
+		// only open for gravy fairies.
+		{
+			"only open for gravy fairies",
+			"You need to bring an elemental gravy fairy with you.",
+		},
+
+		// You shouldn't be here dressed like that. It's just not safe.
+		{
+			"You shouldn't be here dressed like that",
+			"You can't pass as a pirate.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
