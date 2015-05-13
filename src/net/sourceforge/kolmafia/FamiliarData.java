@@ -740,7 +740,7 @@ public class FamiliarData
 	@Override
 	public String toString()
 	{
-		return this.race + " (" + this.getModifiedWeight() + " lbs)";
+		return this.id == -1 ? "(none)" : this.race + " (" + this.getModifiedWeight() + " lbs)";
 	}
 
 	@Override
