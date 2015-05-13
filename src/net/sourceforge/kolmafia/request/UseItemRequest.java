@@ -2119,44 +2119,29 @@ public class UseItemRequest
 			return;
 		}
 
-		// Assume initially that this causes the item to disappear.
-		// In the event that the item is not used, then proceed to
-		// undo the consumption.
-		
 		switch ( consumptionType )
 		{
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			// Consumption helpers are removed above when you
 			// successfully eat or drink.
+
 		case KoLConstants.NO_CONSUME:
 			return;
 
 		case KoLConstants.MESSAGE_DISPLAY:
 			UseItemRequest.showItemUsage( showHTML, responseText );
 			return;
-
-		case KoLConstants.CONSUME_ZAP:
-		case KoLConstants.EQUIP_FAMILIAR:
-		case KoLConstants.EQUIP_ACCESSORY:
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_WEAPON:
-		case KoLConstants.EQUIP_OFFHAND:
-		case KoLConstants.EQUIP_CONTAINER:
-		case KoLConstants.INFINITE_USES:
-			break;
-
-		default:
-			if ( !ItemDatabase.isReusable( itemId ) )
-			{
-				ResultProcessor.processResult( item.getNegation() );
-			}
 		}
 
 		Matcher matcher;
 
 		// Perform item-specific processing
+
+		// If the item is not consumed, either because we detect that
+		// from the responseText or it is always reusable, return from
+		// this method. Otherwise, break from the switch and it will be
+		// removed from inventory afterwards
 
 		switch ( itemId )
 		{
@@ -2165,11 +2150,11 @@ public class UseItemRequest
 			// You jam your screwdriver into your xxx and pry it
 			// apart.
 			if ( UseItemRequest.lastUntinker != null &&
-			     responseText.indexOf( "You jam your screwdriver" ) != -1 )
+			     responseText.contains( "You jam your screwdriver" ) )
 			{
 				ResultProcessor.processResult( UseItemRequest.lastUntinker.getNegation() );
 				UseItemRequest.lastUntinker = null;
-				break;
+				return;
 			}
 		}
 			// Fall through
@@ -2196,20 +2181,20 @@ public class UseItemRequest
 			// You spend a little while messing with all of the
 			// latches and clasps and little bits of metal, and end
 			// up with ...
-			if ( responseText.indexOf( "latches and clasps" ) != -1 )
+			if ( !responseText.contains( "latches and clasps" ) )
 			{
-				ResultProcessor.processResult( item.getNegation() );
+				return;
 			}
 			break;
 
 		case ItemPool.WHAT_CARD:
 		case ItemPool.WHEN_CARD:
 		case ItemPool.WHO_CARD:
-		case ItemPool.WHERE_CARD: {
-			if ( responseText.indexOf( "Answer:" ) == -1 )
+		case ItemPool.WHERE_CARD:
+		{
+			if ( !responseText.contains( "Answer:" ) )
 			{
-				ResultProcessor.processResult( item );
-				break;
+				return;
 			}
 			Matcher card_matcher = UseItemRequest.CARD_PATTERN.matcher( responseText );
 			if ( card_matcher.find() )
@@ -2240,10 +2225,9 @@ public class UseItemRequest
 			// <fruit> that was bouncing around in the machine. You
 			// wonder where it went.
 			if ( UseItemRequest.lastFruit != null &&
-			     responseText.indexOf( "into the tube" ) != -1 )
+			     responseText.contains( "into the tube" ) )
 			{
-				ResultProcessor.processResult(
-					UseItemRequest.lastFruit.getNegation() );
+				ResultProcessor.processResult( UseItemRequest.lastFruit.getNegation() );
 				UseItemRequest.lastFruit = null;
 			}
 			return;
@@ -2269,38 +2253,43 @@ public class UseItemRequest
 			// "You can't receive things from other players
 			// right now."
 
-			if ( responseText.indexOf( "You can't receive things" ) != -1 )
+			if ( responseText.contains( "You can't receive things" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't open that package yet.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else if ( showHTML )
+
+			if ( showHTML )
 			{
 				UseItemRequest.showItemUsage( true, responseText );
 			}
 
-			return;
+			break;
 
 		case ItemPool.DANCE_CARD:
 			TurnCounter.stopCounting( "Dance Card" );
 			TurnCounter.startCounting( 3, "Dance Card loc=395", "guildapp.gif" );
-			return;
+			break;
 
 		case ItemPool.TOASTER:
 
 			// You push the lever and are rewarded with toast
-			if ( responseText.indexOf( "rewarded with toast" ) != -1 )
-			{
-				Preferences.increment( "_toastSummons", 1 );
-			}
-			else
-			{
-				Preferences.setInteger( "_toastSummons", 3 );
-			}
+			Preferences.increment( "_toastSummons", responseText.contains( "rewarded with toast" ) ? 1 : 3 );
 			return;
 
 		case ItemPool.GATES_SCROLL:
+
+			// Oh, and don't forget <font color=purple><b><i>eJyu3</i></b></font>.  It's important.
+
+			Matcher purpleWordMatcher = UseItemRequest.PURPLE_WORD_PATTERN.matcher( responseText );
+			if ( purpleWordMatcher.find() )
+			{
+				String purpleWord = purpleWordMatcher.group( 1 );
+				String message = "64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + ".";
+				RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
+			}
 
 			// You can only use a 64735 scroll if you have the
 			// original dictionary in your inventory
@@ -2310,47 +2299,34 @@ public class UseItemRequest
 
 			if ( !responseText.contains( "you're flattered" ) )
 			{
-				ResultProcessor.processResult( item );
-				// Oh, and don't forget <font color=purple><b><i>eJyu3</i></b></font>.  It's important.
-				Matcher purpleWordMatcher = UseItemRequest.PURPLE_WORD_PATTERN.matcher( responseText );
-				if ( purpleWordMatcher.find() )
-				{
-					String purpleWord = purpleWordMatcher.group( 1 );
-					String message = "64735 Scroll Purple Word found: " + purpleWord + " in clan " + ClanManager.getClanName( false ) + ".";
-					RequestLogger.printLine( "<font color=\"blue\">" + message + "</font>" );
-					RequestLogger.updateSessionLog( message );
-				}
-			}
-			else
-			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
-				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.FINISHED );
+				return;	
 			}
 
-			return;
+			ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
+			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.FINISHED );
+
+			break;
 
 		case ItemPool.ELITE_SCROLL:
 
 			// "The UB3r 31337 HaX0R stands before you."
 
-			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
+			if ( responseText.contains( "The UB3r 31337 HaX0R stands before you." ) )
 			{
-				int remaining = count - 1;
-				if ( remaining > 0 )
+				if ( count > 1 )
 				{
-					item = item.getInstance( remaining );
-					ResultProcessor.processResult( item );
-					(UseItemRequest.getInstance( item )).run();
+					(UseItemRequest.getInstance( item.getInstance( count - 1 ) )).run();
+					item = item.getInstance( 1 );
 				}
 			}
 
-			return;
+			break;
 
 		case ItemPool.HERMIT_SCRIPT:
 
 			HermitRequest.hackHermit();
-			return;
+			break;
 
 		case ItemPool.SPARKLER:
 		case ItemPool.SNAKE:
@@ -2364,19 +2340,14 @@ public class UseItemRequest
 			// is a worthy institution, and you should respect and
 			// obey it, no matter what."
 
-			if ( responseText.indexOf( "back to work" ) != -1 || responseText.indexOf( "fireworks are illegal" ) != -1 )
+			if ( responseText.contains( "back to work" ) || responseText.contains( "fireworks are illegal" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.GONG:
-
-			// We deduct the gong when we get the intro choice
-			// adventure: The Gong Has Been Bung
-
-			ResultProcessor.processResult( item );
 
 			// "You try to bang the gong, but the mallet keeps
 			// falling out of your hand. Maybe you should try it
@@ -2384,26 +2355,23 @@ public class UseItemRequest
 
 			// "You don't have time to bang a gong. Nor do you have
 			// time to get it on, or to get it on."
-			if ( responseText.indexOf( "sobered up a little" ) != -1  ||
-			     responseText.indexOf( "don't have time to bang" ) != -1 )
+
+			if ( responseText.contains( "sobered up a little" ) ||
+			     responseText.contains( "don't have time to bang" ) )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
-			// "You're already in the middle of a journey of
-			// reincarnation."
+			// "You're already in the middle of a journey of reincarnation."
 
-			if ( responseText.indexOf( "middle of a journey of reincarnation" ) != -1 )
+			if ( responseText.contains( "middle of a journey of reincarnation" ) )
 			{
 				if ( UseItemRequest.retrying ||
-					KoLConstants.activeEffects.contains(
-						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
-					KoLConstants.activeEffects.contains(
-						EffectPool.get( EffectPool.SHAPE_OF_MOLE ) ) ||
-					KoLConstants.activeEffects.contains(
-						EffectPool.get( EffectPool.FORM_OF_ROACH ) ) )
+				     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
+				     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SHAPE_OF_MOLE ) ) ||
+				     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_ROACH ) ) )
 				{
 					UseItemRequest.lastUpdate = "You're still under a gong effect.";
 					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -2437,6 +2405,9 @@ public class UseItemRequest
 				}
 			}
 
+			// We deduct the gong when we get the intro choice
+			// adventure: The Gong Has Been Bung
+
 			return;
 
 		case ItemPool.ENCHANTED_BEAN:
@@ -2454,16 +2425,14 @@ public class UseItemRequest
 			// Otherwise, "it immediately grows into an enormous
 			// beanstalk".
 
-			if ( responseText.contains( "grows into an enormous beanstalk" ) )
+			if ( !responseText.contains( "grows into an enormous beanstalk" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
-			}
-			else
-			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step1" );
+
+			break;
 
 		case ItemPool.LIBRARY_CARD:
 
@@ -2475,90 +2444,88 @@ public class UseItemRequest
 			// celebrity-gossip magazines, and end up feeling kind
 			// of dirty."
 
-			if ( responseText.indexOf( "feeling kind of dirty" ) == -1 )
-			{
-				ResultProcessor.processResult( item );
-			}
 			Preferences.setBoolean( "libraryCardUsed", true );
-			return;
+
+			if ( !responseText.contains( "feeling kind of dirty" ) )
+			{
+				return;
+			}
+
+			break;
 
 		case ItemPool.HEY_DEZE_MAP:
 
 			// "Your song has pleased me greatly. I will reward you
 			// with some of my crazy imps, to do your bidding."
 
-			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
+			if ( !responseText.contains( "pleased me greatly" ) )
 			{
 				UseItemRequest.lastUpdate = "Your music was inadequate.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.GIANT_CASTLE_MAP:
 
 			// "I'm sorry, adventurer, but the Sorceress is in
 			// another castle!"
 
-			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
+			if ( !responseText.contains( "Sorceress is in another castle" ) )
 			{
 				UseItemRequest.lastUpdate = "You couldn't make it all the way to the back door.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.DRASTIC_HEALING:
 
 			// If a scroll of drastic healing was used and didn't
 			// crumble, it is not consumed
 
-			ResultProcessor.processResult(
-				new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 
-			if ( responseText.indexOf( "crumble" ) == -1 )
+			if ( !responseText.contains( "crumble" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.TEARS:
 
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
-			return;
+			break;
 
 		case ItemPool.ANTIDOTE:
 			// You're unpoisoned -- don't waste the anti-anti-antidote.
 
-			if ( responseText.indexOf( "don't waste the anti" ) != -1 )
+			if ( responseText.contains( "don't waste the anti" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.TBONE_KEY:
 
-			if ( InventoryManager.hasItem( ItemPool.LOCKED_LOCKER ) )
+			if ( !InventoryManager.hasItem( ItemPool.LOCKED_LOCKER ) )
 			{
-				ResultProcessor.processItem( ItemPool.LOCKED_LOCKER, -1 );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			ResultProcessor.processItem( ItemPool.LOCKED_LOCKER, -1 );
+			break;
 
 		case ItemPool.KETCHUP_HOUND:
 
 			// Successfully using a ketchup hound uses up the Hey
 			// Deze nuts and pagoda plan.
 
-			if ( responseText.indexOf( "pagoda" ) != -1 )
+			if ( responseText.contains( "pagoda" ) )
 			{
 				ResultProcessor.processItem( ItemPool.HEY_DEZE_NUTS, -1 );
 				ResultProcessor.processItem( ItemPool.PAGODA_PLANS, -1 );
@@ -2566,8 +2533,6 @@ public class UseItemRequest
 			}
 
 			// The ketchup hound does not go away...
-
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.DOLPHIN_KING_MAP:
@@ -2575,71 +2540,69 @@ public class UseItemRequest
 			// "You follow the Dolphin King's map to the bottom of
 			// the sea, and find his glorious treasure."
 
-			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
+			if ( !responseText.contains( "find his glorious treasure" ) )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.SLUG_LORD_MAP:
 
 			// "You make your way to the deepest part of the tank,
 			// and find a chest engraved with the initials S. L."
 
-			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
+			if ( !responseText.contains( "deepest part of the tank" ) )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.DR_HOBO_MAP:
 
 			// "You place it atop the Altar, and grab the Scalpel
 			// at the exact same moment."
 
-			if ( responseText.indexOf( "exact same moment" ) == -1 )
+			if ( !responseText.contains( "exact same moment" ) )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
 			// Using the map consumes an asparagus knife
 
 			ResultProcessor.processItem( ItemPool.ASPARAGUS_KNIFE, -1 );
-			return;
+			break;
 
 		case ItemPool.SHOPPING_LIST:
 
 			// "Since you've already built a bitchin' meatcar, you
 			// wad the shopping list up and throw it away."
 
-			if ( responseText.indexOf( "throw it away" ) == -1 )
-			{
-				ResultProcessor.processResult( item );
-			}
-
 			UseItemRequest.showItemUsage( showHTML, responseText );
 
-			return;
+			if ( !responseText.contains( "throw it away" ) )
+			{
+				return;
+			}
+
+			break;
 
 		case ItemPool.COBBS_KNOB_MAP:
 
 			// "You memorize the location of the door, then eat
 			// both the map and the encryption key."
 
-			if ( responseText.indexOf( "memorize the location" ) == -1 )
+			if ( !responseText.contains( "memorize the location" ) )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -2647,36 +2610,35 @@ public class UseItemRequest
 
 			ResultProcessor.processItem( ItemPool.ENCRYPTION_KEY, -1 );
 			QuestDatabase.setQuestProgress( Quest.GOBLIN, "step1" );
-			return;
+			break;
 
 		case ItemPool.SPOOKY_MAP:
 
-			if ( InventoryManager.hasItem( ItemPool.SPOOKY_SAPLING ) && InventoryManager.hasItem( ItemPool.SPOOKY_FERTILIZER ) )
-			{
-				ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
-				ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
-				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
-				// If quest Gotta Worship Them All is started, this completes step 1
-				if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, QuestDatabase.UNSTARTED ) )
-				{
-					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
-				}
-			}
-			else
+			if ( !InventoryManager.hasItem( ItemPool.SPOOKY_SAPLING ) ||
+			     !InventoryManager.hasItem( ItemPool.SPOOKY_FERTILIZER ) )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
+			ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
+
+			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+			// If quest Gotta Worship Them All is started, this completes step 1
+			if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, QuestDatabase.UNSTARTED ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
+			}
+
+			break;
 
 		case ItemPool.CARONCH_MAP:
 
 			// The item is only consumed once you turn in
 			// the nasty booty. That's handled elsewhere.
 
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
@@ -2684,25 +2646,22 @@ public class UseItemRequest
 			// The item is only consumed once you turn in the
 			// dentures. That's handled elsewhere.
 
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.DINGHY_PLANS:
 
 			// "You need some planks to build the dinghy."
 
-			if ( InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) )
-			{
-				ResultProcessor.processItem( ItemPool.DINGY_PLANKS, -1 );
-			}
-			else
+			if ( !InventoryManager.hasItem( ItemPool.DINGY_PLANKS ) )
 			{
 				UseItemRequest.lastUpdate = "You need some dingy planks.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			ResultProcessor.processItem( ItemPool.DINGY_PLANKS, -1 );
+
+			break;
 
 		case ItemPool.MORTAR_DISSOLVING_RECIPE:
 			if ( responseText.contains( "Screw this scavenger hunt crap" ) )
@@ -2713,22 +2672,21 @@ public class UseItemRequest
 			{
 				Preferences.setString( "spookyravenRecipeUsed", "no_glasses" );
 			}
-			return;
+
+			break;
 
 		case ItemPool.FENG_SHUI:
 
-			if ( InventoryManager.hasItem( ItemPool.FOUNTAIN ) && InventoryManager.hasItem( ItemPool.WINDCHIMES ) )
+			if ( !InventoryManager.hasItem( ItemPool.FOUNTAIN ) || !InventoryManager.hasItem( ItemPool.WINDCHIMES ) )
 			{
-				ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
-				ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
-				CampgroundRequest.setCampgroundItem( ItemPool.FENG_SHUI, 1 );
-			}
-			else
-			{
-				ResultProcessor.processResult( item );
+				break;
 			}
 
-			return;
+			ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
+			ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
+			CampgroundRequest.setCampgroundItem( ItemPool.FENG_SHUI, 1 );
+
+			break;
 
 		case ItemPool.WARM_SUBJECT:
 
@@ -2744,31 +2702,28 @@ public class UseItemRequest
 
 			if ( responseText.contains( "ironically" ) )
 			{
-				int remaining = count - 1;
-				if ( remaining > 0 )
+				if ( count > 1 )
 				{
-					item = item.getInstance( remaining );
-					ResultProcessor.processResult( item );
-					(UseItemRequest.getInstance( item )).run();
+					(UseItemRequest.getInstance( item.getInstance( count - 1 ) )).run();
+					item = item.getInstance( 1 );
 				}
 			}
 
-			return;
+			break;
 
 		case ItemPool.MINING_OIL:
 		case ItemPool.TAINTED_MINING_OIL:
+
 			if ( responseText.contains( "Limiting to 100.  Sorry" ) )
 			{
-				int remaining = count - 100;
-				if ( remaining > 0 )
+				if ( count > 100 )
 				{
-					item = item.getInstance( remaining );
-					ResultProcessor.processResult( item );
-					(UseItemRequest.getInstance( item )).run();
+					(UseItemRequest.getInstance( item.getInstance( count - 100 ) )).run();
+					item = item.getInstance( 1 );
 				}
 			}
 
-			return;
+			break;
 
 		case ItemPool.PURPLE_SNOWCONE:
 		case ItemPool.GREEN_SNOWCONE:
@@ -2780,14 +2735,14 @@ public class UseItemRequest
 			// "Your mouth is still cold from the last snowcone you
 			// ate. Try again later."
 
-			if ( responseText.indexOf( "still cold" ) != -1 )
+			if ( responseText.contains( "still cold" ) )
 			{
 				UseItemRequest.lastUpdate = "Your mouth is too cold.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.POTION_OF_PUISSANCE:
 		case ItemPool.POTION_OF_PERSPICACITY:
@@ -2799,14 +2754,14 @@ public class UseItemRequest
 			// high-pressure sauce potion. If you took this one,
 			// you'd explode.  And not in a good way."
 
-			if ( responseText.indexOf( "you'd explode" ) != -1 )
+			if ( responseText.contains( "you'd explode" ) )
 			{
 				UseItemRequest.lastUpdate = "You're already under pressure.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.BLUE_CUPCAKE:
 		case ItemPool.GREEN_CUPCAKE:
@@ -2819,14 +2774,14 @@ public class UseItemRequest
 			// this dimension. You really don't feel like eating
 			// another one just now."
 
-			if ( responseText.indexOf( "a little queasy" ) != -1 )
+			if ( responseText.contains( "a little queasy" ) )
 			{
 				UseItemRequest.lastUpdate = "Your stomach is too queasy.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.VAGUE_AMBIGUITY:
 		case ItemPool.SMOLDERING_PASSION:
@@ -2839,18 +2794,19 @@ public class UseItemRequest
 			// after the last one. The conflicting emotions would
 			// drive you totally mad."
 
-			if ( responseText.indexOf( "conflicting emotions" ) != -1 )
+			if ( responseText.contains( "conflicting emotions" ) )
 			{
 				UseItemRequest.lastUpdate = "Your heart is already filled with emotions.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.ROLLING_PIN:
 
 			// Rolling pins remove dough from your inventory.
+			// They are not consumed by being used
 
 			ResultProcessor.processItem( ItemPool.DOUGH, 0 - InventoryManager.getCount( ItemPool.DOUGH ) );
 			return;
@@ -2867,7 +2823,7 @@ public class UseItemRequest
 
 			// You feel charged up!
 
-			if ( responseText.indexOf( "charged up" ) != -1 )
+			if ( responseText.contains( "charged up" ) )
 			{
 				Preferences.setInteger( "_zapCount", 0 );
 			}
@@ -2878,65 +2834,69 @@ public class UseItemRequest
 			// "Following The Oracle's advice, you treat the plus
 			// sign as a book, and read it."
 
-			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
+			if ( !responseText.contains( "you treat the plus sign as a book" ) )
 			{
 				UseItemRequest.lastUpdate = "You don't know how to use it.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else
+
+			QuestLogRequest.setDungeonOfDoomAvailable();
+
+			// Various punctuation mark items are replaced by their
+			// identified versions. The new items will be detected
+			// by result parsing, but we need to get rid of the old.
+
+			for ( int i = 4552; i <= 4558; ++i )
 			{
-				QuestLogRequest.setDungeonOfDoomAvailable();
-
-				// Various punctuation mark items are replaced
-				// by their identified versions. The new items
-				// will be detected by result parsing, but we
-				// need to get rid of the old.
-
-				for ( int i = 4552; i <= 4558; ++i )
+				AdventureResult punc = ItemPool.get( i, 1 );
+				int pcount = punc.getCount( KoLConstants.inventory );
+				if ( pcount > 0 )
 				{
-					AdventureResult punc = ItemPool.get( i, 1 );
-					int pcount = punc.getCount( KoLConstants.inventory );
-					if ( pcount > 0 )
-					{
-						ResultProcessor.processResult( punc.getInstance( -pcount ) );
-					}
+					ResultProcessor.processResult( punc.getInstance( -pcount ) );
 				}
 			}
 
-			return;
+			break;
 
 		case ItemPool.OVEN:
+
 			KoLCharacter.setOven( true );
-			return;
+			break;
 
 		case ItemPool.RANGE:
+
 			KoLCharacter.setRange( true );
-			return;
+			break;
 
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
+
 			KoLCharacter.setChef( true );
 			Preferences.setInteger( "chefTurnsUsed", 0 );
-			return;
+			break;
 
 		case ItemPool.SHAKER:
+
 			KoLCharacter.setShaker( true );
 			return;
 
 		case ItemPool.COCKTAIL_KIT:
+
 			KoLCharacter.setCocktailKit( true );
-			return;
+			break;
 
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
+
 			KoLCharacter.setBartender( true );
 			Preferences.setInteger( "bartenderTurnsUsed", 0 );
-			return;
+			break;
 
 		case ItemPool.SUSHI_ROLLING_MAT:
+
 			KoLCharacter.setSushiMat( true );
-			return;
+			break;
 
 			// Tomes
 		case ItemPool.SNOWCONE_BOOK:
@@ -3079,27 +3039,22 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
-				{
-					ResultProcessor.processResult( item );
-				}
 				return;
 			}
 
 			String skill = UseItemRequest.itemToSkill( itemId );
-			if ( skill == null )
+			if ( skill != null )
 			{
-				return;
+				ResponseTextParser.learnSkill( skill );
 			}
 
-			ResponseTextParser.learnSkill( skill );
-
-			return;
+			break;
 		}
 
 		case ItemPool.CHATEAU_ROOM_KEY:
+
 			Preferences.setBoolean( "chateauAvailable", true );
-			return;
+			break;
 
 		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
@@ -3107,20 +3062,19 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You've haven't got that item.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
+
 			if ( !responseText.contains( "eaten the entire thing" ) )
 			{
 				UseItemRequest.lastUpdate = "You've already maxed out Belch The Rainbow.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				Preferences.setInteger( "skillLevel117", 11 );
 				return;
 			}
 
 			ResponseTextParser.learnSkill( "Belch The Rainbow" );
-			return;
+			break;
 		}
 
 		case ItemPool.THUNDER_THIGH:
@@ -3128,11 +3082,11 @@ public class UseItemRequest
 		case ItemPool.LIGHTNING_MILK:
 		{
 			// You can't learn anything else from this, so you just throw it away.
-			if ( responseText.contains( "you just throw it away" ) )
+			if ( !responseText.contains( "you just throw it away" ) )
 			{
-				ResultProcessor.processResult( item.getNegation() );
+				return;
 			}
-			return;
+			break;
 		}
 
 		case ItemPool.OLFACTION_BOOK:
@@ -3141,19 +3095,19 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
 			ResponseTextParser.learnSkill( "Transcendent Olfaction" );
-			return;
+			break;
 		}
 
 		case ItemPool.TEACHINGS_OF_THE_FIST:
+
 			// You learn a different skill from each scroll
 			Preferences.increment( "fistSkillsKnown", 1 );
 			ResponseTextParser.learnSkillFromResponse( responseText );
-			return;
+			break;
 
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
 		case ItemPool.SLIME_SOAKED_BRAIN:
@@ -3161,23 +3115,22 @@ public class UseItemRequest
 		{
 			for ( int i = 46; i <= 48; ++i )
 			{
-				GenericRequest req = new GenericRequest(
-					"desc_skill.php?whichskill=" + i + "&self=true" );
+				GenericRequest req = new GenericRequest( "desc_skill.php?whichskill=" + i + "&self=true" );
 				RequestThread.postRequest( req );
 			}
 
 			// You can learn the appropriate skill up to 10 times.
 			// What does it say if you try to use the 11th?
-			if ( responseText.indexOf( "You gain a skill" ) == -1 )
-			{	// Item may be consumed even if you already have the skill
-				// ResultProcessor.processResult( item );
-				return;
+			if ( !responseText.contains( "You gain a skill" ) )
+			{
+				// Item may be consumed even if you already have the skill
+				break;
 			}
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			ResponseTextParser.learnSkill( skill );
 
-			return;
+			break;
 		}
 
 		case ItemPool.TELESCOPE:
@@ -3187,7 +3140,7 @@ public class UseItemRequest
 			// Look through it to check number of upgrades
 			Preferences.setInteger( "lastTelescopeReset", -1 );
 			KoLCharacter.checkTelescope();
-			return;
+			break;
 
 		case ItemPool.ASTRAL_MUSHROOM:
 
@@ -3201,25 +3154,25 @@ public class UseItemRequest
 			// "Whoo, man, lemme tell you, you don't need to be
 			// eating another one of those just now, okay?"
 
-			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
+			if ( !responseText.contains( "whirling maelstrom" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.WORKYTIME_TEA:
 
 			// You're not quite bored enough to drink that much tea.
 
-			if ( responseText.indexOf( "not quite bored enough" ) != -1 )
+			if ( responseText.contains( "not quite bored enough" ) )
 			{
 				UseItemRequest.lastUpdate = "You're not bored enough to drink that much tea.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.ABSINTHE:
 
@@ -3231,23 +3184,22 @@ public class UseItemRequest
 			// "No way are you gonna drink another one of those
 			// until the last one wears off."
 
-			if ( responseText.indexOf( "licorice" ) == -1 )
+			if ( !responseText.contains( "licorice" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.DUSTY_ANIMAL_SKULL:
 
 			// The magic that had previously animated the animals kicks back
 			// in, and it stands up shakily and looks at you. "Graaangh?"
 
-			if ( responseText.indexOf( "Graaangh?" ) == -1 )
+			if ( !responseText.contains( "Graaangh?" ) )
 			{
 				UseItemRequest.lastUpdate = "You're missing some parts.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -3258,7 +3210,7 @@ public class UseItemRequest
 				ResultProcessor.removeItem( i );
 			}
 
-			return;
+			break;
 
 		case ItemPool.DRUM_MACHINE:
 
@@ -3283,7 +3235,7 @@ public class UseItemRequest
 				Preferences.setInteger( "gnasirProgress", gnasirProgress );
 
 				QuestManager.incrementDesertExploration( 30 );
-				return;
+				break;
 			}
 
 			// "You don't have time to play the drums."
@@ -3313,10 +3265,8 @@ public class UseItemRequest
 			}
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3327,9 +3277,9 @@ public class UseItemRequest
 			// next to that library across the street from the
 			// Sleazy Back Alley) to see what you can get for
 			// it. Turns out you can get X Meat for it."
-			if ( responseText.indexOf( "rare coin dealer in Seaside Town" ) != -1 )
+			if ( responseText.contains( "rare coin dealer in Seaside Town" ) )
 			{
-				return;
+				break;
 			}
 
 			// You consider taking the piece of thirteen to a rare
@@ -3354,10 +3304,8 @@ public class UseItemRequest
 			}
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3366,17 +3314,15 @@ public class UseItemRequest
 			// You can't tell what this is supposed to be a copy
 			// of. You squish it back into a sheet.
 
-			if ( responseText.indexOf( "squish it back into a sheet" ) != -1 )
+			if ( responseText.contains( "squish it back into a sheet" ) )
 			{
 				Preferences.setString( "spookyPuttyMonster", "" );
-				return;
+				break;
 			}
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3402,15 +3348,17 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "Not yet implemented.";
 			}
 
-			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			else
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				break;
 			}
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
 			return;
 
-		case ItemPool.D12: {
+		case ItemPool.D12:
+		{
 
 			// You draw the bow and roll [X]d12 to see how far the arrow flies.
 
@@ -3421,31 +3369,35 @@ public class UseItemRequest
 			// a cart with a big target in it is pulled into view and
 			// the arrow hits it dead center. BULLSEYE.
 
-			if ( responseText.indexOf( "BULLSEYE" ) != -1 )
+			if ( responseText.contains( "BULLSEYE" ) )
 			{
 				String message = "You get a bullseye at " + distance + " feet.";
 				KoLmafia.updateDisplay( message );
 				RequestLogger.updateSessionLog( message );
+				break;
 			}
 
 			// It goes [Xd12] feet, and doesn't hit anything interesting.
 			// You grumble and put the dice away.
-			else if ( responseText.indexOf( "You grumble and put the dice away" ) != -1 )
+			else if ( responseText.contains( "You grumble and put the dice away" ) )
 			{
 				UseItemRequest.lastUpdate = "You grumble and put the dice away.";
 			}
 
 			// Y'know, you're never going to be able to top what happened last time. That was awesome.
-			else if ( responseText.indexOf( "That was awesome" ) != -1 )
+			else if ( responseText.contains( "That was awesome" ) )
 			{
 				UseItemRequest.lastUpdate = "You already hit a bullseye.";
 			}
 
-			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			// If some unknown message, assume we use up the dice.
+
+			else
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				break;
 			}
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
 			return;
 		}
@@ -3461,16 +3413,18 @@ public class UseItemRequest
 			// You can't figure out a good way to roll that
 			// quantity of 20-sided dice. Maybe you should've paid
 			// less attention in gym class.
+
 			else if ( responseText.indexOf( "Maybe you should've paid less attention in gym class" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Rolling that many d20s doesn't do anything interesting.";
 			}
 
-			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			else
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				break;
 			}
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
 			return;
 
@@ -3491,14 +3445,14 @@ public class UseItemRequest
 				Preferences.setInteger( "_brickoFights", 10 );
 				UseItemRequest.lastUpdate = "You're sick of playing with BRICKOs today";
 				KoLmafia.updateDisplay( UseItemRequest.lastUpdate );
+				return;
 			}
+
 			// You're too drunk to mess with BRICKO right now.
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3512,14 +3466,14 @@ public class UseItemRequest
 
 			// You already have too many songs stuck in your head.
 
-			if ( responseText.indexOf( "too many songs stuck in your head" ) != -1 )
+			if ( responseText.contains( "too many songs stuck in your head" ) )
 			{
 				UseItemRequest.lastUpdate = "You have the maximum number of AT buffs already.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.FOSSILIZED_BAT_SKULL:
 		case ItemPool.FOSSILIZED_SERPENT_SKULL:
@@ -3529,10 +3483,8 @@ public class UseItemRequest
 		case ItemPool.FOSSILIZED_SPIDER_SKULL:
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3546,10 +3498,8 @@ public class UseItemRequest
 			// blowing on it.
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3563,10 +3513,8 @@ public class UseItemRequest
 			// blowing on it.
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3579,10 +3527,8 @@ public class UseItemRequest
 			// another one of these things today.
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
@@ -3605,15 +3551,13 @@ public class UseItemRequest
 			// you probably shouldn't copy anything else until
 			// you've dealt with this copy you've already got.
 
-			if ( responseText.indexOf( "you drop your pants and giggle" ) != -1 )
+			if ( !responseText.contains( "you drop your pants and giggle" ) )
 			{
-				Preferences.setString( "photocopyMonster", "Your butt" );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			Preferences.setString( "photocopyMonster", "Your butt" );
+			break;
 
 		case ItemPool.BGE_TATTOO:
 
@@ -3621,40 +3565,36 @@ public class UseItemRequest
 			// You should give this one to somebody who will
 			// appreciate it more.
 
-			if ( responseText.indexOf( "You've already got one of those tattoos on" ) != -1 )
+			if ( responseText.contains( "You've already got one of those tattoos on" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+
+			break;
 
 		case ItemPool.DOLPHIN_WHISTLE:
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			ResultProcessor.processResult( item );
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
 			return;
 
 		case ItemPool.RUSTY_HEDGE_TRIMMERS:
 
 			// If we are redirected to a choice, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
-			ResultProcessor.processResult( item );
-
-			break;
+			return;
 
 		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and
 			// discard the now-grodulated filter.
 
-			if ( responseText.indexOf( "now-grodulated" ) == -1 )
+			if ( !responseText.contains( "now-grodulated" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -3664,25 +3604,30 @@ public class UseItemRequest
 
 			KoLCharacter.updateStatus();
 			ConcoctionDatabase.getUsables().sort();
-			return;
+
+			break;
 
 		case ItemPool.SPICE_MELANGE:
 
 			// You pop the spice melange into your mouth and chew it up.
-			if ( responseText.indexOf( "too scared to eat any more of that stuff today" ) != -1 )
+			if ( responseText.contains( "too scared to eat any more of that stuff today" ) )
 			{
 				Preferences.setBoolean( "spiceMelangeUsed", true );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else if ( responseText.indexOf( "You pop the spice melange into your mouth and chew it up" ) != -1 )
+
+			if ( !responseText.contains( "You pop the spice melange into your mouth and chew it up" ) )
 			{
-				KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
-				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
-				Preferences.setBoolean( "spiceMelangeUsed", true );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.getUsables().sort();
+				return;
 			}
-			return;
+
+			KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
+			KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
+			Preferences.setBoolean( "spiceMelangeUsed", true );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
+
+			break;
 
 		case ItemPool.ULTRA_MEGA_SOUR_BALL:
 
@@ -3690,55 +3635,67 @@ public class UseItemRequest
 			if ( responseText.contains( "too scared to eat any more of that candy today" ) )
 			{
 				Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else if ( responseText.contains( "You pop the candy in your mouth, and it immediately absorbs almost all of the moisture in your body" ) )
+
+			if ( !responseText.contains( "You pop the candy in your mouth, and it immediately absorbs almost all of the moisture in your body" ) )
 			{
-				KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
-				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
-				Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.getUsables().sort();
+				return;
 			}
-			return;
+
+			KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
+			KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
+			Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
+
+			break;
 
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 
 			//Your liver feels better! And quivers a bit.
-			if ( responseText.indexOf( "liver can't take any more abuse" ) != -1 )
+			if ( responseText.contains( "liver can't take any more abuse" ) )
 			{
 				Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else if ( responseText.indexOf( "quivers" ) != -1 )
+
+			if ( !responseText.contains( "quivers" ) )
 			{
-				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 1 ) );
-				Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.getUsables().sort();
+				return;
 			}
-			return;
+
+			KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 1 ) );
+			Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
+
+			break;
 
 		case ItemPool.DISTENTION_PILL:
 
 			// Your stomach feels rather stretched out
-			if ( responseText.indexOf( "stomach can't take any more abuse" ) != -1 )
+			if ( responseText.contains( "stomach can't take any more abuse" ) )
 			{
 				Preferences.setBoolean( "_distentionPillUsed", true );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
+
+			if ( !responseText.contains( "stomach feels rather stretched" ) )
 			{
-				Preferences.setBoolean( "_distentionPillUsed", true );
-				KoLCharacter.updateStatus();
-				ConcoctionDatabase.getUsables().sort();
+				return;
 			}
-			return;
+
+			Preferences.setBoolean( "_distentionPillUsed", true );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
+
+			break;
 
 		case ItemPool.MILK_OF_MAGNESIUM:
 
 			ConcoctionDatabase.getUsables().sort();
-			return;
+			break;
 
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
@@ -3756,12 +3713,12 @@ public class UseItemRequest
 
 			if ( responseText.contains( "You've already got" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
+
 			CampgroundRequest.destroyFurnishings();
 			CampgroundRequest.setCurrentDwelling( itemId );
-			return;
+			break;
 
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
@@ -3775,22 +3732,22 @@ public class UseItemRequest
 
 			if ( responseText.contains( "You've already got" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
+
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
-			return;
+			break;
 
 		case ItemPool.CLOCKWORK_MAID:
 
 			if ( responseText.contains( "You've already got" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
+
 			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.MAID, 1 ) );
 			CampgroundRequest.setCampgroundItem( ItemPool.CLOCKWORK_MAID, 1 );
-			return;
+			break;
 
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
@@ -3806,12 +3763,12 @@ public class UseItemRequest
 		
 			if ( responseText.contains( "You've already got" ) || responseText.contains( "You don't have" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
+
 			CampgroundRequest.setCurrentBed( ItemPool.get( itemId, 1 ) );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
-			return;
+			break;
 
 		case ItemPool.MILKY_POTION:
 		case ItemPool.SWIRLY_POTION:
@@ -3841,12 +3798,12 @@ public class UseItemRequest
 			}
 
 			// You don't consume inebriety potions in HCO or HCT
-			if ( responseText.indexOf( "You decide not to drink it" ) != -1 )
+			if ( responseText.contains( "You decide not to drink it" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.VIAL_OF_RED_SLIME:
 		case ItemPool.VIAL_OF_YELLOW_SLIME:
@@ -3867,7 +3824,7 @@ public class UseItemRequest
 					break;
 				}
 			}
-			return;
+			break;
 
 		case ItemPool.VIAL_OF_ORANGE_SLIME:
 		case ItemPool.VIAL_OF_GREEN_SLIME:
@@ -3888,7 +3845,7 @@ public class UseItemRequest
 					break;
 				}
 			}
-			return;
+			break;
 
 		case ItemPool.VIAL_OF_VERMILION_SLIME:
 		case ItemPool.VIAL_OF_AMBER_SLIME:
@@ -3912,51 +3869,45 @@ public class UseItemRequest
 					break;
 				}
 			}
-			return;
+			break;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
-			if ( InventoryManager.hasItem( ItemPool.SIMPLE_CURSED_KEY ) )
+
+			if ( !InventoryManager.hasItem( ItemPool.SIMPLE_CURSED_KEY ) )
 			{
-				ResultProcessor.processItem( ItemPool.SIMPLE_CURSED_KEY, -1 );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			ResultProcessor.processItem( ItemPool.SIMPLE_CURSED_KEY, -1 );
+			break;
 
 		case ItemPool.ORNATE_CURSED_CHEST:
-			if ( InventoryManager.hasItem( ItemPool.ORNATE_CURSED_KEY ) )
+
+			if ( !InventoryManager.hasItem( ItemPool.ORNATE_CURSED_KEY ) )
 			{
-				ResultProcessor.processItem( ItemPool.ORNATE_CURSED_KEY, -1 );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			ResultProcessor.processItem( ItemPool.ORNATE_CURSED_KEY, -1 );
+			break;
 
 		case ItemPool.GILDED_CURSED_CHEST:
-			if ( InventoryManager.hasItem( ItemPool.GILDED_CURSED_KEY ) )
+			if ( !InventoryManager.hasItem( ItemPool.GILDED_CURSED_KEY ) )
 			{
-				ResultProcessor.processItem( ItemPool.GILDED_CURSED_KEY, -1 );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			ResultProcessor.processItem( ItemPool.GILDED_CURSED_KEY, -1 );
+			break;
 
 		case ItemPool.STUFFED_CHEST:
-			if ( InventoryManager.hasItem( ItemPool.STUFFED_KEY ) )
+			if ( !InventoryManager.hasItem( ItemPool.STUFFED_KEY ) )
 			{
-				ResultProcessor.processItem( ItemPool.STUFFED_KEY, -1 );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processResult( item );
-			}
-			return;
+
+			ResultProcessor.processItem( ItemPool.STUFFED_KEY, -1 );
+			break;
 
 		case ItemPool.GENERAL_ASSEMBLY_MODULE:
 
@@ -3964,9 +3915,8 @@ public class UseItemRequest
 			//  CHEER. PLEASE LOCATE A VITAL APPARATUS VENT AND
 			//  REQUISITION APPROPRIATE MATERIALS."
 
-			if ( responseText.indexOf( "INSUFFICIENT RESOURCES LOCATED" ) != -1 )
+			if ( responseText.contains( "INSUFFICIENT RESOURCES LOCATED" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -3976,13 +3926,11 @@ public class UseItemRequest
 			// Unobtainium straps that you acquired earlier from
 			// the Sinister Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the  laser cannon" ) != -1 )
+			if ( responseText.contains( "carrying the  laser cannon" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.LASER_CANON, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.TARGETING_CHOP, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.UNOBTAINIUM_STRAPS, -1 ) );
-
-				return;
 			}
 
 			// You breathe a heavy sigh of relief as the pseudopods
@@ -3991,13 +3939,11 @@ public class UseItemRequest
 			// and the silicon-infused gluteal shield that you
 			// acquired earlier from the Sinister Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the  polymorphic fastening apparatus" ) != -1 )
+			else if ( responseText.contains( "carrying the  polymorphic fastening apparatus" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.FASTENING_APPARATUS, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.LEG_ARMOR, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GLUTEAL_SHIELD, -1 ) );
-
-				return;
 			}
 
 			// You breathe a heavy sigh of relief as the pseudopods
@@ -4006,31 +3952,31 @@ public class UseItemRequest
 			// helmet that you acquired earlier from the Sinister
 			// Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the  carbonite visor" ) != -1 )
+			else if ( responseText.contains( "carrying the  carbonite visor" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CARBONITE_VISOR, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CHIN_STRAP, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.KEVLATEFLOCITE_HELMET, -1 ) );
-
-				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.AUGMENTED_DRONE:
 
-			if ( responseText.indexOf( "You put an overcharged sphere in the cavity" ) != -1 )
+			if ( responseText.contains( "You put an overcharged sphere in the cavity" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.OVERCHARGED_POWER_SPHERE, -1 ) );
 			}
 
-			return;
+			break;
 
 		case ItemPool.NEVERENDING_SODA:
+
 			Preferences.setBoolean( "oscusSodaUsed", true );
 			return;
 
 		case ItemPool.EL_VIBRATO_HELMET:
+
 			// We should parse the result and save the current
 			// state of the conduits
 			return;
@@ -4040,17 +3986,15 @@ public class UseItemRequest
 		case ItemPool.PUNCHCARD_BUFF:
 		case ItemPool.PUNCHCARD_MODIFY:
 		case ItemPool.PUNCHCARD_BUILD:
-			if ( responseText.indexOf( "A voice emerges" ) != -1 )
-			{
-				// We should save the state of the Megadrone
-			}
-			else
+			if ( !responseText.contains( "A voice emerges" ) )
 			{
 				// You try to stick the punchcard into <name>
 				// and fail.
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+
+			// We should save the state of the Megadrone
+			break;
 
 		case ItemPool.OUTRAGEOUS_SOMBRERO:
 			Preferences.setBoolean( "outrageousSombreroUsed", true );
@@ -4066,22 +4010,22 @@ public class UseItemRequest
 
 			// You briefly consider eating the plump juicy grub,
 			// but are filled with revulsion at the prospect.
-			if ( responseText.indexOf( "filled with revulsion" ) != -1 )
+			if ( responseText.contains( "filled with revulsion" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.PERSONAL_MASSAGER:
 
 			// You don't really need a massage right now, as your
 			// neck and back aren't feeling particularly kinky.
-			if ( responseText.indexOf( "don't really need a massage" ) != -1 )
+			if ( responseText.contains( "don't really need a massage" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.BURROWGRUB_HIVE:
 
@@ -4093,7 +4037,7 @@ public class UseItemRequest
 			// under your skin.  It's horrifying.  You can still
 			// feel them in there. Gah.
 
-			if ( responseText.indexOf( "It's horrifying." ) != -1 )
+			if ( responseText.contains( "It's horrifying." ) )
 			{
 				// You have three grub summons left today
 				Preferences.setInteger( "burrowgrubSummonsRemaining", 3 );
@@ -4107,26 +4051,27 @@ public class UseItemRequest
 			// trade it in for, but you don't know where any bars
 			// are.
 
-			if ( responseText.indexOf( "don't know where any bars are" ) != -1 )
+			if ( responseText.contains( "don't know where any bars are" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+
+			break;
 
 		case ItemPool.SMALL_LAMINATED_CARD:
 		case ItemPool.LITTLE_LAMINATED_CARD:
 		case ItemPool.NOTBIG_LAMINATED_CARD:
 		case ItemPool.UNLARGE_LAMINATED_CARD:
-			ResultProcessor.processResult( item );
+
 			DwarfFactoryRequest.useLaminatedItem( item.getItemId(), responseText );
-			break;
+			return;
 
 		case ItemPool.DWARVISH_DOCUMENT:
 		case ItemPool.DWARVISH_PAPER:
 		case ItemPool.DWARVISH_PARCHMENT:
-			ResultProcessor.processResult( item );
+
 			DwarfFactoryRequest.useUnlaminatedItem( item.getItemId(), responseText );
-			break;
+			return;
 
 		case ItemPool.WRETCHED_SEAL:
 		case ItemPool.CUTE_BABY_SEAL:
@@ -4138,13 +4083,11 @@ public class UseItemRequest
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
+
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
 
-			ResultProcessor.processResult( item );
-
-			// The depleted uranium seal was NOT removed above.
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 
 			// You've summoned too many Infernal seals today. Any
@@ -4214,36 +4157,37 @@ public class UseItemRequest
 		case ItemPool.SEAL_IRON_INGOT:
 
 			// You beat the seal-iron into a formidable club.
-			if ( responseText.indexOf( "formidable club" ) == -1 )
+			if ( !responseText.contains( "formidable club" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.SINISTER_ANCIENT_TABLET:
 
 			AdventureRequest.registerDemonName( "Sinister Ancient Tablet", responseText );
-
 			return;
 
 		case ItemPool.BAG_O_TRICKS:
+
 			Preferences.setBoolean( "_bagOTricksUsed", true );
 			return;
 
 		case ItemPool.EVILOMETER:
+
 			// Parse the result and save current state
 			UseItemRequest.getEvilLevels( responseText );
 			return;
 
 		case ItemPool.EVIL_EYE:
-			if ( responseText.indexOf( "Evilometer emits three quick beeps" ) != -1 )
+			if ( responseText.contains( "Evilometer emits three quick beeps" ) )
 			{
 				int evilness = Math.min( Preferences.getInteger( "cyrptNookEvilness" ), 3*count );
 				Preferences.increment( "cyrptNookEvilness", -evilness );
 				Preferences.increment( "cyrptTotalEvilness", -evilness );
 			}
-			return;
+			break;
 
 		case ItemPool.QUASIRELGIOUS_SCULPTURE:
 		case ItemPool.SOLID_GOLD_ROSARY:
@@ -4252,7 +4196,7 @@ public class UseItemRequest
 				// Can't abuse this, so queue a use item to get new Evilometer value
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.EVILOMETER ) );
 			}
-			return;
+			break;
 			
 		case ItemPool.KEYOTRON:
 			UseItemRequest.getBugbearBiodataLevels( responseText );
@@ -4262,11 +4206,11 @@ public class UseItemRequest
 			// You've already got a pen pal. There's no way you
 			// could handle the pressure of contantly forgetting to
 			// reply to two kids from Distant Lands...
-			if ( responseText.indexOf( "already got a pen pal" ) != -1 )
+			if ( responseText.contains( "already got a pen pal" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.HONEYPOT:
 			// You gain the "Float Like a Butterfly, Smell Like a
@@ -4276,42 +4220,43 @@ public class UseItemRequest
 			// remaining of the effect give the same info.
 			TurnCounter.stopCounting( "Bee window begin" );
 			TurnCounter.stopCounting( "Bee window end" );
-			return;
+			break;
 
 		case ItemPool.RONALD_SHELTER_MAP:
 		case ItemPool.GRIMACE_SHELTER_MAP:
 			// If we are redirected to a choice, the item is
 			// consumed elsewhere.
-			return;
+			break;
 
 		case ItemPool.BORROWED_TIME:
 			// Set the preference to true both when we fail and succeed.
 			Preferences.setBoolean( "_borrowedTimeUsed", true );
 
-			if ( responseText.indexOf( "already borrowed some time today" ) != -1 )
+			if ( responseText.contains( "already borrowed some time today" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
 
 			// You dip into your future and borrow some time. Be sure to spend it wisely!
-			else if ( responseText.indexOf( "dip into your future" ) != -1 )
+			if ( responseText.contains( "dip into your future" ) )
 			{
 				KoLCharacter.updateStatus();
 				Preferences.increment( "extraRolloverAdventures", -20 );
 			}
-			return;
+			break;
 
 		case ItemPool.MOVEABLE_FEAST:
+
 			// The table is looking pretty bare -- you should wait
 			// until tomorrow, and let some of the food magically regenerate.
-			if ( responseText.indexOf( "wait until tomorrow" ) != -1 )
+			if ( responseText.contains( "wait until tomorrow" ) )
 			{
 				Preferences.setInteger( "_feastUsed", 5 );
 			}
 
 			// <name> chows down on the moveable feast,
 			// then leans back, sighs, and loosens his belt a couple of notches.
-			else if ( responseText.indexOf( "chows down" ) != -1 )
+			else if ( responseText.contains( "chows down" ) )
 			{
 				Preferences.increment( "_feastUsed", 1 );
 
@@ -4324,29 +4269,29 @@ public class UseItemRequest
 
 		case ItemPool.STAFF_GUIDE:
 
-			if ( responseText.indexOf( "You don't have time to screw around in a haunted house" ) != -1 )
+			if ( responseText.contains( "You don't have time to screw around in a haunted house" ) )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures to use a staff guide.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			else if ( responseText.indexOf( "You aren't allowed to go to any Haunted Houses right now" ) != -1 )
+			if ( responseText.contains( "You aren't allowed to go to any Haunted Houses right now" ) )
 			{
 				UseItemRequest.lastUpdate = "You aren't allowed to go to any Haunted Houses right now.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			else if ( responseText.indexOf( "You don't know where any haunted sorority houses are right now." ) != -1  ||
-			     responseText.indexOf( "No way. It's boring in there now that everybody is dead." ) != -1 )
+			if ( responseText.contains( "You don't know where any haunted sorority houses are right now." ) ||
+			     responseText.contains( "No way. It's boring in there now that everybody is dead." ) )
 			{
 				UseItemRequest.lastUpdate = "The Haunted Sorority House is unavailable.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
 
-			return;
+			break;
 
 		case ItemPool.GHOSTLY_BODY_PAINT:
 		case ItemPool.NECROTIZING_BODY_SPRAY:
@@ -4354,24 +4299,23 @@ public class UseItemRequest
 		case ItemPool.WHISKER_PENCIL:
 		case ItemPool.PRESS_ON_RIBS:
 
-			if ( responseText.indexOf( "You've already got a sexy costume on" ) != -1 )
+			if ( responseText.contains( "You've already got a sexy costume on" ) )
 			{
 				UseItemRequest.lastUpdate = "You've already got a sexy costume on.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.BLACK_PAINT:
 
-			if ( KoLCharacter.inFistcore() &&
-			     responseText.indexOf( "Your teachings forbid the use of black paint." ) != -1 )
+			if ( KoLCharacter.inFistcore() && responseText.contains( "Your teachings forbid the use of black paint." ) )
 			{
 				UseItemRequest.lastUpdate = "Your teachings forbid the use of black paint.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.ALL_YEAR_SUCKER:
 			Preferences.setBoolean( "_allYearSucker", true );
@@ -4400,13 +4344,12 @@ public class UseItemRequest
 			// Then you resolve to do it again and again and again.
 			// Then you resolve to do it again and again and again and again.
 
-			if ( responseText.indexOf( "already feeling adventurous enough" ) != -1 )
+			if ( responseText.contains( "already feeling adventurous enough" ) )
 			{
 				// player has already used 5 resolutions today
 				int extraAdv = 10 - Preferences.getInteger( "_resolutionAdv" );
 				Preferences.increment( "extraRolloverAdventures", extraAdv );
 				Preferences.increment( "_resolutionAdv", extraAdv );
-				ResultProcessor.processResult( item );
 				return;
 			}
 
@@ -4422,10 +4365,10 @@ public class UseItemRequest
 
 			if ( used < count )
 			{
-				ResultProcessor.processResult( item.getInstance( count - used ) );
+				item = item.getInstance( used );
 			}
 
-			return;
+			break;
 
 		case ItemPool.CLANCY_SACKBUT:
 			KoLCharacter.setCurrentInstrument( CharPaneRequest.SACKBUT );
@@ -4444,16 +4387,19 @@ public class UseItemRequest
 		case ItemPool.DRAGON_TEETH:
 		case ItemPool.BEER_SEEDS:
 		case ItemPool.WINTER_SEEDS:
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+
+			if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
 			{
-				CampgroundRequest.clearCrop();
-				RequestThread.postRequest( new CampgroundRequest() );
+				return;
 			}
-			return;
+
+			CampgroundRequest.clearCrop();
+			RequestThread.postRequest( new CampgroundRequest() );
+			break;
 
 		case ItemPool.ESSENTIAL_TOFU:
 			Preferences.setBoolean( "_essentialTofuUsed", true );
-			return;
+			break;
 
 		case ItemPool.CHOCOLATE_CIGAR:
 			if ( responseText.indexOf( "You light the end") != -1 )
@@ -4468,7 +4414,7 @@ public class UseItemRequest
 			{
 				Preferences.setInteger( "_chocolateCigarsUsed", 3 );
 			}
-			return;
+			break;
 
 		case ItemPool.VITACHOC_CAPSULE:
 			if ( responseText.indexOf( "As the nutritive nanobots" ) != -1 )
@@ -4483,7 +4429,7 @@ public class UseItemRequest
 			{
 				Preferences.setInteger( "_vitachocCapsulesUsed", 3 );
 			}
-			return;
+			break;
 
 		case ItemPool.FANCY_CHOCOLATE:
 		case ItemPool.FANCY_EVIL_CHOCOLATE:
@@ -4499,7 +4445,7 @@ public class UseItemRequest
 		case ItemPool.CABBAGE_MEDIOCREBAR:
 		case ItemPool.CHOCO_CRIMBOT:
 			Preferences.increment( "_chocolatesUsed" );
-			return;
+			break;
 
 		case ItemPool.CREEPY_VOODOO_DOLL:
 			Preferences.setBoolean( "_creepyVoodooDollUsed", true );
@@ -4568,38 +4514,35 @@ public class UseItemRequest
 
 		case ItemPool.BOX_OF_HAMMERS:
 			Preferences.setBoolean( "_boxOfHammersUsed", true );
-			return;
+			break;
 
 		case ItemPool.TEMPURA_AIR:
 			Preferences.setBoolean( "_tempuraAirUsed", true );
-			return;
+			break;
 
 		case ItemPool.PRESSURIZED_PNEUMATICITY:
 			if ( responseText.contains( "You pop the cork" ) )
 			{
 				Preferences.setBoolean( "_pneumaticityPotionUsed", true );
 			}
-			return;
+			break;
 
 		case ItemPool.HYPERINFLATED_SEAL_LUNG:
 			Preferences.setBoolean( "_hyperinflatedSealLungUsed", true );
-			return;
+			break;
 
 		case ItemPool.BALLAST_TURTLE:
 			Preferences.setBoolean( "_ballastTurtleUsed", true );
-			return;
+			break;
 
 		case ItemPool.LEFT_BEAR_ARM:
 			// Both bear arms are used up to create the box
 			// You find a box, carefully label it, and shove a couple of bear arms into it.
-			if ( responseText.contains( "You find a box" ) )
+			if ( !responseText.contains( "You find a box" ) )
 			{
-				ResultProcessor.removeItem( ItemPool.RIGHT_BEAR_ARM );
+				return;
 			}
-			else
-			{
-				ResultProcessor.processItem( ItemPool.LEFT_BEAR_ARM, 1 );
-			}
+			ResultProcessor.removeItem( ItemPool.RIGHT_BEAR_ARM );
 			return;
 
 		case ItemPool.CURSED_KEG:
@@ -4619,8 +4562,10 @@ public class UseItemRequest
 		case ItemPool.CRIMBO_HOT_MUG:
 		case ItemPool.CRIMBO_TREE_FLOCKER:
 		case ItemPool.CRIMBO_RUDOLPH_DOLL:
-			// Instead of checking which one was used and removing the others,
-			// add the one that was used and remove one of each.
+
+			// Instead of checking which one was used and removing
+			// the others here and this one below, remove one of
+			// each here
 
 			ResultProcessor.processResult( item );
 			ResultProcessor.processItem( ItemPool.CRIMBO_CREEPY_HEAD, -1 );
@@ -4638,17 +4583,15 @@ public class UseItemRequest
 		case ItemPool.MEATSMITH_JAR:
 		case ItemPool.JICK_JAR:
 			// You may have succeeded
-			if ( responseText.contains( "You open the jar and peer inside." ) )
-			{
-				CampgroundRequest.setCampgroundItem( itemId, 1 );
-				Preferences.setBoolean( "_psychoJarUsed", true );
-			}
-			else
+			if ( !responseText.contains( "You open the jar and peer inside." ) )
 			{
 				// If not, don't remove it
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
+			Preferences.setBoolean( "_psychoJarUsed", true );
+			break;
 
 		case ItemPool.FISHY_PIPE:
 			Preferences.setBoolean( "_fishyPipeUsed", true );
@@ -4659,13 +4602,11 @@ public class UseItemRequest
 			{
 				UseItemRequest.lastUpdate = "Jarlsberg hated getting his hands dirty. There is no way he would mess with this crap.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else
-			{
-				Preferences.setBoolean( "_blankoutUsed", true );
-			}
-			return;
+
+			Preferences.setBoolean( "_blankoutUsed", true );
+			break;
 
 		case ItemPool.SONAR:
 			if ( responseText.contains( "rubble leading west from Guano Junction collapses in a heap" ) )
@@ -4680,90 +4621,82 @@ public class UseItemRequest
 			{
 				QuestDatabase.setQuestProgress( Quest.BAT, "step3" );
 			}
-			return;
+			break;
 
 		case ItemPool.SPRING_BEACH_CHARTER:
 			Preferences.setBoolean( "sleazeAirportAlways", true );
-			return;
+			break;
 
 		case ItemPool.SPRING_BEACH_TICKET:
-			if ( !responseText.contains( "already have access to that place" ) )
+			if ( responseText.contains( "already have access to that place" ) )
 			{
-				Preferences.setBoolean( "_sleazeAirportToday", true );
+				return;
 			}
-			else
-			{
-				// If you already have access it is not consumed
-				ResultProcessor.processResult( item );
-			}
-			return;
+			Preferences.setBoolean( "_sleazeAirportToday", true );
+			break;
 
 		case ItemPool.SPRING_BEACH_TATTOO_COUPON:
 			if ( !responseText.contains( "stagger into the back room" ) )
 			{
 				// If not drunk enough the items is not consumed
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.CONSPIRACY_ISLAND_CHARTER:
 			Preferences.setBoolean( "spookyAirportAlways", true );
-			return;
+			break;
 
 		case ItemPool.CONSPIRACY_ISLAND_TICKET:
-			if ( !responseText.contains( "already have access to that place" ) )
-			{
-				Preferences.setBoolean( "_spookyAirportToday", true );
-			}
-			else
+			if ( responseText.contains( "already have access to that place" ) )
 			{
 				// If you already have access it is not consumed
-				ResultProcessor.processResult( item );
+				return;
 			}
+
+			Preferences.setBoolean( "_spookyAirportToday", true );
 			return;
 
 		case ItemPool.SHAWARMA_KEYCARD:
 			Preferences.setBoolean( "SHAWARMAInitiativeUnlocked", true );
-			return;
+			break;
 
 		case ItemPool.BOTTLE_OPENER_KEYCARD:
 			Preferences.setBoolean( "canteenUnlocked", true );
-			return;
+			break;
 
 		case ItemPool.ARMORY_KEYCARD:
 			Preferences.setBoolean( "armoryUnlocked", true );
-			return;
+			break;
 
 		case ItemPool.DINSEY_CHARTER:
 			Preferences.setBoolean( "stenchAirportAlways", true );
 			return;
 
 		case ItemPool.DINSEY_TICKET:
-			if ( !responseText.contains( "already have access to that place" ) )
-			{
-				Preferences.setBoolean( "_stenchAirportToday", true );
-			}
-			else
+			if ( responseText.contains( "already have access to that place" ) )
 			{
 				// If you already have access it is not consumed
-				ResultProcessor.processResult( item );
+				return;
 			}
+
+			Preferences.setBoolean( "_stenchAirportToday", true );
 			return;
 
 		case ItemPool.LOVEBUG_PHEROMONES:
+			Preferences.setBoolean( "lovebugsUnlocked", true );
 			if ( !responseText.contains( "have been permanently unlocked" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			Preferences.setBoolean( "lovebugsUnlocked", true );
-			return;
+			break;
 
 		case ItemPool.SPOOKYRAVEN_TELEGRAM:
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
-			return;
+			break;
 
 		case ItemPool.WORSE_HOMES_GARDENS:
-			if ( QuestDatabase.isQuestLaterThan( Quest.HIPPY, "step1" ) )
+			if ( !QuestDatabase.isQuestLaterThan( Quest.HIPPY, "step1" ) )
 			{
 				return;
 			}
@@ -4772,17 +4705,15 @@ public class UseItemRequest
 
 		case ItemPool.MERKIN_WORDQUIZ:
 			matcher = MERKIN_WORDQUIZ_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				Preferences.setInteger( "merkinVocabularyMastery", StringUtilities.parseInt( matcher.group(1) ) );
-				ResultProcessor.removeItem( ItemPool.MERKIN_CHEATSHEET );
-			}
-			else
+			if ( !matcher.find() )
 			{
 				// Otherwise, it is not consumed
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+
+			Preferences.setInteger( "merkinVocabularyMastery", StringUtilities.parseInt( matcher.group(1) ) );
+			ResultProcessor.removeItem( ItemPool.MERKIN_CHEATSHEET );
+			break;
 
 		case ItemPool.DREADSCROLL:
 
@@ -4800,7 +4731,7 @@ public class UseItemRequest
 			if ( responseText.contains( "I guess you're the Mer-kin High Priest now" ) )
 			{
 				Preferences.setString( "merkinQuestPath", "scholar" );
-				return;
+				break;
 			}
 
 			if ( !Preferences.getString( "merkinQuestPath" ).equals( "done" ) &&
@@ -4808,20 +4739,19 @@ public class UseItemRequest
 			{
 				Preferences.setString( "merkinQuestPath", "gladiator" );
 				Preferences.setInteger( "lastColosseumRoundWon", 15 );
-				return;
+				break;
 			}
 
 			// Otherwise, it is not consumed
-			ResultProcessor.processResult( item );
 			return;
 
 		case ItemPool.MERKIN_STASHBOX:
 			ResultProcessor.removeItem( ItemPool.MERKIN_LOCKKEY );
-			return;
+			break;
 
 		case ItemPool.MERKIN_KNUCKLEBONE:
 			DreadScrollManager.handleKnucklebone( responseText );
-			return;
+			break;
 
 		case ItemPool.DEFECTIVE_TOKEN:
 			Preferences.setBoolean( "_defectiveTokenUsed", true );
@@ -4843,17 +4773,17 @@ public class UseItemRequest
 		case ItemPool.MARK_OF_THE_SKELETON:
 			if ( !responseText.contains( "You have unlocked a new tattoo" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.DREADSYLVANIAN_ALMANAC:
 			// You've already learned everything you can learn from these things.
 			if ( responseText.contains( "You've already learned everything" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.BOOK_OF_MATCHES:
 			// If Hidden Tavern not already unlocked, new items available
@@ -4871,14 +4801,13 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.SKELETON:
-			// Put this back in inventory, since we detect its loss
-			// via the choice adventure.
-			ResultProcessor.processResult( item );
+
+			// We detect its loss via the choice adventure.
 			return;
 
 		case ItemPool.DESERT_PAMPHLET:
 			QuestManager.incrementDesertExploration( 15 );
-			return;
+			break;
 
 		case ItemPool.MODELING_CLAYMORE:
 			// You bury the claymore in the clay (what a coincidence!)
@@ -4895,11 +4824,10 @@ public class UseItemRequest
 				// Look at the island map and make our best
 				// effort to synch up the kill count
 				RequestThread.postRequest( new IslandRequest() );
-				return;
+				break;
 			}
 
 			// Otherwise, it is not consumed
-			ResultProcessor.processResult( item );
 			return;
 			
 		case ItemPool.BLUE_LINT:
@@ -4908,7 +4836,7 @@ public class UseItemRequest
 		case ItemPool.ORANGE_LINT:
 			if ( responseText.contains( "very improbable thing happens" ) )
 			{
-				// Remove lint
+				// Remove all four lints
 				ResultProcessor.processItem( ItemPool.BLUE_LINT, -1 );
 				ResultProcessor.processItem( ItemPool.GREEN_LINT, -1 );
 				ResultProcessor.processItem( ItemPool.WHITE_LINT, -1 );
@@ -4944,7 +4872,7 @@ public class UseItemRequest
 
 		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
 			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
-			return;
+			break;
 
 		case ItemPool.WARBEAR_BANK:
 			// You don't have 25 Meat to drop into the bank.
@@ -4956,47 +4884,47 @@ public class UseItemRequest
 
 		case ItemPool.LUPINE_APPETITE_HORMONES:
 			Preferences.setBoolean( "_lupineHormonesUsed", true );
-			return;
+			break;
 
 		case ItemPool.CORRUPTED_STARDUST:
 		case ItemPool.PIXEL_ORB:
 			Preferences.setBoolean( "_corruptedStardustUsed", true );
-			return;
+			break;
 
 		case ItemPool.JARLSBERG_SOUL_FRAGMENT:
 			if ( responseText.contains( "extra skill point" ) )
 			{
 				Preferences.increment( "jarlsbergPoints" );
 			}
-			return;
+			break;
 
 		case ItemPool.SNEAKY_PETE_SHOT:
 			if ( responseText.contains( "extra skill point" ) )
 			{
 				Preferences.increment( "sneakyPetePoints" );
 			}
-			return;
+			break;
 
 		case ItemPool.SESHAT_TALISMAN:
 			if ( responseText.contains( "transform into knowledge" ) )
 			{
 				Preferences.increment( "edPoints" );
 			}
-			return;
+			break;
 
 		case ItemPool.ESSENCE_OF_ANNOYANCE:
 			if ( responseText.contains( "You quaff" ) )
 			{
 				Preferences.decrement( "summonAnnoyanceCost", 1 );
 			}
-			return;
+			break;
 
 		case ItemPool.SWEET_TOOTH:
 			if ( responseText.contains( "You pop the sweet" ) || responseText.contains( "You already had" ) )
 			{
 				Preferences.setBoolean( "_sweetToothUsed", true );
 			}
-			return;
+			break;
 
 		case ItemPool.CHRONER_TRIGGER:
 			Preferences.setBoolean( "_chronerTriggerUsed", true );
@@ -5024,6 +4952,7 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.STEAM_FIST_3, -1 );
 			}
 			return;
+
 		case ItemPool.STEAM_TRIP_1:
 		case ItemPool.STEAM_TRIP_2:
 		case ItemPool.STEAM_TRIP_3:
@@ -5034,6 +4963,7 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.STEAM_TRIP_3, -1 );
 			}
 			return;
+
 		case ItemPool.STEAM_METEOID_1:
 		case ItemPool.STEAM_METEOID_2:
 		case ItemPool.STEAM_METEOID_3:
@@ -5044,6 +4974,7 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.STEAM_METEOID_3, -1 );
 			}
 			return;
+
 		case ItemPool.STEAM_DEMON_1:
 		case ItemPool.STEAM_DEMON_2:
 		case ItemPool.STEAM_DEMON_3:
@@ -5054,6 +4985,7 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.STEAM_DEMON_3, -1 );
 			}
 			return;
+
 		case ItemPool.STEAM_PLUMBER_1:
 		case ItemPool.STEAM_PLUMBER_2:
 		case ItemPool.STEAM_PLUMBER_3:
@@ -5067,7 +4999,7 @@ public class UseItemRequest
 
 		case ItemPool.LETTER_FROM_MELVIGN:
 			QuestDatabase.setQuestIfBetter( Quest.SHIRT, QuestDatabase.STARTED );
-			return;
+			break;
 
 		case ItemPool.XIBLAXIAN_SCHEMATIC_COWL:
 		case ItemPool.XIBLAXIAN_SCHEMATIC_TROUSERS:
@@ -5083,7 +5015,7 @@ public class UseItemRequest
 				RequestLogger.updateSessionLog( message );
 				Preferences.setBoolean( "unknownRecipe" + itemId, false );
 			}
-			return;
+			break;
 
 		case ItemPool.CRIMBOT_TORSO_2:  case ItemPool.CRIMBOT_LEFTARM_2:  case ItemPool.CRIMBOT_RIGHTARM_2:  case ItemPool.CRIMBOT_PROPULSION_2:
 		case ItemPool.CRIMBOT_TORSO_3:  case ItemPool.CRIMBOT_LEFTARM_3:  case ItemPool.CRIMBOT_RIGHTARM_3:  case ItemPool.CRIMBOT_PROPULSION_3:
@@ -5097,16 +5029,16 @@ public class UseItemRequest
 		case ItemPool.CRIMBOT_TORSO_11: case ItemPool.CRIMBOT_LEFTARM_11: case ItemPool.CRIMBOT_RIGHTARM_11: case ItemPool.CRIMBOT_PROPULSION_11:
 			if ( !responseText.contains( "You feed the schematic into the Crimbot assembler" ) )
 			{
-				ResultProcessor.processItem( itemId, 1 );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.GAUDY_KEY:
 			if ( !responseText.contains( "the key vanishes" ) )
 			{
-				ResultProcessor.processItem( itemId, 1 );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.PICKY_TWEEZERS:
 			Preferences.setBoolean( "_pickyTweezersUsed", true );
@@ -5132,13 +5064,12 @@ public class UseItemRequest
 			Preferences.setInteger( "lastStillBeatingSpleen", KoLCharacter.getAscensions() );
 			if ( !responseText.contains( "assimilate" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			return;
+			break;
 
 		case ItemPool.WAREHOUSE_MAP_PAGE:
 		case ItemPool.WAREHOUSE_INVENTORY_PAGE:
-			ResultProcessor.processResult( item );
 			if ( responseText.contains( "compare the map" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.WAREHOUSE_INVENTORY_PAGE );
@@ -5154,22 +5085,20 @@ public class UseItemRequest
 		case ItemPool.MAYOFLEX:
 			if ( responseText.contains( "mouth is already full" ) )
 			{
-				ResultProcessor.processResult( item );
+				return;
 			}
-			else
-			{
-				Preferences.setString( "mayoInMouth", item.getName() );
-				Preferences.increment( "mayoLevel", 1 );
-			}
-			return;
+
+			Preferences.setString( "mayoInMouth", item.getName() );
+			Preferences.increment( "mayoLevel", 1 );
+			break;
 
 		case ItemPool.HUNGER_SAUCE:
 			Preferences.setBoolean( "_hungerSauceUsed", true );
-			return;
+			break;
 
 		case ItemPool.BRAIN_PRESERVATION_FLUID:
 			Preferences.setBoolean( "_brainPreservationFluidUsed", true );
-			return;
+			break;
 
 		case ItemPool.GOLDEN_RESORT_CHIP:
 			if ( responseText.contains( "turn in 100 chips at the redemption center" ) )
@@ -5188,12 +5117,32 @@ public class UseItemRequest
 			Preferences.setBoolean( "_workshedItemUsed", true );
 			if ( responseText.contains( "already rearranged your workshed" ) )
 			{
-				ResultProcessor.processResult( item );
 				return;
 			}
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.get( itemId, 1 ) );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
-			return;
+		}
+
+		// Finally, remove the item from inventory if it was successfully used.
+
+		switch ( consumptionType )
+		{
+		case KoLConstants.CONSUME_ZAP:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.INFINITE_USES:
+			break;
+
+		default:
+			if ( !ItemDatabase.isReusable( itemId ) )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
 		}
 	}
 
