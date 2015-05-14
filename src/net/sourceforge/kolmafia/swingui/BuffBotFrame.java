@@ -113,7 +113,6 @@ public class BuffBotFrame
 		{
 			super( "BuffBot Activities", "start", "stop", new JList( BuffBotHome.getMessages() ) );
 
-			BuffBotHome.setFrame( BuffBotFrame.this );
 			( (JList) this.scrollComponent ).setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 

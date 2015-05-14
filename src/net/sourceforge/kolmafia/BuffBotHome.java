@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 
-import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
 
@@ -323,14 +322,6 @@ public class BuffBotHome
 	public static final void recordBuff( final String name, final String buff, final int casts, final int meatSent )
 	{
 		BuffBotHome.textLogStream.println( BuffBotHome.TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," + ContactManager.getPlayerId( name ) + "," + buff + "," + casts + "," + meatSent );
-	}
-
-	/**
-	 * Sets the frame that should be updated whenever a status message arrives.
-	 */
-
-	public static final void setFrame( final BuffBotFrame frame )
-	{
 	}
 
 	/**
