@@ -12410,6 +12410,7 @@ public abstract class ChoiceManager
 		case 1051: // The Book of the Undying
 		case 1053: // The Servants' Quarters
 		case 1063: // Adjust your 'Edpiece
+		case 1066: // Employee Assignment Kiosk
 		case 1067: // Maint Misbehavin'
 		case 1076: // Mayo Minder&trade;
 			return true;
