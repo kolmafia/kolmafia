@@ -412,11 +412,15 @@ public class ValhallaManager
 		}
 		else if ( KoLCharacter.isPicky() )
 		{
-			sessionStream.print( "Picky" );
+			sessionStream.print( "Picky " );
 		}
 		else if ( KoLCharacter.isEd() )
 		{
-			sessionStream.print( "Actually Ed the Undying" );
+			sessionStream.print( "Actually Ed the Undying " );
+		}
+		else if ( KoLCharacter.isCrazyRandom() )
+		{
+			sessionStream.print( "One Crazy Random Summer " );
 		}
 		else if ( KoLCharacter.getRestricted() )
 		{

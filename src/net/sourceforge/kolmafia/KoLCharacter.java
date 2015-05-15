@@ -3526,6 +3526,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Actually Ed the Undying" );
 	}
 
+	public static final boolean isCrazyRandom()
+	{
+		return KoLCharacter.ascensionPath.equals( "One Crazy Random Summer" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
