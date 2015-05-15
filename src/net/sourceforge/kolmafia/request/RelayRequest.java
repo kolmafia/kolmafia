@@ -2023,7 +2023,12 @@ public class RelayRequest
 
 		// Otherwise, you need the Wand of Nagamar
 		if ( KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) ||
-		     InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
+		     InventoryManager.hasItem( SorceressLairManager.NAGAMAR ) )
+		{
+			return false;
+		}
+
+		if ( Preferences.getBoolean( "autoCraft" ) && InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 		{
 			return false;
 		}
