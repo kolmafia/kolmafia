@@ -117,7 +117,7 @@ public class ConcoctionPool
 		}
 		else
 		{
-			ConcoctionPool.nonitems.put( name, c );
+			ConcoctionPool.nonitems.put( cname, c );
 		}
 
 		int row = c.getRow();
