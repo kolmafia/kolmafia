@@ -322,7 +322,7 @@ public class AdventureRequest
 		// This is a server error. Hope for the best and repeat the
 		// request.
 
-		if ( this.responseText.indexOf( "No adventure data exists for this location" ) != -1 )
+		if ( this.responseText.contains( "No adventure data exists for this location" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Server error.  Please wait and try again." );
 			return;
@@ -380,7 +380,7 @@ public class AdventureRequest
 		// Trick-or-treating requires a costume;
 		// notify the user of this error.
 
-		if ( this.formSource.equals( "trickortreat.php" ) && this.responseText.indexOf( "without a costume" ) != -1 )
+		if ( this.formSource.equals( "trickortreat.php" ) && this.responseText.contains( "without a costume" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You must wear a costume." );
 			return;
@@ -566,7 +566,6 @@ public class AdventureRequest
 
 		if ( KoLCharacter.isCrazyRandom() )
 		{
-			RequestLogger.printLine( "handling crazy random" );
 			name = AdventureRequest.handleCrazyRandom( name, responseText );
 		}
 
@@ -839,7 +838,7 @@ public class AdventureRequest
 				// Dvorak's revenge
 				// You jump to the last letter, and put your pom-poms down with a sign of relief --
 				// thank goodness that's over. Worst. Spelling bee. Ever.
-				if ( responseText.indexOf ( "put your pom-poms down" ) != -1 )
+				if ( responseText.contains( "put your pom-poms down" ) )
 				{
 					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step2" );
 				}
@@ -849,7 +848,7 @@ public class AdventureRequest
 				// Limerick Dungeon
 				for ( int i = 0; i < LIMERICKS.length; ++i )
 				{
-					if ( responseText.indexOf( LIMERICKS[i][1] ) != -1 )
+					if ( responseText.contains( LIMERICKS[i][1] ) )
 					{
 						return LIMERICKS[i][0];
 					}
@@ -862,7 +861,7 @@ public class AdventureRequest
 				// and find him just where you left him, continuing to whine about his stubbed toe.
 				//
 				// "Here you go, tough guy" you say, and hand him the unguent.
-				if ( responseText.indexOf( "you say, and hand him the unguent" ) != -1 )
+				if ( responseText.contains( "you say, and hand him the unguent" ) )
 				{
 					ResultProcessor.processItem( ItemPool.PUNGENT_UNGUENT, -1 );
 				}
@@ -1072,7 +1071,7 @@ public class AdventureRequest
 			{
 				Object [] demons = AdventureRequest.demons[ i ];
 				String text = (String) demons[ 2 ];
-				if ( responseText.indexOf( text ) != -1 )
+				if ( responseText.contains( text ) )
 				{
 					setting = (String) demons[ 3 ];
 					break;
@@ -1195,14 +1194,14 @@ public class AdventureRequest
 
 	public static final void handleServerRedirect( final String redirectLocation )
 	{
-		if ( redirectLocation.indexOf( "main.php" ) != -1 )
+		if ( redirectLocation.contains( "main.php" ) )
 		{
 			return;
 		}
 
 		AdventureRequest.ZONE_UNLOCK.constructURLString( redirectLocation );
 
-		if ( redirectLocation.indexOf( "palinshelves.php" ) != -1 )
+		if ( redirectLocation.contains( "palinshelves.php" ) )
 		{
 			AdventureRequest.ZONE_UNLOCK.run();
 			AdventureRequest.ZONE_UNLOCK.constructURLString(
@@ -1210,7 +1209,7 @@ public class AdventureRequest
 			return;
 		}
 
-		if ( redirectLocation.indexOf( "tiles.php" ) != -1 )
+		if ( redirectLocation.contains( "tiles.php" ) )
 		{
 			AdventureRequest.handleDvoraksRevenge( AdventureRequest.ZONE_UNLOCK );
 			return;
