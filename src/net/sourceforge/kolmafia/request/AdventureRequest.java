@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
@@ -71,9 +75,14 @@ import net.sourceforge.kolmafia.session.TavernManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
+
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 
 public class AdventureRequest
 	extends GenericRequest
@@ -554,6 +563,12 @@ public class AdventureRequest
 			name = CombatActionManager.encounterKey( toName, false );
 		}
 		fromName = null;
+
+		if ( KoLCharacter.isCrazyRandom() )
+		{
+			RequestLogger.printLine( "handling crazy random" );
+			name = AdventureRequest.handleCrazyRandom( name, responseText );
+		}
 
 		EquipmentManager.decrementTurns();
 		return name;
@@ -1227,5 +1242,287 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=7" ).run();
 		request.constructURLString( "tiles.php?action=jump&whichtile=6" ).run();
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
+	}
+
+	private static String handleCrazyRandom( String monsterName, String responseText )
+	{
+		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+		String xpath = "//script/text()";
+		TagNode doc;
+		try
+		{
+			doc = cleaner.clean( responseText );
+		}
+		catch( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+			return monsterName;
+		}
+		
+		Object[] result;
+		try
+		{
+			result = doc.evaluateXPath( xpath );
+		}
+		catch ( XPatherException ex )
+		{
+			return monsterName;
+		}
+		
+		String text = "";
+		for ( Object result1 : result )
+		{
+			text = result1.toString();
+			if ( !text.startsWith( "var ocrs" ) )
+			{
+				continue;
+			}
+			break;
+		}
+		String[] temp = text.split( "\"" );
+		boolean lastAttribute = false;
+		ArrayList<String> attrs = new ArrayList<String>();
+		for ( int i = 1; i < temp.length - 1; i++ ) // The first and last elements are never useful
+		{
+			if ( !temp[i].contains( ":" ) && !temp[i].equals( "," ) )
+			{
+				attrs.add( temp[i] );
+			}
+		}
+
+		int j = 0;
+		for ( String attr : attrs )
+		{
+			j++;
+			if ( j == attrs.size() )
+			{
+				lastAttribute = true;
+			}
+			monsterName = AdventureRequest.removeCrazySummerAttribute( attr, monsterName, lastAttribute );
+		}
+
+		// Make attrs accessible somehow?
+
+		return monsterName;
+	}
+
+	private static final String removeCrazySummerAttribute( final String attribute, String monsterName, final boolean last )
+	{
+		String remove = "";
+		if ( attribute.equals( "annoying" ) )
+		{
+			remove = "annoying";
+		}
+		else if ( attribute.equals( "artisanal" ) )
+		{
+			remove = "artisanal";
+		}
+		else if ( attribute.equals( "askew" ) )
+		{
+			remove = "askew";
+		}
+		else if ( attribute.equals( "blinking" ) )
+		{
+			remove = "phase-shifting";
+		}
+		else if ( attribute.equals( "blue" ) )
+		{
+			remove = "ice-cold";
+		}
+		else if ( attribute.equals( "blurry" ) )
+		{
+			remove = "blurry";
+		}
+		else if ( attribute.equals( "bouncing" ) )
+		{
+			remove = "bouncing";
+		}
+		else if ( attribute.equals( "broke" ) )
+		{
+			remove = "broke";
+		}
+		else if ( attribute.equals( "clingy" ) )
+		{
+			remove = "clingy";
+		}
+		else if ( attribute.equals( "crimbo" ) )
+		{
+			remove = "yuletide";
+		}
+		else if ( attribute.equals( "curse" ) )
+		{
+			remove = "cursed";
+		}
+		else if ( attribute.equals( "disguised" ) )
+		{
+			remove = "disguised";
+		}
+		else if ( attribute.equals( "drunk" ) )
+		{
+			remove = "drunk";
+		}
+		else if ( attribute.equals( "electric" ) )
+		{
+			remove = "electrified";
+		}
+		else if ( attribute.equals( "flies" ) )
+		{
+			remove = "filthy";
+		}
+		else if ( attribute.equals( "flip" ) )
+		{
+			remove = "Australian";
+		}
+		else if ( attribute.equals( "floating" ) )
+		{
+			remove = "floating";
+		}
+		else if ( attribute.equals( "fragile" ) )
+		{
+			remove = "fragile";
+		}
+		else if ( attribute.equals( "ghostly" ) )
+		{
+			remove = "ghostly";
+		}
+		else if ( attribute.equals( "haunted" ) )
+		{
+			remove = "haunted";
+		}
+		else if ( attribute.equals( "hopping" ) )
+		{
+			remove = "hopping-mad";
+		}
+		else if ( attribute.equals( "huge" ) )
+		{
+			remove = "huge";
+		}
+		else if ( attribute.equals( "invisible" ) )
+		{
+			remove = "invisible";
+		}
+		else if ( attribute.equals( "jitter" ) )
+		{
+			remove = "jittery";
+		}
+		else if ( attribute.equals( "lazy" ) )
+		{
+			remove = "lazy";
+		}
+		else if ( attribute.equals( "leet" ) )
+		{
+			remove = "1337";
+		}
+		else if ( attribute.equals( "mirror" ) )
+		{
+			remove = "left-handed";
+		}
+		else if ( attribute.equals( "narcissistic" ) )
+		{
+			remove = "narcissistic";
+		}
+		else if ( attribute.equals( "optimal" ) )
+		{
+			remove = "optimal";
+		}
+		else if ( attribute.equals( "pixellated" ) )
+		{
+			remove = "pixellated";
+		}
+		else if ( attribute.equals( "pulse" ) )
+		{
+			remove = "throbbing";
+		}
+		else if ( attribute.equals( "purple" ) )
+		{
+			remove = "sleazy";
+		}
+		else if ( attribute.equals( "quacking" ) )
+		{
+			remove = "quacking";
+		}
+		else if ( attribute.equals( "rainbow" ) )
+		{
+			remove = "tie-dyed";
+		}
+		else if ( attribute.equals( "red" ) )
+		{
+			remove = "red-hot";
+		}
+		else if ( attribute.equals( "rotate" ) )
+		{
+			remove = "twirling";
+		}
+		else if ( attribute.equals( "shakes" ) )
+		{
+			remove = "shaky";
+		}
+		else if ( attribute.equals( "short" ) )
+		{
+			remove = "short";
+		}
+		else if ( attribute.equals( "shy" ) )
+		{
+			remove = "shy";
+		}
+		else if ( attribute.equals( "skinny" ) )
+		{
+			remove = "skinny";
+		}
+		else if ( attribute.equals( "sparkling" ) )
+		{
+			remove = "solid gold";
+		}
+		else if ( attribute.equals( "spinning" ) )
+		{
+			remove = "cartwheeling";
+		}
+		else if ( attribute.equals( "swearing" ) )
+		{
+			remove = "foul-mouthed";
+		}
+		else if ( attribute.equals( "ticking" ) )
+		{
+			remove = "ticking";
+		}
+		else if ( attribute.equals( "tiny" ) )
+		{
+			remove = "tiny";
+		}
+		else if ( attribute.equals( "turgid" ) )
+		{
+			remove = "turgid";
+		}
+		else if ( attribute.equals( "unstoppable" ) )
+		{
+			remove = "unstoppable";
+		}
+		else if ( attribute.equals( "untouchable" ) )
+		{
+			remove = "untouchable";
+		}
+		else if ( attribute.equals( "wobble" ) )
+		{
+			remove = "dancin'";
+		}
+		else if ( attribute.equals( "xray" ) )
+		{
+			remove = "negaverse";
+		}
+		else if ( attribute.equals( "zoom" ) )
+		{
+			remove = "restless";
+		}
+
+		if ( last )
+		{
+			remove += " ";
+		}
+		else
+		{
+			remove += ", ";
+		}
+
+		return StringUtilities.singleStringDelete( monsterName, remove );
 	}
 }

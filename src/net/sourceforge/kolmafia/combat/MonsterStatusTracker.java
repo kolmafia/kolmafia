@@ -33,15 +33,11 @@
 
 package net.sourceforge.kolmafia.combat;
 
-import java.io.IOException;
-import java.util.ArrayList;
 
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -51,16 +47,11 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.htmlcleaner.XPatherException;
 
 public class MonsterStatusTracker
 {
@@ -102,11 +93,6 @@ public class MonsterStatusTracker
 	public static final void setNextMonsterName( String monsterName )
 	{
 		MonsterStatusTracker.reset();
-		
-		if ( KoLCharacter.isCrazyRandom() )
-		{
-			monsterName = MonsterStatusTracker.handleCrazyRandom( monsterName );
-		}
 
 		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
 
@@ -418,287 +404,6 @@ public class MonsterStatusTracker
 		MonsterStatusTracker.defenseManuel = defense;
 		MonsterStatusTracker.healthManuel = hp;
 		MonsterStatusTracker.manuelFound = true;
-	}
-
-	private static String handleCrazyRandom( String monsterName )
-	{
-		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-		String xpath = "//script/text()";
-		TagNode doc;
-		try
-		{
-			doc = cleaner.clean( FightRequest.lastResponseText );
-		}
-		catch( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-			return monsterName;
-		}
-		
-		Object[] result;
-		try
-		{
-			result = doc.evaluateXPath( xpath );
-		}
-		catch ( XPatherException ex )
-		{
-			return monsterName;
-		}
-		
-		String text = "";
-		for ( Object result1 : result )
-		{
-			text = result1.toString();
-			if ( !text.startsWith( "var ocrs" ) )
-			{
-				continue;
-			}
-			break;
-		}
-		String[] temp = text.split( "\"" );
-		boolean lastAttribute = false;
-		ArrayList<String> attrs = new ArrayList<String>();
-		for ( int i = 1; i < temp.length - 1; i++ ) // The first and last elements are not useful
-		{
-			if ( temp[i].contains( ":" ) || temp[i].equals( "," ) )
-			{
-				continue;
-			}
-			attrs.add( temp[i] );
-		}
-
-		int j = 0;
-		for ( String attr : attrs )
-		{
-			j++;
-			if ( j == attrs.size() )
-			{
-				lastAttribute = true;
-			}
-			monsterName = MonsterStatusTracker.removeCrazySummerAttribute( attr, monsterName, lastAttribute );
-		}
-
-		return monsterName;
-	}
-
-	private static final String removeCrazySummerAttribute( final String attribute, String monsterName, final boolean last )
-	{
-		String remove = "";
-		if ( attribute.equals( "annoying" ) )
-		{
-			remove = "annoying";
-		}
-		else if ( attribute.equals( "artisanal" ) )
-		{
-			remove = "artisanal";
-		}
-		else if ( attribute.equals( "askew" ) )
-		{
-			remove = "askew";
-		}
-		else if ( attribute.equals( "blinking" ) )
-		{
-			remove = "phase-shifting";
-		}
-		else if ( attribute.equals( "blue" ) )
-		{
-			remove = "ice-cold";
-		}
-		else if ( attribute.equals( "blurry" ) )
-		{
-			remove = "blurry";
-		}
-		else if ( attribute.equals( "bouncing" ) )
-		{
-			remove = "bouncing";
-		}
-		else if ( attribute.equals( "broke" ) )
-		{
-			remove = "broke";
-		}
-		else if ( attribute.equals( "clingy" ) )
-		{
-			remove = "clingy";
-		}
-		else if ( attribute.equals( "crimbo" ) )
-		{
-			remove = "yuletide";
-		}
-		else if ( attribute.equals( "curse" ) )
-		{
-			remove = "cursed";
-		}
-		else if ( attribute.equals( "disguised" ) )
-		{
-			remove = "disguised";
-		}
-		else if ( attribute.equals( "drunk" ) )
-		{
-			remove = "drunk";
-		}
-		else if ( attribute.equals( "electric" ) )
-		{
-			remove = "electrified";
-		}
-		else if ( attribute.equals( "flies" ) )
-		{
-			remove = "filthy";
-		}
-		else if ( attribute.equals( "flip" ) )
-		{
-			remove = "Australian";
-		}
-		else if ( attribute.equals( "floating" ) )
-		{
-			remove = "floating";
-		}
-		else if ( attribute.equals( "fragile" ) )
-		{
-			remove = "fragile";
-		}
-		else if ( attribute.equals( "ghostly" ) )
-		{
-			remove = "ghostly";
-		}
-		else if ( attribute.equals( "haunted" ) )
-		{
-			remove = "haunted";
-		}
-		else if ( attribute.equals( "hopping" ) )
-		{
-			remove = "hopping-mad";
-		}
-		else if ( attribute.equals( "huge" ) )
-		{
-			remove = "huge";
-		}
-		else if ( attribute.equals( "invisible" ) )
-		{
-			remove = "invisible";
-		}
-		else if ( attribute.equals( "jitter" ) )
-		{
-			remove = "jittery";
-		}
-		else if ( attribute.equals( "lazy" ) )
-		{
-			remove = "lazy";
-		}
-		else if ( attribute.equals( "leet" ) )
-		{
-			remove = "1337";
-		}
-		else if ( attribute.equals( "mirror" ) )
-		{
-			remove = "left-handed";
-		}
-		else if ( attribute.equals( "narcissistic" ) )
-		{
-			remove = "narcissistic";
-		}
-		else if ( attribute.equals( "optimal" ) )
-		{
-			remove = "optimal";
-		}
-		else if ( attribute.equals( "pixellated" ) )
-		{
-			remove = "pixellated";
-		}
-		else if ( attribute.equals( "pulse" ) )
-		{
-			remove = "throbbing";
-		}
-		else if ( attribute.equals( "purple" ) )
-		{
-			remove = "sleazy";
-		}
-		else if ( attribute.equals( "quacking" ) )
-		{
-			remove = "quacking";
-		}
-		else if ( attribute.equals( "rainbow" ) )
-		{
-			remove = "tie-dyed";
-		}
-		else if ( attribute.equals( "red" ) )
-		{
-			remove = "red-hot";
-		}
-		else if ( attribute.equals( "rotate" ) )
-		{
-			remove = "twirling";
-		}
-		else if ( attribute.equals( "shakes" ) )
-		{
-			remove = "shaky";
-		}
-		else if ( attribute.equals( "short" ) )
-		{
-			remove = "short";
-		}
-		else if ( attribute.equals( "shy" ) )
-		{
-			remove = "shy";
-		}
-		else if ( attribute.equals( "skinny" ) )
-		{
-			remove = "skinny";
-		}
-		else if ( attribute.equals( "sparkling" ) )
-		{
-			remove = "solid gold";
-		}
-		else if ( attribute.equals( "spinning" ) )
-		{
-			remove = "cartwheeling";
-		}
-		else if ( attribute.equals( "swearing" ) )
-		{
-			remove = "foul-mouthed";
-		}
-		else if ( attribute.equals( "ticking" ) )
-		{
-			remove = "ticking";
-		}
-		else if ( attribute.equals( "tiny" ) )
-		{
-			remove = "tiny";
-		}
-		else if ( attribute.equals( "turgid" ) )
-		{
-			remove = "turgid";
-		}
-		else if ( attribute.equals( "unstoppable" ) )
-		{
-			remove = "unstoppable";
-		}
-		else if ( attribute.equals( "untouchable" ) )
-		{
-			remove = "untouchable";
-		}
-		else if ( attribute.equals( "wobble" ) )
-		{
-			remove = "dancin'";
-		}
-		else if ( attribute.equals( "xray" ) )
-		{
-			remove = "negaverse";
-		}
-		else if ( attribute.equals( "zoom" ) )
-		{
-			remove = "restless";
-		}
-
-		if ( last )
-		{
-			remove += " ";
-		}
-		else
-		{
-			remove += ", ";
-		}
-
-		return StringUtilities.singleStringDelete( monsterName, remove );
 	}
 
 }
