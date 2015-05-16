@@ -139,6 +139,7 @@ Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Eff
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
+# Item dice-print do-rag: +1 Random Monster Modifier
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
 # Item Dinsey mascot mask: Changes Your Avatar
 Item	Dinsey mascot mask	Item Drop: -50, Initiative: -100
@@ -484,6 +485,7 @@ Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 Item	Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato, cap 17"
 Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
+# Item dice-print pajama pants: +1 Random Monster Modifier
 # Item Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15
 Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
@@ -2273,6 +2275,12 @@ Item	depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Si
 Item	depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
 Item	dethklok	Spooky Damage: +15
 # diamond necklace
+# Item dice belt buckle: +1 Random Monster Modifier
+Item	dice belt buckle	Single Equip
+# Item dice ring: +1 Random Monster Modifier
+Item	dice ring	Single Equip
+# Item dice sunglasses: +1 Random Monster Modifier
+Item	dice sunglasses	Single Equip
 # Item Dinsey's glove: +30 damage to Accordion Thief Combat Skills
 Item	Dinsey's glove	Moxie Percent: +30, Single Equip
 Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip
@@ -3088,6 +3096,7 @@ Item	Buddy Bjorn	Softcore Only
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
+# Item dice-shaped backpack: +1 Random Monster Modifier
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"

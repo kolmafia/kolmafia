@@ -8309,3 +8309,12 @@
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100	Kokomo Resort Passes
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
 8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0	jars of Mayo de Mayo&trade; mayo
+8287
+8288
+8289
+8290	dice ring	835114452	dicering.gif	accessory		0
+8291	dice belt buckle	574345959	dicebuckle.gif	accessory		0
+8292	dice-print pajama pants	212346816	dicepants.gif	pants		0
+8293	dice-shaped backpack	402888121	dicepack.gif	container		0
+8294	dice-print do-rag	371916226	dicerag.gif	hat		0
+8295	dice sunglasses	483999849	diceglasses.gif	accessory		0

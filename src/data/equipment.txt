@@ -70,6 +70,7 @@ crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
 demon-horned hat	70	Mox: 20
 depleted Grimacite ninja mask	100	Mox: 35
+dice-print do-rag	10	none
 dilapidated wizard hat	125	Mox: 47
 Dinsey mascot mask	10	none
 Dinsey's brain	200	Mox: 100
@@ -381,6 +382,7 @@ cursed breeches	200	Mox: 85
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
+dice-print pajama pants	10	none
 Dinsey's pants	200	Mox: 100
 distressed denim pants	170	Mox: 70
 double-ice britches	70	Mox: 20
@@ -1940,6 +1942,9 @@ depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
 diamond necklace	10	none
+dice belt buckle	10	none
+dice ring	10	none
+dice sunglasses	10	none
 Dinsey's glove	200	Mys: 100
 Dinsey's oculus	200	Mus: 100
 dirty hobo gloves	20	none
@@ -2666,6 +2671,7 @@ Buddy Bjorn	100	none
 Camp Scout backpack	0	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
+dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drunkula's cape	300	Mys: 250
 frozen turtle shell	100	Mus: 50
