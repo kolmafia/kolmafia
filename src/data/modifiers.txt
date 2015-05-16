@@ -4251,6 +4251,7 @@ Effect	Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
 # Curse of Impotence: -50% Damage vs. Skeletons
 Effect	Curse of Loneliness	Familiar Weight: -20, Familiar Damage: -20
 Effect	Curse of Misfortune	Meat Drop: -100, Item Drop: -50
+# Effect Curse of Randomness: +1 Random Monster Modifier
 Effect	Curse of Sluggishness	Initiative: -50
 # Curse of the Black Pearl Onion: Nasty belches during combat
 Effect	Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
