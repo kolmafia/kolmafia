@@ -310,7 +310,7 @@ sprocket assembly	COMBINE	sprocket	spring
 ND	COMBINE	lowercase N	heavy D
 NG	COMBINE	lowercase N	original G
 WA	COMBINE	metallic A	ruby W
-Wand of Nagamar	COMBINE	WA	ND
+Wand of Nagamar	ACOMBINE	WA	ND
 wang	COMBINE	WA	NG
 
 
