@@ -479,7 +479,7 @@ public class CharPaneRequest
 		CharPaneRequest.makeStatPattern( "Muscle", "Mysticality", "Moxie" );
 
 	private static final Pattern modifiedPattern =
-		Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" );
+		Pattern.compile( "<font color=(?:red|blue)>(\\d+)</font>&nbsp;\\((\\d+)\\)" );
 
 	private static final void handleStatPoints( final String responseText, final Pattern pattern )
 		throws Exception
