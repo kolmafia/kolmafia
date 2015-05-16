@@ -1243,6 +1243,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_upper_case", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "leetify", DataTypes.STRING_TYPE, params ) );
+
 		// String buffer functions
 
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
@@ -5388,6 +5391,11 @@ public abstract class RuntimeLibrary
 	public static Value to_lower_case( Interpreter interpreter, final Value string )
 	{
 		return new Value( string.toString().toLowerCase() );
+	}
+
+	public static Value leetify( Interpreter interpreter, final Value string )
+	{
+		return new Value( StringUtilities.leetify( string.toString() ) );
 	}
 
 	public static Value append( Interpreter interpreter, final Value buffer, final Value s )
