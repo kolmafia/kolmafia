@@ -1064,4 +1064,38 @@ public class StringUtilities
 		String rv = StringUtilities.prepositionsMap.get( m.replaceAll( "@" ) );
 		return rv == null ? text : rv;
 	}
+
+	public static final String leetify( final String text )
+	{
+		StringBuilder b = new StringBuilder();
+		for ( int i = 0; i < text.length(); ++i )
+		{
+			char c = text.charAt( i );
+			switch ( c )
+			{
+			case 'O': case 'o':
+				b.append( "0" );
+				break;
+			case 'I': case 'i':
+			case 'L': case 'l':
+				b.append( "1" );
+				break;
+			case 'E': case 'e':
+				b.append( "3" );
+				break;
+			case 'A': case 'a':
+				b.append( "4" );
+				break;
+			case 'S': case 's':
+				b.append( "5" );
+				break;
+			case 'T': case 't':
+				b.append( "7" );
+				break;
+			default:
+				b.append( c );
+			}
+		}
+		return b.toString();
+	}
 }
