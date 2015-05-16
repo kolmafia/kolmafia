@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,6 +102,71 @@ public class AdventureRequest
 	private final String adventureId;
 
 	private int override = -1;
+
+	private static final String[][] crazyAttributeMapping =
+	{
+		{ "annoying", "annoying" },
+		{ "artisanal", "artisanal" },
+		{ "askew", "askew" },
+		{ "blinking", "phase-shifting" },
+		{ "blue", "ice-cold" },
+		{ "blurry", "blurry" },
+		{ "bouncing", "bouncing" },
+		{ "broke", "broke" },
+		{ "clingy", "clingy" },
+		{ "crimbo", "yuletide" },
+		{ "curse", "cursed" },
+		{ "disguised", "disguised" },
+		{ "drunk", "drunk" },
+		{ "electric", "electrified" },
+		{ "flies", "filthy" },
+		{ "flip", "Australian" },
+		{ "floating", "floating" },
+		{ "fragile", "fragile" },
+		{ "ghostly", "ghostly" },
+		{ "gray", "spooky" },
+		{ "haunted", "haunted" },
+		{ "hopping", "hopping-mad" },
+		{ "huge", "huge" },
+		{ "invisible", "invisible" },
+		{ "jitter", "jittery" },
+		{ "lazy", "lazy" },
+		{ "leet", "1337" },
+		{ "mirror", "left-handed" },
+		{ "narcissistic", "narcissistic" },
+		{ "optimal", "optimal" },
+		{ "pixellated", "pixellated" },
+		{ "pulse", "throbbing" },
+		{ "purple", "sleazy" },
+		{ "quacking", "quacking" },
+		{ "rainbow", "tie-dyed" },
+		{ "red", "red-hot" },
+		{ "rotate", "twirling" },
+		{ "shakes", "shaky" },
+		{ "short", "short" },
+		{ "shy", "shy" },
+		{ "skinny", "skinny" },
+		{ "sparkling", "solid gold" },
+		{ "spinning", "cartwheeling" },
+		{ "swearing", "foul-mouthed" },
+		{ "ticking", "ticking" },
+		{ "tiny", "tiny" },
+		{ "turgid", "turgid" },
+		{ "unstoppable", "unstoppable" },
+		{ "untouchable", "untouchable" },
+		{ "wobble", "dancin'" },
+		{ "xray", "negaverse" },
+		{ "zoom", "restless" },
+	};
+
+	private static final HashMap<String, String> crazySummerAttributes = new HashMap<String, String>();
+	static
+	{
+		for ( String[] mapping : AdventureRequest.crazyAttributeMapping )
+		{
+			AdventureRequest.crazySummerAttributes.put( mapping[0], mapping[1] );
+		}
+	};
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
@@ -1278,8 +1344,8 @@ public class AdventureRequest
 			}
 			break;
 		}
+
 		String[] temp = text.split( "\"" );
-		boolean lastAttribute = false;
 		ArrayList<String> attrs = new ArrayList<String>();
 		for ( int i = 1; i < temp.length - 1; i++ ) // The first and last elements are never useful
 		{
@@ -1290,248 +1356,22 @@ public class AdventureRequest
 		}
 
 		int j = 0;
-		for ( String attr : attrs )
+		for ( String attribute : attrs )
 		{
-			j++;
-			if ( j == attrs.size() )
+			String remove = AdventureRequest.crazySummerAttributes.get( attribute );
+			if ( remove == null )
 			{
-				lastAttribute = true;
+				RequestLogger.printLine( "Unrecognized monster modifier: " + attribute );
+				continue;
 			}
-			monsterName = AdventureRequest.removeCrazySummerAttribute( attr, monsterName, lastAttribute );
+
+			remove += ( ++j == attrs.size() ) ? " " : ", ";
+
+			monsterName = StringUtilities.singleStringDelete( monsterName, remove );
 		}
 
 		// Make attrs accessible somehow?
 
 		return monsterName;
-	}
-
-	private static final String removeCrazySummerAttribute( final String attribute, String monsterName, final boolean last )
-	{
-		String remove = "";
-		if ( attribute.equals( "annoying" ) )
-		{
-			remove = "annoying";
-		}
-		else if ( attribute.equals( "artisanal" ) )
-		{
-			remove = "artisanal";
-		}
-		else if ( attribute.equals( "askew" ) )
-		{
-			remove = "askew";
-		}
-		else if ( attribute.equals( "blinking" ) )
-		{
-			remove = "phase-shifting";
-		}
-		else if ( attribute.equals( "blue" ) )
-		{
-			remove = "ice-cold";
-		}
-		else if ( attribute.equals( "blurry" ) )
-		{
-			remove = "blurry";
-		}
-		else if ( attribute.equals( "bouncing" ) )
-		{
-			remove = "bouncing";
-		}
-		else if ( attribute.equals( "broke" ) )
-		{
-			remove = "broke";
-		}
-		else if ( attribute.equals( "clingy" ) )
-		{
-			remove = "clingy";
-		}
-		else if ( attribute.equals( "crimbo" ) )
-		{
-			remove = "yuletide";
-		}
-		else if ( attribute.equals( "curse" ) )
-		{
-			remove = "cursed";
-		}
-		else if ( attribute.equals( "disguised" ) )
-		{
-			remove = "disguised";
-		}
-		else if ( attribute.equals( "drunk" ) )
-		{
-			remove = "drunk";
-		}
-		else if ( attribute.equals( "electric" ) )
-		{
-			remove = "electrified";
-		}
-		else if ( attribute.equals( "flies" ) )
-		{
-			remove = "filthy";
-		}
-		else if ( attribute.equals( "flip" ) )
-		{
-			remove = "Australian";
-		}
-		else if ( attribute.equals( "floating" ) )
-		{
-			remove = "floating";
-		}
-		else if ( attribute.equals( "fragile" ) )
-		{
-			remove = "fragile";
-		}
-		else if ( attribute.equals( "ghostly" ) )
-		{
-			remove = "ghostly";
-		}
-		else if ( attribute.equals( "gray" ) )
-		{
-			remove = "spooky";
-		}
-		else if ( attribute.equals( "haunted" ) )
-		{
-			remove = "haunted";
-		}
-		else if ( attribute.equals( "hopping" ) )
-		{
-			remove = "hopping-mad";
-		}
-		else if ( attribute.equals( "huge" ) )
-		{
-			remove = "huge";
-		}
-		else if ( attribute.equals( "invisible" ) )
-		{
-			remove = "invisible";
-		}
-		else if ( attribute.equals( "jitter" ) )
-		{
-			remove = "jittery";
-		}
-		else if ( attribute.equals( "lazy" ) )
-		{
-			remove = "lazy";
-		}
-		else if ( attribute.equals( "leet" ) )
-		{
-			remove = "1337";
-		}
-		else if ( attribute.equals( "mirror" ) )
-		{
-			remove = "left-handed";
-		}
-		else if ( attribute.equals( "narcissistic" ) )
-		{
-			remove = "narcissistic";
-		}
-		else if ( attribute.equals( "optimal" ) )
-		{
-			remove = "optimal";
-		}
-		else if ( attribute.equals( "pixellated" ) )
-		{
-			remove = "pixellated";
-		}
-		else if ( attribute.equals( "pulse" ) )
-		{
-			remove = "throbbing";
-		}
-		else if ( attribute.equals( "purple" ) )
-		{
-			remove = "sleazy";
-		}
-		else if ( attribute.equals( "quacking" ) )
-		{
-			remove = "quacking";
-		}
-		else if ( attribute.equals( "rainbow" ) )
-		{
-			remove = "tie-dyed";
-		}
-		else if ( attribute.equals( "red" ) )
-		{
-			remove = "red-hot";
-		}
-		else if ( attribute.equals( "rotate" ) )
-		{
-			remove = "twirling";
-		}
-		else if ( attribute.equals( "shakes" ) )
-		{
-			remove = "shaky";
-		}
-		else if ( attribute.equals( "short" ) )
-		{
-			remove = "short";
-		}
-		else if ( attribute.equals( "shy" ) )
-		{
-			remove = "shy";
-		}
-		else if ( attribute.equals( "skinny" ) )
-		{
-			remove = "skinny";
-		}
-		else if ( attribute.equals( "sparkling" ) )
-		{
-			remove = "solid gold";
-		}
-		else if ( attribute.equals( "spinning" ) )
-		{
-			remove = "cartwheeling";
-		}
-		else if ( attribute.equals( "swearing" ) )
-		{
-			remove = "foul-mouthed";
-		}
-		else if ( attribute.equals( "ticking" ) )
-		{
-			remove = "ticking";
-		}
-		else if ( attribute.equals( "tiny" ) )
-		{
-			remove = "tiny";
-		}
-		else if ( attribute.equals( "turgid" ) )
-		{
-			remove = "turgid";
-		}
-		else if ( attribute.equals( "unstoppable" ) )
-		{
-			remove = "unstoppable";
-		}
-		else if ( attribute.equals( "untouchable" ) )
-		{
-			remove = "untouchable";
-		}
-		else if ( attribute.equals( "wobble" ) )
-		{
-			remove = "dancin'";
-		}
-		else if ( attribute.equals( "xray" ) )
-		{
-			remove = "negaverse";
-		}
-		else if ( attribute.equals( "zoom" ) )
-		{
-			remove = "restless";
-		}
-		
-		if ( remove.equals( "" ) )
-		{
-			RequestLogger.printLine( "Unrecognized monster modifier: " + attribute );
-			return monsterName;
-		}
-
-		if ( last )
-		{
-			remove += " ";
-		}
-		else
-		{
-			remove += ", ";
-		}
-
-		return StringUtilities.singleStringDelete( monsterName, remove );
 	}
 }
