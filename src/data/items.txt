@@ -8236,7 +8236,7 @@
 8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10
 8212	grogpagne	583183522	champagne.gif	multiple	t,d	36
 8213	dirty rigging rope	289454217	stinkrope.gif	offhand	t,d	66
-8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45
+8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45	tins of nasty snuff
 8215	sewage-clogged pistol	660740541	sewagepistol.gif	weapon	t,d	77
 8216	beard incense	204763905	incense.gif	multiple	t,d	15
 8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
