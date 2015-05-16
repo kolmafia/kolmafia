@@ -1384,6 +1384,10 @@ public class AdventureRequest
 		{
 			remove = "ghostly";
 		}
+		else if ( attribute.equals( "gray" ) )
+		{
+			remove = "spooky";
+		}
 		else if ( attribute.equals( "haunted" ) )
 		{
 			remove = "haunted";
@@ -1511,6 +1515,12 @@ public class AdventureRequest
 		else if ( attribute.equals( "zoom" ) )
 		{
 			remove = "restless";
+		}
+		
+		if ( remove.equals( "" ) )
+		{
+			RequestLogger.printLine( "Unrecognized monster modifier: " + attribute );
+			return monsterName;
 		}
 
 		if ( last )
