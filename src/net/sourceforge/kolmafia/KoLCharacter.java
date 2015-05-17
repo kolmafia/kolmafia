@@ -2382,6 +2382,15 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the total current count of random monster attributes
+	 */
+
+	public static final int getRandomMonsterAttributes()
+	{
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.RANDOM_MONSTER_ATTRIBUTES );
+	}
+
+	/**
 	 * Accessor method to retrieve the total current familiar weight adjustment
 	 */
 
@@ -5124,7 +5133,10 @@ public abstract class KoLCharacter
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List<AdventureResult> effects, FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned, String edPiece, String snowsuit, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD,
+							      AdventureResult[] equipment, List<AdventureResult> effects,
+							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
+							      String edPiece, String snowsuit, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5164,7 +5176,7 @@ public abstract class KoLCharacter
 			// El Vibrato Relics may have additional benefits based on
 			// punchcards inserted into the helmet:
 			if ( outfit.getOutfitId() == OutfitPool.VIBRATO_RELICS &&
-				Preferences.getInteger( "lastEVHelmetReset" ) == KoLCharacter.getAscensions() )
+			     Preferences.getInteger( "lastEVHelmetReset" ) == KoLCharacter.getAscensions() )
 			{
 				int data = Preferences.getInteger( "lastEVHelmetValue" );
 				for ( int i = 9; i > 0; --i )
@@ -5245,14 +5257,14 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.ITEMDROP, cloathingLevel / 2, "Outfit:cloathing" );
 		}
 
-		// Because there are a limited number of passive skills,
-		// it is much more efficient to execute one check for
-		// each of the known skills.
-
+		// Add modifiers from Passive Skills
 		newModifiers.applyPassiveModifiers();
 
 		// Add modifiers from Florist Friar plants
 		newModifiers.applyFloristModifiers();
+
+		// Add modifiers from Current Path
+		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath ) );
 
 		// For the sake of easier maintenance, execute a lot of extra
 		// string comparisons when looking at status effects.

@@ -72,6 +72,9 @@ public class MonsterData
 	private final ArrayList<AdventureResult> items;
 	private final ArrayList<Double> pocketRates;
 
+	// The following apply to a specific (cloned) instance of a monster
+	private String[] randomAttributes;
+
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
@@ -121,6 +124,9 @@ public class MonsterData
 
 		this.items = new ArrayList<AdventureResult>();
 		this.pocketRates = new ArrayList<Double>();
+
+		// No random attributes
+		this.randomAttributes = new String[0];
 	}
 
 	private static int ML()
@@ -597,6 +603,11 @@ public class MonsterData
 	public String getAttributes()
 	{
 		return this.attributes == null ? "" : this.attributes;
+	}
+
+	public String[] getRandomAttributes()
+	{
+		return this.randomAttributes == null ? new String[0] : this.randomAttributes;
 	}
 
 	public List<AdventureResult> getItems()

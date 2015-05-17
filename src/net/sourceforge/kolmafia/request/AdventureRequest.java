@@ -642,9 +642,9 @@ public class AdventureRequest
 			return BasementRequest.basementMonster;
 		}
 
-		if ( KoLCharacter.isCrazyRandom() )
+		if ( KoLCharacter.getRandomMonsterAttributes() > 0 )
 		{
-			encounterToCheck = AdventureRequest.handleCrazyRandom( encounterToCheck, responseText );
+			encounterToCheck = AdventureRequest.handleRandomAttributes( encounterToCheck, responseText );
 		}
 
 		String encounter = ConsequenceManager.disambiguateMonster( encounterToCheck, responseText );
@@ -1309,7 +1309,7 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
-	private static String handleCrazyRandom( String monsterName, String responseText )
+	private static String handleRandomAttributes( String monsterName, String responseText )
 	{
 		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 		String xpath = "//script/text()";
@@ -1376,12 +1376,12 @@ public class AdventureRequest
 			monsterName = StringUtilities.singleStringDelete( monsterName, remove );
 		}
 
-		// Make attrs accessible somehow?
-
 		if ( leet )
 		{
 			monsterName = MonsterDatabase.translateLeetMonsterName( monsterName );
 		}
+
+		// Make attrs accessible somehow?
 
 		return monsterName;
 	}

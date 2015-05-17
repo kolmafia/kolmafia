@@ -387,8 +387,7 @@ public class DataTypes
 			return DataTypes.LOCATION_INIT;
 		}
 
-		KoLAdventure content = AdventureDatabase.getAdventureByURL(
-			"adventure.php?snarfblat=" + adv );
+		KoLAdventure content = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + adv );
 		if ( content == null )
 		{
 			return returnDefault ? DataTypes.LOCATION_INIT : null;
@@ -879,6 +878,16 @@ public class DataTypes
 
 		String name = EdServantData.dataToType( data );
 		return new Value( DataTypes.SERVANT_TYPE, num, name, data );
+	}
+
+	public static final Value makeMonsterValue( final MonsterData monster )
+	{
+		if ( monster == null )
+		{
+			return DataTypes.MONSTER_INIT;
+		}
+
+		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
 	}
 
 	// Also supply:

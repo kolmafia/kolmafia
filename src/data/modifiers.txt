@@ -139,7 +139,7 @@ Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Eff
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
-# Item dice-print do-rag: +1 Random Monster Modifier
+Item	dice-print do-rag	Random Monster Attributes: +1
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
 # Item Dinsey mascot mask: Changes Your Avatar
 Item	Dinsey mascot mask	Item Drop: -50, Initiative: -100
@@ -485,7 +485,7 @@ Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 Item	Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato, cap 17"
 Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
-# Item dice-print pajama pants: +1 Random Monster Modifier
+Item	dice-print pajama pants	Random Monster Attributes: +1
 # Item Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15
 Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
@@ -2275,12 +2275,9 @@ Item	depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Si
 Item	depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
 Item	dethklok	Spooky Damage: +15
 # diamond necklace
-# Item dice belt buckle: +1 Random Monster Modifier
-Item	dice belt buckle	Single Equip
-# Item dice ring: +1 Random Monster Modifier
-Item	dice ring	Single Equip
-# Item dice sunglasses: +1 Random Monster Modifier
-Item	dice sunglasses	Single Equip
+Item	dice belt buckle	Random Monster Attributes: +1, Single Equip
+Item	dice ring	Random Monster Attributes: +1, Single Equip
+Item	dice sunglasses	Random Monster Attributes: +1, Single Equip
 # Item Dinsey's glove: +30 damage to Accordion Thief Combat Skills
 Item	Dinsey's glove	Moxie Percent: +30, Single Equip
 Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip
@@ -3096,7 +3093,7 @@ Item	Buddy Bjorn	Softcore Only
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
-# Item dice-shaped backpack: +1 Random Monster Modifier
+Item	dice-shaped backpack	Random Monster Attributes: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"
@@ -4260,7 +4257,7 @@ Effect	Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
 # Curse of Impotence: -50% Damage vs. Skeletons
 Effect	Curse of Loneliness	Familiar Weight: -20, Familiar Damage: -20
 Effect	Curse of Misfortune	Meat Drop: -100, Item Drop: -50
-# Effect Curse of Randomness: +1 Random Monster Modifier
+Effect	Curse of Randomness	Random Monster Attributes: +1
 Effect	Curse of Sluggishness	Initiative: -50
 # Curse of the Black Pearl Onion: Nasty belches during combat
 Effect	Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
@@ -7850,6 +7847,10 @@ Florist	Rad-ish Radish	Experience (Moxie): +5
 # Florist:Celery Stalker: Deals Spooky damage
 Florist	Lettuce Spray	HP Regen Min: 10, HP Regen Max: 30
 Florist	Seltzer Watercress	MP Regen Min: 5, MP Regen Max: 15
+
+# Path section
+
+Path	One Crazy Random Summer	Random Monster Attributes: +1
 
 # Indoor Plants
 
