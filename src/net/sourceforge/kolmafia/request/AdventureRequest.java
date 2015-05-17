@@ -630,21 +630,21 @@ public class AdventureRequest
 		}
 		fromName = null;
 
-		if ( KoLCharacter.isCrazyRandom() )
-		{
-			name = AdventureRequest.handleCrazyRandom( name, responseText );
-		}
-
 		EquipmentManager.decrementTurns();
 		return name;
 	}
 
-	private static final String translateGenericType( final String encounterToCheck, final String responseText )
+	private static final String translateGenericType( String encounterToCheck, final String responseText )
 	{
 		if ( KoLAdventure.lastLocationName != null &&
 		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
 		{
 			return BasementRequest.basementMonster;
+		}
+
+		if ( KoLCharacter.isCrazyRandom() )
+		{
+			encounterToCheck = AdventureRequest.handleCrazyRandom( encounterToCheck, responseText );
 		}
 
 		String encounter = ConsequenceManager.disambiguateMonster( encounterToCheck, responseText );
