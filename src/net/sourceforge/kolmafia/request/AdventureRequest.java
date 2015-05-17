@@ -1356,6 +1356,7 @@ public class AdventureRequest
 		}
 
 		int j = 0;
+		boolean leet = false;
 		for ( String attribute : attrs )
 		{
 			String remove = AdventureRequest.crazySummerAttributes.get( attribute );
@@ -1365,12 +1366,22 @@ public class AdventureRequest
 				continue;
 			}
 
+			if ( remove.equals( "1337" ) )
+			{
+				leet = true;
+			}
+
 			remove += ( ++j == attrs.size() ) ? " " : ", ";
 
 			monsterName = StringUtilities.singleStringDelete( monsterName, remove );
 		}
 
 		// Make attrs accessible somehow?
+
+		if ( leet )
+		{
+			monsterName = MonsterDatabase.translateLeetMonsterName( monsterName );
+		}
 
 		return monsterName;
 	}
