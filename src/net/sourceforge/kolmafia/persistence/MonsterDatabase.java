@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MonsterDatabase
 {
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
+	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
 	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
@@ -241,10 +242,11 @@ public class MonsterDatabase
 
 			for ( int i = 4; i < data.length; ++i )
 			{
-				AdventureResult item = MonsterDatabase.parseItem( data[ i ] );
+				String itemString = data[ i ];
+				AdventureResult item = MonsterDatabase.parseItem( itemString );
 				if ( item == null || item.getItemId() == -1 || item.getName() == null )
 				{
-					RequestLogger.printLine( "Bad item for monster \"" + data[ 0 ] + "\": " + data[ i ] );
+					RequestLogger.printLine( "Bad item for monster \"" + name + "\": " + itemString );
 					bogus = true;
 					continue;
 				}
@@ -255,9 +257,10 @@ public class MonsterDatabase
 			if ( !bogus )
 			{
 				monster.doneWithItems();
-				String keyName = CombatActionManager.encounterKey( data[ 0 ] );
+				String keyName = CombatActionManager.encounterKey( name );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+				MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
 				for ( String image : images )
 				{
 					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
@@ -368,6 +371,12 @@ public class MonsterDatabase
 	public static final MonsterData findMonsterById( final int id )
 	{
 		return MonsterDatabase.MONSTER_IDS.get( id );
+	}
+
+	public static final String translateLeetMonsterName( final String leetName )
+	{
+		MonsterData monster = MonsterDatabase.LEET_MONSTER_DATA.get( leetName );
+		return monster == null ? leetName : monster.getName();
 	}
 
 	// Register an unknown monster
