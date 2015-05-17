@@ -7456,6 +7456,7 @@ Item	potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 Item	potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
 Item	potion of X-ray vision	Effect: "X-Ray Vision", Effect Duration: 30
 Item	powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
+Item	powdered dice	Effect: "Curse of Randomness", Effect Duration: 100
 Item	powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
 Item	praying Grim Brother	Free Pull
 Item	press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30

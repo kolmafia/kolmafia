@@ -180,6 +180,7 @@ hobo code binder	nosmash
 cane-mail shirt	candycaine powder
 cane-mail pants	candycaine powder
 giant candy cane	candycaine powder
+fleetwood chain	fleetwood macaroni
 
 # Equipment dropped, or made from drops, in The Sea has special results.
 7-inch discus	sea salt crystal
@@ -481,6 +482,14 @@ porcelain pepper mill	porcelain powder
 porcelain pelerine	porcelain powder
 porcelain phantom mask	porcelain powder
 
+# Dice items
+dice ring	powdered dice
+dice belt buckle	powdered dice
+dice-print pajama pants	powdered dice
+dice-shaped backpack	powdered dice
+dice-print do-rag	powdered dice
+dice sunglasses	powdered dice
+
 # Grim Mask Leaderboard First place rewards are not smashable
 silver cow creamer	nosmash
 wolf whistle	nosmash
@@ -489,4 +498,3 @@ hare pin	nosmash
 
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112
-fleetwood chain	fleetwood macaroni
