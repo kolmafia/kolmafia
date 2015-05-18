@@ -125,6 +125,7 @@ public class AdventureRequest
 		{ "fragile", "fragile" },
 		{ "ghostly", "ghostly" },
 		{ "gray", "spooky" },
+		{ "green", "stinky" },
 		{ "haunted", "haunted" },
 		{ "hopping", "hopping-mad" },
 		{ "huge", "huge" },
