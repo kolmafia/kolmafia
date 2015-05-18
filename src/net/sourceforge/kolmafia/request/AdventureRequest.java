@@ -634,7 +634,7 @@ public class AdventureRequest
 		return name;
 	}
 
-	private static final String translateGenericType( String encounterToCheck, final String responseText )
+	private static final String translateGenericType( final String encounterToCheck, final String responseText )
 	{
 		if ( KoLAdventure.lastLocationName != null &&
 		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
@@ -642,12 +642,9 @@ public class AdventureRequest
 			return BasementRequest.basementMonster;
 		}
 
-		if ( KoLCharacter.getRandomMonsterAttributes() > 0 )
-		{
-			encounterToCheck = AdventureRequest.handleRandomAttributes( encounterToCheck, responseText );
-		}
-
-		String encounter = ConsequenceManager.disambiguateMonster( encounterToCheck, responseText );
+		// If the monster has random attributes, remove and save them
+		String encounter =  AdventureRequest.handleRandomAttributes( encounterToCheck, responseText );
+		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
 		if ( MonsterDatabase.findMonster( encounter, false ) != null )
 		{
@@ -1309,8 +1306,16 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
+	public static String[] lastRandomAttributes = null;
+
 	private static String handleRandomAttributes( String monsterName, String responseText )
 	{
+		if ( KoLCharacter.getRandomMonsterAttributes() < 1 )
+		{
+			AdventureRequest.lastRandomAttributes = null;
+			return monsterName;
+		}
+
 		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 		String xpath = "//script/text()";
 		TagNode doc;
@@ -1338,11 +1343,10 @@ public class AdventureRequest
 		for ( Object result1 : result )
 		{
 			text = result1.toString();
-			if ( !text.startsWith( "var ocrs" ) )
+			if ( text.startsWith( "var ocrs" ) )
 			{
-				continue;
+				break;
 			}
-			break;
 		}
 
 		String[] temp = text.split( "\"" );
@@ -1381,7 +1385,9 @@ public class AdventureRequest
 			monsterName = MonsterDatabase.translateLeetMonsterName( monsterName );
 		}
 
-		// Make attrs accessible somehow?
+		// Save the attributes for later use
+		String[] array = new String[ attrs.size() ];
+		AdventureRequest.lastRandomAttributes = attrs.toArray( array );
 
 		return monsterName;
 	}

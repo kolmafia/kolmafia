@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia.combat;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -47,6 +48,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.AdventureRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -127,6 +129,11 @@ public class MonsterStatusTracker
 			// Temporarily register the unknown monster so that
 			// consult scripts can see it as such	
 			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
+		}
+
+		if ( KoLCharacter.getRandomMonsterAttributes() > 0 )
+		{
+			MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomAttributes( AdventureRequest.lastRandomAttributes );
 		}
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
