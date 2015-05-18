@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.CloneNotSupportedException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +58,10 @@ public class MonsterData
 	private final int cap;
 	private final int floor;
 	private Object mlMult;
-	private final Element attackElement;
-	private final Element defenseElement;
-	private final int physicalResistance;
-	private final int meat;
+	private Element attackElement;
+	private Element defenseElement;
+	private int physicalResistance;
+	private int meat;
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
@@ -127,6 +129,47 @@ public class MonsterData
 
 		// No random attributes
 		this.randomAttributes = new String[0];
+	}
+
+	public MonsterData handleRandomAttributes( String[] attributes )
+	{
+		if ( attributes == null || attributes.length == 0 )
+		{
+			return this;
+		}
+
+		// Clone the monster so we don't munge the template
+		MonsterData monster;
+		try
+		{
+			monster = (MonsterData)this.clone();
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			// This should not happen. Hope for the best.
+			return this;
+		}
+
+		// Save the attributes for use by scripts
+		monster.randomAttributes = attributes;
+
+		// Iterate over them and modify the base attributes
+		for ( int i = 0; i < attributes.length; ++i )
+		{
+			String attribute = attributes[ i ];
+			// *** the following are speculative. They - and many
+			// *** others - require more spading.
+			if ( attribute.equals( "broke" ) )
+			{
+				monster.meat = 5;
+			}
+			else if ( attribute.equals( "solid gold" ) )
+			{
+				monster.meat = 1000;
+			}
+		}
+
+		return monster;
 	}
 
 	private static int ML()
