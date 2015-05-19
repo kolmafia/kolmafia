@@ -364,28 +364,13 @@ public class PeeVPeeRequest
 			mission;
 	}
 
-	private static final String getStance( final String stance )
+	private static final String getStance( final String stanceString )
 	{
-		if ( stance != null )
-		{
-			if ( stance.equals( "1" ) )
-			{
-				return "Bully";
-			}
-			if ( stance.equals( "2" ) )
-			{
-				return "Burninate";
-			}
-			if ( stance.equals( "3" ) )
-			{
-				return "Backstab";
-			}
-			if ( stance.equals( "4" ) )
-			{
-				return "Ballyhoo";
-			}
-		}
-		return "an unknown stance";
+		String  stanceName =
+			stanceString != null ?
+			PvpManager.findStance( StringUtilities.parseInt( stanceString ) ) :
+			null;
+		return stanceName != null ? stanceName : "an unknown stance";
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -433,11 +418,13 @@ public class PeeVPeeRequest
 				String stance = PeeVPeeRequest.getField( PeeVPeeRequest.STANCE_PATTERN, urlString );
 				String mission = PeeVPeeRequest.getField( PeeVPeeRequest.MISSION_PATTERN, urlString );
 
-				StringBuilder buf = new StringBuilder( PeeVPeeRequest.getStance( stance ) );
-				buf.append( " " );
+				StringBuilder buf = new StringBuilder();
+				buf.append( "Attack " );
 				buf.append( PeeVPeeRequest.getOpponent( who, ranked ) );
 				buf.append( " for " );
 				buf.append( PeeVPeeRequest.getMission( mission ) );
+				buf.append( " via " );
+				buf.append( PeeVPeeRequest.getStance( stance ) );
 
 				String message = buf.toString();
 				RequestLogger.updateSessionLog();
