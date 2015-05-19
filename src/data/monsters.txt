@@ -1524,7 +1524,7 @@ spider queen	1732	spelunkspider.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug
 tikiman	1718	spelunktiki.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: dude
 vampire	1730	spelunkvampire.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: undead
 yeti	1722	spelunkyeti.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
-Yomama	1737	yomamma.gif	Atk: 100 Def: 100 HP: 300 Init: -10000 P: dude
+Yomama	1737	yomama.gif	Atk: 100 Def: 100 HP: 300 Init: -10000 P: dude
 
 # Barf Mountain (Dinseylandfill April 2015)
 angry tourist	1758	stenchtourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000	cheap sunglasses (0)	expensive camera (0)	How to Avoid Scams (0)
