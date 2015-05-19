@@ -739,6 +739,7 @@ uncooked chorizo	1	1	crappy	1	-5	0	0
 unfortunate dumplings	3	1	crappy	0	0	0	0	20 Really Quite Poisoned
 unidentifiable dried fruit	1	6	EPIC	5-6	20-40	20-40	20-40	50 Fruited (+100 Max HP, +100 Max MP)
 unidentified jerky	2	9	good	4-8	10-15	10-15	10-15
+uninteresting mayolus	1	2	crappy	1-1	0	0	0
 Ur-Donut	1	1	good	2-3	65-85	65-85	65-85
 urinal cake	2	1	crappy	2	0	0	0
 Valentine's Day cake	3	1	crappy	3	0	0	0

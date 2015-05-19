@@ -5100,7 +5100,7 @@ public class UseItemRequest
 			Preferences.setBoolean( "_brainPreservationFluidUsed", true );
 			break;
 
-		case ItemPool.GOLDEN_RESORT_CHIP:
+		case ItemPool.RESORT_CHIP:
 			if ( responseText.contains( "turn in 100 chips at the redemption center" ) )
 			{
 				ResultProcessor.processItem( ItemPool.RESORT_CHIP, -100 );
