@@ -1107,44 +1107,64 @@ public class DebugDatabase
 					continue;	// No value
 				}
 
-				if ( Modifiers.isNumericModifier( key ) && currentValue.contains( "[" ) )
+				if ( currentValue.contains( "[" ) )
 				{
-					// Evaluate the expression
 					int lbracket = currentValue.indexOf( "[" );
 					int rbracket = currentValue.indexOf( "]" );
-					String expression = currentValue.substring( lbracket + 1, rbracket );
 
-					// Kludge: KoL no longer takes Reagent Potion duration
-					// into account in item descriptions.
-					if ( key.equals( "Effect Duration" ) && expression.contains( "R" ) )
+					if ( Modifiers.isNumericModifier( key ) )
 					{
-						expression = StringUtilities.singleStringReplace( expression, "R", "5" );
-					}
+						// Evaluate the expression
+						String expression = currentValue.substring( lbracket + 1, rbracket );
 
-					ModifierExpression expr = new ModifierExpression( expression, Modifiers.getLookupName( type, name ) );
-					if ( expr.hasErrors() )
-					{
-						report.println( expr.getExpressionErrors() );
-					}
-					else
-					{
-						int descValue = StringUtilities.parseInt( value );
-						int modValue = (int)expr.eval();
-						if ( descValue != modValue )
+						// Kludge: KoL no longer takes Reagent Potion duration
+						// into account in item descriptions.
+						if ( key.equals( "Effect Duration" ) && expression.contains( "R" ) )
 						{
-							report.println( "# *** modifier " + key + ": " + currentValue + " evaluates to " + modValue + " but description says " + descValue );
+							expression = StringUtilities.singleStringReplace( expression, "R", "5" );
 						}
+
+						ModifierExpression expr = new ModifierExpression( expression, Modifiers.getLookupName( type, name ) );
+						if ( expr.hasErrors() )
+						{
+							report.println( expr.getExpressionErrors() );
+						}
+						else
+						{
+							int descValue = StringUtilities.parseInt( value );
+							int modValue = (int)expr.eval();
+							if ( descValue != modValue )
+							{
+								report.println( "# *** modifier " + key + ": " + currentValue + " evaluates to " + modValue + " but description says " + descValue );
+							}
+						}
+
+						// Keep the expression, regardless
+						modifier.setValue( currentValue );
+						continue;
 					}
 
-					// Keep the expression, regardless
-					modifier.setValue( currentValue );
-					continue;
+					if ( key.equals( "Effect" ) )
+					{
+						// Remove initial effect ID
+						String effect = currentValue.substring( 0, lbracket ) + currentValue.substring( rbracket + 1 );
+
+						if ( !value.equals( effect ) )
+						{
+							// Effect does not match
+							report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
+						}
+						else
+						{
+							modifier.setValue( currentValue );
+						}
+						continue;
+					}
 				}
 
 				// If the value is not an expression, it must match exactly
 				if ( !value.equals( currentValue ) )
 				{
-					// Value is not an expression and does not match
 					report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
 				}
 			}
