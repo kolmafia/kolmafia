@@ -2181,11 +2181,12 @@ public class UseItemRequest
 			// You spend a little while messing with all of the
 			// latches and clasps and little bits of metal, and end
 			// up with ...
-			if ( !responseText.contains( "latches and clasps" ) )
+			if ( responseText.contains( "latches and clasps" ) )
 			{
-				return;
+				// These are marked as reusable, but they go away when you fold them.
+				ResultProcessor.processResult( item.getNegation() );
 			}
-			break;
+			return;
 
 		case ItemPool.WHAT_CARD:
 		case ItemPool.WHEN_CARD:
