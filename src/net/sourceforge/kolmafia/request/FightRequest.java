@@ -4720,7 +4720,7 @@ public class FightRequest
 		String name = node.getName();
 		StringBuffer action = status.action;
 
-		// Skip scripts, forms, buttons, and html links
+		// Skip forms, buttons, and html links
 		if ( name.equals( "form" ) ||
 		     name.equals( "input" ) ||
 		     name.equals( "a" ) ||
@@ -5078,6 +5078,14 @@ public class FightRequest
 			{
 				String msg = "You gain a Level!";
 				status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
+			}
+
+			// If it is something else, let caller process the
+			// children and attempt to figure it out
+			
+			else
+			{
+				return true;
 			}
 
 			return false;
@@ -7444,11 +7452,9 @@ public class FightRequest
 	{
 		String name = node.getName();
 
-		// Skip scripts, forms, buttons, and html links
-		if ( name.equals( "script" ) ||
-		     name.equals( "form" ) ||
-		     name.equals( "input" ) ||
-		     name.equals( "div" ) )
+		// Skip forms and buttons
+		if ( name.equals( "form" ) ||
+		     name.equals( "input" ) )
 		{
 			return;
 		}
