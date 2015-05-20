@@ -54,6 +54,10 @@ An Overgrown Shrine (Southeast)	STOP	Fire when Ready
 A Massive Ziggurat	STOP	Legend of the Temple in the Hidden City
 A Massive Ziggurat	STOP	Temple of the Legend in the Hidden City
 The Daily Dungeon	STOP	The Final Reward
+Barf Mountain	STOP	The Back Door
+Pirates of the Garbage Barges	STOP	Behind the Scenes
+The Toxic Teacups	STOP	Toxic Teacup Tunnel Time
+Uncle Gator's Country Fun-Time Liquid Waste Sluice	STOP	Swamp Control
 
 ### Semi-rare Adventures
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
