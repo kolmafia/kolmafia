@@ -215,6 +215,7 @@ public abstract class EncounterManager
 
 		EncounterType encounterType = encounterType( encounterName );
 		return encounterType == EncounterType.STOP ||
+		       encounterType == EncounterType.BORIS ||
 		       encounterType == EncounterType.GLYPH ||
 		       encounterType == EncounterType.BADMOON;
 	}
@@ -307,7 +308,10 @@ public abstract class EncounterManager
 			BadMoonManager.registerAdventure( encounterName );
 		}
 
-		if ( encounterType == EncounterType.STOP || encounterType == EncounterType.BORIS || encounterType == EncounterType.GLYPH || encounterType == EncounterType.BADMOON )
+		if ( encounterType == EncounterType.STOP ||
+		     encounterType == EncounterType.BORIS ||
+		     encounterType == EncounterType.GLYPH ||
+		     encounterType == EncounterType.BADMOON )
 		{
 			GoalManager.checkAutoStop( encounterName );
 		}
