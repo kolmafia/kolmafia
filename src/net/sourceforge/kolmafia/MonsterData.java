@@ -163,31 +163,31 @@ public class MonsterData
 			{
 				monster.meat = 5;
 			}
-			else if ( attribute.equals( "ice-cold" ) )
+			else if ( attribute.equals( "blue" ) )
 			{
 				monster.attackElement = Element.COLD;
 				monster.defenseElement = Element.COLD;
 			}
-			else if ( attribute.equals( "red-hot" ) )
+			else if ( attribute.equals( "red" ) )
 			{
 				monster.attackElement = Element.HOT;
 				monster.defenseElement = Element.HOT;
 			}
-			else if ( attribute.equals( "sleazy" ) )
+			else if ( attribute.equals( "purple" ) )
 			{
 				monster.attackElement = Element.SLEAZE;
 				monster.defenseElement = Element.SLEAZE;
 			}
-			else if ( attribute.equals( "solid gold" ) )
+			else if ( attribute.equals( "sparkling" ) )
 			{
 				monster.meat = 1000;
 			}
-			else if ( attribute.equals( "spooky" ) )
+			else if ( attribute.equals( "gray" ) )
 			{
 				monster.attackElement = Element.SPOOKY;
 				monster.defenseElement = Element.SPOOKY;
 			}
-			else if ( attribute.equals( "stinky" ) )
+			else if ( attribute.equals( "green" ) )
 			{
 				monster.attackElement = Element.STENCH;
 				monster.defenseElement = Element.STENCH;
