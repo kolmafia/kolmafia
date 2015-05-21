@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.lang.CloneNotSupportedException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -76,6 +77,77 @@ public class MonsterData
 
 	// The following apply to a specific (cloned) instance of a monster
 	private String[] randomAttributes;
+
+	private static final String[][] crazyAttributeMapping =
+	{
+		{ "annoying", "annoying" },
+		{ "artisanal", "artisanal" },
+		{ "askew", "askew" },
+		{ "blinking", "phase-shifting" },
+		{ "blue", "ice-cold" },
+		{ "blurry", "blurry" },
+		{ "bouncing", "bouncing" },
+		{ "broke", "broke" },
+		{ "clingy", "clingy" },
+		{ "crimbo", "yuletide" },
+		{ "curse", "cursed" },
+		{ "disguised", "disguised" },
+		{ "drunk", "drunk" },
+		{ "electric", "electrified" },
+		{ "flies", "filthy" },
+		{ "flip", "Australian" },
+		{ "floating", "floating" },
+		{ "fragile", "fragile" },
+		{ "ghostly", "ghostly" },
+		{ "gray", "spooky" },
+		{ "green", "stinky" },
+		{ "haunted", "haunted" },
+		{ "hopping", "hopping-mad" },
+		{ "hot", "hot" },
+		{ "huge", "huge" },
+		{ "invisible", "invisible" },
+		{ "jitter", "jittery" },
+		{ "lazy", "lazy" },
+		{ "leet", "1337" },
+		{ "mirror", "left-handed" },
+		{ "narcissistic", "narcissistic" },
+		{ "optimal", "optimal" },
+		{ "patriotic", "American" },
+		{ "pixellated", "pixellated" },
+		{ "pulse", "throbbing" },
+		{ "purple", "sleazy" },
+		{ "quacking", "quacking" },
+		{ "rainbow", "tie-dyed" },
+		{ "red", "red-hot" },
+		{ "rotate", "twirling" },
+		{ "shakes", "shaky" },
+		{ "short", "short" },
+		{ "shy", "shy" },
+		{ "skinny", "skinny" },
+		{ "sparkling", "solid gold" },
+		{ "spinning", "cartwheeling" },
+		{ "swearing", "foul-mouthed" },
+		{ "ticking", "ticking" },
+		{ "tiny", "tiny" },
+		{ "turgid", "turgid" },
+		{ "unstoppable", "unstoppable" },
+		{ "untouchable", "untouchable" },
+		{ "wet", "wet" },
+		{ "wobble", "dancin'" },
+		{ "xray", "negaverse" },
+		{ "zoom", "restless" },
+	};
+
+	public static final HashMap<String, String> crazySummerAttributes = new HashMap<String, String>();
+	static
+	{
+		for ( String[] mapping : MonsterData.crazyAttributeMapping )
+		{
+			MonsterData.crazySummerAttributes.put( mapping[0], mapping[1] );
+		}
+	};
+
+	public static String[] lastRandomAttributes = null;
 
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
@@ -131,8 +203,11 @@ public class MonsterData
 		this.randomAttributes = new String[0];
 	}
 
-	public MonsterData handleRandomAttributes( String[] attributes )
+	public MonsterData handleRandomAttributes()
 	{
+		String[] attributes = MonsterData.lastRandomAttributes;
+		MonsterData.lastRandomAttributes = null;
+
 		if ( attributes == null || attributes.length == 0 )
 		{
 			return this;
@@ -157,37 +232,40 @@ public class MonsterData
 		for ( int i = 0; i < attributes.length; ++i )
 		{
 			String attribute = attributes[ i ];
-			// *** the following are speculative. They - and many
-			// *** others - require more spading.
+
 			if ( attribute.equals( "broke" ) )
 			{
 				monster.meat = 5;
 			}
-			else if ( attribute.equals( "blue" ) )
+			else if ( attribute.equals( "fragile" ) )
+			{
+				monster.health = 1;
+			}
+			else if ( attribute.equals( "ice-cold" ) )
 			{
 				monster.attackElement = Element.COLD;
 				monster.defenseElement = Element.COLD;
 			}
-			else if ( attribute.equals( "red" ) )
+			else if ( attribute.equals( "red-hot" ) )
 			{
 				monster.attackElement = Element.HOT;
 				monster.defenseElement = Element.HOT;
 			}
-			else if ( attribute.equals( "purple" ) )
+			else if ( attribute.equals( "sleazy" ) )
 			{
 				monster.attackElement = Element.SLEAZE;
 				monster.defenseElement = Element.SLEAZE;
 			}
-			else if ( attribute.equals( "sparkling" ) )
+			else if ( attribute.equals( "solid gold" ) )
 			{
 				monster.meat = 1000;
 			}
-			else if ( attribute.equals( "gray" ) )
+			else if ( attribute.equals( "spooky" ) )
 			{
 				monster.attackElement = Element.SPOOKY;
 				monster.defenseElement = Element.SPOOKY;
 			}
-			else if ( attribute.equals( "green" ) )
+			else if ( attribute.equals( "stinky" ) )
 			{
 				monster.attackElement = Element.STENCH;
 				monster.defenseElement = Element.STENCH;

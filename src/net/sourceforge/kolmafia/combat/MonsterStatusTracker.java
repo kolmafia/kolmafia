@@ -48,8 +48,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.AdventureRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -131,10 +129,8 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
 		}
 
-		if ( KoLCharacter.getRandomMonsterAttributes() > 0 )
-		{
-			MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomAttributes( AdventureRequest.lastRandomAttributes );
-		}
+		// If we saved an array of random attributes, apply them
+		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomAttributes();;
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
 		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
