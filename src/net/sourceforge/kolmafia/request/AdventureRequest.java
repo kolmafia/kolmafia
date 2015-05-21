@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.request;
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -102,75 +102,6 @@ public class AdventureRequest
 	private final String adventureId;
 
 	private int override = -1;
-
-	private static final String[][] crazyAttributeMapping =
-	{
-		{ "annoying", "annoying" },
-		{ "artisanal", "artisanal" },
-		{ "askew", "askew" },
-		{ "blinking", "phase-shifting" },
-		{ "blue", "ice-cold" },
-		{ "blurry", "blurry" },
-		{ "bouncing", "bouncing" },
-		{ "broke", "broke" },
-		{ "clingy", "clingy" },
-		{ "crimbo", "yuletide" },
-		{ "curse", "cursed" },
-		{ "disguised", "disguised" },
-		{ "drunk", "drunk" },
-		{ "electric", "electrified" },
-		{ "flies", "filthy" },
-		{ "flip", "Australian" },
-		{ "floating", "floating" },
-		{ "fragile", "fragile" },
-		{ "ghostly", "ghostly" },
-		{ "gray", "spooky" },
-		{ "green", "stinky" },
-		{ "haunted", "haunted" },
-		{ "hopping", "hopping-mad" },
-		{ "hot", "hot" },
-		{ "huge", "huge" },
-		{ "invisible", "invisible" },
-		{ "jitter", "jittery" },
-		{ "lazy", "lazy" },
-		{ "leet", "1337" },
-		{ "mirror", "left-handed" },
-		{ "narcissistic", "narcissistic" },
-		{ "optimal", "optimal" },
-		{ "patriotic", "American" },
-		{ "pixellated", "pixellated" },
-		{ "pulse", "throbbing" },
-		{ "purple", "sleazy" },
-		{ "quacking", "quacking" },
-		{ "rainbow", "tie-dyed" },
-		{ "red", "red-hot" },
-		{ "rotate", "twirling" },
-		{ "shakes", "shaky" },
-		{ "short", "short" },
-		{ "shy", "shy" },
-		{ "skinny", "skinny" },
-		{ "sparkling", "solid gold" },
-		{ "spinning", "cartwheeling" },
-		{ "swearing", "foul-mouthed" },
-		{ "ticking", "ticking" },
-		{ "tiny", "tiny" },
-		{ "turgid", "turgid" },
-		{ "unstoppable", "unstoppable" },
-		{ "untouchable", "untouchable" },
-		{ "wet", "wet" },
-		{ "wobble", "dancin'" },
-		{ "xray", "negaverse" },
-		{ "zoom", "restless" },
-	};
-
-	private static final HashMap<String, String> crazySummerAttributes = new HashMap<String, String>();
-	static
-	{
-		for ( String[] mapping : AdventureRequest.crazyAttributeMapping )
-		{
-			AdventureRequest.crazySummerAttributes.put( mapping[0], mapping[1] );
-		}
-	};
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
@@ -1310,13 +1241,11 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
-	public static String[] lastRandomAttributes = null;
-
 	private static String handleRandomAttributes( String monsterName, String responseText )
 	{
 		if ( KoLCharacter.getRandomMonsterAttributes() < 1 )
 		{
-			AdventureRequest.lastRandomAttributes = null;
+			MonsterData.lastRandomAttributes = null;
 			return monsterName;
 		}
 
@@ -1353,24 +1282,30 @@ public class AdventureRequest
 			}
 		}
 
+		ArrayList<String> internal = new ArrayList<String>();
 		String[] temp = text.split( "\"" );
-		ArrayList<String> attrs = new ArrayList<String>();
+
 		for ( int i = 1; i < temp.length - 1; i++ ) // The first and last elements are never useful
 		{
 			if ( !temp[i].contains( ":" ) && !temp[i].equals( "," ) )
 			{
-				attrs.add( temp[i] );
+				internal.add( temp[i] );
 			}
 		}
 
-		int j = 0;
+		ArrayList<String> external = new ArrayList<String>();
+		int count = internal.size() - 1;
 		boolean leet = false;
-		for ( String attribute : attrs )
+
+		for ( int j = 0; j <= count; ++j )
 		{
-			String remove = AdventureRequest.crazySummerAttributes.get( attribute );
+			String attribute = internal.get( j );
+			String remove = MonsterData.crazySummerAttributes.get( attribute );
+
 			if ( remove == null )
 			{
 				RequestLogger.printLine( "Unrecognized monster modifier: " + attribute );
+				external.add( attribute );
 				continue;
 			}
 
@@ -1379,7 +1314,9 @@ public class AdventureRequest
 				leet = true;
 			}
 
-			remove += ( ++j == attrs.size() ) ? " " : ", ";
+			external.add( remove );
+
+			remove += ( j == count ) ? " " : ", ";
 
 			monsterName = StringUtilities.singleStringDelete( monsterName, remove );
 		}
@@ -1390,8 +1327,8 @@ public class AdventureRequest
 		}
 
 		// Save the attributes for later use
-		String[] array = new String[ attrs.size() ];
-		AdventureRequest.lastRandomAttributes = attrs.toArray( array );
+		String[] array = new String[ external.size() ];
+		MonsterData.lastRandomAttributes = external.toArray( array );
 
 		return monsterName;
 	}
