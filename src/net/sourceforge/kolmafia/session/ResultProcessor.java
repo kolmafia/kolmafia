@@ -653,7 +653,7 @@ public class ResultProcessor
 			return false;
 		}
 
-		String message = acquisition + " " + result.toString();
+		String message = acquisition + " " + result.getName() + " (" + result.getCount() + ")";
 
 		RequestLogger.printLine( message );
 		if ( Preferences.getBoolean( "logStatusEffects" ) )
