@@ -239,7 +239,7 @@ public class MonsterData
 			}
 			else if ( attribute.equals( "fragile" ) )
 			{
-				monster.health = 1;
+				monster.health = new Integer( 1 );
 			}
 			else if ( attribute.equals( "ice-cold" ) )
 			{
@@ -269,6 +269,10 @@ public class MonsterData
 			{
 				monster.attackElement = Element.STENCH;
 				monster.defenseElement = Element.STENCH;
+			}
+			else if ( attribute.equals( "tiny" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() / 10 );
 			}
 		}
 
