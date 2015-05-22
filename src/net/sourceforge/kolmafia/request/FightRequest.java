@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 
+import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentToken;
 import org.htmlcleaner.ContentToken;
 import org.htmlcleaner.HtmlCleaner;
@@ -376,6 +377,11 @@ public class FightRequest
 
 	// Make an HTML cleaner
 	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+	static
+	{
+		CleanerProperties props = cleaner.getProperties();
+		props.setPruneTags( "form" );
+	};
 
 	/**
 	 * Constructs a new <code>FightRequest</code>. User settings will be
@@ -4551,7 +4557,7 @@ public class FightRequest
 	private static final TagNode parseFightHTML( String text, boolean logIt )
 	{
 		// Clean the HTML on the Fight page
-		TagNode node = cleanFightHTML( text );
+		TagNode node = FightRequest.cleanFightHTML( text );
 		if ( node == null )
 		{
 			if ( logIt )
@@ -4720,10 +4726,8 @@ public class FightRequest
 		String name = node.getName();
 		StringBuffer action = status.action;
 
-		// Skip forms, buttons, and html links
-		if ( name.equals( "form" ) ||
-		     name.equals( "input" ) ||
-		     name.equals( "a" ) ||
+		// Skip html links
+		if ( name.equals( "a" ) ||
 		     name.equals( "div" ) )
 		{
 			return;
@@ -4760,21 +4764,7 @@ public class FightRequest
 			return;
 		}
 
-		if ( name.equals( "hr" ) )
-		{
-			FightRequest.updateRoundData( status.macroMatcher );
-			if ( status.macroMatcher.find() )
-			{
-				FightRequest.registerMacroAction( status.macroMatcher );
-				++FightRequest.currentRound;
-			}
-			else
-			{
-				FightRequest.logText( "unspecified macro action?", status );
-			}
-			DiscoCombatHelper.parseFightRound( FightRequest.nextAction, status.macroMatcher );
-		}
-		else if ( name.equals( "table" ) )
+		if ( name.equals( "table" ) )
 		{
 			String id = node.getAttributeByName( "id" );
 			if ( id != null && id.equals( "monpic" ) )
@@ -4811,7 +4801,10 @@ public class FightRequest
 				table.getParent().removeChild( table );
 			}
 
-			boolean processChildren = FightRequest.processTable( node, status );
+			if ( FightRequest.processTable( node, status ) )
+			{
+				FightRequest.processChildren( node, status );
+			}
 
 			for ( int i = 0; i < tables.length; ++i )
 			{
@@ -4819,10 +4812,22 @@ public class FightRequest
 				FightRequest.processNode( table, status );
 			}
 
-			if ( !processChildren )
+			return;
+		}
+
+		if ( name.equals( "hr" ) )
+		{
+			FightRequest.updateRoundData( status.macroMatcher );
+			if ( status.macroMatcher.find() )
 			{
-				return;
+				FightRequest.registerMacroAction( status.macroMatcher );
+				++FightRequest.currentRound;
 			}
+			else
+			{
+				FightRequest.logText( "unspecified macro action?", status );
+			}
+			DiscoCombatHelper.parseFightRound( FightRequest.nextAction, status.macroMatcher );
 		}
 		else if ( name.equals( "p" ) )
 		{
@@ -4899,6 +4904,12 @@ public class FightRequest
 			}
 		}
 
+		FightRequest.processChildren( node, status );
+	}
+
+	private static final void processChildren( final TagNode node, final TagStatus status )
+	{
+		StringBuffer action = status.action;
 		Iterator it = node.getChildren().iterator();
 		while ( it.hasNext() )
 		{
@@ -7452,11 +7463,10 @@ public class FightRequest
 	{
 		String name = node.getName();
 
-		// Skip forms and buttons
-		if ( name.equals( "form" ) ||
-		     name.equals( "input" ) )
-		{
-			return;
+ 		// Skip scripts
+ 		if ( name.equals( "script" ) )
+ 		{
+ 			return;
 		}
 
 		FightRequest.indent( buffer, level );
