@@ -978,7 +978,7 @@ public class ProxyRecordValue
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "attributes", DataTypes.STRING_TYPE )
 			.add( "random_attributes",
-			      new AggregateType( DataTypes.STRING_TYPE, 0 ) )
+			      new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
