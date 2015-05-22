@@ -233,23 +233,70 @@ public class MonsterData
 		{
 			String attribute = attributes[ i ];
 
-			if ( attribute.equals( "broke" ) )
+			if ( attribute.equals( "bouncing" ) )
+			{
+				monster.attack = new Integer( monster.getRawAttack() * 3 / 2 );
+			}
+			else if ( attribute.equals( "broke" ) )
 			{
 				monster.meat = 5;
+			}
+			else if ( attribute.equals( "filthy" ) )
+			{
+				// Stench Aura
+			}
+			else if ( attribute.equals( "floating" ) )
+			{
+				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
 			}
 			else if ( attribute.equals( "fragile" ) )
 			{
 				monster.health = new Integer( 1 );
+			}
+			else if ( attribute.equals( "ghostly" ) )
+			{
+				// Physical resistance
+			}
+			else if ( attribute.equals( "haunted" ) )
+			{
+				// Spooky Aura
+			}
+			else if ( attribute.equals( "hot" ) )
+			{
+				// Hot Aura
+			}
+			else if ( attribute.equals( "huge" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 2 );
+				monster.attack = new Integer( monster.getRawAttack() * 2 );
+				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}
 			else if ( attribute.equals( "ice-cold" ) )
 			{
 				monster.attackElement = Element.COLD;
 				monster.defenseElement = Element.COLD;
 			}
+			else if ( attribute.equals( "left-handed" ) )
+			{
+				Object originalAttack = monster.attack;
+				Object originalDefense = monster.defense;
+				monster.attack = originalDefense;
+				monster.defense = originalAttack;
+			}
 			else if ( attribute.equals( "red-hot" ) )
 			{
 				monster.attackElement = Element.HOT;
 				monster.defenseElement = Element.HOT;
+			}
+			else if ( attribute.equals( "short" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() / 2 );
+				monster.defense = new Integer( monster.getRawDefense() * 2 );
+			}
+			else if ( attribute.equals( "skinny" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() / 2 );
+				monster.defense = new Integer( monster.getRawDefense() / 2 );
 			}
 			else if ( attribute.equals( "sleazy" ) )
 			{
@@ -270,9 +317,23 @@ public class MonsterData
 				monster.attackElement = Element.STENCH;
 				monster.defenseElement = Element.STENCH;
 			}
+			else if ( attribute.equals( "throbbing" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 2 );
+			}
 			else if ( attribute.equals( "tiny" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() / 10 );
+				monster.attack = new Integer( monster.getRawAttack() / 10 );
+				monster.defense = new Integer( monster.getRawDefense() / 10 );
+			}
+			else if ( attribute.equals( "turgid" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 5 );
+			}
+			else if ( attribute.equals( "wet" ) )
+			{
+				// Cold Aura
 			}
 		}
 
