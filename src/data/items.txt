@@ -8208,7 +8208,7 @@
 8183
 8184	Ed the Undying exhibit crate	456673748	crate.gif	usable	t	0
 8185	The Crown of Ed the Undying	538837118	nemes.gif	hat		0
-8186	Doc Galaktik's Invigorating Tonic	112603433	beerbottle.gif	usable	t,d	25
+8186	Doc Galaktik's Invigorating Tonic	112603433	beerbottle.gif	multiple	t,d	25
 8187	map to a hidden booze cache	662402542	jug.gif	usable	q	0
 8188	Cherrytastrophe wine cooler	710859290	winecooler.gif	drink	t,d	25
 8189	Radberry Rip wine cooler	707374814	winecooler.gif	drink	t,d	25
