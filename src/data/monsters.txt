@@ -832,7 +832,7 @@ zombie waltzers	401	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 100 E: sp
 Cheetahman	1670	adv_fast1.gif	Atk: [300-15*max(pref(nsContestants1)-1,0)] Def: [150-5*max(pref(nsContestants1)-1,0)] HP: [300-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
 Microwave Magus	1671	adv_fast2.gif	Atk: [250-10*max(pref(nsContestants1)-1,0)] Def: [250-10*max(pref(nsContestants1)-1,0)] HP: [200-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
 Kung-Fu Hustler	1672	adv_fast3.gif	Atk: [200-5*max(pref(nsContestants1)-1,0)] Def: [300-15*max(pref(nsContestants1)-1,0)] HP: [250-10*max(pref(nsContestants1)-1,0)] Init: 1000 P: dude
-The Tasmanian Dervish	1673	adv_fast4.gif	Atk: 300 Def: 150 HP: 300 Init: 10000 P: dude
+Tasmanian Dervish	1673	adv_fast4.gif	Atk: 300 Def: 150 HP: 300 Init: 10000 P: dude
 
 # - Adventurer Crowd 2
 
