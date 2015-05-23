@@ -99,9 +99,9 @@ MONSTER	Spaghetti Elemental	3_3\.gif	"Spaghetti Elemental (Volcanic Cave)
 MONSTER	Lumpy, the Sinister Sauceblob	4_1\.gif	"Lumpy, the Sinister Sauceblob (Inner Sanctum)"
 MONSTER	Lumpy, the Sinister Sauceblob	4_2\.gif	"Lumpy, the Sinister Sauceblob (The Nemesis' Lair)
 MONSTER	Lumpy, the Sinister Sauceblob	4_3\.gif	"Lumpy, the Sinister Sauceblob (Volcanic Cave)
-MONSTER	Spirit of New Wave	5_1\.gif	"Spirit of New Wave (Inner Sanctum)"
-MONSTER	Spirit of New Wave	5_2\.gif	"Spirit of New Wave (The Nemesis' Lair)"
-MONSTER	Spirit of New Wave	5_3\.gif	"Spirit of New Wave (Volcanic Cave)"
+MONSTER	the Spirit of New Wave	5_1\.gif	"Spirit of New Wave (Inner Sanctum)"
+MONSTER	the Spirit of New Wave	5_2\.gif	"Spirit of New Wave (The Nemesis' Lair)"
+MONSTER	the Spirit of New Wave	5_3\.gif	"Spirit of New Wave (Volcanic Cave)"
 MONSTER	Somerset Lopez, Dread Mariachi	6_1\.gif	"Somerset Lopez, Dread Mariachi (Inner Sanctum)"
 MONSTER	Somerset Lopez, Dread Mariachi	6_2\.gif	"Somerset Lopez, Dread Mariachi (The Nemesis' Lair)"
 MONSTER	Somerset Lopez, Dread Mariachi	6_3\.gif	"Somerset Lopez, Dread Mariachi (Volcanic Cave)"

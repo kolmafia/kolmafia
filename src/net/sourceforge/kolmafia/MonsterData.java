@@ -241,6 +241,10 @@ public class MonsterData
 			{
 				monster.meat = 5;
 			}
+			if ( attribute.equals( "dancin'" ) )
+			{
+				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
+			}
 			else if ( attribute.equals( "filthy" ) )
 			{
 				// Stench Aura
@@ -248,6 +252,10 @@ public class MonsterData
 			else if ( attribute.equals( "floating" ) )
 			{
 				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
+			}
+			else if ( attribute.equals( "foul-mouthed" ) )
+			{
+				// Sleaze Aura
 			}
 			else if ( attribute.equals( "fragile" ) )
 			{

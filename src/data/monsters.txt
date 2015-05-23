@@ -1616,7 +1616,7 @@ water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug	wet v
 Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Floor: 10 Init: -10000 P: dude Meat: 200	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
 Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Floor: 10 Init: -10000 P: dude Meat: 250	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
 Resort Waiter	1773	kok_waiter.gif	Scale: 5 Floor: 10 Init: -10000 P: dude Meat: 100	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Brick Mulligan, the Bartender	1774	kok_tender.gif	Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)
+Brick Mulligan, the Bartender	1774	kok_tender.gif	Scale: 5 Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)
 
 # Current Events
 
