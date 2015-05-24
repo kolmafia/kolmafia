@@ -8279,7 +8279,7 @@
 8254	Trash, a Memoir	417573941	book4.gif	usable	t	0	copies of Trash, a Memoir
 8255	Dinsey Maintenance Manual	604196986	book5.gif	usable	t	0
 8256	Dinsey tattoo kit	484118814	dinstat.gif	usable	t	0
-8257
+8257	nasty gum	997595156	gumstick.gif	multiple	t,d	5
 8258	Wart Dinsey: An Afterlife	284076427	book4.gif	usable	t	0
 8259	The Lot's engagement ring	929948166	bvbox.gif	offhand	t,d	100
 8260	portable Mayo Clinic	284472365	mayocase.gif	usable	t	0

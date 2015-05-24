@@ -4941,6 +4941,7 @@ Effect	Nano-juiced	Muscle Percent: +15
 Effect	Nanoballsy	Moxie Percent: +25, Initiative: +20, Pickpocket Chance: +30
 Effect	Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Regen Max: 4
 Effect	Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
+Effect	Nasty, Nasty Breath	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Natural 1	Initiative: -100
 Effect	Natural 20	Initiative: +100
 Effect	Nature's Bounty	Maximum HP: +300, HP Regen Min: 80, HP Regen Max: 100
@@ -7327,6 +7328,7 @@ Item	mysterious chemical residue	Effect Duration: 5
 Item	mysterious chest	Free Pull
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
 # Nardz energy beverage: Restores 50-70 MP
+Item	nasty gum	Effect: "Nasty, Nasty Breath", Effect Duration: 5
 Item	natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 # natural fennel soda: Restores 80-120 MP
 Item	Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
