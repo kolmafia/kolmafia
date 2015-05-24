@@ -1062,6 +1062,7 @@ public class CampgroundRequest
 			CampgroundRequest.removeCampgroundItem( CampgroundRequest.getCurrentWorkshedItem() );
 		}
 		CampgroundRequest.currentWorkshedItem = workshedItem;
+		CampgroundRequest.setCampgroundItem( workshedItem );
 	}
 
 	public static boolean isDwelling( final int itemId )

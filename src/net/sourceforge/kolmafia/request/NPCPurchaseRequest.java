@@ -422,7 +422,7 @@ public class NPCPurchaseRequest
 	private static final Pattern SHOP_NAME_PATTERN = Pattern.compile(  "bgcolor=blue><b>(.*?)</b>" , Pattern.DOTALL );
 	private static final Pattern BLOOD_MAYO_PATTERN = Pattern.compile( "blood mayonnaise concentration: (\\d+) mayograms" );
 
-	public static final void parseShopResponse( final String urlString, final String responseText )//
+	public static final void parseShopResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
 		{
