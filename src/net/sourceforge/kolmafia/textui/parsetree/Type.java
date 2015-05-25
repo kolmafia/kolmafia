@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -264,6 +265,59 @@ public class Type
 		return null;
 	}
 
+	public Value coerceValue( final Object object, final boolean returnDefault )
+	{
+		if ( object instanceof String )
+		{
+			return this.parseValue( (String) object, returnDefault );
+		}
+		if ( object instanceof Integer )
+		{
+			int integer = ( (Integer) object ).intValue();
+			switch ( this.type )
+			{
+			case DataTypes.TYPE_BOOLEAN:
+				return DataTypes.makeBooleanValue( integer );
+			case DataTypes.TYPE_INT:
+				return DataTypes.makeIntValue( integer );
+			case DataTypes.TYPE_FLOAT:
+				return DataTypes.makeFloatValue( integer );
+			case DataTypes.TYPE_STRING:
+				return new Value( DataTypes.STRING_TYPE, String.valueOf( integer ) );
+			case DataTypes.TYPE_ITEM:
+				return DataTypes.makeItemValue( integer, returnDefault );
+			case DataTypes.TYPE_SKILL:
+				return DataTypes.makeSkillValue( integer, returnDefault );
+			case DataTypes.TYPE_EFFECT:
+				return DataTypes.makeEffectValue( integer, returnDefault );
+			case DataTypes.TYPE_FAMILIAR:
+				return DataTypes.makeFamiliarValue( integer, returnDefault );
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.makeMonsterValue( integer, returnDefault );
+			case DataTypes.TYPE_THRALL:
+				return DataTypes.makeThrallValue( integer, returnDefault );
+			case DataTypes.TYPE_SERVANT:
+				return DataTypes.makeServantValue( integer, returnDefault );
+			}
+			return null;
+		}
+		if ( object instanceof MonsterData )
+		{
+			MonsterData monster = (MonsterData) object;
+			switch ( this.type )
+			{
+			case DataTypes.TYPE_INT:
+				return DataTypes.makeIntValue( monster.getId() );
+			case DataTypes.TYPE_STRING:
+				return new Value( DataTypes.STRING_TYPE, monster.getName() );
+			case DataTypes.TYPE_MONSTER:
+				return DataTypes.makeMonsterValue( monster );
+			}
+			return null;
+		}
+		return null;
+	}
+
 	public Value allValues()
 	{
 		if ( this.allValues != null ) return this.allValues;
@@ -280,7 +334,7 @@ public class Type
 			{
 				if ( i != 13 && ItemDatabase.getItemDataName( i ) != null )
 				{
-					list.add( DataTypes.makeItemValue( i ) );
+					list.add( DataTypes.makeItemValue( i, true ) );
 				}
 			}
 			break;

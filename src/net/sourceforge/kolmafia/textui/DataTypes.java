@@ -730,6 +730,11 @@ public class DataTypes
 		return type.parseValue( name, returnDefault );
 	}
 
+	public static final Value coerceValue( final Type type, final Object object, final boolean returnDefault )
+	{
+		return type.coerceValue( object, returnDefault );
+	}
+
 	// For data types which map to integers, also supply:
 	// public static final ScriptValue makeXValue( int num )
 
@@ -760,13 +765,13 @@ public class DataTypes
 		return value ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	public static final Value makeItemValue( final int num )
+	public static final Value makeItemValue( final int num, final boolean returnDefault )
 	{
 		String name = ItemDatabase.getItemDataName( num );
 
 		if ( name == null )
 		{
-			return DataTypes.ITEM_INIT;
+			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
 
 		return new Value( DataTypes.ITEM_TYPE, num, name );
@@ -797,83 +802,83 @@ public class DataTypes
 		return new Value( DataTypes.CLASS_TYPE, DataTypes.classToInt( name ), name );
 	}
 
-	public static final Value makeSkillValue( final int num )
+	public static final Value makeSkillValue( final int num, final boolean returnDefault )
 	{
 		String name = SkillDatabase.getSkillDataName( num );
 		if ( name == null )
 		{
-			return DataTypes.SKILL_INIT;
+			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
 
 		return new Value( DataTypes.SKILL_TYPE, num, name );
 	}
 
-	public static final Value makeEffectValue( final int num )
+	public static final Value makeEffectValue( final int num, final boolean returnDefault )
 	{
 		String name = EffectDatabase.getEffectName( num );
 		if ( name == null )
 		{
-			return DataTypes.EFFECT_INIT;
+			return returnDefault? DataTypes.EFFECT_INIT : null;
 		}
 		return new Value( DataTypes.EFFECT_TYPE, num, name );
 	}
 
-	public static final Value makeFamiliarValue( final int num )
+	public static final Value makeFamiliarValue( final int num, final boolean returnDefault )
 	{
 		String name = FamiliarDatabase.getFamiliarName( num );
 		if ( name == null )
 		{
-			return DataTypes.FAMILIAR_INIT;
+			return returnDefault ? DataTypes.FAMILIAR_INIT : null;
 		}
 		return new Value( DataTypes.FAMILIAR_TYPE, num, name );
 	}
 
-	public static final Value makeMonsterValue( final int num )
+	public static final Value makeMonsterValue( final int num, final boolean returnDefault )
 	{
 		MonsterData monster = MonsterDatabase.findMonsterById( num );
 		if ( monster == null )
 		{
-			return DataTypes.MONSTER_INIT;
+			return returnDefault? DataTypes.MONSTER_INIT : null;
 		}
 		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
 	}
 
-	public static final Value makeThrallValue( final PastaThrallData thrall )
+	public static final Value makeThrallValue( final PastaThrallData thrall, final boolean returnDefault )
 	{
 		if ( thrall == null || thrall == PastaThrallData.NO_THRALL )
 		{
-			return DataTypes.THRALL_INIT;
+			return returnDefault ? DataTypes.THRALL_INIT : null;
 		}
 		return new Value( DataTypes.THRALL_TYPE, thrall.getId(), thrall.getType(), thrall.getData() );
 	}
 
-	public static final Value makeThrallValue( final int num )
+	public static final Value makeThrallValue( final int num, final boolean returnDefault )
 	{
 		Object [] data = PastaThrallData.idToData( num );
 		if ( data == null )
 		{
-			return DataTypes.THRALL_INIT;
+			return returnDefault ? DataTypes.THRALL_INIT : null;
 		}
 
 		String name = PastaThrallData.dataToType( data );
 		return new Value( DataTypes.THRALL_TYPE, num, name, data );
 	}
 
-	public static final Value makeServantValue( final EdServantData servant )
+	public static final Value makeServantValue( final EdServantData servant, final boolean returnDefault )
 	{
 		if ( servant == null || servant == EdServantData.NO_SERVANT )
 		{
-			return DataTypes.SERVANT_INIT;
+			return returnDefault ? DataTypes.SERVANT_INIT : null;
 		}
 		return new Value( DataTypes.SERVANT_TYPE, servant.getId(), servant.getType(), servant.getData() );
 	}
 
-	public static final Value makeServantValue( final int num )
+	public static final Value makeServantValue( final int num, final boolean returnDefault )
 	{
 		Object [] data = EdServantData.idToData( num );
 		if ( data == null )
 		{
-			return DataTypes.SERVANT_INIT;
+			return returnDefault ? DataTypes.SERVANT_INIT : null;
 		}
 
 		String name = EdServantData.dataToType( data );

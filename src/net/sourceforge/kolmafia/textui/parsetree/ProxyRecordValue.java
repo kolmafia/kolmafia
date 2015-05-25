@@ -462,8 +462,7 @@ public class ProxyRecordValue
 
 		public Value get_hatchling()
 		{
-			return DataTypes.makeItemValue(
-				FamiliarDatabase.getFamiliarLarva( (int)this.contentLong ) );
+			return DataTypes.makeItemValue( FamiliarDatabase.getFamiliarLarva( (int)this.contentLong ), true );
 		}
 
 		public String get_image()
@@ -599,7 +598,7 @@ public class ProxyRecordValue
 		public Value get_skill()
 		{
 			Object [] data = (Object [])this.content;
-			return DataTypes.makeSkillValue( data == null ? 0 : PastaThrallData.dataToSkillId( data ) );
+			return DataTypes.makeSkillValue( data == null ? 0 : PastaThrallData.dataToSkillId( data ), true );
 		}
 
 		public String get_current_modifiers()
