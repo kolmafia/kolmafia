@@ -454,6 +454,9 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
+			// Remove bogus directive in monster images
+			StringUtilities.globalStringDelete( buffer, "crossorigin=\"Anonymous\"" );
+
 			RequestEditorKit.suppressInappropriateNags( buffer );
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );

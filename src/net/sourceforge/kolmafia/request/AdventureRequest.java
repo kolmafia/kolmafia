@@ -578,7 +578,7 @@ public class AdventureRequest
 		}
 
 		// If the monster has random attributes, remove and save them
-		String encounter =  AdventureRequest.handleRandomAttributes( encounterToCheck, responseText );
+		String encounter =  AdventureRequest.handleRandomAttributes( encounterToCheck.trim(), responseText );
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
 		if ( MonsterDatabase.findMonster( encounter, false ) != null )
@@ -1301,6 +1301,13 @@ public class AdventureRequest
 		if ( monsterName.startsWith( "The " ) )
 		{
 			monsterName = monsterName.substring( 4 );
+		}
+
+		// Ditto for "a " to recognize the aliases for Your Shadow
+		
+		if ( monsterName.startsWith( "a " ) )
+		{
+			monsterName = monsterName.substring( 2 );
 		}
 
 		ArrayList<String> external = new ArrayList<String>();
