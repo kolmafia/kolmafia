@@ -4643,11 +4643,11 @@ public abstract class ChoiceManager
 			// Check for familiars
 			if ( !KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 			{
-				bonus = Modifiers.getNumericModifier( "Familiar", KoLCharacter.getFamiliar().getRace(), "Item Drop" );
+				bonus = Modifiers.getNumericModifier( KoLCharacter.getFamiliar(), "Item Drop" );
 			}
 			// Check for Clancy
 			else if ( KoLCharacter.getCurrentInstrument() != null &&
-				KoLCharacter.getCurrentInstrument().equals( CharPaneRequest.LUTE ) )
+				  KoLCharacter.getCurrentInstrument().equals( CharPaneRequest.LUTE ) )
 			{
 				int weight = 5 * KoLCharacter.getMinstrelLevel();
 				bonus = Math.sqrt( 55 * weight ) + weight - 3;
