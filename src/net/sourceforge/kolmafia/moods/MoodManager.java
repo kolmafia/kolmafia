@@ -80,7 +80,7 @@ public abstract class MoodManager
 		EffectPool.get( EffectPool.BEATEN_UP ),
 		EffectPool.get( EffectPool.TETANUS ),
 		EffectPool.get( EffectPool.AMNESIA ),
-		EffectPool.get( EffectPool.CUNCTATISIS ),
+		EffectPool.get( EffectPool.CUNCTATITIS ),
 		EffectPool.get( EffectPool.HARDLY_POISONED ),
 		EffectPool.get( EffectPool.MAJORLY_POISONED ),
 		EffectPool.get( EffectPool.A_LITTLE_BIT_POISONED ),
