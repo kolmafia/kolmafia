@@ -2370,7 +2370,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeItemValue( (int) value.intValue() );
+			return DataTypes.makeItemValue( (int) value.intValue(), true );
 		}
 
 		return DataTypes.parseItemValue( value.toString(), true, true );
@@ -2378,8 +2378,7 @@ public abstract class RuntimeLibrary
 
 	public static Value to_item( Interpreter interpreter, final Value name, final Value count )
 	{
-		return DataTypes.makeItemValue( ItemDatabase.getItemId(
-			name.toString(), (int) count.intValue() ) );
+		return DataTypes.makeItemValue( ItemDatabase.getItemId( name.toString(), (int) count.intValue() ), true );
 	}
 
 	public static Value to_class( Interpreter interpreter, final Value value )
@@ -2412,7 +2411,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeSkillValue( (int) value.intValue() );
+			return DataTypes.makeSkillValue( (int) value.intValue(), true );
 		}
 
 		if ( value.getType().equals( DataTypes.TYPE_EFFECT ) )
@@ -2427,7 +2426,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeEffectValue( (int) value.intValue() );
+			return DataTypes.makeEffectValue( (int) value.intValue(), true );
 		}
 
 		if ( value.getType().equals( DataTypes.TYPE_SKILL ) )
@@ -2454,7 +2453,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeFamiliarValue( (int) value.intValue() );
+			return DataTypes.makeFamiliarValue( (int) value.intValue(), true );
 		}
 
 		return DataTypes.parseFamiliarValue( value.toString(), true );
@@ -2464,7 +2463,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeMonsterValue( (int) value.intValue() );
+			return DataTypes.makeMonsterValue( (int) value.intValue(), true );
 		}
 
 		return DataTypes.parseMonsterValue( value.toString(), true );
@@ -2532,7 +2531,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeThrallValue( (int) value.intValue() );
+			return DataTypes.makeThrallValue( (int) value.intValue(), true );
 		}
 
 		return DataTypes.parseThrallValue( value.toString(), true );
@@ -2542,7 +2541,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return DataTypes.makeServantValue( (int) value.intValue() );
+			return DataTypes.makeServantValue( (int) value.intValue(), true );
 		}
 
 		return DataTypes.parseServantValue( value.toString(), true );
@@ -3716,7 +3715,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_dwelling( Interpreter interpreter )
 	{
-		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
+		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId(), true );
 	}
 
 	private static final int WAD2POWDER = -12;	// <elem> powder - <elem> wad
@@ -3761,8 +3760,8 @@ public abstract class RuntimeLibrary
 			}
 			if ( pulver > 0 )
 			{
-				value.aset( DataTypes.makeItemValue( pulver ),
-					DataTypes.makeIntValue( 1000000 ) );
+				value.aset( DataTypes.makeItemValue( pulver, true ),
+					    DataTypes.makeIntValue( 1000000 ) );
 				return value;
 			}
 
@@ -3846,12 +3845,12 @@ public abstract class RuntimeLibrary
 			{
 				if ( powders > 0 )
 				{
-					value.aset( DataTypes.makeItemValue( wad + WAD2POWDER ),
+					value.aset( DataTypes.makeItemValue( wad + WAD2POWDER, true ),
 						    DataTypes.makeIntValue( powders / nelems ) );
 				}
 				if ( nuggets > 0 )
 				{
-					value.aset( DataTypes.makeItemValue( wad + WAD2NUGGET ),
+					value.aset( DataTypes.makeItemValue( wad + WAD2NUGGET, true ),
 						    DataTypes.makeIntValue( nuggets / nelems ) );
 				}
 				if ( wads > 0 )
@@ -3861,17 +3860,17 @@ public abstract class RuntimeLibrary
 						wads += gems;
 						gems = 0;
 					}
-					value.aset( DataTypes.makeItemValue( wad ),
+					value.aset( DataTypes.makeItemValue( wad, true ),
 						    DataTypes.makeIntValue( wads / nelems ) );
 				}
 				if ( gems > 0 )
 				{
-					value.aset( DataTypes.makeItemValue( wad + WAD2GEM ),
+					value.aset( DataTypes.makeItemValue( wad + WAD2GEM, true ),
 						    DataTypes.makeIntValue( gems / nelems ) );
 				}
 				if ( clusters )
 				{
-					value.aset( DataTypes.makeItemValue( wad ), 
+					value.aset( DataTypes.makeItemValue( wad, true ),
 						    DataTypes.makeIntValue( 1000000 ) );
 				}
 			}
@@ -4882,7 +4881,7 @@ public abstract class RuntimeLibrary
 			skill = SkillDatabase.getSkillId( stunSkill );
 		}
 
-		return DataTypes.makeSkillValue( skill );
+		return DataTypes.makeSkillValue( skill, true );
 	}
 
 	// Equipment functions.
@@ -5063,22 +5062,22 @@ public abstract class RuntimeLibrary
 
 	public static Value my_familiar( Interpreter interpreter )
 	{
-		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
+		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId(), true );
 	}
 
 	public static Value my_effective_familiar( Interpreter interpreter )
 	{
-		return DataTypes.makeFamiliarValue( KoLCharacter.getEffectiveFamiliar().getId() );
+		return DataTypes.makeFamiliarValue( KoLCharacter.getEffectiveFamiliar().getId(), true );
 	}
 
 	public static Value my_enthroned_familiar( Interpreter interpreter )
 	{
-		return DataTypes.makeFamiliarValue( KoLCharacter.getEnthroned().getId() );
+		return DataTypes.makeFamiliarValue( KoLCharacter.getEnthroned().getId(), true );
 	}
 
 	public static Value my_bjorned_familiar( Interpreter interpreter )
 	{
-		return DataTypes.makeFamiliarValue( KoLCharacter.getBjorned().getId() );
+		return DataTypes.makeFamiliarValue( KoLCharacter.getBjorned().getId(), true );
 	}
 
 	public static Value have_familiar( Interpreter interpreter, final Value familiar )
@@ -5180,12 +5179,12 @@ public abstract class RuntimeLibrary
 
 	public static Value my_thrall( Interpreter interpreter )
 	{
-		return DataTypes.makeThrallValue( KoLCharacter.currentPastaThrall() );
+		return DataTypes.makeThrallValue( KoLCharacter.currentPastaThrall(), true );
 	}
 
 	public static Value my_servant( Interpreter interpreter )
 	{
-		return DataTypes.makeServantValue( EdServantData.currentServant() );
+		return DataTypes.makeServantValue( EdServantData.currentServant(), true );
 	}
 
 	// Random other functions related to current in-game

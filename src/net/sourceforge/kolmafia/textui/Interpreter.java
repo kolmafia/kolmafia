@@ -301,7 +301,7 @@ public class Interpreter
 		}
 	}
 
-	public Value execute( final String functionName, final String[] parameters )
+	public Value execute( final String functionName, final Object[] parameters )
 	{
 		String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
 		String notifyList = Preferences.getString( "previousNotifyList" );
@@ -318,7 +318,7 @@ public class Interpreter
 		return this.execute( functionName, parameters, true );
 	}
 
-	public Value execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
+	public Value execute( final String functionName, final Object[] parameters, final boolean executeTopLevel )
 	{
 		try
 		{
@@ -340,7 +340,7 @@ public class Interpreter
 		return DataTypes.VOID_VALUE;
 	}
 
-	private Value executeScope( final Scope topScope, final String functionName, final String[] parameters,
+	private Value executeScope( final Scope topScope, final String functionName, final Object[] parameters,
 				    final boolean executeTopLevel )
 	{
 		Function main;
@@ -406,7 +406,7 @@ public class Interpreter
 		return result;
 	}
 
-	private boolean requestUserParams( final Function targetFunction, final String[] parameters, Object[] values )
+	private boolean requestUserParams( final Function targetFunction, final Object[] parameters, Object[] values )
 	{
 		int args = parameters == null ? 0 : parameters.length;
 		Iterator it = targetFunction.getReferences();
@@ -429,7 +429,7 @@ public class Interpreter
 					break;
 				}
 
-				String input = ( index >= args ) ?
+				Object input = ( index >= args ) ?
 					DataTypes.promptForValue( type, name ) :
 					parameters[ index ];
 
@@ -441,7 +441,7 @@ public class Interpreter
 
 				try
 				{
-					value = DataTypes.parseValue( type, input, false );
+					value = DataTypes.coerceValue( type, input, false );
 				}
 				catch ( Exception e )
 				{

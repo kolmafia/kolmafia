@@ -61,7 +61,7 @@ public class NamespaceInterpreter
 	}
 
 	@Override
-	public Value execute( final String functionName, final String[] parameters )
+	public Value execute( final String functionName, final Object[] parameters )
 	{
 		String importString = Preferences.getString( "commandLineNamespace" );
 

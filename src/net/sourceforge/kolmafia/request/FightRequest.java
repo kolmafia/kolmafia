@@ -708,9 +708,9 @@ public class FightRequest
 			{
 				int initialRound = FightRequest.currentRound;
 
-				String[] parameters = new String[3];
-				parameters[0] = String.valueOf( FightRequest.currentRound );
-				parameters[1] = MonsterStatusTracker.getLastMonsterName();
+				Object[] parameters = new Object[3];
+				parameters[0] = new Integer( FightRequest.currentRound );
+				parameters[1] = MonsterStatusTracker.getLastMonster();
 				parameters[2] = FightRequest.lastResponseText;
 
 				File scriptFile = scriptFiles.get( 0 );
