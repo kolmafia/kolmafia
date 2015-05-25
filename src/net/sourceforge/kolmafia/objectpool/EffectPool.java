@@ -112,8 +112,8 @@ public class EffectPool
 	public static final int AXE_WOUND = 296;
 	public static final int AMNESIA = 297;
 	public static final int GRILLED = 298;
-	public static final int CUNCTATISIS = 298;
 	public static final int THE_DISEASE = 299;
+	public static final int CUNCTATITIS = 301;
 	public static final int HEALTHY_GREEN_GLOW = 307;
 	public static final int FIREPROOF_LIPS = 317;
 	public static final int FEVER_FROM_THE_FLAVOR = 318;

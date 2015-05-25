@@ -616,7 +616,7 @@ public class UneffectRequest
 			removableEffects.add( IntegerPool.get( EffectPool.AFFRONTED_DECENCY ) );
 			removableEffects.add( IntegerPool.get( EffectPool.APATHY ) );
 			removableEffects.add( IntegerPool.get( EffectPool.CONSUMED_BY_FEAR ) );
-			removableEffects.add( IntegerPool.get( EffectPool.CUNCTATISIS ) );
+			removableEffects.add( IntegerPool.get( EffectPool.CUNCTATITIS ) );
 			removableEffects.add( IntegerPool.get( EffectPool.EASILY_EMBARRASSED ) );
 			removableEffects.add( IntegerPool.get( EffectPool.EXISTENTIAL_TORMENT ) );
 			removableEffects.add( IntegerPool.get( EffectPool.LIGHT_HEADED ) );
@@ -645,7 +645,7 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.CONSUMED_BY_FEAR ) );
 		removableEffects.add( IntegerPool.get( EffectPool.CORRODED_WEAPON ) );
-		removableEffects.add( IntegerPool.get( EffectPool.CUNCTATISIS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.CUNCTATITIS ) );
 		removableEffects.add( IntegerPool.get( EffectPool.DEADENED_PALATE ) );
 		removableEffects.add( IntegerPool.get( EffectPool.EASILY_EMBARRASSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.EMBARRASSED ) );

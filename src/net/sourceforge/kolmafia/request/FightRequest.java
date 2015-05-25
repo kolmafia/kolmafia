@@ -135,7 +135,7 @@ public class FightRequest
 	public static final FightRequest INSTANCE = new FightRequest();
 
 	private static final AdventureResult AMNESIA = EffectPool.get( EffectPool.AMNESIA );
-	private static final AdventureResult CUNCTATITIS = EffectPool.get( EffectPool.CUNCTATISIS );
+	private static final AdventureResult CUNCTATITIS = EffectPool.get( EffectPool.CUNCTATITIS );
 	public static final AdventureResult ONTHETRAIL = EffectPool.get( EffectPool.ON_THE_TRAIL );
 	public static final AdventureResult BIRDFORM = EffectPool.get( EffectPool.FORM_OF_BIRD );
 	public static final AdventureResult MOLEFORM = EffectPool.get( EffectPool.SHAPE_OF_MOLE );
