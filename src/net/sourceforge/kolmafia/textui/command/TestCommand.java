@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -176,6 +177,83 @@ public class TestCommand
 						" character string" );
 		}
 
+		// *** Commands that do not depend on a loaded HTML file, in alphabetical order
+
+		if ( command.equals( "adventure" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test adventure URL" );
+				return;
+			}
+			String adventureURL = split[ 1 ].trim();
+			KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
+			RequestLogger.printLine( "returned " + adventure );
+			return;
+		}
+
+		if ( command.equals( "canonical" ) )
+		{
+			String string;
+			if ( TestCommand.contents == null )
+			{
+				int index = parameters.indexOf( " " );
+				string = parameters.substring( index + 1 );
+			}
+			else
+			{
+				string = TestCommand.contents.trim();
+				TestCommand.contents = null;
+			}
+			String canonical = StringUtilities.getEntityEncode( string, false );
+			String escaped = CharacterEntities.escape( canonical );
+			RequestLogger.printLine( "canonical(" + canonical.length() + ") = \"" + escaped + "\"" );
+			return;
+		}
+
+		if ( command.equals( "cturns" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test cturns URL" );
+				return;
+			}
+			String URL = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+			GenericRequest request = new GenericRequest( URL );
+			int turns = CreateItemRequest.getAdventuresUsed( request );
+			RequestLogger.printLine( "That will require " + turns + " turns" );
+			return;
+		}
+
+		if ( command.equals( "dump_disabled_skills" ) )
+		{
+			Frame frame = TestCommand.findFrame( SkillBuffFrame.class );
+			if ( frame != null )
+			{
+				SkillBuffFrame sbf = (SkillBuffFrame) frame;
+				sbf.dumpDisabledSkills();
+			}
+			return;
+		}
+
+		if ( command.equals( "fairy" ) )
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( split.length >= 2 )
+			{
+				int index = parameters.indexOf( " " );
+				String race = parameters.substring( index + 1 ).trim();
+				familiar = KoLCharacter.findFamiliar( race );
+			}
+			if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
+			{
+				return;
+			}
+			double itemDrop = Modifiers.getNumericModifier( "Familiar", familiar.getRace(), "Item Drop" );
+			RequestLogger.printLine( "Item Drop: " + itemDrop );
+			return;
+		}
+
 		if ( command.equals( "intcache" ) )
 		{
 			int cacheHits = IntegerPool.getCacheHits();
@@ -195,6 +273,154 @@ public class TestCommand
 			RequestLogger.printLine( "cache misses (too high): " + cacheMissHighs );
 			RequestLogger.printLine( "success rate: " + successRate + " %" );
 
+			return;
+		}
+
+		if ( command.equals( "leet" ) )
+		{
+			int index = parameters.indexOf( " " );
+			if ( index == -1 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test leet NAME" );
+				return;
+			}
+			String name = parameters.substring( index + 1 ).trim();
+			String leet = StringUtilities.leetify( name );
+			String monsterName = MonsterDatabase.translateLeetMonsterName( leet );
+			RequestLogger.printLine( name + " -> " + leet + " -> " +  monsterName );
+			return;
+		}
+
+		if ( command.equals( "neweffect" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test neweffect descId" );
+				return;
+			}
+
+			String descId = split[ 1 ].trim();
+			EffectDatabase.learnEffectId( null, descId );
+			return;
+		}
+
+		if ( command.equals( "newitem" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test newitem descId" );
+				return;
+			}
+
+			String descId = split[ 1 ].trim();
+			ItemDatabase.registerItem( descId );
+			return;
+		}
+
+		if ( command.equals( "places" ) )
+		{
+			int count = PlaceRequest.places.size();
+			if ( count == 0 )
+			{
+				RequestLogger.printLine( "No unclaimed places" );
+				return;
+			}
+			
+			for ( String place : PlaceRequest.places )
+			{
+				RequestLogger.printLine( "place.php?whichplace=" + place );
+			}
+
+			return;
+		}
+
+		if ( command.equals( "register" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test register URL..." );
+				return;
+			}
+
+			GenericRequest request = new GenericRequest( "" );
+			for ( int i = 1; i < split.length; ++i )
+			{
+				String urlString = split[ i ];
+				request.constructURLString( urlString );
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.locationLogged = false;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = null;
+				RequestLogger.registerRequest( request, urlString );
+				if ( KoLAdventure.lastLocationName != null )
+				{
+					KoLAdventure.recordToSession( urlString, "Response text" );
+				}
+			}
+			return;
+		}
+
+		if ( command.equals( "relstring" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test relstring RELSTRING" );
+				return;
+			}
+			AdventureResult result = ItemDatabase.itemFromRelString( split[ 1 ] );
+			RequestLogger.printLine( "returned " + result );
+			return;
+		}
+
+		if ( command.equals( "result" ) )
+		{
+			String text;
+			if ( TestCommand.contents == null )
+			{
+				int index = parameters.indexOf( " " );
+				text = parameters.substring( index + 1 );
+			}
+			else
+			{
+				text = TestCommand.contents.trim();
+				TestCommand.contents = null;
+			}
+
+			boolean result = ResultProcessor.processResults( false, text, null );
+			RequestLogger.printLine( "returned " + result );
+			ConcoctionDatabase.refreshConcoctionsNow();
+			return;
+		}
+
+		if ( command.equals( "row" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test row #" );
+				return;
+			}
+
+			int row = StringUtilities.parseInt( split[ 1 ] );
+			int itemId = ConcoctionPool.rowToId( row );
+			if ( itemId < 0 )
+			{
+				RequestLogger.printLine( "That row doesn't map to a known item." );
+				return;
+			}
+			String itemName = ItemDatabase.getItemName( itemId );
+			Concoction concoction = ConcoctionPool.get( itemId );
+			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known concoction" );
+			return;
+		}
+
+		if ( command.equals( "state" ) )
+		{
+			if ( split.length >= 2 )
+			{
+				int index = parameters.indexOf( " " );
+				String state = parameters.substring( index + 1 ).trim();
+				RequestLogger.printLine( KoLmafia.getSaveState( state ) );
+			}
 			return;
 		}
 		
@@ -258,213 +484,7 @@ public class TestCommand
 			return;
 		}
 
-		if ( command.equals( "adventure" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test adventure URL" );
-				return;
-			}
-			String adventureURL = split[ 1 ].trim();
-			KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
-			RequestLogger.printLine( "returned " + adventure );
-			return;
-		}
-
-		if ( command.equals( "register" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test register URL..." );
-				return;
-			}
-
-			GenericRequest request = new GenericRequest( "" );
-			for ( int i = 1; i < split.length; ++i )
-			{
-				String urlString = split[ i ];
-				request.constructURLString( urlString );
-				KoLAdventure.lastVisitedLocation = null;
-				KoLAdventure.locationLogged = false;
-				KoLAdventure.lastLocationName = null;
-				KoLAdventure.lastLocationURL = null;
-				RequestLogger.registerRequest( request, urlString );
-				if ( KoLAdventure.lastLocationName != null )
-				{
-					KoLAdventure.recordToSession( urlString, "Response text" );
-				}
-			}
-			return;
-		}
-
-		if ( command.equals( "newitem" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test newitem descId" );
-				return;
-			}
-
-			String descId = split[ 1 ].trim();
-			ItemDatabase.registerItem( descId );
-			return;
-		}
-
-		if ( command.equals( "neweffect" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test neweffect descId" );
-				return;
-			}
-
-			String descId = split[ 1 ].trim();
-			EffectDatabase.learnEffectId( null, descId );
-			return;
-		}
-
-		if ( command.equals( "row" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test row #" );
-				return;
-			}
-
-			int row = StringUtilities.parseInt( split[ 1 ] );
-			int itemId = ConcoctionPool.rowToId( row );
-			if ( itemId < 0 )
-			{
-				RequestLogger.printLine( "That row doesn't map to a known item." );
-				return;
-			}
-			String itemName = ItemDatabase.getItemName( itemId );
-			Concoction concoction = ConcoctionPool.get( itemId );
-			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known concoction" );
-			return;
-		}
-
-		if ( command.equals( "relstring" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test relstring RELSTRING" );
-				return;
-			}
-			AdventureResult result = ItemDatabase.itemFromRelString( split[ 1 ] );
-			RequestLogger.printLine( "returned " + result );
-			return;
-		}
-
-		if ( command.equals( "result" ) )
-		{
-			String text;
-			if ( TestCommand.contents == null )
-			{
-				int index = parameters.indexOf( " " );
-				text = parameters.substring( index + 1 );
-			}
-			else
-			{
-				text = TestCommand.contents.trim();
-				TestCommand.contents = null;
-			}
-
-			boolean result = ResultProcessor.processResults( false, text, null );
-			RequestLogger.printLine( "returned " + result );
-			ConcoctionDatabase.refreshConcoctionsNow();
-			return;
-		}
-
-		if ( command.equals( "cturns" ) )
-		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test cturns URL" );
-				return;
-			}
-			String URL = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
-			GenericRequest request = new GenericRequest( URL );
-			int turns = CreateItemRequest.getAdventuresUsed( request );
-			RequestLogger.printLine( "That will require " + turns + " turns" );
-			return;
-		}
-
-		if ( command.equals( "canonical" ) )
-		{
-			String string;
-			if ( TestCommand.contents == null )
-			{
-				int index = parameters.indexOf( " " );
-				string = parameters.substring( index + 1 );
-			}
-			else
-			{
-				string = TestCommand.contents.trim();
-				TestCommand.contents = null;
-			}
-			String canonical = StringUtilities.getEntityEncode( string, false );
-			String escaped = CharacterEntities.escape( canonical );
-			RequestLogger.printLine( "canonical(" + canonical.length() + ") = \"" + escaped + "\"" );
-			return;
-		}
-
-		if ( command.equals( "state" ) )
-		{
-			if ( split.length >= 2 )
-			{
-				int index = parameters.indexOf( " " );
-				String state = parameters.substring( index + 1 ).trim();
-				RequestLogger.printLine( KoLmafia.getSaveState( state ) );
-			}
-			return;
-		}
-
-		if ( command.equals( "fairy" ) )
-		{
-			FamiliarData familiar = KoLCharacter.getFamiliar();
-			if ( split.length >= 2 )
-			{
-				int index = parameters.indexOf( " " );
-				String race = parameters.substring( index + 1 ).trim();
-				familiar = KoLCharacter.findFamiliar( race );
-			}
-			if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
-			{
-				return;
-			}
-			double itemDrop = Modifiers.getNumericModifier( "Familiar", familiar.getRace(), "Item Drop" );
-			RequestLogger.printLine( "Item Drop: " + itemDrop );
-			return;
-		}
-
-		if ( command.equals( "dump_disabled_skills" ) )
-		{
-			Frame frame = TestCommand.findFrame( SkillBuffFrame.class );
-			if ( frame != null )
-			{
-				SkillBuffFrame sbf = (SkillBuffFrame) frame;
-				sbf.dumpDisabledSkills();
-			}
-			return;
-		}
-
-		if ( command.equals( "places" ) )
-		{
-			int count = PlaceRequest.places.size();
-			if ( count == 0 )
-			{
-				RequestLogger.printLine( "No unclaimed places" );
-				return;
-			}
-			
-			for ( String place : PlaceRequest.places )
-			{
-				RequestLogger.printLine( "place.php?whichplace=" + place );
-			}
-
-			return;
-		}
+		// *** Commands that DO depend on a loaded HTML file, in alphabetical order
 
 		if ( TestCommand.contents == null )
 		{
