@@ -263,7 +263,10 @@ public class MonsterData
 			}
 			else if ( attribute.equals( "ghostly" ) )
 			{
-				// Physical resistance
+				if ( monster.physicalResistance == 0 )
+				{
+					monster.physicalResistance = 90;
+				}
 			}
 			else if ( attribute.equals( "haunted" ) )
 			{
