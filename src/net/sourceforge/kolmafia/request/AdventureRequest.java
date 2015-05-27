@@ -1298,7 +1298,7 @@ public class AdventureRequest
 		// to recognize that "The 1337 N4ugh7y 50rc3r355" is actually
 		// "Naughty Sorceress", which is Manuel's name for her.
 
-		if ( monsterName.startsWith( "The " ) )
+		if ( monsterName.startsWith( "The " ) || monsterName.startsWith( "the " ) )
 		{
 			monsterName = monsterName.substring( 4 );
 		}
