@@ -54,7 +54,7 @@ BASIC Elemental	87	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60 P: elemental	G
 batrat	150	batrat.gif	Atk: 23 Def: 20 HP: 20 Init: 60 Meat: 22 P: beast	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
 Batsnake	1517	snakeboss5.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: stench	The Stankara Stone (0)
 Battlie Knight Ghost	1257	aboo_wars.gif	Atk: 76 Def: 64 HP: 40 Init: -10000 Phys: 100 E: spooky P: undead	A-Boo clue (c15)	Battlie Light Saver (15)	Whoompa Fur Pants (5)
-# Monster id 548, 549
+# Monster id 548 (no tool), 549 (tool)
 batwinged gremlin	0	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum hammer (c0)
 bazookafish	724	bazookafish.gif	Atk: 375 Def: 292 HP: 500 Init: 100 Meat: 220 P: fish	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (n15)	fish bazooka (n2)
 beanbat	48	beanbat.gif	Atk: 21 Def: 18 HP: 18 Init: 60 Meat: 34 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
@@ -130,7 +130,7 @@ clan of cave bars	1162	cavebars.gif	Scale: 20 Cap: 200 Floor: 30 MLMult: 5 Init:
 claw-foot bathtub	400	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Claybender Sorcerer Ghost	1254	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)
 cleanly pirate	621	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 60 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
-# Monster id 626, 627
+# Monster id 626 (female), 627 (male)
 clingy pirate	0	girlpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 65 P: pirate	bit of clingfilm (11)
 Cloaca-Cola Catapult Engineer	295	colaoff1.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
 Cloaca-Cola Footsoldier	294	colasol1.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
@@ -211,7 +211,7 @@ elephant (meatcar?) topiary animal	1247	topi3.gif	Atk: 85 Def: 80 HP: 90 Init: 5
 Elite Beer Bongadier	507	warfratbg2.gif	Atk: 190 Def: 184 HP: 230 Init: 50 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Elp&iacute;zo & Crosybdis	1582	elp_and_cros.gif	Atk: 38 Def: 36 HP: 45 Init: 30 P: beast	glass of bourbon (c100)
 empty suit of armor	395	armor.gif	Atk: 60 Def: 54 HP: 60 Init: -10000 ED: spooky P: construct	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
-# Monster id 546 and 547
+# Monster id 546 (no tool), 547 (tool)
 erudite gremlin	0	gremlinglasses.gif	Atk: 171 Def: 152 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum crescent wrench (c0)
 evil cultist	833	cultist.gif	Atk: 60 Def: 45 HP: 70 Init: 40 P: dude	memory of a cultist's robe (0)
 Evil Olive	136	evilolive.gif	Atk: 145 Def: 130 HP: 140 Init: 50 P: beast	bottle of gin (30)	olive (40)	jumbo olive (10)
@@ -652,7 +652,7 @@ Spam Witch	143	spamwitch.gif	Atk: 85 Def: 76 HP: 75 Init: 70 EA: sleaze Meat: 30
 Spawn of Wally	793	wretchedseal.gif	FREE Atk: 10 Def: 9 HP: 15 Init: -10000 P: horror	tainted seal's blood (100)
 Spectral Jellyfish	93	jellyfish.gif	Atk: 70 Def: 63 HP: 60 Init: 60 "Somewhat Poisoned" P: beast	spectral jelly (p1)
 spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)
-# Monster ids 552, 553
+# Monster ids 552 (no tool), 553 (tool)
 spider gremlin	0	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum pliers (c0)
 spider-legged witch's hut	1580	spiderhut.gif	Atk: 50 Def: 50 HP: 50 Init: 50 P: construct	giant spider leg (c100)
 spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	evil eye (20)	skelelton spine (c0)
@@ -748,7 +748,7 @@ urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish	mermaid'
 vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
 vampire clam	75	vampclam.gif	Atk: 19 Def: 17 HP: 14 Init: 60 P: undead	vampire chowder (0)	vampire pearl (p35)
 vampire duck	564	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 131-165 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
-# Monster ids 550, 551
+# Monster ids 550 (no tool), 551 (tool)
 vegetable gremlin	0	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum screwdriver (c0)
 vendor slime	805	vendorslime.gif	Atk: 145 Def: 130 HP: 160 Init: 75 P: slime	vial of red slime (f66)
 vengeful turtle spectre	654	turtleghost.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
@@ -1738,7 +1738,7 @@ Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber c
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin Enforcer	0	pengthug.gif	P: penguin	patent leather shoes (0)
-# Mob Penguin Goon	0		P: penguin	penguin thesaurus (0)
+Mob Penguin Goon	0	penggoon.gif	P: penguin	penguin thesaurus (0)
 Mob Penguin Hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin Psychopath	0	pengpsycho.gif	P: penguin	knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin Racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
@@ -1753,8 +1753,8 @@ Mutant Whistle-Carving Elf	750	elfhulk.gif		elven <i>limbos</i> gingerbread (0)	
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	HP: [min(240,HP*2/3)] Def: [min(300,MUS+10)] Atk: [min(300,MOX+10)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
 clod hopper	847	rock_hopper.gif	WANDERER Atk: 100 Def: 90 HP: 150 Init: 50 P: beast	floaty sand (15)	floaty sand (15)	floaty sand (15)
-rock homunculus	0	rock_guy.gif	WANDERER HP: 42 Def: 27 Atk: 30	floaty sand (20)	floaty sand (20)
-rock snake	0	rock_snake.gif	WANDERER HP: 15 Def: 9 Atk: 10	floaty sand (25)
+rock homunculus	846	rock_guy.gif	WANDERER HP: 42 Def: 27 Atk: 30	floaty sand (20)	floaty sand (20)
+rock snake	845	rock_snake.gif	WANDERER HP: 15 Def: 9 Atk: 10	floaty sand (25)
 rockfish	848	rock_fish.gif	WANDERER Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	rockfish stomach (100)
 
 # The Shivering Timbers (Arborween October 2009)

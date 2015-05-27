@@ -432,7 +432,7 @@ public class MonsterData
 		if ( this.health instanceof Integer )
 		{
 			int hp = ((Integer) this.health).intValue();
-			if ( hp == 0 && ((Integer) this.attack).intValue() == 0 )
+			if ( hp == 0 && ( this.attack == null || ( this.attack instanceof Integer && ((Integer) this.attack).intValue() == 0 ) ) )
 			{
 				// The monster is unknown, so do not apply modifiers
 				return 0;
@@ -441,8 +441,7 @@ public class MonsterData
 			{
 				hp += 150;
 			}
-			return (int) Math.floor( Math.max( 1, hp + ML() * mlMult ) *
-			       getBeeosity() );
+			return (int) Math.floor( Math.max( 1, hp + ML() * mlMult ) * getBeeosity() );
 		}
 		if ( this.health instanceof String )
 		{
