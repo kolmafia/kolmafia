@@ -93,9 +93,9 @@ MONSTER	Gorgolok, the Infernal Seal	1_3\.gif	"Gorgolok, the Infernal Seal (Volca
 MONSTER	Stella, the Turtle Poacher 	2_1\.gif	"Stella, the Turtle Poacher (Inner Sanctum)"
 MONSTER	Stella, the Turtle Poacher 	2_2\.gif	"Stella, the Turtle Poacher (The Nemesis' Lair)"
 MONSTER	Stella, the Turtle Poacher 	2_3\.gif	"Stella, the Turtle Poacher (Volcanic Cave)"
-MONSTER	Spaghetti Elemental	3_1\.gif	"Spaghetti Elemental (Inner Sanctum)"
-MONSTER	Spaghetti Elemental	3_2\.gif	"Spaghetti Elemental (The Nemesis' Lair)
-MONSTER	Spaghetti Elemental	3_3\.gif	"Spaghetti Elemental (Volcanic Cave)
+MONSTER	the Spaghetti Elemental	3_1\.gif	"Spaghetti Elemental (Inner Sanctum)"
+MONSTER	the Spaghetti Elemental	3_2\.gif	"Spaghetti Elemental (The Nemesis' Lair)
+MONSTER	the Spaghetti Elemental	3_3\.gif	"Spaghetti Elemental (Volcanic Cave)
 MONSTER	Lumpy, the Sinister Sauceblob	4_1\.gif	"Lumpy, the Sinister Sauceblob (Inner Sanctum)"
 MONSTER	Lumpy, the Sinister Sauceblob	4_2\.gif	"Lumpy, the Sinister Sauceblob (The Nemesis' Lair)
 MONSTER	Lumpy, the Sinister Sauceblob	4_3\.gif	"Lumpy, the Sinister Sauceblob (Volcanic Cave)
