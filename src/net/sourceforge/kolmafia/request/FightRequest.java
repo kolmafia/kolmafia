@@ -4468,6 +4468,7 @@ public class FightRequest
 		public MonsterData monster;
 		public String monsterName;
 		public boolean seahorse;
+		public boolean mayowasp;
 		public boolean dolphin;
 
 		public TagStatus()
@@ -4498,6 +4499,9 @@ public class FightRequest
 
 			// Note if we are taming a wild seahorse
 			this.seahorse = this.monsterName.equals( "wild seahorse" );
+
+			// Note if we are fighting a mayonnaise wasp
+			this.mayowasp = this.monsterName.equals( "mayonnaise wasp" );
 
 			// Note if we are fighting in The Themthar Hills
 			this.nunnery = this.monsterName.equals( "dirty thieving brigand" );
@@ -4875,6 +4879,11 @@ public class FightRequest
 			}
 			
 			if ( FightRequest.handleSeahorse( str, status ) )
+			{
+				return;
+			}
+			
+			if ( FightRequest.handleMayoWasp( str, status ) )
 			{
 				return;
 			}
@@ -5790,6 +5799,17 @@ public class FightRequest
 			FightRequest.logText( buffer, status );
 		}
 
+		return true;
+	}
+
+	private static boolean handleMayoWasp( String text, TagStatus status )
+	{
+		if ( !status.mayowasp || !text.startsWith( "The mayo wasp sniffs at you for a minute" ) )
+		{
+			return false;
+		}
+
+		FightRequest.logText( "The mayo wasp deposits an egg in your abdomen!", status );
 		return true;
 	}
 
