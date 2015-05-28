@@ -66,6 +66,7 @@ public class MonsterData
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
+	private final boolean dummy;
 	private final EncounterType type;
 	private final String image;
 	private final String[] images;
@@ -166,8 +167,8 @@ public class MonsterData
 			    final Object scale, final int cap, final int floor, final Object mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
-			    final int meat,
-			    final Phylum phylum, final int poison, final boolean boss,
+			    final int meat, final Phylum phylum, final int poison,
+			    final boolean boss, final boolean dummy,
 			    final EncounterType type, final String[] images,
 			    final String attributes )
 	{
@@ -191,6 +192,7 @@ public class MonsterData
 		this.phylum = phylum;
 		this.poison = poison;
 		this.boss = boss;
+		this.dummy = dummy;
 		this.type = type;
 		this.image = images.length > 0 ? images[ 0 ] : "";
 		this.images = images;
@@ -815,6 +817,11 @@ public class MonsterData
 	public boolean isBoss()
 	{
 		return this.boss;
+	}
+
+	public boolean isDummy()
+	{
+		return this.dummy;
 	}
 
 	public EncounterType getType()

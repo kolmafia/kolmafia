@@ -257,18 +257,27 @@ public class MonsterDatabase
 			if ( !bogus )
 			{
 				monster.doneWithItems();
-				String keyName = CombatActionManager.encounterKey( name );
-				StringUtilities.registerPrepositions( keyName );
-				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+
+				// "dummy" monsters are KoL monsters names that
+				// we always disambiguate into other monsters.
+				// We need them only for 1337 name translation
+
+				if ( !monster.isDummy() )
+				{
+					String keyName = CombatActionManager.encounterKey( name );
+					StringUtilities.registerPrepositions( keyName );
+					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+					for ( String image : images )
+					{
+						MonsterDatabase.MONSTER_IMAGES.put( image, monster );
+					}
+					if ( id != 0 )
+					{
+						MonsterDatabase.MONSTER_IDS.put( id, monster );
+					}
+				}
+
 				MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
-				for ( String image : images )
-				{
-					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
-				}
-				if ( id != 0 )
-				{
-					MonsterDatabase.MONSTER_IDS.put( id, monster );
-				}
 			}
 		}
 
@@ -384,6 +393,7 @@ public class MonsterDatabase
 	{
 		MonsterData monster = MonsterDatabase.registerMonster( name, 0, new String[0], "" );
 		MonsterDatabase.MONSTER_DATA.put( name, monster );
+		MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
 		return monster;
 	}
 
@@ -416,6 +426,7 @@ public class MonsterDatabase
 		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
+		boolean dummy = false;
 		EncounterType type = EncounterType.NONE;
 		int physical = 0;
 
@@ -646,6 +657,12 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "DUMMY" ) )
+				{
+					dummy = true;
+					continue;
+				}
+
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -665,8 +682,8 @@ public class MonsterDatabase
 					   scale, cap, floor, mlMult,
 					   attackElement, defenseElement,
 					   physical,
-					   meat,
-					   phylum, poison, boss, type,
+					   meat, phylum, poison,
+					   boss, dummy, type,
 					   images, attributes );
 		return monster;
 	}
