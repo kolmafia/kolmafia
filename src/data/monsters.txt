@@ -1957,113 +1957,113 @@ semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 I
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
 
-Orcish Frat Boy	0
-Ninja Snowman	0
+Orcish Frat Boy	0		DUMMY
+Ninja Snowman	0		DUMMY
 
-The Darkness	0
+The Darkness	0		DUMMY
 
-Trippy Floating Head	0
+Trippy Floating Head	0		DUMMY
 
-Gorgolok, the Infernal Seal	0
-Stella, the Turtle Poacher	0
-Spaghetti Elemental	0
-Lumpy, the Sinister Sauceblob	0
-the Spirit of New Wave	0
-Somerset Lopez, Dread Mariachi	0
+Gorgolok, the Infernal Seal	0		DUMMY
+Stella, the Turtle Poacher	0		DUMMY
+Spaghetti Elemental	0		DUMMY
+Lumpy, the Sinister Sauceblob	0		DUMMY
+the Spirit of New Wave	0		DUMMY
+Somerset Lopez, Dread Mariachi	0		DUMMY
 
 Ed the Undying	473
 
-Shadow Lemming Trampler	0
-Shadow Tern Slapper	0
-Shadow Puffin Intimidator	0
-Shadow Ermine Thumper	0
-Shadow Penguin Frightener	0
-Shadow Malamute Basher	0
-Shadow Narwhal Pummeler	0
-Shadow Otter Crusher	0
-Shadow Caribou Smacker	0
-Shadow Moose Harasser	0
-Shadow Reindeer Threatener	0
-Shadow Ox Wrestler	0
-Shadow Walrus Bludgeoner	0
-Shadow Whale Boxer	0
-Shadow Seal Clubber	0
-Shadow Toad Coach	0
-Shadow Skink Trainer	0
-Shadow Frog Director	0
-Shadow Gecko Supervisor	0
-Shadow Newt Herder	0
-Shadow Frog Boss	0
-Shadow Iguana Driver	0
-Shadow Salamander Subduer	0
-Shadow Bullfrog Overseer	0
-Shadow Rattlesnake Chief	0
-Shadow Crocodile Lord	0
-Shadow Cobra Commander	0
-Shadow Alligator Subjugator	0
-Shadow Asp Master	0
-Shadow Turtle Tamer	0
-Shadow Dough Acolyte	0
-Shadow Yeast Scholar	0
-Shadow Noodle Neophyte	0
-Shadow Starch Savant	0
-Shadow Carbohydrate Cognoscenti	0
-Shadow Spaghetti Sage	0
-Shadow Macaroni Magician	0
-Shadow Vermicelli Enchanter	0
-Shadow Linguini Thaumaturge	0
-Shadow Ravioli Sorcerer	0
-Shadow Manicotti Magus	0
-Shadow Spaghetti Spellbinder	0
-Shadow Cannelloni Conjurer	0
-Shadow Angel-Hair Archmage	0
-Shadow Pastamancer	0
-Shadow Allspice Acolyte	0
-Shadow Cilantro Seer	0
-Shadow Parsley Enchanter	0
-Shadow Sage Sage	0
-Shadow Rosemary Diviner	0
-Shadow Thyme Wizard	0
-Shadow Tarragon Thaumaturge	0
-Shadow Oreganoccultist	0
-Shadow Basillusionist	0
-Shadow Coriander Conjurer	0
-Shadow Bay Leaf Brujo	0
-Shadow Sesame Soothsayer	0
-Shadow Marinara Mage	0
-Shadow Alfredo Archmage	0
-Shadow Sauceror	0
-Shadow Funk Footpad	0
-Shadow Rhythm Rogue	0
-Shadow Chill Crook	0
-Shadow Jiggy Grifter	0
-Shadow Beat Snatcher	0
-Shadow Sample Swindler	0
-Shadow Move Buster	0
-Shadow Jam Horker	0
-Shadow Groove Filcher	0
-Shadow Vibe Robber	0
-Shadow Boogie Brigand	0
-Shadow Flow Purloiner	0
-Shadow Jive Pillager	0
-Shadow Rhymer and Stealer	0
-Shadow Disco Bandit	0
-Shadow Polka Criminal	0
-Shadow Mariachi Larcenist	0
-Shadow Zydeco Rogue	0
-Shadow Chord Horker	0
-Shadow Chromatic Crook	0
-Shadow Squeezebox Scoundrel	0
-Shadow Concertina Con Artist	0
-Shadow Button Box Burglar	0
-Shadow Hurdy-Gurdy Hooligan	0
-Shadow Sub-Sub-Apprentice Accordion Thief	0
-Shadow Sub-Apprentice Accordion Thief	0
-Shadow Pseudo-Apprentice Accordion Thief	0
-Shadow Hemi-Apprentice Accordion Thief	0
-Shadow Apprentice Accordion Thief	0
-Shadow Accordion Thief	0
-Shadow Avatar of Boris	0
-Shadow Zombie Master	0
-Shadow Avatar of Jarlsberg	0
-Shadow Avatar of Sneaky Pete	0
+Shadow Lemming Trampler	0		DUMMY
+Shadow Tern Slapper	0		DUMMY
+Shadow Puffin Intimidator	0		DUMMY
+Shadow Ermine Thumper	0		DUMMY
+Shadow Penguin Frightener	0		DUMMY
+Shadow Malamute Basher	0		DUMMY
+Shadow Narwhal Pummeler	0		DUMMY
+Shadow Otter Crusher	0		DUMMY
+Shadow Caribou Smacker	0		DUMMY
+Shadow Moose Harasser	0		DUMMY
+Shadow Reindeer Threatener	0		DUMMY
+Shadow Ox Wrestler	0		DUMMY
+Shadow Walrus Bludgeoner	0		DUMMY
+Shadow Whale Boxer	0		DUMMY
+Shadow Seal Clubber	0		DUMMY
+Shadow Toad Coach	0		DUMMY
+Shadow Skink Trainer	0		DUMMY
+Shadow Frog Director	0		DUMMY
+Shadow Gecko Supervisor	0		DUMMY
+Shadow Newt Herder	0		DUMMY
+Shadow Frog Boss	0		DUMMY
+Shadow Iguana Driver	0		DUMMY
+Shadow Salamander Subduer	0		DUMMY
+Shadow Bullfrog Overseer	0		DUMMY
+Shadow Rattlesnake Chief	0		DUMMY
+Shadow Crocodile Lord	0		DUMMY
+Shadow Cobra Commander	0		DUMMY
+Shadow Alligator Subjugator	0		DUMMY
+Shadow Asp Master	0		DUMMY
+Shadow Turtle Tamer	0		DUMMY
+Shadow Dough Acolyte	0		DUMMY
+Shadow Yeast Scholar	0		DUMMY
+Shadow Noodle Neophyte	0		DUMMY
+Shadow Starch Savant	0		DUMMY
+Shadow Carbohydrate Cognoscenti	0		DUMMY
+Shadow Spaghetti Sage	0		DUMMY
+Shadow Macaroni Magician	0		DUMMY
+Shadow Vermicelli Enchanter	0		DUMMY
+Shadow Linguini Thaumaturge	0		DUMMY
+Shadow Ravioli Sorcerer	0		DUMMY
+Shadow Manicotti Magus	0		DUMMY
+Shadow Spaghetti Spellbinder	0		DUMMY
+Shadow Cannelloni Conjurer	0		DUMMY
+Shadow Angel-Hair Archmage	0		DUMMY
+Shadow Pastamancer	0		DUMMY
+Shadow Allspice Acolyte	0		DUMMY
+Shadow Cilantro Seer	0		DUMMY
+Shadow Parsley Enchanter	0		DUMMY
+Shadow Sage Sage	0		DUMMY
+Shadow Rosemary Diviner	0		DUMMY
+Shadow Thyme Wizard	0		DUMMY
+Shadow Tarragon Thaumaturge	0		DUMMY
+Shadow Oreganoccultist	0		DUMMY
+Shadow Basillusionist	0		DUMMY
+Shadow Coriander Conjurer	0		DUMMY
+Shadow Bay Leaf Brujo	0		DUMMY
+Shadow Sesame Soothsayer	0		DUMMY
+Shadow Marinara Mage	0		DUMMY
+Shadow Alfredo Archmage	0		DUMMY
+Shadow Sauceror	0		DUMMY
+Shadow Funk Footpad	0		DUMMY
+Shadow Rhythm Rogue	0		DUMMY
+Shadow Chill Crook	0		DUMMY
+Shadow Jiggy Grifter	0		DUMMY
+Shadow Beat Snatcher	0		DUMMY
+Shadow Sample Swindler	0		DUMMY
+Shadow Move Buster	0		DUMMY
+Shadow Jam Horker	0		DUMMY
+Shadow Groove Filcher	0		DUMMY
+Shadow Vibe Robber	0		DUMMY
+Shadow Boogie Brigand	0		DUMMY
+Shadow Flow Purloiner	0		DUMMY
+Shadow Jive Pillager	0		DUMMY
+Shadow Rhymer and Stealer	0		DUMMY
+Shadow Disco Bandit	0		DUMMY
+Shadow Polka Criminal	0		DUMMY
+Shadow Mariachi Larcenist	0		DUMMY
+Shadow Zydeco Rogue	0		DUMMY
+Shadow Chord Horker	0		DUMMY
+Shadow Chromatic Crook	0		DUMMY
+Shadow Squeezebox Scoundrel	0		DUMMY
+Shadow Concertina Con Artist	0		DUMMY
+Shadow Button Box Burglar	0		DUMMY
+Shadow Hurdy-Gurdy Hooligan	0		DUMMY
+Shadow Sub-Sub-Apprentice Accordion Thief	0		DUMMY
+Shadow Sub-Apprentice Accordion Thief	0		DUMMY
+Shadow Pseudo-Apprentice Accordion Thief	0		DUMMY
+Shadow Hemi-Apprentice Accordion Thief	0		DUMMY
+Shadow Apprentice Accordion Thief	0		DUMMY
+Shadow Accordion Thief	0		DUMMY
+Shadow Avatar of Boris	0		DUMMY
+Shadow Zombie Master	0		DUMMY
+Shadow Avatar of Jarlsberg	0		DUMMY
+Shadow Avatar of Sneaky Pete	0		DUMMY

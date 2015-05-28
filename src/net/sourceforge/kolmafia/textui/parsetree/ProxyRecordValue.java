@@ -972,6 +972,7 @@ public class ProxyRecordValue
 			.add( "phylum", DataTypes.PHYLUM_TYPE )
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
+			.add( "dummy", DataTypes.BOOLEAN_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "images",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
@@ -1083,6 +1084,11 @@ public class ProxyRecordValue
 		public boolean get_boss()
 		{
 			return ((MonsterData) this.content).isBoss();
+		}
+
+		public boolean get_dummy()
+		{
+			return ((MonsterData) this.content).isDummy();
 		}
 
 		public String get_image()
