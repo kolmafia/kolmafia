@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class TestCommand
 	extends AbstractCommand
@@ -489,6 +490,15 @@ public class TestCommand
 		if ( TestCommand.contents == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "no HTML loaded." );
+			return;
+		}
+
+		if ( command.equals( "aagain" ) )
+		{
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			String location = StationaryButtonDecorator.getAdventureAgainLocation( buffer );
+			RequestLogger.printLine( location );
 			return;
 		}
 
