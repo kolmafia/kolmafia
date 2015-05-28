@@ -721,7 +721,7 @@ public class StationaryButtonDecorator
 	private static final Pattern BODY_PATTERN = Pattern.compile( "<body>.*</body>", Pattern.DOTALL );
 	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<[aA] (id=\"againlink\" )?href=[\"']?([^\"'>]*)", Pattern.DOTALL );
 
-	private static final String getAdventureAgainLocation( StringBuffer response )
+	public static final String getAdventureAgainLocation( StringBuffer response )
 	{
 		// Get the "adventure again" link from the page.
 		// Search only in the body of the page
