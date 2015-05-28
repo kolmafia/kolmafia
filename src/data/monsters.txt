@@ -274,7 +274,7 @@ generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 70-80 
 Georgepaul, the Balldodger	879	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 100 P: mer-kin
 ghastly organist	403	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead	opera mask (20)
 ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
-ghost of Elizabeth Spookyraven	1564	elizabeth.gif	Scale: 5 Cap: 300 Init: 100 P: undead	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
+ghost of Elizabeth Spookyraven	1564	elizabeth.gif	Scale: 5 Cap: 300 Init: 100 Phys: 100 P: undead	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 34 P: undead	ghuol egg (25)	ghuol ears (25)
 giant giant giant centipede	472	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 giant giant moth	72	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 P: bug	giant giant moth dust (0)
@@ -303,7 +303,7 @@ Goomba	113	goomba.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	
 Gorgolok, the Demonic Hellseal	888	1_4a.gif	BOSS Atk: 200 Def: 180 HP: 400 Init: 100 Phys: 40 P: demon	Claw of the Infernal Seal (100)	Instant Karma (c100)	heart of the volcano (c100)
 Gorgolok, the Infernal Seal (Inner Sanctum)	21	1_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: demon	Scalp of Gorgolok (100)
 Gorgolok, the Infernal Seal (The Nemesis' Lair)	872	1_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: demon	Krakrox's Loincloth (100)
-Gorgolok, the Infernal Seal (Volcanic Cave)	882	1_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: demon
+Gorgolok, the Infernal Seal (Volcanic Cave)	882	1_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: demon
 Goth Giant	174	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 150 P: humanoid	awful poetry journal (15)	thin black candle (25)	Warm Subject gift certificate (5)	giant tube of black lipstick (c10)
 Grass Elemental	90	grasselemental.gif	Atk: 60 Def: 54 HP: 50 Init: 60 P: elemental	leaf of grass (0)	folder (Ex-Files) (c0)
 grassy pirate	615	grasspirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 95	grassy cutlass (10)
@@ -337,7 +337,7 @@ Hooded Warrior	183	hooded.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: sleaze P: co
 huge ghuol	191	ghuol_huge.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/3] Init: 60 Meat: 258-344 E: spooky P: undead	ghuol ears (0)	ghuol egg (0)
 huge mosquito	1341	giantmosquito.gif	Atk: 16 Def: 14 HP: 18 Init: 20 P: bug Meat: 10	delicious swamp muck (0)	huge mosquito proboscis (0)
 # Monster ids 669, 675
-hulking construct	0	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 P: construct	El Vibrato punchcard (104 holes) (1)
+hulking construct	0	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 Phys: 100 P: construct	El Vibrato punchcard (104 holes) (1)
 hung-over half-orc hobo	281	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)
 hunting seal	684	huntingseal.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: demon
 hustled spectre	809	poolghost.gif	Atk: 25 Def: 22 HP: 35 Init: 100 P: undead	cube of billiard chalk (100)
@@ -450,7 +450,7 @@ Mer-kin raider	771	merkinraider.gif	Atk: 750 Def: 585 HP: 800 Init: 50 Meat: 250
 Mer-kin researcher	840	merkinresearcher.gif	Atk: 800 Def: 750 HP: 900 Init: 75 P: mer-kin	Mer-kin healscroll (0)	Mer-kin killscroll (0)	Mer-kin darkbook (0)
 Mer-kin rustler	777	merkinspear.gif	Atk: 700 Def: 675 HP: 750 Init: 100 P: mer-kin	Mer-kin thingpouch (n15)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)
 Mer-kin scavenger	742	merkinscav.gif	Atk: 450 Def: 405 HP: 600 Init: 100 Meat: 200 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
-Mer-kin specter	1372	merkinghost.gif	Atk: 750 Def: 600 HP: 600 Init: 100 P: undead
+Mer-kin specter	1372	merkinghost.gif	Atk: 750 Def: 600 HP: 600 Init: 100 Phys: 100 P: undead
 Mer-kin teacher	838	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-kin	Mer-kin lipstick (0)	Mer-kin bunwig (0)	Mer-kin hallpass (0)	folder (catfish) (c0)
 Mer-kin tippler	768	merkintippler.gif	Atk: 600 Def: 360 HP: 750 Init: 25 Meat: 200 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mer-kin trainer	841	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
@@ -466,7 +466,7 @@ Mob Penguin hitman	683	pengthug.gif	WANDERER Atk: 75 Def: 67 HP: 90 Init: 40 Mea
 Mobile Armored Sweat Lodge	488	warhipar2.gif	Atk: 180 Def: 162 HP: 300 Init: 20 E: stench Phys: 50 P: hippy	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 model skeleton	1547	modelskeleton.gif	Atk: 76 Def: 81 HP: 85 Init: 25 P: construct E: spooky	synthetic marrow (0)	rubber ribcage (0)	funny bone (0)
 modern zmobie	1070	modernzombie.gif	SUPERLIKELY Atk: 60 Def: 54 HP: 50 Init: 300 E: spooky P: undead
-moister oyster	1371	moyster.gif	SEMIRARE Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 100 P: fish	giant pearl (n100)
+moister oyster	1371	moyster.gif	SEMIRARE Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 100 Phys: 25 P: fish	giant pearl (n100)
 monstrous boiler	1556	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: construct E: hot	chunk of hot iron (0)	red hot boilermaker (0)
 Monty Basingstoke-Pratt, IV	517	monty.gif	Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 174-215 E: sleaze P: orc	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 mother hellseal	780	motherseal.gif	SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: 150 Exp: [150*1.385^pref(_sealScreeches)/4] Init: [150*1.385^pref(_sealScreeches)] P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
@@ -640,11 +640,11 @@ Snow Queen	385	snowqueen.gif	Atk: 107 Def: 94 HP: 70 Init: 60 E: cold Phys: 100 
 Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	El Sombrero De Lopez (100)
 Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	877	6_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: dude	Lederhosen of the Night (100)
-Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: dude
+Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: dude
 Sorority Nurse	508	warfratmd.gif	Atk: 170 Def: 157 HP: 200 Init: 30 E: sleaze P: orc	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)	scrunchie tourniquet (c0)
 Sorority Operator	509	warfratcm.gif	Atk: 185 Def: 162 HP: 200 Init: 80 E: sleaze P: orc	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Space Tourist Explorer Ghost	1256	aboo_trek.gif	Atk: 74 Def: 66 HP: 40 Init: -10000 E: spooky P: undead Phys: 100	A-Boo clue (c15)	Space Tours Tripple (15)	Space Tourist Phaser (5)
-Spaghetti Demon	890	3_4a.gif	BOSS Atk: 200 Def: 180 HP: 600 Init: 100 P: demon	Bandolier of the Spaghetti Elemental (100)	Instant Karma (c100)	heart of the volcano (c100)
+Spaghetti Demon	890	3_4a.gif	BOSS Atk: 200 Def: 180 HP: 600 Init: 100 Phys: 40 P: demon	Bandolier of the Spaghetti Elemental (100)	Instant Karma (c100)	heart of the volcano (c100)
 Spaghetti Elemental (Inner Sanctum)	23	3_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: elemental	Colander of Em-er'il (100)
 Spaghetti Elemental (The Nemesis' Lair)	874	3_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: elemental	Angelhair Culottes (100)
 Spaghetti Elemental (Volcanic Cave)	884	3_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: elemental
@@ -658,7 +658,7 @@ spider-legged witch's hut	1580	spiderhut.gif	Atk: 50 Def: 50 HP: 50 Init: 50 P: 
 spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	evil eye (20)	skelelton spine (c0)
 Spirit of New Wave (Inner Sanctum)	25	5_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: undead	Disco 'Fro Pick (100)
 Spirit of New Wave (The Nemesis' Lair)	876	5_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: undead	Volartta's bellbottoms (100)
-Spirit of New Wave (Volcanic Cave)	886	5_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: undead
+Spirit of New Wave (Volcanic Cave)	886	5_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: undead
 sponge	739	sponge.gif	Atk: 350 Def: 405 HP: 1000 Init: 50 P: fish	sand dollar (n10)	sand dollar (n9)	sand dollar (n1)	slab of sponge (n5)
 spooky gravy fairy guard	260	sgguard.gif	Atk: 55 Def: 49 HP: 45 Init: 60 E: spooky P: plant	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 spooky gravy fairy ninja	262	sgninja.gif	Atk: 65 Def: 58 HP: 55 Init: 100 E: spooky P: plant	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
@@ -669,10 +669,10 @@ spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 5 P: u
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 steam elemental	1557	steamelemental.gif	Atk: 160 Def: 137 HP: 140 Init: 75 P: elemental E: hot
 Steampunk Giant	1337	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid	brass gear (20)	brown felt tophat (5)	autocalliope (a0)	steampunk potion (c0)
-Stella, the Demonic Turtle Poacher	889	2_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
+Stella, the Demonic Turtle Poacher	889	2_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 Phys: 40 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
 Stella, the Turtle Poacher (Inner Sanctum)	22	2_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	873	2_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: dude	Galapagosian Cuisses (100)
-Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: dude
+Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: dude
 Stephen Spookyraven	1565	steven.gif	Scale: 5 Cap: 300 Init: 100 P: undead	Stephen's secret formula (100)	Stephen's lab coat (100)
 sticky mummy	1583	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead
 stone temple pirate	1159	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct	ancient poisoned dart (35)	eyepatch (15)
@@ -709,7 +709,7 @@ The Big Wisniewski	545	thisdude.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED:
 The Clownlord Beelzebozo	569	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
 The Darkness (blind)	0	darkness.gif
 the former owner of the Skeleton Store	1755	skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead	check to the Meatsmith (c100)
-the ghost of Phil Bunion	1352	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 P: undead E: spooky Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
+the ghost of Phil Bunion	1352	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 Phys: 100 P: undead E: spooky Meat: 35	spectral axe (0)	Phil Bunion's axe (c0)
 the gunk	1548	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
 The Man	555	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
 The Mariachi With No Name	706	darkmariachi.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
@@ -766,7 +766,7 @@ War Frat Elite 500th Captain	500	warfratb2.gif	Atk: 185 Def: 171 HP: 210 Init: 5
 War Frat Elite Wartender	506	warfratsp2.gif	Atk: 195 Def: 166 HP: 220 Init: 70 E: sleaze P: orc	beer bomb (20)	beer bomb (10)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	blue class ring (31)	kick-ass kicks (2)	molotov cocktail cocktail (0)	PADL Phone (3)	sake bomb (25)	sake bomb (13)	tequila grenade (0)
 War Frat Grill Sergeant	502	warfratgr.gif	Atk: 190 Def: 148 HP: 100 Init: 50 E: sleaze P: orc	Frat Army FGF (5)	kick-ass kicks (10)	Monstar energy beverage (20)	PADL Phone (3)	war tongs (17)
 War Frat Kegrider	420	warfratar.gif	Atk: 170 Def: 153 HP: 300 Init: 20 E: sleaze Phys: 25 P: orc	beer bong (5)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	furniture dolly (15)	PADL Phone (5)
-War Frat Mobile Grill Unit	577	warfratmo.gif	Atk: 180 Def: 162 HP: 190 Init: 70 E: sleaze P: orc	beer helmet (2)	bejeweled pledge pin (1)	distressed denim pants (2)	Frat Army FGF (5)	PADL Phone (11)	sausage bomb (41)	shiny hood ornament (25)	white class ring (31)
+War Frat Mobile Grill Unit	577	warfratmo.gif	Atk: 180 Def: 162 HP: 190 Init: 70 E: sleaze Phys: 25 P: orc	beer helmet (2)	bejeweled pledge pin (1)	distressed denim pants (2)	Frat Army FGF (5)	PADL Phone (11)	sausage bomb (41)	shiny hood ornament (25)	white class ring (31)
 War Frat Senior Grill Sergeant	503	warfratgr2.gif	Atk: 210 Def: 153 HP: 120 Init: 50 E: sleaze P: orc	asbestos apron (c0)	Frat Army FGF (20)	kick-ass kicks (15)	Monstar energy beverage (31)	PADL Phone (4)	war tongs (19)
 War Frat Streaker	520	streaker.gif	Atk: 220 Def: 198 HP: 350 Init: 100 Meat: 400-418 E: sleaze P: orc	white class ring (0)	tube sock (100)	distressed denim pants (0)	beer helmet (0)	kick-ass kicks (0)
 War Frat Wartender	505	warfratsp.gif	Atk: 185 Def: 157 HP: 200 Init: 70 E: sleaze P: orc	beer bomb (14)	beer bomb (7)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (3)	molotov cocktail cocktail (0)	PADL Phone (2)	red class ring (30)	sake bomb (22)	sake bomb (22)	tequila grenade (0)
@@ -813,7 +813,7 @@ writing desk	405	ravendesk.gif	Atk: 27 Def: 27 HP: 28 Init: 50 P: construct	disi
 XXX pr0n	138	pr0n.gif	Atk: 75 Def: 67 HP: 68 Init: 60 Meat: 30 P: beast	f3d0r4 (15)	lowercase N (30)	pr0n legs (40)
 Yakisoba the Executioner	703	yakisoba.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Yakisoba's hat (100)	macaroni duck (100)
 Yeast Beast	36	yeastbeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 EA: sleaze P: construct	wad of dough (50)	wad of dough (50)
-Yog-Urt, Elder Goddess of Hatred	1378	yog-urt.gif	BOSS Atk: 400 Def: 400 HP: 750 Init: 10000 P: horror
+Yog-Urt, Elder Goddess of Hatred	1378	yog-urt.gif	BOSS Atk: 400 Def: 400 HP: 750 Init: 10000 Phys: 100 P: horror
 Zim Merman	513	zimmerman.gif	Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 209-325 E: stench P: hippy	Lockenstock&trade; sandals (0)	Zim Merman's guitar (100)	green clay bead (0)
 zmobie	31	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky Meat: 36 P: undead	cranberries (20)	loose teeth (50)
 zobmie	33	zombie.gif	Atk: 19 Def: 17 HP: 10 Init: 60 E: spooky Meat: 34 P: undead	cranberries (20)	cranberries (20)
@@ -896,7 +896,7 @@ Leonard	1705	adv_sleaze4.gif	Atk: 200 Def: 300 HP: 250 Init: -10000 P: dude
 # - Hedge Maze
 
 topiary chihuahua herd	1712	topiarychi.gif	Atk: 250 Def: 250 HP: 250 Init: 150 P: plant
-topiary duck	1711	topiaryduck.gif	Atk: 300 Def: 300 HP: 300 Init: 200 P: plant
+topiary duck	1711	topiaryduck.gif	Atk: 300 Def: 300 HP: 300 Init: 200 Phys: 50 P: plant
 topiary gopher	1710	topiarygopher.gif	Atk: 200 Def: 200 HP: 200 Init: 100 P: plant
 topiary kiwi	1713	topiarykiwi.gif	Atk: 350 Def: 350 HP: 350 Init: 150 P: plant
 
@@ -945,7 +945,7 @@ X Stone Golem	242	stonegolem.gif	HP: [0.85*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)
 X-headed Hydra	237	hydra.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast
 Ghost of Fernswarthy's Grandfather	238	fernghost.gif	HP: [0.425*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
 X Bottles of Beer on a Golem	241	beergolem.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: construct
-X-dimensional horror	592	dimhorror.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: -10000 Phys: 90 P: horror
+X-dimensional horror	592	dimhorror.gif	HP: [1.7*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] Atk: [2*ceil(BL^1.4)+ML] Init: -10000 P: horror
 
 # Clan Dungeons
 
@@ -965,12 +965,12 @@ gang of hobo muggers	707	muggers.gif	Atk: 800 Def: 900 HP: 3000 Init: 300 P: hob
 
 # Hobopolis Bosses
 
-Frosty	695	frosty.gif	BOSS HP: 350 Def: 450 Atk: 500 Init: 200 E: cold P: elemental	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's carrot (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's arm (f20)	Frosty's iceball (f20)	Frosty's snowball sack (f20)
+Frosty	695	frosty.gif	BOSS HP: 350 Def: 450 Atk: 500 Init: 200 E: cold Phys: 100 P: elemental	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's carrot (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's arm (f20)	Frosty's iceball (f20)	Frosty's snowball sack (f20)
 Ol' Scratch	694	olscratch.gif	BOSS Atk: 500 Def: 450 HP: 8000 Init: 150 E: hot P: demon	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stovepipe hat (0)	Ol' Scratch's infernal pitchfork (f20)	Ol' Scratch's manacles (f20)	Ol' Scratch's stove door (f20)
 Oscus	696	oscus.gif	BOSS Atk: 500 Def: 450 HP: 6500 Init: 200 E: stench P: hobo	The Ballad of Richie Thingfinder (0)	jar of fermented pickle juice (0)	Oscus's dumpster waders (0)	Oscus's pelt (0)	Wand of Oscus (0)	Oscus's flypaper pants (f20)	Oscus's garbage can lid (f20)	Oscus's neverending soda (f20)
 Chester	698	chester.gif	BOSS HP: 8000 Def: 450 Atk: 500 Init: 200 E: sleaze P: dude	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
 Zombo	697	zombo.gif	BOSS HP: 10000 Def: 450 Atk: 500 Init: 200 E: spooky P: undead	Prelude of Precision (0)	voodoo snuff (0)	Zombo's grievous greaves (0)	Zombo's shield (0)	Zombo's skullcap (0)	Zombo's empty eye (f20)	Zombo's shoulder blade (f20)	Zombo's skull ring (f20)
-Hodgman, The Hoboverlord	688	hodgman.gif	BOSS HP: 25000 Def: 675 Atk: 750 Init: 250 P: hobo	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
+Hodgman, The Hoboverlord	688	hodgman.gif	BOSS HP: 25000 Def: 675 Atk: 750 Init: 250 Phys: 25 P: hobo	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
 
 # Slime Tube
 # Monster id 791
@@ -1040,8 +1040,8 @@ Falls-From-Sky (Hard Mode)	0	fallsfromsky_hm.gif	P: beast	Covers-Your-Head (c0)	
 Great Wolf of the Air	0	wolfoftheair.gif	P: beast	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Hunger&trade; Sauce (c0)
 Great Wolf of the Air (Hard Mode)	0	wolfoftheair_hm.gif	P: beast	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Great Wolf's rocket launcher (c0)	Great Wolf's beastly trousers (c0)	Great Wolf's lice (c0)	Hunger&trade; Sauce (c0)
 # Monster id 1389
-Mayor Ghost	0	mayorghost.gif	P: undead	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	ghost pepper (c0)
-Mayor Ghost (Hard Mode)	0	mayorghost_hm.gif	P: undead	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	Mayor Ghost's gavel (c0)	Mayor Ghost's sash (c0)	Mayor Ghost's scissors (c0)	ghost pepper (c0)
+Mayor Ghost	0	mayorghost.gif	Phys: 100 P: undead	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	ghost pepper (c0)
+Mayor Ghost (Hard Mode)	0	mayorghost_hm.gif	Phys: 100 P: undead	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	Mayor Ghost's gavel (c0)	Mayor Ghost's sash (c0)	Mayor Ghost's scissors (c0)	ghost pepper (c0)
 # Monster id 1391
 The Unkillable Skeleton	0	ukskeleton.gif	P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	electric Kool-Aid (c0)
 The Unkillable Skeleton (Hard Mode)	0	ukskeleton_hm.gif	P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	Unkillable Skeleton's sawsword (c0)	Unkillable Skeleton's shield (c0)	Unkillable Skeleton's restless leg (c0)	skull capacitor (100)	electric Kool-Aid (c0)
@@ -1059,8 +1059,8 @@ beebee queue	1080	beebeequeue.gif	WANDERER HP: [ceil((MUS+20+ML)*15/28)] Def: [c
 bee swarm	1079	beeswarm.gif	WANDERER HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)] Exp: [ceil(5/6*((STAT+20)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)
 buzzerker	1078	buzzerker.gif	WANDERER HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)] Exp: [ceil(5/6*((STAT+20)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)
 Beebee King	1082	beebeeking.gif	WANDERER HP: [ceil((MUS+40+ML)*15/28)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil((MOX+40+ML)*5/7)] Exp: [ceil(5/7*((STAT+40)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
-bee thoven	1081	beethoven.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
-Queen Bee	1083	beequeen.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
+bee thoven	1081	beethoven.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
+Queen Bee	1083	beequeen.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Way of the Stunning Fist
 Wu Tang the Betrayer	1100	susguy.gif	Atk: 200 Def: 89999 HP: 500 Init: 150 P: dude	forged identification documents (100)	can of black paint (100)	black cherry soda (0)	black cherry soda (0)	black cherry soda (0)
@@ -1082,15 +1082,15 @@ bugbear scientist	1168	bb_science.gif	Atk: 45 Def: 40 HP: 50 Init: 50 P: beast	B
 spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast	quantum nanopolymer spider web (0)
 bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 E: spooky P: undead	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast	bugbear autopsy tweezers (100)
-Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast	BURT (100)
+Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 Phys: 25 P: beast	BURT (100)
 Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast	BURT (100)
-bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct	drone self-destruct chip (0)
-liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 P: construct
+bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 Phys: 50 P: construct	drone self-destruct chip (0)
+liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 Phys: 50 P: construct
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 E: spooky P: beast	BURT (100)
-N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct
-trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 E: stench P: beast	BURT (100)
-angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 P: beast
-Bugbear Captain	1182	bb_captain.gif	Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast
+N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 Phys: 50 P: construct
+trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 E: stench Phys: 25 P: beast	BURT (100)
+angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 Phys: 25 P: beast
+Bugbear Captain	1182	bb_captain.gif	Atk: 280 Def: 288 HP: 1337 Init: 200 Phys: 25 P: beast
 
 # Zombie Slayer
 Norville Rogers	1214	hunter2.gif	WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude	hunter brain (n100)	Scuba Snack (c0)
@@ -1111,7 +1111,7 @@ zombie-huntin' feller	1213	hunter1.gif	WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P
 Rene C. Corman	1229	reneccorman.gif	Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude	Thwaitgold maggot statuette (n100)
 
 # Avatar of Jarlsberg
-Clancy	1338	clancy.gif	Atk: 150 Def: 165 HP: 500 Init: 90 P: dude
+Clancy	1338	clancy.gif	Atk: 150 Def: 165 HP: 500 Init: 90 Phys: 25 P: dude
 The Avatar of Boris	1339	boris.gif	Atk: 230 Def: 190 HP: 1000 Init: 50 P: dude
 
 # KOLHS
@@ -1360,9 +1360,9 @@ work hat	1273	doubt1.gif	Atk: 30 Def: 40 HP: 30 Init: 50 P: construct	black pixe
 reproachful heart	1274	doubt2.gif	Atk: 30 Def: 40 HP: 25 Init: 70 P: construct	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
 judgmental eye	1275	doubt3.gif	Atk: 45 Def: 35 HP: 40 Init: 50 P: beast	red pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
 Doubt Man	1272	doubtman.gif	Atk: 40 Def: 40 HP: 150 Init: 50 P: dude	doubt cannon (100)
-contemplative ghost	1277	regret1.gif	Atk: 30 Def: 35 HP: 35 Init: 60 P: undead	green pixel (0)	green pixel (0)	green pixel (0)	pixel power cell (0)
-lovesick ghost	1278	regret2.gif	Atk: 30 Def: 40 HP: 50 Init: 30 P: undead	white pixel (0)	black pixel (0)	red pixel (0)	pixel power cell (0)
-ancient ghost	1279	regret3.gif	Atk: 30 Def: 40 HP: 25 Init: 70 P: undead	white pixel (0)	white pixel (0)	black pixel (0)	pixel power cell (0)	cube of ectoplasm (c0)
+contemplative ghost	1277	regret1.gif	Atk: 30 Def: 35 HP: 35 Init: 60 Phys: 100 P: undead	green pixel (0)	green pixel (0)	green pixel (0)	pixel power cell (0)
+lovesick ghost	1278	regret2.gif	Atk: 30 Def: 40 HP: 50 Init: 30 Phys: 100 P: undead	white pixel (0)	black pixel (0)	red pixel (0)	pixel power cell (0)
+ancient ghost	1279	regret3.gif	Atk: 30 Def: 40 HP: 25 Init: 70 Phys: 100 P: undead	white pixel (0)	white pixel (0)	black pixel (0)	pixel power cell (0)	cube of ectoplasm (c0)
 Regret Man	1276	regretman.gif	Atk: 40 Def: 40 HP: 200 Init: 100 P: dude	regret hose (100)
 ticking time bomb	1266	anger2.gif	Atk: 50 Def: 40 HP: 30 Init: 20 P: construct	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
 rage flame	1265	anger1.gif	Atk: 30 Def: 30 HP: 30 Init: 100 E: hot P: elemental	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
@@ -1848,10 +1848,10 @@ Riff's Butt	0	butt.gif	WANDERER HP: 52 Def: 76 Atk: 69	intriguing puzzle box (10
 antique database server	1099	spiderserver.gif	Atk: [0] Def: [0] HP: 300 Init: -10000 Exp: 60 P: construct	corrupted data (10)	squirming egg sac (5)
 
 # The Haunted Sorority House (October 2011)
-sexy sorority ghost	1102	sororghost2.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	ghostly body paint (0)	Ecto-Cooler (0)	ghost protocol (0)	extra-see-thru nightie (0)
+sexy sorority ghost	1102	sororghost2.gif	Atk: 50 Def: 45 HP: 100 Init: 50 Phys: 100 P: undead	Haunted Sorority House staff guide (0)	ghostly body paint (0)	Ecto-Cooler (0)	ghost protocol (0)	extra-see-thru nightie (0)
 sexy sorority skeleton	1103	sororeton2.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	press-on ribs (0)	Bone's Farm &quot;wine&quot; (0)	throwing bone (0)	extremely skinny jeans (0)
 sexy sorority vampire	1104	sororpire1.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	bite-me-red lipstick (0)	Blood Light (0)	Nightstalker perfume (0)	Mesmereyes&trade; contact lenses (0)
-sexy sorority werewolf	1106	sororwolf3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: dude	Haunted Sorority House staff guide (0)	whisker pencil (0)	Silver Bullet beer (0)	drum of pomade (0)	cursed scrunchie (0)
+sexy sorority werewolf	1106	sororwolf3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 Phys: 50 P: dude	Haunted Sorority House staff guide (0)	whisker pencil (0)	Silver Bullet beer (0)	drum of pomade (0)	cursed scrunchie (0)
 sexy sorority zombie	1105	sororbie3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (0)	necrotizing body spray (0)	Bartles and BRAAAINS wine cooler (0)	sorority brain (0)	BRAINS shorts (0)
 
 # Lollipop Forest (Crimbo 2011)
@@ -1877,7 +1877,7 @@ The Abominable Fudgeman	0	fudgeman.gif	HP: 500 Def: 350 Atk: 350 Init: 50	heart 
 four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horror	mime soul fragment (100)
 
 # A Smoldering Fortress (June 2012)
-Servant Of Lord Flameface	0	fireservant1.gif		molten brick (c5)
+Servant Of Lord Flameface	0	fireservant1.gif	Phys: 100	molten brick (c5)
 
 # Crimbo Town Toy Factory (Crimbo 2012)
 sign-twirling Crimbo elf	1261	tacoelf_sign.gif	Scale: 0 Cap: 150 Init: -10000 P: elf	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)
@@ -1914,11 +1914,11 @@ spirit faucet	1458	spiritfaucet.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P:
 spirit pea	1457	spiritpea.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	1461	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	1465	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	1462	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	1464	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	1461	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 Phys: 100 P: weird E: hot	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	1465	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 Phys: 100 P: weird E: spooky	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	1462	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 Phys: 100 P: weird E: cold	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 Phys: 100 P: weird E: stench	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	1464	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 Phys: 100 P: weird E: sleaze	handful of crafty noodles (c0)	handful of crafty noodles (c0)
 Chef Boy, R&amp;D	1466	chefboy.gif	WANDERER Scale: 5 Init: -10000 P: dude Phys: 100
 
 # The WarBear Fortress (Crimbo 2013)
