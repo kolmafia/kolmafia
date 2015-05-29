@@ -637,7 +637,7 @@ smut orc pipelayer	1231	smutorc_layer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc
 smut orc screwer	1233	smutorc_screwer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc Meat: 35	backwoods screwdriver (0)	screwing pooch (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
 Snakeleton	1519	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: spooky	The Shield of Brook (n100)
 Snow Queen	385	snowqueen.gif	Atk: 107 Def: 94 HP: 70 Init: 60 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
-Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
+Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 Phys: 40 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude	El Sombrero De Lopez (100)
 Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	877	6_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: dude	Lederhosen of the Night (100)
 Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: dude
@@ -1058,7 +1058,7 @@ mumblebee	1075	mumblebee.gif	WANDERER HP: [ceil((MUS+ML)*15/28)] Def: [ceil((MUS
 beebee queue	1080	beebeequeue.gif	WANDERER HP: [ceil((MUS+20+ML)*15/28)] Def: [ceil((MUS+20+ML)*5/7)] Atk: [ceil((MOX+20+ML)*5/7)] Exp: [ceil(5/7*((STAT+20)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)
 bee swarm	1079	beeswarm.gif	WANDERER HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)] Exp: [ceil(5/6*((STAT+20)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)
 buzzerker	1078	buzzerker.gif	WANDERER HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)] Exp: [ceil(5/6*((STAT+20)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)
-Beebee King	1082	beebeeking.gif	WANDERER HP: [ceil((MUS+40+ML)*15/28)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil((MOX+40+ML)*5/7)] Exp: [ceil(5/7*((STAT+40)/4+ML/3))] Init: -10000 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
+Beebee King	1082	beebeeking.gif	WANDERER HP: [ceil((MUS+40+ML)*15/28)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil((MOX+40+ML)*5/7)] Exp: [ceil(5/7*((STAT+40)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 bee thoven	1081	beethoven.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 Queen Bee	1083	beequeen.gif	WANDERER HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)] Exp: [ceil(5/6*((STAT+40)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
@@ -1083,7 +1083,7 @@ spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast	quantu
 bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 E: spooky P: undead	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast	bugbear autopsy tweezers (100)
 Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 Phys: 25 P: beast	BURT (100)
-Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast	BURT (100)
+Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 Phys: 50 P: beast	BURT (100)
 bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 Phys: 50 P: construct	drone self-destruct chip (0)
 liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 Phys: 50 P: construct
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 E: spooky P: beast	BURT (100)
