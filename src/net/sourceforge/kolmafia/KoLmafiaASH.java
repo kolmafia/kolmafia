@@ -245,8 +245,8 @@ public abstract class KoLmafiaASH
 
 		if ( !createInterpreter )
 		{
-			Long timestamp = (Long) KoLmafiaASH.TIMESTAMPS.get( toExecute );
-			createInterpreter = timestamp.longValue() != toExecute.lastModified();
+			Long timestamp = KoLmafiaASH.TIMESTAMPS.get( toExecute );
+			createInterpreter = timestamp != toExecute.lastModified();
 		}
 
 		if ( !createInterpreter )
@@ -261,7 +261,7 @@ public abstract class KoLmafiaASH
 				Entry entry = (Entry) it.next();
 				File file = (File) entry.getKey();
 				Long timestamp = (Long) entry.getValue();
-				createInterpreter = timestamp.longValue() != file.lastModified();
+				createInterpreter = timestamp != file.lastModified();
 			}
 		}
 
@@ -275,7 +275,7 @@ public abstract class KoLmafiaASH
 				return null;
 			}
 
-			KoLmafiaASH.TIMESTAMPS.put( toExecute, new Long( toExecute.lastModified() ) );
+			KoLmafiaASH.TIMESTAMPS.put( toExecute, toExecute.lastModified() );
 			KoLmafiaASH.INTERPRETERS.put( toExecute, interpreter );
 		}
 
@@ -284,17 +284,18 @@ public abstract class KoLmafiaASH
 
 	public static void showUserFunctions( final Interpreter interpreter, final String filter )
 	{
-		KoLmafiaASH.showFunctions( interpreter.getFunctions(), filter.toLowerCase() );
+		KoLmafiaASH.showFunctions( interpreter.getFunctions(), filter.toLowerCase(), false );
 	}
 
 	public static void showExistingFunctions( final String filter )
 	{
-		KoLmafiaASH.showFunctions( RuntimeLibrary.getFunctions(), filter.toLowerCase() );
+		KoLmafiaASH.showFunctions( RuntimeLibrary.getFunctions(), filter.toLowerCase(), true );
 	}
 
-	private static void showFunctions( final Iterator it, final String filter )
+	private static void showFunctions( final Iterator it, final String filter, boolean addLinks )
 	{
 		Function func;
+		addLinks = addLinks && StaticEntity.isGUIRequired();
 
 		if ( !it.hasNext() )
 		{
@@ -310,7 +311,7 @@ public abstract class KoLmafiaASH
 
 			if ( !matches )
 			{
-				matches = func.getName().toLowerCase().indexOf( filter ) != -1;
+				matches = func.getName().toLowerCase().contains( filter );
 			}
 
 			Iterator it2 = func.getReferences();
@@ -323,7 +324,7 @@ public abstract class KoLmafiaASH
 
 					String refType = ref.getType().toString();
 
-					matches = refType != null && refType.indexOf( filter ) != -1;
+					matches = refType != null && refType.contains( filter );
 				}
 			}
 
@@ -336,7 +337,17 @@ public abstract class KoLmafiaASH
 
 			description.append( func.getType() );
 			description.append( " " );
+			if ( addLinks )
+			{
+				description.append( "<a href='http://wiki.kolmafia.us/index.php?title=" );
+				description.append( func.getName() );
+				description.append( "'>" );
+			}
 			description.append( func.getName() );
+			if ( addLinks )
+			{
+				description.append( "</a>" );
+			}
 			description.append( "( " );
 
 			it2 = func.getReferences();
@@ -371,7 +382,9 @@ public abstract class KoLmafiaASH
 		for ( Interpreter i : KoLmafiaASH.INTERPRETERS.values() )
 		{
 			if ( i.getRelayRequest() != null )
+			{
 				i.setState( Interpreter.STATE_EXIT );
+			}
 		}
 	}
 }
