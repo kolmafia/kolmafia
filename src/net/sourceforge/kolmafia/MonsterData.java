@@ -254,7 +254,13 @@ public class MonsterData
 			{
 				monster.meat = 5;
 			}
-			if ( attribute.equals( "dancin'" ) )
+			else if ( attribute.equals( "cloned" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 2 );
+				monster.attack = new Integer( monster.getRawAttack() * 2 );
+				monster.defense = new Integer( monster.getRawDefense() * 2 );
+			}
+			else if ( attribute.equals( "dancin'" ) )
 			{
 				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
 			}
@@ -354,6 +360,12 @@ public class MonsterData
 			else if ( attribute.equals( "turgid" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 5 );
+			}
+			else if ( attribute.equals( "unlucky" ) )
+			{
+				monster.health = new Integer( 13 );
+				monster.attack = new Integer( 13 );
+				monster.defense = new Integer( 13 );
 			}
 			else if ( attribute.equals( "wet" ) )
 			{
