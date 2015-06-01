@@ -8309,9 +8309,9 @@
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100	Kokomo Resort Passes
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
 8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0	jars of Mayo de Mayo&trade; mayo
-8287
+8287	yellow puck	516723254	yellapuck.gif	grow	t	0
 8288
-8289
+8289	orange boxing gloves	725111660	boxinggloves.gif	familiar	t,d	75
 8290	dice ring	835114452	dicering.gif	accessory		0
 8291	dice belt buckle	574345959	dicebuckle.gif	accessory		0
 8292	dice-print pajama pants	212346816	dicepants.gif	pants		0
@@ -8320,3 +8320,9 @@
 8295	dice sunglasses	483999849	diceglasses.gif	accessory		0
 8296	Thwaitgold caterpillar statuette	681318742	thwaitcat.gif	none		0
 8297	powdered dice	387104784	scpowder.gif	usable	t	0
+8298	yellow pixel	512868873	pixel7.gif	none	t,d	5
+8299	pixel coin	818106945	pixelcoin.gif	usable	t	0
+8300	power pill	515789880	powerpill.gif	usable, combat	t,d	200
+8301	pixel star	177951003	pixelstar.gif	usable	t,d	150
+8302	pixel banana	390664858	pixelbanana.gif	food	t,d	150
+8303	pixel beer	365395975	pixelbeer.gif	drink	t,d	150
