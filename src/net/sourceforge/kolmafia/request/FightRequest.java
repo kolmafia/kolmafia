@@ -2259,7 +2259,7 @@ public class FightRequest
 		FightRequest.shouldRefresh = false;
 
 		// Preprocess results and register new items
-		ResultProcessor.processItems( responseText, null );
+		ResultProcessor.processItems( true, responseText, null );
 
 		// Track disco skill sequences
 		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, macroMatcher );
@@ -5125,7 +5125,16 @@ public class FightRequest
 
 				int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
 				AdventureResult result = ItemPool.get( itemId );
-				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
+
+				boolean autoEquip = str.contains( "automatically equipped" );
+				String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
+				ResultProcessor.processItem( true, acquisition, result, (List<AdventureResult>) null );
+
+				if ( autoEquip )
+				{
+					EquipmentManager.autoequipItem( result );
+				}
+
 				if ( str.contains( "Item unequipped:" ) )
 				{	// Item removed by Zombo
 					EquipmentManager.discardEquipment( itemId );

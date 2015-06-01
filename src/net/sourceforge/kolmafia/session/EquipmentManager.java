@@ -347,6 +347,37 @@ public class EquipmentManager
 		}
 	}
 
+	public static final void autoequipItem( AdventureResult newItem )
+	{
+		int slot = EquipmentManager.itemIdToEquipmentType( newItem.getItemId() );
+		if ( slot < 0 )
+		{
+			return;
+		}
+
+		AdventureResult oldItem = EquipmentManager.getEquipment( slot );
+
+		if ( newItem.getItemId() == oldItem.getItemId() )
+		{
+			return;
+		}
+
+		// Manually subtract item from inventory to avoid
+		// excessive list updating.
+
+		if ( newItem != EquipmentRequest.UNEQUIP )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, newItem.getInstance( -1 ) );
+		}
+
+		if ( oldItem != EquipmentRequest.UNEQUIP )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, oldItem.getInstance( 1 ) );
+		}
+
+		EquipmentManager.setEquipment( slot, newItem );
+	}
+
 	public static final void setEquipment( final int slot, AdventureResult item )
 	{
 		// Variable slots do not include the fake hand

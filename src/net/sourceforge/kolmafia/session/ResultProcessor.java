@@ -33,10 +33,10 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,9 +147,9 @@ public class ResultProcessor
 	}
 
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
-	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?" );
+	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>(?: \\((stored in Hagnk's Ancestral Mini-Storage|automatically equipped)\\))?" );
 
-	public static String processItems( final String results, final List<AdventureResult> items )
+	public static String processItems( boolean combatResults, final String results, final List<AdventureResult> items )
 	{
 		// Results now come in like this:
 		//
@@ -169,6 +169,13 @@ public class ResultProcessor
 		// Pre-process all such matches and save them to a list of items.
 		// Register new items.
 		// Check multi-usability and plurals
+		//
+		// In Spelunky:
+		//
+		// <table><tr><td><img style='vertical-align: middle' class=hand
+		// src='http://images.kingdomofloathing.com/itemimages/shotgun.gif'
+		// onclick='descitem(606913715)'></td><td valign=center>You acquire an item: <b>shotgun</b>
+		// (automatically equipped)</td></tr></table>
 
 		StringBuffer buffer = new StringBuffer();
 		boolean changed = false;
@@ -181,7 +188,7 @@ public class ResultProcessor
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
 			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
-			boolean hagnk = boldName != null && boldMatcher.group(2) != null;
+			String comment = boldName != null ? boldMatcher.group(2) : null;
 
 			// If we don't know this descid, it's an unknown item.
 			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
@@ -222,18 +229,31 @@ public class ResultProcessor
 			}
 
 	
-			// If the item went to Hagnk's process it now.
-			if ( hagnk )
+			// Perform special processing, if indicated
+			if ( comment != null )
 			{
 				itemMatcher.appendReplacement( buffer, "" );
 				changed = true;
-				String message = "Stored in Hagnk's: " + item.toString();
-				RequestLogger.printLine( message );
-				if ( Preferences.getBoolean( "logAcquiredItems" ) )
+				// If the item went to Hagnk's...
+				if ( comment.contains( "Hagnk" ) )
 				{
-					RequestLogger.updateSessionLog( message );
+					// move it to Hagnk's and remove from page text
+					String message = "Stored in Hagnk's: " + item.toString();
+					RequestLogger.printLine( message );
+					if ( Preferences.getBoolean( "logAcquiredItems" ) )
+					{
+						RequestLogger.updateSessionLog( message );
+					}
+					AdventureResult.addResultToList( KoLConstants.storage, item );
 				}
-				AdventureResult.addResultToList( KoLConstants.storage, item );
+				// If the item was automatically equipped...
+				else if ( comment.contains( "automatically equipped" ) )
+				{
+					// add to inventory, equip it, and remove from page text
+					String acquisition = "You acquire and equip an item:";
+					ResultProcessor.processItem( combatResults, acquisition, item, null );
+					EquipmentManager.autoequipItem( item );
+				}
 			}
 
 			// Otherwise, add it to the list of items we found
@@ -351,7 +371,7 @@ public class ResultProcessor
 		// Check multi-usability and plurals
 
 		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
-		results = ResultProcessor.processItems( results, items );
+		results = ResultProcessor.processItems( combatResults, results, items );
 
 		// Process effects similarly, saving them to a list of effects.
 		// Register new effects.
@@ -387,10 +407,10 @@ public class ResultProcessor
 			ResultProcessor.processFamiliarWeightGain( plainTextResult );
 		}
 
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, KoLConstants.LINE_BREAK );
+		LinkedList<String> parsedResults = new LinkedList<String>( Arrays.asList( plainTextResult.split( KoLConstants.LINE_BREAK ) ) );
 		boolean shouldRefresh = false;
 
-		while ( parsedResults.hasMoreTokens() )
+		while ( parsedResults.size() > 0 )
 		{
 			shouldRefresh |= ResultProcessor.processNextResult( combatResults, parsedResults, data, items, effects );
 		}
@@ -423,16 +443,16 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List<AdventureResult> data,
+	private static boolean processNextResult( boolean combatResults, LinkedList<String> parsedResults, List<AdventureResult> data,
 						  LinkedList<AdventureResult> items,  LinkedList<AdventureResult> effects )
 	{
-		String lastToken = parsedResults.nextToken();
+		String lastToken = parsedResults.remove();
 
 		// Skip bogus lead necklace drops from the Baby Bugged Bugbear
 
 		if ( lastToken.equals( " Parse error (function not found) in arena.php line 2225" ) )
 		{
-			parsedResults.nextToken();
+			parsedResults.remove();
 			return false;
 		}
 
@@ -487,10 +507,10 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List<AdventureResult> data,
-					 LinkedList<AdventureResult> items )
+	private static void processItem( boolean combatResults, LinkedList<String> parsedResults, String acquisition,
+					 List<AdventureResult> data, LinkedList<AdventureResult> items )
 	{
-		String item = parsedResults.nextToken();
+		String item = parsedResults.remove();
 
 		if ( item.equals( "7 Years of Bad Luck" ) )
 		{
@@ -515,7 +535,22 @@ public class ResultProcessor
 				RequestLogger.printLine( "Unrecognized item found: " + item );
 			}
 
+			boolean autoEquip = parsedResults.size() > 0 && parsedResults.getFirst().contains( "automatically equipped" );
+
+			if ( autoEquip )
+			{
+				// This happens in Spelunky
+				parsedResults.remove();
+				acquisition = "You acquire and equip an item:";
+			}
+
 			ResultProcessor.processItem( combatResults, acquisition, result, data );
+
+			if ( autoEquip )
+			{
+				EquipmentManager.autoequipItem( result );
+			}
+
 			return;
 		}
 
@@ -607,7 +642,7 @@ public class ResultProcessor
 
 	public static Pattern DURATION_PATTERN = Pattern.compile( "\\((?:duration: )?(\\d+) Adventures?\\)" );
 
-	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data,
+	private static boolean processEffect( LinkedList<String> parsedResults, String acquisition, List<AdventureResult> data,
 					      LinkedList<AdventureResult> effects )
 	{
 		if ( data != null )
@@ -615,7 +650,7 @@ public class ResultProcessor
 			return false;
 		}
 
-		String effectName = parsedResults.nextToken();
+		String effectName = parsedResults.remove();
 		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
 
 		if ( effect != null && effectName.equals( effect.getName() ) )
@@ -629,7 +664,7 @@ public class ResultProcessor
 
 		if ( acquisition.contains( "Adventures" ) )
 		{
-			String lastToken = parsedResults.nextToken();
+			String lastToken = parsedResults.remove();
 			Matcher m = DURATION_PATTERN.matcher( lastToken );
 			if ( m.find() )
 			{
@@ -664,14 +699,14 @@ public class ResultProcessor
 		return ResultProcessor.processResult( combatResults, result );
 	}
 
-	private static boolean processIntrinsic( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
+	private static boolean processIntrinsic( LinkedList<String> parsedResults, String acquisition, List<AdventureResult> data )
 	{
 		if ( data != null )
 		{
 			return false;
 		}
 
-		String effectName = parsedResults.nextToken();
+		String effectName = parsedResults.remove();
 
 		String message = acquisition + " " + effectName;
 		RequestLogger.printLine( message );
