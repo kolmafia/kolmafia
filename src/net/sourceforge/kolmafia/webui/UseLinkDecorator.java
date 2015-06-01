@@ -237,6 +237,14 @@ public abstract class UseLinkDecorator
 			String type = useLinkMatcher.group( 2 );
 			int pos = buffer.length();
 			boolean link = false;
+			String comment = useLinkMatcher.group( 4 );
+
+			if ( comment.contains( "Hagnk" ) || comment.contains( "automatically equipped" ) )
+			{
+				// If the item ended up in Hagnk's storage or
+				// was automatically equipped, no use link.
+				continue;
+			}
 
 			// Special handling for bounty items
 			if ( type.contains( "bounty item" ) )
@@ -255,7 +263,7 @@ public abstract class UseLinkDecorator
 					}
 				}
 			}
-			else if ( !useLinkMatcher.group( 4 ).contains( "Hagnk" ) )
+			else
 			{
 				int itemId = -1;
 				int itemCount = 1;
