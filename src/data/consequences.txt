@@ -106,6 +106,14 @@ MONSTER	Somerset Lopez, Dread Mariachi	6_1\.gif	"Somerset Lopez, Dread Mariachi 
 MONSTER	Somerset Lopez, Dread Mariachi	6_2\.gif	"Somerset Lopez, Dread Mariachi (The Nemesis' Lair)"
 MONSTER	Somerset Lopez, Dread Mariachi	6_3\.gif	"Somerset Lopez, Dread Mariachi (Volcanic Cave)"
 
+# include versions without "the" so that random attributes will work.
+MONSTER	Spaghetti Elemental	3_1\.gif	"Spaghetti Elemental (Inner Sanctum)"
+MONSTER	Spaghetti Elemental	3_2\.gif	"Spaghetti Elemental (The Nemesis' Lair)
+MONSTER	Spaghetti Elemental	3_3\.gif	"Spaghetti Elemental (Volcanic Cave)
+MONSTER	Spirit of New Wave	5_1\.gif	"Spirit of New Wave (Inner Sanctum)"
+MONSTER	Spirit of New Wave	5_2\.gif	"Spirit of New Wave (The Nemesis' Lair)"
+MONSTER	Spirit of New Wave	5_3\.gif	"Spirit of New Wave (Volcanic Cave)"
+
 MONSTER	Count Drunkula	drunkula_hm\.gif	"Count Drunkula (Hard Mode)"
 MONSTER	Falls-From-Sky	fallsfromsky_hm\.gif	"Falls-From-Sky (Hard Mode)"
 MONSTER	Great Wolf of the Air	wolfoftheair_hm\.gif	"Great Wolf of the Air (Hard Mode)"
