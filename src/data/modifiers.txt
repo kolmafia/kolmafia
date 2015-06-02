@@ -3262,6 +3262,7 @@ Item	ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 Item	jalape&ntilde;o slices	Meat Drop: +60.9
 Item	Jawmaster 2000&trade;	Familiar Weight: +5
+Item	kill screen	Random Monster Attributes: +1, Generic
 Item	kitty sheet music	Familiar Weight: +5
 Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
@@ -7823,6 +7824,7 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 Item	yellow puck	Free Pull
+Item	yellow puck with a bow on it	Free Pull
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 Item	Yolo&trade; chocolates	Effect: "Yoloswagyoloswag", Effect Duration: 5
 # your own black heart: Restores all HP and MP
