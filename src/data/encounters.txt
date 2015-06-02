@@ -12,8 +12,8 @@ Whitey's Grove	STOP	It's A Sign!
 The Haunted Pantry	STOP	The Manor in Which You're Accustomed
 The Sleazy Back Alley	STOP	Under the Knife
 The Enormous Greater-Than Sign	STOP	The Oracle Will See You Now
-Pre-Cyrpt Cemetary	STOP	A Grave Situation
-Post-Cyrpt Cemetary	STOP	A Grave Situation
+The Unquiet Garves	STOP	A Grave Situation
+The VERY Unquiet Garves	STOP	A Grave Situation
 Tower Ruins	STOP	Take a Dusty Look!
 Inside the Palindome	STOP	Drawn Onward
 # The following is unnecessary, since you can use "1 choice" as a goal
@@ -93,8 +93,6 @@ Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
 Madness Reef	SEMIRARE	Dragon the Line
 Oil Peak	SEMIRARE	It's a Gas Gas Gas
 Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
-Post-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
-Pre-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
 Shop Class	SEMIRARE	X-fingered Shop Teacher
 South of the Border	SEMIRARE	Filth, Filth, and More Filth
 The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
@@ -128,7 +126,9 @@ The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
 The Red Zeppelin	SEMIRARE	The Red Fox
 The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
 The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
+The Unquiet Garves	SEMIRARE	A Menacing Phantom
 The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
+The VERY Unquiet Garves	SEMIRARE	A Menacing Phantom
 The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
 Twin Peak	SEMIRARE	Synecdoche, Twin Peak
 Whitey's Grove	SEMIRARE	Monty of County Crisco
@@ -151,8 +151,6 @@ Itznotyerzitz Mine	CLOVER	Either Ore
 Lemon Party	CLOVER	Lemon Party Slot
 Oil Peak	CLOVER	Up From the Ground...
 Outskirts of Camp Logging Camp	CLOVER	Best Served Cold
-Post-Cyrpt Cemetary	CLOVER	Rolling the Bones
-Pre-Cyrpt Cemetary	CLOVER	Only Dust and a Plaque
 South of the Border	CLOVER	Forget Not That I am an Ass
 Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
 The "Fun" House	CLOVER	The Boxer
@@ -180,6 +178,8 @@ The Sleazy Back Alley	CLOVER	Lucky You, Unlucky Hobo
 The Smut Orc Logging Camp	CLOVER	S&M 4-EVER
 The Spooky Forest	CLOVER	Lucky, Lucky!
 The Spooky Gravy Burrow	CLOVER	Stage Fright
+The Unquiet Garves	CLOVER	Only Dust and a Plaque
+The VERY Unquiet Garves	CLOVER	Rolling the Bones
 Thugnderdome	CLOVER	Gno More Mr. Gnice Guy
 Tower Ruins	CLOVER	I've Gotta Crow
 Twin Peak	CLOVER	What Kind of Party Is This?
@@ -199,7 +199,6 @@ Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
 The Arid, Extra-Dry Desert	GLYPH	How Dry I Am
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Noob Cave	GLYPH	How Do I Shot Web?
-Pre-Cyrpt Cemetary	GLYPH	They Hate That
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
 The Bugbear Pen	GLYPH	Bacon Bacon Bacon
 The Defiled Nook	GLYPH	They Gave at the Morgue
@@ -210,6 +209,7 @@ The Penultimate Fantasy Airship	GLYPH	Number 163
 The Poker Room	GLYPH	It's In the Cards
 The Road to the White Citadel	GLYPH	Breakfast of Champions
 The Sleazy Back Alley	GLYPH	For Sale By Squatter
+The Unquiet Garves	GLYPH	They Hate That
 The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously
 Thugnderdome	GLYPH	Now You're a Hero
 
