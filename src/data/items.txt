@@ -8310,7 +8310,7 @@
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
 8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0	jars of Mayo de Mayo&trade; mayo
 8287	yellow puck	516723254	yellapuck.gif	grow	t	0
-8288
+8288	kill screen	154508634	killscreen.gif	familiar		0
 8289	orange boxing gloves	725111660	boxinggloves.gif	familiar	t,d	75
 8290	dice ring	835114452	dicering.gif	accessory		0
 8291	dice belt buckle	574345959	dicebuckle.gif	accessory		0
@@ -8326,3 +8326,5 @@
 8301	pixel star	177951003	pixelstar.gif	usable	t,d	150
 8302	pixel banana	390664858	pixelbanana.gif	food	t,d	150
 8303	pixel beer	365395975	pixelbeer.gif	drink	t,d	150
+8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0
+8305	blue pumps	731653410	highheels.gif	familiar	t,d	75

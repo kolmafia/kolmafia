@@ -171,3 +171,4 @@ warbear energy bracers, warbear exhaust manifold, warbear exo-arm, warbear foil 
 warbear auto-anvil, warbear chemistry lab, warbear high-efficiency still, warbear induction oven, warbear jackhammer drill press, warbear LP-ROM burner
 warbear beeping telegram, warbear procedural hilarity drone, warbear sequential gaiety distribution system
 radiation-resistant helmet, servo-assisted exo-pants, high-energy mining laser
+yellow puck, yellow puck with a bow on it
