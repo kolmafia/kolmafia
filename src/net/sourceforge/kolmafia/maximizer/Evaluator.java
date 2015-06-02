@@ -562,6 +562,12 @@ public class Evaluator
 			{
 				index = Modifiers.SPELL_CRITICAL_PCT;
 			}
+			else if ( keyword.equals( "ocrs" ) )
+			{
+				this.noTiebreaker = true;
+				this.beeosity = 999;
+				index = Modifiers.RANDOM_MONSTER_MODIFIERS;
+			}
 
 			if ( index >= 0 )
 			{

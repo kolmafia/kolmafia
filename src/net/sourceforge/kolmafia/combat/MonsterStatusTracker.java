@@ -129,8 +129,8 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
 		}
 
-		// If we saved an array of random attributes, apply them
-		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomAttributes();;
+		// If we saved an array of random modifiers, apply them
+		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
 		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();

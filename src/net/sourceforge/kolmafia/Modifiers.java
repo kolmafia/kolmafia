@@ -226,7 +226,7 @@ public class Modifiers
 	public static final int FAMILIAR_TUNING_MUSCLE = 115;
 	public static final int FAMILIAR_TUNING_MYSTICALITY = 116;
 	public static final int FAMILIAR_TUNING_MOXIE = 117;
-	public static final int RANDOM_MONSTER_ATTRIBUTES = 118;
+	public static final int RANDOM_MONSTER_MODIFIERS = 118;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -762,9 +762,9 @@ public class Modifiers
 		  Pattern.compile( "Familiar Tuning \\(Moxie\\): " + EXPR ),
 		  "Familiar Tuning (Moxie)"
 		},
-		{ "Random Monster Attributes",
+		{ "Random Monster Modifiers",
 		  Pattern.compile( "([+-]\\d+) Random Monster Modifier" ),
-		  Pattern.compile( "Random Monster Attributes: " + EXPR )
+		  Pattern.compile( "Random Monster Modifiers: " + EXPR )
 		},
 	};
 

@@ -977,7 +977,7 @@ public class ProxyRecordValue
 			.add( "images",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "attributes", DataTypes.STRING_TYPE )
-			.add( "random_attributes",
+			.add( "random_modifiers",
 			      new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.finish( "monster proxy" );
 
@@ -1111,10 +1111,10 @@ public class ProxyRecordValue
 			return ((MonsterData) this.content).getAttributes();
 		}
 
-		public Value get_random_attributes()
+		public Value get_random_modifiers()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			for ( String attribute : ((MonsterData) this.content).getRandomAttributes() )
+			for ( String attribute : ((MonsterData) this.content).getRandomModifiers() )
 			{
 				rv.add( new Value( attribute ) );
 			}
