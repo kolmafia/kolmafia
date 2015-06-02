@@ -77,9 +77,9 @@ public class MonsterData
 	private final ArrayList<Double> pocketRates;
 
 	// The following apply to a specific (cloned) instance of a monster
-	private String[] randomAttributes;
+	private String[] randomModifiers;
 
-	private static final String[][] crazyAttributeMapping =
+	private static final String[][] crazyModifierMapping =
 	{
 		{ "annoying", "annoying" },
 		{ "artisanal", "artisanal" },
@@ -150,16 +150,16 @@ public class MonsterData
 		{ "zoom", "restless" },
 	};
 
-	public static final HashMap<String, String> crazySummerAttributes = new HashMap<String, String>();
+	public static final HashMap<String, String> crazySummerModifiers = new HashMap<String, String>();
 	static
 	{
-		for ( String[] mapping : MonsterData.crazyAttributeMapping )
+		for ( String[] mapping : MonsterData.crazyModifierMapping )
 		{
-			MonsterData.crazySummerAttributes.put( mapping[0], mapping[1] );
+			MonsterData.crazySummerModifiers.put( mapping[0], mapping[1] );
 		}
 	};
 
-	public static String[] lastRandomAttributes = null;
+	public static String[] lastRandomModifiers = null;
 
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
@@ -212,16 +212,16 @@ public class MonsterData
 		this.items = new ArrayList<AdventureResult>();
 		this.pocketRates = new ArrayList<Double>();
 
-		// No random attributes
-		this.randomAttributes = new String[0];
+		// No random modifiers
+		this.randomModifiers = new String[0];
 	}
 
-	public MonsterData handleRandomAttributes()
+	public MonsterData handleRandomModifiers()
 	{
-		String[] attributes = MonsterData.lastRandomAttributes;
-		MonsterData.lastRandomAttributes = null;
+		String[] modifiers = MonsterData.lastRandomModifiers;
+		MonsterData.lastRandomModifiers = null;
 
-		if ( attributes == null || attributes.length == 0 )
+		if ( modifiers == null || modifiers.length == 0 )
 		{
 			return this;
 		}
@@ -238,136 +238,136 @@ public class MonsterData
 			return this;
 		}
 
-		// Save the attributes for use by scripts
-		monster.randomAttributes = attributes;
+		// Save the modifiers for use by scripts
+		monster.randomModifiers = modifiers;
 
-		// Iterate over them and modify the base attributes
-		for ( int i = 0; i < attributes.length; ++i )
+		// Iterate over them and modify the base values
+		for ( int i = 0; i < modifiers.length; ++i )
 		{
-			String attribute = attributes[ i ];
+			String modifier = modifiers[ i ];
 
-			if ( attribute.equals( "bouncing" ) )
+			if ( modifier.equals( "bouncing" ) )
 			{
 				monster.attack = new Integer( monster.getRawAttack() * 3 / 2 );
 			}
-			else if ( attribute.equals( "broke" ) )
+			else if ( modifier.equals( "broke" ) )
 			{
 				monster.meat = 5;
 			}
-			else if ( attribute.equals( "cloned" ) )
+			else if ( modifier.equals( "cloned" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 2 );
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
 				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}
-			else if ( attribute.equals( "dancin'" ) )
+			else if ( modifier.equals( "dancin'" ) )
 			{
 				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
 			}
-			else if ( attribute.equals( "filthy" ) )
+			else if ( modifier.equals( "filthy" ) )
 			{
 				// Stench Aura
 			}
-			else if ( attribute.equals( "floating" ) )
+			else if ( modifier.equals( "floating" ) )
 			{
 				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
 			}
-			else if ( attribute.equals( "foul-mouthed" ) )
+			else if ( modifier.equals( "foul-mouthed" ) )
 			{
 				// Sleaze Aura
 			}
-			else if ( attribute.equals( "fragile" ) )
+			else if ( modifier.equals( "fragile" ) )
 			{
 				monster.health = new Integer( 1 );
 			}
-			else if ( attribute.equals( "ghostly" ) )
+			else if ( modifier.equals( "ghostly" ) )
 			{
 				if ( monster.physicalResistance == 0 )
 				{
 					monster.physicalResistance = 90;
 				}
 			}
-			else if ( attribute.equals( "haunted" ) )
+			else if ( modifier.equals( "haunted" ) )
 			{
 				// Spooky Aura
 			}
-			else if ( attribute.equals( "hot" ) )
+			else if ( modifier.equals( "hot" ) )
 			{
 				// Hot Aura
 			}
-			else if ( attribute.equals( "huge" ) )
+			else if ( modifier.equals( "huge" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 2 );
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
 				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}
-			else if ( attribute.equals( "ice-cold" ) )
+			else if ( modifier.equals( "ice-cold" ) )
 			{
 				monster.attackElement = Element.COLD;
 				monster.defenseElement = Element.COLD;
 			}
-			else if ( attribute.equals( "left-handed" ) )
+			else if ( modifier.equals( "left-handed" ) )
 			{
 				Object originalAttack = monster.attack;
 				Object originalDefense = monster.defense;
 				monster.attack = originalDefense;
 				monster.defense = originalAttack;
 			}
-			else if ( attribute.equals( "red-hot" ) )
+			else if ( modifier.equals( "red-hot" ) )
 			{
 				monster.attackElement = Element.HOT;
 				monster.defenseElement = Element.HOT;
 			}
-			else if ( attribute.equals( "short" ) )
+			else if ( modifier.equals( "short" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() / 2 );
 				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}
-			else if ( attribute.equals( "skinny" ) )
+			else if ( modifier.equals( "skinny" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() / 2 );
 				monster.defense = new Integer( monster.getRawDefense() / 2 );
 			}
-			else if ( attribute.equals( "sleazy" ) )
+			else if ( modifier.equals( "sleazy" ) )
 			{
 				monster.attackElement = Element.SLEAZE;
 				monster.defenseElement = Element.SLEAZE;
 			}
-			else if ( attribute.equals( "solid gold" ) )
+			else if ( modifier.equals( "solid gold" ) )
 			{
 				monster.meat = 1000;
 			}
-			else if ( attribute.equals( "spooky" ) )
+			else if ( modifier.equals( "spooky" ) )
 			{
 				monster.attackElement = Element.SPOOKY;
 				monster.defenseElement = Element.SPOOKY;
 			}
-			else if ( attribute.equals( "stinky" ) )
+			else if ( modifier.equals( "stinky" ) )
 			{
 				monster.attackElement = Element.STENCH;
 				monster.defenseElement = Element.STENCH;
 			}
-			else if ( attribute.equals( "throbbing" ) )
+			else if ( modifier.equals( "throbbing" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 2 );
 			}
-			else if ( attribute.equals( "tiny" ) )
+			else if ( modifier.equals( "tiny" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() / 10 );
 				monster.attack = new Integer( monster.getRawAttack() / 10 );
 				monster.defense = new Integer( monster.getRawDefense() / 10 );
 			}
-			else if ( attribute.equals( "turgid" ) )
+			else if ( modifier.equals( "turgid" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 5 );
 			}
-			else if ( attribute.equals( "unlucky" ) )
+			else if ( modifier.equals( "unlucky" ) )
 			{
 				monster.health = new Integer( 13 );
 				monster.attack = new Integer( 13 );
 				monster.defense = new Integer( 13 );
 			}
-			else if ( attribute.equals( "wet" ) )
+			else if ( modifier.equals( "wet" ) )
 			{
 				// Cold Aura
 			}
@@ -856,9 +856,9 @@ public class MonsterData
 		return this.attributes == null ? "" : this.attributes;
 	}
 
-	public String[] getRandomAttributes()
+	public String[] getRandomModifiers()
 	{
-		return this.randomAttributes == null ? new String[0] : this.randomAttributes;
+		return this.randomModifiers == null ? new String[0] : this.randomModifiers;
 	}
 
 	public List<AdventureResult> getItems()

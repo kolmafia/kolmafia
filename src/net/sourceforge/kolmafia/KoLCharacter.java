@@ -2382,12 +2382,12 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to retrieve the total current count of random monster attributes
+	 * Accessor method to retrieve the total current count of random monster modifiers
 	 */
 
-	public static final int getRandomMonsterAttributes()
+	public static final int getRandomMonsterModifiers()
 	{
-		return (int) KoLCharacter.currentModifiers.get( Modifiers.RANDOM_MONSTER_ATTRIBUTES );
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.RANDOM_MONSTER_MODIFIERS );
 	}
 
 	/**

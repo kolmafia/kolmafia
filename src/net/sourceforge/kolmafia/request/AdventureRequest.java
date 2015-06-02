@@ -577,8 +577,8 @@ public class AdventureRequest
 			return BasementRequest.basementMonster;
 		}
 
-		// If the monster has random attributes, remove and save them
-		String encounter =  AdventureRequest.handleRandomAttributes( encounterToCheck.trim(), responseText );
+		// If the monster has random modifiers, remove and save them
+		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
 		if ( MonsterDatabase.findMonster( encounter, false ) != null )
@@ -1241,11 +1241,11 @@ public class AdventureRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
-	private static String handleRandomAttributes( String monsterName, String responseText )
+	private static String handleRandomModifiers( String monsterName, String responseText )
 	{
-		if ( KoLCharacter.getRandomMonsterAttributes() < 1 )
+		if ( KoLCharacter.getRandomMonsterModifiers() < 1 )
 		{
-			MonsterData.lastRandomAttributes = null;
+			MonsterData.lastRandomModifiers = null;
 			return monsterName;
 		}
 
@@ -1293,7 +1293,7 @@ public class AdventureRequest
 			}
 		}
 
-		// Before we remove the random attributes, if the monster has
+		// Before we remove the random modifiers, if the monster has
 		// "The " in front of the adjectives, remove it. This allows us
 		// to recognize that "The 1337 N4ugh7y 50rc3r355" is actually
 		// "Naughty Sorceress", which is Manuel's name for her.
@@ -1316,13 +1316,13 @@ public class AdventureRequest
 
 		for ( int j = 0; j <= count; ++j )
 		{
-			String attribute = internal.get( j );
-			String remove = MonsterData.crazySummerAttributes.get( attribute );
+			String modifier = internal.get( j );
+			String remove = MonsterData.crazySummerModifiers.get( modifier );
 
 			if ( remove == null )
 			{
-				RequestLogger.printLine( "Unrecognized monster modifier: " + attribute );
-				external.add( attribute );
+				RequestLogger.printLine( "Unrecognized monster modifier: " + modifier );
+				external.add( modifier );
 				continue;
 			}
 
@@ -1343,9 +1343,9 @@ public class AdventureRequest
 			monsterName = MonsterDatabase.translateLeetMonsterName( monsterName );
 		}
 
-		// Save the attributes for later use
+		// Save the modifiers for later use
 		String[] array = new String[ external.size() ];
-		MonsterData.lastRandomAttributes = external.toArray( array );
+		MonsterData.lastRandomModifiers = external.toArray( array );
 
 		return monsterName;
 	}
