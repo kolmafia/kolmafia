@@ -1760,6 +1760,8 @@ celestial squid ink	MUSE	Cosmic Calorie (60)
 
 numberwang	MUSE	dubious peppermint (169)
 
+Golden Kokomo Resort Chip	SUSE	Kokomo Resort Chip (100)
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	SUSE, NOBEE	booty chest charrrm	charrrm bracelet
