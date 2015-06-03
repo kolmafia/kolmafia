@@ -967,7 +967,7 @@ grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 Great Wolf's right paw	300	Mus: 250	1-handed claw
 Great Wolf's rocket launcher	300	Mox: 100	2-handed bazooka
-Greek Pasta of Peril	90	Mys: 15	1-handed utensil
+Greek Pasta Spoon of Peril	90	Mys: 15	1-handed utensil
 Grimacite gat	150	Mox: 40	1-handed pistol
 Grimacite glaive	125	Mus: 47	2-handed polearm
 groping claw	225	Mus: 200	1-handed claw
@@ -1103,7 +1103,7 @@ palm-frond whip	25	Mus: 0	1-handed whip
 papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
 papier-m&acirc;chine gun	100	Mox: 20	1-handed pistol
 parasitic claw	30	Mus: 0	1-handed club
-Pasta of Peril	50	Mys: 10	1-handed utensil
+Pasta Spoon of Peril	50	Mys: 10	1-handed utensil
 pasta spoon	10	Mys: 0	1-handed utensil
 peace accordion	170	Mox: 70	2-handed accordion
 penguin whip	20	Mus: 0	1-handed whip

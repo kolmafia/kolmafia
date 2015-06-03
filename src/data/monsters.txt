@@ -717,6 +717,7 @@ The Master of Thieves	0	masterat.gif	ULTRARARE Atk: 70 Def: 63 HP: 70 Init: 1000
 The Nuge	0	thenuge.gif	ULTRARARE Atk: 155 Def: 150 HP: 180 Init: 10000 P: dude	The Nuge's favorite crossbow (100)
 The Snake With Like Ten Heads	1516	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: sleaze	The Eye of the Stars (n100)
 The Temporal Bandit	0	timebandit.gif	ULTRARARE Atk: 35 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
+The Unknown Pastamancer	1777	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000	Pasta Spoon of Peril (100)
 Thinknerd Moving Robot	1537	tnbot2.gif	Scale: 1 Cap: 69 Floor: 4 Init: 50 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Packing Robot	1538	tnbot1.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Sorting Robot	1536	tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
