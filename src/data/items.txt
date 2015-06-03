@@ -90,7 +90,7 @@
 65	Mighty Bjorn action figure	390564890	bjorn.gif	none	q	0
 66	golden twig	244181505	stick.gif	none	t	0
 67	spaghetti with rock-balls	192265650	rockballs.gif	none	t,d	2	spaghettis with rock-balls
-68	Pasta of Peril	942969095	perilpasta.gif	weapon	t,d	150	Pastas of Peril
+68	Pasta Spoon of Peril	942969095	perilpasta.gif	weapon	t,d	150	Pasta Spoons of Peril
 69	Newbiesport&trade; tent	564164501	tent1.gif	usable	t,d	20
 70	bar skin	757174348	skin.gif	none	t,d	5
 71	wooden stakes	449563853	stakes.gif	weapon	t,d	30	sets of wooden stakes
@@ -2583,7 +2583,7 @@
 2558	Chelonian Morningstar	149921590	turtlestar.gif	weapon	q	0
 2559	Hammer of Smiting	723621502	sealbane.gif	weapon	q	0
 2560	17-alarm Saucepan	811211086	5alarm.gif	weapon	q	0
-2561	Greek Pasta of Peril	370831124	perilpasta.gif	weapon	q	0
+2561	Greek Pasta Spoon of Peril	370831124	perilpasta.gif	weapon	q	0
 2562	half-rotten brain	592454967	realbrain.gif	none, combat	t,d	24
 2563	rusty bonesaw	723337113	bonesaw.gif	none, combat	t,d	35
 2564	plus-sized phylactery	778300928	puzzlebox.gif	none, combat	q	0
