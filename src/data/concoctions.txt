@@ -217,28 +217,28 @@ chaos popcorn	COMBINE	popcorn	chaos butterfly
 ten-leaf clover	SUSE, NOBEE	disassembled clover
 disassembled clover	SUSE	ten-leaf clover
 
-seal-toothed rock	SMITH	seal tooth	big rock
-Bjorn's Hammer	SMITH	seal-toothed rock	seal-clubbing club
+# seal-toothed rock	SMITH	seal tooth	big rock
+# Bjorn's Hammer	SMITH	seal-toothed rock	seal-clubbing club
 Hammer of Smiting	SMITH	Bjorn's Hammer	distilled seal blood
 
-stone turtle	SMITH	chisel	big rock
-Mace of the Tortoise	SMITH	stone turtle	turtle totem
+# stone turtle	SMITH	chisel	big rock
+# Mace of the Tortoise	SMITH	stone turtle	turtle totem
 Chelonian Morningstar	SMITH	Mace of the Tortoise	turtle chain
 
-spaghetti with rock-balls	SMITH	petrified noodles	big rock
-Pasta of Peril	SMITH	spaghetti with rock-balls	pasta spoon
-Greek Pasta of Peril	SMITH	Pasta of Peril	high-octane olive oil
+# spaghetti with rock-balls	SMITH	petrified noodles	big rock
+# Pasta of Peril	SMITH	spaghetti with rock-balls	pasta spoon
+Greek Pasta Spoon of Peril	SMITH	Pasta Spoon of Peril	high-octane olive oil
 
-heavy hot sauce	SMITH	jaba&ntilde;ero pepper	big rock
-5-Alarm Saucepan	SMITH	heavy hot sauce	saucepan
+# heavy hot sauce	SMITH	jaba&ntilde;ero pepper	big rock
+# 5-Alarm Saucepan	SMITH	heavy hot sauce	saucepan
 17-alarm Saucepan	SMITH	5-Alarm Saucepan	Peppercorns of Power
 
-stone banjo	SMITH	banjo strings	big rock
-Disco Banjo	SMITH	stone banjo	disco ball
+# stone banjo	SMITH	banjo strings	big rock
+# Disco Banjo	SMITH	stone banjo	disco ball
 Shagadelic Disco Banjo	SMITH	Disco Banjo	vial of mojo
 
-heart of rock and roll	SMITH	hot buttered roll	big rock
-Rock and Roll Legend	SMITH	heart of rock and roll	stolen accordion
+# heart of rock and roll	SMITH	hot buttered roll	big rock
+# Rock and Roll Legend	SMITH	heart of rock and roll	stolen accordion
 Squeezebox of the Ages	SMITH	Rock and Roll Legend	golden reeds
 
 dueling banjo	SMITH	dueling turtle	banjo strings

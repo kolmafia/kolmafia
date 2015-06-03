@@ -1133,7 +1133,7 @@ Item	grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
 Item	Great Wolf's right paw	Weapon Damage: +50, Weapon Damage Percent: +50, Critical Hit Percent: +10, Class: "Seal Clubber", Single Equip
 # Great Wolf's rocket launcher: Lets you fire rockets <font color=white>Duh</font>
 Item	Great Wolf's rocket launcher	Ranged Damage: +50, Critical Hit Percent: +20, Single Equip
-Item	Greek Pasta of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25, Class: "Pastamancer"
+Item	Greek Pasta Spoon of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25, Class: "Pastamancer"
 Item	Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Item	Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
 Item	groping claw	Weakens Monster, Sleaze Damage: +30
@@ -1289,7 +1289,7 @@ Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mystic
 # papier-m&acirc;chine gun: Makes actions more exciting
 Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Item	parasitic claw	Weapon Damage: [min(L,15)]
-Item	Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
+Item	Pasta Spoon of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 # pasta spoon
 Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 19
 Item	penguin whip	Meat Drop: +3
@@ -3167,6 +3167,7 @@ Item	attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 # bag of many confections: Full of Candy!
 Item	blue canary nightlight	Familiar Weight: +5
+# blue pumps: Causes your Ms. Puck Man to sometimes drop extra yellow pixels
 Item	blue suede shoes	Familiar Weight: +5
 Item	blundarrrbus	Familiar Weight: +5
 Item	bone collar	Familiar Weight: +5
@@ -3312,6 +3313,7 @@ Item	mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 Item	moveable feast	Familiar Weight: +5, Softcore Only, Generic, Experience (familiar): +1
 # nanorhino credit card: Helps your Nano-Rhino charge
 Item	nosy nose ringy ring	Familiar Weight: +15
+# orange boxing gloves: Causes your Puck Man to sometimes drop extra yellow pixels
 # origami &quot;gentlemen's&quot; magazine: +10 lbs. of Ghuol Whelp
 Item	origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 Item	overclocked avian microprocessor	Familiar Weight: +5

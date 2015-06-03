@@ -54,7 +54,7 @@
 29	really really sticky spider web	405531390	web.gif	none, combat	t,d	9
 30	big rock	962885446	bigrock.gif	none	t,d	1
 31	seal-toothed rock	113381266	toothrock.gif	none	t,d	2
-32	Bjorn's Hammer	591526612	sealbane.gif	weapon	t,d	150
+32	Bjorn's Hammer	591526612	sealbane.gif	weapon		0
 33	snorkel	135595861	snorkel.gif	hat	t,d	15
 34	Dolphin King's crown	402032200	crown.gif	hat	t,d	40
 35	Knob Goblin scimitar	422743115	scimitar.gif	weapon	t,d	20
@@ -72,17 +72,17 @@
 47	hot buttered roll	424947000	roll.gif	food	t,d	25
 48	heart of rock and roll	855972490	heart.gif	none	t,d	101	hearts of rock and roll
 49	bowl of cottage cheese	721301736	ccheese.gif	food	t,d	31	bowls of cottage cheese
-50	Rock and Roll Legend	275331264	legend.gif	weapon	t,d	150
+50	Rock and Roll Legend	275331264	legend.gif	weapon		0
 51	Knob Goblin Uberpants	555557301	uberpants.gif	pants	t,d	60	pairs of Knob Goblin Uberpants
 52	banjo strings	546702280	strings.gif	none	t,d	25	sets of banjo strings
 53	stone banjo	232520882	stonebanjo.gif	weapon	t,d	30
-54	Disco Banjo	244279521	discobanjo.gif	weapon	t,d	150
+54	Disco Banjo	244279521	discobanjo.gif	weapon		0
 55	jaba&ntilde;ero pepper	189906805	pepper.gif	none	t,d	25
 56	heavy hot sauce	915847243	heavysauce.gif	none	t,d	101
-57	5-Alarm Saucepan	695837819	5alarm.gif	weapon	t,d	150
+57	5-Alarm Saucepan	695837819	5alarm.gif	weapon		0
 58	stone turtle	273862210	stoneturtle.gif	none	t,d	3
 59	slingshot	278594504	slingshot.gif	weapon	t,d	75
-60	Mace of the Tortoise	256792195	turtlemace.gif	weapon	t,d	150	Maces of the Tortoise
+60	Mace of the Tortoise	256792195	turtlemace.gif	weapon		0	Maces of the Tortoise
 61	fortune cookie	490489381	fortune.gif	food	t,d	20
 62	oriole-feather headdress	499720505	headdress.gif	hat	t	0	oriole-feather headdresses
 63	action figure body	329267145	bjornbody.gif	none	q	0
@@ -90,7 +90,7 @@
 65	Mighty Bjorn action figure	390564890	bjorn.gif	none	q	0
 66	golden twig	244181505	stick.gif	none	t	0
 67	spaghetti with rock-balls	192265650	rockballs.gif	none	t,d	2	spaghettis with rock-balls
-68	Pasta Spoon of Peril	942969095	perilpasta.gif	weapon	t,d	150	Pasta Spoons of Peril
+68	Pasta Spoon of Peril	942969095	perilpasta.gif	weapon		0	Pasta Spoons of Peril
 69	Newbiesport&trade; tent	564164501	tent1.gif	usable	t,d	20
 70	bar skin	757174348	skin.gif	none	t,d	5
 71	wooden stakes	449563853	stakes.gif	weapon	t,d	30	sets of wooden stakes
