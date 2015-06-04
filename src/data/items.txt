@@ -8233,7 +8233,7 @@
 8208	How to Avoid Scams	948718713	book2.gif	multiple	t,d	50	copies of How to Avoid Scams
 8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75
 8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25
-8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10
+8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10	bags of park garbage
 8212	grogpagne	583183522	champagne.gif	multiple	t,d	36
 8213	dirty rigging rope	289454217	stinkrope.gif	offhand	t,d	66
 8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45	tins of nasty snuff

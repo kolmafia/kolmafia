@@ -314,6 +314,14 @@ public class PlaceRequest
 				message = "Talking to Marty";
 			}
 		}
+		else if ( place.equals( "cemetery" ) )
+		{
+			if ( action.equals( "cem_advtomb" ) )
+			{
+				message = "The Unknown Tomb";
+				turns = true;
+			}
+		}
 		else if ( place.equals( "crashsite" ) )
 		{
 			if ( action.equals( "crash_ship" ) )
