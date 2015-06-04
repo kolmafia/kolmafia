@@ -2182,7 +2182,9 @@ public class RequestEditorKit
 		int index = buffer.indexOf( selector );
 		buffer.insert( index + selector.length(), "><tr><td><table" );
 
-		index = buffer.indexOf( "</tr></table><p><center><A href=plains.php>" );
+		// <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
+		// I expect that will change to "whichplace=cemetery" eventually.
+		index = buffer.indexOf( "</tr></table><p><center><A href=place.php" );
 		evilometer.insert( 0, "</table><td>" );
 		buffer.insert( index + 5, evilometer.toString() );
 	}
