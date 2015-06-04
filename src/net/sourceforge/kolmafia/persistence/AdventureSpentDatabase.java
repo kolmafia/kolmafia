@@ -65,6 +65,7 @@ public class AdventureSpentDatabase
 {
 
 	private static Map<String, Integer> TURNS = new TreeMap<String, Integer>();
+	private static boolean initialized = false;
 
 	private static int lastTurnUpdated = -1;
 	
@@ -89,6 +90,7 @@ public class AdventureSpentDatabase
 
 	private static void resetTurns( boolean serializeAfterwards )
 	{
+		AdventureSpentDatabase.initialized = true;
 		AdventureSpentDatabase.TURNS = new TreeMap<String, Integer>();
 
 		List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
@@ -172,11 +174,21 @@ public class AdventureSpentDatabase
 
 	public static int getTurns( KoLAdventure adv )
 	{
+		if ( !AdventureSpentDatabase.initialized )
+		{
+			// This should only happen if no characters have logged in
+			return -1;
+		}
 		return AdventureSpentDatabase.TURNS.get( adv.getAdventureName() );
 	}
 
 	public static int getTurns( final String loc )
 	{
+		if ( !AdventureSpentDatabase.initialized )
+		{
+			// This should only happen if no characters have logged in
+			return -1;
+		}
 		if ( !AdventureSpentDatabase.TURNS.containsKey( loc ) )
 		{
 			RequestLogger.printLine( loc + " is not a recognized location." );
