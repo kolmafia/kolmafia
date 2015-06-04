@@ -1129,6 +1129,10 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "favorite_familiars", new 
+			AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.FAMILIAR_TYPE ), params ) );
 
 		params = new Type[] { DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "lock_familiar_equipment", DataTypes.VOID_TYPE, params ) );
@@ -5137,6 +5141,22 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( EquipmentManager.familiarItemLocked() );
 	}
 
+	public static Value favorite_familiars( Interpreter interpreter )
+	{
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.FAMILIAR_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
+		{
+			if ( fam.getFavorite() )
+			{
+				value.aset( DataTypes.makeFamiliarValue( fam.getId(), true ), DataTypes.makeBooleanValue( fam.canEquip() ) );
+			}
+		}
+
+		return value;
+	}
+
 	public static Value lock_familiar_equipment( Interpreter interpreter, Value lock )
 	{
 		if ( ( lock.intValue() == 1 ) != EquipmentManager.familiarItemLocked() )
@@ -5246,7 +5266,7 @@ public abstract class RuntimeLibrary
 
 	public static Value contains_text( Interpreter interpreter, final Value source, final Value search )
 	{
-		return DataTypes.makeBooleanValue( source.toString().indexOf( search.toString() ) != -1 );
+		return DataTypes.makeBooleanValue( source.toString().contains( search.toString() ) );
 	}
 
 	public static Value extract_meat( Interpreter interpreter, final Value string )
@@ -6374,7 +6394,7 @@ public abstract class RuntimeLibrary
 		{
 			MonsterData monster = data.getSuperlikelyMonster( i );
 			String name = monster.getName();
-			double chance = data.superlikelyChance( name );
+			double chance = AreaCombatData.superlikelyChance( name );
 			superlikelyChance += chance;
 			Value toSet = new Value( chance );
 			value.aset( DataTypes.parseMonsterValue( name, true ), toSet );
@@ -6747,7 +6767,7 @@ public abstract class RuntimeLibrary
 			{
 				MonsterData monster = data.getSuperlikelyMonster( i );
 				int monsterJumpChance = monster.getJumpChance( initiative );
-				if ( jumpChance > monsterJumpChance && data.superlikelyChance( monster.getName() ) > 0 )
+				if ( jumpChance > monsterJumpChance && AreaCombatData.superlikelyChance( monster.getName() ) > 0 )
 				{
 					jumpChance = monsterJumpChance;
 				}
