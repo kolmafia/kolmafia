@@ -4776,11 +4776,6 @@ public abstract class RuntimeLibrary
 
 	public static Value steal( Interpreter interpreter )
 	{
-		if ( !FightRequest.canStillSteal() )
-		{
-			return RuntimeLibrary.attack( interpreter );
-		}
-
 		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=steal" );
 	}
 
