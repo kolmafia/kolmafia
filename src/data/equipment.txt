@@ -2666,7 +2666,7 @@ Zombo's skull ring	200	Mys: 200
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
-black cloak	0	Mys: 75
+black cloak	120	Mys: 75
 Buddy Bjorn	100	none
 Camp Scout backpack	0	none
 Cloak of Dire Shadows	120	none
