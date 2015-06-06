@@ -432,8 +432,9 @@ public class AdventureDatabase
 		// Visiting the tavern cellar might count as an adventure
 		if ( adventureURL.startsWith( "cellar.php" ) )
 		{
-			String explore = GenericRequest.extractField( adventureURL, "explore" );
-			if ( explore == null )
+			// action=explore or action=autofaucet
+			String action = GenericRequest.extractField( adventureURL, "action" );
+			if ( action == null )
 			{
 				return null;
 			}

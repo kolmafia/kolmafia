@@ -255,7 +255,7 @@ public class TavernRequest
 			int faucet = layout.indexOf( "3" );
 			if ( faucet == -1 )
 			{
-				return null;
+				return "The Typical Tavern Cellar (Faucet)";
 			}
 			square = faucet + 1;
 		}
