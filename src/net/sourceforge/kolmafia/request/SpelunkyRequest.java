@@ -68,7 +68,7 @@ public class SpelunkyRequest
 	private static final Pattern GEAR_SECTION_PATTERN = Pattern.compile( "Gear:</b(.*?)</table>" );
 	private static final Pattern EQUIPMENT_PATTERN = Pattern.compile( "descitem\\((\\d+)\\)" );
 	private static final Pattern SHOP_PATTERN = Pattern.compile( "Buddy:</b(?:.*)alt='(.*?)' " );
-	private static final Pattern GOLD_GAIN_PATTERN = Pattern.compile( "(?:goldnug.gif|coinpurse.gif) (?:.*?)+<b>(\\d+) Gold!</b>" );
+	private static final Pattern GOLD_GAIN_PATTERN = Pattern.compile( "(?:goldnug.gif|coinpurse.gif|lolmecidol.gif) (?:.*?)+<b>(\\d+) Gold!</b>" );
 
 	private static final Pattern TURNS_STATUS_PATTERN = Pattern.compile( "Turns: (\\d+)" );
 	private static final Pattern GOLD_STATUS_PATTERN = Pattern.compile( "Gold: (\\d+)" );
