@@ -1328,6 +1328,11 @@ public abstract class UseLinkDecorator
 			useType = "do science";
 			useLocation = "shop.php?whichshop=toxic";
 			break;
+
+		case ItemPool.FAT_LOOT_TOKEN:
+			useType = String.valueOf( InventoryManager.getCount( ItemPool.FAT_LOOT_TOKEN ) );
+			useLocation = "shop.php?whichshop=damachine";
+			break;
 			
 		// Subject 37 File goes to Cell #37
 		case ItemPool.SUBJECT_37_FILE:
