@@ -33,9 +33,16 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EdBaseRequest
 	extends PlaceRequest
@@ -62,6 +69,58 @@ public class EdBaseRequest
 		if ( action == null )
 		{
 			return;
+		}
+	}
+
+	private static final Pattern BOOK_PATTERN = Pattern.compile( "You may memorize (\\d+) more pages" );
+
+	public static final void inspectBook( final String responseText )
+	{
+		int edPoints = Preferences.getInteger( "edPoints" );
+
+		// If we know that we have enough edPoints to get all the
+		// skills, don't bother checking.
+		if ( edPoints >= 20 )
+		{
+			return;
+		}
+
+		// You read from the Book of the Undying.  You may memorize 21 more pages.
+		Matcher matcher = EdBaseRequest.BOOK_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			// Assume that the displayed value includes one point
+			// for your current run + any accumulated points.
+			int newEdPoints = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
+			if ( newEdPoints > edPoints )
+			{
+				Preferences.setInteger( "edPoints", newEdPoints );
+			}
+		}
+	}
+
+	private static final Pattern WISDOM_PATTERN = Pattern.compile( "Impart Wisdom unto Current Servant.*?(\\d+) remain" );
+
+	public static final void inspectServants( final String responseText )
+	{
+		int edPoints = Preferences.getInteger( "edPoints" );
+
+		// If we know that we have enough edPoints to get all the
+		// imbumentations, don't bother checking.
+		if ( edPoints >= 30 )
+		{
+			return;
+		}
+
+		// "Impart Wisdom unto Current Servant (+100xp, 2 remain)"
+		Matcher matcher = EdBaseRequest.WISDOM_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			int newEdPoints = StringUtilities.parseInt( matcher.group( 1 ) ) + 20;
+			if ( newEdPoints > edPoints )
+			{
+				Preferences.setInteger( "edPoints", newEdPoints );
+			}
 		}
 	}
 

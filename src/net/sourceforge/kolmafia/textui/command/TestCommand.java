@@ -703,5 +703,17 @@ public class TestCommand
 			RequestLogger.printLine( tale );
 			return;
 		}
+
+		if ( command.equals( "visit-choice" ) )
+		{
+			GenericRequest request = new GenericRequest( "choice.php" );
+			request.addFormField( "forceoption", "0" );
+			request.responseText = TestCommand.contents;
+			TestCommand.contents = null;
+			ChoiceManager.lastChoice = 0;
+			ChoiceManager.visitChoice( request );
+			RequestLogger.printLine( "choice = " + ChoiceManager.lastChoice );
+			return;
+		}
 	}
 }

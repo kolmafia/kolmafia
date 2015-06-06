@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
+import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -9560,6 +9561,7 @@ public abstract class ChoiceManager
 
 		case 1055:
 			// Returning the MacGuffin
+			KoLCharacter.liberateKing();
 			ChoiceManager.handleAfterAvatar();
 			break;
 			
@@ -9666,7 +9668,7 @@ public abstract class ChoiceManager
 		KoLmafia.resetAfterAvatar();
 	}
 
-	private static void visitChoice( final GenericRequest request )
+	public static void visitChoice( final GenericRequest request )
 	{
 		ChoiceManager.lastChoice = ChoiceManager.extractChoice( request.responseText );
 		String text = ChoiceManager.lastResponseText = request.responseText;
@@ -10179,7 +10181,12 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1051:	// The Book of the Undying
+			EdBaseRequest.inspectBook( text );
+			break;
+
 		case 1053:	// The Servants' Quarters
+			EdBaseRequest.inspectServants( text );
 			EdServantData.inspectServants( text );
 			break;
 
