@@ -527,6 +527,10 @@ public class UneffectRequest
 			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ?
 							     EffectPool.SHIELD_OF_THE_PASTALORD :
 							     EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD );
+		case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ?
+							     EffectPool.BLOOD_SUGAR_SAUCE_MAGIC :
+							     EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE );
 		}
 
 		// Handle remaining skills where skill name and effect name don't match with a lookup

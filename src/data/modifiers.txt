@@ -4038,7 +4038,8 @@ Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Block-Rockin' Beet	Damage Reduction: 15
 # Blood Porter
-Effect	Blood Sugar Sauce Magic	Maximum HP Percent: [-10-20*class(Sauceror)], Maximum MP Percent: [10+20*class(Sauceror)]
+Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent: 10
+Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: 30
 Effect	Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Effect	Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Effect	Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10

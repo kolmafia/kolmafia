@@ -1024,10 +1024,10 @@ public class CharPaneDecorator
 				currentEffect = (AdventureResult) missingEffects.get( i );
 
 				String effectName = currentEffect.getName();
-				int effectId = EffectDatabase.getEffectId( effectName );
+				int effectId = currentEffect.getEffectId();
 				String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
-				if ( Evaluator.checkEffectConstraints( effectName ) )
+				if ( Evaluator.checkEffectConstraints( effectId ) )
 				{
 					// Don't include effects that you cannot cast
 					continue;
