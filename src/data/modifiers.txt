@@ -21,13 +21,14 @@
 #	Returns 1 if the specified preference is equal to "compare", otherwise 0
 # Effect function: effect(text)
 #	This returns the number of turns remaining of the effect uniquely matching text.
+#	text can be the effect name or id
 # Resistance function: res(text)
 #	This returns the number of resistance levels for the listed element
 # Class function: class(text)
 #	This has a value of 1 if the player's class matches the text.
 # Skill function: skill(text)
 #	This has a value of 1 if the player has the skill matching the text.
-# There can be at most one of each text function in any single expression.
+#	text can be the skill name or id
 # Upper-case letters are varying values:
 #	A - number of Ascensions
 #	B - Blood of Wereseal effect

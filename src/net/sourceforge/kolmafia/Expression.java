@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -333,7 +334,13 @@ public class Expression
 				v = KoLCharacter.currentNumericModifier( element );
 				break;
 			case 'd':
-				v = KoLCharacter.hasSkill( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				String skillName = (String) this.literals.get( (int) s[ --sp ] );
+				if ( StringUtilities.isNumeric( skillName ) )
+				{
+					int skillId = StringUtilities.parseInt( skillName );
+					skillName = SkillDatabase.getSkillName( skillId );
+				}
+				v = KoLCharacter.hasSkill( skillName ) ? 1 : 0;
 				break;
 			case 'e':
 				String effectName = (String) this.literals.get( (int) s[ --sp ] );
