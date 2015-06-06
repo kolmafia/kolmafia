@@ -3434,9 +3434,9 @@ public abstract class ChoiceManager
 		// Choice 1038 is A Wicked Web
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1038", "A Wicked Web",
-			new Object[] { new Option( "gain 4-5 gold", 1 ),
-				       new Option( "gain buddy with machete", 2 ),
-				       new Option( "gain 35-50 gold with torch", 2 ) } ),
+			new Object[] { new Option( "gain 10-20 gold", 1 ),
+				       new Option( "gain buddy (or 20-30 gold) with machete", 2 ),
+				       new Option( "gain 35-50 gold with torch", 3 ) } ),
 
 		// Choice 1039 is A Golden Chest
 		new ChoiceAdventure(
