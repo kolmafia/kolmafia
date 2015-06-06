@@ -799,6 +799,7 @@ public class EatItemRequest
 		if ( responseText.contains( "You chase it with that salt you made" ) )
 		{
 			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
+			Preferences.increment( "_saltGrainsConsumed" );
 		}
 
 		// You dip the spaghetti breakfast in swamp honey before you
