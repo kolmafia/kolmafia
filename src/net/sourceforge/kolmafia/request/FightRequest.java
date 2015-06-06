@@ -3752,6 +3752,22 @@ public class FightRequest
 			{
 				Preferences.setBoolean( "lovebugsUnlocked", true );
 			}
+			// If Gladiator skills present, they've been unlocked
+			if ( skillId >= 7085 && skillId <= 7093 )
+			{
+				if ( skillId <= 7087 && Preferences.getInteger( "gladiatorBallMovesKnown" ) + 7084 < skillId )
+				{
+					Preferences.setInteger( "gladiatorBallMovesKnown", skillId - 7084 );
+				}
+				if ( skillId >= 7088 && skillId <= 7090 && Preferences.getInteger( "gladiatorNetMovesKnown" ) + 7087 < skillId )
+				{
+					Preferences.setInteger( "gladiatorNetMovesKnown", skillId - 7087 );
+				}
+				if ( skillId >= 7091 && Preferences.getInteger( "gladiatorBladeMovesKnown" ) + 7090 < skillId )
+				{
+					Preferences.setInteger( "gladiatorBallMovesKnown", skillId - 7090 );
+				}
+			}
 		}
 	}
 
