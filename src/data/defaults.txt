@@ -484,6 +484,13 @@ user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
+user	hasBartender	false
+user	hasChef	false
+user	hasCocktailKit	false
+user	hasOven	false
+user	hasRange	false
+user	hasShaker	false
+user	hasSushiMat	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0

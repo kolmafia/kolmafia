@@ -377,14 +377,6 @@ public abstract class KoLCharacter
 
 	// Campground information
 
-	private static boolean hasOven = false;
-	private static boolean hasRange = false;
-	private static boolean hasChef = false;
-	private static boolean hasShaker = false;
-	private static boolean hasCocktailKit = false;
-	private static boolean hasBartender = false;
-	private static boolean hasSushiMat = false;
-
 	private static boolean hasBookshelf = false;
 	private static int telescopeUpgrades = 0;
 	private static boolean hippyStoneBroken = false;
@@ -506,14 +498,6 @@ public abstract class KoLCharacter
 		KoLCharacter.hasStore = false;
 		KoLCharacter.hasDisplayCase = false;
 		KoLCharacter.hasClan = false;
-
-		KoLCharacter.hasOven = false;
-		KoLCharacter.hasRange = false;
-		KoLCharacter.hasChef = false;
-		KoLCharacter.hasShaker = false;
-		KoLCharacter.hasCocktailKit = false;
-		KoLCharacter.hasBartender = false;
-		KoLCharacter.hasSushiMat = false;
 
 		KoLCharacter.hasBookshelf = false;
 		KoLCharacter.telescopeUpgrades = 0;
@@ -2806,7 +2790,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasShaker()
 	{
-		return KoLCharacter.hasShaker;
+		return Preferences.getBoolean( "hasShaker" );
 	}
 
 	/**
@@ -2817,9 +2801,9 @@ public abstract class KoLCharacter
 
 	public static final void setShaker( final boolean hasShaker )
 	{
-		if ( KoLCharacter.hasShaker != hasShaker )
+		if ( Preferences.getBoolean( "hasShaker" ) != hasShaker )
 		{
-			KoLCharacter.hasShaker = hasShaker;
+			Preferences.setBoolean( "hasShaker", hasShaker );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
@@ -2832,7 +2816,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasCocktailKit()
 	{
-		return KoLCharacter.hasCocktailKit;
+		return Preferences.getBoolean( "hasCocktailKit" );
 	}
 
 	/**
@@ -2843,9 +2827,9 @@ public abstract class KoLCharacter
 
 	public static final void setCocktailKit( final boolean hasCocktailKit )
 	{
-		if ( KoLCharacter.hasCocktailKit != hasCocktailKit )
+		if ( Preferences.getBoolean( "hasCocktailKit" ) != hasCocktailKit )
 		{
-			KoLCharacter.hasCocktailKit = hasCocktailKit;
+			Preferences.setBoolean( "hasCocktailKit", hasCocktailKit );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
@@ -2858,7 +2842,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasBartender()
 	{
-		return KoLCharacter.hasBartender;
+		return Preferences.getBoolean( "hasBartender" );
 	}
 
 	/**
@@ -2869,9 +2853,9 @@ public abstract class KoLCharacter
 
 	public static final void setBartender( final boolean hasBartender )
 	{
-		if ( KoLCharacter.hasBartender != hasBartender )
+		if ( Preferences.getBoolean( "hasBartender" ) != hasBartender )
 		{
-			KoLCharacter.hasBartender = hasBartender;
+			Preferences.setBoolean( "hasBartender", hasBartender );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
@@ -2884,7 +2868,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasOven()
 	{
-		return KoLCharacter.hasOven;
+		return Preferences.getBoolean( "hasOven" );
 	}
 
 	/**
@@ -2895,9 +2879,9 @@ public abstract class KoLCharacter
 
 	public static final void setOven( final boolean hasOven )
 	{
-		if ( KoLCharacter.hasOven != hasOven )
+		if ( Preferences.getBoolean( "hasOven" ) != hasOven )
 		{
-			KoLCharacter.hasOven = hasOven;
+			Preferences.setBoolean( "hasOven", hasOven );
 			ConcoctionDatabase.setRefreshNeeded( true );
 			ConsumablesDatabase.calculateAdventureRanges();
 		}
@@ -2911,7 +2895,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasRange()
 	{
-		return KoLCharacter.hasRange;
+		return Preferences.getBoolean( "hasRange" );
 	}
 
 	/**
@@ -2922,9 +2906,9 @@ public abstract class KoLCharacter
 
 	public static final void setRange( final boolean hasRange )
 	{
-		if ( KoLCharacter.hasRange != hasRange )
+		if ( Preferences.getBoolean( "hasRange" ) != hasRange )
 		{
-			KoLCharacter.hasRange = hasRange;
+			Preferences.setBoolean( "hasRange", hasRange );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
@@ -2937,7 +2921,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasChef()
 	{
-		return KoLCharacter.hasChef;
+		return Preferences.getBoolean( "hasChef" );
 	}
 
 	/**
@@ -2948,9 +2932,9 @@ public abstract class KoLCharacter
 
 	public static final void setChef( final boolean hasChef )
 	{
-		if ( KoLCharacter.hasChef != hasChef )
+		if ( Preferences.getBoolean( "hasChef" ) != hasChef )
 		{
-			KoLCharacter.hasChef = hasChef;
+			Preferences.setBoolean( "hasChef", hasChef );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
@@ -2963,7 +2947,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSushiMat()
 	{
-		return KoLCharacter.hasSushiMat;
+		return Preferences.getBoolean( "hasSushiMat" );
 	}
 
 	/**
@@ -2974,9 +2958,9 @@ public abstract class KoLCharacter
 
 	public static final void setSushiMat( final boolean hasSushiMat )
 	{
-		if ( KoLCharacter.hasSushiMat != hasSushiMat )
+		if ( Preferences.getBoolean( "hasSushiMat" ) != hasSushiMat )
 		{
-			KoLCharacter.hasSushiMat = hasSushiMat;
+			Preferences.setBoolean( "hasSushiMat", hasSushiMat );
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
