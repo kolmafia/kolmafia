@@ -592,6 +592,14 @@ public class ValhallaManager
 		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 		Preferences.setInteger( "cinderellaScore", 0 );
 		Preferences.setString( "grimstoneMaskPath", "" );
+		// Campground resets
+		Preferences.setBoolean( "hasBartender", false );
+		Preferences.setBoolean( "hasChef", false );
+		Preferences.setBoolean( "hasCocktailKit", false );
+		Preferences.setBoolean( "hasOven", false );
+		Preferences.setBoolean( "hasRange", false );
+		Preferences.setBoolean( "hasShaker", false );
+		Preferences.setBoolean( "hasSushiMat", false );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();
