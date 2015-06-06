@@ -236,14 +236,23 @@ public class AdventureRequest
 
 		else if ( this.formSource.equals( "cellar.php" ) )
 		{
-			int square = TavernManager.recommendSquare();
-			if ( square == 0 )
+			if ( TavernManager.shouldAutoFaucet() )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar." );
-				return;
+				this.removeFormField( "whichspot" );
+				this.addFormField( "action", "autofaucet" );
 			}
-			this.addFormField( "whichspot", String.valueOf( square ) );
-			this.addFormField( "action", "explore" );
+			else
+			{
+				int square = TavernManager.recommendSquare();
+				if ( square == 0 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar." );
+					return;
+				}
+
+				this.addFormField( "whichspot", String.valueOf( square ) );
+				this.addFormField( "action", "explore" );
+			}
 		}
 
 		else if ( this.formSource.equals( "mining.php" ) )

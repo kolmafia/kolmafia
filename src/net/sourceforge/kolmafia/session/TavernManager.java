@@ -386,9 +386,9 @@ public class TavernManager
 		}
 	}
 
-	private static ArrayList getSearchList( final String layout )
+	private static ArrayList<Integer> getSearchList( final String layout )
 	{
-		ArrayList searchList = new ArrayList();
+		ArrayList<Integer> searchList = new ArrayList<Integer>();
 
 		for ( int i = 0; i < TavernManager.searchOrder.length; ++i )
 		{
@@ -411,6 +411,17 @@ public class TavernManager
 		}
 
 		return searchList;
+	}
+
+	public static boolean shouldAutoFaucet()
+	{
+		if ( TavernManager.overrideSquare >= 0 )
+		{
+			return false;
+		}
+
+		// If we know where the faucet is, go there.
+		return TavernRequest.tavernLayout().indexOf( "3" ) >= 0;
 	}
 
 	public static int recommendSquare()
@@ -450,7 +461,7 @@ public class TavernManager
 		}
 
 		// Some squares remain to be visited. Get a list of them in order.
-		ArrayList searchList = TavernManager.getSearchList( layout );
+		ArrayList<Integer> searchList = TavernManager.getSearchList( layout );
 		if ( searchList.size() == 0 )
 		{
 			// Should never happen
@@ -458,7 +469,7 @@ public class TavernManager
 		}
 
 		// Take the first square off of the list
-		Integer searchIndex = (Integer) searchList.remove( 0 );
+		Integer searchIndex = searchList.remove( 0 );
 
 		// That's the square we will visit.
 		return searchIndex.intValue();
