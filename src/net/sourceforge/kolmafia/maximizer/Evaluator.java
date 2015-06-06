@@ -1463,7 +1463,8 @@ public class Evaluator
 			for ( int c = 4967; c <= 5007; c++ )
 			{
 				CheckedItem card = new CheckedItem( c, equipLevel, maxPrice, priceLevel );
-				if ( card.getCount() > 0 )
+				AdventureResult equippedCard = EquipmentManager.getEquipment( EquipmentManager.CARDSLEEVE );
+				if ( card.getCount() > 0 || ( equippedCard != null && c == equippedCard.getItemId() ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					CheckedItem sleeve = new CheckedItem( ItemPool.CARD_SLEEVE, equipLevel, maxPrice, priceLevel );
