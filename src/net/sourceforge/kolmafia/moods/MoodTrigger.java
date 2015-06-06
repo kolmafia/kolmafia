@@ -382,7 +382,7 @@ public class MoodTrigger
 		}
 
 		// Don't cast if you are restricted by your current class/skills
-		if ( this.effect != null && Evaluator.checkEffectConstraints( this.effect.getName() ) )
+		if ( this.effect != null && Evaluator.checkEffectConstraints( this.effect.getEffectId() ) )
 		{
 			return false;
 		}

@@ -256,7 +256,7 @@ public class Maximizer
 					continue;
 				}
 				switch ( Maximizer.eval.checkConstraints(
-					Modifiers.getModifiers( "Effect", name ) ) )
+					Modifiers.getEffectModifiers( effectId ) ) )
 				{
 				case -1:
 					continue;
@@ -266,7 +266,7 @@ public class Maximizer
 				case 1:
 					isSpecial = true;
 				}
-				if ( Evaluator.checkEffectConstraints( name ) )
+				if ( Evaluator.checkEffectConstraints( effectId ) )
 				{
 					continue;
 				}
@@ -287,7 +287,7 @@ public class Maximizer
 				spec.removeEffect( effect );
 				delta = spec.getScore() - current;
 				switch ( Maximizer.eval.checkConstraints(
-					Modifiers.getModifiers( "Effect", name ) ) )
+					Modifiers.getEffectModifiers( effectId ) ) )
 				{
 				case 1:
 					continue;

@@ -812,10 +812,8 @@ public class Evaluator
 		return 0;
 	}
 
-	public static boolean checkEffectConstraints( String name )
+	public static boolean checkEffectConstraints( int effectId )
 	{
-		int effectId = EffectDatabase.getEffectId( name );
-		
 		// Return true if effect cannot be gained due to current other effects or class
 		switch ( effectId )
 		{
@@ -873,8 +871,12 @@ public class Evaluator
 		case EffectPool.SHIELD_OF_THE_PASTALORD:
 			return KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER;
 
+		case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC:
 		case EffectPool.SOULERSKATES:
 			return KoLCharacter.getClassType() != KoLCharacter.SAUCEROR;
+		
+		case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE:
+			return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR;
 		
 		case EffectPool.UNMUFFLED:
 			return !Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Loud Muffler" );
