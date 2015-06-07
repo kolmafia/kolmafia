@@ -8314,10 +8314,10 @@
 8289	orange boxing gloves	725111660	boxinggloves.gif	familiar	t,d	75
 8290	dice ring	835114452	dicering.gif	accessory		0
 8291	dice belt buckle	574345959	dicebuckle.gif	accessory		0
-8292	dice-print pajama pants	212346816	dicepants.gif	pants		0
+8292	dice-print pajama pants	212346816	dicepants.gif	pants		0	pairs of dice-print pajama pants
 8293	dice-shaped backpack	402888121	dicepack.gif	container		0
 8294	dice-print do-rag	371916226	dicerag.gif	hat		0
-8295	dice sunglasses	483999849	diceglasses.gif	accessory		0
+8295	dice sunglasses	483999849	diceglasses.gif	accessory		0	pairs of dice sunglasses
 8296	Thwaitgold caterpillar statuette	681318742	thwaitcat.gif	none		0
 8297	powdered dice	387104784	scpowder.gif	usable	t	0
 8298	yellow pixel	512868873	pixel7.gif	none	t,d	5

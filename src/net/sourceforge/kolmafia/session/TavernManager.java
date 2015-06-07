@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.textui.command.CouncilCommand;
@@ -254,6 +255,10 @@ public class TavernManager
 			// Tell TavernRequest to visit the next unexplored square
 			TavernManager.overrideSquare = TavernManager.nextUnexploredSquare() - 1;
 			RequestThread.postRequest( adventure );
+			while ( FightRequest.inMultiFight && KoLmafia.permitsContinue() )
+			{
+				RequestThread.postRequest( new GenericRequest( "fight.php" ) );
+			}
 			TavernManager.overrideSquare = -1;
 
 			// See what we discovered
