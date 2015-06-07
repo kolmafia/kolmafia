@@ -1067,10 +1067,13 @@ public class StringUtilities
 
 	public static final String leetify( final String text )
 	{
+		// It makes no sense to leetify character entities, so convert
+		// them to UTF-8 characters.
+		String decoded = StringUtilities.getEntityDecode( text );
 		StringBuilder b = new StringBuilder();
-		for ( int i = 0; i < text.length(); ++i )
+		for ( int i = 0; i < decoded.length(); ++i )
 		{
-			char c = text.charAt( i );
+			char c = decoded.charAt( i );
 			switch ( c )
 			{
 			case 'O': case 'o':
