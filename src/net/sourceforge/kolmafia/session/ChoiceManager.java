@@ -3389,7 +3389,7 @@ public abstract class ChoiceManager
 		// Choice 1031 is A Tombstone
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1031", "A Tombstone",
-			new Object[] { new Option( "gain 8-10 gold or buddy", 1 ),
+			new Object[] { new Option( "gain 20-25 gold or buddy", 1 ),
 				       new Option( "gain shotgun with pickaxe", 2, "shotgun" ),
 				       new Option( "gain Clown Crown with x-ray specs", 3, "The Clown Crown" ) } ),
 
@@ -3404,8 +3404,8 @@ public abstract class ChoiceManager
 		// Choice 1033 is A Big Block of Ice
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1033", "A Big Block of Ice",
-			new Object[] { new Option( "gain gold and restore health", 1 ),
-				       new Option( "gain buddy with torch", 2 ) } ),
+			new Object[] { new Option( "gain 50-60 gold and restore health (with cursed coffee cup)", 1 ),
+				       new Option( "gain buddy (or 60-70 gold) with torch", 2 ) } ),
 
 		// Choice 1034 is A Landmine
 		new ChoiceAdventure(
