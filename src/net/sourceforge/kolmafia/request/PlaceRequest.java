@@ -258,6 +258,11 @@ public class PlaceRequest
 			return true;
 		}
 
+		if ( place.equals( "spelunky" ) )
+		{
+			return SpelunkyRequest.registerRequest( urlString );
+		}
+
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{

@@ -3374,7 +3374,7 @@ public abstract class ChoiceManager
 		// Choice 1029 is An Old Clay Pot
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1029", "An Old Clay Pot",
-			new Object[] { new Option( "gain 4-5 gold", 1 ),
+			new Object[] { new Option( "gain 15-20 gold", 1 ),
 				       new Option( "gain pot", 5, "pot" ) } ),
 
 		// Choice 1030 is It's a Trap!  A Dart Trap.
@@ -3442,7 +3442,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1039", "A Golden Chest",
 			new Object[] { new Option( "gain 150 gold with key", 1 ),
-				       new Option( "gain 80-95 gold with bomb", 2 ),
+				       new Option( "gain 80-100 gold with bomb", 2 ),
 				       new Option( "gain 60 gold and take damage", 3 ) } ),
 
 		// Choice 1040 is It's Lump. It's Lump.

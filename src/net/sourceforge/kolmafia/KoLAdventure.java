@@ -2240,6 +2240,12 @@ public class KoLAdventure
 			"You shouldn't be here dressed like that",
 			"You can't pass as a pirate.",
 		},
+
+		// The ghost has arrived. Your time has run out!
+		{
+			"The ghost has arrived",
+			"Your tale of spelunking is over.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )

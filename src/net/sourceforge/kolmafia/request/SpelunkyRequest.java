@@ -59,7 +59,7 @@ public class SpelunkyRequest
 	private static final Pattern MUSCLE_PATTERN = Pattern.compile( "Mus:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>" );
 	private static final Pattern MOXIE_PATTERN = Pattern.compile( "Mox:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>" );
 	private static final Pattern HP_PATTERN = Pattern.compile( "HP:</td><td><b>(\\d+) / (\\d+)" );
-	private static final Pattern TURNS_PATTERN = Pattern.compile( "Ghost'><br><b>(\\d+)</b>" );
+	private static final Pattern TURNS_PATTERN = Pattern.compile( "Ghost'>(?:</a>)?<br><b>(\\d+)</b>" );
 	private static final Pattern GOLD_PATTERN = Pattern.compile( "Gold: <b>\\$((\\d{1,3},\\d{3})|(\\d+))</b>" );
 	private static final Pattern BOMB_PATTERN = Pattern.compile( "Bombs' width=30 height=30></td><td valign=center align=left><b>(\\d+)</b>" );
 	private static final Pattern ROPE_PATTERN = Pattern.compile( "Ropes' width=30 height=30></td><td valign=center align=left><b>(\\d+)</b>" );
@@ -849,5 +849,49 @@ public class SpelunkyRequest
 		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
 		Matcher matcher = SpelunkyRequest.TURNS_STATUS_PATTERN.matcher( spelunkyStatus );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	public static boolean registerRequest( final String urlString )
+	{
+		// place.php?whichplace=spelunky
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			return true;
+		}
+
+		String location = null;
+
+		if ( action.equals( "spelunky_camp" ) )
+		{
+			location = urlString.contains( "ghostyghostghost=clown" ) ? "Base Camp" : "Rest at Base Camp";
+		}
+		else if ( action.equals( "spelunky_side6" ) )
+		{
+			location = "The Altar";
+		}
+		else if ( action.equals( "spelunky_quit" ) )
+		{
+			location = "Exit";
+		}
+		else if ( action.equals( "spelunky_board" ) )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+		String message = message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
+
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }
