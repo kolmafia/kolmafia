@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -48,7 +50,13 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
+import net.sourceforge.kolmafia.textui.Interpreter;
+
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -308,6 +316,11 @@ public class FamiliarRequest
 		     this.bjornify ||
 		     familiar == FamiliarData.NO_FAMILIAR ||
 		     this.changeTo == FamiliarData.NO_FAMILIAR )
+		{
+			return;
+		}
+
+		if ( FamiliarRequest.invokeFamiliarScript() )
 		{
 			return;
 		}
@@ -844,6 +857,23 @@ public class FamiliarRequest
 		}
 
 		// If it is something else, just log the URL
+		return false;
+	}
+	
+	private static final boolean invokeFamiliarScript()
+	{
+		String scriptName = Preferences.getString( "familiarScript" );
+		if ( scriptName.length() == 0 )
+		{
+			return false;
+		}
+
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		if ( interpreter != null )
+		{
+			Value v = interpreter.execute( "main", null );
+			return v != null && v.intValue() != 0;
+		}
 		return false;
 	}
 
