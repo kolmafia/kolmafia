@@ -421,6 +421,7 @@ user	essenceOfBearAvailable	true
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
+user	familiarScript
 user	fingernailsClipped	0
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
