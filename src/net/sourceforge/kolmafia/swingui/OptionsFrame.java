@@ -1938,6 +1938,7 @@ public class OptionsFrame
 		private ScriptSelectPanel betweenBattleScript;
 		private ScriptSelectPanel afterAdventureScript;
 		private ScriptSelectPanel counterScript;
+		private ScriptSelectPanel familiarScript;
 
 		private ScriptSelectPanel kingLiberatedScript;
 		private ScriptSelectPanel preAscensionScript;
@@ -2019,6 +2020,7 @@ public class OptionsFrame
 			list.add( this.betweenBattleScript );
 			list.add( this.afterAdventureScript );
 			list.add( this.counterScript );
+			list.add( this.familiarScript );
 			list.add( this.kingLiberatedScript );
 			list.add( this.preAscensionScript );
 			list.add( this.postAscensionScript );
@@ -2036,6 +2038,7 @@ public class OptionsFrame
 			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Adventure:" ) );
 			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Adventure:" ) );
 			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script:" ) );
+			this.familiarScript = new ScriptSelectPanel( new CollapsibleTextArea( "Familiar Script: " ) );
 			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed:" ) );
 			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension:" ) );
 			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension:" ) );
@@ -2082,6 +2085,9 @@ public class OptionsFrame
 
 			String counterScript = Preferences.getString( "counterScript" );
 			this.counterScript.setText( counterScript );
+
+			String familiarScript = Preferences.getString( "familiarScript" );
+			this.familiarScript.setText( familiarScript );
 
 			String kingLiberatedScript = Preferences.getString( "kingLiberatedScript" );
 			this.kingLiberatedScript.setText( kingLiberatedScript );
