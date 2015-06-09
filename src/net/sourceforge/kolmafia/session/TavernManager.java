@@ -257,7 +257,7 @@ public class TavernManager
 			RequestThread.postRequest( adventure );
 			while ( FightRequest.inMultiFight && KoLmafia.permitsContinue() )
 			{
-				RequestThread.postRequest( new GenericRequest( "fight.php" ) );
+				FightRequest.INSTANCE.run();
 			}
 			TavernManager.overrideSquare = -1;
 
