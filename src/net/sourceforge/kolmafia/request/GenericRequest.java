@@ -2076,9 +2076,19 @@ public class GenericRequest
 				return false;
 			}
 
+			String oldpwd = GenericRequest.passwordHashValue;
 			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
 			{
-				this.dataChanged = true;
+				if ( this.data.isEmpty() )
+				{
+					String newpwd = GenericRequest.passwordHashValue;
+					this.formURLString = StringUtilities.singleStringReplace( this.formURLString, oldpwd, newpwd );
+					this.formURL = null;
+				}
+				else
+				{
+					this.dataChanged = true;
+				}
 				return false;
 			}
 
