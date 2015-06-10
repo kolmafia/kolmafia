@@ -3374,7 +3374,7 @@ public abstract class ChoiceManager
 		// Choice 1029 is An Old Clay Pot
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1029", "An Old Clay Pot",
-			new Object[] { new Option( "gain 15-20 gold", 1 ),
+			new Object[] { new Option( "gain 18-20 gold", 1 ),
 				       new Option( "gain pot", 5, "pot" ) } ),
 
 		// Choice 1030 is It's a Trap!  A Dart Trap.
@@ -3399,7 +3399,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "escape with spring boots", 1 ),
 				       new Option( "unlock The Beehive using bomb, take damage without sticky bomb", 2 ),
 				       new Option( "unlock The Ancient Burial Ground using rope, take damage without back item", 3 ),
-				       new Option( "take damage", 6 ) } ),
+				       new Option( "lose 30 hp", 6 ) } ),
 
 		// Choice 1033 is A Big Block of Ice
 		new ChoiceAdventure(
@@ -3412,7 +3412,7 @@ public abstract class ChoiceManager
 			"Spelunky Area", "choiceAdventure1034", "A Landmine",
 			new Object[] { new Option( "unlock An Ancient Altar and lose 10 HP", 2 ),
 				       new Option( "unlock The Crashed UFO using 3 ropes", 3 ),
-				       new Option( "take damage", 6 ) } ),
+				       new Option( "lose 30 hp", 6 ) } ),
 
 		// Choice 1035 is A Crate
 
@@ -3429,12 +3429,12 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1037", "It's a Trap!  A Smashy Trap.",
 			new Object[] { new Option( "unlock The City of Goooold with key, or take damage", 2 ),
-				       new Option( "take damage", 6 ) } ),
+				       new Option( "lose 40 hp", 6 ) } ),
 
 		// Choice 1038 is A Wicked Web
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1038", "A Wicked Web",
-			new Object[] { new Option( "gain 10-20 gold", 1 ),
+			new Object[] { new Option( "gain 15-20 gold", 1 ),
 				       new Option( "gain buddy (or 20-30 gold) with machete", 2 ),
 				       new Option( "gain 30-50 gold with torch", 3 ) } ),
 
@@ -3443,7 +3443,7 @@ public abstract class ChoiceManager
 			"Spelunky Area", "choiceAdventure1039", "A Golden Chest",
 			new Object[] { new Option( "gain 150 gold with key", 1 ),
 				       new Option( "gain 80-100 gold with bomb", 2 ),
-				       new Option( "gain 60 gold and take damage", 3 ) } ),
+				       new Option( "gain 50-60 gold and lose 20 hp", 3 ) } ),
 
 		// Choice 1040 is It's Lump. It's Lump.
 		new ChoiceAdventure(
