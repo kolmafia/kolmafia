@@ -246,7 +246,11 @@ public class MonsterData
 		{
 			String modifier = modifiers[ i ];
 
-			if ( modifier.equals( "bouncing" ) )
+			if ( modifier.equals( "askew" ) )
+			{
+				monster.attack = new Integer( monster.getRawAttack() * 11 / 10 );
+			}
+			else if ( modifier.equals( "bouncing" ) )
 			{
 				monster.attack = new Integer( monster.getRawAttack() * 3 / 2 );
 			}
@@ -279,6 +283,11 @@ public class MonsterData
 			else if ( modifier.equals( "fragile" ) )
 			{
 				monster.health = new Integer( 1 );
+			}
+			else if ( modifier.equals( "frozen" ) )
+			{
+				monster.attackElement = Element.COLD;
+				monster.defenseElement = Element.COLD;
 			}
 			else if ( modifier.equals( "ghostly" ) )
 			{
