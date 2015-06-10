@@ -6851,7 +6851,7 @@ Item	cotton candy cocoon	Free Pull
 # cotton candy skoshe: Restores 15-30 HP and MP
 # cotton candy smidgen: Restores 11-23 HP and MP
 Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
-Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 1
+Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
 Item	cream pie	Free Pull
 # creepy ginger ale: Restores 35-45 MP
 Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
