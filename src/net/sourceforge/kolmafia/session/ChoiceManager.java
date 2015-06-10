@@ -8389,8 +8389,7 @@ public abstract class ChoiceManager
 			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, text, ChoiceManager.lastDecision );
 			break;
 
-		case 1042:
-			// Pick a Perk
+		case 1042:	// Pick a Perk
 			SpelunkyRequest.upgrade( ChoiceManager.lastDecision );
 			break;
 
@@ -9549,6 +9548,10 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.CHRONER, -1 );
 			}
+			break;
+
+		case 1042:	// Pick a Perk
+			KoLmafia.resetAfterLimitmode();
 			break;
 
 		case 1054:

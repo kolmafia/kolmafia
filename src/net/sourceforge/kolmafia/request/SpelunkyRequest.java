@@ -894,4 +894,25 @@ public class SpelunkyRequest
 
 		return true;
 	}
+
+	public static final void decorateSpelunkyExit( final StringBuffer buffer )
+	{
+		// 
+		int index = buffer.indexOf( "<center><A href=main.php>Back to the Main Map</a></center>" );
+		if ( index == -1 )
+		{
+			return;
+		}
+		index += 8;
+
+		StringBuilder section = new StringBuilder();
+		section.append( "<a href=\"" );
+		section.append( "inv_use.php?pwd=" );
+		section.append( GenericRequest.passwordHash );
+		section.append( "&which=3&whichitem=8063" );
+		section.append( "\">" );
+		section.append( "Read another copy of Tales of Spelunking" );
+		section.append( "</a></center><center><p>" );
+		buffer.insert( index, section.toString() );
+	}
 }
