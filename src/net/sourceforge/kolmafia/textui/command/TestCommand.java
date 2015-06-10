@@ -682,6 +682,14 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "monster" ) )
+		{
+			String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
+			MonsterStatusTracker.setNextMonsterName( encounter );
+			TestCommand.contents = null;
+			return;
+		}
+
 		if ( command.equals( "rumple" ) )
 		{
 			RumpleManager.spyOnParents( TestCommand.contents );
