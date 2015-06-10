@@ -344,7 +344,6 @@ public abstract class KoLCharacter
 	private static int lightning = 0;
 
 	private static String limitmode = null;
-	private static boolean limitmodeEndNeeded = false;
 	
 	public static final int MAX_BASEPOINTS = 65535;
 
@@ -1477,33 +1476,23 @@ public abstract class KoLCharacter
 		{
 			limitmode = null;
 		}
-		if ( limitmode != null && limitmode.equals( Limitmode.SPELUNKY ) )
+
+		if ( limitmode == null )
+		{
+			boolean reset = KoLCharacter.limitmode == Limitmode.SPELUNKY && !GenericRequest.abortIfInFightOrChoice( true );
+			KoLCharacter.limitmode = null;
+			if ( reset )
+			{
+				KoLmafia.resetAfterLimitmode();
+			}
+		}
+		else if ( limitmode.equals( Limitmode.SPELUNKY ) )
 		{
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
-			KoLCharacter.limitmodeEndNeeded = false;
-		}
-		else if ( limitmode == null )
-		{
-			if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
-			{
-				KoLCharacter.limitmodeEndNeeded = true;
-			}
-			KoLCharacter.limitmode = null;
 		}
 		else
 		{
 			KoLCharacter.limitmode = limitmode;
-		}
-
-		if ( KoLCharacter.limitmodeEndNeeded == true )
-		{
-			// Can we safely run the code yet ? If upgrade being chosen may be in a choice
-			if ( GenericRequest.abortIfInFightOrChoice( true ) )
-			{
-				return;
-			}
-			KoLCharacter.limitmodeEndNeeded = false;
-			KoLmafia.resetAfterLimitmode();
 		}
 	}
 

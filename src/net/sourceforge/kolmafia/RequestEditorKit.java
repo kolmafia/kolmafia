@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -2061,6 +2062,11 @@ public class RequestEditorKit
 			}
 			break;
 		}
+
+		case 1027:	// The End of the Tale of Spelunking
+		case 1042:	// Pick a Perk
+			SpelunkyRequest.decorateSpelunkyExit( buffer );
+			break;
 		}
 	}
 
