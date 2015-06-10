@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -897,7 +898,11 @@ public class SpelunkyRequest
 
 	public static final void decorateSpelunkyExit( final StringBuffer buffer )
 	{
-		// 
+		if ( InventoryManager.getCount( ItemPool.TALES_OF_SPELUNKING ) < 1 )
+		{
+			return;
+		}
+
 		int index = buffer.indexOf( "<center><A href=main.php>Back to the Main Map</a></center>" );
 		if ( index == -1 )
 		{
