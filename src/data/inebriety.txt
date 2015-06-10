@@ -376,7 +376,7 @@ perpendicular hula	4	4	good	10-14	0	0	34-36
 Petite Porter	3	4		3-5	0	0	0
 Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PvP fights
 pink pony	4	4	good	10-14	25-27	0	8-10
-pixel beer	2	4	awesome	1-1	0	0	0	
+pixel beer	2	4	awesome	9-11	0	0	0	40 Analog Drunk (+3 stats/fight)
 Plague of Locusts	2	8	awesome	8-9	0	0	30-40	15 Cockroach Scurry (+50 Init)
 plain old beer	1	1	crappy	1	0	0	0
 plastic cup of beer	1	1	crappy	1	0	0	0
