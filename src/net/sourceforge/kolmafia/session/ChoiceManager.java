@@ -3410,7 +3410,7 @@ public abstract class ChoiceManager
 		// Choice 1034 is A Landmine
 		new ChoiceAdventure(
 			"Spelunky Area", "choiceAdventure1034", "A Landmine",
-			new Object[] { new Option( "unlock An Ancient Altar and take damage", 2 ),
+			new Object[] { new Option( "unlock An Ancient Altar and lose 10 HP", 2 ),
 				       new Option( "unlock The Crashed UFO using 3 ropes", 3 ),
 				       new Option( "take damage", 6 ) } ),
 
