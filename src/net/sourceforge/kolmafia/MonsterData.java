@@ -219,7 +219,6 @@ public class MonsterData
 	public MonsterData handleRandomModifiers()
 	{
 		String[] modifiers = MonsterData.lastRandomModifiers;
-		MonsterData.lastRandomModifiers = null;
 
 		if ( modifiers == null || modifiers.length == 0 )
 		{
