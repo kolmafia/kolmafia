@@ -417,7 +417,7 @@ public class MonsterDatabase
 		Object initiative = null;
 		Object experience = null;
 		Object scale = null;
-		int cap = Integer.MAX_VALUE;
+		Object cap = null;
 		int floor = Integer.MIN_VALUE;
 		Object mlMult = null;
 		int meat = 0;
@@ -475,11 +475,7 @@ public class MonsterDatabase
 
 				else if ( option.equals( "Cap:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						cap = StringUtilities.parseInt( tokens.nextToken() );
-						continue;
-					}
+					cap = parseNumeric( tokens );
 					continue;
 				}
 

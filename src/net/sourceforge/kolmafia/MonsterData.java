@@ -56,7 +56,7 @@ public class MonsterData
 	private Object initiative;
 	private Object experience;
 	private Object scale;
-	private final int cap;
+	private Object cap;
 	private final int floor;
 	private Object mlMult;
 	private Element attackElement;
@@ -164,7 +164,7 @@ public class MonsterData
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
-			    final Object scale, final int cap, final int floor, final Object mlMult,
+			    final Object scale, final Object cap, final int floor, final Object mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
 			    final int meat, final Phylum phylum, final int poison,
@@ -439,8 +439,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
-			hp = hp > this.cap ? this.cap : hp;
+			hp = hp > cap ? cap : hp;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			hp = (int) Math.floor( ( hp + ml * mlMult ) * 0.75 * getBeeosity() );
@@ -489,8 +502,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
-			hp = hp > this.cap ? this.cap : hp < this.floor ? this.floor : hp;
+			hp = hp > cap ? cap : hp < this.floor ? this.floor : hp;
 			return (int) Math.floor( Math.max( 1, ( hp ) * 0.75 ) );
 		}			
 		if ( this.health == null )
@@ -541,8 +567,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
-			attack = attack > this.cap ? this.cap : attack;
+			attack = attack > cap ? cap : attack;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			attack = (int) Math.floor( ( attack + ml * mlMult ) * getBeeosity() );
@@ -593,8 +632,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
-			attack = attack > this.cap ? this.cap : attack < this.floor ? this.floor : attack;
+			attack = attack > cap ? cap : attack < this.floor ? this.floor : attack;
 			return (int) Math.max( 1, attack );
 		}			
 		if ( this.attack == null )
@@ -646,8 +698,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
-			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
+			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			defense = (int) Math.floor( ( defense + ml * mlMult ) * getBeeosity() );
@@ -699,8 +764,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
-			defense = defense > this.cap ? this.cap : defense < this.floor ? this.floor : defense;
+			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
 			return (int) Math.floor( Math.max( 1, defense ) );
 		}			
 		if ( this.defense == null )
@@ -1071,8 +1149,21 @@ public class MonsterData
 			{
 				scale = (int) (((MonsterExpression) this.scale).eval() );
 			}
+			int cap = 0;
+			if ( this.cap instanceof Integer )
+			{
+				cap = ((Integer) this.cap).intValue();
+			}
+			if ( this.cap instanceof String )
+			{
+				this.cap = compile( this.cap );
+			}
+			if ( this.cap instanceof MonsterExpression )
+			{
+				cap = (int) (((MonsterExpression) this.cap).eval() );
+			}
 			int experience = KoLCharacter.getAdjustedMainstat() + scale;
-			experience = experience > this.cap ? this.cap : experience < this.floor ? this.floor : experience;
+			experience = experience > cap ? cap : experience < this.floor ? this.floor : experience;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			return (double) Math.max( 1, ( experience / 8.0 + ml * mlMult / 6.0 ) );
