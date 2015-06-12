@@ -90,9 +90,9 @@ MONSTER	Ed the Undying	.	"Ed the Undying (1)"
 MONSTER	Gorgolok, the Infernal Seal	1_1\.gif	"Gorgolok, the Infernal Seal (Inner Sanctum)"
 MONSTER	Gorgolok, the Infernal Seal	1_2\.gif	"Gorgolok, the Infernal Seal (The Nemesis' Lair)"
 MONSTER	Gorgolok, the Infernal Seal	1_3\.gif	"Gorgolok, the Infernal Seal (Volcanic Cave)"
-MONSTER	Stella, the Turtle Poacher 	2_1\.gif	"Stella, the Turtle Poacher (Inner Sanctum)"
-MONSTER	Stella, the Turtle Poacher 	2_2\.gif	"Stella, the Turtle Poacher (The Nemesis' Lair)"
-MONSTER	Stella, the Turtle Poacher 	2_3\.gif	"Stella, the Turtle Poacher (Volcanic Cave)"
+MONSTER	Stella, the Turtle Poacher	2_1\.gif	"Stella, the Turtle Poacher (Inner Sanctum)"
+MONSTER	Stella, the Turtle Poacher	2_2\.gif	"Stella, the Turtle Poacher (The Nemesis' Lair)"
+MONSTER	Stella, the Turtle Poacher	2_3\.gif	"Stella, the Turtle Poacher (Volcanic Cave)"
 MONSTER	the Spaghetti Elemental	3_1\.gif	"Spaghetti Elemental (Inner Sanctum)"
 MONSTER	the Spaghetti Elemental	3_2\.gif	"Spaghetti Elemental (The Nemesis' Lair)
 MONSTER	the Spaghetti Elemental	3_3\.gif	"Spaghetti Elemental (Volcanic Cave)

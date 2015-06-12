@@ -68,7 +68,7 @@ public abstract class ConsequenceManager
 	private static final HashMap itemDescs = new HashMap();
 	private static final HashMap effectDescs = new HashMap();
 	private static final HashMap skillDescs = new HashMap();
-	private static final ArrayList descriptions = new ArrayList();
+	private static final ArrayList<String> descriptions = new ArrayList<String>();
 	private static final HashMap monsters = new HashMap();
 
 	private static final Pattern GROUP_PATTERN = Pattern.compile( "\\$(\\d)" );
@@ -76,9 +76,8 @@ public abstract class ConsequenceManager
 
 	static
 	{
+		BufferedReader reader = FileUtilities.getVersionedReader( "consequences.txt", KoLConstants.CONSEQUENCES_VERSION );
 		String[] data;
-		BufferedReader reader = FileUtilities.getVersionedReader(
-			"consequences.txt", KoLConstants.CONSEQUENCES_VERSION );
 
 		// Format is: type / spec / regex / action...
 	
@@ -96,8 +95,7 @@ public abstract class ConsequenceManager
 			}
 			catch ( PatternSyntaxException e )
 			{
-				RequestLogger.printLine( "Consequence " + data[ 0 ] + "/" +
-					data[ 1 ] + ": " + e );
+				RequestLogger.printLine( "Consequence " + data[ 0 ] + "/" + data[ 1 ] + ": " + e );
 				continue;
 			}
 			
@@ -118,11 +116,10 @@ public abstract class ConsequenceManager
 	{
 		String type = cons.getType();
 		String spec = cons.getSpec();
-		Object key;
 		
 		if ( type.equals( "DESC_ITEM" ) )
 		{
-			key = ItemDatabase.getDescriptionId( ItemDatabase.getItemId( spec ) );
+			String key = ItemDatabase.getDescriptionId( ItemDatabase.getItemId( spec ) );
 			if ( key == null )
 			{
 				RequestLogger.printLine( "Unknown DESC_ITEM consequence: " + spec );
@@ -130,8 +127,7 @@ public abstract class ConsequenceManager
 			else
 			{
 				cons.register( ConsequenceManager.itemDescs, key );
-				ConsequenceManager.descriptions.add( "desc_item.php?whichitem="
-					+ key );
+				ConsequenceManager.descriptions.add( "desc_item.php?whichitem=" + key );
 			}
 		}
 		else if ( type.equals( "DESC_SKILL" ) )
@@ -143,14 +139,14 @@ public abstract class ConsequenceManager
 			}
 			else
 			{
-				cons.register( ConsequenceManager.skillDescs, IntegerPool.get( id ) );
-				ConsequenceManager.descriptions.add( "desc_skill.php?whichskill="
-					+ id + "&self=true" );
+				Integer key = IntegerPool.get( id );
+				cons.register( ConsequenceManager.skillDescs, key );
+				ConsequenceManager.descriptions.add( "desc_skill.php?whichskill=" + id + "&self=true" );
 			}
 		}
 		else if ( type.equals( "DESC_EFFECT" ) )
 		{
-			key = EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( spec ) );
+			String key = EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( spec ) );
 			if ( key == null )
 			{
 				RequestLogger.printLine( "Unknown DESC_EFFECT consequence: " + spec );
@@ -158,13 +154,13 @@ public abstract class ConsequenceManager
 			else
 			{
 				cons.register( ConsequenceManager.effectDescs, key );
-				ConsequenceManager.descriptions.add( "desc_effect.php?whicheffect="
-					+ key );
+				ConsequenceManager.descriptions.add( "desc_effect.php?whicheffect=" + key );
 			}
 		}
 		else if ( type.equals( "MONSTER" ) )
 		{
-			cons.register( ConsequenceManager.monsters, spec );
+			String key = spec;
+			cons.register( ConsequenceManager.monsters, key );
 		}
 		else
 		{
@@ -174,8 +170,7 @@ public abstract class ConsequenceManager
 	
 	public static void parseSkillDesc( int id, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.skillDescs.get(
-			IntegerPool.get( id ) );
+		Consequence cons = (Consequence) ConsequenceManager.skillDescs.get( IntegerPool.get( id ) );
 		if ( cons != null )
 		{
 			cons.test( responseText );
@@ -209,8 +204,7 @@ public abstract class ConsequenceManager
 		}
 		// getCalendarDay is good for up to 96 description items
 		int seq = HolidayDatabase.getCalendarDay( new Date() );
-		GenericRequest req = new GenericRequest( (String)
-			ConsequenceManager.descriptions.get( seq % size ) );
+		GenericRequest req = new GenericRequest( ConsequenceManager.descriptions.get( seq % size ) );
 		RequestThread.postRequest( req );
 	}
 
