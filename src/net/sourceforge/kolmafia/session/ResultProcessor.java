@@ -1469,12 +1469,21 @@ public class ResultProcessor
 			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
 			break;
 
+		case ItemPool.BJORNS_HAMMER:
+		case ItemPool.MACE_OF_THE_TORTOISE:
+		case ItemPool.PASTA_SPOON_OF_PERIL:
+		case ItemPool.FIVE_ALARM_SAUCEPAN:
+		case ItemPool.DISCO_BANJO:
+		case ItemPool.ROCK_N_ROLL_LEGEND:
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			break;
+
 		case ItemPool.VOLCANO_MAP:
 			// A counter was made in case we lost the fight against the
 			// final assassin, but since this dropped we won the fight
 			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
 			TurnCounter.stopCounting( "Nemesis Assassin window end" );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
 			// Automatically use the map to open zones
 			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
 			break;
@@ -2028,7 +2037,7 @@ public class ResultProcessor
 		case ItemPool.ANCIENT_SAUCEHELM:
 		case ItemPool.DISCO_FRO_PICK:
 		case ItemPool.EL_SOMBRERO_DE_LOPEZ:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step5" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
 			break;
 
 		case ItemPool.KRAKROXS_LOINCLOTH:
@@ -2037,7 +2046,7 @@ public class ResultProcessor
 		case ItemPool.NEWMANS_OWN_TROUSERS:
 		case ItemPool.VOLARTTAS_BELLBOTTOMS:
 		case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step20" );
 			break;
 
 		case ItemPool.HELLSEAL_DISGUISE:
