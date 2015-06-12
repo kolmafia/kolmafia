@@ -1842,7 +1842,7 @@
 1841	CONSUME	fishgum.gif	24bd3f6410ac071284107569def391dd	use 1 BUBBLE GUM
 1842	Kung-Furious	bigglasses.gif	e1ce7628fd5457ef3e278980e1508e79	use 1 hustler shades
 1843	SNAPPED INTO IT	owlstix.gif	6c43698a2667444862176a333c5000f2	use 1 spicy jerky stick
-1844
+1844	Rented Costume	dollhouse.gif	69bb16a3f36f95664b504e5d1cf3477a	use 1 costume rental shop
 1845	Built Body	strboost.gif	a1f01892662b396524988933365d7871	use 1 muscle oil
 1846
 1847	Ennerderated	chestershades.gif	473394a51b5786b5e4ae9ab72d0c5267	use 1 pickpocket protector
@@ -1866,7 +1866,7 @@
 1865	Grease Trappings	chocbox.gif	887b1e7c54bdf247191cd8603f9eccc2	use 1 grease trap
 1866	Shahamaniacal	ham.gif	a746df37e57910459d9b9da5e3f94fcd	use 1 shamanic ham
 1867	Porkpocketed	jarl_bagel.gif	4e63e78979b385d44deeea15a3088f02	use 1 porkpocket
-1868
+1868	Leonarded	obsglasses.gif	81f23a6fa012dff79ae823dbf301a0aa	use 1 Leonard's glasses
 1869	Wearing a Guard's Hat	walkietalkie.gif	8b2ef75057d8f1b7703c73799473eb64	use 1 warehouse walkie-talkie
 1870	Janitoriffic	mop.gif	4605a47559bc4f8571d0438ae4906009	use 1 janitor's mop
 1871	Disguised as a Warehouse Clerk	obsglasses.gif	324b84b76ac914e711eb297ec0532032	use 1 warehouse clerk's glasses

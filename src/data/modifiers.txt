@@ -4837,6 +4837,7 @@ Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Leo Rising	Meat Drop: +10
+Effect	Leonarded	Avatar: "Leonard"
 Effect	Less Pervious	Damage Reduction: 3
 Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
@@ -5189,6 +5190,7 @@ Effect	Red, Red Skeleton	Avatar: "red skeleton"
 Effect	Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Effect	Refuse Reflux	Stench Damage: [min(100,T)]
+Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
@@ -6873,6 +6875,7 @@ Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
 Item	cosmic bucket	Free Pull
 Item	cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
+Item	costume rental shop	Effect: "Rented Costume", Effect Duration: 50
 # cotton bandages: Restores 20-40 HP
 # cotton candy bale: Restores 41-82 HP and MP
 Item	cotton candy cocoon	Free Pull
@@ -7278,6 +7281,7 @@ Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 Item	leather glove	Effect: "Connering the Seanman", Effect Duration: 100
 Item	lemonhead caviar	Effect: "Sourpuss", Effect Duration: 30
+Item	Leonard's glasses	Effect: "Leonarded", Effect Duration: 100
 Item	lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Item	Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
 Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]

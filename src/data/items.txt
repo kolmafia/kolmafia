@@ -8336,7 +8336,7 @@
 8311	BUBBLE GUM	769285817	fishgum.gif	usable	t,d	5
 8312	hustler shades	571679743	bigglasses.gif	usable	t,d	5
 8313	spicy jerky stick	995309412	owlstix.gif	usable	t,d	5
-8314
+8314	costume rental shop	981484328	dollhouse.gif	usable	t,d	5
 8315	muscle oil	270624749	bottle.gif	usable	t,d	5
 8316
 8317	pickpocket protector	936001492	keycard.gif	usable	t,d	5
@@ -8360,7 +8360,7 @@
 8335	grease trap	401979440	chocbox.gif	usable	t,d	5
 8336	shamanic ham	951450474	ham.gif	usable	t,d	5
 8337	porkpocket	129749347	jarl_bagel.gif	usable	t,d	5
-8338
+8338	Leonard's glasses	598174114	obsglasses.gif	usable	t,d	5
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	usable	t,d	5
 8340	janitor's mop	570677877	mop.gif	usable	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	usable	t,d	5
