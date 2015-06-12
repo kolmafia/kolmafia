@@ -1834,3 +1834,39 @@
 1833	Nigh-Invincible	pixelstar.gif	7077db973135b6c3b5aa1083723bbef1	use 1 pixel star
 1834	Going Ape	pixelbanana.gif	d74c67715fbce3f871e556c62ff2264c	eat 1 pixel banana
 1835	Analog Drunk	pixelbeer.gif	ef22205adcc0399c1a9ea0be0fdec0e4	drink 1 pixel beer
+1836
+1837
+1838	Pigulated	swisspig.gif	3414a618756ec56a0dd74eb6d45d09ed	use 1 piggy tattoo
+1839	Waterborne	baggie.gif	2a9b59827d3bfaba86f5ea0b706daacd	use 1 baggie of regular-sized tardigrades
+1840
+1841	CONSUME	fishgum.gif	24bd3f6410ac071284107569def391dd	use 1 BUBBLE GUM
+1842	Kung-Furious	bigglasses.gif	e1ce7628fd5457ef3e278980e1508e79	use 1 hustler shades
+1843	SNAPPED INTO IT	owlstix.gif	6c43698a2667444862176a333c5000f2	use 1 spicy jerky stick
+1844
+1845	Built Body	strboost.gif	a1f01892662b396524988933365d7871	use 1 muscle oil
+1846
+1847	Ennerderated	chestershades.gif	473394a51b5786b5e4ae9ab72d0c5267	use 1 pickpocket protector
+1848	Catstermind	bkitten.gif	ee1eeda50ea60e84703070f2a34f26ef	use 1 sinister-looking cat
+1849	A Lovely Day for a Beatnik	cornholder.gif	ca42fd32fb43e66cdca9a62ff5e41b85	use 1 jazzy cigarette holder
+1850	Smoothly Criminal...ing	glove.gif	38c9c2f4a9fb279b0ec33445d816bf99	use 1 one glove
+1851	Connering the Seanman	redglove.gif	1a2c7d5a5835f2761ad47dfbd0b7ae0c	use 1 leather glove
+1852	Literally On Fire	fire.gif	be82adfd36a391e20f7a3886400e066d	use 1 handful of fire
+1853	Lookin' at Some Burning Cereal	potpourri.gif	c8a591ae99f29f1e82952405ecd5cc06	use 1 Cracklin' Oat Bran
+1854	Looking at Fire	bic.gif	abc2ca3793ce96c9a889e47a336556e3	use 1 disposable lighter
+1855	The Perfect Snowman Disguise	luckycap.gif	f503ed0c8c2eff7c286d9fd6d3c0164c	use 1 coal contact lenses
+1856	Magreame Headache	snowcone.gif	ae1f17768d9248c6ddef47aa26f30761	use 1 conjured ice cream
+1857
+1858	Mrs. Frozen	spraycan.gif	93e84971b6ad6e5a754970d7eb476ad5	use 1 icy hairspray
+1859
+1860
+1861	Odoriffic	ironhelmet.gif	078176779d9e363d748c87a6f9b638c5	use 1 filthy armor
+1862	When the Plague Hits Your Eye	pie.gif	16d50a2cee96e1ce2ecf8389527beb0b	use 1 plague pie
+1863	Batwards Masking	batwing.gif	40cd6d408ff8ab6c5ff06478eaad799d	use 1 batarang
+1864	Big Square Head	bolts.gif	9db9bc6115bc77d269319da1fb43c425	use 1 spare neck bolts
+1865	Grease Trappings	chocbox.gif	887b1e7c54bdf247191cd8603f9eccc2	use 1 grease trap
+1866	Shahamaniacal	ham.gif	a746df37e57910459d9b9da5e3f94fcd	use 1 shamanic ham
+1867	Porkpocketed	jarl_bagel.gif	4e63e78979b385d44deeea15a3088f02	use 1 porkpocket
+1868
+1869	Wearing a Guard's Hat	walkietalkie.gif	8b2ef75057d8f1b7703c73799473eb64	use 1 warehouse walkie-talkie
+1870	Janitoriffic	mop.gif	4605a47559bc4f8571d0438ae4906009	use 1 janitor's mop
+1871	Disguised as a Warehouse Clerk	obsglasses.gif	324b84b76ac914e711eb297ec0532032	use 1 warehouse clerk's glasses
