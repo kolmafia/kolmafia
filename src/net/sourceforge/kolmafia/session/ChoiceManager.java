@@ -3467,6 +3467,7 @@ public abstract class ChoiceManager
 
 		// Choice 1046 is Actually Ed the Undying
 		// Choice 1048 is Twitch Event #8 Time Period
+		// Choice 1049 is Tomb of the Unknown Your Class Here
 		// Choice 1051 is The Book of the Undying
 		// Choice 1052 is Underworld Body Shop
 		// Choice 1053 is The Servants' Quarters
@@ -6450,7 +6451,7 @@ public abstract class ChoiceManager
 			// O Cap'm, My Cap'm
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step15" );
+				QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step19" );
 			}
 			break;
 
@@ -8401,6 +8402,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1049:
+			// Tomb of the Unknown Your Class Here
+			if ( text.contains( "Also in this room is a ghost" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
+			}
+			break;
+
 		case 1052:
 			// Underworld Body Shop
 			Matcher skillidMatcher = ChoiceManager.URL_SKILLID_PATTERN.matcher( urlString );
@@ -10183,6 +10192,13 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 1049:	// Tomb of the Unknown Your Class Here
+			if ( text.contains( "The Epic Weapon's yours" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step3" );
+			}
+			break;
 
 		case 1051:	// The Book of the Undying
 			EdBaseRequest.inspectBook( text );

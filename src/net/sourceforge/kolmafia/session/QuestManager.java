@@ -398,29 +398,28 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.FINISHED );
 		}
-		if ( responseText.contains( "Once you have completed the weapon" ) ||
-		     responseText.contains( "Once you have smithed the Epic Weapon" ) ||
-		     responseText.contains( "When you get the Epic Weapon built" ) )
+		if ( responseText.contains( "not recovered the Epic Weapon yet" ) ||
+		     responseText.contains( "The Tomb is within the Misspelled Cemetery" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
 		}
 		if ( responseText.contains( "Clownlord Beelzebozo" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step1" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step5" );
 		}
 		if ( responseText.contains( "have some people searching" ) ||
 			responseText.contains( "As soon as we have located your Nemesis's lair" ) ||
 			responseText.contains( "Err, once we figure out out where he's hiding" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step3" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
 		}
 		if ( responseText.contains( "in the Big Mountains" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
 		}
 		if ( responseText.contains( "That is not the artifact we're looking for" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step6" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
 		}
 	}
 
@@ -1526,17 +1525,26 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
 		}
-		else if ( monsterName.equals( "The Clownlord Beelzebozo" ) )
+		else if ( monsterName.equals( "The Unknown Seal Clubber" ) ||
+			  monsterName.equals( "The Unknown Turtle Tamer" ) ||
+			  monsterName.equals( "The Unknown Pastamancer" ) ||
+			  monsterName.equals( "The Unknown Sauceror" ) ||
+			  monsterName.equals( "The Unknown Disco Bandit" ) ||
+			  monsterName.equals( "The Unknown Accordion Thief" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step2" );
 		}
+		else if ( monsterName.equals( "The Clownlord Beelzebozo" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step6" );
+		}
 		else if ( monsterName.equals( "menacing thug" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
 		}
 		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
 		}
 		else if ( monsterName.equals( "hunting seal" ) ||
 			  monsterName.equals( "turtle trapper" ) ||
@@ -1545,7 +1553,7 @@ public class QuestManager
 			  monsterName.equals( "flock of seagulls" ) ||
 			  monsterName.equals( "mariachi bandolero" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
 		}
 		else if ( monsterName.equals( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
 			  monsterName.equals( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
@@ -1554,7 +1562,7 @@ public class QuestManager
 			  monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
 			  monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step22" );
 		}
 		else if ( monsterName.equals( "Sloppy Seconds Burger" ) )
 		{
@@ -1881,11 +1889,11 @@ public class QuestManager
 	{
 		if ( monsterName.equals( "menacing thug" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step11" );
 		}
 		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
 		}
 		else if ( monsterName.equals( "hunting seal" ) ||
 			  monsterName.equals( "turtle trapper" ) ||
@@ -1894,7 +1902,7 @@ public class QuestManager
 			  monsterName.equals( "flock of seagulls" ) ||
 			  monsterName.equals( "mariachi bandolero" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step11" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step15" );
 		}
 		else if ( monsterName.equals( "Argarggagarg the Dire Hellseal" ) ||
 			  monsterName.equals( "Safari Jack, Small-Game Hunter" ) ||
@@ -1903,7 +1911,7 @@ public class QuestManager
 			  monsterName.equals( "Jocko Homo" ) ||
 			  monsterName.equals( "The Mariachi With No Name" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
 		}
 		else if ( monsterName.equals( "mother hellseal" ) )
 		{
@@ -1924,7 +1932,7 @@ public class QuestManager
 		     monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
 		     monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step21" );
 		}
 	}
 	

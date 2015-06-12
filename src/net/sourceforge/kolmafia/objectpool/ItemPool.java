@@ -69,6 +69,7 @@ public class ItemPool
 	public static final int DOLPHIN_KING_MAP = 26;
 	public static final int SPIDER_WEB = 27;
 	public static final int BIG_ROCK = 30;
+	public static final int BJORNS_HAMMER = 32;
 	public static final int CASINO_PASS = 40;
 	public static final int SCHLITZ = 41;
 	public static final int HERMIT_PERMIT = 42;
@@ -86,6 +87,7 @@ public class ItemPool
 	public static final int MACE_OF_THE_TORTOISE = 60;
 	public static final int FORTUNE_COOKIE = 61;
 	public static final int GOLDEN_TWIG = 66;
+	public static final int PASTA_SPOON_OF_PERIL = 68;
 	public static final int NEWBIESPORT_TENT = 69;
 	public static final int BAR_SKIN = 70;
 	public static final int WOODEN_STAKES = 71;
