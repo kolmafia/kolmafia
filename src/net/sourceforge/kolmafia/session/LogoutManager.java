@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.session;
 
 import java.awt.Frame;
 
+import javax.swing.SwingUtilities;
+
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDesktop;
@@ -72,10 +74,41 @@ public class LogoutManager
 			return;
 		}
 
+		// Only Swing's Event Dispatch Thread can change the GUI
+		if ( SwingUtilities.isEventDispatchThread() )
+		{
+			// If we are within that thread, do it
+			LogoutManager.resetGUI();
+		}
+		else
+		{
+			// Otherwise, make a Runnable to do it and hand it to Swing
+			ResetGUIRunnable resetGUIRunnable = new ResetGUIRunnable();
+			try
+			{
+				SwingUtilities.invokeAndWait( resetGUIRunnable );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+	}
+
+	private static class ResetGUIRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			LogoutManager.resetGUI();
+		}
+	}
+
+	private static void resetGUI()
+	{
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
-		if ( StaticEntity.isGUIRequired() )
+		if ( !KoLmafia.isSessionEnding() && StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaGUI.constructFrame( LoginFrame.class );
 		}
