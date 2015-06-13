@@ -41,7 +41,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -4267,6 +4269,10 @@ public abstract class ChoiceManager
 		case 988:
 			// The Containment Unit
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Containment Unit" );
+
+		case 1049:
+			// Tomb of the Unknown Your Class Here
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Tomb of the Unknown Your Class Here" );
 		}
 			
 		return null;
@@ -5899,6 +5905,33 @@ public abstract class ChoiceManager
 				result[ 1 ] = "unknown";
 			}
 			return result;
+
+		case 1049:
+		{
+			// Tomb of the Unknown Your Class Here
+
+			String responseText = ChoiceManager.lastResponseText;
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			int options = choices.size();
+			if ( options == 1 )
+			{
+				return null;
+			}
+
+			int decision = ChoiceManager.getDecision( choice, responseText );
+			if ( decision == 0 )
+			{
+				return null;
+			}
+
+			result = new String[ options ];
+			for ( int i = 0; i < options; ++i )
+			{
+				result[ i ] = ( i == decision - 1 ) ? "right answer" : "wrong answer";
+			}
+
+			return result;
+		}
 		}
 		return null;
 	}
@@ -10987,6 +11020,52 @@ public abstract class ChoiceManager
 			}
 
 			return decision;
+
+		case 1049:
+		{
+			// Tomb of the Unknown Your Class Here
+
+			// This handles every choice in the "The Unknown Tomb"
+			// Many of them have a single option.
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			if ( choices.size() == 1 )
+			{
+				return "1";
+			}
+
+			// The only one that has more than one option is the initial riddle.
+			// The option numbers are randomized each time, although the correct
+			// answer remains the same.
+			String myClass = KoLCharacter.getClassType();
+			String answer =
+				myClass == KoLCharacter.SEAL_CLUBBER ? "Boredom." :
+				myClass == KoLCharacter.TURTLE_TAMER ? "Friendship." :
+				myClass == KoLCharacter.PASTAMANCER ? "Binding pasta thralls." :
+				myClass == KoLCharacter.SAUCEROR ? "Power." :
+				myClass == KoLCharacter.DISCO_BANDIT ? "Me. Duh." :
+				myClass == KoLCharacter.ACCORDION_THIEF ? "Music." :
+				null;
+
+			// Only standard classes can join the guild, so we
+			// should not fail. But, if we do, cope.
+			if ( answer == null )
+			{
+				return "0";
+			}
+
+			// Iterate over the option strings and find the one
+			// that matches the correct answer.
+			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+			{
+				if ( entry.getValue().contains( answer ) )
+				{
+					return String.valueOf( entry.getKey() );
+				}
+			}
+
+			// Again, we should not fail, but cope.
+			return "0";
+		}
 		}
 
 		return decision;

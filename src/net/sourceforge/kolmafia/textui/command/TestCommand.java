@@ -543,6 +543,7 @@ public class TestCommand
 				ChoiceManager.handlingChoice = true;
 				ChoiceManager.lastChoice = choice;
 				TestCommand.contents = null;
+				RequestLogger.printLine( "default decision = " + ChoiceManager.getDecision( choice, ChoiceManager.lastResponseText ) );
 				ChoiceCommand.printChoices();
 			}
 			finally
