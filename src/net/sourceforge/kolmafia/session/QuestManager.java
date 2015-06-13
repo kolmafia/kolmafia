@@ -413,7 +413,7 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
 		}
-		if ( responseText.contains( "in the Big Mountains" ) )
+		if ( responseText.contains( " in the Big Mountains" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
 		}
