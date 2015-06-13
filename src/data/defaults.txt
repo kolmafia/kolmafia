@@ -188,6 +188,7 @@ user	autoQuest	true
 user	autoEntangle	false
 user	autoGarish	false
 user	autoManaRestore	false
+user	autoFillMayoMinder	false
 user	autoOlfact
 user	autoPlantHardcore	false
 user	autoPlantSoftcore	false
@@ -686,8 +687,9 @@ user	maximizerCurrentMallPrices	false
 user	maximizerFoldables	true
 user	maxManaBurn	1000
 user	mayflyExperience	0
-user	mayoLevel	0
 user	mayoInMouth	
+user	mayoLevel	0
+user	mayoMinderSetting	
 user	mayoWhipRented	false
 user	meansuckerPrice	400
 user	meatDropSpading	false
