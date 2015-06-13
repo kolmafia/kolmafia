@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -80,20 +79,18 @@ public class ChoiceCommand
 		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
 		int decision = 0;
-		TreeMap choices = ChoiceCommand.parseChoices( true );
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
 		if ( StringUtilities.isNumeric( parameters ) )
 		{
 			decision = StringUtilities.parseInt( parameters );
 		}
 		else
 		{
-			Iterator i = choices.entrySet().iterator();
-			while ( i.hasNext() )
+			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 			{
-				Map.Entry e = (Map.Entry) i.next();
-				if ( ((String) e.getValue()).toLowerCase().indexOf( parameters.toLowerCase() ) != -1 )
+				if ( entry.getValue().toLowerCase().indexOf( parameters.toLowerCase() ) != -1 )
 				{
-					decision = ((Integer) e.getKey()).intValue();
+					decision = entry.getKey().intValue();
 					break;
 				}
 			}
@@ -118,12 +115,56 @@ public class ChoiceCommand
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
 	private static final Pattern LINK_PATTERN = Pattern.compile( "choice.php\\?whichchoice=\\d+&option=(\\d+)" );
 
-	public static TreeMap parseChoices( final boolean spoilers )
+	public static TreeMap<Integer,String> parseChoices( final String responseText )
 	{
-		TreeMap rv = new TreeMap();
-		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
+		TreeMap<Integer,String> rv = new TreeMap<Integer,String>();
+		if ( responseText == null )
 		{
 			return rv;
+		}
+
+		Matcher m = OPTION_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			int decision = Integer.parseInt( m.group( 1 ) );
+			Integer key = IntegerPool.get( decision );
+			if ( rv.get( key ) != null )
+			{
+				continue;
+			}
+			String text = m.group( 2 );
+			rv.put( key, text );
+		}
+
+		m = LINK_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			int decision = Integer.parseInt( m.group( 1 ) );
+			Integer key = IntegerPool.get( decision );
+			if ( rv.get( key ) != null )
+			{
+				continue;
+			}
+			String text = "(secret choice)";
+			rv.put( key, text );
+		}
+
+		return rv;
+	}
+
+	public static TreeMap<Integer,String> parseChoices( final boolean spoilers )
+	{
+		TreeMap<Integer,String> rv = new TreeMap<Integer,String>();
+		String responseText = ChoiceManager.lastResponseText;
+
+		if ( !ChoiceManager.handlingChoice || responseText == null )
+		{
+			return rv;
+		}
+
+		if ( !spoilers )
+		{
+			return ChoiceCommand.parseChoices( responseText );
 		}
 
 		int choice = ChoiceManager.currentChoice();
@@ -134,13 +175,13 @@ public class ChoiceCommand
 		}
 		Object[] options = possibleDecisions[ 2 ];
 		
-		Matcher m = OPTION_PATTERN.matcher( ChoiceManager.lastResponseText );
+		Matcher m = OPTION_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			int decision = Integer.parseInt( m.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
 			String text = m.group( 2 );
-			if ( spoilers )
+			if ( options != null )
 			{
 				Object option = ChoiceManager.findOption( options, decision );
 				if ( option != null )
@@ -151,7 +192,7 @@ public class ChoiceCommand
 			rv.put( key, text );
 		}
 
-		m = LINK_PATTERN.matcher( ChoiceManager.lastResponseText );
+		m = LINK_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			int decision = Integer.parseInt( m.group( 1 ) );
@@ -161,13 +202,10 @@ public class ChoiceCommand
 				continue;
 			}
 			String text = "(secret choice)";
-			if ( spoilers )
+			Object option = ChoiceManager.findOption( options, decision );
+			if ( option != null )
 			{
-				Object option = ChoiceManager.findOption( options, decision );
-				if ( option != null )
-				{
-					text = text + " (" + option.toString() + ")";
-				}
+				text = text + " (" + option.toString() + ")";
 			}
 			rv.put( key, text );
 		}
@@ -214,25 +252,21 @@ public class ChoiceCommand
 
 	public static void printChoices()
 	{
-		TreeMap choices = ChoiceCommand.parseChoices( true );
-		Iterator i = choices.entrySet().iterator();
-		while ( i.hasNext() )
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
+		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
-			Map.Entry e = (Map.Entry) i.next();
-			RequestLogger.printLine( "<b>choice " + e.getKey() + "</b>: " + e.getValue() );
+			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
 		}
 	}
 	
 	public static void logChoices()
 	{
-		TreeMap choices = ChoiceCommand.parseChoices( true );
-		Iterator i = choices.entrySet().iterator();
 		int choice = ChoiceManager.currentChoice();
-		while ( i.hasNext() )
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
+		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
-			Map.Entry e = (Map.Entry) i.next();
-			RequestLogger.updateSessionLog( "choice " + choice + "/" + e.getKey() + ": " + e.getValue() );
-			RequestLogger.printLine( "<b>choice " + e.getKey() + "</b>: " + e.getValue() );
+			RequestLogger.updateSessionLog( "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue() );
+			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
 		}
 	}
 }

@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -589,21 +588,18 @@ public class StationaryButtonDecorator
 		int choice = ChoiceManager.currentChoice();
 		if ( choice != 0 )
 		{
-			TreeMap choices = ChoiceCommand.parseChoices( false );
-			Iterator i = choices.entrySet().iterator();
 			StringBuilder actionBuffer = new StringBuilder();
-			while ( i.hasNext() )
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( false );
+			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 			{
-				Map.Entry e = (Map.Entry) i.next();
-				name = (String) e.getValue();
 				actionBuffer.setLength( 0 );
 				actionBuffer.append( "choice.php?whichchoice=" );
 				actionBuffer.append( choice );
 				actionBuffer.append( "&option=" );
-				actionBuffer.append( ((Integer) e.getKey()).intValue() );
+				actionBuffer.append( entry.getKey().intValue() );
 				actionBuffer.append( "&pwd=" );
 				actionBuffer.append( GenericRequest.passwordHash );
-				StationaryButtonDecorator.addButton( buffer, name, actionBuffer.toString(), true, false );
+				StationaryButtonDecorator.addButton( buffer, entry.getValue(), actionBuffer.toString(), true, false );
 			}
 		}
 	}
