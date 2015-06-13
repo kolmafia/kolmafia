@@ -5918,13 +5918,13 @@ public abstract class ChoiceManager
 			int options = choices.size();
 			if ( options == 1 )
 			{
-				return null;
+				return new String[0];
 			}
 
 			int decision = ChoiceManager.getDecision( choice, responseText );
 			if ( decision == 0 )
 			{
-				return null;
+				return new String[0];
 			}
 
 			result = new String[ options ];
