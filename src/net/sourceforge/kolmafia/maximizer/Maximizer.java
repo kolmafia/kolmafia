@@ -782,7 +782,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !StandardRequest.isAllowed( "Item", "portable Mayo Clinic" ) )
+					else if ( !StandardRequest.isAllowed( "Items", "portable Mayo Clinic" ) )
 					{
 						continue;
 					}
