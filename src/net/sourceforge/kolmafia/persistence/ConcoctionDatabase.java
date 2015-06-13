@@ -119,6 +119,7 @@ public class ConcoctionDatabase
 	public static int queuedMeatSpent = 0;
 	public static boolean queuedFancyDog = false;
 	public static int queuedSpeakeasyDrink = 0;
+	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
 	public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<QueuedConcoction>();
@@ -441,6 +442,20 @@ public class ConcoctionDatabase
 		{
 		case ItemPool.QUANTUM_TACO:
 		case ItemPool.MUNCHIES_PILL:
+			return true;
+		}
+		if ( ConcoctionDatabase.isMayo( id ) && ConcoctionDatabase.lastQueuedMayo == 0 &&
+			( !ConcoctionDatabase.queuedFood.isEmpty() || Preferences.getString( "mayoInMouth" ).equals( "" ) ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean isMayo( final int id )
+	{
+		switch ( id )
+		{
 		case ItemPool.MAYONEX:
 		case ItemPool.MAYODIOL:
 		case ItemPool.MAYOSTAT:
@@ -475,6 +490,11 @@ public class ConcoctionDatabase
 			queue = ConcoctionDatabase.queuedFood;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
+			if ( ConcoctionDatabase.lastQueuedMayo == ItemPool.MAYODIOL )
+			{
+				ConcoctionDatabase.queuedFullness--;
+				ConcoctionDatabase.queuedInebriety++;
+			}
 		}
 		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER ||
 			 ConcoctionDatabase.canQueueBooze( id ) )
@@ -553,6 +573,15 @@ public class ConcoctionDatabase
 		if ( c.speakeasy )
 		{
 			ConcoctionDatabase.queuedSpeakeasyDrink += quantity;
+		}
+
+		if ( ConcoctionDatabase.isMayo( id ) )
+		{
+			ConcoctionDatabase.lastQueuedMayo = id;
+		}
+		else
+		{
+			ConcoctionDatabase.lastQueuedMayo = 0;
 		}
 
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
@@ -661,6 +690,28 @@ public class ConcoctionDatabase
 		if ( qc.getConcoction().speakeasy )
 		{
 			ConcoctionDatabase.queuedSpeakeasyDrink -= quantity;
+		}
+
+		if ( ConcoctionDatabase.isMayo( c.getItemId() ) )
+		{
+			ConcoctionDatabase.lastQueuedMayo = 0;
+		}
+
+		// Is the new last item Mayo ?
+		if ( !queue.isEmpty() )
+		{
+			QueuedConcoction lqc = (QueuedConcoction)queue.get( queue.size() - 1 );
+			Concoction lc = lqc.getConcoction();
+			int id = lc.getItemId();
+			if ( ConcoctionDatabase.isMayo( id ) )
+			{
+				ConcoctionDatabase.lastQueuedMayo = id;
+				if ( id == ItemPool.MAYODIOL )
+				{
+					ConcoctionDatabase.queuedFullness++;
+					ConcoctionDatabase.queuedInebriety--;
+				}
+			}
 		}
 
 		return qc;

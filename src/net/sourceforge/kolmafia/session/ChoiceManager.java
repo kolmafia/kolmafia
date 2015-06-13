@@ -191,6 +191,7 @@ public abstract class ChoiceManager
 	private static final Pattern DINSEY_PIRATE_PATTERN = Pattern.compile( "'Updated Pirate' is (lit|dark)" );
 	private static final Pattern DINSEY_TEACUP_PATTERN = Pattern.compile( "'Current Teacup Spin Rate' points to (\\d+),000 RPM" );
 	private static final Pattern DINSEY_SLUICE_PATTERN = Pattern.compile( "'Sluice Swishers' is currently in the (.*?) position" );
+	private static final Pattern MAYO_MINDER_PATTERN = Pattern.compile( "currently loaded up with packets of (.*?)<p>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -3518,6 +3519,8 @@ public abstract class ChoiceManager
 			"Dinseylandfill", "choiceAdventure1073", "This Ride Is Like... A Rollercoaster Baby Baby",
 			new Object[] { new Option( "gain stats and meat", 1 ),
 				       new Option( "skip adventure and guarantees this adventure will reoccur", 6 ) } ),		
+
+		// Choice 1076 is Mayo Minder&trade;
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -8614,6 +8617,24 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.GARBAGE_BAG, -1 );
 				Preferences.setBoolean( "_dinseyGarbageDisposed", true );
 			}
+
+		case 1076:
+			// Mayo Minder&trade;
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				Preferences.setString( "mayoMinderSetting", "Mayonex" );
+			case 2:
+				Preferences.setString( "mayoMinderSetting", "Mayodiol" );
+			case 3:
+				Preferences.setString( "mayoMinderSetting", "Mayostat" );
+			case 4:
+				Preferences.setString( "mayoMinderSetting", "Mayozapine" );
+			case 5:
+				Preferences.setString( "mayoMinderSetting", "Mayoflex" );
+			case 6:
+				Preferences.setString( "mayoMinderSetting", "" );
+			}
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
@@ -10297,6 +10318,21 @@ public abstract class ChoiceManager
 				Preferences.setString( "dinseyGatorStenchDamage", matcher.group( 1 ).trim() );
 			}
 			Preferences.setBoolean( "dinseyAudienceEngagement", text.contains( "High Engagement Mode" ) );
+			break;
+		}
+
+		case 1076:
+		{
+			// Mayo Minder&trade;
+			Matcher matcher = ChoiceManager.MAYO_MINDER_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "mayoMinderSetting", matcher.group( 1 ).trim() );
+			}
+			else
+			{
+				Preferences.setString( "mayoMinderSetting", "" );
+			}
 			break;
 		}
 		}
