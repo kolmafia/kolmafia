@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -773,6 +774,37 @@ public class Maximizer
 					}
 					duration = 50;
 					usesRemaining = Preferences.getBoolean( "_olympicSwimmingPool" ) ? 0 : 1;
+				}
+				else if ( cmd.startsWith( "mayosoak" ) )
+				{
+					AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( !StandardRequest.isAllowed( "Item", "portable Mayo Clinic" ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitCampground() )
+					{
+						continue;
+					}
+					else if ( workshed == null || workshed.getItemId() != ItemPool.MAYO_CLINIC )
+					{
+						if ( includeAll )
+						{
+							text = "( install portable Mayo Clinic )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_mayoTankSoaked" ) )
+					{
+						cmd = "";
+					}
+					duration = 20;
+					usesRemaining = Preferences.getBoolean( "_mayoTankSoaked" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "styx " ) )
 				{

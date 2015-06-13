@@ -1827,7 +1827,7 @@
 1826	Song of the Southern Turtle	turtle.gif	13cc4b4a406672b3f6f30c4fbde974f5	use 1 turtle voicebox
 1827	Nasty, Nasty Breath	breath.gif	f1a32ff15752950db12b68f6a482ee46	use 1 nasty gum
 1828	Rotten Memories	dinseybrain.gif	af58c92657da238027c76d6084ba8a7c	cast 1 Rotten Memories
-1829	Force of Mayo Be With You	blankoutglob.gif	0156026f7efd2eed62873dd94bcbe203
+1829	Force of Mayo Be With You	blankoutglob.gif	0156026f7efd2eed62873dd94bcbe203	mayosoak
 1830	Tropical Contact High	palmtree.gif	d06f1760057989a93364a6c92d993827	use 1 Kokomo Resort Pass
 1831	Curse of Randomness	dice.gif	ebff503e89d748c3d54cf9ba1fd9d63c
 1832	Pill Power	powerpill.gif	4a93d9928ab62c1801436fc9a633f833	use 1 power pill

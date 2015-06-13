@@ -786,6 +786,7 @@ public class KoLmafiaCLI
 		new MallRepriceCommand().register( "reprice" ).register( "undercut" );
 		new MallSellCommand().register( "mallsell" );
 		new ManaRestoreCountCommand().register( "mpitems" );
+		new MayosoakCommand().register( "mayosoak" );
 		new MemoryCleanupCommand().register( "gc" );
 		new MirrorLogCommand().registerSubstring( "mirror" );
 		new ModifierListCommand().register( "modifies" );
