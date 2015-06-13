@@ -8332,7 +8332,7 @@
 8307
 8308	piggy tattoo	377475455	swisspig.gif	usable	t,d	5
 8309	baggie of regular-sized tardigrades	891381897	baggie.gif	usable	t,d	5
-8310
+8310	little red .epub file	640026029	transmission.gif	usable	t,d	5
 8311	BUBBLE GUM	769285817	fishgum.gif	usable	t,d	5
 8312	hustler shades	571679743	bigglasses.gif	usable	t,d	5
 8313	spicy jerky stick	995309412	owlstix.gif	usable	t,d	5
@@ -8351,8 +8351,8 @@
 8326	conjured ice cream	851628805	snowcone.gif	usable	t,d	5
 8327
 8328	icy hairspray	645739975	spraycan.gif	usable	t,d	5
-8329
-8330
+8329	smellbook	289853477	book4.gif	usable	t,d	5
+8330	assassin's cheese knife	279451446	knife.gif	usable	t,d	5	assassin's cheese knives
 8331	filthy armor	654549341	ironhelmet.gif	usable	t,d	5
 8332	plague pie	726649959	pie.gif	usable	t,d	5
 8333	batarang	362381064	batwing.gif	usable	t,d	5

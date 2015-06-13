@@ -4151,6 +4151,7 @@ Effect	Chapped Legs	Muscle: -4, Moxie: +8
 Effect	Charged Hair	Maximum MP Percent: +100
 Effect	Charrrming	Moxie Percent: +10
 Effect	Chauve-Souris Merde Fou	Stench Damage: +50
+Effect	Cheezardly	Avatar: "Cheese Wizard"
 Effect	Chef Brains-are-dee	Avatar: "zombie chef"
 Effect	ChibiChanged&trade;	Familiar Weight: +5, Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)]
 Effect	Chief Executive Optimism	Item Drop: +15
@@ -5707,6 +5708,7 @@ Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Effect	Weapon of Mass Destruction	Weapon Damage Percent: +30
 Effect	Wearing a Guard's Hat	Avatar: "warehouse guard"
+Effect	Wearing Assassin Robes	Avatar: "Assassin"
 Effect	Weasels Underfoot	Item Drop: +10
 Effect	Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Effect	Webbed	Muscle Percent: [-10*T], Mysticality Percent: [-10*T], Moxie Percent: [-10*T]
@@ -5755,6 +5757,7 @@ Effect	Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resista
 Effect	Wry Smile	Experience (Mysticality): +1
 Effect	Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
+Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
 Effect	Yiffable You	Avatar: "sexy werewolf"
@@ -6671,6 +6674,7 @@ Item	arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
 Item	artisanal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Effect Duration: 50
 Item	ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 Item	ash soda	Effect: "Ashen Burps", Effect Duration: 15
+Item	assassin's cheese knife	Effect: "Wearing Assassin Robes", Effect Duration: 50
 Item	astral badger	Free Pull
 Item	astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 Item	Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
@@ -7297,6 +7301,7 @@ Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Durati
 Item	liquid ice	Effect: "Cold as Ice", Effect Duration: 50
 Item	liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 Item	liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
+Item	little red .epub file	Effect: "Xiblaxian Sympathizer", Effect Duration: 50
 Item	little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 Item	llama lama cria	Free Pull
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
@@ -7665,6 +7670,7 @@ Item	small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 Item	Small Medium	Free Pull
 Item	Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
 Item	smart watch	Effect: "Watch Out!", Effect Duration: 50
+Item	smellbook	Effect: "Cheezardly", Effect Duration: 50
 # smoking talon: <b>Only Pastamancers may use this item.</b>
 Item	smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 Item	smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
