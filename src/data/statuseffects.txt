@@ -1835,7 +1835,7 @@
 1834	Going Ape	pixelbanana.gif	d74c67715fbce3f871e556c62ff2264c	eat 1 pixel banana
 1835	Analog Drunk	pixelbeer.gif	ef22205adcc0399c1a9ea0be0fdec0e4	drink 1 pixel beer
 1836
-1837
+1837	&Uuml;berraschthexengebr&uuml;hten	fancybrew.gif	dbafe534e6cca5803ab3615b6c389f2f	use 1 &Uuml;berraschthexengebr&auml;u
 1838	Pigulated	swisspig.gif	3414a618756ec56a0dd74eb6d45d09ed	use 1 piggy tattoo
 1839	Waterborne	baggie.gif	2a9b59827d3bfaba86f5ea0b706daacd	use 1 baggie of regular-sized tardigrades
 1840	Xiblaxian Sympathizer	transmission.gif	92ecfd67a1a91dbdf3839ecf3bcbc2b1	use 1 little red .epub file
@@ -1855,7 +1855,7 @@
 1854	Looking at Fire	bic.gif	abc2ca3793ce96c9a889e47a336556e3	use 1 disposable lighter
 1855	The Perfect Snowman Disguise	luckycap.gif	f503ed0c8c2eff7c286d9fd6d3c0164c	use 1 coal contact lenses
 1856	Magreame Headache	snowcone.gif	ae1f17768d9248c6ddef47aa26f30761	use 1 conjured ice cream
-1857
+1857	Icebergled	scarf.gif	1e88e749e4aa1772c602041eae3959a0	use 1 Iceberglar scarf
 1858	Mrs. Frozen	spraycan.gif	93e84971b6ad6e5a754970d7eb476ad5	use 1 icy hairspray
 1859	Cheezardly	book4.gif	c5c0d106de8a6faa3e63cf291c9b4e5f	use 1 smellbook
 1860	Wearing Assassin Robes	knife.gif	31a0ef8a27afb34010a0ba33366d5f41	use 1 assassin's cheese knife
