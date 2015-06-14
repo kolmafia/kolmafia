@@ -8329,7 +8329,7 @@
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0
 8305	blue pumps	731653410	highheels.gif	familiar	t,d	75
 8306
-8307
+8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	usable	t,d	5
 8308	piggy tattoo	377475455	swisspig.gif	usable	t,d	5
 8309	baggie of regular-sized tardigrades	891381897	baggie.gif	usable	t,d	5
 8310	little red .epub file	640026029	transmission.gif	usable	t,d	5
@@ -8349,7 +8349,7 @@
 8324	disposable lighter	735001816	bic.gif	usable	t,d	5
 8325	coal contact lenses	334043819	luckycap.gif	usable	t,d	5
 8326	conjured ice cream	851628805	snowcone.gif	usable	t,d	5
-8327
+8327	Iceberglar scarf	211011165	scarf.gif	usable	t,d	5
 8328	icy hairspray	645739975	spraycan.gif	usable	t,d	5
 8329	smellbook	289853477	book4.gif	usable	t,d	5
 8330	assassin's cheese knife	279451446	knife.gif	usable	t,d	5	assassin's cheese knives

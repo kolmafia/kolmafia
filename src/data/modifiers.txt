@@ -3867,6 +3867,7 @@ Item	artificial skylight	Adventures: +3
 # Status Effects section of modifiers.txt
 
 Effect	&quot;The Disease&quot;	Moxie: -5
+Effect	&Uuml;berraschthexengebr&uuml;hten	Avatar: "surprised and annoyed witch"
 Effect	'Roids of the Rhinoceros	Muscle: +100
 Effect	1337p4n7Z	Muscle: +6, Moxie: -3
 Effect	2 Hearts, 1 Mind	Experience: +3, Experience (familiar): +3
@@ -4735,6 +4736,7 @@ Effect	Hyphemariffic	Spooky Resistance: +9
 Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
+Effect	Icebergled	Avatar: "Iceberglar"
 Effect	Ichorous Eyesight	Item Drop: +10
 Effect	Ichorous Intensity	Spell Damage Percent: +20
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
@@ -6636,6 +6638,7 @@ Item	yellow striped oyster egg	Effect: "Egg-stra Arm", Effect Duration: 20
 # Everything Else section of modifiers.txt
 
 Item	&quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
+Item	&Uuml;berraschthexengebr&auml;u	Effect: "&Uuml;berraschthexengebr&uuml;hten", Effect Duration: 100
 Item	1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
 Item	37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 Item	8-bit banana	Effect: "Banono", Effect Duration: 20
@@ -7233,6 +7236,7 @@ Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Item	hungover chauvinist pig	Free Pull
 Item	hustler shades	Effect: "Kung-Furious", Effect Duration: 50
 Item	hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+Item	Iceberglar scarf	Effect: "Icebergled", Effect Duration: 50
 Item	icy hairspray	Effect: "Mrs. Frozen", Effect Duration: 100
 Item	Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
 Item	Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
