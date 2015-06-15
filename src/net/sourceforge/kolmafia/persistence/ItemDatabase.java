@@ -739,6 +739,21 @@ public class ItemDatabase
 		return null;
 	}
 
+	private static final Pattern DESC_PATTERN = Pattern.compile( "descitem\\((\\d+)" );
+	public static final boolean parseNewItems( final String responseText )
+	{
+		Matcher m = DESC_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			String descId = m.group( 1 );
+			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
+			{
+				ItemDatabase.registerItem( descId );
+			}
+		}
+		return true;
+	}
+
 	public static final void registerItem( final int itemId )
 	{
 		// This only works for items you own.

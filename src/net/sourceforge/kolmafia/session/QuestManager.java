@@ -348,10 +348,6 @@ public class QuestManager
 		{
 			handleSeaChange( location, responseText );
 		}
-		else if ( location.startsWith( "showplayer" ) )
-		{
-			ProfileRequest.parseResponse( location, responseText );
-		}
 		else if ( location.startsWith( "tavern" ) )
 		{
 			TavernManager.handleTavernChange( responseText );

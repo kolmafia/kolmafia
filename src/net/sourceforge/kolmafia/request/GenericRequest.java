@@ -2503,6 +2503,76 @@ public class GenericRequest
 	{
 		String urlString = this.getURLString();
 
+		// Dispatch pages that have special handling
+
+		if ( urlString.startsWith( "mall.php" ) ||
+		     urlString.startsWith( "account.php" ) ||
+		     urlString.startsWith( "records.php" ) )
+		{
+			// These pages cannot possibly contain an actual item
+			// drop, but may have a bogus "You acquire an item:" as
+			// part of a store name, profile quote, familiar name, etc.
+			return;
+		}
+
+		if ( urlString.startsWith( "afterlife.php" ) )
+		{
+			AfterLifeRequest.parseResponse( urlString, this.responseText );
+			return;
+		}
+
+		if ( urlString.startsWith( "arena.php" ) )
+		{
+			CakeArenaRequest.parseResults( this.responseText );
+			return;
+		}
+
+		if ( urlString.startsWith( "backoffice.php" ) )
+		{
+			// ManageStoreRequest.parseResponse will sort this out.
+			return;
+		}
+
+		if ( urlString.startsWith( "bet.php" ) )
+		{
+			// This can either add or remove meat from inventory
+			// using unique messages, in some cases. Let
+			// MoneyMakingGameRequest sort it all out.
+			return;
+		}
+
+		if ( urlString.startsWith( "mallstore.php" ) )
+		{
+			// MallPurchaseRequest.parseResponse will sort this out.
+			return;
+		}
+
+		if ( urlString.startsWith( "peevpee.php" ) )
+		{
+			if ( this.getFormField( "lid" ) == null )
+			{
+				PeeVPeeRequest.parseItems( this.responseText );
+			}
+			return;
+		}
+
+		if ( urlString.startsWith( "raffle.php" ) )
+		{
+			return;
+		}
+
+		if ( urlString.startsWith( "showplayer.php" ) )
+		{
+			// These pages cannot possibly contain an actual item
+			// drop, but may have a bogus "You acquire an item:" as
+			// part of a store name, profile quote, familiar name,
+			// etc.  They may also have unknown items as equipment,
+			// which we want to recognize and register.  And if you
+			// are looking at Jick, his psychoses may be available.
+			ProfileRequest.parseResponse( urlString, this.responseText );
+			return;
+		}
+
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory,
 		//
@@ -2541,72 +2611,19 @@ public class GenericRequest
 			Preferences.setInteger( "lastDispensaryOpen", KoLCharacter.getAscensions() );
 		}
 
-		if ( urlString.startsWith( "mall.php" ) ||
-		     urlString.startsWith( "account.php" ) ||
-		     urlString.startsWith( "records.php" ) )
+		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			// These pages cannot possibly contain an actual item
-			// drop, but may have a bogus "You acquire an item:" as
-			// part of a store name, profile quote, familiar name, etc.
-			return;
-		}
-
-		if ( urlString.startsWith( "bet.php" ) )
-		{
-			// This can either add or remove meat from inventory
-			// using unique messages, in some cases. Let
-			// MoneyMakingGameRequest sort it all out.
-			return;
-		}
-
-		if ( urlString.startsWith( "raffle.php" ) )
-		{
-			return;
-		}
-
-		if ( urlString.startsWith( "mallstore.php" ) )
-		{
-			// MallPurchaseRequest.parseResponse will sort this out.
-			return;
-		}
-
-		if ( urlString.startsWith( "backoffice.php" ) )
-		{
-			// ManageStoreRequest.parseResponse will sort this out.
-			return;
+			 ResultProcessor.processResults( true, this.responseText );
+			 return;
 		}
 
 		if ( urlString.startsWith( "fight.php" ) )
 		{
 			FightRequest.processResults( this.responseText );
+			return;
 		}
-		else if ( urlString.startsWith( "adventure.php" ) )
-		{
-			 ResultProcessor.processResults( true, this.responseText );
-		}
-		else if ( urlString.startsWith( "arena.php" ) )
-		{
-			CakeArenaRequest.parseResults( this.responseText );
-		}
-		else if ( urlString.startsWith( "afterlife.php" ) )
-		{
-			AfterLifeRequest.parseResponse( urlString, this.responseText );
-		}
-		else if ( urlString.startsWith( "peevpee.php" ) )
-		{
-			if ( this.getFormField( "lid" ) == null )
-			{
-				PeeVPeeRequest.parseItems( this.responseText );
-			}
-			else
-			{
-				return;
-			}
-		}
-		else
-		{
-			ResultProcessor.processResults( false, this.responseText );
-		}
+
+		ResultProcessor.processResults( false, this.responseText );
 	}
 
 	public void processResults()
